@@ -6,24 +6,28 @@ import anvil.tables.query as q
 from anvil.tables import app_tables
 import anvil.users
 
+from ..C_LandingPage import C_LandingPage
+from ..Main_In import Main_In
+
 class Main_Out(Main_OutTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
-
+    self.content_panel.add_component(C_LandingPage())
+    
     # Any code you write here will run before the form opens.
     check_log_status(self)
     
   def link_1_click(self, **event_args):
     anvil.users.login_with_form(allow_cancel=True, remember_by_default=True)
     check_log_status(self)
+    if (anvil.users.get_user() != None):
+      open_form('Main_In', user_id = 2)
     
   def link_2_click(self, **event_args):
     anvil.users.logout()
     check_log_status(self)
     
-  def button_1_click(self, **event_args):
-    anvil.users.signup_with_form(allow_cancel=True)
 
 def check_log_status(self, **event_args):
   if (anvil.users.get_user() == None):
@@ -33,3 +37,8 @@ def check_log_status(self, **event_args):
     self.link_1.visible = False
     self.link_2.visible = True
 
+
+
+#  def link_investigate_click(self, **event_args):
+#    self.content_panel.clear()
+#    self.content_panel.add_component(Investigate())

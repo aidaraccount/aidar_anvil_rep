@@ -28,5 +28,6 @@ components:
   layout_properties:
     col_widths: {}
     grid_position: RTDVLS,DNZMRZ
+  event_bindings: {click: button_1_click}
 is_package: true
 custom_component: true
