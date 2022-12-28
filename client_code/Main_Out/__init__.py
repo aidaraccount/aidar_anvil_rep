@@ -8,6 +8,8 @@ import anvil.users
 
 from ..C_LandingPage import C_LandingPage
 from ..Main_In import Main_In
+from ..C_Investigate import C_Investigate
+
 
 class Main_Out(Main_OutTemplate):
   def __init__(self, **properties):
@@ -37,8 +39,3 @@ def check_log_status(self, **event_args):
     self.link_1.visible = False
     self.link_2.visible = True
 
-
-
-#  def link_investigate_click(self, **event_args):
-#    self.content_panel.clear()
-#    self.content_panel.add_component(Investigate())

@@ -6,14 +6,15 @@ import anvil.tables.query as q
 from anvil.tables import app_tables
 import anvil.users
 
-from ..C_Dashboard import C_Dashboard
+from ..C_Investigate import C_Investigate
 from ..C_Filter import C_Filter
+#from ..Ratings import Ratings
 
 class Main_In(Main_InTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
-    self.content_panel.add_component(C_Dashboard())
+    self.content_panel.add_component(C_Investigate())
 
     # Any code you write here will run before the form opens.
 
@@ -29,7 +30,7 @@ class Main_In(Main_InTemplate):
 
   def investigate_click(self, **event_args):
     self.content_panel.clear()
-    self.content_panel.add_component(C_Dashboard())
+    self.content_panel.add_component(C_Investigate())
 
   def filter_click(self, **event_args):
       self.content_panel.clear()
