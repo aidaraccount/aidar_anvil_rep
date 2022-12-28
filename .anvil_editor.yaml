@@ -8,6 +8,7 @@ unique_ids:
   modules: {}
   server_modules: {}
   assets:
+    Logo_v2.png: '1672238165708531009295174.4285'
     dashboard.html: XBYPXWV7RB2PDXHHQHOQSTKZNKPAEKSD
     single-column.html: 2FX37EIUFRBG3HTJRBERSC7SSUR6L7GT
     theme.css: 5V37E3FS3NCUGLVOSYJSBQQIHTXDHLBH
