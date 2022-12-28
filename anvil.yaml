@@ -1,5 +1,10 @@
 allow_embedding: false
 package_name: Classic_2
+startup: {type: form, module: Form1}
 name: Classic 2
+startup_form: null
 runtime_options: {version: 2, client_version: '3', server_version: python3-full, server_spec: null}
-services: []
+services:
+- source: /runtime/services/tables.yml
+  client_config: {}
+  server_config: {}
