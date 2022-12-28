@@ -1,5 +1,6 @@
 from ._anvil_designer import Main_OutTemplate
 from anvil import *
+import anvil.server
 import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
@@ -11,12 +12,24 @@ class Main_Out(Main_OutTemplate):
     self.init_components(**properties)
 
     # Any code you write here will run before the form opens.
-    self.label_2.text = anvil.users.get_user()
-  
+    check_log_status(self)
+    
   def link_1_click(self, **event_args):
-    anvil.users.login_with_form(allow_cancel=True)
-
+    anvil.users.login_with_form(allow_cancel=True, remember_by_default=True)
+    check_log_status(self)
+    
+  def link_2_click(self, **event_args):
+    anvil.users.logout()
+    check_log_status(self)
+    
   def button_1_click(self, **event_args):
     anvil.users.signup_with_form(allow_cancel=True)
 
+def check_log_status(self, **event_args):
+  if (anvil.users.get_user() == None):
+    self.link_1.visible = True
+    self.link_2.visible = False
+  else:
+    self.link_1.visible = False
+    self.link_2.visible = True
 
