@@ -39,20 +39,20 @@ header>.nav-links>span {
 .ribbon {
   width: 100%;
   height: 40vh;
-  background-color: %color:Accent 1%;
+  background-color: %Main_Black%;
 }
 
 
 .body {
-  background-color: %color:Background%;
+  background-color: %color:Main_Black%;
 }
 
 a, a:visited {
-  color: %color:Accent 1%;
+  color: %color:Orange%;
 }
 
 a:hover, a:active, a:focus {
-  color: %color:Accent 2%; /* Material design: Teal 700 */
+  color: %color:Orange%;
 }
 
 .placeholder {
