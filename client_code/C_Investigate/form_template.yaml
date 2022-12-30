@@ -121,16 +121,10 @@ components:
         underline: false, icon: ''}
       name: label_7
       layout_properties: {row: MXSGTS, width_xs: 7, col_xs: 1, width: 115}
-  - type: GridPanel
-    properties: {spacing_above: small, spacing_below: small, background: '', foreground: '',
-      border: '', visible: true, role: null, tooltip: ''}
-    name: grid_panel_7
-    layout_properties: {grid_position: 'SJLJTY,SBJVKY', full_width_row: true}
-    components:
-    - type: form:WebPlayer
-      properties: {}
-      name: web_player
-      layout_properties: {row: HCNKWR, width_xs: 12, col_xs: null}
+  - type: form:C_WebPlayer
+    properties: {}
+    name: c_web_player
+    layout_properties: {grid_position: 'QVPJCM,VSNOCV'}
   - type: GridPanel
     properties: {}
     name: grid_panel_6

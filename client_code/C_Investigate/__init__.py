@@ -9,7 +9,7 @@ import json
 
 customer_id = 2
 
-class Investigate(C_InvestigateTemplate):
+class C_Investigate(C_InvestigateTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
@@ -33,7 +33,7 @@ class Investigate(C_InvestigateTemplate):
     self.artist_popularity_lat.text = sug["ArtistPopularity_lat"]
     self.artist_follower_lat.text = sug["ArtistFollower_lat"]
     self.no_tracks.text = sug["NoTracks"]
-    self.web_player.html = '<iframe style="border-radius:12px" src="https://open.spotify.com/embed/artist/' + spotify_artist_id + '?utm_source=generator&theme=0" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>'
+    self.c_web_player.html = '<iframe style="border-radius:12px" src="https://open.spotify.com/embed/artist/' + spotify_artist_id + '?utm_source=generator&theme=0" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>'
         
   def button_1_click(self, **event_args):
     anvil.server.call('AddInterest', customer_id, artist_id, 1)
