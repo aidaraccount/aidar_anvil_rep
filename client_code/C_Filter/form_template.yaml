@@ -1,7 +1,7 @@
 container: {type: ColumnPanel}
 components:
 - type: Label
-  properties: {role: headline, align: left, tooltip: '', border: '', foreground: '',
+  properties: {role: title, align: left, tooltip: '', border: '', foreground: '',
     visible: true, text: Filters, font_size: null, font: '', spacing_above: small,
     icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
     underline: false, icon: ''}

@@ -7,8 +7,8 @@ from anvil.tables import app_tables
 import anvil.users
 
 from ..C_Investigate import C_Investigate
-from ..C_Filter import C_Filter
-#from ..Ratings import Ratings
+from ..C_Filter import C_Ffrom ..Investigate import Investigateilter
+from ..C_Ratings import C_Ratings
 
 class Main_In(Main_InTemplate):
   def __init__(self, **properties):
