@@ -6,8 +6,8 @@ import anvil.tables.query as q
 from anvil.tables import app_tables
 import anvil.users
 
-from ..C_LandingPage import C_LandingPage
 from ..Main_In import Main_In
+from ..C_LandingPage import C_LandingPage
 from ..C_Investigate import C_Investigate
 
 

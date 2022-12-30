@@ -18,14 +18,6 @@ components:
   event_bindings: {click: investigate_click}
 - type: Link
   properties: {role: null, url: '', align: left, tooltip: '', border: '', foreground: '',
-    visible: true, text: Filters, font_size: null, wrap_on: mobile, font: '', col_spacing: medium,
-    spacing_above: small, icon_align: left, col_widths: '', spacing_below: small,
-    italic: false, background: '', bold: false, underline: false, icon: ''}
-  name: link_filter
-  layout_properties: {slot: sidebar}
-  event_bindings: {click: filter_click}
-- type: Link
-  properties: {role: null, url: '', align: left, tooltip: '', border: '', foreground: '',
     visible: true, text: log out, font_size: null, wrap_on: mobile, font: '', col_spacing: medium,
     spacing_above: small, icon_align: left, col_widths: '', spacing_below: small,
     italic: false, background: '', bold: false, underline: false, icon: 'fa:arrow-circle-up'}
@@ -40,3 +32,19 @@ components:
   name: link_logo
   layout_properties: {slot: title}
   event_bindings: {click: logo_click}
+- type: Link
+  properties: {role: null, url: '', align: left, tooltip: '', border: '', foreground: '',
+    visible: true, text: Filters, font_size: null, wrap_on: mobile, font: '', col_spacing: medium,
+    spacing_above: small, icon_align: left, col_widths: '', spacing_below: small,
+    italic: false, background: '', bold: false, underline: false, icon: ''}
+  name: link_filter
+  layout_properties: {slot: sidebar}
+  event_bindings: {click: filter_click}
+- type: Link
+  properties: {role: null, url: '', align: left, tooltip: '', border: '', foreground: '',
+    visible: true, text: Ratings, font_size: null, wrap_on: mobile, font: '', col_spacing: medium,
+    spacing_above: small, icon_align: left, col_widths: '', spacing_below: small,
+    italic: false, background: '', bold: false, underline: false, icon: ''}
+  name: link_rating
+  layout_properties: {slot: sidebar}
+  event_bindings: {click: rating_click}

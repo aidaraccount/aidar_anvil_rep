@@ -7,8 +7,8 @@ from anvil.tables import app_tables
 import anvil.users
 
 from ..C_Investigate import C_Investigate
-from ..C_Filter import C_Ffrom ..Investigate import Investigateilter
-from ..C_Ratings import C_Ratings
+from ..C_Filter import C_Filter
+from ..C_Rating import C_Rating
 
 class Main_In(Main_InTemplate):
   def __init__(self, **properties):
@@ -36,3 +36,6 @@ class Main_In(Main_InTemplate):
       self.content_panel.clear()
       self.content_panel.add_component(C_Filter())
 
+  def rating_click(self, **event_args):
+      self.content_panel.clear()
+      self.content_panel.add_component(C_Rating())
