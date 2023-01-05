@@ -23,9 +23,10 @@ class Main_Out(Main_OutTemplate):
   def link_1_click(self, **event_args):
     anvil.users.login_with_form(allow_cancel=True, remember_by_default=True)
     check_log_status(self)
-    if (anvil.users.get_user() != None):
-      open_form('Main_In', user_id = 2)
-    
+    user = anvil.users.get_user()
+    if (user != None):
+      open_form('Main_In', user_id = user["UserID"])
+      
   def link_2_click(self, **event_args):
     anvil.users.logout()
     check_log_status(self)
