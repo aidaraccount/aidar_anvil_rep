@@ -20,13 +20,12 @@ class Main_In(Main_InTemplate):
 
     
   def logo_click(self, **event_args):
-    open_form('Main_Out', user_id = 2)
+    open_form('Main_Out')
     
   def logout_click(self, **event_args):
     anvil.users.logout()
     if (anvil.users.get_user() == None):
-      open_form('Main_Out', user_id = 2)
-
+      open_form('Main_Out')
 
   def investigate_click(self, **event_args):
     self.content_panel.clear()

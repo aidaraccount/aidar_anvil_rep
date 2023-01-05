@@ -22,17 +22,17 @@ components:
     visible: true, text: Log out, font_size: null, wrap_on: mobile, font: '', col_spacing: medium,
     spacing_above: small, icon_align: left, col_widths: '', spacing_below: small,
     italic: false, background: '', bold: false, underline: false, icon: 'fa:arrow-circle-up'}
-  name: link_2
+  name: link_logout
   layout_properties: {grid_position: 'PNGRPN,BZWFEI', slot: nav-links}
-  event_bindings: {click: link_2_click}
+  event_bindings: {click: link_logout_click}
 - type: Link
   properties: {role: null, url: '', align: left, tooltip: '', border: '', foreground: '',
     visible: true, text: Log in, font_size: null, wrap_on: mobile, font: '', col_spacing: medium,
     spacing_above: small, icon_align: left, col_widths: '{}', spacing_below: small,
     italic: false, background: '', bold: false, underline: false, icon: 'fa:arrow-circle-down'}
-  name: link_1
+  name: link_login
   layout_properties: {slot: nav-links}
-  event_bindings: {click: link_1_click}
+  event_bindings: {click: link_login_click}
   components: []
 - type: Label
   properties: {role: title, align: left, tooltip: '', border: '', foreground: '',
