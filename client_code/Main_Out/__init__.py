@@ -44,7 +44,6 @@ def check_log_status(self, **event_args):
 def check_user_presence(self, **event_args):
     user = anvil.users.get_user()
     if (user != None):
-      mail = user["email"]
       new_user_id = anvil.server.call('CheckUserPresence', user)
       alert(new_user_id)
       if (new_user_id != None):
