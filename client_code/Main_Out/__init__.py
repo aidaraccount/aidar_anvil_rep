@@ -25,7 +25,8 @@ class Main_Out(Main_OutTemplate):
     check_log_status(self)
     user = anvil.users.get_user()
     if (user != None):
-      check_user_presence(self)
+      #anvil.server.check_user_presence(self)
+      anvil.server.call('check_user_presence')
       open_form('Main_In', user_id = user["user_id"])
       
   def link_logout_click(self, **event_args):
@@ -41,10 +42,3 @@ def check_log_status(self, **event_args):
     self.link_login.visible = False
     self.link_logout.visible = True
 
-def check_user_presence(self, **event_args):
-    user = anvil.users.get_user()
-    if (user != None):
-      new_user_id = anvil.server.call('CheckUserPresence', user)
-      alert(new_user_id)
-      if (new_user_id != None):
-        alert(new_user_id)

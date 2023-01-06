@@ -8,7 +8,8 @@ unique_ids:
     Main_In: '1672224899025581312414358.475'
     Main_Out: '1672224907106243618202155.4224'
   modules: {}
-  server_modules: {}
+  server_modules:
+    ServerModule1: '1673000496961952494883454.5172'
   assets:
     Logo_v2.png: '1672238165708531009295174.4285'
     dashboard.html: XBYPXWV7RB2PDXHHQHOQSTKZNKPAEKSD
