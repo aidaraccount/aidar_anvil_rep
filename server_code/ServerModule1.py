@@ -15,9 +15,8 @@ import anvil.server
 @anvil.server.callable
 def check_user_presence():
     user = anvil.users.get_user()
-    if (user != None):
-      new_user_id = anvil.server.call('CheckUserPresence', user)
+    if (user["user_id"] == None):
+      new_user_id = anvil.server.call('CheckUserPresence', user["email"])
       if (new_user_id != None):
         user_row = app_tables.users.get(email = user["email"])
         user_row['user_id'] = new_user_id
-        print("user_id filled: " + str(user_row['user_id']))

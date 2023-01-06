@@ -25,7 +25,6 @@ class Main_Out(Main_OutTemplate):
     check_log_status(self)
     user = anvil.users.get_user()
     if (user != None):
-      #anvil.server.check_user_presence(self)
       anvil.server.call('check_user_presence')
       open_form('Main_In', user_id = user["user_id"])
       
