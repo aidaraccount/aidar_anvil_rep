@@ -41,6 +41,5 @@ class C_Filter(C_FilterTemplate):
                       artist_popularity_lat_max,
                       artist_follower_lat_min,
                       artist_follower_lat_max)
-    #Main.link_investigate_click()
     self.content_panel.clear()
     self.content_panel.add_component(C_Investigate())

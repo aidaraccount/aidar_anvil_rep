@@ -23,7 +23,7 @@ components:
   name: label_2_copy
   layout_properties:
     col_widths: {}
-    grid_position: PGLNWH,DXSUUK
+    grid_position: GJEUVO,EWLBLO
 - type: ColumnPanel
   properties: {col_widths: '{"UZPOHH":15,"GZTDPA":45}'}
   name: column_panel_1_copy

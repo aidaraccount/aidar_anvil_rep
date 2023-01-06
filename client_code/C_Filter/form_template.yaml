@@ -1,39 +1,5 @@
 container: {type: ColumnPanel}
 components:
-- type: Label
-  properties: {role: title, align: left, tooltip: '', border: '', foreground: '',
-    visible: true, text: Filters, font_size: null, font: '', spacing_above: small,
-    icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-    underline: false, icon: ''}
-  name: label_1
-  layout_properties:
-    col_widths: {}
-    grid_position: WWNGNH,MBFESG
-- type: Label
-  properties: {role: null, align: left, tooltip: '', border: '', foreground: '', visible: true,
-    text: Use these filters to refine your search and find more fitting artists on the Investigate dashboard.,
-    font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small,
-    italic: true, background: '', bold: false, underline: false, icon: ''}
-  name: label_2
-  layout_properties:
-    col_widths: {}
-    grid_position: TDFEEA,QKNYDO
-- type: Spacer
-  properties: {visible: true, spacing_above: small, spacing_below: small, height: '50',
-    tooltip: ''}
-  name: spacer_1
-  layout_properties:
-    col_widths: {}
-    grid_position: DUWJIQ,FSSOXR
-- type: Label
-  properties: {role: title, align: left, tooltip: '', border: '', foreground: '',
-    visible: true, text: 1. General, font_size: null, font: '', spacing_above: small,
-    icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-    underline: false, icon: ''}
-  name: label_3
-  layout_properties:
-    col_widths: {}
-    grid_position: GNJPKS,FQDXHN
 - type: ColumnPanel
   properties: {col_widths: '{}'}
   name: content_panel
@@ -42,24 +8,23 @@ components:
     grid_position: KCRFKN,VXORGH
   components:
   - type: Label
-    properties: {role: headline, align: left, tooltip: '', border: '', foreground: '',
+    properties: {role: title, align: left, tooltip: '', border: '', foreground: '',
       visible: true, text: Filters, font_size: null, font: '', spacing_above: small,
       icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
       underline: false, icon: ''}
-    name: label_1_copy
-    layout_properties: {grid_position: 'ENSKZO,LHVLPE'}
+    name: label_1
+    layout_properties:
+      col_widths: {}
+      grid_position: SLSTXO,HTZYCF
   - type: Label
     properties: {role: null, align: left, tooltip: '', border: '', foreground: '',
       visible: true, text: Use these filters to refine your search and find more fitting artists on the Investigate dashboard.,
       font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small,
       italic: true, background: '', bold: false, underline: false, icon: ''}
-    name: label_2_copy
-    layout_properties: {grid_position: 'GVELQK,XZOLRN'}
-  - type: Spacer
-    properties: {visible: true, spacing_above: small, spacing_below: small, height: '50',
-      tooltip: ''}
-    name: spacer_1_copy
-    layout_properties: {grid_position: 'QMDKBD,CIRABF'}
+    name: label_2
+    layout_properties:
+      col_widths: {}
+      grid_position: QHQDLY,AAQIBM
   - type: Label
     properties: {role: title, align: left, tooltip: '', border: '', foreground: '',
       visible: true, text: 1. General, font_size: null, font: '', spacing_above: small,
