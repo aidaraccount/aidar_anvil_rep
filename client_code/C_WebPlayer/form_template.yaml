@@ -4,3 +4,4 @@ container:
       >\n  (Insert your custom HTML here)\n</center>"}
 components: []
 is_package: true
+custom_component: true

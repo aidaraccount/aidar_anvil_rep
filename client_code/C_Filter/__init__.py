@@ -9,18 +9,22 @@ import json
 
 from ..C_Investigate import C_Investigate
 
-model_id = 2
-
 class C_Filter(C_FilterTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
 
     # Any code you write here will run before the form opens.    
+    global user
+    user = anvil.users.get_user()
+    
+    global cur_model_id
+    cur_model_id = anvil.server.call('GetModelID',  user["user_id"])
+    
     self.load_filters()
 
   def load_filters(self, **event_args):
-    fil = json.loads(anvil.server.call('GetFilters', model_id))
+    fil = json.loads(anvil.server.call('GetFilters', cur_model_id))
     self.artist_popularity_lat_min.text = fil["artist_popularity_lat_min"]
     self.artist_popularity_lat_max.text = fil["artist_popularity_lat_max"]
     self.artist_follower_lat_min.text = fil["artist_follower_lat_min"]
@@ -32,7 +36,7 @@ class C_Filter(C_FilterTemplate):
     artist_follower_lat_min = self.artist_follower_lat_min.text
     artist_follower_lat_max = self.artist_follower_lat_max.text
     anvil.server.call('ChangeFilters',
-                      model_id,
+                      cur_model_id,
                       artist_popularity_lat_min,
                       artist_popularity_lat_max,
                       artist_follower_lat_min,

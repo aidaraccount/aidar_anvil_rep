@@ -7,18 +7,23 @@ import anvil.users
 import anvil.server
 import json
 
-model_id = 2
-
 class C_Investigate(C_InvestigateTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
 
     # Any code you write here will run before the form opens.
+    global user
+    user = anvil.users.get_user()
+    
+    global cur_model_id
+    cur_model_id = anvil.server.call('GetModelID',  user["user_id"])
+    
     self.refresh_sug()
 
+  
   def refresh_sug(self, **event_args):
-    sug = json.loads(anvil.server.call('GetSug', model_id))
+    sug = json.loads(anvil.server.call('GetSug', cur_model_id))
     global artist_id
     artist_id = int(sug["ArtistID"])
     global spotify_artist_id
@@ -36,29 +41,29 @@ class C_Investigate(C_InvestigateTemplate):
     self.c_web_player.html = '<iframe style="border-radius:12px" src="https://open.spotify.com/embed/artist/' + spotify_artist_id + '?utm_source=generator&theme=0" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>'
         
   def button_1_click(self, **event_args):
-    anvil.server.call('AddInterest', model_id, artist_id, 1)
+    anvil.server.call('AddInterest', cur_model_id, artist_id, 1)
     self.refresh_sug()
 
   def button_2_click(self, **event_args):
-    anvil.server.call('AddInterest', model_id, artist_id, 2)
+    anvil.server.call('AddInterest', cur_model_id, artist_id, 2)
     self.refresh_sug()
 
   def button_3_click(self, **event_args):
-    anvil.server.call('AddInterest', model_id, artist_id, 3)
+    anvil.server.call('AddInterest', cur_model_id, artist_id, 3)
     self.refresh_sug()
 
   def button_4_click(self, **event_args):
-    anvil.server.call('AddInterest', model_id, artist_id, 4)
+    anvil.server.call('AddInterest', cur_model_id, artist_id, 4)
     self.refresh_sug()
 
   def button_5_click(self, **event_args):
-    anvil.server.call('AddInterest', model_id, artist_id, 5)
+    anvil.server.call('AddInterest', cur_model_id, artist_id, 5)
     self.refresh_sug()
 
   def button_6_click(self, **event_args):
-    anvil.server.call('AddInterest', model_id, artist_id, 6)
+    anvil.server.call('AddInterest', cur_model_id, artist_id, 6)
     self.refresh_sug()
 
   def button_7_click(self, **event_args):
-    anvil.server.call('AddInterest', model_id, artist_id, 7)
+    anvil.server.call('AddInterest', cur_model_id, artist_id, 7)
     self.refresh_sug()

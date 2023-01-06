@@ -19,3 +19,4 @@ components:
     col_widths: {}
     grid_position: EGNWWM,AEBFKP
 is_package: true
+custom_component: true
