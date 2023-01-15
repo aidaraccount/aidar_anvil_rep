@@ -9,15 +9,23 @@ import anvil.users
 from ..C_Investigate import C_Investigate
 from ..C_Filter import C_Filter
 from ..C_Rating import C_Rating
+from ..C_NoModel import C_NoModel
 
 class Main_In(Main_InTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
-    self.content_panel.add_component(C_Investigate())
-
+    
     # Any code you write here will run before the form opens.
+    global user
+    global cur_model_id
+    user = anvil.users.get_user()
+    cur_model_id = anvil.server.call('GetModelID',  user["user_id"])
 
+    if (cur_model_id == None):
+      self.content_panel.add_component(C_Investigate())
+    else:
+      self.content_panel.add_component(C_NoModel())
     
   def logo_click(self, **event_args):
     open_form('Main_Out')
