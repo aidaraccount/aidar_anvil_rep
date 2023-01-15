@@ -6,13 +6,20 @@ import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
 
+from ..C_Investigate import C_Investigate
+
 class C_ConnectModel(C_ConnectModelTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
 
     # Any code you write here will run before the form opens.
+    global user
+    user = anvil.users.get_user()
 
   def button_connect_model_click(self, **event_args):
-    anvil.server.call('ConnectModel', self.text_box_access_token.text)
-
+    status = anvil.server.call('ConnectModel_ByAccessToken', user["user_id"], self.text_box_access_token.text)
+    alert(status)
+    if (status == 'Connection Successfull'):
+      self.content_panel.clear()
+      self.content_panel.add_component(C_Investigate())

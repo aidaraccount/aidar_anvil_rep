@@ -21,7 +21,7 @@ class Main_In(Main_InTemplate):
     global cur_model_id
     user = anvil.users.get_user()
     cur_model_id = anvil.server.call('GetModelID',  user["user_id"])
-    alert(cur_model_id)
+    
     if (cur_model_id == None):
       self.content_panel.add_component(C_NoModel())
     else:
@@ -37,12 +37,21 @@ class Main_In(Main_InTemplate):
 
   def investigate_click(self, **event_args):
     self.content_panel.clear()
-    self.content_panel.add_component(C_Investigate())
+    if (cur_model_id == None):
+      self.content_panel.add_component(C_NoModel())
+    else:
+      self.content_panel.add_component(C_Investigate())
 
   def filter_click(self, **event_args):
-      self.content_panel.clear()
+    self.content_panel.clear()
+    if (cur_model_id == None):
+      self.content_panel.add_component(C_NoModel())
+    else:
       self.content_panel.add_component(C_Filter())
 
   def rating_click(self, **event_args):
-      self.content_panel.clear()
+    self.content_panel.clear()
+    if (cur_model_id == None):
+      self.content_panel.add_component(C_NoModel())
+    else:
       self.content_panel.add_component(C_Rating())

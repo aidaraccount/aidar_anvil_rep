@@ -17,7 +17,7 @@ class C_Investigate(C_InvestigateTemplate):
     global cur_model_id
     user = anvil.users.get_user()    
     cur_model_id = anvil.server.call('GetModelID',  user["user_id"])
-    
+
     self.refresh_sug()
 
   
