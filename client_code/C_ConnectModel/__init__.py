@@ -12,3 +12,7 @@ class C_ConnectModel(C_ConnectModelTemplate):
     self.init_components(**properties)
 
     # Any code you write here will run before the form opens.
+
+  def button_connect_model_click(self, **event_args):
+    anvil.server.call('ConnectModel', self.text_box_access_token.text)
+
