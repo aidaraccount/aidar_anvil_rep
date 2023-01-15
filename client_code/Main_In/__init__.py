@@ -21,11 +21,11 @@ class Main_In(Main_InTemplate):
     global cur_model_id
     user = anvil.users.get_user()
     cur_model_id = anvil.server.call('GetModelID',  user["user_id"])
-
+    alert(cur_model_id)
     if (cur_model_id == None):
-      self.content_panel.add_component(C_Investigate())
-    else:
       self.content_panel.add_component(C_NoModel())
+    else:
+      self.content_panel.add_component(C_Investigate())
     
   def logo_click(self, **event_args):
     open_form('Main_Out')
