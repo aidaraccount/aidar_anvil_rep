@@ -4,9 +4,17 @@ roles:
   display_in_toolbox: false
 - name: card
   components: [ColumnPanel]
-  display_in_toolbox: true
+  display_in_toolbox: false
   title: Card
-- name: Description
+- name: description
+  components: [Label]
+- name: artist_name
+  components: [Label]
+- name: grid
+  components: [GridPanel]
+- name: feature
+  components: [Label]
+- name: value
   components: [Label]
 color_scheme:
   preset_groups:
@@ -81,9 +89,9 @@ color_scheme:
   - {name: Accent 2, color: '#616161'}
   - {name: Background, color: '#D7D7D7'}
   - {name: Header Background, color: '#333333'}
-  - {name: Sidebar Background, color: '#333333'}
+  - {name: Sidebar Background, color: 'rgb(51, 51, 51)'}
   - {name: Main_Black, color: 'rgb(25, 28, 26)'}
-  - {name: Container_Black, color: 'rgb(40, 40, 40)'}
+  - {name: Grid_Black, color: 'rgb(40, 40, 40)'}
   - {name: Orange, color: 'rgb(238, 115, 22)'}
-  - {name: Text_White, color: '#000000'}
-  - {name: Text_Grey, color: '#000000'}
+  - {name: Text_White, color: 'rgb(255, 255, 255)'}
+  - {name: Text_Grey, color: 'rgb(175, 175, 175)'}

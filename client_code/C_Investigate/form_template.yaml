@@ -12,115 +12,170 @@ components:
     col_widths: {}
     grid_position: RNQUVN,FDKUVY
 - type: Label
-  properties: {role: null, align: left, tooltip: '', border: '', foreground: '', visible: true,
-    text: 'Here are your recommendations - based on your set filters, this dashboard
-      is always populated with information about the artist with the highest probability
-      of meeting your interests. These probabilities are determined by an individual
-      machine learning algorithm that is continuously trained with your feedback ratings
-      (on a scale of 1 to 7).', font_size: null, font: '', spacing_above: small, icon_align: left,
-    spacing_below: small, italic: true, background: '', bold: false, underline: false,
-    icon: ''}
-  name: label_2_copy
-  layout_properties:
-    col_widths: {}
-    grid_position: GJEUVO,EWLBLO
+  properties: {role: description, align: left, tooltip: '', border: '', foreground: '',
+    visible: true, text: 'Here are your recommendations - based on your set filters,
+      this dashboard is always populated with information about the artist with the
+      highest probability of meeting your interests. These probabilities are determined
+      by an individual machine learning algorithm that is continuously trained with
+      your feedback ratings (on a scale of 1 to 7).', font_size: null, font: '', spacing_above: small,
+    icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+    underline: false, icon: ''}
+  name: label_1
+  layout_properties: {grid_position: 'MBCRNQ,HSORNX'}
 - type: ColumnPanel
   properties: {col_widths: '{"UZPOHH":15,"GZTDPA":45}'}
   name: column_panel_1_copy
   layout_properties:
     col_widths: {}
-    grid_position: KLWGBG,ZJLDZU
+    grid_position: TKJSAB,RZCXZX
   components:
   - type: GridPanel
-    properties: {spacing_above: small, spacing_below: small, background: '', foreground: '',
+    properties: {spacing_above: none, spacing_below: none, background: '', foreground: '',
       border: '', visible: true, role: grid_panel, tooltip: ''}
     name: grid_panel_1
     layout_properties: {grid_position: 'RKWJCZ,UZPOHH', row_background: '', full_width_row: true}
     components:
-    - type: Image
-      properties: {role: grid_panel, vertical_align: center, height: 176, tooltip: '',
-        border: '', foreground: '', visible: true, display_mode: shrink_to_fit, spacing_above: none,
-        source: '', spacing_below: small, background: 'theme:Primary Container', horizontal_align: center}
-      name: artist_image
-      layout_properties: {row: TYUOFH, width_xs: 12, col_xs: 0, width: 197.35}
+    - type: Link
+      properties: {col_widths: '{}'}
+      name: artist_link
+      layout_properties: {row: MHJFKS, width_xs: 12, col_xs: 0}
+      components:
+      - type: Image
+        properties: {role: null, vertical_align: center, height: '200', tooltip: '',
+          border: '', foreground: '', visible: true, display_mode: shrink_to_fit,
+          spacing_above: none, source: '', spacing_below: none, background: '', horizontal_align: center}
+        name: artist_image
+        layout_properties: {grid_position: 'XISFUA,MXKFIP'}
   - type: GridPanel
-    properties: {spacing_above: small, spacing_below: small, background: 'theme:Primary
-        Container', foreground: '', border: '', visible: true, role: grid_panel, tooltip: ''}
+    properties: {spacing_above: none, spacing_below: small, background: 'theme:Primary
+        Container', foreground: '', border: '', visible: true, role: grid, tooltip: ''}
     name: grid_panel_2
     layout_properties: {grid_position: 'RKWJCZ,GZTDPA VJQRQY,DZKTOE', row_background: '',
       full_width_row: true}
     components:
     - type: Label
-      properties: {role: null, align: left, tooltip: '', border: '', foreground: '',
-        visible: true, text: '', font_size: 30, font: '', spacing_above: small, icon_align: left,
-        spacing_below: small, italic: true, background: '', bold: true, underline: false,
+      properties: {role: artist_name, align: left, tooltip: '', border: '', foreground: '',
+        visible: true, text: '', font_size: 30, font: '', spacing_above: none, icon_align: left,
+        spacing_below: none, italic: true, background: '', bold: true, underline: false,
         icon: ''}
       name: name
-      layout_properties: {row: YHFNWP, width_xs: 11, col_xs: 0, width: 893}
+      layout_properties: {row: YHFNWP, width_xs: 11, col_xs: 0, width: 454.45}
   - type: GridPanel
-    properties: {spacing_above: small, spacing_below: small, background: 'theme:Primary
-        Container', foreground: '', border: '', visible: true, role: grid_panel, tooltip: ''}
+    properties: {spacing_above: small, spacing_below: none, background: 'theme:Primary
+        Container', foreground: '', border: '', visible: true, role: grid, tooltip: ''}
     name: grid_panel_3
     layout_properties: {grid_position: 'RKWJCZ,GZTDPA ZQODLL,AQXHZK', row_background: '',
       full_width_row: true}
     components:
     - type: Label
-      properties: {role: title, align: left, tooltip: '', border: '', foreground: 'theme:PrimaryNumber',
-        visible: true, text: '', font_size: 28, font: '', spacing_above: small, icon_align: left,
-        spacing_below: small, italic: false, background: '', bold: true, underline: false,
+      properties: {role: value, align: left, tooltip: '', border: '', foreground: 'theme:PrimaryNumber',
+        visible: true, text: '', font_size: 28, font: '', spacing_above: none, icon_align: left,
+        spacing_below: none, italic: false, background: '', bold: true, underline: false,
         icon: ''}
       name: artist_popularity_lat
-      layout_properties: {row: SQNGAS, width_xs: 7, col_xs: 1, width: 115}
+      layout_properties: {row: SQNGAS, width_xs: 11, col_xs: 1, width: 72.75}
     - type: Label
-      properties: {role: body, align: left, tooltip: '', border: '', foreground: '',
-        visible: true, text: Popularity, font_size: null, font: '', spacing_above: small,
-        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+      properties: {role: feature, align: left, tooltip: '', border: '', foreground: '',
+        visible: true, text: Popularity, font_size: null, font: '', spacing_above: none,
+        icon_align: left, spacing_below: none, italic: false, background: '', bold: false,
         underline: false, icon: ''}
       name: label_3_copy
-      layout_properties: {row: YBKRPG, width_xs: 7, col_xs: 1, width: 115}
+      layout_properties: {row: YBKRPG, width_xs: 11, col_xs: 1, width: 72.75}
   - type: GridPanel
-    properties: {spacing_above: small, spacing_below: small, background: 'theme:Primary
-        Container', foreground: '', border: '', visible: true, role: grid_panel, tooltip: ''}
+    properties: {spacing_above: small, spacing_below: none, background: 'theme:Primary
+        Container', foreground: '', border: '', visible: true, role: grid, tooltip: ''}
     name: grid_panel_4
     layout_properties: {grid_position: 'RKWJCZ,GZTDPA ZQODLL,EGTUDT', row_background: '',
       full_width_row: true}
     components:
     - type: Label
-      properties: {role: title, align: left, tooltip: '', border: '', foreground: 'theme:PrimaryNumber',
-        visible: true, text: '', font_size: 28, font: '', spacing_above: small, icon_align: left,
-        spacing_below: small, italic: false, background: '', bold: true, underline: false,
+      properties: {role: value, align: left, tooltip: '', border: '', foreground: 'theme:PrimaryNumber',
+        visible: true, text: '', font_size: 28, font: '', spacing_above: none, icon_align: left,
+        spacing_below: none, italic: false, background: '', bold: true, underline: false,
         icon: ''}
       name: artist_follower_lat
-      layout_properties: {row: OCXZRC, width_xs: 7, col_xs: 1, width: 115}
+      layout_properties: {row: OCXZRC, width_xs: 11, col_xs: 1, width: 72.75}
     - type: Label
-      properties: {role: body, align: left, tooltip: '', border: '', foreground: '',
-        visible: true, text: Follower, font_size: null, font: '', spacing_above: small,
-        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+      properties: {role: feature, align: left, tooltip: '', border: '', foreground: '',
+        visible: true, text: Follower, font_size: null, font: '', spacing_above: none,
+        icon_align: left, spacing_below: none, italic: false, background: '', bold: false,
         underline: false, icon: ''}
       name: label_5
-      layout_properties: {row: LBJGAO, width_xs: 7, col_xs: 1, width: 115}
+      layout_properties: {row: LBJGAO, width_xs: 11, col_xs: 1, width: 72.75}
   - type: GridPanel
-    properties: {spacing_above: small, spacing_below: small, background: 'theme:Primary
-        Container', foreground: '', border: '', visible: true, role: grid_panel, tooltip: ''}
+    properties: {spacing_above: small, spacing_below: none, background: 'theme:Primary
+        Container', foreground: '', border: '', visible: true, role: grid, tooltip: ''}
     name: grid_panel_5
     layout_properties: {grid_position: 'RKWJCZ,GZTDPA ZQODLL,NUYOAS', row_background: '',
       full_width_row: true}
     components:
     - type: Label
-      properties: {role: title, align: left, tooltip: '', border: '', foreground: 'theme:PrimaryNumber',
-        visible: true, text: '', font_size: 28, font: '', spacing_above: small, icon_align: left,
-        spacing_below: small, italic: false, background: '', bold: true, underline: false,
+      properties: {role: value, align: left, tooltip: '', border: '', foreground: 'theme:PrimaryNumber',
+        visible: true, text: '', font_size: 28, font: '', spacing_above: none, icon_align: left,
+        spacing_below: none, italic: false, background: '', bold: true, underline: false,
         icon: ''}
       name: no_tracks
       layout_properties: {grid_position: 'RKWJCZ,GZTDPA ZQODLL,NUYOAS MIRRYM,ESAGIH',
-        row: XCTFKJ, width_xs: 7, col_xs: 1, width: 169.367}
+        row: XCTFKJ, width_xs: 11, col_xs: 1, width: 72.75}
     - type: Label
-      properties: {role: body, align: left, tooltip: '', border: '', foreground: '',
-        visible: true, text: Tracks in Database, font_size: null, font: '', spacing_above: small,
-        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+      properties: {role: feature, align: left, tooltip: '', border: '', foreground: '',
+        visible: true, text: Tracks in Database, font_size: null, font: '', spacing_above: none,
+        icon_align: left, spacing_below: none, italic: false, background: '', bold: false,
         underline: false, icon: ''}
       name: label_7
-      layout_properties: {row: MXSGTS, width_xs: 7, col_xs: 1, width: 115}
+      layout_properties: {row: MXSGTS, width_xs: 11, col_xs: 1, width: 72.75}
+  - type: GridPanel
+    properties: {spacing_above: small, spacing_below: none, background: 'theme:Primary
+        Container', foreground: '', border: '', visible: true, role: grid, tooltip: ''}
+    name: grid_panel_3_copy_2
+    layout_properties:
+      col_widths: {}
+      grid_position: RKWJCZ,GZTDPA MKXTBL,HKMQMF
+      full_width_row: true
+      row: RPGEPF
+      width_xs: 12
+      col_xs: 0
+    components:
+    - type: Label
+      properties: {role: value, align: left, tooltip: '', border: '', foreground: 'theme:PrimaryNumber',
+        visible: true, text: '', font_size: 28, font: '', spacing_above: none, icon_align: left,
+        spacing_below: none, italic: false, background: '', bold: true, underline: false,
+        icon: ''}
+      name: first_release_date
+      layout_properties: {row: SQNGAS, width_xs: 11, col_xs: 1, width: 72.75}
+    - type: Label
+      properties: {role: feature, align: left, tooltip: '', border: '', foreground: '',
+        visible: true, text: First Release, font_size: null, font: '', spacing_above: none,
+        icon_align: left, spacing_below: none, italic: false, background: '', bold: false,
+        underline: false, icon: ''}
+      name: label_3_copy_3
+      layout_properties: {row: YBKRPG, width_xs: 11, col_xs: 1, width: 662.383}
+  - type: GridPanel
+    properties: {spacing_above: small, spacing_below: none, background: 'theme:Primary
+        Container', foreground: '', border: '', visible: true, role: grid, tooltip: ''}
+    name: grid_panel_3_copy
+    layout_properties:
+      col_widths: {}
+      grid_position: RKWJCZ,GZTDPA MKXTBL,HLNVYC
+      full_width_row: true
+      row: RPGEPF
+      width_xs: 12
+      col_xs: 0
+    components:
+    - type: Label
+      properties: {role: value, align: left, tooltip: '', border: '', foreground: 'theme:PrimaryNumber',
+        visible: true, text: '', font_size: 28, font: '', spacing_above: none, icon_align: left,
+        spacing_below: none, italic: false, background: '', bold: true, underline: false,
+        icon: ''}
+      name: last_release_date
+      layout_properties: {row: SQNGAS, width_xs: 11, col_xs: 1, width: 72.75}
+    - type: Label
+      properties: {role: feature, align: left, tooltip: '', border: '', foreground: '',
+        visible: true, text: Last Release, font_size: null, font: '', spacing_above: none,
+        icon_align: left, spacing_below: none, italic: false, background: '', bold: false,
+        underline: false, icon: ''}
+      name: label_3_copy_2
+      layout_properties: {row: YBKRPG, width_xs: 11, col_xs: 1, width: 229.633}
   - type: form:C_WebPlayer
     properties: {}
     name: c_web_player

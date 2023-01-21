@@ -35,16 +35,44 @@ header>.nav-links>span {
   vertical-align: top;
 }
 
+/* ---- OWN ADJUSTMENTS ----------------------- */
 .anvil-role-title {
   font-size: 26px;
   font-weight: bold;
   color: %color:Orange%;
 }
 .anvil-role-description {
-  font-size: 16px;
-  font-weight: bold;
-  color: %color:Orange%;
+  font-size: 14px;
+  color: %color:Text_Grey%;
 }
+.anvil-role-artist_name {
+  font-size: 20px;
+  font-weight: bold;
+  color: %color:Text_White%;
+}
+.anvil-role-grid {
+  background-color: %color:Grid_Black%;
+  border-radius: 12px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  padding: 0;
+}
+.anvil-role-feature {
+  font-size: 14px;
+  font-weight: bold;
+  color: %color:Text_Grey%;
+}
+.anvil-role-value {
+  font-size: 20px;
+  font-weight: bold;
+  color: %color:Text_White%;
+  margin: 0;
+  padding: 0 !important;
+}
+div.row {
+  margin-bottom: 0 important!;
+}
+/* -------------------------------------------- */
 
 .ribbon {
   width: 100%;
@@ -132,11 +160,11 @@ body.anvil-highlight .nav-elt.placeholder {
 
 /* Give enough space for card drop-shadows */
 .cards > div > .column-panel > .anvil-panel-section > .anvil-panel-section-container {
-    padding: 0 5px;
+    padding: 0 0px;
 }
 
 .cards > .anvil-container {
-    outline: none !important;
+    /*outline: none !important;*/
 }
 
 .anvil-role-card,
@@ -164,7 +192,7 @@ body.anvil-highlight .nav-elt.placeholder {
 @media(max-width:767px) {
 
   .cards {
-    padding: 24px 0px;
+    padding: 0px 0px;
   }
 
 }
