@@ -35,6 +35,16 @@ header>.nav-links>span {
   vertical-align: top;
 }
 
+.anvil-role-title {
+  font-size: 26px;
+  font-weight: bold;
+  color: %color:Orange%;
+}
+.anvil-role-description {
+  font-size: 16px;
+  font-weight: bold;
+  color: %color:Orange%;
+}
 
 .ribbon {
   width: 100%;
@@ -111,11 +121,6 @@ body.anvil-highlight .nav-elt.placeholder {
   left: -7.5px;
   bottom: 0;
   width: 5px;
-}
-
-.anvil-role-title {
-  font-size: 16px;
-  font-weight: bold;
 }
 
 .designer .instructions {
