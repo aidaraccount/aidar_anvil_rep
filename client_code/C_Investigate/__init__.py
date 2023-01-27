@@ -41,6 +41,17 @@ class C_Investigate(C_InvestigateTemplate):
     self.first_release_date.text = sug["FirstReleaseDate"]
     self.last_release_date.text = sug["LastReleaseDate"]
     
+    self.min_mus_dis.text = sug["MinMusDist"]
+    self.avg_mus_dis.text = sug["AvgMusDist"]
+    self.max_mus_dis.text = sug["MaxMusDist"]
+    
+    self.avg_explicit.text = sug["AvgExplicit"] + '%'
+    self.related_matches.text = sug["RelatedMatches"]
+    self.prediction.text = sug["Prediction"]
+    
+    self.genres.text = sug["Genres"]
+    self.countries.text = sug["Countries"]
+    
     self.c_web_player.html = '<iframe style="border-radius:12px" src="https://open.spotify.com/embed/artist/' + spotify_artist_id + '?utm_source=generator&theme=0" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>'
         
   def button_1_click(self, **event_args):
