@@ -7,9 +7,9 @@ services:
     confirm_email: true}
   server_config: {user_table: users}
 startup: {type: form, module: Main_Out}
-package_name: AIdAR_v2
+package_name: AIdAR_prod
 allow_embedding: false
-name: AIdAR_v2
+name: AIdAR_prod
 runtime_options: {version: 2, client_version: '3', server_version: python3-full, server_spec: null}
 metadata: {title: AIdAR, logo_img: 'asset:Logo_v2.png'}
 startup_form: null
