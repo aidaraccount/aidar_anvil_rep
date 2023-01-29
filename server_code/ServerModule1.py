@@ -20,3 +20,24 @@ def check_user_presence():
       if (new_user_id != None):
         user_row = app_tables.users.get(email = user["email"])
         user_row['user_id'] = new_user_id
+
+
+@anvil.server.callable
+def create_star_plot(data):
+    import plotly.graph_objs as go
+    import numpy as np
+    fig = go.Figure(data=[go.Scatterpolar(
+      r = data,
+      theta = ['AvgDuration', 'AvgDanceability', 'AvgEnergy', 'AvgKey', 'AvgLoudness'],
+      fill = 'toself'
+    )])
+    fig.update_layout(
+      polar = dict(
+        radialaxis = dict(
+          visible = True,
+          range = [0, 1]
+        )),
+      showlegend = False
+    )
+    return fig
+

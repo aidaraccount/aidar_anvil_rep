@@ -55,12 +55,13 @@ class C_Investigate(C_InvestigateTemplate):
     
     self.c_web_player.html = '<iframe style="border-radius:12px" src="https://open.spotify.com/embed/artist/' + spotify_artist_id + '?utm_source=generator&theme=0" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>'
 
-    data = [5, 2, 9, 4, 7]
-    self.plot_1.data = go.Figure(data=[go.Scatterpolar(
-      r = data,
-      theta = ['Feature 1', 'Feature 2', 'Feature 3', 'Feature 4', 'Feature 5'],
-      fill = 'toself'
-    )])
+    data = [float(sug["AvgDuration"])/140,
+            float(sug["AvgDanceability"]),
+            float(sug["AvgEnergy"]),
+            float(sug["AvgKey"])/12,
+            float(sug["AvgLoudness"])/(-6)]
+    plot = anvil.server.call('create_star_plot', data)
+    self.plot_1.figure = plot
     
   def button_1_click(self, **event_args):
     anvil.server.call('AddInterest', cur_model_id, artist_id, 1)
