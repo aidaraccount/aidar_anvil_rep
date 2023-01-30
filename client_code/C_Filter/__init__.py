@@ -86,7 +86,7 @@ class C_Filter(C_FilterTemplate):
     avg_valence_max = self.avg_valence_max.text
     avg_tempo_min = self.avg_tempo_min.text
     avg_tempo_max = self.avg_tempo_max.text
-    
+       
     anvil.server.call('ChangeFilters',
                       cur_model_id,
                       artist_popularity_lat_min,

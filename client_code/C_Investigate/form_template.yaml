@@ -421,91 +421,200 @@ components:
         underline: false, icon: ''}
       name: label_3_copy_6
       layout_properties: {row: YBKRPG, width_xs: 11, col_xs: 1, width: 199.167}
-  - type: Plot
-    properties: {spacing_above: small, spacing_below: small, height: '200', visible: true,
-      tooltip: '', interactive: true}
-    name: plot_1
-    layout_properties: {grid_position: 'RKWJCZ,GZTDPA IIZNUH,PPZNVA', row_background: ''}
-  - type: Plot
-    properties: {spacing_above: small, spacing_below: small, height: '200', visible: true,
-      tooltip: '', interactive: true}
-    name: plot_2
+  - type: GridPanel
+    properties: {spacing_above: small, spacing_below: small, background: '', foreground: '',
+      border: '', visible: true, role: grid, tooltip: ''}
+    name: grid_panel_7_copy_11
     layout_properties:
       col_widths: {}
-      grid_position: RKWJCZ,GZTDPA IIZNUH,AVHHZA
+      grid_position: RKWJCZ,GZTDPA IIZNUH,PBZWLT
       row_background: ''
-  - type: Plot
-    properties: {spacing_above: small, spacing_below: small, height: '200', visible: true,
-      tooltip: '', interactive: true}
-    name: plot_3
+    components:
+    - type: Plot
+      properties: {spacing_above: small, spacing_below: small, height: '200', visible: true,
+        tooltip: '', interactive: true}
+      name: plot_1
+      layout_properties:
+        col_widths: {}
+        grid_position: RKWJCZ,GZTDPA XFGKFV,QTDOWV
+        width: 111.067
+  - type: GridPanel
+    properties: {spacing_above: small, spacing_below: small, background: '', foreground: '',
+      border: '', visible: true, role: grid, tooltip: ''}
+    name: grid_panel_7_copy_10
     layout_properties:
       col_widths: {}
-      grid_position: RKWJCZ,GZTDPA IIZNUH,KZDGGI
+      grid_position: RKWJCZ,GZTDPA IIZNUH,IHYXTL
       row_background: ''
-  - type: Plot
-    properties: {spacing_above: small, spacing_below: small, height: '200', visible: true,
-      tooltip: '', interactive: true}
-    name: plot_4
+    components:
+    - type: Plot
+      properties: {spacing_above: small, spacing_below: small, height: '200', visible: true,
+        tooltip: '', interactive: true}
+      name: plot_2
+      layout_properties:
+        col_widths: {}
+        grid_position: RKWJCZ,GZTDPA XFGKFV,QTDOWV
+        width: 111.067
+  - type: GridPanel
+    properties: {spacing_above: small, spacing_below: small, background: '', foreground: '',
+      border: '', visible: true, role: grid, tooltip: ''}
+    name: grid_panel_7_copy_9
     layout_properties:
       col_widths: {}
-      grid_position: RKWJCZ,GZTDPA IIZNUH,BOEJSV
+      grid_position: RKWJCZ,GZTDPA IIZNUH,ASVFPY
       row_background: ''
-  - type: Plot
-    properties: {spacing_above: small, spacing_below: small, height: '200', visible: true,
-      tooltip: '', interactive: true}
-    name: plot_5
+    components:
+    - type: Plot
+      properties: {spacing_above: small, spacing_below: small, height: '200', visible: true,
+        tooltip: '', interactive: true}
+      name: plot_3
+      layout_properties:
+        col_widths: {}
+        grid_position: RKWJCZ,GZTDPA XFGKFV,QTDOWV
+        width: 111.067
+  - type: GridPanel
+    properties: {spacing_above: small, spacing_below: small, background: '', foreground: '',
+      border: '', visible: true, role: grid, tooltip: ''}
+    name: grid_panel_7_copy_8
     layout_properties:
       col_widths: {}
-      grid_position: RKWJCZ,GZTDPA WXSMQN,JGBQVB
-  - type: Plot
-    properties: {spacing_above: small, spacing_below: small, height: '200', visible: true,
-      tooltip: '', interactive: true}
-    name: plot_6
+      grid_position: RKWJCZ,GZTDPA IIZNUH,WVYVUT
+      row_background: ''
+    components:
+    - type: Plot
+      properties: {spacing_above: small, spacing_below: small, height: '200', visible: true,
+        tooltip: '', interactive: true}
+      name: plot_4
+      layout_properties:
+        col_widths: {}
+        grid_position: RKWJCZ,GZTDPA XFGKFV,QTDOWV
+        width: 111.067
+  - type: GridPanel
+    properties: {spacing_above: small, spacing_below: small, background: '', foreground: '',
+      border: '', visible: true, role: grid, tooltip: ''}
+    name: grid_panel_7_copy_7
     layout_properties:
       col_widths: {}
-      grid_position: RKWJCZ,GZTDPA WXSMQN,BWCLNH
-  - type: Plot
-    properties: {spacing_above: small, spacing_below: small, height: '200', visible: true,
-      tooltip: '', interactive: true}
-    name: plot_7
+      grid_position: RKWJCZ,GZTDPA WXSMQN,JZVNLQ
+    components:
+    - type: Plot
+      properties: {spacing_above: small, spacing_below: small, height: '200', visible: true,
+        tooltip: '', interactive: true}
+      name: plot_5
+      layout_properties:
+        col_widths: {}
+        grid_position: RKWJCZ,GZTDPA XFGKFV,QTDOWV
+        width: 111.067
+  - type: GridPanel
+    properties: {spacing_above: small, spacing_below: small, background: '', foreground: '',
+      border: '', visible: true, role: grid, tooltip: ''}
+    name: grid_panel_7_copy_6
     layout_properties:
       col_widths: {}
-      grid_position: RKWJCZ,GZTDPA WXSMQN,JNWRXO
-  - type: Plot
-    properties: {spacing_above: small, spacing_below: small, height: '200', visible: true,
-      tooltip: '', interactive: true}
-    name: plot_8
+      grid_position: RKWJCZ,GZTDPA WXSMQN,RZNQWN
+    components:
+    - type: Plot
+      properties: {spacing_above: small, spacing_below: small, height: '200', visible: true,
+        tooltip: '', interactive: true}
+      name: plot_6
+      layout_properties:
+        col_widths: {}
+        grid_position: RKWJCZ,GZTDPA XFGKFV,QTDOWV
+        width: 111.067
+  - type: GridPanel
+    properties: {spacing_above: small, spacing_below: small, background: '', foreground: '',
+      border: '', visible: true, role: grid, tooltip: ''}
+    name: grid_panel_7_copy_5
     layout_properties:
       col_widths: {}
-      grid_position: RKWJCZ,GZTDPA WXSMQN,GUWKUU
-  - type: Plot
-    properties: {spacing_above: small, spacing_below: small, height: '200', visible: true,
-      tooltip: '', interactive: true}
-    name: plot_9
+      grid_position: RKWJCZ,GZTDPA WXSMQN,TYYHGH
+    components:
+    - type: Plot
+      properties: {spacing_above: small, spacing_below: small, height: '200', visible: true,
+        tooltip: '', interactive: true}
+      name: plot_7
+      layout_properties:
+        col_widths: {}
+        grid_position: RKWJCZ,GZTDPA XFGKFV,QTDOWV
+        width: 111.067
+  - type: GridPanel
+    properties: {spacing_above: small, spacing_below: small, background: '', foreground: '',
+      border: '', visible: true, role: grid, tooltip: ''}
+    name: grid_panel_7_copy_4
     layout_properties:
       col_widths: {}
-      grid_position: RKWJCZ,GZTDPA XFGKFV,CXIRFO
-  - type: Plot
-    properties: {spacing_above: small, spacing_below: small, height: '200', visible: true,
-      tooltip: '', interactive: true}
-    name: plot_10
+      grid_position: RKWJCZ,GZTDPA WXSMQN,NCZSQF
+    components:
+    - type: Plot
+      properties: {spacing_above: small, spacing_below: small, height: '200', visible: true,
+        tooltip: '', interactive: true}
+      name: plot_8
+      layout_properties:
+        col_widths: {}
+        grid_position: RKWJCZ,GZTDPA XFGKFV,QTDOWV
+        width: 111.067
+  - type: GridPanel
+    properties: {spacing_above: small, spacing_below: small, background: '', foreground: '',
+      border: '', visible: true, role: grid, tooltip: ''}
+    name: grid_panel_7_copy_3
     layout_properties:
       col_widths: {}
-      grid_position: RKWJCZ,GZTDPA XFGKFV,YVZOHN
-  - type: Plot
-    properties: {spacing_above: small, spacing_below: small, height: '200', visible: true,
-      tooltip: '', interactive: true}
-    name: plot_11
+      grid_position: RKWJCZ,GZTDPA XFGKFV,YOKUQM
+    components:
+    - type: Plot
+      properties: {spacing_above: small, spacing_below: small, height: '200', visible: true,
+        tooltip: '', interactive: true}
+      name: plot_9
+      layout_properties:
+        col_widths: {}
+        grid_position: RKWJCZ,GZTDPA XFGKFV,QTDOWV
+        width: 111.067
+  - type: GridPanel
+    properties: {spacing_above: small, spacing_below: small, background: '', foreground: '',
+      border: '', visible: true, role: grid, tooltip: ''}
+    name: grid_panel_7_copy_2
     layout_properties:
       col_widths: {}
-      grid_position: RKWJCZ,GZTDPA XFGKFV,DQRRAY
-  - type: Plot
-    properties: {spacing_above: small, spacing_below: small, height: '200', visible: true,
-      tooltip: '', interactive: true}
-    name: plot_12
+      grid_position: RKWJCZ,GZTDPA XFGKFV,IMBKXQ
+    components:
+    - type: Plot
+      properties: {spacing_above: small, spacing_below: small, height: '200', visible: true,
+        tooltip: '', interactive: true}
+      name: plot_10
+      layout_properties:
+        col_widths: {}
+        grid_position: RKWJCZ,GZTDPA XFGKFV,QTDOWV
+        width: 111.067
+  - type: GridPanel
+    properties: {spacing_above: small, spacing_below: small, background: '', foreground: '',
+      border: '', visible: true, role: grid, tooltip: ''}
+    name: grid_panel_7_copy
     layout_properties:
       col_widths: {}
-      grid_position: RKWJCZ,GZTDPA XFGKFV,QTDOWV
+      grid_position: RKWJCZ,GZTDPA XFGKFV,UNIZZQ
+    components:
+    - type: Plot
+      properties: {spacing_above: small, spacing_below: small, height: '200', visible: true,
+        tooltip: '', interactive: true}
+      name: plot_11
+      layout_properties:
+        col_widths: {}
+        grid_position: RKWJCZ,GZTDPA XFGKFV,QTDOWV
+        width: 111.067
+  - type: GridPanel
+    properties: {spacing_above: small, spacing_below: medium, background: '', foreground: '',
+      border: '', visible: true, role: grid, tooltip: ''}
+    name: grid_panel_7
+    layout_properties: {grid_position: 'RKWJCZ,GZTDPA XFGKFV,YDBTFA'}
+    components:
+    - type: Plot
+      properties: {spacing_above: small, spacing_below: small, height: '200', visible: true,
+        tooltip: '', interactive: true}
+      name: plot_12
+      layout_properties:
+        col_widths: {}
+        grid_position: RKWJCZ,GZTDPA XFGKFV,QTDOWV
+        width: 111.067
   - type: form:C_WebPlayer
     properties: {}
     name: c_web_player

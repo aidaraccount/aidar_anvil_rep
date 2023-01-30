@@ -45,20 +45,21 @@ def create_star_plot(data):
 def create_bar_chart(label, data, min, max):
   import plotly.graph_objs as go
   fig = go.Figure(data=[go.Bar(
-      #x=[label],
+      #x=None,
       y=data,
       #name=label,
       marker=dict(
             color=data,
             colorscale=[[0, 'red'], [1, 'green']],
-            cmin=0,
-            cmax=1
+            cmin=min,
+            cmax=max
         ),
-        width=[0.7],
+        width=[0.6],
         showlegend=False
   )])
   fig.update_layout(
     yaxis=dict(range=[min, max]),
+    xaxis=dict(showticklabels=False),
     paper_bgcolor= 'rgb(40, 40, 40)',
     plot_bgcolor='rgb(40, 40, 40)',
     font=dict(color='rgb(175, 175, 175)', size=12),
@@ -70,25 +71,3 @@ def create_bar_chart(label, data, min, max):
   )
   return fig
   
-@anvil.server.callable
-def create_bar_chart_2(label, data, min, max):
-  import matplotlib.pyplot as plt
-  import numpy as np
-  
-  colors = [(i, j, 0.5) for i, j in zip(np.linspace(0, 1, len(data)), np.linspace(1, 0, len(data)))]
-  fig, ax = plt.subplots()
-  ax.bar(x=range(len(data)), height=data, color=colors)
-
-  return fig
-
-@anvil.server.callable
-def create_bar_chart_3(label, data, min, max):
-  import plotly.express as px
-  import pandas as pd
-  
-  data = {"x": [1], "y": [10]}
-  df = pd.DataFrame(data)
-  
-  fig = px.bar(df, x="x", y="y", color_continuous_scale='RdBu')
-
-  return fig
