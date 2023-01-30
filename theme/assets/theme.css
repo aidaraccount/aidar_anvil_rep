@@ -45,6 +45,19 @@ header>.nav-links>span {
   font-weight: bold;
   color: %color:Orange%;
 }
+.anvil-role-sub_title {
+  font-size: 22px;
+  font-weight: bold;
+  color: %color:Text_Grey%;
+  color: %color:Text_Grey%;
+  color: %color:Text_Grey%;
+  color: %color:Text_Grey%;
+  color: %color:Text_Grey%;
+  color: %color:Text_Grey%;
+  color: %color:Text_Grey%;
+  color: %color:Text_Grey%;
+  color: %color:Text_Grey%;
+}
 .anvil-role-description {
   font-size: 14px;
   color: %color:Text_Grey%;
