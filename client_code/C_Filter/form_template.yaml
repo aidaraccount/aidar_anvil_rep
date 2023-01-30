@@ -1,4 +1,6 @@
-container: {type: ColumnPanel}
+container:
+  type: ColumnPanel
+  properties: {col_widths: '{"KMOZEO":30,"ZKPSBI":30}'}
 components:
 - type: ColumnPanel
   properties: {col_widths: '{}'}
@@ -112,5 +114,476 @@ components:
     name: apply_filters
     layout_properties: {grid_position: 'EGKKIG,RIGQQT'}
     event_bindings: {click: apply_filters_click}
+  - type: Label
+    properties: {role: sub_title, align: left, tooltip: '', border: '', foreground: '',
+      visible: true, text: 2. Musical Features, font_size: null, font: '', spacing_above: small,
+      icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+      underline: false, icon: ''}
+    name: label_3_copy_2
+    layout_properties:
+      col_widths: {}
+      grid_position: DVTVUY,IMTAVE
+  - type: GridPanel
+    properties: {spacing_above: small, spacing_below: small, background: '', foreground: '',
+      border: '', visible: true, role: grid_panel, tooltip: ''}
+    name: grid_panel_1_copy
+    layout_properties:
+      col_widths: {}
+      grid_position: ECIELK,NNTDHQ
+      row: QZMIXQ
+      width_xs: 12
+      col_xs: 0
+    components:
+    - type: Label
+      properties: {role: feature, align: left, tooltip: '', border: '', foreground: '',
+        visible: true, text: '   Avg. Duration', font_size: null, font: '', spacing_above: small,
+        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+        underline: false, icon: ''}
+      name: label_4_copy
+      layout_properties: {row: OSZLNL, width_xs: 4, col_xs: 0, width: 303.333}
+    - type: TextBox
+      properties: {role: plain_text, align: left, hide_text: false, tooltip: '', placeholder: '',
+        border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
+        font: '', spacing_above: small, type: number, spacing_below: small, italic: false,
+        background: '', bold: false, underline: false}
+      name: artist_popularity_lat_min_copy
+      layout_properties: {row: OSZLNL, width_xs: 3, col_xs: 3, width: 72.75}
+    - type: Label
+      properties: {role: null, align: center, tooltip: '', border: '', foreground: '',
+        visible: true, text: to, font_size: null, font: '', spacing_above: small,
+        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+        underline: false, icon: ''}
+      name: label_5_copy
+      layout_properties: {row: OSZLNL, width_xs: 2, col_xs: 7, width: 53.3333}
+    - type: TextBox
+      properties: {role: plain_text, align: left, hide_text: false, tooltip: '', placeholder: '',
+        border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
+        font: '', spacing_above: small, type: number, spacing_below: small, italic: false,
+        background: '', bold: false, underline: false}
+      name: artist_popularity_lat_max_copy
+      layout_properties: {row: OSZLNL, width_xs: 3, col_xs: 9, width: 72.75}
+  - type: GridPanel
+    properties: {spacing_above: small, spacing_below: small, background: '', foreground: '',
+      border: '', visible: true, role: grid_panel, tooltip: ''}
+    name: grid_panel_1_copy_2
+    layout_properties:
+      col_widths: {}
+      grid_position: JZLFJE,JEOUAR
+      row: JXMPSD
+      width_xs: 12
+      col_xs: 0
+    components:
+    - type: Label
+      properties: {role: feature, align: left, tooltip: '', border: '', foreground: '',
+        visible: true, text: '   Avg. Danceability', font_size: null, font: '', spacing_above: small,
+        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+        underline: false, icon: ''}
+      name: label_4_copy_2
+      layout_properties: {row: OSZLNL, width_xs: 4, col_xs: 0, width: 303.333}
+    - type: TextBox
+      properties: {role: plain_text, align: left, hide_text: false, tooltip: '', placeholder: '',
+        border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
+        font: '', spacing_above: small, type: number, spacing_below: small, italic: false,
+        background: '', bold: false, underline: false}
+      name: artist_popularity_lat_min_copy_2
+      layout_properties: {row: OSZLNL, width_xs: 3, col_xs: 3, width: 72.75}
+    - type: Label
+      properties: {role: null, align: center, tooltip: '', border: '', foreground: '',
+        visible: true, text: to, font_size: null, font: '', spacing_above: small,
+        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+        underline: false, icon: ''}
+      name: label_5_copy_2
+      layout_properties: {row: OSZLNL, width_xs: 2, col_xs: 7, width: 53.3333}
+    - type: TextBox
+      properties: {role: plain_text, align: left, hide_text: false, tooltip: '', placeholder: '',
+        border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
+        font: '', spacing_above: small, type: number, spacing_below: small, italic: false,
+        background: '', bold: false, underline: false}
+      name: artist_popularity_lat_max_copy_2
+      layout_properties: {row: OSZLNL, width_xs: 3, col_xs: 9, width: 72.75}
+- type: GridPanel
+  properties: {spacing_above: small, spacing_below: small, background: '', foreground: '',
+    border: '', visible: true, role: grid_panel, tooltip: ''}
+  name: grid_panel_1_copy_6
+  layout_properties:
+    col_widths: {}
+    grid_position: FKCHOL,FWFCXU
+  components:
+  - type: Label
+    properties: {role: feature, align: left, tooltip: '', border: '', foreground: '',
+      visible: true, text: '   Avg. Key', font_size: null, font: '', spacing_above: small,
+      icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+      underline: false, icon: ''}
+    name: label_4_copy_6
+    layout_properties: {row: OSZLNL, width_xs: 4, col_xs: 0, width: 303.333}
+  - type: TextBox
+    properties: {role: plain_text, align: left, hide_text: false, tooltip: '', placeholder: '',
+      border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
+      font: '', spacing_above: small, type: number, spacing_below: small, italic: false,
+      background: '', bold: false, underline: false}
+    name: artist_popularity_lat_min_copy_6
+    layout_properties: {row: OSZLNL, width_xs: 3, col_xs: 3, width: 72.75}
+  - type: Label
+    properties: {role: null, align: center, tooltip: '', border: '', foreground: '',
+      visible: true, text: to, font_size: null, font: '', spacing_above: small, icon_align: left,
+      spacing_below: small, italic: false, background: '', bold: false, underline: false,
+      icon: ''}
+    name: label_5_copy_6
+    layout_properties: {row: OSZLNL, width_xs: 2, col_xs: 7, width: 53.3333}
+  - type: TextBox
+    properties: {role: plain_text, align: left, hide_text: false, tooltip: '', placeholder: '',
+      border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
+      font: '', spacing_above: small, type: number, spacing_below: small, italic: false,
+      background: '', bold: false, underline: false}
+    name: artist_popularity_lat_max_copy_6
+    layout_properties: {row: OSZLNL, width_xs: 3, col_xs: 9, width: 72.75}
+- type: GridPanel
+  properties: {spacing_above: small, spacing_below: small, background: '', foreground: '',
+    border: '', visible: true, role: grid_panel, tooltip: ''}
+  name: grid_panel_1_copy_6
+  layout_properties:
+    col_widths: {}
+    grid_position: ICXHES,ZGUZNY
+  components:
+  - type: Label
+    properties: {role: feature, align: left, tooltip: '', border: '', foreground: '',
+      visible: true, text: '   Popularity', font_size: null, font: '', spacing_above: small,
+      icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+      underline: false, icon: ''}
+    name: label_4_copy_6
+    layout_properties: {row: OSZLNL, width_xs: 4, col_xs: 0, width: 100}
+  - type: TextBox
+    properties: {role: plain_text, align: left, hide_text: false, tooltip: '', placeholder: '',
+      border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
+      font: '', spacing_above: small, type: number, spacing_below: small, italic: false,
+      background: '', bold: false, underline: false}
+    name: artist_popularity_lat_min_copy_6
+    layout_properties: {row: OSZLNL, width_xs: 3, col_xs: 3, width: 72.75}
+  - type: Label
+    properties: {role: null, align: center, tooltip: '', border: '', foreground: '',
+      visible: true, text: to, font_size: null, font: '', spacing_above: small, icon_align: left,
+      spacing_below: small, italic: false, background: '', bold: false, underline: false,
+      icon: ''}
+    name: label_5_copy_6
+    layout_properties: {row: OSZLNL, width_xs: 2, col_xs: 7, width: 53.3333}
+  - type: TextBox
+    properties: {role: plain_text, align: left, hide_text: false, tooltip: '', placeholder: '',
+      border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
+      font: '', spacing_above: small, type: number, spacing_below: small, italic: false,
+      background: '', bold: false, underline: false}
+    name: artist_popularity_lat_max_copy_6
+    layout_properties: {row: OSZLNL, width_xs: 3, col_xs: 9, width: 72.75}
+- type: GridPanel
+  properties: {spacing_above: small, spacing_below: small, background: '', foreground: '',
+    border: '', visible: true, role: grid_panel, tooltip: ''}
+  name: grid_panel_1_copy_6
+  layout_properties:
+    col_widths: {}
+    grid_position: QQWLHQ,ROSYJS
+  components:
+  - type: Label
+    properties: {role: feature, align: left, tooltip: '', border: '', foreground: '',
+      visible: true, text: '   Popularity', font_size: null, font: '', spacing_above: small,
+      icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+      underline: false, icon: ''}
+    name: label_4_copy_6
+    layout_properties: {row: OSZLNL, width_xs: 4, col_xs: 0, width: 100}
+  - type: TextBox
+    properties: {role: plain_text, align: left, hide_text: false, tooltip: '', placeholder: '',
+      border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
+      font: '', spacing_above: small, type: number, spacing_below: small, italic: false,
+      background: '', bold: false, underline: false}
+    name: artist_popularity_lat_min_copy_6
+    layout_properties: {row: OSZLNL, width_xs: 3, col_xs: 3, width: 72.75}
+  - type: Label
+    properties: {role: null, align: center, tooltip: '', border: '', foreground: '',
+      visible: true, text: to, font_size: null, font: '', spacing_above: small, icon_align: left,
+      spacing_below: small, italic: false, background: '', bold: false, underline: false,
+      icon: ''}
+    name: label_5_copy_6
+    layout_properties: {row: OSZLNL, width_xs: 2, col_xs: 7, width: 53.3333}
+  - type: TextBox
+    properties: {role: plain_text, align: left, hide_text: false, tooltip: '', placeholder: '',
+      border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
+      font: '', spacing_above: small, type: number, spacing_below: small, italic: false,
+      background: '', bold: false, underline: false}
+    name: artist_popularity_lat_max_copy_6
+    layout_properties: {row: OSZLNL, width_xs: 3, col_xs: 9, width: 72.75}
+- type: GridPanel
+  properties: {spacing_above: small, spacing_below: small, background: '', foreground: '',
+    border: '', visible: true, role: grid_panel, tooltip: ''}
+  name: grid_panel_1_copy_7
+  layout_properties:
+    col_widths: {}
+    grid_position: CFGHQB,AFHMJX
+  components:
+  - type: Label
+    properties: {role: feature, align: left, tooltip: '', border: '', foreground: '',
+      visible: true, text: '   Avg. Loudness', font_size: null, font: '', spacing_above: small,
+      icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+      underline: false, icon: ''}
+    name: label_4_copy_7
+    layout_properties: {row: OSZLNL, width_xs: 4, col_xs: 0, width: 303.333}
+  - type: TextBox
+    properties: {role: plain_text, align: left, hide_text: false, tooltip: '', placeholder: '',
+      border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
+      font: '', spacing_above: small, type: number, spacing_below: small, italic: false,
+      background: '', bold: false, underline: false}
+    name: artist_popularity_lat_min_copy_7
+    layout_properties: {row: OSZLNL, width_xs: 3, col_xs: 3, width: 72.75}
+  - type: Label
+    properties: {role: null, align: center, tooltip: '', border: '', foreground: '',
+      visible: true, text: to, font_size: null, font: '', spacing_above: small, icon_align: left,
+      spacing_below: small, italic: false, background: '', bold: false, underline: false,
+      icon: ''}
+    name: label_5_copy_7
+    layout_properties: {row: OSZLNL, width_xs: 2, col_xs: 7, width: 53.3333}
+  - type: TextBox
+    properties: {role: plain_text, align: left, hide_text: false, tooltip: '', placeholder: '',
+      border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
+      font: '', spacing_above: small, type: number, spacing_below: small, italic: false,
+      background: '', bold: false, underline: false}
+    name: artist_popularity_lat_max_copy_7
+    layout_properties: {row: OSZLNL, width_xs: 3, col_xs: 9, width: 72.75}
+  - type: GridPanel
+    properties: {spacing_above: small, spacing_below: small, background: '', foreground: '',
+      border: '', visible: true, role: grid_panel, tooltip: ''}
+    name: grid_panel_1_copy_8
+    layout_properties:
+      col_widths: {}
+      grid_position: CFGHQB,AFHMJX
+    components:
+    - type: Label
+      properties: {role: feature, align: left, tooltip: '', border: '', foreground: '',
+        visible: true, text: '   Popularity', font_size: null, font: '', spacing_above: small,
+        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+        underline: false, icon: ''}
+      name: label_4_copy_8
+      layout_properties: {row: OSZLNL, width_xs: 4, col_xs: 0, width: 100}
+    - type: TextBox
+      properties: {role: plain_text, align: left, hide_text: false, tooltip: '', placeholder: '',
+        border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
+        font: '', spacing_above: small, type: number, spacing_below: small, italic: false,
+        background: '', bold: false, underline: false}
+      name: artist_popularity_lat_min_copy_8
+      layout_properties: {row: OSZLNL, width_xs: 3, col_xs: 3, width: 72.75}
+    - type: Label
+      properties: {role: null, align: center, tooltip: '', border: '', foreground: '',
+        visible: true, text: to, font_size: null, font: '', spacing_above: small,
+        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+        underline: false, icon: ''}
+      name: label_5_copy_8
+      layout_properties: {row: OSZLNL, width_xs: 2, col_xs: 7, width: 53.3333}
+    - type: TextBox
+      properties: {role: plain_text, align: left, hide_text: false, tooltip: '', placeholder: '',
+        border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
+        font: '', spacing_above: small, type: number, spacing_below: small, italic: false,
+        background: '', bold: false, underline: false}
+      name: artist_popularity_lat_max_copy_8
+      layout_properties: {row: OSZLNL, width_xs: 3, col_xs: 9, width: 72.75}
+  - type: GridPanel
+    properties: {spacing_above: small, spacing_below: small, background: '', foreground: '',
+      border: '', visible: true, role: grid_panel, tooltip: ''}
+    name: grid_panel_1_copy_9
+    layout_properties:
+      col_widths: {}
+      grid_position: CFGHQB,AFHMJX
+    components:
+    - type: Label
+      properties: {role: feature, align: left, tooltip: '', border: '', foreground: '',
+        visible: true, text: '   Popularity', font_size: null, font: '', spacing_above: small,
+        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+        underline: false, icon: ''}
+      name: label_4_copy_9
+      layout_properties: {row: OSZLNL, width_xs: 4, col_xs: 0, width: 100}
+    - type: TextBox
+      properties: {role: plain_text, align: left, hide_text: false, tooltip: '', placeholder: '',
+        border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
+        font: '', spacing_above: small, type: number, spacing_below: small, italic: false,
+        background: '', bold: false, underline: false}
+      name: artist_popularity_lat_min_copy_9
+      layout_properties: {row: OSZLNL, width_xs: 3, col_xs: 3, width: 72.75}
+    - type: Label
+      properties: {role: null, align: center, tooltip: '', border: '', foreground: '',
+        visible: true, text: to, font_size: null, font: '', spacing_above: small,
+        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+        underline: false, icon: ''}
+      name: label_5_copy_9
+      layout_properties: {row: OSZLNL, width_xs: 2, col_xs: 7, width: 53.3333}
+    - type: TextBox
+      properties: {role: plain_text, align: left, hide_text: false, tooltip: '', placeholder: '',
+        border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
+        font: '', spacing_above: small, type: number, spacing_below: small, italic: false,
+        background: '', bold: false, underline: false}
+      name: artist_popularity_lat_max_copy_9
+      layout_properties: {row: OSZLNL, width_xs: 3, col_xs: 9, width: 72.75}
+  - type: GridPanel
+    properties: {spacing_above: small, spacing_below: small, background: '', foreground: '',
+      border: '', visible: true, role: grid_panel, tooltip: ''}
+    name: grid_panel_1_copy_10
+    layout_properties:
+      col_widths: {}
+      grid_position: CFGHQB,AFHMJX
+    components:
+    - type: Label
+      properties: {role: feature, align: left, tooltip: '', border: '', foreground: '',
+        visible: true, text: '   Popularity', font_size: null, font: '', spacing_above: small,
+        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+        underline: false, icon: ''}
+      name: label_4_copy_10
+      layout_properties: {row: OSZLNL, width_xs: 4, col_xs: 0, width: 100}
+    - type: TextBox
+      properties: {role: plain_text, align: left, hide_text: false, tooltip: '', placeholder: '',
+        border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
+        font: '', spacing_above: small, type: number, spacing_below: small, italic: false,
+        background: '', bold: false, underline: false}
+      name: artist_popularity_lat_min_copy_10
+      layout_properties: {row: OSZLNL, width_xs: 3, col_xs: 3, width: 72.75}
+    - type: Label
+      properties: {role: null, align: center, tooltip: '', border: '', foreground: '',
+        visible: true, text: to, font_size: null, font: '', spacing_above: small,
+        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+        underline: false, icon: ''}
+      name: label_5_copy_10
+      layout_properties: {row: OSZLNL, width_xs: 2, col_xs: 7, width: 53.3333}
+    - type: TextBox
+      properties: {role: plain_text, align: left, hide_text: false, tooltip: '', placeholder: '',
+        border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
+        font: '', spacing_above: small, type: number, spacing_below: small, italic: false,
+        background: '', bold: false, underline: false}
+      name: artist_popularity_lat_max_copy_10
+      layout_properties: {row: OSZLNL, width_xs: 3, col_xs: 9, width: 72.75}
+- type: GridPanel
+  properties: {spacing_above: small, spacing_below: small, background: '', foreground: '',
+    border: '', visible: true, role: grid_panel, tooltip: ''}
+  name: grid_panel_1_copy_7
+  layout_properties:
+    col_widths: {}
+    grid_position: EFLNON,ZKPSBI
+  components:
+  - type: Label
+    properties: {role: feature, align: left, tooltip: '', border: '', foreground: '',
+      visible: true, text: '   Popularity', font_size: null, font: '', spacing_above: small,
+      icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+      underline: false, icon: ''}
+    name: label_4_copy_7
+    layout_properties: {row: OSZLNL, width_xs: 4, col_xs: 0, width: 100}
+  - type: TextBox
+    properties: {role: plain_text, align: left, hide_text: false, tooltip: '', placeholder: '',
+      border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
+      font: '', spacing_above: small, type: number, spacing_below: small, italic: false,
+      background: '', bold: false, underline: false}
+    name: artist_popularity_lat_min_copy_7
+    layout_properties: {row: OSZLNL, width_xs: 3, col_xs: 3, width: 72.75}
+  - type: Label
+    properties: {role: null, align: center, tooltip: '', border: '', foreground: '',
+      visible: true, text: to, font_size: null, font: '', spacing_above: small, icon_align: left,
+      spacing_below: small, italic: false, background: '', bold: false, underline: false,
+      icon: ''}
+    name: label_5_copy_7
+    layout_properties: {row: OSZLNL, width_xs: 2, col_xs: 7, width: 53.3333}
+  - type: TextBox
+    properties: {role: plain_text, align: left, hide_text: false, tooltip: '', placeholder: '',
+      border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
+      font: '', spacing_above: small, type: number, spacing_below: small, italic: false,
+      background: '', bold: false, underline: false}
+    name: artist_popularity_lat_max_copy_7
+    layout_properties: {row: OSZLNL, width_xs: 3, col_xs: 9, width: 72.75}
+- type: GridPanel
+  properties: {spacing_above: small, spacing_below: small, background: '', foreground: '',
+    border: '', visible: true, role: grid_panel, tooltip: ''}
+  name: grid_panel_1_copy_7
+  layout_properties:
+    col_widths: {}
+    grid_position: VIUHXV,IKPKSH
+  components:
+  - type: Label
+    properties: {role: feature, align: left, tooltip: '', border: '', foreground: '',
+      visible: true, text: '   Popularity', font_size: null, font: '', spacing_above: small,
+      icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+      underline: false, icon: ''}
+    name: label_4_copy_7
+    layout_properties: {row: OSZLNL, width_xs: 4, col_xs: 0, width: 100}
+  - type: TextBox
+    properties: {role: plain_text, align: left, hide_text: false, tooltip: '', placeholder: '',
+      border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
+      font: '', spacing_above: small, type: number, spacing_below: small, italic: false,
+      background: '', bold: false, underline: false}
+    name: artist_popularity_lat_min_copy_7
+    layout_properties: {row: OSZLNL, width_xs: 3, col_xs: 3, width: 72.75}
+  - type: Label
+    properties: {role: null, align: center, tooltip: '', border: '', foreground: '',
+      visible: true, text: to, font_size: null, font: '', spacing_above: small, icon_align: left,
+      spacing_below: small, italic: false, background: '', bold: false, underline: false,
+      icon: ''}
+    name: label_5_copy_7
+    layout_properties: {row: OSZLNL, width_xs: 2, col_xs: 7, width: 53.3333}
+  - type: TextBox
+    properties: {role: plain_text, align: left, hide_text: false, tooltip: '', placeholder: '',
+      border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
+      font: '', spacing_above: small, type: number, spacing_below: small, italic: false,
+      background: '', bold: false, underline: false}
+    name: artist_popularity_lat_max_copy_7
+    layout_properties: {row: OSZLNL, width_xs: 3, col_xs: 9, width: 72.75}
+- type: GridPanel
+  properties: {spacing_above: small, spacing_below: small, background: '', foreground: '',
+    border: '', visible: true, role: grid_panel, tooltip: ''}
+  name: grid_panel_1_copy_7
+  layout_properties:
+    col_widths: {}
+    grid_position: DNKSUF,KRYPOX
+  components:
+  - type: Label
+    properties: {role: feature, align: left, tooltip: '', border: '', foreground: '',
+      visible: true, text: '   Popularity', font_size: null, font: '', spacing_above: small,
+      icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+      underline: false, icon: ''}
+    name: label_4_copy_7
+    layout_properties: {row: OSZLNL, width_xs: 4, col_xs: 0, width: 100}
+  - type: TextBox
+    properties: {role: plain_text, align: left, hide_text: false, tooltip: '', placeholder: '',
+      border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
+      font: '', spacing_above: small, type: number, spacing_below: small, italic: false,
+      background: '', bold: false, underline: false}
+    name: artist_popularity_lat_min_copy_7
+    layout_properties: {row: OSZLNL, width_xs: 3, col_xs: 3, width: 72.75}
+  - type: Label
+    properties: {role: null, align: center, tooltip: '', border: '', foreground: '',
+      visible: true, text: to, font_size: null, font: '', spacing_above: small, icon_align: left,
+      spacing_below: small, italic: false, background: '', bold: false, underline: false,
+      icon: ''}
+    name: label_5_copy_7
+    layout_properties: {row: OSZLNL, width_xs: 2, col_xs: 7, width: 53.3333}
+  - type: TextBox
+    properties: {role: plain_text, align: left, hide_text: false, tooltip: '', placeholder: '',
+      border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
+      font: '', spacing_above: small, type: number, spacing_below: small, italic: false,
+      background: '', bold: false, underline: false}
+    name: artist_popularity_lat_max_copy_7
+    layout_properties: {row: OSZLNL, width_xs: 3, col_xs: 9, width: 72.75}
+- type: Label
+  properties: {role: sub_title, align: left, tooltip: '', border: '', foreground: '',
+    visible: true, text: 3. Genres, font_size: null, font: '', spacing_above: small,
+    icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+    underline: false, icon: ''}
+  name: label_3_copy_3
+  layout_properties:
+    col_widths: {}
+    grid_position: WCMHTT,ZFDUKT
+    row: OSZLNL
+    width_xs: 12
+    col_xs: 0
+- type: Label
+  properties: {role: sub_title, align: left, tooltip: '', border: '', foreground: '',
+    visible: true, text: 4. Origin, font_size: null, font: '', spacing_above: small,
+    icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+    underline: false, icon: ''}
+  name: label_3_copy_4
+  layout_properties:
+    col_widths: {}
+    grid_position: XVWHAL,TXHTJI
+    row: ZOBJHZ
+    width_xs: 12
+    col_xs: 0
 is_package: true
 custom_component: true
