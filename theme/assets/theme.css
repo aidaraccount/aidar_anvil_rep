@@ -36,6 +36,10 @@ header>.nav-links>span {
 }
 
 /* ---- OWN ADJUSTMENTS ----------------------- */
+.anvil-role-eval_button {
+  font-size: 26px;
+  font-weight: bold;
+}
 .anvil-role-title {
   font-size: 26px;
   font-weight: bold;

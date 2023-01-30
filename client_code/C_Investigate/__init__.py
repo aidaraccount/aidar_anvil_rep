@@ -41,6 +41,9 @@ class C_Investigate(C_InvestigateTemplate):
     self.no_tracks.text = sug["NoTracks"]
     self.first_release_date.text = sug["FirstReleaseDate"]
     self.last_release_date.text = sug["LastReleaseDate"]
+
+    self.major_coop.text = sug["MajorCoop"]
+    self.sub_major_coop.text = sug["SubMajorCoop"]
     
     self.min_mus_dis.text = sug["MinMusDist"]
     self.avg_mus_dis.text = sug["AvgMusDist"]
@@ -55,13 +58,20 @@ class C_Investigate(C_InvestigateTemplate):
     
     self.c_web_player.html = '<iframe style="border-radius:12px" src="https://open.spotify.com/embed/artist/' + spotify_artist_id + '?utm_source=generator&theme=0" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>'
 
-    data = [float(sug["AvgDuration"])/140,
-            float(sug["AvgDanceability"]),
-            float(sug["AvgEnergy"]),
-            float(sug["AvgKey"])/12,
-            float(sug["AvgLoudness"])/(-6)]
-    plot = anvil.server.call('create_star_plot', data)
-    self.plot_1.figure = plot
+    # BAR CHART    
+    self.plot_1.figure  = anvil.server.call('create_bar_chart', "AvgDuration", [float(sug["AvgDuration"])], 0, 300)
+    self.plot_2.figure  = anvil.server.call('create_bar_chart', "AvgDanceability", [float(sug["AvgDanceability"])], 0, 1)
+    self.plot_3.figure  = anvil.server.call('create_bar_chart', "AvgEnergy", [float(sug["AvgEnergy"])], 0, 1)
+    self.plot_4.figure  = anvil.server.call('create_bar_chart', "AvgKey", [float(sug["AvgKey"])], 0, 11)
+    self.plot_5.figure  = anvil.server.call('create_bar_chart', "AvgLoudness", [float(sug["AvgLoudness"])], -30, 0)
+    self.plot_6.figure  = anvil.server.call('create_bar_chart', "AvgMode", [float(sug["AvgMode"])], 0, 1)
+    self.plot_7.figure  = anvil.server.call('create_bar_chart', "AvgSpeechiness", [float(sug["AvgSpeechiness"])], 0, 1)
+    self.plot_8.figure  = anvil.server.call('create_bar_chart', "AvgAcousticness", [float(sug["AvgAcousticness"])], 0, 1)
+    self.plot_9.figure  = anvil.server.call('create_bar_chart', "AvgInstrumentalness", [float(sug["AvgInstrumentalness"])], 0, 1)
+    self.plot_10.figure = anvil.server.call('create_bar_chart', "AvgLiveness", [float(sug["AvgLiveness"])], 0, 1)
+    self.plot_11.figure = anvil.server.call('create_bar_chart', "AvgValence", [float(sug["AvgValence"])], 0, 1)
+    self.plot_12.figure = anvil.server.call('create_bar_chart', "AvgTempo", [float(sug["AvgTempo"])], 0, 200)
+    
     
   def button_1_click(self, **event_args):
     anvil.server.call('AddInterest', cur_model_id, artist_id, 1)
