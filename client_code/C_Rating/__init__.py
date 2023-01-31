@@ -5,6 +5,7 @@ import anvil.users
 import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
+import json
 
 class C_Rating(C_RatingTemplate):
   def __init__(self, **properties):
@@ -18,4 +19,18 @@ class C_Rating(C_RatingTemplate):
     global cur_model_id
     cur_model_id = anvil.server.call('GetModelID',  user["user_id"])
 
-    self.data_ratings.items = anvil.server.call('GetRatings', cur_model_id)
+    #ratings = anvil.server.call('GetRatings', cur_model_id)
+    #alert(ratings)
+    
+    ratings2 = json.loads(anvil.server.call('GetRatings', cur_model_id))
+    alert(ratings2)
+    alert(type(ratings2))
+
+    data = [
+      {"DateOfRecommendation": "John", "Name": "32", "Interest": "New York"},
+      {"DateOfRecommendation": "Jane", "Name": "28", "Interest": "London"},
+      {"DateOfRecommendation": "Jim", "Name": "41", "Interest": "Paris"}
+    ]
+    self.data_ratings.items = data
+
+    #self.data_ratings.items = ratings2

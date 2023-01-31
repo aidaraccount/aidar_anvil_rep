@@ -22,10 +22,22 @@ components:
     grid_position: EGNWWM,AEBFKP
 - type: DataGrid
   properties:
+    role: null
     columns:
-    - {id: OYDYNQ, title: Column 1, data_key: column_1}
-    - {id: FCILTB, title: Column 2, data_key: column_2}
-    - {id: YHPGYN, title: Column 3, data_key: column_3}
+    - {id: OYDYNQ, title: DateOfRecommendation, data_key: DateOfRecommendation, $$hashKey: 'object:5657'}
+    - {id: FCILTB, title: Name, data_key: Name, $$hashKey: 'object:5658'}
+    - {id: YHPGYN, title: Interest, data_key: Interest, $$hashKey: 'object:5659'}
+    auto_header: true
+    tooltip: ''
+    border: ''
+    foreground: ''
+    rows_per_page: 20
+    visible: true
+    wrap_on: never
+    show_page_controls: true
+    spacing_above: small
+    spacing_below: small
+    background: ''
   name: data_ratings
   layout_properties: {grid_position: 'XOGYEV,CFBIRR'}
   components:
