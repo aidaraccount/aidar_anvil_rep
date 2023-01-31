@@ -1,4 +1,6 @@
-container: {type: ColumnPanel}
+container:
+  type: ColumnPanel
+  properties: {col_widths: '{}'}
 components:
 - type: Label
   properties: {role: title, align: left, tooltip: '', border: '', foreground: '',
@@ -10,13 +12,26 @@ components:
     col_widths: {}
     grid_position: WTLNJQ,VMCYOV
 - type: Label
-  properties: {role: null, align: left, tooltip: '', border: '', foreground: '', visible: true,
-    text: This table contains a list of all evaluated artists., font_size: null, font: '',
-    spacing_above: small, icon_align: left, spacing_below: small, italic: true, background: '',
-    bold: false, underline: false, icon: ''}
+  properties: {role: description, align: left, tooltip: '', border: '', foreground: '',
+    visible: true, text: This table contains a list of all evaluated artists., font_size: null,
+    font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: true,
+    background: '', bold: false, underline: false, icon: ''}
   name: label_2
   layout_properties:
     col_widths: {}
     grid_position: EGNWWM,AEBFKP
+- type: DataGrid
+  properties:
+    columns:
+    - {id: OYDYNQ, title: Column 1, data_key: column_1}
+    - {id: FCILTB, title: Column 2, data_key: column_2}
+    - {id: YHPGYN, title: Column 3, data_key: column_3}
+  name: data_ratings
+  layout_properties: {grid_position: 'XOGYEV,CFBIRR'}
+  components:
+  - type: RepeatingPanel
+    properties: {spacing_above: none, spacing_below: none, item_template: C_Rating.RowTemplate1}
+    name: repeating_panel_1
+    layout_properties: {}
 is_package: true
 custom_component: true
