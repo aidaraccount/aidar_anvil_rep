@@ -19,18 +19,6 @@ class C_Rating(C_RatingTemplate):
     global cur_model_id
     cur_model_id = anvil.server.call('GetModelID',  user["user_id"])
 
-    #ratings = anvil.server.call('GetRatings', cur_model_id)
-    #alert(ratings)
-    
-    ratings2 = json.loads(anvil.server.call('GetRatings', cur_model_id))
-    alert(ratings2)
-    alert(type(ratings2))
+    # Ratings Table
+    self.data_ratings_data.items = json.loads(anvil.server.call('GetRatings', cur_model_id))
 
-    data = [
-      {"DateOfRecommendation": "John", "Name": "32", "Interest": "New York"},
-      {"DateOfRecommendation": "Jane", "Name": "28", "Interest": "London"},
-      {"DateOfRecommendation": "Jim", "Name": "41", "Interest": "Paris"}
-    ]
-    self.data_ratings.items = data
-
-    #self.data_ratings.items = ratings2

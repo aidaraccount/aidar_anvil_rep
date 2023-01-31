@@ -24,26 +24,28 @@ components:
   properties:
     role: null
     columns:
-    - {id: OYDYNQ, title: DateOfRecommendation, data_key: DateOfRecommendation, $$hashKey: 'object:5657'}
-    - {id: FCILTB, title: Name, data_key: Name, $$hashKey: 'object:5658'}
+    - {id: OYDYNQ, title: Date, data_key: DateOfRecommendation, $$hashKey: 'object:5657'}
+    - {id: FCILTB, title: Artist, data_key: Name, $$hashKey: 'object:5658'}
     - {id: YHPGYN, title: Interest, data_key: Interest, $$hashKey: 'object:5659'}
     auto_header: true
     tooltip: ''
     border: ''
     foreground: ''
-    rows_per_page: 20
+    rows_per_page: 10
     visible: true
     wrap_on: never
     show_page_controls: true
     spacing_above: small
     spacing_below: small
     background: ''
-  name: data_ratings
+  name: data_ratings_heads
   layout_properties: {grid_position: 'XOGYEV,CFBIRR'}
   components:
   - type: RepeatingPanel
-    properties: {spacing_above: none, spacing_below: none, item_template: C_Rating.RowTemplate1}
-    name: repeating_panel_1
+    properties: {role: table_content, tooltip: '', border: '', foreground: '', items: null,
+      visible: true, spacing_above: none, spacing_below: none, item_template: C_Rating.RowTemplate1,
+      background: ''}
+    name: data_ratings_data
     layout_properties: {}
 is_package: true
 custom_component: true

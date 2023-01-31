@@ -20,6 +20,8 @@ roles:
   components: [Button]
 - name: sub_title
   components: [Label]
+- name: table_content
+  components: [RepeatingPanel]
 color_scheme:
   preset_groups:
   - name: Accent

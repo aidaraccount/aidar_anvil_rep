@@ -70,4 +70,3 @@ def create_bar_chart(label, data, min, max):
     margin=dict(l=10, r=10, t=40, b=10)
   )
   return fig
-  
