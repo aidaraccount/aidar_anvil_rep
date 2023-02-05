@@ -52,12 +52,14 @@ class C_Investigate(C_InvestigateTemplate):
     self.avg_explicit.text = sug["AvgExplicit"] + '%'
     self.related_matches.text = sug["RelatedMatches"]
     
-    if (float(sug["Prediction"]) > 7):
+    if (sug["Prediction"] == 'None'):
+      pred = 'nan'
+    elif (float(sug["Prediction"]) > 7):
       pred = 7.0
     elif (float(sug["Prediction"]) < 0):
       pred = 0.0
     else:
-      pred = float(sug["Prediction"])
+      pred = round(float(sug["Prediction"]),1)
     self.prediction.text = pred
     
     self.genres.text = sug["Genres"]
