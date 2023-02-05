@@ -54,6 +54,10 @@ class C_Filter(C_FilterTemplate):
     self.avg_valence_max.text = fil["avg_valence_max"]
     self.avg_tempo_min.text = fil["avg_tempo_min"]
     self.avg_tempo_max.text = fil["avg_tempo_max"]
+    alert(fil["pop"])
+    alert(fil["pop"] == True)
+    if(fil["pop"] == True):    self.check_box_pop_t.checked = True
+    elif(fil["pop"] == False): self.check_box_pop_f.checked = True
     
   def apply_filters_click(self, **event_args):
     # 1. General
