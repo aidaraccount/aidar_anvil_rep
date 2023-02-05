@@ -54,10 +54,19 @@ class C_Filter(C_FilterTemplate):
     self.avg_valence_max.text = fil["avg_valence_max"]
     self.avg_tempo_min.text = fil["avg_tempo_min"]
     self.avg_tempo_max.text = fil["avg_tempo_max"]
-    alert(fil["pop"])
-    alert(fil["pop"] == True)
-    if(fil["pop"] == True):    self.check_box_pop_t.checked = True
-    elif(fil["pop"] == False): self.check_box_pop_f.checked = True
+    
+    if(fil["pop"] == '1'): self.check_box_pop_t.checked = True
+    elif(fil["pop"] == '0'): self.check_box_pop_f.checked = True
+    if(fil["rock"] == '1'): self.check_box_rock_t.checked = True
+    elif(fil["rock"] == '0'): self.check_box_rock_f.checked = True
+    if(fil["indie"] == '1'): self.check_box_indie_t.checked = True
+    elif(fil["indie"] == '0'): self.check_box_indie_f.checked = True
+    if(fil["country"] == '1'): self.check_box_country_t.checked = True
+    elif(fil["country"] == '0'): self.check_box_country_f.checked = True
+    if(fil["classic"] == '1'): self.check_box_classic_t.checked = True
+    elif(fil["classic"] == '0'): self.check_box_classic_f.checked = True
+    if(fil["latin"] == '1'): self.check_box_latin_t.checked = True
+    elif(fil["latin"] == '0'): self.check_box_latin_f.checked = True
     
   def apply_filters_click(self, **event_args):
     # 1. General
@@ -90,7 +99,26 @@ class C_Filter(C_FilterTemplate):
     avg_valence_max = self.avg_valence_max.text
     avg_tempo_min = self.avg_tempo_min.text
     avg_tempo_max = self.avg_tempo_max.text
-       
+
+    if(self.check_box_pop_t.checked == True): pop = 1
+    elif(self.check_box_pop_f.checked == True): pop = 0
+    else: pop = None
+    if(self.check_box_rock_t.checked == True): rock = 1
+    elif(self.check_box_rock_f.checked == True): rock = 0
+    else: rock = None
+    if(self.check_box_indie_t.checked == True): indie = 1
+    elif(self.check_box_indie_f.checked == True): indie = 0
+    else: indie = None
+    if(self.check_box_country_t.checked == True): country = 1
+    elif(self.check_box_country_f.checked == True): country = 0
+    else: country = None
+    if(self.check_box_classic_t.checked == True): classic = 1
+    elif(self.check_box_classic_f.checked == True): classic = 0
+    else: classic = None
+    if(self.check_box_latin_t.checked == True): latin = 1
+    elif(self.check_box_latin_f.checked == True): latin = 0
+    else: latin = None
+    
     anvil.server.call('ChangeFilters',
                       cur_model_id,
                       artist_popularity_lat_min,
@@ -120,7 +148,13 @@ class C_Filter(C_FilterTemplate):
                       avg_valence_min,
                       avg_valence_max,
                       avg_tempo_min,
-                      avg_tempo_max
+                      avg_tempo_max,
+                      pop,
+                      rock,
+                      indie,
+                      country,
+                      classic,
+                      latin
                      )
     self.content_panel.clear()
     self.content_panel.add_component(C_Investigate())
