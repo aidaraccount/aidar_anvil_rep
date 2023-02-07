@@ -2822,7 +2822,7 @@ components:
         foreground: '', allow_indeterminate: false, visible: true, text: '', font_size: null,
         font: '', spacing_above: none, spacing_below: small, italic: false, background: '',
         bold: false, checked: false, underline: false}
-      name: check_box_classic_t_copy_29
+      name: check_box_korean_t
       layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 3, width: 25}
     - type: Label
       properties: {role: description, align: left, tooltip: '', border: '', foreground: '',
@@ -2836,7 +2836,7 @@ components:
         foreground: '', allow_indeterminate: false, visible: true, text: '', font_size: null,
         font: '', spacing_above: none, spacing_below: small, italic: false, background: '',
         bold: false, checked: false, underline: false}
-      name: check_box_classic_f_copy_29
+      name: check_box_korean_f
       layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 5, width: 25}
     - type: Label
       properties: {role: feature, align: left, tooltip: '', border: '', foreground: '',
@@ -2857,7 +2857,7 @@ components:
         foreground: '', allow_indeterminate: false, visible: true, text: '', font_size: null,
         font: '', spacing_above: none, spacing_below: small, italic: false, background: '',
         bold: false, checked: false, underline: false}
-      name: check_box_latin_t_copy_29
+      name: check_box_mexican_t
       layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 3, width: 25}
     - type: Label
       properties: {role: description, align: left, tooltip: '', border: '', foreground: '',
@@ -2871,7 +2871,7 @@ components:
         foreground: '', allow_indeterminate: false, visible: true, text: '', font_size: null,
         font: '', spacing_above: none, spacing_below: small, italic: false, background: '',
         bold: false, checked: false, underline: false}
-      name: check_box_latin_f_copy_29
+      name: check_box_mexican_f
       layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 5, width: 25}
   - type: GridPanel
     properties: {spacing_above: small, spacing_below: small, background: '', foreground: '',
@@ -2900,7 +2900,7 @@ components:
         foreground: '', allow_indeterminate: false, visible: true, text: '', font_size: null,
         font: '', spacing_above: none, spacing_below: small, italic: false, background: '',
         bold: false, checked: false, underline: false}
-      name: check_box_classic_t_copy_28
+      name: check_box_dominican_t
       layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 3, width: 25}
     - type: Label
       properties: {role: description, align: left, tooltip: '', border: '', foreground: '',
@@ -2914,7 +2914,7 @@ components:
         foreground: '', allow_indeterminate: false, visible: true, text: '', font_size: null,
         font: '', spacing_above: none, spacing_below: small, italic: false, background: '',
         bold: false, checked: false, underline: false}
-      name: check_box_classic_f_copy_28
+      name: check_box_dominican_f
       layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 5, width: 25}
     - type: Label
       properties: {role: feature, align: left, tooltip: '', border: '', foreground: '',
@@ -2935,7 +2935,7 @@ components:
         foreground: '', allow_indeterminate: false, visible: true, text: '', font_size: null,
         font: '', spacing_above: none, spacing_below: small, italic: false, background: '',
         bold: false, checked: false, underline: false}
-      name: check_box_latin_t_copy_28
+      name: check_box_puerto_rican_t
       layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 3, width: 25}
     - type: Label
       properties: {role: description, align: left, tooltip: '', border: '', foreground: '',
@@ -2949,7 +2949,7 @@ components:
         foreground: '', allow_indeterminate: false, visible: true, text: '', font_size: null,
         font: '', spacing_above: none, spacing_below: small, italic: false, background: '',
         bold: false, checked: false, underline: false}
-      name: check_box_latin_f_copy_28
+      name: check_box_puerto_rican_f
       layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 5, width: 25}
   - type: GridPanel
     properties: {spacing_above: small, spacing_below: small, background: '', foreground: '',
@@ -2978,7 +2978,7 @@ components:
         foreground: '', allow_indeterminate: false, visible: true, text: '', font_size: null,
         font: '', spacing_above: none, spacing_below: small, italic: false, background: '',
         bold: false, checked: false, underline: false}
-      name: check_box_classic_t_copy_27
+      name: check_box_brazilian_t
       layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 3, width: 25}
     - type: Label
       properties: {role: description, align: left, tooltip: '', border: '', foreground: '',
@@ -2992,7 +2992,7 @@ components:
         foreground: '', allow_indeterminate: false, visible: true, text: '', font_size: null,
         font: '', spacing_above: none, spacing_below: small, italic: false, background: '',
         bold: false, checked: false, underline: false}
-      name: check_box_classic_f_copy_27
+      name: check_box_brazilian_f
       layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 5, width: 25}
     - type: Label
       properties: {role: feature, align: left, tooltip: '', border: '', foreground: '',
@@ -3013,7 +3013,7 @@ components:
         foreground: '', allow_indeterminate: false, visible: true, text: '', font_size: null,
         font: '', spacing_above: none, spacing_below: small, italic: false, background: '',
         bold: false, checked: false, underline: false}
-      name: check_box_latin_t_copy_27
+      name: check_box_argentin_t
       layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 3, width: 25}
     - type: Label
       properties: {role: description, align: left, tooltip: '', border: '', foreground: '',
@@ -3027,7 +3027,7 @@ components:
         foreground: '', allow_indeterminate: false, visible: true, text: '', font_size: null,
         font: '', spacing_above: none, spacing_below: small, italic: false, background: '',
         bold: false, checked: false, underline: false}
-      name: check_box_latin_f_copy_27
+      name: check_box_argentin_f
       layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 5, width: 25}
   - type: GridPanel
     properties: {spacing_above: small, spacing_below: small, background: '', foreground: '',
@@ -3056,7 +3056,7 @@ components:
         foreground: '', allow_indeterminate: false, visible: true, text: '', font_size: null,
         font: '', spacing_above: none, spacing_below: small, italic: false, background: '',
         bold: false, checked: false, underline: false}
-      name: check_box_classic_t_copy_35
+      name: check_box_albanian_t
       layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 3, width: 25}
     - type: Label
       properties: {role: description, align: left, tooltip: '', border: '', foreground: '',
@@ -3070,7 +3070,7 @@ components:
         foreground: '', allow_indeterminate: false, visible: true, text: '', font_size: null,
         font: '', spacing_above: none, spacing_below: small, italic: false, background: '',
         bold: false, checked: false, underline: false}
-      name: check_box_classic_f_copy_35
+      name: check_box_albanian_f
       layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 5, width: 25}
     - type: Label
       properties: {role: feature, align: left, tooltip: '', border: '', foreground: '',
@@ -3091,7 +3091,7 @@ components:
         foreground: '', allow_indeterminate: false, visible: true, text: '', font_size: null,
         font: '', spacing_above: none, spacing_below: small, italic: false, background: '',
         bold: false, checked: false, underline: false}
-      name: check_box_latin_t_copy_35
+      name: check_box_peruan_t
       layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 3, width: 25}
     - type: Label
       properties: {role: description, align: left, tooltip: '', border: '', foreground: '',
@@ -3105,7 +3105,7 @@ components:
         foreground: '', allow_indeterminate: false, visible: true, text: '', font_size: null,
         font: '', spacing_above: none, spacing_below: small, italic: false, background: '',
         bold: false, checked: false, underline: false}
-      name: check_box_latin_f_copy_35
+      name: check_box_peruan_f
       layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 5, width: 25}
   - type: GridPanel
     properties: {spacing_above: small, spacing_below: small, background: '', foreground: '',
@@ -3134,7 +3134,7 @@ components:
         foreground: '', allow_indeterminate: false, visible: true, text: '', font_size: null,
         font: '', spacing_above: none, spacing_below: small, italic: false, background: '',
         bold: false, checked: false, underline: false}
-      name: check_box_classic_t_copy_34
+      name: check_box_moroccan_t
       layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 3, width: 25}
     - type: Label
       properties: {role: description, align: left, tooltip: '', border: '', foreground: '',
@@ -3148,7 +3148,7 @@ components:
         foreground: '', allow_indeterminate: false, visible: true, text: '', font_size: null,
         font: '', spacing_above: none, spacing_below: small, italic: false, background: '',
         bold: false, checked: false, underline: false}
-      name: check_box_classic_f_copy_34
+      name: check_box_moroccan_f
       layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 5, width: 25}
     - type: Label
       properties: {role: feature, align: left, tooltip: '', border: '', foreground: '',
@@ -3169,7 +3169,7 @@ components:
         foreground: '', allow_indeterminate: false, visible: true, text: '', font_size: null,
         font: '', spacing_above: none, spacing_below: small, italic: false, background: '',
         bold: false, checked: false, underline: false}
-      name: check_box_latin_t_copy_34
+      name: check_box_jamaican_t
       layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 3, width: 25}
     - type: Label
       properties: {role: description, align: left, tooltip: '', border: '', foreground: '',
@@ -3183,7 +3183,7 @@ components:
         foreground: '', allow_indeterminate: false, visible: true, text: '', font_size: null,
         font: '', spacing_above: none, spacing_below: small, italic: false, background: '',
         bold: false, checked: false, underline: false}
-      name: check_box_latin_f_copy_34
+      name: check_box_jamaican_f
       layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 5, width: 25}
   - type: GridPanel
     properties: {spacing_above: small, spacing_below: small, background: '', foreground: '',
@@ -3212,7 +3212,7 @@ components:
         foreground: '', allow_indeterminate: false, visible: true, text: '', font_size: null,
         font: '', spacing_above: none, spacing_below: small, italic: false, background: '',
         bold: false, checked: false, underline: false}
-      name: check_box_classic_t_copy_33
+      name: check_box_arab_t
       layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 3, width: 25}
     - type: Label
       properties: {role: description, align: left, tooltip: '', border: '', foreground: '',
@@ -3226,7 +3226,7 @@ components:
         foreground: '', allow_indeterminate: false, visible: true, text: '', font_size: null,
         font: '', spacing_above: none, spacing_below: small, italic: false, background: '',
         bold: false, checked: false, underline: false}
-      name: check_box_classic_f_copy_33
+      name: check_box_arab_f
       layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 5, width: 25}
     - type: Label
       properties: {role: feature, align: left, tooltip: '', border: '', foreground: '',
@@ -3247,7 +3247,7 @@ components:
         foreground: '', allow_indeterminate: false, visible: true, text: '', font_size: null,
         font: '', spacing_above: none, spacing_below: small, italic: false, background: '',
         bold: false, checked: false, underline: false}
-      name: check_box_latin_t_copy_33
+      name: check_box_armenian_t
       layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 3, width: 25}
     - type: Label
       properties: {role: description, align: left, tooltip: '', border: '', foreground: '',
@@ -3261,7 +3261,7 @@ components:
         foreground: '', allow_indeterminate: false, visible: true, text: '', font_size: null,
         font: '', spacing_above: none, spacing_below: small, italic: false, background: '',
         bold: false, checked: false, underline: false}
-      name: check_box_latin_f_copy_33
+      name: check_box_armenian_f
       layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 5, width: 25}
   - type: GridPanel
     properties: {spacing_above: small, spacing_below: small, background: '', foreground: '',
@@ -3290,7 +3290,7 @@ components:
         foreground: '', allow_indeterminate: false, visible: true, text: '', font_size: null,
         font: '', spacing_above: none, spacing_below: small, italic: false, background: '',
         bold: false, checked: false, underline: false}
-      name: check_box_classic_t_copy_32
+      name: check_box_israeli_t
       layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 3, width: 25}
     - type: Label
       properties: {role: description, align: left, tooltip: '', border: '', foreground: '',
@@ -3304,7 +3304,7 @@ components:
         foreground: '', allow_indeterminate: false, visible: true, text: '', font_size: null,
         font: '', spacing_above: none, spacing_below: small, italic: false, background: '',
         bold: false, checked: false, underline: false}
-      name: check_box_classic_f_copy_32
+      name: check_box_israeli_f
       layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 5, width: 25}
   - type: Spacer
     properties: {height: 23}
