@@ -1166,7 +1166,7 @@ components:
         foreground: '', allow_indeterminate: false, visible: true, text: '', font_size: null,
         font: '', spacing_above: none, spacing_below: small, italic: false, background: '',
         bold: false, checked: false, underline: false}
-      name: check_box_hiphop_t
+      name: check_box_hip_hop_t
       layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 3, width: 25}
     - type: Label
       properties: {role: description, align: left, tooltip: '', border: '', foreground: '',
@@ -1180,7 +1180,7 @@ components:
         foreground: '', allow_indeterminate: false, visible: true, text: '', font_size: null,
         font: '', spacing_above: none, spacing_below: small, italic: false, background: '',
         bold: false, checked: false, underline: false}
-      name: check_box_hiphop_f
+      name: check_box_hip_hop_f
       layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 5, width: 25}
     - type: Label
       properties: {role: feature, align: left, tooltip: '', border: '', foreground: '',
@@ -2649,7 +2649,7 @@ components:
     components:
     - type: Label
       properties: {role: feature, align: left, tooltip: '', border: '', foreground: '',
-        visible: true, text: '   Malaysia', font_size: null, font: '', spacing_above: small,
+        visible: true, text: '   Malaysian', font_size: null, font: '', spacing_above: small,
         icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
         underline: false, icon: ''}
       name: label_4_copy_79
@@ -2666,7 +2666,7 @@ components:
         foreground: '', allow_indeterminate: false, visible: true, text: '', font_size: null,
         font: '', spacing_above: none, spacing_below: small, italic: false, background: '',
         bold: false, checked: false, underline: false}
-      name: check_box_malaysia_t
+      name: check_box_malaysian_t
       layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 3, width: 25}
     - type: Label
       properties: {role: description, align: left, tooltip: '', border: '', foreground: '',
@@ -2680,7 +2680,7 @@ components:
         foreground: '', allow_indeterminate: false, visible: true, text: '', font_size: null,
         font: '', spacing_above: none, spacing_below: small, italic: false, background: '',
         bold: false, checked: false, underline: false}
-      name: check_box_malaysia_f
+      name: check_box_malaysian_f
       layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 5, width: 25}
     - type: Label
       properties: {role: feature, align: left, tooltip: '', border: '', foreground: '',
