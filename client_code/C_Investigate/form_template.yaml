@@ -290,7 +290,7 @@ components:
         visible: true, text: '', font_size: 28, font: '', spacing_above: none, icon_align: left,
         spacing_below: none, italic: false, background: '', bold: true, underline: false,
         icon: ''}
-      name: related_matches
+      name: rel_artists_7
       layout_properties: {grid_position: 'RKWJCZ,GZTDPA ZQODLL,NUYOAS MIRRYM,ESAGIH',
         row: XCTFKJ, width_xs: 11, col_xs: 1, width: 72.75}
     - type: Label

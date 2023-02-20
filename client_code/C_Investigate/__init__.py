@@ -50,7 +50,7 @@ class C_Investigate(C_InvestigateTemplate):
     self.max_mus_dis.text = sug["MaxMusDist"]
     
     self.avg_explicit.text = sug["AvgExplicit"] + '%'
-    self.related_matches.text = sug["RelatedMatches"]
+    self.rel_artists_7.text = sug["RelArtists7"]
     
     if (sug["Prediction"] == 'None'):
       pred = 'nan'
