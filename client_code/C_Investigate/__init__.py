@@ -48,8 +48,14 @@ class C_Investigate(C_InvestigateTemplate):
     self.min_mus_dis.text = sug["MinMusDist"]
     self.avg_mus_dis.text = sug["AvgMusDist"]
     self.max_mus_dis.text = sug["MaxMusDist"]
+
+    if (sug["AvgExplicit"] == 'None'):
+      expl = 'nan'
+    else:
+      expl = round(float(sug["AvgExplicit"]), 0)
+    self.avg_explicit.text = str(expl) + '%'
+    # self.avg_explicit.text = sug["AvgExplicit"] + '%'
     
-    self.avg_explicit.text = sug["AvgExplicit"] + '%'
     self.rel_artists_7.text = sug["RelArtists7"]
     
     if (sug["Prediction"] == 'None'):
@@ -68,7 +74,7 @@ class C_Investigate(C_InvestigateTemplate):
     self.c_web_player.html = '<iframe style="border-radius:12px" src="https://open.spotify.com/embed/artist/' + spotify_artist_id + '?utm_source=generator&theme=0" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>'
 
     # BAR CHART    
-    # self.plot_1.figure  = anvil.server.call('create_bar_chart', "AvgDuration", [float(sug["AvgDuration"])], 0, 300)
+    self.plot_1.figure  = anvil.server.call('create_bar_chart', "AvgDuration", [float(sug["AvgDuration"])], 0, 300)
     # self.plot_2.figure  = anvil.server.call('create_bar_chart', "AvgDanceability", [float(sug["AvgDanceability"])], 0, 1)
     # self.plot_3.figure  = anvil.server.call('create_bar_chart', "AvgEnergy", [float(sug["AvgEnergy"])], 0, 1)
     # self.plot_4.figure  = anvil.server.call('create_bar_chart', "AvgKey", [float(sug["AvgKey"])], 0, 11)
