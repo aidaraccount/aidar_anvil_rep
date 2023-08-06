@@ -7,11 +7,11 @@ services:
     confirm_email: true}
   server_config: {user_table: users}
 startup: {type: form, module: Main_Out}
-package_name: AIdAR_prod
+package_name: AIDAR_v1_prod
 allow_embedding: false
-name: AIdAR_prod
+name: AIDAR_v1_prod
 runtime_options: {version: 2, client_version: '3', server_version: python3-full, server_spec: null}
-metadata: {title: AIdAR, logo_img: 'asset:Logo_v2.png'}
+metadata: {title: AIDAR, logo_img: 'asset:Logo_v2.png', description: AI driven A&R}
 startup_form: null
 db_schema:
   users:
