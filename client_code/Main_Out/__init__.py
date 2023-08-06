@@ -28,12 +28,6 @@ class Main_Out(Main_OutTemplate):
     user = anvil.users.get_user()
     if (user != None):
       anvil.server.call('check_user_presence')
-      #anvil.server.call('check_user_presence')
-      #anvil.server.call('check_user_presence')
-      #anvil.server.call('check_user_presence')
-      #anvil.server.call('check_user_presence')
-      #anvil.server.call('check_user_presence')
-      #anvil.server.call('check_user_presence')
       open_form('Main_In', user_id = user["user_id"])
       
   def link_logout_click(self, **event_args):

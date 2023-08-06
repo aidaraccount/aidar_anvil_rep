@@ -36,6 +36,13 @@ header>.nav-links>span {
 }
 
 /* ---- OWN ADJUSTMENTS ----------------------- */
+#loadingSpinner {
+    color: %color:Orange% !important;
+    border-top-color: orange;
+    background-color: green;
+    border-top-color: black;
+}
+
 .anvil-role-table_content {
   font-size: 14px;
   color: %color:Text_Grey%;
@@ -52,14 +59,6 @@ header>.nav-links>span {
 .anvil-role-sub_title {
   font-size: 22px;
   font-weight: bold;
-  color: %color:Text_Grey%;
-  color: %color:Text_Grey%;
-  color: %color:Text_Grey%;
-  color: %color:Text_Grey%;
-  color: %color:Text_Grey%;
-  color: %color:Text_Grey%;
-  color: %color:Text_Grey%;
-  color: %color:Text_Grey%;
   color: %color:Text_Grey%;
 }
 .anvil-role-description {
