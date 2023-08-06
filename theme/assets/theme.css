@@ -37,10 +37,7 @@ header>.nav-links>span {
 
 /* ---- OWN ADJUSTMENTS ----------------------- */
 #loadingSpinner {
-    color: %color:Orange% !important;
-    border-top-color: orange;
-    background-color: green;
-    border-top-color: black;
+    background-image: url(https://i.imgur.com/JPttykR.gif) !important;
 }
 
 .anvil-role-table_content {
