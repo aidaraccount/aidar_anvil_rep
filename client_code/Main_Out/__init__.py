@@ -5,6 +5,7 @@ import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
 import anvil.users
+import datetime
 
 from ..Main_In import Main_In
 from ..C_LandingPage import C_LandingPage
@@ -21,17 +22,18 @@ class Main_Out(Main_OutTemplate):
     check_log_status(self)
     
   def link_login_click(self, **event_args):
+    print(f'Login Click - Start {datetime.datetime.now()}', flush=True)
     anvil.users.login_with_form(allow_cancel=True, remember_by_default=True)
     check_log_status(self)
     user = anvil.users.get_user()
     if (user != None):
       anvil.server.call('check_user_presence')
-      anvil.server.call('check_user_presence')
-      anvil.server.call('check_user_presence')
-      anvil.server.call('check_user_presence')
-      anvil.server.call('check_user_presence')
-      anvil.server.call('check_user_presence')
-      anvil.server.call('check_user_presence')
+      #anvil.server.call('check_user_presence')
+      #anvil.server.call('check_user_presence')
+      #anvil.server.call('check_user_presence')
+      #anvil.server.call('check_user_presence')
+      #anvil.server.call('check_user_presence')
+      #anvil.server.call('check_user_presence')
       open_form('Main_In', user_id = user["user_id"])
       
   def link_logout_click(self, **event_args):
@@ -40,6 +42,7 @@ class Main_Out(Main_OutTemplate):
     
 
 def check_log_status(self, **event_args):
+  print(f'Check log status - Start {datetime.datetime.now()}', flush=True)
   if (anvil.users.get_user() == None):
     self.link_login.visible = True
     self.link_logout.visible = False

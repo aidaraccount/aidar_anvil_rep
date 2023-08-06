@@ -27,7 +27,7 @@ components:
   name: column_panel_1_copy
   layout_properties:
     col_widths: {}
-    grid_position: TKJSAB,RZCXZX
+    grid_position: TKJSAB,CLXJAB
   components:
   - type: GridPanel
     properties: {spacing_above: none, spacing_below: none, background: '', foreground: '',
@@ -422,199 +422,287 @@ components:
       name: label_3_copy_6
       layout_properties: {row: YBKRPG, width_xs: 11, col_xs: 1, width: 199.167}
   - type: GridPanel
-    properties: {spacing_above: small, spacing_below: small, background: '', foreground: '',
-      border: '', visible: true, role: grid, tooltip: ''}
-    name: grid_panel_7_copy_11
+    properties: {spacing_above: small, spacing_below: none, background: 'theme:Primary
+        Container', foreground: '', border: '', visible: true, role: grid, tooltip: ''}
+    name: grid_panel_3_copy_7
     layout_properties:
       col_widths: {}
-      grid_position: RKWJCZ,GZTDPA IIZNUH,PBZWLT
-      row_background: ''
+      grid_position: RKWJCZ,GZTDPA OFIVAZ,HTFIYX
+      full_width_row: true
     components:
-    - type: Plot
-      properties: {spacing_above: small, spacing_below: small, height: '200', visible: true,
-        tooltip: '', interactive: true}
-      name: plot_1
-      layout_properties:
-        col_widths: {}
-        grid_position: RKWJCZ,GZTDPA XFGKFV,QTDOWV
-        width: 111.067
+    - type: Label
+      properties: {role: value, align: left, tooltip: '', border: '', foreground: 'theme:PrimaryNumber',
+        visible: true, text: '', font_size: 28, font: '', spacing_above: none, icon_align: left,
+        spacing_below: none, italic: false, background: '', bold: true, underline: false,
+        icon: ''}
+      name: feature_1
+      layout_properties: {row: CONETN, width_xs: 8, col_xs: 1, width: 72.75}
+    - type: Label
+      properties: {role: feature, align: left, tooltip: '', border: '', foreground: '',
+        visible: true, text: Avg. Duration, font_size: null, font: '', spacing_above: none,
+        icon_align: left, spacing_below: none, italic: false, background: '', bold: false,
+        underline: false, icon: ''}
+      name: label_3_copy_11
+      layout_properties: {row: ZWKOGK, width_xs: 8, col_xs: 1, width: 157.5}
   - type: GridPanel
-    properties: {spacing_above: small, spacing_below: small, background: '', foreground: '',
-      border: '', visible: true, role: grid, tooltip: ''}
-    name: grid_panel_7_copy_10
+    properties: {spacing_above: small, spacing_below: none, background: 'theme:Primary
+        Container', foreground: '', border: '', visible: true, role: grid, tooltip: ''}
+    name: grid_panel_4_copy_2
     layout_properties:
       col_widths: {}
-      grid_position: RKWJCZ,GZTDPA IIZNUH,IHYXTL
-      row_background: ''
+      grid_position: RKWJCZ,GZTDPA OFIVAZ,AYUNFU
+      full_width_row: true
     components:
-    - type: Plot
-      properties: {spacing_above: small, spacing_below: small, height: '200', visible: true,
-        tooltip: '', interactive: true}
-      name: plot_2
-      layout_properties:
-        col_widths: {}
-        grid_position: RKWJCZ,GZTDPA XFGKFV,QTDOWV
-        width: 111.067
+    - type: Label
+      properties: {role: value, align: left, tooltip: '', border: '', foreground: 'theme:PrimaryNumber',
+        visible: true, text: '', font_size: 28, font: '', spacing_above: none, icon_align: left,
+        spacing_below: none, italic: false, background: '', bold: true, underline: false,
+        icon: ''}
+      name: feature_2
+      layout_properties: {row: OCXZRC, width_xs: 11, col_xs: 1, width: 72.75}
+    - type: Label
+      properties: {role: feature, align: left, tooltip: '', border: '', foreground: '',
+        visible: true, text: Avg. Danceability, font_size: null, font: '', spacing_above: none,
+        icon_align: left, spacing_below: none, italic: false, background: '', bold: false,
+        underline: false, icon: ''}
+      name: label_5_copy_2
+      layout_properties: {row: LBJGAO, width_xs: 11, col_xs: 1, width: 199.167}
   - type: GridPanel
-    properties: {spacing_above: small, spacing_below: small, background: '', foreground: '',
-      border: '', visible: true, role: grid, tooltip: ''}
-    name: grid_panel_7_copy_9
+    properties: {spacing_above: small, spacing_below: none, background: 'theme:Primary
+        Container', foreground: '', border: '', visible: true, role: grid, tooltip: ''}
+    name: grid_panel_5_copy_5
     layout_properties:
       col_widths: {}
-      grid_position: RKWJCZ,GZTDPA IIZNUH,ASVFPY
-      row_background: ''
+      grid_position: RKWJCZ,GZTDPA OFIVAZ,HLUKZW
+      full_width_row: true
     components:
-    - type: Plot
-      properties: {spacing_above: small, spacing_below: small, height: '200', visible: true,
-        tooltip: '', interactive: true}
-      name: plot_3
-      layout_properties:
-        col_widths: {}
-        grid_position: RKWJCZ,GZTDPA XFGKFV,QTDOWV
-        width: 111.067
+    - type: Label
+      properties: {role: value, align: left, tooltip: '', border: '', foreground: 'theme:PrimaryNumber',
+        visible: true, text: '', font_size: 28, font: '', spacing_above: none, icon_align: left,
+        spacing_below: none, italic: false, background: '', bold: true, underline: false,
+        icon: ''}
+      name: feature_3
+      layout_properties: {grid_position: 'RKWJCZ,GZTDPA ZQODLL,NUYOAS MIRRYM,ESAGIH',
+        row: XCTFKJ, width_xs: 11, col_xs: 1, width: 72.75}
+    - type: Label
+      properties: {role: feature, align: left, tooltip: '', border: '', foreground: '',
+        visible: true, text: 'Anv. Energy
+
+          ', font_size: null, font: '', spacing_above: none, icon_align: left, spacing_below: none,
+        italic: false, background: '', bold: false, underline: false, icon: ''}
+      name: label_7_copy_5
+      layout_properties: {row: MXSGTS, width_xs: 11, col_xs: 1, width: 199.167}
   - type: GridPanel
-    properties: {spacing_above: small, spacing_below: small, background: '', foreground: '',
-      border: '', visible: true, role: grid, tooltip: ''}
-    name: grid_panel_7_copy_8
+    properties: {spacing_above: small, spacing_below: none, background: 'theme:Primary
+        Container', foreground: '', border: '', visible: true, role: grid, tooltip: ''}
+    name: grid_panel_5_copy_6
     layout_properties:
       col_widths: {}
-      grid_position: RKWJCZ,GZTDPA IIZNUH,WVYVUT
-      row_background: ''
+      grid_position: RKWJCZ,GZTDPA SHGJXW,AHXUFX
+      full_width_row: true
     components:
-    - type: Plot
-      properties: {spacing_above: small, spacing_below: small, height: '200', visible: true,
-        tooltip: '', interactive: true}
-      name: plot_4
-      layout_properties:
-        col_widths: {}
-        grid_position: RKWJCZ,GZTDPA XFGKFV,QTDOWV
-        width: 111.067
+    - type: Label
+      properties: {role: value, align: left, tooltip: '', border: '', foreground: 'theme:PrimaryNumber',
+        visible: true, text: '', font_size: 28, font: '', spacing_above: none, icon_align: left,
+        spacing_below: none, italic: false, background: '', bold: true, underline: false,
+        icon: ''}
+      name: feature_4
+      layout_properties: {grid_position: 'RKWJCZ,GZTDPA ZQODLL,NUYOAS MIRRYM,ESAGIH',
+        row: XCTFKJ, width_xs: 11, col_xs: 1, width: 72.75}
+    - type: Label
+      properties: {role: feature, align: left, tooltip: '', border: '', foreground: '',
+        visible: true, text: Anv. Key, font_size: null, font: '', spacing_above: none,
+        icon_align: left, spacing_below: none, italic: false, background: '', bold: false,
+        underline: false, icon: ''}
+      name: label_7_copy_6
+      layout_properties: {row: MXSGTS, width_xs: 11, col_xs: 1, width: 148.75}
   - type: GridPanel
-    properties: {spacing_above: small, spacing_below: small, background: '', foreground: '',
-      border: '', visible: true, role: grid, tooltip: ''}
-    name: grid_panel_7_copy_7
+    properties: {spacing_above: small, spacing_below: none, background: 'theme:Primary
+        Container', foreground: '', border: '', visible: true, role: grid, tooltip: ''}
+    name: grid_panel_4_copy_3
     layout_properties:
       col_widths: {}
-      grid_position: RKWJCZ,GZTDPA WXSMQN,JZVNLQ
+      grid_position: RKWJCZ,GZTDPA SHGJXW,OUKHNE
+      full_width_row: true
     components:
-    - type: Plot
-      properties: {spacing_above: small, spacing_below: small, height: '200', visible: true,
-        tooltip: '', interactive: true}
-      name: plot_5
-      layout_properties:
-        col_widths: {}
-        grid_position: RKWJCZ,GZTDPA XFGKFV,QTDOWV
-        width: 111.067
+    - type: Label
+      properties: {role: value, align: left, tooltip: '', border: '', foreground: 'theme:PrimaryNumber',
+        visible: true, text: '', font_size: 28, font: '', spacing_above: none, icon_align: left,
+        spacing_below: none, italic: false, background: '', bold: true, underline: false,
+        icon: ''}
+      name: feature_5
+      layout_properties: {row: OCXZRC, width_xs: 11, col_xs: 1, width: 72.75}
+    - type: Label
+      properties: {role: feature, align: left, tooltip: '', border: '', foreground: '',
+        visible: true, text: Avg. Loudness, font_size: null, font: '', spacing_above: none,
+        icon_align: left, spacing_below: none, italic: false, background: '', bold: false,
+        underline: false, icon: ''}
+      name: label_5_copy_3
+      layout_properties: {row: LBJGAO, width_xs: 11, col_xs: 1, width: 148.75}
   - type: GridPanel
-    properties: {spacing_above: small, spacing_below: small, background: '', foreground: '',
-      border: '', visible: true, role: grid, tooltip: ''}
-    name: grid_panel_7_copy_6
+    properties: {spacing_above: small, spacing_below: none, background: 'theme:Primary
+        Container', foreground: '', border: '', visible: true, role: grid, tooltip: ''}
+    name: grid_panel_3_copy_8
     layout_properties:
       col_widths: {}
-      grid_position: RKWJCZ,GZTDPA WXSMQN,RZNQWN
+      grid_position: RKWJCZ,GZTDPA SHGJXW,XUGEAK
+      full_width_row: true
     components:
-    - type: Plot
-      properties: {spacing_above: small, spacing_below: small, height: '200', visible: true,
-        tooltip: '', interactive: true}
-      name: plot_6
-      layout_properties:
-        col_widths: {}
-        grid_position: RKWJCZ,GZTDPA XFGKFV,QTDOWV
-        width: 111.067
+    - type: Label
+      properties: {role: value, align: left, tooltip: '', border: '', foreground: 'theme:PrimaryNumber',
+        visible: true, text: '', font_size: 28, font: '', spacing_above: none, icon_align: left,
+        spacing_below: none, italic: false, background: '', bold: true, underline: false,
+        icon: ''}
+      name: feature_6
+      layout_properties: {row: CONETN, width_xs: 8, col_xs: 1, width: 72.75}
+    - type: Label
+      properties: {role: feature, align: left, tooltip: '', border: '', foreground: '',
+        visible: true, text: Avg. Mode, font_size: null, font: '', spacing_above: none,
+        icon_align: left, spacing_below: none, italic: false, background: '', bold: false,
+        underline: false, icon: ''}
+      name: label_3_copy_12
+      layout_properties: {row: ZWKOGK, width_xs: 8, col_xs: 1, width: 100}
   - type: GridPanel
-    properties: {spacing_above: small, spacing_below: small, background: '', foreground: '',
-      border: '', visible: true, role: grid, tooltip: ''}
-    name: grid_panel_7_copy_5
+    properties: {spacing_above: small, spacing_below: none, background: 'theme:Primary
+        Container', foreground: '', border: '', visible: true, role: grid, tooltip: ''}
+    name: grid_panel_5_copy_7
     layout_properties:
       col_widths: {}
-      grid_position: RKWJCZ,GZTDPA WXSMQN,TYYHGH
+      grid_position: RKWJCZ,GZTDPA AJEOVV,RDCPRQ
+      full_width_row: true
     components:
-    - type: Plot
-      properties: {spacing_above: small, spacing_below: small, height: '200', visible: true,
-        tooltip: '', interactive: true}
-      name: plot_7
-      layout_properties:
-        col_widths: {}
-        grid_position: RKWJCZ,GZTDPA XFGKFV,QTDOWV
-        width: 111.067
+    - type: Label
+      properties: {role: value, align: left, tooltip: '', border: '', foreground: 'theme:PrimaryNumber',
+        visible: true, text: '', font_size: 28, font: '', spacing_above: none, icon_align: left,
+        spacing_below: none, italic: false, background: '', bold: true, underline: false,
+        icon: ''}
+      name: feature_7
+      layout_properties: {grid_position: 'RKWJCZ,GZTDPA ZQODLL,NUYOAS MIRRYM,ESAGIH',
+        row: XCTFKJ, width_xs: 11, col_xs: 1, width: 72.75}
+    - type: Label
+      properties: {role: feature, align: left, tooltip: '', border: '', foreground: '',
+        visible: true, text: 'Anv. Speechiness
+
+          ', font_size: null, font: '', spacing_above: none, icon_align: left, spacing_below: none,
+        italic: false, background: '', bold: false, underline: false, icon: ''}
+      name: label_7_copy_7
+      layout_properties: {row: MXSGTS, width_xs: 11, col_xs: 1, width: 148.75}
   - type: GridPanel
-    properties: {spacing_above: small, spacing_below: small, background: '', foreground: '',
-      border: '', visible: true, role: grid, tooltip: ''}
-    name: grid_panel_7_copy_4
+    properties: {spacing_above: small, spacing_below: none, background: 'theme:Primary
+        Container', foreground: '', border: '', visible: true, role: grid, tooltip: ''}
+    name: grid_panel_4_copy_4
     layout_properties:
       col_widths: {}
-      grid_position: RKWJCZ,GZTDPA WXSMQN,NCZSQF
+      grid_position: RKWJCZ,GZTDPA AJEOVV,GNWYCE
+      full_width_row: true
     components:
-    - type: Plot
-      properties: {spacing_above: small, spacing_below: small, height: '200', visible: true,
-        tooltip: '', interactive: true}
-      name: plot_8
-      layout_properties:
-        col_widths: {}
-        grid_position: RKWJCZ,GZTDPA XFGKFV,QTDOWV
-        width: 111.067
+    - type: Label
+      properties: {role: value, align: left, tooltip: '', border: '', foreground: 'theme:PrimaryNumber',
+        visible: true, text: '', font_size: 28, font: '', spacing_above: none, icon_align: left,
+        spacing_below: none, italic: false, background: '', bold: true, underline: false,
+        icon: ''}
+      name: feature_8
+      layout_properties: {row: OCXZRC, width_xs: 11, col_xs: 1, width: 72.75}
+    - type: Label
+      properties: {role: feature, align: left, tooltip: '', border: '', foreground: '',
+        visible: true, text: Avg. Acousticness, font_size: null, font: '', spacing_above: none,
+        icon_align: left, spacing_below: none, italic: false, background: '', bold: false,
+        underline: false, icon: ''}
+      name: label_5_copy_4
+      layout_properties: {row: LBJGAO, width_xs: 11, col_xs: 1, width: 148.75}
   - type: GridPanel
-    properties: {spacing_above: small, spacing_below: small, background: '', foreground: '',
-      border: '', visible: true, role: grid, tooltip: ''}
-    name: grid_panel_7_copy_3
+    properties: {spacing_above: small, spacing_below: none, background: 'theme:Primary
+        Container', foreground: '', border: '', visible: true, role: grid, tooltip: ''}
+    name: grid_panel_3_copy_9
     layout_properties:
       col_widths: {}
-      grid_position: RKWJCZ,GZTDPA XFGKFV,YOKUQM
+      grid_position: RKWJCZ,GZTDPA AJEOVV,BTJLSX
+      full_width_row: true
     components:
-    - type: Plot
-      properties: {spacing_above: small, spacing_below: small, height: '200', visible: true,
-        tooltip: '', interactive: true}
-      name: plot_9
-      layout_properties:
-        col_widths: {}
-        grid_position: RKWJCZ,GZTDPA XFGKFV,QTDOWV
-        width: 111.067
+    - type: Label
+      properties: {role: value, align: left, tooltip: '', border: '', foreground: 'theme:PrimaryNumber',
+        visible: true, text: '', font_size: 28, font: '', spacing_above: none, icon_align: left,
+        spacing_below: none, italic: false, background: '', bold: true, underline: false,
+        icon: ''}
+      name: feature_9
+      layout_properties: {row: CONETN, width_xs: 8, col_xs: 1, width: 72.75}
+    - type: Label
+      properties: {role: feature, align: left, tooltip: '', border: '', foreground: '',
+        visible: true, text: Avg. Instrumentalness, font_size: null, font: '', spacing_above: none,
+        icon_align: left, spacing_below: none, italic: false, background: '', bold: false,
+        underline: false, icon: ''}
+      name: label_3_copy_13
+      layout_properties: {row: ZWKOGK, width_xs: 8, col_xs: 1, width: 100}
   - type: GridPanel
-    properties: {spacing_above: small, spacing_below: small, background: '', foreground: '',
-      border: '', visible: true, role: grid, tooltip: ''}
-    name: grid_panel_7_copy_2
+    properties: {spacing_above: small, spacing_below: none, background: 'theme:Primary
+        Container', foreground: '', border: '', visible: true, role: grid, tooltip: ''}
+    name: grid_panel_3_copy_10
     layout_properties:
       col_widths: {}
-      grid_position: RKWJCZ,GZTDPA XFGKFV,IMBKXQ
+      grid_position: RKWJCZ,GZTDPA XXRBKW,CXFRMO
+      full_width_row: true
     components:
-    - type: Plot
-      properties: {spacing_above: small, spacing_below: small, height: '200', visible: true,
-        tooltip: '', interactive: true}
-      name: plot_10
-      layout_properties:
-        col_widths: {}
-        grid_position: RKWJCZ,GZTDPA XFGKFV,QTDOWV
-        width: 111.067
+    - type: Label
+      properties: {role: value, align: left, tooltip: '', border: '', foreground: 'theme:PrimaryNumber',
+        visible: true, text: '', font_size: 28, font: '', spacing_above: none, icon_align: left,
+        spacing_below: none, italic: false, background: '', bold: true, underline: false,
+        icon: ''}
+      name: feature_10
+      layout_properties: {row: CONETN, width_xs: 8, col_xs: 1, width: 72.75}
+    - type: Label
+      properties: {role: feature, align: left, tooltip: '', border: '', foreground: '',
+        visible: true, text: Avg. Liveness, font_size: null, font: '', spacing_above: none,
+        icon_align: left, spacing_below: none, italic: false, background: '', bold: false,
+        underline: false, icon: ''}
+      name: label_3_copy_14
+      layout_properties: {row: ZWKOGK, width_xs: 8, col_xs: 1, width: 100}
   - type: GridPanel
-    properties: {spacing_above: small, spacing_below: small, background: '', foreground: '',
-      border: '', visible: true, role: grid, tooltip: ''}
-    name: grid_panel_7_copy
+    properties: {spacing_above: small, spacing_below: none, background: 'theme:Primary
+        Container', foreground: '', border: '', visible: true, role: grid, tooltip: ''}
+    name: grid_panel_4_copy_5
     layout_properties:
       col_widths: {}
-      grid_position: RKWJCZ,GZTDPA XFGKFV,UNIZZQ
+      grid_position: RKWJCZ,GZTDPA XXRBKW,BKBCZH
+      full_width_row: true
     components:
-    - type: Plot
-      properties: {spacing_above: small, spacing_below: small, height: '200', visible: true,
-        tooltip: '', interactive: true}
-      name: plot_11
-      layout_properties:
-        col_widths: {}
-        grid_position: RKWJCZ,GZTDPA XFGKFV,QTDOWV
-        width: 111.067
+    - type: Label
+      properties: {role: value, align: left, tooltip: '', border: '', foreground: 'theme:PrimaryNumber',
+        visible: true, text: '', font_size: 28, font: '', spacing_above: none, icon_align: left,
+        spacing_below: none, italic: false, background: '', bold: true, underline: false,
+        icon: ''}
+      name: feature_11
+      layout_properties: {row: OCXZRC, width_xs: 11, col_xs: 1, width: 72.75}
+    - type: Label
+      properties: {role: feature, align: left, tooltip: '', border: '', foreground: '',
+        visible: true, text: Avg. Valence, font_size: null, font: '', spacing_above: none,
+        icon_align: left, spacing_below: none, italic: false, background: '', bold: false,
+        underline: false, icon: ''}
+      name: label_5_copy_5
+      layout_properties: {row: LBJGAO, width_xs: 11, col_xs: 1, width: 148.75}
   - type: GridPanel
-    properties: {spacing_above: small, spacing_below: medium, background: '', foreground: '',
-      border: '', visible: true, role: grid, tooltip: ''}
-    name: grid_panel_7
-    layout_properties: {grid_position: 'RKWJCZ,GZTDPA XFGKFV,YDBTFA'}
+    properties: {spacing_above: small, spacing_below: none, background: 'theme:Primary
+        Container', foreground: '', border: '', visible: true, role: grid, tooltip: ''}
+    name: grid_panel_5_copy_8
+    layout_properties:
+      col_widths: {}
+      grid_position: RKWJCZ,GZTDPA XXRBKW,WRQHXC
+      full_width_row: true
     components:
-    - type: Plot
-      properties: {spacing_above: small, spacing_below: small, height: '200', visible: true,
-        tooltip: '', interactive: true}
-      name: plot_12
-      layout_properties:
-        col_widths: {}
-        grid_position: RKWJCZ,GZTDPA XFGKFV,QTDOWV
-        width: 111.067
+    - type: Label
+      properties: {role: value, align: left, tooltip: '', border: '', foreground: 'theme:PrimaryNumber',
+        visible: true, text: '', font_size: 28, font: '', spacing_above: none, icon_align: left,
+        spacing_below: none, italic: false, background: '', bold: true, underline: false,
+        icon: ''}
+      name: feature_12
+      layout_properties: {grid_position: 'RKWJCZ,GZTDPA ZQODLL,NUYOAS MIRRYM,ESAGIH',
+        row: XCTFKJ, width_xs: 11, col_xs: 1, width: 72.75}
+    - type: Label
+      properties: {role: feature, align: left, tooltip: '', border: '', foreground: '',
+        visible: true, text: Anv. Tempo, font_size: null, font: '', spacing_above: none,
+        icon_align: left, spacing_below: none, italic: false, background: '', bold: false,
+        underline: false, icon: ''}
+      name: label_7_copy_8
+      layout_properties: {row: MXSGTS, width_xs: 11, col_xs: 1, width: 148.75}
   - type: form:C_WebPlayer
     properties: {}
     name: c_web_player

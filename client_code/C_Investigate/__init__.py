@@ -7,6 +7,8 @@ from anvil.tables import app_tables
 import anvil.users
 import anvil.server
 import json
+import datetime
+import plotly.graph_objects as go
 
 class C_Investigate(C_InvestigateTemplate):
   def __init__(self, **properties):
@@ -23,6 +25,7 @@ class C_Investigate(C_InvestigateTemplate):
 
   
   def refresh_sug(self, **event_args):
+    print(f'Refresh Sug - Start {datetime.datetime.now()}', flush=True)
     sug = json.loads(anvil.server.call('GetSug', cur_model_id))
     global artist_id
     artist_id = int(sug["ArtistID"])
@@ -45,10 +48,16 @@ class C_Investigate(C_InvestigateTemplate):
     self.major_coop.text = sug["MajorCoop"]
     self.sub_major_coop.text = sug["SubMajorCoop"]
     
-    self.min_mus_dis.text = sug["MinMusDist"]
-    self.avg_mus_dis.text = sug["AvgMusDist"]
-    self.max_mus_dis.text = sug["MaxMusDist"]
-
+    if sug["MinMusDist"] == 'None': mmd = 'nan'
+    else: mmd = round(float(sug["MinMusDist"]),2)
+    self.min_mus_dis.text = mmd
+    if sug["AvgMusDist"] == 'None': amd = 'nan'
+    else: amd = round(float(sug["AvgMusDist"]),2)
+    self.avg_mus_dis.text = amd
+    if sug["MaxMusDist"] == 'None': xmd = 'nan'
+    else: xmd = round(float(sug["MaxMusDist"]),2)
+    self.max_mus_dis.text = xmd
+    
     if (sug["AvgExplicit"] == 'None'):
       expl = 'nan'
     else:
@@ -73,20 +82,45 @@ class C_Investigate(C_InvestigateTemplate):
     
     self.c_web_player.html = '<iframe style="border-radius:12px" src="https://open.spotify.com/embed/artist/' + spotify_artist_id + '?utm_source=generator&theme=0" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>'
 
-    # BAR CHART    
-    self.plot_1.figure  = anvil.server.call('create_bar_chart', "AvgDuration", [float(sug["AvgDuration"])], 0, 300)
-    # self.plot_2.figure  = anvil.server.call('create_bar_chart', "AvgDanceability", [float(sug["AvgDanceability"])], 0, 1)
-    # self.plot_3.figure  = anvil.server.call('create_bar_chart', "AvgEnergy", [float(sug["AvgEnergy"])], 0, 1)
-    # self.plot_4.figure  = anvil.server.call('create_bar_chart', "AvgKey", [float(sug["AvgKey"])], 0, 11)
-    # self.plot_5.figure  = anvil.server.call('create_bar_chart', "AvgLoudness", [float(sug["AvgLoudness"])], -30, 0)
-    # self.plot_6.figure  = anvil.server.call('create_bar_chart', "AvgMode", [float(sug["AvgMode"])], 0, 1)
-    # self.plot_7.figure  = anvil.server.call('create_bar_chart', "AvgSpeechiness", [float(sug["AvgSpeechiness"])], 0, 1)
-    # self.plot_8.figure  = anvil.server.call('create_bar_chart', "AvgAcousticness", [float(sug["AvgAcousticness"])], 0, 1)
-    # self.plot_9.figure  = anvil.server.call('create_bar_chart', "AvgInstrumentalness", [float(sug["AvgInstrumentalness"])], 0, 1)
-    # self.plot_10.figure = anvil.server.call('create_bar_chart', "AvgLiveness", [float(sug["AvgLiveness"])], 0, 1)
-    # self.plot_11.figure = anvil.server.call('create_bar_chart', "AvgValence", [float(sug["AvgValence"])], 0, 1)
-    # self.plot_12.figure = anvil.server.call('create_bar_chart', "AvgTempo", [float(sug["AvgTempo"])], 0, 200)
-    
+    # BAR CHART
+    print(f'FEATURES - Start {datetime.datetime.now()}', flush=True)
+    if sug["AvgDuration"] == 'None': f1 = 'nan'
+    else: f1 = "{:.0f}".format(round(float(sug["AvgDuration"]),0))
+    self.feature_1.text = f1    
+    if sug["AvgDanceability"] == 'None': f2 = 'nan'
+    else: f2 = "{:.2f}".format(round(float(sug["AvgDanceability"]),2))
+    self.feature_2.text = f2        
+    if sug["AvgEnergy"] == 'None': f3 = 'nan'
+    else: f3 = "{:.2f}".format(round(float(sug["AvgEnergy"]),2))
+    self.feature_3.text = f3    
+    if sug["AvgKey"] == 'None': f4 = 'nan'
+    else: f4 = "{:.0f}".format(round(float(sug["AvgKey"]),0))
+    self.feature_4.text = f4    
+    if sug["AvgLoudness"] == 'None': f5 = 'nan'
+    else: f5 = "{:.2f}".format(round(float(sug["AvgLoudness"]),2))
+    self.feature_5.text = f5    
+    if sug["AvgMode"] == 'None': f6 = 'nan'
+    else: f6 = "{:.1f}".format(round(float(sug["AvgMode"]),1))
+    self.feature_6.text = f6
+    if sug["AvgSpeechiness"] == 'None': f7 = 'nan'
+    else: f7 = "{:.2f}".format(round(float(sug["AvgSpeechiness"]),2))
+    self.feature_7.text = f7    
+    if sug["AvgAcousticness"] == 'None': f8 = 'nan'
+    else: f8 = "{:.2f}".format(round(float(sug["AvgAcousticness"]),2))
+    self.feature_8.text = f8    
+    if sug["AvgInstrumentalness"] == 'None': f9 = 'nan'
+    else: f9 = "{:.2f}".format(round(float(sug["AvgInstrumentalness"]),2))
+    self.feature_9.text = f9    
+    if sug["AvgLiveness"] == 'None': f10 = 'nan'
+    else: f10 = "{:.2f}".format(round(float(sug["AvgLiveness"]),2))
+    self.feature_10.text = f10    
+    if sug["AvgValence"] == 'None': f11 = 'nan'
+    else: f11 = "{:.2f}".format(round(float(sug["AvgValence"]),2))
+    self.feature_11.text = f11    
+    if sug["AvgTempo"] == 'None': f12 = 'nan'
+    else: f12 = "{:.0f}".format(round(float(sug["AvgTempo"]),0))
+    self.feature_12.text = f12    
+    print(f'FEATURES - End {datetime.datetime.now()}', flush=True)
     
   def button_1_click(self, **event_args):
     anvil.server.call('AddInterest', cur_model_id, artist_id, 1)
