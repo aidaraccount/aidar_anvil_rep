@@ -1,8 +1,8 @@
 container:
   type: ColumnPanel
   properties: {role: null, tooltip: '', border: '', foreground: '', visible: true,
-    wrap_on: mobile, col_spacing: none, spacing_above: none, col_widths: '{}', spacing_below: none,
-    background: 'theme:Main_Black'}
+    wrap_on: mobile, col_spacing: none, spacing_above: none, col_widths: '{"KUYACO":30,"KBURSV":30}',
+    spacing_below: none, background: 'theme:Main_Black'}
 components:
 - type: ColumnPanel
   properties: {role: null, tooltip: '', border: '', foreground: '', visible: true,
@@ -36,7 +36,7 @@ components:
       layout_properties: {grid_position: 'GLNTEN,KLPAMI', full_width_row: true}
       components:
       - type: Link
-        properties: {role: null, url: '', align: left, tooltip: '', border: '', foreground: '',
+        properties: {role: null, url: '', align: left, tooltip: '', border: '', foreground: 'theme:Text_White',
           visible: true, text: LOGOUT, font_size: null, wrap_on: mobile, font: '',
           col_spacing: small, spacing_above: small, icon_align: left, col_widths: '',
           spacing_below: small, italic: false, background: '', bold: false, underline: false,
@@ -45,7 +45,7 @@ components:
         layout_properties: {}
         event_bindings: {click: link_logout_click}
       - type: Link
-        properties: {role: null, url: '', align: left, tooltip: '', border: '', foreground: '',
+        properties: {role: null, url: '', align: left, tooltip: '', border: '', foreground: 'theme:Text_White',
           visible: true, text: LOGIN, font_size: null, wrap_on: mobile, font: '',
           col_spacing: small, spacing_above: small, icon_align: left, col_widths: '',
           spacing_below: small, italic: false, background: '', bold: false, underline: false,
@@ -54,7 +54,7 @@ components:
         layout_properties: {}
         event_bindings: {click: link_login_click}
       - type: Link
-        properties: {role: null, url: '', align: left, tooltip: '', border: '', foreground: '',
+        properties: {role: null, url: '', align: left, tooltip: '', border: '', foreground: 'theme:Text_White',
           visible: true, text: REGISTER, font_size: null, wrap_on: mobile, font: '',
           col_spacing: small, spacing_above: small, icon_align: left, col_widths: '',
           spacing_below: small, italic: false, background: '', bold: false, underline: false,
@@ -62,7 +62,7 @@ components:
         name: link_3
         layout_properties: {}
       - type: Link
-        properties: {role: null, url: '', align: left, tooltip: '', border: '', foreground: '',
+        properties: {role: null, url: '', align: left, tooltip: '', border: '', foreground: 'theme:Text_White',
           visible: true, text: ABOUT, font_size: null, wrap_on: mobile, font: '',
           col_spacing: small, spacing_above: small, icon_align: left, col_widths: '',
           spacing_below: small, italic: false, background: '', bold: false, underline: false,
@@ -70,7 +70,7 @@ components:
         name: link_2
         layout_properties: {}
       - type: Link
-        properties: {role: null, url: '', align: left, tooltip: '', border: '', foreground: '',
+        properties: {role: null, url: '', align: left, tooltip: '', border: '', foreground: 'theme:Text_White',
           visible: true, text: CONTACT, font_size: null, wrap_on: mobile, font: '',
           col_spacing: small, spacing_above: small, icon_align: left, col_widths: '',
           spacing_below: small, italic: false, background: '', bold: false, underline: false,
@@ -97,38 +97,57 @@ components:
       source: _/theme/pics/Artist_Text.png, spacing_below: small, background: '',
       horizontal_align: center}
     name: image_1
-    layout_properties: {grid_position: 'PLKGRT,WLEIIJ', full_width_row: true}
-- type: ColumnPanel
-  properties: {role: null, tooltip: '', border: '', foreground: '', visible: true,
-    wrap_on: mobile, col_spacing: medium, spacing_above: none, col_widths: '{}', spacing_below: none,
-    background: 'theme:Background'}
-  name: column_panel_3
-  layout_properties: {grid_position: 'KCEMTE,AMFLNZ', full_width_row: true}
+    layout_properties: {grid_position: 'PLKGRT,IFHXND', full_width_row: true}
+- type: FlowPanel
+  properties: {role: null, spacing: medium, align: left, tooltip: '', border: '',
+    foreground: '', visible: true, spacing_above: small, spacing_below: small, background: ''}
+  name: flow_panel_4
+  layout_properties: {grid_position: 'FTHHJR,KUYACO', full_width_row: true}
   components:
-  - type: RichText
-    properties: {role: null, align: left, tooltip: '', enable_slots: true, border: '',
-      foreground: '', visible: true, font_size: null, content: .CONTACT US, font: '',
-      spacing_above: small, spacing_below: small, data: null, background: '', format: markdown}
-    name: rich_text_1
-    layout_properties: {grid_position: 'WQVNMK,GJSJXN'}
+  - type: Label
+    properties: {role: null, align: left, tooltip: '', border: '', foreground: '',
+      visible: true, text: ' ', font_size: null, font: '', spacing_above: small, icon_align: left,
+      spacing_below: small, italic: false, background: '', bold: false, underline: false,
+      icon: ''}
+    name: label_6
+    layout_properties: {}
+  - type: Label
+    properties: {role: null, align: left, tooltip: '', border: '', foreground: 'theme:Text_White',
+      visible: true, text: Copyright © AIDAR 2023, font_size: null, font: '', spacing_above: small,
+      icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+      underline: false, icon: ''}
+    name: label_5
+    layout_properties: {}
+- type: ColumnPanel
+  properties: {col_widths: '{}'}
+  name: column_panel_4
+  layout_properties: {grid_position: 'FTHHJR,KBURSV', full_width_row: true}
+  components:
+  - type: FlowPanel
+    properties: {role: null, spacing: medium, align: right, tooltip: '', border: '',
+      foreground: '', visible: true, spacing_above: small, spacing_below: small, background: 'theme:Main_Black'}
+    name: flow_panel_3
+    layout_properties: {grid_position: 'FPDFCR,VJLHYJ', full_width_row: true}
     components:
-    - type: FlowPanel
-      properties: {}
-      name: flow_panel_3
+    - type: Label
+      properties: {role: null, align: left, tooltip: '', border: '', foreground: 'theme:Text_White',
+        visible: true, text: +49 151 23382945, font_size: null, font: '', spacing_above: small,
+        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+        underline: false, icon: 'fa:phone'}
+      name: label_3
       layout_properties: {}
-      components:
-      - type: Label
-        properties: {role: null, align: left, tooltip: '', border: '', foreground: '',
-          visible: true, text: +49 151 23382945, font_size: null, font: '', spacing_above: small,
-          icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-          underline: false, icon: 'fa:phone'}
-        name: label_3
-        layout_properties: {}
-      - type: Label
-        properties: {role: null, align: left, tooltip: '', border: '', foreground: '',
-          visible: true, text: info@aidar.ai, font_size: null, font: '', spacing_above: small,
-          icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-          underline: false, icon: 'fa:envelope'}
-        name: label_4
-        layout_properties: {}
+    - type: Label
+      properties: {role: null, align: left, tooltip: '', border: '', foreground: 'theme:Text_White',
+        visible: true, text: info@aidar.ai, font_size: null, font: '', spacing_above: small,
+        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+        underline: false, icon: 'fa:envelope'}
+      name: label_4
+      layout_properties: {}
+    - type: Label
+      properties: {role: null, align: left, tooltip: '', border: '', foreground: '',
+        visible: true, text: ' ', font_size: null, font: '', spacing_above: small,
+        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+        underline: false, icon: ''}
+      name: label_7
+      layout_properties: {}
 is_package: true
