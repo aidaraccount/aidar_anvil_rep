@@ -98,4 +98,37 @@ components:
       horizontal_align: center}
     name: image_1
     layout_properties: {grid_position: 'PLKGRT,WLEIIJ', full_width_row: true}
+- type: ColumnPanel
+  properties: {role: null, tooltip: '', border: '', foreground: '', visible: true,
+    wrap_on: mobile, col_spacing: medium, spacing_above: none, col_widths: '{}', spacing_below: none,
+    background: 'theme:Background'}
+  name: column_panel_3
+  layout_properties: {grid_position: 'KCEMTE,AMFLNZ', full_width_row: true}
+  components:
+  - type: RichText
+    properties: {role: null, align: left, tooltip: '', enable_slots: true, border: '',
+      foreground: '', visible: true, font_size: null, content: .CONTACT US, font: '',
+      spacing_above: small, spacing_below: small, data: null, background: '', format: markdown}
+    name: rich_text_1
+    layout_properties: {grid_position: 'WQVNMK,GJSJXN'}
+    components:
+    - type: FlowPanel
+      properties: {}
+      name: flow_panel_3
+      layout_properties: {}
+      components:
+      - type: Label
+        properties: {role: null, align: left, tooltip: '', border: '', foreground: '',
+          visible: true, text: +49 151 23382945, font_size: null, font: '', spacing_above: small,
+          icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+          underline: false, icon: 'fa:phone'}
+        name: label_3
+        layout_properties: {}
+      - type: Label
+        properties: {role: null, align: left, tooltip: '', border: '', foreground: '',
+          visible: true, text: info@aidar.ai, font_size: null, font: '', spacing_above: small,
+          icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+          underline: false, icon: 'fa:envelope'}
+        name: label_4
+        layout_properties: {}
 is_package: true
