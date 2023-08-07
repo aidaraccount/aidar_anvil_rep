@@ -40,7 +40,9 @@ class C_Investigate(C_InvestigateTemplate):
     
     self.name.text = '   ' + sug["Name"]
     self.artist_popularity_lat.text = sug["ArtistPopularity_lat"]
-    self.artist_follower_lat.text = sug["ArtistFollower_lat"]
+    
+    self.artist_follower_lat.text = "{:,}".format(int(sug["ArtistFollower_lat"]))
+    
     self.no_tracks.text = sug["NoTracks"]
     self.first_release_date.text = sug["FirstReleaseDate"]
     self.last_release_date.text = sug["LastReleaseDate"]
@@ -100,15 +102,18 @@ class C_Investigate(C_InvestigateTemplate):
     self.feature_2.text = f2 + '%'
     if sug["AvgEnergy"] == 'None': f3 = 'nan'
     else: f3 = "{:.0f}".format(round(float(sug["AvgEnergy"])*100,0))
-    self.feature_3.text = f3 + '%'  
+    self.feature_3.text = f3 + '%'
+
+    tonleiter = ["C", "C#/Db", "D", "D#/Eb", "E", "F", "F#/Gb", "G", "G#/Ab", "A", "A#/Bb", "B"]
     if sug["AvgKey"] == 'None': f4 = 'nan'
-    else: f4 = "{:.0f}".format(round(float(sug["AvgKey"]),0))
-    self.feature_4.text = f4    
+    else: f4 = tonleiter[int(round(float(sug["AvgKey"]),0))]
+    self.feature_4.text = f4
+    
     if sug["AvgLoudness"] == 'None': f5 = 'nan'
     else: f5 = "{:.2f}".format(round(float(sug["AvgLoudness"]),2))
     self.feature_5.text = f5 + ' dB'
     if sug["AvgMode"] == 'None': f6 = 'nan'
-    else: f6 = "{:.1f}".format(round(float(sug["AvgMode"]),1))
+    else: f6 = "{:.0f}".format(round(float(sug["AvgMode"])*100,0))
     self.feature_6.text = f6 + '% Major'
     if sug["AvgSpeechiness"] == 'None': f7 = 'nan'
     else: f7 = "{:.0f}".format(round(float(sug["AvgSpeechiness"])*100,0))

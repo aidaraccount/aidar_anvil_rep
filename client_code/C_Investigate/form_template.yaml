@@ -327,11 +327,11 @@ components:
         row: XCTFKJ, width_xs: 11, col_xs: 1, width: 72.75}
     - type: Label
       properties: {role: feature, align: left, tooltip: '', border: '', foreground: '',
-        visible: true, text: Avg. Explicitness, font_size: null, font: '', spacing_above: none,
-        icon_align: left, spacing_below: none, italic: false, background: '', bold: false,
-        underline: false, icon: ''}
+        visible: true, text: Share of explicit Tracks, font_size: null, font: '',
+        spacing_above: none, icon_align: left, spacing_below: none, italic: false,
+        background: '', bold: false, underline: false, icon: ''}
       name: label_7_copy_3
-      layout_properties: {row: MXSGTS, width_xs: 11, col_xs: 1, width: 958.167}
+      layout_properties: {row: MXSGTS, width_xs: 11, col_xs: 1, width: 199.167}
   - type: GridPanel
     properties: {spacing_above: small, spacing_below: none, background: 'theme:Primary
         Container', foreground: '', border: '', visible: true, role: grid, tooltip: ''}
@@ -349,11 +349,11 @@ components:
         row: XCTFKJ, width_xs: 11, col_xs: 1, width: 72.75}
     - type: Label
       properties: {role: feature, align: left, tooltip: '', border: '', foreground: '',
-        visible: true, text: Tracks in Database, font_size: null, font: '', spacing_above: none,
+        visible: true, text: No. Tracks in Database, font_size: null, font: '', spacing_above: none,
         icon_align: left, spacing_below: none, italic: false, background: '', bold: false,
         underline: false, icon: ''}
       name: label_7
-      layout_properties: {row: MXSGTS, width_xs: 11, col_xs: 1, width: 72.75}
+      layout_properties: {row: MXSGTS, width_xs: 11, col_xs: 1, width: 199.167}
   - type: Label
     properties: {role: feature, align: left, tooltip: '', border: '', foreground: '',
       visible: true, text: Musical Distance, font_size: null, font: '', spacing_above: medium,
@@ -461,14 +461,14 @@ components:
         spacing_below: none, italic: false, background: '', bold: true, underline: false,
         icon: ''}
       name: feature_1
-      layout_properties: {row: CONETN, width_xs: 8, col_xs: 1, width: 72.75}
+      layout_properties: {row: CONETN, width_xs: 11, col_xs: 1, width: 72.75}
     - type: Label
       properties: {role: feature, align: left, tooltip: '', border: '', foreground: '',
         visible: true, text: Avg. Duration, font_size: null, font: '', spacing_above: none,
         icon_align: left, spacing_below: none, italic: false, background: '', bold: false,
         underline: false, icon: ''}
       name: label_3_copy_11
-      layout_properties: {row: ZWKOGK, width_xs: 8, col_xs: 1, width: 157.5}
+      layout_properties: {row: ZWKOGK, width_xs: 11, col_xs: 1, width: 157.5}
   - type: GridPanel
     properties: {spacing_above: small, spacing_below: none, background: 'theme:Primary
         Container', foreground: '', border: '', visible: true, role: grid, tooltip: ''}
@@ -536,11 +536,11 @@ components:
         row: XCTFKJ, width_xs: 11, col_xs: 1, width: 72.75}
     - type: Label
       properties: {role: feature, align: left, tooltip: '', border: '', foreground: '',
-        visible: true, text: Anv. Key, font_size: null, font: '', spacing_above: none,
+        visible: true, text: Avg. Key, font_size: null, font: '', spacing_above: none,
         icon_align: left, spacing_below: none, italic: false, background: '', bold: false,
         underline: false, icon: ''}
       name: label_7_copy_6
-      layout_properties: {row: MXSGTS, width_xs: 11, col_xs: 1, width: 148.75}
+      layout_properties: {row: MXSGTS, width_xs: 11, col_xs: 1, width: 199.167}
   - type: GridPanel
     properties: {spacing_above: small, spacing_below: none, background: 'theme:Primary
         Container', foreground: '', border: '', visible: true, role: grid, tooltip: ''}
@@ -579,14 +579,14 @@ components:
         spacing_below: none, italic: false, background: '', bold: true, underline: false,
         icon: ''}
       name: feature_6
-      layout_properties: {row: CONETN, width_xs: 8, col_xs: 1, width: 72.75}
+      layout_properties: {row: CONETN, width_xs: 11, col_xs: 1, width: 72.75}
     - type: Label
       properties: {role: feature, align: left, tooltip: '', border: '', foreground: '',
         visible: true, text: Mode, font_size: null, font: '', spacing_above: none,
         icon_align: left, spacing_below: none, italic: false, background: '', bold: false,
         underline: false, icon: ''}
       name: label_3_copy_12
-      layout_properties: {row: ZWKOGK, width_xs: 8, col_xs: 1, width: 136.667}
+      layout_properties: {row: ZWKOGK, width_xs: 11, col_xs: 1, width: 136.667}
   - type: GridPanel
     properties: {spacing_above: small, spacing_below: none, background: 'theme:Primary
         Container', foreground: '', border: '', visible: true, role: grid, tooltip: ''}
@@ -606,12 +606,12 @@ components:
         row: XCTFKJ, width_xs: 11, col_xs: 1, width: 72.75}
     - type: Label
       properties: {role: feature, align: left, tooltip: '', border: '', foreground: '',
-        visible: true, text: 'Anv. Speechiness
+        visible: true, text: 'Avg. Speechiness
 
           ', font_size: null, font: '', spacing_above: none, icon_align: left, spacing_below: none,
         italic: false, background: '', bold: false, underline: false, icon: ''}
       name: label_7_copy_7
-      layout_properties: {row: MXSGTS, width_xs: 11, col_xs: 1, width: 148.75}
+      layout_properties: {row: MXSGTS, width_xs: 11, col_xs: 1, width: 199.167}
   - type: GridPanel
     properties: {spacing_above: small, spacing_below: none, background: 'theme:Primary
         Container', foreground: '', border: '', visible: true, role: grid, tooltip: ''}
@@ -650,14 +650,14 @@ components:
         spacing_below: none, italic: false, background: '', bold: true, underline: false,
         icon: ''}
       name: feature_9
-      layout_properties: {row: CONETN, width_xs: 8, col_xs: 1, width: 72.75}
+      layout_properties: {row: CONETN, width_xs: 11, col_xs: 1, width: 72.75}
     - type: Label
       properties: {role: feature, align: left, tooltip: '', border: '', foreground: '',
-        visible: true, text: Avg. Instrumental., font_size: null, font: '', spacing_above: none,
+        visible: true, text: Avg. Instrumentalness, font_size: null, font: '', spacing_above: none,
         icon_align: left, spacing_below: none, italic: false, background: '', bold: false,
         underline: false, icon: ''}
       name: label_3_copy_13
-      layout_properties: {row: ZWKOGK, width_xs: 8, col_xs: 1, width: 136.667}
+      layout_properties: {row: ZWKOGK, width_xs: 11, col_xs: 1, width: 199.167}
   - type: GridPanel
     properties: {spacing_above: small, spacing_below: none, background: 'theme:Primary
         Container', foreground: '', border: '', visible: true, role: grid, tooltip: ''}
@@ -673,14 +673,14 @@ components:
         spacing_below: none, italic: false, background: '', bold: true, underline: false,
         icon: ''}
       name: feature_10
-      layout_properties: {row: CONETN, width_xs: 8, col_xs: 1, width: 72.75}
+      layout_properties: {row: CONETN, width_xs: 11, col_xs: 1, width: 72.75}
     - type: Label
       properties: {role: feature, align: left, tooltip: '', border: '', foreground: '',
         visible: true, text: Avg. Liveness, font_size: null, font: '', spacing_above: none,
         icon_align: left, spacing_below: none, italic: false, background: '', bold: false,
         underline: false, icon: ''}
       name: label_3_copy_14
-      layout_properties: {row: ZWKOGK, width_xs: 8, col_xs: 1, width: 100}
+      layout_properties: {row: ZWKOGK, width_xs: 11, col_xs: 1, width: 100}
   - type: GridPanel
     properties: {spacing_above: small, spacing_below: none, background: 'theme:Primary
         Container', foreground: '', border: '', visible: true, role: grid, tooltip: ''}
