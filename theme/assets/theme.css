@@ -142,7 +142,7 @@ a:hover, a:active, a:focus {
 
 .nav-right {
   float: right;
-  color: #333;
+  font-size: 14px !important;
 }
 
 .nav-elt {

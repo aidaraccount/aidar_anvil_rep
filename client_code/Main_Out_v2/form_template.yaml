@@ -17,13 +17,20 @@ components:
     name: flow_panel_1
     layout_properties: {grid_position: 'GZJDZN,SXLYHD', full_width_row: true, row_background: ''}
     components:
+    - type: Label
+      properties: {role: null, align: left, tooltip: '', border: '', foreground: '',
+        visible: true, text: ' ', font_size: null, font: '', spacing_above: small,
+        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+        underline: false, icon: ''}
+      name: label_8
+      layout_properties: {}
     - type: Image
-      properties: {role: null, vertical_align: center, height: '60', tooltip: '',
-        border: '', foreground: '', visible: true, display_mode: shrink_to_fit, spacing_above: none,
-        source: _/theme/pics/aidar_logo.png, spacing_below: none, background: '',
+      properties: {role: null, vertical_align: bottom, height: '25', tooltip: '',
+        border: '', foreground: '', visible: true, display_mode: shrink_to_fit, spacing_above: medium,
+        source: _/theme/pics/Logo_white.png, spacing_below: none, background: '',
         horizontal_align: center}
       name: image_2
-      layout_properties: {width: 120, expand: false}
+      layout_properties: {width: 140, expand: false}
   - type: ColumnPanel
     properties: {col_widths: '{}'}
     name: column_panel_2
@@ -61,9 +68,10 @@ components:
           icon: ''}
         name: link_3
         layout_properties: {}
+        event_bindings: {click: button_signup_click}
       - type: Link
         properties: {role: null, url: '', align: left, tooltip: '', border: '', foreground: 'theme:Text_White',
-          visible: true, text: ABOUT, font_size: null, wrap_on: mobile, font: '',
+          visible: false, text: ABOUT, font_size: null, wrap_on: mobile, font: '',
           col_spacing: small, spacing_above: small, icon_align: left, col_widths: '',
           spacing_below: small, italic: false, background: '', bold: false, underline: false,
           icon: ''}
@@ -71,7 +79,7 @@ components:
         layout_properties: {}
       - type: Link
         properties: {role: null, url: '', align: left, tooltip: '', border: '', foreground: 'theme:Text_White',
-          visible: true, text: CONTACT, font_size: null, wrap_on: mobile, font: '',
+          visible: false, text: CONTACT, font_size: null, wrap_on: mobile, font: '',
           col_spacing: small, spacing_above: small, icon_align: left, col_widths: '',
           spacing_below: small, italic: false, background: '', bold: false, underline: false,
           icon: ''}
@@ -92,10 +100,9 @@ components:
         name: label_1
         layout_properties: {}
   - type: Image
-    properties: {role: null, vertical_align: center, height: 700, tooltip: '', border: '',
-      foreground: '', visible: true, display_mode: fill_width, spacing_above: small,
-      source: _/theme/pics/Artist_Text.png, spacing_below: small, background: '',
-      horizontal_align: center}
+    properties: {role: null, vertical_align: center, height: '900', tooltip: '', border: '',
+      foreground: '', visible: true, display_mode: fill_width, spacing_above: none,
+      source: _/theme/pics/Artist_Text.png, spacing_below: none, background: '', horizontal_align: center}
     name: image_1
     layout_properties: {grid_position: 'PLKGRT,IFHXND', full_width_row: true}
 - type: FlowPanel

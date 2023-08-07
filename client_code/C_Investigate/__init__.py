@@ -45,8 +45,15 @@ class C_Investigate(C_InvestigateTemplate):
     self.first_release_date.text = sug["FirstReleaseDate"]
     self.last_release_date.text = sug["LastReleaseDate"]
 
-    self.major_coop.text = sug["MajorCoop"]
-    self.sub_major_coop.text = sug["SubMajorCoop"]
+    if sug["MajorCoop"] == '1': mc = 'yes'
+    elif sug["MajorCoop"] == '0': mc = 'no'
+    else: mc = 'nan'
+    self.major_coop.text = mc
+    
+    if sug["SubMajorCoop"] == '1': smc = 'yes'
+    elif sug["SubMajorCoop"] == '0': smc = 'no'
+    else: smc = 'nan'
+    self.sub_major_coop.text = smc
     
     if sug["MinMusDist"] == 'None': mmd = 'nan'
     else: mmd = round(float(sug["MinMusDist"]),2)
@@ -87,40 +94,40 @@ class C_Investigate(C_InvestigateTemplate):
     print(f'FEATURES - Start {datetime.datetime.now()}', flush=True)
     if sug["AvgDuration"] == 'None': f1 = 'nan'
     else: f1 = "{:.0f}".format(round(float(sug["AvgDuration"]),0))
-    self.feature_1.text = f1    
+    self.feature_1.text = f1 + ' sec'
     if sug["AvgDanceability"] == 'None': f2 = 'nan'
-    else: f2 = "{:.2f}".format(round(float(sug["AvgDanceability"]),2))
-    self.feature_2.text = f2        
+    else: f2 = "{:.0f}".format(round(float(sug["AvgDanceability"])*100,0))
+    self.feature_2.text = f2 + '%'
     if sug["AvgEnergy"] == 'None': f3 = 'nan'
-    else: f3 = "{:.2f}".format(round(float(sug["AvgEnergy"]),2))
-    self.feature_3.text = f3    
+    else: f3 = "{:.0f}".format(round(float(sug["AvgEnergy"])*100,0))
+    self.feature_3.text = f3 + '%'  
     if sug["AvgKey"] == 'None': f4 = 'nan'
     else: f4 = "{:.0f}".format(round(float(sug["AvgKey"]),0))
     self.feature_4.text = f4    
     if sug["AvgLoudness"] == 'None': f5 = 'nan'
     else: f5 = "{:.2f}".format(round(float(sug["AvgLoudness"]),2))
-    self.feature_5.text = f5    
+    self.feature_5.text = f5 + ' dB'
     if sug["AvgMode"] == 'None': f6 = 'nan'
     else: f6 = "{:.1f}".format(round(float(sug["AvgMode"]),1))
-    self.feature_6.text = f6
+    self.feature_6.text = f6 + '% Major'
     if sug["AvgSpeechiness"] == 'None': f7 = 'nan'
-    else: f7 = "{:.2f}".format(round(float(sug["AvgSpeechiness"]),2))
-    self.feature_7.text = f7    
+    else: f7 = "{:.0f}".format(round(float(sug["AvgSpeechiness"])*100,0))
+    self.feature_7.text = f7 + '%'    
     if sug["AvgAcousticness"] == 'None': f8 = 'nan'
-    else: f8 = "{:.2f}".format(round(float(sug["AvgAcousticness"]),2))
-    self.feature_8.text = f8    
+    else: f8 = "{:.0f}".format(round(float(sug["AvgAcousticness"])*100,0))
+    self.feature_8.text = f8 + '%'
     if sug["AvgInstrumentalness"] == 'None': f9 = 'nan'
-    else: f9 = "{:.2f}".format(round(float(sug["AvgInstrumentalness"]),2))
-    self.feature_9.text = f9    
+    else: f9 = "{:.0f}".format(round(float(sug["AvgInstrumentalness"])*100,0))
+    self.feature_9.text = f9 + '%'
     if sug["AvgLiveness"] == 'None': f10 = 'nan'
-    else: f10 = "{:.2f}".format(round(float(sug["AvgLiveness"]),2))
-    self.feature_10.text = f10    
+    else: f10 = "{:.0f}".format(round(float(sug["AvgLiveness"])*100,0))
+    self.feature_10.text = f10 + '%'
     if sug["AvgValence"] == 'None': f11 = 'nan'
-    else: f11 = "{:.2f}".format(round(float(sug["AvgValence"]),2))
-    self.feature_11.text = f11    
+    else: f11 = "{:.0f}".format(round(float(sug["AvgValence"])*100,0))
+    self.feature_11.text = f11 + '%'
     if sug["AvgTempo"] == 'None': f12 = 'nan'
     else: f12 = "{:.0f}".format(round(float(sug["AvgTempo"]),0))
-    self.feature_12.text = f12    
+    self.feature_12.text = f12 + ' bpm' 
     print(f'FEATURES - End {datetime.datetime.now()}', flush=True)
     
   def button_1_click(self, **event_args):

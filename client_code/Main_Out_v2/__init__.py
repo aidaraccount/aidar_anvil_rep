@@ -33,7 +33,10 @@ class Main_Out_v2(Main_Out_v2Template):
   def link_logout_click(self, **event_args):
     anvil.users.logout()
     check_log_status(self)
-    
+  
+  def button_signup_click(self, **event_args):
+    anvil.users.signup_with_form(allow_cancel=True)
+
 
 def check_log_status(self, **event_args):
   print(f'Check log status - Start {datetime.datetime.now()}', flush=True)
@@ -43,4 +46,4 @@ def check_log_status(self, **event_args):
   else:
     self.link_login2.visible = False
     self.link_logout2.visible = True
-
+  
