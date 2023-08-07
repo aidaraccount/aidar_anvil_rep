@@ -1,7 +1,8 @@
 is_package: true
 container:
   type: HtmlTemplate
-  properties: {html: '@theme:single-column.html'}
+  properties: {tooltip: '', background: 'theme:Background', foreground: '', border: '',
+    visible: true, role: null, html: '@theme:single-column.html'}
 components:
 - type: Label
   properties: {role: null, align: left, tooltip: '', border: '', foreground: '', visible: true,
@@ -36,12 +37,15 @@ components:
   components: []
 - type: Label
   properties: {role: title, align: left, tooltip: '', border: '', foreground: '',
-    visible: true, text: AidAR, font_size: null, font: '', spacing_above: small, icon_align: left,
-    spacing_below: small, italic: false, background: '', bold: false, underline: false,
-    icon: ''}
+    visible: true, text: .AIDAR, font_size: null, font: '', spacing_above: small,
+    icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+    underline: false, icon: ''}
   name: label_1
   layout_properties: {slot: title}
 - type: ColumnPanel
-  properties: {}
+  properties: {role: null, tooltip: '', border: '', foreground: '', visible: true,
+    wrap_on: mobile, col_spacing: none, spacing_above: small, col_widths: '{}', spacing_below: small,
+    background: ''}
   name: content_panel
   layout_properties: {slot: default}
+  components: []

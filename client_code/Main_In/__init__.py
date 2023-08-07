@@ -28,12 +28,12 @@ class Main_In(Main_InTemplate):
       self.content_panel.add_component(C_Investigate())
     
   def logo_click(self, **event_args):
-    open_form('Main_Out')
+    open_form('Main_Out_v2')
     
   def logout_click(self, **event_args):
     anvil.users.logout()
     if (anvil.users.get_user() == None):
-      open_form('Main_Out')
+      open_form('Main_Out_v2')
 
   def investigate_click(self, **event_args):
     self.content_panel.clear()

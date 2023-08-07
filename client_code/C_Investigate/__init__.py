@@ -83,6 +83,7 @@ class C_Investigate(C_InvestigateTemplate):
     self.c_web_player.html = '<iframe style="border-radius:12px" src="https://open.spotify.com/embed/artist/' + spotify_artist_id + '?utm_source=generator&theme=0" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>'
 
     # BAR CHART
+    # self.plot_1.figure = go.Figure(data=[go.Bar(y=float(sug["AvgDuration"]))])
     print(f'FEATURES - Start {datetime.datetime.now()}', flush=True)
     if sug["AvgDuration"] == 'None': f1 = 'nan'
     else: f1 = "{:.0f}".format(round(float(sug["AvgDuration"]),0))
