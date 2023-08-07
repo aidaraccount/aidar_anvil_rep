@@ -73,7 +73,7 @@ components:
       layout_properties: {row: RRIDXX, width_xs: 11, col_xs: 1, width: 72.75}
     - type: Label
       properties: {role: feature, align: left, tooltip: '', border: '', foreground: '',
-        visible: true, text: Countries, font_size: null, font: '', spacing_above: none,
+        visible: true, text: Origin, font_size: null, font: '', spacing_above: none,
         icon_align: left, spacing_below: none, italic: false, background: '', bold: false,
         underline: false, icon: ''}
       name: label_3_copy_5
@@ -83,7 +83,7 @@ components:
         row: QDNEHZ
         width_xs: 10
         col_xs: 1
-        width: 199.167
+        width: 178.333
     - type: Label
       properties: {role: value, align: left, tooltip: '', border: '', foreground: 'theme:PrimaryNumber',
         visible: true, text: '', font_size: 28, font: '', spacing_above: none, icon_align: left,
