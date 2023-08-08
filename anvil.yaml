@@ -6,7 +6,7 @@ services:
   client_config: {allow_signup: true, enable_automatically: true, use_email: true,
     confirm_email: true}
   server_config: {user_table: users}
-startup: {type: form, module: Main_Out_v2}
+startup: {type: form, module: Main_Out}
 package_name: AIDAR_v1_prod
 allow_embedding: false
 name: AIDAR_v1_prod

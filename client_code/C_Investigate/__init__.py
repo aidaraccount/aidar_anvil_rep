@@ -70,7 +70,7 @@ class C_Investigate(C_InvestigateTemplate):
     if (sug["AvgExplicit"] == 'None'):
       expl = 'nan'
     else:
-      expl = round(float(sug["AvgExplicit"]), 0)
+      expl = "{:.0f}".format(round(float(sug["AvgExplicit"]),0))
     self.avg_explicit.text = str(expl) + '%'
     # self.avg_explicit.text = sug["AvgExplicit"] + '%'
     

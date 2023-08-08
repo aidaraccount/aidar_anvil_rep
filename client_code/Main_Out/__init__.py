@@ -1,23 +1,20 @@
 from ._anvil_designer import Main_OutTemplate
 from anvil import *
 import anvil.server
+import anvil.users
 import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
-import anvil.users
 import datetime
 
 from ..Main_In import Main_In
-from ..C_LandingPage import C_LandingPage
-from ..C_LandingPage_v2 import C_LandingPage_v2
 from ..C_Investigate import C_Investigate
-
 
 class Main_Out(Main_OutTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
-    self.content_panel.add_component(C_LandingPage_v2())
+    #self.content_panel.add_component(C_LandingPage_v2())
     
     # Any code you write here will run before the form opens.
     check_log_status(self)
@@ -34,14 +31,17 @@ class Main_Out(Main_OutTemplate):
   def link_logout_click(self, **event_args):
     anvil.users.logout()
     check_log_status(self)
-    
+  
+  def button_signup_click(self, **event_args):
+    anvil.users.signup_with_form(allow_cancel=True)
+
 
 def check_log_status(self, **event_args):
   print(f'Check log status - Start {datetime.datetime.now()}', flush=True)
   if (anvil.users.get_user() == None):
-    self.link_login.visible = True
-    self.link_logout.visible = False
+    self.link_login2.visible = True
+    self.link_logout2.visible = False
   else:
-    self.link_login.visible = False
-    self.link_logout.visible = True
-
+    self.link_login2.visible = False
+    self.link_logout2.visible = True
+  
