@@ -10,6 +10,7 @@ import json
 import datetime
 import plotly.graph_objects as go
 
+
 class C_Investigate(C_InvestigateTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
@@ -26,12 +27,12 @@ class C_Investigate(C_InvestigateTemplate):
   
   def refresh_sug(self, **event_args):
     print(f'Refresh Sug - Start {datetime.datetime.now()}', flush=True)
-    alert("stop")
     sug = json.loads(anvil.server.call('GetSug', cur_model_id))
 
     if sug["Status"] == 'Empty Model!':
-      alert("no sug found")
-
+      alert("No artists found - finalize your model setup first!")
+      self.visible = False
+      
     else:      
       global artist_id
       artist_id = int(sug["ArtistID"])

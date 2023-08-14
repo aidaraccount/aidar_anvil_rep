@@ -6,7 +6,7 @@ import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
 
-from ..C_Investigate import C_Investigate
+from ..C_AddRefArtists import C_AddRefArtists
 
 class C_CreateModel(C_CreateModelTemplate):
   def __init__(self, **properties):
@@ -26,4 +26,4 @@ class C_CreateModel(C_CreateModelTemplate):
     alert(status)
     if (status == 'Model successfully created!'):
       self.content_panel.clear()
-      self.content_panel.add_component(C_Investigate())
+      self.content_panel.add_component(C_AddRefArtists())
