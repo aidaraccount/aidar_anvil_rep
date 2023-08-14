@@ -52,8 +52,9 @@ components:
           visible: true, text: '', font_size: null, font: '', spacing_above: small,
           type: text, spacing_below: small, italic: false, background: '', bold: false,
           underline: false}
-        name: text_box_access_token
+        name: text_box_spotify_artist_id
         layout_properties: {grid_position: 'XORSMU,KXUSOI'}
+        event_bindings: {pressed_enter: text_box_access_token_pressed_enter}
       - type: Button
         properties: {role: null, align: center, tooltip: '', border: '', enabled: true,
           foreground: '', visible: true, text: Add Reference Artist, font_size: null,

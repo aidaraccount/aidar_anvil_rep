@@ -16,9 +16,7 @@ class C_AddRefArtists(C_AddRefArtistsTemplate):
     global user
     user = anvil.users.get_user()
 
-  #def button_add_ref_artist_click(self, **event_args):
-    #status = anvil.server.call('ConnectModel_ByAccessToken', user["user_id"], self.text_box_access_token.text)
-    #alert(status)
-    #if (status == 'Connection Successfull'):
-      # self.content_panel.clear()
-      # self.content_panel.add_component(C_Investigate())
+  def button_add_ref_artist_click(self, **event_args):
+    status = anvil.server.call('AddRefArtist', user["user_id"], self.text_box_spotify_artist_id.text)
+    alert(status)
+    
