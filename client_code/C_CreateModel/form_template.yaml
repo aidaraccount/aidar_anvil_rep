@@ -1,0 +1,97 @@
+container:
+  type: ColumnPanel
+  properties: {col_widths: '{}'}
+components:
+- type: ColumnPanel
+  properties: {col_widths: '{}'}
+  name: content_panel
+  layout_properties: {grid_position: 'NDYFJH,LLBANU'}
+  components:
+  - type: Label
+    properties: {role: title, align: left, tooltip: '', border: '', foreground: '',
+      visible: true, text: Create a new AI-Model, font_size: null, font: '', spacing_above: small,
+      icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+      underline: false, icon: ''}
+    name: label_1_copy
+    layout_properties:
+      col_widths: {}
+      grid_position: WKTSPW,ALNASW
+  - type: Spacer
+    properties: {height: 98}
+    name: spacer_1
+    layout_properties:
+      col_widths: {}
+      grid_position: VLRBFT,HWZWOB
+  - type: RichText
+    properties: {role: null, align: left, tooltip: '', enable_slots: true, border: '',
+      foreground: '', visible: true, font_size: null, content: 'Please fill out the
+        following information:', font: '', spacing_above: small, spacing_below: small,
+      data: null, background: '', format: markdown}
+    name: rich_text_1
+    layout_properties: {grid_position: 'ALFBHG,GJKNXI'}
+    components:
+    - type: Label
+      properties: {role: null, align: left, tooltip: '', border: '', foreground: '',
+        visible: true, text: Name of the Model, font_size: null, font: '', spacing_above: small,
+        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+        underline: false, icon: ''}
+      name: label_2
+      layout_properties: {grid_position: 'EOXCAV,CXEZWF'}
+    - type: ColumnPanel
+      properties: {col_widths: '{}'}
+      name: column_panel_1
+      layout_properties: {grid_position: 'VAGXOA,GUUPWI'}
+      components:
+      - type: TextBox
+        properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: Name of the Model,
+          border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
+          font: '', spacing_above: small, type: text, spacing_below: medium, italic: false,
+          background: '', bold: false, underline: false}
+        name: text_box_model_name
+        layout_properties: {grid_position: 'RIKOCW,CJKVAV'}
+      - type: Label
+        properties: {role: null, align: left, tooltip: '', border: '', foreground: '',
+          visible: true, text: Add a short description of the kind of artists you would like to find with this Model,
+          font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small,
+          italic: false, background: '', bold: false, underline: false, icon: ''}
+        name: label_2_copy
+        layout_properties:
+          col_widths: {}
+          grid_position: OSOBLW,IKUZJY
+      - type: TextBox
+        properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: Description of the Model,
+          border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
+          font: '', spacing_above: small, type: text, spacing_below: medium, italic: false,
+          background: '', bold: false, underline: false}
+        name: text_box_description
+        layout_properties:
+          col_widths: {}
+          grid_position: FKXHKD,ISUOEY
+      - type: Label
+        properties: {role: null, align: left, tooltip: '', border: '', foreground: '',
+          visible: true, text: Add an Access Token to allow co-workers to jointly work with you on this model (note the token and keep it save),
+          font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small,
+          italic: false, background: '', bold: false, underline: false, icon: ''}
+        name: label_2_copy_2
+        layout_properties:
+          col_widths: {}
+          grid_position: YRAWBL,VPGVCW
+      - type: TextBox
+        properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: Personal Access Token,
+          border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
+          font: '', spacing_above: small, type: text, spacing_below: medium, italic: false,
+          background: '', bold: false, underline: false}
+        name: text_box_access_token
+        layout_properties:
+          col_widths: {}
+          grid_position: NZEWUX,TUOUNG
+    - type: Button
+      properties: {role: null, align: center, tooltip: '', border: '', enabled: true,
+        foreground: '', visible: true, text: Create a new AI-Model, font_size: null,
+        font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false,
+        background: '', bold: false, underline: false, icon: ''}
+      name: button_create_model
+      layout_properties: {grid_position: 'RIKOCW,ZBIQTR'}
+      event_bindings: {click: button_create_model_click}
+is_package: true
+custom_component: true

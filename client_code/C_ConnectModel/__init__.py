@@ -19,7 +19,7 @@ class C_ConnectModel(C_ConnectModelTemplate):
 
   def button_connect_model_click(self, **event_args):
     status = anvil.server.call('ConnectModel_ByAccessToken', user["user_id"], self.text_box_access_token.text)
-    alert(status)
+    #alert(status)
     if (status == 'Connection Successfull'):
       self.content_panel.clear()
       self.content_panel.add_component(C_Investigate())

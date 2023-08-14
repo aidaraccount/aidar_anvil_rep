@@ -31,10 +31,18 @@ components:
     - type: Button
       properties: {role: null, align: center, tooltip: '', border: '', enabled: true,
         foreground: '', visible: true, text: Connect to an existing AI-Model, font_size: null,
-        font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false,
-        background: '', bold: false, underline: false, icon: ''}
+        font: '', spacing_above: medium, icon_align: left, spacing_below: medium,
+        italic: false, background: '', bold: false, underline: false, icon: ''}
       name: button_connect_model
       layout_properties: {grid_position: 'NMDZWW,OUGDQB'}
       event_bindings: {click: button_connect_model_click}
+    - type: Button
+      properties: {role: null, align: center, tooltip: '', border: '', enabled: true,
+        foreground: '', visible: true, text: Create a new AI-Model, font_size: null,
+        font: '', spacing_above: medium, icon_align: left, spacing_below: medium,
+        italic: false, background: '', bold: false, underline: false, icon: ''}
+      name: button_create_model
+      layout_properties: {grid_position: 'NMDZWW,OUGDQB'}
+      event_bindings: {click: button_create_model_click}
 is_package: true
 custom_component: true

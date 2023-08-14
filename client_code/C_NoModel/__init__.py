@@ -7,6 +7,7 @@ import anvil.tables.query as q
 from anvil.tables import app_tables
 
 from ..C_ConnectModel import C_ConnectModel
+from ..C_CreateModel import C_CreateModel
 
 class C_NoModel(C_NoModelTemplate):
   def __init__(self, **properties):
@@ -19,3 +20,6 @@ class C_NoModel(C_NoModelTemplate):
     self.content_panel.clear()
     self.content_panel.add_component(C_ConnectModel())
 
+  def button_create_model_click(self, **event_args):
+    self.content_panel.clear()
+    self.content_panel.add_component(C_CreateModel())
