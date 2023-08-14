@@ -26,9 +26,15 @@ class C_Investigate(C_InvestigateTemplate):
   
   def refresh_sug(self, **event_args):
     print(f'Refresh Sug - Start {datetime.datetime.now()}', flush=True)
+    alert("stop")
     sug = json.loads(anvil.server.call('GetSug', cur_model_id))
+
+    if sug == 'None':
+      alert("no sug found")
+    
     global artist_id
     artist_id = int(sug["ArtistID"])
+    #alert(artist_id)
     global spotify_artist_id
     spotify_artist_id = sug["SpotifyArtistID"]
     
