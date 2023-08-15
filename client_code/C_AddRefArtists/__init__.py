@@ -21,4 +21,9 @@ class C_AddRefArtists(C_AddRefArtistsTemplate):
   def button_add_ref_artist_click(self, **event_args):
     status = anvil.server.call('AddRefArtist', user["user_id"], cur_model_id, self.text_box_spotify_artist_id.text)
     alert(status)
+
+  def text_box_access_token_pressed_enter(self, **event_args):
+    status = anvil.server.call('AddRefArtist', user["user_id"], cur_model_id, self.text_box_spotify_artist_id.text)
+    alert(status)
+
     
