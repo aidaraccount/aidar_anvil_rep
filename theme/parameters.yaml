@@ -13,7 +13,7 @@ roles:
 - name: grid
   components: [GridPanel]
 - name: feature
-  components: [Label]
+  components: [Label, Button]
 - name: value
   components: [Label]
 - name: eval_button
@@ -22,6 +22,8 @@ roles:
   components: [Label]
 - name: table_content
   components: [RepeatingPanel]
+- name: text_box
+  components: [TextBox]
 color_scheme:
   preset_groups:
   - name: Accent
@@ -101,3 +103,4 @@ color_scheme:
   - {name: Orange, color: 'rgb(253, 101, 45)'}
   - {name: Text_White, color: 'rgb(255, 255, 255)'}
   - {name: Text_Grey, color: 'rgb(175, 175, 175)'}
+  - {name: Text_DarkGrey, color: '#616161'}

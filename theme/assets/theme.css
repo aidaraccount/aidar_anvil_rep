@@ -82,6 +82,10 @@ header>.nav-links>span {
   font-weight: bold;
   color: %color:Text_Grey%;
 }
+.anvil-role-text_box {
+  font-size: 16px;
+  color: %color:Text_DarkGrey%;
+}
 .anvil-role-value {
   font-size: 20px;
   font-weight: bold;
