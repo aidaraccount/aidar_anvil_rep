@@ -27,7 +27,7 @@ class C_Investigate(C_InvestigateTemplate):
   
   def refresh_sug(self, **event_args):
     print(f'Refresh Sug - Start {datetime.datetime.now()}', flush=True)
-    sug = json.loads(anvil.server.call('get_suggestion', cur_model_id, 'Free'))
+    sug = json.loads(anvil.server.call('get_suggestion', cur_model_id, 'Explore'))
 
     if sug["Status"] == 'Empty Model!':
       alert("No artists found - finalize your model setup first!")
@@ -37,6 +37,10 @@ class C_Investigate(C_InvestigateTemplate):
       alert("No artists found - change the filters!")
       self.visible = False
     
+    elif sug["Status"] == 'Free Limit Reached!':
+      alert("Free Limit Reached - update your subscription!")
+      self.visible = False
+      
     else:      
       global artist_id
       artist_id = int(sug["ArtistID"])
