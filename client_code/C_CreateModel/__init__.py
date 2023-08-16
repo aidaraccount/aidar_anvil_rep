@@ -5,6 +5,8 @@ import anvil.users
 import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
+import random
+import string
 
 from ..C_AddRefArtists import C_AddRefArtists
 
@@ -19,6 +21,8 @@ class C_CreateModel(C_CreateModelTemplate):
     user = anvil.users.get_user()
     cur_model_id = anvil.server.call('GetModelID',  user["user_id"])
 
+    self.text_box_access_token.text = f"{''.join(random.choice((string.ascii_letters + string.digits)) for _ in range(3))}-{''.join(random.choice((string.ascii_letters + string.digits)) for _ in range(3))}-{''.join(random.choice((string.ascii_letters + string.digits)) for _ in range(3))}"
+  
   def button_create_model_click(self, **event_args):
     status = anvil.server.call('CreateModel',
                                user["user_id"],

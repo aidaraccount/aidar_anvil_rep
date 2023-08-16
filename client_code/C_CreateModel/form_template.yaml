@@ -71,8 +71,12 @@ components:
           grid_position: FKXHKD,ISUOEY
       - type: Label
         properties: {role: description, align: left, tooltip: '', border: '', foreground: '',
-          visible: true, text: Add an Access Token to allow co-workers to jointly work with you on this model (note the token and keep it save),
-          font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small,
+          visible: true, text: 'This Access Token is required to add Co-Workers to
+            your model and work jointly with it.
+
+
+            Keep the suggested Token or set an individual one.', font_size: null,
+          font: '', spacing_above: small, icon_align: left, spacing_below: small,
           italic: false, background: '', bold: false, underline: false, icon: ''}
         name: label_2_copy_2
         layout_properties:
