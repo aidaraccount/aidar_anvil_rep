@@ -20,10 +20,16 @@ class C_AddRefArtists(C_AddRefArtistsTemplate):
 
   def button_add_ref_artist_click(self, **event_args):
     status = anvil.server.call('AddRefArtist', user["user_id"], cur_model_id, self.text_box_spotify_artist_id.text)
-    alert(status)
-
+    if status == 'Event created - action will be performed any second':
+      alert(title='Event created',
+            content='An event to add this artists as your reference was created and will be processed any second. You will find it at RATINGS soon.\n\nFeel free to add additional reference artists or start to INVESTIGATE, which will improve your model as well.\n\nEnjoy it!')
+    else:
+      alert(title='Error..', content=status)
+      
   def text_box_access_token_pressed_enter(self, **event_args):
     status = anvil.server.call('AddRefArtist', user["user_id"], cur_model_id, self.text_box_spotify_artist_id.text)
-    alert(status)
-
-    
+    if status == 'Event created - action will be performed any second':
+      alert(title='Event created',
+            content='An event to add this artists as your reference was created and will be processed any second. You will find it at RATINGS soon.\n\nTo improve your model accuracy, feel free to add additional reference artists or start to INVESTIGATE, which will improve your model as well.\n\nEnjoy it!')
+    else:
+      alert(title='Error..', content=status)

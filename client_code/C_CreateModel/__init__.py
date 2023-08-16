@@ -28,12 +28,11 @@ class C_CreateModel(C_CreateModelTemplate):
     if (status == 'Congratulations, your Model was successfully created!'):
       # refresh model_id
       cur_model_id = anvil.server.call('GetModelID',  user["user_id"])
-      alert(cur_model_id)
-
+      
       # continue to add ref artists
       alert(title='Congratulations..',
             content="your Model was successfully created!\n\nNow, let's set your model up by adding some artists as reference.")
       self.content_panel.clear()
       self.content_panel.add_component(C_AddRefArtists())
     else:
-      alert(status)
+      alert(title='Error..', content=status)

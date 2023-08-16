@@ -30,16 +30,18 @@ class C_Investigate(C_InvestigateTemplate):
     sug = json.loads(anvil.server.call('get_suggestion', cur_model_id, 'Inspect'))
 
     if sug["Status"] == 'Empty Model!':
-      alert(title='No Artists found..',
+      alert(title='Train you Model..',
             content="Sorry, we cound't find any artists for your model. Make sure your model is fully set up!\n\nTherefore, go to ADD REF. ARTISTS and add some starting artists that you are interested in.")
       self.visible = False
 
     elif sug["Status"] == 'No Findings!':
-      alert("No artists found - change the filters!")
+      alert(title='No Artists found..',
+            content="Sorry, we cound't find any artists for your filters.\n\nPlease check your FILTERS and change them to find additional artists.")
       self.visible = False
     
     elif sug["Status"] == 'Free Limit Reached!':
-      alert("Free Limit Reached - update your subscription!")
+      alert(title='Free Limit Reached..',
+            content="Sorry, the free version is limited in the number of suggested artists - if you're interested to continue, please upgrade to one of our subscription plans.\n\nFor any questions, please contact us at info@aidar.ai\n\nYour AIDAR Team")
       self.visible = False
       
     else:      

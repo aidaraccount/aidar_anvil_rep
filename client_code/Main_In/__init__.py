@@ -38,6 +38,7 @@ class Main_In(Main_InTemplate):
       open_form('Main_Out')
 
   def investigate_click(self, **event_args):
+    cur_model_id = anvil.server.call('GetModelID',  user["user_id"])
     self.content_panel.clear()
     if (cur_model_id == None):
       self.content_panel.add_component(C_NoModel())
@@ -45,6 +46,7 @@ class Main_In(Main_InTemplate):
       self.content_panel.add_component(C_Investigate())
 
   def filter_click(self, **event_args):
+    cur_model_id = anvil.server.call('GetModelID',  user["user_id"])
     self.content_panel.clear()
     if (cur_model_id == None):
       self.content_panel.add_component(C_NoModel())
@@ -52,6 +54,7 @@ class Main_In(Main_InTemplate):
       self.content_panel.add_component(C_Filter())
 
   def rating_click(self, **event_args):
+    cur_model_id = anvil.server.call('GetModelID',  user["user_id"])
     self.content_panel.clear()
     if (cur_model_id == None):
       self.content_panel.add_component(C_NoModel())
@@ -59,6 +62,7 @@ class Main_In(Main_InTemplate):
       self.content_panel.add_component(C_Rating())
 
   def add_ref_artists_click(self, **event_args):
+    cur_model_id = anvil.server.call('GetModelID',  user["user_id"])
     self.content_panel.clear()
     if (cur_model_id == None):
       self.content_panel.add_component(C_NoModel())
