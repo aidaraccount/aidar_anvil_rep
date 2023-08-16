@@ -11,7 +11,8 @@ package_name: AIDAR
 allow_embedding: false
 name: AIDAR
 runtime_options: {version: 2, client_version: '3', server_version: python3-full, server_spec: null}
-metadata: {title: AIDAR - AI driven A&R, logo_img: 'asset:pics/aidar_logo.png', description: AI driven A&R}
+metadata: {title: AIDAR - AI driven A&R, logo_img: 'asset:pics/Favicon_orange.JPG',
+  description: AI driven A&R}
 startup_form: null
 db_schema:
   users:
