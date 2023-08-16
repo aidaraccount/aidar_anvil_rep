@@ -15,7 +15,9 @@ class C_CreateModel(C_CreateModelTemplate):
 
     # Any code you write here will run before the form opens.
     global user
+    global cur_model_id
     user = anvil.users.get_user()
+    cur_model_id = anvil.server.call('GetModelID',  user["user_id"])
 
   def button_create_model_click(self, **event_args):
     status = anvil.server.call('CreateModel',
@@ -23,7 +25,15 @@ class C_CreateModel(C_CreateModelTemplate):
                                self.text_box_model_name.text,
                                self.text_box_description.text,
                                self.text_box_access_token.text)
-    alert(status)
-    if (status == 'Model successfully created!'):
+    if (status == 'Congratulations, your Model was successfully created!'):
+      # refresh model_id
+      cur_model_id = anvil.server.call('GetModelID',  user["user_id"])
+      alert(cur_model_id)
+
+      # continue to add ref artists
+      alert(title='Congratulations..',
+            content="your Model was successfully created!\n\nNow, let's set your model up by adding some artists as reference.")
       self.content_panel.clear()
       self.content_panel.add_component(C_AddRefArtists())
+    else:
+      alert(status)

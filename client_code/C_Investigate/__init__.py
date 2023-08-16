@@ -9,7 +9,6 @@ import anvil.server
 import json
 import datetime
 import plotly.graph_objects as go
-from ..popupform import popupform
 
 
 class C_Investigate(C_InvestigateTemplate):
@@ -31,9 +30,8 @@ class C_Investigate(C_InvestigateTemplate):
     sug = json.loads(anvil.server.call('get_suggestion', cur_model_id, 'Inspect'))
 
     if sug["Status"] == 'Empty Model!':
-      alert("No artists found - finalize your model setup first!")
-      alert(title='My PopUp', content=popupform(), button=[('Cancel','CANCELLED','danger')])
-      alert(title='My PopUp', content="No artists found - finalize your model setup first!", button=[('Cancel','CANCELLED','danger')])
+      alert(title='No Artists found..',
+            content="Sorry, we cound't find any artists for your model. Make sure your model is fully set up!\n\nTherefore, go to ADD REF. ARTISTS and add some starting artists that you are interested in.")
       self.visible = False
 
     elif sug["Status"] == 'No Findings!':
