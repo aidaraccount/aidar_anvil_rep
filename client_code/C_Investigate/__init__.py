@@ -155,29 +155,36 @@ class C_Investigate(C_InvestigateTemplate):
       print(f'FEATURES - End {datetime.datetime.now()}', flush=True)
     
   def button_1_click(self, **event_args):
+    self.header.scroll_into_view(smooth=True)
     anvil.server.call('AddInterest', cur_model_id, artist_id, 1)
     self.refresh_sug()
 
   def button_2_click(self, **event_args):
+    self.header.scroll_into_view(smooth=True)
     anvil.server.call('AddInterest', cur_model_id, artist_id, 2)
     self.refresh_sug()
 
   def button_3_click(self, **event_args):
+    self.header.scroll_into_view(smooth=True)
     anvil.server.call('AddInterest', cur_model_id, artist_id, 3)
     self.refresh_sug()
 
   def button_4_click(self, **event_args):
+    self.header.scroll_into_view(smooth=True)
     anvil.server.call('AddInterest', cur_model_id, artist_id, 4)
     self.refresh_sug()
 
   def button_5_click(self, **event_args):
+    self.header.scroll_into_view(smooth=True)
     anvil.server.call('AddInterest', cur_model_id, artist_id, 5)
     self.refresh_sug()
 
   def button_6_click(self, **event_args):
+    self.header.scroll_into_view(smooth=True)
     anvil.server.call('AddInterest', cur_model_id, artist_id, 6)
     self.refresh_sug()
 
   def button_7_click(self, **event_args):
+    self.header.scroll_into_view(smooth=True)
     anvil.server.call('AddInterest', cur_model_id, artist_id, 7)
     self.refresh_sug()
