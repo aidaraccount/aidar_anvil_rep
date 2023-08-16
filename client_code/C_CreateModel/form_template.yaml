@@ -53,8 +53,8 @@ components:
         layout_properties: {grid_position: 'RIKOCW,CJKVAV'}
       - type: Label
         properties: {role: description, align: left, tooltip: '', border: '', foreground: '',
-          visible: true, text: Add a short description of the kind of artists you would like to find with this Model,
-          font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small,
+          visible: true, text: Add a short description to your Model, font_size: null,
+          font: '', spacing_above: small, icon_align: left, spacing_below: small,
           italic: false, background: '', bold: false, underline: false, icon: ''}
         name: label_2_copy
         layout_properties:

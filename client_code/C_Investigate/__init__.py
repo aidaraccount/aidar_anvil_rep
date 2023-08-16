@@ -47,7 +47,6 @@ class C_Investigate(C_InvestigateTemplate):
     else:      
       global artist_id
       artist_id = int(sug["ArtistID"])
-      #alert(artist_id)
       global spotify_artist_id
       spotify_artist_id = sug["SpotifyArtistID"]
       
@@ -58,8 +57,7 @@ class C_Investigate(C_InvestigateTemplate):
       self.artist_link.url = sug["ArtistURL"]
       
       self.name.text = '   ' + sug["Name"]
-      self.artist_popularity_lat.text = sug["ArtistPopularity_lat"]
-      
+      self.artist_popularity_lat.text = sug["ArtistPopularity_lat"]      
       self.artist_follower_lat.text = "{:,}".format(int(sug["ArtistFollower_lat"]))
       
       self.no_tracks.text = sug["NoTracks"]
@@ -68,88 +66,84 @@ class C_Investigate(C_InvestigateTemplate):
   
       if sug["MajorCoop"] == '1': mc = 'yes'
       elif sug["MajorCoop"] == '0': mc = 'no'
-      else: mc = 'nan'
+      else: mc = '-'
       self.major_coop.text = mc
       
       if sug["SubMajorCoop"] == '1': smc = 'yes'
       elif sug["SubMajorCoop"] == '0': smc = 'no'
-      else: smc = 'nan'
+      else: smc = '-'
       self.sub_major_coop.text = smc
       
-      if sug["MinMusDist"] == 'None': mmd = 'nan'
+      if sug["MinMusDist"] == 'None': mmd = 'N/A'
       else: mmd = round(float(sug["MinMusDist"]),2)
       self.min_mus_dis.text = mmd
-      if sug["AvgMusDist"] == 'None': amd = 'nan'
+      if sug["AvgMusDist"] == 'None': amd = 'N/A'
       else: amd = round(float(sug["AvgMusDist"]),2)
       self.avg_mus_dis.text = amd
-      if sug["MaxMusDist"] == 'None': xmd = 'nan'
+      if sug["MaxMusDist"] == 'None': xmd = 'N/A'
       else: xmd = round(float(sug["MaxMusDist"]),2)
       self.max_mus_dis.text = xmd
       
-      if (sug["AvgExplicit"] == 'None'):
-        expl = 'nan'
-      else:
-        expl = "{:.0f}".format(round(float(sug["AvgExplicit"]),0))
+      if (sug["AvgExplicit"] == 'None'): expl = '-'
+      else: expl = "{:.0f}".format(round(float(sug["AvgExplicit"]),0))
       self.avg_explicit.text = str(expl) + '%'
-      # self.avg_explicit.text = sug["AvgExplicit"] + '%'
       
       self.rel_artists_7.text = sug["RelArtists7"]
       
-      if (sug["Prediction"] == 'None'):
-        pred = 'nan'
-      elif (float(sug["Prediction"]) > 7):
-        pred = 7.0
-      elif (float(sug["Prediction"]) < 0):
-        pred = 0.0
-      else:
-        pred = round(float(sug["Prediction"]),1)
+      if (sug["Prediction"] == 'None'): pred = 'N/A'
+      elif (float(sug["Prediction"]) > 7): pred = 7.0
+      elif (float(sug["Prediction"]) < 0): pred = 0.0
+      else: pred = round(float(sug["Prediction"]),1)
       self.prediction.text = pred
-      
-      self.genres.text = sug["Genres"]
-      self.countries.text = sug["Countries"]
+
+      if sug["Genres"] == 'None': self.genres.text = '-'
+      else: self.genres.text = sug["Genres"]
+
+      if sug["Countries"] == 'None': self.countries.text = '-'
+      else: self.countries.text = sug["Countries"]
       
       self.c_web_player.html = '<iframe style="border-radius:12px" src="https://open.spotify.com/embed/artist/' + spotify_artist_id + '?utm_source=generator&theme=0" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>'
   
       # BAR CHART
       # self.plot_1.figure = go.Figure(data=[go.Bar(y=float(sug["AvgDuration"]))])
       print(f'FEATURES - Start {datetime.datetime.now()}', flush=True)
-      if sug["AvgDuration"] == 'None': f1 = 'nan'
+      if sug["AvgDuration"] == 'None': f1 = '-'
       else: f1 = "{:.0f}".format(round(float(sug["AvgDuration"]),0))
       self.feature_1.text = f1 + ' sec'
-      if sug["AvgDanceability"] == 'None': f2 = 'nan'
+      if sug["AvgDanceability"] == 'None': f2 = '-'
       else: f2 = "{:.0f}".format(round(float(sug["AvgDanceability"])*100,0))
       self.feature_2.text = f2 + '%'
-      if sug["AvgEnergy"] == 'None': f3 = 'nan'
+      if sug["AvgEnergy"] == 'None': f3 = '-'
       else: f3 = "{:.0f}".format(round(float(sug["AvgEnergy"])*100,0))
       self.feature_3.text = f3 + '%'
   
       tonleiter = ["C", "C#/Db", "D", "D#/Eb", "E", "F", "F#/Gb", "G", "G#/Ab", "A", "A#/Bb", "B"]
-      if sug["AvgKey"] == 'None': f4 = 'nan'
+      if sug["AvgKey"] == 'None': f4 = '--'
       else: f4 = tonleiter[int(round(float(sug["AvgKey"]),0))]
       self.feature_4.text = f4
       
-      if sug["AvgLoudness"] == 'None': f5 = 'nan'
+      if sug["AvgLoudness"] == 'None': f5 = '-'
       else: f5 = "{:.2f}".format(round(float(sug["AvgLoudness"]),2))
       self.feature_5.text = f5 + ' dB'
-      if sug["AvgMode"] == 'None': f6 = 'nan'
+      if sug["AvgMode"] == 'None': f6 = '-'
       else: f6 = "{:.0f}".format(round(float(sug["AvgMode"])*100,0))
       self.feature_6.text = f6 + '% Major'
-      if sug["AvgSpeechiness"] == 'None': f7 = 'nan'
+      if sug["AvgSpeechiness"] == 'None': f7 = '-'
       else: f7 = "{:.0f}".format(round(float(sug["AvgSpeechiness"])*100,0))
       self.feature_7.text = f7 + '%'    
-      if sug["AvgAcousticness"] == 'None': f8 = 'nan'
+      if sug["AvgAcousticness"] == 'None': f8 = '-'
       else: f8 = "{:.0f}".format(round(float(sug["AvgAcousticness"])*100,0))
       self.feature_8.text = f8 + '%'
-      if sug["AvgInstrumentalness"] == 'None': f9 = 'nan'
+      if sug["AvgInstrumentalness"] == 'None': f9 = '-'
       else: f9 = "{:.0f}".format(round(float(sug["AvgInstrumentalness"])*100,0))
       self.feature_9.text = f9 + '%'
-      if sug["AvgLiveness"] == 'None': f10 = 'nan'
+      if sug["AvgLiveness"] == 'None': f10 = '-'
       else: f10 = "{:.0f}".format(round(float(sug["AvgLiveness"])*100,0))
       self.feature_10.text = f10 + '%'
-      if sug["AvgValence"] == 'None': f11 = 'nan'
+      if sug["AvgValence"] == 'None': f11 = '-'
       else: f11 = "{:.0f}".format(round(float(sug["AvgValence"])*100,0))
       self.feature_11.text = f11 + '%'
-      if sug["AvgTempo"] == 'None': f12 = 'nan'
+      if sug["AvgTempo"] == 'None': f12 = '-'
       else: f12 = "{:.0f}".format(round(float(sug["AvgTempo"]),0))
       self.feature_12.text = f12 + ' bpm' 
       print(f'FEATURES - End {datetime.datetime.now()}', flush=True)
