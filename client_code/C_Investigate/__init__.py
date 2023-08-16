@@ -27,7 +27,7 @@ class C_Investigate(C_InvestigateTemplate):
   
   def refresh_sug(self, **event_args):
     print(f'Refresh Sug - Start {datetime.datetime.now()}', flush=True)
-    sug = json.loads(anvil.server.call('get_suggestion', cur_model_id, 'Free'))
+    sug = json.loads(anvil.server.call('get_suggestion', cur_model_id, 'Inspect'))
 
     if sug["Status"] == 'Empty Model!':
       alert(title='Train you Model..',
