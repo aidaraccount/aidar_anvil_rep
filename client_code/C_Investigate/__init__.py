@@ -9,6 +9,7 @@ import anvil.server
 import json
 import datetime
 import plotly.graph_objects as go
+from ..popupform import popupform
 
 
 class C_Investigate(C_InvestigateTemplate):
@@ -31,6 +32,8 @@ class C_Investigate(C_InvestigateTemplate):
 
     if sug["Status"] == 'Empty Model!':
       alert("No artists found - finalize your model setup first!")
+      alert(title='My PopUp', content=popupform(), button=[('Cancel','CANCELLED','danger')])
+      alert(title='My PopUp', content="No artists found - finalize your model setup first!", button=[('Cancel','CANCELLED','danger')])
       self.visible = False
 
     elif sug["Status"] == 'No Findings!':
