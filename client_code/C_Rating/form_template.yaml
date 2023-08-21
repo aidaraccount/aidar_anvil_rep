@@ -43,9 +43,10 @@ components:
   components:
   - type: RepeatingPanel
     properties: {role: table_content, tooltip: '', border: '', foreground: '', items: null,
-      visible: true, spacing_above: none, spacing_below: none, item_template: C_Rating.RowTemplate1,
+      visible: true, spacing_above: none, spacing_below: none, item_template: C_Rating.RatingRows,
       background: ''}
     name: data_ratings_data
     layout_properties: {}
+    data_bindings: []
 is_package: true
 custom_component: true

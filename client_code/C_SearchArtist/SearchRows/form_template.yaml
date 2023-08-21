@@ -1,0 +1,13 @@
+container: {type: DataRowPanel}
+components:
+- type: Link
+  properties: {role: null, url: '', align: left, tooltip: '', border: '', foreground: '',
+    visible: true, text: '', font_size: null, wrap_on: mobile, font: '', col_spacing: medium,
+    spacing_above: small, icon_align: left, col_widths: '', spacing_below: small,
+    italic: false, background: '', bold: false, underline: false, icon: ''}
+  name: inspect_link
+  layout_properties: {column: YTCRRC}
+  event_bindings: {click: inspect_link_click}
+  data_bindings:
+  - {property: text, code: 'self.item[''ArtistID'']'}
+is_package: true
