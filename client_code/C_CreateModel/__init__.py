@@ -19,19 +19,19 @@ class C_CreateModel(C_CreateModelTemplate):
     global user
     global cur_model_id
     user = anvil.users.get_user()
-    cur_model_id = anvil.server.call('GetModelID',  user["user_id"])
+    cur_model_id = anvil.server.call('get_model_id',  user["user_id"])
 
     self.text_box_access_token.text = f"{''.join(random.choice((string.ascii_letters + string.digits)) for _ in range(3))}-{''.join(random.choice((string.ascii_letters + string.digits)) for _ in range(3))}-{''.join(random.choice((string.ascii_letters + string.digits)) for _ in range(3))}"
   
   def button_create_model_click(self, **event_args):
-    status = anvil.server.call('CreateModel',
+    status = anvil.server.call('create_model',
                                user["user_id"],
                                self.text_box_model_name.text,
                                self.text_box_description.text,
                                self.text_box_access_token.text)
     if (status == 'Congratulations, your Model was successfully created!'):
       # refresh model_id
-      cur_model_id = anvil.server.call('GetModelID',  user["user_id"])
+      cur_model_id = anvil.server.call('get_model_id',  user["user_id"])
       
       # continue to add ref artists
       alert(title='Congratulations..',

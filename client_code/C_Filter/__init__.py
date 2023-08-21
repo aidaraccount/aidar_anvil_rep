@@ -18,12 +18,12 @@ class C_Filter(C_FilterTemplate):
     global user
     global cur_model_id
     user = anvil.users.get_user()
-    cur_model_id = anvil.server.call('GetModelID',  user["user_id"])
+    cur_model_id = anvil.server.call('get_model_id',  user["user_id"])
     
     self.load_filters()
 
   def load_filters(self, **event_args):
-    fil = json.loads(anvil.server.call('GetFilters', cur_model_id))
+    fil = json.loads(anvil.server.call('get_filters', cur_model_id))
     # 1. General
     self.artist_popularity_lat_min.text = fil["artist_popularity_lat_min"]
     self.artist_popularity_lat_max.text = fil["artist_popularity_lat_max"]
@@ -435,7 +435,7 @@ class C_Filter(C_FilterTemplate):
     elif(self.check_box_israeli_f.checked == True): israeli = 0
     else: israeli = None
     
-    anvil.server.call('ChangeFilters',
+    anvil.server.call('change_filters',
                       cur_model_id,
                       artist_popularity_lat_min,
                       artist_popularity_lat_max,

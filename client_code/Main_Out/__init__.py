@@ -13,7 +13,6 @@ class Main_Out(Main_OutTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
-    #self.content_panel.add_component(C_LandingPage_v2())
     
     # Any code you write here will run before the form opens.
     check_log_status(self)
@@ -23,8 +22,8 @@ class Main_Out(Main_OutTemplate):
     anvil.users.login_with_form(allow_cancel=True, remember_by_default=True)
     check_log_status(self)
     user = anvil.users.get_user()
-    if (user != None):
-      anvil.server.call('check_user_presence')
+    if (user != None):      
+      anvil.server.call('check_user_presence', mail=user['email'])
       open_form('Main_In', user_id = user["user_id"])
       
   def link_logout_click(self, **event_args):
@@ -37,7 +36,7 @@ class Main_Out(Main_OutTemplate):
   def link_investigate_click(self, **event_args):
     user = anvil.users.get_user()
     if (user != None):
-      anvil.server.call('check_user_presence')
+      anvil.server.call('check_user_presence', mail=user['email'])
       open_form('Main_In', user_id = user["user_id"])
 
 def check_log_status(self, **event_args):
