@@ -63,10 +63,10 @@ class C_Investigate(C_InvestigateTemplate):
       else: self.artist_popularity_lat.text = sug["ArtistPopularity_lat"]
       
       if sug["ArtistFollower_lat"] == 'None': self.artist_follower_lat.text = '-'
-      else: self.artist_follower_lat.text = sug["ArtistFollower_lat"]
+      else: self.artist_follower_lat.text = f'{int(sug["ArtistFollower_lat"]):,}'
 
       if sug["NoTracks"] == 'None': self.no_tracks.text = '-'
-      else: self.no_tracks.text = sug["NoTracks"]
+      else: self.no_tracks.text = f'{int(sug["NoTracks"]):,}'
       
       if sug["FirstReleaseDate"] == 'None': self.first_release_date.text = '-'
       else: self.first_release_date.text = sug["FirstReleaseDate"]
