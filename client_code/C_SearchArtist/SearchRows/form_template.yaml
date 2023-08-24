@@ -9,5 +9,6 @@ components:
   layout_properties: {column: YTCRRC}
   event_bindings: {click: inspect_link_click}
   data_bindings:
-  - {property: text, code: 'self.item[''ArtistID'']'}
+  - {property: text, code: '''see Details'''}
+  - {property: url, code: 'self.item[''ArtistID'']'}
 is_package: true

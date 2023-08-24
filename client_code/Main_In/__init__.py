@@ -24,8 +24,6 @@ class Main_In(Main_InTemplate):
     global cur_model_id
     user = anvil.users.get_user()
     cur_model_id = anvil.server.call('get_model_id',  user["user_id"])
-
-    print('Temp = ' + str(temp_artist_id) + '!!')
     
     if (cur_model_id == None):
       self.content_panel.add_component(C_NoModel())
@@ -46,7 +44,7 @@ class Main_In(Main_InTemplate):
     if (cur_model_id == None):
       self.content_panel.add_component(C_NoModel())
     else:
-      self.content_panel.add_component(C_Investigate())
+      self.content_panel.add_component(C_Investigate(temp_artist_id = None))
 
   def filter_click(self, **event_args):
     cur_model_id = anvil.server.call('get_model_id',  user["user_id"])

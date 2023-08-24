@@ -34,7 +34,7 @@ components:
     - {id: OHHGOJ, title: Artist, data_key: Name, $$hashKey: 'object:27702'}
     - {id: TTVDHC, title: Popularity, data_key: ArtistPopularity_lat, $$hashKey: 'object:27703'}
     - {id: ITWSTJ, title: Follower, data_key: ArtistFollower_lat, $$hashKey: 'object:27704'}
-    - {id: YTCRRC, title: Inspect, data_key: Inspect, $$hashKey: 'object:27824'}
+    - {id: YTCRRC, title: Investigate, data_key: Investigate, $$hashKey: 'object:27824'}
     auto_header: true
     tooltip: ''
     border: ''

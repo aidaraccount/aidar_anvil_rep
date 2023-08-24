@@ -22,10 +22,7 @@ class C_Investigate(C_InvestigateTemplate):
     user = anvil.users.get_user()    
     cur_model_id = anvil.server.call('get_model_id',  user["user_id"])
     
-    print('data received: ' + str(temp_artist_id))
-    
     self.refresh_sug(temp_artist_id)
-
   
   def refresh_sug(self, temp_artist_id, **event_args):
     print(f'Refresh Sug - Start {datetime.datetime.now()}', flush=True)
