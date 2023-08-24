@@ -15,10 +15,9 @@ class SearchRows(SearchRowsTemplate):
     self.init_components(**properties)
 
     # Any code you write here will run before the form opens.
-
+  
   def inspect_link_click(self, **event_args):
     """This method is called when the link is clicked"""
     
-    print("Link geklickt.." + str(self.inspect_link.text))
-
-    open_form('Main_In', user_id = 1)
+    print("Link geklickt.." + str(self.inspect_link.text))    
+    open_form('Main_In', temp_artist_id = int(self.inspect_link.text))

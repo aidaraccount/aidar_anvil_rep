@@ -15,7 +15,7 @@ from ..C_SearchArtist import C_SearchArtist
 
 
 class Main_In(Main_InTemplate):
-  def __init__(self, **properties):
+  def __init__(self, temp_artist_id, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
     
@@ -24,11 +24,13 @@ class Main_In(Main_InTemplate):
     global cur_model_id
     user = anvil.users.get_user()
     cur_model_id = anvil.server.call('get_model_id',  user["user_id"])
+
+    print('Temp = ' + str(temp_artist_id) + '!!')
     
     if (cur_model_id == None):
       self.content_panel.add_component(C_NoModel())
     else:
-      self.content_panel.add_component(C_Investigate())
+      self.content_panel.add_component(C_Investigate(temp_artist_id = temp_artist_id))
     
   def logo_click(self, **event_args):
     open_form('Main_Out')

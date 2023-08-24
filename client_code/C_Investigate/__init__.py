@@ -12,7 +12,7 @@ import plotly.graph_objects as go
 
 
 class C_Investigate(C_InvestigateTemplate):
-  def __init__(self, **properties):
+  def __init__(self, temp_artist_id, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
 
@@ -21,13 +21,15 @@ class C_Investigate(C_InvestigateTemplate):
     global cur_model_id
     user = anvil.users.get_user()    
     cur_model_id = anvil.server.call('get_model_id',  user["user_id"])
-
-    self.refresh_sug()
+    
+    print('data received: ' + str(temp_artist_id))
+    
+    self.refresh_sug(temp_artist_id)
 
   
-  def refresh_sug(self, **event_args):
+  def refresh_sug(self, temp_artist_id, **event_args):
     print(f'Refresh Sug - Start {datetime.datetime.now()}', flush=True)
-    sug = json.loads(anvil.server.call('get_suggestion', cur_model_id, 'Inspect')) # Free, Explore, Inspect, Dissect
+    sug = json.loads(anvil.server.call('get_suggestion', cur_model_id, 'Inspect', temp_artist_id)) # Free, Explore, Inspect, Dissect
 
     if sug["Status"] == 'Empty Model!':
       alert(title='Train you Model..',
