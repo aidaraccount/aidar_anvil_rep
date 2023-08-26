@@ -18,3 +18,10 @@ class SearchRows(SearchRowsTemplate):
   
   def inspect_link_click(self, **event_args):  
     open_form('Main_In', temp_artist_id = int(self.inspect_link.url))
+
+  def inspect_pic_link_click(self, **event_args):
+    open_form('Main_In', temp_artist_id = int(self.inspect_pic_link.url))
+
+  def inspect_name_link_click(self, **event_args):
+    open_form('Main_In', temp_artist_id = int(self.inspect_name_link.url))
+

@@ -30,8 +30,9 @@ components:
   properties:
     role: null
     columns:
-    - {id: CGJCWL, title: ArtistID, data_key: ArtistID, $$hashKey: 'object:34645'}
-    - {id: OHHGOJ, title: Artist, data_key: Name, $$hashKey: 'object:27702'}
+    - {id: CGJCWL, title: Artist, data_key: ArtistPictureURL, $$hashKey: 'object:34645',
+      width: 101, expand: false}
+    - {id: OHHGOJ, title: '', data_key: Name, $$hashKey: 'object:27702'}
     - {id: TTVDHC, title: Popularity, data_key: ArtistPopularity_lat, $$hashKey: 'object:27703'}
     - {id: ITWSTJ, title: Follower, data_key: ArtistFollower_lat, $$hashKey: 'object:27704'}
     - {id: YTCRRC, title: Investigate, data_key: Investigate, $$hashKey: 'object:27824'}

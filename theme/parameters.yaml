@@ -9,7 +9,7 @@ roles:
 - name: description
   components: [Label]
 - name: artist_name
-  components: [Label]
+  components: [Label, Link]
 - name: grid
   components: [GridPanel]
 - name: feature

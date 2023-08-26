@@ -22,8 +22,7 @@ class C_SearchArtist(C_SearchArtistTemplate):
     
   def text_box_search_change(self, **event_args):
     """This method is called when the text in this text box is edited"""
-    print(self.text_box_search.text, flush=True)
-    #print(json.loads(anvil.server.call('search_artist', cur_model_id, self.text_box_search.text)), flush=True)
-    print("fct start", flush=True)
+    print("fct start", flush=True)    
+    anvil.server.reset_session()
     self.data_grid_artists_data.items = json.loads(anvil.server.call('search_artist', cur_model_id, self.text_box_search.text))
     print("fct end", flush=True)
