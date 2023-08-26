@@ -83,13 +83,13 @@ class C_Investigate(C_InvestigateTemplate):
       self.sub_major_coop.text = smc
       
       if sug["MinMusDist"] == 'None': mmd = 'N/A'
-      else: mmd = round(float(sug["MinMusDist"]),2)
+      else: mmd = "{:.2f}".format(round(float(sug["MinMusDist"]),2))
       self.min_mus_dis.text = mmd
       if sug["AvgMusDist"] == 'None': amd = 'N/A'
-      else: amd = round(float(sug["AvgMusDist"]),2)
+      else: amd = "{:.2f}".format(round(float(sug["AvgMusDist"]),2))
       self.avg_mus_dis.text = amd
       if sug["MaxMusDist"] == 'None': xmd = 'N/A'
-      else: xmd = round(float(sug["MaxMusDist"]),2)
+      else: xmd = "{:.2f}".format(round(float(sug["MaxMusDist"]),2))
       self.max_mus_dis.text = xmd
       
       if (sug["AvgExplicit"] == 'None'): expl = '-'
@@ -102,7 +102,7 @@ class C_Investigate(C_InvestigateTemplate):
       if (sug["Prediction"] == 'None'): pred = 'N/A'
       elif (float(sug["Prediction"]) > 7): pred = 7.0
       elif (float(sug["Prediction"]) < 0): pred = 0.0
-      else: pred = round(float(sug["Prediction"]),1)
+      else: pred = "{:.1f}".format(round(float(sug["Prediction"]),1))
       self.prediction.text = pred
 
       if sug["Genres"] == 'None': self.genres.text = '-'
@@ -160,34 +160,34 @@ class C_Investigate(C_InvestigateTemplate):
   def button_1_click(self, **event_args):
     self.header.scroll_into_view(smooth=True)
     anvil.server.call('add_interest', cur_model_id, artist_id, 1)
-    self.refresh_sug()
+    self.refresh_sug(temp_artist_id=None)
 
   def button_2_click(self, **event_args):
     self.header.scroll_into_view(smooth=True)
     anvil.server.call('add_interest', cur_model_id, artist_id, 2)
-    self.refresh_sug()
+    self.refresh_sug(temp_artist_id=None)
 
   def button_3_click(self, **event_args):
     self.header.scroll_into_view(smooth=True)
     anvil.server.call('add_interest', cur_model_id, artist_id, 3)
-    self.refresh_sug()
+    self.refresh_sug(temp_artist_id=None)
 
   def button_4_click(self, **event_args):
     self.header.scroll_into_view(smooth=True)
     anvil.server.call('add_interest', cur_model_id, artist_id, 4)
-    self.refresh_sug()
+    self.refresh_sug(temp_artist_id=None)
 
   def button_5_click(self, **event_args):
     self.header.scroll_into_view(smooth=True)
     anvil.server.call('add_interest', cur_model_id, artist_id, 5)
-    self.refresh_sug()
+    self.refresh_sug(temp_artist_id=None)
 
   def button_6_click(self, **event_args):
     self.header.scroll_into_view(smooth=True)
     anvil.server.call('add_interest', cur_model_id, artist_id, 6)
-    self.refresh_sug()
+    self.refresh_sug(temp_artist_id=None)
 
   def button_7_click(self, **event_args):
     self.header.scroll_into_view(smooth=True)
     anvil.server.call('add_interest', cur_model_id, artist_id, 7)
-    self.refresh_sug()
+    self.refresh_sug(temp_artist_id=None)
