@@ -21,4 +21,3 @@ class C_Rating(C_RatingTemplate):
 
     # Ratings Table
     self.data_ratings_data.items = json.loads(anvil.server.call('get_ratings', cur_model_id))
-

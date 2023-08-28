@@ -25,7 +25,9 @@ components:
     role: null
     columns:
     - {id: OYDYNQ, title: Date, data_key: DateOfRecommendation, $$hashKey: 'object:5657'}
-    - {id: FCILTB, title: Artist, data_key: Name, $$hashKey: 'object:5658'}
+    - {id: DCLCSV, title: Artist, data_key: column_1, $$hashKey: 'object:2535', width: 101,
+      expand: false}
+    - {id: FCILTB, title: '', data_key: Name, $$hashKey: 'object:5658'}
     - {id: YHPGYN, title: Interest, data_key: Interest, $$hashKey: 'object:5659'}
     auto_header: true
     tooltip: ''

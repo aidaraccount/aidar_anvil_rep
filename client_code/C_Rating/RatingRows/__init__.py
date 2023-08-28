@@ -21,3 +21,8 @@ class RatingRows(RatingRowsTemplate):
     self.content_panel.clear()
     self.content_panel.add_component(C_Investigate())
 
+  def inspect_pic_link_click(self, **event_args):
+    open_form('Main_In', temp_artist_id = int(self.inspect_pic_link.url))
+
+  def inspect_name_link_click(self, **event_args):
+    open_form('Main_In', temp_artist_id = int(self.inspect_name_link.url))
