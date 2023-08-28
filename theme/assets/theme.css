@@ -44,8 +44,8 @@ header>.nav-links>span {
 }
 
 .anvil-role-table_content {
-  font-size: 14px;
-  color: %color:Text_Grey%;
+  font-size: 18px;
+  color: %color:Text_DecentWhite%;
 }
 .anvil-role-eval_button {
   font-size: 26px;
@@ -63,7 +63,7 @@ header>.nav-links>span {
 }
 .anvil-role-description {
   font-size: 14px;
-  color: %color:Text_Grey%;
+  color: %color:Text_Grey% !important;
 }
 .anvil-role-artist_name {
   font-size: 20px;

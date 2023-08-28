@@ -56,12 +56,12 @@ components:
       layout_properties: {row: OSZLNL, width_xs: 3, col_xs: 3, width: 139}
       event_bindings: {pressed_enter: apply_filters_click}
     - type: Label
-      properties: {role: null, align: center, tooltip: '', border: '', foreground: '',
+      properties: {role: description, align: center, tooltip: '', border: '', foreground: '',
         visible: true, text: to, font_size: null, font: '', spacing_above: small,
         icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
         underline: false, icon: ''}
       name: label_5
-      layout_properties: {row: OSZLNL, width_xs: 2, col_xs: 7, width: 53.3333}
+      layout_properties: {row: OSZLNL, width_xs: 2, col_xs: 7, width: 136.667}
     - type: TextBox
       properties: {role: text_box, align: left, hide_text: false, tooltip: '', placeholder: '',
         border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
@@ -92,12 +92,12 @@ components:
       layout_properties: {row: VLPSXL, width_xs: 3, col_xs: 4, width: 139}
       event_bindings: {pressed_enter: apply_filters_click}
     - type: Label
-      properties: {role: null, align: center, tooltip: '', border: '', foreground: '',
+      properties: {role: description, align: center, tooltip: '', border: '', foreground: '',
         visible: true, text: to, font_size: null, font: '', spacing_above: small,
         icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
         underline: false, icon: ''}
       name: label_7
-      layout_properties: {row: VLPSXL, width_xs: 2, col_xs: 7, width: 139}
+      layout_properties: {row: VLPSXL, width_xs: 2, col_xs: 7, width: 136.667}
     - type: TextBox
       properties: {role: text_box, align: left, hide_text: false, tooltip: '', placeholder: '',
         border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
@@ -143,12 +143,12 @@ components:
       layout_properties: {row: OSZLNL, width_xs: 3, col_xs: 3, width: 139}
       event_bindings: {pressed_enter: apply_filters_click}
     - type: Label
-      properties: {role: null, align: center, tooltip: '', border: '', foreground: '',
+      properties: {role: description, align: center, tooltip: '', border: '', foreground: '',
         visible: true, text: to, font_size: null, font: '', spacing_above: small,
         icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
         underline: false, icon: ''}
       name: label_5_copy
-      layout_properties: {row: OSZLNL, width_xs: 2, col_xs: 7, width: 53.3333}
+      layout_properties: {row: OSZLNL, width_xs: 2, col_xs: 7, width: 136.667}
     - type: TextBox
       properties: {role: text_box, align: left, hide_text: false, tooltip: '', placeholder: '',
         border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
@@ -181,12 +181,12 @@ components:
       layout_properties: {row: OSZLNL, width_xs: 3, col_xs: 3, width: 139}
       event_bindings: {pressed_enter: apply_filters_click}
     - type: Label
-      properties: {role: null, align: center, tooltip: '', border: '', foreground: '',
+      properties: {role: description, align: center, tooltip: '', border: '', foreground: '',
         visible: true, text: to, font_size: null, font: '', spacing_above: small,
         icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
         underline: false, icon: ''}
       name: label_5_copy_2
-      layout_properties: {row: OSZLNL, width_xs: 2, col_xs: 7, width: 53.3333}
+      layout_properties: {row: OSZLNL, width_xs: 2, col_xs: 7, width: 136.667}
     - type: TextBox
       properties: {role: text_box, align: left, hide_text: false, tooltip: '', placeholder: '',
         border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
@@ -219,12 +219,12 @@ components:
       layout_properties: {row: OSZLNL, width_xs: 3, col_xs: 3, width: 139}
       event_bindings: {pressed_enter: apply_filters_click}
     - type: Label
-      properties: {role: null, align: center, tooltip: '', border: '', foreground: '',
+      properties: {role: description, align: center, tooltip: '', border: '', foreground: '',
         visible: true, text: to, font_size: null, font: '', spacing_above: small,
         icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
         underline: false, icon: ''}
       name: label_5_copy_3
-      layout_properties: {row: OSZLNL, width_xs: 2, col_xs: 7, width: 53.3333}
+      layout_properties: {row: OSZLNL, width_xs: 2, col_xs: 7, width: 136.667}
     - type: TextBox
       properties: {role: text_box, align: left, hide_text: false, tooltip: '', placeholder: '',
         border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
@@ -257,12 +257,12 @@ components:
       layout_properties: {row: OSZLNL, width_xs: 3, col_xs: 3, width: 139}
       event_bindings: {pressed_enter: apply_filters_click}
     - type: Label
-      properties: {role: null, align: center, tooltip: '', border: '', foreground: '',
+      properties: {role: description, align: center, tooltip: '', border: '', foreground: '',
         visible: true, text: to, font_size: null, font: '', spacing_above: small,
         icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
         underline: false, icon: ''}
       name: label_5_copy_4
-      layout_properties: {row: OSZLNL, width_xs: 2, col_xs: 7, width: 53.3333}
+      layout_properties: {row: OSZLNL, width_xs: 2, col_xs: 7, width: 136.667}
     - type: TextBox
       properties: {role: text_box, align: left, hide_text: false, tooltip: '', placeholder: '',
         border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
@@ -295,12 +295,12 @@ components:
       layout_properties: {row: OSZLNL, width_xs: 3, col_xs: 3, width: 139}
       event_bindings: {pressed_enter: apply_filters_click}
     - type: Label
-      properties: {role: null, align: center, tooltip: '', border: '', foreground: '',
+      properties: {role: description, align: center, tooltip: '', border: '', foreground: '',
         visible: true, text: to, font_size: null, font: '', spacing_above: small,
         icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
         underline: false, icon: ''}
       name: label_5_copy_5
-      layout_properties: {row: OSZLNL, width_xs: 2, col_xs: 7, width: 53.3333}
+      layout_properties: {row: OSZLNL, width_xs: 2, col_xs: 7, width: 136.667}
     - type: TextBox
       properties: {role: text_box, align: left, hide_text: false, tooltip: '', placeholder: '',
         border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
@@ -333,12 +333,12 @@ components:
       layout_properties: {row: OSZLNL, width_xs: 3, col_xs: 3, width: 139}
       event_bindings: {pressed_enter: apply_filters_click}
     - type: Label
-      properties: {role: null, align: center, tooltip: '', border: '', foreground: '',
+      properties: {role: description, align: center, tooltip: '', border: '', foreground: '',
         visible: true, text: to, font_size: null, font: '', spacing_above: small,
         icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
         underline: false, icon: ''}
       name: label_5_copy_6
-      layout_properties: {row: OSZLNL, width_xs: 2, col_xs: 7, width: 53.3333}
+      layout_properties: {row: OSZLNL, width_xs: 2, col_xs: 7, width: 136.667}
     - type: TextBox
       properties: {role: text_box, align: left, hide_text: false, tooltip: '', placeholder: '',
         border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
@@ -371,12 +371,12 @@ components:
       layout_properties: {row: OSZLNL, width_xs: 3, col_xs: 3, width: 139}
       event_bindings: {pressed_enter: apply_filters_click}
     - type: Label
-      properties: {role: null, align: center, tooltip: '', border: '', foreground: '',
+      properties: {role: description, align: center, tooltip: '', border: '', foreground: '',
         visible: true, text: to, font_size: null, font: '', spacing_above: small,
         icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
         underline: false, icon: ''}
       name: label_5_copy_7
-      layout_properties: {row: OSZLNL, width_xs: 2, col_xs: 7, width: 53.3333}
+      layout_properties: {row: OSZLNL, width_xs: 2, col_xs: 7, width: 136.667}
     - type: TextBox
       properties: {role: text_box, align: left, hide_text: false, tooltip: '', placeholder: '',
         border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
@@ -409,12 +409,12 @@ components:
       layout_properties: {row: OSZLNL, width_xs: 3, col_xs: 3, width: 139}
       event_bindings: {pressed_enter: apply_filters_click}
     - type: Label
-      properties: {role: null, align: center, tooltip: '', border: '', foreground: '',
+      properties: {role: description, align: center, tooltip: '', border: '', foreground: '',
         visible: true, text: to, font_size: null, font: '', spacing_above: small,
         icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
         underline: false, icon: ''}
       name: label_5_copy_8
-      layout_properties: {row: OSZLNL, width_xs: 2, col_xs: 7, width: 53.3333}
+      layout_properties: {row: OSZLNL, width_xs: 2, col_xs: 7, width: 136.667}
     - type: TextBox
       properties: {role: text_box, align: left, hide_text: false, tooltip: '', placeholder: '',
         border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
@@ -447,12 +447,12 @@ components:
       layout_properties: {row: OSZLNL, width_xs: 3, col_xs: 4, width: 139}
       event_bindings: {pressed_enter: apply_filters_click}
     - type: Label
-      properties: {role: null, align: center, tooltip: '', border: '', foreground: '',
+      properties: {role: description, align: center, tooltip: '', border: '', foreground: '',
         visible: true, text: to, font_size: null, font: '', spacing_above: small,
         icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
         underline: false, icon: ''}
       name: label_5_copy_9
-      layout_properties: {row: OSZLNL, width_xs: 2, col_xs: 7, width: 53.3333}
+      layout_properties: {row: OSZLNL, width_xs: 2, col_xs: 7, width: 136.667}
     - type: TextBox
       properties: {role: text_box, align: left, hide_text: false, tooltip: '', placeholder: '',
         border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
@@ -485,12 +485,12 @@ components:
       layout_properties: {row: OSZLNL, width_xs: 3, col_xs: 3, width: 139}
       event_bindings: {pressed_enter: apply_filters_click}
     - type: Label
-      properties: {role: null, align: center, tooltip: '', border: '', foreground: '',
+      properties: {role: description, align: center, tooltip: '', border: '', foreground: '',
         visible: true, text: to, font_size: null, font: '', spacing_above: small,
         icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
         underline: false, icon: ''}
       name: label_5_copy_10
-      layout_properties: {row: OSZLNL, width_xs: 2, col_xs: 7, width: 53.3333}
+      layout_properties: {row: OSZLNL, width_xs: 2, col_xs: 7, width: 136.667}
     - type: TextBox
       properties: {role: text_box, align: left, hide_text: false, tooltip: '', placeholder: '',
         border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
@@ -523,12 +523,12 @@ components:
       layout_properties: {row: OSZLNL, width_xs: 3, col_xs: 3, width: 139}
       event_bindings: {pressed_enter: apply_filters_click}
     - type: Label
-      properties: {role: null, align: center, tooltip: '', border: '', foreground: '',
+      properties: {role: description, align: center, tooltip: '', border: '', foreground: '',
         visible: true, text: to, font_size: null, font: '', spacing_above: small,
         icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
         underline: false, icon: ''}
       name: label_5_copy_11
-      layout_properties: {row: OSZLNL, width_xs: 2, col_xs: 7, width: 53.3333}
+      layout_properties: {row: OSZLNL, width_xs: 2, col_xs: 7, width: 136.667}
     - type: TextBox
       properties: {role: text_box, align: left, hide_text: false, tooltip: '', placeholder: '',
         border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
@@ -561,12 +561,12 @@ components:
       layout_properties: {row: OSZLNL, width_xs: 3, col_xs: 3, width: 139}
       event_bindings: {pressed_enter: apply_filters_click}
     - type: Label
-      properties: {role: null, align: center, tooltip: '', border: '', foreground: '',
+      properties: {role: description, align: center, tooltip: '', border: '', foreground: '',
         visible: true, text: to, font_size: null, font: '', spacing_above: small,
         icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
         underline: false, icon: ''}
       name: label_5_copy_12
-      layout_properties: {row: OSZLNL, width_xs: 2, col_xs: 7, width: 53.3333}
+      layout_properties: {row: OSZLNL, width_xs: 2, col_xs: 7, width: 136.667}
     - type: TextBox
       properties: {role: text_box, align: left, hide_text: false, tooltip: '', placeholder: '',
         border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,

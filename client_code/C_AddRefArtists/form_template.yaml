@@ -16,12 +16,80 @@ components:
     layout_properties:
       col_widths: {}
       grid_position: WKTSPW,ALNASW
-  - type: Spacer
-    properties: {height: 98}
-    name: spacer_1
+  - type: Label
+    properties: {role: description, align: left, tooltip: '', border: '', foreground: '',
+      visible: true, text: 'To train the Model, we need to know which artists are
+        of high interests to you right now. Therefore, please add as many artists
+        below as you would like to. It is important to only add artists, that you
+        would like to find here right now.
+
+
+        There are two ways to add a Reference Artist:', font_size: null, font: '',
+      spacing_above: small, icon_align: left, spacing_below: small, italic: true,
+      background: '', bold: false, underline: false, icon: ''}
+    name: label_2_copy
     layout_properties:
       col_widths: {}
-      grid_position: VLRBFT,HWZWOB
+      grid_position: IRZOFG,FLCZRA
+  - type: Label
+    properties: {role: sub_title, align: left, tooltip: '', border: '', foreground: '',
+      visible: true, text: 1. Add by Search, font_size: null, font: '', spacing_above: small,
+      icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+      underline: false, icon: ''}
+    name: label_1
+    layout_properties: {grid_position: 'CUCHCX,FBLWSL'}
+  - type: TextBox
+    properties: {}
+    name: text_box_search
+    layout_properties:
+      col_widths: {}
+      grid_position: SGNDPT,SUGPFH
+    event_bindings: {change: text_box_search_change}
+  - type: DataGrid
+    properties:
+      role: null
+      columns:
+      - {id: CGJCWL, title: Artist, data_key: ArtistPictureURL, $$hashKey: 'object:34645',
+        width: '100', expand: false}
+      - {id: OHHGOJ, title: '', data_key: Name, $$hashKey: 'object:27702'}
+      - {id: TTVDHC, title: Popularity, data_key: ArtistPopularity_lat, $$hashKey: 'object:27703'}
+      - {id: ITWSTJ, title: Follower, data_key: ArtistFollower_lat, $$hashKey: 'object:27704'}
+      - {id: YTCRRC, title: Add as Ref. Artist, data_key: Investigate, $$hashKey: 'object:27824'}
+      auto_header: true
+      tooltip: ''
+      border: ''
+      foreground: ''
+      rows_per_page: 20
+      visible: true
+      wrap_on: never
+      show_page_controls: true
+      spacing_above: small
+      spacing_below: small
+      background: ''
+    name: data_grid_artists_header
+    layout_properties:
+      col_widths: {}
+      grid_position: ECSUPB,AIXWRL
+    components:
+    - type: RepeatingPanel
+      properties: {role: table_content, tooltip: '', border: '', foreground: '', items: null,
+        visible: true, spacing_above: none, spacing_below: none, item_template: C_AddRefArtists.SearchRefRows,
+        background: ''}
+      name: data_grid_artists_data
+      layout_properties: {}
+  - type: Spacer
+    properties: {height: 67}
+    name: spacer_1
+    layout_properties: {grid_position: 'VMTRDP,QJBIYQ'}
+  - type: Label
+    properties: {role: sub_title, align: left, tooltip: '', border: '', foreground: '',
+      visible: true, text: 2. Add by Spotify-Artist-ID, font_size: null, font: '',
+      spacing_above: small, icon_align: left, spacing_below: small, italic: false,
+      background: '', bold: false, underline: false, icon: ''}
+    name: label_1_copy_2
+    layout_properties:
+      col_widths: {}
+      grid_position: XEIVID,VFWWJS
   - type: RichText
     properties: {role: null, align: left, tooltip: '', enable_slots: true, border: '',
       foreground: '', visible: true, font_size: null, content: '', font: '', spacing_above: small,
@@ -31,13 +99,9 @@ components:
     components:
     - type: Label
       properties: {role: description, align: left, tooltip: '', border: '', foreground: '',
-        visible: true, text: "To train the Model, we need to know which artists are\
-          \ of high interests to you right now. Therefore, please add as many artists\
-          \ below as you would like to. It is important to only add artists, that\
-          \ you would like to find here right now.\n\nPlease enter a Spotify Artist\
-          \ ID\n - go to https://open.spotify.com/, open the profile page of your\
-          \ artists of interest and copy/paste the Artist ID in the URL\n - for Ed\
-          \ Sheeran e.g., it would be https://open.spotify.com/artist/6eUKZXaKkcviH0Ku9w2n3V",
+        visible: true, text: "Please enter a Spotify Artist ID\n - go to https://open.spotify.com/,\
+          \ open the profile page of your artists of interest, and copy/paste the\
+          \ Artist ID into the URL\n - for Ed Sheeran e.g., it would be https://open.spotify.com/artist/6eUKZXaKkcviH0Ku9w2n3V",
         font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small,
         italic: false, background: '', bold: false, underline: false, icon: ''}
       name: label_2

@@ -5,6 +5,7 @@ import anvil.users
 import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
+import json
 
 
 class C_AddRefArtists(C_AddRefArtistsTemplate):
@@ -33,3 +34,10 @@ class C_AddRefArtists(C_AddRefArtistsTemplate):
             content='We are processing your artist, which may take a short moment. You will find it at RATINGS soon.\n\nFeel free to add additional reference artists or start to INVESTIGATE - both  will improve your model accuracy.\n\nEnjoy it!')
     elif status == 'No SpotifyArtistID':
       alert(title='Error..', content='This is not a valid Spotify Artist ID.\n\nYou find the Spotify Artist ID on open.spotify.com. It contains 22 characters.\n\nMichael Jackson for example is available under https://open.spotify.com/artist/3fMbdgg4jU18AjLCKBhRSm. The last part of this URL is the Spotify Artist ID -> "3fMbdgg4jU18AjLCKBhRSm"')
+
+  def text_box_search_change(self, **event_args):
+    """This method is called when the text in this text box is edited"""
+    print("fct start", flush=True)    
+    anvil.server.reset_session()
+    self.data_grid_artists_data.items = json.loads(anvil.server.call('search_artist', cur_model_id, self.text_box_search.text))
+    print("fct end", flush=True)

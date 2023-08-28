@@ -21,7 +21,7 @@ roles:
 - name: sub_title
   components: [Label]
 - name: table_content
-  components: [RepeatingPanel]
+  components: [RepeatingPanel, Link]
 - name: text_box
   components: [TextBox]
 color_scheme:
@@ -102,5 +102,6 @@ color_scheme:
   - {name: Grid_Black, color: 'rgb(40, 40, 40)'}
   - {name: Orange, color: 'rgb(253, 101, 45)'}
   - {name: Text_White, color: 'rgb(255, 255, 255)'}
-  - {name: Text_Grey, color: 'rgb(175, 175, 175)'}
-  - {name: Text_DarkGrey, color: '#616161'}
+  - {name: Text_DecentWhite, color: 'rgb(235, 235, 235)'}
+  - {name: Text_Grey, color: 'rgb(200, 200, 200)'}
+  - {name: Text_DarkGrey, color: 'rgb(175, 175, 175)'}
