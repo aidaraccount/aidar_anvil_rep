@@ -10,7 +10,7 @@ components:
   event_bindings: {click: inspect_link_click}
   data_bindings:
   - {property: text, code: '''add as Ref. Artist'''}
-  - {property: url, code: 'self.item[''ArtistID'']'}
+  - {property: tag, code: 'self.item[''SpotifyArtistID'']'}
 - type: Link
   properties: {col_widths: '{}'}
   name: inspect_pic_link

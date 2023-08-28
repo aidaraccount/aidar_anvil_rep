@@ -15,8 +15,8 @@ class C_AddRefArtists(C_AddRefArtistsTemplate):
 
     # Any code you write here will run before the form opens.
     global user
-    global cur_model_id
-    user = anvil.users.get_user()    
+    user = anvil.users.get_user()
+    global cur_model_id   
     cur_model_id = anvil.server.call('get_model_id',  user["user_id"])
 
   def button_add_ref_artist_click(self, **event_args):
