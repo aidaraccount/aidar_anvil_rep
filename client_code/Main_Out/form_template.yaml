@@ -114,6 +114,20 @@ components:
       source: _/theme/pics/Artist_Text.png, spacing_below: none, background: '', horizontal_align: center}
     name: image_1
     layout_properties: {grid_position: 'PLKGRT,IFHXND', full_width_row: true}
+- type: ColumnPanel
+  properties: {role: null, tooltip: '', border: '', foreground: '', visible: true,
+    wrap_on: mobile, col_spacing: medium, spacing_above: none, col_widths: '{}', spacing_below: none,
+    background: 'theme:Background'}
+  name: column_panel_3
+  layout_properties: {grid_position: 'QVHKQN,CXWYIJ', full_width_row: true}
+  components:
+  - type: Image
+    properties: {role: null, vertical_align: center, height: '250', tooltip: '', border: '',
+      foreground: '', visible: true, display_mode: shrink_to_fit, spacing_above: large,
+      source: _/theme/pics/Partners_plane.png, spacing_below: large, background: '',
+      horizontal_align: center}
+    name: image_4
+    layout_properties: {grid_position: 'PCKJPR,DGBLDD'}
 - type: FlowPanel
   properties: {role: null, spacing: medium, align: left, tooltip: '', border: '',
     foreground: '', visible: true, spacing_above: small, spacing_below: small, background: ''}
