@@ -39,17 +39,19 @@ class Main_Out(Main_OutTemplate):
       anvil.server.call('check_user_presence', mail=user['email'])
       open_form('Main_In', temp_artist_id = None, user_id = user["user_id"])
 
-  def button_1_click(self, **event_args):
-    """This method is called when the button is clicked"""
-    pass
-
   def linkedin_click(self, **event_args):
     self.link_6.url = 'https://www.linkedin.com/company/aidar-insights/'
 
   def instagram_click(self, **event_args):
     self.link_5.url = 'https://www.instagram.com/aidar_insights/'
 
-
+  def call2action_text_box_click(self, **event_args):
+    status = anvil.server.call('add_waiter', mail=self.call2action_text_box.text)
+    if status == 'Success!':
+      alert(title='Thanks for joining our Waiting List!',
+            content='We appreciate your interest in our product and will get back to you as soon as we have the capacity available.\n\nBest regards\nYour AIDAR Team')
+    elif status == 'Error':
+      alert(title='Error..', content='Apologies for the inconvenience caused.\n\nIf the error persists, kindly reach out to us via email at info@aidar.ai.\n\nThank you,\nYour AIDAR Team')
 
 
 def check_log_status(self, **event_args):

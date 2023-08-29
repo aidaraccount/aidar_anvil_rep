@@ -170,8 +170,9 @@ components:
           2', visible: true, text: '', font_size: 20, font: '', spacing_above: small,
         type: email, spacing_below: small, italic: false, background: 'theme:Text_DecentWhite',
         bold: true, underline: false}
-      name: text_box_1
+      name: call2action_text_box
       layout_properties: {grid_position: 'SRRBNR,NXJVIC'}
+      event_bindings: {pressed_enter: call2action_text_box_click}
     - type: Button
       properties: {role: call_to_action_button, align: center, tooltip: '', border: '',
         enabled: true, foreground: 'theme:Text_DecentWhite', visible: true, text: ' JOIN
@@ -180,7 +181,7 @@ components:
         underline: false, icon: 'fa:angle-double-right'}
       name: button_1
       layout_properties: {grid_position: 'SRRBNR,CBBVXH'}
-      event_bindings: {click: button_1_click}
+      event_bindings: {click: call2action_text_box_click}
     - type: Label
       properties: {}
       name: label_10
@@ -219,18 +220,38 @@ components:
     name: image_3
     layout_properties: {grid_position: 'JXQOON,FNDLGM', full_width_row: true}
   - type: ColumnPanel
-    properties: {role: null, tooltip: '', border: '', foreground: '', visible: true,
-      wrap_on: mobile, col_spacing: medium, spacing_above: none, col_widths: '{}',
-      spacing_below: none, background: 'theme:Orange'}
+    properties: {role: landingpage_noartists_background, tooltip: '', border: '',
+      foreground: '', visible: true, wrap_on: mobile, col_spacing: medium, spacing_above: none,
+      col_widths: '{}', spacing_below: none, background: 'theme:Main_Black'}
     name: column_panel_13
-    layout_properties: {grid_position: 'OWFXMB,JDATBV', full_width_row: true}
+    layout_properties: {grid_position: 'OWFXMB,QBSHQV', full_width_row: true}
     components:
-    - type: Image
-      properties: {role: null, vertical_align: center, height: '', tooltip: '', border: '',
-        foreground: '', visible: true, display_mode: fill_width, spacing_above: none,
-        source: _/theme/pics/NoArtists.png, spacing_below: none, background: '', horizontal_align: center}
-      name: image_5
-      layout_properties: {grid_position: 'LPICTT,JKJXXW', full_width_row: true}
+    - type: ColumnPanel
+      properties: {role: null, tooltip: '', border: '', foreground: '', visible: true,
+        wrap_on: mobile, col_spacing: medium, spacing_above: none, col_widths: '{}',
+        spacing_below: none, background: ''}
+      name: column_panel_15
+      layout_properties: {grid_position: 'MUAYKZ,WMKQIM'}
+      components:
+      - type: Spacer
+        properties: {visible: true, spacing_above: small, spacing_below: small, height: '50',
+          tooltip: ''}
+        name: spacer_13
+        layout_properties: {grid_position: 'DFICIL,BRFOLY'}
+      - type: RichText
+        properties: {role: null, align: center, tooltip: '', enable_slots: true, border: '',
+          foreground: 'theme:Text_Grey', visible: true, font_size: null, content: "<p\
+            \ style=\"font-weight: bold;\">\n  <span style=\"font-size: 40px;\">3.1</span>\n\
+            \  <span style=\"font-size: 30px;\">million</span>\n<span style=\"font-size:\
+            \ 22px;\"><br>Artists in our Database</span>\n</p>\n", font: '', spacing_above: small,
+          spacing_below: small, data: null, background: '', format: restricted_html}
+        name: rich_text_2
+        layout_properties: {grid_position: 'BLNVIC,VDPROD'}
+      - type: Spacer
+        properties: {visible: true, spacing_above: small, spacing_below: small, height: '50',
+          tooltip: ''}
+        name: spacer_14
+        layout_properties: {grid_position: 'LAEHHW,VKACDD'}
   - type: ColumnPanel
     properties: {role: null, tooltip: '', border: '', foreground: '', visible: true,
       wrap_on: mobile, col_spacing: medium, spacing_above: none, col_widths: '{}',
@@ -250,6 +271,7 @@ components:
         col_widths: {}
         grid_position: TQDYZC,PYOYVK
         full_width_row: true
+      components: []
     - type: FlowPanel
       properties: {role: null, spacing: medium, align: center, tooltip: '', border: '',
         foreground: '', visible: true, spacing_above: small, spacing_below: small,
@@ -259,7 +281,7 @@ components:
       components:
       - type: Link
         properties: {role: artist_name, url: '', align: left, tooltip: '', border: '',
-          foreground: '', visible: true, text: LinkedIn, font_size: 30, wrap_on: mobile,
+          foreground: '', visible: true, text: LinkedIn, font_size: 28, wrap_on: mobile,
           font: '', col_spacing: medium, spacing_above: small, icon_align: left_edge,
           col_widths: '', spacing_below: small, italic: false, background: '', bold: false,
           underline: false, icon: 'fa:linkedin'}
@@ -274,7 +296,7 @@ components:
         layout_properties: {width: 35, expand: false}
       - type: Link
         properties: {role: artist_name, url: '', align: left, tooltip: '', border: '',
-          foreground: '', visible: true, text: Instagram, font_size: 30, wrap_on: mobile,
+          foreground: '', visible: true, text: Instagram, font_size: 28, wrap_on: mobile,
           font: '', col_spacing: medium, spacing_above: small, icon_align: left_edge,
           col_widths: '', spacing_below: small, italic: false, background: '', bold: false,
           underline: false, icon: 'fa:instagram'}
@@ -285,37 +307,37 @@ components:
       properties: {height: 40}
       name: spacer_10
       layout_properties: {grid_position: 'XRFYWO,LFWUJV'}
-  - type: ColumnPanel
-    properties: {role: null, tooltip: '', border: '', foreground: '', visible: true,
-      wrap_on: mobile, col_spacing: medium, spacing_above: none, col_widths: '{}',
-      spacing_below: none, background: 'theme:Accent 1'}
-    name: column_panel_3
-    layout_properties: {grid_position: 'NWTZAG,FTKZFC', full_width_row: true}
-    components:
-    - type: Spacer
-      properties: {visible: true, spacing_above: small, spacing_below: small, height: '20',
-        tooltip: ''}
-      name: spacer_3
-      layout_properties: {grid_position: 'WZHYEB,EUKAJI'}
-    - type: RichText
-      properties: {role: null, align: center, tooltip: '', enable_slots: true, border: '',
-        foreground: 'theme:Text_DecentWhite', visible: true, font_size: null, content: "<p\
-          \ style=\"font-weight: bold;\">\n  <span style=\"color: rgb(253, 101, 45);\
-          \ font-size: 50px;\">.</span>\n  <span style=\"font-size: 30px;\">TRUSTED\
-          \ BY</span>\n</p>\n", font: '', spacing_above: small, spacing_below: small,
-        data: null, background: '', format: restricted_html}
-      name: rich_text_1_copy_3
-      layout_properties:
-        col_widths: {}
-        grid_position: OVHQXX,OKYHMD
-        full_width_row: true
-    - type: Image
-      properties: {role: null, vertical_align: center, height: '275', tooltip: '',
-        border: '', foreground: '', visible: true, display_mode: shrink_to_fit, spacing_above: small,
-        source: _/theme/pics/Partners_plane.png, spacing_below: large, background: '',
-        horizontal_align: center}
-      name: image_4
-      layout_properties: {grid_position: 'PCKJPR,DGBLDD'}
+    - type: ColumnPanel
+      properties: {role: null, tooltip: '', border: '', foreground: '', visible: true,
+        wrap_on: mobile, col_spacing: medium, spacing_above: none, col_widths: '{}',
+        spacing_below: none, background: 'theme:Accent 1'}
+      name: column_panel_3
+      layout_properties: {grid_position: 'VPGPGY,NXUJLI', full_width_row: true}
+      components:
+      - type: Spacer
+        properties: {visible: true, spacing_above: small, spacing_below: small, height: '20',
+          tooltip: ''}
+        name: spacer_3
+        layout_properties: {grid_position: 'WZHYEB,EUKAJI'}
+      - type: RichText
+        properties: {role: null, align: center, tooltip: '', enable_slots: true, border: '',
+          foreground: 'theme:Text_DecentWhite', visible: true, font_size: null, content: "<p\
+            \ style=\"font-weight: bold;\">\n  <span style=\"color: rgb(253, 101,\
+            \ 45); font-size: 50px;\">.</span>\n  <span style=\"font-size: 30px;\"\
+            >TRUSTED BY</span>\n</p>\n", font: '', spacing_above: small, spacing_below: small,
+          data: null, background: '', format: restricted_html}
+        name: rich_text_1_copy_3
+        layout_properties:
+          col_widths: {}
+          grid_position: OVHQXX,OKYHMD
+          full_width_row: true
+      - type: Image
+        properties: {role: null, vertical_align: center, height: '250', tooltip: '',
+          border: '', foreground: '', visible: true, display_mode: shrink_to_fit,
+          spacing_above: small, source: _/theme/pics/Partners_plane.png, spacing_below: large,
+          background: '', horizontal_align: center}
+        name: image_4
+        layout_properties: {grid_position: 'PCKJPR,DGBLDD'}
   - type: ColumnPanel
     properties: {role: null, tooltip: '', border: '', foreground: '', visible: false,
       wrap_on: mobile, col_spacing: medium, spacing_above: none, col_widths: '{}',

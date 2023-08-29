@@ -38,12 +38,17 @@ header>.nav-links>span {
 /* ---- OWN ADJUSTMENTS ----------------------- */
 #loadingSpinner {
     border-radius: 0;
+    border-radius: 0;
     box-shadow: none;/*0px 0px 10px 10px #fcfcfc;*/
     background-color: transparent;
     background-image: url(_/theme/pics/LoadingSpinner_circle.gif) !important;
 }
 
-
+.anvil-role-landingpage_noartists_background {
+  background-image: url('_/theme/pics/Fans.jpg');
+  background-position: center center;
+  background-size: cover;
+}
 .anvil-role-call_to_action_button button {
   font-size: 18px;
   border: 2px %color:Grid_Black%;
