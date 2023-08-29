@@ -43,6 +43,14 @@ class Main_Out(Main_OutTemplate):
     """This method is called when the button is clicked"""
     pass
 
+  def linkedin_click(self, **event_args):
+    self.link_6.url = 'https://www.linkedin.com/company/aidar-insights/'
+
+  def instagram_click(self, **event_args):
+    self.link_5.url = 'https://www.instagram.com/aidar_insights/'
+
+
+
 
 def check_log_status(self, **event_args):
   print(f'Check log status - Start {datetime.datetime.now()}', flush=True)

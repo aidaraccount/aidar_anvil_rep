@@ -43,9 +43,14 @@ header>.nav-links>span {
     background-image: url(_/theme/pics/LoadingSpinner_circle.gif) !important;
 }
 
+
 .anvil-role-call_to_action_button button {
   font-size: 18px;
   border: 2px %color:Grid_Black%;
+}
+.anvil-role-text_box {
+  font-size: 16px;
+  color: %color:Text_DarkGrey%;
 }
 .anvil-role-table_content {
   font-size: 18px;
@@ -85,10 +90,6 @@ header>.nav-links>span {
   font-size: 14px;
   font-weight: bold;
   color: %color:Text_Grey%;
-}
-.anvil-role-text_box {
-  font-size: 16px;
-  color: %color:Text_DarkGrey%;
 }
 .anvil-role-value {
   font-size: 20px;
