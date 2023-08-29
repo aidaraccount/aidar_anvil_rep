@@ -117,21 +117,27 @@ components:
 - type: ColumnPanel
   properties: {role: null, tooltip: '', border: '', foreground: '', visible: true,
     wrap_on: mobile, col_spacing: medium, spacing_above: none, col_widths: '{}', spacing_below: none,
-    background: 'theme:Background'}
+    background: 'theme:Accent 1'}
   name: column_panel_3
   layout_properties: {grid_position: 'QVHKQN,CXWYIJ', full_width_row: true}
   components:
   - type: Spacer
-    properties: {height: 37}
+    properties: {visible: true, spacing_above: small, spacing_below: small, height: '20',
+      tooltip: ''}
     name: spacer_3
     layout_properties: {grid_position: 'WZHYEB,EUKAJI'}
-  - type: Label
-    properties: {role: null, align: center, tooltip: '', border: '', foreground: '',
-      visible: true, text: .TRUSTED BY, font_size: 30, font: '', spacing_above: small,
-      icon_align: left, spacing_below: medium, italic: false, background: '', bold: true,
-      underline: false, icon: ''}
-    name: label_18
-    layout_properties: {grid_position: 'DUDTAX,EVPYCE'}
+  - type: RichText
+    properties: {role: null, align: center, tooltip: '', enable_slots: true, border: '',
+      foreground: 'theme:Text_DecentWhite', visible: true, font_size: null, content: "<p\
+        \ style=\"font-weight: bold;\">\n  <span style=\"color: rgb(253, 101, 45);\
+        \ font-size: 50px;\">.</span>\n  <span style=\"font-size: 30px;\">TRUSTED\
+        \ BY</span>\n</p>\n", font: '', spacing_above: small, spacing_below: small,
+      data: null, background: '', format: restricted_html}
+    name: rich_text_1_copy_3
+    layout_properties:
+      col_widths: {}
+      grid_position: OVHQXX,OKYHMD
+      full_width_row: true
   - type: Image
     properties: {role: null, vertical_align: center, height: '300', tooltip: '', border: '',
       foreground: '', visible: true, display_mode: shrink_to_fit, spacing_above: small,
@@ -151,20 +157,26 @@ components:
     name: label_12
     layout_properties: {grid_position: 'HUGWGL,ACJIQF'}
   - type: Spacer
-    properties: {height: 50}
+    properties: {visible: true, spacing_above: small, spacing_below: small, height: '20',
+      tooltip: ''}
     name: spacer_1
     layout_properties: {grid_position: 'HUGWGL,LAUIII LVXJPA,HINJBB'}
-  - type: Label
-    properties: {role: null, align: center, tooltip: '', border: '', foreground: '',
-      visible: true, text: .CLAIM YOUR AI-MODEL, font_size: 30, font: '', spacing_above: small,
-      icon_align: left, spacing_below: small, italic: false, background: '', bold: true,
-      underline: false, icon: ''}
-    name: label_19
-    layout_properties: {grid_position: 'HUGWGL,LAUIII SJJSGQ,LEYPVU'}
+  - type: RichText
+    properties: {role: null, align: center, tooltip: '', enable_slots: true, border: '',
+      foreground: 'theme:Text_DecentWhite', visible: true, font_size: null, content: "<p\
+        \ style=\"font-weight: bold;\">\n  <span style=\"color: rgb(253, 101, 45);\
+        \ font-size: 50px;\">.</span>\n  <span style=\"font-size: 30px;\">CLAIM YOUR\
+        \ AI-MODEL</span>\n</p>\n", font: '', spacing_above: small, spacing_below: none,
+      data: null, background: '', format: restricted_html}
+    name: rich_text_1_copy_2
+    layout_properties:
+      col_widths: {}
+      grid_position: HUGWGL,LAUIII MIJGXO,ENIHJQ
+      full_width_row: true
   - type: Label
     properties: {role: artist_name, align: center, tooltip: '', border: '', foreground: '',
-      visible: true, text: Sign Up with AIDAR's Waiting List, font_size: 22, font: '',
-      spacing_above: small, icon_align: left, spacing_below: medium, italic: false,
+      visible: true, text: Sign Up with AIDAR's Waiting List, font_size: 20, font: '',
+      spacing_above: none, icon_align: left, spacing_below: medium, italic: false,
       background: '', bold: false, underline: false, icon: ''}
     name: label_9
     layout_properties: {grid_position: 'HUGWGL,LAUIII RKIEVO,QHHFWM'}
@@ -178,8 +190,8 @@ components:
     layout_properties: {grid_position: 'SRRBNR,OFOVSS'}
   - type: TextBox
     properties: {role: null, align: center, hide_text: false, tooltip: '', placeholder: E-Mail,
-      border: '', enabled: true, foreground: 'theme:Text_DarkGrey', visible: true,
-      text: '', font_size: 18, font: '', spacing_above: small, type: email, spacing_below: small,
+      border: '', enabled: true, foreground: 'theme:Accent 2', visible: true, text: '',
+      font_size: 18, font: '', spacing_above: small, type: email, spacing_below: small,
       italic: false, background: 'theme:Text_DecentWhite', bold: true, underline: false}
     name: text_box_1
     layout_properties: {grid_position: 'SRRBNR,NXJVIC'}
@@ -192,7 +204,7 @@ components:
     layout_properties: {grid_position: 'SRRBNR,CBBVXH QCJLHF,OZEFNI'}
     event_bindings: {click: button_1_click}
   - type: Spacer
-    properties: {height: 46}
+    properties: {height: 57}
     name: spacer_2
     layout_properties: {grid_position: 'SRRBNR,CBBVXH BBQOWP,TCXUTS'}
   - type: Label
@@ -200,16 +212,19 @@ components:
     name: label_10
     layout_properties: {grid_position: 'SRRBNR,CWVGLZ'}
 - type: Spacer
-  properties: {height: 32}
+  properties: {visible: true, spacing_above: small, spacing_below: small, height: '20',
+    tooltip: ''}
   name: spacer_4
   layout_properties: {grid_position: 'WJICTJ,SGOKPV'}
-- type: Label
-  properties: {role: null, align: center, tooltip: '', border: '', foreground: 'theme:Text_DecentWhite',
-    visible: true, text: .WHAT WE OFFER, font_size: 30, font: '', spacing_above: small,
-    icon_align: left, spacing_below: none, italic: false, background: '', bold: true,
-    underline: false, icon: ''}
-  name: label_20
-  layout_properties: {grid_position: 'RKIBWP,ZXEACK'}
+- type: RichText
+  properties: {role: null, align: center, tooltip: '', enable_slots: true, border: '',
+    foreground: 'theme:Text_DecentWhite', visible: true, font_size: null, content: "<p\
+      \ style=\"font-weight: bold;\">\n  <span style=\"color: rgb(253, 101, 45); font-size:\
+      \ 50px;\">.</span>\n  <span style=\"font-size: 30px;\">WHAT WE OFFER</span>\n\
+      </p>\n", font: '', spacing_above: small, spacing_below: small, data: null, background: '',
+    format: restricted_html}
+  name: rich_text_1
+  layout_properties: {grid_position: 'LHDCQP,ZOJLHI', full_width_row: true}
 - type: ColumnPanel
   properties: {role: null, tooltip: '', border: '', foreground: '', visible: true,
     wrap_on: mobile, col_spacing: medium, spacing_above: none, col_widths: '{}', spacing_below: none,
@@ -244,19 +259,40 @@ components:
       name: column_panel_12
       layout_properties: {grid_position: 'AGDZFQ,RZUNCM', full_width_row: true}
       components:
-      - type: Label
-        properties: {role: null, align: center, tooltip: '', border: '', foreground: 'theme:Text_DecentWhite',
-          visible: true, text: .HOW WE DO IT, font_size: 30, font: '', spacing_above: medium,
-          icon_align: left, spacing_below: none, italic: false, background: '', bold: true,
-          underline: false, icon: ''}
-        name: label_21
-        layout_properties: {grid_position: 'RHLDVE,HGWFYJ'}
+      - type: Spacer
+        properties: {visible: true, spacing_above: small, spacing_below: small, height: '20',
+          tooltip: ''}
+        name: spacer_5
+        layout_properties: {grid_position: 'UZHVTH,CRWIPA'}
+      - type: RichText
+        properties: {role: null, align: center, tooltip: '', enable_slots: true, border: '',
+          foreground: 'theme:Text_DecentWhite', visible: true, font_size: null, content: "<p\
+            \ style=\"font-weight: bold;\">\n  <span style=\"color: rgb(253, 101,\
+            \ 45); font-size: 50px;\">.</span>\n  <span style=\"font-size: 30px;\"\
+            >HOW WE DO IT</span>\n</p>\n", font: '', spacing_above: small, spacing_below: small,
+          data: null, background: '', format: restricted_html}
+        name: rich_text_1_copy
+        layout_properties:
+          col_widths: {}
+          grid_position: TRJFVC,LHFRKD
+          full_width_row: true
+        components: []
       - type: Image
-        properties: {role: null, vertical_align: center, height: '200', tooltip: '',
-          border: '', foreground: '', visible: true, display_mode: fill_width, spacing_above: none,
-          source: _/theme/pics/How.png, spacing_below: none, background: '', horizontal_align: center}
+        properties: {role: null, vertical_align: center, height: '350', tooltip: '',
+          border: '', foreground: '', visible: true, display_mode: shrink_to_fit,
+          spacing_above: medium, source: _/theme/pics/How_plane.png, spacing_below: small,
+          background: '', horizontal_align: center}
         name: image_6
         layout_properties: {grid_position: 'EKXCHO,HPICTX', full_width_row: true}
+      - type: Spacer
+        properties: {height: 32}
+        name: spacer_6
+        layout_properties: {grid_position: 'KKDOTZ,ERYTAP'}
+    - type: Spacer
+      properties: {visible: true, spacing_above: small, spacing_below: small, height: '20',
+        tooltip: ''}
+      name: spacer_7
+      layout_properties: {grid_position: 'DPHDAX,ZRSUYJ'}
     - type: ColumnPanel
       properties: {role: null, tooltip: '', border: '', foreground: '', visible: true,
         wrap_on: mobile, col_spacing: medium, spacing_above: small, col_widths: '{"VEIFHH":23,"XJIOQR":37}',
@@ -273,7 +309,7 @@ components:
           properties: {role: null, align: left, tooltip: '', border: '', foreground: '',
             visible: true, text: 'Feel free to get in
 
-              touch with us!', font_size: 30, font: '', spacing_above: large, icon_align: left,
+              touch with us!', font_size: 30, font: '', spacing_above: small, icon_align: left,
             spacing_below: small, italic: false, background: '', bold: true, underline: false,
             icon: ''}
           name: label_14
@@ -307,14 +343,14 @@ components:
         - type: TextBox
           properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: Subject,
             border: '', enabled: true, foreground: '', visible: true, text: '', font_size: 20,
-            font: '', spacing_above: large, type: text, spacing_below: small, italic: false,
+            font: '', spacing_above: small, type: text, spacing_below: small, italic: false,
             background: '', bold: false, underline: false}
           name: text_box_2
           layout_properties: {grid_position: 'DLXLFK,RPJQCJ'}
         - type: TextBox
           properties: {role: null, align: left, hide_text: false, tooltip: '', placeholder: Name,
             border: '', enabled: true, foreground: '', visible: true, text: '', font_size: 20,
-            font: '', spacing_above: large, type: text, spacing_below: small, italic: false,
+            font: '', spacing_above: small, type: text, spacing_below: small, italic: false,
             background: '', bold: false, underline: false}
           name: text_box_3
           layout_properties: {grid_position: 'DLXLFK,QRCXFB'}
@@ -333,20 +369,25 @@ components:
           name: text_box_5
           layout_properties: {grid_position: 'CHGRUP,UJHKJX'}
         - type: TextArea
-          properties: {role: null, align: left, height: '', tooltip: '', placeholder: Message,
-            border: '', enabled: true, foreground: '', visible: true, text: '', font_size: 20,
-            auto_expand: false, font: '', spacing_above: small, spacing_below: small,
-            italic: false, background: '', bold: false, underline: false}
+          properties: {role: null, align: left, height: 150.13330000000002, tooltip: '',
+            placeholder: Message, border: '', enabled: true, foreground: '', visible: true,
+            text: '', font_size: 20, auto_expand: false, font: '', spacing_above: small,
+            spacing_below: small, italic: false, background: '', bold: false, underline: false}
           name: text_area_1
           layout_properties: {grid_position: 'UZVQWH,ELFXUS'}
         - type: Button
           properties: {role: null, align: right, tooltip: '', border: '', enabled: true,
             foreground: 'theme:Text_DecentWhite', visible: true, text: '  SEND MASSAGE
               NOW', font_size: 16, font: '', spacing_above: small, icon_align: left,
-            spacing_below: large, italic: false, background: 'theme:Orange', bold: false,
+            spacing_below: small, italic: false, background: 'theme:Orange', bold: false,
             underline: false, icon: 'fa:angle-double-right'}
           name: button_2
           layout_properties: {grid_position: 'MMGWTY,HLKUFW'}
+    - type: Spacer
+      properties: {visible: true, spacing_above: small, spacing_below: small, height: '20',
+        tooltip: ''}
+      name: spacer_8
+      layout_properties: {grid_position: 'OAVUEG,KEBNAO'}
 - type: FlowPanel
   properties: {role: null, spacing: medium, align: left, tooltip: '', border: '',
     foreground: '', visible: true, spacing_above: small, spacing_below: small, background: ''}
@@ -379,34 +420,20 @@ components:
     layout_properties: {grid_position: 'FPDFCR,VJLHYJ', full_width_row: true}
     components:
     - type: Link
-      properties: {role: null, url: '', align: left, tooltip: '', border: '', foreground: 'theme:Text_White',
-        visible: true, text: LinkedIn, font_size: null, wrap_on: mobile, font: '',
-        col_spacing: medium, spacing_above: small, icon_align: left, col_widths: '',
-        spacing_below: none, italic: false, background: '', bold: false, underline: false,
-        icon: 'fa:linkedin'}
+      properties: {role: null, url: 'https://www.linkedin.com/company/aidar-insights/',
+        align: left, tooltip: '', border: '', foreground: 'theme:Text_White', visible: true,
+        text: LinkedIn, font_size: null, wrap_on: mobile, font: '', col_spacing: medium,
+        spacing_above: small, icon_align: left, col_widths: '', spacing_below: none,
+        italic: false, background: '', bold: false, underline: false, icon: 'fa:linkedin'}
       name: link_3
       layout_properties: {}
     - type: Link
-      properties: {role: null, url: '', align: left, tooltip: '', border: '', foreground: 'theme:Text_White',
-        visible: true, text: Instagram, font_size: null, wrap_on: mobile, font: '',
-        col_spacing: medium, spacing_above: small, icon_align: left, col_widths: '',
-        spacing_below: small, italic: false, background: '', bold: false, underline: false,
-        icon: 'fa:instagram'}
+      properties: {role: null, url: 'https://www.instagram.com/aidar_insights/', align: left,
+        tooltip: '', border: '', foreground: 'theme:Text_White', visible: true, text: Instagram,
+        font_size: null, wrap_on: mobile, font: '', col_spacing: medium, spacing_above: small,
+        icon_align: left, col_widths: '', spacing_below: small, italic: false, background: '',
+        bold: false, underline: false, icon: 'fa:instagram'}
       name: link_4
-      layout_properties: {}
-    - type: Label
-      properties: {role: null, align: left, tooltip: '', border: '', foreground: 'theme:Text_White',
-        visible: true, text: +49 151 23382945, font_size: null, font: '', spacing_above: small,
-        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-        underline: false, icon: 'fa:phone'}
-      name: label_3
-      layout_properties: {}
-    - type: Label
-      properties: {role: null, align: left, tooltip: '', border: '', foreground: 'theme:Text_White',
-        visible: true, text: info@aidar.ai, font_size: null, font: '', spacing_above: small,
-        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-        underline: false, icon: 'fa:envelope'}
-      name: label_4
       layout_properties: {}
     - type: Label
       properties: {role: null, align: left, tooltip: '', border: '', foreground: '',
