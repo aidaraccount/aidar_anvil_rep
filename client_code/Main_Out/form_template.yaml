@@ -130,10 +130,82 @@ components:
     layout_properties: {grid_position: 'PCKJPR,DGBLDD'}
 - type: ColumnPanel
   properties: {role: null, tooltip: '', border: '', foreground: '', visible: true,
-    wrap_on: mobile, col_spacing: medium, spacing_above: none, col_widths: '', spacing_below: none,
-    background: 'theme:Accent 2'}
+    wrap_on: mobile, col_spacing: medium, spacing_above: none, col_widths: '{"OFOVSS":15,"NXJVIC":15,"CBBVXH":20,"CWVGLZ":10,"ACJIQF":10,"LAUIII":40,"ICMNJY":10}',
+    spacing_below: none, background: 'theme:Accent 2'}
   name: column_panel_5
   layout_properties: {grid_position: 'AMRVPO,DGCIDG', full_width_row: true}
+  components:
+  - type: Label
+    properties: {}
+    name: label_12
+    layout_properties: {grid_position: 'HUGWGL,ACJIQF'}
+  - type: Label
+    properties: {role: artist_name, align: center, tooltip: '', border: '', foreground: '',
+      visible: true, text: Claim Your AI-Model - Sign Up with AIDAR's Waiting List,
+      font_size: null, font: '', spacing_above: large, icon_align: left, spacing_below: medium,
+      italic: false, background: '', bold: false, underline: false, icon: ''}
+    name: label_9
+    layout_properties: {grid_position: 'HUGWGL,LAUIII'}
+  - type: Label
+    properties: {}
+    name: label_13
+    layout_properties: {grid_position: 'HUGWGL,ICMNJY'}
+  - type: Label
+    properties: {}
+    name: label_11
+    layout_properties: {grid_position: 'SRRBNR,OFOVSS'}
+  - type: TextBox
+    properties: {role: null, align: center, hide_text: false, tooltip: '', placeholder: e-mail,
+      border: '', enabled: true, foreground: 'theme:Text_Grey', visible: true, text: '',
+      font_size: null, font: '', spacing_above: small, type: email, spacing_below: small,
+      italic: false, background: 'theme:Grid_Black', bold: true, underline: false}
+    name: text_box_1
+    layout_properties: {grid_position: 'SRRBNR,NXJVIC'}
+  - type: Button
+    properties: {role: null, align: center, tooltip: '', border: '', enabled: true,
+      foreground: 'theme:Main_Black', visible: true, text: Join Waiting List!, font_size: null,
+      font: '', spacing_above: small, icon_align: left, spacing_below: large, italic: false,
+      background: 'theme:Orange', bold: true, underline: false, icon: ''}
+    name: button_1
+    layout_properties: {grid_position: 'SRRBNR,CBBVXH'}
+    event_bindings: {click: button_1_click}
+  - type: Label
+    properties: {}
+    name: label_10
+    layout_properties: {grid_position: 'SRRBNR,CWVGLZ'}
+- type: ColumnPanel
+  properties: {role: null, tooltip: '', border: '', foreground: '', visible: true,
+    wrap_on: mobile, col_spacing: medium, spacing_above: none, col_widths: '{}', spacing_below: none,
+    background: ''}
+  name: column_panel_6
+  layout_properties: {grid_position: 'MRIBYM,DZRHYE', full_width_row: true}
+  components:
+  - type: Image
+    properties: {role: null, vertical_align: center, height: '180', tooltip: '', border: '',
+      foreground: '', visible: true, display_mode: original_size, spacing_above: small,
+      source: _/theme/pics/Offer_plane.png, spacing_below: small, background: '',
+      horizontal_align: center}
+    name: image_3
+    layout_properties: {grid_position: 'JXQOON,FNDLGM', full_width_row: true}
+  - type: ColumnPanel
+    properties: {role: null, tooltip: '', border: '', foreground: '', visible: true,
+      wrap_on: mobile, col_spacing: medium, spacing_above: none, col_widths: '{}',
+      spacing_below: none, background: 'theme:Background'}
+    name: column_panel_7
+    layout_properties: {grid_position: 'IAJCNA,SUTUIQ', full_width_row: true, row_background: ''}
+    components:
+    - type: Image
+      properties: {role: null, vertical_align: center, height: '225', tooltip: '',
+        border: '', foreground: '', visible: true, display_mode: zoom_to_fill, spacing_above: none,
+        source: _/theme/pics/NoArtists.png, spacing_below: none, background: '', horizontal_align: center}
+      name: image_5
+      layout_properties: {grid_position: 'BNOCMH,DXVOVH', full_width_row: true}
+    - type: Image
+      properties: {role: null, vertical_align: center, height: '200', tooltip: '',
+        border: '', foreground: '', visible: true, display_mode: fill_width, spacing_above: none,
+        source: _/theme/pics/How.png, spacing_below: none, background: '', horizontal_align: center}
+      name: image_6
+      layout_properties: {grid_position: 'TYEJQN,ETEXSC', full_width_row: true}
 - type: FlowPanel
   properties: {role: null, spacing: medium, align: left, tooltip: '', border: '',
     foreground: '', visible: true, spacing_above: small, spacing_below: small, background: ''}

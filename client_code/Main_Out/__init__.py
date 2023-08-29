@@ -39,6 +39,11 @@ class Main_Out(Main_OutTemplate):
       anvil.server.call('check_user_presence', mail=user['email'])
       open_form('Main_In', temp_artist_id = None, user_id = user["user_id"])
 
+  def button_1_click(self, **event_args):
+    """This method is called when the button is clicked"""
+    pass
+
+
 def check_log_status(self, **event_args):
   print(f'Check log status - Start {datetime.datetime.now()}', flush=True)
   if (anvil.users.get_user() == None):
