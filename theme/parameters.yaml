@@ -24,6 +24,8 @@ roles:
   components: [RepeatingPanel, Link]
 - name: text_box
   components: [TextBox]
+- name: call_to_action_button
+  components: [Button]
 color_scheme:
   preset_groups:
   - name: Accent

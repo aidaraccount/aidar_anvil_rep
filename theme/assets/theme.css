@@ -43,6 +43,10 @@ header>.nav-links>span {
     background-image: url(_/theme/pics/LoadingSpinner_circle.gif) !important;
 }
 
+.anvil-role-call_to_action_button button {
+  font-size: 18px;
+  border: 2px %color:Grid_Black%;
+}
 .anvil-role-table_content {
   font-size: 18px;
   color: %color:Text_DecentWhite%;

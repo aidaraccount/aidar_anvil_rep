@@ -139,7 +139,7 @@ components:
       grid_position: OVHQXX,OKYHMD
       full_width_row: true
   - type: Image
-    properties: {role: null, vertical_align: center, height: '300', tooltip: '', border: '',
+    properties: {role: null, vertical_align: center, height: '250', tooltip: '', border: '',
       foreground: '', visible: true, display_mode: shrink_to_fit, spacing_above: small,
       source: _/theme/pics/Partners_plane.png, spacing_below: large, background: '',
       horizontal_align: center}
@@ -196,10 +196,11 @@ components:
     name: text_box_1
     layout_properties: {grid_position: 'SRRBNR,NXJVIC'}
   - type: Button
-    properties: {role: null, align: center, tooltip: '', border: '', enabled: true,
-      foreground: 'theme:Text_DecentWhite', visible: true, text: ' JOIN WAITING LIST!  ',
-      font_size: 18, font: '', spacing_above: small, icon_align: left, spacing_below: small,
-      italic: false, background: 'theme:Orange', bold: false, underline: false, icon: 'fa:angle-double-right'}
+    properties: {role: call_to_action_button, align: center, tooltip: '', border: '',
+      enabled: true, foreground: 'theme:Text_DecentWhite', visible: true, text: ' JOIN
+        WAITING LIST!  ', font_size: null, font: '', spacing_above: small, icon_align: left,
+      spacing_below: small, italic: false, background: 'theme:Orange', bold: false,
+      underline: false, icon: 'fa:angle-double-right'}
     name: button_1
     layout_properties: {grid_position: 'SRRBNR,CBBVXH QCJLHF,OZEFNI'}
     event_bindings: {click: button_1_click}
@@ -376,9 +377,9 @@ components:
           name: text_area_1
           layout_properties: {grid_position: 'UZVQWH,ELFXUS'}
         - type: Button
-          properties: {role: null, align: right, tooltip: '', border: '', enabled: true,
-            foreground: 'theme:Text_DecentWhite', visible: true, text: '  SEND MASSAGE
-              NOW', font_size: 16, font: '', spacing_above: small, icon_align: left,
+          properties: {role: call_to_action_button, align: right, tooltip: '', border: '',
+            enabled: true, foreground: 'theme:Text_DecentWhite', visible: true, text: '  SEND
+              MASSAGE NOW', font_size: null, font: '', spacing_above: small, icon_align: left,
             spacing_below: small, italic: false, background: 'theme:Orange', bold: false,
             underline: false, icon: 'fa:angle-double-right'}
           name: button_2
