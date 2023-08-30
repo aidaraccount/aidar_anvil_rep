@@ -44,7 +44,11 @@ header>.nav-links>span {
     background-image: url(_/theme/pics/LoadingSpinner_circle.gif) !important;
 }
 
-.anvil-role-landingpage_noartists_background {
+.anvil-role-landingpage_artist_background {
+  background-image: url('_/theme/pics/Artist.png');
+  background-position: center center;
+  background-size: cover;
+}.anvil-role-landingpage_noartists_background {
   background-image: url('_/theme/pics/Fans.jpg');
   background-position: center center;
   background-size: cover;
