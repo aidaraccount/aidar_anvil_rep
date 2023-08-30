@@ -626,12 +626,13 @@ components:
     visible: true, text: Imprint, font_size: null, wrap_on: mobile, font: '', col_spacing: none,
     spacing_above: none, icon_align: left, col_widths: '{}', spacing_below: none,
     italic: false, background: '', bold: false, underline: false, icon: ''}
-  name: link_3_copy
+  name: imprint_link
   layout_properties:
     col_widths: {}
     grid_position: UYCYKL,RHWQBL
     full_width_row: false
   components: []
+  event_bindings: {click: imprint_link_click}
 - type: Label
   properties: {role: null, align: center, tooltip: '', border: '', foreground: 'theme:Text_White',
     visible: true, text: Copyright © AIDAR 2023, font_size: null, font: '', spacing_above: none,
