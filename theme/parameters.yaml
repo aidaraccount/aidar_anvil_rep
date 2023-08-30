@@ -32,6 +32,8 @@ roles:
   components: [ColumnPanel]
 - name: landingpage_artist2_background
   components: [ColumnPanel]
+- name: input_margin
+  components: [ColumnPanel]
 color_scheme:
   preset_groups:
   - name: Accent

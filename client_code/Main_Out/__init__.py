@@ -40,10 +40,10 @@ class Main_Out(Main_OutTemplate):
       open_form('Main_In', temp_artist_id = None, user_id = user["user_id"])
 
   def linkedin_click(self, **event_args):
-    self.link_6.url = 'https://www.linkedin.com/company/aidar-insights/'
+    self.linkedin_link.url = 'https://www.linkedin.com/company/aidar-insights/'
 
   def instagram_click(self, **event_args):
-    self.link_5.url = 'https://www.instagram.com/aidar_insights/'
+    self.instagram_link.url = 'https://www.instagram.com/aidar_insights/'
 
   def call2action_text_box_click(self, **event_args):
     status = anvil.server.call('add_waiter', mail=self.call2action_text_box.text)

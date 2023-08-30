@@ -13,8 +13,8 @@ components:
     grid_position: WTLNJQ,VMCYOV
 - type: Label
   properties: {role: description, align: left, tooltip: '', border: '', foreground: '',
-    visible: true, text: 'Search for an specific Artist by entering his/her Name into
-      the textbox:', font_size: null, font: '', spacing_above: small, icon_align: left,
+    visible: true, text: 'Search for a specific Artist by entering his/her Name into
+      the Textbox:', font_size: null, font: '', spacing_above: small, icon_align: left,
     spacing_below: small, italic: true, background: '', bold: false, underline: false,
     icon: ''}
   name: label_2
