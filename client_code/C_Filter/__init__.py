@@ -536,4 +536,4 @@ class C_Filter(C_FilterTemplate):
                       israeli
                      )
     self.content_panel.clear()
-    self.content_panel.add_component(C_Investigate())
+    self.content_panel.add_component(C_Investigate(temp_artist_id=None))
