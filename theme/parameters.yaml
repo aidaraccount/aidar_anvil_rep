@@ -30,6 +30,8 @@ roles:
   components: [ColumnPanel]
 - name: landingpage_artist_background
   components: [ColumnPanel]
+- name: landingpage_artist2_background
+  components: [ColumnPanel]
 color_scheme:
   preset_groups:
   - name: Accent
