@@ -47,3 +47,14 @@ db_schema:
     - name: email_confirmation_key
       admin_ui: {width: 225}
       type: string
+  waiters:
+    client: full
+    server: full
+    columns:
+    - name: Mail
+      type: string
+      admin_ui: {width: 200, order: 3}
+    - name: Date
+      admin_ui: {order: 2, width: 200}
+      type: datetime
+    title: Waiters
