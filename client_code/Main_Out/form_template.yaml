@@ -368,7 +368,7 @@ components:
         layout_properties: {grid_position: 'LAEHHW,VKACDD'}
   - type: ColumnPanel
     properties: {role: null, tooltip: '', border: '', foreground: '', visible: true,
-      wrap_on: mobile, col_spacing: medium, spacing_above: none, col_widths: '{"PBGBXQ":20,"TXXOSI":40}',
+      wrap_on: mobile, col_spacing: medium, spacing_above: none, col_widths: '{"PBGBXQ":20,"HINUPF":20,"BSTMOO":20}',
       spacing_below: none, background: 'theme:Accent 1'}
     name: column_panel_3
     layout_properties: {grid_position: 'VAWTVH,YFIPPM', full_width_row: true}
@@ -394,19 +394,19 @@ components:
       properties: {height: 32}
       name: spacer_11
       layout_properties: {grid_position: 'BGYGZI,PBGBXQ'}
-    - type: Link
-      properties: {role: null, url: 'https://hardworkrecords.bandcamp.com/', align: left,
-        tooltip: '', border: '', foreground: '', visible: true, text: '', font_size: null,
-        wrap_on: mobile, font: '', col_spacing: medium, spacing_above: small, icon_align: left,
-        col_widths: '{}', spacing_below: small, italic: false, background: '', bold: false,
-        underline: false, icon: ''}
-      name: link_3
-      layout_properties: {grid_position: 'BGYGZI,TXXOSI'}
+    - type: ColumnPanel
+      properties: {col_widths: '{}'}
+      name: column_panel_trusted_by
+      layout_properties: {grid_position: 'BGYGZI,HINUPF'}
       components:
-      - type: ColumnPanel
-        properties: {col_widths: '{}'}
-        name: column_panel_trusted_by
-        layout_properties: {grid_position: 'EDJYGB,UNOIPJ'}
+      - type: Link
+        properties: {role: null, url: 'https://hardworkrecords.bandcamp.com/', align: left,
+          tooltip: '', border: '', foreground: '', visible: true, text: '', font_size: null,
+          wrap_on: mobile, font: '', col_spacing: medium, spacing_above: small, icon_align: left,
+          col_widths: '{}', spacing_below: small, italic: false, background: '', bold: false,
+          underline: false, icon: ''}
+        name: link_3
+        layout_properties: {grid_position: 'NFOCGT,CWZFGY'}
         components:
         - type: Image
           properties: {role: null, vertical_align: center, height: '150', tooltip: '',
@@ -414,65 +414,64 @@ components:
             spacing_above: small, source: _/theme/pics/Partner3_grey.png, spacing_below: small,
             background: '', horizontal_align: center}
           name: image_partner3
-          layout_properties: {grid_position: 'NFOCGT,BRXUEI PWUCJU,PMPUIN'}
+          layout_properties: {grid_position: 'FLPRFC,NCMSMF'}
           event_bindings: {mouse_enter: image_partner3_mouse_enter, mouse_leave: image_partner3_mouse_leave}
-        - type: RichText
-          properties: {role: null, align: center, tooltip: '', enable_slots: true,
-            border: '', foreground: 'theme:Main_Black', visible: true, font_size: null,
-            content: '<p>
+      - type: RichText
+        properties: {role: null, align: center, tooltip: '', enable_slots: true, border: '',
+          foreground: 'theme:Main_Black', visible: true, font_size: null, content: '<p>
 
-              <span style="
+            <span style="
 
-              font-size: 18px;
+            font-size: 18px;
 
-              font-weight: bold;
+            font-weight: bold;
 
-              font-family: ''GSb'';
+            font-family: ''GSb'';
 
-              ">
+            ">
 
-              HARDWORK RECORDS
+            HARDWORK RECORDS
 
-              </span>
+            </span>
 
-              <br>
+            <br>
 
-              <span style="
+            <span style="
 
-              font-size: 16px;
+            font-size: 16px;
 
-              font-weight: bold;
+            font-weight: bold;
 
-              font-family: ''GS'';
+            font-family: ''GS'';
 
-              ">
+            ">
 
-              Barcelona, Spain
+            Barcelona, Spain
 
-              </span>
+            </span>
 
-              <br>
+            <br>
 
-              <span style="
+            <span style="
 
-              font-size: 16px;
+            font-size: 16px;
 
-              font-family: ''GS'';
+            font-family: ''GS'';
 
-              ">
+            ">
 
-              Hard Techno
+            Hard Techno
 
-              </span>
+            </span>
 
-              </p>', font: '', spacing_above: small, spacing_below: small, data: null,
-            background: '', format: restricted_html}
-          name: rich_text_3
-          layout_properties: {grid_position: 'NFOCGT,BRXUEI UDHSDA,KGSRJE'}
-        - type: Spacer
-          properties: {height: 32}
-          name: spacer_15
-          layout_properties: {grid_position: 'NFOCGT,OTDGIZ'}
+            </p>', font: '', spacing_above: small, spacing_below: small, data: null,
+          background: '', format: restricted_html}
+        name: rich_text_3
+        layout_properties: {grid_position: 'LHHODX,WHABGK'}
+    - type: Spacer
+      properties: {height: 32}
+      name: spacer_15
+      layout_properties: {grid_position: 'BGYGZI,BSTMOO'}
   - type: ColumnPanel
     properties: {role: null, tooltip: '', border: '', foreground: '', visible: false,
       wrap_on: mobile, col_spacing: medium, spacing_above: none, col_widths: '{"QTHBRE":10,"QHUPWL":20,"CAOQDK":20,"BSRZQM":10}',
