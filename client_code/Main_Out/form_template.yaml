@@ -110,182 +110,172 @@ components:
         layout_properties: {}
 - type: ColumnPanel
   properties: {role: null, tooltip: '', border: '', foreground: '', visible: true,
-    wrap_on: mobile, col_spacing: medium, spacing_above: none, col_widths: '{}', spacing_below: none,
-    background: 'theme:Orange'}
-  name: column_panel_11
-  layout_properties: {grid_position: 'DLPYTN,BSPRJI', full_width_row: true}
+    wrap_on: mobile, col_spacing: medium, spacing_above: none, col_widths: '{"DDTVWI":6,"NRARAV":15,"ENIHJQ":30,"XCSHIB":15,"OLZAQQ":7,"XTQXJG":34}',
+    spacing_below: none, background: 'theme:Accent 2'}
+  name: claim_section
+  layout_properties: {grid_position: 'DGZWPG,PXZVSS', full_width_row: true}
   components:
   - type: ColumnPanel
-    properties: {role: null, tooltip: '', border: '', foreground: '', visible: true,
-      wrap_on: mobile, col_spacing: medium, spacing_above: none, col_widths: '{"DDTVWI":6,"NRARAV":15,"ENIHJQ":30,"XCSHIB":15,"OLZAQQ":7,"XTQXJG":34}',
-      spacing_below: none, background: 'theme:Accent 2'}
-    name: claim_section
-    layout_properties: {grid_position: 'AUZVNW,XKMZDH', full_width_row: true}
+    properties: {role: landingpage_artist_background, tooltip: '', border: '', foreground: '',
+      visible: true, wrap_on: mobile, col_spacing: medium, spacing_above: none, col_widths: '{"THZCFO":26,"KJRBML":30}',
+      spacing_below: none, background: 'theme:Main_Black'}
+    name: column_panel_16
+    layout_properties: {grid_position: 'JCAYXU,WCMRKM', full_width_row: true}
     components:
-    - type: ColumnPanel
-      properties: {role: landingpage_artist_background, tooltip: '', border: '', foreground: '',
-        visible: true, wrap_on: mobile, col_spacing: medium, spacing_above: none,
-        col_widths: '{"THZCFO":26,"KJRBML":30}', spacing_below: none, background: 'theme:Main_Black'}
-      name: column_panel_16
-      layout_properties: {grid_position: 'JCAYXU,WCMRKM', full_width_row: true}
-      components:
-      - type: Spacer
-        properties: {height: 240}
-        name: spacer_15
-        layout_properties: {grid_position: 'KZKLYP,KLPWNU'}
-      - type: RichText
-        properties: {role: null, align: center, tooltip: '', enable_slots: true, border: '',
-          foreground: '', visible: true, font_size: null, content: "<p style=\"font-weight:\
-            \ bold;\">\n  <span style=\"color: rgb(253, 101, 45); font-size: 36px;\"\
-            >WELCOME TO AIDAR</span>\n  <span style=\"color: rgb(235, 235, 235); font-size:\
-            \ 30px;\"><br>AI driven A&R</span>\n</p>", font: '', spacing_above: small,
-          spacing_below: small, data: null, background: '', format: restricted_html}
-        name: rich_text_3
-        layout_properties: {grid_position: 'UXGUXQ,KJRBML'}
-        components:
-        - type: Spacer
-          properties: {height: 443}
-          name: spacer_11
-          layout_properties: {}
-      - type: Spacer
-        properties: {height: 126}
-        name: spacer_12
-        layout_properties: {grid_position: 'UXGUXQ,THZCFO'}
     - type: Spacer
-      properties: {visible: true, spacing_above: small, spacing_below: small, height: '20',
+      properties: {visible: true, spacing_above: small, spacing_below: small, height: '150',
         tooltip: ''}
-      name: spacer_1
-      layout_properties: {grid_position: 'LVXJPA,HINJBB'}
-    - type: Spacer
-      properties: {height: 32}
-      name: spacer_23
-      layout_properties: {grid_position: 'MIJGXO,NRARAV', full_width_row: true}
+      name: top_spacer
+      layout_properties: {grid_position: 'KZKLYP,KLPWNU'}
     - type: RichText
       properties: {role: null, align: center, tooltip: '', enable_slots: true, border: '',
-        foreground: 'theme:Text_DecentWhite', visible: true, font_size: null, content: "<p\
-          \ style=\"font-weight: bold;\">\n  <span style=\"color: rgb(253, 101, 45);\
-          \ font-size: 50px;\">.</span>\n  <span style=\"font-size: 30px;\">CLAIM\
-          \ YOUR AI-MODEL</span>\n</p>\n", font: '', spacing_above: small, spacing_below: small,
-        data: null, background: '', format: restricted_html}
-      name: rich_text_1_copy_2
-      layout_properties:
-        col_widths: {}
-        grid_position: MIJGXO,ENIHJQ
-        full_width_row: true
+        foreground: '', visible: true, font_size: null, content: "<p style=\"font-weight:\
+          \ bold;\">\n  <span style=\"color: rgb(253, 101, 45); font-size: 36px;\"\
+          >WELCOME TO AIDAR</span>\n  <span style=\"color: rgb(235, 235, 235); font-size:\
+          \ 30px;\"><br>AI driven A&R</span>\n</p>", font: '', spacing_above: small,
+        spacing_below: small, data: null, background: '', format: restricted_html}
+      name: rich_text_3
+      layout_properties: {grid_position: 'UXGUXQ,KJRBML'}
+      components: []
     - type: Spacer
-      properties: {height: 32}
-      name: spacer_24
-      layout_properties: {grid_position: 'MIJGXO,XCSHIB', full_width_row: true}
-    - type: Label
-      properties: {role: artist_name, align: center, tooltip: '', border: '', foreground: '',
-        visible: true, text: Sign Up with AIDAR's Waiting List, font_size: 18, font: '',
-        spacing_above: none, icon_align: left, spacing_below: medium, italic: false,
-        background: '', bold: false, underline: false, icon: ''}
-      name: label_9
-      layout_properties: {grid_position: 'RKIEVO,QHHFWM'}
-    - type: Spacer
-      properties: {height: 32}
-      name: spacer_21
-      layout_properties: {grid_position: 'SRRBNR,DDTVWI'}
-    - type: ColumnPanel
-      properties: {role: input_margin, tooltip: '', border: '', foreground: '', visible: true,
-        wrap_on: mobile, col_spacing: small, spacing_above: small, col_widths: '{}',
-        spacing_below: small, background: ''}
-      name: column_panel_5
-      layout_properties: {grid_position: 'SRRBNR,XTQXJG'}
-      components:
-      - type: TextBox
-        properties: {role: null, align: center, hide_text: false, tooltip: '', placeholder: E-Mail,
-          border: '', enabled: true, foreground: 'theme:Accent 2', visible: true,
-          text: '', font_size: 20, font: '', spacing_above: small, type: email, spacing_below: small,
-          italic: false, background: 'theme:Text_DecentWhite', bold: true, underline: false}
-        name: call2action_text_box
-        layout_properties: {grid_position: 'YKPUIJ,PBVHRW'}
-        event_bindings: {pressed_enter: call2action_text_box_click}
-      - type: Button
-        properties: {role: call_to_action_button, align: center, tooltip: '', border: '',
-          enabled: true, foreground: 'theme:Text_DecentWhite', visible: true, text: ' JOIN
-            WAITING LIST!  ', font_size: 22, font: '', spacing_above: small, icon_align: left,
-          spacing_below: small, italic: false, background: 'theme:Orange', bold: false,
-          underline: false, icon: 'fa:angle-double-right'}
-        name: button_1
-        layout_properties: {grid_position: 'YKPUIJ,KCCRBU'}
-        event_bindings: {click: call2action_text_box_click}
-    - type: Spacer
-      properties: {height: 32}
-      name: spacer_22
-      layout_properties: {grid_position: 'SRRBNR,OLZAQQ'}
+      properties: {height: 126}
+      name: spacer_12
+      layout_properties: {grid_position: 'UXGUXQ,THZCFO'}
+  - type: Spacer
+    properties: {visible: true, spacing_above: small, spacing_below: small, height: '20',
+      tooltip: ''}
+    name: spacer_1
+    layout_properties: {grid_position: 'LVXJPA,HINJBB'}
+  - type: Spacer
+    properties: {height: 32}
+    name: spacer_23
+    layout_properties: {grid_position: 'MIJGXO,NRARAV', full_width_row: true}
+  - type: RichText
+    properties: {role: null, align: center, tooltip: '', enable_slots: true, border: '',
+      foreground: 'theme:Text_DecentWhite', visible: true, font_size: null, content: "<p\
+        \ style=\"font-weight: bold;\">\n  <span style=\"color: rgb(253, 101, 45);\
+        \ font-size: 50px;\">.</span>\n  <span style=\"font-size: 30px;\">CLAIM YOUR\
+        \ AI-MODEL</span>\n</p>\n", font: '', spacing_above: small, spacing_below: small,
+      data: null, background: '', format: restricted_html}
+    name: rich_text_1_copy_2
+    layout_properties:
+      col_widths: {}
+      grid_position: MIJGXO,ENIHJQ
+      full_width_row: true
+  - type: Spacer
+    properties: {height: 32}
+    name: spacer_24
+    layout_properties: {grid_position: 'MIJGXO,XCSHIB', full_width_row: true}
+  - type: Label
+    properties: {role: artist_name, align: center, tooltip: '', border: '', foreground: '',
+      visible: true, text: Sign Up with AIDAR's Waiting List, font_size: 18, font: '',
+      spacing_above: none, icon_align: left, spacing_below: medium, italic: false,
+      background: '', bold: false, underline: false, icon: ''}
+    name: label_9
+    layout_properties: {grid_position: 'RKIEVO,QHHFWM'}
+  - type: Spacer
+    properties: {height: 32}
+    name: spacer_21
+    layout_properties: {grid_position: 'SRRBNR,DDTVWI'}
+  - type: ColumnPanel
+    properties: {role: input_margin, tooltip: '', border: '', foreground: '', visible: true,
+      wrap_on: mobile, col_spacing: small, spacing_above: small, col_widths: '{}',
+      spacing_below: small, background: ''}
+    name: column_panel_5
+    layout_properties: {grid_position: 'SRRBNR,XTQXJG'}
+    components:
+    - type: TextBox
+      properties: {role: text_box, align: center, hide_text: false, tooltip: '', placeholder: E-Mail,
+        border: '', enabled: true, foreground: 'theme:Accent 2', visible: true, text: '',
+        font_size: 20, font: '', spacing_above: small, type: email, spacing_below: small,
+        italic: false, background: 'theme:Text_DecentWhite', bold: true, underline: false}
+      name: call2action_text_box
+      layout_properties: {grid_position: 'YKPUIJ,PBVHRW'}
+      event_bindings: {pressed_enter: call2action_text_box_click}
+    - type: Button
+      properties: {role: call_to_action_button, align: center, tooltip: '', border: '',
+        enabled: true, foreground: 'theme:Text_DecentWhite', visible: true, text: ' JOIN
+          WAITING LIST!  ', font_size: 22, font: '', spacing_above: small, icon_align: left,
+        spacing_below: small, italic: false, background: 'theme:Orange', bold: false,
+        underline: false, icon: 'fa:angle-double-right'}
+      name: button_1
+      layout_properties: {grid_position: 'YKPUIJ,KCCRBU'}
+      event_bindings: {click: call2action_text_box_click}
+  - type: Spacer
+    properties: {height: 32}
+    name: spacer_22
+    layout_properties: {grid_position: 'SRRBNR,OLZAQQ'}
+  - type: Spacer
+    properties: {visible: true, spacing_above: small, spacing_below: small, height: '50',
+      tooltip: ''}
+    name: spacer_2
+    layout_properties: {grid_position: 'WFQGWI,TLJKDQ'}
+  - type: ColumnPanel
+    properties: {role: landingpage_artist2_background, tooltip: '', border: '', foreground: '',
+      visible: true, wrap_on: mobile, col_spacing: medium, spacing_above: none, col_widths: '{"MLEDHN":33,"TCVFHA":27}',
+      spacing_below: none, background: 'theme:Main_Black'}
+    name: column_panel_17
+    layout_properties: {grid_position: 'MGCDSC,SMNINJ', full_width_row: true}
+    components:
     - type: Spacer
       properties: {visible: true, spacing_above: small, spacing_below: small, height: '50',
         tooltip: ''}
-      name: spacer_2
-      layout_properties: {grid_position: 'WFQGWI,TLJKDQ'}
-    - type: ColumnPanel
-      properties: {role: landingpage_artist2_background, tooltip: '', border: '',
-        foreground: '', visible: true, wrap_on: mobile, col_spacing: medium, spacing_above: none,
-        col_widths: '{"MLEDHN":33,"TCVFHA":27}', spacing_below: none, background: 'theme:Main_Black'}
-      name: column_panel_17
-      layout_properties: {grid_position: 'MGCDSC,SMNINJ', full_width_row: true}
-      components:
-      - type: Spacer
-        properties: {visible: true, spacing_above: small, spacing_below: small, height: '50',
-          tooltip: ''}
-        name: spacer_16
-        layout_properties: {grid_position: 'JVLEWR,KSZKTD'}
-      - type: Spacer
-        properties: {height: 7}
-        name: spacer_18
-        layout_properties: {grid_position: 'QEECUT,MLEDHN'}
-      - type: Label
-        properties: {role: null, align: center, tooltip: '', border: '', foreground: 'theme:Text_White',
-          visible: true, text: 'First data-driven service,
+      name: spacer_16
+      layout_properties: {grid_position: 'JVLEWR,KSZKTD'}
+    - type: Spacer
+      properties: {height: 7}
+      name: spacer_18
+      layout_properties: {grid_position: 'QEECUT,MLEDHN'}
+    - type: Label
+      properties: {role: null, align: center, tooltip: '', border: '', foreground: 'theme:Text_White',
+        visible: true, text: 'First data-driven service,
 
-            providing artists perfectly fitting your vision', font_size: 30, font: '',
-          spacing_above: small, icon_align: left, spacing_below: small, italic: false,
-          background: '', bold: true, underline: false, icon: ''}
-        name: label_18
-        layout_properties: {grid_position: 'QEECUT,TCVFHA'}
-      - type: Spacer
-        properties: {visible: true, spacing_above: small, spacing_below: small, height: '50',
-          tooltip: ''}
-        name: spacer_25
-        layout_properties: {grid_position: 'SZANKE,WOQSXP'}
-      - type: Spacer
-        properties: {height: 32}
-        name: spacer_28
-        layout_properties: {grid_position: 'HGVKCP,YUYPCC'}
-      - type: Link
-        properties: {role: artist_name, url: '', align: center, tooltip: '', border: '',
-          foreground: '', visible: true, text: LinkedIn, font_size: 28, wrap_on: never,
-          font: '', col_spacing: medium, spacing_above: small, icon_align: left, col_widths: '',
-          spacing_below: small, italic: false, background: '', bold: false, underline: false,
-          icon: 'fa:linkedin'}
-        name: linkedin_link
-        layout_properties:
-          col_widths: {}
-          grid_position: HGVKCP,PGNFKF
-        data_bindings: []
-        event_bindings: {click: linkedin_click}
-      - type: Link
-        properties: {role: artist_name, url: '', align: center, tooltip: '', border: '',
-          foreground: '', visible: true, text: Instagram, font_size: 28, wrap_on: never,
-          font: '', col_spacing: medium, spacing_above: small, icon_align: left, col_widths: '',
-          spacing_below: small, italic: false, background: '', bold: false, underline: false,
-          icon: 'fa:instagram'}
-        name: instagram_link
-        layout_properties:
-          col_widths: {}
-          grid_position: HGVKCP,VJXCIR
-        event_bindings: {click: instagram_click}
-      - type: Spacer
-        properties: {height: 32}
-        name: spacer_26
-        layout_properties: {grid_position: 'HGVKCP,UIBDEI'}
-      - type: Spacer
-        properties: {visible: true, spacing_above: small, spacing_below: small, height: '50',
-          tooltip: ''}
-        name: spacer_17
-        layout_properties: {grid_position: 'UGABNF,QPZKSV'}
+          to provide artists perfectly fitting your vision', font_size: 30, font: '',
+        spacing_above: small, icon_align: left, spacing_below: small, italic: false,
+        background: '', bold: true, underline: false, icon: ''}
+      name: label_18
+      layout_properties: {grid_position: 'QEECUT,TCVFHA'}
+    - type: Spacer
+      properties: {visible: true, spacing_above: small, spacing_below: small, height: '50',
+        tooltip: ''}
+      name: spacer_25
+      layout_properties: {grid_position: 'SZANKE,WOQSXP'}
+    - type: Spacer
+      properties: {height: 32}
+      name: spacer_28
+      layout_properties: {grid_position: 'HGVKCP,YUYPCC'}
+    - type: Link
+      properties: {role: artist_name, url: '', align: center, tooltip: '', border: '',
+        foreground: '', visible: true, text: LinkedIn, font_size: 28, wrap_on: never,
+        font: '', col_spacing: medium, spacing_above: small, icon_align: left, col_widths: '',
+        spacing_below: small, italic: false, background: '', bold: false, underline: false,
+        icon: 'fa:linkedin'}
+      name: linkedin_link
+      layout_properties:
+        col_widths: {}
+        grid_position: HGVKCP,PGNFKF
+      data_bindings: []
+      event_bindings: {click: linkedin_click}
+    - type: Link
+      properties: {role: artist_name, url: '', align: center, tooltip: '', border: '',
+        foreground: '', visible: true, text: Instagram, font_size: 28, wrap_on: never,
+        font: '', col_spacing: medium, spacing_above: small, icon_align: left, col_widths: '',
+        spacing_below: small, italic: false, background: '', bold: false, underline: false,
+        icon: 'fa:instagram'}
+      name: instagram_link
+      layout_properties:
+        col_widths: {}
+        grid_position: HGVKCP,VJXCIR
+      event_bindings: {click: instagram_click}
+    - type: Spacer
+      properties: {height: 32}
+      name: spacer_26
+      layout_properties: {grid_position: 'HGVKCP,UIBDEI'}
+    - type: Spacer
+      properties: {visible: true, spacing_above: small, spacing_below: small, height: '50',
+        tooltip: ''}
+      name: spacer_17
+      layout_properties: {grid_position: 'UGABNF,QPZKSV'}
 - type: Spacer
   properties: {visible: true, spacing_above: small, spacing_below: small, height: '20',
     tooltip: ''}
@@ -388,13 +378,23 @@ components:
         col_widths: {}
         grid_position: OVHQXX,OKYHMD
         full_width_row: true
-    - type: Image
-      properties: {role: null, vertical_align: center, height: '250', tooltip: '',
-        border: '', foreground: '', visible: true, display_mode: shrink_to_fit, spacing_above: small,
-        source: _/theme/pics/Partners_plane.png, spacing_below: large, background: '',
-        horizontal_align: center}
-      name: image_4
-      layout_properties: {grid_position: 'PCKJPR,DGBLDD'}
+    - type: Link
+      properties: {role: null, url: 'https://hardworkrecords.bandcamp.com/', align: left,
+        tooltip: '', border: '', foreground: '', visible: true, text: '', font_size: null,
+        wrap_on: mobile, font: '', col_spacing: medium, spacing_above: small, icon_align: left,
+        col_widths: '{}', spacing_below: small, italic: false, background: '', bold: false,
+        underline: false, icon: ''}
+      name: link_3
+      layout_properties: {grid_position: 'BGYGZI,TXXOSI'}
+      components:
+      - type: Image
+        properties: {role: null, vertical_align: center, height: '250', tooltip: '',
+          border: '', foreground: '', visible: true, display_mode: shrink_to_fit,
+          spacing_above: small, source: _/theme/pics/Partner3_grey.png, spacing_below: large,
+          background: '', horizontal_align: center}
+        name: image_partner3
+        layout_properties: {grid_position: 'EDJYGB,LMVONP'}
+        event_bindings: {mouse_enter: image_partner3_mouse_enter, mouse_leave: image_partner3_mouse_leave}
   - type: ColumnPanel
     properties: {role: null, tooltip: '', border: '', foreground: '', visible: false,
       wrap_on: mobile, col_spacing: medium, spacing_above: none, col_widths: '{"QTHBRE":10,"QHUPWL":20,"CAOQDK":20,"BSRZQM":10}',

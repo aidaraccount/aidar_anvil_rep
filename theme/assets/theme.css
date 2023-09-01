@@ -47,9 +47,6 @@ header>.nav-links>span {
 .anvil-role-input_margin {
   margin: 0 20px;  
 }
-.col-padding {
-
-}
 .anvil-role-landingpage_artist2_background {
   background-image: url('_/theme/pics/Artist2.png');
   background-position: center 25%;
@@ -71,6 +68,7 @@ header>.nav-links>span {
 .anvil-role-call_to_action_button button {
   font-size: 18px;
   border: 2px %color:Grid_Black%;
+  text-shadow: 0 0 0 hsla(0,0%,100%,.5);
 }
 .anvil-role-text_box {
   color: %color:Text_DarkGrey%;

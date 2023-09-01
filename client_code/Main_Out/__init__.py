@@ -18,6 +18,7 @@ class Main_Out(Main_OutTemplate):
     # Any code you write here will run before the form opens.
     check_log_status(self)
     
+    
   def link_login_click(self, **event_args):
     print(f'Login Click - Start {datetime.datetime.now()}', flush=True)
     anvil.users.login_with_form(allow_cancel=True, remember_by_default=True)
@@ -73,6 +74,12 @@ class Main_Out(Main_OutTemplate):
 
   def imprint_link_click(self, **event_args):
     open_form('Imprint')
+
+  def image_partner3_mouse_enter(self, x, y, **event_args):
+    self.image_partner3.source = '_/theme/pics/Partner3_original.png'
+
+  def image_partner3_mouse_leave(self, x, y, **event_args):
+    self.image_partner3.source = '_/theme/pics/Partner3_grey.png'
 
 
 def check_log_status(self, **event_args):
