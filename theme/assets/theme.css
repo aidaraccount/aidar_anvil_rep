@@ -35,6 +35,7 @@ header>.nav-links>span {
   vertical-align: top;
 }
 
+
 /* ---- OWN ADJUSTMENTS ----------------------- */
 #loadingSpinner {
     border-radius: 0;
@@ -341,4 +342,21 @@ body.anvil-highlight .nav-elt.placeholder {
   font-weight: 400;
   src: local('Roboto'), local('Roboto-Regular'), url(https://fonts.gstatic.com/s/roboto/v16/CWB0XYA8bzo0kSThX0UTuA.woff2) format('woff2');
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215;
+}
+/* ---- OWN FONT ----------------------- */
+@font-face {
+  font-family: 'GS';
+  src: url("_/theme/fonts/GeneralSans-Regular.otf") format("opentype");
+}
+@font-face {
+  font-family: 'GSb';
+  src: url("_/theme/fonts/GeneralSans-Semibold.otf") format("opentype");
+}
+@font-face {
+  font-family: 'Khand-Regular';
+  src: url("_/theme/fonts/Khand-Regular.otf") format("opentype");
+}
+@font-face {
+  font-family: 'Khand-Semibold';
+  src: url("_/theme/fonts/Khand-SemiBold.otf") format("opentype");
 }

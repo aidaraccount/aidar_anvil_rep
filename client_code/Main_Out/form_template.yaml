@@ -117,7 +117,7 @@ components:
   components:
   - type: ColumnPanel
     properties: {role: landingpage_artist_background, tooltip: '', border: '', foreground: '',
-      visible: true, wrap_on: mobile, col_spacing: medium, spacing_above: none, col_widths: '{"THZCFO":26,"KJRBML":30}',
+      visible: true, wrap_on: mobile, col_spacing: medium, spacing_above: none, col_widths: '{"THZCFO":26}',
       spacing_below: none, background: 'theme:Main_Black'}
     name: column_panel_16
     layout_properties: {grid_position: 'JCAYXU,WCMRKM', full_width_row: true}
@@ -127,16 +127,20 @@ components:
         tooltip: ''}
       name: top_spacer
       layout_properties: {grid_position: 'KZKLYP,KLPWNU'}
-    - type: RichText
-      properties: {role: null, align: center, tooltip: '', enable_slots: true, border: '',
-        foreground: '', visible: true, font_size: null, content: "<p style=\"font-weight:\
-          \ bold;\">\n  <span style=\"color: rgb(253, 101, 45); font-size: 36px;\"\
-          >WELCOME TO AIDAR</span>\n  <span style=\"color: rgb(235, 235, 235); font-size:\
-          \ 30px;\"><br>AI driven A&R</span>\n</p>", font: '', spacing_above: small,
-        spacing_below: small, data: null, background: '', format: restricted_html}
-      name: rich_text_3
-      layout_properties: {grid_position: 'UXGUXQ,KJRBML'}
-      components: []
+    - type: Label
+      properties: {role: null, align: center, tooltip: '', border: '', foreground: 'theme:Orange',
+        visible: true, text: WELCOME TO AIDAR, font_size: 36, font: GSb, spacing_above: small,
+        icon_align: left, spacing_below: none, italic: false, background: '', bold: true,
+        underline: false, icon: ''}
+      name: label_4
+      layout_properties: {grid_position: 'UXGUXQ,SMVDYR PLUTDJ,YMDOHD'}
+    - type: Label
+      properties: {role: null, align: center, tooltip: '', border: '', foreground: 'theme:Text_White',
+        visible: true, text: AI driven A&R, font_size: 30, font: GS, spacing_above: none,
+        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+        underline: false, icon: ''}
+      name: label_3
+      layout_properties: {grid_position: 'UXGUXQ,SMVDYR CICOCZ,JQTTBE'}
     - type: Spacer
       properties: {height: 126}
       name: spacer_12
@@ -154,8 +158,8 @@ components:
     properties: {role: null, align: center, tooltip: '', enable_slots: true, border: '',
       foreground: 'theme:Text_DecentWhite', visible: true, font_size: null, content: "<p\
         \ style=\"font-weight: bold;\">\n  <span style=\"color: rgb(253, 101, 45);\
-        \ font-size: 50px;\">.</span>\n  <span style=\"font-size: 30px;\">CLAIM YOUR\
-        \ AI-MODEL</span>\n</p>\n", font: '', spacing_above: small, spacing_below: small,
+        \ font-size: 40px;\">.</span>\n  <span style=\"font-size: 30px;\">CLAIM YOUR\
+        \ AI-MODEL</span>\n</p>\n", font: GSb, spacing_above: small, spacing_below: small,
       data: null, background: '', format: restricted_html}
     name: rich_text_1_copy_2
     layout_properties:
@@ -168,7 +172,7 @@ components:
     layout_properties: {grid_position: 'MIJGXO,XCSHIB', full_width_row: true}
   - type: Label
     properties: {role: artist_name, align: center, tooltip: '', border: '', foreground: '',
-      visible: true, text: Sign Up with AIDAR's Waiting List, font_size: 18, font: '',
+      visible: true, text: Sign Up with AIDAR's Waiting List, font_size: 18, font: GS,
       spacing_above: none, icon_align: left, spacing_below: medium, italic: false,
       background: '', bold: false, underline: false, icon: ''}
     name: label_9
@@ -187,7 +191,7 @@ components:
     - type: TextBox
       properties: {role: text_box, align: center, hide_text: false, tooltip: '', placeholder: E-Mail,
         border: '', enabled: true, foreground: 'theme:Accent 2', visible: true, text: '',
-        font_size: 20, font: '', spacing_above: small, type: email, spacing_below: small,
+        font_size: 20, font: GS, spacing_above: small, type: email, spacing_below: small,
         italic: false, background: 'theme:Text_DecentWhite', bold: true, underline: false}
       name: call2action_text_box
       layout_properties: {grid_position: 'YKPUIJ,PBVHRW'}
@@ -195,7 +199,7 @@ components:
     - type: Button
       properties: {role: call_to_action_button, align: center, tooltip: '', border: '',
         enabled: true, foreground: 'theme:Text_DecentWhite', visible: true, text: ' JOIN
-          WAITING LIST!  ', font_size: 22, font: '', spacing_above: small, icon_align: left,
+          WAITING LIST!  ', font_size: 22, font: GSb, spacing_above: small, icon_align: left,
         spacing_below: small, italic: false, background: 'theme:Orange', bold: false,
         underline: false, icon: 'fa:angle-double-right'}
       name: button_1
@@ -230,7 +234,7 @@ components:
       properties: {role: null, align: center, tooltip: '', border: '', foreground: 'theme:Text_White',
         visible: true, text: 'First data-driven service,
 
-          to provide artists perfectly fitting your vision', font_size: 30, font: '',
+          to provide artists perfectly fitting your vision', font_size: 30, font: GSb,
         spacing_above: small, icon_align: left, spacing_below: small, italic: false,
         background: '', bold: true, underline: false, icon: ''}
       name: label_18
@@ -247,7 +251,7 @@ components:
     - type: Link
       properties: {role: artist_name, url: '', align: center, tooltip: '', border: '',
         foreground: '', visible: true, text: LinkedIn, font_size: 28, wrap_on: never,
-        font: '', col_spacing: medium, spacing_above: small, icon_align: left, col_widths: '',
+        font: GSb, col_spacing: medium, spacing_above: small, icon_align: left, col_widths: '',
         spacing_below: small, italic: false, background: '', bold: false, underline: false,
         icon: 'fa:linkedin'}
       name: linkedin_link
@@ -259,7 +263,7 @@ components:
     - type: Link
       properties: {role: artist_name, url: '', align: center, tooltip: '', border: '',
         foreground: '', visible: true, text: Instagram, font_size: 28, wrap_on: never,
-        font: '', col_spacing: medium, spacing_above: small, icon_align: left, col_widths: '',
+        font: GSb, col_spacing: medium, spacing_above: small, icon_align: left, col_widths: '',
         spacing_below: small, italic: false, background: '', bold: false, underline: false,
         icon: 'fa:instagram'}
       name: instagram_link
@@ -285,9 +289,9 @@ components:
   properties: {role: null, align: center, tooltip: '', enable_slots: true, border: '',
     foreground: 'theme:Text_DecentWhite', visible: true, font_size: null, content: "<p\
       \ style=\"font-weight: bold;\">\n  <span style=\"color: rgb(253, 101, 45); font-size:\
-      \ 50px;\">.</span>\n  <span style=\"font-size: 30px;\">WHAT WE OFFER</span>\n\
-      </p>\n", font: '', spacing_above: small, spacing_below: small, data: null, background: '',
-    format: restricted_html}
+      \ 40px;\">.</span>\n  <span style=\"font-size: 30px;\">WHAT WE OFFER</span>\n\
+      </p>\n", font: GSb, spacing_above: small, spacing_below: small, data: null,
+    background: '', format: restricted_html}
   name: rich_text_1
   layout_properties: {grid_position: 'LHDCQP,ZOJLHI', full_width_row: false}
   components: []
@@ -344,11 +348,19 @@ components:
         properties: {role: null, align: center, tooltip: '', enable_slots: true, border: '',
           foreground: 'theme:Text_White', visible: true, font_size: null, content: "<p\
             \ style=\"font-weight: bold;\">\n  <span style=\"font-size: 40px;\">3.1</span>\n\
-            \  <span style=\"font-size: 30px;\">million</span>\n  <span style=\"font-size:\
-            \ 24px;\"><br>Artists in our Database</span>\n</p>", font: '', spacing_above: small,
-          spacing_below: small, data: null, background: '', format: restricted_html}
+            \  <span style=\"font-size: 30px;\">million</span>\n</p>", font: GSb,
+          spacing_above: small, spacing_below: small, data: null, background: '',
+          format: restricted_html}
         name: rich_text_2
         layout_properties: {grid_position: 'BLNVIC,VDPROD'}
+        components: []
+      - type: Label
+        properties: {role: null, align: center, tooltip: '', border: '', foreground: 'theme:Text_White',
+          visible: true, text: Artists in our Database, font_size: 24, font: GS, spacing_above: none,
+          icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+          underline: false, icon: ''}
+        name: label_5
+        layout_properties: {grid_position: 'LEAJQV,RLVTTZ'}
       - type: Spacer
         properties: {visible: true, spacing_above: small, spacing_below: small, height: '50',
           tooltip: ''}
@@ -370,8 +382,8 @@ components:
       properties: {role: null, align: center, tooltip: '', enable_slots: true, border: '',
         foreground: 'theme:Text_DecentWhite', visible: true, font_size: null, content: "<p\
           \ style=\"font-weight: bold;\">\n  <span style=\"color: rgb(253, 101, 45);\
-          \ font-size: 50px;\">.</span>\n  <span style=\"font-size: 30px;\">TRUSTED\
-          \ BY</span>\n</p>\n", font: '', spacing_above: small, spacing_below: small,
+          \ font-size: 40px;\">.</span>\n  <span style=\"font-size: 30px;\">TRUSTED\
+          \ BY</span>\n</p>\n", font: GSb, spacing_above: small, spacing_below: small,
         data: null, background: '', format: restricted_html}
       name: rich_text_1_copy_3
       layout_properties:
@@ -387,6 +399,71 @@ components:
       name: link_3
       layout_properties: {grid_position: 'BGYGZI,TXXOSI'}
       components:
+      - type: ColumnPanel
+        properties: {col_widths: '{}'}
+        name: column_panel_trusted_by
+        layout_properties: {grid_position: 'EDJYGB,UNOIPJ'}
+        components:
+        - type: Image
+          properties: {role: null, vertical_align: center, height: '200', tooltip: '',
+            border: '', foreground: '', visible: true, display_mode: shrink_to_fit,
+            spacing_above: small, source: _/theme/pics/Partner3_grey.png, spacing_below: small,
+            background: '', horizontal_align: center}
+          name: image_3
+          layout_properties: {grid_position: 'PWUCJU,PMPUIN'}
+        - type: RichText
+          properties: {role: null, align: center, tooltip: '', enable_slots: true,
+            border: '', foreground: 'theme:Main_Black', visible: true, font_size: null,
+            content: '<p>
+
+              <span style="
+
+              font-size: 20px;
+
+              font-weight: bold;
+
+              font-family: ''GSb'';
+
+              ">
+
+              HARDWORK RECORDS
+
+              </span>
+
+              <br>
+
+              <span style="
+
+              font-size: 18px;
+
+              font-weight: bold;
+
+              font-family: ''GS'';
+
+              ">
+
+              Barcelona, Spain
+
+              </span>
+
+              <br>
+
+              <span style="
+
+              font-size: 18px;
+
+              font-family: ''GS'';
+
+              ">
+
+              Hard Techno
+
+              </span>
+
+              </p>', font: '', spacing_above: small, spacing_below: small, data: null,
+            background: '', format: restricted_html}
+          name: rich_text_3
+          layout_properties: {grid_position: 'UDHSDA,KGSRJE'}
       - type: Image
         properties: {role: null, vertical_align: center, height: '250', tooltip: '',
           border: '', foreground: '', visible: true, display_mode: shrink_to_fit,
@@ -596,7 +673,7 @@ components:
   layout_properties: {grid_position: 'LAKDYJ,HRHSEU'}
 - type: Label
   properties: {role: null, align: center, tooltip: '', border: '', foreground: 'theme:Text_White',
-    visible: true, text: info@aidar.ai, font_size: null, font: '', spacing_above: none,
+    visible: true, text: info@aidar.ai, font_size: null, font: GS, spacing_above: none,
     icon_align: left, spacing_below: none, italic: false, background: '', bold: false,
     underline: false, icon: 'fa:envelope'}
   name: label_11_copy_2
@@ -606,7 +683,7 @@ components:
     full_width_row: false
 - type: Label
   properties: {role: null, align: center, tooltip: '', border: '', foreground: 'theme:Text_White',
-    visible: true, text: +49 151 23382945, font_size: null, font: '', spacing_above: none,
+    visible: true, text: +49 151 23382945, font_size: null, font: GS, spacing_above: none,
     icon_align: left, spacing_below: none, italic: false, background: '', bold: false,
     underline: false, icon: 'fa:phone'}
   name: label_11_copy
@@ -623,7 +700,7 @@ components:
     grid_position: OXYPWB,ZQFJEF
 - type: Link
   properties: {role: null, url: '', align: center, tooltip: '', border: '', foreground: 'theme:Text_White',
-    visible: true, text: Imprint, font_size: null, wrap_on: mobile, font: '', col_spacing: none,
+    visible: true, text: Imprint, font_size: null, wrap_on: mobile, font: GS, col_spacing: none,
     spacing_above: none, icon_align: left, col_widths: '{}', spacing_below: none,
     italic: false, background: '', bold: false, underline: false, icon: ''}
   name: imprint_link
@@ -635,7 +712,7 @@ components:
   event_bindings: {click: imprint_link_click}
 - type: Label
   properties: {role: null, align: center, tooltip: '', border: '', foreground: 'theme:Text_White',
-    visible: true, text: Copyright © AIDAR 2023, font_size: null, font: '', spacing_above: none,
+    visible: true, text: Copyright © AIDAR 2023, font_size: null, font: GS, spacing_above: none,
     icon_align: left, spacing_below: none, italic: false, background: '', bold: false,
     underline: false, icon: ''}
   name: label_10_copy
