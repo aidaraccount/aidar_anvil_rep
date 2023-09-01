@@ -368,7 +368,7 @@ components:
         layout_properties: {grid_position: 'LAEHHW,VKACDD'}
   - type: ColumnPanel
     properties: {role: null, tooltip: '', border: '', foreground: '', visible: true,
-      wrap_on: mobile, col_spacing: medium, spacing_above: none, col_widths: '{}',
+      wrap_on: mobile, col_spacing: medium, spacing_above: none, col_widths: '{"PBGBXQ":20,"TXXOSI":40}',
       spacing_below: none, background: 'theme:Accent 1'}
     name: column_panel_3
     layout_properties: {grid_position: 'VAWTVH,YFIPPM', full_width_row: true}
@@ -390,6 +390,10 @@ components:
         col_widths: {}
         grid_position: OVHQXX,OKYHMD
         full_width_row: true
+    - type: Spacer
+      properties: {height: 32}
+      name: spacer_11
+      layout_properties: {grid_position: 'BGYGZI,PBGBXQ'}
     - type: Link
       properties: {role: null, url: 'https://hardworkrecords.bandcamp.com/', align: left,
         tooltip: '', border: '', foreground: '', visible: true, text: '', font_size: null,
@@ -405,12 +409,13 @@ components:
         layout_properties: {grid_position: 'EDJYGB,UNOIPJ'}
         components:
         - type: Image
-          properties: {role: null, vertical_align: center, height: '200', tooltip: '',
+          properties: {role: null, vertical_align: center, height: '150', tooltip: '',
             border: '', foreground: '', visible: true, display_mode: shrink_to_fit,
             spacing_above: small, source: _/theme/pics/Partner3_grey.png, spacing_below: small,
             background: '', horizontal_align: center}
-          name: image_3
-          layout_properties: {grid_position: 'PWUCJU,PMPUIN'}
+          name: image_partner3
+          layout_properties: {grid_position: 'NFOCGT,BRXUEI PWUCJU,PMPUIN'}
+          event_bindings: {mouse_enter: image_partner3_mouse_enter, mouse_leave: image_partner3_mouse_leave}
         - type: RichText
           properties: {role: null, align: center, tooltip: '', enable_slots: true,
             border: '', foreground: 'theme:Main_Black', visible: true, font_size: null,
@@ -418,7 +423,7 @@ components:
 
               <span style="
 
-              font-size: 20px;
+              font-size: 18px;
 
               font-weight: bold;
 
@@ -434,7 +439,7 @@ components:
 
               <span style="
 
-              font-size: 18px;
+              font-size: 16px;
 
               font-weight: bold;
 
@@ -450,7 +455,7 @@ components:
 
               <span style="
 
-              font-size: 18px;
+              font-size: 16px;
 
               font-family: ''GS'';
 
@@ -463,15 +468,11 @@ components:
               </p>', font: '', spacing_above: small, spacing_below: small, data: null,
             background: '', format: restricted_html}
           name: rich_text_3
-          layout_properties: {grid_position: 'UDHSDA,KGSRJE'}
-      - type: Image
-        properties: {role: null, vertical_align: center, height: '250', tooltip: '',
-          border: '', foreground: '', visible: true, display_mode: shrink_to_fit,
-          spacing_above: small, source: _/theme/pics/Partner3_grey.png, spacing_below: large,
-          background: '', horizontal_align: center}
-        name: image_partner3
-        layout_properties: {grid_position: 'EDJYGB,LMVONP'}
-        event_bindings: {mouse_enter: image_partner3_mouse_enter, mouse_leave: image_partner3_mouse_leave}
+          layout_properties: {grid_position: 'NFOCGT,BRXUEI UDHSDA,KGSRJE'}
+        - type: Spacer
+          properties: {height: 32}
+          name: spacer_15
+          layout_properties: {grid_position: 'NFOCGT,OTDGIZ'}
   - type: ColumnPanel
     properties: {role: null, tooltip: '', border: '', foreground: '', visible: false,
       wrap_on: mobile, col_spacing: medium, spacing_above: none, col_widths: '{"QTHBRE":10,"QHUPWL":20,"CAOQDK":20,"BSRZQM":10}',
