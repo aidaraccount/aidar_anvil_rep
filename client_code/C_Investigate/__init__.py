@@ -81,6 +81,10 @@ class C_Investigate(C_InvestigateTemplate):
       elif sug["SubMajorCoop"] == '0': smc = 'no'
       else: smc = '-'
       self.sub_major_coop.text = smc
+
+      if sug["LatestLabel"] == 'None': ll = 'N/A'
+      else: ll = sug["LatestLabel"]
+      self.latest_label.text = ll
       
       if sug["MinMusDist"] == 'None': mmd = 'N/A'
       else: mmd = "{:.2f}".format(round(float(sug["MinMusDist"]),2))
