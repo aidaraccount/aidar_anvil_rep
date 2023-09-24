@@ -21,13 +21,17 @@ class C_Investigate(C_InvestigateTemplate):
     global cur_model_id
     user = anvil.users.get_user()    
     cur_model_id = anvil.server.call('get_model_id',  user["user_id"])
-    
+
+    self.plot_followers.visible = False
     self.refresh_sug(temp_artist_id)
   
   def refresh_sug(self, temp_artist_id, **event_args):
     print(f'Refresh Sug - Start {datetime.datetime.now()}', flush=True)
     sug = json.loads(anvil.server.call('get_suggestion', cur_model_id, 'Inspect', temp_artist_id)) # Free, Explore, Inspect, Dissect
-
+    
+    global cur_artist_id
+    cur_artist_id = sug["ArtistID"]
+    
     if sug["Status"] == 'Empty Model!':
       alert(title='Train you Model..',
             content="Sorry, we cound't find any artists for your model. Make sure your model is fully set up!\n\nTherefore, go to ADD REF. ARTISTS and add some starting artists that you are interested in.")
@@ -160,6 +164,35 @@ class C_Investigate(C_InvestigateTemplate):
       else: f12 = "{:.0f}".format(round(float(sug["AvgTempo"]),0))
       self.feature_12.text = f12 + ' bpm' 
       print(f'FEATURES - End {datetime.datetime.now()}', flush=True)
+
+
+  def link_follower_click(self, **event_args):
+    follower = json.loads(anvil.server.call('get_followers', int(cur_artist_id)))
+    self.plot_followers.visible = True
+    self.plot_followers.data = [
+      go.Scatter(
+        x = [x['Date'] for x in follower],
+        y = [x['ArtistFollower'] for x in follower],
+        marker = dict(color = 'rgb(253, 101, 45)')
+      )
+    ]
+    self.plot_followers.layout = {
+      'template': 'plotly_dark',
+      'title': {
+        'text' : 'Spotify Followers over time',
+        'x': 0.5,
+        'xanchor': 'center'
+        },
+      'yaxis': {
+        'title': 'No. Followers',
+        'range': [0, 1.1*max([x['ArtistFollower'] for x in follower])]
+      },
+      'paper_bgcolor': 'rgb(25, 28, 26)',
+      'plot_bgcolor': 'rgb(25, 28, 26)'
+    }
+  
+  def link_follower_close_click(self, **event_args):
+    self.plot_followers.visible = False
     
   def button_1_click(self, **event_args):
     self.header.scroll_into_view(smooth=True)
@@ -195,3 +228,5 @@ class C_Investigate(C_InvestigateTemplate):
     self.header.scroll_into_view(smooth=True)
     anvil.server.call('add_interest', cur_model_id, artist_id, 7)
     self.refresh_sug(temp_artist_id=None)
+
+
