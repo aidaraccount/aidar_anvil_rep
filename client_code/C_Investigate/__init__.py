@@ -283,8 +283,28 @@ class C_Investigate(C_InvestigateTemplate):
 
   
   # DESCRIPTION LINKS
-  def link_prediction_info_click(self, **event_args):
-    alert("This is your personal prediction!")
+  def info_prediction_click(self, **event_args):
+    alert(title='Prediction',
+    content="Prediction of Interest for you personally. Is based on your individually trained Machine Learning Model. Ranges from 1 to 7.")
+  def info_popularity_click(self, **event_args):
+    alert(title='Popularity',
+    content="Level of Popularity on Spotify. Ranges from 0 to 100.")
+  def info_follower_click(self, **event_args):
+    alert(title='Follower',
+    content="Number of Followers on Spotify")
+  def info_related_click(self, **event_args):
+    alert(title='No. similar Artists of Interest',
+    content="Number of Artists that you rated with 6 or 7 and are very similar to the presented Artist.")
+  def info_explicit_click(self, **event_args):
+    alert(title='Share of explicit Tracks',
+    content="Share of explicit Tracks in Percentage.")
+  def info_no_tracks_click(self, **event_args):
+    alert(title='No. Tracks',
+    content="Number of Tracks from the presented Artist in our Database. Not all Tracks of this Artist have to be in the Databse.")
+
+
+
+
 
 
 

@@ -38,6 +38,10 @@ roles:
   components: [RepeatingPanel]
 - name: table_header
   components: [DataGrid]
+- name: investigate_value
+  components: [Label, Link]
+- name: investigate_feature
+  components: [Label, Link]
 color_scheme:
   preset_groups:
   - name: Accent

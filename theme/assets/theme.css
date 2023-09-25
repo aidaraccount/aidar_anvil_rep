@@ -75,7 +75,8 @@ header>.nav-links>span {
   color: %color:Text_DarkGrey%;
 }
 .anvil-role-table_header {
-  font-size: 18px;
+  font-size: 16px;
+  font-weight: normal;
   color: %color:Orange%;
 }
 .anvil-role-table_content {
@@ -117,18 +118,38 @@ header>.nav-links>span {
   margin-bottom: 5px;
   padding: 0;
 }
-.anvil-role-feature {
-  font-size: 14px;
-  font-weight: bold;
-  color: %color:Text_Grey%;
-}
+
 .anvil-role-value {
-  font-size: 20px;
+  font-size: 24px;
   font-weight: bold;
   color: %color:Text_White%;
   margin: 0;
   padding: 0 !important;
 }
+.anvil-role-feature {
+  font-size: 14px;
+  font-weight: bold;
+  color: %color:Text_Grey%;
+  padding: 0 !important;
+}
+
+.anvil-role-investigate_value {
+  font-size: 28px;
+  font-weight: bold;
+  color: %color:Text_White%;
+  margin: 0;
+  padding-left: 15px !important;
+}
+.anvil-role-investigate_feature {
+  font-size: 14px;
+  font-weight: bold;
+  color: %color:Text_Grey%;
+  padding-left: 15px !important;
+}
+a.anvil-role-investigate_feature:hover, a.anvil-role-investigate_feature:active, a.anvil-role-investigate_feature:focus {
+  color: %color:Text_White%;
+}
+
 div.row {
   margin-bottom: 0 important!;
 }
