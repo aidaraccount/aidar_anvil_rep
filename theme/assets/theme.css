@@ -74,8 +74,17 @@ header>.nav-links>span {
 .anvil-role-text_box {
   color: %color:Text_DarkGrey%;
 }
+.anvil-role-table_header {
+  font-size: 18px;
+  color: %color:Orange%;
+}
 .anvil-role-table_content {
   font-size: 18px;
+  color: %color:Text_DecentWhite%;
+}
+.anvil-role-table_content_small {
+  font-size: 16px;
+  font-weight: normal;
   color: %color:Text_DecentWhite%;
 }
 .anvil-role-eval_button {

@@ -34,6 +34,10 @@ roles:
   components: [ColumnPanel]
 - name: input_margin
   components: [ColumnPanel]
+- name: table_content_small
+  components: [RepeatingPanel]
+- name: table_header
+  components: [DataGrid]
 color_scheme:
   preset_groups:
   - name: Accent

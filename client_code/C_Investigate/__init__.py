@@ -24,6 +24,7 @@ class C_Investigate(C_InvestigateTemplate):
 
     self.plot_popularity.visible = False
     self.plot_followers.visible = False
+    self.data_grid_releases.visible = False
     self.refresh_sug(temp_artist_id)
 
 
@@ -171,13 +172,13 @@ class C_Investigate(C_InvestigateTemplate):
 
   # POPULARITY PLOT
   def link_popularity_click(self, **event_args):
-    success_dev = json.loads(anvil.server.call('get_success_dev', int(cur_artist_id)))
+    dev_successes = json.loads(anvil.server.call('get_dev_successes', int(cur_artist_id)))
     if self.plot_popularity.visible == False:
       self.plot_popularity.visible = True
       self.plot_popularity.data = [
         go.Scatter(
-          x = [x['Date'] for x in success_dev],
-          y = [x['ArtistPopularity'] for x in success_dev],
+          x = [x['Date'] for x in dev_successes],
+          y = [x['ArtistPopularity'] for x in dev_successes],
           marker = dict(color = 'rgb(253, 101, 45)')
         )
       ]
@@ -190,7 +191,7 @@ class C_Investigate(C_InvestigateTemplate):
           },
         'yaxis': {
           'title': 'Popularity',
-          'range': [0, min(1.1*max([x['ArtistPopularity'] for x in success_dev]), 100)]
+          'range': [0, min(1.1*max([x['ArtistPopularity'] for x in dev_successes]), 100)]
         },
         'paper_bgcolor': 'rgb(25, 28, 26)',
         'plot_bgcolor': 'rgb(25, 28, 26)'
@@ -204,13 +205,13 @@ class C_Investigate(C_InvestigateTemplate):
   
   # FOLLOWER PLOT
   def link_follower_click(self, **event_args):
-    success_dev = json.loads(anvil.server.call('get_success_dev', int(cur_artist_id)))
+    dev_successes = json.loads(anvil.server.call('get_dev_successes', int(cur_artist_id)))
     if self.plot_followers.visible == False:
       self.plot_followers.visible = True
       self.plot_followers.data = [
         go.Scatter(
-          x = [x['Date'] for x in success_dev],
-          y = [x['ArtistFollower'] for x in success_dev],
+          x = [x['Date'] for x in dev_successes],
+          y = [x['ArtistFollower'] for x in dev_successes],
           marker = dict(color = 'rgb(253, 101, 45)')
         )
       ]
@@ -223,7 +224,7 @@ class C_Investigate(C_InvestigateTemplate):
           },
         'yaxis': {
           'title': 'No. Followers',
-          'range': [0, 1.1*max([x['ArtistFollower'] for x in success_dev])]
+          'range': [0, 1.1*max([x['ArtistFollower'] for x in dev_successes])]
         },
         'paper_bgcolor': 'rgb(25, 28, 26)',
         'plot_bgcolor': 'rgb(25, 28, 26)'
@@ -235,6 +236,15 @@ class C_Investigate(C_InvestigateTemplate):
     self.plot_followers.visible = False
 
 
+  # RELEASES TABLE
+  def link_releases_click(self, **event_args):
+    if self.data_grid_releases.visible == False:
+      self.data_grid_releases_data.items = json.loads(anvil.server.call('get_dev_releases', int(cur_artist_id)))
+      self.data_grid_releases.visible = True
+    else:
+      self.data_grid_releases.visible = False
+      
+  
   # RATING BUTTONS
   def button_1_click(self, **event_args):
     self.header.scroll_into_view(smooth=True)
