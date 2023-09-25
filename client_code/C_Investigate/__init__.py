@@ -281,4 +281,11 @@ class C_Investigate(C_InvestigateTemplate):
     anvil.server.call('add_interest', cur_model_id, artist_id, 7)
     self.refresh_sug(temp_artist_id=None)
 
+  
+  # DESCRIPTION LINKS
+  def link_prediction_info_click(self, **event_args):
+    alert("This is your personal prediction!")
+
+
+
 
