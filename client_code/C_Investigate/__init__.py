@@ -22,9 +22,12 @@ class C_Investigate(C_InvestigateTemplate):
     user = anvil.users.get_user()    
     cur_model_id = anvil.server.call('get_model_id',  user["user_id"])
 
+    self.plot_popularity.visible = False
     self.plot_followers.visible = False
     self.refresh_sug(temp_artist_id)
-  
+
+
+  # SUGGESTIONS
   def refresh_sug(self, temp_artist_id, **event_args):
     print(f'Refresh Sug - Start {datetime.datetime.now()}', flush=True)
     sug = json.loads(anvil.server.call('get_suggestion', cur_model_id, 'Inspect', temp_artist_id)) # Free, Explore, Inspect, Dissect
@@ -166,34 +169,73 @@ class C_Investigate(C_InvestigateTemplate):
       print(f'FEATURES - End {datetime.datetime.now()}', flush=True)
 
 
-  def link_follower_click(self, **event_args):
-    follower = json.loads(anvil.server.call('get_followers', int(cur_artist_id)))
-    self.plot_followers.visible = True
-    self.plot_followers.data = [
-      go.Scatter(
-        x = [x['Date'] for x in follower],
-        y = [x['ArtistFollower'] for x in follower],
-        marker = dict(color = 'rgb(253, 101, 45)')
-      )
-    ]
-    self.plot_followers.layout = {
-      'template': 'plotly_dark',
-      'title': {
-        'text' : 'Spotify Followers over time',
-        'x': 0.5,
-        'xanchor': 'center'
+  # POPULARITY PLOT
+  def link_popularity_click(self, **event_args):
+    success_dev = json.loads(anvil.server.call('get_success_dev', int(cur_artist_id)))
+    if self.plot_popularity.visible == False:
+      self.plot_popularity.visible = True
+      self.plot_popularity.data = [
+        go.Scatter(
+          x = [x['Date'] for x in success_dev],
+          y = [x['ArtistPopularity'] for x in success_dev],
+          marker = dict(color = 'rgb(253, 101, 45)')
+        )
+      ]
+      self.plot_popularity.layout = {
+        'template': 'plotly_dark',
+        'title': {
+          'text' : 'Spotify Popularity over time',
+          'x': 0.5,
+          'xanchor': 'center'
+          },
+        'yaxis': {
+          'title': 'Popularity',
+          'range': [0, min(1.1*max([x['ArtistPopularity'] for x in success_dev]), 100)]
         },
-      'yaxis': {
-        'title': 'No. Followers',
-        'range': [0, 1.1*max([x['ArtistFollower'] for x in follower])]
-      },
-      'paper_bgcolor': 'rgb(25, 28, 26)',
-      'plot_bgcolor': 'rgb(25, 28, 26)'
-    }
+        'paper_bgcolor': 'rgb(25, 28, 26)',
+        'plot_bgcolor': 'rgb(25, 28, 26)'
+      }
+    else:
+      self.plot_popularity.visible = False
   
+  def link_popularity_close_click(self, **event_args):
+    self.plot_popularity.visible = False
+
+  
+  # FOLLOWER PLOT
+  def link_follower_click(self, **event_args):
+    success_dev = json.loads(anvil.server.call('get_success_dev', int(cur_artist_id)))
+    if self.plot_followers.visible == False:
+      self.plot_followers.visible = True
+      self.plot_followers.data = [
+        go.Scatter(
+          x = [x['Date'] for x in success_dev],
+          y = [x['ArtistFollower'] for x in success_dev],
+          marker = dict(color = 'rgb(253, 101, 45)')
+        )
+      ]
+      self.plot_followers.layout = {
+        'template': 'plotly_dark',
+        'title': {
+          'text' : 'Spotify Followers over time',
+          'x': 0.5,
+          'xanchor': 'center'
+          },
+        'yaxis': {
+          'title': 'No. Followers',
+          'range': [0, 1.1*max([x['ArtistFollower'] for x in success_dev])]
+        },
+        'paper_bgcolor': 'rgb(25, 28, 26)',
+        'plot_bgcolor': 'rgb(25, 28, 26)'
+      }
+    else:
+      self.plot_followers.visible = False
+      
   def link_follower_close_click(self, **event_args):
     self.plot_followers.visible = False
-    
+
+
+  # RATING BUTTONS
   def button_1_click(self, **event_args):
     self.header.scroll_into_view(smooth=True)
     anvil.server.call('add_interest', cur_model_id, artist_id, 1)
