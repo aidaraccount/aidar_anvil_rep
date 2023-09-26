@@ -25,6 +25,9 @@ class C_Investigate(C_InvestigateTemplate):
     self.plot_popularity.visible = False
     self.plot_followers.visible = False
     self.data_grid_releases.visible = False
+
+    self.artist_popularity_lat.icon = '_/theme/icons/+2.png'
+    self.artist_follower_lat.icon = '_/theme/icons/+1.png'
     self.refresh_sug(temp_artist_id)
 
 
