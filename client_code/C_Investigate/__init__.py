@@ -19,15 +19,17 @@ class C_Investigate(C_InvestigateTemplate):
     # Any code you write here will run before the form opens.
     global user
     global cur_model_id
-    user = anvil.users.get_user()    
+    user = anvil.users.get_user()
     cur_model_id = anvil.server.call('get_model_id',  user["user_id"])
+    #if cur_model_id == 0:
+    #  cur_model_id = 2
 
     self.plot_popularity.visible = False
     self.plot_followers.visible = False
     self.data_grid_releases.visible = False
 
-    self.artist_popularity_lat.icon = '_/theme/icons/+2.png'
-    self.artist_follower_lat.icon = '_/theme/icons/-1.png'
+    #self.artist_popularity_lat.icon = '_/theme/icons/+2.png'
+    #self.artist_follower_lat.icon = '_/theme/icons/-1.png'
     self.refresh_sug(temp_artist_id)
 
 

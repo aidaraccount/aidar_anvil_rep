@@ -23,7 +23,13 @@ class Main_In(Main_InTemplate):
     global user
     global cur_model_id
     user = anvil.users.get_user()
-    cur_model_id = anvil.server.call('get_model_id',  user["user_id"])
+
+    print(user["user_id"])
+
+    if user["user_id"] == None:
+      cur_model_id = None
+    else:
+      cur_model_id = anvil.server.call('get_model_id',  user["user_id"])
     
     if (cur_model_id == None):
       self.content_panel.add_component(C_NoModel())
