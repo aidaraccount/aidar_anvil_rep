@@ -9,14 +9,16 @@ import anvil.server
 #
 # To allow anvil.server.call() to call functions here, we mark
 # them with @anvil.server.callable.
-# Here is an example - you can replace it with your own:
-#
 
 @anvil.server.callable
-def check_user_presence():
+def server_transfer_user_id():
+  print(f'server_transfer_user_id: ..')
   user = anvil.users.get_user()
+  print(f'UserID = {user["user_id"]}')
   if (user["user_id"] == None):
-    new_user_id = anvil.server.call('CheckUserPresence', user["email"])
+    print(f'CheckUserPresence (from DB): -> new_user_id')
+    new_user_id = anvil.server.call('check_user_presence', user["email"])
+    print(f'NewUserID = {new_user_id}')
     if (new_user_id != None):
       user_row = app_tables.users.get(email = user["email"])
       user_row['user_id'] = new_user_id

@@ -25,10 +25,15 @@ class Main_Out(Main_OutTemplate):
     anvil.users.login_with_form(allow_cancel=True, remember_by_default=True)
     check_log_status(self)
     user = anvil.users.get_user()
-    if (user != None):      
+    if (user != None):
       try:
         print('Main_Out: if (user != None) - check_user_presence', flush=True)
-        anvil.server.call('check_user_presence', mail=user['email'])
+        print(f'Mail = {user["email"]}')
+        anvil.server.call('server_transfer_user_id')
+        #user_id = anvil.server.call('check_user_presence', mail=user['email'])
+        print(f'User = {user["user_id"]}', flush=True)
+        user = anvil.users.get_user()
+        print(f'User = {user["user_id"]}', flush=True)
         print('Main_Out: open_form(Main_In,..', flush=True)
         open_form('Main_In', temp_artist_id = None, user_id = user["user_id"])
       except:
@@ -91,7 +96,7 @@ class Main_Out(Main_OutTemplate):
 
 
 def check_log_status(self, **event_args):
-  print(f'check_log_status', flush=True)
+  print(f'Main_Out: check_log_status', flush=True)
   if (anvil.users.get_user() == None):
     self.link_login.visible = True
     #self.link_register.visible = True
