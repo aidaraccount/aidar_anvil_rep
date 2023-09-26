@@ -16,32 +16,40 @@ class Main_Out(Main_OutTemplate):
     self.init_components(**properties)
     
     # Any code you write here will run before the form opens.
+    print('Main_Out: check_log_status', flush=True)
     check_log_status(self)
     
     
   def link_login_click(self, **event_args):
-    print(f'Login Click - Start {datetime.datetime.now()}', flush=True)
+    print(f'Main_Out: link_login_click', flush=True)
     anvil.users.login_with_form(allow_cancel=True, remember_by_default=True)
     check_log_status(self)
     user = anvil.users.get_user()
     if (user != None):      
       try:
+        print('Main_Out: if (user != None) - check_user_presence', flush=True)
         anvil.server.call('check_user_presence', mail=user['email'])
+        print('Main_Out: open_form(Main_In,..', flush=True)
         open_form('Main_In', temp_artist_id = None, user_id = user["user_id"])
       except:
         alert(title='Unveiling New Features!', content='Apologies for any inconvenience caused.\n\nWe are presently integrating new features and will have the site accessible again shortly.\n\nFeel free to contact us via email at info@aidar.ai.\n\nThank you,\nYour AIDAR Team')
       
   def link_logout_click(self, **event_args):
+    print('Main_Out: link_logout_click', flush=True)
     anvil.users.logout()
     check_log_status(self)
   
   def button_signup_click(self, **event_args):
+    print('Main_Out: button_signup_click', flush=True)
     anvil.users.signup_with_form(allow_cancel=True)
 
   def link_investigate_click(self, **event_args):
+    print('Main_Out: link_investigate_click', flush=True)
     user = anvil.users.get_user()
     if (user != None):
+      print('Main_Out: if (user != None)', flush=True)
       anvil.server.call('check_user_presence', mail=user['email'])
+      print('Main_Out: link_investigate_click if (user != None)', flush=True)
       open_form('Main_In', temp_artist_id = None, user_id = user["user_id"])
 
   def linkedin_click(self, **event_args):
@@ -83,7 +91,7 @@ class Main_Out(Main_OutTemplate):
 
 
 def check_log_status(self, **event_args):
-  print(f'Check log status - Start {datetime.datetime.now()}', flush=True)
+  print(f'check_log_status', flush=True)
   if (anvil.users.get_user() == None):
     self.link_login.visible = True
     #self.link_register.visible = True
