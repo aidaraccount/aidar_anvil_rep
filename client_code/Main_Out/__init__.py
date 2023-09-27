@@ -30,7 +30,6 @@ class Main_Out(Main_OutTemplate):
         print('Main_Out: if (user != None) - check_user_presence', flush=True)
         print(f'Mail = {user["email"]}')
         anvil.server.call('server_transfer_user_id')
-        #user_id = anvil.server.call('check_user_presence', mail=user['email'])
         print(f'User = {user["user_id"]}', flush=True)
         user = anvil.users.get_user()
         print(f'User = {user["user_id"]}', flush=True)
