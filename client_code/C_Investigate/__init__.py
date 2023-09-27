@@ -110,7 +110,7 @@ class C_Investigate(C_InvestigateTemplate):
       self.max_mus_dis.text = xmd
       
       if (sug["AvgExplicit"] == 'None'): expl = '-'
-      else: expl = "{:.0f}".format(round(float(sug["AvgExplicit"]),0))
+      else: expl = "{:.0f}".format(round(float(sug["AvgExplicit"])*100,0))
       self.avg_explicit.text = str(expl) + '%'
       
       if sug["RelArtists7"] == 'None': self.rel_artists_7.text = '-'
