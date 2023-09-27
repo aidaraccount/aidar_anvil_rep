@@ -44,7 +44,7 @@ components:
     layout_properties:
       col_widths: {}
       grid_position: SGNDPT,SUGPFH
-    event_bindings: {change: text_box_search_change}
+    event_bindings: {change: text_box_search_change, pressed_enter: text_box_search_change}
   - type: DataGrid
     properties:
       role: null
