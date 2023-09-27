@@ -27,6 +27,7 @@ class C_Investigate(C_InvestigateTemplate):
     self.plot_popularity.visible = False
     self.plot_followers.visible = False
     self.data_grid_releases.visible = False
+    self.data_grid_explicit.visible = False
 
     self.artist_popularity_lat.icon = '_/theme/icons/+2.png'
     self.artist_follower_lat.icon = '_/theme/icons/-1.png'
@@ -241,6 +242,14 @@ class C_Investigate(C_InvestigateTemplate):
     self.plot_followers.visible = False
 
 
+  # EXPLICIT TABLE
+  def avg_explicit_click(self, **event_args):
+    if self.data_grid_explicit.visible == False:
+      self.data_grid_explicit_data.items = json.loads(anvil.server.call('get_dev_explicit', int(cur_artist_id)))
+      self.data_grid_explicit.visible = True
+    else:
+      self.data_grid_explicit.visible = False
+    
   # RELEASES TABLE
   def link_releases_click(self, **event_args):
     if self.data_grid_releases.visible == False:
@@ -306,11 +315,4 @@ class C_Investigate(C_InvestigateTemplate):
   def info_no_tracks_click(self, **event_args):
     alert(title='No. Tracks',
     content="Number of Tracks from the presented Artist in our Database. Not all Tracks of this Artist have to be in the Databse.")
-
-
-
-
-
-
-
 
