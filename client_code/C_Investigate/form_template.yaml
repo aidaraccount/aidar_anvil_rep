@@ -374,6 +374,7 @@ components:
         icon: ''}
       name: rel_artists_7
       layout_properties: {grid_position: 'DFWENQ,JGSFTF'}
+      event_bindings: {click: rel_artists_7_click}
     - type: Link
       properties: {role: investigate_feature, url: '', align: left, tooltip: '', border: '',
         foreground: '', visible: true, text: No. similar Artists of Interest, font_size: null,
@@ -437,6 +438,35 @@ components:
     properties:
       role: table_header
       columns:
+      - {id: HOFKSB, title: Artist, data_key: ArtistPictureURL, $$hashKey: 'object:8222',
+        width: '80'}
+      - {id: CFDIKF, title: '', data_key: Name, $$hashKey: 'object:8223'}
+      - {id: AMYABL, title: Rating, data_key: Interest, $$hashKey: 'object:8224'}
+      - {id: BITJLD, title: Date of Rating, data_key: DateOfRecommendation, $$hashKey: 'object:9460'}
+      auto_header: true
+      tooltip: ''
+      border: ''
+      foreground: ''
+      rows_per_page: 5
+      visible: true
+      wrap_on: never
+      show_page_controls: true
+      spacing_above: small
+      spacing_below: small
+      background: ''
+    name: data_grid_related_artists
+    layout_properties: {grid_position: 'RKWJCZ,GZTDPA BIYFSO,VHXJEY'}
+    components:
+    - type: RepeatingPanel
+      properties: {role: table_content_small, tooltip: '', border: '', foreground: '',
+        items: null, visible: true, spacing_above: none, spacing_below: none, item_template: C_Investigate.RelArtistRowTemplate,
+        background: ''}
+      name: data_grid_related_artists_data
+      layout_properties: {}
+  - type: DataGrid
+    properties:
+      role: table_header
+      columns:
       - {id: KDNQCX, title: Release, data_key: AlbumReleaseDate, $$hashKey: 'object:1632'}
       - {id: ATGAMW, title: Album, data_key: AlbumName, $$hashKey: 'object:1633'}
       - {id: OIEGBN, title: Track, data_key: Title, $$hashKey: 'object:1634'}
@@ -445,7 +475,7 @@ components:
       tooltip: ''
       border: ''
       foreground: ''
-      rows_per_page: 10
+      rows_per_page: 5
       visible: true
       wrap_on: never
       show_page_controls: true
@@ -473,7 +503,7 @@ components:
       tooltip: ''
       border: ''
       foreground: ''
-      rows_per_page: 10
+      rows_per_page: 5
       visible: true
       wrap_on: never
       show_page_controls: true
