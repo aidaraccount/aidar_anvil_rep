@@ -114,9 +114,11 @@ class C_Investigate(C_InvestigateTemplate):
       if (sug["AvgExplicit"] == 'None'): expl = '-'
       else: expl = "{:.0f}".format(round(float(sug["AvgExplicit"])*100,0))
       self.avg_explicit.text = str(expl) + '%'
-      
-      if sug["RelArtists7"] == 'None': self.rel_artists_7.text = '-'
-      else: self.rel_artists_7.text = sug["RelArtists7"]
+
+      if sug["RelArtists7"] == 'None' and sug["RelArtists6"] == 'None': self.rel_artists_7.text = '-'
+      elif sug["RelArtists7"] != 'None' and sug["RelArtists6"] == 'None': self.rel_artists_7.text = sug["RelArtists7"]
+      elif sug["RelArtists7"] == 'None' and sug["RelArtists6"] != 'None': self.rel_artists_7.text = sug["RelArtists6"]
+      else: self.rel_artists_7.text = int(sug["RelArtists7"]) + int(sug["RelArtists6"])
       
       if (sug["Prediction"] == 'None'): pred = 'N/A'
       elif (float(sug["Prediction"]) > 7): pred = 7.0
