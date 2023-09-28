@@ -39,12 +39,23 @@ components:
     name: label_1
     layout_properties: {grid_position: 'CUCHCX,FBLWSL'}
   - type: TextBox
-    properties: {}
+    properties: {role: text_box, align: left, hide_text: false, tooltip: '', placeholder: '',
+      border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
+      font: '', spacing_above: small, type: text, spacing_below: small, italic: false,
+      background: '', bold: false, underline: false}
     name: text_box_search
     layout_properties:
       col_widths: {}
       grid_position: SGNDPT,SUGPFH
-    event_bindings: {change: text_box_search_change, pressed_enter: text_box_search_change}
+    event_bindings: {pressed_enter: text_box_search_change}
+  - type: Button
+    properties: {role: feature, align: left, tooltip: '', border: '', enabled: true,
+      foreground: '', visible: true, text: ' search ', font_size: null, font: '',
+      spacing_above: small, icon_align: left, spacing_below: small, italic: false,
+      background: '', bold: false, underline: false, icon: ''}
+    name: button_2
+    layout_properties: {grid_position: 'SGNDPT,FDMYWV'}
+    event_bindings: {click: text_box_search_change}
   - type: DataGrid
     properties:
       role: null
@@ -60,7 +71,7 @@ components:
       border: ''
       foreground: ''
       rows_per_page: 10
-      visible: true
+      visible: false
       wrap_on: never
       show_page_controls: true
       spacing_above: small

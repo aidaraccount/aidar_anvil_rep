@@ -39,5 +39,6 @@ class C_AddRefArtists(C_AddRefArtistsTemplate):
     """This method is called when the text in this text box is edited"""
     print("fct start", flush=True)    
     anvil.server.reset_session()
+    self.data_grid_artists_header.visible = True
     self.data_grid_artists_data.items = json.loads(anvil.server.call('search_artist', cur_model_id, self.text_box_search.text))
     print("fct end", flush=True)
