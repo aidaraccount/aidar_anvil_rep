@@ -49,52 +49,45 @@ components:
           source: '', spacing_below: none, background: '', horizontal_align: center}
         name: artist_image
         layout_properties: {grid_position: 'XISFUA,MXKFIP'}
-  - type: GridPanel
-    properties: {spacing_above: small, spacing_below: none, background: 'theme:Primary
-        Container', foreground: '', border: '', visible: true, role: grid, tooltip: ''}
-    name: grid_panel_3_copy_3
-    layout_properties:
-      col_widths: {}
-      grid_position: RKWJCZ,UZPOHH PWOHJH,ECFBFT
-      full_width_row: true
-      row_background: ''
+  - type: ColumnPanel
+    properties: {role: grid, tooltip: '', border: '', foreground: '', visible: true,
+      wrap_on: mobile, col_spacing: medium, spacing_above: small, col_widths: '{}',
+      spacing_below: small, background: ''}
+    name: column_panel_13
+    layout_properties: {grid_position: 'RKWJCZ,UZPOHH CPYKSG,PHMFAY'}
     components:
-    - type: Label
-      properties: {role: feature, align: left, tooltip: '', border: '', foreground: '',
-        visible: true, text: Genres, font_size: null, font: '', spacing_above: none,
-        icon_align: left, spacing_below: none, italic: false, background: '', bold: false,
-        underline: false, icon: ''}
-      name: label_3_copy_4
-      layout_properties: {row: SQNGAS, width_xs: 10, col_xs: 1, width: 199.167}
-    - type: Label
-      properties: {role: value, align: left, tooltip: '', border: '', foreground: 'theme:PrimaryNumber',
-        visible: true, text: '', font_size: 28, font: '', spacing_above: none, icon_align: left,
-        spacing_below: none, italic: false, background: '', bold: true, underline: false,
+    - type: Link
+      properties: {role: investigate_feature, url: '', align: left, tooltip: '', border: '',
+        foreground: '', visible: true, text: Genre, font_size: null, wrap_on: mobile,
+        font: '', col_spacing: medium, spacing_above: small, icon_align: left, col_widths: '',
+        spacing_below: none, italic: false, background: '', bold: false, underline: false,
         icon: ''}
+      name: link_19
+      layout_properties: {grid_position: 'BEHVZX,XGRLYY'}
+    - type: Label
+      properties: {role: investigate_value, align: left, tooltip: '', border: '',
+        foreground: 'theme:PrimaryNumber', visible: true, text: '', font_size: 28,
+        font: '', spacing_above: none, icon_align: left, spacing_below: small, italic: false,
+        background: '', bold: true, underline: false, icon: ''}
       name: genres
-      layout_properties: {row: RRIDXX, width_xs: 11, col_xs: 1, width: 72.75}
-    - type: Label
-      properties: {role: feature, align: left, tooltip: '', border: '', foreground: '',
-        visible: true, text: Origin, font_size: null, font: '', spacing_above: none,
-        icon_align: left, spacing_below: none, italic: false, background: '', bold: false,
-        underline: false, icon: ''}
-      name: label_3_copy_5
-      layout_properties:
-        col_widths: {}
-        grid_position: UZJVBE,AUBHRC
-        row: QDNEHZ
-        width_xs: 10
-        col_xs: 1
-        width: 178.333
-    - type: Label
-      properties: {role: value, align: left, tooltip: '', border: '', foreground: 'theme:PrimaryNumber',
-        visible: true, text: '', font_size: 28, font: '', spacing_above: none, icon_align: left,
-        spacing_below: none, italic: false, background: '', bold: true, underline: false,
+      layout_properties: {row: RRIDXX, width_xs: 10, col_xs: 2, width: 72.75, grid_position: 'KVSUXP,OCSZUK'}
+    - type: Link
+      properties: {role: investigate_feature, url: '', align: left, tooltip: '', border: '',
+        foreground: '', visible: true, text: Origin, font_size: null, wrap_on: mobile,
+        font: '', col_spacing: medium, spacing_above: small, icon_align: left, col_widths: '',
+        spacing_below: none, italic: false, background: '', bold: false, underline: false,
         icon: ''}
+      name: link_20
+      layout_properties: {grid_position: 'KIYITI,BCTSPD'}
+    - type: Label
+      properties: {role: investigate_value, align: left, tooltip: '', border: '',
+        foreground: 'theme:PrimaryNumber', visible: true, text: '', font_size: 28,
+        font: '', spacing_above: none, icon_align: left, spacing_below: small, italic: false,
+        background: '', bold: true, underline: false, icon: ''}
       name: countries
       layout_properties:
         col_widths: {}
-        grid_position: QBPOZR,VXXOOX
+        grid_position: DWVBPK,YIDMFF
         row: EVSSDZ
         width_xs: 11
         col_xs: 1

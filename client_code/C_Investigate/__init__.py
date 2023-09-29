@@ -309,68 +309,68 @@ class C_Investigate(C_InvestigateTemplate):
   # DESCRIPTION LINKS
   def info_prediction_click(self, **event_args):
     alert(title='Prediction',
-    content="Prediction of Interest for you personally. Is based on your individually trained Machine Learning Model. Ranges from 1 to 7.")
+    content="Prediction of interest for you personally. Is based on your individually trained Machine Learning Model. Ranges from 1 to 7.")
   def info_popularity_click(self, **event_args):
     alert(title='Popularity',
-    content="Level of Popularity on Spotify. Ranges from 0 to 100.")
+    content="Level of popularity on Spotify. Ranges from 0 to 100.")
   def info_follower_click(self, **event_args):
     alert(title='Follower',
-    content="Number of Followers on Spotify")
+    content="Number of followers on Spotify")
     
   def info_related_click(self, **event_args):
     alert(title='No. similar Artists of Interest',
-    content="Number of Artists that you rated with 6 or 7 and are very similar to the presented Artist.")
+    content="Number of artists that you rated with 6 or 7 and are very similar to the presented artist.")
   def info_explicit_click(self, **event_args):
     alert(title='Share of explicit Tracks',
-    content="Share of explicit Tracks in Percentage.")
+    content="Share of explicit Tracks in percentage.")
   def info_no_tracks_click(self, **event_args):
     alert(title='No. Tracks',
-    content="Number of Tracks from the presented Artist in our Database. Not all Tracks of this Artist have to be in the Database.")
+    content="Number of tracks from the presented Artist in our database. Not all tracks of this Artist have to be in the database.")
 
   def info_min_distance_click(self, **event_args):
     alert(title='Min. musical Distance',
-    content="If your subscribed to the Inspect or Dissect Subscription, the minimal musical distance is the smallest Euclidean Distance between one of the artsits songs and your personal reference tracks.\n\nIf you have not yet added your reference tracks or are subscribed to the Explore subscription, this value is empty.")
+    content="If your subscribed to the Inspect or Dissect subscription, the minimal musical distance is the smallest Euclidean Distance between one of the artsits songs and your personal reference tracks.\n\nIf you have not yet added your reference tracks or are subscribed to the Explore subscription, this value is empty.")
   def info_avg_distance_click(self, **event_args):
       alert(title='Avg. musical Distance',
-      content="If your subscribed to the Inspect or Dissect Subscription, the average musical distance is the average Euclidean Distance between the artsit songs and your personal reference tracks.\n\nIf you have not yet added your reference tracks or are subscribed to the Explore subscription, this value is empty.")
+      content="If your subscribed to the Inspect or Dissect subscription, the average musical distance is the average Euclidean Distance between the artsit songs and your personal reference tracks.\n\nIf you have not yet added your reference tracks or are subscribed to the Explore subscription, this value is empty.")
   def info_max_distance_click(self, **event_args):
       alert(title='Max. musical Distance',
-      content="If your subscribed to the Inspect or Dissect Subscription, the maximal musical distance is the largest Euclidean Distance between one of the artsits songs and your personal reference tracks.\n\nIf you have not yet added your reference tracks or are subscribed to the Explore subscription, this value is empty.")
+      content="If your subscribed to the Inspect or Dissect subscription, the maximal musical distance is the largest Euclidean Distance between one of the artsits songs and your personal reference tracks.\n\nIf you have not yet added your reference tracks or are subscribed to the Explore subscription, this value is empty.")
 
   def info_duration_click(self, **event_args):
       alert(title='Avg. Duration',
-      content="The average Duration of all songs of an Artist in Seconds.")
+      content="The average duration of all songs of an artist in seconds.")
   def info_danceability_click(self, **event_args):
       alert(title='Avg. Danceability',
-      content="Danceability describes how suitable a track is for dancing based on a combination of musical elements including tempo, rhythm stability, beat strength, and overall regularity. A value of 0.0 is least danceable and 1.0 is most danceable.")
+      content="Danceability describes how suitable a track is for dancing based on a combination of musical elements including tempo, rhythm stability, beat strength, and overall regularity.\n\nWe average this value across all song and its value ranges from 0 (least danceable) to 100% (most danceable).")
   def info_energy_click(self, **event_args):
       alert(title='Avg. Energy',
-      content="Energy is a measure from 0.0 to 1.0 and represents a perceptual measure of intensity and activity.")
+      content="Energy is a measure from 0 to 100% and represents a perceptual measure of intensity and activity on average across all songs.")
   def info_key_click(self, **event_args):
       alert(title='Avg. Key',
       content="The estimated overall average key of all songs of an artist")
   def info_loudness_click(self, **event_args):
       alert(title='Avg. relative Loudness',
-      content="The overall loudness of a track in decibels (dB). Loudness values are averaged across the entire track and are useful for comparing relative loudness of tracks.")
+      content="The overall average loudness of all tracks in decibels (dB).\n\nFor each track the loudness values are averaged across the entire track and are useful for comparing relative loudness of tracks.")
   def info_mode_click(self, **event_args):
       alert(title='Mode',
-      content="Mode indicates the modality (major or minor) of a track, the type of scale from which its melodic content is derived.")
+      content="Mode indicates the portion of tracks in major (modality) of an artist. Ranges from 0 to 100%.")
   def info_speechiness_click(self, **event_args):
       alert(title='Avg. Speechiness',
-      content="Speechiness detects the presence of spoken words in a track. The more exclusively speech-like the recording (e.g., talk show, audio book, poetry), the closer to 1.0 the attribute value.")
+      content="Speechiness detects the presence of spoken words in a track. The more exclusively speech-like the recording (e.g., talk show, audio book, poetry), the closer to 100% the attribute value. It is averaged across all songs of that artist.")
   def info_acousticness_click(self, **event_args):
       alert(title='Avg. Acousticness',
-      content="A confidence measure from 0.0 to 1.0 of whether the track is acoustic. 1.0 represents high confidence the track is acoustic.")
+      content="A confidence measure from 0 to 100% of whether the tracks of an artist are acoustic. 100% represents high confidence the tracks are acoustic.")
   def info_instrumentalness_click(self, **event_args):
       alert(title='Avg. Instrumentalness',
-      content="Measures whether a track contains no vocals. “Ooh” and “aah” sounds are treated as instrumental in this context. Rap or spoken word tracks are clearly “vocal”. The closer the instrumentalness value is to 1.0, the greater likelihood the track contains no vocal content.")
+      content="Measures whether the tracks of an artist contain no vocals.\n\n“Ooh” and “aah” sounds are treated as instrumental in this context. Rap or spoken word tracks are clearly “vocal”. The closer the instrumentalness value is to 100%, the greater likelihood the tracks contain no vocal content.")
   def info_liveness_click(self, **event_args):
       alert(title='Avg. Liveness',
-      content="Detects the presence of an audience in the recording. Higher liveness values represent an increased probability that the track was performed live.")
+      content="Detects the presence of an audience in the recording. Higher liveness values represent an increased probability that the tracks of that artist were performed live.")
   def info_valence_click(self, **event_args):
       alert(title='Avg. Valence',
-      content="A measure from 0.0 to 1.0 describing the musical positiveness conveyed by a track. Tracks with high valence sound more positive (e.g., happy, cheerful, euphoric), while tracks with low valence sound more negative (e.g., sad, depressed, angry).")
+      content="A measure from 0 to 100% describing the musical positiveness conveyed by an artists tracks. Tracks with high valence sound more positive (e.g., happy, cheerful, euphoric), while tracks with low valence sound more negative (e.g., sad, depressed, angry).")
   def info_tempo_click(self, **event_args):
       alert(title='Avg. Tempo',
-      content="The overall estimated tempo of a track in beats per minute (BPM).")
+      content="The overall average estimated tempo of all track of an artist in beats per minute (BPM).")
   
