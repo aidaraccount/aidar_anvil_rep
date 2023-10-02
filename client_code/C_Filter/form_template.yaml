@@ -48,12 +48,12 @@ components:
       name: label_4
       layout_properties: {row: OSZLNL, width_xs: 4, col_xs: 0, width: 100}
     - type: TextBox
-      properties: {role: text_box, align: left, hide_text: false, tooltip: '', placeholder: '',
-        border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
-        font: '', spacing_above: small, type: number, spacing_below: small, italic: false,
-        background: '', bold: false, underline: false}
+      properties: {role: text_box_small, align: left, hide_text: false, tooltip: '',
+        placeholder: '', border: '', enabled: true, foreground: '', visible: true,
+        text: '', font_size: null, font: '', spacing_above: small, type: number, spacing_below: small,
+        italic: false, background: '', bold: false, underline: false}
       name: artist_popularity_lat_min
-      layout_properties: {row: OSZLNL, width_xs: 3, col_xs: 3, width: 139}
+      layout_properties: {row: OSZLNL, width_xs: 3, col_xs: 3, width: 194}
       event_bindings: {pressed_enter: apply_filters_click}
     - type: Label
       properties: {role: description, align: center, tooltip: '', border: '', foreground: '',
@@ -63,12 +63,12 @@ components:
       name: label_5
       layout_properties: {row: OSZLNL, width_xs: 2, col_xs: 7, width: 136.667}
     - type: TextBox
-      properties: {role: text_box, align: left, hide_text: false, tooltip: '', placeholder: '',
-        border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
-        font: '', spacing_above: small, type: number, spacing_below: small, italic: false,
-        background: '', bold: false, underline: false}
+      properties: {role: text_box_small, align: left, hide_text: false, tooltip: '',
+        placeholder: '', border: '', enabled: true, foreground: '', visible: true,
+        text: '', font_size: null, font: '', spacing_above: small, type: number, spacing_below: small,
+        italic: false, background: '', bold: false, underline: false}
       name: artist_popularity_lat_max
-      layout_properties: {row: OSZLNL, width_xs: 3, col_xs: 9, width: 139}
+      layout_properties: {row: OSZLNL, width_xs: 3, col_xs: 9, width: 194}
       event_bindings: {pressed_enter: apply_filters_click}
   - type: GridPanel
     properties: {spacing_above: small, spacing_below: small, background: '', foreground: '',
@@ -84,12 +84,12 @@ components:
       name: label_6
       layout_properties: {row: VLPSXL, width_xs: 4, col_xs: 0, width: 100}
     - type: TextBox
-      properties: {role: text_box, align: left, hide_text: false, tooltip: '', placeholder: '',
-        border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
-        font: '', spacing_above: small, type: number, spacing_below: small, italic: false,
-        background: '', bold: false, underline: false}
+      properties: {role: text_box_small, align: left, hide_text: false, tooltip: '',
+        placeholder: '', border: '', enabled: true, foreground: '', visible: true,
+        text: '', font_size: null, font: '', spacing_above: small, type: number, spacing_below: small,
+        italic: false, background: '', bold: false, underline: false}
       name: artist_follower_lat_min
-      layout_properties: {row: VLPSXL, width_xs: 3, col_xs: 4, width: 139}
+      layout_properties: {row: VLPSXL, width_xs: 3, col_xs: 4, width: 194}
       event_bindings: {pressed_enter: apply_filters_click}
     - type: Label
       properties: {role: description, align: center, tooltip: '', border: '', foreground: '',
@@ -99,12 +99,12 @@ components:
       name: label_7
       layout_properties: {row: VLPSXL, width_xs: 2, col_xs: 7, width: 136.667}
     - type: TextBox
-      properties: {role: text_box, align: left, hide_text: false, tooltip: '', placeholder: '',
-        border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
-        font: '', spacing_above: small, type: number, spacing_below: small, italic: false,
-        background: '', bold: false, underline: false}
+      properties: {role: text_box_small, align: left, hide_text: false, tooltip: '',
+        placeholder: '', border: '', enabled: true, foreground: '', visible: true,
+        text: '', font_size: null, font: '', spacing_above: small, type: number, spacing_below: small,
+        italic: false, background: '', bold: false, underline: false}
       name: artist_follower_lat_max
-      layout_properties: {row: VLPSXL, width_xs: 3, col_xs: 9, width: 139}
+      layout_properties: {row: VLPSXL, width_xs: 3, col_xs: 9, width: 194}
       event_bindings: {pressed_enter: apply_filters_click}
   - type: Spacer
     properties: {height: 42}
@@ -135,12 +135,12 @@ components:
       name: label_4_copy
       layout_properties: {row: OSZLNL, width_xs: 4, col_xs: 0, width: 303.333}
     - type: TextBox
-      properties: {role: text_box, align: left, hide_text: false, tooltip: '', placeholder: '',
-        border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
-        font: '', spacing_above: small, type: number, spacing_below: small, italic: false,
-        background: '', bold: false, underline: false}
+      properties: {role: text_box_small, align: left, hide_text: false, tooltip: '',
+        placeholder: '', border: '', enabled: true, foreground: '', visible: true,
+        text: '', font_size: null, font: '', spacing_above: small, type: number, spacing_below: small,
+        italic: false, background: '', bold: false, underline: false}
       name: avg_duration_min
-      layout_properties: {row: OSZLNL, width_xs: 3, col_xs: 3, width: 139}
+      layout_properties: {row: OSZLNL, width_xs: 3, col_xs: 3, width: 194}
       event_bindings: {pressed_enter: apply_filters_click}
     - type: Label
       properties: {role: description, align: center, tooltip: '', border: '', foreground: '',
@@ -150,12 +150,12 @@ components:
       name: label_5_copy
       layout_properties: {row: OSZLNL, width_xs: 2, col_xs: 7, width: 136.667}
     - type: TextBox
-      properties: {role: text_box, align: left, hide_text: false, tooltip: '', placeholder: '',
-        border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
-        font: '', spacing_above: small, type: number, spacing_below: small, italic: false,
-        background: '', bold: false, underline: false}
+      properties: {role: text_box_small, align: left, hide_text: false, tooltip: '',
+        placeholder: '', border: '', enabled: true, foreground: '', visible: true,
+        text: '', font_size: null, font: '', spacing_above: small, type: number, spacing_below: small,
+        italic: false, background: '', bold: false, underline: false}
       name: avg_duration_max
-      layout_properties: {row: OSZLNL, width_xs: 3, col_xs: 9, width: 139}
+      layout_properties: {row: OSZLNL, width_xs: 3, col_xs: 9, width: 194}
       event_bindings: {pressed_enter: apply_filters_click}
   - type: GridPanel
     properties: {spacing_above: small, spacing_below: small, background: '', foreground: '',
@@ -173,12 +173,12 @@ components:
       name: label_4_copy_2
       layout_properties: {row: OSZLNL, width_xs: 4, col_xs: 0, width: 303.333}
     - type: TextBox
-      properties: {role: text_box, align: left, hide_text: false, tooltip: '', placeholder: '',
-        border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
-        font: '', spacing_above: small, type: number, spacing_below: small, italic: false,
-        background: '', bold: false, underline: false}
+      properties: {role: text_box_small, align: left, hide_text: false, tooltip: '',
+        placeholder: '', border: '', enabled: true, foreground: '', visible: true,
+        text: '', font_size: null, font: '', spacing_above: small, type: number, spacing_below: small,
+        italic: false, background: '', bold: false, underline: false}
       name: avg_danceability_min
-      layout_properties: {row: OSZLNL, width_xs: 3, col_xs: 3, width: 139}
+      layout_properties: {row: OSZLNL, width_xs: 3, col_xs: 3, width: 194}
       event_bindings: {pressed_enter: apply_filters_click}
     - type: Label
       properties: {role: description, align: center, tooltip: '', border: '', foreground: '',
@@ -188,12 +188,12 @@ components:
       name: label_5_copy_2
       layout_properties: {row: OSZLNL, width_xs: 2, col_xs: 7, width: 136.667}
     - type: TextBox
-      properties: {role: text_box, align: left, hide_text: false, tooltip: '', placeholder: '',
-        border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
-        font: '', spacing_above: small, type: number, spacing_below: small, italic: false,
-        background: '', bold: false, underline: false}
+      properties: {role: text_box_small, align: left, hide_text: false, tooltip: '',
+        placeholder: '', border: '', enabled: true, foreground: '', visible: true,
+        text: '', font_size: null, font: '', spacing_above: small, type: number, spacing_below: small,
+        italic: false, background: '', bold: false, underline: false}
       name: avg_danceability_max
-      layout_properties: {row: OSZLNL, width_xs: 3, col_xs: 9, width: 139}
+      layout_properties: {row: OSZLNL, width_xs: 3, col_xs: 9, width: 194}
       event_bindings: {pressed_enter: apply_filters_click}
   - type: GridPanel
     properties: {spacing_above: small, spacing_below: small, background: '', foreground: '',
@@ -211,12 +211,12 @@ components:
       name: label_4_copy_3
       layout_properties: {row: OSZLNL, width_xs: 4, col_xs: 0, width: 303.333}
     - type: TextBox
-      properties: {role: text_box, align: left, hide_text: false, tooltip: '', placeholder: '',
-        border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
-        font: '', spacing_above: small, type: number, spacing_below: small, italic: false,
-        background: '', bold: false, underline: false}
+      properties: {role: text_box_small, align: left, hide_text: false, tooltip: '',
+        placeholder: '', border: '', enabled: true, foreground: '', visible: true,
+        text: '', font_size: null, font: '', spacing_above: small, type: number, spacing_below: small,
+        italic: false, background: '', bold: false, underline: false}
       name: avg_energy_min
-      layout_properties: {row: OSZLNL, width_xs: 3, col_xs: 3, width: 139}
+      layout_properties: {row: OSZLNL, width_xs: 3, col_xs: 3, width: 194}
       event_bindings: {pressed_enter: apply_filters_click}
     - type: Label
       properties: {role: description, align: center, tooltip: '', border: '', foreground: '',
@@ -226,12 +226,12 @@ components:
       name: label_5_copy_3
       layout_properties: {row: OSZLNL, width_xs: 2, col_xs: 7, width: 136.667}
     - type: TextBox
-      properties: {role: text_box, align: left, hide_text: false, tooltip: '', placeholder: '',
-        border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
-        font: '', spacing_above: small, type: number, spacing_below: small, italic: false,
-        background: '', bold: false, underline: false}
+      properties: {role: text_box_small, align: left, hide_text: false, tooltip: '',
+        placeholder: '', border: '', enabled: true, foreground: '', visible: true,
+        text: '', font_size: null, font: '', spacing_above: small, type: number, spacing_below: small,
+        italic: false, background: '', bold: false, underline: false}
       name: avg_energy_max
-      layout_properties: {row: OSZLNL, width_xs: 3, col_xs: 9, width: 139}
+      layout_properties: {row: OSZLNL, width_xs: 3, col_xs: 9, width: 194}
       event_bindings: {pressed_enter: apply_filters_click}
   - type: GridPanel
     properties: {spacing_above: small, spacing_below: small, background: '', foreground: '',
@@ -249,12 +249,12 @@ components:
       name: label_4_copy_4
       layout_properties: {row: OSZLNL, width_xs: 4, col_xs: 0, width: 303.333}
     - type: TextBox
-      properties: {role: text_box, align: left, hide_text: false, tooltip: '', placeholder: '',
-        border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
-        font: '', spacing_above: small, type: number, spacing_below: small, italic: false,
-        background: '', bold: false, underline: false}
+      properties: {role: text_box_small, align: left, hide_text: false, tooltip: '',
+        placeholder: '', border: '', enabled: true, foreground: '', visible: true,
+        text: '', font_size: null, font: '', spacing_above: small, type: number, spacing_below: small,
+        italic: false, background: '', bold: false, underline: false}
       name: avg_key_min
-      layout_properties: {row: OSZLNL, width_xs: 3, col_xs: 3, width: 139}
+      layout_properties: {row: OSZLNL, width_xs: 3, col_xs: 3, width: 194}
       event_bindings: {pressed_enter: apply_filters_click}
     - type: Label
       properties: {role: description, align: center, tooltip: '', border: '', foreground: '',
@@ -264,12 +264,12 @@ components:
       name: label_5_copy_4
       layout_properties: {row: OSZLNL, width_xs: 2, col_xs: 7, width: 136.667}
     - type: TextBox
-      properties: {role: text_box, align: left, hide_text: false, tooltip: '', placeholder: '',
-        border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
-        font: '', spacing_above: small, type: number, spacing_below: small, italic: false,
-        background: '', bold: false, underline: false}
+      properties: {role: text_box_small, align: left, hide_text: false, tooltip: '',
+        placeholder: '', border: '', enabled: true, foreground: '', visible: true,
+        text: '', font_size: null, font: '', spacing_above: small, type: number, spacing_below: small,
+        italic: false, background: '', bold: false, underline: false}
       name: avg_key_max
-      layout_properties: {row: OSZLNL, width_xs: 3, col_xs: 9, width: 139}
+      layout_properties: {row: OSZLNL, width_xs: 3, col_xs: 9, width: 194}
       event_bindings: {pressed_enter: apply_filters_click}
   - type: GridPanel
     properties: {spacing_above: small, spacing_below: small, background: '', foreground: '',
@@ -287,12 +287,12 @@ components:
       name: label_4_copy_5
       layout_properties: {row: OSZLNL, width_xs: 4, col_xs: 0, width: 303.333}
     - type: TextBox
-      properties: {role: text_box, align: left, hide_text: false, tooltip: '', placeholder: '',
-        border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
-        font: '', spacing_above: small, type: number, spacing_below: small, italic: false,
-        background: '', bold: false, underline: false}
+      properties: {role: text_box_small, align: left, hide_text: false, tooltip: '',
+        placeholder: '', border: '', enabled: true, foreground: '', visible: true,
+        text: '', font_size: null, font: '', spacing_above: small, type: number, spacing_below: small,
+        italic: false, background: '', bold: false, underline: false}
       name: avg_loudness_min
-      layout_properties: {row: OSZLNL, width_xs: 3, col_xs: 3, width: 139}
+      layout_properties: {row: OSZLNL, width_xs: 3, col_xs: 3, width: 194}
       event_bindings: {pressed_enter: apply_filters_click}
     - type: Label
       properties: {role: description, align: center, tooltip: '', border: '', foreground: '',
@@ -302,12 +302,12 @@ components:
       name: label_5_copy_5
       layout_properties: {row: OSZLNL, width_xs: 2, col_xs: 7, width: 136.667}
     - type: TextBox
-      properties: {role: text_box, align: left, hide_text: false, tooltip: '', placeholder: '',
-        border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
-        font: '', spacing_above: small, type: number, spacing_below: small, italic: false,
-        background: '', bold: false, underline: false}
+      properties: {role: text_box_small, align: left, hide_text: false, tooltip: '',
+        placeholder: '', border: '', enabled: true, foreground: '', visible: true,
+        text: '', font_size: null, font: '', spacing_above: small, type: number, spacing_below: small,
+        italic: false, background: '', bold: false, underline: false}
       name: avg_loudness_max
-      layout_properties: {row: OSZLNL, width_xs: 3, col_xs: 9, width: 139}
+      layout_properties: {row: OSZLNL, width_xs: 3, col_xs: 9, width: 194}
       event_bindings: {pressed_enter: apply_filters_click}
   - type: GridPanel
     properties: {spacing_above: small, spacing_below: small, background: '', foreground: '',
@@ -325,12 +325,12 @@ components:
       name: label_4_copy_6
       layout_properties: {row: OSZLNL, width_xs: 4, col_xs: 0, width: 303.333}
     - type: TextBox
-      properties: {role: text_box, align: left, hide_text: false, tooltip: '', placeholder: '',
-        border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
-        font: '', spacing_above: small, type: number, spacing_below: small, italic: false,
-        background: '', bold: false, underline: false}
+      properties: {role: text_box_small, align: left, hide_text: false, tooltip: '',
+        placeholder: '', border: '', enabled: true, foreground: '', visible: true,
+        text: '', font_size: null, font: '', spacing_above: small, type: number, spacing_below: small,
+        italic: false, background: '', bold: false, underline: false}
       name: avg_mode_min
-      layout_properties: {row: OSZLNL, width_xs: 3, col_xs: 3, width: 139}
+      layout_properties: {row: OSZLNL, width_xs: 3, col_xs: 3, width: 194}
       event_bindings: {pressed_enter: apply_filters_click}
     - type: Label
       properties: {role: description, align: center, tooltip: '', border: '', foreground: '',
@@ -340,12 +340,12 @@ components:
       name: label_5_copy_6
       layout_properties: {row: OSZLNL, width_xs: 2, col_xs: 7, width: 136.667}
     - type: TextBox
-      properties: {role: text_box, align: left, hide_text: false, tooltip: '', placeholder: '',
-        border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
-        font: '', spacing_above: small, type: number, spacing_below: small, italic: false,
-        background: '', bold: false, underline: false}
+      properties: {role: text_box_small, align: left, hide_text: false, tooltip: '',
+        placeholder: '', border: '', enabled: true, foreground: '', visible: true,
+        text: '', font_size: null, font: '', spacing_above: small, type: number, spacing_below: small,
+        italic: false, background: '', bold: false, underline: false}
       name: avg_mode_max
-      layout_properties: {row: OSZLNL, width_xs: 3, col_xs: 9, width: 139}
+      layout_properties: {row: OSZLNL, width_xs: 3, col_xs: 9, width: 194}
       event_bindings: {pressed_enter: apply_filters_click}
   - type: GridPanel
     properties: {spacing_above: small, spacing_below: small, background: '', foreground: '',
@@ -363,12 +363,12 @@ components:
       name: label_4_copy_7
       layout_properties: {row: OSZLNL, width_xs: 4, col_xs: 0, width: 303.333}
     - type: TextBox
-      properties: {role: text_box, align: left, hide_text: false, tooltip: '', placeholder: '',
-        border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
-        font: '', spacing_above: small, type: number, spacing_below: small, italic: false,
-        background: '', bold: false, underline: false}
+      properties: {role: text_box_small, align: left, hide_text: false, tooltip: '',
+        placeholder: '', border: '', enabled: true, foreground: '', visible: true,
+        text: '', font_size: null, font: '', spacing_above: small, type: number, spacing_below: small,
+        italic: false, background: '', bold: false, underline: false}
       name: avg_speechiness_min
-      layout_properties: {row: OSZLNL, width_xs: 3, col_xs: 3, width: 139}
+      layout_properties: {row: OSZLNL, width_xs: 3, col_xs: 3, width: 194}
       event_bindings: {pressed_enter: apply_filters_click}
     - type: Label
       properties: {role: description, align: center, tooltip: '', border: '', foreground: '',
@@ -378,12 +378,12 @@ components:
       name: label_5_copy_7
       layout_properties: {row: OSZLNL, width_xs: 2, col_xs: 7, width: 136.667}
     - type: TextBox
-      properties: {role: text_box, align: left, hide_text: false, tooltip: '', placeholder: '',
-        border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
-        font: '', spacing_above: small, type: number, spacing_below: small, italic: false,
-        background: '', bold: false, underline: false}
+      properties: {role: text_box_small, align: left, hide_text: false, tooltip: '',
+        placeholder: '', border: '', enabled: true, foreground: '', visible: true,
+        text: '', font_size: null, font: '', spacing_above: small, type: number, spacing_below: small,
+        italic: false, background: '', bold: false, underline: false}
       name: avg_speechiness_max
-      layout_properties: {row: OSZLNL, width_xs: 3, col_xs: 9, width: 139}
+      layout_properties: {row: OSZLNL, width_xs: 3, col_xs: 9, width: 194}
       event_bindings: {pressed_enter: apply_filters_click}
   - type: GridPanel
     properties: {spacing_above: small, spacing_below: small, background: '', foreground: '',
@@ -401,12 +401,12 @@ components:
       name: label_4_copy_8
       layout_properties: {row: OSZLNL, width_xs: 4, col_xs: 0, width: 303.333}
     - type: TextBox
-      properties: {role: text_box, align: left, hide_text: false, tooltip: '', placeholder: '',
-        border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
-        font: '', spacing_above: small, type: number, spacing_below: small, italic: false,
-        background: '', bold: false, underline: false}
+      properties: {role: text_box_small, align: left, hide_text: false, tooltip: '',
+        placeholder: '', border: '', enabled: true, foreground: '', visible: true,
+        text: '', font_size: null, font: '', spacing_above: small, type: number, spacing_below: small,
+        italic: false, background: '', bold: false, underline: false}
       name: avg_acousticness_min
-      layout_properties: {row: OSZLNL, width_xs: 3, col_xs: 3, width: 139}
+      layout_properties: {row: OSZLNL, width_xs: 3, col_xs: 3, width: 194}
       event_bindings: {pressed_enter: apply_filters_click}
     - type: Label
       properties: {role: description, align: center, tooltip: '', border: '', foreground: '',
@@ -416,12 +416,12 @@ components:
       name: label_5_copy_8
       layout_properties: {row: OSZLNL, width_xs: 2, col_xs: 7, width: 136.667}
     - type: TextBox
-      properties: {role: text_box, align: left, hide_text: false, tooltip: '', placeholder: '',
-        border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
-        font: '', spacing_above: small, type: number, spacing_below: small, italic: false,
-        background: '', bold: false, underline: false}
+      properties: {role: text_box_small, align: left, hide_text: false, tooltip: '',
+        placeholder: '', border: '', enabled: true, foreground: '', visible: true,
+        text: '', font_size: null, font: '', spacing_above: small, type: number, spacing_below: small,
+        italic: false, background: '', bold: false, underline: false}
       name: avg_acousticness_max
-      layout_properties: {row: OSZLNL, width_xs: 3, col_xs: 9, width: 139}
+      layout_properties: {row: OSZLNL, width_xs: 3, col_xs: 9, width: 194}
       event_bindings: {pressed_enter: apply_filters_click}
   - type: GridPanel
     properties: {spacing_above: small, spacing_below: small, background: '', foreground: '',
@@ -439,12 +439,12 @@ components:
       name: label_4_copy_9
       layout_properties: {row: OSZLNL, width_xs: 4, col_xs: 0, width: 303.333}
     - type: TextBox
-      properties: {role: text_box, align: left, hide_text: false, tooltip: '', placeholder: '',
-        border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
-        font: '', spacing_above: small, type: number, spacing_below: small, italic: false,
-        background: '', bold: false, underline: false}
+      properties: {role: text_box_small, align: left, hide_text: false, tooltip: '',
+        placeholder: '', border: '', enabled: true, foreground: '', visible: true,
+        text: '', font_size: null, font: '', spacing_above: small, type: number, spacing_below: small,
+        italic: false, background: '', bold: false, underline: false}
       name: avg_instrumentalness_min
-      layout_properties: {row: OSZLNL, width_xs: 3, col_xs: 4, width: 139}
+      layout_properties: {row: OSZLNL, width_xs: 3, col_xs: 4, width: 194}
       event_bindings: {pressed_enter: apply_filters_click}
     - type: Label
       properties: {role: description, align: center, tooltip: '', border: '', foreground: '',
@@ -454,12 +454,12 @@ components:
       name: label_5_copy_9
       layout_properties: {row: OSZLNL, width_xs: 2, col_xs: 7, width: 136.667}
     - type: TextBox
-      properties: {role: text_box, align: left, hide_text: false, tooltip: '', placeholder: '',
-        border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
-        font: '', spacing_above: small, type: number, spacing_below: small, italic: false,
-        background: '', bold: false, underline: false}
+      properties: {role: text_box_small, align: left, hide_text: false, tooltip: '',
+        placeholder: '', border: '', enabled: true, foreground: '', visible: true,
+        text: '', font_size: null, font: '', spacing_above: small, type: number, spacing_below: small,
+        italic: false, background: '', bold: false, underline: false}
       name: avg_instrumentalness_max
-      layout_properties: {row: OSZLNL, width_xs: 3, col_xs: 9, width: 139}
+      layout_properties: {row: OSZLNL, width_xs: 3, col_xs: 9, width: 194}
       event_bindings: {pressed_enter: apply_filters_click}
   - type: GridPanel
     properties: {spacing_above: small, spacing_below: small, background: '', foreground: '',
@@ -477,12 +477,12 @@ components:
       name: label_4_copy_10
       layout_properties: {row: OSZLNL, width_xs: 4, col_xs: 0, width: 303.333}
     - type: TextBox
-      properties: {role: text_box, align: left, hide_text: false, tooltip: '', placeholder: '',
-        border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
-        font: '', spacing_above: small, type: number, spacing_below: small, italic: false,
-        background: '', bold: false, underline: false}
+      properties: {role: text_box_small, align: left, hide_text: false, tooltip: '',
+        placeholder: '', border: '', enabled: true, foreground: '', visible: true,
+        text: '', font_size: null, font: '', spacing_above: small, type: number, spacing_below: small,
+        italic: false, background: '', bold: false, underline: false}
       name: avg_liveness_min
-      layout_properties: {row: OSZLNL, width_xs: 3, col_xs: 3, width: 139}
+      layout_properties: {row: OSZLNL, width_xs: 3, col_xs: 3, width: 194}
       event_bindings: {pressed_enter: apply_filters_click}
     - type: Label
       properties: {role: description, align: center, tooltip: '', border: '', foreground: '',
@@ -492,12 +492,12 @@ components:
       name: label_5_copy_10
       layout_properties: {row: OSZLNL, width_xs: 2, col_xs: 7, width: 136.667}
     - type: TextBox
-      properties: {role: text_box, align: left, hide_text: false, tooltip: '', placeholder: '',
-        border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
-        font: '', spacing_above: small, type: number, spacing_below: small, italic: false,
-        background: '', bold: false, underline: false}
+      properties: {role: text_box_small, align: left, hide_text: false, tooltip: '',
+        placeholder: '', border: '', enabled: true, foreground: '', visible: true,
+        text: '', font_size: null, font: '', spacing_above: small, type: number, spacing_below: small,
+        italic: false, background: '', bold: false, underline: false}
       name: avg_liveness_max
-      layout_properties: {row: OSZLNL, width_xs: 3, col_xs: 9, width: 139}
+      layout_properties: {row: OSZLNL, width_xs: 3, col_xs: 9, width: 194}
       event_bindings: {pressed_enter: apply_filters_click}
   - type: GridPanel
     properties: {spacing_above: small, spacing_below: small, background: '', foreground: '',
@@ -515,12 +515,12 @@ components:
       name: label_4_copy_11
       layout_properties: {row: OSZLNL, width_xs: 4, col_xs: 0, width: 303.333}
     - type: TextBox
-      properties: {role: text_box, align: left, hide_text: false, tooltip: '', placeholder: '',
-        border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
-        font: '', spacing_above: small, type: number, spacing_below: small, italic: false,
-        background: '', bold: false, underline: false}
+      properties: {role: text_box_small, align: left, hide_text: false, tooltip: '',
+        placeholder: '', border: '', enabled: true, foreground: '', visible: true,
+        text: '', font_size: null, font: '', spacing_above: small, type: number, spacing_below: small,
+        italic: false, background: '', bold: false, underline: false}
       name: avg_valence_min
-      layout_properties: {row: OSZLNL, width_xs: 3, col_xs: 3, width: 139}
+      layout_properties: {row: OSZLNL, width_xs: 3, col_xs: 3, width: 194}
       event_bindings: {pressed_enter: apply_filters_click}
     - type: Label
       properties: {role: description, align: center, tooltip: '', border: '', foreground: '',
@@ -530,12 +530,12 @@ components:
       name: label_5_copy_11
       layout_properties: {row: OSZLNL, width_xs: 2, col_xs: 7, width: 136.667}
     - type: TextBox
-      properties: {role: text_box, align: left, hide_text: false, tooltip: '', placeholder: '',
-        border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
-        font: '', spacing_above: small, type: number, spacing_below: small, italic: false,
-        background: '', bold: false, underline: false}
+      properties: {role: text_box_small, align: left, hide_text: false, tooltip: '',
+        placeholder: '', border: '', enabled: true, foreground: '', visible: true,
+        text: '', font_size: null, font: '', spacing_above: small, type: number, spacing_below: small,
+        italic: false, background: '', bold: false, underline: false}
       name: avg_valence_max
-      layout_properties: {row: OSZLNL, width_xs: 3, col_xs: 9, width: 139}
+      layout_properties: {row: OSZLNL, width_xs: 3, col_xs: 9, width: 194}
       event_bindings: {pressed_enter: apply_filters_click}
   - type: GridPanel
     properties: {spacing_above: small, spacing_below: small, background: '', foreground: '',
@@ -553,12 +553,12 @@ components:
       name: label_4_copy_12
       layout_properties: {row: OSZLNL, width_xs: 4, col_xs: 0, width: 303.333}
     - type: TextBox
-      properties: {role: text_box, align: left, hide_text: false, tooltip: '', placeholder: '',
-        border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
-        font: '', spacing_above: small, type: number, spacing_below: small, italic: false,
-        background: '', bold: false, underline: false}
+      properties: {role: text_box_small, align: left, hide_text: false, tooltip: '',
+        placeholder: '', border: '', enabled: true, foreground: '', visible: true,
+        text: '', font_size: null, font: '', spacing_above: small, type: number, spacing_below: small,
+        italic: false, background: '', bold: false, underline: false}
       name: avg_tempo_min
-      layout_properties: {row: OSZLNL, width_xs: 3, col_xs: 3, width: 139}
+      layout_properties: {row: OSZLNL, width_xs: 3, col_xs: 3, width: 194}
       event_bindings: {pressed_enter: apply_filters_click}
     - type: Label
       properties: {role: description, align: center, tooltip: '', border: '', foreground: '',
@@ -568,12 +568,12 @@ components:
       name: label_5_copy_12
       layout_properties: {row: OSZLNL, width_xs: 2, col_xs: 7, width: 136.667}
     - type: TextBox
-      properties: {role: text_box, align: left, hide_text: false, tooltip: '', placeholder: '',
-        border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
-        font: '', spacing_above: small, type: number, spacing_below: small, italic: false,
-        background: '', bold: false, underline: false}
+      properties: {role: text_box_small, align: left, hide_text: false, tooltip: '',
+        placeholder: '', border: '', enabled: true, foreground: '', visible: true,
+        text: '', font_size: null, font: '', spacing_above: small, type: number, spacing_below: small,
+        italic: false, background: '', bold: false, underline: false}
       name: avg_tempo_max
-      layout_properties: {row: OSZLNL, width_xs: 3, col_xs: 9, width: 139}
+      layout_properties: {row: OSZLNL, width_xs: 3, col_xs: 9, width: 194}
       event_bindings: {pressed_enter: apply_filters_click}
   - type: Spacer
     properties: {height: 41}

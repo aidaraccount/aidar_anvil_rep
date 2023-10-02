@@ -49,12 +49,12 @@ class C_Investigate(C_InvestigateTemplate):
 
     elif sug["Status"] == 'No Findings!':
       alert(title='No Artists found..',
-            content="Sorry, we cound't find any artists for your filters.\n\nPlease check your FILTERS and change them to find additional artists.")
+            content="Sorry, we cound't find any artists for your model. Please check two potential issues:\n\n1. Please check your FILTERS and change them to find additional artists.\n\n2. If you're just setting up your model or are subscribed to the Explore subscription, go to the ADD REF. ARTISTS page and add additional reference artists.")
       self.visible = False
     
     elif sug["Status"] == 'Free Limit Reached!':
       alert(title='Free Limit Reached..',
-            content="Sorry, the free version is limited in the number of suggested artists - if you're interested to continue, please upgrade to one of our subscription plans.\n\nFor any questions, please contact us at info@aidar.ai\n\nYour AIDAR Team")
+            content="Sorry, the free version is limited in the number of suggested artists - if you're interested in continuing, please upgrade to one of our subscription plans.\n\nFor any questions, please contact us at info@aidar.ai\n\nYour AIDAR Team")
       self.visible = False
       
     else:      
