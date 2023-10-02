@@ -42,6 +42,8 @@ roles:
   components: [Label, Link]
 - name: investigate_feature
   components: [Label, Link]
+- name: text_box_small
+  components: [TextBox]
 color_scheme:
   preset_groups:
   - name: Accent
@@ -123,3 +125,4 @@ color_scheme:
   - {name: Text_DecentWhite, color: 'rgb(235, 235, 235)'}
   - {name: Text_Grey, color: 'rgb(200, 200, 200)'}
   - {name: Text_DarkGrey, color: 'rgb(175, 175, 175)'}
+  - {name: Text_LightBlack, color: 'rgb(40, 40, 40)'}

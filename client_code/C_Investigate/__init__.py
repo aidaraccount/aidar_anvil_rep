@@ -329,20 +329,20 @@ class C_Investigate(C_InvestigateTemplate):
 
   def info_min_distance_click(self, **event_args):
     alert(title='Min. musical Distance',
-    content="If your subscribed to the Inspect or Dissect subscription, the minimal musical distance is the smallest Euclidean Distance between one of the artsits songs and your personal reference tracks.\n\nIf you have not yet added your reference tracks or are subscribed to the Explore subscription, this value is empty.")
+    content="If you subscribed to the Inspect or Dissect subscription, the minimal musical distance is the smallest Euclidean Distance between one of the artist's songs and your personal reference tracks.\n\nIf you have not yet added your reference tracks or are subscribed to the Explore subscription, this value is empty.")
   def info_avg_distance_click(self, **event_args):
       alert(title='Avg. musical Distance',
-      content="If your subscribed to the Inspect or Dissect subscription, the average musical distance is the average Euclidean Distance between the artsit songs and your personal reference tracks.\n\nIf you have not yet added your reference tracks or are subscribed to the Explore subscription, this value is empty.")
+      content="If you subscribed to the Inspect or Dissect subscription, the average musical distance is the average Euclidean Distance between the artist's songs and your personal reference tracks.\n\nIf you have not yet added your reference tracks or are subscribed to the Explore subscription, this value is empty.")
   def info_max_distance_click(self, **event_args):
       alert(title='Max. musical Distance',
-      content="If your subscribed to the Inspect or Dissect subscription, the maximal musical distance is the largest Euclidean Distance between one of the artsits songs and your personal reference tracks.\n\nIf you have not yet added your reference tracks or are subscribed to the Explore subscription, this value is empty.")
+      content="If you subscribed to the Inspect or Dissect subscription, the maximal musical distance is the largest Euclidean Distance between one of the artist's songs and your personal reference tracks.\n\nIf you have not yet added your reference tracks or are subscribed to the Explore subscription, this value is empty.")
 
   def info_duration_click(self, **event_args):
       alert(title='Avg. Duration',
       content="The average duration of all songs of an artist in seconds.")
   def info_danceability_click(self, **event_args):
       alert(title='Avg. Danceability',
-      content="Danceability describes how suitable a track is for dancing based on a combination of musical elements including tempo, rhythm stability, beat strength, and overall regularity.\n\nWe average this value across all song and its value ranges from 0 (least danceable) to 100% (most danceable).")
+      content="Danceability describes how suitable a track is for dancing based on a combination of musical elements including tempo, rhythm stability, beat strength, and overall regularity.\n\nWe average this value across all songs and its value ranges from 0 (least danceable) to 100% (most danceable).")
   def info_energy_click(self, **event_args):
       alert(title='Avg. Energy',
       content="Energy is a measure from 0 to 100% and represents a perceptual measure of intensity and activity on average across all songs.")
@@ -357,10 +357,10 @@ class C_Investigate(C_InvestigateTemplate):
       content="Mode indicates the portion of tracks in major (modality) of an artist. Ranges from 0 to 100%.")
   def info_speechiness_click(self, **event_args):
       alert(title='Avg. Speechiness',
-      content="Speechiness detects the presence of spoken words in a track. The more exclusively speech-like the recording (e.g., talk show, audio book, poetry), the closer to 100% the attribute value. It is averaged across all songs of that artist.")
+      content="Speechiness detects the presence of spoken words in a track. The more exclusively speech-like the recording (e.g., talk show, audiobook, poetry), the closer to 100% the attribute value. It is averaged across all songs of that artist.")
   def info_acousticness_click(self, **event_args):
       alert(title='Avg. Acousticness',
-      content="A confidence measure from 0 to 100% of whether the tracks of an artist are acoustic. 100% represents high confidence the tracks are acoustic.")
+      content="A confidence measure from 0 to 100% of whether an artist's tracks are acoustic. 100% represents high confidence the tracks are acoustic.")
   def info_instrumentalness_click(self, **event_args):
       alert(title='Avg. Instrumentalness',
       content="Measures whether the tracks of an artist contain no vocals.\n\n“Ooh” and “aah” sounds are treated as instrumental in this context. Rap or spoken word tracks are clearly “vocal”. The closer the instrumentalness value is to 100%, the greater likelihood the tracks contain no vocal content.")
@@ -369,8 +369,33 @@ class C_Investigate(C_InvestigateTemplate):
       content="Detects the presence of an audience in the recording. Higher liveness values represent an increased probability that the tracks of that artist were performed live.")
   def info_valence_click(self, **event_args):
       alert(title='Avg. Valence',
-      content="A measure from 0 to 100% describing the musical positiveness conveyed by an artists tracks. Tracks with high valence sound more positive (e.g., happy, cheerful, euphoric), while tracks with low valence sound more negative (e.g., sad, depressed, angry).")
+      content="A measure from 0 to 100% describing the musical positiveness conveyed by an artist's tracks. Tracks with high valence sound more positive (e.g., happy, cheerful, euphoric), while tracks with low valence sound more negative (e.g., sad, depressed, angry).")
   def info_tempo_click(self, **event_args):
       alert(title='Avg. Tempo',
       content="The overall average estimated tempo of all track of an artist in beats per minute (BPM).")
+
+  def info_genre_click(self, **event_args):
+      alert(title='Genre',
+      content="Represents the genre of an artist.\n\nUnfortunatelly, this information is not present for all artists.")
+  def info_origin_click(self, **event_args):
+      alert(title='Origin',
+      content="Represents the origin of an artist.\n\nUnfortunatelly, this information is not present for all artists.")
+  
+  def info_first_release_click(self, **event_args):
+      alert(title='First Release',
+      content="Date of the first release of an artist on Spotify.\n\nOur database is not complete yet - there might be missing tracks that are not present in our database.")
+  def info_last_release_click(self, **event_args):
+      alert(title='Latest Release',
+      content="Date of the latest release of an artist on Spotify.\n\nOur database is not complete yet - there might be missing tracks that are not present in our database.")
+  
+  def info_latest_label_click(self, **event_args):
+      alert(title='Latest Label',
+      content="Name of the latest label this artist worked with.")
+
+  def info_major_click(self, **event_args):
+      alert(title='Major Coop',
+      content="Indicates whether this artist ever worked with a major label or not.")
+  def info_sub_major_click(self, **event_args):
+      alert(title='Sub-Major Coop',
+      content="Indicates whether this artist ever worked with a sub-major label or not.")
   
