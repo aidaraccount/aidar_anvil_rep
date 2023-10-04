@@ -38,7 +38,8 @@ class C_Investigate(C_InvestigateTemplate):
   def refresh_sug(self, temp_artist_id, **event_args):
     print(f'Refresh Sug - Start {datetime.datetime.now()}', flush=True)
     sug = json.loads(anvil.server.call('get_suggestion', 'Inspect', cur_model_id, temp_artist_id)) # Free, Explore, Inspect, Dissect
-    
+    print(sug)
+    print(sug == 'No Findings!')
     global cur_artist_id
     cur_artist_id = sug["ArtistID"]
     
@@ -114,11 +115,6 @@ class C_Investigate(C_InvestigateTemplate):
       else: expl = "{:.0f}".format(round(float(sug["AvgExplicit"])*100,0))
       self.avg_explicit.text = str(expl) + '%'
 
-      #if sug["RelArtists7"] == 'None' and sug["RelArtists6"] == 'None': self.rel_artists_7.text = '-'
-      #elif sug["RelArtists7"] != 'None' and sug["RelArtists6"] == 'None': self.rel_artists_7.text = sug["RelArtists7"]
-      #elif sug["RelArtists7"] == 'None' and sug["RelArtists6"] != 'None': self.rel_artists_7.text = sug["RelArtists6"]
-      #else: self.rel_artists_7.text = int(sug["RelArtists7"]) + int(sug["RelArtists6"])
-      
       if sug["RelArtists"] == 'None': self.rel_artists_7.text = '-'
       else: self.rel_artists_7.text = sug["RelArtists"]
         
