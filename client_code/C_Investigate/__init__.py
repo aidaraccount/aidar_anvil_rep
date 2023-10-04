@@ -37,7 +37,7 @@ class C_Investigate(C_InvestigateTemplate):
   # SUGGESTIONS
   def refresh_sug(self, temp_artist_id, **event_args):
     print(f'Refresh Sug - Start {datetime.datetime.now()}', flush=True)
-    sug = json.loads(anvil.server.call('get_suggestion', cur_model_id, 'Inspect', temp_artist_id)) # Free, Explore, Inspect, Dissect
+    sug = json.loads(anvil.server.call('get_suggestion', 'Inspect', cur_model_id, temp_artist_id)) # Free, Explore, Inspect, Dissect
     
     global cur_artist_id
     cur_artist_id = sug["ArtistID"]
@@ -114,11 +114,14 @@ class C_Investigate(C_InvestigateTemplate):
       else: expl = "{:.0f}".format(round(float(sug["AvgExplicit"])*100,0))
       self.avg_explicit.text = str(expl) + '%'
 
-      if sug["RelArtists7"] == 'None' and sug["RelArtists6"] == 'None': self.rel_artists_7.text = '-'
-      elif sug["RelArtists7"] != 'None' and sug["RelArtists6"] == 'None': self.rel_artists_7.text = sug["RelArtists7"]
-      elif sug["RelArtists7"] == 'None' and sug["RelArtists6"] != 'None': self.rel_artists_7.text = sug["RelArtists6"]
-      else: self.rel_artists_7.text = int(sug["RelArtists7"]) + int(sug["RelArtists6"])
+      #if sug["RelArtists7"] == 'None' and sug["RelArtists6"] == 'None': self.rel_artists_7.text = '-'
+      #elif sug["RelArtists7"] != 'None' and sug["RelArtists6"] == 'None': self.rel_artists_7.text = sug["RelArtists7"]
+      #elif sug["RelArtists7"] == 'None' and sug["RelArtists6"] != 'None': self.rel_artists_7.text = sug["RelArtists6"]
+      #else: self.rel_artists_7.text = int(sug["RelArtists7"]) + int(sug["RelArtists6"])
       
+      if sug["RelArtists"] == 'None': self.rel_artists_7.text = '-'
+      else: self.rel_artists_7.text = sug["RelArtists"]
+        
       if (sug["Prediction"] == 'None'): pred = 'N/A'
       elif (float(sug["Prediction"]) > 7): pred = 7.0
       elif (float(sug["Prediction"]) < 0): pred = 0.0
