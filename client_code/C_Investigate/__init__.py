@@ -38,10 +38,6 @@ class C_Investigate(C_InvestigateTemplate):
   def refresh_sug(self, temp_artist_id, **event_args):
     print(f'Refresh Sug - Start {datetime.datetime.now()}', flush=True)
     sug = json.loads(anvil.server.call('get_suggestion', 'Inspect', cur_model_id, temp_artist_id)) # Free, Explore, Inspect, Dissect
-    print(sug)
-    print(sug == 'No Findings!')
-    global cur_artist_id
-    cur_artist_id = sug["ArtistID"]
     
     if sug["Status"] == 'Empty Model!':
       alert(title='Train you Model..',
@@ -59,6 +55,8 @@ class C_Investigate(C_InvestigateTemplate):
       self.visible = False
       
     else:      
+      global cur_artist_id
+      cur_artist_id = sug["ArtistID"]
       global artist_id
       artist_id = int(sug["ArtistID"])
       global spotify_artist_id
