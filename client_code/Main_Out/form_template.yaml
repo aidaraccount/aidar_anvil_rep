@@ -46,7 +46,7 @@ components:
         properties: {format: restricted_html, content: "<p style=\"font-weight: bold;\"\
             >\n  <span style=\"color: rgb(253, 101, 45); font-size: 18px;\">UPDATE\
             \ IN PROGRESS</span><br>\n  <span style=\"color: rgb(200, 200, 200); font-size:\
-            \ 16px;\">back at ~10am</span>\n</p>", align: center, visible: false}
+            \ 16px;\">back at ~10am</span>\n</p>", align: center, visible: true}
         type: RichText
         layout_properties: {}
       - type: Link
