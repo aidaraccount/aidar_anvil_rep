@@ -42,6 +42,13 @@ components:
       name: flow_panel_2
       layout_properties: {grid_position: 'GLNTEN,KLPAMI', full_width_row: true}
       components:
+      - name: updates_sign
+        properties: {format: restricted_html, content: "<p style=\"font-weight: bold;\"\
+            >\n  <span style=\"color: rgb(253, 101, 45); font-size: 18px;\">UPDATE\
+            \ IN PROGRESS</span><br>\n  <span style=\"color: rgb(200, 200, 200); font-size:\
+            \ 16px;\">back at ~10am</span>\n</p>", align: center, visible: false}
+        type: RichText
+        layout_properties: {}
       - type: Link
         properties: {role: null, url: '', align: left, tooltip: '', border: '', foreground: '',
           visible: true, text: INVESTIGATE, font_size: null, wrap_on: mobile, font: '',
