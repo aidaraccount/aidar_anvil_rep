@@ -30,14 +30,21 @@ class C_Filter(C_FilterTemplate):
     self.artist_follower_lat_min.text = fil["artist_follower_lat_min"]
     self.artist_follower_lat_max.text = fil["artist_follower_lat_max"]
     # 2. Musical Features
+    # a) prepare key
+    tonleiter = ["C", "C#/Db", "D", "D#/Eb", "E", "F", "F#/Gb", "G", "G#/Ab", "A", "A#/Bb", "B"]
+    if fil["avg_key_min"] == 'None': key_min = None
+    else: key_min = tonleiter[int(round(float(fil["avg_key_min"]),0))]
+    if fil["avg_key_max"] == 'None': key_max = None
+    else: key_max = tonleiter[int(round(float(fil["avg_key_max"]),0))]
+    # b) fill everything
     self.avg_duration_min.text = fil["avg_duration_min"]
     self.avg_duration_max.text = fil["avg_duration_max"]
     self.avg_danceability_min.text = fil["avg_danceability_min"]
     self.avg_danceability_max.text = fil["avg_danceability_max"]
     self.avg_energy_min.text = fil["avg_energy_min"]
-    self.avg_energy_max.text = fil["avg_energy_max"]
-    self.avg_key_min.text = fil["avg_key_min"]
-    self.avg_key_max.text = fil["avg_key_max"]
+    self.avg_energy_max.text = fil["avg_energy_max"]    
+    self.avg_key_min.text = key_min
+    self.avg_key_max.text = key_max
     self.avg_loudness_min.text = fil["avg_loudness_min"]
     self.avg_loudness_max.text = fil["avg_loudness_max"]
     self.avg_mode_min.text = fil["avg_mode_min"]
@@ -202,14 +209,24 @@ class C_Filter(C_FilterTemplate):
     artist_follower_lat_min = self.artist_follower_lat_min.text
     artist_follower_lat_max = self.artist_follower_lat_max.text
     # 2. Musical Features
+    # a) prepare key
+    tonleiter = ["C", "C#/Db", "D", "D#/Eb", "E", "F", "F#/Gb", "G", "G#/Ab", "A", "A#/Bb", "B"]
+    if self.avg_key_min.text == '': avg_key_min = self.avg_key_min.text
+    else: avg_key_min = tonleiter.index(self.avg_key_min.text)
+    if self.avg_key_max.text == '': avg_key_max = self.avg_key_max.text
+    else: avg_key_max = tonleiter.index(self.avg_key_max.text)
+    print(self.avg_key_min.text)
+    print(avg_key_min)
+    
+    # b) fill everything
     avg_duration_min = self.avg_duration_min.text
     avg_duration_max = self.avg_duration_max.text
     avg_danceability_min = self.avg_danceability_min.text
     avg_danceability_max = self.avg_danceability_max.text
     avg_energy_min = self.avg_energy_min.text
     avg_energy_max = self.avg_energy_max.text
-    avg_key_min = self.avg_key_min.text
-    avg_key_max = self.avg_key_max.text
+    #avg_key_min = self.avg_key_min.text
+    #avg_key_max = self.avg_key_max.text
     avg_loudness_min = self.avg_loudness_min.text
     avg_loudness_max = self.avg_loudness_max.text
     avg_mode_min = self.avg_mode_min.text
