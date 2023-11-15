@@ -101,12 +101,12 @@ def check_log_status(self, **event_args):
   print(f'Main_Out: check_log_status', flush=True)
   if (anvil.users.get_user() == None):
     self.link_login.visible = True
-    #self.link_register.visible = True
+    self.link_register.visible = True
     self.link_logout.visible = False
     self.link_investigate.visible = False
   else:
     self.link_login.visible = False
-    #self.link_register.visible = False
+    self.link_register.visible = False
     self.link_logout.visible = True
     self.link_investigate.visible = True
   if self.updates_sign.visible == True:
