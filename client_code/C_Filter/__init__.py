@@ -32,19 +32,19 @@ class C_Filter(C_FilterTemplate):
     # 2. Musical Features
     # a) prepare key
     tonleiter = ["C", "C#/Db", "D", "D#/Eb", "E", "F", "F#/Gb", "G", "G#/Ab", "A", "A#/Bb", "B"]
-    if fil["avg_key_min"] == 'None': key_min = None
-    else: key_min = tonleiter[int(round(float(fil["avg_key_min"]),0))]
-    if fil["avg_key_max"] == 'None': key_max = None
-    else: key_max = tonleiter[int(round(float(fil["avg_key_max"]),0))]
+    if fil["avg_key_min"] == 'None': key_min = ''
+    else: self.avg_key_min.selected_value = tonleiter[int(round(float(fil["avg_key_min"]), 0))]
+    if fil["avg_key_max"] == 'None': key_max = ''
+    else: key_max = tonleiter[int(round(float(fil["avg_key_max"]), 0))]
     # b) fill everything
     self.avg_duration_min.text = fil["avg_duration_min"]
     self.avg_duration_max.text = fil["avg_duration_max"]
-    self.avg_danceability_min.text = fil["avg_danceability_min"]
-    self.avg_danceability_max.text = fil["avg_danceability_max"]
+    if fil["avg_danceability_min"] == 'None': self.avg_danceability_min.text = fil["avg_danceability_min"]
+    else: self.avg_danceability_min.text = int(float(fil["avg_danceability_min"])*100)
+    if fil["avg_danceability_max"] == 'None': self.avg_danceability_max.text = fil["avg_danceability_max"]
+    else: self.avg_danceability_max.text = int(float(fil["avg_danceability_max"])*100)
     self.avg_energy_min.text = fil["avg_energy_min"]
     self.avg_energy_max.text = fil["avg_energy_max"]    
-    self.avg_key_min.text = key_min
-    self.avg_key_max.text = key_max
     self.avg_loudness_min.text = fil["avg_loudness_min"]
     self.avg_loudness_max.text = fil["avg_loudness_max"]
     self.avg_mode_min.text = fil["avg_mode_min"]
@@ -211,22 +211,19 @@ class C_Filter(C_FilterTemplate):
     # 2. Musical Features
     # a) prepare key
     tonleiter = ["C", "C#/Db", "D", "D#/Eb", "E", "F", "F#/Gb", "G", "G#/Ab", "A", "A#/Bb", "B"]
-    if self.avg_key_min.text == '': avg_key_min = self.avg_key_min.text
-    else: avg_key_min = tonleiter.index(self.avg_key_min.text)
-    if self.avg_key_max.text == '': avg_key_max = self.avg_key_max.text
-    else: avg_key_max = tonleiter.index(self.avg_key_max.text)
-    print(self.avg_key_min.text)
-    print(avg_key_min)
-    
+    if self.avg_key_min.selected_value == '': avg_key_min = None
+    else: avg_key_min = tonleiter.index(self.avg_key_min.selected_value)
+    if self.avg_key_max.selected_value == '': avg_key_max = None
+    else: avg_key_max = tonleiter.index(self.avg_key_max.selected_value)
     # b) fill everything
     avg_duration_min = self.avg_duration_min.text
     avg_duration_max = self.avg_duration_max.text
-    avg_danceability_min = self.avg_danceability_min.text
-    avg_danceability_max = self.avg_danceability_max.text
+    if self.avg_danceability_min.text == None: avg_danceability_min = self.avg_danceability_min.text
+    else: avg_danceability_min = int(self.avg_danceability_min.text)/100
+    if self.avg_danceability_max.text == None: avg_danceability_max = self.avg_danceability_max.text
+    else: avg_danceability_max = int(self.avg_danceability_max.text)/100
     avg_energy_min = self.avg_energy_min.text
     avg_energy_max = self.avg_energy_max.text
-    #avg_key_min = self.avg_key_min.text
-    #avg_key_max = self.avg_key_max.text
     avg_loudness_min = self.avg_loudness_min.text
     avg_loudness_max = self.avg_loudness_max.text
     avg_mode_min = self.avg_mode_min.text

@@ -250,15 +250,15 @@ components:
         underline: false, icon: ''}
       name: label_4_copy_4
       layout_properties: {row: OSZLNL, width_xs: 4, col_xs: 0, width: 303.333}
-    - type: TextBox
-      properties: {role: text_box_small, align: left, hide_text: false, tooltip: '"C",
-          "C#/Db", "D", "D#/Eb", "E", "F", "F#/Gb", "G", "G#/Ab", "A", "A#/Bb", "B"',
-        placeholder: C, border: '', enabled: true, foreground: '', visible: true,
-        text: '', font_size: null, font: '', spacing_above: small, type: text, spacing_below: small,
-        italic: false, background: '', bold: false, underline: false}
-      name: avg_key_min
-      layout_properties: {row: OSZLNL, width_xs: 3, col_xs: 3, width: 194}
-      event_bindings: {pressed_enter: apply_filters_click}
+    - name: avg_key_min
+      properties:
+        placeholder: C
+        include_placeholder: false
+        items: ['', C, C#/Db, D, D#/Eb, E, F, F#/Gb, G, G#/Ab, A, A#/Bb, B]
+        role: text_box_small
+      type: DropDown
+      layout_properties: {row: OSZLNL, width_xs: 3, col_xs: 4}
+      data_bindings: []
     - type: Label
       properties: {role: description, align: center, tooltip: '', border: '', foreground: '',
         visible: true, text: to, font_size: null, font: '', spacing_above: small,
@@ -266,15 +266,15 @@ components:
         underline: false, icon: ''}
       name: label_5_copy_4
       layout_properties: {row: OSZLNL, width_xs: 2, col_xs: 7, width: 136.667}
-    - type: TextBox
-      properties: {role: text_box_small, align: left, hide_text: false, tooltip: '"C",
-          "C#/Db", "D", "D#/Eb", "E", "F", "F#/Gb", "G", "G#/Ab", "A", "A#/Bb", "B"',
-        placeholder: B, border: '', enabled: true, foreground: '', visible: true,
-        text: '', font_size: null, font: '', spacing_above: small, type: text, spacing_below: small,
-        italic: false, background: '', bold: false, underline: false}
-      name: avg_key_max
-      layout_properties: {row: OSZLNL, width_xs: 3, col_xs: 9, width: 194}
-      event_bindings: {pressed_enter: apply_filters_click}
+    - name: avg_key_max
+      properties:
+        placeholder: B
+        include_placeholder: false
+        items: ['', C, C#/Db, D, D#/Eb, E, F, F#/Gb, G, G#/Ab, A, A#/Bb, B]
+        role: text_box_small
+      type: DropDown
+      layout_properties: {row: OSZLNL, width_xs: 3, col_xs: 9}
+      data_bindings: []
   - type: GridPanel
     properties: {spacing_above: small, spacing_below: small, background: '', foreground: '',
       border: '', visible: true, role: grid_panel, tooltip: ''}
