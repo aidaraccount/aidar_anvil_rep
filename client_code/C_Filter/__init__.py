@@ -29,36 +29,60 @@ class C_Filter(C_FilterTemplate):
     self.artist_popularity_lat_max.text = fil["artist_popularity_lat_max"]
     self.artist_follower_lat_min.text = fil["artist_follower_lat_min"]
     self.artist_follower_lat_max.text = fil["artist_follower_lat_max"]
+    
     # 2. Musical Features
-    # a) prepare key
+    self.avg_duration_min.text = fil["avg_duration_min"]
+    self.avg_duration_max.text = fil["avg_duration_max"]
+    
+    if fil["avg_danceability_min"] == 'None': self.avg_danceability_min.text = fil["avg_danceability_min"]
+    else: self.avg_danceability_min.text = int(float(fil["avg_danceability_min"])*100)
+    if fil["avg_danceability_max"] == 'None': self.avg_danceability_max.text = fil["avg_danceability_max"]
+    else: self.avg_danceability_max.text = int(float(fil["avg_danceability_max"])*100)
+    
+    if fil["avg_energy_min"] == 'None': self.avg_energy_min.text = fil["avg_energy_min"]
+    else: self.avg_energy_min.text = int(float(fil["avg_energy_min"])*100)
+    if fil["avg_energy_max"] == 'None': self.avg_energy_max.text = fil["avg_energy_max"]
+    else: self.avg_energy_max.text = int(float(fil["avg_energy_max"])*100)
+
     tonleiter = ["C", "C#/Db", "D", "D#/Eb", "E", "F", "F#/Gb", "G", "G#/Ab", "A", "A#/Bb", "B"]
     if fil["avg_key_min"] == 'None': key_min = ''
     else: self.avg_key_min.selected_value = tonleiter[int(round(float(fil["avg_key_min"]), 0))]
     if fil["avg_key_max"] == 'None': key_max = ''
     else: key_max = tonleiter[int(round(float(fil["avg_key_max"]), 0))]
-    # b) fill everything
-    self.avg_duration_min.text = fil["avg_duration_min"]
-    self.avg_duration_max.text = fil["avg_duration_max"]
-    if fil["avg_danceability_min"] == 'None': self.avg_danceability_min.text = fil["avg_danceability_min"]
-    else: self.avg_danceability_min.text = int(float(fil["avg_danceability_min"])*100)
-    if fil["avg_danceability_max"] == 'None': self.avg_danceability_max.text = fil["avg_danceability_max"]
-    else: self.avg_danceability_max.text = int(float(fil["avg_danceability_max"])*100)
-    self.avg_energy_min.text = fil["avg_energy_min"]
-    self.avg_energy_max.text = fil["avg_energy_max"]    
+    
     self.avg_loudness_min.text = fil["avg_loudness_min"]
     self.avg_loudness_max.text = fil["avg_loudness_max"]
-    self.avg_mode_min.text = fil["avg_mode_min"]
-    self.avg_mode_max.text = fil["avg_mode_max"]
-    self.avg_speechiness_min.text = fil["avg_speechiness_min"]
-    self.avg_speechiness_max.text = fil["avg_speechiness_max"]
-    self.avg_acousticness_min.text = fil["avg_acousticness_min"]
-    self.avg_acousticness_max.text = fil["avg_acousticness_max"]
-    self.avg_instrumentalness_min.text = fil["avg_instrumentalness_min"]
-    self.avg_instrumentalness_max.text = fil["avg_instrumentalness_max"]
-    self.avg_liveness_min.text = fil["avg_liveness_min"]
-    self.avg_liveness_max.text = fil["avg_liveness_max"]
-    self.avg_valence_min.text = fil["avg_valence_min"]
-    self.avg_valence_max.text = fil["avg_valence_max"]
+    
+    if fil["avg_mode_min"] == 'None': self.avg_mode_min.text = fil["avg_mode_min"]
+    else: self.avg_mode_min.text = int(float(fil["avg_mode_min"])*100)
+    if fil["avg_mode_max"] == 'None': self.avg_mode_max.text = fil["avg_mode_max"]
+    else: self.avg_mode_max.text = int(float(fil["avg_mode_max"])*100)
+
+    if fil["avg_speechiness_min"] == 'None': self.avg_speechiness_min.text = fil["avg_speechiness_min"]
+    else: self.avg_speechiness_min.text = int(float(fil["avg_speechiness_min"])*100)
+    if fil["avg_speechiness_max"] == 'None': self.avg_speechiness_max.text = fil["avg_speechiness_max"]
+    else: self.avg_speechiness_max.text = int(float(fil["avg_speechiness_max"])*100)
+
+    if fil["avg_acousticness_min"] == 'None': self.avg_acousticness_min.text = fil["avg_acousticness_min"]
+    else: self.avg_acousticness_min.text = int(float(fil["avg_acousticness_min"])*100)
+    if fil["avg_acousticness_max"] == 'None': self.avg_acousticness_max.text = fil["avg_acousticness_max"]
+    else: self.avg_acousticness_max.text = int(float(fil["avg_acousticness_max"])*100)
+    
+    if fil["avg_instrumentalness_min"] == 'None': self.avg_instrumentalness_min.text = fil["avg_instrumentalness_min"]
+    else: self.avg_instrumentalness_min.text = int(float(fil["avg_instrumentalness_min"])*100)
+    if fil["avg_instrumentalness_max"] == 'None': self.avg_instrumentalness_max.text = fil["avg_instrumentalness_max"]
+    else: self.avg_instrumentalness_max.text = int(float(fil["avg_instrumentalness_max"])*100)
+
+    if fil["avg_liveness_min"] == 'None': self.avg_liveness_min.text = fil["avg_liveness_min"]
+    else: self.avg_liveness_min.text = int(float(fil["avg_liveness_min"])*100)
+    if fil["avg_liveness_max"] == 'None': self.avg_liveness_max.text = fil["avg_liveness_max"]
+    else: self.avg_liveness_max.text = int(float(fil["avg_liveness_max"])*100)
+
+    if fil["avg_valence_min"] == 'None': self.avg_valence_min.text = fil["avg_valence_min"]
+    else: self.avg_valence_min.text = int(float(fil["avg_valence_min"])*100)
+    if fil["avg_valence_max"] == 'None': self.avg_valence_max.text = fil["avg_valence_max"]
+    else: self.avg_valence_max.text = int(float(fil["avg_valence_max"])*100)
+    
     self.avg_tempo_min.text = fil["avg_tempo_min"]
     self.avg_tempo_max.text = fil["avg_tempo_max"]
     
@@ -208,36 +232,60 @@ class C_Filter(C_FilterTemplate):
     artist_popularity_lat_max = self.artist_popularity_lat_max.text
     artist_follower_lat_min = self.artist_follower_lat_min.text
     artist_follower_lat_max = self.artist_follower_lat_max.text
+    
     # 2. Musical Features
-    # a) prepare key
+    avg_duration_min = self.avg_duration_min.text
+    avg_duration_max = self.avg_duration_max.text
+    
+    if self.avg_danceability_min.text == None: avg_danceability_min = self.avg_danceability_min.text
+    else: avg_danceability_min = int(self.avg_danceability_min.text)/100
+    if self.avg_danceability_max.text == None: avg_danceability_max = self.avg_danceability_max.text
+    else: avg_danceability_max = int(self.avg_danceability_max.text)/100
+    
+    if self.avg_energy_min.text == None: avg_energy_min = self.avg_energy_min.text
+    else: avg_energy_min = int(self.avg_energy_min.text)/100
+    if self.avg_energy_max.text == None: avg_energy_max = self.avg_energy_max.text
+    else: avg_energy_max = int(self.avg_energy_max.text)/100
+
     tonleiter = ["C", "C#/Db", "D", "D#/Eb", "E", "F", "F#/Gb", "G", "G#/Ab", "A", "A#/Bb", "B"]
     if self.avg_key_min.selected_value == '': avg_key_min = None
     else: avg_key_min = tonleiter.index(self.avg_key_min.selected_value)
     if self.avg_key_max.selected_value == '': avg_key_max = None
     else: avg_key_max = tonleiter.index(self.avg_key_max.selected_value)
-    # b) fill everything
-    avg_duration_min = self.avg_duration_min.text
-    avg_duration_max = self.avg_duration_max.text
-    if self.avg_danceability_min.text == None: avg_danceability_min = self.avg_danceability_min.text
-    else: avg_danceability_min = int(self.avg_danceability_min.text)/100
-    if self.avg_danceability_max.text == None: avg_danceability_max = self.avg_danceability_max.text
-    else: avg_danceability_max = int(self.avg_danceability_max.text)/100
-    avg_energy_min = self.avg_energy_min.text
-    avg_energy_max = self.avg_energy_max.text
+    
     avg_loudness_min = self.avg_loudness_min.text
     avg_loudness_max = self.avg_loudness_max.text
-    avg_mode_min = self.avg_mode_min.text
-    avg_mode_max = self.avg_mode_max.text
-    avg_speechiness_min = self.avg_speechiness_min.text
-    avg_speechiness_max = self.avg_speechiness_max.text
-    avg_acousticness_min = self.avg_acousticness_min.text
-    avg_acousticness_max = self.avg_acousticness_max.text
-    avg_instrumentalness_min = self.avg_instrumentalness_min.text
-    avg_instrumentalness_max = self.avg_instrumentalness_max.text
-    avg_liveness_min = self.avg_liveness_min.text
-    avg_liveness_max = self.avg_liveness_max.text
-    avg_valence_min = self.avg_valence_min.text
-    avg_valence_max = self.avg_valence_max.text
+    
+    if self.avg_mode_min.text == None: avg_mode_min = self.avg_energy_min.text
+    else: avg_mode_min = int(self.avg_mode_min.text)/100
+    if self.avg_mode_max.text == None: avg_mode_max = self.avg_mode_max.text
+    else: avg_mode_max = int(self.avg_mode_max.text)/100
+    
+    if self.avg_speechiness_min.text == None: avg_speechiness_min = self.avg_speechiness_min.text
+    else: avg_speechiness_min = int(self.avg_speechiness_min.text)/100
+    if self.avg_speechiness_max.text == None: avg_speechiness_max = self.avg_speechiness_max.text
+    else: avg_speechiness_max = int(self.avg_speechiness_max.text)/100
+    
+    if self.avg_acousticness_min.text == None: avg_acousticness_min = self.avg_acousticness_min.text
+    else: avg_acousticness_min = int(self.avg_acousticness_min.text)/100
+    if self.avg_acousticness_max.text == None: avg_acousticness_max = self.avg_acousticness_max.text
+    else: avg_acousticness_max = int(self.avg_acousticness_max.text)/100
+    
+    if self.avg_instrumentalness_min.text == None: avg_instrumentalness_min = self.avg_instrumentalness_min.text
+    else: avg_instrumentalness_min = int(self.avg_instrumentalness_min.text)/100
+    if self.avg_instrumentalness_max.text == None: avg_instrumentalness_max = self.avg_instrumentalness_max.text
+    else: avg_instrumentalness_max = int(self.avg_instrumentalness_max.text)/100
+    
+    if self.avg_liveness_min.text == None: avg_liveness_min = self.avg_liveness_min.text
+    else: avg_liveness_min = int(self.avg_liveness_min.text)/100
+    if self.avg_liveness_max.text == None: avg_liveness_max = self.avg_liveness_max.text
+    else: avg_liveness_max = int(self.avg_liveness_max.text)/100
+
+    if self.avg_valence_min.text == None: avg_valence_min = self.avg_valence_min.text
+    else: avg_valence_min = int(self.avg_valence_min.text)/100
+    if self.avg_valence_max.text == None: avg_valence_max = self.avg_valence_max.text
+    else: avg_valence_max = int(self.avg_valence_max.text)/100
+    
     avg_tempo_min = self.avg_tempo_min.text
     avg_tempo_max = self.avg_tempo_max.text
 
@@ -548,6 +596,24 @@ class C_Filter(C_FilterTemplate):
                       arab,
                       armenian,
                       israeli
+                     )
+    self.content_panel.clear()
+    self.content_panel.add_component(C_Investigate(temp_artist_id=None))
+
+  def clear_filters_button_click(self, **event_args):
+    
+    anvil.server.call('change_filters',
+                      cur_model_id,
+                      None, None, None, None, None, None, None, None, None, None,
+                      None, None, None, None, None, None, None, None, None, None,
+                      None, None, None, None, None, None, None, None, None, None,
+                      None, None, None, None, None, None, None, None, None, None,
+                      None, None, None, None, None, None, None, None, None, None,
+                      None, None, None, None, None, None, None, None, None, None,
+                      None, None, None, None, None, None, None, None, None, None,
+                      None, None, None, None, None, None, None, None, None, None,
+                      None, None, None, None, None, None, None, None, None, None,
+                      None, None, None, None, None, None, None
                      )
     self.content_panel.clear()
     self.content_panel.add_component(C_Investigate(temp_artist_id=None))
