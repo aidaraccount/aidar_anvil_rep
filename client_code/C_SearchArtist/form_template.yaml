@@ -28,7 +28,7 @@ components:
     background: '', bold: false, underline: false}
   name: text_box_search
   layout_properties: {grid_position: 'KBHPRE,DWUMII'}
-  event_bindings: {change: text_box_search_change}
+  event_bindings: {change: text_box_search_change, pressed_enter: text_box_search_pressed_enter}
 - type: DataGrid
   properties:
     role: null
