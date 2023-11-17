@@ -78,7 +78,7 @@ components:
         event_bindings: {click: link_login_click}
       - type: Link
         properties: {role: null, url: '', align: left, tooltip: '', border: '', foreground: 'theme:Text_White',
-          visible: false, text: REGISTER, font_size: null, wrap_on: mobile, font: '',
+          visible: true, text: REGISTER, font_size: null, wrap_on: mobile, font: '',
           col_spacing: small, spacing_above: small, icon_align: left, col_widths: '',
           spacing_below: small, italic: false, background: '', bold: false, underline: false,
           icon: ''}
