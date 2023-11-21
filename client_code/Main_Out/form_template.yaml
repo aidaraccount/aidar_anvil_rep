@@ -45,8 +45,8 @@ components:
       - name: updates_sign
         properties: {format: restricted_html, content: '<p style="font-weight: bold;">  <span
             style="color: rgb(253, 101, 45); font-size: 18px;">UPDATE IN PROGRESS</span><br>  <span
-            style="color: rgb(200, 200, 200); font-size: 16px;">back at ~7pm</span></p>',
-          align: center, visible: false}
+            style="color: rgb(200, 200, 200); font-size: 16px;">back at ~7am</span></p>',
+          align: center, visible: true}
         type: RichText
         layout_properties: {}
       - type: Link
