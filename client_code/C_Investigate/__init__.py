@@ -266,7 +266,7 @@ class C_Investigate(C_InvestigateTemplate):
       self.data_grid_releases.visible = False
       
   
-  # RATING BUTTONS
+  # CHECK WATCHLIST
   def check_watchlist(self, **event_args):
     watchlist = False
     note = ''
@@ -282,7 +282,8 @@ class C_Investigate(C_InvestigateTemplate):
       self.column_panel_note.visible = False
       
     return watchlist, note
-  
+
+  # RATING BUTTONS
   def button_1_click(self, **event_args):
     self.header.scroll_into_view(smooth=True)
     watchlist, note = self.check_watchlist()
