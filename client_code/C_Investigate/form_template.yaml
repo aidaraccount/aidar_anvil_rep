@@ -902,34 +902,78 @@ components:
     properties: {height: 32}
     name: spacer_1
     layout_properties: {grid_position: 'GGUUQV,JUPXUF'}
-  - type: GridPanel
-    properties: {spacing_above: none, spacing_below: small, background: '', foreground: '',
-      border: '', visible: true, role: null, tooltip: ''}
-    name: grid_panel_6
-    layout_properties: {grid_position: 'CXYVXL,QXGTVE'}
+  - name: button_watchlist
+    properties: {text: add to Watchlist, role: feature, border: '', icon: '', icon_align: right,
+      visible: false}
+    type: Button
+    layout_properties: {grid_position: 'AAXSHS,AWHHFA'}
+    event_bindings: {click: button_watchlist_click}
+    data_bindings: []
+  - name: column_panel_note
+    properties: {col_widths: '{"AOZZAL":10,"LRBPLR":40,"QORNYI":10}', visible: false}
+    type: ColumnPanel
+    layout_properties: {grid_position: 'KHJITJ,FITVNZ'}
     components:
+    - name: spacer_3
+      properties: {height: 32, visible: true}
+      type: Spacer
+      layout_properties: {grid_position: 'BAEJBN,AOZZAL'}
+    - name: text_note
+      properties: {text: '', placeholder: Add a note.., auto_expand: false, visible: true,
+        role: text_box_small}
+      type: TextArea
+      layout_properties: {grid_position: 'BAEJBN,LRBPLR'}
+    - name: spacer_2
+      properties: {height: 32, visible: true}
+      type: Spacer
+      layout_properties: {grid_position: 'BAEJBN,QORNYI'}
+    - name: spacer_note
+      properties: {height: 16, visible: true}
+      type: Spacer
+      layout_properties: {grid_position: 'PVZEWW,SDRZES'}
+  - name: column_panel_16
+    properties: {col_widths: '{"ZIHDBA":5,"UISART":25,"JYPDUF":25,"EYJNET":5}'}
+    type: ColumnPanel
+    layout_properties: {grid_position: 'TRVASV,WTQBXR'}
+    components:
+    - name: spacer_7
+      properties: {height: 32}
+      type: Spacer
+      layout_properties: {grid_position: 'JOKJWX,ZIHDBA'}
     - type: Label
       properties: {role: feature, align: left, tooltip: '', border: '', foreground: '',
-        visible: true, text: ' no fit..', font_size: null, font: '', spacing_above: small,
-        icon_align: left, spacing_below: none, italic: false, background: '', bold: false,
-        underline: false, icon: ''}
+        visible: true, text: '              no fit..', font_size: null, font: '',
+        spacing_above: small, icon_align: left, spacing_below: none, italic: false,
+        background: '', bold: false, underline: false, icon: ''}
       name: label_3
-      layout_properties: {row: EXCCZC, width_xs: 2, col_xs: 2, width: 136.667}
+      layout_properties: {grid_position: 'JOKJWX,UISART'}
     - type: Label
-      properties: {role: feature, align: left, tooltip: '', border: '', foreground: '',
-        visible: true, text: ' Match!', font_size: null, font: '', spacing_above: small,
+      properties: {role: feature, align: right, tooltip: '', border: '', foreground: '',
+        visible: true, text: ' Match!        ', font_size: null, font: '', spacing_above: small,
         icon_align: left, spacing_below: none, italic: false, background: '', bold: false,
         underline: false, icon: ''}
       name: label_2
-      layout_properties: {row: EXCCZC, width_xs: 2, col_xs: 8, width: 136.667}
+      layout_properties: {grid_position: 'JOKJWX,JYPDUF'}
+    - name: spacer_6
+      properties: {height: 32}
+      type: Spacer
+      layout_properties: {grid_position: 'JOKJWX,EYJNET'}
+  - name: column_panel_15
+    properties: {col_widths: '{}'}
+    type: ColumnPanel
+    layout_properties: {grid_position: 'ZOEJHS,ITQECM'}
+    components:
+    - name: spacer_5
+      properties: {height: 32}
+      type: Spacer
+      layout_properties: {grid_position: 'VCJVWO,TNWPLK'}
     - type: Button
       properties: {role: eval_button, align: center, tooltip: '', border: '', enabled: true,
         foreground: '', visible: true, text: ' 1 ', font_size: null, font: '', spacing_above: none,
         icon_align: left, spacing_below: none, italic: false, background: '', bold: false,
         underline: false, icon: ''}
       name: button_1
-      layout_properties: {grid_position: 'KNQAKX,BACYQY', full_width_row: true, row: MKZCAU,
-        width_xs: 1, col_xs: 2, width: 53.3333}
+      layout_properties: {grid_position: 'VCJVWO,BIWIBK'}
       event_bindings: {click: button_1_click}
     - type: Button
       properties: {role: eval_button, align: center, tooltip: '', border: '', enabled: true,
@@ -937,8 +981,7 @@ components:
         icon_align: left, spacing_below: none, italic: false, background: '', bold: false,
         underline: false, icon: ''}
       name: button_2
-      layout_properties: {grid_position: 'KNQAKX,HIKDCL', full_width_row: true, row: MKZCAU,
-        width_xs: 1, col_xs: 3, width: 53.3333}
+      layout_properties: {grid_position: 'VCJVWO,EZVBNB'}
       event_bindings: {click: button_2_click}
     - type: Button
       properties: {role: eval_button, align: center, tooltip: '', border: '', enabled: true,
@@ -946,7 +989,7 @@ components:
         icon_align: left, spacing_below: none, italic: false, background: '', bold: false,
         underline: false, icon: ''}
       name: button_3
-      layout_properties: {row: MKZCAU, width_xs: 1, col_xs: 4, width: 53.3333}
+      layout_properties: {grid_position: 'VCJVWO,VHYMUB'}
       event_bindings: {click: button_3_click}
     - type: Button
       properties: {role: eval_button, align: center, tooltip: '', border: '', enabled: true,
@@ -954,7 +997,7 @@ components:
         icon_align: left, spacing_below: none, italic: false, background: '', bold: false,
         underline: false, icon: ''}
       name: button_4
-      layout_properties: {row: MKZCAU, width_xs: 1, col_xs: 5, width: 53.3333}
+      layout_properties: {grid_position: 'VCJVWO,VRVNWF'}
       event_bindings: {click: button_4_click}
     - type: Button
       properties: {role: eval_button, align: center, tooltip: '', border: '', enabled: true,
@@ -962,7 +1005,7 @@ components:
         icon_align: left, spacing_below: none, italic: false, background: '', bold: false,
         underline: false, icon: ''}
       name: button_5
-      layout_properties: {row: MKZCAU, width_xs: 1, col_xs: 6, width: 53.3333}
+      layout_properties: {grid_position: 'VCJVWO,PMTAKW'}
       event_bindings: {click: button_5_click}
     - type: Button
       properties: {role: eval_button, align: center, tooltip: '', border: '', enabled: true,
@@ -970,7 +1013,7 @@ components:
         icon_align: left, spacing_below: none, italic: false, background: '', bold: false,
         underline: false, icon: ''}
       name: button_6
-      layout_properties: {row: MKZCAU, width_xs: 1, col_xs: 7, width: 53.3333}
+      layout_properties: {grid_position: 'VCJVWO,UFTGSH'}
       event_bindings: {click: button_6_click}
     - type: Button
       properties: {role: eval_button, align: center, tooltip: '', border: '', enabled: true,
@@ -978,7 +1021,15 @@ components:
         icon_align: left, spacing_below: none, italic: false, background: '', bold: false,
         underline: false, icon: ''}
       name: button_7
-      layout_properties: {row: MKZCAU, width_xs: 1, col_xs: 8, width: 53.3333}
+      layout_properties: {grid_position: 'VCJVWO,UXLQPQ'}
       event_bindings: {click: button_7_click}
+    - name: spacer_4
+      properties: {height: 32}
+      type: Spacer
+      layout_properties: {grid_position: 'VCJVWO,TQQCBV'}
+  - name: spacer_8
+    properties: {height: '24'}
+    type: Spacer
+    layout_properties: {grid_position: 'KNUAGE,SKYGSE'}
 is_package: true
 custom_component: true

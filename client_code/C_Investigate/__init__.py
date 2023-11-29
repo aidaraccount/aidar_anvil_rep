@@ -395,4 +395,25 @@ class C_Investigate(C_InvestigateTemplate):
   def info_sub_major_click(self, **event_args):
       alert(title='Sub-Major Coop',
       content="Indicates whether this artist ever worked with a sub-major label or not.")
-  
+
+  def button_watchlist_click(self, **event_args):
+    if self.button_watchlist.background == '':
+      self.button_watchlist.background = '#fd652d' # orange
+      self.button_watchlist.foreground = '#f5f4f1' # white
+      self.button_watchlist.icon = 'fa:check'
+      self.button_watchlist.icon_align = 'right'
+      self.button_watchlist.text = 'adding to Watchlist  '
+      self.column_panel_note.visible = True
+      #self.text_note.visible = True
+      #self.spacer_note.visible = True
+    else:
+      self.button_watchlist.background = ''
+      self.button_watchlist.foreground = ''
+      self.button_watchlist.icon = ''
+      self.button_watchlist.text = 'add to Watchlist'
+      self.column_panel_note.visible = False
+      #self.text_note.visible = False
+      #self.spacer_note.visible = False
+
+  #def button_note_click(self, **event_args):
+  #  print(self.text_note.text)

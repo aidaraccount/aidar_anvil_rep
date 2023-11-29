@@ -43,7 +43,7 @@ roles:
 - name: investigate_feature
   components: [Label, Link]
 - name: text_box_small
-  components: [TextBox, DropDown]
+  components: [TextBox, DropDown, TextArea]
 color_scheme:
   preset_groups:
   - name: Accent
