@@ -904,7 +904,7 @@ components:
     layout_properties: {grid_position: 'GGUUQV,JUPXUF'}
   - name: button_watchlist
     properties: {text: add to Watchlist, role: feature, border: '', icon: '', icon_align: right,
-      visible: false}
+      visible: true}
     type: Button
     layout_properties: {grid_position: 'AAXSHS,AWHHFA'}
     event_bindings: {click: button_watchlist_click}
