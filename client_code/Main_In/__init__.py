@@ -8,6 +8,7 @@ import anvil.users
 
 from ..C_Investigate import C_Investigate
 from ..C_Filter import C_Filter
+from ..C_Watchlist import C_Watchlist
 from ..C_Rating import C_Rating
 from ..C_AddRefArtists import C_AddRefArtists
 from ..C_NoModel import C_NoModel
@@ -59,6 +60,14 @@ class Main_In(Main_InTemplate):
       self.content_panel.add_component(C_NoModel())
     else:
       self.content_panel.add_component(C_Filter())
+
+  def watchlist_click(self, **event_args):
+    cur_model_id = anvil.server.call('get_model_id',  user["user_id"])
+    self.content_panel.clear()
+    if (cur_model_id == None):
+      self.content_panel.add_component(C_NoModel())
+    else:
+      self.content_panel.add_component(C_Watchlist())
 
   def rating_click(self, **event_args):
     cur_model_id = anvil.server.call('get_model_id',  user["user_id"])
