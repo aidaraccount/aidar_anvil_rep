@@ -19,11 +19,8 @@ class C_Watchlist(C_WatchlistTemplate):
     global cur_model_id
     cur_model_id = anvil.server.call('get_model_id',  user["user_id"])
     
-    print("watchlist start", flush=True)
-    
+    # get information for selection bar on the left
     anvil.server.reset_session()
-    
-    print(json.loads(anvil.server.call('get_watchlist', cur_model_id)))
     self.repeating_panel_watchlist.items = json.loads(anvil.server.call('get_watchlist', cur_model_id))
+
     
-    print("watchlist end", flush=True)

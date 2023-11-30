@@ -7,9 +7,23 @@ components:
   properties: {source: 'self.item[''ArtistPictureURL'']'}
   type: Image
   layout_properties: {grid_position: 'JGTLDQ,BFHRIC', full_width_row: false}
+  data_bindings:
+  - {property: source, code: 'self.item[''ArtistPictureURL'']', writeback: false}
 - name: name
   properties: {}
   type: Label
-  layout_properties: {grid_position: 'JGTLDQ,TCZPBI'}
+  layout_properties: {grid_position: 'JGTLDQ,TCZPBI IJMKLG,GXXQFG'}
   data_bindings:
   - {property: text, code: 'self.item[''Name'']', writeback: false}
+- name: popularity
+  properties: {}
+  type: Label
+  layout_properties: {grid_position: 'JGTLDQ,TCZPBI UABDXC,PNWOEW'}
+  data_bindings:
+  - {property: text, code: 'self.item[''ArtistPopularity_lat'']', writeback: false}
+- name: Followers
+  properties: {}
+  type: Label
+  layout_properties: {grid_position: 'JGTLDQ,TCZPBI RITOBT,BIVJTZ'}
+  data_bindings:
+  - {property: text, code: 'self.item[''ArtistFollower_lat'']', writeback: false}
