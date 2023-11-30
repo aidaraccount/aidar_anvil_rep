@@ -1,6 +1,6 @@
 container:
   type: ColumnPanel
-  properties: {col_widths: '{}'}
+  properties: {col_widths: '{"UMKIPM":25,"DORKHT":35}'}
 components:
 - type: ColumnPanel
   properties: {col_widths: '{}'}
@@ -25,10 +25,14 @@ components:
     layout_properties:
       col_widths: {}
       grid_position: IRZOFG,FLCZRA
-- name: repeating_panel_1
-  properties: {item_template: C_Watchlist.ItemTemplate1}
+- name: repeating_panel_watchlist
+  properties: {item_template: C_Watchlist.WatchlistTemplate}
   type: RepeatingPanel
   layout_properties: {grid_position: 'HHCFTV,UMKIPM'}
+- name: spacer_1
+  properties: {height: 32}
+  type: Spacer
+  layout_properties: {grid_position: 'HHCFTV,DORKHT'}
 - name: grid_panel_1
   properties: {}
   type: GridPanel

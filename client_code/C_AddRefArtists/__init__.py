@@ -36,10 +36,7 @@ class C_AddRefArtists(C_AddRefArtistsTemplate):
       alert(title='Error..', content='This is not a valid Spotify Artist ID.\n\nYou find the Spotify Artist ID on open.spotify.com. It contains 22 characters.\n\nMichael Jackson for example is available under https://open.spotify.com/artist/3fMbdgg4jU18AjLCKBhRSm. The last part of this URL is the Spotify Artist ID -> "3fMbdgg4jU18AjLCKBhRSm"')
 
   def text_box_search_change(self, **event_args):
-    """This method is called when the text in this text box is edited"""
-    print("fct start", flush=True)    
     anvil.server.reset_session()
     self.data_grid_artists_header.visible = True
     search_text = self.text_box_search.text
     self.data_grid_artists_data.items = json.loads(anvil.server.call('search_artist', cur_model_id, search_text.strip()))
-    print("fct end", flush=True)
