@@ -287,43 +287,43 @@ class C_Investigate(C_InvestigateTemplate):
   def button_1_click(self, **event_args):
     self.header.scroll_into_view(smooth=True)
     watchlist, note = self.check_watchlist()
-    anvil.server.call('add_interest', cur_model_id, artist_id, 1, False, watchlist, note)
+    anvil.server.call('add_interest', user["user_id"], cur_model_id, artist_id, 1, False, watchlist, note)
     self.refresh_sug(temp_artist_id=None)
 
   def button_2_click(self, **event_args):
     self.header.scroll_into_view(smooth=True)
     watchlist, note = self.check_watchlist()
-    anvil.server.call('add_interest', cur_model_id, artist_id, 2, False, watchlist, note)
+    anvil.server.call('add_interest', user["user_id"], cur_model_id, artist_id, 2, False, watchlist, note)
     self.refresh_sug(temp_artist_id=None)
 
   def button_3_click(self, **event_args):
     self.header.scroll_into_view(smooth=True)
     watchlist, note = self.check_watchlist()
-    anvil.server.call('add_interest', cur_model_id, artist_id, 3, False, watchlist, note)
+    anvil.server.call('add_interest', user["user_id"], cur_model_id, artist_id, 3, False, watchlist, note)
     self.refresh_sug(temp_artist_id=None)
 
   def button_4_click(self, **event_args):
     self.header.scroll_into_view(smooth=True)
     watchlist, note = self.check_watchlist()
-    anvil.server.call('add_interest', cur_model_id, artist_id, 4, False, watchlist, note)
+    anvil.server.call('add_interest', user["user_id"], cur_model_id, artist_id, 4, False, watchlist, note)
     self.refresh_sug(temp_artist_id=None)
 
   def button_5_click(self, **event_args):
     self.header.scroll_into_view(smooth=True)
     watchlist, note = self.check_watchlist()
-    anvil.server.call('add_interest', cur_model_id, artist_id, 5, False, watchlist, note)
+    anvil.server.call('add_interest', user["user_id"], cur_model_id, artist_id, 5, False, watchlist, note)
     self.refresh_sug(temp_artist_id=None)
 
   def button_6_click(self, **event_args):
     self.header.scroll_into_view(smooth=True)
     watchlist, note = self.check_watchlist()
-    anvil.server.call('add_interest', cur_model_id, artist_id, 6, False, watchlist, note)
+    anvil.server.call('add_interest', user["user_id"], cur_model_id, artist_id, 6, False, watchlist, note)
     self.refresh_sug(temp_artist_id=None)
 
   def button_7_click(self, **event_args):
     self.header.scroll_into_view(smooth=True)
     watchlist, note = self.check_watchlist()
-    anvil.server.call('add_interest', cur_model_id, artist_id, 7, False, watchlist, note)
+    anvil.server.call('add_interest', user["user_id"], cur_model_id, artist_id, 7, False, watchlist, note)
     self.refresh_sug(temp_artist_id=None)
 
   
