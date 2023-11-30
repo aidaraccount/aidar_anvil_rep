@@ -9,9 +9,9 @@ components:
   components:
   - type: Label
     properties: {role: title, align: left, tooltip: '', border: '', foreground: '',
-      visible: true, text: Your Watchlist, font_size: null, font: '', spacing_above: small,
-      icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-      underline: false, icon: ''}
+      visible: true, text: Your Watchlist (work in progress..), font_size: null, font: '',
+      spacing_above: small, icon_align: left, spacing_below: small, italic: false,
+      background: '', bold: false, underline: false, icon: ''}
     name: label_1_copy
     layout_properties:
       col_widths: {}
