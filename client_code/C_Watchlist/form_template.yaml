@@ -31,14 +31,28 @@ components:
   layout_properties: {grid_position: 'HHCFTV,UMKIPM'}
   data_bindings: []
   components:
-  - name: repeating_panel_watchlist
-    properties: {item_template: C_Watchlist.WatchlistTemplate}
+  - name: repeating_panel_selection
+    properties: {item_template: C_Watchlist.SelectionTemplate}
     type: RepeatingPanel
     layout_properties: {x: 0, y: 0, width: 386.66668701171875}
-- name: spacer_1
-  properties: {height: 32}
-  type: Spacer
-  layout_properties: {grid_position: 'HHCFTV,DORKHT'}
+- name: xy_panel_detail
+  properties: {height: 688}
+  type: XYPanel
+  layout_properties: {grid_position: 'HHCFTV,DORKHT MHDPRV,MDQKYT'}
+  components:
+  - name: repeating_panel_detail
+    properties: {item_template: C_Watchlist.DetailTemplate}
+    type: RepeatingPanel
+    layout_properties: {x: 12.33331298828125, y: 0, width: 539}
+- name: text_area_note
+  properties: {role: text_box_small, height: 103, placeholder: Add a note}
+  type: TextArea
+  layout_properties: {grid_position: 'HHCFTV,DORKHT ZYOCPO,OPTPHW'}
+- name: button_note
+  properties: {text: save, align: right, role: feature}
+  type: Button
+  layout_properties: {grid_position: 'HHCFTV,DORKHT FENREU,YZQWWM'}
+  event_bindings: {click: button_note_click}
 - name: grid_panel_1
   properties: {}
   type: GridPanel
