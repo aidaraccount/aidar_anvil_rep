@@ -20,4 +20,11 @@ class SelectionTemplate(SelectionTemplateTemplate):
     cur_model_id = anvil.server.call('get_model_id',  user["user_id"])
     
   def link_selection_click(self, **event_args):
-    self.parent.parent.parent.refresh_watchlist_detail(cur_model_id, self.link_selection.url)
+    global cur_ai_artist_id
+    cur_ai_artist_id = self.link_selection.url
+    self.parent.parent.parent.refresh_watchlist_detail(cur_model_id, cur_ai_artist_id)
+    
+    components = self.parent.get_components()
+    for comp in components:
+      comp.border = 'none'
+    self.border = '1px solid #fd652d' # orange

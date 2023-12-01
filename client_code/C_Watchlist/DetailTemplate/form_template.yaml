@@ -1,11 +1,23 @@
 is_package: true
 container:
   type: ColumnPanel
-  properties: {background: 'theme:Header Background'}
+  properties: {background: ''}
 components:
-- name: note
-  properties: {}
-  type: Label
-  layout_properties: {grid_position: 'QNMTOH,NPUCVX'}
-  data_bindings:
-  - {property: text, code: 'self.item[''Note'']', writeback: false}
+- name: column_panel_1
+  properties: {role: grid}
+  type: ColumnPanel
+  layout_properties: {grid_position: 'PNMDAK,WVYGWD'}
+  components:
+  - name: label_date
+    properties: {role: description, spacing_below: none, spacing_above: none}
+    type: Label
+    layout_properties: {grid_position: 'HPXQKF,CESLFK'}
+    data_bindings:
+    - {property: text, code: '" " + self.item[''Date''] + " " + self.item[''Time'']',
+      writeback: false}
+  - name: note
+    properties: {align: left, role: artist_name, spacing_above: none}
+    type: Label
+    layout_properties: {grid_position: 'TGFRVJ,JBIUOF'}
+    data_bindings:
+    - {property: text, code: '" " + self.item[''Note'']', writeback: false}
