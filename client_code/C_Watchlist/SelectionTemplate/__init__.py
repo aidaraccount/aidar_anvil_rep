@@ -22,6 +22,7 @@ class SelectionTemplate(SelectionTemplateTemplate):
   def link_selection_click(self, **event_args):
     global cur_ai_artist_id
     cur_ai_artist_id = self.link_selection.url
+    print(f"selection: {cur_ai_artist_id}")
     self.parent.parent.parent.refresh_watchlist_detail(cur_model_id, cur_ai_artist_id)
     
     components = self.parent.get_components()
