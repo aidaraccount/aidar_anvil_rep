@@ -28,16 +28,19 @@ class C_Watchlist(C_WatchlistTemplate):
 
     global cur_ai_artist_id
     cur_ai_artist_id = watchlist_selection[0]['ArtistID']
-    print(f"watchlist initial: {cur_ai_artist_id}")
     self.refresh_watchlist_detail(cur_model_id, cur_ai_artist_id)
-  
+
+  def update_cur_ai_artist_id(self, new_value):
+    global cur_ai_artist_id
+    cur_ai_artist_id = new_value
+      
   def refresh_watchlist_detail (self, cur_model_id, cur_ai_artist_id, **event_args):
-    print(f"watchlist refresh: {cur_ai_artist_id}")
     cur_ai_artist_id = cur_ai_artist_id
     self.repeating_panel_detail.items = json.loads(anvil.server.call('get_watchlist_detail', cur_model_id, cur_ai_artist_id))
   
   def button_note_click(self, **event_args):
-    print(f"watchlist add_note: {cur_ai_artist_id}")
     anvil.server.call('add_note', user["user_id"], cur_model_id, cur_ai_artist_id, "", "", self.text_area_note.text)
     self.text_area_note.text = ""
     self.refresh_watchlist_detail(cur_model_id, cur_ai_artist_id)
+
+    
