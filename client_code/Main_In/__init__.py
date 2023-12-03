@@ -94,7 +94,7 @@ class Main_In(Main_InTemplate):
     else:
       self.link_edit_ref_artists.visible = False
       self.link_add_ref_artists.visible = False
-      
+  
   def edit_ref_artists_click(self, **event_args):
     cur_model_id = anvil.server.call('get_model_id',  user["user_id"])
     self.content_panel.clear()
