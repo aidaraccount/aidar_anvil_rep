@@ -12,3 +12,12 @@ class ReferenceTemplate(ReferenceTemplateTemplate):
     self.init_components(**properties)
 
     # Any code you write here will run before the form opens.
+    if self.label_name_3.text == None:
+      self.button_3.visible = False
+      self.image_3.visible = False
+      self.label_name_3.visible = False
+    
+    if self.label_name_2.text == None:
+      self.button_2.visible = False
+      self.image_2.visible = False
+      self.label_name_2.visible = False

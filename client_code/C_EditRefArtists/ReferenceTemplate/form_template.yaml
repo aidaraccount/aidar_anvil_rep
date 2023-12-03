@@ -9,19 +9,19 @@ components:
   - name: image_1
     properties: {height: 155, display_mode: zoom_to_fill}
     type: Image
-    layout_properties: {x: 0.5, y: 0, width: 300.83299999999997}
+    layout_properties: {x: 0, y: 0, width: 300}
     data_bindings:
     - {property: source, code: 'self.item[0][''ArtistPictureURL'']', writeback: false}
   - name: label_name_1
-    properties: {}
+    properties: {role: artist_name_shadow}
     type: Label
-    layout_properties: {x: 0, y: 116, width: 303.33331298828125}
+    layout_properties: {x: 10, y: 110, width: 290}
     data_bindings:
     - {property: text, code: 'self.item[0][''Name'']', writeback: false}
   - name: button_1
     properties: {text: '', icon: 'fa:trash-o', icon_align: right, role: feature}
     type: Button
-    layout_properties: {x: 240, y: 10, width: 47.33332824707031}
+    layout_properties: {x: 240, y: 10, width: 45}
   data_bindings: []
 - name: xy_panel_2
   properties: {height: '150'}
@@ -35,19 +35,19 @@ components:
   - name: image_2
     properties: {height: 156, display_mode: zoom_to_fill}
     type: Image
-    layout_properties: {x: 0, y: 0, width: 286}
+    layout_properties: {x: 0, y: 0, width: 300}
     data_bindings:
     - {property: source, code: 'self.item[1][''ArtistPictureURL'']', writeback: false}
   - name: label_name_2
-    properties: {}
+    properties: {role: artist_name_shadow}
     type: Label
-    layout_properties: {x: 0, y: 116, width: 303.3333435058594}
+    layout_properties: {x: 10, y: 110, width: 290}
     data_bindings:
     - {property: text, code: 'self.item[1][''Name'']', writeback: false}
   - name: button_2
     properties: {text: '', icon: 'fa:trash-o', role: feature}
     type: Button
-    layout_properties: {x: 240, y: 10, width: 43.333343505859375}
+    layout_properties: {x: 240, y: 10, width: 45}
 - name: xy_panel_3
   properties: {height: '150'}
   type: XYPanel
@@ -56,16 +56,17 @@ components:
   - name: image_3
     properties: {height: 154, display_mode: zoom_to_fill}
     type: Image
-    layout_properties: {x: 0, y: 0, width: 285}
+    layout_properties: {x: 0, y: 0, width: 300}
     data_bindings:
     - {property: source, code: 'self.item[2][''ArtistPictureURL'']', writeback: false}
   - name: label_name_3
-    properties: {}
+    properties: {role: artist_name_shadow}
     type: Label
-    layout_properties: {x: 0, y: 116, width: 303.33331298828125}
+    layout_properties: {x: 10, y: 110, width: 290}
     data_bindings:
     - {property: text, code: 'self.item[2][''Name'']', writeback: false}
   - name: button_3
     properties: {text: '', icon: 'fa:trash-o', role: feature}
     type: Button
-    layout_properties: {x: 240, y: 10, width: 45.33332824707031}
+    layout_properties: {x: 240, y: 10, width: 45}
+  data_bindings: []

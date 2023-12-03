@@ -118,6 +118,12 @@ header>.nav-links>span {
   font-weight: bold;
   color: %color:Text_White%;
 }
+.anvil-role-artist_name_shadow {
+  font-size: 22px;
+  font-weight: bold;
+  color: %color:Text_White%;
+  text-shadow: 2px 2px 7px rgba(0, 0, 0, 0.9);
+}
 .anvil-role-grid {
   background-color: %color:Grid_Black%;
   border-radius: 12px;
