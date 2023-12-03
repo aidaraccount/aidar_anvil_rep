@@ -10,6 +10,7 @@ from ..C_Investigate import C_Investigate
 from ..C_Filter import C_Filter
 from ..C_Watchlist import C_Watchlist
 from ..C_Rating import C_Rating
+from ..C_EditRefArtists import C_EditRefArtists
 from ..C_AddRefArtists import C_AddRefArtists
 from ..C_NoModel import C_NoModel
 from ..C_SearchArtist import C_SearchArtist
@@ -77,14 +78,6 @@ class Main_In(Main_InTemplate):
     else:
       self.content_panel.add_component(C_Rating())
 
-  def add_ref_artists_click(self, **event_args):
-    cur_model_id = anvil.server.call('get_model_id',  user["user_id"])
-    self.content_panel.clear()
-    if (cur_model_id == None):
-      self.content_panel.add_component(C_NoModel())
-    else:
-      self.content_panel.add_component(C_AddRefArtists())
-
   def link_search_click(self, **event_args):
     cur_model_id = anvil.server.call('get_model_id',  user["user_id"])
     self.content_panel.clear()
@@ -92,3 +85,28 @@ class Main_In(Main_InTemplate):
       self.content_panel.add_component(C_NoModel())
     else:
       self.content_panel.add_component(C_SearchArtist())
+
+  # REF ARTISTS
+  def change_ref_artists_visibility(self, **event_args):
+    if self.link_edit_ref_artists.visible == False:
+      self.link_edit_ref_artists.visible = True
+      self.link_add_ref_artists.visible = True
+    else:
+      self.link_edit_ref_artists.visible = False
+      self.link_add_ref_artists.visible = False
+      
+  def edit_ref_artists_click(self, **event_args):
+    cur_model_id = anvil.server.call('get_model_id',  user["user_id"])
+    self.content_panel.clear()
+    if (cur_model_id == None):
+      self.content_panel.add_component(C_NoModel())
+    else:
+      self.content_panel.add_component(C_EditRefArtists())
+
+  def add_ref_artists_click(self, **event_args):
+    cur_model_id = anvil.server.call('get_model_id',  user["user_id"])
+    self.content_panel.clear()
+    if (cur_model_id == None):
+      self.content_panel.add_component(C_NoModel())
+    else:
+      self.content_panel.add_component(C_AddRefArtists())

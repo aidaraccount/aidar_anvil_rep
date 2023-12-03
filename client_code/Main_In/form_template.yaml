@@ -66,9 +66,27 @@ components:
   event_bindings: {click: link_search_click}
 - type: Link
   properties: {role: null, url: '', align: left, tooltip: '', border: '', foreground: '',
-    visible: true, text: Add Ref. Artists, font_size: null, wrap_on: mobile, font: '',
+    visible: true, text: Ref. Artists, font_size: null, wrap_on: mobile, font: '',
     col_spacing: medium, spacing_above: small, icon_align: left, col_widths: '', spacing_below: small,
     italic: false, background: '', bold: false, underline: false, icon: ''}
   name: link_ref_artists
   layout_properties: {slot: sidebar}
-  event_bindings: {click: add_ref_artists_click}
+  event_bindings: {click: change_ref_artists_visibility}
+  components:
+  - name: link_edit_ref_artists
+    properties: {role: null, url: '', align: left, tooltip: '', border: '', foreground: '',
+      visible: false, text: EDIT, font_size: null, wrap_on: mobile, font: '', col_spacing: medium,
+      spacing_above: none, icon_align: left, col_widths: '', spacing_below: none,
+      italic: false, background: '', bold: false, underline: false, icon: ''}
+    type: Link
+    layout_properties: {grid_position: 'AIEQTK,YOABPB'}
+    event_bindings: {click: edit_ref_artists_click}
+    components: []
+  - name: link_add_ref_artists
+    properties: {role: null, url: '', align: left, tooltip: '', border: '', foreground: '',
+      visible: false, text: ADD NEW, font_size: null, wrap_on: mobile, font: '', col_spacing: medium,
+      spacing_above: none, icon_align: left, col_widths: '', spacing_below: none,
+      italic: false, background: '', bold: false, underline: false, icon: ''}
+    type: Link
+    layout_properties: {grid_position: 'NPJBOI,DBKIAK'}
+    event_bindings: {click: add_ref_artists_click}
