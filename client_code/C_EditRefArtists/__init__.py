@@ -30,7 +30,10 @@ class C_EditRefArtists(C_EditRefArtistsTemplate):
     # elif references[len(references)-1][2]["ArtistID"] == None:
     # xy
 
-    print(self.repeating_panel_reference.items)
-    components = self.repeating_panel_reference.get_components()
-    #components.button_3.visibility = False
+    #components = self.repeating_panel_reference.get_components()
+    #print(components[1])
+    #print(self.repeating_panel_reference.item_template)
+    #template = self.repeating_panel_reference.item_template
+    
+    #template.xy_panel_3.visible = False
     
