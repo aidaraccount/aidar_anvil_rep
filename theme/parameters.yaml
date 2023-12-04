@@ -45,7 +45,7 @@ roles:
 - name: text_box_small
   components: [TextBox, DropDown, TextArea]
 - name: artist_name_shadow
-  components: [Label]
+  components: [Label, Link]
 color_scheme:
   preset_groups:
   - name: Accent

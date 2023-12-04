@@ -16,6 +16,7 @@ class C_NoModel(C_NoModelTemplate):
 
     # Any code you write here will run before the form opens.
 
+  
   def button_connect_model_click(self, **event_args):
     self.content_panel.clear()
     self.content_panel.add_component(C_ConnectModel())

@@ -8,7 +8,7 @@ components:
   layout_properties: {grid_position: 'LYJBFU,QTFFSI'}
   components:
   - type: Spacer
-    properties: {height: 98}
+    properties: {height: '100'}
     name: spacer_1
     layout_properties: {grid_position: 'HJAPKH,TBTCMH'}
   - name: label_1_copy_2
@@ -19,16 +19,16 @@ components:
     type: Label
     layout_properties: {grid_position: 'WSTDMP,PYHEEZ'}
   - name: image_1
-    properties: {source: _/theme/pics/Logo_black.png, height: '100'}
+    properties: {source: _/theme/pics/Logo_white.png, height: '100'}
     type: Image
     layout_properties: {grid_position: 'TIAQNO,YZPJXU'}
   - name: spacer_2
-    properties: {height: 51}
+    properties: {height: '50'}
     type: Spacer
     layout_properties: {grid_position: 'QIJWID,UQSWOC'}
   - type: Label
     properties: {role: sub_title, align: center, tooltip: '', border: '', foreground: '',
-      visible: true, text: Please create a new model or join to an existing model of your colleague,
+      visible: true, text: Please create a new model or join an existing model of your colleague,
       font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small,
       italic: false, background: '', bold: false, underline: false, icon: ''}
     name: label_1
@@ -44,44 +44,31 @@ components:
       layout_properties: {grid_position: 'GCWTAW,FXBSVE'}
       components:
       - name: image_2
-        properties: {height: 156}
+        properties: {height: 156, source: _/theme/pics/Artist2.png, display_mode: zoom_to_fill}
         type: Image
         layout_properties: {x: 0, y: 0, width: 467}
+      - name: link_1
+        properties: {align: center, text: Create new AI-Model, role: artist_name_shadow}
+        type: Link
+        layout_properties: {x: 10, y: 50, width: 450}
+        event_bindings: {click: button_create_model_click}
     - name: xy_panel_2
       properties: {height: '150'}
       type: XYPanel
       layout_properties: {grid_position: 'GCWTAW,SVBCEZ'}
       components:
       - name: image_3
-        properties: {height: 155}
+        properties: {height: 155, source: _/theme/pics/Fans2.jpg, display_mode: zoom_to_fill}
         type: Image
         layout_properties: {x: 0, y: 0, width: 467}
+      - name: link_2
+        properties: {text: Join existing AI-Model, role: artist_name_shadow, align: center}
+        type: Link
+        layout_properties: {x: 10, y: 50, width: 450}
+        event_bindings: {click: button_connect_model_click}
     - name: spacer_3
-      properties: {height: 95}
+      properties: {height: '50'}
       type: Spacer
       layout_properties: {grid_position: 'NLGDLB,YIYPIT'}
-  - type: RichText
-    properties: {role: null, align: center, tooltip: '', enable_slots: true, border: '',
-      foreground: '', visible: true, font_size: null, content: '', font: '', spacing_above: small,
-      spacing_below: small, data: null, background: '', format: markdown}
-    name: rich_text_1
-    layout_properties: {grid_position: 'VDVNLA,ZIABUW'}
-    components:
-    - type: Button
-      properties: {role: feature, align: center, tooltip: '', border: '', enabled: true,
-        foreground: '', visible: true, text: Connect to an existing AI-Model, font_size: null,
-        font: '', spacing_above: medium, icon_align: left, spacing_below: medium,
-        italic: false, background: '', bold: false, underline: false, icon: ''}
-      name: button_connect_model
-      layout_properties: {grid_position: 'NMDZWW,OUGDQB'}
-      event_bindings: {click: button_connect_model_click}
-    - type: Button
-      properties: {role: feature, align: center, tooltip: '', border: '', enabled: true,
-        foreground: '', visible: true, text: Create a new AI-Model, font_size: null,
-        font: '', spacing_above: medium, icon_align: left, spacing_below: medium,
-        italic: false, background: '', bold: false, underline: false, icon: ''}
-      name: button_create_model
-      layout_properties: {grid_position: 'NMDZWW,OUGDQB'}
-      event_bindings: {click: button_create_model_click}
 is_package: true
 custom_component: true
