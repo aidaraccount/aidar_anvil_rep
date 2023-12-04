@@ -1,0 +1,82 @@
+container:
+  type: ColumnPanel
+  properties: {col_widths: '{"UMKIPM":15,"DORKHT":45,"NOGYFU":20,"MDQKYT":40}'}
+components:
+- type: ColumnPanel
+  properties: {col_widths: '{}'}
+  name: content_panel
+  layout_properties: {grid_position: 'NDYFJH,LLBANU'}
+  components:
+  - type: Label
+    properties: {role: title, align: left, tooltip: '', border: '', foreground: '',
+      visible: true, text: Your Watchlist, font_size: null, font: '', spacing_above: small,
+      icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+      underline: false, icon: ''}
+    name: label_1_copy
+    layout_properties:
+      col_widths: {}
+      grid_position: WKTSPW,ALNASW
+  - type: Label
+    properties: {role: description, align: left, tooltip: '', border: '', foreground: '',
+      visible: true, text: Here are all the artists you've added to your watchlist.,
+      font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small,
+      italic: true, background: '', bold: false, underline: false, icon: ''}
+    name: label_description
+    layout_properties:
+      col_widths: {}
+      grid_position: IRZOFG,FLCZRA
+- name: spacer_1
+  properties: {height: 75}
+  type: Spacer
+  layout_properties: {grid_position: 'BHIMRO,NAQJIH'}
+- name: label_1
+  properties: {text: No artists added to your Watchlist yet, align: center, role: sub_title,
+    bold: false}
+  type: Label
+  layout_properties: {grid_position: 'IEPKDJ,XPWKEL'}
+- name: label_2
+  properties: {text: 'Please go on Investigate and if of interest, add an artist to
+      the Watchlist', role: description, align: center, bold: false}
+  type: Label
+  layout_properties: {grid_position: 'BBWYLC,CQVMNJ'}
+- name: xy_panel_selection
+  properties: {height: '520'}
+  type: XYPanel
+  layout_properties: {grid_position: 'HHCFTV,UMKIPM'}
+  data_bindings: []
+  components:
+  - name: repeating_panel_selection
+    properties: {item_template: C_Watchlist_Details.SelectionTemplate}
+    type: RepeatingPanel
+    layout_properties: {x: 0, y: 0, width: 226.66699999999997}
+- name: xy_panel_1
+  properties: {height: '520'}
+  type: XYPanel
+  layout_properties: {grid_position: 'HHCFTV,DORKHT MHDPRV,NOGYFU'}
+  components:
+  - name: image_detail
+    properties: {height: '150', display_mode: zoom_to_fill}
+    type: Image
+    layout_properties: {x: 0, y: 0, width: 218}
+    data_bindings: []
+- name: xy_panel_detail
+  properties: {height: 402}
+  type: XYPanel
+  layout_properties: {grid_position: 'HHCFTV,DORKHT MHDPRV,MDQKYT FVCING,DLPSEW'}
+  components:
+  - name: repeating_panel_detail
+    properties: {item_template: C_Watchlist_Details.DetailTemplate, spacing_above: none}
+    type: RepeatingPanel
+    layout_properties: {x: 0, y: 0, width: 468}
+  data_bindings: []
+- name: text_area_note
+  properties: {role: text_box_small, height: '60', placeholder: Add a note}
+  type: TextArea
+  layout_properties: {grid_position: 'HHCFTV,DORKHT MHDPRV,MDQKYT DZXAUS,ZTADSF'}
+- name: button_note
+  properties: {text: save, align: right, role: feature}
+  type: Button
+  layout_properties: {grid_position: 'HHCFTV,DORKHT MHDPRV,MDQKYT CJRQZY,CHUPLN'}
+  event_bindings: {click: button_note_click}
+is_package: true
+custom_component: true

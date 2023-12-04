@@ -1,0 +1,24 @@
+is_package: true
+container:
+  type: ColumnPanel
+  properties: {background: '', spacing_below: none, spacing_above: none, role: grid}
+components:
+- name: xy_panel_1
+  properties: {height: 100}
+  type: XYPanel
+  layout_properties: {grid_position: 'NHPVXS,VAIIKE'}
+  components:
+  - name: image_1
+    properties: {height: 108, display_mode: zoom_to_fill}
+    type: Image
+    layout_properties: {x: 0, y: 0, width: 224}
+    data_bindings:
+    - {property: source, code: 'self.item[''ArtistPictureURL'']', writeback: false}
+  - name: link_selection
+    properties: {role: artist_name_shadow}
+    type: Link
+    layout_properties: {x: 10, y: 50, width: 200}
+    data_bindings:
+    - {property: text, code: 'self.item[''Name'']', writeback: false}
+    - {property: url, code: 'self.item[''ArtistID'']', writeback: false}
+    event_bindings: {click: link_selection_click}

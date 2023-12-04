@@ -8,7 +8,7 @@ import anvil.users
 
 from ..C_Investigate import C_Investigate
 from ..C_Filter import C_Filter
-from ..C_Watchlist import C_Watchlist
+from ..C_Watchlist_Details import C_Watchlist_Details
 from ..C_Rating import C_Rating
 from ..C_EditRefArtists import C_EditRefArtists
 from ..C_AddRefArtists import C_AddRefArtists
@@ -114,7 +114,7 @@ class Main_In(Main_InTemplate):
   def watchlist_click(self, **event_args):
     cur_model_id = anvil.server.call('get_model_id',  user["user_id"])
     self.content_panel.clear()
-    self.content_panel.add_component(C_Watchlist())
+    self.content_panel.add_component(C_Watchlist_Details())
     self.link_watchlist.background = "theme:Accent 2"
     self.link_filter.background = None
     self.link_investigate.background = None
