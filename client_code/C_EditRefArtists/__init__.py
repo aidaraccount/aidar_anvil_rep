@@ -19,23 +19,9 @@ class C_EditRefArtists(C_EditRefArtistsTemplate):
     global cur_model_id
     cur_model_id = anvil.server.call('get_model_id',  user["user_id"])
 
+    self.get_references()
+
+  
+  def get_references(self, **event_args):
     references = json.loads(anvil.server.call('get_references', cur_model_id))
     self.repeating_panel_reference.items = references
-
-    # exclude 2. and 3.
-    #if references[len(references)-1][1]["ArtistID"] == None:
-    # xy
-    # xy
-    # exclude 3.
-    # elif references[len(references)-1][2]["ArtistID"] == None:
-    # xy
-
-    
-
-    #components = self.repeating_panel_reference.get_components()
-    #print(components[1])
-    #print(self.repeating_panel_reference.item_template)
-    #template = self.repeating_panel_reference.item_template
-    
-    #template.xy_panel_3.visible = False
-    
