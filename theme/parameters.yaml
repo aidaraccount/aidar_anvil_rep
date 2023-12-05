@@ -43,7 +43,7 @@ roles:
 - name: investigate_feature
   components: [Label, Link]
 - name: text_box_small
-  components: [TextBox, DropDown, TextArea]
+  components: [TextBox, DropDown, TextArea, DatePicker]
 - name: artist_name_shadow
   components: [Label, Link]
 color_scheme:

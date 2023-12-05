@@ -24,6 +24,11 @@ class C_Watchlist_Details(C_Watchlist_DetailsTemplate):
 
     watchlist_selection = json.loads(anvil.server.call('get_watchlist_selection', cur_model_id))
     if len(watchlist_selection) > 0:
+      
+      self.label_1.visible = False
+      self.label_2.visible = False
+      self.spacer_1.visible = False
+      
       self.repeating_panel_selection.items = watchlist_selection
       self.repeating_panel_selection.get_components()[0].border = '1px solid #fd652d' # orange
       
@@ -31,11 +36,7 @@ class C_Watchlist_Details(C_Watchlist_DetailsTemplate):
       cur_ai_artist_id = watchlist_selection[0]['ArtistID']
       self.refresh_watchlist_details(cur_model_id, cur_ai_artist_id)
       self.refresh_watchlist_notes(cur_model_id, cur_ai_artist_id)
-      
-      self.label_1.visible = False
-      self.label_2.visible = False
-      self.spacer_1.visible = False
-      
+          
     else:
       self.label_description.visible = False
       self.repeating_panel_selection.visible = False
@@ -51,9 +52,12 @@ class C_Watchlist_Details(C_Watchlist_DetailsTemplate):
   def refresh_watchlist_details (self, cur_model_id, cur_ai_artist_id, **event_args):
     cur_ai_artist_id = cur_ai_artist_id
     details = json.loads(anvil.server.call('get_watchlist_details', cur_model_id, cur_ai_artist_id))
+
+    # Image & Name
     self.image_detail.source = details[0]["ArtistPictureURL"]
     self.label_name.text = details[0]["Name"]    
 
+    # Links & Contact Information
     if details[0]["SpotifyLink"] == None:
       self.link_spotify.text = 'Profile'
       self.link_spotify.url = details[0]["ArtistURL"]
@@ -67,6 +71,14 @@ class C_Watchlist_Details(C_Watchlist_DetailsTemplate):
     else: self.link_mail.text = details[0]["Mail"]
     if details[0]["Phone"] == None: self.link_phone.text = '-'
     else: self.link_phone.text = details[0]["Phone"]
+
+    # tags
+    if details[0]["Status"] == None: self.drop_down_status.selected_value = 'Action required'
+    else: self.drop_down_status.selected_value = details[0]["Status"]
+    if details[0]["Priority"] == None: self.drop_down_priority.selected_value = 'mid'
+    else: self.drop_down_priority.selected_value = details[0]["Priority"]
+    if details[0]["Reminder"] == None: self.date_picker_reminder.date = None
+    else: self.date_picker_reminder.date = details[0]["Reminder"]
   
   def refresh_watchlist_notes (self, cur_model_id, cur_ai_artist_id, **event_args):
     cur_ai_artist_id = cur_ai_artist_id
