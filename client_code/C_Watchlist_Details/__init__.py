@@ -29,8 +29,8 @@ class C_Watchlist_Details(C_Watchlist_DetailsTemplate):
       
       global cur_ai_artist_id
       cur_ai_artist_id = watchlist_selection[0]['ArtistID']
-      self.refresh_watchlist_detail(cur_model_id, cur_ai_artist_id)
-      self.image_detail.source = watchlist_selection[0]["ArtistPictureURL"]
+      self.refresh_watchlist_details(cur_model_id, cur_ai_artist_id)
+      self.refresh_watchlist_notes(cur_model_id, cur_ai_artist_id)
       
       self.label_1.visible = False
       self.label_2.visible = False
@@ -48,17 +48,37 @@ class C_Watchlist_Details(C_Watchlist_DetailsTemplate):
     global cur_ai_artist_id
     cur_ai_artist_id = new_value
   
-  def refresh_watchlist_detail (self, cur_model_id, cur_ai_artist_id, **event_args):
+  def refresh_watchlist_details (self, cur_model_id, cur_ai_artist_id, **event_args):
     cur_ai_artist_id = cur_ai_artist_id
-    self.repeating_panel_detail.items = json.loads(anvil.server.call('get_watchlist_detail', cur_model_id, cur_ai_artist_id))
-
+    details = json.loads(anvil.server.call('get_watchlist_details', cur_model_id, cur_ai_artist_id))
+    self.image_detail.source = details["ArtistPictureURL"]
+    self.label_name.text = details["Name"]
+    # ..
+  
   def refresh_watchlist_notes (self, cur_model_id, cur_ai_artist_id, **event_args):
     cur_ai_artist_id = cur_ai_artist_id
-    self.repeating_panel_detail.items = json.loads(anvil.server.call('get_watchlist_detail', cur_model_id, cur_ai_artist_id))
+    self.repeating_panel_detail.items = json.loads(anvil.server.call('get_watchlist_notes', cur_model_id, cur_ai_artist_id))
   
   def button_note_click(self, **event_args):
     anvil.server.call('add_note', user["user_id"], cur_model_id, cur_ai_artist_id, "", "", self.text_area_note.text)
     self.text_area_note.text = ""
     self.refresh_watchlist_detail(cur_model_id, cur_ai_artist_id)
+
+  def button_edit_click(self, **event_args):
+    if self.button_edit.icon == 'fa:edit':
+      self.button_edit.icon = 'fa:save'
+      self.text_box_spotify.visible = True
+      self.text_box_insta.visible = True
+      self.text_box_mail.visible = True
+      self.text_box_phone.visible = True
+      # fill text boxes
+    else:
+      self.button_edit.icon = 'fa:edit'
+      self.text_box_spotify.visible = False
+      self.text_box_insta.visible = False
+      self.text_box_mail.visible = False
+      self.text_box_phone.visible = False
+      # save text boxes
+      self.refresh_watchlist_details(cur_model_id, cur_ai_artist_id)
 
     

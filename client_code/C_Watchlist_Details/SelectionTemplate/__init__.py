@@ -22,7 +22,8 @@ class SelectionTemplate(SelectionTemplateTemplate):
   def link_selection_click(self, **event_args):
     cur_ai_artist_id = self.link_selection.url
     self.parent.parent.parent.update_cur_ai_artist_id(self.link_selection.url)
-    self.parent.parent.parent.refresh_watchlist_detail(cur_model_id, cur_ai_artist_id)
+    self.parent.parent.parent.refresh_watchlist_details(cur_model_id, cur_ai_artist_id)
+    self.parent.parent.parent.refresh_watchlist_notes(cur_model_id, cur_ai_artist_id)
     
     components = self.parent.get_components()
     for comp in components:

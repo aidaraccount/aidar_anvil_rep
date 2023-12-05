@@ -59,6 +59,63 @@ components:
     type: Image
     layout_properties: {x: 0, y: 0, width: 218}
     data_bindings: []
+  - name: label_name
+    properties: {}
+    type: Label
+    layout_properties: {x: 0, y: 150, width: 200}
+  - name: button_investigate
+    properties: {text: investigate, align: left, role: feature, background: 'theme:Orange',
+      foreground: 'theme:Text_DecentWhite'}
+    type: Button
+    layout_properties: {x: 0, y: 190, width: 94}
+  - name: button_delete
+    properties: {text: '', icon: 'fa:trash-o', icon_align: top, role: feature}
+    type: Button
+    layout_properties: {x: 150, y: 190, width: 50}
+    data_bindings: []
+  - name: link_spotify
+    properties: {role: description, text: Spotify, icon: 'fa:spotify'}
+    type: Link
+    layout_properties: {x: 0, y: 270, width: 218}
+    components: []
+  - name: button_edit
+    properties: {text: '', icon: 'fa:edit', role: feature}
+    type: Button
+    layout_properties: {x: 104, y: 190, width: 40}
+    event_bindings: {click: button_edit_click}
+  - name: text_box_spotify
+    properties: {role: text_box_small, visible: false}
+    type: TextBox
+    layout_properties: {x: 20, y: 270, width: 200}
+  - name: link_insta
+    properties: {role: description, text: Instagram, icon: 'fa:instagram'}
+    type: Link
+    layout_properties: {x: 0, y: 310, width: 218}
+    data_bindings: []
+    components: []
+  - name: text_box_insta
+    properties: {role: text_box_small, visible: false}
+    type: TextBox
+    layout_properties: {x: 20, y: 310, width: 200}
+  - name: link_mail
+    properties: {role: description, text: Email, icon: 'fa:envelope-o'}
+    type: Link
+    layout_properties: {x: 0, y: 380, width: 218}
+    data_bindings: []
+    components: []
+  - name: text_box_mail
+    properties: {role: text_box_small, visible: false}
+    type: TextBox
+    layout_properties: {x: 20, y: 380, width: 198}
+  - name: link_phone
+    properties: {role: description, text: Phone, icon: 'fa:phone'}
+    type: Link
+    layout_properties: {x: 0, y: 420, width: 218}
+    data_bindings: []
+  - name: text_box_phone
+    properties: {role: text_box_small, visible: false}
+    type: TextBox
+    layout_properties: {x: 20, y: 420, width: 198}
 - name: xy_panel_detail
   properties: {height: 402}
   type: XYPanel

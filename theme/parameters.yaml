@@ -7,7 +7,7 @@ roles:
   display_in_toolbox: false
   title: Card
 - name: description
-  components: [Label]
+  components: [Label, Link]
 - name: artist_name
   components: [Label, Link]
 - name: grid
