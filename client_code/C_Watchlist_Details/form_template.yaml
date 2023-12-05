@@ -60,7 +60,7 @@ components:
     layout_properties: {x: 0, y: 0, width: 218}
     data_bindings: []
   - name: label_name
-    properties: {}
+    properties: {role: sub_title}
     type: Label
     layout_properties: {x: 0, y: 150, width: 200}
   - name: button_investigate
@@ -74,7 +74,7 @@ components:
     layout_properties: {x: 150, y: 190, width: 50}
     data_bindings: []
   - name: link_spotify
-    properties: {role: description, text: Spotify, icon: 'fa:spotify'}
+    properties: {role: description, text: '-', icon: 'fa:spotify'}
     type: Link
     layout_properties: {x: 0, y: 270, width: 218}
     components: []
@@ -88,7 +88,7 @@ components:
     type: TextBox
     layout_properties: {x: 20, y: 270, width: 200}
   - name: link_insta
-    properties: {role: description, text: Instagram, icon: 'fa:instagram'}
+    properties: {role: description, text: '-', icon: 'fa:instagram'}
     type: Link
     layout_properties: {x: 0, y: 310, width: 218}
     data_bindings: []

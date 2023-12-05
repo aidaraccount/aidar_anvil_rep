@@ -51,9 +51,22 @@ class C_Watchlist_Details(C_Watchlist_DetailsTemplate):
   def refresh_watchlist_details (self, cur_model_id, cur_ai_artist_id, **event_args):
     cur_ai_artist_id = cur_ai_artist_id
     details = json.loads(anvil.server.call('get_watchlist_details', cur_model_id, cur_ai_artist_id))
-    self.image_detail.source = details["ArtistPictureURL"]
-    self.label_name.text = details["Name"]
-    # ..
+    self.image_detail.source = details[0]["ArtistPictureURL"]
+    self.label_name.text = details[0]["Name"]    
+
+    if details[0]["SpotifyLink"] == None:
+      self.link_spotify.text = 'Profile'
+      self.link_spotify.url = details[0]["ArtistURL"]
+    else:
+      self.link_spotify.text = 'Profile'
+      self.link_spotify.url = details[0]["SpotifyLink"]
+    
+    if details[0]["InstaLink"] == None: self.link_insta.text = '-'
+    else: self.link_insta.text = details[0]["InstaLink"]
+    if details[0]["Mail"] == None: self.link_mail.text = '-'
+    else: self.link_mail.text = details[0]["Mail"]
+    if details[0]["Phone"] == None: self.link_phone.text = '-'
+    else: self.link_phone.text = details[0]["Phone"]
   
   def refresh_watchlist_notes (self, cur_model_id, cur_ai_artist_id, **event_args):
     cur_ai_artist_id = cur_ai_artist_id
@@ -71,7 +84,15 @@ class C_Watchlist_Details(C_Watchlist_DetailsTemplate):
       self.text_box_insta.visible = True
       self.text_box_mail.visible = True
       self.text_box_phone.visible = True
+      
       # fill text boxes
+      details = json.loads(anvil.server.call('get_watchlist_details', cur_model_id, cur_ai_artist_id))
+      if details[0]["SpotifyLink"] == None: self.text_box_spotify.text = details[0]["ArtistURL"]
+      else: self.text_box_spotify.text = details[0]["SpotifyLink"]
+      self.text_box_insta.text = details[0]["InstaLink"]
+      self.text_box_mail.text = details[0]["Mail"]
+      self.text_box_phone.text = details[0]["Phone"]
+    
     else:
       self.button_edit.icon = 'fa:edit'
       self.text_box_spotify.visible = False
