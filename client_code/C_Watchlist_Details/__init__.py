@@ -114,4 +114,5 @@ class C_Watchlist_Details(C_Watchlist_DetailsTemplate):
       # save text boxes
       self.refresh_watchlist_details(cur_model_id, cur_ai_artist_id)
 
+
     

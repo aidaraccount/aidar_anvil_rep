@@ -11,14 +11,18 @@ components:
   - name: image_1
     properties: {height: 108, display_mode: zoom_to_fill}
     type: Image
-    layout_properties: {x: 0, y: 0, width: 224}
+    layout_properties: {x: 0, y: 0, width: 130}
     data_bindings:
     - {property: source, code: 'self.item[''ArtistPictureURL'']', writeback: false}
   - name: link_selection
-    properties: {role: artist_name_shadow}
+    properties: {role: artist_name_shadow, font_size: 17}
     type: Link
-    layout_properties: {x: 10, y: 50, width: 200}
+    layout_properties: {x: 5, y: 70, width: 125}
     data_bindings:
     - {property: text, code: 'self.item[''Name'']', writeback: false}
     - {property: url, code: 'self.item[''ArtistID'']', writeback: false}
     event_bindings: {click: link_selection_click}
+  - name: radio_button_notification
+    properties: {text: '', spacing_below: none, spacing_above: none, group_name: ''}
+    type: RadioButton
+    layout_properties: {x: 110, y: -15, width: 25}

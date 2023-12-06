@@ -1,6 +1,6 @@
 container:
   type: ColumnPanel
-  properties: {col_widths: '{"UMKIPM":15,"DORKHT":45,"NOGYFU":20,"MDQKYT":40}'}
+  properties: {col_widths: '{"UMKIPM":15,"DORKHT":63}'}
 components:
 - type: ColumnPanel
   properties: {col_widths: '{}'}
@@ -9,7 +9,7 @@ components:
   components:
   - type: Label
     properties: {role: title, align: left, tooltip: '', border: '', foreground: '',
-      visible: true, text: Your Watchlist, font_size: null, font: '', spacing_above: small,
+      visible: true, text: My Watchlist, font_size: null, font: '', spacing_above: small,
       icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
       underline: false, icon: ''}
     name: label_1_copy
@@ -39,128 +39,207 @@ components:
       the Watchlist', role: description, align: center, bold: false}
   type: Label
   layout_properties: {grid_position: 'BBWYLC,CQVMNJ'}
-- name: xy_panel_selection
-  properties: {height: '520'}
-  type: XYPanel
+- name: column_panel_5
+  properties: {role: grid}
+  type: ColumnPanel
   layout_properties: {grid_position: 'HHCFTV,UMKIPM'}
-  data_bindings: []
   components:
-  - name: repeating_panel_selection
-    properties: {item_template: C_Watchlist_Details.SelectionTemplate}
-    type: RepeatingPanel
-    layout_properties: {x: 0, y: 0, width: 226.66699999999997}
-- name: xy_panel_1
-  properties: {height: '520'}
-  type: XYPanel
-  layout_properties: {grid_position: 'HHCFTV,DORKHT MHDPRV,NOGYFU'}
+  - name: xy_panel_selection
+    properties: {height: 645}
+    type: XYPanel
+    layout_properties: {grid_position: 'DQUOJO,QMJMSD'}
+    data_bindings: []
+    components:
+    - name: repeating_panel_selection
+      properties: {item_template: C_Watchlist_Details.SelectionTemplate}
+      type: RepeatingPanel
+      layout_properties: {x: 13, y: 100, width: 132.6666717529297}
+    - name: column_panel_6
+      properties: {}
+      type: ColumnPanel
+      layout_properties: {x: 8, y: 10, width: 145.6666717529297}
+      components:
+      - name: label_6
+        properties: {text: Sort by, spacing_below: none, spacing_above: none, role: description}
+        type: Label
+        layout_properties: {grid_position: 'GGDNCK,PBXNPG'}
+      - name: drop_down_1
+        properties:
+          role: text_box_small
+          items: [Notification, Status, Priority]
+          spacing_above: none
+          font_size: 14
+          background: ''
+        type: DropDown
+        layout_properties: {grid_position: 'ENBHYO,ULEPYC'}
+- name: column_panel_4
+  properties: {col_widths: '{"FADFZU":20,"TDEVWC":40}', background: '', role: grid}
+  type: ColumnPanel
+  layout_properties: {grid_position: 'HHCFTV,DORKHT'}
   components:
-  - name: image_detail
-    properties: {height: '150', display_mode: zoom_to_fill}
-    type: Image
-    layout_properties: {x: 0, y: 0, width: 218}
+  - name: xy_panel_1
+    properties: {height: 486}
+    type: XYPanel
+    layout_properties: {grid_position: 'HDFDKN,FADFZU'}
+    components:
+    - name: image_detail
+      properties: {height: '150', display_mode: zoom_to_fill}
+      type: Image
+      layout_properties: {x: 10, y: 10, width: 218}
+      data_bindings: []
+    - name: label_name
+      properties: {role: sub_title}
+      type: Label
+      layout_properties: {x: 10, y: 160, width: 200}
+    - name: button_investigate
+      properties: {text: investigate, align: left, role: feature, background: 'theme:Orange',
+        foreground: 'theme:Text_DecentWhite'}
+      type: Button
+      layout_properties: {x: 10, y: 205, width: 94}
+    - name: button_delete
+      properties: {text: '', icon: 'fa:trash-o', icon_align: top, role: feature, background: ''}
+      type: Button
+      layout_properties: {x: 160, y: 205, width: 50}
+      data_bindings: []
+    - name: link_spotify
+      properties: {role: description, text: '-', icon: 'fa:spotify'}
+      type: Link
+      layout_properties: {x: 10, y: 270, width: 218}
+      components: []
+    - name: button_edit
+      properties: {text: '', icon: 'fa:edit', role: feature, background: ''}
+      type: Button
+      layout_properties: {x: 114, y: 205, width: 40}
+      event_bindings: {click: button_edit_click}
+    - name: text_box_spotify
+      properties: {role: text_box_small, visible: false, background: 'theme:Sidebar
+          Background', foreground: 'theme:Text_DecentWhite', font_size: 14}
+      type: TextBox
+      layout_properties: {x: 30, y: 270, width: 200}
+      event_bindings: {}
+    - name: link_insta
+      properties: {role: description, text: '-', icon: 'fa:instagram'}
+      type: Link
+      layout_properties: {x: 10, y: 310, width: 218}
+      data_bindings: []
+      components: []
+    - name: text_box_insta
+      properties: {role: text_box_small, visible: false, background: 'theme:Sidebar
+          Background', foreground: 'theme:Text_DecentWhite', font_size: 14}
+      type: TextBox
+      layout_properties: {x: 30, y: 310, width: 200}
+    - name: link_mail
+      properties: {role: description, text: Email, icon: 'fa:envelope-o'}
+      type: Link
+      layout_properties: {x: 10, y: 380, width: 218}
+      data_bindings: []
+      components: []
+    - name: text_box_mail
+      properties: {role: text_box_small, visible: false, background: 'theme:Sidebar
+          Background', foreground: 'theme:Text_DecentWhite', font_size: 14}
+      type: TextBox
+      layout_properties: {x: 30, y: 380, width: 198}
+    - name: link_phone
+      properties: {role: description, text: Phone, icon: 'fa:phone'}
+      type: Link
+      layout_properties: {x: 10, y: 420, width: 218}
+      data_bindings: []
+    - name: text_box_phone
+      properties: {role: text_box_small, visible: false, background: 'theme:Sidebar
+          Background', foreground: 'theme:Text_DecentWhite', font_size: 14}
+      type: TextBox
+      layout_properties: {x: 30, y: 420, width: 198}
+  - name: flow_panel_tags
+    properties: {}
+    type: FlowPanel
+    layout_properties: {grid_position: 'HDFDKN,TDEVWC WHSDQK,GQOYME'}
+    components:
+    - name: column_panel_1
+      properties: {}
+      type: ColumnPanel
+      components:
+      - name: label_3
+        properties: {text: 'Status:', role: description, spacing_below: none, spacing_above: none}
+        type: Label
+        layout_properties: {grid_position: 'SEAGFD,LIVYLS'}
+      - name: drop_down_status
+        properties:
+          placeholder: ''
+          items: [Action required, Requires revision, Build connection, Awaiting response,
+            Waiting for decision, Exploring opportunities, Positive response, In negotiations,
+            Contract in progress, Reconnect later, Not interested]
+          role: text_box_small
+          include_placeholder: false
+          spacing_above: none
+          font_size: 14
+          background: ''
+        type: DropDown
+        layout_properties: {grid_position: 'GQIXDW,BSUZTI'}
+      layout_properties: {width: 166.783}
+    - name: column_panel_2
+      properties: {}
+      type: ColumnPanel
+      components:
+      - name: label_4
+        properties: {text: 'Priority:', spacing_below: none, spacing_above: none,
+          role: description}
+        type: Label
+        layout_properties: {grid_position: 'BNWMJO,BCVWBP'}
+      - name: drop_down_priority
+        properties:
+          role: text_box_small
+          items: [very low, low, mid, high, very high]
+          placeholder: ''
+          include_placeholder: false
+          spacing_above: none
+          font_size: 14
+          background: ''
+        type: DropDown
+        layout_properties: {grid_position: 'VBUOUP,TQLNTY'}
+      layout_properties: {width: 112.733}
+    - name: column_panel_3
+      properties: {}
+      type: ColumnPanel
+      components:
+      - name: label_5
+        properties: {text: 'Set Reminder:', spacing_below: none, spacing_above: none,
+          role: description}
+        type: Label
+        layout_properties: {grid_position: 'PJXQTA,ZFSSWV'}
+      - name: date_picker_reminder
+        properties: {placeholder: '', role: text_box_small, spacing_above: none, font_size: 14,
+          background: ''}
+        type: DatePicker
+        layout_properties: {grid_position: 'DCXDMG,GTUPJT', full_width_row: false}
+      layout_properties: {width: 155}
+  - name: xy_panel_detail
+    properties: {height: 402}
+    type: XYPanel
+    layout_properties: {grid_position: 'HDFDKN,TDEVWC TADBWH,CJRIQG'}
+    components:
+    - name: repeating_panel_detail
+      properties: {item_template: C_Watchlist_Details.DetailTemplate, spacing_above: none}
+      type: RepeatingPanel
+      layout_properties: {x: 0, y: 0, width: 494}
     data_bindings: []
-  - name: label_name
-    properties: {role: sub_title}
-    type: Label
-    layout_properties: {x: 0, y: 150, width: 200}
-  - name: button_investigate
-    properties: {text: investigate, align: left, role: feature, background: 'theme:Orange',
-      foreground: 'theme:Text_DecentWhite'}
-    type: Button
-    layout_properties: {x: 0, y: 190, width: 94}
-  - name: button_delete
-    properties: {text: '', icon: 'fa:trash-o', icon_align: top, role: feature}
-    type: Button
-    layout_properties: {x: 150, y: 190, width: 50}
-    data_bindings: []
-  - name: link_spotify
-    properties: {role: description, text: '-', icon: 'fa:spotify'}
-    type: Link
-    layout_properties: {x: 0, y: 270, width: 218}
-    components: []
-  - name: button_edit
-    properties: {text: '', icon: 'fa:edit', role: feature}
-    type: Button
-    layout_properties: {x: 104, y: 190, width: 40}
-    event_bindings: {click: button_edit_click}
-  - name: text_box_spotify
-    properties: {role: text_box_small, visible: false}
-    type: TextBox
-    layout_properties: {x: 20, y: 270, width: 200}
-  - name: link_insta
-    properties: {role: description, text: '-', icon: 'fa:instagram'}
-    type: Link
-    layout_properties: {x: 0, y: 310, width: 218}
-    data_bindings: []
-    components: []
-  - name: text_box_insta
-    properties: {role: text_box_small, visible: false}
-    type: TextBox
-    layout_properties: {x: 20, y: 310, width: 200}
-  - name: link_mail
-    properties: {role: description, text: Email, icon: 'fa:envelope-o'}
-    type: Link
-    layout_properties: {x: 0, y: 380, width: 218}
-    data_bindings: []
-    components: []
-  - name: text_box_mail
-    properties: {role: text_box_small, visible: false}
-    type: TextBox
-    layout_properties: {x: 20, y: 380, width: 198}
-  - name: link_phone
-    properties: {role: description, text: Phone, icon: 'fa:phone'}
-    type: Link
-    layout_properties: {x: 0, y: 420, width: 218}
-    data_bindings: []
-  - name: text_box_phone
-    properties: {role: text_box_small, visible: false}
-    type: TextBox
-    layout_properties: {x: 20, y: 420, width: 198}
-- name: flow_panel_tags
-  properties: {}
-  type: FlowPanel
-  layout_properties: {grid_position: 'HHCFTV,DORKHT MHDPRV,MDQKYT AGLAZP,XDWCNG'}
-  components:
-  - name: drop_down_status
-    properties:
-      placeholder: ''
-      items: [Action required, Requires revision, Build connection, Awaiting response,
-        Waiting for decision, Exploring opportunities, Positive response, In negotiations,
-        Contract in progress, Reconnect later, Not interested]
-      role: text_box_small
-      include_placeholder: false
-    type: DropDown
-    layout_properties: {width: 144}
-  - name: drop_down_priority
-    properties:
-      role: text_box_small
-      items: [very low, low, mid, high, very high]
-      placeholder: ''
-      include_placeholder: false
-    type: DropDown
-    layout_properties: {width: 104}
-  - name: date_picker_reminder
-    properties: {placeholder: '', role: text_box_small}
-    type: DatePicker
-    layout_properties: {width: 150}
-- name: xy_panel_detail
-  properties: {height: 402}
-  type: XYPanel
-  layout_properties: {grid_position: 'HHCFTV,DORKHT MHDPRV,MDQKYT FVCING,DLPSEW'}
-  components:
-  - name: repeating_panel_detail
-    properties: {item_template: C_Watchlist_Details.DetailTemplate, spacing_above: none}
-    type: RepeatingPanel
-    layout_properties: {x: 0, y: 0, width: 468}
-  data_bindings: []
-- name: text_area_note
-  properties: {role: text_box_small, height: '60', placeholder: Add a note}
-  type: TextArea
-  layout_properties: {grid_position: 'HHCFTV,DORKHT MHDPRV,MDQKYT DZXAUS,ZTADSF'}
-- name: button_note
-  properties: {text: save, align: right, role: feature}
-  type: Button
-  layout_properties: {grid_position: 'HHCFTV,DORKHT MHDPRV,MDQKYT CJRQZY,CHUPLN'}
-  event_bindings: {click: button_note_click}
+  - name: flow_panel_1
+    properties: {}
+    type: FlowPanel
+    layout_properties: {grid_position: 'HDFDKN,TDEVWC JZWHWE,QERXVI'}
+    components:
+    - name: column_panel_7
+      properties: {}
+      type: ColumnPanel
+      layout_properties: {width: 495}
+      components:
+      - name: text_area_note
+        properties: {role: text_box_small, height: '60', placeholder: Add a note}
+        type: TextArea
+        layout_properties: {grid_position: 'HOAKDL,TOMDSC'}
+      - name: button_note
+        properties: {text: save, align: right, role: feature}
+        type: Button
+        layout_properties: {grid_position: 'MZRLCQ,PEIJCC'}
+        event_bindings: {click: button_note_click}
 is_package: true
 custom_component: true
