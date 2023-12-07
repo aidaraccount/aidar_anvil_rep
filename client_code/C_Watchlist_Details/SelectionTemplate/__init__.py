@@ -27,5 +27,5 @@ class SelectionTemplate(SelectionTemplateTemplate):
     
     components = self.parent.get_components()
     for comp in components:
-      comp.border = 'none'
-    self.border = '1px solid #fd652d' # orange
+      comp.image_1.border = 'none'
+    self.image_1.border = '1px solid #fd652d' # orange

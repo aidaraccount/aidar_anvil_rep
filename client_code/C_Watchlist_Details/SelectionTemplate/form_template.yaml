@@ -9,7 +9,7 @@ components:
   layout_properties: {grid_position: 'NHPVXS,VAIIKE'}
   components:
   - name: image_1
-    properties: {height: 108, display_mode: zoom_to_fill}
+    properties: {height: 108, display_mode: zoom_to_fill, role: grid}
     type: Image
     layout_properties: {x: 0, y: 0, width: 130}
     data_bindings:

@@ -30,7 +30,7 @@ class C_Watchlist_Details(C_Watchlist_DetailsTemplate):
       self.spacer_1.visible = False
       
       self.repeating_panel_selection.items = watchlist_selection
-      self.repeating_panel_selection.get_components()[0].border = '1px solid #fd652d' # orange
+      self.repeating_panel_selection.get_components()[0].image_1.border = '1px solid #fd652d' # orange
       
       global cur_ai_artist_id
       cur_ai_artist_id = watchlist_selection[0]['ArtistID']
@@ -82,7 +82,9 @@ class C_Watchlist_Details(C_Watchlist_DetailsTemplate):
   
   def refresh_watchlist_notes (self, cur_model_id, cur_ai_artist_id, **event_args):
     cur_ai_artist_id = cur_ai_artist_id
-    self.repeating_panel_detail.items = json.loads(anvil.server.call('get_watchlist_notes', cur_model_id, cur_ai_artist_id))
+    watchlist_notes = json.loads(anvil.server.call('get_watchlist_notes', cur_model_id, cur_ai_artist_id))
+    print(watchlist_notes)
+    self.repeating_panel_detail.items = watchlist_notes
   
   def button_note_click(self, **event_args):
     anvil.server.call('add_note', user["user_id"], cur_model_id, cur_ai_artist_id, "", "", self.text_area_note.text)

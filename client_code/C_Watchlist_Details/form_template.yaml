@@ -53,11 +53,11 @@ components:
     - name: repeating_panel_selection
       properties: {item_template: C_Watchlist_Details.SelectionTemplate}
       type: RepeatingPanel
-      layout_properties: {x: 13, y: 100, width: 132.6666717529297}
+      layout_properties: {x: 13, y: 95, width: 132.6666717529297}
     - name: column_panel_6
       properties: {}
       type: ColumnPanel
-      layout_properties: {x: 8, y: 10, width: 145.6666717529297}
+      layout_properties: {x: 13, y: 5, width: 132}
       components:
       - name: label_6
         properties: {text: Sort by, spacing_below: none, spacing_above: none, role: description}
