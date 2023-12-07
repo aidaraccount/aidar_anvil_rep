@@ -26,10 +26,34 @@ class C_Watchlist_Details(C_Watchlist_DetailsTemplate):
   def update_watchlist_selection(self, **event_args):
     watchlist_selection = json.loads(anvil.server.call('get_watchlist_selection', cur_model_id))
 
+    # transform None to 'None'
     print(watchlist_selection)
-    print(type(watchlist_selection))
-    print(sorted(watchlist_selection, key=lambda x: x['Name']))
-    watchlist_selection = sorted(watchlist_selection, key=lambda x: x['Name'])
+    for item in watchlist_selection:
+        for key, value in item.items():
+            if value is None:
+                if key == "Status": item[key] = 'Action required'
+                if key == "Priority": item[key] = 'mid'
+    print(watchlist_selection)
+
+    if self.drop_down_selection.selected_value == 'Notification':
+      #watchlist_selection = sorted(watchlist_selection, key=lambda x: x.get('Notification', float('inf')))
+      pass
+    if self.drop_down_selection.selected_value == 'Status':
+      priority_order = {'Action required': 1,
+                        'Requires revision': 2,
+                        'Build connection': 3,
+                        'Awaiting response': 4,
+                        'Waiting for decision': 5,
+                        'Exploring opportunities': 6,
+                        'Positive response': 7,
+                        'In negotiations': 8,
+                        'Contract in progress': 9,
+                        'Reconnect later': 10,
+                        'Not interested': 11}
+      watchlist_selection = sorted(watchlist_selection, key=lambda x: priority_order.get(x['Status'], float('inf')))
+    if self.drop_down_selection.selected_value == 'Priority':
+      priority_order = {'very high': 1, 'high': 2, 'mid': 3, 'low': 4, 'very low': 5}
+      watchlist_selection = sorted(watchlist_selection, key=lambda x: priority_order.get(x['Priority'], float('inf')))
     
     if len(watchlist_selection) > 0:
       

@@ -63,7 +63,7 @@ components:
         properties: {text: Sort by, spacing_below: none, spacing_above: none, role: description}
         type: Label
         layout_properties: {grid_position: 'GGDNCK,PBXNPG'}
-      - name: drop_down_1
+      - name: drop_down_selection
         properties:
           role: text_box_small
           items: [Notification, Status, Priority]
@@ -72,6 +72,7 @@ components:
           background: ''
         type: DropDown
         layout_properties: {grid_position: 'ENBHYO,ULEPYC'}
+        event_bindings: {change: update_watchlist_selection}
 - name: column_panel_4
   properties: {col_widths: '{"FADFZU":20,"TDEVWC":40}', background: '', role: grid}
   type: ColumnPanel
@@ -191,7 +192,7 @@ components:
       - name: drop_down_priority
         properties:
           role: text_box_small
-          items: [very low, low, mid, high, very high]
+          items: [very high, high, mid, low, very low]
           placeholder: ''
           include_placeholder: false
           spacing_above: none

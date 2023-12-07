@@ -29,3 +29,10 @@ class SelectionTemplate(SelectionTemplateTemplate):
     for comp in components:
       comp.image_1.border = 'none'
     self.image_1.border = '1px solid #fd652d' # orange
+
+    self.radio_button_notification.selected = False
+    
+  def radio_button_notification_clicked(self, **event_args):
+    print(self.radio_button_notification.selected)
+    # save to db
+    
