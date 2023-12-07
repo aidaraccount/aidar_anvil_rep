@@ -93,8 +93,6 @@ class C_Watchlist_Details(C_Watchlist_DetailsTemplate):
 
   def button_edit_click(self, **event_args):
     details = json.loads(anvil.server.call('get_watchlist_details', cur_model_id, cur_ai_artist_id))
-    print(details[0]["Reminder"])
-    print(type(details[0]["Reminder"]))
     
     if self.button_edit.icon == 'fa:edit':
       self.button_edit.icon = 'fa:save'
@@ -118,24 +116,24 @@ class C_Watchlist_Details(C_Watchlist_DetailsTemplate):
       self.text_box_phone.visible = False
       
       # save text boxes
-      print(self.date_picker_reminder.date)
-      print(type(self.date_picker_reminder.date))
-      print(details)
-      
-      anvil.server.call('update_watchlist_details',
-                        details[0]["LeadID"],
-                        cur_model_id,
-                        cur_ai_artist_id,
-                        self.drop_down_status.selected_value,
-                        self.drop_down_priority.selected_value,
-                        self.date_picker_reminder.date,
-                        self.text_box_spotify.text,
-                        self.text_box_insta.text,
-                        self.text_box_mail.text,
-                        self.text_box_phone.text
-                       )
-      
-      self.refresh_watchlist_details(cur_model_id, cur_ai_artist_id)
+      self.update_watchlist_details()
+  
+  def update_watchlist_details(self, **event_args):
+    details = json.loads(anvil.server.call('get_watchlist_details', cur_model_id, cur_ai_artist_id))
+    anvil.server.call('update_watchlist_details',
+                      details[0]["LeadID"],
+                      cur_model_id,
+                      cur_ai_artist_id,
+                      self.drop_down_status.selected_value,
+                      self.drop_down_priority.selected_value,
+                      self.date_picker_reminder.date,
+                      self.text_box_spotify.text,
+                      self.text_box_insta.text,
+                      self.text_box_mail.text,
+                      self.text_box_phone.text
+                      )
+    
+    self.refresh_watchlist_details(cur_model_id, cur_ai_artist_id)
 
   def button_investigate_click(self, **event_args):
     open_form('Main_In', temp_artist_id = cur_ai_artist_id)
