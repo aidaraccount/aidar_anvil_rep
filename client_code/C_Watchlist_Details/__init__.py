@@ -60,28 +60,26 @@ class C_Watchlist_Details(C_Watchlist_DetailsTemplate):
     self.label_name.text = details[0]["Name"]    
 
     # Links & Contact Information
-    if details[0]["SpotifyLink"] == None:
+    if details[0]["SpotifyLink"] is None:
       self.link_spotify.text = 'Profile'
       self.link_spotify.url = details[0]["ArtistURL"]
     else:
       self.link_spotify.text = 'Profile'
       self.link_spotify.url = details[0]["SpotifyLink"]
     
-    if details[0]["InstaLink"] == None: self.link_insta.text = '-'
+    if details[0]["InstaLink"] is None: self.link_insta.text = '-'
     else: self.link_insta.text = details[0]["InstaLink"]
-    if details[0]["Mail"] == None: self.link_mail.text = '-'
+    if details[0]["Mail"] is None: self.link_mail.text = '-'
     else: self.link_mail.text = details[0]["Mail"]
-    if details[0]["Phone"] == None: self.link_phone.text = '-'
+    if details[0]["Phone"] is None: self.link_phone.text = '-'
     else: self.link_phone.text = details[0]["Phone"]
 
     # tags
-    if details[0]["Status"] == None: self.drop_down_status.selected_value = 'Action required'
+    if details[0]["Status"] is None: self.drop_down_status.selected_value = 'Action required'
     else: self.drop_down_status.selected_value = details[0]["Status"]
-    if details[0]["Priority"] == None: self.drop_down_priority.selected_value = 'mid'
+    if details[0]["Priority"] is None: self.drop_down_priority.selected_value = 'mid'
     else: self.drop_down_priority.selected_value = details[0]["Priority"]
-    print(details[0]["Reminder"])
-    print(type(details[0]["Reminder"]))
-    if details[0]["Reminder"] == None: self.date_picker_reminder.date = ''
+    if details[0]["Reminder"] is None: self.date_picker_reminder.date = ''
     else: self.date_picker_reminder.date = details[0]["Reminder"]
   
   def refresh_watchlist_notes (self, cur_model_id, cur_ai_artist_id, **event_args):
@@ -95,6 +93,8 @@ class C_Watchlist_Details(C_Watchlist_DetailsTemplate):
 
   def button_edit_click(self, **event_args):
     details = json.loads(anvil.server.call('get_watchlist_details', cur_model_id, cur_ai_artist_id))
+    print(details[0]["Reminder"])
+    print(type(details[0]["Reminder"]))
     
     if self.button_edit.icon == 'fa:edit':
       self.button_edit.icon = 'fa:save'
@@ -129,15 +129,10 @@ class C_Watchlist_Details(C_Watchlist_DetailsTemplate):
                         self.drop_down_status.selected_value,
                         self.drop_down_priority.selected_value,
                         self.date_picker_reminder.date,
-                        ' ',
-                        ' ',
-                        ' ',
-                        ' ',
-                        #
-                        #self.text_box_spotify.text,
-                        #self.text_box_insta.text,
-                        #self.text_box_mail.text,
-                        #self.text_box_phone.text
+                        self.text_box_spotify.text,
+                        self.text_box_insta.text,
+                        self.text_box_mail.text,
+                        self.text_box_phone.text
                        )
       
       self.refresh_watchlist_details(cur_model_id, cur_ai_artist_id)
