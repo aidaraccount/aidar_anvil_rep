@@ -22,11 +22,11 @@ components:
     layout_properties: {grid_position: 'HPXQKF,RERZHF'}
     event_bindings: {click: link_delete_click}
     data_bindings:
-    - {property: url, code: 'self.item[''EventID'']', writeback: false}
+    - {property: url, code: 'self.item[''NoteID'']', writeback: false}
   - name: note
-    properties: {align: left, role: null, spacing_above: none, spacing_below: none,
-      font_size: 15, foreground: 'theme:Text_DecentWhite'}
+    properties: {align: left, role: note, spacing_above: none, spacing_below: none,
+      font_size: null, foreground: ''}
     type: Label
     layout_properties: {grid_position: 'TGFRVJ,JBIUOF'}
     data_bindings:
-    - {property: text, code: '"  " + self.item[''Note'']', writeback: false}
+    - {property: text, code: 'self.item[''Note'']', writeback: false}

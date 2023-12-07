@@ -113,6 +113,11 @@ header>.nav-links>span {
   font-size: 14px;
   color: %color:Text_Grey% !important;
 }
+.anvil-role-note {
+  font-size: 14px;
+  color: %color:Text_DecentWhite% !important;
+  padding-left: 7px;
+}
 .anvil-role-artist_name {
   font-size: 20px;
   font-weight: bold;

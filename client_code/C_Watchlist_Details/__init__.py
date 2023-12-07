@@ -18,10 +18,12 @@ class C_Watchlist_Details(C_Watchlist_DetailsTemplate):
     user = anvil.users.get_user()
     global cur_model_id
     cur_model_id = anvil.server.call('get_model_id',  user["user_id"])
-    
-    # get information for selection bar on the left
-    anvil.server.reset_session()
 
+    self.update_watchlist_selection()
+
+  
+  # get information for selection bar on the left
+  def update_watchlist_selection(self, **event_args):
     watchlist_selection = json.loads(anvil.server.call('get_watchlist_selection', cur_model_id))
     if len(watchlist_selection) > 0:
       
@@ -82,14 +84,12 @@ class C_Watchlist_Details(C_Watchlist_DetailsTemplate):
   
   def refresh_watchlist_notes (self, cur_model_id, cur_ai_artist_id, **event_args):
     cur_ai_artist_id = cur_ai_artist_id
-    watchlist_notes = json.loads(anvil.server.call('get_watchlist_notes', cur_model_id, cur_ai_artist_id))
-    print(watchlist_notes)
-    self.repeating_panel_detail.items = watchlist_notes
+    self.repeating_panel_detail.items = json.loads(anvil.server.call('get_watchlist_notes', cur_model_id, cur_ai_artist_id))
   
   def button_note_click(self, **event_args):
     anvil.server.call('add_note', user["user_id"], cur_model_id, cur_ai_artist_id, "", "", self.text_area_note.text)
     self.text_area_note.text = ""
-    self.refresh_watchlist_detail(cur_model_id, cur_ai_artist_id)
+    self.refresh_watchlist_notes(cur_model_id, cur_ai_artist_id)
 
   def button_edit_click(self, **event_args):
     if self.button_edit.icon == 'fa:edit':
@@ -116,5 +116,10 @@ class C_Watchlist_Details(C_Watchlist_DetailsTemplate):
       # save text boxes
       self.refresh_watchlist_details(cur_model_id, cur_ai_artist_id)
 
+  def button_investigate_click(self, **event_args):
+    open_form('Main_In', temp_artist_id = cur_ai_artist_id)
 
+  def button_delete_click(self, **event_args):
+    anvil.server.call('remove_from_watchlist', cur_model_id, cur_ai_artist_id)
+    self.update_watchlist_selection()
     

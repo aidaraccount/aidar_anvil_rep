@@ -12,7 +12,9 @@ class DetailTemplate(DetailTemplateTemplate):
     self.init_components(**properties)
 
     # Any code you write here will run before the form opens.
+    if self.item['NoteID'] == None:
+      self.link_delete.visible = False
   
   def link_delete_click(self, **event_args):
-    print(self.link_delete.url)
-    #anvil.server.call('delete_watchlist_note', self.link_delete.url)
+    anvil.server.call('delete_watchlist_note', self.link_delete.url)
+    self.column_panel_1.visible = False

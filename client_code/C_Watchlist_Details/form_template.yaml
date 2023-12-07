@@ -96,11 +96,13 @@ components:
         foreground: 'theme:Text_DecentWhite'}
       type: Button
       layout_properties: {x: 10, y: 205, width: 94}
+      event_bindings: {click: button_investigate_click}
     - name: button_delete
       properties: {text: '', icon: 'fa:trash-o', icon_align: top, role: feature, background: ''}
       type: Button
       layout_properties: {x: 160, y: 205, width: 50}
       data_bindings: []
+      event_bindings: {click: button_delete_click}
     - name: link_spotify
       properties: {role: description, text: '-', icon: 'fa:spotify'}
       type: Link
