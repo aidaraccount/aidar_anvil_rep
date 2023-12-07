@@ -79,7 +79,9 @@ class C_Watchlist_Details(C_Watchlist_DetailsTemplate):
     else: self.drop_down_status.selected_value = details[0]["Status"]
     if details[0]["Priority"] == None: self.drop_down_priority.selected_value = 'mid'
     else: self.drop_down_priority.selected_value = details[0]["Priority"]
-    if details[0]["Reminder"] == None: self.date_picker_reminder.date = None
+    print(details[0]["Reminder"])
+    print(type(details[0]["Reminder"]))
+    if details[0]["Reminder"] == None: self.date_picker_reminder.date = ''
     else: self.date_picker_reminder.date = details[0]["Reminder"]
   
   def refresh_watchlist_notes (self, cur_model_id, cur_ai_artist_id, **event_args):
@@ -92,6 +94,8 @@ class C_Watchlist_Details(C_Watchlist_DetailsTemplate):
     self.refresh_watchlist_notes(cur_model_id, cur_ai_artist_id)
 
   def button_edit_click(self, **event_args):
+    details = json.loads(anvil.server.call('get_watchlist_details', cur_model_id, cur_ai_artist_id))
+    
     if self.button_edit.icon == 'fa:edit':
       self.button_edit.icon = 'fa:save'
       self.text_box_spotify.visible = True
@@ -100,7 +104,6 @@ class C_Watchlist_Details(C_Watchlist_DetailsTemplate):
       self.text_box_phone.visible = True
       
       # fill text boxes
-      details = json.loads(anvil.server.call('get_watchlist_details', cur_model_id, cur_ai_artist_id))
       if details[0]["SpotifyLink"] == None: self.text_box_spotify.text = details[0]["ArtistURL"]
       else: self.text_box_spotify.text = details[0]["SpotifyLink"]
       self.text_box_insta.text = details[0]["InstaLink"]
@@ -113,7 +116,30 @@ class C_Watchlist_Details(C_Watchlist_DetailsTemplate):
       self.text_box_insta.visible = False
       self.text_box_mail.visible = False
       self.text_box_phone.visible = False
+      
       # save text boxes
+      print(self.date_picker_reminder.date)
+      print(type(self.date_picker_reminder.date))
+      print(details)
+      
+      anvil.server.call('update_watchlist_details',
+                        details[0]["LeadID"],
+                        cur_model_id,
+                        cur_ai_artist_id,
+                        self.drop_down_status.selected_value,
+                        self.drop_down_priority.selected_value,
+                        self.date_picker_reminder.date,
+                        ' ',
+                        ' ',
+                        ' ',
+                        ' ',
+                        #
+                        #self.text_box_spotify.text,
+                        #self.text_box_insta.text,
+                        #self.text_box_mail.text,
+                        #self.text_box_phone.text
+                       )
+      
       self.refresh_watchlist_details(cur_model_id, cur_ai_artist_id)
 
   def button_investigate_click(self, **event_args):
