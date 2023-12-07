@@ -25,6 +25,12 @@ class C_Watchlist_Details(C_Watchlist_DetailsTemplate):
   # get information for selection bar on the left
   def update_watchlist_selection(self, **event_args):
     watchlist_selection = json.loads(anvil.server.call('get_watchlist_selection', cur_model_id))
+
+    print(watchlist_selection)
+    print(type(watchlist_selection))
+    print(sorted(watchlist_selection, key=lambda x: x['Name']))
+    watchlist_selection = sorted(watchlist_selection, key=lambda x: x['Name'])
+    
     if len(watchlist_selection) > 0:
       
       self.label_1.visible = False
