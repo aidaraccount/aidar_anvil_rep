@@ -5,6 +5,7 @@ import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
 import anvil.users
+import json
 
 from ..C_Investigate import C_Investigate
 from ..C_Filter import C_Filter
@@ -28,8 +29,6 @@ class Main_In(Main_InTemplate):
     global cur_model_id
     user = anvil.users.get_user()
 
-    print(user["user_id"])
-
     if user["user_id"] == None:
       cur_model_id = None
     else:
@@ -50,7 +49,9 @@ class Main_In(Main_InTemplate):
     else:
       self.content_panel.add_component(C_Investigate(temp_artist_id = temp_artist_id))
       self.link_investigate.background = "theme:Accent 2"
-    
+      self.update_no_notifications()
+      
+  
   def logo_click(self, **event_args):
     open_form('Main_Out')
     
@@ -59,6 +60,9 @@ class Main_In(Main_InTemplate):
     if (anvil.users.get_user() == None):
       open_form('Main_Out')
 
+  def update_no_notifications(self, **event_args):
+    NoNotifications = json.loads(anvil.server.call('get_no_notifications', cur_model_id))
+    self.link_watchlist.text = 'Watchlist (' + str(NoNotifications[0]["count(*)"]) + ')'
 
   # AI-MODELS
   def link_models_click(self, **event_args):

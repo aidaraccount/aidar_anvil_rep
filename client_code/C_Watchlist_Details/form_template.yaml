@@ -9,7 +9,7 @@ components:
   components:
   - type: Label
     properties: {role: title, align: left, tooltip: '', border: '', foreground: '',
-      visible: true, text: My Watchlist, font_size: null, font: '', spacing_above: small,
+      visible: true, text: Watchlist, font_size: null, font: '', spacing_above: small,
       icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
       underline: false, icon: ''}
     name: label_1_copy
@@ -192,7 +192,7 @@ components:
       - name: drop_down_priority
         properties:
           role: text_box_small
-          items: [very high, high, mid, low, very low]
+          items: [very low, low, mid, high, very high]
           placeholder: ''
           include_placeholder: false
           spacing_above: none

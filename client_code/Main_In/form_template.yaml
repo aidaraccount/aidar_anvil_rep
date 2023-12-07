@@ -40,6 +40,7 @@ components:
   type: Link
   layout_properties: {slot: sidebar}
   event_bindings: {click: watchlist_click}
+  data_bindings: []
 - type: Link
   properties: {role: null, url: '', align: left, tooltip: '', border: '', foreground: '',
     visible: true, text: Ratings, font_size: null, wrap_on: mobile, font: '', col_spacing: medium,

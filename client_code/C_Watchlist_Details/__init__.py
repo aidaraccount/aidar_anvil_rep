@@ -24,20 +24,20 @@ class C_Watchlist_Details(C_Watchlist_DetailsTemplate):
   
   # get information for selection bar on the left
   def update_watchlist_selection(self, **event_args):
+    # 1. get selection data
     watchlist_selection = json.loads(anvil.server.call('get_watchlist_selection', cur_model_id))
 
+    # 2. sort it according to the drop_down_selection
     # transform None to 'None'
-    print(watchlist_selection)
     for item in watchlist_selection:
         for key, value in item.items():
             if value is None:
+                if key == "Notification": item[key] = False
                 if key == "Status": item[key] = 'Action required'
                 if key == "Priority": item[key] = 'mid'
-    print(watchlist_selection)
-
+    
     if self.drop_down_selection.selected_value == 'Notification':
-      #watchlist_selection = sorted(watchlist_selection, key=lambda x: x.get('Notification', float('inf')))
-      pass
+      watchlist_selection = sorted(watchlist_selection, key=lambda x: x.get('Notification', float('inf')), reverse=True)
     if self.drop_down_selection.selected_value == 'Status':
       priority_order = {'Action required': 1,
                         'Requires revision': 2,
@@ -54,28 +54,36 @@ class C_Watchlist_Details(C_Watchlist_DetailsTemplate):
     if self.drop_down_selection.selected_value == 'Priority':
       priority_order = {'very high': 1, 'high': 2, 'mid': 3, 'low': 4, 'very low': 5}
       watchlist_selection = sorted(watchlist_selection, key=lambda x: priority_order.get(x['Priority'], float('inf')))
-    
+
+    # 3. present the data if present, else show dummy text
     if len(watchlist_selection) > 0:
-      
+
+      # hide dummy text
       self.label_1.visible = False
       self.label_2.visible = False
       self.spacer_1.visible = False
-      
+
+      # add data to repeating_panel_selection and highlight the first selected artist
       self.repeating_panel_selection.items = watchlist_selection
       self.repeating_panel_selection.get_components()[0].image_1.border = '1px solid #fd652d' # orange
-      
+
+      # set initial values for all parameters of C_Watchlist_Details
       global cur_ai_artist_id
       cur_ai_artist_id = watchlist_selection[0]['ArtistID']
       self.refresh_watchlist_details(cur_model_id, cur_ai_artist_id)
       self.refresh_watchlist_notes(cur_model_id, cur_ai_artist_id)
-          
-    else:
-      self.label_description.visible = False
-      self.repeating_panel_selection.visible = False
-      self.repeating_panel_detail.visible = False
-      self.text_area_note.visible = False
-      self.button_note.visible = False
+
+      # set initial values for all parameters of C.SelectionTemplate
+      components = self.repeating_panel_selection.get_components()
+      for c in range(0, len(components)):
+        if watchlist_selection[c]["Notification"] == True:
+          components[c].set_notification_true()
     
+    else:
+      # hide all watchlist content and only show dummy text
+      self.column_panel_5.visible = False
+      self.column_panel_4.visible = False
+      self.label_description.visible = False
 
   def update_cur_ai_artist_id(self, new_value):
     global cur_ai_artist_id
@@ -157,6 +165,7 @@ class C_Watchlist_Details(C_Watchlist_DetailsTemplate):
                       self.drop_down_status.selected_value,
                       self.drop_down_priority.selected_value,
                       self.date_picker_reminder.date,
+                      details[0]["Notification"],
                       self.text_box_spotify.text,
                       self.text_box_insta.text,
                       self.text_box_mail.text,
@@ -164,7 +173,7 @@ class C_Watchlist_Details(C_Watchlist_DetailsTemplate):
                       )
     
     self.refresh_watchlist_details(cur_model_id, cur_ai_artist_id)
-
+  
   def button_investigate_click(self, **event_args):
     open_form('Main_In', temp_artist_id = cur_ai_artist_id)
 
