@@ -22,16 +22,19 @@ class SelectionTemplate(SelectionTemplateTemplate):
     cur_model_id = anvil.server.call('get_model_id',  user["user_id"])
     
   def link_selection_click(self, **event_args):
+    # load the data of the newly selected artist
     cur_ai_artist_id = self.link_selection.url
     self.parent.parent.parent.parent.update_cur_ai_artist_id(self.link_selection.url)
     self.parent.parent.parent.parent.refresh_watchlist_details(cur_model_id, cur_ai_artist_id)
     self.parent.parent.parent.parent.refresh_watchlist_notes(cur_model_id, cur_ai_artist_id)
-    
+
+    # change the border color to the new selected artist
     components = self.parent.get_components()
     for comp in components:
       comp.image_1.border = 'none'
     self.image_1.border = '1px solid #fd652d' # orange
 
+    # update notification status
     self.radio_button_notification.selected = False
     self.update_watchlist_details_notification_false()
   
