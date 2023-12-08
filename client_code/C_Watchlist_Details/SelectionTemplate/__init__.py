@@ -24,9 +24,10 @@ class SelectionTemplate(SelectionTemplateTemplate):
   def link_selection_click(self, **event_args):
     # load the data of the newly selected artist
     cur_ai_artist_id = self.link_selection.url
-    self.parent.parent.parent.parent.update_cur_ai_artist_id(self.link_selection.url)
-    self.parent.parent.parent.parent.refresh_watchlist_details(cur_model_id, cur_ai_artist_id)
-    self.parent.parent.parent.parent.refresh_watchlist_notes(cur_model_id, cur_ai_artist_id)
+    print(f"link_selection_click: {cur_ai_artist_id}")
+    self.parent.parent.parent.parent.update_cur_ai_artist_id(cur_ai_artist_id)
+    self.parent.parent.parent.parent.get_watchlist_details(cur_model_id, cur_ai_artist_id)
+    self.parent.parent.parent.parent.get_watchlist_notes(cur_model_id, cur_ai_artist_id)
 
     # change the border color to the new selected artist
     components = self.parent.get_components()
@@ -52,6 +53,7 @@ class SelectionTemplate(SelectionTemplateTemplate):
   # those two functions are doubles as I was not able to transfer the notification bool to C_Wachtlist_Details
   def update_watchlist_details_notification_true(self, **event_args):
     cur_ai_artist_id = self.link_selection.url
+    print(f"update_watchlist_details_notification_true: {cur_ai_artist_id}")
     details = json.loads(anvil.server.call('get_watchlist_details', cur_model_id, cur_ai_artist_id))
     anvil.server.call('update_watchlist_details',
                       details[0]["LeadID"],
@@ -72,6 +74,7 @@ class SelectionTemplate(SelectionTemplateTemplate):
   
   def update_watchlist_details_notification_false(self, **event_args):
     cur_ai_artist_id = self.link_selection.url
+    print(f"update_watchlist_details_notification_false: {cur_ai_artist_id}")
     details = json.loads(anvil.server.call('get_watchlist_details', cur_model_id, cur_ai_artist_id))
     anvil.server.call('update_watchlist_details',
                       details[0]["LeadID"],
