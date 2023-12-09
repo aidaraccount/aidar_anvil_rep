@@ -185,7 +185,6 @@ class C_Watchlist_Details(C_Watchlist_DetailsTemplate):
     details = json.loads(anvil.server.call('get_watchlist_details', cur_model_id, cur_ai_artist_id))
     print(f"update_watchlist_details - self.text_box_insta.text: {self.text_box_insta.text}")
     anvil.server.call('update_watchlist_details',
-                      details[0]["LeadID"],
                       cur_model_id,
                       cur_ai_artist_id,
                       self.drop_down_status.selected_value,

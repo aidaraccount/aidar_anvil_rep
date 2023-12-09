@@ -56,7 +56,6 @@ class SelectionTemplate(SelectionTemplateTemplate):
     print(f"update_watchlist_details_notification_true: {cur_ai_artist_id}")
     details = json.loads(anvil.server.call('get_watchlist_details', cur_model_id, cur_ai_artist_id))
     anvil.server.call('update_watchlist_details',
-                      details[0]["LeadID"],
                       cur_model_id,
                       cur_ai_artist_id,
                       self.parent.parent.parent.parent.drop_down_status.selected_value,
@@ -77,7 +76,6 @@ class SelectionTemplate(SelectionTemplateTemplate):
     print(f"update_watchlist_details_notification_false: {cur_ai_artist_id}")
     details = json.loads(anvil.server.call('get_watchlist_details', cur_model_id, cur_ai_artist_id))
     anvil.server.call('update_watchlist_details',
-                      details[0]["LeadID"],
                       cur_model_id,
                       cur_ai_artist_id,
                       self.parent.parent.parent.parent.drop_down_status.selected_value,
