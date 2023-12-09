@@ -426,11 +426,22 @@ class C_Investigate(C_InvestigateTemplate):
       self.button_watchlist.foreground = '#f5f4f1' # white
       self.button_watchlist.icon = 'fa:check'
       self.button_watchlist.icon_align = 'right'
-      self.button_watchlist.text = 'adding to Watchlist  '
+      self.button_watchlist.text = 'added to Watchlist  '
       self.column_panel_note.visible = True
+      self.update_watchlist_notification(cur_model_id, artist_id, True)
     else:
       self.button_watchlist.background = ''
       self.button_watchlist.foreground = ''
       self.button_watchlist.icon = ''
-      self.button_watchlist.text = 'add to Watchlist'
+      self.button_watchlist.text = 'adding to Watchlist'
       self.column_panel_note.visible = False
+      self.update_watchlist_notification(cur_model_id, artist_id, False)
+
+  def update_watchlist_notification(self, cur_model_id, artist_id, notification, **event_args):
+    anvil.server.call('update_watchlist_notification',
+                      cur_model_id,
+                      artist_id,
+                      notification
+                      )
+    self.parent.parent.update_no_notifications()
+    

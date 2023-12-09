@@ -37,56 +37,26 @@ class SelectionTemplate(SelectionTemplateTemplate):
 
     # update notification status
     self.radio_button_notification.selected = False
-    self.update_watchlist_details_notification_false()
+    self.update_watchlist_notification(False)
   
   def link_notification_click(self, **event_args):
     if self.radio_button_notification.selected == True:
       self.radio_button_notification.selected = False
-      self.update_watchlist_details_notification_false()
+      self.update_watchlist_notification(False)
     else:
       self.radio_button_notification.selected = True
-      self.update_watchlist_details_notification_true()
+      self.update_watchlist_notification(True)
 
   def set_notification_true(self, **event_args):
     self.radio_button_notification.selected = True
   
-  # those two functions are doubles as I was not able to transfer the notification bool to C_Wachtlist_Details
-  def update_watchlist_details_notification_true(self, **event_args):
+  def update_watchlist_notification(self, notification, **event_args):
     cur_ai_artist_id = self.link_selection.url
     print(f"update_watchlist_details_notification_true: {cur_ai_artist_id}")
     details = json.loads(anvil.server.call('get_watchlist_details', cur_model_id, cur_ai_artist_id))
-    anvil.server.call('update_watchlist_details',
+    anvil.server.call('update_watchlist_notification',
                       cur_model_id,
                       cur_ai_artist_id,
-                      self.parent.parent.parent.parent.drop_down_status.selected_value,
-                      self.parent.parent.parent.parent.drop_down_priority.selected_value,
-                      self.parent.parent.parent.parent.date_picker_reminder.date,
-                      True,
-                      self.parent.parent.parent.parent.text_box_spotify.text,
-                      self.parent.parent.parent.parent.text_box_insta.text,
-                      self.parent.parent.parent.parent.text_box_mail.text,
-                      self.parent.parent.parent.parent.text_box_phone.text
+                      notification
                       )
-
     self.parent.parent.parent.parent.parent.parent.update_no_notifications()
-
-  
-  def update_watchlist_details_notification_false(self, **event_args):
-    cur_ai_artist_id = self.link_selection.url
-    print(f"update_watchlist_details_notification_false: {cur_ai_artist_id}")
-    details = json.loads(anvil.server.call('get_watchlist_details', cur_model_id, cur_ai_artist_id))
-    anvil.server.call('update_watchlist_details',
-                      cur_model_id,
-                      cur_ai_artist_id,
-                      self.parent.parent.parent.parent.drop_down_status.selected_value,
-                      self.parent.parent.parent.parent.drop_down_priority.selected_value,
-                      self.parent.parent.parent.parent.date_picker_reminder.date,
-                      False,
-                      self.parent.parent.parent.parent.text_box_spotify.text,
-                      self.parent.parent.parent.parent.text_box_insta.text,
-                      self.parent.parent.parent.parent.text_box_mail.text,
-                      self.parent.parent.parent.parent.text_box_phone.text
-                      )
-    
-    self.parent.parent.parent.parent.parent.parent.update_no_notifications()
-    
