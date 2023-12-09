@@ -107,9 +107,11 @@ class C_Watchlist_Details(C_Watchlist_DetailsTemplate):
     if details[0]["SpotifyLink"] is None:
       self.link_spotify.text = 'Profile'
       self.link_spotify.url = details[0]["ArtistURL"]
+      self.text_box_spotify.text = details[0]["ArtistURL"]
     else:
       self.link_spotify.text = 'Profile'
       self.link_spotify.url = details[0]["SpotifyLink"]
+      self.text_box_spotify.text = details[0]["SpotifyLink"]
     
     if details[0]["InstaLink"] is None:
       self.link_insta.text = '-'
@@ -117,10 +119,18 @@ class C_Watchlist_Details(C_Watchlist_DetailsTemplate):
     else:
       self.link_insta.text = details[0]["InstaLink"]
       self.text_box_insta.text = details[0]["InstaLink"]
-    if details[0]["Mail"] is None: self.link_mail.text = '-'
-    else: self.link_mail.text = details[0]["Mail"]
-    if details[0]["Phone"] is None: self.link_phone.text = '-'
-    else: self.link_phone.text = details[0]["Phone"]
+    if details[0]["Mail"] is None:
+      self.link_mail.text = '-'
+      self.text_box_mail.text = None
+    else:
+      self.link_mail.text = details[0]["Mail"]
+      self.text_box_mail.text = details[0]["Mail"]
+    if details[0]["Phone"] is None:
+      self.link_phone.text = '-'
+      self.text_box_phone.text = None
+    else:
+      self.link_phone.text = details[0]["Phone"]
+      self.text_box_phone.text = details[0]["Phone"]
 
     # tags
     if details[0]["Status"] is None: self.drop_down_status.selected_value = 'Action required'
