@@ -72,7 +72,7 @@ components:
           background: ''
         type: DropDown
         layout_properties: {grid_position: 'ENBHYO,ULEPYC'}
-        event_bindings: {change: update_watchlist_selection}
+        event_bindings: {change: get_watchlist_selection}
 - name: column_panel_4
   properties: {col_widths: '{"FADFZU":20,"TDEVWC":40}', background: '', role: grid}
   type: ColumnPanel
