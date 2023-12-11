@@ -433,6 +433,9 @@ class C_Investigate(C_InvestigateTemplate):
       self.button_watchlist.text = 'added to Watchlist  '
       self.column_panel_note.visible = True
       self.update_watchlist_notification(cur_model_id, artist_id, True, True)
+      Notification("",
+        title=f"{self.name.text} added to the watchlist!",
+        style="success").show()
     else:
       self.button_watchlist.background = ''
       self.button_watchlist.foreground = ''
@@ -454,6 +457,9 @@ class C_Investigate(C_InvestigateTemplate):
   def add_note(self, **event_args):
     anvil.server.call('add_note', user["user_id"], cur_model_id, artist_id, '', '', self.text_note.text)
     self.text_note.text = ""
-    self.text_note.placeholder = "Note saved! Add another note.."
+    self.text_note.placeholder = "Add another note.."
+    Notification("",
+      title=f"Note saved!",
+      style="success").show()
 
     

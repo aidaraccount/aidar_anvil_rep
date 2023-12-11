@@ -182,8 +182,8 @@ components:
       visible: true, text: Sign Up with AIDAR's Waiting List, font_size: 18, font: GS,
       spacing_above: none, icon_align: left, spacing_below: medium, italic: false,
       background: '', bold: false, underline: false, icon: ''}
-    name: label_9
-    layout_properties: {grid_position: 'RKIEVO,QHHFWM'}
+    name: label_c2a_header
+    layout_properties: {grid_position: 'CKOARF,PZOYGI'}
   - type: Spacer
     properties: {height: 32}
     name: spacer_21
@@ -192,8 +192,8 @@ components:
     properties: {role: input_margin, tooltip: '', border: '', foreground: '', visible: true,
       wrap_on: mobile, col_spacing: small, spacing_above: small, col_widths: '{}',
       spacing_below: small, background: ''}
-    name: column_panel_5
-    layout_properties: {grid_position: 'SRRBNR,XTQXJG'}
+    name: column_panel_call2action
+    layout_properties: {grid_position: 'SRRBNR,XTQXJG XEXAZK,LITYHO'}
     components:
     - type: TextBox
       properties: {role: text_box, align: center, hide_text: false, tooltip: '', placeholder: E-Mail,
@@ -212,6 +212,15 @@ components:
       name: button_1
       layout_properties: {grid_position: 'YKPUIJ,KCCRBU'}
       event_bindings: {click: call2action_text_box_click}
+  - name: label_confirmation
+    properties: {role: artist_name, align: center, tooltip: '', border: '', foreground: '',
+      visible: false, text: 'Thanks for joining our Waiting List!
+
+        We come back to you as soon as possible', font_size: 18, font: GS, spacing_above: none,
+      icon_align: left, spacing_below: medium, italic: false, background: '', bold: false,
+      underline: false, icon: ''}
+    type: Label
+    layout_properties: {grid_position: 'SRRBNR,XTQXJG JFVDJU,YMNXOM'}
   - type: Spacer
     properties: {height: 32}
     name: spacer_22

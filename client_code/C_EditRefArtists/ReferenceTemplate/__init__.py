@@ -28,13 +28,19 @@ class ReferenceTemplate(ReferenceTemplateTemplate):
       self.label_name_2.visible = False
 
   def button_1_click(self, **event_args):
-    anvil.server.call('delete_reference', cur_model_id, self.item[0]['ArtistID'])
-    self.parent.parent.parent.get_references()
+    c = confirm("Do you wish to delete this artist as a reference?")
+    if c is True:
+      anvil.server.call('delete_reference', cur_model_id, self.item[0]['ArtistID'])
+      self.parent.parent.parent.get_references()
 
   def button_2_click(self, **event_args):
-    anvil.server.call('delete_reference', cur_model_id, self.item[1]['ArtistID'])
-    self.parent.parent.parent.get_references()
+    c = confirm("Do you wish to delete this artist as a reference?")
+    if c is True:
+      anvil.server.call('delete_reference', cur_model_id, self.item[1]['ArtistID'])
+      self.parent.parent.parent.get_references()
     
   def button_3_click(self, **event_args):
-    anvil.server.call('delete_reference', cur_model_id, self.item[2]['ArtistID'])
-    self.parent.parent.parent.get_references()
+    c = confirm("Do you wish to delete this artist as a reference?")
+    if c is True:
+      anvil.server.call('delete_reference', cur_model_id, self.item[2]['ArtistID'])
+      self.parent.parent.parent.get_references()

@@ -70,6 +70,10 @@ class Main_Out(Main_OutTemplate):
     try:
       if re.match(r'^[\w\.-]+@[\w\.-]+\.\w+$', self.call2action_text_box.text):
         app_tables.waiters.add_row(Date=datetime.datetime.now(), Mail=self.call2action_text_box.text)
+        self.call2action_text_box.text = ''
+        self.label_c2a_header.visible = False
+        self.column_panel_call2action.visible = False
+        self.label_confirmation.visible = True
         alert(title='Thanks for joining our Waiting List!',
               content='We appreciate your interest in our service and will get back to you as soon as we have the capacity available.\n\nBest regards\nYour AIDAR Team')
       else:

@@ -21,6 +21,15 @@ class SearchRefRows(SearchRefRowsTemplate):
     cur_model_id = anvil.server.call('get_model_id',  user["user_id"])
 
   def inspect_link_click(self, **event_args):
+    if int(self.item["ArtistPopularity_lat"]) > 30:
+      c = confirm(content="Adding very popular artists will result in artist suggestions that are very popular as well.\n\nDo you wish to continue?",
+                  title="ATTENTION! Popular Artist!")
+      if c is True:
+        self.add_ref_artist()
+    else:
+      self.add_ref_artist()
+  
+  def add_ref_artist(self, **event_args):
     status = anvil.server.call('add_ref_artist', user["user_id"], cur_model_id, self.inspect_link.tag)
     if status == 'Event created':
       alert(title='Processing Reference Artist..',
