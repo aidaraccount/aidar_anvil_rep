@@ -1,4 +1,5 @@
 from ._anvil_designer import C_Watchlist_DetailsTemplate
+from ._anvil_designer import C_Watchlist_DetailsTemplate
 from anvil import *
 import anvil.server
 import anvil.users
@@ -119,6 +120,13 @@ class C_Watchlist_Details(C_Watchlist_DetailsTemplate):
     else:
       self.link_insta.text = details[0]["InstaLink"]
       self.text_box_insta.text = details[0]["InstaLink"]
+      
+    if details[0]["ContactName"] is None:
+      self.link_name.text = '-'
+      self.text_box_name.text = None
+    else:
+      self.link_name.text = details[0]["ContactName"]
+      self.text_box_name.text = details[0]["ContactName"]
     if details[0]["Mail"] is None:
       self.link_mail.text = '-'
       self.text_box_mail.text = None
@@ -160,6 +168,7 @@ class C_Watchlist_Details(C_Watchlist_DetailsTemplate):
       self.button_edit.icon = 'fa:save'
       self.text_box_spotify.visible = True
       self.text_box_insta.visible = True
+      self.text_box_name.visible = True
       self.text_box_mail.visible = True
       self.text_box_phone.visible = True
       
@@ -167,6 +176,7 @@ class C_Watchlist_Details(C_Watchlist_DetailsTemplate):
       if details[0]["SpotifyLink"] == None: self.text_box_spotify.text = details[0]["ArtistURL"]
       else: self.text_box_spotify.text = details[0]["SpotifyLink"]
       self.text_box_insta.text = details[0]["InstaLink"]
+      self.text_box_name.text = details[0]["ContactName"]
       self.text_box_mail.text = details[0]["Mail"]
       self.text_box_phone.text = details[0]["Phone"]
     
@@ -174,6 +184,7 @@ class C_Watchlist_Details(C_Watchlist_DetailsTemplate):
       self.button_edit.icon = 'fa:edit'
       self.text_box_spotify.visible = False
       self.text_box_insta.visible = False
+      self.text_box_name.visible = False
       self.text_box_mail.visible = False
       self.text_box_phone.visible = False
       
@@ -187,12 +198,14 @@ class C_Watchlist_Details(C_Watchlist_DetailsTemplate):
     anvil.server.call('update_watchlist_details',
                       cur_model_id,
                       cur_ai_artist_id,
+                      True,
                       self.drop_down_status.selected_value,
                       self.drop_down_priority.selected_value,
                       self.date_picker_reminder.date,
                       details[0]["Notification"],
                       self.text_box_spotify.text,
                       self.text_box_insta.text,
+                      self.text_box_name.text,
                       self.text_box_mail.text,
                       self.text_box_phone.text
                       )
@@ -204,6 +217,7 @@ class C_Watchlist_Details(C_Watchlist_DetailsTemplate):
     open_form('Main_In', temp_artist_id = cur_ai_artist_id)
 
   def button_delete_click(self, **event_args):
-    anvil.server.call('remove_from_watchlist', cur_model_id, cur_ai_artist_id)
+    anvil.server.call('update_watchlist_notification', cur_model_id, cur_ai_artist_id, False, False)
     self.get_watchlist_selection()
+    self.parent.parent.update_no_notifications()
     

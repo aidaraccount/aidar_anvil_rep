@@ -37,26 +37,27 @@ class SelectionTemplate(SelectionTemplateTemplate):
 
     # update notification status
     self.radio_button_notification.selected = False
-    self.update_watchlist_notification(False)
+    self.update_watchlist_notification(True, False)
   
   def link_notification_click(self, **event_args):
     if self.radio_button_notification.selected == True:
       self.radio_button_notification.selected = False
-      self.update_watchlist_notification(False)
+      self.update_watchlist_notification(True, False)
     else:
       self.radio_button_notification.selected = True
-      self.update_watchlist_notification(True)
+      self.update_watchlist_notification(True, True)
 
   def set_notification_true(self, **event_args):
     self.radio_button_notification.selected = True
   
-  def update_watchlist_notification(self, notification, **event_args):
+  def update_watchlist_notification(self, watchlist, notification, **event_args):
     cur_ai_artist_id = self.link_selection.url
     print(f"update_watchlist_details_notification_true: {cur_ai_artist_id}")
     details = json.loads(anvil.server.call('get_watchlist_details', cur_model_id, cur_ai_artist_id))
     anvil.server.call('update_watchlist_notification',
                       cur_model_id,
                       cur_ai_artist_id,
+                      watchlist,
                       notification
                       )
     self.parent.parent.parent.parent.parent.parent.update_no_notifications()

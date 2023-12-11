@@ -36,7 +36,7 @@ class C_Investigate(C_InvestigateTemplate):
 
   # SUGGESTIONS
   def refresh_sug(self, temp_artist_id, **event_args):
-    print(f'Refresh Sug - Start {datetime.datetime.now()}', flush=True)
+    #print(f'Refresh Sug - Start {datetime.datetime.now()}', flush=True)
     sug = json.loads(anvil.server.call('get_suggestion', 'Inspect', cur_model_id, temp_artist_id)) # Free, Explore, Inspect, Dissect
     
     if sug["Status"] == 'Empty Model!':
@@ -61,6 +61,8 @@ class C_Investigate(C_InvestigateTemplate):
       artist_id = int(sug["ArtistID"])
       global spotify_artist_id
       spotify_artist_id = sug["SpotifyArtistID"]
+
+      self.check_watchlist_presence(cur_model_id, artist_id)
       
       if sug["ArtistPictureURL"] != 'None':
         self.artist_image.source = sug["ArtistPictureURL"]
@@ -132,7 +134,7 @@ class C_Investigate(C_InvestigateTemplate):
   
       # Musical Features
       # self.plot_1.figure = go.Figure(data=[go.Bar(y=float(sug["AvgDuration"]))])
-      print(f'FEATURES - Start {datetime.datetime.now()}', flush=True)
+      #print(f'FEATURES - Start {datetime.datetime.now()}', flush=True)
       if sug["AvgDuration"] == 'None': f1 = '-'
       else: f1 = "{:.0f}".format(round(float(sug["AvgDuration"]),0))
       self.feature_1.text = f1 + ' sec'
@@ -172,7 +174,7 @@ class C_Investigate(C_InvestigateTemplate):
       if sug["AvgTempo"] == 'None': f12 = '-'
       else: f12 = "{:.0f}".format(round(float(sug["AvgTempo"]),0))
       self.feature_12.text = f12 + ' bpm' 
-      print(f'FEATURES - End {datetime.datetime.now()}', flush=True)
+      #print(f'FEATURES - End {datetime.datetime.now()}', flush=True)
 
 
   # POPULARITY PLOT
@@ -267,62 +269,64 @@ class C_Investigate(C_InvestigateTemplate):
       
   
   # CHECK WATCHLIST
-  def check_watchlist(self, **event_args):
-    watchlist = False
-    note = ''
-    if self.button_watchlist.background != '':
-      watchlist = True
-      note = self.text_note.text
+  def check_watchlist_presence(self, cur_model_id, artist_id, **event_args):
+    watchlist_presence = anvil.server.call('check_watchlist_presence', cur_model_id, artist_id)
+    if watchlist_presence == 'True':
+      self.button_watchlist.background = '#fd652d' # orange
+      self.button_watchlist.foreground = '#f5f4f1' # white
+      self.button_watchlist.icon = 'fa:check'
+      self.button_watchlist.icon_align = 'right'
+      self.button_watchlist.text = 'already on Watchlist  '
+      self.column_panel_note.visible = True
       
-      self.button_watchlist.background = ''
-      self.button_watchlist.foreground = ''
-      self.button_watchlist.icon = ''
-      self.button_watchlist.text = 'add to Watchlist'
-      self.text_note.text = ''
-      self.column_panel_note.visible = False
-      
-    return watchlist, note
-
+  
   # RATING BUTTONS
   def button_1_click(self, **event_args):
-    watchlist, note = self.check_watchlist()
-    anvil.server.call('add_interest', user["user_id"], cur_model_id, artist_id, 1, False, watchlist, note)
+    anvil.server.call('add_interest', user["user_id"], cur_model_id, artist_id, 1, False, self.text_note.text)
+    self.text_note.text = ""
+    self.text_note.placeholder = "Add a note.."
     self.header.scroll_into_view(smooth=True)
     self.refresh_sug(temp_artist_id=None)
 
   def button_2_click(self, **event_args):
-    watchlist, note = self.check_watchlist()
-    anvil.server.call('add_interest', user["user_id"], cur_model_id, artist_id, 2, False, watchlist, note)
+    anvil.server.call('add_interest', user["user_id"], cur_model_id, artist_id, 2, False, self.text_note.text)
+    self.text_note.text = ""
+    self.text_note.placeholder = "Add a note.."
     self.header.scroll_into_view(smooth=True)
     self.refresh_sug(temp_artist_id=None)
 
   def button_3_click(self, **event_args):
-    watchlist, note = self.check_watchlist()
-    anvil.server.call('add_interest', user["user_id"], cur_model_id, artist_id, 3, False, watchlist, note)
+    anvil.server.call('add_interest', user["user_id"], cur_model_id, artist_id, 3, False, self.text_note.text)
+    self.text_note.text = ""
+    self.text_note.placeholder = "Add a note.."
     self.header.scroll_into_view(smooth=True)
     self.refresh_sug(temp_artist_id=None)
 
   def button_4_click(self, **event_args):
-    watchlist, note = self.check_watchlist()
-    anvil.server.call('add_interest', user["user_id"], cur_model_id, artist_id, 4, False, watchlist, note)
+    anvil.server.call('add_interest', user["user_id"], cur_model_id, artist_id, 4, False, self.text_note.text)
+    self.text_note.text = ""
+    self.text_note.placeholder = "Add a note.."
     self.header.scroll_into_view(smooth=True)
     self.refresh_sug(temp_artist_id=None)
 
   def button_5_click(self, **event_args):
-    watchlist, note = self.check_watchlist()
-    anvil.server.call('add_interest', user["user_id"], cur_model_id, artist_id, 5, False, watchlist, note)
+    anvil.server.call('add_interest', user["user_id"], cur_model_id, artist_id, 5, False, self.text_note.text)
+    self.text_note.text = ""
+    self.text_note.placeholder = "Add a note.."
     self.header.scroll_into_view(smooth=True)
     self.refresh_sug(temp_artist_id=None)
 
   def button_6_click(self, **event_args):
-    watchlist, note = self.check_watchlist()
-    anvil.server.call('add_interest', user["user_id"], cur_model_id, artist_id, 6, False, watchlist, note)
+    anvil.server.call('add_interest', user["user_id"], cur_model_id, artist_id, 6, False, self.text_note.text)
+    self.text_note.text = ""
+    self.text_note.placeholder = "Add a note.."
     self.header.scroll_into_view(smooth=True)
     self.refresh_sug(temp_artist_id=None)
 
   def button_7_click(self, **event_args):
-    watchlist, note = self.check_watchlist()
-    anvil.server.call('add_interest', user["user_id"], cur_model_id, artist_id, 7, False, watchlist, note)
+    anvil.server.call('add_interest', user["user_id"], cur_model_id, artist_id, 7, False, self.text_note.text)
+    self.text_note.text = ""
+    self.text_note.placeholder = "Add a note.."
     self.header.scroll_into_view(smooth=True)
     self.refresh_sug(temp_artist_id=None)
 
@@ -428,20 +432,28 @@ class C_Investigate(C_InvestigateTemplate):
       self.button_watchlist.icon_align = 'right'
       self.button_watchlist.text = 'added to Watchlist  '
       self.column_panel_note.visible = True
-      self.update_watchlist_notification(cur_model_id, artist_id, True)
+      self.update_watchlist_notification(cur_model_id, artist_id, True, True)
     else:
       self.button_watchlist.background = ''
       self.button_watchlist.foreground = ''
       self.button_watchlist.icon = ''
-      self.button_watchlist.text = 'adding to Watchlist'
+      self.button_watchlist.text = 'add to Watchlist'
       self.column_panel_note.visible = False
-      self.update_watchlist_notification(cur_model_id, artist_id, False)
+      self.update_watchlist_notification(cur_model_id, artist_id, False, False)
 
-  def update_watchlist_notification(self, cur_model_id, artist_id, notification, **event_args):
+  # Change the bools watchlist & notification in the leads table
+  def update_watchlist_notification(self, cur_model_id, artist_id, watchlist, notification, **event_args):
     anvil.server.call('update_watchlist_notification',
                       cur_model_id,
                       artist_id,
+                      watchlist,
                       notification
                       )
     self.parent.parent.update_no_notifications()
+
+  def add_note(self, **event_args):
+    anvil.server.call('add_note', user["user_id"], cur_model_id, artist_id, '', '', self.text_note.text)
+    self.text_note.text = ""
+    self.text_note.placeholder = "Note saved! Add another note.."
+
     
