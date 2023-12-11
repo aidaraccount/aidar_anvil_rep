@@ -79,7 +79,7 @@ components:
   layout_properties: {grid_position: 'HHCFTV,DORKHT'}
   components:
   - name: xy_panel_1
-    properties: {height: 535}
+    properties: {height: 515}
     type: XYPanel
     layout_properties: {grid_position: 'HDFDKN,FADFZU'}
     components:
@@ -119,7 +119,7 @@ components:
           Background', foreground: 'theme:Text_DecentWhite', font_size: 14}
       type: TextBox
       layout_properties: {x: 30, y: 270, width: 200}
-      event_bindings: {}
+      event_bindings: {pressed_enter: button_edit_click}
     - name: link_insta
       properties: {role: description, text: '-', icon: 'fa:instagram'}
       type: Link
@@ -131,37 +131,37 @@ components:
           Background', foreground: 'theme:Text_DecentWhite', font_size: 14}
       type: TextBox
       layout_properties: {x: 30, y: 310, width: 200}
-    - name: link_name
-      properties: {role: description, text: Name, icon: 'fa:male'}
-      type: Link
-      layout_properties: {x: 10, y: 380, width: 218}
-      data_bindings: []
-      components: []
-    - name: text_box_name
+      event_bindings: {pressed_enter: button_edit_click}
+    - name: label_phone
+      properties: {role: description, icon: 'fa:phone'}
+      type: Label
+      layout_properties: {x: 10, y: 460, width: 220}
+    - name: label_mail
+      properties: {icon: 'fa:envelope-o', role: description}
+      type: Label
+      layout_properties: {x: 10, y: 420, width: 220}
+    - name: label_contact
+      properties: {icon: 'fa:male', role: description}
+      type: Label
+      layout_properties: {x: 10, y: 380, width: 220}
+    - name: text_box_contact
       properties: {role: text_box_small, visible: false, background: 'theme:Sidebar
           Background', foreground: 'theme:Text_DecentWhite', font_size: 14}
       type: TextBox
-      layout_properties: {x: 30, y: 380, width: 198}
-    - name: link_mail
-      properties: {role: description, text: EMail, icon: 'fa:envelope-o'}
-      type: Link
-      layout_properties: {x: 10, y: 420, width: 218}
-      data_bindings: []
+      layout_properties: {x: 30, y: 380, width: 200}
+      event_bindings: {pressed_enter: button_edit_click}
     - name: text_box_mail
       properties: {role: text_box_small, visible: false, background: 'theme:Sidebar
           Background', foreground: 'theme:Text_DecentWhite', font_size: 14}
       type: TextBox
-      layout_properties: {x: 30, y: 420, width: 198}
-    - name: link_phone
-      properties: {role: description, text: Phone, icon: 'fa:phone'}
-      type: Link
-      layout_properties: {x: 10, y: 460, width: 218}
-      data_bindings: []
+      layout_properties: {x: 30, y: 420, width: 200}
+      event_bindings: {pressed_enter: button_edit_click}
     - name: text_box_phone
       properties: {role: text_box_small, visible: false, background: 'theme:Sidebar
           Background', foreground: 'theme:Text_DecentWhite', font_size: 14}
       type: TextBox
-      layout_properties: {x: 30, y: 460, width: 198}
+      layout_properties: {x: 30, y: 460, width: 200}
+      event_bindings: {pressed_enter: button_edit_click}
   - name: flow_panel_tags
     properties: {}
     type: FlowPanel

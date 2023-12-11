@@ -341,7 +341,7 @@ components:
     components:
     - type: ColumnPanel
       properties: {role: null, tooltip: '', border: '', foreground: '', visible: true,
-        wrap_on: mobile, col_spacing: medium, spacing_above: none, col_widths: '{}',
+        wrap_on: mobile, col_spacing: medium, spacing_above: none, col_widths: '{"VDPROD":25,"OICBFG":10,"SUTHCL":25}',
         spacing_below: none, background: ''}
       name: column_panel_15
       layout_properties: {grid_position: 'MUAYKZ,WMKQIM'}
@@ -351,19 +351,45 @@ components:
           tooltip: ''}
         name: spacer_13
         layout_properties: {grid_position: 'DFICIL,BRFOLY'}
+      - name: spacer_29
+        properties: {height: 32}
+        type: Spacer
+        layout_properties: {grid_position: 'BLNVIC,JRJPSJ'}
       - type: RichText
         properties: {role: null, align: center, tooltip: '', enable_slots: true, border: '',
           foreground: 'theme:Text_White', visible: true, font_size: null, content: "<p\
-            \ style=\"font-weight: bold;\">\n  <span style=\"font-size: 40px;\">3.75</span>\n\
-            \  <span style=\"font-size: 30px;\">million</span>\n</p>", font: GSb,
-          spacing_above: small, spacing_below: small, data: null, background: '',
-          format: restricted_html}
+            \ style=\"font-weight: bold;\">\n  <span style=\"font-size: 40px;\">>4</span>\n\
+            \  <span style=\"font-size: 24px;\">million</span>\n  <br>\n  <span style=\"\
+            font-size: 30px;\">Artists</span>\n</p>", font: GSb, spacing_above: small,
+          spacing_below: small, data: null, background: '', format: restricted_html}
         name: rich_text_2
         layout_properties: {grid_position: 'BLNVIC,VDPROD'}
         components: []
+      - name: rich_text_2_copy_copy
+        properties: {role: null, align: center, tooltip: '', enable_slots: true, border: '',
+          foreground: 'theme:Text_White', visible: true, font_size: null, content: "<p\
+            \ style=\"font-weight: bold;\">\n  <span style=\"font-size: 60px;\">&</span>\n\
+            </p>", font: GSb, spacing_above: small, spacing_below: small, data: null,
+          background: '', format: restricted_html}
+        type: RichText
+        layout_properties: {grid_position: 'BLNVIC,OICBFG'}
+      - name: rich_text_2_copy
+        properties: {role: null, align: center, tooltip: '', enable_slots: true, border: '',
+          foreground: 'theme:Text_White', visible: true, font_size: null, content: "<p\
+            \ style=\"font-weight: bold;\">\n  <span style=\"font-size: 40px;\">>20</span>\n\
+            \  <span style=\"font-size: 24px;\">million</span>\n  <br>\n  <span style=\"\
+            font-size: 30px;\">Tracks</span>\n</p>", font: GSb, spacing_above: small,
+          spacing_below: small, data: null, background: '', format: restricted_html}
+        type: RichText
+        layout_properties: {grid_position: 'BLNVIC,SUTHCL'}
+        components: []
+      - name: spacer_30
+        properties: {height: 32}
+        type: Spacer
+        layout_properties: {grid_position: 'BLNVIC,XTOLPA'}
       - type: Label
         properties: {role: null, align: center, tooltip: '', border: '', foreground: 'theme:Text_White',
-          visible: true, text: Artists in our Database, font_size: 24, font: GS, spacing_above: none,
+          visible: true, text: in our Database, font_size: 24, font: GS, spacing_above: none,
           icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
           underline: false, icon: ''}
         name: label_5

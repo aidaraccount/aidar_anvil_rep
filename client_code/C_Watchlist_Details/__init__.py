@@ -122,22 +122,22 @@ class C_Watchlist_Details(C_Watchlist_DetailsTemplate):
       self.text_box_insta.text = details[0]["InstaLink"]
       
     if details[0]["ContactName"] is None:
-      self.link_name.text = '-'
-      self.text_box_name.text = None
+      self.label_contact.text = '-'
+      self.text_box_contact.text = None
     else:
-      self.link_name.text = details[0]["ContactName"]
-      self.text_box_name.text = details[0]["ContactName"]
+      self.label_contact.text = details[0]["ContactName"]
+      self.text_box_contact.text = details[0]["ContactName"]
     if details[0]["Mail"] is None:
-      self.link_mail.text = '-'
+      self.label_mail.text = '-'
       self.text_box_mail.text = None
     else:
-      self.link_mail.text = details[0]["Mail"]
+      self.label_mail.text = details[0]["Mail"]
       self.text_box_mail.text = details[0]["Mail"]
     if details[0]["Phone"] is None:
-      self.link_phone.text = '-'
+      self.label_phone.text = '-'
       self.text_box_phone.text = None
     else:
-      self.link_phone.text = details[0]["Phone"]
+      self.label_phone.text = details[0]["Phone"]
       self.text_box_phone.text = details[0]["Phone"]
 
     # tags
@@ -168,7 +168,7 @@ class C_Watchlist_Details(C_Watchlist_DetailsTemplate):
       self.button_edit.icon = 'fa:save'
       self.text_box_spotify.visible = True
       self.text_box_insta.visible = True
-      self.text_box_name.visible = True
+      self.text_box_contact.visible = True
       self.text_box_mail.visible = True
       self.text_box_phone.visible = True
       
@@ -176,7 +176,7 @@ class C_Watchlist_Details(C_Watchlist_DetailsTemplate):
       if details[0]["SpotifyLink"] == None: self.text_box_spotify.text = details[0]["ArtistURL"]
       else: self.text_box_spotify.text = details[0]["SpotifyLink"]
       self.text_box_insta.text = details[0]["InstaLink"]
-      self.text_box_name.text = details[0]["ContactName"]
+      self.text_box_contact.text = details[0]["ContactName"]
       self.text_box_mail.text = details[0]["Mail"]
       self.text_box_phone.text = details[0]["Phone"]
     
@@ -184,7 +184,7 @@ class C_Watchlist_Details(C_Watchlist_DetailsTemplate):
       self.button_edit.icon = 'fa:edit'
       self.text_box_spotify.visible = False
       self.text_box_insta.visible = False
-      self.text_box_name.visible = False
+      self.text_box_contact.visible = False
       self.text_box_mail.visible = False
       self.text_box_phone.visible = False
       
@@ -205,7 +205,7 @@ class C_Watchlist_Details(C_Watchlist_DetailsTemplate):
                       details[0]["Notification"],
                       self.text_box_spotify.text,
                       self.text_box_insta.text,
-                      self.text_box_name.text,
+                      self.text_box_contact.text,
                       self.text_box_mail.text,
                       self.text_box_phone.text
                       )
