@@ -1,4 +1,6 @@
-container: {type: DataRowPanel}
+container:
+  type: DataRowPanel
+  properties: {align: center}
 components:
 - type: Link
   properties: {role: artist_name, url: '', align: left, tooltip: '', border: '', foreground: '',
@@ -27,4 +29,26 @@ components:
     data_bindings:
     - {property: source, code: 'self.item[''ArtistPictureURL'']'}
   event_bindings: {click: inspect_pic_link_click}
+- name: flow_panel_watchlist
+  properties: {align: center}
+  type: FlowPanel
+  layout_properties: {column: SAPGXS}
+  components:
+  - name: button_watchlist
+    properties: {text: '', icon: 'fa:address-card-o', role: feature}
+    type: Button
+    layout_properties: {}
+    data_bindings: []
+    event_bindings: {click: button_watchlist_click}
+  - name: button_watchlist_delete
+    properties: {text: '', icon: 'fa:trash-o', role: feature, visible: false}
+    type: Button
+    layout_properties: {}
+    event_bindings: {click: button_watchlist_delete_click}
+- name: label_1
+  properties: {align: center, text: ''}
+  type: Label
+  layout_properties: {column: YHPGYN}
+  data_bindings:
+  - {property: text, code: 'self.item[''Interest'']', writeback: false}
 is_package: true

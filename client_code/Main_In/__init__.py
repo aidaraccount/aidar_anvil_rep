@@ -20,11 +20,11 @@ from ..C_ConnectModel import C_ConnectModel
 
 
 class Main_In(Main_InTemplate):
-  def __init__(self, temp_artist_id, **properties):
+  def __init__(self, temp_artist_id, target, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
     
-    # Any code you write here will run before the form opens.
+    # Any code you write here will run before the form opens.    
     global user
     global cur_model_id
     user = anvil.users.get_user()
@@ -50,7 +50,10 @@ class Main_In(Main_InTemplate):
       self.content_panel.add_component(C_Investigate(temp_artist_id = temp_artist_id))
       self.link_investigate.background = "theme:Accent 2"
       self.update_no_notifications()
-      
+
+    if target == 'C_Watchlist_Details':
+      self.watchlist_click()
+
   
   def logo_click(self, **event_args):
     open_form('Main_Out')
@@ -118,7 +121,7 @@ class Main_In(Main_InTemplate):
   def watchlist_click(self, **event_args):
     cur_model_id = anvil.server.call('get_model_id',  user["user_id"])
     self.content_panel.clear()
-    self.content_panel.add_component(C_Watchlist_Details())
+    self.content_panel.add_component(C_Watchlist_Details(temp_artist_id))
     self.link_watchlist.background = "theme:Accent 2"
     self.link_filter.background = None
     self.link_investigate.background = None

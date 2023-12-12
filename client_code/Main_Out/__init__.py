@@ -57,7 +57,7 @@ class Main_Out(Main_OutTemplate):
       print('Main_Out: if (user != None)', flush=True)
       anvil.server.call('check_user_presence', mail=user['email'])
       print('Main_Out: link_investigate_click if (user != None)', flush=True)
-      open_form('Main_In', temp_artist_id = None, user_id = user["user_id"])
+      open_form('Main_In', temp_artist_id = None, target = None, user_id = user["user_id"])
 
   def linkedin_click(self, **event_args):
     self.linkedin_link.url = 'https://www.linkedin.com/company/aidar-insights/'

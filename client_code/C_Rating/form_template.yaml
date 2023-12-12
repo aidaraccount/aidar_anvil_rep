@@ -2,54 +2,55 @@ container:
   type: ColumnPanel
   properties: {col_widths: '{}'}
 components:
-- type: Label
-  properties: {role: title, align: left, tooltip: '', border: '', foreground: '',
-    visible: true, text: Ratings, font_size: null, font: '', spacing_above: small,
-    icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-    underline: false, icon: ''}
-  name: label_1
-  layout_properties:
-    col_widths: {}
-    grid_position: WTLNJQ,VMCYOV
-- type: Label
-  properties: {role: description, align: left, tooltip: '', border: '', foreground: '',
-    visible: true, text: This table contains a list of all evaluated artists., font_size: null,
-    font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: true,
-    background: '', bold: false, underline: false, icon: ''}
-  name: label_2
-  layout_properties:
-    col_widths: {}
-    grid_position: EGNWWM,AEBFKP
-- type: DataGrid
-  properties:
-    role: null
-    columns:
-    - {id: OYDYNQ, title: Date, data_key: DateOfRecommendation, $$hashKey: 'object:5657'}
-    - {id: DCLCSV, title: Artist, data_key: column_1, $$hashKey: 'object:2535', width: 101,
-      expand: false}
-    - {id: FCILTB, title: '', data_key: Name, $$hashKey: 'object:5658'}
-    - {id: YHPGYN, title: Interest, data_key: Interest, $$hashKey: 'object:5659'}
-    - {id: SAPGXS, data_key: Watchlist, title: Watchlist}
-    auto_header: true
-    tooltip: ''
-    border: ''
-    foreground: ''
-    rows_per_page: 10
-    visible: true
-    wrap_on: never
-    show_page_controls: true
-    spacing_above: small
-    spacing_below: small
-    background: ''
-  name: data_ratings_heads
-  layout_properties: {grid_position: 'XOGYEV,CFBIRR'}
+- name: content_panel
+  properties: {}
+  type: ColumnPanel
+  layout_properties: {grid_position: 'HINVKU,JGCJXX'}
   components:
-  - type: RepeatingPanel
-    properties: {role: table_content, tooltip: '', border: '', foreground: '', items: null,
-      visible: true, spacing_above: none, spacing_below: none, item_template: C_Rating.RatingRows,
-      background: ''}
-    name: data_ratings_data
-    layout_properties: {}
-    data_bindings: []
+  - type: Label
+    properties: {role: title, align: left, tooltip: '', border: '', foreground: '',
+      visible: true, text: Ratings, font_size: null, font: '', spacing_above: small,
+      icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+      underline: false, icon: ''}
+    name: label_1
+    layout_properties: {grid_position: 'JAZERV,LGQSDW'}
+  - type: Label
+    properties: {role: description, align: left, tooltip: '', border: '', foreground: '',
+      visible: true, text: This table contains a list of all evaluated artists., font_size: null,
+      font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: true,
+      background: '', bold: false, underline: false, icon: ''}
+    name: label_2
+    layout_properties: {grid_position: 'EZORSW,VNYUUN'}
+  - type: DataGrid
+    properties:
+      role: null
+      columns:
+      - {id: OYDYNQ, title: Date, data_key: DateOfRecommendation, $$hashKey: 'object:5657'}
+      - {id: DCLCSV, title: Artist, data_key: column_1, $$hashKey: 'object:2535',
+        width: 101, expand: false}
+      - {id: FCILTB, title: '', data_key: Name, $$hashKey: 'object:5658'}
+      - {id: YHPGYN, title: '        Interest', data_key: Interest, $$hashKey: 'object:5659'}
+      - {id: SAPGXS, data_key: Watchlist, title: '       Watchlist'}
+      auto_header: true
+      tooltip: ''
+      border: ''
+      foreground: ''
+      rows_per_page: 10
+      visible: true
+      wrap_on: never
+      show_page_controls: true
+      spacing_above: small
+      spacing_below: small
+      background: ''
+    name: data_ratings_heads
+    layout_properties: {grid_position: 'PYIXLJ,NDPCXR'}
+    components:
+    - type: RepeatingPanel
+      properties: {role: table_content, tooltip: '', border: '', foreground: '', items: null,
+        visible: true, spacing_above: none, spacing_below: none, item_template: C_Rating.RatingRows,
+        background: ''}
+      name: data_ratings_data
+      layout_properties: {}
+      data_bindings: []
 is_package: true
 custom_component: true
