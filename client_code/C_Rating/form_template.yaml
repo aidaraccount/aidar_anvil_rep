@@ -29,6 +29,7 @@ components:
       expand: false}
     - {id: FCILTB, title: '', data_key: Name, $$hashKey: 'object:5658'}
     - {id: YHPGYN, title: Interest, data_key: Interest, $$hashKey: 'object:5659'}
+    - {id: SAPGXS, data_key: Watchlist, title: Watchlist}
     auto_header: true
     tooltip: ''
     border: ''
