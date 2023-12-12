@@ -238,7 +238,8 @@ components:
     layout_properties: {grid_position: 'HDFDKN,TDEVWC BOIACS,QXLFGJ'}
     components:
     - name: column_panel_note
-      properties: {background: 'theme:Sidebar Background', role: grid, border: 1px solid black;}
+      properties: {background: 'theme:Sidebar Background', role: grid, border: '1px
+          solid rgb(40, 40, 40);'}
       type: ColumnPanel
       layout_properties: {width: 498.13333}
       components:

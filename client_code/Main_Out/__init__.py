@@ -37,7 +37,7 @@ class Main_Out(Main_OutTemplate):
         user = anvil.users.get_user()
         print(f'User = {user["user_id"]}', flush=True)
         print('Main_Out: open_form(Main_In,..', flush=True)
-        open_form('Main_In', temp_artist_id = None, user_id = user["user_id"])
+        open_form('Main_In', temp_artist_id = None, target = None, user_id = user["user_id"])
       except:
         alert(title='Unveiling New Features!', content='Apologies for any inconvenience caused.\n\nWe are presently integrating new features and will have the site accessible again shortly.\n\nFeel free to contact us via email at info@aidar.ai.\n\nThank you,\nYour AIDAR Team')
       

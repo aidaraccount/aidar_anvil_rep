@@ -35,13 +35,13 @@ components:
   layout_properties: {column: SAPGXS}
   components:
   - name: button_watchlist
-    properties: {text: '', icon: 'fa:address-card-o', role: feature}
+    properties: {text: '', icon: 'fa:address-card-o', role: feature, tooltip: ''}
     type: Button
     layout_properties: {}
     data_bindings: []
     event_bindings: {click: button_watchlist_click}
   - name: button_watchlist_delete
-    properties: {text: '', icon: 'fa:trash-o', role: feature, visible: false}
+    properties: {text: '', icon: 'fa:trash-o', role: feature, visible: false, tooltip: remove from Watchlist}
     type: Button
     layout_properties: {}
     event_bindings: {click: button_watchlist_delete_click}

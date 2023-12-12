@@ -52,7 +52,7 @@ class Main_In(Main_InTemplate):
       self.update_no_notifications()
 
     if target == 'C_Watchlist_Details':
-      self.watchlist_click()
+      self.route_watchlist(temp_artist_id = temp_artist_id)
 
   
   def logo_click(self, **event_args):
@@ -119,6 +119,9 @@ class Main_In(Main_InTemplate):
 
   # WATCHLIST
   def watchlist_click(self, **event_args):
+    self.route_watchlist(temp_artist_id = None)
+
+  def route_watchlist(self, temp_artist_id, **event_args):
     cur_model_id = anvil.server.call('get_model_id',  user["user_id"])
     self.content_panel.clear()
     self.content_panel.add_component(C_Watchlist_Details(temp_artist_id))
@@ -130,7 +133,7 @@ class Main_In(Main_InTemplate):
     self.link_ref_artists.background = None
     self.link_edit_ref_artists.background = None
     self.link_add_ref_artists.background = None
-
+  
   # RATINGS
   def rating_click(self, **event_args):
     cur_model_id = anvil.server.call('get_model_id',  user["user_id"])

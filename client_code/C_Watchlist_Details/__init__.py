@@ -37,7 +37,8 @@ class C_Watchlist_Details(C_Watchlist_DetailsTemplate):
                 if key == "Notification": item[key] = False
                 if key == "Status": item[key] = 'Action required'
                 if key == "Priority": item[key] = 'mid'
-    
+
+    # sort selection artists by drop_down_selection
     if self.drop_down_selection.selected_value == 'Notification':
       watchlist_selection = sorted(watchlist_selection, key=lambda x: x.get('Notification', float('inf')), reverse=True)
     if self.drop_down_selection.selected_value == 'Status':
@@ -67,15 +68,23 @@ class C_Watchlist_Details(C_Watchlist_DetailsTemplate):
 
       # show sorted data in repeating_panel_selection and highlight the first selected artist
       self.repeating_panel_selection.items = watchlist_selection
-      self.repeating_panel_selection.get_components()[0].image_1.border = '1px solid #fd652d' # orange
-
-      # show details and notes for first element of selection list
+      
+      # a) show details and notes for 1st element of selection list
       if temp_artist_id is None:
         cur_ai_artist_id = watchlist_selection[0]['ArtistID']
+        self.repeating_panel_selection.get_components()[0].image_1.border = '1px solid #fd652d' # orange
+
+      # b) show details and notes for x-st element of selection list
       else:
         cur_ai_artist_id = temp_artist_id
+        x = 0
+        for a in range(0, len(watchlist_selection)):
+          if watchlist_selection[a]['ArtistID'] == cur_ai_artist_id:
+            x = a
+        self.repeating_panel_selection.get_components()[x].image_1.border = '1px solid #fd652d' # orange
+        
+      # get watchlist details and notes
       self.update_cur_ai_artist_id(cur_ai_artist_id)
-      print(f"get_watchlist_selection: {cur_ai_artist_id}")
       self.get_watchlist_details(cur_model_id, cur_ai_artist_id)
       self.get_watchlist_notes(cur_model_id, cur_ai_artist_id)
 
