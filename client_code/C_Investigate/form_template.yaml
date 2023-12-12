@@ -924,7 +924,7 @@ components:
       type: TextArea
       layout_properties: {grid_position: 'BAEJBN,LRBPLR IXUHVK,REIRIT'}
       event_bindings: {}
-    - name: button_8
+    - name: button_save_note
       properties: {text: save note, role: feature, align: right}
       type: Button
       layout_properties: {grid_position: 'BAEJBN,LRBPLR ZOXCUD,XDZYMV'}

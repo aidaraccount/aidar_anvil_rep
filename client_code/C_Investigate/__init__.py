@@ -283,6 +283,11 @@ class C_Investigate(C_InvestigateTemplate):
   # RATING BUTTONS
   def button_1_click(self, **event_args):
     anvil.server.call('add_interest', user["user_id"], cur_model_id, artist_id, 1, False, self.text_note.text)
+    self.button_watchlist.background = ''
+    self.button_watchlist.foreground = ''
+    self.button_watchlist.icon = ''
+    self.button_watchlist.text = 'add to Watchlist'
+    self.column_panel_note.visible = False
     self.text_note.text = ""
     self.text_note.placeholder = "Add a note.."
     self.header.scroll_into_view(smooth=True)
@@ -290,6 +295,11 @@ class C_Investigate(C_InvestigateTemplate):
 
   def button_2_click(self, **event_args):
     anvil.server.call('add_interest', user["user_id"], cur_model_id, artist_id, 2, False, self.text_note.text)
+    self.button_watchlist.background = ''
+    self.button_watchlist.foreground = ''
+    self.button_watchlist.icon = ''
+    self.button_watchlist.text = 'add to Watchlist'
+    self.column_panel_note.visible = False
     self.text_note.text = ""
     self.text_note.placeholder = "Add a note.."
     self.header.scroll_into_view(smooth=True)
@@ -297,6 +307,11 @@ class C_Investigate(C_InvestigateTemplate):
 
   def button_3_click(self, **event_args):
     anvil.server.call('add_interest', user["user_id"], cur_model_id, artist_id, 3, False, self.text_note.text)
+    self.button_watchlist.background = ''
+    self.button_watchlist.foreground = ''
+    self.button_watchlist.icon = ''
+    self.button_watchlist.text = 'add to Watchlist'
+    self.column_panel_note.visible = False
     self.text_note.text = ""
     self.text_note.placeholder = "Add a note.."
     self.header.scroll_into_view(smooth=True)
@@ -304,6 +319,11 @@ class C_Investigate(C_InvestigateTemplate):
 
   def button_4_click(self, **event_args):
     anvil.server.call('add_interest', user["user_id"], cur_model_id, artist_id, 4, False, self.text_note.text)
+    self.button_watchlist.background = ''
+    self.button_watchlist.foreground = ''
+    self.button_watchlist.icon = ''
+    self.button_watchlist.text = 'add to Watchlist'
+    self.column_panel_note.visible = False
     self.text_note.text = ""
     self.text_note.placeholder = "Add a note.."
     self.header.scroll_into_view(smooth=True)
@@ -311,6 +331,11 @@ class C_Investigate(C_InvestigateTemplate):
 
   def button_5_click(self, **event_args):
     anvil.server.call('add_interest', user["user_id"], cur_model_id, artist_id, 5, False, self.text_note.text)
+    self.button_watchlist.background = ''
+    self.button_watchlist.foreground = ''
+    self.button_watchlist.icon = ''
+    self.button_watchlist.text = 'add to Watchlist'
+    self.column_panel_note.visible = False
     self.text_note.text = ""
     self.text_note.placeholder = "Add a note.."
     self.header.scroll_into_view(smooth=True)
@@ -318,6 +343,11 @@ class C_Investigate(C_InvestigateTemplate):
 
   def button_6_click(self, **event_args):
     anvil.server.call('add_interest', user["user_id"], cur_model_id, artist_id, 6, False, self.text_note.text)
+    self.button_watchlist.background = ''
+    self.button_watchlist.foreground = ''
+    self.button_watchlist.icon = ''
+    self.button_watchlist.text = 'add to Watchlist'
+    self.column_panel_note.visible = False
     self.text_note.text = ""
     self.text_note.placeholder = "Add a note.."
     self.header.scroll_into_view(smooth=True)
@@ -325,6 +355,11 @@ class C_Investigate(C_InvestigateTemplate):
 
   def button_7_click(self, **event_args):
     anvil.server.call('add_interest', user["user_id"], cur_model_id, artist_id, 7, False, self.text_note.text)
+    self.button_watchlist.background = ''
+    self.button_watchlist.foreground = ''
+    self.button_watchlist.icon = ''
+    self.button_watchlist.text = 'add to Watchlist'
+    self.column_panel_note.visible = False
     self.text_note.text = ""
     self.text_note.placeholder = "Add a note.."
     self.header.scroll_into_view(smooth=True)
@@ -425,7 +460,7 @@ class C_Investigate(C_InvestigateTemplate):
       content="Indicates whether this artist ever worked with a sub-major label or not.")
 
   def button_watchlist_click(self, **event_args):
-    if self.button_watchlist.background == '':
+    if self.button_watchlist.text == 'add to Watchlist':
       self.button_watchlist.background = '#fd652d' # orange
       self.button_watchlist.foreground = '#f5f4f1' # white
       self.button_watchlist.icon = 'fa:check'

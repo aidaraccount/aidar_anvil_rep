@@ -45,7 +45,7 @@ components:
   layout_properties: {grid_position: 'HHCFTV,UMKIPM'}
   components:
   - name: xy_panel_selection
-    properties: {height: 645}
+    properties: {height: 547}
     type: XYPanel
     layout_properties: {grid_position: 'DQUOJO,QMJMSD'}
     data_bindings: []
@@ -228,34 +228,45 @@ components:
         layout_properties: {grid_position: 'DCXDMG,GTUPJT', full_width_row: false}
         event_bindings: {change: update_watchlist_details}
       layout_properties: {width: 155}
-  - name: xy_panel_detail
-    properties: {height: 402}
-    type: XYPanel
-    layout_properties: {grid_position: 'HDFDKN,TDEVWC TADBWH,CJRIQG'}
+  - name: column_panel_note
+    properties: {background: '', role: grid, border: 1px solid black;}
+    type: ColumnPanel
+    layout_properties: {grid_position: 'HDFDKN,TDEVWC QQMLCK,RGJXOA'}
     components:
-    - name: repeating_panel_detail
-      properties: {item_template: C_Watchlist_Details.DetailTemplate, spacing_above: none}
-      type: RepeatingPanel
-      layout_properties: {x: 0, y: 0, width: 494}
-    data_bindings: []
-  - name: flow_panel_1
-    properties: {}
-    type: FlowPanel
-    layout_properties: {grid_position: 'HDFDKN,TDEVWC JZWHWE,QERXVI'}
-    components:
-    - name: column_panel_7
-      properties: {}
-      type: ColumnPanel
-      layout_properties: {width: 495}
+    - name: xy_panel_detail
+      properties: {height: 379}
+      type: XYPanel
+      layout_properties: {grid_position: 'QYZZBK,IIPYKH'}
       components:
-      - name: text_area_note
-        properties: {role: text_box_small, height: '60', placeholder: Add a note}
-        type: TextArea
-        layout_properties: {grid_position: 'HOAKDL,TOMDSC'}
-      - name: button_note
-        properties: {text: save, align: right, role: feature}
-        type: Button
-        layout_properties: {grid_position: 'MZRLCQ,PEIJCC'}
-        event_bindings: {click: button_note_click}
+      - name: repeating_panel_detail
+        properties: {item_template: C_Watchlist_Details.DetailTemplate, spacing_above: none}
+        type: RepeatingPanel
+        layout_properties: {x: 7, y: 0, width: 495}
+      data_bindings: []
+    - name: xy_panel_2
+      properties: {height: 45}
+      type: XYPanel
+      layout_properties: {grid_position: 'KMBQMU,YPTMCY'}
+      components:
+      - name: flow_panel_1
+        properties: {}
+        type: FlowPanel
+        layout_properties: {x: 7, y: 0, width: 495}
+        components:
+        - name: column_panel_7
+          properties: {col_widths: '{"TOMDSC":50,"XINGOR":10}'}
+          type: ColumnPanel
+          layout_properties: {width: 498}
+          components:
+          - name: text_area_note
+            properties: {role: text_box_small, height: '35', placeholder: Add a note,
+              align: left}
+            type: TextArea
+            layout_properties: {grid_position: 'HOAKDL,TOMDSC'}
+          - name: button_note
+            properties: {text: save, align: right, role: feature}
+            type: Button
+            layout_properties: {grid_position: 'HOAKDL,XINGOR'}
+            event_bindings: {click: button_note_click}
 is_package: true
 custom_component: true
