@@ -1,0 +1,69 @@
+container: {type: ColumnPanel}
+components:
+- name: content_panel
+  properties: {col_widths: '{}'}
+  type: ColumnPanel
+  layout_properties: {grid_position: 'KGEKNG,EYINSF'}
+  components:
+  - name: label_1_copy
+    properties: {role: title, align: left, tooltip: '', border: '', foreground: '',
+      visible: true, text: Watchlist Overview, font_size: null, font: '', spacing_above: small,
+      icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+      underline: false, icon: ''}
+    type: Label
+    layout_properties:
+      col_widths: {}
+      grid_position: WKTSPW,ALNASW
+  - name: label_description
+    properties: {role: description, align: left, tooltip: '', border: '', foreground: '',
+      visible: true, text: This overview shows all artists from your watchlist incl. their most important stats.,
+      font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small,
+      italic: true, background: '', bold: false, underline: false, icon: ''}
+    type: Label
+    layout_properties:
+      col_widths: {}
+      grid_position: IRZOFG,FLCZRA
+  - name: data_grid_1
+    properties:
+      columns:
+      - {id: JKSDUP, title: Column 1, data_key: ArtistID}
+      - {id: VJQQOR, title: Column 2, data_key: Status}
+      - {id: OJLQEN, title: Column 3, data_key: Priority}
+      show_page_controls: true
+      auto_header: false
+    type: DataGrid
+    components:
+    - name: flow_panel_1
+      properties: {}
+      type: FlowPanel
+      components:
+      - name: column_panel_1
+        properties: {col_widths: '{"VKIBVF":20,"XFWKCQ":20,"ATEWKF":20}', border: ''}
+        type: ColumnPanel
+        components:
+        - name: link_artistid
+          properties: {text: ArtistID, icon: '', icon_align: right, role: table_content,
+            border: ''}
+          type: Link
+          layout_properties: {grid_position: 'BMMBQH,VKIBVF'}
+          event_bindings: {click: link_artistid_click}
+        - name: link_status
+          properties: {text: Status, icon_align: right, role: table_content}
+          type: Link
+          layout_properties: {grid_position: 'BMMBQH,XFWKCQ'}
+          event_bindings: {click: link_status_click}
+        - name: link_priority
+          properties: {text: Priority, icon_align: right, role: table_content}
+          type: Link
+          layout_properties: {grid_position: 'BMMBQH,WFTORH'}
+          event_bindings: {click: link_priority_click}
+        layout_properties: {width: 950.4}
+        data_bindings: []
+    - name: repeating_panel_data
+      properties: {item_template: C_Watchlist_Overview.RowTemplate3, role: table_content_small}
+      type: RepeatingPanel
+      layout_properties: {pinned: false}
+    layout_properties: {grid_position: 'MXANCB,DCXPKB'}
+is_package: true
+custom_component: true
+properties: []

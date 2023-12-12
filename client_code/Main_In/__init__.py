@@ -10,6 +10,7 @@ import json
 from ..C_Investigate import C_Investigate
 from ..C_Filter import C_Filter
 from ..C_Watchlist_Details import C_Watchlist_Details
+from ..C_Watchlist_Overview import C_Watchlist_Overview
 from ..C_Rating import C_Rating
 from ..C_EditRefArtists import C_EditRefArtists
 from ..C_AddRefArtists import C_AddRefArtists
@@ -52,7 +53,7 @@ class Main_In(Main_InTemplate):
       self.update_no_notifications()
 
     if target == 'C_Watchlist_Details':
-      self.route_watchlist(temp_artist_id = temp_artist_id)
+      self.route_watchlist_details(temp_artist_id = temp_artist_id)
 
   
   def logo_click(self, **event_args):
@@ -118,21 +119,21 @@ class Main_In(Main_InTemplate):
     self.link_add_ref_artists.background = None
 
   # WATCHLIST
-  def watchlist_click(self, **event_args):
-    self.route_watchlist(temp_artist_id = None)
+  #def watchlist_click(self, **event_args):
+  #  self.route_watchlist(temp_artist_id = None)
 
-  def route_watchlist(self, temp_artist_id, **event_args):
-    cur_model_id = anvil.server.call('get_model_id',  user["user_id"])
-    self.content_panel.clear()
-    self.content_panel.add_component(C_Watchlist_Details(temp_artist_id))
-    self.link_watchlist.background = "theme:Accent 2"
-    self.link_filter.background = None
-    self.link_investigate.background = None
-    self.link_rating.background = None
-    self.link_search.background = None
-    self.link_ref_artists.background = None
-    self.link_edit_ref_artists.background = None
-    self.link_add_ref_artists.background = None
+  #def route_watchlist(self, temp_artist_id, **event_args):
+  #  cur_model_id = anvil.server.call('get_model_id',  user["user_id"])
+  #  self.content_panel.clear()
+  #  self.content_panel.add_component(C_Watchlist_Details(temp_artist_id))
+  #  self.link_watchlist.background = "theme:Accent 2"
+  #  self.link_filter.background = None
+  #  self.link_investigate.background = None
+  #  self.link_rating.background = None
+  #  self.link_search.background = None
+  #  self.link_ref_artists.background = None
+  #  self.link_edit_ref_artists.background = None
+  #  self.link_add_ref_artists.background = None
   
   # RATINGS
   def rating_click(self, **event_args):
@@ -198,3 +199,47 @@ class Main_In(Main_InTemplate):
     self.link_rating.background = None
     self.link_search.background = None
     self.link_ref_artists.background = None
+
+  #----------------------------------------------------------------------------------------------
+  # WATCHLIST
+  def change_watchlist_visibility(self, **event_args):
+    if self.link_watchlist_overview.visible == False:
+      self.link_watchlist_overview.visible = True
+      self.link_watchlist_details.visible = True
+    else:
+      self.link_watchlist_overview.visible = False
+      self.link_watchlist_details.visible = False
+    
+  def link_watchlist_overview_click(self, **event_args):
+    cur_model_id = anvil.server.call('get_model_id',  user["user_id"])
+    self.content_panel.clear()
+    self.content_panel.add_component(C_Watchlist_Overview())
+    
+    self.link_watchlist_overview.background = "theme:Accent 2"
+    self.link_watchlist_details.background = "theme:Sidebar Background"
+    
+    self.link_investigate.background = None
+    self.link_filter.background = None
+    self.link_watchlist.background = None
+    self.link_rating.background = None
+    self.link_search.background = None
+    self.link_ref_artists.background = None
+
+  def watchlist_details_click(self, **event_args):
+    self.route_watchlist_details(temp_artist_id = None)
+
+  def route_watchlist_details(self, temp_artist_id, **event_args):
+    cur_model_id = anvil.server.call('get_model_id',  user["user_id"])
+    self.content_panel.clear()
+    self.content_panel.add_component(C_Watchlist_Details(temp_artist_id))
+
+    self.link_watchlist_overview.background = "theme:Sidebar Background"
+    self.link_watchlist_details.background = "theme:Accent 2"
+    
+    self.link_investigate.background = None
+    self.link_filter.background = None
+    self.link_watchlist.background = None
+    self.link_rating.background = None
+    self.link_search.background = None
+    self.link_ref_artists.background = None    
+  
