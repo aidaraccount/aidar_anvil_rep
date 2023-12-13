@@ -19,6 +19,14 @@ class C_Watchlist_Overview(C_Watchlist_OverviewTemplate):
     cur_model_id = anvil.server.call('get_model_id',  user["user_id"])
     
     # Any code you write here will run before the form opens.
+    data = self.get_data()
+
+    # standard sorting
+    self.repeating_panel_data.items = sorted(data, key=lambda x: x.get('ArtistID', float('inf')), reverse=True)
+    self.link_artistid.icon = 'fa:angle-down'  
+    
+  
+  def get_data(self, **event_args):
     # get raw data
     data = json.loads(anvil.server.call('get_watchlist_overview', cur_model_id))
 
@@ -28,11 +36,8 @@ class C_Watchlist_Overview(C_Watchlist_OverviewTemplate):
             if value is None:
                 if key == "Status": item[key] = 'Action required'
                 if key == "Priority": item[key] = 'mid'
-    
-    # standard sorting
-    self.repeating_panel_data.items = sorted(data, key=lambda x: x.get('ArtistID', float('inf')), reverse=True)
-    self.link_artistid.icon = 'fa:angle-down'
-    
+
+    return data      
   
   def link_artistid_click(self, **event_args):
     self.link_status.icon = ''
@@ -65,6 +70,21 @@ class C_Watchlist_Overview(C_Watchlist_OverviewTemplate):
       self.repeating_panel_data.items = sorted(self.repeating_panel_data.items, key=lambda x: x.get('Priority', float('inf')), reverse=False)
 
   def button_search_click(self, **event_args):
-    data = self.repeating_panel_data.items
-    
+    # get data
+    data = [entry for entry in self.get_data() if str(entry["ArtistID"]).find(str(self.text_box_search.text)) != -1]
 
+    # sort as defined before
+    if self.link_artistid.icon == 'fa:angle-down':
+      self.repeating_panel_data.items = sorted(data, key=lambda x: x.get('ArtistID', float('inf')), reverse=True)
+    elif self.link_artistid.icon == 'fa:angle-up':
+      self.repeating_panel_data.items = sorted(data, key=lambda x: x.get('ArtistID', float('inf')), reverse=False)
+    elif self.link_status.icon == 'fa:angle-down':
+      self.repeating_panel_data.items = sorted(data, key=lambda x: x.get('Status', float('inf')), reverse=True)
+    elif self.link_status.icon == 'fa:angle-up':
+      self.repeating_panel_data.items = sorted(data, key=lambda x: x.get('Status', float('inf')), reverse=False)
+    elif self.link_priority.icon == 'fa:angle-down':
+      self.repeating_panel_data.items = sorted(data, key=lambda x: x.get('Priority', float('inf')), reverse=True)
+    elif self.link_priority.icon == 'fa:angle-up':
+      self.repeating_panel_data.items = sorted(data, key=lambda x: x.get('Priority', float('inf')), reverse=False)
+    
+    
