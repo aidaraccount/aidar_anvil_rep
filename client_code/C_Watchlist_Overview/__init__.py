@@ -64,3 +64,7 @@ class C_Watchlist_Overview(C_Watchlist_OverviewTemplate):
       self.link_priority.icon = 'fa:angle-up'
       self.repeating_panel_data.items = sorted(self.repeating_panel_data.items, key=lambda x: x.get('Priority', float('inf')), reverse=False)
 
+  def button_search_click(self, **event_args):
+    data = self.repeating_panel_data.items
+    
+

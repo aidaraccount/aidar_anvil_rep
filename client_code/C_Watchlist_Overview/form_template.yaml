@@ -1,7 +1,7 @@
 container: {type: ColumnPanel}
 components:
 - name: content_panel
-  properties: {col_widths: '{}'}
+  properties: {col_widths: '{"XBVCRE":15,"GZSLQT":10,"EJNOAI":35}'}
   type: ColumnPanel
   layout_properties: {grid_position: 'KGEKNG,EYINSF'}
   components:
@@ -23,6 +23,20 @@ components:
     layout_properties:
       col_widths: {}
       grid_position: IRZOFG,FLCZRA
+  - name: text_box_search
+    properties: {role: text_box_small}
+    type: TextBox
+    layout_properties: {grid_position: 'IXONSR,XBVCRE'}
+    event_bindings: {pressed_enter: button_search_click}
+  - name: button_search
+    properties: {text: Search Artist, role: feature}
+    type: Button
+    layout_properties: {grid_position: 'IXONSR,GZSLQT'}
+    event_bindings: {click: button_search_click}
+  - name: spacer_1
+    properties: {height: 32}
+    type: Spacer
+    layout_properties: {grid_position: 'IXONSR,EJNOAI'}
   - name: data_grid_1
     properties:
       columns:
