@@ -19,7 +19,17 @@ class C_Watchlist_Overview(C_Watchlist_OverviewTemplate):
     cur_model_id = anvil.server.call('get_model_id',  user["user_id"])
     
     # Any code you write here will run before the form opens.
-    data = json.loads(anvil.server.call('get_watchlist_overview', cur_model_id))    
+    # get raw data
+    data = json.loads(anvil.server.call('get_watchlist_overview', cur_model_id))
+
+    # fill Nones
+    for item in data:
+        for key, value in item.items():
+            if value is None:
+                if key == "Status": item[key] = 'Action required'
+                if key == "Priority": item[key] = 'mid'
+    
+    # standard sorting
     self.repeating_panel_data.items = sorted(data, key=lambda x: x.get('ArtistID', float('inf')), reverse=True)
     self.link_artistid.icon = 'fa:angle-down'
     
