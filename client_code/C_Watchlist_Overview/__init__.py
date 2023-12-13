@@ -22,8 +22,8 @@ class C_Watchlist_Overview(C_Watchlist_OverviewTemplate):
     data = self.get_data()
 
     # standard sorting
-    self.repeating_panel_data.items = sorted(data, key=lambda x: x.get('ArtistID', float('inf')), reverse=True)
-    self.link_artistid.icon = 'fa:angle-down'  
+    self.repeating_panel_data.items = sorted(data, key=lambda x: x.get('Name', float('inf')), reverse=True)
+    self.link_artist.icon = 'fa:angle-down'  
     
   
   def get_data(self, **event_args):
@@ -34,57 +34,199 @@ class C_Watchlist_Overview(C_Watchlist_OverviewTemplate):
     for item in data:
         for key, value in item.items():
             if value is None:
-                if key == "Status": item[key] = 'Action required'
-                if key == "Priority": item[key] = 'mid'
+                if key == "LatestReleaseDate":
+                  item[key] = '-'
+                else: item[key] = '0'
+            
+            #if key == "PopularityLat": item[key] = f'{int(item[key]):,}'
+            #if key == "PopularityDev": item[key] = "{:.1f}".format(round(float(item[key]),1)) + '%'
+            #if key == "PopularityDif": item[key] = f'{int(item[key]):,}'
+            #if key == "FollowerLat": item[key] = f'{int(item[key]):,}'
+            #if key == "FollowerDev": item[key] = "{:.1f}".format(round(float(item[key]),1)) + '%'
+            #if key == "FollowerDif": item[key] = f'{int(item[key]):,}'
+    
+    return data
 
-    return data      
+  # SORT BUTTONS
+  def link_artist_click(self, **event_args):
+    #self.link_artist.icon = ''
+    self.link_release.icon = ''
+    self.link_poplat.icon = ''
+    self.link_popdif.icon = ''
+    self.link_popdev.icon = ''
+    self.link_follat.icon = ''
+    self.link_foldif.icon = ''
+    self.link_foldev.icon = ''
+    if self.link_artist.icon == '' or self.link_artist.icon == 'fa:angle-up':
+      self.link_artist.icon = 'fa:angle-down'
+      self.repeating_panel_data.items = sorted(self.repeating_panel_data.items, key=lambda x: x.get('Name', float('inf')), reverse=True)
+    elif self.link_artist.icon == 'fa:angle-down':
+      self.link_artist.icon = 'fa:angle-up'
+      self.repeating_panel_data.items = sorted(self.repeating_panel_data.items, key=lambda x: x.get('Name', float('inf')), reverse=False)
+
+  def link_release_click(self, **event_args):
+    self.link_artist.icon = ''
+    #self.link_release.icon = ''
+    self.link_poplat.icon = ''
+    self.link_popdif.icon = ''
+    self.link_popdev.icon = ''
+    self.link_follat.icon = ''
+    self.link_foldif.icon = ''
+    self.link_foldev.icon = ''
+    if self.link_release.icon == '' or self.link_release.icon == 'fa:angle-up':
+      self.link_release.icon = 'fa:angle-down'
+      self.repeating_panel_data.items = sorted(self.repeating_panel_data.items, key=lambda x: x.get('LastReleaseDate', float('inf')), reverse=True)
+    elif self.link_release.icon == 'fa:angle-down':
+      self.link_release.icon = 'fa:angle-up'
+      self.repeating_panel_data.items = sorted(self.repeating_panel_data.items, key=lambda x: x.get('LastReleaseDate', float('inf')), reverse=False)
+
+  def link_poplat_click(self, **event_args):
+    self.link_artist.icon = ''
+    self.link_release.icon = ''
+    #self.link_poplat.icon = ''
+    self.link_popdif.icon = ''
+    self.link_popdev.icon = ''
+    self.link_follat.icon = ''
+    self.link_foldif.icon = ''
+    self.link_foldev.icon = ''
+    if self.link_poplat.icon == '' or self.link_poplat.icon == 'fa:angle-up':
+      self.link_poplat.icon = 'fa:angle-down'
+      self.repeating_panel_data.items = sorted(self.repeating_panel_data.items, key=lambda x: x.get('PopularityLat', float('inf')), reverse=True)
+    elif self.link_poplat.icon == 'fa:angle-down':
+      self.link_poplat.icon = 'fa:angle-up'
+      self.repeating_panel_data.items = sorted(self.repeating_panel_data.items, key=lambda x: x.get('PopularityLat', float('inf')), reverse=False)
+
+  def link_popdif_click(self, **event_args):
+    self.link_artist.icon = ''
+    self.link_release.icon = ''
+    self.link_poplat.icon = ''
+    #self.link_popdif.icon = ''
+    self.link_popdev.icon = ''
+    self.link_follat.icon = ''
+    self.link_foldif.icon = ''
+    self.link_foldev.icon = ''
+    if self.link_popdif.icon == '' or self.link_popdif.icon == 'fa:angle-up':
+      self.link_popdif.icon = 'fa:angle-down'
+      self.repeating_panel_data.items = sorted(self.repeating_panel_data.items, key=lambda x: x.get('PopularityDif', float('inf')), reverse=True)
+    elif self.link_popdif.icon == 'fa:angle-down':
+      self.link_popdif.icon = 'fa:angle-up'
+      self.repeating_panel_data.items = sorted(self.repeating_panel_data.items, key=lambda x: x.get('PopularityDif', float('inf')), reverse=False)
+
+  def link_popdev_click(self, **event_args):
+    self.link_artist.icon = ''
+    self.link_release.icon = ''
+    self.link_poplat.icon = ''
+    self.link_popdif.icon = ''
+    #self.link_popdev.icon = ''
+    self.link_follat.icon = ''
+    self.link_foldif.icon = ''
+    self.link_foldev.icon = ''
+    if self.link_popdev.icon == '' or self.link_popdev.icon == 'fa:angle-up':
+      self.link_popdev.icon = 'fa:angle-down'
+      
+      data = sorted(self.repeating_panel_data.items, key=lambda x: x.get('PopularityDev', float('inf')), reverse=True)
+
+      #for item in data:
+      #  for key, value in item.items():
+      #    if key == "PopularityDev": item[key] = "{:.1f}".format(round(float(item[key]),1)) + '%'
+      #    if key == "FollowerDev": item[key] = "{:.1f}".format(round(float(item[key]),1)) + '%'
+      
+      self.repeating_panel_data.items = data
+    elif self.link_popdev.icon == 'fa:angle-down':
+      self.link_popdev.icon = 'fa:angle-up'
+      self.repeating_panel_data.items = sorted(self.repeating_panel_data.items, key=lambda x: x.get('PopularityDev', float('inf')), reverse=False)
+
+  def link_follat_click(self, **event_args):
+    self.link_artist.icon = ''
+    self.link_release.icon = ''
+    self.link_poplat.icon = ''
+    self.link_popdif.icon = ''
+    self.link_popdev.icon = ''
+    #self.link_follat.icon = ''
+    self.link_foldif.icon = ''
+    self.link_foldev.icon = ''
+    if self.link_follat.icon == '' or self.link_follat.icon == 'fa:angle-up':
+      self.link_follat.icon = 'fa:angle-down'
+      self.repeating_panel_data.items = sorted(self.repeating_panel_data.items, key=lambda x: x.get('FollowerLat', float('inf')), reverse=True)
+    elif self.link_follat.icon == 'fa:angle-down':
+      self.link_follat.icon = 'fa:angle-up'
+      self.repeating_panel_data.items = sorted(self.repeating_panel_data.items, key=lambda x: x.get('FollowerLat', float('inf')), reverse=False)
+
+  def link_foldif_click(self, **event_args):
+    self.link_artist.icon = ''
+    self.link_release.icon = ''
+    self.link_poplat.icon = ''
+    self.link_popdif.icon = ''
+    self.link_popdev.icon = ''
+    self.link_follat.icon = ''
+    #self.link_foldif.icon = ''
+    self.link_foldev.icon = ''
+    if self.link_foldif.icon == '' or self.link_foldif.icon == 'fa:angle-up':
+      self.link_foldif.icon = 'fa:angle-down'
+      self.repeating_panel_data.items = sorted(self.repeating_panel_data.items, key=lambda x: x.get('FollowerDif', float('inf')), reverse=True)
+    elif self.link_foldif.icon == 'fa:angle-down':
+      self.link_foldif.icon = 'fa:angle-up'
+      self.repeating_panel_data.items = sorted(self.repeating_panel_data.items, key=lambda x: x.get('FollowerDif', float('inf')), reverse=False)
+
+  def link_foldev_click(self, **event_args):
+    self.link_artist.icon = ''
+    self.link_release.icon = ''
+    self.link_poplat.icon = ''
+    self.link_popdif.icon = ''
+    self.link_popdev.icon = ''
+    self.link_follat.icon = ''
+    self.link_foldif.icon = ''
+    #self.link_foldev.icon = ''
+    if self.link_foldev.icon == '' or self.link_foldev.icon == 'fa:angle-up':
+      self.link_foldev.icon = 'fa:angle-down'
+      self.repeating_panel_data.items = sorted(self.repeating_panel_data.items, key=lambda x: x.get('FollowerDev', float('inf')), reverse=True)
+    elif self.link_foldev.icon == 'fa:angle-down':
+      self.link_foldev.icon = 'fa:angle-up'
+      self.repeating_panel_data.items = sorted(self.repeating_panel_data.items, key=lambda x: x.get('FollowerDev', float('inf')), reverse=False)
+
   
-  def link_artistid_click(self, **event_args):
-    self.link_status.icon = ''
-    self.link_priority.icon = ''
-    if self.link_artistid.icon == '' or self.link_artistid.icon == 'fa:angle-up':
-      self.link_artistid.icon = 'fa:angle-down'
-      self.repeating_panel_data.items = sorted(self.repeating_panel_data.items, key=lambda x: x.get('ArtistID', float('inf')), reverse=True)
-    elif self.link_artistid.icon == 'fa:angle-down':
-      self.link_artistid.icon = 'fa:angle-up'
-      self.repeating_panel_data.items = sorted(self.repeating_panel_data.items, key=lambda x: x.get('ArtistID', float('inf')), reverse=False)
-
-  def link_status_click(self, **event_args):
-    self.link_artistid.icon = ''
-    self.link_priority.icon = ''
-    if self.link_status.icon == '' or self.link_status.icon == 'fa:angle-up':
-      self.link_status.icon = 'fa:angle-down'
-      self.repeating_panel_data.items = sorted(self.repeating_panel_data.items, key=lambda x: x.get('Status', float('inf')), reverse=True)
-    elif self.link_status.icon == 'fa:angle-down':
-      self.link_status.icon = 'fa:angle-up'
-      self.repeating_panel_data.items = sorted(self.repeating_panel_data.items, key=lambda x: x.get('Status', float('inf')), reverse=False)
-
-  def link_priority_click(self, **event_args):
-    self.link_artistid.icon = ''
-    self.link_status.icon = ''
-    if self.link_priority.icon == '' or self.link_priority.icon == 'fa:angle-up':
-      self.link_priority.icon = 'fa:angle-down'
-      self.repeating_panel_data.items = sorted(self.repeating_panel_data.items, key=lambda x: x.get('Priority', float('inf')), reverse=True)
-    elif self.link_priority.icon == 'fa:angle-down':
-      self.link_priority.icon = 'fa:angle-up'
-      self.repeating_panel_data.items = sorted(self.repeating_panel_data.items, key=lambda x: x.get('Priority', float('inf')), reverse=False)
-
+  # SEARCH
   def button_search_click(self, **event_args):
     # get data
-    data = [entry for entry in self.get_data() if str(entry["ArtistID"]).find(str(self.text_box_search.text)) != -1]
+    data = [entry for entry in self.get_data() if str(entry["Name"]).lower().find(str(self.text_box_search.text).lower()) != -1]
 
     # sort as defined before
-    if self.link_artistid.icon == 'fa:angle-down':
-      self.repeating_panel_data.items = sorted(data, key=lambda x: x.get('ArtistID', float('inf')), reverse=True)
-    elif self.link_artistid.icon == 'fa:angle-up':
-      self.repeating_panel_data.items = sorted(data, key=lambda x: x.get('ArtistID', float('inf')), reverse=False)
-    elif self.link_status.icon == 'fa:angle-down':
-      self.repeating_panel_data.items = sorted(data, key=lambda x: x.get('Status', float('inf')), reverse=True)
-    elif self.link_status.icon == 'fa:angle-up':
-      self.repeating_panel_data.items = sorted(data, key=lambda x: x.get('Status', float('inf')), reverse=False)
-    elif self.link_priority.icon == 'fa:angle-down':
-      self.repeating_panel_data.items = sorted(data, key=lambda x: x.get('Priority', float('inf')), reverse=True)
-    elif self.link_priority.icon == 'fa:angle-up':
-      self.repeating_panel_data.items = sorted(data, key=lambda x: x.get('Priority', float('inf')), reverse=False)
+    if self.link_artist.icon == 'fa:angle-down':
+      self.repeating_panel_data.items = sorted(data, key=lambda x: x.get('Name', float('inf')), reverse=True)
+    elif self.link_artist.icon == 'fa:angle-up':
+      self.repeating_panel_data.items = sorted(data, key=lambda x: x.get('Name', float('inf')), reverse=False)
+    elif self.link_release.icon == 'fa:angle-down':
+      self.repeating_panel_data.items = sorted(data, key=lambda x: x.get('LastReleaseDate', float('inf')), reverse=True)
+    elif self.link_release.icon == 'fa:angle-up':
+      self.repeating_panel_data.items = sorted(data, key=lambda x: x.get('LastReleaseDate', float('inf')), reverse=False)
+    elif self.link_poplat.icon == 'fa:angle-down':
+      self.repeating_panel_data.items = sorted(data, key=lambda x: x.get('PopularityLat', float('inf')), reverse=True)
+    elif self.link_poplat.icon == 'fa:angle-up':
+      self.repeating_panel_data.items = sorted(data, key=lambda x: x.get('PopularityLat', float('inf')), reverse=False)
+      
+    elif self.link_popdif.icon == 'fa:angle-down':
+      self.repeating_panel_data.items = sorted(data, key=lambda x: x.get('PopularityDif', float('inf')), reverse=True)
+    elif self.link_popdif.icon == 'fa:angle-up':
+      self.repeating_panel_data.items = sorted(data, key=lambda x: x.get('PopularityDif', float('inf')), reverse=False)
+      
+    elif self.link_popdev.icon == 'fa:angle-down':
+      self.repeating_panel_data.items = sorted(data, key=lambda x: x.get('PopularityDev', float('inf')), reverse=True)
+    elif self.link_popdev.icon == 'fa:angle-up':
+      self.repeating_panel_data.items = sorted(data, key=lambda x: x.get('PopularityDev', float('inf')), reverse=False)
     
     
+
+    elif self.link_follat.icon == 'fa:angle-down':
+      self.repeating_panel_data.items = sorted(data, key=lambda x: x.get('FollowerLat', float('inf')), reverse=True)
+    elif self.link_follat.icon == 'fa:angle-up':
+      self.repeating_panel_data.items = sorted(data, key=lambda x: x.get('FollowerLat', float('inf')), reverse=False)
+      
+    elif self.link_foldif.icon == 'fa:angle-down':
+      self.repeating_panel_data.items = sorted(data, key=lambda x: x.get('FollowerDif', float('inf')), reverse=True)
+    elif self.link_foldif.icon == 'fa:angle-up':
+      self.repeating_panel_data.items = sorted(data, key=lambda x: x.get('FollowerDif', float('inf')), reverse=False)
+      
+    elif self.link_foldev.icon == 'fa:angle-down':
+      self.repeating_panel_data.items = sorted(data, key=lambda x: x.get('FollowerDev', float('inf')), reverse=True)
+    elif self.link_foldev.icon == 'fa:angle-up':
+      self.repeating_panel_data.items = sorted(data, key=lambda x: x.get('FollowerDev', float('inf')), reverse=False)

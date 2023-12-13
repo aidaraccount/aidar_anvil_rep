@@ -3,7 +3,7 @@ components:
 - name: content_panel
   properties: {col_widths: '{"XBVCRE":15,"GZSLQT":10,"EJNOAI":35}'}
   type: ColumnPanel
-  layout_properties: {grid_position: 'KGEKNG,EYINSF'}
+  layout_properties: {grid_position: 'KGEKNG,EYINSF', full_width_row: false}
   components:
   - name: label_1_copy
     properties: {role: title, align: left, tooltip: '', border: '', foreground: '',
@@ -37,47 +37,77 @@ components:
     properties: {height: 32}
     type: Spacer
     layout_properties: {grid_position: 'IXONSR,EJNOAI'}
+  - name: spacer_2
+    properties: {height: 32}
+    type: Spacer
+    layout_properties: {grid_position: 'IHVCTV,GWIOMW'}
   - name: data_grid_1
     properties:
       columns:
-      - {id: JKSDUP, title: Column 1, data_key: ArtistID}
-      - {id: VJQQOR, title: Column 2, data_key: Status}
-      - {id: OJLQEN, title: Column 3, data_key: Priority}
+      - {id: JKSDUP, title: Column 1, data_key: Name}
+      - {id: VJQQOR, title: Column 2, data_key: LastReleaseDate}
+      - {id: OJLQEN, title: Column 3, data_key: PopularityLat}
+      - {id: JMPPBV, data_key: PopularityDif, title: Column 4}
+      - {id: CDCVLK, data_key: PopularityDev, title: Column 5}
+      - {id: SNZOEY, data_key: FollowerLat, title: Column 6}
+      - {id: CLLQNH, data_key: FollowerDif, title: Column 7}
+      - {id: QLRQCM, data_key: FollowerDev, title: Column 8}
       show_page_controls: true
       auto_header: false
+      rows_per_page: 10
     type: DataGrid
     components:
-    - name: flow_panel_1
-      properties: {}
-      type: FlowPanel
+    - name: xy_panel_1
+      properties: {height: 58}
+      type: XYPanel
       components:
-      - name: column_panel_1
-        properties: {col_widths: '{"VKIBVF":20,"XFWKCQ":20,"ATEWKF":20}', border: ''}
-        type: ColumnPanel
-        components:
-        - name: link_artistid
-          properties: {text: ArtistID, icon: '', icon_align: right, role: table_content,
-            border: ''}
-          type: Link
-          layout_properties: {grid_position: 'BMMBQH,VKIBVF'}
-          event_bindings: {click: link_artistid_click}
-        - name: link_status
-          properties: {text: Status, icon_align: right, role: table_content}
-          type: Link
-          layout_properties: {grid_position: 'BMMBQH,XFWKCQ'}
-          event_bindings: {click: link_status_click}
-        - name: link_priority
-          properties: {text: Priority, icon_align: right, role: table_content}
-          type: Link
-          layout_properties: {grid_position: 'BMMBQH,WFTORH'}
-          event_bindings: {click: link_priority_click}
-        layout_properties: {width: 950.4}
-        data_bindings: []
+      - name: link_artist
+        properties: {text: Artist, icon: '', icon_align: right, role: table_content,
+          border: ''}
+        type: Link
+        layout_properties: {x: 0, y: 0, width: 84}
+        event_bindings: {click: link_artist_click}
+      - name: link_release
+        properties: {text: Last Rel., icon_align: right, role: table_content, tooltip: Last Release Date}
+        type: Link
+        layout_properties: {x: 130, y: 0, width: 115}
+        event_bindings: {click: link_release_click}
+      - name: link_poplat
+        properties: {text: Pop. Lat., icon_align: right, role: table_content, tooltip: Latest Spotify Popularity}
+        type: Link
+        layout_properties: {x: 255, y: 0, width: 110}
+        event_bindings: {click: link_poplat_click}
+      - name: link_popdif
+        properties: {text: Pop. Dif., role: table_content, icon_align: right, tooltip: Spotify Popularity Difference (last Month)}
+        type: Link
+        layout_properties: {x: 375, y: 0, width: 110}
+        event_bindings: {click: link_popdif_click}
+      - name: link_popdev
+        properties: {text: Pop. Dev., role: table_content, icon_align: right, tooltip: Spotify Popularity Development (last Month)}
+        type: Link
+        layout_properties: {x: 495, y: 0, width: 117}
+        event_bindings: {click: link_popdev_click}
+      - name: link_follat
+        properties: {text: Fol. Lat., role: table_content, icon_align: right, tooltip: Latest Spotify Follower}
+        type: Link
+        layout_properties: {x: 615, y: 0, width: 110}
+        event_bindings: {click: link_follat_click}
+      - name: link_foldif
+        properties: {text: Fol. Dif., role: table_content, icon_align: right, tooltip: Spotify Follower Difference (last Month)}
+        type: Link
+        layout_properties: {x: 735, y: 0, width: 104}
+        event_bindings: {click: link_foldif_click}
+      - name: link_foldev
+        properties: {text: Fol. Dev., role: table_content, icon_align: right, tooltip: Spotify Follower Development (last Month)}
+        type: Link
+        layout_properties: {x: 860, y: 0, width: 109}
+        event_bindings: {click: link_foldev_click}
+      layout_properties: {}
     - name: repeating_panel_data
       properties: {item_template: C_Watchlist_Overview.RowTemplate3, role: table_content_small}
       type: RepeatingPanel
       layout_properties: {pinned: false}
-    layout_properties: {grid_position: 'MXANCB,DCXPKB'}
+    layout_properties: {grid_position: 'MXANCB,DCXPKB', full_width_row: false}
 is_package: true
 custom_component: true
 properties: []
