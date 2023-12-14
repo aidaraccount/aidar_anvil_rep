@@ -385,7 +385,7 @@ components:
       - name: rich_text_2_copy
         properties: {role: null, align: center, tooltip: '', enable_slots: true, border: '',
           foreground: 'theme:Text_White', visible: true, font_size: null, content: "<p\
-            \ style=\"font-weight: bold;\">\n  <span style=\"font-size: 40px;\">>20</span>\n\
+            \ style=\"font-weight: bold;\">\n  <span style=\"font-size: 40px;\">>21</span>\n\
             \  <span style=\"font-size: 24px;\">million</span>\n  <br>\n  <span style=\"\
             font-size: 30px;\">Tracks</span>\n</p>", font: GSb, spacing_above: small,
           spacing_below: small, data: null, background: '', format: restricted_html}
