@@ -33,3 +33,7 @@ components:
     type: Link
     layout_properties: {x: 97, y: -20, width: 40}
     event_bindings: {click: link_notification_click}
+  - name: link_all
+    properties: {}
+    type: Link
+    layout_properties: {x: 0, y: 0, width: 130}
