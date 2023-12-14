@@ -24,3 +24,39 @@ components:
   type: Button
   layout_properties: {column: SXXXLP}
   event_bindings: {click: button_details_click}
+- name: label_1
+  properties: {align: center}
+  type: Label
+  layout_properties: {column: CDCVLK}
+  data_bindings:
+  - {property: text, code: 'str(self.item[''PopularityDev'']) + ''%''', writeback: false}
+- name: label_2
+  properties: {align: center}
+  type: Label
+  layout_properties: {column: QLRQCM}
+  data_bindings:
+  - {property: text, code: 'str(self.item[''FollowerDev'']) + ''%''', writeback: false}
+- name: label_3
+  properties: {align: right}
+  type: Label
+  layout_properties: {column: SNZOEY}
+  data_bindings:
+  - {property: text, code: 'self.item[''FollowerLat'']', writeback: false}
+- name: label_4
+  properties: {align: right}
+  type: Label
+  layout_properties: {column: CLLQNH}
+  data_bindings:
+  - {property: text, code: 'self.item[''FollowerDif'']', writeback: false}
+- name: label_5
+  properties: {align: center}
+  type: Label
+  layout_properties: {column: OJLQEN}
+  data_bindings:
+  - {property: text, code: 'self.item[''PopularityLat'']', writeback: false}
+- name: label_6
+  properties: {align: center}
+  type: Label
+  layout_properties: {column: JMPPBV}
+  data_bindings:
+  - {property: text, code: 'self.item[''PopularityDif'']', writeback: false}
