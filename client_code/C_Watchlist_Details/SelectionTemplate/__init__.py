@@ -24,7 +24,6 @@ class SelectionTemplate(SelectionTemplateTemplate):
   def link_selection_click(self, **event_args):
     # load the data of the newly selected artist
     cur_ai_artist_id = self.link_selection.url
-    print(f"link_selection_click: {cur_ai_artist_id}")
     self.parent.parent.parent.parent.update_cur_ai_artist_id(cur_ai_artist_id)
     self.parent.parent.parent.parent.get_watchlist_details(cur_model_id, cur_ai_artist_id)
     self.parent.parent.parent.parent.get_watchlist_notes(cur_model_id, cur_ai_artist_id)
@@ -52,7 +51,6 @@ class SelectionTemplate(SelectionTemplateTemplate):
   
   def update_watchlist_notification(self, watchlist, notification, **event_args):
     cur_ai_artist_id = self.link_selection.url
-    print(f"update_watchlist_details_notification_true: {cur_ai_artist_id}")
     details = json.loads(anvil.server.call('get_watchlist_details', cur_model_id, cur_ai_artist_id))
     anvil.server.call('update_watchlist_notification',
                       cur_model_id,
