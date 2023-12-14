@@ -23,7 +23,9 @@ class C_Watchlist_Details(C_Watchlist_DetailsTemplate):
 
     self.get_watchlist_selection(temp_artist_id = temp_artist_id)
 
-    print(f"temp_artist_id = {temp_artist_id}")
+
+  def drop_down_selection_change(self, **event_args):
+    self.get_watchlist_selection(temp_artist_id=None)
   
   # get information for selection bar on the left
   def get_watchlist_selection(self, temp_artist_id, **event_args):
@@ -104,14 +106,11 @@ class C_Watchlist_Details(C_Watchlist_DetailsTemplate):
   def update_cur_ai_artist_id(self, new_value):
     global cur_ai_artist_id
     cur_ai_artist_id = new_value
-    print(f"update_cur_ai_artist_id: {cur_ai_artist_id}")
   
   def get_watchlist_details (self, cur_model_id, cur_ai_artist_id, **event_args):
     #global cur_ai_artist_id
     cur_ai_artist_id = cur_ai_artist_id
-    print(f"get_watchlist_details: {cur_ai_artist_id}")
     details = json.loads(anvil.server.call('get_watchlist_details', cur_model_id, cur_ai_artist_id))
-    print(f"get_watchlist_details - details: {details}")
 
     # Image & Name
     self.image_detail.source = details[0]["ArtistPictureURL"]
@@ -163,19 +162,15 @@ class C_Watchlist_Details(C_Watchlist_DetailsTemplate):
   
   def get_watchlist_notes (self, cur_model_id, cur_ai_artist_id, **event_args):
     cur_ai_artist_id = cur_ai_artist_id
-    print(f"get_watchlist_notes: {cur_ai_artist_id}")
     self.repeating_panel_detail.items = json.loads(anvil.server.call('get_watchlist_notes', cur_model_id, cur_ai_artist_id))
   
   def button_note_click(self, **event_args):
-    print(f"button_note_click: {cur_ai_artist_id}")
     anvil.server.call('add_note', user["user_id"], cur_model_id, cur_ai_artist_id, "", "", self.text_area_note.text)
     self.text_area_note.text = ""
     self.get_watchlist_notes(cur_model_id, cur_ai_artist_id)
 
   def button_edit_click(self, **event_args):
-    print(f"button_edit_click: {cur_ai_artist_id}")
     details = json.loads(anvil.server.call('get_watchlist_details', cur_model_id, cur_ai_artist_id))
-    print(f"button_edit_click - details: {details}")
     
     if self.button_edit.icon == 'fa:edit':
       self.button_edit.icon = 'fa:save'
@@ -205,9 +200,7 @@ class C_Watchlist_Details(C_Watchlist_DetailsTemplate):
       self.update_watchlist_details()
   
   def update_watchlist_details(self, **event_args):
-    print(f"update_watchlist_details: {cur_ai_artist_id}")
     details = json.loads(anvil.server.call('get_watchlist_details', cur_model_id, cur_ai_artist_id))
-    print(f"update_watchlist_details - self.text_box_insta.text: {self.text_box_insta.text}")
     anvil.server.call('update_watchlist_details',
                       cur_model_id,
                       cur_ai_artist_id,
@@ -226,7 +219,6 @@ class C_Watchlist_Details(C_Watchlist_DetailsTemplate):
     self.get_watchlist_details(cur_model_id, cur_ai_artist_id)
   
   def button_investigate_click(self, **event_args):
-    print(f"button_investigate_click: {cur_ai_artist_id}")
     open_form('Main_In', temp_artist_id = cur_ai_artist_id, target = None)
 
   def button_delete_click(self, **event_args):

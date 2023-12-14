@@ -171,10 +171,12 @@ class C_Watchlist_Overview(C_Watchlist_OverviewTemplate):
       self.repeating_panel_data.items = sorted(data, key=lambda x: x.get('Name', float('inf')), reverse=True)
     elif self.link_artist.icon == 'fa:angle-up':
       self.repeating_panel_data.items = sorted(data, key=lambda x: x.get('Name', float('inf')), reverse=False)
+      
     elif self.link_release.icon == 'fa:angle-down':
       self.repeating_panel_data.items = sorted(data, key=lambda x: x.get('LastReleaseDate', float('inf')), reverse=True)
     elif self.link_release.icon == 'fa:angle-up':
       self.repeating_panel_data.items = sorted(data, key=lambda x: x.get('LastReleaseDate', float('inf')), reverse=False)
+      
     elif self.link_poplat.icon == 'fa:angle-down':
       self.repeating_panel_data.items = sorted(data, key=lambda x: x.get('PopularityLat', float('inf')), reverse=True)
     elif self.link_poplat.icon == 'fa:angle-up':
@@ -190,8 +192,6 @@ class C_Watchlist_Overview(C_Watchlist_OverviewTemplate):
     elif self.link_popdev.icon == 'fa:angle-up':
       self.repeating_panel_data.items = sorted(data, key=lambda x: x.get('PopularityDev', float('inf')), reverse=False)
     
-    
-
     elif self.link_follat.icon == 'fa:angle-down':
       self.repeating_panel_data.items = sorted(data, key=lambda x: x.get('FollowerLat', float('inf')), reverse=True)
     elif self.link_follat.icon == 'fa:angle-up':

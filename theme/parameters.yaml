@@ -35,7 +35,7 @@ roles:
 - name: input_margin
   components: [ColumnPanel]
 - name: table_content_small
-  components: [RepeatingPanel]
+  components: [RepeatingPanel, Link]
 - name: table_header
   components: [DataGrid]
 - name: investigate_value

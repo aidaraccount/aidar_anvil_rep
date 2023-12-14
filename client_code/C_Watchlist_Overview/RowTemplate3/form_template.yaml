@@ -12,12 +12,13 @@ components:
     layout_properties: {x: 0, y: 10, width: 30}
     data_bindings:
     - {property: source, code: 'self.item[''ArtistPictureURL'']', writeback: false}
-  - name: label_artist
-    properties: {}
-    type: Label
+  - name: link_artist
+    properties: {role: table_content_small}
+    type: Link
+    layout_properties: {x: 40, y: 0, width: 80}
     data_bindings:
     - {property: text, code: 'self.item[''Name'']', writeback: false}
-    layout_properties: {x: 40, y: 0, width: 81}
+    event_bindings: {click: link_artist_click}
 - name: button_details
   properties: {text: '', icon: 'fa:address-card-o', role: feature, foreground: 'theme:Text_DecentWhite',
     background: 'theme:Orange', tooltip: See Artists Watchlist Details}
