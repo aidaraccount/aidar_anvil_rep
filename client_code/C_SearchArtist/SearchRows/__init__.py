@@ -17,11 +17,11 @@ class SearchRows(SearchRowsTemplate):
     # Any code you write here will run before the form opens.
   
   def inspect_link_click(self, **event_args):  
-    open_form('Main_In', temp_artist_id = int(self.inspect_link.url))
+    open_form('Main_In', temp_artist_id = int(self.inspect_link.url), target=None)
 
   def inspect_pic_link_click(self, **event_args):
-    open_form('Main_In', temp_artist_id = int(self.inspect_pic_link.url))
+    open_form('Main_In', temp_artist_id = int(self.inspect_pic_link.url), target=None)
 
   def inspect_name_link_click(self, **event_args):
-    open_form('Main_In', temp_artist_id = int(self.inspect_name_link.url))
+    open_form('Main_In', temp_artist_id = int(self.inspect_name_link.url), target=None)
 

@@ -13,8 +13,7 @@ components:
     type: Label
     layout_properties: {grid_position: 'HPXQKF,CESLFK'}
     data_bindings:
-    - {property: text, code: '"  " + self.item[''Date''] + " " + self.item[''Time'']',
-      writeback: false}
+    - {property: text, code: '"  " + self.item[''DateTime'']', writeback: false}
   - name: link_delete
     properties: {font_size: 12, spacing_below: none, spacing_above: none, icon: 'fa:trash-o',
       icon_align: left, align: right, role: description, text: ' '}
