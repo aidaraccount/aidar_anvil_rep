@@ -1,3 +1,26 @@
 is_package: true
 container: {type: DataRowPanel}
-components: []
+components:
+- name: xy_panel_1
+  properties: {height: 18}
+  type: XYPanel
+  layout_properties: {column: JKSDUP}
+  components:
+  - name: image_artist
+    properties: {height: '38', display_mode: zoom_to_fill}
+    type: Image
+    layout_properties: {x: 0, y: 10, width: 30}
+    data_bindings:
+    - {property: source, code: 'self.item[''ArtistPictureURL'']', writeback: false}
+  - name: label_artist
+    properties: {}
+    type: Label
+    data_bindings:
+    - {property: text, code: 'self.item[''Name'']', writeback: false}
+    layout_properties: {x: 40, y: 0, width: 81}
+- name: button_details
+  properties: {text: '', icon: 'fa:address-card-o', role: feature, foreground: 'theme:Text_DecentWhite',
+    background: 'theme:Orange', tooltip: See Artists Watchlist Details}
+  type: Button
+  layout_properties: {column: SXXXLP}
+  event_bindings: {click: button_details_click}

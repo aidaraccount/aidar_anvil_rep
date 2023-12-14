@@ -78,3 +78,6 @@ class RatingRows(RatingRowsTemplate):
       Notification("",
         title=f"{self.item['Name']} removed from the watchlist!",
         style="success").show()      
+
+  def button_investigate_click(self, **event_args):
+    open_form('Main_In', temp_artist_id = self.item["ArtistID"], target = None)

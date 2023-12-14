@@ -168,6 +168,10 @@ a.anvil-role-investigate_feature:hover, a.anvil-role-investigate_feature:active,
   color: %color:Text_White%;
 }
 
+.anvil-role-bottom_line {
+  border-bottom: 1px solid %color:Text_DecentWhite%;
+}
+
 div.row {
   margin-bottom: 0 important!;
 }

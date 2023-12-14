@@ -48,6 +48,8 @@ roles:
   components: [Label, Link]
 - name: note
   components: [Label]
+- name: bottom_line
+  components: [XYPanel]
 color_scheme:
   preset_groups:
   - name: Accent
