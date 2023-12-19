@@ -39,6 +39,7 @@ class RatingRows(RatingRowsTemplate):
   def inspect_name_link_click(self, **event_args):
     open_form('Main_In', temp_artist_id = self.item["ArtistID"], target = None)
 
+  # BUTTONS
   def button_watchlist_click(self, **event_args):
     if self.item["Watchlist"] == 1:
       # route to Watchlist Details

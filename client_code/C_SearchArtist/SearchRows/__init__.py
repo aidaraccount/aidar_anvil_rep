@@ -15,13 +15,64 @@ class SearchRows(SearchRowsTemplate):
     self.init_components(**properties)
 
     # Any code you write here will run before the form opens.
-  
-  def inspect_link_click(self, **event_args):  
-    open_form('Main_In', temp_artist_id = int(self.inspect_link.url), target=None)
+    if self.item["Watchlist"] == 1:
+      self.button_watchlist.background = '#fd652d' # orange
+      self.button_watchlist.foreground = '#f5f4f1' # white
+      self.button_watchlist.tooltip = 'go to Watchlist'
+      self.button_watchlist_delete.visible = True
+    else:
+      self.button_watchlist.background = ''
+      self.button_watchlist.foreground = ''
+      self.button_watchlist.tooltip = 'add to Watchlist'
+      self.button_watchlist_delete.visible = False
 
+  
   def inspect_pic_link_click(self, **event_args):
     open_form('Main_In', temp_artist_id = int(self.inspect_pic_link.url), target=None)
 
   def inspect_name_link_click(self, **event_args):
     open_form('Main_In', temp_artist_id = int(self.inspect_name_link.url), target=None)
 
+  # BUTTONS
+  def button_watchlist_click(self, **event_args):
+    if self.item["Watchlist"] == 1:
+      # route to Watchlist Details
+      open_form('Main_In', temp_artist_id = self.item["ArtistID"], target = 'C_Watchlist_Details')      
+    else:
+      # add to Watchlist (incl. change Button) and show delete Button
+      anvil.server.call('update_watchlist_notification',
+                        self.item["ModelID"],
+                        self.item["ArtistID"],
+                        True,
+                        True
+                        )
+      self.parent.parent.parent.parent.parent.parent.update_no_notifications()
+      self.item["Watchlist"] = 1
+      
+      self.button_watchlist.background = '#fd652d' # orange
+      self.button_watchlist.foreground = '#f5f4f1' # white
+      self.button_watchlist.tooltip = 'go to Watchlist'
+      self.button_watchlist_delete.visible = True
+      
+      Notification("",
+        title=f"{self.item['Name']} added to the watchlist!",
+        style="success").show()
+      
+  def button_watchlist_delete_click(self, **event_args):
+    c = confirm("Do you wish to delete this artist from your watchlist?")
+    if c is True:
+      anvil.server.call('update_watchlist_notification', self.item["ModelID"], self.item["ArtistID"], False, False)
+      self.parent.parent.parent.parent.parent.parent.update_no_notifications()
+      self.item["Watchlist"] = 0
+      
+      self.button_watchlist.background = ''
+      self.button_watchlist.foreground = ''
+      self.button_watchlist.tooltip = 'add to Watchlist'
+      self.button_watchlist_delete.visible = False
+      
+      Notification("",
+        title=f"{self.item['Name']} removed from the watchlist!",
+        style="success").show()      
+
+  def button_investigate_click(self, **event_args):
+    open_form('Main_In', temp_artist_id = self.item["ArtistID"], target = None)

@@ -1,17 +1,6 @@
 container: {type: DataRowPanel}
 components:
 - type: Link
-  properties: {role: null, url: '', align: left, tooltip: '', border: '', foreground: '',
-    visible: true, text: '', font_size: null, wrap_on: mobile, font: '', col_spacing: medium,
-    spacing_above: small, icon_align: left, col_widths: '', spacing_below: small,
-    italic: false, background: '', bold: false, underline: false, icon: ''}
-  name: inspect_link
-  layout_properties: {column: YTCRRC}
-  event_bindings: {click: inspect_link_click}
-  data_bindings:
-  - {property: text, code: '''see Details'''}
-  - {property: url, code: 'self.item[''ArtistID'']'}
-- type: Link
   properties: {col_widths: '{}'}
   name: inspect_pic_link
   layout_properties: {column: CGJCWL}
@@ -38,4 +27,38 @@ components:
   - {property: text, code: 'self.item[''Name'']'}
   - {property: url, code: 'self.item[''ArtistID'']'}
   event_bindings: {click: inspect_name_link_click}
+- name: label_1
+  properties: {align: center}
+  type: Label
+  layout_properties: {column: TTVDHC}
+  data_bindings:
+  - {property: text, code: 'self.item[''ArtistPopularity_lat'']', writeback: false}
+- name: label_2
+  properties: {align: center}
+  type: Label
+  layout_properties: {column: ITWSTJ}
+  data_bindings:
+  - {property: text, code: 'self.item[''ArtistFollower_lat'']', writeback: false}
+- name: xy_panel_1
+  properties: {height: 20}
+  type: XYPanel
+  layout_properties: {column: YTCRRC}
+  components:
+  - name: button_investigate
+    properties: {text: '', role: feature, foreground: 'theme:Text_DecentWhite', background: 'theme:Orange',
+      icon: 'fa:male', tooltip: Investigate Artist}
+    type: Button
+    layout_properties: {x: 0, y: 0, width: 95}
+    event_bindings: {click: button_investigate_click}
+  - name: button_watchlist
+    properties: {text: '', icon: 'fa:address-card-o', role: feature, tooltip: ''}
+    type: Button
+    layout_properties: {x: 85, y: 0, width: 40}
+    data_bindings: []
+    event_bindings: {click: button_watchlist_click}
+  - name: button_watchlist_delete
+    properties: {text: '', icon: 'fa:trash-o', role: feature, visible: false, tooltip: remove from Watchlist}
+    type: Button
+    layout_properties: {x: 130, y: null, width: 40}
+    event_bindings: {click: button_watchlist_delete_click}
 is_package: true
