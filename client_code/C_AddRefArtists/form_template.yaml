@@ -5,7 +5,7 @@ components:
 - type: ColumnPanel
   properties: {col_widths: '{}'}
   name: content_panel
-  layout_properties: {grid_position: 'NDYFJH,LLBANU'}
+  layout_properties: {grid_position: 'SPJEQL,QYLSQN'}
   components:
   - type: Label
     properties: {role: title, align: left, tooltip: '', border: '', foreground: '',
@@ -87,16 +87,16 @@ components:
       role: null
       columns:
       - {id: CGJCWL, title: Artist, data_key: ArtistPictureURL, $$hashKey: 'object:34645',
-        width: '100', expand: false}
+        width: 69, expand: false}
       - {id: OHHGOJ, title: '', data_key: Name, $$hashKey: 'object:27702'}
-      - {id: TTVDHC, title: Popularity, data_key: ArtistPopularity_lat, $$hashKey: 'object:27703'}
-      - {id: ITWSTJ, title: Follower, data_key: ArtistFollower_lat, $$hashKey: 'object:27704'}
+      - {id: TTVDHC, title: Spotify Popularity, data_key: ArtistPopularity_lat, $$hashKey: 'object:27703'}
+      - {id: ITWSTJ, title: Spotify Follower, data_key: ArtistFollower_lat, $$hashKey: 'object:27704'}
       - {id: YTCRRC, title: Add as Ref. Artist, data_key: Investigate, $$hashKey: 'object:27824'}
-      auto_header: true
+      auto_header: false
       tooltip: ''
       border: ''
       foreground: ''
-      rows_per_page: 10
+      rows_per_page: 7
       visible: false
       wrap_on: never
       show_page_controls: true
@@ -108,6 +108,28 @@ components:
       col_widths: {}
       grid_position: ECSUPB,AIXWRL
     components:
+    - name: xy_panel_1
+      properties: {height: 27, role: bottom_line}
+      type: XYPanel
+      components:
+      - name: label_4
+        properties: {text: Artist, role: table_content}
+        type: Label
+        layout_properties: {x: 0, y: 0, width: 200}
+      - name: label_5
+        properties: {text: Popularity, role: table_content, tooltip: Latest Spotity Artist Popularity (ranges from 1 to 100),
+          align: center}
+        type: Label
+        layout_properties: {x: 310, y: 0, width: 200}
+      - name: label_5_copy
+        properties: {text: Follower, role: table_content, tooltip: Latest number of followers on Spotity,
+          align: center}
+        type: Label
+        layout_properties: {x: 528, y: 0, width: 200}
+      - name: label_5_copy_copy
+        properties: {text: Add as REF. ARTIST, role: table_content, tooltip: '', align: left}
+        type: Label
+        layout_properties: {x: 754, y: 0, width: 200}
     - type: RepeatingPanel
       properties: {role: table_content, tooltip: '', border: '', foreground: '', items: null,
         visible: true, spacing_above: none, spacing_below: none, item_template: C_AddRefArtists.SearchRefRows,

@@ -21,7 +21,7 @@ roles:
 - name: sub_title
   components: [Label]
 - name: table_content
-  components: [RepeatingPanel, Link]
+  components: [RepeatingPanel, Link, Label]
 - name: text_box
   components: [TextBox]
 - name: call_to_action_button
