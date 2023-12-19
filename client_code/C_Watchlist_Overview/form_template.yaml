@@ -7,9 +7,9 @@ components:
   components:
   - name: label_1_copy
     properties: {role: title, align: left, tooltip: '', border: '', foreground: '',
-      visible: true, text: Watchlist Overview, font_size: null, font: '', spacing_above: small,
-      icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-      underline: false, icon: ''}
+      visible: true, text: Development of Watchlist Artists, font_size: null, font: '',
+      spacing_above: small, icon_align: left, spacing_below: small, italic: false,
+      background: '', bold: false, underline: false, icon: ''}
     type: Label
     layout_properties:
       col_widths: {}

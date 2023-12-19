@@ -7,6 +7,7 @@ from anvil.tables import app_tables
 import anvil.users
 import json
 
+from ..C_Home import C_Home
 from ..C_Investigate import C_Investigate
 from ..C_Filter import C_Filter
 from ..C_Watchlist_Details import C_Watchlist_Details
@@ -37,23 +38,21 @@ class Main_In(Main_InTemplate):
     
     if (cur_model_id == None):
       self.content_panel.add_component(C_NoModel())
-      self.link_models.background = "theme:Accent 2"
-      self.link_models_create.background = "theme:Sidebar Background"
-      self.link_models_connect.background = "theme:Sidebar Background"
-      self.link_models.visible = True
-      self.link_investigate.visible = False
-      self.link_filter.visible = False
-      self.link_watchlist.visible = False
-      self.link_rating.visible = False
-      self.link_search.visible = False
-      self.link_ref_artists.visible = False
+      self.change_nav_visibility(status=False)
     else:
-      self.content_panel.add_component(C_Investigate(temp_artist_id = temp_artist_id))
-      self.link_investigate.background = "theme:Accent 2"
+      self.content_panel.add_component(C_Home())
+      self.link_home.background = "theme:Accent 2"
       self.update_no_notifications()
 
+    if target == 'C_Investigate':
+      self.route_discover_ai(temp_artist_id = temp_artist_id)
+      
+    if target == 'C_AddRefArtists':
+      self.content_panel.clear()
+      self.content_panel.add_component(C_AddRefArtists())
+      
     if target == 'C_Watchlist_Details':
-      self.route_watchlist_details(temp_artist_id = temp_artist_id)
+      self.route_manage_watchlist(temp_artist_id = temp_artist_id)
 
   
   def logo_click(self, **event_args):
@@ -66,7 +65,138 @@ class Main_In(Main_InTemplate):
 
   def update_no_notifications(self, **event_args):
     NoNotifications = json.loads(anvil.server.call('get_no_notifications', cur_model_id))
-    self.link_watchlist.text = 'Watchlist (' + str(NoNotifications[0]["count(*)"]) + ')'
+    self.link_manage.text = 'MANAGE (' + str(NoNotifications[0]["count(*)"]) + ')'
+
+  def reset_nav_backgrounds(self, **event_args):    
+    self.link_home.background = None
+    self.link_discover.background = None
+    self.link_discover_ai.background = None
+    self.link_discover_name.background = None
+    self.link_discover_rated.background = None
+    self.link_manage.background = None
+    self.link_manage_watchlist.background = None
+    #self.link_manage_funnel.background = None
+    self.link_manage_dev.background = None
+    self.link_models.background = None
+    self.link_models_setup.background = None
+    self.link_models_artists.background = None
+    #self.link_models_tracks.background = None
+    #self.link_settings.background = None
+
+  def change_nav_visibility(self, status, **event_args):
+    self.link_home.visible = status
+    self.link_discover.background = None
+    self.link_discover_ai.background = None
+    self.link_discover_name.background = None
+    self.link_discover_rated.background = None
+    self.link_manage.background = None
+    self.link_manage_watchlist.background = None
+    #self.link_manage_funnel.background = None
+    self.link_manage_dev.background = None
+  
+  # HOME
+  def link_home_click(self, **event_args):
+    self.content_panel.clear()
+    self.content_panel.add_component(C_Home())
+    self.reset_nav_backgrounds()
+    self.link_home.background = "theme:Accent 2"
+    
+  # DISCOVER
+  def change_discover_visibility(self, **event_args):
+    if self.link_discover_ai.visible == False:
+      self.link_discover.icon = 'fa:angle-up'
+      self.link_discover_ai.visible = True
+      self.link_discover_name.visible = True
+      self.link_discover_rated.visible = True
+    else:
+      self.link_discover.icon = 'fa:angle-down'
+      self.link_discover_ai.visible = False
+      self.link_discover_name.visible = False
+      self.link_discover_rated.visible = False
+  
+  def link_discover_ai_click(self, **event_args):
+    self.route_discover_ai(temp_artist_id = None)
+
+  def route_discover_ai(self, temp_artist_id, **event_args):
+    cur_model_id = anvil.server.call('get_model_id',  user["user_id"])
+    self.content_panel.clear()
+    self.content_panel.add_component(C_Investigate(temp_artist_id = temp_artist_id))
+    self.reset_nav_backgrounds()
+    self.link_discover_ai.background = "theme:Accent 2"
+    
+  def link_discover_name_click(self, **event_args):
+    cur_model_id = anvil.server.call('get_model_id',  user["user_id"])
+    self.content_panel.clear()
+    self.content_panel.add_component(C_SearchArtist())
+    self.reset_nav_backgrounds()
+    self.link_discover_name.background = "theme:Accent 2"
+
+  def link_discover_rated_click(self, **event_args):
+    cur_model_id = anvil.server.call('get_model_id',  user["user_id"])
+    self.content_panel.clear()
+    self.content_panel.add_component(C_Rating())
+    self.reset_nav_backgrounds()
+    self.link_discover_rated.background = "theme:Accent 2"
+
+  # FILTER
+  #def filter_click(self, **event_args):
+  #  cur_model_id = anvil.server.call('get_model_id',  user["user_id"])
+  #  self.content_panel.clear()    
+  #  self.content_panel.add_component(C_Filter())
+
+  #----------------------------------------------------------------------------------------------
+  # MANAGE
+  def change_manage_visibility(self, **event_args):
+    if self.link_manage_watchlist.visible == False:
+      self.link_manage.icon = 'fa:angle-up'
+      self.link_manage_watchlist.visible = True
+      self.link_manage_dev.visible = True
+    else:
+      self.link_manage.icon = 'fa:angle-down'
+      self.link_manage_watchlist.visible = False
+      self.link_manage_dev.visible = False
+  
+  def link_manage_watchlist_click(self, **event_args):
+    self.route_manage_watchlist(temp_artist_id = None)
+
+  def route_manage_watchlist(self, temp_artist_id, **event_args):
+    cur_model_id = anvil.server.call('get_model_id',  user["user_id"])
+    self.content_panel.clear()
+    self.content_panel.add_component(C_Watchlist_Details(temp_artist_id))
+    self.reset_nav_backgrounds()
+    self.link_manage_watchlist.background = "theme:Accent 2"
+    
+  def link_manage_dev_click(self, **event_args):
+    cur_model_id = anvil.server.call('get_model_id',  user["user_id"])
+    self.content_panel.clear()
+    self.content_panel.add_component(C_Watchlist_Overview())
+    self.reset_nav_backgrounds()
+    self.link_manage_dev.background = "theme:Accent 2"
+
+  
+  # MODELS
+  def change_models_visibility(self, **event_args):
+    if self.link_models_artists.visible == False:
+      self.link_models.icon = 'fa:angle-up'
+      self.link_models_artists.visible = True
+      #self.link_models_tracks.visible = True
+    else:
+      self.link_models.icon = 'fa:angle-down'
+      self.link_models_artists.visible = False
+      #self.link_models_tracks.visible = False
+
+  def link_models_artists_click(self, **event_args):
+    cur_model_id = anvil.server.call('get_model_id',  user["user_id"])
+    self.content_panel.clear()
+    self.content_panel.add_component(C_EditRefArtists())
+    self.reset_nav_backgrounds()
+    self.link_models_artists.background = "theme:Accent 2"
+  
+  #def add_ref_artists_click(self, **event_args):
+  #  cur_model_id = anvil.server.call('get_model_id',  user["user_id"])
+  #  self.content_panel.clear()
+  #  self.content_panel.add_component(C_AddRefArtists())
+
 
   # AI-MODELS
   def link_models_click(self, **event_args):
@@ -89,156 +219,3 @@ class Main_In(Main_InTemplate):
     self.link_models_connect.background = "theme:Accent 2"
     self.link_models_create.background = None
     self.link_models.background = None
-
-  # INVESTIGATE
-  def investigate_click(self, **event_args):
-    cur_model_id = anvil.server.call('get_model_id',  user["user_id"])
-    self.content_panel.clear()
-    self.content_panel.add_component(C_Investigate(temp_artist_id = None))
-    self.link_investigate.background = "theme:Accent 2"
-    self.link_filter.background = None
-    self.link_watchlist.background = None
-    self.link_watchlist_overview.background = None
-    self.link_watchlist_details.background = None
-    self.link_rating.background = None
-    self.link_search.background = None
-    self.link_ref_artists.background = None
-    self.link_edit_ref_artists.background = None
-    self.link_add_ref_artists.background = None
-
-  # FILTER
-  def filter_click(self, **event_args):
-    cur_model_id = anvil.server.call('get_model_id',  user["user_id"])
-    self.content_panel.clear()    
-    self.content_panel.add_component(C_Filter())
-    self.link_filter.background = "theme:Accent 2"
-    self.link_investigate.background = None
-    self.link_watchlist.background = None
-    self.link_watchlist_overview.background = None
-    self.link_watchlist_details.background = None
-    self.link_rating.background = None
-    self.link_search.background = None
-    self.link_ref_artists.background = None
-    self.link_edit_ref_artists.background = None
-    self.link_add_ref_artists.background = None
-
-  # RATINGS
-  def rating_click(self, **event_args):
-    cur_model_id = anvil.server.call('get_model_id',  user["user_id"])
-    self.content_panel.clear()
-    self.content_panel.add_component(C_Rating())
-    self.link_rating.background = "theme:Accent 2"
-    self.link_filter.background = None
-    self.link_watchlist.background = None
-    self.link_watchlist_overview.background = None
-    self.link_watchlist_details.background = None
-    self.link_investigate.background = None
-    self.link_search.background = None
-    self.link_ref_artists.background = None
-    self.link_edit_ref_artists.background = None
-    self.link_add_ref_artists.background = None
-
-  # SEARCH
-  def link_search_click(self, **event_args):
-    cur_model_id = anvil.server.call('get_model_id',  user["user_id"])
-    self.content_panel.clear()
-    self.content_panel.add_component(C_SearchArtist())
-    self.link_search.background = "theme:Accent 2"
-    self.link_filter.background = None
-    self.link_watchlist.background = None
-    self.link_watchlist_overview.background = None
-    self.link_watchlist_details.background = None
-    self.link_rating.background = None
-    self.link_investigate.background = None
-    self.link_ref_artists.background = None
-    self.link_edit_ref_artists.background = None
-    self.link_add_ref_artists.background = None
-
-  # REF ARTISTS
-  def change_ref_artists_visibility(self, **event_args):
-    if self.link_edit_ref_artists.visible == False:
-      self.link_edit_ref_artists.visible = True
-      self.link_add_ref_artists.visible = True
-    else:
-      self.link_edit_ref_artists.visible = False
-      self.link_add_ref_artists.visible = False
-  
-  def edit_ref_artists_click(self, **event_args):
-    cur_model_id = anvil.server.call('get_model_id',  user["user_id"])
-    self.content_panel.clear()
-    self.content_panel.add_component(C_EditRefArtists())
-    self.link_edit_ref_artists.background = "theme:Accent 2"
-    self.link_add_ref_artists.background = "theme:Sidebar Background"
-    
-    self.link_investigate.background = None
-    self.link_filter.background = None
-    self.link_watchlist.background = None
-    self.link_watchlist_overview.background = None
-    self.link_watchlist_details.background = None
-    self.link_rating.background = None
-    self.link_search.background = None
-    self.link_ref_artists.background = None
-
-  def add_ref_artists_click(self, **event_args):
-    cur_model_id = anvil.server.call('get_model_id',  user["user_id"])
-    self.content_panel.clear()
-    self.content_panel.add_component(C_AddRefArtists())
-    self.link_add_ref_artists.background = "theme:Accent 2"
-    self.link_edit_ref_artists.background = "theme:Sidebar Background"
-    
-    self.link_investigate.background = None
-    self.link_filter.background = None
-    self.link_watchlist.background = None
-    self.link_watchlist_overview.background = None
-    self.link_watchlist_details.background = None
-    self.link_rating.background = None
-    self.link_search.background = None
-    self.link_ref_artists.background = None
-
-  #----------------------------------------------------------------------------------------------
-  # WATCHLIST
-  def change_watchlist_visibility(self, **event_args):
-    if self.link_watchlist_overview.visible == False:
-      self.link_watchlist_overview.visible = True
-      self.link_watchlist_details.visible = True
-    else:
-      self.link_watchlist_overview.visible = False
-      self.link_watchlist_details.visible = False
-    
-  def link_watchlist_overview_click(self, **event_args):
-    cur_model_id = anvil.server.call('get_model_id',  user["user_id"])
-    self.content_panel.clear()
-    self.content_panel.add_component(C_Watchlist_Overview())
-    
-    self.link_watchlist_overview.background = "theme:Accent 2"
-    self.link_watchlist_details.background = "theme:Sidebar Background"
-    
-    self.link_investigate.background = None
-    self.link_filter.background = None
-    self.link_watchlist.background = None
-    self.link_rating.background = None
-    self.link_search.background = None
-    self.link_ref_artists.background = None
-    self.link_edit_ref_artists.background = None
-    self.link_add_ref_artists.background = None
-
-  def watchlist_details_click(self, **event_args):
-    self.route_watchlist_details(temp_artist_id = None)
-
-  def route_watchlist_details(self, temp_artist_id, **event_args):
-    cur_model_id = anvil.server.call('get_model_id',  user["user_id"])
-    self.content_panel.clear()
-    self.content_panel.add_component(C_Watchlist_Details(temp_artist_id))
-
-    self.link_watchlist_overview.background = "theme:Sidebar Background"
-    self.link_watchlist_details.background = "theme:Accent 2"
-    
-    self.link_investigate.background = None
-    self.link_filter.background = None
-    self.link_watchlist.background = None
-    self.link_rating.background = None
-    self.link_search.background = None
-    self.link_ref_artists.background = None
-    self.link_edit_ref_artists.background = None
-    self.link_add_ref_artists.background = None
-  

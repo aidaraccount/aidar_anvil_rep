@@ -9,13 +9,134 @@ components:
   layout_properties: {slot: default}
   components: []
 - type: Link
-  properties: {role: null, url: '', align: left, tooltip: '', border: '', foreground: '',
-    visible: true, text: Investigate, font_size: null, wrap_on: mobile, font: '',
-    col_spacing: medium, spacing_above: small, icon_align: left, col_widths: '', spacing_below: small,
-    italic: false, background: '', bold: false, underline: false, icon: ''}
-  name: link_investigate
+  properties: {role: nav_main, url: '', align: left, tooltip: '', border: '', foreground: '',
+    visible: true, text: HOME, font_size: null, wrap_on: mobile, font: '', col_spacing: medium,
+    spacing_above: small, icon_align: left, col_widths: '', spacing_below: small,
+    italic: false, background: '', bold: false, underline: false, icon: 'fa:angle-right'}
+  name: link_home
   layout_properties: {slot: sidebar}
-  event_bindings: {click: investigate_click}
+  event_bindings: {click: link_home_click}
+- name: linear_panel_1
+  properties: {}
+  type: LinearPanel
+  layout_properties: {slot: sidebar}
+  components:
+  - name: link_discover
+    properties: {role: nav_main, url: '', align: left, tooltip: '', border: '', foreground: '',
+      visible: true, text: DISCOVER, font_size: null, wrap_on: mobile, font: '', col_spacing: medium,
+      spacing_above: small, icon_align: left, col_widths: '', spacing_below: small,
+      italic: false, background: '', bold: false, underline: false, icon: 'fa:angle-down'}
+    type: Link
+    layout_properties: {}
+    event_bindings: {click: change_discover_visibility}
+    components: []
+  - name: link_discover_ai
+    properties: {role: nav_sub, url: '', align: left, tooltip: '', border: '', foreground: '',
+      visible: false, text: BY AI, font_size: null, wrap_on: mobile, font: '', col_spacing: medium,
+      spacing_above: none, icon_align: left, col_widths: '', spacing_below: small,
+      italic: false, background: '', bold: false, underline: false, icon: 'fa:angle-right'}
+    type: Link
+    layout_properties: {}
+    event_bindings: {click: link_discover_ai_click}
+  - type: Link
+    properties: {role: nav_sub, url: '', align: left, tooltip: '', border: '', foreground: '',
+      visible: false, text: BY NAME, font_size: null, wrap_on: mobile, font: '', col_spacing: medium,
+      spacing_above: none, icon_align: left, col_widths: '', spacing_below: small,
+      italic: false, background: '', bold: false, underline: false, icon: 'fa:angle-right'}
+    name: link_discover_name
+    layout_properties: {}
+    event_bindings: {click: link_discover_name_click}
+    components: []
+  - type: Link
+    properties: {role: nav_sub, url: '', align: left, tooltip: '', border: '', foreground: '',
+      visible: false, text: PREV. RATED, font_size: null, wrap_on: mobile, font: '',
+      col_spacing: medium, spacing_above: none, icon_align: left, col_widths: '',
+      spacing_below: small, italic: false, background: '', bold: false, underline: false,
+      icon: 'fa:angle-right'}
+    name: link_discover_rated
+    layout_properties: {}
+    event_bindings: {click: link_discover_rated_click}
+    components: []
+- name: linear_panel_2
+  properties: {}
+  type: LinearPanel
+  layout_properties: {slot: sidebar}
+  components:
+  - name: link_manage
+    properties: {role: nav_main, url: '', align: left, tooltip: '', border: '', foreground: '',
+      visible: true, text: MANAGE, font_size: null, wrap_on: mobile, font: '', col_spacing: medium,
+      spacing_above: small, icon_align: left, col_widths: '', spacing_below: small,
+      italic: false, background: '', bold: false, underline: false, icon: 'fa:angle-down'}
+    type: Link
+    layout_properties: {}
+    event_bindings: {click: change_manage_visibility}
+    components: []
+  - name: link_manage_watchlist
+    properties: {role: nav_sub, url: '', align: left, tooltip: '', border: '', foreground: '',
+      visible: false, text: MY WATCHLIST, font_size: null, wrap_on: mobile, font: '',
+      col_spacing: medium, spacing_above: none, icon_align: left, col_widths: '',
+      spacing_below: small, italic: false, background: '', bold: false, underline: false,
+      icon: 'fa:angle-right'}
+    type: Link
+    layout_properties: {}
+    event_bindings: {click: link_manage_watchlist_click}
+  - name: link_manage_dev
+    properties: {role: nav_sub, url: '', align: left, tooltip: '', border: '', foreground: '',
+      visible: false, text: TALENT DEV, font_size: null, wrap_on: mobile, font: '',
+      col_spacing: medium, spacing_above: none, icon_align: left, col_widths: '',
+      spacing_below: small, italic: false, background: '', bold: false, underline: false,
+      icon: 'fa:angle-right'}
+    type: Link
+    layout_properties: {}
+    event_bindings: {click: link_manage_dev_click}
+- name: linear_panel_3
+  properties: {}
+  type: LinearPanel
+  layout_properties: {slot: sidebar}
+  components:
+  - name: link_models
+    properties: {role: nav_main, url: '', align: left, tooltip: '', border: '', foreground: '',
+      visible: true, text: MODELS, font_size: null, wrap_on: mobile, font: '', col_spacing: medium,
+      spacing_above: small, icon_align: left, col_widths: '', spacing_below: small,
+      italic: false, background: '', bold: false, underline: false, icon: 'fa:angle-down'}
+    type: Link
+    event_bindings: {click: change_models_visibility}
+    layout_properties: {}
+  - name: link_models_setup
+    properties: {role: nav_sub, url: '', align: left, tooltip: '', border: '', foreground: '',
+      visible: false, text: SETUP, font_size: null, wrap_on: mobile, font: '', col_spacing: medium,
+      spacing_above: none, icon_align: left, col_widths: '', spacing_below: small,
+      italic: false, background: '', bold: false, underline: false, icon: 'fa:angle-right'}
+    type: Link
+    layout_properties: {}
+    event_bindings: {click: link_models_setup_click}
+    components: []
+  - name: link_models_artists
+    properties: {role: nav_sub, url: '', align: left, tooltip: '', border: '', foreground: '',
+      visible: false, text: REF. Artists, font_size: null, wrap_on: mobile, font: '',
+      col_spacing: medium, spacing_above: none, icon_align: left, col_widths: '',
+      spacing_below: small, italic: false, background: '', bold: false, underline: false,
+      icon: 'fa:angle-right'}
+    type: Link
+    layout_properties: {}
+    event_bindings: {click: link_models_artists_click}
+  - name: link_models_tracks
+    properties: {role: nav_sub, url: '', align: left, tooltip: '', border: '', foreground: '',
+      visible: false, text: REF. TRACKS, font_size: null, wrap_on: mobile, font: '',
+      col_spacing: medium, spacing_above: none, icon_align: left, col_widths: '',
+      spacing_below: small, italic: false, background: '', bold: false, underline: false,
+      icon: 'fa:angle-right'}
+    type: Link
+    layout_properties: {}
+    event_bindings: {click: link_models_tracks_click}
+- name: link_settings
+  properties: {role: nav_main, url: '', align: left, tooltip: '', border: '', foreground: '',
+    visible: true, text: SETTINGS, font_size: null, wrap_on: mobile, font: '', col_spacing: medium,
+    spacing_above: small, icon_align: left, col_widths: '', spacing_below: small,
+    italic: false, background: '', bold: false, underline: false, icon: 'fa:angle-right'}
+  type: Link
+  layout_properties: {slot: sidebar}
+  event_bindings: {click: link_settings_click}
 - type: Link
   properties: {role: null, url: '', align: left, tooltip: '', border: '', foreground: 'theme:Text_Grey',
     visible: true, text: log out, font_size: null, wrap_on: mobile, font: '', col_spacing: medium,
@@ -24,49 +145,6 @@ components:
   name: link_logout
   layout_properties: {slot: nav-right}
   event_bindings: {click: logout_click}
-- type: Link
-  properties: {role: null, url: '', align: left, tooltip: '', border: '', foreground: '',
-    visible: true, text: Filters, font_size: null, wrap_on: mobile, font: '', col_spacing: medium,
-    spacing_above: small, icon_align: left, col_widths: '', spacing_below: small,
-    italic: false, background: '', bold: false, underline: false, icon: ''}
-  name: link_filter
-  layout_properties: {slot: sidebar}
-  event_bindings: {click: filter_click}
-- name: link_watchlist
-  properties: {role: null, url: '', align: left, tooltip: '', border: '', foreground: '',
-    visible: true, text: WATCHLIST, font_size: null, wrap_on: mobile, font: '', col_spacing: medium,
-    spacing_above: small, icon_align: left, col_widths: '', spacing_below: small,
-    italic: false, background: '', bold: false, underline: false, icon: ''}
-  type: Link
-  layout_properties: {slot: sidebar}
-  event_bindings: {click: change_watchlist_visibility}
-  components:
-  - name: link_watchlist_overview
-    properties: {role: null, url: '', align: left, tooltip: '', border: '', foreground: '',
-      visible: false, text: OVErVIEW, font_size: null, wrap_on: mobile, font: '',
-      col_spacing: medium, spacing_above: none, icon_align: left, col_widths: '',
-      spacing_below: none, italic: false, background: '', bold: false, underline: false,
-      icon: ''}
-    type: Link
-    layout_properties: {grid_position: 'AIEQTK,YOABPB', full_width_row: true}
-    event_bindings: {click: link_watchlist_overview_click}
-  - name: link_watchlist_details
-    properties: {role: null, url: '', align: left, tooltip: '', border: '', foreground: '',
-      visible: false, text: DETAILS, font_size: null, wrap_on: mobile, font: '', col_spacing: medium,
-      spacing_above: none, icon_align: left, col_widths: '', spacing_below: none,
-      italic: false, background: '', bold: false, underline: false, icon: ''}
-    type: Link
-    layout_properties: {grid_position: 'NPJBOI,DBKIAK'}
-    event_bindings: {click: watchlist_details_click}
-- type: Link
-  properties: {role: null, url: '', align: left, tooltip: '', border: '', foreground: '',
-    visible: true, text: Ratings, font_size: null, wrap_on: mobile, font: '', col_spacing: medium,
-    spacing_above: small, icon_align: left, col_widths: '', spacing_below: small,
-    italic: false, background: '', bold: false, underline: false, icon: ''}
-  name: link_rating
-  layout_properties: {slot: sidebar}
-  event_bindings: {click: rating_click}
-  components: []
 - type: Label
   properties: {role: null, align: left, tooltip: '', border: '', foreground: 'theme:Main_Black',
     visible: true, text: .AIDAR, font_size: null, font: '', spacing_above: small,
@@ -74,64 +152,3 @@ components:
     underline: false, icon: ''}
   name: label_1
   layout_properties: {slot: title}
-- type: Link
-  properties: {role: null, url: '', align: left, tooltip: '', border: '', foreground: '',
-    visible: true, text: Search Artist, font_size: null, wrap_on: mobile, font: '',
-    col_spacing: medium, spacing_above: small, icon_align: left, col_widths: '', spacing_below: small,
-    italic: false, background: '', bold: false, underline: false, icon: ''}
-  name: link_search
-  layout_properties: {slot: sidebar}
-  event_bindings: {click: link_search_click}
-  components: []
-- type: Link
-  properties: {role: null, url: '', align: left, tooltip: '', border: '', foreground: '',
-    visible: true, text: Ref. Artists, font_size: null, wrap_on: mobile, font: '',
-    col_spacing: medium, spacing_above: small, icon_align: left, col_widths: '', spacing_below: small,
-    italic: false, background: '', bold: false, underline: false, icon: ''}
-  name: link_ref_artists
-  layout_properties: {slot: sidebar}
-  event_bindings: {click: change_ref_artists_visibility}
-  components:
-  - name: link_edit_ref_artists
-    properties: {role: null, url: '', align: left, tooltip: '', border: '', foreground: '',
-      visible: false, text: EDIT, font_size: null, wrap_on: mobile, font: '', col_spacing: medium,
-      spacing_above: none, icon_align: left, col_widths: '', spacing_below: none,
-      italic: false, background: '', bold: false, underline: false, icon: ''}
-    type: Link
-    layout_properties: {grid_position: 'AIEQTK,YOABPB', full_width_row: true}
-    event_bindings: {click: edit_ref_artists_click}
-    components: []
-  - name: link_add_ref_artists
-    properties: {role: null, url: '', align: left, tooltip: '', border: '', foreground: '',
-      visible: false, text: ADD NEW, font_size: null, wrap_on: mobile, font: '', col_spacing: medium,
-      spacing_above: none, icon_align: left, col_widths: '', spacing_below: none,
-      italic: false, background: '', bold: false, underline: false, icon: ''}
-    type: Link
-    layout_properties: {grid_position: 'NPJBOI,DBKIAK'}
-    event_bindings: {click: add_ref_artists_click}
-- name: link_models
-  properties: {role: null, url: '', align: left, tooltip: '', border: '', foreground: '',
-    visible: false, text: AI-Models, font_size: null, wrap_on: mobile, font: '', col_spacing: medium,
-    spacing_above: small, icon_align: left, col_widths: '', spacing_below: small,
-    italic: false, background: '', bold: false, underline: false, icon: ''}
-  type: Link
-  layout_properties: {slot: sidebar}
-  event_bindings: {click: link_models_click}
-  components:
-  - name: link_models_create
-    properties: {role: null, url: '', align: left, tooltip: '', border: '', foreground: '',
-      visible: true, text: Create, font_size: null, wrap_on: mobile, font: '', col_spacing: medium,
-      spacing_above: none, icon_align: left, col_widths: '', spacing_below: none,
-      italic: false, background: '', bold: false, underline: false, icon: ''}
-    type: Link
-    layout_properties: {grid_position: 'AWFACC,MRLRIH'}
-    event_bindings: {click: link_models_create_click}
-  - name: link_models_connect
-    properties: {role: null, url: '', align: left, tooltip: '', border: '', foreground: '',
-      visible: true, text: Join, font_size: null, wrap_on: mobile, font: '', col_spacing: medium,
-      spacing_above: none, icon_align: left, col_widths: '', spacing_below: none,
-      italic: false, background: '', bold: false, underline: false, icon: ''}
-    type: Link
-    layout_properties: {grid_position: 'OZTHNY,NCZMLJ', full_width_row: true}
-    event_bindings: {click: link_models_connect_click}
-    components: []

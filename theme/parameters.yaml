@@ -50,6 +50,10 @@ roles:
   components: [Label]
 - name: bottom_line
   components: [XYPanel]
+- name: nav_main
+  components: [Link]
+- name: nav_sub
+  components: [Link]
 color_scheme:
   preset_groups:
   - name: Accent

@@ -4,9 +4,9 @@ container:
 components:
 - type: Label
   properties: {role: title, align: left, tooltip: '', border: '', foreground: '',
-    visible: true, text: Search an Artist, font_size: null, font: '', spacing_above: small,
-    icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-    underline: false, icon: ''}
+    visible: true, text: Search an Artist by its name, font_size: null, font: '',
+    spacing_above: small, icon_align: left, spacing_below: small, italic: false, background: '',
+    bold: false, underline: false, icon: ''}
   name: label_1
   layout_properties:
     col_widths: {}
@@ -22,7 +22,7 @@ components:
     col_widths: {}
     grid_position: EGNWWM,AEBFKP
 - type: TextBox
-  properties: {role: text_box_small, align: left, hide_text: false, tooltip: '', placeholder: Add an artists name..,
+  properties: {role: text_box_small, align: left, hide_text: false, tooltip: '', placeholder: Enter an artists name..,
     border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null,
     font: '', spacing_above: small, type: text, spacing_below: small, italic: false,
     background: '', bold: false, underline: false}

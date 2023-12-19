@@ -66,6 +66,20 @@ header>.nav-links>span {
   background-position: center center;
   background-size: cover;
 }
+
+/* Navigation Roles */
+.anvil-role-nav_main {
+  font-size: 14px;
+  font-weight: bold;
+  color: %color:Text_DecentWhite%;
+  padding-left: 5px !important;
+}
+.anvil-role-nav_sub {
+  font-size: 12px;
+  color: %color:Text_DecentWhite%;
+  padding-left: 15px !important;
+}
+
 .anvil-role-call_to_action_button button {
   font-size: 18px;
   border: 2px %color:Grid_Black%;

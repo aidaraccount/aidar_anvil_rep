@@ -9,7 +9,7 @@ components:
   components:
   - type: Label
     properties: {role: title, align: left, tooltip: '', border: '', foreground: '',
-      visible: true, text: Edit Reference Artists, font_size: null, font: '', spacing_above: small,
+      visible: true, text: Your Reference Artists, font_size: null, font: '', spacing_above: small,
       icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
       underline: false, icon: ''}
     name: label_1_copy
@@ -18,21 +18,34 @@ components:
       grid_position: WKTSPW,ALNASW
   - type: Label
     properties: {role: description, align: left, tooltip: '', border: '', foreground: '',
-      visible: true, text: 'To train the Model, we need to know which artists are
-        of high interests to you right now. Therefore, please add as many artists
-        below as you would like to. It is important to only add artists, that you
-        would like to find here right now.
-
-
-        ATTENTION: If you enter too popular artists, the model will suggest popular
-        artists - ensure to add references that really meat your search criteria by
-        e.g. adding your latest signings.', font_size: null, font: '', spacing_above: small,
-      icon_align: left, spacing_below: small, italic: true, background: '', bold: false,
-      underline: false, icon: ''}
+      visible: true, text: 'When setting up a new model, reference artists are the
+        central starting point to let the model learn what you''re interested in.
+        We recommend to add at least three reference artists - click on the button
+        to add further:', font_size: null, font: '', spacing_above: small, icon_align: left,
+      spacing_below: small, italic: true, background: '', bold: false, underline: false,
+      icon: ''}
     name: label_2_copy
     layout_properties:
       col_widths: {}
       grid_position: IRZOFG,FLCZRA
+  - name: spacer_2
+    properties: {height: 9}
+    type: Spacer
+    layout_properties: {grid_position: 'AYIEPD,YLJZGS'}
+  - name: button_add_refs
+    properties: {text: Add additional Reference Artists, role: feature}
+    type: Button
+    layout_properties: {grid_position: 'UWEVQV,LJLVWE'}
+    event_bindings: {click: button_add_refs_click}
+  - name: spacer_1
+    properties: {height: 47}
+    type: Spacer
+    layout_properties: {grid_position: 'AODQCB,QMJTXR'}
+  - name: label_1
+    properties: {role: description, text: 'The following artists are currently added
+        as reference artists for this model:'}
+    type: Label
+    layout_properties: {grid_position: 'TBPVVO,SWMCFS'}
   - name: repeating_panel_reference
     properties: {item_template: C_EditRefArtists.ReferenceTemplate}
     type: RepeatingPanel

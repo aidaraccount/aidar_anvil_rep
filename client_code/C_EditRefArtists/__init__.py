@@ -25,3 +25,6 @@ class C_EditRefArtists(C_EditRefArtistsTemplate):
   def get_references(self, **event_args):
     references = json.loads(anvil.server.call('get_references', cur_model_id))
     self.repeating_panel_reference.items = references
+
+  def button_add_refs_click(self, **event_args):
+    open_form('Main_In', temp_artist_id = None, target = 'C_AddRefArtists')

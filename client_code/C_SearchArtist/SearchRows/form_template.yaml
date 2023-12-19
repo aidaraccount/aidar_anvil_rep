@@ -44,12 +44,12 @@ components:
   type: XYPanel
   layout_properties: {column: YTCRRC}
   components:
-  - name: button_investigate
+  - name: button_discover
     properties: {text: '', role: feature, foreground: 'theme:Text_DecentWhite', background: 'theme:Orange',
       icon: 'fa:male', tooltip: Investigate Artist}
     type: Button
     layout_properties: {x: 0, y: 0, width: 95}
-    event_bindings: {click: button_investigate_click}
+    event_bindings: {click: button_discover_click}
   - name: button_watchlist
     properties: {text: '', icon: 'fa:address-card-o', role: feature, tooltip: ''}
     type: Button
