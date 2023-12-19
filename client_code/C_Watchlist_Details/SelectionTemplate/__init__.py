@@ -20,6 +20,12 @@ class SelectionTemplate(SelectionTemplateTemplate):
     user = anvil.users.get_user()
     global cur_model_id
     cur_model_id = anvil.server.call('get_model_id',  user["user_id"])
+
+    if len(self.item['Name']) > 12:
+      self.link_selection.text = self.item['Name'][0:12] + '..'
+    else:
+      self.link_selection.text = self.item['Name']
+    
     
   def link_selection_click(self, **event_args):
     # load the data of the newly selected artist

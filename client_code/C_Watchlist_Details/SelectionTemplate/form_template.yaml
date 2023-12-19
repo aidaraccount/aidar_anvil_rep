@@ -19,7 +19,6 @@ components:
     type: Link
     layout_properties: {x: 5, y: 70, width: 125}
     data_bindings:
-    - {property: text, code: 'self.item[''Name'']', writeback: false}
     - {property: url, code: 'self.item[''ArtistID'']', writeback: false}
     event_bindings: {click: link_selection_click}
   - name: radio_button_notification

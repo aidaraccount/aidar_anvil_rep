@@ -114,7 +114,7 @@ class C_Watchlist_Details(C_Watchlist_DetailsTemplate):
 
     # Image & Name
     self.image_detail.source = details[0]["ArtistPictureURL"]
-    self.label_name.text = '  ' + details[0]["Name"]    
+    self.label_name.text = details[0]["Name"]    
 
     # Links & Contact Information
     if details[0]["SpotifyLink"] is None:

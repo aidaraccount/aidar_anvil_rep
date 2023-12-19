@@ -69,7 +69,7 @@ components:
         layout_properties: {grid_position: 'ENBHYO,ULEPYC'}
         event_bindings: {change: drop_down_selection_change}
   - name: xy_panel_selection
-    properties: {height: 547}
+    properties: {height: 438}
     type: XYPanel
     layout_properties: {grid_position: 'DQUOJO,QMJMSD'}
     data_bindings: []
@@ -84,21 +84,21 @@ components:
   layout_properties: {grid_position: 'HHCFTV,DORKHT'}
   components:
   - name: xy_panel_4
-    properties: {height: 141}
+    properties: {height: 142, spacing_below: none}
     type: XYPanel
     layout_properties: {grid_position: 'HDFDKN,FADFZU JLLCKE,QRBHZY'}
     components:
     - name: image_detail
-      properties: {height: '140', display_mode: zoom_to_fill}
+      properties: {height: '140', display_mode: zoom_to_fill, spacing_below: none}
       type: Image
-      layout_properties: {x: 10, y: 10, width: 229}
+      layout_properties: {x: 10, y: 7, width: 230}
       data_bindings: []
   - name: label_name
-    properties: {role: sub_title}
+    properties: {role: sub_title, spacing_below: none, spacing_above: none}
     type: Label
     layout_properties: {grid_position: 'HDFDKN,FADFZU NKKNOL,JXMIGM'}
   - name: xy_panel_1
-    properties: {height: 515}
+    properties: {height: 324}
     type: XYPanel
     layout_properties: {grid_position: 'HDFDKN,FADFZU TSPSOX,KGFFZV'}
     components:
@@ -106,71 +106,71 @@ components:
       properties: {text: investigate, align: left, role: feature, background: 'theme:Orange',
         foreground: 'theme:Text_DecentWhite'}
       type: Button
-      layout_properties: {x: 10, y: 205, width: 94}
+      layout_properties: {x: 10, y: 5, width: 94}
       event_bindings: {click: button_investigate_click}
     - name: button_delete
       properties: {text: '', icon: 'fa:trash-o', icon_align: top, role: feature, background: ''}
       type: Button
-      layout_properties: {x: 160, y: 205, width: 50}
+      layout_properties: {x: 160, y: 5, width: 50}
       data_bindings: []
       event_bindings: {click: button_delete_click}
     - name: link_spotify
       properties: {role: description, text: '-', icon: 'fa:spotify'}
       type: Link
-      layout_properties: {x: 10, y: 270, width: 218}
+      layout_properties: {x: 10, y: 70, width: 218}
       components: []
     - name: button_edit
       properties: {text: '', icon: 'fa:edit', role: feature, background: ''}
       type: Button
-      layout_properties: {x: 114, y: 205, width: 40}
+      layout_properties: {x: 114, y: 5, width: 40}
       event_bindings: {click: button_edit_click}
     - name: text_box_spotify
       properties: {role: text_box_small, visible: false, background: 'theme:Sidebar
           Background', foreground: 'theme:Text_DecentWhite', font_size: 14}
       type: TextBox
-      layout_properties: {x: 30, y: 270, width: 200}
+      layout_properties: {x: 30, y: 70, width: 200}
       event_bindings: {pressed_enter: button_edit_click}
     - name: link_insta
       properties: {role: description, text: '-', icon: 'fa:instagram'}
       type: Link
-      layout_properties: {x: 10, y: 310, width: 218}
+      layout_properties: {x: 10, y: 110, width: 218}
       data_bindings: []
       components: []
     - name: text_box_insta
       properties: {role: text_box_small, visible: false, background: 'theme:Sidebar
           Background', foreground: 'theme:Text_DecentWhite', font_size: 14}
       type: TextBox
-      layout_properties: {x: 30, y: 310, width: 200}
+      layout_properties: {x: 30, y: 110, width: 200}
       event_bindings: {pressed_enter: button_edit_click}
     - name: label_phone
       properties: {role: description, icon: 'fa:phone'}
       type: Label
-      layout_properties: {x: 10, y: 460, width: 220}
+      layout_properties: {x: 10, y: 260, width: 220}
     - name: label_mail
       properties: {icon: 'fa:envelope-o', role: description}
       type: Label
-      layout_properties: {x: 10, y: 420, width: 220}
+      layout_properties: {x: 10, y: 220, width: 220}
     - name: label_contact
       properties: {icon: 'fa:male', role: description}
       type: Label
-      layout_properties: {x: 10, y: 380, width: 220}
+      layout_properties: {x: 10, y: 180, width: 220}
     - name: text_box_contact
       properties: {role: text_box_small, visible: false, background: 'theme:Sidebar
           Background', foreground: 'theme:Text_DecentWhite', font_size: 14}
       type: TextBox
-      layout_properties: {x: 30, y: 380, width: 200}
+      layout_properties: {x: 30, y: 180, width: 200}
       event_bindings: {pressed_enter: button_edit_click}
     - name: text_box_mail
       properties: {role: text_box_small, visible: false, background: 'theme:Sidebar
           Background', foreground: 'theme:Text_DecentWhite', font_size: 14}
       type: TextBox
-      layout_properties: {x: 30, y: 420, width: 200}
+      layout_properties: {x: 30, y: 220, width: 200}
       event_bindings: {pressed_enter: button_edit_click}
     - name: text_box_phone
       properties: {role: text_box_small, visible: false, background: 'theme:Sidebar
           Background', foreground: 'theme:Text_DecentWhite', font_size: 14}
       type: TextBox
-      layout_properties: {x: 30, y: 460, width: 200}
+      layout_properties: {x: 30, y: 260, width: 200}
       event_bindings: {pressed_enter: button_edit_click}
   - name: flow_panel_tags
     properties: {}
