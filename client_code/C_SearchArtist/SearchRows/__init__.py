@@ -46,7 +46,7 @@ class SearchRows(SearchRowsTemplate):
                         True,
                         True
                         )
-      self.parent.parent.parent.parent.parent.parent.update_no_notifications()
+      self.parent.parent.parent.parent.parent.update_no_notifications()
       self.item["Watchlist"] = 1
       
       self.button_watchlist.background = '#fd652d' # orange
@@ -62,7 +62,7 @@ class SearchRows(SearchRowsTemplate):
     c = confirm("Do you wish to delete this artist from your watchlist?")
     if c is True:
       anvil.server.call('update_watchlist_notification', self.item["ModelID"], self.item["ArtistID"], False, False)
-      self.parent.parent.parent.parent.parent.parent.update_no_notifications()
+      self.parent.parent.parent.parent.parent.update_no_notifications()
       self.item["Watchlist"] = 0
       
       self.button_watchlist.background = ''

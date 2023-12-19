@@ -43,7 +43,7 @@ components:
     role: null
     columns:
     - {id: CGJCWL, title: Artist, data_key: ArtistPictureURL, $$hashKey: 'object:34645',
-      width: '100', expand: false}
+      width: 70, expand: false}
     - {id: OHHGOJ, title: '', data_key: Name, $$hashKey: 'object:27702'}
     - {id: TTVDHC, title: Popularity, data_key: ArtistPopularity_lat, $$hashKey: 'object:27703'}
     - {id: ITWSTJ, title: Follower, data_key: ArtistFollower_lat, $$hashKey: 'object:27704'}
