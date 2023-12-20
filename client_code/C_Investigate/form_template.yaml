@@ -31,12 +31,12 @@ components:
     properties: {text: '', icon: 'fa:ban', tooltip: remove filters, role: feature,
       visible: true, background: 'theme:Orange', foreground: 'theme:Text_DecentWhite'}
     type: Button
-    layout_properties: {x: 145, y: 0, width: 41}
+    layout_properties: {x: 206, y: 0, width: 41}
     event_bindings: {click: button_remove_filters_click}
   - name: button_set_filters
     properties: {text: Set Filters, align: right, role: feature, icon: 'fa:filter'}
     type: Button
-    layout_properties: {x: 36, y: 0, width: 105}
+    layout_properties: {x: 97, y: 0, width: 105}
     event_bindings: {click: button_set_filters_click}
 - type: ColumnPanel
   properties: {role: null, tooltip: '', border: '', foreground: '', visible: true,
