@@ -28,7 +28,8 @@ components:
   layout_properties: {grid_position: 'MBCRNQ,JXRUYS'}
   components:
   - name: button_remove_filters
-    properties: {text: '', icon: 'fa:ban', tooltip: remove filters, role: feature}
+    properties: {text: '', icon: 'fa:ban', tooltip: remove filters, role: feature,
+      visible: true, background: 'theme:Orange', foreground: 'theme:Text_DecentWhite'}
     type: Button
     layout_properties: {x: 145, y: 0, width: 41}
     event_bindings: {click: button_remove_filters_click}

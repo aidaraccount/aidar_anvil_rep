@@ -27,6 +27,12 @@ class C_Investigate(C_InvestigateTemplate):
     self.data_grid_releases.visible = False
     self.data_grid_explicit.visible = False
     self.data_grid_related_artists.visible = False
+
+    activefilters = anvil.server.call('check_filter_presence', cur_model_id)
+    if activefilters == 'False':
+      self.button_remove_filters.visible = False
+    else:
+      self.button_remove_filters.visible = True
     
     #self.artist_popularity_lat.icon = '_/theme/icons/+2.png'
     #self.artist_follower_lat.icon = '_/theme/icons/-1.png'
