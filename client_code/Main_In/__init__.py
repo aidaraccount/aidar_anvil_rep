@@ -11,6 +11,7 @@ from ..C_Home import C_Home
 from ..C_Investigate import C_Investigate
 from ..C_Filter import C_Filter
 from ..C_Watchlist_Details import C_Watchlist_Details
+from ..C_Watchlist_Funnel import C_Watchlist_Funnel
 from ..C_Watchlist_Overview import C_Watchlist_Overview
 from ..C_Rating import C_Rating
 from ..C_EditRefArtists import C_EditRefArtists
@@ -155,10 +156,12 @@ class Main_In(Main_InTemplate):
     if self.link_manage_watchlist.visible == False:
       self.link_manage.icon = 'fa:angle-up'
       self.link_manage_watchlist.visible = True
+      self.link_manage_funnel.visible = True
       self.link_manage_dev.visible = True
     else:
       self.link_manage.icon = 'fa:angle-down'
       self.link_manage_watchlist.visible = False
+      self.link_manage_funnel.visible = False
       self.link_manage_dev.visible = False
   
   def link_manage_watchlist_click(self, **event_args):
@@ -171,6 +174,13 @@ class Main_In(Main_InTemplate):
     self.reset_nav_backgrounds()
     self.link_manage_watchlist.background = "theme:Accent 2"
     
+  def link_manage_funnel_click(self, **event_args):
+    cur_model_id = anvil.server.call('get_model_id',  user["user_id"])
+    self.content_panel.clear()
+    self.content_panel.add_component(C_Watchlist_Funnel())
+    self.reset_nav_backgrounds()
+    self.link_manage_funnel.background = "theme:Accent 2"
+
   def link_manage_dev_click(self, **event_args):
     cur_model_id = anvil.server.call('get_model_id',  user["user_id"])
     self.content_panel.clear()

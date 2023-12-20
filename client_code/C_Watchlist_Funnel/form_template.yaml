@@ -1,0 +1,51 @@
+container:
+  type: ColumnPanel
+  properties: {col_widths: '{"YWMAUO":55,"PAYXVB":20}'}
+components:
+- name: content_panel
+  properties: {col_widths: '{"PFXCUC":15,"OHKNNE":10,"UEQSYQ":35}'}
+  type: ColumnPanel
+  layout_properties: {grid_position: 'HINVKU,JGCJXX'}
+  components:
+  - type: Label
+    properties: {role: title, align: left, tooltip: '', border: '', foreground: '',
+      visible: true, text: Artist Funnel, font_size: null, font: '', spacing_above: small,
+      icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+      underline: false, icon: ''}
+    name: label_1
+    layout_properties: {grid_position: 'JAZERV,LGQSDW'}
+  - type: Label
+    properties: {role: description, align: left, tooltip: '', border: '', foreground: '',
+      visible: true, text: This funnel summarizes the current state of all your discovered artists.,
+      font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small,
+      italic: true, background: '', bold: false, underline: false, icon: ''}
+    name: label_2
+    layout_properties: {grid_position: 'EZORSW,VNYUUN'}
+  - name: text_box_search
+    properties: {role: text_box_small}
+    type: TextBox
+    layout_properties: {grid_position: 'AMIUZR,PFXCUC'}
+    event_bindings: {pressed_enter: button_search_click, change: button_search_click}
+  - name: button_search
+    properties: {text: Search Artist, role: feature}
+    type: Button
+    layout_properties: {grid_position: 'AMIUZR,OHKNNE'}
+    event_bindings: {click: button_search_click}
+  - name: spacer_1
+    properties: {height: 32}
+    type: Spacer
+    layout_properties: {grid_position: 'AMIUZR,UEQSYQ'}
+  - name: spacer_2
+    properties: {height: 32}
+    type: Spacer
+    layout_properties: {grid_position: 'ZNJFBY,XOUPVU'}
+- name: repeating_panel_1
+  properties: {item_template: C_Watchlist_Funnel.ItemTemplate2}
+  type: RepeatingPanel
+  layout_properties: {grid_position: 'RCBJQO,PAYXVB'}
+- name: spacer_3
+  properties: {height: 32}
+  type: Spacer
+  layout_properties: {grid_position: 'RCBJQO,YWMAUO ZFFWQC,JQHXCH'}
+is_package: true
+custom_component: true

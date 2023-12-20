@@ -1,0 +1,12 @@
+is_package: true
+container: {type: ColumnPanel}
+components:
+- name: column_panel_1
+  properties: {}
+  type: ColumnPanel
+  layout_properties: {grid_position: 'DZLGSJ,DPQGUL'}
+  components:
+  - name: link_1
+    properties: {}
+    type: Link
+    layout_properties: {grid_position: 'BLYYTE,RFWGGO'}
