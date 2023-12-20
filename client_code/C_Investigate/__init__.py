@@ -497,4 +497,23 @@ class C_Investigate(C_InvestigateTemplate):
       title=f"Note saved!",
       style="success").show()
 
+  def button_set_filters_click(self, **event_args):
+    open_form('Main_In', temp_artist_id = None, target = 'C_Filter')
+
+  def button_remove_filters_click(self, **event_args):    
+    anvil.server.call('change_filters',
+                      cur_model_id,
+                      None, None, None, None, None, None, None, None, None, None,
+                      None, None, None, None, None, None, None, None, None, None,
+                      None, None, None, None, None, None, None, None, None, None,
+                      None, None, None, None, None, None, None, None, None, None,
+                      None, None, None, None, None, None, None, None, None, None,
+                      None, None, None, None, None, None, None, None, None, None,
+                      None, None, None, None, None, None, None, None, None, None,
+                      None, None, None, None, None, None, None, None, None, None,
+                      None, None, None, None, None, None, None, None, None, None,
+                      None, None, None, None, None, None, None
+                     )
+    open_form('Main_In', temp_artist_id = None, target = 'C_Investigate')
+
     

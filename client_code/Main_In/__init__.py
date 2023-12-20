@@ -44,12 +44,17 @@ class Main_In(Main_InTemplate):
       self.link_home.background = "theme:Accent 2"
       self.update_no_notifications()
 
-    if target == 'C_Investigate':
-      self.route_discover_ai(temp_artist_id = temp_artist_id)
+    # ROUTING
+    if target == 'C_Filter':
+      self.content_panel.clear()
+      self.content_panel.add_component(C_Filter())
       
     if target == 'C_AddRefArtists':
       self.content_panel.clear()
       self.content_panel.add_component(C_AddRefArtists())
+      
+    if target == 'C_Investigate':
+      self.route_discover_ai(temp_artist_id = temp_artist_id)
       
     if target == 'C_Watchlist_Details':
       self.route_manage_watchlist(temp_artist_id = temp_artist_id)

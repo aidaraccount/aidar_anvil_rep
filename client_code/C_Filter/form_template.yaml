@@ -28,7 +28,7 @@ components:
       col_widths: {}
       grid_position: QHQDLY,AAQIBM
   - name: clear_filters_button
-    properties: {text: ' Reset filters', align: right, role: feature, icon: ''}
+    properties: {text: ' Reset filters', align: right, role: feature, icon: 'fa:ban'}
     type: Button
     layout_properties: {grid_position: 'QHQDLY,PQWGXD'}
     event_bindings: {click: clear_filters_button_click}
