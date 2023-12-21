@@ -54,6 +54,10 @@ class Main_In(Main_InTemplate):
       self.content_panel.clear()
       self.content_panel.add_component(C_AddRefArtists())
       
+    if target == 'C_Watchlist_Funnel':
+      self.content_panel.clear()
+      self.content_panel.add_component(C_Watchlist_Funnel())
+      
     if target == 'C_Investigate':
       self.route_discover_ai(temp_artist_id = temp_artist_id)
       
@@ -81,7 +85,7 @@ class Main_In(Main_InTemplate):
     self.link_discover_rated.background = None
     self.link_manage.background = None
     self.link_manage_watchlist.background = None
-    #self.link_manage_funnel.background = None
+    self.link_manage_funnel.background = None
     self.link_manage_dev.background = None
     self.link_models.background = None
     self.link_models_setup.background = None
@@ -97,7 +101,7 @@ class Main_In(Main_InTemplate):
     self.link_discover_rated.background = None
     self.link_manage.background = None
     self.link_manage_watchlist.background = None
-    #self.link_manage_funnel.background = None
+    self.link_manage_funnel.background = None
     self.link_manage_dev.background = None
   
   # HOME

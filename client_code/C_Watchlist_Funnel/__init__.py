@@ -20,26 +20,7 @@ class C_Watchlist_Funnel(C_Watchlist_FunnelTemplate):
 
     # FUNNEL DATA
     data = json.loads(anvil.server.call('get_watchlist_selection', cur_model_id))
-    print(data)
-    self.repeating_panel_1.items = [item for item in data if item['Status'] in ['Action required', 'Requires revision']]
-    self.repeating_panel_2.items = [item for item in data if item['Status'] not in ['Action required', 'Requires revision']]
-
-
-#BACKLOG
-#'Reconnect later'
-#'Not interested'
-
-#EVALUATION
-#'Action required'
-#'Requires revision'
-#'Waiting for decision'
-
-#CONTACTING
-#'Awaiting response'
-#'Build connection'
-#'Exploring opportunities'
-#'Positive response'
-
-#NEGOTIATION
-#'In negotiations'
-#'Contract in progress'
+    self.repeating_panel_1.items = [item for item in data if item['Status'] in ['Reconnect later', 'Not interested', None]] #BACKLOG
+    self.repeating_panel_2.items = [item for item in data if item['Status'] in ['Action required', 'Requires revision', 'Waiting for decision']] #EVALUATION
+    self.repeating_panel_3.items = [item for item in data if item['Status'] in ['Build connection', 'Awaiting response', 'Exploring opportunities', 'Positive response']] #CONTACTING
+    self.repeating_panel_4.items = [item for item in data if item['Status'] in ['In negotiations', 'Contract in progress']] #NEGOTIATION

@@ -10,19 +10,64 @@ class ItemTemplate2(ItemTemplate2Template):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
-
+  
+    global user
+    user = anvil.users.get_user()
+    global cur_model_id
+    cur_model_id = anvil.server.call('get_model_id',  user["user_id"])
+    
     # Any code you write here will run before the form opens.
-    #self.link_1.add_component(Image(
-    #                            source=self.item["ArtistPictureURL"],
-    #                            height=175,
-    #                            #width=100,
-    #                            display_mode='zoom_to_fill'
-    #))
-    #self.link_1.add_component(XYPanel(height=175)) #.add_component(Label(text='Test Test'))
+    # cut the name
+    if len(self.item['Name']) > 14:
+      self.link_name.text = self.item['Name'][0:14] + '..'
+    else:
+      self.link_name.text = self.item['Name']
     
-    #self.content_panel.clear()
-    #self.content_panel.add_component(C_Investigate(temp_artist_id=None))
+    # hide left/right errors for first and last components    
+    if self.item["Status"] in ['Reconnect later', 'Not interested', None]: #BACKLOG
+      self.link_left.visible = False
+    elif self.item["Status"] in ['In negotiations', 'Contract in progress']: #NEGOTIATION
+      self.link_right.visible = False    
 
+    #self.repeating_panel_1.items = [item for item in data if item['Status'] in ['Reconnect later', 'Not interested', None]] #BACKLOG
+    #self.repeating_panel_2.items = [item for item in data if item['Status'] in ['Action required', 'Requires revision', 'Waiting for decision']] #EVALUATION
+    #self.repeating_panel_3.items = [item for item in data if item['Status'] in ['Build connection', 'Awaiting response', 'Exploring opportunities', 'Positive response']] #CONTACTING
+    #self.repeating_panel_4.items = [item for item in data if item['Status'] in ['In negotiations', 'Contract in progress']] #NEGOTIATION
+
+  
   def link_1_click(self, **event_args):
-      open_form('Main_In', temp_artist_id = self.item["ArtistID"], target = 'C_Investigate')
+      open_form('Main_In', temp_artist_id = self.item["ArtistID"], target = 'C_Watchlist_Details')
+
+  def link_left_click(self, **event_args):
+    if self.item["Status"] in ['Action required', 'Requires revision', 'Waiting for decision']: #EVALUATION
+      status_left_new = 'Reconnect later'
+    elif self.item["Status"] in ['Build connection', 'Awaiting response', 'Exploring opportunities', 'Positive response']: #CONTACTING
+      status_left_new = 'Action required'
+    elif self.item["Status"] in ['In negotiations', 'Contract in progress']: #NEGOTIATION
+      status_left_new = 'Build connection'
+      
+    anvil.server.call('update_watchlist_lead',
+                      cur_model_id,
+                      self.item["ArtistID"],
+                      True,
+                      status_left_new,
+                      self.item["Notification"]
+                      )
+    open_form('Main_In', temp_artist_id = None, target = 'C_Watchlist_Funnel')
+
+  def link_right_click(self, **event_args):
+    if self.item["Status"] in ['Reconnect later', 'Not interested', None]: #BACKLOG
+      status_right_new = 'Action required'
+    elif self.item["Status"] in ['Action required', 'Requires revision', 'Waiting for decision']: #EVALUATION
+      status_right_new = 'Build connection'
+    elif self.item["Status"] in ['Build connection', 'Awaiting response', 'Exploring opportunities', 'Positive response']: #CONTACTING
+      status_right_new = 'In negotiations'
     
+    anvil.server.call('update_watchlist_lead',
+                      cur_model_id,
+                      self.item["ArtistID"],
+                      True,
+                      status_right_new,
+                      self.item["Notification"]
+                      )
+    open_form('Main_In', temp_artist_id = None, target = 'C_Watchlist_Funnel')

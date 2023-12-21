@@ -2,7 +2,7 @@ is_package: true
 container: {type: ColumnPanel}
 components:
 - name: xy_panel_1
-  properties: {height: '200'}
+  properties: {height: '150', spacing_below: none, spacing_above: none}
   type: XYPanel
   layout_properties: {grid_position: 'YCOMIT,KYJUVD'}
   components:
@@ -12,7 +12,7 @@ components:
     layout_properties: {x: 0, y: 0, width: 200}
     components:
     - name: image_1
-      properties: {role: null, vertical_align: center, height: '200', tooltip: '',
+      properties: {role: null, vertical_align: center, height: '150', tooltip: '',
         border: '', foreground: '', visible: true, display_mode: zoom_to_fill, spacing_above: none,
         source: '', spacing_below: none, background: '', horizontal_align: center}
       type: Image
@@ -20,10 +20,21 @@ components:
       data_bindings:
       - {property: source, code: 'self.item[''ArtistPictureURL'']', writeback: false}
     event_bindings: {click: link_1_click}
-  - name: link_1_name
+  - name: link_name
     properties: {role: artist_name_shadow}
     type: Link
-    layout_properties: {x: 10, y: 140, width: 190}
-    data_bindings:
-    - {property: text, code: 'self.item[''Name'']', writeback: false}
+    layout_properties: {x: 10, y: 110, width: 190}
+    data_bindings: []
     event_bindings: {click: link_1_click}
+  - name: link_right
+    properties: {icon: 'fa:angle-right', role: artist_name_shadow, font_size: null,
+      align: center}
+    type: Link
+    layout_properties: {x: 180, y: 0, width: 16}
+    event_bindings: {click: link_right_click}
+  - name: link_left
+    properties: {icon: 'fa:angle-left', role: artist_name_shadow, font_size: null,
+      align: center}
+    type: Link
+    layout_properties: {x: 160, y: 0, width: 16}
+    event_bindings: {click: link_left_click}

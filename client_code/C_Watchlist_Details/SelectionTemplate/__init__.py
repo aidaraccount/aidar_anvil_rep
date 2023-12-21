@@ -58,10 +58,11 @@ class SelectionTemplate(SelectionTemplateTemplate):
   def update_watchlist_notification(self, watchlist, notification, **event_args):
     cur_ai_artist_id = self.link_selection.url
     details = json.loads(anvil.server.call('get_watchlist_details', cur_model_id, cur_ai_artist_id))
-    anvil.server.call('update_watchlist_notification',
+    anvil.server.call('update_watchlist_lead',
                       cur_model_id,
                       cur_ai_artist_id,
                       watchlist,
+                      details[0]["Status"],
                       notification
                       )
     self.parent.parent.parent.parent.parent.parent.update_no_notifications()
