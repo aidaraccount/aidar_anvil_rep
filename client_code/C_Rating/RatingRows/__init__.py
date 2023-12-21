@@ -34,10 +34,10 @@ class RatingRows(RatingRowsTemplate):
     self.content_panel.add_component(C_Investigate())
 
   def inspect_pic_link_click(self, **event_args):
-    open_form('Main_In', temp_artist_id = self.item["ArtistID"], target = None)
+    open_form('Main_In', temp_artist_id = self.item["ArtistID"], target = 'C_Investigate')
 
   def inspect_name_link_click(self, **event_args):
-    open_form('Main_In', temp_artist_id = self.item["ArtistID"], target = None)
+    open_form('Main_In', temp_artist_id = self.item["ArtistID"], target = 'C_Investigate')
 
   # BUTTONS
   def button_watchlist_click(self, **event_args):

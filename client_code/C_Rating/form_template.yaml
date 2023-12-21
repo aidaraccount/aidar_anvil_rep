@@ -45,7 +45,7 @@ components:
       columns:
       - {id: OYDYNQ, title: Date, data_key: DateOfRecommendation, $$hashKey: 'object:5657'}
       - {id: DCLCSV, title: Artist, data_key: column_1, $$hashKey: 'object:2535',
-        width: 101, expand: false}
+        width: 81, expand: false}
       - {id: FCILTB, title: '', data_key: Name, $$hashKey: 'object:5658'}
       - {id: YHPGYN, title: '        Interest', data_key: Interest, $$hashKey: 'object:5659'}
       - {id: SAPGXS, data_key: Watchlist, title: ''}
@@ -73,16 +73,16 @@ components:
         type: Link
         layout_properties: {x: 0, y: 0, width: 200}
         event_bindings: {click: link_date_click}
-      - name: link_artist
-        properties: {role: table_content, text: Artist, icon_align: right}
-        type: Link
-        layout_properties: {x: 223, y: 0, width: 328}
-        event_bindings: {click: link_artist_click}
       - name: link_interest
         properties: {text: Interest, role: table_content, align: left, icon_align: right}
         type: Link
         layout_properties: {x: 610, y: 0, width: 176}
         event_bindings: {click: link_interest_click}
+      - name: link_artist
+        properties: {role: table_content, text: Artist, icon_align: right}
+        type: Link
+        layout_properties: {x: 229, y: 0, width: 328}
+        event_bindings: {click: link_artist_click}
     - type: RepeatingPanel
       properties: {role: table_content_small, tooltip: '', border: '', foreground: '',
         items: null, visible: true, spacing_above: none, spacing_below: none, item_template: C_Rating.RatingRows,
