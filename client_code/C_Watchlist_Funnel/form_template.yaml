@@ -1,6 +1,6 @@
 container:
   type: ColumnPanel
-  properties: {col_widths: '{"YWMAUO":55,"PAYXVB":20}'}
+  properties: {col_widths: '{"YWMAUO":35,"PAYXVB":40}'}
 components:
 - name: content_panel
   properties: {col_widths: '{"PFXCUC":15,"OHKNNE":10,"UEQSYQ":35}'}
@@ -39,13 +39,22 @@ components:
     properties: {height: 32}
     type: Spacer
     layout_properties: {grid_position: 'ZNJFBY,XOUPVU'}
-- name: repeating_panel_1
-  properties: {item_template: C_Watchlist_Funnel.ItemTemplate2}
-  type: RepeatingPanel
+- name: xy_panel_funnel
+  properties: {height: 585}
+  type: XYPanel
   layout_properties: {grid_position: 'RCBJQO,PAYXVB'}
+  components:
+  - name: repeating_panel_1
+    properties: {item_template: C_Watchlist_Funnel.ItemTemplate2}
+    type: RepeatingPanel
+    layout_properties: {x: 0, y: 0, width: 200}
+  - name: repeating_panel_2
+    properties: {item_template: C_Watchlist_Funnel.ItemTemplate2}
+    type: RepeatingPanel
+    layout_properties: {x: 210, y: 0, width: 200}
 - name: spacer_3
   properties: {height: 32}
   type: Spacer
-  layout_properties: {grid_position: 'RCBJQO,YWMAUO ZFFWQC,JQHXCH'}
+  layout_properties: {grid_position: 'RCBJQO,YWMAUO'}
 is_package: true
 custom_component: true
