@@ -366,7 +366,7 @@ components:
       - type: RichText
         properties: {role: null, align: center, tooltip: '', enable_slots: true, border: '',
           foreground: 'theme:Text_White', visible: true, font_size: null, content: "<p\
-            \ style=\"font-weight: bold;\">\n  <span style=\"font-size: 40px;\">>4</span>\n\
+            \ style=\"font-weight: bold;\">\n  <span style=\"font-size: 40px;\">>4.1</span>\n\
             \  <span style=\"font-size: 24px;\">million</span>\n  <br>\n  <span style=\"\
             font-size: 30px;\">Artists</span>\n</p>", font: GSb, spacing_above: small,
           spacing_below: small, data: null, background: '', format: restricted_html}
@@ -384,7 +384,7 @@ components:
       - name: rich_text_2_copy
         properties: {role: null, align: center, tooltip: '', enable_slots: true, border: '',
           foreground: 'theme:Text_White', visible: true, font_size: null, content: "<p\
-            \ style=\"font-weight: bold;\">\n  <span style=\"font-size: 40px;\">>21</span>\n\
+            \ style=\"font-weight: bold;\">\n  <span style=\"font-size: 40px;\">>22</span>\n\
             \  <span style=\"font-size: 24px;\">million</span>\n  <br>\n  <span style=\"\
             font-size: 30px;\">Tracks</span>\n</p>", font: GSb, spacing_above: small,
           spacing_below: small, data: null, background: '', format: restricted_html}
@@ -408,7 +408,7 @@ components:
         name: spacer_14
         layout_properties: {grid_position: 'LAEHHW,VKACDD'}
   - type: ColumnPanel
-    properties: {role: null, tooltip: '', border: '', foreground: '', visible: true,
+    properties: {role: null, tooltip: '', border: '', foreground: '', visible: false,
       wrap_on: mobile, col_spacing: medium, spacing_above: none, col_widths: '{"PBGBXQ":20,"HINUPF":20,"BSTMOO":20}',
       spacing_below: none, background: 'theme:Accent 1'}
     name: column_panel_3
@@ -514,8 +514,8 @@ components:
       name: spacer_15
       layout_properties: {grid_position: 'BGYGZI,BSTMOO'}
   - type: ColumnPanel
-    properties: {role: null, tooltip: '', border: '', foreground: '', visible: false,
-      wrap_on: mobile, col_spacing: medium, spacing_above: none, col_widths: '{"QTHBRE":10,"QHUPWL":20,"CAOQDK":20,"BSRZQM":10}',
+    properties: {role: null, tooltip: '', border: '', foreground: '', visible: true,
+      wrap_on: mobile, col_spacing: medium, spacing_above: none, col_widths: '{"YKQHTY":10,"ZXAJTM":10,"XEZOUN":10,"ZSTNRH":10,"HJBJPJ":20,"HDVGOJ":20}',
       spacing_below: none, background: 'theme:Accent 2'}
     name: column_panel_14
     layout_properties: {grid_position: 'AQNJYQ,CTOUVL', full_width_row: true}
@@ -524,8 +524,8 @@ components:
       properties: {role: null, align: center, tooltip: '', enable_slots: true, border: '',
         foreground: 'theme:Text_DecentWhite', visible: true, font_size: null, content: "<p\
           \ style=\"font-weight: bold;\">\n  <span style=\"color: rgb(253, 101, 45);\
-          \ font-size: 50px;\">.</span>\n  <span style=\"font-size: 30px;\">FOLLOW\
-          \ US</span>\n</p>\n", font: '', spacing_above: small, spacing_below: small,
+          \ font-size: 50px;\">.</span>\n  <span style=\"font-size: 30px;\">KNOWN\
+          \ FROM</span>\n</p>\n", font: '', spacing_above: small, spacing_below: small,
         data: null, background: '', format: restricted_html}
       name: rich_text_1_copy_4
       layout_properties:
@@ -533,33 +533,62 @@ components:
         grid_position: TQDYZC,PYOYVK
         full_width_row: true
       components: []
-    - type: Spacer
+    - name: spacer_19
       properties: {height: 32}
-      name: spacer_19
-      layout_properties: {grid_position: 'XENJFF,QTHBRE'}
-    - type: Link
-      properties: {role: artist_name, url: '', align: center, tooltip: '', border: '',
-        foreground: '', visible: true, text: LinkedIn, font_size: 28, wrap_on: never,
-        font: '', col_spacing: medium, spacing_above: small, icon_align: left, col_widths: '',
-        spacing_below: small, italic: false, background: '', bold: false, underline: false,
-        icon: 'fa:linkedin'}
-      name: linkedin_link_old
-      layout_properties: {grid_position: 'XENJFF,QHUPWL'}
-      data_bindings: []
-      event_bindings: {click: linkedin_click}
-    - type: Link
-      properties: {role: artist_name, url: '', align: center, tooltip: '', border: '',
-        foreground: '', visible: true, text: Instagram, font_size: 28, wrap_on: never,
-        font: '', col_spacing: medium, spacing_above: small, icon_align: left, col_widths: '',
-        spacing_below: small, italic: false, background: '', bold: false, underline: false,
-        icon: 'fa:instagram'}
-      name: instagram_link_old
-      layout_properties: {grid_position: 'XENJFF,CAOQDK'}
-      event_bindings: {click: instagram_click}
-    - type: Spacer
+      type: Spacer
+      layout_properties: {grid_position: 'XENJFF,HJBJPJ'}
+    - name: link_know_1
+      properties: {col_widths: '{}', url: 'https://www.reeperbahnfestival.com/de/konferenz/ai-a%26r---a-dreamteam-for-the-future%3F'}
+      type: Link
+      layout_properties: {grid_position: 'XENJFF,YKQHTY'}
+      components:
+      - name: artist_image
+        properties: {role: null, vertical_align: center, height: '80', tooltip: '',
+          border: '', foreground: '', visible: true, display_mode: shrink_to_fit,
+          spacing_above: none, source: _/theme/pics/Logo_RBF.jpg, spacing_below: none,
+          background: '', horizontal_align: center}
+        type: Image
+        layout_properties: {grid_position: 'XISFUA,MXKFIP'}
+    - name: link_know_2
+      properties: {col_widths: '{}', url: 'https://www.abendblatt.de/hamburg/wirtschaft/article239754199/Musiktalente-gesucht-So-hilft-kuenstliche-Intelligenz.html'}
+      type: Link
+      layout_properties: {grid_position: 'XENJFF,ZXAJTM'}
+      components:
+      - name: artist_image_copy
+        properties: {role: null, vertical_align: center, height: '80', tooltip: '',
+          border: '', foreground: '', visible: true, display_mode: shrink_to_fit,
+          spacing_above: none, source: _/theme/pics/Logo_HA2.png, spacing_below: none,
+          background: '', horizontal_align: center}
+        type: Image
+        layout_properties: {grid_position: 'XISFUA,MXKFIP'}
+    - name: link_know_3
+      properties: {col_widths: '{}', url: 'https://www.uni-hamburg.de/'}
+      type: Link
+      layout_properties: {grid_position: 'XENJFF,XEZOUN'}
+      components:
+      - name: artist_image_copy_copy
+        properties: {role: null, vertical_align: center, height: '80', tooltip: '',
+          border: '', foreground: '', visible: true, display_mode: shrink_to_fit,
+          spacing_above: none, source: _/theme/pics/Logo_UHH.png, spacing_below: none,
+          background: '', horizontal_align: center}
+        type: Image
+        layout_properties: {grid_position: 'XISFUA,MXKFIP'}
+    - name: link_know_4
+      properties: {col_widths: '{}', url: 'https://www.klu.org/'}
+      type: Link
+      layout_properties: {grid_position: 'XENJFF,ZSTNRH'}
+      components:
+      - name: artist_image_copy_copy_2
+        properties: {role: null, vertical_align: center, height: '80', tooltip: '',
+          border: '', foreground: '', visible: true, display_mode: shrink_to_fit,
+          spacing_above: none, source: _/theme/pics/Logo_KLU.png, spacing_below: none,
+          background: '', horizontal_align: center}
+        type: Image
+        layout_properties: {grid_position: 'XISFUA,MXKFIP'}
+    - name: spacer_9
       properties: {height: 32}
-      name: spacer_9
-      layout_properties: {grid_position: 'XENJFF,BSRZQM'}
+      type: Spacer
+      layout_properties: {grid_position: 'XENJFF,HDVGOJ'}
     - type: Spacer
       properties: {height: 40}
       name: spacer_10
