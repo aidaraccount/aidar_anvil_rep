@@ -46,10 +46,10 @@ components:
     layout_properties: {grid_position: 'JQKHPY,COFPND'}
     components:
     - type: Label
-      properties: {role: feature, align: left, tooltip: '', border: '', foreground: '',
-        visible: true, text: '   Popularity', font_size: null, font: '', spacing_above: small,
-        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-        underline: false, icon: ''}
+      properties: {role: feature, align: left, tooltip: Level of popularity on Spotify. Ranges from 0 to 100.,
+        border: '', foreground: '', visible: true, text: '   Popularity', font_size: null,
+        font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false,
+        background: '', bold: false, underline: false, icon: ''}
       name: label_4
       layout_properties: {row: OSZLNL, width_xs: 4, col_xs: 0, width: 100}
     - type: TextBox
@@ -83,10 +83,10 @@ components:
     layout_properties: {grid_position: 'APDFNT,SWTAXL'}
     components:
     - type: Label
-      properties: {role: feature, align: left, tooltip: '', border: '', foreground: '',
-        visible: true, text: '   Follower', font_size: null, font: '', spacing_above: small,
-        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-        underline: false, icon: ''}
+      properties: {role: feature, align: left, tooltip: Number of followers on Spotify,
+        border: '', foreground: '', visible: true, text: '   Follower', font_size: null,
+        font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false,
+        background: '', bold: false, underline: false, icon: ''}
       name: label_6
       layout_properties: {row: VLPSXL, width_xs: 4, col_xs: 0, width: 100}
     - type: TextBox
@@ -134,10 +134,10 @@ components:
       grid_position: NNOINM,JVISER
     components:
     - type: Label
-      properties: {role: feature, align: left, tooltip: '', border: '', foreground: '',
-        visible: true, text: '   Avg. Duration [sec.]', font_size: null, font: '',
-        spacing_above: small, icon_align: left, spacing_below: small, italic: false,
-        background: '', bold: false, underline: false, icon: ''}
+      properties: {role: feature, align: left, tooltip: The average duration of all songs of an artist in seconds.,
+        border: '', foreground: '', visible: true, text: '   Avg. Duration [sec.]',
+        font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small,
+        italic: false, background: '', bold: false, underline: false, icon: ''}
       name: label_4_copy
       layout_properties: {row: OSZLNL, width_xs: 4, col_xs: 0, width: 303.333}
     - type: TextBox
@@ -172,10 +172,14 @@ components:
       grid_position: PMFGQJ,UXSVAN
     components:
     - type: Label
-      properties: {role: feature, align: left, tooltip: '', border: '', foreground: '',
-        visible: true, text: '   Avg. Danceability [%]', font_size: null, font: '',
-        spacing_above: small, icon_align: left, spacing_below: small, italic: false,
-        background: '', bold: false, underline: false, icon: ''}
+      properties: {role: feature, align: left, tooltip: 'Danceability describes how
+          suitable a track is for dancing based on a combination of musical elements
+          including tempo, rhythm stability, beat strength, and overall regularity.
+          We average this value across all songs and its value ranges from 0 (least
+          danceable) to 100% (most danceable).', border: '', foreground: '', visible: true,
+        text: '   Avg. Danceability [%]', font_size: null, font: '', spacing_above: small,
+        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+        underline: false, icon: ''}
       name: label_4_copy_2
       layout_properties: {row: OSZLNL, width_xs: 4, col_xs: 0, width: 303.333}
     - type: TextBox
@@ -210,10 +214,10 @@ components:
       grid_position: KOJNMB,QCDRAO
     components:
     - type: Label
-      properties: {role: feature, align: left, tooltip: '', border: '', foreground: '',
-        visible: true, text: '   Avg. Energy [%]', font_size: null, font: '', spacing_above: small,
-        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-        underline: false, icon: ''}
+      properties: {role: feature, align: left, tooltip: Energy is a measure from 0 to 100% and represents a perceptual measure of intensity and activity on average across all songs.,
+        border: '', foreground: '', visible: true, text: '   Avg. Energy [%]', font_size: null,
+        font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false,
+        background: '', bold: false, underline: false, icon: ''}
       name: label_4_copy_3
       layout_properties: {row: OSZLNL, width_xs: 4, col_xs: 0, width: 303.333}
     - type: TextBox
@@ -248,9 +252,10 @@ components:
       grid_position: YMSOFD,JAGQSU
     components:
     - type: Label
-      properties: {role: feature, align: left, tooltip: '"C", "C#/Db", "D", "D#/Eb",
-          "E", "F", "F#/Gb", "G", "G#/Ab", "A", "A#/Bb", "B"', border: '', foreground: '',
-        visible: true, text: '   Avg. Key [C to B]', font_size: null, font: '', spacing_above: small,
+      properties: {role: feature, align: left, tooltip: 'The estimated overall average
+          key of all songs of an artist: "C", "C#/Db", "D", "D#/Eb", "E", "F", "F#/Gb",
+          "G", "G#/Ab", "A", "A#/Bb", "B"', border: '', foreground: '', visible: true,
+        text: '   Avg. Key [C to B]', font_size: null, font: '', spacing_above: small,
         icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
         underline: false, icon: ''}
       name: label_4_copy_4
@@ -289,10 +294,10 @@ components:
       grid_position: NYKANC,UOQDKO
     components:
     - type: Label
-      properties: {role: feature, align: left, tooltip: '', border: '', foreground: '',
-        visible: true, text: '   Avg. Loudness [dB]', font_size: null, font: '', spacing_above: small,
-        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-        underline: false, icon: ''}
+      properties: {role: feature, align: left, tooltip: The overall average loudness of all tracks in decibels (dB). For each track the loudness values are averaged across the entire track and are useful for comparing relative loudness of tracks.,
+        border: '', foreground: '', visible: true, text: '   Avg. Loudness [dB]',
+        font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small,
+        italic: false, background: '', bold: false, underline: false, icon: ''}
       name: label_4_copy_5
       layout_properties: {row: OSZLNL, width_xs: 4, col_xs: 0, width: 303.333}
     - type: TextBox
@@ -327,10 +332,10 @@ components:
       grid_position: RWUSEQ,QPPJLL
     components:
     - type: Label
-      properties: {role: feature, align: left, tooltip: '', border: '', foreground: '',
-        visible: true, text: '   Avg. Mode [% Major]', font_size: null, font: '',
-        spacing_above: small, icon_align: left, spacing_below: small, italic: false,
-        background: '', bold: false, underline: false, icon: ''}
+      properties: {role: feature, align: left, tooltip: Mode indicates the portion of tracks in major (modality) of an artist. Ranges from 0 to 100%.,
+        border: '', foreground: '', visible: true, text: '   Avg. Mode [% Major]',
+        font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small,
+        italic: false, background: '', bold: false, underline: false, icon: ''}
       name: label_4_copy_6
       layout_properties: {row: OSZLNL, width_xs: 4, col_xs: 0, width: 303.333}
     - type: TextBox
@@ -365,7 +370,10 @@ components:
       grid_position: EUKELS,DWLGTI
     components:
     - type: Label
-      properties: {role: feature, align: left, tooltip: '', border: '', foreground: '',
+      properties: {role: feature, align: left, tooltip: 'Speechiness detects the presence
+          of spoken words in a track. The more exclusively speech-like the recording
+          (e.g., talk show, audiobook, poetry), the closer to 100% the attribute value.
+          It is averaged across all songs of that artist.', border: '', foreground: '',
         visible: true, text: '   Avg. Speechiness [%]', font_size: null, font: '',
         spacing_above: small, icon_align: left, spacing_below: small, italic: false,
         background: '', bold: false, underline: false, icon: ''}
@@ -403,10 +411,10 @@ components:
       grid_position: QTACQB,XXTHWP
     components:
     - type: Label
-      properties: {role: feature, align: left, tooltip: '', border: '', foreground: '',
-        visible: true, text: '   Avg. Acousticness [%]', font_size: null, font: '',
-        spacing_above: small, icon_align: left, spacing_below: small, italic: false,
-        background: '', bold: false, underline: false, icon: ''}
+      properties: {role: feature, align: left, tooltip: A confidence measure from 0 to 100% of whether an artist's tracks are acoustic. 100% represents high confidence the tracks are acoustic.,
+        border: '', foreground: '', visible: true, text: '   Avg. Acousticness [%]',
+        font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small,
+        italic: false, background: '', bold: false, underline: false, icon: ''}
       name: label_4_copy_8
       layout_properties: {row: OSZLNL, width_xs: 4, col_xs: 0, width: 303.333}
     - type: TextBox
@@ -441,10 +449,14 @@ components:
       grid_position: SWFDGW,BZCPLC
     components:
     - type: Label
-      properties: {role: feature, align: left, tooltip: '', border: '', foreground: '',
-        visible: true, text: '   Avg. Instrumentalness [%]', font_size: null, font: '',
-        spacing_above: small, icon_align: left, spacing_below: small, italic: false,
-        background: '', bold: false, underline: false, icon: ''}
+      properties: {role: feature, align: left, tooltip: 'Measures whether the tracks
+          of an artist contain no vocals. “Ooh” and “aah” sounds are treated as instrumental
+          in this context. Rap or spoken word tracks are clearly “vocal”. The closer
+          the instrumentalness value is to 100%, the greater likelihood the tracks
+          contain no vocal content.', border: '', foreground: '', visible: true, text: '   Avg.
+          Instrumentalness [%]', font_size: null, font: '', spacing_above: small,
+        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+        underline: false, icon: ''}
       name: label_4_copy_9
       layout_properties: {row: OSZLNL, width_xs: 4, col_xs: 0, width: 303.333}
     - type: TextBox
@@ -479,10 +491,10 @@ components:
       grid_position: ZLTSPY,AIAOOW
     components:
     - type: Label
-      properties: {role: feature, align: left, tooltip: '', border: '', foreground: '',
-        visible: true, text: '   Avg. Liveness [%]', font_size: null, font: '', spacing_above: small,
-        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-        underline: false, icon: ''}
+      properties: {role: feature, align: left, tooltip: Detects the presence of an audience in the recording. Higher liveness values represent an increased probability that the tracks of that artist were performed live.,
+        border: '', foreground: '', visible: true, text: '   Avg. Liveness [%]', font_size: null,
+        font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false,
+        background: '', bold: false, underline: false, icon: ''}
       name: label_4_copy_10
       layout_properties: {row: OSZLNL, width_xs: 4, col_xs: 0, width: 303.333}
     - type: TextBox
@@ -517,10 +529,14 @@ components:
       grid_position: IJAZCG,INZPUQ
     components:
     - type: Label
-      properties: {role: feature, align: left, tooltip: '', border: '', foreground: '',
-        visible: true, text: '   Avg. Valence [%]', font_size: null, font: '', spacing_above: small,
-        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-        underline: false, icon: ''}
+      properties: {role: feature, align: left, tooltip: 'A measure from 0 to 100%
+          describing the musical positiveness conveyed by an artist''s tracks. Tracks
+          with high valence sound more positive (e.g., happy, cheerful, euphoric),
+          while tracks with low valence sound more negative (e.g., sad, depressed,
+          angry).', border: '', foreground: '', visible: true, text: '   Avg. Valence
+          [%]', font_size: null, font: '', spacing_above: small, icon_align: left,
+        spacing_below: small, italic: false, background: '', bold: false, underline: false,
+        icon: ''}
       name: label_4_copy_11
       layout_properties: {row: OSZLNL, width_xs: 4, col_xs: 0, width: 303.333}
     - type: TextBox
@@ -555,10 +571,10 @@ components:
       grid_position: RBBWWB,UQHNES
     components:
     - type: Label
-      properties: {role: feature, align: left, tooltip: '', border: '', foreground: '',
-        visible: true, text: '   Avg. Tempo [bpm]', font_size: null, font: '', spacing_above: small,
-        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-        underline: false, icon: ''}
+      properties: {role: feature, align: left, tooltip: The overall average estimated tempo of all track of an artist in beats per minute (BPM).,
+        border: '', foreground: '', visible: true, text: '   Avg. Tempo [bpm]', font_size: null,
+        font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false,
+        background: '', bold: false, underline: false, icon: ''}
       name: label_4_copy_12
       layout_properties: {row: OSZLNL, width_xs: 4, col_xs: 0, width: 303.333}
     - type: TextBox
