@@ -40,13 +40,14 @@ class SearchRows(SearchRowsTemplate):
       open_form('Main_In', temp_artist_id = self.item["ArtistID"], target = 'C_Watchlist_Details')      
     else:
       # add to Watchlist (incl. change Button) and show delete Button
-      anvil.server.call('update_watchlist_notification',
+      anvil.server.call('update_watchlist_lead',
                         self.item["ModelID"],
                         self.item["ArtistID"],
                         True,
+                        'Action required',
                         True
                         )
-      self.parent.parent.parent.parent.parent.update_no_notifications()
+      self.parent.parent.parent.parent.parent.parent.update_no_notifications()
       self.item["Watchlist"] = 1
       
       self.button_watchlist.background = '#fd652d' # orange
@@ -61,8 +62,8 @@ class SearchRows(SearchRowsTemplate):
   def button_watchlist_delete_click(self, **event_args):
     c = confirm("Do you wish to delete this artist from your watchlist?")
     if c is True:
-      anvil.server.call('update_watchlist_notification', self.item["ModelID"], self.item["ArtistID"], False, False)
-      self.parent.parent.parent.parent.parent.update_no_notifications()
+      anvil.server.call('update_watchlist_lead', self.item["ModelID"], self.item["ArtistID"], False, None, False)
+      self.parent.parent.parent.parent.parent.parent.update_no_notifications()
       self.item["Watchlist"] = 0
       
       self.button_watchlist.background = ''

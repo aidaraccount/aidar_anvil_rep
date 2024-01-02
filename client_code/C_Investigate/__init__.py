@@ -473,7 +473,7 @@ class C_Investigate(C_InvestigateTemplate):
       self.button_watchlist.icon_align = 'right'
       self.button_watchlist.text = 'added to Watchlist  '
       self.column_panel_note.visible = True
-      self.update_watchlist_notification(cur_model_id, artist_id, True, True)
+      self.update_watchlist_lead(cur_model_id, artist_id, True, 'Action required', True)
       Notification("",
         title=f"{self.name.text} added to the watchlist!",
         style="success").show()
@@ -483,14 +483,18 @@ class C_Investigate(C_InvestigateTemplate):
       self.button_watchlist.icon = ''
       self.button_watchlist.text = 'add to Watchlist'
       self.column_panel_note.visible = False
-      self.update_watchlist_notification(cur_model_id, artist_id, False, False)
+      self.update_watchlist_lead(cur_model_id, artist_id, False, None, False)
+      Notification("",
+        title=f"{self.name.text} removed from the watchlist!",
+        style="success").show()
 
   # Change the bools watchlist & notification in the leads table
-  def update_watchlist_notification(self, cur_model_id, artist_id, watchlist, notification, **event_args):
-    anvil.server.call('update_watchlist_notification',
+  def update_watchlist_lead(self, cur_model_id, artist_id, watchlist, status, notification, **event_args):
+    anvil.server.call('update_watchlist_lead',
                       cur_model_id,
                       artist_id,
                       watchlist,
+                      status,
                       notification
                       )
     self.parent.parent.update_no_notifications()
