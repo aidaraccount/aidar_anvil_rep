@@ -33,6 +33,8 @@ class C_Home(C_HomeTemplate):
     self.repeating_panel_4.items = [item for item in data if item['Status'] in ['In negotiations', 'Contract in progress']] #NEGOTIATION
 
   def link_discover_click(self, **event_args):
-    open_form('Main_In', temp_artist_id = self.item["ArtistID"], target = 'C_Investigate')
-    #self.content_panel.clear()
-    #self.content_panel.add_component(C_Investigate(temp_artist_id=None))
+    open_form('Main_In', temp_artist_id = None, target = 'C_Investigate')
+
+  def link_funnel_click(self, **event_args):
+    open_form('Main_In', temp_artist_id = None, target = 'C_Watchlist_Funnel')
+    

@@ -47,11 +47,12 @@ components:
             39)', foreground: 'theme:Text_DecentWhite'}
         type: Label
         layout_properties: {x: 370, y: 45, width: 170}
-      - name: link_1
+      - name: link_funnel
         properties: {text: Manage Talent Funnel, role: artist_name, align: center,
           spacing_below: none}
         type: Link
         layout_properties: {x: 0, y: 0, width: 551.333312988281}
+        event_bindings: {click: link_funnel_click}
     - name: xy_panel_1
       properties: {height: '580', role: null}
       type: XYPanel
