@@ -131,7 +131,8 @@ class C_Watchlist_Details(C_Watchlist_DetailsTemplate):
       self.link_insta.text = '-'
       self.text_box_insta.text = None
     else:
-      self.link_insta.text = details[0]["InstaLink"]
+      self.link_insta.text = 'Profile'
+      self.link_insta.url = details[0]["InstaLink"]
       self.text_box_insta.text = details[0]["InstaLink"]
       
     if details[0]["ContactName"] is None:

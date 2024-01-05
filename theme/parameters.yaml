@@ -11,7 +11,7 @@ roles:
 - name: artist_name
   components: [Label, Link]
 - name: grid
-  components: [GridPanel, ColumnPanel, Link, Image]
+  components: [GridPanel, ColumnPanel, Link, Image, XYPanel]
 - name: feature
   components: [Label, Button]
 - name: value

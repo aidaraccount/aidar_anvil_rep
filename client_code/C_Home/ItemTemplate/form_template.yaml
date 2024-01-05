@@ -2,17 +2,17 @@ is_package: true
 container: {type: ColumnPanel}
 components:
 - name: xy_panel_1
-  properties: {height: '150', spacing_below: none, spacing_above: none}
+  properties: {height: '130', spacing_below: none, spacing_above: none}
   type: XYPanel
   layout_properties: {grid_position: 'YCOMIT,KYJUVD'}
   components:
   - name: link_1
-    properties: {col_widths: '{}'}
+    properties: {col_widths: '{}', align: center}
     type: Link
-    layout_properties: {x: 0, y: 0, width: 186}
+    layout_properties: {x: 0, y: 0, width: 170}
     components:
     - name: image_1
-      properties: {role: null, vertical_align: center, height: '140', tooltip: '',
+      properties: {role: null, vertical_align: center, height: '130', tooltip: '',
         border: '', foreground: '', visible: true, display_mode: zoom_to_fill, spacing_above: none,
         source: '', spacing_below: none, background: '', horizontal_align: center}
       type: Image
@@ -21,20 +21,21 @@ components:
       - {property: source, code: 'self.item[''ArtistPictureURL'']', writeback: false}
     event_bindings: {click: link_1_click}
   - name: link_name
-    properties: {role: artist_name_shadow, spacing_below: none, spacing_above: none}
+    properties: {role: artist_name_shadow, spacing_below: none, spacing_above: none,
+      font_size: 18}
     type: Link
-    layout_properties: {x: 10, y: 100, width: 176}
+    layout_properties: {x: 10, y: 90, width: 160}
     data_bindings: []
     event_bindings: {click: link_1_click}
   - name: link_right
     properties: {icon: 'fa:angle-right', role: artist_name_shadow, font_size: null,
       align: center}
     type: Link
-    layout_properties: {x: 166, y: 0, width: 16}
+    layout_properties: {x: 146, y: 0, width: 16}
     event_bindings: {click: link_right_click}
   - name: link_left
     properties: {icon: 'fa:angle-left', role: artist_name_shadow, font_size: null,
       align: center}
     type: Link
-    layout_properties: {x: 146, y: 0, width: 16}
+    layout_properties: {x: 126, y: 0, width: 16}
     event_bindings: {click: link_left_click}

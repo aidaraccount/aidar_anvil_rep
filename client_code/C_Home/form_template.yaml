@@ -3,14 +3,10 @@ container:
   properties: {col_widths: '{}'}
 components:
 - type: ColumnPanel
-  properties: {col_widths: '{}'}
+  properties: {col_widths: '{"KOMNWW":35,"KTTOYW":25}'}
   name: content_panel
-  layout_properties: {grid_position: 'LYJBFU,QTFFSI'}
+  layout_properties: {grid_position: 'LYJBFU,QTFFSI', full_width_row: false}
   components:
-  - type: Spacer
-    properties: {height: '100'}
-    name: spacer_1
-    layout_properties: {grid_position: 'HJAPKH,TBTCMH'}
   - name: label_1_copy_2
     properties: {role: sub_title, align: center, tooltip: '', border: '', foreground: '',
       visible: true, text: Welcome to, font_size: null, font: '', spacing_above: small,
@@ -19,12 +15,107 @@ components:
     type: Label
     layout_properties: {grid_position: 'WSTDMP,PYHEEZ'}
   - name: image_1
-    properties: {source: _/theme/pics/Logo_white.png, height: '100'}
+    properties: {source: _/theme/pics/Logo_white.png, height: 50}
     type: Image
     layout_properties: {grid_position: 'TIAQNO,YZPJXU'}
   - name: spacer_2
-    properties: {height: 103}
+    properties: {height: 16}
     type: Spacer
     layout_properties: {grid_position: 'QIJWID,UQSWOC'}
+  - name: column_panel_1
+    properties: {role: grid}
+    type: ColumnPanel
+    layout_properties: {grid_position: 'OTKJVT,KOMNWW'}
+    components:
+    - name: xy_panel_2
+      properties: {height: 61}
+      type: XYPanel
+      layout_properties: {grid_position: 'MXPESX,ZBLCFU'}
+      components:
+      - name: label_3_copy
+        properties: {text: '  EVALUATE', role: feature, background: 'rgb(135, 54,
+            24)', foreground: 'theme:Text_DecentWhite'}
+        type: Label
+        layout_properties: {x: 10, y: 45, width: 170}
+      - name: label_3_copy_copy
+        properties: {text: '  CONTACT', role: feature, background: 'rgb(176, 70, 32)',
+          foreground: 'theme:Text_DecentWhite'}
+        type: Label
+        layout_properties: {x: 190, y: 45, width: 170}
+      - name: label_3_copy_copy_copy
+        properties: {text: '  NEGOTIATE', role: feature, background: 'rgb(217, 86,
+            39)', foreground: 'theme:Text_DecentWhite'}
+        type: Label
+        layout_properties: {x: 370, y: 45, width: 170}
+      - name: link_1
+        properties: {text: Manage Talent Funnel, role: artist_name, align: center,
+          spacing_below: none}
+        type: Link
+        layout_properties: {x: 0, y: 0, width: 551.333312988281}
+    - name: xy_panel_1
+      properties: {height: '580', role: null}
+      type: XYPanel
+      layout_properties: {grid_position: 'YPIXHC,CPOJZC'}
+      components:
+      - name: repeating_panel_2
+        properties: {item_template: C_Home.ItemTemplate, background: ''}
+        type: RepeatingPanel
+        layout_properties: {x: 10, y: 0, width: 170}
+      - name: repeating_panel_3
+        properties: {item_template: C_Home.ItemTemplate, background: ''}
+        type: RepeatingPanel
+        layout_properties: {x: 190, y: 0, width: 170}
+      - name: repeating_panel_4
+        properties: {item_template: C_Home.ItemTemplate, background: ''}
+        type: RepeatingPanel
+        layout_properties: {x: 370, y: 0, width: 170}
+  - name: column_panel_3
+    properties: {role: grid}
+    type: ColumnPanel
+    layout_properties: {grid_position: 'OTKJVT,KTTOYW DJTHWZ,GHXDYN'}
+    components:
+    - name: link_2
+      properties: {text: Keep discovering, role: artist_name, align: center}
+      type: Link
+      layout_properties: {grid_position: 'ZCMPFD,LYHAJU'}
+    - name: xy_panel_3
+      properties: {height: 182}
+      type: XYPanel
+      layout_properties: {grid_position: 'CTMTJF,CSGOXM'}
+      components:
+      - name: artist_link
+        properties: {col_widths: '{}'}
+        type: Link
+        layout_properties: {x: 10, y: 0, width: 157}
+        components:
+        - name: artist_image
+          properties: {role: null, vertical_align: center, height: 142, tooltip: '',
+            border: '', foreground: '', visible: true, display_mode: zoom_to_fill,
+            spacing_above: none, source: _/theme/pics/Favicon_orange.JPG, spacing_below: none,
+            background: '', horizontal_align: center}
+          type: Image
+          layout_properties: {grid_position: 'XISFUA,MXKFIP'}
+      - name: text_box_1
+        properties: {placeholder: Search artist, role: text_box_small}
+        type: TextBox
+        layout_properties: {x: 10, y: 150, width: 160}
+  - name: column_panel_4
+    properties: {role: grid}
+    type: ColumnPanel
+    layout_properties: {grid_position: 'OTKJVT,KTTOYW DJTHWZ,AWXJDC'}
+    components:
+    - name: label_1
+      properties: {text: Analytics, role: artist_name, align: center}
+      type: Label
+      layout_properties: {grid_position: 'WKPYND,DNKUEW'}
+  - name: column_panel_5
+    properties: {role: grid}
+    type: ColumnPanel
+    layout_properties: {grid_position: 'OTKJVT,KTTOYW TTZPGZ,JKIXXG'}
+    components:
+    - name: label_2
+      properties: {text: News, role: artist_name, align: center}
+      type: Label
+      layout_properties: {grid_position: 'GSMMQE,JJZCGC'}
 is_package: true
 custom_component: true

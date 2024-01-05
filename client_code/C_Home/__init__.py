@@ -5,6 +5,7 @@ import anvil.users
 import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
+import json
 
 from ..C_ConnectModel import C_ConnectModel
 from ..C_CreateModel import C_CreateModel
@@ -15,12 +16,21 @@ class C_Home(C_HomeTemplate):
     self.init_components(**properties)
 
     # Any code you write here will run before the form opens.
+    global user
+    user = anvil.users.get_user()
+    global cur_model_id
+    cur_model_id = anvil.server.call('get_model_id',  user["user_id"])
 
+    # FUNNEL DATA
+    data = json.loads(anvil.server.call('get_watchlist_selection', cur_model_id))
+    self.repeating_panel_2.items = [item for item in data if item['Status'] in ['Action required', 'Requires revision', 'Waiting for decision']] #EVALUATION
+    self.repeating_panel_3.items = [item for item in data if item['Status'] in ['Build connection', 'Awaiting response', 'Exploring opportunities', 'Positive response']] #CONTACTING
+    self.repeating_panel_4.items = [item for item in data if item['Status'] in ['In negotiations', 'Contract in progress']] #NEGOTIATION
 
-  def button_connect_model_click(self, **event_args):
-    self.content_panel.clear()
-    self.content_panel.add_component(C_ConnectModel())
-
-  def button_create_model_click(self, **event_args):
-    self.content_panel.clear()
-    self.content_panel.add_component(C_CreateModel())
+  def button_search_click(self, **event_args):
+    data = json.loads(anvil.server.call('get_watchlist_selection', cur_model_id))
+    data = [entry for entry in data if str(entry["Name"]).lower().find(str(self.text_box_search.text).lower()) != -1]
+    
+    self.repeating_panel_2.items = [item for item in data if item['Status'] in ['Action required', 'Requires revision', 'Waiting for decision']] #EVALUATION
+    self.repeating_panel_3.items = [item for item in data if item['Status'] in ['Build connection', 'Awaiting response', 'Exploring opportunities', 'Positive response']] #CONTACTING
+    self.repeating_panel_4.items = [item for item in data if item['Status'] in ['In negotiations', 'Contract in progress']] #NEGOTIATION
