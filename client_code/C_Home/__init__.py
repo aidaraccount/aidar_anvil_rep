@@ -42,16 +42,11 @@ class C_Home(C_HomeTemplate):
       self.label_tot.text = str(stats[3]['cnt']) + ' artist evaluated'
     else:
       self.label_tot.text = str(stats[3]['cnt']) + ' artists evaluated'
-      
-    
-  def button_search_click(self, **event_args):
-    data = json.loads(anvil.server.call('get_watchlist_selection', cur_model_id))
-    data = [entry for entry in data if str(entry["Name"]).lower().find(str(self.text_box_search.text).lower()) != -1]
-    
-    self.repeating_panel_2.items = [item for item in data if item['Status'] in ['Action required', 'Requires revision', 'Waiting for decision']] #EVALUATION
-    self.repeating_panel_3.items = [item for item in data if item['Status'] in ['Build connection', 'Awaiting response', 'Exploring opportunities', 'Positive response']] #CONTACTING
-    self.repeating_panel_4.items = [item for item in data if item['Status'] in ['In negotiations', 'Contract in progress']] #NEGOTIATION
 
+    # NEWS
+    self.repeating_panel_news.items = json.loads(anvil.server.call('get_watchlist_notes', cur_model_id, cur_ai_artist_id))
+  
+    
   def link_discover_click(self, **event_args):
     open_form('Main_In', temp_artist_id = None, target = 'C_Investigate', value=None)
 

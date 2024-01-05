@@ -145,6 +145,16 @@ components:
     - name: label_2
       properties: {text: News, role: artist_name, align: center}
       type: Label
-      layout_properties: {grid_position: 'GSMMQE,JJZCGC'}
+      layout_properties: {grid_position: 'QVMUXU,YLIXLM'}
+    - name: xy_panel_detail
+      properties: {height: 346}
+      type: XYPanel
+      layout_properties: {grid_position: 'CKHWAH,OKAAHR'}
+      data_bindings: []
+      components:
+      - name: repeating_panel_news
+        properties: {item_template: C_Home.NewsTemplate, spacing_above: none}
+        type: RepeatingPanel
+        layout_properties: {x: 10, y: 0, width: 365}
 is_package: true
 custom_component: true
