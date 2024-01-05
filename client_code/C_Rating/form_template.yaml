@@ -69,10 +69,11 @@ components:
       layout_properties: {}
       components:
       - name: link_date
-        properties: {text: Date, role: table_content, icon_align: right}
+        properties: {text: Date, role: table_content, icon_align: right, icon: ''}
         type: Link
         layout_properties: {x: 0, y: 0, width: 200}
         event_bindings: {click: link_date_click}
+        data_bindings: []
       - name: link_interest
         properties: {text: Interest, role: table_content, align: left, icon_align: right}
         type: Link
