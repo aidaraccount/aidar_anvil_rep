@@ -7,9 +7,6 @@ import anvil.tables.query as q
 from anvil.tables import app_tables
 import json
 
-from ..C_ConnectModel import C_ConnectModel
-from ..C_CreateModel import C_CreateModel
-
 class C_Home(C_HomeTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
@@ -34,3 +31,8 @@ class C_Home(C_HomeTemplate):
     self.repeating_panel_2.items = [item for item in data if item['Status'] in ['Action required', 'Requires revision', 'Waiting for decision']] #EVALUATION
     self.repeating_panel_3.items = [item for item in data if item['Status'] in ['Build connection', 'Awaiting response', 'Exploring opportunities', 'Positive response']] #CONTACTING
     self.repeating_panel_4.items = [item for item in data if item['Status'] in ['In negotiations', 'Contract in progress']] #NEGOTIATION
+
+  def link_discover_click(self, **event_args):
+    open_form('Main_In', temp_artist_id = self.item["ArtistID"], target = 'C_Investigate')
+    #self.content_panel.clear()
+    #self.content_panel.add_component(C_Investigate(temp_artist_id=None))
