@@ -24,6 +24,26 @@ class C_Home(C_HomeTemplate):
     self.repeating_panel_3.items = [item for item in data if item['Status'] in ['Build connection', 'Awaiting response', 'Exploring opportunities', 'Positive response']] #CONTACTING
     self.repeating_panel_4.items = [item for item in data if item['Status'] in ['In negotiations', 'Contract in progress']] #NEGOTIATION
 
+    # STATS
+    stats = json.loads(anvil.server.call('get_stats', cur_model_id))
+    if stats[0]['cnt'] == 1:
+      self.label_won.text = str(stats[0]['cnt']) + ' artist won'
+    else:
+      self.label_won.text = str(stats[0]['cnt']) + ' artists won'
+    if stats[1]['cnt'] == 1:
+      self.label_wl.text =  str(stats[1]['cnt']) + ' artist on watchlist'
+    else:
+      self.label_wl.text =  str(stats[1]['cnt']) + ' artists on watchlist'
+    if stats[2]['cnt'] == 1:
+      self.label_hp.text =  str(stats[2]['cnt']) + ' high potential found'
+    else:
+      self.label_hp.text =  str(stats[2]['cnt']) + ' high potentials found'
+    if stats[3]['cnt'] == 1:
+      self.label_tot.text = str(stats[3]['cnt']) + ' artist evaluated'
+    else:
+      self.label_tot.text = str(stats[3]['cnt']) + ' artists evaluated'
+      
+    
   def button_search_click(self, **event_args):
     data = json.loads(anvil.server.call('get_watchlist_selection', cur_model_id))
     data = [entry for entry in data if str(entry["Name"]).lower().find(str(self.text_box_search.text).lower()) != -1]
@@ -33,8 +53,12 @@ class C_Home(C_HomeTemplate):
     self.repeating_panel_4.items = [item for item in data if item['Status'] in ['In negotiations', 'Contract in progress']] #NEGOTIATION
 
   def link_discover_click(self, **event_args):
-    open_form('Main_In', temp_artist_id = None, target = 'C_Investigate')
+    open_form('Main_In', temp_artist_id = None, target = 'C_Investigate', value=None)
 
   def link_funnel_click(self, **event_args):
-    open_form('Main_In', temp_artist_id = None, target = 'C_Watchlist_Funnel')
+    open_form('Main_In', temp_artist_id = None, target = 'C_Watchlist_Funnel', value=None)
+
+  def text_search_pressed_enter(self, **event_args):
+    open_form('Main_In', temp_artist_id = None, target = 'C_SearchArtist', value=self.text_search.text)
+
     

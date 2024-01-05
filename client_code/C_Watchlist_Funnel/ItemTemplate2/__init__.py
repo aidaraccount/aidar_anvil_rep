@@ -31,7 +31,7 @@ class ItemTemplate2(ItemTemplate2Template):
 
   
   def link_1_click(self, **event_args):
-      open_form('Main_In', temp_artist_id = self.item["ArtistID"], target = 'C_Watchlist_Details')
+      open_form('Main_In', temp_artist_id = self.item["ArtistID"], target = 'C_Watchlist_Details', value=None)
 
   def link_left_click(self, **event_args):
     if self.item["Status"] in ['Action required', 'Requires revision', 'Waiting for decision']: #EVALUATION
@@ -50,7 +50,7 @@ class ItemTemplate2(ItemTemplate2Template):
                       status_left_new,
                       self.item["Notification"]
                       )
-    open_form('Main_In', temp_artist_id = None, target = 'C_Watchlist_Funnel')
+    open_form('Main_In', temp_artist_id = None, target = 'C_Watchlist_Funnel', value=None)
 
   def link_right_click(self, **event_args):
     if self.item["Status"] in ['Reconnect later', 'Not interested', None]: #BACKLOG
@@ -69,4 +69,4 @@ class ItemTemplate2(ItemTemplate2Template):
                       status_right_new,
                       self.item["Notification"]
                       )
-    open_form('Main_In', temp_artist_id = None, target = 'C_Watchlist_Funnel')
+    open_form('Main_In', temp_artist_id = None, target = 'C_Watchlist_Funnel', value=None)

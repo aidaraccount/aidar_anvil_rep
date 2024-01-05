@@ -25,7 +25,7 @@ class ItemTemplate(ItemTemplateTemplate):
 
 
   def link_1_click(self, **event_args):
-    open_form('Main_In', temp_artist_id = self.item["ArtistID"], target = 'C_Watchlist_Details')
+    open_form('Main_In', temp_artist_id = self.item["ArtistID"], target = 'C_Watchlist_Details', value=None)
 
   def link_left_click(self, **event_args):
     if self.item["Status"] in ['Action required', 'Requires revision', 'Waiting for decision']: #EVALUATION
@@ -42,7 +42,7 @@ class ItemTemplate(ItemTemplateTemplate):
                       status_left_new,
                       self.item["Notification"]
                       )
-    open_form('Main_In', temp_artist_id = None, target = None)
+    open_form('Main_In', temp_artist_id = None, target = None, value=None)
 
   def link_right_click(self, **event_args):
     if self.item["Status"] in ['Action required', 'Requires revision', 'Waiting for decision']: #EVALUATION
@@ -59,4 +59,4 @@ class ItemTemplate(ItemTemplateTemplate):
                       status_right_new,
                       self.item["Notification"]
                       )
-    open_form('Main_In', temp_artist_id = None, target = None)
+    open_form('Main_In', temp_artist_id = None, target = None, value=None)

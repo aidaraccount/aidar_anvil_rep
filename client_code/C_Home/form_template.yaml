@@ -9,8 +9,8 @@ components:
   components:
   - name: label_1_copy_2
     properties: {role: sub_title, align: center, tooltip: '', border: '', foreground: '',
-      visible: true, text: Welcome to, font_size: null, font: '', spacing_above: small,
-      icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+      visible: true, text: Welcome to, font_size: null, font: '', spacing_above: none,
+      icon_align: left, spacing_below: none, italic: false, background: '', bold: false,
       underline: false, icon: ''}
     type: Label
     layout_properties: {grid_position: 'WSTDMP,PYHEEZ'}
@@ -44,7 +44,7 @@ components:
         layout_properties: {x: 190, y: 45, width: 170}
       - name: label_3_copy_copy_copy
         properties: {text: '  NEGOTIATE', role: feature, background: 'rgb(217, 86,
-            39)', foreground: 'theme:Text_DecentWhite'}
+            39)', foreground: 'theme:Text_DecentWhite', icon: ''}
         type: Label
         layout_properties: {x: 370, y: 45, width: 170}
       - name: link_funnel
@@ -98,19 +98,45 @@ components:
           type: Image
           layout_properties: {grid_position: 'XISFUA,MXKFIP'}
         event_bindings: {click: link_discover_click}
-      - name: text_box_1
+      - name: text_search
         properties: {placeholder: Search artist, role: text_box_small}
         type: TextBox
         layout_properties: {x: 10, y: 150, width: 160}
+        event_bindings: {pressed_enter: text_search_pressed_enter}
+      - name: button_discover
+        properties: {text: Discover, role: feature, background: 'theme:Orange', foreground: 'theme:Text_DecentWhite'}
+        type: Button
+        layout_properties: {x: 75, y: 100, width: 88}
+        event_bindings: {click: link_discover_click}
   - name: column_panel_4
     properties: {role: grid}
     type: ColumnPanel
     layout_properties: {grid_position: 'OTKJVT,KTTOYW DJTHWZ,AWXJDC'}
     components:
     - name: label_1
-      properties: {text: Analytics, role: artist_name, align: center}
+      properties: {text: Stats, role: artist_name, align: center}
       type: Label
       layout_properties: {grid_position: 'WKPYND,DNKUEW'}
+    - name: label_won
+      properties: {text: 0 artists won, role: note}
+      type: Label
+      layout_properties: {grid_position: 'EQOFFR,JESEMJ'}
+    - name: label_wl
+      properties: {text: 0 artist on watchlist, role: note}
+      type: Label
+      layout_properties: {grid_position: 'FWKTES,FRIAVJ'}
+    - name: label_hp
+      properties: {text: 0 high potentials found, role: note}
+      type: Label
+      layout_properties: {grid_position: 'XQULBL,DEWRMC'}
+    - name: label_tot
+      properties: {text: 0 artists evaluated, role: note}
+      type: Label
+      layout_properties: {grid_position: 'YOVEAH,LVPVAS'}
+    - name: spacer_1
+      properties: {height: 43}
+      type: Spacer
+      layout_properties: {grid_position: 'HPKNYD,QBLMMN'}
   - name: column_panel_5
     properties: {role: grid}
     type: ColumnPanel

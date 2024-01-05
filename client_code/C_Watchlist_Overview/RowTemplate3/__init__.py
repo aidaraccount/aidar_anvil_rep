@@ -17,7 +17,7 @@ class RowTemplate3(RowTemplate3Template):
     # Any code you write here will run before the form opens.
 
   def button_details_click(self, **event_args):
-    open_form('Main_In', temp_artist_id = self.item["ArtistID"], target = 'C_Watchlist_Details')
+    open_form('Main_In', temp_artist_id = self.item["ArtistID"], target = 'C_Watchlist_Details', value=None)
 
   def link_artist_click(self, **event_args):
-    open_form('Main_In', temp_artist_id = self.item["ArtistID"], target = 'C_Investigate')
+    open_form('Main_In', temp_artist_id = self.item["ArtistID"], target = 'C_Investigate', value=None)

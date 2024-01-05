@@ -27,7 +27,7 @@ class Main_Out(Main_OutTemplate):
       try:
         anvil.server.call('server_transfer_user_id')
         user = anvil.users.get_user()
-        open_form('Main_In', temp_artist_id = None, target = None, user_id = user["user_id"])
+        open_form('Main_In', temp_artist_id = None, target = None, user_id = user["user_id"], value=None)
       except:
         alert(title='Unveiling New Features!', content='Apologies for any inconvenience caused.\n\nWe are presently integrating new features and will have the site accessible again shortly.\n\nFeel free to contact us via email at info@aidar.ai.\n\nThank you,\nYour AIDAR Team')
       
@@ -42,7 +42,7 @@ class Main_Out(Main_OutTemplate):
     user = anvil.users.get_user()
     if (user != None):
       anvil.server.call('check_user_presence', mail=user['email'])
-      open_form('Main_In', temp_artist_id = None, target = None, user_id = user["user_id"])
+      open_form('Main_In', temp_artist_id = None, target = None, user_id = user["user_id"], value=None)
 
   def linkedin_click(self, **event_args):
     self.linkedin_link.url = 'https://www.linkedin.com/company/aidar-insights/'

@@ -23,7 +23,7 @@ class Imprint(ImprintTemplate):
     user = anvil.users.get_user()
     if (user != None):
       anvil.server.call('check_user_presence', mail=user['email'])
-      open_form('Main_In', temp_artist_id = None, user_id = user["user_id"])
+      open_form('Main_In', temp_artist_id = None, user_id = user["user_id"], value=None)
 
   def link_logout_click(self, **event_args):
     anvil.users.logout()
@@ -36,7 +36,7 @@ class Imprint(ImprintTemplate):
     user = anvil.users.get_user()
     if (user != None):
       anvil.server.call('check_user_presence', mail=user['email'])
-      open_form('Main_In', temp_artist_id = None, user_id = user["user_id"])
+      open_form('Main_In', temp_artist_id = None, user_id = user["user_id"], value=None)
 
   def link_main_click(self, **event_args):
     open_form('Main_Out')

@@ -521,7 +521,7 @@ class C_Investigate(C_InvestigateTemplate):
       style="success").show()
 
   def button_set_filters_click(self, **event_args):
-    open_form('Main_In', temp_artist_id = None, target = 'C_Filter')
+    open_form('Main_In', temp_artist_id = None, target = 'C_Filter', value=None)
 
   def button_remove_filters_click(self, **event_args):    
     anvil.server.call('change_filters',
@@ -537,6 +537,6 @@ class C_Investigate(C_InvestigateTemplate):
                       None, None, None, None, None, None, None, None, None, None,
                       None, None, None, None, None, None, None
                      )
-    open_form('Main_In', temp_artist_id = None, target = 'C_Investigate')
+    open_form('Main_In', temp_artist_id = None, target = 'C_Investigate', value=None)
 
     

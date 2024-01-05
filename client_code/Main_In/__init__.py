@@ -23,7 +23,7 @@ from ..C_ConnectModel import C_ConnectModel
 
 
 class Main_In(Main_InTemplate):
-  def __init__(self, temp_artist_id, target, **properties):
+  def __init__(self, temp_artist_id, target, value, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
     
@@ -63,6 +63,9 @@ class Main_In(Main_InTemplate):
       
     if target == 'C_Watchlist_Details':
       self.route_manage_watchlist(temp_artist_id = temp_artist_id)
+
+    if target == 'C_SearchArtist':
+      self.route_discover_name(search = value)
 
   
   def logo_click(self, **event_args):
@@ -133,11 +136,14 @@ class Main_In(Main_InTemplate):
     self.content_panel.add_component(C_Investigate(temp_artist_id = temp_artist_id))
     self.reset_nav_backgrounds()
     self.link_discover_ai.background = "theme:Accent 2"
-    
+
   def link_discover_name_click(self, **event_args):
+    self.route_discover_name(search = None)
+  
+  def route_discover_name(self, search, **event_args):
     cur_model_id = anvil.server.call('get_model_id',  user["user_id"])
     self.content_panel.clear()
-    self.content_panel.add_component(C_SearchArtist())
+    self.content_panel.add_component(C_SearchArtist(search = search))
     self.reset_nav_backgrounds()
     self.link_discover_name.background = "theme:Accent 2"
 
