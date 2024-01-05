@@ -54,7 +54,7 @@ components:
         layout_properties: {x: 0, y: 0, width: 551.333312988281}
         event_bindings: {click: link_funnel_click}
     - name: xy_panel_1
-      properties: {height: '580', role: null}
+      properties: {height: 571, role: null}
       type: XYPanel
       layout_properties: {grid_position: 'YPIXHC,CPOJZC'}
       components:

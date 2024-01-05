@@ -44,7 +44,7 @@ class C_Home(C_HomeTemplate):
       self.label_tot.text = str(stats[3]['cnt']) + ' artists evaluated'
 
     # NEWS
-    self.repeating_panel_news.items = json.loads(anvil.server.call('get_watchlist_notes', cur_model_id, cur_ai_artist_id))
+    self.repeating_panel_news.items = json.loads(anvil.server.call('get_watchlist_notes', cur_model_id, None))
   
     
   def link_discover_click(self, **event_args):

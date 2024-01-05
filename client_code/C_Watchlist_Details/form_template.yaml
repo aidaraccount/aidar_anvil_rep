@@ -261,7 +261,7 @@ components:
         - name: repeating_panel_detail
           properties: {item_template: C_Watchlist_Details.DetailTemplate, spacing_above: none}
           type: RepeatingPanel
-          layout_properties: {x: 7, y: 0, width: 485}
+          layout_properties: {x: 7, y: 0, width: 484}
         data_bindings: []
       - name: xy_panel_2
         properties: {height: 45}
