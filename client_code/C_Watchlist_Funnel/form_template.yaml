@@ -47,39 +47,48 @@ components:
   - name: repeating_panel_1
     properties: {item_template: C_Watchlist_Funnel.ItemTemplate2, background: ''}
     type: RepeatingPanel
-    layout_properties: {x: 0, y: 30, width: 200}
+    layout_properties: {x: 0, y: 30, width: 186}
   - name: repeating_panel_2
     properties: {item_template: C_Watchlist_Funnel.ItemTemplate2, background: ''}
     type: RepeatingPanel
-    layout_properties: {x: 210, y: 30, width: 200}
+    layout_properties: {x: 196, y: 30, width: 186}
   - name: label_3
     properties: {text: '  BACKLOG', role: feature, background: 'rgb(94, 38, 17)',
       foreground: 'theme:Text_DecentWhite'}
     type: Label
-    layout_properties: {x: 0, y: 0, width: 200}
+    layout_properties: {x: 0, y: 0, width: 186}
     data_bindings: []
   - name: label_3_copy
     properties: {text: '  EVALUATE', role: feature, background: 'rgb(135, 54, 24)',
       foreground: 'theme:Text_DecentWhite'}
     type: Label
-    layout_properties: {x: 210, y: 0, width: 200}
+    layout_properties: {x: 196, y: 0, width: 186}
   - name: label_3_copy_copy
     properties: {text: '  CONTACT', role: feature, background: 'rgb(176, 70, 32)',
       foreground: 'theme:Text_DecentWhite'}
     type: Label
-    layout_properties: {x: 420, y: 0, width: 200}
+    layout_properties: {x: 392, y: 0, width: 186}
   - name: label_3_copy_copy_copy
     properties: {text: '  NEGOTIATE', role: feature, background: 'rgb(217, 86, 39)',
       foreground: 'theme:Text_DecentWhite'}
     type: Label
-    layout_properties: {x: 630, y: 0, width: 200}
+    layout_properties: {x: 588, y: 0, width: 186}
   - name: repeating_panel_3
     properties: {item_template: C_Watchlist_Funnel.ItemTemplate2, background: ''}
     type: RepeatingPanel
-    layout_properties: {x: 420, y: 30, width: 200}
+    layout_properties: {x: 392, y: 30, width: 186}
   - name: repeating_panel_4
     properties: {item_template: C_Watchlist_Funnel.ItemTemplate2, background: ''}
     type: RepeatingPanel
-    layout_properties: {x: 630, y: 30, width: 200}
+    layout_properties: {x: 588, y: 30, width: 186}
+  - name: label_3_copy_copy_copy_copy
+    properties: {text: '  SUCCESS', role: feature, background: 'rgb(217, 86, 39)',
+      foreground: 'theme:Text_DecentWhite'}
+    type: Label
+    layout_properties: {x: 784, y: 0, width: 186}
+  - name: repeating_panel_5
+    properties: {item_template: C_Watchlist_Funnel.ItemTemplate2, background: ''}
+    type: RepeatingPanel
+    layout_properties: {x: 784, y: 30, width: 186}
 is_package: true
 custom_component: true

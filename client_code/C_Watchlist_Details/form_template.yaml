@@ -103,7 +103,7 @@ components:
     layout_properties: {grid_position: 'HDFDKN,FADFZU TSPSOX,KGFFZV'}
     components:
     - name: button_investigate
-      properties: {text: investigate, align: left, role: feature, background: 'theme:Orange',
+      properties: {text: '    Details    ', align: left, role: feature, background: 'theme:Orange',
         foreground: 'theme:Text_DecentWhite'}
       type: Button
       layout_properties: {x: 10, y: 5, width: 94}
@@ -190,7 +190,7 @@ components:
           placeholder: ''
           items: [Action required, Requires revision, Build connection, Awaiting response,
             Waiting for decision, Exploring opportunities, Positive response, In negotiations,
-            Contract in progress, Reconnect later, Not interested]
+            Contract in progress, Reconnect later, Not interested, Success]
           role: text_box_small
           include_placeholder: false
           spacing_above: none

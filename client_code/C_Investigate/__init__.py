@@ -7,12 +7,14 @@ from anvil.tables import app_tables
 import anvil.users
 import anvil.server
 import json
-import datetime
+from datetime import datetime
 import plotly.graph_objects as go
 
 
 class C_Investigate(C_InvestigateTemplate):
   def __init__(self, temp_artist_id, **properties):
+    t = datetime.now()
+    
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
 
@@ -21,7 +23,7 @@ class C_Investigate(C_InvestigateTemplate):
     global cur_model_id
     user = anvil.users.get_user()
     cur_model_id = anvil.server.call('get_model_id',  user["user_id"])
-    
+        
     self.plot_popularity.visible = False
     self.plot_followers.visible = False
     self.data_grid_releases.visible = False
@@ -37,13 +39,24 @@ class C_Investigate(C_InvestigateTemplate):
     #self.artist_popularity_lat.icon = '_/theme/icons/+2.png'
     #self.artist_follower_lat.icon = '_/theme/icons/-1.png'
     
-    self.refresh_sug(temp_artist_id)
+    self.refresh_sug(temp_artist_id)    
 
+    # TIME CHECK
+    print(f'{datetime.now()}: {datetime.now()-t}')
+    t = datetime.now()
 
+  
   # SUGGESTIONS
   def refresh_sug(self, temp_artist_id, **event_args):
     #print(f'Refresh Sug - Start {datetime.datetime.now()}', flush=True)
+    # TIME CHECK
+    t = datetime.now()
+    
     sug = json.loads(anvil.server.call('get_suggestion', 'Inspect', cur_model_id, temp_artist_id)) # Free, Explore, Inspect, Dissect
+    
+    # TIME CHECK
+    print(f'{datetime.now()}: {datetime.now()-t}')
+    t = datetime.now()
     
     if sug["Status"] == 'Empty Model!':
       alert(title='Train you Model..',

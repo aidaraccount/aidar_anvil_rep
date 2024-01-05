@@ -24,6 +24,7 @@ class C_Watchlist_Funnel(C_Watchlist_FunnelTemplate):
     self.repeating_panel_2.items = [item for item in data if item['Status'] in ['Action required', 'Requires revision', 'Waiting for decision']] #EVALUATION
     self.repeating_panel_3.items = [item for item in data if item['Status'] in ['Build connection', 'Awaiting response', 'Exploring opportunities', 'Positive response']] #CONTACTING
     self.repeating_panel_4.items = [item for item in data if item['Status'] in ['In negotiations', 'Contract in progress']] #NEGOTIATION
+    self.repeating_panel_5.items = [item for item in data if item['Status'] in ['Success']] #Success
 
   def button_search_click(self, **event_args):
     data = json.loads(anvil.server.call('get_watchlist_selection', cur_model_id))
@@ -33,3 +34,4 @@ class C_Watchlist_Funnel(C_Watchlist_FunnelTemplate):
     self.repeating_panel_2.items = [item for item in data if item['Status'] in ['Action required', 'Requires revision', 'Waiting for decision']] #EVALUATION
     self.repeating_panel_3.items = [item for item in data if item['Status'] in ['Build connection', 'Awaiting response', 'Exploring opportunities', 'Positive response']] #CONTACTING
     self.repeating_panel_4.items = [item for item in data if item['Status'] in ['In negotiations', 'Contract in progress']] #NEGOTIATION
+    self.repeating_panel_5.items = [item for item in data if item['Status'] in ['Success']] #Success

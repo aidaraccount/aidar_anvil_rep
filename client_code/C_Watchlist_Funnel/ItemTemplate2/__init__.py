@@ -26,13 +26,8 @@ class ItemTemplate2(ItemTemplate2Template):
     # hide left/right errors for first and last components    
     if self.item["Status"] in ['Reconnect later', 'Not interested', None]: #BACKLOG
       self.link_left.visible = False
-    elif self.item["Status"] in ['In negotiations', 'Contract in progress']: #NEGOTIATION
-      self.link_right.visible = False    
-
-    #self.repeating_panel_1.items = [item for item in data if item['Status'] in ['Reconnect later', 'Not interested', None]] #BACKLOG
-    #self.repeating_panel_2.items = [item for item in data if item['Status'] in ['Action required', 'Requires revision', 'Waiting for decision']] #EVALUATION
-    #self.repeating_panel_3.items = [item for item in data if item['Status'] in ['Build connection', 'Awaiting response', 'Exploring opportunities', 'Positive response']] #CONTACTING
-    #self.repeating_panel_4.items = [item for item in data if item['Status'] in ['In negotiations', 'Contract in progress']] #NEGOTIATION
+    elif self.item["Status"] in ['Success']: #NEGOTIATION
+      self.link_right.visible = False
 
   
   def link_1_click(self, **event_args):
@@ -45,6 +40,8 @@ class ItemTemplate2(ItemTemplate2Template):
       status_left_new = 'Action required'
     elif self.item["Status"] in ['In negotiations', 'Contract in progress']: #NEGOTIATION
       status_left_new = 'Build connection'
+    elif self.item["Status"] in ['Success']: #SUCCESS
+      status_left_new = 'In negotiations'
       
     anvil.server.call('update_watchlist_lead',
                       cur_model_id,
@@ -62,6 +59,8 @@ class ItemTemplate2(ItemTemplate2Template):
       status_right_new = 'Build connection'
     elif self.item["Status"] in ['Build connection', 'Awaiting response', 'Exploring opportunities', 'Positive response']: #CONTACTING
       status_right_new = 'In negotiations'
+    elif self.item["Status"] in ['In negotiations', 'Contract in progress']: #NEGOTIATION
+      status_right_new = 'Success'
     
     anvil.server.call('update_watchlist_lead',
                       cur_model_id,

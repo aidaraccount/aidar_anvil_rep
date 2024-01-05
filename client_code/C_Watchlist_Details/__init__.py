@@ -55,7 +55,8 @@ class C_Watchlist_Details(C_Watchlist_DetailsTemplate):
                         'In negotiations': 8,
                         'Contract in progress': 9,
                         'Reconnect later': 10,
-                        'Not interested': 11}
+                        'Not interested': 11,
+                        'Success': 12}
       watchlist_selection = sorted(watchlist_selection, key=lambda x: priority_order.get(x['Status'], float('inf')))
     if self.drop_down_selection.selected_value == 'Priority':
       priority_order = {'very high': 1, 'high': 2, 'mid': 3, 'low': 4, 'very low': 5}
@@ -219,7 +220,7 @@ class C_Watchlist_Details(C_Watchlist_DetailsTemplate):
     self.get_watchlist_details(cur_model_id, cur_ai_artist_id)
   
   def button_investigate_click(self, **event_args):
-    open_form('Main_In', temp_artist_id = cur_ai_artist_id, target = None)
+    open_form('Main_In', temp_artist_id = cur_ai_artist_id, target = 'C_Investigate')
 
   def button_delete_click(self, **event_args):
     c = confirm("Do you wish to delete this artist from your watchlist?")
