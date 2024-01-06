@@ -10,32 +10,32 @@ components:
   layout_properties: {grid_position: 'PNMDAK,WVYGWD'}
   components:
   - name: xy_panel_1
-    properties: {height: '60'}
+    properties: {height: '55'}
     type: XYPanel
     layout_properties: {grid_position: 'QYPTLL,MFAYRC'}
     components:
     - name: image
       properties: {height: '50', display_mode: zoom_to_fill}
       type: Image
-      layout_properties: {x: 10, y: 10, width: 50}
+      layout_properties: {x: 10, y: 5, width: 50}
       data_bindings:
       - {property: source, code: 'self.item[''ArtistPictureURL'']', writeback: false}
     - name: label_artist
       properties: {font_size: 14, foreground: ''}
       type: Label
-      layout_properties: {x: 65, y: 5, width: 200}
+      layout_properties: {x: 65, y: 0, width: 200}
       data_bindings:
       - {property: text, code: '"  " + self.item[''Name'']', writeback: false}
     - name: note
       properties: {align: left, role: note, spacing_above: none, spacing_below: none,
         font_size: null, foreground: '', bold: true}
       type: Label
-      layout_properties: {x: 65, y: 25, width: 295}
+      layout_properties: {x: 65, y: 20, width: 295}
       data_bindings:
       - {property: text, code: 'self.item[''Note'']', writeback: false}
     - name: label_date
       properties: {font_size: 14, align: right}
       type: Label
-      layout_properties: {x: 160, y: 5, width: 200}
+      layout_properties: {x: 160, y: 0, width: 200}
       data_bindings:
       - {property: text, code: 'self.item[''Date''] + "  "', writeback: false}
