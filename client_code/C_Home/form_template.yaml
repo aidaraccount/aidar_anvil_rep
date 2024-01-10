@@ -114,11 +114,11 @@ components:
     layout_properties: {grid_position: 'OTKJVT,KTTOYW DJTHWZ,AWXJDC'}
     components:
     - name: label_1
-      properties: {text: Stats, role: artist_name, align: center}
+      properties: {text: Stats, role: artist_name, align: center, spacing_below: none}
       type: Label
       layout_properties: {grid_position: 'WKPYND,DNKUEW'}
     - name: xy_panel_4
-      properties: {height: 188}
+      properties: {height: '186'}
       type: XYPanel
       layout_properties: {grid_position: 'HTRGNT,SBYXUT'}
       components:
@@ -133,39 +133,35 @@ components:
       - name: label_won_txt
         properties: {text: 'artists
 
-            won', role: note}
+            won', role: note, font_size: 12}
         type: Label
         layout_properties: {x: 8, y: 50, width: 65}
       - name: label_wl_txt
         properties: {role: note, text: 'artists on
 
-            watchlist'}
+            watchlist', font_size: 12}
         type: Label
         layout_properties: {x: 88, y: 50, width: 72.99999999999991}
-      - name: label_3
-        properties: {}
+      - name: label_hp_no
+        properties: {role: investigate_value, text: '12', font_size: 32}
         type: Label
-        layout_properties: {x: 0, y: 131.9499969482422, width: 178.3333282470703}
-    - name: label_won
-      properties: {text: 0 artists won, role: note}
-      type: Label
-      layout_properties: {grid_position: 'EQOFFR,JESEMJ'}
-    - name: label_wl
-      properties: {text: 0 artist on watchlist, role: note}
-      type: Label
-      layout_properties: {grid_position: 'FWKTES,FRIAVJ'}
-    - name: label_hp
-      properties: {text: 0 high potentials found, role: note}
-      type: Label
-      layout_properties: {grid_position: 'XQULBL,DEWRMC'}
-    - name: label_tot
-      properties: {text: 0 artists evaluated, role: note}
-      type: Label
-      layout_properties: {grid_position: 'YOVEAH,LVPVAS'}
-    - name: spacer_1
-      properties: {height: 43}
-      type: Spacer
-      layout_properties: {grid_position: 'HPKNYD,QBLMMN'}
+        layout_properties: {x: 0, y: 100, width: 77.99993896484366}
+      - name: label_tot_no
+        properties: {text: '1234', role: investigate_value, font_size: 32}
+        type: Label
+        layout_properties: {x: 80, y: 100, width: 92.333}
+      - name: label_hp_txt
+        properties: {text: 'high
+
+            potentials', role: note, font_size: 12}
+        type: Label
+        layout_properties: {x: 8, y: 143, width: 78.333}
+      - name: label_tot_txt
+        properties: {role: note, text: 'total
+
+            ratings', font_size: 12}
+        type: Label
+        layout_properties: {x: 88, y: 143, width: 84.33329999999992}
   - name: column_panel_5
     properties: {role: grid}
     type: ColumnPanel

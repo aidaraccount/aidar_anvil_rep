@@ -26,22 +26,18 @@ class C_Home(C_HomeTemplate):
 
     # STATS
     stats = json.loads(anvil.server.call('get_stats', cur_model_id))
-    if stats[0]['cnt'] == 1:
-      self.label_won.text = str(stats[0]['cnt']) + ' artist won'
-    else:
-      self.label_won.text = str(stats[0]['cnt']) + ' artists won'
-    if stats[1]['cnt'] == 1:
-      self.label_wl.text =  str(stats[1]['cnt']) + ' artist on watchlist'
-    else:
-      self.label_wl.text =  str(stats[1]['cnt']) + ' artists on watchlist'
-    if stats[2]['cnt'] == 1:
-      self.label_hp.text =  str(stats[2]['cnt']) + ' high potential found'
-    else:
-      self.label_hp.text =  str(stats[2]['cnt']) + ' high potentials found'
-    if stats[3]['cnt'] == 1:
-      self.label_tot.text = str(stats[3]['cnt']) + ' artist evaluated'
-    else:
-      self.label_tot.text = str(stats[3]['cnt']) + ' artists evaluated'
+    self.label_won_no.text = stats[0]['cnt']
+    self.label_wl_no.text = stats[1]['cnt']
+    self.label_hp_no.text = stats[2]['cnt']
+    self.label_tot_no.text = stats[3]['cnt']
+    if stats[0]['cnt'] == 1: self.label_won_txt.text = 'artist\nwon'
+    else: self.label_won_txt.text = 'artists\nwon'
+    if stats[1]['cnt'] == 1: self.label_wl_txt.text =  'artist on\nwatchlist'
+    else: self.label_wl_txt.text =  'artists on\nwatchlist'
+    if stats[2]['cnt'] == 1: self.label_hp_txt.text =  'high\npotential'
+    else: self.label_hp_txt.text =  'high\npotentials'
+    if stats[3]['cnt'] == 1: self.label_tot_txt.text = 'total\nrating'
+    else: self.label_tot_txt.text = 'total\nratings'
 
     # NEWS
     self.repeating_panel_news.items = json.loads(anvil.server.call('get_watchlist_notes', cur_model_id, None))
