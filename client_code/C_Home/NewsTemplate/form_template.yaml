@@ -38,4 +38,4 @@ components:
       type: Label
       layout_properties: {x: 160, y: 0, width: 200}
       data_bindings:
-      - {property: text, code: 'self.item[''Date''] + "  "', writeback: false}
+      - {property: text, code: 'str(self.item[''Date'']) + "  "', writeback: false}
