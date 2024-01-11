@@ -64,9 +64,15 @@ class C_Investigate(C_InvestigateTemplate):
       self.visible = False
 
     elif sug["Status"] == 'No Findings!':
-      alert(title='No Artists found..',
-            content="Sorry, we cound't find any artists for your model. Please check two potential issues:\n\n1. Please check your FILTERS and change them to find additional artists.\n\n2. If you're just setting up your model or are subscribed to the Explore subscription, go to the ADD REF. ARTISTS page and add additional reference artists.")
+      result = alert(title='No Artists found..',
+                content="Sorry, we cound't find any artists for your model. Please check two potential issues:\n\n1. Please check your FILTERS and change them to find additional artists.\n\n2. If you're just setting up your model or are subscribed to the Explore subscription, go to the ADD REF. ARTISTS page and add additional reference artists.",
+                buttons=[
+                  ("Change Filters", "FILTERS"),
+                  ("Ok", "OK")
+                ])
       self.visible = False
+      if result == "FILTERS":
+        open_form('Main_In', temp_artist_id = None, target = 'C_Filter', value=None)
     
     elif sug["Status"] == 'Free Limit Reached!':
       alert(title='Free Limit Reached..',
