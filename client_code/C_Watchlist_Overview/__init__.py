@@ -29,7 +29,8 @@ class C_Watchlist_Overview(C_Watchlist_OverviewTemplate):
   def get_data(self, **event_args):
     # get raw data
     data = json.loads(anvil.server.call('get_watchlist_overview', cur_model_id))
-
+    print(data)
+    
     # fill Nones
     for item in data:
         for key, value in item.items():
