@@ -145,32 +145,43 @@ components:
     - name: label_phone
       properties: {role: description, icon: 'fa:phone'}
       type: Label
-      layout_properties: {x: 10, y: 260, width: 220}
+      layout_properties: {x: 10, y: 300, width: 220}
     - name: label_mail
       properties: {icon: 'fa:envelope-o', role: description}
       type: Label
-      layout_properties: {x: 10, y: 220, width: 220}
+      layout_properties: {x: 10, y: 260, width: 220}
     - name: label_contact
       properties: {icon: 'fa:male', role: description}
       type: Label
-      layout_properties: {x: 10, y: 180, width: 220}
+      layout_properties: {x: 10, y: 220, width: 220}
     - name: text_box_contact
-      properties: {role: text_box_small, visible: false, background: 'theme:Sidebar
-          Background', foreground: 'theme:Text_DecentWhite', font_size: 14}
-      type: TextBox
-      layout_properties: {x: 30, y: 180, width: 200}
-      event_bindings: {pressed_enter: button_edit_click}
-    - name: text_box_mail
       properties: {role: text_box_small, visible: false, background: 'theme:Sidebar
           Background', foreground: 'theme:Text_DecentWhite', font_size: 14}
       type: TextBox
       layout_properties: {x: 30, y: 220, width: 200}
       event_bindings: {pressed_enter: button_edit_click}
-    - name: text_box_phone
+    - name: text_box_mail
       properties: {role: text_box_small, visible: false, background: 'theme:Sidebar
           Background', foreground: 'theme:Text_DecentWhite', font_size: 14}
       type: TextBox
       layout_properties: {x: 30, y: 260, width: 200}
+      event_bindings: {pressed_enter: button_edit_click}
+    - name: text_box_phone
+      properties: {role: text_box_small, visible: false, background: 'theme:Sidebar
+          Background', foreground: 'theme:Text_DecentWhite', font_size: 14}
+      type: TextBox
+      layout_properties: {x: 30, y: 300, width: 200}
+      event_bindings: {pressed_enter: button_edit_click}
+    - name: link_sound
+      properties: {role: description, text: '-', icon: 'fa:soundcloud'}
+      type: Link
+      layout_properties: {x: 10, y: 150, width: 200}
+      data_bindings: []
+    - name: text_box_sound
+      properties: {role: text_box_small, visible: false, background: 'theme:Sidebar
+          Background', foreground: 'theme:Text_DecentWhite', font_size: 14}
+      type: TextBox
+      layout_properties: {x: 30, y: 150, width: 200}
       event_bindings: {pressed_enter: button_edit_click}
   - name: flow_panel_tags
     properties: {}

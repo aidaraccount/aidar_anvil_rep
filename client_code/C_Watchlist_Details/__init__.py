@@ -135,6 +135,14 @@ class C_Watchlist_Details(C_Watchlist_DetailsTemplate):
       self.link_insta.url = details[0]["InstaLink"]
       self.text_box_insta.text = details[0]["InstaLink"]
       
+    if details[0]["SoundCloudLink"] is None:
+      self.link_sound.text = '-'
+      self.text_box_sound.text = None
+    else:
+      self.link_sound.text = 'Profile'
+      self.link_sound.url = details[0]["SoundCloudLink"]
+      self.text_box_sound.text = details[0]["SoundCloudLink"]
+      
     if details[0]["ContactName"] is None:
       self.label_contact.text = '-'
       self.text_box_contact.text = None
@@ -178,6 +186,7 @@ class C_Watchlist_Details(C_Watchlist_DetailsTemplate):
       self.button_edit.icon = 'fa:save'
       self.text_box_spotify.visible = True
       self.text_box_insta.visible = True
+      self.text_box_sound.visible = True
       self.text_box_contact.visible = True
       self.text_box_mail.visible = True
       self.text_box_phone.visible = True
@@ -186,6 +195,7 @@ class C_Watchlist_Details(C_Watchlist_DetailsTemplate):
       if details[0]["SpotifyLink"] == None: self.text_box_spotify.text = details[0]["ArtistURL"]
       else: self.text_box_spotify.text = details[0]["SpotifyLink"]
       self.text_box_insta.text = details[0]["InstaLink"]
+      self.text_box_sound.text = details[0]["SoundCloudLink"]
       self.text_box_contact.text = details[0]["ContactName"]
       self.text_box_mail.text = details[0]["Mail"]
       self.text_box_phone.text = details[0]["Phone"]
@@ -194,6 +204,7 @@ class C_Watchlist_Details(C_Watchlist_DetailsTemplate):
       self.button_edit.icon = 'fa:edit'
       self.text_box_spotify.visible = False
       self.text_box_insta.visible = False
+      self.text_box_sound.visible = False
       self.text_box_contact.visible = False
       self.text_box_mail.visible = False
       self.text_box_phone.visible = False
@@ -213,6 +224,7 @@ class C_Watchlist_Details(C_Watchlist_DetailsTemplate):
                       details[0]["Notification"],
                       self.text_box_spotify.text,
                       self.text_box_insta.text,
+                      self.text_box_sound.text,
                       self.text_box_contact.text,
                       self.text_box_mail.text,
                       self.text_box_phone.text
