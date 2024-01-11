@@ -1,4 +1,5 @@
 from ._anvil_designer import C_FilterTemplate
+from ._anvil_designer import C_FilterTemplate
 from anvil import *
 import anvil.server
 import anvil.users

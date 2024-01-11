@@ -618,715 +618,11 @@ components:
       row: OSZLNL
       width_xs: 12
       col_xs: 0
-  - type: GridPanel
+  - name: grid_panel_1_copy_13_copy
     properties: {spacing_above: small, spacing_below: small, background: '', foreground: '',
       border: '', visible: true, role: grid_panel, tooltip: ''}
-    name: grid_panel_1_copy_13
-    layout_properties:
-      col_widths: {}
-      grid_position: VXQOBG,IEDQUH
-    components:
-    - type: Label
-      properties: {role: feature, align: left, tooltip: '', border: '', foreground: '',
-        visible: true, text: '   Pop', font_size: null, font: '', spacing_above: small,
-        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-        underline: false, icon: ''}
-      name: label_4_copy_13
-      layout_properties: {row: OSZLNL, width_xs: 2, col_xs: 0, width: 100}
-    - type: Label
-      properties: {role: description, align: center, tooltip: '', border: '', foreground: '',
-        visible: true, text: 'TRUE', font_size: null, font: '', spacing_above: small,
-        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-        underline: false, icon: ''}
-      name: label_5_copy_13
-      layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 2, width: 36}
-    - type: CheckBox
-      properties: {role: null, align: left, tooltip: '', border: '', enabled: true,
-        foreground: '', allow_indeterminate: false, visible: true, text: '', font_size: null,
-        font: '', spacing_above: none, spacing_below: small, italic: false, background: '',
-        bold: false, checked: false, underline: false}
-      name: check_box_pop_t
-      layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 3, width: 25}
-    - type: Label
-      properties: {role: description, align: left, tooltip: '', border: '', foreground: '',
-        visible: true, text: 'FALSE', font_size: null, font: '', spacing_above: small,
-        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-        underline: false, icon: ''}
-      name: label_3
-      layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 4, width: 36}
-    - type: CheckBox
-      properties: {role: null, align: left, tooltip: '', border: '', enabled: true,
-        foreground: '', allow_indeterminate: false, visible: true, text: '', font_size: null,
-        font: '', spacing_above: none, spacing_below: small, italic: false, background: '',
-        bold: false, checked: false, underline: false}
-      name: check_box_pop_f
-      layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 5, width: 25}
-    - type: Label
-      properties: {role: feature, align: left, tooltip: '', border: '', foreground: '',
-        visible: true, text: '   Rock', font_size: null, font: '', spacing_above: small,
-        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-        underline: false, icon: ''}
-      name: label_4_copy_15
-      layout_properties: {row: OSZLNL, width_xs: 2, col_xs: 0, width: 100}
-    - type: Label
-      properties: {role: description, align: center, tooltip: '', border: '', foreground: '',
-        visible: true, text: 'TRUE', font_size: null, font: '', spacing_above: small,
-        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-        underline: false, icon: ''}
-      name: label_5_copy_15
-      layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 2, width: 36}
-    - type: CheckBox
-      properties: {role: null, align: left, tooltip: '', border: '', enabled: true,
-        foreground: '', allow_indeterminate: false, visible: true, text: '', font_size: null,
-        font: '', spacing_above: none, spacing_below: small, italic: false, background: '',
-        bold: false, checked: false, underline: false}
-      name: check_box_rock_t
-      layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 3, width: 25}
-    - type: Label
-      properties: {role: description, align: left, tooltip: '', border: '', foreground: '',
-        visible: true, text: 'FALSE', font_size: null, font: '', spacing_above: small,
-        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-        underline: false, icon: ''}
-      name: label_3_copy_5
-      layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 4, width: 36}
-    - type: CheckBox
-      properties: {role: null, align: left, tooltip: '', border: '', enabled: true,
-        foreground: '', allow_indeterminate: false, visible: true, text: '', font_size: null,
-        font: '', spacing_above: none, spacing_below: small, italic: false, background: '',
-        bold: false, checked: false, underline: false}
-      name: check_box_rock_f
-      layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 5, width: 25}
-  - type: GridPanel
-    properties: {spacing_above: small, spacing_below: small, background: '', foreground: '',
-      border: '', visible: true, role: grid_panel, tooltip: ''}
-    name: grid_panel_1_copy_14
-    layout_properties:
-      col_widths: {}
-      grid_position: JIYGUQ,OOURFL
-    components:
-    - type: Label
-      properties: {role: feature, align: left, tooltip: '', border: '', foreground: '',
-        visible: true, text: '   Indie', font_size: null, font: '', spacing_above: small,
-        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-        underline: false, icon: ''}
-      name: label_4_copy_14
-      layout_properties: {row: OSZLNL, width_xs: 2, col_xs: 0, width: 100}
-    - type: Label
-      properties: {role: description, align: center, tooltip: '', border: '', foreground: '',
-        visible: true, text: 'TRUE', font_size: null, font: '', spacing_above: small,
-        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-        underline: false, icon: ''}
-      name: label_5_copy_14
-      layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 2, width: 25}
-    - type: CheckBox
-      properties: {role: null, align: left, tooltip: '', border: '', enabled: true,
-        foreground: '', allow_indeterminate: false, visible: true, text: '', font_size: null,
-        font: '', spacing_above: none, spacing_below: small, italic: false, background: '',
-        bold: false, checked: false, underline: false}
-      name: check_box_indie_t
-      layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 3, width: 25}
-    - type: Label
-      properties: {role: description, align: left, tooltip: '', border: '', foreground: '',
-        visible: true, text: 'FALSE', font_size: null, font: '', spacing_above: small,
-        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-        underline: false, icon: ''}
-      name: label_3_copy_6
-      layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 4, width: 25}
-    - type: CheckBox
-      properties: {role: null, align: left, tooltip: '', border: '', enabled: true,
-        foreground: '', allow_indeterminate: false, visible: true, text: '', font_size: null,
-        font: '', spacing_above: none, spacing_below: small, italic: false, background: '',
-        bold: false, checked: false, underline: false}
-      name: check_box_indie_f
-      layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 5, width: 25}
-    - type: Label
-      properties: {role: feature, align: left, tooltip: '', border: '', foreground: '',
-        visible: true, text: '   Country', font_size: null, font: '', spacing_above: small,
-        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-        underline: false, icon: ''}
-      name: label_4_copy_16
-      layout_properties: {row: OSZLNL, width_xs: 2, col_xs: 0, width: 100}
-    - type: Label
-      properties: {role: description, align: center, tooltip: '', border: '', foreground: '',
-        visible: true, text: 'TRUE', font_size: null, font: '', spacing_above: small,
-        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-        underline: false, icon: ''}
-      name: label_5_copy_16
-      layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 2, width: 25}
-    - type: CheckBox
-      properties: {role: null, align: left, tooltip: '', border: '', enabled: true,
-        foreground: '', allow_indeterminate: false, visible: true, text: '', font_size: null,
-        font: '', spacing_above: none, spacing_below: small, italic: false, background: '',
-        bold: false, checked: false, underline: false}
-      name: check_box_country_t
-      layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 3, width: 25}
-    - type: Label
-      properties: {role: description, align: left, tooltip: '', border: '', foreground: '',
-        visible: true, text: 'FALSE', font_size: null, font: '', spacing_above: small,
-        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-        underline: false, icon: ''}
-      name: label_3_copy_7
-      layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 4, width: 25}
-    - type: CheckBox
-      properties: {role: null, align: left, tooltip: '', border: '', enabled: true,
-        foreground: '', allow_indeterminate: false, visible: true, text: '', font_size: null,
-        font: '', spacing_above: none, spacing_below: small, italic: false, background: '',
-        bold: false, checked: false, underline: false}
-      name: check_box_country_f
-      layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 5, width: 25}
-  - type: GridPanel
-    properties: {spacing_above: small, spacing_below: small, background: '', foreground: '',
-      border: '', visible: true, role: grid_panel, tooltip: ''}
-    name: grid_panel_1_copy_15
-    layout_properties:
-      col_widths: {}
-      grid_position: OYWLGO,NGGSSO
-    components:
-    - type: Label
-      properties: {role: feature, align: left, tooltip: '', border: '', foreground: '',
-        visible: true, text: '   Classic', font_size: null, font: '', spacing_above: small,
-        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-        underline: false, icon: ''}
-      name: label_4_copy_17
-      layout_properties: {row: OSZLNL, width_xs: 2, col_xs: 0, width: 100}
-    - type: Label
-      properties: {role: description, align: center, tooltip: '', border: '', foreground: '',
-        visible: true, text: 'TRUE', font_size: null, font: '', spacing_above: small,
-        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-        underline: false, icon: ''}
-      name: label_5_copy_17
-      layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 2, width: 25}
-    - type: CheckBox
-      properties: {role: null, align: left, tooltip: '', border: '', enabled: true,
-        foreground: '', allow_indeterminate: false, visible: true, text: '', font_size: null,
-        font: '', spacing_above: none, spacing_below: small, italic: false, background: '',
-        bold: false, checked: false, underline: false}
-      name: check_box_classic_t
-      layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 3, width: 25}
-    - type: Label
-      properties: {role: description, align: left, tooltip: '', border: '', foreground: '',
-        visible: true, text: 'FALSE', font_size: null, font: '', spacing_above: small,
-        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-        underline: false, icon: ''}
-      name: label_3_copy_8
-      layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 4, width: 25}
-    - type: CheckBox
-      properties: {role: null, align: left, tooltip: '', border: '', enabled: true,
-        foreground: '', allow_indeterminate: false, visible: true, text: '', font_size: null,
-        font: '', spacing_above: none, spacing_below: small, italic: false, background: '',
-        bold: false, checked: false, underline: false}
-      name: check_box_classic_f
-      layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 5, width: 25}
-    - type: Label
-      properties: {role: feature, align: left, tooltip: '', border: '', foreground: '',
-        visible: true, text: '   Latin', font_size: null, font: '', spacing_above: small,
-        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-        underline: false, icon: ''}
-      name: label_4_copy_18
-      layout_properties: {row: OSZLNL, width_xs: 2, col_xs: 0, width: 100}
-    - type: Label
-      properties: {role: description, align: center, tooltip: '', border: '', foreground: '',
-        visible: true, text: 'TRUE', font_size: null, font: '', spacing_above: small,
-        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-        underline: false, icon: ''}
-      name: label_5_copy_18
-      layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 2, width: 25}
-    - type: CheckBox
-      properties: {role: null, align: left, tooltip: '', border: '', enabled: true,
-        foreground: '', allow_indeterminate: false, visible: true, text: '', font_size: null,
-        font: '', spacing_above: none, spacing_below: small, italic: false, background: '',
-        bold: false, checked: false, underline: false}
-      name: check_box_latin_t
-      layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 3, width: 25}
-    - type: Label
-      properties: {role: description, align: left, tooltip: '', border: '', foreground: '',
-        visible: true, text: 'FALSE', font_size: null, font: '', spacing_above: small,
-        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-        underline: false, icon: ''}
-      name: label_3_copy_9
-      layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 4, width: 25}
-    - type: CheckBox
-      properties: {role: null, align: left, tooltip: '', border: '', enabled: true,
-        foreground: '', allow_indeterminate: false, visible: true, text: '', font_size: null,
-        font: '', spacing_above: none, spacing_below: small, italic: false, background: '',
-        bold: false, checked: false, underline: false}
-      name: check_box_latin_f
-      layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 5, width: 25}
-  - type: GridPanel
-    properties: {spacing_above: small, spacing_below: small, background: '', foreground: '',
-      border: '', visible: true, role: grid_panel, tooltip: ''}
-    name: grid_panel_1_copy_16
-    layout_properties:
-      col_widths: {}
-      grid_position: ZMUUJG,WOZSSY
-    components:
-    - type: Label
-      properties: {role: feature, align: left, tooltip: '', border: '', foreground: '',
-        visible: true, text: '   Soul', font_size: null, font: '', spacing_above: small,
-        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-        underline: false, icon: ''}
-      name: label_4_copy_19
-      layout_properties: {row: OSZLNL, width_xs: 2, col_xs: 0, width: 100}
-    - type: Label
-      properties: {role: description, align: center, tooltip: '', border: '', foreground: '',
-        visible: true, text: 'TRUE', font_size: null, font: '', spacing_above: small,
-        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-        underline: false, icon: ''}
-      name: label_5_copy_19
-      layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 2, width: 25}
-    - type: CheckBox
-      properties: {role: null, align: left, tooltip: '', border: '', enabled: true,
-        foreground: '', allow_indeterminate: false, visible: true, text: '', font_size: null,
-        font: '', spacing_above: none, spacing_below: small, italic: false, background: '',
-        bold: false, checked: false, underline: false}
-      name: check_box_soul_t
-      layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 3, width: 25}
-    - type: Label
-      properties: {role: description, align: left, tooltip: '', border: '', foreground: '',
-        visible: true, text: 'FALSE', font_size: null, font: '', spacing_above: small,
-        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-        underline: false, icon: ''}
-      name: label_3_copy_10
-      layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 4, width: 25}
-    - type: CheckBox
-      properties: {role: null, align: left, tooltip: '', border: '', enabled: true,
-        foreground: '', allow_indeterminate: false, visible: true, text: '', font_size: null,
-        font: '', spacing_above: none, spacing_below: small, italic: false, background: '',
-        bold: false, checked: false, underline: false}
-      name: check_box_soul_f
-      layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 5, width: 25}
-    - type: Label
-      properties: {role: feature, align: left, tooltip: '', border: '', foreground: '',
-        visible: true, text: '   House', font_size: null, font: '', spacing_above: small,
-        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-        underline: false, icon: ''}
-      name: label_4_copy_20
-      layout_properties: {row: OSZLNL, width_xs: 2, col_xs: 0, width: 100}
-    - type: Label
-      properties: {role: description, align: center, tooltip: '', border: '', foreground: '',
-        visible: true, text: 'TRUE', font_size: null, font: '', spacing_above: small,
-        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-        underline: false, icon: ''}
-      name: label_5_copy_20
-      layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 2, width: 25}
-    - type: CheckBox
-      properties: {role: null, align: left, tooltip: '', border: '', enabled: true,
-        foreground: '', allow_indeterminate: false, visible: true, text: '', font_size: null,
-        font: '', spacing_above: none, spacing_below: small, italic: false, background: '',
-        bold: false, checked: false, underline: false}
-      name: check_box_house_t
-      layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 3, width: 25}
-    - type: Label
-      properties: {role: description, align: left, tooltip: '', border: '', foreground: '',
-        visible: true, text: 'FALSE', font_size: null, font: '', spacing_above: small,
-        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-        underline: false, icon: ''}
-      name: label_3_copy_11
-      layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 4, width: 25}
-    - type: CheckBox
-      properties: {role: null, align: left, tooltip: '', border: '', enabled: true,
-        foreground: '', allow_indeterminate: false, visible: true, text: '', font_size: null,
-        font: '', spacing_above: none, spacing_below: small, italic: false, background: '',
-        bold: false, checked: false, underline: false}
-      name: check_box_house_f
-      layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 5, width: 25}
-  - type: GridPanel
-    properties: {spacing_above: small, spacing_below: small, background: '', foreground: '',
-      border: '', visible: true, role: grid_panel, tooltip: ''}
-    name: grid_panel_1_copy_19
-    layout_properties:
-      col_widths: {}
-      grid_position: CCSMIM,GAAQGG
-    components:
-    - type: Label
-      properties: {role: feature, align: left, tooltip: '', border: '', foreground: '',
-        visible: true, text: '   Funk', font_size: null, font: '', spacing_above: small,
-        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-        underline: false, icon: ''}
-      name: label_4_copy_25
-      layout_properties: {row: OSZLNL, width_xs: 2, col_xs: 0, width: 100}
-    - type: Label
-      properties: {role: description, align: center, tooltip: '', border: '', foreground: '',
-        visible: true, text: 'TRUE', font_size: null, font: '', spacing_above: small,
-        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-        underline: false, icon: ''}
-      name: label_5_copy_25
-      layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 2, width: 25}
-    - type: CheckBox
-      properties: {role: null, align: left, tooltip: '', border: '', enabled: true,
-        foreground: '', allow_indeterminate: false, visible: true, text: '', font_size: null,
-        font: '', spacing_above: none, spacing_below: small, italic: false, background: '',
-        bold: false, checked: false, underline: false}
-      name: check_box_funk_t
-      layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 3, width: 25}
-    - type: Label
-      properties: {role: description, align: left, tooltip: '', border: '', foreground: '',
-        visible: true, text: 'FALSE', font_size: null, font: '', spacing_above: small,
-        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-        underline: false, icon: ''}
-      name: label_3_copy_16
-      layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 4, width: 25}
-    - type: CheckBox
-      properties: {role: null, align: left, tooltip: '', border: '', enabled: true,
-        foreground: '', allow_indeterminate: false, visible: true, text: '', font_size: null,
-        font: '', spacing_above: none, spacing_below: small, italic: false, background: '',
-        bold: false, checked: false, underline: false}
-      name: check_box_funk_f
-      layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 5, width: 25}
-    - type: Label
-      properties: {role: feature, align: left, tooltip: '', border: '', foreground: '',
-        visible: true, text: '   Disco', font_size: null, font: '', spacing_above: small,
-        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-        underline: false, icon: ''}
-      name: label_4_copy_26
-      layout_properties: {row: OSZLNL, width_xs: 2, col_xs: 0, width: 100}
-    - type: Label
-      properties: {role: description, align: center, tooltip: '', border: '', foreground: '',
-        visible: true, text: 'TRUE', font_size: null, font: '', spacing_above: small,
-        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-        underline: false, icon: ''}
-      name: label_5_copy_26
-      layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 2, width: 25}
-    - type: CheckBox
-      properties: {role: null, align: left, tooltip: '', border: '', enabled: true,
-        foreground: '', allow_indeterminate: false, visible: true, text: '', font_size: null,
-        font: '', spacing_above: none, spacing_below: small, italic: false, background: '',
-        bold: false, checked: false, underline: false}
-      name: check_box_disco_t
-      layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 3, width: 25}
-    - type: Label
-      properties: {role: description, align: left, tooltip: '', border: '', foreground: '',
-        visible: true, text: 'FALSE', font_size: null, font: '', spacing_above: small,
-        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-        underline: false, icon: ''}
-      name: label_3_copy_17
-      layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 4, width: 25}
-    - type: CheckBox
-      properties: {role: null, align: left, tooltip: '', border: '', enabled: true,
-        foreground: '', allow_indeterminate: false, visible: true, text: '', font_size: null,
-        font: '', spacing_above: none, spacing_below: small, italic: false, background: '',
-        bold: false, checked: false, underline: false}
-      name: check_box_disco_f
-      layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 5, width: 25}
-  - type: GridPanel
-    properties: {spacing_above: small, spacing_below: small, background: '', foreground: '',
-      border: '', visible: true, role: grid_panel, tooltip: ''}
-    name: grid_panel_1_copy_18
-    layout_properties:
-      col_widths: {}
-      grid_position: IKKKLC,UYPJWI
-    components:
-    - type: Label
-      properties: {role: feature, align: left, tooltip: '', border: '', foreground: '',
-        visible: true, text: '   Schlager', font_size: null, font: '', spacing_above: small,
-        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-        underline: false, icon: ''}
-      name: label_4_copy_23
-      layout_properties: {row: OSZLNL, width_xs: 2, col_xs: 0, width: 100}
-    - type: Label
-      properties: {role: description, align: center, tooltip: '', border: '', foreground: '',
-        visible: true, text: 'TRUE', font_size: null, font: '', spacing_above: small,
-        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-        underline: false, icon: ''}
-      name: label_5_copy_23
-      layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 2, width: 25}
-    - type: CheckBox
-      properties: {role: null, align: left, tooltip: '', border: '', enabled: true,
-        foreground: '', allow_indeterminate: false, visible: true, text: '', font_size: null,
-        font: '', spacing_above: none, spacing_below: small, italic: false, background: '',
-        bold: false, checked: false, underline: false}
-      name: check_box_schlager_t
-      layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 3, width: 25}
-    - type: Label
-      properties: {role: description, align: left, tooltip: '', border: '', foreground: '',
-        visible: true, text: 'FALSE', font_size: null, font: '', spacing_above: small,
-        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-        underline: false, icon: ''}
-      name: label_3_copy_14
-      layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 4, width: 25}
-    - type: CheckBox
-      properties: {role: null, align: left, tooltip: '', border: '', enabled: true,
-        foreground: '', allow_indeterminate: false, visible: true, text: '', font_size: null,
-        font: '', spacing_above: none, spacing_below: small, italic: false, background: '',
-        bold: false, checked: false, underline: false}
-      name: check_box_schlager_f
-      layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 5, width: 25}
-    - type: Label
-      properties: {role: feature, align: left, tooltip: '', border: '', foreground: '',
-        visible: true, text: '   EDM', font_size: null, font: '', spacing_above: small,
-        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-        underline: false, icon: ''}
-      name: label_4_copy_24
-      layout_properties: {row: OSZLNL, width_xs: 2, col_xs: 0, width: 100}
-    - type: Label
-      properties: {role: description, align: center, tooltip: '', border: '', foreground: '',
-        visible: true, text: 'TRUE', font_size: null, font: '', spacing_above: small,
-        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-        underline: false, icon: ''}
-      name: label_5_copy_24
-      layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 2, width: 25}
-    - type: CheckBox
-      properties: {role: null, align: left, tooltip: '', border: '', enabled: true,
-        foreground: '', allow_indeterminate: false, visible: true, text: '', font_size: null,
-        font: '', spacing_above: none, spacing_below: small, italic: false, background: '',
-        bold: false, checked: false, underline: false}
-      name: check_box_edm_t
-      layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 3, width: 25}
-    - type: Label
-      properties: {role: description, align: left, tooltip: '', border: '', foreground: '',
-        visible: true, text: 'FALSE', font_size: null, font: '', spacing_above: small,
-        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-        underline: false, icon: ''}
-      name: label_3_copy_15
-      layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 4, width: 25}
-    - type: CheckBox
-      properties: {role: null, align: left, tooltip: '', border: '', enabled: true,
-        foreground: '', allow_indeterminate: false, visible: true, text: '', font_size: null,
-        font: '', spacing_above: none, spacing_below: small, italic: false, background: '',
-        bold: false, checked: false, underline: false}
-      name: check_box_edm_f
-      layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 5, width: 25}
-  - type: GridPanel
-    properties: {spacing_above: small, spacing_below: small, background: '', foreground: '',
-      border: '', visible: true, role: grid_panel, tooltip: ''}
-    name: grid_panel_1_copy_17
-    layout_properties:
-      col_widths: {}
-      grid_position: DNVAFD,CQPVIW
-    components:
-    - type: Label
-      properties: {role: feature, align: left, tooltip: '', border: '', foreground: '',
-        visible: true, text: '   Electro', font_size: null, font: '', spacing_above: small,
-        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-        underline: false, icon: ''}
-      name: label_4_copy_21
-      layout_properties: {row: OSZLNL, width_xs: 2, col_xs: 0, width: 100}
-    - type: Label
-      properties: {role: description, align: center, tooltip: '', border: '', foreground: '',
-        visible: true, text: 'TRUE', font_size: null, font: '', spacing_above: small,
-        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-        underline: false, icon: ''}
-      name: label_5_copy_21
-      layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 2, width: 25}
-    - type: CheckBox
-      properties: {role: null, align: left, tooltip: '', border: '', enabled: true,
-        foreground: '', allow_indeterminate: false, visible: true, text: '', font_size: null,
-        font: '', spacing_above: none, spacing_below: small, italic: false, background: '',
-        bold: false, checked: false, underline: false}
-      name: check_box_electro_t
-      layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 3, width: 25}
-    - type: Label
-      properties: {role: description, align: left, tooltip: '', border: '', foreground: '',
-        visible: true, text: 'FALSE', font_size: null, font: '', spacing_above: small,
-        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-        underline: false, icon: ''}
-      name: label_3_copy_12
-      layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 4, width: 25}
-    - type: CheckBox
-      properties: {role: null, align: left, tooltip: '', border: '', enabled: true,
-        foreground: '', allow_indeterminate: false, visible: true, text: '', font_size: null,
-        font: '', spacing_above: none, spacing_below: small, italic: false, background: '',
-        bold: false, checked: false, underline: false}
-      name: check_box_electro_f
-      layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 5, width: 25}
-    - type: Label
-      properties: {role: feature, align: left, tooltip: '', border: '', foreground: '',
-        visible: true, text: '   Dance', font_size: null, font: '', spacing_above: small,
-        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-        underline: false, icon: ''}
-      name: label_4_copy_22
-      layout_properties: {row: OSZLNL, width_xs: 2, col_xs: 0, width: 100}
-    - type: Label
-      properties: {role: description, align: center, tooltip: '', border: '', foreground: '',
-        visible: true, text: 'TRUE', font_size: null, font: '', spacing_above: small,
-        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-        underline: false, icon: ''}
-      name: label_5_copy_22
-      layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 2, width: 25}
-    - type: CheckBox
-      properties: {role: null, align: left, tooltip: '', border: '', enabled: true,
-        foreground: '', allow_indeterminate: false, visible: true, text: '', font_size: null,
-        font: '', spacing_above: none, spacing_below: small, italic: false, background: '',
-        bold: false, checked: false, underline: false}
-      name: check_box_dance_t
-      layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 3, width: 25}
-    - type: Label
-      properties: {role: description, align: left, tooltip: '', border: '', foreground: '',
-        visible: true, text: 'FALSE', font_size: null, font: '', spacing_above: small,
-        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-        underline: false, icon: ''}
-      name: label_3_copy_13
-      layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 4, width: 25}
-    - type: CheckBox
-      properties: {role: null, align: left, tooltip: '', border: '', enabled: true,
-        foreground: '', allow_indeterminate: false, visible: true, text: '', font_size: null,
-        font: '', spacing_above: none, spacing_below: small, italic: false, background: '',
-        bold: false, checked: false, underline: false}
-      name: check_box_dance_f
-      layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 5, width: 25}
-  - type: GridPanel
-    properties: {spacing_above: small, spacing_below: small, background: '', foreground: '',
-      border: '', visible: true, role: grid_panel, tooltip: ''}
-    name: grid_panel_1_copy_26
-    layout_properties:
-      col_widths: {}
-      grid_position: MUIDNT,SNNWTU
-    components:
-    - type: Label
-      properties: {role: feature, align: left, tooltip: '', border: '', foreground: '',
-        visible: true, text: '   Hip Hop', font_size: null, font: '', spacing_above: small,
-        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-        underline: false, icon: ''}
-      name: label_4_copy_39
-      layout_properties: {row: OSZLNL, width_xs: 2, col_xs: 0, width: 100}
-    - type: Label
-      properties: {role: description, align: center, tooltip: '', border: '', foreground: '',
-        visible: true, text: 'TRUE', font_size: null, font: '', spacing_above: small,
-        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-        underline: false, icon: ''}
-      name: label_5_copy_39
-      layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 2, width: 25}
-    - type: CheckBox
-      properties: {role: null, align: left, tooltip: '', border: '', enabled: true,
-        foreground: '', allow_indeterminate: false, visible: true, text: '', font_size: null,
-        font: '', spacing_above: none, spacing_below: small, italic: false, background: '',
-        bold: false, checked: false, underline: false}
-      name: check_box_hip_hop_t
-      layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 3, width: 25}
-    - type: Label
-      properties: {role: description, align: left, tooltip: '', border: '', foreground: '',
-        visible: true, text: 'FALSE', font_size: null, font: '', spacing_above: small,
-        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-        underline: false, icon: ''}
-      name: label_3_copy_30
-      layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 4, width: 25}
-    - type: CheckBox
-      properties: {role: null, align: left, tooltip: '', border: '', enabled: true,
-        foreground: '', allow_indeterminate: false, visible: true, text: '', font_size: null,
-        font: '', spacing_above: none, spacing_below: small, italic: false, background: '',
-        bold: false, checked: false, underline: false}
-      name: check_box_hip_hop_f
-      layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 5, width: 25}
-    - type: Label
-      properties: {role: feature, align: left, tooltip: '', border: '', foreground: '',
-        visible: true, text: '   Rap', font_size: null, font: '', spacing_above: small,
-        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-        underline: false, icon: ''}
-      name: label_4_copy_40
-      layout_properties: {row: OSZLNL, width_xs: 2, col_xs: 0, width: 100}
-    - type: Label
-      properties: {role: description, align: center, tooltip: '', border: '', foreground: '',
-        visible: true, text: 'TRUE', font_size: null, font: '', spacing_above: small,
-        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-        underline: false, icon: ''}
-      name: label_5_copy_40
-      layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 2, width: 25}
-    - type: CheckBox
-      properties: {role: null, align: left, tooltip: '', border: '', enabled: true,
-        foreground: '', allow_indeterminate: false, visible: true, text: '', font_size: null,
-        font: '', spacing_above: none, spacing_below: small, italic: false, background: '',
-        bold: false, checked: false, underline: false}
-      name: check_box_rap_t
-      layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 3, width: 25}
-    - type: Label
-      properties: {role: description, align: left, tooltip: '', border: '', foreground: '',
-        visible: true, text: 'FALSE', font_size: null, font: '', spacing_above: small,
-        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-        underline: false, icon: ''}
-      name: label_3_copy_31
-      layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 4, width: 25}
-    - type: CheckBox
-      properties: {role: null, align: left, tooltip: '', border: '', enabled: true,
-        foreground: '', allow_indeterminate: false, visible: true, text: '', font_size: null,
-        font: '', spacing_above: none, spacing_below: small, italic: false, background: '',
-        bold: false, checked: false, underline: false}
-      name: check_box_rap_f
-      layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 5, width: 25}
-  - type: GridPanel
-    properties: {spacing_above: small, spacing_below: small, background: '', foreground: '',
-      border: '', visible: true, role: grid_panel, tooltip: ''}
-    name: grid_panel_1_copy_25
-    layout_properties:
-      col_widths: {}
-      grid_position: EGQIIH,VIHTUM
-    components:
-    - type: Label
-      properties: {role: feature, align: left, tooltip: '', border: '', foreground: '',
-        visible: true, text: '   Reggae', font_size: null, font: '', spacing_above: small,
-        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-        underline: false, icon: ''}
-      name: label_4_copy_37
-      layout_properties: {row: OSZLNL, width_xs: 2, col_xs: 0, width: 100}
-    - type: Label
-      properties: {role: description, align: center, tooltip: '', border: '', foreground: '',
-        visible: true, text: 'TRUE', font_size: null, font: '', spacing_above: small,
-        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-        underline: false, icon: ''}
-      name: label_5_copy_37
-      layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 2, width: 25}
-    - type: CheckBox
-      properties: {role: null, align: left, tooltip: '', border: '', enabled: true,
-        foreground: '', allow_indeterminate: false, visible: true, text: '', font_size: null,
-        font: '', spacing_above: none, spacing_below: small, italic: false, background: '',
-        bold: false, checked: false, underline: false}
-      name: check_box_reggae_t
-      layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 3, width: 25}
-    - type: Label
-      properties: {role: description, align: left, tooltip: '', border: '', foreground: '',
-        visible: true, text: 'FALSE', font_size: null, font: '', spacing_above: small,
-        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-        underline: false, icon: ''}
-      name: label_3_copy_28
-      layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 4, width: 25}
-    - type: CheckBox
-      properties: {role: null, align: left, tooltip: '', border: '', enabled: true,
-        foreground: '', allow_indeterminate: false, visible: true, text: '', font_size: null,
-        font: '', spacing_above: none, spacing_below: small, italic: false, background: '',
-        bold: false, checked: false, underline: false}
-      name: check_box_reggae_f
-      layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 5, width: 25}
-    - type: Label
-      properties: {role: feature, align: left, tooltip: '', border: '', foreground: '',
-        visible: true, text: '   Jazz', font_size: null, font: '', spacing_above: small,
-        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-        underline: false, icon: ''}
-      name: label_4_copy_38
-      layout_properties: {row: OSZLNL, width_xs: 2, col_xs: 0, width: 100}
-    - type: Label
-      properties: {role: description, align: center, tooltip: '', border: '', foreground: '',
-        visible: true, text: 'TRUE', font_size: null, font: '', spacing_above: small,
-        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-        underline: false, icon: ''}
-      name: label_5_copy_38
-      layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 2, width: 25}
-    - type: CheckBox
-      properties: {role: null, align: left, tooltip: '', border: '', enabled: true,
-        foreground: '', allow_indeterminate: false, visible: true, text: '', font_size: null,
-        font: '', spacing_above: none, spacing_below: small, italic: false, background: '',
-        bold: false, checked: false, underline: false}
-      name: check_box_jazz_t
-      layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 3, width: 25}
-    - type: Label
-      properties: {role: description, align: left, tooltip: '', border: '', foreground: '',
-        visible: true, text: 'FALSE', font_size: null, font: '', spacing_above: small,
-        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-        underline: false, icon: ''}
-      name: label_3_copy_29
-      layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 4, width: 25}
-    - type: CheckBox
-      properties: {role: null, align: left, tooltip: '', border: '', enabled: true,
-        foreground: '', allow_indeterminate: false, visible: true, text: '', font_size: null,
-        font: '', spacing_above: none, spacing_below: small, italic: false, background: '',
-        bold: false, checked: false, underline: false}
-      name: check_box_jazz_f
-      layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 5, width: 25}
-  - type: GridPanel
-    properties: {spacing_above: small, spacing_below: small, background: '', foreground: '',
-      border: '', visible: true, role: grid_panel, tooltip: ''}
-    name: grid_panel_1_copy_24
-    layout_properties:
-      col_widths: {}
-      grid_position: UOJSYX,NJRWII
+    type: GridPanel
+    layout_properties: {grid_position: 'MDYYAC,VTQRNV'}
     components:
     - type: Label
       properties: {role: feature, align: left, tooltip: '', border: '', foreground: '',
@@ -1334,77 +630,607 @@ components:
         icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
         underline: false, icon: ''}
       name: label_4_copy_35
-      layout_properties: {row: OSZLNL, width_xs: 2, col_xs: 0, width: 100}
+      layout_properties: {row: YSBGKW, width_xs: 2, col_xs: 0}
     - type: Label
       properties: {role: description, align: center, tooltip: '', border: '', foreground: '',
         visible: true, text: 'TRUE', font_size: null, font: '', spacing_above: small,
         icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
         underline: false, icon: ''}
       name: label_5_copy_35
-      layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 2, width: 25}
+      layout_properties: {row: YSBGKW, width_xs: 1, col_xs: 2}
     - type: CheckBox
       properties: {role: null, align: left, tooltip: '', border: '', enabled: true,
         foreground: '', allow_indeterminate: false, visible: true, text: '', font_size: null,
         font: '', spacing_above: none, spacing_below: small, italic: false, background: '',
         bold: false, checked: false, underline: false}
       name: check_box_blues_t
-      layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 3, width: 25}
+      layout_properties: {row: YSBGKW, width_xs: 1, col_xs: 3}
     - type: Label
       properties: {role: description, align: left, tooltip: '', border: '', foreground: '',
         visible: true, text: 'FALSE', font_size: null, font: '', spacing_above: small,
         icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
         underline: false, icon: ''}
       name: label_3_copy_26
-      layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 4, width: 25}
+      layout_properties: {row: YSBGKW, width_xs: 1, col_xs: 4}
     - type: CheckBox
       properties: {role: null, align: left, tooltip: '', border: '', enabled: true,
         foreground: '', allow_indeterminate: false, visible: true, text: '', font_size: null,
         font: '', spacing_above: none, spacing_below: small, italic: false, background: '',
         bold: false, checked: false, underline: false}
       name: check_box_blues_f
-      layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 5, width: 25}
+      layout_properties: {row: YSBGKW, width_xs: 1, col_xs: 5}
+    - type: Label
+      properties: {role: feature, align: left, tooltip: '', border: '', foreground: '',
+        visible: true, text: '   Classic', font_size: null, font: '', spacing_above: small,
+        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+        underline: false, icon: ''}
+      name: label_4_copy_17
+      layout_properties: {row: YSBGKW, width_xs: 2, col_xs: 6}
+    - type: Label
+      properties: {role: description, align: center, tooltip: '', border: '', foreground: '',
+        visible: true, text: 'TRUE', font_size: null, font: '', spacing_above: small,
+        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+        underline: false, icon: ''}
+      name: label_5_copy_17
+      layout_properties: {row: YSBGKW, width_xs: 1, col_xs: 8}
+    - type: CheckBox
+      properties: {role: null, align: left, tooltip: '', border: '', enabled: true,
+        foreground: '', allow_indeterminate: false, visible: true, text: '', font_size: null,
+        font: '', spacing_above: none, spacing_below: small, italic: false, background: '',
+        bold: false, checked: false, underline: false}
+      name: check_box_classic_t
+      layout_properties: {row: YSBGKW, width_xs: 1, col_xs: 9}
+    - type: Label
+      properties: {role: description, align: left, tooltip: '', border: '', foreground: '',
+        visible: true, text: 'FALSE', font_size: null, font: '', spacing_above: small,
+        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+        underline: false, icon: ''}
+      name: label_3_copy_8
+      layout_properties: {row: YSBGKW, width_xs: 1, col_xs: 10}
+    - type: CheckBox
+      properties: {role: null, align: left, tooltip: '', border: '', enabled: true,
+        foreground: '', allow_indeterminate: false, visible: true, text: '', font_size: null,
+        font: '', spacing_above: none, spacing_below: small, italic: false, background: '',
+        bold: false, checked: false, underline: false}
+      name: check_box_classic_f
+      layout_properties: {row: YSBGKW, width_xs: 1, col_xs: 11}
+  - name: grid_panel_1_copy_13_copy_copy
+    properties: {spacing_above: small, spacing_below: small, background: '', foreground: '',
+      border: '', visible: true, role: grid_panel, tooltip: ''}
+    type: GridPanel
+    layout_properties: {grid_position: 'HQDWUU,HAGUOB'}
+    components:
+    - type: Label
+      properties: {role: feature, align: left, tooltip: '', border: '', foreground: '',
+        visible: true, text: '   Country', font_size: null, font: '', spacing_above: small,
+        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+        underline: false, icon: ''}
+      name: label_4_copy_16
+      layout_properties: {row: SMQHFH, width_xs: 2, col_xs: 0}
+    - type: Label
+      properties: {role: description, align: center, tooltip: '', border: '', foreground: '',
+        visible: true, text: 'TRUE', font_size: null, font: '', spacing_above: small,
+        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+        underline: false, icon: ''}
+      name: label_5_copy_16
+      layout_properties: {row: SMQHFH, width_xs: 1, col_xs: 2}
+    - type: CheckBox
+      properties: {role: null, align: left, tooltip: '', border: '', enabled: true,
+        foreground: '', allow_indeterminate: false, visible: true, text: '', font_size: null,
+        font: '', spacing_above: none, spacing_below: small, italic: false, background: '',
+        bold: false, checked: false, underline: false}
+      name: check_box_country_t
+      layout_properties: {row: SMQHFH, width_xs: 1, col_xs: 3}
+    - type: Label
+      properties: {role: description, align: left, tooltip: '', border: '', foreground: '',
+        visible: true, text: 'FALSE', font_size: null, font: '', spacing_above: small,
+        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+        underline: false, icon: ''}
+      name: label_3_copy_7
+      layout_properties: {row: SMQHFH, width_xs: 1, col_xs: 4}
+    - type: CheckBox
+      properties: {role: null, align: left, tooltip: '', border: '', enabled: true,
+        foreground: '', allow_indeterminate: false, visible: true, text: '', font_size: null,
+        font: '', spacing_above: none, spacing_below: small, italic: false, background: '',
+        bold: false, checked: false, underline: false}
+      name: check_box_country_f
+      layout_properties: {row: SMQHFH, width_xs: 1, col_xs: 5}
+    - type: Label
+      properties: {role: feature, align: left, tooltip: '', border: '', foreground: '',
+        visible: true, text: '   Dance', font_size: null, font: '', spacing_above: small,
+        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+        underline: false, icon: ''}
+      name: label_4_copy_22
+      layout_properties: {row: SMQHFH, width_xs: 2, col_xs: 6}
+    - type: Label
+      properties: {role: description, align: center, tooltip: '', border: '', foreground: '',
+        visible: true, text: 'TRUE', font_size: null, font: '', spacing_above: small,
+        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+        underline: false, icon: ''}
+      name: label_5_copy_22
+      layout_properties: {row: SMQHFH, width_xs: 1, col_xs: 8}
+    - type: CheckBox
+      properties: {role: null, align: left, tooltip: '', border: '', enabled: true,
+        foreground: '', allow_indeterminate: false, visible: true, text: '', font_size: null,
+        font: '', spacing_above: none, spacing_below: small, italic: false, background: '',
+        bold: false, checked: false, underline: false}
+      name: check_box_dance_t
+      layout_properties: {row: SMQHFH, width_xs: 1, col_xs: 9}
+    - type: Label
+      properties: {role: description, align: left, tooltip: '', border: '', foreground: '',
+        visible: true, text: 'FALSE', font_size: null, font: '', spacing_above: small,
+        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+        underline: false, icon: ''}
+      name: label_3_copy_13
+      layout_properties: {row: SMQHFH, width_xs: 1, col_xs: 10}
+    - type: CheckBox
+      properties: {role: null, align: left, tooltip: '', border: '', enabled: true,
+        foreground: '', allow_indeterminate: false, visible: true, text: '', font_size: null,
+        font: '', spacing_above: none, spacing_below: small, italic: false, background: '',
+        bold: false, checked: false, underline: false}
+      name: check_box_dance_f
+      layout_properties: {row: SMQHFH, width_xs: 1, col_xs: 11}
+  - name: grid_panel_1_copy_13_copy_copy_copy
+    properties: {spacing_above: small, spacing_below: small, background: '', foreground: '',
+      border: '', visible: true, role: grid_panel, tooltip: ''}
+    type: GridPanel
+    layout_properties: {grid_position: 'JVIDGJ,YWNMLO'}
+    components:
+    - type: Label
+      properties: {role: feature, align: left, tooltip: '', border: '', foreground: '',
+        visible: true, text: '   Disco', font_size: null, font: '', spacing_above: small,
+        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+        underline: false, icon: ''}
+      name: label_4_copy_26
+      layout_properties: {row: JQOMGI, width_xs: 2, col_xs: 0}
+    - type: Label
+      properties: {role: description, align: center, tooltip: '', border: '', foreground: '',
+        visible: true, text: 'TRUE', font_size: null, font: '', spacing_above: small,
+        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+        underline: false, icon: ''}
+      name: label_5_copy_26
+      layout_properties: {row: JQOMGI, width_xs: 1, col_xs: 2}
+    - type: CheckBox
+      properties: {role: null, align: left, tooltip: '', border: '', enabled: true,
+        foreground: '', allow_indeterminate: false, visible: true, text: '', font_size: null,
+        font: '', spacing_above: none, spacing_below: small, italic: false, background: '',
+        bold: false, checked: false, underline: false}
+      name: check_box_disco_t
+      layout_properties: {row: JQOMGI, width_xs: 1, col_xs: 3}
+    - type: Label
+      properties: {role: description, align: left, tooltip: '', border: '', foreground: '',
+        visible: true, text: 'FALSE', font_size: null, font: '', spacing_above: small,
+        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+        underline: false, icon: ''}
+      name: label_3_copy_17
+      layout_properties: {row: JQOMGI, width_xs: 1, col_xs: 4}
+    - type: CheckBox
+      properties: {role: null, align: left, tooltip: '', border: '', enabled: true,
+        foreground: '', allow_indeterminate: false, visible: true, text: '', font_size: null,
+        font: '', spacing_above: none, spacing_below: small, italic: false, background: '',
+        bold: false, checked: false, underline: false}
+      name: check_box_disco_f
+      layout_properties: {row: JQOMGI, width_xs: 1, col_xs: 5}
+    - type: Label
+      properties: {role: feature, align: left, tooltip: '', border: '', foreground: '',
+        visible: true, text: '   EDM', font_size: null, font: '', spacing_above: small,
+        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+        underline: false, icon: ''}
+      name: label_4_copy_24
+      layout_properties: {row: JQOMGI, width_xs: 2, col_xs: 6}
+    - type: Label
+      properties: {role: description, align: center, tooltip: '', border: '', foreground: '',
+        visible: true, text: 'TRUE', font_size: null, font: '', spacing_above: small,
+        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+        underline: false, icon: ''}
+      name: label_5_copy_24
+      layout_properties: {row: JQOMGI, width_xs: 1, col_xs: 8}
+    - type: CheckBox
+      properties: {role: null, align: left, tooltip: '', border: '', enabled: true,
+        foreground: '', allow_indeterminate: false, visible: true, text: '', font_size: null,
+        font: '', spacing_above: none, spacing_below: small, italic: false, background: '',
+        bold: false, checked: false, underline: false}
+      name: check_box_edm_t
+      layout_properties: {row: JQOMGI, width_xs: 1, col_xs: 9}
+    - type: Label
+      properties: {role: description, align: left, tooltip: '', border: '', foreground: '',
+        visible: true, text: 'FALSE', font_size: null, font: '', spacing_above: small,
+        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+        underline: false, icon: ''}
+      name: label_3_copy_15
+      layout_properties: {row: JQOMGI, width_xs: 1, col_xs: 10}
+    - type: CheckBox
+      properties: {role: null, align: left, tooltip: '', border: '', enabled: true,
+        foreground: '', allow_indeterminate: false, visible: true, text: '', font_size: null,
+        font: '', spacing_above: none, spacing_below: small, italic: false, background: '',
+        bold: false, checked: false, underline: false}
+      name: check_box_edm_f
+      layout_properties: {row: JQOMGI, width_xs: 1, col_xs: 11}
+  - type: GridPanel
+    properties: {spacing_above: small, spacing_below: small, background: '', foreground: '',
+      border: '', visible: true, role: grid_panel, tooltip: ''}
+    name: grid_panel_1_copy_17
+    layout_properties: {grid_position: 'WEKPDV,CTPMLW'}
+    components:
+    - type: Label
+      properties: {role: feature, align: left, tooltip: '', border: '', foreground: '',
+        visible: true, text: '   Electro', font_size: null, font: '', spacing_above: small,
+        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+        underline: false, icon: ''}
+      name: label_4_copy_21
+      layout_properties: {row: DHAYAM, width_xs: 2, col_xs: 0}
+    - type: Label
+      properties: {role: description, align: center, tooltip: '', border: '', foreground: '',
+        visible: true, text: 'TRUE', font_size: null, font: '', spacing_above: small,
+        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+        underline: false, icon: ''}
+      name: label_5_copy_21
+      layout_properties: {row: DHAYAM, width_xs: 1, col_xs: 2}
+    - type: CheckBox
+      properties: {role: null, align: left, tooltip: '', border: '', enabled: true,
+        foreground: '', allow_indeterminate: false, visible: true, text: '', font_size: null,
+        font: '', spacing_above: none, spacing_below: small, italic: false, background: '',
+        bold: false, checked: false, underline: false}
+      name: check_box_electro_t
+      layout_properties: {row: DHAYAM, width_xs: 1, col_xs: 3}
+    - type: Label
+      properties: {role: description, align: left, tooltip: '', border: '', foreground: '',
+        visible: true, text: 'FALSE', font_size: null, font: '', spacing_above: small,
+        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+        underline: false, icon: ''}
+      name: label_3_copy_12
+      layout_properties: {row: DHAYAM, width_xs: 1, col_xs: 4}
+    - type: CheckBox
+      properties: {role: null, align: left, tooltip: '', border: '', enabled: true,
+        foreground: '', allow_indeterminate: false, visible: true, text: '', font_size: null,
+        font: '', spacing_above: none, spacing_below: small, italic: false, background: '',
+        bold: false, checked: false, underline: false}
+      name: check_box_electro_f
+      layout_properties: {row: DHAYAM, width_xs: 1, col_xs: 5}
     - type: Label
       properties: {role: feature, align: left, tooltip: '', border: '', foreground: '',
         visible: true, text: '   Folk', font_size: null, font: '', spacing_above: small,
         icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
         underline: false, icon: ''}
       name: label_4_copy_36
-      layout_properties: {row: OSZLNL, width_xs: 2, col_xs: 0, width: 100}
+      layout_properties: {row: DHAYAM, width_xs: 2, col_xs: 6}
     - type: Label
       properties: {role: description, align: center, tooltip: '', border: '', foreground: '',
         visible: true, text: 'TRUE', font_size: null, font: '', spacing_above: small,
         icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
         underline: false, icon: ''}
       name: label_5_copy_36
-      layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 2, width: 25}
+      layout_properties: {row: DHAYAM, width_xs: 1, col_xs: 8}
     - type: CheckBox
       properties: {role: null, align: left, tooltip: '', border: '', enabled: true,
         foreground: '', allow_indeterminate: false, visible: true, text: '', font_size: null,
         font: '', spacing_above: none, spacing_below: small, italic: false, background: '',
         bold: false, checked: false, underline: false}
       name: check_box_folk_t
-      layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 3, width: 25}
+      layout_properties: {row: DHAYAM, width_xs: 1, col_xs: 9}
     - type: Label
       properties: {role: description, align: left, tooltip: '', border: '', foreground: '',
         visible: true, text: 'FALSE', font_size: null, font: '', spacing_above: small,
         icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
         underline: false, icon: ''}
       name: label_3_copy_27
-      layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 4, width: 25}
+      layout_properties: {row: DHAYAM, width_xs: 1, col_xs: 10}
     - type: CheckBox
       properties: {role: null, align: left, tooltip: '', border: '', enabled: true,
         foreground: '', allow_indeterminate: false, visible: true, text: '', font_size: null,
         font: '', spacing_above: none, spacing_below: small, italic: false, background: '',
         bold: false, checked: false, underline: false}
       name: check_box_folk_f
-      layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 5, width: 25}
+      layout_properties: {row: DHAYAM, width_xs: 1, col_xs: 11}
+  - type: GridPanel
+    properties: {spacing_above: small, spacing_below: small, background: '', foreground: '',
+      border: '', visible: true, role: grid_panel, tooltip: ''}
+    name: grid_panel_1_copy_19
+    layout_properties: {grid_position: 'OTMLPV,ANMREP'}
+    components:
+    - type: Label
+      properties: {role: feature, align: left, tooltip: '', border: '', foreground: '',
+        visible: true, text: '   Funk', font_size: null, font: '', spacing_above: small,
+        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+        underline: false, icon: ''}
+      name: label_4_copy_25
+      layout_properties: {row: JGSLMB, width_xs: 2, col_xs: 0}
+    - type: Label
+      properties: {role: description, align: center, tooltip: '', border: '', foreground: '',
+        visible: true, text: 'TRUE', font_size: null, font: '', spacing_above: small,
+        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+        underline: false, icon: ''}
+      name: label_5_copy_25
+      layout_properties: {row: JGSLMB, width_xs: 1, col_xs: 2}
+    - type: CheckBox
+      properties: {role: null, align: left, tooltip: '', border: '', enabled: true,
+        foreground: '', allow_indeterminate: false, visible: true, text: '', font_size: null,
+        font: '', spacing_above: none, spacing_below: small, italic: false, background: '',
+        bold: false, checked: false, underline: false}
+      name: check_box_funk_t
+      layout_properties: {row: JGSLMB, width_xs: 1, col_xs: 3}
+    - type: Label
+      properties: {role: description, align: left, tooltip: '', border: '', foreground: '',
+        visible: true, text: 'FALSE', font_size: null, font: '', spacing_above: small,
+        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+        underline: false, icon: ''}
+      name: label_3_copy_16
+      layout_properties: {row: JGSLMB, width_xs: 1, col_xs: 4}
+    - type: CheckBox
+      properties: {role: null, align: left, tooltip: '', border: '', enabled: true,
+        foreground: '', allow_indeterminate: false, visible: true, text: '', font_size: null,
+        font: '', spacing_above: none, spacing_below: small, italic: false, background: '',
+        bold: false, checked: false, underline: false}
+      name: check_box_funk_f
+      layout_properties: {row: JGSLMB, width_xs: 1, col_xs: 5}
+    - type: Label
+      properties: {role: feature, align: left, tooltip: '', border: '', foreground: '',
+        visible: true, text: '   Hip Hop', font_size: null, font: '', spacing_above: small,
+        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+        underline: false, icon: ''}
+      name: label_4_copy_39
+      layout_properties: {row: JGSLMB, width_xs: 2, col_xs: 6}
+    - type: Label
+      properties: {role: description, align: center, tooltip: '', border: '', foreground: '',
+        visible: true, text: 'TRUE', font_size: null, font: '', spacing_above: small,
+        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+        underline: false, icon: ''}
+      name: label_5_copy_39
+      layout_properties: {row: JGSLMB, width_xs: 1, col_xs: 8}
+    - type: CheckBox
+      properties: {role: null, align: left, tooltip: '', border: '', enabled: true,
+        foreground: '', allow_indeterminate: false, visible: true, text: '', font_size: null,
+        font: '', spacing_above: none, spacing_below: small, italic: false, background: '',
+        bold: false, checked: false, underline: false}
+      name: check_box_hip_hop_t
+      layout_properties: {row: JGSLMB, width_xs: 1, col_xs: 9}
+    - type: Label
+      properties: {role: description, align: left, tooltip: '', border: '', foreground: '',
+        visible: true, text: 'FALSE', font_size: null, font: '', spacing_above: small,
+        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+        underline: false, icon: ''}
+      name: label_3_copy_30
+      layout_properties: {row: JGSLMB, width_xs: 1, col_xs: 10}
+    - type: CheckBox
+      properties: {role: null, align: left, tooltip: '', border: '', enabled: true,
+        foreground: '', allow_indeterminate: false, visible: true, text: '', font_size: null,
+        font: '', spacing_above: none, spacing_below: small, italic: false, background: '',
+        bold: false, checked: false, underline: false}
+      name: check_box_hip_hop_f
+      layout_properties: {row: JGSLMB, width_xs: 1, col_xs: 11}
+  - name: grid_panel_1_copy_13_copy_copy_copy_copy
+    properties: {spacing_above: small, spacing_below: small, background: '', foreground: '',
+      border: '', visible: true, role: grid_panel, tooltip: ''}
+    type: GridPanel
+    layout_properties: {grid_position: 'THHBRP,PMNHGT'}
+    components:
+    - type: Label
+      properties: {role: feature, align: left, tooltip: '', border: '', foreground: '',
+        visible: true, text: '   House', font_size: null, font: '', spacing_above: small,
+        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+        underline: false, icon: ''}
+      name: label_4_copy_20
+      layout_properties: {row: UIRTPA, width_xs: 2, col_xs: 0}
+    - type: Label
+      properties: {role: description, align: center, tooltip: '', border: '', foreground: '',
+        visible: true, text: 'TRUE', font_size: null, font: '', spacing_above: small,
+        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+        underline: false, icon: ''}
+      name: label_5_copy_20
+      layout_properties: {row: UIRTPA, width_xs: 1, col_xs: 2}
+    - type: CheckBox
+      properties: {role: null, align: left, tooltip: '', border: '', enabled: true,
+        foreground: '', allow_indeterminate: false, visible: true, text: '', font_size: null,
+        font: '', spacing_above: none, spacing_below: small, italic: false, background: '',
+        bold: false, checked: false, underline: false}
+      name: check_box_house_t
+      layout_properties: {row: UIRTPA, width_xs: 1, col_xs: 3}
+    - type: Label
+      properties: {role: description, align: left, tooltip: '', border: '', foreground: '',
+        visible: true, text: 'FALSE', font_size: null, font: '', spacing_above: small,
+        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+        underline: false, icon: ''}
+      name: label_3_copy_11
+      layout_properties: {row: UIRTPA, width_xs: 1, col_xs: 4}
+    - type: CheckBox
+      properties: {role: null, align: left, tooltip: '', border: '', enabled: true,
+        foreground: '', allow_indeterminate: false, visible: true, text: '', font_size: null,
+        font: '', spacing_above: none, spacing_below: small, italic: false, background: '',
+        bold: false, checked: false, underline: false}
+      name: check_box_house_f
+      layout_properties: {row: UIRTPA, width_xs: 1, col_xs: 5}
+    - type: Label
+      properties: {role: feature, align: left, tooltip: '', border: '', foreground: '',
+        visible: true, text: '   Indie', font_size: null, font: '', spacing_above: small,
+        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+        underline: false, icon: ''}
+      name: label_4_copy_14
+      layout_properties: {row: UIRTPA, width_xs: 2, col_xs: 6}
+    - type: Label
+      properties: {role: description, align: center, tooltip: '', border: '', foreground: '',
+        visible: true, text: 'TRUE', font_size: null, font: '', spacing_above: small,
+        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+        underline: false, icon: ''}
+      name: label_5_copy_14
+      layout_properties: {row: UIRTPA, width_xs: 1, col_xs: 8}
+    - type: CheckBox
+      properties: {role: null, align: left, tooltip: '', border: '', enabled: true,
+        foreground: '', allow_indeterminate: false, visible: true, text: '', font_size: null,
+        font: '', spacing_above: none, spacing_below: small, italic: false, background: '',
+        bold: false, checked: false, underline: false}
+      name: check_box_indie_t
+      layout_properties: {row: UIRTPA, width_xs: 1, col_xs: 9}
+    - type: Label
+      properties: {role: description, align: left, tooltip: '', border: '', foreground: '',
+        visible: true, text: 'FALSE', font_size: null, font: '', spacing_above: small,
+        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+        underline: false, icon: ''}
+      name: label_3_copy_6
+      layout_properties: {row: UIRTPA, width_xs: 1, col_xs: 10}
+    - type: CheckBox
+      properties: {role: null, align: left, tooltip: '', border: '', enabled: true,
+        foreground: '', allow_indeterminate: false, visible: true, text: '', font_size: null,
+        font: '', spacing_above: none, spacing_below: small, italic: false, background: '',
+        bold: false, checked: false, underline: false}
+      name: check_box_indie_f
+      layout_properties: {row: UIRTPA, width_xs: 1, col_xs: 11}
+  - name: grid_panel_1_copy_13_copy_copy_copy_copy_2
+    properties: {spacing_above: small, spacing_below: small, background: '', foreground: '',
+      border: '', visible: true, role: grid_panel, tooltip: ''}
+    type: GridPanel
+    layout_properties: {grid_position: 'QGMFMN,OLCOUH'}
+    components:
+    - type: Label
+      properties: {role: feature, align: left, tooltip: '', border: '', foreground: '',
+        visible: true, text: '   Jazz', font_size: null, font: '', spacing_above: small,
+        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+        underline: false, icon: ''}
+      name: label_4_copy_38
+      layout_properties: {row: YUJYGC, width_xs: 2, col_xs: 0}
+    - type: Label
+      properties: {role: description, align: center, tooltip: '', border: '', foreground: '',
+        visible: true, text: 'TRUE', font_size: null, font: '', spacing_above: small,
+        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+        underline: false, icon: ''}
+      name: label_5_copy_38
+      layout_properties: {row: YUJYGC, width_xs: 1, col_xs: 2}
+    - type: CheckBox
+      properties: {role: null, align: left, tooltip: '', border: '', enabled: true,
+        foreground: '', allow_indeterminate: false, visible: true, text: '', font_size: null,
+        font: '', spacing_above: none, spacing_below: small, italic: false, background: '',
+        bold: false, checked: false, underline: false}
+      name: check_box_jazz_t
+      layout_properties: {row: YUJYGC, width_xs: 1, col_xs: 3}
+    - type: Label
+      properties: {role: description, align: left, tooltip: '', border: '', foreground: '',
+        visible: true, text: 'FALSE', font_size: null, font: '', spacing_above: small,
+        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+        underline: false, icon: ''}
+      name: label_3_copy_29
+      layout_properties: {row: YUJYGC, width_xs: 1, col_xs: 4}
+    - type: CheckBox
+      properties: {role: null, align: left, tooltip: '', border: '', enabled: true,
+        foreground: '', allow_indeterminate: false, visible: true, text: '', font_size: null,
+        font: '', spacing_above: none, spacing_below: small, italic: false, background: '',
+        bold: false, checked: false, underline: false}
+      name: check_box_jazz_f
+      layout_properties: {row: YUJYGC, width_xs: 1, col_xs: 5}
+    - type: Label
+      properties: {role: feature, align: left, tooltip: '', border: '', foreground: '',
+        visible: true, text: '   Latin', font_size: null, font: '', spacing_above: small,
+        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+        underline: false, icon: ''}
+      name: label_4_copy_18
+      layout_properties: {row: YUJYGC, width_xs: 2, col_xs: 6}
+    - type: Label
+      properties: {role: description, align: center, tooltip: '', border: '', foreground: '',
+        visible: true, text: 'TRUE', font_size: null, font: '', spacing_above: small,
+        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+        underline: false, icon: ''}
+      name: label_5_copy_18
+      layout_properties: {row: YUJYGC, width_xs: 1, col_xs: 8}
+    - type: CheckBox
+      properties: {role: null, align: left, tooltip: '', border: '', enabled: true,
+        foreground: '', allow_indeterminate: false, visible: true, text: '', font_size: null,
+        font: '', spacing_above: none, spacing_below: small, italic: false, background: '',
+        bold: false, checked: false, underline: false}
+      name: check_box_latin_t
+      layout_properties: {row: YUJYGC, width_xs: 1, col_xs: 9}
+    - type: Label
+      properties: {role: description, align: left, tooltip: '', border: '', foreground: '',
+        visible: true, text: 'FALSE', font_size: null, font: '', spacing_above: small,
+        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+        underline: false, icon: ''}
+      name: label_3_copy_9
+      layout_properties: {row: YUJYGC, width_xs: 1, col_xs: 10}
+    - type: CheckBox
+      properties: {role: null, align: left, tooltip: '', border: '', enabled: true,
+        foreground: '', allow_indeterminate: false, visible: true, text: '', font_size: null,
+        font: '', spacing_above: none, spacing_below: small, italic: false, background: '',
+        bold: false, checked: false, underline: false}
+      name: check_box_latin_f
+      layout_properties: {row: YUJYGC, width_xs: 1, col_xs: 11}
+  - type: GridPanel
+    properties: {spacing_above: small, spacing_below: small, background: '', foreground: '',
+      border: '', visible: true, role: grid_panel, tooltip: ''}
+    name: grid_panel_1_copy_24
+    layout_properties: {grid_position: 'CEAMBW,CINDOA'}
+    components:
+    - type: Label
+      properties: {role: feature, align: left, tooltip: '', border: '', foreground: '',
+        visible: true, text: '   Metal', font_size: null, font: '', spacing_above: small,
+        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+        underline: false, icon: ''}
+      name: label_4_copy_34
+      layout_properties: {row: OSQNSY, width_xs: 2, col_xs: 0}
+    - type: Label
+      properties: {role: description, align: center, tooltip: '', border: '', foreground: '',
+        visible: true, text: 'TRUE', font_size: null, font: '', spacing_above: small,
+        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+        underline: false, icon: ''}
+      name: label_5_copy_34
+      layout_properties: {row: OSQNSY, width_xs: 1, col_xs: 2}
+    - type: CheckBox
+      properties: {role: null, align: left, tooltip: '', border: '', enabled: true,
+        foreground: '', allow_indeterminate: false, visible: true, text: '', font_size: null,
+        font: '', spacing_above: none, spacing_below: small, italic: false, background: '',
+        bold: false, checked: false, underline: false}
+      name: check_box_metal_t
+      layout_properties: {row: OSQNSY, width_xs: 1, col_xs: 3}
+    - type: Label
+      properties: {role: description, align: left, tooltip: '', border: '', foreground: '',
+        visible: true, text: 'FALSE', font_size: null, font: '', spacing_above: small,
+        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+        underline: false, icon: ''}
+      name: label_3_copy_25
+      layout_properties: {row: OSQNSY, width_xs: 1, col_xs: 4}
+    - type: CheckBox
+      properties: {role: null, align: left, tooltip: '', border: '', enabled: true,
+        foreground: '', allow_indeterminate: false, visible: true, text: '', font_size: null,
+        font: '', spacing_above: none, spacing_below: small, italic: false, background: '',
+        bold: false, checked: false, underline: false}
+      name: check_box_metal_f
+      layout_properties: {row: OSQNSY, width_xs: 1, col_xs: 5}
+    - type: Label
+      properties: {role: feature, align: left, tooltip: '', border: '', foreground: '',
+        visible: true, text: '   Pop', font_size: null, font: '', spacing_above: small,
+        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+        underline: false, icon: ''}
+      name: label_4_copy_13
+      layout_properties: {row: OSQNSY, width_xs: 2, col_xs: 6}
+    - type: Label
+      properties: {role: description, align: center, tooltip: '', border: '', foreground: '',
+        visible: true, text: 'TRUE', font_size: null, font: '', spacing_above: small,
+        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+        underline: false, icon: ''}
+      name: label_5_copy_13
+      layout_properties: {row: OSQNSY, width_xs: 1, col_xs: 8}
+    - type: CheckBox
+      properties: {role: null, align: left, tooltip: '', border: '', enabled: true,
+        foreground: '', allow_indeterminate: false, visible: true, text: '', font_size: null,
+        font: '', spacing_above: none, spacing_below: small, italic: false, background: '',
+        bold: false, checked: false, underline: false}
+      name: check_box_pop_t
+      layout_properties: {row: OSQNSY, width_xs: 1, col_xs: 9}
+    - type: Label
+      properties: {role: description, align: left, tooltip: '', border: '', foreground: '',
+        visible: true, text: 'FALSE', font_size: null, font: '', spacing_above: small,
+        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+        underline: false, icon: ''}
+      name: label_3
+      layout_properties: {row: OSQNSY, width_xs: 1, col_xs: 10}
+    - type: CheckBox
+      properties: {role: null, align: left, tooltip: '', border: '', enabled: true,
+        foreground: '', allow_indeterminate: false, visible: true, text: '', font_size: null,
+        font: '', spacing_above: none, spacing_below: small, italic: false, background: '',
+        bold: false, checked: false, underline: false}
+      name: check_box_pop_f
+      layout_properties: {row: OSQNSY, width_xs: 1, col_xs: 11}
   - type: GridPanel
     properties: {spacing_above: small, spacing_below: small, background: '', foreground: '',
       border: '', visible: true, role: grid_panel, tooltip: ''}
     name: grid_panel_1_copy_23
-    layout_properties:
-      col_widths: {}
-      grid_position: XHDKLC,WRZJJW
+    layout_properties: {grid_position: 'VIFJXH,ZWSIKO'}
     components:
     - type: Label
       properties: {role: feature, align: left, tooltip: '', border: '', foreground: '',
@@ -1443,39 +1269,191 @@ components:
       layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 5, width: 25}
     - type: Label
       properties: {role: feature, align: left, tooltip: '', border: '', foreground: '',
-        visible: true, text: '   Metal', font_size: null, font: '', spacing_above: small,
+        visible: true, text: '   Rap', font_size: null, font: '', spacing_above: small,
         icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
         underline: false, icon: ''}
-      name: label_4_copy_34
+      name: label_4_copy_40
+      layout_properties: {row: OSZLNL, width_xs: 2, col_xs: 6}
+    - type: Label
+      properties: {role: description, align: center, tooltip: '', border: '', foreground: '',
+        visible: true, text: 'TRUE', font_size: null, font: '', spacing_above: small,
+        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+        underline: false, icon: ''}
+      name: label_5_copy_40
+      layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 8}
+    - type: CheckBox
+      properties: {role: null, align: left, tooltip: '', border: '', enabled: true,
+        foreground: '', allow_indeterminate: false, visible: true, text: '', font_size: null,
+        font: '', spacing_above: none, spacing_below: small, italic: false, background: '',
+        bold: false, checked: false, underline: false}
+      name: check_box_rap_t
+      layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 9}
+    - type: Label
+      properties: {role: description, align: left, tooltip: '', border: '', foreground: '',
+        visible: true, text: 'FALSE', font_size: null, font: '', spacing_above: small,
+        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+        underline: false, icon: ''}
+      name: label_3_copy_31
+      layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 10}
+    - type: CheckBox
+      properties: {role: null, align: left, tooltip: '', border: '', enabled: true,
+        foreground: '', allow_indeterminate: false, visible: true, text: '', font_size: null,
+        font: '', spacing_above: none, spacing_below: small, italic: false, background: '',
+        bold: false, checked: false, underline: false}
+      name: check_box_rap_f
+      layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 11}
+  - type: GridPanel
+    properties: {spacing_above: small, spacing_below: small, background: '', foreground: '',
+      border: '', visible: true, role: grid_panel, tooltip: ''}
+    name: grid_panel_1_copy_25
+    layout_properties: {grid_position: 'HGIRXB,JUOAZV'}
+    components:
+    - type: Label
+      properties: {role: feature, align: left, tooltip: '', border: '', foreground: '',
+        visible: true, text: '   Reggae', font_size: null, font: '', spacing_above: small,
+        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+        underline: false, icon: ''}
+      name: label_4_copy_37
       layout_properties: {row: OSZLNL, width_xs: 2, col_xs: 0, width: 100}
     - type: Label
       properties: {role: description, align: center, tooltip: '', border: '', foreground: '',
         visible: true, text: 'TRUE', font_size: null, font: '', spacing_above: small,
         icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
         underline: false, icon: ''}
-      name: label_5_copy_34
+      name: label_5_copy_37
       layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 2, width: 25}
     - type: CheckBox
       properties: {role: null, align: left, tooltip: '', border: '', enabled: true,
         foreground: '', allow_indeterminate: false, visible: true, text: '', font_size: null,
         font: '', spacing_above: none, spacing_below: small, italic: false, background: '',
         bold: false, checked: false, underline: false}
-      name: check_box_metal_t
+      name: check_box_reggae_t
       layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 3, width: 25}
     - type: Label
       properties: {role: description, align: left, tooltip: '', border: '', foreground: '',
         visible: true, text: 'FALSE', font_size: null, font: '', spacing_above: small,
         icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
         underline: false, icon: ''}
-      name: label_3_copy_25
+      name: label_3_copy_28
       layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 4, width: 25}
     - type: CheckBox
       properties: {role: null, align: left, tooltip: '', border: '', enabled: true,
         foreground: '', allow_indeterminate: false, visible: true, text: '', font_size: null,
         font: '', spacing_above: none, spacing_below: small, italic: false, background: '',
         bold: false, checked: false, underline: false}
-      name: check_box_metal_f
+      name: check_box_reggae_f
       layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 5, width: 25}
+    - type: Label
+      properties: {role: feature, align: left, tooltip: '', border: '', foreground: '',
+        visible: true, text: '   Rock', font_size: null, font: '', spacing_above: small,
+        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+        underline: false, icon: ''}
+      name: label_4_copy_15
+      layout_properties: {row: OSZLNL, width_xs: 2, col_xs: 6}
+    - type: Label
+      properties: {role: description, align: center, tooltip: '', border: '', foreground: '',
+        visible: true, text: 'TRUE', font_size: null, font: '', spacing_above: small,
+        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+        underline: false, icon: ''}
+      name: label_5_copy_15
+      layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 8}
+    - type: CheckBox
+      properties: {role: null, align: left, tooltip: '', border: '', enabled: true,
+        foreground: '', allow_indeterminate: false, visible: true, text: '', font_size: null,
+        font: '', spacing_above: none, spacing_below: small, italic: false, background: '',
+        bold: false, checked: false, underline: false}
+      name: check_box_rock_t
+      layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 9}
+    - type: Label
+      properties: {role: description, align: left, tooltip: '', border: '', foreground: '',
+        visible: true, text: 'FALSE', font_size: null, font: '', spacing_above: small,
+        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+        underline: false, icon: ''}
+      name: label_3_copy_5
+      layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 10}
+    - type: CheckBox
+      properties: {role: null, align: left, tooltip: '', border: '', enabled: true,
+        foreground: '', allow_indeterminate: false, visible: true, text: '', font_size: null,
+        font: '', spacing_above: none, spacing_below: small, italic: false, background: '',
+        bold: false, checked: false, underline: false}
+      name: check_box_rock_f
+      layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 11}
+  - type: GridPanel
+    properties: {spacing_above: small, spacing_below: small, background: '', foreground: '',
+      border: '', visible: true, role: grid_panel, tooltip: ''}
+    name: grid_panel_1_copy_18
+    layout_properties: {grid_position: 'IFVIFC,ZWXIHF'}
+    components:
+    - type: Label
+      properties: {role: feature, align: left, tooltip: '', border: '', foreground: '',
+        visible: true, text: '   Schlager', font_size: null, font: '', spacing_above: small,
+        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+        underline: false, icon: ''}
+      name: label_4_copy_23
+      layout_properties: {row: OSZLNL, width_xs: 2, col_xs: 0, width: 100}
+    - type: Label
+      properties: {role: description, align: center, tooltip: '', border: '', foreground: '',
+        visible: true, text: 'TRUE', font_size: null, font: '', spacing_above: small,
+        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+        underline: false, icon: ''}
+      name: label_5_copy_23
+      layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 2, width: 25}
+    - type: CheckBox
+      properties: {role: null, align: left, tooltip: '', border: '', enabled: true,
+        foreground: '', allow_indeterminate: false, visible: true, text: '', font_size: null,
+        font: '', spacing_above: none, spacing_below: small, italic: false, background: '',
+        bold: false, checked: false, underline: false}
+      name: check_box_schlager_t
+      layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 3, width: 25}
+    - type: Label
+      properties: {role: description, align: left, tooltip: '', border: '', foreground: '',
+        visible: true, text: 'FALSE', font_size: null, font: '', spacing_above: small,
+        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+        underline: false, icon: ''}
+      name: label_3_copy_14
+      layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 4, width: 25}
+    - type: CheckBox
+      properties: {role: null, align: left, tooltip: '', border: '', enabled: true,
+        foreground: '', allow_indeterminate: false, visible: true, text: '', font_size: null,
+        font: '', spacing_above: none, spacing_below: small, italic: false, background: '',
+        bold: false, checked: false, underline: false}
+      name: check_box_schlager_f
+      layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 5, width: 25}
+    - type: Label
+      properties: {role: feature, align: left, tooltip: '', border: '', foreground: '',
+        visible: true, text: '   Soul', font_size: null, font: '', spacing_above: small,
+        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+        underline: false, icon: ''}
+      name: label_4_copy_19
+      layout_properties: {row: OSZLNL, width_xs: 2, col_xs: 6}
+    - type: Label
+      properties: {role: description, align: center, tooltip: '', border: '', foreground: '',
+        visible: true, text: 'TRUE', font_size: null, font: '', spacing_above: small,
+        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+        underline: false, icon: ''}
+      name: label_5_copy_19
+      layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 8}
+    - type: CheckBox
+      properties: {role: null, align: left, tooltip: '', border: '', enabled: true,
+        foreground: '', allow_indeterminate: false, visible: true, text: '', font_size: null,
+        font: '', spacing_above: none, spacing_below: small, italic: false, background: '',
+        bold: false, checked: false, underline: false}
+      name: check_box_soul_t
+      layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 9}
+    - type: Label
+      properties: {role: description, align: left, tooltip: '', border: '', foreground: '',
+        visible: true, text: 'FALSE', font_size: null, font: '', spacing_above: small,
+        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+        underline: false, icon: ''}
+      name: label_3_copy_10
+      layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 10}
+    - type: CheckBox
+      properties: {role: null, align: left, tooltip: '', border: '', enabled: true,
+        foreground: '', allow_indeterminate: false, visible: true, text: '', font_size: null,
+        font: '', spacing_above: none, spacing_below: small, italic: false, background: '',
+        bold: false, checked: false, underline: false}
+      name: check_box_soul_f
+      layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 11}
   - type: Spacer
     properties: {height: 41}
     name: spacer_2_copy_2
@@ -1494,91 +1472,87 @@ components:
       row: ZOBJHZ
       width_xs: 12
       col_xs: 0
-  - type: GridPanel
+  - name: grid_panel_1_copy_31_copy
     properties: {spacing_above: small, spacing_below: small, background: '', foreground: '',
       border: '', visible: true, role: grid_panel, tooltip: ''}
-    name: grid_panel_1_copy_31
-    layout_properties:
-      col_widths: {}
-      grid_position: PQHZLR,OBKLKH
+    type: GridPanel
+    layout_properties: {grid_position: 'FEADPC,TKQTYM'}
     components:
     - type: Label
       properties: {role: feature, align: left, tooltip: '', border: '', foreground: '',
-        visible: true, text: '   Euro', font_size: null, font: '', spacing_above: small,
+        visible: true, text: '   African', font_size: null, font: '', spacing_above: small,
         icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
         underline: false, icon: ''}
-      name: label_4_copy_49
-      layout_properties: {row: OSZLNL, width_xs: 2, col_xs: 0, width: 100}
+      name: label_4_copy_48
+      layout_properties: {row: DEPDIA, width_xs: 2, col_xs: 0}
     - type: Label
       properties: {role: description, align: center, tooltip: '', border: '', foreground: '',
         visible: true, text: 'TRUE', font_size: null, font: '', spacing_above: small,
         icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
         underline: false, icon: ''}
-      name: label_5_copy_49
-      layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 2, width: 25}
+      name: label_5_copy_48
+      layout_properties: {row: DEPDIA, width_xs: 1, col_xs: 2}
     - type: CheckBox
       properties: {role: null, align: left, tooltip: '', border: '', enabled: true,
         foreground: '', allow_indeterminate: false, visible: true, text: '', font_size: null,
         font: '', spacing_above: none, spacing_below: small, italic: false, background: '',
         bold: false, checked: false, underline: false}
-      name: check_box_euro_t
-      layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 3, width: 25}
+      name: check_box_african_t
+      layout_properties: {row: DEPDIA, width_xs: 1, col_xs: 3}
     - type: Label
       properties: {role: description, align: left, tooltip: '', border: '', foreground: '',
         visible: true, text: 'FALSE', font_size: null, font: '', spacing_above: small,
         icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
         underline: false, icon: ''}
-      name: label_3_copy_40
-      layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 4, width: 25}
+      name: label_3_copy_39
+      layout_properties: {row: DEPDIA, width_xs: 1, col_xs: 4}
     - type: CheckBox
       properties: {role: null, align: left, tooltip: '', border: '', enabled: true,
         foreground: '', allow_indeterminate: false, visible: true, text: '', font_size: null,
         font: '', spacing_above: none, spacing_below: small, italic: false, background: '',
         bold: false, checked: false, underline: false}
-      name: check_box_euro_f
-      layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 5, width: 25}
+      name: check_box_african_f
+      layout_properties: {row: DEPDIA, width_xs: 1, col_xs: 5}
     - type: Label
       properties: {role: feature, align: left, tooltip: '', border: '', foreground: '',
-        visible: true, text: '   Asian', font_size: null, font: '', spacing_above: small,
+        visible: true, text: '   Albanian', font_size: null, font: '', spacing_above: small,
         icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
         underline: false, icon: ''}
-      name: label_4_copy_50
-      layout_properties: {row: OSZLNL, width_xs: 2, col_xs: 0, width: 100}
+      name: label_4_copy_87
+      layout_properties: {row: DEPDIA, width_xs: 2, col_xs: 6}
     - type: Label
       properties: {role: description, align: center, tooltip: '', border: '', foreground: '',
         visible: true, text: 'TRUE', font_size: null, font: '', spacing_above: small,
         icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
         underline: false, icon: ''}
-      name: label_5_copy_50
-      layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 2, width: 25}
+      name: label_5_copy_87
+      layout_properties: {row: DEPDIA, width_xs: 1, col_xs: 8}
     - type: CheckBox
       properties: {role: null, align: left, tooltip: '', border: '', enabled: true,
         foreground: '', allow_indeterminate: false, visible: true, text: '', font_size: null,
         font: '', spacing_above: none, spacing_below: small, italic: false, background: '',
         bold: false, checked: false, underline: false}
-      name: check_box_asian_t
-      layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 3, width: 25}
+      name: check_box_albanian_t
+      layout_properties: {row: DEPDIA, width_xs: 1, col_xs: 9}
     - type: Label
       properties: {role: description, align: left, tooltip: '', border: '', foreground: '',
         visible: true, text: 'FALSE', font_size: null, font: '', spacing_above: small,
         icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
         underline: false, icon: ''}
-      name: label_3_copy_41
-      layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 4, width: 25}
+      name: label_3_copy_78
+      layout_properties: {row: DEPDIA, width_xs: 1, col_xs: 10}
     - type: CheckBox
       properties: {role: null, align: left, tooltip: '', border: '', enabled: true,
         foreground: '', allow_indeterminate: false, visible: true, text: '', font_size: null,
         font: '', spacing_above: none, spacing_below: small, italic: false, background: '',
         bold: false, checked: false, underline: false}
-      name: check_box_asian_f
-      layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 5, width: 25}
+      name: check_box_albanian_f
+      layout_properties: {row: DEPDIA, width_xs: 1, col_xs: 11}
   - type: GridPanel
     properties: {spacing_above: small, spacing_below: small, background: '', foreground: '',
       border: '', visible: true, role: grid_panel, tooltip: ''}
     name: grid_panel_1_copy_30
-    layout_properties:
-      col_widths: {}
-      grid_position: AQHLDL,KHLDQN
+    layout_properties: {grid_position: 'OFRDTI,NJMEKV'}
     components:
     - type: Label
       properties: {role: feature, align: left, tooltip: '', border: '', foreground: '',
@@ -1617,38 +1591,322 @@ components:
       layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 5, width: 25}
     - type: Label
       properties: {role: feature, align: left, tooltip: '', border: '', foreground: '',
-        visible: true, text: '   African', font_size: null, font: '', spacing_above: small,
+        visible: true, text: '   Arab', font_size: null, font: '', spacing_above: small,
         icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
         underline: false, icon: ''}
-      name: label_4_copy_48
+      name: label_4_copy_83
+      layout_properties: {row: OSZLNL, width_xs: 2, col_xs: 6}
+    - type: Label
+      properties: {role: description, align: center, tooltip: '', border: '', foreground: '',
+        visible: true, text: 'TRUE', font_size: null, font: '', spacing_above: small,
+        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+        underline: false, icon: ''}
+      name: label_5_copy_83
+      layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 8}
+    - type: CheckBox
+      properties: {role: null, align: left, tooltip: '', border: '', enabled: true,
+        foreground: '', allow_indeterminate: false, visible: true, text: '', font_size: null,
+        font: '', spacing_above: none, spacing_below: small, italic: false, background: '',
+        bold: false, checked: false, underline: false}
+      name: check_box_arab_t
+      layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 9}
+    - type: Label
+      properties: {role: description, align: left, tooltip: '', border: '', foreground: '',
+        visible: true, text: 'FALSE', font_size: null, font: '', spacing_above: small,
+        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+        underline: false, icon: ''}
+      name: label_3_copy_74
+      layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 10}
+    - type: CheckBox
+      properties: {role: null, align: left, tooltip: '', border: '', enabled: true,
+        foreground: '', allow_indeterminate: false, visible: true, text: '', font_size: null,
+        font: '', spacing_above: none, spacing_below: small, italic: false, background: '',
+        bold: false, checked: false, underline: false}
+      name: check_box_arab_f
+      layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 11}
+  - name: grid_panel_1_copy_31_copy_copy
+    properties: {spacing_above: small, spacing_below: small, background: '', foreground: '',
+      border: '', visible: true, role: grid_panel, tooltip: ''}
+    type: GridPanel
+    layout_properties: {grid_position: 'SSWPFA,VYAVTD'}
+    components:
+    - type: Label
+      properties: {role: feature, align: left, tooltip: '', border: '', foreground: '',
+        visible: true, text: '   Argentin', font_size: null, font: '', spacing_above: small,
+        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+        underline: false, icon: ''}
+      name: label_4_copy_72
+      layout_properties: {row: NGGNDM, width_xs: 2, col_xs: 0}
+    - type: Label
+      properties: {role: description, align: center, tooltip: '', border: '', foreground: '',
+        visible: true, text: 'TRUE', font_size: null, font: '', spacing_above: small,
+        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+        underline: false, icon: ''}
+      name: label_5_copy_72
+      layout_properties: {row: NGGNDM, width_xs: 1, col_xs: 2}
+    - type: CheckBox
+      properties: {role: null, align: left, tooltip: '', border: '', enabled: true,
+        foreground: '', allow_indeterminate: false, visible: true, text: '', font_size: null,
+        font: '', spacing_above: none, spacing_below: small, italic: false, background: '',
+        bold: false, checked: false, underline: false}
+      name: check_box_argentin_t
+      layout_properties: {row: NGGNDM, width_xs: 1, col_xs: 3}
+    - type: Label
+      properties: {role: description, align: left, tooltip: '', border: '', foreground: '',
+        visible: true, text: 'FALSE', font_size: null, font: '', spacing_above: small,
+        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+        underline: false, icon: ''}
+      name: label_3_copy_63
+      layout_properties: {row: NGGNDM, width_xs: 1, col_xs: 4}
+    - type: CheckBox
+      properties: {role: null, align: left, tooltip: '', border: '', enabled: true,
+        foreground: '', allow_indeterminate: false, visible: true, text: '', font_size: null,
+        font: '', spacing_above: none, spacing_below: small, italic: false, background: '',
+        bold: false, checked: false, underline: false}
+      name: check_box_argentin_f
+      layout_properties: {row: NGGNDM, width_xs: 1, col_xs: 5}
+    - type: Label
+      properties: {role: feature, align: left, tooltip: '', border: '', foreground: '',
+        visible: true, text: '   Armenian', font_size: null, font: '', spacing_above: small,
+        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+        underline: false, icon: ''}
+      name: label_4_copy_84
+      layout_properties: {row: NGGNDM, width_xs: 2, col_xs: 6}
+    - type: Label
+      properties: {role: description, align: center, tooltip: '', border: '', foreground: '',
+        visible: true, text: 'TRUE', font_size: null, font: '', spacing_above: small,
+        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+        underline: false, icon: ''}
+      name: label_5_copy_84
+      layout_properties: {row: NGGNDM, width_xs: 1, col_xs: 8}
+    - type: CheckBox
+      properties: {role: null, align: left, tooltip: '', border: '', enabled: true,
+        foreground: '', allow_indeterminate: false, visible: true, text: '', font_size: null,
+        font: '', spacing_above: none, spacing_below: small, italic: false, background: '',
+        bold: false, checked: false, underline: false}
+      name: check_box_armenian_t
+      layout_properties: {row: NGGNDM, width_xs: 1, col_xs: 9}
+    - type: Label
+      properties: {role: description, align: left, tooltip: '', border: '', foreground: '',
+        visible: true, text: 'FALSE', font_size: null, font: '', spacing_above: small,
+        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+        underline: false, icon: ''}
+      name: label_3_copy_75
+      layout_properties: {row: NGGNDM, width_xs: 1, col_xs: 10}
+    - type: CheckBox
+      properties: {role: null, align: left, tooltip: '', border: '', enabled: true,
+        foreground: '', allow_indeterminate: false, visible: true, text: '', font_size: null,
+        font: '', spacing_above: none, spacing_below: small, italic: false, background: '',
+        bold: false, checked: false, underline: false}
+      name: check_box_armenian_f
+      layout_properties: {row: NGGNDM, width_xs: 1, col_xs: 11}
+  - type: GridPanel
+    properties: {spacing_above: small, spacing_below: small, background: '', foreground: '',
+      border: '', visible: true, role: grid_panel, tooltip: ''}
+    name: grid_panel_1_copy_48
+    layout_properties: {grid_position: 'YCHCAM,WRLEMD'}
+    components:
+    - type: Label
+      properties: {role: feature, align: left, tooltip: '', border: '', foreground: '',
+        visible: true, text: '   Asian', font_size: null, font: '', spacing_above: small,
+        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+        underline: false, icon: ''}
+      name: label_4_copy_50
+      layout_properties: {row: OTVPNT, width_xs: 2, col_xs: 0}
+    - type: Label
+      properties: {role: description, align: center, tooltip: '', border: '', foreground: '',
+        visible: true, text: 'TRUE', font_size: null, font: '', spacing_above: small,
+        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+        underline: false, icon: ''}
+      name: label_5_copy_50
+      layout_properties: {row: OTVPNT, width_xs: 1, col_xs: 2}
+    - type: CheckBox
+      properties: {role: null, align: left, tooltip: '', border: '', enabled: true,
+        foreground: '', allow_indeterminate: false, visible: true, text: '', font_size: null,
+        font: '', spacing_above: none, spacing_below: small, italic: false, background: '',
+        bold: false, checked: false, underline: false}
+      name: check_box_asian_t
+      layout_properties: {row: OTVPNT, width_xs: 1, col_xs: 3}
+    - type: Label
+      properties: {role: description, align: left, tooltip: '', border: '', foreground: '',
+        visible: true, text: 'FALSE', font_size: null, font: '', spacing_above: small,
+        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+        underline: false, icon: ''}
+      name: label_3_copy_41
+      layout_properties: {row: OTVPNT, width_xs: 1, col_xs: 4}
+    - type: CheckBox
+      properties: {role: null, align: left, tooltip: '', border: '', enabled: true,
+        foreground: '', allow_indeterminate: false, visible: true, text: '', font_size: null,
+        font: '', spacing_above: none, spacing_below: small, italic: false, background: '',
+        bold: false, checked: false, underline: false}
+      name: check_box_asian_f
+      layout_properties: {row: OTVPNT, width_xs: 1, col_xs: 5}
+    - type: Label
+      properties: {role: feature, align: left, tooltip: '', border: '', foreground: '',
+        visible: true, text: '   Australian', font_size: null, font: '', spacing_above: small,
+        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+        underline: false, icon: ''}
+      name: label_4_copy_45
+      layout_properties: {row: OTVPNT, width_xs: 2, col_xs: 6}
+    - type: Label
+      properties: {role: description, align: center, tooltip: '', border: '', foreground: '',
+        visible: true, text: 'TRUE', font_size: null, font: '', spacing_above: small,
+        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+        underline: false, icon: ''}
+      name: label_5_copy_45
+      layout_properties: {row: OTVPNT, width_xs: 1, col_xs: 8}
+    - type: CheckBox
+      properties: {role: null, align: left, tooltip: '', border: '', enabled: true,
+        foreground: '', allow_indeterminate: false, visible: true, text: '', font_size: null,
+        font: '', spacing_above: none, spacing_below: small, italic: false, background: '',
+        bold: false, checked: false, underline: false}
+      name: check_box_australian_t
+      layout_properties: {row: OTVPNT, width_xs: 1, col_xs: 9}
+    - type: Label
+      properties: {role: description, align: left, tooltip: '', border: '', foreground: '',
+        visible: true, text: 'FALSE', font_size: null, font: '', spacing_above: small,
+        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+        underline: false, icon: ''}
+      name: label_3_copy_36
+      layout_properties: {row: OTVPNT, width_xs: 1, col_xs: 10}
+    - type: CheckBox
+      properties: {role: null, align: left, tooltip: '', border: '', enabled: true,
+        foreground: '', allow_indeterminate: false, visible: true, text: '', font_size: null,
+        font: '', spacing_above: none, spacing_below: small, italic: false, background: '',
+        bold: false, checked: false, underline: false}
+      name: check_box_australian_f
+      layout_properties: {row: OTVPNT, width_xs: 1, col_xs: 11}
+  - name: grid_panel_1_copy_31_copy_copy_copy
+    properties: {spacing_above: small, spacing_below: small, background: '', foreground: '',
+      border: '', visible: true, role: grid_panel, tooltip: ''}
+    type: GridPanel
+    layout_properties: {grid_position: 'BDUDCZ,JAZSPF'}
+    components:
+    - type: Label
+      properties: {role: feature, align: left, tooltip: '', border: '', foreground: '',
+        visible: true, text: '   Austrian', font_size: null, font: '', spacing_above: small,
+        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+        underline: false, icon: ''}
+      name: label_4_copy_41
+      layout_properties: {row: YQURNI, width_xs: 2, col_xs: 0}
+    - type: Label
+      properties: {role: description, align: center, tooltip: '', border: '', foreground: '',
+        visible: true, text: 'TRUE', font_size: null, font: '', spacing_above: small,
+        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+        underline: false, icon: ''}
+      name: label_5_copy_41
+      layout_properties: {row: YQURNI, width_xs: 1, col_xs: 2}
+    - type: CheckBox
+      properties: {role: null, align: left, tooltip: '', border: '', enabled: true,
+        foreground: '', allow_indeterminate: false, visible: true, text: '', font_size: null,
+        font: '', spacing_above: none, spacing_below: small, italic: false, background: '',
+        bold: false, checked: false, underline: false}
+      name: check_box_austrian_t
+      layout_properties: {row: YQURNI, width_xs: 1, col_xs: 3}
+    - type: Label
+      properties: {role: description, align: left, tooltip: '', border: '', foreground: '',
+        visible: true, text: 'FALSE', font_size: null, font: '', spacing_above: small,
+        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+        underline: false, icon: ''}
+      name: label_3_copy_32
+      layout_properties: {row: YQURNI, width_xs: 1, col_xs: 4}
+    - type: CheckBox
+      properties: {role: null, align: left, tooltip: '', border: '', enabled: true,
+        foreground: '', allow_indeterminate: false, visible: true, text: '', font_size: null,
+        font: '', spacing_above: none, spacing_below: small, italic: false, background: '',
+        bold: false, checked: false, underline: false}
+      name: check_box_austrian_f
+      layout_properties: {row: YQURNI, width_xs: 1, col_xs: 5}
+    - type: Label
+      properties: {role: feature, align: left, tooltip: '', border: '', foreground: '',
+        visible: true, text: '   Brazilian', font_size: null, font: '', spacing_above: small,
+        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+        underline: false, icon: ''}
+      name: label_4_copy_71
+      layout_properties: {row: YQURNI, width_xs: 2, col_xs: 6}
+    - type: Label
+      properties: {role: description, align: center, tooltip: '', border: '', foreground: '',
+        visible: true, text: 'TRUE', font_size: null, font: '', spacing_above: small,
+        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+        underline: false, icon: ''}
+      name: label_5_copy_71
+      layout_properties: {row: YQURNI, width_xs: 1, col_xs: 8}
+    - type: CheckBox
+      properties: {role: null, align: left, tooltip: '', border: '', enabled: true,
+        foreground: '', allow_indeterminate: false, visible: true, text: '', font_size: null,
+        font: '', spacing_above: none, spacing_below: small, italic: false, background: '',
+        bold: false, checked: false, underline: false}
+      name: check_box_brazilian_t
+      layout_properties: {row: YQURNI, width_xs: 1, col_xs: 9}
+    - type: Label
+      properties: {role: description, align: left, tooltip: '', border: '', foreground: '',
+        visible: true, text: 'FALSE', font_size: null, font: '', spacing_above: small,
+        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+        underline: false, icon: ''}
+      name: label_3_copy_62
+      layout_properties: {row: YQURNI, width_xs: 1, col_xs: 10}
+    - type: CheckBox
+      properties: {role: null, align: left, tooltip: '', border: '', enabled: true,
+        foreground: '', allow_indeterminate: false, visible: true, text: '', font_size: null,
+        font: '', spacing_above: none, spacing_below: small, italic: false, background: '',
+        bold: false, checked: false, underline: false}
+      name: check_box_brazilian_f
+      layout_properties: {row: YQURNI, width_xs: 1, col_xs: 11}
+  - type: GridPanel
+    properties: {spacing_above: small, spacing_below: small, background: '', foreground: '',
+      border: '', visible: true, role: grid_panel, tooltip: ''}
+    name: grid_panel_1_copy_42
+    layout_properties: {grid_position: 'UHFXEP,IMBGHQ'}
+    components: []
+  - name: grid_panel_1_copy_31_copy_copy_copy_2
+    properties: {spacing_above: small, spacing_below: small, background: '', foreground: '',
+      border: '', visible: true, role: grid_panel, tooltip: ''}
+    type: GridPanel
+    layout_properties: {grid_position: 'MCYCRY,IYDSBU'}
+  - name: spacer_1
+    properties: {height: 32}
+    type: Spacer
+    layout_properties: {grid_position: 'EKUQOR,UVBSXW'}
+  - type: GridPanel
+    properties: {spacing_above: small, spacing_below: small, background: '', foreground: '',
+      border: '', visible: true, role: grid_panel, tooltip: ''}
+    name: grid_panel_1_copy_31
+    layout_properties: {grid_position: 'JGINVC,QTFSBJ'}
+    components:
+    - type: Label
+      properties: {role: feature, align: left, tooltip: '', border: '', foreground: '',
+        visible: true, text: '   Euro', font_size: null, font: '', spacing_above: small,
+        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+        underline: false, icon: ''}
+      name: label_4_copy_49
       layout_properties: {row: OSZLNL, width_xs: 2, col_xs: 0, width: 100}
     - type: Label
       properties: {role: description, align: center, tooltip: '', border: '', foreground: '',
         visible: true, text: 'TRUE', font_size: null, font: '', spacing_above: small,
         icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
         underline: false, icon: ''}
-      name: label_5_copy_48
+      name: label_5_copy_49
       layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 2, width: 25}
     - type: CheckBox
       properties: {role: null, align: left, tooltip: '', border: '', enabled: true,
         foreground: '', allow_indeterminate: false, visible: true, text: '', font_size: null,
         font: '', spacing_above: none, spacing_below: small, italic: false, background: '',
         bold: false, checked: false, underline: false}
-      name: check_box_african_t
+      name: check_box_euro_t
       layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 3, width: 25}
     - type: Label
       properties: {role: description, align: left, tooltip: '', border: '', foreground: '',
         visible: true, text: 'FALSE', font_size: null, font: '', spacing_above: small,
         icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
         underline: false, icon: ''}
-      name: label_3_copy_39
+      name: label_3_copy_40
       layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 4, width: 25}
     - type: CheckBox
       properties: {role: null, align: left, tooltip: '', border: '', enabled: true,
         foreground: '', allow_indeterminate: false, visible: true, text: '', font_size: null,
         font: '', spacing_above: none, spacing_below: small, italic: false, background: '',
         bold: false, checked: false, underline: false}
-      name: check_box_african_f
+      name: check_box_euro_f
       layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 5, width: 25}
   - type: GridPanel
     properties: {spacing_above: small, spacing_below: small, background: '', foreground: '',
@@ -1658,41 +1916,6 @@ components:
       col_widths: {}
       grid_position: VROPLB,BJHNNM
     components:
-    - type: Label
-      properties: {role: feature, align: left, tooltip: '', border: '', foreground: '',
-        visible: true, text: '   Australian', font_size: null, font: '', spacing_above: small,
-        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-        underline: false, icon: ''}
-      name: label_4_copy_45
-      layout_properties: {row: OSZLNL, width_xs: 2, col_xs: 0, width: 100}
-    - type: Label
-      properties: {role: description, align: center, tooltip: '', border: '', foreground: '',
-        visible: true, text: 'TRUE', font_size: null, font: '', spacing_above: small,
-        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-        underline: false, icon: ''}
-      name: label_5_copy_45
-      layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 2, width: 25}
-    - type: CheckBox
-      properties: {role: null, align: left, tooltip: '', border: '', enabled: true,
-        foreground: '', allow_indeterminate: false, visible: true, text: '', font_size: null,
-        font: '', spacing_above: none, spacing_below: small, italic: false, background: '',
-        bold: false, checked: false, underline: false}
-      name: check_box_australian_t
-      layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 3, width: 25}
-    - type: Label
-      properties: {role: description, align: left, tooltip: '', border: '', foreground: '',
-        visible: true, text: 'FALSE', font_size: null, font: '', spacing_above: small,
-        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-        underline: false, icon: ''}
-      name: label_3_copy_36
-      layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 4, width: 25}
-    - type: CheckBox
-      properties: {role: null, align: left, tooltip: '', border: '', enabled: true,
-        foreground: '', allow_indeterminate: false, visible: true, text: '', font_size: null,
-        font: '', spacing_above: none, spacing_below: small, italic: false, background: '',
-        bold: false, checked: false, underline: false}
-      name: check_box_australian_f
-      layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 5, width: 25}
     - type: Label
       properties: {role: feature, align: left, tooltip: '', border: '', foreground: '',
         visible: true, text: '   Canadian', font_size: null, font: '', spacing_above: small,
@@ -1814,41 +2037,6 @@ components:
       col_widths: {}
       grid_position: CAGIKJ,VAJJBQ
     components:
-    - type: Label
-      properties: {role: feature, align: left, tooltip: '', border: '', foreground: '',
-        visible: true, text: '   Austrian', font_size: null, font: '', spacing_above: small,
-        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-        underline: false, icon: ''}
-      name: label_4_copy_41
-      layout_properties: {row: OSZLNL, width_xs: 2, col_xs: 0, width: 100}
-    - type: Label
-      properties: {role: description, align: center, tooltip: '', border: '', foreground: '',
-        visible: true, text: 'TRUE', font_size: null, font: '', spacing_above: small,
-        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-        underline: false, icon: ''}
-      name: label_5_copy_41
-      layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 2, width: 25}
-    - type: CheckBox
-      properties: {role: null, align: left, tooltip: '', border: '', enabled: true,
-        foreground: '', allow_indeterminate: false, visible: true, text: '', font_size: null,
-        font: '', spacing_above: none, spacing_below: small, italic: false, background: '',
-        bold: false, checked: false, underline: false}
-      name: check_box_austrian_t
-      layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 3, width: 25}
-    - type: Label
-      properties: {role: description, align: left, tooltip: '', border: '', foreground: '',
-        visible: true, text: 'FALSE', font_size: null, font: '', spacing_above: small,
-        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-        underline: false, icon: ''}
-      name: label_3_copy_32
-      layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 4, width: 25}
-    - type: CheckBox
-      properties: {role: null, align: left, tooltip: '', border: '', enabled: true,
-        foreground: '', allow_indeterminate: false, visible: true, text: '', font_size: null,
-        font: '', spacing_above: none, spacing_below: small, italic: false, background: '',
-        bold: false, checked: false, underline: false}
-      name: check_box_austrian_f
-      layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 5, width: 25}
     - type: Label
       properties: {role: feature, align: left, tooltip: '', border: '', foreground: '',
         visible: true, text: '   Danish', font_size: null, font: '', spacing_above: small,
@@ -2979,124 +3167,11 @@ components:
   - type: GridPanel
     properties: {spacing_above: small, spacing_below: small, background: '', foreground: '',
       border: '', visible: true, role: grid_panel, tooltip: ''}
-    name: grid_panel_1_copy_42
-    layout_properties:
-      col_widths: {}
-      grid_position: UDXHXI,MMFYER
-    components:
-    - type: Label
-      properties: {role: feature, align: left, tooltip: '', border: '', foreground: '',
-        visible: true, text: '   Brazilian', font_size: null, font: '', spacing_above: small,
-        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-        underline: false, icon: ''}
-      name: label_4_copy_71
-      layout_properties: {row: OSZLNL, width_xs: 2, col_xs: 0, width: 100}
-    - type: Label
-      properties: {role: description, align: center, tooltip: '', border: '', foreground: '',
-        visible: true, text: 'TRUE', font_size: null, font: '', spacing_above: small,
-        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-        underline: false, icon: ''}
-      name: label_5_copy_71
-      layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 2, width: 25}
-    - type: CheckBox
-      properties: {role: null, align: left, tooltip: '', border: '', enabled: true,
-        foreground: '', allow_indeterminate: false, visible: true, text: '', font_size: null,
-        font: '', spacing_above: none, spacing_below: small, italic: false, background: '',
-        bold: false, checked: false, underline: false}
-      name: check_box_brazilian_t
-      layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 3, width: 25}
-    - type: Label
-      properties: {role: description, align: left, tooltip: '', border: '', foreground: '',
-        visible: true, text: 'FALSE', font_size: null, font: '', spacing_above: small,
-        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-        underline: false, icon: ''}
-      name: label_3_copy_62
-      layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 4, width: 25}
-    - type: CheckBox
-      properties: {role: null, align: left, tooltip: '', border: '', enabled: true,
-        foreground: '', allow_indeterminate: false, visible: true, text: '', font_size: null,
-        font: '', spacing_above: none, spacing_below: small, italic: false, background: '',
-        bold: false, checked: false, underline: false}
-      name: check_box_brazilian_f
-      layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 5, width: 25}
-    - type: Label
-      properties: {role: feature, align: left, tooltip: '', border: '', foreground: '',
-        visible: true, text: '   Argentin', font_size: null, font: '', spacing_above: small,
-        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-        underline: false, icon: ''}
-      name: label_4_copy_72
-      layout_properties: {row: OSZLNL, width_xs: 2, col_xs: 0, width: 100}
-    - type: Label
-      properties: {role: description, align: center, tooltip: '', border: '', foreground: '',
-        visible: true, text: 'TRUE', font_size: null, font: '', spacing_above: small,
-        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-        underline: false, icon: ''}
-      name: label_5_copy_72
-      layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 2, width: 25}
-    - type: CheckBox
-      properties: {role: null, align: left, tooltip: '', border: '', enabled: true,
-        foreground: '', allow_indeterminate: false, visible: true, text: '', font_size: null,
-        font: '', spacing_above: none, spacing_below: small, italic: false, background: '',
-        bold: false, checked: false, underline: false}
-      name: check_box_argentin_t
-      layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 3, width: 25}
-    - type: Label
-      properties: {role: description, align: left, tooltip: '', border: '', foreground: '',
-        visible: true, text: 'FALSE', font_size: null, font: '', spacing_above: small,
-        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-        underline: false, icon: ''}
-      name: label_3_copy_63
-      layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 4, width: 25}
-    - type: CheckBox
-      properties: {role: null, align: left, tooltip: '', border: '', enabled: true,
-        foreground: '', allow_indeterminate: false, visible: true, text: '', font_size: null,
-        font: '', spacing_above: none, spacing_below: small, italic: false, background: '',
-        bold: false, checked: false, underline: false}
-      name: check_box_argentin_f
-      layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 5, width: 25}
-  - type: GridPanel
-    properties: {spacing_above: small, spacing_below: small, background: '', foreground: '',
-      border: '', visible: true, role: grid_panel, tooltip: ''}
     name: grid_panel_1_copy_50
     layout_properties:
       col_widths: {}
       grid_position: QYRFSK,JHRUCM
     components:
-    - type: Label
-      properties: {role: feature, align: left, tooltip: '', border: '', foreground: '',
-        visible: true, text: '   Albanian', font_size: null, font: '', spacing_above: small,
-        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-        underline: false, icon: ''}
-      name: label_4_copy_87
-      layout_properties: {row: OSZLNL, width_xs: 2, col_xs: 0, width: 100}
-    - type: Label
-      properties: {role: description, align: center, tooltip: '', border: '', foreground: '',
-        visible: true, text: 'TRUE', font_size: null, font: '', spacing_above: small,
-        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-        underline: false, icon: ''}
-      name: label_5_copy_87
-      layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 2, width: 25}
-    - type: CheckBox
-      properties: {role: null, align: left, tooltip: '', border: '', enabled: true,
-        foreground: '', allow_indeterminate: false, visible: true, text: '', font_size: null,
-        font: '', spacing_above: none, spacing_below: small, italic: false, background: '',
-        bold: false, checked: false, underline: false}
-      name: check_box_albanian_t
-      layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 3, width: 25}
-    - type: Label
-      properties: {role: description, align: left, tooltip: '', border: '', foreground: '',
-        visible: true, text: 'FALSE', font_size: null, font: '', spacing_above: small,
-        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-        underline: false, icon: ''}
-      name: label_3_copy_78
-      layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 4, width: 25}
-    - type: CheckBox
-      properties: {role: null, align: left, tooltip: '', border: '', enabled: true,
-        foreground: '', allow_indeterminate: false, visible: true, text: '', font_size: null,
-        font: '', spacing_above: none, spacing_below: small, italic: false, background: '',
-        bold: false, checked: false, underline: false}
-      name: check_box_albanian_f
-      layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 5, width: 25}
     - type: Label
       properties: {role: feature, align: left, tooltip: '', border: '', foreground: '',
         visible: true, text: '   Peruan', font_size: null, font: '', spacing_above: small,
@@ -3209,84 +3284,6 @@ components:
         font: '', spacing_above: none, spacing_below: small, italic: false, background: '',
         bold: false, checked: false, underline: false}
       name: check_box_jamaican_f
-      layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 5, width: 25}
-  - type: GridPanel
-    properties: {spacing_above: small, spacing_below: small, background: '', foreground: '',
-      border: '', visible: true, role: grid_panel, tooltip: ''}
-    name: grid_panel_1_copy_48
-    layout_properties:
-      col_widths: {}
-      grid_position: NFKSVG,FBKILT
-    components:
-    - type: Label
-      properties: {role: feature, align: left, tooltip: '', border: '', foreground: '',
-        visible: true, text: '   Arab', font_size: null, font: '', spacing_above: small,
-        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-        underline: false, icon: ''}
-      name: label_4_copy_83
-      layout_properties: {row: OSZLNL, width_xs: 2, col_xs: 0, width: 100}
-    - type: Label
-      properties: {role: description, align: center, tooltip: '', border: '', foreground: '',
-        visible: true, text: 'TRUE', font_size: null, font: '', spacing_above: small,
-        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-        underline: false, icon: ''}
-      name: label_5_copy_83
-      layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 2, width: 25}
-    - type: CheckBox
-      properties: {role: null, align: left, tooltip: '', border: '', enabled: true,
-        foreground: '', allow_indeterminate: false, visible: true, text: '', font_size: null,
-        font: '', spacing_above: none, spacing_below: small, italic: false, background: '',
-        bold: false, checked: false, underline: false}
-      name: check_box_arab_t
-      layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 3, width: 25}
-    - type: Label
-      properties: {role: description, align: left, tooltip: '', border: '', foreground: '',
-        visible: true, text: 'FALSE', font_size: null, font: '', spacing_above: small,
-        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-        underline: false, icon: ''}
-      name: label_3_copy_74
-      layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 4, width: 25}
-    - type: CheckBox
-      properties: {role: null, align: left, tooltip: '', border: '', enabled: true,
-        foreground: '', allow_indeterminate: false, visible: true, text: '', font_size: null,
-        font: '', spacing_above: none, spacing_below: small, italic: false, background: '',
-        bold: false, checked: false, underline: false}
-      name: check_box_arab_f
-      layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 5, width: 25}
-    - type: Label
-      properties: {role: feature, align: left, tooltip: '', border: '', foreground: '',
-        visible: true, text: '   Armenian', font_size: null, font: '', spacing_above: small,
-        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-        underline: false, icon: ''}
-      name: label_4_copy_84
-      layout_properties: {row: OSZLNL, width_xs: 2, col_xs: 0, width: 100}
-    - type: Label
-      properties: {role: description, align: center, tooltip: '', border: '', foreground: '',
-        visible: true, text: 'TRUE', font_size: null, font: '', spacing_above: small,
-        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-        underline: false, icon: ''}
-      name: label_5_copy_84
-      layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 2, width: 25}
-    - type: CheckBox
-      properties: {role: null, align: left, tooltip: '', border: '', enabled: true,
-        foreground: '', allow_indeterminate: false, visible: true, text: '', font_size: null,
-        font: '', spacing_above: none, spacing_below: small, italic: false, background: '',
-        bold: false, checked: false, underline: false}
-      name: check_box_armenian_t
-      layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 3, width: 25}
-    - type: Label
-      properties: {role: description, align: left, tooltip: '', border: '', foreground: '',
-        visible: true, text: 'FALSE', font_size: null, font: '', spacing_above: small,
-        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-        underline: false, icon: ''}
-      name: label_3_copy_75
-      layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 4, width: 25}
-    - type: CheckBox
-      properties: {role: null, align: left, tooltip: '', border: '', enabled: true,
-        foreground: '', allow_indeterminate: false, visible: true, text: '', font_size: null,
-        font: '', spacing_above: none, spacing_below: small, italic: false, background: '',
-        bold: false, checked: false, underline: false}
-      name: check_box_armenian_f
       layout_properties: {row: OSZLNL, width_xs: 1, col_xs: 5, width: 25}
   - type: GridPanel
     properties: {spacing_above: small, spacing_below: small, background: '', foreground: '',
