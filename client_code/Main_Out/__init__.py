@@ -81,12 +81,12 @@ class Main_Out(Main_OutTemplate):
 def check_log_status(self, **event_args):
   if (anvil.users.get_user() == None):
     self.link_login.visible = True
-    self.link_register.visible = True
+    #self.link_register.visible = True
     self.link_logout.visible = False
     self.link_home.visible = False
   else:
     self.link_login.visible = False
-    self.link_register.visible = False
+    #self.link_register.visible = False
     self.link_logout.visible = True
     self.link_home.visible = True
   if self.updates_sign.visible == True:
