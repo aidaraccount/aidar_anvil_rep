@@ -20,9 +20,12 @@ class C_Home(C_HomeTemplate):
 
     # FUNNEL DATA
     data = json.loads(anvil.server.call('get_watchlist_selection', cur_model_id))
-    self.repeating_panel_2.items = [item for item in data if item['Status'] in ['Action required', 'Requires revision', 'Waiting for decision']] #EVALUATION
-    self.repeating_panel_3.items = [item for item in data if item['Status'] in ['Build connection', 'Awaiting response', 'Exploring opportunities', 'Positive response']] #CONTACTING
-    self.repeating_panel_4.items = [item for item in data if item['Status'] in ['In negotiations', 'Contract in progress']] #NEGOTIATION
+    if data == '[]':
+      self.xy_panel_funnel.visible = False
+    else:
+      self.repeating_panel_2.items = [item for item in data if item['Status'] in ['Action required', 'Requires revision', 'Waiting for decision']] #EVALUATION
+      self.repeating_panel_3.items = [item for item in data if item['Status'] in ['Build connection', 'Awaiting response', 'Exploring opportunities', 'Positive response']] #CONTACTING
+      self.repeating_panel_4.items = [item for item in data if item['Status'] in ['In negotiations', 'Contract in progress']] #NEGOTIATION
 
     # STATS
     stats = json.loads(anvil.server.call('get_stats', cur_model_id))
