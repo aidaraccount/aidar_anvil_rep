@@ -16,7 +16,7 @@ components:
   name: link_home
   layout_properties: {slot: sidebar}
   event_bindings: {click: link_home_click}
-- name: linear_panel_1
+- name: linear_panel_discover
   properties: {}
   type: LinearPanel
   layout_properties: {slot: sidebar}
@@ -57,7 +57,7 @@ components:
     layout_properties: {}
     event_bindings: {click: link_discover_rated_click}
     components: []
-- name: linear_panel_2
+- name: linear_panel_manage
   properties: {}
   type: LinearPanel
   layout_properties: {slot: sidebar}
@@ -110,6 +110,22 @@ components:
     type: Link
     event_bindings: {click: change_models_visibility}
     layout_properties: {}
+  - name: link_models_create
+    properties: {role: nav_sub, url: '', align: left, tooltip: '', border: '', foreground: '',
+      visible: false, text: CREATE, font_size: null, wrap_on: mobile, font: '', col_spacing: medium,
+      spacing_above: none, icon_align: left, col_widths: '', spacing_below: small,
+      italic: false, background: '', bold: false, underline: false, icon: 'fa:angle-right'}
+    type: Link
+    layout_properties: {}
+    event_bindings: {click: link_models_create_click}
+  - name: link_models_connect
+    properties: {role: nav_sub, url: '', align: left, tooltip: '', border: '', foreground: '',
+      visible: false, text: JOIN, font_size: null, wrap_on: mobile, font: '', col_spacing: medium,
+      spacing_above: none, icon_align: left, col_widths: '', spacing_below: small,
+      italic: false, background: '', bold: false, underline: false, icon: 'fa:angle-right'}
+    type: Link
+    layout_properties: {}
+    event_bindings: {click: link_models_connect_click}
   - name: link_models_setup
     properties: {role: nav_sub, url: '', align: left, tooltip: '', border: '', foreground: '',
       visible: false, text: SETUP, font_size: null, wrap_on: mobile, font: '', col_spacing: medium,

@@ -20,8 +20,9 @@ class C_Home(C_HomeTemplate):
 
     # FUNNEL DATA
     data = json.loads(anvil.server.call('get_watchlist_selection', cur_model_id))
-    if data == '[]':
+    if len(data) == 0:
       self.xy_panel_funnel.visible = False
+      self.xy_panel_funnel_empty.visible = True
     else:
       self.repeating_panel_2.items = [item for item in data if item['Status'] in ['Action required', 'Requires revision', 'Waiting for decision']] #EVALUATION
       self.repeating_panel_3.items = [item for item in data if item['Status'] in ['Build connection', 'Awaiting response', 'Exploring opportunities', 'Positive response']] #CONTACTING
@@ -43,8 +44,12 @@ class C_Home(C_HomeTemplate):
     else: self.label_tot_txt.text = 'total\nratings'
 
     # NEWS
-    self.repeating_panel_news.items = json.loads(anvil.server.call('get_watchlist_notes', cur_model_id, None))
-  
+    news = json.loads(anvil.server.call('get_watchlist_notes', cur_model_id, None))
+    if len(news) == 0:
+      self.xy_panel_news.visible = False
+      self.xy_panel_news_empty.visible = True
+    else:
+      self.repeating_panel_news.items = news
     
   def link_discover_click(self, **event_args):
     open_form('Main_In', temp_artist_id = None, target = 'C_Investigate', value=None)

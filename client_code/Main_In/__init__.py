@@ -31,15 +31,18 @@ class Main_In(Main_InTemplate):
     global user
     global cur_model_id
     user = anvil.users.get_user()
+    global status
+    status = True
 
     if user["user_id"] == None:
       cur_model_id = None
     else:
       cur_model_id = anvil.server.call('get_model_id',  user["user_id"])
-    
+
     if (cur_model_id == None):
+      status = False
       self.content_panel.add_component(C_NoModel())
-      self.change_nav_visibility(status=False)
+      self.change_nav_visibility(status=status)
     else:
       self.content_panel.add_component(C_Home())
       self.link_home.background = "theme:Accent 2"
@@ -91,6 +94,8 @@ class Main_In(Main_InTemplate):
     self.link_manage_funnel.background = None
     self.link_manage_dev.background = None
     self.link_models.background = None
+    self.link_models_create.background = None
+    self.link_models_connect.background = None
     self.link_models_setup.background = None
     self.link_models_artists.background = None
     #self.link_models_tracks.background = None
@@ -98,14 +103,25 @@ class Main_In(Main_InTemplate):
 
   def change_nav_visibility(self, status, **event_args):
     self.link_home.visible = status
-    self.link_discover.background = None
-    self.link_discover_ai.background = None
-    self.link_discover_name.background = None
-    self.link_discover_rated.background = None
-    self.link_manage.background = None
-    self.link_manage_watchlist.background = None
-    self.link_manage_funnel.background = None
-    self.link_manage_dev.background = None
+
+    self.linear_panel_discover.visible = status
+    self.link_discover.visible = status
+    self.link_discover_ai.visible = status
+    self.link_discover_name.visible = status
+    self.link_discover_rated.visible = status
+
+    self.linear_panel_manage.visible = status
+    self.link_manage.visible = status
+    self.link_manage_watchlist.visible = status
+    self.link_manage_funnel.visible = status
+    self.link_manage_dev.visible = status
+    
+    self.link_models.visible = True
+    self.link_models_create.visible = not status
+    self.link_models_connect.visible = not status
+    self.link_models_setup.visible = False
+    self.link_models_artists.visible = status
+    self.link_models_tracks.visible = False
   
   # HOME
   def link_home_click(self, **event_args):
@@ -154,12 +170,6 @@ class Main_In(Main_InTemplate):
     self.reset_nav_backgrounds()
     self.link_discover_rated.background = "theme:Accent 2"
 
-  # FILTER
-  #def filter_click(self, **event_args):
-  #  cur_model_id = anvil.server.call('get_model_id',  user["user_id"])
-  #  self.content_panel.clear()    
-  #  self.content_panel.add_component(C_Filter())
-
   #----------------------------------------------------------------------------------------------
   # MANAGE
   def change_manage_visibility(self, **event_args):
@@ -201,14 +211,20 @@ class Main_In(Main_InTemplate):
   
   # MODELS
   def change_models_visibility(self, **event_args):
-    if self.link_models_artists.visible == False:
+    if self.link_models.icon == 'fa:angle-down':
       self.link_models.icon = 'fa:angle-up'
-      self.link_models_artists.visible = True
-      #self.link_models_tracks.visible = True
-    else:
-      self.link_models.icon = 'fa:angle-down'
+      self.link_models_create.visible = False
+      self.link_models_connect.visible = False
+      #self.link_models_setup.visible = False
       self.link_models_artists.visible = False
       #self.link_models_tracks.visible = False
+    else:
+      self.link_models.icon = 'fa:angle-down'
+      self.link_models_create.visible = not status
+      self.link_models_connect.visible = not status
+      #self.link_models_setup.visible = status
+      self.link_models_artists.visible = status
+      #self.link_models_tracks.visible = status
 
   def link_models_artists_click(self, **event_args):
     cur_model_id = anvil.server.call('get_model_id',  user["user_id"])
@@ -217,30 +233,14 @@ class Main_In(Main_InTemplate):
     self.reset_nav_backgrounds()
     self.link_models_artists.background = "theme:Accent 2"
   
-  #def add_ref_artists_click(self, **event_args):
-  #  cur_model_id = anvil.server.call('get_model_id',  user["user_id"])
-  #  self.content_panel.clear()
-  #  self.content_panel.add_component(C_AddRefArtists())
-
-
-  # AI-MODELS
-  def link_models_click(self, **event_args):
-    self.content_panel.clear()
-    self.content_panel.add_component(C_NoModel())
-    self.link_models.background = "theme:Accent 2"
-    self.link_models_create.background = "theme:Sidebar Background"
-    self.link_models_connect.background = "theme:Sidebar Background"
-
   def link_models_create_click(self, **event_args):
     self.content_panel.clear()
     self.content_panel.add_component(C_CreateModel())
+    self.reset_nav_backgrounds()
     self.link_models_create.background = "theme:Accent 2"
-    self.link_models.background = None
-    self.link_models_connect.background = None
 
   def link_models_connect_click(self, **event_args):
     self.content_panel.clear()
     self.content_panel.add_component(C_ConnectModel())
+    self.reset_nav_backgrounds()
     self.link_models_connect.background = "theme:Accent 2"
-    self.link_models_create.background = None
-    self.link_models.background = None
