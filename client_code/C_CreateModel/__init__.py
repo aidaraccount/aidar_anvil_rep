@@ -36,16 +36,19 @@ class C_CreateModel(C_CreateModelTemplate):
       # continue to add ref artists
       alert(title='Congratulations..',
             content="your Model was successfully created!\n\nNow, let's set your model up by adding some artists as reference.")
-      self.content_panel.clear()
-      self.content_panel.add_component(C_AddRefArtists())
-      self.parent.parent.parent.parent.link_models.visible = False
-      self.parent.parent.parent.parent.link_investigate.visible = True
-      self.parent.parent.parent.parent.link_filter.visible = True
-      self.parent.parent.parent.parent.link_watchlist.visible = True
-      self.parent.parent.parent.parent.link_rating.visible = True
-      self.parent.parent.parent.parent.link_search.visible = True
-      self.parent.parent.parent.parent.link_ref_artists.visible = True
-      self.parent.parent.parent.parent.link_ref_artists.background = "theme:Accent 2"
+      
+      open_form('Main_In', temp_artist_id = None, target = 'C_AddRefArtists', value=None)
+      
+      #self.content_panel.clear()
+      #self.content_panel.add_component(C_AddRefArtists())
+      #self.parent.parent.parent.parent.link_models.visible = False
+      #self.parent.parent.parent.parent.link_investigate.visible = True
+      #self.parent.parent.parent.parent.link_filter.visible = True
+      #self.parent.parent.parent.parent.link_watchlist.visible = True
+      #self.parent.parent.parent.parent.link_rating.visible = True
+      #self.parent.parent.parent.parent.link_search.visible = True
+      #self.parent.parent.parent.parent.link_ref_artists.visible = True
+      #self.parent.parent.parent.parent.link_ref_artists.background = "theme:Accent 2"
       
     else:
       alert(title='Error..', content=status)

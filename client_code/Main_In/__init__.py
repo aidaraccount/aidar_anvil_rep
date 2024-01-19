@@ -56,10 +56,14 @@ class Main_In(Main_InTemplate):
     if target == 'C_AddRefArtists':
       self.content_panel.clear()
       self.content_panel.add_component(C_AddRefArtists())
+      self.reset_nav_backgrounds()
+      self.link_models_artists.background = "theme:Accent 2"
       
     if target == 'C_Watchlist_Funnel':
       self.content_panel.clear()
       self.content_panel.add_component(C_Watchlist_Funnel())
+      self.reset_nav_backgrounds()
+      self.link_manage_funnel.background = "theme:Accent 2"
       
     if target == 'C_Investigate':
       self.route_discover_ai(temp_artist_id = temp_artist_id)
