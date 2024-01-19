@@ -35,7 +35,7 @@ components:
   type: Label
   layout_properties: {grid_position: 'IEPKDJ,XPWKEL'}
 - name: label_2
-  properties: {text: 'Please go on Investigate and if of interest, add an artist to
+  properties: {text: 'Please discover new artists and if of interest, add them to
       the Watchlist', role: description, align: center, bold: false}
   type: Label
   layout_properties: {grid_position: 'BBWYLC,CQVMNJ'}
