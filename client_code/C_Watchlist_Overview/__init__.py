@@ -33,12 +33,23 @@ class C_Watchlist_Overview(C_Watchlist_OverviewTemplate):
     
     # fill Nones
     for item in data:
+        print(item)
         for key, value in item.items():
+            print(key)
+            if key in ["PopularityDev", "FollowerDev"]:
+              print(type(item[key]))
+              item[key] = '{:.1f}'.format(float(item[key]))
+              print(type(item[key]))
+              print(item[key])
+              #print(float(item[key]))
+              #print(round(float(item[key]), 1))
+              #item[key] = round(float(item[key]), 1)
+              #print(item[key])
             if value is None:
                 if key == "LatestReleaseDate":
                   item[key] = '-'
                 else: item[key] = '0'
-            
+    print(data)
     data = self.change_format(data=data, column='FollowerLat', direction='add')
     data = self.change_format(data=data, column='FollowerDif', direction='add')
 
@@ -113,11 +124,16 @@ class C_Watchlist_Overview(C_Watchlist_OverviewTemplate):
     if self.link_popdev.icon == '' or self.link_popdev.icon == 'fa:angle-up':
       self.reset_icons()
       self.link_popdev.icon = 'fa:angle-down'
-      self.repeating_panel_data.items = sorted(self.repeating_panel_data.items, key=lambda x: x.get('PopularityDev', float('inf')), reverse=True)
+      data = sorted(self.repeating_panel_data.items, key=lambda x: x.get('PopularityDev', float('inf')), reverse=True)
+      print(data["PopularityDev"])
+      data["PopularityDev"] = float(data["PopularityDev"])
+      self.repeating_panel_data.items = data
     elif self.link_popdev.icon == 'fa:angle-down':
       self.reset_icons()
       self.link_popdev.icon = 'fa:angle-up'
-      self.repeating_panel_data.items = sorted(self.repeating_panel_data.items, key=lambda x: x.get('PopularityDev', float('inf')), reverse=False)
+      data = sorted(self.repeating_panel_data.items, key=lambda x: x.get('PopularityDev', float('inf')), reverse=False)
+      data["PopularityDev"] = float(data["PopularityDev"])
+      self.repeating_panel_data.items = data
 
   def link_follat_click(self, **event_args):
     if self.link_follat.icon == '' or self.link_follat.icon == 'fa:angle-up':
