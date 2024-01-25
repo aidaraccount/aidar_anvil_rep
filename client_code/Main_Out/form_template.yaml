@@ -241,8 +241,8 @@ components:
       name: spacer_18
       layout_properties: {grid_position: 'QEECUT,MLEDHN'}
     - type: Label
-      properties: {role: null, align: center, tooltip: '', border: '', foreground: 'theme:Text_White',
-        visible: true, text: 'First data-driven service,
+      properties: {role: artist_name_shadow, align: center, tooltip: '', border: '',
+        foreground: 'theme:Text_White', visible: true, text: 'First data-driven service,
 
           to provide artists perfectly fitting your vision', font_size: 30, font: GSb,
         spacing_above: small, icon_align: left, spacing_below: small, italic: false,
@@ -259,11 +259,11 @@ components:
       name: spacer_28
       layout_properties: {grid_position: 'HGVKCP,YUYPCC'}
     - type: Link
-      properties: {role: artist_name, url: '', align: center, tooltip: '', border: '',
-        foreground: '', visible: true, text: LinkedIn, font_size: 28, wrap_on: never,
-        font: GSb, col_spacing: medium, spacing_above: small, icon_align: left, col_widths: '',
-        spacing_below: small, italic: false, background: '', bold: false, underline: false,
-        icon: 'fa:linkedin'}
+      properties: {role: artist_name_shadow, url: '', align: center, tooltip: '',
+        border: '', foreground: '', visible: true, text: LinkedIn, font_size: 28,
+        wrap_on: never, font: GSb, col_spacing: medium, spacing_above: small, icon_align: left,
+        col_widths: '', spacing_below: small, italic: false, background: '', bold: false,
+        underline: false, icon: 'fa:linkedin'}
       name: linkedin_link
       layout_properties:
         col_widths: {}
@@ -271,11 +271,11 @@ components:
       data_bindings: []
       event_bindings: {click: linkedin_click}
     - type: Link
-      properties: {role: artist_name, url: '', align: center, tooltip: '', border: '',
-        foreground: '', visible: true, text: Instagram, font_size: 28, wrap_on: never,
-        font: GSb, col_spacing: medium, spacing_above: small, icon_align: left, col_widths: '',
-        spacing_below: small, italic: false, background: '', bold: false, underline: false,
-        icon: 'fa:instagram'}
+      properties: {role: artist_name_shadow, url: '', align: center, tooltip: '',
+        border: '', foreground: '', visible: true, text: Instagram, font_size: 28,
+        wrap_on: never, font: GSb, col_spacing: medium, spacing_above: small, icon_align: left,
+        col_widths: '', spacing_below: small, italic: false, background: '', bold: false,
+        underline: false, icon: 'fa:instagram'}
       name: instagram_link
       layout_properties:
         col_widths: {}
@@ -359,29 +359,30 @@ components:
         type: Spacer
         layout_properties: {grid_position: 'BLNVIC,JRJPSJ'}
       - type: RichText
-        properties: {role: null, align: center, tooltip: '', enable_slots: true, border: '',
-          foreground: 'theme:Text_White', visible: true, font_size: null, content: "<p\
-            \ style=\"font-weight: bold;\">\n  <span style=\"font-size: 40px;\">>4.2</span>\n\
-            \  <span style=\"font-size: 24px;\">million</span>\n  <br>\n  <span style=\"\
-            font-size: 30px;\">Artists</span>\n</p>", font: GSb, spacing_above: small,
-          spacing_below: small, data: null, background: '', format: restricted_html}
+        properties: {role: artist_name_shadow, align: center, tooltip: '', enable_slots: true,
+          border: '', foreground: 'theme:Text_White', visible: true, font_size: null,
+          content: "<p style=\"font-weight: bold;\">\n  <span style=\"font-size: 40px;\"\
+            >>4.2</span>\n  <span style=\"font-size: 24px;\">million</span>\n  <br>\n\
+            \  <span style=\"font-size: 30px;\">Artists</span>\n</p>", font: GSb,
+          spacing_above: small, spacing_below: small, data: null, background: '',
+          format: restricted_html}
         name: rich_text_2
         layout_properties: {grid_position: 'BLNVIC,VDPROD'}
         components: []
       - name: rich_text_2_copy_copy
-        properties: {role: null, align: center, tooltip: '', enable_slots: true, border: '',
-          foreground: 'theme:Text_White', visible: true, font_size: null, content: "<p\
-            \ style=\"font-weight: bold;\">\n  <span style=\"font-size: 60px;\">&</span>\n\
-            </p>", font: GSb, spacing_above: small, spacing_below: small, data: null,
-          background: '', format: restricted_html}
+        properties: {role: artist_name_shadow, align: center, tooltip: '', enable_slots: true,
+          border: '', foreground: 'theme:Text_White', visible: true, font_size: null,
+          content: "<p style=\"font-weight: bold;\">\n  <span style=\"font-size: 60px;\"\
+            >&</span>\n</p>", font: GSb, spacing_above: small, spacing_below: small,
+          data: null, background: '', format: restricted_html}
         type: RichText
         layout_properties: {grid_position: 'BLNVIC,OICBFG'}
       - name: rich_text_2_copy
-        properties: {role: null, align: center, tooltip: '', enable_slots: true, border: '',
-          foreground: 'theme:Text_White', visible: true, font_size: null, content: "<p\
-            \ style=\"font-weight: bold;\">\n  <span style=\"font-size: 40px;\">>23</span>\n\
-            \  <span style=\"font-size: 24px;\">million</span>\n  <br>\n  <span style=\"\
-            font-size: 30px;\">Tracks</span>\n</p>", font: GSb, spacing_above: small,
+        properties: {role: artist_name_shadow, align: center, tooltip: '', enable_slots: true,
+          border: '', foreground: 'theme:Text_White', visible: true, font_size: null,
+          content: "<p style=\"font-weight: bold;\">\n  <span style=\"font-size: 40px;\"\
+            >>24</span>\n  <span style=\"font-size: 24px;\">million</span>\n  <br>\n\
+            \  <span style=\"font-size: 30px;\">Tracks</span>\n</p>", font: GSb, spacing_above: small,
           spacing_below: small, data: null, background: '', format: restricted_html}
         type: RichText
         layout_properties: {grid_position: 'BLNVIC,SUTHCL'}
@@ -391,10 +392,10 @@ components:
         type: Spacer
         layout_properties: {grid_position: 'BLNVIC,XTOLPA'}
       - type: Label
-        properties: {role: null, align: center, tooltip: '', border: '', foreground: 'theme:Text_White',
-          visible: true, text: in our Database, font_size: 24, font: GS, spacing_above: none,
-          icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-          underline: false, icon: ''}
+        properties: {role: artist_name_shadow, align: center, tooltip: '', border: '',
+          foreground: 'theme:Text_White', visible: true, text: in our Database, font_size: 24,
+          font: GS, spacing_above: none, icon_align: left, spacing_below: small, italic: false,
+          background: '', bold: false, underline: false, icon: ''}
         name: label_5
         layout_properties: {grid_position: 'LEAJQV,RLVTTZ'}
       - type: Spacer

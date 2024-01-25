@@ -45,7 +45,7 @@ roles:
 - name: text_box_small
   components: [TextBox, DropDown, TextArea, DatePicker]
 - name: artist_name_shadow
-  components: [Label, Link]
+  components: [Label, Link, RichText]
 - name: note
   components: [Label]
 - name: bottom_line
