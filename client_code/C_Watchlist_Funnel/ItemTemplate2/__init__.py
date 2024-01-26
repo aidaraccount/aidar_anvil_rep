@@ -18,8 +18,8 @@ class ItemTemplate2(ItemTemplate2Template):
     
     # Any code you write here will run before the form opens.
     # cut the name
-    if len(self.item['Name']) > 14:
-      self.link_name.text = self.item['Name'][0:14] + '..'
+    if len(self.item['Name']) > 13:
+      self.link_name.text = self.item['Name'][0:13] + '..'
     else:
       self.link_name.text = self.item['Name']
     
