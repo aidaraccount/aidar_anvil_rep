@@ -532,16 +532,7 @@ class C_Investigate(C_InvestigateTemplate):
   def button_remove_filters_click(self, **event_args):    
     anvil.server.call('change_filters',
                       cur_model_id,
-                      None, None, None, None, None, None, None, None, None, None,
-                      None, None, None, None, None, None, None, None, None, None,
-                      None, None, None, None, None, None, None, None, None, None,
-                      None, None, None, None, None, None, None, None, None, None,
-                      None, None, None, None, None, None, None, None, None, None,
-                      None, None, None, None, None, None, None, None, None, None,
-                      None, None, None, None, None, None, None, None, None, None,
-                      None, None, None, None, None, None, None, None, None, None,
-                      None, None, None, None, None, None, None, None, None, None,
-                      None, None, None, None, None, None, None
+                      filters_json = None
                      )
     open_form('Main_In', temp_artist_id = None, target = 'C_Investigate', value=None)
 

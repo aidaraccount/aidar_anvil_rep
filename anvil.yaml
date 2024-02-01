@@ -18,7 +18,11 @@ startup: {type: form, module: Main_Out}
 package_name: AIDAR
 allow_embedding: false
 name: AIDAR
-runtime_options: {version: 2, client_version: '3', server_version: python3-full, server_spec: null}
+runtime_options:
+  version: 2
+  client_version: '3'
+  server_version: python3-full
+  server_spec: {base: python310-standard}
 metadata: {title: AIDAR - AI driven A&R, logo_img: 'asset:pics/Favicon_orange.JPG',
   description: 'AIDAR, aidar ai, aidar-ai, AI driven A&R, music, label, data, ml,
     ai, A&R'}
