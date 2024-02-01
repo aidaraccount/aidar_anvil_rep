@@ -25,18 +25,18 @@ class C_Filter(C_FilterTemplate):
     self.load_filters()
 
   def load_filters(self, **event_args):
-    import pandas as pd
+
+    my_dict = {"ArtistPopularity_lat >=": "artist_popularity_lat_min",
+               "ArtistPopularity_lat <=": "artist_popularity_lat_max",
+               "ArtistFollower_lat >=": "artist_follower_lat_min",
+               "ArtistFollower_lat <=": "artist_follower_lat_max"}
     
     fil = json.loads(anvil.server.call('get_filters', cur_model_id))
-    # fil = "[{'ModelID': 2, 'Column': 'ArtistPopularity_lat', 'Operator': '>=', 'Value': '5'}, {'ModelID': 2, 'Column': 'ArtistPopularity_lat', 'Operator': '<=', 'Value': '35'}]"
-    print(fil)
     
-    fil = pd.read_json(fil)
-    print(fil)
-    # 1. General
-    #self.artist_popularity_lat_min.text = fil["artist_popularity_lat_min"]
-
-    pass
+    for filter in fil:
+      element = getattr(self, my_dict[f'{filter["Column"]} {filter["Operator"]}'], None)
+      element.text = filter["Value"]
+    
 
   
   def apply_filters_click(self, **event_args):
