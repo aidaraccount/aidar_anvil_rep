@@ -19,7 +19,9 @@ class GenreTemplate(GenreTemplateTemplate):
 
 
   def button_del_genre_click(self, **event_args):
-    del_entry = {'ModelID':cur_model_id, 'Type':'genre', 'Column':self.label_genre.text, 'Operator':'is', 'Value':self.label_value.text}
+    del_entry = {'Column':self.label_genre.text, 'Value':self.label_value.text}
     genre_data = self.parent.items
     genre_data.remove(del_entry)
     self.parent.items = genre_data
+    print(self.parent.parent)
+    self.parent.parent.label_no_genre_filters.visible = True
