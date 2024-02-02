@@ -75,10 +75,12 @@ class C_Filter(C_FilterTemplate):
     if len(filter_genre) > 0:
       self.repeating_panel_genre.items = filter_genre
       self.label_no_genre_filters.visible = False
-      self.drop_down_add_genre.selected_value = None
 
     # Origin Filters
-    pass
+    filter_origin = [item for item in fil if item['Type'] == 'origin']
+    if len(filter_origin) > 0:
+      self.repeating_panel_origin.items = filter_origin
+      self.label_no_origin_filters.visible = False
 
   
   def apply_filters_click(self, **event_args):
@@ -130,21 +132,16 @@ class C_Filter(C_FilterTemplate):
 
     # 2. Genres
     genre_data = self.repeating_panel_genre.items
-
-    if len(genre_data) > 0:
+    if genre_data is not None:
       for element in genre_data:
         filters_json += f'{{"ModelID":"{cur_model_id}","Type":"genre","Column":"{element["Column"]}","Operator":"is","Value":"{element["Value"]}"}},'
     
-
     # 3. Origins
-    if(self.check_box_euro_t.checked == True): euro = 1
-    elif(self.check_box_euro_f.checked == True): euro = 0
-    else: euro = None
-    if(self.check_box_asian_t.checked == True): asian = 1
-    elif(self.check_box_asian_f.checked == True): asian = 0
-    else: asian = None
-    #.......
-
+    origin_data = self.repeating_panel_origin.items
+    if origin_data is not None:
+      for element in origin_data:
+        filters_json += f'{{"ModelID":"{cur_model_id}","Type":"origin","Column":"{element["Column"]}","Operator":"is","Value":"{element["Value"]}"}},'
+    
     # correct and close the json string
     if filters_json[-1] == ",": filters_json = filters_json[:-1]
     filters_json += "]"
@@ -170,7 +167,7 @@ class C_Filter(C_FilterTemplate):
     self.content_panel.add_component(C_Investigate(temp_artist_id=None))
 
   def button_add_genre_click(self, **event_args):
-    new_entry = {'Column': self.drop_down_add_genre.selected_value, 'Value': self.drop_down_add_value.selected_value}
+    new_entry = {"ModelID":cur_model_id, "Type":"genre", 'Column':self.drop_down_add_genre.selected_value, "Operator":"is", 'Value':self.drop_down_add_value.selected_value}
     genre_data = self.repeating_panel_genre.items
     if genre_data is None:
       genre_data = [new_entry]
@@ -178,4 +175,13 @@ class C_Filter(C_FilterTemplate):
       genre_data.append(new_entry)    
     self.repeating_panel_genre.items = genre_data
     self.label_no_genre_filters.visible = False
-    self.drop_down_add_genre.selected_value = None
+
+  def button_add_origin_click(self, **event_args):
+    new_entry = {"ModelID":cur_model_id, "Type":"origin", 'Column':self.drop_down_add_origin.selected_value, "Operator":"is", 'Value':self.drop_down_add_value2.selected_value}
+    origin_data = self.repeating_panel_origin.items
+    if origin_data is None:
+      origin_data = [new_entry]
+    else:
+      origin_data.append(new_entry)    
+    self.repeating_panel_origin.items = origin_data
+    self.label_no_origin_filters.visible = False

@@ -7,7 +7,7 @@ components:
   properties: {height: 32}
   type: Spacer
   layout_properties: {grid_position: 'HAQZAT,OMYRVW'}
-- name: label_genre
+- name: label_column
   properties: {role: feature}
   type: Label
   layout_properties: {grid_position: 'HAQZAT,IJOSBJ'}
@@ -23,8 +23,8 @@ components:
   layout_properties: {grid_position: 'HAQZAT,GSKCTF'}
   data_bindings:
   - {property: text, code: 'self.item[''Value'']', writeback: false}
-- name: button_del_genre
+- name: button_del
   properties: {text: '', icon: 'fa:trash-o', role: feature, align: left}
   type: Button
   layout_properties: {grid_position: 'HAQZAT,VDNJLM'}
-  event_bindings: {click: button_del_genre_click}
+  event_bindings: {click: button_del_click}
