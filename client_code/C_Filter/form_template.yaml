@@ -618,6 +618,42 @@ components:
       row: OSZLNL
       width_xs: 12
       col_xs: 0
+  - name: repeating_panel_genre
+    properties: {item_template: C_Filter.GenreTemplate}
+    type: RepeatingPanel
+    layout_properties: {grid_position: 'HJFLQE,TQIJUV'}
+    data_bindings: []
+  - name: column_panel_1
+    properties: {col_widths: '{"VMICQX":15,"JSTKDX":5,"RCVIYM":10,"RNMGTJ":30}'}
+    type: ColumnPanel
+    layout_properties: {grid_position: 'NXXGZZ,BTEFEG'}
+    components:
+    - name: drop_down_add_genre
+      properties:
+        items: [Pop, Rock, Indie]
+        placeholder: Add genre
+        role: text_box_small
+      type: DropDown
+      layout_properties: {grid_position: 'EQSMLB,VMICQX'}
+    - name: label_8
+      properties: {text: is, align: center}
+      type: Label
+      layout_properties: {grid_position: 'EQSMLB,JSTKDX'}
+    - name: drop_down_add_value
+      properties:
+        items: ['True', 'False']
+        role: text_box_small
+      type: DropDown
+      layout_properties: {grid_position: 'EQSMLB,RCVIYM'}
+    - name: button_add_genre
+      properties: {text: add, role: feature, align: left}
+      type: Button
+      layout_properties: {grid_position: 'EQSMLB,RNMGTJ'}
+      event_bindings: {click: button_add_genre_click}
+  - name: spacer_1
+    properties: {height: 82}
+    type: Spacer
+    layout_properties: {grid_position: 'HRTKCI,CAXYNL'}
   - name: grid_panel_1_copy_13_copy
     properties: {spacing_above: small, spacing_below: small, background: '', foreground: '',
       border: '', visible: true, role: grid_panel, tooltip: ''}

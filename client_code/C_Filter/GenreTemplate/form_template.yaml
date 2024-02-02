@@ -1,0 +1,24 @@
+is_package: true
+container: {type: ColumnPanel}
+components:
+- name: label_genre
+  properties: {role: feature}
+  type: Label
+  layout_properties: {grid_position: 'HAQZAT,VTRDQP'}
+  data_bindings:
+  - {property: text, code: 'self.item[''Genre'']', writeback: false}
+- name: label_1
+  properties: {text: is, align: center, role: feature}
+  type: Label
+  layout_properties: {grid_position: 'HAQZAT,XSSVUP'}
+- name: label_value
+  properties: {role: feature}
+  type: Label
+  layout_properties: {grid_position: 'HAQZAT,GSKCTF'}
+  data_bindings:
+  - {property: text, code: 'self.item[''Value'']', writeback: false}
+- name: button_del_genre
+  properties: {text: '', icon: 'fa:trash-o', role: feature}
+  type: Button
+  layout_properties: {grid_position: 'HAQZAT,VDNJLM'}
+  event_bindings: {click: button_del_genre_click}

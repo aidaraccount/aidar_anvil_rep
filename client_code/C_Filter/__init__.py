@@ -21,23 +21,56 @@ class C_Filter(C_FilterTemplate):
     global cur_model_id
     user = anvil.users.get_user()
     cur_model_id = anvil.server.call('get_model_id',  user["user_id"])
-    
+
     self.load_filters()
 
+  
   def load_filters(self, **event_args):
 
     my_dict = {"ArtistPopularity_lat >=": "artist_popularity_lat_min",
                "ArtistPopularity_lat <=": "artist_popularity_lat_max",
                "ArtistFollower_lat >=": "artist_follower_lat_min",
-               "ArtistFollower_lat <=": "artist_follower_lat_max"}
+               "ArtistFollower_lat <=": "artist_follower_lat_max",
+               "AvgDuration >=": "avg_duration_min",
+               "AvgDuration <=": "avg_duration_max",
+               "AvgDanceability >=": "avg_danceability_min",
+               "AvgDanceability <=": "avg_danceability_max",
+               "AvgEnergy >=": "avg_energy_min",
+               "AvgEnergy <=": "avg_energy_max",
+               "AvgKey >=": "avg_key_min",
+               "AvgKey <=": "avg_key_max",
+               "AvgLoudness >=": "avg_loudness_min",
+               "AvgLoudness <=": "avg_loudness_max",
+               "AvgMode >=": "avg_mode_min",
+               "AvgMode <=": "avg_mode_max",
+               "AvgSpeechiness >=": "avg_speechiness_min",
+               "AvgSpeechiness <=": "avg_speechiness_max",
+               "AvgAcousticness >=": "avg_acousticness_min",
+               "AvgAcousticness <=": "avg_acousticness_max",
+               "AvgInstrumentalness >=": "avg_instrumentalness_min",
+               "AvgInstrumentalness <=": "avg_instrumentalness_max",
+               "AvgLiveness >=": "avg_liveness_min",
+               "AvgLiveness <=": "avg_liveness_max",
+               "AvgValence >=": "avg_valence_min",
+               "AvgValence <=": "avg_valence_max",
+               "AvgTempo >=": "avg_tempo_min",
+               "AvgTempo <=": "avg_tempo_max"}
     
     fil = json.loads(anvil.server.call('get_filters', cur_model_id))
     
     for filter in fil:
-      element = getattr(self, my_dict[f'{filter["Column"]} {filter["Operator"]}'], None)
-      element.text = filter["Value"]
-    
+      if filter["Operator"] in (">=", "<="):
+        element = getattr(self, my_dict[f'{filter["Column"]} {filter["Operator"]}'], None)
+        element.text = filter["Value"]
 
+    # Genre Filters
+    #genre_data = [
+    #              {'Genre':'Indie', 'Value':'False'},
+    #              {'Genre':'Pop', 'Value':'True'}
+    #             ]
+    print([item for item in fil if item['Operator'] == 'is'])
+    self.repeating_panel_genre.items = [item for item in fil if item['Operator'] == 'is']
+  
   
   def apply_filters_click(self, **event_args):
     
@@ -50,127 +83,53 @@ class C_Filter(C_FilterTemplate):
     if self.artist_follower_lat_max.text is not None: filters_json += f'{{"ModelID":"{cur_model_id}","Column":"ArtistFollower_lat","Operator":"<=","Value":"{self.artist_follower_lat_max.text}"}},'
     
     # 2. Musical Features
-    avg_duration_min = self.avg_duration_min.text
-    avg_duration_max = self.avg_duration_max.text
+    if self.avg_duration_min.text is not None: filters_json += f'{{"ModelID":"{cur_model_id}","Column":"AvgDuration","Operator":">=","Value":"{self.avg_duration_min.text}"}},'
+    if self.avg_duration_max.text is not None: filters_json += f'{{"ModelID":"{cur_model_id}","Column":"AvgDuration","Operator":"<=","Value":"{self.avg_duration_max.text}"}},'
     
-    if self.avg_danceability_min.text == None: avg_danceability_min = self.avg_danceability_min.text
-    else: avg_danceability_min = int(self.avg_danceability_min.text)/100
-    if self.avg_danceability_max.text == None: avg_danceability_max = self.avg_danceability_max.text
-    else: avg_danceability_max = int(self.avg_danceability_max.text)/100
+    if self.avg_danceability_min.text is not None: filters_json += f'{{"ModelID":"{cur_model_id}","Column":"AvgDanceability","Operator":">=","Value":"{int(self.avg_danceability_min.text)/100}"}},'
+    if self.avg_danceability_max.text is not None: filters_json += f'{{"ModelID":"{cur_model_id}","Column":"AvgDanceability","Operator":">=","Value":"{int(self.avg_danceability_max.text)/100}"}},'
     
-    if self.avg_energy_min.text == None: avg_energy_min = self.avg_energy_min.text
-    else: avg_energy_min = int(self.avg_energy_min.text)/100
-    if self.avg_energy_max.text == None: avg_energy_max = self.avg_energy_max.text
-    else: avg_energy_max = int(self.avg_energy_max.text)/100
+    if self.avg_energy_min.text is not None: filters_json += f'{{"ModelID":"{cur_model_id}","Column":"AvgEnergy","Operator":">=","Value":"{int(self.avg_energy_min.text)/100}"}},'
+    if self.avg_energy_max.text is not None: filters_json += f'{{"ModelID":"{cur_model_id}","Column":"AvgEnergy","Operator":">=","Value":"{int(self.avg_energy_max.text)/100}"}},'
 
     tonleiter = ["C", "C#/Db", "D", "D#/Eb", "E", "F", "F#/Gb", "G", "G#/Ab", "A", "A#/Bb", "B"]
-    if self.avg_key_min.selected_value == '': avg_key_min = None
-    else: avg_key_min = tonleiter.index(self.avg_key_min.selected_value)
-    if self.avg_key_max.selected_value == '': avg_key_max = None
-    else: avg_key_max = tonleiter.index(self.avg_key_max.selected_value)
+    if self.avg_key_min.selected_value != '': filters_json += f'{{"ModelID":"{cur_model_id}","Column":"AvgKey","Operator":">=","Value":"{tonleiter.index(self.avg_key_min.selected_value)}"}},'
+    if self.avg_key_max.selected_value != '': filters_json += f'{{"ModelID":"{cur_model_id}","Column":"AvgKey","Operator":">=","Value":"{tonleiter.index(self.avg_key_max.selected_value)}"}},'
     
-    avg_loudness_min = self.avg_loudness_min.text
-    avg_loudness_max = self.avg_loudness_max.text
+    if self.avg_loudness_min.text is not None: filters_json += f'{{"ModelID":"{cur_model_id}","Column":"AvgLoudness","Operator":">=","Value":"{self.avg_loudness_min.text}"}},'
+    if self.avg_loudness_max.text is not None: filters_json += f'{{"ModelID":"{cur_model_id}","Column":"AvgLoudness","Operator":"<=","Value":"{self.avg_loudness_max.text}"}},'
     
-    if self.avg_mode_min.text == None: avg_mode_min = self.avg_energy_min.text
-    else: avg_mode_min = int(self.avg_mode_min.text)/100
-    if self.avg_mode_max.text == None: avg_mode_max = self.avg_mode_max.text
-    else: avg_mode_max = int(self.avg_mode_max.text)/100
+    if self.avg_mode_min.text is not None: filters_json += f'{{"ModelID":"{cur_model_id}","Column":"AvgMode","Operator":">=","Value":"{int(self.avg_mode_min.text)/100}"}},'
+    if self.avg_mode_max.text is not None: filters_json += f'{{"ModelID":"{cur_model_id}","Column":"AvgMode","Operator":">=","Value":"{int(self.avg_mode_max.text)/100}"}},'
     
-    if self.avg_speechiness_min.text == None: avg_speechiness_min = self.avg_speechiness_min.text
-    else: avg_speechiness_min = int(self.avg_speechiness_min.text)/100
-    if self.avg_speechiness_max.text == None: avg_speechiness_max = self.avg_speechiness_max.text
-    else: avg_speechiness_max = int(self.avg_speechiness_max.text)/100
+    if self.avg_speechiness_min.text is not None: filters_json += f'{{"ModelID":"{cur_model_id}","Column":"AvgSpeechiness","Operator":">=","Value":"{int(self.avg_speechiness_min.text)/100}"}},'
+    if self.avg_speechiness_max.text is not None: filters_json += f'{{"ModelID":"{cur_model_id}","Column":"AvgSpeechiness","Operator":">=","Value":"{int(self.avg_speechiness_max.text)/100}"}},'
     
-    if self.avg_acousticness_min.text == None: avg_acousticness_min = self.avg_acousticness_min.text
-    else: avg_acousticness_min = int(self.avg_acousticness_min.text)/100
-    if self.avg_acousticness_max.text == None: avg_acousticness_max = self.avg_acousticness_max.text
-    else: avg_acousticness_max = int(self.avg_acousticness_max.text)/100
+    if self.avg_acousticness_min.text is not None: filters_json += f'{{"ModelID":"{cur_model_id}","Column":"AvgAcousticness","Operator":">=","Value":"{int(self.avg_acousticness_min.text)/100}"}},'
+    if self.avg_acousticness_max.text is not None: filters_json += f'{{"ModelID":"{cur_model_id}","Column":"AvgAcousticness","Operator":">=","Value":"{int(self.avg_acousticness_max.text)/100}"}},'
     
-    if self.avg_instrumentalness_min.text == None: avg_instrumentalness_min = self.avg_instrumentalness_min.text
-    else: avg_instrumentalness_min = int(self.avg_instrumentalness_min.text)/100
-    if self.avg_instrumentalness_max.text == None: avg_instrumentalness_max = self.avg_instrumentalness_max.text
-    else: avg_instrumentalness_max = int(self.avg_instrumentalness_max.text)/100
+    if self.avg_instrumentalness_min.text is not None: filters_json += f'{{"ModelID":"{cur_model_id}","Column":"AvgInstrumentalness","Operator":">=","Value":"{int(self.avg_instrumentalness_min.text)/100}"}},'
+    if self.avg_instrumentalness_max.text is not None: filters_json += f'{{"ModelID":"{cur_model_id}","Column":"AvgInstrumentalness","Operator":">=","Value":"{int(self.avg_instrumentalness_max.text)/100}"}},'
     
-    if self.avg_liveness_min.text == None: avg_liveness_min = self.avg_liveness_min.text
-    else: avg_liveness_min = int(self.avg_liveness_min.text)/100
-    if self.avg_liveness_max.text == None: avg_liveness_max = self.avg_liveness_max.text
-    else: avg_liveness_max = int(self.avg_liveness_max.text)/100
+    if self.avg_liveness_min.text is not None: filters_json += f'{{"ModelID":"{cur_model_id}","Column":"AvgLiveness","Operator":">=","Value":"{int(self.avg_liveness_min.text)/100}"}},'
+    if self.avg_liveness_max.text is not None: filters_json += f'{{"ModelID":"{cur_model_id}","Column":"AvgLiveness","Operator":">=","Value":"{int(self.avg_liveness_max.text)/100}"}},'
 
-    if self.avg_valence_min.text == None: avg_valence_min = self.avg_valence_min.text
-    else: avg_valence_min = int(self.avg_valence_min.text)/100
-    if self.avg_valence_max.text == None: avg_valence_max = self.avg_valence_max.text
-    else: avg_valence_max = int(self.avg_valence_max.text)/100
+    if self.avg_valence_min.text is not None: filters_json += f'{{"ModelID":"{cur_model_id}","Column":"AvgValence","Operator":">=","Value":"{int(self.avg_valence_min.text)/100}"}},'
+    if self.avg_valence_max.text is not None: filters_json += f'{{"ModelID":"{cur_model_id}","Column":"AvgValence","Operator":">=","Value":"{int(self.avg_valence_max.text)/100}"}},'
     
-    avg_tempo_min = self.avg_tempo_min.text
-    avg_tempo_max = self.avg_tempo_max.text
+    if self.avg_tempo_min.text is not None: filters_json += f'{{"ModelID":"{cur_model_id}","Column":"AvgTempo","Operator":">=","Value":"{self.avg_tempo_min.text}"}},'
+    if self.avg_tempo_max.text is not None: filters_json += f'{{"ModelID":"{cur_model_id}","Column":"AvgTempo","Operator":"<=","Value":"{self.avg_tempo_max.text}"}},'
 
-    if(self.check_box_pop_t.checked == True): pop = 1
-    elif(self.check_box_pop_f.checked == True): pop = 0
-    else: pop = None
-    if(self.check_box_rock_t.checked == True): rock = 1
-    elif(self.check_box_rock_f.checked == True): rock = 0
-    else: rock = None
-    if(self.check_box_indie_t.checked == True): indie = 1
-    elif(self.check_box_indie_f.checked == True): indie = 0
-    else: indie = None
-    if(self.check_box_country_t.checked == True): country = 1
-    elif(self.check_box_country_f.checked == True): country = 0
-    else: country = None
-    if(self.check_box_classic_t.checked == True): classic = 1
-    elif(self.check_box_classic_f.checked == True): classic = 0
-    else: classic = None
-    if(self.check_box_latin_t.checked == True): latin = 1
-    elif(self.check_box_latin_f.checked == True): latin = 0
-    else: latin = None
-    if(self.check_box_soul_t.checked == True): soul = 1
-    elif(self.check_box_soul_f.checked == True): soul = 0
-    else: soul = None
-    if(self.check_box_house_t.checked == True): house = 1
-    elif(self.check_box_house_f.checked == True): house = 0
-    else: house = None
-    if(self.check_box_funk_t.checked == True): funk = 1
-    elif(self.check_box_funk_f.checked == True): funk = 0
-    else: funk = None
-    if(self.check_box_disco_t.checked == True): disco = 1
-    elif(self.check_box_disco_f.checked == True): disco = 0
-    else: disco = None
-    if(self.check_box_schlager_t.checked == True): schlager = 1
-    elif(self.check_box_schlager_f.checked == True): schlager = 0
-    else: schlager = None
-    if(self.check_box_edm_t.checked == True): edm = 1
-    elif(self.check_box_edm_f.checked == True): edm = 0
-    else: edm = None
-    if(self.check_box_electro_t.checked == True): electro = 1
-    elif(self.check_box_electro_f.checked == True): electro = 0
-    else: electro = None
-    if(self.check_box_dance_t.checked == True): dance = 1
-    elif(self.check_box_dance_f.checked == True): dance = 0
-    else: dance = None
-    if(self.check_box_hip_hop_t.checked == True): hip_hop = 1
-    elif(self.check_box_hip_hop_f.checked == True): hip_hop = 0
-    else: hip_hop = None
-    if(self.check_box_rap_t.checked == True): rap = 1
-    elif(self.check_box_rap_f.checked == True): rap = 0
-    else: rap = None
-    if(self.check_box_reggae_t.checked == True): reggae = 1
-    elif(self.check_box_reggae_f.checked == True): reggae = 0
-    else: reggae = None
-    if(self.check_box_jazz_t.checked == True): jazz = 1
-    elif(self.check_box_jazz_f.checked == True): jazz = 0
-    else: jazz = None
-    if(self.check_box_blues_t.checked == True): blues = 1
-    elif(self.check_box_blues_f.checked == True): blues = 0
-    else: blues = None
-    if(self.check_box_folk_t.checked == True): folk = 1
-    elif(self.check_box_folk_f.checked == True): folk = 0
-    else: folk = None
-    if(self.check_box_punk_t.checked == True): punk = 1
-    elif(self.check_box_punk_f.checked == True): punk = 0
-    else: punk = None
-    if(self.check_box_metal_t.checked == True): metal = 1
-    elif(self.check_box_metal_f.checked == True): metal = 0
-    else: metal = None
+    # 3. Genres
+    genre_data = self.repeating_panel_genre.items
+
+    if len(genre_data) > 0:
+      for element in genre_data:
+        print(element)
+        filters_json += f'{{"ModelID":"{cur_model_id}","Column":"{element["Genre"]}","Operator":"is","Value":"{element["Value"]}"}},'
+    
+
+    # 4. Origins
     if(self.check_box_euro_t.checked == True): euro = 1
     elif(self.check_box_euro_f.checked == True): euro = 0
     else: euro = None
@@ -336,3 +295,8 @@ class C_Filter(C_FilterTemplate):
                      )
     self.content_panel.clear()
     self.content_panel.add_component(C_Investigate(temp_artist_id=None))
+
+  def button_add_genre_click(self, **event_args):
+    new_entry = {'Genre': self.drop_down_add_genre.selected_value, 'Value': self.drop_down_add_value.selected_value}
+    genre_data.append(new_entry)    
+    self.repeating_panel_genre.items = genre_data
