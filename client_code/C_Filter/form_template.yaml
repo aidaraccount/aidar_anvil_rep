@@ -630,11 +630,14 @@ components:
     components:
     - name: drop_down_add_genre
       properties:
-        items: [Pop, Rock, Indie]
+        items: [Blues, CCM, Christian, Classic, Country, Dance, Disco, EDM, Electro,
+          Folk, Funk, HipHop, House, Indie, Jazz, Latin, Metal, Pop, Punk, Rap, Reggae,
+          Rock, Schlager, Shamanic, Show, Soul, Soundtrack, Tunes]
         placeholder: Add genre
         role: text_box_small
       type: DropDown
       layout_properties: {grid_position: 'EQSMLB,VMICQX'}
+      data_bindings: []
     - name: label_8
       properties: {text: is, align: center}
       type: Label

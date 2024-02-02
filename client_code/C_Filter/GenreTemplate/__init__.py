@@ -12,9 +12,14 @@ class GenreTemplate(GenreTemplateTemplate):
     self.init_components(**properties)
 
     # Any code you write here will run before the form opens.
+    global user
+    global cur_model_id
+    user = anvil.users.get_user()
+    cur_model_id = anvil.server.call('get_model_id',  user["user_id"])
+
 
   def button_del_genre_click(self, **event_args):
-    del_entry = {'Genre': self.label_genre.text, 'Value': self.label_value.text}
+    del_entry = {'ModelID':cur_model_id, 'Type':'genre', 'Column':self.label_genre.text, 'Operator':'is', 'Value':self.label_value.text}
     genre_data = self.parent.items
     genre_data.remove(del_entry)
     self.parent.items = genre_data
