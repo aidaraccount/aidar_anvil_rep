@@ -42,7 +42,7 @@ class C_Investigate(C_InvestigateTemplate):
     self.refresh_sug(temp_artist_id)    
 
     # TIME CHECK
-    print(f'{datetime.now()}: {datetime.now()-t}')
+    #print(f'{datetime.now()}: {datetime.now()-t}')
     t = datetime.now()
 
   
@@ -55,7 +55,7 @@ class C_Investigate(C_InvestigateTemplate):
     sug = json.loads(anvil.server.call('get_suggestion', 'Inspect', cur_model_id, temp_artist_id)) # Free, Explore, Inspect, Dissect
     
     # TIME CHECK
-    print(f'{datetime.now()}: {datetime.now()-t}')
+    #print(f'{datetime.now()}: {datetime.now()-t}')
     t = datetime.now()
     
     if sug["Status"] == 'Empty Model!':
@@ -532,16 +532,7 @@ class C_Investigate(C_InvestigateTemplate):
   def button_remove_filters_click(self, **event_args):    
     anvil.server.call('change_filters',
                       cur_model_id,
-                      None, None, None, None, None, None, None, None, None, None,
-                      None, None, None, None, None, None, None, None, None, None,
-                      None, None, None, None, None, None, None, None, None, None,
-                      None, None, None, None, None, None, None, None, None, None,
-                      None, None, None, None, None, None, None, None, None, None,
-                      None, None, None, None, None, None, None, None, None, None,
-                      None, None, None, None, None, None, None, None, None, None,
-                      None, None, None, None, None, None, None, None, None, None,
-                      None, None, None, None, None, None, None, None, None, None,
-                      None, None, None, None, None, None, None
+                      filters_json = None
                      )
     open_form('Main_In', temp_artist_id = None, target = 'C_Investigate', value=None)
 
