@@ -1,0 +1,21 @@
+container:
+  type: HtmlTemplate
+  properties: {html: "<head>\n  \n  <script type=\"application/ld+json\">\n    {\n\
+      \      \"@context\": \"https://schema.org\",\n      \"@type\": \"Organization\"\
+      ,\n      \"name\": \"AIDAR\",\n      \"description\": \"AIDAR offers an AI supported,\
+      \ data-driven way of artist scouting for labels and A&Rs.\",\n      \"url\"\
+      : \"https://aidar.ai/\",\n      \"sameAs\": [\n        \"https://www.linkedin.com/company/aidar-insights/\"\
+      ,\n        \"https://www.instagram.com/aidar_insights/\"\n      ],\n      \"\
+      contactPoint\": {\n        \"@type\": \"ContactPoint\",\n        \"telephone\"\
+      : \"+49 151 23382945\",\n        \"contactType\": \"customer service\"\n   \
+      \   },\n      \"potentialAction\": {\n        \"@type\": \"ContactAction\",\n\
+      \        \"target\": {\n          \"@type\": \"EntryPoint\",\n          \"urlTemplate\"\
+      : \"https://aidar.ai/\",\n          \"inLanguage\": \"en-US\",\n          \"\
+      actionPlatform\": [\n            \"http://schema.org/DesktopWebPlatform\",\n\
+      \            \"http://schema.org/IOSPlatform\",\n            \"http://schema.org/AndroidPlatform\"\
+      \n          ]\n        },\n        \"result\": {\n          \"@type\": \"ContactPoint\"\
+      ,\n          \"contactType\": \"customer service\"\n        }\n      }\n   \
+      \ }\n  </script>\n\n</head>"}
+components: []
+is_package: true
+custom_component: true
