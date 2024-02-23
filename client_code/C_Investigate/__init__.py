@@ -158,8 +158,6 @@ class C_Investigate(C_InvestigateTemplate):
       self.c_web_player.html = '<iframe style="border-radius:12px" src="https://open.spotify.com/embed/artist/' + spotify_artist_id + '?utm_source=generator&theme=0" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>'
   
       # Musical Features
-      # self.plot_1.figure = go.Figure(data=[go.Bar(y=float(sug["AvgDuration"]))])
-      #print(f'FEATURES - Start {datetime.datetime.now()}', flush=True)
       if sug["AvgDuration"] == 'None': f1 = '-'
       else: f1 = "{:.0f}".format(round(float(sug["AvgDuration"]),0))
       self.feature_1.text = f1 + ' sec'
@@ -198,7 +196,39 @@ class C_Investigate(C_InvestigateTemplate):
       self.feature_11.text = f11 + '%'
       if sug["AvgTempo"] == 'None': f12 = '-'
       else: f12 = "{:.0f}".format(round(float(sug["AvgTempo"]),0))
-      self.feature_12.text = f12 + ' bpm' 
+      self.feature_12.text = f12 + ' bpm'
+
+      # refresh visible plots/tables
+      # a) Popularity
+      dev_successes = json.loads(anvil.server.call('get_dev_successes', int(cur_artist_id)))
+      if self.plot_popularity.visible == True:
+        self.plot_popularity.data = [
+          go.Scatter(
+            x = [x['Date'] for x in dev_successes],
+            y = [x['ArtistPopularity'] for x in dev_successes],
+            marker = dict(color = 'rgb(253, 101, 45)')
+          )
+        ]
+      # b) Followers
+      dev_successes = json.loads(anvil.server.call('get_dev_successes', int(cur_artist_id)))
+      if self.plot_followers.visible == True:
+        self.plot_followers.data = [
+          go.Scatter(
+            x = [x['Date'] for x in dev_successes],
+            y = [x['ArtistFollower'] for x in dev_successes],
+            marker = dict(color = 'rgb(253, 101, 45)')
+          )
+        ]
+      # c) related artists table
+      if self.data_grid_related_artists.visible == True:
+        self.data_grid_related_artists_data.items = json.loads(anvil.server.call('get_dev_related_artists', int(cur_artist_id), int(cur_model_id)))
+      # d) explicit table
+      if self.data_grid_explicit.visible == True:
+        self.data_grid_explicit_data.items = json.loads(anvil.server.call('get_dev_explicit', int(cur_artist_id)))    
+      # e) release tables
+      if self.data_grid_releases.visible == True:
+        self.data_grid_releases_data.items = json.loads(anvil.server.call('get_dev_releases', int(cur_artist_id)))
+      
       #print(f'FEATURES - End {datetime.datetime.now()}', flush=True)
 
 
