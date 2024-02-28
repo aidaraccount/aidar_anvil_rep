@@ -62,7 +62,7 @@ class C_Filter(C_FilterTemplate):
     for filter in fil:
       if filter["Type"] == 'general':
         element = getattr(self, my_dict[f'{filter["Column"]} {filter["Operator"]}'], None)
-        if filter["Column"] in ("artist_popularity_lat", "Artist_follower_lat", "duration", "avg_loudness", "avg_tempo"):
+        if filter["Column"] in ("artist_popularity_lat", "artist_follower_lat", "avg_duration", "avg_loudness", "avg_tempo"):
           element.text = "{:.0f}".format(round(float(filter["Value"]), 0))
         elif filter["Column"] in ("avg_danceability", "avg_energy", "avg_mode", "avg_speechiness", "avg_acousticness", "avg_instrumentalness", "avg_liveness", "avg_valence"):
           element.text = "{:.0f}".format(round(float(filter["Value"])*100, 0))
@@ -134,13 +134,13 @@ class C_Filter(C_FilterTemplate):
     genre_data = self.repeating_panel_genre.items
     if genre_data is not None:
       for element in genre_data:
-        filters_json += f'{{"ModelID":"{cur_model_id}","Type":"genre","Column":"{element["Column"]}","Operator":"is","Value":"{element["Value"]}"}},'
+        filters_json += f'{{"ModelID":"{cur_model_id}","Type":"genre","Column":"{element["Column"].lower()}","Operator":"is","Value":"{element["Value"]}"}},'
     
     # 3. Origins
     origin_data = self.repeating_panel_origin.items
     if origin_data is not None:
       for element in origin_data:
-        filters_json += f'{{"ModelID":"{cur_model_id}","Type":"origin","Column":"{element["Column"]}","Operator":"is","Value":"{element["Value"]}"}},'
+        filters_json += f'{{"ModelID":"{cur_model_id}","Type":"origin","Column":"{element["Column"].lower()}","Operator":"is","Value":"{element["Value"]}"}},'
     
     # correct and close the json string
     if filters_json[-1] == ",": filters_json = filters_json[:-1]
