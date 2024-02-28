@@ -28,45 +28,45 @@ class C_Filter(C_FilterTemplate):
   def load_filters(self, **event_args):
 
     # General Filters
-    my_dict = {"ArtistPopularity_lat >=": "artist_popularity_lat_min",
-               "ArtistPopularity_lat <=": "artist_popularity_lat_max",
-               "ArtistFollower_lat >=": "artist_follower_lat_min",
-               "ArtistFollower_lat <=": "artist_follower_lat_max",
-               "AvgDuration >=": "avg_duration_min",
-               "AvgDuration <=": "avg_duration_max",
-               "AvgDanceability >=": "avg_danceability_min",
-               "AvgDanceability <=": "avg_danceability_max",
-               "AvgEnergy >=": "avg_energy_min",
-               "AvgEnergy <=": "avg_energy_max",
-               "AvgKey >=": "avg_key_min",
-               "AvgKey <=": "avg_key_max",
-               "AvgLoudness >=": "avg_loudness_min",
-               "AvgLoudness <=": "avg_loudness_max",
-               "AvgMode >=": "avg_mode_min",
-               "AvgMode <=": "avg_mode_max",
-               "AvgSpeechiness >=": "avg_speechiness_min",
-               "AvgSpeechiness <=": "avg_speechiness_max",
-               "AvgAcousticness >=": "avg_acousticness_min",
-               "AvgAcousticness <=": "avg_acousticness_max",
-               "AvgInstrumentalness >=": "avg_instrumentalness_min",
-               "AvgInstrumentalness <=": "avg_instrumentalness_max",
-               "AvgLiveness >=": "avg_liveness_min",
-               "AvgLiveness <=": "avg_liveness_max",
-               "AvgValence >=": "avg_valence_min",
-               "AvgValence <=": "avg_valence_max",
-               "AvgTempo >=": "avg_tempo_min",
-               "AvgTempo <=": "avg_tempo_max"}
+    my_dict = {"artist_popularity_lat >=": "artist_popularity_lat_min",
+               "artist_popularity_lat <=": "artist_popularity_lat_max",
+               "artist_follower_lat >=": "artist_follower_lat_min",
+               "artist_follower_lat <=": "artist_follower_lat_max",
+               "avg_duration >=": "avg_duration_min",
+               "avg_duration <=": "avg_duration_max",
+               "avg_danceability >=": "avg_danceability_min",
+               "avg_danceability <=": "avg_danceability_max",
+               "avg_energy >=": "avg_energy_min",
+               "avg_energy <=": "avg_energy_max",
+               "avg_key >=": "avg_key_min",
+               "avg_key <=": "avg_key_max",
+               "avg_loudness >=": "avg_loudness_min",
+               "avg_loudness <=": "avg_loudness_max",
+               "avg_mode >=": "avg_mode_min",
+               "avg_mode <=": "avg_mode_max",
+               "avg_speechiness >=": "avg_speechiness_min",
+               "avg_speechiness <=": "avg_speechiness_max",
+               "avg_acousticness >=": "avg_acousticness_min",
+               "avg_acousticness <=": "avg_acousticness_max",
+               "avg_instrumentalness >=": "avg_instrumentalness_min",
+               "avg_instrumentalness <=": "avg_instrumentalness_max",
+               "avg_liveness >=": "avg_liveness_min",
+               "avg_liveness <=": "avg_liveness_max",
+               "avg_valence >=": "avg_valence_min",
+               "avg_valence <=": "avg_valence_max",
+               "avg_tempo >=": "avg_tempo_min",
+               "avg_tempo <=": "avg_tempo_max"}
     
     fil = json.loads(anvil.server.call('get_filters', cur_model_id))
     
     for filter in fil:
       if filter["Type"] == 'general':
         element = getattr(self, my_dict[f'{filter["Column"]} {filter["Operator"]}'], None)
-        if filter["Column"] in ("ArtistPopularity_lat", "ArtistFollower_lat", "Duration", "AvgLoudness", "AvgTempo"):
+        if filter["Column"] in ("artist_popularity_lat", "Artist_follower_lat", "duration", "avg_loudness", "avg_tempo"):
           element.text = "{:.0f}".format(round(float(filter["Value"]), 0))
-        elif filter["Column"] in ("AvgDanceability", "AvgEnergy", "AvgMode", "AvgSpeechiness", "AvgAcousticness", "AvgInstrumentalness", "AvgLiveness", "AvgValence"):
+        elif filter["Column"] in ("avg_danceability", "avg_energy", "avg_mode", "avg_speechiness", "avg_acousticness", "avg_instrumentalness", "avg_liveness", "avg_valence"):
           element.text = "{:.0f}".format(round(float(filter["Value"])*100, 0))
-        elif filter["Column"] in ("AvgKey"):
+        elif filter["Column"] in ("avg_key"):
           tonleiter = ["C", "C#/Db", "D", "D#/Eb", "E", "F", "F#/Gb", "G", "G#/Ab", "A", "A#/Bb", "B"]
           element.selected_value = tonleiter[int("{:.0f}".format(round(float(filter["Value"]), 0)))]
 
@@ -88,47 +88,47 @@ class C_Filter(C_FilterTemplate):
     filters_json = '['
     
     # 1. General
-    if self.artist_popularity_lat_min.text is not None: filters_json += f'{{"ModelID":"{cur_model_id}","Type":"general","Column":"ArtistPopularity_lat","Operator":">=","Value":"{self.artist_popularity_lat_min.text}"}},'
-    if self.artist_popularity_lat_max.text is not None: filters_json += f'{{"ModelID":"{cur_model_id}","Type":"general","Column":"ArtistPopularity_lat","Operator":"<=","Value":"{self.artist_popularity_lat_max.text}"}},'
-    if self.artist_follower_lat_min.text is not None: filters_json += f'{{"ModelID":"{cur_model_id}","Type":"general","Column":"ArtistFollower_lat","Operator":">=","Value":"{self.artist_follower_lat_min.text}"}},'
-    if self.artist_follower_lat_max.text is not None: filters_json += f'{{"ModelID":"{cur_model_id}","Type":"general","Column":"ArtistFollower_lat","Operator":"<=","Value":"{self.artist_follower_lat_max.text}"}},'
+    if self.artist_popularity_lat_min.text is not None: filters_json += f'{{"ModelID":"{cur_model_id}","Type":"general","Column":"artist_popularity_lat","Operator":">=","Value":"{self.artist_popularity_lat_min.text}"}},'
+    if self.artist_popularity_lat_max.text is not None: filters_json += f'{{"ModelID":"{cur_model_id}","Type":"general","Column":"artist_popularity_lat","Operator":"<=","Value":"{self.artist_popularity_lat_max.text}"}},'
+    if self.artist_follower_lat_min.text is not None: filters_json += f'{{"ModelID":"{cur_model_id}","Type":"general","Column":"artist_follower_lat","Operator":">=","Value":"{self.artist_follower_lat_min.text}"}},'
+    if self.artist_follower_lat_max.text is not None: filters_json += f'{{"ModelID":"{cur_model_id}","Type":"general","Column":"artist_follower_lat","Operator":"<=","Value":"{self.artist_follower_lat_max.text}"}},'
     
-    if self.avg_duration_min.text is not None: filters_json += f'{{"ModelID":"{cur_model_id}","Type":"general","Column":"AvgDuration","Operator":">=","Value":"{self.avg_duration_min.text}"}},'
-    if self.avg_duration_max.text is not None: filters_json += f'{{"ModelID":"{cur_model_id}","Type":"general","Column":"AvgDuration","Operator":"<=","Value":"{self.avg_duration_max.text}"}},'
+    if self.avg_duration_min.text is not None: filters_json += f'{{"ModelID":"{cur_model_id}","Type":"general","Column":"avg_duration","Operator":">=","Value":"{self.avg_duration_min.text}"}},'
+    if self.avg_duration_max.text is not None: filters_json += f'{{"ModelID":"{cur_model_id}","Type":"general","Column":"avg_duration","Operator":"<=","Value":"{self.avg_duration_max.text}"}},'
     
-    if self.avg_danceability_min.text is not None: filters_json += f'{{"ModelID":"{cur_model_id}","Type":"general","Column":"AvgDanceability","Operator":">=","Value":"{int(self.avg_danceability_min.text)/100}"}},'
-    if self.avg_danceability_max.text is not None: filters_json += f'{{"ModelID":"{cur_model_id}","Type":"general","Column":"AvgDanceability","Operator":"<=","Value":"{int(self.avg_danceability_max.text)/100}"}},'
+    if self.avg_danceability_min.text is not None: filters_json += f'{{"ModelID":"{cur_model_id}","Type":"general","Column":"avg_danceability","Operator":">=","Value":"{int(self.avg_danceability_min.text)/100}"}},'
+    if self.avg_danceability_max.text is not None: filters_json += f'{{"ModelID":"{cur_model_id}","Type":"general","Column":"avg_danceability","Operator":"<=","Value":"{int(self.avg_danceability_max.text)/100}"}},'
     
-    if self.avg_energy_min.text is not None: filters_json += f'{{"ModelID":"{cur_model_id}","Type":"general","Column":"AvgEnergy","Operator":">=","Value":"{int(self.avg_energy_min.text)/100}"}},'
-    if self.avg_energy_max.text is not None: filters_json += f'{{"ModelID":"{cur_model_id}","Type":"general","Column":"AvgEnergy","Operator":"<=","Value":"{int(self.avg_energy_max.text)/100}"}},'
+    if self.avg_energy_min.text is not None: filters_json += f'{{"ModelID":"{cur_model_id}","Type":"general","Column":"avg_energy","Operator":">=","Value":"{int(self.avg_energy_min.text)/100}"}},'
+    if self.avg_energy_max.text is not None: filters_json += f'{{"ModelID":"{cur_model_id}","Type":"general","Column":"avg_energy","Operator":"<=","Value":"{int(self.avg_energy_max.text)/100}"}},'
 
     tonleiter = ["C", "C#/Db", "D", "D#/Eb", "E", "F", "F#/Gb", "G", "G#/Ab", "A", "A#/Bb", "B"]
-    if self.avg_key_min.selected_value != '': filters_json += f'{{"ModelID":"{cur_model_id}","Type":"general","Column":"AvgKey","Operator":">=","Value":"{tonleiter.index(self.avg_key_min.selected_value)}"}},'
-    if self.avg_key_max.selected_value != '': filters_json += f'{{"ModelID":"{cur_model_id}","Type":"general","Column":"AvgKey","Operator":"<=","Value":"{tonleiter.index(self.avg_key_max.selected_value)}"}},'
+    if self.avg_key_min.selected_value != '': filters_json += f'{{"ModelID":"{cur_model_id}","Type":"general","Column":"avg_key","Operator":">=","Value":"{tonleiter.index(self.avg_key_min.selected_value)}"}},'
+    if self.avg_key_max.selected_value != '': filters_json += f'{{"ModelID":"{cur_model_id}","Type":"general","Column":"avg_key","Operator":"<=","Value":"{tonleiter.index(self.avg_key_max.selected_value)}"}},'
     
-    if self.avg_loudness_min.text is not None: filters_json += f'{{"ModelID":"{cur_model_id}","Type":"general","Column":"AvgLoudness","Operator":">=","Value":"{self.avg_loudness_min.text}"}},'
-    if self.avg_loudness_max.text is not None: filters_json += f'{{"ModelID":"{cur_model_id}","Type":"general","Column":"AvgLoudness","Operator":"<=","Value":"{self.avg_loudness_max.text}"}},'
+    if self.avg_loudness_min.text is not None: filters_json += f'{{"ModelID":"{cur_model_id}","Type":"general","Column":"avg_loudness","Operator":">=","Value":"{self.avg_loudness_min.text}"}},'
+    if self.avg_loudness_max.text is not None: filters_json += f'{{"ModelID":"{cur_model_id}","Type":"general","Column":"avg_loudness","Operator":"<=","Value":"{self.avg_loudness_max.text}"}},'
     
-    if self.avg_mode_min.text is not None: filters_json += f'{{"ModelID":"{cur_model_id}","Type":"general","Column":"AvgMode","Operator":">=","Value":"{int(self.avg_mode_min.text)/100}"}},'
-    if self.avg_mode_max.text is not None: filters_json += f'{{"ModelID":"{cur_model_id}","Type":"general","Column":"AvgMode","Operator":"<=","Value":"{int(self.avg_mode_max.text)/100}"}},'
+    if self.avg_mode_min.text is not None: filters_json += f'{{"ModelID":"{cur_model_id}","Type":"general","Column":"avg_mode","Operator":">=","Value":"{int(self.avg_mode_min.text)/100}"}},'
+    if self.avg_mode_max.text is not None: filters_json += f'{{"ModelID":"{cur_model_id}","Type":"general","Column":"avg_mode","Operator":"<=","Value":"{int(self.avg_mode_max.text)/100}"}},'
     
-    if self.avg_speechiness_min.text is not None: filters_json += f'{{"ModelID":"{cur_model_id}","Type":"general","Column":"AvgSpeechiness","Operator":">=","Value":"{int(self.avg_speechiness_min.text)/100}"}},'
-    if self.avg_speechiness_max.text is not None: filters_json += f'{{"ModelID":"{cur_model_id}","Type":"general","Column":"AvgSpeechiness","Operator":"<=","Value":"{int(self.avg_speechiness_max.text)/100}"}},'
+    if self.avg_speechiness_min.text is not None: filters_json += f'{{"ModelID":"{cur_model_id}","Type":"general","Column":"avg_speechiness","Operator":">=","Value":"{int(self.avg_speechiness_min.text)/100}"}},'
+    if self.avg_speechiness_max.text is not None: filters_json += f'{{"ModelID":"{cur_model_id}","Type":"general","Column":"avg_speechiness","Operator":"<=","Value":"{int(self.avg_speechiness_max.text)/100}"}},'
     
-    if self.avg_acousticness_min.text is not None: filters_json += f'{{"ModelID":"{cur_model_id}","Type":"general","Column":"AvgAcousticness","Operator":">=","Value":"{int(self.avg_acousticness_min.text)/100}"}},'
-    if self.avg_acousticness_max.text is not None: filters_json += f'{{"ModelID":"{cur_model_id}","Type":"general","Column":"AvgAcousticness","Operator":"<=","Value":"{int(self.avg_acousticness_max.text)/100}"}},'
+    if self.avg_acousticness_min.text is not None: filters_json += f'{{"ModelID":"{cur_model_id}","Type":"general","Column":"avg_acousticness","Operator":">=","Value":"{int(self.avg_acousticness_min.text)/100}"}},'
+    if self.avg_acousticness_max.text is not None: filters_json += f'{{"ModelID":"{cur_model_id}","Type":"general","Column":"avg_acousticness","Operator":"<=","Value":"{int(self.avg_acousticness_max.text)/100}"}},'
     
-    if self.avg_instrumentalness_min.text is not None: filters_json += f'{{"ModelID":"{cur_model_id}","Type":"general","Column":"AvgInstrumentalness","Operator":">=","Value":"{int(self.avg_instrumentalness_min.text)/100}"}},'
-    if self.avg_instrumentalness_max.text is not None: filters_json += f'{{"ModelID":"{cur_model_id}","Type":"general","Column":"AvgInstrumentalness","Operator":"<=","Value":"{int(self.avg_instrumentalness_max.text)/100}"}},'
+    if self.avg_instrumentalness_min.text is not None: filters_json += f'{{"ModelID":"{cur_model_id}","Type":"general","Column":"avg_instrumentalness","Operator":">=","Value":"{int(self.avg_instrumentalness_min.text)/100}"}},'
+    if self.avg_instrumentalness_max.text is not None: filters_json += f'{{"ModelID":"{cur_model_id}","Type":"general","Column":"avg_instrumentalness","Operator":"<=","Value":"{int(self.avg_instrumentalness_max.text)/100}"}},'
     
-    if self.avg_liveness_min.text is not None: filters_json += f'{{"ModelID":"{cur_model_id}","Type":"general","Column":"AvgLiveness","Operator":">=","Value":"{int(self.avg_liveness_min.text)/100}"}},'
-    if self.avg_liveness_max.text is not None: filters_json += f'{{"ModelID":"{cur_model_id}","Type":"general","Column":"AvgLiveness","Operator":"<=","Value":"{int(self.avg_liveness_max.text)/100}"}},'
+    if self.avg_liveness_min.text is not None: filters_json += f'{{"ModelID":"{cur_model_id}","Type":"general","Column":"avg_liveness","Operator":">=","Value":"{int(self.avg_liveness_min.text)/100}"}},'
+    if self.avg_liveness_max.text is not None: filters_json += f'{{"ModelID":"{cur_model_id}","Type":"general","Column":"avg_liveness","Operator":"<=","Value":"{int(self.avg_liveness_max.text)/100}"}},'
 
-    if self.avg_valence_min.text is not None: filters_json += f'{{"ModelID":"{cur_model_id}","Type":"general","Column":"AvgValence","Operator":">=","Value":"{int(self.avg_valence_min.text)/100}"}},'
-    if self.avg_valence_max.text is not None: filters_json += f'{{"ModelID":"{cur_model_id}","Type":"general","Column":"AvgValence","Operator":"<=","Value":"{int(self.avg_valence_max.text)/100}"}},'
+    if self.avg_valence_min.text is not None: filters_json += f'{{"ModelID":"{cur_model_id}","Type":"general","Column":"avg_valence","Operator":">=","Value":"{int(self.avg_valence_min.text)/100}"}},'
+    if self.avg_valence_max.text is not None: filters_json += f'{{"ModelID":"{cur_model_id}","Type":"general","Column":"avg_valence","Operator":"<=","Value":"{int(self.avg_valence_max.text)/100}"}},'
     
-    if self.avg_tempo_min.text is not None: filters_json += f'{{"ModelID":"{cur_model_id}","Type":"general","Column":"AvgTempo","Operator":">=","Value":"{self.avg_tempo_min.text}"}},'
-    if self.avg_tempo_max.text is not None: filters_json += f'{{"ModelID":"{cur_model_id}","Type":"general","Column":"AvgTempo","Operator":"<=","Value":"{self.avg_tempo_max.text}"}},'
+    if self.avg_tempo_min.text is not None: filters_json += f'{{"ModelID":"{cur_model_id}","Type":"general","Column":"avg_tempo","Operator":">=","Value":"{self.avg_tempo_min.text}"}},'
+    if self.avg_tempo_max.text is not None: filters_json += f'{{"ModelID":"{cur_model_id}","Type":"general","Column":"avg_tempo","Operator":"<=","Value":"{self.avg_tempo_max.text}"}},'
 
     # 2. Genres
     genre_data = self.repeating_panel_genre.items
