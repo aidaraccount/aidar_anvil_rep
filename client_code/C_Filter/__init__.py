@@ -150,6 +150,7 @@ class C_Filter(C_FilterTemplate):
     if filters_json == '[]': filters_json = None
     
     # change filters
+    print(filters_json)
     anvil.server.call('change_filters',
                       cur_model_id,
                       filters_json
