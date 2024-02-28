@@ -86,7 +86,7 @@ class Main_In(Main_InTemplate):
 
   def update_no_notifications(self, **event_args):
     NoNotifications = json.loads(anvil.server.call('get_no_notifications', cur_model_id))
-    self.link_manage.text = 'MANAGE (' + str(NoNotifications[0]["count(*)"]) + ')'
+    self.link_manage.text = 'MANAGE (' + str(NoNotifications[0]["cnt"]) + ')'
 
   def reset_nav_backgrounds(self, **event_args):    
     self.link_home.background = None
