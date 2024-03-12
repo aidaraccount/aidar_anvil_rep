@@ -294,6 +294,97 @@ components:
         tooltip: ''}
       layout_properties: {grid_position: 'UGABNF,QPZKSV'}
       name: spacer_17
+  - type: ColumnPanel
+    properties: {role: null, tooltip: '', border: '', foreground: '', visible: true,
+      wrap_on: mobile, col_spacing: medium, spacing_above: none, col_widths: '{"YKQHTY":10,"ZXAJTM":10,"XEZOUN":10,"ZSTNRH":13,"HJBJPJ":15,"HDVGOJ":17,"EEMWQA":12}',
+      spacing_below: none, background: 'theme:Accent 2'}
+    layout_properties: {grid_position: 'YWVNQD,SHLMSG'}
+    name: column_panel_14
+    components:
+    - type: RichText
+      properties: {role: null, align: center, tooltip: '', enable_slots: true, border: '',
+        foreground: 'theme:Text_DecentWhite', visible: true, font_size: null, content: "<p\
+          \ style=\"font-weight: bold;\">\n  <span style=\"color: rgb(253, 101, 45);\
+          \ font-size: 50px;\">.</span>\n  <span style=\"font-size: 30px;\">KNOWN\
+          \ FROM</span>\n</p>\n", font: '', spacing_above: small, spacing_below: small,
+        data: null, background: '', format: restricted_html}
+      layout_properties:
+        col_widths: {}
+        grid_position: TQDYZC,PYOYVK
+        full_width_row: true
+      name: rich_text_1_copy_4
+    - properties: {height: 32}
+      type: Spacer
+      layout_properties: {grid_position: 'XENJFF,HJBJPJ'}
+      name: spacer_19
+    - properties: {col_widths: '{}', url: 'https://www.ndr.de/fernsehen/sendungen/hamburg_journal/Software-hilft-Musiklabels-bei-der-Suche-von-Kuenstlern,hamj143684.html'}
+      type: Link
+      layout_properties: {grid_position: 'XENJFF,EEMWQA'}
+      name: link_know_1_copy
+      components:
+      - properties: {role: null, vertical_align: center, height: '80', tooltip: '',
+          border: '', foreground: '', visible: true, display_mode: shrink_to_fit,
+          spacing_above: none, source: _/theme/pics/Logo_NDR.JPG, spacing_below: none,
+          background: '', horizontal_align: center}
+        type: Image
+        layout_properties: {grid_position: 'XISFUA,MXKFIP'}
+        name: artist_image_copy_3
+    - properties: {col_widths: '{}', url: 'https://www.reeperbahnfestival.com/de/konferenz/ai-a%26r---a-dreamteam-for-the-future%3F'}
+      type: Link
+      layout_properties: {grid_position: 'XENJFF,YKQHTY'}
+      name: link_know_1
+      components:
+      - properties: {role: null, vertical_align: center, height: '80', tooltip: '',
+          border: '', foreground: '', visible: true, display_mode: shrink_to_fit,
+          spacing_above: none, source: _/theme/pics/Logo_RBF.jpg, spacing_below: none,
+          background: '', horizontal_align: center}
+        type: Image
+        layout_properties: {grid_position: 'XISFUA,MXKFIP'}
+        name: artist_image
+    - properties: {col_widths: '{}', url: 'https://www.abendblatt.de/hamburg/wirtschaft/article239754199/Musiktalente-gesucht-So-hilft-kuenstliche-Intelligenz.html'}
+      type: Link
+      layout_properties: {grid_position: 'XENJFF,ZXAJTM'}
+      name: link_know_2
+      components:
+      - properties: {role: null, vertical_align: center, height: '80', tooltip: '',
+          border: '', foreground: '', visible: true, display_mode: shrink_to_fit,
+          spacing_above: none, source: _/theme/pics/Logo_HA2.png, spacing_below: none,
+          background: '', horizontal_align: center}
+        type: Image
+        layout_properties: {grid_position: 'XISFUA,MXKFIP'}
+        name: artist_image_copy
+    - properties: {col_widths: '{}', url: 'https://www.uni-hamburg.de/'}
+      type: Link
+      layout_properties: {grid_position: 'XENJFF,XEZOUN'}
+      name: link_know_3
+      components:
+      - properties: {role: null, vertical_align: center, height: '80', tooltip: '',
+          border: '', foreground: '', visible: true, display_mode: shrink_to_fit,
+          spacing_above: none, source: _/theme/pics/Logo_UHH.png, spacing_below: none,
+          background: '', horizontal_align: center}
+        type: Image
+        layout_properties: {grid_position: 'XISFUA,MXKFIP'}
+        name: artist_image_copy_copy
+    - properties: {col_widths: '{}', url: 'https://www.klu.org/'}
+      type: Link
+      layout_properties: {grid_position: 'XENJFF,ZSTNRH'}
+      name: link_know_4
+      components:
+      - properties: {role: null, vertical_align: center, height: '80', tooltip: '',
+          border: '', foreground: '', visible: true, display_mode: shrink_to_fit,
+          spacing_above: none, source: _/theme/pics/Logo_KLU.png, spacing_below: none,
+          background: '', horizontal_align: center}
+        type: Image
+        layout_properties: {grid_position: 'XISFUA,MXKFIP'}
+        name: artist_image_copy_copy_2
+    - properties: {height: 32}
+      type: Spacer
+      layout_properties: {grid_position: 'XENJFF,HDVGOJ'}
+      name: spacer_9
+    - type: Spacer
+      properties: {height: 40}
+      layout_properties: {grid_position: 'XRFYWO,LFWUJV'}
+      name: spacer_10
 - type: Spacer
   properties: {visible: true, spacing_above: small, spacing_below: small, height: '20',
     tooltip: ''}
@@ -510,97 +601,46 @@ components:
       properties: {height: 32}
       layout_properties: {grid_position: 'BGYGZI,BSTMOO'}
       name: spacer_15
-  - type: ColumnPanel
-    properties: {role: null, tooltip: '', border: '', foreground: '', visible: true,
-      wrap_on: mobile, col_spacing: medium, spacing_above: none, col_widths: '{"YKQHTY":10,"ZXAJTM":10,"XEZOUN":10,"ZSTNRH":13,"HJBJPJ":15,"HDVGOJ":17,"EEMWQA":12}',
-      spacing_below: none, background: 'theme:Accent 2'}
-    layout_properties: {grid_position: 'AQNJYQ,CTOUVL', full_width_row: true}
-    name: column_panel_14
+  - name: column_panel_4
+    properties: {}
+    type: ColumnPanel
+    layout_properties: {grid_position: 'MJFVID,VUKIZN', row_background: 'theme:Accent
+        2'}
     components:
     - type: RichText
       properties: {role: null, align: center, tooltip: '', enable_slots: true, border: '',
         foreground: 'theme:Text_DecentWhite', visible: true, font_size: null, content: "<p\
           \ style=\"font-weight: bold;\">\n  <span style=\"color: rgb(253, 101, 45);\
-          \ font-size: 50px;\">.</span>\n  <span style=\"font-size: 30px;\">KNOWN\
-          \ FROM</span>\n</p>\n", font: '', spacing_above: small, spacing_below: small,
+          \ font-size: 50px;\">.</span>\n  <span style=\"font-size: 30px;\">FUNDED\
+          \ BY</span>\n</p>\n", font: '', spacing_above: small, spacing_below: small,
         data: null, background: '', format: restricted_html}
-      layout_properties:
-        col_widths: {}
-        grid_position: TQDYZC,PYOYVK
-        full_width_row: true
-      name: rich_text_1_copy_4
-    - properties: {height: 32}
+      layout_properties: {grid_position: 'OFKQBD,VAQWUR'}
+      name: rich_text_1_copy
+      components: []
+    - name: spacer_32
+      properties: {height: 32}
       type: Spacer
-      layout_properties: {grid_position: 'XENJFF,HJBJPJ'}
-      name: spacer_19
-    - properties: {col_widths: '{}', url: 'https://www.ndr.de/fernsehen/sendungen/hamburg_journal/Software-hilft-Musiklabels-bei-der-Suche-von-Kuenstlern,hamj143684.html'}
-      type: Link
-      layout_properties: {grid_position: 'XENJFF,EEMWQA'}
-      name: link_know_1_copy
-      components:
-      - properties: {role: null, vertical_align: center, height: '80', tooltip: '',
-          border: '', foreground: '', visible: true, display_mode: shrink_to_fit,
-          spacing_above: none, source: _/theme/pics/Logo_NDR.JPG, spacing_below: none,
-          background: '', horizontal_align: center}
-        type: Image
-        layout_properties: {grid_position: 'XISFUA,MXKFIP'}
-        name: artist_image_copy_3
-    - properties: {col_widths: '{}', url: 'https://www.reeperbahnfestival.com/de/konferenz/ai-a%26r---a-dreamteam-for-the-future%3F'}
-      type: Link
-      layout_properties: {grid_position: 'XENJFF,YKQHTY'}
-      name: link_know_1
-      components:
-      - properties: {role: null, vertical_align: center, height: '80', tooltip: '',
-          border: '', foreground: '', visible: true, display_mode: shrink_to_fit,
-          spacing_above: none, source: _/theme/pics/Logo_RBF.jpg, spacing_below: none,
-          background: '', horizontal_align: center}
-        type: Image
-        layout_properties: {grid_position: 'XISFUA,MXKFIP'}
-        name: artist_image
-    - properties: {col_widths: '{}', url: 'https://www.abendblatt.de/hamburg/wirtschaft/article239754199/Musiktalente-gesucht-So-hilft-kuenstliche-Intelligenz.html'}
-      type: Link
-      layout_properties: {grid_position: 'XENJFF,ZXAJTM'}
-      name: link_know_2
-      components:
-      - properties: {role: null, vertical_align: center, height: '80', tooltip: '',
-          border: '', foreground: '', visible: true, display_mode: shrink_to_fit,
-          spacing_above: none, source: _/theme/pics/Logo_HA2.png, spacing_below: none,
-          background: '', horizontal_align: center}
-        type: Image
-        layout_properties: {grid_position: 'XISFUA,MXKFIP'}
-        name: artist_image_copy
-    - properties: {col_widths: '{}', url: 'https://www.uni-hamburg.de/'}
-      type: Link
-      layout_properties: {grid_position: 'XENJFF,XEZOUN'}
-      name: link_know_3
-      components:
-      - properties: {role: null, vertical_align: center, height: '80', tooltip: '',
-          border: '', foreground: '', visible: true, display_mode: shrink_to_fit,
-          spacing_above: none, source: _/theme/pics/Logo_UHH.png, spacing_below: none,
-          background: '', horizontal_align: center}
-        type: Image
-        layout_properties: {grid_position: 'XISFUA,MXKFIP'}
-        name: artist_image_copy_copy
-    - properties: {col_widths: '{}', url: 'https://www.klu.org/'}
-      type: Link
-      layout_properties: {grid_position: 'XENJFF,ZSTNRH'}
-      name: link_know_4
-      components:
-      - properties: {role: null, vertical_align: center, height: '80', tooltip: '',
-          border: '', foreground: '', visible: true, display_mode: shrink_to_fit,
-          spacing_above: none, source: _/theme/pics/Logo_KLU.png, spacing_below: none,
-          background: '', horizontal_align: center}
-        type: Image
-        layout_properties: {grid_position: 'XISFUA,MXKFIP'}
-        name: artist_image_copy_copy_2
-    - properties: {height: 32}
+      layout_properties: {grid_position: 'FOSHXR,RKATKM'}
+    - name: image_3
+      properties: {source: _/theme/logos/self_Bundesministerium-einzeln.JPG, height: '95'}
+      type: Image
+      layout_properties: {grid_position: 'FOSHXR,QVBAXC'}
+    - name: image_4
+      properties: {source: _/theme/logos/self_EU-einzeln.JPG, height: 95}
+      type: Image
+      layout_properties: {grid_position: 'FOSHXR,QYYOVO'}
+    - name: image_6
+      properties: {source: _/theme/logos/EXIST-Foederlogo-einzeln-jpeg.jpg, height: '95'}
+      type: Image
+      layout_properties: {grid_position: 'FOSHXR,BONKWO'}
+    - name: spacer_33
+      properties: {height: 32}
       type: Spacer
-      layout_properties: {grid_position: 'XENJFF,HDVGOJ'}
-      name: spacer_9
+      layout_properties: {grid_position: 'FOSHXR,UZPXEX'}
     - type: Spacer
-      properties: {height: 40}
-      layout_properties: {grid_position: 'XRFYWO,LFWUJV'}
-      name: spacer_10
+      properties: {height: 32}
+      layout_properties: {grid_position: 'DJWRXF,PYRLFX'}
+      name: spacer_6
   - type: ColumnPanel
     properties: {role: null, tooltip: '', border: '', foreground: '', visible: false,
       wrap_on: mobile, col_spacing: medium, spacing_above: none, col_widths: '{}',
@@ -608,41 +648,6 @@ components:
     layout_properties: {grid_position: 'IAJCNA,WBRLME', full_width_row: true, row_background: ''}
     name: column_panel_7
     components:
-    - type: ColumnPanel
-      properties: {role: null, tooltip: '', border: '', foreground: '', visible: false,
-        wrap_on: mobile, col_spacing: medium, spacing_above: none, col_widths: '{}',
-        spacing_below: small, background: 'theme:Grid_Black'}
-      layout_properties: {grid_position: 'AGDZFQ,RZUNCM', full_width_row: true}
-      name: column_panel_12
-      components:
-      - type: Spacer
-        properties: {visible: true, spacing_above: small, spacing_below: small, height: '20',
-          tooltip: ''}
-        layout_properties: {grid_position: 'UZHVTH,CRWIPA'}
-        name: spacer_5
-      - type: RichText
-        properties: {role: null, align: center, tooltip: '', enable_slots: true, border: '',
-          foreground: 'theme:Text_DecentWhite', visible: true, font_size: null, content: "<p\
-            \ style=\"font-weight: bold;\">\n  <span style=\"color: rgb(253, 101,\
-            \ 45); font-size: 50px;\">.</span>\n  <span style=\"font-size: 30px;\"\
-            >HOW WE DO IT</span>\n</p>\n", font: '', spacing_above: small, spacing_below: small,
-          data: null, background: '', format: restricted_html}
-        layout_properties:
-          col_widths: {}
-          grid_position: TRJFVC,LHFRKD
-          full_width_row: true
-        name: rich_text_1_copy
-      - type: Image
-        properties: {role: null, vertical_align: center, height: '350', tooltip: '',
-          border: '', foreground: '', visible: true, display_mode: shrink_to_fit,
-          spacing_above: medium, source: _/theme/pics/How_plane.png, spacing_below: small,
-          background: '', horizontal_align: center}
-        layout_properties: {grid_position: 'EKXCHO,HPICTX', full_width_row: true}
-        name: image_6
-      - type: Spacer
-        properties: {height: 32}
-        layout_properties: {grid_position: 'KKDOTZ,ERYTAP'}
-        name: spacer_6
     - type: Spacer
       properties: {visible: true, spacing_above: small, spacing_below: small, height: '20',
         tooltip: ''}
