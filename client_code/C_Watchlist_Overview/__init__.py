@@ -163,13 +163,11 @@ class C_Watchlist_Overview(C_Watchlist_OverviewTemplate):
     if self.link_foldev.icon == '' or self.link_foldev.icon == 'fa:angle-up':
       self.reset_icons()
       self.link_foldev.icon = 'fa:angle-down'
-      self.repeating_panel_data.items = sorted(self.repeating_panel_data.items, key=lambda x: float(x['PopularityDev']), reverse=False)
-      #self.repeating_panel_data.items = sorted(self.repeating_panel_data.items, key=lambda x: x.get('FollowerDev', float('inf')), reverse=True)
+      self.repeating_panel_data.items = sorted(self.repeating_panel_data.items, key=lambda x: float(x['FollowerDev']), reverse=True)
     elif self.link_foldev.icon == 'fa:angle-down':
       self.reset_icons()
       self.link_foldev.icon = 'fa:angle-up'
-      self.repeating_panel_data.items = sorted(self.repeating_panel_data.items, key=lambda x: float(x['PopularityDev']), reverse=False)
-#self.repeating_panel_data.items = sorted(self.repeating_panel_data.items, key=lambda x: x.get('FollowerDev', float('inf')), reverse=False)
+      self.repeating_panel_data.items = sorted(self.repeating_panel_data.items, key=lambda x: float(x['FollowerDev']), reverse=False)
 
   
   # SEARCH
