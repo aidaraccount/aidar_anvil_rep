@@ -29,7 +29,8 @@ class C_Watchlist_Overview(C_Watchlist_OverviewTemplate):
   def get_data(self, **event_args):
     # get raw data
     data = json.loads(anvil.server.call('get_watchlist_overview', cur_model_id))
-    print(data)
+    print("A ----")
+    print(data[8])
     # fill Nones
     for item in data:
         for key, value in item.items():
@@ -37,8 +38,17 @@ class C_Watchlist_Overview(C_Watchlist_OverviewTemplate):
                 if key == "LatestReleaseDate":
                   item[key] = '-'
                 else: item[key] = '0'
+        item['FollowerDev'] = "{:.1f}".format(round(float(item['FollowerDev']),1))
+        item['PopularityDev'] = "{:.1f}".format(round(float(item['PopularityDev']),1))
+        
+    print("B ----")
+    print(data[8])
     data = self.change_format(data=data, column='FollowerLat', direction='add')
+    print("C ----")
+    print(data[8])
     data = self.change_format(data=data, column='FollowerDif', direction='add')
+    print("D ----")
+    print(data[8])
 
     return data
 
@@ -111,11 +121,13 @@ class C_Watchlist_Overview(C_Watchlist_OverviewTemplate):
     if self.link_popdev.icon == '' or self.link_popdev.icon == 'fa:angle-up':
       self.reset_icons()
       self.link_popdev.icon = 'fa:angle-down'
-      self.repeating_panel_data.items = sorted(self.repeating_panel_data.items, key=lambda x: x.get('PopularityDev', float('inf')), reverse=True)
+      #self.repeating_panel_data.items = sorted(self.repeating_panel_data.items, key=lambda x: x.get('PopularityDev', float('inf')), reverse=True)
+      self.repeating_panel_data.items = sorted(self.repeating_panel_data.items, key=lambda x: float(x.get('PopularityDev', float('inf'))) if x.get('PopularityDev', '0').replace(',', '').isdigit() else float('inf') - abs(float(x.get('PopularityDev', 0).replace(',', ''))), reverse=True)
     elif self.link_popdev.icon == 'fa:angle-down':
       self.reset_icons()
       self.link_popdev.icon = 'fa:angle-up'
-      self.repeating_panel_data.items = sorted(self.repeating_panel_data.items, key=lambda x: x.get('PopularityDev', float('inf')), reverse=False)
+      #self.repeating_panel_data.items = sorted(self.repeating_panel_data.items, key=lambda x: x.get('PopularityDev', float('inf')), reverse=False)
+      self.repeating_panel_data.items = sorted(self.repeating_panel_data.items, key=lambda x: float(x.get('PopularityDev', float('inf'))) if x.get('PopularityDev', '0').replace(',', '').isdigit() else float('inf') - abs(float(x.get('PopularityDev', 0).replace(',', ''))), reverse=True)
 
   def link_follat_click(self, **event_args):
     if self.link_follat.icon == '' or self.link_follat.icon == 'fa:angle-up':
