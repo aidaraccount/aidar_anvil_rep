@@ -23,7 +23,7 @@ components:
   name: label_1
   layout_properties: {grid_position: 'MBCRNQ,HSORNX'}
 - name: xy_panel_1
-  properties: {height: 100}
+  properties: {height: 48}
   type: XYPanel
   layout_properties: {grid_position: 'MBCRNQ,JXRUYS'}
   components:

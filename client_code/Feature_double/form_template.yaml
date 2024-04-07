@@ -1,0 +1,22 @@
+container: {type: ColumnPanel}
+components:
+- name: column_panel_1
+  properties: {role: grid}
+  type: ColumnPanel
+  layout_properties: {grid_position: 'KVRVAU,EVOYKJ'}
+  components:
+  - name: value
+    properties: {}
+    type: Label
+    layout_properties: {grid_position: 'LCPTNP,ZXNYKG'}
+  - name: header
+    properties: {}
+    type: Label
+    layout_properties: {grid_position: 'SFSJMC,UXCQJM'}
+  - name: image_1
+    properties: {}
+    type: Image
+    layout_properties: {grid_position: 'WXFQIA,ACLTTJ'}
+is_package: true
+custom_component: true
+properties: []
