@@ -13,11 +13,11 @@ components:
     grid_position: RNQUVN,FDKUVY
 - type: Label
   properties: {role: description, align: left, tooltip: '', border: '', foreground: '',
-    visible: true, text: 'Here are your recommendations - based on your set filters,
-      this dashboard is always populated with information about the artist with the
-      highest probability of meeting your interests. These probabilities are determined
-      by an individual machine learning algorithm that is continuously trained with
-      your feedback ratings (on a scale of 1 to 7).', font_size: null, font: '', spacing_above: small,
+    visible: true, text: 'This is your artist dashboard - showing everything you need
+      to know about the artist recommended just for you by our AI. Rate the artist,
+      and our algorithm will continue to learn what you like and appreciate in artists
+      - be it their music style, their origin or label status. If you want to narrow
+      it down manually, use the filters!', font_size: null, font: '', spacing_above: small,
     icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
     underline: false, icon: ''}
   name: label_1
@@ -243,7 +243,7 @@ components:
       layout_properties: {row: YHFNWP, width_xs: 11, col_xs: 0, width: 454.45}
   - type: Label
     properties: {role: feature, align: left, tooltip: '', border: '', foreground: '',
-      visible: true, text: General, font_size: null, font: '', spacing_above: medium,
+      visible: true, text: Main Features, font_size: null, font: '', spacing_above: medium,
       icon_align: left, spacing_below: none, italic: false, background: '', bold: true,
       underline: false, icon: ''}
     name: label_4

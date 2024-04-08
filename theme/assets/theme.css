@@ -127,6 +127,7 @@ header>.nav-links>span {
 .anvil-role-description {
   font-size: 14px;
   color: %color:Text_Grey% !important;
+  font-weight: normal;
 }
 .anvil-role-note {
   font-size: 14px;

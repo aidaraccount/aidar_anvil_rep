@@ -20,7 +20,7 @@ components:
       grid_position: SLSTXO,HTZYCF
   - type: Label
     properties: {role: description, align: left, tooltip: '', border: '', foreground: '',
-      visible: true, text: Use these filters to refine your search and find more fitting artists on the Investigate dashboard.,
+      visible: true, text: Use these filters to refine your search and find more fitting artists on the Discovery dashboard.,
       font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small,
       italic: true, background: '', bold: false, underline: false, icon: ''}
     name: label_2
