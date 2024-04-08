@@ -456,7 +456,7 @@ components:
         properties: {role: artist_name_shadow, align: center, tooltip: '', enable_slots: true,
           border: '', foreground: 'theme:Text_White', visible: true, font_size: null,
           content: "<p style=\"font-weight: bold;\">\n  <span style=\"font-size: 40px;\"\
-            >>4.4</span>\n  <span style=\"font-size: 24px;\">million</span>\n  <br>\n\
+            >>4.7</span>\n  <span style=\"font-size: 24px;\">million</span>\n  <br>\n\
             \  <span style=\"font-size: 30px;\">Artists</span>\n</p>", font: GSb,
           spacing_above: small, spacing_below: small, data: null, background: '',
           format: restricted_html}
@@ -473,7 +473,7 @@ components:
       - properties: {role: artist_name_shadow, align: center, tooltip: '', enable_slots: true,
           border: '', foreground: 'theme:Text_White', visible: true, font_size: null,
           content: "<p style=\"font-weight: bold;\">\n  <span style=\"font-size: 40px;\"\
-            >>26</span>\n  <span style=\"font-size: 24px;\">million</span>\n  <br>\n\
+            >>28</span>\n  <span style=\"font-size: 24px;\">million</span>\n  <br>\n\
             \  <span style=\"font-size: 30px;\">Tracks</span>\n</p>", font: GSb, spacing_above: small,
           spacing_below: small, data: null, background: '', format: restricted_html}
         type: RichText
