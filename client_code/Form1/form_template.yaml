@@ -1,0 +1,104 @@
+container:
+  type: HtmlTemplate
+  properties: {html: "<center style=\"font-style:italic; color:#888; margin: 3em;\"\
+      >\n<div class=\"body\" anvil-drop-default anvil-drop-container=\">.cards .anvil-container\"\
+      \ anvil-drop-redirect=\">.cards > .placeholder\">\n        <div class=\"cards\
+      \ anvil-measure-content\">\n            <div anvil-if-slot-empty=\"default\"\
+      \n                 anvil-drop-slot=\"default\"\n                 class=\"placeholder\"\
+      >\n                 Drop a ColumnPanel here to add content\n            </div>\n\
+      \    \n            <div anvil-slot=\"default\"></div>\n    \n            <div\
+      \ class=\"anvil-designer-only instructions\">\n                <i class=\"fa\
+      \ fa-info-circle\"></i> Add\n                <img src=\"https://anvil.works/template-assets/column-panel-icon.png\"\
+      \ style=\"height: 30px; margin-right: -7px; margin-top: -5px\"> Card components\
+      \ to create new cards.\n            </div>\n        </div>\n    </div>\n  <div\
+      \ anvil-drop-default anvil-drop-redirect=\".placeholder\" anvil-drop-container=\"\
+      .anvil-container\"></div>\n        <div class=\"footer\">\n          <div class=\"\
+      footer-slot\" anvil-slot=\"footer-slot\">\n          <div class=\"placeholder\
+      \ anvil-designer-only\" anvil-if-slot-empty=\"footer-slot\" anvil-drop-here>Drop\
+      \ a FlowPanel or Label or Link Component here</div>\n        </div>\n    </div>\
+      \ \n</center>\n<div anvil-slot=\"default\"></div>"}
+components:
+- name: column_panel_1
+  properties: {}
+  type: ColumnPanel
+  layout_properties: {slot: default}
+  components:
+  - name: label_1
+    properties: {text: My Text!!}
+    type: Label
+    layout_properties: {grid_position: 'NJDLBA,NDXRJC'}
+  - name: label_2
+    properties: {}
+    type: Label
+    layout_properties: {grid_position: 'OODDIT,OSUATG'}
+  - name: label_3
+    properties: {}
+    type: Label
+    layout_properties: {grid_position: 'GFXZTQ,SZUJNV'}
+  - name: label_4
+    properties: {}
+    type: Label
+    layout_properties: {grid_position: 'QFLELF,LJVPNY'}
+  - name: spacer_2
+    properties: {height: 170}
+    type: Spacer
+    layout_properties: {grid_position: 'GQESOO,KLEXFB'}
+  - name: spacer_1
+    properties: {height: 150}
+    type: Spacer
+    layout_properties: {grid_position: 'FXPGWJ,WCWWXN'}
+  - name: label_7
+    properties: {}
+    type: Label
+    layout_properties: {grid_position: 'YLSOAZ,BKIAPG'}
+- name: column_panel_2
+  properties: {col_widths: '{"KTIVUF":15,"ESEVRT":5,"TVQTGU":5,"KLWFUX":5,"IVMOTU":5,"DDPJFO":5,"WIFSGN":26,"CNBBXP":5,"PUQGGK":5,"XUSTNC":43,"LVROMA":5}',
+    col_spacing: tiny, background: 'theme:Grid_Black'}
+  type: ColumnPanel
+  layout_properties: {slot: footer-slot}
+  components:
+  - name: c_web_player
+    properties: {}
+    type: form:C_WebPlayer
+    layout_properties: {grid_position: 'UQVSNC,KTIVUF', full_width_row: true}
+  - name: column_panel_3
+    properties: {}
+    type: ColumnPanel
+    layout_properties: {grid_position: 'UQVSNC,XUSTNC DWBILT,ASHSNY'}
+  - name: spacer_3
+    properties: {height: 32}
+    type: Spacer
+    layout_properties: {grid_position: 'UQVSNC,XUSTNC EUSJDF,LVROMA'}
+  - name: button_1
+    properties: {text: '1', role: feature}
+    type: Button
+    layout_properties: {grid_position: 'UQVSNC,XUSTNC EUSJDF,ESEVRT'}
+  - name: button_1_copy
+    properties: {text: '2', role: feature}
+    type: Button
+    layout_properties: {grid_position: 'UQVSNC,XUSTNC EUSJDF,TVQTGU'}
+  - name: button_1_copy_2
+    properties: {text: '3', role: feature}
+    type: Button
+    layout_properties: {grid_position: 'UQVSNC,XUSTNC EUSJDF,KLWFUX'}
+  - name: button_1_copy_3
+    properties: {text: '4', role: feature}
+    type: Button
+    layout_properties: {grid_position: 'UQVSNC,XUSTNC EUSJDF,IVMOTU'}
+  - name: button_1_copy_4
+    properties: {text: '5', role: feature}
+    type: Button
+    layout_properties: {grid_position: 'UQVSNC,XUSTNC EUSJDF,DDPJFO'}
+  - name: button_1_copy_5
+    properties: {text: '6', role: feature}
+    type: Button
+    layout_properties: {grid_position: 'UQVSNC,XUSTNC EUSJDF,CNBBXP'}
+  - name: button_1_copy_6
+    properties: {text: '7', role: feature}
+    type: Button
+    layout_properties: {grid_position: 'UQVSNC,XUSTNC EUSJDF,PUQGGK'}
+  - name: spacer_4
+    properties: {height: 32}
+    type: Spacer
+    layout_properties: {grid_position: 'UQVSNC,XUSTNC EUSJDF,WIFSGN'}
+is_package: true
