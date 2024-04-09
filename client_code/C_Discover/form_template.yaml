@@ -48,4 +48,13 @@ components:
     properties: {}
     type: form:Feature_flat
     layout_properties: {grid_position: 'PEVIDJ,AKVTWG'}
+- name: xy_panel_spotify
+  properties: {height: 100}
+  type: XYPanel
+  layout_properties: {grid_position: 'JEWCAQ,MDHWOZ'}
+  components:
+  - name: c_web_player_1
+    properties: {}
+    type: form:C_WebPlayer
+    layout_properties: {x: 0, y: 0, width: 967}
 is_package: true

@@ -33,6 +33,10 @@ class C_Discover(C_DiscoverTemplate):
     self.feature_double_1.value.text = 'Value Double 4'
     self.feature_double_1.header.text = 'Header Double 4'
     self.feature_double_1.width = 200
+
+    # Section 2: Spotify Web-Player
+    spotify_artist_id = '4WqdAyk9kdsB6B5JVdhRIB'
+    self.c_web_player.html = '<iframe style="border-radius:12px" src="https://open.spotify.com/embed/artist/' + spotify_artist_id + '?utm_source=generator&theme=0" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>'
     
     
     
