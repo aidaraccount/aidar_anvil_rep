@@ -1,4 +1,4 @@
-from ._anvil_designer import C_RelatedArtistTemplate
+from ._anvil_designer import C_RelatedArtistSearchTemplate
 from anvil import *
 import anvil.server
 import anvil.users
@@ -7,7 +7,7 @@ import anvil.tables.query as q
 from anvil.tables import app_tables
 import json
 
-class C_RelatedArtist(C_RelatedArtistTemplate):
+class C_RelatedArtistSearch(C_RelatedArtistSearchTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)

@@ -18,7 +18,8 @@ from ..C_EditRefArtists import C_EditRefArtists
 from ..C_AddRefArtists import C_AddRefArtists
 from ..C_NoModel import C_NoModel
 from ..C_SearchArtist import C_SearchArtist
-from ..C_RelatedArtist import C_RelatedArtist
+from ..C_RelatedArtistSearch import C_RelatedArtistSearch
+from ..C_RelatedArtistData import C_RelatedArtistData
 from ..C_CreateModel import C_CreateModel
 from ..C_ConnectModel import C_ConnectModel
 
@@ -72,6 +73,9 @@ class Main_In(Main_InTemplate):
       
     if target == 'C_Watchlist_Details':
       self.route_manage_watchlist(temp_artist_id = temp_artist_id)
+
+    if target == 'C_RelatedArtistData':
+      self.route_discover_rel_data(model_id = cur_model_id, artist_id = temp_artist_id, name = value)
 
     if target == 'C_SearchArtist':
       self.route_discover_name(search = value)
@@ -165,9 +169,15 @@ class Main_In(Main_InTemplate):
 
   def link_discover_rel_click(self, **event_args):
     self.content_panel.clear()
-    self.content_panel.add_component(C_RelatedArtist())
+    self.content_panel.add_component(C_RelatedArtistSearch())
     self.reset_nav_backgrounds()
     self.link_discover_rel.background = "theme:Accent 2"
+
+  def route_discover_rel_data(self, model_id, artist_id, name, **event_args):
+    self.content_panel.clear()
+    self.content_panel.add_component(C_RelatedArtistData(model_id = model_id, artist_id = artist_id, name = name))
+    self.reset_nav_backgrounds()
+    self.link_discover_rel.background = "theme:Accent 2"    
   
   def link_discover_name_click(self, **event_args):
     self.route_discover_name(search = None)
