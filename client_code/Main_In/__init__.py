@@ -18,6 +18,7 @@ from ..C_EditRefArtists import C_EditRefArtists
 from ..C_AddRefArtists import C_AddRefArtists
 from ..C_NoModel import C_NoModel
 from ..C_SearchArtist import C_SearchArtist
+from ..C_RelatedArtist import C_RelatedArtist
 from ..C_CreateModel import C_CreateModel
 from ..C_ConnectModel import C_ConnectModel
 
@@ -92,6 +93,7 @@ class Main_In(Main_InTemplate):
     self.link_home.background = None
     self.link_discover.background = None
     self.link_discover_ai.background = None
+    self.link_discover_rel.background = None
     self.link_discover_name.background = None
     self.link_discover_rated.background = None
     self.link_manage.background = None
@@ -112,6 +114,7 @@ class Main_In(Main_InTemplate):
     self.linear_panel_discover.visible = status
     self.link_discover.visible = status
     self.link_discover_ai.visible = status
+    self.link_discover_rel.visible = status
     self.link_discover_name.visible = status
     self.link_discover_rated.visible = status
 
@@ -140,11 +143,13 @@ class Main_In(Main_InTemplate):
     if self.link_discover_ai.visible == False:
       self.link_discover.icon = 'fa:angle-up'
       self.link_discover_ai.visible = True
+      self.link_discover_rel.visible = True
       self.link_discover_name.visible = True
       self.link_discover_rated.visible = True
     else:
       self.link_discover.icon = 'fa:angle-down'
       self.link_discover_ai.visible = False
+      self.link_discover_rel.visible = False
       self.link_discover_name.visible = False
       self.link_discover_rated.visible = False
   
@@ -158,6 +163,12 @@ class Main_In(Main_InTemplate):
     self.reset_nav_backgrounds()
     self.link_discover_ai.background = "theme:Accent 2"
 
+  def link_discover_rel_click(self, **event_args):
+    self.content_panel.clear()
+    self.content_panel.add_component(C_RelatedArtist())
+    self.reset_nav_backgrounds()
+    self.link_discover_rel.background = "theme:Accent 2"
+  
   def link_discover_name_click(self, **event_args):
     self.route_discover_name(search = None)
   

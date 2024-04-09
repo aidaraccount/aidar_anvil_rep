@@ -32,12 +32,23 @@ components:
     components: []
   - name: link_discover_ai
     properties: {role: nav_sub, url: '', align: left, tooltip: '', border: '', foreground: '',
-      visible: true, text: BY AI, font_size: null, wrap_on: mobile, font: '', col_spacing: medium,
-      spacing_above: none, icon_align: left, col_widths: '', spacing_below: small,
-      italic: false, background: '', bold: false, underline: false, icon: 'fa:angle-right'}
+      visible: true, text: Artists BY AI, font_size: null, wrap_on: mobile, font: '',
+      col_spacing: medium, spacing_above: none, icon_align: left, col_widths: '',
+      spacing_below: small, italic: false, background: '', bold: false, underline: false,
+      icon: 'fa:angle-right'}
     type: Link
     layout_properties: {}
     event_bindings: {click: link_discover_ai_click}
+    components: []
+  - name: link_discover_rel
+    properties: {role: nav_sub, url: '', align: left, tooltip: '', border: '', foreground: '',
+      visible: true, text: Related Artists, font_size: null, wrap_on: mobile, font: '',
+      col_spacing: medium, spacing_above: none, icon_align: left, col_widths: '',
+      spacing_below: small, italic: false, background: '', bold: false, underline: false,
+      icon: 'fa:angle-right'}
+    type: Link
+    layout_properties: {}
+    event_bindings: {click: link_discover_rel_click}
   - type: Link
     properties: {role: nav_sub, url: '', align: left, tooltip: '', border: '', foreground: '',
       visible: true, text: BY NAME, font_size: null, wrap_on: mobile, font: '', col_spacing: medium,

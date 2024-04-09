@@ -36,6 +36,7 @@ unique_ids:
     C_Watchlist_Details.SelectionTemplate: '1701346413163292046583516.0293'
     C_Watchlist_Funnel.ItemTemplate2: '1703089383207767394072737.0022'
     C_Investigate.RowTemplate2: '1695837851284828677272355.3776'
+    C_RelatedArtist: '1712685646649580639106558.6537'
   modules: {}
   server_modules:
     ServerModule1: '1673000496961952494883454.5172'
