@@ -8,7 +8,7 @@ from anvil.tables import app_tables
 import json
 
 class C_RelatedArtistData(C_RelatedArtistDataTemplate):
-  def __init__(self, model_id, artist_id, name, **properties):
+  def __init__(self, user_id, model_id, artist_id, name, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
 
@@ -20,4 +20,4 @@ class C_RelatedArtistData(C_RelatedArtistDataTemplate):
 
     self.label_name.text = name
 
-    self.data_grid_artists_data.items = json.loads(anvil.server.call('search_related_artists', model_id, artist_id))
+    self.data_grid_artists_data.items = json.loads(anvil.server.call('search_related_artists', user_id, model_id, artist_id))
