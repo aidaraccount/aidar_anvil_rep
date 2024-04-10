@@ -23,6 +23,6 @@ class C_SearchArtist(C_SearchArtistTemplate):
   
   def text_box_search_pressed_enter(self, **event_args):
     search_text = self.text_box_search.text
-    print(search_text)
+    print(json.loads(anvil.server.call('search_artist', cur_model_id, search_text.strip())))
     self.data_grid_artists_data.items = json.loads(anvil.server.call('search_artist', cur_model_id, search_text.strip()))
     
