@@ -58,16 +58,6 @@ components:
     layout_properties: {}
     event_bindings: {click: link_discover_name_click}
     components: []
-  - type: Link
-    properties: {role: nav_sub, url: '', align: left, tooltip: '', border: '', foreground: '',
-      visible: true, text: PREV. RATED, font_size: null, wrap_on: mobile, font: '',
-      col_spacing: medium, spacing_above: none, icon_align: left, col_widths: '',
-      spacing_below: small, italic: false, background: '', bold: false, underline: false,
-      icon: 'fa:angle-right'}
-    name: link_discover_rated
-    layout_properties: {}
-    event_bindings: {click: link_discover_rated_click}
-    components: []
 - name: linear_panel_manage
   properties: {}
   type: LinearPanel
@@ -162,8 +152,17 @@ components:
       spacing_below: small, italic: false, background: '', bold: false, underline: false,
       icon: 'fa:angle-right'}
     type: Link
-    layout_properties: {}
     event_bindings: {click: link_models_tracks_click}
+    components: []
+  - type: Link
+    properties: {role: nav_sub, url: '', align: left, tooltip: '', border: '', foreground: '',
+      visible: true, text: PREV. RATED, font_size: null, wrap_on: mobile, font: '',
+      col_spacing: medium, spacing_above: none, icon_align: left, col_widths: '',
+      spacing_below: small, italic: false, background: '', bold: false, underline: false,
+      icon: 'fa:angle-right'}
+    name: link_models_rated
+    event_bindings: {click: link_models_rated_click}
+    components: []
 - name: link_settings
   properties: {role: nav_main, url: '', align: left, tooltip: '', border: '', foreground: '',
     visible: false, text: SETTINGS, font_size: null, wrap_on: mobile, font: '', col_spacing: medium,
