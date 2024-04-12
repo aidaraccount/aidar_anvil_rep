@@ -8,7 +8,7 @@ import anvil.users
 import json
 
 from ..C_Home import C_Home
-from ..C_Investigate import C_Investigate
+from ..C_Discover import C_Discover
 from ..C_Filter import C_Filter
 from ..C_Watchlist_Details import C_Watchlist_Details
 from ..C_Watchlist_Funnel import C_Watchlist_Funnel
@@ -66,7 +66,7 @@ class Main_In(Main_InTemplate):
       self.reset_nav_backgrounds()
       self.link_manage_funnel.background = "theme:Accent 2"
       
-    if target == 'C_Investigate':
+    if target == 'C_Discover':
       self.route_discover_ai(temp_artist_id = temp_artist_id)
       
     if target == 'C_Watchlist_Details':
@@ -154,7 +154,7 @@ class Main_In(Main_InTemplate):
   def route_discover_ai(self, temp_artist_id, **event_args):
     cur_model_id = anvil.server.call('get_model_id',  user["user_id"])
     self.content_panel.clear()
-    self.content_panel.add_component(C_Investigate(temp_artist_id = temp_artist_id))
+    self.content_panel.add_component(C_Discover(temp_artist_id = temp_artist_id))
     self.reset_nav_backgrounds()
     self.link_discover_ai.background = "theme:Accent 2"
 

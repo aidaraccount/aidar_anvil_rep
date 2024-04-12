@@ -1,72 +1,128 @@
-container: {type: ColumnPanel}
+container:
+  type: HtmlTemplate
+  properties: {html: "<div anvil-drop-default anvil-drop-redirect=\".placeholder\"\
+      \ anvil-drop-container=\".anvil-container\"></div>\n  <div class=\"footer\"\
+      >\n    <div class=\"footer-slot\" anvil-slot=\"footer-slot\">\n    <div class=\"\
+      placeholder anvil-designer-only\" anvil-if-slot-empty=\"footer-slot\" anvil-drop-here>Drop\
+      \ a FlowPanel or Label or Link Component here</div>\n  </div>\n</div> \n\n"}
 components:
-- name: header
-  properties: {role: title, align: left, tooltip: '', border: '', foreground: '',
-    visible: true, text: Discover Artists by AI-Recommendation, font_size: null, font: '',
-    spacing_above: small, icon_align: left, spacing_below: small, italic: false, background: '',
-    bold: false, underline: false, icon: ''}
-  type: Label
-  layout_properties: {grid_position: 'JCSJTL,DJUTYC'}
-- name: label_1
-  properties: {role: description, align: left, tooltip: '', border: '', foreground: '',
-    visible: true, text: 'Here are your recommendations - based on your set filters,
-      this dashboard is always populated with information about the artist with the
-      highest probability of meeting your interests. These probabilities are determined
-      by an individual machine learning algorithm that is continuously trained with
-      your feedback ratings (on a scale of 1 to 7).', font_size: null, font: '', spacing_above: small,
-    icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-    underline: false, icon: ''}
-  type: Label
-  layout_properties: {grid_position: 'ZHLOZZ,KCNJRY'}
-- name: flow_panel_1
-  properties: {}
-  type: FlowPanel
-  layout_properties: {grid_position: 'AYYJSX,CUVSLM'}
-  components: []
 - name: column_panel_1
-  properties: {}
+  properties: {spacing_above: small, spacing_below: small, col_spacing: medium, col_widths: '{"RMUTFS":45,"ZTSNXU":15}'}
   type: ColumnPanel
-  layout_properties: {grid_position: 'HMFATQ,VSMUBY'}
+  layout_properties: {slot: default}
   components:
-  - name: feature_1
-    properties: {}
-    type: form:Feature_flat
-    layout_properties: {grid_position: 'NUWBXF,JWYMZJ LLGRAI,ERTCAQ'}
-  - name: feature_2
-    properties: {}
-    type: form:Feature_flat
-    layout_properties: {grid_position: 'NUWBXF,JWYMZJ VONRPF,QKRZWS'}
-  - name: feature_double_1
-    properties: {}
-    type: form:Feature_double
-    layout_properties: {grid_position: 'NUWBXF,PUVBEZ'}
-  - name: feature_3
-    properties: {}
-    type: form:Feature_flat
-    layout_properties: {grid_position: 'NUWBXF,HUPDGA'}
-  - name: feature_4
-    properties: {}
-    type: form:Feature_flat
-    layout_properties: {grid_position: 'PEVIDJ,AKVTWG'}
-- name: section_2
-  properties: {col_widths: '{"NDEEQX":10,"TXHAZJ":40,"VZBVNO":10}', role: grid}
-  type: ColumnPanel
-  layout_properties: {grid_position: 'ZEHPHK,ZJRJDB'}
-  components:
-  - name: spacer_2
-    properties: {height: 32}
+  - name: header
+    properties: {role: title, align: left, tooltip: '', border: '', foreground: '',
+      visible: true, text: Discover Artists by AI-Recommendation, font_size: null,
+      font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false,
+      background: '', bold: false, underline: false, icon: ''}
+    type: Label
+    layout_properties: {grid_position: 'YJSSRE,YWCHHS'}
+  - name: label_1_copy
+    properties: {role: description, align: left, tooltip: '', border: '', foreground: '',
+      visible: true, text: 'This is your artist dashboard - showing everything you
+        need to know about the artist recommended just for you by our AI. Rate the
+        artist, and our algorithm will continue to learn what you like and appreciate
+        in artists - be it their music style, their origin or label status. If you
+        want to narrow it down manually, use the filters!', font_size: null, font: '',
+      spacing_above: small, icon_align: left, spacing_below: small, italic: false,
+      background: '', bold: false, underline: false, icon: ''}
+    type: Label
+    layout_properties: {grid_position: 'URQIYI,RMUTFS'}
+  - name: xy_panel_1
+    properties: {height: 48}
+    type: XYPanel
+    layout_properties: {grid_position: 'URQIYI,ZTSNXU'}
+    components:
+    - name: button_remove_filters
+      properties: {text: '', icon: 'fa:ban', tooltip: remove filters, role: feature,
+        visible: true, background: 'theme:Orange', foreground: 'theme:Text_DecentWhite'}
+      type: Button
+      layout_properties: {x: 175, y: 0, width: 41}
+      event_bindings: {click: button_remove_filters_click}
+    - name: button_set_filters
+      properties: {text: Set Filters, align: right, role: feature, icon: 'fa:filter'}
+      type: Button
+      layout_properties: {x: 65, y: 0, width: 105}
+      event_bindings: {click: button_set_filters_click}
+  - name: label_1
+    properties: {text: Dummy}
+    type: Label
+    layout_properties: {grid_position: 'NJDLBA,NDXRJC'}
+  - name: spacer_1
+    properties: {height: '1500'}
     type: Spacer
-    layout_properties: {grid_position: 'TLCBYQ,NDEEQX'}
+    layout_properties: {grid_position: 'KIHLQP,GAKFZJ'}
+  - name: label_7
+    properties: {text: Bottom Dummy}
+    type: Label
+    layout_properties: {grid_position: 'FVXWRE,XDXTKO'}
+  - name: spacer_bottom_margin
+    properties: {height: '140'}
+    type: Spacer
+    layout_properties: {grid_position: 'MNSGLO,DTALNU'}
+  data_bindings: []
+- name: column_panel_2
+  properties: {col_widths: '{"KTIVUF":25,"WIFSGN":26,"XUSTNC":30,"THIOWY":5,"OZIYBS":20}',
+    col_spacing: tiny, background: 'theme:Grid_Black', spacing_below: none, spacing_above: none}
+  type: ColumnPanel
+  layout_properties: {slot: footer-slot}
+  components:
   - name: c_web_player
     properties: {}
     type: form:C_WebPlayer
-    layout_properties: {grid_position: 'TLCBYQ,TXHAZJ'}
-  - name: spacer_1
+    layout_properties: {grid_position: 'UQVSNC,KTIVUF', full_width_row: true}
+  - name: spacer_3
     properties: {height: 32}
     type: Spacer
-    layout_properties: {grid_position: 'TLCBYQ,VZBVNO'}
-- name: content_panel
-  properties: {}
-  type: ColumnPanel
-  layout_properties: {grid_position: 'TCNZHO,CCSOUP'}
+    layout_properties: {grid_position: 'UQVSNC,THIOWY'}
+  - name: label_2
+    properties: {text: '  no fit', italic: true, font_size: 16, spacing_below: none}
+    type: Label
+    layout_properties: {grid_position: 'UQVSNC,OZIYBS THYALW,GCKCDI'}
+  - name: label_3
+    properties: {text: Match!, align: right, italic: true, font_size: 16, spacing_below: none}
+    type: Label
+    layout_properties: {grid_position: 'UQVSNC,OZIYBS THYALW,EQAUIK'}
+  - name: button_1
+    properties: {text: '1', role: feature, spacing_below: none, spacing_above: none}
+    type: Button
+    layout_properties: {grid_position: 'UQVSNC,OZIYBS CFGNEX,IXXGLU'}
+  - name: button_1_copy
+    properties: {text: '2', role: feature, spacing_below: none, spacing_above: none}
+    type: Button
+    layout_properties: {grid_position: 'UQVSNC,OZIYBS CFGNEX,NSUNGO'}
+  - name: button_1_copy_2
+    properties: {text: '3', role: feature, spacing_below: none, spacing_above: none}
+    type: Button
+    layout_properties: {grid_position: 'UQVSNC,OZIYBS CFGNEX,OBEDSI'}
+  - name: button_1_copy_3
+    properties: {text: '4', role: feature, spacing_below: none, spacing_above: none,
+      bold: false}
+    type: Button
+    layout_properties: {grid_position: 'UQVSNC,OZIYBS CFGNEX,XGWHAT'}
+  - name: button_1_copy_4
+    properties: {text: '5', role: feature, spacing_below: none, spacing_above: none,
+      background: 'rgb(254,204,185)', foreground: '', bold: true}
+    type: Button
+    layout_properties: {grid_position: 'UQVSNC,OZIYBS CFGNEX,TTQFFE'}
+  - name: button_1_copy_5
+    properties: {text: '6', role: feature, spacing_below: none, spacing_above: none,
+      background: 'rgb(254,152,115)', foreground: '', bold: true}
+    type: Button
+    layout_properties: {grid_position: 'UQVSNC,OZIYBS CFGNEX,LNXGHL'}
+  - name: button_1_copy_6
+    properties: {text: '7', role: feature, spacing_below: none, spacing_above: none,
+      background: 'rgb(253, 101, 45)', foreground: 'theme:Text_White', bold: true,
+      border: ''}
+    type: Button
+    layout_properties: {grid_position: 'UQVSNC,OZIYBS CFGNEX,ZLIZAI'}
+  - name: column_panel_3
+    properties: {}
+    type: ColumnPanel
+    layout_properties: {grid_position: 'UQVSNC,XUSTNC DWBILT,ASHSNY'}
+  - name: spacer_4
+    properties: {height: 32}
+    type: Spacer
+    layout_properties: {grid_position: 'UQVSNC,XUSTNC EUSJDF,WIFSGN'}
 is_package: true

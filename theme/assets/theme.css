@@ -277,6 +277,7 @@ body.anvil-highlight .nav-elt.placeholder {
   width: 5px;
 }
 
+/* Was padding: 24px 16px; */
 .designer .instructions {
     padding: 24px 16px;
     font-size: 14px;
@@ -462,15 +463,15 @@ body.anvil-highlight .nav-elt.placeholder {
 
 .footer > .footer-slot > .placeholder { outline: 1px dotted; padding-left: 16px; padding-right: 16px; margin-top: 12px; display:none; }
 .anvil-highlight .footer > .footer-slot > .placeholder { display:block; }
-  
-.content{
-/*  adjusted for the footer  */
-  margin-bottom: 70px;
+
+.footer {
+  background-color: %color:Grid_Black%;
+  padding: 0 !important;
+  margin: 0 !important;
 }
 
 .footer a, .footer a.anvil-component {
   padding: 5px;
-/*   margin: 8px 0 0; */
   border-radius: 20px;
 }
 
@@ -480,7 +481,6 @@ footer a, .footer .anvil-component {
   line-height: 30px;
   min-width: 30px;
   min-height: 30px;
-  margin: 4px 0;
 }
 .footer a:hover, .footer a:active {
   color: #eee; text-decoration: none;
