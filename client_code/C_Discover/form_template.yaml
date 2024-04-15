@@ -80,7 +80,7 @@ components:
       type: Label
       layout_properties: {grid_position: 'WRLQOW,HOSDXG OWJGOG,UXYXLB WLFHCC,OMLURK'}
     - name: linear_panel_1
-      properties: {background: '', role: grid}
+      properties: {background: '', role: grid, border: ''}
       type: LinearPanel
       layout_properties: {grid_position: 'WRLQOW,CZMPOC'}
       components:
