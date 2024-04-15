@@ -4,10 +4,11 @@ container:
       \ anvil-drop-container=\".anvil-container\"></div>\n  <div class=\"footer\"\
       >\n    <div class=\"footer-slot\" anvil-slot=\"footer-slot\">\n    <div class=\"\
       placeholder anvil-designer-only\" anvil-if-slot-empty=\"footer-slot\" anvil-drop-here>Drop\
-      \ a FlowPanel or Label or Link Component here</div>\n  </div>\n</div> \n\n"}
+      \ a FlowPanel or Label or Link Component here</div>\n  </div>\n</div> \n\n",
+    background: 'theme:Main_Black'}
 components:
 - name: column_panel_1
-  properties: {spacing_above: small, spacing_below: small, col_spacing: medium, col_widths: '{"RMUTFS":45,"ZTSNXU":15}'}
+  properties: {spacing_above: small, spacing_below: small, col_spacing: medium, col_widths: '{"RMUTFS":45,"ZTSNXU":15,"DTEJWC":15,"HPUOQR":45}'}
   type: ColumnPanel
   layout_properties: {slot: default}
   components:
@@ -18,19 +19,14 @@ components:
       background: '', bold: false, underline: false, icon: ''}
     type: Label
     layout_properties: {grid_position: 'YJSSRE,YWCHHS'}
-  - name: label_1_copy
-    properties: {role: description, align: left, tooltip: '', border: '', foreground: '',
-      visible: true, text: 'This is your artist dashboard - showing everything you
-        need to know about the artist recommended just for you by our AI. Rate the
-        artist, and our algorithm will continue to learn what you like and appreciate
-        in artists - be it their music style, their origin or label status. If you
-        want to narrow it down manually, use the filters!', font_size: null, font: '',
-      spacing_above: small, icon_align: left, spacing_below: small, italic: false,
-      background: '', bold: false, underline: false, icon: ''}
-    type: Label
+  - name: info
+    properties: {icon: 'fa:angle-down', icon_align: left, role: description, spacing_below: none,
+      spacing_above: none, text: Info}
+    type: Link
     layout_properties: {grid_position: 'URQIYI,RMUTFS'}
+    event_bindings: {click: info_click}
   - name: xy_panel_1
-    properties: {height: 48}
+    properties: {height: 30}
     type: XYPanel
     layout_properties: {grid_position: 'URQIYI,ZTSNXU'}
     components:
@@ -45,16 +41,75 @@ components:
       type: Button
       layout_properties: {x: 65, y: 0, width: 105}
       event_bindings: {click: button_set_filters_click}
-  - name: label_1
-    properties: {text: Dummy}
-    type: Label
-    layout_properties: {grid_position: 'NJDLBA,NDXRJC'}
+  - name: spacer_5
+    properties: {height: '16'}
+    type: Spacer
+    layout_properties: {grid_position: 'PCRXPN,NGBNPE'}
+  - name: artist_link
+    properties: {col_widths: '{}'}
+    type: Link
+    layout_properties: {grid_position: 'EYOQXT,DTEJWC'}
+    components:
+    - name: artist_image
+      properties: {role: null, vertical_align: center, height: '170', tooltip: '',
+        border: '', foreground: '', visible: true, display_mode: zoom_to_fill, spacing_above: none,
+        source: '', spacing_below: none, background: '', horizontal_align: center}
+      type: Image
+      layout_properties: {grid_position: 'XISFUA,MXKFIP'}
+  - name: column_panel_4
+    properties: {col_widths: '{"FKEIWL":5,"WXEPPA":55,"UXYXLB":15,"AQHHFG":45,"HOSDXG":60,"CZMPOC":15}',
+      col_spacing: medium}
+    type: ColumnPanel
+    layout_properties: {grid_position: 'EYOQXT,HPUOQR'}
+    components:
+    - name: link_watchlist_name
+      properties: {role: artist_name_shadow}
+      type: Link
+      layout_properties: {grid_position: 'WRLQOW,HOSDXG UYZDXY,FKEIWL'}
+      event_bindings: {click: link_watchlist_name_click}
+    - name: name
+      properties: {text: '', role: artist_name_shadow, icon: ''}
+      type: Label
+      layout_properties: {grid_position: 'WRLQOW,HOSDXG UYZDXY,WXEPPA'}
+    - name: countries
+      properties: {spacing_below: small, spacing_above: small, role: feature}
+      type: Label
+      layout_properties: {grid_position: 'WRLQOW,HOSDXG OWJGOG,UXYXLB JIWIZS,MCWAPT'}
+    - name: genres
+      properties: {align: left, underline: false, role: feature}
+      type: Label
+      layout_properties: {grid_position: 'WRLQOW,HOSDXG OWJGOG,UXYXLB WLFHCC,OMLURK'}
+    - name: linear_panel_1
+      properties: {background: '', role: grid}
+      type: LinearPanel
+      layout_properties: {grid_position: 'WRLQOW,CZMPOC'}
+      components:
+      - name: prediction
+        properties: {role: investigate_value, align: center, spacing_below: none,
+          font_size: 32, bold: true}
+        type: Label
+        layout_properties: {}
+      - name: label_1
+        properties: {align: center, text: fit likelihood, role: description, spacing_above: none,
+          italic: true}
+        type: Label
+        layout_properties: {}
+    - name: spacer_2
+      properties: {height: 32}
+      type: Spacer
+      layout_properties: {grid_position: 'WRLQOW,HOSDXG OWJGOG,AQHHFG'}
+    - name: bio
+      properties: {icon: 'fa:angle-down', icon_align: left, role: description, spacing_below: none,
+        spacing_above: none, text: ''}
+      type: Link
+      layout_properties: {grid_position: 'WRLQOW,HOSDXG NGPFLZ,KBZGLF'}
+      event_bindings: {click: bio_click}
   - name: spacer_1
-    properties: {height: '1500'}
+    properties: {height: 239}
     type: Spacer
     layout_properties: {grid_position: 'KIHLQP,GAKFZJ'}
   - name: label_7
-    properties: {text: Bottom Dummy}
+    properties: {text: Bottom Dummy, role: description}
     type: Label
     layout_properties: {grid_position: 'FVXWRE,XDXTKO'}
   - name: spacer_bottom_margin
@@ -117,12 +172,8 @@ components:
       border: ''}
     type: Button
     layout_properties: {grid_position: 'UQVSNC,OZIYBS CFGNEX,ZLIZAI'}
-  - name: column_panel_3
-    properties: {}
-    type: ColumnPanel
-    layout_properties: {grid_position: 'UQVSNC,XUSTNC DWBILT,ASHSNY'}
   - name: spacer_4
     properties: {height: 32}
     type: Spacer
-    layout_properties: {grid_position: 'UQVSNC,XUSTNC EUSJDF,WIFSGN'}
+    layout_properties: {grid_position: 'UQVSNC,XUSTNC'}
 is_package: true
