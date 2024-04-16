@@ -182,8 +182,8 @@ components:
     layout_properties: {grid_position: 'MNSGLO,DTALNU'}
   data_bindings: []
 - name: column_panel_2
-  properties: {col_widths: '{"KTIVUF":20,"WIFSGN":26,"XUSTNC":30,"THIOWY":10,"OZIYBS":20}',
-    col_spacing: tiny, background: 'theme:Grid_Black', spacing_below: none, spacing_above: none}
+  properties: {col_widths: '{"KTIVUF":20,"XUSTNC":30,"THIOWY":10,"OZIYBS":20}', col_spacing: tiny,
+    background: 'theme:Grid_Black', spacing_below: none, spacing_above: none}
   type: ColumnPanel
   layout_properties: {slot: footer-slot}
   components:
@@ -236,8 +236,17 @@ components:
       border: ''}
     type: Button
     layout_properties: {grid_position: 'UQVSNC,OZIYBS CFGNEX,ZLIZAI'}
-  - name: spacer_4
+  - name: spacer_6
     properties: {height: 32}
     type: Spacer
-    layout_properties: {grid_position: 'UQVSNC,XUSTNC'}
+    layout_properties: {grid_position: 'UQVSNC,XUSTNC OPLCOW,KXLRPY'}
+  - name: link_1
+    properties: {align: right, text: 'Model: EDM Newcomer', role: table_content_small}
+    type: Link
+    layout_properties: {grid_position: 'UQVSNC,XUSTNC OPLCOW,ZCPELY FWDUAH,WWNVOZ'}
+    components: []
+  - name: link_5
+    properties: {align: right, text: 'Watchlist: Growth 2024', role: table_content_small}
+    type: Link
+    layout_properties: {grid_position: 'UQVSNC,XUSTNC OPLCOW,ZCPELY DHATKU,PYGZRY'}
 is_package: true
