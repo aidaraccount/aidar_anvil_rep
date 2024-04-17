@@ -30,7 +30,7 @@ class C_Watchlist_Overview(C_Watchlist_OverviewTemplate):
     # get raw data
     data = json.loads(anvil.server.call('get_watchlist_overview', cur_model_id))
     
-    # fill Nones
+    # fill Nones and turn to strings
     for item in data:
         for key, value in item.items():
             if value is None:
@@ -40,8 +40,8 @@ class C_Watchlist_Overview(C_Watchlist_OverviewTemplate):
         item['FollowerDev'] = "{:.1f}".format(round(float(item['FollowerDev']),1))
         item['PopularityDev'] = "{:.1f}".format(round(float(item['PopularityDev']),1))
     
+    # add 1.000er seperators
     data = self.change_format(data=data, column='FollowerLat', direction='add')
-    
     data = self.change_format(data=data, column='FollowerDif', direction='add')
     
     return data
