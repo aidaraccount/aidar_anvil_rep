@@ -209,6 +209,7 @@ div.row {
 
 .body {
   background-color: %color:Main_Black%;
+  background-image: radial-gradient(circle farthest-corner at 100px 100px, rgb(60, 10, 93) 0%, transparent 20%)
 }
 
 a, a:visited {
