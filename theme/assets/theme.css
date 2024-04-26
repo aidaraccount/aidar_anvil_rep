@@ -153,7 +153,8 @@ a>.link-text {
   text-shadow: 2px 2px 7px rgba(0, 0, 0, 0.9);
 }
 .anvil-role-grid {
-  background-color: %color:Grid_Black%;
+  /* background-color: %color:Grid_Black%; */
+  background-color: rgba(40, 40, 40, 0.85) !important;
   border-radius: 12px;
   margin-top: 5px;
   margin-bottom: 5px;
@@ -209,7 +210,10 @@ div.row {
 
 .body {
   background-color: %color:Main_Black%;
-  background-image: radial-gradient(circle farthest-corner at 100px 100px, rgb(60, 10, 93) 0%, transparent 20%)
+  background-image:
+    radial-gradient(circle farthest-corner at 100px 100px, rgb(60, 10, 93) 0%, transparent 20%),
+    radial-gradient(circle farthest-corner at 1500px 500px, rgb(118, 42, 15) 0%, transparent 40%),
+    radial-gradient(circle farthest-corner at bottom left, rgb(118, 42, 15) 0%, rgb(1, 1, 1) 40%);
 }
 
 a, a:visited {
