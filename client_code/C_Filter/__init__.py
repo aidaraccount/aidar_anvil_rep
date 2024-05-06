@@ -32,6 +32,8 @@ class C_Filter(C_FilterTemplate):
                "artist_popularity_lat <=": "artist_popularity_lat_max",
                "artist_follower_lat >=": "artist_follower_lat_min",
                "artist_follower_lat <=": "artist_follower_lat_max",
+               "major_coop =": "drop_down_major",
+               "sub_major_coop =": "drop_down_submajor",
                "avg_duration >=": "avg_duration_min",
                "avg_duration <=": "avg_duration_max",
                "avg_danceability >=": "avg_danceability_min",
@@ -69,6 +71,9 @@ class C_Filter(C_FilterTemplate):
         elif filter["Column"] in ("avg_key"):
           tonleiter = ["C", "C#/Db", "D", "D#/Eb", "E", "F", "F#/Gb", "G", "G#/Ab", "A", "A#/Bb", "B"]
           element.selected_value = tonleiter[int("{:.0f}".format(round(float(filter["Value"]), 0)))]
+        elif filter["Column"] in ("major_coop", "sub_major_coop"):
+          if filter["Value"] == '1': element.selected_value = 'Yes'
+          if filter["Value"] == '0': element.selected_value = 'No'
 
     # Genre Filters
     filter_genre = [item for item in fil if item['Type'] == 'genre']
@@ -92,6 +97,11 @@ class C_Filter(C_FilterTemplate):
     if self.artist_popularity_lat_max.text is not None: filters_json += f'{{"ModelID":"{cur_model_id}","Type":"general","Column":"artist_popularity_lat","Operator":"<=","Value":"{self.artist_popularity_lat_max.text}"}},'
     if self.artist_follower_lat_min.text is not None: filters_json += f'{{"ModelID":"{cur_model_id}","Type":"general","Column":"artist_follower_lat","Operator":">=","Value":"{self.artist_follower_lat_min.text}"}},'
     if self.artist_follower_lat_max.text is not None: filters_json += f'{{"ModelID":"{cur_model_id}","Type":"general","Column":"artist_follower_lat","Operator":"<=","Value":"{self.artist_follower_lat_max.text}"}},'
+
+    if self.drop_down_major.selected_value == 'Yes': filters_json += f'{{"ModelID":"{cur_model_id}","Type":"general","Column":"major_coop","Operator":"=","Value":"1"}},'
+    if self.drop_down_major.selected_value == 'No': filters_json += f'{{"ModelID":"{cur_model_id}","Type":"general","Column":"major_coop","Operator":"=","Value":"0"}},'
+    if self.drop_down_submajor.selected_value == 'Yes': filters_json += f'{{"ModelID":"{cur_model_id}","Type":"general","Column":"sub_major_coop","Operator":"=","Value":"1"}},'
+    if self.drop_down_submajor.selected_value == 'No': filters_json += f'{{"ModelID":"{cur_model_id}","Type":"general","Column":"sub_major_coop","Operator":"=","Value":"0"}},'
     
     if self.avg_duration_min.text is not None: filters_json += f'{{"ModelID":"{cur_model_id}","Type":"general","Column":"avg_duration","Operator":">=","Value":"{self.avg_duration_min.text}"}},'
     if self.avg_duration_max.text is not None: filters_json += f'{{"ModelID":"{cur_model_id}","Type":"general","Column":"avg_duration","Operator":"<=","Value":"{self.avg_duration_max.text}"}},'
@@ -150,7 +160,6 @@ class C_Filter(C_FilterTemplate):
     if filters_json == '[]': filters_json = None
     
     # change filters
-    print(filters_json)
     anvil.server.call('change_filters',
                       cur_model_id,
                       filters_json
