@@ -120,7 +120,7 @@ components:
     components:
     - name: label_6_copy
       properties: {role: feature, align: left, tooltip: Number of followers on Spotify,
-        border: '', foreground: '', visible: true, text: Former Major Cooperation,
+        border: '', foreground: '', visible: true, text: '   Former Major Cooperation',
         font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small,
         italic: false, background: '', bold: false, underline: false, icon: ''}
       type: Label
@@ -139,7 +139,7 @@ components:
     components:
     - name: label_6_copy_copy
       properties: {role: feature, align: left, tooltip: Number of followers on Spotify,
-        border: '', foreground: '', visible: true, text: Former Sub-Major Cooperation,
+        border: '', foreground: '', visible: true, text: '   Former Sub-Major Cooperation',
         font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small,
         italic: false, background: '', bold: false, underline: false, icon: ''}
       type: Label
