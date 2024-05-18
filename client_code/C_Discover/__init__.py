@@ -20,6 +20,11 @@ class C_Discover(C_DiscoverTemplate):
     biography = 'DNA are a producer duo from Johannesburg, South Africa - comprising of Devon Horowitz and Alon Alkalay. \n\nComing together from different musical backgrounds, Dev brings an attention to musical and rythmic-detail, having been classically trained in jazz drumming and rock guitar, whilst Lon brings his deep knowledge of electronic music production and finesse for intricate sound design and emotional compositions to the duo - they would describe their sound as a culmination of uplifting and emotive progressions, driven by strong basslines and soaring melodics. \n\nDNA achieved a Top 10 position on <a href="spotify:artist:3BtOWcNsCesRzrZLII9zdz" data-name="Beatport">Beatport</a>&#39;s&#39; Hype Chart as well as a Top 100 position on <a href="spotify:artist:3BtOWcNsCesRzrZLII9zdz" data-name="Beatport">Beatport</a>&#39;s&#39; Melodic House Chart with their prior Ton Töpferei. \n\nThe duo are feeling ambitious for 2021, with some amazing new music in the works.'
     watchlist_presence = 'True'
     
+    self.sec_releases.visible = True
+    self.sec_success.visible = False
+    self.sec_fandom.visible = False
+    self.sec_musical.visible = False
+    
     self.spacer_bottom_margin.height = 80
 
     # --------------------------------------
