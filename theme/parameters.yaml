@@ -54,6 +54,8 @@ roles:
   components: [Link]
 - name: nav_sub
   components: [Link]
+- name: table_content_small_orange_underlined
+  components: [Link]
 color_scheme:
   preset_groups:
   - name: Accent

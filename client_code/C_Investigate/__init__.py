@@ -49,9 +49,6 @@ class C_Investigate(C_InvestigateTemplate):
   # SUGGESTIONS
   def refresh_sug(self, temp_artist_id, **event_args):
     #print(f'Refresh Sug - Start {datetime.datetime.now()}', flush=True)
-    # TIME CHECK
-    t = datetime.now()
-    
     sug = json.loads(anvil.server.call('get_suggestion', 'Inspect', cur_model_id, temp_artist_id)) # Free, Explore, Inspect, Dissect
     
     # TIME CHECK

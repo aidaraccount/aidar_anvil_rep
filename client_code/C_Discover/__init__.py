@@ -21,10 +21,8 @@ class C_Discover(C_DiscoverTemplate):
     user = anvil.users.get_user()
     cur_model_id = anvil.server.call('get_model_id',  user["user_id"])
     
-    sug = {"Status": "Success!", "ModelID": "2", "ArtistID": "560919", "SpotifyArtistID": "6heMlLFM6RDDHRz99uKMqS", "Name": "RetroVision", "ArtistURL": "https://open.spotify.com/artist/6heMlLFM6RDDHRz99uKMqS", "ArtistPictureURL": "https://i.scdn.co/image/ab6761610000e5eb1428ee0feb9dae32ac83669e", "NoTracks": "113", "ArtistPopularity_lat": "46", "ArtistFollower_lat": "93339", "FirstReleaseDate": "2014-11-18", "LastReleaseDate": "2024-03-08", "MajorCoop": "1", "SubMajorCoop": "1", "LatestLabel": "Warner Music Central Europe", "AvgExplicit": "0.0354", "MinMusDist": "0.8885102232353875", "AvgMusDist": "0.9062671665657496", "MaxMusDist": "0.9240241098961117", "AvgDuration": "187.52287610619476", "AvgDanceability": "0.678221238938053", "AvgEnergy": "0.857221238938053", "AvgKey": "4.8938", "AvgLoudness": "-4.713938053097346", "AvgMode": "0.4867", "AvgSpeechiness": "0.09923097345132743", "AvgAcousticness": "0.0627684778761062", "AvgInstrumentalness": "0.2995615364601769", "AvgLiveness": "0.3070929203539824", "AvgValence": "0.457787610619469", "AvgTempo": "126.82925663716814", "Genres": "pop, house, edm, electro", "Countries": "Sweden", "RelArtists": "6", "Prediction": "93"}
-    biography = 'DNA are a producer duo from Johannesburg, South Africa - comprising of Devon Horowitz and Alon Alkalay. \n\nComing together from different musical backgrounds, Dev brings an attention to musical and rythmic-detail, having been classically trained in jazz drumming and rock guitar, whilst Lon brings his deep knowledge of electronic music production and finesse for intricate sound design and emotional compositions to the duo - they would describe their sound as a culmination of uplifting and emotive progressions, driven by strong basslines and soaring melodics. \n\nDNA achieved a Top 10 position on <a href="spotify:artist:3BtOWcNsCesRzrZLII9zdz" data-name="Beatport">Beatport</a>&#39;s&#39; Hype Chart as well as a Top 100 position on <a href="spotify:artist:3BtOWcNsCesRzrZLII9zdz" data-name="Beatport">Beatport</a>&#39;s&#39; Melodic House Chart with their prior Ton Töpferei. \n\nThe duo are feeling ambitious for 2021, with some amazing new music in the works.'
-    watchlist_presence = 'True'
-        
+    sug = json.loads(anvil.server.call('get_suggestion', 'Inspect', cur_model_id, temp_artist_id)) # Free, Explore, Inspect, Dissect
+    # sug = {"Status": "Success!", "ModelID": "2", "ArtistID": "560919", "SpotifyArtistID": "6heMlLFM6RDDHRz99uKMqS", "Name": "RetroVision", "ArtistURL": "https://open.spotify.com/artist/6heMlLFM6RDDHRz99uKMqS", "ArtistPictureURL": "https://i.scdn.co/image/ab6761610000e5eb1428ee0feb9dae32ac83669e", "NoTracks": "113", "ArtistPopularity_lat": "46", "ArtistFollower_lat": "93339", "FirstReleaseDate": "2014-11-18", "LastReleaseDate": "2024-03-08", "MajorCoop": "1", "SubMajorCoop": "1", "LatestLabel": "Warner Music Central Europe", "AvgExplicit": "0.0354", "MinMusDist": "0.8885102232353875", "AvgMusDist": "0.9062671665657496", "MaxMusDist": "0.9240241098961117", "AvgDuration": "187.52287610619476", "AvgDanceability": "0.678221238938053", "AvgEnergy": "0.857221238938053", "AvgKey": "4.8938", "AvgLoudness": "-4.713938053097346", "AvgMode": "0.4867", "AvgSpeechiness": "0.09923097345132743", "AvgAcousticness": "0.0627684778761062", "AvgInstrumentalness": "0.2995615364601769", "AvgLiveness": "0.3070929203539824", "AvgValence": "0.457787610619469", "AvgTempo": "126.82925663716814", "Genres": "pop, house, edm, electro", "Countries": "Sweden", "RelArtists": "6", "Prediction": "93"}
     self.spacer_bottom_margin.height = 80
 
     if sug["Status"] == 'Empty Model!':
@@ -60,9 +58,11 @@ class C_Discover(C_DiscoverTemplate):
       self.sec_success.visible = False
       self.sec_fandom.visible = False
       self.sec_musical.visible = False
+   
+      biography = 'biography is coming soon'
+      watchlist_presence = anvil.server.call('check_watchlist_presence', cur_model_id, artist_id)
+      # watchlist_presence = 'True'
     
-      # self.check_watchlist_presence(cur_model_id, artist_id)
-      
       if sug["ArtistPictureURL"] != 'None':
         self.artist_image.source = sug["ArtistPictureURL"]
       else:
@@ -70,13 +70,13 @@ class C_Discover(C_DiscoverTemplate):
       
       if sug["ArtistURL"] != 'None': self.artist_link.url = sug["ArtistURL"]
       
-      self.name.text = '   ' + sug["Name"]
+      self.name.text = sug["Name"]
       if watchlist_presence == 'True':
         self.link_watchlist_name.icon = 'fa:star'
       else:
         self.link_watchlist_name.icon = 'fa:star-o'
 
-      self.bio.text = biography[1:70] + '...'
+      self.bio.text = biography[0:70] + '...'
       
       if sug["ArtistPopularity_lat"] == 'None': self.artist_popularity_lat.text = '-'
       else: self.artist_popularity_lat.text = sug["ArtistPopularity_lat"]
@@ -231,6 +231,8 @@ class C_Discover(C_DiscoverTemplate):
     self.c_web_player.html = '<iframe style="border-radius:12px" src="https://open.spotify.com/embed/artist/' + sug["SpotifyArtistID"] + '?utm_source=generator&theme=0&autoplay=true" width="100%" height="80" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>'
 
   
+  # --------------------------------------------
+  # INFO CLICK  
   def info_click(self, **event_args):
     if self.info.icon == 'fa:angle-down':
       self.info.icon = 'fa:angle-up'
@@ -241,43 +243,173 @@ class C_Discover(C_DiscoverTemplate):
       self.info.icon_align = 'left'
       self.info.text = 'Info'
 
-  def link_watchlist_name_click(self, **event_args):
-    if self.link_watchlist_name.icon == 'fa:star':
-      self.link_watchlist_name.icon = 'fa:star-o'
-    else:
-      self.link_watchlist_name.icon = 'fa:star'
-
+  # --------------------------------------------
+  # BIO CLICK
   def bio_click(self, **event_args):
-    biography = 'DNA are a producer duo from Johannesburg, South Africa - comprising of Devon Horowitz and Alon Alkalay. \n\nComing together from different musical backgrounds, Dev brings an attention to musical and rythmic-detail, having been classically trained in jazz drumming and rock guitar, whilst Lon brings his deep knowledge of electronic music production and finesse for intricate sound design and emotional compositions to the duo - they would describe their sound as a culmination of uplifting and emotive progressions, driven by strong basslines and soaring melodics. \n\nDNA achieved a Top 10 position on <a href="spotify:artist:3BtOWcNsCesRzrZLII9zdz" data-name="Beatport">Beatport</a>&#39;s&#39; Hype Chart as well as a Top 100 position on <a href="spotify:artist:3BtOWcNsCesRzrZLII9zdz" data-name="Beatport">Beatport</a>&#39;s&#39; Melodic House Chart with their prior Ton Töpferei. \n\nThe duo are feeling ambitious for 2021, with some amazing new music in the works.'
+    biography = 'biography is coming soon'
     if self.bio.icon == 'fa:angle-down':
       self.bio.icon = 'fa:angle-up'
       self.bio.icon_align = 'left_edge'
-      self.bio.text = biography
+      self.bio.text = biography + '...'  # remove + '...'
     else:
       self.bio.icon = 'fa:angle-down'
       self.bio.icon_align = 'left'
-      self.bio.text = biography[1:70] + '...'
+      self.bio.text = biography[0:70] + '...'
 
+  # --------------------------------------------
+  # WATCHLIST  
+  def link_watchlist_name_click(self, **event_args):
+    if self.link_watchlist_name.icon == 'fa:star':
+      self.link_watchlist_name.icon = 'fa:star-o'
+      self.update_watchlist_lead(cur_model_id, artist_id, False, None, False)
+      Notification("",
+        title=f"{self.name.text} removed from the watchlist!",
+        style="success").show()
+    else:
+      self.link_watchlist_name.icon = 'fa:star'
+      self.update_watchlist_lead(cur_model_id, artist_id, True, 'Action required', True)
+      Notification("",
+        title=f"{self.name.text} added to the watchlist!",
+        style="success").show()
+
+  def update_watchlist_lead(self, cur_model_id, artist_id, watchlist, status, notification, **event_args):
+    anvil.server.call('update_watchlist_lead',
+                      cur_model_id,
+                      artist_id,
+                      watchlist,
+                      status,
+                      notification
+                      )
+    self.parent.parent.update_no_notifications()
+  
+  # --------------------------------------------
+  # SECTION NAVIGATION
   def nav_releases_click(self, **event_args):
+    self.nav_releases.role = 'table_content_small_orange_underlined'
+    self.nav_success.role = 'table_content_small'
+    self.nav_fandom.role = 'table_content_small'
+    self.nav_musical.role = 'table_content_small'
     self.sec_releases.visible = True
     self.sec_success.visible = False
     self.sec_fandom.visible = False
     self.sec_musical.visible = False
   
   def nav_success_click(self, **event_args):
+    self.nav_releases.role = 'table_content_small'
+    self.nav_success.role = 'table_content_small_orange_underlined'
+    self.nav_fandom.role = 'table_content_small'
+    self.nav_musical.role = 'table_content_small'
     self.sec_releases.visible = False
     self.sec_success.visible = True
     self.sec_fandom.visible = False
     self.sec_musical.visible = False
 
   def nav_fandom_click(self, **event_args):
+    self.nav_releases.role = 'table_content_small'
+    self.nav_success.role = 'table_content_small'
+    self.nav_fandom.role = 'table_content_small_orange_underlined'
+    self.nav_musical.role = 'table_content_small'
     self.sec_releases.visible = False
     self.sec_success.visible = False
     self.sec_fandom.visible = True
     self.sec_musical.visible = False
     
   def nav_musical_click(self, **event_args):
+    self.nav_releases.role = 'table_content_small'
+    self.nav_success.role = 'table_content_small'
+    self.nav_fandom.role = 'table_content_small'
+    self.nav_musical.role = 'table_content_small_orange_underlined'
     self.sec_releases.visible = False
     self.sec_success.visible = False
     self.sec_fandom.visible = False
     self.sec_musical.visible = True
+
+  # --------------------------------------------
+  # DESCRIPTION LINKS
+  def info_prediction_click(self, **event_args):
+    alert(title='Prediction',
+    content="Prediction of interest for you personally. Is based on your individually trained Machine Learning Model. Ranges from 1 to 7.")
+  def info_popularity_click(self, **event_args):
+    alert(title='Popularity',
+    content="Level of popularity on Spotify. Ranges from 0 to 100.")
+  def info_follower_click(self, **event_args):
+    alert(title='Follower',
+    content="Number of followers on Spotify")    
+  def info_no_tracks_click(self, **event_args):
+    alert(title='No. Tracks',
+    content="Number of tracks from the presented Artist in our database. Not all tracks of this Artist have to be in the database.")
+
+  def info_min_distance_click(self, **event_args):
+    alert(title='Min. musical Distance',
+    content="If you subscribed to the Inspect or Dissect subscription, the minimal musical distance is the smallest Euclidean Distance between one of the artist's songs and your personal reference tracks.\n\nIf you have not yet added your reference tracks or are subscribed to the Explore subscription, this value is empty.")
+  def info_avg_distance_click(self, **event_args):
+      alert(title='Avg. musical Distance',
+      content="If you subscribed to the Inspect or Dissect subscription, the average musical distance is the average Euclidean Distance between the artist's songs and your personal reference tracks.\n\nIf you have not yet added your reference tracks or are subscribed to the Explore subscription, this value is empty.")
+  def info_max_distance_click(self, **event_args):
+      alert(title='Max. musical Distance',
+      content="If you subscribed to the Inspect or Dissect subscription, the maximal musical distance is the largest Euclidean Distance between one of the artist's songs and your personal reference tracks.\n\nIf you have not yet added your reference tracks or are subscribed to the Explore subscription, this value is empty.")
+
+  def info_duration_click(self, **event_args):
+      alert(title='Avg. Duration',
+      content="The average duration of all songs of an artist in seconds.")
+  def info_danceability_click(self, **event_args):
+      alert(title='Avg. Danceability',
+      content="Danceability describes how suitable a track is for dancing based on a combination of musical elements including tempo, rhythm stability, beat strength, and overall regularity.\n\nWe average this value across all songs and its value ranges from 0 (least danceable) to 100% (most danceable).")
+  def info_energy_click(self, **event_args):
+      alert(title='Avg. Energy',
+      content="Energy is a measure from 0 to 100% and represents a perceptual measure of intensity and activity on average across all songs.")
+  def info_key_click(self, **event_args):
+      alert(title='Avg. Key',
+      content="The estimated overall average key of all songs of an artist")
+  def info_loudness_click(self, **event_args):
+      alert(title='Avg. relative Loudness',
+      content="The overall average loudness of all tracks in decibels (dB).\n\nFor each track the loudness values are averaged across the entire track and are useful for comparing relative loudness of tracks.")
+  def info_mode_click(self, **event_args):
+      alert(title='Mode',
+      content="Mode indicates the portion of tracks in major (modality) of an artist. Ranges from 0 to 100%.")
+  def info_speechiness_click(self, **event_args):
+      alert(title='Avg. Speechiness',
+      content="Speechiness detects the presence of spoken words in a track. The more exclusively speech-like the recording (e.g., talk show, audiobook, poetry), the closer to 100% the attribute value. It is averaged across all songs of that artist.")
+  def info_acousticness_click(self, **event_args):
+      alert(title='Avg. Acousticness',
+      content="A confidence measure from 0 to 100% of whether an artist's tracks are acoustic. 100% represents high confidence the tracks are acoustic.")
+  def info_instrumentalness_click(self, **event_args):
+      alert(title='Avg. Instrumentalness',
+      content="Measures whether the tracks of an artist contain no vocals.\n\n“Ooh” and “aah” sounds are treated as instrumental in this context. Rap or spoken word tracks are clearly “vocal”. The closer the instrumentalness value is to 100%, the greater likelihood the tracks contain no vocal content.")
+  def info_liveness_click(self, **event_args):
+      alert(title='Avg. Liveness',
+      content="Detects the presence of an audience in the recording. Higher liveness values represent an increased probability that the tracks of that artist were performed live.")
+  def info_valence_click(self, **event_args):
+      alert(title='Avg. Valence',
+      content="A measure from 0 to 100% describing the musical positiveness conveyed by an artist's tracks. Tracks with high valence sound more positive (e.g., happy, cheerful, euphoric), while tracks with low valence sound more negative (e.g., sad, depressed, angry).")
+  def info_tempo_click(self, **event_args):
+      alert(title='Avg. Tempo',
+      content="The overall average estimated tempo of all track of an artist in beats per minute (BPM).")
+  
+  def info_first_release_click(self, **event_args):
+      alert(title='First Release',
+      content="Date of the first release of an artist on Spotify.\n\nOur database is not complete yet - there might be missing tracks that are not present in our database.")
+  def info_last_release_click(self, **event_args):
+      alert(title='Latest Release',
+      content="Date of the latest release of an artist on Spotify.\n\nOur database is not complete yet - there might be missing tracks that are not present in our database.")
+  
+  def info_latest_label_click(self, **event_args):
+      alert(title='Latest Label',
+      content="Name of the latest label this artist worked with.")
+
+  def info_major_click(self, **event_args):
+      alert(title='Major Coop',
+      content="Indicates whether this artist ever worked with a major label or not.")
+  def info_sub_major_click(self, **event_args):
+      alert(title='Sub-Major Coop',
+      content="Indicates whether this artist ever worked with a sub-major label or not.")
+
+  def button_set_filters_click(self, **event_args):
+    open_form('Main_In', temp_artist_id = None, target = 'C_Filter', value=None)
+
+  def button_remove_filters_click(self, **event_args):    
+    anvil.server.call('change_filters',
+                      cur_model_id,
+                      filters_json = None
+                     )
+    open_form('Main_In', temp_artist_id = None, target = 'C_Investigate', value=None)

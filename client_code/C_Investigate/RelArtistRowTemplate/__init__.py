@@ -14,7 +14,7 @@ class RelArtistRowTemplate(RelArtistRowTemplateTemplate):
     # Any code you write here will run before the form opens.
 
   def related_artist_pic_link_click(self, **event_args):
-    open_form('Main_In', temp_artist_id = int(self.related_artist_pic_link.url), value=None)
+    open_form('Main_In', temp_artist_id = int(self.related_artist_pic_link.url), target='C_Discover', value=None)
 
   def related_artist_name_link_click(self, **event_args):
-    open_form('Main_In', temp_artist_id = int(self.related_artist_name_link.url), value=None)
+    open_form('Main_In', temp_artist_id = int(self.related_artist_name_link.url), target='C_Discover', value=None)

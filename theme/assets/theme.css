@@ -109,6 +109,14 @@ header>.nav-links>span {
   font-weight: normal;
   color: %color:Text_DecentWhite%;
 }
+.anvil-role-table_content_small_orange_underlined {
+  font-size: 18px;
+  font-weight: normal;
+  color: %color:Orange%;
+  /*text-decoration: underline !important;
+  text-decoration-color: %color:Orange%;
+  text-decoration-thickness: 2px;*/
+}
 .anvil-role-eval_button {
   font-size: 26px;
   font-weight: bold;
@@ -175,7 +183,7 @@ a>.link-text {
 }
 
 .anvil-role-investigate_value {
-  font-size: 28px;
+  font-size: 25px;
   font-weight: bold;
   color: %color:Text_White%;
   margin: 0;
