@@ -113,8 +113,8 @@ header>.nav-links>span {
   font-size: 18px;
   font-weight: normal;
   color: %color:Orange%;
-  /*text-decoration: underline !important;
-  text-decoration-color: %color:Orange%;
+  ext-decoration: underline !important;
+  /*ttext-decoration-color: %color:Orange%;
   text-decoration-thickness: 2px;*/
 }
 .anvil-role-eval_button {

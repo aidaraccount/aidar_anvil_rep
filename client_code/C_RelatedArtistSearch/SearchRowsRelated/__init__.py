@@ -7,7 +7,7 @@ import anvil.tables.query as q
 from anvil.tables import app_tables
 
 from ...Main_In import Main_In
-from ...C_Investigate import C_Investigate
+from ...C_Discover import C_Discover
 
 class SearchRowsRelated(SearchRowsRelatedTemplate):
   def __init__(self, **properties):
@@ -21,5 +21,5 @@ class SearchRowsRelated(SearchRowsRelatedTemplate):
     open_form('Main_In', temp_artist_id = self.item["ArtistID"], target = 'C_RelatedArtistData', value=self.item["Name"])
 
   def button_inspect_click(self, **event_args):
-    open_form('Main_In', temp_artist_id = self.item["ArtistID"], target='C_Investigate', value=None)
+    open_form('Main_In', temp_artist_id = self.item["ArtistID"], target='C_Discover', value=None)
   

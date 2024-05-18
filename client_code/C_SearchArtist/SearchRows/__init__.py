@@ -7,7 +7,7 @@ import anvil.tables.query as q
 from anvil.tables import app_tables
 
 from ...Main_In import Main_In
-from ...C_Investigate import C_Investigate
+from ...C_Discover import C_Discover
 
 class SearchRows(SearchRowsTemplate):
   def __init__(self, **properties):
@@ -28,10 +28,10 @@ class SearchRows(SearchRowsTemplate):
 
   
   def inspect_pic_link_click(self, **event_args):
-    open_form('Main_In', temp_artist_id = int(self.inspect_pic_link.url), target='C_Investigate', value=None)
+    open_form('Main_In', temp_artist_id = int(self.inspect_pic_link.url), target='C_Discover', value=None)
 
   def inspect_name_link_click(self, **event_args):
-    open_form('Main_In', temp_artist_id = int(self.inspect_name_link.url), target='C_Investigate', value=None)
+    open_form('Main_In', temp_artist_id = int(self.inspect_name_link.url), target='C_Discover', value=None)
     
   # BUTTONS
   def button_watchlist_click(self, **event_args):
@@ -76,4 +76,4 @@ class SearchRows(SearchRowsTemplate):
         style="success").show()      
 
   def button_discover_click(self, **event_args):
-    open_form('Main_In', temp_artist_id = self.item["ArtistID"], target = 'C_Investigate', value=None)
+    open_form('Main_In', temp_artist_id = self.item["ArtistID"], target = 'C_Discover', value=None)

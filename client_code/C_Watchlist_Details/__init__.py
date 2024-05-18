@@ -233,7 +233,7 @@ class C_Watchlist_Details(C_Watchlist_DetailsTemplate):
     self.get_watchlist_details(cur_model_id, cur_ai_artist_id)
   
   def button_investigate_click(self, **event_args):
-    open_form('Main_In', temp_artist_id = cur_ai_artist_id, target = 'C_Investigate', value=None)
+    open_form('Main_In', temp_artist_id = cur_ai_artist_id, target = 'C_Discover', value=None)
 
   def button_delete_click(self, **event_args):
     c = confirm("Do you wish to delete this artist from your watchlist?")

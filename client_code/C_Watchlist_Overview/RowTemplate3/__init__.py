@@ -20,4 +20,4 @@ class RowTemplate3(RowTemplate3Template):
     open_form('Main_In', temp_artist_id = self.item["ArtistID"], target = 'C_Watchlist_Details', value=None)
 
   def link_artist_click(self, **event_args):
-    open_form('Main_In', temp_artist_id = self.item["ArtistID"], target = 'C_Investigate', value=None)
+    open_form('Main_In', temp_artist_id = self.item["ArtistID"], target = 'C_Discover', value=None)

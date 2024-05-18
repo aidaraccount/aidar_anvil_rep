@@ -9,7 +9,7 @@ from anvil.tables import app_tables
 import json
 
 
-from ..C_Investigate import C_Investigate
+from ..C_Discover import C_Discover
 
 class C_Filter(C_FilterTemplate):
   def __init__(self, **properties):
@@ -165,7 +165,7 @@ class C_Filter(C_FilterTemplate):
                       filters_json
                      )
     self.content_panel.clear()
-    self.content_panel.add_component(C_Investigate(temp_artist_id=None))
+    self.content_panel.add_component(C_Discover(temp_artist_id=None))
 
   def clear_filters_button_click(self, **event_args):
     
@@ -174,7 +174,7 @@ class C_Filter(C_FilterTemplate):
                       filters_json = None
                      )
     self.content_panel.clear()
-    self.content_panel.add_component(C_Investigate(temp_artist_id=None))
+    self.content_panel.add_component(C_Discover(temp_artist_id=None))
 
   def button_add_genre_click(self, **event_args):
     new_entry = {"ModelID":cur_model_id, "Type":"genre", 'Column':self.drop_down_add_genre.selected_value, "Operator":"is", 'Value':self.drop_down_add_value.selected_value}

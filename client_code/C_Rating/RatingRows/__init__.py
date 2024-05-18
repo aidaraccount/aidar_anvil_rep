@@ -31,13 +31,13 @@ class RatingRows(RatingRowsTemplate):
     """This method is called when the link is clicked"""
     self.check_link.url = 'www.google.com'
     self.content_panel.clear()
-    self.content_panel.add_component(C_Investigate())
+    self.content_panel.add_component(C_Discover())
 
   def inspect_pic_link_click(self, **event_args):
-    open_form('Main_In', temp_artist_id = self.item["ArtistID"], target = 'C_Investigate', value=None)
+    open_form('Main_In', temp_artist_id = self.item["ArtistID"], target = 'C_Discover', value=None)
 
   def inspect_name_link_click(self, **event_args):
-    open_form('Main_In', temp_artist_id = self.item["ArtistID"], target = 'C_Investigate', value=None)
+    open_form('Main_In', temp_artist_id = self.item["ArtistID"], target = 'C_Discover', value=None)
 
   # BUTTONS
   def button_watchlist_click(self, **event_args):
@@ -82,4 +82,4 @@ class RatingRows(RatingRowsTemplate):
         style="success").show()      
 
   def button_discover_click(self, **event_args):
-    open_form('Main_In', temp_artist_id = self.item["ArtistID"], target = 'C_Investigate', value=None)
+    open_form('Main_In', temp_artist_id = self.item["ArtistID"], target = 'C_Discover', value=None)

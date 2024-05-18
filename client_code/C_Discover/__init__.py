@@ -20,7 +20,12 @@ class C_Discover(C_DiscoverTemplate):
     global cur_model_id
     user = anvil.users.get_user()
     cur_model_id = anvil.server.call('get_model_id',  user["user_id"])
-    
+
+    self.refresh_sug(temp_artist_id)
+  
+  # --------------------------------------------
+  # SUGGESTIONS
+  def refresh_sug(self, temp_artist_id, **event_args):    
     sug = json.loads(anvil.server.call('get_suggestion', 'Inspect', cur_model_id, temp_artist_id)) # Free, Explore, Inspect, Dissect
     # sug = {"Status": "Success!", "ModelID": "2", "ArtistID": "560919", "SpotifyArtistID": "6heMlLFM6RDDHRz99uKMqS", "Name": "RetroVision", "ArtistURL": "https://open.spotify.com/artist/6heMlLFM6RDDHRz99uKMqS", "ArtistPictureURL": "https://i.scdn.co/image/ab6761610000e5eb1428ee0feb9dae32ac83669e", "NoTracks": "113", "ArtistPopularity_lat": "46", "ArtistFollower_lat": "93339", "FirstReleaseDate": "2014-11-18", "LastReleaseDate": "2024-03-08", "MajorCoop": "1", "SubMajorCoop": "1", "LatestLabel": "Warner Music Central Europe", "AvgExplicit": "0.0354", "MinMusDist": "0.8885102232353875", "AvgMusDist": "0.9062671665657496", "MaxMusDist": "0.9240241098961117", "AvgDuration": "187.52287610619476", "AvgDanceability": "0.678221238938053", "AvgEnergy": "0.857221238938053", "AvgKey": "4.8938", "AvgLoudness": "-4.713938053097346", "AvgMode": "0.4867", "AvgSpeechiness": "0.09923097345132743", "AvgAcousticness": "0.0627684778761062", "AvgInstrumentalness": "0.2995615364601769", "AvgLiveness": "0.3070929203539824", "AvgValence": "0.457787610619469", "AvgTempo": "126.82925663716814", "Genres": "pop, house, edm, electro", "Countries": "Sweden", "RelArtists": "6", "Prediction": "93"}
     self.spacer_bottom_margin.height = 80
@@ -61,8 +66,15 @@ class C_Discover(C_DiscoverTemplate):
    
       biography = 'biography is coming soon'
       watchlist_presence = anvil.server.call('check_watchlist_presence', cur_model_id, artist_id)
-      # watchlist_presence = 'True'
+
+      # Filter Button visibility
+      activefilters = anvil.server.call('check_filter_presence', cur_model_id)
+      if activefilters == 'False':
+        self.button_remove_filters.visible = False
+      else:
+        self.button_remove_filters.visible = True
     
+      # ArtistPictureURL
       if sug["ArtistPictureURL"] != 'None':
         self.artist_image.source = sug["ArtistPictureURL"]
       else:
@@ -324,6 +336,42 @@ class C_Discover(C_DiscoverTemplate):
     self.sec_fandom.visible = False
     self.sec_musical.visible = True
 
+  # RATING BUTTONS
+  def button_1_click(self, **event_args):
+    anvil.server.call('add_interest', user["user_id"], cur_model_id, artist_id, 1, False, '')
+    self.header.scroll_into_view(smooth=True)
+    self.refresh_sug(temp_artist_id=None)
+
+  def button_2_click(self, **event_args):
+    anvil.server.call('add_interest', user["user_id"], cur_model_id, artist_id, 2, False, '')
+    self.header.scroll_into_view(smooth=True)
+    self.refresh_sug(temp_artist_id=None)
+
+  def button_3_click(self, **event_args):
+    anvil.server.call('add_interest', user["user_id"], cur_model_id, artist_id, 3, False, '')
+    self.header.scroll_into_view(smooth=True)
+    self.refresh_sug(temp_artist_id=None)
+
+  def button_4_click(self, **event_args):
+    anvil.server.call('add_interest', user["user_id"], cur_model_id, artist_id, 4, False, '')
+    self.header.scroll_into_view(smooth=True)
+    self.refresh_sug(temp_artist_id=None)
+
+  def button_5_click(self, **event_args):
+    anvil.server.call('add_interest', user["user_id"], cur_model_id, artist_id, 5, False, '')
+    self.header.scroll_into_view(smooth=True)
+    self.refresh_sug(temp_artist_id=None)
+
+  def button_6_click(self, **event_args):
+    anvil.server.call('add_interest', user["user_id"], cur_model_id, artist_id, 6, False, '')
+    self.header.scroll_into_view(smooth=True)
+    self.refresh_sug(temp_artist_id=None)
+
+  def button_7_click(self, **event_args):
+    anvil.server.call('add_interest', user["user_id"], cur_model_id, artist_id, 7, False, '')
+    self.header.scroll_into_view(smooth=True)
+    self.refresh_sug(temp_artist_id=None)
+  
   # --------------------------------------------
   # DESCRIPTION LINKS
   def info_prediction_click(self, **event_args):
@@ -412,4 +460,4 @@ class C_Discover(C_DiscoverTemplate):
                       cur_model_id,
                       filters_json = None
                      )
-    open_form('Main_In', temp_artist_id = None, target = 'C_Investigate', value=None)
+    open_form('Main_In', temp_artist_id = None, target = 'C_Discover', value=None)

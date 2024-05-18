@@ -5,10 +5,10 @@ container:
       >\n    <div class=\"footer-slot\" anvil-slot=\"footer-slot\">\n    <div class=\"\
       placeholder anvil-designer-only\" anvil-if-slot-empty=\"footer-slot\" anvil-drop-here>Drop\
       \ a FlowPanel or Label or Link Component here</div>\n  </div>\n</div> \n\n",
-    background: 'theme:Main_Black'}
+    background: ''}
 components:
 - name: column_panel_1
-  properties: {spacing_above: small, spacing_below: small, col_spacing: medium, col_widths: '{"DTEJWC":15,"HPUOQR":45,"YWCHHS":45,"CPGWJZ":15}'}
+  properties: {spacing_above: small, spacing_below: small, col_spacing: medium, col_widths: '{"DTEJWC":15,"HPUOQR":45,"YWCHHS":45}'}
   type: ColumnPanel
   layout_properties: {slot: default}
   components:
@@ -18,29 +18,13 @@ components:
       font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false,
       background: '', bold: false, underline: false, icon: ''}
     type: Label
-    layout_properties: {grid_position: 'YJSSRE,YWCHHS SYXIOJ,LTMDQS'}
+    layout_properties: {grid_position: 'SYXIOJ,LTMDQS'}
   - name: info
     properties: {icon: 'fa:angle-down', icon_align: left, role: description, spacing_below: none,
       spacing_above: none, text: Info}
     type: Link
-    layout_properties: {grid_position: 'YJSSRE,YWCHHS AUFXYX,OWNLYU'}
+    layout_properties: {grid_position: 'AUFXYX,OWNLYU'}
     event_bindings: {click: info_click}
-  - name: xy_panel_1
-    properties: {height: 30}
-    type: XYPanel
-    layout_properties: {grid_position: 'YJSSRE,CPGWJZ'}
-    components:
-    - name: button_remove_filters
-      properties: {text: '', icon: 'fa:ban', tooltip: remove filters, role: feature,
-        visible: true, background: 'theme:Orange', foreground: 'theme:Text_DecentWhite'}
-      type: Button
-      layout_properties: {x: 175, y: 0, width: 41}
-      event_bindings: {click: button_remove_filters_click}
-    - name: button_set_filters
-      properties: {text: Set Filters, align: right, role: feature, icon: 'fa:filter'}
-      type: Button
-      layout_properties: {x: 65, y: 0, width: 105}
-      event_bindings: {click: button_set_filters_click}
   - name: spacer_5
     properties: {height: '16'}
     type: Spacer
@@ -888,35 +872,42 @@ components:
     properties: {text: '1', role: feature, spacing_below: none, spacing_above: none}
     type: Button
     layout_properties: {grid_position: 'UQVSNC,OZIYBS CFGNEX,IXXGLU'}
+    event_bindings: {click: button_1_click}
   - name: button_1_copy
     properties: {text: '2', role: feature, spacing_below: none, spacing_above: none}
     type: Button
     layout_properties: {grid_position: 'UQVSNC,OZIYBS CFGNEX,NSUNGO'}
+    event_bindings: {click: button_2_click}
   - name: button_1_copy_2
     properties: {text: '3', role: feature, spacing_below: none, spacing_above: none}
     type: Button
     layout_properties: {grid_position: 'UQVSNC,OZIYBS CFGNEX,OBEDSI'}
+    event_bindings: {click: button_3_click}
   - name: button_1_copy_3
     properties: {text: '4', role: feature, spacing_below: none, spacing_above: none,
       bold: false, background: 'rgb(255,217,203)'}
     type: Button
     layout_properties: {grid_position: 'UQVSNC,OZIYBS CFGNEX,XGWHAT'}
+    event_bindings: {click: button_4_click}
   - name: button_1_copy_4
     properties: {text: '5', role: feature, spacing_below: none, spacing_above: none,
       background: 'rgb(254,178,150)', foreground: '', bold: true}
     type: Button
     layout_properties: {grid_position: 'UQVSNC,OZIYBS CFGNEX,TTQFFE'}
+    event_bindings: {click: button_5_click}
   - name: button_1_copy_5
     properties: {text: '6', role: feature, spacing_below: none, spacing_above: none,
       background: 'rgb(254,140,98)', foreground: '', bold: true}
     type: Button
     layout_properties: {grid_position: 'UQVSNC,OZIYBS CFGNEX,LNXGHL'}
+    event_bindings: {click: button_6_click}
   - name: button_1_copy_6
     properties: {text: '7', role: feature, spacing_below: none, spacing_above: none,
       background: 'rgb(253, 101, 45)', foreground: 'theme:Text_White', bold: true,
       border: ''}
     type: Button
     layout_properties: {grid_position: 'UQVSNC,OZIYBS CFGNEX,ZLIZAI'}
+    event_bindings: {click: button_7_click}
   - name: spacer_6
     properties: {height: 32}
     type: Spacer
@@ -931,4 +922,24 @@ components:
       visible: false}
     type: Link
     layout_properties: {grid_position: 'UQVSNC,XUSTNC OPLCOW,ZCPELY DHATKU,PYGZRY'}
+  - name: spacer_8
+    properties: {height: '20'}
+    type: Spacer
+    layout_properties: {grid_position: 'UQVSNC,XUSTNC OPLCOW,ZCPELY SBXTOB,WWPKXT'}
+  - name: xy_panel_1
+    properties: {height: 30, spacing_below: none}
+    type: XYPanel
+    layout_properties: {grid_position: 'UQVSNC,XUSTNC OPLCOW,ZCPELY RMXMCD,PTEAHX'}
+    components:
+    - name: button_remove_filters
+      properties: {text: '', icon: 'fa:ban', tooltip: remove filters, role: feature,
+        visible: true, background: 'theme:Orange', foreground: 'theme:Text_DecentWhite'}
+      type: Button
+      layout_properties: {x: 175, y: 0, width: 41}
+      event_bindings: {click: button_remove_filters_click}
+    - name: button_set_filters
+      properties: {text: Set Filters, align: right, role: feature, icon: 'fa:filter'}
+      type: Button
+      layout_properties: {x: 65, y: 0, width: 105}
+      event_bindings: {click: button_set_filters_click}
 is_package: true

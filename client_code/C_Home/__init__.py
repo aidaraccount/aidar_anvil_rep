@@ -59,7 +59,7 @@ class C_Home(C_HomeTemplate):
       self.repeating_panel_news.items = news
     
   def link_discover_click(self, **event_args):
-    open_form('Main_In', temp_artist_id = None, target = 'C_Investigate', value=None)
+    open_form('Main_In', temp_artist_id = None, target = 'C_Discover', value=None)
 
   def link_funnel_click(self, **event_args):
     open_form('Main_In', temp_artist_id = None, target = 'C_Watchlist_Funnel', value=None)

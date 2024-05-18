@@ -6,7 +6,7 @@ import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
 
-from ..C_Investigate import C_Investigate
+from ..C_Discover import C_Discover
 
 class C_ConnectModel(C_ConnectModelTemplate):
   def __init__(self, **properties):
@@ -23,6 +23,6 @@ class C_ConnectModel(C_ConnectModelTemplate):
       alert(title='Model Connected!',
             content='You connected successfully to the model and are ready to go.\n\nEnjoy it!')
       self.content_panel.clear()
-      self.content_panel.add_component(C_Investigate())
+      self.content_panel.add_component(C_Discover())
     else:
       alert(title='Error..', content=status)
