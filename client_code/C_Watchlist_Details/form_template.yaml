@@ -199,8 +199,8 @@ components:
       - name: drop_down_status
         properties:
           placeholder: ''
-          items: [Action required, Requires revision, Build connection, Awaiting response,
-            Waiting for decision, Exploring opportunities, Positive response, In negotiations,
+          items: [Action required, Requires revision, Waiting for decision, Build connection,
+            Awaiting response, Exploring opportunities, Positive response, In negotiations,
             Contract in progress, Reconnect later, Not interested, Success]
           role: text_box_small
           include_placeholder: false

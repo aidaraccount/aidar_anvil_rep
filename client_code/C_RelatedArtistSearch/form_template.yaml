@@ -1,0 +1,90 @@
+container:
+  type: ColumnPanel
+  properties: {col_widths: '{}'}
+components:
+- name: content_panel
+  properties: {col_widths: '{"IVSSKK":20,"NMDQYT":10,"HMZCHD":30}'}
+  type: ColumnPanel
+  layout_properties: {grid_position: 'TDTWHW,MGQUGA'}
+  components:
+  - type: Label
+    properties: {role: title, align: left, tooltip: '', border: '', foreground: '',
+      visible: true, text: Search for related Artist, font_size: null, font: '', spacing_above: small,
+      icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
+      underline: false, icon: ''}
+    name: label_1
+    layout_properties: {grid_position: 'IBFMQD,LALLJB'}
+  - type: Label
+    properties: {role: description, align: left, tooltip: '', border: '', foreground: '',
+      visible: true, text: Enter a name of an artist and find related artists with a similar career and kind of music,
+      font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small,
+      italic: true, background: '', bold: false, underline: false, icon: ''}
+    name: label_2
+    layout_properties: {grid_position: 'ILLVDG,XXTNAC'}
+  - type: TextBox
+    properties: {role: text_box_small, align: left, hide_text: false, tooltip: '',
+      placeholder: Enter an artists name.., border: '', enabled: true, foreground: '',
+      visible: true, text: '', font_size: null, font: '', spacing_above: small, type: text,
+      spacing_below: small, italic: false, background: '', bold: false, underline: false}
+    name: text_box_search
+    layout_properties: {grid_position: 'GQRHIH,IVSSKK'}
+    event_bindings: {pressed_enter: text_box_search_pressed_enter}
+  - name: button_1
+    properties: {text: Search Artist, role: feature}
+    type: Button
+    layout_properties: {grid_position: 'GQRHIH,NMDQYT'}
+    event_bindings: {click: text_box_search_pressed_enter}
+  - name: spacer_1
+    properties: {height: 32}
+    type: Spacer
+    layout_properties: {grid_position: 'GQRHIH,HMZCHD'}
+  - type: DataGrid
+    properties:
+      role: null
+      columns:
+      - {id: CGJCWL, title: Artist, data_key: ArtistPictureURL, $$hashKey: 'object:34645',
+        width: 70, expand: false}
+      - {id: OHHGOJ, title: '', data_key: Name, $$hashKey: 'object:27702'}
+      - {id: TTVDHC, title: Popularity, data_key: ArtistPopularity_lat, $$hashKey: 'object:27703'}
+      - {id: ITWSTJ, title: Follower, data_key: ArtistFollower_lat, $$hashKey: 'object:27704'}
+      - {id: YTCRRC, title: '', data_key: Investigate, $$hashKey: 'object:27824'}
+      auto_header: false
+      tooltip: ''
+      border: ''
+      foreground: ''
+      rows_per_page: 7
+      visible: true
+      wrap_on: never
+      show_page_controls: true
+      spacing_above: small
+      spacing_below: small
+      background: ''
+    name: data_grid_artists_header
+    layout_properties: {grid_position: 'MMUCMX,WXVDLN'}
+    components:
+    - name: xy_panel_1
+      properties: {height: 27, role: bottom_line}
+      type: XYPanel
+      components:
+      - name: label_4
+        properties: {text: Artist, role: table_content}
+        type: Label
+        layout_properties: {x: 0, y: 0, width: 200}
+      - name: label_5
+        properties: {text: Popularity, role: table_content, tooltip: Latest Spotity Artist Popularity (ranges from 1 to 100),
+          align: center}
+        type: Label
+        layout_properties: {x: 326, y: 0, width: 200}
+      - name: label_5_copy
+        properties: {text: Follower, role: table_content, tooltip: Latest number of followers on Spotity,
+          align: center}
+        type: Label
+        layout_properties: {x: 542.0000305175781, y: 0, width: 200}
+    - type: RepeatingPanel
+      properties: {role: table_content, tooltip: '', border: '', foreground: '', items: null,
+        visible: true, spacing_above: none, spacing_below: none, item_template: C_RelatedArtistSearch.SearchRowsRelated,
+        background: ''}
+      name: data_grid_artists_data
+      layout_properties: {}
+is_package: true
+custom_component: true

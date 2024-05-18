@@ -42,7 +42,7 @@ header>.nav-links>span {
     border-radius: 0;
     box-shadow: none;/*0px 0px 10px 10px #fcfcfc;*/
     background-color: transparent;
-    background-image: url(_/theme/pics/LoadingSpinner_circle.gif) !important;
+    background-image: url(_/theme/pics/LoadingSpinner_circle.svg) !important;
 }
 
 .anvil-role-input_margin {
@@ -161,7 +161,8 @@ a>.link-text {
   text-shadow: 2px 2px 7px rgba(0, 0, 0, 0.9);
 }
 .anvil-role-grid {
-  background-color: %color:Grid_Black%;
+  /* background-color: %color:Grid_Black%; */
+  background-color: rgba(40, 40, 40, 0.7) !important;
   border-radius: 12px;
   margin-top: 5px;
   margin-bottom: 5px;
@@ -217,6 +218,10 @@ div.row {
 
 .body {
   background-color: %color:Main_Black%;
+  background-image:
+    radial-gradient(circle farthest-corner at 100px 100px, rgb(60, 10, 93) 0%, transparent 15%),
+    radial-gradient(circle farthest-corner at 1500px 500px, rgb(118, 42, 15) 0%, transparent 25%),
+    radial-gradient(circle farthest-corner at bottom left, rgb(118, 42, 15) 0%, rgb(1, 1, 1) 25%);
 }
 
 a, a:visited {

@@ -18,6 +18,8 @@ from ..C_EditRefArtists import C_EditRefArtists
 from ..C_AddRefArtists import C_AddRefArtists
 from ..C_NoModel import C_NoModel
 from ..C_SearchArtist import C_SearchArtist
+from ..C_RelatedArtistSearch import C_RelatedArtistSearch
+from ..C_RelatedArtistData import C_RelatedArtistData
 from ..C_CreateModel import C_CreateModel
 from ..C_ConnectModel import C_ConnectModel
 
@@ -72,6 +74,9 @@ class Main_In(Main_InTemplate):
     if target == 'C_Watchlist_Details':
       self.route_manage_watchlist(temp_artist_id = temp_artist_id)
 
+    if target == 'C_RelatedArtistData':
+      self.route_discover_rel_data(user_id = user["user_id"], model_id = cur_model_id, artist_id = temp_artist_id, name = value)
+
     if target == 'C_SearchArtist':
       self.route_discover_name(search = value)
 
@@ -92,8 +97,8 @@ class Main_In(Main_InTemplate):
     self.link_home.background = None
     self.link_discover.background = None
     self.link_discover_ai.background = None
+    self.link_discover_rel.background = None
     self.link_discover_name.background = None
-    self.link_discover_rated.background = None
     self.link_manage.background = None
     self.link_manage_watchlist.background = None
     self.link_manage_funnel.background = None
@@ -103,6 +108,7 @@ class Main_In(Main_InTemplate):
     self.link_models_connect.background = None
     self.link_models_setup.background = None
     self.link_models_artists.background = None
+    self.link_models_rated.background = None
     #self.link_models_tracks.background = None
     #self.link_settings.background = None
 
@@ -112,8 +118,8 @@ class Main_In(Main_InTemplate):
     self.linear_panel_discover.visible = status
     self.link_discover.visible = status
     self.link_discover_ai.visible = status
+    self.link_discover_rel.visible = status
     self.link_discover_name.visible = status
-    self.link_discover_rated.visible = status
 
     self.linear_panel_manage.visible = status
     self.link_manage.visible = status
@@ -127,6 +133,7 @@ class Main_In(Main_InTemplate):
     self.link_models_setup.visible = False
     self.link_models_artists.visible = status
     self.link_models_tracks.visible = False
+    self.link_models_rated.visible = status
   
   # HOME
   def link_home_click(self, **event_args):
@@ -140,13 +147,13 @@ class Main_In(Main_InTemplate):
     if self.link_discover_ai.visible == False:
       self.link_discover.icon = 'fa:angle-up'
       self.link_discover_ai.visible = True
+      self.link_discover_rel.visible = True
       self.link_discover_name.visible = True
-      self.link_discover_rated.visible = True
     else:
       self.link_discover.icon = 'fa:angle-down'
       self.link_discover_ai.visible = False
+      self.link_discover_rel.visible = False
       self.link_discover_name.visible = False
-      self.link_discover_rated.visible = False
   
   def link_discover_ai_click(self, **event_args):
     self.route_discover_ai(temp_artist_id = None)
@@ -158,6 +165,18 @@ class Main_In(Main_InTemplate):
     self.reset_nav_backgrounds()
     self.link_discover_ai.background = "theme:Accent 2"
 
+  def link_discover_rel_click(self, **event_args):
+    self.content_panel.clear()
+    self.content_panel.add_component(C_RelatedArtistSearch())
+    self.reset_nav_backgrounds()
+    self.link_discover_rel.background = "theme:Accent 2"
+
+  def route_discover_rel_data(self, user_id, model_id, artist_id, name, **event_args):
+    self.content_panel.clear()
+    self.content_panel.add_component(C_RelatedArtistData(user_id = user_id, model_id = model_id, artist_id = artist_id, name = name))
+    self.reset_nav_backgrounds()
+    self.link_discover_rel.background = "theme:Accent 2"    
+  
   def link_discover_name_click(self, **event_args):
     self.route_discover_name(search = None)
   
@@ -167,13 +186,6 @@ class Main_In(Main_InTemplate):
     self.content_panel.add_component(C_SearchArtist(search = search))
     self.reset_nav_backgrounds()
     self.link_discover_name.background = "theme:Accent 2"
-
-  def link_discover_rated_click(self, **event_args):
-    cur_model_id = anvil.server.call('get_model_id',  user["user_id"])
-    self.content_panel.clear()
-    self.content_panel.add_component(C_Rating())
-    self.reset_nav_backgrounds()
-    self.link_discover_rated.background = "theme:Accent 2"
 
   #----------------------------------------------------------------------------------------------
   # MANAGE
@@ -223,6 +235,7 @@ class Main_In(Main_InTemplate):
       #self.link_models_setup.visible = False
       self.link_models_artists.visible = False
       #self.link_models_tracks.visible = False
+      self.link_models_rated.visible = False
     else:
       self.link_models.icon = 'fa:angle-down'
       self.link_models_create.visible = not status
@@ -230,6 +243,7 @@ class Main_In(Main_InTemplate):
       #self.link_models_setup.visible = status
       self.link_models_artists.visible = status
       #self.link_models_tracks.visible = status
+      self.link_models_rated.visible = status
 
   def link_models_artists_click(self, **event_args):
     cur_model_id = anvil.server.call('get_model_id',  user["user_id"])
@@ -237,6 +251,13 @@ class Main_In(Main_InTemplate):
     self.content_panel.add_component(C_EditRefArtists())
     self.reset_nav_backgrounds()
     self.link_models_artists.background = "theme:Accent 2"
+
+  def link_models_rated_click(self, **event_args):
+    cur_model_id = anvil.server.call('get_model_id',  user["user_id"])
+    self.content_panel.clear()
+    self.content_panel.add_component(C_Rating())
+    self.reset_nav_backgrounds()
+    self.link_models_rated.background = "theme:Accent 2"
   
   def link_models_create_click(self, **event_args):
     self.content_panel.clear()
