@@ -66,7 +66,7 @@ class Main_Out(Main_OutTemplate):
       print("ERROR!!")
       Notification("",
         title=f"Authentification failed!",
-        style="danger").show()  
+        style="danger").show()
   
   def link_logout_click(self, **event_args):
     anvil.users.logout()
