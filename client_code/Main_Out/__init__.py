@@ -40,6 +40,34 @@ class Main_Out(Main_OutTemplate):
           content="Apologies for any inconvenience caused.\n\nWe are presently integrating new features and will have the site accessible again shortly.\n\nFeel free to contact us via email at info@aidar.ai.\n\nThank you,\nYour AIDAR Team",
         )
 
+  def button_login_click(self, **event_args):
+    try:
+      user = anvil.users.login_with_email(self.login_email.text,self.login_pw.text)
+      print(f"User: {user}")
+      check_log_status(self)
+      user = anvil.users.get_user()
+      if user != None:
+        try:
+          anvil.server.call("server_transfer_user_id")
+          user = anvil.users.get_user()
+          open_form(
+            "Main_In",
+            temp_artist_id=None,
+            target=None,
+            user_id=user["user_id"],
+            value=None,
+          )
+        except:
+          alert(
+            title="Unveiling New Features!",
+            content="Apologies for any inconvenience caused.\n\nWe are presently integrating new features and will have the site accessible again shortly.\n\nFeel free to contact us via email at info@aidar.ai.\n\nThank you,\nYour AIDAR Team",
+          )
+    except:
+      print("ERROR!!")
+      Notification("",
+        title=f"Authentification failed!",
+        style="danger").show()  
+  
   def link_logout_click(self, **event_args):
     anvil.users.logout()
     check_log_status(self)

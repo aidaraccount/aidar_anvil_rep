@@ -116,7 +116,7 @@ components:
         name: label_1
 - name: column_panel_16
   properties: {role: landingpage_artist_background, tooltip: '', border: '', foreground: '',
-    visible: true, wrap_on: mobile, col_spacing: medium, spacing_above: none, col_widths: '{"THZCFO":26}',
+    visible: true, wrap_on: mobile, col_spacing: medium, spacing_above: none, col_widths: '{"THZCFO":41,"DZKNIF":5,"SMVDYR":20}',
     spacing_below: none, background: 'theme:Main_Black'}
   type: ColumnPanel
   layout_properties: {grid_position: 'UPKGMZ,WDVRPN', full_width_row: true}
@@ -126,21 +126,40 @@ components:
       tooltip: ''}
     type: Spacer
     layout_properties: {grid_position: 'KZKLYP,KLPWNU'}
+  - name: spacer_1
+    properties: {height: 32}
+    type: Spacer
+    layout_properties: {grid_position: 'UXGUXQ,DZKNIF'}
   - name: label_4
-    properties: {role: null, align: center, tooltip: '', border: '', foreground: 'theme:Orange',
-      visible: true, text: WELCOME TO AIDAR's MVP, font_size: 34, font: GSb, spacing_above: small,
-      icon_align: left, spacing_below: none, italic: false, background: '', bold: true,
+    properties: {role: title, align: center, tooltip: '', border: '', foreground: '',
+      visible: true, text: MVP LOGIN, font_size: null, font: '', spacing_above: small,
+      icon_align: left, spacing_below: none, italic: false, background: '', bold: false,
       underline: false, icon: ''}
     type: Label
     layout_properties: {grid_position: 'UXGUXQ,SMVDYR PLUTDJ,KQONDT'}
-  - name: label_3
-    properties: {role: null, align: center, tooltip: '', border: '', foreground: 'theme:Text_White',
-      visible: true, text: AI driven A&R, font_size: 30, font: GS, spacing_above: none,
-      icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-      underline: false, icon: ''}
+  - name: label_5
+    properties: {text: email, role: description, spacing_below: none}
     type: Label
-    layout_properties: {grid_position: 'UXGUXQ,SMVDYR CICOCZ,JQTTBE'}
+    layout_properties: {grid_position: 'UXGUXQ,SMVDYR WHTUIB,CIURHS'}
+  - name: login_email
+    properties: {role: text_box_small, text: '', spacing_above: none, type: email}
+    type: TextBox
+    layout_properties: {grid_position: 'UXGUXQ,SMVDYR PXEGWF,CETUWS'}
+  - name: label_6
+    properties: {text: password, role: description, spacing_below: none, spacing_above: small}
+    type: Label
+    layout_properties: {grid_position: 'UXGUXQ,SMVDYR IGRXRL,XXCMSF'}
+  - name: login_pw
+    properties: {role: text_box_small, text: '', spacing_above: none, hide_text: true}
+    type: TextBox
+    layout_properties: {grid_position: 'UXGUXQ,SMVDYR VAXGZU,VKLSOL'}
+    event_bindings: {pressed_enter: button_login_click}
+  - name: login_button
+    properties: {text: login, align: right, role: feature, spacing_above: small}
+    type: Button
+    layout_properties: {grid_position: 'UXGUXQ,SMVDYR QNMEAY,IGZYTL'}
+    event_bindings: {click: button_login_click}
   - name: spacer_12
-    properties: {height: 126}
+    properties: {height: 20}
     type: Spacer
     layout_properties: {grid_position: 'UXGUXQ,THZCFO'}

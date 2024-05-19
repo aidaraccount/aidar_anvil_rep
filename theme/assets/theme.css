@@ -160,6 +160,11 @@ a>.link-text {
   color: %color:Text_White%;
   text-shadow: 2px 2px 7px rgba(0, 0, 0, 0.9);
 }
+.anvil-role-little_note {
+  font-size: 12px;
+  color: %color:Text_Grey%;
+  text-shadow: 2px 2px 7px rgba(0, 0, 0, 0.9);
+}
 .anvil-role-grid {
   /* background-color: %color:Grid_Black%; */
   background-color: rgba(40, 40, 40, 0.7) !important;
