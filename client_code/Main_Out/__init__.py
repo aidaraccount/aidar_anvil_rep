@@ -21,12 +21,17 @@ class Main_Out(Main_OutTemplate):
 
   def link_login_click(self, **event_args):
     anvil.users.login_with_form(allow_cancel=True, remember_by_default=True)
+    print(f"{datetime.datetime.now()}: Main_Out - link_login_click - 1", flush=True)
     check_log_status(self)
+    print(f"{datetime.datetime.now()}: Main_Out - link_login_click - 2", flush=True)
     user = anvil.users.get_user()
+    print(f"{datetime.datetime.now()}: Main_Out - link_login_click - 3", flush=True)
     if user != None:
       try:
         anvil.server.call("server_transfer_user_id")
+        print(f"{datetime.datetime.now()}: Main_Out - link_login_click - 4", flush=True)
         user = anvil.users.get_user()
+        print(f"{datetime.datetime.now()}: Main_Out - link_login_click - 5", flush=True)
         open_form(
           "Main_In",
           temp_artist_id=None,
@@ -34,6 +39,7 @@ class Main_Out(Main_OutTemplate):
           user_id=user["user_id"],
           value=None,
         )
+        print(f"{datetime.datetime.now()}: Main_Out - link_login_click - 6", flush=True)
       except:
         alert(
           title="Unveiling New Features!",

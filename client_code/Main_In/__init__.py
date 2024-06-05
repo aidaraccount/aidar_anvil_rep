@@ -6,6 +6,7 @@ import anvil.tables.query as q
 from anvil.tables import app_tables
 import anvil.users
 import json
+import datetime
 
 from ..C_Home import C_Home
 from ..C_Discover import C_Discover
@@ -26,6 +27,7 @@ from ..C_ConnectModel import C_ConnectModel
 
 class Main_In(Main_InTemplate):
   def __init__(self, temp_artist_id, target, value, **properties):
+    print(f"{datetime.datetime.now()}: Main_In - link_login_click - 1", flush=True)
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
     
@@ -35,21 +37,31 @@ class Main_In(Main_InTemplate):
     user = anvil.users.get_user()
     global status
     status = True
+    print(f"{datetime.datetime.now()}: Main_In - link_login_click - 2", flush=True)
 
     if user["user_id"] == None:
       cur_model_id = None
     else:
       cur_model_id = anvil.server.call('get_model_id',  user["user_id"])
       anvil.server.call('update_model_usage', cur_model_id)
+    print(f"{datetime.datetime.now()}: Main_In - link_login_click - 3", flush=True)  # 20s
 
+    print(cur_model_id, flush=True)
+    print(cur_model_id == None, flush=True)
+    print(cur_model_id is None, flush=True)
     if (cur_model_id == None):
       status = False
       self.content_panel.add_component(C_NoModel())
       self.change_nav_visibility(status=status)
     else:
+      print(f"{datetime.datetime.now()}: Main_In - link_login_click - 3a", flush=True)
       self.content_panel.add_component(C_Home())
+      print(f"{datetime.datetime.now()}: Main_In - link_login_click - 3b", flush=True)  # 3:10 min
       self.link_home.background = "theme:Accent 2"
+      print(f"{datetime.datetime.now()}: Main_In - link_login_click - 3c", flush=True)
       self.update_no_notifications()
+      print(f"{datetime.datetime.now()}: Main_In - link_login_click - 3d", flush=True)  # 17s
+    print(f"{datetime.datetime.now()}: Main_In - link_login_click - 4", flush=True)
 
     # ROUTING
     if target == 'C_Filter':
@@ -79,6 +91,7 @@ class Main_In(Main_InTemplate):
 
     if target == 'C_SearchArtist':
       self.route_discover_name(search = value)
+    print(f"{datetime.datetime.now()}: Main_In - link_login_click - 5", flush=True)
 
   
   def logo_click(self, **event_args):
