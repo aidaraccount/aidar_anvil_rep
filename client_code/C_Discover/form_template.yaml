@@ -943,3 +943,4 @@ components:
       layout_properties: {x: 65, y: 0, width: 105}
       event_bindings: {click: button_set_filters_click}
 is_package: true
+custom_component: true

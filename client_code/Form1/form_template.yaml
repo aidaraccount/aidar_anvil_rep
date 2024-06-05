@@ -1,0 +1,28 @@
+is_package: true
+container:
+  type: HtmlTemplate
+  properties: {html: '@theme:dashboard.html'}
+components:
+- type: ColumnPanel
+  properties: {col_spacing: huge}
+  name: content_panel
+  layout_properties: {slot: default}
+  components:
+  - name: column_panel_1
+    properties: {role: grid, col_widths: '{"ZJKRLM":15,"DMCVEB":45}'}
+    type: ColumnPanel
+    layout_properties: {grid_position: 'TXAVBM,DAKYNS'}
+    components:
+    - name: label_1
+      properties: {spacing_above: none, spacing_below: none}
+      type: Label
+      layout_properties: {grid_position: 'LXNWSH,ZJKRLM USSNLM,ASOFLI'}
+    - name: text_box_1
+      properties: {role: text_box_small}
+      type: TextBox
+      layout_properties: {grid_position: 'LXNWSH,ZJKRLM HNZQOU,LGTWQN'}
+      event_bindings: {pressed_enter: text_box_1_pressed_enter}
+    - name: label_2
+      properties: {}
+      type: Label
+      layout_properties: {grid_position: 'LXNWSH,DMCVEB'}
