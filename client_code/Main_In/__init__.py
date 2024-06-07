@@ -44,7 +44,7 @@ class Main_In(Main_InTemplate):
     else:
       cur_model_id = anvil.server.call('get_model_id',  user["user_id"])
       anvil.server.call('update_model_usage', cur_model_id)
-    print(f"{datetime.datetime.now()}: Main_In - link_login_click - 3", flush=True)  # 20s, 17s
+    print(f"{datetime.datetime.now()}: Main_In - link_login_click - 3", flush=True)  # 20s, 17s - 4s
 
     print(cur_model_id, flush=True)
     print(cur_model_id == None, flush=True)
@@ -56,11 +56,11 @@ class Main_In(Main_InTemplate):
     else:
       print(f"{datetime.datetime.now()}: Main_In - link_login_click - 3a", flush=True)
       self.content_panel.add_component(C_Home())
-      print(f"{datetime.datetime.now()}: Main_In - link_login_click - 3b", flush=True)  # 3:10m, 2:12m
+      print(f"{datetime.datetime.now()}: Main_In - link_login_click - 3b", flush=True)  # 3:10m, 2:12m - 19s
       self.link_home.background = "theme:Accent 2"
       print(f"{datetime.datetime.now()}: Main_In - link_login_click - 3c", flush=True)
       self.update_no_notifications()
-      print(f"{datetime.datetime.now()}: Main_In - link_login_click - 3d", flush=True)  # 17s, 14s
+      print(f"{datetime.datetime.now()}: Main_In - link_login_click - 3d", flush=True)  # 17s, 14s - 1.5s
     print(f"{datetime.datetime.now()}: Main_In - link_login_click - 4", flush=True)
 
     # ROUTING
