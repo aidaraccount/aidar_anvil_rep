@@ -27,11 +27,11 @@ class C_Home(C_HomeTemplate):
       self.xy_panel_funnel.visible = False
       self.xy_panel_funnel_empty.visible = True
     else:
-      #self.repeating_panel_2.items = [item for item in data if item['Status'] in ['Action required', 'Requires revision', 'Waiting for decision']] #EVALUATION
+      self.repeating_panel_2.items = [item for item in data if item['Status'] in ['Action required', 'Requires revision', 'Waiting for decision']] #EVALUATION
       print(f"{datetime.datetime.now()}: C_Home - __init__ - 2b", flush=True)
-      #self.repeating_panel_3.items = [item for item in data if item['Status'] in ['Build connection', 'Awaiting response', 'Exploring opportunities', 'Positive response']] #CONTACTING
+      self.repeating_panel_3.items = [item for item in data if item['Status'] in ['Build connection', 'Awaiting response', 'Exploring opportunities', 'Positive response']] #CONTACTING
       print(f"{datetime.datetime.now()}: C_Home - __init__ - 2c", flush=True)
-      #self.repeating_panel_4.items = [item for item in data if item['Status'] in ['In negotiations', 'Contract in progress']] #NEGOTIATION
+      self.repeating_panel_4.items = [item for item in data if item['Status'] in ['In negotiations', 'Contract in progress']] #NEGOTIATION
     print(f"{datetime.datetime.now()}: C_Home - __init__ - 3", flush=True)
 
     # STATS

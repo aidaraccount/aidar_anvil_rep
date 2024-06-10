@@ -6,27 +6,34 @@ import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
 import json
+import datetime
+
 
 class C_Rating(C_RatingTemplate):
-  def __init__(self, **properties):
+  def __init__(self, model_id, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
 
     # Any code you write here will run before the form opens.
+    print(f"{datetime.datetime.now()}: C_Rating - __init__ - 1", flush=True)
+    
     global user
     user = anvil.users.get_user()    
-    global cur_model_id
-    cur_model_id = anvil.server.call('get_model_id',  user["user_id"])
+    self.model_id=model_id
+    print(f"{datetime.datetime.now()}: C_Rating - __init__ - 2", flush=True)
 
     data = self.get_data()
+    print(f"{datetime.datetime.now()}: C_Rating - __init__ - 3", flush=True)
 
     # standard sorting
     self.data_ratings_data.items = sorted(data, key=lambda x: x.get('DateOfRecommendation', float('inf')), reverse=True)
-    self.link_date.icon = 'fa:angle-down'  
+    self.link_date.icon = 'fa:angle-down'
+    
+    print(f"{datetime.datetime.now()}: C_Rating - __init__ - 4", flush=True)
     
   
   def get_data(self, **event_args):
-    data = json.loads(anvil.server.call('get_ratings', cur_model_id))    
+    data = json.loads(anvil.server.call('get_ratings', self.model_id))    
     return data
 
   # RESET ICONS

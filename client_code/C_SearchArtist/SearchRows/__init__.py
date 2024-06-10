@@ -18,7 +18,7 @@ class SearchRows(SearchRowsTemplate):
     global user
     user = anvil.users.get_user()
     global model_id
-    model_id = anvil.server.call('get_model_id',  user["user_id"])  
+    model_id = self.item["ModelID"]
     
     if self.item["Watchlist"] == 1:
       self.button_watchlist.background = '#fd652d' # orange

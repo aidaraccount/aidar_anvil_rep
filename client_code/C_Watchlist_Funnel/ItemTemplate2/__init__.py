@@ -13,8 +13,8 @@ class ItemTemplate2(ItemTemplate2Template):
   
     global user
     user = anvil.users.get_user()
-    global cur_model_id
-    cur_model_id = anvil.server.call('get_model_id',  user["user_id"])
+    global model_id
+    model_id = anvil.server.call('get_model_id',  user["user_id"])
     
     # Any code you write here will run before the form opens.
     # cut the name
@@ -31,7 +31,7 @@ class ItemTemplate2(ItemTemplate2Template):
 
   
   def link_1_click(self, **event_args):
-      open_form('Main_In', temp_artist_id = self.item["ArtistID"], target = 'C_Watchlist_Details', value=None)
+      open_form('Main_In', model_id, temp_artist_id = self.item["ArtistID"], target = 'C_Watchlist_Details', value=None)
 
   def link_left_click(self, **event_args):
     if self.item["Status"] in ['Action required', 'Requires revision', 'Waiting for decision']: #EVALUATION
@@ -44,13 +44,13 @@ class ItemTemplate2(ItemTemplate2Template):
       status_left_new = 'In negotiations'
       
     anvil.server.call('update_watchlist_lead',
-                      cur_model_id,
+                      model_id,
                       self.item["ArtistID"],
                       True,
                       status_left_new,
                       self.item["Notification"]
                       )
-    open_form('Main_In', temp_artist_id = None, target = 'C_Watchlist_Funnel', value=None)
+    open_form('Main_In', model_id=model_id, temp_artist_id = None, target = 'C_Watchlist_Funnel', value=None)
 
   def link_right_click(self, **event_args):
     if self.item["Status"] in ['Reconnect later', 'Not interested', None]: #BACKLOG
@@ -63,10 +63,10 @@ class ItemTemplate2(ItemTemplate2Template):
       status_right_new = 'Success'
     
     anvil.server.call('update_watchlist_lead',
-                      cur_model_id,
+                      model_id,
                       self.item["ArtistID"],
                       True,
                       status_right_new,
                       self.item["Notification"]
                       )
-    open_form('Main_In', temp_artist_id = None, target = 'C_Watchlist_Funnel', value=None)
+    open_form('Main_In', model_id=model_id, temp_artist_id = None, target = 'C_Watchlist_Funnel', value=None)

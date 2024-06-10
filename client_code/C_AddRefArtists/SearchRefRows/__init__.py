@@ -17,9 +17,9 @@ class SearchRefRows(SearchRefRowsTemplate):
     # Any code you write here will run before the form opens.
     global user
     user = anvil.users.get_user()
-    global cur_model_id   
-    cur_model_id = anvil.server.call('get_model_id',  user["user_id"])
-
+    global model_id
+    model_id = self.item["ModelID"]
+  
   def inspect_link_click(self, **event_args):
     if int(self.item["ArtistPopularity_lat"]) > 30:
       c = confirm(content="Adding very popular artists will result in artist suggestions that are very popular as well.\n\nDo you wish to continue?",
@@ -30,7 +30,7 @@ class SearchRefRows(SearchRefRowsTemplate):
       self.add_ref_artist()
   
   def add_ref_artist(self, **event_args):
-    status = anvil.server.call('add_ref_artist', user["user_id"], cur_model_id, self.inspect_link.tag)
+    status = anvil.server.call('add_ref_artist', user["user_id"], model_id, self.inspect_link.tag)
     if status == 'Event created':
       alert(title='Processing Reference Artist..',
             content='We are processing your artist, which may take a short moment. You will find it at RATINGS soon.\n\nFeel free to add additional reference artists or start to INVESTIGATE - both  will improve your model accuracy.\n\nEnjoy it!')

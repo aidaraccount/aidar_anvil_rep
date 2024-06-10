@@ -12,7 +12,7 @@ components:
     layout_properties: {x: 0, y: 0, width: 170}
     components:
     - name: image_1
-      properties: {role: null, vertical_align: center, height: '130', tooltip: '', border: '', foreground: '', visible: true, display_mode: zoom_to_fill, spacing_above: none, source: '', spacing_below: none, background: '', horizontal_align: center}
+      properties: {role: null, vertical_align: center, spacing_above: none, background: '', horizontal_align: center, source: '', foreground: '', display_mode: zoom_to_fill, spacing_below: none, visible: true, border: '', tooltip: '', height: '130'}
       type: Image
       layout_properties: {grid_position: 'XISFUA,MXKFIP'}
       data_bindings:

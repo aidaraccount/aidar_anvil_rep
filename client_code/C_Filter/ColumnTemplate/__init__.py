@@ -15,8 +15,8 @@ class ColumnTemplate(ColumnTemplateTemplate):
     global user
     user = anvil.users.get_user()
     global model_id
-    model_id = anvil.server.call('get_model_id',  user["user_id"])
-
+    #model_id = anvil.server.call('get_model_id',  user["user_id"])
+    model_id = self.item["ModelID"]
 
   def button_del_click(self, **event_args):
     del_entry_genre = {"ModelID":model_id, "Type":"genre", 'Column':self.label_column.text, "Operator":"is", 'Value':self.label_value.text}

@@ -9,14 +9,13 @@ import json
 
 
 class C_Watchlist_Overview(C_Watchlist_OverviewTemplate):
-  def __init__(self, **properties):
+  def __init__(self, model_id, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
 
     global user
     user = anvil.users.get_user()
-    global cur_model_id
-    cur_model_id = anvil.server.call('get_model_id',  user["user_id"])
+    self.model_id = model_id
     
     # Any code you write here will run before the form opens.
     data = self.get_data()
@@ -28,7 +27,7 @@ class C_Watchlist_Overview(C_Watchlist_OverviewTemplate):
   
   def get_data(self, **event_args):
     # get raw data
-    data = json.loads(anvil.server.call('get_watchlist_overview', cur_model_id))
+    data = json.loads(anvil.server.call('get_watchlist_overview', self.model_id))
     
     # fill Nones and turn to strings
     for item in data:

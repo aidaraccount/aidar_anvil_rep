@@ -49,11 +49,12 @@ class Main_In(Main_InTemplate):
     
     print(f"{datetime.datetime.now()}: Main_In - link_login_click - 3", flush=True)  # 20s, 17s - 4s
 
-    if (self.model_id is None):
+    if self.model_id is None:
       status = False
       self.content_panel.add_component(C_NoModel())
       self.change_nav_visibility(status=status)
-    else:
+      
+    elif self.model_id is not None and target is None:
       print(f"{datetime.datetime.now()}: Main_In - link_login_click - 3a", flush=True)
       self.content_panel.add_component(C_Home(model_id=self.model_id))
       print(f"{datetime.datetime.now()}: Main_In - link_login_click - 3b", flush=True)  # 3:10m, 2:12m - 19s
@@ -61,36 +62,42 @@ class Main_In(Main_InTemplate):
       print(f"{datetime.datetime.now()}: Main_In - link_login_click - 3c", flush=True)
       self.update_no_notifications()
       print(f"{datetime.datetime.now()}: Main_In - link_login_click - 3d", flush=True)  # 17s, 14s - 1.5s
-    print(f"{datetime.datetime.now()}: Main_In - link_login_click - 4", flush=True)
 
     # ROUTING
-    if target == 'C_Filter':
-      self.content_panel.clear()
-      self.content_panel.add_component(C_Filter(model_id=model_id))
+    elif self.model_id is not None and target is not None:
+      print(f"{datetime.datetime.now()}: Main_In - link_login_click - 4", flush=True)
       
-    if target == 'C_AddRefArtists':
-      self.content_panel.clear()
-      self.content_panel.add_component(C_AddRefArtists(model_id=model_id))
-      self.reset_nav_backgrounds()
-      self.link_models_artists.background = "theme:Accent 2"
-      
-    if target == 'C_Watchlist_Funnel':
-      self.content_panel.clear()
-      self.content_panel.add_component(C_Watchlist_Funnel(model_id=model_id))
-      self.reset_nav_backgrounds()
-      self.link_manage_funnel.background = "theme:Accent 2"
-      
-    if target == 'C_Discover':
-      self.link_discover_ai_click(model_id=self.model_id, temp_artist_id=temp_artist_id)
-      
-    if target == 'C_Watchlist_Details':
-      self.route_manage_watchlist(temp_artist_id=temp_artist_id)
-
-    if target == 'C_RelatedArtistData':
-      self.route_discover_rel_data(user_id=user["user_id"], model_id=self.model_id, artist_id=temp_artist_id, name=value)
-
-    if target == 'C_SearchArtist':
-      self.link_discover_name_click(search=value)
+      if target == 'C_Filter':
+        self.content_panel.clear()
+        self.content_panel.add_component(C_Filter(model_id=model_id))
+        
+      if target == 'C_AddRefArtists':
+        self.content_panel.clear()
+        self.content_panel.add_component(C_AddRefArtists(model_id=model_id))
+        self.reset_nav_backgrounds()
+        self.link_models_artists.background = "theme:Accent 2"
+        
+      if target == 'C_Watchlist_Funnel':
+        self.content_panel.clear()
+        self.content_panel.add_component(C_Watchlist_Funnel(model_id=model_id))
+        self.reset_nav_backgrounds()
+        self.link_manage_funnel.background = "theme:Accent 2"
+        
+      if target == 'C_Discover':
+        self.link_discover_ai_click(model_id=self.model_id, temp_artist_id=temp_artist_id)
+        
+      if target == 'C_Watchlist_Details':
+        self.content_panel.clear()
+        self.content_panel.add_component(C_Watchlist_Details(model_id=model_id, temp_artist_id=temp_artist_id))
+        self.reset_nav_backgrounds()
+        self.link_manage_watchlist.background = "theme:Accent 2"
+  
+      if target == 'C_RelatedArtistData':
+        self.route_discover_rel_data(model_id=self.model_id, artist_id=temp_artist_id, name=value)
+  
+      if target == 'C_SearchArtist':
+        self.link_discover_name_click(search=value)
+        
     print(f"{datetime.datetime.now()}: Main_In - link_login_click - 5", flush=True)
 
   
@@ -180,9 +187,9 @@ class Main_In(Main_InTemplate):
     self.reset_nav_backgrounds()
     self.link_discover_rel.background = "theme:Accent 2"
 
-  def route_discover_rel_data(self, user_id, artist_id, name, **event_args):
+  def route_discover_rel_data(self, artist_id, name, **event_args):
     self.content_panel.clear()
-    self.content_panel.add_component(C_RelatedArtistData(user_id=user_id, model_id=self.model_id, artist_id=artist_id, name=name))
+    self.content_panel.add_component(C_RelatedArtistData(model_id=self.model_id, artist_id=artist_id, name=name))
     self.reset_nav_backgrounds()
     self.link_discover_rel.background = "theme:Accent 2"    
     
@@ -208,19 +215,19 @@ class Main_In(Main_InTemplate):
 
   def link_manage_watchlist_click(self, temp_artist_id=None, **event_args):
     self.content_panel.clear()
-    self.content_panel.add_component(C_Watchlist_Details(temp_artist_id))
+    self.content_panel.add_component(C_Watchlist_Details(self.model_id, temp_artist_id))
     self.reset_nav_backgrounds()
     self.link_manage_watchlist.background = "theme:Accent 2"
     
   def link_manage_funnel_click(self, **event_args):
     self.content_panel.clear()
-    self.content_panel.add_component(C_Watchlist_Funnel())
+    self.content_panel.add_component(C_Watchlist_Funnel(model_id=self.model_id))
     self.reset_nav_backgrounds()
     self.link_manage_funnel.background = "theme:Accent 2"
 
   def link_manage_dev_click(self, **event_args):
     self.content_panel.clear()
-    self.content_panel.add_component(C_Watchlist_Overview())
+    self.content_panel.add_component(C_Watchlist_Overview(model_id=self.model_id))
     self.reset_nav_backgrounds()
     self.link_manage_dev.background = "theme:Accent 2"
 
@@ -252,7 +259,7 @@ class Main_In(Main_InTemplate):
 
   def link_models_rated_click(self, **event_args):
     self.content_panel.clear()
-    self.content_panel.add_component(C_Rating())
+    self.content_panel.add_component(C_Rating(model_id=self.model_id))
     self.reset_nav_backgrounds()
     self.link_models_rated.background = "theme:Accent 2"
   

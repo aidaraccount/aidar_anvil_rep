@@ -6,6 +6,7 @@ import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
 import json
+import datetime
 
 
 from ..C_Discover import C_Discover
@@ -15,12 +16,15 @@ class C_Filter(C_FilterTemplate):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
 
-    # Any code you write here will run before the form opens.    
+    # Any code you write here will run before the form opens.
+    print(f"{datetime.datetime.now()}: C_Filter - __init__ - 1", flush=True)
     global user
     user = anvil.users.get_user()
     self.model_id=model_id
+    print(f"{datetime.datetime.now()}: C_Filter - __init__ - 2", flush=True)
 
     self.load_filters()
+    print(f"{datetime.datetime.now()}: C_Filter - __init__ - 3", flush=True)
 
   
   def load_filters(self, **event_args):

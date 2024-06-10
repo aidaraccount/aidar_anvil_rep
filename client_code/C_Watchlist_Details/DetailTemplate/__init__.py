@@ -12,7 +12,7 @@ class DetailTemplate(DetailTemplateTemplate):
     self.init_components(**properties)
 
     # Any code you write here will run before the form opens.
-    if self.item['NoteID'] == None:
+    if self.item['NoteID'] is None:
       self.link_delete.visible = False
       self.note.italic = True
       self.note.bold = False

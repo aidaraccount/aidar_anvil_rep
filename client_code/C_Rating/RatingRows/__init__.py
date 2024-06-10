@@ -15,6 +15,11 @@ class RatingRows(RatingRowsTemplate):
     self.init_components(**properties)
 
     # Any code you write here will run before the form opens.
+    global user
+    user = anvil.users.get_user()
+    global model_id
+    model_id = self.item["ModelID"]
+    
     if self.item["Watchlist"] == 1:
       self.button_watchlist.background = '#fd652d' # orange
       self.button_watchlist.foreground = '#f5f4f1' # white
@@ -26,33 +31,20 @@ class RatingRows(RatingRowsTemplate):
       self.button_watchlist.tooltip = 'add to Watchlist'
       self.button_watchlist_delete.visible = False
     
-  
-  def check_link_click(self, **event_args):
-    """This method is called when the link is clicked"""
-    self.check_link.url = 'www.google.com'
-    self.content_panel.clear()
-    self.content_panel.add_component(C_Discover())
-
   def inspect_pic_link_click(self, **event_args):
-    open_form('Main_In', temp_artist_id = self.item["ArtistID"], target = 'C_Discover', value=None)
+    open_form('Main_In', model_id, temp_artist_id=self.item["ArtistID"], target='C_Discover', value=None)
 
   def inspect_name_link_click(self, **event_args):
-    open_form('Main_In', temp_artist_id = self.item["ArtistID"], target = 'C_Discover', value=None)
+    open_form('Main_In', model_id, temp_artist_id=self.item["ArtistID"], target='C_Discover', value=None)
 
   # BUTTONS
   def button_watchlist_click(self, **event_args):
     if self.item["Watchlist"] == 1:
       # route to Watchlist Details
-      open_form('Main_In', temp_artist_id = self.item["ArtistID"], target = 'C_Watchlist_Details', value=None)      
+      open_form('Main_In', model_id, temp_artist_id = self.item["ArtistID"], target = 'C_Watchlist_Details', value=None)      
     else:
       # add to Watchlist (incl. change Button) and show delete Button
-      anvil.server.call('update_watchlist_lead',
-                        self.item["ModelID"],
-                        self.item["ArtistID"],
-                        True,
-                        'Action required',
-                        True
-                        )
+      anvil.server.call('update_watchlist_lead', model_id, self.item["ArtistID"], True, 'Action required', True)
       self.parent.parent.parent.parent.parent.parent.update_no_notifications()
       self.item["Watchlist"] = 1
       
@@ -68,7 +60,7 @@ class RatingRows(RatingRowsTemplate):
   def button_watchlist_delete_click(self, **event_args):
     c = confirm("Do you wish to delete this artist from your watchlist?")
     if c is True:
-      anvil.server.call('update_watchlist_lead', self.item["ModelID"], self.item["ArtistID"], False, None, False)
+      anvil.server.call('update_watchlist_lead', model_id, self.item["ArtistID"], False, None, False)
       self.parent.parent.parent.parent.parent.parent.update_no_notifications()
       self.item["Watchlist"] = 0
       
@@ -82,4 +74,4 @@ class RatingRows(RatingRowsTemplate):
         style="success").show()      
 
   def button_discover_click(self, **event_args):
-    open_form('Main_In', temp_artist_id = self.item["ArtistID"], target = 'C_Discover', value=None)
+    open_form('Main_In', model_id, temp_artist_id = self.item["ArtistID"], target = 'C_Discover', value=None)

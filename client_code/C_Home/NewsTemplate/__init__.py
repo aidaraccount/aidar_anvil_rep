@@ -12,7 +12,7 @@ class NewsTemplate(NewsTemplateTemplate):
     self.init_components(**properties)
 
     # Any code you write here will run before the form opens.
-    if self.item['NoteID'] == None:
+    if self.item['NoteID'] is None:
       self.note.italic = True
       self.note.bold = False
       self.note.font_size = 13

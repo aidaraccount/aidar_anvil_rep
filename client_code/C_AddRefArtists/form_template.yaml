@@ -55,12 +55,12 @@ components:
     layout_properties:
       col_widths: {}
       grid_position: SGNDPT,SUGPFH
-    event_bindings: {pressed_enter: text_box_search_change}
+    event_bindings: {pressed_enter: text_box_search_enter}
   - type: Button
     properties: {role: feature, bold: false, align: left, spacing_above: small, background: '', icon: '', underline: false, font: '', icon_align: left, foreground: '', spacing_below: small, visible: true, border: '', italic: false, enabled: true, font_size: null, tooltip: '', text: ' search '}
     name: button_2
     layout_properties: {grid_position: 'SGNDPT,FDMYWV'}
-    event_bindings: {click: text_box_search_change}
+    event_bindings: {click: text_box_search_enter}
   - type: DataGrid
     properties:
       role: null
@@ -110,6 +110,8 @@ components:
       properties: {role: table_content, spacing_above: none, background: '', item_template: C_AddRefArtists.SearchRefRows, foreground: '', items: null, spacing_below: none, visible: true, border: '', tooltip: ''}
       name: data_grid_artists_data
       layout_properties: {}
+      data_bindings: []
+    data_bindings: []
   - type: Spacer
     properties: {height: 67}
     name: spacer_1

@@ -21,7 +21,7 @@ class Imprint(ImprintTemplate):
     anvil.users.login_with_form(allow_cancel=True, remember_by_default=True)
     check_log_status(self)
     user = anvil.users.get_user()
-    if (user != None):
+    if (user is not None):
       anvil.server.call('check_user_presence', mail=user['email'])
       open_form('Main_In', temp_artist_id = None, user_id = user["user_id"], value=None)
 
@@ -34,7 +34,7 @@ class Imprint(ImprintTemplate):
 
   def link_investigate_click(self, **event_args):
     user = anvil.users.get_user()
-    if (user != None):
+    if (user is not None):
       anvil.server.call('check_user_presence', mail=user['email'])
       open_form('Main_In', temp_artist_id = None, user_id = user["user_id"], value=None)
 
@@ -44,7 +44,7 @@ class Imprint(ImprintTemplate):
 
 def check_log_status(self, **event_args):
   print(f'Check log status - Start {datetime.datetime.now()}', flush=True)
-  if (anvil.users.get_user() == None):
+  if (anvil.users.get_user() is None):
     self.link_login.visible = True
     #self.link_register.visible = True
     self.link_logout.visible = False

@@ -13,7 +13,7 @@ import plotly.graph_objects as go
 
 
 class C_Discover(C_DiscoverTemplate):
-  def __init__(self, model_id=2, temp_artist_id=2, **properties):
+  def __init__(self, model_id, temp_artist_id, **properties):
     print(f"{datetime.now()}: C_Discover - __init__ - 1", flush=True)
       
     # Set Form properties and Data Bindings.
@@ -451,8 +451,8 @@ class C_Discover(C_DiscoverTemplate):
       content="Indicates whether this artist ever worked with a sub-major label or not.")
 
   def button_set_filters_click(self, **event_args):
-    open_form('Main_In', model_id=self.model_id, temp_artist_id = None, target = 'C_Filter', value=None)
+    open_form('Main_In', model_id=self.model_id, temp_artist_id=None, target='C_Filter', value=None)
 
-  def button_remove_filters_click(self, **event_args):    
+  def button_remove_filters_click(self, **event_args):
     anvil.server.call('change_filters', self.model_id, filters_json = None)
-    open_form('Main_In', model_id=self.model_id, temp_artist_id = None, target = 'C_Discover', value=None)
+    open_form('Main_In', model_id=self.model_id, temp_artist_id=None, target='C_Discover', value=None)

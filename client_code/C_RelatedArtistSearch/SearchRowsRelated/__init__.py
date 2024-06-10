@@ -18,12 +18,12 @@ class SearchRowsRelated(SearchRowsRelatedTemplate):
     global user
     user = anvil.users.get_user()
     global model_id
-    model_id = anvil.server.call('get_model_id',  user["user_id"])    
+    model_id = self.item["ModelID"]  
 
   
   # BUTTONS
   def button_related_click(self, **event_args):
-    open_form('Main_In', model_id=model_id, temp_artist_id = self.item["ArtistID"], target = 'C_RelatedArtistData', value=self.item["Name"])
+    open_form('Main_In', model_id=model_id, temp_artist_id=self.item["ArtistID"], target='C_RelatedArtistData', value=self.item["Name"])
 
   def button_inspect_click(self, **event_args):
     open_form('Main_In', model_id=model_id, temp_artist_id = self.item["ArtistID"], target='C_Discover', value=None)
