@@ -10,8 +10,10 @@ import json
 from datetime import datetime
 import plotly.graph_objects as go
 
+
+
 class C_Discover(C_DiscoverTemplate):
-  def __init__(self, model_id, temp_artist_id, **properties):
+  def __init__(self, model_id=2, temp_artist_id=2, **properties):
     print(f"{datetime.now()}: C_Discover - __init__ - 1", flush=True)
       
     # Set Form properties and Data Bindings.
