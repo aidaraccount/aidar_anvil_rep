@@ -57,7 +57,7 @@ class Main_In(Main_InTemplate):
       print(f"{datetime.datetime.now()}: Main_In - link_login_click - 3b", flush=True)  # 3:10m, 2:12m - 19s
       self.link_home.background = "theme:Accent 2"
       print(f"{datetime.datetime.now()}: Main_In - link_login_click - 3c", flush=True)
-      self.update_no_notifications(self.model_id)
+      self.update_no_notifications()
       print(f"{datetime.datetime.now()}: Main_In - link_login_click - 3d", flush=True)  # 17s, 14s - 1.5s
     print(f"{datetime.datetime.now()}: Main_In - link_login_click - 4", flush=True)
 
@@ -79,7 +79,7 @@ class Main_In(Main_InTemplate):
       self.link_manage_funnel.background = "theme:Accent 2"
       
     if target == 'C_Discover':
-      self.route_discover_ai(model_id=self.model_id, temp_artist_id = temp_artist_id)
+      self.link_discover_ai_click(model_id=self.model_id, temp_artist_id=temp_artist_id)
       
     if target == 'C_Watchlist_Details':
       self.route_manage_watchlist(temp_artist_id = temp_artist_id)
@@ -88,7 +88,7 @@ class Main_In(Main_InTemplate):
       self.route_discover_rel_data(user_id = user["user_id"], model_id=self.model_id, artist_id=temp_artist_id, name=value)
 
     if target == 'C_SearchArtist':
-      self.route_discover_name(search = value)
+      self.link_discover_name_click(search=value)
     print(f"{datetime.datetime.now()}: Main_In - link_login_click - 5", flush=True)
 
   
@@ -100,8 +100,8 @@ class Main_In(Main_InTemplate):
     if (anvil.users.get_user() is None):
       open_form('Main_Out')
 
-  def update_no_notifications(self, model_id, **event_args):
-    NoNotifications = json.loads(anvil.server.call('get_no_notifications', model_id))
+  def update_no_notifications(self, **event_args):
+    NoNotifications = json.loads(anvil.server.call('get_no_notifications', self.model_id))
     self.link_manage.text = 'MANAGE (' + str(NoNotifications[0]["cnt"]) + ')'
 
   def reset_nav_backgrounds(self, **event_args):    
@@ -166,14 +166,9 @@ class Main_In(Main_InTemplate):
       self.link_discover_rel.visible = False
       self.link_discover_name.visible = False
   
-  def link_discover_ai_click(self, **event_args):
-    self.route_discover_ai(model_id=None, temp_artist_id=None)
-
-  def route_discover_ai(self, model_id, temp_artist_id, **event_args):
-    if model_id is None:
-      model_id = self.model_id
+  def link_discover_ai_click(self, temp_artist_id=None, **event_args):
     self.content_panel.clear()
-    self.content_panel.add_component(C_Discover(model_id=model_id, temp_artist_id = temp_artist_id))
+    self.content_panel.add_component(C_Discover(model_id=self.model_id, temp_artist_id=temp_artist_id))
     self.reset_nav_backgrounds()
     self.link_discover_ai.background = "theme:Accent 2"
 
@@ -183,26 +178,22 @@ class Main_In(Main_InTemplate):
     self.reset_nav_backgrounds()
     self.link_discover_rel.background = "theme:Accent 2"
 
-  def route_discover_rel_data(self, user_id, model_id, artist_id, name, **event_args):
+  def route_discover_rel_data(self, user_id, artist_id, name, **event_args):
     self.content_panel.clear()
-    self.content_panel.add_component(C_RelatedArtistData(user_id=user_id, model_id=model_id, artist_id=artist_id, name=name))
+    self.content_panel.add_component(C_RelatedArtistData(user_id=user_id, model_id=self.model_id, artist_id=artist_id, name=name))
     self.reset_nav_backgrounds()
     self.link_discover_rel.background = "theme:Accent 2"    
-  
-  def link_discover_name_click(self, **event_args):
-    self.route_discover_name(search=None)
-  
-  def route_discover_name(self, search, **event_args):
-    model_id = anvil.server.call('get_model_id',  user["user_id"])
+    
+  def link_discover_name_click(self, search, **event_args):
     self.content_panel.clear()
-    self.content_panel.add_component(C_SearchArtist(search = search))
+    self.content_panel.add_component(C_SearchArtist(model_id=self.model_id, search=search))
     self.reset_nav_backgrounds()
     self.link_discover_name.background = "theme:Accent 2"
 
   #----------------------------------------------------------------------------------------------
   # MANAGE
   def change_manage_visibility(self, **event_args):
-    if self.link_manage_watchlist.visible == False:
+    if self.link_manage_watchlist.visible is False:
       self.link_manage.icon = 'fa:angle-up'
       self.link_manage_watchlist.visible = True
       self.link_manage_funnel.visible = True
@@ -212,26 +203,20 @@ class Main_In(Main_InTemplate):
       self.link_manage_watchlist.visible = False
       self.link_manage_funnel.visible = False
       self.link_manage_dev.visible = False
-  
-  def link_manage_watchlist_click(self, **event_args):
-    self.route_manage_watchlist(temp_artist_id = None)
 
-  def route_manage_watchlist(self, temp_artist_id, **event_args):
-    model_id = anvil.server.call('get_model_id',  user["user_id"])
+  def link_manage_watchlist_click(self, temp_artist_id=None, **event_args):
     self.content_panel.clear()
     self.content_panel.add_component(C_Watchlist_Details(temp_artist_id))
     self.reset_nav_backgrounds()
     self.link_manage_watchlist.background = "theme:Accent 2"
     
   def link_manage_funnel_click(self, **event_args):
-    model_id = anvil.server.call('get_model_id',  user["user_id"])
     self.content_panel.clear()
     self.content_panel.add_component(C_Watchlist_Funnel())
     self.reset_nav_backgrounds()
     self.link_manage_funnel.background = "theme:Accent 2"
 
   def link_manage_dev_click(self, **event_args):
-    model_id = anvil.server.call('get_model_id',  user["user_id"])
     self.content_panel.clear()
     self.content_panel.add_component(C_Watchlist_Overview())
     self.reset_nav_backgrounds()
@@ -258,14 +243,12 @@ class Main_In(Main_InTemplate):
       self.link_models_rated.visible = status
 
   def link_models_artists_click(self, **event_args):
-    model_id = anvil.server.call('get_model_id',  user["user_id"])
     self.content_panel.clear()
     self.content_panel.add_component(C_EditRefArtists())
     self.reset_nav_backgrounds()
     self.link_models_artists.background = "theme:Accent 2"
 
   def link_models_rated_click(self, **event_args):
-    model_id = anvil.server.call('get_model_id',  user["user_id"])
     self.content_panel.clear()
     self.content_panel.add_component(C_Rating())
     self.reset_nav_backgrounds()

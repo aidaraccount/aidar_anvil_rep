@@ -31,7 +31,7 @@ class SearchRows(SearchRowsTemplate):
     open_form('Main_In', temp_artist_id = int(self.inspect_pic_link.url), target='C_Discover', value=None)
 
   def inspect_name_link_click(self, **event_args):
-    open_form('Main_In', temp_artist_id = int(self.inspect_name_link.url), target='C_Discover', value=None)
+    open_form('Main_In', model_id=self.model_id, temp_artist_id=int(self.inspect_name_link.url), target='C_Discover', value=None)
     
   # BUTTONS
   def button_watchlist_click(self, **event_args):
