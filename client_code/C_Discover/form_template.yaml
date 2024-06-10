@@ -1,8 +1,6 @@
 container:
   type: HtmlTemplate
-  properties:
-    html: "<div anvil-drop-default anvil-drop-redirect=\".placeholder\" anvil-drop-container=\".anvil-container\"></div>\n  <div class=\"footer\">\n    <div class=\"footer-slot\" anvil-slot=\"footer-slot\">\n    <div class=\"placeholder anvil-designer-only\" anvil-if-slot-empty=\"footer-slot\" anvil-drop-here>Drop a FlowPanel or Label or Link Component here</div>\n  </div>\n</div> \n\n"
-    background: ''
+  properties: {html: '', background: ''}
 components:
 - name: column_panel_1
   properties: {spacing_above: small, spacing_below: small, col_spacing: medium, col_widths: '{"DTEJWC":15,"HPUOQR":45,"YWCHHS":45}'}
