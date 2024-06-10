@@ -22,8 +22,7 @@ components:
     - {property: url, code: 'self.item[''ArtistID'']', writeback: false}
     event_bindings: {click: link_selection_click}
   - name: radio_button_notification
-    properties: {text: '', spacing_below: none, spacing_above: none, group_name: '',
-      selected: false}
+    properties: {text: '', spacing_below: none, spacing_above: none, group_name: '', selected: false}
     type: RadioButton
     layout_properties: {x: 110, y: -15, width: 25}
     event_bindings: {}

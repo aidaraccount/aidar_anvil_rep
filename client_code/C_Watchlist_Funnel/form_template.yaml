@@ -8,17 +8,11 @@ components:
   layout_properties: {grid_position: 'HINVKU,JGCJXX'}
   components:
   - type: Label
-    properties: {role: title, align: left, tooltip: '', border: '', foreground: '',
-      visible: true, text: Artist Funnel, font_size: null, font: '', spacing_above: small,
-      icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-      underline: false, icon: ''}
+    properties: {role: title, align: left, tooltip: '', border: '', foreground: '', visible: true, text: Artist Funnel, font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false, background: '', bold: false, underline: false, icon: ''}
     name: label_1
     layout_properties: {grid_position: 'JAZERV,LGQSDW'}
   - type: Label
-    properties: {role: description, align: left, tooltip: '', border: '', foreground: '',
-      visible: true, text: This funnel summarizes the current state of all your discovered artists.,
-      font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small,
-      italic: true, background: '', bold: false, underline: false, icon: ''}
+    properties: {role: description, align: left, tooltip: '', border: '', foreground: '', visible: true, text: This funnel summarizes the current state of all your discovered artists., font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: true, background: '', bold: false, underline: false, icon: ''}
     name: label_2
     layout_properties: {grid_position: 'EZORSW,VNYUUN'}
   - name: text_box_search
@@ -53,24 +47,20 @@ components:
     type: RepeatingPanel
     layout_properties: {x: 196, y: 30, width: 186}
   - name: label_3
-    properties: {text: '  BACKLOG', role: feature, background: 'rgb(94, 38, 17)',
-      foreground: 'theme:Text_DecentWhite'}
+    properties: {text: '  BACKLOG', role: feature, background: 'rgb(94, 38, 17)', foreground: 'theme:Text_DecentWhite'}
     type: Label
     layout_properties: {x: 0, y: 0, width: 186}
     data_bindings: []
   - name: label_3_copy
-    properties: {text: '  EVALUATE', role: feature, background: 'rgb(135, 54, 24)',
-      foreground: 'theme:Text_DecentWhite'}
+    properties: {text: '  EVALUATE', role: feature, background: 'rgb(135, 54, 24)', foreground: 'theme:Text_DecentWhite'}
     type: Label
     layout_properties: {x: 196, y: 0, width: 186}
   - name: label_3_copy_copy
-    properties: {text: '  CONTACT', role: feature, background: 'rgb(176, 70, 32)',
-      foreground: 'theme:Text_DecentWhite'}
+    properties: {text: '  CONTACT', role: feature, background: 'rgb(176, 70, 32)', foreground: 'theme:Text_DecentWhite'}
     type: Label
     layout_properties: {x: 392, y: 0, width: 186}
   - name: label_3_copy_copy_copy
-    properties: {text: '  NEGOTIATE', role: feature, background: 'rgb(217, 86, 39)',
-      foreground: 'theme:Text_DecentWhite'}
+    properties: {text: '  NEGOTIATE', role: feature, background: 'rgb(217, 86, 39)', foreground: 'theme:Text_DecentWhite'}
     type: Label
     layout_properties: {x: 588, y: 0, width: 186}
   - name: repeating_panel_3
@@ -82,8 +72,7 @@ components:
     type: RepeatingPanel
     layout_properties: {x: 588, y: 30, width: 186}
   - name: label_3_copy_copy_copy_copy
-    properties: {text: '  SUCCESS', role: feature, background: 'rgb(217, 86, 39)',
-      foreground: 'theme:Text_DecentWhite'}
+    properties: {text: '  SUCCESS', role: feature, background: 'rgb(217, 86, 39)', foreground: 'theme:Text_DecentWhite'}
     type: Label
     layout_properties: {x: 784, y: 0, width: 186}
   - name: repeating_panel_5

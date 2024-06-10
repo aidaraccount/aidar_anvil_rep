@@ -6,19 +6,13 @@ components:
   layout_properties: {grid_position: 'KGEKNG,EYINSF', full_width_row: false}
   components:
   - name: label_1_copy
-    properties: {role: title, align: left, tooltip: '', border: '', foreground: '',
-      visible: true, text: Development of Watchlist Artists, font_size: null, font: '',
-      spacing_above: small, icon_align: left, spacing_below: small, italic: false,
-      background: '', bold: false, underline: false, icon: ''}
+    properties: {role: title, align: left, tooltip: '', border: '', foreground: '', visible: true, text: Development of Watchlist Artists, font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false, background: '', bold: false, underline: false, icon: ''}
     type: Label
     layout_properties:
       col_widths: {}
       grid_position: WKTSPW,ALNASW
   - name: label_description
-    properties: {role: description, align: left, tooltip: '', border: '', foreground: '',
-      visible: true, text: This overview shows all artists from your watchlist incl. their most important stats.,
-      font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small,
-      italic: true, background: '', bold: false, underline: false, icon: ''}
+    properties: {role: description, align: left, tooltip: '', border: '', foreground: '', visible: true, text: This overview shows all artists from your watchlist incl. their most important stats., font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: true, background: '', bold: false, underline: false, icon: ''}
     type: Label
     layout_properties:
       col_widths: {}
@@ -63,8 +57,7 @@ components:
       type: XYPanel
       components:
       - name: link_artist
-        properties: {text: Artist, icon: '', icon_align: right, role: table_content,
-          border: ''}
+        properties: {text: Artist, icon: '', icon_align: right, role: table_content, border: ''}
         type: Link
         layout_properties: {x: 0, y: 0, width: 142}
         event_bindings: {click: link_artist_click}
@@ -105,8 +98,7 @@ components:
         event_bindings: {click: link_foldev_click}
       layout_properties: {}
     - name: repeating_panel_data
-      properties: {item_template: C_Watchlist_Overview.RowTemplate3, role: table_content_small,
-        foreground: ''}
+      properties: {item_template: C_Watchlist_Overview.RowTemplate3, role: table_content_small, foreground: ''}
       type: RepeatingPanel
       layout_properties: {pinned: false}
     layout_properties: {grid_position: 'MXANCB,DCXPKB', full_width_row: false}

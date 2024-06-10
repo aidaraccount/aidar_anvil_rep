@@ -1,33 +1,24 @@
 is_package: true
 container:
   type: ColumnPanel
-  properties: {role: null, tooltip: '', border: '', foreground: '', visible: true,
-    wrap_on: mobile, col_spacing: none, spacing_above: none, col_widths: '{}', spacing_below: none,
-    background: 'theme:Main_Black'}
+  properties: {role: null, col_widths: '{}', spacing_above: none, background: 'theme:Main_Black', wrap_on: mobile, col_spacing: none, foreground: '', spacing_below: none, visible: true, border: '', tooltip: ''}
 components:
 - properties: {}
   type: form:Markup
   layout_properties: {grid_position: 'EZUQBE,NVRWAJ'}
   name: markup
 - type: ColumnPanel
-  properties: {role: null, tooltip: '', border: '', foreground: '', visible: true,
-    wrap_on: mobile, col_spacing: small, spacing_above: none, col_widths: '{"SXLYHD":25,"XDERCG":35}',
-    spacing_below: none, background: 'theme:Main_Black'}
+  properties: {role: null, col_widths: '{"SXLYHD":25,"XDERCG":35}', spacing_above: none, background: 'theme:Main_Black', wrap_on: mobile, col_spacing: small, foreground: '', spacing_below: none, visible: true, border: '', tooltip: ''}
   layout_properties: {grid_position: 'BYHXUB,THJGFQ', full_width_row: true}
   name: column_panel_1
   components:
   - type: FlowPanel
-    properties: {role: null, spacing: none, align: left, tooltip: '', border: '',
-      foreground: '', visible: true, spacing_above: none, spacing_below: none, background: 'theme:Main_Black'}
-    layout_properties: {grid_position: 'GZJDZN,SXLYHD IYLCSH,EBANOQ', full_width_row: true,
-      row_background: ''}
+    properties: {role: null, align: left, spacing_above: none, background: 'theme:Main_Black', foreground: '', spacing_below: none, visible: true, border: '', tooltip: '', spacing: none}
+    layout_properties: {grid_position: 'GZJDZN,SXLYHD IYLCSH,EBANOQ', full_width_row: true, row_background: ''}
     name: flow_panel_1
     components:
     - type: Image
-      properties: {role: null, vertical_align: bottom, height: '25', tooltip: '',
-        border: '', foreground: '', visible: true, display_mode: shrink_to_fit, spacing_above: medium,
-        source: _/theme/pics/Logo_white.png, spacing_below: small, background: '',
-        horizontal_align: center}
+      properties: {role: null, vertical_align: bottom, spacing_above: medium, background: '', horizontal_align: center, source: _/theme/pics/Logo_white.png, foreground: '', display_mode: shrink_to_fit, spacing_below: small, visible: true, border: '', tooltip: '', height: '25'}
       layout_properties: {width: 140, expand: false}
       name: image_2
   - properties: {height: '4'}
@@ -40,90 +31,57 @@ components:
     name: column_panel_2
     components:
     - type: FlowPanel
-      properties: {role: null, spacing: small, align: right, tooltip: '', border: '',
-        foreground: '', visible: true, spacing_above: none, spacing_below: none, background: 'theme:Main_Black'}
+      properties: {role: null, align: right, spacing_above: none, background: 'theme:Main_Black', foreground: '', spacing_below: none, visible: true, border: '', tooltip: '', spacing: small}
       layout_properties: {grid_position: 'GLNTEN,KLPAMI', full_width_row: true}
       name: flow_panel_2
       components:
-      - properties: {format: restricted_html, content: '<p style="font-weight: bold;">  <span
-            style="color: rgb(253, 101, 45); font-size: 18px;">UPDATE IN PROGRESS</span><br>  <span
-            style="color: rgb(200, 200, 200); font-size: 16px;">back soon</span></p>',
-          align: center, visible: false}
+      - properties: {format: restricted_html, content: '<p style="font-weight: bold;">  <span style="color: rgb(253, 101, 45); font-size: 18px;">UPDATE IN PROGRESS</span><br>  <span style="color: rgb(200, 200, 200); font-size: 16px;">back soon</span></p>', align: center, visible: false}
         type: RichText
         layout_properties: {}
         name: updates_sign
       - type: Link
-        properties: {role: null, url: '', align: left, tooltip: '', border: '', foreground: '',
-          visible: true, text: HOME, font_size: 16, wrap_on: mobile, font: '', col_spacing: medium,
-          spacing_above: medium, icon_align: left, col_widths: '', spacing_below: small,
-          italic: false, background: '', bold: false, underline: false, icon: ''}
+        properties: {role: null, bold: false, align: left, col_widths: '', spacing_above: medium, background: '', icon: '', wrap_on: mobile, underline: false, font: '', col_spacing: medium, icon_align: left, foreground: '', url: '', spacing_below: small, visible: true, border: '', italic: false, font_size: 16, tooltip: '', text: HOME}
         layout_properties: {}
         event_bindings: {click: link_home_click}
         name: link_home
       - type: Link
-        properties: {role: null, url: '', align: left, tooltip: '', border: '', foreground: 'theme:Text_White',
-          visible: true, text: LOGOUT, font_size: 16, wrap_on: mobile, font: '', col_spacing: small,
-          spacing_above: medium, icon_align: left, col_widths: '', spacing_below: small,
-          italic: false, background: '', bold: false, underline: false, icon: ''}
+        properties: {role: null, bold: false, align: left, col_widths: '', spacing_above: medium, background: '', icon: '', wrap_on: mobile, underline: false, font: '', col_spacing: small, icon_align: left, foreground: 'theme:Text_White', url: '', spacing_below: small, visible: true, border: '', italic: false, font_size: 16, tooltip: '', text: LOGOUT}
         layout_properties: {}
         event_bindings: {click: link_logout_click}
         name: link_logout
       - type: Link
-        properties: {role: null, url: '', align: left, tooltip: '', border: '', foreground: 'theme:Text_White',
-          visible: true, text: LOGIN, font_size: 16, wrap_on: mobile, font: '', col_spacing: small,
-          spacing_above: medium, icon_align: left, col_widths: '', spacing_below: small,
-          italic: false, background: '', bold: false, underline: false, icon: ''}
+        properties: {role: null, bold: false, align: left, col_widths: '', spacing_above: medium, background: '', icon: '', wrap_on: mobile, underline: false, font: '', col_spacing: small, icon_align: left, foreground: 'theme:Text_White', url: '', spacing_below: small, visible: true, border: '', italic: false, font_size: 16, tooltip: '', text: LOGIN}
         layout_properties: {}
         event_bindings: {click: link_login_click}
         name: link_login
       - type: Link
-        properties: {role: null, url: '', align: left, tooltip: '', border: '', foreground: 'theme:Text_White',
-          visible: false, text: REGISTER, font_size: 16, wrap_on: mobile, font: '',
-          col_spacing: small, spacing_above: medium, icon_align: left, col_widths: '',
-          spacing_below: small, italic: false, background: '', bold: false, underline: false,
-          icon: ''}
+        properties: {role: null, bold: false, align: left, col_widths: '', spacing_above: medium, background: '', icon: '', wrap_on: mobile, underline: false, font: '', col_spacing: small, icon_align: left, foreground: 'theme:Text_White', url: '', spacing_below: small, visible: false, border: '', italic: false, font_size: 16, tooltip: '', text: REGISTER}
         layout_properties: {}
         event_bindings: {click: button_signup_click}
         name: link_register
       - type: Link
-        properties: {role: null, url: '', align: left, tooltip: '', border: '', foreground: 'theme:Text_White',
-          visible: false, text: ABOUT, font_size: 16, wrap_on: mobile, font: '', col_spacing: small,
-          spacing_above: medium, icon_align: left, col_widths: '', spacing_below: small,
-          italic: false, background: '', bold: false, underline: false, icon: ''}
+        properties: {role: null, bold: false, align: left, col_widths: '', spacing_above: medium, background: '', icon: '', wrap_on: mobile, underline: false, font: '', col_spacing: small, icon_align: left, foreground: 'theme:Text_White', url: '', spacing_below: small, visible: false, border: '', italic: false, font_size: 16, tooltip: '', text: ABOUT}
         layout_properties: {}
         name: link_2
       - type: Link
-        properties: {role: null, url: '', align: left, tooltip: '', border: '', foreground: 'theme:Text_White',
-          visible: false, text: CONTACT, font_size: 16, wrap_on: mobile, font: '',
-          col_spacing: small, spacing_above: medium, icon_align: left, col_widths: '',
-          spacing_below: small, italic: false, background: '', bold: false, underline: false,
-          icon: ''}
+        properties: {role: null, bold: false, align: left, col_widths: '', spacing_above: medium, background: '', icon: '', wrap_on: mobile, underline: false, font: '', col_spacing: small, icon_align: left, foreground: 'theme:Text_White', url: '', spacing_below: small, visible: false, border: '', italic: false, font_size: 16, tooltip: '', text: CONTACT}
         layout_properties: {}
         name: link_1
       - type: Label
-        properties: {role: null, align: left, tooltip: '', border: '', foreground: '',
-          visible: true, text: ' ', font_size: null, font: '', spacing_above: small,
-          icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-          underline: false, icon: ''}
+        properties: {role: null, bold: false, align: left, spacing_above: small, background: '', icon: '', underline: false, font: '', icon_align: left, foreground: '', spacing_below: small, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: ' '}
         layout_properties: {}
         name: label_2
       - type: Label
-        properties: {role: null, align: left, tooltip: '', border: '', foreground: '',
-          visible: false, text: ' ', font_size: null, font: '', spacing_above: small,
-          icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-          underline: false, icon: ''}
+        properties: {role: null, bold: false, align: left, spacing_above: small, background: '', icon: '', underline: false, font: '', icon_align: left, foreground: '', spacing_below: small, visible: false, border: '', italic: false, font_size: null, tooltip: '', text: ' '}
         layout_properties: {}
         name: label_1
 - name: column_panel_16
-  properties: {role: landingpage_artist_background, tooltip: '', border: '', foreground: '',
-    visible: true, wrap_on: mobile, col_spacing: medium, spacing_above: none, col_widths: '{"THZCFO":41,"DZKNIF":5,"SMVDYR":20}',
-    spacing_below: none, background: 'theme:Main_Black'}
+  properties: {role: landingpage_artist_background, col_widths: '{"THZCFO":41,"DZKNIF":5,"SMVDYR":20}', spacing_above: none, background: 'theme:Main_Black', wrap_on: mobile, col_spacing: medium, foreground: '', spacing_below: none, visible: true, border: '', tooltip: ''}
   type: ColumnPanel
   layout_properties: {grid_position: 'UPKGMZ,WDVRPN', full_width_row: true}
   components:
   - name: top_spacer
-    properties: {visible: true, spacing_above: small, spacing_below: small, height: '150',
-      tooltip: ''}
+    properties: {visible: true, spacing_above: small, spacing_below: small, height: '150', tooltip: ''}
     type: Spacer
     layout_properties: {grid_position: 'KZKLYP,KLPWNU'}
   - name: spacer_1
@@ -131,10 +89,7 @@ components:
     type: Spacer
     layout_properties: {grid_position: 'UXGUXQ,DZKNIF'}
   - name: label_4
-    properties: {role: title, align: center, tooltip: '', border: '', foreground: '',
-      visible: true, text: MVP LOGIN, font_size: null, font: '', spacing_above: small,
-      icon_align: left, spacing_below: none, italic: false, background: '', bold: false,
-      underline: false, icon: ''}
+    properties: {role: title, bold: false, align: center, spacing_above: small, background: '', icon: '', underline: false, font: '', icon_align: left, foreground: '', spacing_below: none, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: MVP LOGIN}
     type: Label
     layout_properties: {grid_position: 'UXGUXQ,SMVDYR PLUTDJ,KQONDT'}
   - name: label_5

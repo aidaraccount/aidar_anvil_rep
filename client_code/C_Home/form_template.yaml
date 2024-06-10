@@ -8,10 +8,7 @@ components:
   layout_properties: {grid_position: 'LYJBFU,QTFFSI', full_width_row: false}
   components:
   - name: label_1_copy_2
-    properties: {role: sub_title, align: center, tooltip: '', border: '', foreground: '',
-      visible: true, text: Welcome to, font_size: null, font: '', spacing_above: none,
-      icon_align: left, spacing_below: none, italic: false, background: '', bold: false,
-      underline: false, icon: ''}
+    properties: {role: sub_title, bold: false, align: center, spacing_above: none, background: '', icon: '', underline: false, font: '', icon_align: left, foreground: '', spacing_below: none, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: Welcome to}
     type: Label
     layout_properties: {grid_position: 'WSTDMP,PYHEEZ'}
   - name: image_1
@@ -33,23 +30,19 @@ components:
       layout_properties: {grid_position: 'MXPESX,ZBLCFU'}
       components:
       - name: label_3_copy
-        properties: {text: '  EVALUATE', role: feature, background: 'rgb(135, 54,
-            24)', foreground: 'theme:Text_DecentWhite'}
+        properties: {text: '  EVALUATE', role: feature, background: 'rgb(135, 54, 24)', foreground: 'theme:Text_DecentWhite'}
         type: Label
         layout_properties: {x: 10, y: 45, width: 170}
       - name: label_3_copy_copy
-        properties: {text: '  CONTACT', role: feature, background: 'rgb(176, 70, 32)',
-          foreground: 'theme:Text_DecentWhite'}
+        properties: {text: '  CONTACT', role: feature, background: 'rgb(176, 70, 32)', foreground: 'theme:Text_DecentWhite'}
         type: Label
         layout_properties: {x: 190, y: 45, width: 170}
       - name: label_3_copy_copy_copy
-        properties: {text: '  NEGOTIATE', role: feature, background: 'rgb(217, 86,
-            39)', foreground: 'theme:Text_DecentWhite', icon: ''}
+        properties: {text: '  NEGOTIATE', role: feature, background: 'rgb(217, 86, 39)', foreground: 'theme:Text_DecentWhite', icon: ''}
         type: Label
         layout_properties: {x: 370, y: 45, width: 170}
       - name: link_funnel
-        properties: {text: Manage Talent Funnel, role: artist_name, align: center,
-          spacing_below: none}
+        properties: {text: Manage Talent Funnel, role: artist_name, align: center, spacing_below: none}
         type: Link
         layout_properties: {x: 0, y: 0, width: 551.333312988281}
         event_bindings: {click: link_funnel_click}
@@ -76,8 +69,7 @@ components:
       layout_properties: {grid_position: 'RCBTWN,IBMUSP'}
       components:
       - name: label_3
-        properties: {text: Please add artists to your Watchlist to use the Funnel,
-          role: description, align: center}
+        properties: {text: Please add artists to your Watchlist to use the Funnel, role: description, align: center}
         type: Label
         layout_properties: {x: 29.5, y: 80, width: 484}
   - name: column_panel_3
@@ -101,10 +93,7 @@ components:
         layout_properties: {x: 10, y: 0, width: 157}
         components:
         - name: artist_image
-          properties: {role: null, vertical_align: center, height: 142, tooltip: '',
-            border: '', foreground: '', visible: true, display_mode: zoom_to_fill,
-            spacing_above: none, source: _/theme/pics/Artist2.png, spacing_below: none,
-            background: '', horizontal_align: center}
+          properties: {role: null, vertical_align: center, spacing_above: none, background: '', horizontal_align: center, source: _/theme/pics/Artist2.png, foreground: '', display_mode: zoom_to_fill, spacing_below: none, visible: true, border: '', tooltip: '', height: 142}
           type: Image
           layout_properties: {grid_position: 'XISFUA,MXKFIP'}
         event_bindings: {click: link_discover_click}
@@ -141,15 +130,21 @@ components:
         type: Label
         layout_properties: {x: 80, y: 0, width: 85}
       - name: label_won_txt
-        properties: {text: 'artists
-
-            won', role: note, font_size: 12}
+        properties:
+          text: |-
+            artists
+            won
+          role: note
+          font_size: 12
         type: Label
         layout_properties: {x: 8, y: 50, width: 65}
       - name: label_wl_txt
-        properties: {role: note, text: 'artists on
-
-            watchlist', font_size: 12}
+        properties:
+          role: note
+          text: |-
+            artists on
+            watchlist
+          font_size: 12
         type: Label
         layout_properties: {x: 88, y: 50, width: 72.99999999999991}
       - name: label_hp_no
@@ -161,15 +156,21 @@ components:
         type: Label
         layout_properties: {x: 80, y: 100, width: 92.333}
       - name: label_hp_txt
-        properties: {text: 'high
-
-            potentials', role: note, font_size: 12}
+        properties:
+          text: |-
+            high
+            potentials
+          role: note
+          font_size: 12
         type: Label
         layout_properties: {x: 8, y: 143, width: 78.333}
       - name: label_tot_txt
-        properties: {role: note, text: 'total
-
-            ratings', font_size: 12}
+        properties:
+          role: note
+          text: |-
+            total
+            ratings
+          font_size: 12
         type: Label
         layout_properties: {x: 88, y: 143, width: 84.33329999999992}
   - name: column_panel_5

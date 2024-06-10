@@ -1,34 +1,23 @@
 container:
   type: ColumnPanel
-  properties: {role: null, tooltip: '', border: '', foreground: '', visible: true,
-    wrap_on: mobile, col_spacing: none, spacing_above: none, col_widths: '{}', spacing_below: none,
-    background: 'theme:Main_Black'}
+  properties: {role: null, tooltip: '', border: '', foreground: '', visible: true, wrap_on: mobile, col_spacing: none, spacing_above: none, col_widths: '{}', spacing_below: none, background: 'theme:Main_Black'}
 components:
 - type: ColumnPanel
-  properties: {role: null, tooltip: '', border: '', foreground: '', visible: true,
-    wrap_on: mobile, col_spacing: small, spacing_above: none, col_widths: '{}', spacing_below: none,
-    background: ''}
+  properties: {role: null, tooltip: '', border: '', foreground: '', visible: true, wrap_on: mobile, col_spacing: small, spacing_above: none, col_widths: '{}', spacing_below: none, background: ''}
   name: column_panel_1
   layout_properties: {grid_position: 'BYHXUB,THJGFQ', full_width_row: true}
   components:
   - type: FlowPanel
-    properties: {role: null, spacing: none, align: left, tooltip: '', border: '',
-      foreground: '', visible: true, spacing_above: none, spacing_below: none, background: 'theme:Main_Black'}
+    properties: {role: null, spacing: none, align: left, tooltip: '', border: '', foreground: '', visible: true, spacing_above: none, spacing_below: none, background: 'theme:Main_Black'}
     name: flow_panel_1
     layout_properties: {grid_position: 'GZJDZN,SXLYHD', full_width_row: true, row_background: ''}
     components:
     - type: Label
-      properties: {role: null, align: left, tooltip: '', border: '', foreground: '',
-        visible: true, text: ' ', font_size: null, font: '', spacing_above: small,
-        icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-        underline: false, icon: ''}
+      properties: {role: null, align: left, tooltip: '', border: '', foreground: '', visible: true, text: ' ', font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false, background: '', bold: false, underline: false, icon: ''}
       name: label_8
       layout_properties: {}
     - type: Image
-      properties: {role: null, vertical_align: bottom, height: '25', tooltip: '',
-        border: '', foreground: '', visible: true, display_mode: shrink_to_fit, spacing_above: medium,
-        source: _/theme/pics/Logo_white.png, spacing_below: none, background: '',
-        horizontal_align: center}
+      properties: {role: null, vertical_align: bottom, height: '25', tooltip: '', border: '', foreground: '', visible: true, display_mode: shrink_to_fit, spacing_above: medium, source: _/theme/pics/Logo_white.png, spacing_below: none, background: '', horizontal_align: center}
       name: image_2
       layout_properties: {width: 140, expand: false}
   - type: ColumnPanel
@@ -37,16 +26,12 @@ components:
     layout_properties: {grid_position: 'GZJDZN,XDERCG'}
     components:
     - type: FlowPanel
-      properties: {role: null, spacing: small, align: right, tooltip: '', border: '',
-        foreground: '', visible: true, spacing_above: none, spacing_below: none, background: 'theme:Main_Black'}
+      properties: {role: null, spacing: small, align: right, tooltip: '', border: '', foreground: '', visible: true, spacing_above: none, spacing_below: none, background: 'theme:Main_Black'}
       name: flow_panel_2
       layout_properties: {grid_position: 'GLNTEN,KLPAMI', full_width_row: true}
       components:
       - type: Link
-        properties: {role: null, url: '', align: left, tooltip: '', border: '', foreground: '',
-          visible: true, text: MAIN, font_size: null, wrap_on: mobile, font: '', col_spacing: medium,
-          spacing_above: small, icon_align: left, col_widths: '', spacing_below: small,
-          italic: false, background: '', bold: false, underline: false, icon: ''}
+        properties: {role: null, url: '', align: left, tooltip: '', border: '', foreground: '', visible: true, text: MAIN, font_size: null, wrap_on: mobile, font: '', col_spacing: medium, spacing_above: small, icon_align: left, col_widths: '', spacing_below: small, italic: false, background: '', bold: false, underline: false, icon: ''}
         name: link_main
         layout_properties:
           col_widths: {}
@@ -55,81 +40,48 @@ components:
           row_background: ''
         event_bindings: {click: link_main_click}
       - type: Link
-        properties: {role: null, url: '', align: left, tooltip: '', border: '', foreground: '',
-          visible: true, text: INVESTIGATE, font_size: null, wrap_on: mobile, font: '',
-          col_spacing: medium, spacing_above: small, icon_align: left, col_widths: '',
-          spacing_below: small, italic: false, background: '', bold: false, underline: false,
-          icon: ''}
+        properties: {role: null, url: '', align: left, tooltip: '', border: '', foreground: '', visible: true, text: INVESTIGATE, font_size: null, wrap_on: mobile, font: '', col_spacing: medium, spacing_above: small, icon_align: left, col_widths: '', spacing_below: small, italic: false, background: '', bold: false, underline: false, icon: ''}
         name: link_investigate
         layout_properties: {}
         event_bindings: {click: link_investigate_click}
       - type: Link
-        properties: {role: null, url: '', align: left, tooltip: '', border: '', foreground: 'theme:Text_White',
-          visible: true, text: LOGOUT, font_size: null, wrap_on: mobile, font: '',
-          col_spacing: small, spacing_above: small, icon_align: left, col_widths: '',
-          spacing_below: small, italic: false, background: '', bold: false, underline: false,
-          icon: ''}
+        properties: {role: null, url: '', align: left, tooltip: '', border: '', foreground: 'theme:Text_White', visible: true, text: LOGOUT, font_size: null, wrap_on: mobile, font: '', col_spacing: small, spacing_above: small, icon_align: left, col_widths: '', spacing_below: small, italic: false, background: '', bold: false, underline: false, icon: ''}
         name: link_logout
         layout_properties: {}
         event_bindings: {click: link_logout_click}
       - type: Link
-        properties: {role: null, url: '', align: left, tooltip: '', border: '', foreground: 'theme:Text_White',
-          visible: true, text: LOGIN, font_size: null, wrap_on: mobile, font: '',
-          col_spacing: small, spacing_above: small, icon_align: left, col_widths: '',
-          spacing_below: small, italic: false, background: '', bold: false, underline: false,
-          icon: ''}
+        properties: {role: null, url: '', align: left, tooltip: '', border: '', foreground: 'theme:Text_White', visible: true, text: LOGIN, font_size: null, wrap_on: mobile, font: '', col_spacing: small, spacing_above: small, icon_align: left, col_widths: '', spacing_below: small, italic: false, background: '', bold: false, underline: false, icon: ''}
         name: link_login
         layout_properties: {}
         event_bindings: {click: link_login_click}
       - type: Link
-        properties: {role: null, url: '', align: left, tooltip: '', border: '', foreground: 'theme:Text_White',
-          visible: false, text: REGISTER, font_size: null, wrap_on: mobile, font: '',
-          col_spacing: small, spacing_above: small, icon_align: left, col_widths: '',
-          spacing_below: small, italic: false, background: '', bold: false, underline: false,
-          icon: ''}
+        properties: {role: null, url: '', align: left, tooltip: '', border: '', foreground: 'theme:Text_White', visible: false, text: REGISTER, font_size: null, wrap_on: mobile, font: '', col_spacing: small, spacing_above: small, icon_align: left, col_widths: '', spacing_below: small, italic: false, background: '', bold: false, underline: false, icon: ''}
         name: link_register
         layout_properties: {}
         event_bindings: {click: button_signup_click}
       - type: Link
-        properties: {role: null, url: '', align: left, tooltip: '', border: '', foreground: 'theme:Text_White',
-          visible: false, text: ABOUT, font_size: null, wrap_on: mobile, font: '',
-          col_spacing: small, spacing_above: small, icon_align: left, col_widths: '',
-          spacing_below: small, italic: false, background: '', bold: false, underline: false,
-          icon: ''}
+        properties: {role: null, url: '', align: left, tooltip: '', border: '', foreground: 'theme:Text_White', visible: false, text: ABOUT, font_size: null, wrap_on: mobile, font: '', col_spacing: small, spacing_above: small, icon_align: left, col_widths: '', spacing_below: small, italic: false, background: '', bold: false, underline: false, icon: ''}
         name: link_2
         layout_properties: {}
       - type: Link
-        properties: {role: null, url: '', align: left, tooltip: '', border: '', foreground: 'theme:Text_White',
-          visible: false, text: CONTACT, font_size: null, wrap_on: mobile, font: '',
-          col_spacing: small, spacing_above: small, icon_align: left, col_widths: '',
-          spacing_below: small, italic: false, background: '', bold: false, underline: false,
-          icon: ''}
+        properties: {role: null, url: '', align: left, tooltip: '', border: '', foreground: 'theme:Text_White', visible: false, text: CONTACT, font_size: null, wrap_on: mobile, font: '', col_spacing: small, spacing_above: small, icon_align: left, col_widths: '', spacing_below: small, italic: false, background: '', bold: false, underline: false, icon: ''}
         name: link_1
         layout_properties: {}
       - type: Label
-        properties: {role: null, align: left, tooltip: '', border: '', foreground: '',
-          visible: true, text: ' ', font_size: null, font: '', spacing_above: small,
-          icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-          underline: false, icon: ''}
+        properties: {role: null, align: left, tooltip: '', border: '', foreground: '', visible: true, text: ' ', font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false, background: '', bold: false, underline: false, icon: ''}
         name: label_2
         layout_properties: {}
       - type: Label
-        properties: {role: null, align: left, tooltip: '', border: '', foreground: '',
-          visible: false, text: ' ', font_size: null, font: '', spacing_above: small,
-          icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-          underline: false, icon: ''}
+        properties: {role: null, align: left, tooltip: '', border: '', foreground: '', visible: false, text: ' ', font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false, background: '', bold: false, underline: false, icon: ''}
         name: label_1
         layout_properties: {}
 - type: ColumnPanel
-  properties: {role: null, tooltip: '', border: '', foreground: '', visible: true,
-    wrap_on: mobile, col_spacing: medium, spacing_above: none, col_widths: '{"NRARAV":15,"ENIHJQ":30,"XCSHIB":15}',
-    spacing_below: none, background: 'theme:Accent 2'}
+  properties: {role: null, tooltip: '', border: '', foreground: '', visible: true, wrap_on: mobile, col_spacing: medium, spacing_above: none, col_widths: '{"NRARAV":15,"ENIHJQ":30,"XCSHIB":15}', spacing_below: none, background: 'theme:Accent 2'}
   name: imprint
   layout_properties: {grid_position: 'PCUGUR,KZUHSR', full_width_row: true}
   components:
   - type: Spacer
-    properties: {visible: true, spacing_above: small, spacing_below: small, height: '20',
-      tooltip: ''}
+    properties: {visible: true, spacing_above: small, spacing_below: small, height: '20', tooltip: ''}
     name: spacer_1
     layout_properties: {grid_position: 'LVXJPA,HINJBB'}
   - type: Spacer
@@ -137,12 +89,26 @@ components:
     name: spacer_23
     layout_properties: {grid_position: 'MIJGXO,NRARAV', full_width_row: true}
   - type: RichText
-    properties: {role: null, align: center, tooltip: '', enable_slots: true, border: '',
-      foreground: 'theme:Text_DecentWhite', visible: true, font_size: null, content: "<p\
-        \ style=\"font-weight: bold;\">\n  <span style=\"color: rgb(253, 101, 45);\
-        \ font-size: 50px;\">.</span>\n  <span style=\"font-size: 30px;\">IMPRINT</span>\n\
-        </p>\n", font: '', spacing_above: small, spacing_below: small, data: null,
-      background: '', format: restricted_html}
+    properties:
+      role: null
+      align: center
+      tooltip: ''
+      enable_slots: true
+      border: ''
+      foreground: theme:Text_DecentWhite
+      visible: true
+      font_size: null
+      content: |
+        <p style="font-weight: bold;">
+          <span style="color: rgb(253, 101, 45); font-size: 50px;">.</span>
+          <span style="font-size: 30px;">IMPRINT</span>
+        </p>
+      font: ''
+      spacing_above: small
+      spacing_below: small
+      data: null
+      background: ''
+      format: restricted_html
     name: rich_text_1_copy_2
     layout_properties:
       col_widths: {}
@@ -153,155 +119,105 @@ components:
     name: spacer_24
     layout_properties: {grid_position: 'MIJGXO,XCSHIB', full_width_row: true}
   - type: Label
-    properties: {role: artist_name, align: center, tooltip: '', border: '', foreground: '',
-      visible: true, text: Information in accordance with § 5 TMG, font_size: 14,
-      font: '', spacing_above: large, icon_align: left, spacing_below: small, italic: false,
-      background: '', bold: false, underline: false, icon: ''}
+    properties: {role: artist_name, align: center, tooltip: '', border: '', foreground: '', visible: true, text: Information in accordance with § 5 TMG, font_size: 14, font: '', spacing_above: large, icon_align: left, spacing_below: small, italic: false, background: '', bold: false, underline: false, icon: ''}
     name: label_9
     layout_properties: {grid_position: 'RKIEVO,QHHFWM'}
   - type: Label
-    properties: {role: description, align: center, tooltip: '', border: '', foreground: '',
-      visible: true, text: 'Janek Meyn
-
+    properties:
+      role: description
+      align: center
+      tooltip: ''
+      border: ''
+      foreground: ''
+      visible: true
+      text: |-
+        Janek Meyn
         Ohmoor 97a
-
         22455 Hamburg
-
         Germany
 
-
         E-Mail: info@aidar.ai
-
         Phone: +49 151 23382945
-
         Website: www.aidar.ai
-
-        Place or jurisdiction: Hamburg, Germany', font_size: null, font: '', spacing_above: small,
-      icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-      underline: false, icon: ''}
+        Place or jurisdiction: Hamburg, Germany
+      font_size: null
+      font: ''
+      spacing_above: small
+      icon_align: left
+      spacing_below: small
+      italic: false
+      background: ''
+      bold: false
+      underline: false
+      icon: ''
     name: label_3
     layout_properties: {grid_position: 'IQKNRG,BMUEGD'}
   - type: Label
-    properties: {role: artist_name, align: center, tooltip: '', border: '', foreground: '',
-      visible: true, text: Liability for content, font_size: 14, font: '', spacing_above: large,
-      icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-      underline: false, icon: ''}
+    properties: {role: artist_name, align: center, tooltip: '', border: '', foreground: '', visible: true, text: Liability for content, font_size: 14, font: '', spacing_above: large, icon_align: left, spacing_below: small, italic: false, background: '', bold: false, underline: false, icon: ''}
     name: label_9_copy
     layout_properties:
       col_widths: {}
       grid_position: CVVWFH,AMLDJP
   - type: Label
-    properties: {role: description, align: center, tooltip: '', border: '', foreground: '',
-      visible: true, text: 'As a service provider, we are responsible for our own
-        content on these pages under general law in accordance with Section 7 (1)
-        TMG. According to §§ 8 to 10 TMG, as a service provider, we are not obliged
-        to monitor transmitted or stored third-party information or to investigate
-        circumstances that indicate illegal activity. Obligations to remove or block
-        the use of information under general law remain unaffected. Liability in this
-        regard is only possible from the point in time at which we become aware of
-        a specific legal violation. As soon as we become aware of such legal violations,
-        we will remove this content immediately.', font_size: null, font: '', spacing_above: small,
-      icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-      underline: false, icon: ''}
+    properties: {role: description, align: center, tooltip: '', border: '', foreground: '', visible: true, text: 'As a service provider, we are responsible for our own content on these pages under general law in accordance with Section 7 (1) TMG. According to §§ 8 to 10 TMG, as a service provider, we are not obliged to monitor transmitted or stored third-party information or to investigate circumstances that indicate illegal activity. Obligations to remove or block the use of information under general law remain unaffected. Liability in this regard is only possible from the point in time at which we become aware of a specific legal violation. As soon as we become aware of such legal violations, we will remove this content immediately.', font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false, background: '', bold: false, underline: false, icon: ''}
     name: label_3_copy
     layout_properties:
       col_widths: {}
       grid_position: YAUWGW,NTKAFR
   - type: Label
-    properties: {role: artist_name, align: center, tooltip: '', border: '', foreground: '',
-      visible: true, text: Liability for links, font_size: 14, font: '', spacing_above: large,
-      icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-      underline: false, icon: ''}
+    properties: {role: artist_name, align: center, tooltip: '', border: '', foreground: '', visible: true, text: Liability for links, font_size: 14, font: '', spacing_above: large, icon_align: left, spacing_below: small, italic: false, background: '', bold: false, underline: false, icon: ''}
     name: label_9_copy_2
     layout_properties:
       col_widths: {}
       grid_position: ARKJWK,AVHKCP
   - type: Label
-    properties: {role: description, align: center, tooltip: '', border: '', foreground: '',
-      visible: true, text: 'Our offer contains links to external third-party websites
-        over whose content we have no influence. Therefore, we cannot accept any liability
-        for this third-party content. The respective provider or operator of the pages
-        is always responsible for the content of the linked pages. The linked pages
-        were checked for possible legal violations at the time they were linked. Illegal
-        content was not recognizable at the time of linking. A permanent control of
-        the content of the linked pages is not reasonable without concrete evidence
-        of an infringement. If we become aware of legal violations, we will remove
-        such links immediately.', font_size: null, font: '', spacing_above: small,
-      icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-      underline: false, icon: ''}
+    properties: {role: description, align: center, tooltip: '', border: '', foreground: '', visible: true, text: 'Our offer contains links to external third-party websites over whose content we have no influence. Therefore, we cannot accept any liability for this third-party content. The respective provider or operator of the pages is always responsible for the content of the linked pages. The linked pages were checked for possible legal violations at the time they were linked. Illegal content was not recognizable at the time of linking. A permanent control of the content of the linked pages is not reasonable without concrete evidence of an infringement. If we become aware of legal violations, we will remove such links immediately.', font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false, background: '', bold: false, underline: false, icon: ''}
     name: label_3_copy_2
     layout_properties:
       col_widths: {}
       grid_position: XIQRVQ,MNFNUR
   - type: Label
-    properties: {role: artist_name, align: center, tooltip: '', border: '', foreground: '',
-      visible: true, text: Copyright, font_size: 14, font: '', spacing_above: large,
-      icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-      underline: false, icon: ''}
+    properties: {role: artist_name, align: center, tooltip: '', border: '', foreground: '', visible: true, text: Copyright, font_size: 14, font: '', spacing_above: large, icon_align: left, spacing_below: small, italic: false, background: '', bold: false, underline: false, icon: ''}
     name: label_9_copy_3
     layout_properties:
       col_widths: {}
       grid_position: LOWNDW,LIHKZL
   - type: Label
-    properties: {role: description, align: center, tooltip: '', border: '', foreground: '',
-      visible: true, text: 'The content and works on these pages created by the website
-        operator are subject to German copyright law. The duplication, processing,
-        distribution and any kind of exploitation outside the limits of copyright
-        law require the written consent of the respective author or creator. Downloads
-        and copies of this website are only permitted for private, non-commercial
-        use. Insofar as the content on this site was not created by the operator,
-        the copyrights of third parties are observed. In particular, contents of third
-        parties are marked as such. Should you nevertheless become aware of a copyright
-        infringement, we would ask you to notify us accordingly. As soon as we become
-        aware of legal violations, we will remove such content immediately.', font_size: null,
-      font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false,
-      background: '', bold: false, underline: false, icon: ''}
+    properties: {role: description, align: center, tooltip: '', border: '', foreground: '', visible: true, text: 'The content and works on these pages created by the website operator are subject to German copyright law. The duplication, processing, distribution and any kind of exploitation outside the limits of copyright law require the written consent of the respective author or creator. Downloads and copies of this website are only permitted for private, non-commercial use. Insofar as the content on this site was not created by the operator, the copyrights of third parties are observed. In particular, contents of third parties are marked as such. Should you nevertheless become aware of a copyright infringement, we would ask you to notify us accordingly. As soon as we become aware of legal violations, we will remove such content immediately.', font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false, background: '', bold: false, underline: false, icon: ''}
     name: label_3_copy_3
     layout_properties:
       col_widths: {}
       grid_position: ONCNDT,VJDRXT
   - type: Spacer
-    properties: {visible: true, spacing_above: small, spacing_below: small, height: '50',
-      tooltip: ''}
+    properties: {visible: true, spacing_above: small, spacing_below: small, height: '50', tooltip: ''}
     name: spacer_2
     layout_properties: {grid_position: 'WFQGWI,TLJKDQ'}
 - type: Spacer
-  properties: {visible: true, spacing_above: small, spacing_below: small, height: '15',
-    tooltip: ''}
+  properties: {visible: true, spacing_above: small, spacing_below: small, height: '15', tooltip: ''}
   name: spacer_27
   layout_properties: {grid_position: 'LAKDYJ,HRHSEU'}
 - type: Label
-  properties: {role: null, align: center, tooltip: '', border: '', foreground: 'theme:Text_White',
-    visible: true, text: info@aidar.ai, font_size: null, font: '', spacing_above: none,
-    icon_align: left, spacing_below: none, italic: false, background: '', bold: false,
-    underline: false, icon: 'fa:envelope'}
+  properties: {role: null, align: center, tooltip: '', border: '', foreground: 'theme:Text_White', visible: true, text: info@aidar.ai, font_size: null, font: '', spacing_above: none, icon_align: left, spacing_below: none, italic: false, background: '', bold: false, underline: false, icon: 'fa:envelope'}
   name: label_11_copy_2
   layout_properties:
     col_widths: {}
     grid_position: QAHNUV,ADTHCZ
     full_width_row: false
 - type: Label
-  properties: {role: null, align: center, tooltip: '', border: '', foreground: 'theme:Text_White',
-    visible: true, text: +49 151 23382945, font_size: null, font: '', spacing_above: none,
-    icon_align: left, spacing_below: none, italic: false, background: '', bold: false,
-    underline: false, icon: 'fa:phone'}
+  properties: {role: null, align: center, tooltip: '', border: '', foreground: 'theme:Text_White', visible: true, text: +49 151 23382945, font_size: null, font: '', spacing_above: none, icon_align: left, spacing_below: none, italic: false, background: '', bold: false, underline: false, icon: 'fa:phone'}
   name: label_11_copy
   layout_properties:
     col_widths: {}
     grid_position: HEHMCR,EEJUBK
     full_width_row: false
 - type: Spacer
-  properties: {visible: true, spacing_above: small, spacing_below: small, height: '15',
-    tooltip: ''}
+  properties: {visible: true, spacing_above: small, spacing_below: small, height: '15', tooltip: ''}
   name: spacer_27_copy
   layout_properties:
     col_widths: {}
     grid_position: OXYPWB,ZQFJEF
 - type: Label
-  properties: {role: null, align: center, tooltip: '', border: '', foreground: 'theme:Text_White',
-    visible: true, text: Copyright © AIDAR 2023, font_size: null, font: '', spacing_above: none,
-    icon_align: left, spacing_below: none, italic: false, background: '', bold: false,
-    underline: false, icon: ''}
+  properties: {role: null, align: center, tooltip: '', border: '', foreground: 'theme:Text_White', visible: true, text: Copyright © AIDAR 2023, font_size: null, font: '', spacing_above: none, icon_align: left, spacing_below: none, italic: false, background: '', bold: false, underline: false, icon: ''}
   name: label_10_copy
   layout_properties:
     col_widths: {}
@@ -311,8 +227,7 @@ components:
     width_xs: 12
     col_xs: 0
 - type: Spacer
-  properties: {visible: true, spacing_above: small, spacing_below: small, height: '15',
-    tooltip: ''}
+  properties: {visible: true, spacing_above: small, spacing_below: small, height: '15', tooltip: ''}
   name: spacer_27_copy_2
   layout_properties:
     col_widths: {}

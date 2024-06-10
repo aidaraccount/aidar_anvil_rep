@@ -3,16 +3,11 @@ services:
   client_config: {}
   server_config: {}
 - source: /runtime/services/anvil/users.yml
-  client_config: {allow_signup: false, enable_automatically: true, use_email: true,
-    confirm_email: true, use_token: false}
+  client_config: {allow_signup: false, enable_automatically: true, use_email: true, confirm_email: true, use_token: false}
   server_config:
     user_table: users
     email_content:
-      confirm_address: {html: '<h2>Welcome to AIDAR,</h2><p>your AI driven A&amp;R
-          platform.</p><p><br></p><p>Please click the following link to confirm that
-          this is your account: {{confirm_link}}</p><p><br></p><p>If we can help you
-          with anything, please reach out to us: info@aidar.ai</p><p><br></p><p>Thanks,</p><p>Your
-          AIDAR team</p>'}
+      confirm_address: {html: '<h2>Welcome to AIDAR,</h2><p>your AI driven A&amp;R platform.</p><p><br></p><p>Please click the following link to confirm that this is your account: {{confirm_link}}</p><p><br></p><p>If we can help you with anything, please reach out to us: info@aidar.ai</p><p><br></p><p>Thanks,</p><p>Your AIDAR team</p>'}
     email_from_address: info@aidar.ai
 startup: {type: form, module: Main_Out}
 package_name: AIDAR
@@ -24,9 +19,7 @@ runtime_options:
   server_version: python3-full
   server_spec: null
   server_spec_disabled: {base: python310-standard, requirements: ''}
-metadata: {title: AIDAR - AI driven A&R, logo_img: 'asset:pics/Favicon_orange.JPG',
-  description: 'AIDAR, aidar ai, aidar-ai, AI driven A&R, music, label, data, ml,
-    ai, A&R'}
+metadata: {title: AIDAR - AI driven A&R, logo_img: 'asset:pics/Favicon_orange.JPG', description: 'AIDAR, aidar ai, aidar-ai, AI driven A&R, music, label, data, ml, ai, A&R'}
 startup_form: null
 db_schema:
   users:

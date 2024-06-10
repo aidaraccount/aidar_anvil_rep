@@ -8,10 +8,7 @@ components:
   layout_properties: {slot: default}
   name: content_panel
 - type: Link
-  properties: {role: nav_main, url: '', align: left, tooltip: '', border: '', foreground: '',
-    visible: true, text: HOME, font_size: null, wrap_on: mobile, font: '', col_spacing: medium,
-    spacing_above: small, icon_align: left, col_widths: '', spacing_below: small,
-    italic: false, background: '', bold: false, underline: false, icon: 'fa:angle-right'}
+  properties: {role: nav_main, bold: false, align: left, col_widths: '', spacing_above: small, background: '', icon: 'fa:angle-right', wrap_on: mobile, underline: false, font: '', col_spacing: medium, icon_align: left, foreground: '', url: '', spacing_below: small, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: HOME}
   layout_properties: {slot: sidebar}
   event_bindings: {click: link_home_click}
   name: link_home
@@ -20,37 +17,23 @@ components:
   layout_properties: {slot: sidebar}
   name: linear_panel_discover
   components:
-  - properties: {role: nav_main, url: '', align: left, tooltip: '', border: '', foreground: '',
-      visible: true, text: DISCOVER, font_size: null, wrap_on: mobile, font: '', col_spacing: medium,
-      spacing_above: small, icon_align: left, col_widths: '', spacing_below: small,
-      italic: false, background: '', bold: false, underline: false, icon: 'fa:angle-down'}
+  - properties: {role: nav_main, bold: false, align: left, col_widths: '', spacing_above: small, background: '', icon: 'fa:angle-down', wrap_on: mobile, underline: false, font: '', col_spacing: medium, icon_align: left, foreground: '', url: '', spacing_below: small, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: DISCOVER}
     type: Link
     layout_properties: {}
     event_bindings: {click: change_discover_visibility}
     name: link_discover
-  - properties: {role: nav_sub, url: '', align: left, tooltip: '', border: '', foreground: '',
-      visible: true, text: Artists BY AI, font_size: null, wrap_on: mobile, font: '',
-      col_spacing: medium, spacing_above: none, icon_align: left, col_widths: '',
-      spacing_below: small, italic: false, background: '', bold: false, underline: false,
-      icon: 'fa:angle-right'}
+  - properties: {role: nav_sub, bold: false, align: left, col_widths: '', spacing_above: none, background: '', icon: 'fa:angle-right', wrap_on: mobile, underline: false, font: '', col_spacing: medium, icon_align: left, foreground: '', url: '', spacing_below: small, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: Artists BY AI}
     type: Link
     layout_properties: {}
     event_bindings: {click: link_discover_ai_click}
     name: link_discover_ai
-  - properties: {role: nav_sub, url: '', align: left, tooltip: '', border: '', foreground: '',
-      visible: true, text: Related Artists, font_size: null, wrap_on: mobile, font: '',
-      col_spacing: medium, spacing_above: none, icon_align: left, col_widths: '',
-      spacing_below: small, italic: false, background: '', bold: false, underline: false,
-      icon: 'fa:angle-right'}
+  - properties: {role: nav_sub, bold: false, align: left, col_widths: '', spacing_above: none, background: '', icon: 'fa:angle-right', wrap_on: mobile, underline: false, font: '', col_spacing: medium, icon_align: left, foreground: '', url: '', spacing_below: small, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: Related Artists}
     type: Link
     layout_properties: {}
     event_bindings: {click: link_discover_rel_click}
     name: link_discover_rel
   - type: Link
-    properties: {role: nav_sub, url: '', align: left, tooltip: '', border: '', foreground: '',
-      visible: true, text: BY NAME, font_size: null, wrap_on: mobile, font: '', col_spacing: medium,
-      spacing_above: none, icon_align: left, col_widths: '', spacing_below: small,
-      italic: false, background: '', bold: false, underline: false, icon: 'fa:angle-right'}
+    properties: {role: nav_sub, bold: false, align: left, col_widths: '', spacing_above: none, background: '', icon: 'fa:angle-right', wrap_on: mobile, underline: false, font: '', col_spacing: medium, icon_align: left, foreground: '', url: '', spacing_below: small, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: BY NAME}
     layout_properties: {}
     event_bindings: {click: link_discover_name_click}
     name: link_discover_name
@@ -59,36 +42,22 @@ components:
   layout_properties: {slot: sidebar}
   name: linear_panel_manage
   components:
-  - properties: {role: nav_main, url: '', align: left, tooltip: '', border: '', foreground: '',
-      visible: true, text: MANAGE, font_size: null, wrap_on: mobile, font: '', col_spacing: medium,
-      spacing_above: small, icon_align: left, col_widths: '', spacing_below: small,
-      italic: false, background: '', bold: false, underline: false, icon: 'fa:angle-down'}
+  - properties: {role: nav_main, bold: false, align: left, col_widths: '', spacing_above: small, background: '', icon: 'fa:angle-down', wrap_on: mobile, underline: false, font: '', col_spacing: medium, icon_align: left, foreground: '', url: '', spacing_below: small, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: MANAGE}
     type: Link
     layout_properties: {}
     event_bindings: {click: change_manage_visibility}
     name: link_manage
-  - properties: {role: nav_sub, url: '', align: left, tooltip: '', border: '', foreground: '',
-      visible: true, text: MY WATCHLIST, font_size: null, wrap_on: mobile, font: '',
-      col_spacing: medium, spacing_above: none, icon_align: left, col_widths: '',
-      spacing_below: small, italic: false, background: '', bold: false, underline: false,
-      icon: 'fa:angle-right'}
+  - properties: {role: nav_sub, bold: false, align: left, col_widths: '', spacing_above: none, background: '', icon: 'fa:angle-right', wrap_on: mobile, underline: false, font: '', col_spacing: medium, icon_align: left, foreground: '', url: '', spacing_below: small, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: MY WATCHLIST}
     type: Link
     layout_properties: {}
     event_bindings: {click: link_manage_watchlist_click}
     name: link_manage_watchlist
-  - properties: {role: nav_sub, url: '', align: left, tooltip: '', border: '', foreground: '',
-      visible: true, text: FUNNEL, font_size: null, wrap_on: mobile, font: '', col_spacing: medium,
-      spacing_above: none, icon_align: left, col_widths: '', spacing_below: small,
-      italic: false, background: '', bold: false, underline: false, icon: 'fa:angle-right'}
+  - properties: {role: nav_sub, bold: false, align: left, col_widths: '', spacing_above: none, background: '', icon: 'fa:angle-right', wrap_on: mobile, underline: false, font: '', col_spacing: medium, icon_align: left, foreground: '', url: '', spacing_below: small, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: FUNNEL}
     type: Link
     layout_properties: {}
     event_bindings: {click: link_manage_funnel_click}
     name: link_manage_funnel
-  - properties: {role: nav_sub, url: '', align: left, tooltip: '', border: '', foreground: '',
-      visible: true, text: TALENT DEV., font_size: null, wrap_on: mobile, font: '',
-      col_spacing: medium, spacing_above: none, icon_align: left, col_widths: '',
-      spacing_below: small, italic: false, background: '', bold: false, underline: false,
-      icon: 'fa:angle-right'}
+  - properties: {role: nav_sub, bold: false, align: left, col_widths: '', spacing_above: none, background: '', icon: 'fa:angle-right', wrap_on: mobile, underline: false, font: '', col_spacing: medium, icon_align: left, foreground: '', url: '', spacing_below: small, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: TALENT DEV.}
     type: Link
     layout_properties: {}
     event_bindings: {click: link_manage_dev_click}
@@ -98,82 +67,51 @@ components:
   layout_properties: {slot: sidebar}
   name: linear_panel_3
   components:
-  - properties: {role: nav_main, url: '', align: left, tooltip: '', border: '', foreground: '',
-      visible: true, text: MODELS, font_size: null, wrap_on: mobile, font: '', col_spacing: medium,
-      spacing_above: small, icon_align: left, col_widths: '', spacing_below: small,
-      italic: false, background: '', bold: false, underline: false, icon: 'fa:angle-down'}
+  - properties: {role: nav_main, bold: false, align: left, col_widths: '', spacing_above: small, background: '', icon: 'fa:angle-down', wrap_on: mobile, underline: false, font: '', col_spacing: medium, icon_align: left, foreground: '', url: '', spacing_below: small, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: MODELS}
     type: Link
     event_bindings: {click: change_models_visibility}
     layout_properties: {}
     name: link_models
-  - properties: {role: nav_sub, url: '', align: left, tooltip: '', border: '', foreground: '',
-      visible: false, text: CREATE, font_size: null, wrap_on: mobile, font: '', col_spacing: medium,
-      spacing_above: none, icon_align: left, col_widths: '', spacing_below: small,
-      italic: false, background: '', bold: false, underline: false, icon: 'fa:angle-right'}
+  - properties: {role: nav_sub, bold: false, align: left, col_widths: '', spacing_above: none, background: '', icon: 'fa:angle-right', wrap_on: mobile, underline: false, font: '', col_spacing: medium, icon_align: left, foreground: '', url: '', spacing_below: small, visible: false, border: '', italic: false, font_size: null, tooltip: '', text: CREATE}
     type: Link
     layout_properties: {}
     event_bindings: {click: link_models_create_click}
     name: link_models_create
-  - properties: {role: nav_sub, url: '', align: left, tooltip: '', border: '', foreground: '',
-      visible: false, text: JOIN, font_size: null, wrap_on: mobile, font: '', col_spacing: medium,
-      spacing_above: none, icon_align: left, col_widths: '', spacing_below: small,
-      italic: false, background: '', bold: false, underline: false, icon: 'fa:angle-right'}
+  - properties: {role: nav_sub, bold: false, align: left, col_widths: '', spacing_above: none, background: '', icon: 'fa:angle-right', wrap_on: mobile, underline: false, font: '', col_spacing: medium, icon_align: left, foreground: '', url: '', spacing_below: small, visible: false, border: '', italic: false, font_size: null, tooltip: '', text: JOIN}
     type: Link
     layout_properties: {}
     event_bindings: {click: link_models_connect_click}
     name: link_models_connect
-  - properties: {role: nav_sub, url: '', align: left, tooltip: '', border: '', foreground: '',
-      visible: false, text: SETUP, font_size: null, wrap_on: mobile, font: '', col_spacing: medium,
-      spacing_above: none, icon_align: left, col_widths: '', spacing_below: small,
-      italic: false, background: '', bold: false, underline: false, icon: 'fa:angle-right'}
+  - properties: {role: nav_sub, bold: false, align: left, col_widths: '', spacing_above: none, background: '', icon: 'fa:angle-right', wrap_on: mobile, underline: false, font: '', col_spacing: medium, icon_align: left, foreground: '', url: '', spacing_below: small, visible: false, border: '', italic: false, font_size: null, tooltip: '', text: SETUP}
     type: Link
     layout_properties: {}
     event_bindings: {click: link_models_setup_click}
     name: link_models_setup
-  - properties: {role: nav_sub, url: '', align: left, tooltip: '', border: '', foreground: '',
-      visible: true, text: REF. Artists, font_size: null, wrap_on: mobile, font: '',
-      col_spacing: medium, spacing_above: none, icon_align: left, col_widths: '',
-      spacing_below: small, italic: false, background: '', bold: false, underline: false,
-      icon: 'fa:angle-right'}
+  - properties: {role: nav_sub, bold: false, align: left, col_widths: '', spacing_above: none, background: '', icon: 'fa:angle-right', wrap_on: mobile, underline: false, font: '', col_spacing: medium, icon_align: left, foreground: '', url: '', spacing_below: small, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: REF. Artists}
     type: Link
     layout_properties: {}
     event_bindings: {click: link_models_artists_click}
     name: link_models_artists
-  - properties: {role: nav_sub, url: '', align: left, tooltip: '', border: '', foreground: '',
-      visible: false, text: REF. TRACKS, font_size: null, wrap_on: mobile, font: '',
-      col_spacing: medium, spacing_above: none, icon_align: left, col_widths: '',
-      spacing_below: small, italic: false, background: '', bold: false, underline: false,
-      icon: 'fa:angle-right'}
+  - properties: {role: nav_sub, bold: false, align: left, col_widths: '', spacing_above: none, background: '', icon: 'fa:angle-right', wrap_on: mobile, underline: false, font: '', col_spacing: medium, icon_align: left, foreground: '', url: '', spacing_below: small, visible: false, border: '', italic: false, font_size: null, tooltip: '', text: REF. TRACKS}
     type: Link
     layout_properties: {}
     event_bindings: {click: link_models_tracks_click}
     name: link_models_tracks
   - type: Link
-    properties: {role: nav_sub, url: '', align: left, tooltip: '', border: '', foreground: '',
-      visible: true, text: PREV. RATED, font_size: null, wrap_on: mobile, font: '',
-      col_spacing: medium, spacing_above: none, icon_align: left, col_widths: '',
-      spacing_below: small, italic: false, background: '', bold: false, underline: false,
-      icon: 'fa:angle-right'}
+    properties: {role: nav_sub, bold: false, align: left, col_widths: '', spacing_above: none, background: '', icon: 'fa:angle-right', wrap_on: mobile, underline: false, font: '', col_spacing: medium, icon_align: left, foreground: '', url: '', spacing_below: small, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: PREV. RATED}
     event_bindings: {click: link_models_rated_click}
     name: link_models_rated
-- properties: {role: nav_main, url: '', align: left, tooltip: '', border: '', foreground: '',
-    visible: false, text: SETTINGS, font_size: null, wrap_on: mobile, font: '', col_spacing: medium,
-    spacing_above: small, icon_align: left, col_widths: '', spacing_below: small,
-    italic: false, background: '', bold: false, underline: false, icon: 'fa:angle-right'}
+- properties: {role: nav_main, bold: false, align: left, col_widths: '', spacing_above: small, background: '', icon: 'fa:angle-right', wrap_on: mobile, underline: false, font: '', col_spacing: medium, icon_align: left, foreground: '', url: '', spacing_below: small, visible: false, border: '', italic: false, font_size: null, tooltip: '', text: SETTINGS}
   type: Link
   layout_properties: {slot: sidebar}
   event_bindings: {click: link_settings_click}
   name: link_settings
 - type: Link
-  properties: {role: null, url: '', align: left, tooltip: '', border: '', foreground: 'theme:Sidebar
-      Background', visible: true, text: log out, font_size: 16, wrap_on: mobile, font: '',
-    col_spacing: medium, spacing_above: small, icon_align: left, col_widths: '', spacing_below: small,
-    italic: false, background: '', bold: false, underline: false, icon: ''}
+  properties: {role: null, bold: false, align: left, col_widths: '', spacing_above: small, background: '', icon: '', wrap_on: mobile, underline: false, font: '', col_spacing: medium, icon_align: left, foreground: 'theme:Sidebar Background', url: '', spacing_below: small, visible: true, border: '', italic: false, font_size: 16, tooltip: '', text: log out}
   layout_properties: {slot: nav-right}
   event_bindings: {click: logout_click}
   name: link_logout
-- properties: {height: '25', source: _/theme/pics/Logo_black_small2.png, display_mode: original_size,
-    spacing_above: small}
+- properties: {height: '25', source: _/theme/pics/Logo_black_small2.png, display_mode: original_size, spacing_above: small}
   type: Image
   layout_properties: {slot: title}
   name: image_1

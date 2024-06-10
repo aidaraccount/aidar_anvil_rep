@@ -8,22 +8,13 @@ components:
   layout_properties: {grid_position: 'NDYFJH,LLBANU'}
   components:
   - type: Label
-    properties: {role: title, align: left, tooltip: '', border: '', foreground: '',
-      visible: true, text: Your Reference Artists, font_size: null, font: '', spacing_above: small,
-      icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-      underline: false, icon: ''}
+    properties: {role: title, align: left, tooltip: '', border: '', foreground: '', visible: true, text: Your Reference Artists, font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false, background: '', bold: false, underline: false, icon: ''}
     name: label_1_copy
     layout_properties:
       col_widths: {}
       grid_position: WKTSPW,ALNASW
   - type: Label
-    properties: {role: description, align: left, tooltip: '', border: '', foreground: '',
-      visible: true, text: 'When setting up a new model, reference artists are the
-        central starting point to let the model learn what you''re interested in.
-        We recommend to add at least three reference artists - click on the button
-        to add further:', font_size: null, font: '', spacing_above: small, icon_align: left,
-      spacing_below: small, italic: true, background: '', bold: false, underline: false,
-      icon: ''}
+    properties: {role: description, align: left, tooltip: '', border: '', foreground: '', visible: true, text: 'When setting up a new model, reference artists are the central starting point to let the model learn what you''re interested in. We recommend to add at least three reference artists - click on the button to add further:', font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: true, background: '', bold: false, underline: false, icon: ''}
     name: label_2_copy
     layout_properties:
       col_widths: {}
@@ -42,8 +33,7 @@ components:
     type: Spacer
     layout_properties: {grid_position: 'AODQCB,QMJTXR'}
   - name: label_1
-    properties: {role: description, text: 'The following artists are currently added
-        as reference artists for this model:'}
+    properties: {role: description, text: 'The following artists are currently added as reference artists for this model:'}
     type: Label
     layout_properties: {grid_position: 'TBPVVO,SWMCFS'}
   - name: repeating_panel_reference

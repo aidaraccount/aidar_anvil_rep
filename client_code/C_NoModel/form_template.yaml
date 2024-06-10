@@ -12,10 +12,7 @@ components:
     name: spacer_1
     layout_properties: {grid_position: 'HJAPKH,TBTCMH'}
   - name: label_1_copy_2
-    properties: {role: sub_title, align: center, tooltip: '', border: '', foreground: '',
-      visible: true, text: Welcome to, font_size: null, font: '', spacing_above: small,
-      icon_align: left, spacing_below: small, italic: false, background: '', bold: false,
-      underline: false, icon: ''}
+    properties: {role: sub_title, align: center, tooltip: '', border: '', foreground: '', visible: true, text: Welcome to, font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false, background: '', bold: false, underline: false, icon: ''}
     type: Label
     layout_properties: {grid_position: 'WSTDMP,PYHEEZ'}
   - name: image_1
@@ -27,10 +24,7 @@ components:
     type: Spacer
     layout_properties: {grid_position: 'QIJWID,UQSWOC'}
   - type: Label
-    properties: {role: sub_title, align: center, tooltip: '', border: '', foreground: '',
-      visible: true, text: Please create a new model or join an existing model of your colleague,
-      font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small,
-      italic: false, background: '', bold: false, underline: false, icon: ''}
+    properties: {role: sub_title, align: center, tooltip: '', border: '', foreground: '', visible: true, text: Please create a new model or join an existing model of your colleague, font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false, background: '', bold: false, underline: false, icon: ''}
     name: label_1
     layout_properties: {grid_position: 'XUTHAX,IDDLSB'}
   - name: column_panel_1

@@ -20,8 +20,7 @@ components:
     - {property: text, code: 'self.item[''Name'']', writeback: false}
     event_bindings: {click: link_artist_click}
 - name: button_details
-  properties: {text: '', icon: 'fa:address-card-o', role: feature, foreground: 'theme:Text_DecentWhite',
-    background: 'theme:Orange', tooltip: See Artists Watchlist Details}
+  properties: {text: '', icon: 'fa:address-card-o', role: feature, foreground: 'theme:Text_DecentWhite', background: 'theme:Orange', tooltip: See Artists Watchlist Details}
   type: Button
   layout_properties: {column: SXXXLP}
   event_bindings: {click: button_details_click}

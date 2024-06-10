@@ -34,6 +34,7 @@ class Main_Out(Main_OutTemplate):
         print(f"{datetime.datetime.now()}: Main_Out - link_login_click - 5", flush=True)
         open_form(
           "Main_In",
+          model_id=None,
           temp_artist_id=None,
           target=None,
           user_id=user["user_id"],
@@ -58,6 +59,7 @@ class Main_Out(Main_OutTemplate):
           user = anvil.users.get_user()
           open_form(
             "Main_In",
+            model_id=None,
             temp_artist_id=None,
             target=None,
             user_id=user["user_id"],
@@ -86,9 +88,9 @@ class Main_Out(Main_OutTemplate):
     if user != None:
       anvil.server.call("check_user_presence", mail=user["email"])
       open_form(
-        "Main_In", temp_artist_id=None, target=None, user_id=user["user_id"], value=None
+        "Main_In", model_id=None, temp_artist_id=None, target=None, user_id=user["user_id"], value=None
       )
-#
+
   def linkedin_click(self, **event_args):
     self.linkedin_link.url = "https://www.linkedin.com/company/aidar-insights/"
 

@@ -9,7 +9,7 @@ import json
 import datetime
 
 class C_Home(C_HomeTemplate):
-  def __init__(self, **properties):
+  def __init__(self, model_id, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
     print(f"{datetime.datetime.now()}: C_Home - __init__ - 1", flush=True)
@@ -17,12 +17,10 @@ class C_Home(C_HomeTemplate):
     # Any code you write here will run before the form opens.
     global user
     user = anvil.users.get_user()
-    global cur_model_id
-    cur_model_id = anvil.server.call('get_model_id',  user["user_id"])
     
     print(f"{datetime.datetime.now()}: C_Home - __init__ - 2", flush=True)
     # FUNNEL DATA
-    data = json.loads(anvil.server.call('get_watchlist_selection', cur_model_id))
+    data = json.loads(anvil.server.call('get_watchlist_selection', model_id))
     print(f"{datetime.datetime.now()}: C_Home - __init__ - 2a", flush=True)
     if len(data) == 0:
       self.xy_panel_funnel.visible = False
@@ -36,7 +34,7 @@ class C_Home(C_HomeTemplate):
     print(f"{datetime.datetime.now()}: C_Home - __init__ - 3", flush=True)
 
     # STATS
-    stats = json.loads(anvil.server.call('get_stats', cur_model_id))
+    stats = json.loads(anvil.server.call('get_stats', model_id))
     for stat in stats:
       if stat['stat'] == 'Success': won_cnt = stat['cnt']
       if stat['stat'] == 'Watchlist': wl_cnt = stat['cnt']
@@ -59,7 +57,7 @@ class C_Home(C_HomeTemplate):
     print(f"{datetime.datetime.now()}: C_Home - __init__ - 4", flush=True)
 
     # NEWS
-    news = json.loads(anvil.server.call('get_watchlist_notes', cur_model_id, None))
+    news = json.loads(anvil.server.call('get_watchlist_notes', model_id, None))
     if len(news) == 0:
       self.xy_panel_news.visible = False
       self.xy_panel_news_empty.visible = True
@@ -68,12 +66,12 @@ class C_Home(C_HomeTemplate):
     print(f"{datetime.datetime.now()}: C_Home - __init__ - 5", flush=True)
     
   def link_discover_click(self, **event_args):
-    open_form('Main_In', temp_artist_id = None, target = 'C_Discover', value=None)
+    open_form('Main_In', model_id, temp_artist_id = None, target = 'C_Discover', value=None)
 
   def link_funnel_click(self, **event_args):
-    open_form('Main_In', temp_artist_id = None, target = 'C_Watchlist_Funnel', value=None)
+    open_form('Main_In', model_id, temp_artist_id = None, target = 'C_Watchlist_Funnel', value=None)
 
   def text_search_pressed_enter(self, **event_args):
-    open_form('Main_In', temp_artist_id = None, target = 'C_SearchArtist', value=self.text_search.text)
+    open_form('Main_In', model_id, temp_artist_id = None, target = 'C_SearchArtist', value=self.text_search.text)
 
     
