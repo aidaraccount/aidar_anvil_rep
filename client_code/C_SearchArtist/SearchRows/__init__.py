@@ -15,6 +15,11 @@ class SearchRows(SearchRowsTemplate):
     self.init_components(**properties)
 
     # Any code you write here will run before the form opens.
+    global user
+    user = anvil.users.get_user()
+    global model_id
+    model_id = anvil.server.call('get_model_id',  user["user_id"])  
+    
     if self.item["Watchlist"] == 1:
       self.button_watchlist.background = '#fd652d' # orange
       self.button_watchlist.foreground = '#f5f4f1' # white
@@ -28,16 +33,16 @@ class SearchRows(SearchRowsTemplate):
 
   
   def inspect_pic_link_click(self, **event_args):
-    open_form('Main_In', temp_artist_id = int(self.inspect_pic_link.url), target='C_Discover', value=None)
+    open_form('Main_In', model_id=model_id, temp_artist_id = int(self.inspect_pic_link.url), target='C_Discover', value=None)
 
   def inspect_name_link_click(self, **event_args):
-    open_form('Main_In', model_id=self.model_id, temp_artist_id=int(self.inspect_name_link.url), target='C_Discover', value=None)
+    open_form('Main_In', model_id=model_id, temp_artist_id=int(self.inspect_name_link.url), target='C_Discover', value=None)
     
   # BUTTONS
   def button_watchlist_click(self, **event_args):
     if self.item["Watchlist"] == 1:
       # route to Watchlist Details
-      open_form('Main_In', temp_artist_id = self.item["ArtistID"], target = 'C_Watchlist_Details', value=None)      
+      open_form('Main_In', model_id=model_id, temp_artist_id = self.item["ArtistID"], target = 'C_Watchlist_Details', value=None)      
     else:
       # add to Watchlist (incl. change Button) and show delete Button
       anvil.server.call('update_watchlist_lead',
@@ -76,4 +81,4 @@ class SearchRows(SearchRowsTemplate):
         style="success").show()      
 
   def button_discover_click(self, **event_args):
-    open_form('Main_In', temp_artist_id = self.item["ArtistID"], target = 'C_Discover', value=None)
+    open_form('Main_In', model_id=model_id, temp_artist_id=self.item["ArtistID"], target='C_Discover', value=None)

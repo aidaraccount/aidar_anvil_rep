@@ -44,6 +44,8 @@ class Main_In(Main_InTemplate):
       if model_id is None:
         self.model_id = anvil.server.call('get_model_id',  user["user_id"])
         anvil.server.call('update_model_usage', self.model_id)
+      else:
+        self.model_id = model_id
     
     print(f"{datetime.datetime.now()}: Main_In - link_login_click - 3", flush=True)  # 20s, 17s - 4s
 
@@ -64,17 +66,17 @@ class Main_In(Main_InTemplate):
     # ROUTING
     if target == 'C_Filter':
       self.content_panel.clear()
-      self.content_panel.add_component(C_Filter())
+      self.content_panel.add_component(C_Filter(model_id=model_id))
       
     if target == 'C_AddRefArtists':
       self.content_panel.clear()
-      self.content_panel.add_component(C_AddRefArtists())
+      self.content_panel.add_component(C_AddRefArtists(model_id=model_id))
       self.reset_nav_backgrounds()
       self.link_models_artists.background = "theme:Accent 2"
       
     if target == 'C_Watchlist_Funnel':
       self.content_panel.clear()
-      self.content_panel.add_component(C_Watchlist_Funnel())
+      self.content_panel.add_component(C_Watchlist_Funnel(model_id=model_id))
       self.reset_nav_backgrounds()
       self.link_manage_funnel.background = "theme:Accent 2"
       
@@ -82,10 +84,10 @@ class Main_In(Main_InTemplate):
       self.link_discover_ai_click(model_id=self.model_id, temp_artist_id=temp_artist_id)
       
     if target == 'C_Watchlist_Details':
-      self.route_manage_watchlist(temp_artist_id = temp_artist_id)
+      self.route_manage_watchlist(temp_artist_id=temp_artist_id)
 
     if target == 'C_RelatedArtistData':
-      self.route_discover_rel_data(user_id = user["user_id"], model_id=self.model_id, artist_id=temp_artist_id, name=value)
+      self.route_discover_rel_data(user_id=user["user_id"], model_id=self.model_id, artist_id=temp_artist_id, name=value)
 
     if target == 'C_SearchArtist':
       self.link_discover_name_click(search=value)
@@ -174,7 +176,7 @@ class Main_In(Main_InTemplate):
 
   def link_discover_rel_click(self, **event_args):
     self.content_panel.clear()
-    self.content_panel.add_component(C_RelatedArtistSearch())
+    self.content_panel.add_component(C_RelatedArtistSearch(model_id=self.model_id))
     self.reset_nav_backgrounds()
     self.link_discover_rel.background = "theme:Accent 2"
 
@@ -184,7 +186,7 @@ class Main_In(Main_InTemplate):
     self.reset_nav_backgrounds()
     self.link_discover_rel.background = "theme:Accent 2"    
     
-  def link_discover_name_click(self, search, **event_args):
+  def link_discover_name_click(self, search=None, **event_args):
     self.content_panel.clear()
     self.content_panel.add_component(C_SearchArtist(model_id=self.model_id, search=search))
     self.reset_nav_backgrounds()
@@ -244,7 +246,7 @@ class Main_In(Main_InTemplate):
 
   def link_models_artists_click(self, **event_args):
     self.content_panel.clear()
-    self.content_panel.add_component(C_EditRefArtists())
+    self.content_panel.add_component(C_EditRefArtists(model_id=self.model_id))
     self.reset_nav_backgrounds()
     self.link_models_artists.background = "theme:Accent 2"
 

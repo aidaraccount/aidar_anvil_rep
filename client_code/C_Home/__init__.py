@@ -17,6 +17,7 @@ class C_Home(C_HomeTemplate):
     # Any code you write here will run before the form opens.
     global user
     user = anvil.users.get_user()
+    self.model_id=model_id
     
     print(f"{datetime.datetime.now()}: C_Home - __init__ - 2", flush=True)
     # FUNNEL DATA
@@ -26,11 +27,11 @@ class C_Home(C_HomeTemplate):
       self.xy_panel_funnel.visible = False
       self.xy_panel_funnel_empty.visible = True
     else:
-      self.repeating_panel_2.items = [item for item in data if item['Status'] in ['Action required', 'Requires revision', 'Waiting for decision']] #EVALUATION
+      #self.repeating_panel_2.items = [item for item in data if item['Status'] in ['Action required', 'Requires revision', 'Waiting for decision']] #EVALUATION
       print(f"{datetime.datetime.now()}: C_Home - __init__ - 2b", flush=True)
-      self.repeating_panel_3.items = [item for item in data if item['Status'] in ['Build connection', 'Awaiting response', 'Exploring opportunities', 'Positive response']] #CONTACTING
+      #self.repeating_panel_3.items = [item for item in data if item['Status'] in ['Build connection', 'Awaiting response', 'Exploring opportunities', 'Positive response']] #CONTACTING
       print(f"{datetime.datetime.now()}: C_Home - __init__ - 2c", flush=True)
-      self.repeating_panel_4.items = [item for item in data if item['Status'] in ['In negotiations', 'Contract in progress']] #NEGOTIATION
+      #self.repeating_panel_4.items = [item for item in data if item['Status'] in ['In negotiations', 'Contract in progress']] #NEGOTIATION
     print(f"{datetime.datetime.now()}: C_Home - __init__ - 3", flush=True)
 
     # STATS
@@ -66,12 +67,12 @@ class C_Home(C_HomeTemplate):
     print(f"{datetime.datetime.now()}: C_Home - __init__ - 5", flush=True)
     
   def link_discover_click(self, **event_args):
-    open_form('Main_In', model_id, temp_artist_id = None, target = 'C_Discover', value=None)
+    open_form('Main_In', self.model_id, temp_artist_id = None, target = 'C_Discover', value=None)
 
   def link_funnel_click(self, **event_args):
-    open_form('Main_In', model_id, temp_artist_id = None, target = 'C_Watchlist_Funnel', value=None)
+    open_form('Main_In', self.model_id, temp_artist_id = None, target = 'C_Watchlist_Funnel', value=None)
 
   def text_search_pressed_enter(self, **event_args):
-    open_form('Main_In', model_id, temp_artist_id = None, target = 'C_SearchArtist', value=self.text_search.text)
+    open_form('Main_In', self.model_id, temp_artist_id = None, target = 'C_SearchArtist', value=self.text_search.text)
 
     

@@ -9,22 +9,21 @@ import json
 
 
 class C_EditRefArtists(C_EditRefArtistsTemplate):
-  def __init__(self, **properties):
+  def __init__(self, model_id, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
 
     # Any code you write here will run before the form opens.
     global user
     user = anvil.users.get_user()
-    global cur_model_id
-    cur_model_id = anvil.server.call('get_model_id',  user["user_id"])
+    self.model_id=model_id
 
     self.get_references()
 
   
   def get_references(self, **event_args):
-    references = json.loads(anvil.server.call('get_references', cur_model_id))
+    references = json.loads(anvil.server.call('get_references', self.model_id))
     self.repeating_panel_reference.items = references
 
   def button_add_refs_click(self, **event_args):
-    open_form('Main_In', temp_artist_id = None, target = 'C_AddRefArtists', value=None)
+    open_form('Main_In', model_id=self.model_id, temp_artist_id = None, target = 'C_AddRefArtists', value=None)

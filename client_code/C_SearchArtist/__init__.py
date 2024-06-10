@@ -8,7 +8,7 @@ from anvil.tables import app_tables
 import json
 
 class C_SearchArtist(C_SearchArtistTemplate):
-  def __init__(self, search, **properties):
+  def __init__(self, model_id, search, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
 
@@ -23,6 +23,5 @@ class C_SearchArtist(C_SearchArtistTemplate):
   
   def text_box_search_pressed_enter(self, **event_args):
     search_text = self.text_box_search.text
-    print(json.loads(anvil.server.call('search_artist', cur_model_id, search_text.strip())))
     self.data_grid_artists_data.items = json.loads(anvil.server.call('search_artist', cur_model_id, search_text.strip()))
     

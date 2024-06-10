@@ -20,16 +20,16 @@ class C_Discover(C_DiscoverTemplate):
     # Any code you write here will run before the form opens.
     global user
     user = anvil.users.get_user()
-
+    self.model_id=model_id
+    
     print(f"{datetime.now()}: C_Discover - __init__ - 2", flush=True)
-    self.refresh_sug(model_id, temp_artist_id)
+    self.refresh_sug(temp_artist_id)
     print(f"{datetime.now()}: C_Discover - __init__ - 3", flush=True)
   
   # --------------------------------------------
   # SUGGESTIONS
-  def refresh_sug(self, model_id, temp_artist_id, **event_args):    
-    sug = json.loads(anvil.server.call('get_suggestion', 'Inspect', model_id, temp_artist_id)) # Free, Explore, Inspect, Dissect
-    # sug = {"Status": "Success!", "ModelID": "2", "ArtistID": "560919", "SpotifyArtistID": "6heMlLFM6RDDHRz99uKMqS", "Name": "RetroVision", "ArtistURL": "https://open.spotify.com/artist/6heMlLFM6RDDHRz99uKMqS", "ArtistPictureURL": "https://i.scdn.co/image/ab6761610000e5eb1428ee0feb9dae32ac83669e", "NoTracks": "113", "ArtistPopularity_lat": "46", "ArtistFollower_lat": "93339", "FirstReleaseDate": "2014-11-18", "LastReleaseDate": "2024-03-08", "MajorCoop": "1", "SubMajorCoop": "1", "LatestLabel": "Warner Music Central Europe", "AvgExplicit": "0.0354", "MinMusDist": "0.8885102232353875", "AvgMusDist": "0.9062671665657496", "MaxMusDist": "0.9240241098961117", "AvgDuration": "187.52287610619476", "AvgDanceability": "0.678221238938053", "AvgEnergy": "0.857221238938053", "AvgKey": "4.8938", "AvgLoudness": "-4.713938053097346", "AvgMode": "0.4867", "AvgSpeechiness": "0.09923097345132743", "AvgAcousticness": "0.0627684778761062", "AvgInstrumentalness": "0.2995615364601769", "AvgLiveness": "0.3070929203539824", "AvgValence": "0.457787610619469", "AvgTempo": "126.82925663716814", "Genres": "pop, house, edm, electro", "Countries": "Sweden", "RelArtists": "6", "Prediction": "93"}
+  def refresh_sug(self, temp_artist_id, **event_args):    
+    sug = json.loads(anvil.server.call('get_suggestion', 'Inspect', self.model_id, temp_artist_id)) # Free, Explore, Inspect, Dissect
     self.spacer_bottom_margin.height = 80
 
     if sug["Status"] == 'Empty Model!':
@@ -46,7 +46,7 @@ class C_Discover(C_DiscoverTemplate):
                 ])
       self.visible = False
       if result == "FILTERS":
-        open_form('Main_In', temp_artist_id = None, target = 'C_Filter', value=None)
+        open_form('Main_In', model_id=self.model_id, temp_artist_id = None, target = 'C_Filter', value=None)
     
     elif sug["Status"] == 'Free Limit Reached!':
       alert(title='Free Limit Reached..',
@@ -67,10 +67,10 @@ class C_Discover(C_DiscoverTemplate):
       self.sec_musical.visible = False
    
       biography = 'biography is coming soon'
-      watchlist_presence = anvil.server.call('check_watchlist_presence', model_id, artist_id)
+      watchlist_presence = anvil.server.call('check_watchlist_presence', self.model_id, artist_id)
 
       # Filter Button visibility
-      activefilters = anvil.server.call('check_filter_presence', model_id)
+      activefilters = anvil.server.call('check_filter_presence', self.model_id)
       if activefilters == 'False':
         self.button_remove_filters.visible = False
       else:
@@ -234,7 +234,7 @@ class C_Discover(C_DiscoverTemplate):
       }
       # c) related artists table
       if self.data_grid_related_artists.visible is True:
-        self.data_grid_related_artists_data.items = json.loads(anvil.server.call('get_dev_related_artists', int(cur_artist_id), int(model_id)))
+        self.data_grid_related_artists_data.items = json.loads(anvil.server.call('get_dev_related_artists', int(cur_artist_id), int(self.model_id)))
       # d) release tables
       if self.data_grid_releases.visible is True:
         self.data_grid_releases_data.items = json.loads(anvil.server.call('get_dev_releases', int(cur_artist_id)))
@@ -275,25 +275,19 @@ class C_Discover(C_DiscoverTemplate):
   def link_watchlist_name_click(self, **event_args):
     if self.link_watchlist_name.icon == 'fa:star':
       self.link_watchlist_name.icon = 'fa:star-o'
-      self.update_watchlist_lead(model_id, artist_id, False, None, False)
+      self.update_watchlist_lead(artist_id, False, None, False)
       Notification("",
         title=f"{self.name.text} removed from the watchlist!",
         style="success").show()
     else:
       self.link_watchlist_name.icon = 'fa:star'
-      self.update_watchlist_lead(model_id, artist_id, True, 'Action required', True)
+      self.update_watchlist_lead(artist_id, True, 'Action required', True)
       Notification("",
         title=f"{self.name.text} added to the watchlist!",
         style="success").show()
 
-  def update_watchlist_lead(self, model_id, artist_id, watchlist, status, notification, **event_args):
-    anvil.server.call('update_watchlist_lead',
-                      model_id,
-                      artist_id,
-                      watchlist,
-                      status,
-                      notification
-                      )
+  def update_watchlist_lead(self, artist_id, watchlist, status, notification, **event_args):
+    anvil.server.call('update_watchlist_lead', self.model_id, artist_id, watchlist, status, notification)
     self.parent.parent.update_no_notifications()
   
   # --------------------------------------------
@@ -340,37 +334,37 @@ class C_Discover(C_DiscoverTemplate):
 
   # RATING BUTTONS
   def button_1_click(self, **event_args):
-    anvil.server.call('add_interest', user["user_id"], model_id, artist_id, 1, False, '')
+    anvil.server.call('add_interest', user["user_id"], self.model_id, artist_id, 1, False, '')
     self.header.scroll_into_view(smooth=True)
     self.refresh_sug(temp_artist_id=None)
 
   def button_2_click(self, **event_args):
-    anvil.server.call('add_interest', user["user_id"], model_id, artist_id, 2, False, '')
+    anvil.server.call('add_interest', user["user_id"], self.model_id, artist_id, 2, False, '')
     self.header.scroll_into_view(smooth=True)
     self.refresh_sug(temp_artist_id=None)
 
   def button_3_click(self, **event_args):
-    anvil.server.call('add_interest', user["user_id"], model_id, artist_id, 3, False, '')
+    anvil.server.call('add_interest', user["user_id"], self.model_id, artist_id, 3, False, '')
     self.header.scroll_into_view(smooth=True)
     self.refresh_sug(temp_artist_id=None)
 
   def button_4_click(self, **event_args):
-    anvil.server.call('add_interest', user["user_id"], model_id, artist_id, 4, False, '')
+    anvil.server.call('add_interest', user["user_id"], self.model_id, artist_id, 4, False, '')
     self.header.scroll_into_view(smooth=True)
     self.refresh_sug(temp_artist_id=None)
 
   def button_5_click(self, **event_args):
-    anvil.server.call('add_interest', user["user_id"], model_id, artist_id, 5, False, '')
+    anvil.server.call('add_interest', user["user_id"], self.model_id, artist_id, 5, False, '')
     self.header.scroll_into_view(smooth=True)
     self.refresh_sug(temp_artist_id=None)
 
   def button_6_click(self, **event_args):
-    anvil.server.call('add_interest', user["user_id"], model_id, artist_id, 6, False, '')
+    anvil.server.call('add_interest', user["user_id"], self.model_id, artist_id, 6, False, '')
     self.header.scroll_into_view(smooth=True)
     self.refresh_sug(temp_artist_id=None)
 
   def button_7_click(self, **event_args):
-    anvil.server.call('add_interest', user["user_id"], model_id, artist_id, 7, False, '')
+    anvil.server.call('add_interest', user["user_id"], self.model_id, artist_id, 7, False, '')
     self.header.scroll_into_view(smooth=True)
     self.refresh_sug(temp_artist_id=None)
   
@@ -455,11 +449,8 @@ class C_Discover(C_DiscoverTemplate):
       content="Indicates whether this artist ever worked with a sub-major label or not.")
 
   def button_set_filters_click(self, **event_args):
-    open_form('Main_In', temp_artist_id = None, target = 'C_Filter', value=None)
+    open_form('Main_In', model_id=self.model_id, temp_artist_id = None, target = 'C_Filter', value=None)
 
   def button_remove_filters_click(self, **event_args):    
-    anvil.server.call('change_filters',
-                      model_id,
-                      filters_json = None
-                     )
-    open_form('Main_In', temp_artist_id = None, target = 'C_Discover', value=None)
+    anvil.server.call('change_filters', self.model_id, filters_json = None)
+    open_form('Main_In', model_id=self.model_id, temp_artist_id = None, target = 'C_Discover', value=None)

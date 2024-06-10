@@ -15,11 +15,16 @@ class SearchRowsRelated(SearchRowsRelatedTemplate):
     self.init_components(**properties)
 
     # Any code you write here will run before the form opens.
+    global user
+    user = anvil.users.get_user()
+    global model_id
+    model_id = anvil.server.call('get_model_id',  user["user_id"])    
+
   
   # BUTTONS
   def button_related_click(self, **event_args):
-    open_form('Main_In', temp_artist_id = self.item["ArtistID"], target = 'C_RelatedArtistData', value=self.item["Name"])
+    open_form('Main_In', model_id=model_id, temp_artist_id = self.item["ArtistID"], target = 'C_RelatedArtistData', value=self.item["Name"])
 
   def button_inspect_click(self, **event_args):
-    open_form('Main_In', temp_artist_id = self.item["ArtistID"], target='C_Discover', value=None)
+    open_form('Main_In', model_id=model_id, temp_artist_id = self.item["ArtistID"], target='C_Discover', value=None)
   

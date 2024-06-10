@@ -10,13 +10,13 @@ components:
     grid_position: KCRFKN,VXORGH
   components:
   - type: Label
-    properties: {role: title, align: left, tooltip: '', border: '', foreground: '', visible: true, text: Filters, font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false, background: '', bold: false, underline: false, icon: ''}
+    properties: {role: title, bold: false, align: left, spacing_above: small, background: '', icon: '', underline: false, font: '', icon_align: left, foreground: '', spacing_below: small, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: Filters}
     name: label_1
     layout_properties:
       col_widths: {}
       grid_position: SLSTXO,HTZYCF
   - type: Label
-    properties: {role: description, align: left, tooltip: '', border: '', foreground: '', visible: true, text: Use these filters to refine your search and find more fitting artists on the Discovery dashboard., font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: true, background: '', bold: false, underline: false, icon: ''}
+    properties: {role: description, bold: false, align: left, spacing_above: small, background: '', icon: '', underline: false, font: '', icon_align: left, foreground: '', spacing_below: small, visible: true, border: '', italic: true, font_size: null, tooltip: '', text: Use these filters to refine your search and find more fitting artists on the Discovery dashboard.}
     name: label_2
     layout_properties:
       col_widths: {}
@@ -27,7 +27,7 @@ components:
     layout_properties: {grid_position: 'QHQDLY,PQWGXD'}
     event_bindings: {click: clear_filters_button_click}
   - type: Label
-    properties: {role: sub_title, align: left, tooltip: '', border: '', foreground: '', visible: true, text: 1. General, font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false, background: '', bold: false, underline: false, icon: ''}
+    properties: {role: sub_title, bold: false, align: left, spacing_above: small, background: '', icon: '', underline: false, font: '', icon_align: left, foreground: '', spacing_below: small, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: 1. General}
     name: label_3_copy
     layout_properties: {grid_position: 'FFKQMW,XLMADG'}
   - type: GridPanel
@@ -36,21 +36,21 @@ components:
     layout_properties: {grid_position: 'JQKHPY,COFPND'}
     components:
     - type: Label
-      properties: {role: feature, align: left, tooltip: Level of popularity on Spotify. Ranges from 0 to 100., border: '', foreground: '', visible: true, text: '   Popularity', font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false, background: '', bold: false, underline: false, icon: ''}
+      properties: {role: feature, bold: false, align: left, spacing_above: small, background: '', icon: '', underline: false, font: '', icon_align: left, foreground: '', spacing_below: small, visible: true, border: '', italic: false, font_size: null, tooltip: Level of popularity on Spotify. Ranges from 0 to 100., text: '   Popularity'}
       name: label_4
       layout_properties: {row: OSZLNL, width_xs: 4, col_xs: 0, width: 100}
     - type: TextBox
-      properties: {role: text_box_small, align: left, hide_text: false, tooltip: '', placeholder: '0', border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null, font: '', spacing_above: small, type: number, spacing_below: small, italic: false, background: '', bold: false, underline: false}
+      properties: {role: text_box_small, bold: false, align: left, placeholder: '0', spacing_above: small, background: '', type: number, underline: false, font: '', hide_text: false, foreground: '', spacing_below: small, visible: true, border: '', italic: false, enabled: true, font_size: null, tooltip: '', text: ''}
       name: artist_popularity_lat_min
       layout_properties: {row: OSZLNL, width_xs: 3, col_xs: 3, width: 194}
       event_bindings: {pressed_enter: apply_filters_click}
       data_bindings: []
     - type: Label
-      properties: {role: description, align: center, tooltip: '', border: '', foreground: '', visible: true, text: to, font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false, background: '', bold: false, underline: false, icon: ''}
+      properties: {role: description, bold: false, align: center, spacing_above: small, background: '', icon: '', underline: false, font: '', icon_align: left, foreground: '', spacing_below: small, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: to}
       name: label_5
       layout_properties: {row: OSZLNL, width_xs: 2, col_xs: 7, width: 136.667}
     - type: TextBox
-      properties: {role: text_box_small, align: left, hide_text: false, tooltip: '', placeholder: '100', border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null, font: '', spacing_above: small, type: number, spacing_below: small, italic: false, background: '', bold: false, underline: false}
+      properties: {role: text_box_small, bold: false, align: left, placeholder: '100', spacing_above: small, background: '', type: number, underline: false, font: '', hide_text: false, foreground: '', spacing_below: small, visible: true, border: '', italic: false, enabled: true, font_size: null, tooltip: '', text: ''}
       name: artist_popularity_lat_max
       layout_properties: {row: OSZLNL, width_xs: 3, col_xs: 9, width: 194}
       event_bindings: {pressed_enter: apply_filters_click}
@@ -60,20 +60,20 @@ components:
     layout_properties: {grid_position: 'APDFNT,SWTAXL'}
     components:
     - type: Label
-      properties: {role: feature, align: left, tooltip: Number of followers on Spotify, border: '', foreground: '', visible: true, text: '   Follower', font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false, background: '', bold: false, underline: false, icon: ''}
+      properties: {role: feature, bold: false, align: left, spacing_above: small, background: '', icon: '', underline: false, font: '', icon_align: left, foreground: '', spacing_below: small, visible: true, border: '', italic: false, font_size: null, tooltip: Number of followers on Spotify, text: '   Follower'}
       name: label_6
       layout_properties: {row: VLPSXL, width_xs: 4, col_xs: 0, width: 100}
     - type: TextBox
-      properties: {role: text_box_small, align: left, hide_text: false, tooltip: '', placeholder: '0', border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null, font: '', spacing_above: small, type: number, spacing_below: small, italic: false, background: '', bold: false, underline: false}
+      properties: {role: text_box_small, bold: false, align: left, placeholder: '0', spacing_above: small, background: '', type: number, underline: false, font: '', hide_text: false, foreground: '', spacing_below: small, visible: true, border: '', italic: false, enabled: true, font_size: null, tooltip: '', text: ''}
       name: artist_follower_lat_min
       layout_properties: {row: VLPSXL, width_xs: 3, col_xs: 4, width: 194}
       event_bindings: {pressed_enter: apply_filters_click}
     - type: Label
-      properties: {role: description, align: center, tooltip: '', border: '', foreground: '', visible: true, text: to, font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false, background: '', bold: false, underline: false, icon: ''}
+      properties: {role: description, bold: false, align: center, spacing_above: small, background: '', icon: '', underline: false, font: '', icon_align: left, foreground: '', spacing_below: small, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: to}
       name: label_7
       layout_properties: {row: VLPSXL, width_xs: 2, col_xs: 7, width: 136.667}
     - type: TextBox
-      properties: {role: text_box_small, align: left, hide_text: false, tooltip: '', placeholder: '1000000', border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null, font: '', spacing_above: small, type: number, spacing_below: small, italic: false, background: '', bold: false, underline: false}
+      properties: {role: text_box_small, bold: false, align: left, placeholder: '1000000', spacing_above: small, background: '', type: number, underline: false, font: '', hide_text: false, foreground: '', spacing_below: small, visible: true, border: '', italic: false, enabled: true, font_size: null, tooltip: '', text: ''}
       name: artist_follower_lat_max
       layout_properties: {row: VLPSXL, width_xs: 3, col_xs: 9, width: 194}
       event_bindings: {pressed_enter: apply_filters_click}
@@ -83,7 +83,7 @@ components:
     layout_properties: {grid_position: 'LOMSLI,TNDHPY'}
     components:
     - name: label_6_copy
-      properties: {role: feature, align: left, tooltip: Number of followers on Spotify, border: '', foreground: '', visible: true, text: '   Former Major Cooperation', font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false, background: '', bold: false, underline: false, icon: ''}
+      properties: {role: feature, bold: false, align: left, spacing_above: small, background: '', icon: '', underline: false, font: '', icon_align: left, foreground: '', spacing_below: small, visible: true, border: '', italic: false, font_size: null, tooltip: Number of followers on Spotify, text: '   Former Major Cooperation'}
       type: Label
       layout_properties: {row: VLPSXL, width_xs: 4, col_xs: 0, width: 100}
     - name: drop_down_major
@@ -98,7 +98,7 @@ components:
     layout_properties: {grid_position: 'QNWCOO,SSESBS'}
     components:
     - name: label_6_copy_copy
-      properties: {role: feature, align: left, tooltip: Number of followers on Spotify, border: '', foreground: '', visible: true, text: '   Former Sub-Major Cooperation', font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false, background: '', bold: false, underline: false, icon: ''}
+      properties: {role: feature, bold: false, align: left, spacing_above: small, background: '', icon: '', underline: false, font: '', icon_align: left, foreground: '', spacing_below: small, visible: true, border: '', italic: false, font_size: null, tooltip: Number of followers on Spotify, text: '   Former Sub-Major Cooperation'}
       type: Label
       layout_properties: {row: VLPSXL, width_xs: 4, col_xs: 0, width: 100}
     - name: drop_down_submajor
@@ -112,7 +112,7 @@ components:
     name: spacer_2
     layout_properties: {grid_position: 'VKGMMM,TZUBNT'}
   - type: Label
-    properties: {role: sub_title, align: left, tooltip: '', border: '', foreground: '', visible: true, text: 2. Musical Features, font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false, background: '', bold: false, underline: false, icon: ''}
+    properties: {role: sub_title, bold: false, align: left, spacing_above: small, background: '', icon: '', underline: false, font: '', icon_align: left, foreground: '', spacing_below: small, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: 2. Musical Features}
     name: label_3_copy_2
     layout_properties:
       col_widths: {}
@@ -125,20 +125,20 @@ components:
       grid_position: NNOINM,JVISER
     components:
     - type: Label
-      properties: {role: feature, align: left, tooltip: The average duration of all songs of an artist in seconds., border: '', foreground: '', visible: true, text: '   Avg. Duration [sec.]', font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false, background: '', bold: false, underline: false, icon: ''}
+      properties: {role: feature, bold: false, align: left, spacing_above: small, background: '', icon: '', underline: false, font: '', icon_align: left, foreground: '', spacing_below: small, visible: true, border: '', italic: false, font_size: null, tooltip: The average duration of all songs of an artist in seconds., text: '   Avg. Duration [sec.]'}
       name: label_4_copy
       layout_properties: {row: OSZLNL, width_xs: 4, col_xs: 0, width: 303.333}
     - type: TextBox
-      properties: {role: text_box_small, align: left, hide_text: false, tooltip: '', placeholder: '0', border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null, font: '', spacing_above: small, type: number, spacing_below: small, italic: false, background: '', bold: false, underline: false}
+      properties: {role: text_box_small, bold: false, align: left, placeholder: '0', spacing_above: small, background: '', type: number, underline: false, font: '', hide_text: false, foreground: '', spacing_below: small, visible: true, border: '', italic: false, enabled: true, font_size: null, tooltip: '', text: ''}
       name: avg_duration_min
       layout_properties: {row: OSZLNL, width_xs: 3, col_xs: 3, width: 194}
       event_bindings: {pressed_enter: apply_filters_click}
     - type: Label
-      properties: {role: description, align: center, tooltip: '', border: '', foreground: '', visible: true, text: to, font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false, background: '', bold: false, underline: false, icon: ''}
+      properties: {role: description, bold: false, align: center, spacing_above: small, background: '', icon: '', underline: false, font: '', icon_align: left, foreground: '', spacing_below: small, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: to}
       name: label_5_copy
       layout_properties: {row: OSZLNL, width_xs: 2, col_xs: 7, width: 136.667}
     - type: TextBox
-      properties: {role: text_box_small, align: left, hide_text: false, tooltip: '', placeholder: '240', border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null, font: '', spacing_above: small, type: number, spacing_below: small, italic: false, background: '', bold: false, underline: false}
+      properties: {role: text_box_small, bold: false, align: left, placeholder: '240', spacing_above: small, background: '', type: number, underline: false, font: '', hide_text: false, foreground: '', spacing_below: small, visible: true, border: '', italic: false, enabled: true, font_size: null, tooltip: '', text: ''}
       name: avg_duration_max
       layout_properties: {row: OSZLNL, width_xs: 3, col_xs: 9, width: 194}
       event_bindings: {pressed_enter: apply_filters_click}
@@ -150,20 +150,20 @@ components:
       grid_position: PMFGQJ,UXSVAN
     components:
     - type: Label
-      properties: {role: feature, align: left, tooltip: 'Danceability describes how suitable a track is for dancing based on a combination of musical elements including tempo, rhythm stability, beat strength, and overall regularity. We average this value across all songs and its value ranges from 0 (least danceable) to 100% (most danceable).', border: '', foreground: '', visible: true, text: '   Avg. Danceability [%]', font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false, background: '', bold: false, underline: false, icon: ''}
+      properties: {role: feature, bold: false, align: left, spacing_above: small, background: '', icon: '', underline: false, font: '', icon_align: left, foreground: '', spacing_below: small, visible: true, border: '', italic: false, font_size: null, tooltip: 'Danceability describes how suitable a track is for dancing based on a combination of musical elements including tempo, rhythm stability, beat strength, and overall regularity. We average this value across all songs and its value ranges from 0 (least danceable) to 100% (most danceable).', text: '   Avg. Danceability [%]'}
       name: label_4_copy_2
       layout_properties: {row: OSZLNL, width_xs: 4, col_xs: 0, width: 303.333}
     - type: TextBox
-      properties: {role: text_box_small, align: left, hide_text: false, tooltip: '', placeholder: '0', border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null, font: '', spacing_above: small, type: number, spacing_below: small, italic: false, background: '', bold: false, underline: false}
+      properties: {role: text_box_small, bold: false, align: left, placeholder: '0', spacing_above: small, background: '', type: number, underline: false, font: '', hide_text: false, foreground: '', spacing_below: small, visible: true, border: '', italic: false, enabled: true, font_size: null, tooltip: '', text: ''}
       name: avg_danceability_min
       layout_properties: {row: OSZLNL, width_xs: 3, col_xs: 3, width: 194}
       event_bindings: {pressed_enter: apply_filters_click}
     - type: Label
-      properties: {role: description, align: center, tooltip: '', border: '', foreground: '', visible: true, text: to, font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false, background: '', bold: false, underline: false, icon: ''}
+      properties: {role: description, bold: false, align: center, spacing_above: small, background: '', icon: '', underline: false, font: '', icon_align: left, foreground: '', spacing_below: small, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: to}
       name: label_5_copy_2
       layout_properties: {row: OSZLNL, width_xs: 2, col_xs: 7, width: 136.667}
     - type: TextBox
-      properties: {role: text_box_small, align: left, hide_text: false, tooltip: '', placeholder: '100', border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null, font: '', spacing_above: small, type: number, spacing_below: small, italic: false, background: '', bold: false, underline: false}
+      properties: {role: text_box_small, bold: false, align: left, placeholder: '100', spacing_above: small, background: '', type: number, underline: false, font: '', hide_text: false, foreground: '', spacing_below: small, visible: true, border: '', italic: false, enabled: true, font_size: null, tooltip: '', text: ''}
       name: avg_danceability_max
       layout_properties: {row: OSZLNL, width_xs: 3, col_xs: 9}
       event_bindings: {pressed_enter: apply_filters_click}
@@ -175,20 +175,20 @@ components:
       grid_position: KOJNMB,QCDRAO
     components:
     - type: Label
-      properties: {role: feature, align: left, tooltip: Energy is a measure from 0 to 100% and represents a perceptual measure of intensity and activity on average across all songs., border: '', foreground: '', visible: true, text: '   Avg. Energy [%]', font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false, background: '', bold: false, underline: false, icon: ''}
+      properties: {role: feature, bold: false, align: left, spacing_above: small, background: '', icon: '', underline: false, font: '', icon_align: left, foreground: '', spacing_below: small, visible: true, border: '', italic: false, font_size: null, tooltip: Energy is a measure from 0 to 100% and represents a perceptual measure of intensity and activity on average across all songs., text: '   Avg. Energy [%]'}
       name: label_4_copy_3
       layout_properties: {row: OSZLNL, width_xs: 4, col_xs: 0, width: 303.333}
     - type: TextBox
-      properties: {role: text_box_small, align: left, hide_text: false, tooltip: '', placeholder: '0', border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null, font: '', spacing_above: small, type: number, spacing_below: small, italic: false, background: '', bold: false, underline: false}
+      properties: {role: text_box_small, bold: false, align: left, placeholder: '0', spacing_above: small, background: '', type: number, underline: false, font: '', hide_text: false, foreground: '', spacing_below: small, visible: true, border: '', italic: false, enabled: true, font_size: null, tooltip: '', text: ''}
       name: avg_energy_min
       layout_properties: {row: OSZLNL, width_xs: 3, col_xs: 3, width: 194}
       event_bindings: {pressed_enter: apply_filters_click}
     - type: Label
-      properties: {role: description, align: center, tooltip: '', border: '', foreground: '', visible: true, text: to, font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false, background: '', bold: false, underline: false, icon: ''}
+      properties: {role: description, bold: false, align: center, spacing_above: small, background: '', icon: '', underline: false, font: '', icon_align: left, foreground: '', spacing_below: small, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: to}
       name: label_5_copy_3
       layout_properties: {row: OSZLNL, width_xs: 2, col_xs: 7, width: 136.667}
     - type: TextBox
-      properties: {role: text_box_small, align: left, hide_text: false, tooltip: '', placeholder: '100', border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null, font: '', spacing_above: small, type: number, spacing_below: small, italic: false, background: '', bold: false, underline: false}
+      properties: {role: text_box_small, bold: false, align: left, placeholder: '100', spacing_above: small, background: '', type: number, underline: false, font: '', hide_text: false, foreground: '', spacing_below: small, visible: true, border: '', italic: false, enabled: true, font_size: null, tooltip: '', text: ''}
       name: avg_energy_max
       layout_properties: {row: OSZLNL, width_xs: 3, col_xs: 9, width: 194}
       event_bindings: {pressed_enter: apply_filters_click}
@@ -200,7 +200,7 @@ components:
       grid_position: YMSOFD,JAGQSU
     components:
     - type: Label
-      properties: {role: feature, align: left, tooltip: 'The estimated overall average key of all songs of an artist: "C", "C#/Db", "D", "D#/Eb", "E", "F", "F#/Gb", "G", "G#/Ab", "A", "A#/Bb", "B"', border: '', foreground: '', visible: true, text: '   Avg. Key [C to B]', font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false, background: '', bold: false, underline: false, icon: ''}
+      properties: {role: feature, bold: false, align: left, spacing_above: small, background: '', icon: '', underline: false, font: '', icon_align: left, foreground: '', spacing_below: small, visible: true, border: '', italic: false, font_size: null, tooltip: 'The estimated overall average key of all songs of an artist: "C", "C#/Db", "D", "D#/Eb", "E", "F", "F#/Gb", "G", "G#/Ab", "A", "A#/Bb", "B"', text: '   Avg. Key [C to B]'}
       name: label_4_copy_4
       layout_properties: {row: OSZLNL, width_xs: 4, col_xs: 0, width: 303.333}
     - name: avg_key_min
@@ -213,7 +213,7 @@ components:
       layout_properties: {row: OSZLNL, width_xs: 3, col_xs: 4}
       data_bindings: []
     - type: Label
-      properties: {role: description, align: center, tooltip: '', border: '', foreground: '', visible: true, text: to, font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false, background: '', bold: false, underline: false, icon: ''}
+      properties: {role: description, bold: false, align: center, spacing_above: small, background: '', icon: '', underline: false, font: '', icon_align: left, foreground: '', spacing_below: small, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: to}
       name: label_5_copy_4
       layout_properties: {row: OSZLNL, width_xs: 2, col_xs: 7, width: 136.667}
     - name: avg_key_max
@@ -233,20 +233,20 @@ components:
       grid_position: NYKANC,UOQDKO
     components:
     - type: Label
-      properties: {role: feature, align: left, tooltip: The overall average loudness of all tracks in decibels (dB). For each track the loudness values are averaged across the entire track and are useful for comparing relative loudness of tracks., border: '', foreground: '', visible: true, text: '   Avg. Loudness [dB]', font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false, background: '', bold: false, underline: false, icon: ''}
+      properties: {role: feature, bold: false, align: left, spacing_above: small, background: '', icon: '', underline: false, font: '', icon_align: left, foreground: '', spacing_below: small, visible: true, border: '', italic: false, font_size: null, tooltip: The overall average loudness of all tracks in decibels (dB). For each track the loudness values are averaged across the entire track and are useful for comparing relative loudness of tracks., text: '   Avg. Loudness [dB]'}
       name: label_4_copy_5
       layout_properties: {row: OSZLNL, width_xs: 4, col_xs: 0, width: 303.333}
     - type: TextBox
-      properties: {role: text_box_small, align: left, hide_text: false, tooltip: '', placeholder: '-10', border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null, font: '', spacing_above: small, type: number, spacing_below: small, italic: false, background: '', bold: false, underline: false}
+      properties: {role: text_box_small, bold: false, align: left, placeholder: '-10', spacing_above: small, background: '', type: number, underline: false, font: '', hide_text: false, foreground: '', spacing_below: small, visible: true, border: '', italic: false, enabled: true, font_size: null, tooltip: '', text: ''}
       name: avg_loudness_min
       layout_properties: {row: OSZLNL, width_xs: 3, col_xs: 3, width: 194}
       event_bindings: {pressed_enter: apply_filters_click}
     - type: Label
-      properties: {role: description, align: center, tooltip: '', border: '', foreground: '', visible: true, text: to, font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false, background: '', bold: false, underline: false, icon: ''}
+      properties: {role: description, bold: false, align: center, spacing_above: small, background: '', icon: '', underline: false, font: '', icon_align: left, foreground: '', spacing_below: small, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: to}
       name: label_5_copy_5
       layout_properties: {row: OSZLNL, width_xs: 2, col_xs: 7, width: 136.667}
     - type: TextBox
-      properties: {role: text_box_small, align: left, hide_text: false, tooltip: '', placeholder: '5', border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null, font: '', spacing_above: small, type: number, spacing_below: small, italic: false, background: '', bold: false, underline: false}
+      properties: {role: text_box_small, bold: false, align: left, placeholder: '5', spacing_above: small, background: '', type: number, underline: false, font: '', hide_text: false, foreground: '', spacing_below: small, visible: true, border: '', italic: false, enabled: true, font_size: null, tooltip: '', text: ''}
       name: avg_loudness_max
       layout_properties: {row: OSZLNL, width_xs: 3, col_xs: 9, width: 194}
       event_bindings: {pressed_enter: apply_filters_click}
@@ -258,20 +258,20 @@ components:
       grid_position: RWUSEQ,QPPJLL
     components:
     - type: Label
-      properties: {role: feature, align: left, tooltip: Mode indicates the portion of tracks in major (modality) of an artist. Ranges from 0 to 100%., border: '', foreground: '', visible: true, text: '   Avg. Mode [% Major]', font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false, background: '', bold: false, underline: false, icon: ''}
+      properties: {role: feature, bold: false, align: left, spacing_above: small, background: '', icon: '', underline: false, font: '', icon_align: left, foreground: '', spacing_below: small, visible: true, border: '', italic: false, font_size: null, tooltip: Mode indicates the portion of tracks in major (modality) of an artist. Ranges from 0 to 100%., text: '   Avg. Mode [% Major]'}
       name: label_4_copy_6
       layout_properties: {row: OSZLNL, width_xs: 4, col_xs: 0, width: 303.333}
     - type: TextBox
-      properties: {role: text_box_small, align: left, hide_text: false, tooltip: '', placeholder: '0', border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null, font: '', spacing_above: small, type: number, spacing_below: small, italic: false, background: '', bold: false, underline: false}
+      properties: {role: text_box_small, bold: false, align: left, placeholder: '0', spacing_above: small, background: '', type: number, underline: false, font: '', hide_text: false, foreground: '', spacing_below: small, visible: true, border: '', italic: false, enabled: true, font_size: null, tooltip: '', text: ''}
       name: avg_mode_min
       layout_properties: {row: OSZLNL, width_xs: 3, col_xs: 3, width: 194}
       event_bindings: {pressed_enter: apply_filters_click}
     - type: Label
-      properties: {role: description, align: center, tooltip: '', border: '', foreground: '', visible: true, text: to, font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false, background: '', bold: false, underline: false, icon: ''}
+      properties: {role: description, bold: false, align: center, spacing_above: small, background: '', icon: '', underline: false, font: '', icon_align: left, foreground: '', spacing_below: small, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: to}
       name: label_5_copy_6
       layout_properties: {row: OSZLNL, width_xs: 2, col_xs: 7, width: 136.667}
     - type: TextBox
-      properties: {role: text_box_small, align: left, hide_text: false, tooltip: '', placeholder: '100', border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null, font: '', spacing_above: small, type: number, spacing_below: small, italic: false, background: '', bold: false, underline: false}
+      properties: {role: text_box_small, bold: false, align: left, placeholder: '100', spacing_above: small, background: '', type: number, underline: false, font: '', hide_text: false, foreground: '', spacing_below: small, visible: true, border: '', italic: false, enabled: true, font_size: null, tooltip: '', text: ''}
       name: avg_mode_max
       layout_properties: {row: OSZLNL, width_xs: 3, col_xs: 9, width: 194}
       event_bindings: {pressed_enter: apply_filters_click}
@@ -283,20 +283,20 @@ components:
       grid_position: EUKELS,DWLGTI
     components:
     - type: Label
-      properties: {role: feature, align: left, tooltip: 'Speechiness detects the presence of spoken words in a track. The more exclusively speech-like the recording (e.g., talk show, audiobook, poetry), the closer to 100% the attribute value. It is averaged across all songs of that artist.', border: '', foreground: '', visible: true, text: '   Avg. Speechiness [%]', font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false, background: '', bold: false, underline: false, icon: ''}
+      properties: {role: feature, bold: false, align: left, spacing_above: small, background: '', icon: '', underline: false, font: '', icon_align: left, foreground: '', spacing_below: small, visible: true, border: '', italic: false, font_size: null, tooltip: 'Speechiness detects the presence of spoken words in a track. The more exclusively speech-like the recording (e.g., talk show, audiobook, poetry), the closer to 100% the attribute value. It is averaged across all songs of that artist.', text: '   Avg. Speechiness [%]'}
       name: label_4_copy_7
       layout_properties: {row: OSZLNL, width_xs: 4, col_xs: 0, width: 303.333}
     - type: TextBox
-      properties: {role: text_box_small, align: left, hide_text: false, tooltip: '', placeholder: '0', border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null, font: '', spacing_above: small, type: number, spacing_below: small, italic: false, background: '', bold: false, underline: false}
+      properties: {role: text_box_small, bold: false, align: left, placeholder: '0', spacing_above: small, background: '', type: number, underline: false, font: '', hide_text: false, foreground: '', spacing_below: small, visible: true, border: '', italic: false, enabled: true, font_size: null, tooltip: '', text: ''}
       name: avg_speechiness_min
       layout_properties: {row: OSZLNL, width_xs: 3, col_xs: 3, width: 194}
       event_bindings: {pressed_enter: apply_filters_click}
     - type: Label
-      properties: {role: description, align: center, tooltip: '', border: '', foreground: '', visible: true, text: to, font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false, background: '', bold: false, underline: false, icon: ''}
+      properties: {role: description, bold: false, align: center, spacing_above: small, background: '', icon: '', underline: false, font: '', icon_align: left, foreground: '', spacing_below: small, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: to}
       name: label_5_copy_7
       layout_properties: {row: OSZLNL, width_xs: 2, col_xs: 7, width: 136.667}
     - type: TextBox
-      properties: {role: text_box_small, align: left, hide_text: false, tooltip: '', placeholder: '100', border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null, font: '', spacing_above: small, type: number, spacing_below: small, italic: false, background: '', bold: false, underline: false}
+      properties: {role: text_box_small, bold: false, align: left, placeholder: '100', spacing_above: small, background: '', type: number, underline: false, font: '', hide_text: false, foreground: '', spacing_below: small, visible: true, border: '', italic: false, enabled: true, font_size: null, tooltip: '', text: ''}
       name: avg_speechiness_max
       layout_properties: {row: OSZLNL, width_xs: 3, col_xs: 9, width: 194}
       event_bindings: {pressed_enter: apply_filters_click}
@@ -308,20 +308,20 @@ components:
       grid_position: QTACQB,XXTHWP
     components:
     - type: Label
-      properties: {role: feature, align: left, tooltip: A confidence measure from 0 to 100% of whether an artist's tracks are acoustic. 100% represents high confidence the tracks are acoustic., border: '', foreground: '', visible: true, text: '   Avg. Acousticness [%]', font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false, background: '', bold: false, underline: false, icon: ''}
+      properties: {role: feature, bold: false, align: left, spacing_above: small, background: '', icon: '', underline: false, font: '', icon_align: left, foreground: '', spacing_below: small, visible: true, border: '', italic: false, font_size: null, tooltip: A confidence measure from 0 to 100% of whether an artist's tracks are acoustic. 100% represents high confidence the tracks are acoustic., text: '   Avg. Acousticness [%]'}
       name: label_4_copy_8
       layout_properties: {row: OSZLNL, width_xs: 4, col_xs: 0, width: 303.333}
     - type: TextBox
-      properties: {role: text_box_small, align: left, hide_text: false, tooltip: '', placeholder: '0', border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null, font: '', spacing_above: small, type: number, spacing_below: small, italic: false, background: '', bold: false, underline: false}
+      properties: {role: text_box_small, bold: false, align: left, placeholder: '0', spacing_above: small, background: '', type: number, underline: false, font: '', hide_text: false, foreground: '', spacing_below: small, visible: true, border: '', italic: false, enabled: true, font_size: null, tooltip: '', text: ''}
       name: avg_acousticness_min
       layout_properties: {row: OSZLNL, width_xs: 3, col_xs: 3, width: 194}
       event_bindings: {pressed_enter: apply_filters_click}
     - type: Label
-      properties: {role: description, align: center, tooltip: '', border: '', foreground: '', visible: true, text: to, font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false, background: '', bold: false, underline: false, icon: ''}
+      properties: {role: description, bold: false, align: center, spacing_above: small, background: '', icon: '', underline: false, font: '', icon_align: left, foreground: '', spacing_below: small, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: to}
       name: label_5_copy_8
       layout_properties: {row: OSZLNL, width_xs: 2, col_xs: 7, width: 136.667}
     - type: TextBox
-      properties: {role: text_box_small, align: left, hide_text: false, tooltip: '', placeholder: '100', border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null, font: '', spacing_above: small, type: number, spacing_below: small, italic: false, background: '', bold: false, underline: false}
+      properties: {role: text_box_small, bold: false, align: left, placeholder: '100', spacing_above: small, background: '', type: number, underline: false, font: '', hide_text: false, foreground: '', spacing_below: small, visible: true, border: '', italic: false, enabled: true, font_size: null, tooltip: '', text: ''}
       name: avg_acousticness_max
       layout_properties: {row: OSZLNL, width_xs: 3, col_xs: 9, width: 194}
       event_bindings: {pressed_enter: apply_filters_click}
@@ -333,20 +333,20 @@ components:
       grid_position: SWFDGW,BZCPLC
     components:
     - type: Label
-      properties: {role: feature, align: left, tooltip: 'Measures whether the tracks of an artist contain no vocals. “Ooh” and “aah” sounds are treated as instrumental in this context. Rap or spoken word tracks are clearly “vocal”. The closer the instrumentalness value is to 100%, the greater likelihood the tracks contain no vocal content.', border: '', foreground: '', visible: true, text: '   Avg. Instrumentalness [%]', font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false, background: '', bold: false, underline: false, icon: ''}
+      properties: {role: feature, bold: false, align: left, spacing_above: small, background: '', icon: '', underline: false, font: '', icon_align: left, foreground: '', spacing_below: small, visible: true, border: '', italic: false, font_size: null, tooltip: 'Measures whether the tracks of an artist contain no vocals. “Ooh” and “aah” sounds are treated as instrumental in this context. Rap or spoken word tracks are clearly “vocal”. The closer the instrumentalness value is to 100%, the greater likelihood the tracks contain no vocal content.', text: '   Avg. Instrumentalness [%]'}
       name: label_4_copy_9
       layout_properties: {row: OSZLNL, width_xs: 4, col_xs: 0, width: 303.333}
     - type: TextBox
-      properties: {role: text_box_small, align: left, hide_text: false, tooltip: '', placeholder: '0', border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null, font: '', spacing_above: small, type: number, spacing_below: small, italic: false, background: '', bold: false, underline: false}
+      properties: {role: text_box_small, bold: false, align: left, placeholder: '0', spacing_above: small, background: '', type: number, underline: false, font: '', hide_text: false, foreground: '', spacing_below: small, visible: true, border: '', italic: false, enabled: true, font_size: null, tooltip: '', text: ''}
       name: avg_instrumentalness_min
       layout_properties: {row: OSZLNL, width_xs: 3, col_xs: 4, width: 194}
       event_bindings: {pressed_enter: apply_filters_click}
     - type: Label
-      properties: {role: description, align: center, tooltip: '', border: '', foreground: '', visible: true, text: to, font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false, background: '', bold: false, underline: false, icon: ''}
+      properties: {role: description, bold: false, align: center, spacing_above: small, background: '', icon: '', underline: false, font: '', icon_align: left, foreground: '', spacing_below: small, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: to}
       name: label_5_copy_9
       layout_properties: {row: OSZLNL, width_xs: 2, col_xs: 7, width: 136.667}
     - type: TextBox
-      properties: {role: text_box_small, align: left, hide_text: false, tooltip: '', placeholder: '100', border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null, font: '', spacing_above: small, type: number, spacing_below: small, italic: false, background: '', bold: false, underline: false}
+      properties: {role: text_box_small, bold: false, align: left, placeholder: '100', spacing_above: small, background: '', type: number, underline: false, font: '', hide_text: false, foreground: '', spacing_below: small, visible: true, border: '', italic: false, enabled: true, font_size: null, tooltip: '', text: ''}
       name: avg_instrumentalness_max
       layout_properties: {row: OSZLNL, width_xs: 3, col_xs: 9, width: 194}
       event_bindings: {pressed_enter: apply_filters_click}
@@ -358,20 +358,20 @@ components:
       grid_position: ZLTSPY,AIAOOW
     components:
     - type: Label
-      properties: {role: feature, align: left, tooltip: Detects the presence of an audience in the recording. Higher liveness values represent an increased probability that the tracks of that artist were performed live., border: '', foreground: '', visible: true, text: '   Avg. Liveness [%]', font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false, background: '', bold: false, underline: false, icon: ''}
+      properties: {role: feature, bold: false, align: left, spacing_above: small, background: '', icon: '', underline: false, font: '', icon_align: left, foreground: '', spacing_below: small, visible: true, border: '', italic: false, font_size: null, tooltip: Detects the presence of an audience in the recording. Higher liveness values represent an increased probability that the tracks of that artist were performed live., text: '   Avg. Liveness [%]'}
       name: label_4_copy_10
       layout_properties: {row: OSZLNL, width_xs: 4, col_xs: 0, width: 303.333}
     - type: TextBox
-      properties: {role: text_box_small, align: left, hide_text: false, tooltip: '', placeholder: '0', border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null, font: '', spacing_above: small, type: number, spacing_below: small, italic: false, background: '', bold: false, underline: false}
+      properties: {role: text_box_small, bold: false, align: left, placeholder: '0', spacing_above: small, background: '', type: number, underline: false, font: '', hide_text: false, foreground: '', spacing_below: small, visible: true, border: '', italic: false, enabled: true, font_size: null, tooltip: '', text: ''}
       name: avg_liveness_min
       layout_properties: {row: OSZLNL, width_xs: 3, col_xs: 3, width: 194}
       event_bindings: {pressed_enter: apply_filters_click}
     - type: Label
-      properties: {role: description, align: center, tooltip: '', border: '', foreground: '', visible: true, text: to, font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false, background: '', bold: false, underline: false, icon: ''}
+      properties: {role: description, bold: false, align: center, spacing_above: small, background: '', icon: '', underline: false, font: '', icon_align: left, foreground: '', spacing_below: small, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: to}
       name: label_5_copy_10
       layout_properties: {row: OSZLNL, width_xs: 2, col_xs: 7, width: 136.667}
     - type: TextBox
-      properties: {role: text_box_small, align: left, hide_text: false, tooltip: '', placeholder: '100', border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null, font: '', spacing_above: small, type: number, spacing_below: small, italic: false, background: '', bold: false, underline: false}
+      properties: {role: text_box_small, bold: false, align: left, placeholder: '100', spacing_above: small, background: '', type: number, underline: false, font: '', hide_text: false, foreground: '', spacing_below: small, visible: true, border: '', italic: false, enabled: true, font_size: null, tooltip: '', text: ''}
       name: avg_liveness_max
       layout_properties: {row: OSZLNL, width_xs: 3, col_xs: 9, width: 194}
       event_bindings: {pressed_enter: apply_filters_click}
@@ -383,20 +383,20 @@ components:
       grid_position: IJAZCG,INZPUQ
     components:
     - type: Label
-      properties: {role: feature, align: left, tooltip: 'A measure from 0 to 100% describing the musical positiveness conveyed by an artist''s tracks. Tracks with high valence sound more positive (e.g., happy, cheerful, euphoric), while tracks with low valence sound more negative (e.g., sad, depressed, angry).', border: '', foreground: '', visible: true, text: '   Avg. Valence [%]', font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false, background: '', bold: false, underline: false, icon: ''}
+      properties: {role: feature, bold: false, align: left, spacing_above: small, background: '', icon: '', underline: false, font: '', icon_align: left, foreground: '', spacing_below: small, visible: true, border: '', italic: false, font_size: null, tooltip: 'A measure from 0 to 100% describing the musical positiveness conveyed by an artist''s tracks. Tracks with high valence sound more positive (e.g., happy, cheerful, euphoric), while tracks with low valence sound more negative (e.g., sad, depressed, angry).', text: '   Avg. Valence [%]'}
       name: label_4_copy_11
       layout_properties: {row: OSZLNL, width_xs: 4, col_xs: 0, width: 303.333}
     - type: TextBox
-      properties: {role: text_box_small, align: left, hide_text: false, tooltip: '', placeholder: '0', border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null, font: '', spacing_above: small, type: number, spacing_below: small, italic: false, background: '', bold: false, underline: false}
+      properties: {role: text_box_small, bold: false, align: left, placeholder: '0', spacing_above: small, background: '', type: number, underline: false, font: '', hide_text: false, foreground: '', spacing_below: small, visible: true, border: '', italic: false, enabled: true, font_size: null, tooltip: '', text: ''}
       name: avg_valence_min
       layout_properties: {row: OSZLNL, width_xs: 3, col_xs: 3, width: 194}
       event_bindings: {pressed_enter: apply_filters_click}
     - type: Label
-      properties: {role: description, align: center, tooltip: '', border: '', foreground: '', visible: true, text: to, font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false, background: '', bold: false, underline: false, icon: ''}
+      properties: {role: description, bold: false, align: center, spacing_above: small, background: '', icon: '', underline: false, font: '', icon_align: left, foreground: '', spacing_below: small, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: to}
       name: label_5_copy_11
       layout_properties: {row: OSZLNL, width_xs: 2, col_xs: 7, width: 136.667}
     - type: TextBox
-      properties: {role: text_box_small, align: left, hide_text: false, tooltip: '', placeholder: '100', border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null, font: '', spacing_above: small, type: number, spacing_below: small, italic: false, background: '', bold: false, underline: false}
+      properties: {role: text_box_small, bold: false, align: left, placeholder: '100', spacing_above: small, background: '', type: number, underline: false, font: '', hide_text: false, foreground: '', spacing_below: small, visible: true, border: '', italic: false, enabled: true, font_size: null, tooltip: '', text: ''}
       name: avg_valence_max
       layout_properties: {row: OSZLNL, width_xs: 3, col_xs: 9, width: 194}
       event_bindings: {pressed_enter: apply_filters_click}
@@ -408,20 +408,20 @@ components:
       grid_position: RBBWWB,UQHNES
     components:
     - type: Label
-      properties: {role: feature, align: left, tooltip: The overall average estimated tempo of all track of an artist in beats per minute (BPM)., border: '', foreground: '', visible: true, text: '   Avg. Tempo [bpm]', font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false, background: '', bold: false, underline: false, icon: ''}
+      properties: {role: feature, bold: false, align: left, spacing_above: small, background: '', icon: '', underline: false, font: '', icon_align: left, foreground: '', spacing_below: small, visible: true, border: '', italic: false, font_size: null, tooltip: The overall average estimated tempo of all track of an artist in beats per minute (BPM)., text: '   Avg. Tempo [bpm]'}
       name: label_4_copy_12
       layout_properties: {row: OSZLNL, width_xs: 4, col_xs: 0, width: 303.333}
     - type: TextBox
-      properties: {role: text_box_small, align: left, hide_text: false, tooltip: '', placeholder: '70', border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null, font: '', spacing_above: small, type: number, spacing_below: small, italic: false, background: '', bold: false, underline: false}
+      properties: {role: text_box_small, bold: false, align: left, placeholder: '70', spacing_above: small, background: '', type: number, underline: false, font: '', hide_text: false, foreground: '', spacing_below: small, visible: true, border: '', italic: false, enabled: true, font_size: null, tooltip: '', text: ''}
       name: avg_tempo_min
       layout_properties: {row: OSZLNL, width_xs: 3, col_xs: 3, width: 194}
       event_bindings: {pressed_enter: apply_filters_click}
     - type: Label
-      properties: {role: description, align: center, tooltip: '', border: '', foreground: '', visible: true, text: to, font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false, background: '', bold: false, underline: false, icon: ''}
+      properties: {role: description, bold: false, align: center, spacing_above: small, background: '', icon: '', underline: false, font: '', icon_align: left, foreground: '', spacing_below: small, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: to}
       name: label_5_copy_12
       layout_properties: {row: OSZLNL, width_xs: 2, col_xs: 7, width: 136.667}
     - type: TextBox
-      properties: {role: text_box_small, align: left, hide_text: false, tooltip: '', placeholder: '200', border: '', enabled: true, foreground: '', visible: true, text: '', font_size: null, font: '', spacing_above: small, type: number, spacing_below: small, italic: false, background: '', bold: false, underline: false}
+      properties: {role: text_box_small, bold: false, align: left, placeholder: '200', spacing_above: small, background: '', type: number, underline: false, font: '', hide_text: false, foreground: '', spacing_below: small, visible: true, border: '', italic: false, enabled: true, font_size: null, tooltip: '', text: ''}
       name: avg_tempo_max
       layout_properties: {row: OSZLNL, width_xs: 3, col_xs: 9, width: 194}
       event_bindings: {pressed_enter: apply_filters_click}
@@ -432,7 +432,7 @@ components:
       col_widths: {}
       grid_position: AVFQPM,HKOMLQ
   - type: Label
-    properties: {role: sub_title, align: left, tooltip: '', border: '', foreground: '', visible: true, text: 3. Genres, font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false, background: '', bold: false, underline: false, icon: ''}
+    properties: {role: sub_title, bold: false, align: left, spacing_above: small, background: '', icon: '', underline: false, font: '', icon_align: left, foreground: '', spacing_below: small, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: 3. Genres}
     name: label_3_copy_3
     layout_properties:
       col_widths: {}
@@ -496,7 +496,7 @@ components:
       col_widths: {}
       grid_position: WSALTY,PFOKNH
   - type: Label
-    properties: {role: sub_title, align: left, tooltip: '', border: '', foreground: '', visible: true, text: 4. Origin, font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false, background: '', bold: false, underline: false, icon: ''}
+    properties: {role: sub_title, bold: false, align: left, spacing_above: small, background: '', icon: '', underline: false, font: '', icon_align: left, foreground: '', spacing_below: small, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: 4. Origin}
     name: label_3_copy_4
     layout_properties:
       col_widths: {}
@@ -556,7 +556,7 @@ components:
       col_widths: {}
       grid_position: QAELFO,BJVKDI
   - type: Button
-    properties: {role: feature, align: right, tooltip: '', border: '', enabled: true, foreground: '', visible: true, text: '  Apply  ', font_size: null, font: '', spacing_above: small, icon_align: left, spacing_below: small, italic: false, background: '', bold: false, underline: false, icon: ''}
+    properties: {role: feature, bold: false, align: right, spacing_above: small, background: '', icon: '', underline: false, font: '', icon_align: left, foreground: '', spacing_below: small, visible: true, border: '', italic: false, enabled: true, font_size: null, tooltip: '', text: '  Apply  '}
     name: apply_filters
     layout_properties: {grid_position: 'CDZEXB,WCVGGF'}
     event_bindings: {click: apply_filters_click}

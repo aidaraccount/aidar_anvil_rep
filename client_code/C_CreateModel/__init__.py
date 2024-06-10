@@ -17,9 +17,7 @@ class C_CreateModel(C_CreateModelTemplate):
 
     # Any code you write here will run before the form opens.
     global user
-    global cur_model_id
     user = anvil.users.get_user()
-    cur_model_id = anvil.server.call('get_model_id',  user["user_id"])
 
     self.text_box_access_token.text = f"{''.join(random.choice((string.ascii_letters + string.digits)) for _ in range(3))}-{''.join(random.choice((string.ascii_letters + string.digits)) for _ in range(3))}-{''.join(random.choice((string.ascii_letters + string.digits)) for _ in range(3))}"
   
@@ -31,24 +29,13 @@ class C_CreateModel(C_CreateModelTemplate):
                                self.text_box_access_token.text)
     if (status == 'Congratulations, your Model was successfully created!'):
       # refresh model_id
-      cur_model_id = anvil.server.call('get_model_id',  user["user_id"])
+      model_id = anvil.server.call('get_model_id',  user["user_id"])
       
       # continue to add ref artists
       alert(title='Congratulations..',
-            content="your Model was successfully created!\n\nNow, let's set your model up by adding some artists as reference.")
+        content="your Model was successfully created!\n\nNow, let's set your model up by adding some artists as reference.")
       
-      open_form('Main_In', temp_artist_id = None, target = 'C_AddRefArtists', value=None)
-      
-      #self.content_panel.clear()
-      #self.content_panel.add_component(C_AddRefArtists())
-      #self.parent.parent.parent.parent.link_models.visible = False
-      #self.parent.parent.parent.parent.link_investigate.visible = True
-      #self.parent.parent.parent.parent.link_filter.visible = True
-      #self.parent.parent.parent.parent.link_watchlist.visible = True
-      #self.parent.parent.parent.parent.link_rating.visible = True
-      #self.parent.parent.parent.parent.link_search.visible = True
-      #self.parent.parent.parent.parent.link_ref_artists.visible = True
-      #self.parent.parent.parent.parent.link_ref_artists.background = "theme:Accent 2"
+      open_form('Main_In', model_id=model_id, temp_artist_id = None, target = 'C_AddRefArtists', value=None)
       
     else:
       alert(title='Error..', content=status)
