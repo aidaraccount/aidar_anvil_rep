@@ -251,30 +251,20 @@ components:
         layout_properties: {grid_position: 'STZFGT,BWOAOF'}
       - name: data_grid_releases
         properties:
-          role: table_header
-          spacing_above: small
           columns:
-          - {id: MTPPTZ, title: Release, data_key: AlbumReleaseDate, $$hashKey: 'object:25402'}
-          - {id: FQWUAR, title: Album, data_key: AlbumName, $$hashKey: 'object:25403'}
-          - {id: KVHNUC, title: Track, data_key: Title, $$hashKey: 'object:25404'}
-          - {id: WEENSX, title: Label, data_key: LabelName, $$hashKey: 'object:25433'}
-          background: ''
+          - {id: JKSDUP, title: Release, data_key: AlbumReleaseDate}
+          - {id: VJQQOR, title: Album, data_key: AlbumName}
+          - {id: OJLQEN, title: Track, data_key: Title}
+          - {id: VHSNJZ, data_key: LabelName, title: Label}
+          role: table_header
           rows_per_page: 5
-          wrap_on: never
-          foreground: ''
-          show_page_controls: true
-          auto_header: true
-          spacing_below: small
-          visible: true
-          border: ''
-          tooltip: ''
         type: DataGrid
-        layout_properties: {grid_position: 'TCSDGY,BNBEAY'}
         components:
         - name: data_grid_releases_data
-          properties: {role: table_content_small, spacing_above: none, background: '', item_template: C_Investigate.RowTemplate1, foreground: '', items: null, spacing_below: none, visible: true, border: '', tooltip: ''}
+          properties: {item_template: C_Discover.RowTemplate1, role: table_content_small}
           type: RepeatingPanel
           layout_properties: {}
+        layout_properties: {grid_position: 'UHLFFT,AZCCED'}
     - name: column_panel_3_copy
       properties: {role: grid}
       type: ColumnPanel
@@ -286,30 +276,18 @@ components:
         layout_properties: {grid_position: 'VQTYJE,ZDJDFY'}
       - name: data_grid_related_artists
         properties:
-          role: table_header
-          spacing_above: small
           columns:
-          - {id: HOFKSB, title: Artist, data_key: ArtistPictureURL, $$hashKey: 'object:8222', width: '80'}
-          - {id: CFDIKF, title: '', data_key: Name, $$hashKey: 'object:8223'}
-          - {id: AMYABL, title: Rating, data_key: Interest, $$hashKey: 'object:8224'}
-          - {id: BITJLD, title: Date of Rating, data_key: DateOfRecommendation, $$hashKey: 'object:9460'}
-          background: ''
-          rows_per_page: 5
-          wrap_on: never
-          foreground: ''
-          show_page_controls: true
-          auto_header: true
-          spacing_below: small
-          visible: true
-          border: ''
-          tooltip: ''
+          - {id: JKSDUP, title: Artist, data_key: column_1}
+          - {id: VJQQOR, title: Rating, data_key: Interest}
+          - {id: OJLQEN, title: Date of Rating, data_key: DateOfRecommendation}
+          role: table_header
         type: DataGrid
-        layout_properties: {grid_position: 'STZFGT,XXLXKU'}
         components:
         - name: data_grid_related_artists_data
-          properties: {role: table_content_small, spacing_above: none, background: '', item_template: C_Investigate.RelArtistRowTemplate, foreground: '', items: null, spacing_below: none, visible: true, border: '', tooltip: ''}
+          properties: {item_template: C_Discover.RowTemplate2, role: table_content_small}
           type: RepeatingPanel
           layout_properties: {}
+        layout_properties: {grid_position: 'OMOXTQ,FUFKIQ'}
   - name: sec_success
     properties: {spacing_above: medium}
     type: ColumnPanel
