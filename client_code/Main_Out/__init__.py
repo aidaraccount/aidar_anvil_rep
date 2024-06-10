@@ -88,7 +88,7 @@ class Main_Out(Main_OutTemplate):
       open_form(
         "Main_In", temp_artist_id=None, target=None, user_id=user["user_id"], value=None
       )
-
+#
   def linkedin_click(self, **event_args):
     self.linkedin_link.url = "https://www.linkedin.com/company/aidar-insights/"
 
