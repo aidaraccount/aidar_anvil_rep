@@ -37,11 +37,10 @@ header>.nav-links>span {
 
 
 /* ---- OWN ADJUSTMENTS ----------------------- */
-#bg-background {
-  background-image:
-    radial-gradient(circle farthest-corner at 300px -350px, rgb(77, 14, 119) 1%, transparent 40%),
-    radial-gradient(circle farthest-corner at 1500px -300px, rgb(170, 50, 7) 1%, transparent 40%),
-    radial-gradient(ellipse farthest-corner at 800px 1000px, rgb(170, 50, 7) 0%, rgb(255, 255, 255) 30%);
+/* Apply gradient background to the whole page */
+body, html {
+  height: 100%;
+  margin: 0;
 }
 
 #loadingSpinner {
@@ -72,6 +71,12 @@ header>.nav-links>span {
   background-image: url('_/theme/pics/Fans2.jpg');
   background-position: center center;
   background-size: cover;
+}
+
+/* Custom role for gradient background */
+.anvil-role-gradient_background {
+  background: linear-gradient(to bottom, purple, black);
+  height: 100%;
 }
 
 /* Navigation Roles */

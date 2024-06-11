@@ -1,6 +1,6 @@
 container:
   type: HtmlTemplate
-  properties: {html: '@theme:dashboard.html'}
+  properties: {html: ''}
 components:
 - name: column_panel_1
   properties: {}
