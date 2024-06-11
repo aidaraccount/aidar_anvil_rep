@@ -58,6 +58,8 @@ roles:
   components: [Link]
 - name: little_note
   components: [Link]
+- name: gradient_background
+  components: [Link]
 color_scheme:
   preset_groups:
   - name: Accent

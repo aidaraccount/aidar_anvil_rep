@@ -75,7 +75,7 @@ body, html {
 
 /* Custom role for gradient background */
 .anvil-role-gradient_background {
-  background: linear-gradient(to bottom, purple, black);
+  background: linear-gradient(to bottom, rgb(30, 6, 74), black);
   height: 100%;
 }
 
@@ -136,7 +136,7 @@ body, html {
 .anvil-role-title {
   font-size: 26px;
   font-weight: bold;
-  color: %color:Orange%;
+  color: %color:Orange%;  
 }
 .anvil-role-sub_title {
   font-size: 22px;
