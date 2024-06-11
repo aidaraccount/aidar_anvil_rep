@@ -13,10 +13,8 @@ import anvil.server
 @anvil.server.callable
 def server_transfer_user_id():
   user = anvil.users.get_user()
-  if (user["user_id"] == None):
-    print(f'CheckUserPresence (from DB): -> new_user_id')
+  if user["user_id"] is None:
     new_user_id = anvil.server.call('check_user_presence', user["email"])
-    print(f'NewUserID = {new_user_id}')
-    if (new_user_id != None):
+    if new_user_id is not None:
       user_row = app_tables.users.get(email = user["email"])
       user_row['user_id'] = new_user_id

@@ -74,5 +74,3 @@ class C_Home(C_HomeTemplate):
 
   def text_search_pressed_enter(self, **event_args):
     open_form('Main_In', self.model_id, temp_artist_id = None, target = 'C_SearchArtist', value=self.text_search.text)
-
-    
