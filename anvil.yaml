@@ -9,7 +9,7 @@ services:
     email_content:
       confirm_address: {html: '<h2>Welcome to AIDAR,</h2><p>your AI driven A&amp;R platform.</p><p><br></p><p>Please click the following link to confirm that this is your account: {{confirm_link}}</p><p><br></p><p>If we can help you with anything, please reach out to us: info@aidar.ai</p><p><br></p><p>Thanks,</p><p>Your AIDAR team</p>'}
     email_from_address: info@aidar.ai
-startup: {type: form, module: C_RelatedArtistSearch}
+startup: {type: form, module: C_RelatedArtistSearch_html_new}
 package_name: AIDAR
 allow_embedding: false
 name: AIDAR
