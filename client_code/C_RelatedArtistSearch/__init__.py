@@ -8,7 +8,7 @@ from anvil.tables import app_tables
 import json
 
 class C_RelatedArtistSearch(C_RelatedArtistSearchTemplate):
-  def __init__(self, model_id, **properties):
+  def __init__(self, model_id=2, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
 

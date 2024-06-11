@@ -1,6 +1,7 @@
 container:
   type: ColumnPanel
-  properties: {col_widths: '{}'}
+  properties: {col_widths: '{}', visible: true, wrap_on: mobile}
+  data_bindings: []
 components:
 - name: content_panel
   properties: {col_widths: '{"IVSSKK":20,"NMDQYT":10,"HMZCHD":30}'}
