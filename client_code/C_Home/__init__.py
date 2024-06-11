@@ -22,21 +22,19 @@ class C_Home(C_HomeTemplate):
     
     print(f"{datetime.datetime.now()}: C_Home - __init__ - 2", flush=True)
     # FUNNEL DATA
-    # data = json.loads(anvil.server.call('get_watchlist_selection', model_id))
-    print(f"{datetime.datetime.now()}: C_Home - __init__ - 2a", flush=True)
-    
+    # funnel = json.loads(anvil.server.call('get_watchlist_selection', model_id))
     data = anvil.server.call('app_home', model_id)
-    print(f"{datetime.datetime.now()}: C_Home - __init__ - 2aa", flush=True)
+    print(f"{datetime.datetime.now()}: C_Home - __init__ - 2a", flush=True)    
     
     if len(data) == 0:
       self.xy_panel_funnel.visible = False
       self.xy_panel_funnel_empty.visible = True
     else:
-      self.repeating_panel_2.items = data['funnel1']  #[item for item in data if item['Status'] in ['Action required', 'Requires revision', 'Waiting for decision']] #EVALUATION
+      self.repeating_panel_2.items = data['funnel1']  #[item for item in funnel if item['Status'] in ['Action required', 'Requires revision', 'Waiting for decision']] #EVALUATION
       print(f"{datetime.datetime.now()}: C_Home - __init__ - 2b", flush=True)
-      self.repeating_panel_3.items = data['funnel2']  #[item for item in data if item['Status'] in ['Build connection', 'Awaiting response', 'Exploring opportunities', 'Positive response']] #CONTACTING
+      self.repeating_panel_3.items = data['funnel2']  #[item for item in funnel if item['Status'] in ['Build connection', 'Awaiting response', 'Exploring opportunities', 'Positive response']] #CONTACTING
       print(f"{datetime.datetime.now()}: C_Home - __init__ - 2c", flush=True)
-      self.repeating_panel_4.items = data['funnel3']  #[item for item in data if item['Status'] in ['In negotiations', 'Contract in progress']] #NEGOTIATION
+      self.repeating_panel_4.items = data['funnel3']  #[item for item in funnel if item['Status'] in ['In negotiations', 'Contract in progress']] #NEGOTIATION
     print(f"{datetime.datetime.now()}: C_Home - __init__ - 3", flush=True)
 
     # STATS

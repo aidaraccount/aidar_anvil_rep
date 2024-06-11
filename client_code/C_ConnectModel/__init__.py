@@ -23,6 +23,6 @@ class C_ConnectModel(C_ConnectModelTemplate):
       alert(title='Model Connected!',
             content='You connected successfully to the model and are ready to go.\n\nEnjoy it!')
       self.content_panel.clear()
-      self.content_panel.add_component(C_Discover())
+      self.content_panel.add_component(C_Discover(model_id=None, temp_artist_id=None))
     else:
       alert(title='Error..', content=status)

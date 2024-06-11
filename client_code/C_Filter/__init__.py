@@ -167,7 +167,7 @@ class C_Filter(C_FilterTemplate):
                       filters_json
                      )
     self.content_panel.clear()
-    self.content_panel.add_component(C_Discover(temp_artist_id=None))
+    self.content_panel.add_component(C_Discover(model_id=self.model_id, temp_artist_id=None))
 
   def clear_filters_button_click(self, **event_args):
     
@@ -176,7 +176,7 @@ class C_Filter(C_FilterTemplate):
                       filters_json = None
                      )
     self.content_panel.clear()
-    self.content_panel.add_component(C_Discover(temp_artist_id=None))
+    self.content_panel.add_component(C_Discover(model_id=self.model_id, temp_artist_id=None))
 
   def button_add_genre_click(self, **event_args):
     new_entry = {"ModelID":self.model_id, "Type":"genre", 'Column':self.drop_down_add_genre.selected_value, "Operator":"is", 'Value':self.drop_down_add_value.selected_value}
