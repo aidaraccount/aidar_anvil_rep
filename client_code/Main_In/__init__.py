@@ -32,6 +32,8 @@ class Main_In(Main_InTemplate):
     self.init_components(**properties)
     
     # Any code you write here will run before the form opens.    
+    begin = datetime.datetime.now()
+    
     global user
     user = anvil.users.get_user()
     global status
@@ -99,6 +101,7 @@ class Main_In(Main_InTemplate):
         self.link_discover_name_click(search=value)
         
     print(f"{datetime.datetime.now()}: Main_In - link_login_click - 5", flush=True)
+    print(f"TotalTime Main_In: {datetime.datetime.now() - begin}", flush=True)
 
   
   def logo_click(self, **event_args):

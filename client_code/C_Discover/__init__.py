@@ -20,6 +20,8 @@ class C_Discover(C_DiscoverTemplate):
     self.init_components(**properties)
 
     # Any code you write here will run before the form opens.
+    begin = datetime.now()
+    
     global user
     user = anvil.users.get_user()
     self.model_id=model_id
@@ -27,6 +29,8 @@ class C_Discover(C_DiscoverTemplate):
     print(f"{datetime.now()}: C_Discover - __init__ - 2", flush=True)
     self.refresh_sug(temp_artist_id)
     print(f"{datetime.now()}: C_Discover - __init__ - 3", flush=True)
+    
+    print(f"TotalTime C_Discover: {datetime.now() - begin}", flush=True)
   
   # --------------------------------------------
   # SUGGESTIONS
