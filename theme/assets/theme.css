@@ -37,6 +37,13 @@ header>.nav-links>span {
 
 
 /* ---- OWN ADJUSTMENTS ----------------------- */
+#bg-background {
+  background-image:
+    radial-gradient(circle farthest-corner at 300px -350px, rgb(77, 14, 119) 1%, transparent 40%),
+    radial-gradient(circle farthest-corner at 1500px -300px, rgb(170, 50, 7) 1%, transparent 40%),
+    radial-gradient(ellipse farthest-corner at 800px 1000px, rgb(170, 50, 7) 0%, rgb(255, 255, 255) 30%);
+}
+
 #loadingSpinner {
     border-radius: 0;
     border-radius: 0;
