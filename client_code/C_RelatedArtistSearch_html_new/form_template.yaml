@@ -1,11 +1,6 @@
 container:
   type: HtmlTemplate
-  properties:
-    html: |-
-      <center style="font-style:italic; color:#888; margin: 3em;">
-        (Insert your custom HTML here)
-      </center>
-      <div anvil-slot="default"></div>
+  properties: {html: '@theme:dashboard.html'}
 components:
 - name: column_panel_1
   properties: {}
@@ -79,7 +74,7 @@ components:
           type: Label
           layout_properties: {x: 542.0000305175781, y: 0, width: 200}
       - name: data_grid_artists_data
-        properties: {role: table_content, spacing_above: none, background: '', item_template: C_RelatedArtistSearch.SearchRowsRelated, foreground: '', items: null, spacing_below: none, visible: true, border: '', tooltip: ''}
+        properties: {role: table_content, spacing_above: none, background: '', item_template: C_RelatedArtistSearch_html_new.SearchRowsRelated_html_new, foreground: '', items: null, spacing_below: none, visible: true, border: '', tooltip: ''}
         type: RepeatingPanel
         layout_properties: {}
 is_package: true
