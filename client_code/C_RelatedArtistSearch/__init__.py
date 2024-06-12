@@ -14,6 +14,25 @@ class C_RelatedArtistSearch(C_RelatedArtistSearchTemplate):
 
     # Any code you write here will run before the form opens.
     self.model_id=model_id  
+    self.artist_id = artist_id
+    self.name = name
+    
+    global user
+    user = anvil.users.get_user()
+
+    # Set up the initial UI state
+    if self.name:
+      self.label_name.text = self.name
+
+    # Load related artists data if artist_id is provided
+    if self.artist_id:
+      self.load_related_artists()
+
+  def load_related_artists(self):
+    if self.artist_id:
+      self.data_grid_related_artists_data.items = json.loads(
+        anvil.server.call('search_related_artists', user["user_id"], self.model_id, self.artist_id)
+      )
 
   def text_box_search_pressed_enter(self, **event_args):
     search_text = self.text_box_search.text
