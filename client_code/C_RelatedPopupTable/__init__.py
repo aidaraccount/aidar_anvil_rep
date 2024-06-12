@@ -15,3 +15,6 @@ class C_RelatedPopupTable(C_RelatedPopupTableTemplate):
 
     # Any code you write here will run before the form opens.
     self.data_grid_artists_data.items = json.loads(anvil.server.call('search_artist', model_id, search_text.strip()))
+
+  def close_alert(self, **event_args):
+    self.raise_event("x-close-alert")

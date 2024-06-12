@@ -1,5 +1,6 @@
 from ._anvil_designer import C_RelatedArtistSearchTemplate
 from ..C_RelatedPopupTable import C_RelatedPopupTable
+
 from anvil import *
 import anvil.server
 import anvil.users
@@ -40,7 +41,8 @@ class C_RelatedArtistSearch(C_RelatedArtistSearchTemplate):
     search_text = self.text_box_search.text
     popup_table = alert(
       content=C_RelatedPopupTable(self.model_id, search_text),
-      large=True
+      large=True,
+      buttons=[]
     )
 
   def load_related_artists(self):

@@ -23,6 +23,8 @@ class SearchRowsRelated_html_new(SearchRowsRelated_html_newTemplate):
 
   # BUTTONS
   def button_related_click(self, **event_args):
+    self.parent.parent.parent.close_alert()
+    
     open_form(
       "Main_In",
       model_id=model_id,
@@ -32,6 +34,7 @@ class SearchRowsRelated_html_new(SearchRowsRelated_html_newTemplate):
     )
 
   def button_inspect_click(self, **event_args):
+    self.parent.parent.parent.close_alert()
     open_form(
       "Main_In",
       model_id=model_id,
