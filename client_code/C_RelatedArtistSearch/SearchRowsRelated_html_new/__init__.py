@@ -27,7 +27,7 @@ class SearchRowsRelated_html_new(SearchRowsRelated_html_newTemplate):
       "Main_In",
       model_id=model_id,
       temp_artist_id=self.item["ArtistID"],
-      target="C_RelatedArtistData",
+      target="C_RelatedArtistSearch",
       value=self.item["Name"],
     )
 

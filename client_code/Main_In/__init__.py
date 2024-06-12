@@ -92,7 +92,7 @@ class Main_In(Main_InTemplate):
         self.reset_nav_backgrounds()
         self.link_manage_watchlist.background = "theme:Accent 2"
   
-      if target == 'C_RelatedArtistData':
+      if target == 'C_RelatedArtistSearch':
         self.route_discover_rel_data(model_id=self.model_id, artist_id=temp_artist_id, name=value)
   
       if target == 'C_SearchArtist':
@@ -189,7 +189,7 @@ class Main_In(Main_InTemplate):
 
   def route_discover_rel_data(self, artist_id, name, **event_args):
     self.content_panel.clear()
-    self.content_panel.add_component(C_RelatedArtistData(model_id=self.model_id, artist_id=artist_id, name=name))
+    self.content_panel.add_component(C_RelatedArtistSearch(model_id=self.model_id, artist_id=artist_id, name=name))
     self.reset_nav_backgrounds()
     self.link_discover_rel.background = "theme:Accent 2"    
     
