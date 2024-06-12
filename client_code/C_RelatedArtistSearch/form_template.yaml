@@ -25,10 +25,6 @@ components:
       type: TextBox
       layout_properties: {grid_position: 'NTXNLV,XRTOAB'}
       event_bindings: {pressed_enter: text_box_search_pressed_enter}
-    - name: spacer_1
-      properties: {height: 32}
-      type: Spacer
-      layout_properties: {grid_position: 'TKOJBA,EXQSTD'}
     - name: data_grid_artists_header
       properties:
         role: null
@@ -79,6 +75,10 @@ components:
       properties: {text: Rate Artist}
       type: Button
       layout_properties: {grid_position: 'DMIAHG,SHCFLV'}
+    - name: spacer_1
+      properties: {height: 32}
+      type: Spacer
+      layout_properties: {grid_position: 'CTVQDH,WWINVM'}
     - name: xy_panel_1_copy
       properties: {height: 27, role: bottom_line}
       type: XYPanel
