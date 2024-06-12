@@ -43,7 +43,7 @@ class Main_In(Main_InTemplate):
     else:
       if model_id is None:
         self.model_id = anvil.server.call('get_model_id',  user["user_id"])
-        anvil.server.call('update_model_usage', self.model_id)
+        # anvil.server.call('update_model_usage', self.model_id)
       else:
         self.model_id = model_id
     

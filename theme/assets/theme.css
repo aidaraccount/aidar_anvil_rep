@@ -73,12 +73,6 @@ body, html {
   background-size: cover;
 }
 
-/* Custom role for gradient background */
-.anvil-role-gradient_background {
-  background: linear-gradient(to bottom, rgb(30, 6, 74), black);
-  height: 100%;
-}
-
 /* Navigation Roles */
 .anvil-role-nav_main {
   font-size: 14px;
@@ -235,10 +229,11 @@ div.row {
 
 .body {
   background-color: %color:Main_Black%;
-  background-image:
+      background: linear-gradient(to bottom, rgb(30, 6, 74), black);
+  /* background-image:
     radial-gradient(circle farthest-corner at 100px 100px, rgb(60, 10, 93) 0%, transparent 15%),
     radial-gradient(circle farthest-corner at 1500px 500px, rgb(118, 42, 15) 0%, transparent 25%),
-    radial-gradient(circle farthest-corner at bottom left, rgb(118, 42, 15) 0%, rgb(1, 1, 1) 25%);
+    radial-gradient(circle farthest-corner at bottom left, rgb(118, 42, 15) 0%, rgb(1, 1, 1) 25%); */
 }
 
 a, a:visited {
