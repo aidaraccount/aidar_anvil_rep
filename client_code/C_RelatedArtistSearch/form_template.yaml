@@ -1,78 +1,86 @@
 container:
-  type: ColumnPanel
-  properties: {col_widths: '{}', visible: true, wrap_on: mobile}
-  data_bindings: []
+  type: HtmlTemplate
+  properties: {html: '', role: gradient_background}
 components:
-- name: content_panel
-  properties: {col_widths: '{"IVSSKK":20,"NMDQYT":10,"HMZCHD":30}'}
+- name: column_panel_1
+  properties: {}
   type: ColumnPanel
-  layout_properties: {grid_position: 'OGUJUG,XKZFKP'}
+  layout_properties: {slot: default}
   components:
-  - type: Label
-    properties: {role: title, bold: false, align: left, spacing_above: small, background: '', icon: '', underline: false, font: '', icon_align: left, foreground: '', spacing_below: small, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: 'Related Artist '}
-    name: label_1
-    layout_properties: {grid_position: 'IBFMQD,LALLJB'}
-  - type: Label
-    properties: {role: description, bold: false, align: left, spacing_above: small, background: '', icon: '', underline: false, font: '', icon_align: left, foreground: '', spacing_below: small, visible: true, border: '', italic: true, font_size: null, tooltip: '', text: Enter a name of an artist and find related artists with a similar career and kind of music}
-    name: label_2
-    layout_properties: {grid_position: 'ILLVDG,XXTNAC'}
-  - type: TextBox
-    properties: {role: text_box_small, bold: false, align: left, placeholder: Enter an artists name.., spacing_above: small, background: '', type: text, underline: false, font: '', hide_text: false, foreground: '', spacing_below: small, visible: true, border: '', italic: false, enabled: true, font_size: null, tooltip: '', text: ''}
-    name: text_box_search
-    layout_properties: {grid_position: 'GQRHIH,IVSSKK'}
-    event_bindings: {pressed_enter: text_box_search_pressed_enter}
-  - name: button_1
-    properties: {text: Search Artist, role: feature}
-    type: Button
-    layout_properties: {grid_position: 'GQRHIH,NMDQYT'}
-    event_bindings: {click: text_box_search_pressed_enter}
-  - name: spacer_1
-    properties: {height: 32}
-    type: Spacer
-    layout_properties: {grid_position: 'GQRHIH,HMZCHD'}
-  - type: DataGrid
-    properties:
-      role: null
-      spacing_above: small
-      columns:
-      - {id: CGJCWL, title: Artist, data_key: ArtistPictureURL, $$hashKey: 'object:34645', width: 70, expand: false}
-      - {id: OHHGOJ, title: '', data_key: Name, $$hashKey: 'object:27702'}
-      - {id: TTVDHC, title: Popularity, data_key: ArtistPopularity_lat, $$hashKey: 'object:27703'}
-      - {id: ITWSTJ, title: Follower, data_key: ArtistFollower_lat, $$hashKey: 'object:27704'}
-      - {id: YTCRRC, title: '', data_key: Investigate, $$hashKey: 'object:27824'}
-      background: ''
-      rows_per_page: 7
-      wrap_on: never
-      foreground: ''
-      show_page_controls: true
-      auto_header: false
-      spacing_below: small
-      visible: true
-      border: ''
-      tooltip: ''
-    name: data_grid_artists_header
-    layout_properties: {grid_position: 'MMUCMX,WXVDLN'}
+  - name: content_panel
+    properties: {col_widths: '{"HMZCHD":30}'}
+    type: ColumnPanel
+    layout_properties: {grid_position: 'IBYERP,NIODGL'}
     components:
-    - name: xy_panel_1
-      properties: {height: 27, role: bottom_line}
-      type: XYPanel
+    - name: label_1
+      properties: {role: title, bold: false, align: center, spacing_above: small, background: '', icon: '', underline: false, font: '', icon_align: left, foreground: '', spacing_below: small, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: Related Artist to @Artist_Name}
+      type: Label
+      layout_properties: {grid_position: 'IBFMQD,LALLJB'}
+    - name: label_2
+      properties: {role: description, bold: false, align: center, spacing_above: small, background: '', icon: '', underline: false, font: '', icon_align: left, foreground: '', spacing_below: small, visible: true, border: '', italic: true, font_size: null, tooltip: '', text: Enter a name of an artist and find related artists with a similar career and kind of music}
+      type: Label
+      layout_properties: {grid_position: 'ILLVDG,XXTNAC'}
+    - name: text_box_search
+      properties: {role: text_box_small, bold: false, align: center, placeholder: Enter an artists name.., spacing_above: small, background: '', type: text, underline: false, font: '', hide_text: false, foreground: '', spacing_below: small, visible: true, border: '', italic: false, enabled: true, font_size: null, tooltip: '', text: ''}
+      type: TextBox
+      layout_properties: {grid_position: 'NTXNLV,XRTOAB'}
+      event_bindings: {pressed_enter: text_box_search_pressed_enter}
+    - name: spacer_1
+      properties: {height: 32}
+      type: Spacer
+      layout_properties: {grid_position: 'TKOJBA,EXQSTD'}
+    - name: data_grid_artists_header
+      properties:
+        role: null
+        spacing_above: large
+        columns:
+        - {id: CGJCWL, title: Artist, data_key: ArtistPictureURL, $$hashKey: 'object:34645', width: 70, expand: false}
+        - {id: OHHGOJ, title: '', data_key: Name, $$hashKey: 'object:27702'}
+        - {id: TTVDHC, title: Popularity, data_key: ArtistPopularity_lat, $$hashKey: 'object:27703'}
+        - {id: ITWSTJ, title: Follower, data_key: ArtistFollower_lat, $$hashKey: 'object:27704'}
+        - {id: YTCRRC, title: '', data_key: Investigate, $$hashKey: 'object:27824'}
+        background: ''
+        rows_per_page: 6
+        wrap_on: never
+        foreground: ''
+        show_page_controls: true
+        auto_header: false
+        spacing_below: medium
+        visible: true
+        border: ''
+        tooltip: ''
+      type: DataGrid
+      layout_properties: {grid_position: 'MMUCMX,WXVDLN'}
       components:
-      - name: label_4
-        properties: {text: Artist, role: table_content}
-        type: Label
-        layout_properties: {x: 0, y: 0, width: 200}
-      - name: label_5
-        properties: {text: Popularity, role: table_content, tooltip: Latest Spotity Artist Popularity (ranges from 1 to 100), align: center}
-        type: Label
-        layout_properties: {x: 326, y: 0, width: 200}
-      - name: label_5_copy
-        properties: {text: Follower, role: table_content, tooltip: Latest number of followers on Spotity, align: center}
-        type: Label
-        layout_properties: {x: 542.0000305175781, y: 0, width: 200}
-    - type: RepeatingPanel
-      properties: {role: table_content, spacing_above: none, background: '', item_template: C_RelatedArtistSearch.SearchRowsRelated, foreground: '', items: null, spacing_below: none, visible: true, border: '', tooltip: ''}
-      name: data_grid_artists_data
-      layout_properties: {}
+      - name: xy_panel_1
+        properties: {height: 27, role: bottom_line}
+        type: XYPanel
+        components:
+        - name: Column_1
+          properties: {text: Select, role: table_content}
+          type: Label
+          layout_properties: {x: 0, y: 0, width: 54.953125}
+        - name: Column_2
+          properties: {text: Fit, role: table_content, tooltip: Latest Spotity Artist Popularity (ranges from 1 to 100), align: center}
+          type: Label
+          layout_properties: {x: 518.921875, y: 0, width: 114.015625}
+        - name: Column_3
+          properties: {text: Spotify Followers, role: table_content, tooltip: Latest number of followers on Spotity, align: center}
+          type: Label
+          layout_properties: {x: 295.515625, y: 0, width: 184.921875}
+        - name: Column_4
+          properties:
+            text: |
+              Artist
+            role: table_content
+          type: Label
+          layout_properties: {x: 146.90625, y: 0, width: 63.578125}
+      - name: data_grid_artists_data
+        properties: {role: table_content, spacing_above: none, background: '', item_template: C_RelatedArtistSearch.SearchRowsRelated_html_new, foreground: '', items: null, spacing_below: none, visible: true, border: '', tooltip: ''}
+        type: RepeatingPanel
+        layout_properties: {}
+    - name: button_1
+      properties: {text: Rate Artist}
+      type: Button
+      layout_properties: {grid_position: 'JMGXAR,GBZYIL'}
 is_package: true
-custom_component: true
-properties: []
