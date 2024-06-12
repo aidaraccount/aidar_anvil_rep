@@ -26,8 +26,6 @@ class C_RelatedArtistSearch(C_RelatedArtistSearchTemplate):
     else:
       self.header_artist_name.text = "Related Artist"
       
-
-    
     self.data_grid_artists_header.visible = False
     self.data_grid_related_artists_header.visible = False
     
@@ -36,13 +34,13 @@ class C_RelatedArtistSearch(C_RelatedArtistSearchTemplate):
       self.load_related_artists()
       self.data_grid_related_artists_header.visible = True
 
+  def text_box_search_pressed_enter(self, **event_args):
+    search_text = self.text_box_search.text
+    self.data_grid_artists_data.items = json.loads(anvil.server.call('search_artist', self.model_id, search_text.strip()))
+    self.data_grid_artists_header.visible = True
+
   def load_related_artists(self):
     if self.artist_id:
       self.data_grid_related_artists_data.items = json.loads(
         anvil.server.call('search_related_artists', user["user_id"], self.model_id, self.artist_id)
       )
-
-  def text_box_search_pressed_enter(self, **event_args):
-    search_text = self.text_box_search.text
-    self.data_grid_artists_data.items = json.loads(anvil.server.call('search_artist', self.model_id, search_text.strip()))
-    self.data_grid_artists_header.visible = True
