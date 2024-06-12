@@ -13,14 +13,7 @@ class C_RelatedArtistSearch(C_RelatedArtistSearchTemplate):
     self.init_components(**properties)
 
     # Any code you write here will run before the form opens.
-    self.model_id=model_id
-
-    # Code from C_RelatedArtistData
-    global user
-    user = anvil.users.get_user()
-    self.label_name.text = name
-    self.data_grid_artists_data.items = json.loads(anvil.server.call('search_related_artists', user["user_id"], model_id, artist_id))
-    
+    self.model_id=model_id  
 
   def text_box_search_pressed_enter(self, **event_args):
     search_text = self.text_box_search.text
