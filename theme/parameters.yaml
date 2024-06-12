@@ -58,7 +58,7 @@ roles:
   components: [Link]
 - name: little_note
   components: [Link]
-- name: gradient_background
+- name: background-gradient-alerts
   components: [Link]
 color_scheme:
   preset_groups:

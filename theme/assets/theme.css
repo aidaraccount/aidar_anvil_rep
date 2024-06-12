@@ -236,6 +236,10 @@ div.row {
     radial-gradient(circle farthest-corner at bottom left, rgb(118, 42, 15) 0%, rgb(1, 1, 1) 25%); */
 }
 
+.anvil-role-background-gradient-alerts {
+  background: linear-gradient(to bottom, rgb(30, 6, 74), black);
+}
+
 a, a:visited {
   color: %color:Orange%;
 }

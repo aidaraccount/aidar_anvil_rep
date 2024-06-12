@@ -1,11 +1,6 @@
 container:
   type: HtmlTemplate
-  properties:
-    html: |-
-      <center style="font-style:italic; color:#888; margin: 3em;">
-        (Insert your custom HTML here)
-      </center>
-      <div anvil-slot="default"></div>
+  properties: {html: '', role: background-gradient-alerts}
 components:
 - name: data_grid_artists_header
   properties:
