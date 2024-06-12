@@ -20,7 +20,7 @@ class C_RelatedArtistSearch(C_RelatedArtistSearchTemplate):
     
     global user
     user = anvil.users.get_user()
-
+    
     # Set up the initial UI state
     if self.name:
       self.header_artist_name.text = "Related Artist to " + self.name
@@ -42,10 +42,10 @@ class C_RelatedArtistSearch(C_RelatedArtistSearchTemplate):
       content=C_RelatedPopupTable(self.model_id, search_text),
       large=True
     )
-    
+
   def load_related_artists(self):
     if self.artist_id:
       self.data_grid_related_artists_data.items = json.loads(
         anvil.server.call('search_related_artists', user["user_id"], self.model_id, self.artist_id)
       )
-  self.raise_event("x-close-alert", value=load_related_artists())
+      
