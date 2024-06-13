@@ -33,7 +33,7 @@ class SearchRefRows(SearchRefRowsTemplate):
     status = anvil.server.call('add_ref_artist', user["user_id"], model_id, self.inspect_link.tag)
     if status == 'Event created':
       alert(title='Processing Reference Artist..',
-            content='We are processing your artist, which may take a short moment. You will find it at RATINGS soon.\n\nFeel free to add additional reference artists or start to INVESTIGATE - both  will improve your model accuracy.\n\nEnjoy it!')
+            content='We are processing your artist, which may take a short moment. You will find it at REF. ARTISTS soon.\n\nFeel free to add additional reference artists or start to DISCOVER - both  will improve your model accuracy.\n\nEnjoy it!')
 
       if self.parent.parent.parent.parent.label_cnt_1.background == 'theme:Accent 1':
         self.parent.parent.parent.parent.label_cnt_1.background = 'theme:Orange'

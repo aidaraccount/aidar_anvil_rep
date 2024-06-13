@@ -25,8 +25,8 @@ class C_Home(C_HomeTemplate):
     # funnel = json.loads(anvil.server.call('get_watchlist_selection', model_id))
     data = anvil.server.call('app_home', model_id)
     print(f"{datetime.datetime.now()}: C_Home - __init__ - 2a", flush=True)    
-    
-    if len(data['funnel1']) == 0 & len(data['funnel2']) == 0 & len(data['funnel3']) == 0:
+
+    if len(data['funnel1']) == 0 and len(data['funnel2']) == 0 and len(data['funnel3']) == 0:
       self.xy_panel_funnel.visible = False
       self.xy_panel_funnel_empty.visible = True
     else:
