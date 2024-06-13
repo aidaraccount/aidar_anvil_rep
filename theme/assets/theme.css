@@ -127,6 +127,12 @@ body, html {
   font-size: 26px;
   font-weight: bold;
 }
+.anvil-role-title-main-out {
+  font-family: GS-semibold;
+  font-size: 36px;
+  color: rgb(174, 174, 174);
+  /* color: %color:Orange%;   */
+}
 .anvil-role-title {
   font-family: GS-semibold;
   font-size: 36px;

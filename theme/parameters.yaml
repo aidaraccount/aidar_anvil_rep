@@ -60,6 +60,8 @@ roles:
   components: [Link]
 - name: background-gradient-alerts
   components: [Link]
+- name: title-main-out
+  components: [Link]
 color_scheme:
   preset_groups:
   - name: Accent
