@@ -4,7 +4,7 @@ container:
 components:
 - name: data_grid_artists_header
   properties:
-    role: custom-class-to-access-parent
+    role: asd
     spacing_above: none
     columns:
     - {id: CGJCWL, title: Artist, data_key: ArtistPictureURL, $$hashKey: 'object:34645', width: 70, expand: false}

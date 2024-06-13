@@ -63,6 +63,7 @@ roles:
 - name: title-main-out
   components: [Link, RichText, Label]
 - {name: custom-class-to-access-parent, components: null}
+- {name: asd}
 color_scheme:
   preset_groups:
   - name: Accent

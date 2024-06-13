@@ -147,10 +147,6 @@ body, html {
 }
 /* Titles CSS Ends Here  */
 
-.module-body:has (+ .anvil-role-custom-class-to-access-parent) {
-  padding: 0px !important;
-}
-
 .anvil-role-description {
   font-size: 14px;
   color: %color:Text_Grey% !important;
@@ -251,11 +247,24 @@ div.row {
 
 .anvil-role-background-gradient-alerts {
   background: linear-gradient(to bottom, rgb(30, 6, 74), black);
+  border-radius: 25px;
   div {
     margin: 0px;
   }
 }
 
+/* Custom CSS to remove padding from the modal-body */
+.modal-content {
+  border-radius: 55px;
+}
+.modal-body {
+  padding: 0 !important;
+  border-radius: 55px;
+}
+
+.anvil-role-asd {
+  border-radius: 55px;
+}
 
 a, a:visited {
   color: %color:Orange%;
