@@ -12,13 +12,14 @@ from ..Imprint import Imprint
 
 
 class Main_Out(Main_OutTemplate):
-  def __init__(self, **properties):
+  def __init__(self, **properties):    
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
 
     # Any code you write here will run before the form opens.
     check_log_status(self)
 
+  
   def link_login_click(self, **event_args):
     anvil.users.login_with_form(allow_cancel=True, remember_by_default=True)
     print(f"{datetime.datetime.now()}: Main_Out - link_login_click - 1", flush=True)

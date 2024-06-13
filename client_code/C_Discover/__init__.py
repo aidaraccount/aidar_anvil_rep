@@ -35,8 +35,8 @@ class C_Discover(C_DiscoverTemplate):
   # --------------------------------------------
   # SUGGESTIONS
   def refresh_sug(self, temp_artist_id, **event_args):    
-    sug = json.loads(anvil.server.call('get_suggestion', 'Inspect', self.model_id, temp_artist_id)) # Free, Explore, Inspect, Dissect
     self.spacer_bottom_margin.height = 80
+    sug = json.loads(anvil.server.call('get_suggestion', 'Inspect', self.model_id, temp_artist_id)) # Free, Explore, Inspect, Dissect
 
     if sug["Status"] == 'Empty Model!':
       alert(title='Train you Model..',
@@ -148,7 +148,7 @@ class C_Discover(C_DiscoverTemplate):
       if sug["Countries"] == 'None': self.countries.text = '-'
       else: self.countries.text = sug["Countries"]
       
-      self.c_web_player.html = '<iframe style="border-radius:12px" src="https://open.spotify.com/embed/artist/' + spotify_artist_id + '?utm_source=generator&theme=0" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>'
+      self.c_web_player.html = '<iframe style="border-radius:12px" src="https://open.spotify.com/embed/artist/' + spotify_artist_id + '?utm_source=generator&theme=0" width="100%" height="80" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>'
       
       # Musical Features
       if sug["AvgDuration"] == 'None': f1 = '-'
@@ -245,10 +245,10 @@ class C_Discover(C_DiscoverTemplate):
       if self.data_grid_releases.visible is True:
         self.data_grid_releases_data.items = json.loads(anvil.server.call('get_dev_releases', int(cur_artist_id)))
 
-    # --------------------------------------
-    # FOOTER:
-    # Spotify Web-Player
-    self.c_web_player.html = '<iframe style="border-radius:12px" src="https://open.spotify.com/embed/artist/' + sug["SpotifyArtistID"] + '?utm_source=generator&theme=0&autoplay=true" width="100%" height="80" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>'
+      # --------------------------------------
+      # FOOTER:
+      # Spotify Web-Player
+      self.c_web_player.html = '<iframe style="border-radius:12px" src="https://open.spotify.com/embed/artist/' + sug["SpotifyArtistID"] + '?utm_source=generator&theme=0&autoplay=true" width="100%" height="80" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>'
 
   
   # --------------------------------------------

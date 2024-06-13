@@ -160,7 +160,7 @@ components:
         properties: {role: text_box_small, bold: false, align: left, placeholder: 'Spotify Artist ID: e.g. 6eUKZXaKkcviH0Ku9w2n3V', spacing_above: small, background: '', type: text, underline: false, font: '', hide_text: false, foreground: '', spacing_below: small, visible: true, border: '', italic: false, enabled: true, font_size: null, tooltip: '', text: ''}
         name: text_box_spotify_artist_id
         layout_properties: {grid_position: 'XORSMU,KXUSOI'}
-        event_bindings: {pressed_enter: text_box_access_token_pressed_enter}
+        event_bindings: {pressed_enter: button_add_ref_artist_click}
       - type: Button
         properties: {role: feature, bold: false, align: center, spacing_above: small, background: '', icon: '', underline: false, font: '', icon_align: left, foreground: '', spacing_below: small, visible: true, border: '', italic: false, enabled: true, font_size: null, tooltip: '', text: Add Reference Artist}
         name: button_1

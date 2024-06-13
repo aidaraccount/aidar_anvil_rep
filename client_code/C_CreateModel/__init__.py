@@ -22,20 +22,31 @@ class C_CreateModel(C_CreateModelTemplate):
     self.text_box_access_token.text = f"{''.join(random.choice((string.ascii_letters + string.digits)) for _ in range(3))}-{''.join(random.choice((string.ascii_letters + string.digits)) for _ in range(3))}-{''.join(random.choice((string.ascii_letters + string.digits)) for _ in range(3))}"
   
   def button_create_model_click(self, **event_args):
-    status = anvil.server.call('create_model',
-                               user["user_id"],
-                               self.text_box_model_name.text,
-                               self.text_box_description.text,
-                               self.text_box_access_token.text)
-    if (status == 'Congratulations, your Model was successfully created!'):
-      # refresh model_id
-      model_id = anvil.server.call('get_model_id',  user["user_id"])
-      
-      # continue to add ref artists
-      alert(title='Congratulations..',
-        content="your Model was successfully created!\n\nNow, let's set your model up by adding some artists as reference.")
-      
-      open_form('Main_In', model_id=model_id, temp_artist_id = None, target = 'C_AddRefArtists', value=None)
-      
+    if self.text_box_access_token.text == '':
+      alert(title='Missing Access Token',
+        content="Please add an Access Token!")
+        
     else:
-      alert(title='Error..', content=status)
+      status = anvil.server.call('create_model',
+                                 user["user_id"],
+                                 self.text_box_model_name.text,
+                                 self.text_box_description.text,
+                                 self.text_box_access_token.text)
+      if (status == 'Congratulations, your Model was successfully created!'):
+        # refresh model_id
+        model_id = anvil.server.call('get_model_id',  user["user_id"])
+        
+        # continue to add ref artists
+        alert(title='Congratulations..',
+          content="your Model was successfully created!\n\nNow, let's set your model up by adding some artists as reference.")
+        
+        open_form('Main_In', model_id=model_id, temp_artist_id = None, target = 'C_AddRefArtists', value=None)
+        
+      else:
+        alert(title='Error..', content=status)
+
+  def text_box_model_name_lost_focus(self, **event_args):
+    self.text_box_description.focus()
+
+  def text_box_description_lost_focus(self, **event_args):
+    self.text_box_access_token.focus()
