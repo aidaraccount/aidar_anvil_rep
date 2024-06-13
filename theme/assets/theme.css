@@ -235,16 +235,12 @@ div.row {
   background-color: %Main_Black%;
 }
 
-
 .body {
   background-color: %color:Main_Black%;
       background: linear-gradient(to bottom, rgb(30, 6, 74), black);
-  /* background-image:
-    radial-gradient(circle farthest-corner at 100px 100px, rgb(60, 10, 93) 0%, transparent 15%),
-    radial-gradient(circle farthest-corner at 1500px 500px, rgb(118, 42, 15) 0%, transparent 25%),
-    radial-gradient(circle farthest-corner at bottom left, rgb(118, 42, 15) 0%, rgb(1, 1, 1) 25%); */
 }
 
+/* CSS to Format the Dropdown Alert in the Related Artists Page starts here */
 .anvil-role-background-gradient-alerts {
   background: linear-gradient(to bottom, rgb(30, 6, 74), black);
   border-radius: 25px;
@@ -253,18 +249,15 @@ div.row {
   }
 }
 
-/* Custom CSS to remove padding from the modal-body */
 .modal-content {
   border-radius: 55px;
 }
+/* Custom CSS to remove padding from the modal-body */
 .modal-body {
   padding: 0 !important;
-  border-radius: 55px;
 }
 
-.anvil-role-asd {
-  border-radius: 55px;
-}
+/* CSS to Format the Dropdown Alert in the Related Artists Page ends here */
 
 a, a:visited {
   color: %color:Orange%;
