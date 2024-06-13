@@ -26,7 +26,7 @@ class C_RelatedArtistSearch(C_RelatedArtistSearchTemplate):
     if self.name:
       self.header_artist_name.text = "Related Artist to " + self.name
     else:
-      self.header_artist_name.text = "Related Artist"
+      self.header_artist_name.text = "Related Artists"
       
     self.data_grid_related_artists_header.visible = False
     self.rate_artists_button.visible = False
