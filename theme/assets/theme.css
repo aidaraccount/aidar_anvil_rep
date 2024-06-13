@@ -128,8 +128,8 @@ body, html {
   font-weight: bold;
 }
 .anvil-role-title {
-  font-size: 26px;
-  font-weight: bold;
+  font-size: 36px;
+  font-weight: black ; /*100 more than "bold"*/
   color: %color:Orange%;  
 }
 .anvil-role-sub_title {
