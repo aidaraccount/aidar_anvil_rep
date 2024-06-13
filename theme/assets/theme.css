@@ -127,11 +127,11 @@ body, html {
   font-size: 26px;
   font-weight: bold;
 }
+/* Titles CSS Starts Here  */
 .anvil-role-title-main-out {
   font-family: GS-semibold;
   font-size: 36px;
-  color: rgb(174, 174, 174);
-  /* color: %color:Orange%;   */
+  color: %color:Orange%;  
 }
 .anvil-role-title {
   font-family: GS-semibold;
@@ -145,6 +145,12 @@ body, html {
   color: %color:Text_Grey%;
   padding-left: 10px;
 }
+/* Titles CSS Ends Here  */
+
+.module-body:has (+ .anvil-role-custom-class-to-access-parent) {
+  padding: 0px !important;
+}
+
 .anvil-role-description {
   font-size: 14px;
   color: %color:Text_Grey% !important;

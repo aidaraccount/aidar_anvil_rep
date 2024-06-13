@@ -89,7 +89,7 @@ components:
     type: Spacer
     layout_properties: {grid_position: 'UXGUXQ,DZKNIF'}
   - name: label_4
-    properties: {role: title, bold: false, align: center, spacing_above: small, background: '', icon: '', underline: false, font: '', icon_align: left, foreground: '', spacing_below: none, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: MVP LOGIN}
+    properties: {role: title-main-out, bold: false, align: center, spacing_above: small, background: '', icon: '', underline: false, font: '', icon_align: left, foreground: '', spacing_below: none, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: MVP LOGIN}
     type: Label
     layout_properties: {grid_position: 'UXGUXQ,SMVDYR PLUTDJ,KQONDT'}
     data_bindings: []
