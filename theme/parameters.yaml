@@ -1,6 +1,6 @@
 roles:
 - name: title
-  components: [Label]
+  components: [Label, RichText, Link]
   display_in_toolbox: false
 - name: card
   components: [ColumnPanel]

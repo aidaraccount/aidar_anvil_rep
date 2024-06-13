@@ -46,6 +46,7 @@ unique_ids:
     ServerModule1: '1673000496961952494883454.5172'
   assets:
     pics/Logo_HA2.png: '1704223954720396882498402.3113'
+    fonts/GeneralSans-Light.otf: '171827342713022131299421.33074'
     logos/self_EU-einzeln.JPG: '1710231636948591968236552.4156'
     pics/Logo_black.png: '1691410762689747557985884.99'
     pics/LoadingSpinner_circle.svg: D444XG6RG32VQKK3UGSDJVSWCX6ZXYNZ
@@ -59,9 +60,11 @@ unique_ids:
     pics/Offer3.png: '1693385596418793877955693.7314'
     single-column.html: 2FX37EIUFRBG3HTJRBERSC7SSUR6L7GT
     fonts/.gitkeep: '1693570236424766538085090.2838'
+    fonts/GeneralSans-Extralight.otf: '1718273418910814479326255.0872'
     dashboard.html: XBYPXWV7RB2PDXHHQHOQSTKZNKPAEKSD
     pics/Offer2.png: '1693385588031267710908628.65543'
     pics/LoadingSpinner_circle.gif: '169139010714577867631351.4849'
+    fonts/GeneralSans-Medium.otf: '1718273435913296672324127.62634'
     pics/Logo_RBF.jpg: '1704223699994273996177182.5077'
     pics/Favicon_orange.JPG: '1692183556918209701879285.4215'
     pics/Artist.png: '1691391171832451044225835.3108'
@@ -75,6 +78,7 @@ unique_ids:
     pics/Logo_black_small.png: '1691411046526238797508053.38852'
     icons/-2.png: '1695714153351253404361100.9733'
     pics/How.png: '1693306383604164736758047.10498'
+    fonts/GeneralSans-Bold.otf: '1718273407612836076732621.9125'
     fonts/GeneralSans-Regular.otf: '1693569476749366819093112.5993'
     fonts/Khand-Regular.otf: '1693570829021190827147185.0619'
     pics/Guitar.jpg: '1691391191814563500496521.6423'

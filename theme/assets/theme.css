@@ -128,8 +128,8 @@ body, html {
   font-weight: bold;
 }
 .anvil-role-title {
+  font-family: GS-semibold;
   font-size: 36px;
-  font-weight: normal !important;
   color: rgb(174, 174, 174);
   /* color: %color:Orange%;   */
 }
@@ -455,13 +455,31 @@ body.anvil-highlight .nav-elt.placeholder {
 }
 /* ---- OWN FONT ----------------------- */
 @font-face {
-  font-family: 'GS';
+  font-family: 'GS-bold';
+  src: url("_/theme/fonts/GeneralSans-Bold.otf") format("opentype");
+}
+@font-face {
+  font-family: 'GS-extralight';
+  src: url("_/theme/fonts/GeneralSans-Extralight.otf") format("opentype");
+}
+@font-face {
+  font-family: 'GS-light';
+  src: url("_/theme/fonts/GeneralSans-Light.otf") format("opentype");
+}
+@font-face {
+  font-family: 'GS-medium';
+  src: url("_/theme/fonts/GeneralSans-Medium.otf") format("opentype");
+}
+@font-face {
+  font-family: 'GS-regular';
   src: url("_/theme/fonts/GeneralSans-Regular.otf") format("opentype");
 }
 @font-face {
-  font-family: 'GSb';
+  font-family: 'GS-semibold';
   src: url("_/theme/fonts/GeneralSans-Semibold.otf") format("opentype");
 }
+
+
 @font-face {
   font-family: 'Khand-Regular';
   src: url("_/theme/fonts/Khand-Regular.otf") format("opentype");
