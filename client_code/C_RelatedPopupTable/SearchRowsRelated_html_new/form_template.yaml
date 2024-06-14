@@ -1,6 +1,9 @@
 container:
   type: DataRowPanel
-  properties: {role: rows}
+  properties:
+    role: [rows, anvil-data-grid td, anvil-data-grid th]
+    align: center
+    visible: true
 components:
 - type: Link
   properties: {col_widths: '{}', spacing_below: none, spacing_above: none}

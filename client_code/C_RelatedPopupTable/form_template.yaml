@@ -1,10 +1,16 @@
 container:
   type: HtmlTemplate
-  properties: {html: '', role: background-gradient-alerts, visible: true, border: 0px, background: 'theme:Orange', foreground: 'theme:Orange'}
+  properties:
+    html: ''
+    role: [background-gradient-alerts, anvil-data-grid th]
+    visible: true
+    border: 0px
+    background: theme:Orange
+    foreground: theme:Orange
 components:
 - name: data_grid_artists_header
   properties:
-    role: asd
+    role: [anvil-data-grid th, anvil-data-grid td]
     spacing_above: none
     columns:
     - {id: CGJCWL, title: Artist, data_key: ArtistPictureURL, $$hashKey: 'object:34645', width: 70, expand: false}
