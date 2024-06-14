@@ -97,11 +97,9 @@ class C_Discover(C_DiscoverTemplate):
       else:
         self.link_watchlist_name.icon = 'fa:star-o'
 
-      print(sug["BirthDate"])
       if sug["BirthDate"] == 'None': self.birthday.text = '-'
       else: self.birthday.text = sug["BirthDate"]
       
-      print(sug["Gender"])
       if sug["Gender"] == 'None': self.gender.text = '-'
       else: self.gender.text = sug["Gender"]
       
