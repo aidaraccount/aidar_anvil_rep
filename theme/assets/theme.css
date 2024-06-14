@@ -101,6 +101,14 @@ body, html {
   padding-top: 5px;
   padding-bottom: 5px;
 }
+/* CSS for formatting tables STARTS here*/
+.anvil-role-related-artist-search-dropdown-header {
+  border-bottom: 1px solid %color:Text_DecentWhite%;
+  
+}
+.anvil-role-bottom_line {
+    border-bottom: 1px solid %color:Text_DecentWhite%;
+}
 .anvil-role-table_header {
   font-size: 16px;
   font-weight: normal;
@@ -123,6 +131,7 @@ body, html {
   /*ttext-decoration-color: %color:Orange%;
   text-decoration-thickness: 2px;*/
 }
+/* CSS for formatting tables ENDS here*/
 .anvil-role-eval_button {
   font-size: 26px;
   font-weight: bold;
@@ -218,10 +227,6 @@ a>.link-text {
 }
 a.anvil-role-investigate_feature:hover, a.anvil-role-investigate_feature:active, a.anvil-role-investigate_feature:focus {
   color: %color:Text_White%;
-}
-
-.anvil-role-bottom_line {
-  border-bottom: 1px solid %color:Text_DecentWhite%;
 }
 
 div.row {
