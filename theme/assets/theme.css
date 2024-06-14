@@ -104,7 +104,6 @@ body, html {
 /* CSS for formatting tables STARTS here*/
 .anvil-role-related-artist-search-dropdown-header {
   border-bottom: 1px solid %color:Text_DecentWhite%;
-  
 }
 .anvil-role-bottom_line {
     border-bottom: 1px solid %color:Text_DecentWhite%;
@@ -127,7 +126,7 @@ body, html {
   font-size: 18px;
   font-weight: normal;
   color: %color:Orange%;
-  ext-decoration: underline !important;
+  text-decoration: underline !important;
   /*ttext-decoration-color: %color:Orange%;
   text-decoration-thickness: 2px;*/
 }
