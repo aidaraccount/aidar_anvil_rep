@@ -32,7 +32,7 @@ components:
       type: Image
       layout_properties: {grid_position: 'XISFUA,MXKFIP'}
   - name: column_panel_4
-    properties: {col_widths: '{"FKEIWL":5,"WXEPPA":55,"UXYXLB":20,"HOSDXG":60,"CZMPOC":15,"YYFIRV":39}', col_spacing: tiny}
+    properties: {col_widths: '{"FKEIWL":5,"WXEPPA":55,"UXYXLB":25,"HOSDXG":60,"CZMPOC":15,"YYFIRV":35,"BWAVGC":20,"ZWYWBO":9}', col_spacing: tiny}
     type: ColumnPanel
     layout_properties: {grid_position: 'EYOQXT,HPUOQR EWORAO,SPXKIF'}
     components:
@@ -67,8 +67,16 @@ components:
         type: Link
         event_bindings: {click: info_prediction_click}
         layout_properties: {}
+    - name: birthday
+      properties: {role: feature, font_size: 16}
+      type: Label
+      layout_properties: {grid_position: 'WRLQOW,HOSDXG OWJGOG,BWAVGC DWSLDE,ANJFUW'}
+    - name: gender
+      properties: {role: feature, font_size: 16}
+      type: Label
+      layout_properties: {grid_position: 'WRLQOW,HOSDXG OWJGOG,BWAVGC NHIEQF,KHJJCP'}
     - name: column_panel_5
-      properties: {col_spacing: tiny}
+      properties: {col_spacing: tiny, spacing_above: none, spacing_below: none}
       type: ColumnPanel
       layout_properties: {grid_position: 'WRLQOW,HOSDXG OWJGOG,YYFIRV YQHVKI,CQFODO'}
       components:
@@ -77,12 +85,12 @@ components:
         type: Label
         layout_properties: {grid_position: 'KBHJNP,ZKXMFI'}
       - name: link_3
-        properties: {text: Spotify Popularity, role: description, spacing_below: small}
+        properties: {text: Popularity, role: description, spacing_below: none, icon: 'fa:spotify', icon_align: left}
         type: Link
         layout_properties: {grid_position: 'KBHJNP,BEOKOQ'}
         event_bindings: {click: info_popularity_click}
     - name: column_panel_6
-      properties: {col_spacing: tiny}
+      properties: {col_spacing: tiny, spacing_below: none, spacing_above: none}
       type: ColumnPanel
       layout_properties: {grid_position: 'WRLQOW,HOSDXG OWJGOG,YYFIRV XASSSK,RHASJF'}
       components:
@@ -91,7 +99,7 @@ components:
         type: Label
         layout_properties: {grid_position: 'PSREYD,FBKOWX'}
       - name: link_4
-        properties: {text: Spotify Follower, role: description}
+        properties: {text: Follower, role: description, spacing_below: none, icon: 'fa:spotify'}
         type: Link
         layout_properties: {grid_position: 'PSREYD,MZHJEE'}
         event_bindings: {click: info_follower_click}
