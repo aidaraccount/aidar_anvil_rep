@@ -242,18 +242,18 @@ div.row {
 
 /* CSS to Format the Dropdown Alert in the Related Artists Page STARTS here */
 .anvil-role-background-gradient-alerts {
-  background: linear-gradient(to top left, rgb(43, 24, 72) 20%, rgb(134, 59, 59) 20%);
-  border-radius: 25px;
+  background: linear-gradient(to top left, rgb(43, 24, 72) 50%, rgb(134, 59, 59));
+  border-radius: 15px;
   div {
     margin: 0px;
   }
 }
 
 .modal-content {
-  border-radius: 55px;
+  border-radius: 15px;
 }
 
-.modal-body {
+.module-body:has(+ .anvil-role-custom-class-to-access-parent) {
   padding: 0 !important;
 }
 /* CSS to Format the Dropdown Alert in the Related Artists Page ENDS here */
