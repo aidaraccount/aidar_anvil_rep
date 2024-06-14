@@ -37,7 +37,7 @@ class C_Discover(C_DiscoverTemplate):
   def refresh_sug(self, temp_artist_id, **event_args):    
     self.spacer_bottom_margin.height = 80
     sug = json.loads(anvil.server.call('get_suggestion', 'Inspect', self.model_id, temp_artist_id)) # Free, Explore, Inspect, Dissect
-
+    
     if sug["Status"] == 'Empty Model!':
       alert(title='Train you Model..',
             content="Sorry, we cound't find any artists for your model. Make sure your model is fully set up!\n\nTherefore, go to ADD REF. ARTISTS and add some starting artists that you are interested in.")
@@ -66,13 +66,14 @@ class C_Discover(C_DiscoverTemplate):
       artist_id = int(sug["ArtistID"])
       global spotify_artist_id
       spotify_artist_id = sug["SpotifyArtistID"]
-  
+      global biography
+      biography = sug["Biography"]
+      
       self.sec_releases.visible = True
       self.sec_success.visible = False
       self.sec_fandom.visible = False
       self.sec_musical.visible = False
    
-      biography = 'biography is coming soon'
       watchlist_presence = anvil.server.call('check_watchlist_presence', self.model_id, artist_id)
 
       # Filter Button visibility
@@ -96,7 +97,13 @@ class C_Discover(C_DiscoverTemplate):
       else:
         self.link_watchlist_name.icon = 'fa:star-o'
 
-      self.bio.text = biography[0:70] + '...'
+      if biography != 'None':
+        if len(biography) >= 70:
+          self.bio.text = biography[0:70] + '...'
+        else:
+          self.bio.text = biography
+      else:
+        self.bio.visible = False
       
       if sug["ArtistPopularity_lat"] == 'None': self.artist_popularity_lat.text = '-'
       else: self.artist_popularity_lat.text = sug["ArtistPopularity_lat"]
@@ -266,15 +273,17 @@ class C_Discover(C_DiscoverTemplate):
   # --------------------------------------------
   # BIO CLICK
   def bio_click(self, **event_args):
-    biography = 'biography is coming soon'
     if self.bio.icon == 'fa:angle-down':
       self.bio.icon = 'fa:angle-up'
       self.bio.icon_align = 'left_edge'
-      self.bio.text = biography + '...'  # remove + '...'
+      self.bio.text = biography
     else:
       self.bio.icon = 'fa:angle-down'
       self.bio.icon_align = 'left'
-      self.bio.text = biography[0:70] + '...'
+      if len(biography) >= 70:
+        self.bio.text = biography[0:70] + '...'
+      else:
+        self.bio.text = biography
 
   # --------------------------------------------
   # WATCHLIST  
