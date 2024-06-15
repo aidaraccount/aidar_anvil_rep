@@ -336,27 +336,25 @@ components:
     type: ColumnPanel
     layout_properties: {grid_position: 'FOUKHU,KOVEQA'}
     components:
-    - name: column_panel_3_copy_copy_copy_2
+    - name: column_panel_3_copy_copy_copy_copy_copy_2
       properties: {role: grid}
       type: ColumnPanel
-      layout_properties: {grid_position: 'QPOZFB,UKNOLD'}
+      layout_properties: {grid_position: 'DVVTDV,AEMOBE'}
       components:
-      - name: rel_1_copy_copy_copy_2
-        properties: {text: ' Fandom Stats', role: artist_name}
+      - name: rel_1_copy_copy_copy_copy_copy_2
+        properties: {text: ' Spotify Monthly Listeners', role: artist_name}
         type: Label
-        layout_properties: {grid_position: 'VQTYJE,ZDJDFY'}
-      - name: spacer_1
-        properties: {height: 81}
-        type: Spacer
-        layout_properties: {grid_position: 'MGZONB,JLCAKA'}
-      - name: label_6
-        properties: {align: center, text: coming soon.., role: description, font_size: 18}
+        layout_properties: {grid_position: 'BCHOZO,TMNYIR'}
+      - name: plot_mtl_listeners
+        properties: {spacing_above: small, spacing_below: small, height: '300', visible: true, tooltip: '', interactive: false}
+        type: Plot
+        layout_properties: {grid_position: 'VQTYJE,RKWVRK'}
+        data_bindings: []
+        event_bindings: {}
+      - name: no_mtl_listeners
+        properties: {text: no data available, align: center, role: description, visible: false, spacing_below: large, spacing_above: large}
         type: Label
-        layout_properties: {grid_position: 'XLYQSW,SXNDSG'}
-      - name: spacer_4
-        properties: {height: 175}
-        type: Spacer
-        layout_properties: {grid_position: 'NVHOAJ,FQKUBV'}
+        layout_properties: {grid_position: 'MCTTTL,OTDAWL'}
   - name: sec_musical
     properties: {spacing_above: medium}
     type: ColumnPanel

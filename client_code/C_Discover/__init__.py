@@ -13,8 +13,7 @@ import plotly.graph_objects as go
 
 class C_Discover(C_DiscoverTemplate):
   def __init__(self, model_id, temp_artist_id, **properties):
-    print(f"{datetime.now()}: C_Discover - __init__ - 1", flush=True)
-
+    print(f"{datetime.now()}: C_Discover - __init__ - 1", flush=True)    
     
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
@@ -232,7 +231,36 @@ class C_Discover(C_DiscoverTemplate):
       
       # -------------------------------
       # III. FANDOM
-
+      # a) mtl. listeners
+      mtl_listeners = json.loads(anvil.server.call('get_mtl_listeners', int(cur_artist_id)))
+      if mtl_listeners != []:
+        self.plot_mtl_listeners.visible = True
+        self.no_mtl_listeners.visible = False
+        
+        self.plot_mtl_listeners.data = [
+          go.Scatter(
+            x = [x['Date'] for x in mtl_listeners],
+            y = [x['MtlListeners'] for x in mtl_listeners],
+            marker = dict(color = 'rgb(253, 101, 45)')
+          )
+        ]
+        self.plot_mtl_listeners.layout = {
+          'template': 'plotly_dark',
+          'title': {
+            'text' : 'Spotify mtl. Listeners over time',
+            'x': 0.5,
+            'xanchor': 'center'
+            },
+          'yaxis': {
+            'title': 'Mtl. Listeners',
+            'range': [0, 1.1*max([x['MtlListeners'] for x in mtl_listeners])]
+          },
+          'paper_bgcolor': 'rgb(40, 40, 40)',
+          'plot_bgcolor': 'rgb(40, 40, 40)'
+        }
+      else:
+        self.plot_mtl_listeners.visible = False
+        self.no_mtl_listeners.visible = True
 
       
       # -------------------------------
