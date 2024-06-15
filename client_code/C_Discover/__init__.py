@@ -264,7 +264,7 @@ class C_Discover(C_DiscoverTemplate):
         self.plot_mtl_listeners.visible = False
         self.no_mtl_listeners.visible = True
 
-      # a) mtl. listeners country
+      # b) mtl. listeners country
       mtl_listeners_ctr = json.loads(anvil.server.call('get_mtl_listeners_country', int(cur_artist_id)))
       if mtl_listeners_ctr != []:
         self.plot_mtl_listeners_country.visible = True
@@ -294,6 +294,37 @@ class C_Discover(C_DiscoverTemplate):
       else:
         self.plot_mtl_listeners_country.visible = False
         self.no_mtl_listeners_country.visible = True
+
+      # c) mtl. listeners city
+      mtl_listeners_cty = json.loads(anvil.server.call('get_mtl_listeners_city', int(cur_artist_id)))
+      if mtl_listeners_cty != []:
+        self.plot_mtl_listeners_city.visible = True
+        self.no_mtl_listeners_city.visible = False
+        
+        self.plot_mtl_listeners_city.data = [
+          go.Bar(
+            x = [x['CityWithCountryCode'] for x in mtl_listeners_cty],
+            y = [x['MtlListeners'] for x in mtl_listeners_cty],
+            marker = dict(color = 'rgb(253, 101, 45)')
+          )
+        ]
+        self.plot_mtl_listeners_city.layout = {
+          'template': 'plotly_dark',
+          'title': {
+            'text' : 'Spotify mtl. Listeners per Country',
+            'x': 0.5,
+            'xanchor': 'center'
+            },
+          'yaxis': {
+            'title': 'Mtl. Listeners',
+            'range': [0, 1.1*max([x['MtlListeners'] for x in mtl_listeners_cty])]
+          },
+          'paper_bgcolor': 'rgb(40, 40, 40)',
+          'plot_bgcolor': 'rgb(40, 40, 40)'
+        }
+      else:
+        self.plot_mtl_listeners_city.visible = False
+        self.no_mtl_listeners_city.visible = True
 
       
       # -------------------------------
