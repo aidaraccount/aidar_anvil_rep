@@ -11,7 +11,6 @@ from datetime import datetime
 import plotly.graph_objects as go
 
 
-
 class C_Discover(C_DiscoverTemplate):
   def __init__(self, model_id, temp_artist_id, **properties):
     print(f"{datetime.now()}: C_Discover - __init__ - 1", flush=True)
@@ -31,6 +30,7 @@ class C_Discover(C_DiscoverTemplate):
     print(f"{datetime.now()}: C_Discover - __init__ - 3", flush=True)
     
     print(f"TotalTime C_Discover: {datetime.now() - begin}", flush=True)
+
   
   # --------------------------------------------
   # SUGGESTIONS
@@ -82,48 +82,83 @@ class C_Discover(C_DiscoverTemplate):
         self.button_remove_filters.visible = False
       else:
         self.button_remove_filters.visible = True
-    
-      # ArtistPictureURL
+
+      
+      # -------------------------------
+      # ARTIST HEADER
+      # picture and its link
       if sug["ArtistPictureURL"] != 'None':
         self.artist_image.source = sug["ArtistPictureURL"]
       else:
         self.artist_image.source = '_/theme/pics/Favicon_orange.JPG'
       
       if sug["ArtistURL"] != 'None': self.artist_link.url = sug["ArtistURL"]
-      
-      self.name.text = sug["Name"]
+
+      # watchlist
       if watchlist_presence == 'True':
         self.link_watchlist_name.icon = 'fa:star'
       else:
         self.link_watchlist_name.icon = 'fa:star-o'
 
+      # name
+      self.name.text = sug["Name"]
+
+      # genres
+      if sug["Genres"] == 'None': self.genres.text = '-'
+      else: self.genres.text = sug["Genres"]
+
+      # origin
+      if sug["Countries"] == 'None': self.countries.text = '-'
+      else: self.countries.text = sug["Countries"]
+      
+      # birt date
       if sug["BirthDate"] == 'None': self.birthday.text = '-'
       else: self.birthday.text = sug["BirthDate"]
-      
+
+      # gender
       if sug["Gender"] == 'None': self.gender.text = '-'
       else: self.gender.text = sug["Gender"]
-      
+
+      # popularity
+      if sug["ArtistPopularity_lat"] == 'None': self.artist_popularity_lat.text = '-'
+      else: self.artist_popularity_lat.text = sug["ArtistPopularity_lat"]
+
+      # follower
+      if sug["ArtistFollower_lat"] == 'None': self.artist_follower_lat.text = '-'
+      else: self.artist_follower_lat.text = f'{int(sug["ArtistFollower_lat"]):,}'
+
+      # prediction
+      if (sug["Prediction"] == 'None'): pred = 'N/A'
+      elif (float(sug["Prediction"]) > 7): pred = 7.0
+      elif (float(sug["Prediction"]) < 0): pred = 0.0
+      else: pred = "{:.1f}".format(round(float(sug["Prediction"]),1))
+      self.prediction.text = pred
+
+      # biography
       if biography != 'None':
         if len(biography) >= 70:
           self.bio.text = biography[0:70] + '...'
         else:
           self.bio.text = biography
       else:
-        self.bio.visible = False
-      
-      if sug["ArtistPopularity_lat"] == 'None': self.artist_popularity_lat.text = '-'
-      else: self.artist_popularity_lat.text = sug["ArtistPopularity_lat"]
-      
-      if sug["ArtistFollower_lat"] == 'None': self.artist_follower_lat.text = '-'
-      else: self.artist_follower_lat.text = f'{int(sug["ArtistFollower_lat"]):,}'
+        self.bio.visible = False     
 
+      
+      # -------------------------------
+      # I. RELEASES
+      # a) stats
       if sug["NoTracks"] == 'None': self.no_tracks.text = '-'
       else: self.no_tracks.text = f'{int(sug["NoTracks"]):,}'
       
       if sug["FirstReleaseDate"] == 'None': self.first_release_date.text = '-'
       else: self.first_release_date.text = sug["FirstReleaseDate"]
+      
       if sug["LastReleaseDate"] == 'None': self.last_release_date.text = '-'
       else: self.last_release_date.text = sug["LastReleaseDate"]
+
+      if sug["LatestLabel"] == 'None': ll = 'N/A'
+      else: ll = sug["LatestLabel"]
+      self.latest_label.text = ll
         
       if sug["MajorCoop"] == '1': mc = 'yes'
       elif sug["MajorCoop"] == '0': mc = 'no'
@@ -134,11 +169,74 @@ class C_Discover(C_DiscoverTemplate):
       elif sug["SubMajorCoop"] == '0': smc = 'no'
       else: smc = '-'
       self.sub_major_coop.text = smc
-
-      if sug["LatestLabel"] == 'None': ll = 'N/A'
-      else: ll = sug["LatestLabel"]
-      self.latest_label.text = ll
       
+      # b) release tables
+      if self.data_grid_releases.visible is True:
+        self.data_grid_releases_data.items = json.loads(anvil.server.call('get_dev_releases', int(cur_artist_id)))
+
+      # c) related artists table
+      if self.data_grid_related_artists.visible is True:
+        self.data_grid_related_artists_data.items = json.loads(anvil.server.call('get_dev_related_artists', int(cur_artist_id), int(self.model_id)))
+
+      
+      # -------------------------------
+      # II. SUCCESS
+      dev_successes = json.loads(anvil.server.call('get_dev_successes', int(cur_artist_id)))
+      # a) Popularity
+      self.plot_popularity.data = [
+        go.Scatter(
+          x = [x['Date'] for x in dev_successes],
+          y = [x['ArtistPopularity'] for x in dev_successes],
+          marker = dict(color = 'rgb(253, 101, 45)')
+        )
+      ]
+      self.plot_popularity.layout = {
+        'template': 'plotly_dark',
+        'title': {
+          'text' : 'Spotify Popularity over time',
+          'x': 0.5,
+          'xanchor': 'center'
+          },
+        'yaxis': {
+          'title': 'Popularity',
+          'range': [0, min(1.1*max([x['ArtistPopularity'] for x in dev_successes]), 100)]
+        },
+        'paper_bgcolor': 'rgb(40, 40, 40)',
+        'plot_bgcolor': 'rgb(40, 40, 40)'
+      }
+      
+      # b) Followers
+      self.plot_followers.data = [
+        go.Scatter(
+          x = [x['Date'] for x in dev_successes],
+          y = [x['ArtistFollower'] for x in dev_successes],
+          marker = dict(color = 'rgb(253, 101, 45)')
+        )
+      ]
+      self.plot_followers.layout = {
+        'template': 'plotly_dark',
+        'title': {
+          'text' : 'Spotify Followers over time',
+          'x': 0.5,
+          'xanchor': 'center'
+          },
+        'yaxis': {
+          'title': 'No. Followers',
+          'range': [0, 1.1*max([x['ArtistFollower'] for x in dev_successes])]
+        },
+        'paper_bgcolor': 'rgb(40, 40, 40)',
+        'plot_bgcolor': 'rgb(40, 40, 40)'
+      }
+
+      
+      # -------------------------------
+      # III. FANDOM
+
+
+      
+      # -------------------------------
+      # IV. MUSICAL
+      # a) musical distance
       if sug["MinMusDist"] == 'None': mmd = 'N/A'
       else: mmd = "{:.2f}".format(round(float(sug["MinMusDist"]),2))
       self.min_mus_dis.text = mmd
@@ -149,21 +247,7 @@ class C_Discover(C_DiscoverTemplate):
       else: xmd = "{:.2f}".format(round(float(sug["MaxMusDist"]),2))
       self.max_mus_dis.text = xmd
       
-      if (sug["Prediction"] == 'None'): pred = 'N/A'
-      elif (float(sug["Prediction"]) > 7): pred = 7.0
-      elif (float(sug["Prediction"]) < 0): pred = 0.0
-      else: pred = "{:.1f}".format(round(float(sug["Prediction"]),1))
-      self.prediction.text = pred
-
-      if sug["Genres"] == 'None': self.genres.text = '-'
-      else: self.genres.text = sug["Genres"]
-
-      if sug["Countries"] == 'None': self.countries.text = '-'
-      else: self.countries.text = sug["Countries"]
-      
-      self.c_web_player.html = '<iframe style="border-radius:12px" src="https://open.spotify.com/embed/artist/' + spotify_artist_id + '?utm_source=generator&theme=0" width="100%" height="80" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>'
-      
-      # Musical Features
+      # b) musical features
       if sug["AvgDuration"] == 'None': f1 = '-'
       else: f1 = "{:.0f}".format(round(float(sug["AvgDuration"]),0))
       self.feature_1.text = f1 + ' sec'
@@ -203,68 +287,15 @@ class C_Discover(C_DiscoverTemplate):
       if sug["AvgTempo"] == 'None': f12 = '-'
       else: f12 = "{:.0f}".format(round(float(sug["AvgTempo"]),0))
       self.feature_12.text = f12 + ' bpm'
-
-      # refresh visible plots/tables
-      # a) Popularity
-      dev_successes = json.loads(anvil.server.call('get_dev_successes', int(cur_artist_id)))
-      self.plot_popularity.data = [
-        go.Scatter(
-          x = [x['Date'] for x in dev_successes],
-          y = [x['ArtistPopularity'] for x in dev_successes],
-          marker = dict(color = 'rgb(253, 101, 45)')
-        )
-      ]
-      self.plot_popularity.layout = {
-        'template': 'plotly_dark',
-        'title': {
-          'text' : 'Spotify Popularity over time',
-          'x': 0.5,
-          'xanchor': 'center'
-          },
-        'yaxis': {
-          'title': 'Popularity',
-          'range': [0, min(1.1*max([x['ArtistPopularity'] for x in dev_successes]), 100)]
-        },
-        'paper_bgcolor': 'rgb(40, 40, 40)',
-        'plot_bgcolor': 'rgb(40, 40, 40)'
-      }
-      # b) Followers
-      dev_successes = json.loads(anvil.server.call('get_dev_successes', int(cur_artist_id)))
-      self.plot_followers.data = [
-        go.Scatter(
-          x = [x['Date'] for x in dev_successes],
-          y = [x['ArtistFollower'] for x in dev_successes],
-          marker = dict(color = 'rgb(253, 101, 45)')
-        )
-      ]
-      self.plot_followers.layout = {
-        'template': 'plotly_dark',
-        'title': {
-          'text' : 'Spotify Followers over time',
-          'x': 0.5,
-          'xanchor': 'center'
-          },
-        'yaxis': {
-          'title': 'No. Followers',
-          'range': [0, 1.1*max([x['ArtistFollower'] for x in dev_successes])]
-        },
-        'paper_bgcolor': 'rgb(40, 40, 40)',
-        'plot_bgcolor': 'rgb(40, 40, 40)'
-      }
-      # c) related artists table
-      if self.data_grid_related_artists.visible is True:
-        self.data_grid_related_artists_data.items = json.loads(anvil.server.call('get_dev_related_artists', int(cur_artist_id), int(self.model_id)))
-      # d) release tables
-      if self.data_grid_releases.visible is True:
-        self.data_grid_releases_data.items = json.loads(anvil.server.call('get_dev_releases', int(cur_artist_id)))
-
-      # --------------------------------------
+      
+      
+      # -------------------------------
       # FOOTER:
       # Spotify Web-Player
       self.c_web_player.html = '<iframe style="border-radius:12px" src="https://open.spotify.com/embed/artist/' + sug["SpotifyArtistID"] + '?utm_source=generator&theme=0&autoplay=true" width="100%" height="80" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>'
 
   
-  # --------------------------------------------
+  # -------------------------------
   # INFO CLICK  
   def info_click(self, **event_args):
     if self.info.icon == 'fa:angle-down':
@@ -276,7 +307,7 @@ class C_Discover(C_DiscoverTemplate):
       self.info.icon_align = 'left'
       self.info.text = 'Info'
 
-  # --------------------------------------------
+  # -------------------------------
   # BIO CLICK
   def bio_click(self, **event_args):
     if self.bio.icon == 'fa:angle-down':
@@ -291,7 +322,7 @@ class C_Discover(C_DiscoverTemplate):
       else:
         self.bio.text = biography
 
-  # --------------------------------------------
+  # -------------------------------
   # WATCHLIST  
   def link_watchlist_name_click(self, **event_args):
     if self.link_watchlist_name.icon == 'fa:star':
@@ -311,7 +342,7 @@ class C_Discover(C_DiscoverTemplate):
     anvil.server.call('update_watchlist_lead', self.model_id, artist_id, watchlist, status, notification)
     self.parent.parent.update_no_notifications()
   
-  # --------------------------------------------
+  # -------------------------------
   # SECTION NAVIGATION
   def nav_releases_click(self, **event_args):
     self.nav_releases.role = 'table_content_small_orange_underlined'
@@ -353,6 +384,7 @@ class C_Discover(C_DiscoverTemplate):
     self.sec_fandom.visible = False
     self.sec_musical.visible = True
 
+  # -------------------------------
   # RATING BUTTONS
   def button_1_click(self, **event_args):
     anvil.server.call('add_interest', user["user_id"], self.model_id, artist_id, 1, False, '')
@@ -389,7 +421,7 @@ class C_Discover(C_DiscoverTemplate):
     self.header.scroll_into_view(smooth=True)
     self.refresh_sug(temp_artist_id=None)
   
-  # --------------------------------------------
+  # -------------------------------
   # DESCRIPTION LINKS
   def info_prediction_click(self, **event_args):
     alert(title='Prediction',
