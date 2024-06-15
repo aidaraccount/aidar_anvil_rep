@@ -97,8 +97,10 @@ class C_Discover(C_DiscoverTemplate):
       # watchlist
       if watchlist_presence == 'True':
         self.link_watchlist_name.icon = 'fa:star'
+        self.link_watchlist_name2.icon = 'fa:star'
       else:
         self.link_watchlist_name.icon = 'fa:star-o'
+        self.link_watchlist_name2.icon = 'fa:star-o'
 
       # name
       self.name.text = sug["Name"]
@@ -136,8 +138,8 @@ class C_Discover(C_DiscoverTemplate):
 
       # biography
       if biography != 'None':
-        if len(biography) >= 70:
-          self.bio.text = biography[0:70] + '...'
+        if len(biography) >= 200:
+          self.bio.text = biography[0:200] + '...'
         else:
           self.bio.text = biography
       else:
@@ -346,8 +348,8 @@ class C_Discover(C_DiscoverTemplate):
     else:
       self.bio.icon = 'fa:angle-down'
       self.bio.icon_align = 'left'
-      if len(biography) >= 70:
-        self.bio.text = biography[0:70] + '...'
+      if len(biography) >= 200:
+        self.bio.text = biography[0:200] + '...'
       else:
         self.bio.text = biography
 
@@ -356,12 +358,14 @@ class C_Discover(C_DiscoverTemplate):
   def link_watchlist_name_click(self, **event_args):
     if self.link_watchlist_name.icon == 'fa:star':
       self.link_watchlist_name.icon = 'fa:star-o'
+      self.link_watchlist_name2.icon = 'fa:star-o'
       self.update_watchlist_lead(artist_id, False, None, False)
       Notification("",
         title=f"{self.name.text} removed from the watchlist!",
         style="success").show()
     else:
       self.link_watchlist_name.icon = 'fa:star'
+      self.link_watchlist_name2.icon = 'fa:star'
       self.update_watchlist_lead(artist_id, True, 'Action required', True)
       Notification("",
         title=f"{self.name.text} added to the watchlist!",

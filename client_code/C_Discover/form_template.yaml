@@ -675,9 +675,14 @@ components:
     layout_properties: {grid_position: 'UQVSNC,OZIYBS CFGNEX,ZLIZAI'}
     event_bindings: {click: button_7_click}
   - name: spacer_6
-    properties: {height: 32}
+    properties: {height: '15', spacing_below: none}
     type: Spacer
-    layout_properties: {grid_position: 'UQVSNC,XUSTNC OPLCOW,KXLRPY'}
+    layout_properties: {grid_position: 'UQVSNC,XUSTNC OPLCOW,KXLRPY XFGLNV,LOXIMQ'}
+  - name: link_watchlist_name2
+    properties: {role: artist_name_shadow}
+    type: Link
+    layout_properties: {grid_position: 'UQVSNC,XUSTNC OPLCOW,KXLRPY RSFAQY,VELSAP'}
+    event_bindings: {click: link_watchlist_name_click}
   - name: link_1
     properties: {align: right, text: 'Model: EDM Newcomer', role: description, visible: false}
     type: Link
