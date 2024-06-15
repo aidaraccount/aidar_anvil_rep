@@ -138,10 +138,10 @@ class C_Discover(C_DiscoverTemplate):
 
       # biography
       if biography != 'None':
-        if len(biography) >= 200:
-          self.bio.text = biography[0:200] + '...'
+        if len(biography) >= 300:
+          self.bio_text.content = biography[0:300] + '...'
         else:
-          self.bio.text = biography
+          self.bio_text.content = biography
       else:
         self.bio.visible = False     
 
@@ -403,17 +403,15 @@ class C_Discover(C_DiscoverTemplate):
   # -------------------------------
   # BIO CLICK
   def bio_click(self, **event_args):
-    if self.bio.icon == 'fa:angle-down':
-      self.bio.icon = 'fa:angle-up'
-      self.bio.icon_align = 'left_edge'
-      self.bio.text = biography
+    if self.bio.tooltip == 'min':
+      self.bio_text.content = biography
+      self.bio.tooltip = 'max'
     else:
-      self.bio.icon = 'fa:angle-down'
-      self.bio.icon_align = 'left'
-      if len(biography) >= 200:
-        self.bio.text = biography[0:200] + '...'
+      if len(biography) >= 300:
+        self.bio_text.content = biography[0:300] + '...'
       else:
-        self.bio.text = biography
+        self.bio_text.content = biography
+      self.bio.tooltip = 'min'
 
   # -------------------------------
   # WATCHLIST  
