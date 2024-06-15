@@ -264,6 +264,37 @@ class C_Discover(C_DiscoverTemplate):
         self.plot_mtl_listeners.visible = False
         self.no_mtl_listeners.visible = True
 
+      # a) mtl. listeners country
+      mtl_listeners_ctr = json.loads(anvil.server.call('get_mtl_listeners_country', int(cur_artist_id)))
+      if mtl_listeners_ctr != []:
+        self.plot_mtl_listeners_country.visible = True
+        self.no_mtl_listeners_country.visible = False
+        
+        self.plot_mtl_listeners_country.data = [
+          go.Bar(
+            x = [x['CountryCode'] for x in mtl_listeners_ctr],
+            y = [x['MtlListeners'] for x in mtl_listeners_ctr],
+            marker = dict(color = 'rgb(253, 101, 45)')
+          )
+        ]
+        self.plot_mtl_listeners_country.layout = {
+          'template': 'plotly_dark',
+          'title': {
+            'text' : 'Spotify mtl. Listeners per Country',
+            'x': 0.5,
+            'xanchor': 'center'
+            },
+          'yaxis': {
+            'title': 'Mtl. Listeners',
+            'range': [0, 1.1*max([x['MtlListeners'] for x in mtl_listeners_ctr])]
+          },
+          'paper_bgcolor': 'rgb(40, 40, 40)',
+          'plot_bgcolor': 'rgb(40, 40, 40)'
+        }
+      else:
+        self.plot_mtl_listeners_country.visible = False
+        self.no_mtl_listeners_country.visible = True
+
       
       # -------------------------------
       # IV. MUSICAL
