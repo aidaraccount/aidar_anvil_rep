@@ -311,7 +311,7 @@ class C_Discover(C_DiscoverTemplate):
         self.plot_mtl_listeners_city.layout = {
           'template': 'plotly_dark',
           'title': {
-            'text' : 'Spotify mtl. Listeners per Country',
+            'text' : 'Spotify mtl. Listeners per City',
             'x': 0.5,
             'xanchor': 'center'
             },
