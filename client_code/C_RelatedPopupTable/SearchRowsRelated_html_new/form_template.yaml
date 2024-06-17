@@ -1,7 +1,7 @@
 container:
   type: DataRowPanel
   properties:
-    role: [rows, anvil-data-grid td, anvil-data-grid th]
+    role: [rows_dropdown]
     align: center
     visible: true
 components:

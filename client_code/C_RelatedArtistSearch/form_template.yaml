@@ -60,14 +60,14 @@ components:
           properties: {text: Popularity, role: table_content, tooltip: Latest Spotity Artist Popularity (ranges from 1 to 100), align: center}
           type: Label
           layout_properties: {x: 326, y: 0, width: 200}
-        - name: label_5_copy
-          properties: {text: Follower, role: table_content, tooltip: Latest number of followers on Spotity, align: center}
-          type: Label
-          layout_properties: {x: 542.0000305175781, y: 0, width: 200}
         - name: label_4
           properties: {text: Artist, role: table_content, align: center}
           type: Label
           layout_properties: {x: 104.640625, y: 0, width: 116.546875}
+        - name: label_5_copy
+          properties: {text: Followers, role: table_content, tooltip: Latest number of followers on Spotity, align: center}
+          type: Label
+          layout_properties: {x: 521.375, y: 0, width: 200}
       - name: data_grid_related_artists_data
         properties: {role: table_content, spacing_above: none, background: '', item_template: C_RelatedArtistSearch.RelatedRows, foreground: '', items: null, spacing_below: none, visible: true, border: '', tooltip: ''}
         type: RepeatingPanel
