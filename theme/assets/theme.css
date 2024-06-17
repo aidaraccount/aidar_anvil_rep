@@ -149,7 +149,28 @@ body, html {
   /*ttext-decoration-color: %color:Orange%;
   text-decoration-thickness: 2px;*/
 }
+/* CSS for the Navigation Buttons at the bottom of a table STARTS here*/
+.anvil-data-grid>.data-grid-footer-panel>.footer-slot {
+  flex: 0 0 auto !important;
+}
+
+.anvil-data-grid>.data-grid-footer-panel {
+  justify-content: center;
+}
+/* CSS for the Navigation Buttons at the bottom of a table ENDS here*/
+
 /* CSS for formatting tables ENDS here*/
+
+/* CSS for the Rate Artist Button STARTS here*/
+anvil-role-rate-artist-button {
+  background: rgba(250, 250, 250, 0.1)
+}
+
+/* CSS for the Rate Artist Button ENDS here*/
+
+
+
+
 .anvil-role-eval_button {
   font-size: 26px;
   font-weight: bold;

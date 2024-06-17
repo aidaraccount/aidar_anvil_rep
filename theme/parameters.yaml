@@ -66,6 +66,7 @@ roles:
 - {name: rows_dropdown}
 - {name: 'related-artist-search-dropdown-header '}
 - {name: rows}
+- {name: rate-artist-button}
 color_scheme:
   preset_groups:
   - name: Accent

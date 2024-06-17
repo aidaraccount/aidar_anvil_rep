@@ -73,7 +73,7 @@ components:
         type: RepeatingPanel
         layout_properties: {}
     - name: rate_artists_button
-      properties: {text: Rate Artist}
+      properties: {text: Rate Artist, align: center, role: rate-artist-button, background: ''}
       type: Button
       layout_properties: {grid_position: 'XMHFFE,XBGGCN'}
 is_package: true
