@@ -1,7 +1,7 @@
 container:
   type: DataRowPanel
   properties:
-    role: [rows, rows_dropdown]
+    role: [rows]
 components:
 - type: Link
   properties: {col_widths: '{}', spacing_below: none, spacing_above: none}

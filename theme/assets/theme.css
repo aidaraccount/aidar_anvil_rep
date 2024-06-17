@@ -113,7 +113,11 @@ body, html {
 /* CSS to Format the Rows of the Dropdown Alert Table in the Related Artists Page ENDS here */
 
 .anvil-role-rows {
-  background: rgba(250, 249, 248, 0.1);
+  padding: 5px 40px 5px;
+  align-items: center;
+  justify-items: center;
+  border-bottom: 1px solid rgba(128,110,137, 0.4);
+  background: rgba(250, 249, 248, 0.15);
   margin: 10px 0px 10px;
 }
 
