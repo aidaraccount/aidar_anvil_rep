@@ -112,7 +112,7 @@ body, html {
 
 /* CSS for formatting tables STARTS here*/
 .anvil-role-related-artist-search-dropdown-header {
-  border-bottom: 1px solid %color:Text_DecentWhite%;
+  padding: 10px;
 }
 .anvil-role-bottom_line {
     border-bottom: 1px solid %color:Text_DecentWhite%;
@@ -256,18 +256,18 @@ div.row {
 /* CSS to Format the Dropdown Alert in the Related Artists Page STARTS here */
 .anvil-role-background-gradient-alerts {
   background: linear-gradient(to top left, rgb(43, 24, 72) 50%, rgb(134, 59, 59));
-  border-radius: 20px;
+  border-radius: 10px;
   div {
     margin: 0px;
   }
 }
 
 .modal-content {
-  border-radius: 20px;
+  border-radius: 15px;
 }
 
 .modal-body:has(> .anvil-role-background-gradient-alerts) {
-  padding: 01px !important;
+  padding: 0px !important;
 }
 
 .modal-dialog {

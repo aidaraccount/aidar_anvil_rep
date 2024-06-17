@@ -32,7 +32,9 @@ components:
   layout_properties: {slot: default}
   components:
   - name: xy_panel_1
-    properties: {height: 27, role: bottom_line}
+    properties:
+      height: 27
+      role: [bottom_line, 'related-artist-search-dropdown-header ']
     type: XYPanel
     components:
     - name: Column_Popularity
