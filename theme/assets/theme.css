@@ -270,6 +270,7 @@ a>.link-text {
   margin: 0;
   padding: 0 !important;
 }
+
 .anvil-role-feature {
   font-size: 14px;
   font-weight: bold;
@@ -308,6 +309,10 @@ div.row {
 .body {
   background-color: %color:Main_Black%;
       background: linear-gradient(to bottom, rgb(30, 6, 74), black);
+}
+
+.anvil-role-related-artist-layout {
+  margin-top: 60px;
 }
 
 /* CSS to Format the Dropdown Alert in the Related Artists Page STARTS here */
