@@ -17,7 +17,7 @@ components:
       type: RichText
       layout_properties: {grid_position: 'JFOEXR,VNELMS'}
     - name: label_2
-      properties: {role: description, bold: false, align: center, spacing_above: small, background: '', icon: '', underline: false, font: '', icon_align: left, foreground: '', spacing_below: small, visible: true, border: '', italic: true, font_size: null, tooltip: '', text: Enter a name of an artist and find related artists with a similar career and kind of music}
+      properties: {role: description, bold: false, align: center, spacing_above: small, background: '', icon: '', underline: false, font: '', icon_align: left, foreground: '', spacing_below: small, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: Enter a name of an artist and find related artists with a similar career and kind of music}
       type: Label
       layout_properties: {grid_position: 'ILLVDG,XXTNAC'}
     - name: text_box_search

@@ -220,9 +220,11 @@ input[type="text"] {
 /* Titles CSS Ends Here  */
 
 .anvil-role-description {
+  font-family: GS-regular;
   font-size: 14px;
   color: %color:Text_Grey% !important;
-  font-weight: normal;
+  width: 30%;
+  margin: 0 35% 0;
 }
 .anvil-role-note {
   font-size: 14px;
