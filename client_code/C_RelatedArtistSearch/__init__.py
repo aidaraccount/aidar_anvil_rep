@@ -27,7 +27,12 @@ class C_RelatedArtistSearch(C_RelatedArtistSearchTemplate):
       self.header_artist_name.text = "Related Artist to " + self.name
     else:
       self.header_artist_name.text = "Related Artists"
-      
+
+    if self.name:
+      self.title_related_artist_name.content = '<p class="anvil-role-title">UPDATE IN PROGRESS<br>  <span style="color: rgb(200, 200, 200); font-size: 16px;">back soon</span></p>'
+    else:
+      self.title_related_artist_name.content = '<p class=anvil-role-title>Related Artists</p>'
+    
     self.data_grid_related_artists_header.visible = False
     self.rate_artists_button.visible = False
     
