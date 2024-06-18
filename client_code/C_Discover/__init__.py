@@ -326,6 +326,75 @@ class C_Discover(C_DiscoverTemplate):
         self.plot_mtl_listeners_city.visible = False
         self.no_mtl_listeners_city.visible = True
 
+      # d) audience follower
+      audience_follower = json.loads(anvil.server.call('get_audience_follower', int(cur_artist_id)))
+      print(audience_follower)
+      if audience_follower != []:
+        # Extract dates and followers data for each platform
+        dates = [x['Date'] for x in audience_follower]
+        instagram_followers = [x['instagramfollowers'] for x in audience_follower]
+        tiktok_followers = [x['tiktokfollowers'] for x in audience_follower]
+        youtube_followers = [x['youtubefollowers'] for x in audience_follower]
+        soundcloud_followers = [x['soundcloudfollowers'] for x in audience_follower]
+        
+        # Create the traces for each platform
+        instagram_trace = go.Scatter(
+            x=dates,
+            y=instagram_followers,
+            mode='lines',
+            name='Instagram',
+            marker=dict(color='rgb(253, 101, 45)')
+        )
+        
+        tiktok_trace = go.Scatter(
+            x=dates,
+            y=tiktok_followers,
+            mode='lines',
+            name='TikTok',
+            marker=dict(color='rgb(0, 153, 204)')
+        )
+        
+        youtube_trace = go.Scatter(
+            x=dates,
+            y=youtube_followers,
+            mode='lines',
+            name='YouTube',
+            marker=dict(color='rgb(255, 0, 0)')
+        )
+        
+        soundcloud_trace = go.Scatter(
+            x=dates,
+            y=soundcloud_followers,
+            mode='lines',
+            name='SoundCloud',
+            marker=dict(color='rgb(255, 102, 0)')
+        )
+        
+        # Combine the traces into the data list
+        self.plot_audience_follower.data = [instagram_trace, tiktok_trace, youtube_trace, soundcloud_trace]
+        
+        # Define the layout for the line chart
+        self.plot_audience_follower.layout = {
+            'template': 'plotly_dark',
+            'title': {
+                'text': 'Social Media Followers over time',
+                'x': 0.5,
+                'xanchor': 'center'
+            },
+            'yaxis': {
+                'title': 'Followers',
+                'range': [0, 1.1 * max(max(instagram_followers), max(tiktok_followers), max(youtube_followers), max(soundcloud_followers))]
+            },
+            'paper_bgcolor': 'rgb(40, 40, 40)',
+            'plot_bgcolor': 'rgb(40, 40, 40)'
+        }
+        
+      else:
+        self.plot_audience_follower.visible = False
+        self.no_audience_follower.visible = True
+
+
+      
       
       # -------------------------------
       # IV. MUSICAL
