@@ -9,6 +9,8 @@ import anvil.server
 import json
 from datetime import datetime
 import plotly.graph_objects as go
+from collections import defaultdict
+import itertools
 
 
 class C_Discover(C_DiscoverTemplate):
@@ -327,53 +329,38 @@ class C_Discover(C_DiscoverTemplate):
         self.no_mtl_listeners_city.visible = True
 
       # d) audience follower
-      audience_follower = json.loads(anvil.server.call('get_audience_follower', int(cur_artist_id)))
-      print(audience_follower)
+      audience_follower = json.loads(anvil.server.call('get_audience_follower2', int(cur_artist_id)))
       if audience_follower != []:
-        # Extract dates and followers data for each platform
-        dates = [x['Date'] for x in audience_follower]
-        instagram_followers = [x['instagramfollowers'] for x in audience_follower]
-        tiktok_followers = [x['tiktokfollowers'] for x in audience_follower]
-        youtube_followers = [x['youtubefollowers'] for x in audience_follower]
-        soundcloud_followers = [x['soundcloudfollowers'] for x in audience_follower]
+        # Initialize a dictionary to hold data for each platform
+        platform_data = defaultdict(lambda: {'dates': [], 'followers': []})
         
-        # Create the traces for each platform
-        instagram_trace = go.Scatter(
-            x=dates,
-            y=instagram_followers,
-            mode='lines',
-            name='Instagram',
-            marker=dict(color='rgb(253, 101, 45)')
-        )
+        # Populate the dictionary with data
+        for entry in audience_follower:
+            platform = entry['Platform']
+            platform_data[platform]['dates'].append(entry['Date'])
+            platform_data[platform]['followers'].append(entry['ArtistFollower'])
         
-        tiktok_trace = go.Scatter(
-            x=dates,
-            y=tiktok_followers,
-            mode='lines',
-            name='TikTok',
-            marker=dict(color='rgb(0, 153, 204)')
-        )
+        # Create traces for each platform
+        traces = []
+        colors = {
+            'instagram': 'rgb(253, 101, 45)',
+            'tiktok': 'rgb(0, 153, 204)',
+            'youtube': 'rgb(255, 0, 0)',
+            'soundcloud': 'rgb(205, 60, 0)'
+        }
         
-        youtube_trace = go.Scatter(
-            x=dates,
-            y=youtube_followers,
-            mode='lines',
-            name='YouTube',
-            marker=dict(color='rgb(255, 0, 0)')
-        )
-        
-        soundcloud_trace = go.Scatter(
-            x=dates,
-            y=soundcloud_followers,
-            mode='lines',
-            name='SoundCloud',
-            marker=dict(color='rgb(255, 102, 0)')
-        )
-        
-        # Combine the traces into the data list
-        self.plot_audience_follower.data = [instagram_trace, tiktok_trace, youtube_trace, soundcloud_trace]
+        for platform, values in platform_data.items():
+            trace = go.Scatter(
+                x=values['dates'],
+                y=values['followers'],
+                mode='lines',
+                name=platform,
+                marker=dict(color=colors.get(platform, 'rgb(0, 0, 0)'))  # Default color if not in colors dict
+            )
+            traces.append(trace)
         
         # Define the layout for the line chart
+        self.plot_audience_follower.data = traces
         self.plot_audience_follower.layout = {
             'template': 'plotly_dark',
             'title': {
@@ -383,7 +370,7 @@ class C_Discover(C_DiscoverTemplate):
             },
             'yaxis': {
                 'title': 'Followers',
-                'range': [0, 1.1 * max(max(instagram_followers), max(tiktok_followers), max(youtube_followers), max(soundcloud_followers))]
+                'range': [0, 1.1 * max(itertools.chain(*[v['followers'] for v in platform_data.values()]))]
             },
             'paper_bgcolor': 'rgb(40, 40, 40)',
             'plot_bgcolor': 'rgb(40, 40, 40)'
@@ -392,8 +379,6 @@ class C_Discover(C_DiscoverTemplate):
       else:
         self.plot_audience_follower.visible = False
         self.no_audience_follower.visible = True
-
-
       
       
       # -------------------------------
