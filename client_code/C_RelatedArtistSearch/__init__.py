@@ -23,15 +23,15 @@ class C_RelatedArtistSearch(C_RelatedArtistSearchTemplate):
     user = anvil.users.get_user()
     
     # Set up the initial UI state
-    if self.name:
-      self.header_artist_name.text = "Related Artist to " + self.name
-    else:
-      self.header_artist_name.text = "Related Artists"
+    # if self.name:
+    #   self.header_artist_name.text = "Related Artist to " + self.name
+    # else:
+    #   self.header_artist_name.text = "Related Artists"
 
     if self.name:
-      self.title_related_artist_name.content = '<p class="anvil-role-title">UPDATE IN PROGRESS<br>  <span style="color: rgb(200, 200, 200); font-size: 16px;">back soon</span></p>'
+      self.title_related_artist_name.content = f"<p>Related Artists to <span style='color: rgb(253, 101, 45);''>{self.name}</span></p>"
     else:
-      self.title_related_artist_name.content = '<p class=anvil-role-title>Related Artists</p>'
+      self.title_related_artist_name.content = '<p>Related Artists</p>'
     
     self.data_grid_related_artists_header.visible = False
     self.rate_artists_button.visible = False
