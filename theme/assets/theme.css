@@ -174,14 +174,16 @@ body, html {
 
 /* CSS for the Search Bar STARTS here*/
 .anvil-role-search-bar-related-artists {
-  width: 60%;
-  margin: 0 20% 0;
+  font-family: GS-regular;
+  width: 50%;
+  margin: 0 25% 0;
   border-radius: 25px;
   background-image: url("https://upload.wikimedia.org/wikipedia/commons/5/55/Magnifying_glass_icon.svg");
   background-size: 13px;
   background-repeat: no-repeat;
   background-position: 10px center;
   text-align: left !important;
+
 }
 
 input[type="text"] {
