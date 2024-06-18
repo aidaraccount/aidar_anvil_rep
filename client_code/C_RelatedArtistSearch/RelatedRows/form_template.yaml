@@ -9,7 +9,7 @@ components:
   layout_properties: {column: CGJCWL}
   components:
   - type: Image
-    properties: {role: null, vertical_align: center, spacing_above: small, background: '', horizontal_align: center, source: '', foreground: '', display_mode: shrink_to_fit, spacing_below: small, visible: true, border: '', tooltip: '', height: '70'}
+    properties: {role: artist-image-tables, vertical_align: center, spacing_above: small, background: '', horizontal_align: center, source: '', foreground: '', display_mode: shrink_to_fit, spacing_below: small, visible: true, border: '', tooltip: '', height: '70'}
     name: inspect_image
     layout_properties: {column: CGJCWL, grid_position: 'JKDRVH,YEAIII'}
     data_bindings:
@@ -38,24 +38,24 @@ components:
   data_bindings:
   - {property: text, code: 'self.item[''ArtistFollower_lat'']', writeback: false}
 - name: xy_panel_1
-  properties: {height: 20}
+  properties: {height: 20, spacing_above: none, spacing_below: none, role: button-distribution}
   type: XYPanel
   layout_properties: {column: YTCRRC}
   components:
   - name: button_discover
     properties: {text: '', role: feature, foreground: 'theme:Text_DecentWhite', background: 'theme:Orange', icon: 'fa:male', tooltip: Investigate Artist}
     type: Button
-    layout_properties: {x: 0, y: 0, width: 95}
+    layout_properties: {x: 0, y: 0, width: 53.86328125}
     event_bindings: {click: button_discover_click}
-  - name: button_watchlist
-    properties: {text: '', icon: 'fa:address-card-o', role: feature, tooltip: ''}
-    type: Button
-    layout_properties: {x: 85, y: 0, width: 40}
-    data_bindings: []
-    event_bindings: {click: button_watchlist_click}
   - name: button_watchlist_delete
     properties: {text: '', icon: 'fa:trash-o', role: feature, visible: false, tooltip: remove from Watchlist}
     type: Button
-    layout_properties: {x: 130, y: null, width: 40}
+    layout_properties: {x: 147.578125, y: 0, width: 40}
     event_bindings: {click: button_watchlist_delete_click}
+  - name: button_watchlist
+    properties: {text: '', icon: 'fa:address-card-o', role: feature, tooltip: ''}
+    type: Button
+    layout_properties: {x: 79.875, y: 0, width: 40}
+    data_bindings: []
+    event_bindings: {click: button_watchlist_click}
 is_package: true

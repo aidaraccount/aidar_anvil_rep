@@ -11,7 +11,7 @@ components:
   layout_properties: {column: CGJCWL}
   components:
   - type: Image
-    properties: {role: null, vertical_align: center, spacing_above: small, background: '', horizontal_align: center, source: '', foreground: '', display_mode: shrink_to_fit, spacing_below: small, visible: true, border: '', tooltip: '', height: '70'}
+    properties: {role: artist-image-tables, vertical_align: center, spacing_above: small, background: '', horizontal_align: center, source: '', foreground: '', display_mode: shrink_to_fit, spacing_below: small, visible: true, border: '', tooltip: '', height: '70'}
     name: related_image
     layout_properties: {column: CGJCWL, grid_position: 'JKDRVH,YEAIII'}
     data_bindings:

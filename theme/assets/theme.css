@@ -113,19 +113,23 @@ body, html {
 /* CSS to Format the Rows of the Dropdown Alert Table in the Related Artists Page ENDS here */
 
 .anvil-role-rows {
-  padding: 5px 40px 5px;
+  font-family: GS-regular;
+  padding: 0px 20px 0px;
   align-items: center;
   justify-items: center;
   border-bottom: 1px solid rgba(128,110,137, 0.4);
   background: rgba(250, 249, 248, 0.15);
-  margin: 10px 0px 10px;
+  margin: 5px 0px 5px;
+  border-radius: 15px;
 }
 
 .anvil-role-related-artist-search-dropdown-header {
   padding: 10px;
+  display: flex;
+  justify-content: space-between;
 }
 .anvil-role-bottom_line {
-    border-bottom: 1px solid %color:Text_DecentWhite%;
+  border-bottom: 1px solid %color:Text_DecentWhite%;
 }
 .anvil-role-table_header {
   font-size: 16px;
@@ -133,17 +137,18 @@ body, html {
   color: %color:Orange%;
 }
 .anvil-role-table_content {
+  font-family: GS-regular;
   font-size: 18px;
   color: %color:Text_DecentWhite%;
 }
 .anvil-role-table_content_small {
+  font-family: GS-regular;
   font-size: 16px;
-  font-weight: normal;
   color: %color:Text_DecentWhite%;
 }
 .anvil-role-table_content_small_orange_underlined {
+  font-family: GS-regular;
   font-size: 18px;
-  font-weight: normal;
   color: %color:Orange%;
   text-decoration: underline !important;
   /*ttext-decoration-color: %color:Orange%;
@@ -162,12 +167,25 @@ body, html {
 /* CSS for formatting tables ENDS here*/
 
 /* CSS for the Rate Artist Button STARTS here*/
+.anvil-role-rate-artist-button {
+  text-align: right !important;
+}
+
 .anvil-role-rate-artist-button .btn.btn-default.to-disable{
-  background-color: rgb(0, 0, 0);
+  font-family: GS-regular;
+  background: linear-gradient(to bottom right, #ee9735, #fd652d);
+  /* background-color: rgb(0, 0, 0); */
   color: rgb(253, 101, 45);
   border-radius: 25px;
   border-color: rgb(253, 101, 45);
   text-shadow: rgb(0, 0, 0);
+  width: 220px;
+  font-size: 18px;
+  color: white;
+  text-shadow: 0 0px 0 hsla(0, 0%, 100%, .5) !important;
+}
+.anvil-role-rate-artist-button .btn.btn-default.to-disable:hover{
+  background: linear-gradient(to bottom right, #fd652d, #ee9735);
 }
 
 /* CSS for the Rate Artist Button ENDS here*/
@@ -186,21 +204,16 @@ body, html {
 
 }
 
-input[type="text"] {
+.anvil-role-search-bar-related-artists[type="text"] {
   padding: 7px 8px 5px 40px;
   background-color: transparent;
   color: white;
-
 }
 
-
 /* CSS for the Search Bar ENDS here*/
-
-
-
 .anvil-role-eval_button {
+  font-family: GS-regular;
   font-size: 26px;
-  font-weight: bold;
 }
 /* Titles CSS Starts Here  */
 .anvil-role-title-main-out {
@@ -215,12 +228,19 @@ input[type="text"] {
   /* color: %color:Orange%;   */
 }
 .anvil-role-sub_title {
+  font-family: GS-semibold;
   font-size: 22px;
-  font-weight: bold;
   color: %color:Text_Grey%;
   padding-left: 10px;
 }
 /* Titles CSS Ends Here  */
+.anvil-role-description-login {
+  font-family: GS-regular;
+  font-size: 14px;
+  color: %color:Text_Grey% !important;
+  width: 40%;
+  margin: 0 0 0;
+}
 
 .anvil-role-description {
   font-family: GS-regular;
@@ -229,6 +249,7 @@ input[type="text"] {
   width: 40%;
   margin: 0 30% 0;
 }
+
 .anvil-role-note {
   font-size: 14px;
   color: %color:Text_DecentWhite% !important;
@@ -242,8 +263,8 @@ a>.link-text {
   white-space:pre-wrap
 }
 .anvil-role-artist_name {
+  font-family: GS-medium;
   font-size: 20px;
-  font-weight: bold;
   color: %color:Text_White%;
 }
 .anvil-role-artist_name_shadow {
@@ -275,7 +296,28 @@ a>.link-text {
 }
 
 .anvil-role-button-distribution {
-  justify-content:
+  display: flex;
+  justify-content: space-between;
+}
+
+.anvil-role-button-distribution .holder {
+  height: 30px !important;
+}
+
+.anvil-role-artist-image-tables {
+  border-radius: 15px;
+}
+
+.anvil-role-feature-login {
+  font-size: 14px;
+  font-weight: bold;
+  color: %color:Text_Grey%;
+  padding: 0 !important;
+  /* max-width: 110%;  */
+}
+
+.anvil-role-feature-login  .btn.btn-default.to-disable{
+  font-family: GS-regular;
 }
 
 .anvil-role-feature {
@@ -283,7 +325,14 @@ a>.link-text {
   font-weight: bold;
   color: %color:Text_Grey%;
   padding: 0 !important;
+  /* width: 105% !important; */
+  /* max-width: 120%;  */
 }
+
+.anvil-role-feature .btn.btn-default.to-disable {
+  max-width: 105% !important;
+}
+
 
 .anvil-role-investigate_value {
   font-size: 25px;
