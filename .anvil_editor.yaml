@@ -45,6 +45,7 @@ unique_ids:
   server_modules:
     ServerModule1: '1673000496961952494883454.5172'
   assets:
+    icons/Magnifying_glass.svg: '1718721186722113346027484.18399'
     pics/Logo_HA2.png: '1704223954720396882498402.3113'
     fonts/GeneralSans-Light.otf: '171827342713022131299421.33074'
     logos/self_EU-einzeln.JPG: '1710231636948591968236552.4156'
