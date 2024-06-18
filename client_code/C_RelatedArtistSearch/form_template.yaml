@@ -21,7 +21,26 @@ components:
       type: Label
       layout_properties: {grid_position: 'ILLVDG,XXTNAC'}
     - name: text_box_search
-      properties: {role: text_box_small, bold: false, align: center, placeholder: Enter an artists name.., spacing_above: small, background: '', type: text, underline: false, font: '', hide_text: false, foreground: '', spacing_below: small, visible: true, border: '', italic: false, enabled: true, font_size: null, tooltip: '', text: ''}
+      properties:
+        role: [text_box_small, search-bar-related-artists]
+        bold: false
+        align: center
+        placeholder: Enter an artists name..
+        spacing_above: small
+        background: ''
+        type: text
+        underline: false
+        font: ''
+        hide_text: false
+        foreground: ''
+        spacing_below: small
+        visible: true
+        border: ''
+        italic: false
+        enabled: true
+        font_size: null
+        tooltip: ''
+        text: ''
       type: TextBox
       layout_properties: {grid_position: 'NTXNLV,XRTOAB'}
       event_bindings: {pressed_enter: text_box_search_pressed_enter}
