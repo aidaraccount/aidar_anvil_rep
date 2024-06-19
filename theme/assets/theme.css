@@ -378,6 +378,10 @@ div.row {
 }
 
 /* CSS to Format the Dropdown Alert in the Related Artists Page STARTS here */
+.modal-backdrop.in {
+  opacity: 0.25;
+}
+
 .anvil-role-background-gradient-alerts {
   background: linear-gradient(to top left, rgb(43, 24, 72) 50%, rgb(134, 59, 59));
   border-radius: 10px;
