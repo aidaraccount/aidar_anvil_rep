@@ -1,6 +1,6 @@
 container:
   type: ColumnPanel
-  properties: {col_widths: '{}'}
+  properties: {col_widths: '{}', background: ''}
 components:
 - name: content_panel
   properties: {col_widths: '{"HMZCHD":25}'}
@@ -68,3 +68,4 @@ components:
       layout_properties: {}
 is_package: true
 custom_component: true
+properties: []

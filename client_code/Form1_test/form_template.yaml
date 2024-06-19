@@ -1,0 +1,50 @@
+container:
+  type: ColumnPanel
+  properties: {role: background-gradient-alerts}
+components:
+- name: data_grid_artists_header
+  properties:
+    role: null
+    spacing_above: large
+    columns:
+    - {id: CGJCWL, title: Artist, data_key: ArtistPictureURL, $$hashKey: 'object:34645', width: 70, expand: false}
+    - {id: OHHGOJ, title: '', data_key: Name, $$hashKey: 'object:27702'}
+    - {id: TTVDHC, title: Popularity, data_key: ArtistPopularity_lat, $$hashKey: 'object:27703'}
+    - {id: ITWSTJ, title: Follower, data_key: ArtistFollower_lat, $$hashKey: 'object:27704'}
+    - {id: YTCRRC, title: '', data_key: Investigate, $$hashKey: 'object:27824'}
+    background: ''
+    rows_per_page: 3
+    wrap_on: never
+    foreground: ''
+    show_page_controls: true
+    auto_header: false
+    spacing_below: medium
+    visible: true
+    border: ''
+    tooltip: ''
+  type: DataGrid
+  layout_properties: {grid_position: 'AZIKYU,NFRIVB'}
+  components:
+  - name: xy_panel_1
+    properties: {height: 27, role: bottom_line}
+    type: XYPanel
+    components:
+    - name: Column_3
+      properties: {text: Popularity, role: table_content, tooltip: Latest number of followers on Spotity, align: center}
+      type: Label
+      layout_properties: {x: 295.515625, y: 0, width: 184.921875}
+    - name: Column_4
+      properties:
+        text: |
+          Artist
+        role: table_content
+      type: Label
+      layout_properties: {x: 17.25, y: 0, width: 63.578125}
+    - name: Column_2
+      properties: {text: Followers, role: table_content, tooltip: Latest Spotity Artist Popularity (ranges from 1 to 100), align: center}
+      type: Label
+      layout_properties: {x: 609.375, y: 0, width: 114.015625}
+  - name: data_grid_artists_data
+    properties: {role: table_content, spacing_above: none, background: '', item_template: C_RelatedPopupTable.SearchRowsRelated_html_new, foreground: '', items: null, spacing_below: none, visible: true, border: '', tooltip: ''}
+    type: RepeatingPanel
+is_package: true

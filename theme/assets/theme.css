@@ -37,6 +37,12 @@ header>.nav-links>span {
 
 
 /* ---- OWN ADJUSTMENTS ----------------------- */
+/* Apply gradient background to the whole page */
+body, html {
+  height: 100%;
+  margin: 0;
+}
+
 #loadingSpinner {
     border-radius: 0;
     border-radius: 0;
@@ -95,48 +101,161 @@ header>.nav-links>span {
   padding-top: 5px;
   padding-bottom: 5px;
 }
+/* CSS for formatting tables STARTS here*/
+
+/* CSS to Format the Rows of the Dropdown Alert Table in the Related Artists Page STARTS here */
+.anvil-role-rows_dropdown {
+  padding: 10px 40px 5px;
+  align-items: center;
+  justify-items: center;
+  border-bottom: 1px solid rgba(128,110,137, 0.4);
+}
+/* CSS to Format the Rows of the Dropdown Alert Table in the Related Artists Page ENDS here */
+
+.anvil-role-rows {
+  font-family: GS-regular;
+  padding: 0px 20px 0px;
+  align-items: center;
+  justify-items: center;
+  border-bottom: 1px solid rgba(128,110,137, 0.4);
+  background: rgba(250, 249, 248, 0.15);
+  margin: 5px 0px 5px;
+  border-radius: 15px;
+}
+
+.anvil-role-related-artist-search-dropdown-header {
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+}
+.anvil-role-bottom_line {
+  border-bottom: 1px solid %color:Text_DecentWhite%;
+}
 .anvil-role-table_header {
   font-size: 16px;
   font-weight: normal;
   color: %color:Orange%;
 }
 .anvil-role-table_content {
+  font-family: GS-regular;
   font-size: 18px;
   color: %color:Text_DecentWhite%;
 }
 .anvil-role-table_content_small {
+  font-family: GS-regular;
   font-size: 16px;
-  font-weight: normal;
   color: %color:Text_DecentWhite%;
 }
 .anvil-role-table_content_small_orange_underlined {
+  font-family: GS-regular;
   font-size: 18px;
-  font-weight: normal;
   color: %color:Orange%;
-  ext-decoration: underline !important;
-  /*ttext-decoration-color: %color:Orange%;
-  text-decoration-thickness: 2px;*/
+  text-decoration: underline !important;
+  /* text-decoration-color: %color:Orange%; */
+  /* text-decoration-thickness: 2px; */
 }
+/* CSS for the Navigation Buttons at the bottom of a table STARTS here*/
+.anvil-data-grid>.data-grid-footer-panel>.footer-slot {
+  flex: 0 0 auto !important;
+}
+
+.anvil-data-grid>.data-grid-footer-panel {
+  justify-content: center;
+}
+/* CSS for the Navigation Buttons at the bottom of a table ENDS here*/
+
+/* CSS for formatting tables ENDS here*/
+
+/* CSS for the Rate Artist Button STARTS here*/
+.anvil-role-rate-artist-button {
+  text-align: right !important;
+}
+
+.anvil-role-rate-artist-button .btn.btn-default.to-disable{
+  font-family: GS-regular;
+  background: linear-gradient(to bottom right, #ee9735, #fd652d);
+  /* background-color: rgb(0, 0, 0); */
+  color: rgb(253, 101, 45);
+  border-radius: 25px;
+  border-color: rgb(253, 101, 45);
+  text-shadow: rgb(0, 0, 0);
+  width: 220px;
+  font-size: 18px;
+  color: white;
+  text-shadow: 0 0px 0 hsla(0, 0%, 100%, .5) !important;
+}
+.anvil-role-rate-artist-button .btn.btn-default.to-disable:hover{
+  background: linear-gradient(to bottom right, #fd652d, #ee9735);
+}
+
+/* CSS for the Rate Artist Button ENDS here*/
+
+/* CSS for the Search Bar STARTS here*/
+.anvil-role-search-bar-related-artists {
+  font-family: GS-regular;
+  width: 50%;
+  margin: 0 25% 0;
+  border-radius: 25px;
+  background-image: url("_/theme/icons/Magnifying_glass.svg");
+  background-size: 23px;
+  background-repeat: no-repeat;
+  background-position: 10px center;
+  text-align: left !important;
+
+}
+
+.anvil-role-search-bar-related-artists[type="text"] {
+  padding: 7px 8px 5px 40px;
+  background-color: rgba(128,110,137, 0.4);;
+  color: white;
+}
+
+/* CSS for the Search Bar ENDS here*/
 .anvil-role-eval_button {
+  font-family: GS-regular;
   font-size: 26px;
-  font-weight: bold;
+}
+/* Titles CSS Starts Here  */
+.anvil-role-title-main-out {
+  font-family: GS-semibold;
+  font-size: 36px;
+  color: %color:Orange%;  
 }
 .anvil-role-title {
-  font-size: 26px;
-  font-weight: bold;
-  color: %color:Orange%;
+  font-family: GS-semibold;
+  font-size: 36px;
+  color: rgb(174, 174, 174);
+  /* color: %color:Orange%;   */
 }
+
+.anvil-role-title p {
+  margin: 0 !important;
+}
+
 .anvil-role-sub_title {
+  font-family: GS-semibold;
   font-size: 22px;
-  font-weight: bold;
   color: %color:Text_Grey%;
   padding-left: 10px;
 }
-.anvil-role-description {
+/* Titles CSS Ends Here  */
+.anvil-role-description-login {
+  font-family: GS-regular;
   font-size: 14px;
   color: %color:Text_Grey% !important;
-  font-weight: normal;
+  width: 40%;
+  margin: 0 0 0;
 }
+
+.anvil-role-description {
+  font-family: GS-regular;
+  font-size: 14px;
+  color: %color:Text_Grey% !important;
+  width: 40%;
+  margin: 0 30% 0;
+  padding: 0 0 20px !important; 
+}
+
 .anvil-role-note {
   font-size: 14px;
   color: %color:Text_DecentWhite% !important;
@@ -150,8 +269,8 @@ a>.link-text {
   white-space:pre-wrap
 }
 .anvil-role-artist_name {
+  font-family: GS-medium;
   font-size: 20px;
-  font-weight: bold;
   color: %color:Text_White%;
 }
 .anvil-role-artist_name_shadow {
@@ -181,12 +300,45 @@ a>.link-text {
   margin: 0;
   padding: 0 !important;
 }
+
+.anvil-role-button-distribution {
+  display: flex;
+  justify-content: space-between;
+}
+
+.anvil-role-button-distribution .holder {
+  height: 30px !important;
+}
+
+.anvil-role-artist-image-tables {
+  border-radius: 15px;
+}
+
+.anvil-role-feature-login {
+  font-size: 14px;
+  font-weight: bold;
+  color: %color:Text_Grey%;
+  padding: 0 !important;
+  /* max-width: 110%;  */
+}
+
+.anvil-role-feature-login  .btn.btn-default.to-disable{
+  font-family: GS-regular;
+}
+
 .anvil-role-feature {
   font-size: 14px;
   font-weight: bold;
   color: %color:Text_Grey%;
   padding: 0 !important;
+  /* width: 105% !important; */
+  /* max-width: 120%;  */
 }
+
+.anvil-role-feature .btn.btn-default.to-disable {
+  max-width: 105% !important;
+}
+
 
 .anvil-role-investigate_value {
   font-size: 25px;
@@ -205,10 +357,6 @@ a.anvil-role-investigate_feature:hover, a.anvil-role-investigate_feature:active,
   color: %color:Text_White%;
 }
 
-.anvil-role-bottom_line {
-  border-bottom: 1px solid %color:Text_DecentWhite%;
-}
-
 div.row {
   margin-bottom: 0 important!;
 }
@@ -220,17 +368,53 @@ div.row {
   background-color: %Main_Black%;
 }
 
-
 .body {
   background-color: %color:Main_Black%;
-  background-image:
-    radial-gradient(circle farthest-corner at 100px 100px, rgb(60, 10, 93) 0%, transparent 15%),
-    radial-gradient(circle farthest-corner at 1500px 500px, rgb(118, 42, 15) 0%, transparent 25%),
-    radial-gradient(circle farthest-corner at bottom left, rgb(118, 42, 15) 0%, rgb(1, 1, 1) 25%);
+      background: linear-gradient(to bottom, rgb(30, 6, 74), black);
 }
 
+.anvil-role-related-artist-layout {
+  margin-top: 40px;
+}
+
+/* CSS to Format the Dropdown Alert in the Related Artists Page STARTS here */
+.modal-backdrop.in {
+  opacity: 0.25;
+}
+
+.anvil-role-background-gradient-alerts {
+  background: linear-gradient(to top left, rgb(43, 24, 72) 50%, rgb(134, 59, 59));
+  border-radius: 10px;
+  div {
+    margin: 0px;
+  }
+}
+
+.modal-content {
+  border-radius: 15px;
+}
+
+.modal-body:has(> .anvil-role-background-gradient-alerts) {
+  padding: 0px !important;
+}
+
+.modal-dialog {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) !important;
+    
+  }
+
+@media only screen and (min-width: 1081px) {
+  .modal-dialog {
+    margin: 130px 0 0 90px;
+  }
+}
+/* CSS to Format the Dropdown Alert in the Related Artists Page ENDS here */
+
 a, a:visited {
-  color: %color:Orange%;
+  color: rgb(253, 101, 45);
 }
 
 a:hover, a:active, a:focus {
@@ -439,13 +623,31 @@ body.anvil-highlight .nav-elt.placeholder {
 }
 /* ---- OWN FONT ----------------------- */
 @font-face {
-  font-family: 'GS';
+  font-family: 'GS-bold';
+  src: url("_/theme/fonts/GeneralSans-Bold.otf") format("opentype");
+}
+@font-face {
+  font-family: 'GS-extralight';
+  src: url("_/theme/fonts/GeneralSans-Extralight.otf") format("opentype");
+}
+@font-face {
+  font-family: 'GS-light';
+  src: url("_/theme/fonts/GeneralSans-Light.otf") format("opentype");
+}
+@font-face {
+  font-family: 'GS-medium';
+  src: url("_/theme/fonts/GeneralSans-Medium.otf") format("opentype");
+}
+@font-face {
+  font-family: 'GS-regular';
   src: url("_/theme/fonts/GeneralSans-Regular.otf") format("opentype");
 }
 @font-face {
-  font-family: 'GSb';
+  font-family: 'GS-semibold';
   src: url("_/theme/fonts/GeneralSans-Semibold.otf") format("opentype");
 }
+
+
 @font-face {
   font-family: 'Khand-Regular';
   src: url("_/theme/fonts/Khand-Regular.otf") format("opentype");
