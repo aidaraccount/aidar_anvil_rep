@@ -206,7 +206,7 @@ body, html {
 
 .anvil-role-search-bar-related-artists[type="text"] {
   padding: 7px 8px 5px 40px;
-  background-color: transparent;
+  background-color: rgba(128,110,137, 0.4);;
   color: white;
 }
 
@@ -227,6 +227,11 @@ body, html {
   color: rgb(174, 174, 174);
   /* color: %color:Orange%;   */
 }
+
+.anvil-role-title p {
+  margin: 0 !important;
+}
+
 .anvil-role-sub_title {
   font-family: GS-semibold;
   font-size: 22px;
@@ -248,6 +253,7 @@ body, html {
   color: %color:Text_Grey% !important;
   width: 40%;
   margin: 0 30% 0;
+  padding: 0 0 20px !important; 
 }
 
 .anvil-role-note {
@@ -368,7 +374,7 @@ div.row {
 }
 
 .anvil-role-related-artist-layout {
-  margin-top: 100px;
+  margin-top: 40px;
 }
 
 /* CSS to Format the Dropdown Alert in the Related Artists Page STARTS here */
@@ -406,7 +412,7 @@ div.row {
 /* CSS to Format the Dropdown Alert in the Related Artists Page ENDS here */
 
 a, a:visited {
-  color: %color:Orange%;
+  color: var(--anvil-color-Orange-e8f2);
 }
 
 a:hover, a:active, a:focus {
