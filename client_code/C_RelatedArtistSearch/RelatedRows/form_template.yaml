@@ -9,7 +9,7 @@ components:
   layout_properties: {column: CGJCWL}
   components:
   - type: Image
-    properties: {role: artist-image-tables, vertical_align: center, spacing_above: small, background: '', horizontal_align: center, source: '', foreground: '', display_mode: shrink_to_fit, spacing_below: small, visible: true, border: '', tooltip: '', height: '70'}
+    properties: {role: artist-image-tables, vertical_align: center, spacing_above: none, background: '', horizontal_align: center, source: '', foreground: '', display_mode: shrink_to_fit, spacing_below: none, visible: true, border: '', tooltip: '', height: '70'}
     name: inspect_image
     layout_properties: {column: CGJCWL, grid_position: 'JKDRVH,YEAIII'}
     data_bindings:
@@ -43,7 +43,7 @@ components:
   layout_properties: {column: YTCRRC}
   components:
   - name: button_discover
-    properties: {text: '', role: feature, foreground: 'theme:Text_DecentWhite', background: 'theme:Orange', icon: 'fa:male', tooltip: Investigate Artist}
+    properties: {text: '', role: feature, foreground: 'theme:Text_DecentWhite', background: 'theme:Orange', icon: 'fa:male', tooltip: show Artist Profile}
     type: Button
     layout_properties: {x: 0, y: 0, width: 53.86328125}
     event_bindings: {click: button_discover_click}
