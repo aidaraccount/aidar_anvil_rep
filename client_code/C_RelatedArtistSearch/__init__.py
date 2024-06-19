@@ -34,7 +34,7 @@ class C_RelatedArtistSearch(C_RelatedArtistSearchTemplate):
     if self.artist_id:
       self.load_related_artists()
       self.data_grid_related_artists_header.visible = True
-      self.rate_artists_button.visible = True
+      # self.rate_artists_button.visible = True
 
   def text_box_search_pressed_enter(self, **event_args):
     search_text = self.text_box_search.text
