@@ -25,15 +25,15 @@ components:
     layout_properties: {grid_position: 'FIUWEI,TPBJXW'}
     components:
     - name: label_cnt_1
-      properties: {text: '               1               ', background: 'theme:Accent 1', bold: true, role: description, foreground: ''}
+      properties: {text: '               1               ', background: 'theme:Accent 1', bold: true, role: description-bio, foreground: ''}
       type: Label
       layout_properties: {width: null, expand: false}
     - name: label_cnt_2
-      properties: {text: '               2               ', background: 'theme:Accent 1', bold: true, role: description, foreground: ''}
+      properties: {text: '               2               ', background: 'theme:Accent 1', bold: true, role: description-bio, foreground: ''}
       type: Label
       layout_properties: {}
     - name: label_cnt_3
-      properties: {text: '               3               ', background: 'theme:Accent 1', bold: true, role: description, foreground: ''}
+      properties: {text: '               3               ', background: 'theme:Accent 1', bold: true, role: description-bio, foreground: ''}
       type: Label
       layout_properties: {}
   - name: label_3
