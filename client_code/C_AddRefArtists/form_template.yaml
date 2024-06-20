@@ -14,7 +14,7 @@ components:
       col_widths: {}
       grid_position: WKTSPW,ALNASW
   - type: Label
-    properties: {role: description, bold: false, align: left, spacing_above: small, background: '', icon: '', underline: false, font: '', icon_align: left, foreground: '', spacing_below: small, visible: true, border: '', italic: true, font_size: null, tooltip: '', text: 'To train the Model, we need to know which artists are of high interests to you right now. Therefore, please add at least 3 reference artists.'}
+    properties: {role: description-bio, bold: false, align: left, spacing_above: small, background: '', icon: '', underline: false, font: '', icon_align: left, foreground: '', spacing_below: small, visible: true, border: '', italic: true, font_size: null, tooltip: '', text: 'To train the Model, we need to know which artists are of high interests to you right now. Therefore, please add at least 3 reference artists.'}
     name: label_2_copy
     layout_properties:
       col_widths: {}
@@ -38,7 +38,7 @@ components:
       layout_properties: {}
   - name: label_3
     properties:
-      role: description
+      role: description-bio
       text: |-
         It is important to only add artists, that you would like to find here right now. The model is heavily influenced by your references. If you add e.g. quite popular artists, the model will suggest additionally popular artists to you.
 
