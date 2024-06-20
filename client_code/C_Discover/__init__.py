@@ -91,8 +91,12 @@ class C_Discover(C_DiscoverTemplate):
       # picture and its link
       if sug["ArtistPictureURL"] != 'None':
         self.artist_image.source = sug["ArtistPictureURL"]
+        self.artist_image_copy_2.source = sug["ArtistPictureURL"]
+        self.artist_image_copy_3.source = sug["ArtistPictureURL"]
       else:
         self.artist_image.source = '_/theme/pics/Favicon_orange.JPG'
+        self.artist_image_copy_2.source = '_/theme/pics/Favicon_orange.JPG'
+        self.artist_image_copy_3.source = '_/theme/pics/Favicon_orange.JPG'
       
       if sug["ArtistURL"] != 'None': self.artist_link.url = sug["ArtistURL"]
 
@@ -142,8 +146,12 @@ class C_Discover(C_DiscoverTemplate):
       if biography != 'None':
         if len(biography) >= 300:
           self.bio_text.content = biography[0:300] + '...'
+          self.bio_text_2.content = biography[0:300] + '...'
+          self.bio_text_3.content = biography[0:300] + '...'
         else:
           self.bio_text.content = biography
+          self.bio_text_2.content = biography
+          self.bio_text_3.content = biography
       else:
         self.bio.visible = False     
 
