@@ -256,6 +256,17 @@ body, html {
   padding: 0 0 20px !important; 
 }
 
+.anvil-role-description-bio {
+  font-family: GS-regular;
+  font-size: 14px;
+  color: %color:Text_Grey% !important;
+}
+
+.anvil-role-blurred-background {
+  background: linear-gradient(to top left, rgba(259, 250, 250, 0.1) 50%, rgb(31, 11, 59));
+  border-radius: 15px
+}
+
 .anvil-role-note {
   font-size: 14px;
   color: %color:Text_DecentWhite% !important;

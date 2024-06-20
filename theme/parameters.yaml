@@ -59,6 +59,8 @@ roles:
 - name: little_note
   components: [Link]
 - {name: test}
+- {name: blurred-background}
+- {name: description-bio}
 color_scheme:
   preset_groups:
   - name: Accent
