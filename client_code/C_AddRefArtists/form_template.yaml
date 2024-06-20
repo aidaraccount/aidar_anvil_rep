@@ -129,7 +129,7 @@ components:
     components:
     - type: Label
       properties:
-        role: description
+        role: description-bio
         bold: false
         align: left
         spacing_above: small
