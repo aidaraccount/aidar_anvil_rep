@@ -14,7 +14,7 @@ components:
       col_widths: {}
       grid_position: WKTSPW,ALNASW
   - type: Label
-    properties: {role: description, bold: false, align: left, spacing_above: small, background: '', icon: '', underline: false, font: '', icon_align: left, foreground: '', spacing_below: small, visible: true, border: '', italic: true, font_size: null, tooltip: '', text: Here are all the artists you've added to your watchlist.}
+    properties: {role: description-bio, bold: false, align: left, spacing_above: small, background: '', icon: '', underline: false, font: '', icon_align: left, foreground: '', spacing_below: small, visible: true, border: '', italic: true, font_size: null, tooltip: '', text: Here are all the artists you've added to your watchlist.}
     name: label_description
     layout_properties:
       col_widths: {}

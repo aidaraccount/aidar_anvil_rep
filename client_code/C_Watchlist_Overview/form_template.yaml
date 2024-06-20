@@ -12,7 +12,7 @@ components:
       col_widths: {}
       grid_position: WKTSPW,ALNASW
   - name: label_description
-    properties: {role: description, bold: false, align: left, spacing_above: small, background: '', icon: '', underline: false, font: '', icon_align: left, foreground: '', spacing_below: small, visible: true, border: '', italic: true, font_size: null, tooltip: '', text: This overview shows all artists from your watchlist incl. their most important stats.}
+    properties: {role: description-bio, bold: false, align: left, spacing_above: small, background: '', icon: '', underline: false, font: '', icon_align: left, foreground: '', spacing_below: small, visible: true, border: '', italic: true, font_size: null, tooltip: '', text: This overview shows all artists from your watchlist incl. their most important stats.}
     type: Label
     layout_properties:
       col_widths: {}

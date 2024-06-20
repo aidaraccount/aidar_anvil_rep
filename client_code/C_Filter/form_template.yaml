@@ -16,7 +16,7 @@ components:
       col_widths: {}
       grid_position: SLSTXO,HTZYCF
   - type: Label
-    properties: {role: description, bold: false, align: left, spacing_above: small, background: '', icon: '', underline: false, font: '', icon_align: left, foreground: '', spacing_below: small, visible: true, border: '', italic: true, font_size: null, tooltip: '', text: Use these filters to refine your search and find more fitting artists on the Discovery dashboard.}
+    properties: {role: description-bio, bold: false, align: left, spacing_above: small, background: '', icon: '', underline: false, font: '', icon_align: left, foreground: '', spacing_below: small, visible: true, border: '', italic: true, font_size: null, tooltip: '', text: Use these filters to refine your search and find more fitting artists on the Discovery dashboard.}
     name: label_2
     layout_properties:
       col_widths: {}
