@@ -426,12 +426,12 @@ a:hover, a:active, a:focus {
   border: 2px dashed #888;
 }
 
-/* 
+
 @media (min-width: 992px) {
-    .anvil-panel-section-container .anvil-panel-section-container.anvil-container-overflow {
-        max-width: none;
+    .anvil-role-POST_LOGIN_PAGE .anvil-panel-section-container.anvil-container-overflow {
+        max-width: 95%;
     }
-} */
+}
 
 /* 
 <div class="anvil-panel-section-container anvil-container-overflow belongs-to-RWUCBT "><div class="anvil-panel-section-gutter belongs-to-RWUCBT"><div class="anvil-panel-row anvil-panel-row-FWJDWE belongs-to-RWUCBT wrap-mobile" data-anvil-row-id="FWJDWE"><div class="anvil-panel-col anvil-panel-col-HDLEAV belongs-to-RWUCBT wrap-mobile" data-anvil-col-id="HDLEAV" style="flex-grow: 60;"><div class="col-padding belongs-to-RWUCBT col-padding-medium"><div class="html-templated-panel anvil-container anvil-always-inline-container anvil-component has-components belongs-to-RWUCBT"><div anvil-drop-default="" anvil-drop-redirect=".placeholder" anvil-drop-container=".anvil-container"></div>
