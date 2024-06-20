@@ -255,6 +255,14 @@ body, html {
   margin: 0 30% 0;
   padding: 0 0 20px !important; 
 }
+.anvil-role-description-bio {
+  font-family: GS-regular;
+  font-size: 14px;
+  color: %color:Text_Grey% !important;
+  /* width: 40%;
+  margin: 0 30% 0;
+  padding: 0 0 20px !important;  */
+}
 
 .anvil-role-note {
   font-size: 14px;
