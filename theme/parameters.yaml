@@ -59,9 +59,11 @@ roles:
 - name: little_note
   components: [Link]
 - {name: test}
-- {name: blurred-background}
+- {name: tile-background}
 - {name: description-tile}
 - {name: title-tile}
+- {name: artist-image}
+- {name: artist-name-tile}
 color_scheme:
   preset_groups:
   - name: Accent

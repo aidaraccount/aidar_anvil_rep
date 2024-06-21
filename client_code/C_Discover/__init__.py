@@ -110,6 +110,8 @@ class C_Discover(C_DiscoverTemplate):
 
       # name
       self.name.text = sug["Name"]
+      self.name_2.text = sug["Name"]
+      self.name_3.text = sug["Name"]
 
       # genres
       if sug["Genres"] == 'None': self.genres.text = '-'

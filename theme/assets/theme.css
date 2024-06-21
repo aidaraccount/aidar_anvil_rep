@@ -239,6 +239,11 @@ body, html {
 /* Titles CSS Ends Here  */
 
 /* CSS for Tiles STARTS Here  */
+@media (min-width: 992px) {
+    .anvil-role-POST_LOGIN_PAGE .anvil-panel-section-container.anvil-container-overflow {
+        max-width: 95%;
+    }
+}
 .anvil-role-title-tile {
   font-family: GS-semibold;
   font-size: 16px;
@@ -251,6 +256,28 @@ body, html {
   color: %color:Text_Grey% !important;
   width: auto !important;
 }
+.anvil-role-artist-image {
+  border-radius: 15px;
+  height: auto;
+  width: auto;
+  top: 40% !important;
+  left: 6% !important;
+}
+.anvil-role-tile-background {
+  background: linear-gradient(to top left, rgba(259, 250, 250, 0.1) 50%, rgb(31, 11, 59));
+  border-radius: 15px;
+  height: 350px;
+  width: 700px; 
+}
+
+.anvil-role-artist-name-tile{
+  font-family: Gs-regular;
+  font-size: 22px;
+  color: %color:Text_White%;
+  /* text-shadow: 2px 2px 7px rgba(0, 0, 0, 0.9); */
+}
+.anvi
+
 /* CSS for Tiles ENDS Here  */
 
 
@@ -271,11 +298,6 @@ body, html {
   width: 40%;
   margin: 0 30% 0;
   padding: 0 0 20px !important; 
-}
-
-.anvil-role-blurred-background {
-  background: linear-gradient(to top left, rgba(259, 250, 250, 0.1) 50%, rgb(31, 11, 59));
-  border-radius: 15px
 }
 
 .anvil-role-note {
@@ -446,13 +468,6 @@ a:hover, a:active, a:focus {
 .placeholder {
   padding: 5px;
   border: 2px dashed #888;
-}
-
-
-@media (min-width: 992px) {
-    .anvil-role-POST_LOGIN_PAGE .anvil-panel-section-container.anvil-container-overflow {
-        max-width: 95%;
-    }
 }
 
 /* 
