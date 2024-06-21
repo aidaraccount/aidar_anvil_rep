@@ -61,6 +61,7 @@ roles:
 - {name: test}
 - {name: blurred-background}
 - {name: description-bio}
+- {name: title-artist}
 color_scheme:
   preset_groups:
   - name: Accent

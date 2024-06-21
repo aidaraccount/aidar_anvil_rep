@@ -24,7 +24,7 @@ components:
       type: Image
       layout_properties: {x: 4.6875, y: 0, width: 220}
     - name: label_1
-      properties: {text: Description}
+      properties: {text: Description, role: title-artist}
       type: Label
       layout_properties: {x: 233.125, y: 20.953125, width: null}
     - name: bio_text_2
