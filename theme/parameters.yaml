@@ -64,6 +64,8 @@ roles:
 - {name: title-tile}
 - {name: artist-image}
 - {name: artist-name-tile}
+- {name: description-login}
+- {name: star-tile}
 color_scheme:
   preset_groups:
   - name: Accent

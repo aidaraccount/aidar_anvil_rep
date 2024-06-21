@@ -245,7 +245,7 @@ body, html {
     }
 }
 .anvil-role-title-tile {
-  font-family: GS-semibold;
+  font-family: GS-medium;
   font-size: 16px;
   color: rgb(250, 250, 250);
   /* color: %color:Orange%;   */
@@ -257,7 +257,7 @@ body, html {
   width: auto !important;
 }
 .anvil-role-artist-image {
-  position: absolute !important;
+  /* position: absolute !important; */
   border-radius: 15px;
   height: 200px;
   width: 200px;
@@ -267,21 +267,38 @@ body, html {
 .anvil-role-tile-background {
   background: linear-gradient(to top left, rgba(259, 250, 250, 0.1) 50%, rgb(31, 11, 59));
   border-radius: 15px;
-  height: 350px;
+  /* height: 350px; */
+}
+
+.anvil-role-tile-background .anvil-panel-col-BINRLY.wrap-mobile {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.anvil-role-tile-background .anvil-panel-col-SKLDLY.wrap-mobile {
+  margin: 1% 1% 5% 0;
+}
+
+.anvil-role-tile-background .anvil-panel-row-MEAAVE.wrap-mobile {
+  margin: 15px 0 0 0;
 }
 
 .anvil-role-artist-name-tile{
-  font-family: Gs-regular;
+  font-family: Gs-medium;
+  letter-spacing: 1px;
   font-size: 22px;
   color: %color:Text_White%;
   /* text-shadow: 2px 2px 7px rgba(0, 0, 0, 0.9); */
 }
-.anvi
+
+.anvil-role-star-tile {
+  display: flex; 
+  justify-content: right; 
+  color: white
+}
 
 /* CSS for Tiles ENDS Here  */
-
-
-
 
 .anvil-role-description-login {
   font-family: GS-regular;

@@ -105,9 +105,11 @@ class C_Discover(C_DiscoverTemplate):
       if watchlist_presence == 'True':
         self.link_watchlist_name.icon = 'fa:star'
         self.link_watchlist_name2.icon = 'fa:star'
+        self.link_watchlist_name_2.icon = 'fa:star'
       else:
         self.link_watchlist_name.icon = 'fa:star-o'
         self.link_watchlist_name2.icon = 'fa:star-o'
+        self.link_watchlist_name_2.icon = 'fa:star-o'
 
       # name
       self.name.text = sug["Name"]
@@ -118,7 +120,7 @@ class C_Discover(C_DiscoverTemplate):
       if sug["Genres"] == 'None': self.genres.text = '-'
       else: self.genres.text = str(sug["Genres"])[1:-1].replace("'", "")
       if sug["Genres"] == 'None': self.genres_2.text = '-'
-      else: self.genres_2.text = str(sug["Genres"])[1:-1].replace("'", "")
+      else: self.genres_2.text = str(sug["Genres"])[1:-1].replace("'","")
 
       # origin
       if sug["Countries"] == 'None': self.countries.text = '-'
@@ -486,6 +488,7 @@ class C_Discover(C_DiscoverTemplate):
     if self.link_watchlist_name.icon == 'fa:star':
       self.link_watchlist_name.icon = 'fa:star-o'
       self.link_watchlist_name2.icon = 'fa:star-o'
+      self.link_watchlist_name_2.icon = 'fa:star-o'
       self.update_watchlist_lead(artist_id, False, None, False)
       Notification("",
         title=f"{self.name.text} removed from the watchlist!",
@@ -493,6 +496,7 @@ class C_Discover(C_DiscoverTemplate):
     else:
       self.link_watchlist_name.icon = 'fa:star'
       self.link_watchlist_name2.icon = 'fa:star'
+      self.link_watchlist_name_2.icon = 'fa:star'
       self.update_watchlist_lead(artist_id, True, 'Action required', True)
       Notification("",
         title=f"{self.name.text} added to the watchlist!",

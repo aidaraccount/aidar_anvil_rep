@@ -23,27 +23,33 @@ components:
       properties: {role: artist-image, vertical_align: center, spacing_above: none, background: '', horizontal_align: center, source: '', foreground: '', display_mode: zoom_to_fill, spacing_below: none, visible: true, border: '', tooltip: '', height: '200'}
       type: Image
       layout_properties: {grid_position: 'KTIEJU,BINRLY'}
+    - name: link_watchlist_name_2
+      properties: {role: star-tile, spacing_above: none, spacing_below: none}
+      type: Link
+      layout_properties: {grid_position: 'KTIEJU,SKLDLY ECDYYF,TTUFMO'}
+      event_bindings: {click: link_watchlist_name_click}
     - name: name_2
-      properties: {text: '', role: artist-name-tile, icon: ''}
+      properties: {text: '', role: artist-name-tile, icon: '', spacing_above: none, spacing_below: none}
       type: Label
       layout_properties: {grid_position: 'KTIEJU,SKLDLY DZFXMW,ZSRTQH'}
     - name: label_1
-      properties: {text: Description, role: title-tile}
+      properties: {text: Description, role: title-tile, spacing_above: none, spacing_below: none}
       type: Label
-      layout_properties: {grid_position: 'KTIEJU,SKLDLY OBZNLS,JPZBWC'}
+      layout_properties: {grid_position: 'KTIEJU,SKLDLY MEAAVE,ZXYGJH'}
     - name: bio_text_2
       properties: {format: restricted_html, role: description-tile, spacing_below: none, spacing_above: none}
       type: RichText
       layout_properties: {grid_position: 'KTIEJU,SKLDLY TZMZHB,PPXCOK'}
       components: []
     - name: flow_panel_artist_tile
-      properties: {align: left}
+      properties: {align: left, spacing_above: none, spacing_below: none}
       type: FlowPanel
       layout_properties: {grid_position: 'KTIEJU,SKLDLY IESCDW,VALLNP'}
       components:
       - name: genres_2
-        properties: {align: left, underline: false, role: feature, font_size: 16}
+        properties: {align: left, underline: false, role: feature, font_size: 16, spacing_above: none, spacing_below: none}
         type: Label
+        layout_properties: {}
   - name: column_panel_7
     properties: {role: tile-background, col_widths: '{"IRDNBU":25,"LGULCU":35}'}
     type: ColumnPanel
@@ -102,6 +108,7 @@ components:
       type: Link
       layout_properties: {grid_position: 'WRLQOW,HOSDXG UYZDXY,FKEIWL'}
       event_bindings: {click: link_watchlist_name_click}
+      components: []
     - name: name
       properties: {text: '', role: artist_name_shadow, icon: ''}
       type: Label
