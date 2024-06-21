@@ -227,17 +227,9 @@ body, html {
   color: rgb(174, 174, 174);
   /* color: %color:Orange%;   */
 }
-.anvil-role-title-artist {
-  font-family: GS-semibold;
-  font-size: 36px;
-  color: rgb(250, 250, 250);
-  /* color: %color:Orange%;   */
-}
-
 .anvil-role-title p {
   margin: 0 !important;
 }
-
 .anvil-role-sub_title {
   font-family: GS-semibold;
   font-size: 22px;
@@ -245,6 +237,25 @@ body, html {
   padding-left: 10px;
 }
 /* Titles CSS Ends Here  */
+
+/* CSS for Tiles STARTS Here  */
+.anvil-role-title-tile {
+  font-family: GS-semibold;
+  font-size: 16px;
+  color: rgb(250, 250, 250);
+  /* color: %color:Orange%;   */
+}
+.anvil-role-description-tile {
+  font-family: GS-regular;
+  font-size: 14px;
+  color: %color:Text_Grey% !important;
+  width: auto !important;
+}
+/* CSS for Tiles ENDS Here  */
+
+
+
+
 .anvil-role-description-login {
   font-family: GS-regular;
   font-size: 14px;
@@ -260,13 +271,6 @@ body, html {
   width: 40%;
   margin: 0 30% 0;
   padding: 0 0 20px !important; 
-}
-
-.anvil-role-description-bio {
-  font-family: GS-regular;
-  font-size: 14px;
-  color: %color:Text_Grey% !important;
-  width: auto !important;
 }
 
 .anvil-role-blurred-background {

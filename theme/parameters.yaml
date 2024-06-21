@@ -60,8 +60,8 @@ roles:
   components: [Link]
 - {name: test}
 - {name: blurred-background}
-- {name: description-bio}
-- {name: title-artist}
+- {name: description-tile}
+- {name: title-tile}
 color_scheme:
   preset_groups:
   - name: Accent

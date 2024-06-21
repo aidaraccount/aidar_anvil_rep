@@ -24,11 +24,11 @@ components:
       type: Image
       layout_properties: {x: 4.6875, y: 0, width: 220}
     - name: label_1
-      properties: {text: Description, role: title-artist}
+      properties: {text: Description, role: title-tile}
       type: Label
       layout_properties: {x: 233.125, y: 20.953125, width: null}
     - name: bio_text_2
-      properties: {format: restricted_html, role: description-bio, spacing_below: none, spacing_above: none}
+      properties: {format: restricted_html, role: description-tile, spacing_below: none, spacing_above: none}
       type: RichText
       layout_properties: {x: 231.578125, y: 59.25, width: null}
       components: []
