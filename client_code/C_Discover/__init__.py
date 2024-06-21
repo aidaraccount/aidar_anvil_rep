@@ -39,7 +39,7 @@ class C_Discover(C_DiscoverTemplate):
   def refresh_sug(self, temp_artist_id, **event_args):    
     self.spacer_bottom_margin.height = 80
     sug = json.loads(anvil.server.call('get_suggestion', 'Inspect', self.model_id, temp_artist_id)) # Free, Explore, Inspect, Dissect
-    print(sug['platforms'])
+    print(sug['Platforms'])
     
     if sug["Status"] == 'Empty Model!':
       alert(title='Train you Model..',
@@ -117,6 +117,8 @@ class C_Discover(C_DiscoverTemplate):
       # genres
       if sug["Genres"] == 'None': self.genres.text = '-'
       else: self.genres.text = str(sug["Genres"])[1:-1].replace("'", "")
+      if sug["Genres"] == 'None': self.genres_2.text = '-'
+      else: self.genres_2.text = str(sug["Genres"])[1:-1].replace("'", "")
 
       # origin
       if sug["Countries"] == 'None': self.countries.text = '-'

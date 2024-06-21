@@ -257,9 +257,10 @@ body, html {
   width: auto !important;
 }
 .anvil-role-artist-image {
+  position: absolute !important;
   border-radius: 15px;
-  height: 170px;
-  width: 170px;
+  height: 200px;
+  width: 200px;
   top: 40% !important;
   left: 6% !important;
 }

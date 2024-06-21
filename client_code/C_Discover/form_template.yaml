@@ -20,7 +20,7 @@ components:
     layout_properties: {grid_position: 'RUPFJU,TZMCLV'}
     components:
     - name: artist_image_copy_2
-      properties: {role: artist-image, vertical_align: center, spacing_above: none, background: '', horizontal_align: center, source: '', foreground: '', display_mode: zoom_to_fill, spacing_below: none, visible: true, border: '', tooltip: '', height: '170'}
+      properties: {role: artist-image, vertical_align: center, spacing_above: none, background: '', horizontal_align: center, source: '', foreground: '', display_mode: zoom_to_fill, spacing_below: none, visible: true, border: '', tooltip: '', height: '200'}
       type: Image
       layout_properties: {grid_position: 'KTIEJU,BINRLY'}
     - name: name_2
@@ -36,13 +36,21 @@ components:
       type: RichText
       layout_properties: {grid_position: 'KTIEJU,SKLDLY TZMZHB,PPXCOK'}
       components: []
+    - name: flow_panel_artist_tile
+      properties: {align: left}
+      type: FlowPanel
+      layout_properties: {grid_position: 'KTIEJU,SKLDLY IESCDW,VALLNP'}
+      components:
+      - name: genres_2
+        properties: {align: left, underline: false, role: feature, font_size: 16}
+        type: Label
   - name: column_panel_7
     properties: {role: tile-background, col_widths: '{"IRDNBU":25,"LGULCU":35}'}
     type: ColumnPanel
     layout_properties: {grid_position: 'RUPFJU,JYALMT'}
     components:
     - name: artist_image_copy_3
-      properties: {role: artist-image, vertical_align: center, spacing_above: none, background: '', horizontal_align: center, source: '', foreground: '', display_mode: original_size, spacing_below: none, visible: true, border: '', tooltip: '', height: '170'}
+      properties: {role: artist-image, vertical_align: center, spacing_above: none, background: '', horizontal_align: center, source: '', foreground: '', display_mode: zoom_to_fill, spacing_below: none, visible: true, border: '', tooltip: '', height: '200'}
       type: Image
       layout_properties: {grid_position: 'SNYDSO,IRDNBU'}
     - name: name_3
