@@ -109,7 +109,7 @@ class C_Discover(C_DiscoverTemplate):
 
       # genres
       if sug["Genres"] == 'None': self.genres.text = '-'
-      else: self.genres.text = sug["Genres"]
+      else: self.genres.text = str(sug["Genres"])[1:-1].replace("'", "")
 
       # origin
       if sug["Countries"] == 'None': self.countries.text = '-'
