@@ -260,6 +260,7 @@ body, html {
   font-family: GS-regular;
   font-size: 14px;
   color: %color:Text_Grey% !important;
+  width: auto !important;
 }
 
 .anvil-role-blurred-background {

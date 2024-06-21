@@ -23,10 +23,14 @@ components:
       properties: {role: null, vertical_align: center, spacing_above: none, background: '', horizontal_align: center, source: '', foreground: '', display_mode: zoom_to_fill, spacing_below: none, visible: true, border: '', tooltip: '', height: '170'}
       type: Image
       layout_properties: {x: 4.6875, y: 0, width: 220}
+    - name: label_1
+      properties: {text: Description}
+      type: Label
+      layout_properties: {x: 233.125, y: 20.953125, width: null}
     - name: bio_text_2
       properties: {format: restricted_html, role: description-bio, spacing_below: none, spacing_above: none}
       type: RichText
-      layout_properties: {x: 227.15625, y: 15.890625, width: null}
+      layout_properties: {x: 231.578125, y: 59.25, width: null}
       components: []
   - name: spacer_9
     properties: {height: 199.5859375}
