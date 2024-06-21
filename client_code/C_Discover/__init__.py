@@ -39,6 +39,7 @@ class C_Discover(C_DiscoverTemplate):
   def refresh_sug(self, temp_artist_id, **event_args):    
     self.spacer_bottom_margin.height = 80
     sug = json.loads(anvil.server.call('get_suggestion', 'Inspect', self.model_id, temp_artist_id)) # Free, Explore, Inspect, Dissect
+    print(sug['platforms'])
     
     if sug["Status"] == 'Empty Model!':
       alert(title='Train you Model..',
@@ -664,3 +665,7 @@ class C_Discover(C_DiscoverTemplate):
   def button_remove_filters_click(self, **event_args):
     anvil.server.call('change_filters', self.model_id, filters_json = None)
     open_form('Main_In', model_id=self.model_id, temp_artist_id=None, target='C_Discover', value=None)
+
+  
+
+  

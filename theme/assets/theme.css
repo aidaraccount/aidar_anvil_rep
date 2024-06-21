@@ -258,8 +258,8 @@ body, html {
 }
 .anvil-role-artist-image {
   border-radius: 15px;
-  height: auto;
-  width: auto;
+  height: 170px;
+  width: 170px;
   top: 40% !important;
   left: 6% !important;
 }
@@ -267,7 +267,6 @@ body, html {
   background: linear-gradient(to top left, rgba(259, 250, 250, 0.1) 50%, rgb(31, 11, 59));
   border-radius: 15px;
   height: 350px;
-  width: 700px; 
 }
 
 .anvil-role-artist-name-tile{
