@@ -129,6 +129,7 @@ class C_Discover(C_DiscoverTemplate):
         # Clean up the string and convert to list
         genres_string_cleaned = genres_string.strip("[]").replace("'", "")
         genres_list = [genre.strip() for genre in genres_string_cleaned.split(',')]  
+        # Add Genres to FlowPanel
         for genre in genres_list:
           print("this is the print inside the for loop:", genre)
           genre_label = Label(text=genre)
