@@ -26,7 +26,7 @@ components:
     - name: bio_text_2
       properties: {format: restricted_html, role: description-bio, spacing_below: none, spacing_above: none}
       type: RichText
-      layout_properties: {x: 227.15625, y: 15.890625, width: 110.4375}
+      layout_properties: {x: 227.15625, y: 15.890625, width: null}
       components: []
   - name: spacer_9
     properties: {height: 199.5859375}
