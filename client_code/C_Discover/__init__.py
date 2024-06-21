@@ -117,11 +117,25 @@ class C_Discover(C_DiscoverTemplate):
       self.name_3.text = sug["Name"]
 
       # genres
-      if sug["Genres"] == 'None': self.genres.text = '-'
-      else: self.genres.text = str(sug["Genres"])[1:-1].replace("'", "")
-      if sug["Genres"] == 'None': self.genres_2.text = '-'
-      else: self.genres_2.text = str(sug["Genres"])[1:-1].replace("'","")
+      if sug["Genres"] == 'None':
+        self.genres.text = '-'
+      else:
+        self.genres.text = str(sug["Genres"])[1:-1].replace("'", "")
+      if sug["Genres"] == 'None':
+        self.genres_2.text = '-'
+      else:
+        # self.genres_2.text = str(sug["Genres"])[1:-1].replace("'","")
+        genres_string = sug["Genres"]
+        # Clean up the string and convert to list
+        genres_string_cleaned = genres_string.strip("[]").replace("'", "")
+        genres_list = [genre.strip() for genre in genres_string_cleaned.split(',')]  
+        for genre in genres_list:
+          print("this is the print inside the for loop:", genre)
+          genre_label = Label(text=genre)
+          genre_label.role = 'genre-box'
+          self.flow_panel_artist_tile.add_component(genre_label)
 
+      
       # origin
       if sug["Countries"] == 'None': self.countries.text = '-'
       else: self.countries.text = sug["Countries"]
@@ -671,6 +685,8 @@ class C_Discover(C_DiscoverTemplate):
   def button_remove_filters_click(self, **event_args):
     anvil.server.call('change_filters', self.model_id, filters_json = None)
     open_form('Main_In', model_id=self.model_id, temp_artist_id=None, target='C_Discover', value=None)
+
+
 
   
 

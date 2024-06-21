@@ -298,6 +298,18 @@ body, html {
   color: white
 }
 
+.anvil-role-genre-box {
+    display: inline-block;
+    padding: 5px 5px;
+    margin: 1px 0px;
+    border-radius: 10px;
+    background-color: #f0f0f0; /* Example background color */
+    border: 1px solid #ccc; /* Example border color */
+    font-size: 14px; /* Example font size */
+    color: #333; /* Example text color */
+    white-space: nowrap;
+}
+
 /* CSS for Tiles ENDS Here  */
 
 .anvil-role-description-login {
