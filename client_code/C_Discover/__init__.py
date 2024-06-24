@@ -134,24 +134,33 @@ class C_Discover(C_DiscoverTemplate):
           self.flow_panel_artist_tile.add_component(genre_label)
 
       # Social media
+      platform_dict = {
+        "Spotify": "fa:spotify",
+        "Amazon": "fa:amazon",
+        "Soundcloud": "fa:soundcloud",
+        "Apple Music": "fa:apple",
+        "Facebook": "fa:facebook",
+        "Instagram": "fa:instagram",
+        "Twitter": "fa:twitter",
+        "YouTube": "fa:youtube",
+        # ... Deezer, TikTok
+      }
+      
       if sug["Platforms"] == 'None':
         self.social_media_link.visible = False
       else:
         social_media_list = json.loads(sug["Platforms"])
-        print("print 1 Starts here:", social_media_list)
-        # Clean up the string and convert to list
-        # social_media_string_cleaned = social_media_string.strip("[]").replace("'", "")
-        # social_media_list = [social_media.strip() for social_media in social_media_string_cleaned.split(',')]  
-        # print("This is the final list:", social_media_list)
-        # Add Genres to FlowPanel
         for i in range(0, len(social_media_list)):
-          if social_media_list[i]["platform"] == "Spotify":
-            social_media_link = Link(icon="fa:spotify")
+          found = False
+
+          if social_media_list[i]["platform"] in platform_dict:  
+            found = True
+            social_media_link = Link(icon=platform_dict[social_media_list[i]["platform"]])
+
+          if found is True:
             social_media_link.role = 'genre-box'
             social_media_link.url = social_media_list[i]["platform_url"]
-            print("platform url for: ", i ,social_media_list[i]["platform_url"])
-            # self.flow_panel_social_media_tile.add_component(social_media_list["url"])
-
+            self.flow_panel_social_media_tile.add_component(social_media_link)
       
       # origin
       if sug["Countries"] == 'None': self.countries.text = '-'
