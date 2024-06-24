@@ -128,10 +128,32 @@ class C_Discover(C_DiscoverTemplate):
         genres_list = [genre.strip() for genre in genres_string_cleaned.split(',')]  
         # Add Genres to FlowPanel
         for genre in genres_list:
-          print("this is the print inside the for loop:", genre)
+          # print("this is the print inside the for loop:", genre)
           genre_label = Label(text=genre)
           genre_label.role = 'genre-box'
           self.flow_panel_artist_tile.add_component(genre_label)
+
+      # Social media
+      if sug["Platforms"] == 'None':
+        self.social_media_link.visible = False
+      else:
+        social_media_list = json.loads(sug["Platforms"])
+        # print("This is the social media sting:", type(social_media_string))
+        # print("This is the social media sting:", social_media_string[0])
+        
+        # Clean up the string and convert to list
+        # social_media_string_cleaned = social_media_string.strip("[]").replace("'", "")
+        # social_media_list = [social_media.strip() for social_media in social_media_string_cleaned.split(',')]  
+        # print("This is the final list:", social_media_list)
+        # Add Genres to FlowPanel
+        for i in range(0, len(social_media_list)):
+          # print("this is the print inside the for loop:", genre)
+          print("PRINTTTT", social_media_list["platform"][i])
+          if social_media_list["platform"][i] == "Spotify":
+            social_media_link = Link(icon="fa:spotify")
+            social_media_link.role = 'genre-box'
+            social_media_link.url = social_media_list["platform_url"][i]
+            # self.flow_panel_social_media_tile.add_component(social_media_list["url"])
 
       
       # origin
