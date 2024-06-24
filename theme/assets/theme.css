@@ -319,6 +319,14 @@ body, html {
   margin-left: 1px;
 }
 
+.anvil-role-score-tile-background {
+  background: linear-gradient(to top left, rgba(259, 250, 250, 0.1) 50%, rgb(131, 111, 59));
+  border-radius: 100px;
+  height: 130px;
+  width: 130px;
+  /* height: 350px; */
+}
+
 /* CSS for Tiles ENDS Here  */
 
 .anvil-role-description-login {
