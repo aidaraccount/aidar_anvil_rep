@@ -138,21 +138,18 @@ class C_Discover(C_DiscoverTemplate):
         self.social_media_link.visible = False
       else:
         social_media_list = json.loads(sug["Platforms"])
-        # print("This is the social media sting:", type(social_media_string))
-        # print("This is the social media sting:", social_media_string[0])
-        
+        print("print 1 Starts here:", social_media_list)
         # Clean up the string and convert to list
         # social_media_string_cleaned = social_media_string.strip("[]").replace("'", "")
         # social_media_list = [social_media.strip() for social_media in social_media_string_cleaned.split(',')]  
         # print("This is the final list:", social_media_list)
         # Add Genres to FlowPanel
         for i in range(0, len(social_media_list)):
-          # print("this is the print inside the for loop:", genre)
-          print("PRINTTTT", social_media_list["platform"][i])
-          if social_media_list["platform"][i] == "Spotify":
+          if social_media_list[i]["platform"] == "Spotify":
             social_media_link = Link(icon="fa:spotify")
             social_media_link.role = 'genre-box'
-            social_media_link.url = social_media_list["platform_url"][i]
+            social_media_link.url = social_media_list[i]["platform_url"]
+            print("platform url for: ", i ,social_media_list[i]["platform_url"])
             # self.flow_panel_social_media_tile.add_component(social_media_list["url"])
 
       
