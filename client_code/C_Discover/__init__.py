@@ -157,7 +157,7 @@ class C_Discover(C_DiscoverTemplate):
             social_media_link = Link(icon=platform_dict[social_media_list[i]["platform"]])
 
           if found is True:
-            social_media_link.role = 'genre-box'
+            # social_media_link.role = 'genre-box'
             social_media_link.url = social_media_list[i]["platform_url"]
             self.flow_panel_social_media_tile.add_component(social_media_link)
       
