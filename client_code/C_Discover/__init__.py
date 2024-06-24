@@ -39,7 +39,6 @@ class C_Discover(C_DiscoverTemplate):
   def refresh_sug(self, temp_artist_id, **event_args):    
     self.spacer_bottom_margin.height = 80
     sug = json.loads(anvil.server.call('get_suggestion', 'Inspect', self.model_id, temp_artist_id)) # Free, Explore, Inspect, Dissect
-    print(sug['Platforms'])
     
     if sug["Status"] == 'Empty Model!':
       alert(title='Train you Model..',
@@ -163,8 +162,16 @@ class C_Discover(C_DiscoverTemplate):
             self.flow_panel_social_media_tile.add_component(social_media_link)
       
       # origin
-      if sug["Countries"] == 'None': self.countries.text = '-'
-      else: self.countries.text = sug["Countries"]
+      country = json.loads(sug["Countries"])
+      
+      print(country)
+      print(country["CountryCode"])
+      print(country["CountryName"])
+      
+      if sug["Countries"] == 'None':
+        self.countries.text = '-'
+      else:
+        self.countries.text = country["CountryName"]
       
       # birt date
       if sug["BirthDate"] == 'None': self.birthday.text = '-'
