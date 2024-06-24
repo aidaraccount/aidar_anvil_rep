@@ -68,6 +68,10 @@ roles:
 - {name: star-tile}
 - {name: genre-box}
 - {name: score-tile-background}
+- {name: sub_title-regular}
+- {name: highlights-tile-background}
+- {name: sub_title-regular-tile}
+- {name: value-regular-tile}
 color_scheme:
   preset_groups:
   - name: Accent
