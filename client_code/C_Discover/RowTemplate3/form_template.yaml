@@ -1,0 +1,30 @@
+is_package: true
+container: {type: DataRowPanel}
+components:
+- name: column_panel_1
+  properties: {col_widths: '{"POBPFZ":20,"ZUUXYF":40}', spacing_above: none}
+  type: ColumnPanel
+  layout_properties: {column: JKSDUP}
+  components:
+  - name: related_artist_pic_link
+    properties: {}
+    type: Link
+    layout_properties: {grid_position: 'BGRBQL,POBPFZ'}
+    data_bindings:
+    - {property: url, code: 'self.item[''ArtistID'']', writeback: false}
+    event_bindings: {click: related_artist_pic_link_click}
+    components:
+    - name: related_artist_image
+      properties: {height: '60', spacing_above: none}
+      type: Image
+      layout_properties: {grid_position: 'ZCXBZR,YZBAZV'}
+      data_bindings:
+      - {property: source, code: 'self.item[''ArtistPictureURL'']', writeback: false}
+  - name: related_artist_name_link
+    properties: {role: artist_name, spacing_above: none}
+    type: Link
+    layout_properties: {grid_position: 'BGRBQL,ZUUXYF'}
+    data_bindings:
+    - {property: text, code: 'self.item[''Name'']', writeback: false}
+    - {property: url, code: 'self.item[''ArtistID'']', writeback: false}
+    event_bindings: {click: related_artist_name_link_click}

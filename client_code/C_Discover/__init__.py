@@ -178,7 +178,11 @@ class C_Discover(C_DiscoverTemplate):
       if self.data_grid_releases.visible is True:
         self.data_grid_releases_data.items = json.loads(anvil.server.call('get_dev_releases', int(cur_artist_id)))
 
-      # c) related artists table
+      # c) co-artists by frequency
+      if self.data_grid_co_artists_freq.visible is True:
+        self.data_grid_co_artists_freq_data.items = json.loads(anvil.server.call('get_co_artists', int(cur_artist_id)))
+      
+      # d) related artists table
       if self.data_grid_related_artists.visible is True:
         self.data_grid_related_artists_data.items = json.loads(anvil.server.call('get_dev_related_artists', int(cur_artist_id), int(self.model_id)))
 
