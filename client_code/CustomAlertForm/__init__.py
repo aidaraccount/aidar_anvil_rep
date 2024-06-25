@@ -13,6 +13,6 @@ class CustomAlertForm(CustomAlertFormTemplate):
     self.init_components(**properties)
     
     # Any code you write here will run before the form opens.
-    self.label_1.text = text # Assuming you have a Label component named label_1
+    self.rich_text_1.content = text # Assuming you have a Label component named label_1
     # Optionally apply a custom class for additional styling
     self.role = 'custom-alert'

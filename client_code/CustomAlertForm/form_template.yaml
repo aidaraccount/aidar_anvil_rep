@@ -1,5 +1,9 @@
 container:
   type: HtmlTemplate
   properties: {html: ''}
-components: []
+components:
+- name: rich_text_1
+  properties: {}
+  type: RichText
+  layout_properties: {slot: default}
 is_package: true
