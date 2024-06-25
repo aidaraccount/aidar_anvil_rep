@@ -177,7 +177,7 @@ class C_Discover(C_DiscoverTemplate):
         self.countries.text = country["CountryName"]
         self.Artist_Country.text = country["CountryCode"]
         # flag_url = flag_url_template https://flagcdn.com/w80/ua.png
-        country_flag = Image(source="https://flagcdn.com/w80/" + country["CountryCode"].lower() + ".png", spacing_below=0, spacing_above=0)
+        country_flag = Image(source="https://flagcdn.com/w40/" + country["CountryCode"].lower() + ".png", spacing_below=0, spacing_above=0)
         country_flag.role = 'country-flag-icon'
         self.Artist_Name_Details.add_component(country_flag)
       
@@ -535,6 +535,15 @@ class C_Discover(C_DiscoverTemplate):
         self.bio_text.content = biography
       self.bio.tooltip = 'min'
 
+  # def text_box_search_pressed_enter(self, **event_args):
+  #   search_text = self.text_box_search.text
+  #   popup_table = alert(
+  #     content=C_RelatedPopupTable(self.model_id, search_text),
+  #     large=True,
+  #     buttons=[]
+  #   )
+
+  
   # -------------------------------
   # WATCHLIST  
   def link_watchlist_name_click(self, **event_args):
