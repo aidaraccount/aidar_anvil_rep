@@ -176,6 +176,10 @@ class C_Discover(C_DiscoverTemplate):
       else:
         self.countries.text = country["CountryName"]
         self.Artist_Country.text = country["CountryCode"]
+        # flag_url = flag_url_template https://flagcdn.com/w80/ua.png
+        country_flag = Image(source="https://flagcdn.com/w80/" + country["CountryCode"].lower() + ".png", spacing_below=0, spacing_above=0)
+        country_flag.role = 'country-flag-icon'
+        self.Artist_Name_Details.add_component(country_flag)
       
       # birt date
       if sug["BirthDate"] == 'None': self.birthday.text = '-'

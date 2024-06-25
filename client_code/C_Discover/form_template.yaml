@@ -32,7 +32,7 @@ components:
       type: Link
       layout_properties: {grid_position: 'KTIEJU,SKLDLY ECDYYF,TTUFMO'}
       event_bindings: {click: link_watchlist_name_click}
-    - name: flow_panel_1
+    - name: Artist_Name_Details
       properties: {spacing: large}
       type: FlowPanel
       layout_properties: {grid_position: 'KTIEJU,SKLDLY NLOXMA,HIWWHG'}

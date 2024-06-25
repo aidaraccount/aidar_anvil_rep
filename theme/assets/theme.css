@@ -332,6 +332,11 @@ body, html {
   /* text-shadow: 2px 2px 7px rgba(0, 0, 0, 0.9); */
 }
 
+.anvil-role-country-flag-icon {
+  height: 16px;
+  width: 12px;
+}
+
 .anvil-role-star-tile {
   display: flex; 
   justify-content: right; 
@@ -384,7 +389,6 @@ body, html {
   color: %color:Text_White%;
   padding-left: 10px;
 }
-
 
 /* CSS for Tiles ENDS Here  */
 
