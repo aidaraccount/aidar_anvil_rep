@@ -140,7 +140,7 @@ class C_Discover(C_DiscoverTemplate):
         "Apple Music": "fa:apple",
         "Facebook": "fa:facebook",
         "Instagram": "fa:instagram",
-        "Twitter": "fa:twitter",
+        "Twitter": "fab:x-twitter",
         "YouTube": "fa:youtube",
         "Deezer": "fab:deezer",
         "TikTok": "fab:tiktok"
