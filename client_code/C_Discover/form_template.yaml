@@ -300,7 +300,7 @@ components:
   - name: sec_releases
     properties: {spacing_above: medium}
     type: ColumnPanel
-    layout_properties: {grid_position: 'TPSTBH,IOALXB'}
+    layout_properties: {grid_position: 'MWPJDV,AXZWYO'}
     components:
     - name: column_panel_13_copy_2
       properties: {role: grid, col_widths: '{}', spacing_above: small, background: '', wrap_on: mobile, col_spacing: medium, foreground: '', spacing_below: small, visible: true, border: '', tooltip: ''}
