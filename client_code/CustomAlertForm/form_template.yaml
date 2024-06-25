@@ -1,0 +1,14 @@
+container:
+  type: HtmlTemplate
+  properties:
+    html: |-
+      <center style="font-style:italic; color:#888; margin: 3em;">
+        (Insert your custom HTML here)
+      </center>
+      <div anvil-slot="default"></div>
+components:
+- name: label_1
+  properties: {}
+  type: Label
+  layout_properties: {slot: default}
+is_package: true

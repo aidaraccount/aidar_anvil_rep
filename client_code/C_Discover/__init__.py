@@ -11,6 +11,8 @@ from datetime import datetime
 import plotly.graph_objects as go
 from collections import defaultdict
 import itertools
+from ..CustomAlertForm import CustomAlertForm  # Import the custom form
+
 
 
 class C_Discover(C_DiscoverTemplate):
@@ -526,8 +528,11 @@ class C_Discover(C_DiscoverTemplate):
   # BIO CLICK
   def bio_click(self, **event_args):
     if self.bio.tooltip == 'min':
-      self.bio_text.content = biography
-      self.bio.tooltip = 'max'
+      # self.bio_text.content = biography
+      # self.bio.tooltip = 'max'
+      custom_alert_form = CustomAlertForm(text=self.biography)
+      alert(content=custom_alert_form, title="Biography", large=True)
+      # alert(content=Label(text=biography), title="Biography", large=True)
     else:
       if len(biography) >= 300:
         self.bio_text.content = biography[0:300] + '...'
