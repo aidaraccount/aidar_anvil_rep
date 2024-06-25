@@ -72,6 +72,7 @@ class C_Discover(C_DiscoverTemplate):
       spotify_artist_id = sug["SpotifyArtistID"]
       global biography
       biography = sug["Biography"]
+      self.biography = biography
       
       self.sec_releases.visible = True
       self.sec_success.visible = False
@@ -168,19 +169,16 @@ class C_Discover(C_DiscoverTemplate):
       
       # origin
       country = json.loads(sug["Countries"])
-      
-      print(country)
-      print(country["CountryCode"])
-      print(country["CountryName"])
-      
+          
       if sug["Countries"] == 'None':
         self.countries.text = '-'
       else:
         self.countries.text = country["CountryName"]
-        self.Artist_Country.text = country["CountryCode"]
+        # self.Artist_Country.text = country["CountryCode"]
         # flag_url = flag_url_template https://flagcdn.com/w80/ua.png
         country_flag = Image(source="https://flagcdn.com/w40/" + country["CountryCode"].lower() + ".png", spacing_below=0, spacing_above=0)
         country_flag.role = 'country-flag-icon'
+        country_flag.tooltip = country["CountryName"]
         self.Artist_Name_Details.add_component(country_flag)
       
       # birt date

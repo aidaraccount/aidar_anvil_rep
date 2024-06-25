@@ -40,9 +40,6 @@ components:
       - name: name_2
         properties: {text: '', role: artist-name-tile, icon: '', spacing_above: none, spacing_below: none}
         type: Label
-      - name: Artist_Country
-        properties: {role: artist-name-tile, spacing_above: none, spacing_below: none}
-        type: Label
     - name: label_1
       properties: {text: Description, role: title-tile, spacing_above: none, spacing_below: none}
       type: Label
