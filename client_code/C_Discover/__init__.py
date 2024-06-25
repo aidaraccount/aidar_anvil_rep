@@ -228,6 +228,14 @@ class C_Discover(C_DiscoverTemplate):
       # -------------------------------
       # II. SUCCESS
       dev_successes = json.loads(anvil.server.call('get_dev_successes', int(cur_artist_id)))
+
+      # a) stats
+      if sug["ArtistPopularity_lat"] == 'None': self.sp_pop_lat.text = '-'
+      else: self.sp_pop_lat.text = sug["ArtistPopularity_lat"]
+      
+      if sug["ArtistFollower_lat"] == 'None': self.sp_fol_lat.text = '-'
+      else: self.sp_fol_lat.text = f'{int(sug["ArtistFollower_lat"]):,}'
+      
       # a) Popularity
       self.plot_popularity.data = [
         go.Scatter(
