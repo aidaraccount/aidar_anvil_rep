@@ -15,7 +15,7 @@ components:
     type: Label
     layout_properties: {grid_position: 'SYXIOJ,LTMDQS'}
   - name: column_panel_2
-    properties: {col_widths: '{"BINRLY":25,"SKLDLY":35}', role: tile-background}
+    properties: {col_widths: '{"BINRLY":25,"SKLDLY":35,"ZSRTQH":25,"ZHXYPS":35,"VVGSZQ":50,"TTUFMO":10}', role: tile-background}
     type: ColumnPanel
     layout_properties: {grid_position: 'RUPFJU,TZMCLV'}
     components:
@@ -23,6 +23,10 @@ components:
       properties: {role: artist-image, vertical_align: center, spacing_above: none, background: '', horizontal_align: center, source: '', foreground: '', display_mode: zoom_to_fill, spacing_below: none, visible: true, border: '', tooltip: '', height: '200'}
       type: Image
       layout_properties: {grid_position: 'KTIEJU,BINRLY'}
+    - name: spacer_9
+      properties: {height: 32}
+      type: Spacer
+      layout_properties: {grid_position: 'KTIEJU,SKLDLY ECDYYF,VVGSZQ'}
     - name: link_watchlist_name_2
       properties: {role: star-tile, spacing_above: none, spacing_below: none}
       type: Link
@@ -32,15 +36,28 @@ components:
       properties: {text: '', role: artist-name-tile, icon: '', spacing_above: none, spacing_below: none}
       type: Label
       layout_properties: {grid_position: 'KTIEJU,SKLDLY DZFXMW,ZSRTQH'}
+    - name: Artist_Country
+      properties: {role: artist-name-tile, spacing_above: none, spacing_below: none}
+      type: Label
+      layout_properties: {grid_position: 'KTIEJU,SKLDLY DZFXMW,ZHXYPS'}
     - name: label_1
       properties: {text: Description, role: title-tile, spacing_above: none, spacing_below: none}
       type: Label
       layout_properties: {grid_position: 'KTIEJU,SKLDLY MEAAVE,ZXYGJH'}
-    - name: bio_text_2
-      properties: {format: restricted_html, role: description-tile, spacing_below: none, spacing_above: none}
-      type: RichText
-      layout_properties: {grid_position: 'KTIEJU,SKLDLY TZMZHB,PPXCOK'}
-      components: []
+    - name: bio
+      properties:
+        spacing_above: none
+        spacing_below: none
+        role: [description-tile-bio-text]
+      type: Link
+      layout_properties: {grid_position: 'KTIEJU,SKLDLY TKGZMO,OFZBCZ'}
+      components:
+      - name: bio_text
+        properties: {format: restricted_html, role: description-tile, spacing_below: none, spacing_above: none, align: left}
+        type: RichText
+        layout_properties: {grid_position: 'KGVVOP,AOUFXE'}
+        components: []
+      event_bindings: {click: bio_click}
     - name: flow_panel_artist_tile
       properties: {align: left, spacing_above: none, spacing_below: none, role: null}
       type: FlowPanel
@@ -51,14 +68,15 @@ components:
         type: Label
         layout_properties: {}
     - name: flow_panel_social_media_tile
-      properties: {spacing_above: none, spacing_below: none}
+      properties: {spacing_above: none, spacing_below: none, role: music-icons-tile}
       type: FlowPanel
       layout_properties: {grid_position: 'KTIEJU,SKLDLY FOWFTI,GFZXGD'}
       components:
       - name: social_media_link
-        properties: {spacing_above: none, spacing_below: none, icon: '', text: ''}
+        properties: {spacing_above: none, spacing_below: none, icon: '', text: '', role: music-icons-tile}
         type: Link
         layout_properties: {}
+        data_bindings: []
   - name: column_panel_7
     properties: {role: tile-background, col_widths: '{"KEKOUB":25,"RJLENQ":35}'}
     type: ColumnPanel
@@ -240,13 +258,13 @@ components:
       properties: {height: 4}
       type: Spacer
       layout_properties: {grid_position: 'WRLQOW,HOSDXG DHATCB,UCVIJK'}
-    - name: bio
+    - name: bio_old
       properties: {icon: '', icon_align: left, role: description, spacing_below: none, spacing_above: none, text: '', tooltip: min}
       type: Link
       layout_properties: {grid_position: 'WRLQOW,HOSDXG KGXJHH,VZBTDK'}
-      event_bindings: {click: bio_click}
+      event_bindings: {click: bio_old_click}
       components:
-      - name: bio_text
+      - name: bio_text_old
         properties: {format: restricted_html, role: description, spacing_below: none, spacing_above: none}
         type: RichText
         layout_properties: {grid_position: 'YHRMFM,PMTQHL'}

@@ -72,6 +72,8 @@ roles:
 - {name: highlights-tile-background}
 - {name: sub_title-regular-tile}
 - {name: value-regular-tile}
+- {name: music-icons-tile}
+- {name: description-tile-bio-text}
 color_scheme:
   preset_groups:
   - name: Accent

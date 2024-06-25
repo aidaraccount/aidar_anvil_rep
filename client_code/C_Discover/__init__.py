@@ -142,8 +142,9 @@ class C_Discover(C_DiscoverTemplate):
         "Instagram": "fa:instagram",
         "Twitter": "fa:twitter",
         "YouTube": "fa:youtube",
-        # ... Deezer, TikTok
-      }
+        "Deezer": "fab:deezer",
+        "TikTok": "fab:tiktok"
+       }
       
       if sug["Platforms"] == 'None':
         self.social_media_link.visible = False
@@ -155,6 +156,8 @@ class C_Discover(C_DiscoverTemplate):
           if social_media_list[i]["platform"] in platform_dict:  
             found = True
             social_media_link = Link(icon=platform_dict[social_media_list[i]["platform"]])
+            social_media_link.role = "music-icons-tile"
+            
 
           if found is True:
             # social_media_link.role = 'genre-box'
@@ -172,6 +175,7 @@ class C_Discover(C_DiscoverTemplate):
         self.countries.text = '-'
       else:
         self.countries.text = country["CountryName"]
+        self.Artist_Country.text = country["CountryCode"]
       
       # birt date
       if sug["BirthDate"] == 'None': self.birthday.text = '-'
@@ -200,10 +204,10 @@ class C_Discover(C_DiscoverTemplate):
       if biography != 'None':
         if len(biography) >= 300:
           self.bio_text.content = biography[0:300] + '...'
-          self.bio_text_2.content = biography[0:300] + '...'
+          # self.bio_text_2.content = biography[0:300] + '...'
         else:
           self.bio_text.content = biography
-          self.bio_text_2.content = biography
+          # self.bio_text_2.content = biography
       else:
         self.bio.visible = False     
 
