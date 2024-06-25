@@ -113,7 +113,7 @@ class C_Discover(C_DiscoverTemplate):
 
       # origin
       if sug["Countries"] == 'None': self.countries.text = '-'
-      else: self.countries.text = sug["Countries"]
+      else: self.countries.text = json.loads(sug["Countries"])["CountryName"]
       
       # birt date
       if sug["BirthDate"] == 'None': self.birthday.text = '-'
@@ -173,16 +173,54 @@ class C_Discover(C_DiscoverTemplate):
       elif sug["SubMajorCoop"] == '0': smc = 'no'
       else: smc = '-'
       self.sub_major_coop.text = smc
+
+      co_artists = json.loads(anvil.server.call('get_co_artists', int(cur_artist_id)))
+      self.co_artists_avg.text = "{:.2f}".format(round(co_artists[0]["avg_co_artists_per_track"],2))      
       
       # b) release tables
       if self.data_grid_releases.visible is True:
         self.data_grid_releases_data.items = json.loads(anvil.server.call('get_dev_releases', int(cur_artist_id)))
 
-      # c) co-artists by frequency
+      # c) labels freq
+      labels_freq = json.loads(anvil.server.call('get_labels_freq', int(cur_artist_id)))
+      if labels_freq != []:
+        self.plot_labels_freq.visible = True
+        self.no_labels_freq.visible = False
+        
+        self.plot_labels_freq.data = [
+          go.Bar(
+            x = [x['LabelName'] for x in labels_freq],
+            y = [x['NoLabels'] for x in labels_freq],
+            marker = dict(color = 'rgb(253, 101, 45)')
+          )
+        ]
+        self.plot_labels_freq.layout = {
+          'template': 'plotly_dark',
+          'title': {
+            'text' : 'Most frequent Label cooperations',
+            'x': 0.5,
+            'xanchor': 'center'
+            },
+          'yaxis': {
+            'title': 'No. Labels',
+            'range': [0, 1.1*max([x['NoLabels'] for x in labels_freq])]
+          },
+          'paper_bgcolor': 'rgb(40, 40, 40)',
+          'plot_bgcolor': 'rgb(40, 40, 40)'
+        }
+      else:
+        self.plot_labels_freq.visible = False
+        self.no_labels_freq.visible = True
+
+      # d) co-artists by frequency
       if self.data_grid_co_artists_freq.visible is True:
-        self.data_grid_co_artists_freq_data.items = json.loads(anvil.server.call('get_co_artists', int(cur_artist_id)))
+        self.data_grid_co_artists_freq_data.items = co_artists
       
-      # d) related artists table
+      # e) co-artists by popularity
+      if self.data_grid_co_artists_pop.visible is True:
+        self.data_grid_co_artists_pop_data.items = sorted(co_artists, key=lambda x: float(x['ArtistPopularity_lat']), reverse=True)
+      
+      # f) related artists table
       if self.data_grid_related_artists.visible is True:
         self.data_grid_related_artists_data.items = json.loads(anvil.server.call('get_dev_related_artists', int(cur_artist_id), int(self.model_id)))
 
