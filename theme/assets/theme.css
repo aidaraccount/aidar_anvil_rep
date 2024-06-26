@@ -293,8 +293,8 @@ body, html {
   border-radius: 15px;
   height: auto !important;
   width: auto;
-  max-width: 400px; 
-  max-height: 400px;
+  max-width: 375px; 
+  max-height: 375px;
   top: 40% !important;
   left: 6% !important;
 }
@@ -330,10 +330,28 @@ body, html {
     border: 1px solid #ccc;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    max-width: 80%; /* Ensure the alert does not exceed 80% of the screen width */
-    max-height: 80vh; /* Ensure the alert does not exceed 80% of the viewport height */
+    max-width: 101%; /* Ensure the alert does not exceed 80% of the screen width */
+    max-height: 50vh; /* Ensure the alert does not exceed 80% of the viewport height */
     overflow: hidden; /* Hide overflow to ensure internal scrolling */
+    color: white;
+    /* overflow-y: auto; */
 }
+
+.anvil-role-alert-long-text {
+  height: 100vh;
+  overflow-y: auto; 
+}
+
+.modal-body:has(> .anvil-role-custom-alert) {
+  padding: 0px;
+}
+.modal-dialog:has( .anvil-role-custom-alert) {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -75%) !important;
+}
+
 
 .anvil-role-tile-background .anvil-panel-col-BINRLY.wrap-mobile {
   display: flex;
@@ -590,13 +608,12 @@ div.row {
   padding: 0px !important;
 }
 
-.modal-dialog {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) !important;
-    
-  }
+.modal-dialog:has( .anvil-role-background-gradient-alerts) {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -75%) !important;
+}
 
 @media only screen and (min-width: 1081px) {
   .modal-dialog {

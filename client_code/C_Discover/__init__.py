@@ -39,6 +39,8 @@ class C_Discover(C_DiscoverTemplate):
   # --------------------------------------------
   # SUGGESTIONS
   def refresh_sug(self, temp_artist_id, **event_args):    
+    global temp_artist_id_global
+    temp_artist_id_global = temp_artist_id
     self.spacer_bottom_margin.height = 80
     sug = json.loads(anvil.server.call('get_suggestion', 'Inspect', self.model_id, temp_artist_id)) # Free, Explore, Inspect, Dissect
     
@@ -525,19 +527,11 @@ class C_Discover(C_DiscoverTemplate):
   # -------------------------------
   # BIO CLICK
   def bio_click(self, **event_args):
-    if self.bio.tooltip == 'min':
-      # self.bio_text.content = biography
-      # self.bio.tooltip = 'max'
-      custom_alert_form = CustomAlertForm(text=self.biography)
-      alert(content=custom_alert_form, large=True, buttons=[])
-      # alert(content=Label(text=biography), title="Biography", large=True)
-    else:
-      if len(biography) >= 100:
-        self.bio_text.content = biography[0:100] + '...'
-      else:
-        self.bio_text.content = biography
-      self.bio.tooltip = 'min'
+    sug = json.loads(anvil.server.call('get_suggestion', 'Inspect', self.model_id, temp_artist_id_global)) # Free, Explore, Inspect, Dissect
+    custom_alert_form = CustomAlertForm(text=self.biography, pickurl=sug["ArtistPictureURL"], artist_name=sug["Name"])
+    alert(content=custom_alert_form, large=True, buttons=[])
 
+  
   # def text_box_search_pressed_enter(self, **event_args):
   #   search_text = self.text_box_search.text
   #   popup_table = alert(
