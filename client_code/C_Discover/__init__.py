@@ -529,7 +529,7 @@ class C_Discover(C_DiscoverTemplate):
       # self.bio_text.content = biography
       # self.bio.tooltip = 'max'
       custom_alert_form = CustomAlertForm(text=self.biography)
-      alert(content=custom_alert_form, title="Biography", large=True)
+      alert(content=custom_alert_form, large=True, buttons=[])
       # alert(content=Label(text=biography), title="Biography", large=True)
     else:
       if len(biography) >= 100:

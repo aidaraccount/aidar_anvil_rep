@@ -77,6 +77,7 @@ roles:
 - {name: flex-container-parent-tile}
 - {name: tile-background-left}
 - {name: tile-background-right}
+- {name: background-gradient-alerts}
 color_scheme:
   preset_groups:
   - name: Accent

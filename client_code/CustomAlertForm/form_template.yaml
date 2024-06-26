@@ -1,9 +1,9 @@
 container:
   type: HtmlTemplate
-  properties: {html: ''}
+  properties: {html: '', visible: true, role: background-gradient-alerts}
 components:
 - name: rich_text_1
-  properties: {}
+  properties: {align: left, format: restricted_html, role: null}
   type: RichText
   layout_properties: {slot: default}
 is_package: true
