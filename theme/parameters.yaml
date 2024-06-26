@@ -59,7 +59,7 @@ roles:
 - name: little_note
   components: [Link]
 - {name: test}
-- {name: tile-background}
+- {name: tile-background-general}
 - {name: description-tile}
 - {name: title-tile}
 - {name: artist-image}
@@ -74,6 +74,9 @@ roles:
 - {name: value-regular-tile}
 - {name: music-icons-tile}
 - {name: description-tile-bio-text}
+- {name: flex-container-parent-tile}
+- {name: tile-background-left}
+- {name: tile-background-right}
 color_scheme:
   preset_groups:
   - name: Accent

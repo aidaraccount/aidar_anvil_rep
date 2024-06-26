@@ -206,9 +206,9 @@ class C_Discover(C_DiscoverTemplate):
 
       # biography
       if biography != 'None':
-        if len(biography) >= 300:
-          self.bio_text.content = biography[0:300] + '...'
-          # self.bio_text_2.content = biography[0:300] + '...'
+        if len(biography) >= 100:
+          self.bio_text.content = biography[0:100] + '...'
+          # self.bio_text_2.content = biography[0:310] + '...'
         else:
           self.bio_text.content = biography
           # self.bio_text_2.content = biography
@@ -532,8 +532,8 @@ class C_Discover(C_DiscoverTemplate):
       alert(content=custom_alert_form, title="Biography", large=True)
       # alert(content=Label(text=biography), title="Biography", large=True)
     else:
-      if len(biography) >= 300:
-        self.bio_text.content = biography[0:300] + '...'
+      if len(biography) >= 100:
+        self.bio_text.content = biography[0:100] + '...'
       else:
         self.bio_text.content = biography
       self.bio.tooltip = 'min'
