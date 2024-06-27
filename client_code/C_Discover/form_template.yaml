@@ -16,7 +16,7 @@ components:
     type: Label
     layout_properties: {grid_position: 'SYXIOJ,LTMDQS'}
     name: header
-  - properties: {col_widths: '{"BINRLY":20,"SKLDLY":40,"VVGSZQ":55,"TTUFMO":5}', role: tile-background-left}
+  - properties: {col_widths: '{"BINRLY":20,"SKLDLY":40,"XFZSMP":55,"SZWANA":5}', role: tile-background-left}
     type: ColumnPanel
     layout_properties: {grid_position: 'FDCDSH,AMHHEF'}
     name: column_panel_Artist
@@ -30,44 +30,26 @@ components:
         type: Image
         layout_properties: {grid_position: 'ISPLKC,JXPNZE'}
         name: artist_image
-    - properties: {align: left, spacing_above: none, spacing_below: none, role: music-genre-tile}
-      type: FlowPanel
-      layout_properties: {grid_position: 'KTIEJU,SKLDLY IESCDW,VALLNP'}
-      name: flow_panel_genre_tile
-    - properties: {role: star-tile, spacing_above: none, icon_align: right, spacing_below: none}
-      type: Link
-      layout_properties: {grid_position: 'KTIEJU,SKLDLY ECDYYF,TTUFMO'}
-      event_bindings: {click: link_watchlist_name_click}
-      name: link_watchlist_name
     - properties: {height: 32}
       type: Spacer
-      layout_properties: {grid_position: 'KTIEJU,SKLDLY ECDYYF,VVGSZQ'}
+      layout_properties: {grid_position: 'KTIEJU,SKLDLY IESCDW,XFZSMP'}
       name: spacer_9
-    - properties: {spacing_above: none, spacing_below: none, role: music-icons-tile}
-      type: FlowPanel
-      layout_properties: {grid_position: 'KTIEJU,SKLDLY FOWFTI,GFZXGD'}
-      name: flow_panel_social_media_tile
-    - properties: {format: restricted_html, role: description-bio, spacing_below: none, spacing_above: none, align: left}
-      type: RichText
-      layout_properties: {grid_position: 'KTIEJU,SKLDLY TKGZMO,RAKEZT'}
-      name: bio_text
+    - properties: {role: star-tile, spacing_above: none, icon_align: right, spacing_below: none}
+      type: Link
+      layout_properties: {grid_position: 'KTIEJU,SKLDLY IESCDW,SZWANA'}
+      event_bindings: {click: link_watchlist_name_click}
+      name: link_watchlist_name
     - properties: {spacing: large}
       type: FlowPanel
-      layout_properties: {grid_position: 'KTIEJU,SKLDLY NLOXMA,HIWWHG'}
+      layout_properties: {grid_position: 'KTIEJU,SKLDLY WJGMQK,GUYSZE'}
       name: Artist_Name_Details
       components:
       - properties: {text: '', role: artist-name-tile, icon: '', spacing_above: none, spacing_below: none}
         type: Label
-        layout_properties: null
         name: name
-    - properties: {icon: null, icon_align: null, role: description-bio, spacing_below: none, spacing_above: none, text: Show more, tooltip: null}
-      type: Link
-      layout_properties: {grid_position: 'KTIEJU,SKLDLY LTGMHY,QVMULW'}
-      event_bindings: {click: bio_click}
-      name: bio
     - properties: {spacing_above: none, spacing_below: none, role: description-tile-bio-text}
       type: FlowPanel
-      layout_properties: {grid_position: 'KTIEJU,SKLDLY CLKAXL,KERNYJ'}
+      layout_properties: {grid_position: 'KTIEJU,SKLDLY FYHMZB,OCVTSI'}
       name: Artist_Details
       components:
       - properties: {role: null, font_size: null, spacing_above: none, spacing_below: none}
@@ -82,6 +64,23 @@ components:
         type: Label
         layout_properties: {}
         name: birthday
+    - properties: {format: restricted_html, role: description-bio, spacing_below: none, spacing_above: none, align: left}
+      type: RichText
+      layout_properties: {grid_position: 'KTIEJU,SKLDLY TKGZMO,RAKEZT'}
+      name: bio_text
+    - properties: {icon: null, icon_align: null, role: description-bio, spacing_below: none, spacing_above: none, text: Show more, tooltip: null}
+      type: Link
+      layout_properties: {grid_position: 'KTIEJU,SKLDLY EGCWKC,HLYSEA'}
+      event_bindings: {click: bio_click}
+      name: bio
+    - properties: {align: left, spacing_above: none, spacing_below: none, role: music-genre-tile}
+      type: FlowPanel
+      layout_properties: {grid_position: 'KTIEJU,SKLDLY SBXREV,OFPSAE'}
+      name: flow_panel_genre_tile
+    - properties: {spacing_above: none, spacing_below: none, role: music-icons-tile}
+      type: FlowPanel
+      layout_properties: {grid_position: 'KTIEJU,SKLDLY KHSZYQ,HNDHLG'}
+      name: flow_panel_social_media_tile
   - properties: {role: tile-background-right, col_widths: '{"KEKOUB":30,"RJLENQ":30}'}
     type: ColumnPanel
     layout_properties: {grid_position: 'FDCDSH,SSPHIY'}
