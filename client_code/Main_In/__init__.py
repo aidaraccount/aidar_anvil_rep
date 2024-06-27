@@ -30,7 +30,8 @@ class Main_In(Main_InTemplate):
     print(f"{datetime.datetime.now()}: Main_In - link_login_click - 1", flush=True)
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
-    
+    self.role = 'POST_LOGIN_PAGE'
+
     # Any code you write here will run before the form opens.    
     begin = datetime.datetime.now()
     
@@ -104,7 +105,6 @@ class Main_In(Main_InTemplate):
     print(f"{datetime.datetime.now()}: Main_In - link_login_click - 5", flush=True)
     print(f"TotalTime Main_In: {datetime.datetime.now() - begin}", flush=True)
 
-  
   def logo_click(self, **event_args):
     open_form('Main_Out')
     

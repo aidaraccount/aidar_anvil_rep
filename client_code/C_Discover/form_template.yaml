@@ -1,246 +1,270 @@
+is_package: true
+custom_component: true
 container:
   type: HtmlTemplate
   properties:
     html: "<div anvil-drop-default anvil-drop-redirect=\".placeholder\" anvil-drop-container=\".anvil-container\"></div>\n  <div class=\"footer\">\n    <div class=\"footer-slot\" anvil-slot=\"footer-slot\">\n    <div class=\"placeholder anvil-designer-only\" anvil-if-slot-empty=\"footer-slot\" anvil-drop-here>Drop a FlowPanel or Label or Link Component here</div>\n  </div>\n</div> \n\n"
     background: ''
+    role: test
 components:
-- name: column_panel_1
-  properties: {spacing_above: small, spacing_below: small, col_spacing: medium, col_widths: '{"DTEJWC":15,"HPUOQR":45}'}
+- properties: {spacing_above: small, spacing_below: small, col_spacing: medium, col_widths: '{"AMHHEF":45,"SSPHIY":15}'}
   type: ColumnPanel
   layout_properties: {slot: default}
+  name: column_panel_1
   components:
-  - name: header
-    properties: {role: title, bold: false, align: left, spacing_above: small, background: '', icon: '', underline: false, font: '', icon_align: left, foreground: '', spacing_below: small, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: Discover Artists by AI-Recommendation}
+  - properties: {role: title, bold: false, align: left, spacing_above: small, background: '', icon: '', underline: false, font: '', icon_align: left, foreground: '', spacing_below: small, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: Discover Artists by AI-Recommendation}
     type: Label
     layout_properties: {grid_position: 'SYXIOJ,LTMDQS'}
-  - name: info
-    properties: {icon: 'fa:angle-down', icon_align: left, role: description-bio, spacing_below: none, spacing_above: none, text: Info}
-    type: Link
-    layout_properties: {grid_position: 'AUFXYX,OWNLYU'}
-    event_bindings: {click: info_click}
-  - name: spacer_5
-    properties: {height: '16'}
-    type: Spacer
-    layout_properties: {grid_position: 'PCRXPN,NGBNPE'}
-  - name: artist_link
-    properties: {col_widths: '{}'}
-    type: Link
-    layout_properties: {grid_position: 'EYOQXT,DTEJWC'}
-    components:
-    - name: artist_image
-      properties: {role: null, vertical_align: center, spacing_above: none, background: '', horizontal_align: center, source: '', foreground: '', display_mode: zoom_to_fill, spacing_below: none, visible: true, border: '', tooltip: '', height: '170'}
-      type: Image
-      layout_properties: {grid_position: 'XISFUA,MXKFIP'}
-  - name: column_panel_4
-    properties: {col_widths: '{"FKEIWL":5,"WXEPPA":55,"UXYXLB":25,"HOSDXG":60,"CZMPOC":15,"YYFIRV":35,"BWAVGC":20,"ZWYWBO":9}', col_spacing: tiny}
+    name: header
+  - properties: {col_widths: '{"BINRLY":20,"SKLDLY":40,"VVGSZQ":55,"TTUFMO":5}', role: tile-background-left}
     type: ColumnPanel
-    layout_properties: {grid_position: 'EYOQXT,HPUOQR'}
+    layout_properties: {grid_position: 'FDCDSH,AMHHEF'}
+    name: column_panel_Artist
     components:
-    - name: link_watchlist_name
-      properties: {role: artist_name_shadow}
+    - properties: {col_widths: null}
       type: Link
-      layout_properties: {grid_position: 'WRLQOW,HOSDXG UYZDXY,FKEIWL'}
+      layout_properties: {grid_position: 'KTIEJU,BINRLY'}
+      name: artist_link
+      components:
+      - properties: {role: artist-image, vertical_align: center, spacing_above: none, background: '', horizontal_align: center, source: '', foreground: '', display_mode: zoom_to_fill, spacing_below: none, visible: true, border: '', tooltip: '', height: '200'}
+        type: Image
+        layout_properties: {grid_position: 'ISPLKC,JXPNZE'}
+        name: artist_image
+    - properties: {align: left, spacing_above: none, spacing_below: none, role: music-genre-tile}
+      type: FlowPanel
+      layout_properties: {grid_position: 'KTIEJU,SKLDLY IESCDW,VALLNP'}
+      name: flow_panel_genre_tile
+    - properties: {role: star-tile, spacing_above: none, icon_align: right, spacing_below: none}
+      type: Link
+      layout_properties: {grid_position: 'KTIEJU,SKLDLY ECDYYF,TTUFMO'}
       event_bindings: {click: link_watchlist_name_click}
-    - name: name
-      properties: {text: '', role: artist_name_shadow, icon: ''}
-      type: Label
-      layout_properties: {grid_position: 'WRLQOW,HOSDXG UYZDXY,WXEPPA'}
-    - name: countries
-      properties: {spacing_below: small, spacing_above: small, role: feature, font_size: 16}
-      type: Label
-      layout_properties: {grid_position: 'WRLQOW,HOSDXG OWJGOG,UXYXLB JIWIZS,MCWAPT'}
-    - name: genres
-      properties: {align: left, underline: false, role: feature, font_size: 16}
-      type: Label
-      layout_properties: {grid_position: 'WRLQOW,HOSDXG OWJGOG,UXYXLB WLFHCC,OMLURK'}
-    - name: linear_panel_1
-      properties: {background: '', role: grid, border: ''}
-      type: LinearPanel
-      layout_properties: {grid_position: 'WRLQOW,CZMPOC'}
-      components:
-      - name: prediction
-        properties: {role: artist_name_shadow, align: center, spacing_below: none, font_size: 32, bold: true}
-        type: Label
-        layout_properties: {}
-      - name: link_2
-        properties: {text: match likelihood, align: center, spacing_below: none, spacing_above: small, role: table_content_small}
-        type: Link
-        event_bindings: {click: info_prediction_click}
-        layout_properties: {}
-    - name: birthday
-      properties: {role: feature, font_size: 16}
-      type: Label
-      layout_properties: {grid_position: 'WRLQOW,HOSDXG OWJGOG,BWAVGC DWSLDE,ANJFUW'}
-    - name: gender
-      properties: {role: feature, font_size: 16}
-      type: Label
-      layout_properties: {grid_position: 'WRLQOW,HOSDXG OWJGOG,BWAVGC NHIEQF,KHJJCP'}
-    - name: column_panel_5
-      properties: {col_spacing: tiny, spacing_above: none, spacing_below: none}
-      type: ColumnPanel
-      layout_properties: {grid_position: 'WRLQOW,HOSDXG OWJGOG,YYFIRV YQHVKI,CQFODO'}
-      components:
-      - name: artist_popularity_lat
-        properties: {role: feature, align: right, font_size: 16}
-        type: Label
-        layout_properties: {grid_position: 'KBHJNP,ZKXMFI'}
-      - name: link_3
-        properties: {text: Popularity, role: description, spacing_below: none, icon: 'fa:spotify', icon_align: left}
-        type: Link
-        layout_properties: {grid_position: 'KBHJNP,BEOKOQ'}
-        event_bindings: {click: info_popularity_click}
-    - name: column_panel_6
-      properties: {col_spacing: tiny, spacing_below: none, spacing_above: none}
-      type: ColumnPanel
-      layout_properties: {grid_position: 'WRLQOW,HOSDXG OWJGOG,YYFIRV XASSSK,RHASJF'}
-      components:
-      - name: artist_follower_lat
-        properties: {role: feature, align: right, font_size: 16}
-        type: Label
-        layout_properties: {grid_position: 'PSREYD,FBKOWX'}
-      - name: link_4
-        properties: {text: Follower, role: description, spacing_below: none, icon: 'fa:spotify'}
-        type: Link
-        layout_properties: {grid_position: 'PSREYD,MZHJEE'}
-        event_bindings: {click: info_follower_click}
-    - name: spacer_7
-      properties: {height: 32}
+      name: link_watchlist_name
+    - properties: {height: 32}
       type: Spacer
-      layout_properties: {grid_position: 'WRLQOW,HOSDXG OWJGOG,ZWYWBO'}
-    - name: spacer_2
-      properties: {height: 4}
-      type: Spacer
-      layout_properties: {grid_position: 'WRLQOW,HOSDXG DHATCB,UCVIJK'}
-    - name: bio
-      properties: {icon: '', icon_align: left, role: description-bio, spacing_below: none, spacing_above: none, text: '', tooltip: min}
+      layout_properties: {grid_position: 'KTIEJU,SKLDLY ECDYYF,VVGSZQ'}
+      name: spacer_9
+    - properties: {spacing_above: none, spacing_below: none, role: music-icons-tile}
+      type: FlowPanel
+      layout_properties: {grid_position: 'KTIEJU,SKLDLY FOWFTI,GFZXGD'}
+      name: flow_panel_social_media_tile
+    - properties: {format: restricted_html, role: description-bio, spacing_below: none, spacing_above: none, align: left}
+      type: RichText
+      layout_properties: {grid_position: 'KTIEJU,SKLDLY TKGZMO,RAKEZT'}
+      name: bio_text
+    - properties: {spacing: large}
+      type: FlowPanel
+      layout_properties: {grid_position: 'KTIEJU,SKLDLY NLOXMA,HIWWHG'}
+      name: Artist_Name_Details
+      components:
+      - properties: {text: '', role: artist-name-tile, icon: '', spacing_above: none, spacing_below: none}
+        type: Label
+        layout_properties: null
+        name: name
+    - properties: {icon: null, icon_align: null, role: description-bio, spacing_below: none, spacing_above: none, text: Show more, tooltip: null}
       type: Link
-      layout_properties: {grid_position: 'WRLQOW,HOSDXG KGXJHH,VZBTDK'}
+      layout_properties: {grid_position: 'KTIEJU,SKLDLY LTGMHY,QVMULW'}
       event_bindings: {click: bio_click}
+      name: bio
+    - properties: {spacing_above: none, spacing_below: none, role: description-tile-bio-text}
+      type: FlowPanel
+      layout_properties: {grid_position: 'KTIEJU,SKLDLY CLKAXL,KERNYJ'}
+      name: Artist_Details
       components:
-      - name: bio_text
-        properties: {format: restricted_html, role: description-bio, spacing_below: none, spacing_above: none}
-        type: RichText
-        layout_properties: {grid_position: 'YHRMFM,PMTQHL'}
-  - name: xy_panel_2
-    properties: {height: 3, role: bottom_line}
-    type: XYPanel
-    layout_properties: {grid_position: 'HTCPFN,KBBZJB'}
-    components: []
-  - name: flow_panel_sections
-    properties: {spacing: small}
+      - properties: {role: null, font_size: null, spacing_above: none, spacing_below: none}
+        type: Label
+        layout_properties: {}
+        name: gender
+      - properties: {text: '|', spacing_above: none, spacing_below: none}
+        type: Label
+        layout_properties: {}
+        name: gender_birthday_line
+      - properties: {role: null, font_size: null, spacing_above: none, spacing_below: none}
+        type: Label
+        layout_properties: {}
+        name: birthday
+  - properties: {role: tile-background-right, col_widths: '{"KEKOUB":30,"RJLENQ":30}'}
+    type: ColumnPanel
+    layout_properties: {grid_position: 'FDCDSH,SSPHIY'}
+    name: column_panel_KPIs
+    components:
+    - properties: {text: KPIs, align: left, role: sub_title-regular, spacing_above: none, spacing_below: none}
+      type: Label
+      layout_properties: {grid_position: 'YZXEIA,KEKOUB LQGTDK,BHVLJK'}
+      name: label_4
+    - properties: {role: score-tile-background}
+      type: LinearPanel
+      layout_properties: {grid_position: 'YZXEIA,KEKOUB XBWMVA,RCCOIP'}
+      name: linear_panel_2
+      components:
+      - properties: {role: artist_name_shadow, align: center, spacing_below: none, font_size: 32, bold: true, spacing_above: none}
+        type: Label
+        layout_properties: {}
+        name: prediction
+    - properties: {spacing_above: small, spacing_below: none, role: highlights-tile-background}
+      type: LinearPanel
+      layout_properties: {grid_position: 'YZXEIA,KEKOUB ORIZUZ,FEOKJD VVXWEI,TQIGGV'}
+      name: linear_panel_6
+      components:
+      - properties: {text: Followers, role: sub_title-regular-tile, spacing_above: none, spacing_below: none}
+        type: Label
+        layout_properties: {}
+        name: label_8
+      - properties: {role: value-regular-tile, spacing_above: none, spacing_below: none, text: '79.3'}
+        type: Label
+        layout_properties: {}
+        name: KPI_tile_2
+    - properties: {role: highlights-tile-background, spacing_above: small, spacing_below: none}
+      type: LinearPanel
+      layout_properties: {grid_position: 'YZXEIA,KEKOUB ORIZUZ,NIJZSN HDZJOY,YGPOQI'}
+      name: linear_panel_5
+      components:
+      - properties: {text: Popularity, role: sub_title-regular-tile, spacing_above: none, spacing_below: none}
+        type: Label
+        layout_properties: {}
+        name: label_7
+      - properties: {role: value-regular-tile, spacing_above: none, spacing_below: none, text: '15'}
+        type: Label
+        layout_properties: {}
+        name: KPI_tile_1
+    - properties: {spacing_above: none, spacing_below: small, role: highlights-tile-background}
+      type: LinearPanel
+      layout_properties: {grid_position: 'YZXEIA,KEKOUB ORIZUZ,NIJZSN GJRDAX,FMCRXN'}
+      name: linear_panel_3
+      components:
+      - properties: {text: N/A, role: sub_title-regular-tile, spacing_above: none, spacing_below: none}
+        type: Label
+        layout_properties: {}
+        name: label_5
+      - properties: {role: value-regular-tile, spacing_above: none, spacing_below: none, text: N/A}
+        type: Label
+        layout_properties: {}
+        name: KPI_tile_3
+    - properties: {spacing_above: none, spacing_below: small, role: highlights-tile-background}
+      type: LinearPanel
+      layout_properties: {grid_position: 'YZXEIA,KEKOUB ORIZUZ,FEOKJD GPIHJY,LGILBY'}
+      name: linear_panel_4
+      components:
+      - properties: {text: N/A, role: sub_title-regular-tile, spacing_above: none, spacing_below: none}
+        type: Label
+        layout_properties: {}
+        name: label_6
+      - properties: {role: value-regular-tile, spacing_above: none, spacing_below: none, text: N/A}
+        type: Label
+        layout_properties: {}
+        name: KPI_tile_4
+  - properties: {visible: false}
+    type: FlowPanel
+    layout_properties: {grid_position: 'BIAKRF,TSAQXZ'}
+    name: flow_panel_boxes
+    components:
+    - properties: {}
+      type: Link
+      name: link_6
+  - properties: {spacing: small}
     type: FlowPanel
     layout_properties: {grid_position: 'CKLNBG,MMQKXA'}
+    name: flow_panel_sections
     components:
-    - name: nav_releases
-      properties: {text: RELEASES, role: table_content_small_orange_underlined}
+    - properties: {text: RELEASES, role: table_content_small_orange_underlined}
       type: Link
       event_bindings: {click: nav_releases_click}
       layout_properties: {}
-    - name: nav_success
-      properties: {text: SUCCESS, role: table_content_small}
+      name: nav_releases
+    - properties: {text: SUCCESS, role: table_content_small}
       type: Link
       event_bindings: {click: nav_success_click}
-    - name: nav_fandom
-      properties: {role: table_content_small, text: FANDOM, visible: true}
+      name: nav_success
+    - properties: {role: table_content_small, text: FANDOM, visible: true}
       type: Link
       layout_properties: {}
       event_bindings: {click: nav_fandom_click}
-    - name: nav_musical
-      properties: {text: MUSICAL, role: table_content_small}
+      name: nav_fandom
+    - properties: {text: MUSICAL, role: table_content_small}
       type: Link
       layout_properties: {}
       event_bindings: {click: nav_musical_click}
-  - name: flow_panel_boxes
-    properties: {visible: false}
-    type: FlowPanel
-    layout_properties: {grid_position: 'BIAKRF,TSAQXZ'}
-    components:
-    - name: link_6
-      properties: {}
-      type: Link
-  - name: sec_releases
-    properties: {spacing_above: medium, col_widths: '{"GCGCBV":20,"FCFCHY":40}'}
+      name: nav_musical
+  - properties: {spacing_above: medium, col_widths: '{"GCGCBV":20,"FCFCHY":40}'}
     type: ColumnPanel
-    layout_properties: {grid_position: 'TPSTBH,IOALXB'}
+    layout_properties: {grid_position: 'MWPJDV,AXZWYO'}
+    name: sec_releases
     components:
-    - name: column_panel_13_copy_2
-      properties: {role: grid, col_widths: '{}', spacing_above: small, background: '', wrap_on: mobile, col_spacing: medium, foreground: '', spacing_below: small, visible: true, border: '', tooltip: ''}
+    - properties: {role: grid, col_widths: '{}', spacing_above: small, background: '', wrap_on: mobile, col_spacing: medium, foreground: '', spacing_below: small, visible: true, border: '', tooltip: ''}
       type: ColumnPanel
       layout_properties: {grid_position: 'BVCSDW,WJFINK'}
+      name: column_panel_13_copy_2
       components:
-      - name: no_tracks
-        properties: {role: investigate_value, spacing_below: none}
+      - properties: {role: investigate_value, spacing_below: none}
         type: Label
         layout_properties: {grid_position: 'PQVFNP,OPWFCH'}
-      - name: link_19_copy_2
-        properties: {role: investigate_feature, bold: false, align: left, col_widths: '', spacing_above: none, background: '', icon: '', wrap_on: mobile, underline: false, font: '', col_spacing: medium, icon_align: left, foreground: '', url: '', spacing_below: none, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: No. Tracks}
+        name: no_tracks
+      - properties: {role: investigate_feature, bold: false, align: left, col_widths: '', spacing_above: none, background: '', icon: '', wrap_on: mobile, underline: false, font: '', col_spacing: medium, icon_align: left, foreground: '', url: '', spacing_below: none, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: No. Tracks}
         type: Link
         layout_properties: {grid_position: 'XGUOFT,MYKOJE'}
         event_bindings: {click: info_no_tracks_click}
-    - name: column_panel_13_copy_copy
-      properties: {role: grid, col_widths: '{}', spacing_above: small, background: '', wrap_on: mobile, col_spacing: medium, foreground: '', spacing_below: small, visible: true, border: '', tooltip: ''}
+        name: link_19_copy_2
+    - properties: {role: grid, col_widths: '{}', spacing_above: small, background: '', wrap_on: mobile, col_spacing: medium, foreground: '', spacing_below: small, visible: true, border: '', tooltip: ''}
       type: ColumnPanel
       layout_properties: {grid_position: 'BVCSDW,OLZONH'}
+      name: column_panel_13_copy_copy
       components:
-      - name: first_release_date
-        properties: {role: investigate_value, spacing_below: none}
+      - properties: {role: investigate_value, spacing_below: none}
         type: Label
         layout_properties: {grid_position: 'MHQYMX,WTWHNX'}
-      - name: link_19_copy
-        properties: {role: investigate_feature, bold: false, align: left, col_widths: '', spacing_above: none, background: '', icon: '', wrap_on: mobile, underline: false, font: '', col_spacing: medium, icon_align: left, foreground: '', url: '', spacing_below: none, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: First Release}
+        name: first_release_date
+      - properties: {role: investigate_feature, bold: false, align: left, col_widths: '', spacing_above: none, background: '', icon: '', wrap_on: mobile, underline: false, font: '', col_spacing: medium, icon_align: left, foreground: '', url: '', spacing_below: none, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: First Release}
         type: Link
         layout_properties: {grid_position: 'IYWUHB,CFPNJX'}
         event_bindings: {click: info_first_release_click}
-        components: []
-    - name: column_panel_13_copy
-      properties: {role: grid, col_widths: '{}', spacing_above: small, background: '', wrap_on: mobile, col_spacing: medium, foreground: '', spacing_below: small, visible: true, border: '', tooltip: ''}
+        name: link_19_copy
+    - properties: {role: grid, col_widths: '{}', spacing_above: small, background: '', wrap_on: mobile, col_spacing: medium, foreground: '', spacing_below: small, visible: true, border: '', tooltip: ''}
       type: ColumnPanel
       layout_properties: {grid_position: 'BVCSDW,CIHQUV'}
+      name: column_panel_13_copy
       components:
-      - name: last_release_date
-        properties: {role: investigate_value, spacing_below: none}
+      - properties: {role: investigate_value, spacing_below: none}
         type: Label
         layout_properties: {grid_position: 'SXFWNZ,NRAFLF'}
-      - name: link_20_copy
-        properties: {role: investigate_feature, bold: false, align: left, col_widths: '', spacing_above: none, background: '', icon: '', wrap_on: mobile, underline: false, font: '', col_spacing: medium, icon_align: left, foreground: '', url: '', spacing_below: none, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: Latest Release}
+        name: last_release_date
+      - properties: {role: investigate_feature, bold: false, align: left, col_widths: '', spacing_above: none, background: '', icon: '', wrap_on: mobile, underline: false, font: '', col_spacing: medium, icon_align: left, foreground: '', url: '', spacing_below: none, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: Latest Release}
         type: Link
         layout_properties: {grid_position: 'HCXKJT,DVVQLI'}
         event_bindings: {click: info_last_release_click}
-    - name: column_panel_13_copy_2_copy
-      properties: {role: grid, col_widths: '{}', spacing_above: small, background: '', wrap_on: mobile, col_spacing: medium, foreground: '', spacing_below: small, visible: true, border: '', tooltip: ''}
+        name: link_20_copy
+    - properties: {role: grid, col_widths: '{}', spacing_above: small, background: '', wrap_on: mobile, col_spacing: medium, foreground: '', spacing_below: small, visible: true, border: '', tooltip: ''}
       type: ColumnPanel
       layout_properties: {grid_position: 'VIBAAQ,ZLBDWZ'}
+      name: column_panel_13_copy_2_copy
       components:
-      - name: latest_label
-        properties: {role: investigate_value, spacing_below: none}
+      - properties: {role: investigate_value, spacing_below: none}
         type: Label
         layout_properties: {grid_position: 'DGSYEA,TTIQAL'}
-      - name: link_19_copy_2_copy
-        properties: {role: investigate_feature, bold: false, align: left, col_widths: '', spacing_above: none, background: '', icon: '', wrap_on: mobile, underline: false, font: '', col_spacing: medium, icon_align: left, foreground: '', url: '', spacing_below: none, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: Latest Label}
+        name: latest_label
+      - properties: {role: investigate_feature, bold: false, align: left, col_widths: '', spacing_above: none, background: '', icon: '', wrap_on: mobile, underline: false, font: '', col_spacing: medium, icon_align: left, foreground: '', url: '', spacing_below: none, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: Latest Label}
         type: Link
         layout_properties: {grid_position: 'WMRVVY,YMBTVP'}
         event_bindings: {click: info_latest_label_click}
-    - name: column_panel_13_copy_3_copy
-      properties: {role: grid, col_widths: '{}', spacing_above: small, background: '', wrap_on: mobile, col_spacing: medium, foreground: '', spacing_below: small, visible: true, border: '', tooltip: ''}
+        name: link_19_copy_2_copy
+    - properties: {role: grid, col_widths: '{}', spacing_above: small, background: '', wrap_on: mobile, col_spacing: medium, foreground: '', spacing_below: small, visible: true, border: '', tooltip: ''}
       type: ColumnPanel
       layout_properties: {grid_position: 'VIBAAQ,JUKAPC'}
+      name: column_panel_13_copy_3_copy
       components:
-      - name: major_coop
-        properties: {role: investigate_value, bold: true, align: left, spacing_above: none, background: '', icon: '', underline: false, font: '', icon_align: left, foreground: 'theme:PrimaryNumber', spacing_below: none, visible: true, border: '', italic: false, font_size: 28, tooltip: '', text: ''}
+      - properties: {role: investigate_value, bold: true, align: left, spacing_above: none, background: '', icon: '', underline: false, font: '', icon_align: left, foreground: 'theme:PrimaryNumber', spacing_below: none, visible: true, border: '', italic: false, font_size: 28, tooltip: '', text: ''}
         type: Label
         layout_properties: {grid_position: 'IGTDIP,VTPXTJ'}
-      - name: link_19_copy_3
-        properties: {role: investigate_feature, bold: false, align: left, col_widths: '', spacing_above: none, background: '', icon: '', wrap_on: mobile, underline: false, font: '', col_spacing: medium, icon_align: left, foreground: '', url: '', spacing_below: none, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: Major Coop}
+        name: major_coop
+      - properties: {role: investigate_feature, bold: false, align: left, col_widths: '', spacing_above: none, background: '', icon: '', wrap_on: mobile, underline: false, font: '', col_spacing: medium, icon_align: left, foreground: '', url: '', spacing_below: none, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: Major Coop}
         type: Link
         layout_properties: {grid_position: 'UABAGL,OBQMAP'}
         event_bindings: {click: info_major_click}
-    - name: column_panel_13_copy_3
-      properties: {role: grid, col_widths: '{}', spacing_above: small, background: '', wrap_on: mobile, col_spacing: medium, foreground: '', spacing_below: small, visible: true, border: '', tooltip: ''}
+        name: link_19_copy_3
+    - properties: {role: grid, col_widths: '{}', spacing_above: small, background: '', wrap_on: mobile, col_spacing: medium, foreground: '', spacing_below: small, visible: true, border: '', tooltip: ''}
       type: ColumnPanel
       layout_properties: {grid_position: 'VIBAAQ,OAONDC'}
+      name: column_panel_13_copy_3
       components:
-      - name: sub_major_coop
-        properties: {role: investigate_value, bold: true, align: left, spacing_above: none, background: '', icon: '', underline: false, font: '', icon_align: left, foreground: 'theme:PrimaryNumber', spacing_below: none, visible: true, border: '', italic: false, font_size: 28, tooltip: '', text: ''}
+      - properties: {role: investigate_value, bold: true, align: left, spacing_above: none, background: '', icon: '', underline: false, font: '', icon_align: left, foreground: 'theme:PrimaryNumber', spacing_below: none, visible: true, border: '', italic: false, font_size: 28, tooltip: '', text: ''}
         type: Label
         layout_properties:
           col_widths: {}
@@ -248,41 +272,40 @@ components:
           row: EVSSDZ
           width_xs: 11
           col_xs: 1
-      - name: link_20_copy_2
-        properties: {role: investigate_feature, bold: false, align: left, col_widths: '', spacing_above: none, background: '', icon: '', wrap_on: mobile, underline: false, font: '', col_spacing: medium, icon_align: left, foreground: '', url: '', spacing_below: none, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: Sub-Major Coop}
+        name: sub_major_coop
+      - properties: {role: investigate_feature, bold: false, align: left, col_widths: '', spacing_above: none, background: '', icon: '', wrap_on: mobile, underline: false, font: '', col_spacing: medium, icon_align: left, foreground: '', url: '', spacing_below: none, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: Sub-Major Coop}
         type: Link
         layout_properties: {grid_position: 'DEQFQB,SXQSBH'}
         event_bindings: {click: info_sub_major_click}
-    - name: column_panel_8
-      properties: {role: grid}
+        name: link_20_copy_2
+    - properties: {role: grid}
       type: ColumnPanel
       layout_properties: {grid_position: 'ATQNCT,GCGCBV'}
+      name: column_panel_8
       components:
-      - name: co_artists_avg
-        properties: {role: investigate_value, spacing_below: none}
+      - properties: {role: investigate_value, spacing_below: none}
         type: Label
         layout_properties: {grid_position: 'YDJUKN,OOUIMF'}
-      - name: link_19_copy_2_copy_copy
-        properties: {role: investigate_feature, bold: false, align: left, col_widths: '', spacing_above: none, background: '', icon: '', wrap_on: mobile, underline: false, font: '', col_spacing: medium, icon_align: left, foreground: '', url: '', spacing_below: none, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: Avg. No. of Co-Artists per Track}
+        name: co_artists_avg
+      - properties: {role: investigate_feature, bold: false, align: left, col_widths: '', spacing_above: none, background: '', icon: '', wrap_on: mobile, underline: false, font: '', col_spacing: medium, icon_align: left, foreground: '', url: '', spacing_below: none, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: Avg. No. of Co-Artists per Track}
         type: Link
         layout_properties: {grid_position: 'MSIGBH,TFOHGX'}
         event_bindings: {click: info_latest_label_click}
-        components: []
-    - name: spacer_1
-      properties: {height: 32}
+        name: link_19_copy_2_copy_copy
+    - properties: {height: 32}
       type: Spacer
       layout_properties: {grid_position: 'ATQNCT,FCFCHY'}
-    - name: column_panel_3
-      properties: {role: grid}
+      name: spacer_1
+    - properties: {role: grid}
       type: ColumnPanel
       layout_properties: {grid_position: 'DHKUTX,IRURDT'}
+      name: column_panel_3
       components:
-      - name: rel_1
-        properties: {text: ' Albums and Singles', role: artist_name}
+      - properties: {text: ' Albums and Singles', role: artist_name}
         type: Label
         layout_properties: {grid_position: 'STZFGT,BWOAOF'}
-      - name: data_grid_releases
-        properties:
+        name: rel_1
+      - properties:
           columns:
           - {id: JKSDUP, title: Release, data_key: AlbumReleaseDate}
           - {id: VJQQOR, title: Album, data_key: AlbumName}
@@ -291,42 +314,41 @@ components:
           role: table_header
           rows_per_page: 5
         type: DataGrid
+        layout_properties: {grid_position: 'UHLFFT,AZCCED'}
+        name: data_grid_releases
         components:
-        - name: data_grid_releases_data
-          properties: {item_template: C_Discover.RowTemplate1, role: table_content_small}
+        - properties: {item_template: C_Discover.RowTemplate1, role: table_content_small}
           type: RepeatingPanel
           layout_properties: {}
-        layout_properties: {grid_position: 'UHLFFT,AZCCED'}
-    - name: column_panel_3_copy_copy_copy_copy_copy_2_copy_copy_2
-      properties: {role: grid}
+          name: data_grid_releases_data
+    - properties: {role: grid}
       type: ColumnPanel
       layout_properties: {grid_position: 'RSILBZ,HLQJAR'}
+      name: column_panel_3_copy_copy_copy_copy_copy_2_copy_copy_2
       components:
-      - name: rel_1_copy_copy_copy_copy_copy_2_copy_copy_2
-        properties: {text: ' Most frequent Labels', role: artist_name}
+      - properties: {text: ' Most frequent Labels', role: artist_name}
         type: Label
         layout_properties: {grid_position: 'BCHOZO,TMNYIR'}
-      - name: plot_labels_freq
-        properties: {spacing_above: small, spacing_below: small, height: '300', visible: true, tooltip: '', interactive: false}
+        name: rel_1_copy_copy_copy_copy_copy_2_copy_copy_2
+      - properties: {spacing_above: small, spacing_below: small, height: '300', visible: true, tooltip: '', interactive: false}
         type: Plot
         layout_properties: {grid_position: 'VQTYJE,RKWVRK'}
-        data_bindings: []
         event_bindings: {}
-      - name: no_labels_freq
-        properties: {text: no data available, align: center, role: description, visible: false, spacing_below: large, spacing_above: large}
+        name: plot_labels_freq
+      - properties: {text: no data available, align: center, role: description, visible: false, spacing_below: large, spacing_above: large}
         type: Label
         layout_properties: {grid_position: 'MCTTTL,OTDAWL'}
-    - name: column_panel_3_copy_copy_2
-      properties: {role: grid}
+        name: no_labels_freq
+    - properties: {role: grid}
       type: ColumnPanel
       layout_properties: {grid_position: 'KTCVMK,ICUHXW'}
+      name: column_panel_3_copy_copy_2
       components:
-      - name: rel_1_copy_copy_2
-        properties: {text: ' Most frequent Co-Artists', role: artist_name}
+      - properties: {text: ' Most frequent Co-Artists', role: artist_name}
         type: Label
         layout_properties: {grid_position: 'VQTYJE,ZDJDFY'}
-      - name: data_grid_co_artists_freq
-        properties:
+        name: rel_1_copy_copy_2
+      - properties:
           columns:
           - {id: JKSDUP, title: Artist, data_key: column_1}
           - {id: VJQQOR, title: No. of joint Tracks, data_key: NoTracks}
@@ -334,22 +356,22 @@ components:
           rows_per_page: 3
         type: DataGrid
         layout_properties: {grid_position: 'OMOXTQ,FUFKIQ'}
+        name: data_grid_co_artists_freq
         components:
-        - name: data_grid_co_artists_freq_data
-          properties: {item_template: C_Discover.RowTemplate3, role: table_content_small}
+        - properties: {item_template: C_Discover.RowTemplate3, role: table_content_small}
           type: RepeatingPanel
           layout_properties: {}
-    - name: column_panel_3_copy_copy_2_copy
-      properties: {role: grid}
+          name: data_grid_co_artists_freq_data
+    - properties: {role: grid}
       type: ColumnPanel
       layout_properties: {grid_position: 'VSUOCZ,FFTFDF'}
+      name: column_panel_3_copy_copy_2_copy
       components:
-      - name: rel_1_copy_copy_2_copy
-        properties: {text: ' Most popular Co-Artists', role: artist_name}
+      - properties: {text: ' Most popular Co-Artists', role: artist_name}
         type: Label
         layout_properties: {grid_position: 'VQTYJE,ZDJDFY'}
-      - name: data_grid_co_artists_pop
-        properties:
+        name: rel_1_copy_copy_2_copy
+      - properties:
           columns:
           - {id: JKSDUP, title: Artist, data_key: column_1}
           - {id: VJQQOR, title: Popularity, data_key: ArtistPopularity_lat}
@@ -358,22 +380,22 @@ components:
           rows_per_page: 3
         type: DataGrid
         layout_properties: {grid_position: 'OMOXTQ,FUFKIQ'}
+        name: data_grid_co_artists_pop
         components:
-        - name: data_grid_co_artists_pop_data
-          properties: {item_template: C_Discover.RowTemplate4, role: table_content_small}
+        - properties: {item_template: C_Discover.RowTemplate4, role: table_content_small}
           type: RepeatingPanel
           layout_properties: {}
-    - name: column_panel_3_copy
-      properties: {role: grid}
+          name: data_grid_co_artists_pop_data
+    - properties: {role: grid}
       type: ColumnPanel
       layout_properties: {grid_position: 'RVVWTX,JXAXYG'}
+      name: column_panel_3_copy
       components:
-      - name: rel_1_copy
-        properties: {text: ' Similar Artists of Interest', role: artist_name}
+      - properties: {text: ' Similar Artists of Interest', role: artist_name}
         type: Label
         layout_properties: {grid_position: 'VQTYJE,ZDJDFY'}
-      - name: data_grid_related_artists
-        properties:
+        name: rel_1_copy
+      - properties:
           columns:
           - {id: JKSDUP, title: Artist, data_key: column_1}
           - {id: VJQQOR, title: Rating, data_key: Interest}
@@ -381,515 +403,506 @@ components:
           role: table_header
           rows_per_page: 3
         type: DataGrid
+        layout_properties: {grid_position: 'OMOXTQ,FUFKIQ'}
+        name: data_grid_related_artists
         components:
-        - name: data_grid_related_artists_data
-          properties: {item_template: C_Discover.RowTemplate2, role: table_content_small}
+        - properties: {item_template: C_Discover.RowTemplate2, role: table_content_small}
           type: RepeatingPanel
           layout_properties: {}
-        layout_properties: {grid_position: 'OMOXTQ,FUFKIQ'}
-  - name: sec_success
-    properties: {spacing_above: medium}
+          name: data_grid_related_artists_data
+  - properties: {spacing_above: medium}
     type: ColumnPanel
     layout_properties: {grid_position: 'SHZKXU,TURGAE'}
+    name: sec_success
     components:
-    - name: column_panel_7
-      properties: {role: grid}
+    - properties: {role: grid}
       type: ColumnPanel
       layout_properties: {grid_position: 'VJMENP,XRZKLA'}
+      name: column_panel_7
       components:
-      - name: sp_pop_lat
-        properties: {role: investigate_value, spacing_below: none}
+      - properties: {role: investigate_value, spacing_below: none}
         type: Label
         layout_properties: {grid_position: 'MWEVGS,GQUHSG'}
-      - name: link_19_copy_2_copy_copy_copy
-        properties: {role: investigate_feature, bold: false, align: left, col_widths: '', spacing_above: none, background: '', icon: '', wrap_on: mobile, underline: false, font: '', col_spacing: medium, icon_align: left, foreground: '', url: '', spacing_below: none, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: Spotify Popularity lat.}
+        name: sp_pop_lat
+      - properties: {role: investigate_feature, bold: false, align: left, col_widths: '', spacing_above: none, background: '', icon: '', wrap_on: mobile, underline: false, font: '', col_spacing: medium, icon_align: left, foreground: '', url: '', spacing_below: none, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: Spotify Popularity lat.}
         type: Link
         layout_properties: {grid_position: 'PHIEJU,OFHFDF'}
         event_bindings: {click: info_latest_label_click}
-    - name: column_panel_9
-      properties: {role: grid}
+        name: link_19_copy_2_copy_copy_copy
+    - properties: {role: grid}
       type: ColumnPanel
       layout_properties: {grid_position: 'VJMENP,ATYZUK'}
+      name: column_panel_9
       components:
-      - name: sp_fol_lat
-        properties: {role: investigate_value, spacing_below: none}
+      - properties: {role: investigate_value, spacing_below: none}
         type: Label
         layout_properties: {grid_position: 'EWGCRV,XHYSZW'}
-      - name: link_19_copy_2_copy_copy_copy_2
-        properties: {role: investigate_feature, bold: false, align: left, col_widths: '', spacing_above: none, background: '', icon: '', wrap_on: mobile, underline: false, font: '', col_spacing: medium, icon_align: left, foreground: '', url: '', spacing_below: none, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: Spotify Follower lat.}
+        name: sp_fol_lat
+      - properties: {role: investigate_feature, bold: false, align: left, col_widths: '', spacing_above: none, background: '', icon: '', wrap_on: mobile, underline: false, font: '', col_spacing: medium, icon_align: left, foreground: '', url: '', spacing_below: none, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: Spotify Follower lat.}
         type: Link
         layout_properties: {grid_position: 'WHRAMO,VXRICO'}
         event_bindings: {click: info_latest_label_click}
-    - name: spacer_4
-      properties: {height: 32}
+        name: link_19_copy_2_copy_copy_copy_2
+    - properties: {height: 32}
       type: Spacer
       layout_properties: {grid_position: 'VJMENP,OKKLNV'}
-    - name: column_panel_3_copy_copy_copy_copy
-      properties: {role: grid}
+      name: spacer_4
+    - properties: {role: grid}
       type: ColumnPanel
       layout_properties: {grid_position: 'QIWMEU,TVRZHO'}
+      name: column_panel_3_copy_copy_copy_copy
       components:
-      - name: rel_1_copy_copy_copy_copy
-        properties: {text: ' Spotify Popoularity', role: artist_name}
+      - properties: {text: ' Spotify Popoularity', role: artist_name}
         type: Label
         layout_properties: {grid_position: 'BCHOZO,TMNYIR'}
-      - name: plot_popularity
-        properties: {spacing_above: small, spacing_below: small, height: '300', visible: true, tooltip: '', interactive: false}
+        name: rel_1_copy_copy_copy_copy
+      - properties: {spacing_above: small, spacing_below: small, height: '300', visible: true, tooltip: '', interactive: false}
         type: Plot
         layout_properties: {grid_position: 'VQTYJE,RKWVRK'}
-        data_bindings: []
         event_bindings: {}
-    - name: column_panel_3_copy_copy_copy_copy_copy
-      properties: {role: grid}
+        name: plot_popularity
+    - properties: {role: grid}
       type: ColumnPanel
       layout_properties: {grid_position: 'JAPSMZ,ULXNAC'}
+      name: column_panel_3_copy_copy_copy_copy_copy
       components:
-      - name: rel_1_copy_copy_copy_copy_copy
-        properties: {text: ' Spotify Follower', role: artist_name}
+      - properties: {text: ' Spotify Follower', role: artist_name}
         type: Label
         layout_properties: {grid_position: 'MHFOQZ,VJFZOS'}
-      - name: plot_followers
-        properties: {spacing_above: small, spacing_below: small, height: '300', visible: true, tooltip: '', interactive: false}
+        name: rel_1_copy_copy_copy_copy_copy
+      - properties: {spacing_above: small, spacing_below: small, height: '300', visible: true, tooltip: '', interactive: false}
         type: Plot
         layout_properties: {grid_position: 'VQTYJE,FJXENJ'}
-        data_bindings: []
         event_bindings: {}
-  - name: sec_fandom
-    properties: {spacing_above: medium}
+        name: plot_followers
+  - properties: {spacing_above: medium}
     type: ColumnPanel
     layout_properties: {grid_position: 'FOUKHU,NVVFEM'}
+    name: sec_fandom
     components:
-    - name: column_panel_3_copy_copy_copy_copy_copy_2
-      properties: {role: grid}
+    - properties: {role: grid}
       type: ColumnPanel
       layout_properties: {grid_position: 'DVVTDV,AEMOBE'}
+      name: column_panel_3_copy_copy_copy_copy_copy_2
       components:
-      - name: rel_1_copy_copy_copy_copy_copy_2
-        properties: {text: ' Spotify Monthly Listeners', role: artist_name}
+      - properties: {text: ' Spotify Monthly Listeners', role: artist_name}
         type: Label
         layout_properties: {grid_position: 'BCHOZO,TMNYIR'}
-      - name: plot_mtl_listeners
-        properties: {spacing_above: small, spacing_below: small, height: '300', visible: true, tooltip: '', interactive: false}
+        name: rel_1_copy_copy_copy_copy_copy_2
+      - properties: {spacing_above: small, spacing_below: small, height: '300', visible: true, tooltip: '', interactive: false}
         type: Plot
         layout_properties: {grid_position: 'VQTYJE,RKWVRK'}
-        data_bindings: []
         event_bindings: {}
-      - name: no_mtl_listeners
-        properties: {text: no data available, align: center, role: description, visible: false, spacing_below: large, spacing_above: large}
+        name: plot_mtl_listeners
+      - properties: {text: no data available, align: center, role: description, visible: false, spacing_below: large, spacing_above: large}
         type: Label
         layout_properties: {grid_position: 'MCTTTL,OTDAWL'}
-    - name: column_panel_3_copy_copy_copy_copy_copy_2_copy
-      properties: {role: grid}
+        name: no_mtl_listeners
+    - properties: {role: grid}
       type: ColumnPanel
       layout_properties: {grid_position: 'BQGQHO,AAKCBI'}
+      name: column_panel_3_copy_copy_copy_copy_copy_2_copy
       components:
-      - name: rel_1_copy_copy_copy_copy_copy_2_copy
-        properties: {text: ' Spotify Monthly Listeners by Country', role: artist_name}
+      - properties: {text: ' Spotify Monthly Listeners by Country', role: artist_name}
         type: Label
         layout_properties: {grid_position: 'BCHOZO,TMNYIR'}
-      - name: plot_mtl_listeners_country
-        properties: {spacing_above: small, spacing_below: small, height: '300', visible: true, tooltip: '', interactive: false}
+        name: rel_1_copy_copy_copy_copy_copy_2_copy
+      - properties: {spacing_above: small, spacing_below: small, height: '300', visible: true, tooltip: '', interactive: false}
         type: Plot
         layout_properties: {grid_position: 'VQTYJE,RKWVRK'}
-        data_bindings: []
         event_bindings: {}
-      - name: no_mtl_listeners_country
-        properties: {text: no data available, align: center, role: description, visible: false, spacing_below: large, spacing_above: large}
+        name: plot_mtl_listeners_country
+      - properties: {text: no data available, align: center, role: description, visible: false, spacing_below: large, spacing_above: large}
         type: Label
         layout_properties: {grid_position: 'MCTTTL,OTDAWL'}
-    - name: column_panel_3_copy_copy_copy_copy_copy_2_copy_copy
-      properties: {role: grid}
+        name: no_mtl_listeners_country
+    - properties: {role: grid}
       type: ColumnPanel
       layout_properties: {grid_position: 'YWKCUY,PMINBR'}
+      name: column_panel_3_copy_copy_copy_copy_copy_2_copy_copy
       components:
-      - name: rel_1_copy_copy_copy_copy_copy_2_copy_copy
-        properties: {text: ' Spotify Monthly Listeners by City', role: artist_name}
+      - properties: {text: ' Spotify Monthly Listeners by City', role: artist_name}
         type: Label
         layout_properties: {grid_position: 'BCHOZO,TMNYIR'}
-      - name: plot_mtl_listeners_city
-        properties: {spacing_above: small, spacing_below: small, height: '300', visible: true, tooltip: '', interactive: false}
+        name: rel_1_copy_copy_copy_copy_copy_2_copy_copy
+      - properties: {spacing_above: small, spacing_below: small, height: '300', visible: true, tooltip: '', interactive: false}
         type: Plot
         layout_properties: {grid_position: 'VQTYJE,RKWVRK'}
-        data_bindings: []
         event_bindings: {}
-      - name: no_mtl_listeners_city
-        properties: {text: no data available, align: center, role: description, visible: false, spacing_below: large, spacing_above: large}
+        name: plot_mtl_listeners_city
+      - properties: {text: no data available, align: center, role: description, visible: false, spacing_below: large, spacing_above: large}
         type: Label
         layout_properties: {grid_position: 'MCTTTL,OTDAWL'}
-    - name: column_panel_3_copy_copy_copy_copy_copy_2_copy_2
-      properties: {role: grid}
+        name: no_mtl_listeners_city
+    - properties: {role: grid}
       type: ColumnPanel
       layout_properties: {grid_position: 'IURFJG,NZDMYP'}
+      name: column_panel_3_copy_copy_copy_copy_copy_2_copy_2
       components:
-      - name: rel_1_copy_copy_copy_copy_copy_2_copy_2
-        properties: {text: Social Media Follower, role: artist_name}
+      - properties: {text: Social Media Follower, role: artist_name}
         type: Label
         layout_properties: {grid_position: 'BCHOZO,TMNYIR'}
-      - name: plot_audience_follower
-        properties: {spacing_above: small, spacing_below: small, height: '300', visible: true, tooltip: '', interactive: false}
+        name: rel_1_copy_copy_copy_copy_copy_2_copy_2
+      - properties: {spacing_above: small, spacing_below: small, height: '300', visible: true, tooltip: '', interactive: false}
         type: Plot
         layout_properties: {grid_position: 'VQTYJE,RKWVRK'}
-        data_bindings: []
         event_bindings: {}
-      - name: no_audience_follower
-        properties: {text: no data available, align: center, role: description, visible: false, spacing_below: large, spacing_above: large}
+        name: plot_audience_follower
+      - properties: {text: no data available, align: center, role: description, visible: false, spacing_below: large, spacing_above: large}
         type: Label
         layout_properties: {grid_position: 'MCTTTL,OTDAWL'}
-  - name: sec_musical
-    properties: {spacing_above: medium}
+        name: no_audience_follower
+  - properties: {spacing_above: medium}
     type: ColumnPanel
     layout_properties: {grid_position: 'OTLNZS,FRDIQK'}
+    name: sec_musical
     components:
-    - name: column_panel_3_copy_copy
-      properties: {role: grid}
+    - properties: {role: grid}
       type: ColumnPanel
       layout_properties: {grid_position: 'WNNGDM,EZSLYL'}
+      name: column_panel_3_copy_copy
       components:
-      - name: rel_1_copy_copy
-        properties: {text: ' Musical Distance', role: artist_name}
+      - properties: {text: ' Musical Distance', role: artist_name}
         type: Label
         layout_properties: {grid_position: 'UUHTYK,BPYOXP'}
-      - name: column_panel_14
-        properties: {}
+        name: rel_1_copy_copy
+      - properties: {}
         type: ColumnPanel
         layout_properties: {grid_position: 'VQTYJE,NHNSHS'}
+        name: column_panel_14
         components:
-        - name: column_panel_2_copy
-          properties: {role: grid, col_widths: '{}', spacing_above: none, background: '', wrap_on: mobile, col_spacing: medium, foreground: '', spacing_below: none, visible: true, border: '', tooltip: ''}
+        - properties: {role: grid, col_widths: '{}', spacing_above: none, background: '', wrap_on: mobile, col_spacing: medium, foreground: '', spacing_below: none, visible: true, border: '', tooltip: ''}
           type: ColumnPanel
           layout_properties: {grid_position: 'CKKGXL,DKEDZJ'}
+          name: column_panel_2_copy
           components:
-          - name: min_mus_dis
-            properties: {role: investigate_value, bold: true, align: left, spacing_above: small, background: '', icon: '', underline: false, font: '', icon_align: left, foreground: 'theme:PrimaryNumber', spacing_below: none, visible: true, border: '', italic: false, font_size: 28, tooltip: '', text: ''}
+          - properties: {role: investigate_value, bold: true, align: left, spacing_above: small, background: '', icon: '', underline: false, font: '', icon_align: left, foreground: 'theme:PrimaryNumber', spacing_below: none, visible: true, border: '', italic: false, font_size: 28, tooltip: '', text: ''}
             type: Label
             layout_properties: {grid_position: 'YVCDWR,DAWINA', row: XCTFKJ, width_xs: 11, col_xs: 1, width: 72.75}
-          - name: link_1_copy
-            properties: {role: investigate_feature, bold: false, align: left, col_widths: '', spacing_above: none, background: '', icon: '', wrap_on: mobile, underline: false, font: '', col_spacing: medium, icon_align: left, foreground: '', url: '', spacing_below: none, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: Min. musical Distance}
+            name: min_mus_dis
+          - properties: {role: investigate_feature, bold: false, align: left, col_widths: '', spacing_above: none, background: '', icon: '', wrap_on: mobile, underline: false, font: '', col_spacing: medium, icon_align: left, foreground: '', url: '', spacing_below: none, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: Min. musical Distance}
             type: Link
             layout_properties: {grid_position: 'TZABOD,AECNFO'}
             event_bindings: {click: info_min_distance_click}
-        - name: column_panel_3_copy_2
-          properties: {role: grid, col_widths: '{}', spacing_above: none, background: '', wrap_on: mobile, col_spacing: medium, foreground: '', spacing_below: none, visible: true, border: '', tooltip: ''}
+            name: link_1_copy
+        - properties: {role: grid, col_widths: '{}', spacing_above: none, background: '', wrap_on: mobile, col_spacing: medium, foreground: '', spacing_below: none, visible: true, border: '', tooltip: ''}
           type: ColumnPanel
           layout_properties: {grid_position: 'CKKGXL,GJVLZT'}
+          name: column_panel_3_copy_2
           components:
-          - name: avg_mus_dis
-            properties: {role: investigate_value, bold: true, align: left, spacing_above: small, background: '', icon: '', underline: false, font: '', icon_align: left, foreground: 'theme:PrimaryNumber', spacing_below: none, visible: true, border: '', italic: false, font_size: 28, tooltip: '', text: ''}
+          - properties: {role: investigate_value, bold: true, align: left, spacing_above: small, background: '', icon: '', underline: false, font: '', icon_align: left, foreground: 'theme:PrimaryNumber', spacing_below: none, visible: true, border: '', italic: false, font_size: 28, tooltip: '', text: ''}
             type: Label
             layout_properties: {row: OCXZRC, width_xs: 11, col_xs: 1, width: 72.75, grid_position: 'RMLVSZ,QXZGJL'}
-          - name: link_3_copy
-            properties: {role: investigate_feature, bold: false, align: left, col_widths: '', spacing_above: none, background: '', icon: '', wrap_on: mobile, underline: false, font: '', col_spacing: medium, icon_align: left, foreground: '', url: '', spacing_below: none, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: Avg. musical Distance}
+            name: avg_mus_dis
+          - properties: {role: investigate_feature, bold: false, align: left, col_widths: '', spacing_above: none, background: '', icon: '', wrap_on: mobile, underline: false, font: '', col_spacing: medium, icon_align: left, foreground: '', url: '', spacing_below: none, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: Avg. musical Distance}
             type: Link
             layout_properties: {grid_position: 'HIMGHL,NMXKNB'}
             event_bindings: {click: info_avg_distance_click}
-        - name: column_panel_1_copy
-          properties: {role: grid, col_widths: '{}', spacing_above: none, background: '', wrap_on: mobile, col_spacing: medium, foreground: '', spacing_below: none, visible: true, border: '', tooltip: ''}
+            name: link_3_copy
+        - properties: {role: grid, col_widths: '{}', spacing_above: none, background: '', wrap_on: mobile, col_spacing: medium, foreground: '', spacing_below: none, visible: true, border: '', tooltip: ''}
           type: ColumnPanel
           layout_properties: {grid_position: 'CKKGXL,NWLAYP'}
+          name: column_panel_1_copy
           components:
-          - name: max_mus_dis
-            properties: {role: investigate_value, bold: true, align: left, spacing_above: small, background: '', icon: '', underline: false, font: '', icon_align: left, foreground: 'theme:PrimaryNumber', spacing_below: none, visible: true, border: '', italic: false, font_size: 28, tooltip: '', text: ''}
+          - properties: {role: investigate_value, bold: true, align: left, spacing_above: small, background: '', icon: '', underline: false, font: '', icon_align: left, foreground: 'theme:PrimaryNumber', spacing_below: none, visible: true, border: '', italic: false, font_size: 28, tooltip: '', text: ''}
             type: Label
             layout_properties: {row: SQNGAS, width_xs: 11, col_xs: 1, width: 72.75, grid_position: 'AEPZLF,CEHZHY'}
-          - name: link_5_copy
-            properties: {role: investigate_feature, bold: false, align: left, col_widths: '', spacing_above: none, background: '', icon: '', wrap_on: mobile, underline: false, font: '', col_spacing: medium, icon_align: left, foreground: '', url: '', spacing_below: none, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: Max. musical Distance}
+            name: max_mus_dis
+          - properties: {role: investigate_feature, bold: false, align: left, col_widths: '', spacing_above: none, background: '', icon: '', wrap_on: mobile, underline: false, font: '', col_spacing: medium, icon_align: left, foreground: '', url: '', spacing_below: none, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: Max. musical Distance}
             type: Link
             layout_properties: {grid_position: 'HLGMJF,ENQDPS'}
             event_bindings: {click: info_max_distance_click}
-    - name: column_panel_3_copy_copy_copy
-      properties: {role: grid}
+            name: link_5_copy
+    - properties: {role: grid}
       type: ColumnPanel
       layout_properties: {grid_position: 'LWDYRX,SWQJPW'}
+      name: column_panel_3_copy_copy_copy
       components:
-      - name: rel_1_copy_copy_copy
-        properties: {text: ' Musical Features', role: artist_name}
+      - properties: {text: ' Musical Features', role: artist_name}
         type: Label
         layout_properties: {grid_position: 'IUBCUJ,KHEYCG'}
-      - name: TARGET_copy_2
-        properties: {}
+        name: rel_1_copy_copy_copy
+      - properties: {}
         type: ColumnPanel
         layout_properties: {grid_position: 'JQHLHR,NBKRQB'}
+        name: TARGET_copy_2
         components:
-        - name: column_panel_12
-          properties: {role: grid, col_widths: '{}', spacing_above: none, background: '', wrap_on: mobile, col_spacing: medium, foreground: '', spacing_below: none, visible: true, border: '', tooltip: ''}
+        - properties: {role: grid, col_widths: '{}', spacing_above: none, background: '', wrap_on: mobile, col_spacing: medium, foreground: '', spacing_below: none, visible: true, border: '', tooltip: ''}
           type: ColumnPanel
           layout_properties: {grid_position: 'ZNICZU,BLGITE'}
+          name: column_panel_12
           components:
-          - name: feature_1
-            properties: {role: investigate_value, bold: true, align: left, spacing_above: small, background: '', icon: '', underline: false, font: '', icon_align: left, foreground: 'theme:PrimaryNumber', spacing_below: none, visible: true, border: '', italic: false, font_size: 28, tooltip: '', text: ''}
+          - properties: {role: investigate_value, bold: true, align: left, spacing_above: small, background: '', icon: '', underline: false, font: '', icon_align: left, foreground: 'theme:PrimaryNumber', spacing_below: none, visible: true, border: '', italic: false, font_size: 28, tooltip: '', text: ''}
             type: Label
             layout_properties: {row: CONETN, width_xs: 11, col_xs: 1, width: 72.75, grid_position: 'IOEWAF,RGTJMJ'}
-          - name: link_7
-            properties: {role: investigate_feature, bold: false, align: left, col_widths: '', spacing_above: none, background: '', icon: '', wrap_on: mobile, underline: false, font: '', col_spacing: medium, icon_align: left, foreground: '', url: '', spacing_below: none, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: Avg. Duration}
+            name: feature_1
+          - properties: {role: investigate_feature, bold: false, align: left, col_widths: '', spacing_above: none, background: '', icon: '', wrap_on: mobile, underline: false, font: '', col_spacing: medium, icon_align: left, foreground: '', url: '', spacing_below: none, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: Avg. Duration}
             type: Link
             layout_properties: {grid_position: 'EXFLVF,KEKZBS'}
             event_bindings: {click: info_duration_click}
-        - name: column_panel_11
-          properties: {role: grid, col_widths: '{}', spacing_above: none, background: '', wrap_on: mobile, col_spacing: medium, foreground: '', spacing_below: none, visible: true, border: '', tooltip: ''}
+            name: link_7
+        - properties: {role: grid, col_widths: '{}', spacing_above: none, background: '', wrap_on: mobile, col_spacing: medium, foreground: '', spacing_below: none, visible: true, border: '', tooltip: ''}
           type: ColumnPanel
           layout_properties: {grid_position: 'ZNICZU,WSPANP'}
+          name: column_panel_11
           components:
-          - name: feature_2
-            properties: {role: investigate_value, bold: true, align: left, spacing_above: small, background: '', icon: '', underline: false, font: '', icon_align: left, foreground: 'theme:PrimaryNumber', spacing_below: none, visible: true, border: '', italic: false, font_size: 28, tooltip: '', text: ''}
+          - properties: {role: investigate_value, bold: true, align: left, spacing_above: small, background: '', icon: '', underline: false, font: '', icon_align: left, foreground: 'theme:PrimaryNumber', spacing_below: none, visible: true, border: '', italic: false, font_size: 28, tooltip: '', text: ''}
             type: Label
             layout_properties: {row: OCXZRC, width_xs: 11, col_xs: 1, width: 72.75, grid_position: 'ILAAGL,XYNTBB'}
-          - name: link_8
-            properties: {role: investigate_feature, bold: false, align: left, col_widths: '', spacing_above: none, background: '', icon: '', wrap_on: mobile, underline: false, font: '', col_spacing: medium, icon_align: left, foreground: '', url: '', spacing_below: none, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: Avg. Danceability}
+            name: feature_2
+          - properties: {role: investigate_feature, bold: false, align: left, col_widths: '', spacing_above: none, background: '', icon: '', wrap_on: mobile, underline: false, font: '', col_spacing: medium, icon_align: left, foreground: '', url: '', spacing_below: none, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: Avg. Danceability}
             type: Link
             layout_properties: {grid_position: 'RXFPSJ,OWXPQH'}
             event_bindings: {click: info_danceability_click}
-        - name: column_panel_4_copy_4
-          properties: {role: grid, col_widths: '{}', spacing_above: none, background: '', wrap_on: mobile, col_spacing: medium, foreground: '', spacing_below: none, visible: true, border: '', tooltip: ''}
+            name: link_8
+        - properties: {role: grid, col_widths: '{}', spacing_above: none, background: '', wrap_on: mobile, col_spacing: medium, foreground: '', spacing_below: none, visible: true, border: '', tooltip: ''}
           type: ColumnPanel
           layout_properties: {grid_position: 'ZNICZU,SCNTER'}
+          name: column_panel_4_copy_4
           components:
-          - name: feature_3
-            properties: {role: investigate_value, bold: true, align: left, spacing_above: small, background: '', icon: '', underline: false, font: '', icon_align: left, foreground: 'theme:PrimaryNumber', spacing_below: none, visible: true, border: '', italic: false, font_size: 28, tooltip: '', text: ''}
+          - properties: {role: investigate_value, bold: true, align: left, spacing_above: small, background: '', icon: '', underline: false, font: '', icon_align: left, foreground: 'theme:PrimaryNumber', spacing_below: none, visible: true, border: '', italic: false, font_size: 28, tooltip: '', text: ''}
             type: Label
             layout_properties: {grid_position: 'TZEHAM,SGOVOJ', row: XCTFKJ, width_xs: 11, col_xs: 1, width: 72.75}
-          - name: link_9
-            properties: {role: investigate_feature, bold: false, align: left, col_widths: '', spacing_above: none, background: '', icon: '', wrap_on: mobile, underline: false, font: '', col_spacing: medium, icon_align: left, foreground: '', url: '', spacing_below: none, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: Avg. Energy}
+            name: feature_3
+          - properties: {role: investigate_feature, bold: false, align: left, col_widths: '', spacing_above: none, background: '', icon: '', wrap_on: mobile, underline: false, font: '', col_spacing: medium, icon_align: left, foreground: '', url: '', spacing_below: none, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: Avg. Energy}
             type: Link
             layout_properties: {grid_position: 'CIPDHW,GAPUTX'}
             event_bindings: {click: info_energy_click}
-      - name: TARGET_copy
-        properties: {}
+            name: link_9
+      - properties: {}
         type: ColumnPanel
         layout_properties: {grid_position: 'TNMENC,YQXGWA'}
+        name: TARGET_copy
         components:
-        - name: column_panel_11_copy
-          properties: {role: grid, col_widths: '{}', spacing_above: none, background: '', wrap_on: mobile, col_spacing: medium, foreground: '', spacing_below: none, visible: true, border: '', tooltip: ''}
+        - properties: {role: grid, col_widths: '{}', spacing_above: none, background: '', wrap_on: mobile, col_spacing: medium, foreground: '', spacing_below: none, visible: true, border: '', tooltip: ''}
           type: ColumnPanel
           layout_properties: {grid_position: 'AVXUOH,CRPPJR'}
+          name: column_panel_11_copy
           components:
-          - name: feature_4
-            properties: {role: investigate_value, bold: true, align: left, spacing_above: small, background: '', icon: '', underline: false, font: '', icon_align: left, foreground: 'theme:PrimaryNumber', spacing_below: none, visible: true, border: '', italic: false, font_size: 28, tooltip: '', text: ''}
+          - properties: {role: investigate_value, bold: true, align: left, spacing_above: small, background: '', icon: '', underline: false, font: '', icon_align: left, foreground: 'theme:PrimaryNumber', spacing_below: none, visible: true, border: '', italic: false, font_size: 28, tooltip: '', text: ''}
             type: Label
             layout_properties: {grid_position: 'CUTJQS,FHTDCA', row: XCTFKJ, width_xs: 11, col_xs: 1, width: 72.75}
-          - name: link_10
-            properties: {role: investigate_feature, bold: false, align: left, col_widths: '', spacing_above: none, background: '', icon: '', wrap_on: mobile, underline: false, font: '', col_spacing: medium, icon_align: left, foreground: '', url: '', spacing_below: none, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: Avg. Key}
+            name: feature_4
+          - properties: {role: investigate_feature, bold: false, align: left, col_widths: '', spacing_above: none, background: '', icon: '', wrap_on: mobile, underline: false, font: '', col_spacing: medium, icon_align: left, foreground: '', url: '', spacing_below: none, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: Avg. Key}
             type: Link
             layout_properties: {grid_position: 'XKVUPG,HPCJUA'}
             event_bindings: {click: info_key_click}
-        - name: column_panel_4_copy
-          properties: {role: grid, col_widths: '{}', spacing_above: none, background: '', wrap_on: mobile, col_spacing: medium, foreground: '', spacing_below: none, visible: true, border: '', tooltip: ''}
+            name: link_10
+        - properties: {role: grid, col_widths: '{}', spacing_above: none, background: '', wrap_on: mobile, col_spacing: medium, foreground: '', spacing_below: none, visible: true, border: '', tooltip: ''}
           type: ColumnPanel
           layout_properties: {grid_position: 'AVXUOH,JJLRQW'}
+          name: column_panel_4_copy
           components:
-          - name: feature_5
-            properties: {role: investigate_value, bold: true, align: left, spacing_above: small, background: '', icon: '', underline: false, font: '', icon_align: left, foreground: 'theme:PrimaryNumber', spacing_below: none, visible: true, border: '', italic: false, font_size: 28, tooltip: '', text: ''}
+          - properties: {role: investigate_value, bold: true, align: left, spacing_above: small, background: '', icon: '', underline: false, font: '', icon_align: left, foreground: 'theme:PrimaryNumber', spacing_below: none, visible: true, border: '', italic: false, font_size: 28, tooltip: '', text: ''}
             type: Label
             layout_properties: {row: OCXZRC, width_xs: 11, col_xs: 1, width: 72.75, grid_position: 'GSMLZT,IJEAVT'}
-          - name: link_11
-            properties: {role: investigate_feature, bold: false, align: left, col_widths: '', spacing_above: none, background: '', icon: '', wrap_on: mobile, underline: false, font: '', col_spacing: medium, icon_align: left, foreground: '', url: '', spacing_below: none, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: Avg. relative Loudness}
+            name: feature_5
+          - properties: {role: investigate_feature, bold: false, align: left, col_widths: '', spacing_above: none, background: '', icon: '', wrap_on: mobile, underline: false, font: '', col_spacing: medium, icon_align: left, foreground: '', url: '', spacing_below: none, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: Avg. relative Loudness}
             type: Link
             layout_properties: {grid_position: 'DUUJKP,RVTEOZ'}
             event_bindings: {click: info_loudness_click}
-        - name: column_panel_12_copy
-          properties: {role: grid, col_widths: '{}', spacing_above: none, background: '', wrap_on: mobile, col_spacing: medium, foreground: '', spacing_below: none, visible: true, border: '', tooltip: ''}
+            name: link_11
+        - properties: {role: grid, col_widths: '{}', spacing_above: none, background: '', wrap_on: mobile, col_spacing: medium, foreground: '', spacing_below: none, visible: true, border: '', tooltip: ''}
           type: ColumnPanel
           layout_properties: {grid_position: 'AVXUOH,VWXWBM'}
+          name: column_panel_12_copy
           components:
-          - name: feature_6
-            properties: {role: investigate_value, bold: true, align: left, spacing_above: small, background: '', icon: '', underline: false, font: '', icon_align: left, foreground: 'theme:PrimaryNumber', spacing_below: none, visible: true, border: '', italic: false, font_size: 28, tooltip: '', text: ''}
+          - properties: {role: investigate_value, bold: true, align: left, spacing_above: small, background: '', icon: '', underline: false, font: '', icon_align: left, foreground: 'theme:PrimaryNumber', spacing_below: none, visible: true, border: '', italic: false, font_size: 28, tooltip: '', text: ''}
             type: Label
             layout_properties: {row: CONETN, width_xs: 11, col_xs: 1, width: 72.75, grid_position: 'FRFQXX,RYONRV'}
-          - name: link_12
-            properties: {role: investigate_feature, bold: false, align: left, col_widths: '', spacing_above: none, background: '', icon: '', wrap_on: mobile, underline: false, font: '', col_spacing: medium, icon_align: left, foreground: '', url: '', spacing_below: none, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: Mode}
+            name: feature_6
+          - properties: {role: investigate_feature, bold: false, align: left, col_widths: '', spacing_above: none, background: '', icon: '', wrap_on: mobile, underline: false, font: '', col_spacing: medium, icon_align: left, foreground: '', url: '', spacing_below: none, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: Mode}
             type: Link
             layout_properties: {grid_position: 'JCJOFP,ICJRLN'}
             event_bindings: {click: info_mode_click}
-      - name: TARGET
-        properties: {}
+            name: link_12
+      - properties: {}
         type: ColumnPanel
         layout_properties: {grid_position: 'FGDGED,EWEXLJ'}
+        name: TARGET
         components:
-        - name: column_panel_11_copy_2
-          properties: {role: grid, col_widths: '{}', spacing_above: none, background: '', wrap_on: mobile, col_spacing: medium, foreground: '', spacing_below: none, visible: true, border: '', tooltip: ''}
+        - properties: {role: grid, col_widths: '{}', spacing_above: none, background: '', wrap_on: mobile, col_spacing: medium, foreground: '', spacing_below: none, visible: true, border: '', tooltip: ''}
           type: ColumnPanel
           layout_properties: {grid_position: 'MNWKAI,IUZTXJ'}
+          name: column_panel_11_copy_2
           components:
-          - name: feature_7
-            properties: {role: investigate_value, bold: true, align: left, spacing_above: small, background: '', icon: '', underline: false, font: '', icon_align: left, foreground: 'theme:PrimaryNumber', spacing_below: none, visible: true, border: '', italic: false, font_size: 28, tooltip: '', text: ''}
+          - properties: {role: investigate_value, bold: true, align: left, spacing_above: small, background: '', icon: '', underline: false, font: '', icon_align: left, foreground: 'theme:PrimaryNumber', spacing_below: none, visible: true, border: '', italic: false, font_size: 28, tooltip: '', text: ''}
             type: Label
             layout_properties: {grid_position: 'COSFPS,GEDBZA', row: XCTFKJ, width_xs: 11, col_xs: 1, width: 72.75}
-          - name: link_13
-            properties: {role: investigate_feature, bold: false, align: left, col_widths: '', spacing_above: none, background: '', icon: '', wrap_on: mobile, underline: false, font: '', col_spacing: medium, icon_align: left, foreground: '', url: '', spacing_below: none, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: Avg. Speechiness}
+            name: feature_7
+          - properties: {role: investigate_feature, bold: false, align: left, col_widths: '', spacing_above: none, background: '', icon: '', wrap_on: mobile, underline: false, font: '', col_spacing: medium, icon_align: left, foreground: '', url: '', spacing_below: none, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: Avg. Speechiness}
             type: Link
             layout_properties: {grid_position: 'UAZKCI,VAHQAR'}
             event_bindings: {click: info_speechiness_click}
-        - name: column_panel_4_copy_2
-          properties: {role: grid, col_widths: '{}', spacing_above: none, background: '', wrap_on: mobile, col_spacing: medium, foreground: '', spacing_below: none, visible: true, border: '', tooltip: ''}
+            name: link_13
+        - properties: {role: grid, col_widths: '{}', spacing_above: none, background: '', wrap_on: mobile, col_spacing: medium, foreground: '', spacing_below: none, visible: true, border: '', tooltip: ''}
           type: ColumnPanel
           layout_properties: {grid_position: 'MNWKAI,RPPNEI'}
+          name: column_panel_4_copy_2
           components:
-          - name: feature_8
-            properties: {role: investigate_value, bold: true, align: left, spacing_above: small, background: '', icon: '', underline: false, font: '', icon_align: left, foreground: 'theme:PrimaryNumber', spacing_below: none, visible: true, border: '', italic: false, font_size: 28, tooltip: '', text: ''}
+          - properties: {role: investigate_value, bold: true, align: left, spacing_above: small, background: '', icon: '', underline: false, font: '', icon_align: left, foreground: 'theme:PrimaryNumber', spacing_below: none, visible: true, border: '', italic: false, font_size: 28, tooltip: '', text: ''}
             type: Label
             layout_properties: {row: OCXZRC, width_xs: 11, col_xs: 1, width: 72.75, grid_position: 'GQYUKH,TNJUXZ'}
-          - name: link_14
-            properties: {role: investigate_feature, bold: false, align: left, col_widths: '', spacing_above: none, background: '', icon: '', wrap_on: mobile, underline: false, font: '', col_spacing: medium, icon_align: left, foreground: '', url: '', spacing_below: none, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: Avg. Acousticness}
+            name: feature_8
+          - properties: {role: investigate_feature, bold: false, align: left, col_widths: '', spacing_above: none, background: '', icon: '', wrap_on: mobile, underline: false, font: '', col_spacing: medium, icon_align: left, foreground: '', url: '', spacing_below: none, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: Avg. Acousticness}
             type: Link
             layout_properties: {grid_position: 'GSNUYJ,UHSHVD'}
             event_bindings: {click: info_acousticness_click}
-        - name: column_panel_12_copy_2
-          properties: {role: grid, col_widths: '{}', spacing_above: none, background: '', wrap_on: mobile, col_spacing: medium, foreground: '', spacing_below: none, visible: true, border: '', tooltip: ''}
+            name: link_14
+        - properties: {role: grid, col_widths: '{}', spacing_above: none, background: '', wrap_on: mobile, col_spacing: medium, foreground: '', spacing_below: none, visible: true, border: '', tooltip: ''}
           type: ColumnPanel
           layout_properties: {grid_position: 'MNWKAI,PZPZEB'}
+          name: column_panel_12_copy_2
           components:
-          - name: feature_9
-            properties: {role: investigate_value, bold: true, align: left, spacing_above: small, background: '', icon: '', underline: false, font: '', icon_align: left, foreground: 'theme:PrimaryNumber', spacing_below: none, visible: true, border: '', italic: false, font_size: 28, tooltip: '', text: ''}
+          - properties: {role: investigate_value, bold: true, align: left, spacing_above: small, background: '', icon: '', underline: false, font: '', icon_align: left, foreground: 'theme:PrimaryNumber', spacing_below: none, visible: true, border: '', italic: false, font_size: 28, tooltip: '', text: ''}
             type: Label
             layout_properties: {row: CONETN, width_xs: 11, col_xs: 1, width: 72.75, grid_position: 'TSRUUF,YIIKUU'}
-          - name: link_15
-            properties: {role: investigate_feature, bold: false, align: left, col_widths: '', spacing_above: none, background: '', icon: '', wrap_on: mobile, underline: false, font: '', col_spacing: medium, icon_align: left, foreground: '', url: '', spacing_below: none, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: Avg. Instrumentalness}
+            name: feature_9
+          - properties: {role: investigate_feature, bold: false, align: left, col_widths: '', spacing_above: none, background: '', icon: '', wrap_on: mobile, underline: false, font: '', col_spacing: medium, icon_align: left, foreground: '', url: '', spacing_below: none, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: Avg. Instrumentalness}
             type: Link
             layout_properties: {grid_position: 'WVETXP,AXIQFN'}
             event_bindings: {click: info_instrumentalness_click}
-      - name: column_panel_14_copy
-        properties: {col_widths: '{"BPTPVK":20,"VVMLFN":20,"HYYBPY":20}'}
+            name: link_15
+      - properties: {col_widths: '{"BPTPVK":20,"VVMLFN":20,"HYYBPY":20}'}
         type: ColumnPanel
         layout_properties: {grid_position: 'VQTYJE,XVKVTG'}
+        name: column_panel_14_copy
         components:
-        - name: column_panel_11_copy_3
-          properties: {role: grid, col_widths: '{}', spacing_above: none, background: '', wrap_on: mobile, col_spacing: medium, foreground: '', spacing_below: none, visible: true, border: '', tooltip: ''}
+        - properties: {role: grid, col_widths: '{}', spacing_above: none, background: '', wrap_on: mobile, col_spacing: medium, foreground: '', spacing_below: none, visible: true, border: '', tooltip: ''}
           type: ColumnPanel
           layout_properties: {grid_position: 'JNREXB,BPTPVK'}
+          name: column_panel_11_copy_3
           components:
-          - name: feature_10
-            properties: {role: investigate_value, bold: true, align: left, spacing_above: small, background: '', icon: '', underline: false, font: '', icon_align: left, foreground: 'theme:PrimaryNumber', spacing_below: none, visible: true, border: '', italic: false, font_size: 28, tooltip: '', text: ''}
+          - properties: {role: investigate_value, bold: true, align: left, spacing_above: small, background: '', icon: '', underline: false, font: '', icon_align: left, foreground: 'theme:PrimaryNumber', spacing_below: none, visible: true, border: '', italic: false, font_size: 28, tooltip: '', text: ''}
             type: Label
             layout_properties: {row: CONETN, width_xs: 11, col_xs: 1, width: 72.75, grid_position: 'RNPVLM,GYOTSZ'}
-          - name: link_16
-            properties: {role: investigate_feature, bold: false, align: left, col_widths: '', spacing_above: none, background: '', icon: '', wrap_on: mobile, underline: false, font: '', col_spacing: medium, icon_align: left, foreground: '', url: '', spacing_below: none, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: Avg. Liveness}
+            name: feature_10
+          - properties: {role: investigate_feature, bold: false, align: left, col_widths: '', spacing_above: none, background: '', icon: '', wrap_on: mobile, underline: false, font: '', col_spacing: medium, icon_align: left, foreground: '', url: '', spacing_below: none, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: Avg. Liveness}
             type: Link
             layout_properties: {grid_position: 'BNNBJS,NZWLZS'}
             event_bindings: {click: info_liveness_click}
-        - name: column_panel_4_copy_3
-          properties: {role: grid, col_widths: '{}', spacing_above: none, background: '', wrap_on: mobile, col_spacing: medium, foreground: '', spacing_below: none, visible: true, border: '', tooltip: ''}
+            name: link_16
+        - properties: {role: grid, col_widths: '{}', spacing_above: none, background: '', wrap_on: mobile, col_spacing: medium, foreground: '', spacing_below: none, visible: true, border: '', tooltip: ''}
           type: ColumnPanel
           layout_properties: {grid_position: 'JNREXB,VVMLFN'}
+          name: column_panel_4_copy_3
           components:
-          - name: feature_11
-            properties: {role: investigate_value, bold: true, align: left, spacing_above: small, background: '', icon: '', underline: false, font: '', icon_align: left, foreground: 'theme:PrimaryNumber', spacing_below: none, visible: true, border: '', italic: false, font_size: 28, tooltip: '', text: ''}
+          - properties: {role: investigate_value, bold: true, align: left, spacing_above: small, background: '', icon: '', underline: false, font: '', icon_align: left, foreground: 'theme:PrimaryNumber', spacing_below: none, visible: true, border: '', italic: false, font_size: 28, tooltip: '', text: ''}
             type: Label
             layout_properties: {row: OCXZRC, width_xs: 11, col_xs: 1, width: 72.75, grid_position: 'LYVJOJ,FUDIYT'}
-          - name: link_17
-            properties: {role: investigate_feature, bold: false, align: left, col_widths: '', spacing_above: none, background: '', icon: '', wrap_on: mobile, underline: false, font: '', col_spacing: medium, icon_align: left, foreground: '', url: '', spacing_below: none, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: Avg. Valence}
+            name: feature_11
+          - properties: {role: investigate_feature, bold: false, align: left, col_widths: '', spacing_above: none, background: '', icon: '', wrap_on: mobile, underline: false, font: '', col_spacing: medium, icon_align: left, foreground: '', url: '', spacing_below: none, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: Avg. Valence}
             type: Link
             layout_properties: {grid_position: 'CJZNUZ,HYSWNC'}
             event_bindings: {click: info_valence_click}
-        - name: column_panel_12_copy_3
-          properties: {role: grid, col_widths: '{}', spacing_above: none, background: '', wrap_on: mobile, col_spacing: medium, foreground: '', spacing_below: none, visible: true, border: '', tooltip: ''}
+            name: link_17
+        - properties: {role: grid, col_widths: '{}', spacing_above: none, background: '', wrap_on: mobile, col_spacing: medium, foreground: '', spacing_below: none, visible: true, border: '', tooltip: ''}
           type: ColumnPanel
           layout_properties: {grid_position: 'JNREXB,HYYBPY'}
+          name: column_panel_12_copy_3
           components:
-          - name: feature_12
-            properties: {role: investigate_value, bold: true, align: left, spacing_above: small, background: '', icon: '', underline: false, font: '', icon_align: left, foreground: 'theme:PrimaryNumber', spacing_below: none, visible: true, border: '', italic: false, font_size: 28, tooltip: '', text: ''}
+          - properties: {role: investigate_value, bold: true, align: left, spacing_above: small, background: '', icon: '', underline: false, font: '', icon_align: left, foreground: 'theme:PrimaryNumber', spacing_below: none, visible: true, border: '', italic: false, font_size: 28, tooltip: '', text: ''}
             type: Label
             layout_properties: {grid_position: 'GSHPUH,ILXILZ', row: XCTFKJ, width_xs: 11, col_xs: 1, width: 72.75}
-          - name: link_18
-            properties: {role: investigate_feature, bold: false, align: left, col_widths: '', spacing_above: none, background: '', icon: '', wrap_on: mobile, underline: false, font: '', col_spacing: medium, icon_align: left, foreground: '', url: '', spacing_below: none, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: Avg. Tempo}
+            name: feature_12
+          - properties: {role: investigate_feature, bold: false, align: left, col_widths: '', spacing_above: none, background: '', icon: '', wrap_on: mobile, underline: false, font: '', col_spacing: medium, icon_align: left, foreground: '', url: '', spacing_below: none, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: Avg. Tempo}
             type: Link
             layout_properties: {grid_position: 'AVTQHX,LMCVRW'}
             event_bindings: {click: info_tempo_click}
-  - name: spacer_bottom_margin
-    properties: {height: '180'}
+            name: link_18
+  - properties: {height: '180'}
     type: Spacer
     layout_properties: {grid_position: 'MNSGLO,DTALNU'}
-  data_bindings: []
-- name: column_panel_2
-  properties: {col_widths: '{"KTIVUF":20,"XUSTNC":30,"THIOWY":10,"OZIYBS":20}', col_spacing: tiny, background: 'theme:Grid_Black', spacing_below: none, spacing_above: none}
+    name: spacer_bottom_margin
+- properties: {col_widths: '{"KTIVUF":20,"XUSTNC":30,"THIOWY":10,"OZIYBS":20}', col_spacing: tiny, background: 'theme:Grid_Black', spacing_below: none, spacing_above: none, visible: true}
   type: ColumnPanel
   layout_properties: {slot: footer-slot}
+  name: Footer
   components:
-  - name: c_web_player
-    properties: {}
+  - properties: {}
     type: form:C_WebPlayer
     layout_properties: {grid_position: 'UQVSNC,KTIVUF', full_width_row: true}
-  - name: spacer_3
-    properties: {height: 32}
+    name: c_web_player
+  - properties: {height: 32}
     type: Spacer
     layout_properties: {grid_position: 'UQVSNC,THIOWY'}
-  - name: label_2
-    properties: {text: '  no fit', italic: true, font_size: 15, spacing_below: none}
+    name: spacer_3
+  - properties: {text: '  no fit', italic: true, font_size: 15, spacing_below: none}
     type: Label
     layout_properties: {grid_position: 'UQVSNC,OZIYBS THYALW,GCKCDI'}
-  - name: label_3
-    properties: {text: Match!, align: right, italic: true, font_size: 15, spacing_below: none}
+    name: label_2
+  - properties: {text: Match!, align: right, italic: true, font_size: 15, spacing_below: none}
     type: Label
     layout_properties: {grid_position: 'UQVSNC,OZIYBS THYALW,EQAUIK'}
-  - name: button_1
-    properties: {text: '1', role: feature, spacing_below: none, spacing_above: none}
+    name: label_3
+  - properties: {text: '1', role: feature, spacing_below: none, spacing_above: none}
     type: Button
     layout_properties: {grid_position: 'UQVSNC,OZIYBS CFGNEX,IXXGLU'}
     event_bindings: {click: button_1_click}
-  - name: button_1_copy
-    properties: {text: '2', role: feature, spacing_below: none, spacing_above: none}
+    name: button_1
+  - properties: {text: '2', role: feature, spacing_below: none, spacing_above: none}
     type: Button
     layout_properties: {grid_position: 'UQVSNC,OZIYBS CFGNEX,NSUNGO'}
     event_bindings: {click: button_2_click}
-  - name: button_1_copy_2
-    properties: {text: '3', role: feature, spacing_below: none, spacing_above: none}
+    name: button_1_copy
+  - properties: {text: '3', role: feature, spacing_below: none, spacing_above: none}
     type: Button
     layout_properties: {grid_position: 'UQVSNC,OZIYBS CFGNEX,OBEDSI'}
     event_bindings: {click: button_3_click}
-  - name: button_1_copy_3
-    properties: {text: '4', role: feature, spacing_below: none, spacing_above: none, bold: false, background: 'rgb(255,217,203)'}
+    name: button_1_copy_2
+  - properties: {text: '4', role: feature, spacing_below: none, spacing_above: none, bold: false, background: 'rgb(255,217,203)'}
     type: Button
     layout_properties: {grid_position: 'UQVSNC,OZIYBS CFGNEX,XGWHAT'}
     event_bindings: {click: button_4_click}
-  - name: button_1_copy_4
-    properties: {text: '5', role: feature, spacing_below: none, spacing_above: none, background: 'rgb(254,178,150)', foreground: '', bold: true}
+    name: button_1_copy_3
+  - properties: {text: '5', role: feature, spacing_below: none, spacing_above: none, background: 'rgb(254,178,150)', foreground: '', bold: true}
     type: Button
     layout_properties: {grid_position: 'UQVSNC,OZIYBS CFGNEX,TTQFFE'}
     event_bindings: {click: button_5_click}
-  - name: button_1_copy_5
-    properties: {text: '6', role: feature, spacing_below: none, spacing_above: none, background: 'rgb(254,140,98)', foreground: '', bold: true}
+    name: button_1_copy_4
+  - properties: {text: '6', role: feature, spacing_below: none, spacing_above: none, background: 'rgb(254,140,98)', foreground: '', bold: true}
     type: Button
     layout_properties: {grid_position: 'UQVSNC,OZIYBS CFGNEX,LNXGHL'}
     event_bindings: {click: button_6_click}
-  - name: button_1_copy_6
-    properties: {text: '7', role: feature, spacing_below: none, spacing_above: none, background: 'rgb(253, 101, 45)', foreground: 'theme:Text_White', bold: true, border: ''}
+    name: button_1_copy_5
+  - properties: {text: '7', role: feature, spacing_below: none, spacing_above: none, background: 'rgb(253, 101, 45)', foreground: 'theme:Text_White', bold: true, border: ''}
     type: Button
     layout_properties: {grid_position: 'UQVSNC,OZIYBS CFGNEX,ZLIZAI'}
     event_bindings: {click: button_7_click}
-  - name: spacer_6
-    properties: {height: '15', spacing_below: none}
+    name: button_1_copy_6
+  - properties: {height: '15', spacing_below: none}
     type: Spacer
     layout_properties: {grid_position: 'UQVSNC,XUSTNC OPLCOW,KXLRPY XFGLNV,LOXIMQ'}
-  - name: link_watchlist_name2
-    properties: {role: artist_name_shadow}
+    name: spacer_6
+  - properties: {role: artist_name_shadow}
     type: Link
     layout_properties: {grid_position: 'UQVSNC,XUSTNC OPLCOW,KXLRPY RSFAQY,VELSAP'}
     event_bindings: {click: link_watchlist_name_click}
-  - name: link_1
-    properties: {align: right, text: 'Model: EDM Newcomer', role: description, visible: false}
+    name: link_watchlist_name2
+  - properties: {align: right, text: 'Model: EDM Newcomer', role: description, visible: false}
     type: Link
     layout_properties: {grid_position: 'UQVSNC,XUSTNC OPLCOW,ZCPELY FWDUAH,WWNVOZ'}
-    components: []
-  - name: link_5
-    properties: {align: right, text: 'Watchlist: Growth 2024', role: description, visible: false}
+    name: link_1
+  - properties: {align: right, text: 'Watchlist: Growth 2024', role: description, visible: false}
     type: Link
     layout_properties: {grid_position: 'UQVSNC,XUSTNC OPLCOW,ZCPELY DHATKU,PYGZRY'}
-  - name: spacer_8
-    properties: {height: '20'}
+    name: link_5
+  - properties: {height: '20'}
     type: Spacer
     layout_properties: {grid_position: 'UQVSNC,XUSTNC OPLCOW,ZCPELY SBXTOB,WWPKXT'}
-  - name: xy_panel_1
-    properties: {height: 30, spacing_below: none}
+    name: spacer_8
+  - properties: {height: 30, spacing_below: none}
     type: XYPanel
     layout_properties: {grid_position: 'UQVSNC,XUSTNC OPLCOW,ZCPELY RMXMCD,PTEAHX'}
+    name: xy_panel_1
     components:
-    - name: button_remove_filters
-      properties: {text: '', icon: 'fa:ban', tooltip: remove filters, role: feature, visible: true, background: 'theme:Orange', foreground: 'theme:Text_DecentWhite'}
+    - properties: {text: '', icon: 'fa:ban', tooltip: remove filters, role: feature, visible: true, background: 'theme:Orange', foreground: 'theme:Text_DecentWhite'}
       type: Button
       layout_properties: {x: 175, y: 0, width: 41}
       event_bindings: {click: button_remove_filters_click}
-    - name: button_set_filters
-      properties: {text: Set Filters, align: right, role: feature, icon: 'fa:filter'}
+      name: button_remove_filters
+    - properties: {text: Set Filters, align: right, role: feature, icon: 'fa:filter'}
       type: Button
       layout_properties: {x: 65, y: 0, width: 105}
       event_bindings: {click: button_set_filters_click}
-is_package: true
-custom_component: true
+      name: button_set_filters

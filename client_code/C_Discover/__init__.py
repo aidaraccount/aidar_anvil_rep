@@ -11,6 +11,8 @@ from datetime import datetime
 import plotly.graph_objects as go
 from collections import defaultdict
 import itertools
+from ..CustomAlertForm import CustomAlertForm  # Import the custom form
+
 
 
 class C_Discover(C_DiscoverTemplate):
@@ -19,7 +21,7 @@ class C_Discover(C_DiscoverTemplate):
     
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
-
+    
     # Any code you write here will run before the form opens.
     begin = datetime.now()
     
@@ -37,6 +39,8 @@ class C_Discover(C_DiscoverTemplate):
   # --------------------------------------------
   # SUGGESTIONS
   def refresh_sug(self, temp_artist_id, **event_args):    
+    global temp_artist_id_global
+    temp_artist_id_global = temp_artist_id
     self.spacer_bottom_margin.height = 80
     sug = json.loads(anvil.server.call('get_suggestion', 'Inspect', self.model_id, temp_artist_id)) # Free, Explore, Inspect, Dissect
     
@@ -70,6 +74,7 @@ class C_Discover(C_DiscoverTemplate):
       spotify_artist_id = sug["SpotifyArtistID"]
       global biography
       biography = sug["Biography"]
+      self.biography = biography
       
       self.sec_releases.visible = True
       self.sec_success.visible = False
@@ -108,28 +113,99 @@ class C_Discover(C_DiscoverTemplate):
       self.name.text = sug["Name"]
 
       # genres
-      if sug["Genres"] == 'None': self.genres.text = '-'
-      else: self.genres.text = str(sug["Genres"])[1:-1].replace("'", "")
+      if sug["Genres"] == 'None':
+        self.genres.text = '-'
+      # else:
+      #   self.genres.text = str(sug["Genres"])[1:-1].replace("'", "")
+      else:
+        # self.genres_2.text = str(sug["Genres"])[1:-1].replace("'","")
+        genres_string = sug["Genres"]
+        # Clean up the string and convert to list
+        genres_string_cleaned = genres_string.strip("[]").replace("'", "")
+        genres_list = [genre.strip() for genre in genres_string_cleaned.split(',')]  
+        # Add Genres to FlowPanel
+        for genre in genres_list:
+          # print("this is the print inside the for loop:", genre)
+          genre_label = Label(text=genre)
+          genre_label.role = 'genre-box'
+          self.flow_panel_genre_tile.add_component(genre_label)
 
+      # Social media
+      platform_dict = {
+        "Spotify": "fa:spotify",
+        "Amazon": "fa:amazon",
+        "Soundcloud": "fa:soundcloud",
+        "Apple Music": "fa:apple",
+        "Facebook": "fa:facebook",
+        "Instagram": "fa:instagram",
+        "Twitter": "fab:x-twitter",
+        "YouTube": "fa:youtube",
+        "Deezer": "fab:deezer",
+        "TikTok": "fab:tiktok"
+       }
+      
+      if sug["Platforms"] == 'None':
+        self.social_media_link.visible = False
+      else:
+        social_media_list = json.loads(sug["Platforms"])
+        for i in range(0, len(social_media_list)):
+          found = False
+
+          if social_media_list[i]["platform"] in platform_dict:  
+            found = True
+            social_media_link = Link(icon=platform_dict[social_media_list[i]["platform"]])
+            social_media_link.role = "music-icons-tile"
+            
+
+          if found is True:
+            # social_media_link.role = 'genre-box'
+            social_media_link.url = social_media_list[i]["platform_url"]
+            self.flow_panel_social_media_tile.add_component(social_media_link)
+      
       # origin
-      if sug["Countries"] == 'None': self.countries.text = '-'
-      else: self.countries.text = json.loads(sug["Countries"])["CountryName"]
+      country = json.loads(sug["Countries"])
+          
+      if sug["Countries"] == 'None':
+        pass
+      else:
+        # self.countries.text = country["CountryName"]
+        # self.Artist_Country.text = country["CountryCode"]
+        # flag_url = flag_url_template https://flagcdn.com/w80/ua.png
+        country_flag = Image(source="https://flagcdn.com/w40/" + country["CountryCode"].lower() + ".png", spacing_below=0, spacing_above=0)
+        country_flag.role = 'country-flag-icon'
+        country_flag.tooltip = country["CountryName"]
+        self.Artist_Name_Details.add_component(country_flag)
       
       # birt date
-      if sug["BirthDate"] == 'None': self.birthday.text = '-'
-      else: self.birthday.text = sug["BirthDate"]
+      if sug["BirthDate"] == 'None': 
+        self.birthday.visible = False
+      else:
+        self.birthday.text = sug["BirthDate"]
 
       # gender
-      if sug["Gender"] == 'None': self.gender.text = '-'
-      else: self.gender.text = sug["Gender"]
+      if sug["Gender"] == 'None':
+        self.gender.visible = False
+      else:
+        self.gender.text = sug["Gender"]
 
+      # line condition
+      if sug["BirthDate"] != 'None' and sug["Gender"] != 'None':
+        self.gender_birthday_line.visible = True
+      else:
+        self.gender_birthday_line.visible = False
+    
+      
       # popularity
-      if sug["ArtistPopularity_lat"] == 'None': self.artist_popularity_lat.text = '-'
-      else: self.artist_popularity_lat.text = sug["ArtistPopularity_lat"]
+      if sug["ArtistPopularity_lat"] == 'None':
+        self.KPI_tile_1.text = '-'
+      else:
+        self.KPI_tile_1.text = sug["ArtistPopularity_lat"]
 
       # follower
-      if sug["ArtistFollower_lat"] == 'None': self.artist_follower_lat.text = '-'
-      else: self.artist_follower_lat.text = f'{int(sug["ArtistFollower_lat"]):,}'
+      if sug["ArtistFollower_lat"] == 'None':
+        self.KPI_tile_2.text = '-'
+      else:
+        self.KPI_tile_2.text = f'{int(sug["ArtistFollower_lat"]):,}'
 
       # prediction
       if (sug["Prediction"] == 'None'): pred = 'N/A'
@@ -140,10 +216,12 @@ class C_Discover(C_DiscoverTemplate):
 
       # biography
       if biography != 'None':
-        if len(biography) >= 300:
-          self.bio_text.content = biography[0:300] + '...'
+        if len(biography) >= 200:
+          self.bio_text.content = biography[0:200] + '...'
+          # self.bio_text_2.content = biography[0:310] + '...'
         else:
           self.bio_text.content = biography
+          # self.bio_text_2.content = biography
       else:
         self.bio.visible = False     
 
@@ -221,6 +299,7 @@ class C_Discover(C_DiscoverTemplate):
         self.data_grid_co_artists_pop_data.items = sorted(co_artists, key=lambda x: float(x['ArtistPopularity_lat']), reverse=True)
       
       # f) related artists table
+      # d) related artists table
       if self.data_grid_related_artists.visible is True:
         self.data_grid_related_artists_data.items = json.loads(anvil.server.call('get_dev_related_artists', int(cur_artist_id), int(self.model_id)))
 
@@ -507,16 +586,28 @@ class C_Discover(C_DiscoverTemplate):
   # -------------------------------
   # BIO CLICK
   def bio_click(self, **event_args):
-    if self.bio.tooltip == 'min':
-      self.bio_text.content = biography
-      self.bio.tooltip = 'max'
-    else:
-      if len(biography) >= 300:
-        self.bio_text.content = biography[0:300] + '...'
-      else:
-        self.bio_text.content = biography
-      self.bio.tooltip = 'min'
+    sug = json.loads(anvil.server.call('get_suggestion', 'Inspect', self.model_id, temp_artist_id_global)) # Free, Explore, Inspect, Dissect
+    country = json.loads(sug["Countries"])
+    country_flag = Image(source="https://flagcdn.com/w40/" + country["CountryCode"].lower() + ".png", spacing_below=0, spacing_above=0)
+    custom_alert_form = CustomAlertForm(
+      text=self.biography, 
+      pickurl=sug["ArtistPictureURL"], 
+      artist_name=sug["Name"], 
+      countryflag=country_flag, 
+      countryname=country["CountryName"]
+    )
+    alert(content=custom_alert_form, large=True, buttons=[])
 
+  
+  # def text_box_search_pressed_enter(self, **event_args):
+  #   search_text = self.text_box_search.text
+  #   popup_table = alert(
+  #     content=C_RelatedPopupTable(self.model_id, search_text),
+  #     large=True,
+  #     buttons=[]
+  #   )
+
+  
   # -------------------------------
   # WATCHLIST  
   def link_watchlist_name_click(self, **event_args):
@@ -704,3 +795,9 @@ class C_Discover(C_DiscoverTemplate):
   def button_remove_filters_click(self, **event_args):
     anvil.server.call('change_filters', self.model_id, filters_json = None)
     open_form('Main_In', model_id=self.model_id, temp_artist_id=None, target='C_Discover', value=None)
+
+
+
+  
+
+  

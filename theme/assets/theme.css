@@ -227,18 +227,237 @@ body, html {
   color: rgb(174, 174, 174);
   /* color: %color:Orange%;   */
 }
-
 .anvil-role-title p {
   margin: 0 !important;
 }
-
 .anvil-role-sub_title {
   font-family: GS-semibold;
   font-size: 22px;
   color: %color:Text_Grey%;
   padding-left: 10px;
 }
+
+.anvil-role-sub_title-regular {
+  font-family: GS-medium;
+  font-size: 18px;
+  color: %color:Text_White%;
+  padding-left: 5px;
+}
+.anvil-role-sub_title-regular-tile {
+  font-family: GS-regular;
+  font-size: 14px;
+  color: %color:Text_Grey%;
+  padding-left: 10px;
+}
+.anvil-role-music-genre-tile {
+  margin: 5px 0px;
+}
+.anvil-role-music-icons-tile {
+  color: white;
+  padding: 0px 5px 0px;
+  margin: 10px 0px;
+}
+
+.anvil-role-music-icons-tile:visited {
+  color: white
+}
+
+
+
 /* Titles CSS Ends Here  */
+
+/* CSS for Tiles STARTS Here  */
+@media (min-width: 992px) {
+    .anvil-role-POST_LOGIN_PAGE .anvil-panel-section-container.anvil-container-overflow {
+        max-width: 95%;
+    }
+}
+.anvil-role-title-tile {
+  font-family: GS-medium;
+  font-size: 16px;
+  color: rgb(250, 250, 250);
+  /* color: %color:Orange%;   */
+}
+.anvil-role-description-tile {
+  font-family: GS-regular;
+  font-size: 14px;
+  color: %color:Text_Grey% !important;
+  width: auto !important;
+}
+.anvil-role-description-tile-bio-text {
+  font-family: GS-regular;
+  font-size: 14px;
+  color: %color:Text_Grey% !important;
+  width: auto !important;
+  padding: 0px
+}
+.anvil-role-artist-image {
+  /* position: absolute !important; */
+  border-radius: 15px;
+  height: auto !important;
+  width: auto;
+  max-width: 320px; 
+  max-height: 375px;
+  top: 40% !important;
+  left: 6% !important;
+  margin: 5px;
+}
+.anvil-role-flex-container-parent-tile {
+  display: flex;
+  align-items: stretch;  /* Ensure columns stretch to the same height */
+  width: 100%;
+  height: 100%;
+  gap: 10px;  /* Optional: space between columns */
+}
+.anvil-role-tile-background-left {
+  /* flex: 3; */
+  background: linear-gradient(to top left, rgba(259, 250, 250, 0.1) 50%, rgb(31, 11, 59));
+  border-radius: 15px;
+  /* height: 350px; */
+}
+.anvil-role-tile-background-right {
+  /* flex: 1; */
+  background: linear-gradient(to top left, rgba(259, 250, 250, 0.1) 50%, rgb(31, 11, 59));
+  border-radius: 15px;
+  min-height: 355.7px;
+  max-height: 450px;
+  /* height: 350px; */
+}
+.anvil-role-tile-background-general {
+  background: linear-gradient(to top left, rgba(259, 250, 250, 0.1) 50%, rgb(31, 11, 59));
+  border-radius: 15px;
+  /* height: 350px; */
+}
+
+.anvil-role-artist-name-details-popup > .flow-panel-gutter{
+  align-items: center;
+}
+
+.anvil-role-custom-alert {
+    padding: 20px;
+    background: linear-gradient(to top left, rgb(43, 24, 72) 50%, rgb(134, 59, 59));
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 101%; /* Ensure the alert does not exceed 80% of the screen width */
+    max-height: 50vh; /* Ensure the alert does not exceed 80% of the viewport height */
+    overflow: hidden; /* Hide overflow to ensure internal scrolling */
+    color: white;
+    /* overflow-y: auto; */
+}
+
+.anvil-role-alert-long-text {
+  height: 40vh;
+  overflow-y: auto; 
+  padding: 20px 0px 0px;
+}
+
+.modal-body:has(> .anvil-role-custom-alert) {
+  padding: 0px;
+}
+.modal-dialog:has( .anvil-role-custom-alert) {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -75%) !important;
+}
+
+
+.anvil-role-tile-background .anvil-panel-col-BINRLY.wrap-mobile {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.anvil-role-tile-background .anvil-panel-col-SKLDLY.wrap-mobile {
+  margin: 1% 1% 5% 0;
+}
+.anvil-role-tile-background .anvil-panel-row-MEAAVE.wrap-mobile {
+  margin: 15px 0 0 0;
+}
+.anvil-role-tile-background .anvil-panel-row-TKGZMO.wrap-mobile .col-padding.col-padding-medium {
+}
+
+@media (min-width: 992px) {
+  .anvil-role-description-tile-bio-text .anvil-panel-section-container.anvil-container-overflow{
+    width: 100%;
+  }
+}
+.anvil-role-artist-name-tile{
+  font-family: Gs-medium;
+  letter-spacing: 1px;
+  font-size: 22px;
+  color: %color:Text_White%;
+  /* text-shadow: 2px 2px 7px rgba(0, 0, 0, 0.9); */
+}
+
+.anvil-role-country-flag-icon {
+  height: auto !important;
+  width: auto;
+}
+
+.anvil-role-star-tile {
+  color: white;
+  padding: 10px 0px 0px;
+}
+
+.anvil-role-genre-box {
+  font-family: Gs-regular;
+  display: inline-block;
+  padding: 0px 20px;
+  margin: 0px 2px;
+  border-radius: 15px;
+  background-color: rgb(130, 39, 118); /* Example background color */
+  border: 1px solid rgb(130, 39, 118); /* Example border color */
+  font-size: 14px; /* Example font size */
+  color: rgb(250, 250, 250); /* Example text color */
+  white-space: nowrap;
+  gap: 5px;
+}
+.flow-panel.flow-spacing-medium>.flow-panel-gutter {
+  margin-left: 0px;
+  margin-right: 10px;
+}
+.flow-panel.flow-spacing-medium>.flow-panel-gutter>.flow-panel-item {
+  margin-right: 1px;
+  margin-left: 1px;
+}
+
+.anvil-role-score-tile-background {
+  background: linear-gradient(to top left, rgba(259, 250, 250, 0.1) 50%, rgb(131, 111, 59));
+  border-radius: 100px;
+  height: 130px;
+  width: 130px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.anvil-role-highlights-tile-background {
+  background: linear-gradient(to top left, rgba(259, 250, 250, 0.1) 50%, rgb(131, 111, 59));
+  border-radius: 15px;
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  margin: 5px 5px;
+  min-height: 80px;
+  min-width: 80px; 
+}
+
+.anvil-role-tile-background-right .anvil-panel-row-XBWMVA .anvil-panel-col-RCCOIP .col-padding.col-padding-medium {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.anvil-role-value-regular-tile {
+  font-family: GS-regular;
+  font-size: 24px;
+  color: %color:Text_White%;
+  padding-left: 10px;
+}
+
+/* CSS for Tiles ENDS Here  */
+
 .anvil-role-description-login {
   font-family: GS-regular;
   font-size: 14px;
@@ -406,13 +625,12 @@ div.row {
   padding: 0px !important;
 }
 
-.modal-dialog {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) !important;
-    
-  }
+.modal-dialog:has( .anvil-role-background-gradient-alerts) {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -75%) !important;
+}
 
 @media only screen and (min-width: 1081px) {
   .modal-dialog {
@@ -434,20 +652,20 @@ a:hover, a:active, a:focus {
   border: 2px dashed #888;
 }
 
+
+
+anvil-role-test {
+  width: 100%;
+}
 .nav {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
-
   overflow-y: hidden;
-
   text-transform: uppercase;
   font-weight: bold;
-
   box-shadow: 0 1px 3px #888;
-
-
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   -khtml-user-select: none;
@@ -508,10 +726,8 @@ body.anvil-highlight .nav-elt.placeholder {
 .designer .anvil-highlight .anvil-role-card {
     background-color: grey;
     box-shadow: 1px 2px 4px #888;
-
     font-weight: normal;
     font-size: 14px;
-
     outline: none;
     padding: 15px 0;
 
@@ -527,11 +743,9 @@ body.anvil-highlight .nav-elt.placeholder {
 */
 
 @media(max-width:767px) {
-
   .cards {
     padding: 0px 0px;
   }
-
 }
 
 .sidebar {
@@ -570,8 +784,34 @@ body.anvil-highlight .nav-elt.placeholder {
     text-align: center;
 }
 
+/* ---- OWN FONT ----------------------- */
+@font-face {
+  font-family: 'GS-bold';
+  src: url("_/theme/fonts/GeneralSans-Bold.otf") format("opentype");
+}
+@font-face {
+  font-family: 'GS-extralight';
+  src: url("_/theme/fonts/GeneralSans-Extralight.otf") format("opentype");
+}
+@font-face {
+  font-family: 'GS-light';
+  src: url("_/theme/fonts/GeneralSans-Light.otf") format("opentype");
+}
+@font-face {
+  font-family: 'GS-medium';
+  src: url("_/theme/fonts/GeneralSans-Medium.otf") format("opentype");
+}
+@font-face {
+  font-family: 'GS-regular';
+  src: url("_/theme/fonts/GeneralSans-Regular.otf") format("opentype");
+}
+@font-face {
+  font-family: 'GS-semibold';
+  src: url("_/theme/fonts/GeneralSans-Semibold.otf") format("opentype");
+}
+/* ---- OWN FONT ----------------------- */
 
-
+/* Other Fonts  */
 /* From https://fonts.googleapis.com/css?family=Roboto */
 /* cyrillic-ext */
 @font-face {
@@ -629,33 +869,6 @@ body.anvil-highlight .nav-elt.placeholder {
   src: local('Roboto'), local('Roboto-Regular'), url(https://fonts.gstatic.com/s/roboto/v16/CWB0XYA8bzo0kSThX0UTuA.woff2) format('woff2');
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215;
 }
-/* ---- OWN FONT ----------------------- */
-@font-face {
-  font-family: 'GS-bold';
-  src: url("_/theme/fonts/GeneralSans-Bold.otf") format("opentype");
-}
-@font-face {
-  font-family: 'GS-extralight';
-  src: url("_/theme/fonts/GeneralSans-Extralight.otf") format("opentype");
-}
-@font-face {
-  font-family: 'GS-light';
-  src: url("_/theme/fonts/GeneralSans-Light.otf") format("opentype");
-}
-@font-face {
-  font-family: 'GS-medium';
-  src: url("_/theme/fonts/GeneralSans-Medium.otf") format("opentype");
-}
-@font-face {
-  font-family: 'GS-regular';
-  src: url("_/theme/fonts/GeneralSans-Regular.otf") format("opentype");
-}
-@font-face {
-  font-family: 'GS-semibold';
-  src: url("_/theme/fonts/GeneralSans-Semibold.otf") format("opentype");
-}
-
-
 @font-face {
   font-family: 'Khand-Regular';
   src: url("_/theme/fonts/Khand-Regular.otf") format("opentype");
@@ -664,6 +877,7 @@ body.anvil-highlight .nav-elt.placeholder {
   font-family: 'Khand-Semibold';
   src: url("_/theme/fonts/Khand-SemiBold.otf") format("opentype");
 }
+/* Other Fonts */
 
 
 /* Footer bar */

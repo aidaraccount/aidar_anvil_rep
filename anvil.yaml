@@ -65,4 +65,4 @@ db_schema:
       admin_ui: {order: 2, width: 200}
       type: datetime
     title: Waiters
-native_deps: {head_html: ''}
+native_deps: {head_html: '<script src="https://kit.fontawesome.com/f0d74f0b0e.js" crossorigin="anonymous"></script>'}
