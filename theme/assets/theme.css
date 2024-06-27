@@ -249,10 +249,13 @@ body, html {
   color: %color:Text_Grey%;
   padding-left: 10px;
 }
-
+.anvil-role-music-genre-tile {
+  margin: 5px 0px;
+}
 .anvil-role-music-icons-tile {
   color: white;
   padding: 0px 5px 0px;
+  margin: 10px 0px;
 }
 
 .anvil-role-music-icons-tile:visited {
@@ -344,8 +347,9 @@ body, html {
 }
 
 .anvil-role-alert-long-text {
-  height: 100vh;
+  height: 40vh;
   overflow-y: auto; 
+  padding: 20px 0px 0px;
 }
 
 .modal-body:has(> .anvil-role-custom-alert) {

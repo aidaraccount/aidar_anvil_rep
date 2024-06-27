@@ -135,7 +135,7 @@ class C_Discover(C_DiscoverTemplate):
           # print("this is the print inside the for loop:", genre)
           genre_label = Label(text=genre)
           genre_label.role = 'genre-box'
-          self.flow_panel_artist_tile.add_component(genre_label)
+          self.flow_panel_genre_tile.add_component(genre_label)
 
       # Social media
       platform_dict = {

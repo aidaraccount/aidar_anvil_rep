@@ -78,6 +78,7 @@ roles:
 - {name: tile-background-left}
 - {name: tile-background-right}
 - {name: background-gradient-alerts}
+- {name: music-genre-tile}
 color_scheme:
   preset_groups:
   - name: Accent
