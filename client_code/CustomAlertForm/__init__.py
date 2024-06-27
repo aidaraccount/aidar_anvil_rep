@@ -28,10 +28,13 @@ class CustomAlertForm(CustomAlertFormTemplate):
     self.Artist_Name.role ='artist-name-tile'
 
     # Artist Country
-    self.Artist_Name_Details.add_component(countryflag)
-    countryflag.tooltip = countryname
-    countryflag.role = 'country-flag-icon'
-    self.Artist_Name_Details.role = 'artist-name-details-popup'
+    if countryflag is None:
+      pass
+    else:
+      self.Artist_Name_Details.add_component(countryflag)
+      countryflag.tooltip = countryname
+      countryflag.role = 'country-flag-icon'
+      self.Artist_Name_Details.role = 'artist-name-details-popup'
 
     
     

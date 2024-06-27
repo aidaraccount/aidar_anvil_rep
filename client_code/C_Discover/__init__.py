@@ -44,6 +44,10 @@ class C_Discover(C_DiscoverTemplate):
     self.spacer_bottom_margin.height = 80
     sug = json.loads(anvil.server.call('get_suggestion', 'Inspect', self.model_id, temp_artist_id)) # Free, Explore, Inspect, Dissect
     
+    self.Artist_Name_Details.clear()
+    self.flow_panel_genre_tile.clear()
+    self.flow_panel_social_media_tile.clear()
+    
     if sug["Status"] == 'Empty Model!':
       alert(title='Train you Model..',
             content="Sorry, we cound't find any artists for your model. Make sure your model is fully set up!\n\nTherefore, go to ADD REF. ARTISTS and add some starting artists that you are interested in.")
@@ -110,7 +114,8 @@ class C_Discover(C_DiscoverTemplate):
         self.link_watchlist_name2.icon = 'fa:star-o'
 
       # name
-      self.name.text = sug["Name"]
+      artist_name_component = Label(text=sug["Name"], role="artist-name-tile", spacing_above=0, spacing_below=0)
+      self.Artist_Name_Details.add_component(artist_name_component)
 
       # genres
       if sug["Genres"] == 'None':
@@ -125,7 +130,6 @@ class C_Discover(C_DiscoverTemplate):
         genres_list = [genre.strip() for genre in genres_string_cleaned.split(',')]  
         # Add Genres to FlowPanel
         for genre in genres_list:
-          # print("this is the print inside the for loop:", genre)
           genre_label = Label(text=genre)
           genre_label.role = 'genre-box'
           self.flow_panel_genre_tile.add_component(genre_label)
@@ -163,11 +167,11 @@ class C_Discover(C_DiscoverTemplate):
             self.flow_panel_social_media_tile.add_component(social_media_link)
       
       # origin
-      country = json.loads(sug["Countries"])
           
       if sug["Countries"] == 'None':
         pass
       else:
+        country = json.loads(sug["Countries"])
         # self.countries.text = country["CountryName"]
         # self.Artist_Country.text = country["CountryCode"]
         # flag_url = flag_url_template https://flagcdn.com/w80/ua.png
@@ -180,12 +184,14 @@ class C_Discover(C_DiscoverTemplate):
       if sug["BirthDate"] == 'None': 
         self.birthday.visible = False
       else:
+        self.birthday.visible = True
         self.birthday.text = sug["BirthDate"]
 
       # gender
       if sug["Gender"] == 'None':
         self.gender.visible = False
       else:
+        self.gender.visible = True
         self.gender.text = sug["Gender"]
 
       # line condition
@@ -193,7 +199,6 @@ class C_Discover(C_DiscoverTemplate):
         self.gender_birthday_line.visible = True
       else:
         self.gender_birthday_line.visible = False
-    
       
       # popularity
       if sug["ArtistPopularity_lat"] == 'None':
@@ -587,14 +592,20 @@ class C_Discover(C_DiscoverTemplate):
   # BIO CLICK
   def bio_click(self, **event_args):
     sug = json.loads(anvil.server.call('get_suggestion', 'Inspect', self.model_id, temp_artist_id_global)) # Free, Explore, Inspect, Dissect
-    country = json.loads(sug["Countries"])
-    country_flag = Image(source="https://flagcdn.com/w40/" + country["CountryCode"].lower() + ".png", spacing_below=0, spacing_above=0)
+    if sug["Countries"] == "None":
+      source = None
+      countryname = None
+    else:
+      country = json.loads(sug["Countries"])
+      countryname = country["CountryName"]
+      source = "https://flagcdn.com/w40/" + country["CountryCode"].lower() + ".png"
+    country_flag = Image(source=source, spacing_below=0, spacing_above=0)
     custom_alert_form = CustomAlertForm(
       text=self.biography, 
       pickurl=sug["ArtistPictureURL"], 
       artist_name=sug["Name"], 
       countryflag=country_flag, 
-      countryname=country["CountryName"]
+      countryname=countryname
     )
     alert(content=custom_alert_form, large=True, buttons=[])
 
@@ -611,19 +622,21 @@ class C_Discover(C_DiscoverTemplate):
   # -------------------------------
   # WATCHLIST  
   def link_watchlist_name_click(self, **event_args):
+    name = self.Artist_Name_Details.get_components()
+    name = name[0].text
     if self.link_watchlist_name.icon == 'fa:star':
       self.link_watchlist_name.icon = 'fa:star-o'
       self.link_watchlist_name2.icon = 'fa:star-o'
       self.update_watchlist_lead(artist_id, False, None, False)
       Notification("",
-        title=f"{self.name.text} removed from the watchlist!",
+        title=f"{name} removed from the watchlist!",
         style="success").show()
     else:
       self.link_watchlist_name.icon = 'fa:star'
       self.link_watchlist_name2.icon = 'fa:star'
       self.update_watchlist_lead(artist_id, True, 'Action required', True)
       Notification("",
-        title=f"{self.name.text} added to the watchlist!",
+        title=f"{name} added to the watchlist!",
         style="success").show()
 
   def update_watchlist_lead(self, artist_id, watchlist, status, notification, **event_args):
