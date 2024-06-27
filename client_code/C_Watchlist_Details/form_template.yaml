@@ -1,6 +1,6 @@
 container:
   type: ColumnPanel
-  properties: {col_widths: '{"UMKIPM":15,"DORKHT":63}'}
+  properties: {col_widths: '{"UMKIPM":15,"DORKHT":63}', role: title}
 components:
 - type: ColumnPanel
   properties: {col_widths: '{}'}
