@@ -296,7 +296,7 @@ body, html {
   border-radius: 15px;
   height: auto !important;
   width: auto;
-  max-width: 375px; 
+  max-width: 320px; 
   max-height: 375px;
   top: 40% !important;
   left: 6% !important;
@@ -319,7 +319,7 @@ body, html {
   /* flex: 1; */
   background: linear-gradient(to top left, rgba(259, 250, 250, 0.1) 50%, rgb(31, 11, 59));
   border-radius: 15px;
-  min-height: 385px;
+  min-height: 355.7px;
   max-height: 450px;
   /* height: 350px; */
 }
@@ -396,9 +396,8 @@ body, html {
 }
 
 .anvil-role-star-tile {
-  display: flex; 
-  justify-content: right; 
-  color: white
+  color: white;
+  padding: 10px 0px 0px;
 }
 
 .anvil-role-genre-box {
@@ -440,7 +439,7 @@ body, html {
   justify-content: left;
   align-items: center;
   margin: 5px 5px;
-  min-height: 90px;
+  min-height: 80px;
   min-width: 80px; 
 }
 

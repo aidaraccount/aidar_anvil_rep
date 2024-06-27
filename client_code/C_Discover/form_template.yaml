@@ -6,7 +6,7 @@ container:
     role: test
 components:
 - name: column_panel_1
-  properties: {spacing_above: small, spacing_below: small, col_spacing: medium, col_widths: '{"DTEJWC":15,"HPUOQR":45,"AMHHEF":45,"SSPHIY":15}'}
+  properties: {spacing_above: small, spacing_below: small, col_spacing: medium, col_widths: '{"AMHHEF":45,"SSPHIY":15}'}
   type: ColumnPanel
   layout_properties: {slot: default}
   components:
@@ -15,20 +15,25 @@ components:
     type: Label
     layout_properties: {grid_position: 'SYXIOJ,LTMDQS'}
   - name: column_panel_Artist
-    properties: {col_widths: '{"BINRLY":25,"SKLDLY":35,"VVGSZQ":50,"TTUFMO":10}', role: tile-background-left}
+    properties: {col_widths: '{"BINRLY":20,"SKLDLY":40,"VVGSZQ":55,"TTUFMO":5}', role: tile-background-left}
     type: ColumnPanel
     layout_properties: {grid_position: 'FDCDSH,AMHHEF'}
     components:
-    - name: artist_image_copy_2
-      properties: {role: artist-image, vertical_align: center, spacing_above: none, background: '', horizontal_align: center, source: '', foreground: '', display_mode: zoom_to_fill, spacing_below: none, visible: true, border: '', tooltip: '', height: '200'}
-      type: Image
+    - name: artist_link
+      properties: {}
+      type: Link
       layout_properties: {grid_position: 'KTIEJU,BINRLY'}
+      components:
+      - name: artist_image
+        properties: {role: artist-image, vertical_align: center, spacing_above: none, background: '', horizontal_align: center, source: '', foreground: '', display_mode: zoom_to_fill, spacing_below: none, visible: true, border: '', tooltip: '', height: '200'}
+        type: Image
+        layout_properties: {grid_position: 'ISPLKC,JXPNZE'}
     - name: spacer_9
       properties: {height: 32}
       type: Spacer
       layout_properties: {grid_position: 'KTIEJU,SKLDLY ECDYYF,VVGSZQ'}
-    - name: link_watchlist_name_2
-      properties: {role: star-tile, spacing_above: none, spacing_below: none}
+    - name: link_watchlist_name
+      properties: {role: star-tile, spacing_above: none, spacing_below: none, icon_align: right}
       type: Link
       layout_properties: {grid_position: 'KTIEJU,SKLDLY ECDYYF,TTUFMO'}
       event_bindings: {click: link_watchlist_name_click}
@@ -37,9 +42,26 @@ components:
       type: FlowPanel
       layout_properties: {grid_position: 'KTIEJU,SKLDLY NLOXMA,HIWWHG'}
       components:
-      - name: name_2
+      - name: name
         properties: {text: '', role: artist-name-tile, icon: '', spacing_above: none, spacing_below: none}
         type: Label
+    - name: Artist_Details
+      properties: {spacing_above: none, spacing_below: none, role: description-tile-bio-text}
+      type: FlowPanel
+      layout_properties: {grid_position: 'KTIEJU,SKLDLY CLKAXL,KERNYJ'}
+      components:
+      - name: gender
+        properties: {spacing_above: none, spacing_below: none}
+        type: Label
+        layout_properties: {}
+      - name: gender_birthday_line
+        properties: {text: '|', spacing_above: none, spacing_below: none}
+        type: Label
+        layout_properties: {}
+      - name: birthday
+        properties: {spacing_above: none, spacing_below: none}
+        type: Label
+        layout_properties: {}
     - name: bio_text
       properties: {format: restricted_html, role: description-tile, spacing_below: none, spacing_above: none, align: left}
       type: RichText
@@ -89,10 +111,10 @@ components:
       layout_properties: {grid_position: 'YZXEIA,KEKOUB ORIZUZ,NIJZSN HDZJOY,YGPOQI'}
       components:
       - name: label_7
-        properties: {text: Releases, role: sub_title-regular-tile, spacing_above: none, spacing_below: none}
+        properties: {text: Popularity, role: sub_title-regular-tile, spacing_above: none, spacing_below: none}
         type: Label
         layout_properties: {}
-      - name: label_11
+      - name: KPI_tile_1
         properties: {role: value-regular-tile, spacing_above: none, spacing_below: none, text: '15'}
         type: Label
         layout_properties: {}
@@ -102,11 +124,11 @@ components:
       layout_properties: {grid_position: 'YZXEIA,KEKOUB ORIZUZ,NIJZSN GJRDAX,FMCRXN'}
       components:
       - name: label_5
-        properties: {text: Success, role: sub_title-regular-tile, spacing_above: none, spacing_below: none}
+        properties: {text: N/A, role: sub_title-regular-tile, spacing_above: none, spacing_below: none}
         type: Label
         layout_properties: {}
-      - name: label_9
-        properties: {role: value-regular-tile, spacing_above: none, spacing_below: none, text: '75.3'}
+      - name: KPI_tile_3
+        properties: {role: value-regular-tile, spacing_above: none, spacing_below: none, text: N/A}
         type: Label
         layout_properties: {}
     - name: linear_panel_6
@@ -115,10 +137,10 @@ components:
       layout_properties: {grid_position: 'YZXEIA,KEKOUB ORIZUZ,FEOKJD VVXWEI,TQIGGV'}
       components:
       - name: label_8
-        properties: {text: Musical, role: sub_title-regular-tile, spacing_above: none, spacing_below: none}
+        properties: {text: Followers, role: sub_title-regular-tile, spacing_above: none, spacing_below: none}
         type: Label
         layout_properties: {}
-      - name: label_12
+      - name: KPI_tile_2
         properties: {role: value-regular-tile, spacing_above: none, spacing_below: none, text: '79.3'}
         type: Label
         layout_properties: {}
@@ -128,135 +150,17 @@ components:
       layout_properties: {grid_position: 'YZXEIA,KEKOUB ORIZUZ,FEOKJD GPIHJY,LGILBY'}
       components:
       - name: label_6
-        properties: {text: Fandon, role: sub_title-regular-tile, spacing_above: none, spacing_below: none}
+        properties: {text: N/A, role: sub_title-regular-tile, spacing_above: none, spacing_below: none}
         type: Label
         layout_properties: {}
-      - name: label_10
-        properties: {role: value-regular-tile, spacing_above: none, spacing_below: none, text: '85.4'}
+      - name: KPI_tile_4
+        properties: {role: value-regular-tile, spacing_above: none, spacing_below: none, text: N/A}
         type: Label
         layout_properties: {}
-  - name: spacer_4
-    properties: {height: 32}
-    type: Spacer
-    layout_properties: {grid_position: 'KNYYQQ,SWQNJH'}
   - name: spacer_1
     properties: {height: 32}
     type: Spacer
     layout_properties: {grid_position: 'ADRMBH,ZIFYXN'}
-  - name: info
-    properties: {icon: 'fa:angle-down', icon_align: left, role: description, spacing_below: none, spacing_above: none, text: Info}
-    type: Link
-    layout_properties: {grid_position: 'AUFXYX,OWNLYU'}
-    event_bindings: {click: info_click}
-  - name: spacer_5
-    properties: {height: '16'}
-    type: Spacer
-    layout_properties: {grid_position: 'PCRXPN,NGBNPE'}
-  - name: artist_link
-    properties: {col_widths: '{}'}
-    type: Link
-    layout_properties: {grid_position: 'EYOQXT,DTEJWC'}
-    components:
-    - name: artist_image
-      properties: {role: null, vertical_align: center, spacing_above: none, background: '', horizontal_align: center, source: '', foreground: '', display_mode: zoom_to_fill, spacing_below: none, visible: true, border: '', tooltip: '', height: '170'}
-      type: Image
-      layout_properties: {grid_position: 'XISFUA,MXKFIP'}
-  - name: column_panel_4
-    properties: {col_widths: '{"FKEIWL":5,"WXEPPA":55,"UXYXLB":25,"HOSDXG":60,"CZMPOC":15,"YYFIRV":35,"BWAVGC":20,"ZWYWBO":9}', col_spacing: tiny}
-    type: ColumnPanel
-    layout_properties: {grid_position: 'EYOQXT,HPUOQR'}
-    components:
-    - name: link_watchlist_name
-      properties: {role: artist_name_shadow}
-      type: Link
-      layout_properties: {grid_position: 'WRLQOW,HOSDXG UYZDXY,FKEIWL'}
-      event_bindings: {click: link_watchlist_name_click}
-      components: []
-    - name: name
-      properties: {text: '', role: artist_name_shadow, icon: ''}
-      type: Label
-      layout_properties: {grid_position: 'WRLQOW,HOSDXG UYZDXY,WXEPPA'}
-    - name: countries
-      properties: {spacing_below: small, spacing_above: small, role: feature, font_size: 16}
-      type: Label
-      layout_properties: {grid_position: 'WRLQOW,HOSDXG OWJGOG,UXYXLB JIWIZS,MCWAPT'}
-    - name: genres
-      properties: {align: left, underline: false, role: feature, font_size: 16}
-      type: Label
-      layout_properties: {grid_position: 'WRLQOW,HOSDXG OWJGOG,UXYXLB WLFHCC,OMLURK'}
-    - name: linear_panel_1
-      properties: {background: '', role: grid, border: ''}
-      type: LinearPanel
-      layout_properties: {grid_position: 'WRLQOW,CZMPOC'}
-      components:
-      - name: prediction_old
-        properties: {role: artist_name_shadow, align: center, spacing_below: none, font_size: 32, bold: true}
-        type: Label
-        layout_properties: {}
-      - name: link_2
-        properties: {text: match likelihood, align: center, spacing_below: none, spacing_above: small, role: table_content_small}
-        type: Link
-        event_bindings: {click: info_prediction_click}
-        layout_properties: {}
-    - name: birthday
-      properties: {role: feature, font_size: 16}
-      type: Label
-      layout_properties: {grid_position: 'WRLQOW,HOSDXG OWJGOG,BWAVGC DWSLDE,ANJFUW'}
-    - name: gender
-      properties: {role: feature, font_size: 16}
-      type: Label
-      layout_properties: {grid_position: 'WRLQOW,HOSDXG OWJGOG,BWAVGC NHIEQF,KHJJCP'}
-    - name: column_panel_5
-      properties: {col_spacing: tiny, spacing_above: none, spacing_below: none}
-      type: ColumnPanel
-      layout_properties: {grid_position: 'WRLQOW,HOSDXG OWJGOG,YYFIRV YQHVKI,CQFODO'}
-      components:
-      - name: artist_popularity_lat
-        properties: {role: feature, align: right, font_size: 16}
-        type: Label
-        layout_properties: {grid_position: 'KBHJNP,ZKXMFI'}
-      - name: link_3
-        properties: {text: Popularity, role: description, spacing_below: none, icon: 'fa:spotify', icon_align: left}
-        type: Link
-        layout_properties: {grid_position: 'KBHJNP,BEOKOQ'}
-        event_bindings: {click: info_popularity_click}
-    - name: column_panel_6
-      properties: {col_spacing: tiny, spacing_below: none, spacing_above: none}
-      type: ColumnPanel
-      layout_properties: {grid_position: 'WRLQOW,HOSDXG OWJGOG,YYFIRV XASSSK,RHASJF'}
-      components:
-      - name: artist_follower_lat
-        properties: {role: feature, align: right, font_size: 16}
-        type: Label
-        layout_properties: {grid_position: 'PSREYD,FBKOWX'}
-      - name: link_4
-        properties: {text: Follower, role: description, spacing_below: none, icon: 'fa:spotify'}
-        type: Link
-        layout_properties: {grid_position: 'PSREYD,MZHJEE'}
-        event_bindings: {click: info_follower_click}
-    - name: spacer_7
-      properties: {height: 32}
-      type: Spacer
-      layout_properties: {grid_position: 'WRLQOW,HOSDXG OWJGOG,ZWYWBO'}
-    - name: spacer_2
-      properties: {height: 4}
-      type: Spacer
-      layout_properties: {grid_position: 'WRLQOW,HOSDXG DHATCB,UCVIJK'}
-    - name: bio_old
-      properties: {icon: '', icon_align: left, role: description, spacing_below: none, spacing_above: none, text: '', tooltip: min}
-      type: Link
-      layout_properties: {grid_position: 'WRLQOW,HOSDXG KGXJHH,VZBTDK'}
-      event_bindings: {click: bio_old_click}
-      components:
-      - name: bio_text_old
-        properties: {format: restricted_html, role: description, spacing_below: none, spacing_above: none}
-        type: RichText
-        layout_properties: {grid_position: 'YHRMFM,PMTQHL'}
-  - name: xy_panel_2
-    properties: {height: 3, role: bottom_line}
-    type: XYPanel
-    layout_properties: {grid_position: 'HTCPFN,KBBZJB'}
-    components: []
   - name: flow_panel_sections
     properties: {spacing: small}
     type: FlowPanel

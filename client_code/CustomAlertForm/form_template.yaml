@@ -3,7 +3,7 @@ container:
   properties: {html: '', visible: true, role: background-gradient-alerts}
 components:
 - name: column_panel_1
-  properties: {}
+  properties: {col_widths: '{"JQRZNI":20,"YXOXNY":40}'}
   type: ColumnPanel
   layout_properties: {slot: default}
   components:

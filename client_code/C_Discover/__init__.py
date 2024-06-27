@@ -96,10 +96,8 @@ class C_Discover(C_DiscoverTemplate):
       # picture and its link
       if sug["ArtistPictureURL"] != 'None':
         self.artist_image.source = sug["ArtistPictureURL"]
-        self.artist_image_copy_2.source = sug["ArtistPictureURL"]
       else:
         self.artist_image.source = '_/theme/pics/Favicon_orange.JPG'
-        self.artist_image_copy_2.source = '_/theme/pics/Favicon_orange.JPG'
       
       if sug["ArtistURL"] != 'None': self.artist_link.url = sug["ArtistURL"]
 
@@ -107,23 +105,18 @@ class C_Discover(C_DiscoverTemplate):
       if watchlist_presence == 'True':
         self.link_watchlist_name.icon = 'fa:star'
         self.link_watchlist_name2.icon = 'fa:star'
-        self.link_watchlist_name_2.icon = 'fa:star'
       else:
         self.link_watchlist_name.icon = 'fa:star-o'
         self.link_watchlist_name2.icon = 'fa:star-o'
-        self.link_watchlist_name_2.icon = 'fa:star-o'
 
       # name
       self.name.text = sug["Name"]
-      self.name_2.text = sug["Name"]
 
       # genres
       if sug["Genres"] == 'None':
         self.genres.text = '-'
-      else:
-        self.genres.text = str(sug["Genres"])[1:-1].replace("'", "")
-      if sug["Genres"] == 'None':
-        self.genres_2.text = '-'
+      # else:
+      #   self.genres.text = str(sug["Genres"])[1:-1].replace("'", "")
       else:
         # self.genres_2.text = str(sug["Genres"])[1:-1].replace("'","")
         genres_string = sug["Genres"]
@@ -173,9 +166,9 @@ class C_Discover(C_DiscoverTemplate):
       country = json.loads(sug["Countries"])
           
       if sug["Countries"] == 'None':
-        self.countries.text = '-'
+        pass
       else:
-        self.countries.text = country["CountryName"]
+        # self.countries.text = country["CountryName"]
         # self.Artist_Country.text = country["CountryCode"]
         # flag_url = flag_url_template https://flagcdn.com/w80/ua.png
         country_flag = Image(source="https://flagcdn.com/w40/" + country["CountryCode"].lower() + ".png", spacing_below=0, spacing_above=0)
@@ -184,20 +177,35 @@ class C_Discover(C_DiscoverTemplate):
         self.Artist_Name_Details.add_component(country_flag)
       
       # birt date
-      if sug["BirthDate"] == 'None': self.birthday.text = '-'
-      else: self.birthday.text = sug["BirthDate"]
+      if sug["BirthDate"] == 'None': 
+        self.birthday.visible = False
+      else:
+        self.birthday.text = sug["BirthDate"]
 
       # gender
-      if sug["Gender"] == 'None': self.gender.text = '-'
-      else: self.gender.text = sug["Gender"]
+      if sug["Gender"] == 'None':
+        self.gender.visible = False
+      else:
+        self.gender.text = sug["Gender"]
 
+      # line condition
+      if sug["BirthDate"] != 'None' and sug["Gender"] != 'None':
+        self.gender_birthday_line.visible = True
+      else:
+        self.gender_birthday_line.visible = False
+    
+      
       # popularity
-      if sug["ArtistPopularity_lat"] == 'None': self.artist_popularity_lat.text = '-'
-      else: self.artist_popularity_lat.text = sug["ArtistPopularity_lat"]
+      if sug["ArtistPopularity_lat"] == 'None':
+        self.KPI_tile_1.text = '-'
+      else:
+        self.KPI_tile_1.text = sug["ArtistPopularity_lat"]
 
       # follower
-      if sug["ArtistFollower_lat"] == 'None': self.artist_follower_lat.text = '-'
-      else: self.artist_follower_lat.text = f'{int(sug["ArtistFollower_lat"]):,}'
+      if sug["ArtistFollower_lat"] == 'None':
+        self.KPI_tile_2.text = '-'
+      else:
+        self.KPI_tile_2.text = f'{int(sug["ArtistFollower_lat"]):,}'
 
       # prediction
       if (sug["Prediction"] == 'None'): pred = 'N/A'
@@ -555,7 +563,6 @@ class C_Discover(C_DiscoverTemplate):
     if self.link_watchlist_name.icon == 'fa:star':
       self.link_watchlist_name.icon = 'fa:star-o'
       self.link_watchlist_name2.icon = 'fa:star-o'
-      self.link_watchlist_name_2.icon = 'fa:star-o'
       self.update_watchlist_lead(artist_id, False, None, False)
       Notification("",
         title=f"{self.name.text} removed from the watchlist!",
@@ -563,7 +570,6 @@ class C_Discover(C_DiscoverTemplate):
     else:
       self.link_watchlist_name.icon = 'fa:star'
       self.link_watchlist_name2.icon = 'fa:star'
-      self.link_watchlist_name_2.icon = 'fa:star'
       self.update_watchlist_lead(artist_id, True, 'Action required', True)
       Notification("",
         title=f"{self.name.text} added to the watchlist!",
