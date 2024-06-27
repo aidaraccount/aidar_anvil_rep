@@ -208,8 +208,8 @@ class C_Discover(C_DiscoverTemplate):
 
       # biography
       if biography != 'None':
-        if len(biography) >= 100:
-          self.bio_text.content = biography[0:100] + '...'
+        if len(biography) >= 200:
+          self.bio_text.content = biography[0:200] + '...'
           # self.bio_text_2.content = biography[0:310] + '...'
         else:
           self.bio_text.content = biography
@@ -528,7 +528,15 @@ class C_Discover(C_DiscoverTemplate):
   # BIO CLICK
   def bio_click(self, **event_args):
     sug = json.loads(anvil.server.call('get_suggestion', 'Inspect', self.model_id, temp_artist_id_global)) # Free, Explore, Inspect, Dissect
-    custom_alert_form = CustomAlertForm(text=self.biography, pickurl=sug["ArtistPictureURL"], artist_name=sug["Name"])
+    country = json.loads(sug["Countries"])
+    country_flag = Image(source="https://flagcdn.com/w40/" + country["CountryCode"].lower() + ".png", spacing_below=0, spacing_above=0)
+    custom_alert_form = CustomAlertForm(
+      text=self.biography, 
+      pickurl=sug["ArtistPictureURL"], 
+      artist_name=sug["Name"], 
+      countryflag=country_flag, 
+      countryname=country["CountryName"]
+    )
     alert(content=custom_alert_form, large=True, buttons=[])
 
   
