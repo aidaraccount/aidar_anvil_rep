@@ -140,6 +140,8 @@ body, html {
   font-family: GS-regular;
   font-size: 18px;
   color: %color:Text_DecentWhite%;
+  position: relative !important;
+  width: auto !important;
 }
 .anvil-role-table_content_small {
   font-family: GS-regular;
@@ -636,6 +638,10 @@ div.row {
 .modal.fade.alert-modal.in {
   display: flex !important;
   justify-content: center;
+}
+.holder:has(> .anvil-role-table_content) {
+  display: flex !important;
+  justify-content: space-evenly;
 }
 
 @media only screen and (min-width: 1081px) {
