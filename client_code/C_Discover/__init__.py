@@ -119,11 +119,8 @@ class C_Discover(C_DiscoverTemplate):
 
       # genres
       if sug["Genres"] == 'None':
-        self.genres.text = '-'
-      # else:
-      #   self.genres.text = str(sug["Genres"])[1:-1].replace("'", "")
+        pass
       else:
-        # self.genres_2.text = str(sug["Genres"])[1:-1].replace("'","")
         genres_string = sug["Genres"]
         # Clean up the string and convert to list
         genres_string_cleaned = genres_string.strip("[]").replace("'", "")
