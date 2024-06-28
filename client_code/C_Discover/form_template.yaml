@@ -16,7 +16,7 @@ components:
     type: Label
     layout_properties: {grid_position: 'SYXIOJ,LTMDQS'}
     name: header
-  - properties: {col_widths: '{"BINRLY":20,"SKLDLY":40,"XFZSMP":55,"SZWANA":5}', role: tile-background-left}
+  - properties: {col_widths: '{"BINRLY":20,"SKLDLY":40,"XFZSMP":55}', role: tile-background-left}
     type: ColumnPanel
     layout_properties: {grid_position: 'FDCDSH,AMHHEF'}
     name: column_panel_Artist
@@ -30,15 +30,15 @@ components:
         type: Image
         layout_properties: {grid_position: 'ISPLKC,JXPNZE'}
         name: artist_image
-    - properties: {height: 32}
-      type: Spacer
-      layout_properties: {grid_position: 'KTIEJU,SKLDLY IESCDW,XFZSMP'}
-      name: spacer_9
-    - properties: {role: star-tile, spacing_above: none, icon_align: right, spacing_below: none}
-      type: Link
-      layout_properties: {grid_position: 'KTIEJU,SKLDLY IESCDW,SZWANA'}
-      event_bindings: {click: link_watchlist_name_click}
-      name: link_watchlist_name
+    - name: flow_panel_1
+      properties: {align: right}
+      type: FlowPanel
+      layout_properties: {grid_position: 'KTIEJU,SKLDLY UOHVIF,XXOZRA'}
+      components:
+      - properties: {role: star-tile, spacing_above: none, icon_align: right, spacing_below: none}
+        type: Link
+        event_bindings: {click: link_watchlist_name_click}
+        name: link_watchlist_name
     - properties: {spacing: large}
       type: FlowPanel
       layout_properties: {grid_position: 'KTIEJU,SKLDLY WJGMQK,GUYSZE'}
