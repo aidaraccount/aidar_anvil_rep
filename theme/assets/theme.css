@@ -441,6 +441,7 @@ body, html {
   margin: 5px 5px;
   min-height: 80px;
   min-width: 80px; 
+  overflow: hidden;
 }
 
 .anvil-role-tile-background-right .anvil-panel-row-XBWMVA .anvil-panel-col-RCCOIP .col-padding.col-padding-medium {
