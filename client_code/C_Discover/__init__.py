@@ -255,7 +255,11 @@ class C_Discover(C_DiscoverTemplate):
       self.sub_major_coop.text = smc
 
       co_artists = json.loads(anvil.server.call('get_co_artists', int(cur_artist_id)))
-      self.co_artists_avg.text = "{:.2f}".format(round(co_artists[0]["avg_co_artists_per_track"],2))      
+      print(co_artists)
+      if co_artists == []:
+        self.co_artists_avg.text = '-'
+      else:
+        self.co_artists_avg.text = "{:.2f}".format(round(co_artists[0]["avg_co_artists_per_track"],2))      
       
       # b) release tables
       if self.data_grid_releases.visible is True:
