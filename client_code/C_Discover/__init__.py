@@ -255,7 +255,6 @@ class C_Discover(C_DiscoverTemplate):
       self.sub_major_coop.text = smc
 
       co_artists = json.loads(anvil.server.call('get_co_artists', int(cur_artist_id)))
-      print(co_artists)
       if co_artists == []:
         self.co_artists_avg.text = '-'
       else:
