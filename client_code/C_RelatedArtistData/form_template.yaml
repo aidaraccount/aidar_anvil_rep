@@ -53,7 +53,7 @@ components:
       - name: label_4
         properties: {text: Artist, role: table_content}
         type: Label
-        layout_properties: {x: 0, y: 0, width: 200}
+        layout_properties: {x: 0, y: 0, width: 74.3515625}
       - name: label_5
         properties: {text: Popularity, role: table_content, tooltip: Latest Spotity Artist Popularity (ranges from 1 to 100), align: center}
         type: Label
