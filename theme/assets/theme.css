@@ -634,7 +634,8 @@ div.row {
 }
 
 .modal.fade.alert-modal.in {
-  display: 
+  display: flex !important;
+  justify-content: center;
 }
 
 @media only screen and (min-width: 1081px) {
