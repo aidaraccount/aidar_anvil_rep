@@ -639,6 +639,7 @@ div.row {
   display: flex !important;
   justify-content: center;
 }
+/* to distribute the column headers evenly  */
 .holder:has(> .anvil-role-table_content) {
   display: flex !important;
   justify-content: space-evenly;
