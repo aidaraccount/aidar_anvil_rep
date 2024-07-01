@@ -161,21 +161,22 @@ components:
     layout_properties: {grid_position: 'CKLNBG,MMQKXA'}
     name: flow_panel_sections
     components:
-    - properties: {text: RELEASES, role: table_content_small_orange_underlined}
+    - properties: {text: Releases, role: section_buttons, spacing_above: none, spacing_below: none, col_spacing: medium}
       type: Link
       event_bindings: {click: nav_releases_click}
       layout_properties: {}
       name: nav_releases
-    - properties: {text: SUCCESS, role: table_content_small}
+    - properties: {text: Success, role: section_buttons, spacing_above: none, spacing_below: none}
       type: Link
       event_bindings: {click: nav_success_click}
       name: nav_success
-    - properties: {role: table_content_small, text: FANDOM, visible: true}
+      layout_properties: {}
+    - properties: {role: section_buttons, text: Fandom, visible: true, spacing_above: none, spacing_below: none}
       type: Link
       layout_properties: {}
       event_bindings: {click: nav_fandom_click}
       name: nav_fandom
-    - properties: {text: MUSICAL, role: table_content_small}
+    - properties: {text: Musical, role: section_buttons, spacing_above: none, spacing_below: none}
       type: Link
       layout_properties: {}
       event_bindings: {click: nav_musical_click}

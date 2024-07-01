@@ -66,6 +66,7 @@ roles:
 - {name: center-table-element}
 - {name: rows_dropdown}
 - {name: rows_discover_page}
+- {name: section_buttons}
 color_scheme:
   preset_groups:
   - name: Accent

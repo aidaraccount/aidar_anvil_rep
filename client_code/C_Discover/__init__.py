@@ -646,40 +646,40 @@ class C_Discover(C_DiscoverTemplate):
   # -------------------------------
   # SECTION NAVIGATION
   def nav_releases_click(self, **event_args):
-    self.nav_releases.role = 'table_content_small_orange_underlined'
-    self.nav_success.role = 'table_content_small'
-    self.nav_fandom.role = 'table_content_small'
-    self.nav_musical.role = 'table_content_small'
+    self.nav_releases.role = 'section_buttons_focused'
+    self.nav_success.role = 'section_buttons'
+    self.nav_fandom.role = 'section_buttons'
+    self.nav_musical.role = 'section_buttons'
     self.sec_releases.visible = True
     self.sec_success.visible = False
     self.sec_fandom.visible = False
     self.sec_musical.visible = False
   
   def nav_success_click(self, **event_args):
-    self.nav_releases.role = 'table_content_small'
-    self.nav_success.role = 'table_content_small_orange_underlined'
-    self.nav_fandom.role = 'table_content_small'
-    self.nav_musical.role = 'table_content_small'
+    self.nav_releases.role = 'section_buttons'
+    self.nav_success.role = 'section_buttons_focused'
+    self.nav_fandom.role = 'section_buttons'
+    self.nav_musical.role = 'section_buttons'
     self.sec_releases.visible = False
     self.sec_success.visible = True
     self.sec_fandom.visible = False
     self.sec_musical.visible = False
 
   def nav_fandom_click(self, **event_args):
-    self.nav_releases.role = 'table_content_small'
-    self.nav_success.role = 'table_content_small'
-    self.nav_fandom.role = 'table_content_small_orange_underlined'
-    self.nav_musical.role = 'table_content_small'
+    self.nav_releases.role = 'section_buttons'
+    self.nav_success.role = 'section_buttons'
+    self.nav_fandom.role = 'section_buttons_focused'
+    self.nav_musical.role = 'section_buttons'
     self.sec_releases.visible = False
     self.sec_success.visible = False
     self.sec_fandom.visible = True
     self.sec_musical.visible = False
     
   def nav_musical_click(self, **event_args):
-    self.nav_releases.role = 'table_content_small'
-    self.nav_success.role = 'table_content_small'
-    self.nav_fandom.role = 'table_content_small'
-    self.nav_musical.role = 'table_content_small_orange_underlined'
+    self.nav_releases.role = 'section_buttons'
+    self.nav_success.role = 'section_buttons'
+    self.nav_fandom.role = 'section_buttons'
+    self.nav_musical.role = 'section_buttons_focused'
     self.sec_releases.visible = False
     self.sec_success.visible = False
     self.sec_fandom.visible = False

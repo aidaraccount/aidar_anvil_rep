@@ -184,6 +184,37 @@ body, html {
   /* text-decoration-color: %color:Orange%; */
   /* text-decoration-thickness: 2px; */
 }
+.anvil-role-section_buttons {
+  font-family: GS-light;
+  font-size: 18px;
+  background: linear-gradient(to bottom right, #ee9735, #fd652d);
+  color: rgb(250, 250, 250);
+  text-decoration: underline !important;
+  border-radius: 15px;
+  padding: 1px 35px 0px;
+  /* text-decoration-color: %color:Orange%; */
+  /* text-decoration-thickness: 2px; */
+}
+.anvil-role-section_buttons:hover {
+  background: linear-gradient(to bottom right, #fd652d, #ee9735);
+  color: rgb(250, 250, 250);
+}
+.anvil-role-section_buttons_focused {
+  font-family: GS-light;
+  font-size: 18px;
+  background: rgb(89, 32, 58);
+  color: rgb(250, 250, 250);
+  text-decoration: underline !important;
+  border-radius: 15px;
+  padding: 1px 35px 1px;
+  /* text-decoration-color: %color:Orange%; */
+  /* text-decoration-thickness: 2px; */
+}
+.anvil-role-section_buttons_focused:hover {
+  color: rgb(250, 250, 250)
+}
+
+
 /* CSS for the Navigation Buttons at the bottom of a table STARTS here*/
 .anvil-data-grid>.data-grid-footer-panel>.footer-slot {
   flex: 0 0 auto !important;
@@ -204,7 +235,6 @@ body, html {
 .anvil-role-rate-artist-button .btn.btn-default.to-disable{
   font-family: GS-regular;
   background: linear-gradient(to bottom right, #ee9735, #fd652d);
-  /* background-color: rgb(0, 0, 0); */
   color: rgb(253, 101, 45);
   border-radius: 25px;
   border-color: rgb(253, 101, 45);
