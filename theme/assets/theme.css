@@ -118,6 +118,13 @@ body, html {
 }
 /* CSS to Format the Rows of the Dropdown Alert Table in the Related Artists Page ENDS here */
 
+.anvil-role-rows_discover_page {
+  padding: 10px 0px 5px;
+  align-items: center;
+  justify-items: left;
+  border-bottom: 1px solid rgba(128,110,137, 0.4);
+}
+
 .anvil-role-rows {
   font-family: GS-regular;
   padding: 0px 20px 0px;
@@ -138,6 +145,7 @@ body, html {
   border-bottom: 1px solid %color:Text_DecentWhite%;
 }
 .anvil-role-table_header {
+  font-family: Gs-regular;
   font-size: 16px;
   font-weight: normal;
   color: rgb(174, 174, 174);

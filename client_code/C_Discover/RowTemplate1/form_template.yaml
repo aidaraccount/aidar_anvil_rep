@@ -1,3 +1,5 @@
 is_package: true
-container: {type: DataRowPanel}
+container:
+  type: DataRowPanel
+  properties: {role: rows_discover_page}
 components: []

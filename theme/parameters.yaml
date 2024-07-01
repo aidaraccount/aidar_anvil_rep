@@ -64,6 +64,8 @@ roles:
 - {name: table_content_talent_dev}
 - {name: talent-dev-custom-class}
 - {name: center-table-element}
+- {name: rows_dropdown}
+- {name: rows_discover_page}
 color_scheme:
   preset_groups:
   - name: Accent
