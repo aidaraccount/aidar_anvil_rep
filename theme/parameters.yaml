@@ -59,6 +59,9 @@ roles:
 - name: little_note
   components: [Link]
 - {name: description-bio}
+- {name: table_content_popup}
+- {name: related-artist-search-dropdown-header}
+- {name: table_content_talent_dev}
 color_scheme:
   preset_groups:
   - name: Accent

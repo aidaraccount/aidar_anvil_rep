@@ -41,20 +41,20 @@ components:
       properties:
         text: |
           Artist
-        role: table_content
+        role: table_content_popup
         align: center
       type: Label
       layout_properties: {x: 0, y: 0, width: 106.3125}
     - name: Column_Popularity
-      properties: {text: Popularity, role: table_content, tooltip: Latest number of followers on Spotity, align: center}
+      properties: {text: Popularity, role: table_content_popup, tooltip: Latest number of followers on Spotity, align: center}
       type: Label
       layout_properties: {x: 0, y: 0, width: 171.4375}
     - name: Column_Followers
-      properties: {text: Followers, role: table_content, tooltip: Latest Spotity Artist Popularity (ranges from 1 to 100), align: center}
+      properties: {text: Followers, role: table_content_popup, tooltip: Latest Spotity Artist Popularity (ranges from 1 to 100), align: center}
       type: Label
       layout_properties: {x: 0, y: 0, width: 103.921875}
     - name: Column_Options
-      properties: {text: '', role: table_content, tooltip: Latest Spotity Artist Popularity (ranges from 1 to 100), align: center}
+      properties: {text: '', role: table_content_popup, tooltip: Latest Spotity Artist Popularity (ranges from 1 to 100), align: center}
       type: Label
       layout_properties: {x: 0, y: 0, width: 200}
     layout_properties: {}

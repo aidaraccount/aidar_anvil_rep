@@ -143,6 +143,20 @@ body, html {
   position: relative !important;
   width: auto !important;
 }
+.anvil-role-table_content_talent_dev {
+  font-family: GS-regular;
+  font-size: 18px;
+  color: %color:Text_DecentWhite%;
+  position: relative !important;
+  width: auto !important;
+}
+.anvil-role-table_content_popup {
+  font-family: GS-regular;
+  font-size: 18px;
+  color: %color:Text_DecentWhite%;
+  position: relative !important;
+  width: auto !important;
+}
 .anvil-role-table_content_small {
   font-family: GS-regular;
   font-size: 16px;
@@ -640,7 +654,11 @@ div.row {
   justify-content: center;
 }
 /* to distribute the column headers evenly  */
-.holder:has(> .anvil-role-table_content) {
+.holder:has(> .anvil-role-table_content_popup) {
+  display: flex !important;
+  justify-content: space-evenly;
+}
+.holder:has(> .anvil-role-table_content_talent_dev) {
   display: flex !important;
   justify-content: space-evenly;
 }
