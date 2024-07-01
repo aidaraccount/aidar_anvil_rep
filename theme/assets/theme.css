@@ -140,7 +140,7 @@ body, html {
 .anvil-role-table_header {
   font-size: 16px;
   font-weight: normal;
-  color: %color:Orange%;
+  color: rgb(174, 174, 174);
 }
 .anvil-role-table_content {
   font-family: GS-regular;
