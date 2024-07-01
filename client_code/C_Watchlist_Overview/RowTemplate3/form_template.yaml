@@ -1,61 +1,63 @@
 is_package: true
-container: {type: DataRowPanel}
+container:
+  type: DataRowPanel
+  properties: {role: talent-dev-custom-class}
 components:
 - name: xy_panel_1
-  properties: {height: 18}
+  properties: {height: 18, spacing_above: none}
   type: XYPanel
   layout_properties: {column: JKSDUP}
   components:
   - name: image_artist
-    properties: {height: '38', display_mode: zoom_to_fill}
+    properties: {height: '38', display_mode: zoom_to_fill, spacing_above: none, spacing_below: none}
     type: Image
     layout_properties: {x: 0, y: 10, width: 30}
     data_bindings:
     - {property: source, code: 'self.item[''ArtistPictureURL'']', writeback: false}
   - name: link_artist
-    properties: {role: table_content_small}
+    properties: {role: table_content_small, spacing_above: none, spacing_below: none}
     type: Link
     layout_properties: {x: 40, y: 0, width: 80}
     data_bindings:
     - {property: text, code: 'self.item[''Name'']', writeback: false}
     event_bindings: {click: link_artist_click}
 - name: button_details
-  properties: {text: '', icon: 'fa:address-card-o', role: feature, foreground: 'theme:Text_DecentWhite', background: 'theme:Orange', tooltip: See Artists Watchlist Details}
+  properties: {text: '', icon: 'fa:address-card-o', role: feature, foreground: 'theme:Text_DecentWhite', background: 'theme:Orange', tooltip: See Artists Watchlist Details, spacing_above: none, spacing_below: none}
   type: Button
   layout_properties: {column: SXXXLP}
   event_bindings: {click: button_details_click}
 - name: label_1
-  properties: {align: center}
+  properties: {align: center, spacing_below: none, spacing_above: none}
   type: Label
   layout_properties: {column: CDCVLK}
   data_bindings:
   - {property: text, code: 'str(self.item[''PopularityDev'']) + ''%''', writeback: false}
 - name: label_2
-  properties: {align: center}
+  properties: {align: center, spacing_above: none, spacing_below: none}
   type: Label
   layout_properties: {column: QLRQCM}
   data_bindings:
   - {property: text, code: 'str(self.item[''FollowerDev'']) + ''%''', writeback: false}
 - name: label_3
-  properties: {align: right}
+  properties: {align: center, spacing_below: none, spacing_above: none}
   type: Label
   layout_properties: {column: SNZOEY}
   data_bindings:
   - {property: text, code: 'self.item[''FollowerLat'']', writeback: false}
 - name: label_4
-  properties: {align: right}
+  properties: {align: center, spacing_above: none, spacing_below: none}
   type: Label
   layout_properties: {column: CLLQNH}
   data_bindings:
   - {property: text, code: 'self.item[''FollowerDif'']', writeback: false}
 - name: label_5
-  properties: {align: center}
+  properties: {align: center, spacing_above: none, spacing_below: none}
   type: Label
   layout_properties: {column: OJLQEN}
   data_bindings:
   - {property: text, code: 'self.item[''PopularityLat'']', writeback: false}
 - name: label_6
-  properties: {align: center}
+  properties: {align: center, spacing_above: none, spacing_below: none}
   type: Label
   layout_properties: {column: JMPPBV}
   data_bindings:
