@@ -1,5 +1,7 @@
 is_package: true
-container: {type: DataRowPanel}
+container:
+  type: DataRowPanel
+  properties: {role: rows_discover_page}
 components:
 - name: column_panel_1
   properties: {col_widths: '{"POBPFZ":20,"ZUUXYF":40}', spacing_above: none}
