@@ -302,28 +302,41 @@ class C_Discover(C_DiscoverTemplate):
           x = [x['LabelName'] for x in labels_freq],
           y = [x['NoLabels'] for x in labels_freq],
           text = [x['NoLabels'] for x in labels_freq],
-          textposition='auto',
+          textposition='outside',
           hoverinfo='x+y',
           hovertemplate='Label: %{x}<br>Cooperations: %{y}'
         )
       ))
 
       fig.update_layout(
-        title = 'Most Frequent Label Cooperations',
-        xaxis_title = 'Labels',
-        yaxis_label = 'Number of Cooperations',
+        # title = 'Most Frequent Label Cooperations',
+        # xaxis_title = 'Labels',
+        # yaxis_label = 'Number of Cooperations',
         template='plotly_dark',
         plot_bgcolor='rgba(0,0,0,0)',
-        paper_bgcolor='rgba(0,0,0,0)'
+        paper_bgcolor='rgba(0,0,0,0)',
+        yaxis=dict(
+          gridcolor='rgba(250,250,250,1)',  # Color of the gridlines
+          gridwidth=1,  # Thickness of the gridlines
+          griddash='dash'  # Dash style of the gridlines
+        )
+        # xaxis=dict(
+        #   gridcolor='rgba(255,39,118,1)',  # Color of the gridlines
+        #   gridwidth=0,  # Thickness of the gridlines
+        #   griddash='dash'  # Dash style of the gridlines
+        # )
       )
       
       # Apply styles directly to the traces
       for trace in fig.data:
-        trace.update(marker_color='rgb(158,202,225)', marker_line_color='rgb(8,48,107)', marker_line_width=1.5, opacity=0.6)
+        trace.update(
+          marker_color='rgb(240,229,252)',
+          marker_line_color='rgb(240,229,252)',
+          marker_line_width=1.5,
+          opacity=0.9)
 
       self.Most_Frequent_Labels_Graph_copy.figure = fig
 
-      
       # d) co-artists by frequency
       if self.data_grid_co_artists_freq.visible is True:
         self.data_grid_co_artists_freq_data.items = co_artists
