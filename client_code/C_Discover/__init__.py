@@ -210,10 +210,11 @@ class C_Discover(C_DiscoverTemplate):
         self.KPI_tile_2.text = f'{int(sug["ArtistFollower_lat"]):,}'
 
       # prediction
+      print(sug["Prediction"])
       if (sug["Prediction"] == 'None'): pred = 'N/A'
-      elif (float(sug["Prediction"]) > 7): pred = 7.0
-      elif (float(sug["Prediction"]) < 0): pred = 0.0
-      else: pred = "{:.1f}".format(round(float(sug["Prediction"]),1))
+      elif (float(sug["Prediction"]) > 7): pred = '100%'
+      elif (float(sug["Prediction"]) < 0): pred = '0%'
+      else: pred = "{:.0f}".format(round(float(sug["Prediction"])/7*100,0)) + '%'
       self.prediction.text = pred
 
       # biography
