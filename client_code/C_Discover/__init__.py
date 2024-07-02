@@ -296,38 +296,39 @@ class C_Discover(C_DiscoverTemplate):
         self.Most_Frequent_Labels_Graph.visible = False
         self.no_labels_freq.visible = True
       
-      #  _copy version of the Most Frequent Labels Cooperation Graph
+      # _copy version of the Most Frequent Labels Cooperation Graph
+      # def truncate_label(self, label, max_length=10):
+      #   if len(label) > max_length:
+      #     return label[:max_length] + '...'
+      #   return label
+
+      truncated_labels = [label[0:10] for label in [x['LabelName'] for x in labels_freq]]
+
       fig = go.Figure(data=(
         go.Bar(
-          x = [x['LabelName'] for x in labels_freq],
+          x = truncated_labels,
           y = [x['NoLabels'] for x in labels_freq],
           text = [x['NoLabels'] for x in labels_freq],
           textposition='outside',
           hoverinfo='x+y',
-          hovertemplate='Label: %{x}<br>Cooperations: %{y}'
+          hovertext= [x['LabelName'] for x in labels_freq],
+          hovertemplate='Label: %{hovertext}<br>Cooperations: %{y}'
         )
       ))
 
       fig.update_layout(
-        # title = 'Most Frequent Label Cooperations',
-        # xaxis_title = 'Labels',
-        # yaxis_label = 'Number of Cooperations',
         template='plotly_dark',
         plot_bgcolor='rgba(0,0,0,0)',
         paper_bgcolor='rgba(0,0,0,0)',
         yaxis=dict(
           gridcolor='rgba(250,250,250,1)',  # Color of the gridlines
           gridwidth=1,  # Thickness of the gridlines
-          griddash='dash'  # Dash style of the gridlines
-        )
-        # xaxis=dict(
-        #   gridcolor='rgba(255,39,118,1)',  # Color of the gridlines
-        #   gridwidth=0,  # Thickness of the gridlines
-        #   griddash='dash'  # Dash style of the gridlines
-        # )
+          griddash='dash',  # Dash style of the gridlines
+          range=[0, max([x['NoLabels'] for x in labels_freq]) * 1.2]  # Adjust y-axis range to add extra space
+        ),
       )
       
-      # Apply styles directly to the traces
+      # This is to style the bars
       for trace in fig.data:
         trace.update(
           marker_color='rgb(240,229,252)',
@@ -336,7 +337,7 @@ class C_Discover(C_DiscoverTemplate):
           opacity=0.9)
 
       self.Most_Frequent_Labels_Graph_copy.figure = fig
-
+  
       # d) co-artists by frequency
       if self.data_grid_co_artists_freq.visible is True:
         self.data_grid_co_artists_freq_data.items = co_artists
