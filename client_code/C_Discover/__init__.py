@@ -268,17 +268,17 @@ class C_Discover(C_DiscoverTemplate):
       # c) labels freq
       labels_freq = json.loads(anvil.server.call('get_labels_freq', int(cur_artist_id)))
       if labels_freq != []:
-        self.plot_labels_freq.visible = True
+        self.Most_Frequent_Labels_Graph.visible = True
         self.no_labels_freq.visible = False
         
-        self.plot_labels_freq.data = [
+        self.Most_Frequent_Labels_Graph.data = [
           go.Bar(
             x = [x['LabelName'] for x in labels_freq],
             y = [x['NoLabels'] for x in labels_freq],
             marker = dict(color = 'rgb(253, 101, 45)')
           )
         ]
-        self.plot_labels_freq.layout = {
+        self.Most_Frequent_Labels_Graph.layout = {
           'template': 'plotly_dark',
           'title': {
             'text' : 'Most frequent Label cooperations',
@@ -293,9 +293,37 @@ class C_Discover(C_DiscoverTemplate):
           'plot_bgcolor': 'rgb(40, 40, 40)'
         }
       else:
-        self.plot_labels_freq.visible = False
+        self.Most_Frequent_Labels_Graph.visible = False
         self.no_labels_freq.visible = True
+      
+      #  _copy version of the Most Frequent Labels Cooperation Graph
+      fig = go.Figure(data=(
+        go.Bar(
+          x = [x['LabelName'] for x in labels_freq],
+          y = [x['NoLabels'] for x in labels_freq],
+          text = [x['NoLabels'] for x in labels_freq],
+          textposition='auto',
+          hoverinfo='x+y',
+          hovertemplate='Label: %{x}<br>Cooperations: %{y}'
+        )
+      ))
 
+      fig.update_layout(
+        title = 'Most Frequent Label Cooperations',
+        xaxis_title = 'Labels',
+        yaxis_label = 'Number of Cooperations',
+        template='plotly_dark',
+        plot_bgcolor='rgba(0,0,0,0)',
+        paper_bgcolor='rgba(0,0,0,0)'
+      )
+      
+      # Apply styles directly to the traces
+      for trace in fig.data:
+        trace.update(marker_color='rgb(158,202,225)', marker_line_color='rgb(8,48,107)', marker_line_width=1.5, opacity=0.6)
+
+      self.Most_Frequent_Labels_Graph_copy.figure = fig
+
+      
       # d) co-artists by frequency
       if self.data_grid_co_artists_freq.visible is True:
         self.data_grid_co_artists_freq_data.items = co_artists

@@ -321,21 +321,38 @@ components:
     - properties: {role: grid}
       type: ColumnPanel
       layout_properties: {grid_position: 'RSILBZ,HLQJAR'}
-      name: column_panel_3_copy_copy_copy_copy_copy_2_copy_copy_2
+      name: Panel_for_Most_Frequent_Labels_Graph
       components:
       - properties: {text: ' Most frequent Labels', role: artist_name}
         type: Label
         layout_properties: {grid_position: 'BCHOZO,TMNYIR'}
-        name: rel_1_copy_copy_copy_copy_copy_2_copy_copy_2
+        name: Heading_for_Most_Frequent_Labels_Graph
       - properties: {spacing_above: none, spacing_below: none, height: '300', visible: true, tooltip: '', interactive: false}
         type: Plot
         layout_properties: {grid_position: 'VQTYJE,RKWVRK'}
         event_bindings: {}
-        name: plot_labels_freq
+        name: Most_Frequent_Labels_Graph
       - properties: {text: no data available, align: center, role: description, visible: false, spacing_below: large, spacing_above: large}
         type: Label
         layout_properties: {grid_position: 'MCTTTL,OTDAWL'}
         name: no_labels_freq
+    - name: Panel_for_Most_Frequent_Labels_Graph_copy
+      properties: {role: grid}
+      type: ColumnPanel
+      layout_properties: {grid_position: 'JCYFCY,VTBRPY'}
+      components:
+      - name: Heading_for_Most_Frequent_Labels_Graph_copy
+        properties:
+          text: |2
+             Most frequent Labels_2
+          role: artist_name
+        type: Label
+        layout_properties: {grid_position: 'IAMBWZ,UFCMDS'}
+    - name: Most_Frequent_Labels_Graph_copy
+      properties: {spacing_above: none, spacing_below: none, height: '300', visible: true, tooltip: '', interactive: true}
+      type: Plot
+      layout_properties: {grid_position: 'HZGFIB,JVJPFB'}
+      event_bindings: {}
     - properties: {role: grid}
       type: ColumnPanel
       layout_properties: {grid_position: 'KTCVMK,ICUHXW'}
