@@ -614,7 +614,14 @@ class C_Discover(C_DiscoverTemplate):
         textposition='outside',
         hoverinfo='x+y',
         hovertext= labels,
-        hovertemplate='Label: %{hovertext}<br>Cooperations: %{y}'
+        hovertemplate='Label: %{hovertext}<br>Cooperations: %{y}',
+        marker=dict(
+          color='rgb(158,202,225)',  # Bar color
+          line=dict(
+            color='rgba(8,48,107,1.0)',
+            width=2
+          )
+        )
       )
     ))
 
@@ -654,10 +661,19 @@ class C_Discover(C_DiscoverTemplate):
     # This is to style the bars
     for trace in fig.data:
       trace.update(
-        marker_color='rgb(240,229,252)',
-        marker_line_color='rgb(240,229,252)',
-        marker_line_width=1.5,
-        opacity=0.9
+        marker = dict (
+          # color='rgb(237,134,86)',  # Bar color
+          color='rgb(240,229,252)',  # Bar color
+          line = dict(
+            color='rgb(237,134,86)', 
+            width = 4
+          ),
+          width = 0.1
+        )
+        # marker_color='rgb(240,229,252)',
+        # marker_line_color='rgb(240,229,252)',
+        # marker_line_width=1.5,
+        # opacity=0.9
       )
     self.Most_Frequent_Labels_Graph_copy.figure = fig
   # ----------------------------------------------
