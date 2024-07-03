@@ -588,7 +588,10 @@ class C_Discover(C_DiscoverTemplate):
       "cooperations": cooperations
     }
 
-  def truncate_label(self, label, max_length=10):
+    # Create the initial bar chart
+    self.create_bar_chart()
+
+  def truncate_label(self, label, max_length=20):
     if len(label) > max_length:
       return label[:max_length] + '...'
     return label
@@ -604,7 +607,7 @@ class C_Discover(C_DiscoverTemplate):
     # Creating the Bar Chart
     fig = go.Figure(data=(
       go.Bar(
-        x = truncated_labels,
+        x = labels,
         y = cooperations,
         # y = [x['NoLabels'] for x in labels_freq],
         text = cooperations,
@@ -616,17 +619,30 @@ class C_Discover(C_DiscoverTemplate):
     ))
 
     fig.update_layout(
+      title= dict(
+        text = 'Artist Cooperation with Labels',
+        x=0.5,
+        xanchor = 'center',
+        font = dict(
+          family = "Gs-regular",
+          size = 24,
+          color = 'rgb(250, 250, 250)'
+        )
+      ),
       template='plotly_dark',
       plot_bgcolor='rgba(0,0,0,0)',
       paper_bgcolor='rgba(0,0,0,0)',
+      xaxis = dict(
+        ticktext = truncated_labels
+      ),
       yaxis=dict(
         gridcolor='rgba(250,250,250,1)',  # Color of the gridlines
         gridwidth=1,  # Thickness of the gridlines
         griddash='dash',  # Dash style of the gridlines
-        # range=[0, max([x['NoLabels'] for x in labels_freq]) * 1.1]  # Adjust y-axis range to add extra space
+        range=[0, max(cooperations) * 1.1]  # Adjust y-axis range to add extra space
       ),
       margin=dict(
-        t=100  # Increase top margin to accommodate the labels
+        t=50  # Increase top margin to accommodate the labels
       )
     )
       
