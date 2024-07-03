@@ -591,7 +591,7 @@ class C_Discover(C_DiscoverTemplate):
     # Create the initial bar chart
     self.create_bar_chart()
 
-  def truncate_label(self, label, max_length=20):
+  def truncate_label(self, label, max_length=13):
     if len(label) > max_length:
       return label[:max_length] + '...'
     return label
@@ -632,8 +632,13 @@ class C_Discover(C_DiscoverTemplate):
       template='plotly_dark',
       plot_bgcolor='rgba(0,0,0,0)',
       paper_bgcolor='rgba(0,0,0,0)',
-      xaxis = dict(
-        ticktext = truncated_labels
+      xaxis=dict(
+        # gridcolor='rgba(255,255,255,0.2)',  # Color of the gridlines
+        # gridwidth=1,  # Thickness of the gridlines
+        # griddash='dash',  # Dash style of the gridlines
+        # tickmode='array',  # Ensure tick labels are fully displayed
+        tickvals=list(range(len(labels))),
+        ticktext=truncated_labels,  # Display truncated labels on the x-axis
       ),
       yaxis=dict(
         gridcolor='rgba(250,250,250,1)',  # Color of the gridlines

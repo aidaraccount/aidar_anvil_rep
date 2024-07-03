@@ -346,6 +346,7 @@ components:
           text: |2
              Most frequent Labels_2
           role: artist_name
+          visible: false
         type: Label
         layout_properties: {grid_position: 'IAMBWZ,UFCMDS'}
       - name: Most_Frequent_Labels_Graph_copy
