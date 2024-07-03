@@ -350,7 +350,7 @@ components:
         type: Label
         layout_properties: {grid_position: 'IAMBWZ,UFCMDS'}
       - name: sort_data_button
-        properties: {text: button_2, align: right}
+        properties: {text: button_2, align: right, visible: false}
         type: Button
         layout_properties: {grid_position: 'VJACNT,PXPFJK'}
         event_bindings: {click: sort_data_click}

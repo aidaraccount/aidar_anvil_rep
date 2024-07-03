@@ -80,6 +80,7 @@ class C_Discover(C_DiscoverTemplate):
       biography = sug["Biography"]
       self.biography = biography
       
+      self.nav_releases.role = 'section_buttons_focused'
       self.sec_releases.visible = True
       self.sec_success.visible = False
       self.sec_fandom.visible = False
