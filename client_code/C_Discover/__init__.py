@@ -578,6 +578,9 @@ class C_Discover(C_DiscoverTemplate):
 
   # ---------------------------------- 
   # _copy version of the Most Frequent Labels Cooperation Graph
+    # Link the sort_data button to the sort_data method
+    self.sort_data_button.set_event_handler('click', self.sort_data)
+    
     labels_freq = json.loads(anvil.server.call('get_labels_freq', int(cur_artist_id)))
     
     labels = [x['LabelName'] for x in labels_freq]
@@ -615,23 +618,24 @@ class C_Discover(C_DiscoverTemplate):
         hoverinfo='x+y',
         hovertext= labels,
         hovertemplate='Label: %{hovertext}<br>Cooperations: %{y}',
-        marker=dict(
-          color='rgb(158,202,225)',  # Bar color
-          line=dict(
-            color='rgba(8,48,107,1.0)',
-            width=2
-          )
-        )
+        # marker=dict(
+        #   color='rgb(158,202,225)',  # Bar color
+        #   line=dict(
+        #     color='rgba(8,48,107,1.0)',
+        #     width=2
+        #   )
+        # )
       )
     ))
 
     fig.update_layout(
       title= dict(
         text = 'Artist Cooperation with Labels',
-        x=0.5,
-        xanchor = 'center',
+        y=0.95, # Adjust the vertical position of the title (1 is top, 0 is bottom)
+        x=0.5, # Center the title
+        xanchor = 'center', # Ensure the title is centered
         font = dict(
-          family = "Gs-regular",
+          family = "Gs-medium",
           size = 24,
           color = 'rgb(250, 250, 250)'
         )
@@ -649,7 +653,7 @@ class C_Discover(C_DiscoverTemplate):
       ),
       yaxis=dict(
         gridcolor='rgba(250,250,250,1)',  # Color of the gridlines
-        gridwidth=1,  # Thickness of the gridlines
+        gridwidth=0.7,  # Thickness of the gridlines
         griddash='dash',  # Dash style of the gridlines
         range=[0, max(cooperations) * 1.1]  # Adjust y-axis range to add extra space
       ),
@@ -661,21 +665,35 @@ class C_Discover(C_DiscoverTemplate):
     # This is to style the bars
     for trace in fig.data:
       trace.update(
-        marker = dict (
-          # color='rgb(237,134,86)',  # Bar color
-          color='rgb(240,229,252)',  # Bar color
-          line = dict(
-            color='rgb(237,134,86)', 
-            width = 4
-          ),
-          width = 0.1
-        )
-        # marker_color='rgb(240,229,252)',
-        # marker_line_color='rgb(240,229,252)',
-        # marker_line_width=1.5,
-        # opacity=0.9
+        marker_color='rgb(240,229,252)',
+        marker_line_color='rgb(240,229,252)',
+        marker_line_width=0.5,
+        opacity=0.9
       )
+      
     self.Most_Frequent_Labels_Graph_copy.figure = fig
+
+  def sort_data(self, **event_args):
+        # Sort data in descending order
+        sorted_data = sorted(zip(self.data["labels"], self.data["cooperations"]), key=lambda x: x[1], reverse=True)
+        sorted_labels, sorted_cooperations = zip(*sorted_data)
+
+        # Update the data with sorted labels and cooperations
+        self.create_bar_chart(labels=sorted_labels, cooperations=sorted_cooperations)
+  # def sort_data(self, ascending=True):
+  #   sorted_data = sorted(
+  #       zip(self.data["labels"], self.data["cooperations"]),
+  #       key=lambda x: x[1],
+  #       reverse=not ascending
+  #   )
+  #   labels, cooperations = zip(*sorted_data)
+  #   self.create_bar_chart(labels, cooperations)
+
+  # def sort_button_click(self, **event_args):
+  #   self.sort_data(ascending=True)
+
+  # def sort_button_desc_click(self, **event_args):
+  #   self.sort_data(ascending=False)
   # ----------------------------------------------
 
   
@@ -911,6 +929,7 @@ class C_Discover(C_DiscoverTemplate):
   def button_remove_filters_click(self, **event_args):
     anvil.server.call('change_filters', self.model_id, filters_json = None)
     open_form('Main_In', model_id=self.model_id, temp_artist_id=None, target='C_Discover', value=None)
+
 
 
   

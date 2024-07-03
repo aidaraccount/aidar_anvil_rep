@@ -349,6 +349,11 @@ components:
           visible: false
         type: Label
         layout_properties: {grid_position: 'IAMBWZ,UFCMDS'}
+      - name: sort_data_button
+        properties: {text: button_2, align: left}
+        type: Button
+        layout_properties: {grid_position: 'VJACNT,PXPFJK'}
+        event_bindings: {click: sort_data_click}
       - name: Most_Frequent_Labels_Graph_copy
         properties: {spacing_above: none, spacing_below: none, height: '600', visible: true, tooltip: '', interactive: true}
         type: Plot
