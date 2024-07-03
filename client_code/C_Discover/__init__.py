@@ -35,8 +35,8 @@ class C_Discover(C_DiscoverTemplate):
     
     print(f"TotalTime C_Discover: {datetime.now() - begin}", flush=True)
 
-  
-  # --------------------------------------------
+
+  # -------------------------------------------
   # SUGGESTIONS
   def refresh_sug(self, temp_artist_id, **event_args):    
     global temp_artist_id_global
@@ -296,48 +296,6 @@ class C_Discover(C_DiscoverTemplate):
         self.Most_Frequent_Labels_Graph.visible = False
         self.no_labels_freq.visible = True
       
-      # _copy version of the Most Frequent Labels Cooperation Graph
-      # def truncate_label(self, label, max_length=10):
-      #   if len(label) > max_length:
-      #     return label[:max_length] + '...'
-      #   return label
-
-      truncated_labels = [label[0:10] for label in [x['LabelName'] for x in labels_freq]]
-
-      fig = go.Figure(data=(
-        go.Bar(
-          x = truncated_labels,
-          y = [x['NoLabels'] for x in labels_freq],
-          text = [x['NoLabels'] for x in labels_freq],
-          textposition='outside',
-          hoverinfo='x+y',
-          hovertext= [x['LabelName'] for x in labels_freq],
-          hovertemplate='Label: %{hovertext}<br>Cooperations: %{y}'
-        )
-      ))
-
-      fig.update_layout(
-        template='plotly_dark',
-        plot_bgcolor='rgba(0,0,0,0)',
-        paper_bgcolor='rgba(0,0,0,0)',
-        yaxis=dict(
-          gridcolor='rgba(250,250,250,1)',  # Color of the gridlines
-          gridwidth=1,  # Thickness of the gridlines
-          griddash='dash',  # Dash style of the gridlines
-          range=[0, max([x['NoLabels'] for x in labels_freq]) * 1.2]  # Adjust y-axis range to add extra space
-        ),
-      )
-      
-      # This is to style the bars
-      for trace in fig.data:
-        trace.update(
-          marker_color='rgb(240,229,252)',
-          marker_line_color='rgb(240,229,252)',
-          marker_line_width=1.5,
-          opacity=0.9)
-
-      self.Most_Frequent_Labels_Graph_copy.figure = fig
-  
       # d) co-artists by frequency
       if self.data_grid_co_artists_freq.visible is True:
         self.data_grid_co_artists_freq_data.items = co_artists
@@ -618,6 +576,71 @@ class C_Discover(C_DiscoverTemplate):
       # Spotify Web-Player
       self.c_web_player.html = '<iframe style="border-radius:12px" src="https://open.spotify.com/embed/artist/' + sug["SpotifyArtistID"] + '?utm_source=generator&theme=0&autoplay=true" width="100%" height="80" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>'
 
+  # ---------------------------------- 
+  # _copy version of the Most Frequent Labels Cooperation Graph
+    labels_freq = json.loads(anvil.server.call('get_labels_freq', int(cur_artist_id)))
+    
+    labels = [x['LabelName'] for x in labels_freq]
+    cooperations = [x["NoLabels"] for x in labels_freq]
+
+    self.data = {
+      "labels": labels,
+      "cooperations": cooperations
+    }
+
+  def truncate_label(self, label, max_length=10):
+    if len(label) > max_length:
+      return label[:max_length] + '...'
+    return label
+
+  def create_bar_chart(self, labels=None, cooperations=None):
+    if labels is None:
+      labels = self.data["labels"]
+    if cooperations is None:
+      cooperations = self.data["cooperations"]
+      
+    truncated_labels = [self.truncate_label(label) for label in labels]
+
+    # Creating the Bar Chart
+    fig = go.Figure(data=(
+      go.Bar(
+        x = truncated_labels,
+        y = cooperations,
+        # y = [x['NoLabels'] for x in labels_freq],
+        text = cooperations,
+        textposition='outside',
+        hoverinfo='x+y',
+        hovertext= labels,
+        hovertemplate='Label: %{hovertext}<br>Cooperations: %{y}'
+      )
+    ))
+
+    fig.update_layout(
+      template='plotly_dark',
+      plot_bgcolor='rgba(0,0,0,0)',
+      paper_bgcolor='rgba(0,0,0,0)',
+      yaxis=dict(
+        gridcolor='rgba(250,250,250,1)',  # Color of the gridlines
+        gridwidth=1,  # Thickness of the gridlines
+        griddash='dash',  # Dash style of the gridlines
+        # range=[0, max([x['NoLabels'] for x in labels_freq]) * 1.1]  # Adjust y-axis range to add extra space
+      ),
+      margin=dict(
+        t=100  # Increase top margin to accommodate the labels
+      )
+    )
+      
+    # This is to style the bars
+    for trace in fig.data:
+      trace.update(
+        marker_color='rgb(240,229,252)',
+        marker_line_color='rgb(240,229,252)',
+        marker_line_width=1.5,
+        opacity=0.9
+      )
+    self.Most_Frequent_Labels_Graph_copy.figure = fig
+  # ----------------------------------------------
+
   
   # -------------------------------
   # INFO CLICK  
@@ -660,7 +683,7 @@ class C_Discover(C_DiscoverTemplate):
   #     large=True,
   #     buttons=[]
   #   )
-
+ 
   
   # -------------------------------
   # WATCHLIST  
@@ -852,8 +875,5 @@ class C_Discover(C_DiscoverTemplate):
     anvil.server.call('change_filters', self.model_id, filters_json = None)
     open_form('Main_In', model_id=self.model_id, temp_artist_id=None, target='C_Discover', value=None)
 
-
-
-  
 
   
