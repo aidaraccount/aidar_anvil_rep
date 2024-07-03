@@ -629,17 +629,17 @@ class C_Discover(C_DiscoverTemplate):
     ))
 
     fig.update_layout(
-      title= dict(
-        text = 'Artist Cooperation with Labels',
-        y=0.95, # Adjust the vertical position of the title (1 is top, 0 is bottom)
-        x=0.5, # Center the title
-        xanchor = 'center', # Ensure the title is centered
-        font = dict(
-          family = "Gs-medium",
-          size = 24,
-          color = 'rgb(250, 250, 250)'
-        )
-      ),
+      # title= dict(
+      #   text = 'Artist Cooperation with Labels',
+      #   y=0.95, # Adjust the vertical position of the title (1 is top, 0 is bottom)
+      #   x=0.5, # Center the title
+      #   xanchor = 'center', # Ensure the title is centered
+      #   font = dict(
+      #     family = "Gs-medium",
+      #     size = 24,
+      #     color = 'rgb(250, 250, 250)'
+      #   )
+      # ),
       template='plotly_dark',
       plot_bgcolor='rgba(0,0,0,0)',
       paper_bgcolor='rgba(0,0,0,0)',

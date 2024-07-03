@@ -343,10 +343,10 @@ components:
       components:
       - name: Heading_for_Most_Frequent_Labels_Graph_copy
         properties:
-          text: |2
-             Most frequent Labels_2
+          text: |
+            Artist Cooperation with Labels
           role: artist_name
-          visible: false
+          visible: true
         type: Label
         layout_properties: {grid_position: 'IAMBWZ,UFCMDS'}
       - name: sort_data_button
