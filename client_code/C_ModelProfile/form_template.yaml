@@ -1,0 +1,150 @@
+container:
+  type: ColumnPanel
+  properties: {col_widths: '{}'}
+components:
+- type: ColumnPanel
+  properties: {col_widths: '{}'}
+  name: content_panel
+  layout_properties: {grid_position: 'KVHHAQ,OJTLIC'}
+  components:
+  - type: Label
+    properties: {role: title, bold: false, align: left, spacing_above: small, background: '', icon: '', underline: false, font: '', icon_align: left, foreground: '', spacing_below: small, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: Model Profile}
+    name: label_1_copy
+    layout_properties:
+      col_widths: {}
+      grid_position: WKTSPW,ALNASW
+- name: header_left
+  properties: {col_widths: '{}', role: tile-background-left}
+  type: ColumnPanel
+  layout_properties: {grid_position: 'LBNEEL,AWENUG'}
+  components:
+  - name: edit_icon
+    properties: {icon: 'fa:pencil', icon_align: right}
+    type: Link
+    layout_properties: {grid_position: 'XTTLYB,MDAFFD'}
+  - name: model_name
+    properties: {role: artist_name}
+    type: Label
+    layout_properties: {grid_position: 'VLZTYX,JGWMQG'}
+  - name: model_description
+    properties: {}
+    type: Label
+    layout_properties: {grid_position: 'VQCXFK,PGRELO'}
+  - name: spacer_1
+    properties: {height: 32}
+    type: Spacer
+    layout_properties: {grid_position: 'EQATCZ,QASFLE'}
+  - name: stats
+    properties: {}
+    type: ColumnPanel
+    layout_properties: {grid_position: 'LVWKNS,TWWASS'}
+    components:
+    - name: label_1
+      properties: {text: 'Creation date:'}
+      type: Label
+      layout_properties: {grid_position: 'NMHGSL,AZBUYS'}
+    - name: label_2
+      properties: {}
+      type: Label
+      layout_properties: {grid_position: 'NEIHHK,YRAXHM'}
+  - name: stats_copy
+    properties: {}
+    type: ColumnPanel
+    layout_properties: {grid_position: 'LVWKNS,GAGQXJ'}
+    components:
+    - name: label_1_copy_2
+      properties: {text: 'Last usage:'}
+      type: Label
+      layout_properties: {grid_position: 'NMHGSL,AZBUYS'}
+    - name: label_2_copy
+      properties: {}
+      type: Label
+      layout_properties: {grid_position: 'NEIHHK,YRAXHM'}
+  - name: stats_copy_2
+    properties: {}
+    type: ColumnPanel
+    layout_properties: {grid_position: 'LVWKNS,XOZJDF'}
+    components:
+    - name: label_1_copy_3
+      properties: {text: 'No. ratings:'}
+      type: Label
+      layout_properties: {grid_position: 'NMHGSL,AZBUYS'}
+    - name: label_2_copy_2
+      properties: {}
+      type: Label
+      layout_properties: {grid_position: 'NEIHHK,YRAXHM'}
+- name: header_right
+  properties: {role: tile-background-right, col_widths: '{}'}
+  type: ColumnPanel
+  layout_properties: {grid_position: 'LBNEEL,NCEQRR'}
+  components:
+  - name: spacer_2
+    properties: {height: 21}
+    type: Spacer
+    layout_properties: {grid_position: 'ISLIBQ,SPJFCR'}
+  - name: label_3
+    properties: {text: Training Status, role: artist_name}
+    type: Label
+    layout_properties: {grid_position: 'WFRCPF,MMOKVJ ENMFUX,QGNEGT'}
+  - name: label_4
+    properties: {text: 'No. references:'}
+    type: Label
+    layout_properties: {grid_position: 'WFRCPF,MMOKVJ WPJXRO,UDFXKP FWJIIA,JUSOFY'}
+  - name: label_6
+    properties: {text: 'No. ratings:'}
+    type: Label
+    layout_properties: {grid_position: 'WFRCPF,MMOKVJ WPJXRO,UDFXKP WTMMIH,OYQSSL'}
+  - name: label_7
+    properties: {text: 'Status:'}
+    type: Label
+    layout_properties: {grid_position: 'WFRCPF,MMOKVJ WPJXRO,UDFXKP WJCEGX,BLBEFS'}
+  - name: label_8
+    properties: {}
+    type: Label
+    layout_properties: {grid_position: 'WFRCPF,MMOKVJ WPJXRO,OYHMQC IAUAGL,WNBOEM'}
+  - name: label_5
+    properties: {}
+    type: Label
+    layout_properties: {grid_position: 'WFRCPF,MMOKVJ WPJXRO,OYHMQC YQONFF,NQLTNS'}
+  - name: label_9
+    properties: {}
+    type: Label
+    layout_properties: {grid_position: 'WFRCPF,MMOKVJ WPJXRO,OYHMQC RAHQCH,QJFHZV'}
+  - name: button_1
+    properties: {text: button_1, role: null}
+    type: Button
+    layout_properties: {grid_position: 'WFRCPF,MMOKVJ BQQQTU,CYPEON'}
+  - name: linear_panel_2
+    properties: {role: score-tile-background}
+    type: LinearPanel
+    layout_properties: {grid_position: 'WFRCPF,RHZPFX'}
+    components:
+    - name: training_level
+      properties: {role: artist_name_shadow, align: center, spacing_below: none, font_size: 32, bold: true, spacing_above: none}
+      type: Label
+      layout_properties: {}
+- name: flow_panel_sections
+  properties: {spacing: small}
+  type: FlowPanel
+  layout_properties: {grid_position: 'BXBZOL,TWUQEH'}
+  components:
+  - name: nav_references
+    properties: {text: Reference Artists, role: section_buttons, spacing_above: none, spacing_below: none, col_spacing: medium}
+    type: Link
+    event_bindings: {click: nav_releases_click}
+    layout_properties: {}
+  - name: nav_filters
+    properties: {text: Filters, role: section_buttons, spacing_above: none, spacing_below: none}
+    type: Link
+    event_bindings: {click: nav_success_click}
+    layout_properties: {}
+- name: sec_references
+  properties: {spacing_above: medium, col_widths: '{}'}
+  type: ColumnPanel
+  layout_properties: {grid_position: 'REYRFT,FBTOLL'}
+- name: sec_filters
+  properties: {spacing_above: medium}
+  type: ColumnPanel
+  layout_properties: {grid_position: 'SSBXRV,UICLSP'}
+is_package: true
+custom_component: true
