@@ -581,6 +581,25 @@ class C_Discover(C_DiscoverTemplate):
   # _copy version of the Most Frequent Labels Cooperation Graph
     # Link the sort_data button to the sort_data method
     
+    # Set items for the dropdown
+    self.sort_dropdown.items = [
+        ("A-Z", "alpha"),
+        ("Z-A", "reverse_alpha"),
+        ("Highest First", "high_num"),
+        ("Lowest First", "low_num")
+    ]
+    # Set default selection for the dropdown
+    self.sort_dropdown.selected_value = "high_num"
+    
+    # Load the data when the form is initialized
+    self.load_data()
+    
+    # Create the initial bar chart with default sorting
+    self.apply_default_sorting()
+    
+    # Create the initial bar chart
+    # self.create_bar_chart()
+  def load_data(self):
     labels_freq = json.loads(anvil.server.call('get_labels_freq', int(cur_artist_id)))
     
     labels = [x['LabelName'] for x in labels_freq]
@@ -590,14 +609,6 @@ class C_Discover(C_DiscoverTemplate):
       "labels": labels,
       "cooperations": cooperations
     }
-
-    # Create the initial bar chart
-    self.create_bar_chart()
-
-  def truncate_label(self, label, max_length=13):
-    if len(label) > max_length:
-      return label[:max_length] + '...'
-    return label
 
   def create_bar_chart(self, labels=None, cooperations=None):
     if labels is None:
@@ -650,23 +661,66 @@ class C_Discover(C_DiscoverTemplate):
       
     self.Most_Frequent_Labels_Graph_copy.figure = fig
 
-  def sort_data(self, labels, cooperations):
-    # Sort the data by the number of cooperations in descending order
-    sorted_data = sorted(zip(labels, cooperations), key=lambda x: x[0].lower())
+  def truncate_label(self, label, max_length=13):
+    if len(label) > max_length:
+      return label[:max_length] + '...'
+    return label
+    
+  def sort_data(self, labels, cooperations, sort_type):
+    if sort_type == "alpha":
+      # Sort alphabetically
+      sorted_data = sorted(zip(labels, cooperations), key=lambda x: x[0].lower())
+    elif sort_type == "reverse_alpha":
+      # Sort reverse alphabetically
+      sorted_data = sorted(zip(labels, cooperations), key=lambda x: x[0].lower(), reverse=True)
+    elif sort_type == "high_num":
+      # Sort by highest number of cooperations
+      sorted_data = sorted(zip(labels, cooperations), key=lambda x: x[1], reverse=True)
+    elif sort_type == 'low_num':
+      # Sort by lowest number of cooperations
+      sorted_data = sorted(zip(labels, cooperations), key=lambda x: x[1])
+    else:
+      return labels, cooperations # If no sort type matches, return original
+
     sorted_labels, sorted_cooperations = zip(*sorted_data)
     return sorted_labels, sorted_cooperations
 
-  def sort_data_btn_click(self, **event_args):
-    """This method is called when the button is clicked"""
+  def apply_default_sorting(self):
+    """Apply the default sorting based on the dropdown selection"""
+    sort_type = self.sort_dropdown.selected_value
+    labels = self.data["labels"]
+    cooperations = self.data["cooperations"]
+    sorted_labels, sorted_cooperations = self.sort_data(labels, cooperations, sort_type)
+    self.create_bar_chart(sorted_labels, sorted_cooperations)
+
+
+
+  def sort_dropdown_change(self, **event_args):
+    """This method is called when the dropdown selection changes"""
+    # Get the selected sort type
+    sort_type = self.sort_dropdown.selected_value
+    
     # Assuming self.data contains the labels and cooperations
     labels = self.data["labels"]
     cooperations = self.data["cooperations"]
     
-    # Sort the data
-    sorted_labels, sorted_cooperations = self.sort_data(labels, cooperations)
+    # Sort the data based on the selected sort type
+    sorted_labels, sorted_cooperations = self.sort_data(labels, cooperations, sort_type)
     
     # Update the chart with sorted data
     self.create_bar_chart(sorted_labels, sorted_cooperations)
+
+  # def sort_data_btn_click(self, **event_args):
+  #   """This method is called when the button is clicked"""
+  #   # Assuming self.data contains the labels and cooperations
+  #   labels = self.data["labels"]
+  #   cooperations = self.data["cooperations"]
+    
+  #   # Sort the data
+  #   sorted_labels, sorted_cooperations = self.sort_data(labels, cooperations)
+    
+  #   # Update the chart with sorted data
+  #   self.create_bar_chart(sorted_labels, sorted_cooperations)
   # ----------------------------------------------
 
   
