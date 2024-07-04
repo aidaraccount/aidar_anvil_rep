@@ -13,23 +13,40 @@ components:
     layout_properties:
       col_widths: {}
       grid_position: WKTSPW,ALNASW
+- name: delete
+  properties: {text: Delete Model, align: right}
+  type: Button
+  layout_properties: {grid_position: 'FRPOQL,YNENUK'}
 - name: header_left
-  properties: {col_widths: '{}', role: tile-background-left}
+  properties: {col_widths: '{"DZTBEJ":50,"MDAFFD":10}', role: tile-background-left}
   type: ColumnPanel
   layout_properties: {grid_position: 'LBNEEL,AWENUG'}
   components:
+  - name: spacer_3
+    properties: {height: 32}
+    type: Spacer
+    layout_properties: {grid_position: 'XTTLYB,DZTBEJ'}
   - name: edit_icon
     properties: {icon: 'fa:pencil', icon_align: right}
     type: Link
     layout_properties: {grid_position: 'XTTLYB,MDAFFD'}
+    event_bindings: {click: edit_icon_click}
   - name: model_name
     properties: {role: artist_name}
     type: Label
     layout_properties: {grid_position: 'VLZTYX,JGWMQG'}
+  - name: model_name_text
+    properties: {}
+    type: TextBox
+    layout_properties: {grid_position: 'UASNUV,RYKQHD'}
   - name: model_description
     properties: {}
     type: Label
     layout_properties: {grid_position: 'VQCXFK,PGRELO'}
+  - name: model_description_text
+    properties: {}
+    type: TextArea
+    layout_properties: {grid_position: 'XZZYNR,TIFYPG'}
   - name: spacer_1
     properties: {height: 32}
     type: Spacer
@@ -43,7 +60,7 @@ components:
       properties: {text: 'Creation date:'}
       type: Label
       layout_properties: {grid_position: 'NMHGSL,AZBUYS'}
-    - name: label_2
+    - name: creation_date
       properties: {}
       type: Label
       layout_properties: {grid_position: 'NEIHHK,YRAXHM'}
@@ -56,7 +73,7 @@ components:
       properties: {text: 'Last usage:'}
       type: Label
       layout_properties: {grid_position: 'NMHGSL,AZBUYS'}
-    - name: label_2_copy
+    - name: usage_date
       properties: {}
       type: Label
       layout_properties: {grid_position: 'NEIHHK,YRAXHM'}
@@ -65,14 +82,10 @@ components:
     type: ColumnPanel
     layout_properties: {grid_position: 'LVWKNS,XOZJDF'}
     components:
-    - name: label_1_copy_3
-      properties: {text: 'No. ratings:'}
-      type: Label
-      layout_properties: {grid_position: 'NMHGSL,AZBUYS'}
-    - name: label_2_copy_2
-      properties: {}
-      type: Label
-      layout_properties: {grid_position: 'NEIHHK,YRAXHM'}
+    - name: discover
+      properties: {text: Discover}
+      type: Button
+      layout_properties: {grid_position: 'YYUOSY,PFMHRQ'}
 - name: header_right
   properties: {role: tile-background-right, col_widths: '{}'}
   type: ColumnPanel
@@ -91,27 +104,27 @@ components:
     type: Label
     layout_properties: {grid_position: 'WFRCPF,MMOKVJ WPJXRO,UDFXKP FWJIIA,JUSOFY'}
   - name: label_6
-    properties: {text: 'No. ratings:'}
+    properties: {text: 'Total ratings:'}
     type: Label
     layout_properties: {grid_position: 'WFRCPF,MMOKVJ WPJXRO,UDFXKP WTMMIH,OYQSSL'}
   - name: label_7
-    properties: {text: 'Status:'}
+    properties: {text: 'High ratings:'}
     type: Label
     layout_properties: {grid_position: 'WFRCPF,MMOKVJ WPJXRO,UDFXKP WJCEGX,BLBEFS'}
-  - name: label_8
+  - name: no_references
     properties: {}
     type: Label
     layout_properties: {grid_position: 'WFRCPF,MMOKVJ WPJXRO,OYHMQC IAUAGL,WNBOEM'}
-  - name: label_5
+  - name: total_ratings
     properties: {}
     type: Label
     layout_properties: {grid_position: 'WFRCPF,MMOKVJ WPJXRO,OYHMQC YQONFF,NQLTNS'}
-  - name: label_9
+  - name: high_ratings
     properties: {}
     type: Label
     layout_properties: {grid_position: 'WFRCPF,MMOKVJ WPJXRO,OYHMQC RAHQCH,QJFHZV'}
-  - name: button_1
-    properties: {text: button_1, role: null}
+  - name: retrain
+    properties: {text: Retrain the Model, role: null}
     type: Button
     layout_properties: {grid_position: 'WFRCPF,MMOKVJ BQQQTU,CYPEON'}
   - name: linear_panel_2
@@ -119,7 +132,7 @@ components:
     type: LinearPanel
     layout_properties: {grid_position: 'WFRCPF,RHZPFX'}
     components:
-    - name: training_level
+    - name: status
       properties: {role: artist_name_shadow, align: center, spacing_below: none, font_size: 32, bold: true, spacing_above: none}
       type: Label
       layout_properties: {}
@@ -131,20 +144,22 @@ components:
   - name: nav_references
     properties: {text: Reference Artists, role: section_buttons, spacing_above: none, spacing_below: none, col_spacing: medium}
     type: Link
-    event_bindings: {click: nav_releases_click}
+    event_bindings: {click: nav_references_click}
     layout_properties: {}
   - name: nav_filters
     properties: {text: Filters, role: section_buttons, spacing_above: none, spacing_below: none}
     type: Link
-    event_bindings: {click: nav_success_click}
+    event_bindings: {click: nav_filters_click}
     layout_properties: {}
 - name: sec_references
   properties: {spacing_above: medium, col_widths: '{}'}
   type: ColumnPanel
   layout_properties: {grid_position: 'REYRFT,FBTOLL'}
+  components: []
 - name: sec_filters
   properties: {spacing_above: medium}
   type: ColumnPanel
   layout_properties: {grid_position: 'SSBXRV,UICLSP'}
+  components: []
 is_package: true
 custom_component: true

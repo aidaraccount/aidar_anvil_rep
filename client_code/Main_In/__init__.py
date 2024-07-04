@@ -23,6 +23,7 @@ from ..C_RelatedArtistSearch import C_RelatedArtistSearch
 from ..C_RelatedArtistData import C_RelatedArtistData
 from ..C_CreateModel import C_CreateModel
 from ..C_ConnectModel import C_ConnectModel
+from ..C_ModelProfile import C_ModelProfile
 
 
 class Main_In(Main_InTemplate):
@@ -130,7 +131,7 @@ class Main_In(Main_InTemplate):
     self.link_models.background = None
     self.link_models_create.background = None
     self.link_models_connect.background = None
-    self.link_models_setup.background = None
+    #self.link_models_profile.background = None
     self.link_models_artists.background = None
     self.link_models_rated.background = None
     #self.link_models_tracks.background = None
@@ -154,7 +155,7 @@ class Main_In(Main_InTemplate):
     self.link_models.visible = True
     self.link_models_create.visible = not status
     self.link_models_connect.visible = not status
-    self.link_models_setup.visible = False
+    #self.link_models_profile.visible = False
     self.link_models_artists.visible = status
     self.link_models_tracks.visible = False
     self.link_models_rated.visible = status
@@ -242,7 +243,7 @@ class Main_In(Main_InTemplate):
       self.link_models.icon = 'fa:angle-up'
       self.link_models_create.visible = False
       self.link_models_connect.visible = False
-      #self.link_models_setup.visible = False
+      #self.link_models_profile.visible = False
       self.link_models_artists.visible = False
       #self.link_models_tracks.visible = False
       self.link_models_rated.visible = False
@@ -250,7 +251,7 @@ class Main_In(Main_InTemplate):
       self.link_models.icon = 'fa:angle-down'
       self.link_models_create.visible = not status
       self.link_models_connect.visible = not status
-      #self.link_models_setup.visible = status
+      #self.link_models_profile.visible = status
       self.link_models_artists.visible = status
       #self.link_models_tracks.visible = status
       self.link_models_rated.visible = status
@@ -278,3 +279,9 @@ class Main_In(Main_InTemplate):
     self.content_panel.add_component(C_ConnectModel())
     self.reset_nav_backgrounds()
     self.link_models_connect.background = "theme:Accent 2"
+
+  def link_models_profile_click(self, **event_args):    
+    self.content_panel.clear()
+    self.content_panel.add_component(C_ModelProfile(self.model_id))
+    self.reset_nav_backgrounds()
+    self.link_models_profile.background = "theme:Accent 2"
