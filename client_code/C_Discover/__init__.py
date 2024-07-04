@@ -580,7 +580,6 @@ class C_Discover(C_DiscoverTemplate):
   # ---------------------------------- 
   # _copy version of the Most Frequent Labels Cooperation Graph
     # Link the sort_data button to the sort_data method
-    self.sort_data_button.set_event_handler('click', self.sort_data)
     
     labels_freq = json.loads(anvil.server.call('get_labels_freq', int(cur_artist_id)))
     
@@ -613,42 +612,19 @@ class C_Discover(C_DiscoverTemplate):
       go.Bar(
         x = labels,
         y = cooperations,
-        # y = [x['NoLabels'] for x in labels_freq],
         text = cooperations,
         textposition='outside',
         hoverinfo='x+y',
         hovertext= labels,
         hovertemplate='Label: %{hovertext}<br>Cooperations: %{y}',
-        # marker=dict(
-        #   color='rgb(158,202,225)',  # Bar color
-        #   line=dict(
-        #     color='rgba(8,48,107,1.0)',
-        #     width=2
-        #   )
-        # )
       )
     ))
 
     fig.update_layout(
-      # title= dict(
-      #   text = 'Artist Cooperation with Labels',
-      #   y=0.95, # Adjust the vertical position of the title (1 is top, 0 is bottom)
-      #   x=0.5, # Center the title
-      #   xanchor = 'center', # Ensure the title is centered
-      #   font = dict(
-      #     family = "Gs-medium",
-      #     size = 24,
-      #     color = 'rgb(250, 250, 250)'
-      #   )
-      # ),
       template='plotly_dark',
       plot_bgcolor='rgba(0,0,0,0)',
       paper_bgcolor='rgba(0,0,0,0)',
       xaxis=dict(
-        # gridcolor='rgba(255,255,255,0.2)',  # Color of the gridlines
-        # gridwidth=1,  # Thickness of the gridlines
-        # griddash='dash',  # Dash style of the gridlines
-        # tickmode='array',  # Ensure tick labels are fully displayed
         tickvals=list(range(len(labels))),
         ticktext=truncated_labels,  # Display truncated labels on the x-axis
       ),
@@ -674,27 +650,23 @@ class C_Discover(C_DiscoverTemplate):
       
     self.Most_Frequent_Labels_Graph_copy.figure = fig
 
-  def sort_data(self, **event_args):
-        # Sort data in descending order
-        sorted_data = sorted(zip(self.data["labels"], self.data["cooperations"]), key=lambda x: x[1], reverse=True)
-        sorted_labels, sorted_cooperations = zip(*sorted_data)
+  def sort_data(self, labels, cooperations):
+    # Sort the data by the number of cooperations in descending order
+    sorted_data = sorted(zip(labels, cooperations), key=lambda x: x[0].lower())
+    sorted_labels, sorted_cooperations = zip(*sorted_data)
+    return sorted_labels, sorted_cooperations
 
-        # Update the data with sorted labels and cooperations
-        self.create_bar_chart(labels=sorted_labels, cooperations=sorted_cooperations)
-  # def sort_data(self, ascending=True):
-  #   sorted_data = sorted(
-  #       zip(self.data["labels"], self.data["cooperations"]),
-  #       key=lambda x: x[1],
-  #       reverse=not ascending
-  #   )
-  #   labels, cooperations = zip(*sorted_data)
-  #   self.create_bar_chart(labels, cooperations)
-
-  # def sort_button_click(self, **event_args):
-  #   self.sort_data(ascending=True)
-
-  # def sort_button_desc_click(self, **event_args):
-  #   self.sort_data(ascending=False)
+  def sort_data_btn_click(self, **event_args):
+    """This method is called when the button is clicked"""
+    # Assuming self.data contains the labels and cooperations
+    labels = self.data["labels"]
+    cooperations = self.data["cooperations"]
+    
+    # Sort the data
+    sorted_labels, sorted_cooperations = self.sort_data(labels, cooperations)
+    
+    # Update the chart with sorted data
+    self.create_bar_chart(sorted_labels, sorted_cooperations)
   # ----------------------------------------------
 
   
@@ -930,6 +902,9 @@ class C_Discover(C_DiscoverTemplate):
   def button_remove_filters_click(self, **event_args):
     anvil.server.call('change_filters', self.model_id, filters_json = None)
     open_form('Main_In', model_id=self.model_id, temp_artist_id=None, target='C_Discover', value=None)
+
+
+
 
 
 
