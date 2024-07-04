@@ -519,6 +519,49 @@ body, html {
 
 /* CSS for Tiles ENDS Here  */
 
+/* CSS for the Sort Dropdown of Visuals Starts Here*/
+/* Style the dropdown */
+.anvil-component.anvil-role-sort-dropdown select {
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 20px;
+  padding: 5px;
+  width: 155px;
+  /* Remove the default arrow */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  position: relative;
+}
+
+/* Container for the custom dropdown styling */
+.anvil-component.anvil-role-sort-dropdown {
+  position: relative;
+  display: flex;
+  justify-content: right; 
+}
+
+/* Custom dropdown icon */
+.anvil-component.anvil-role-sort-dropdown::after {
+    content: '\f0b0'; /* Funnel icon from Font Awesome */
+    font-family: 'FontAwesome';
+    font-size: 20px;
+    color: white;
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+/* Style the options */
+.anvil-component.anvil-role-sort-dropdown select option {
+    background-color: black;
+    color: white;
+}
+/* CSS for the Sort Dropdown of Visuals Ends Here*/
+
+
 .anvil-role-description-login {
   font-family: GS-regular;
   font-size: 14px;

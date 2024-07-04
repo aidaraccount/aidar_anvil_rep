@@ -358,9 +358,15 @@ components:
         properties:
           visible: true
           items: ['["A-Z", "Z-A", "Highest First", "Lowest First"]', '']
+          spacing_above: none
+          spacing_below: none
+          align: right
+          placeholder: Sort
+          include_placeholder: true
         type: DropDown
         layout_properties: {grid_position: 'ZKHSQH,LUPNQG'}
         event_bindings: {change: sort_dropdown_change}
+        data_bindings: []
       - name: Most_Frequent_Labels_Graph_copy
         properties: {spacing_above: none, spacing_below: none, height: '600', visible: true, tooltip: '', interactive: true}
         type: Plot

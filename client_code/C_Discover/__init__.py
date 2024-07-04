@@ -579,7 +579,9 @@ class C_Discover(C_DiscoverTemplate):
 
   # ---------------------------------- 
   # _copy version of the Most Frequent Labels Cooperation Graph
-    # Link the sort_data button to the sort_data method
+    
+    # Set custom CSS class for the dropdown
+    self.sort_dropdown.role = 'sort-dropdown'
     
     # Set items for the dropdown
     self.sort_dropdown.items = [
