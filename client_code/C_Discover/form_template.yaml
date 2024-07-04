@@ -361,8 +361,8 @@ components:
           spacing_above: none
           spacing_below: none
           align: right
-          placeholder: Sort
-          include_placeholder: true
+          placeholder: ''
+          include_placeholder: false
         type: DropDown
         layout_properties: {grid_position: 'ZKHSQH,LUPNQG'}
         event_bindings: {change: sort_dropdown_change}
