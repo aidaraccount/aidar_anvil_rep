@@ -7,6 +7,7 @@ import anvil.tables.query as q
 from anvil.tables import app_tables
 import random
 import string
+import json
 
 from ..C_EditRefArtists import C_EditRefArtists
 from ..C_Filter import C_Filter
@@ -29,7 +30,30 @@ class C_ModelProfile(C_ModelProfileTemplate):
     self.nav_references.role = 'section_buttons_focused'
     self.sec_filters.visible = False
 
-    print(model_id)
+    # HEADER
+    infos = json.loads(anvil.server.call('get_model_stats', model_id))[0]
+    
+    self.model_name.text = infos["model_name"]
+    if infos["description"] is None:
+      self.model_description.text = '-'
+    else:
+      self.model_description.text = infos["description"]
+    if infos["creation_date"] == 'None':
+      self.creation_date.text = '-'
+    else:
+      self.creation_date.text = infos["creation_date"]
+    self.usage_date.text = infos["usage_date"]
+
+    self.no_references.text = infos["no_references"]
+    self.total_ratings.text = infos["total_ratings"]
+    self.high_ratings.text = infos["high_ratings"]
+    if infos["train_model_date"] == 'None':
+      self.train_model_date.text = '-'
+    else:
+      self.train_model_date.text = infos["train_model_date"]
+    self.status.text = infos["status"]
+    
+    # FIRST SECTION
     self.sec_references.add_component(C_EditRefArtists(model_id))
 
   
@@ -39,11 +63,15 @@ class C_ModelProfile(C_ModelProfileTemplate):
       self.model_description.visible = False
       self.model_name_text.visible = True
       self.model_description_text.visible = True
+      self.model_name_text.text = self.model_name.text
+      self.model_description_text.text = self.model_description.text
     else:
       self.model_name_text.visible = False
       self.model_description_text.visible = False
       self.model_name.visible = True
       self.model_description.visible = True
+      self.model_name.text = self.model_name_text.text
+      self.model_description.text = self.model_description_text.text
 
   def nav_references_click(self, **event_args):
     self.nav_references.role = 'section_buttons_focused'
@@ -57,7 +85,4 @@ class C_ModelProfile(C_ModelProfileTemplate):
     self.sec_references.visible = False
     self.sec_filters.visible = True
     self.sec_filters.add_component(C_Filter(self.model_id))
-  
-
-  
   
