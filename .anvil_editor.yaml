@@ -3,6 +3,7 @@ unique_ids:
     C_Watchlist_Overview.RowTemplate3: '1702415094334155837814500.5823'
     C_Discover.RowTemplate1: '1718023520819768389920176.2908'
     Main_In.ItemTemplate1: '17029905697664812217292.20771'
+    C_Watchlist_Overview.RowTemplate5: '1720186518001691398332817.4547'
     C_Discover.RowTemplate4: '1719339546632765533003682.3632'
     C_EditRefArtists: '1701600145257434802601172.8191'
     C_RelatedArtistSearch: '1718109158253720247225998.5396'
@@ -41,8 +42,10 @@ unique_ids:
     C_Home.NewsTemplate: '1704480714202854458164327.2488'
     C_NoModel: '1673775742886281967170089.8696'
     C_Rating.RatingRows: '1675160198282832567382663.218'
+    C_Watchlist_Overview.ItemTemplate4: '1720186823294902076852375.2874'
     C_CreateModel: '1692016810410327334237488.0582'
     C_Watchlist_Details.SelectionTemplate: '1701346413163292046583516.0293'
+    C_Watchlist_Overview.RowTemplate6: '1720186617293569659336364.9696'
     C_Watchlist_Funnel.ItemTemplate2: '1703089383207767394072737.0022'
     C_RelatedArtistSearch.ItemTemplate3: '1718198597843603253411061.4933'
   modules: {}
