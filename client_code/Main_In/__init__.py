@@ -48,7 +48,6 @@ class Main_In(Main_InTemplate):
       if model_id is None:
         self.model_id = anvil.server.call('get_model_id',  user["user_id"])
         #anvil.server.call('update_model_usage', self.model_id)
-        # anvil.server.call('update_model_usage', self.model_id)
       else:
         self.model_id = model_id
     
@@ -131,7 +130,7 @@ class Main_In(Main_InTemplate):
     self.link_models.background = None
     self.link_models_create.background = None
     self.link_models_connect.background = None
-    #self.link_models_profile.background = None
+    self.link_models_profile.background = None
     self.link_models_artists.background = None
     self.link_models_rated.background = None
     #self.link_models_tracks.background = None
@@ -155,7 +154,7 @@ class Main_In(Main_InTemplate):
     self.link_models.visible = True
     self.link_models_create.visible = not status
     self.link_models_connect.visible = not status
-    #self.link_models_profile.visible = False
+    self.link_models_profile.visible = False
     self.link_models_artists.visible = status
     self.link_models_tracks.visible = False
     self.link_models_rated.visible = status
@@ -243,7 +242,7 @@ class Main_In(Main_InTemplate):
       self.link_models.icon = 'fa:angle-up'
       self.link_models_create.visible = False
       self.link_models_connect.visible = False
-      #self.link_models_profile.visible = False
+      self.link_models_profile.visible = False
       self.link_models_artists.visible = False
       #self.link_models_tracks.visible = False
       self.link_models_rated.visible = False
@@ -285,3 +284,8 @@ class Main_In(Main_InTemplate):
     self.content_panel.add_component(C_ModelProfile(self.model_id))
     self.reset_nav_backgrounds()
     self.link_models_profile.background = "theme:Accent 2"
+
+  def create_model_click(self, **event_args):
+    self.content_panel.clear()
+    self.content_panel.add_component(C_CreateModel())
+    self.reset_nav_backgrounds()

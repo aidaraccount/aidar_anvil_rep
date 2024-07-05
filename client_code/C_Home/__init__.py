@@ -21,6 +21,7 @@ class C_Home(C_HomeTemplate):
     self.model_id=model_id
     
     print(f"{datetime.datetime.now()}: C_Home - __init__ - 2", flush=True)
+    print(model_id)
     # FUNNEL DATA
     # funnel = json.loads(anvil.server.call('get_watchlist_selection', model_id))
     data = anvil.server.call('app_home', model_id)

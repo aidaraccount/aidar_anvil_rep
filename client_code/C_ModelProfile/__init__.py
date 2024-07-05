@@ -111,16 +111,18 @@ class C_ModelProfile(C_ModelProfileTemplate):
             ("Delete", "Delete")
           ])
     if result == 'Delete':
-      #res = anvil.server.call('delete_model', self.model_id)
-      res = 'success'
+      print(self.model_id)
+      res = anvil.server.call('delete_model', self.model_id)
       if res == 'success':
         Notification("",
           title="Model deleted!",
           style="success").show()
 
-        self.content_panel.clear()
-        self.content_panel.add_component(C_Home(model_id=self.model_id))
-
+        print(self.model_id)
+        #self.content_panel.clear()
+        #self.content_panel.add_component(C_Home(model_id=model_id_new))
+        open_form('Main_In', model_id=None, temp_artist_id = None, target = None, value=None)
+  
   def discover_click(self, **event_args):
     open_form('Main_In', self.model_id, temp_artist_id = None, target = 'C_Discover', value=None)
 
