@@ -17,6 +17,7 @@ components:
   properties: {text: Delete Model, align: right}
   type: Button
   layout_properties: {grid_position: 'FRPOQL,YNENUK'}
+  event_bindings: {click: delete_click}
 - name: header_left
   properties: {col_widths: '{"DZTBEJ":50,"MDAFFD":10}', role: tile-background-left}
   type: ColumnPanel
@@ -86,6 +87,7 @@ components:
       properties: {text: Discover}
       type: Button
       layout_properties: {grid_position: 'YYUOSY,PFMHRQ'}
+      event_bindings: {click: discover_click}
 - name: header_right
   properties: {role: tile-background-right, col_widths: '{}'}
   type: ColumnPanel
@@ -163,7 +165,12 @@ components:
     - name: retrain
       properties: {text: Re-train Model, role: null}
       type: Button
-      layout_properties: {grid_position: 'NALOPI,WPNPYF'}
+      layout_properties: {grid_position: 'NALOPI,WPNPYF XNTWOD,YGLHRZ'}
+      event_bindings: {click: retrain_click}
+    - name: retrain_wait
+      properties: {text: Next re-train available tomorrow, visible: false}
+      type: Label
+      layout_properties: {grid_position: 'NALOPI,WPNPYF AJWVOE,EYADSG'}
 - name: flow_panel_sections
   properties: {spacing: small}
   type: FlowPanel

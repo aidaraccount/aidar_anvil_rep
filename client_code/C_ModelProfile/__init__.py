@@ -8,7 +8,9 @@ from anvil.tables import app_tables
 import random
 import string
 import json
+import time
 
+from ..C_Home import C_Home
 from ..C_EditRefArtists import C_EditRefArtists
 from ..C_Filter import C_Filter
 
@@ -32,6 +34,14 @@ class C_ModelProfile(C_ModelProfileTemplate):
 
     # HEADER
     infos = json.loads(anvil.server.call('get_model_stats', model_id))[0]
+    self.retrain_date = infos["train_model_date"]
+    
+    if self.retrain_date != time.strftime("%Y-%m-%d"):
+      self.retrain.visible = True
+      self.retrain_wait.visible = False
+    else:
+      self.retrain.visible = False
+      self.retrain_wait.visible = True    
     
     self.model_name.text = infos["model_name"]
     if infos["description"] is None:
@@ -65,6 +75,7 @@ class C_ModelProfile(C_ModelProfileTemplate):
       self.model_description_text.visible = True
       self.model_name_text.text = self.model_name.text
       self.model_description_text.text = self.model_description.text
+      self.edit_icon.icon = 'fa:save'
     else:
       self.model_name_text.visible = False
       self.model_description_text.visible = False
@@ -72,6 +83,12 @@ class C_ModelProfile(C_ModelProfileTemplate):
       self.model_description.visible = True
       self.model_name.text = self.model_name_text.text
       self.model_description.text = self.model_description_text.text
+      self.edit_icon.icon = 'fa:pencil'
+      res = anvil.server.call('update_model_stats', self.model_id, self.model_name_text.text, self.model_description_text.text)
+      if res == 'success':
+        Notification("",
+          title="Model updated!",
+          style="success").show()
 
   def nav_references_click(self, **event_args):
     self.nav_references.role = 'section_buttons_focused'
@@ -85,4 +102,38 @@ class C_ModelProfile(C_ModelProfileTemplate):
     self.sec_references.visible = False
     self.sec_filters.visible = True
     self.sec_filters.add_component(C_Filter(self.model_id))
-  
+
+  def delete_click(self, **event_args):
+    result = alert(title='Do you want to delete this model?',
+          content="Are you sure to delete this model?\n\nEverything will be lost! All reference artists, all previously rated artists - all you did will be gone for ever.",
+          buttons=[
+            ("Cancel", "Cancel"),
+            ("Delete", "Delete")
+          ])
+    if result == 'Delete':
+      #res = anvil.server.call('delete_model', self.model_id)
+      res = 'success'
+      if res == 'success':
+        Notification("",
+          title="Model deleted!",
+          style="success").show()
+
+        self.content_panel.clear()
+        self.content_panel.add_component(C_Home(model_id=self.model_id))
+
+  def discover_click(self, **event_args):
+    open_form('Main_In', self.model_id, temp_artist_id = None, target = 'C_Discover', value=None)
+
+  def retrain_click(self, **event_args):
+    #res = anvil.server.call('retrain_model', self.model_id)
+    res = 'success'
+    if res == 'success':
+      self.retrain.visible = False
+      self.retrain_wait.visible = True
+      self.train_model_date.text = time.strftime("%Y-%m-%d")
+      alert(title='Re-training of your model is running',
+            content="We started to re-train your model. This will take roughly 10 minutes to be effective.\n\nDue to high computational effort, re-training the model is only available once per day.",
+            buttons=[("Ok", "Ok")]
+      )
+
+    
