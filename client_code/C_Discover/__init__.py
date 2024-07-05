@@ -584,7 +584,7 @@ class C_Discover(C_DiscoverTemplate):
     
     # Set items for the dropdown
     sorting_options = [
-        ("Sort", "Sort"), # Placeholder option
+        # ("Sort", "Sort"), # Placeholder option
         ("A-Z", "alpha"),
         ("Z-A", "reverse_alpha"),
         ("Highest First", "high_num"),
@@ -595,7 +595,7 @@ class C_Discover(C_DiscoverTemplate):
     self.sort_dropdown.role = 'sort-dropdown'
 
     # Set default selection for the dropdown
-    self.sort_dropdown.selected_value = "Sort"
+    self.sort_dropdown.selected_value = "high_num"
 
     # Add event handler for the dropdown
     self.sort_dropdown.set_event_handler('change', self.sort_data)
