@@ -104,7 +104,12 @@ body, html {
 /* CSS for formatting tables STARTS here*/
 
 .anvil-role-talent-dev-custom-class .data-row-col {
-  
+  margin: 10px 0 10px 0 
+}
+
+[data-grid-col-id="JMPPBV"] {
+  /* Your CSS styles here */
+  text-align: center;
 }
 
 .anvil-role-center-table-element {}

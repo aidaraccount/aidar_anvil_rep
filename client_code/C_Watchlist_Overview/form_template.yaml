@@ -50,6 +50,8 @@ components:
       show_page_controls: true
       auto_header: false
       rows_per_page: 10
+      spacing_above: none
+      spacing_below: none
     type: DataGrid
     components:
     - name: xy_panel_1
