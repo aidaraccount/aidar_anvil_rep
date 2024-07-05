@@ -608,10 +608,14 @@ a>.link-text {
   padding-bottom:5px;
   white-space:pre-wrap
 }
+.anvil-role-Discover_xypanel {
+  margin: 10px 0 0 0;
+}
 .anvil-role-Discover_artist_name {
   font-family: GS-medium;
   font-size: 20px;
   color: %color:Text_White%;
+  margin: 10px 0 0 0;
 }
 .anvil-role-artist_name {
   font-family: GS-medium;

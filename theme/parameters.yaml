@@ -71,6 +71,9 @@ roles:
   components: [Label]
 - name: Discover_artist_name
   components: [Label]
+- name: Discover_xypanel
+  components: [FlowPanel]
+  display_in_toolbox: false
 color_scheme:
   preset_groups:
   - name: Accent
