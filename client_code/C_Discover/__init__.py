@@ -577,37 +577,38 @@ class C_Discover(C_DiscoverTemplate):
       # Spotify Web-Player
       self.c_web_player.html = '<iframe style="border-radius:12px" src="https://open.spotify.com/embed/artist/' + sug["SpotifyArtistID"] + '?utm_source=generator&theme=0&autoplay=true" width="100%" height="80" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>'
 
-  # ---------------------------------- 
-  # _copy version of the Most Frequent Labels Cooperation Graph
-    
-    # Set custom CSS class for the dropdown
-    
-    # Set items for the dropdown
-    sorting_options = [
-        # ("Sort", "Sort"), # Placeholder option
-        ("A-Z", "alpha"),
-        ("Z-A", "reverse_alpha"),
-        ("Highest First", "high_num"),
-        ("Lowest First", "low_num")
-    ]
-    # Set default selection for the dropdown
-    self.sort_dropdown.items = sorting_options
-    self.sort_dropdown.role = 'sort-dropdown'
-
-    # Set default selection for the dropdown
-    self.sort_dropdown.selected_value = "high_num"
-
-    # Add event handler for the dropdown
-    self.sort_dropdown.set_event_handler('change', self.sort_data)
-    
-    # Load the data when the form is initialized
-    self.load_data()
-    
-    # Create the initial bar chart with default sorting
-    self.apply_default_sorting()
-    
-    # Create the initial bar chart
-    # self.create_bar_chart()
+      # ---------------------------------- 
+      # _copy version of the Most Frequent Labels Cooperation Graph
+      
+      # Set custom CSS class for the dropdown
+      
+      # Set items for the dropdown
+      sorting_options = [
+          # ("Sort", "Sort"), # Placeholder option
+          ("A-Z", "alpha"),
+          ("Z-A", "reverse_alpha"),
+          ("Highest First", "high_num"),
+          ("Lowest First", "low_num")
+      ]
+      # Set default selection for the dropdown
+      self.sort_dropdown.items = sorting_options
+      self.sort_dropdown.role = 'sort-dropdown'
+  
+      # Set default selection for the dropdown
+      self.sort_dropdown.selected_value = "high_num"
+  
+      # Add event handler for the dropdown
+      self.sort_dropdown.set_event_handler('change', self.sort_data)
+      
+      # Load the data when the form is initialized
+      self.load_data()
+      
+      # Create the initial bar chart with default sorting
+      self.apply_default_sorting()
+      
+      # Create the initial bar chart
+      # self.create_bar_chart()
+  
   def load_data(self):
     labels_freq = json.loads(anvil.server.call('get_labels_freq', int(cur_artist_id)))
     
