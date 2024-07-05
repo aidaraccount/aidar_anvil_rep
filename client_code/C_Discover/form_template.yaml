@@ -318,28 +318,10 @@ components:
           type: RepeatingPanel
           layout_properties: {}
           name: data_grid_releases_data
-    - properties: {role: grid, visible: false}
-      type: ColumnPanel
-      layout_properties: {grid_position: 'RSILBZ,HLQJAR'}
-      name: Panel_for_Most_Frequent_Labels_Graph
-      components:
-      - properties: {text: ' Most frequent Labels', role: artist_name}
-        type: Label
-        layout_properties: {grid_position: 'BCHOZO,TMNYIR'}
-        name: Heading_for_Most_Frequent_Labels_Graph
-      - properties: {spacing_above: none, spacing_below: none, height: '300', visible: true, tooltip: '', interactive: false}
-        type: Plot
-        layout_properties: {grid_position: 'VQTYJE,RKWVRK'}
-        event_bindings: {}
-        name: Most_Frequent_Labels_Graph
-      - properties: {text: no data available, align: center, role: description, visible: false, spacing_below: large, spacing_above: large}
-        type: Label
-        layout_properties: {grid_position: 'MCTTTL,OTDAWL'}
-        name: no_labels_freq
     - name: Panel_for_Most_Frequent_Labels_Graph_copy
       properties: {role: grid}
       type: ColumnPanel
-      layout_properties: {grid_position: 'JCYFCY,VTBRPY'}
+      layout_properties: {grid_position: 'CHZTAJ,LNBTUR'}
       components:
       - name: Heading_for_Most_Frequent_Labels_Graph_copy
         properties:
@@ -363,10 +345,28 @@ components:
         event_bindings: {change: sort_dropdown_change}
         data_bindings: []
       - name: Most_Frequent_Labels_Graph_copy
-        properties: {spacing_above: none, spacing_below: none, height: '600', visible: true, tooltip: '', interactive: true}
+        properties: {spacing_above: none, spacing_below: none, height: '300', visible: true, tooltip: '', interactive: true}
         type: Plot
         layout_properties: {grid_position: 'IRLWMZ,IIQMSK'}
         event_bindings: {}
+    - properties: {role: grid, visible: false}
+      type: ColumnPanel
+      layout_properties: {grid_position: 'RSILBZ,HLQJAR'}
+      name: Panel_for_Most_Frequent_Labels_Graph
+      components:
+      - properties: {text: ' Most frequent Labels', role: artist_name}
+        type: Label
+        layout_properties: {grid_position: 'BCHOZO,TMNYIR'}
+        name: Heading_for_Most_Frequent_Labels_Graph
+      - properties: {spacing_above: none, spacing_below: none, height: '300', visible: true, tooltip: '', interactive: false}
+        type: Plot
+        layout_properties: {grid_position: 'VQTYJE,RKWVRK'}
+        event_bindings: {}
+        name: Most_Frequent_Labels_Graph
+      - properties: {text: no data available, align: center, role: description, visible: false, spacing_below: large, spacing_above: large}
+        type: Label
+        layout_properties: {grid_position: 'MCTTTL,OTDAWL'}
+        name: no_labels_freq
     - properties: {role: grid}
       type: ColumnPanel
       layout_properties: {grid_position: 'KTCVMK,ICUHXW'}
