@@ -69,6 +69,8 @@ roles:
 - {name: section_buttons}
 - name: sort-label
   components: [Label]
+- name: Discover_artist_name
+  components: [Label]
 color_scheme:
   preset_groups:
   - name: Accent
