@@ -183,115 +183,124 @@ body, html {
 }
 /* Customize width of HEADER 2 in Watchlist Overview Table */
 .anvil-role-table_content_talent_dev-2 {
-  width: 110px;
+  /* width: 110px; */
   min-width: 109px;
-  max-width: 170px;
+  max-width: 150px;
   flex-grow: 1;
   text-align: center !important;
 }
 /* Customize width of COLUMN 2 in Watchlist Overview Table */
 .data-row-col:has(> .anvil-role-col-LastReleaseDate){
-  width: 110px !important;
+  /* width: 110px !important; */
+  width: auto;
   min-widht: 109px;
-  max-width: 170px;
+  max-width: 150px;
 }
 /* Customize width of HEADER 3 in Watchlist Overview Table */
 .anvil-role-table_content_talent_dev-3 {
-  width: 110px;
+  /* width: 110px; */
   min-width: 109px;
-  max-width: 170px;
+  max-width: 150px;
   flex-grow: 1;
   text-align: center !important;
 }
 /* Customize width of COLUMN 3 in Watchlist Overview Table */
 .data-row-col:has(> .anvil-role-col-Popularity){
-  width: 110px !important;
+  /* width: 110px !important; */
+  width: auto;
   min-widht: 109px;
-  max-width: 170px;
+  max-width: 150px;
 }
 /* Customize width of HEADER 4 in Watchlist Overview Table */
 .anvil-role-table_content_talent_dev-4 {
-  width: 110px;
+  /* width: 110px; */
   min-width: 109px;
-  max-width: 170px;
+  max-width: 150px;
   flex-grow: 1;
   text-align: center !important;
 }
 /* Customize width of COLUMN 4 in Watchlist Overview Table */
 .data-row-col:has(> .anvil-role-col-PopularityDiff){
-  width: 110px !important;
+  /* width: 110px !important; */
+  width: auto;
   min-widht: 109px;
-  max-width: 170px;
+  max-width: 150px;
 }
 /* Customize width of HEADER 5 in Watchlist Overview Table */
 .anvil-role-table_content_talent_dev-5 {
-  width: 110px;
+  /* width: 110px; */
   min-width: 109px;
-  max-width: 170px;
+  max-width: 150px;
   flex-grow: 1;
   text-align: center !important;
 }
 /* Customize width of COLUMN 5 in Watchlist Overview Table */
 .data-row-col:has(> .anvil-role-col-PopularityDev){
-  width: 110px !important;
+  /* width: 110px !important; */
+  width: auto;
   min-widht: 109px;
-  max-width: 170px;
+  max-width: 150px;
 }
 /* Customize width of HEADER 6 in Watchlist Overview Table */
 .anvil-role-table_content_talent_dev-6 {
-  width: 110px;
+  /* width: 110px; */
   min-width: 109px;
-  max-width: 170px;
+  max-width: 150px;
   flex-grow: 1;
   text-align: center !important;
 }
 /* Customize width of COLUMN 6 in Watchlist Overview Table */
 .data-row-col:has(> .anvil-role-col-FollowerLat){
-  width: 110px !important;
+  /* width: 110px !important; */
+  width: auto;
   min-widht: 109px;
-  max-width: 170px;
+  max-width: 150px;
 }
 /* Customize width of HEADER 7 in Watchlist Overview Table */
 .anvil-role-table_content_talent_dev-7 {
-  width: 110px;
+  /* width: 110px; */
   min-width: 109px;
-  max-width: 170px;
+  max-width: 150px;
   flex-grow: 1;
   text-align: center !important;
 }
 /* Customize width of COLUMN 7 in Watchlist Overview Table */
 .data-row-col:has(> .anvil-role-col-FollowerDiff){
-  width: 110px !important;
+  /* width: 110px !important; */
+  width: auto;
   min-widht: 109px;
-  max-width: 170px;
+  max-width: 150px;
 }
 /* Customize width of HEADER 8 in Watchlist Overview Table */
 .anvil-role-table_content_talent_dev-8 {
-  width: 110px;
+  /* width: 110px; */
   min-width: 109px;
-  max-width: 170px;
+  max-width: 150px;
   flex-grow: 1;
   text-align: center !important;
 }
 /* Customize width of COLUMN 8 in Watchlist Overview Table */
 .data-row-col:has(> .anvil-role-col-FollowerDev){
-  width: 110px !important;
+  /* width: 110px !important; */
+  width: auto;
   min-widht: 109px;
-  max-width: 170px;
+  max-width: 150px;
 }
 /* Customize width of HEADER 9 in Watchlist Overview Table */
 .anvil-role-table_content_talent_dev-9 {
-  width: 110px;
+  /* width: 110px; */
   min-width: 109px;
-  max-width: 170px;
+  max-width: 150px;
   flex-grow: 1;
   text-align: center !important;
 }
 /* Customize width of COLUMN 9 in Watchlist Overview Table */
-.data-row-col:has(> .anvil-role-col-Icons){
-  width: 110px !important;
+.data-row-col:has(> .anvil-role-feature){
+  /* width: 110px !important; */
+  width: 150px !important;
   min-widht: 109px;
-  max-width: 170px;
+  max-width: 150px;
+  text-align: center;
 }
 
 
