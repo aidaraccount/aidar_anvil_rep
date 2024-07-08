@@ -66,7 +66,7 @@ class Main_In(Main_InTemplate):
       print(f"{datetime.datetime.now()}: Main_In - link_login_click - 3c", flush=True)
       self.update_no_notifications()
       print(f"{datetime.datetime.now()}: Main_In - link_login_click - 3d", flush=True)  # 17s, 14s - 1.5s
-
+    
     # ROUTING
     elif self.model_id is not None and target is not None:
       print(f"{datetime.datetime.now()}: Main_In - link_login_click - 4", flush=True)
@@ -105,6 +105,31 @@ class Main_In(Main_InTemplate):
     print(f"{datetime.datetime.now()}: Main_In - link_login_click - 5", flush=True)
     print(f"TotalTime Main_In: {datetime.datetime.now() - begin}", flush=True)
 
+    
+    # MODEL PROFILES IN NAV
+    #model_ids = json.loads(anvil.server.call('get_model_ids',  user["user_id"]))
+
+    #for i in range(0, len(model_ids)):
+    #  model_link = Link(
+    #      icon='fa:angle-right',
+    #      text=model_ids[i]["model_name"]
+    #    )
+    #  model_link.set_event_handler('click', self.create_model_click_handler(model_ids[i]["model_id"]))
+    #  self.nav_models.add_component(model_link)
+      
+    
+  # MODEL ROUTING
+  def create_model_click_handler(self, model_id):
+    def handler(**event_args):
+      self.models_click(model_id, **event_args)
+    return handler
+
+  def models_click(self, link_model_id, **event_args):
+    print(link_model_id)
+    self.content_panel.clear()
+    self.content_panel.add_component(C_ModelProfile(link_model_id))
+  # ------------
+  
   def logo_click(self, **event_args):
     open_form('Main_Out')
     
