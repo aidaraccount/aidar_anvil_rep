@@ -167,13 +167,139 @@ body, html {
   font-size: 18px;
   color: %color:Text_DecentWhite%;
   position: relative !important;
-  min-width: 80px;
-  max-width: 140px;
+}
+/* Customize width of HEADER 1 in Watchlist Overview Table */
+.anvil-role-table_content_talent_dev-1 {
+  width: 250px;
+  min-width: 250px;
+  max-width: 250px;
+  flex-grow: 1;
+}
+/* Customize width of COLUMN 1 in Watchlist Overview Table */
+.data-row-col:has(> .anvil-role-col-artist){
+  width: 250px !important;
+  min-widht: 250px;
+  max-width: 250px;
+}
+/* Customize width of HEADER 2 in Watchlist Overview Table */
+.anvil-role-table_content_talent_dev-2 {
+  width: 110px;
+  min-width: 109px;
+  max-width: 170px;
+  flex-grow: 1;
+  text-align: center !important;
+}
+/* Customize width of COLUMN 2 in Watchlist Overview Table */
+.data-row-col:has(> .anvil-role-col-LastReleaseDate){
+  width: 110px !important;
+  min-widht: 109px;
+  max-width: 170px;
+}
+/* Customize width of HEADER 3 in Watchlist Overview Table */
+.anvil-role-table_content_talent_dev-3 {
+  width: 110px;
+  min-width: 109px;
+  max-width: 170px;
+  flex-grow: 1;
+  text-align: center !important;
+}
+/* Customize width of COLUMN 3 in Watchlist Overview Table */
+.data-row-col:has(> .anvil-role-col-Popularity){
+  width: 110px !important;
+  min-widht: 109px;
+  max-width: 170px;
+}
+/* Customize width of HEADER 4 in Watchlist Overview Table */
+.anvil-role-table_content_talent_dev-4 {
+  width: 110px;
+  min-width: 109px;
+  max-width: 170px;
+  flex-grow: 1;
+  text-align: center !important;
+}
+/* Customize width of COLUMN 4 in Watchlist Overview Table */
+.data-row-col:has(> .anvil-role-col-PopularityDiff){
+  width: 110px !important;
+  min-widht: 109px;
+  max-width: 170px;
+}
+/* Customize width of HEADER 5 in Watchlist Overview Table */
+.anvil-role-table_content_talent_dev-5 {
+  width: 110px;
+  min-width: 109px;
+  max-width: 170px;
+  flex-grow: 1;
+  text-align: center !important;
+}
+/* Customize width of COLUMN 5 in Watchlist Overview Table */
+.data-row-col:has(> .anvil-role-col-PopularityDev){
+  width: 110px !important;
+  min-widht: 109px;
+  max-width: 170px;
+}
+/* Customize width of HEADER 6 in Watchlist Overview Table */
+.anvil-role-table_content_talent_dev-6 {
+  width: 110px;
+  min-width: 109px;
+  max-width: 170px;
+  flex-grow: 1;
+  text-align: center !important;
+}
+/* Customize width of COLUMN 6 in Watchlist Overview Table */
+.data-row-col:has(> .anvil-role-col-FollowerLat){
+  width: 110px !important;
+  min-widht: 109px;
+  max-width: 170px;
+}
+/* Customize width of HEADER 7 in Watchlist Overview Table */
+.anvil-role-table_content_talent_dev-7 {
+  width: 110px;
+  min-width: 109px;
+  max-width: 170px;
+  flex-grow: 1;
+  text-align: center !important;
+}
+/* Customize width of COLUMN 7 in Watchlist Overview Table */
+.data-row-col:has(> .anvil-role-col-FollowerDiff){
+  width: 110px !important;
+  min-widht: 109px;
+  max-width: 170px;
+}
+/* Customize width of HEADER 8 in Watchlist Overview Table */
+.anvil-role-table_content_talent_dev-8 {
+  width: 110px;
+  min-width: 109px;
+  max-width: 170px;
+  flex-grow: 1;
+  text-align: center !important;
+}
+/* Customize width of COLUMN 8 in Watchlist Overview Table */
+.data-row-col:has(> .anvil-role-col-FollowerDev){
+  width: 110px !important;
+  min-widht: 109px;
+  max-width: 170px;
+}
+/* Customize width of HEADER 9 in Watchlist Overview Table */
+.anvil-role-table_content_talent_dev-9 {
+  width: 110px;
+  min-width: 109px;
+  max-width: 170px;
+  flex-grow: 1;
+  text-align: center !important;
+}
+/* Customize width of COLUMN 9 in Watchlist Overview Table */
+.data-row-col:has(> .anvil-role-col-Icons){
+  width: 110px !important;
+  min-widht: 109px;
+  max-width: 170px;
 }
 
-.data-row-col:has(> .anvil-role-col-artist){
-  width: 200px !important;
-  min-widht: 150px;
+
+.anvil-role-col-artist-image {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative !important;
 }
 
 .anvil-role-table_content_popup {
@@ -776,7 +902,7 @@ div.row {
 }
 .holder:has(> .anvil-role-table_content_talent_dev) {
   display: flex !important;
-  justify-content: space-between;
+  /* justify-content: space-between; */
 }
 
 @media only screen and (min-width: 1081px) {

@@ -9,7 +9,7 @@ components:
   layout_properties: {column: JKSDUP}
   components:
   - name: image_artist
-    properties: {height: '38', display_mode: zoom_to_fill, spacing_above: none, spacing_below: none}
+    properties: {height: '38', display_mode: zoom_to_fill, spacing_above: none, spacing_below: none, role: col-artist-image}
     type: Image
     layout_properties: {x: 0, y: null, width: 30}
     data_bindings:
@@ -27,43 +27,43 @@ components:
   layout_properties: {column: SXXXLP}
   event_bindings: {click: button_details_click}
 - name: label_1
-  properties: {align: center, spacing_below: none, spacing_above: none}
+  properties: {align: center, spacing_below: none, spacing_above: none, role: col-PopularityDev}
   type: Label
   layout_properties: {column: CDCVLK}
   data_bindings:
   - {property: text, code: 'str(self.item[''PopularityDev'']) + ''%''', writeback: false}
 - name: label_2
-  properties: {align: center, spacing_above: none, spacing_below: none}
+  properties: {align: center, spacing_above: none, spacing_below: none, role: col-FollowerDev}
   type: Label
   layout_properties: {column: QLRQCM}
   data_bindings:
   - {property: text, code: 'str(self.item[''FollowerDev'']) + ''%''', writeback: false}
 - name: label_3
-  properties: {align: center, spacing_below: none, spacing_above: none}
+  properties: {align: center, spacing_below: none, spacing_above: none, role: col-FollowerLat}
   type: Label
   layout_properties: {column: SNZOEY}
   data_bindings:
   - {property: text, code: 'self.item[''FollowerLat'']', writeback: false}
 - name: label_4
-  properties: {align: center, spacing_above: none, spacing_below: none}
+  properties: {align: center, spacing_above: none, spacing_below: none, role: col-FollowerDiff}
   type: Label
   layout_properties: {column: CLLQNH}
   data_bindings:
   - {property: text, code: 'self.item[''FollowerDif'']', writeback: false}
 - name: label_5
-  properties: {align: center, spacing_above: none, spacing_below: none}
+  properties: {align: center, spacing_above: none, spacing_below: none, role: col-Popularity}
   type: Label
   layout_properties: {column: OJLQEN}
   data_bindings:
   - {property: text, code: 'self.item[''PopularityLat'']', writeback: false}
 - name: label_6
-  properties: {align: center, spacing_above: none, spacing_below: none}
+  properties: {align: center, spacing_above: none, spacing_below: none, role: col-PopularityDiff}
   type: Label
   layout_properties: {column: JMPPBV}
   data_bindings:
   - {property: text, code: 'self.item[''PopularityDif'']', writeback: false}
 - name: label_7
-  properties: {spacing_above: none, spacing_below: none, align: center}
+  properties: {spacing_above: none, spacing_below: none, align: center, role: col-LastReleaseDate}
   type: Label
   layout_properties: {column: VJQQOR}
   data_bindings:

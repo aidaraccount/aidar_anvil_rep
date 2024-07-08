@@ -75,6 +75,35 @@ roles:
   components: [FlowPanel]
   display_in_toolbox: false
 - {name: col-artist, components: null}
+- name: col-artist-image
+  components: [Image]
+- name: table_content_talent_dev-1
+  components: [Label, Link]
+  display_in_toolbox: false
+- {name: col-LastReleaseDate}
+- name: table_content_talent_dev-2
+  components: [label, Link]
+- {name: col-Popularity}
+- name: table_content_talent_dev-3
+  components: [label, Link]
+- name: table_content_talent_dev-4
+  components: [Label, Link]
+- {name: col-PopularityDiff}
+- name: table_content_talent_dev-5
+  components: [Label, Link]
+- {name: col-PopularityDev}
+- name: table_content_talent_dev-6
+  components: [Label, Link]
+- {name: col-FollowerLat}
+- name: table_content_talent_dev-7
+  components: [Link, Label]
+- {name: col-FollowerDiff}
+- name: table_content_talent_dev-9
+  components: [Label, Link]
+- {name: col-Icons}
+- name: table_content_talent_dev-8
+  components: [Label, Link]
+- {name: col-FollowerDev}
 color_scheme:
   preset_groups:
   - name: Accent
