@@ -62,3 +62,9 @@ components:
   layout_properties: {column: JMPPBV}
   data_bindings:
   - {property: text, code: 'self.item[''PopularityDif'']', writeback: false}
+- name: label_7
+  properties: {spacing_above: none, spacing_below: none}
+  type: Label
+  layout_properties: {column: VJQQOR}
+  data_bindings:
+  - {property: text, code: 'self.item[''LastReleaseDate'']', writeback: false}
