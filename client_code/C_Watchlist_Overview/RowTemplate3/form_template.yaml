@@ -4,20 +4,20 @@ container:
   properties: {role: talent-dev-custom-class}
 components:
 - name: xy_panel_1
-  properties: {height: 18, spacing_above: none, spacing_below: none}
+  properties: {height: 18, spacing_above: none, spacing_below: none, role: col-artist}
   type: XYPanel
   layout_properties: {column: JKSDUP}
   components:
   - name: image_artist
     properties: {height: '38', display_mode: zoom_to_fill, spacing_above: none, spacing_below: none}
     type: Image
-    layout_properties: {x: 0, y: 10, width: 30}
+    layout_properties: {x: 0, y: null, width: 30}
     data_bindings:
     - {property: source, code: 'self.item[''ArtistPictureURL'']', writeback: false}
   - name: link_artist
     properties: {role: table_content_small, spacing_above: none, spacing_below: none}
     type: Link
-    layout_properties: {x: 40, y: 0, width: 80}
+    layout_properties: {x: 40, y: 0, width: null}
     data_bindings:
     - {property: text, code: 'self.item[''Name'']', writeback: false}
     event_bindings: {click: link_artist_click}

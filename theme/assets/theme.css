@@ -171,8 +171,9 @@ body, html {
   max-width: 140px;
 }
 
-[data-grid-col-id='col1'] {
-  width: 250px;
+.data-row-col:has(> .anvil-role-col-artist){
+  width: 200px !important;
+  min-widht: 150px;
 }
 
 .anvil-role-table_content_popup {
