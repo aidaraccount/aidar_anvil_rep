@@ -38,7 +38,7 @@ components:
   - name: data_grid_1
     properties:
       columns:
-      - {id: JKSDUP, title: Column 1, data_key: Name, width: 148, expand: false}
+      - {id: JKSDUP, title: Test_name_of_column, data_key: Name, width: 148, expand: false}
       - {id: VJQQOR, title: Column 2, data_key: LastReleaseDate}
       - {id: OJLQEN, title: Column 3, data_key: PopularityLat}
       - {id: JMPPBV, data_key: PopularityDif, title: Column 4}

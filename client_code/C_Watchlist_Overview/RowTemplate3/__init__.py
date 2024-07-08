@@ -15,7 +15,8 @@ class RowTemplate3(RowTemplate3Template):
     self.init_components(**properties)
 
     # Any code you write here will run before the form opens.
-
+    self.label_7.tag.col_id = 'col1'
+  
   def button_details_click(self, **event_args):
     open_form('Main_In', model_id, temp_artist_id = self.item["ArtistID"], target = 'C_Watchlist_Details', value=None)
 
