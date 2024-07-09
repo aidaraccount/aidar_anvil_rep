@@ -58,7 +58,7 @@ components:
       properties:
         height: 33
         border: ''
-        role: [bottom_line]
+        role: [bottom_line, talent-dev-custom-class]
         spacing_above: none
         spacing_below: none
       type: XYPanel

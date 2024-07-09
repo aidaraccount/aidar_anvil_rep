@@ -83,13 +83,6 @@ roles:
 - {name: col-LastReleaseDate}
 - name: table_content_talent_dev-2
   components: [label, Link]
-- {name: col-Popularity}
-- {name: col-PopularityDiff}
-- {name: col-PopularityDev}
-- {name: col-FollowerLat}
-- {name: col-FollowerDiff}
-- {name: col-Icons}
-- {name: col-FollowerDev}
 - {name: feature-talent-dev}
 color_scheme:
   preset_groups:

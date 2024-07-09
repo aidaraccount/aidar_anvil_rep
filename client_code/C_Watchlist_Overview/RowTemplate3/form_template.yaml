@@ -4,7 +4,7 @@ container:
   properties: {role: talent-dev-custom-class}
 components:
 - name: xy_panel_1
-  properties: {height: 18, spacing_above: none, spacing_below: none, role: null}
+  properties: {height: 18, spacing_above: none, spacing_below: none, role: col-artist}
   type: XYPanel
   layout_properties: {column: JKSDUP}
   components:
