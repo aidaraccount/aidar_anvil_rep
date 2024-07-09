@@ -82,8 +82,12 @@ roles:
   display_in_toolbox: false
 - {name: col-LastReleaseDate}
 - name: table_content_talent_dev-2
-  components: [label, Link]
+  components: [Link, Label]
 - {name: feature-talent-dev}
+- name: transparent-headers
+  components: [Label, Link]
+- name: left-alignment-header
+  components: [Link, Label]
 color_scheme:
   preset_groups:
   - name: Accent

@@ -59,26 +59,37 @@ components:
     - name: xy_panel_1
       properties:
         height: 27
-        role: [bottom_line, related-artist-search-dropdown-header]
+        role: [bottom_line, talent-dev-custom-class]
       type: XYPanel
       layout_properties: {}
       components:
       - name: link_date
-        properties: {text: Date, role: table_content_talent_dev, icon_align: right, icon: ''}
+        properties:
+          text: Date
+          role: [table_content_talent_dev-2, left-alignment-header]
+          icon_align: right
+          icon: ''
         type: Link
-        layout_properties: {x: 0, y: 0, width: 200}
+        layout_properties: {x: 0, y: 0, width: null}
         event_bindings: {click: link_date_click}
         data_bindings: []
-      - name: link_interest
-        properties: {text: Interest, role: table_content_talent_dev, align: left, icon_align: right}
-        type: Link
-        layout_properties: {x: 610, y: 0, width: 176}
-        event_bindings: {click: link_interest_click}
       - name: link_artist
-        properties: {role: table_content_talent_dev, text: Artist, icon_align: right}
+        properties:
+          role: [table_content_talent_dev-2, left-alignment-header]
+          text: Artist
+          icon_align: right
         type: Link
-        layout_properties: {x: 229, y: 0, width: 328}
+        layout_properties: {x: 0, y: 0, width: null}
         event_bindings: {click: link_artist_click}
+      - name: link_interest
+        properties: {text: Interest, role: table_content_talent_dev-2, align: left, icon_align: right}
+        type: Link
+        layout_properties: {x: 0, y: 0, width: null}
+        event_bindings: {click: link_interest_click}
+      - name: link_1_icons
+        properties: {role: table_content_talent_dev-2, text: ''}
+        type: Link
+        layout_properties: {x: 0, y: 0, width: null}
     - type: RepeatingPanel
       properties: {role: table_content_small, spacing_above: none, background: '', item_template: C_Rating.RatingRows, foreground: '', items: null, spacing_below: none, visible: true, border: '', tooltip: ''}
       name: data_ratings_data

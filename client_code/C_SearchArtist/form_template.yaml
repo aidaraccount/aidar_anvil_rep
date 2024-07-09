@@ -53,21 +53,32 @@ components:
     layout_properties: {grid_position: 'MMUCMX,WXVDLN'}
     components:
     - name: xy_panel_1
-      properties: {height: 27, role: bottom_line}
+      properties:
+        height: 27
+        role: [bottom_line, talent-dev-custom-class]
       type: XYPanel
       components:
-      - name: label_4
-        properties: {text: Artist, role: table_content}
+      - name: label_Artist
+        properties:
+          text: Artist
+          role: [table_content_talent_dev-2, left-alignment-header]
+          spacing_above: none
+          spacing_below: none
         type: Label
-        layout_properties: {x: 0, y: 0, width: 200}
-      - name: label_5
-        properties: {text: Popularity, role: table_content, tooltip: Latest Spotity Artist Popularity (ranges from 1 to 100), align: center}
+        layout_properties: {x: null, y: null, width: null}
+      - name: label_Popularity
+        properties: {text: Popularity, role: table_content_talent_dev-2, tooltip: Latest Spotity Artist Popularity (ranges from 1 to 100), align: center, spacing_above: none, spacing_below: none}
         type: Label
-        layout_properties: {x: 326, y: 0, width: 200}
-      - name: label_5_copy
-        properties: {text: Follower, role: table_content, tooltip: Latest number of followers on Spotity, align: center}
+        layout_properties: {x: null, y: 0, width: null}
+      - name: label_Follower
+        properties: {text: Follower, role: table_content_talent_dev-2, tooltip: Latest number of followers on Spotity, align: center, spacing_above: none, spacing_below: none}
         type: Label
-        layout_properties: {x: 542.0000305175781, y: 0, width: 200}
+        layout_properties: {x: null, y: 0, width: null}
+      - name: label_Icons
+        properties: {role: table_content_talent_dev-2}
+        type: Label
+        layout_properties: {x: null, y: null, width: null}
+      layout_properties: {}
     - type: RepeatingPanel
       properties: {role: table_content, spacing_above: none, background: '', item_template: C_SearchArtist.SearchRows, foreground: '', items: null, spacing_below: none, visible: true, border: '', tooltip: ''}
       name: data_grid_artists_data
