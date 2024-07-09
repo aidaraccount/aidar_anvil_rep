@@ -77,7 +77,7 @@ components:
       layout_properties: {grid_position: 'QMSJSR,XTMZXV'}
       name: link_models
     - name: create_model
-      properties: {align: center, icon: 'fa:plus', icon_align: left, visible: false}
+      properties: {align: center, icon: 'fa:plus', icon_align: left, visible: true}
       type: Link
       layout_properties: {grid_position: 'QMSJSR,GKGZJF'}
       event_bindings: {click: create_model_click}

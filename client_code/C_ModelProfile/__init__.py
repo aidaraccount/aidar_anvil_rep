@@ -34,15 +34,19 @@ class C_ModelProfile(C_ModelProfileTemplate):
     self.sec_filters.visible = False
 
     # HEADER
-    infos = json.loads(anvil.server.call('get_model_stats', model_id))[0]
+    infos = json.loads(anvil.server.call('get_model_stats', model_id))[0]    
     self.retrain_date = infos["train_model_date"]
     
-    if self.retrain_date != time.strftime("%Y-%m-%d"):
+    if infos["total_ratings"] < 75:
+      self.retrain.visible = False
+      self.retrain_wait.visible = True
+      self.retrain_wait.text = 'At least 75 ratings required for training the model'
+    elif self.retrain_date != time.strftime("%Y-%m-%d"):
       self.retrain.visible = True
       self.retrain_wait.visible = False
     else:
       self.retrain.visible = False
-      self.retrain_wait.visible = True    
+      self.retrain_wait.visible = True
     
     self.model_name.text = infos["model_name"]
     if infos["description"] is None:
@@ -65,7 +69,6 @@ class C_ModelProfile(C_ModelProfileTemplate):
     self.status.text = infos["status"]
     
     # TARGET
-    #target = 'C_AddRefArtists'
     if target is None:
       self.nav_references_click()
     elif target == 'C_Filter':
@@ -102,6 +105,7 @@ class C_ModelProfile(C_ModelProfileTemplate):
     self.nav_filters.role = 'section_buttons'
     self.sec_references.visible = True
     self.sec_filters.visible = False
+    self.sec_references.clear()
     self.sec_references.add_component(C_EditRefArtists(self.model_id))
 
   def nav_add_references_click(self, **event_args):
@@ -109,6 +113,7 @@ class C_ModelProfile(C_ModelProfileTemplate):
     self.nav_filters.role = 'section_buttons'
     self.sec_references.visible = True
     self.sec_filters.visible = False
+    self.sec_references.clear()
     self.sec_references.add_component(C_AddRefArtists(self.model_id))
   
   def nav_filters_click(self, **event_args):
@@ -116,6 +121,7 @@ class C_ModelProfile(C_ModelProfileTemplate):
     self.nav_filters.role = 'section_buttons_focused'
     self.sec_references.visible = False
     self.sec_filters.visible = True
+    self.sec_filters.clear()
     self.sec_filters.add_component(C_Filter(self.model_id))
 
   def delete_click(self, **event_args):

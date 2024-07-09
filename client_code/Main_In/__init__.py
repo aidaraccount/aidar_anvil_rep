@@ -101,7 +101,12 @@ class Main_In(Main_InTemplate):
   
       if target == 'C_SearchArtist':
         self.link_discover_name_click(search=value)
-        
+
+      if target == 'C_ModelProfile':
+        self.content_panel.clear()
+        self.content_panel.add_component(C_ModelProfile(model_id=model_id, target=value))
+        self.reset_nav_backgrounds()
+            
     print(f"{datetime.datetime.now()}: Main_In - link_login_click - 5", flush=True)
     print(f"TotalTime Main_In: {datetime.datetime.now() - begin}", flush=True)
 
