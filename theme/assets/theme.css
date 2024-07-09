@@ -146,6 +146,12 @@ body, html {
   text-align: center !important;
   color: white;
 }
+.anvil-role-table_content_small {
+  font-family: GS-regular;
+  font-size: 16px;
+  color: %color:Text_DecentWhite%;
+}
+
 .anvil-role-center-table-element {}
 
 /* CSS to Format the Rows of the Dropdown Alert Table in the Related Artists Page STARTS here */
@@ -219,11 +225,7 @@ body, html {
   position: relative !important;
   width: auto !important;
 }
-.anvil-role-table_content_small {
-  font-family: GS-regular;
-  font-size: 16px;
-  color: %color:Text_DecentWhite%;
-}
+
 .anvil-role-table_content_small_orange_underlined {
   font-family: GS-regular;
   font-size: 18px;
