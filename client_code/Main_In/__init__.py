@@ -127,7 +127,7 @@ class Main_In(Main_InTemplate):
   def models_click(self, link_model_id, **event_args):
     print(link_model_id)
     self.content_panel.clear()
-    self.content_panel.add_component(C_ModelProfile(link_model_id))
+    self.content_panel.add_component(C_ModelProfile(model_id=link_model_id, target=None))
   # ------------
   
   def logo_click(self, **event_args):
@@ -306,7 +306,7 @@ class Main_In(Main_InTemplate):
 
   def link_models_profile_click(self, **event_args):    
     self.content_panel.clear()
-    self.content_panel.add_component(C_ModelProfile(self.model_id))
+    self.content_panel.add_component(C_ModelProfile(model_id=self.model_id, target=None))
     self.reset_nav_backgrounds()
     self.link_models_profile.background = "theme:Accent 2"
 

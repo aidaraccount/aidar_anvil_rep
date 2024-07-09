@@ -12,11 +12,12 @@ import time
 
 from ..C_Home import C_Home
 from ..C_EditRefArtists import C_EditRefArtists
+from ..C_AddRefArtists import C_AddRefArtists
 from ..C_Filter import C_Filter
 
 
 class C_ModelProfile(C_ModelProfileTemplate):
-  def __init__(self, model_id, **properties):
+  def __init__(self, model_id, target=None, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
 
@@ -63,8 +64,14 @@ class C_ModelProfile(C_ModelProfileTemplate):
       self.train_model_date.text = infos["train_model_date"]
     self.status.text = infos["status"]
     
-    # FIRST SECTION
-    self.sec_references.add_component(C_EditRefArtists(model_id))
+    # TARGET
+    #target = 'C_AddRefArtists'
+    if target is None:
+      self.nav_references_click()
+    elif target == 'C_Filter':
+      self.nav_filters_click()
+    elif target == 'C_AddRefArtists':
+      self.nav_add_references_click()
 
   
   def edit_icon_click(self, **event_args):
@@ -95,7 +102,15 @@ class C_ModelProfile(C_ModelProfileTemplate):
     self.nav_filters.role = 'section_buttons'
     self.sec_references.visible = True
     self.sec_filters.visible = False
+    self.sec_references.add_component(C_EditRefArtists(self.model_id))
 
+  def nav_add_references_click(self, **event_args):
+    self.nav_references.role = 'section_buttons_focused'
+    self.nav_filters.role = 'section_buttons'
+    self.sec_references.visible = True
+    self.sec_filters.visible = False
+    self.sec_references.add_component(C_AddRefArtists(self.model_id))
+  
   def nav_filters_click(self, **event_args):
     self.nav_references.role = 'section_buttons'
     self.nav_filters.role = 'section_buttons_focused'
