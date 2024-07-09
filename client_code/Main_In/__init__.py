@@ -79,7 +79,6 @@ class Main_In(Main_InTemplate):
         self.content_panel.clear()
         self.content_panel.add_component(C_AddRefArtists(model_id=model_id))
         self.reset_nav_backgrounds()
-        self.link_models_artists.background = "theme:Accent 2"
         
       if target == 'C_Watchlist_Funnel':
         self.content_panel.clear()
@@ -119,18 +118,20 @@ class Main_In(Main_InTemplate):
           icon='fa:angle-right',
           text=model_ids[i]["model_name"]
         )
-      model_link.set_event_handler('click', self.create_model_click_handler(model_ids[i]["model_id"]))
+      model_link.set_event_handler('click', self.create_model_click_handler(model_ids[i]["model_id"], model_link))
       self.nav_models.add_component(model_link)
       
     
   # MODEL ROUTING
-  def create_model_click_handler(self, model_id):
+  def create_model_click_handler(self, model_id, model_link):
     def handler(**event_args):
-      self.models_click(model_id, **event_args)
+      self.models_click(model_id, model_link, **event_args)
     return handler
 
-  def models_click(self, link_model_id, **event_args):
+  def models_click(self, link_model_id, model_link, **event_args):
     print(link_model_id)
+    self.reset_nav_backgrounds()
+    model_link.background = "theme:Accent 2"
     self.content_panel.clear()
     self.content_panel.add_component(C_ModelProfile(model_id=link_model_id, target=None))
   # ------------
@@ -158,12 +159,8 @@ class Main_In(Main_InTemplate):
     self.link_manage_funnel.background = None
     self.link_manage_dev.background = None
     self.link_models.background = None
-    self.link_models_create.background = None
-    self.link_models_connect.background = None
-    self.link_models_profile.background = None
-    self.link_models_artists.background = None
-    self.link_models_rated.background = None
-    #self.link_models_tracks.background = None
+    for component in self.nav_models.get_components():
+      component.background = None
     #self.link_settings.background = None
 
   def change_nav_visibility(self, status, **event_args):
@@ -182,20 +179,16 @@ class Main_In(Main_InTemplate):
     self.link_manage_dev.visible = status
     
     self.link_models.visible = True
-    self.link_models_create.visible = not status
-    self.link_models_connect.visible = not status
-    self.link_models_profile.visible = False
-    self.link_models_artists.visible = status
-    self.link_models_tracks.visible = False
-    self.link_models_rated.visible = status
   
+  #----------------------------------------------------------------------------------------------
   # HOME
   def link_home_click(self, **event_args):
     self.content_panel.clear()
     self.content_panel.add_component(C_Home(model_id=self.model_id))
     self.reset_nav_backgrounds()
     self.link_home.background = "theme:Accent 2"
-    
+  
+  #----------------------------------------------------------------------------------------------  
   # DISCOVER
   def change_discover_visibility(self, **event_args):
     if self.link_discover_ai.visible is False:
@@ -265,57 +258,26 @@ class Main_In(Main_InTemplate):
     self.reset_nav_backgrounds()
     self.link_manage_dev.background = "theme:Accent 2"
 
-  
+  #----------------------------------------------------------------------------------------------
   # MODELS
   def change_models_visibility(self, **event_args):
     if self.link_models.icon == 'fa:angle-down':
       self.link_models.icon = 'fa:angle-up'
-      self.link_models_create.visible = False
-      self.link_models_connect.visible = False
-      self.link_models_profile.visible = False
-      self.link_models_artists.visible = False
-      #self.link_models_tracks.visible = False
-      self.link_models_rated.visible = False
+      for component in self.nav_models.get_components():
+        print(component)
+        print(type(component))
+        print(type(component) == 'anvil.ColumnPanel')
+        component.visible = False
+      self.column_panel_nav.visible = True
     else:
       self.link_models.icon = 'fa:angle-down'
-      self.link_models_create.visible = not status
-      self.link_models_connect.visible = not status
-      #self.link_models_profile.visible = status
-      self.link_models_artists.visible = status
-      #self.link_models_tracks.visible = status
-      self.link_models_rated.visible = status
-
-  def link_models_artists_click(self, **event_args):
-    self.content_panel.clear()
-    self.content_panel.add_component(C_EditRefArtists(model_id=self.model_id))
-    self.reset_nav_backgrounds()
-    self.link_models_artists.background = "theme:Accent 2"
-
-  def link_models_rated_click(self, **event_args):
-    self.content_panel.clear()
-    self.content_panel.add_component(C_Rating(model_id=self.model_id))
-    self.reset_nav_backgrounds()
-    self.link_models_rated.background = "theme:Accent 2"
-  
-  def link_models_create_click(self, **event_args):
-    self.content_panel.clear()
-    self.content_panel.add_component(C_CreateModel())
-    self.reset_nav_backgrounds()
-    self.link_models_create.background = "theme:Accent 2"
-
-  def link_models_connect_click(self, **event_args):
-    self.content_panel.clear()
-    self.content_panel.add_component(C_ConnectModel())
-    self.reset_nav_backgrounds()
-    self.link_models_connect.background = "theme:Accent 2"
-
-  def link_models_profile_click(self, **event_args):    
-    self.content_panel.clear()
-    self.content_panel.add_component(C_ModelProfile(model_id=self.model_id, target=None))
-    self.reset_nav_backgrounds()
-    self.link_models_profile.background = "theme:Accent 2"
+      for component in self.nav_models.get_components():
+        component.visible = True
 
   def create_model_click(self, **event_args):
     self.content_panel.clear()
     self.content_panel.add_component(C_CreateModel())
     self.reset_nav_backgrounds()
+
+  def link_settings_click(self, **event_args):
+    pass
