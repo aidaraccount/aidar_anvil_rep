@@ -103,6 +103,9 @@ body, html {
 }
 /* CSS for formatting tables STARTS here*/
 
+.anvil-role-bottom_line {
+  border-bottom: 1px solid %color:Text_DecentWhite%;
+}
 .anvil-role-talent-dev-custom-class {
   font-family: Gs-medium;
   font-size: 16px;
@@ -142,9 +145,7 @@ body, html {
   display: flex;
   justify-content: space-between;
 }
-.anvil-role-bottom_line {
-  border-bottom: 1px solid %color:Text_DecentWhite%;
-}
+
 .anvil-role-table_header {
   font-family: Gs-regular;
   font-size: 16px;
@@ -185,6 +186,7 @@ body, html {
   padding: 0 7px;
   width: 0;
   text-align: center !important;
+  color: white;
 }
 /* Customize width of COLUMN 9 in Watchlist Overview Table */
 /* .data-row-col:has(> .anvil-role-feature){ */
@@ -713,7 +715,7 @@ a>.link-text {
   font-family: GS-regular;
 }
 .data-row-col:has(> .anvil-role-feature-talent-dev) {
-  width: auto;
+  width: auto !important;
   flex-grow: 1 !important;
   /* width: 105% !important; */
   /* max-width: 120%;  */
