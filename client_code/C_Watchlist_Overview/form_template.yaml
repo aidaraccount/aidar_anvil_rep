@@ -58,7 +58,7 @@ components:
       properties:
         height: 33
         border: ''
-        role: [bottom_line, related-artist-search-dropdown-header]
+        role: [bottom_line]
         spacing_above: none
         spacing_below: none
       type: XYPanel
@@ -68,7 +68,7 @@ components:
           text: Artist
           icon: ''
           icon_align: right
-          role: [table_content_talent_dev, table_content_talent_dev-1]
+          role: [table_content_talent_dev-2]
           border: ''
           spacing_above: none
           spacing_below: none
@@ -76,91 +76,43 @@ components:
         layout_properties: {x: null, y: null, width: null}
         event_bindings: {click: link_artist_click}
       - name: link_release
-        properties:
-          text: Last Rel.
-          icon_align: right
-          role: [table_content_talent_dev, table_content_talent_dev-2]
-          tooltip: Last Release Date
-          spacing_above: none
-          spacing_below: none
+        properties: {text: Last Rel., icon_align: right, role: table_content_talent_dev-2, tooltip: Last Release Date, spacing_above: none, spacing_below: none}
         type: Link
         layout_properties: {x: null, y: null, width: null}
         event_bindings: {click: link_release_click}
       - name: link_poplat
-        properties:
-          text: Pop. Lat.
-          icon_align: right
-          role: [table_content_talent_dev, table_content_talent_dev-3]
-          tooltip: Latest Spotify Popularity
-          spacing_above: none
-          spacing_below: none
+        properties: {text: Pop. Lat., icon_align: right, role: table_content_talent_dev-2, tooltip: Latest Spotify Popularity, spacing_above: none, spacing_below: none}
         type: Link
         layout_properties: {x: null, y: null, width: null}
         event_bindings: {click: link_poplat_click}
       - name: link_popdif
-        properties:
-          text: Pop. Dif.
-          role: [table_content_talent_dev, table_content_talent_dev-4]
-          icon_align: right
-          tooltip: Spotify Popularity Difference (last Month)
-          spacing_above: none
-          spacing_below: none
+        properties: {text: Pop. Dif., role: table_content_talent_dev-2, icon_align: right, tooltip: Spotify Popularity Difference (last Month), spacing_above: none, spacing_below: none}
         type: Link
         layout_properties: {x: null, y: null, width: null}
         event_bindings: {click: link_popdif_click}
       - name: link_popdev
-        properties:
-          text: Pop. Dev.
-          role: [table_content_talent_dev, table_content_talent_dev-5]
-          icon_align: right
-          tooltip: Spotify Popularity Development (last Month)
-          spacing_above: none
-          spacing_below: none
+        properties: {text: Pop. Dev., role: table_content_talent_dev-2, icon_align: right, tooltip: Spotify Popularity Development (last Month), spacing_above: none, spacing_below: none}
         type: Link
         layout_properties: {x: null, y: null, width: null}
         event_bindings: {click: link_popdev_click}
       - name: link_follat
-        properties:
-          text: Fol. Lat.
-          role: [table_content_talent_dev, table_content_talent_dev-6]
-          icon_align: right
-          tooltip: Latest Spotify Follower
-          spacing_above: none
-          spacing_below: none
+        properties: {text: Fol. Lat., role: table_content_talent_dev-2, icon_align: right, tooltip: Latest Spotify Follower, spacing_above: none, spacing_below: none}
         type: Link
         layout_properties: {x: null, y: null, width: null}
         event_bindings: {click: link_follat_click}
       - name: link_foldif
-        properties:
-          text: Fol. Dif.
-          role: [table_content_talent_dev, table_content_talent_dev-7]
-          icon_align: right
-          tooltip: Spotify Follower Difference (last Month)
-          spacing_above: none
-          spacing_below: none
+        properties: {text: Fol. Dif., role: table_content_talent_dev-2, icon_align: right, tooltip: Spotify Follower Difference (last Month), spacing_above: none, spacing_below: none}
         type: Link
         layout_properties: {x: null, y: null, width: null}
         event_bindings: {click: link_foldif_click}
       - name: link_foldev
-        properties:
-          text: Fol. Dev.
-          role: [table_content_talent_dev, table_content_talent_dev-8]
-          icon_align: right
-          tooltip: Spotify Follower Development (last Month)
-          spacing_above: none
-          spacing_below: none
+        properties: {text: Fol. Dev., role: table_content_talent_dev-2, icon_align: right, tooltip: Spotify Follower Development (last Month), spacing_above: none, spacing_below: none}
         type: Link
         layout_properties: {x: null, y: null, width: null}
         event_bindings: {click: link_foldev_click}
         components: []
       - name: link_icons
-        properties:
-          text: Icons
-          role: [table_content_talent_dev, table_content_talent_dev-9]
-          icon_align: right
-          tooltip: Spotify Follower Development (last Month)
-          spacing_above: none
-          spacing_below: none
+        properties: {text: Icons, role: table_content_talent_dev-2, icon_align: right, tooltip: Spotify Follower Development (last Month), spacing_above: none, spacing_below: none}
         type: Link
         layout_properties: {x: null, y: null, width: null}
         event_bindings: {click: link_foldev_click}

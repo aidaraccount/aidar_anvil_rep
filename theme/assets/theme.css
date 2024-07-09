@@ -103,15 +103,9 @@ body, html {
 }
 /* CSS for formatting tables STARTS here*/
 
-.anvil-role-talent-dev-custom-class .data-row-col {
+/* .anvil-role-talent-dev-custom-class .data-row-col {
   margin: 10px 0 10p 0 
-}
-
-[data-grid-col-id="JMPPBV"] {
-  /* Your CSS styles here */
-  text-align: center;
-}
-
+} */
 .anvil-role-center-table-element {}
 
 /* CSS to Format the Rows of the Dropdown Alert Table in the Related Artists Page STARTS here */
@@ -140,6 +134,7 @@ body, html {
   margin: 5px 0px 5px;
   border-radius: 15px;
 }
+
 
 .anvil-role-related-artist-search-dropdown-header {
   padding: 10px;
@@ -178,16 +173,16 @@ body, html {
 /* Customize width of COLUMN 1 in Watchlist Overview Table */
 .data-row-col:has(> .anvil-role-col-artist){
   width: 250px !important;
-  min-widht: 250px;
   max-width: 250px;
 }
 /* Customize width of HEADER 2 in Watchlist Overview Table */
 .anvil-role-table_content_talent_dev-2 {
-  /* width: 110px; */
-  min-width: 109px;
-  max-width: 150px;
+  position: relative !important;
+  flex-basis: auto;
   flex-grow: 1;
-  text-align: center !important;
+  flex-shrink: 0;
+  padding: 0 7px;
+  width: 0;
 }
 /* Customize width of COLUMN 2 in Watchlist Overview Table */
 .data-row-col:has(> .anvil-role-col-LastReleaseDate){
@@ -196,28 +191,12 @@ body, html {
   min-widht: 109px;
   max-width: 150px;
 }
-/* Customize width of HEADER 3 in Watchlist Overview Table */
-.anvil-role-table_content_talent_dev-3 {
-  /* width: 110px; */
-  min-width: 109px;
-  max-width: 150px;
-  flex-grow: 1;
-  text-align: center !important;
-}
 /* Customize width of COLUMN 3 in Watchlist Overview Table */
 .data-row-col:has(> .anvil-role-col-Popularity){
   /* width: 110px !important; */
   width: auto;
   min-widht: 109px;
   max-width: 150px;
-}
-/* Customize width of HEADER 4 in Watchlist Overview Table */
-.anvil-role-table_content_talent_dev-4 {
-  /* width: 110px; */
-  min-width: 109px;
-  max-width: 150px;
-  flex-grow: 1;
-  text-align: center !important;
 }
 /* Customize width of COLUMN 4 in Watchlist Overview Table */
 .data-row-col:has(> .anvil-role-col-PopularityDiff){
@@ -226,28 +205,12 @@ body, html {
   min-widht: 109px;
   max-width: 150px;
 }
-/* Customize width of HEADER 5 in Watchlist Overview Table */
-.anvil-role-table_content_talent_dev-5 {
-  /* width: 110px; */
-  min-width: 109px;
-  max-width: 150px;
-  flex-grow: 1;
-  text-align: center !important;
-}
 /* Customize width of COLUMN 5 in Watchlist Overview Table */
 .data-row-col:has(> .anvil-role-col-PopularityDev){
   /* width: 110px !important; */
   width: auto;
   min-widht: 109px;
   max-width: 150px;
-}
-/* Customize width of HEADER 6 in Watchlist Overview Table */
-.anvil-role-table_content_talent_dev-6 {
-  /* width: 110px; */
-  min-width: 109px;
-  max-width: 150px;
-  flex-grow: 1;
-  text-align: center !important;
 }
 /* Customize width of COLUMN 6 in Watchlist Overview Table */
 .data-row-col:has(> .anvil-role-col-FollowerLat){
@@ -256,28 +219,12 @@ body, html {
   min-widht: 109px;
   max-width: 150px;
 }
-/* Customize width of HEADER 7 in Watchlist Overview Table */
-.anvil-role-table_content_talent_dev-7 {
-  /* width: 110px; */
-  min-width: 109px;
-  max-width: 150px;
-  flex-grow: 1;
-  text-align: center !important;
-}
 /* Customize width of COLUMN 7 in Watchlist Overview Table */
 .data-row-col:has(> .anvil-role-col-FollowerDiff){
   /* width: 110px !important; */
   width: auto;
   min-widht: 109px;
   max-width: 150px;
-}
-/* Customize width of HEADER 8 in Watchlist Overview Table */
-.anvil-role-table_content_talent_dev-8 {
-  /* width: 110px; */
-  min-width: 109px;
-  max-width: 150px;
-  flex-grow: 1;
-  text-align: center !important;
 }
 /* Customize width of COLUMN 8 in Watchlist Overview Table */
 .data-row-col:has(> .anvil-role-col-FollowerDev){
@@ -286,22 +233,14 @@ body, html {
   min-widht: 109px;
   max-width: 150px;
 }
-/* Customize width of HEADER 9 in Watchlist Overview Table */
-.anvil-role-table_content_talent_dev-9 {
-  /* width: 110px; */
-  min-width: 109px;
-  max-width: 150px;
-  flex-grow: 1;
-  text-align: center !important;
-}
 /* Customize width of COLUMN 9 in Watchlist Overview Table */
-.data-row-col:has(> .anvil-role-feature){
+/* .data-row-col:has(> .anvil-role-feature){ */
   /* width: 110px !important; */
-  width: 150px !important;
+  /* width: 150px !important;
   min-widht: 109px;
   max-width: 150px;
   text-align: center;
-}
+} */
 
 
 .anvil-role-col-artist-image {
@@ -820,6 +759,12 @@ a>.link-text {
 .anvil-role-feature-login  .btn.btn-default.to-disable{
   font-family: GS-regular;
 }
+.anvil-role-feature-talent-dev {
+  width: auto;
+  flex-grow: 1 !important;
+  /* width: 105% !important; */
+  /* max-width: 120%;  */
+}
 
 .anvil-role-feature {
   font-size: 14px;
@@ -909,8 +854,11 @@ div.row {
   display: flex !important;
   justify-content: space-evenly;
 }
-.holder:has(> .anvil-role-table_content_talent_dev) {
+.holder:has(> .anvil-role-table_content_talent_dev-2) {
   display: flex !important;
+  flex-direction: row;
+  flex-wrap: wrap;
+  height: 80px !important;
   /* justify-content: space-between; */
 }
 
