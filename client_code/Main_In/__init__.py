@@ -107,15 +107,15 @@ class Main_In(Main_InTemplate):
 
     
     # MODEL PROFILES IN NAV
-    #model_ids = json.loads(anvil.server.call('get_model_ids',  user["user_id"]))
+    model_ids = json.loads(anvil.server.call('get_model_ids',  user["user_id"]))
 
-    #for i in range(0, len(model_ids)):
-    #  model_link = Link(
-    #      icon='fa:angle-right',
-    #      text=model_ids[i]["model_name"]
-    #    )
-    #  model_link.set_event_handler('click', self.create_model_click_handler(model_ids[i]["model_id"]))
-    #  self.nav_models.add_component(model_link)
+    for i in range(0, len(model_ids)):
+      model_link = Link(
+          icon='fa:angle-right',
+          text=model_ids[i]["model_name"]
+        )
+      model_link.set_event_handler('click', self.create_model_click_handler(model_ids[i]["model_id"]))
+      self.nav_models.add_component(model_link)
       
     
   # MODEL ROUTING

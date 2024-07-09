@@ -142,8 +142,7 @@ class C_ModelProfile(C_ModelProfileTemplate):
     open_form('Main_In', self.model_id, temp_artist_id = None, target = 'C_Discover', value=None)
 
   def retrain_click(self, **event_args):
-    #res = anvil.server.call('retrain_model', self.model_id)
-    res = 'success'
+    res = anvil.server.call('retrain_model', self.model_id)
     if res == 'success':
       self.retrain.visible = False
       self.retrain_wait.visible = True
@@ -152,5 +151,3 @@ class C_ModelProfile(C_ModelProfileTemplate):
             content="We started to re-train your model. This will take roughly 10 minutes to be effective.\n\nDue to high computational effort, re-training the model is only available once per day.",
             buttons=[("Ok", "Ok")]
       )
-
-    
