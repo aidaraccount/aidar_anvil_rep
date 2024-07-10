@@ -713,7 +713,25 @@ class C_Discover(C_DiscoverTemplate):
     self.create_bar_chart(labels=sorted_labels, cooperations=sorted_cooperations)
 
   # ----------------------------------------------
+    
+  # ---------------------------------- 
+      # Spotify Popularity Graph STARTS HERE
 
+      # Load the data when the form is initialized
+      self.load_data2()
+
+  def load_data2(self):
+    dev_successes = json.loads(anvil.server.call('get_dev_successes', int(cur_artist_id)))
+    
+    labels = [x['LabelName'] for x in labels_freq]
+    cooperations = [x["NoLabels"] for x in labels_freq]
+
+    self.data = {
+      "labels": labels,
+      "cooperations": cooperations
+    }
+      
+  # ----------------------------------------------
   
   # -------------------------------
   # INFO CLICK  
