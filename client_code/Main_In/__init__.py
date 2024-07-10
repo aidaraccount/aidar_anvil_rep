@@ -112,12 +112,21 @@ class Main_In(Main_InTemplate):
     
     # MODEL PROFILES IN NAV
     model_ids = json.loads(anvil.server.call('get_model_ids',  user["user_id"]))
-
+    
     for i in range(0, len(model_ids)):
-      model_link = Link(
+      if model_ids[i]["is_last_used"] is True:
+        model_link = Link(
+          icon='fa:angle-right',
+          text=model_ids[i]["model_name"],
+          role='underline-link'
+          )
+        #right_icon = Icon(name="fa:circle")
+        #model_link.add_component(right_icon, slot='right')
+      else:
+        model_link = Link(
           icon='fa:angle-right',
           text=model_ids[i]["model_name"]
-        )
+          )
       model_link.set_event_handler('click', self.create_model_click_handler(model_ids[i]["model_id"], model_link))
       self.nav_models.add_component(model_link)
       

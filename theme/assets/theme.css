@@ -51,6 +51,14 @@ body, html {
     background-image: url(_/theme/pics/LoadingSpinner_circle.svg) !important;
 }
 
+/* underlining the activated model and watchlist in the navigation */
+.anvil-role-underline-link .link-text {
+  text-decoration: underline !important;
+  text-decoration-color: %color:Orange% !important;
+  text-decoration-thickness: 1px !important;
+  text-underline-offset: 2px !important;
+}
+
 .anvil-role-input_margin {
   margin: 0 20px;  
 }

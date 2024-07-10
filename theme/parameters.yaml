@@ -88,6 +88,8 @@ roles:
   components: [Label, Link]
 - name: left-alignment-header
   components: [Link, Label]
+- name: underline-link
+  components: [Link]
 color_scheme:
   preset_groups:
   - name: Accent
