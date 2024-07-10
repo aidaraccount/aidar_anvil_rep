@@ -68,7 +68,7 @@ components:
           text: Artist
           icon: ''
           icon_align: right
-          role: [table_content_talent_dev-2]
+          role: [table_content_talent_dev-2, left-alignment-header]
           border: ''
           spacing_above: none
           spacing_below: none

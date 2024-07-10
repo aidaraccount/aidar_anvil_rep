@@ -20,7 +20,7 @@ from ..C_AddRefArtists import C_AddRefArtists
 from ..C_NoModel import C_NoModel
 from ..C_SearchArtist import C_SearchArtist
 from ..C_RelatedArtistSearch import C_RelatedArtistSearch
-from ..C_RelatedArtistData import C_RelatedArtistData
+# from ..C_RelatedArtistData import C_RelatedArtistData
 from ..C_CreateModel import C_CreateModel
 from ..C_ConnectModel import C_ConnectModel
 from ..C_ModelProfile import C_ModelProfile
