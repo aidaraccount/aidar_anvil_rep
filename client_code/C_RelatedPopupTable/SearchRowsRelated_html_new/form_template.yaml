@@ -31,23 +31,6 @@ components:
   layout_properties: {column: ITWSTJ}
   data_bindings:
   - {property: text, code: 'self.item[''ArtistFollower_lat'']', writeback: false}
-- name: xy_panel_1
-  properties: {height: 20}
-  type: XYPanel
-  layout_properties: {column: YTCRRC}
-  components:
-  - name: button_discover
-    properties: {text: '', icon: 'fa:male', role: feature, tooltip: Investigate Artist}
-    type: Button
-    layout_properties: {x: 85, y: 0, width: 40}
-    data_bindings: []
-    event_bindings: {click: button_inspect_click}
-  - name: button_related
-    properties: {text: '', role: feature, foreground: 'theme:Text_DecentWhite', background: 'theme:Orange', icon: 'fa:link', tooltip: Related Artists}
-    type: Button
-    layout_properties: {x: 13.96875, y: 0, width: 68.046875}
-    event_bindings: {click: button_related_click}
-    data_bindings: []
 - type: Link
   properties: {role: artist_name, bold: false, align: center, col_widths: '', spacing_above: small, background: '', icon: '', wrap_on: mobile, underline: false, font: '', col_spacing: medium, icon_align: left, foreground: '', url: '', spacing_below: small, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: ''}
   name: related_name_link
@@ -56,4 +39,9 @@ components:
   - {property: text, code: 'self.item[''Name'']'}
   - {property: url, code: 'self.item[''ArtistID'']'}
   event_bindings: {click: button_related_click}
+- name: link_1
+  properties: {text: show related artists, role: null, icon: 'fa:arrow-right', icon_align: right}
+  type: Link
+  layout_properties: {column: YTCRRC}
+  event_bindings: {click: related_click}
 is_package: true

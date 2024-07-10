@@ -45,7 +45,7 @@ components:
     layout_properties: {x: 0, y: 0, width: 95}
     event_bindings: {click: button_discover_click}
   - name: button_watchlist
-    properties: {text: '', icon: 'fa:address-card-o', role: feature, tooltip: ''}
+    properties: {text: '', icon: 'fa:star-o', role: feature, tooltip: ''}
     type: Button
     layout_properties: {x: 85, y: 0, width: 40}
     data_bindings: []

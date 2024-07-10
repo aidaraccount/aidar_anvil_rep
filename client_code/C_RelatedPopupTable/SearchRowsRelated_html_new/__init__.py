@@ -20,8 +20,8 @@ class SearchRowsRelated_html_new(SearchRowsRelated_html_newTemplate):
     global model_id
     model_id = self.item["ModelID"]
 
-  # BUTTONS 
-  def button_related_click(self, **event_args):
+  # CLICKS 
+  def related_click(self, **event_args):
     self.parent.parent.parent.close_alert()    
     open_form(
       "Main_In",
@@ -31,12 +31,3 @@ class SearchRowsRelated_html_new(SearchRowsRelated_html_newTemplate):
       value=self.item["Name"],
     )
 
-  def button_inspect_click(self, **event_args):
-    self.parent.parent.parent.close_alert()
-    open_form(
-      "Main_In",
-      model_id=model_id,
-      temp_artist_id=self.item["ArtistID"],
-      target="C_Discover",
-      value=None,
-    )
