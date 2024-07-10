@@ -718,43 +718,46 @@ class C_Discover(C_DiscoverTemplate):
   # ---------------------------------- 
       # Spotify Popularity Graph STARTS HERE
 
-    # Load the data when the form is initialized
+      # Load the data when the form is initialized
     self.load_data2()
+
+    self.create_artist_popularity_chart()
     
   def load_data2(self):
     dev_successes = json.loads(anvil.server.call('get_dev_successes', int(cur_artist_id)))
     
-    date = [x['Date'] for x in dev_successes]
-    artistPop = [x["ArtistPopularity"] for x in dev_successes]
+    dates = [x['Date'] for x in dev_successes]
+    artist_popularity = [x["ArtistPopularity"] for x in dev_successes]
 
     self.data = {
-      "Date": date,
-      "Artist Popularity": artistPop
+      "dates": dates,
+      "artist_popularity": artist_popularity
     }
 
-  def create_artist_popularity_chart(self, date=None, artistPop=None):
-    if date is None:
-      date = self.data["date"]
-    if artistPop is None:
-      artistPop = self.data["artistPop"]
+  def create_artist_popularity_chart(self, dates=None, artist_popularity=None):
+    if dates is None:
+      dates = self.data["dates"]
+    if artist_popularity is None:
+      artist_popularity = self.data["artist_popularity"]
       
     # Creating the Scatter Chart
     fig = go.Figure(data=(
       go.Scatter(
-        x = date,
-        y = artistPop,
-        text = artistPop,
+        x = dates,
+        y = artist_popularity,
+        text = artist_popularity,
         textposition='outside',
         hoverinfo='none',
-        hovertext= date,
-        hovertemplate='Date: %{hovertext}<br>artistPop: %{y} <extra></extra>',
+        hovertext= dates,
+        hovertemplate='Date: %{hovertext}<br>artist_popularity: %{y} <extra></extra>',
       )
     ))
 
     fig.update_layout(
       template='plotly_dark',
       plot_bgcolor='rgba(0,0,0,0)',
-      paper_bgcolor='rgba(0,0,0,0)'
+      paper_bgcolor='rgba(0,0,0,0)',
+      margin = dict(t=50)
       # xaxis=dict(
       #   tickvals=list(range(len(labels))),
       #   ticktext=truncated_labels,  # Display truncated labels on the x-axis
