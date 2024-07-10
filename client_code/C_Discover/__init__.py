@@ -610,7 +610,7 @@ class C_Discover(C_DiscoverTemplate):
       
       # Create the initial bar chart
       # self.create_bar_chart()
-  
+
   def load_data(self):
     labels_freq = json.loads(anvil.server.call('get_labels_freq', int(cur_artist_id)))
     
@@ -712,25 +712,74 @@ class C_Discover(C_DiscoverTemplate):
     # Update the bar chart with sorted data
     self.create_bar_chart(labels=sorted_labels, cooperations=sorted_cooperations)
 
+  
   # ----------------------------------------------
     
   # ---------------------------------- 
       # Spotify Popularity Graph STARTS HERE
 
-      # Load the data when the form is initialized
-      self.load_data2()
-
+    # Load the data when the form is initialized
+    self.load_data2()
+    
   def load_data2(self):
     dev_successes = json.loads(anvil.server.call('get_dev_successes', int(cur_artist_id)))
     
-    labels = [x['LabelName'] for x in labels_freq]
-    cooperations = [x["NoLabels"] for x in labels_freq]
+    date = [x['Date'] for x in dev_successes]
+    artistPop = [x["ArtistPopularity"] for x in dev_successes]
 
     self.data = {
-      "labels": labels,
-      "cooperations": cooperations
+      "Date": date,
+      "Artist Popularity": artistPop
     }
+
+  def create_artist_popularity_chart(self, date=None, artistPop=None):
+    if date is None:
+      date = self.data["date"]
+    if artistPop is None:
+      artistPop = self.data["artistPop"]
       
+    # Creating the Scatter Chart
+    fig = go.Figure(data=(
+      go.Scatter(
+        x = date,
+        y = artistPop,
+        text = artistPop,
+        textposition='outside',
+        hoverinfo='none',
+        hovertext= date,
+        hovertemplate='Date: %{hovertext}<br>artistPop: %{y} <extra></extra>',
+      )
+    ))
+
+    fig.update_layout(
+      template='plotly_dark',
+      plot_bgcolor='rgba(0,0,0,0)',
+      paper_bgcolor='rgba(0,0,0,0)'
+      # xaxis=dict(
+      #   tickvals=list(range(len(labels))),
+      #   ticktext=truncated_labels,  # Display truncated labels on the x-axis
+      # ),
+      # yaxis=dict(
+      #   gridcolor='rgba(250,250,250,1)',  # Color of the gridlines
+      #   gridwidth=0.7,  # Thickness of the gridlines
+      #   griddash='dash',  # Dash style of the gridlines
+      #   range=[0, max(cooperations) * 1.1]  # Adjust y-axis range to add extra space
+      # ),
+      # margin=dict(
+      #   t=50  # Increase top margin to accommodate the labels
+      # )
+    )
+      
+    # This is to style the bars
+    # for trace in fig.data:
+    #   trace.update(
+    #     marker_color='rgb(240,229,252)',
+    #     marker_line_color='rgb(240,229,252)',
+    #     marker_line_width=0.5,
+    #     opacity=0.9
+    #   )
+      
+    self.Spotify_Popularity_Graph_copy.figure = fig
   # ----------------------------------------------
   
   # -------------------------------
