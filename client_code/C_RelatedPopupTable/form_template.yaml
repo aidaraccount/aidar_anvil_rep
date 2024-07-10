@@ -31,6 +31,14 @@ components:
   type: DataGrid
   layout_properties: {slot: default}
   components:
+  - name: spacer_1
+    properties: {height: 10}
+    type: Spacer
+    layout_properties: {}
+  - name: label_1
+    properties: {text: Select the Artist You Meant, align: center, role: artist_name, spacing_above: small}
+    type: Label
+    layout_properties: {}
   - name: xy_panel_1
     properties:
       height: 27
