@@ -674,16 +674,15 @@ class C_Discover(C_DiscoverTemplate):
         t=50  # Increase top margin to accommodate the labels
       )
     )
-      
     # This is to style the bars
     for trace in fig.data:
       trace.update(
-        marker_color='rgb(240,229,252)',
-        marker_line_color='rgb(240,229,252)',
+        # marker_color='rgb(240,229,252)',
+        marker_color='rgb(237,139,82)',
+        marker_line_color='rgb(237,139,82)',
         marker_line_width=0.5,
         opacity=0.9
       )
-      
     self.Most_Frequent_Labels_Graph_copy.figure = fig
 
   def create_artist_popularity_chart(self, dates=None, artist_popularity=None):
@@ -701,16 +700,33 @@ class C_Discover(C_DiscoverTemplate):
         textposition='outside',
         hoverinfo='none',
         hovertext= dates,
-        hovertemplate='Date: %{hovertext}<br>artist_popularity: %{y} <extra></extra>',
+        hovertemplate='Date: %{hovertext}<br>Artist Spotify Popularity: %{y} <extra></extra>',
       )
     ))
-
     fig.update_layout(
       template='plotly_dark',
       plot_bgcolor='rgba(0,0,0,0)',
       paper_bgcolor='rgba(0,0,0,0)',
-      margin = dict(t=50)
+      margin = dict(t=50),
+      xaxis=dict (
+        showgrid=False
+      ),
+      yaxis=dict(
+        shogrid=True,
+        gridcolor='rgba(250,250,250,1)',  # Color of the gridlines
+        gridwidth=0.1,  # Thickness of the gridlines
+        griddash='dash'  # Dash style of the gridlines
+        # range=[0, max(artist_popularity) * 1.1]  # Adjust y-axis range to add extra space
+      ),
     )
+    for trace in fig.data:
+      trace.update(
+        marker_color='rgb(237,139,82)',
+        # marker_color='rgb(240,229,252)',
+        marker_line_color='rgb(237,139,82)',
+        marker_line_width=1,
+        opacity=0.9
+      )
     
     self.Spotify_Popularity_Graph_copy.figure = fig
 
