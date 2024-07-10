@@ -582,9 +582,7 @@ class C_Discover(C_DiscoverTemplate):
       self.c_web_player.html = '<iframe style="border-radius:12px" src="https://open.spotify.com/embed/artist/' + sug["SpotifyArtistID"] + '?utm_source=generator&theme=0&autoplay=true" width="100%" height="80" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>'
 
       # ---------------------------------- 
-      # _copy version of the Most Frequent Labels Cooperation Graph
-      
-      # Set custom CSS class for the dropdown
+      # Most Frequent Labels Cooperation Graph STARTS HERE
       
       # Set items for the dropdown
       sorting_options = [
@@ -714,33 +712,6 @@ class C_Discover(C_DiscoverTemplate):
     # Update the bar chart with sorted data
     self.create_bar_chart(labels=sorted_labels, cooperations=sorted_cooperations)
 
-
-  # def sort_dropdown_change(self, **event_args):
-  #   """This method is called when the dropdown selection changes"""
-  #   # Get the selected sort type
-  #   sort_type = self.sort_dropdown.selected_value
-    
-  #   # Assuming self.data contains the labels and cooperations
-  #   labels = self.data["labels"]
-  #   cooperations = self.data["cooperations"]
-    
-  #   # Sort the data based on the selected sort type
-  #   sorted_labels, sorted_cooperations = self.sort_data(labels, cooperations, sort_type)
-    
-  #   # Update the chart with sorted data
-  #   self.create_bar_chart(sorted_labels, sorted_cooperations)
-
-  # def sort_data_btn_click(self, **event_args):
-  #   """This method is called when the button is clicked"""
-  #   # Assuming self.data contains the labels and cooperations
-  #   labels = self.data["labels"]
-  #   cooperations = self.data["cooperations"]
-    
-  #   # Sort the data
-  #   sorted_labels, sorted_cooperations = self.sort_data(labels, cooperations)
-    
-  #   # Update the chart with sorted data
-  #   self.create_bar_chart(sorted_labels, sorted_cooperations)
   # ----------------------------------------------
 
   
