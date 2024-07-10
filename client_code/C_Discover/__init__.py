@@ -608,18 +608,28 @@ class C_Discover(C_DiscoverTemplate):
       # Create the initial bar chart with default sorting
       self.apply_default_sorting()
       
+      # Create the initial Sporitfy Popularity Chart
+      self.create_artist_popularity_chart()
       # Create the initial bar chart
       # self.create_bar_chart()
 
   def load_data(self):
+    # Load data for the Bar Chart (Most Frequest Label Cooperations)
     labels_freq = json.loads(anvil.server.call('get_labels_freq', int(cur_artist_id)))
-    
     labels = [x['LabelName'] for x in labels_freq]
     cooperations = [x["NoLabels"] for x in labels_freq]
-
-    self.data = {
+    self.bar_data = {
       "labels": labels,
       "cooperations": cooperations
+    }
+
+    # Load data for the Scatter plot (Spotify Popularity)
+    dev_successes = json.loads(anvil.server.call('get_dev_successes', int(cur_artist_id)))
+    dates = [x['Date'] for x in dev_successes]
+    artist_popularity = [x["ArtistPopularity"] for x in dev_successes]
+    self.scatter_data = {
+      "dates": dates,
+      "artist_popularity": artist_popularity
     }
 
   def truncate_label(self, label):
@@ -627,9 +637,9 @@ class C_Discover(C_DiscoverTemplate):
 
   def create_bar_chart(self, labels=None, cooperations=None):
     if labels is None:
-      labels = self.data["labels"]
+      labels = self.bar_data["labels"]
     if cooperations is None:
-      cooperations = self.data["cooperations"]
+      cooperations = self.bar_data["cooperations"]
       
     truncated_labels = [self.truncate_label(label) for label in labels]
 
@@ -676,69 +686,11 @@ class C_Discover(C_DiscoverTemplate):
       
     self.Most_Frequent_Labels_Graph_copy.figure = fig
 
-  def apply_default_sorting(self):
-    """Apply the default sorting based on the dropdown selection"""
-    labels = self.data["labels"]
-    cooperations = self.data["cooperations"]
-    sorted_indices = sorted(range(len(cooperations)), key=lambda i: cooperations[i], reverse=True)
-    sorted_labels = [labels[i] for i in sorted_indices]
-    sorted_cooperations = [cooperations[i] for i in sorted_indices]
-    self.create_bar_chart(labels=sorted_labels, cooperations=sorted_cooperations)
-    
-  def sort_data(self, **event_args):
-    sort_option = self.sort_dropdown.selected_value
-    labels = self.data["labels"]
-    cooperations = self.data["cooperations"]
-    
-    if sort_option == "alpha":
-      # Sort alphabetically
-      sorted_indices = sorted(range(len(labels)), key=lambda i: labels[i])
-    elif sort_option == "reverse_alpha":
-      # Sort reverse alphabetically
-      sorted_indices = sorted(range(len(labels)), key=lambda i: labels[i], reverse=True)
-    elif sort_option == "high_num":
-      # Sort by highest number of cooperations
-      sorted_indices = sorted(range(len(cooperations)), key=lambda i: cooperations[i], reverse=True)
-    elif sort_option == 'low_num':
-      # Sort by lowest number of cooperations
-      sorted_indices = sorted(range(len(cooperations)), key=lambda i: cooperations[i])
-    else:
-      # If "Sort" is selected, do not sort
-      return
-
-    sorted_labels = [labels[i] for i in sorted_indices]
-    sorted_cooperations = [cooperations[i] for i in sorted_indices]
-
-    # Update the bar chart with sorted data
-    self.create_bar_chart(labels=sorted_labels, cooperations=sorted_cooperations)
-
-  
-  # ----------------------------------------------
-    
-  # ---------------------------------- 
-      # Spotify Popularity Graph STARTS HERE
-
-      # Load the data when the form is initialized
-    self.load_data2()
-
-    self.create_artist_popularity_chart()
-    
-  def load_data2(self):
-    dev_successes = json.loads(anvil.server.call('get_dev_successes', int(cur_artist_id)))
-    
-    dates = [x['Date'] for x in dev_successes]
-    artist_popularity = [x["ArtistPopularity"] for x in dev_successes]
-
-    self.data = {
-      "dates": dates,
-      "artist_popularity": artist_popularity
-    }
-
   def create_artist_popularity_chart(self, dates=None, artist_popularity=None):
     if dates is None:
-      dates = self.data["dates"]
+      dates = self.scatter_data["dates"]
     if artist_popularity is None:
-      artist_popularity = self.data["artist_popularity"]
+      artist_popularity = self.scatter_data["artist_popularity"]
       
     # Creating the Scatter Chart
     fig = go.Figure(data=(
@@ -758,31 +710,46 @@ class C_Discover(C_DiscoverTemplate):
       plot_bgcolor='rgba(0,0,0,0)',
       paper_bgcolor='rgba(0,0,0,0)',
       margin = dict(t=50)
-      # xaxis=dict(
-      #   tickvals=list(range(len(labels))),
-      #   ticktext=truncated_labels,  # Display truncated labels on the x-axis
-      # ),
-      # yaxis=dict(
-      #   gridcolor='rgba(250,250,250,1)',  # Color of the gridlines
-      #   gridwidth=0.7,  # Thickness of the gridlines
-      #   griddash='dash',  # Dash style of the gridlines
-      #   range=[0, max(cooperations) * 1.1]  # Adjust y-axis range to add extra space
-      # ),
-      # margin=dict(
-      #   t=50  # Increase top margin to accommodate the labels
-      # )
     )
-      
-    # This is to style the bars
-    # for trace in fig.data:
-    #   trace.update(
-    #     marker_color='rgb(240,229,252)',
-    #     marker_line_color='rgb(240,229,252)',
-    #     marker_line_width=0.5,
-    #     opacity=0.9
-    #   )
-      
+    
     self.Spotify_Popularity_Graph_copy.figure = fig
+
+  def apply_default_sorting(self):
+    """Apply the default sorting based on the dropdown selection"""
+    labels = self.bar_data["labels"]
+    cooperations = self.bar_data["cooperations"]
+    sorted_indices = sorted(range(len(cooperations)), key=lambda i: cooperations[i], reverse=True)
+    sorted_labels = [labels[i] for i in sorted_indices]
+    sorted_cooperations = [cooperations[i] for i in sorted_indices]
+    self.create_bar_chart(labels=sorted_labels, cooperations=sorted_cooperations)
+    
+  def sort_data(self, **event_args):
+    sort_option = self.sort_dropdown.selected_value
+    labels = self.bar_data["labels"]
+    cooperations = self.bar_data["cooperations"]
+    
+    if sort_option == "alpha":
+      # Sort alphabetically
+      sorted_indices = sorted(range(len(labels)), key=lambda i: labels[i])
+    elif sort_option == "reverse_alpha":
+      # Sort reverse alphabetically
+      sorted_indices = sorted(range(len(labels)), key=lambda i: labels[i], reverse=True)
+    elif sort_option == "high_num":
+      # Sort by highest number of cooperations
+      sorted_indices = sorted(range(len(cooperations)), key=lambda i: cooperations[i], reverse=True)
+    elif sort_option == 'low_num':
+      # Sort by lowest number of cooperations
+      sorted_indices = sorted(range(len(cooperations)), key=lambda i: cooperations[i])
+    else:
+      # If "Sort" is selected, do not sort
+      return
+      
+    sorted_labels = [labels[i] for i in sorted_indices]
+    sorted_cooperations = [cooperations[i] for i in sorted_indices]
+    
+    # Update the bar chart with sorted data
+    self.create_bar_chart(labels=sorted_labels, cooperations=sorted_cooperations)
+  # ----------------------------------------------
   # ----------------------------------------------
   
   # -------------------------------
