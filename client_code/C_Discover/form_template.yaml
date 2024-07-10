@@ -485,7 +485,21 @@ components:
       type: Spacer
       layout_properties: {grid_position: 'VJMENP,OKKLNV'}
       name: spacer_4
-    - properties: {role: grid}
+    - name: Panel_for_Spotify_Popularity_Graph_copy
+      properties: {role: grid}
+      type: ColumnPanel
+      layout_properties: {grid_position: 'LQBFWD,XVWGUZ'}
+      components:
+      - name: Heading_for_Spotify_Popularity_Graph_copy
+        properties: {text: ' Spotify Popoularity', role: Discover_artist_name, spacing_above: none, spacing_below: none}
+        type: Label
+        layout_properties: {grid_position: 'BCHOZO,TMNYIR'}
+      - name: Spotify_Popularity_Graph_copy
+        properties: {spacing_above: small, spacing_below: small, height: '300', visible: true, tooltip: '', interactive: false}
+        type: Plot
+        layout_properties: {grid_position: 'VQTYJE,RKWVRK'}
+        event_bindings: {}
+    - properties: {role: grid, visible: false}
       type: ColumnPanel
       layout_properties: {grid_position: 'QIWMEU,TVRZHO'}
       name: column_panel_3_copy_copy_copy_copy
