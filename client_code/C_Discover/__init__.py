@@ -800,6 +800,9 @@ class C_Discover(C_DiscoverTemplate):
         gridwidth=0.1,  # Thickness of the gridlines
         griddash='dash'  # Dash style of the gridlines
       ),
+      hoverlabel=dict(
+        bgcolor='rgba(237,139,82, 0.4)'
+      )
     )
     for trace in fig.data:
       trace.update(
@@ -844,6 +847,9 @@ class C_Discover(C_DiscoverTemplate):
         gridwidth=0.1,  # Thickness of the gridlines
         griddash='dash'  # Dash style of the gridlines
       ),
+      hoverlabel=dict(
+        bgcolor='rgba(237,139,82, 0.4)'
+      )
     )
     for trace in fig.data:
       trace.update(
@@ -888,6 +894,9 @@ class C_Discover(C_DiscoverTemplate):
         gridwidth=0.1,  # Thickness of the gridlines
         griddash='dash'  # Dash style of the gridlines
       ),
+      hoverlabel=dict(
+        bgcolor='rgba(237,139,82, 0.4)'
+      )
     )
     for trace in fig.data:
       trace.update(
