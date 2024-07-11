@@ -608,9 +608,13 @@ class C_Discover(C_DiscoverTemplate):
       # Create the initial bar chart with default sorting
       self.apply_default_sorting()
       
-      # Create the initial Sporitfy Popularity Chart
+      # Create the initial Sporitfy Popularity and Followers Charts
       self.create_artist_popularity_chart()
       self.create_artist_followers_chart()
+      
+      # Create the initial Sporitfy Monthyl Listeners Graph
+      self.create_artist_Monthly_listeners_chart()
+      
       # Create the initial bar chart
       # self.create_bar_chart()
 
@@ -624,7 +628,7 @@ class C_Discover(C_DiscoverTemplate):
       "cooperations": cooperations
     }
 
-    # Load data for the Scatter plot (Spotify Popularity)
+    # Load data for the Scatter plot (Spotify Popularity and Followers)
     dev_successes = json.loads(anvil.server.call('get_dev_successes', int(cur_artist_id)))
     dates = [x['Date'] for x in dev_successes]
     artist_popularity = [x["ArtistPopularity"] for x in dev_successes]
@@ -634,6 +638,20 @@ class C_Discover(C_DiscoverTemplate):
       "artist_popularity": artist_popularity,
       "artist_followers": artist_followers
     }
+
+    # Load data for the Scatter plot (Spotify Monthly Listeners)
+    monthly_listeners_data = json.loads(anvil.server.call('get_mtl_listeners', int(cur_artist_id)))
+    dates = [x['Date'] for x in monthly_listeners_data]
+    monthly_listeners =  [x['MtlListeners'] for x in monthly_listeners_data]
+    self.listeners_data = {
+      "dates" : dates,
+      "monthly_listeners" : monthly_listeners
+    }
+    
+    # Load data for the Scatter plot (Spotify Monthly Listeners)
+    monthly_listeners_country_data = json.loads(anvil.server.call('get_mtl_listeners_counrty', int(cur_artist_id)))
+    country_codes = [x['CountryCode'] for x in monthly_listeners_country_data]
+    monthly_listeners =  [x['MtlListeners'] for x in monthly_listeners_data]
 
   def truncate_label(self, label):
     return label if len(label) <= 10 else label[:10] + '...'
@@ -775,6 +793,50 @@ class C_Discover(C_DiscoverTemplate):
       )
     
     self.Spotify_Followers_Graph_copy.figure = fig
+    
+  def create_artist_Monthly_listeners_chart(self, dates=None, monthly_listeners=None):
+    if dates is None:
+      dates = self.listeners_data["dates"]
+    if monthly_listeners is None:
+      monthly_listeners = self.listeners_data["monthly_listeners"]
+      
+    # Creating the Scatter Chart
+    fig = go.Figure(data=(
+      go.Scatter(
+        x = dates,
+        y = monthly_listeners,
+        text = monthly_listeners,
+        textposition='outside',
+        hoverinfo='none',
+        hovertext= dates,
+        hovertemplate='Date: %{hovertext}<br>Artist Spotify Monthly Listeners: %{y} <extra></extra>',
+      )
+    ))
+    fig.update_layout(
+      template='plotly_dark',
+      plot_bgcolor='rgba(0,0,0,0)',
+      paper_bgcolor='rgba(0,0,0,0)',
+      margin = dict(t=50),
+      xaxis=dict (
+        showgrid=False
+      ),
+      yaxis=dict(
+        shogrid=True,
+        gridcolor='rgba(250,250,250,1)',  # Color of the gridlines
+        gridwidth=0.1,  # Thickness of the gridlines
+        griddash='dash'  # Dash style of the gridlines
+      ),
+    )
+    for trace in fig.data:
+      trace.update(
+        marker_color='rgb(237,139,82)',
+        # marker_color='rgb(240,229,252)',
+        marker_line_color='rgb(237,139,82)',
+        marker_line_width=1,
+        opacity=0.9
+      )
+    
+    self.Spotify_Monthly_Listeners_Graph_copy.figure = fig
 
   def apply_default_sorting(self):
     """Apply the default sorting based on the dropdown selection"""
