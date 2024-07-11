@@ -648,10 +648,14 @@ class C_Discover(C_DiscoverTemplate):
       "monthly_listeners" : monthly_listeners
     }
     
-    # Load data for the Scatter plot (Spotify Monthly Listeners)
+    # Load data for the Scatter plot (Spotify Monthly Listeners by Country)
     monthly_listeners_country_data = json.loads(anvil.server.call('get_mtl_listeners_counrty', int(cur_artist_id)))
     country_codes = [x['CountryCode'] for x in monthly_listeners_country_data]
-    monthly_listeners =  [x['MtlListeners'] for x in monthly_listeners_data]
+    monthly_listeners =  [x['MtlListeners'] for x in monthly_listeners_country_data]
+    self.listeners_country_data = {
+      "country_codes" : country_codes,
+      "monthly_listeners" : monthly_listeners
+    }
 
   def truncate_label(self, label):
     return label if len(label) <= 10 else label[:10] + '...'
@@ -706,6 +710,54 @@ class C_Discover(C_DiscoverTemplate):
       )
     self.Most_Frequent_Labels_Graph_copy.figure = fig
 
+  def create_monthly_listeners_by_country_chart(self, country_codes=None, monthly_listeners=None):
+    if country_codes is None:
+      country_codes = self.bar_data["country_codes"]
+    if monthly_listeners is None:
+      monthly_listeners = self.bar_data["monthly_listeners"]
+      
+    # Creating the Bar Chart
+    fig = go.Figure(data=(
+      go.Bar(
+        x = country_codes,
+        y = monthly_listeners,
+        text = monthly_listeners,
+        textposition='outside',
+        hoverinfo='none',
+        hovertext= country_codes,
+        hovertemplate='Country Code: %{hovertext}<br>monthly_listeners: %{y} <extra></extra>',
+      )
+    ))
+
+    fig.update_layout(
+      template='plotly_dark',
+      plot_bgcolor='rgba(0,0,0,0)',
+      paper_bgcolor='rgba(0,0,0,0)',
+      xaxis=dict(
+        tickvals=list(range(len(labels))),
+        ticktext=truncated_labels,  # Display truncated labels on the x-axis
+      ),
+      yaxis=dict(
+        gridcolor='rgba(250,250,250,1)',  # Color of the gridlines
+        gridwidth=0.7,  # Thickness of the gridlines
+        griddash='dash',  # Dash style of the gridlines
+        range=[0, max(cooperations) * 1.1]  # Adjust y-axis range to add extra space
+      ),
+      margin=dict(
+        t=50  # Increase top margin to accommodate the labels
+      )
+    )
+    # This is to style the bars
+    for trace in fig.data:
+      trace.update(
+        # marker_color='rgb(240,229,252)',
+        marker_color='rgb(237,139,82)',
+        marker_line_color='rgb(237,139,82)',
+        marker_line_width=0.5,
+        opacity=0.9
+      )
+    self.Most_Frequent_Labels_Graph_copy.figure = fig
+  
   def create_artist_popularity_chart(self, dates=None, artist_popularity=None):
     if dates is None:
       dates = self.scatter_data["dates"]
