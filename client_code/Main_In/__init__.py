@@ -108,7 +108,6 @@ class Main_In(Main_InTemplate):
             
     print(f"{datetime.datetime.now()}: Main_In - link_login_click - 5", flush=True)
     print(f"TotalTime Main_In: {datetime.datetime.now() - begin}", flush=True)
-
     
     # MODEL PROFILES IN NAV
     model_ids = json.loads(anvil.server.call('get_model_ids',  user["user_id"]))

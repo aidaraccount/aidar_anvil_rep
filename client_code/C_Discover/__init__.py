@@ -27,10 +27,10 @@ class C_Discover(C_DiscoverTemplate):
     
     global user
     user = anvil.users.get_user()
-    self.model_id=model_id
+    self.model_id = model_id
     
     print(f"{datetime.now()}: C_Discover - __init__ - 2", flush=True)
-    self.refresh_sug(temp_artist_id)
+    self.refresh_sug(self.model_id, temp_artist_id)
     print(f"{datetime.now()}: C_Discover - __init__ - 3", flush=True)
     
     print(f"TotalTime C_Discover: {datetime.now() - begin}", flush=True)
@@ -38,7 +38,7 @@ class C_Discover(C_DiscoverTemplate):
 
   # -------------------------------------------
   # SUGGESTIONS
-  def refresh_sug(self, temp_artist_id, **event_args):    
+  def refresh_sug(self, model_id, temp_artist_id, **event_args):    
     global temp_artist_id_global
     temp_artist_id_global = temp_artist_id
     self.spacer_bottom_margin.height = 80
@@ -158,21 +158,16 @@ class C_Discover(C_DiscoverTemplate):
             social_media_link = Link(icon=platform_dict[social_media_list[i]["platform"]])
             social_media_link.role = "music-icons-tile"
             
-
           if found is True:
             # social_media_link.role = 'genre-box'
             social_media_link.url = social_media_list[i]["platform_url"]
             self.flow_panel_social_media_tile.add_component(social_media_link)
       
-      # origin
-          
+      # origin          
       if sug["Countries"] == 'None':
         pass
       else:
         country = json.loads(sug["Countries"])
-        # self.countries.text = country["CountryName"]
-        # self.Artist_Country.text = country["CountryCode"]
-        # flag_url = flag_url_template https://flagcdn.com/w80/ua.png
         country_flag = Image(source="https://flagcdn.com/w40/" + country["CountryCode"].lower() + ".png", spacing_below=0, spacing_above=0)
         country_flag.role = 'country-flag-icon'
         country_flag.tooltip = country["CountryName"]
@@ -211,7 +206,6 @@ class C_Discover(C_DiscoverTemplate):
         self.KPI_tile_2.text = f'{int(sug["ArtistFollower_lat"]):,}'
 
       # prediction
-      print(sug["Prediction"])
       if (sug["Prediction"] == 'None'): pred = 'N/A'
       elif (float(sug["Prediction"]) > 7): pred = '100%'
       elif (float(sug["Prediction"]) < 0): pred = '0%'
@@ -222,10 +216,8 @@ class C_Discover(C_DiscoverTemplate):
       if biography != 'None':
         if len(biography) >= 200:
           self.bio_text.content = biography[0:200] + '...'
-          # self.bio_text_2.content = biography[0:310] + '...'
         else:
           self.bio_text.content = biography
-          # self.bio_text_2.content = biography
       else:
         self.bio.visible = False     
 
@@ -306,7 +298,6 @@ class C_Discover(C_DiscoverTemplate):
         self.data_grid_co_artists_pop_data.items = sorted(co_artists, key=lambda x: float(x['ArtistPopularity_lat']), reverse=True)
       
       # f) related artists table
-      # d) related artists table
       if self.data_grid_related_artists.visible is True:
         self.data_grid_related_artists_data.items = json.loads(anvil.server.call('get_dev_related_artists', int(cur_artist_id), int(self.model_id)))
 
@@ -581,9 +572,17 @@ class C_Discover(C_DiscoverTemplate):
       # Spotify Web-Player
       self.c_web_player.html = '<iframe style="border-radius:12px" src="https://open.spotify.com/embed/artist/' + sug["SpotifyArtistID"] + '?utm_source=generator&theme=0&autoplay=true" width="100%" height="80" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>'
 
-      # ---------------------------------- 
-      # Most Frequent Labels Cooperation Graph STARTS HERE
+      # Models Drop-Down
+      model_data = json.loads(anvil.server.call('get_model_ids',  user["user_id"]))
+      model_name_last_used = [item['model_name'] for item in model_data if item['is_last_used']][0]
+      self.drop_down_model.selected_value = model_name_last_used      
+      model_names = [item['model_name'] for item in model_data]
+      self.drop_down_model.items = model_names
+    
       
+      # ---------------------------------- 
+      # GRAPHS:
+      # Most Frequent Labels Cooperation Graph STARTS HERE      
       # Set items for the dropdown
       sorting_options = [
           # ("Sort", "Sort"), # Placeholder option
@@ -1061,37 +1060,37 @@ class C_Discover(C_DiscoverTemplate):
   def button_1_click(self, **event_args):
     anvil.server.call('add_interest', user["user_id"], self.model_id, artist_id, 1, False, '')
     self.header.scroll_into_view(smooth=True)
-    self.refresh_sug(temp_artist_id=None)
+    self.refresh_sug(self.model_id, temp_artist_id=None)
 
   def button_2_click(self, **event_args):
     anvil.server.call('add_interest', user["user_id"], self.model_id, artist_id, 2, False, '')
     self.header.scroll_into_view(smooth=True)
-    self.refresh_sug(temp_artist_id=None)
+    self.refresh_sug(self.model_id, temp_artist_id=None)
 
   def button_3_click(self, **event_args):
     anvil.server.call('add_interest', user["user_id"], self.model_id, artist_id, 3, False, '')
     self.header.scroll_into_view(smooth=True)
-    self.refresh_sug(temp_artist_id=None)
+    self.refresh_sug(self.model_id, temp_artist_id=None)
 
   def button_4_click(self, **event_args):
     anvil.server.call('add_interest', user["user_id"], self.model_id, artist_id, 4, False, '')
     self.header.scroll_into_view(smooth=True)
-    self.refresh_sug(temp_artist_id=None)
+    self.refresh_sug(self.model_id, temp_artist_id=None)
 
   def button_5_click(self, **event_args):
     anvil.server.call('add_interest', user["user_id"], self.model_id, artist_id, 5, False, '')
     self.header.scroll_into_view(smooth=True)
-    self.refresh_sug(temp_artist_id=None)
+    self.refresh_sug(self.model_id, temp_artist_id=None)
 
   def button_6_click(self, **event_args):
     anvil.server.call('add_interest', user["user_id"], self.model_id, artist_id, 6, False, '')
     self.header.scroll_into_view(smooth=True)
-    self.refresh_sug(temp_artist_id=None)
+    self.refresh_sug(self.model_id, temp_artist_id=None)
 
   def button_7_click(self, **event_args):
     anvil.server.call('add_interest', user["user_id"], self.model_id, artist_id, 7, False, '')
     self.header.scroll_into_view(smooth=True)
-    self.refresh_sug(temp_artist_id=None)
+    self.refresh_sug(self.model_id, temp_artist_id=None)
   
   # -------------------------------
   # DESCRIPTION LINKS
@@ -1180,9 +1179,10 @@ class C_Discover(C_DiscoverTemplate):
     anvil.server.call('change_filters', self.model_id, filters_json = None)
     open_form('Main_In', model_id=self.model_id, temp_artist_id=None, target='C_Discover', value=None)
 
-
-
-
-
-
-  
+  def drop_down_model_change(self, **event_args):
+    model_data = json.loads(anvil.server.call('get_model_ids',  user["user_id"]))
+    model_id_new = [item['model_id'] for item in model_data if item['model_name'] == self.drop_down_model.selected_value][0]
+    self.model_id=model_id_new
+    anvil.server.call('update_model_usage', user["user_id"], model_id_new)    
+    open_form('Main_In', model_id=model_id_new, temp_artist_id = artist_id, target = 'C_Discover', value=None)
+    

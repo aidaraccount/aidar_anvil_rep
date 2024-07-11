@@ -981,30 +981,25 @@ components:
     layout_properties: {grid_position: 'UQVSNC,XUSTNC OPLCOW,KXLRPY RSFAQY,VELSAP'}
     event_bindings: {click: link_watchlist_name_click}
     name: link_watchlist_name2
-  - properties: {align: right, text: 'Model: EDM Newcomer', role: description, visible: false}
-    type: Link
-    layout_properties: {grid_position: 'UQVSNC,XUSTNC OPLCOW,ZCPELY ETFPZT,VTTTOE'}
-    name: link_1
-  - properties: {align: right, text: 'Watchlist: Growth 2024', role: description, visible: false}
-    type: Link
-    layout_properties: {grid_position: 'UQVSNC,XUSTNC OPLCOW,ZCPELY ETFPZT,VJGMBC'}
-    name: link_5
-  - properties: {height: '20', spacing_above: none, spacing_below: none}
-    type: Spacer
-    layout_properties: {grid_position: 'UQVSNC,XUSTNC OPLCOW,ZCPELY MPWWOV,HCEBIY'}
-    name: spacer_8
-  - properties: {height: 30, spacing_below: none}
-    type: XYPanel
-    layout_properties: {grid_position: 'UQVSNC,XUSTNC OPLCOW,ZCPELY RMXMCD,PTEAHX'}
-    name: xy_panel_1
+  - name: flow_panel_3
+    properties: {align: right, spacing_below: none, spacing_above: none}
+    type: FlowPanel
+    layout_properties: {grid_position: 'UQVSNC,XUSTNC OPLCOW,ZCPELY NDEGSB,WOLXQF'}
     components:
-    - properties: {text: '', icon: 'fa:ban', tooltip: remove filters, role: feature, visible: true, background: 'theme:Orange', foreground: 'theme:Text_DecentWhite'}
-      type: Button
-      layout_properties: {x: 175, y: 0, width: 41}
-      event_bindings: {click: button_remove_filters_click}
-      name: button_remove_filters
     - properties: {text: Set Filters, align: right, role: feature, icon: 'fa:filter'}
       type: Button
-      layout_properties: {x: 65, y: 0, width: 105}
       event_bindings: {click: button_set_filters_click}
       name: button_set_filters
+    - properties: {text: '', icon: 'fa:ban', tooltip: remove filters, role: feature, visible: true, background: 'theme:Orange', foreground: 'theme:Text_DecentWhite'}
+      type: Button
+      event_bindings: {click: button_remove_filters_click}
+      name: button_remove_filters
+  - name: flow_panel_4
+    properties: {align: right, spacing_below: none, spacing_above: none}
+    type: FlowPanel
+    layout_properties: {grid_position: 'UQVSNC,XUSTNC OPLCOW,ZCPELY MMBTTS,JEJQNK'}
+    components:
+    - name: drop_down_model
+      properties: {role: description-bio, align: right, spacing_below: none, spacing_above: none}
+      type: DropDown
+      event_bindings: {change: drop_down_model_change}

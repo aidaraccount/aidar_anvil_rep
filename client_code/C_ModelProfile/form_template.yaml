@@ -195,6 +195,12 @@ components:
     type: Link
     event_bindings: {click: nav_references_click}
     layout_properties: {}
+    components: []
+  - name: nav_prev_rated
+    properties: {text: Prev. Rated, role: section_buttons, spacing_above: none, spacing_below: none, col_spacing: medium}
+    type: Link
+    event_bindings: {click: nav_prev_rated_click}
+    layout_properties: {}
   - name: nav_filters
     properties: {text: Filters, role: section_buttons, spacing_above: none, spacing_below: none}
     type: Link
@@ -205,6 +211,10 @@ components:
   type: ColumnPanel
   layout_properties: {grid_position: 'REYRFT,FBTOLL'}
   components: []
+- name: sec_prev_rated
+  properties: {spacing_above: medium, col_widths: '{}'}
+  type: ColumnPanel
+  layout_properties: {grid_position: 'YXVGWD,RCVDZT'}
 - name: sec_filters
   properties: {spacing_above: medium}
   type: ColumnPanel

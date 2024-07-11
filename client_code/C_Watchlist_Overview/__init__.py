@@ -76,7 +76,7 @@ class C_Watchlist_Overview(C_Watchlist_OverviewTemplate):
   
   def get_data(self, **event_args):
     # get raw data
-    data = json.loads(anvil.server.call('get_watchlist_overview', self.model_id))
+    data = json.loads(anvil.server.call('get_watchlist_overview', user["user_id"]))
     
     # fill Nones and turn to strings
     for item in data:
