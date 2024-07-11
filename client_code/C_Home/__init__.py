@@ -23,7 +23,7 @@ class C_Home(C_HomeTemplate):
     print(f"{datetime.datetime.now()}: C_Home - __init__ - 2", flush=True)
     
     # FUNNEL DATA
-    data = anvil.server.call('app_home', model_id)
+    data = anvil.server.call('app_home', user["user_id"])
     print(f"{datetime.datetime.now()}: C_Home - __init__ - 2a", flush=True)    
 
     if len(data['funnel1']) == 0 and len(data['funnel2']) == 0 and len(data['funnel3']) == 0:

@@ -27,7 +27,7 @@ class C_Watchlist_Details(C_Watchlist_DetailsTemplate):
   # get information for selection bar on the left
   def get_watchlist_selection(self, temp_artist_id, **event_args):
     # 1. get selection data
-    watchlist_selection = json.loads(anvil.server.call('get_watchlist_selection', self.model_id))
+    watchlist_selection = json.loads(anvil.server.call('get_watchlist_selection', user["user_id"]))
 
     # 2. sort it according to the drop_down_selection
     # transform None to 'None'
@@ -168,7 +168,7 @@ class C_Watchlist_Details(C_Watchlist_DetailsTemplate):
   
   def get_watchlist_notes (self, model_id, cur_ai_artist_id, **event_args):
     cur_ai_artist_id = cur_ai_artist_id
-    self.repeating_panel_detail.items = json.loads(anvil.server.call('get_watchlist_notes', model_id, cur_ai_artist_id))
+    self.repeating_panel_detail.items = json.loads(anvil.server.call('get_watchlist_notes', user["user_id"], cur_ai_artist_id))
   
   def button_note_click(self, **event_args):
     anvil.server.call('add_note', user["user_id"], self.model_id, cur_ai_artist_id, "", "", self.text_area_note.text)
