@@ -513,7 +513,21 @@ components:
         layout_properties: {grid_position: 'VQTYJE,RKWVRK'}
         event_bindings: {}
         name: plot_popularity
-    - properties: {role: grid}
+    - name: Panel_for_Spotify_Followers_Graph_copy
+      properties: {role: grid}
+      type: ColumnPanel
+      layout_properties: {grid_position: 'PYRJPZ,MZKQML'}
+      components:
+      - name: Heading_for_Spotify_Followers_Graph_copy
+        properties: {text: ' Spotify Follower', role: Discover_artist_name, spacing_above: none, spacing_below: none}
+        type: Label
+        layout_properties: {grid_position: 'MHFOQZ,VJFZOS'}
+      - name: Spotify_Followers_Graph_copy
+        properties: {spacing_above: small, spacing_below: small, height: '300', visible: true, tooltip: '', interactive: false}
+        type: Plot
+        layout_properties: {grid_position: 'VQTYJE,FJXENJ'}
+        event_bindings: {}
+    - properties: {role: grid, visible: false}
       type: ColumnPanel
       layout_properties: {grid_position: 'JAPSMZ,ULXNAC'}
       name: column_panel_3_copy_copy_copy_copy_copy
@@ -933,11 +947,11 @@ components:
     name: link_watchlist_name2
   - properties: {align: right, text: 'Model: EDM Newcomer', role: description, visible: false}
     type: Link
-    layout_properties: {grid_position: 'UQVSNC,XUSTNC OPLCOW,ZCPELY DHATKU,NSDVLT'}
+    layout_properties: {grid_position: 'UQVSNC,XUSTNC OPLCOW,ZCPELY ETFPZT,VTTTOE'}
     name: link_1
   - properties: {align: right, text: 'Watchlist: Growth 2024', role: description, visible: false}
     type: Link
-    layout_properties: {grid_position: 'UQVSNC,XUSTNC OPLCOW,ZCPELY DHATKU,QBQSRB'}
+    layout_properties: {grid_position: 'UQVSNC,XUSTNC OPLCOW,ZCPELY ETFPZT,VJGMBC'}
     name: link_5
   - properties: {height: '20', spacing_above: none, spacing_below: none}
     type: Spacer
