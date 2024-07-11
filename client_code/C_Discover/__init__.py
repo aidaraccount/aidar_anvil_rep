@@ -610,6 +610,7 @@ class C_Discover(C_DiscoverTemplate):
       
       # Create the initial Sporitfy Popularity Chart
       self.create_artist_popularity_chart()
+      self.create_artist_followers_chart()
       # Create the initial bar chart
       # self.create_bar_chart()
 
@@ -627,9 +628,11 @@ class C_Discover(C_DiscoverTemplate):
     dev_successes = json.loads(anvil.server.call('get_dev_successes', int(cur_artist_id)))
     dates = [x['Date'] for x in dev_successes]
     artist_popularity = [x["ArtistPopularity"] for x in dev_successes]
+    artist_followers = [x["ArtistFollower"] for x in dev_successes]
     self.scatter_data = {
       "dates": dates,
-      "artist_popularity": artist_popularity
+      "artist_popularity": artist_popularity,
+      "artist_followers": artist_followers
     }
 
   def truncate_label(self, label):
@@ -716,7 +719,6 @@ class C_Discover(C_DiscoverTemplate):
         gridcolor='rgba(250,250,250,1)',  # Color of the gridlines
         gridwidth=0.1,  # Thickness of the gridlines
         griddash='dash'  # Dash style of the gridlines
-        # range=[0, max(artist_popularity) * 1.1]  # Adjust y-axis range to add extra space
       ),
     )
     for trace in fig.data:
@@ -729,6 +731,50 @@ class C_Discover(C_DiscoverTemplate):
       )
     
     self.Spotify_Popularity_Graph_copy.figure = fig
+    
+  def create_artist_followers_chart(self, dates=None, artist_followers=None):
+    if dates is None:
+      dates = self.scatter_data["dates"]
+    if artist_followers is None:
+      artist_followers = self.scatter_data["artist_followers"]
+      
+    # Creating the Scatter Chart
+    fig = go.Figure(data=(
+      go.Scatter(
+        x = dates,
+        y = artist_followers,
+        text = artist_followers,
+        textposition='outside',
+        hoverinfo='none',
+        hovertext= dates,
+        hovertemplate='Date: %{hovertext}<br>Artist Spotify Followers: %{y} <extra></extra>',
+      )
+    ))
+    fig.update_layout(
+      template='plotly_dark',
+      plot_bgcolor='rgba(0,0,0,0)',
+      paper_bgcolor='rgba(0,0,0,0)',
+      margin = dict(t=50),
+      xaxis=dict (
+        showgrid=False
+      ),
+      yaxis=dict(
+        shogrid=True,
+        gridcolor='rgba(250,250,250,1)',  # Color of the gridlines
+        gridwidth=0.1,  # Thickness of the gridlines
+        griddash='dash'  # Dash style of the gridlines
+      ),
+    )
+    for trace in fig.data:
+      trace.update(
+        marker_color='rgb(237,139,82)',
+        # marker_color='rgb(240,229,252)',
+        marker_line_color='rgb(237,139,82)',
+        marker_line_width=1,
+        opacity=0.9
+      )
+    
+    self.Spotify_Followers_Graph_copy.figure = fig
 
   def apply_default_sorting(self):
     """Apply the default sorting based on the dropdown selection"""
