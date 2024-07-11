@@ -862,7 +862,7 @@ components:
             layout_properties: {grid_position: 'AVTQHX,LMCVRW'}
             event_bindings: {click: info_tempo_click}
             name: link_18
-  - properties: {height: '180'}
+  - properties: {height: '180', spacing_above: none, spacing_below: none}
     type: Spacer
     layout_properties: {grid_position: 'MNSGLO,DTALNU'}
     name: spacer_bottom_margin
@@ -933,15 +933,15 @@ components:
     name: link_watchlist_name2
   - properties: {align: right, text: 'Model: EDM Newcomer', role: description, visible: false}
     type: Link
-    layout_properties: {grid_position: 'UQVSNC,XUSTNC OPLCOW,ZCPELY FWDUAH,WWNVOZ'}
+    layout_properties: {grid_position: 'UQVSNC,XUSTNC OPLCOW,ZCPELY DHATKU,NSDVLT'}
     name: link_1
   - properties: {align: right, text: 'Watchlist: Growth 2024', role: description, visible: false}
     type: Link
-    layout_properties: {grid_position: 'UQVSNC,XUSTNC OPLCOW,ZCPELY DHATKU,PYGZRY'}
+    layout_properties: {grid_position: 'UQVSNC,XUSTNC OPLCOW,ZCPELY DHATKU,QBQSRB'}
     name: link_5
-  - properties: {height: '20'}
+  - properties: {height: '20', spacing_above: none, spacing_below: none}
     type: Spacer
-    layout_properties: {grid_position: 'UQVSNC,XUSTNC OPLCOW,ZCPELY SBXTOB,WWPKXT'}
+    layout_properties: {grid_position: 'UQVSNC,XUSTNC OPLCOW,ZCPELY MPWWOV,HCEBIY'}
     name: spacer_8
   - properties: {height: 30, spacing_below: none}
     type: XYPanel
