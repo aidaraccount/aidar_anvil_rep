@@ -21,9 +21,8 @@ class C_Home(C_HomeTemplate):
     self.model_id=model_id
     
     print(f"{datetime.datetime.now()}: C_Home - __init__ - 2", flush=True)
-    print(model_id)
+    
     # FUNNEL DATA
-    # funnel = json.loads(anvil.server.call('get_watchlist_selection', model_id))
     data = anvil.server.call('app_home', model_id)
     print(f"{datetime.datetime.now()}: C_Home - __init__ - 2a", flush=True)    
 
@@ -39,7 +38,7 @@ class C_Home(C_HomeTemplate):
     print(f"{datetime.datetime.now()}: C_Home - __init__ - 3", flush=True)
 
     # STATS
-    stats = data['stats']  #json.loads(anvil.server.call('get_stats', model_id))
+    stats = data['stats']
     for stat in stats:
       if stat['stat'] == 'Success': won_cnt = stat['cnt']
       if stat['stat'] == 'Watchlist': wl_cnt = stat['cnt']
@@ -62,7 +61,7 @@ class C_Home(C_HomeTemplate):
     print(f"{datetime.datetime.now()}: C_Home - __init__ - 4", flush=True)
 
     # NEWS
-    news = data['news']  #json.loads(anvil.server.call('get_watchlist_notes', model_id, None))
+    news = data['news']
     if len(news) == 0:
       self.xy_panel_news.visible = False
       self.xy_panel_news_empty.visible = True

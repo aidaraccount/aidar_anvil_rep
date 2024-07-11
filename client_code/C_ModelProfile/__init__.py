@@ -34,20 +34,10 @@ class C_ModelProfile(C_ModelProfileTemplate):
     self.sec_filters.visible = False
 
     # HEADER
-    infos = json.loads(anvil.server.call('get_model_stats', model_id))[0]    
+    infos = json.loads(anvil.server.call('get_model_stats', model_id))[0]
     self.retrain_date = infos["train_model_date"]
-    
-    if infos["total_ratings"] < 75:
-      self.retrain.visible = False
-      self.retrain_wait.visible = True
-      self.retrain_wait.text = 'At least 75 ratings required for training the model'
-    elif self.retrain_date != time.strftime("%Y-%m-%d"):
-      self.retrain.visible = True
-      self.retrain_wait.visible = False
-    else:
-      self.retrain.visible = False
-      self.retrain_wait.visible = True
-    
+
+    # model name and description text and text boxes
     self.model_name.text = infos["model_name"]
     if infos["description"] is None:
       self.model_description.text = '-'
@@ -59,6 +49,7 @@ class C_ModelProfile(C_ModelProfileTemplate):
       self.creation_date.text = infos["creation_date"]
     self.usage_date.text = infos["usage_date"]
 
+    # stats
     self.no_references.text = infos["no_references"]
     self.total_ratings.text = infos["total_ratings"]
     self.high_ratings.text = infos["high_ratings"]
@@ -67,6 +58,27 @@ class C_ModelProfile(C_ModelProfileTemplate):
     else:
       self.train_model_date.text = infos["train_model_date"]
     self.status.text = infos["status"]
+
+    # activate button
+    model_id_active = anvil.server.call('get_model_id', user["user_id"])
+    if model_id == model_id_active:
+      self.activated.visible = True
+      self.activate.visible = False
+    else:
+      self.activated.visible = False
+      self.activate.visible = True      
+    
+    # retrain button
+    if infos["total_ratings"] < 75:
+      self.retrain.visible = False
+      self.retrain_wait.visible = True
+      self.retrain_wait.text = 'At least 75 ratings required for training the model'
+    elif self.retrain_date != time.strftime("%Y-%m-%d"):
+      self.retrain.visible = True
+      self.retrain_wait.visible = False
+    else:
+      self.retrain.visible = False
+      self.retrain_wait.visible = True
     
     # TARGET
     if target is None:
@@ -132,20 +144,20 @@ class C_ModelProfile(C_ModelProfileTemplate):
             ("Delete", "Delete")
           ])
     if result == 'Delete':
-      print(self.model_id)
       res = anvil.server.call('delete_model', self.model_id)
       if res == 'success':
         Notification("",
           title="Model deleted!",
           style="success").show()
-
-        print(self.model_id)
-        #self.content_panel.clear()
-        #self.content_panel.add_component(C_Home(model_id=model_id_new))
         open_form('Main_In', model_id=None, temp_artist_id = None, target = None, value=None)
   
+  def activate_click(self, **event_args):
+    anvil.server.call('update_model_usage', user["user_id"], self.model_id)
+    open_form('Main_In', model_id=self.model_id, temp_artist_id = None, target = 'C_ModelProfile', value=None)
+    
   def discover_click(self, **event_args):
-    open_form('Main_In', self.model_id, temp_artist_id = None, target = 'C_Discover', value=None)
+    anvil.server.call('update_model_usage', user["user_id"], self.model_id)
+    open_form('Main_In', model_id=self.model_id, temp_artist_id = None, target = 'C_Discover', value=None)
 
   def retrain_click(self, **event_args):
     res = anvil.server.call('retrain_model', self.model_id)

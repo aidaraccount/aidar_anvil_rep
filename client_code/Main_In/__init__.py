@@ -47,7 +47,7 @@ class Main_In(Main_InTemplate):
     else:
       if model_id is None:
         self.model_id = anvil.server.call('get_model_id',  user["user_id"])
-        #anvil.server.call('update_model_usage', self.model_id)
+        #anvil.server.call('update_model_usage', user["user_id"], self.model_id)
       else:
         self.model_id = model_id
     
@@ -138,7 +138,6 @@ class Main_In(Main_InTemplate):
     return handler
 
   def models_click(self, link_model_id, model_link, **event_args):
-    print(link_model_id)
     self.reset_nav_backgrounds()
     model_link.background = "theme:Accent 2"
     self.content_panel.clear()
@@ -273,9 +272,6 @@ class Main_In(Main_InTemplate):
     if self.link_models.icon == 'fa:angle-down':
       self.link_models.icon = 'fa:angle-up'
       for component in self.nav_models.get_components():
-        print(component)
-        print(type(component))
-        print(type(component) == 'anvil.ColumnPanel')
         component.visible = False
       self.column_panel_nav.visible = True
     else:

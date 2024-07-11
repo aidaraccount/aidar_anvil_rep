@@ -83,6 +83,15 @@ components:
     type: ColumnPanel
     layout_properties: {grid_position: 'LVWKNS,XOZJDF'}
     components:
+    - name: activated
+      properties: {text: Model is active, align: center, role: table_content}
+      type: Label
+      layout_properties: {grid_position: 'KCFLET,RAOYLD'}
+    - name: activate
+      properties: {text: Activate, role: feature}
+      type: Button
+      layout_properties: {grid_position: 'EDPKTU,JPQADZ'}
+      event_bindings: {click: activate_click}
     - name: discover
       properties: {text: Discover, role: feature}
       type: Button
