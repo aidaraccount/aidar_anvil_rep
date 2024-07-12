@@ -298,7 +298,7 @@ components:
       layout_properties: {grid_position: 'DHKUTX,IRURDT'}
       name: column_panel_3
       components:
-      - properties: {text: ' Latest Tracks', role: Discover_artist_name, spacing_above: none, spacing_below: none}
+      - properties: {text: ' Track Releases', role: Discover_artist_name, spacing_above: none, spacing_below: none}
         type: Label
         layout_properties: {grid_position: 'STZFGT,BWOAOF'}
         name: rel_1
@@ -324,7 +324,7 @@ components:
       layout_properties: {grid_position: 'FHHDTQ,VEASCK'}
       components:
       - name: rel_1_copy_2
-        properties: {text: ' Release Cycle', role: Discover_artist_name, spacing_above: none, spacing_below: none}
+        properties: {text: ' Album Releases', role: Discover_artist_name, spacing_above: none, spacing_below: none}
         type: Label
         layout_properties: {grid_position: 'STZFGT,BWOAOF'}
       - name: data_grid_cycle
@@ -349,7 +349,7 @@ components:
       layout_properties: {grid_position: 'OQUGLX,EMBILZ'}
       components:
       - name: Heading_for_Spotify_Popularity_Graph_copy_copy
-        properties: {text: ' Release Timing', role: Discover_artist_name, spacing_above: none, spacing_below: none}
+        properties: {text: ' Release Cycle', role: Discover_artist_name, spacing_above: none, spacing_below: none}
         type: Label
         layout_properties: {grid_position: 'BCHOZO,TMNYIR'}
       - name: Release_Timing_Graph
