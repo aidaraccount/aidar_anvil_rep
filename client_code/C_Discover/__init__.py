@@ -254,7 +254,7 @@ class C_Discover(C_DiscoverTemplate):
 
       co_artists = json.loads(anvil.server.call('get_co_artists', int(cur_artist_id)))
       if co_artists == []:
-        self.co_artists_avg.text = '-'
+        self.co_artists_avg.text = '0'
       else:
         self.co_artists_avg.text = "{:.2f}".format(round(co_artists[0]["avg_co_artists_per_track"],2))      
 
