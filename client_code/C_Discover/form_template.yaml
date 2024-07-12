@@ -333,6 +333,10 @@ components:
           - {id: JKSDUP, title: First, data_key: Col1}
           - {id: VJQQOR, title: Second, data_key: Col2}
           - {id: OJLQEN, title: Column 3, data_key: Col3}
+          - {id: VHTWQD, data_key: column_1, title: Column 1}
+          - {id: VVZWZI, data_key: column_2, title: Column 2}
+          rows_per_page: 1
+          auto_header: false
         type: DataGrid
         components:
         - name: data_grid_cycle_data

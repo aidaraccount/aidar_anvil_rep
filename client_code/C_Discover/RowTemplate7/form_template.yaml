@@ -1,3 +1,123 @@
 is_package: true
 container: {type: DataRowPanel}
-components: []
+components:
+- name: image_1
+  properties: {height: '100'}
+  type: Image
+  layout_properties: {column: JKSDUP}
+  data_bindings:
+  - {property: source, code: 'self.item[''Col1''][0][''album_picture_url'']', writeback: false}
+- name: label_1
+  properties: {role: table_content_small, align: center}
+  type: Label
+  layout_properties: {column: JKSDUP}
+  data_bindings:
+  - {property: text, code: 'self.item[''Col1''][0][''album_name'']', writeback: false}
+- name: label_3
+  properties: {role: table_content_small, align: center}
+  type: Label
+  layout_properties: {column: JKSDUP}
+  data_bindings:
+  - {property: text, code: 'self.item[''Col1''][0][''album_type'']', writeback: false}
+- name: label_2
+  properties: {role: table_content_small, align: center}
+  type: Label
+  layout_properties: {column: JKSDUP}
+  data_bindings:
+  - {property: text, code: 'self.item[''Col1''][0][''album_release_date'']', writeback: false}
+- name: image_1_copy
+  properties: {height: '100'}
+  type: Image
+  layout_properties: {column: VJQQOR}
+  data_bindings:
+  - {property: source, code: 'self.item[''Col2''][0][''album_picture_url'']', writeback: false}
+- name: image_1_copy_copy
+  properties: {height: '100'}
+  type: Image
+  layout_properties: {column: OJLQEN}
+  data_bindings:
+  - {property: source, code: 'self.item[''Col3''][0][''album_picture_url'']', writeback: false}
+- name: label_1_copy
+  properties: {role: table_content_small, align: center}
+  type: Label
+  layout_properties: {column: VJQQOR}
+  data_bindings:
+  - {property: text, code: 'self.item[''Col2''][0][''album_name'']', writeback: false}
+- name: label_3_copy
+  properties: {role: table_content_small, align: center}
+  type: Label
+  layout_properties: {column: VJQQOR}
+  data_bindings:
+  - {property: text, code: 'self.item[''Col1''][0][''album_type'']', writeback: false}
+- name: label_2_copy
+  properties: {role: table_content_small, align: center}
+  type: Label
+  layout_properties: {column: VJQQOR}
+  data_bindings:
+  - {property: text, code: 'self.item[''Col2''][0][''album_release_date'']', writeback: false}
+- name: label_1_copy_2
+  properties: {role: table_content_small, align: center}
+  type: Label
+  layout_properties: {column: OJLQEN}
+  data_bindings:
+  - {property: text, code: 'self.item[''Col3''][0][''album_name'']', writeback: false}
+- name: label_3_copy_2
+  properties: {role: table_content_small, align: center}
+  type: Label
+  layout_properties: {column: OJLQEN}
+  data_bindings:
+  - {property: text, code: 'self.item[''Col1''][0][''album_type'']', writeback: false}
+- name: label_2_copy_2
+  properties: {role: table_content_small, align: center}
+  type: Label
+  layout_properties: {column: OJLQEN}
+  data_bindings:
+  - {property: text, code: 'self.item[''Col3''][0][''album_release_date'']', writeback: false}
+- name: image_1_copy_2
+  properties: {height: '100'}
+  type: Image
+  layout_properties: {column: VHTWQD}
+  data_bindings:
+  - {property: source, code: 'self.item[''Col4''][0][''album_picture_url'']', writeback: false}
+- name: label_1_copy_3
+  properties: {role: table_content_small, align: center}
+  type: Label
+  layout_properties: {column: VHTWQD}
+  data_bindings:
+  - {property: text, code: 'self.item[''Col4''][0][''album_name'']', writeback: false}
+- name: label_3_copy_3
+  properties: {role: table_content_small, align: center}
+  type: Label
+  layout_properties: {column: VHTWQD}
+  data_bindings:
+  - {property: text, code: 'self.item[''Col4''][0][''album_type'']', writeback: false}
+- name: label_2_copy_3
+  properties: {role: table_content_small, align: center}
+  type: Label
+  layout_properties: {column: VHTWQD}
+  data_bindings:
+  - {property: text, code: 'self.item[''Col4''][0][''album_release_date'']', writeback: false}
+- name: image_1_copy_3
+  properties: {height: '100'}
+  type: Image
+  layout_properties: {column: VVZWZI}
+  data_bindings:
+  - {property: source, code: 'self.item[''Col5''][0][''album_picture_url'']', writeback: false}
+- name: label_1_copy_4
+  properties: {role: table_content_small, align: center}
+  type: Label
+  layout_properties: {column: VVZWZI}
+  data_bindings:
+  - {property: text, code: 'self.item[''Col5''][0][''album_name'']', writeback: false}
+- name: label_3_copy_4
+  properties: {role: table_content_small, align: center}
+  type: Label
+  layout_properties: {column: VVZWZI}
+  data_bindings:
+  - {property: text, code: 'self.item[''Col5''][0][''album_type'']', writeback: false}
+- name: label_2_copy_4
+  properties: {role: table_content_small, align: center}
+  type: Label
+  layout_properties: {column: VVZWZI}
+  data_bindings:
+  - {property: text, code: 'self.item[''Col5''][0][''album_release_date'']', writeback: false}

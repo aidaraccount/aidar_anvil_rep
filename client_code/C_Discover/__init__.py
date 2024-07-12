@@ -253,32 +253,15 @@ class C_Discover(C_DiscoverTemplate):
       else:
         self.co_artists_avg.text = "{:.2f}".format(round(co_artists[0]["avg_co_artists_per_track"],2))      
 
-      # b) releases
-      release_data = json.loads(anvil.server.call('get_dev_releases', int(cur_artist_id)))
-      # i. release tables
+      # b) release tables
       if self.data_grid_releases.visible is True:
-        self.data_grid_releases_data.items = release_data
+        self.data_grid_releases_data.items = json.loads(anvil.server.call('get_dev_releases', int(cur_artist_id)))
 
-      # ii. release cycle
-      if self.data_grid_cycle.visible is True:
-        print(release_data)
-        print("---------------")
-
-        data = [
-          {'Col1': '2017-09-06', 'Col2': '2017-01-01', 'Col3': '2017-01-01'},
-          {'Col1': 'Secret Sessions', 'Col2': 'Between the Lines', 'Col3': 'Finelines'}
-        ]
-        print(data)
-        self.data_grid_cycle_data.items = data
-
-        #model_name_last_used = [item['model_name'] for item in model_data if item['is_last_used']][0]
-        #self.drop_down_model.selected_value = model_name_last_used      
-        #model_names = [item['model_name'] for item in model_data]
-
-
+      # c) release cycle
+      if self.data_grid_cycle.visible is True:        
+        self.data_grid_cycle_data.items = anvil.server.call('get_release_cycle', int(cur_artist_id))
       
-      
-      # c) labels freq
+      # d) labels freq
       labels_freq = json.loads(anvil.server.call('get_labels_freq', int(cur_artist_id)))
       if labels_freq != []:
         self.Most_Frequent_Labels_Graph.visible = True
@@ -309,15 +292,15 @@ class C_Discover(C_DiscoverTemplate):
         self.Most_Frequent_Labels_Graph.visible = False
         self.no_labels_freq.visible = True
       
-      # d) co-artists by frequency
+      # e) co-artists by frequency
       if self.data_grid_co_artists_freq.visible is True:
         self.data_grid_co_artists_freq_data.items = co_artists
       
-      # e) co-artists by popularity
+      # f) co-artists by popularity
       if self.data_grid_co_artists_pop.visible is True:
         self.data_grid_co_artists_pop_data.items = sorted(co_artists, key=lambda x: float(x['ArtistPopularity_lat']), reverse=True)
       
-      # f) related artists table
+      # g) related artists table
       if self.data_grid_related_artists.visible is True:
         self.data_grid_related_artists_data.items = json.loads(anvil.server.call('get_dev_related_artists', int(cur_artist_id), int(self.model_id)))
 
