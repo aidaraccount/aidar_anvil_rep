@@ -606,6 +606,9 @@ class C_Discover(C_DiscoverTemplate):
       
       # Load the data when the form is initialized
       self.load_data()
+
+      # Release Timing      
+      self.create_release_timing_scatter_chart()
       
       # Create the initial bar chart with default sorting
       self.apply_default_sorting()
@@ -717,6 +720,66 @@ class C_Discover(C_DiscoverTemplate):
       )
     self.Most_Frequent_Labels_Graph_copy.figure = fig
 
+  def create_release_timing_scatter_chart(self, dates=None, release=None):
+    data = json.loads(anvil.server.call('get_dev_releases', int(cur_artist_id)))
+    
+    if dates is None:
+      dates = [x["AlbumReleaseDate"] for x in data]
+      tracks = [x["Title"] for x in data]
+    if release is None:
+      release = [0] * len(data)
+    
+    # Creating the Scatter Chart
+    fig = go.Figure(data=(
+      go.Scatter(
+        x = dates,
+        y = release,
+        textposition='outside',
+        hoverinfo='none',
+        hovertext= [f"Date: {date}<br>Track: {track}" for date, track in zip(dates, tracks)],
+        hovertemplate='%{hovertext}<extra></extra>',
+        marker=dict(
+            color='rgb(237,139,82)',  # Color of the markers
+            size=15,  # Size of the markers
+            line=dict(
+                color='rgb(237,139,82)',  # Color of the marker borders
+                width=2  # Width of the marker borders
+            )
+        ),
+        mode='markers+text'  # Display both markers and text
+      )
+    ))
+    fig.update_layout(
+      template='plotly_dark',
+      plot_bgcolor='rgba(0,0,0,0)',
+      paper_bgcolor='rgba(0,0,0,0)',
+      margin = dict(t=50),
+      xaxis=dict (
+        showgrid=False
+      ),
+      yaxis=dict(
+        range=[0.02, -0.01],  # Limit the y-axis
+        showticklabels=False,  # Hide the tick labels
+        showline=False,  # Hide the axis line
+        zeroline=True,  # Ensure the zero line is visible
+        zerolinecolor='rgb(237,139,82)',  # Set the color of the zero line
+        zerolinewidth=2,  # Optionally set the width of the zero line
+        showgrid=False  # Disable the grid lines
+      ),
+      hoverlabel=dict(
+        bgcolor='rgba(237,139,82, 0.4)'
+      )
+    )
+    for trace in fig.data:
+      trace.update(
+        marker_color='rgb(237,139,82)',
+        marker_line_color='rgb(237,139,82)',
+        marker_line_width=1,
+        opacity=0.9
+      )
+    
+    self.Release_Timing_Graph.figure = fig
+  
   def create_monthly_listeners_by_country_bar_chart(self, country_codes=None, monthly_listeners=None, country_name=None):
     if country_codes is None:
       country_codes = self.listeners_country_data["country_codes"]
