@@ -78,30 +78,34 @@ components:
       type: FlowPanel
       layout_properties: {grid_position: 'KTIEJU,SKLDLY KHSZYQ,HNDHLG'}
       name: flow_panel_social_media_tile
-  - properties: {role: tile-background-right, col_widths: '{"KEKOUB":30,"RJLENQ":30}'}
+  - properties: {role: tile-background-right, col_widths: '{"KEKOUB":30}'}
     type: ColumnPanel
     layout_properties: {grid_position: 'FDCDSH,SSPHIY'}
     name: column_panel_KPIs
     components:
-    - properties: {text: KPIs, align: left, role: sub_title-regular, spacing_above: none, spacing_below: none, visible: false}
-      type: Label
-      layout_properties: {grid_position: 'YZXEIA,KEKOUB LQGTDK,BHVLJK'}
-      name: label_4
+    - name: spacer_5
+      properties: {height: 32}
+      type: Spacer
+      layout_properties: {grid_position: 'KEEZIY,CJTGRG'}
     - properties: {role: score-tile-background}
       type: LinearPanel
-      layout_properties: {grid_position: 'YZXEIA,KEKOUB XBWMVA,RCCOIP'}
+      layout_properties: {grid_position: 'XBWMVA,RCCOIP'}
       name: linear_panel_2
       components:
       - properties: {role: artist_name_shadow, align: center, spacing_below: none, font_size: 32, bold: true, spacing_above: none}
         type: Label
         layout_properties: {}
         name: prediction
+      - name: label_1
+        properties: {align: center, text: fit likelihood, role: feature, spacing_below: none, spacing_above: none}
+        type: Label
+        layout_properties: {}
     - properties: {spacing_above: small, spacing_below: none, role: highlights-tile-background}
       type: LinearPanel
-      layout_properties: {grid_position: 'YZXEIA,KEKOUB ORIZUZ,FEOKJD VVXWEI,TQIGGV'}
+      layout_properties: {grid_position: 'ORIZUZ,FEOKJD VVXWEI,TQIGGV'}
       name: linear_panel_6
       components:
-      - properties: {text: Sp. Popularity, role: sub_title-regular-tile, spacing_above: none, spacing_below: none}
+      - properties: {text: Spotify Popularity, role: sub_title-regular-tile, spacing_above: none, spacing_below: none}
         type: Label
         layout_properties: {}
         name: label_8
@@ -111,10 +115,10 @@ components:
         name: KPI_tile_1
     - properties: {role: highlights-tile-background, spacing_above: small, spacing_below: none}
       type: LinearPanel
-      layout_properties: {grid_position: 'YZXEIA,KEKOUB ORIZUZ,NIJZSN HDZJOY,YGPOQI'}
+      layout_properties: {grid_position: 'ORIZUZ,NIJZSN HDZJOY,YGPOQI'}
       name: linear_panel_5
       components:
-      - properties: {text: Sp. Followers, role: sub_title-regular-tile, spacing_above: none, spacing_below: none}
+      - properties: {text: Spotify Follower, role: sub_title-regular-tile, spacing_above: none, spacing_below: none}
         type: Label
         layout_properties: {}
         name: label_7
@@ -124,10 +128,10 @@ components:
         name: KPI_tile_2
     - properties: {spacing_above: none, spacing_below: small, role: highlights-tile-background}
       type: LinearPanel
-      layout_properties: {grid_position: 'YZXEIA,KEKOUB ORIZUZ,NIJZSN GJRDAX,FMCRXN'}
+      layout_properties: {grid_position: 'ORIZUZ,NIJZSN GJRDAX,FMCRXN'}
       name: linear_panel_3
       components:
-      - properties: {text: SC Follower, role: sub_title-regular-tile, spacing_above: none, spacing_below: none}
+      - properties: {text: Soundcloud Follower, role: sub_title-regular-tile, spacing_above: none, spacing_below: none}
         type: Label
         layout_properties: {}
         name: label_5
@@ -137,7 +141,7 @@ components:
         name: KPI_tile_4
     - properties: {spacing_above: none, spacing_below: small, role: highlights-tile-background}
       type: LinearPanel
-      layout_properties: {grid_position: 'YZXEIA,KEKOUB ORIZUZ,FEOKJD GPIHJY,LGILBY'}
+      layout_properties: {grid_position: 'ORIZUZ,FEOKJD GPIHJY,LGILBY'}
       name: linear_panel_4
       components:
       - properties: {text: TikTok Follower, role: sub_title-regular-tile, spacing_above: none, spacing_below: none}
@@ -148,6 +152,10 @@ components:
         type: Label
         layout_properties: {}
         name: KPI_tile_3
+    - name: spacer_7
+      properties: {height: 32}
+      type: Spacer
+      layout_properties: {grid_position: 'DDTZWZ,NVEDWT'}
   - properties: {visible: false}
     type: FlowPanel
     layout_properties: {grid_position: 'BIAKRF,TSAQXZ'}

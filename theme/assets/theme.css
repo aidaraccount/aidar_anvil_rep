@@ -667,6 +667,7 @@ body, html {
   font-size: 14px;
   color: %color:Text_DecentWhite% !important;
   padding-left: 7px;
+  font-weight: normal;
 }
 .anvil-label>.label-text,
 a>.link-text {
