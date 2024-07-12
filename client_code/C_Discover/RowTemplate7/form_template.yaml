@@ -48,7 +48,7 @@ components:
   type: Label
   layout_properties: {column: VJQQOR}
   data_bindings:
-  - {property: text, code: 'self.item[''Col1''][0][''album_type'']', writeback: false}
+  - {property: text, code: 'self.item[''Col2''][0][''album_type'']', writeback: false}
 - name: label_2_copy
   properties: {role: table_content_small, align: center}
   type: Label
@@ -66,7 +66,7 @@ components:
   type: Label
   layout_properties: {column: OJLQEN}
   data_bindings:
-  - {property: text, code: 'self.item[''Col1''][0][''album_type'']', writeback: false}
+  - {property: text, code: 'self.item[''Col3''][0][''album_type'']', writeback: false}
 - name: label_2_copy_2
   properties: {role: table_content_small, align: center}
   type: Label
