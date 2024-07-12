@@ -357,7 +357,7 @@ components:
         type: Plot
         layout_properties: {grid_position: 'VQTYJE,RKWVRK'}
         event_bindings: {}
-    - name: Panel_for_Most_Frequent_Labels_Graph_copy
+    - name: Panel_for_Most_Frequent_Labels_Graph
       properties: {role: grid}
       type: ColumnPanel
       layout_properties: {grid_position: 'CHZTAJ,LNBTUR'}
@@ -393,29 +393,15 @@ components:
           type: DropDown
           event_bindings: {change: sort_dropdown_change}
           data_bindings: []
-      - name: Most_Frequent_Labels_Graph_copy
+      - name: Most_Frequent_Labels_Graph
         properties: {spacing_above: none, spacing_below: none, height: '500', visible: true, tooltip: '', interactive: true}
         type: Plot
         layout_properties: {grid_position: 'IRLWMZ,IIQMSK'}
         event_bindings: {}
-    - properties: {role: grid, visible: false}
-      type: ColumnPanel
-      layout_properties: {grid_position: 'RSILBZ,HLQJAR'}
-      name: Panel_for_Most_Frequent_Labels_Graph
-      components:
-      - properties: {text: ' Most frequent Labels', role: Discover_artist_name, spacing_above: none, spacing_below: none}
+      - name: No_Most_Frequent_Labels_Graph
+        properties: {text: no data available, align: center, role: description, visible: false, spacing_below: large, spacing_above: large}
         type: Label
-        layout_properties: {grid_position: 'BCHOZO,TMNYIR'}
-        name: Heading_for_Most_Frequent_Labels_Graph
-      - properties: {spacing_above: none, spacing_below: none, height: '300', visible: true, tooltip: '', interactive: false}
-        type: Plot
-        layout_properties: {grid_position: 'VQTYJE,RKWVRK'}
-        event_bindings: {}
-        name: Most_Frequent_Labels_Graph
-      - properties: {text: no data available, align: center, role: description, visible: false, spacing_below: large, spacing_above: large}
-        type: Label
-        layout_properties: {grid_position: 'MCTTTL,OTDAWL'}
-        name: no_labels_freq
+        layout_properties: {grid_position: 'BNIJRN,DYQBRW'}
     - properties: {role: grid}
       type: ColumnPanel
       layout_properties: {grid_position: 'KTCVMK,ICUHXW'}
@@ -524,7 +510,7 @@ components:
       type: Spacer
       layout_properties: {grid_position: 'VJMENP,OKKLNV'}
       name: spacer_4
-    - name: Panel_for_Spotify_Popularity_Graph_copy
+    - name: Panel_for_Spotify_Popularity_Graph
       properties: {role: grid}
       type: ColumnPanel
       layout_properties: {grid_position: 'LQBFWD,XVWGUZ'}
@@ -533,26 +519,16 @@ components:
         properties: {text: ' Spotify Popoularity', role: Discover_artist_name, spacing_above: none, spacing_below: none}
         type: Label
         layout_properties: {grid_position: 'BCHOZO,TMNYIR'}
-      - name: Spotify_Popularity_Graph_copy
+      - name: Spotify_Popularity_Graph
         properties: {spacing_above: small, spacing_below: small, height: '300', visible: true, tooltip: '', interactive: true}
         type: Plot
         layout_properties: {grid_position: 'VQTYJE,RKWVRK'}
         event_bindings: {}
-    - properties: {role: grid, visible: false}
-      type: ColumnPanel
-      layout_properties: {grid_position: 'QIWMEU,TVRZHO'}
-      name: column_panel_3_copy_copy_copy_copy
-      components:
-      - properties: {text: ' Spotify Popoularity', role: Discover_artist_name, spacing_above: none, spacing_below: none}
+      - name: No_Spotify_Popularity_Graph
+        properties: {text: no data available, align: center, role: description, visible: false, spacing_below: large, spacing_above: large}
         type: Label
-        layout_properties: {grid_position: 'BCHOZO,TMNYIR'}
-        name: rel_1_copy_copy_copy_copy
-      - properties: {spacing_above: small, spacing_below: small, height: '300', visible: true, tooltip: '', interactive: false}
-        type: Plot
-        layout_properties: {grid_position: 'VQTYJE,RKWVRK'}
-        event_bindings: {}
-        name: plot_popularity
-    - name: Panel_for_Spotify_Followers_Graph_copy
+        layout_properties: {grid_position: 'EBWGNK,KOJDEF'}
+    - name: Panel_for_Spotify_Followers_Graph
       properties: {role: grid, spacing_above: none, spacing_below: none}
       type: ColumnPanel
       layout_properties: {grid_position: 'PYRJPZ,MZKQML'}
@@ -561,31 +537,21 @@ components:
         properties: {text: ' Spotify Follower', role: Discover_artist_name, spacing_above: none, spacing_below: none}
         type: Label
         layout_properties: {grid_position: 'MHFOQZ,VJFZOS'}
-      - name: Spotify_Followers_Graph_copy
+      - name: Spotify_Followers_Graph
         properties: {spacing_above: none, spacing_below: none, height: '300', visible: true, tooltip: '', interactive: true}
         type: Plot
         layout_properties: {grid_position: 'VQTYJE,FJXENJ'}
         event_bindings: {}
-    - properties: {role: grid, visible: false}
-      type: ColumnPanel
-      layout_properties: {grid_position: 'JAPSMZ,ULXNAC'}
-      name: column_panel_3_copy_copy_copy_copy_copy
-      components:
-      - properties: {text: ' Spotify Follower', role: Discover_artist_name, spacing_above: none, spacing_below: none}
+      - name: No_Spotify_Followers_Graph
+        properties: {text: no data available, align: center, role: description, visible: false, spacing_below: large, spacing_above: large}
         type: Label
-        layout_properties: {grid_position: 'MHFOQZ,VJFZOS'}
-        name: rel_1_copy_copy_copy_copy_copy
-      - properties: {spacing_above: small, spacing_below: small, height: '300', visible: true, tooltip: '', interactive: false}
-        type: Plot
-        layout_properties: {grid_position: 'VQTYJE,FJXENJ'}
-        event_bindings: {}
-        name: plot_followers
+        layout_properties: {grid_position: 'UWEOXY,PSFSFL'}
   - properties: {spacing_above: medium}
     type: ColumnPanel
     layout_properties: {grid_position: 'FOUKHU,NVVFEM'}
     name: sec_fandom
     components:
-    - name: Panel_for_Spotify_Monthly_Listeners_Graph_copy
+    - name: Panel_for_Spotify_Monthly_Listeners_Graph
       properties: {role: grid}
       type: ColumnPanel
       layout_properties: {grid_position: 'THWUBZ,UTVCWM'}
@@ -594,34 +560,16 @@ components:
         properties: {text: ' Spotify Monthly Listeners', role: Discover_artist_name, spacing_above: none, spacing_below: none}
         type: Label
         layout_properties: {grid_position: 'BCHOZO,TMNYIR'}
-      - name: Spotify_Monthly_Listeners_Graph_copy
+      - name: Spotify_Monthly_Listeners_Graph
         properties: {spacing_above: small, spacing_below: small, height: '300', visible: true, tooltip: '', interactive: true}
         type: Plot
         layout_properties: {grid_position: 'VQTYJE,RKWVRK'}
         event_bindings: {}
-      - name: no_mtl_listeners_copy
+      - name: No_Spotify_Monthly_Listeners_Graph
         properties: {text: no data available, align: center, role: description, visible: false, spacing_below: large, spacing_above: large}
         type: Label
         layout_properties: {grid_position: 'MCTTTL,OTDAWL'}
-    - properties: {role: grid}
-      type: ColumnPanel
-      layout_properties: {grid_position: 'DVVTDV,AEMOBE'}
-      name: column_panel_3_copy_copy_copy_copy_copy_2
-      components:
-      - properties: {text: ' Spotify Monthly Listeners', role: Discover_artist_name, spacing_above: none, spacing_below: none, visible: false}
-        type: Label
-        layout_properties: {grid_position: 'BCHOZO,TMNYIR'}
-        name: rel_1_copy_copy_copy_copy_copy_2
-      - properties: {spacing_above: small, spacing_below: small, height: '300', visible: false, tooltip: '', interactive: false}
-        type: Plot
-        layout_properties: {grid_position: 'VQTYJE,RKWVRK'}
-        event_bindings: {}
-        name: plot_mtl_listeners
-      - properties: {text: no data available, align: center, role: description, visible: false, spacing_below: large, spacing_above: large}
-        type: Label
-        layout_properties: {grid_position: 'MCTTTL,OTDAWL'}
-        name: no_mtl_listeners
-    - name: Panel_for_Spotify_Monthly_Listeners_by_Country_Graph_copy
+    - name: Panel_for_Spotify_Monthly_Listeners_by_Country_Graph
       properties: {role: grid, visible: true}
       type: ColumnPanel
       layout_properties: {grid_position: 'ETLXXT,GOLQGE'}
@@ -630,33 +578,15 @@ components:
         properties: {text: ' Spotify Monthly Listeners by Country', role: Discover_artist_name, spacing_above: none, spacing_below: none, visible: true}
         type: Label
         layout_properties: {grid_position: 'BCHOZO,TMNYIR'}
-      - name: Spotify_Monthly_Listeners_by_Country_Graph_copy
+      - name: Spotify_Monthly_Listeners_by_Country_Graph
         properties: {spacing_above: none, spacing_below: none, height: '500', visible: true, tooltip: '', interactive: true}
         type: Plot
         layout_properties: {grid_position: 'VQTYJE,RKWVRK'}
         event_bindings: {}
-      - name: no_mtl_listeners_country_copy
+      - name: No_Spotify_Monthly_Listeners_by_Country_Graph
         properties: {text: no data available, align: center, role: description, visible: false, spacing_below: large, spacing_above: large}
         type: Label
         layout_properties: {grid_position: 'MCTTTL,OTDAWL'}
-    - properties: {role: grid, visible: false}
-      type: ColumnPanel
-      layout_properties: {grid_position: 'BQGQHO,AAKCBI'}
-      name: column_panel_3_copy_copy_copy_copy_copy_2_copy
-      components:
-      - properties: {text: ' Spotify Monthly Listeners by Country', role: Discover_artist_name, spacing_above: none, spacing_below: none}
-        type: Label
-        layout_properties: {grid_position: 'BCHOZO,TMNYIR'}
-        name: rel_1_copy_copy_copy_copy_copy_2_copy
-      - properties: {spacing_above: small, spacing_below: small, height: '300', visible: true, tooltip: '', interactive: false}
-        type: Plot
-        layout_properties: {grid_position: 'VQTYJE,RKWVRK'}
-        event_bindings: {}
-        name: plot_mtl_listeners_country
-      - properties: {text: no data available, align: center, role: description, visible: false, spacing_below: large, spacing_above: large}
-        type: Label
-        layout_properties: {grid_position: 'MCTTTL,OTDAWL'}
-        name: no_mtl_listeners_country
     - properties: {role: grid}
       type: ColumnPanel
       layout_properties: {grid_position: 'YWKCUY,PMINBR'}

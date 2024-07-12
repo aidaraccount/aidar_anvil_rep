@@ -87,13 +87,6 @@ class C_Discover(C_DiscoverTemplate):
    
       watchlist_presence = anvil.server.call('check_watchlist_presence', self.model_id, artist_id)
 
-      # Filter Button visibility
-      activefilters = anvil.server.call('check_filter_presence', self.model_id)
-      if activefilters == 'False':
-        self.button_remove_filters.visible = False
-      else:
-        self.button_remove_filters.visible = True
-
       
       # -------------------------------
       # ARTIST HEADER
@@ -105,6 +98,7 @@ class C_Discover(C_DiscoverTemplate):
       
       if sug["ArtistURL"] != 'None': self.artist_link.url = sug["ArtistURL"]
 
+      # --------
       # watchlist
       if watchlist_presence == 'True':
         self.link_watchlist_name.icon = 'fa:star'
@@ -113,10 +107,12 @@ class C_Discover(C_DiscoverTemplate):
         self.link_watchlist_name.icon = 'fa:star-o'
         self.link_watchlist_name2.icon = 'fa:star-o'
 
+      # --------
       # name
       artist_name_component = Label(text=sug["Name"], role="artist-name-tile", spacing_above=0, spacing_below=0)
       self.Artist_Name_Details.add_component(artist_name_component)
 
+      # --------
       # genres
       if sug["Genres"] == 'None':
         pass
@@ -131,6 +127,7 @@ class C_Discover(C_DiscoverTemplate):
           genre_label.role = 'genre-box'
           self.flow_panel_genre_tile.add_component(genre_label)
 
+      # --------
       # Social media
       platform_dict = {
         "Spotify": "fa:spotify",
@@ -162,6 +159,7 @@ class C_Discover(C_DiscoverTemplate):
             social_media_link.url = social_media_list[i]["platform_url"]
             self.flow_panel_social_media_tile.add_component(social_media_link)
       
+      # --------
       # origin          
       if sug["Countries"] == 'None':
         pass
@@ -172,6 +170,7 @@ class C_Discover(C_DiscoverTemplate):
         country_flag.tooltip = country["CountryName"]
         self.Artist_Name_Details.add_component(country_flag)
       
+      # --------
       # birt date
       if sug["BirthDate"] == 'None': 
         self.birthday.visible = False
@@ -179,6 +178,7 @@ class C_Discover(C_DiscoverTemplate):
         self.birthday.visible = True
         self.birthday.text = sug["BirthDate"]
 
+      # --------
       # gender
       if sug["Gender"] == 'None':
         self.gender.visible = False
@@ -186,24 +186,28 @@ class C_Discover(C_DiscoverTemplate):
         self.gender.visible = True
         self.gender.text = sug["Gender"]
 
+      # --------
       # line condition
       if sug["BirthDate"] != 'None' and sug["Gender"] != 'None':
         self.gender_birthday_line.visible = True
       else:
         self.gender_birthday_line.visible = False
       
+      # --------
       # popularity
       if sug["ArtistPopularity_lat"] == 'None':
         self.KPI_tile_1.text = '-'
       else:
         self.KPI_tile_1.text = sug["ArtistPopularity_lat"]
 
+      # --------
       # follower
       if sug["ArtistFollower_lat"] == 'None':
         self.KPI_tile_2.text = '-'
       else:
         self.KPI_tile_2.text = f'{int(sug["ArtistFollower_lat"]):,}'
 
+      # --------
       # prediction
       if (sug["Prediction"] == 'None'): pred = 'N/A'
       elif (float(sug["Prediction"]) > 7): pred = '100%'
@@ -211,10 +215,11 @@ class C_Discover(C_DiscoverTemplate):
       else: pred = "{:.0f}".format(round(float(sug["Prediction"])/7*100,0)) + '%'
       self.prediction.text = pred
 
+      # --------
       # biography
       if biography != 'None':
         if len(biography) >= 200:
-          self.bio_text.content = biography[0:200] + '...'
+          self.bio_text.content = f"{biography[0:200]}..."
         else:
           self.bio_text.content = biography
       else:
@@ -253,184 +258,150 @@ class C_Discover(C_DiscoverTemplate):
       else:
         self.co_artists_avg.text = "{:.2f}".format(round(co_artists[0]["avg_co_artists_per_track"],2))      
 
+      # --------
       # b) release tables
       if self.data_grid_releases.visible is True:
         self.data_grid_releases_data.items = json.loads(anvil.server.call('get_dev_releases', int(cur_artist_id)))
 
+      # --------
       # c) release cycle
       if self.data_grid_cycle.visible is True:        
         self.data_grid_cycle_data.items = anvil.server.call('get_release_cycle', int(cur_artist_id))
+
+      # --------
+      # d) release timing
+      data = json.loads(anvil.server.call('get_dev_releases', int(cur_artist_id)))
+      self.create_release_timing_scatter_chart(data=data)
+
+      # --------
+      # e) labels freq
+      # Set items for the dropdown
+      self.sort_dropdown.items = [
+        # ("Sort", "Sort"), # Placeholder option
+        ("A-Z", "alpha"),
+        ("Z-A", "reverse_alpha"),
+        ("Highest First", "high_num"),
+        ("Lowest First", "low_num")
+      ]
+      self.sort_dropdown.selected_value = "high_num"
+      self.sort_dropdown.role = 'sort-dropdown'
+  
+      # Add event handler for the dropdown
+      self.sort_dropdown.set_event_handler('change', self.sort_data)
       
-      # d) labels freq
+      # Load the data when the form is initialized
       labels_freq = json.loads(anvil.server.call('get_labels_freq', int(cur_artist_id)))
       if labels_freq != []:
-        self.Most_Frequent_Labels_Graph.visible = True
-        self.no_labels_freq.visible = False
-        
-        self.Most_Frequent_Labels_Graph.data = [
-          go.Bar(
-            x = [x['LabelName'] for x in labels_freq],
-            y = [x['NoLabels'] for x in labels_freq],
-            marker = dict(color = 'rgb(253, 101, 45)')
-          )
-        ]
-        self.Most_Frequent_Labels_Graph.layout = {
-          'template': 'plotly_dark',
-          'title': {
-            'text' : 'Most frequent Label cooperations',
-            'x': 0.5,
-            'xanchor': 'center'
-            },
-          'yaxis': {
-            'title': 'No. Labels',
-            'range': [0, 1.1*max([x['NoLabels'] for x in labels_freq])]
-          },
-          'paper_bgcolor': 'rgb(40, 40, 40)',
-          'plot_bgcolor': 'rgb(40, 40, 40)'
+        labels = [x['LabelName'] for x in labels_freq]
+        cooperations = [x["NoLabels"] for x in labels_freq]
+        self.bar_data = {
+          "labels": labels,
+          "cooperations": cooperations
         }
+        
+        self.Most_Frequent_Labels_Graph.visible = True
+        self.No_Most_Frequent_Labels_Graph.visible = False
+
+        self.apply_default_sorting()
+        
       else:
         self.Most_Frequent_Labels_Graph.visible = False
-        self.no_labels_freq.visible = True
+        self.No_Most_Frequent_Labels_Graph.visible = True
       
-      # e) co-artists by frequency
+      # --------
+      # f) co-artists by frequency
       if self.data_grid_co_artists_freq.visible is True:
         self.data_grid_co_artists_freq_data.items = co_artists
       
-      # f) co-artists by popularity
+      # --------
+      # g) co-artists by popularity
       if self.data_grid_co_artists_pop.visible is True:
         self.data_grid_co_artists_pop_data.items = sorted(co_artists, key=lambda x: float(x['ArtistPopularity_lat']), reverse=True)
       
-      # g) related artists table
+      # --------
+      # h) related artists table
       if self.data_grid_related_artists.visible is True:
         self.data_grid_related_artists_data.items = json.loads(anvil.server.call('get_dev_related_artists', int(cur_artist_id), int(self.model_id)))
 
       
       # -------------------------------
       # II. SUCCESS
+      # Load data
       dev_successes = json.loads(anvil.server.call('get_dev_successes', int(cur_artist_id)))
-
-      # a) stats
+      dates = [x['Date'] for x in dev_successes]
+      artist_popularity = [x["ArtistPopularity"] for x in dev_successes]
+      artist_followers = [x["ArtistFollower"] for x in dev_successes]
+      self.scatter_data = {
+        "dates": dates,
+        "artist_popularity": artist_popularity,
+        "artist_followers": artist_followers
+      }
+    
+      # --------
+      # a) Popularity
       if sug["ArtistPopularity_lat"] == 'None': 
         self.sp_pop_lat.text = '-'
       else: 
         self.sp_pop_lat.text = sug["ArtistPopularity_lat"]
+        self.create_artist_popularity_scatter_chart()
       
+      # --------
+      # b) Followers
       if sug["ArtistFollower_lat"] == 'None': 
         self.sp_fol_lat.text = '-'
       else: 
         self.sp_fol_lat.text = f'{int(sug["ArtistFollower_lat"]):,}'
-      
-      # a) Popularity
-      self.plot_popularity.data = [
-        go.Scatter(
-          x = [x['Date'] for x in dev_successes],
-          y = [x['ArtistPopularity'] for x in dev_successes],
-          marker = dict(color = 'rgb(253, 101, 45)')
-        )
-      ]
-      self.plot_popularity.layout = {
-        'template': 'plotly_dark',
-        'title': {
-          'text' : 'Spotify Popularity over time',
-          'x': 0.5,
-          'xanchor': 'center'
-          },
-        'yaxis': {
-          'title': 'Popularity',
-          'range': [0, min(1.1*max([x['ArtistPopularity'] for x in dev_successes]), 100)]
-        },
-        'paper_bgcolor': 'rgb(40, 40, 40)',
-        'plot_bgcolor': 'rgb(40, 40, 40)'
-      }
-      
-      # b) Followers
-      self.plot_followers.data = [
-        go.Scatter(
-          x = [x['Date'] for x in dev_successes],
-          y = [x['ArtistFollower'] for x in dev_successes],
-          marker = dict(color = 'rgb(253, 101, 45)')
-        )
-      ]
-      self.plot_followers.layout = {
-        'template': 'plotly_dark',
-        'title': {
-          'text' : 'Spotify Followers over time',
-          'x': 0.5,
-          'xanchor': 'center'
-          },
-        'yaxis': {
-          'title': 'No. Followers',
-          'range': [0, 1.1*max([x['ArtistFollower'] for x in dev_successes])]
-        },
-        'paper_bgcolor': 'rgb(40, 40, 40)',
-        'plot_bgcolor': 'rgb(40, 40, 40)'
-      }
-
+        self.create_artist_followers_scatter_chart()
+        
       
       # -------------------------------
       # III. FANDOM
       # a) mtl. listeners
-      mtl_listeners = json.loads(anvil.server.call('get_mtl_listeners', int(cur_artist_id)))
-      if mtl_listeners != []:
-        self.plot_mtl_listeners.visible = True
-        self.no_mtl_listeners.visible = False
-        
-        self.plot_mtl_listeners.data = [
-          go.Scatter(
-            x = [x['Date'] for x in mtl_listeners],
-            y = [x['MtlListeners'] for x in mtl_listeners],
-            marker = dict(color = 'rgb(253, 101, 45)')
-          )
-        ]
-        self.plot_mtl_listeners.layout = {
-          'template': 'plotly_dark',
-          'title': {
-            'text' : 'Spotify mtl. Listeners over time',
-            'x': 0.5,
-            'xanchor': 'center'
-            },
-          'yaxis': {
-            'title': 'Mtl. Listeners',
-            'range': [0, 1.1*max([x['MtlListeners'] for x in mtl_listeners])]
-          },
-          'paper_bgcolor': 'rgb(40, 40, 40)',
-          'plot_bgcolor': 'rgb(40, 40, 40)'
+    
+      # Load data for the Scatter plot (Spotify Monthly Listeners)
+      monthly_listeners_data = json.loads(anvil.server.call('get_mtl_listeners', int(cur_artist_id)))
+    
+      if monthly_listeners_data != []:
+        dates = [x['Date'] for x in monthly_listeners_data]
+        monthly_listeners =  [x['MtlListeners'] for x in monthly_listeners_data]
+        self.listeners_data = {
+          "dates" : dates,
+          "monthly_listeners" : monthly_listeners
         }
-      else:
-        self.plot_mtl_listeners.visible = False
-        self.no_mtl_listeners.visible = True
+    
+        self.Spotify_Monthly_Listeners_Graph.visible = True
+        self.No_Spotify_Monthly_Listeners_Graph.visible = False
 
+        self.create_artist_monthly_listeners_scatter_chart()
+      
+      else:
+        self.Spotify_Monthly_Listeners_Graph.visible = False
+        self.No_Spotify_Monthly_Listeners_Graph.visible = True
+
+      # --------
       # b) mtl. listeners country
-      mtl_listeners_ctr = json.loads(anvil.server.call('get_mtl_listeners_country', int(cur_artist_id)))
-      if mtl_listeners_ctr != []:
-        self.plot_mtl_listeners_country.visible = True
-        self.no_mtl_listeners_country.visible = False
-        
-        self.plot_mtl_listeners_country.data = [
-          go.Bar(
-            x = [x['CountryCode'] for x in mtl_listeners_ctr],
-            y = [x['MtlListeners'] for x in mtl_listeners_ctr],
-            marker = dict(color = 'rgb(253, 101, 45)')
-          )
-        ]
-        self.plot_mtl_listeners_country.layout = {
-          'template': 'plotly_dark',
-          'title': {
-            'text' : 'Spotify mtl. Listeners per Country',
-            'x': 0.5,
-            'xanchor': 'center'
-            },
-          'yaxis': {
-            'title': 'Mtl. Listeners',
-            'range': [0, 1.1*max([x['MtlListeners'] for x in mtl_listeners_ctr])]
-          },
-          'paper_bgcolor': 'rgb(40, 40, 40)',
-          'plot_bgcolor': 'rgb(40, 40, 40)'
+      # Load data for the Scatter plot (Spotify Monthly Listeners by Country)
+      monthly_listeners_country_data = json.loads(anvil.server.call('get_mtl_listeners_country', int(cur_artist_id)))
+          
+      if monthly_listeners_country_data != []:
+        country_codes = [x['CountryCode'] for x in monthly_listeners_country_data]
+        country_name = [x['CountryName'] for x in monthly_listeners_country_data]
+        monthly_listeners =  [x['MtlListeners'] for x in monthly_listeners_country_data]
+        self.listeners_country_data = {
+          "country_codes" : country_codes,
+          "monthly_listeners" : monthly_listeners,
+          "country_name": country_name
         }
+        self.Spotify_Monthly_Listeners_by_Country_Graph.visible = True
+        self.No_Spotify_Monthly_Listeners_by_Country_Graph.visible = False
+        
+        self.create_monthly_listeners_by_country_bar_chart()
+        
       else:
-        self.plot_mtl_listeners_country.visible = False
-        self.no_mtl_listeners_country.visible = True
+        self.Spotify_Monthly_Listeners_by_Country_Graph.visible = False
+        self.No_Spotify_Monthly_Listeners_by_Country_Graph.visible = True
 
+      # --------
       # c) mtl. listeners city
       mtl_listeners_cty = json.loads(anvil.server.call('get_mtl_listeners_city', int(cur_artist_id)))
       if mtl_listeners_cty != []:
@@ -462,6 +433,7 @@ class C_Discover(C_DiscoverTemplate):
         self.plot_mtl_listeners_city.visible = False
         self.no_mtl_listeners_city.visible = True
 
+      # --------
       # d) audience follower
       audience_follower = json.loads(anvil.server.call('get_audience_follower2', int(cur_artist_id)))
       if audience_follower != []:
@@ -528,6 +500,7 @@ class C_Discover(C_DiscoverTemplate):
       else: xmd = "{:.2f}".format(round(float(sug["MaxMusDist"]),2))
       self.max_mus_dis.text = xmd
       
+      # --------
       # b) musical features
       if sug["AvgDuration"] == 'None': f1 = '-'
       else: f1 = "{:.0f}".format(round(float(sug["AvgDuration"]),0))
@@ -572,97 +545,25 @@ class C_Discover(C_DiscoverTemplate):
       
       # -------------------------------
       # FOOTER:
-      # Spotify Web-Player
+      # a) Spotify Web-Player
       self.c_web_player.html = '<iframe style="border-radius:12px" src="https://open.spotify.com/embed/artist/' + sug["SpotifyArtistID"] + '?utm_source=generator&theme=0&autoplay=true" width="100%" height="80" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>'
 
-      # Models Drop-Down
+      # --------
+      # b) Filter Button visibility
+      activefilters = anvil.server.call('check_filter_presence', self.model_id)
+      if activefilters == 'False':
+        self.button_remove_filters.visible = False
+      else:
+        self.button_remove_filters.visible = True
+        
+      # --------
+      # c) Models Drop-Down
       model_data = json.loads(anvil.server.call('get_model_ids',  user["user_id"]))
       model_name_last_used = [item['model_name'] for item in model_data if item['is_last_used']][0]
       self.drop_down_model.selected_value = model_name_last_used      
       model_names = [item['model_name'] for item in model_data]
       self.drop_down_model.items = model_names
     
-      
-      # ---------------------------------- 
-      # GRAPHS:
-      # Most Frequent Labels Cooperation Graph STARTS HERE      
-      # Set items for the dropdown
-      sorting_options = [
-          # ("Sort", "Sort"), # Placeholder option
-          ("A-Z", "alpha"),
-          ("Z-A", "reverse_alpha"),
-          ("Highest First", "high_num"),
-          ("Lowest First", "low_num")
-      ]
-      # Set default selection for the dropdown
-      self.sort_dropdown.items = sorting_options
-      self.sort_dropdown.role = 'sort-dropdown'
-  
-      # Set default selection for the dropdown
-      self.sort_dropdown.selected_value = "high_num"
-  
-      # Add event handler for the dropdown
-      self.sort_dropdown.set_event_handler('change', self.sort_data)
-      
-      # Load the data when the form is initialized
-      self.load_data()
-
-      # Release Timing      
-      self.create_release_timing_scatter_chart()
-      
-      # Create the initial bar chart with default sorting
-      self.apply_default_sorting()
-      
-      # Create the initial Sporitfy Popularity and Followers Charts
-      self.create_artist_popularity_scatter_chart()
-      self.create_artist_followers_scatter_chart()
-      
-      # Create the initial Sporitfy Monthyl Listeners Graph
-      self.create_artist_monthly_listeners_scatter_chart()
-      self.create_monthly_listeners_by_country_bar_chart()
-      # Create the initial bar chart
-      # self.create_bar_chart()
-
-  def load_data(self):
-    # Load data for the Bar Chart (Most Frequest Label Cooperations)
-    labels_freq = json.loads(anvil.server.call('get_labels_freq', int(cur_artist_id)))
-    labels = [x['LabelName'] for x in labels_freq]
-    cooperations = [x["NoLabels"] for x in labels_freq]
-    self.bar_data = {
-      "labels": labels,
-      "cooperations": cooperations
-    }
-
-    # Load data for the Scatter plot (Spotify Popularity and Followers)
-    dev_successes = json.loads(anvil.server.call('get_dev_successes', int(cur_artist_id)))
-    dates = [x['Date'] for x in dev_successes]
-    artist_popularity = [x["ArtistPopularity"] for x in dev_successes]
-    artist_followers = [x["ArtistFollower"] for x in dev_successes]
-    self.scatter_data = {
-      "dates": dates,
-      "artist_popularity": artist_popularity,
-      "artist_followers": artist_followers
-    }
-
-    # Load data for the Scatter plot (Spotify Monthly Listeners)
-    monthly_listeners_data = json.loads(anvil.server.call('get_mtl_listeners', int(cur_artist_id)))
-    dates = [x['Date'] for x in monthly_listeners_data]
-    monthly_listeners =  [x['MtlListeners'] for x in monthly_listeners_data]
-    self.listeners_data = {
-      "dates" : dates,
-      "monthly_listeners" : monthly_listeners
-    }
-    
-    # Load data for the Scatter plot (Spotify Monthly Listeners by Country)
-    monthly_listeners_country_data = json.loads(anvil.server.call('get_mtl_listeners_country', int(cur_artist_id)))
-    country_codes = [x['CountryCode'] for x in monthly_listeners_country_data]
-    country_name = [x['CountryName'] for x in monthly_listeners_country_data]
-    monthly_listeners =  [x['MtlListeners'] for x in monthly_listeners_country_data]
-    self.listeners_country_data = {
-      "country_codes" : country_codes,
-      "monthly_listeners" : monthly_listeners,
-      "country_name": country_name
-    }
 
   def truncate_label(self, label):
     return label if len(label) <= 10 else label[:10] + '...'
@@ -718,16 +619,12 @@ class C_Discover(C_DiscoverTemplate):
         marker_line_width=0.5,
         opacity=0.9
       )
-    self.Most_Frequent_Labels_Graph_copy.figure = fig
+    self.Most_Frequent_Labels_Graph.figure = fig
 
-  def create_release_timing_scatter_chart(self, dates=None, release=None):
-    data = json.loads(anvil.server.call('get_dev_releases', int(cur_artist_id)))
-    
-    if dates is None:
-      dates = [x["AlbumReleaseDate"] for x in data]
-      tracks = [x["Title"] for x in data]
-    if release is None:
-      release = [0] * len(data)
+  def create_release_timing_scatter_chart(self, data):    
+    dates = [x["AlbumReleaseDate"] for x in data]
+    tracks = [x["Title"] for x in data]
+    release = [0] * len(data)
     
     # Creating the Scatter Chart
     fig = go.Figure(data=(
@@ -831,7 +728,7 @@ class C_Discover(C_DiscoverTemplate):
         marker_line_width=0.1,
         opacity=0.9
       )
-    self.Spotify_Monthly_Listeners_by_Country_Graph_copy.figure = fig
+    self.Spotify_Monthly_Listeners_by_Country_Graph.figure = fig
   
   def create_artist_popularity_scatter_chart(self, dates=None, artist_popularity=None):
     if dates is None:
@@ -878,7 +775,7 @@ class C_Discover(C_DiscoverTemplate):
         opacity=0.9
       )
     
-    self.Spotify_Popularity_Graph_copy.figure = fig
+    self.Spotify_Popularity_Graph.figure = fig
     
   def create_artist_followers_scatter_chart(self, dates=None, artist_followers=None):
     if dates is None:
@@ -925,7 +822,7 @@ class C_Discover(C_DiscoverTemplate):
         opacity=0.9
       )
     
-    self.Spotify_Followers_Graph_copy.figure = fig
+    self.Spotify_Followers_Graph.figure = fig
     
   def create_artist_monthly_listeners_scatter_chart(self, dates=None, monthly_listeners=None):
     if dates is None:
@@ -972,7 +869,7 @@ class C_Discover(C_DiscoverTemplate):
         opacity=0.9
       )
     
-    self.Spotify_Monthly_Listeners_Graph_copy.figure = fig
+    self.Spotify_Monthly_Listeners_Graph.figure = fig
 
   def apply_default_sorting(self):
     """Apply the default sorting based on the dropdown selection"""
