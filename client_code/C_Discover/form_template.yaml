@@ -101,7 +101,7 @@ components:
       layout_properties: {grid_position: 'YZXEIA,KEKOUB ORIZUZ,FEOKJD VVXWEI,TQIGGV'}
       name: linear_panel_6
       components:
-      - properties: {text: Popularity, role: sub_title-regular-tile, spacing_above: none, spacing_below: none}
+      - properties: {text: Sp. Popularity, role: sub_title-regular-tile, spacing_above: none, spacing_below: none}
         type: Label
         layout_properties: {}
         name: label_8
@@ -114,7 +114,7 @@ components:
       layout_properties: {grid_position: 'YZXEIA,KEKOUB ORIZUZ,NIJZSN HDZJOY,YGPOQI'}
       name: linear_panel_5
       components:
-      - properties: {text: Followers, role: sub_title-regular-tile, spacing_above: none, spacing_below: none}
+      - properties: {text: Sp. Followers, role: sub_title-regular-tile, spacing_above: none, spacing_below: none}
         type: Label
         layout_properties: {}
         name: label_7
@@ -127,7 +127,7 @@ components:
       layout_properties: {grid_position: 'YZXEIA,KEKOUB ORIZUZ,NIJZSN GJRDAX,FMCRXN'}
       name: linear_panel_3
       components:
-      - properties: {text: N/A, role: sub_title-regular-tile, spacing_above: none, spacing_below: none}
+      - properties: {text: SC Follower, role: sub_title-regular-tile, spacing_above: none, spacing_below: none}
         type: Label
         layout_properties: {}
         name: label_5
@@ -140,7 +140,7 @@ components:
       layout_properties: {grid_position: 'YZXEIA,KEKOUB ORIZUZ,FEOKJD GPIHJY,LGILBY'}
       name: linear_panel_4
       components:
-      - properties: {text: N/A, role: sub_title-regular-tile, spacing_above: none, spacing_below: none}
+      - properties: {text: TikTok Follower, role: sub_title-regular-tile, spacing_above: none, spacing_below: none}
         type: Label
         layout_properties: {}
         name: label_6

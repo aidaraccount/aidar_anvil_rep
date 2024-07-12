@@ -460,9 +460,11 @@ class C_Discover(C_DiscoverTemplate):
 
         tiktok_fol_lat = platform_data['tiktok']['followers'][-1]
         self.tiktok_follower.text = f'{int(tiktok_fol_lat):,}'
+        self.KPI_tile_3.text = f'{int(tiktok_fol_lat):,}'
         
         soundcloud_fol_lat = platform_data['soundcloud']['followers'][-1]
         self.soundcloud_follower.text = f'{int(soundcloud_fol_lat):,}'
+        self.KPI_tile_4.text = f'{int(soundcloud_fol_lat):,}'
         
         # Create traces for each platform
         traces = []
@@ -503,6 +505,8 @@ class C_Discover(C_DiscoverTemplate):
       else:
         self.tiktok_follower.text = '-'
         self.soundcloud_follower.text = '-'
+        self.KPI_tile_3.text = '-'
+        self.KPI_tile_4.text = '-'
         self.plot_audience_follower.visible = False
         self.no_audience_follower.visible = True
       
