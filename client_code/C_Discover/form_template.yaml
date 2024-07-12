@@ -287,7 +287,7 @@ components:
       - properties: {role: investigate_feature, bold: false, align: left, col_widths: '', spacing_above: none, background: '', icon: '', wrap_on: mobile, underline: false, font: '', col_spacing: medium, icon_align: left, foreground: '', url: '', spacing_below: none, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: Avg. No. of Co-Artists per Track}
         type: Link
         layout_properties: {grid_position: 'MSIGBH,TFOHGX'}
-        event_bindings: {click: info_latest_label_click}
+        event_bindings: {click: info_no_co_artists_click}
         name: link_19_copy_2_copy_copy
     - properties: {height: 32}
       type: Spacer
@@ -485,13 +485,14 @@ components:
       components:
       - properties: {role: investigate_value, spacing_below: none}
         type: Label
-        layout_properties: {grid_position: 'MWEVGS,GQUHSG'}
+        layout_properties: {grid_position: 'ATNUTZ,TMFJXW'}
         name: sp_pop_lat
       - properties: {role: investigate_feature, bold: false, align: left, col_widths: '', spacing_above: none, background: '', icon: '', wrap_on: mobile, underline: false, font: '', col_spacing: medium, icon_align: left, foreground: '', url: '', spacing_below: none, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: Spotify Popularity lat.}
         type: Link
-        layout_properties: {grid_position: 'PHIEJU,OFHFDF'}
-        event_bindings: {click: info_latest_label_click}
+        layout_properties: {grid_position: 'TORFTZ,BTTBPS'}
+        event_bindings: {click: info_sp_pop_lat}
         name: link_19_copy_2_copy_copy_copy
+        components: []
     - properties: {role: grid}
       type: ColumnPanel
       layout_properties: {grid_position: 'VJMENP,ATYZUK'}
@@ -504,7 +505,7 @@ components:
       - properties: {role: investigate_feature, bold: false, align: left, col_widths: '', spacing_above: none, background: '', icon: '', wrap_on: mobile, underline: false, font: '', col_spacing: medium, icon_align: left, foreground: '', url: '', spacing_below: none, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: Spotify Follower lat.}
         type: Link
         layout_properties: {grid_position: 'WHRAMO,VXRICO'}
-        event_bindings: {click: info_latest_label_click}
+        event_bindings: {click: info_sp_fol_lat}
         name: link_19_copy_2_copy_copy_copy_2
     - properties: {height: 32}
       type: Spacer
@@ -551,6 +552,83 @@ components:
     layout_properties: {grid_position: 'FOUKHU,NVVFEM'}
     name: sec_fandom
     components:
+    - name: column_panel_7_copy_3
+      properties: {role: grid}
+      type: ColumnPanel
+      layout_properties: {grid_position: 'BBLGLO,INQNJV'}
+      components:
+      - name: sp_mtl_listeners
+        properties: {role: investigate_value, spacing_below: none}
+        type: Label
+        layout_properties: {grid_position: 'JURDPT,SROSTL'}
+      - name: link_19_copy_2_copy_copy_copy_copy_copy_copy
+        properties: {role: investigate_feature, bold: false, align: left, col_widths: '', spacing_above: none, background: '', icon: '', wrap_on: mobile, underline: false, font: '', col_spacing: medium, icon_align: left, foreground: '', url: '', spacing_below: none, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: Spotify Monthly Listeners}
+        type: Link
+        layout_properties: {grid_position: 'RGTBQA,GYETAC'}
+        event_bindings: {click: info_sp_mtl_listeners}
+    - name: column_panel_7_copy_2_copy
+      properties: {role: grid}
+      type: ColumnPanel
+      layout_properties: {grid_position: 'BBLGLO,OLOAQU'}
+      components:
+      - name: audience_country
+        properties: {role: investigate_value, spacing_below: none}
+        type: Label
+        layout_properties: {grid_position: 'YEYSEU,VBWRIK'}
+      - name: link_19_copy_2_copy_copy_copy_copy
+        properties: {role: investigate_feature, bold: false, align: left, col_widths: '', spacing_above: none, background: '', icon: '', wrap_on: mobile, underline: false, font: '', col_spacing: medium, icon_align: left, foreground: '', url: '', spacing_below: none, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: Biggest Audience Country}
+        type: Link
+        layout_properties: {grid_position: 'JESRIO,GJGSWU'}
+        event_bindings: {click: info_audience_country}
+        components: []
+    - name: column_panel_7_copy_2
+      properties: {role: grid}
+      type: ColumnPanel
+      layout_properties: {grid_position: 'BBLGLO,MZKALW'}
+      components:
+      - name: audience_city
+        properties: {role: investigate_value, spacing_below: none}
+        type: Label
+        layout_properties: {grid_position: 'XTCIOZ,JYTWUO'}
+      - name: link_19_copy_2_copy_copy_copy_copy_copy
+        properties: {role: investigate_feature, bold: false, align: left, col_widths: '', spacing_above: none, background: '', icon: '', wrap_on: mobile, underline: false, font: '', col_spacing: medium, icon_align: left, foreground: '', url: '', spacing_below: none, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: Biggest Audience City}
+        type: Link
+        layout_properties: {grid_position: 'LKAELE,VWBQXJ'}
+        event_bindings: {click: info_audience_city}
+        components: []
+    - name: column_panel_7_copy_4
+      properties: {role: grid}
+      type: ColumnPanel
+      layout_properties: {grid_position: 'QZLGXM,GJBUWM'}
+      components:
+      - name: tiktok_follower
+        properties: {role: investigate_value, spacing_below: none}
+        type: Label
+        layout_properties: {grid_position: 'PEBNWB,QIIQEW'}
+      - name: link_19_copy_2_copy_copy_copy_copy_copy_copy_2
+        properties: {role: investigate_feature, bold: false, align: left, col_widths: '', spacing_above: none, background: '', icon: '', wrap_on: mobile, underline: false, font: '', col_spacing: medium, icon_align: left, foreground: '', url: '', spacing_below: none, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: TikTok Followers lat.}
+        type: Link
+        layout_properties: {grid_position: 'HUFCDC,ESMZOW'}
+        event_bindings: {click: info_tiktok_fol}
+        components: []
+    - name: column_panel_7_copy
+      properties: {role: grid}
+      type: ColumnPanel
+      layout_properties: {grid_position: 'QZLGXM,MJWHKO'}
+      components:
+      - name: soundcloud_follower
+        properties: {role: investigate_value, spacing_below: none}
+        type: Label
+        layout_properties: {grid_position: 'POXKPB,EZOTRO'}
+      - name: link_19_copy_2_copy_copy_copy_copy_copy_copy_2_copy
+        properties: {role: investigate_feature, bold: false, align: left, col_widths: '', spacing_above: none, background: '', icon: '', wrap_on: mobile, underline: false, font: '', col_spacing: medium, icon_align: left, foreground: '', url: '', spacing_below: none, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: Soundcloud Follower lat.}
+        type: Link
+        layout_properties: {grid_position: 'SZAOAJ,JMWYYX'}
+        event_bindings: {click: info_soundcloud_fol}
+    - name: spacer_2
+      properties: {height: 32}
+      type: Spacer
+      layout_properties: {grid_position: 'QZLGXM,VFTZEQ'}
     - name: Panel_for_Spotify_Monthly_Listeners_Graph
       properties: {role: grid}
       type: ColumnPanel
@@ -579,7 +657,7 @@ components:
         type: Label
         layout_properties: {grid_position: 'BCHOZO,TMNYIR'}
       - name: Spotify_Monthly_Listeners_by_Country_Graph
-        properties: {spacing_above: none, spacing_below: none, height: '500', visible: true, tooltip: '', interactive: true}
+        properties: {spacing_above: none, spacing_below: none, height: '300', visible: true, tooltip: '', interactive: true}
         type: Plot
         layout_properties: {grid_position: 'VQTYJE,RKWVRK'}
         event_bindings: {}

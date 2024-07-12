@@ -356,12 +356,14 @@ class C_Discover(C_DiscoverTemplate):
       
       # -------------------------------
       # III. FANDOM
-      # a) mtl. listeners
-    
+      # a) mtl. listeners    
       # Load data for the Scatter plot (Spotify Monthly Listeners)
-      monthly_listeners_data = json.loads(anvil.server.call('get_mtl_listeners', int(cur_artist_id)))
-    
+      monthly_listeners_data = json.loads(anvil.server.call('get_mtl_listeners', int(cur_artist_id)))      
+      
       if monthly_listeners_data != []:
+        sp_mtl_lis_lat = monthly_listeners_data[-1]['MtlListeners']
+        self.sp_mtl_listeners.text = f'{int(sp_mtl_lis_lat):,}'
+        
         dates = [x['Date'] for x in monthly_listeners_data]
         monthly_listeners =  [x['MtlListeners'] for x in monthly_listeners_data]
         self.listeners_data = {
@@ -375,6 +377,7 @@ class C_Discover(C_DiscoverTemplate):
         self.create_artist_monthly_listeners_scatter_chart()
       
       else:
+        self.sp_mtl_listeners.text = '-'
         self.Spotify_Monthly_Listeners_Graph.visible = False
         self.No_Spotify_Monthly_Listeners_Graph.visible = True
 
@@ -384,6 +387,8 @@ class C_Discover(C_DiscoverTemplate):
       monthly_listeners_country_data = json.loads(anvil.server.call('get_mtl_listeners_country', int(cur_artist_id)))
           
       if monthly_listeners_country_data != []:
+        self.audience_country.text = monthly_listeners_country_data[0]['CountryName']
+        
         country_codes = [x['CountryCode'] for x in monthly_listeners_country_data]
         country_name = [x['CountryName'] for x in monthly_listeners_country_data]
         monthly_listeners =  [x['MtlListeners'] for x in monthly_listeners_country_data]
@@ -398,13 +403,17 @@ class C_Discover(C_DiscoverTemplate):
         self.create_monthly_listeners_by_country_bar_chart()
         
       else:
+        self.audience_country.text = '-'
         self.Spotify_Monthly_Listeners_by_Country_Graph.visible = False
         self.No_Spotify_Monthly_Listeners_by_Country_Graph.visible = True
 
       # --------
       # c) mtl. listeners city
       mtl_listeners_cty = json.loads(anvil.server.call('get_mtl_listeners_city', int(cur_artist_id)))
+      
       if mtl_listeners_cty != []:
+        self.audience_city.text = mtl_listeners_cty[0]['CityWithCountryCode']
+        
         self.plot_mtl_listeners_city.visible = True
         self.no_mtl_listeners_city.visible = False
         
@@ -429,22 +438,31 @@ class C_Discover(C_DiscoverTemplate):
           'paper_bgcolor': 'rgb(40, 40, 40)',
           'plot_bgcolor': 'rgb(40, 40, 40)'
         }
+        
       else:
+        self.audience_city.text = '-'
         self.plot_mtl_listeners_city.visible = False
         self.no_mtl_listeners_city.visible = True
 
       # --------
       # d) audience follower
       audience_follower = json.loads(anvil.server.call('get_audience_follower2', int(cur_artist_id)))
+      
       if audience_follower != []:
         # Initialize a dictionary to hold data for each platform
         platform_data = defaultdict(lambda: {'dates': [], 'followers': []})
-        
+
         # Populate the dictionary with data
         for entry in audience_follower:
             platform = entry['Platform']
             platform_data[platform]['dates'].append(entry['Date'])
             platform_data[platform]['followers'].append(entry['ArtistFollower'])
+
+        tiktok_fol_lat = platform_data['tiktok']['followers'][-1]
+        self.tiktok_follower.text = f'{int(tiktok_fol_lat):,}'
+        
+        soundcloud_fol_lat = platform_data['soundcloud']['followers'][-1]
+        self.soundcloud_follower.text = f'{int(soundcloud_fol_lat):,}'
         
         # Create traces for each platform
         traces = []
@@ -483,6 +501,8 @@ class C_Discover(C_DiscoverTemplate):
         }
         
       else:
+        self.tiktok_follower.text = '-'
+        self.soundcloud_follower.text = '-'
         self.plot_audience_follower.visible = False
         self.no_audience_follower.visible = True
       
@@ -1135,6 +1155,33 @@ class C_Discover(C_DiscoverTemplate):
       alert(title='Sub-Major Coop',
       content="Indicates whether this artist ever worked with a sub-major label or not.")
 
+  def info_no_co_artists_click(self, **event_args):
+      alert(title='Avg. No. of Co-Artists per Track',
+      content="Total number of Co-Artists per Track divided by total number of Tracks.")
+
+  def info_sp_pop_lat(self, **event_args):
+      alert(title='Spotify Popularity lat.',
+      content="Latest value of Spotify Popularity - measured between 0 and 100.")
+  def info_sp_fol_lat(self, **event_args):
+      alert(title='Spotify Follower lat.',
+      content="Latest number of Spotify Follower.")
+    
+  def info_sp_mtl_listeners(self, **event_args):
+      alert(title='Spotify Monthly Listeners',
+      content="Latest number of monthly listeners on Spotify.")
+  def info_audience_country(self, **event_args):
+      alert(title='Biggest Audience Country',
+      content="Country with most listeners on Spotify.")
+  def info_audience_city(self, **event_args):
+      alert(title='Biggest Audience City',
+      content="City with most listeners on Spotify.")
+  def info_tiktok_fol(self, **event_args):
+      alert(title='TikTok Followers lat.',
+      content="Latest number of TikTok Follower.")
+  def info_soundcloud_fol(self, **event_args):
+      alert(title='Soundcloud Follower lat.',
+      content="Latest number of Soundcloud Follower.")
+    
   def button_set_filters_click(self, **event_args):
     open_form('Main_In', model_id=self.model_id, temp_artist_id=None, target='C_Filter', value=None)
 
