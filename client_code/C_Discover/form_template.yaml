@@ -101,27 +101,27 @@ components:
       layout_properties: {grid_position: 'YZXEIA,KEKOUB ORIZUZ,FEOKJD VVXWEI,TQIGGV'}
       name: linear_panel_6
       components:
-      - properties: {text: Followers, role: sub_title-regular-tile, spacing_above: none, spacing_below: none}
+      - properties: {text: Popularity, role: sub_title-regular-tile, spacing_above: none, spacing_below: none}
         type: Label
         layout_properties: {}
         name: label_8
-      - properties: {role: value-regular-tile, spacing_above: none, spacing_below: none, text: '79.3'}
+      - properties: {role: value-regular-tile, spacing_above: none, spacing_below: none, text: N/A}
         type: Label
         layout_properties: {}
-        name: KPI_tile_2
+        name: KPI_tile_1
     - properties: {role: highlights-tile-background, spacing_above: small, spacing_below: none}
       type: LinearPanel
       layout_properties: {grid_position: 'YZXEIA,KEKOUB ORIZUZ,NIJZSN HDZJOY,YGPOQI'}
       name: linear_panel_5
       components:
-      - properties: {text: Popularity, role: sub_title-regular-tile, spacing_above: none, spacing_below: none}
+      - properties: {text: Followers, role: sub_title-regular-tile, spacing_above: none, spacing_below: none}
         type: Label
         layout_properties: {}
         name: label_7
-      - properties: {role: value-regular-tile, spacing_above: none, spacing_below: none, text: '15'}
+      - properties: {role: value-regular-tile, spacing_above: none, spacing_below: none, text: N/A}
         type: Label
         layout_properties: {}
-        name: KPI_tile_1
+        name: KPI_tile_2
     - properties: {spacing_above: none, spacing_below: small, role: highlights-tile-background}
       type: LinearPanel
       layout_properties: {grid_position: 'YZXEIA,KEKOUB ORIZUZ,NIJZSN GJRDAX,FMCRXN'}
@@ -134,7 +134,7 @@ components:
       - properties: {role: value-regular-tile, spacing_above: none, spacing_below: none, text: N/A}
         type: Label
         layout_properties: {}
-        name: KPI_tile_3
+        name: KPI_tile_4
     - properties: {spacing_above: none, spacing_below: small, role: highlights-tile-background}
       type: LinearPanel
       layout_properties: {grid_position: 'YZXEIA,KEKOUB ORIZUZ,FEOKJD GPIHJY,LGILBY'}
@@ -147,7 +147,7 @@ components:
       - properties: {role: value-regular-tile, spacing_above: none, spacing_below: none, text: N/A}
         type: Label
         layout_properties: {}
-        name: KPI_tile_4
+        name: KPI_tile_3
   - properties: {visible: false}
     type: FlowPanel
     layout_properties: {grid_position: 'BIAKRF,TSAQXZ'}
@@ -318,6 +318,27 @@ components:
           type: RepeatingPanel
           layout_properties: {}
           name: data_grid_releases_data
+    - name: column_panel_3_copy_3
+      properties: {role: grid}
+      type: ColumnPanel
+      layout_properties: {grid_position: 'FHHDTQ,VEASCK'}
+      components:
+      - name: rel_1_copy_2
+        properties: {text: ' Release Cycle', role: Discover_artist_name, spacing_above: none, spacing_below: none}
+        type: Label
+        layout_properties: {grid_position: 'STZFGT,BWOAOF'}
+      - name: data_grid_cycle
+        properties:
+          columns:
+          - {id: JKSDUP, title: First, data_key: Col1}
+          - {id: VJQQOR, title: Second, data_key: Col2}
+          - {id: OJLQEN, title: Column 3, data_key: Col3}
+        type: DataGrid
+        components:
+        - name: data_grid_cycle_data
+          properties: {item_template: C_Discover.RowTemplate7}
+          type: RepeatingPanel
+        layout_properties: {grid_position: 'OXUXOJ,UVXKIY'}
     - name: Panel_for_Most_Frequent_Labels_Graph_copy
       properties: {role: grid}
       type: ColumnPanel
@@ -325,8 +346,8 @@ components:
       components:
       - name: Heading_for_Most_Frequent_Labels_Graph_copy
         properties:
-          text: |
-            Artist Cooperation with Labels
+          text: |2
+             Artist Cooperation with Labels
           role: Discover_artist_name
           visible: true
           spacing_above: none
@@ -641,7 +662,7 @@ components:
       layout_properties: {grid_position: 'IURFJG,NZDMYP'}
       name: column_panel_3_copy_copy_copy_copy_copy_2_copy_2
       components:
-      - properties: {text: Social Media Follower, role: Discover_artist_name, spacing_above: none, spacing_below: none}
+      - properties: {text: ' Social Media Follower', role: Discover_artist_name, spacing_above: none, spacing_below: none}
         type: Label
         layout_properties: {grid_position: 'BCHOZO,TMNYIR'}
         name: rel_1_copy_copy_copy_copy_copy_2_copy_2

@@ -14,7 +14,6 @@ import itertools
 from ..CustomAlertForm import CustomAlertForm  # Import the custom form
 
 
-
 class C_Discover(C_DiscoverTemplate):
   def __init__(self, model_id, temp_artist_id, **properties):
     print(f"{datetime.now()}: C_Discover - __init__ - 1", flush=True)    
@@ -253,11 +252,32 @@ class C_Discover(C_DiscoverTemplate):
         self.co_artists_avg.text = '-'
       else:
         self.co_artists_avg.text = "{:.2f}".format(round(co_artists[0]["avg_co_artists_per_track"],2))      
-      
-      # b) release tables
-      if self.data_grid_releases.visible is True:
-        self.data_grid_releases_data.items = json.loads(anvil.server.call('get_dev_releases', int(cur_artist_id)))
 
+      # b) releases
+      release_data = json.loads(anvil.server.call('get_dev_releases', int(cur_artist_id)))
+      # i. release tables
+      if self.data_grid_releases.visible is True:
+        self.data_grid_releases_data.items = release_data
+
+      # ii. release cycle
+      if self.data_grid_cycle.visible is True:
+        print(release_data)
+        print("---------------")
+
+        data = [
+          {'Col1': '2017-09-06', 'Col2': '2017-01-01', 'Col3': '2017-01-01'},
+          {'Col1': 'Secret Sessions', 'Col2': 'Between the Lines', 'Col3': 'Finelines'}
+        ]
+        print(data)
+        self.data_grid_cycle_data.items = data
+
+        #model_name_last_used = [item['model_name'] for item in model_data if item['is_last_used']][0]
+        #self.drop_down_model.selected_value = model_name_last_used      
+        #model_names = [item['model_name'] for item in model_data]
+
+
+      
+      
       # c) labels freq
       labels_freq = json.loads(anvil.server.call('get_labels_freq', int(cur_artist_id)))
       if labels_freq != []:
