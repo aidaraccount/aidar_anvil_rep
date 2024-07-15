@@ -439,12 +439,12 @@ class C_Discover(C_DiscoverTemplate):
             platform_data[platform]['dates'].append(entry['Date'])
             platform_data[platform]['followers'].append(entry['ArtistFollower'])
 
-        if platform_data['tiktok'] != "{'dates': [], 'followers': []}":
+        if platform_data['tiktok']['dates'] != []:
           tiktok_fol_lat = platform_data['tiktok']['followers'][-1]
           self.tiktok_follower.text = f'{int(tiktok_fol_lat):,}'
           self.KPI_tile_3.text = f'{round(int(tiktok_fol_lat)/1000):,}K'
           
-        if platform_data['soundcloud'] != "{'dates': [], 'followers': []}":
+        if platform_data['soundcloud']['dates'] != []:
           soundcloud_fol_lat = platform_data['soundcloud']['followers'][-1]
           self.soundcloud_follower.text = f'{int(soundcloud_fol_lat):,}'
           self.KPI_tile_4.text = f'{round(int(soundcloud_fol_lat)/1000):,}K'
