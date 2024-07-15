@@ -439,54 +439,19 @@ class C_Discover(C_DiscoverTemplate):
             platform_data[platform]['dates'].append(entry['Date'])
             platform_data[platform]['followers'].append(entry['ArtistFollower'])
 
-        if platform_data['tiktok'] == "{'dates': [], 'followers': []}":
+        if platform_data['tiktok'] != "{'dates': [], 'followers': []}":
           tiktok_fol_lat = platform_data['tiktok']['followers'][-1]
           self.tiktok_follower.text = f'{int(tiktok_fol_lat):,}'
           self.KPI_tile_3.text = f'{round(int(tiktok_fol_lat)/1000):,}K'
-
-        if platform_data['soundcloud'] == "{'dates': [], 'followers': []}":
+          
+        if platform_data['soundcloud'] != "{'dates': [], 'followers': []}":
           soundcloud_fol_lat = platform_data['soundcloud']['followers'][-1]
           self.soundcloud_follower.text = f'{int(soundcloud_fol_lat):,}'
           self.KPI_tile_4.text = f'{round(int(soundcloud_fol_lat)/1000):,}K'
 
-        for platotform, values in platform_data.items
-        
-        # Create traces for each platform
-        traces = []
-        colors = {
-            'instagram': 'rgb(253, 101, 45)',
-            'tiktok': 'rgb(0, 153, 204)',
-            'youtube': 'rgb(255, 0, 0)',
-            'soundcloud': 'rgb(205, 60, 0)'
-        }
-        
-        for platform, values in platform_data.items():
-            trace = go.Scatter(
-                x=values['dates'],
-                y=values['followers'],
-                mode='lines',
-                name=platform,
-                marker=dict(color=colors.get(platform, 'rgb(0, 0, 0)'))  # Default color if not in colors dict
-            )
-            traces.append(trace)
-        
-        # Define the layout for the line chart
-        self.plot_audience_follower.data = traces
-        self.plot_audience_follower.layout = {
-            'template': 'plotly_dark',
-            'title': {
-                'text': 'Social Media Followers over time',
-                'x': 0.5,
-                'xanchor': 'center'
-            },
-            'yaxis': {
-                'title': 'Followers',
-                'range': [0, 1.1 * max(itertools.chain(*[v['followers'] for v in platform_data.values()]))]
-            },
-            'paper_bgcolor': 'rgb(40, 40, 40)',
-            'plot_bgcolor': 'rgb(40, 40, 40)'
-        }
-        
+        # Create the initial Social Media Followers Chart
+        self.create_social_media_followers_chart(platform_data)
+    
       else:
         self.tiktok_follower.text = '-'
         self.soundcloud_follower.text = '-'
@@ -932,6 +897,51 @@ class C_Discover(C_DiscoverTemplate):
     
     self.Spotify_Monthly_Listeners_Graph.figure = fig
 
+  def create_social_media_followers_chart(self, platform_data):
+    traces = []
+    # Define colors for each platform
+    platform_colors = {
+      'instagram': 'rgb(253, 101, 45)',
+      'tiktok': 'rgb(0, 153, 204)',
+      'youtube': 'rgb(255, 0, 0)',
+      'soundcloud': 'rgb(205, 60, 0)'
+    }
+
+    for platform, data in platform_data.items():  # Use platform_data instead of self.platform_data
+      if data['dates']:
+        trace = go.Scatter(
+          x=data['dates'],
+          y=data['followers'],
+          mode='lines+markers',
+          name=platform.capitalize(),
+          line=dict(color=platform_colors.get(platform, 'black')),  # Default to black if no color specified
+          text=data['followers'],
+          textposition='outside',
+          hoverinfo='none',
+          hovertext=data['dates'],
+          # hovertemplate=f'{platform.capitalize()} Followers: %{text}<br>Date: %{hovertext} <extra></extra>'
+        )
+        traces.append(trace)
+
+    fig = go.Figure(data=traces)
+        
+    fig.update_layout(
+        template='plotly_dark',
+        plot_bgcolor='rgba(0,0,0,0)',
+        paper_bgcolor='rgba(0,0,0,0)',
+        margin=dict(t=50),
+        xaxis=dict(
+            showgrid=False  # Remove x-axis gridlines
+        ),
+        yaxis=dict(
+            showgrid=True,  # Ensure y-axis gridlines are visible
+            gridcolor='rgba(250,250,250,1)',  # Color of the gridlines
+            gridwidth=2  # Emphasized thickness of the gridlines
+        )
+    )
+    
+    self.Social_Media_Followers_Graph.figure = fig
+  
   def apply_default_sorting(self):
     """Apply the default sorting based on the dropdown selection"""
     labels = self.bar_data["labels"]
