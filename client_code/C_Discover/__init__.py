@@ -425,35 +425,8 @@ class C_Discover(C_DiscoverTemplate):
 
         self.create_monthly_listeners_by_city_bar_chart()
         
-      #   self.plot_mtl_listeners_city.data = [
-      #     go.Bar(
-      #       x = [x['CityWithCountryCode'] for x in mtl_listeners_cty],
-      #       y = [x['MtlListeners'] for x in mtl_listeners_cty],
-      #       marker = dict(color = 'rgb(253, 101, 45)')
-      #     )
-      #   ]
-      #   self.plot_mtl_listeners_city.layout = {
-      #     'template': 'plotly_dark',
-      #     'title': {
-      #       'text' : 'Spotify mtl. Listeners per City',
-      #       'x': 0.5,
-      #       'xanchor': 'center'
-      #       },
-      #     'yaxis': {
-      #       'title': 'Mtl. Listeners',
-      #       'range': [0, 1.1*max([x['MtlListeners'] for x in mtl_listeners_cty])]
-      #     },
-      #     'paper_bgcolor': 'rgb(40, 40, 40)',
-      #     'plot_bgcolor': 'rgb(40, 40, 40)'
-      #   }
-        
-      # else:
-      #   self.audience_city.text = '-'
-      #   self.plot_mtl_listeners_city.visible = False
-      #   self.no_mtl_listeners_city.visible = True
-
       # --------
-      # d) audience follower
+      # d) Social Media followers
       audience_follower = json.loads(anvil.server.call('get_audience_follower2', int(cur_artist_id)))
       
       if audience_follower != []:
