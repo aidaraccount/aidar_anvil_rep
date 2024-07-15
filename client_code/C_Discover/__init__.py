@@ -409,40 +409,48 @@ class C_Discover(C_DiscoverTemplate):
 
       # --------
       # c) mtl. listeners city
-      mtl_listeners_cty = json.loads(anvil.server.call('get_mtl_listeners_city', int(cur_artist_id)))
+      monthly_listeners_city_data = json.loads(anvil.server.call('get_mtl_listeners_city', int(cur_artist_id)))
       
-      if mtl_listeners_cty != []:
-        self.audience_city.text = mtl_listeners_cty[0]['CityWithCountryCode']
+      if monthly_listeners_city_data != []:
+        self.audience_city.text = monthly_listeners_city_data[0]['CityWithCountryCode']
+
+        city_w_country_code = [x['CityWithCountryCode'] for x in monthly_listeners_city_data]
+        monthly_listeners =  [x['MtlListeners'] for x in monthly_listeners_city_data]
+        self.listeners_city_data = {
+          "city_w_country_code" : city_w_country_code,
+          "monthly_listeners" : monthly_listeners
+        }        
+        self.Spotify_Monthly_Listeners_by_City_Graph.visible = True
+        self.No_Spotify_Monthly_Listeners_by_City_Graph.visible = False
+
+        self.create_monthly_listeners_by_city_bar_chart()
         
-        self.plot_mtl_listeners_city.visible = True
-        self.no_mtl_listeners_city.visible = False
+      #   self.plot_mtl_listeners_city.data = [
+      #     go.Bar(
+      #       x = [x['CityWithCountryCode'] for x in mtl_listeners_cty],
+      #       y = [x['MtlListeners'] for x in mtl_listeners_cty],
+      #       marker = dict(color = 'rgb(253, 101, 45)')
+      #     )
+      #   ]
+      #   self.plot_mtl_listeners_city.layout = {
+      #     'template': 'plotly_dark',
+      #     'title': {
+      #       'text' : 'Spotify mtl. Listeners per City',
+      #       'x': 0.5,
+      #       'xanchor': 'center'
+      #       },
+      #     'yaxis': {
+      #       'title': 'Mtl. Listeners',
+      #       'range': [0, 1.1*max([x['MtlListeners'] for x in mtl_listeners_cty])]
+      #     },
+      #     'paper_bgcolor': 'rgb(40, 40, 40)',
+      #     'plot_bgcolor': 'rgb(40, 40, 40)'
+      #   }
         
-        self.plot_mtl_listeners_city.data = [
-          go.Bar(
-            x = [x['CityWithCountryCode'] for x in mtl_listeners_cty],
-            y = [x['MtlListeners'] for x in mtl_listeners_cty],
-            marker = dict(color = 'rgb(253, 101, 45)')
-          )
-        ]
-        self.plot_mtl_listeners_city.layout = {
-          'template': 'plotly_dark',
-          'title': {
-            'text' : 'Spotify mtl. Listeners per City',
-            'x': 0.5,
-            'xanchor': 'center'
-            },
-          'yaxis': {
-            'title': 'Mtl. Listeners',
-            'range': [0, 1.1*max([x['MtlListeners'] for x in mtl_listeners_cty])]
-          },
-          'paper_bgcolor': 'rgb(40, 40, 40)',
-          'plot_bgcolor': 'rgb(40, 40, 40)'
-        }
-        
-      else:
-        self.audience_city.text = '-'
-        self.plot_mtl_listeners_city.visible = False
-        self.no_mtl_listeners_city.visible = True
+      # else:
+      #   self.audience_city.text = '-'
+      #   self.plot_mtl_listeners_city.visible = False
+      #   self.no_mtl_listeners_city.visible = True
 
       # --------
       # d) audience follower
@@ -756,6 +764,57 @@ class C_Discover(C_DiscoverTemplate):
         opacity=0.9
       )
     self.Spotify_Monthly_Listeners_by_Country_Graph.figure = fig
+
+  def create_monthly_listeners_by_city_bar_chart(self, city_w_country_code=None, monthly_listeners=None):
+    if city_w_country_code is None:
+      city_w_country_code = self.listeners_city_data["city_w_country_code"]
+    if monthly_listeners is None:
+      monthly_listeners = self.listeners_city_data["monthly_listeners"]
+      
+    # Creating the Bar Chart
+    fig = go.Figure(data=(
+      go.Bar(
+        x = city_w_country_code,
+        y = monthly_listeners,
+        text = monthly_listeners,
+        textposition='outside',
+        hoverinfo='none',
+        hovertext= city_w_country_code,
+        hovertemplate='City: %{hovertext}<br>Monthly Listeners: %{y} <extra></extra>',
+      )
+    ))
+
+    fig.update_layout(
+      template='plotly_dark',
+      plot_bgcolor='rgba(0,0,0,0)',
+      paper_bgcolor='rgba(0,0,0,0)',
+      xaxis=dict(
+        tickvals=list(range(len(city_w_country_code))),
+        # ticktext=truncated_labels,  # Display truncated labels on the x-axis
+      ),
+      yaxis=dict(
+        gridcolor='rgba(250,250,250,1)',  # Color of the gridlines
+        gridwidth=0.1,  # Thickness of the gridlines
+        griddash='dash',  # Dash style of the gridlines
+        range=[0, max(monthly_listeners) * 1.1]  # Adjust y-axis range to add extra space
+      ),
+      margin=dict(
+        t=50  # Increase top margin to accommodate the labels
+      ),
+      hoverlabel=dict(
+        bgcolor='rgba(237,139,82, 0.4)'
+      )
+    )
+    # This is to style the bars
+    for trace in fig.data:
+      trace.update(
+        # marker_color='rgb(240,229,252)',
+        marker_color='rgba(237,139,82, 1)',
+        marker_line_color='rgb(237,139,82)',
+        marker_line_width=0.1,
+        opacity=0.9
+      )
+    self.Spotify_Monthly_Listeners_by_City_Graph.figure = fig
   
   def create_artist_popularity_scatter_chart(self, dates=None, artist_popularity=None):
     if dates is None:
