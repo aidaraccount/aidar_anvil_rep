@@ -588,7 +588,8 @@ class C_Discover(C_DiscoverTemplate):
       model_names = [item['model_name'] for item in model_data]
       self.drop_down_model.items = model_names
     
-
+  # ----------------------------------------------
+  
   def truncate_label(self, label):
     return label if len(label) <= 10 else label[:10] + '...'
 
