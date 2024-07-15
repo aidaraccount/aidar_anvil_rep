@@ -448,6 +448,8 @@ class C_Discover(C_DiscoverTemplate):
           soundcloud_fol_lat = platform_data['soundcloud']['followers'][-1]
           self.soundcloud_follower.text = f'{int(soundcloud_fol_lat):,}'
           self.KPI_tile_4.text = f'{round(int(soundcloud_fol_lat)/1000):,}K'
+
+        for platotform, values in platform_data.items
         
         # Create traces for each platform
         traces = []
