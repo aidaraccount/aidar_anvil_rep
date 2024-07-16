@@ -422,11 +422,12 @@ class C_Discover(C_DiscoverTemplate):
         }        
         self.Spotify_Monthly_Listeners_by_City_Graph.visible = True
         self.No_Spotify_Monthly_Listeners_by_City_Graph.visible = False
+        self.create_monthly_listeners_by_city_bar_chart()
+        
       else:
         self.Spotify_Monthly_Listeners_by_City_Graph.visible = False
         self.No_Spotify_Monthly_Listeners_by_City_Graph.visible = True
         
-        self.create_monthly_listeners_by_city_bar_chart()
         
       # --------
       # d) Social Media followers
@@ -804,7 +805,7 @@ class C_Discover(C_DiscoverTemplate):
         gridcolor='rgba(250,250,250,1)',  # Color of the gridlines
         gridwidth=0.1,  # Thickness of the gridlines
         griddash='dash',  # Dash style of the gridlines
-        range=[0, max(monthly_listeners) * 1.1]  # Adjust y-axis range to add extra space
+        range=[0, max(monthly_listeners) * 1.2]  # Adjust y-axis range to add extra space
       ),
       margin=dict(
         t=50  # Increase top margin to accommodate the labels
