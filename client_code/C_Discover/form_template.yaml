@@ -691,24 +691,76 @@ components:
         properties: {text: no data available, align: center, role: description, visible: false, spacing_below: large, spacing_above: large}
         type: Label
         layout_properties: {grid_position: 'MCTTTL,OTDAWL'}
-    - name: Panel_for_Social_Media_Followers_Graph
-      properties: {role: grid}
+    - name: Panel_for_Social_Media_Followers_row_1
+      properties: {col_widths: '{"HTJLFP":30,"ZZQLHB":30}', spacing_above: none, spacing_below: none, col_spacing: small}
       type: ColumnPanel
-      layout_properties: {grid_position: 'AOIXRQ,HDKQTR'}
+      layout_properties: {grid_position: 'XAFQEC,AVFVIF'}
       components:
       - name: Header_for_Social_Media_Followers_Graph
-        properties: {text: ' Social Media Follower', role: Discover_artist_name, spacing_above: none, spacing_below: none}
+        properties: {text: ' Social Media Follower', role: Discover_artist_name, spacing_above: none, spacing_below: none, align: left}
         type: Label
-        layout_properties: {grid_position: 'BCHOZO,TMNYIR'}
-      - name: Social_Media_Followers_Graph
-        properties: {spacing_above: none, spacing_below: none, height: '300', visible: true, tooltip: '', interactive: true}
-        type: Plot
-        layout_properties: {grid_position: 'VQTYJE,RKWVRK'}
-        event_bindings: {}
-      - name: no_audience_follower_copy
-        properties: {text: no data available, align: center, role: description, visible: false, spacing_below: large, spacing_above: large}
-        type: Label
-        layout_properties: {grid_position: 'MCTTTL,OTDAWL'}
+        layout_properties: {grid_position: 'FACXQM,YLIECQ'}
+      - name: Panel_for_Social_Media_Followers_Graph
+        properties: {role: grid}
+        type: ColumnPanel
+        layout_properties: {grid_position: 'UTULHQ,HTJLFP'}
+        components:
+        - name: Social_Media_Followers_Graph_r1_c1
+          properties: {spacing_above: none, spacing_below: none, height: '300', visible: true, tooltip: '', interactive: true}
+          type: Plot
+          layout_properties: {grid_position: 'VQTYJE,RKWVRK'}
+          event_bindings: {}
+        - name: no_audience_follower_copy
+          properties: {text: no data available, align: center, role: description, visible: false, spacing_below: large, spacing_above: large}
+          type: Label
+          layout_properties: {grid_position: 'MCTTTL,OTDAWL'}
+      - name: Panel_for_Social_Media_Followers_Graph_copy
+        properties: {role: grid}
+        type: ColumnPanel
+        layout_properties: {grid_position: 'UTULHQ,ZZQLHB'}
+        components:
+        - name: Social_Media_Followers_Graph_r1_c2
+          properties: {spacing_above: none, spacing_below: none, height: '300', visible: true, tooltip: '', interactive: true}
+          type: Plot
+          layout_properties: {grid_position: 'VQTYJE,RKWVRK'}
+          event_bindings: {}
+        - name: no_audience_follower_copy_copy
+          properties: {text: no data available, align: center, role: description, visible: false, spacing_below: large, spacing_above: large}
+          type: Label
+          layout_properties: {grid_position: 'MCTTTL,OTDAWL'}
+    - name: Panel_for_Social_Media_Followers_row_2
+      properties: {spacing_above: none, spacing_below: none, col_spacing: small}
+      type: ColumnPanel
+      layout_properties: {grid_position: 'UKWAJQ,OERYYE'}
+      components:
+      - name: Panel_for_Social_Media_Followers_Graph_copy_2
+        properties: {role: grid}
+        type: ColumnPanel
+        layout_properties: {grid_position: 'UTULHQ,HTJLFP'}
+        components:
+        - name: Social_Media_Followers_Graph_r2_c1
+          properties: {spacing_above: none, spacing_below: none, height: '300', visible: true, tooltip: '', interactive: true}
+          type: Plot
+          layout_properties: {grid_position: 'VQTYJE,RKWVRK'}
+          event_bindings: {}
+        - name: no_audience_follower_copy_copy_2
+          properties: {text: no data available, align: center, role: description, visible: false, spacing_below: large, spacing_above: large}
+          type: Label
+          layout_properties: {grid_position: 'MCTTTL,OTDAWL'}
+      - name: Panel_for_Social_Media_Followers_Graph_copy_copy
+        properties: {role: grid}
+        type: ColumnPanel
+        layout_properties: {grid_position: 'UTULHQ,ZZQLHB'}
+        components:
+        - name: Social_Media_Followers_Graph_r2_c2
+          properties: {spacing_above: none, spacing_below: none, height: '300', visible: true, tooltip: '', interactive: true}
+          type: Plot
+          layout_properties: {grid_position: 'VQTYJE,RKWVRK'}
+          event_bindings: {}
+        - name: no_audience_follower_copy_copy_copy
+          properties: {text: no data available, align: center, role: description, visible: false, spacing_below: large, spacing_above: large}
+          type: Label
+          layout_properties: {grid_position: 'MCTTTL,OTDAWL'}
     - properties: {role: grid, visible: false}
       type: ColumnPanel
       layout_properties: {grid_position: 'IURFJG,NZDMYP'}
