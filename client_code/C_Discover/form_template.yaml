@@ -705,7 +705,11 @@ components:
         type: ColumnPanel
         layout_properties: {grid_position: 'UTULHQ,HTJLFP'}
         components:
-        - name: Social_Media_Followers_Graph_r1_c1
+        - name: Header_for_Social_Media_Followers_Graph_copy
+          properties: {text: Instagram, role: Discover_artist_name, spacing_above: none, spacing_below: none, align: left}
+          type: Label
+          layout_properties: {grid_position: 'FZIETY,YUGNQQ'}
+        - name: instagram_chart
           properties: {spacing_above: none, spacing_below: none, height: '300', visible: true, tooltip: '', interactive: true}
           type: Plot
           layout_properties: {grid_position: 'VQTYJE,RKWVRK'}
@@ -719,7 +723,11 @@ components:
         type: ColumnPanel
         layout_properties: {grid_position: 'UTULHQ,ZZQLHB'}
         components:
-        - name: Social_Media_Followers_Graph_r1_c2
+        - name: Header_for_Social_Media_Followers_Graph_copy_copy
+          properties: {text: TikTok, role: Discover_artist_name, spacing_above: none, spacing_below: none, align: left}
+          type: Label
+          layout_properties: {grid_position: 'CACSWF,RXFCAP'}
+        - name: tiktok_chart
           properties: {spacing_above: none, spacing_below: none, height: '300', visible: true, tooltip: '', interactive: true}
           type: Plot
           layout_properties: {grid_position: 'VQTYJE,RKWVRK'}
@@ -738,7 +746,11 @@ components:
         type: ColumnPanel
         layout_properties: {grid_position: 'UTULHQ,HTJLFP'}
         components:
-        - name: Social_Media_Followers_Graph_r2_c1
+        - name: Header_for_Social_Media_Followers_Graph_copy_copy_copy
+          properties: {text: YouTube, role: Discover_artist_name, spacing_above: none, spacing_below: none, align: left}
+          type: Label
+          layout_properties: {grid_position: 'AJVIAY,GSPYWK'}
+        - name: youtube_chart
           properties: {spacing_above: none, spacing_below: none, height: '300', visible: true, tooltip: '', interactive: true}
           type: Plot
           layout_properties: {grid_position: 'VQTYJE,RKWVRK'}
@@ -752,7 +764,11 @@ components:
         type: ColumnPanel
         layout_properties: {grid_position: 'UTULHQ,ZZQLHB'}
         components:
-        - name: Social_Media_Followers_Graph_r2_c2
+        - name: Header_for_Social_Media_Followers_Graph_copy_copy_copy_copy
+          properties: {text: SoundCloud, role: Discover_artist_name, spacing_above: none, spacing_below: none, align: left}
+          type: Label
+          layout_properties: {grid_position: 'DYZRQB,URPQGO'}
+        - name: soundcloud_chart
           properties: {spacing_above: none, spacing_below: none, height: '300', visible: true, tooltip: '', interactive: true}
           type: Plot
           layout_properties: {grid_position: 'VQTYJE,RKWVRK'}

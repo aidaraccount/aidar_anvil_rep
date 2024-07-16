@@ -448,10 +448,67 @@ class C_Discover(C_DiscoverTemplate):
           soundcloud_fol_lat = platform_data['soundcloud']['followers'][-1]
           self.soundcloud_follower.text = f'{int(soundcloud_fol_lat):,}'
           self.KPI_tile_4.text = f'{round(int(soundcloud_fol_lat)/1000):,}K'
+        
+        def create_social_media_followers_chart(data, platform, color):
+          fig = go.Figure(data=(
+            go.Scatter(
+              x=data['dates'],
+              y=data['followers'],
+              mode='lines+markers',
+              name=platform.capitalize(),
+              line=dict(color=color),
+              text=data['followers'],
+              hoverinfo='none',
+              hovertext=data['dates'],
+              hovertemplate='Platform: ' + platform + '<br>Followers: %{y}<br>Date: %{x}<extra></extra>',
+            )
+          ))
 
-        # Create the initial Social Media Followers Chart
-        self.create_social_media_followers_chart(platform_data)
-    
+          fig.update_layout(
+            template='plotly_dark',
+            plot_bgcolor='rgba(0,0,0,0)',
+            paper_bgcolor='rgba(0,0,0,0)',
+            margin=dict(t=50),
+            xaxis=dict(
+                showgrid=False  # Remove x-axis gridlines
+            ),
+            yaxis=dict(
+              shogrid=True,
+              gridcolor='rgba(250,250,250,1)',  # Color of the gridlines
+              gridwidth=0.1,  # Thickness of the gridlines
+              griddash='dash'  # Dash style of the gridlines
+            ),
+            hoverlabel=dict(
+                bgcolor='rgba(250, 250, 250, 0.1)',  # Background color of the hover label
+            )
+          )
+
+          # for trace in fig.data:
+          #   trace.update(
+          #   )
+
+          return fig
+
+        if platform_data['instagram']['dates']:
+          self.instagram_chart.figure = create_social_media_followers_chart(platform_data['instagram'], 'Instagram', 'rgb(253, 101, 45)')
+        else:
+          self.instagram_chart.figure = None  # Handle the case when there's no data
+
+        if platform_data['tiktok']['dates']:
+          self.tiktok_chart.figure = create_social_media_followers_chart(platform_data['tiktok'], 'TikTok', 'rgb(0, 153, 204)')
+        else:
+          self.tiktok_chart.figure = None  # Handle the case when there's no data
+
+        if platform_data['youtube']['dates']:
+          self.youtube_chart.figure = create_social_media_followers_chart(platform_data['youtube'], 'YouTube', 'rgb(255, 0, 0)')
+        else:
+          self.youtube_chart.figure = None  # Handle the case when there's no data
+
+        if platform_data['soundcloud']['dates']:
+          self.soundcloud_chart.figure = create_social_media_followers_chart(platform_data['soundcloud'], 'SoundCloud', 'rgb(205, 60, 0)')
+        else:
+          self.soundcloud_chart.figure = None  # Handle the case when there's no data
+
       else:
         self.tiktok_follower.text = '-'
         self.soundcloud_follower.text = '-'
@@ -896,8 +953,8 @@ class C_Discover(C_DiscoverTemplate):
       )
     
     self.Spotify_Monthly_Listeners_Graph.figure = fig
-
-  def create_social_media_followers_chart(self, platform_data):
+  
+  def create_social_media_followers_chart_all_platforms(self, platform_data):
     traces = []
     # Define colors for each platform
     platform_colors = {
