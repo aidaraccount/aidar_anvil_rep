@@ -422,7 +422,10 @@ class C_Discover(C_DiscoverTemplate):
         }        
         self.Spotify_Monthly_Listeners_by_City_Graph.visible = True
         self.No_Spotify_Monthly_Listeners_by_City_Graph.visible = False
-
+      else:
+        self.Spotify_Monthly_Listeners_by_City_Graph.visible = False
+        self.No_Spotify_Monthly_Listeners_by_City_Graph.visible = True
+        
         self.create_monthly_listeners_by_city_bar_chart()
         
       # --------
@@ -493,22 +496,30 @@ class C_Discover(C_DiscoverTemplate):
           self.instagram_chart.figure = create_social_media_followers_chart(platform_data['instagram'], 'Instagram', 'rgb(253, 101, 45)')
         else:
           self.instagram_chart.figure = None  # Handle the case when there's no data
+          self.instagram_chart.visible = False
+          self.no_instagram_chart.visible = True
 
         if platform_data['tiktok']['dates']:
           self.tiktok_chart.figure = create_social_media_followers_chart(platform_data['tiktok'], 'TikTok', 'rgb(0, 153, 204)')
         else:
           self.tiktok_chart.figure = None  # Handle the case when there's no data
+          self.tiktok_chart.visible = False
+          self.no_tiktok_chart.visible = True
 
         if platform_data['youtube']['dates']:
           self.youtube_chart.figure = create_social_media_followers_chart(platform_data['youtube'], 'YouTube', 'rgb(255, 0, 0)')
         else:
           self.youtube_chart.figure = None  # Handle the case when there's no data
-
+          self.youtube_chart.visible = False
+          self.no_youtube_chart.visible = True
+          
         if platform_data['soundcloud']['dates']:
           self.soundcloud_chart.figure = create_social_media_followers_chart(platform_data['soundcloud'], 'SoundCloud', 'rgb(205, 60, 0)')
         else:
           self.soundcloud_chart.figure = None  # Handle the case when there's no data
-
+          self.soundcloud_chart.visible = False
+          self.no_soundcloud_chart.visible = True
+          
       else:
         self.tiktok_follower.text = '-'
         self.soundcloud_follower.text = '-'
