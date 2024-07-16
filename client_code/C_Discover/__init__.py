@@ -454,17 +454,21 @@ class C_Discover(C_DiscoverTemplate):
           self.KPI_tile_4.text = f'{round(int(soundcloud_fol_lat)/1000):,}K'
         
         def create_social_media_followers_chart(data, platform, color):
+
+          # Format the text for the bar annotations
+          formatted_text = [f'{x/1e6:.1f}M' if x >= 1e6 else f'{x/1e3:.1f}K' if x >= 1e3 else str(x) for x in data['followers']]
+          
           fig = go.Figure(data=(
             go.Scatter(
               x=data['dates'],
               y=data['followers'],
-              mode='lines+markers',
+              mode='lines',
               name=platform.capitalize(),
               line=dict(color=color),
-              text=data['followers'],
+              text=formatted_text,
               hoverinfo='none',
               hovertext=data['dates'],
-              hovertemplate='Platform: ' + platform + '<br>Followers: %{y}<br>Date: %{x}<extra></extra>',
+              hovertemplate='Platform: ' + platform + '<br>Followers: %{text}<br>Date: %{x}<extra></extra>',
             )
           ))
 
@@ -478,7 +482,7 @@ class C_Discover(C_DiscoverTemplate):
             ),
             yaxis=dict(
               shogrid=True,
-              gridcolor='rgba(250,250,250,1)',  # Color of the gridlines
+              gridcolor='rgb(175,175,175)',  # Color of the gridlines
               gridwidth=0.1,  # Thickness of the gridlines
               griddash='dash'  # Dash style of the gridlines
             ),
@@ -620,12 +624,15 @@ class C_Discover(C_DiscoverTemplate):
       
     truncated_labels = [self.truncate_label(label) for label in labels]
 
+    # Format the text for the bar annotations
+    formatted_text = [f'{x/1e6:.1f}M' if x >= 1e6 else f'{x/1e3:.1f}K' if x >= 1e3 else str(x) for x in cooperations]
+
     # Creating the Bar Chart
     fig = go.Figure(data=(
       go.Bar(
         x = labels,
         y = cooperations,
-        text = cooperations,
+        text = formatted_text,
         textposition='outside',
         hoverinfo='none',
         hovertext= labels,
@@ -642,10 +649,12 @@ class C_Discover(C_DiscoverTemplate):
         ticktext=truncated_labels,  # Display truncated labels on the x-axis
       ),
       yaxis=dict(
-        gridcolor='rgba(250,250,250,1)',  # Color of the gridlines
+        gridcolor='rgb(175, 175,175)',  # Color of the gridlines
         gridwidth=0.7,  # Thickness of the gridlines
         griddash='dash',  # Dash style of the gridlines
-        range=[0, max(cooperations) * 1.1]  # Adjust y-axis range to add extra space
+        range=[0, max(cooperations) * 1.1],  # Adjust y-axis range to add extra space
+        zerolinecolor='rgb(240,240,240)',  # Set the color of the zero line
+
       ),
       margin=dict(
         t=50  # Increase top margin to accommodate the labels
@@ -703,7 +712,8 @@ class C_Discover(C_DiscoverTemplate):
         showticklabels=False,  # Hide the tick labels
         showline=False,  # Hide the axis line
         zeroline=True,  # Ensure the zero line is visible
-        zerolinecolor='rgb(237,139,82)',  # Set the color of the zero line
+        # zerolinecolor='rgb(237,139,82)',  # Set the color of the zero line
+        zerolinecolor='rgb(175,175,175)',  # Set the color of the zero line
         zerolinewidth=2,  # Optionally set the width of the zero line
         showgrid=False  # Disable the grid lines
       ),
@@ -713,10 +723,10 @@ class C_Discover(C_DiscoverTemplate):
     )
     for trace in fig.data:
       trace.update(
-        marker_color='rgb(237,139,82)',
-        marker_line_color='rgb(237,139,82)',
+        marker_color='rgb(219,106,37)',
+        marker_line_color='rgb(219,106,37)',
         marker_line_width=1,
-        opacity=0.9
+        opacity=0.8
       )
     
     self.Release_Timing_Graph.figure = fig
@@ -728,17 +738,20 @@ class C_Discover(C_DiscoverTemplate):
       monthly_listeners = self.listeners_country_data["monthly_listeners"]
     if country_name is None:
       country_name = self.listeners_country_data["country_name"]
-      
+
+    # Format the text for the bar annotations
+    formatted_text = [f'{x/1e6:.1f}M' if x >= 1e6 else f'{x/1e3:.1f}K' if x >= 1e3 else str(x) for x in monthly_listeners]
+
     # Creating the Bar Chart
     fig = go.Figure(data=(
       go.Bar(
         x = country_codes,
         y = monthly_listeners,
-        text = monthly_listeners,
+        text = formatted_text,
         textposition='outside',
         hoverinfo='none',
         hovertext= country_name,
-        hovertemplate='Country: %{hovertext}<br>Monthly Listeners: %{y} <extra></extra>',
+        hovertemplate='Country: %{hovertext}<br>Monthly Listeners: %{text} <extra></extra>',
       )
     ))
 
@@ -751,10 +764,12 @@ class C_Discover(C_DiscoverTemplate):
         # ticktext=truncated_labels,  # Display truncated labels on the x-axis
       ),
       yaxis=dict(
-        gridcolor='rgba(250,250,250,1)',  # Color of the gridlines
+        gridcolor='rgb(175,175,175)',  # Color of the gridlines
         gridwidth=0.1,  # Thickness of the gridlines
         griddash='dash',  # Dash style of the gridlines
-        range=[0, max(monthly_listeners) * 1.1]  # Adjust y-axis range to add extra space
+        range=[0, max(monthly_listeners) * 1.1],  # Adjust y-axis range to add extra space
+        tickformat='~s',  # Format numbers with SI unit prefixes
+        zerolinecolor='rgb(240,240,240)',  # Set the color of the zero line
       ),
       margin=dict(
         t=50  # Increase top margin to accommodate the labels
@@ -779,17 +794,20 @@ class C_Discover(C_DiscoverTemplate):
       city_w_country_code = self.listeners_city_data["city_w_country_code"]
     if monthly_listeners is None:
       monthly_listeners = self.listeners_city_data["monthly_listeners"]
-      
+
+    # Format the text for the bar annotations
+    formatted_text = [f'{x/1e6:.1f}M' if x >= 1e6 else f'{x/1e3:.1f}K' if x >= 1e3 else str(x) for x in monthly_listeners]
+    
     # Creating the Bar Chart
     fig = go.Figure(data=(
       go.Bar(
         x = city_w_country_code,
         y = monthly_listeners,
-        text = monthly_listeners,
+        text = formatted_text,
         textposition='outside',
         hoverinfo='none',
         hovertext= city_w_country_code,
-        hovertemplate='City: %{hovertext}<br>Monthly Listeners: %{y} <extra></extra>',
+        hovertemplate='City: %{hovertext}<br>Monthly Listeners: %{text} <extra></extra>',
       )
     ))
 
@@ -802,10 +820,12 @@ class C_Discover(C_DiscoverTemplate):
         # ticktext=truncated_labels,  # Display truncated labels on the x-axis
       ),
       yaxis=dict(
-        gridcolor='rgba(250,250,250,1)',  # Color of the gridlines
-        gridwidth=0.1,  # Thickness of the gridlines
+        gridcolor='rgb(175,175,175)',  # Color of the gridlines
+        gridwidth=1,  # Thickness of the gridlines
         griddash='dash',  # Dash style of the gridlines
-        range=[0, max(monthly_listeners) * 1.2]  # Adjust y-axis range to add extra space
+        range=[0, max(monthly_listeners) * 1.2],  # Adjust y-axis range to add extra space
+        tickformat='~s',  # Format numbers with SI unit prefixes
+        zerolinecolor='rgb(240,240,240)',  # Set the color of the zero line
       ),
       margin=dict(
         t=50  # Increase top margin to accommodate the labels
@@ -830,7 +850,8 @@ class C_Discover(C_DiscoverTemplate):
       dates = self.scatter_data["dates"]
     if artist_popularity is None:
       artist_popularity = self.scatter_data["artist_popularity"]
-      
+
+    
     # Creating the Scatter Chart
     fig = go.Figure(data=(
       go.Scatter(
@@ -853,7 +874,7 @@ class C_Discover(C_DiscoverTemplate):
       ),
       yaxis=dict(
         shogrid=True,
-        gridcolor='rgba(250,250,250,1)',  # Color of the gridlines
+        gridcolor='rgb(175,175,175)',  # Color of the gridlines
         gridwidth=0.1,  # Thickness of the gridlines
         griddash='dash'  # Dash style of the gridlines
       ),
@@ -877,17 +898,20 @@ class C_Discover(C_DiscoverTemplate):
       dates = self.scatter_data["dates"]
     if artist_followers is None:
       artist_followers = self.scatter_data["artist_followers"]
-      
+
+    # Format the text for the bar annotations
+    formatted_text = [f'{x/1e6:.1f}M' if x >= 1e6 else f'{x/1e3:.1f}K' if x >= 1e3 else str(x) for x in artist_followers]
+
     # Creating the Scatter Chart
     fig = go.Figure(data=(
       go.Scatter(
         x = dates,
         y = artist_followers,
-        text = artist_followers,
+        text = formatted_text,
         textposition='outside',
         hoverinfo='none',
         hovertext= dates,
-        hovertemplate='Date: %{hovertext}<br>Artist Spotify Followers: %{y} <extra></extra>',
+        hovertemplate='Date: %{hovertext}<br>Artist Spotify Followers: %{text} <extra></extra>',
       )
     ))
     fig.update_layout(
@@ -900,9 +924,11 @@ class C_Discover(C_DiscoverTemplate):
       ),
       yaxis=dict(
         shogrid=True,
-        gridcolor='rgba(250,250,250,1)',  # Color of the gridlines
+        gridcolor='rgba(175,175,175,1)',  # Color of the gridlines
         gridwidth=0.1,  # Thickness of the gridlines
-        griddash='dash'  # Dash style of the gridlines
+        griddash='dash',  # Dash style of the gridlines
+        tickformat='~s'  # Format numbers with SI unit prefixes
+
       ),
       hoverlabel=dict(
         bgcolor='rgba(237,139,82, 0.4)'
@@ -911,7 +937,7 @@ class C_Discover(C_DiscoverTemplate):
     for trace in fig.data:
       trace.update(
         marker_color='rgb(237,139,82)',
-        # marker_color='rgb(240,229,252)',
+        # marker_color='rgb(237,139,82)',
         marker_line_color='rgb(237,139,82)',
         marker_line_width=1,
         opacity=0.9
@@ -925,16 +951,20 @@ class C_Discover(C_DiscoverTemplate):
     if monthly_listeners is None:
       monthly_listeners = self.listeners_data["monthly_listeners"]
       
+    # Format the text for the bar annotations
+    formatted_text = [f'{x/1e6:.1f}M' if x >= 1e6 else f'{x/1e3:.1f}K' if x >= 1e3 else str(x) for x in monthly_listeners]
+
     # Creating the Scatter Chart
     fig = go.Figure(data=(
       go.Scatter(
         x = dates,
         y = monthly_listeners,
-        text = monthly_listeners,
+        mode='lines',
+        text = formatted_text,
         textposition='outside',
         hoverinfo='none',
         hovertext= dates,
-        hovertemplate='Date: %{hovertext}<br>Artist Spotify Monthly Listeners: %{y} <extra></extra>',
+        hovertemplate='Date: %{hovertext}<br>Artist Spotify Monthly Listeners: %{text} <extra></extra>',
       )
     ))
     fig.update_layout(
@@ -947,9 +977,11 @@ class C_Discover(C_DiscoverTemplate):
       ),
       yaxis=dict(
         shogrid=True,
-        gridcolor='rgba(250,250,250,1)',  # Color of the gridlines
+        gridcolor='rgb(175,175,175)',  # Color of the gridlines
         gridwidth=0.1,  # Thickness of the gridlines
-        griddash='dash'  # Dash style of the gridlines
+        griddash='dash',  # Dash style of the gridlines
+        tickformat='~s'  # Format numbers with SI unit prefixes
+
       ),
       hoverlabel=dict(
         bgcolor='rgba(237,139,82, 0.4)'
