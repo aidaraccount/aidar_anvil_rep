@@ -705,7 +705,7 @@ components:
         type: Label
         layout_properties: {grid_position: 'OUNJOQ,YGGRIR CZNYMS,SHICGI'}
       - name: instagram_chart
-        properties: {spacing_above: none, spacing_below: none, height: '300', visible: true, tooltip: '', interactive: true}
+        properties: {spacing_above: none, spacing_below: none, height: '275', visible: true, tooltip: '', interactive: true}
         type: Plot
         layout_properties: {grid_position: 'OUNJOQ,YGGRIR ZUQZLT,YYATUP'}
         event_bindings: {}
@@ -718,7 +718,7 @@ components:
         type: Label
         layout_properties: {grid_position: 'OUNJOQ,YGGRIR RBDZJD,YFIHZJ'}
       - name: youtube_chart
-        properties: {spacing_above: none, spacing_below: none, height: '300', visible: true, tooltip: '', interactive: true}
+        properties: {spacing_above: none, spacing_below: none, height: '275', visible: true, tooltip: '', interactive: true}
         type: Plot
         layout_properties: {grid_position: 'OUNJOQ,YGGRIR JBUADV,RMSYUN'}
         event_bindings: {}
@@ -731,7 +731,7 @@ components:
         type: Label
         layout_properties: {grid_position: 'OUNJOQ,OVHHBN UHAGCX,DYXZBY'}
       - name: tiktok_chart
-        properties: {spacing_above: none, spacing_below: none, height: '300', visible: true, tooltip: '', interactive: true}
+        properties: {spacing_above: none, spacing_below: none, height: '275', visible: true, tooltip: '', interactive: true}
         type: Plot
         layout_properties: {grid_position: 'OUNJOQ,OVHHBN WMNFAG,TABHGQ'}
         event_bindings: {}
@@ -744,7 +744,7 @@ components:
         type: Label
         layout_properties: {grid_position: 'OUNJOQ,OVHHBN OZWNQS,JCHKGR'}
       - name: soundcloud_chart
-        properties: {spacing_above: none, spacing_below: none, height: '300', visible: true, tooltip: '', interactive: true}
+        properties: {spacing_above: none, spacing_below: none, height: '275', visible: true, tooltip: '', interactive: true}
         type: Plot
         layout_properties: {grid_position: 'OUNJOQ,OVHHBN XPFYMI,HXLGFL'}
         event_bindings: {}
