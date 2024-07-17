@@ -4,7 +4,7 @@ container:
   properties: {role: rows_discover_page}
 components:
 - name: column_panel_1
-  properties: {col_widths: '{"POBPFZ":15,"ZUUXYF":45}', spacing_above: none}
+  properties: {col_widths: '{"POBPFZ":15,"ZUUXYF":45}', spacing_above: none, spacing_below: none, role: center-table-element}
   type: ColumnPanel
   layout_properties: {column: JKSDUP}
   components:
@@ -23,7 +23,7 @@ components:
       data_bindings:
       - {property: source, code: 'self.item[''ArtistPictureURL'']', writeback: false}
   - name: related_artist_name_link
-    properties: {role: artist_name, spacing_above: none}
+    properties: {role: artist_name, spacing_above: none, spacing_below: none, col_spacing: medium}
     type: Link
     layout_properties: {grid_position: 'BGRBQL,ZUUXYF'}
     data_bindings:
