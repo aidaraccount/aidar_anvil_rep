@@ -17,7 +17,7 @@ components:
     event_bindings: {click: related_artist_pic_link_click}
     components:
     - name: related_artist_image
-      properties: {height: '60', spacing_above: none}
+      properties: {height: '70', spacing_above: none, role: artist-image-tables}
       type: Image
       layout_properties: {grid_position: 'ZCXBZR,YZBAZV'}
       data_bindings:

@@ -90,6 +90,8 @@ roles:
   components: [Link, Label]
 - name: underline-link
   components: [Link]
+- name: artist-image-tables
+  components: [Image]
 color_scheme:
   preset_groups:
   - name: Accent
