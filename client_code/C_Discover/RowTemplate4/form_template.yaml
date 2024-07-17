@@ -23,7 +23,7 @@ components:
       data_bindings:
       - {property: source, code: 'self.item[''ArtistPictureURL'']', writeback: false}
   - name: related_artist_name_link
-    properties: {role: artist_name, spacing_above: none}
+    properties: {role: artist_name, spacing_above: none, spacing_below: none}
     type: Link
     layout_properties: {grid_position: 'BGRBQL,ZUUXYF'}
     data_bindings:
