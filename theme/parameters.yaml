@@ -104,6 +104,8 @@ roles:
   components: [Link]
 - name: rows_discover_page_no_image_table
   components: [RowTemplate]
+- name: grid-main
+  components: [ColumnPanel]
 color_scheme:
   preset_groups:
   - name: Accent

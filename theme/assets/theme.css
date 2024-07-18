@@ -708,7 +708,7 @@ a>.link-text {
 }
 .anvil-role-artist_name {
   font-family: GS-medium;
-  font-size: 20px;
+  font-size: 18px;
   color: %color:Text_White%;
 }
 .anvil-role-artist_name_shadow {
@@ -742,6 +742,14 @@ a>.link-text {
   margin-bottom: 5px;
   padding: 0;
 }
+.anvil-role-grid-main {
+  /* background-color: %color:Grid_Black%; */
+  background: linear-gradient(to top left, rgba(250, 250, 250, 0.08) 50%, rgb(31, 11, 59));
+  border-radius: 12px;
+  margin-top: 7px;
+  margin-bottom: 7px;
+  padding: 0;
+}
 .anvil-role-value {
   font-size: 24px;
   font-weight: bold;
@@ -760,7 +768,7 @@ a>.link-text {
 }
 
 .anvil-role-artist-image-tables {
-  border-radius: 15px;
+  border-radius: 10px;
 }
 
 .anvil-role-feature-login {
@@ -796,17 +804,30 @@ a>.link-text {
 
 
 .anvil-role-investigate_value {
-  font-size: 25px;
+  font-size: 20px;
   font-weight: bold;
   color: %color:Text_White%;
-  margin: 0;
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
   padding-left: 15px !important;
+  padding-right: 25px !important;
+  .label-text {
+    padding-top: 5px;
+    padding-bottom: 0px;
+  }
 }
 .anvil-role-investigate_feature {
   font-size: 14px;
-  font-weight: bold;
+  font-weight: normal;
   color: %color:Text_Grey%;
+  margin: 0, 0, 3px, 0 !important;
   padding-left: 15px !important;
+  padding-right: 25px !important;
+  .label-text {
+    padding-top: 0px !important;
+    padding-bottom: 5px;
+  }
 }
 a.anvil-role-investigate_feature:hover, a.anvil-role-investigate_feature:active, a.anvil-role-investigate_feature:focus {
   color: %color:Text_White%;

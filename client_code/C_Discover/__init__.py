@@ -220,8 +220,10 @@ class C_Discover(C_DiscoverTemplate):
       if biography != 'None':
         if len(biography) >= 200:
           self.bio_text.content = f"{biography[0:200]}..."
+          self.bio.visible = True
         else:
           self.bio_text.content = biography
+          self.bio.visible = False
       else:
         self.bio.visible = False     
 
@@ -677,6 +679,7 @@ class C_Discover(C_DiscoverTemplate):
   def create_release_timing_scatter_chart(self, data):    
     dates = [x["AlbumReleaseDate"] for x in data]
     tracks = [x["Title"] for x in data]
+    labels = [x["LabelName"] for x in data]
     release = [0] * len(data)
     
     # Creating the Scatter Chart
@@ -686,7 +689,7 @@ class C_Discover(C_DiscoverTemplate):
         y = release,
         textposition='outside',
         hoverinfo='none',
-        hovertext= [f"Date: {date}<br>Track: {track}" for date, track in zip(dates, tracks)],
+        hovertext= [f"Date: {date}<br>Track: {track}<br>Label: {label}" for date, track, label in zip(dates, tracks, labels)],
         hovertemplate='%{hovertext}<extra></extra>',
         marker=dict(
             color='rgb(237,139,82)',  # Color of the markers
