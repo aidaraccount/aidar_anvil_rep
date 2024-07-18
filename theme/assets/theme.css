@@ -540,7 +540,10 @@ body, html {
 
 .anvil-role-country-flag-icon {
   height: auto !important;
-  width: auto;
+  width: 34px !important;
+  img {
+    height: auto !important;
+  }
 }
 
 .anvil-role-star-tile {
