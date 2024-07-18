@@ -460,6 +460,7 @@ body, html {
   /* flex: 3; */
   background: linear-gradient(to top left, rgba(259, 250, 250, 0.1) 50%, rgb(31, 11, 59));
   border-radius: 15px;
+  /* border: 0.5px solid */
   /* height: 350px; */
 }
 .anvil-role-tile-background-right {
