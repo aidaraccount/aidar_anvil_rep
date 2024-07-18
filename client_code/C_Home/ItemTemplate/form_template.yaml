@@ -12,7 +12,7 @@ components:
     layout_properties: {x: 0, y: 0, width: 170}
     components:
     - name: image_1
-      properties: {role: null, vertical_align: center, spacing_above: none, background: '', horizontal_align: center, source: '', foreground: '', display_mode: zoom_to_fill, spacing_below: none, visible: true, border: '', tooltip: '', height: '130'}
+      properties: {role: null, vertical_align: center, spacing_above: none, background: '', horizontal_align: center, source: '', foreground: '', display_mode: zoom_to_fill, spacing_below: none, visible: true, border: '', tooltip: '', height: '140'}
       type: Image
       layout_properties: {grid_position: 'XISFUA,MXKFIP'}
       data_bindings:
@@ -25,12 +25,20 @@ components:
     data_bindings: []
     event_bindings: {click: link_1_click}
   - name: link_right
-    properties: {icon: 'fa:angle-right', role: artist_name_shadow, font_size: null, align: center}
+    properties:
+      icon: fa:angle-right
+      role: [artist_name_shadow, 'artist_name_shadow_arrows_right_home ']
+      font_size: null
+      align: center
     type: Link
     layout_properties: {x: 146, y: 0, width: 16}
     event_bindings: {click: link_right_click}
   - name: link_left
-    properties: {icon: 'fa:angle-left', role: artist_name_shadow, font_size: null, align: center}
+    properties:
+      icon: fa:angle-left
+      role: [artist_name_shadow, 'artist_name_shadow_arrows_left_home ']
+      font_size: null
+      align: center
     type: Link
     layout_properties: {x: 126, y: 0, width: 16}
     event_bindings: {click: link_left_click}

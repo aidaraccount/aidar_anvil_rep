@@ -711,10 +711,16 @@ a>.link-text {
   text-shadow: 2px 2px 7px rgba(0, 0, 0, 0.9);
 }
 .anvil-role-artist_name_shadow_arrows_left{
-  left: 135px !important;
+  left: 130px !important;
 }
 .anvil-role-artist_name_shadow_arrows_right {
   left: 150px !important;
+}
+.anvil-role-artist_name_shadow_arrows_left_home{
+  left: 115px !important;
+}
+.anvil-role-artist_name_shadow_arrows_right_home {
+  left: 135px !important;
 }
 .anvil-role-little_note {
   font-size: 12px;

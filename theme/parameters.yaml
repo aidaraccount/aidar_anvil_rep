@@ -96,6 +96,10 @@ roles:
   components: [Link]
 - name: 'artist_name_shadow_arrows_right '
   components: [Link]
+- name: 'artist_name_shadow_arrows_left_home '
+  components: [Link]
+- name: 'artist_name_shadow_arrows_right_home '
+  components: [Link]
 color_scheme:
   preset_groups:
   - name: Accent
