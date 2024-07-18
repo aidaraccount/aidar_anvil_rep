@@ -625,15 +625,15 @@ class C_Discover(C_DiscoverTemplate):
     truncated_labels = [self.truncate_label(label) for label in labels]
 
     # Format the text for the bar annotations
-    formatted_text = [f'{x/1e6:.1f}M' if x >= 1e6 else f'{x/1e3:.1f}K' if x >= 1e3 else str(x) for x in cooperations]
+    # formatted_text = [f'{x/1e6:.1f}M' if x >= 1e6 else f'{x/1e3:.1f}K' if x >= 1e3 else str(x) for x in cooperations]
 
     # Creating the Bar Chart
     fig = go.Figure(data=(
       go.Bar(
         x = labels,
         y = cooperations,
-        text = formatted_text,
-        textposition='outside',
+        # text = formatted_text,
+        # textposition='outside',
         hoverinfo='none',
         hovertext= labels,
         hovertemplate='Label: %{hovertext}<br>Cooperations: %{y} <extra></extra>',
@@ -741,14 +741,14 @@ class C_Discover(C_DiscoverTemplate):
 
     # Format the text for the bar annotations
     formatted_text = [f'{x/1e6:.1f}M' if x >= 1e6 else f'{x/1e3:.1f}K' if x >= 1e3 else str(x) for x in monthly_listeners]
-
+    
     # Creating the Bar Chart
     fig = go.Figure(data=(
       go.Bar(
         x = country_codes,
         y = monthly_listeners,
         text = formatted_text,
-        textposition='outside',
+        textposition='none',
         hoverinfo='none',
         hovertext= country_name,
         hovertemplate='Country: %{hovertext}<br>Monthly Listeners: %{text} <extra></extra>',
@@ -804,7 +804,7 @@ class C_Discover(C_DiscoverTemplate):
         x = city_w_country_code,
         y = monthly_listeners,
         text = formatted_text,
-        textposition='outside',
+        textposition='none',
         hoverinfo='none',
         hovertext= city_w_country_code,
         hovertemplate='City: %{hovertext}<br>Monthly Listeners: %{text} <extra></extra>',
