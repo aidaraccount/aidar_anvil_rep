@@ -292,7 +292,9 @@ body, html {
 } */
 /* Discover Page Buttons for the Release, Success, Fandom, and Music Sections */
 
-
+.anvil-data-grid>.data-grid-footer-panel>.pagination-buttons>a {
+  font-size: 18px;
+}
 
 /* CSS for the Navigation Buttons at the bottom of a table STARTS here*/
 .anvil-data-grid>.data-grid-footer-panel>.footer-slot {
