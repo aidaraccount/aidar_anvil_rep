@@ -710,6 +710,12 @@ a>.link-text {
   color: %color:Text_White%;
   text-shadow: 2px 2px 7px rgba(0, 0, 0, 0.9);
 }
+.anvil-role-artist_name_shadow_arrows_left{
+  left: 135px !important;
+}
+.anvil-role-artist_name_shadow_arrows_right {
+  left: 150px !important;
+}
 .anvil-role-little_note {
   font-size: 12px;
   color: %color:Text_Grey%;

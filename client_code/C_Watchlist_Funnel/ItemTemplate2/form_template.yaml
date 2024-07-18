@@ -25,12 +25,20 @@ components:
     data_bindings: []
     event_bindings: {click: link_1_click}
   - name: link_right
-    properties: {icon: 'fa:angle-right', role: artist_name_shadow, font_size: null, align: center}
+    properties:
+      icon: fa:angle-right
+      role: [artist_name_shadow, 'artist_name_shadow_arrows_right ']
+      font_size: null
+      align: center
     type: Link
     layout_properties: {x: 166, y: 0, width: 16}
     event_bindings: {click: link_right_click}
   - name: link_left
-    properties: {icon: 'fa:angle-left', role: artist_name_shadow, font_size: null, align: center}
+    properties:
+      icon: fa:angle-left
+      role: [artist_name_shadow, artist_name_shadow_arrows_left]
+      font_size: null
+      align: center
     type: Link
     layout_properties: {x: 146, y: 0, width: 16}
     event_bindings: {click: link_left_click}

@@ -92,6 +92,10 @@ roles:
   components: [Link]
 - name: artist-image-tables
   components: [Image]
+- name: artist_name_shadow_arrows_left
+  components: [Link]
+- name: 'artist_name_shadow_arrows_right '
+  components: [Link]
 color_scheme:
   preset_groups:
   - name: Accent
