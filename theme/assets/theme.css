@@ -185,8 +185,14 @@ body, html {
 }
 /* CSS to Format the Rows of the Dropdown Alert Table in the Related Artists Page ENDS here */
 
+.anvil-role-rows_discover_page_no_image_table {
+  padding: 5px 0px 5px;
+  align-items: center;
+  justify-items: left;
+  border-bottom: 1px solid rgba(128,110,137, 0.4);
+}
 .anvil-role-rows_discover_page {
-  padding: 10px 0px 5px;
+  padding: 0px 0px 0px;
   align-items: center;
   justify-items: left;
   border-bottom: 1px solid rgba(128,110,137, 0.4);

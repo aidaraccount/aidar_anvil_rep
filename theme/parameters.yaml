@@ -64,8 +64,10 @@ roles:
 - {name: table_content_talent_dev}
 - {name: talent-dev-custom-class}
 - {name: center-table-element}
-- {name: rows_dropdown}
-- {name: rows_discover_page}
+- name: rows_dropdown
+  components: [RowTemplate]
+- name: rows_discover_page
+  components: [RowTemplate]
 - {name: section_buttons}
 - name: sort-label
   components: [Label]
@@ -100,6 +102,8 @@ roles:
   components: [Link]
 - name: 'artist_name_shadow_arrows_right_home '
   components: [Link]
+- name: rows_discover_page_no_image_table
+  components: [RowTemplate]
 color_scheme:
   preset_groups:
   - name: Accent

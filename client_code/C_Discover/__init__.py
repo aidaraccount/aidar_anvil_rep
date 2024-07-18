@@ -807,7 +807,7 @@ class C_Discover(C_DiscoverTemplate):
         textposition='none',
         hoverinfo='none',
         hovertext= city_w_country_code,
-        hovertemplate='City: %{hovertext}<br>Monthly Listeners: %{text} <extra></extra>',
+        hovertemplate= 'City: %{hovertext}<br>Monthly Listeners: %{text} <extra></extra>',
       )
     ))
 

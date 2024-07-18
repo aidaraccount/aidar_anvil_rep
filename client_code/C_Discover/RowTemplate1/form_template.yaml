@@ -1,5 +1,5 @@
 is_package: true
 container:
   type: DataRowPanel
-  properties: {role: rows_discover_page}
+  properties: {role: rows_discover_page_no_image_table}
 components: []
