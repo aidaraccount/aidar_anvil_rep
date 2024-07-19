@@ -264,10 +264,21 @@ body, html {
 }
 
 /* Discover Page Buttons for the Release, Success, Fandom, and Music Sections */
+.anvil-role-overall-sec-background {
+  background: linear-gradient(to bottom, rgba(51, 51, 51, 0.2) 5%, rgba(0, 0, 0, 0));
+  .anvil-panel-section {
+    .anvil-panel-section-container.anvil-container-overflow {
+      margin-left: 0px !important;
+      margin-right: 0px !important;
+      }
+    }
+  }
+}
+
 .anvil-role-section-background {
   background: linear-gradient(to top left, rgba(51, 51, 51, 0.5) 50%, rgb(40, 40, 40));
   border-radius: 12px;
-  margin-top: 5px;
+  margin-top: 0px;
   margin-bottom: 5px;
   padding: 0;
 }

@@ -111,6 +111,8 @@ roles:
   components: [Link]
 - name: section-background
   components: [FlowPanel]
+- name: overall-sec-background
+  components: [ColumnPanel]
 color_scheme:
   preset_groups:
   - name: Accent
