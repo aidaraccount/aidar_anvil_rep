@@ -58,7 +58,8 @@ roles:
   components: [Link]
 - name: little_note
   components: [Link]
-- {name: description-bio}
+- name: description-bio
+  components: [RichText, Label]
 - {name: table_content_popup}
 - {name: related-artist-search-dropdown-header}
 - {name: table_content_talent_dev}
@@ -106,6 +107,8 @@ roles:
   components: [RowTemplate]
 - name: grid-main
   components: [ColumnPanel]
+- name: description-bio-link
+  components: [Link]
 color_scheme:
   preset_groups:
   - name: Accent

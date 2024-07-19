@@ -533,7 +533,7 @@ class C_Discover(C_DiscoverTemplate):
         self.KPI_tile_3.text = '-'
         self.KPI_tile_4.text = '-'
         #self.plot_audience_follower.visible = False
-        self.no_audience_follower.visible = True
+        #self.no_audience_follower.visible = True
       
       
       # -------------------------------

@@ -401,8 +401,9 @@ body, html {
 }
 .anvil-role-music-icons-tile {
   color: white;
-  padding: 0px 5px 0px;
+  padding: 0px 5px 0px 0px;
   margin: 10px 0px;
+  font-size: 20px;
 }
 
 .anvil-role-music-icons-tile:visited {
@@ -433,10 +434,13 @@ body, html {
 }
 .anvil-role-description-tile-bio-text {
   font-family: GS-regular;
-  font-size: 14px;
-  color: %color:Text_Grey% !important;
+  font-size: 13px;
+  color: %color:Text_DecentWhite% !important;
   width: auto !important;
   padding: 0px
+  .label-text {
+    padding-top: 0px !important;
+  }
 }
 .anvil-role-artist-image {
   /* position: absolute !important; */
@@ -535,7 +539,9 @@ body, html {
   letter-spacing: 1px;
   font-size: 22px;
   color: %color:Text_White%;
-  /* text-shadow: 2px 2px 7px rgba(0, 0, 0, 0.9); */
+  .label-text {
+    padding-bottom: 0px !important;
+  }
 }
 
 .anvil-role-country-flag-icon {
@@ -556,7 +562,7 @@ body, html {
   display: inline-block;
   padding: 0px 20px;
   margin: 0px 2px;
-  border-radius: 15px;
+  border-radius: 10px;
   background-color: rgb(130, 39, 118); /* Example background color */
   border: 1px solid rgb(130, 39, 118); /* Example border color */
   font-size: 14px; /* Example font size */
@@ -675,7 +681,16 @@ body, html {
 .anvil-role-description-bio {
   font-family: GS-regular;
   font-size: 14px;
-  color: %color:Text_Grey% !important;
+  color: %color:Text_DecentWhite% !important;
+  font-weight: normal;
+  /* width: 40%;
+  margin: 0 30% 0;
+  padding: 0 0 20px !important;  */
+}
+.anvil-role-description-bio-link {
+  font-family: GS-regular;
+  font-size: 10px;
+  color: %color:Orange% !important;
   font-weight: normal;
   /* width: 40%;
   margin: 0 30% 0;
@@ -696,9 +711,10 @@ body, html {
 .anvil-label>.label-text,
 a>.link-text {
   display:inline-block;
-  padding-top:2px;
+  padding-top: 0px;
   padding-bottom:5px;
-  white-space:pre-wrap
+  white-space:pre-wrap;
+  font-weight: normal;
 }
 .anvil-role-Discover_xypanel {
   margin: 10px 0 0 0;

@@ -39,12 +39,12 @@ components:
         type: Link
         event_bindings: {click: link_watchlist_name_click}
         name: link_watchlist_name
-    - properties: {spacing: large}
+    - properties: {spacing: small, spacing_below: none, vertical_align: top}
       type: FlowPanel
       layout_properties: {grid_position: 'KTIEJU,SKLDLY WJGMQK,GUYSZE'}
       name: Artist_Name_Details
       components: []
-    - properties: {spacing_above: none, spacing_below: none, role: description-tile-bio-text}
+    - properties: {spacing_above: none, spacing_below: small, role: description-tile-bio-text, vertical_align: bottom}
       type: FlowPanel
       layout_properties: {grid_position: 'KTIEJU,SKLDLY FYHMZB,OCVTSI'}
       name: Artist_Details
@@ -65,7 +65,7 @@ components:
       type: RichText
       layout_properties: {grid_position: 'KTIEJU,SKLDLY TKGZMO,RAKEZT'}
       name: bio_text
-    - properties: {icon: null, icon_align: null, role: description-bio, spacing_below: none, spacing_above: none, text: Show more, tooltip: null}
+    - properties: {role: description-bio-link, spacing_above: none, icon: 'fa:arrow-right', icon_align: right, foreground: '', spacing_below: none, font_size: null, tooltip: null, text: Show more}
       type: Link
       layout_properties: {grid_position: 'KTIEJU,SKLDLY EGCWKC,HLYSEA'}
       event_bindings: {click: bio_click}
@@ -105,7 +105,7 @@ components:
       layout_properties: {grid_position: 'ORIZUZ,FEOKJD VVXWEI,TQIGGV'}
       name: linear_panel_6
       components:
-      - properties: {text: Spotify Popularity, role: sub_title-regular-tile, spacing_above: none, spacing_below: none}
+      - properties: {text: Spotify Popularity, role: sub_title-regular-tile, spacing_above: small, spacing_below: none}
         type: Label
         layout_properties: {}
         name: label_8
@@ -118,7 +118,7 @@ components:
       layout_properties: {grid_position: 'ORIZUZ,NIJZSN HDZJOY,YGPOQI'}
       name: linear_panel_5
       components:
-      - properties: {text: Spotify Follower, role: sub_title-regular-tile, spacing_above: none, spacing_below: none}
+      - properties: {text: Spotify Follower, role: sub_title-regular-tile, spacing_above: small, spacing_below: none}
         type: Label
         layout_properties: {}
         name: label_7
@@ -131,7 +131,7 @@ components:
       layout_properties: {grid_position: 'ORIZUZ,NIJZSN GJRDAX,FMCRXN'}
       name: linear_panel_3
       components:
-      - properties: {text: Soundcloud Follower, role: sub_title-regular-tile, spacing_above: none, spacing_below: none}
+      - properties: {text: Soundcloud Follower, role: sub_title-regular-tile, spacing_above: small, spacing_below: none}
         type: Label
         layout_properties: {}
         name: label_5
@@ -144,7 +144,7 @@ components:
       layout_properties: {grid_position: 'ORIZUZ,FEOKJD GPIHJY,LGILBY'}
       name: linear_panel_4
       components:
-      - properties: {text: TikTok Follower, role: sub_title-regular-tile, spacing_above: none, spacing_below: none}
+      - properties: {text: TikTok Follower, role: sub_title-regular-tile, spacing_above: small, spacing_below: none}
         type: Label
         layout_properties: {}
         name: label_6
