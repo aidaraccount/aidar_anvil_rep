@@ -209,7 +209,7 @@ class C_Discover(C_DiscoverTemplate):
 
       # --------
       # prediction
-      if (str(sug["Prediction"]) == 'nan'):
+      if (str(sug["Prediction"]) == 'nan') or (str(sug["Prediction"]) == 'None'):
         self.prediction.visible = False
         self.prediction_text.visible = False
         self.no_prediction.visible = True
