@@ -437,6 +437,7 @@ class C_Discover(C_DiscoverTemplate):
       
       if audience_follower != []:
         # Initialize a dictionary to hold data for each platform
+        self.no_social_media.visible = False
         platform_data = defaultdict(lambda: {'dates': [], 'followers': []})
 
         # Populate the dictionary with data
@@ -449,11 +450,15 @@ class C_Discover(C_DiscoverTemplate):
           tiktok_fol_lat = platform_data['tiktok']['followers'][-1]
           self.tiktok_follower.text = f'{int(tiktok_fol_lat):,}'
           self.KPI_tile_3.text = f'{round(int(tiktok_fol_lat)/1000):,}K'
+        else:
+          self.KPI_tile_3.text = '-'
           
         if platform_data['soundcloud']['dates'] != []:
           soundcloud_fol_lat = platform_data['soundcloud']['followers'][-1]
           self.soundcloud_follower.text = f'{int(soundcloud_fol_lat):,}'
           self.KPI_tile_4.text = f'{round(int(soundcloud_fol_lat)/1000):,}K'
+        else:
+          self.KPI_tile_4.text = '-'
         
         def create_social_media_followers_chart(data, platform, color):
 
@@ -492,48 +497,52 @@ class C_Discover(C_DiscoverTemplate):
                 bgcolor='rgba(250, 250, 250, 0.1)',  # Background color of the hover label
             )
           )
-
-          # for trace in fig.data:
-          #   trace.update(
-          #   )
-
           return fig
 
+        # INSTAGRAM
         if platform_data['instagram']['dates']:
           self.instagram_chart.figure = create_social_media_followers_chart(platform_data['instagram'], 'Instagram', 'rgb(253, 101, 45)')
+          self.no_instagram.visible = False
         else:
-          self.instagram_chart.figure = None  # Handle the case when there's no data
+          #self.instagram_chart.figure = None  # Handle the case when there's no data
           self.instagram_chart.visible = False
-          self.no_instagram_chart.visible = True
+          self.no_instagram.visible = True
 
+        # TIKTOK
         if platform_data['tiktok']['dates']:
           self.tiktok_chart.figure = create_social_media_followers_chart(platform_data['tiktok'], 'TikTok', 'rgb(0, 153, 204)')
+          self.no_tiktok.visible = False
         else:
-          self.tiktok_chart.figure = None  # Handle the case when there's no data
+          #self.tiktok_chart.figure = None  # Handle the case when there's no data
           self.tiktok_chart.visible = False
-          self.no_tiktok_chart.visible = True
+          self.no_tiktok.visible = True
+          self.tiktok_follower.text = '-'
 
+        # YOUTUBE
         if platform_data['youtube']['dates']:
           self.youtube_chart.figure = create_social_media_followers_chart(platform_data['youtube'], 'YouTube', 'rgb(255, 0, 0)')
+          self.no_youtube.visible = False
         else:
-          self.youtube_chart.figure = None  # Handle the case when there's no data
+          #self.youtube_chart.figure = None  # Handle the case when there's no data
           self.youtube_chart.visible = False
-          self.no_youtube_chart.visible = True
-          
+          self.no_youtube.visible = True
+
+        # SOUNDCLOUD
         if platform_data['soundcloud']['dates']:
           self.soundcloud_chart.figure = create_social_media_followers_chart(platform_data['soundcloud'], 'SoundCloud', 'rgb(205, 60, 0)')
+          self.no_soundcloud.visible = False
         else:
-          self.soundcloud_chart.figure = None  # Handle the case when there's no data
+          #self.soundcloud_chart.figure = None  # Handle the case when there's no data
           self.soundcloud_chart.visible = False
-          self.no_soundcloud_chart.visible = True
+          self.no_soundcloud.visible = True
+          self.soundcloud_follower.text = '-'
           
       else:
         self.tiktok_follower.text = '-'
         self.soundcloud_follower.text = '-'
         self.KPI_tile_3.text = '-'
         self.KPI_tile_4.text = '-'
-        #self.plot_audience_follower.visible = False
-        #self.no_audience_follower.visible = True
+        self.no_social_media.visible = True
       
       
       # -------------------------------

@@ -109,7 +109,7 @@ components:
         type: Label
         layout_properties: {}
         name: label_8
-      - properties: {role: value-regular-tile, spacing_above: none, spacing_below: none, text: N/A}
+      - properties: {role: value-regular-tile, spacing_above: none, spacing_below: none, text: ''}
         type: Label
         layout_properties: {}
         name: KPI_tile_1
@@ -122,7 +122,7 @@ components:
         type: Label
         layout_properties: {}
         name: label_7
-      - properties: {role: value-regular-tile, spacing_above: none, spacing_below: none, text: N/A}
+      - properties: {role: value-regular-tile, spacing_above: none, spacing_below: none, text: ''}
         type: Label
         layout_properties: {}
         name: KPI_tile_2
@@ -135,7 +135,7 @@ components:
         type: Label
         layout_properties: {}
         name: label_5
-      - properties: {role: value-regular-tile, spacing_above: none, spacing_below: none, text: N/A}
+      - properties: {role: value-regular-tile, spacing_above: none, spacing_below: none, text: ''}
         type: Label
         layout_properties: {}
         name: KPI_tile_4
@@ -148,7 +148,7 @@ components:
         type: Label
         layout_properties: {}
         name: label_6
-      - properties: {role: value-regular-tile, spacing_above: none, spacing_below: none, text: N/A}
+      - properties: {role: value-regular-tile, spacing_above: none, spacing_below: none, text: ''}
         type: Label
         layout_properties: {}
         name: KPI_tile_3
@@ -160,7 +160,7 @@ components:
     properties: {height: '26'}
     type: Spacer
     layout_properties: {grid_position: 'UTITLB,JDUPJF'}
-  - properties: {spacing: small, role: grid, spacing_above: none, spacing_below: none, background: 'theme:Grid_Black'}
+  - properties: {spacing: small, role: section-background, spacing_above: none, spacing_below: none, background: ''}
     type: FlowPanel
     layout_properties: {grid_position: 'CKLNBG,MMQKXA'}
     name: flow_panel_sections
@@ -318,7 +318,7 @@ components:
         layout_properties: {grid_position: 'UHLFFT,AZCCED'}
         name: data_grid_releases
         components:
-        - properties: {item_template: C_Discover.RowTemplate1, role: table_content_small}
+        - properties: {item_template: C_Discover.RowTemplate1, role: table_content_small, spacing_below: none, spacing_above: none}
           type: RepeatingPanel
           layout_properties: {}
           name: data_grid_releases_data
@@ -699,58 +699,62 @@ components:
         properties: {text: ' Social Media Follower', role: Discover_artist_name, spacing_above: none, spacing_below: none, align: left}
         type: Label
         layout_properties: {grid_position: 'EAIWHG,HMKTEH'}
-      - name: Header_for_Social_Media_Followers_Graph_copy
+      - name: instagram_chart_header
         properties: {text: Instagram, role: Discover_artist_name, spacing_above: none, spacing_below: none, align: center}
         type: Label
-        layout_properties: {grid_position: 'OUNJOQ,YGGRIR CZNYMS,SHICGI'}
+        layout_properties: {grid_position: 'NAHBBS,VCXBFA PGAVCG,KMFFPR'}
       - name: instagram_chart
         properties: {spacing_above: none, spacing_below: none, height: '275', visible: true, tooltip: '', interactive: true}
         type: Plot
-        layout_properties: {grid_position: 'OUNJOQ,YGGRIR ZUQZLT,YYATUP'}
+        layout_properties: {grid_position: 'NAHBBS,VCXBFA HXOEJW,OVSMAN'}
         event_bindings: {}
-      - name: no_instagram_chart
+      - name: no_instagram
         properties: {text: no data available, align: center, role: description, visible: false, spacing_below: large, spacing_above: large}
         type: Label
-        layout_properties: {grid_position: 'OUNJOQ,YGGRIR VPDOUV,IHVWBP'}
-      - name: Header_for_Social_Media_Followers_Graph_copy_copy_copy
-        properties: {text: YouTube, role: Discover_artist_name, spacing_above: none, spacing_below: none, align: center}
-        type: Label
-        layout_properties: {grid_position: 'OUNJOQ,YGGRIR RBDZJD,YFIHZJ'}
-      - name: youtube_chart
-        properties: {spacing_above: none, spacing_below: none, height: '275', visible: true, tooltip: '', interactive: true}
-        type: Plot
-        layout_properties: {grid_position: 'OUNJOQ,YGGRIR JBUADV,RMSYUN'}
-        event_bindings: {}
-      - name: no_youtube_chart
-        properties: {text: no data available, align: center, role: description, visible: false, spacing_below: large, spacing_above: large}
-        type: Label
-        layout_properties: {grid_position: 'OUNJOQ,YGGRIR BMOFNO,DOQEVM'}
-      - name: Header_for_Social_Media_Followers_Graph_copy_copy
+        layout_properties: {grid_position: 'NAHBBS,VCXBFA RTGJHJ,MPTENE'}
+      - name: tiktok_chart_header
         properties: {text: TikTok, role: Discover_artist_name, spacing_above: none, spacing_below: none, align: center}
         type: Label
-        layout_properties: {grid_position: 'OUNJOQ,OVHHBN UHAGCX,DYXZBY'}
+        layout_properties: {grid_position: 'NAHBBS,EDBJGP JIAXPW,FVBVYO'}
       - name: tiktok_chart
         properties: {spacing_above: none, spacing_below: none, height: '275', visible: true, tooltip: '', interactive: true}
         type: Plot
-        layout_properties: {grid_position: 'OUNJOQ,OVHHBN WMNFAG,TABHGQ'}
+        layout_properties: {grid_position: 'NAHBBS,EDBJGP UEAENK,DYMISO'}
         event_bindings: {}
-      - name: no_tiktok_chart
+      - name: no_tiktok
         properties: {text: no data available, align: center, role: description, visible: false, spacing_below: large, spacing_above: large}
         type: Label
-        layout_properties: {grid_position: 'OUNJOQ,OVHHBN OHNBBJ,ZWLKKY'}
-      - name: Header_for_Social_Media_Followers_Graph_copy_copy_copy_copy
+        layout_properties: {grid_position: 'NAHBBS,EDBJGP KVYNZH,ZRMUJQ'}
+      - name: youtube_chart_header
+        properties: {text: YouTube, role: Discover_artist_name, spacing_above: none, spacing_below: none, align: center}
+        type: Label
+        layout_properties: {grid_position: 'XYJVKD,KHKOKZ AABEPO,YBFDQV'}
+      - name: youtube_chart
+        properties: {spacing_above: none, spacing_below: none, height: '275', visible: true, tooltip: '', interactive: true}
+        type: Plot
+        layout_properties: {grid_position: 'XYJVKD,KHKOKZ NVGVDR,KLCFXR'}
+        event_bindings: {}
+      - name: no_youtube
+        properties: {text: no data available, align: center, role: description, visible: false, spacing_below: large, spacing_above: large}
+        type: Label
+        layout_properties: {grid_position: 'XYJVKD,KHKOKZ DIFWIE,PZHNNS'}
+      - name: soundcloud_chart_header
         properties: {text: SoundCloud, role: Discover_artist_name, spacing_above: none, spacing_below: none, align: center}
         type: Label
-        layout_properties: {grid_position: 'OUNJOQ,OVHHBN OZWNQS,JCHKGR'}
+        layout_properties: {grid_position: 'XYJVKD,PNSRES WRKDTB,VQJWWI'}
       - name: soundcloud_chart
         properties: {spacing_above: none, spacing_below: none, height: '275', visible: true, tooltip: '', interactive: true}
         type: Plot
-        layout_properties: {grid_position: 'OUNJOQ,OVHHBN XPFYMI,HXLGFL'}
+        layout_properties: {grid_position: 'XYJVKD,PNSRES BJHMVD,FYNLFC'}
         event_bindings: {}
-      - name: no_soundcloud_chart
+      - name: no_soundcloud
         properties: {text: no data available, align: center, role: description, visible: false, spacing_below: large, spacing_above: large}
         type: Label
-        layout_properties: {grid_position: 'OUNJOQ,OVHHBN FMNSQV,CGQGPR'}
+        layout_properties: {grid_position: 'XYJVKD,PNSRES ELPIEG,NDEGJO'}
+      - name: no_social_media
+        properties: {text: no data available, align: center, role: description, visible: false, spacing_below: large, spacing_above: large}
+        type: Label
+        layout_properties: {grid_position: 'CEAIBL,TPBUDE'}
   - properties: {spacing_above: medium}
     type: ColumnPanel
     layout_properties: {grid_position: 'OTLNZS,FRDIQK'}

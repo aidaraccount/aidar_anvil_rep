@@ -109,6 +109,8 @@ roles:
   components: [ColumnPanel]
 - name: description-bio-link
   components: [Link]
+- name: section-background
+  components: [FlowPanel]
 color_scheme:
   preset_groups:
   - name: Accent
