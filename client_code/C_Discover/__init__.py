@@ -209,11 +209,18 @@ class C_Discover(C_DiscoverTemplate):
 
       # --------
       # prediction
-      if (sug["Prediction"] == 'None'): pred = 'N/A'
-      elif (float(sug["Prediction"]) > 7): pred = '100%'
-      elif (float(sug["Prediction"]) < 0): pred = '0%'
-      else: pred = "{:.0f}".format(round(float(sug["Prediction"])/7*100,0)) + '%'
-      self.prediction.text = pred
+      if (str(sug["Prediction"]) == 'nan'):
+        self.prediction.visible = False
+        self.prediction_text.visible = False
+        self.no_prediction.visible = True
+      else:
+        if (float(sug["Prediction"]) > 7): pred = '100%'
+        elif (float(sug["Prediction"]) < 0): pred = '0%'
+        else: pred = "{:.0f}".format(round(float(sug["Prediction"])/7*100,0)) + '%'
+        self.prediction.text = pred
+        self.prediction.visible = True
+        self.prediction_text.visible = True
+        self.no_prediction.visible = False
 
       # --------
       # biography

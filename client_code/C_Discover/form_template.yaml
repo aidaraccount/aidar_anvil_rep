@@ -96,8 +96,12 @@ components:
         type: Label
         layout_properties: {}
         name: prediction
-      - name: label_1
+      - name: prediction_text
         properties: {align: center, text: fit likelihood, role: feature, spacing_below: none, spacing_above: none}
+        type: Label
+        layout_properties: {}
+      - name: no_prediction
+        properties: {align: center, role: artist_name_shadow, text: Model     ramp-up}
         type: Label
         layout_properties: {}
     - properties: {spacing_above: small, spacing_below: none, role: highlights-tile-background}
