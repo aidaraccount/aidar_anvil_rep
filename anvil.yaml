@@ -66,3 +66,7 @@ db_schema:
       type: datetime
     title: Waiters
 native_deps: {head_html: '<script src="https://kit.fontawesome.com/f0d74f0b0e.js" crossorigin="anonymous"></script>'}
+dependencies:
+- dep_id: dep_fzfojeem3z01c
+  version: {dev: false}
+  resolution_hints: {app_id: C6ZZPAPN4YYF5NVJ, name: Anvil Extras, package_name: anvil_extras}
