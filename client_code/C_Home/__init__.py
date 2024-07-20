@@ -1,6 +1,8 @@
 from ._anvil_designer import C_HomeTemplate
 from anvil import *
 import anvil.server
+from anvil_extras import routing
+from ..click import click_link, click_button
 import anvil.users
 import anvil.tables as tables
 import anvil.tables.query as q
@@ -8,11 +10,16 @@ from anvil.tables import app_tables
 import json
 import datetime
 
+
+@routing.route('home', url_keys=['model_id'], title='Home')
+@routing.route('',     url_keys=['model_id'], title='Home')
 class C_Home(C_HomeTemplate):
-  def __init__(self, model_id, **properties):
+  def __init__(self, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
-
+    print(f"url_dict: {self.url_dict['model_id']}")
+    model_id = self.url_dict['model_id']
+    
     # Any code you write here will run before the form opens.
     begin = datetime.datetime.now()
     

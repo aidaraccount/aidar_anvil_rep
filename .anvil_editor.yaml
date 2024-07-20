@@ -45,7 +45,9 @@ unique_ids:
     C_Watchlist_Details.SelectionTemplate: '1701346413163292046583516.0293'
     C_Watchlist_Overview.RowTemplate6: '1720186617293569659336364.9696'
     C_Watchlist_Funnel.ItemTemplate2: '1703089383207767394072737.0022'
-  modules: {}
+  modules:
+    startup: '1721465556978241602748888.6191'
+    click: '1721465593132632167137815.505'
   server_modules:
     ServerModule1: '1673000496961952494883454.5172'
   assets:

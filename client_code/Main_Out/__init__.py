@@ -43,10 +43,11 @@ class Main_Out(Main_OutTemplate):
         )
         print(f"{datetime.datetime.now()}: Main_Out - link_login_click - 6", flush=True)
       except:
-        alert(
-          title="Unveiling New Features!",
-          content="Apologies for any inconvenience caused.\n\nWe are presently integrating new features and will have the site accessible again shortly.\n\nFeel free to contact us via email at info@aidar.ai.\n\nThank you,\nYour AIDAR Team",
-        )
+        pass
+        #alert(
+        #  title="Unveiling New Features!",
+        #  content="Apologies for any inconvenience caused.\n\nWe are presently integrating new features and will have the site accessible again shortly.\n\nFeel free to contact us via email at info@aidar.ai.\n\nThank you,\nYour AIDAR Team",
+        #)
 
   def button_login_click(self, **event_args):
     try:
@@ -67,10 +68,11 @@ class Main_Out(Main_OutTemplate):
             value=None,
           )
         except:
-          alert(
-            title="Unveiling New Features!",
-            content="Apologies for any inconvenience caused.\n\nWe are presently integrating new features and will have the site accessible again shortly.\n\nFeel free to contact us via email at info@aidar.ai.\n\nThank you,\nYour AIDAR Team",
-          )
+          pass
+          #alert(
+          #  title="Unveiling New Features!",
+          #  content="Apologies for any inconvenience caused.\n\nWe are presently integrating new features and will have the site accessible again shortly.\n\nFeel free to contact us via email at info@aidar.ai.\n\nThank you,\nYour AIDAR Team",
+          #)
     except:
       print("ERROR!!")
       Notification("",

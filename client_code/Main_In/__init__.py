@@ -1,6 +1,8 @@
 from ._anvil_designer import Main_InTemplate
 from anvil import *
 import anvil.server
+from anvil_extras import routing
+from ..click import click_link
 import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
@@ -25,7 +27,10 @@ from ..C_CreateModel import C_CreateModel
 from ..C_ConnectModel import C_ConnectModel
 from ..C_ModelProfile import C_ModelProfile
 
+routing.logger.debug = False
 
+
+@routing.main_router
 class Main_In(Main_InTemplate):
   def __init__(self, model_id, temp_artist_id, target, value, **properties):
     print(f"{datetime.datetime.now()}: Main_In - link_login_click - 1", flush=True)
@@ -60,7 +65,8 @@ class Main_In(Main_InTemplate):
       
     elif self.model_id is not None and target is None:
       print(f"{datetime.datetime.now()}: Main_In - link_login_click - 3a", flush=True)
-      self.content_panel.add_component(C_Home(model_id=self.model_id))
+      #self.content_panel.add_component(C_Home(model_id=self.model_id))
+      click_link(self.link_home, f'home?model_id={self.model_id}', None)
       print(f"{datetime.datetime.now()}: Main_In - link_login_click - 3b", flush=True)  # 3:10m, 2:12m - 19s
       self.link_home.background = "theme:Accent 2"
       print(f"{datetime.datetime.now()}: Main_In - link_login_click - 3c", flush=True)
@@ -190,8 +196,9 @@ class Main_In(Main_InTemplate):
   #----------------------------------------------------------------------------------------------
   # HOME
   def link_home_click(self, **event_args):
-    self.content_panel.clear()
-    self.content_panel.add_component(C_Home(model_id=self.model_id))
+    #self.content_panel.clear()
+    click_link(self.link_home, f'home?model_id={self.model_id}', event_args)
+    #self.content_panel.add_component(C_Home())
     self.reset_nav_backgrounds()
     self.link_home.background = "theme:Accent 2"
   
@@ -216,8 +223,9 @@ class Main_In(Main_InTemplate):
     self.link_discover_ai.background = "theme:Accent 2"
 
   def link_discover_rel_click(self, **event_args):
-    self.content_panel.clear()
-    self.content_panel.add_component(C_RelatedArtistSearch(model_id=self.model_id))
+    #self.content_panel.clear()
+    click_link(self.link_discover_rel, f'rel?model_id={self.model_id}', event_args)
+    #self.content_panel.add_component(C_RelatedArtistSearch(model_id=self.model_id))
     self.reset_nav_backgrounds()
     self.link_discover_rel.background = "theme:Accent 2"
 

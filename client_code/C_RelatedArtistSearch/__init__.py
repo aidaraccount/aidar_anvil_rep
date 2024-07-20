@@ -3,16 +3,22 @@ from ..C_RelatedPopupTable import C_RelatedPopupTable
 
 from anvil import *
 import anvil.server
+from anvil_extras import routing
+from ..click import click_link, click_button
 import anvil.users
 import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
 import json
 
+
+@routing.route('rel', url_keys=['model_id'], title='Home')
 class C_RelatedArtistSearch(C_RelatedArtistSearchTemplate):
-  def __init__(self, model_id, artist_id=None, name=None, **properties):
+  def __init__(self, artist_id=None, name=None, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
+    print(f"url_dict: {self.url_dict['model_id']}")
+    model_id = self.url_dict['model_id']
 
     # Any code you write here will run before the form opens.
     self.model_id=model_id  
