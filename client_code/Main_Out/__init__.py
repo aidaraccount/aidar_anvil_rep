@@ -9,19 +9,23 @@ import anvil.tables.query as q
 from anvil.tables import app_tables
 import datetime
 import re
-from ..Main_In import Main_In
+import time
+#from ..Main_In import Main_In
 from ..Imprint import Imprint
 
 
-#@routing.route('', title='Landing Page')
-@routing.main_router
+@routing.route('', title='Login')
 class Main_Out(Main_OutTemplate):
   def __init__(self, **properties):    
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
 
     # Any code you write here will run before the form opens.
+    #print("Entering Main_Out")
+    #time.sleep(2)
     check_log_status(self)
+    #print("we're leaving!")
+    #time.sleep(3)
 
   
   def link_login_click(self, **event_args):
@@ -45,6 +49,9 @@ class Main_Out(Main_OutTemplate):
           user_id=user["user_id"],
           value=None,
         )
+        #click_link(self.link_login, 'home?model_id=999', None)
+        #routing.set_url_hash('home?model_id=2')
+        time.sleep(3)
         print(f"{datetime.datetime.now()}: Main_Out - link_login_click - 6", flush=True)
       except:
         pass

@@ -17,7 +17,7 @@ class C_Home(C_HomeTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
-    print(f"url_dict: {self.url_dict['model_id']}")
+    print(f"url_dict: {self.url_dict}")
     model_id = self.url_dict['model_id']
     
     # Any code you write here will run before the form opens.
