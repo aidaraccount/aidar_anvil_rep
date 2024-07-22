@@ -1256,7 +1256,7 @@ footer a, .footer .anvil-component {
 .sidebar-button {
   position: fixed;
   right: 0;
-  top: 50%;
+  top: 20%;
   background-color: orange;
   color: white;
   border: none;
