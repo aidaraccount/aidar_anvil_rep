@@ -1,6 +1,8 @@
 from ._anvil_designer import Main_OutTemplate
 from anvil import *
 import anvil.server
+from anvil_extras import routing
+from ..click import click_link
 import anvil.users
 import anvil.tables as tables
 import anvil.tables.query as q
@@ -11,6 +13,8 @@ from ..Main_In import Main_In
 from ..Imprint import Imprint
 
 
+#@routing.route('', title='Landing Page')
+@routing.main_router
 class Main_Out(Main_OutTemplate):
   def __init__(self, **properties):    
     # Set Form properties and Data Bindings.
@@ -143,10 +147,14 @@ def check_log_status(self, **event_args):
     self.link_logout.visible = False
     self.link_home.visible = False
   else:
+    print("check point 1")
+    #print(f"url_dict: {self.url_dict}")
+    
     self.link_login.visible = False
     # self.link_register.visible = False
     self.link_logout.visible = True
     self.link_home.visible = True
+    
   if self.updates_sign.visible is True:
     self.link_login.visible = False
     self.link_register.visible = False

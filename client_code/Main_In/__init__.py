@@ -30,7 +30,8 @@ from ..C_ModelProfile import C_ModelProfile
 routing.logger.debug = False
 
 
-@routing.main_router
+#@routing.main_router
+@routing.route('', title='Main In')
 class Main_In(Main_InTemplate):
   def __init__(self, model_id, temp_artist_id, target, value, **properties):
     print(f"{datetime.datetime.now()}: Main_In - link_login_click - 1", flush=True)

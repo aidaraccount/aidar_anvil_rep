@@ -12,7 +12,7 @@ import datetime
 
 
 @routing.route('home', url_keys=['model_id'], title='Home')
-@routing.route('',     url_keys=['model_id'], title='Home')
+#@routing.route('',     url_keys=['model_id'], title='Home')
 class C_Home(C_HomeTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
