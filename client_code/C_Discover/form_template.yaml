@@ -3,7 +3,38 @@ custom_component: true
 container:
   type: HtmlTemplate
   properties:
-    html: "<div anvil-drop-default anvil-drop-redirect=\".placeholder\" anvil-drop-container=\".anvil-container\"></div>\n  <div class=\"footer\">\n    <div class=\"footer-slot\" anvil-slot=\"footer-slot\">\n    <div class=\"placeholder anvil-designer-only\" anvil-if-slot-empty=\"footer-slot\" anvil-drop-here>Drop a FlowPanel or Label or Link Component here</div>\n  </div>\n</div> \n\n"
+    html: |
+      <div class="container-panel">
+        <div class="main-content">
+          <div class="anvil-container" anvil-drop-container=".anvil-container">
+            <!-- Existing Anvil content will be added here -->
+          </div>
+        </div>
+        <div id="right-sidebar" class="anvil-container">
+          <p>Write your notes here...</p>
+          <anvil.TextBox placeholder="Test Test Test..."></anvil.TextBox>
+        </div>
+      </div>
+      <button class="sidebar-button" id="sidebar-button">Notes</button>
+
+      <!-- <div anvil-drop-default anvil-drop-redirect=".placeholder" anvil-drop-container=".anvil-container"></div> -->
+        <div class="footer">
+          <div class="footer-slot" anvil-slot="footer-slot">
+          <div class="placeholder anvil-designer-only" anvil-if-slot-empty="footer-slot" anvil-drop-here>Drop a FlowPanel or Label or Link Component here</div>
+        </div>
+      <!-- </div>  -->
+
+      <script>
+        document.addEventListener('DOMContentLoaded', function () {
+          const sidebar = document.getElementById('right-sidebar');
+          const button = document.getElementById('sidebar-button');
+
+          button.addEventListener('click', function () {
+            sidebar.classList.toggle('open');
+            button.classList.toggle('open');
+          });
+        });
+      </script>
     background: ''
     role: test
 components:

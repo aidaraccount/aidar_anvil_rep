@@ -1223,3 +1223,52 @@ footer a, .footer .anvil-component {
 .footer a .link-text {
   padding: 0 4px;
 }
+
+/* CSS for the Sidebar on the Discover Page STARTS Here */
+.container-panel {
+  display: flex;
+  width: 100%;
+}
+
+.main-content {
+  flex: 1;
+  padding: 20px;
+}
+
+#right-sidebar {
+  position: fixed;
+  right: -250px;
+  top: 0;
+  width: 250px;
+  height: 100%;
+  background-color: #f8f9fa;
+  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5);
+  transition: right 0.3s;
+  overflow-x: hidden;
+  padding-top: 60px;
+  z-index: 999;
+}
+
+#right-sidebar.open {
+  right: 0;
+}
+
+.sidebar-button {
+  position: fixed;
+  right: 0;
+  top: 50%;
+  background-color: orange;
+  color: white;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  z-index: 1000;
+  transition: right 0.3s;
+}
+
+.sidebar-button.open {
+  right: 250px;
+}
+
+
+/* CSS for the Sidebar on the Discover Page ENDS Here */
