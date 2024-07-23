@@ -1241,7 +1241,7 @@ footer a, .footer .anvil-component {
   top: 0;
   width: 500px;
   height: 90%;
-  background-color: rgb(51,51,51);
+  background-color: rgb(10,3,30);
   box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5);
   transition: right 0.2s;
   overflow-x: hidden;
@@ -1305,35 +1305,26 @@ footer a, .footer .anvil-component {
 }
 #right-sidebar .buttons-sidebar {
   display: flex;
-  justify-content: space-evenly;
-  margin: 20px;
+  justify-content: space-around;
+  padding: 40px 0px;
+  border-bottom: solid rgb(59, 59, 59);
 }
 #right-sidebar .buttons-sidebar button {
   border-radius: 15px;
   background: rgb(130,39,118);
   border: 0;
   font-size: 20px;
-  padding: 5px 15px;
+  padding: 5px 20px;
 }
-.right-sidebar .buttons button {
-  background-color: #6f42c1;
-  border: none;
-  color: white;
-  padding: 10px;
-  margin-right: 5px;
-  cursor: pointer;
-  border-radius: 5px;
+
+#right-sidebar .social-media-sidebar {
+  padding: 20px 20px 100px;
+  border-bottom: solid rgb(59, 59, 59);
 }
-.right-sidebar .buttons button:last-child {
-  margin-right: 0;
-}
-.right-sidebar .section {
-  margin-bottom: 20px;
-}
-.right-sidebar .section h3 {
+#right-sidebar .social-media-sidebar h3 {
   margin-top: 0;
 }
-.right-sidebar .contact p {
+#right-sidebar .social-media-sidebar p {
   margin: 5px 0;
 }
 .right-sidebar .description,

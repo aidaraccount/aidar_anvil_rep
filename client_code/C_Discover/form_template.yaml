@@ -19,11 +19,11 @@ container:
             <button>Priority</button>
             <button>Reminder</button>
           </div>
-          <div class="section">
+          <div class="social-media-sidebar">
             <h3>Social Media Links</h3>
             <!-- Add social media links here -->
           </div>
-          <div class="section contact">
+          <div class="section-contact-sidebar">
             <h3>Contact</h3>
             <p><strong>Name</strong><br>Max Mustermann</p>
             <p><strong>Email</strong><br>Mustermann@email.de</p>
