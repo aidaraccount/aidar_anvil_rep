@@ -1234,12 +1234,13 @@ footer a, .footer .anvil-component {
   padding: 20px;
 }
 #right-sidebar {
+  font-family: Gs-regular;
   position: fixed;
   right: -500px;
   top: 0;
   width: 500px;
   height: 90%;
-  background-color: rgb(0,0,0);
+  background-color: rgb(51,51,51);
   box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5);
   transition: right 0.2s;
   overflow-x: hidden;
@@ -1264,8 +1265,23 @@ footer a, .footer .anvil-component {
 .sidebar-button.open {
   right: 500px;
 }
+.header-sidebar{
+  position: fixed;
+  right: -500px;
+  top: 0;
+  width: 500px;
+  transition: right 0.2s;
+  overflow-x: hidden;
+  padding: 20px;
+  background: rgb(233,95,48);
+  color: white;
+}
+.header-sidebar.open {
+  right: 0;
+}
 .note_svg{
   height: 20px;
+  padding: 0 10px 0 0;
 }
 .right-sidebar .header {
   display: flex;

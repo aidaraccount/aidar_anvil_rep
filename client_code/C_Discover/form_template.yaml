@@ -9,11 +9,11 @@ container:
           <div class="anvil-container" anvil-drop-container=".anvil-container">
           </div>
         </div>
-        <div id="right-sidebar" class="anvil-container">
-          <div class="header">
+          <div class="header-sidebar">
             <img class="note_svg" src="_/theme/icons/Note.svg" alt="Notes Icon">
             <span>Notes for &lt;artist&gt;</span>
           </div>
+        <div id="right-sidebar" class="anvil-container">
           <div class="buttons">
             <button>Status</button>
             <button>Priority</button>
@@ -54,12 +54,14 @@ container:
         // window.onload = function () {
           console.log('Content Loadedddddddddd')
           const sidebar = document.getElementById('right-sidebar');
+          const headersidebar = document.getElementByClass('header-sidebar');
           const button = document.getElementById('sidebar-button');
 
           if (sidebar && button) {
             button.addEventListener('click', function () {
               console.log('clickedddddd');
               sidebar.classList.toggle('open');
+              headersidebar.classList.toggle('open');
               button.classList.toggle('open');
             });
           } else {
