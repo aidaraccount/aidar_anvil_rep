@@ -14,7 +14,7 @@ container:
             <img class="note_svg" src="_/theme/icons/Note.svg" alt="Notes Icon">
             <span>Notes for &lt;artist&gt;</span>
           </div>
-          <div class="buttons">
+          <div class="buttons-sidebar">
             <button>Status</button>
             <button>Priority</button>
             <button>Reminder</button>
@@ -41,7 +41,7 @@ container:
         </div>
       </div>
       <button class="sidebar-button" id="sidebar-button">
-        <img class="note_svg" src="_/theme/icons/Note.svg" alt="Notes Icon">
+        <img class="note_svg_button" src="_/theme/icons/Note.svg" alt="Notes Icon">
         <br>
         Notes
       </button>

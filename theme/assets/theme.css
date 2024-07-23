@@ -1235,6 +1235,7 @@ footer a, .footer .anvil-component {
 }
 #right-sidebar {
   font-family: Gs-regular;
+  color: rgb(250,250,250);
   position: fixed;
   right: -500px;
   top: 0;
@@ -1254,6 +1255,7 @@ footer a, .footer .anvil-component {
 }
 .sidebar-button {
   font-family: Gs-regular;
+  font-size: 20px;
   position: fixed;
   right: 0;
   top: 20%;
@@ -1264,6 +1266,8 @@ footer a, .footer .anvil-component {
   cursor: pointer;
   z-index: 1000;
   transition: right 0.2s;
+  border-top-left-radius: 15px;
+  border-bottom-left-radius: 15px;
 }
 .sidebar-button.open {
   right: 500px;
@@ -1281,6 +1285,10 @@ footer a, .footer .anvil-component {
   height: 20px;
   padding: 0 10px 0 0;
 }
+.note_svg_button{
+  height: 20px;
+  padding: 0 0 0 0;
+}
 .right-sidebar .header {
   display: flex;
   align-items: center;
@@ -1295,10 +1303,17 @@ footer a, .footer .anvil-component {
   font-size: 1.2em;
   font-weight: bold;
 }
-.right-sidebar .buttons {
+#right-sidebar .buttons-sidebar {
   display: flex;
-  justify-content: space-between;
-  margin-bottom: 20px;
+  justify-content: space-evenly;
+  margin: 20px;
+}
+#right-sidebar .buttons-sidebar button {
+  border-radius: 15px;
+  background: rgb(130,39,118);
+  border: 0;
+  font-size: 20px;
+  padding: 5px 15px;
 }
 .right-sidebar .buttons button {
   background-color: #6f42c1;
