@@ -25,17 +25,34 @@ container:
           </div>
           <div class="section-contact-sidebar">
             <h3>Contact</h3>
-            <p><strong>Name</strong><br>Max Mustermann</p>
-            <p><strong>Email</strong><br>Mustermann@email.de</p>
-            <p><strong>Phone</strong><br>123 45 678 9</p>
-            <p><strong>Other</strong><br>Management<br>www.Website.de</p>
+            <table class="contact-table">
+              <tr>
+                <th>Name</th>
+                <td>Max Mustermann</td>
+              </tr>
+              <tr>
+                <th>Email</th>
+                <td>Mustermann@email.de</td>
+              </tr>
+              <tr>
+                <th>Phone</th>
+                <td>123 45 678 9</td>
+              </tr>
+              <tr>
+                <th>Other</th>
+                <td>
+                  Management<br>
+                  www.Website.de
+                </td>
+              </tr>
+            </table>
           </div>
-          <div class="section">
+          <div class="description-section-sidebar">
             <h3>Description</h3>
             <textarea class="description" rows="4">Text</textarea>
           </div>
-          <div class="section">
-            <h3>Comment</h3>
+          <div class="comments-section-sidebar">
+            <h3>Comments</h3>
             <textarea class="comment" rows="2">Note</textarea>
           </div>
         </div>

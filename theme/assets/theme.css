@@ -1328,20 +1328,40 @@ footer a, .footer .anvil-component {
   margin: 5px 0;
 }
 
-#right-sidebar .social-media-sidebar {
+#right-sidebar .section-contact-sidebar {
   padding: 20px;
   border-bottom: solid rgb(59, 59, 59);
+  font-size: 16px;
+}
+#right-sidebar .section-contact-sidebar p {
+  display: flex;
+}
+#right-sidebar .section-contact-sidebar table {
+  width: 100;
+  border-collapse: collapse;
+  margin: 20px 0;
+}
+#right-sidebar .section-contact-sidebar table th, #right-sidebar .section-contact-sidebar table td {
+  padding: 10px;
+  text-align: left;
+  vertical-align: top;
+  color: white;
+}
+#right-sidebar .section-contact-sidebar table td{
+  width: 50%
 }
 
-.right-sidebar .description,
-.right-sidebar .comment {
-  background-color: #2e2e2e;
+#right-sidebar .description-section-sidebar,
+#right-sidebar .comments-section-sidebar {
   border: none;
   color: white;
-  padding: 10px;
+  padding: 20px;
   width: 100%;
   box-sizing: border-box;
-  margin-top: 10px;
+}
+#right-sidebar .description-section-sidebar textarea,
+#right-sidebar .comments-section-sidebar textarea {
+  background: transparent;
 }
 
 
