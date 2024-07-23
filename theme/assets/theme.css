@@ -1245,16 +1245,19 @@ footer a, .footer .anvil-component {
   transition: right 0.2s;
   overflow-x: hidden;
   margin: 0 0 0 0px;
+  border-bottom-left-radius: 15px;
+  border-top-left-radius: 15px;
   z-index: 999;
 }
 #right-sidebar.open {
   right: 0;
 }
 .sidebar-button {
+  font-family: Gs-regular;
   position: fixed;
   right: 0;
   top: 20%;
-  background-color: orange;
+  background-color: rgb(233,95,48);
   color: white;
   border: none;
   padding: 10px;
@@ -1265,16 +1268,11 @@ footer a, .footer .anvil-component {
 .sidebar-button.open {
   right: 500px;
 }
-.header-sidebar{
-  position: fixed;
-  right: -500px;
-  top: 0;
-  width: 500px;
-  transition: right 0.2s;
-  overflow-x: hidden;
+#right-sidebar .header-sidebar{
   padding: 20px;
   background: rgb(233,95,48);
   color: white;
+  border-top-left-radius: 15px;
 }
 .header-sidebar.open {
   right: 0;
