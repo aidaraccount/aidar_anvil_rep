@@ -3,7 +3,70 @@ custom_component: true
 container:
   type: HtmlTemplate
   properties:
-    html: "<div class=\"container-panel\">\n  <div class=\"main-content\">\n    <div class=\"anvil-container\" anvil-drop-container=\".anvil-container\">\n    </div>\n  </div>\n  <div id=\"right-sidebar\" class=\"anvil-container\">\n    <p>Write your notes here...</p>\n    <anvil.TextBox placeholder=\"Test Test Test...\"></anvil.TextBox>\n  </div>\n</div>\n<button class=\"sidebar-button\" id=\"sidebar-button\">Notes</button>\n\n<div anvil-drop-default anvil-drop-redirect=\".placeholder\" anvil-drop-container=\".anvil-container\"></div>\n<div class=\"footer\">\n  <div class=\"footer-slot\" anvil-slot=\"footer-slot\">\n  <div class=\"placeholder anvil-designer-only\" anvil-if-slot-empty=\"footer-slot\" anvil-drop-here>Drop a FlowPanel or Label or Link Component here</div>\n</div>\n</div> \n\n<script>\n  console.log('This is printed in the consoleeeee')\n  // window.onload = function () {\n    console.log('Content Loadedddddddddd')\n    const sidebar = document.getElementById('right-sidebar');\n    const button = document.getElementById('sidebar-button');\n\n    if (sidebar && button) {\n      button.addEventListener('click', function () {\n        console.log('clickedddddd');\n        sidebar.classList.toggle('open');\n        button.classList.toggle('open');\n      });\n    } else {\n      console.error(\"Sidebar or button element not found..\");\n    }\n  // };\n</script>\n"
+    html: |
+      <div class="container-panel">
+        <div class="main-content">
+          <div class="anvil-container" anvil-drop-container=".anvil-container">
+          </div>
+        </div>
+        <div id="right-sidebar" class="anvil-container">
+          <div class="header">
+            <img src="" alt="Notes Icon">
+            <span>Notes for &lt;artist&gt;</span>
+          </div>
+          <div class="buttons">
+            <button>Status</button>
+            <button>Priority</button>
+            <button>Reminder</button>
+          </div>
+          <div class="section">
+            <h3>Social Media Links</h3>
+            <!-- Add social media links here -->
+          </div>
+          <div class="section contact">
+            <h3>Contact</h3>
+            <p><strong>Name</strong><br>Max Mustermann</p>
+            <p><strong>Email</strong><br>Mustermann@email.de</p>
+            <p><strong>Phone</strong><br>123 45 678 9</p>
+            <p><strong>Other</strong><br>Management<br>www.Website.de</p>
+          </div>
+          <div class="section">
+            <h3>Description</h3>
+            <textarea class="description" rows="4">Text</textarea>
+          </div>
+          <div class="section">
+            <h3>Comment</h3>
+            <textarea class="comment" rows="2">Note</textarea>
+          </div>
+        </div>
+      </div>
+      <button class="sidebar-button" id="sidebar-button">Notes</button>
+
+      <!-- <div anvil-drop-default anvil-drop-redirect=".placeholder" anvil-drop-container=".anvil-container"></div> -->
+        <div class="footer">
+          <div class="footer-slot" anvil-slot="footer-slot">
+          <div class="placeholder anvil-designer-only" anvil-if-slot-empty="footer-slot" anvil-drop-here>Drop a FlowPanel or Label or Link Component here</div>
+        </div>
+      <!-- </div>  -->
+
+      <script>
+        console.log('This is printed in the consoleeeee')
+        // window.onload = function () {
+          console.log('Content Loadedddddddddd')
+          const sidebar = document.getElementById('right-sidebar');
+          const button = document.getElementById('sidebar-button');
+
+          if (sidebar && button) {
+            button.addEventListener('click', function () {
+              console.log('clickedddddd');
+              sidebar.classList.toggle('open');
+              button.classList.toggle('open');
+            });
+          } else {
+            console.error("Sidebar or button element not found..");
+          }
+        // };
+      </script>
     background: ''
     role: test
 components:

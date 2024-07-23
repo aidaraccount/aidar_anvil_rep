@@ -1237,7 +1237,7 @@ footer a, .footer .anvil-component {
 
 #right-sidebar {
   position: fixed;
-  right: -250px;
+  right: 250px;
   top: 0;
   width: 250px;
   height: 100%;
@@ -1268,6 +1268,38 @@ footer a, .footer .anvil-component {
 
 .sidebar-button.open {
   right: 250px;
+}
+
+.right-sidebar .buttons button {
+  background-color: #6f42c1;
+  border: none;
+  color: white;
+  padding: 10px;
+  margin-right: 5px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+.right-sidebar .buttons button:last-child {
+  margin-right: 0;
+}
+.right-sidebar .section {
+  margin-bottom: 20px;
+}
+.right-sidebar .section h3 {
+  margin-top: 0;
+}
+.right-sidebar .contact p {
+  margin: 5px 0;
+}
+.right-sidebar .description,
+.right-sidebar .comment {
+  background-color: #2e2e2e;
+  border: none;
+  color: white;
+  padding: 10px;
+  width: 100%;
+  box-sizing: border-box;
+  margin-top: 10px;
 }
 
 
