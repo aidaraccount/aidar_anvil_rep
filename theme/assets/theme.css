@@ -1235,15 +1235,15 @@ footer a, .footer .anvil-component {
 }
 #right-sidebar {
   position: fixed;
-  right: -300px;
+  right: -500px;
   top: 0;
-  width: 300px;
-  height: 100%;
+  width: 500px;
+  height: 90%;
   background-color: rgb(0,0,0);
   box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5);
   transition: right 0.2s;
   overflow-x: hidden;
-  padding-top: 60px;
+  margin: 0 0 0 0px;
   z-index: 999;
 }
 #right-sidebar.open {
@@ -1259,13 +1259,13 @@ footer a, .footer .anvil-component {
   padding: 10px;
   cursor: pointer;
   z-index: 1000;
-  transition: right 0.3s;
+  transition: right 0.2s;
+}
+.sidebar-button.open {
+  right: 500px;
 }
 .note_svg{
   height: 20px;
-}
-.sidebar-button.open {
-  right: 300px;
 }
 .right-sidebar .header {
   display: flex;
