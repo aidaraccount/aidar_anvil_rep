@@ -11,7 +11,7 @@ container:
         </div>
         <div id="right-sidebar" class="anvil-container">
           <div class="header">
-            <img src="" alt="Notes Icon">
+            <img class="note_svg" src="_/theme/icons/Note.svg" alt="Notes Icon">
             <span>Notes for &lt;artist&gt;</span>
           </div>
           <div class="buttons">

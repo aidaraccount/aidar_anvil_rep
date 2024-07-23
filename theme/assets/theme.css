@@ -1229,30 +1229,26 @@ footer a, .footer .anvil-component {
   display: flex;
   width: 100%;
 }
-
 .main-content {
   flex: 1;
   padding: 20px;
 }
-
 #right-sidebar {
   position: fixed;
-  right: 250px;
+  right: -300px;
   top: 0;
-  width: 250px;
+  width: 300px;
   height: 100%;
-  background-color: #f8f9fa;
+  background-color: rgb(0,0,0);
   box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5);
-  transition: right 0.3s;
+  transition: right 0.2s;
   overflow-x: hidden;
   padding-top: 60px;
   z-index: 999;
 }
-
 #right-sidebar.open {
   right: 0;
 }
-
 .sidebar-button {
   position: fixed;
   right: 0;
@@ -1265,11 +1261,31 @@ footer a, .footer .anvil-component {
   z-index: 1000;
   transition: right 0.3s;
 }
-
-.sidebar-button.open {
-  right: 250px;
+.note_svg{
+  height: 20px;
 }
-
+.sidebar-button.open {
+  right: 300px;
+}
+.right-sidebar .header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+.right-sidebar .header img {
+  width: 30px;
+  height: 30px;
+}
+.right-sidebar .header span {
+  font-size: 1.2em;
+  font-weight: bold;
+}
+.right-sidebar .buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
 .right-sidebar .buttons button {
   background-color: #6f42c1;
   border: none;
