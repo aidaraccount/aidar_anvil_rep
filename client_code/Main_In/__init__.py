@@ -167,10 +167,7 @@ class Main_In(Main_InTemplate):
     self.content_panel.clear()
     self.content_panel.add_component(C_ModelProfile(model_id=link_model_id, target=None))
   # ------------
-  
-  def logo_click(self, **event_args):
-    open_form('Main_Out')
-    
+      
   def logout_click(self, **event_args):
     logout()
 
@@ -236,8 +233,8 @@ class Main_In(Main_InTemplate):
   def link_discover_ai_click(self, temp_artist_id=None, **event_args):
     #self.content_panel.clear()
     #self.content_panel.add_component(C_Discover(model_id=self.model_id, temp_artist_id=temp_artist_id))
-    temp_artist_id = 4
-    click_link(self.link_discover_ai, f'artists?artist_id={temp_artist_id}', event_args)
+    sug = json.loads(anvil.server.call('get_suggestion', 'Inspect', self.model_id, temp_artist_id))
+    click_link(self.link_discover_ai, f'artists?artist_id={sug["ArtistID"]}', event_args)
     self.reset_nav_backgrounds()
     self.link_discover_ai.background = "theme:Accent 2"
 
@@ -248,15 +245,16 @@ class Main_In(Main_InTemplate):
     self.reset_nav_backgrounds()
     self.link_discover_rel.background = "theme:Accent 2"
 
-  def route_discover_rel_data(self, artist_id, name, **event_args):
-    self.content_panel.clear()
-    self.content_panel.add_component(C_RelatedArtistSearch(model_id=self.model_id, artist_id=artist_id, name=name))
-    self.reset_nav_backgrounds()
-    self.link_discover_rel.background = "theme:Accent 2"    
+  #def route_discover_rel_data(self, artist_id, name, **event_args):
+  #  self.content_panel.clear()
+  #  self.content_panel.add_component(C_RelatedArtistSearch(model_id=self.model_id, artist_id=artist_id, name=name))
+  #  self.reset_nav_backgrounds()
+  #  self.link_discover_rel.background = "theme:Accent 2"    
     
   def link_discover_name_click(self, search=None, **event_args):
-    self.content_panel.clear()
-    self.content_panel.add_component(C_SearchArtist(model_id=self.model_id, search=search))
+    #self.content_panel.clear()
+    #self.content_panel.add_component(C_SearchArtist(model_id=self.model_id, search=search))
+    click_link(self.link_discover_name, 'search', event_args)
     self.reset_nav_backgrounds()
     self.link_discover_name.background = "theme:Accent 2"
 

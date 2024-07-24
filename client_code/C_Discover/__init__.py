@@ -39,8 +39,7 @@ class C_Discover(C_DiscoverTemplate):
     
     #print(f"{datetime.now()}: C_Discover - __init__ - 2", flush=True)
     self.refresh_sug(self.model_id, temp_artist_id)
-    #print(f"{datetime.now()}: C_Discover - __init__ - 3", flush=True)
-    
+    #print(f"{datetime.now()}: C_Discover - __init__ - 3", flush=True)    
     #print(f"TotalTime C_Discover: {datetime.now() - begin}", flush=True)
 
 
@@ -51,6 +50,8 @@ class C_Discover(C_DiscoverTemplate):
     temp_artist_id_global = temp_artist_id
     self.spacer_bottom_margin.height = 80
     sug = json.loads(anvil.server.call('get_suggestion', 'Inspect', self.model_id, temp_artist_id)) # Free, Explore, Inspect, Dissect
+
+    routing.set_url_hash(f'artists?artist_id={sug["ArtistID"]}')
     
     self.Artist_Name_Details.clear()
     self.flow_panel_genre_tile.clear()
