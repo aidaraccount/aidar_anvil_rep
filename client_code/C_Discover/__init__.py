@@ -13,10 +13,19 @@ from collections import defaultdict
 import itertools
 from ..CustomAlertForm import CustomAlertForm  # Import the custom form
 
+from anvil_extras import routing
+from ..nav import click_link, click_button, logout, login_check, load_var
 
+
+@routing.route('artists', url_keys=['artist_id'], title='Artists')
 class C_Discover(C_DiscoverTemplate):
-  def __init__(self, model_id, temp_artist_id, **properties):
-    print(f"{datetime.now()}: C_Discover - __init__ - 1", flush=True)    
+  def __init__(self, **properties):
+    #print(f"{datetime.now()}: C_Discover - __init__ - 1", flush=True)    
+    
+    model_id = load_var("model_id")
+    print(f"Discover model_id: {model_id}")
+    temp_artist_id = self.url_dict['artist_id']
+    print(f"Discover temp_artist_id: {temp_artist_id}")
     
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
@@ -28,11 +37,11 @@ class C_Discover(C_DiscoverTemplate):
     user = anvil.users.get_user()
     self.model_id = model_id
     
-    print(f"{datetime.now()}: C_Discover - __init__ - 2", flush=True)
+    #print(f"{datetime.now()}: C_Discover - __init__ - 2", flush=True)
     self.refresh_sug(self.model_id, temp_artist_id)
-    print(f"{datetime.now()}: C_Discover - __init__ - 3", flush=True)
+    #print(f"{datetime.now()}: C_Discover - __init__ - 3", flush=True)
     
-    print(f"TotalTime C_Discover: {datetime.now() - begin}", flush=True)
+    #print(f"TotalTime C_Discover: {datetime.now() - begin}", flush=True)
 
 
   # -------------------------------------------

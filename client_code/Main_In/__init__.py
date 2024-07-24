@@ -34,17 +34,17 @@ routing.logger.debug = False
 @routing.main_router
 class Main_In(Main_InTemplate):
   def __init__(self, **properties):
-    print(f"{datetime.datetime.now()}: Main_In - link_login_click - 1", flush=True)
+    #print(f"{datetime.datetime.now()}: Main_In - link_login_click - 1", flush=True)
     
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
     
-    save_var("model_id", 2)
     save_var("temp_artist_id", None)
     save_var("target", None)
     save_var("value", None)
 
     model_id = load_var("model_id")
+    print(f"Main_In model_id: {model_id}")
     temp_artist_id = load_var("temp_artist_id")
     target = load_var("target")
     value = load_var("value")
@@ -52,8 +52,7 @@ class Main_In(Main_InTemplate):
     # Any code you write here will run before the form opens.    
     global user
     user = anvil.users.get_user()
-    print(f"Main_In user: {user}")
-    print(user is None)
+    #print(f"Main_In user: {user}")
     if user is None:
       self.visible = False
       
@@ -65,18 +64,18 @@ class Main_In(Main_InTemplate):
       status = True
       
       begin = datetime.datetime.now()
-      print(f"{datetime.datetime.now()}: Main_In - link_login_click - 2", flush=True)
+      #print(f"{datetime.datetime.now()}: Main_In - link_login_click - 2", flush=True)
       
       if user["user_id"] is None:
         self.model_id = None
       else:
         if model_id is None:
-          self.model_id = anvil.server.call('get_model_id',  user["user_id"])
+          self.model_id = save_var("model_id", anvil.server.call('get_model_id',  user["user_id"]))
           #anvil.server.call('update_model_usage', user["user_id"], self.model_id)
         else:
           self.model_id = model_id
       
-      print(f"{datetime.datetime.now()}: Main_In - link_login_click - 3", flush=True)  # 20s, 17s - 4s
+      #print(f"{datetime.datetime.now()}: Main_In - link_login_click - 3", flush=True)  # 20s, 17s - 4s
             
       if self.model_id is None:
         status = False
@@ -84,18 +83,18 @@ class Main_In(Main_InTemplate):
         self.change_nav_visibility(status=status)
 
       elif self.model_id is not None and target is None:
-        print(f"{datetime.datetime.now()}: Main_In - link_login_click - 3a", flush=True)
+        #print(f"{datetime.datetime.now()}: Main_In - link_login_click - 3a", flush=True)
         #self.content_panel.add_component(C_Home(model_id=self.model_id))
         routing.set_url_hash('home')
-        print(f"{datetime.datetime.now()}: Main_In - link_login_click - 3b", flush=True)  # 3:10m, 2:12m - 19s
+        #print(f"{datetime.datetime.now()}: Main_In - link_login_click - 3b", flush=True)  # 3:10m, 2:12m - 19s
         self.link_home.background = "theme:Accent 2"
-        print(f"{datetime.datetime.now()}: Main_In - link_login_click - 3c", flush=True)
+        #print(f"{datetime.datetime.now()}: Main_In - link_login_click - 3c", flush=True)
         self.update_no_notifications()
-        print(f"{datetime.datetime.now()}: Main_In - link_login_click - 3d", flush=True)  # 17s, 14s - 1.5s
+        #print(f"{datetime.datetime.now()}: Main_In - link_login_click - 3d", flush=True)  # 17s, 14s - 1.5s
       
       # ROUTING
       elif self.model_id is not None and target is not None:
-        print(f"{datetime.datetime.now()}: Main_In - link_login_click - 4", flush=True)
+        #print(f"{datetime.datetime.now()}: Main_In - link_login_click - 4", flush=True)
         
         if target == 'C_Filter':
           self.content_panel.clear()
@@ -132,8 +131,8 @@ class Main_In(Main_InTemplate):
           self.content_panel.add_component(C_ModelProfile(model_id=model_id, target=value))
           self.reset_nav_backgrounds()
               
-      print(f"{datetime.datetime.now()}: Main_In - link_login_click - 5", flush=True)
-      print(f"TotalTime Main_In: {datetime.datetime.now() - begin}", flush=True)
+      #print(f"{datetime.datetime.now()}: Main_In - link_login_click - 5", flush=True)
+      #print(f"TotalTime Main_In: {datetime.datetime.now() - begin}", flush=True)
       
       # MODEL PROFILES IN NAV
       model_ids = json.loads(anvil.server.call('get_model_ids',  user["user_id"]))
@@ -235,8 +234,10 @@ class Main_In(Main_InTemplate):
       self.link_discover_name.visible = False
   
   def link_discover_ai_click(self, temp_artist_id=None, **event_args):
-    self.content_panel.clear()
-    self.content_panel.add_component(C_Discover(model_id=self.model_id, temp_artist_id=temp_artist_id))
+    #self.content_panel.clear()
+    #self.content_panel.add_component(C_Discover(model_id=self.model_id, temp_artist_id=temp_artist_id))
+    temp_artist_id = 4
+    click_link(self.link_discover_ai, f'artists?artist_id={temp_artist_id}', event_args)
     self.reset_nav_backgrounds()
     self.link_discover_ai.background = "theme:Accent 2"
 

@@ -9,7 +9,7 @@ import datetime
 import re
 
 from anvil_extras import routing
-from ..nav import click_link, click_button, logout
+from ..nav import click_link, click_button, logout, save_var, load_var
 
 
 @routing.route('login', title='Login')
@@ -18,6 +18,9 @@ class Main_Out(Main_OutTemplate):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
 
+    model_id = load_var("model_id")
+    print(f"Main_Out model_id: {model_id}")
+    
     # Any code you write here will run before the form opens.
     check_log_status(self)
 
@@ -66,6 +69,7 @@ class Main_Out(Main_OutTemplate):
   
   def link_logout_click(self, **event_args):
     anvil.users.logout()
+    anvil.js.window.sessionStorage.clear()
     check_log_status(self)
 
   def button_signup_click(self, **event_args):
@@ -75,21 +79,21 @@ class Main_Out(Main_OutTemplate):
     user = anvil.users.get_user()
     if user is not None:
       anvil.server.call("check_user_presence", mail=user["email"])
-      open_form(
-        "Main_In", model_id=None, temp_artist_id=None, target=None, user_id=user["user_id"], value=None
-      )
+      open_form("Main_In")
 
 def check_log_status(self, **event_args):
-  if anvil.users.get_user() is None:
+  if anvil.users.get_user() is None:    
     self.link_login.visible = True
     # self.link_register.visible = True
     self.link_logout.visible = False
     self.link_home.visible = False
+    
   else:
     self.link_login.visible = False
     # self.link_register.visible = False
     self.link_logout.visible = True
     self.link_home.visible = True
+    
   if self.updates_sign.visible is True:
     self.link_login.visible = False
     self.link_register.visible = False

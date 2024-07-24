@@ -23,6 +23,8 @@ def click_button(target, event_args):
 
 def logout():
   anvil.users.logout()
+  anvil.js.window.sessionStorage.clear()
+  anvil.js.window.sessionStorage.removeItem("model_id")
   open_form('Main_Out')
 
 def login_check():
@@ -36,9 +38,10 @@ def login_check():
 
 def save_var(var, value):
   anvil.js.window.sessionStorage.setItem(var, value)
+  return value
 
 def load_var(var):
-  val = anvil.js.window.sessionStorage.getItem(var)
-  if val == 'null':
-    val = None
-  return val
+  value = anvil.js.window.sessionStorage.getItem(var)
+  if value == 'null':
+    value = None
+  return value

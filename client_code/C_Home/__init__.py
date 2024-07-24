@@ -21,6 +21,7 @@ class C_Home(C_HomeTemplate):
     self.init_components(**properties)
 
     model_id = load_var("model_id")
+    print(f"C_Home model_id: {model_id}")
     
     # Any code you write here will run before the form opens.
     global user
@@ -29,26 +30,26 @@ class C_Home(C_HomeTemplate):
       self.visible = False
       
     else:
-      begin = datetime.datetime.now()
+      #begin = datetime.datetime.now()
       
       self.model_id=model_id
       
-      print(f"{datetime.datetime.now()}: C_Home - __init__ - 2", flush=True)
+      #print(f"{datetime.datetime.now()}: C_Home - __init__ - 2", flush=True)
       
       # FUNNEL DATA
       data = anvil.server.call('app_home', user["user_id"])
-      print(f"{datetime.datetime.now()}: C_Home - __init__ - 2a", flush=True)    
+      #print(f"{datetime.datetime.now()}: C_Home - __init__ - 2a", flush=True)    
   
       if len(data['funnel1']) == 0 and len(data['funnel2']) == 0 and len(data['funnel3']) == 0:
         self.xy_panel_funnel.visible = False
         self.xy_panel_funnel_empty.visible = True
       else:
         self.repeating_panel_2.items = data['funnel1']  #[item for item in funnel if item['Status'] in ['Action required', 'Requires revision', 'Waiting for decision']] #EVALUATION
-        print(f"{datetime.datetime.now()}: C_Home - __init__ - 2b", flush=True)
+        #print(f"{datetime.datetime.now()}: C_Home - __init__ - 2b", flush=True)
         self.repeating_panel_3.items = data['funnel2']  #[item for item in funnel if item['Status'] in ['Build connection', 'Awaiting response', 'Exploring opportunities', 'Positive response']] #CONTACTING
-        print(f"{datetime.datetime.now()}: C_Home - __init__ - 2c", flush=True)
+        #print(f"{datetime.datetime.now()}: C_Home - __init__ - 2c", flush=True)
         self.repeating_panel_4.items = data['funnel3']  #[item for item in funnel if item['Status'] in ['In negotiations', 'Contract in progress']] #NEGOTIATION
-      print(f"{datetime.datetime.now()}: C_Home - __init__ - 3", flush=True)
+      #print(f"{datetime.datetime.now()}: C_Home - __init__ - 3", flush=True)
   
       # STATS
       stats = data['stats']
@@ -71,7 +72,7 @@ class C_Home(C_HomeTemplate):
       else: self.label_hp_txt.text =  'high\npotentials'
       if tot_cnt == 1: self.label_tot_txt.text = 'total\nrating'
       else: self.label_tot_txt.text = 'total\nratings'
-      print(f"{datetime.datetime.now()}: C_Home - __init__ - 4", flush=True)
+      #print(f"{datetime.datetime.now()}: C_Home - __init__ - 4", flush=True)
   
       # NEWS
       news = data['news']
@@ -80,9 +81,9 @@ class C_Home(C_HomeTemplate):
         self.xy_panel_news_empty.visible = True
       else:
         self.repeating_panel_news.items = news
-      print(f"{datetime.datetime.now()}: C_Home - __init__ - 5", flush=True)
+      #print(f"{datetime.datetime.now()}: C_Home - __init__ - 5", flush=True)
       
-      print(f"TotalTime C_Home: {datetime.datetime.now() - begin}", flush=True)
+      #print(f"TotalTime C_Home: {datetime.datetime.now() - begin}", flush=True)
     
     
   def link_discover_click(self, **event_args):
