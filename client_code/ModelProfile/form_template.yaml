@@ -1,0 +1,224 @@
+container:
+  type: ColumnPanel
+  properties: {col_widths: '{}'}
+components:
+- type: ColumnPanel
+  properties: {col_widths: '{}'}
+  name: content_panel
+  layout_properties: {grid_position: 'KVHHAQ,OJTLIC'}
+  components:
+  - type: Label
+    properties: {role: title, bold: false, align: left, spacing_above: small, background: '', icon: '', underline: false, font: '', icon_align: left, foreground: '', spacing_below: small, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: Model Profile}
+    name: label_1_copy
+    layout_properties:
+      col_widths: {}
+      grid_position: WKTSPW,ALNASW
+- name: delete
+  properties: {text: Delete Model, align: right, role: feature}
+  type: Button
+  layout_properties: {grid_position: 'FRPOQL,YNENUK'}
+  event_bindings: {click: delete_click}
+- name: header_left
+  properties: {col_widths: '{"DZTBEJ":50,"MDAFFD":10}', role: tile-background-left}
+  type: ColumnPanel
+  layout_properties: {grid_position: 'LBNEEL,AWENUG'}
+  components:
+  - name: spacer_3
+    properties: {height: 32}
+    type: Spacer
+    layout_properties: {grid_position: 'XTTLYB,DZTBEJ'}
+  - name: edit_icon
+    properties: {icon: 'fa:pencil', icon_align: right}
+    type: Link
+    layout_properties: {grid_position: 'XTTLYB,MDAFFD'}
+    event_bindings: {click: edit_icon_click}
+  - name: model_name
+    properties: {role: artist_name}
+    type: Label
+    layout_properties: {grid_position: 'VLZTYX,JGWMQG'}
+  - name: model_name_text
+    properties: {role: text_box_small}
+    type: TextBox
+    layout_properties: {grid_position: 'UASNUV,RYKQHD'}
+  - name: model_description
+    properties: {role: feature}
+    type: Label
+    layout_properties: {grid_position: 'VQCXFK,PGRELO'}
+  - name: model_description_text
+    properties: {role: text_box_small}
+    type: TextArea
+    layout_properties: {grid_position: 'XZZYNR,TIFYPG'}
+  - name: spacer_1
+    properties: {height: 32}
+    type: Spacer
+    layout_properties: {grid_position: 'EQATCZ,QASFLE'}
+  - name: stats
+    properties: {}
+    type: ColumnPanel
+    layout_properties: {grid_position: 'LVWKNS,TWWASS'}
+    components:
+    - name: label_1
+      properties: {text: 'Creation date:', role: feature}
+      type: Label
+      layout_properties: {grid_position: 'NMHGSL,AZBUYS'}
+    - name: creation_date
+      properties: {role: value}
+      type: Label
+      layout_properties: {grid_position: 'NEIHHK,YRAXHM'}
+  - name: stats_copy
+    properties: {}
+    type: ColumnPanel
+    layout_properties: {grid_position: 'LVWKNS,GAGQXJ'}
+    components:
+    - name: label_1_copy_2
+      properties: {text: 'Last usage:', role: feature}
+      type: Label
+      layout_properties: {grid_position: 'NMHGSL,AZBUYS'}
+    - name: usage_date
+      properties: {role: value}
+      type: Label
+      layout_properties: {grid_position: 'NEIHHK,YRAXHM'}
+  - name: stats_copy_2
+    properties: {}
+    type: ColumnPanel
+    layout_properties: {grid_position: 'LVWKNS,XOZJDF'}
+    components:
+    - name: activated
+      properties: {text: Model is active, align: center, role: table_content}
+      type: Label
+      layout_properties: {grid_position: 'KCFLET,RAOYLD'}
+    - name: activate
+      properties: {text: Activate, role: feature}
+      type: Button
+      layout_properties: {grid_position: 'EDPKTU,JPQADZ'}
+      event_bindings: {click: activate_click}
+    - name: discover
+      properties: {text: Discover, role: feature}
+      type: Button
+      layout_properties: {grid_position: 'YYUOSY,PFMHRQ'}
+      event_bindings: {click: discover_click}
+- name: header_right
+  properties: {role: tile-background-right, col_widths: '{"MMOKVJ":35,"RHZPFX":20}'}
+  type: ColumnPanel
+  layout_properties: {grid_position: 'LBNEEL,NCEQRR'}
+  components:
+  - name: spacer_2
+    properties: {height: 21}
+    type: Spacer
+    layout_properties: {grid_position: 'ISLIBQ,SPJFCR'}
+  - name: label_3
+    properties: {text: Training Status, role: artist_name}
+    type: Label
+    layout_properties: {grid_position: 'WFRCPF,MMOKVJ ENMFUX,QGNEGT'}
+  - name: column_panel_1
+    properties: {col_widths: '{"AWJTTC":30,"OSBCVE":30}'}
+    type: ColumnPanel
+    layout_properties: {grid_position: 'WFRCPF,MMOKVJ JJDXCA,EKADVU'}
+    components:
+    - name: label_4
+      properties: {text: 'No. references:', role: feature}
+      type: Label
+      layout_properties: {grid_position: 'NTTXOJ,AWJTTC'}
+    - name: no_references
+      properties: {role: value}
+      type: Label
+      layout_properties: {grid_position: 'NTTXOJ,OSBCVE'}
+  - name: column_panel_2
+    properties: {}
+    type: ColumnPanel
+    layout_properties: {grid_position: 'WFRCPF,MMOKVJ QXAINL,NTWXGV'}
+    components:
+    - name: label_6
+      properties: {text: 'Total ratings:', role: feature}
+      type: Label
+      layout_properties: {grid_position: 'FYECWW,UGRDMN'}
+    - name: total_ratings
+      properties: {role: value}
+      type: Label
+      layout_properties: {grid_position: 'FYECWW,SPBHAZ'}
+  - name: column_panel_3
+    properties: {}
+    type: ColumnPanel
+    layout_properties: {grid_position: 'WFRCPF,MMOKVJ INRZHB,ONIAQI'}
+    components:
+    - name: label_7
+      properties: {text: 'High ratings:', role: feature}
+      type: Label
+      layout_properties: {grid_position: 'HMVJGM,WHAHUP'}
+    - name: high_ratings
+      properties: {role: value}
+      type: Label
+      layout_properties: {grid_position: 'HMVJGM,AWHSXX'}
+  - name: column_panel_5
+    properties: {}
+    type: ColumnPanel
+    layout_properties: {grid_position: 'WFRCPF,MMOKVJ QISXEI,GGCOWX'}
+    components:
+    - name: label_2
+      properties: {text: 'Last re-train:', role: feature}
+      type: Label
+      layout_properties: {grid_position: 'PCSFMM,KHRAYJ'}
+    - name: train_model_date
+      properties: {role: value}
+      type: Label
+      layout_properties: {grid_position: 'PCSFMM,YJXUGB'}
+  - name: linear_panel_2
+    properties: {role: score-tile-background}
+    type: LinearPanel
+    layout_properties: {grid_position: 'WFRCPF,RHZPFX GKVNGP,MGGXOS'}
+    components:
+    - name: status
+      properties: {role: artist_name_shadow, align: center, spacing_below: none, font_size: 32, bold: true, spacing_above: none}
+      type: Label
+      layout_properties: {}
+  - name: column_panel_4
+    properties: {col_widths: '{"WPNPYF":25,"YGLHRZ":45}'}
+    type: ColumnPanel
+    layout_properties: {grid_position: 'WFRCPF,RHZPFX QBDMEB,VNSCCQ'}
+    components:
+    - name: retrain
+      properties: {text: Re-train Model, role: feature}
+      type: Button
+      layout_properties: {grid_position: 'XNTWOD,YGLHRZ'}
+      event_bindings: {click: retrain_click}
+    - name: retrain_wait
+      properties: {text: Next re-train available tomorrow, visible: false, role: feature}
+      type: Label
+      layout_properties: {grid_position: 'AJWVOE,EYADSG'}
+- name: flow_panel_sections
+  properties: {spacing: small}
+  type: FlowPanel
+  layout_properties: {grid_position: 'BXBZOL,TWUQEH'}
+  components:
+  - name: nav_references
+    properties: {text: Reference Artists, role: section_buttons, spacing_above: none, spacing_below: none, col_spacing: medium}
+    type: Link
+    event_bindings: {click: nav_references_click}
+    layout_properties: {}
+    components: []
+  - name: nav_prev_rated
+    properties: {text: Prev. Rated, role: section_buttons, spacing_above: none, spacing_below: none, col_spacing: medium}
+    type: Link
+    event_bindings: {click: nav_prev_rated_click}
+    layout_properties: {}
+  - name: nav_filters
+    properties: {text: Filters, role: section_buttons, spacing_above: none, spacing_below: none}
+    type: Link
+    event_bindings: {click: nav_filters_click}
+    layout_properties: {}
+- name: sec_references
+  properties: {spacing_above: medium, col_widths: '{}'}
+  type: ColumnPanel
+  layout_properties: {grid_position: 'REYRFT,FBTOLL'}
+  components: []
+- name: sec_prev_rated
+  properties: {spacing_above: medium, col_widths: '{}'}
+  type: ColumnPanel
+  layout_properties: {grid_position: 'YXVGWD,RCVDZT'}
+- name: sec_filters
+  properties: {spacing_above: medium}
+  type: ColumnPanel
+  layout_properties: {grid_position: 'SSBXRV,UICLSP'}
+  components: []
+is_package: true
+custom_component: false

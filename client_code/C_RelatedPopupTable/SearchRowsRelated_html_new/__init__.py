@@ -7,7 +7,7 @@ import anvil.tables.query as q
 from anvil.tables import app_tables
 
 from ...Main_In import Main_In
-from ...C_Discover import C_Discover
+from ...Discover import Discover
 
 
 class SearchRowsRelated_html_new(SearchRowsRelated_html_newTemplate):
@@ -27,7 +27,7 @@ class SearchRowsRelated_html_new(SearchRowsRelated_html_newTemplate):
       "Main_In",
       model_id=model_id,
       temp_artist_id=self.item["ArtistID"],
-      target="C_RelatedArtistSearch",
+      target="RelatedArtistSearch",
       value=self.item["Name"],
     )
 

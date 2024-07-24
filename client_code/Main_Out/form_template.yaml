@@ -4,7 +4,7 @@ container:
   properties: {role: null, col_widths: '{}', spacing_above: none, background: 'theme:Main_Black', wrap_on: mobile, col_spacing: none, foreground: '', spacing_below: none, visible: true, border: '', tooltip: ''}
 components:
 - properties: {}
-  type: form:Markup
+  type: form:C_Markup
   layout_properties: {grid_position: 'EZUQBE,NVRWAJ'}
   name: markup
 - type: ColumnPanel

@@ -1,0 +1,146 @@
+container: {type: ColumnPanel}
+components:
+- name: content_panel
+  properties: {col_widths: '{"XBVCRE":15,"GZSLQT":10,"EJNOAI":35}'}
+  type: ColumnPanel
+  layout_properties: {grid_position: 'KGEKNG,EYINSF', full_width_row: false}
+  components:
+  - name: label_1_copy
+    properties: {role: title, bold: false, align: left, spacing_above: small, background: '', icon: '', underline: false, font: '', icon_align: left, foreground: '', spacing_below: small, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: Development of Watchlist Artists}
+    type: Label
+    layout_properties:
+      col_widths: {}
+      grid_position: WKTSPW,ALNASW
+  - name: label_description
+    properties: {role: description-bio, bold: false, align: left, spacing_above: small, background: '', icon: '', underline: false, font: '', icon_align: left, foreground: '', spacing_below: small, visible: true, border: '', italic: true, font_size: null, tooltip: '', text: This overview shows all artists from your watchlist incl. their most important stats.}
+    type: Label
+    layout_properties:
+      col_widths: {}
+      grid_position: IRZOFG,FLCZRA
+  - name: text_box_search
+    properties: {role: text_box_small}
+    type: TextBox
+    layout_properties: {grid_position: 'IXONSR,XBVCRE'}
+    event_bindings: {pressed_enter: button_search_click, change: button_search_click}
+  - name: button_search
+    properties: {text: Search Artist, role: feature}
+    type: Button
+    layout_properties: {grid_position: 'IXONSR,GZSLQT'}
+    event_bindings: {click: button_search_click}
+  - name: spacer_1
+    properties: {height: 32}
+    type: Spacer
+    layout_properties: {grid_position: 'IXONSR,EJNOAI'}
+  - name: spacer_2
+    properties: {height: 32}
+    type: Spacer
+    layout_properties: {grid_position: 'IHVCTV,GWIOMW'}
+  - name: data_grid_1
+    properties:
+      columns:
+      - {id: JKSDUP, title: Test_name_of_column, data_key: Name, width: 148, expand: false}
+      - {id: VJQQOR, title: Column 2, data_key: LastReleaseDate}
+      - {id: OJLQEN, title: Column 3, data_key: PopularityLat}
+      - {id: JMPPBV, data_key: PopularityDif, title: Column 4}
+      - {id: CDCVLK, data_key: PopularityDev, title: Column 5}
+      - {id: SNZOEY, data_key: FollowerLat, title: Column 6}
+      - {id: CLLQNH, data_key: FollowerDif, title: Column 7}
+      - {id: QLRQCM, data_key: FollowerDev, title: Column 8}
+      - {id: SXXXLP, data_key: column_9, title: Column 9, width: 53, expand: false}
+      show_page_controls: true
+      auto_header: false
+      rows_per_page: 10
+      spacing_above: none
+      spacing_below: none
+    type: DataGrid
+    components:
+    - name: xy_panel_1
+      properties:
+        height: 33
+        border: ''
+        role: [bottom_line, talent-dev-custom-class]
+        spacing_above: none
+        spacing_below: none
+      type: XYPanel
+      components:
+      - name: link_artist
+        properties:
+          text: Artist
+          icon: ''
+          icon_align: right
+          role: [table_content_talent_dev-2, left-alignment-header]
+          border: ''
+          spacing_above: none
+          spacing_below: none
+        type: Link
+        layout_properties: {x: null, y: null, width: null}
+        event_bindings: {click: link_artist_click}
+      - name: link_release
+        properties: {text: Last Rel., icon_align: right, role: table_content_talent_dev-2, tooltip: Last Release Date, spacing_above: none, spacing_below: none}
+        type: Link
+        layout_properties: {x: null, y: null, width: null}
+        event_bindings: {click: link_release_click}
+      - name: link_poplat
+        properties: {text: Pop. Lat., icon_align: right, role: table_content_talent_dev-2, tooltip: Latest Spotify Popularity, spacing_above: none, spacing_below: none}
+        type: Link
+        layout_properties: {x: null, y: null, width: null}
+        event_bindings: {click: link_poplat_click}
+      - name: link_popdif
+        properties: {text: Pop. Dif., role: table_content_talent_dev-2, icon_align: right, tooltip: Spotify Popularity Difference (last Month), spacing_above: none, spacing_below: none}
+        type: Link
+        layout_properties: {x: null, y: null, width: null}
+        event_bindings: {click: link_popdif_click}
+      - name: link_popdev
+        properties: {text: Pop. Dev., role: table_content_talent_dev-2, icon_align: right, tooltip: Spotify Popularity Development (last Month), spacing_above: none, spacing_below: none}
+        type: Link
+        layout_properties: {x: null, y: null, width: null}
+        event_bindings: {click: link_popdev_click}
+      - name: link_follat
+        properties:
+          text: Fol. Lat.
+          role: [table_content_talent_dev-2, left-alignment-header]
+          icon_align: right
+          tooltip: Latest Spotify Follower
+          spacing_above: none
+          spacing_below: none
+        type: Link
+        layout_properties: {x: null, y: null, width: null}
+        event_bindings: {click: link_follat_click}
+      - name: link_foldif
+        properties:
+          text: Fol. Dif.
+          role: [table_content_talent_dev-2, left-alignment-header]
+          icon_align: right
+          tooltip: Spotify Follower Difference (last Month)
+          spacing_above: none
+          spacing_below: none
+        type: Link
+        layout_properties: {x: null, y: null, width: null}
+        event_bindings: {click: link_foldif_click}
+      - name: link_foldev
+        properties:
+          text: Fol. Dev.
+          role: [table_content_talent_dev-2, left-alignment-header]
+          icon_align: right
+          tooltip: Spotify Follower Development (last Month)
+          spacing_above: none
+          spacing_below: none
+        type: Link
+        layout_properties: {x: null, y: null, width: null}
+        event_bindings: {click: link_foldev_click}
+        components: []
+      - name: link_icons
+        properties: {text: '', role: table_content_talent_dev-2, icon_align: right, tooltip: Spotify Follower Development (last Month), spacing_above: none, spacing_below: none}
+        type: Link
+        layout_properties: {x: null, y: null, width: null}
+        event_bindings: {click: link_foldev_click}
+      layout_properties: {}
+    - name: repeating_panel_data
+      properties: {item_template: Watchlist_Overview.RowTemplate3, role: table_content_small, foreground: ''}
+      type: RepeatingPanel
+      layout_properties: {pinned: false}
+    layout_properties: {grid_position: 'MXANCB,DCXPKB', full_width_row: false}
+    data_bindings: []
+is_package: true
+custom_component: false
+properties: []

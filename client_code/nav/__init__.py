@@ -21,6 +21,9 @@ def click_button(target, event_args):
   else:
     routing.set_url_hash(target)
 
+def click_box(target):
+  routing.set_url_hash(target)
+
 def logout():
   anvil.users.logout()
   anvil.js.window.sessionStorage.clear()
