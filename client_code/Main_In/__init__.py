@@ -8,6 +8,10 @@ import anvil.users
 import json
 import datetime
 
+from anvil_extras import routing
+from ..nav import click_link, click_button, logout, login_check, save_var, load_var
+
+from ..Main_Out import Main_Out
 from ..C_Home import C_Home
 from ..C_Discover import C_Discover
 from ..C_Filter import C_Filter
@@ -20,114 +24,136 @@ from ..C_AddRefArtists import C_AddRefArtists
 from ..C_NoModel import C_NoModel
 from ..C_SearchArtist import C_SearchArtist
 from ..C_RelatedArtistSearch import C_RelatedArtistSearch
-# from ..C_RelatedArtistData import C_RelatedArtistData
 from ..C_CreateModel import C_CreateModel
 from ..C_ConnectModel import C_ConnectModel
 from ..C_ModelProfile import C_ModelProfile
 
+routing.logger.debug = False
 
+
+@routing.main_router
 class Main_In(Main_InTemplate):
-  def __init__(self, model_id, temp_artist_id, target, value, **properties):
+  def __init__(self, **properties):
     print(f"{datetime.datetime.now()}: Main_In - link_login_click - 1", flush=True)
+    
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
-    self.role = 'POST_LOGIN_PAGE'
-
-    # Any code you write here will run before the form opens.    
-    begin = datetime.datetime.now()
     
+    save_var("model_id", 2)
+    save_var("temp_artist_id", None)
+    save_var("target", None)
+    save_var("value", None)
+
+    model_id = load_var("model_id")
+    temp_artist_id = load_var("temp_artist_id")
+    target = load_var("target")
+    value = load_var("value")
+    
+    # Any code you write here will run before the form opens.    
     global user
     user = anvil.users.get_user()
-    global status
-    status = True
-    print(f"{datetime.datetime.now()}: Main_In - link_login_click - 2", flush=True)
-    
-    if user["user_id"] is None:
-      self.model_id = None
+    print(f"Main_In user: {user}")
+    print(user is None)
+    if user is None:
+      self.visible = False
+      
     else:
-      if model_id is None:
-        self.model_id = anvil.server.call('get_model_id',  user["user_id"])
-        #anvil.server.call('update_model_usage', user["user_id"], self.model_id)
+      self.role = 'POST_LOGIN_PAGE'
+      self.visible = True
+    
+      global status
+      status = True
+      
+      begin = datetime.datetime.now()
+      print(f"{datetime.datetime.now()}: Main_In - link_login_click - 2", flush=True)
+      
+      if user["user_id"] is None:
+        self.model_id = None
       else:
-        self.model_id = model_id
-    
-    print(f"{datetime.datetime.now()}: Main_In - link_login_click - 3", flush=True)  # 20s, 17s - 4s
-
-    if self.model_id is None:
-      status = False
-      self.content_panel.add_component(C_NoModel())
-      self.change_nav_visibility(status=status)
+        if model_id is None:
+          self.model_id = anvil.server.call('get_model_id',  user["user_id"])
+          #anvil.server.call('update_model_usage', user["user_id"], self.model_id)
+        else:
+          self.model_id = model_id
       
-    elif self.model_id is not None and target is None:
-      print(f"{datetime.datetime.now()}: Main_In - link_login_click - 3a", flush=True)
-      self.content_panel.add_component(C_Home(model_id=self.model_id))
-      print(f"{datetime.datetime.now()}: Main_In - link_login_click - 3b", flush=True)  # 3:10m, 2:12m - 19s
-      self.link_home.background = "theme:Accent 2"
-      print(f"{datetime.datetime.now()}: Main_In - link_login_click - 3c", flush=True)
-      self.update_no_notifications()
-      print(f"{datetime.datetime.now()}: Main_In - link_login_click - 3d", flush=True)  # 17s, 14s - 1.5s
-    
-    # ROUTING
-    elif self.model_id is not None and target is not None:
-      print(f"{datetime.datetime.now()}: Main_In - link_login_click - 4", flush=True)
-      
-      if target == 'C_Filter':
-        self.content_panel.clear()
-        self.content_panel.add_component(C_Filter(model_id=model_id))
-        
-      if target == 'C_AddRefArtists':
-        self.content_panel.clear()
-        self.content_panel.add_component(C_AddRefArtists(model_id=model_id))
-        self.reset_nav_backgrounds()
-        
-      if target == 'C_Watchlist_Funnel':
-        self.content_panel.clear()
-        self.content_panel.add_component(C_Watchlist_Funnel(model_id=model_id))
-        self.reset_nav_backgrounds()
-        self.link_manage_funnel.background = "theme:Accent 2"
-        
-      if target == 'C_Discover':
-        self.link_discover_ai_click(model_id=self.model_id, temp_artist_id=temp_artist_id)
-        
-      if target == 'C_Watchlist_Details':
-        self.content_panel.clear()
-        self.content_panel.add_component(C_Watchlist_Details(model_id=model_id, temp_artist_id=temp_artist_id))
-        self.reset_nav_backgrounds()
-        self.link_manage_watchlist.background = "theme:Accent 2"
-  
-      if target == 'C_RelatedArtistSearch':
-        self.route_discover_rel_data(model_id=self.model_id, artist_id=temp_artist_id, name=value)
-  
-      if target == 'C_SearchArtist':
-        self.link_discover_name_click(search=value)
-
-      if target == 'C_ModelProfile':
-        self.content_panel.clear()
-        self.content_panel.add_component(C_ModelProfile(model_id=model_id, target=value))
-        self.reset_nav_backgrounds()
+      print(f"{datetime.datetime.now()}: Main_In - link_login_click - 3", flush=True)  # 20s, 17s - 4s
             
-    print(f"{datetime.datetime.now()}: Main_In - link_login_click - 5", flush=True)
-    print(f"TotalTime Main_In: {datetime.datetime.now() - begin}", flush=True)
+      if self.model_id is None:
+        status = False
+        self.content_panel.add_component(C_NoModel())
+        self.change_nav_visibility(status=status)
+
+      elif self.model_id is not None and target is None:
+        print(f"{datetime.datetime.now()}: Main_In - link_login_click - 3a", flush=True)
+        #self.content_panel.add_component(C_Home(model_id=self.model_id))
+        routing.set_url_hash('home')
+        print(f"{datetime.datetime.now()}: Main_In - link_login_click - 3b", flush=True)  # 3:10m, 2:12m - 19s
+        self.link_home.background = "theme:Accent 2"
+        print(f"{datetime.datetime.now()}: Main_In - link_login_click - 3c", flush=True)
+        self.update_no_notifications()
+        print(f"{datetime.datetime.now()}: Main_In - link_login_click - 3d", flush=True)  # 17s, 14s - 1.5s
+      
+      # ROUTING
+      elif self.model_id is not None and target is not None:
+        print(f"{datetime.datetime.now()}: Main_In - link_login_click - 4", flush=True)
+        
+        if target == 'C_Filter':
+          self.content_panel.clear()
+          self.content_panel.add_component(C_Filter(model_id=model_id))
+          
+        if target == 'C_AddRefArtists':
+          self.content_panel.clear()
+          self.content_panel.add_component(C_AddRefArtists(model_id=model_id))
+          self.reset_nav_backgrounds()
+          
+        if target == 'C_Watchlist_Funnel':
+          self.content_panel.clear()
+          self.content_panel.add_component(C_Watchlist_Funnel(model_id=model_id))
+          self.reset_nav_backgrounds()
+          self.link_manage_funnel.background = "theme:Accent 2"
+          
+        if target == 'C_Discover':
+          self.link_discover_ai_click(model_id=self.model_id, temp_artist_id=temp_artist_id)
+          
+        if target == 'C_Watchlist_Details':
+          self.content_panel.clear()
+          self.content_panel.add_component(C_Watchlist_Details(model_id=model_id, temp_artist_id=temp_artist_id))
+          self.reset_nav_backgrounds()
+          self.link_manage_watchlist.background = "theme:Accent 2"
     
-    # MODEL PROFILES IN NAV
-    model_ids = json.loads(anvil.server.call('get_model_ids',  user["user_id"]))
+        if target == 'C_RelatedArtistSearch':
+          self.route_discover_rel_data(model_id=self.model_id, artist_id=temp_artist_id, name=value)
     
-    for i in range(0, len(model_ids)):
-      if model_ids[i]["is_last_used"] is True:
-        model_link = Link(
-          icon='fa:angle-right',
-          text=model_ids[i]["model_name"],
-          role='underline-link'
-          )
-        #right_icon = Icon(name="fa:circle")
-        #model_link.add_component(right_icon, slot='right')
-      else:
-        model_link = Link(
-          icon='fa:angle-right',
-          text=model_ids[i]["model_name"]
-          )
-      model_link.set_event_handler('click', self.create_model_click_handler(model_ids[i]["model_id"], model_link))
-      self.nav_models.add_component(model_link)
+        if target == 'C_SearchArtist':
+          self.link_discover_name_click(search=value)
+  
+        if target == 'C_ModelProfile':
+          self.content_panel.clear()
+          self.content_panel.add_component(C_ModelProfile(model_id=model_id, target=value))
+          self.reset_nav_backgrounds()
+              
+      print(f"{datetime.datetime.now()}: Main_In - link_login_click - 5", flush=True)
+      print(f"TotalTime Main_In: {datetime.datetime.now() - begin}", flush=True)
+      
+      # MODEL PROFILES IN NAV
+      model_ids = json.loads(anvil.server.call('get_model_ids',  user["user_id"]))
+      
+      for i in range(0, len(model_ids)):
+        if model_ids[i]["is_last_used"] is True:
+          model_link = Link(
+            icon='fa:angle-right',
+            text=model_ids[i]["model_name"],
+            role='underline-link'
+            )
+          #right_icon = Icon(name="fa:circle")
+          #model_link.add_component(right_icon, slot='right')
+        else:
+          model_link = Link(
+            icon='fa:angle-right',
+            text=model_ids[i]["model_name"]
+            )
+        model_link.set_event_handler('click', self.create_model_click_handler(model_ids[i]["model_id"], model_link))
+        self.nav_models.add_component(model_link)
       
     
   # MODEL ROUTING
@@ -147,9 +173,7 @@ class Main_In(Main_InTemplate):
     open_form('Main_Out')
     
   def logout_click(self, **event_args):
-    anvil.users.logout()
-    if (anvil.users.get_user() is None):
-      open_form('Main_Out')
+    logout()
 
   def update_no_notifications(self, **event_args):
     NoNotifications = json.loads(anvil.server.call('get_no_notifications', self.model_id))
@@ -190,8 +214,9 @@ class Main_In(Main_InTemplate):
   #----------------------------------------------------------------------------------------------
   # HOME
   def link_home_click(self, **event_args):
-    self.content_panel.clear()
-    self.content_panel.add_component(C_Home(model_id=self.model_id))
+    #self.content_panel.clear()
+    #self.content_panel.add_component(C_Home(model_id=self.model_id))
+    click_link(self.link_home, 'home', event_args)
     self.reset_nav_backgrounds()
     self.link_home.background = "theme:Accent 2"
   
@@ -216,8 +241,9 @@ class Main_In(Main_InTemplate):
     self.link_discover_ai.background = "theme:Accent 2"
 
   def link_discover_rel_click(self, **event_args):
-    self.content_panel.clear()
-    self.content_panel.add_component(C_RelatedArtistSearch(model_id=self.model_id))
+    #self.content_panel.clear()
+    #self.content_panel.add_component(C_RelatedArtistSearch(model_id=self.model_id))
+    click_link(self.link_discover_rel, 'rel_artists', event_args)
     self.reset_nav_backgrounds()
     self.link_discover_rel.background = "theme:Accent 2"
 
