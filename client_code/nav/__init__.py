@@ -9,20 +9,26 @@ import anvil.js
 from anvil.js.window import location
 
 
-def click_link(element, target, event_args):
+def click_link(self, element, target, event_args, reload):
   if event_args['keys']['ctrl'] is True:
     element.url = f"{anvil.server.get_app_origin()}/#{target}"
   else:
+    if reload:
+      self.content_panel.clear()
     element.url = ''
     routing.set_url_hash(target)
 
-def click_button(target, event_args):
+def click_button(self, target, event_args, reload):
   if event_args['keys']['ctrl'] is True:
     anvil.js.window.open(f"{anvil.server.get_app_origin()}/#{target}", '_blank')
   else:
+    if reload:
+      self.content_panel.clear()
     routing.set_url_hash(target)
 
-def click_box(target):
+def click_box(self, target, reload):
+  if reload:
+    self.content_panel.clear()
   routing.set_url_hash(target)
 
 def logout():

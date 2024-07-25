@@ -33,7 +33,7 @@ routing.logger.debug = False
 
 @routing.main_router
 class Main_In(Main_InTemplate):
-  def __init__(self, **properties):
+  def __init__(self, target=None, **properties):
     #print(f"{datetime.datetime.now()}: Main_In - link_login_click - 1", flush=True)
     
     # Set Form properties and Data Bindings.
@@ -120,7 +120,8 @@ class Main_In(Main_InTemplate):
           self.route_discover_rel_data(model_id=self.model_id, artist_id=temp_artist_id, name=value)
     
         if target == 'SearchArtist':
-          self.link_discover_name_click(search=value)
+          print(f"target = {target}")
+          self.link_discover_name_click()
   
         if target == 'ModelProfile':
           self.content_panel.clear()
@@ -204,7 +205,7 @@ class Main_In(Main_InTemplate):
   #----------------------------------------------------------------------------------------------
   # HOME
   def link_home_click(self, **event_args):
-    click_link(self.link_home, 'home', event_args)
+    click_link(self, self.link_home, 'home', event_args, True)
     self.reset_nav_backgrounds()
     self.link_home.background = "theme:Accent 2"
   
@@ -234,7 +235,10 @@ class Main_In(Main_InTemplate):
     self.link_discover_rel.background = "theme:Accent 2"
     
   def link_discover_name_click(self, **event_args):
-    click_link(self.link_discover_name, 'search_artist', event_args)
+    click_link(self, self.link_discover_name, 'search_artist', event_args, True)
+    #self.content_panel.clear()
+    #self.add_component(SearchArtist())
+    
     self.reset_nav_backgrounds()
     self.link_discover_name.background = "theme:Accent 2"
 

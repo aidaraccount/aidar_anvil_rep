@@ -29,5 +29,4 @@ class C_EditRefArtists(C_EditRefArtistsTemplate):
 
   def button_add_refs_click(self, **event_args):
     click_button('add_ref_artists', event_args)
-    #open_form('Main_In', model_id=self.model_id, temp_artist_id = None, target = 'ModelProfile', value='AddRefArtists')
         

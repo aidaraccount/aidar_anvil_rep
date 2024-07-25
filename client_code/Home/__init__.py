@@ -99,5 +99,6 @@ class Home(HomeTemplate):
 
   def text_search_pressed_enter(self, **event_args):
     save_var('search', self.text_search.text)
-    click_box('search_artist')
+    click_box(self, 'search_artist', False)
+    #open_form('Main_In', target='SearchArtist')
 
