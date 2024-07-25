@@ -27,9 +27,10 @@ class Watchlist_Overview(Watchlist_OverviewTemplate):
     # Any code you write here will run before the form opens.
     data = self.get_data()
 
-    # standard sorting
-    self.repeating_panel_data.items = sorted(data, key=lambda x: x.get('Name', float('inf')), reverse=True)
-    self.link_artist.icon = 'fa:angle-down'  
+    if data != 'no_data':
+      # standard sorting
+      self.repeating_panel_data.items = sorted(data, key=lambda x: x.get('Name', float('inf')), reverse=True)
+      self.link_artist.icon = 'fa:angle-down'  
 
   #   data = [
   #     {"name": "Alice", "age": 30},
@@ -83,21 +84,24 @@ class Watchlist_Overview(Watchlist_OverviewTemplate):
   
   def get_data(self, **event_args):
     # get raw data
-    data = json.loads(anvil.server.call('get_watchlist_overview', user["user_id"]))
+    data = anvil.server.call('get_watchlist_overview', user["user_id"])
     
-    # fill Nones and turn to strings
-    for item in data:
-        for key, value in item.items():
-            if value is None:
-                if key == "LatestReleaseDate":
-                  item[key] = '-'
-                else: item[key] = '0'
-        item['FollowerDev'] = "{:.1f}".format(round(float(item['FollowerDev']),1))
-        item['PopularityDev'] = "{:.1f}".format(round(float(item['PopularityDev']),1))
-    
-    # add 1.000er seperators
-    data = self.change_format(data=data, column='FollowerLat', direction='add')
-    data = self.change_format(data=data, column='FollowerDif', direction='add')
+    if data != 'no_data':
+      data = json.loads(data)
+
+      # fill Nones and turn to strings
+      for item in data:
+          for key, value in item.items():
+              if value is None:
+                  if key == "LatestReleaseDate":
+                    item[key] = '-'
+                  else: item[key] = '0'
+          item['FollowerDev'] = "{:.1f}".format(round(float(item['FollowerDev']),1))
+          item['PopularityDev'] = "{:.1f}".format(round(float(item['PopularityDev']),1))
+      
+      # add 1.000er seperators
+      data = self.change_format(data=data, column='FollowerLat', direction='add')
+      data = self.change_format(data=data, column='FollowerDif', direction='add')
     
     return data
 

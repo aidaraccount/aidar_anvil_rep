@@ -17,7 +17,7 @@ from ..C_Rating import C_Rating
 from ..C_Filter import C_Filter
 
 from anvil_extras import routing
-from ..nav import click_link, click_button, load_var
+from ..nav import click_link, click_button, load_var, save_var
 
 
 @routing.route('model_profile', url_keys=['model_id', 'section'], title='Model Profile')
@@ -26,14 +26,16 @@ class ModelProfile(ModelProfileTemplate):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
 
-    model_id = load_var("model_id")
-    print(f"ModelProfile model_id: {model_id}")
+    model_id_active = load_var("model_id")
+    print(f"ModelProfile model_id_active: {model_id_active}")
+    model_id_view = self.url_dict['model_id']
+    self.model_id_view = model_id_view
+    print(f"ModelProfile model_id_view: {model_id_view}")
     section = self.url_dict['section']
     
     # Any code you write here will run before the form opens.
     global user
     user = anvil.users.get_user()
-    self.model_id = model_id
     
     # initial visibile settings
     self.model_name_text.visible = False
@@ -41,9 +43,9 @@ class ModelProfile(ModelProfileTemplate):
     
     self.nav_references.role = 'section_buttons_focused'
     self.sec_filters.visible = False
-
+    
     # HEADER
-    infos = json.loads(anvil.server.call('get_model_stats', model_id))[0]
+    infos = json.loads(anvil.server.call('get_model_stats', self.model_id_view))[0]
     self.retrain_date = infos["train_model_date"]
 
     # model name and description text and text boxes
@@ -69,8 +71,8 @@ class ModelProfile(ModelProfileTemplate):
     self.status.text = infos["status"]
 
     # activate button
-    model_id_active = anvil.server.call('get_model_id', user["user_id"])
-    if model_id == model_id_active:
+    model_id_active_new = anvil.server.call('get_model_id', user["user_id"])
+    if self.model_id_view == model_id_active_new:
       self.activated.visible = True
       self.activate.visible = False
     else:
@@ -117,7 +119,7 @@ class ModelProfile(ModelProfileTemplate):
       self.model_name.text = self.model_name_text.text
       self.model_description.text = self.model_description_text.text
       self.edit_icon.icon = 'fa:pencil'
-      res = anvil.server.call('update_model_stats', self.model_id, self.model_name_text.text, self.model_description_text.text)
+      res = anvil.server.call('update_model_stats', self.model_id_view, self.model_name_text.text, self.model_description_text.text)
       if res == 'success':
         Notification("",
           title="Model updated!",
@@ -131,7 +133,7 @@ class ModelProfile(ModelProfileTemplate):
     self.sec_prev_rated.visible = False
     self.sec_filters.visible = False
     self.sec_references.clear()
-    self.sec_references.add_component(C_EditRefArtists(self.model_id))
+    self.sec_references.add_component(C_EditRefArtists(self.model_id_view))
 
   def nav_add_references_click(self, **event_args):
     self.nav_references.role = 'section_buttons_focused'
@@ -141,7 +143,7 @@ class ModelProfile(ModelProfileTemplate):
     self.sec_prev_rated.visible = False
     self.sec_filters.visible = False
     self.sec_references.clear()
-    self.sec_references.add_component(C_AddRefArtists(self.model_id))
+    self.sec_references.add_component(C_AddRefArtists(self.model_id_view))
   
   def nav_prev_rated_click(self, **event_args):    
     self.nav_references.role = 'section_buttons'
@@ -151,7 +153,7 @@ class ModelProfile(ModelProfileTemplate):
     self.sec_prev_rated.visible = True
     self.sec_filters.visible = False
     self.sec_prev_rated.clear()
-    self.sec_prev_rated.add_component(C_Rating(self.model_id))
+    self.sec_prev_rated.add_component(C_Rating(self.model_id_view))
     
   def nav_filters_click(self, **event_args):
     self.nav_references.role = 'section_buttons'
@@ -161,7 +163,7 @@ class ModelProfile(ModelProfileTemplate):
     self.sec_prev_rated.visible = False
     self.sec_filters.visible = True
     self.sec_filters.clear()
-    self.sec_filters.add_component(C_Filter(self.model_id))
+    self.sec_filters.add_component(C_Filter(self.model_id_view))
 
   def delete_click(self, **event_args):
     result = alert(title='Do you want to delete this model?',
@@ -171,26 +173,28 @@ class ModelProfile(ModelProfileTemplate):
             ("Delete", "Delete")
           ])
     if result == 'Delete':
-      res = anvil.server.call('delete_model', self.model_id)
+      res = anvil.server.call('delete_model', self.model_id_view)
       if res == 'success':
         Notification("",
           title="Model deleted!",
           style="success").show()
         click_button('home', event_args)
+        get_open_form().refresh_models_underline()
   
   def activate_click(self, **event_args):
-    anvil.server.call('update_model_usage', user["user_id"], self.model_id)
-    #open_form('Main_In', model_id=self.model_id, temp_artist_id = None, target = 'ModelProfile', value=None)
-    alert(title='Model is activated!',
-      content="This model is activated - start discovering.",
-      buttons=[("Ok", "Ok")]
-    )
+    anvil.server.call('update_model_usage', user["user_id"], self.model_id_view)
+    save_var('model_id', self.model_id_view)
+    click_button(f'model_profile?model_id={self.model_id_view}&section=Main', event_args)
+    get_open_form().refresh_models_underline()
+    
   def discover_click(self, **event_args):
-    anvil.server.call('update_model_usage', user["user_id"], self.model_id)
+    anvil.server.call('update_model_usage', user["user_id"], self.model_id_view)
+    save_var('model_id', self.model_id_view)
+    get_open_form().refresh_models_underline()
     click_button('artists?artist_id=None', event_args)
     
   def retrain_click(self, **event_args):
-    res = anvil.server.call('retrain_model', self.model_id)
+    res = anvil.server.call('retrain_model', self.model_id_view)
     if res == 'success':
       self.retrain.visible = False
       self.retrain_wait.visible = True

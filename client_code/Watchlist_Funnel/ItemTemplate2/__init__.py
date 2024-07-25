@@ -54,7 +54,7 @@ class ItemTemplate2(ItemTemplate2Template):
                       status_left_new,
                       self.item["Notification"]
                       )
-    #open_form('Main_In', model_id=model_id, temp_artist_id = None, target = 'Watchlist_Funnel', value=None)
+    click_link(self.link_left, 'watchlist_funnel', event_args)
     
   def link_right_click(self, **event_args):
     if self.item["Status"] in ['Reconnect later', 'Not interested', None]: #BACKLOG
@@ -73,6 +73,4 @@ class ItemTemplate2(ItemTemplate2Template):
                       status_right_new,
                       self.item["Notification"]
                       )
-    #open_form('Main_In', model_id=model_id, temp_artist_id = None, target = 'Watchlist_Funnel', value=None)
-    #click_link(self.link_right, 'watchlist_funnel', event_args)
-    routing.set_url_hash('watchlist_funnel', load_from_cache=False)
+    click_link(self.link_right, 'watchlist_funnel', event_args)

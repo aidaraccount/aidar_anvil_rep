@@ -7,6 +7,7 @@ from anvil.tables import app_tables
 import anvil.users
 import json
 import datetime
+from anvil.js.window import location
 
 from anvil_extras import routing
 from ..nav import click_link, click_button, logout, login_check, save_var, load_var
@@ -52,7 +53,7 @@ class Main_In(Main_InTemplate):
       global status
       status = True
       
-      begin = datetime.datetime.now()
+      #begin = datetime.datetime.now()
       #print(f"{datetime.datetime.now()}: Main_In - link_login_click - 2", flush=True)
       
       if user["user_id"] is None:
@@ -68,12 +69,12 @@ class Main_In(Main_InTemplate):
             
       if self.model_id is None:
         status = False
-        routing.set_url_hash('no_model')
+        routing.set_url_hash('no_model', load_from_cache=False)
         self.change_nav_visibility(status=status)
 
       else:
         #print(f"{datetime.datetime.now()}: Main_In - link_login_click - 3a", flush=True)
-        routing.set_url_hash('home')
+        routing.set_url_hash('', load_from_cache=False)
         #print(f"{datetime.datetime.now()}: Main_In - link_login_click - 3b", flush=True)  # 3:10m, 2:12m - 19s
         self.link_home.background = "theme:Accent 2"
         #print(f"{datetime.datetime.now()}: Main_In - link_login_click - 3c", flush=True)
@@ -85,33 +86,43 @@ class Main_In(Main_InTemplate):
       
       # MODEL PROFILES IN NAV
       model_ids = json.loads(anvil.server.call('get_model_ids',  user["user_id"]))
-      
+    
       for i in range(0, len(model_ids)):
         if model_ids[i]["is_last_used"] is True:
           model_link = Link(
             icon='fa:angle-right',
             text=model_ids[i]["model_name"],
+            tag=model_ids[i]["model_id"],
             role='underline-link'
             )
         else:
           model_link = Link(
             icon='fa:angle-right',
-            text=model_ids[i]["model_name"]
+            text=model_ids[i]["model_name"],
+            tag=model_ids[i]["model_id"]
             )
         model_link.set_event_handler('click', self.create_model_click_handler(model_ids[i]["model_id"], model_link))
         self.nav_models.add_component(model_link)
-      
+            
     
   # MODEL ROUTING
+  def refresh_models_underline(self):
+    for component in self.nav_models.get_components():
+      if isinstance(component, Link):
+        if int(component.tag) == int(load_var("model_id")):
+          component.role = 'underline-link'
+        else:
+          component.role = ''
+  
   def create_model_click_handler(self, model_id, model_link):
     def handler(**event_args):
       self.models_click(model_id, model_link, **event_args)
     return handler
 
   def models_click(self, link_model_id, model_link, **event_args):
+    click_button(f'model_profile?model_id={link_model_id}&section=Main', event_args)
     self.reset_nav_backgrounds()
     model_link.background = "theme:Accent 2"
-    click_button(f'model_profile?model_id={link_model_id}&section=Main', event_args)
   # ------------
       
   def logout_click(self, **event_args):
@@ -136,6 +147,24 @@ class Main_In(Main_InTemplate):
       component.background = None
     #self.link_settings.background = None
 
+    if location.hash[:9] == '#home':
+      self.link_home.background = "theme:Accent 2"
+      
+    elif location.hash[:9] == '#artists?':
+      self.link_discover_ai.background = "theme:Accent 2"
+    elif location.hash[:13] == '#rel_artists?':
+      self.link_discover_rel.background = "theme:Accent 2"
+    elif location.hash[:15] == '#search_artist?':
+      self.link_discover_name.background = "theme:Accent 2"
+      
+    elif location.hash[:19] == '#watchlist_details?':
+      self.link_manage_watchlist.background = "theme:Accent 2"
+    elif location.hash[:17] == '#watchlist_funnel':
+      self.link_manage_funnel.background = "theme:Accent 2"
+    elif location.hash[:19] == '#watchlist_overview':
+      self.link_manage_dev.background = "theme:Accent 2"
+      
+  
   def change_nav_visibility(self, status, **event_args):
     self.link_home.visible = status
 
@@ -238,5 +267,7 @@ class Main_In(Main_InTemplate):
     click_link(self.create_model, 'create_model', event_args)
     self.reset_nav_backgrounds()
 
+  #----------------------------------------------------------------------------------------------
+  # SETTINGS
   def link_settings_click(self, **event_args):
     pass

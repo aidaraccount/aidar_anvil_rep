@@ -46,7 +46,7 @@ class ItemTemplate(ItemTemplateTemplate):
                       status_left_new,
                       self.item["Notification"]
                       )
-    #open_form('Main_In', temp_artist_id = None, target = None, value=None)
+    click_link(self.link_left, 'home', event_args)
 
   def link_right_click(self, **event_args):
     if self.item["Status"] in ['Action required', 'Requires revision', 'Waiting for decision']: #EVALUATION
@@ -63,4 +63,4 @@ class ItemTemplate(ItemTemplateTemplate):
                       status_right_new,
                       self.item["Notification"]
                       )
-    #open_form('Main_In', temp_artist_id = None, target = None, value=None)
+    click_link(self.link_right, 'home', event_args)

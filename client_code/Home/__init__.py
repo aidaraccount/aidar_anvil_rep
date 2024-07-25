@@ -97,4 +97,4 @@ class Home(HomeTemplate):
 
   def text_search_pressed_enter(self, **event_args):
     click_box(f'search_artist?text={self.text_search.text}')
-
+    

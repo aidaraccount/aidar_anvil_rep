@@ -169,7 +169,7 @@ class C_Filter(C_FilterTemplate):
                       self.model_id,
                       filters_json
                      )
-    routing.set_url_hash('artists?artist_id=None')
+    routing.set_url_hash('artists?artist_id=None', load_from_cache=False)
 
   def clear_filters_button_click(self, **event_args):
     
@@ -177,7 +177,8 @@ class C_Filter(C_FilterTemplate):
                       self.model_id,
                       filters_json = None
                      )
-    routing.set_url_hash('artists?artist_id=None')
+    click_button('artists?artist_id=None', event_args)
+
 
   def button_add_genre_click(self, **event_args):
     new_entry = {"ModelID":self.model_id, "Type":"genre", 'Column':self.drop_down_add_genre.selected_value, "Operator":"is", 'Value':self.drop_down_add_value.selected_value}

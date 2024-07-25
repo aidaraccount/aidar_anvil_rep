@@ -7,6 +7,7 @@ from anvil import open_form
 from anvil_extras import routing
 import anvil.js
 from anvil.js.window import location
+from anvil import get_open_form
 
 
 def click_link(element, target, event_args):
@@ -16,6 +17,8 @@ def click_link(element, target, event_args):
   else:
     element.url = ''
     routing.set_url_hash(target, load_from_cache=False)
+  get_open_form().reset_nav_backgrounds()
+
 
 def click_button(target, event_args):
   routing.clear_cache()
@@ -23,16 +26,21 @@ def click_button(target, event_args):
     anvil.js.window.open(f"{anvil.server.get_app_origin()}/#{target}", '_blank')
   else:
     routing.set_url_hash(target, load_from_cache=False)
+  get_open_form().reset_nav_backgrounds()
+
 
 def click_box(target):
   routing.clear_cache()
   routing.set_url_hash(target, load_from_cache=False)
+  get_open_form().reset_nav_backgrounds()
+
 
 def logout():
   anvil.users.logout()
   anvil.js.window.sessionStorage.clear()
   anvil.js.window.sessionStorage.removeItem("model_id")
   open_form('Main_Out')
+
 
 def login_check():
   user = anvil.users.get_user()  
@@ -43,15 +51,18 @@ def login_check():
     open_form('Main_Out')
   return status
 
+
 def save_var(var, value):
   anvil.js.window.sessionStorage.setItem(var, value)
   return value
+
 
 def load_var(var):
   value = anvil.js.window.sessionStorage.getItem(var)
   if value == 'null':
     value = None
   return value
+
 
 def refresh():
   #location.reload()

@@ -47,13 +47,12 @@ class Discover(DiscoverTemplate):
 
   # -------------------------------------------
   # SUGGESTIONS
-  def refresh_sug(self, model_id, temp_artist_id, **event_args):    
+  def refresh_sug(self, model_id, temp_artist_id, **event_args):
+    
     global temp_artist_id_global
     temp_artist_id_global = temp_artist_id
     self.spacer_bottom_margin.height = 80
     sug = json.loads(anvil.server.call('get_suggestion', 'Inspect', self.model_id, temp_artist_id)) # Free, Explore, Inspect, Dissect
-
-    routing.set_url_hash(f'artists?artist_id={sug["ArtistID"]}')
     
     self.Artist_Name_Details.clear()
     self.flow_panel_genre_tile.clear()
@@ -61,16 +60,16 @@ class Discover(DiscoverTemplate):
     
     if sug["Status"] == 'Empty Model!':
       alert(title='Train you Model..',
-            content="Sorry, we cound't find any artists for your model. Make sure your model is fully set up!\n\nTherefore, go to ADD REF. ARTISTS and add some starting artists that you are interested in.")
+        content="Sorry, we cound't find any artists for your model. Make sure your model is fully set up!\n\nTherefore, go to ADD REF. ARTISTS and add some starting artists that you are interested in.")
       self.visible = False
 
     elif sug["Status"] == 'No Findings!':
       result = alert(title='No Artists found..',
-                content="Sorry, we cound't find any artists for your model. Please check two potential issues:\n\n1. Please check your FILTERS and change them to find additional artists.\n\n2. If you're just setting up your model or are subscribed to the Explore subscription, go to the ADD REF. ARTISTS page and add additional reference artists.",
-                buttons=[
-                  ("Change Filters", "FILTERS"),
-                  ("Ok", "OK")
-                ])
+        content="Sorry, we cound't find any artists for your model. Please check two potential issues:\n\n1. Please check your FILTERS and change them to find additional artists.\n\n2. If you're just setting up your model or are subscribed to the Explore subscription, go to the ADD REF. ARTISTS page and add additional reference artists.",
+        buttons=[
+          ("Change Filters", "FILTERS"),
+          ("Ok", "OK")
+        ])
       self.visible = False
       if result == "FILTERS":
         click_button(f'model_profile?model_id={self.model_id}&section=Filter', event_args)
@@ -78,10 +77,13 @@ class Discover(DiscoverTemplate):
     
     elif sug["Status"] == 'Free Limit Reached!':
       alert(title='Free Limit Reached..',
-            content="Sorry, the free version is limited in the number of suggested artists - if you're interested in continuing, please upgrade to one of our subscription plans.\n\nFor any questions, please contact us at info@aidar.ai\n\nYour AIDAR Team")
+        content="Sorry, the free version is limited in the number of suggested artists - if you're interested in continuing, please upgrade to one of our subscription plans.\n\nFor any questions, please contact us at info@aidar.ai\n\nYour AIDAR Team")
       self.visible = False
       
     else:      
+
+      routing.set_url_hash(f'artists?artist_id={sug["ArtistID"]}', load_from_cache=False)
+      
       global cur_artist_id
       cur_artist_id = sug["ArtistID"]
       global artist_id
@@ -99,7 +101,6 @@ class Discover(DiscoverTemplate):
       self.sec_musical.visible = False
    
       watchlist_presence = anvil.server.call('check_watchlist_presence', self.model_id, artist_id)
-
       
       # -------------------------------
       # ARTIST HEADER
