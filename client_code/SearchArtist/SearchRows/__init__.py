@@ -37,11 +37,9 @@ class SearchRows(SearchRowsTemplate):
   
   def inspect_pic_link_click(self, **event_args):
     click_link(self.inspect_pic_link, f'artists?artist_id={self.inspect_pic_link.url}', event_args)
-    #open_form('Main_In', model_id=model_id, temp_artist_id = int(self.inspect_pic_link.url), target='Discover', value=None)
 
   def inspect_name_link_click(self, **event_args):
     click_link(self.inspect_name_link, f'artists?artist_id={self.inspect_name_link.url}', event_args)
-    #open_form('Main_In', model_id=model_id, temp_artist_id=int(self.inspect_name_link.url), target='Discover', value=None)
     
   # BUTTONS
   def button_watchlist_click(self, **event_args):
@@ -87,4 +85,3 @@ class SearchRows(SearchRowsTemplate):
 
   def button_discover_click(self, **event_args):
     click_button(f'artists?artist_id={self.item["ArtistID"]}', event_args)
-    #open_form('Main_In', model_id=model_id, temp_artist_id=self.item["ArtistID"], target='Discover', value=None)

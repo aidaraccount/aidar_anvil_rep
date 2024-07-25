@@ -6,6 +6,9 @@ import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
 
+from anvil_extras import routing
+from ...nav import click_link, click_button, logout, login_check, load_var, save_var
+
 
 class RowTemplate3(RowTemplate3Template):
   def __init__(self, **properties):
@@ -19,19 +22,7 @@ class RowTemplate3(RowTemplate3Template):
     model_id = anvil.server.call("get_model_id", user["user_id"])
 
   def related_artist_pic_link_click(self, **event_args):
-    open_form(
-      "Main_In",
-      model_id=model_id,
-      temp_artist_id=int(self.related_artist_pic_link.url),
-      target="Discover",
-      value=None,
-    )
+    click_link(self.related_artist_pic_link, f'artists?artist_id={self.related_artist_pic_link.url}', event_args)
 
   def related_artist_name_link_click(self, **event_args):
-    open_form(
-      "Main_In",
-      model_id=model_id,
-      temp_artist_id=int(self.related_artist_name_link.url),
-      target="Discover",
-      value=None,
-    )
+    click_link(self.related_artist_name_link, f'artists?artist_id={self.related_artist_name_link.url}', event_args)

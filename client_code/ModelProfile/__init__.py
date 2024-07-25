@@ -173,7 +173,7 @@ class ModelProfile(ModelProfileTemplate):
         Notification("",
           title="Model deleted!",
           style="success").show()
-        open_form('Main_In', model_id=None, temp_artist_id = None, target = None, value=None)
+        click_button('home', event_args)
   
   def activate_click(self, **event_args):
     anvil.server.call('update_model_usage', user["user_id"], self.model_id)
@@ -181,8 +181,9 @@ class ModelProfile(ModelProfileTemplate):
     
   def discover_click(self, **event_args):
     anvil.server.call('update_model_usage', user["user_id"], self.model_id)
-    open_form('Main_In', model_id=self.model_id, temp_artist_id = None, target = 'Discover', value=None)
-
+    sug = json.loads(anvil.server.call('get_suggestion', 'Inspect', self.model_id, None))
+    click_button(f'artists?artist_id={sug["ArtistID"]}', event_args)
+    
   def retrain_click(self, **event_args):
     res = anvil.server.call('retrain_model', self.model_id)
     if res == 'success':

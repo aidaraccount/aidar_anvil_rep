@@ -9,6 +9,9 @@ from anvil.tables import app_tables
 from ...Main_In import Main_In
 from ...Discover import Discover
 
+from anvil_extras import routing
+from ...nav import click_link, click_button, logout, login_check, load_var, save_var
+
 
 class RelatedRows(RelatedRowsTemplate):
   def __init__(self, **properties):
@@ -33,34 +36,18 @@ class RelatedRows(RelatedRowsTemplate):
       self.button_watchlist_delete.visible = False
 
   def inspect_pic_link_click(self, **event_args):
-    open_form(
-      "Main_In",
-      model_id=model_id,
-      temp_artist_id=int(self.inspect_pic_link.url),
-      target="Discover",
-      value=None,
-    )
+    click_link(self.inspect_pic_link, f'artists?artist_id={self.inspect_pic_link.url}', event_args)
 
   def inspect_name_link_click(self, **event_args):
-    open_form(
-      "Main_In",
-      model_id=model_id,
-      temp_artist_id=int(self.inspect_name_link.url),
-      target="Discover",
-      value=None,
-    )
+    click_link(self.inspect_name_link, f'artists?artist_id={self.inspect_name_link.url}', event_args)
 
   # BUTTONS
   def button_watchlist_click(self, **event_args):
     if self.item["Watchlist"] == 1:
       # route to Watchlist Details
-      open_form(
-        "Main_In",
-        model_id=model_id,
-        temp_artist_id=self.item["ArtistID"],
-        target="Watchlist_Details",
-        value=None,
-      )
+      save_var('temp_artist_id', self.item["ArtistID"])
+      click_link(self.inspect_name_link, 'watchlist_details', event_args)
+      
     else:
       # add to Watchlist (incl. change Button) and show delete Button
       anvil.server.call(
@@ -71,7 +58,7 @@ class RelatedRows(RelatedRowsTemplate):
         "Action required",
         True,
       )
-      self.parent.parent.parent.parent.parent.parent.update_no_notifications()
+      self.parent.parent.parent.parent.parent.parent.parent.update_no_notifications()
       self.item["Watchlist"] = 1
 
       self.button_watchlist.background = "#fd652d"  # orange
@@ -94,7 +81,7 @@ class RelatedRows(RelatedRowsTemplate):
         None,
         False,
       )
-      self.parent.parent.parent.parent.parent.parent.update_no_notifications()
+      self.parent.parent.parent.parent.parent.parent.parent.update_no_notifications()
       self.item["Watchlist"] = 0
 
       self.button_watchlist.background = ""
@@ -107,10 +94,4 @@ class RelatedRows(RelatedRowsTemplate):
       ).show()
 
   def button_discover_click(self, **event_args):
-    open_form(
-      "Main_In",
-      model_id=model_id,
-      temp_artist_id=self.item["ArtistID"],
-      target="Discover",
-      value=None,
-    )
+    click_button(f'artists?artist_id={self.item["ArtistID"]}', event_args)

@@ -229,7 +229,7 @@ class Main_In(Main_InTemplate):
     self.link_discover_ai.background = "theme:Accent 2"
 
   def link_discover_rel_click(self, **event_args):
-    click_link(self.link_discover_rel, 'rel_artists', event_args)
+    click_link(self.link_discover_rel, 'rel_artists?artist_id=None', event_args)
     self.reset_nav_backgrounds()
     self.link_discover_rel.background = "theme:Accent 2"
     

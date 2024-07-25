@@ -14,7 +14,7 @@ import itertools
 from ..C_CustomAlertForm import C_CustomAlertForm  # Import the custom form
 
 from anvil_extras import routing
-from ..nav import click_link, click_button, logout, login_check, load_var
+from ..nav import click_link, click_button, logout, login_check, load_var, save_var
 
 
 @routing.route('artists', url_keys=['artist_id'], title='Artists')
@@ -1368,12 +1368,16 @@ class Discover(DiscoverTemplate):
 
   def button_remove_filters_click(self, **event_args):
     anvil.server.call('change_filters', self.model_id, filters_json = None)
-    open_form('Main_In', model_id=self.model_id, temp_artist_id=None, target='Discover', value=None)
+    self.header.scroll_into_view(smooth=True)
+    self.refresh_sug(self.model_id, temp_artist_id=None)
 
   def drop_down_model_change(self, **event_args):
     model_data = json.loads(anvil.server.call('get_model_ids',  user["user_id"]))
     model_id_new = [item['model_id'] for item in model_data if item['model_name'] == self.drop_down_model.selected_value][0]
     self.model_id=model_id_new
-    anvil.server.call('update_model_usage', user["user_id"], model_id_new)    
-    open_form('Main_In', model_id=model_id_new, temp_artist_id = artist_id, target = 'Discover', value=None)
+    save_var('model_id', model_id_new)
+    save_var('temp_artist_id', artist_id)
+    anvil.server.call('update_model_usage', user["user_id"], model_id_new)
+    self.header.scroll_into_view(smooth=True)
+    self.refresh_sug(model_id_new, temp_artist_id=artist_id)
     

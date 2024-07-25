@@ -19,7 +19,7 @@ class Watchlist_Details(Watchlist_DetailsTemplate):
     
     model_id = load_var("model_id")
     print(f"Watchlist_Details model_id: {model_id}")
-    temp_artist_id = self.url_dict['artist_id']
+    temp_artist_id = load_var("temp_artist_id")
     print(f"Watchlist_Details temp_artist_id: {temp_artist_id}")
     
     # Any code you write here will run before the form opens.
@@ -238,7 +238,7 @@ class Watchlist_Details(Watchlist_DetailsTemplate):
     self.get_watchlist_details(self.model_id, cur_ai_artist_id)
   
   def button_investigate_click(self, **event_args):
-    open_form('Main_In', model_id=self.model_id, temp_artist_id=cur_ai_artist_id, target='Discover', value=None)
+    click_button(f'artists?artist_id={cur_ai_artist_id}', event_args)
 
   def button_delete_click(self, **event_args):
     c = confirm("Do you wish to delete this artist from your watchlist?")
@@ -246,4 +246,3 @@ class Watchlist_Details(Watchlist_DetailsTemplate):
       anvil.server.call('update_watchlist_lead', self.model_id, cur_ai_artist_id, False, None, False)
       self.get_watchlist_selection(temp_artist_id = None)
       self.parent.parent.update_no_notifications()
-    

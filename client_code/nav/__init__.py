@@ -6,6 +6,7 @@ import anvil.server
 from anvil import open_form
 from anvil_extras import routing
 import anvil.js
+from anvil.js.window import location
 
 
 def click_link(element, target, event_args):
@@ -48,3 +49,11 @@ def load_var(var):
   if value == 'null':
     value = None
   return value
+
+def refresh():
+  #location.reload()
+  current_hash = location.hash
+  print(current_hash)
+  temporary_hash = ''
+  location.hash = temporary_hash
+  location.hash = current_hash

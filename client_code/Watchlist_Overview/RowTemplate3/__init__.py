@@ -8,6 +8,9 @@ from anvil.tables import app_tables
 
 from ...Watchlist_Details import Watchlist_Details
 
+from anvil_extras import routing
+from ...nav import click_link, click_button, logout, login_check, load_var, save_var
+
 
 class RowTemplate3(RowTemplate3Template):
   def __init__(self, **properties):
@@ -24,4 +27,4 @@ class RowTemplate3(RowTemplate3Template):
     open_form('Main_In', model_id, temp_artist_id = self.item["ArtistID"], target = 'Watchlist_Details', value=None)
 
   def link_artist_click(self, **event_args):
-    open_form('Main_In', temp_artist_id = self.item["ArtistID"], target = 'Discover', value=None)
+    click_link(self.related_artist_pic_link, f'artists?artist_id={self.item["ArtistID"]}', event_args)

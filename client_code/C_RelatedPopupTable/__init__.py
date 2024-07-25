@@ -12,7 +12,7 @@ from ..nav import click_link, click_button, logout, save_var, load_var
 
 
 class C_RelatedPopupTable(C_RelatedPopupTableTemplate):
-  def __init__(self, search_text, **properties):
+  def __init__(self, model_id, search_text, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
 

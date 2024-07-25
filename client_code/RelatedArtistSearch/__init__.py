@@ -13,18 +13,16 @@ from anvil_extras import routing
 from ..nav import click_link, click_button, logout, login_check, save_var, load_var
 
 
-@routing.route('rel_artists', title='Rel. Artists')
+@routing.route('rel_artists', url_keys=['artist_id'], title='Rel. Artists')
 class RelatedArtistSearch(RelatedArtistSearchTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
 
-    save_var("artist_id", None)
-    save_var("name", None)
-
     model_id = load_var("model_id")
-    artist_id = load_var("artist_id")
-    name = load_var("name")
+    name = load_var("value")
+    artist_id = self.url_dict['artist_id']
+    print(f"RelatedArtistSearch artist_id: {artist_id}")
     
     # Any code you write here will run before the form opens.
     self.model_id=model_id  
@@ -34,20 +32,18 @@ class RelatedArtistSearch(RelatedArtistSearchTemplate):
     global user
     user = anvil.users.get_user()
 
-    if self.name:
-      self.title_related_artist_name.content = f"<p>Related Artists to <span style='color: rgb(253, 101, 45);''>{self.name}</span></p>"
-    else:
+    if artist_id == 'None':
       self.title_related_artist_name.content = '<p>Related Artists</p>'
+      self.data_grid_related_artists_header.visible = False
+      self.rate_artists_button.visible = False
     
-    self.data_grid_related_artists_header.visible = False
-    self.rate_artists_button.visible = False
-    
-    # Load related artists data if artist_id is provided
-    if self.artist_id:
+    else:
+      self.title_related_artist_name.content = f"<p>Related Artists to <span style='color: rgb(253, 101, 45);''>{self.name}</span></p>"
       self.load_related_artists()
       self.data_grid_related_artists_header.visible = True
       # self.rate_artists_button.visible = True
 
+  
   def text_box_search_pressed_enter(self, **event_args):
     search_text = self.text_box_search.text
     popup_table = alert(

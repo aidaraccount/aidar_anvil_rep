@@ -9,6 +9,9 @@ from anvil.tables import app_tables
 from ...Main_In import Main_In
 from ...Discover import Discover
 
+from anvil_extras import routing
+from ...nav import click_link, click_button, logout, login_check, load_var, save_var
+
 
 class SearchRowsRelated_html_new(SearchRowsRelated_html_newTemplate):
   def __init__(self, **properties):
@@ -22,12 +25,8 @@ class SearchRowsRelated_html_new(SearchRowsRelated_html_newTemplate):
 
   # CLICKS 
   def related_click(self, **event_args):
-    self.parent.parent.parent.close_alert()    
-    open_form(
-      "Main_In",
-      model_id=model_id,
-      temp_artist_id=self.item["ArtistID"],
-      target="RelatedArtistSearch",
-      value=self.item["Name"],
-    )
+    self.parent.parent.parent.close_alert()
+    save_var('value', self.item["Name"])
+    click_link(self.link_1, f'rel_artists?artist_id={self.item["ArtistID"]}', event_args)
+
 
