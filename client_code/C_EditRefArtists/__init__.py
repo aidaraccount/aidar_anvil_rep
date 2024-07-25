@@ -7,6 +7,9 @@ import anvil.tables.query as q
 from anvil.tables import app_tables
 import json
 
+from anvil_extras import routing
+from ..nav import click_link, click_button
+
 
 class C_EditRefArtists(C_EditRefArtistsTemplate):
   def __init__(self, model_id, **properties):
@@ -25,6 +28,5 @@ class C_EditRefArtists(C_EditRefArtistsTemplate):
     self.repeating_panel_reference.items = json.loads(anvil.server.call('get_references', self.model_id))
 
   def button_add_refs_click(self, **event_args):
-    #open_form('Main_In', model_id=self.model_id, temp_artist_id = None, target = 'C_AddRefArtists', value=None)
-    open_form('Main_In', model_id=self.model_id, temp_artist_id = None, target = 'C_ModelProfile', value='C_AddRefArtists')
+    click_button(f'model_profile?model_id={self.model_id}&section=AddRefArtists', event_args)
         

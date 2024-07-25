@@ -7,7 +7,7 @@ import anvil.tables.query as q
 from anvil.tables import app_tables
 
 from ...Main_In import Main_In
-from ...C_Discover import C_Discover
+from ...Discover import Discover
 
 class SearchRefRows(SearchRefRowsTemplate):
   def __init__(self, **properties):

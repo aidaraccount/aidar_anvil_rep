@@ -8,8 +8,11 @@ from anvil.tables import app_tables
 import json
 import datetime
 
+from anvil_extras import routing
+from ..nav import click_link, click_button, logout, login_check, load_var, save_var
 
-from ..C_Discover import C_Discover
+from ..Discover import Discover
+
 
 class C_Filter(C_FilterTemplate):
   def __init__(self, model_id, **properties):
@@ -17,14 +20,14 @@ class C_Filter(C_FilterTemplate):
     self.init_components(**properties)
 
     # Any code you write here will run before the form opens.
-    print(f"{datetime.datetime.now()}: C_Filter - __init__ - 1", flush=True)
+    #print(f"{datetime.datetime.now()}: C_Filter - __init__ - 1", flush=True)
     global user
     user = anvil.users.get_user()
     self.model_id=model_id
-    print(f"{datetime.datetime.now()}: C_Filter - __init__ - 2", flush=True)
+    #print(f"{datetime.datetime.now()}: C_Filter - __init__ - 2", flush=True)
 
     self.load_filters()
-    print(f"{datetime.datetime.now()}: C_Filter - __init__ - 3", flush=True)
+    #print(f"{datetime.datetime.now()}: C_Filter - __init__ - 3", flush=True)
 
   
   def load_filters(self, **event_args):
@@ -166,8 +169,7 @@ class C_Filter(C_FilterTemplate):
                       self.model_id,
                       filters_json
                      )
-    self.content_panel.clear()
-    self.content_panel.add_component(C_Discover(model_id=self.model_id, temp_artist_id=None))
+    routing.set_url_hash('artists?artist_id=None', load_from_cache=False)
 
   def clear_filters_button_click(self, **event_args):
     
@@ -175,8 +177,8 @@ class C_Filter(C_FilterTemplate):
                       self.model_id,
                       filters_json = None
                      )
-    self.content_panel.clear()
-    self.content_panel.add_component(C_Discover(model_id=self.model_id, temp_artist_id=None))
+    click_button('artists?artist_id=None', event_args)
+
 
   def button_add_genre_click(self, **event_args):
     new_entry = {"ModelID":self.model_id, "Type":"genre", 'Column':self.drop_down_add_genre.selected_value, "Operator":"is", 'Value':self.drop_down_add_value.selected_value}

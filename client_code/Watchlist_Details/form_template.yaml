@@ -1,0 +1,273 @@
+is_package: true
+custom_component: false
+container:
+  type: ColumnPanel
+  properties: {col_widths: '{"UMKIPM":15,"DORKHT":63}', role: title}
+components:
+- type: ColumnPanel
+  properties: {col_widths: '{}'}
+  layout_properties: {grid_position: 'NDYFJH,LLBANU'}
+  name: content_panel
+  components:
+  - type: Label
+    properties: {role: title, bold: false, align: left, spacing_above: small, background: '', icon: '', underline: false, font: '', icon_align: left, foreground: '', spacing_below: small, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: My Watchlist}
+    layout_properties:
+      col_widths: {}
+      grid_position: WKTSPW,ALNASW
+    name: label_1_copy
+  - type: Label
+    properties: {role: description-bio, bold: false, align: left, spacing_above: small, background: '', icon: '', underline: false, font: '', icon_align: left, foreground: '', spacing_below: small, visible: true, border: '', italic: true, font_size: null, tooltip: '', text: Here are all the artists you've added to your watchlist.}
+    layout_properties:
+      col_widths: {}
+      grid_position: IRZOFG,FLCZRA
+    name: label_description
+- properties: {height: 75}
+  type: Spacer
+  layout_properties: {grid_position: 'BHIMRO,NAQJIH'}
+  name: spacer_1
+- properties: {text: No artists added to your Watchlist yet, align: center, role: sub_title, bold: false}
+  type: Label
+  layout_properties: {grid_position: 'IEPKDJ,XPWKEL'}
+  name: label_1
+- properties: {text: 'Please discover new artists and if of interest, add them to the Watchlist', role: description, align: center, bold: false}
+  type: Label
+  layout_properties: {grid_position: 'BBWYLC,CQVMNJ'}
+  name: label_2
+- properties: {role: grid}
+  type: ColumnPanel
+  layout_properties: {grid_position: 'HHCFTV,UMKIPM'}
+  name: column_panel_5
+  components:
+  - properties: {height: 82}
+    type: XYPanel
+    layout_properties: {grid_position: 'LNVMXC,LCXKYA'}
+    name: xy_panel_3
+    components:
+    - properties: {}
+      type: ColumnPanel
+      layout_properties: {x: 13, y: 5, width: 132}
+      name: column_panel_6
+      components:
+      - properties: {text: Sort by, spacing_below: none, spacing_above: none, role: description-bio}
+        type: Label
+        layout_properties: {grid_position: 'GGDNCK,PBXNPG'}
+        name: label_6
+      - properties:
+          role: text_box_small
+          items: [Notification, Status, Priority]
+          spacing_above: none
+          font_size: 14
+          background: ''
+        type: DropDown
+        layout_properties: {grid_position: 'ENBHYO,ULEPYC'}
+        event_bindings: {change: drop_down_selection_change}
+        name: drop_down_selection
+  - properties: {height: 438}
+    type: XYPanel
+    layout_properties: {grid_position: 'DQUOJO,QMJMSD'}
+    name: xy_panel_selection
+    components:
+    - properties: {item_template: Watchlist_Details.SelectionTemplate}
+      type: RepeatingPanel
+      layout_properties: {x: 13, y: 0, width: 132.6666717529297}
+      name: repeating_panel_selection
+- properties: {col_widths: '{"FADFZU":20,"TDEVWC":40}', background: '', role: grid}
+  type: ColumnPanel
+  layout_properties: {grid_position: 'HHCFTV,DORKHT'}
+  name: column_panel_4
+  components:
+  - properties: {height: 142, spacing_below: none}
+    type: XYPanel
+    layout_properties: {grid_position: 'HDFDKN,FADFZU JLLCKE,QRBHZY'}
+    name: xy_panel_4
+    components:
+    - properties: {height: '140', display_mode: zoom_to_fill, spacing_below: none}
+      type: Image
+      layout_properties: {x: 10, y: 7, width: 230}
+      name: image_detail
+  - properties: {role: sub_title, spacing_below: none, spacing_above: none}
+    type: Label
+    layout_properties: {grid_position: 'HDFDKN,FADFZU NKKNOL,JXMIGM'}
+    name: label_name
+  - properties: {height: 324}
+    type: XYPanel
+    layout_properties: {grid_position: 'HDFDKN,FADFZU TSPSOX,KGFFZV'}
+    name: xy_panel_1
+    components:
+    - properties: {text: '    Details    ', align: left, role: feature, background: 'theme:Orange', foreground: 'theme:Text_DecentWhite'}
+      type: Button
+      layout_properties: {x: 10, y: 5, width: 94}
+      event_bindings: {click: button_investigate_click}
+      name: button_investigate
+    - properties: {text: '', icon: 'fa:trash-o', icon_align: top, role: feature, background: ''}
+      type: Button
+      layout_properties: {x: 160, y: 5, width: 50}
+      event_bindings: {click: button_delete_click}
+      name: button_delete
+    - properties: {role: description, text: '-', icon: 'fa:spotify'}
+      type: Link
+      layout_properties: {x: 10, y: 70, width: 218}
+      name: link_spotify
+    - properties: {text: '', icon: 'fa:edit', role: feature, background: ''}
+      type: Button
+      layout_properties: {x: 114, y: 5, width: 40}
+      event_bindings: {click: button_edit_click}
+      name: button_edit
+    - properties: {role: text_box_small, visible: false, background: 'theme:Sidebar Background', foreground: 'theme:Text_DecentWhite', font_size: 14}
+      type: TextBox
+      layout_properties: {x: 30, y: 70, width: 200}
+      event_bindings: {pressed_enter: button_edit_click}
+      name: text_box_spotify
+    - properties: {role: description, text: '-', icon: 'fa:instagram'}
+      type: Link
+      layout_properties: {x: 10, y: 110, width: 218}
+      name: link_insta
+    - properties: {role: text_box_small, visible: false, background: 'theme:Sidebar Background', foreground: 'theme:Text_DecentWhite', font_size: 14}
+      type: TextBox
+      layout_properties: {x: 30, y: 110, width: 200}
+      event_bindings: {pressed_enter: button_edit_click}
+      name: text_box_insta
+    - properties: {role: description, icon: 'fa:phone'}
+      type: Label
+      layout_properties: {x: 10, y: 300, width: 220}
+      name: label_phone
+    - properties: {icon: 'fa:envelope-o', role: description}
+      type: Label
+      layout_properties: {x: 10, y: 260, width: 220}
+      name: label_mail
+    - properties: {icon: 'fa:male', role: description}
+      type: Label
+      layout_properties: {x: 10, y: 220, width: 220}
+      name: label_contact
+    - properties: {role: text_box_small, visible: false, background: 'theme:Sidebar Background', foreground: 'theme:Text_DecentWhite', font_size: 14}
+      type: TextBox
+      layout_properties: {x: 30, y: 220, width: 200}
+      event_bindings: {pressed_enter: button_edit_click}
+      name: text_box_contact
+    - properties: {role: text_box_small, visible: false, background: 'theme:Sidebar Background', foreground: 'theme:Text_DecentWhite', font_size: 14}
+      type: TextBox
+      layout_properties: {x: 30, y: 260, width: 200}
+      event_bindings: {pressed_enter: button_edit_click}
+      name: text_box_mail
+    - properties: {role: text_box_small, visible: false, background: 'theme:Sidebar Background', foreground: 'theme:Text_DecentWhite', font_size: 14}
+      type: TextBox
+      layout_properties: {x: 30, y: 300, width: 200}
+      event_bindings: {pressed_enter: button_edit_click}
+      name: text_box_phone
+    - properties: {role: description, text: '-', icon: 'fa:soundcloud'}
+      type: Link
+      layout_properties: {x: 10, y: 150, width: 200}
+      name: link_sound
+    - properties: {role: text_box_small, visible: false, background: 'theme:Sidebar Background', foreground: 'theme:Text_DecentWhite', font_size: 14}
+      type: TextBox
+      layout_properties: {x: 30, y: 150, width: 200}
+      event_bindings: {pressed_enter: button_edit_click}
+      name: text_box_sound
+  - properties: {}
+    type: FlowPanel
+    layout_properties: {grid_position: 'HDFDKN,TDEVWC WHSDQK,GQOYME'}
+    name: flow_panel_tags
+    components:
+    - properties: {}
+      type: ColumnPanel
+      layout_properties: {width: 166.783}
+      name: column_panel_1
+      components:
+      - properties: {text: 'Status:', role: description-bio, spacing_below: none, spacing_above: none}
+        type: Label
+        layout_properties: {grid_position: 'SEAGFD,LIVYLS'}
+        name: label_3
+      - properties:
+          placeholder: ''
+          items: [Action required, Requires revision, Waiting for decision, Build connection, Awaiting response, Exploring opportunities, Positive response, In negotiations, Contract in progress, Reconnect later, Not interested, Success]
+          role: text_box_small
+          include_placeholder: false
+          spacing_above: none
+          font_size: 14
+          background: ''
+        type: DropDown
+        layout_properties: {grid_position: 'GQIXDW,BSUZTI'}
+        event_bindings: {change: update_watchlist_details}
+        name: drop_down_status
+    - properties: {}
+      type: ColumnPanel
+      layout_properties: {width: 112.733}
+      name: column_panel_2
+      components:
+      - properties: {text: 'Priority:', spacing_below: none, spacing_above: none, role: description-bio}
+        type: Label
+        layout_properties: {grid_position: 'BNWMJO,BCVWBP'}
+        name: label_4
+      - properties:
+          role: text_box_small
+          items: [very low, low, mid, high, very high]
+          placeholder: ''
+          include_placeholder: false
+          spacing_above: none
+          font_size: 14
+          background: ''
+        type: DropDown
+        layout_properties: {grid_position: 'VBUOUP,TQLNTY'}
+        event_bindings: {change: update_watchlist_details}
+        name: drop_down_priority
+    - properties: {}
+      type: ColumnPanel
+      layout_properties: {width: 155}
+      name: column_panel_3
+      components:
+      - properties: {text: 'Set Reminder:', spacing_below: none, spacing_above: none, role: description-bio}
+        type: Label
+        layout_properties: {grid_position: 'PJXQTA,ZFSSWV'}
+        name: label_5
+      - properties: {placeholder: '', role: text_box_small, spacing_above: none, font_size: 14, background: ''}
+        type: DatePicker
+        layout_properties: {grid_position: 'DCXDMG,GTUPJT', full_width_row: false}
+        event_bindings: {change: update_watchlist_details}
+        name: date_picker_reminder
+  - properties: {text: 'Notes:', role: description-bio, spacing_below: none, spacing_above: small}
+    type: Label
+    layout_properties: {grid_position: 'HDFDKN,TDEVWC MQLPJR,NDJWEC'}
+    name: label_7
+  - properties: {}
+    type: FlowPanel
+    layout_properties: {grid_position: 'HDFDKN,TDEVWC BOIACS,QXLFGJ'}
+    name: flow_panel_2
+    components:
+    - properties: {background: 'theme:Sidebar Background', role: grid, border: '1px solid rgb(40, 40, 40);'}
+      type: ColumnPanel
+      layout_properties: {width: 498.13333}
+      name: column_panel_note
+      components:
+      - properties: {height: 325}
+        type: XYPanel
+        layout_properties: {grid_position: 'QYZZBK,IIPYKH'}
+        name: xy_panel_detail
+        components:
+        - properties: {item_template: Watchlist_Details.DetailTemplate, spacing_above: none}
+          type: RepeatingPanel
+          layout_properties: {x: 7, y: 0, width: 484}
+          name: repeating_panel_detail
+      - properties: {height: 45}
+        type: XYPanel
+        layout_properties: {grid_position: 'KMBQMU,YPTMCY'}
+        name: xy_panel_2
+        components:
+        - properties: {}
+          type: FlowPanel
+          layout_properties: {x: 7, y: 0, width: 495}
+          name: flow_panel_1
+          components:
+          - properties: {col_widths: '{"TOMDSC":50,"XINGOR":10}'}
+            type: ColumnPanel
+            layout_properties: {width: 482}
+            name: column_panel_7
+            components:
+            - properties: {role: text_box_small, height: '35', placeholder: Add a note, align: left}
+              type: TextArea
+              layout_properties: {grid_position: 'HOAKDL,TOMDSC'}
+              name: text_area_note
+            - properties: {text: save, align: right, role: feature}
+              type: Button
+              layout_properties: {grid_position: 'HOAKDL,XINGOR'}
+              event_bindings: {click: button_note_click}
+              name: button_note

@@ -7,12 +7,16 @@ import anvil.tables.query as q
 from anvil.tables import app_tables
 import json
 
+from anvil_extras import routing
+from ..nav import click_link, click_button, logout, save_var, load_var
 
+
+@routing.route('add_ref_artists', title='Add Ref. Artists')
 class C_AddRefArtists(C_AddRefArtistsTemplate):
   def __init__(self, model_id, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
-
+    
     # Any code you write here will run before the form opens.
     global user
     user = anvil.users.get_user()
