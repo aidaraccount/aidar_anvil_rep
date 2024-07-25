@@ -14,7 +14,9 @@ from ..nav import click_link, click_button, logout, login_check, load_var
 @routing.route('watchlist_funnel', title='Funnel')
 class Watchlist_Funnel(Watchlist_FunnelTemplate):
   def __init__(self, **properties):
+    
     # Set Form properties and Data Bindings.
+    routing.clear_cache()
     self.init_components(**properties)
 
     model_id = load_var("model_id")

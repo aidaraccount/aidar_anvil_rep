@@ -13,7 +13,7 @@ from ..nav import click_link, click_button, logout, login_check, load_var
 
 @routing.route('watchlist_overview', title='Development')
 class Watchlist_Overview(Watchlist_OverviewTemplate):
-  def __init__(self, model_id, **properties):
+  def __init__(self, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
 
