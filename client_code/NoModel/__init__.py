@@ -23,9 +23,7 @@ class NoModel(NoModelTemplate):
 
   
   def button_connect_model_click(self, **event_args):
-    self.content_panel.clear()
-    self.content_panel.add_component(ConnectModel())
+    click_button('connect_model', event_args)
 
   def button_create_model_click(self, **event_args):
-    self.content_panel.clear()
-    self.content_panel.add_component(CreateModel())
+    click_button('create_model', event_args)

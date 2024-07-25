@@ -14,13 +14,9 @@ from ..nav import click_link, click_button, logout, login_check, save_var, load_
 from ..Main_Out import Main_Out
 from ..Home import Home
 from ..Discover import Discover
-from ..C_Filter import C_Filter
 from ..Watchlist_Details import Watchlist_Details
 from ..Watchlist_Funnel import Watchlist_Funnel
 from ..Watchlist_Overview import Watchlist_Overview
-from ..C_Rating import C_Rating
-from ..C_EditRefArtists import C_EditRefArtists
-from ..AddRefArtists import AddRefArtists
 from ..NoModel import NoModel
 from ..SearchArtist import SearchArtist
 from ..RelatedArtistSearch import RelatedArtistSearch
@@ -33,7 +29,7 @@ routing.logger.debug = False
 
 @routing.main_router
 class Main_In(Main_InTemplate):
-  def __init__(self, target=None, **properties):
+  def __init__(self, **properties):
     #print(f"{datetime.datetime.now()}: Main_In - link_login_click - 1", flush=True)
     
     # Set Form properties and Data Bindings.
@@ -41,9 +37,6 @@ class Main_In(Main_InTemplate):
     
     model_id = load_var("model_id")
     print(f"Main_In model_id: {model_id}")
-    temp_artist_id = load_var("temp_artist_id")
-    target = load_var("target")
-    value = load_var("value")
     
     # Any code you write here will run before the form opens.    
     global user
@@ -75,12 +68,11 @@ class Main_In(Main_InTemplate):
             
       if self.model_id is None:
         status = False
-        self.content_panel.add_component(NoModel())
+        routing.set_url_hash('no_model')
         self.change_nav_visibility(status=status)
 
-      elif self.model_id is not None and target is None:
+      else:
         #print(f"{datetime.datetime.now()}: Main_In - link_login_click - 3a", flush=True)
-        #self.content_panel.add_component(Home(model_id=self.model_id))
         routing.set_url_hash('home')
         #print(f"{datetime.datetime.now()}: Main_In - link_login_click - 3b", flush=True)  # 3:10m, 2:12m - 19s
         self.link_home.background = "theme:Accent 2"
@@ -88,46 +80,6 @@ class Main_In(Main_InTemplate):
         self.update_no_notifications()
         #print(f"{datetime.datetime.now()}: Main_In - link_login_click - 3d", flush=True)  # 17s, 14s - 1.5s
       
-      # ROUTING
-      elif self.model_id is not None and target is not None:
-        #print(f"{datetime.datetime.now()}: Main_In - link_login_click - 4", flush=True)
-        
-        if target == 'C_Filter':
-          self.content_panel.clear()
-          self.content_panel.add_component(C_Filter(model_id=model_id))
-          
-        if target == 'AddRefArtists':
-          self.content_panel.clear()
-          self.content_panel.add_component(AddRefArtists(model_id=model_id))
-          self.reset_nav_backgrounds()
-          
-        if target == 'Watchlist_Funnel':
-          self.content_panel.clear()
-          self.content_panel.add_component(Watchlist_Funnel(model_id=model_id))
-          self.reset_nav_backgrounds()
-          self.link_manage_funnel.background = "theme:Accent 2"
-          
-        if target == 'Discover':
-          self.link_discover_ai_click(model_id=self.model_id, temp_artist_id=temp_artist_id)
-          
-        if target == 'Watchlist_Details':
-          self.content_panel.clear()
-          self.content_panel.add_component(Watchlist_Details(model_id=model_id, temp_artist_id=temp_artist_id))
-          self.reset_nav_backgrounds()
-          self.link_manage_watchlist.background = "theme:Accent 2"
-    
-        if target == 'RelatedArtistSearch':
-          self.route_discover_rel_data(model_id=self.model_id, artist_id=temp_artist_id, name=value)
-    
-        if target == 'SearchArtist':
-          print(f"target = {target}")
-          self.link_discover_name_click()
-  
-        if target == 'ModelProfile':
-          self.content_panel.clear()
-          self.content_panel.add_component(ModelProfile(model_id=model_id, target=value))
-          self.reset_nav_backgrounds()
-              
       #print(f"{datetime.datetime.now()}: Main_In - link_login_click - 5", flush=True)
       #print(f"TotalTime Main_In: {datetime.datetime.now() - begin}", flush=True)
       
@@ -159,8 +111,7 @@ class Main_In(Main_InTemplate):
   def models_click(self, link_model_id, model_link, **event_args):
     self.reset_nav_backgrounds()
     model_link.background = "theme:Accent 2"
-    self.content_panel.clear()
-    self.content_panel.add_component(ModelProfile(model_id=link_model_id, target=None))
+    click_button(f'model_profile?model_id={link_model_id}&section=Main', event_args)
   # ------------
       
   def logout_click(self, **event_args):
@@ -205,7 +156,7 @@ class Main_In(Main_InTemplate):
   #----------------------------------------------------------------------------------------------
   # HOME
   def link_home_click(self, **event_args):
-    click_link(self, self.link_home, 'home', event_args, True)
+    click_link(self.link_home, 'home', event_args)
     self.reset_nav_backgrounds()
     self.link_home.background = "theme:Accent 2"
   
@@ -224,8 +175,7 @@ class Main_In(Main_InTemplate):
       self.link_discover_name.visible = False
   
   def link_discover_ai_click(self, temp_artist_id=None, **event_args):
-    sug = json.loads(anvil.server.call('get_suggestion', 'Inspect', self.model_id, temp_artist_id))
-    click_link(self.link_discover_ai, f'artists?artist_id={sug["ArtistID"]}', event_args)
+    click_link(self.link_discover_ai, 'artists?artist_id=None', event_args)
     self.reset_nav_backgrounds()
     self.link_discover_ai.background = "theme:Accent 2"
 
@@ -235,9 +185,7 @@ class Main_In(Main_InTemplate):
     self.link_discover_rel.background = "theme:Accent 2"
     
   def link_discover_name_click(self, **event_args):
-    click_link(self, self.link_discover_name, 'search_artist', event_args, True)
-    #self.content_panel.clear()
-    #self.add_component(SearchArtist())
+    click_link(self.link_discover_name, 'search_artist?text=None', event_args)
     
     self.reset_nav_backgrounds()
     self.link_discover_name.background = "theme:Accent 2"
@@ -257,7 +205,7 @@ class Main_In(Main_InTemplate):
       self.link_manage_dev.visible = False
 
   def link_manage_watchlist_click(self, temp_artist_id=None, **event_args):
-    click_link(self.link_manage_watchlist, 'watchlist_details', event_args)
+    click_link(self.link_manage_watchlist, 'watchlist_details?artist_id=None', event_args)
     self.reset_nav_backgrounds()
     self.link_manage_watchlist.background = "theme:Accent 2"
     

@@ -6,6 +6,10 @@ import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
 
+from anvil_extras import routing
+from ...nav import click_link, click_button, logout, login_check, load_var, save_var
+
+
 class ItemTemplate(ItemTemplateTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
@@ -25,7 +29,7 @@ class ItemTemplate(ItemTemplateTemplate):
 
 
   def link_1_click(self, **event_args):
-    open_form('Main_In', model_id, temp_artist_id = self.item["ArtistID"], target = 'Watchlist_Details', value=None)
+    click_link(self.link_1, f'watchlist_details?artist_id={self.item["ArtistID"]}', event_args)
 
   def link_left_click(self, **event_args):
     if self.item["Status"] in ['Action required', 'Requires revision', 'Waiting for decision']: #EVALUATION
@@ -42,7 +46,7 @@ class ItemTemplate(ItemTemplateTemplate):
                       status_left_new,
                       self.item["Notification"]
                       )
-    open_form('Main_In', temp_artist_id = None, target = None, value=None)
+    #open_form('Main_In', temp_artist_id = None, target = None, value=None)
 
   def link_right_click(self, **event_args):
     if self.item["Status"] in ['Action required', 'Requires revision', 'Waiting for decision']: #EVALUATION
@@ -59,4 +63,4 @@ class ItemTemplate(ItemTemplateTemplate):
                       status_right_new,
                       self.item["Notification"]
                       )
-    open_form('Main_In', temp_artist_id = None, target = None, value=None)
+    #open_form('Main_In', temp_artist_id = None, target = None, value=None)

@@ -24,7 +24,7 @@ components:
     properties: {text: Search Artist, role: feature}
     type: Button
     layout_properties: {grid_position: 'GQRHIH,NMDQYT'}
-    event_bindings: {click: text_box_search_pressed_enter}
+    event_bindings: {click: button_search_click}
   - name: spacer_1
     properties: {height: 32}
     type: Spacer

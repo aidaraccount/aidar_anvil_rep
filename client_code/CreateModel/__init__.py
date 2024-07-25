@@ -11,7 +11,7 @@ import string
 from anvil_extras import routing
 from ..nav import click_link, click_button
 
-from ..AddRefArtists import AddRefArtists
+from ..C_AddRefArtists import C_AddRefArtists
 
 
 @routing.route('create_model', title='Create Model')
@@ -43,9 +43,8 @@ class CreateModel(CreateModelTemplate):
         
         # continue to add ref artists
         alert(title='Congratulations..',
-          content="your Model was successfully created!\n\nNow, let's set your model up by adding some artists as reference.")
-        
-        open_form('Main_In', model_id=model_id, temp_artist_id = None, target = 'AddRefArtists', value=None)
+          content="your Model was successfully created!\n\nNow, let's set your model up by adding some artists as reference.")        
+        click_button(f'model_profile?model_id={model_id}&section=AddRefArtists', event_args)
         
       else:
         alert(title='Error..', content=status)

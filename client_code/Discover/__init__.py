@@ -25,6 +25,8 @@ class Discover(DiscoverTemplate):
     model_id = load_var("model_id")
     print(f"Discover model_id: {model_id}")
     temp_artist_id = self.url_dict['artist_id']
+    if temp_artist_id == 'None':
+      temp_artist_id = None
     print(f"Discover temp_artist_id: {temp_artist_id}")
     
     # Set Form properties and Data Bindings.
@@ -71,7 +73,8 @@ class Discover(DiscoverTemplate):
                 ])
       self.visible = False
       if result == "FILTERS":
-        open_form('Main_In', model_id=self.model_id, temp_artist_id = None, target = 'C_Filter', value=None)
+        click_button(f'model_profile?model_id={self.model_id}&section=Filter', event_args)
+        
     
     elif sug["Status"] == 'Free Limit Reached!':
       alert(title='Free Limit Reached..',
@@ -1364,7 +1367,7 @@ class Discover(DiscoverTemplate):
       content="Latest number of Soundcloud Follower.")
     
   def button_set_filters_click(self, **event_args):
-    open_form('Main_In', model_id=self.model_id, temp_artist_id=None, target='C_Filter', value=None)
+    click_button(f'model_profile?model_id={self.model_id}&section=Filter', event_args)
 
   def button_remove_filters_click(self, **event_args):
     anvil.server.call('change_filters', self.model_id, filters_json = None)

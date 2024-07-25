@@ -1,4 +1,4 @@
-from ._anvil_designer import AddRefArtistsTemplate
+from ._anvil_designer import C_AddRefArtistsTemplate
 from anvil import *
 import anvil.server
 import anvil.users
@@ -12,13 +12,10 @@ from ..nav import click_link, click_button, logout, save_var, load_var
 
 
 @routing.route('add_ref_artists', title='Add Ref. Artists')
-class AddRefArtists(AddRefArtistsTemplate):
-  def __init__(self, **properties):
+class C_AddRefArtists(C_AddRefArtistsTemplate):
+  def __init__(self, model_id, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
-
-    model_id = load_var("model_id")
-    print(f"AddRefArtists model_id: {model_id}")
     
     # Any code you write here will run before the form opens.
     global user

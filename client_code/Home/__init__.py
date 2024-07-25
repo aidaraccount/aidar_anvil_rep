@@ -87,18 +87,14 @@ class Home(HomeTemplate):
     
     
   def link_discover_click(self, **event_args):
-    sug = json.loads(anvil.server.call('get_suggestion', 'Inspect', self.model_id, None))
-    click_link(self.artist_link, f'artists?artist_id={sug["ArtistID"]}', event_args)
+    click_link(self.artist_link, 'artists?artist_id=None', event_args)
     
   def button_discover_click(self, **event_args):
-    sug = json.loads(anvil.server.call('get_suggestion', 'Inspect', self.model_id, None))
-    click_button(f'artists?artist_id={sug["ArtistID"]}', event_args)
+    click_button('artists?artist_id=None', event_args)
     
   def link_funnel_click(self, **event_args):
     click_link(self.link_funnel, 'watchlist_funnel', event_args)
 
   def text_search_pressed_enter(self, **event_args):
-    save_var('search', self.text_search.text)
-    click_box(self, 'search_artist', False)
-    #open_form('Main_In', target='SearchArtist')
+    click_box(f'search_artist?text={self.text_search.text}')
 

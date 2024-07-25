@@ -11,7 +11,7 @@ from anvil_extras import routing
 from ..nav import click_link, click_button, logout, login_check, load_var
 
 
-@routing.route('watchlist_details', title='Watchlist')
+@routing.route('watchlist_details', url_keys=['artist_id'], title='Watchlist')
 class Watchlist_Details(Watchlist_DetailsTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
@@ -19,7 +19,7 @@ class Watchlist_Details(Watchlist_DetailsTemplate):
     
     model_id = load_var("model_id")
     print(f"Watchlist_Details model_id: {model_id}")
-    temp_artist_id = load_var("temp_artist_id")
+    temp_artist_id = self.url_dict['artist_id']
     print(f"Watchlist_Details temp_artist_id: {temp_artist_id}")
     
     # Any code you write here will run before the form opens.
@@ -80,7 +80,7 @@ class Watchlist_Details(Watchlist_DetailsTemplate):
       self.repeating_panel_selection.items = watchlist_selection
       
       # a) show details and notes for 1st element of selection list
-      if temp_artist_id is None:
+      if temp_artist_id == 'None':
         cur_ai_artist_id = watchlist_selection[0]['ArtistID']
         self.repeating_panel_selection.get_components()[0].image_1.border = '1px solid #fd652d' # orange
 

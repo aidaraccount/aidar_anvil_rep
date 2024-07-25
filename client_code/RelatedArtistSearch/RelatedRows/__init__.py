@@ -45,8 +45,7 @@ class RelatedRows(RelatedRowsTemplate):
   def button_watchlist_click(self, **event_args):
     if self.item["Watchlist"] == 1:
       # route to Watchlist Details
-      save_var('temp_artist_id', self.item["ArtistID"])
-      click_link(self.inspect_name_link, 'watchlist_details', event_args)
+      click_link(self.inspect_name_link, f'watchlist_details?artist_id={self.item["ArtistID"]}', event_args)
       
     else:
       # add to Watchlist (incl. change Button) and show delete Button

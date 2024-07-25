@@ -12,7 +12,7 @@ import time
 
 from ..Home import Home
 from ..C_EditRefArtists import C_EditRefArtists
-from ..AddRefArtists import AddRefArtists
+from ..C_AddRefArtists import C_AddRefArtists
 from ..C_Rating import C_Rating
 from ..C_Filter import C_Filter
 
@@ -20,14 +20,15 @@ from anvil_extras import routing
 from ..nav import click_link, click_button, load_var
 
 
-@routing.route('model_profile', url_keys=['model_id'], title='Model Profile')
+@routing.route('model_profile', url_keys=['model_id', 'section'], title='Model Profile')
 class ModelProfile(ModelProfileTemplate):
-  def __init__(self, target=None, **properties):
+  def __init__(self, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
 
     model_id = load_var("model_id")
     print(f"ModelProfile model_id: {model_id}")
+    section = self.url_dict['section']
     
     # Any code you write here will run before the form opens.
     global user
@@ -88,12 +89,14 @@ class ModelProfile(ModelProfileTemplate):
       self.retrain.visible = False
       self.retrain_wait.visible = True
     
-    # TARGET
-    if target is None:
+    # SECTION
+    if section == 'Main':
       self.nav_references_click()
-    elif target == 'C_Filter':
+    elif section == 'PrevRated':
+      self.nav_prev_rated_click()
+    elif section == 'Filter':
       self.nav_filters_click()
-    elif target == 'AddRefArtists':
+    elif section == 'AddRefArtists':
       self.nav_add_references_click()
 
   
@@ -138,7 +141,7 @@ class ModelProfile(ModelProfileTemplate):
     self.sec_prev_rated.visible = False
     self.sec_filters.visible = False
     self.sec_references.clear()
-    self.sec_references.add_component(AddRefArtists(self.model_id))
+    self.sec_references.add_component(C_AddRefArtists(self.model_id))
   
   def nav_prev_rated_click(self, **event_args):    
     self.nav_references.role = 'section_buttons'
@@ -177,12 +180,14 @@ class ModelProfile(ModelProfileTemplate):
   
   def activate_click(self, **event_args):
     anvil.server.call('update_model_usage', user["user_id"], self.model_id)
-    open_form('Main_In', model_id=self.model_id, temp_artist_id = None, target = 'ModelProfile', value=None)
-    
+    #open_form('Main_In', model_id=self.model_id, temp_artist_id = None, target = 'ModelProfile', value=None)
+    alert(title='Model is activated!',
+      content="This model is activated - start discovering.",
+      buttons=[("Ok", "Ok")]
+    )
   def discover_click(self, **event_args):
     anvil.server.call('update_model_usage', user["user_id"], self.model_id)
-    sug = json.loads(anvil.server.call('get_suggestion', 'Inspect', self.model_id, None))
-    click_button(f'artists?artist_id={sug["ArtistID"]}', event_args)
+    click_button('artists?artist_id=None', event_args)
     
   def retrain_click(self, **event_args):
     res = anvil.server.call('retrain_model', self.model_id)

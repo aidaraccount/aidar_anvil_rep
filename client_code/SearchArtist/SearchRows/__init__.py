@@ -45,7 +45,8 @@ class SearchRows(SearchRowsTemplate):
   def button_watchlist_click(self, **event_args):
     if self.item["Watchlist"] == 1:
       # route to Watchlist Details
-      open_form('Main_In', model_id=model_id, temp_artist_id = self.item["ArtistID"], target = 'Watchlist_Details', value=None)      
+      click_button(f'watchlist_details?artist_id={self.item["ArtistID"]}', event_args)
+    
     else:
       # add to Watchlist (incl. change Button) and show delete Button
       anvil.server.call('update_watchlist_lead',

@@ -9,6 +9,10 @@ from anvil.tables import app_tables
 from ...Watchlist_Details import Watchlist_Details
 from ...Main_In import Main_In
 
+from anvil_extras import routing
+from ...nav import click_link, click_button, logout, login_check, load_var, save_var
+
+
 class RatingRows(RatingRowsTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
@@ -32,16 +36,17 @@ class RatingRows(RatingRowsTemplate):
       self.button_watchlist_delete.visible = False
     
   def inspect_pic_link_click(self, **event_args):
-    open_form('Main_In', model_id, temp_artist_id=self.item["ArtistID"], target='Discover', value=None)
+    click_link(self.inspect_pic_link, f'artists?artist_id={self.item["ArtistID"]}', event_args)
 
   def inspect_name_link_click(self, **event_args):
-    open_form('Main_In', model_id, temp_artist_id=self.item["ArtistID"], target='Discover', value=None)
+    click_link(self.inspect_name_link, f'artists?artist_id={self.item["ArtistID"]}', event_args)
 
   # BUTTONS
   def button_watchlist_click(self, **event_args):
     if self.item["Watchlist"] == 1:
       # route to Watchlist Details
-      open_form('Main_In', model_id, temp_artist_id = self.item["ArtistID"], target = 'Watchlist_Details', value=None)      
+      click_button(f'watchlist_details?artist_id={self.item["ArtistID"]}', event_args)
+    
     else:
       # add to Watchlist (incl. change Button) and show delete Button
       anvil.server.call('update_watchlist_lead', model_id, self.item["ArtistID"], True, 'Action required', True)
@@ -74,4 +79,4 @@ class RatingRows(RatingRowsTemplate):
         style="success").show()      
 
   def button_discover_click(self, **event_args):
-    open_form('Main_In', model_id, temp_artist_id = self.item["ArtistID"], target = 'Discover', value=None)
+    click_button(f'artists?artist_id={self.item["ArtistID"]}', event_args)

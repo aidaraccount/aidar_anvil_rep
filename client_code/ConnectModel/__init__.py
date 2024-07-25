@@ -27,7 +27,7 @@ class ConnectModel(ConnectModelTemplate):
     if status == 'Connection Successful':
       alert(title='Model Connected!',
             content='You connected successfully to the model and are ready to go.\n\nEnjoy it!')
-      self.content_panel.clear()
-      self.content_panel.add_component(Discover(model_id=None, temp_artist_id=None))
+      click_button('home', event_args)
+
     else:
       alert(title='Error..', content=status)

@@ -6,6 +6,10 @@ import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
 
+from anvil_extras import routing
+from ...nav import click_link, click_button, logout, login_check, load_var, save_var
+
+
 class ItemTemplate2(ItemTemplate2Template):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
@@ -31,7 +35,7 @@ class ItemTemplate2(ItemTemplate2Template):
 
   
   def link_1_click(self, **event_args):
-      open_form('Main_In', model_id, temp_artist_id = self.item["ArtistID"], target = 'Watchlist_Details', value=None)
+    click_link(self.link_1, f'watchlist_details?artist_id={self.item["ArtistID"]}', event_args)
 
   def link_left_click(self, **event_args):
     if self.item["Status"] in ['Action required', 'Requires revision', 'Waiting for decision']: #EVALUATION
@@ -50,8 +54,8 @@ class ItemTemplate2(ItemTemplate2Template):
                       status_left_new,
                       self.item["Notification"]
                       )
-    open_form('Main_In', model_id=model_id, temp_artist_id = None, target = 'Watchlist_Funnel', value=None)
-
+    #open_form('Main_In', model_id=model_id, temp_artist_id = None, target = 'Watchlist_Funnel', value=None)
+    
   def link_right_click(self, **event_args):
     if self.item["Status"] in ['Reconnect later', 'Not interested', None]: #BACKLOG
       status_right_new = 'Action required'
@@ -69,4 +73,4 @@ class ItemTemplate2(ItemTemplate2Template):
                       status_right_new,
                       self.item["Notification"]
                       )
-    open_form('Main_In', model_id=model_id, temp_artist_id = None, target = 'Watchlist_Funnel', value=None)
+    #open_form('Main_In', model_id=model_id, temp_artist_id = None, target = 'Watchlist_Funnel', value=None)

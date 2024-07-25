@@ -107,7 +107,7 @@ components:
         type: Label
         layout_properties: {x: 754, y: 0, width: 200}
     - type: RepeatingPanel
-      properties: {role: table_content, spacing_above: none, background: '', item_template: AddRefArtists.SearchRefRows, foreground: '', items: null, spacing_below: none, visible: true, border: '', tooltip: ''}
+      properties: {role: table_content, spacing_above: none, background: '', item_template: C_AddRefArtists.SearchRefRows, foreground: '', items: null, spacing_below: none, visible: true, border: '', tooltip: ''}
       name: data_grid_artists_data
       layout_properties: {}
       data_bindings: []
@@ -167,4 +167,4 @@ components:
         layout_properties: {grid_position: 'XORSMU,HFLXXJ'}
         event_bindings: {click: button_add_ref_artist_click}
 is_package: true
-custom_component: false
+custom_component: true

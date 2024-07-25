@@ -13,12 +13,9 @@ from ..nav import click_link, click_button, logout, save_var, load_var
 
 
 class C_Rating(C_RatingTemplate):
-  def __init__(self, **properties):
+  def __init__(self, model_id, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
-
-    model_id = load_var("model_id")
-    print(f"C_Rating model_id: {model_id}")
     
     # Any code you write here will run before the form opens.
     #print(f"{datetime.datetime.now()}: C_Rating - __init__ - 1", flush=True)
