@@ -132,7 +132,8 @@ class Discover(DiscoverTemplate):
       self.Artist_Name_Details.add_component(artist_name_component)
       # Add this line where you want to update the artist name
       # anvil.js.call_js('updateArtistName', sug["Name"])
-      self.call_js('updateArtistName', sug["Name"])
+      # self.call_js('updateArtistName', sug["Name"])
+      print(self.html)
 
       # --------
       # genres
