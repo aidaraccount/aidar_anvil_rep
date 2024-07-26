@@ -124,25 +124,21 @@
         float: right;
         color: #333;
     }
-    
     .nav-elt {
         display: inline-block;
         vertical-align: top;
         margin-left: 10px;
         position: relative;
     }
-    
     .nav-elt.placeholder {
         margin-top: 5px;
         opacity: 0.8;
         color: #888;
         visibility: hidden;
-    }
-    
+    }  
     body.anvil-highlight .nav-elt.placeholder {
         visibility: visible;
-    }
-    
+    } 
     .nav-elt .drop-here {
         position: absolute;
         top: 0;
@@ -150,15 +146,11 @@
         bottom: 0;
         width: 5px;
     }
-    
-    
     .cards {
         flex-grow: 1;
-    
         font-weight: bold;
         color: #555;
         font-size: 24px;
-    
         padding: 24px 16px;
         max-width: 100%;
         overflow-x: hidden;
@@ -168,83 +160,76 @@
         outline: 1px dashed rgba(0,0,0,0.3)
     }
     </style>
-    
-    
-    <script>
-    function toggleSidebar() {
-        var s = $('.sidebar');
-        if (!s.is(':hidden')) {
-            $('.sidebar-click-guard').hide();
-            s.addClass('floating').animate({left: -s.width()}, {complete: function() { s.hide(); }});
-        } else {
-            $('.sidebar-click-guard').show();
-            s.show().addClass('floating').css('left', '-100%').css('left', -s.width())
-                .animate({left: 0}, {complete: function() { s.removeClass('floating'); }});
-        }
+
+<script>
+function toggleSidebar() {
+    var s = $('.sidebar');
+    if (!s.is(':hidden')) {
+        $('.sidebar-click-guard').hide();
+        s.addClass('floating').animate({left: -s.width()}, {complete: function() { s.hide(); }});
+    } else {
+        $('.sidebar-click-guard').show();
+        s.show().addClass('floating').css('left', '-100%').css('left', -s.width())
+            .animate({left: 0}, {complete: function() { s.removeClass('floating'); }});
     }
+}
+
+$(function() {
+    $('.sidebar').on("click", function() {
+        if (window.innerWidth <= 767) {
+            toggleSidebar();
+        }
+    });
+    $('.sidebar-click-guard').on("click", toggleSidebar);
+})
+</script>
     
-    $(function() {
-        $('.sidebar').on("click", function() {
-            if (window.innerWidth <= 767) {
-                toggleSidebar();
-            }
-        });
-        $('.sidebar-click-guard').on("click", toggleSidebar);
-    })
-    </script>
-    
-    <!-- Put body before nav so that it sits underneath -->
-    
-    <div class="structure">
-    
-      <div class="nav" anvil-drop-redirect=".title.placeholder, .nav-elt.placeholder, .nav-elt .drop-here">
-    
-        <div class="menu-btn" onclick="toggleSidebar();">
-          <i class="fa fa-bars"></i>
-        </div>
-    
-        <div anvil-if-slot-empty="title" anvil-drop-slot="title" class="title placeholder anvil-designer-only">
-          Drop a title here
-        </div>
-        <div anvil-slot="title" class="title"></div>
-    
-        <div class="nav-right" anvil-drop-redirect=".nav-elt">
-          <div anvil-slot-repeat="nav-right" class="nav-elt">
+<!-- Put body before nav so that it sits underneath -->   
+<div class="structure">
+  <div class="nav" anvil-drop-redirect=".title.placeholder, .nav-elt.placeholder, .nav-elt .drop-here">
+    <div class="menu-btn" onclick="toggleSidebar();">
+      <i class="fa fa-bars"></i>
+    </div>
+
+    <div anvil-if-slot-empty="title" anvil-drop-slot="title" class="title placeholder anvil-designer-only">
+      Drop a title here
+    </div>
+    <div anvil-slot="title" class="title"></div>
+
+    <div class="nav-right" anvil-drop-redirect=".nav-elt">
+      <div anvil-slot-repeat="nav-right" class="nav-elt">
+        <div anvil-drop-here class="drop-here"></div>
+      </div>
+      <div class="nav-elt placeholder anvil-designer-only" anvil-drop-slot="nav-right">
+        <i class="glyphicon glyphicon-plus"></i>
+      </div>
+    </div>
+  </div>
+
+<div class="body" anvil-drop-default anvil-drop-container=">.cards .anvil-container" anvil-drop-redirect=">.cards > .placeholder">
+    <div class="sidebar" anvil-drop-redirect=">.drop-here">
+        <div anvil-slot-repeat="sidebar" class="sidebar-elt">
             <div anvil-drop-here class="drop-here"></div>
-          </div>
-          <div class="nav-elt placeholder anvil-designer-only" anvil-drop-slot="nav-right">
-            <i class="glyphicon glyphicon-plus"></i>
-          </div>
+            <div anvil-slot class="content"></div>
         </div>
-    
-    </div>
-      
-    <div class="body" anvil-drop-default anvil-drop-container=">.cards .anvil-container" anvil-drop-redirect=">.cards > .placeholder">
-        <div class="sidebar" anvil-drop-redirect=">.drop-here">
-            <div anvil-slot-repeat="sidebar" class="sidebar-elt">
-                <div anvil-drop-here class="drop-here"></div>
-                <div anvil-slot class="content"></div>
-            </div>
-            <div class="sidebar-elt anvil-designer-only drop-here" anvil-drop-slot="sidebar">
-                <div class="content placeholder"><i class="glyphicon glyphicon-plus"></i></div>
-            </div>
-        </div>
-        <div class="sidebar-click-guard"></div>
-    
-        <div class="cards anvil-measure-content">
-            <div anvil-if-slot-empty="default"
-                 anvil-drop-slot="default"
-                 class="placeholder">
-                 Drop a ColumnPanel here to add content
-            </div>
-    
-            <div anvil-slot="default"></div>
-    
-            <div class="anvil-designer-only instructions">
-                <i class="fa fa-info-circle"></i> Add
-                <img src="https://anvil.works/template-assets/column-panel-icon.png" style="height: 30px; margin-right: -7px; margin-top: -5px"> Card components to create new cards.
-            </div>
+        <div class="sidebar-elt anvil-designer-only drop-here" anvil-drop-slot="sidebar">
+            <div class="content placeholder"><i class="glyphicon glyphicon-plus"></i></div>
         </div>
     </div>
-      
-    </div>    
+    <div class="sidebar-click-guard"></div>
+
+    <div class="cards anvil-measure-content">
+        <div anvil-if-slot-empty="default"
+             anvil-drop-slot="default"
+             class="placeholder">
+             Drop a ColumnPanel here to add content
+        </div>
+        <div anvil-slot="default"></div>
+        <div class="anvil-designer-only instructions">
+            <i class="fa fa-info-circle"></i> Add
+            <img src="https://anvil.works/template-assets/column-panel-icon.png" style="height: 30px; margin-right: -7px; margin-top: -5px"> Card components to create new cards.
+        </div>
+    </div>
+</div>
+  
+</div>    

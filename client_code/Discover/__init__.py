@@ -12,6 +12,8 @@ import plotly.graph_objects as go
 from collections import defaultdict
 import itertools
 from ..C_CustomAlertForm import C_CustomAlertForm  # Import the custom form
+import anvil.js
+import anvil.js.window
 
 from anvil_extras import routing
 from ..nav import click_link, click_button, logout, login_check, load_var, save_var
@@ -125,6 +127,8 @@ class Discover(DiscoverTemplate):
       # name
       artist_name_component = Label(text=sug["Name"], role="artist-name-tile", spacing_above=0, spacing_below=0)
       self.Artist_Name_Details.add_component(artist_name_component)
+      # Add this line where you want to update the artist name
+      anvil.js.call_js('updateArtistName', sug["Name"])
 
       # --------
       # genres
