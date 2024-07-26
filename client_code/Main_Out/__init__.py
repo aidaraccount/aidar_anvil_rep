@@ -39,6 +39,7 @@ class Main_Out(Main_OutTemplate):
         user = anvil.users.get_user()
         #print(f"{datetime.datetime.now()}: Main_Out - link_login_click - 5", flush=True)
         open_form("Main_In")
+        routing.set_url_hash('home', load_from_cache=False)
         #print(f"{datetime.datetime.now()}: Main_Out - link_login_click - 6", flush=True)
       except:
         alert(
@@ -56,6 +57,7 @@ class Main_Out(Main_OutTemplate):
           anvil.server.call("server_transfer_user_id")
           user = anvil.users.get_user()
           open_form("Main_In")
+          routing.set_url_hash('home', load_from_cache=False)
         except:
           alert(
             title="Unveiling New Features!",
