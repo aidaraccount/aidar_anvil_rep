@@ -36,7 +36,7 @@ class Discover(DiscoverTemplate):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
     self.html = '@theme:Discover_Sidebar_and_JS.html'
-
+    
     # Any code you write here will run before the form opens.
     begin = datetime.now()
     
@@ -133,7 +133,8 @@ class Discover(DiscoverTemplate):
       # Add this line where you want to update the artist name
       # anvil.js.call_js('updateArtistName', sug["Name"])
       # self.call_js('updateArtistName', sug["Name"])
-      print(self.html)
+      self.component.call_js('consoleTestfunction')
+
 
       # --------
       # genres
