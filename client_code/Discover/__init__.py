@@ -17,6 +17,8 @@ import anvil.js.window
 
 from anvil_extras import routing
 from ..nav import click_link, click_button, logout, login_check, load_var, save_var
+import time
+
 
 
 @routing.route('artists', url_keys=['artist_id'], title='Artists')
