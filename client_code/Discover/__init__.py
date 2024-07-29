@@ -26,24 +26,37 @@ class Discover(DiscoverTemplate):
   def __init__(self, **properties):
     #print(f"{datetime.now()}: Discover - __init__ - 1", flush=True)    
     
-    model_id = load_var("model_id")
-    print(f"Discover model_id: {model_id}")
-    temp_artist_id = self.url_dict['artist_id']
-    if temp_artist_id == 'None':
-      temp_artist_id = None
-    print(f"Discover temp_artist_id: {temp_artist_id}")
-    
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
     self.html = '@theme:Discover_Sidebar_and_JS.html'
 
     # Any code you write here will run before the form opens.
-    #begin = datetime.now()
-    
     global user
     user = anvil.users.get_user()
+    print(f"1. User: {user}")
+    if user is None:
+      print(f"2. User: {load_var('user')}")
+      if load_var('user') is None:
+        open_form('Main_Out')
+      else:
+        user = load_var('user')
+        self.continue_now()
+    else:
+      self.continue_now()
+      
+  def continue_now(self):
+    model_id = load_var("model_id")
+    if model_id is None:
+      save_var("model_id", anvil.server.call('get_model_id',  user["user_id"]))
+    print(f"Discover model_id: {model_id}")
     self.model_id = model_id
     
+    temp_artist_id = self.url_dict['artist_id']
+    if temp_artist_id == 'None':
+      temp_artist_id = None
+    print(f"Discover temp_artist_id: {temp_artist_id}")
+    
+    #begin = datetime.now()
     #print(f"{datetime.now()}: Discover - __init__ - 2", flush=True)
     self.refresh_sug(self.model_id, temp_artist_id)
     #print(f"{datetime.now()}: Discover - __init__ - 3", flush=True)    
@@ -58,6 +71,8 @@ class Discover(DiscoverTemplate):
     temp_artist_id_global = temp_artist_id
     self.spacer_bottom_margin.height = 80
     sug = json.loads(anvil.server.call('get_suggestion', 'Inspect', self.model_id, temp_artist_id)) # Free, Explore, Inspect, Dissect
+    print(sug)
+    print(sug["Status"])
     
     self.Artist_Name_Details.clear()
     self.Artist_Name_Details_Sidebar.clear()

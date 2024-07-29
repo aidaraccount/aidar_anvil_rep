@@ -19,6 +19,9 @@ class Main_Out(Main_OutTemplate):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
 
+    global user
+    user = None
+    
     model_id = load_var("model_id")
     print(f"Main_Out model_id: {model_id}")
     
@@ -38,6 +41,8 @@ class Main_Out(Main_OutTemplate):
         anvil.server.call("server_transfer_user_id")
         #print(f"{datetime.datetime.now()}: Main_Out - link_login_click - 4", flush=True)
         user = anvil.users.get_user()
+        save_var("user", user)
+        save_var("model_id", anvil.server.call('get_model_id',  user["user_id"]))
         #print(f"{datetime.datetime.now()}: Main_Out - link_login_click - 5", flush=True)
         open_form("Main_In")
         if location.hash == '': 
@@ -59,6 +64,7 @@ class Main_Out(Main_OutTemplate):
         try:
           anvil.server.call("server_transfer_user_id")
           user = anvil.users.get_user()
+          save_var("model_id", anvil.server.call('get_model_id',  user["user_id"]))
           open_form("Main_In")
           if location.hash == '': 
             routing.set_url_hash('home', load_from_cache=False)
