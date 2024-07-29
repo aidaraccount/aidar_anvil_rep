@@ -179,6 +179,7 @@ class ModelProfile(ModelProfileTemplate):
           title="Model deleted!",
           style="success").show()
         click_button('home', event_args)
+        get_open_form().refresh_models_components()
         get_open_form().refresh_models_underline()
   
   def activate_click(self, **event_args):

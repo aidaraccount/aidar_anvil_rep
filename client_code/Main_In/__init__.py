@@ -85,27 +85,36 @@ class Main_In(Main_InTemplate):
       #print(f"TotalTime Main_In: {datetime.datetime.now() - begin}", flush=True)
       
       # MODEL PROFILES IN NAV
-      model_ids = json.loads(anvil.server.call('get_model_ids',  user["user_id"]))
-    
-      for i in range(0, len(model_ids)):
-        if model_ids[i]["is_last_used"] is True:
-          model_link = Link(
-            icon='fa:angle-right',
-            text=model_ids[i]["model_name"],
-            tag=model_ids[i]["model_id"],
-            role='underline-link'
-            )
-        else:
-          model_link = Link(
-            icon='fa:angle-right',
-            text=model_ids[i]["model_name"],
-            tag=model_ids[i]["model_id"]
-            )
-        model_link.set_event_handler('click', self.create_model_click_handler(model_ids[i]["model_id"], model_link))
-        self.nav_models.add_component(model_link)
-            
+      self.refresh_models_components()
+
     
   # MODEL ROUTING
+  def refresh_models_components(self):
+    self.remove_model_components()
+    
+    model_ids = json.loads(anvil.server.call('get_model_ids',  user["user_id"]))    
+    for i in range(0, len(model_ids)):
+      if model_ids[i]["is_last_used"] is True:
+        model_link = Link(
+          icon='fa:angle-right',
+          text=model_ids[i]["model_name"],
+          tag=model_ids[i]["model_id"],
+          role='underline-link'
+          )
+      else:
+        model_link = Link(
+          icon='fa:angle-right',
+          text=model_ids[i]["model_name"],
+          tag=model_ids[i]["model_id"]
+          )
+      model_link.set_event_handler('click', self.create_model_click_handler(model_ids[i]["model_id"], model_link))
+      self.nav_models.add_component(model_link)
+  
+  def remove_model_components(self):
+    for component in self.nav_models.get_components():
+      if isinstance(component, Link):
+        component.remove_from_parent()
+    
   def refresh_models_underline(self):
     for component in self.nav_models.get_components():
       if isinstance(component, Link):
