@@ -27,6 +27,7 @@ class SearchRows(SearchRowsTemplate):
       self.button_watchlist.background = '#fd652d' # orange
       self.button_watchlist.foreground = '#f5f4f1' # white
       self.button_watchlist.tooltip = 'go to Watchlist'
+      self.button_watchlist.icon = 'fa:address-card-o'
       self.button_watchlist_delete.visible = True
     else:
       self.button_watchlist.background = ''
@@ -62,6 +63,7 @@ class SearchRows(SearchRowsTemplate):
       self.button_watchlist.background = '#fd652d' # orange
       self.button_watchlist.foreground = '#f5f4f1' # white
       self.button_watchlist.tooltip = 'go to Watchlist'
+      self.button_watchlist.icon = 'fa:address-card-o'
       self.button_watchlist_delete.visible = True
       
       Notification("",
@@ -78,6 +80,7 @@ class SearchRows(SearchRowsTemplate):
       self.button_watchlist.background = ''
       self.button_watchlist.foreground = ''
       self.button_watchlist.tooltip = 'add to Watchlist'
+      self.button_watchlist.icon = 'fa:star-o'
       self.button_watchlist_delete.visible = False
       
       Notification("",

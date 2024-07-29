@@ -85,6 +85,7 @@ class Watchlist_Overview(Watchlist_OverviewTemplate):
   def get_data(self, **event_args):
     # get raw data
     data = anvil.server.call('get_watchlist_overview', user["user_id"])
+    print(data)
     
     if data != 'no_data':
       data = json.loads(data)
