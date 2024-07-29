@@ -131,8 +131,13 @@ class Discover(DiscoverTemplate):
       # name
       artist_name_component = Label(text=sug["Name"], role="artist-name-tile", spacing_above=0, spacing_below=0)
       self.Artist_Name_Details.add_component(artist_name_component)
+      
       artist_name_component_sidebar = Label(text=sug["Name"], role="artist-name-tile", spacing_above=0, spacing_below=0)
       self.Artist_Name_Details_Sidebar.add_component(artist_name_component_sidebar)
+
+      
+      artist_name_component_table_sidebar = Label(text=sug["Name"], spacing_above=0, spacing_below=0)
+      self.Artist_Name_Details_Sidebar_table.add_component(artist_name_component_table_sidebar)
       # Add this line where you want to update the artist name
       
       # anvil.js.call_js('updateArtistName', sug["Name"])
@@ -1398,5 +1403,6 @@ class Discover(DiscoverTemplate):
     save_var('temp_artist_id', artist_id)
     anvil.server.call('update_model_usage', user["user_id"], model_id_new)
     self.header.scroll_into_view(smooth=True)
+    get_open_form().refresh_models_underline()
     self.refresh_sug(model_id_new, temp_artist_id=artist_id)
     

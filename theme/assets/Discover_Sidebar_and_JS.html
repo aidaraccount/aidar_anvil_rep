@@ -4,10 +4,10 @@
     </div>
   </div>
   <div id="right-sidebar" class="anvil-container" anvil-slot="sidebar">
-    <div class="header-sidebar" anvil-slot="title">
+    <div class="header-sidebar" anvil-slot="Artist_Name_Details_Sidebar">
         <img class="note_svg" src="_/theme/icons/Note.svg" alt="Notes Icon">
         <span>
-          Notes for&nbsp<span anvil-if-slot-empty="title">Artist Title Here</span>
+          Notes for&nbsp<span anvil-if-slot-empty="Artist_Name_Details_Sidebar">Artist Title Here</span>
         </span>
     </div>
     <div class="buttons-sidebar">
@@ -24,9 +24,9 @@
       <table class="contact-table">
         <tr>
           <th>Name</th>
-          <td id='artist-name-cell' anvil-slot="title">
-            <div class="artist-name-sidebar" anvil-slot="title">
-              <div anvil-if-slot-empty="title" anvil-drop-here>Artist Name</div>
+          <td id='artist-name-cell'>
+            <div class="artist-name-sidebar" anvil-slot="cell">
+              <div anvil-if-slot-empty="cell">Artist Name</div>
             </div>
           </td>
         </tr>
@@ -62,7 +62,6 @@
   <br>
   Notes
 </button>
-
 
 <!-- <div anvil-drop-default anvil-drop-redirect=".placeholder" anvil-drop-container=".anvil-container"></div> -->
 <div class="footer">

@@ -5,10 +5,14 @@ container:
   properties: {html: '@theme:Discover_Sidebar_and_JS.html', background: '', role: test}
   data_bindings: []
 components:
+- name: Artist_Name_Details_Sidebar_table
+  properties: {spacing_above: none, spacing_below: none}
+  type: FlowPanel
+  layout_properties: {slot: cell}
 - name: Artist_Name_Details_Sidebar
   properties: {spacing_above: none, spacing_below: none}
   type: FlowPanel
-  layout_properties: {slot: title}
+  layout_properties: {slot: Artist_Name_Details_Sidebar}
 - properties: {spacing_above: small, spacing_below: small, col_spacing: medium, col_widths: '{"AMHHEF":45,"SSPHIY":15}'}
   type: ColumnPanel
   layout_properties: {slot: default}

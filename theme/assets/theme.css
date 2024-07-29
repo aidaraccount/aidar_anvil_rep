@@ -1237,8 +1237,8 @@ footer a, .footer .anvil-component {
   font-family: Gs-regular;
   color: rgb(250,250,250);
   position: fixed;
-  /* right: -450px; */
-  right: 0px;
+  right: -450px;
+  /* right: 0px; */
   /* left:0; */
   top: 0;
   width: 450px;
@@ -1260,7 +1260,7 @@ footer a, .footer .anvil-component {
   font-size: 20px;
   position: fixed;
   /* right: 0px;*/
-  right: 450px;
+  right: -450px;
   top: 20%;
   background-color: rgb(233,95,48);
   color: white;
@@ -1273,7 +1273,7 @@ footer a, .footer .anvil-component {
   border-bottom-left-radius: 15px;
 }
 .sidebar-button.open {
-  right: 450px;
+  right: -450px;
 }
 #right-sidebar .header-sidebar{
   padding: 20px;
