@@ -16,10 +16,7 @@ class RowTemplate3(RowTemplate3Template):
     self.init_components(**properties)
 
     # Any code you write here will run before the form opens.
-    global user
-    user = anvil.users.get_user()
-    global model_id
-    model_id = anvil.server.call("get_model_id", user["user_id"])
+    
 
   def related_artist_pic_link_click(self, **event_args):
     click_link(self.related_artist_pic_link, f'artists?artist_id={self.related_artist_pic_link.url}', event_args)

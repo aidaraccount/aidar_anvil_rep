@@ -40,14 +40,16 @@ class Main_Out(Main_OutTemplate):
       try:
         anvil.server.call("server_transfer_user_id")
         #print(f"{datetime.datetime.now()}: Main_Out - link_login_click - 4", flush=True)
-        user = anvil.users.get_user()
-        save_var("user", user)
+        save_var("user_id", user["user_id"])
         save_var("model_id", anvil.server.call('get_model_id',  user["user_id"]))
         #print(f"{datetime.datetime.now()}: Main_Out - link_login_click - 5", flush=True)
         open_form("Main_In")
-        if location.hash == '': 
+        
+        if location.hash == '':
           routing.set_url_hash('home', load_from_cache=False)
-
+        elif location.hash[:8] == '#artists':
+          routing.set_url_hash(location.hash, load_from_cache=False)
+          
         #print(f"{datetime.datetime.now()}: Main_Out - link_login_click - 6", flush=True)
       except:
         alert(
@@ -60,15 +62,19 @@ class Main_Out(Main_OutTemplate):
       user = anvil.users.login_with_email(self.login_email.text,self.login_pw.text)
       check_log_status(self)
       user = anvil.users.get_user()
+      save_var("user", user)
       if user is not None:
         try:
           anvil.server.call("server_transfer_user_id")
-          user = anvil.users.get_user()
+          save_var("user_id", user["user_id"])
           save_var("model_id", anvil.server.call('get_model_id',  user["user_id"]))
           open_form("Main_In")
-          if location.hash == '': 
+        
+          if location.hash == '':
             routing.set_url_hash('home', load_from_cache=False)
-          routing.set_url_hash('home', load_from_cache=False)
+          elif location.hash[:8] == '#artists':
+            routing.set_url_hash(location.hash, load_from_cache=False)
+            
         except:
           alert(
             title="Unveiling New Features!",
