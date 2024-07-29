@@ -31,7 +31,7 @@ class Discover(DiscoverTemplate):
     self.html = '@theme:Discover_Sidebar_and_JS.html'
 
     # Any code you write here will run before the form opens.
-    #global user
+    global user
     user = anvil.users.get_user()
     print(f"Discover user: {user}")
     print(f"Discover user_id: {load_var('user_id')}")
