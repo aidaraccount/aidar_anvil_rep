@@ -60,6 +60,7 @@ class Discover(DiscoverTemplate):
     sug = json.loads(anvil.server.call('get_suggestion', 'Inspect', self.model_id, temp_artist_id)) # Free, Explore, Inspect, Dissect
     
     self.Artist_Name_Details.clear()
+    self.Artist_Name_Details_Sidebar.clear()
     self.flow_panel_genre_tile.clear()
     self.flow_panel_social_media_tile.clear()
     
@@ -130,6 +131,8 @@ class Discover(DiscoverTemplate):
       # name
       artist_name_component = Label(text=sug["Name"], role="artist-name-tile", spacing_above=0, spacing_below=0)
       self.Artist_Name_Details.add_component(artist_name_component)
+      artist_name_component_sidebar = Label(text=sug["Name"], role="artist-name-tile", spacing_above=0, spacing_below=0)
+      self.Artist_Name_Details_Sidebar.add_component(artist_name_component_sidebar)
       # Add this line where you want to update the artist name
       
       # anvil.js.call_js('updateArtistName', sug["Name"])
