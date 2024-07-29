@@ -7,7 +7,7 @@
     <div class="header-sidebar" anvil-slot="title">
         <img class="note_svg" src="_/theme/icons/Note.svg" alt="Notes Icon">
         <span>
-          Notes for <span anvil-if-slot-empty="title"> Artist Title Here</span>
+          Notes for&nbsp<span anvil-if-slot-empty="title">Artist Title Here</span>
         </span>
     </div>
     <div class="buttons-sidebar">
@@ -21,7 +21,7 @@
     </div>
     <div class="section-contact-sidebar">
       <h3>Contact</h3>
-      <table class="contact-table">
+      <table class="contact-table" anvil-slot="title">
         <tr>
           <th>Name</th>
           <td id='artist-name-cell'>Max Mustermann</td>

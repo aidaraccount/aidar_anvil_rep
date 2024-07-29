@@ -6,7 +6,7 @@ container:
   data_bindings: []
 components:
 - name: Artist_Name_Details_Sidebar
-  properties: {}
+  properties: {spacing_above: none, spacing_below: none}
   type: FlowPanel
   layout_properties: {slot: title}
 - properties: {spacing_above: small, spacing_below: small, col_spacing: medium, col_widths: '{"AMHHEF":45,"SSPHIY":15}'}
