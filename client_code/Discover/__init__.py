@@ -38,7 +38,7 @@ class Discover(DiscoverTemplate):
     self.html = '@theme:Discover_Sidebar_and_JS.html'
 
     # Any code you write here will run before the form opens.
-    begin = datetime.now()
+    #begin = datetime.now()
     
     global user
     user = anvil.users.get_user()
