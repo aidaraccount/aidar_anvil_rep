@@ -24,25 +24,31 @@
       <table class="contact-table">
         <tr>
           <th>Name</th>
-          <td id='artist-name-cell'>
-            <div class="artist-name-sidebar" anvil-slot="cell">
-              <div anvil-if-slot-empty="cell">Artist Name</div>
+          <td>
+            <div class="artist-name-sidebar" anvil-slot="Text_Box_for_Artist_Name">
+              <div anvil-if-slot-empty="Text_Box_for_Artist_Name">Artist Name</div>
             </div>
           </td>
         </tr>
         <tr>
           <th>Email</th>
-          <td>Mustermann@email.de</td>
+          <td>
+            <div class="artist-name-sidebar" anvil-slot="Text_Box_for_Artist_Email">
+            <div anvil-if-slot-empty="Text_Box_for_Artist_Email">Artist Email</div>
+          </td>
         </tr>
         <tr>
           <th>Phone</th>
-          <td>123 45 678 9</td>
+          <td>
+            <div class="artist-name-sidebar" anvil-slot="Text_Box_for_Artist_Phone">
+            <div anvil-if-slot-empty="Text_Box_for_Artist_Phone">Artist Phone Num</div>
+          </td>
         </tr>
         <tr>
           <th>Other</th>
           <td>
-            Management<br>
-            www.Website.de
+            <div class="artist-name-sidebar" anvil-slot="Text_Box_for_Artist_Other">
+            <div anvil-if-slot-empty="Text_Box_for_Artist_Other">Artist Other Det</div>
           </td>
         </tr>
       </table>

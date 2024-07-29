@@ -5,10 +5,22 @@ container:
   properties: {html: '@theme:Discover_Sidebar_and_JS.html', background: '', role: test}
   data_bindings: []
 components:
-- name: Artist_Name_Details_Sidebar_table
+- name: Text_Box_for_Artist_Other
   properties: {spacing_above: none, spacing_below: none}
-  type: FlowPanel
-  layout_properties: {slot: cell}
+  type: TextBox
+  layout_properties: {slot: Text_Box_for_Artist_Other}
+- name: Text_Box_for_Artist_Phone
+  properties: {spacing_above: none, spacing_below: none}
+  type: TextBox
+  layout_properties: {slot: Text_Box_for_Artist_Phone}
+- name: Text_Box_for_Artist_Email
+  properties: {spacing_above: none, spacing_below: none}
+  type: TextBox
+  layout_properties: {slot: Text_Box_for_Artist_Email}
+- name: Text_Box_for_Artist_Name
+  properties: {spacing_above: none, spacing_below: none}
+  type: TextBox
+  layout_properties: {slot: Text_Box_for_Artist_Name}
 - name: Artist_Name_Details_Sidebar
   properties: {spacing_above: none, spacing_below: none}
   type: FlowPanel
