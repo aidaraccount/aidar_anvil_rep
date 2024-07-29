@@ -38,6 +38,7 @@ class Main_In(Main_InTemplate):
     
     model_id = load_var("model_id")
     print(f"Main_In model_id: {model_id}")
+    print(f"Main_In user_id: {load_var('user_id')}")
     
     # Any code you write here will run before the form opens.    
     global user

@@ -26,24 +26,40 @@ class Discover(DiscoverTemplate):
   def __init__(self, **properties):
     #print(f"{datetime.now()}: Discover - __init__ - 1", flush=True)    
     
-    model_id = load_var("model_id")
-    print(f"Discover model_id: {model_id}")
-    temp_artist_id = self.url_dict['artist_id']
-    if temp_artist_id == 'None':
-      temp_artist_id = None
-    print(f"Discover temp_artist_id: {temp_artist_id}")
-    
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
     self.html = '@theme:Discover_Sidebar_and_JS.html'
 
     # Any code you write here will run before the form opens.
-    #begin = datetime.now()
-    
     global user
     user = anvil.users.get_user()
+    print(f"Discover user: {user}")
+    print(f"Discover user_id: {load_var('user_id')}")
+    
+    if user is None:
+      if load_var('user_id') is None:
+        open_form('Main_Out')
+      else:
+        self.user_id = load_var('user_id')
+        self.continue_now()
+    else:
+      self.user_id = user["user_id"]
+      self.continue_now()
+      
+  
+  def continue_now(self):
+    model_id = load_var("model_id")
+    if model_id is None:
+      save_var("model_id", anvil.server.call('get_model_id',  self.user_id))
+    print(f"Discover model_id: {model_id}")
     self.model_id = model_id
     
+    temp_artist_id = self.url_dict['artist_id']
+    if temp_artist_id == 'None':
+      temp_artist_id = None
+    print(f"Discover temp_artist_id: {temp_artist_id}")
+    
+    #begin = datetime.now()
     #print(f"{datetime.now()}: Discover - __init__ - 2", flush=True)
     self.refresh_sug(self.model_id, temp_artist_id)
     #print(f"{datetime.now()}: Discover - __init__ - 3", flush=True)    
@@ -58,6 +74,8 @@ class Discover(DiscoverTemplate):
     temp_artist_id_global = temp_artist_id
     self.spacer_bottom_margin.height = 80
     sug = json.loads(anvil.server.call('get_suggestion', 'Inspect', self.model_id, temp_artist_id)) # Free, Explore, Inspect, Dissect
+    print(sug)
+    print(sug["Status"])
     
     self.Artist_Name_Details.clear()
     self.Artist_Name_Details_Sidebar.clear()
@@ -652,11 +670,15 @@ class Discover(DiscoverTemplate):
         
       # --------
       # c) Models Drop-Down
-      model_data = json.loads(anvil.server.call('get_model_ids',  user["user_id"]))
-      model_name_last_used = [item['model_name'] for item in model_data if item['is_last_used']][0]
-      self.drop_down_model.selected_value = model_name_last_used      
-      model_names = [item['model_name'] for item in model_data]
-      self.drop_down_model.items = model_names
+      if self.user_id is None:
+        self.drop_down_model.visible = False
+      else:
+        self.drop_down_model.visible = True
+        model_data = json.loads(anvil.server.call('get_model_ids',  self.user_id))
+        model_name_last_used = [item['model_name'] for item in model_data if item['is_last_used']][0]
+        self.drop_down_model.selected_value = model_name_last_used      
+        model_names = [item['model_name'] for item in model_data]
+        self.drop_down_model.items = model_names
     
   # ----------------------------------------------
   
