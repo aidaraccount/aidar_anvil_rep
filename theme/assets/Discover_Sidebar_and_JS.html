@@ -21,10 +21,14 @@
     </div>
     <div class="section-contact-sidebar">
       <h3>Contact</h3>
-      <table class="contact-table" anvil-slot="title">
+      <table class="contact-table">
         <tr>
           <th>Name</th>
-          <td id='artist-name-cell'>Max Mustermann</td>
+          <td id='artist-name-cell' anvil-slot="title">
+            <div class="artist-name-sidebar" anvil-slot="title">
+              <div anvil-if-slot-empty="title" anvil-drop-here>Artist Name</div>
+            </div>
+          </td>
         </tr>
         <tr>
           <th>Email</th>
