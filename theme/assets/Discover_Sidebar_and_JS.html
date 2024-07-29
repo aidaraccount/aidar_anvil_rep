@@ -1,12 +1,13 @@
-<div class="container-panel" anvil-slot="default">
-  <div class="main-content" anvil-slot="default">
+<div class="container-panel">
+  <div class="main-content">
     <div class="anvil-container" anvil-drop-container=".anvil-container">
     </div>
   </div>
-  <div id="right-sidebar" class="anvil-container">
-    <div class="header-sidebar">
+  <div id="right-sidebar" class="anvil-container" anvil-slot="sidebar">
+    <div class="header-sidebar" anvil-slot="title">
       <img class="note_svg" src="_/theme/icons/Note.svg" alt="Notes Icon">
       <span>Notes for &lt;artist&gt;</span>
+      <div anvil-if-slot-empty="title">Drop a title here!</div>
     </div>
     <div class="buttons-sidebar">
       <button>Status</button>
@@ -57,11 +58,6 @@
   Notes
 </button>
 
-<div class="notes">
-  <div class="notes-slot" anvil-slot="default">
-    <div class="placeholder anvil-designer-only" anvil-if-slot-empty="default" anvil-drop-here>Drop a FlowPanel or Label or Link Component here</div>
-  </div>
-</div> 
 
 <!-- <div anvil-drop-default anvil-drop-redirect=".placeholder" anvil-drop-container=".anvil-container"></div> -->
 <div class="footer">
