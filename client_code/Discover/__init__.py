@@ -133,7 +133,7 @@ class Discover(DiscoverTemplate):
       # Add this line where you want to update the artist name
       # anvil.js.call_js('updateArtistName', sug["Name"])
       # self.call_js('updateArtistName', sug["Name"])
-      self.component.call_js('consoleTestfunction')
+      #self.component.call_js('consoleTestfunction')
 
 
       # --------
