@@ -11,28 +11,32 @@
         </span>
     </div>
     <div class="buttons-sidebar">
-      <div>
-        <div>Status</div>
-        <div class="sidebar-dropdowns" anvil-slot="Status_picker">
-          <div anvil-if-slot-empty="Status_picker">Status Picker</div>
+      <table> 
+        <tr>
+          <th>Status</th>
+          <td>
+            <div class="sidebar-dropdowns" anvil-slot="Status_picker">
+              <div anvil-if-slot-empty="Status_picker">Status Picker</div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+        <tr>
+          <th>Priority</th>
+          <td>
+            <div class="sidebar-dropdowns" anvil-slot="Priority_picker">
+              <div anvil-if-slot-empty="Priority_picker">Priority Picker</div>
+            </div>
+          </td>
+        </tr>
+        <div>
+          <div>Reminder</div>
+          <div class="sidebar-dropdowns" anvil-slot="Date_picker">
+            <div anvil-if-slot-empty="Date_picker">Date Picker</div>
+          </div>
         </div>
-      </div>
-      <div>
-        <div>Priority</div>
-        <div class="sidebar-dropdowns" anvil-slot="Priority_picker">
-          <div anvil-if-slot-empty="Priority_picker">Priority Picker</div>
-        </div>
-      </div>
-      <div>
-        <div>Reminder</div>
-        <div class="sidebar-dropdowns" anvil-slot="Date_picker">
-          <div anvil-if-slot-empty="Date_picker">Date Picker</div>
-        </div>
-      </div>
+      </table>
     </div>
-    <!-- <div class="social-media-sidebar">
-      <h3>Social Media Links</h3>
-    </div> -->
     <div class="section-contact-sidebar">
       <h3>Contact</h3>
       <table class="contact-table">
