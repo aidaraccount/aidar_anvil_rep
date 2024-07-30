@@ -1369,6 +1369,9 @@ footer a, .footer .anvil-component {
 #right-sidebar .description-section-sidebar textarea,
 #right-sidebar .comments-section-sidebar textarea {
   background: transparent;
+  color: white;
+  font-family:Gs-regular;
+  font-size: 14px;
 }
 
 .sidebar-dropdowns {
