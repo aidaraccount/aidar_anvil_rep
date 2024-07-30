@@ -4,6 +4,11 @@ container:
   type: HtmlTemplate
   properties: {html: '@theme:Discover_Sidebar_and_JS.html', background: '', role: test}
 components:
+- name: drop_down_1
+  properties:
+    items: [Action required, Requires revision, Waiting for decision, Build connection, Awaiting response, Exploring opportunities, Positive response, In negotiations, Contract in progress, Reconnect later, Not interested, Success]
+  type: DropDown
+  layout_properties: {slot: Status_picker}
 - properties: {spacing_above: none, spacing_below: none}
   type: TextBox
   layout_properties: {slot: Text_Box_for_Artist_Other}

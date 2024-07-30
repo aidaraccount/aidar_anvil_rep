@@ -11,9 +11,14 @@
         </span>
     </div>
     <div class="buttons-sidebar">
-      <button>Status</button>
-      <button>Priority</button>
-      <button>Reminder</button>
+      <div>
+        <div>Status</div>
+        <div anvil-slot="Status_picker">
+          <div anvil-if-slot-empty="Status_picker">Status Picker</div>
+        </div>
+      </div>
+      <div>Priority</div>
+      <div>Reminder</div>
     </div>
     <!-- <div class="social-media-sidebar">
       <h3>Social Media Links</h3>
