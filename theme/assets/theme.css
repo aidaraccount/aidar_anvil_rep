@@ -1374,7 +1374,13 @@ footer a, .footer .anvil-component {
 .sidebar-dropdowns {
   font-family: Gs-regular;
   font-size: 14px;
-  
+}
+
+.anvil-role-target-dropdown>.form-inline:has( .form-control){
+  color: white;
+}
+.form-control:has( .anvil-role-target-dropdown>.form-inline){
+  color: white;
 }
 
 

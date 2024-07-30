@@ -5,7 +5,7 @@ container:
   properties: {html: '@theme:Discover_Sidebar_and_JS.html', background: '', role: test}
 components:
 - name: date_picker_1
-  properties: {spacing_above: none, spacing_below: none}
+  properties: {spacing_above: none, spacing_below: none, role: target-dropdown}
   type: DatePicker
   layout_properties: {slot: Date_picker}
 - name: drop_down_2
@@ -13,6 +13,7 @@ components:
     items: [very low, low, mid, high, very high]
     spacing_above: none
     spacing_below: none
+    role: target-dropdown
   type: DropDown
   layout_properties: {slot: Priority_picker}
 - name: drop_down_1
@@ -20,6 +21,7 @@ components:
     items: [Action required, Requires revision, Waiting for decision, Build connection, Awaiting response, Exploring opportunities, Positive response, In negotiations, Contract in progress, Reconnect later, Not interested, Success]
     spacing_above: none
     spacing_below: none
+    role: target-dropdown
   type: DropDown
   layout_properties: {slot: Status_picker}
 - properties: {spacing_above: none, spacing_below: none}
