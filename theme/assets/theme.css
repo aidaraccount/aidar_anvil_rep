@@ -1371,5 +1371,11 @@ footer a, .footer .anvil-component {
   background: transparent;
 }
 
+.sidebar-dropdowns {
+  font-family: Gs-regular;
+  font-size: 14px;
+  
+}
+
 
 /* CSS for the Sidebar on the Discover Page ENDS Here */
