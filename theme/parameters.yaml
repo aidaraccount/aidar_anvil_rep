@@ -112,7 +112,7 @@ roles:
 - name: section-background
   components: [FlowPanel]
 - name: target-dropdown
-  components: [DropDown, DatePicker]
+  components: [DropDown, DatePicker, TextBox]
 color_scheme:
   preset_groups:
   - name: Accent

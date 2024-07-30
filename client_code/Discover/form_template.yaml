@@ -24,19 +24,19 @@ components:
     role: target-dropdown
   type: DropDown
   layout_properties: {slot: Status_picker}
-- properties: {spacing_above: none, spacing_below: none}
+- properties: {spacing_above: none, spacing_below: none, role: target-dropdown, placeholder: Other contact information}
   type: TextBox
   layout_properties: {slot: Text_Box_for_Artist_Other}
   name: Text_Box_for_Artist_Other
-- properties: {spacing_above: none, spacing_below: none}
+- properties: {spacing_above: none, spacing_below: none, role: target-dropdown, placeholder: Phone number of contact}
   type: TextBox
   layout_properties: {slot: Text_Box_for_Artist_Phone}
   name: Text_Box_for_Artist_Phone
-- properties: {spacing_above: none, spacing_below: none}
+- properties: {spacing_above: none, spacing_below: none, role: target-dropdown, placeholder: Email of contact}
   type: TextBox
   layout_properties: {slot: Text_Box_for_Artist_Email}
   name: Text_Box_for_Artist_Email
-- properties: {spacing_above: none, spacing_below: none}
+- properties: {spacing_above: none, spacing_below: none, role: target-dropdown, placeholder: Name of contact}
   type: TextBox
   layout_properties: {slot: Text_Box_for_Artist_Name}
   name: Text_Box_for_Artist_Name

@@ -1342,18 +1342,18 @@ footer a, .footer .anvil-component {
   display: flex;
 }
 #right-sidebar .section-contact-sidebar table {
-  width: 100;
+  width: 95%;
   border-collapse: collapse;
   margin: 20px 0;
 }
 #right-sidebar .section-contact-sidebar table th, #right-sidebar .section-contact-sidebar table td {
   padding: 10px;
   text-align: left;
-  vertical-align: top;
+  vertical-align: middle;
   color: white;
 }
 #right-sidebar .section-contact-sidebar table td{
-  width: 50%
+  width: 70%
 }
 
 #right-sidebar .description-section-sidebar,
@@ -1376,12 +1376,20 @@ footer a, .footer .anvil-component {
   font-size: 14px;
 }
 
-.anvil-role-target-dropdown>.form-inline:has( .form-control){
+.anvil-role-target-dropdown>.form-inline select { 
   color: white;
-}
-.form-control:has( .anvil-role-target-dropdown>.form-inline){
-  color: white;
+  background: transparent; 
 }
 
+.anvil-role-target-dropdown>.form-control { 
+  color: white;
+  background: transparent; 
+}
+
+.contact-table-details .anvil-role-target-dropdown {
+  font-family: Gs-regular;
+  background: transparent;
+  color: white;
+}
 
 /* CSS for the Sidebar on the Discover Page ENDS Here */
