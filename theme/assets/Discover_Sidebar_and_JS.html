@@ -76,7 +76,10 @@
     </div>
     <div class="description-section-sidebar">
       <h3>Description</h3>
-      <textarea class="description" rows="4">Text</textarea>
+      <div anvil-slot="descripion-area">
+        <div anvil-if-slot-empty="descripion-area">Text Area Goes Here</div>
+      </div>
+      <!-- <textarea class="description" rows="4">Text</textarea> -->
     </div>
     <div class="comments-section-sidebar">
       <h3>Comments</h3>

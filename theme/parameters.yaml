@@ -113,6 +113,8 @@ roles:
   components: [FlowPanel]
 - name: target-dropdown
   components: [DropDown, DatePicker, TextBox]
+- name: target-textarea
+  components: [TextArea]
 color_scheme:
   preset_groups:
   - name: Accent

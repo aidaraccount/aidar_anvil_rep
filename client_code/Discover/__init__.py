@@ -1420,4 +1420,8 @@ class Discover(DiscoverTemplate):
     self.header.scroll_into_view(smooth=True)
     get_open_form().refresh_models_underline()
     self.refresh_sug(model_id_new, temp_artist_id=artist_id)
+
+  def Text_Box_for_Artist_Phone_pressed_enter(self, **event_args):
+    """This method is called when the user presses Enter in this text box"""
+    pass
     
