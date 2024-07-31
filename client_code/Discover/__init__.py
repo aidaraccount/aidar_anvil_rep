@@ -1425,6 +1425,70 @@ class Discover(DiscoverTemplate):
     """This method is called when the user presses Enter in this text box"""
     pass
 
+# -----------------------------------------------------------------------------------------
+#  Start of the Sidebar Watchilish Functions 
+# -----------------------------------------------------------------------------------------
+  def get_watchlist_details (self, model_id, cur_ai_artist_id, **event_args):
+    cur_ai_artist_id = cur_ai_artist_id
+    details = json.loads(anvil.server.call('get_watchlist_details', model_id, cur_ai_artist_id))
+
+    # Image & Name
+    self.image_detail.source = details[0]["ArtistPictureURL"]
+    self.label_name.text = details[0]["Name"]    
+
+    # Links & Contact Information
+    if details[0]["SpotifyLink"] is None:
+      self.link_spotify.text = 'Profile'
+      self.link_spotify.url = details[0]["ArtistURL"]
+      self.text_box_spotify.text = details[0]["ArtistURL"]
+    else:
+      self.link_spotify.text = 'Profile'
+      self.link_spotify.url = details[0]["SpotifyLink"]
+      self.text_box_spotify.text = details[0]["SpotifyLink"]
+    
+    if details[0]["InstaLink"] is None:
+      self.link_insta.text = '-'
+      self.text_box_insta.text = None
+    else:
+      self.link_insta.text = 'Profile'
+      self.link_insta.url = details[0]["InstaLink"]
+      self.text_box_insta.text = details[0]["InstaLink"]
+      
+    if details[0]["SoundCloudLink"] is None:
+      self.link_sound.text = '-'
+      self.text_box_sound.text = None
+    else:
+      self.link_sound.text = 'Profile'
+      self.link_sound.url = details[0]["SoundCloudLink"]
+      self.text_box_sound.text = details[0]["SoundCloudLink"]
+      
+    if details[0]["ContactName"] is None:
+      self.label_contact.text = '-'
+      self.text_box_contact.text = None
+    else:
+      self.label_contact.text = details[0]["ContactName"]
+      self.text_box_contact.text = details[0]["ContactName"]
+    if details[0]["Mail"] is None:
+      self.label_mail.text = '-'
+      self.text_box_mail.text = None
+    else:
+      self.label_mail.text = details[0]["Mail"]
+      self.text_box_mail.text = details[0]["Mail"]
+    if details[0]["Phone"] is None:
+      self.label_phone.text = '-'
+      self.text_box_phone.text = None
+    else:
+      self.label_phone.text = details[0]["Phone"]
+      self.text_box_phone.text = details[0]["Phone"]
+
+    # tags
+    if details[0]["Status"] is None: self.drop_down_status.selected_value = 'Action required'
+    else: self.drop_down_status.selected_value = details[0]["Status"]
+    if details[0]["Priority"] is None: self.drop_down_priority.selected_value = 'mid'
+    else: self.drop_down_priority.selected_value = details[0]["Priority"]
+    if details[0]["Reminder"] is None: self.date_picker_reminder.date = ''
+    else: self.date_picker_reminder.date = details[0]["Reminder"]
+      
   def button_note_click(self, **event_args):
     anvil.server.call('add_note', user["user_id"], self.model_id, cur_ai_artist_id, "", "", self.text_area_note.text)
     self.text_area_note.text = ""
