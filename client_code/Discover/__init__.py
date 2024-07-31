@@ -50,11 +50,16 @@ class Discover(DiscoverTemplate):
       save_var("model_id", anvil.server.call('get_model_id',  self.user_id))
     print(f"Discover model_id: {model_id}")
     self.model_id = model_id
-    
+
     temp_artist_id = self.url_dict['artist_id']
     if temp_artist_id == 'None':
       temp_artist_id = None
     print(f"Discover temp_artist_id: {temp_artist_id}")
+
+    
+    self.cur_ai_artist_id = temp_artist_id
+    # Load initial notes
+    # self.get_watchlist_notes(self.model_id, self.cur_ai_artist_id)
     
     #begin = datetime.now()
     #print(f"{datetime.now()}: Discover - __init__ - 2", flush=True)
@@ -673,7 +678,7 @@ class Discover(DiscoverTemplate):
         self.drop_down_model.selected_value = model_name_last_used      
         model_names = [item['model_name'] for item in model_data]
         self.drop_down_model.items = model_names
-    
+
   # ----------------------------------------------
   
   def truncate_label(self, label):
@@ -1424,12 +1429,11 @@ class Discover(DiscoverTemplate):
 # -----------------------------------------------------------------------------------------
 #  Start of the Sidebar Watchilish Functions 
 # -----------------------------------------------------------------------------------------
-
-  def get_watchlist_notes(self, model_id, cur_ai_artist_id, **event_args):
-    self.repeating_panel_detail.items = json.loads(anvil.server.call('get_watchlist_notes', user["user_id"], cur_ai_artist_id))
+  # def get_watchlist_notes(self, model_id, temp_artist_id_global, **event_args):
+  #   self.repeating_panel_1.items = json.loads(anvil.server.call('get_watchlist_notes', user["user_id"], temp_artist_id_global))
       
-  def button_note_click(self, **event_args):
-    anvil.server.call('add_note', user["user_id"], self.model_id, cur_ai_artist_id, "", "", self.text_area_note.text)
-    self.text_area_note.text = ""
-    self.get_watchlist_notes(self.model_id, cur_ai_artist_id)
+  # def button_note_click(self, **event_args):
+  #   anvil.server.call('add_note', user["user_id"], self.model_id, cur_ai_artist_id, "", "", self.text_area_note.text)
+  #   self.text_area_note.text = ""
+  #   self.get_watchlist_notes(self.model_id, cur_ai_artist_id)
 
