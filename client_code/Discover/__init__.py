@@ -1424,4 +1424,8 @@ class Discover(DiscoverTemplate):
   def Text_Box_for_Artist_Phone_pressed_enter(self, **event_args):
     """This method is called when the user presses Enter in this text box"""
     pass
-    
+
+  def button_note_click(self, **event_args):
+    anvil.server.call('add_note', user["user_id"], self.model_id, cur_ai_artist_id, "", "", self.text_area_note.text)
+    self.text_area_note.text = ""
+    self.get_watchlist_notes(self.model_id, cur_ai_artist_id)

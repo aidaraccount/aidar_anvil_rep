@@ -266,6 +266,7 @@ components:
               type: TextArea
               layout_properties: {grid_position: 'HOAKDL,TOMDSC'}
               name: text_area_note
+              event_bindings: {change: text_area_note_change}
             - properties: {text: save, align: right, role: feature}
               type: Button
               layout_properties: {grid_position: 'HOAKDL,XINGOR'}

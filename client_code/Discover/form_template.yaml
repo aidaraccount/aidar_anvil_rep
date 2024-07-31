@@ -8,7 +8,7 @@ components:
   properties: {spacing_above: none, spacing_below: none}
   type: TextArea
   layout_properties: {slot: comment-area}
-- name: text_area_1
+- name: text_area_note
   properties: {spacing_above: none, spacing_below: none, role: null}
   type: TextArea
   layout_properties: {slot: descripion-area}
