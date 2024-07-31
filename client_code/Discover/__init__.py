@@ -19,8 +19,6 @@ from anvil_extras import routing
 from ..nav import click_link, click_button, logout, login_check, load_var, save_var
 import time
 
-
-
 @routing.route('artists', url_keys=['artist_id'], title='Artists')
 class Discover(DiscoverTemplate):
   def __init__(self, **properties):
@@ -46,7 +44,6 @@ class Discover(DiscoverTemplate):
       self.user_id = user["user_id"]
       self.continue_now()
       
-  
   def continue_now(self):
     model_id = load_var("model_id")
     if model_id is None:
@@ -64,7 +61,6 @@ class Discover(DiscoverTemplate):
     self.refresh_sug(self.model_id, temp_artist_id)
     #print(f"{datetime.now()}: Discover - __init__ - 3", flush=True)    
     #print(f"TotalTime Discover: {datetime.now() - begin}", flush=True)
-
 
   # -------------------------------------------
   # SUGGESTIONS
@@ -1482,12 +1478,18 @@ class Discover(DiscoverTemplate):
       self.text_box_phone.text = details[0]["Phone"]
 
     # tags
-    if details[0]["Status"] is None: self.drop_down_status.selected_value = 'Action required'
-    else: self.drop_down_status.selected_value = details[0]["Status"]
-    if details[0]["Priority"] is None: self.drop_down_priority.selected_value = 'mid'
-    else: self.drop_down_priority.selected_value = details[0]["Priority"]
-    if details[0]["Reminder"] is None: self.date_picker_reminder.date = ''
-    else: self.date_picker_reminder.date = details[0]["Reminder"]
+    if details[0]["Status"] is None:
+      self.drop_down_status.selected_value = 'Action required'
+    else:
+      self.drop_down_status.selected_value = details[0]["Status"]
+    if details[0]["Priority"] is None:
+      self.drop_down_priority.selected_value = 'mid'
+    else:
+      self.drop_down_priority.selected_value = details[0]["Priority"]
+    if details[0]["Reminder"] is None:
+      self.date_picker_reminder.date = ''
+    else:
+      self.date_picker_reminder.date = details[0]["Reminder"]
       
   def button_note_click(self, **event_args):
     anvil.server.call('add_note', user["user_id"], self.model_id, cur_ai_artist_id, "", "", self.text_area_note.text)
