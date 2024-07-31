@@ -4,6 +4,10 @@ container:
   type: HtmlTemplate
   properties: {html: '@theme:Discover_Sidebar_and_JS.html', background: '', role: test}
 components:
+- name: text_area_2
+  properties: {spacing_above: none, spacing_below: none}
+  type: TextArea
+  layout_properties: {slot: comment-area}
 - name: text_area_1
   properties: {spacing_above: none, spacing_below: none, role: null}
   type: TextArea
