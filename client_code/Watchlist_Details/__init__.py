@@ -38,43 +38,43 @@ class Watchlist_Details(Watchlist_DetailsTemplate):
     # 1. get selection data
     watchlist_selection = json.loads(anvil.server.call('get_watchlist_selection', user["user_id"]))
 
-    # 2. sort it according to the drop_down_selection
-    # transform None to 'None'
-    for item in watchlist_selection:
-        for key, value in item.items():
-            if value is None:
-                if key == "Notification": item[key] = False
-                if key == "Status": item[key] = 'Action required'
-                if key == "Priority": item[key] = 'mid'
-
-    # sort selection artists by drop_down_selection
-    if self.drop_down_selection.selected_value == 'Notification':
-      watchlist_selection = sorted(watchlist_selection, key=lambda x: x.get('Notification', float('inf')), reverse=True)
-    if self.drop_down_selection.selected_value == 'Status':
-      priority_order = {'Action required': 1,
-                        'Requires revision': 2,
-                        'Build connection': 3,
-                        'Awaiting response': 4,
-                        'Waiting for decision': 5,
-                        'Exploring opportunities': 6,
-                        'Positive response': 7,
-                        'In negotiations': 8,
-                        'Contract in progress': 9,
-                        'Reconnect later': 10,
-                        'Not interested': 11,
-                        'Success': 12}
-      watchlist_selection = sorted(watchlist_selection, key=lambda x: priority_order.get(x['Status'], float('inf')))
-    if self.drop_down_selection.selected_value == 'Priority':
-      priority_order = {'very high': 1, 'high': 2, 'mid': 3, 'low': 4, 'very low': 5}
-      watchlist_selection = sorted(watchlist_selection, key=lambda x: priority_order.get(x['Priority'], float('inf')))
+    # # 2. sort it according to the drop_down_selection
+    # # transform None to 'None'
+    # for item in watchlist_selection:
+    #     for key, value in item.items():
+    #         if value is None:
+    #             if key == "Notification": item[key] = False
+    #             if key == "Status": item[key] = 'Action required'
+    #             if key == "Priority": item[key] = 'mid'
+    
+    # # sort selection artists by drop_down_selection
+    # if self.drop_down_selection.selected_value == 'Notification':
+    #   watchlist_selection = sorted(watchlist_selection, key=lambda x: x.get('Notification', float('inf')), reverse=True)
+    # if self.drop_down_selection.selected_value == 'Status':
+    #   priority_order = {'Action required': 1,
+    #                     'Requires revision': 2,
+    #                     'Build connection': 3,
+    #                     'Awaiting response': 4,
+    #                     'Waiting for decision': 5,
+    #                     'Exploring opportunities': 6,
+    #                     'Positive response': 7,
+    #                     'In negotiations': 8,
+    #                     'Contract in progress': 9,
+    #                     'Reconnect later': 10,
+    #                     'Not interested': 11,
+    #                     'Success': 12}
+    #   watchlist_selection = sorted(watchlist_selection, key=lambda x: priority_order.get(x['Status'], float('inf')))
+    # if self.drop_down_selection.selected_value == 'Priority':
+    #   priority_order = {'very high': 1, 'high': 2, 'mid': 3, 'low': 4, 'very low': 5}
+    #   watchlist_selection = sorted(watchlist_selection, key=lambda x: priority_order.get(x['Priority'], float('inf')))
 
     # 3. present the data if present, else show dummy text
     if len(watchlist_selection) > 0:
 
       # hide dummy text
-      self.label_1.visible = False
-      self.label_2.visible = False
-      self.spacer_1.visible = False
+      # self.label_1.visible = False
+      # self.label_2.visible = False
+      # self.spacer_1.visible = False
 
       # show sorted data in repeating_panel_selection and highlight the first selected artist
       self.repeating_panel_selection.items = watchlist_selection
