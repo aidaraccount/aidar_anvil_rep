@@ -4,23 +4,32 @@ container:
   type: HtmlTemplate
   properties: {html: '@theme:Discover_Sidebar_and_JS.html', background: '', role: test}
 components:
+- name: column_panel_4
+  properties: {}
+  type: ColumnPanel
+  layout_properties: {slot: comment-area}
+  components:
+  - name: repeating_panel_1
+    properties: {item_template: Discover.ItemTemplate5, spacing_above: none, spacing_below: none, role: sidebar-notes, visible: true}
+    type: RepeatingPanel
+    layout_properties: {grid_position: 'ZNIVKN,CPOXGF'}
+  - name: text_area_2
+    properties: {spacing_above: none, spacing_below: none}
+    type: TextArea
+    layout_properties: {grid_position: 'XNXQWW,RSQYEH'}
 - name: column_panel_2
   properties: {}
   type: ColumnPanel
   layout_properties: {slot: descripion-area}
   components:
-  - name: repeating_panel_1
-    properties: {item_template: Discover.ItemTemplate5, spacing_above: none, spacing_below: none}
+  - name: repeating_panel_2
+    properties: {item_template: Discover.ItemTemplate6}
     type: RepeatingPanel
-    layout_properties: {grid_position: 'LTGGYG,SOEBWN'}
+    layout_properties: {grid_position: 'BNPXXA,HWMIRV'}
   - name: text_area_note
     properties: {spacing_above: none, spacing_below: none, role: null}
     type: TextArea
     layout_properties: {grid_position: 'RVRNHK,XGCPPG'}
-- name: text_area_2
-  properties: {spacing_above: none, spacing_below: none}
-  type: TextArea
-  layout_properties: {slot: comment-area}
 - name: date_picker_1
   properties: {spacing_above: none, spacing_below: none, role: target-dropdown}
   type: DatePicker

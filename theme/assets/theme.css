@@ -1396,7 +1396,11 @@ footer a, .footer .anvil-component {
 }
 
 .anvil-role-target-textarea {
-  
+}
+
+.anvil-role-sidebar-notes{
+  overflow-y: auto;
+  height: 150px;
 }
 
 /* CSS for the Sidebar on the Discover Page ENDS Here */

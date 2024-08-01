@@ -115,6 +115,8 @@ roles:
   components: [DropDown, DatePicker, TextBox]
 - name: target-textarea
   components: [TextArea]
+- name: sidebar-notes
+  components: [RepeatingPanel]
 color_scheme:
   preset_groups:
   - name: Accent

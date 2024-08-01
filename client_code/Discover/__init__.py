@@ -56,10 +56,8 @@ class Discover(DiscoverTemplate):
       temp_artist_id = None
     print(f"Discover temp_artist_id: {temp_artist_id}")
 
-    self.cur_ai_artist_id = temp_artist_id
     # Load initial notes
     self.get_watchlist_notes(model_id, temp_artist_id)
-    self.get_watchlist_selection(temp_artist_id)
     
     #begin = datetime.now()
     #print(f"{datetime.now()}: Discover - __init__ - 2", flush=True)
@@ -1429,10 +1427,7 @@ class Discover(DiscoverTemplate):
 # -----------------------------------------------------------------------------------------
 #  Start of the Sidebar Watchilish Functions 
 # -----------------------------------------------------------------------------------------
-  def get_watchlist_selection(self, temp_artist_id, **event_args):
-    # 1. get selection data
-    watchlist_selection = json.loads(anvil.server.call('get_watchlist_selection', user["user_id"]))
-      
+     
   def get_watchlist_notes(self, model_id, cur_ai_artist_id, **event_args):
     cur_ai_artist_id = cur_ai_artist_id
     self.repeating_panel_1.items = json.loads(anvil.server.call('get_watchlist_notes', user["user_id"], cur_ai_artist_id))
