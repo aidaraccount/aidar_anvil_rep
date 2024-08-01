@@ -9,14 +9,14 @@ components:
   type: ColumnPanel
   layout_properties: {slot: comment-area}
   components:
+  - name: text_area_2
+    properties: {spacing_above: none, spacing_below: none}
+    type: TextArea
+    layout_properties: {grid_position: 'JSWZAI,LNLZLJ'}
   - name: repeating_panel_1
     properties: {item_template: Discover.ItemTemplate5, spacing_above: none, spacing_below: none, role: sidebar-notes, visible: true}
     type: RepeatingPanel
     layout_properties: {grid_position: 'ZNIVKN,CPOXGF'}
-  - name: text_area_2
-    properties: {spacing_above: none, spacing_below: none}
-    type: TextArea
-    layout_properties: {grid_position: 'XNXQWW,RSQYEH'}
 - name: column_panel_2
   properties: {}
   type: ColumnPanel
