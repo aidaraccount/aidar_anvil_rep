@@ -77,7 +77,7 @@ class Watchlist_Details(Watchlist_DetailsTemplate):
       # self.spacer_1.visible = False
 
       # show sorted data in repeating_panel_selection and highlight the first selected artist
-      self.repeating_panel_selection.items = watchlist_selection
+      # self.repeating_panel_selection.items = watchlist_selection
       
       # a) show details and notes for 1st element of selection list
       if temp_artist_id == 'None':
