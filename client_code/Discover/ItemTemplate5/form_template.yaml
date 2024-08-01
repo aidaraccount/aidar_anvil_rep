@@ -7,14 +7,18 @@ components:
   layout_properties: {grid_position: 'GTSCSU,NIEOZP'}
   components:
   - name: label_date
-    properties: {}
+    properties: {spacing_below: none, spacing_above: none, font_size: 10}
     type: Label
     layout_properties: {grid_position: 'JKMBXM,QFQWVK'}
+    data_bindings:
+    - {property: text, code: '"  " + self.item[''DateTime'']', writeback: false}
   - name: link_delete
     properties: {icon: 'fa:trash-o', role: description, spacing_above: none, spacing_below: none, align: right}
     type: Link
     layout_properties: {grid_position: 'JKMBXM,CQMEPQ'}
   - name: note
-    properties: {}
+    properties: {role: note, spacing_above: none, spacing_below: none, bold: true, font_size: 10}
     type: Label
     layout_properties: {grid_position: 'ULGCLQ,PXGZIX'}
+    data_bindings:
+    - {property: text, code: 'self.item[''Note'']', writeback: false}

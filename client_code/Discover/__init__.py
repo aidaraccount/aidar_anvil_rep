@@ -54,11 +54,12 @@ class Discover(DiscoverTemplate):
     temp_artist_id = self.url_dict['artist_id']
     if temp_artist_id == 'None':
       temp_artist_id = None
-    print(f"line 57 Discover temp_artist_id: {temp_artist_id}")
+    print(f"Discover temp_artist_id: {temp_artist_id}")
 
     self.cur_ai_artist_id = temp_artist_id
     # Load initial notes
-    self.get_watchlist_notes(self.model_id, self.cur_ai_artist_id)
+    self.get_watchlist_notes(model_id, temp_artist_id)
+    self.get_watchlist_selection(temp_artist_id)
     
     #begin = datetime.now()
     #print(f"{datetime.now()}: Discover - __init__ - 2", flush=True)
@@ -1431,50 +1432,11 @@ class Discover(DiscoverTemplate):
   def get_watchlist_selection(self, temp_artist_id, **event_args):
     # 1. get selection data
     watchlist_selection = json.loads(anvil.server.call('get_watchlist_selection', user["user_id"]))
-
-    # 3. present the data if present, else show dummy text
-    if len(watchlist_selection) > 0:
-      # show sorted data in repeating_panel_selection and highlight the first selected artist
-      # self.repeating_panel_selection.items = watchlist_selection
       
-      # a) show details and notes for 1st element of selection list
-      if temp_artist_id == 'None':
-        cur_ai_artist_id = temp_artist_id
-        # self.repeating_panel_selection.get_components()[0].image_1.border = '1px solid #fd652d' # orange
-
-      # b) show details and notes for x-st element of selection list
-      else:
-        cur_ai_artist_id = temp_artist_id
-        x = 0
-        for a in range(0, len(watchlist_selection)):
-          if watchlist_selection[a]['ArtistID'] == cur_ai_artist_id:
-            x = a
-        self.repeating_panel_selection.get_components()[x].image_1.border = '1px solid #fd652d' # orange
-        
-      # get watchlist details and notes
-      # self.update_cur_ai_artist_id(cur_ai_artist_id)
-      # self.get_watchlist_details(self.model_id, cur_ai_artist_id)
-      self.get_watchlist_notes(self.model_id, cur_ai_artist_id)
-
-      # # get notifications
-      # components = self.repeating_panel_selection.get_components()
-      # for c in range(0, len(components)):
-      #   if watchlist_selection[c]["Notification"] is True:
-      #     components[c].set_notification_true()
-    
-    else:
-      # hide all watchlist content and only show dummy text
-      self.column_panel_5.visible = False
-      self.column_panel_4.visible = False
-      self.label_description.visible = False
-
-  
   def get_watchlist_notes(self, model_id, cur_ai_artist_id, **event_args):
+    cur_ai_artist_id = cur_ai_artist_id
     self.repeating_panel_1.items = json.loads(anvil.server.call('get_watchlist_notes', user["user_id"], cur_ai_artist_id))
+    print("This is the current artist id from the get_watchlist_notes function", cur_ai_artist_id)
+    print("these are the items from get_watchlist_notes function", self.repeating_panel_1.items[0])
   
-  # print(temp_artist_id)
-  # def button_note_click(self, **event_args):
-  #   anvil.server.call('add_note', user["user_id"], self.model_id, cur_ai_artist_id, "", "", self.text_area_note.text)
-  #   self.text_area_note.text = ""
-  #   self.get_watchlist_notes(self.model_id, cur_ai_artist_id)
 
