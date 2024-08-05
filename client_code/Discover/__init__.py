@@ -1431,7 +1431,9 @@ class Discover(DiscoverTemplate):
   def get_watchlist_notes(self, model_id, cur_ai_artist_id, **event_args):
     cur_ai_artist_id = cur_ai_artist_id
     self.repeating_panel_1.items = json.loads(anvil.server.call('get_watchlist_notes', user["user_id"], cur_ai_artist_id))
-    print("This is the current artist id from the get_watchlist_notes function", cur_ai_artist_id)
-    print("these are the items from get_watchlist_notes function", self.repeating_panel_1.items[0])
-  
+
+  def button_note_click(self, **event_args):
+    anvil.server.call('add_note', user["user_id"], self.model_id, cur_ai_artist_id, "", "", self.text_area_note.text)
+    self.text_area_note.text = ""
+    self.get_watchlist_notes(self.model_id, cur_ai_artist_id)
 
