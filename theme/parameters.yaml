@@ -117,6 +117,10 @@ roles:
   components: [TextArea]
 - name: sidebar-notes
   components: [RepeatingPanel]
+- name: timestamp-note-format
+  components: [Label]
+- name: content-note-format
+  components: [Label]
 color_scheme:
   preset_groups:
   - name: Accent
