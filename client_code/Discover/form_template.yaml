@@ -10,7 +10,7 @@ components:
   layout_properties: {slot: comment-area}
   components:
   - name: text_area_2
-    properties: {spacing_above: none, spacing_below: none}
+    properties: {spacing_above: none, spacing_below: none, role: target-textarea}
     type: TextArea
     layout_properties: {grid_position: 'JSWZAI,LNLZLJ'}
   - name: repeating_panel_1
