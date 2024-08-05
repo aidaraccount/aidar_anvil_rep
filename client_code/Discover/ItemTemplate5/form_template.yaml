@@ -2,23 +2,23 @@ is_package: true
 container: {type: ColumnPanel}
 components:
 - name: column_panel_1
-  properties: {col_widths: '{"QFQWVK":60,"CQMEPQ":15}'}
+  properties: {col_widths: '{"GTWLXK":50,"AXAPER":10}', spacing_above: none, spacing_below: none, role: grid}
   type: ColumnPanel
   layout_properties: {grid_position: 'GTSCSU,NIEOZP'}
   components:
+  - name: note
+    properties: {role: note, spacing_above: none, spacing_below: none, bold: true, font_size: 10}
+    type: Label
+    layout_properties: {grid_position: 'SPZYBG,GTWLXK AJZOFO,GEOAAJ'}
+    data_bindings:
+    - {property: text, code: 'self.item[''Note'']', writeback: false}
   - name: label_date
     properties: {spacing_below: none, spacing_above: none, font_size: 10}
     type: Label
-    layout_properties: {grid_position: 'JKMBXM,QFQWVK'}
+    layout_properties: {grid_position: 'SPZYBG,GTWLXK QWKBVV,EWYKTD'}
     data_bindings:
     - {property: text, code: '"  " + self.item[''DateTime'']', writeback: false}
   - name: link_delete
     properties: {icon: 'fa:trash-o', role: description, spacing_above: none, spacing_below: none, align: right}
     type: Link
-    layout_properties: {grid_position: 'JKMBXM,CQMEPQ'}
-  - name: note
-    properties: {role: note, spacing_above: none, spacing_below: none, bold: true, font_size: 10}
-    type: Label
-    layout_properties: {grid_position: 'ULGCLQ,PXGZIX'}
-    data_bindings:
-    - {property: text, code: 'self.item[''Note'']', writeback: false}
+    layout_properties: {grid_position: 'SPZYBG,AXAPER'}
