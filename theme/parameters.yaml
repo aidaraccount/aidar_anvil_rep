@@ -122,6 +122,8 @@ roles:
   components: [Label]
 - name: content-note-format
   components: [Label]
+- name: save-button-sidebar
+  components: [Button]
 color_scheme:
   preset_groups:
   - name: Accent

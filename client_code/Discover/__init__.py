@@ -1438,6 +1438,6 @@ class Discover(DiscoverTemplate):
 
   def button_note_click(self, **event_args):
     anvil.server.call('add_note', user["user_id"], self.model_id, cur_ai_artist_id, "", "", self.comments_area_section.text)
-    self.comments_area_section.text = ""
+    self.comments_area_section.text = str(user["user_id"]) + ": " + ""
     self.get_watchlist_notes(self.model_id, cur_ai_artist_id)
 

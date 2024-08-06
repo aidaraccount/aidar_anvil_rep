@@ -823,8 +823,8 @@ a>.link-text {
 }
 
 .anvil-role-feature {
+  font-family: Gs-regular;
   font-size: 14px;
-  font-weight: bold;
   color: %color:Text_Grey%;
   padding: 0 !important;
   /* width: 105% !important; */
@@ -1416,5 +1416,11 @@ footer a, .footer .anvil-component {
   padding-left: 7px;
 }
 
+.anvil-role-save-button-sidebar {
+  font-family: Gs-regular;
+  font-size: 14px;
+  color: %color:Text_Grey%;
+  padding: 10px 15px 10px 0;
+}
 
 /* CSS for the Sidebar on the Discover Page ENDS Here */
