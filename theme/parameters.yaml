@@ -78,16 +78,16 @@ roles:
   components: [FlowPanel]
   display_in_toolbox: false
 - name: col-artist
-  components: [Label]
+  components: [XYPanel]
 - name: col-artist-image
   components: [Image]
 - name: table_content_talent_dev-1
   components: [Label, Link]
   display_in_toolbox: false
-- {name: col-LastReleaseDate}
 - name: table_content_talent_dev-2
   components: [Link, Label]
-- {name: feature-talent-dev}
+- name: feature-talent-dev
+  components: [Button]
 - name: transparent-headers
   components: [Label, Link]
 - name: left-alignment-header
