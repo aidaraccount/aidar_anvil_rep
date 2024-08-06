@@ -57,8 +57,9 @@ class Discover(DiscoverTemplate):
     print(f"Discover temp_artist_id: {temp_artist_id}")
 
     # Load initial notes
-    self.get_watchlist_notes(model_id, temp_artist_id)
     self.update_cur_ai_artist_id(temp_artist_id)
+    self.get_watchlist_details(model_id, temp_artist_id=574909)
+    self.get_watchlist_notes(model_id, temp_artist_id)
     
     #begin = datetime.now()
     #print(f"{datetime.now()}: Discover - __init__ - 2", flush=True)
@@ -1441,3 +1442,40 @@ class Discover(DiscoverTemplate):
     self.comments_area_section.text = str(user["user_id"]) + ": " + ""
     self.get_watchlist_notes(self.model_id, cur_ai_artist_id)
 
+  def get_watchlist_details (self, model_id, cur_ai_artist_id=574909, **event_args):
+    cur_ai_artist_id = cur_ai_artist_id
+    details = json.loads(anvil.server.call('get_watchlist_details', model_id, cur_ai_artist_id))
+    
+    # tags
+    if details[0]["Status"] is None:
+      self.status_dropdown.selected_value = 'Build connection'
+    else: 
+      self.status_dropdown.selected_value = details[0]["Status"]
+    if details[0]["Priority"] is None: 
+      self.priority_dropdown.selected_value = 'mid'
+    else: 
+      self.priority_dropdown.selected_value = details[0]["Priority"]
+    if details[0]["Reminder"] is None: 
+      self.reminder_dropdown.date = ''
+    else: 
+      self.reminder_dropdown.date = details[0]["Reminder"]
+
+  # def update_watchlist_details(self, **event_args):
+  #   details = json.loads(anvil.server.call('get_watchlist_details', self.model_id, cur_ai_artist_id))
+  #   anvil.server.call('update_watchlist_details',
+  #                     self.model_id,
+  #                     cur_ai_artist_id,
+  #                     True,
+  #                     self.drop_down_status.selected_value,
+  #                     self.drop_down_priority.selected_value,
+  #                     self.date_picker_reminder.date,
+  #                     details[0]["Notification"],
+  #                     self.text_box_spotify.text,
+  #                     self.text_box_insta.text,
+  #                     self.text_box_sound.text,
+  #                     self.text_box_contact.text,
+  #                     self.text_box_mail.text,
+  #                     self.text_box_phone.text
+  #                     )
+    
+  #   self.get_watchlist_details(self.model_id, cur_ai_artist_id)
