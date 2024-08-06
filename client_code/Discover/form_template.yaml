@@ -41,7 +41,7 @@ components:
     properties: {spacing_above: none, spacing_below: none, role: null}
     type: TextArea
     layout_properties: {grid_position: 'RVRNHK,XGCPPG'}
-- name: reminder_dropdown
+- name: date_picker_1
   properties: {spacing_above: none, spacing_below: none, role: target-dropdown}
   type: DatePicker
   layout_properties: {slot: Date_picker}

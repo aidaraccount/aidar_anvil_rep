@@ -58,7 +58,10 @@ class Discover(DiscoverTemplate):
 
     # Load initial notes
     self.update_cur_ai_artist_id(temp_artist_id)
-    self.get_watchlist_details(model_id, temp_artist_id=574909)
+    # due to first value being None in the Arist By AI page, 
+    # get_watchlist_details PY script returns an error, hence 
+    # the hard-coded value to run test if the script is running
+    # self.get_watchlist_details(model_id, temp_artist_id=574909)
     self.get_watchlist_notes(model_id, temp_artist_id)
     
     #begin = datetime.now()
