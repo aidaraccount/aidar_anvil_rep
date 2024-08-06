@@ -77,7 +77,8 @@ roles:
 - name: Discover_xypanel
   components: [FlowPanel]
   display_in_toolbox: false
-- {name: col-artist, components: null}
+- name: col-artist
+  components: [Label]
 - name: col-artist-image
   components: [Image]
 - name: table_content_talent_dev-1

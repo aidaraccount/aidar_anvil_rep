@@ -58,6 +58,7 @@ class Discover(DiscoverTemplate):
 
     # Load initial notes
     self.get_watchlist_notes(model_id, temp_artist_id)
+    self.update_cur_ai_artist_id(temp_artist_id)
     
     #begin = datetime.now()
     #print(f"{datetime.now()}: Discover - __init__ - 2", flush=True)
@@ -1427,13 +1428,16 @@ class Discover(DiscoverTemplate):
 # -----------------------------------------------------------------------------------------
 #  Start of the Sidebar Watchilish Functions 
 # -----------------------------------------------------------------------------------------
-     
+  def update_cur_ai_artist_id(self, new_value):
+    global cur_ai_artist_id
+    cur_ai_artist_id = new_value
+    
   def get_watchlist_notes(self, model_id, cur_ai_artist_id, **event_args):
     cur_ai_artist_id = cur_ai_artist_id
     self.repeating_panel_1.items = json.loads(anvil.server.call('get_watchlist_notes', user["user_id"], cur_ai_artist_id))
 
   def button_note_click(self, **event_args):
-    anvil.server.call('add_note', user["user_id"], self.model_id, cur_ai_artist_id, "", "", self.text_area_note.text)
-    self.text_area_note.text = ""
+    anvil.server.call('add_note', user["user_id"], self.model_id, cur_ai_artist_id, "", "", self.comments_area_section.text)
+    self.comments_area_section.text = ""
     self.get_watchlist_notes(self.model_id, cur_ai_artist_id)
 
