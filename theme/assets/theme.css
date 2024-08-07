@@ -1252,8 +1252,7 @@ footer a, .footer .anvil-component {
   z-index: 999;
 }
 #right-sidebar.open {
-  /* right: 0px; */
-  right: 400px;
+  right: 0px;
 }
 .sidebar-button {
   font-family: Gs-regular;
