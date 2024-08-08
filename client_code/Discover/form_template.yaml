@@ -164,7 +164,8 @@ components:
       type: Spacer
       layout_properties: {grid_position: 'KEEZIY,CJTGRG'}
       name: spacer_5
-    - properties: {role: score-tile-background}
+    - properties:
+        role: [score-tile-background, 'gauge-background ']
       type: LinearPanel
       layout_properties: {grid_position: 'XBWMVA,RCCOIP'}
       name: linear_panel_2

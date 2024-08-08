@@ -124,6 +124,10 @@ roles:
   components: [Label]
 - name: save-button-sidebar
   components: [Button]
+- name: 'gauge-background '
+  components: [LinearPanel]
+- name: score-tile-background
+  components: [LinearPanel]
 color_scheme:
   preset_groups:
   - name: Accent
