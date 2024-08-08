@@ -31,6 +31,26 @@ class Discover(DiscoverTemplate):
     self.html = '@theme:Discover_Sidebar_and_JS.html'
     self.add_event_handler('show', self.form_show)
 
+    custom_html = '''
+    <li class="note-display">
+      <div class="circle">
+        <svg width="84" height="84" class="circle__svg">
+          <circle cx="41" cy="41" r="38" class="circle__progress circle__progress--path"></circle>
+          <circle cx="41" cy="41" r="38" class="circle__progress circle__progress--fill"></circle>
+        </svg>
+
+        <div class="percent">
+          <span class="percent__int">0.</span>
+          <span class="percent__dec">00</span>
+        </div>
+      </div>
+
+      <span class="label">Exemplary</span>
+    </li>
+    '''
+    html_panel = HtmlPanel(html=custom_html)
+    self.column_panel_KPIs.add_component(html_panel)
+    
     # Any code you write here will run before the form opens.
     global user
     user = anvil.users.get_user()
@@ -1471,5 +1491,5 @@ class Discover(DiscoverTemplate):
       self.reminder_dropdown.date = details[0]["Reminder"]
 
   def update_gauge(self, value):
-    anvil.js.call_js('updateGauge', value)
+    # anvil.js.call_js('updateGauge', value)
     print("GAUGE FUNCTION IS RUNNING !!!!!!!!!!!!!!!")

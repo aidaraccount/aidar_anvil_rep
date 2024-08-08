@@ -166,6 +166,7 @@ components:
       name: spacer_5
     - properties:
         role: [score-tile-background]
+        visible: false
       type: LinearPanel
       layout_properties: {grid_position: 'XBWMVA,RCCOIP'}
       name: linear_panel_2
