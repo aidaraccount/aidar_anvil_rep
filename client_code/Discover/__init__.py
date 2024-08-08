@@ -15,6 +15,7 @@ from ..C_CustomAlertForm import C_CustomAlertForm  # Import the custom form
 from anvil import js
 import anvil.js
 import anvil.js.window
+from anvil.js.window import updateGauge
 
 from anvil_extras import routing
 from ..nav import click_link, click_button, logout, login_check, load_var, save_var
