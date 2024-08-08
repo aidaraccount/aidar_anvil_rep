@@ -12,6 +12,7 @@ import plotly.graph_objects as go
 from collections import defaultdict
 import itertools
 from ..C_CustomAlertForm import C_CustomAlertForm  # Import the custom form
+from anvil import js
 import anvil.js
 import anvil.js.window
 
@@ -27,6 +28,7 @@ class Discover(DiscoverTemplate):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
     self.html = '@theme:Discover_Sidebar_and_JS.html'
+    self.add_event_handler('show', self.form_show)
 
     # Any code you write here will run before the form opens.
     global user
@@ -67,8 +69,12 @@ class Discover(DiscoverTemplate):
     #begin = datetime.now()
     #print(f"{datetime.now()}: Discover - __init__ - 2", flush=True)
     self.refresh_sug(self.model_id, temp_artist_id)
-    #print(f"{datetime.now()}: Discover - __init__ - 3", flush=True)    
+    #print(f"{datetime.now()}: Discover - __init__ - 3", flush=True)
     #print(f"TotalTime Discover: {datetime.now() - begin}", flush=True)
+  
+  def form_show(self, **event_args):
+    self.update_gauge(75)
+    print("FORM SHOW IS SHOWN")
 
   # -------------------------------------------
   # SUGGESTIONS
@@ -1463,22 +1469,6 @@ class Discover(DiscoverTemplate):
     else: 
       self.reminder_dropdown.date = details[0]["Reminder"]
 
-  # def update_watchlist_details(self, **event_args):
-  #   details = json.loads(anvil.server.call('get_watchlist_details', self.model_id, cur_ai_artist_id))
-  #   anvil.server.call('update_watchlist_details',
-  #                     self.model_id,
-  #                     cur_ai_artist_id,
-  #                     True,
-  #                     self.drop_down_status.selected_value,
-  #                     self.drop_down_priority.selected_value,
-  #                     self.date_picker_reminder.date,
-  #                     details[0]["Notification"],
-  #                     self.text_box_spotify.text,
-  #                     self.text_box_insta.text,
-  #                     self.text_box_sound.text,
-  #                     self.text_box_contact.text,
-  #                     self.text_box_mail.text,
-  #                     self.text_box_phone.text
-  #                     )
-    
-  #   self.get_watchlist_details(self.model_id, cur_ai_artist_id)
+  def update_gauge(self, value):
+    anvil.js.call_js('updateGauge', value)
+    print("GAUGE FUNCTION IS RUNNING !!!!!!!!!!!!!!!")

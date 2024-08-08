@@ -600,6 +600,30 @@ body, html {
   align-items: center;
 }
 
+.gauge-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: conic-gradient(
+    #ff5f6d 0%,
+    #ff5f6d var(--gauge-percentage, 0%),
+    #ffc371 var(--gauge-percentage, 0%),
+    #ffc371 100%
+  );
+  z-index: -1;
+}
+
+.anvil-role-score-label {
+  font-size: 24px;
+  color: white;
+  z-index: 1;
+}
+
+
+
 .anvil-role-highlights-tile-background {
   /*background: linear-gradient(to top left, rgba(259, 250, 250, 0.1) 50%, rgb(131, 111, 59));*/
   background: linear-gradient(to top left, rgba(25, 16, 53, 0.3) 30%, rgb(25, 16, 53));
