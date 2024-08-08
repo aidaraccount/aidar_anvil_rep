@@ -590,11 +590,8 @@ body, html {
 }
 
 .anvil-role-score-tile-background {
+  position: relative;
   background-color: rgb(25, 16, 53);
-  /*background: conic-gradient(
-    #FF5F6D 0% 68%,
-    #FFC371 68% 100%
-  );*/
   border-radius: 100px;
   height: 130px;
   width: 130px;
