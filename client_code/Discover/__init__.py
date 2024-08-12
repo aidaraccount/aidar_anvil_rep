@@ -49,7 +49,7 @@ class Discover(DiscoverTemplate):
     </li>
     '''
     html_panel = HtmlPanel(html=custom_html)
-    self.column_panel_KPIs.add_component(html_panel)
+    self.column_panel_5.add_component(html_panel)
     
     # Any code you write here will run before the form opens.
     global user
