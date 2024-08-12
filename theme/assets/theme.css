@@ -1486,4 +1486,11 @@ footer a, .footer .anvil-component {
   text-transform: uppercase;
   margin-top: 15px;
 }
-
+.circle__progress--fill {
+  --initialStroke: 0;
+  --transitionDuration: 0;
+  stroke-opacity: 1;
+  stroke-dasharray: var(--initialStroke);
+  stroke-dashoffset: var(--initialStroke);
+  transition: stroke-dashoffset var(--transitionDuration) ease;
+}

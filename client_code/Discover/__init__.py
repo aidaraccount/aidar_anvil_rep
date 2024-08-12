@@ -34,9 +34,9 @@ class Discover(DiscoverTemplate):
     custom_html = '''
     <li class="note-display">
       <div class="circle">
-        <svg width="84" height="84" class="circle__svg">
-          <circle cx="41" cy="41" r="45" class="circle__progress circle__progress--path"></circle>
-          <circle cx="41" cy="41" r="45" class="circle__progress circle__progress--fill"></circle>
+        <svg width="134" height="134" class="circle__svg">
+          <circle cx="67" cy="67" r="65" class="circle__progress circle__progress--path"></circle>
+          <circle cx="67" cy="67" r="65" class="circle__progress circle__progress--fill"></circle>
         </svg>
 
         <div class="percent">
