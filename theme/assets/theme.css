@@ -1477,11 +1477,19 @@ footer a, .footer .anvil-component {
   transform: translate(-50%, -50%);
 }
 
-.percent__int { font-size: 28px; }
-.percent__dec { font-size: 12px; }
+.percent__int { 
+  font-family: Gs-regular;
+  font-size: 28px; 
+  color: white;
+}
+.percent__dec { 
+  font-family: Gs-regular;
+  font-size: 28px; 
+  color: white;
+}
 
 .label {
-  font-family: 'Raleway', serif;
+  font-family: Gs-regular;
   font-size: 14px;
   text-transform: uppercase;
   margin-top: 15px;
@@ -1493,4 +1501,8 @@ footer a, .footer .anvil-component {
   stroke-dasharray: var(--initialStroke);
   stroke-dashoffset: var(--initialStroke);
   transition: stroke-dashoffset var(--transitionDuration) ease;
+}
+
+.circle__svg {
+  transform: rotate(-90deg);
 }
