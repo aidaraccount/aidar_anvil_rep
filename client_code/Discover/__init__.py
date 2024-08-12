@@ -32,7 +32,7 @@ class Discover(DiscoverTemplate):
     self.add_event_handler('show', self.form_show)
 
     custom_html = '''
-    <li class="note-display" data-note="70.50">
+    <li class="note-display" data-note="9.50">
       <div class="circle">
         <svg width="134" height="134" class="circle__svg">
           <circle cx="67" cy="67" r="65" class="circle__progress circle__progress--path"></circle>
