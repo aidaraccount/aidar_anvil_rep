@@ -111,7 +111,6 @@
   
     if (sidebar && button) {
       button.addEventListener('click', function () {
-        console.log('clickedddddd');
         sidebar.classList.toggle('open');
         button.classList.toggle('open');
       });
@@ -122,32 +121,48 @@
     window.updateArtistName = function(name) {
       document.getElementById('artist-name-cell').textContent = name;
     };
-
-    window.consoleTestfunction = function() {
-      console.log('testtttt');
-    }
   }
-  
-  const displays = document.querySelectorAll('.note-display');
-  const transitionDuration = 900;
-  console.log("THIS IS A MESSAGE THAT IS TRIGGERED WHEN ALL NOTE_DISPLAYS ARE SELECTED")
 
-  displays.forEach(display => {
-    let note = parseFloat(display.dataset.note);
-    strokeTransition(display, note);
-  });
-  
-  function strokeTransition(display, note) {
-    let progress = display.querySelector('.circle__progress--fill');
-    let radius = progress.r.baseVal.value;
-    let circumference = 2 * Math.PI * radius;
-    let offset = circumference * (10 - note) / 10;
-
-    progress.style.setProperty('--initialStroke', circumference);
-    progress.style.setProperty('--transitionDuration', `${transitionDuration}ms`);
-
-    setTimeout(() => progress.style.strokeDashoffset = offset, 100);
-  }
+  (function() {
+    let displays = document.querySelectorAll('.note-display');
+    const transitionDuration = 900;
     
+    displays.forEach(display => {
+      let note = parseFloat(display.dataset.note);
+      let [int, dec] = display.dataset.note.split('.');
+      [int, dec] = [Number(int), Number(dec)];
+      
+      strokeTransition(display, note);
+  
+      increaseNumber(display, int, 'int');
+      increaseNumber(display, dec, 'dec');
+      });
+  
+    function increaseNumber(display, number, className) {
+      let element = display.querySelector(`.percent__${className}`),
+          decPoint = className === 'int' ? '.' : '',
+          interval = 900 / number,
+          counter = 0;
+  
+      let increaseInterval = setInterval(() => {
+        if (counter === number) { window.clearInterval(increaseInterval); }
+  
+        element.textContent = counter + decPoint;
+        counter++;
+      }, interval);
+    }
+    
+    function strokeTransition(display, note) {
+      let progress = display.querySelector('.circle__progress--fill');
+      let radius = progress.r.baseVal.value;
+      let circumference = 2 * Math.PI * radius;
+      let offset = circumference * (10 - note) / 10;
+  
+      progress.style.setProperty('--initialStroke', circumference);
+      progress.style.setProperty('--transitionDuration', `${transitionDuration}ms`);
+  
+      setTimeout(() => progress.style.strokeDashoffset = offset, 100);
+    }
+  })();
   // };
 </script>
