@@ -304,7 +304,7 @@ class Discover(DiscoverTemplate):
           self.pred = '0%'
         else: 
           # self.pred = "{:.0f}".format(round(float(sug["Prediction"])/7*100,0)) + '%'
-          self.pred = "{:.2f}".format(round(float(sug["Prediction"])/7*100,2))
+          self.pred = "{:.2f}".format(round(float(sug["Prediction"])/7*100,0))
           print(self.pred)
         # self.prediction.text = pred
         self.prediction.text = self.pred

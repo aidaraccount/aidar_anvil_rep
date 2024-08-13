@@ -141,7 +141,7 @@
   
     function increaseNumber(display, number, className) {
       let element = display.querySelector(`.percent__${className}`),
-          decPoint = className === 'int' ? '.' : '',
+          decPoint = className === 'int' ? '%' : '',
           interval = 900 / number,
           counter = 0;
   
