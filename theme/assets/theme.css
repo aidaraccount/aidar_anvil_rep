@@ -1445,6 +1445,7 @@ footer a, .footer .anvil-component {
 
 /* CSS for the Sidebar on the Discover Page ENDS Here */
 
+/* CSS for Fit Likelihood on the Discover Page STARTS Here */
 .note-display {
   display: flex;
   flex-direction: column;
@@ -1458,8 +1459,7 @@ footer a, .footer .anvil-component {
   stroke-linecap: round;
 }
 .note-display:nth-child(1) .circle__progress {
-  stroke: #E95F30; 
-  /* stroke: linear-gradient(to top left, rgba(51, 51, 51, 0.5) 50%, #E95F30); */
+  /* stroke: transparent;  */
 }
 /* .note-display:nth-child(2) .circle__progress { stroke: #FF00AA; }
 .note-display:nth-child(3) .circle__progress { stroke: #AA00FF; }
@@ -1507,5 +1507,6 @@ footer a, .footer .anvil-component {
 }
 
 .circle__svg {
-  transform: rotate(-90deg);
+  transform: rotate(90deg);
 }
+/* CSS for Fit Likelihood on the Discover Page ENDS Here */
