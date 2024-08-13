@@ -1453,7 +1453,7 @@ footer a, .footer .anvil-component {
 }
 .circle__progress {
   fill: none;
-  stroke-width: 3;
+  stroke-width: 8;
   stroke-opacity: 0.3;
   stroke-linecap: round;
 }
