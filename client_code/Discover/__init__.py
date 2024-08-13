@@ -81,14 +81,13 @@ class Discover(DiscoverTemplate):
   def custom_HTML_prediction(self):
     if self.pred:
       custom_html = f'''
-      <!-- <li class="note-display" data-note="{self.pred}"> -->
-      <li class="note-display" data-note="{100}">
+      <li class="note-display" data-note="{self.pred}">
         <div class="circle">
           <svg width="140" height="140" class="circle__svg">
             <defs>
-              <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" style="stop-color:blue;stop-opacity:1" />
-                <stop offset="100%" style="stop-color:orange;stop-opacity:1" />
+              <linearGradient id="grad1" x1="100%" y1="100%" x2="0%" y2="0%">
+                <stop offset="0%" style="stop-color:#812675;stop-opacity:1" />
+                <stop offset="100%" style="stop-color:#E95F30;stop-opacity:1" />
               </linearGradient>
             </defs>
             <circle cx="70" cy="70" r="65" class="circle__progress circle__progress--path"></circle>

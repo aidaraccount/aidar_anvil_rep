@@ -1453,8 +1453,8 @@ footer a, .footer .anvil-component {
   margin: 0 25px;
 }
 .circle__progress {
-  fill: none;
-  stroke-width: 8;
+  fill: #1A0F36;
+  stroke-width: 10px;
   stroke-opacity: 0.3;
   stroke-linecap: round;
 }
@@ -1508,5 +1508,6 @@ footer a, .footer .anvil-component {
 
 .circle__svg {
   transform: rotate(90deg);
+  border-radius: 100px;
 }
 /* CSS for Fit Likelihood on the Discover Page ENDS Here */
