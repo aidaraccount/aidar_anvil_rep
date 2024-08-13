@@ -129,13 +129,14 @@
     
     displays.forEach(display => {
       let note = parseFloat(display.dataset.note);
+      console.log("this is the note value: ", note)
       let [int, dec] = display.dataset.note.split('.');
       [int, dec] = [Number(int), Number(dec)];
       
       strokeTransition(display, note);
   
       increaseNumber(display, int, 'int');
-      increaseNumber(display, dec, 'dec');
+      // increaseNumber(display, dec, 'dec');
       });
   
     function increaseNumber(display, number, className) {

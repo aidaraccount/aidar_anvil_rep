@@ -30,26 +30,6 @@ class Discover(DiscoverTemplate):
     self.init_components(**properties)
     self.html = '@theme:Discover_Sidebar_and_JS.html'
     self.add_event_handler('show', self.form_show)
-
-    custom_html = '''
-    <li class="note-display" data-note="9.50">
-      <div class="circle">
-        <svg width="134" height="134" class="circle__svg">
-          <circle cx="67" cy="67" r="65" class="circle__progress circle__progress--path"></circle>
-          <circle cx="67" cy="67" r="65" class="circle__progress circle__progress--fill"></circle>
-        </svg>
-
-        <div class="percent">
-          <span class="percent__int">0.</span>
-          <span class="percent__dec">00</span>
-        </div>
-      </div>
-
-      <span class="label">Fit Likelihood</span>
-    </li>
-    '''
-    html_panel = HtmlPanel(html=custom_html)
-    self.column_panel_5.add_component(html_panel)
     
     # Any code you write here will run before the form opens.
     global user
@@ -90,13 +70,38 @@ class Discover(DiscoverTemplate):
     #begin = datetime.now()
     #print(f"{datetime.now()}: Discover - __init__ - 2", flush=True)
     self.refresh_sug(self.model_id, temp_artist_id)
+    self.custom_HTML_prediction()
     #print(f"{datetime.now()}: Discover - __init__ - 3", flush=True)
     #print(f"TotalTime Discover: {datetime.now() - begin}", flush=True)
   
   def form_show(self, **event_args):
-    self.update_gauge(75)
-    print("FORM SHOW IS SHOWN")
+    # self.update_gauge(75)
+    print("form show is running")
 
+  def custom_HTML_prediction(self):
+    if self.pred:
+      custom_html = f'''
+      <li class="note-display" data-note="{self.pred}">
+        <div class="circle">
+          <svg width="134" height="134" class="circle__svg">
+            <circle cx="67" cy="67" r="65" class="circle__progress circle__progress--path"></circle>
+            <circle cx="67" cy="67" r="65" class="circle__progress circle__progress--fill"></circle>
+          </svg>
+
+          <div class="percent">
+            <span class="percent__int">0.</span>
+            <!-- <span class="percent__dec">00</span> -->
+          </div>
+        </div>
+
+        <span class="label">Fit Likelihood</span>
+      </li>
+      '''
+      html_panel = HtmlPanel(html=custom_html)
+      self.column_panel_5.add_component(html_panel)
+    else:
+      print("NO SELF PRED?")
+      
   # -------------------------------------------
   # SUGGESTIONS
   def refresh_sug(self, model_id, temp_artist_id, **event_args):
@@ -289,11 +294,20 @@ class Discover(DiscoverTemplate):
         self.prediction.visible = False
         self.prediction_text.visible = False
         self.no_prediction.visible = True
+        self.pred = None
       else:
-        if (float(sug["Prediction"]) > 7): pred = '100%'
-        elif (float(sug["Prediction"]) < 0): pred = '0%'
-        else: pred = "{:.0f}".format(round(float(sug["Prediction"])/7*100,0)) + '%'
-        self.prediction.text = pred
+        if (float(sug["Prediction"]) > 7): 
+          # pred = '100%'
+          self.pred = '100%'
+        elif (float(sug["Prediction"]) < 0): 
+          # pred = '0%'
+          self.pred = '0%'
+        else: 
+          # self.pred = "{:.0f}".format(round(float(sug["Prediction"])/7*100,0)) + '%'
+          self.pred = "{:.2f}".format(round(float(sug["Prediction"])/7*100,2))
+          print(self.pred)
+        # self.prediction.text = pred
+        self.prediction.text = self.pred
         self.prediction.visible = True
         self.prediction_text.visible = True
         self.no_prediction.visible = False
@@ -1489,7 +1503,3 @@ class Discover(DiscoverTemplate):
       self.reminder_dropdown.date = ''
     else: 
       self.reminder_dropdown.date = details[0]["Reminder"]
-
-  def update_gauge(self, value):
-    # anvil.js.call_js('updateGauge', value)
-    print("GAUGE FUNCTION IS RUNNING !!!!!!!!!!!!!!!")
