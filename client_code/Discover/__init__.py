@@ -1514,27 +1514,7 @@ class Discover(DiscoverTemplate):
     else: 
       self.date_picker_1.date = details[0]["Reminder"]
 
-  def update_watchlist_details(self, **event_args):
-    details = json.loads(anvil.server.call('get_watchlist_details', self.model_id, cur_artist_id))
-    anvil.server.call('update_watchlist_details',
-                      self.model_id,
-                      cur_artist_id,
-                      True,
-                      self.drop_down_status.selected_value,
-                      self.drop_down_priority.selected_value,
-                      self.date_picker_reminder.date,
-                      details[0]["Notification"],
-                      self.text_box_spotify.text,
-                      self.text_box_insta.text,
-                      self.text_box_sound.text,
-                      self.text_box_contact.text,
-                      self.text_box_mail.text,
-                      self.text_box_phone.text
-                      )
-    
-    self.get_watchlist_details(self.model_id, cur_artist_id)
-
-  def status_dropdown_change(self, **event_args):
+  def update_details_on_sidebar(self, **event_args):
     """This method is called when an item is selected"""
     details = json.loads(anvil.server.call('get_watchlist_details', self.model_id, cur_artist_id))
     anvil.server.call('update_watchlist_details',
@@ -1545,12 +1525,12 @@ class Discover(DiscoverTemplate):
                       self.priority_dropdown.selected_value,
                       self.date_picker_1.date,
                       details[0]["Notification"],
-                      self.text_box_spotify.text,
-                      self.text_box_insta.text,
-                      self.text_box_sound.text,
-                      self.text_box_contact.text,
-                      self.text_box_mail.text,
-                      self.text_box_phone.text
+                      "",
+                      None,
+                      None,
+                      self.Text_Box_for_Artist_Name.text,
+                      self.Text_Box_for_Artist_Email.text,
+                      self.Text_Box_for_Artist_Phone.text
                       )
     
     self.get_watchlist_details(self.model_id, cur_artist_id)
