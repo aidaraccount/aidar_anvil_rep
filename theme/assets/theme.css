@@ -1443,6 +1443,11 @@ footer a, .footer .anvil-component {
   color: %color:Text_Grey%;
   padding: 10px 15px 10px 0;
 }
+.contact-title-sidebar{
+  display:flex;
+  justify-content: space-between;
+  align-items: center;
+}
 
 /* CSS for the Sidebar on the Discover Page ENDS Here */
 

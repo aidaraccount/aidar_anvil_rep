@@ -4,6 +4,10 @@ container:
   type: HtmlTemplate
   properties: {html: '@theme:Discover_Sidebar_and_JS.html', background: '', role: test}
 components:
+- name: button_3
+  properties: {text: button_3, spacing_above: none, spacing_below: none}
+  type: Button
+  layout_properties: {slot: edit_button_contacts}
 - name: column_panel_4
   properties: {col_widths: '{"LNLZLJ":45}'}
   type: ColumnPanel

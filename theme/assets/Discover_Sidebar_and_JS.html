@@ -41,9 +41,11 @@
       </div>
     </div>
     <div class="section-contact-sidebar">
-      <div>
+      <div class='contact-title-sidebar'>
         <h3>Contact</h3>
-        <div anvil-slot="edit_button_contacts"></div>
+        <div anvil-slot="edit_button_contacts" style="margin: 20px 0 10px 0;">
+          <span anvil-if-slot-empty="edit_button_contacts">button</span>
+        </div>
       </div>
       <table class="contact-table">
         <tr>
