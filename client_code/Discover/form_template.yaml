@@ -61,6 +61,7 @@ components:
     role: target-dropdown
   type: DropDown
   layout_properties: {slot: Status_picker}
+  event_bindings: {change: status_dropdown_change}
 - properties: {spacing_above: none, spacing_below: none, role: target-dropdown, placeholder: Other contact information}
   type: TextBox
   layout_properties: {slot: Text_Box_for_Artist_Other}

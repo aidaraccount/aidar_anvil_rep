@@ -1532,4 +1532,25 @@ class Discover(DiscoverTemplate):
                       self.text_box_phone.text
                       )
     
-    self.get_watchlist_details(self.model_id, cur_ai_artist_id)
+    self.get_watchlist_details(self.model_id, cur_artist_id)
+
+  def status_dropdown_change(self, **event_args):
+    """This method is called when an item is selected"""
+    details = json.loads(anvil.server.call('get_watchlist_details', self.model_id, cur_artist_id))
+    anvil.server.call('update_watchlist_details',
+                      self.model_id,
+                      cur_artist_id,
+                      True,
+                      self.status_dropdown.selected_value,
+                      self.priority_dropdown.selected_value,
+                      self.date_picker_1.date,
+                      details[0]["Notification"],
+                      self.text_box_spotify.text,
+                      self.text_box_insta.text,
+                      self.text_box_sound.text,
+                      self.text_box_contact.text,
+                      self.text_box_mail.text,
+                      self.text_box_phone.text
+                      )
+    
+    self.get_watchlist_details(self.model_id, cur_artist_id)
