@@ -304,6 +304,8 @@ class Discover(DiscoverTemplate):
       if (str(sug["Prediction"]) == 'nan') or (str(sug["Prediction"]) == 'None'):
         self.prediction.visible = False
         self.prediction_text.visible = False
+        self.column_panel_5.visible= False
+        self.linear_panel_2.visible= True
         self.no_prediction.visible = True
         self.pred = None
       else:
@@ -319,8 +321,10 @@ class Discover(DiscoverTemplate):
           print(self.pred)
         # self.prediction.text = pred
         self.prediction.text = self.pred
-        self.prediction.visible = True
-        self.prediction_text.visible = True
+        # should delete prediction and prediction_Text visible from here
+        self.prediction.visible = False
+        self.prediction_text.visible = False
+        self.linear_panel_2.visible= False
         self.no_prediction.visible = False
       self.custom_HTML_prediction()
       

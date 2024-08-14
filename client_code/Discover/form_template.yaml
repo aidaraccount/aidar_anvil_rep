@@ -170,16 +170,16 @@ components:
       layout_properties: {grid_position: 'LNTFQP,OFGQGL'}
     - properties:
         role: [score-tile-background]
-        visible: false
+        visible: true
       type: LinearPanel
       layout_properties: {grid_position: 'XBWMVA,RCCOIP'}
       name: linear_panel_2
       components:
-      - properties: {role: artist_name_shadow, align: center, spacing_below: none, font_size: 32, bold: true, spacing_above: none}
+      - properties: {role: artist_name_shadow, align: center, spacing_below: none, font_size: 32, bold: true, spacing_above: none, visible: false}
         type: Label
         layout_properties: {}
         name: prediction
-      - properties: {align: center, text: fit likelihood, role: feature, spacing_below: none, spacing_above: none}
+      - properties: {align: center, text: fit likelihood, role: feature, spacing_below: none, spacing_above: none, visible: false}
         type: Label
         layout_properties: {}
         name: prediction_text
