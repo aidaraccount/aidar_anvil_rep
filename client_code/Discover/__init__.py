@@ -60,17 +60,17 @@ class Discover(DiscoverTemplate):
     print(f"Discover temp_artist_id: {temp_artist_id}")
 
     # Load initial notes
-    self.update_cur_ai_artist_id(temp_artist_id)
+    # self.update_cur_ai_artist_id(temp_artist_id)
     # due to first value being None in the Arist By AI page, 
     # get_watchlist_details PY script returns an error, hence 
     # the hard-coded value to run test if the script is running
     # self.get_watchlist_details(model_id, temp_artist_id=574909)
-    self.get_watchlist_notes(model_id, temp_artist_id)
+    # self.get_watchlist_notes(model_id, temp_artist_id)
     
     #begin = datetime.now()
     #print(f"{datetime.now()}: Discover - __init__ - 2", flush=True)
     self.refresh_sug(self.model_id, temp_artist_id)
-    self.custom_HTML_prediction()
+    #self.custom_HTML_prediction()
     #print(f"{datetime.now()}: Discover - __init__ - 3", flush=True)
     #print(f"TotalTime Discover: {datetime.now() - begin}", flush=True)
   
@@ -165,6 +165,11 @@ class Discover(DiscoverTemplate):
       self.sec_musical.visible = False
    
       watchlist_presence = anvil.server.call('check_watchlist_presence', self.model_id, artist_id)
+      
+      # -------------------------------
+      # NOTES
+      self.get_watchlist_notes(model_id, cur_artist_id)
+      self.get_watchlist_details(model_id, cur_artist_id)
       
       # -------------------------------
       # ARTIST HEADER
@@ -317,7 +322,8 @@ class Discover(DiscoverTemplate):
         self.prediction.visible = True
         self.prediction_text.visible = True
         self.no_prediction.visible = False
-
+      self.custom_HTML_prediction()
+      
       # --------
       # biography
       if biography != 'None':
@@ -1478,27 +1484,21 @@ class Discover(DiscoverTemplate):
   
 # -----------------------------------------------------------------------------------------
 #  Start of the Sidebar Watchilish Functions 
-# -----------------------------------------------------------------------------------------
-  def update_cur_ai_artist_id(self, new_value):
-    global cur_ai_artist_id
-    cur_ai_artist_id = new_value
-    
-  def get_watchlist_notes(self, model_id, cur_ai_artist_id, **event_args):
-    cur_ai_artist_id = cur_ai_artist_id
-    self.repeating_panel_1.items = json.loads(anvil.server.call('get_watchlist_notes', user["user_id"], cur_ai_artist_id))
+# -----------------------------------------------------------------------------------------    
+  def get_watchlist_notes(self, model_id, cur_artist_id, **event_args):
+    self.repeating_panel_1.items = json.loads(anvil.server.call('get_watchlist_notes', user["user_id"], cur_artist_id))
 
   def button_note_click(self, **event_args):
-    anvil.server.call('add_note', user["user_id"], self.model_id, cur_ai_artist_id, "", "", self.comments_area_section.text)
+    anvil.server.call('add_note', user["user_id"], self.model_id, cur_artist_id, "", "", self.comments_area_section.text)
     self.comments_area_section.text = str(user["user_id"]) + ": " + ""
-    self.get_watchlist_notes(self.model_id, cur_ai_artist_id)
+    self.get_watchlist_notes(self.model_id, cur_artist_id)
 
-  def get_watchlist_details (self, model_id, cur_ai_artist_id=574909, **event_args):
-    cur_ai_artist_id = cur_ai_artist_id
-    details = json.loads(anvil.server.call('get_watchlist_details', model_id, cur_ai_artist_id))
+  def get_watchlist_details (self, model_id, cur_artist_id, **event_args):
+    details = json.loads(anvil.server.call('get_watchlist_details', model_id, cur_artist_id))
     
     # tags
     if details[0]["Status"] is None:
-      self.status_dropdown.selected_value = 'Build connection'
+      self.status_dropdown.selected_value = 'Action required'
     else: 
       self.status_dropdown.selected_value = details[0]["Status"]
     if details[0]["Priority"] is None: 
@@ -1506,6 +1506,6 @@ class Discover(DiscoverTemplate):
     else: 
       self.priority_dropdown.selected_value = details[0]["Priority"]
     if details[0]["Reminder"] is None: 
-      self.reminder_dropdown.date = ''
+      self.date_picker_1.date = ''
     else: 
-      self.reminder_dropdown.date = details[0]["Reminder"]
+      self.date_picker_1.date = details[0]["Reminder"]
