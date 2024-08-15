@@ -81,6 +81,10 @@ components:
   type: TextBox
   layout_properties: {slot: Text_Box_for_Artist_Name}
   name: Text_Box_for_Artist_Name
+- name: label_context
+  properties: {spacing_above: none, spacing_below: none}
+  type: Label
+  layout_properties: {slot: Text_Box_for_Artist_Name}
 - properties: {spacing_above: none, spacing_below: none}
   type: FlowPanel
   layout_properties: {slot: Artist_Name_Details_Sidebar}

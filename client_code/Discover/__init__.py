@@ -1499,6 +1499,25 @@ class Discover(DiscoverTemplate):
 
   def get_watchlist_details (self, model_id, cur_artist_id, **event_args):
     details = json.loads(anvil.server.call('get_watchlist_details', model_id, cur_artist_id))
+
+    if details[0]["ContactName"] is None:
+      self.label_contact.text = '-'
+      self.text_box_contact.text = None
+    else:
+      self.label_contact.text = details[0]["ContactName"]
+      self.text_box_contact.text = details[0]["ContactName"]
+    if details[0]["Mail"] is None:
+      self.label_mail.text = '-'
+      self.text_box_mail.text = None
+    else:
+      self.label_mail.text = details[0]["Mail"]
+      self.text_box_mail.text = details[0]["Mail"]
+    if details[0]["Phone"] is None:
+      self.label_phone.text = '-'
+      self.text_box_phone.text = None
+    else:
+      self.label_phone.text = details[0]["Phone"]
+      self.text_box_phone.text = details[0]["Phone"]
     
     # tags
     if details[0]["Status"] is None:
