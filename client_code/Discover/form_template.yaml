@@ -4,7 +4,7 @@ container:
   type: HtmlTemplate
   properties: {html: '@theme:Discover_Sidebar_and_JS.html', background: '', role: test}
 components:
-- name: button_3
+- name: contacts_button
   properties: {text: button_3, spacing_above: none, spacing_below: none}
   type: Button
   layout_properties: {slot: edit_button_contacts}
