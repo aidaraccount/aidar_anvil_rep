@@ -5,7 +5,7 @@ container:
   properties: {html: '@theme:Discover_Sidebar_and_JS.html', background: '', role: test}
 components:
 - name: contacts_button
-  properties: {text: '', spacing_above: none, spacing_below: none, icon: 'fa:edit'}
+  properties: {text: '', spacing_above: none, spacing_below: none, icon: 'fa:edit', role: contact-button}
   type: Button
   layout_properties: {slot: edit_button_contacts}
   event_bindings: {click: contacts_button_click}

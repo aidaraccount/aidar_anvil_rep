@@ -130,6 +130,8 @@ roles:
   components: [LinearPanel]
 - name: contact-details-saved-values
   components: [Label]
+- name: contact-button
+  components: [Button]
 color_scheme:
   preset_groups:
   - name: Accent
