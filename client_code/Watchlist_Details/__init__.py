@@ -197,8 +197,10 @@ class Watchlist_Details(Watchlist_DetailsTemplate):
       self.text_box_phone.visible = True
       
       # fill text boxes
-      if details[0]["SpotifyLink"] is None: self.text_box_spotify.text = details[0]["ArtistURL"]
-      else: self.text_box_spotify.text = details[0]["SpotifyLink"]
+      if details[0]["SpotifyLink"] is None:
+        self.text_box_spotify.text = details[0]["ArtistURL"]
+      else: 
+        self.text_box_spotify.text = details[0]["SpotifyLink"]
       self.text_box_insta.text = details[0]["InstaLink"]
       self.text_box_sound.text = details[0]["SoundCloudLink"]
       self.text_box_contact.text = details[0]["ContactName"]

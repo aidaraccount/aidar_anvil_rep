@@ -8,6 +8,7 @@ components:
   properties: {text: button_3, spacing_above: none, spacing_below: none}
   type: Button
   layout_properties: {slot: edit_button_contacts}
+  event_bindings: {click: contacts_button_click}
 - name: column_panel_4
   properties: {col_widths: '{"LNLZLJ":45}'}
   type: ColumnPanel
