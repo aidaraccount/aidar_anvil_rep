@@ -18,6 +18,7 @@ components:
     properties: {spacing_above: none, spacing_below: none, role: target-textarea}
     type: TextArea
     layout_properties: {grid_position: 'JSWZAI,LNLZLJ'}
+    data_bindings: []
   - name: button_2
     properties:
       text: |
@@ -78,6 +79,7 @@ components:
     type: TextBox
     layout_properties: {x: null, y: null, width: 219.390625}
     name: Text_Box_for_Artist_Phone
+    event_bindings: {pressed_enter: contacts_button_click}
   - name: label_phone
     properties: {spacing_above: none, spacing_below: none, role: contact-details-saved-values}
     type: Label
@@ -91,6 +93,7 @@ components:
     type: TextBox
     layout_properties: {x: null, y: null, width: 219.390625}
     name: Text_Box_for_Artist_Email
+    event_bindings: {pressed_enter: contacts_button_click}
   - name: label_mail
     properties: {spacing_below: none, spacing_above: none, role: contact-details-saved-values}
     type: Label
@@ -104,6 +107,7 @@ components:
     type: TextBox
     layout_properties: {x: null, y: null, width: 219.390625}
     name: Text_Box_for_Artist_Name
+    event_bindings: {pressed_enter: contacts_button_click}
   - name: label_contact
     properties: {spacing_above: none, spacing_below: none, role: contact-details-saved-values}
     type: Label

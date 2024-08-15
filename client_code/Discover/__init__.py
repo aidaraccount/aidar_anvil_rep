@@ -1551,7 +1551,16 @@ class Discover(DiscoverTemplate):
                       self.Text_Box_for_Artist_Email.text,
                       self.Text_Box_for_Artist_Phone.text
                       )
-    
+
+    if self.link_watchlist_name.icon == 'fa:star-o':
+      self.link_watchlist_name.icon = 'fa:star'
+      self.link_watchlist_name2.icon = 'fa:star'
+      name = self.Artist_Name_Details.get_components()
+      name = name[0].text
+      Notification("",
+          title=f"{name} added to the watchlist!",
+          style="success").show()
+
     self.get_watchlist_details(self.model_id, cur_artist_id)
 
   def contacts_button_click(self, **event_args):
