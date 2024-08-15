@@ -1539,6 +1539,7 @@ class Discover(DiscoverTemplate):
     details = json.loads(anvil.server.call('get_watchlist_details', self.model_id, cur_artist_id))
 
     if self.contacts_button.icon == 'fa:edit':
+      self.contacts_button.icon = 'fa:save'
       self.Text_Box_for_Artist_Name.visible = True
       self.Text_Box_for_Artist_Email.visible = True
       self.Text_Box_for_Artist_Phone.visible = True
