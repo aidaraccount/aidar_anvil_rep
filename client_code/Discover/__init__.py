@@ -1536,22 +1536,22 @@ class Discover(DiscoverTemplate):
     self.get_watchlist_details(self.model_id, cur_artist_id)
 
   def contacts_button_click(self, **event_args):
-    details = json.loads(anvil.server.call('get_watchlist_details', self.model_id, cur_ai_artist_id))
+    details = json.loads(anvil.server.call('get_watchlist_details', self.model_id, cur_artist_id))
 
     if self.contacts_button.icon == 'fa:edit':
       self.Text_Box_for_Artist_Name.visible = True
       self.Text_Box_for_Artist_Email.visible = True
       self.Text_Box_for_Artist_Phone.visible = True
 
-      self.text_box_contact.text = details[0]["ContactName"]
-      self.text_box_mail.text = details[0]["Mail"]
-      self.text_box_phone.text = details[0]["Phone"]
+      self.Text_Box_for_Artist_Name.text = details[0]["ContactName"]
+      self.Text_Box_for_Artist_Email.text = details[0]["Mail"]
+      self.Text_Box_for_Artist_Phone.text = details[0]["Phone"]
 
     else:
       self.contacts_button.icon = 'fa:edit'
-      self.text_box_contact.visible = False
-      self.text_box_mail.visible = False
-      self.text_box_phone.visible = False
+      self.Text_Box_for_Artist_Name.visible = False
+      self.Text_Box_for_Artist_Email.visible = False
+      self.Text_Box_for_Artist_Phone.visible = False
 
     # save text boxes
     self.update_details_on_sidebar()

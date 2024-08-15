@@ -5,7 +5,7 @@ container:
   properties: {html: '@theme:Discover_Sidebar_and_JS.html', background: '', role: test}
 components:
 - name: contacts_button
-  properties: {text: button_3, spacing_above: none, spacing_below: none}
+  properties: {text: '', spacing_above: none, spacing_below: none, icon: 'fa:edit'}
   type: Button
   layout_properties: {slot: edit_button_contacts}
   event_bindings: {click: contacts_button_click}
@@ -69,10 +69,6 @@ components:
   type: DropDown
   layout_properties: {slot: Status_picker}
   event_bindings: {change: update_details_on_sidebar}
-- properties: {spacing_above: none, spacing_below: none, role: target-dropdown, placeholder: Other contact information}
-  type: TextBox
-  layout_properties: {slot: Text_Box_for_Artist_Other}
-  name: Text_Box_for_Artist_Other
 - properties: {spacing_above: none, spacing_below: none, role: target-dropdown, placeholder: Phone number of contact}
   type: TextBox
   layout_properties: {slot: Text_Box_for_Artist_Phone}
