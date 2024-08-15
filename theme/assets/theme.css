@@ -1449,6 +1449,10 @@ footer a, .footer .anvil-component {
   align-items: center;
 }
 
+.anvil-role-contact-details-saved-values {
+  padding: 7px 13px;
+}
+
 /* CSS for the Sidebar on the Discover Page ENDS Here */
 
 /* CSS for Fit Likelihood on the Discover Page STARTS Here */

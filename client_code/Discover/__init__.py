@@ -1502,22 +1502,22 @@ class Discover(DiscoverTemplate):
 
     if details[0]["ContactName"] is None:
       self.label_contact.text = '-'
-      self.text_box_contact.text = None
+      self.Text_Box_for_Artist_Name.text = None
     else:
       self.label_contact.text = details[0]["ContactName"]
-      self.text_box_contact.text = details[0]["ContactName"]
+      self.Text_Box_for_Artist_Name.text = details[0]["ContactName"]
     if details[0]["Mail"] is None:
       self.label_mail.text = '-'
-      self.text_box_mail.text = None
+      self.Text_Box_for_Artist_Email.text = None
     else:
       self.label_mail.text = details[0]["Mail"]
-      self.text_box_mail.text = details[0]["Mail"]
+      self.Text_Box_for_Artist_Email.text = details[0]["Mail"]
     if details[0]["Phone"] is None:
       self.label_phone.text = '-'
-      self.text_box_phone.text = None
+      self.Text_Box_for_Artist_Phone.text = None
     else:
       self.label_phone.text = details[0]["Phone"]
-      self.text_box_phone.text = details[0]["Phone"]
+      self.Text_Box_for_Artist_Phone.text = details[0]["Phone"]
     
     # tags
     if details[0]["Status"] is None:
@@ -1563,6 +1563,10 @@ class Discover(DiscoverTemplate):
       self.Text_Box_for_Artist_Email.visible = True
       self.Text_Box_for_Artist_Phone.visible = True
 
+      self.label_contact.visible = False
+      self.label_mail.visible = False
+      self.label_phone.visible = False
+      
       self.Text_Box_for_Artist_Name.text = details[0]["ContactName"]
       self.Text_Box_for_Artist_Email.text = details[0]["Mail"]
       self.Text_Box_for_Artist_Phone.text = details[0]["Phone"]
@@ -1572,6 +1576,11 @@ class Discover(DiscoverTemplate):
       self.Text_Box_for_Artist_Name.visible = False
       self.Text_Box_for_Artist_Email.visible = False
       self.Text_Box_for_Artist_Phone.visible = False
+
+      self.label_contact.visible = True
+      self.label_mail.visible = True
+      self.label_phone.visible = True
+
 
     # save text boxes
     self.update_details_on_sidebar()

@@ -69,25 +69,43 @@ components:
   type: DropDown
   layout_properties: {slot: Status_picker}
   event_bindings: {change: update_details_on_sidebar}
-- properties: {spacing_above: none, spacing_below: none, role: target-dropdown, placeholder: Phone number of contact}
-  type: TextBox
+- name: xy_panel_3
+  properties: {height: 15.74609375}
+  type: XYPanel
   layout_properties: {slot: Text_Box_for_Artist_Phone}
-  name: Text_Box_for_Artist_Phone
-- properties: {spacing_above: none, spacing_below: none, role: target-dropdown, placeholder: Email of contact}
-  type: TextBox
+  components:
+  - properties: {spacing_above: none, spacing_below: none, role: target-dropdown, placeholder: Phone number of contact, visible: false}
+    type: TextBox
+    layout_properties: {x: null, y: null, width: 219.390625}
+    name: Text_Box_for_Artist_Phone
+  - name: label_phone
+    properties: {spacing_above: none, spacing_below: none, role: contact-details-saved-values}
+    type: Label
+    layout_properties: {x: null, y: null, width: 219.390625}
+- name: xy_panel_2
+  properties: {height: 17.21484375}
+  type: XYPanel
   layout_properties: {slot: Text_Box_for_Artist_Email}
-  name: Text_Box_for_Artist_Email
+  components:
+  - properties: {spacing_above: none, spacing_below: none, role: target-dropdown, placeholder: Email of contact, visible: false}
+    type: TextBox
+    layout_properties: {x: null, y: null, width: 219.390625}
+    name: Text_Box_for_Artist_Email
+  - name: label_mail
+    properties: {spacing_below: none, spacing_above: none, role: contact-details-saved-values}
+    type: Label
+    layout_properties: {x: null, y: null, width: 219.390625}
 - name: xy_panel_1
   properties: {height: 24.6953125, spacing_above: none, spacing_below: none}
   type: XYPanel
   layout_properties: {slot: Text_Box_for_Artist_Name}
   components:
-  - properties: {spacing_above: none, spacing_below: none, role: target-dropdown, placeholder: Name of contact}
+  - properties: {spacing_above: none, spacing_below: none, role: target-dropdown, placeholder: Name of contact, visible: false}
     type: TextBox
     layout_properties: {x: null, y: null, width: 219.390625}
     name: Text_Box_for_Artist_Name
   - name: label_contact
-    properties: {spacing_above: none, spacing_below: none}
+    properties: {spacing_above: none, spacing_below: none, role: contact-details-saved-values}
     type: Label
     layout_properties: {x: null, y: null, width: 219.390625}
 - properties: {spacing_above: none, spacing_below: none}

@@ -128,6 +128,8 @@ roles:
   components: [LinearPanel]
 - name: score-tile-background
   components: [LinearPanel]
+- name: contact-details-saved-values
+  components: [Label]
 color_scheme:
   preset_groups:
   - name: Accent
