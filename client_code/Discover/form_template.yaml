@@ -77,14 +77,19 @@ components:
   type: TextBox
   layout_properties: {slot: Text_Box_for_Artist_Email}
   name: Text_Box_for_Artist_Email
-- properties: {spacing_above: none, spacing_below: none, role: target-dropdown, placeholder: Name of contact}
-  type: TextBox
+- name: xy_panel_1
+  properties: {height: 24.6953125, spacing_above: none, spacing_below: none}
+  type: XYPanel
   layout_properties: {slot: Text_Box_for_Artist_Name}
-  name: Text_Box_for_Artist_Name
-- name: label_context
-  properties: {spacing_above: none, spacing_below: none}
-  type: Label
-  layout_properties: {slot: Text_Box_for_Artist_Name}
+  components:
+  - properties: {spacing_above: none, spacing_below: none, role: target-dropdown, placeholder: Name of contact}
+    type: TextBox
+    layout_properties: {x: null, y: null, width: 219.390625}
+    name: Text_Box_for_Artist_Name
+  - name: label_contact
+    properties: {spacing_above: none, spacing_below: none}
+    type: Label
+    layout_properties: {x: null, y: null, width: 219.390625}
 - properties: {spacing_above: none, spacing_below: none}
   type: FlowPanel
   layout_properties: {slot: Artist_Name_Details_Sidebar}
