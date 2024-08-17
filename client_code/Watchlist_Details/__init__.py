@@ -122,32 +122,39 @@ class Watchlist_Details(Watchlist_DetailsTemplate):
     self.image_detail.source = details[0]["ArtistPictureURL"]
     self.label_name.text = details[0]["Name"]    
 
-    # Links & Contact Information
-    if details[0]["SpotifyLink"] is None:
-      self.link_spotify.text = 'Profile'
-      self.link_spotify.url = details[0]["ArtistURL"]
-      self.text_box_spotify.text = details[0]["ArtistURL"]
-    else:
-      self.link_spotify.text = 'Profile'
-      self.link_spotify.url = details[0]["SpotifyLink"]
-      self.text_box_spotify.text = details[0]["SpotifyLink"]
+    # # Links & Contact Information
+    # if details[0]["SpotifyLink"] is None:
+    #   self.link_spotify.text = 'Profile'
+    #   self.link_spotify.url = details[0]["ArtistURL"]
+    #   self.text_box_spotify.text = details[0]["ArtistURL"]
+    # else:
+    #   self.link_spotify.text = 'Profile'
+    #   self.link_spotify.url = details[0]["SpotifyLink"]
+    #   self.text_box_spotify.text = details[0]["SpotifyLink"]
     
-    if details[0]["InstaLink"] is None:
-      self.link_insta.text = '-'
-      self.text_box_insta.text = None
-    else:
-      self.link_insta.text = 'Profile'
-      self.link_insta.url = details[0]["InstaLink"]
-      self.text_box_insta.text = details[0]["InstaLink"]
+    # if details[0]["InstaLink"] is None:
+    #   self.link_insta.text = '-'
+    #   self.text_box_insta.text = None
+    # else:
+    #   self.link_insta.text = 'Profile'
+    #   self.link_insta.url = details[0]["InstaLink"]
+    #   self.text_box_insta.text = details[0]["InstaLink"]
       
-    if details[0]["SoundCloudLink"] is None:
-      self.link_sound.text = '-'
-      self.text_box_sound.text = None
+    # if details[0]["SoundCloudLink"] is None:
+    #   self.link_sound.text = '-'
+    #   self.text_box_sound.text = None
+    # else:
+    #   self.link_sound.text = 'Profile'
+    #   self.link_sound.url = details[0]["SoundCloudLink"]
+    #   self.text_box_sound.text = details[0]["SoundCloudLink"]
+
+    if details[0]["Description"] is None:
+      self.text_description.text = '-'
+      self.text_area_description.text = None
     else:
-      self.link_sound.text = 'Profile'
-      self.link_sound.url = details[0]["SoundCloudLink"]
-      self.text_box_sound.text = details[0]["SoundCloudLink"]
-      
+      self.text_description.text = details[0]["Description"]
+      self.text_area_description.text = details[0]["Description"]
+    
     if details[0]["ContactName"] is None:
       self.label_contact.text = '-'
       self.text_box_contact.text = None
@@ -189,29 +196,22 @@ class Watchlist_Details(Watchlist_DetailsTemplate):
     
     if self.button_edit.icon == 'fa:edit':
       self.button_edit.icon = 'fa:save'
-      self.text_box_spotify.visible = True
-      self.text_box_insta.visible = True
-      self.text_box_sound.visible = True
-      self.text_box_contact.visible = True
-      self.text_box_mail.visible = True
-      self.text_box_phone.visible = True
+
+      self.text_area_description.visible = True
+      self.text_area_description.text = details[0]["Description"]
       
-      # fill text boxes
-      if details[0]["SpotifyLink"] is None:
-        self.text_box_spotify.text = details[0]["ArtistURL"]
-      else: 
-        self.text_box_spotify.text = details[0]["SpotifyLink"]
-      self.text_box_insta.text = details[0]["InstaLink"]
-      self.text_box_sound.text = details[0]["SoundCloudLink"]
+      self.text_box_contact.visible = True
       self.text_box_contact.text = details[0]["ContactName"]
+      self.text_box_mail.visible = True
       self.text_box_mail.text = details[0]["Mail"]
-      self.text_box_phone.text = details[0]["Phone"]
+      self.text_box_phone.visible = True
+      self.text_box_phone.text = details[0]["Phone"]      
     
     else:
       self.button_edit.icon = 'fa:edit'
-      self.text_box_spotify.visible = False
-      self.text_box_insta.visible = False
-      self.text_box_sound.visible = False
+
+      self.self.text_area_description.visible = False
+      
       self.text_box_contact.visible = False
       self.text_box_mail.visible = False
       self.text_box_phone.visible = False
@@ -229,12 +229,10 @@ class Watchlist_Details(Watchlist_DetailsTemplate):
                       self.drop_down_priority.selected_value,
                       self.date_picker_reminder.date,
                       details[0]["Notification"],
-                      self.text_box_spotify.text,
-                      self.text_box_insta.text,
-                      self.text_box_sound.text,
                       self.text_box_contact.text,
                       self.text_box_mail.text,
-                      self.text_box_phone.text
+                      self.text_box_phone.text,
+                      self.text_area_description.text
                       )
     
     self.get_watchlist_details(self.model_id, cur_ai_artist_id)

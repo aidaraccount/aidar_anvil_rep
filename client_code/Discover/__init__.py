@@ -58,19 +58,10 @@ class Discover(DiscoverTemplate):
     if temp_artist_id == 'None':
       temp_artist_id = None
     print(f"Discover temp_artist_id: {temp_artist_id}")
-
-    # Load initial notes
-    # self.update_cur_ai_artist_id(temp_artist_id)
-    # due to first value being None in the Arist By AI page, 
-    # get_watchlist_details PY script returns an error, hence 
-    # the hard-coded value to run test if the script is running
-    # self.get_watchlist_details(model_id, temp_artist_id=574909)
-    # self.get_watchlist_notes(model_id, temp_artist_id)
     
     #begin = datetime.now()
     #print(f"{datetime.now()}: Discover - __init__ - 2", flush=True)
     self.refresh_sug(self.model_id, temp_artist_id)
-    #self.custom_HTML_prediction()
     #print(f"{datetime.now()}: Discover - __init__ - 3", flush=True)
     #print(f"TotalTime Discover: {datetime.now() - begin}", flush=True)
   
@@ -1500,6 +1491,13 @@ class Discover(DiscoverTemplate):
   def get_watchlist_details (self, model_id, cur_artist_id, **event_args):
     details = json.loads(anvil.server.call('get_watchlist_details', model_id, cur_artist_id))
 
+    if details[0]["Description"] is None:
+      self.label_description.text = '-'
+      self.text_area_description.text = None
+    else:
+      self.label_description.text = details[0]["Description"]
+      self.text_area_description.text = details[0]["Description"]
+      
     if details[0]["ContactName"] is None:
       self.label_contact.text = '-'
       self.Text_Box_for_Artist_Name.text = None
@@ -1544,12 +1542,10 @@ class Discover(DiscoverTemplate):
                       self.priority_dropdown.selected_value,
                       self.date_picker_1.date,
                       details[0]["Notification"],
-                      "",
-                      None,
-                      None,
                       self.Text_Box_for_Artist_Name.text,
                       self.Text_Box_for_Artist_Email.text,
-                      self.Text_Box_for_Artist_Phone.text
+                      self.Text_Box_for_Artist_Phone.text,
+                      self.text_area_description.text
                       )
 
     if self.link_watchlist_name.icon == 'fa:star-o':
@@ -1568,6 +1564,10 @@ class Discover(DiscoverTemplate):
 
     if self.contacts_button.icon == 'fa:edit':
       self.contacts_button.icon = 'fa:save'
+
+      self.text_area_description.visible = True
+      self.label_description = False
+      
       self.Text_Box_for_Artist_Name.visible = True
       self.Text_Box_for_Artist_Email.visible = True
       self.Text_Box_for_Artist_Phone.visible = True
@@ -1582,6 +1582,10 @@ class Discover(DiscoverTemplate):
 
     else:
       self.contacts_button.icon = 'fa:edit'
+      
+      self.text_area_description.visible = False
+      self.label_description = True
+      
       self.Text_Box_for_Artist_Name.visible = False
       self.Text_Box_for_Artist_Email.visible = False
       self.Text_Box_for_Artist_Phone.visible = False
