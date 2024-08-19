@@ -113,20 +113,24 @@
   if(typeof sidebar === 'undefined') {
     const sidebar = document.getElementById('right-sidebar');
     const button = document.getElementById('sidebar-button');
+    const mainContent = document.querySelector('.anvil-role-left-discover-page')
+    console.log(mainContent)
   
     if (sidebar && button) {
       button.addEventListener('click', function () {
         sidebar.classList.toggle('open');
         button.classList.toggle('open');
+        mainContent.classList.toggle('shifted');
       });
     } else {
       console.error("Sidebar or button element not found..");
     }
-    // Define a function to update the artist name
-    window.updateArtistName = function(name) {
-      document.getElementById('artist-name-cell').textContent = name;
-    };
   }
+    // Define a function to update the artist name
+    // window.updateArtistName = function(name) {
+    //   document.getElementById('artist-name-cell').textContent = name;
+    // };
+  // }
 
   (function() {
     let displays = document.querySelectorAll('.note-display');

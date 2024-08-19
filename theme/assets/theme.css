@@ -1255,11 +1255,11 @@ footer a, .footer .anvil-component {
   padding: 20px;
 }
 .anvil-role-left-discover-page{
-  margin-left: 0;
-  transition: margin-left 0.3s ease;
+  margin-right: 0;
+  transition: margin-right 0.2s ease;
 }
-.left-discover-page.shifted{
-  margin-left: 400px;
+.anvil-role-left-discover-page.shifted{
+  margin-right: 400px;
 }
 
 #right-sidebar {
@@ -1267,8 +1267,8 @@ footer a, .footer .anvil-component {
   color: rgb(250,250,250);
   position: fixed;
   /* comment right: 0px to have the sidebar visible at all times  */
-  /* right: -400px; */
-  right: 0px;
+  right: -400px;
+  /* right: 0px; */
   top: 0;
   width: 400px;
   height: 90%;
