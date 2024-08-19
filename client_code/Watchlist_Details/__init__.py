@@ -199,22 +199,35 @@ class Watchlist_Details(Watchlist_DetailsTemplate):
 
       self.text_area_description.visible = True
       self.text_area_description.text = details[0]["Description"]
+      self.text_description.visible = False
       
       self.text_box_contact.visible = True
       self.text_box_contact.text = details[0]["ContactName"]
+      self.label_contact.visible = False
+      
       self.text_box_mail.visible = True
       self.text_box_mail.text = details[0]["Mail"]
+      self.label_mail.visible = False
+      
       self.text_box_phone.visible = True
-      self.text_box_phone.text = details[0]["Phone"]      
+      self.text_box_phone.text = details[0]["Phone"]
+      self.label_phone.visible = False
     
     else:
       self.button_edit.icon = 'fa:edit'
 
-      self.self.text_area_description.visible = False
+      self.text_area_description.visible = False
+      self.text_description.visible = True
       
       self.text_box_contact.visible = False
+      self.label_contact.visible = True
+      
       self.text_box_mail.visible = False
+      self.label_mail.visible = True
+      
       self.text_box_phone.visible = False
+      self.label_phone.visible = True
+
       
       # save text boxes
       self.update_watchlist_details()

@@ -1483,19 +1483,20 @@ class Discover(DiscoverTemplate):
   def get_watchlist_notes(self, model_id, cur_artist_id, **event_args):
     self.repeating_panel_1.items = json.loads(anvil.server.call('get_watchlist_notes', user["user_id"], cur_artist_id))
 
+
   def button_note_click(self, **event_args):
     anvil.server.call('add_note', user["user_id"], self.model_id, cur_artist_id, "", "", self.comments_area_section.text)
-    self.comments_area_section.text = str(user["user_id"]) + ": " + ""
+    # self.comments_area_section.text = str(user["UserName"]) + ": " + ""
     self.get_watchlist_notes(self.model_id, cur_artist_id)
 
   def get_watchlist_details (self, model_id, cur_artist_id, **event_args):
     details = json.loads(anvil.server.call('get_watchlist_details', model_id, cur_artist_id))
 
     if details[0]["Description"] is None:
-      self.label_description.text = '-'
+      self.label_description_2.text = '-'
       self.text_area_description.text = None
     else:
-      self.label_description.text = details[0]["Description"]
+      self.label_description_2.text = details[0]["Description"]
       self.text_area_description.text = details[0]["Description"]
       
     if details[0]["ContactName"] is None:
@@ -1566,7 +1567,7 @@ class Discover(DiscoverTemplate):
       self.contacts_button.icon = 'fa:save'
 
       self.text_area_description.visible = True
-      self.label_description = False
+      self.label_description_2.visible = False
       
       self.Text_Box_for_Artist_Name.visible = True
       self.Text_Box_for_Artist_Email.visible = True
@@ -1584,7 +1585,7 @@ class Discover(DiscoverTemplate):
       self.contacts_button.icon = 'fa:edit'
       
       self.text_area_description.visible = False
-      self.label_description = True
+      self.label_description_2.visible = True
       
       self.Text_Box_for_Artist_Name.visible = False
       self.Text_Box_for_Artist_Email.visible = False

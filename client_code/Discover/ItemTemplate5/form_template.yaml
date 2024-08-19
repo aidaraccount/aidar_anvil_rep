@@ -13,20 +13,23 @@ components:
     data_bindings:
     - {property: text, code: 'self.item[''Note'']', writeback: false}
   - name: link_delete
-    properties: {icon: 'fa:trash-o', role: description, spacing_above: none, spacing_below: none, align: right}
+    properties: {icon: 'fa:trash-o', role: description, spacing_above: none, spacing_below: none, align: right, url: '', visible: true}
     type: Link
     layout_properties: {grid_position: 'SPZYBG,QARMAO'}
+    event_bindings: {click: link_delete_click}
+    data_bindings:
+    - {property: url, code: 'self.item[''NoteID'']', writeback: false}
   - name: flow_panel_1
     properties: {align: right, spacing_above: none, spacing_below: none}
     type: FlowPanel
     layout_properties: {grid_position: 'FWOSBJ,TCBBSF'}
     components:
-    - name: label_1
-      properties:
-        text: |2+
-
+    - name: label_user_name
+      properties: {text: '', spacing_above: none, spacing_below: none, role: description-bio}
       type: Label
       layout_properties: {}
+      data_bindings:
+      - {property: text, code: 'self.item[''UserName'']', writeback: false}
     - name: label_date
       properties: {spacing_below: none, spacing_above: none, font_size: null, role: timestamp-note-format, align: right}
       type: Label

@@ -40,11 +40,11 @@ components:
   layout_properties: {slot: descripion-area}
   components:
   - name: text_area_description
-    properties: {spacing_above: none, spacing_below: none, role: null}
+    properties: {spacing_above: none, spacing_below: none, role: null, visible: false}
     type: TextArea
     layout_properties: {grid_position: 'RVRNHK,XGCPPG'}
-  - name: label_description
-    properties: {}
+  - name: label_description_2
+    properties: {role: description-bio}
     type: Label
     layout_properties: {grid_position: 'GZYTXC,ZQGGCG'}
 - name: date_picker_1
