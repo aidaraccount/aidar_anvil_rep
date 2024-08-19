@@ -1565,9 +1565,6 @@ class Discover(DiscoverTemplate):
 
     if self.contacts_button.icon == 'fa:edit':
       self.contacts_button.icon = 'fa:save'
-
-      self.text_area_description.visible = True
-      self.label_description_2.visible = False
       
       self.Text_Box_for_Artist_Name.visible = True
       self.Text_Box_for_Artist_Email.visible = True
@@ -1583,10 +1580,7 @@ class Discover(DiscoverTemplate):
 
     else:
       self.contacts_button.icon = 'fa:edit'
-      
-      self.text_area_description.visible = False
-      self.label_description_2.visible = True
-      
+            
       self.Text_Box_for_Artist_Name.visible = False
       self.Text_Box_for_Artist_Email.visible = False
       self.Text_Box_for_Artist_Phone.visible = False
@@ -1595,6 +1589,24 @@ class Discover(DiscoverTemplate):
       self.label_mail.visible = True
       self.label_phone.visible = True
 
+
+    # save text boxes
+    self.update_details_on_sidebar()
+
+  def description_button_click(self, **event_args):
+    # details = json.loads(anvil.server.call('get_watchlist_details', self.model_id, cur_artist_id))
+
+    if self.description_button.icon == 'fa:edit':
+      self.description_button.icon = 'fa:save'
+
+      self.text_area_description.visible = True
+      self.label_description_2.visible = False
+      
+    else:
+      self.description_button.icon = 'fa:edit'
+
+      self.text_area_description.visible = False
+      self.label_description_2.visible = True
 
     # save text boxes
     self.update_details_on_sidebar()

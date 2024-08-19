@@ -80,7 +80,12 @@
       </table>
     </div>
     <div class="description-section-sidebar">
-      <h3>Description</h3>
+      <div class='contact-title-sidebar'>
+        <h3 class="right-sidebar-heading">Description</h3>
+        <div anvil-slot="edit_button_decription" style="margin: 20px 0 10px 0;">
+          <span anvil-if-slot-empty="edit_button_decription">button</span>
+        </div>
+      </div>
       <div anvil-slot="descripion-area">
         <div anvil-if-slot-empty="descripion-area">Text Area Goes Here</div>
       </div>

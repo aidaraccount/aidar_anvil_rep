@@ -4,6 +4,11 @@ container:
   type: HtmlTemplate
   properties: {html: '@theme:Discover_Sidebar_and_JS.html', background: '', role: test}
 components:
+- name: description_button
+  properties: {text: '', icon: 'fa:edit', role: contact-button}
+  type: Button
+  layout_properties: {slot: edit_button_decription}
+  event_bindings: {click: description_button_click}
 - name: contacts_button
   properties: {text: '', spacing_above: none, spacing_below: none, icon: 'fa:edit', role: contact-button}
   type: Button

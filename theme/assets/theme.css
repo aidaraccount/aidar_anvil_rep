@@ -1488,22 +1488,23 @@ footer a, .footer .anvil-component {
   font-family: Gs-regular;
   font-size: 16px;
   color: #E95F30;
-  background: transparent;
+  background: white;
   border: 0px;
   box-shadow: none;
   text-shadow: none;
-  transition: 0.5s
+  transition: 0.5s;
+  margin: 10px 0 0 0;
 }
 .anvil-role-save-button-sidebar > button:hover {
-  background: transparent;
+  background: linear-gradient(to top left, rgba(232, 232, 232, 0.8) 50%, white);
   color: #BA7305;
 }
 .anvil-role-save-button-sidebar > button:focus{
-  background: transparent;
+  background: white;
   color: #E95F30;
 }
 .anvil-role-save-button-sidebar > button:active{
-  background: transparent;
+  background: white;
   color: #E95F30;
 }
 
