@@ -116,7 +116,7 @@ components:
   type: FlowPanel
   layout_properties: {slot: Artist_Name_Details_Sidebar}
   name: Artist_Name_Details_Sidebar
-- properties: {spacing_above: small, spacing_below: small, col_spacing: medium, col_widths: '{"AMHHEF":45,"SSPHIY":15,"LTMDQS":45,"YUCFCA":15}'}
+- properties: {spacing_above: small, spacing_below: small, col_spacing: medium, col_widths: '{"AMHHEF":45,"SSPHIY":15,"LTMDQS":45,"YUCFCA":15}', role: left-discover-page}
   type: ColumnPanel
   layout_properties: {slot: default}
   name: column_panel_1
