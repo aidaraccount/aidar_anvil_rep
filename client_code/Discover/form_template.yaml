@@ -1145,14 +1145,10 @@ components:
   layout_properties: {slot: footer-slot}
   name: Footer
   components:
-  - properties: {}
-    type: form:C_WebPlayer
-    layout_properties: {grid_position: 'UQVSNC,KTIVUF', full_width_row: true}
-    name: c_web_player
-  - name: c_web_player_1
+  - name: spotify_player_spot
     properties: {}
-    type: form:C_WebPlayer
-    layout_properties: {grid_position: 'UQVSNC,DIUROR'}
+    type: ColumnPanel
+    layout_properties: {grid_position: 'UQVSNC,CLCEVO'}
   - properties: {height: 32}
     type: Spacer
     layout_properties: {grid_position: 'UQVSNC,THIOWY'}

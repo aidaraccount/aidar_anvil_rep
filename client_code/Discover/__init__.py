@@ -704,8 +704,36 @@ class Discover(DiscoverTemplate):
       # -------------------------------
       # FOOTER:
       # a) Spotify Web-Player
-      self.c_web_player.html = '<iframe style="border-radius:12px" src="https://open.spotify.com/embed/artist/' + sug["SpotifyArtistID"] + '?utm_source=generator&theme=0&autoplay=true" width="100%" height="80" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"> </iframe>'
-      self.c_web_player_1.html = '@theme:Spotify_player.html'
+      # self.c_web_player.html = '<iframe style="border-radius:12px" src="https://open.spotify.com/embed/artist/' + sug["SpotifyArtistID"] + '?utm_source=generator&theme=0&autoplay=true" width="100%" height="80" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"> </iframe>'
+      # self.c_web_player.html = '@theme:Spotify_player.html'
+      # self.c_web_player.html = '''
+      c_web_player_html = '''
+      <script src="https://open.spotify.com/embed/iframe-api/v1" async></script>
+      <div id="embed-iframe"></div>
+      <!-- <button>Play</button> -->
+      <script>
+        let controller;
+
+        window.onSpotifyIframeApiReady = IFrameAPI => {
+          const element = document.getElementById('embed-iframe');
+          const options = {
+            theme: 'dark',
+            width: '100%',
+            height: '80',
+            uri: 'spotify:track:7J1uxwnxfQLu4APicE5Rnj',
+          };
+          const callback = EmbedController => {
+            controller = EmbedController;
+            controller.addListener('ready', () => {
+              console.log('ready');
+            });
+          };
+          IFrameAPI.createController(element, options, callback);
+        };
+      '''
+      html_webplayer_panel = HtmlPanel(html=c_web_player_html)
+      self.spotify_player_spot.add_component(html_webplayer_panel)
+      
       # --------
       # b) Filter Button visibility
       activefilters = anvil.server.call('check_filter_presence', self.model_id)
@@ -1607,7 +1635,7 @@ class Discover(DiscoverTemplate):
     self.update_details_on_sidebar()
 
   def button_track_test_click(self, track_id=None, **event_args):
-    print(track_id)
+    # print(track_id)
     anvil.js.call_js('playSpotify')
    
     
