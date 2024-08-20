@@ -301,17 +301,12 @@ class Discover(DiscoverTemplate):
         self.no_prediction.visible = True
         self.pred = None
       else:
-        if (float(sug["Prediction"]) > 7): 
-          # pred = '100%'
+        if (float(sug["Prediction"]) > 7):
           self.pred = '100%'
-        elif (float(sug["Prediction"]) < 0): 
-          # pred = '0%'
+        elif (float(sug["Prediction"]) < 0):
           self.pred = '0%'
         else: 
-          # self.pred = "{:.0f}".format(round(float(sug["Prediction"])/7*100,0)) + '%'
           self.pred = "{:.2f}".format(round(float(sug["Prediction"])/7*100,0))
-          print(self.pred)
-        # self.prediction.text = pred
         self.prediction.text = self.pred
         # should delete prediction and prediction_Text visible from here
         self.prediction.visible = False
@@ -1611,7 +1606,8 @@ class Discover(DiscoverTemplate):
     # save text boxes
     self.update_details_on_sidebar()
 
-  def button_track_test_click(self, **event_args):
+  def button_track_test_click(self, track_id=None, **event_args):
+    print(track_id)
     anvil.js.call_js('playSpotify')
    
     
