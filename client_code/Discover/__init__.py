@@ -1610,3 +1610,6 @@ class Discover(DiscoverTemplate):
 
     # save text boxes
     self.update_details_on_sidebar()
+
+  def button_track_test_click(self, **event_args):
+    self.c_web_player.html = '<iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/03UrZgTINDqvnUMbbIMhql?utm_source=generator&theme=0&autoplay=true" width="100%" height="80" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>'

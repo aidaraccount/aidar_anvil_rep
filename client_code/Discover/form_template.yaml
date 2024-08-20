@@ -134,6 +134,11 @@ components:
     type: Label
     layout_properties: {grid_position: 'SYXIOJ,YUCFCA'}
     name: label_1
+  - name: button_track_test
+    properties: {text: Play Track}
+    type: Button
+    layout_properties: {grid_position: 'FCLPOK,MCDCFM'}
+    event_bindings: {click: button_track_test_click}
   - properties: {col_widths: '{"BINRLY":20,"SKLDLY":40,"XFZSMP":55}', role: tile-background-left}
     type: ColumnPanel
     layout_properties: {grid_position: 'FDCDSH,AMHHEF'}
