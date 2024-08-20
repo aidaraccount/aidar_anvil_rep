@@ -17,6 +17,7 @@ import anvil.js
 import anvil.js.window
 from anvil.js.window import updateGauge
 from anvil.js.window import playSpotify
+from anvil.js.window import createOrUpdateSpotifyPlayer
 
 from anvil_extras import routing
 from ..nav import click_link, click_button, logout, login_check, load_var, save_var
