@@ -15,7 +15,8 @@ from ..C_CustomAlertForm import C_CustomAlertForm  # Import the custom form
 from anvil import js
 import anvil.js
 import anvil.js.window
-from anvil.js.window import updateGauge, playSpotify
+from anvil.js.window import updateGauge
+from anvil.js.window import playSpotify
 
 from anvil_extras import routing
 from ..nav import click_link, click_button, logout, login_check, load_var, save_var
@@ -708,8 +709,8 @@ class Discover(DiscoverTemplate):
       # -------------------------------
       # FOOTER:
       # a) Spotify Web-Player
-      self.c_web_player.html = '<iframe style="border-radius:12px" src="https://open.spotify.com/embed/artist/' + sug["SpotifyArtistID"] + '?utm_source=generator&theme=0&autoplay=true" width="100%" height="80" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>'
-
+      self.c_web_player.html = ' <iframe style="border-radius:12px" src="https://open.spotify.com/embed/artist/' + sug["SpotifyArtistID"] + '?utm_source=generator&theme=0&autoplay=true" width="100%" height="80" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"> </iframe>'
+      self.c_web_player_1.html = '@theme:Spotify_player.html'
       # --------
       # b) Filter Button visibility
       activefilters = anvil.server.call('check_filter_presence', self.model_id)
@@ -1588,8 +1589,7 @@ class Discover(DiscoverTemplate):
       self.label_contact.visible = True
       self.label_mail.visible = True
       self.label_phone.visible = True
-
-
+      
     # save text boxes
     self.update_details_on_sidebar()
 
@@ -1612,10 +1612,36 @@ class Discover(DiscoverTemplate):
     self.update_details_on_sidebar()
 
   def button_track_test_click(self, **event_args):
-    print("button 1")
-    self.c_web_player.html = '<iframe id="spotifyPlayer" style="border-radius:12px" src="https://open.spotify.com/embed/track/03UrZgTINDqvnUMbbIMhql?utm_source=generator&theme=0&autoplay=true" width="100%" height="80" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>'
+    anvil.js.call_js('playSpotify')
+    details = json.loads(anvil.server.call('get_watchlist_details', self.model_id, cur_artist_id))
+
+    if self.contacts_button.icon == 'fa:edit':
+      self.contacts_button.icon = 'fa:save'
+      
+      self.Text_Box_for_Artist_Name.visible = True
+      self.Text_Box_for_Artist_Email.visible = True
+      self.Text_Box_for_Artist_Phone.visible = True
+
+      self.label_contact.visible = False
+      self.label_mail.visible = False
+      self.label_phone.visible = False
+      
+      self.Text_Box_for_Artist_Name.text = details[0]["ContactName"]
+      self.Text_Box_for_Artist_Email.text = details[0]["Mail"]
+      self.Text_Box_for_Artist_Phone.text = details[0]["Phone"]
+
+    else:
+      self.contacts_button.icon = 'fa:edit'
+            
+      self.Text_Box_for_Artist_Name.visible = False
+      self.Text_Box_for_Artist_Email.visible = False
+      self.Text_Box_for_Artist_Phone.visible = False
+
+      self.label_contact.visible = True
+      self.label_mail.visible = True
+      self.label_phone.visible = True
+      
+    # save text boxes
+    self.update_details_on_sidebar()
     
-    print("button 2")
-    self.call_js('playSpotify')
-    print("button 3")
     
