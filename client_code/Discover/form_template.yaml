@@ -134,11 +134,6 @@ components:
     type: Label
     layout_properties: {grid_position: 'SYXIOJ,YUCFCA'}
     name: label_1
-  - name: button_track_test
-    properties: {text: Play Track, visible: true, spacing_above: none, spacing_below: none, role: play-spotify-button}
-    type: Button
-    layout_properties: {grid_position: 'FCLPOK,MCDCFM', full_width_row: false}
-    event_bindings: {click: button_track_test_click}
   - properties: {col_widths: '{"BINRLY":20,"SKLDLY":40,"XFZSMP":55}', role: tile-background-left}
     type: ColumnPanel
     layout_properties: {grid_position: 'FDCDSH,AMHHEF'}
@@ -307,11 +302,7 @@ components:
       event_bindings: {click: nav_success_click}
       layout_properties: {}
       name: nav_success
-      components:
-      - name: c_web_player_2
-        properties: {}
-        type: form:C_WebPlayer
-        layout_properties: {grid_position: 'QATFCI,OLCUCG'}
+      components: []
     - properties: {role: section_buttons, text: Fandom, visible: true, spacing_above: none, spacing_below: none}
       type: Link
       layout_properties: {}

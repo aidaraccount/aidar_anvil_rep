@@ -16,5 +16,4 @@ class RowTemplate1(RowTemplate1Template):
     # Any code you write here will run before the form opens.
 
   def button_play_track_click(self, **event_args):
-    # self.parent.parent.parent.parent.parent.parent.button_track_test_click(self.item['SpotifyTrackID'])
     anvil.js.call_js('playSpotify')
