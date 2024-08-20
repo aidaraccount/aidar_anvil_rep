@@ -15,7 +15,7 @@ from ..C_CustomAlertForm import C_CustomAlertForm  # Import the custom form
 from anvil import js
 import anvil.js
 import anvil.js.window
-from anvil.js.window import updateGauge
+from anvil.js.window import updateGauge, playSpotify
 
 from anvil_extras import routing
 from ..nav import click_link, click_button, logout, login_check, load_var, save_var
@@ -1612,4 +1612,10 @@ class Discover(DiscoverTemplate):
     self.update_details_on_sidebar()
 
   def button_track_test_click(self, **event_args):
-    self.c_web_player.html = '<iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/03UrZgTINDqvnUMbbIMhql?utm_source=generator&theme=0&autoplay=true" width="100%" height="80" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>'
+    print("button 1")
+    self.c_web_player.html = '<iframe id="spotifyPlayer" style="border-radius:12px" src="https://open.spotify.com/embed/track/03UrZgTINDqvnUMbbIMhql?utm_source=generator&theme=0&autoplay=true" width="100%" height="80" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>'
+    
+    print("button 2")
+    self.call_js('playSpotify')
+    print("button 3")
+    
