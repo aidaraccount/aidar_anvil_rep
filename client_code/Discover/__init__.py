@@ -706,7 +706,7 @@ class Discover(DiscoverTemplate):
       # FOOTER:
       # a) Spotify Web-Player
       # self.c_web_player.html = '<iframe style="border-radius:12px" src="https://open.spotify.com/embed/artist/' + sug["SpotifyArtistID"] + '?utm_source=generator&theme=0&autoplay=true" width="100%" height="80" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"> </iframe>'
-      self.c_web_player_html.html = '@theme:Spotify_player.html'
+      self.spotify_player_spot.html = '@theme:Spotify_player.html'
       # self.c_web_player.html = '''
       # c_web_player_html =
       createOrUpdateSpotifyPlayer('spotify:artist:' + sug["SpotifyArtistID"])
