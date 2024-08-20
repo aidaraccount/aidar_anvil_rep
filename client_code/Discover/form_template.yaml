@@ -1146,7 +1146,7 @@ components:
   name: Footer
   components:
   - name: spotify_player_spot
-    properties: {}
+    properties: {visible: true}
     type: ColumnPanel
     layout_properties: {grid_position: 'UQVSNC,CLCEVO'}
   - properties: {height: 32}

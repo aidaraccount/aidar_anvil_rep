@@ -1,8 +1,59 @@
 <script src="https://open.spotify.com/embed/iframe-api/v1" async></script>
+<div id="embed-iframe"></div>
+<!-- <button>Play</button> -->
+<script>
+  var controller;
+  
+  function createOrUpdateSpotifyPlayer(uri) {
+    const element = document.getElementById('embed-iframe');
+    const options = {
+      theme: 'dark',
+      width: '100%',
+      height: '80',
+      uri: uri,
+    };
+    
+    if (window.SpotifyIframeAPI) {
+      window.SpotifyIframeAPI.createController(element, options, (EmbedController) => {
+        controller = EmbedController;
+        controller.addListener('ready', () => {
+          console.log('ready');
+        });
+      });
+    } else {
+      window.onSpotifyIframeApiReady = (IFrameAPI) => {
+        window.SpotifyIframeAPI = IFrameAPI; // Store the API globally for future use
+        IFrameAPI.createController(element, options, (EmbedController) => {
+          controller = EmbedController;
+          controller.addListener('ready', () => {
+            console.log('ready');
+          });
+        });
+      };
+    }
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--  OLD VERSION STARTS HERE -->
+
+<!-- <script src="https://open.spotify.com/embed/iframe-api/v1" async></script>
 
 <div id="embed-iframe"></div>
 
-<!-- <button>Play</button> -->
+<button>Play</button>
 <script>
   let controller;
 
@@ -22,10 +73,4 @@
     };
     IFrameAPI.createController(element, options, callback);
   };
-
-  
-  // document.querySelector('button').onclick = function () {
-  //   // controller.loadUri("spotify:track:7J1uxwnxfQLu4APicE5Rnj");
-  //   controller.play();
-  // };
-</script>
+</script> -->
