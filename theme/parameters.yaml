@@ -134,6 +134,8 @@ roles:
   components: [Button]
 - name: left-discover-page
   components: [ColumnPanel]
+- name: play-spotify-button
+  components: [Button]
 color_scheme:
   preset_groups:
   - name: Accent
