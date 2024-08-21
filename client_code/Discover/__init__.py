@@ -15,9 +15,10 @@ from ..C_CustomAlertForm import C_CustomAlertForm  # Import the custom form
 from anvil import js
 import anvil.js
 import anvil.js.window
+from anvil.js.window import document
 from anvil.js.window import updateGauge
 from anvil.js.window import playSpotify
-from anvil.js.window import createOrUpdateSpotifyPlayer
+# from anvil.js.window import createOrUpdateSpotifyPlayer
 
 from anvil_extras import routing
 from ..nav import click_link, click_button, logout, login_check, load_var, save_var
@@ -31,6 +32,7 @@ class Discover(DiscoverTemplate):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
     self.html = '@theme:Discover_Sidebar_and_JS.html'
+
     self.add_event_handler('show', self.form_show)
     
     # Any code you write here will run before the form opens.
@@ -58,14 +60,15 @@ class Discover(DiscoverTemplate):
     self.model_id = model_id
 
     temp_artist_id = self.url_dict['artist_id']
-    # print("pre if", temp_artist_id)
-    # print("pre if", temp_artist_id == 'None')
+    print("pre if", temp_artist_id)
+    print("pre if", temp_artist_id == 'None')
     if temp_artist_id == 'None':
       temp_artist_id = None
       sug = json.loads(anvil.server.call('get_suggestion', 'Inspect', self.model_id, temp_artist_id)) # Free, Explore, Inspect, Dissect
+      self.call_js('createOrUpdateSpotifyPlayer', sug["SpotifyArtistID"])
       # print(f"Discover if temp_artist_id: {temp_artist_id}")
       routing.set_url_hash(f'artists?artist_id={sug["ArtistID"]}', load_from_cache=False)
-
+      
     else:
       #begin = datetime.now()
       #print(f"{datetime.now()}: Discover - __init__ - 2", flush=True)
@@ -77,6 +80,16 @@ class Discover(DiscoverTemplate):
   def form_show(self, **event_args):
     # self.update_gauge(75)
     print("form show is running")
+
+  def spotify_HTML_player(self):
+    if self.pred:
+      c_web_player_html = '''
+        <div id="embed-iframe"></div>
+        '''
+      html_webplayer_panel = HtmlPanel(html=c_web_player_html)
+      self.spotify_player_spot.add_component(html_webplayer_panel)
+    else:
+      print("NO SELF PRED?")
 
   def custom_HTML_prediction(self):
     if self.pred:
@@ -322,6 +335,7 @@ class Discover(DiscoverTemplate):
         self.linear_panel_2.visible= False
         self.no_prediction.visible = False
       self.custom_HTML_prediction()
+      self.spotify_HTML_player()
       
       # --------
       # biography
@@ -730,16 +744,21 @@ class Discover(DiscoverTemplate):
       # id="embed-iframe">
       # </iframe>'''
       # self.spotify_player_spot.html = '@theme:Spotify_player.html'
+      print(temp_artist_id, temp_artist_id_global)
       print("This is the aritst spotifyID from discover page", sug["SpotifyArtistID"])
-      c_web_player_html = '''
-      <div id="embed-iframe"></div>
-      '''
+      # c_web_player_html = '''
+      # <div id="embed-iframe"></div>
+      # '''
       
-      html_webplayer_panel = HtmlPanel(html=c_web_player_html)
-      self.spotify_player_spot.add_component(html_webplayer_panel)
-      
-      print("SPOTIFY PLAYER SPOT RES:", self.spotify_player_spot)
-      self.call_js('createOrUpdateSpotifyPlayer', sug["SpotifyArtistID"])
+      # html_webplayer_panel = HtmlPanel(html=c_web_player_html)
+      # self.spotify_player_spot.add_component(html_webplayer_panel)
+
+      embed_iframe_element = document.getElementById('embed-iframe')
+      print(embed_iframe_element)
+      if embed_iframe_element:
+        anvil.js.call_js('createOrUpdateSpotifyPlayer', sug["SpotifyArtistID"])
+      else:
+        print("Embed iframe element not found. Will not initialize Spotify player.")
       
       # --------
       # b) Filter Button visibility
