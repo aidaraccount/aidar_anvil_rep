@@ -104,7 +104,7 @@ class Discover(DiscoverTemplate):
   # -------------------------------------------
   # SUGGESTIONS
   def refresh_sug(self, model_id, temp_artist_id, **event_args):
-    
+    print("THIS MESSAGE IS TO CHECK HOW MANY TIME THE FUNCTION IS RUNNING")
     global temp_artist_id_global
     temp_artist_id_global = temp_artist_id
     self.spacer_bottom_margin.height = 80
@@ -706,11 +706,6 @@ class Discover(DiscoverTemplate):
       # FOOTER:
       # a) Spotify Web-Player
       # self.c_web_player.html = '<iframe style="border-radius:12px" src="https://open.spotify.com/embed/artist/' + sug["SpotifyArtistID"] + '?utm_source=generator&theme=0&autoplay=true" width="100%" height="80" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"> </iframe>'
-      # self.spotify_player_spot.html = '@theme:Spotify_player.html'
-      print("This is the aritst spotifyID from discover page", sug["SpotifyArtistID"])
-      c_web_player_html = '''
-      <div id="embed-iframe"></div>
-      '''
       # c_web_player_html = f'''
       # <iframe
       # style="border-radius:12px"
@@ -727,6 +722,11 @@ class Discover(DiscoverTemplate):
       # loading="lazy"
       # id="embed-iframe">
       # </iframe>'''
+      # self.spotify_player_spot.html = '@theme:Spotify_player.html'
+      print("This is the aritst spotifyID from discover page", sug["SpotifyArtistID"])
+      c_web_player_html = '''
+      <div id="embed-iframe"></div>
+      '''
       
       html_webplayer_panel = HtmlPanel(html=c_web_player_html)
       self.spotify_player_spot.add_component(html_webplayer_panel)
