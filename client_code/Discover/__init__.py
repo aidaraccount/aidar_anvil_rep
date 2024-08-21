@@ -731,7 +731,7 @@ class Discover(DiscoverTemplate):
       html_webplayer_panel = HtmlPanel(html=c_web_player_html)
       self.spotify_player_spot.add_component(html_webplayer_panel)
       
-      print("SPOTIFY PLAYER SPOT RES:", self.spotify_player_spot.)
+      print("SPOTIFY PLAYER SPOT RES:", self.spotify_player_spot)
       self.call_js('createOrUpdateSpotifyPlayer', sug["SpotifyArtistID"])
       
       # --------
