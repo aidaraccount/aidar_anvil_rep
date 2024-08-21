@@ -713,7 +713,7 @@ class Discover(DiscoverTemplate):
       <script src="https://open.spotify.com/embed/iframe-api/v1" async></script>
       <div id="embed-iframe"></div>
       <script>
-        createOrUpdateSpotifyPlayer()
+        createOrUpdateSpotifyPlayer(5fGjyURfvKXXCTcnCfU9Dl)
       </script>
       '''
       
