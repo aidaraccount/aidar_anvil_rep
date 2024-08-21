@@ -50,6 +50,7 @@ class Discover(DiscoverTemplate):
       self.continue_now()
       
   def continue_now(self):
+    # print("!!! continue_now !!!")
     model_id = load_var("model_id")
     if model_id is None:
       save_var("model_id", anvil.server.call('get_model_id',  self.user_id))
@@ -57,15 +58,21 @@ class Discover(DiscoverTemplate):
     self.model_id = model_id
 
     temp_artist_id = self.url_dict['artist_id']
+    # print("pre if", temp_artist_id)
+    # print("pre if", temp_artist_id == 'None')
     if temp_artist_id == 'None':
       temp_artist_id = None
-    print(f"Discover temp_artist_id: {temp_artist_id}")
-    
-    #begin = datetime.now()
-    #print(f"{datetime.now()}: Discover - __init__ - 2", flush=True)
-    self.refresh_sug(self.model_id, temp_artist_id)
-    #print(f"{datetime.now()}: Discover - __init__ - 3", flush=True)
-    #print(f"TotalTime Discover: {datetime.now() - begin}", flush=True)
+      sug = json.loads(anvil.server.call('get_suggestion', 'Inspect', self.model_id, temp_artist_id)) # Free, Explore, Inspect, Dissect
+      # print(f"Discover if temp_artist_id: {temp_artist_id}")
+      routing.set_url_hash(f'artists?artist_id={sug["ArtistID"]}', load_from_cache=False)
+
+    else:
+      #begin = datetime.now()
+      #print(f"{datetime.now()}: Discover - __init__ - 2", flush=True)
+      self.refresh_sug(self.model_id, temp_artist_id)
+      #print(f"{datetime.now()}: Discover - __init__ - 3", flush=True)
+      #print(f"TotalTime Discover: {datetime.now() - begin}", flush=True)
+      # print(f"Discover else temp_artist_id: {temp_artist_id}")
   
   def form_show(self, **event_args):
     # self.update_gauge(75)
@@ -139,7 +146,7 @@ class Discover(DiscoverTemplate):
       
     else:      
 
-      routing.set_url_hash(f'artists?artist_id={sug["ArtistID"]}', load_from_cache=False)
+      #routing.set_url_hash(f'artists?artist_id={sug["ArtistID"]}', load_from_cache=False)
       
       global cur_artist_id
       cur_artist_id = sug["ArtistID"]
