@@ -707,16 +707,32 @@ class Discover(DiscoverTemplate):
       # a) Spotify Web-Player
       # self.c_web_player.html = '<iframe style="border-radius:12px" src="https://open.spotify.com/embed/artist/' + sug["SpotifyArtistID"] + '?utm_source=generator&theme=0&autoplay=true" width="100%" height="80" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"> </iframe>'
       # self.spotify_player_spot.html = '@theme:Spotify_player.html'
-      # self.c_web_player.html = ''''''
-      print("This is the aritst spotify id from the dic code", sug["SpotifyArtistID"])
+      print("This is the aritst spotifyID from discover page", sug["SpotifyArtistID"])
       c_web_player_html = '''
       <div id="embed-iframe"></div>
       '''
-      anvil.js.call_js('createOrUpdateSpotifyPlayer', '5fGjyURfvKXXCTcnCfU9Dl')
+      # c_web_player_html = f'''
+      # <iframe
+      # style="border-radius:12px"
+      # src="https://open.spotify.com/embed/artist/{sug["SpotifyArtistID"]}?utm_source=generator&theme=0&autoplay=true" 
+      # width="100%" 
+      # height="80" 
+      # frameBorder="0" 
+      # allowfullscreen="" 
+      # allow="autoplay; 
+      # clipboard-write; 
+      # encrypted-media; 
+      # fullscreen; 
+      # picture-in-picture" 
+      # loading="lazy"
+      # id="embed-iframe">
+      # </iframe>'''
       
       html_webplayer_panel = HtmlPanel(html=c_web_player_html)
       self.spotify_player_spot.add_component(html_webplayer_panel)
       
+      print("SPOTIFY PLAYER SPOT RES:", self.spotify_player_spot.)
+      self.call_js('createOrUpdateSpotifyPlayer', sug["SpotifyArtistID"])
       
       # --------
       # b) Filter Button visibility
