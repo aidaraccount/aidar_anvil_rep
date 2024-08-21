@@ -710,15 +710,13 @@ class Discover(DiscoverTemplate):
       # self.c_web_player.html = ''''''
       print("This is the aritst spotify id from the dic code", sug["SpotifyArtistID"])
       c_web_player_html = '''
-      <script src="https://open.spotify.com/embed/iframe-api/v1" async></script> 
       <div id="embed-iframe"></div>
-      <script>
-        createOrUpdateSpotifyPlayer()
-      </script>
       '''
+      anvil.js.call_js('createOrUpdateSpotifyPlayer', '5fGjyURfvKXXCTcnCfU9Dl')
       
       html_webplayer_panel = HtmlPanel(html=c_web_player_html)
       self.spotify_player_spot.add_component(html_webplayer_panel)
+      
       
       # --------
       # b) Filter Button visibility
