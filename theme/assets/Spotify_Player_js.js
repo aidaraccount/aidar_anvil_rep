@@ -1,8 +1,7 @@
 // window.addEventListener('load', function() {
-  
 var controller;
 
-function createOrUpdateSpotifyPlayer(artistSpotifyID) {
+function createOrUpdateSpotifyPlayer(trackOrArtist, artistSpotifyID) {
   const element = document.querySelector('.anvil-role-spotify-footer-class #embed-iframe');
     
   if (!element) {
@@ -17,7 +16,7 @@ function createOrUpdateSpotifyPlayer(artistSpotifyID) {
     theme: 'dark',
     width: '100%',
     height: '80',
-    uri: `spotify:artist:${artistSpotifyID}`,
+    uri: `spotify:${trackOrArtist}:${artistSpotifyID}`,
   };
   console.log(options);
 

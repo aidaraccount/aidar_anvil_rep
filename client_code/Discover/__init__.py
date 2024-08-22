@@ -79,9 +79,10 @@ class Discover(DiscoverTemplate):
     temp_artist_id = self.url_dict['artist_id']
     sug = json.loads(anvil.server.call('get_suggestion', 'Inspect', self.model_id, temp_artist_id)) # Free, Explore, Inspect, Dissect
     embed_iframe_element = document.getElementById('embed-iframe')
-    print(embed_iframe_element)
+    print("FORM SHOW 1ST PRINT", embed_iframe_element)
     if embed_iframe_element:
-      self.call_js('createOrUpdateSpotifyPlayer', sug["SpotifyArtistID"])
+      self.call_js('createOrUpdateSpotifyPlayer', 'artist', sug["SpotifyArtistID"])
+      print("FORM SHOW 2ND PRINT", embed_iframe_element)
     else:
       print("Embed iframe element not found. Will not initialize Spotify player.")
       
