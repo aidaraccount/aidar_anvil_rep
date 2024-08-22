@@ -63,28 +63,19 @@ class Discover(DiscoverTemplate):
     print("pre if", temp_artist_id == 'None')
     if temp_artist_id == 'None':
       temp_artist_id = None
-      sug = json.loads(anvil.server.call('get_suggestion', 'Inspect', self.model_id, temp_artist_id)) # Free, Explore, Inspect, Dissect
-      # self.call_js('createOrUpdateSpotifyPlayer', sug["SpotifyArtistID"])
+      # sug = json.loads(anvil.server.call('get_suggestion', 'Inspect', self.model_id, temp_artist_id)) # Free, Explore, Inspect, Dissect
       # print(f"Discover if temp_artist_id: {temp_artist_id}")
-      routing.set_url_hash(f'artists?artist_id={sug["ArtistID"]}', load_from_cache=False)
+      # routing.set_url_hash(f'artists?artist_id={sug["ArtistID"]}', load_from_cache=False)
       
-    else:
+    # else:
+    self.refresh_sug(self.model_id, temp_artist_id)
       #begin = datetime.now()
       #print(f"{datetime.now()}: Discover - __init__ - 2", flush=True)
-      self.refresh_sug(self.model_id, temp_artist_id)
       #print(f"{datetime.now()}: Discover - __init__ - 3", flush=True)
       #print(f"TotalTime Discover: {datetime.now() - begin}", flush=True)
       # print(f"Discover else temp_artist_id: {temp_artist_id}")
   
-  
   def form_show(self, **event_args):
-    # # self.update_gauge(75)
-    # model_id = load_var("model_id")
-    # if model_id is None:
-    #   save_var("model_id", anvil.server.call('get_model_id',  self.user_id))
-    # print(f"Discover model_id: {model_id}")
-    # self.model_id = model_id
-
     temp_artist_id = self.url_dict['artist_id']
     sug = json.loads(anvil.server.call('get_suggestion', 'Inspect', self.model_id, temp_artist_id)) # Free, Explore, Inspect, Dissect
     embed_iframe_element = document.getElementById('embed-iframe')
@@ -135,7 +126,9 @@ class Discover(DiscoverTemplate):
       self.column_panel_5.add_component(html_panel)
     else:
       print("NO SELF PRED?")
-      
+
+  def test_functioN(self, SpotifyTrackID):
+    print(SpotifyTrackID)
   # -------------------------------------------
   # SUGGESTIONS
   def refresh_sug(self, model_id, temp_artist_id, **event_args):
@@ -149,6 +142,8 @@ class Discover(DiscoverTemplate):
     self.Artist_Name_Details_Sidebar.clear()
     self.flow_panel_genre_tile.clear()
     self.flow_panel_social_media_tile.clear()
+    # self.column_panel_5.clear()
+    # self.spotify_player_spot.clear()
     
     if sug["Status"] == 'Empty Model!':
       alert(title='Train you Model..',
@@ -174,7 +169,7 @@ class Discover(DiscoverTemplate):
       
     else:      
 
-      #routing.set_url_hash(f'artists?artist_id={sug["ArtistID"]}', load_from_cache=False)
+      routing.set_url_hash(f'artists?artist_id={sug["ArtistID"]}', load_from_cache=False)
       
       global cur_artist_id
       cur_artist_id = sug["ArtistID"]
