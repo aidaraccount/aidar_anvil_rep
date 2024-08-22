@@ -136,6 +136,8 @@ roles:
   components: [ColumnPanel]
 - name: play-spotify-button
   components: [Button]
+- name: spotify-footer-class
+  components: [ColumnPanel]
 color_scheme:
   preset_groups:
   - name: Accent

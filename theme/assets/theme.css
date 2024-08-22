@@ -1588,5 +1588,6 @@ footer a, .footer .anvil-component {
   box-shadow: none;
   text-shadow: none;
   transition: 0.5s;
-  margin: 10px 0 0 0;
 }
+
+.anvil-role-spotify-footer-class {}

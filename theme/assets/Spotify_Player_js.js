@@ -1,7 +1,9 @@
+// window.addEventListener('load', function() {
+  
 var controller;
 
 function createOrUpdateSpotifyPlayer(artistSpotifyID) {
-  const element = document.getElementById('embed-iframe');
+  const element = document.querySelector('.anvil-role-spotify-footer-class #embed-iframe');
     
   if (!element) {
     console.error("ERROR MESSAGE: Embed iframe element not found.")
@@ -38,3 +40,5 @@ function createOrUpdateSpotifyPlayer(artistSpotifyID) {
     };
   }
 }
+
+// });

@@ -4,7 +4,7 @@ container:
   properties: {role: rows_discover_page_no_image_table}
 components:
 - name: column_panel_1
-  properties: {}
+  properties: {spacing_above: none, spacing_below: none}
   type: ColumnPanel
   layout_properties: {column: JKSDUP}
   components:
@@ -15,7 +15,7 @@ components:
     data_bindings:
     - {property: text, code: 'self.item[''AlbumReleaseDate'']', writeback: false}
 - name: button_play_track
-  properties: {text: '', icon: 'fa:play-circle', role: play-spotify-button}
+  properties: {text: '', icon: 'fa:play-circle', role: play-spotify-button, spacing_above: none, spacing_below: none}
   type: Button
   layout_properties: {column: RAPPVC}
   event_bindings: {click: button_play_track_click}
