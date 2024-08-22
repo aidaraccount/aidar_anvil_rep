@@ -78,12 +78,12 @@ class Discover(DiscoverTemplate):
   
   
   def form_show(self, **event_args):
-    # self.update_gauge(75)
-    model_id = load_var("model_id")
-    if model_id is None:
-      save_var("model_id", anvil.server.call('get_model_id',  self.user_id))
-    print(f"Discover model_id: {model_id}")
-    self.model_id = model_id
+    # # self.update_gauge(75)
+    # model_id = load_var("model_id")
+    # if model_id is None:
+    #   save_var("model_id", anvil.server.call('get_model_id',  self.user_id))
+    # print(f"Discover model_id: {model_id}")
+    # self.model_id = model_id
 
     temp_artist_id = self.url_dict['artist_id']
     sug = json.loads(anvil.server.call('get_suggestion', 'Inspect', self.model_id, temp_artist_id)) # Free, Explore, Inspect, Dissect
