@@ -1579,4 +1579,14 @@ footer a, .footer .anvil-component {
 /* CSS for Fit Likelihood on the Discover Page ENDS Here */
 
 /* This is to provide class for the play/pause buttons on the Discover page */
-.anvil-role-play-spotify-button {}
+.anvil-role-play-spotify-button button {
+  font-family: Gs-regular;
+  font-size: 24px;
+  color: #E95F30;
+  background: transparent;
+  border: 0px;
+  box-shadow: none;
+  text-shadow: none;
+  transition: 0.5s;
+  margin: 10px 0 0 0;
+}
