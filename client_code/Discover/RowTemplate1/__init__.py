@@ -19,4 +19,4 @@ class RowTemplate1(RowTemplate1Template):
     anvil.js.call_js('playSpotify')
     print(self.item["SpotifyTrackID"])
     print(self.parent.parent.parent.parent.parent.parent)
-    self.parent.parent.parent.parent.parent.parent.test_functioN(self.item["SpotifyTrackID"])
+    self.parent.parent.parent.parent.parent.parent.

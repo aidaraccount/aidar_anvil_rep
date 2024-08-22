@@ -127,8 +127,6 @@ class Discover(DiscoverTemplate):
     else:
       print("NO SELF PRED?")
 
-  def test_functioN(self, SpotifyTrackID):
-    print(SpotifyTrackID)
   # -------------------------------------------
   # SUGGESTIONS
   def refresh_sug(self, model_id, temp_artist_id, **event_args):
