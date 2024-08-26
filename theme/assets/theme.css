@@ -191,6 +191,11 @@ body, html {
   justify-items: left;
   border-bottom: 1px solid rgba(128,110,137, 0.4);
 }
+
+.data-row-col[data-grid-id="5"][data-grid-col-id="RAPPVC"] {
+  flex-grow: 0.2;
+}
+
 .anvil-role-cover_page {
   padding: 0px 0px 0px;
   align-items: center;
@@ -1589,9 +1594,17 @@ footer a, .footer .anvil-component {
   text-shadow: none;
   transition: 0.5s;
 }
-
-.anvil-role-play-spotify-button {
-  width:30px;
+.anvil-role-play-spotify-button > button:hover {
+  background: transparent;
+  color: #BA7305;
+}
+.anvil-role-play-spotify-button > button:focus{
+  background: transparent;
+  color: #E95F30;
+}
+.anvil-role-play-spotify-button > button:active{
+  background: transparent;
+  color: #E95F30;
 }
 
 .anvil-role-spotify-footer-class {}
