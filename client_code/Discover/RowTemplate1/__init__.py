@@ -18,9 +18,29 @@ class RowTemplate1(RowTemplate1Template):
     # Any code you write here will run before the form opens.
 
   def button_play_track_click(self, **event_args):
-    self.parent.parent.parent.parent.parent.parent.spotify_player_spot.clear()
-    self.parent.parent.parent.parent.parent.parent.spotify_HTML_player()
-    print(self.item["SpotifyTrackID"])
+    isplaying = False
+    
+    if self.button_play_track.icon == 'fa:play-circle' and isplaying is False:
+      self.button_play_track.icon = 'fa:pause-circle'
+      isplaying = True
+      self.parent.parent.parent.parent.parent.parent.spotify_player_spot.clear()
+      self.parent.parent.parent.parent.parent.parent.spotify_HTML_player()
+      print(self.item["SpotifyTrackID"])
+      self.parent.parent.parent.parent.parent.parent.call_js('createOrUpdateSpotifyPlayer', 'track', self.item["SpotifyTrackID"])
+      anvil.js.call_js('playSpotify')
+    
+    elif self.button_play_track.icon == 'fa:pause-circle' and isplaying is True:
+      self.button_play_track.icon = 'fa:play-circle'
+      anvil.js.call_js('playSpotify')
+
+    elif self.button_play_track.icon == 'fa:play-circle' and isplaying is True:
+      self.button_play_track.icon = 'fa:pause-circle'
+      anvil.js.call_js('playSpotify')
+
+    else:
+      anvil.js.call_js('playSpotify')
+      
+
     # print(self.parent.parent.parent.parent.parent.parent)
     # self.parent.parent.parent.parent.parent.parent.
     # temp_artist_id = self.parent.parent.parent.parent.parent.parent.url_dict['artist_id']
@@ -28,5 +48,3 @@ class RowTemplate1(RowTemplate1Template):
     # sug = json.loads(anvil.server.call('get_suggestion', 'Inspect', model_id, temp_artist_id)) # Free, Explore, Inspect, Dissect
     # embed_iframe_element_template = document.getElementById('embed-iframe')
     # print("FORM SHOW FROM PARENT", embed_iframe_element_template)
-    self.parent.parent.parent.parent.parent.parent.call_js('createOrUpdateSpotifyPlayer', 'track', self.item["SpotifyTrackID"])
-    anvil.js.call_js('playSpotify')
