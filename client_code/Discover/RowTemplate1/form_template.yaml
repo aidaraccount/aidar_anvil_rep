@@ -15,7 +15,7 @@ components:
     data_bindings:
     - {property: text, code: 'self.item[''AlbumReleaseDate'']', writeback: false}
 - name: button_play_track
-  properties: {text: '', icon: 'fa:play-circle', role: play-spotify-button, spacing_above: none, spacing_below: none, visible: true}
+  properties: {text: '', icon: 'fa:play-circle', role: play-spotify-button, spacing_above: none, spacing_below: none, visible: true, align: center}
   type: Button
   layout_properties: {column: RAPPVC}
   event_bindings: {click: button_play_track_click}
