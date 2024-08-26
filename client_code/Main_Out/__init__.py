@@ -36,15 +36,19 @@ class Main_Out(Main_OutTemplate):
     #print(f"{datetime.datetime.now()}: Main_Out - link_login_click - 2", flush=True)
     user = anvil.users.get_user()
     #print(f"{datetime.datetime.now()}: Main_Out - link_login_click - 3", flush=True)
+    print(user)
+    print(user is not None)
     if user is not None:
       try:
         anvil.server.call("server_transfer_user_id")
         #print(f"{datetime.datetime.now()}: Main_Out - link_login_click - 4", flush=True)
-        save_var("user_id", user["user_id"])
-        save_var("model_id", anvil.server.call('get_model_id',  user["user_id"]))
+        if user["user_id"] is not None:
+          save_var("user_id", user["user_id"])
+          save_var("model_id", anvil.server.call('get_model_id',  user["user_id"]))
         #print(f"{datetime.datetime.now()}: Main_Out - link_login_click - 5", flush=True)
         open_form("Main_In")
-      
+
+        print("location.hash", location.hash)
         if location.hash == '':
           routing.set_url_hash('home', load_from_cache=False)
         elif location.hash[:8] == '#artists':
@@ -66,8 +70,9 @@ class Main_Out(Main_OutTemplate):
       if user is not None:
         try:
           anvil.server.call("server_transfer_user_id")
-          save_var("user_id", user["user_id"])
-          save_var("model_id", anvil.server.call('get_model_id',  user["user_id"]))
+          if user["user_id"] is not None:
+            save_var("user_id", user["user_id"])
+            save_var("model_id", anvil.server.call('get_model_id',  user["user_id"]))
           open_form("Main_In")
         
           if location.hash == '':
@@ -77,7 +82,7 @@ class Main_Out(Main_OutTemplate):
             
         except:
           alert(
-            title="Unveiling New Features!",
+            title="Unveiling New Features!!",
             content="Apologies for any inconvenience caused.\n\nWe are presently integrating new features and will have the site accessible again shortly.\n\nFeel free to contact us via email at info@aidar.ai.\n\nThank you,\nYour AIDAR Team",
           )
     except:

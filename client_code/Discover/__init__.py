@@ -107,6 +107,7 @@ class Discover(DiscoverTemplate):
     temp_artist_id_global = temp_artist_id
     self.spacer_bottom_margin.height = 80
     sug = json.loads(anvil.server.call('get_suggestion', 'Inspect', self.model_id, temp_artist_id)) # Free, Explore, Inspect, Dissect
+    print(sug)
     
     self.Artist_Name_Details.clear()
     self.Artist_Name_Details_Sidebar.clear()
