@@ -18,8 +18,10 @@ class RowTemplate1(RowTemplate1Template):
     # Any code you write here will run before the form opens.
 
   def button_play_track_click(self, **event_args):
+    self.parent.parent.parent.parent.parent.parent.spotify_player_spot.clear()
+    self.parent.parent.parent.parent.parent.parent.spotify_HTML_player()
     print(self.item["SpotifyTrackID"])
-    print(self.parent.parent.parent.parent.parent.parent)
+    # print(self.parent.parent.parent.parent.parent.parent)
     # self.parent.parent.parent.parent.parent.parent.
     # temp_artist_id = self.parent.parent.parent.parent.parent.parent.url_dict['artist_id']
     # model_id = self.parent.parent.parent.parent.parent.parent.model_id

@@ -142,7 +142,7 @@ class Discover(DiscoverTemplate):
     self.flow_panel_genre_tile.clear()
     self.flow_panel_social_media_tile.clear()
     # self.column_panel_5.clear()
-    # self.spotify_player_spot.clear()
+    self.spotify_player_spot.clear()
     
     if sug["Status"] == 'Empty Model!':
       alert(title='Train you Model..',
