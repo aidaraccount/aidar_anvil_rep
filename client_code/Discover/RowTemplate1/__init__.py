@@ -18,34 +18,33 @@ class RowTemplate1(RowTemplate1Template):
     # Any code you write here will run before the form opens.
 
   def button_play_track_click(self, **event_args):
-    global isplaying 
-    isplaying = False
+    self.isplaying = False
     
-    if self.button_play_track.icon == 'fa:play-circle' and isplaying is False:
+    if self.button_play_track.icon == 'fa:play-circle' and self.isplaying is False:
       self.button_play_track.icon = 'fa:pause-circle'
-      print("if 1 before:", isplaying)
-      isplaying = True
-      print("if 1 after:",isplaying)
+      print("if 1 before:", self.isplaying)
+      self.isplaying = True
+      print("if 1 after:",self.isplaying)
       self.parent.parent.parent.parent.parent.parent.spotify_player_spot.clear()
       self.parent.parent.parent.parent.parent.parent.spotify_HTML_player()
       print(self.item["SpotifyTrackID"])
       self.parent.parent.parent.parent.parent.parent.call_js('createOrUpdateSpotifyPlayer', 'track', self.item["SpotifyTrackID"])
       anvil.js.call_js('playSpotify')
     
-    elif self.button_play_track.icon == 'fa:pause-circle' and isplaying is True:
-      print("elif 1 before:", self.button_play_track.icon, isplaying)
+    elif self.button_play_track.icon == 'fa:pause-circle' and self.isplaying is True:
+      print("elif 1 before:", self.button_play_track.icon, self.isplaying)
       self.button_play_track.icon = 'fa:play-circle'
-      print("elif 1 after:", self.button_play_track.icon, isplaying)
+      print("elif 1 after:", self.button_play_track.icon, self.isplaying)
       anvil.js.call_js('playSpotify')
 
-    elif self.button_play_track.icon == 'fa:play-circle' and isplaying is True:
-      print("elif 2 before:", self.button_play_track.icon, isplaying)
+    elif self.button_play_track.icon == 'fa:play-circle' and self.isplaying is True:
+      print("elif 2 before:", self.button_play_track.icon, self.isplaying)
       self.button_play_track.icon = 'fa:pause-circle'
-      print("elif 2 after:", self.button_play_track.icon, isplaying)
+      print("elif 2 after:", self.button_play_track.icon, self.isplaying)
       anvil.js.call_js('playSpotify')
 
     else:
-      print("else statement", isplaying)
+      print("else statement", self.isplaying)
       self.button_play_track.icon = 'fa:play-circle'
       
 
