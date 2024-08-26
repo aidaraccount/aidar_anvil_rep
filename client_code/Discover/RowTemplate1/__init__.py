@@ -18,11 +18,14 @@ class RowTemplate1(RowTemplate1Template):
     # Any code you write here will run before the form opens.
 
   def button_play_track_click(self, **event_args):
+    global isplaying 
     isplaying = False
     
     if self.button_play_track.icon == 'fa:play-circle' and isplaying is False:
       self.button_play_track.icon = 'fa:pause-circle'
+      print("if 1 before:", isplaying)
       isplaying = True
+      print("if 1 after:",isplaying)
       self.parent.parent.parent.parent.parent.parent.spotify_player_spot.clear()
       self.parent.parent.parent.parent.parent.parent.spotify_HTML_player()
       print(self.item["SpotifyTrackID"])
@@ -30,15 +33,20 @@ class RowTemplate1(RowTemplate1Template):
       anvil.js.call_js('playSpotify')
     
     elif self.button_play_track.icon == 'fa:pause-circle' and isplaying is True:
+      print("elif 1 before:", self.button_play_track.icon, isplaying)
       self.button_play_track.icon = 'fa:play-circle'
+      print("elif 1 after:", self.button_play_track.icon, isplaying)
       anvil.js.call_js('playSpotify')
 
     elif self.button_play_track.icon == 'fa:play-circle' and isplaying is True:
+      print("elif 2 before:", self.button_play_track.icon, isplaying)
       self.button_play_track.icon = 'fa:pause-circle'
+      print("elif 2 after:", self.button_play_track.icon, isplaying)
       anvil.js.call_js('playSpotify')
 
     else:
-      anvil.js.call_js('playSpotify')
+      print("else statement", isplaying)
+      self.button_play_track.icon = 'fa:play-circle'
       
 
     # print(self.parent.parent.parent.parent.parent.parent)
