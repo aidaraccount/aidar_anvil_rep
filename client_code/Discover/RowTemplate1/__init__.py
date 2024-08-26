@@ -9,49 +9,32 @@ from anvil.js.window import playSpotify
 import json
 from anvil.js.window import document
 
+from ...nav import click_link, click_button, load_var, save_var
+
+
 
 class RowTemplate1(RowTemplate1Template):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
-
+    
     # Any code you write here will run before the form opens.
 
   def button_play_track_click(self, **event_args):
-    isplaying = False
-    
-    if self.button_play_track.icon == 'fa:play-circle' and isplaying is False:
-      self.button_play_track.icon = 'fa:pause-circle'
-      print("if 1 before:", isplaying)
-      isplaying = True
-      print("if 1 after:",isplaying)
+
+    if load_var("lastplayed") != self.item["SpotifyTrackID"]:
       self.parent.parent.parent.parent.parent.parent.spotify_player_spot.clear()
       self.parent.parent.parent.parent.parent.parent.spotify_HTML_player()
-      print(self.item["SpotifyTrackID"])
       self.parent.parent.parent.parent.parent.parent.call_js('createOrUpdateSpotifyPlayer', 'track', self.item["SpotifyTrackID"])
       anvil.js.call_js('playSpotify')
-    
-    elif self.button_play_track.icon == 'fa:pause-circle' and isplaying is True:
-      print("elif 1 before:", self.button_play_track.icon, isplaying)
-      self.button_play_track.icon = 'fa:play-circle'
-      print("elif 1 after:", self.button_play_track.icon, isplaying)
-      anvil.js.call_js('playSpotify')
-
-    elif self.button_play_track.icon == 'fa:play-circle' and isplaying is True:
-      print("elif 2 before:", self.button_play_track.icon, isplaying)
-      self.button_play_track.icon = 'fa:pause-circle'
-      print("elif 2 after:", self.button_play_track.icon, isplaying)
-      anvil.js.call_js('playSpotify')
-
+ 
     else:
-      print("else statement", isplaying)
-      self.button_play_track.icon = 'fa:play-circle'
-      
+      anvil.js.call_js('playSpotify')
 
-    # print(self.parent.parent.parent.parent.parent.parent)
-    # self.parent.parent.parent.parent.parent.parent.
-    # temp_artist_id = self.parent.parent.parent.parent.parent.parent.url_dict['artist_id']
-    # model_id = self.parent.parent.parent.parent.parent.parent.model_id
-    # sug = json.loads(anvil.server.call('get_suggestion', 'Inspect', model_id, temp_artist_id)) # Free, Explore, Inspect, Dissect
-    # embed_iframe_element_template = document.getElementById('embed-iframe')
-    # print("FORM SHOW FROM PARENT", embed_iframe_element_template)
+    self.lastplayed = self.item["SpotifyTrackID"]
+    save_var('lastplayed', self.item["SpotifyTrackID"])
+
+    if self.button_play_track.icon == 'fa:play-circle':
+      self.button_play_track.icon = 'fa:pause-circle'
+    else:
+      self.button_play_track.icon = 'fa:play-circle'
