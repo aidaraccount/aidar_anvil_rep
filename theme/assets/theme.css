@@ -191,7 +191,7 @@ body, html {
   justify-items: left;
   border-bottom: 1px solid rgba(128,110,137, 0.4);
 }
-.anvil-role-rows_discover_page {
+.anvil-role-cover_page {
   padding: 0px 0px 0px;
   align-items: center;
   justify-items: left;
@@ -1588,6 +1588,10 @@ footer a, .footer .anvil-component {
   box-shadow: none;
   text-shadow: none;
   transition: 0.5s;
+}
+
+.anvil-role-play-spotify-button {
+  width:30px;
 }
 
 .anvil-role-spotify-footer-class {}
