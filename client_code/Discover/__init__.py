@@ -335,6 +335,7 @@ class Discover(DiscoverTemplate):
         self.linear_panel_2.visible= True
         self.no_prediction.visible = True
         self.pred = None
+        print("Prediciton is not available")
       else:
         if (float(sug["Prediction"]) > 7):
           self.pred = '100%'
@@ -349,6 +350,7 @@ class Discover(DiscoverTemplate):
         self.prediction_text.visible = False
         self.linear_panel_2.visible= False
         self.no_prediction.visible = False
+        print("Prediciton is available")
       self.custom_HTML_prediction()
       self.spotify_HTML_player()
       
