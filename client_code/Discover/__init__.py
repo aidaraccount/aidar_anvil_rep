@@ -34,6 +34,7 @@ class Discover(DiscoverTemplate):
     self.init_components(**properties)
     self.html = '@theme:Discover_Sidebar_and_JS.html'
     self.add_event_handler('show', self.form_show)
+    # self.add_event_handler('show', self.play_spotify)
     
     # Any code you write here will run before the form opens.
     global user
@@ -82,12 +83,15 @@ class Discover(DiscoverTemplate):
     embed_iframe_element = document.getElementById('embed-iframe')
     if embed_iframe_element:
       self.call_js('createOrUpdateSpotifyPlayer', 'artist', sug["SpotifyArtistID"])
+      self.call_js('playSpotify_2')
     else:
       print("Embed iframe element not found. Will not initialize Spotify player.")
 
-    self.call_js('playSpotify_2')
     print("form show is running")
 
+  # def play_spotify(self, **event_args):
+  #   self.call_js('playSpotify_2')
+    
   def spotify_HTML_player(self):
     if self.pred:
       c_web_player_html = '''
