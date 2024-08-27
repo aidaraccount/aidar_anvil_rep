@@ -327,6 +327,7 @@ class Discover(DiscoverTemplate):
 
       # --------
       # prediction
+      print(sug["Prediction"])
       if (str(sug["Prediction"]) == 'nan') or (str(sug["Prediction"]) == 'None'):
         self.prediction.visible = False
         self.prediction_text.visible = False
@@ -341,6 +342,7 @@ class Discover(DiscoverTemplate):
           self.pred = '0%'
         else: 
           self.pred = "{:.2f}".format(round(float(sug["Prediction"])/7*100,0))
+        print(self.pred)
         self.prediction.text = self.pred
         # should delete prediction and prediction_Text visible from here
         self.prediction.visible = False
