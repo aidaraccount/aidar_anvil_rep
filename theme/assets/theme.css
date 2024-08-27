@@ -1608,26 +1608,8 @@ footer a, .footer .anvil-component {
 }
 
 .anvil-role-play-spotify-button-artist button {
-  font-family: Gs-regular;
-  font-size: 24px;
-  color: #E95F30;
-  background: transparent;
-  border: 0px;
-  box-shadow: none;
-  text-shadow: none;
-  transition: 0.5s;
+  font-size: 44px;
 }
-.anvil-role-play-spotify-button-artist > button:hover {
-  background: transparent;
-  color: #BA7305;
-}
-.anvil-role-play-spotify-button > button:focus{
-  background: transparent;
-  color: #E95F30;
-}
-.anvil-role-play-spotify-button > button:active{
-  background: transparent;
-  color: #E95F30;
-}
+
 
 .anvil-role-spotify-footer-class {}
