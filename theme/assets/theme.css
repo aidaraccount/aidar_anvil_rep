@@ -1607,7 +1607,7 @@ footer a, .footer .anvil-component {
   color: #E95F30;
 }
 
-.anvil-role-play-spotify-button- button {
+.anvil-role-play-spotify-button-artist button {
   font-family: Gs-regular;
   font-size: 24px;
   color: #E95F30;
@@ -1617,7 +1617,7 @@ footer a, .footer .anvil-component {
   text-shadow: none;
   transition: 0.5s;
 }
-.anvil-role-play-spotify-button > button:hover {
+.anvil-role-play-spotify-button-artist > button:hover {
   background: transparent;
   color: #BA7305;
 }
