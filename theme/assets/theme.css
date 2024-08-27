@@ -536,7 +536,7 @@ body, html {
   align-items: center;
 }
 .anvil-role-tile-background-left .anvil-panel-col-SKLDLY.wrap-mobile {
-  margin: 1% 1% 5% 0;
+  margin: 1% 1% 2% 0;
 }
 .anvil-role-tile-background .anvil-panel-row-MEAAVE.wrap-mobile {
   margin: 15px 0 0 0;
@@ -1585,6 +1585,29 @@ footer a, .footer .anvil-component {
 
 /* This is to provide class for the play/pause buttons on the Discover page */
 .anvil-role-play-spotify-button button {
+  font-family: Gs-regular;
+  font-size: 24px;
+  color: #E95F30;
+  background: transparent;
+  border: 0px;
+  box-shadow: none;
+  text-shadow: none;
+  transition: 0.5s;
+}
+.anvil-role-play-spotify-button > button:hover {
+  background: transparent;
+  color: #BA7305;
+}
+.anvil-role-play-spotify-button > button:focus{
+  background: transparent;
+  color: #E95F30;
+}
+.anvil-role-play-spotify-button > button:active{
+  background: transparent;
+  color: #E95F30;
+}
+
+.anvil-role-play-spotify-button- button {
   font-family: Gs-regular;
   font-size: 24px;
   color: #E95F30;
