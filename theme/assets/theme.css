@@ -192,7 +192,10 @@ body, html {
   border-bottom: 1px solid rgba(128,110,137, 0.4);
 }
 
-.data-row-col[data-grid-id="5"][data-grid-col-id="RAPPVC"] {
+/* .anvil-role-rows_discover_page_no_image_table > .data-row-col[data-grid-col-id="RAPPVC"] {
+  flex-grow: 0.2;
+} */
+.data-row-col[data-grid-col-id="RAPPVC"]{ 
   flex-grow: 0.2;
 }
 
