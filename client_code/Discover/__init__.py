@@ -1672,6 +1672,12 @@ class Discover(DiscoverTemplate):
   def button_track_test_click(self, track_id=None, **event_args):
     # print(track_id)
     anvil.js.call_js('playSpotify')
+
+  def spotify_artist_button_click(self, **event_args):
+    if self.spotify_artist_button.icon == 'fa:play-circle':
+      self.spotify_artist_button.icon = 'fa:pause-circle'
+    else:
+      self.spotify_artist_button.icon = 'fa:play-circle'
    
     
     
