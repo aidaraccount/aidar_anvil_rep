@@ -9,7 +9,7 @@ import random
 import string
 
 from anvil_extras import routing
-from ..nav import click_link, click_button
+from ..nav import click_link, click_button, save_var
 
 from ..C_AddRefArtists import C_AddRefArtists
 
@@ -40,7 +40,9 @@ class CreateModel(CreateModelTemplate):
       if (status == 'Congratulations, your Model was successfully created!'):
         # refresh model_id
         model_id = anvil.server.call('get_model_id',  user["user_id"])
-        
+        anvil.server.call('update_model_usage', user["user_id"], model_id)
+        save_var('model_id', model_id)
+    
         # continue to add ref artists
         alert(title='Congratulations..',
           content="your Model was successfully created!\n\nNow, let's set your model up by adding some artists as reference.")        
@@ -48,6 +50,7 @@ class CreateModel(CreateModelTemplate):
         
         # refresh models components
         get_open_form().refresh_models_components()
+        get_open_form().change_nav_visibility(status=True)
         
       else:
         alert(title='Error..', content=status)

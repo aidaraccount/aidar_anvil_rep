@@ -36,6 +36,9 @@ class ModelProfile(ModelProfileTemplate):
     # Any code you write here will run before the form opens.
     global user
     user = anvil.users.get_user()
+
+    model_id_active_new = anvil.server.call('get_model_id', user["user_id"])
+    print(f"ModelProfile model_id_active_new: {model_id_active_new}")
     
     # initial visibile settings
     self.model_name_text.visible = False
@@ -71,8 +74,10 @@ class ModelProfile(ModelProfileTemplate):
     self.status.text = infos["status"]
 
     # activate button
-    model_id_active_new = anvil.server.call('get_model_id', user["user_id"])
-    if self.model_id_view == model_id_active_new:
+    print(type(self.model_id_view))
+    print(type(model_id_active_new))
+    print(int(self.model_id_view) == int(model_id_active_new))
+    if int(self.model_id_view) == int(model_id_active_new):
       self.activated.visible = True
       self.activate.visible = False
     else:
