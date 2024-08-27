@@ -83,7 +83,7 @@ class Discover(DiscoverTemplate):
     embed_iframe_element = document.getElementById('embed-iframe')
     if embed_iframe_element:
       self.call_js('createOrUpdateSpotifyPlayer', 'artist', sug["SpotifyArtistID"])
-      self.call_js('playSpotify_2')
+      # self.call_js('playSpotify_2')
     else:
       print("Embed iframe element not found. Will not initialize Spotify player.")
 
