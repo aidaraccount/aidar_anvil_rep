@@ -18,6 +18,7 @@ import anvil.js.window
 from anvil.js.window import document
 from anvil.js.window import updateGauge
 from anvil.js.window import playSpotify
+from anvil.js.window import playSpotify_2
 # from anvil.js.window import createOrUpdateSpotifyPlayer
 
 from anvil_extras import routing
@@ -79,13 +80,12 @@ class Discover(DiscoverTemplate):
     temp_artist_id = self.url_dict['artist_id']
     sug = json.loads(anvil.server.call('get_suggestion', 'Inspect', self.model_id, temp_artist_id)) # Free, Explore, Inspect, Dissect
     embed_iframe_element = document.getElementById('embed-iframe')
-    print("FORM SHOW 1ST PRINT", embed_iframe_element)
     if embed_iframe_element:
       self.call_js('createOrUpdateSpotifyPlayer', 'artist', sug["SpotifyArtistID"])
-      print("FORM SHOW 2ND PRINT", embed_iframe_element)
     else:
       print("Embed iframe element not found. Will not initialize Spotify player.")
-      
+
+    self.call_js('playSpotify_2')
     print("form show is running")
 
   def spotify_HTML_player(self):
