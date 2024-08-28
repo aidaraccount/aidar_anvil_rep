@@ -197,7 +197,8 @@ class ModelProfile(ModelProfileTemplate):
     anvil.server.call('update_model_usage', user["user_id"], self.model_id_view)
     save_var('model_id', self.model_id_view)
     get_open_form().refresh_models_underline()
-    click_button('artists?artist_id=None', event_args)
+    temp_artist_id = anvil.server.call('get_next_artist_id', self.model_id_view)
+    click_button(f'artists?artist_id={temp_artist_id}', event_args)
     
   def retrain_click(self, **event_args):
     res = anvil.server.call('retrain_model', self.model_id_view)

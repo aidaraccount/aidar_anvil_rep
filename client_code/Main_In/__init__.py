@@ -214,7 +214,8 @@ class Main_In(Main_InTemplate):
       self.link_discover_name.visible = False
   
   def link_discover_ai_click(self, temp_artist_id=None, **event_args):
-    click_link(self.link_discover_ai, 'artists?artist_id=None', event_args)
+    artist_id = anvil.server.call('get_next_artist_id', self.model_id)
+    click_link(self.link_discover_ai, f'artists?artist_id={artist_id}', event_args)
     self.reset_nav_backgrounds()
     self.link_discover_ai.background = "theme:Accent 2"
 

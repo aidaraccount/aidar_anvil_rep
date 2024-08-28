@@ -47,35 +47,11 @@ class Discover(DiscoverTemplate):
         open_form('Main_Out')
       else:
         self.user_id = load_var('user_id')
-        self.continue_now()
+        self.refresh_sug()
     else:
       self.user_id = user["user_id"]
-      self.continue_now()
-      
-  def continue_now(self):
-    # print("!!! continue_now !!!")
-    model_id = load_var("model_id")
-    if model_id is None:
-      save_var("model_id", anvil.server.call('get_model_id',  self.user_id))
-    print(f"Discover model_id: {model_id}")
-    self.model_id = model_id
+      self.refresh_sug()
 
-    temp_artist_id = self.url_dict['artist_id']
-    print("pre if", temp_artist_id)
-    print("pre if", temp_artist_id == 'None')
-    if temp_artist_id == 'None':
-      temp_artist_id = None
-      # sug = json.loads(anvil.server.call('get_suggestion', 'Inspect', self.model_id, temp_artist_id)) # Free, Explore, Inspect, Dissect
-      # print(f"Discover if temp_artist_id: {temp_artist_id}")
-      # routing.set_url_hash(f'artists?artist_id={sug["ArtistID"]}', load_from_cache=False)
-      
-    # else:
-    self.refresh_sug(self.model_id, temp_artist_id)
-      #begin = datetime.now()
-      #print(f"{datetime.now()}: Discover - __init__ - 2", flush=True)
-      #print(f"{datetime.now()}: Discover - __init__ - 3", flush=True)
-      #print(f"TotalTime Discover: {datetime.now() - begin}", flush=True)
-      # print(f"Discover else temp_artist_id: {temp_artist_id}")
   
   def form_show(self, **event_args):
     temp_artist_id = self.url_dict['artist_id']
@@ -134,12 +110,26 @@ class Discover(DiscoverTemplate):
 
   # -------------------------------------------
   # SUGGESTIONS
-  def refresh_sug(self, model_id, temp_artist_id, **event_args):
+  def refresh_sug(self, **event_args):
     print("THIS MESSAGE IS TO CHECK HOW MANY TIME THE FUNCTION IS RUNNING")
+    #begin = datetime.now()
+    #print(f"{datetime.now()}: Discover - __init__ - 2", flush=True)
+    #print(f"{datetime.now()}: Discover - __init__ - 3", flush=True)
+    #print(f"TotalTime Discover: {datetime.now() - begin}", flush=True)
+
+    model_id = load_var("model_id")
+    if model_id is None:
+      save_var("model_id", anvil.server.call('get_model_id',  self.user_id))
+    print(f"Discover model_id: {model_id}")
+    self.model_id = model_id
+
+    temp_artist_id = self.url_dict['artist_id']
+    sug = json.loads(anvil.server.call('get_suggestion', 'Inspect', self.model_id, temp_artist_id)) # Free, Explore, Inspect, Dissect
+    self.sug = sug
+    
     global temp_artist_id_global
     temp_artist_id_global = temp_artist_id
     self.spacer_bottom_margin.height = 80
-    sug = json.loads(anvil.server.call('get_suggestion', 'Inspect', self.model_id, temp_artist_id)) # Free, Explore, Inspect, Dissect
     
     self.Artist_Name_Details.clear()
     self.Artist_Name_Details_Sidebar.clear()
@@ -163,16 +153,13 @@ class Discover(DiscoverTemplate):
       self.visible = False
       if result == "FILTERS":
         click_button(f'model_profile?model_id={self.model_id}&section=Filter', event_args)
-        
-    
+            
     elif sug["Status"] == 'Free Limit Reached!':
       alert(title='Free Limit Reached..',
         content="Sorry, the free version is limited in the number of suggested artists - if you're interested in continuing, please upgrade to one of our subscription plans.\n\nFor any questions, please contact us at info@aidar.ai\n\nYour AIDAR Team")
       self.visible = False
       
-    else:      
-
-      routing.set_url_hash(f'artists?artist_id={sug["ArtistID"]}', load_from_cache=False)
+    else:
       
       global cur_artist_id
       cur_artist_id = sug["ArtistID"]
@@ -327,7 +314,6 @@ class Discover(DiscoverTemplate):
 
       # --------
       # prediction
-      print(sug["Prediction"])
       if (str(sug["Prediction"]) == 'nan') or (str(sug["Prediction"]) == 'None'):
         self.prediction.visible = False
         self.prediction_text.visible = False
@@ -335,7 +321,6 @@ class Discover(DiscoverTemplate):
         self.linear_panel_2.visible= True
         self.no_prediction.visible = True
         self.pred = None
-        print("Prediciton is not available")
       else:
         if (float(sug["Prediction"]) > 7):
           self.pred = '100%'
@@ -343,14 +328,12 @@ class Discover(DiscoverTemplate):
           self.pred = '0%'
         else: 
           self.pred = "{:.2f}".format(round(float(sug["Prediction"])/7*100,0))
-        print(self.pred)
         self.prediction.text = self.pred
         # should delete prediction and prediction_Text visible from here
         self.prediction.visible = False
         self.prediction_text.visible = False
         self.linear_panel_2.visible= False
         self.no_prediction.visible = False
-        print("Prediciton is available")
       self.custom_HTML_prediction()
       self.spotify_HTML_player()
       
@@ -761,8 +744,6 @@ class Discover(DiscoverTemplate):
       # id="embed-iframe">
       # </iframe>'''
       # self.spotify_player_spot.html = '@theme:Spotify_player.html'
-      print(temp_artist_id, temp_artist_id_global)
-      print("This is the aritst spotifyID from discover page", sug["SpotifyArtistID"])
       # c_web_player_html = '''
       # <div id="embed-iframe"></div>
       # '''
@@ -771,7 +752,6 @@ class Discover(DiscoverTemplate):
       # self.spotify_player_spot.add_component(html_webplayer_panel)
 
       # embed_iframe_element = document.getElementById('embed-iframe')
-      # print(embed_iframe_element)
       # if embed_iframe_element:
       #   self.call_js('createOrUpdateSpotifyPlayer', sug["SpotifyArtistID"])
       # else:
@@ -1382,37 +1362,51 @@ class Discover(DiscoverTemplate):
   def button_1_click(self, **event_args):
     anvil.server.call('add_interest', user["user_id"], self.model_id, artist_id, 1, False, '')
     self.header.scroll_into_view(smooth=True)
-    self.refresh_sug(self.model_id, temp_artist_id=None)
+    temp_artist_id = anvil.server.call('get_next_artist_id', self.model_id)
+    routing.set_url_hash(f'artists?artist_id={temp_artist_id}', load_from_cache=False)
+    # self.refresh_sug(self.model_id, temp_artist_id=None)
 
   def button_2_click(self, **event_args):
     anvil.server.call('add_interest', user["user_id"], self.model_id, artist_id, 2, False, '')
     self.header.scroll_into_view(smooth=True)
-    self.refresh_sug(self.model_id, temp_artist_id=None)
+    temp_artist_id = anvil.server.call('get_next_artist_id', self.model_id)
+    routing.set_url_hash(f'artists?artist_id={temp_artist_id}', load_from_cache=False)
+    # self.refresh_sug(self.model_id, temp_artist_id=None)
 
   def button_3_click(self, **event_args):
     anvil.server.call('add_interest', user["user_id"], self.model_id, artist_id, 3, False, '')
     self.header.scroll_into_view(smooth=True)
-    self.refresh_sug(self.model_id, temp_artist_id=None)
+    temp_artist_id = anvil.server.call('get_next_artist_id', self.model_id)
+    routing.set_url_hash(f'artists?artist_id={temp_artist_id}', load_from_cache=False)
+    # self.refresh_sug(self.model_id, temp_artist_id=None)
 
   def button_4_click(self, **event_args):
     anvil.server.call('add_interest', user["user_id"], self.model_id, artist_id, 4, False, '')
     self.header.scroll_into_view(smooth=True)
-    self.refresh_sug(self.model_id, temp_artist_id=None)
+    temp_artist_id = anvil.server.call('get_next_artist_id', self.model_id)
+    routing.set_url_hash(f'artists?artist_id={temp_artist_id}', load_from_cache=False)
+    # self.refresh_sug(self.model_id, temp_artist_id=None)
 
   def button_5_click(self, **event_args):
     anvil.server.call('add_interest', user["user_id"], self.model_id, artist_id, 5, False, '')
     self.header.scroll_into_view(smooth=True)
-    self.refresh_sug(self.model_id, temp_artist_id=None)
+    temp_artist_id = anvil.server.call('get_next_artist_id', self.model_id)
+    routing.set_url_hash(f'artists?artist_id={temp_artist_id}', load_from_cache=False)
+    # self.refresh_sug(self.model_id, temp_artist_id=None)
 
   def button_6_click(self, **event_args):
     anvil.server.call('add_interest', user["user_id"], self.model_id, artist_id, 6, False, '')
     self.header.scroll_into_view(smooth=True)
-    self.refresh_sug(self.model_id, temp_artist_id=None)
+    temp_artist_id = anvil.server.call('get_next_artist_id', self.model_id)
+    routing.set_url_hash(f'artists?artist_id={temp_artist_id}', load_from_cache=False)
+    # self.refresh_sug(self.model_id, temp_artist_id=None)
 
   def button_7_click(self, **event_args):
     anvil.server.call('add_interest', user["user_id"], self.model_id, artist_id, 7, False, '')
     self.header.scroll_into_view(smooth=True)
-    self.refresh_sug(self.model_id, temp_artist_id=None)
+    temp_artist_id = anvil.server.call('get_next_artist_id', self.model_id)
+    routing.set_url_hash(f'artists?artist_id={temp_artist_id}', load_from_cache=False)
+    # self.refresh_sug(self.model_id, temp_artist_id=None)
   
   # -------------------------------
   # DESCRIPTION LINKS
@@ -1527,7 +1521,9 @@ class Discover(DiscoverTemplate):
   def button_remove_filters_click(self, **event_args):
     anvil.server.call('change_filters', self.model_id, filters_json = None)
     self.header.scroll_into_view(smooth=True)
-    self.refresh_sug(self.model_id, temp_artist_id=None)
+    temp_artist_id = anvil.server.call('get_next_artist_id', self.model_id)
+    routing.set_url_hash(f'artists?artist_id={temp_artist_id}', load_from_cache=False)
+    # self.refresh_sug(self.model_id, temp_artist_id=None)
 
   def drop_down_model_change(self, **event_args):
     model_data = json.loads(anvil.server.call('get_model_ids',  user["user_id"]))
@@ -1678,7 +1674,6 @@ class Discover(DiscoverTemplate):
     self.update_details_on_sidebar()
 
   def button_track_test_click(self, track_id=None, **event_args):
-    # print(track_id)
     anvil.js.call_js('playSpotify')
 
   def spotify_artist_button_click(self, **event_args):
