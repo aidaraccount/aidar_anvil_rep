@@ -179,7 +179,7 @@ components:
       properties: {role: music-icons-tile, spacing_above: none, spacing_below: none}
       type: FlowPanel
     - event_bindings: {click: spotify_artist_button_click}
-      layout_properties: {grid_position: 'KTIEJU,SKLDLY DQMRPZ,HAXURX'}
+      layout_properties: {grid_position: 'KTIEJU,SKLDLY FXJFNY,KZOMPY'}
       name: spotify_artist_button
       properties:
         align: right
@@ -189,7 +189,7 @@ components:
         spacing_below: none
         text: ''
       type: Button
-    - layout_properties: {grid_position: 'KTIEJU,SKLDLY DQMRPZ,FARJZG'}
+    - layout_properties: {grid_position: 'KTIEJU,SKLDLY JNYWPP,THVIEB'}
       name: autoplay_button
       properties:
         icon: fa:toggle-on
@@ -197,10 +197,11 @@ components:
         spacing_above: none
         spacing_below: none
         text: ''
+        visible: false
       type: Button
     layout_properties: {grid_position: 'FDCDSH,AMHHEF'}
     name: column_panel_Artist
-    properties: {col_widths: '{"BINRLY":20,"SKLDLY":40,"XFZSMP":55}', role: tile-background-left}
+    properties: {col_widths: '{"BINRLY":20,"SKLDLY":40}', role: tile-background-left}
     type: ColumnPanel
   - components:
     - layout_properties: {grid_position: 'KEEZIY,CJTGRG'}

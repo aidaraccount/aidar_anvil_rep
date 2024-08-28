@@ -696,14 +696,11 @@ class Discover(DiscoverTemplate):
     print("form show is running")
     
   def spotify_HTML_player(self):
-    # if self.pred:
     c_web_player_html = '''
       <div id="embed-iframe"></div>
       '''
     html_webplayer_panel = HtmlPanel(html=c_web_player_html)
     self.spotify_player_spot.add_component(html_webplayer_panel)
-    # else:
-      # print("NO SELF PRED?")
 
   def custom_HTML_prediction(self):
     if self.pred:
