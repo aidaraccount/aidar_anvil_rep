@@ -52,6 +52,7 @@ class Discover(DiscoverTemplate):
     else:
       self.user_id = user["user_id"]
       self.refresh_sug()
+      
 
   # -------------------------------------------
   # SUGGESTIONS
@@ -663,7 +664,8 @@ class Discover(DiscoverTemplate):
       # FOOTER:
       # a) Spotify Web-Player (old!)
       # self.c_web_player.html = '<iframe style="border-radius:12px" src="https://open.spotify.com/embed/artist/' + sug["SpotifyArtistID"] + '?utm_source=generator&theme=0&autoplay=true" width="100%" height="80" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"> </iframe>'
-      
+      if load_var('autoPlayStatus') is not None:
+        self.autoplay_button.icon = load_var('autoPlayStatus')
       # --------
       # b) Filter Button visibility
       activefilters = anvil.server.call('check_filter_presence', self.model_id)
@@ -1625,6 +1627,12 @@ class Discover(DiscoverTemplate):
     else:
       self.spotify_artist_button.icon = 'fa:play-circle'
       anvil.js.call_js('playSpotify')
+
+  def autoplay_button_click(self, **event_args):
+    if self.autoplay_button.icon == 'fa:toggle-on':
+      self.autoplay_button.icon = 'fa:toggle-off'
+    else:
+      self.autoplay_button.icon = 'fa:toggle-on'
    
-    
+    save_var('autoPlayStatus', self.autoplay_button.icon)
     

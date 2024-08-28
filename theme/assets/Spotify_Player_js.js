@@ -3,7 +3,7 @@ var controller;
 
 function createOrUpdateSpotifyPlayer(trackOrArtist, artistSpotifyID) {
   const element = document.querySelector('.anvil-role-spotify-footer-class #embed-iframe');
-  const autoplaybutton = document.querySelector('.anvil-role-autoplay-toggle-button>.btn>.fa-toggle-on')
+  const autoplaybutton = document.querySelector('.anvil-role-autoplay-toggle-button .fa-toggle-on')
   console.log("THIS IS THE ELEMENT:", element)
   console.log("THIS IS THE AUTOPLAY BUTTON ELEMENT:", autoplaybutton)
   
@@ -27,10 +27,10 @@ function createOrUpdateSpotifyPlayer(trackOrArtist, artistSpotifyID) {
       controller = EmbedController;
       controller.addListener('ready', () => {
         console.log('Spotify Player ready');
-        // if (autoplaybutton) {
-        //   The below line will activate playing music when the page is opened and the spotify player is built
-        //   playSpotify_2()
-        // }
+        if (autoplaybutton) {
+          // The below line will activate playing music when the page is opened and the spotify player is built
+          playSpotify_2();
+        }
       });
     });
   } else {
@@ -40,10 +40,12 @@ function createOrUpdateSpotifyPlayer(trackOrArtist, artistSpotifyID) {
         controller = EmbedController;
         controller.addListener('ready', () => {
           console.log('Spotify Player ready');
-          // if (autoplaybutton) {
-          //   The below line will activate playing music when the page is opened and the spotify player is built
-          //   playSpotify_2()
-          // }
+          if (autoplaybutton) {
+            // The below line will activate playing music when the page is opened and the spotify player is built
+            playSpotify_2();
+          } else {
+            console.error("THIS FUNCTION IS NOT WORKING")
+          }
         });
       });
     };

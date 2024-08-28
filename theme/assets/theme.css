@@ -1596,6 +1596,7 @@ footer a, .footer .anvil-component {
   box-shadow: none;
   text-shadow: none;
   transition: 0.5s;
+  width: 55px;
 }
 .anvil-role-play-spotify-button > button:hover {
   background: transparent;
