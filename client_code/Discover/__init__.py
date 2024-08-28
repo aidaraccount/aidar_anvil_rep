@@ -54,11 +54,11 @@ class Discover(DiscoverTemplate):
 
   
   def form_show(self, **event_args):
-    temp_artist_id = self.url_dict['artist_id']
-    sug = json.loads(anvil.server.call('get_suggestion', 'Inspect', self.model_id, temp_artist_id)) # Free, Explore, Inspect, Dissect
+    # temp_artist_id = self.url_dict['artist_id']
+    # sug = json.loads(anvil.server.call('get_suggestion', 'Inspect', self.model_id, temp_artist_id)) # Free, Explore, Inspect, Dissect
     embed_iframe_element = document.getElementById('embed-iframe')
     if embed_iframe_element:
-      self.call_js('createOrUpdateSpotifyPlayer', 'artist', sug["SpotifyArtistID"])
+      self.call_js('createOrUpdateSpotifyPlayer', 'artist', self.sug["SpotifyArtistID"])
       # self.call_js('playSpotify_2')
     else:
       print("Embed iframe element not found. Will not initialize Spotify player.")
@@ -1263,19 +1263,18 @@ class Discover(DiscoverTemplate):
   # -------------------------------
   # BIO CLICK
   def bio_click(self, **event_args):
-    sug = json.loads(anvil.server.call('get_suggestion', 'Inspect', self.model_id, temp_artist_id_global)) # Free, Explore, Inspect, Dissect
-    if sug["Countries"] == "None":
+    if self.sug["Countries"] == "None":
       source = None
       countryname = None
     else:
-      country = json.loads(sug["Countries"])
+      country = json.loads(self.sug["Countries"])
       countryname = country["CountryName"]
       source = "https://flagcdn.com/w40/" + country["CountryCode"].lower() + ".png"
     country_flag = Image(source=source, spacing_below=0, spacing_above=0)
     custom_alert_form = C_CustomAlertForm(
       text=self.biography, 
-      pickurl=sug["ArtistPictureURL"], 
-      artist_name=sug["Name"], 
+      pickurl=self.sug["ArtistPictureURL"], 
+      artist_name=self.sug["Name"], 
       countryflag=country_flag, 
       countryname=countryname
     )
