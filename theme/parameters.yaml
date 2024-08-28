@@ -140,6 +140,8 @@ roles:
   components: [ColumnPanel]
 - name: play-spotify-button-artist
   components: [Button]
+- name: autoplay-toggle-button
+  components: [Button]
 color_scheme:
   preset_groups:
   - name: Accent

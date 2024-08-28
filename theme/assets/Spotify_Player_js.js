@@ -3,13 +3,15 @@ var controller;
 
 function createOrUpdateSpotifyPlayer(trackOrArtist, artistSpotifyID) {
   const element = document.querySelector('.anvil-role-spotify-footer-class #embed-iframe');
-    
+  const autoplaybutton = document.querySelector('.anvil-role-autoplay-toggle-button')
+  console.log("THIS IS THE ELEMENT:", element)
+  console.log("THIS IS THE AUTOPLAY BUTTON ELEMENT:", autoplaybutton)
+  
   if (!element) {
     console.error("ERROR MESSAGE: Embed iframe element not found.")
     return;
   }
-    
-  console.log("THIS IS THE ELEMENT:", element);
+  
   console.log(artistSpotifyID);
   
   const options = {

@@ -205,7 +205,7 @@ components:
     - name: autoplay_button
       properties:
         text: ''
-        role: [play-spotify-button, play-spotify-button-artist]
+        role: [play-spotify-button, play-spotify-button-artist, autoplay-toggle-button]
         icon: fa:toggle-on
         spacing_above: none
         spacing_below: none
