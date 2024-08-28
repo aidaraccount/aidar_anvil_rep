@@ -41,7 +41,8 @@ class Discover(DiscoverTemplate):
     user = anvil.users.get_user()
     print(f"Discover user: {user}")
     print(f"Discover user_id: {load_var('user_id')}")
-    
+
+    # check for valid user
     if user is None:
       if load_var('user_id') is None:
         open_form('Main_Out')
@@ -52,62 +53,6 @@ class Discover(DiscoverTemplate):
       self.user_id = user["user_id"]
       self.refresh_sug()
 
-  
-  def form_show(self, **event_args):
-    # temp_artist_id = self.url_dict['artist_id']
-    # sug = json.loads(anvil.server.call('get_suggestion', 'Inspect', self.model_id, temp_artist_id)) # Free, Explore, Inspect, Dissect
-    embed_iframe_element = document.getElementById('embed-iframe')
-    if embed_iframe_element:
-      self.call_js('createOrUpdateSpotifyPlayer', 'artist', self.sug["SpotifyArtistID"])
-      # self.call_js('playSpotify_2')
-    else:
-      print("Embed iframe element not found. Will not initialize Spotify player.")
-
-    print("form show is running")
-
-  # def play_spotify(self, **event_args):
-  #   self.call_js('playSpotify_2')
-    
-  def spotify_HTML_player(self):
-    if self.pred:
-      c_web_player_html = '''
-        <div id="embed-iframe"></div>
-        '''
-      html_webplayer_panel = HtmlPanel(html=c_web_player_html)
-      self.spotify_player_spot.add_component(html_webplayer_panel)
-    else:
-      print("NO SELF PRED?")
-
-  def custom_HTML_prediction(self):
-    if self.pred:
-      custom_html = f'''
-      <li class="note-display" data-note="{self.pred}">
-        <div class="circle">
-          <svg width="140" height="140" class="circle__svg">
-            <defs>
-              <linearGradient id="grad1" x1="100%" y1="100%" x2="0%" y2="0%">
-                <stop offset="0%" style="stop-color:#812675;stop-opacity:1" />
-                <stop offset="100%" style="stop-color:#E95F30;stop-opacity:1" />
-              </linearGradient>
-            </defs>
-            <circle cx="70" cy="70" r="65" class="circle__progress circle__progress--path"></circle>
-            <circle cx="70" cy="70" r="65" class="circle__progress circle__progress--fill" stroke="url(#grad1)"></circle>
-          </svg>
-
-          <div class="percent">
-            <span class="percent__int">0.</span>
-            <!-- <span class="percent__dec">00</span> -->
-          </div>
-        </div>
-
-        <span class="label">Fit Likelihood</span>
-      </li>
-      '''
-      html_panel = HtmlPanel(html=custom_html)
-      self.column_panel_5.add_component(html_panel)
-    else:
-      print("NO SELF PRED?")
-
   # -------------------------------------------
   # SUGGESTIONS
   def refresh_sug(self, **event_args):
@@ -116,28 +61,34 @@ class Discover(DiscoverTemplate):
     #print(f"{datetime.now()}: Discover - __init__ - 2", flush=True)
     #print(f"{datetime.now()}: Discover - __init__ - 3", flush=True)
     #print(f"TotalTime Discover: {datetime.now() - begin}", flush=True)
-
+    
+    self.spacer_bottom_margin.height = 80
+    self.Artist_Name_Details.clear()
+    self.Artist_Name_Details_Sidebar.clear()
+    self.flow_panel_genre_tile.clear()
+    self.flow_panel_social_media_tile.clear()
+    self.spotify_player_spot.clear()
+    # self.column_panel_5.clear()
+    
+    # model_id
     model_id = load_var("model_id")
     if model_id is None:
       save_var("model_id", anvil.server.call('get_model_id',  self.user_id))
     print(f"Discover model_id: {model_id}")
     self.model_id = model_id
 
+    # artist_id
     temp_artist_id = self.url_dict['artist_id']
+    global cur_artist_id
+    cur_artist_id = temp_artist_id
+    global artist_id
+    artist_id = int(temp_artist_id)
+
+    # get_suggestion
     sug = json.loads(anvil.server.call('get_suggestion', 'Inspect', self.model_id, temp_artist_id)) # Free, Explore, Inspect, Dissect
     self.sug = sug
-    
-    global temp_artist_id_global
-    temp_artist_id_global = temp_artist_id
-    self.spacer_bottom_margin.height = 80
-    
-    self.Artist_Name_Details.clear()
-    self.Artist_Name_Details_Sidebar.clear()
-    self.flow_panel_genre_tile.clear()
-    self.flow_panel_social_media_tile.clear()
-    # self.column_panel_5.clear()
-    self.spotify_player_spot.clear()
-    
+
+    # check status
     if sug["Status"] == 'Empty Model!':
       alert(title='Train you Model..',
         content="Sorry, we cound't find any artists for your model. Make sure your model is fully set up!\n\nTherefore, go to ADD REF. ARTISTS and add some starting artists that you are interested in.")
@@ -159,18 +110,7 @@ class Discover(DiscoverTemplate):
         content="Sorry, the free version is limited in the number of suggested artists - if you're interested in continuing, please upgrade to one of our subscription plans.\n\nFor any questions, please contact us at info@aidar.ai\n\nYour AIDAR Team")
       self.visible = False
       
-    else:
-      
-      global cur_artist_id
-      cur_artist_id = sug["ArtistID"]
-      global artist_id
-      artist_id = int(sug["ArtistID"])
-      global spotify_artist_id
-      spotify_artist_id = sug["SpotifyArtistID"]
-      global biography
-      biography = sug["Biography"]
-      self.biography = biography
-      
+    else:      
       self.nav_releases.role = 'section_buttons_focused'
       self.sec_releases.visible = True
       self.sec_success.visible = False
@@ -339,6 +279,7 @@ class Discover(DiscoverTemplate):
       
       # --------
       # biography
+      biography = sug["Biography"]
       if biography != 'None':
         if len(biography) >= 200:
           self.bio_text.content = f"{biography[0:200]}..."
@@ -347,8 +288,7 @@ class Discover(DiscoverTemplate):
           self.bio_text.content = biography
           self.bio.visible = False
       else:
-        self.bio.visible = False     
-
+        self.bio.visible = False
       
       # -------------------------------
       # I. RELEASES
@@ -551,8 +491,7 @@ class Discover(DiscoverTemplate):
       else:
         self.Spotify_Monthly_Listeners_by_City_Graph.visible = False
         self.No_Spotify_Monthly_Listeners_by_City_Graph.visible = True
-        
-        
+                
       # --------
       # d) Social Media followers
       audience_follower = json.loads(anvil.server.call('get_audience_follower2', int(cur_artist_id)))
@@ -725,37 +664,8 @@ class Discover(DiscoverTemplate):
       
       # -------------------------------
       # FOOTER:
-      # a) Spotify Web-Player
+      # a) Spotify Web-Player (old!)
       # self.c_web_player.html = '<iframe style="border-radius:12px" src="https://open.spotify.com/embed/artist/' + sug["SpotifyArtistID"] + '?utm_source=generator&theme=0&autoplay=true" width="100%" height="80" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"> </iframe>'
-      # c_web_player_html = f'''
-      # <iframe
-      # style="border-radius:12px"
-      # src="https://open.spotify.com/embed/artist/{sug["SpotifyArtistID"]}?utm_source=generator&theme=0&autoplay=true" 
-      # width="100%" 
-      # height="80" 
-      # frameBorder="0" 
-      # allowfullscreen="" 
-      # allow="autoplay; 
-      # clipboard-write; 
-      # encrypted-media; 
-      # fullscreen; 
-      # picture-in-picture" 
-      # loading="lazy"
-      # id="embed-iframe">
-      # </iframe>'''
-      # self.spotify_player_spot.html = '@theme:Spotify_player.html'
-      # c_web_player_html = '''
-      # <div id="embed-iframe"></div>
-      # '''
-      
-      # html_webplayer_panel = HtmlPanel(html=c_web_player_html)
-      # self.spotify_player_spot.add_component(html_webplayer_panel)
-
-      # embed_iframe_element = document.getElementById('embed-iframe')
-      # if embed_iframe_element:
-      #   self.call_js('createOrUpdateSpotifyPlayer', sug["SpotifyArtistID"])
-      # else:
-      #   print("Embed iframe element not found. Will not initialize Spotify player.")
       
       # --------
       # b) Filter Button visibility
@@ -778,6 +688,55 @@ class Discover(DiscoverTemplate):
         self.drop_down_model.items = model_names
 
   # ----------------------------------------------
+  def form_show(self, **event_args):
+    embed_iframe_element = document.getElementById('embed-iframe')
+    if embed_iframe_element:
+      self.call_js('createOrUpdateSpotifyPlayer', 'artist', self.sug["SpotifyArtistID"])
+      # self.call_js('playSpotify_2')
+    else:
+      print("Embed iframe element not found. Will not initialize Spotify player.")
+
+    print("form show is running")
+    
+  def spotify_HTML_player(self):
+    # if self.pred:
+    c_web_player_html = '''
+      <div id="embed-iframe"></div>
+      '''
+    html_webplayer_panel = HtmlPanel(html=c_web_player_html)
+    self.spotify_player_spot.add_component(html_webplayer_panel)
+    # else:
+      # print("NO SELF PRED?")
+
+  def custom_HTML_prediction(self):
+    if self.pred:
+      custom_html = f'''
+      <li class="note-display" data-note="{self.pred}">
+        <div class="circle">
+          <svg width="140" height="140" class="circle__svg">
+            <defs>
+              <linearGradient id="grad1" x1="100%" y1="100%" x2="0%" y2="0%">
+                <stop offset="0%" style="stop-color:#812675;stop-opacity:1" />
+                <stop offset="100%" style="stop-color:#E95F30;stop-opacity:1" />
+              </linearGradient>
+            </defs>
+            <circle cx="70" cy="70" r="65" class="circle__progress circle__progress--path"></circle>
+            <circle cx="70" cy="70" r="65" class="circle__progress circle__progress--fill" stroke="url(#grad1)"></circle>
+          </svg>
+
+          <div class="percent">
+            <span class="percent__int">0.</span>
+            <!-- <span class="percent__dec">00</span> -->
+          </div>
+        </div>
+
+        <span class="label">Fit Likelihood</span>
+      </li>
+      '''
+      html_panel = HtmlPanel(html=custom_html)
+      self.column_panel_5.add_component(html_panel)
+    else:
+      print("NO SELF PRED?")
   
   def truncate_label(self, label):
     return label if len(label) <= 10 else label[:10] + '...'
@@ -1272,7 +1231,7 @@ class Discover(DiscoverTemplate):
       source = "https://flagcdn.com/w40/" + country["CountryCode"].lower() + ".png"
     country_flag = Image(source=source, spacing_below=0, spacing_above=0)
     custom_alert_form = C_CustomAlertForm(
-      text=self.biography, 
+      text=self.sug["Biography"], 
       pickurl=self.sug["ArtistPictureURL"], 
       artist_name=self.sug["Name"], 
       countryflag=country_flag, 
@@ -1363,49 +1322,42 @@ class Discover(DiscoverTemplate):
     self.header.scroll_into_view(smooth=True)
     temp_artist_id = anvil.server.call('get_next_artist_id', self.model_id)
     routing.set_url_hash(f'artists?artist_id={temp_artist_id}', load_from_cache=False)
-    # self.refresh_sug(self.model_id, temp_artist_id=None)
 
   def button_2_click(self, **event_args):
     anvil.server.call('add_interest', user["user_id"], self.model_id, artist_id, 2, False, '')
     self.header.scroll_into_view(smooth=True)
     temp_artist_id = anvil.server.call('get_next_artist_id', self.model_id)
     routing.set_url_hash(f'artists?artist_id={temp_artist_id}', load_from_cache=False)
-    # self.refresh_sug(self.model_id, temp_artist_id=None)
 
   def button_3_click(self, **event_args):
     anvil.server.call('add_interest', user["user_id"], self.model_id, artist_id, 3, False, '')
     self.header.scroll_into_view(smooth=True)
     temp_artist_id = anvil.server.call('get_next_artist_id', self.model_id)
     routing.set_url_hash(f'artists?artist_id={temp_artist_id}', load_from_cache=False)
-    # self.refresh_sug(self.model_id, temp_artist_id=None)
 
   def button_4_click(self, **event_args):
     anvil.server.call('add_interest', user["user_id"], self.model_id, artist_id, 4, False, '')
     self.header.scroll_into_view(smooth=True)
     temp_artist_id = anvil.server.call('get_next_artist_id', self.model_id)
     routing.set_url_hash(f'artists?artist_id={temp_artist_id}', load_from_cache=False)
-    # self.refresh_sug(self.model_id, temp_artist_id=None)
 
   def button_5_click(self, **event_args):
     anvil.server.call('add_interest', user["user_id"], self.model_id, artist_id, 5, False, '')
     self.header.scroll_into_view(smooth=True)
     temp_artist_id = anvil.server.call('get_next_artist_id', self.model_id)
     routing.set_url_hash(f'artists?artist_id={temp_artist_id}', load_from_cache=False)
-    # self.refresh_sug(self.model_id, temp_artist_id=None)
 
   def button_6_click(self, **event_args):
     anvil.server.call('add_interest', user["user_id"], self.model_id, artist_id, 6, False, '')
     self.header.scroll_into_view(smooth=True)
     temp_artist_id = anvil.server.call('get_next_artist_id', self.model_id)
     routing.set_url_hash(f'artists?artist_id={temp_artist_id}', load_from_cache=False)
-    # self.refresh_sug(self.model_id, temp_artist_id=None)
 
   def button_7_click(self, **event_args):
     anvil.server.call('add_interest', user["user_id"], self.model_id, artist_id, 7, False, '')
     self.header.scroll_into_view(smooth=True)
     temp_artist_id = anvil.server.call('get_next_artist_id', self.model_id)
     routing.set_url_hash(f'artists?artist_id={temp_artist_id}', load_from_cache=False)
-    # self.refresh_sug(self.model_id, temp_artist_id=None)
   
   # -------------------------------
   # DESCRIPTION LINKS
@@ -1680,7 +1632,7 @@ class Discover(DiscoverTemplate):
       self.spotify_artist_button.icon = 'fa:pause-circle'
       self.spotify_player_spot.clear()
       self.spotify_HTML_player()
-      self.call_js('createOrUpdateSpotifyPlayer', 'artist', spotify_artist_id)
+      self.call_js('createOrUpdateSpotifyPlayer', 'artist', self.sug["SpotifyArtistID"])
       anvil.js.call_js('playSpotify')
     else:
       self.spotify_artist_button.icon = 'fa:play-circle'
