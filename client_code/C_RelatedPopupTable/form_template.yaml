@@ -1,75 +1,75 @@
-container:
-  type: HtmlTemplate
-  properties:
-    html: ''
-    role: [background-gradient-alerts, anvil-data-grid th]
-    visible: true
-    border: 0px
-    background: theme:Orange
-    foreground: theme:Orange
 components:
-- name: data_grid_artists_header
-  properties:
-    role: [anvil-data-grid th, anvil-data-grid td]
-    spacing_above: none
-    columns:
-    - {id: CGJCWL, title: Artist, data_key: ArtistPictureURL, $$hashKey: 'object:34645', width: 70, expand: false}
-    - {id: OHHGOJ, title: '', data_key: Name, $$hashKey: 'object:27702'}
-    - {id: TTVDHC, title: Popularity, data_key: ArtistPopularity_lat, $$hashKey: 'object:27703'}
-    - {id: ITWSTJ, title: Follower, data_key: ArtistFollower_lat, $$hashKey: 'object:27704'}
-    - {id: YTCRRC, title: '', data_key: Investigate, $$hashKey: 'object:27824'}
-    background: ''
-    rows_per_page: 3
-    wrap_on: never
-    foreground: ''
-    show_page_controls: true
-    auto_header: false
-    spacing_below: none
-    visible: true
-    border: ''
-    tooltip: ''
-  type: DataGrid
-  layout_properties: {slot: default}
-  components:
-  - name: spacer_1
+- components:
+  - layout_properties: {}
+    name: spacer_1
     properties: {height: 10}
     type: Spacer
-    layout_properties: {}
-  - name: label_1
-    properties: {text: Select the Artist You Meant, align: center, role: artist_name, spacing_above: small}
+  - layout_properties: {}
+    name: label_1
+    properties: {align: center, role: artist_name, spacing_above: small, text: Select the Artist You Meant}
     type: Label
+  - components:
+    - layout_properties: {width: 106.3125, x: 0, y: 0}
+      name: Column_Artists
+      properties:
+        align: center
+        role: table_content_popup
+        text: |
+          Artist
+      type: Label
+    - layout_properties: {width: 171.4375, x: 0, y: 0}
+      name: Column_Popularity
+      properties: {align: center, role: table_content_popup, text: Popularity, tooltip: Latest number of followers on Spotity}
+      type: Label
+    - layout_properties: {width: 103.921875, x: 0, y: 0}
+      name: Column_Followers
+      properties: {align: center, role: table_content_popup, text: Followers, tooltip: Latest Spotity Artist Popularity (ranges from 1 to 100)}
+      type: Label
+    - layout_properties: {width: 200, x: 0, y: 0}
+      name: Column_Options
+      properties: {align: center, role: table_content_popup, text: '', tooltip: Latest Spotity Artist Popularity (ranges from 1 to 100)}
+      type: Label
     layout_properties: {}
-  - name: xy_panel_1
+    name: xy_panel_1
     properties:
       height: 27
       role: [bottom_line, 'related-artist-search-dropdown-header ']
     type: XYPanel
-    components:
-    - name: Column_Artists
-      properties:
-        text: |
-          Artist
-        role: table_content_popup
-        align: center
-      type: Label
-      layout_properties: {x: 0, y: 0, width: 106.3125}
-    - name: Column_Popularity
-      properties: {text: Popularity, role: table_content_popup, tooltip: Latest number of followers on Spotity, align: center}
-      type: Label
-      layout_properties: {x: 0, y: 0, width: 171.4375}
-    - name: Column_Followers
-      properties: {text: Followers, role: table_content_popup, tooltip: Latest Spotity Artist Popularity (ranges from 1 to 100), align: center}
-      type: Label
-      layout_properties: {x: 0, y: 0, width: 103.921875}
-    - name: Column_Options
-      properties: {text: '', role: table_content_popup, tooltip: Latest Spotity Artist Popularity (ranges from 1 to 100), align: center}
-      type: Label
-      layout_properties: {x: 0, y: 0, width: 200}
-    layout_properties: {}
-  - name: data_grid_artists_data
-    properties: {role: table_content, spacing_above: none, background: '', item_template: C_RelatedPopupTable.SearchRowsRelated_html_new, foreground: '', items: null, spacing_below: none, visible: true, border: '', tooltip: ''}
+  - layout_properties: {}
+    name: data_grid_artists_data
+    properties: {background: '', border: '', foreground: '', item_template: C_RelatedPopupTable.SearchRowsRelated_html_new, items: null, role: table_content, spacing_above: none, spacing_below: none, tooltip: '', visible: true}
     type: RepeatingPanel
-    layout_properties: {}
   data_bindings: []
-is_package: true
+  layout_properties: {slot: default}
+  name: data_grid_artists_header
+  properties:
+    auto_header: false
+    background: ''
+    border: ''
+    columns:
+    - {$$hashKey: 'object:34645', data_key: ArtistPictureURL, expand: false, id: CGJCWL, title: Artist, width: 70}
+    - {$$hashKey: 'object:27702', data_key: Name, id: OHHGOJ, title: ''}
+    - {$$hashKey: 'object:27703', data_key: ArtistPopularity_lat, id: TTVDHC, title: Popularity}
+    - {$$hashKey: 'object:27704', data_key: ArtistFollower_lat, id: ITWSTJ, title: Follower}
+    - {$$hashKey: 'object:27824', data_key: Investigate, id: YTCRRC, title: ''}
+    foreground: ''
+    role: [anvil-data-grid th, anvil-data-grid td]
+    rows_per_page: 3
+    show_page_controls: true
+    spacing_above: none
+    spacing_below: none
+    tooltip: ''
+    visible: true
+    wrap_on: never
+  type: DataGrid
+container:
+  properties:
+    background: theme:Orange
+    border: 0px
+    foreground: theme:Orange
+    html: ''
+    role: [background-gradient-alerts, anvil-data-grid th]
+    visible: true
+  type: HtmlTemplate
 custom_component: true
+is_package: true

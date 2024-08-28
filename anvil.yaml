@@ -1,73 +1,73 @@
+allow_embedding: false
+db_schema:
+  users:
+    client: none
+    columns:
+    - admin_ui: {width: 200}
+      name: user_id
+      type: number
+    - admin_ui: {width: 200}
+      name: email
+      type: string
+    - admin_ui: {width: 200}
+      name: enabled
+      type: bool
+    - admin_ui: {width: 200}
+      name: last_login
+      type: datetime
+    - admin_ui: {width: 200}
+      name: password_hash
+      type: string
+    - admin_ui: {width: 200}
+      name: n_password_failures
+      type: number
+    - admin_ui: {width: 200}
+      name: confirmed_email
+      type: bool
+    - admin_ui: {width: 200}
+      name: signed_up
+      type: datetime
+    - admin_ui: {width: 225}
+      name: email_confirmation_key
+      type: string
+    server: full
+    title: Users
+  waiters:
+    client: full
+    columns:
+    - admin_ui: {order: 3, width: 200}
+      name: Mail
+      type: string
+    - admin_ui: {order: 2, width: 200}
+      name: Date
+      type: datetime
+    server: full
+    title: Waiters
+dependencies:
+- dep_id: dep_h86ijk4pnzr0f
+  resolution_hints: {app_id: C6ZZPAPN4YYF5NVJ, name: Anvil Extras, package_name: anvil_extras}
+  version: {dev: false}
+metadata: {description: 'AIDAR, aidar ai, aidar-ai, AI driven A&R, music, label, data, ml, ai, A&R', logo_img: 'asset:pics/Favicon_orange.JPG', title: AIDAR - AI driven A&R}
+name: AIDAR
+native_deps:
+  head_html: "<script src=\"https://kit.fontawesome.com/f0d74f0b0e.js\" crossorigin=\"anonymous\"></script>\n\n<script src=\"_/theme/Spotify_Player_js.js\"></script>\n<!-- <script src=\"_/theme/Run_on_load.js\"></script> -->\n\n<script>\nfunction updateGauge(value) {\n  console.log(\"updateGauge called with value: \" + value);\n  // Ensure the value is between 0 and 100\n  value = Math.min(100, Math.max(0, value));\n  // Calculate the percentage for the gauge\n  let percentage = value + '%';\n  // Get the gauge element\n  let gaugeElement = document.querySelector('.anvil-role-score-tile-background .gauge-background');\n  // Update the gauge's percentage\n  gaugeElement.style.setProperty('--gauge-percentage', percentage);\n}\n</script>\n\n<script src=\"https://open.spotify.com/embed/iframe-api/v1\" async></script> \n\n<script>\nfunction playSpotify() {\n  const buttons = document.querySelectorAll('.anvil-role-play-spotify-button');\n  \n  buttons.forEach(button => {\n    button.onclick = function () {\n      if (controller.isPaused) {\n        controller.resume();  // Resume playing from the paused position\n        controller.isPlaying = true;\n        controller.isPaused = false;\n      } else if (!controller.isPlaying) {\n        controller.play();    // Start playing if not already playing\n        controller.isPlaying = true;\n        controller.isPaused = false;\n      } else {\n        controller.pause();   // Pause the player if it's currently playing\n        controller.isPlaying = false;\n        controller.isPaused = true;\n      }\n    };\n  });\n}\n</script>\n\n<script>\nfunction playSpotify_2() {\n  if (controller) {\n    // Check the playback state and decide what to do\n    if (controller.isPaused) {\n      controller.resume();  // Resume playing from the paused position\n      controller.isPlaying = true;\n      controller.isPaused = false;\n    } else if (!controller.isPlaying) {\n      controller.play();    // Start playing if not already playing\n      controller.isPlaying = true;\n      controller.isPaused = false;\n    }\n  } else {\n    console.log(\"NOTTTTTTTTTT OKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK 222222222222222222\")\n    console.error(\"Spotify controller is not initialized.\");\n  }\n}\n\n// // Automatically play music when the page loads\n// document.addEventListener('DOMContentLoaded', function() {\n//   playSpotify_2();  // Call the playSpotify function on page load\n//   console.log(\"THISSSSSSSSSS MESSSSSSSSAAAAGGEEEEEEEEEEEEEEEEEEE\")\n// });\n</script>\n"
+package_name: AIDAR
+runtime_options:
+  client_version: '3'
+  server_spec: null
+  server_spec_disabled: {base: python310-standard, requirements: ''}
+  server_version: python3-full
+  version: 2
 services:
-- source: /runtime/services/tables.yml
-  client_config: {}
+- client_config: {}
   server_config: {}
-- source: /runtime/services/anvil/users.yml
-  client_config: {allow_signup: false, enable_automatically: true, use_email: true, confirm_email: true, use_token: false}
+  source: /runtime/services/tables.yml
+- client_config: {allow_signup: false, confirm_email: true, enable_automatically: true, use_email: true, use_token: false}
   server_config:
-    user_table: users
     email_content:
       confirm_address: {html: '<h2>Welcome to AIDAR,</h2><p>your AI driven A&amp;R platform.</p><p><br></p><p>Please click the following link to confirm that this is your account: {{confirm_link}}</p><p><br></p><p>If we can help you with anything, please reach out to us: info@aidar.ai</p><p><br></p><p>Thanks,</p><p>Your AIDAR team</p>'}
     email_from_address: info@aidar.ai
-startup: {type: module, module: startup}
-package_name: AIDAR
-allow_embedding: false
-name: AIDAR
-runtime_options:
-  version: 2
-  client_version: '3'
-  server_version: python3-full
-  server_spec: null
-  server_spec_disabled: {base: python310-standard, requirements: ''}
-metadata: {title: AIDAR - AI driven A&R, logo_img: 'asset:pics/Favicon_orange.JPG', description: 'AIDAR, aidar ai, aidar-ai, AI driven A&R, music, label, data, ml, ai, A&R'}
+    user_table: users
+  source: /runtime/services/anvil/users.yml
+startup: {module: startup, type: module}
 startup_form: null
-db_schema:
-  users:
-    title: Users
-    client: none
-    server: full
-    columns:
-    - name: user_id
-      admin_ui: {width: 200}
-      type: number
-    - name: email
-      admin_ui: {width: 200}
-      type: string
-    - name: enabled
-      admin_ui: {width: 200}
-      type: bool
-    - name: last_login
-      admin_ui: {width: 200}
-      type: datetime
-    - name: password_hash
-      admin_ui: {width: 200}
-      type: string
-    - name: n_password_failures
-      admin_ui: {width: 200}
-      type: number
-    - name: confirmed_email
-      admin_ui: {width: 200}
-      type: bool
-    - name: signed_up
-      admin_ui: {width: 200}
-      type: datetime
-    - name: email_confirmation_key
-      admin_ui: {width: 225}
-      type: string
-  waiters:
-    client: full
-    server: full
-    columns:
-    - name: Mail
-      type: string
-      admin_ui: {width: 200, order: 3}
-    - name: Date
-      admin_ui: {order: 2, width: 200}
-      type: datetime
-    title: Waiters
-native_deps:
-  head_html: "<script src=\"https://kit.fontawesome.com/f0d74f0b0e.js\" crossorigin=\"anonymous\"></script>\n\n<script src=\"_/theme/Spotify_Player_js.js\"></script>\n<!-- <script src=\"_/theme/Run_on_load.js\"></script> -->\n\n<script>\nfunction updateGauge(value) {\n  console.log(\"updateGauge called with value: \" + value);\n  // Ensure the value is between 0 and 100\n  value = Math.min(100, Math.max(0, value));\n  // Calculate the percentage for the gauge\n  let percentage = value + '%';\n  // Get the gauge element\n  let gaugeElement = document.querySelector('.anvil-role-score-tile-background .gauge-background');\n  // Update the gauge's percentage\n  gaugeElement.style.setProperty('--gauge-percentage', percentage);\n}\n</script>\n\n<script src=\"https://open.spotify.com/embed/iframe-api/v1\" async></script> \n\n<script>\nfunction playSpotify() {\n  const buttons = document.querySelectorAll('.anvil-role-play-spotify-button');\n  \n  buttons.forEach(button => {\n    button.onclick = function () {\n      if (controller.isPaused) {\n        controller.resume();  // Resume playing from the paused position\n        controller.isPlaying = true;\n        controller.isPaused = false;\n      } else if (!controller.isPlaying) {\n        controller.play();    // Start playing if not already playing\n        controller.isPlaying = true;\n        controller.isPaused = false;\n      } else {\n        controller.pause();   // Pause the player if it's currently playing\n        controller.isPlaying = false;\n        controller.isPaused = true;\n      }\n    };\n  });\n}\n</script>\n\n<script>\nfunction playSpotify_2() {\n  if (controller) {\n    // Check the playback state and decide what to do\n    if (controller.isPaused) {\n      controller.resume();  // Resume playing from the paused position\n      controller.isPlaying = true;\n      controller.isPaused = false;\n    } else if (!controller.isPlaying) {\n      controller.play();    // Start playing if not already playing\n      controller.isPlaying = true;\n      controller.isPaused = false;\n    }\n  } else {\n    console.log(\"NOTTTTTTTTTT OKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK 222222222222222222\")\n    console.error(\"Spotify controller is not initialized.\");\n  }\n}\n\n// // Automatically play music when the page loads\n// document.addEventListener('DOMContentLoaded', function() {\n//   playSpotify_2();  // Call the playSpotify function on page load\n//   console.log(\"THISSSSSSSSSS MESSSSSSSSAAAAGGEEEEEEEEEEEEEEEEEEE\")\n// });\n</script>\n"
-dependencies:
-- dep_id: dep_h86ijk4pnzr0f
-  version: {dev: false}
-  resolution_hints: {app_id: C6ZZPAPN4YYF5NVJ, name: Anvil Extras, package_name: anvil_extras}

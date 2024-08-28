@@ -1,78 +1,78 @@
-is_package: true
-container:
-  type: DataRowPanel
-  properties: {role: talent-dev-custom-class}
 components:
-- name: xy_panel_1
-  properties: {height: 18, spacing_above: none, spacing_below: none, role: col-artist}
-  type: XYPanel
-  layout_properties: {column: JKSDUP}
-  components:
-  - name: image_artist
-    properties: {height: '38', display_mode: zoom_to_fill, spacing_above: none, spacing_below: none, role: col-artist-image}
+- components:
+  - data_bindings:
+    - {code: 'self.item[''ArtistPictureURL'']', property: source, writeback: false}
+    layout_properties: {width: 30, x: 0, y: null}
+    name: image_artist
+    properties: {display_mode: zoom_to_fill, height: '38', role: col-artist-image, spacing_above: none, spacing_below: none}
     type: Image
-    layout_properties: {x: 0, y: null, width: 30}
-    data_bindings:
-    - {property: source, code: 'self.item[''ArtistPictureURL'']', writeback: false}
-  - name: link_artist
+  - data_bindings:
+    - {code: 'self.item[''Name'']', property: text, writeback: false}
+    event_bindings: {click: link_artist_click}
+    layout_properties: {width: null, x: 40, y: 0}
+    name: link_artist
     properties: {role: table_content_small, spacing_above: none, spacing_below: none}
     type: Link
-    layout_properties: {x: 40, y: 0, width: null}
-    data_bindings:
-    - {property: text, code: 'self.item[''Name'']', writeback: false}
-    event_bindings: {click: link_artist_click}
-- name: button_details
+  layout_properties: {column: JKSDUP}
+  name: xy_panel_1
+  properties: {height: 18, role: col-artist, spacing_above: none, spacing_below: none}
+  type: XYPanel
+- event_bindings: {click: button_details_click}
+  layout_properties: {column: SXXXLP}
+  name: button_details
   properties:
-    text: ''
+    background: theme:Orange
+    foreground: theme:Text_DecentWhite
     icon: fa:address-card-o
     role: [feature, feature-talent-dev]
-    foreground: theme:Text_DecentWhite
-    background: theme:Orange
-    tooltip: See Artists Watchlist Details
     spacing_above: none
     spacing_below: none
+    text: ''
+    tooltip: See Artists Watchlist Details
   type: Button
-  layout_properties: {column: SXXXLP}
-  event_bindings: {click: button_details_click}
-- name: label_1
-  properties: {align: center, spacing_below: none, spacing_above: none, role: null}
-  type: Label
+- data_bindings:
+  - {code: 'str(self.item[''PopularityDev'']) + ''%''', property: text, writeback: false}
   layout_properties: {column: CDCVLK}
-  data_bindings:
-  - {property: text, code: 'str(self.item[''PopularityDev'']) + ''%''', writeback: false}
-- name: label_2
-  properties: {align: center, spacing_above: none, spacing_below: none, role: null}
+  name: label_1
+  properties: {align: center, role: null, spacing_above: none, spacing_below: none}
   type: Label
+- data_bindings:
+  - {code: 'str(self.item[''FollowerDev'']) + ''%''', property: text, writeback: false}
   layout_properties: {column: QLRQCM}
-  data_bindings:
-  - {property: text, code: 'str(self.item[''FollowerDev'']) + ''%''', writeback: false}
-- name: label_3
-  properties: {align: center, spacing_below: none, spacing_above: none, role: null}
+  name: label_2
+  properties: {align: center, role: null, spacing_above: none, spacing_below: none}
   type: Label
+- data_bindings:
+  - {code: 'self.item[''FollowerLat'']', property: text, writeback: false}
   layout_properties: {column: SNZOEY}
-  data_bindings:
-  - {property: text, code: 'self.item[''FollowerLat'']', writeback: false}
-- name: label_4
-  properties: {align: center, spacing_above: none, spacing_below: none, role: null}
+  name: label_3
+  properties: {align: center, role: null, spacing_above: none, spacing_below: none}
   type: Label
+- data_bindings:
+  - {code: 'self.item[''FollowerDif'']', property: text, writeback: false}
   layout_properties: {column: CLLQNH}
-  data_bindings:
-  - {property: text, code: 'self.item[''FollowerDif'']', writeback: false}
-- name: label_5
-  properties: {align: center, spacing_above: none, spacing_below: none, role: null}
+  name: label_4
+  properties: {align: center, role: null, spacing_above: none, spacing_below: none}
   type: Label
+- data_bindings:
+  - {code: 'self.item[''PopularityLat'']', property: text, writeback: false}
   layout_properties: {column: OJLQEN}
-  data_bindings:
-  - {property: text, code: 'self.item[''PopularityLat'']', writeback: false}
-- name: label_6
-  properties: {align: center, spacing_above: none, spacing_below: none, role: null}
+  name: label_5
+  properties: {align: center, role: null, spacing_above: none, spacing_below: none}
   type: Label
+- data_bindings:
+  - {code: 'self.item[''PopularityDif'']', property: text, writeback: false}
   layout_properties: {column: JMPPBV}
-  data_bindings:
-  - {property: text, code: 'self.item[''PopularityDif'']', writeback: false}
-- name: label_7
-  properties: {spacing_above: none, spacing_below: none, align: center, role: null}
+  name: label_6
+  properties: {align: center, role: null, spacing_above: none, spacing_below: none}
   type: Label
+- data_bindings:
+  - {code: 'self.item[''LastReleaseDate'']', property: text, writeback: false}
   layout_properties: {column: VJQQOR}
-  data_bindings:
-  - {property: text, code: 'self.item[''LastReleaseDate'']', writeback: false}
+  name: label_7
+  properties: {align: center, role: null, spacing_above: none, spacing_below: none}
+  type: Label
+container:
+  properties: {role: talent-dev-custom-class}
+  type: DataRowPanel
+is_package: true

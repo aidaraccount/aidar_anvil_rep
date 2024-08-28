@@ -1,29 +1,29 @@
-is_package: true
-container:
-  type: ColumnPanel
-  properties: {background: ''}
 components:
-- name: column_panel_1
-  properties: {role: grid, background: '', col_widths: '{"CESLFK":50,"RERZHF":10}'}
-  type: ColumnPanel
-  layout_properties: {grid_position: 'PNMDAK,WVYGWD'}
-  components:
-  - name: label_date
-    properties: {role: null, spacing_below: none, spacing_above: none, font_size: 12}
-    type: Label
+- components:
+  - data_bindings:
+    - {code: '"  " + self.item[''DateTime'']', property: text, writeback: false}
     layout_properties: {grid_position: 'HPXQKF,CESLFK'}
-    data_bindings:
-    - {property: text, code: '"  " + self.item[''DateTime'']', writeback: false}
-  - name: link_delete
-    properties: {font_size: 12, spacing_below: none, spacing_above: none, icon: 'fa:trash-o', icon_align: left, align: right, role: description, text: ' '}
-    type: Link
-    layout_properties: {grid_position: 'HPXQKF,RERZHF'}
-    event_bindings: {click: link_delete_click}
-    data_bindings:
-    - {property: url, code: 'self.item[''NoteID'']', writeback: false}
-  - name: note
-    properties: {align: left, role: note, spacing_above: none, spacing_below: none, font_size: null, foreground: '', bold: true}
+    name: label_date
+    properties: {font_size: 12, role: null, spacing_above: none, spacing_below: none}
     type: Label
+  - data_bindings:
+    - {code: 'self.item[''NoteID'']', property: url, writeback: false}
+    event_bindings: {click: link_delete_click}
+    layout_properties: {grid_position: 'HPXQKF,RERZHF'}
+    name: link_delete
+    properties: {align: right, font_size: 12, icon: 'fa:trash-o', icon_align: left, role: description, spacing_above: none, spacing_below: none, text: ' '}
+    type: Link
+  - data_bindings:
+    - {code: 'self.item[''Note'']', property: text, writeback: false}
     layout_properties: {grid_position: 'TGFRVJ,JBIUOF'}
-    data_bindings:
-    - {property: text, code: 'self.item[''Note'']', writeback: false}
+    name: note
+    properties: {align: left, bold: true, font_size: null, foreground: '', role: note, spacing_above: none, spacing_below: none}
+    type: Label
+  layout_properties: {grid_position: 'PNMDAK,WVYGWD'}
+  name: column_panel_1
+  properties: {background: '', col_widths: '{"CESLFK":50,"RERZHF":10}', role: grid}
+  type: ColumnPanel
+container:
+  properties: {background: ''}
+  type: ColumnPanel
+is_package: true

@@ -1,44 +1,44 @@
-is_package: true
-container: {type: ColumnPanel}
 components:
-- name: xy_panel_1
-  properties: {height: '150', spacing_below: none, spacing_above: none}
-  type: XYPanel
-  layout_properties: {grid_position: 'YCOMIT,KYJUVD'}
-  components:
-  - name: link_1
+- components:
+  - components:
+    - data_bindings:
+      - {code: 'self.item[''ArtistPictureURL'']', property: source, writeback: false}
+      layout_properties: {grid_position: 'XISFUA,MXKFIP'}
+      name: image_1
+      properties: {background: '', border: '', display_mode: zoom_to_fill, foreground: '', height: '140', horizontal_align: center, role: null, source: '', spacing_above: none, spacing_below: none, tooltip: '', vertical_align: center, visible: true}
+      type: Image
+    event_bindings: {click: link_1_click}
+    layout_properties: {width: 186, x: 0, y: 0}
+    name: link_1
     properties: {col_widths: '{}'}
     type: Link
-    layout_properties: {x: 0, y: 0, width: 186}
-    components:
-    - name: image_1
-      properties: {role: null, vertical_align: center, spacing_above: none, background: '', horizontal_align: center, source: '', foreground: '', display_mode: zoom_to_fill, spacing_below: none, visible: true, border: '', tooltip: '', height: '140'}
-      type: Image
-      layout_properties: {grid_position: 'XISFUA,MXKFIP'}
-      data_bindings:
-      - {property: source, code: 'self.item[''ArtistPictureURL'']', writeback: false}
+  - data_bindings: []
     event_bindings: {click: link_1_click}
-  - name: link_name
-    properties: {role: artist_name_shadow, spacing_below: none, spacing_above: none}
+    layout_properties: {width: 176, x: 10, y: 100}
+    name: link_name
+    properties: {role: artist_name_shadow, spacing_above: none, spacing_below: none}
     type: Link
-    layout_properties: {x: 10, y: 100, width: 176}
-    data_bindings: []
-    event_bindings: {click: link_1_click}
-  - name: link_right
+  - event_bindings: {click: link_right_click}
+    layout_properties: {width: 16, x: 166, y: 0}
+    name: link_right
     properties:
+      align: center
+      font_size: null
       icon: fa:angle-right
       role: [artist_name_shadow, 'artist_name_shadow_arrows_right ']
-      font_size: null
-      align: center
     type: Link
-    layout_properties: {x: 166, y: 0, width: 16}
-    event_bindings: {click: link_right_click}
-  - name: link_left
+  - event_bindings: {click: link_left_click}
+    layout_properties: {width: 16, x: 146, y: 0}
+    name: link_left
     properties:
+      align: center
+      font_size: null
       icon: fa:angle-left
       role: [artist_name_shadow, artist_name_shadow_arrows_left]
-      font_size: null
-      align: center
     type: Link
-    layout_properties: {x: 146, y: 0, width: 16}
-    event_bindings: {click: link_left_click}
+  layout_properties: {grid_position: 'YCOMIT,KYJUVD'}
+  name: xy_panel_1
+  properties: {height: '150', spacing_above: none, spacing_below: none}
+  type: XYPanel
+container: {type: ColumnPanel}
+is_package: true

@@ -1,11 +1,11 @@
-is_package: true
-container: {type: ColumnPanel}
 components:
-- name: link_1
+- layout_properties: {grid_position: 'PUAQUN,GXDHXZ'}
+  name: link_1
   properties: {}
   type: Link
-  layout_properties: {grid_position: 'PUAQUN,GXDHXZ'}
-- name: link_2
+- layout_properties: {grid_position: 'LJKDSS,BIFEPL'}
+  name: link_2
   properties: {}
   type: Link
-  layout_properties: {grid_position: 'LJKDSS,BIFEPL'}
+container: {type: ColumnPanel}
+is_package: true

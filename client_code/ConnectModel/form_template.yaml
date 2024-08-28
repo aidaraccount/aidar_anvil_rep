@@ -1,66 +1,66 @@
-container:
-  type: ColumnPanel
-  properties: {col_widths: '{}'}
 components:
-- type: ColumnPanel
-  properties: {col_widths: '{}'}
-  name: content_panel
-  layout_properties: {grid_position: 'NDYFJH,LLBANU'}
-  components:
-  - type: Label
-    properties: {role: title, bold: false, align: left, spacing_above: small, background: '', icon: '', underline: false, font: '', icon_align: left, foreground: '', spacing_below: small, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: Join an existing AI-Model}
-    name: label_1_copy
-    layout_properties:
+- components:
+  - layout_properties:
       col_widths: {}
       grid_position: WKTSPW,ALNASW
-  - type: Spacer
-    properties: {height: 98}
-    name: spacer_1
-    layout_properties:
+    name: label_1_copy
+    properties: {align: left, background: '', bold: false, border: '', font: '', font_size: null, foreground: '', icon: '', icon_align: left, italic: false, role: title, spacing_above: small, spacing_below: small, text: Join an existing AI-Model, tooltip: '', underline: false, visible: true}
+    type: Label
+  - layout_properties:
       col_widths: {}
       grid_position: VLRBFT,HWZWOB
-  - type: RichText
-    properties: {role: null, format: markdown, align: left, spacing_above: small, content: '', background: '', font: '', foreground: '', spacing_below: small, visible: true, border: '', enable_slots: true, font_size: null, tooltip: '', data: null}
-    name: rich_text_1
-    layout_properties: {grid_position: 'ALFBHG,GJKNXI'}
-    components:
-    - type: Label
+    name: spacer_1
+    properties: {height: 98}
+    type: Spacer
+  - components:
+    - layout_properties: {grid_position: 'EOXCAV,CXEZWF'}
+      name: label_2
       properties:
-        role: description
-        bold: false
         align: left
-        spacing_above: small
         background: ''
-        icon: ''
-        underline: false
-        font: ''
-        icon_align: left
-        foreground: ''
-        spacing_below: small
-        visible: true
+        bold: false
         border: ''
-        italic: false
+        font: ''
         font_size: null
-        tooltip: ''
+        foreground: ''
+        icon: ''
+        icon_align: left
+        italic: false
+        role: description
+        spacing_above: small
+        spacing_below: small
         text: |-
           Please enter the Access-Token:
 
           For obtaining the required Access Token, please consult with the Model Owner.
-      name: label_2
-      layout_properties: {grid_position: 'EOXCAV,CXEZWF'}
-    - type: ColumnPanel
-      properties: {col_widths: '{}'}
-      name: column_panel_1
-      layout_properties: {grid_position: 'VAGXOA,GUUPWI'}
-      components:
-      - type: TextBox
-        properties: {role: text_box_small, bold: false, align: left, placeholder: XXX-XXX-XXX, spacing_above: small, background: '', type: text, underline: false, font: '', hide_text: false, foreground: '', spacing_below: small, visible: true, border: '', italic: false, enabled: true, font_size: null, tooltip: '', text: ''}
+        tooltip: ''
+        underline: false
+        visible: true
+      type: Label
+    - components:
+      - layout_properties: {grid_position: 'XORSMU,KXUSOI'}
         name: text_box_access_token
-        layout_properties: {grid_position: 'XORSMU,KXUSOI'}
-- type: Button
-  properties: {role: feature, bold: false, align: center, spacing_above: small, background: '', icon: '', underline: false, font: '', icon_align: left, foreground: '', spacing_below: small, visible: true, border: '', italic: false, enabled: true, font_size: null, tooltip: '', text: Connect to AI-Model}
-  name: button_1
+        properties: {align: left, background: '', bold: false, border: '', enabled: true, font: '', font_size: null, foreground: '', hide_text: false, italic: false, placeholder: XXX-XXX-XXX, role: text_box_small, spacing_above: small, spacing_below: small, text: '', tooltip: '', type: text, underline: false, visible: true}
+        type: TextBox
+      layout_properties: {grid_position: 'VAGXOA,GUUPWI'}
+      name: column_panel_1
+      properties: {col_widths: '{}'}
+      type: ColumnPanel
+    layout_properties: {grid_position: 'ALFBHG,GJKNXI'}
+    name: rich_text_1
+    properties: {align: left, background: '', border: '', content: '', data: null, enable_slots: true, font: '', font_size: null, foreground: '', format: markdown, role: null, spacing_above: small, spacing_below: small, tooltip: '', visible: true}
+    type: RichText
+  layout_properties: {grid_position: 'NDYFJH,LLBANU'}
+  name: content_panel
+  properties: {col_widths: '{}'}
+  type: ColumnPanel
+- event_bindings: {click: button_connect_model_click}
   layout_properties: {grid_position: 'ECITJC,GIUZZN'}
-  event_bindings: {click: button_connect_model_click}
-is_package: true
+  name: button_1
+  properties: {align: center, background: '', bold: false, border: '', enabled: true, font: '', font_size: null, foreground: '', icon: '', icon_align: left, italic: false, role: feature, spacing_above: small, spacing_below: small, text: Connect to AI-Model, tooltip: '', underline: false, visible: true}
+  type: Button
+container:
+  properties: {col_widths: '{}'}
+  type: ColumnPanel
 custom_component: false
+is_package: true

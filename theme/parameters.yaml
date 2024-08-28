@@ -1,226 +1,226 @@
+color_scheme:
+  colors:
+  - {color: '#9E9E9E', name: Accent 1}
+  - {color: '#616161', name: Accent 2}
+  - {color: '#D7D7D7', name: Background}
+  - {color: '#333333', name: Header Background}
+  - {color: 'rgb(51, 51, 51)', name: Sidebar Background}
+  - {color: 'rgb(25, 28, 26)', name: Main_Black}
+  - {color: 'rgb(40, 40, 40)', name: Grid_Black}
+  - {color: 'rgb(253, 101, 45)', name: Orange}
+  - {color: 'rgb(255, 255, 255)', name: Text_White}
+  - {color: 'rgb(235, 235, 235)', name: Text_DecentWhite}
+  - {color: 'rgb(200, 200, 200)', name: Text_Grey}
+  - {color: 'rgb(175, 175, 175)', name: Text_DarkGrey}
+  - {color: 'rgb(40, 40, 40)', name: Text_LightBlack}
+  preset_groups:
+  - name: Accent
+    options:
+    - colors:
+      - {color: '#2196F3', name: Accent 1}
+      - {color: '#1976D2', name: Accent 2}
+      name: Blue
+    - colors:
+      - {color: '#FF9800', name: Accent 1}
+      - {color: '#F57C00', name: Accent 2}
+      name: Orange
+    - colors:
+      - {color: '#F44336', name: Accent 1}
+      - {color: '#D32F2F', name: Accent 2}
+      name: Red
+    - colors:
+      - {color: '#E91E63', name: Accent 1}
+      - {color: '#C2185B', name: Accent 2}
+      name: Pink
+    - colors:
+      - {color: '#9C27B0', name: Accent 1}
+      - {color: '#7B1FA2', name: Accent 2}
+      name: Purple
+    - colors:
+      - {color: '#673AB7', name: Accent 1}
+      - {color: '#512DA8', name: Accent 2}
+      name: Deep Purple
+    - colors:
+      - {color: '#3F51B5', name: Accent 1}
+      - {color: '#303F9F', name: Accent 2}
+      name: Indigo
+    - colors:
+      - {color: '#03A9F4', name: Accent 1}
+      - {color: '#0288D1', name: Accent 2}
+      name: Light Blue
+    - colors:
+      - {color: '#00BCD4', name: Accent 1}
+      - {color: '#0097A7', name: Accent 2}
+      name: Cyan
+    - colors:
+      - {color: '#009688', name: Accent 1}
+      - {color: '#00796B', name: Accent 2}
+      name: Teal
+    - colors:
+      - {color: '#4CAF50', name: Accent 1}
+      - {color: '#388E3C', name: Accent 2}
+      name: Green
+    - colors:
+      - {color: '#8BC34A', name: Accent 1}
+      - {color: '#689F38', name: Accent 2}
+      name: Light Green
+    - colors:
+      - {color: '#CDDC39', name: Accent 1}
+      - {color: '#AFB42B', name: Accent 2}
+      name: Lime
+    - colors:
+      - {color: '#FF5722', name: Accent 1}
+      - {color: '#E64A19', name: Accent 2}
+      name: Deep orange
+    - colors:
+      - {color: '#795548', name: Accent 1}
+      - {color: '#5D4037', name: Accent 2}
+      name: Brown
+    - colors:
+      - {color: '#9E9E9E', name: Accent 1}
+      - {color: '#616161', name: Accent 2}
+      name: Grey
 roles:
-- name: title
-  components: [Label]
+- components: [Label]
   display_in_toolbox: false
-- name: card
-  components: [ColumnPanel]
+  name: title
+- components: [ColumnPanel]
   display_in_toolbox: false
+  name: card
   title: Card
-- name: description
-  components: [Label, Link, RichText]
-- name: artist_name
-  components: [Label, Link]
-- name: grid
-  components: [GridPanel, ColumnPanel, Link, Image, XYPanel, LinearPanel, FlowPanel]
-- name: feature
-  components: [Label, Button]
-- name: value
-  components: [Label]
-- name: eval_button
-  components: [Button]
-- name: sub_title
-  components: [Label]
-- name: table_content
-  components: [RepeatingPanel, Link, Label]
-- name: text_box
-  components: [TextBox]
-- name: call_to_action_button
-  components: [Button]
-- name: landingpage_noartists_background
-  components: [ColumnPanel]
-- name: landingpage_artist_background
-  components: [ColumnPanel]
-- name: landingpage_artist2_background
-  components: [ColumnPanel]
-- name: input_margin
-  components: [ColumnPanel]
-- name: table_content_small
-  components: [RepeatingPanel, Link, Label]
-- name: table_header
-  components: [DataGrid]
-- name: investigate_value
-  components: [Label, Link]
-- name: investigate_feature
-  components: [Label, Link]
-- name: text_box_small
-  components: [TextBox, DropDown, TextArea, DatePicker]
-- name: artist_name_shadow
-  components: [Label, Link, RichText]
-- name: note
-  components: [Label]
-- name: bottom_line
-  components: [XYPanel]
-- name: nav_main
-  components: [Link]
-- name: nav_sub
-  components: [Link]
-- name: table_content_small_orange_underlined
-  components: [Link]
-- name: little_note
-  components: [Link]
-- name: description-bio
-  components: [RichText, Label]
+- components: [Label, Link, RichText]
+  name: description
+- components: [Label, Link]
+  name: artist_name
+- components: [GridPanel, ColumnPanel, Link, Image, XYPanel, LinearPanel, FlowPanel]
+  name: grid
+- components: [Label, Button]
+  name: feature
+- components: [Label]
+  name: value
+- components: [Button]
+  name: eval_button
+- components: [Label]
+  name: sub_title
+- components: [RepeatingPanel, Link, Label]
+  name: table_content
+- components: [TextBox]
+  name: text_box
+- components: [Button]
+  name: call_to_action_button
+- components: [ColumnPanel]
+  name: landingpage_noartists_background
+- components: [ColumnPanel]
+  name: landingpage_artist_background
+- components: [ColumnPanel]
+  name: landingpage_artist2_background
+- components: [ColumnPanel]
+  name: input_margin
+- components: [RepeatingPanel, Link, Label]
+  name: table_content_small
+- components: [DataGrid]
+  name: table_header
+- components: [Label, Link]
+  name: investigate_value
+- components: [Label, Link]
+  name: investigate_feature
+- components: [TextBox, DropDown, TextArea, DatePicker]
+  name: text_box_small
+- components: [Label, Link, RichText]
+  name: artist_name_shadow
+- components: [Label]
+  name: note
+- components: [XYPanel]
+  name: bottom_line
+- components: [Link]
+  name: nav_main
+- components: [Link]
+  name: nav_sub
+- components: [Link]
+  name: table_content_small_orange_underlined
+- components: [Link]
+  name: little_note
+- components: [RichText, Label]
+  name: description-bio
 - {name: table_content_popup}
 - {name: related-artist-search-dropdown-header}
 - {name: table_content_talent_dev}
 - {name: talent-dev-custom-class}
 - {name: center-table-element}
-- name: rows_dropdown
-  components: [RowTemplate]
-- name: rows_discover_page
-  components: [RowTemplate]
+- components: [RowTemplate]
+  name: rows_dropdown
+- components: [RowTemplate]
+  name: rows_discover_page
 - {name: section_buttons}
-- name: sort-label
-  components: [Label]
-- name: Discover_artist_name
-  components: [Label]
-- name: Discover_xypanel
-  components: [FlowPanel]
+- components: [Label]
+  name: sort-label
+- components: [Label]
+  name: Discover_artist_name
+- components: [FlowPanel]
   display_in_toolbox: false
-- name: col-artist
-  components: [XYPanel]
-- name: col-artist-image
-  components: [Image]
-- name: table_content_talent_dev-1
-  components: [Label, Link]
+  name: Discover_xypanel
+- components: [XYPanel]
+  name: col-artist
+- components: [Image]
+  name: col-artist-image
+- components: [Label, Link]
   display_in_toolbox: false
-- name: table_content_talent_dev-2
-  components: [Link, Label]
-- name: feature-talent-dev
-  components: [Button]
-- name: transparent-headers
-  components: [Label, Link]
-- name: left-alignment-header
-  components: [Link, Label]
-- name: underline-link
-  components: [Link]
-- name: artist-image-tables
-  components: [Image]
-- name: artist_name_shadow_arrows_left
-  components: [Link]
-- name: 'artist_name_shadow_arrows_right '
-  components: [Link]
-- name: 'artist_name_shadow_arrows_left_home '
-  components: [Link]
-- name: 'artist_name_shadow_arrows_right_home '
-  components: [Link]
-- name: rows_discover_page_no_image_table
-  components: [RowTemplate]
-- name: grid-main
-  components: [ColumnPanel]
-- name: description-bio-link
-  components: [Link]
-- name: section-background
-  components: [FlowPanel]
-- name: target-dropdown
-  components: [DropDown, DatePicker, TextBox]
-- name: target-textarea
-  components: [TextArea]
-- name: sidebar-notes
-  components: [RepeatingPanel]
-- name: timestamp-note-format
-  components: [Label]
-- name: content-note-format
-  components: [Label]
-- name: save-button-sidebar
-  components: [Button]
-- name: 'gauge-background '
-  components: [LinearPanel]
-- name: score-tile-background
-  components: [LinearPanel]
-- name: contact-details-saved-values
-  components: [Label]
-- name: contact-button
-  components: [Button]
-- name: left-discover-page
-  components: [ColumnPanel]
-- name: play-spotify-button
-  components: [Button]
-- name: spotify-footer-class
-  components: [ColumnPanel]
-- name: play-spotify-button-artist
-  components: [Button]
-- name: autoplay-toggle-button
-  components: [Button]
-color_scheme:
-  preset_groups:
-  - name: Accent
-    options:
-    - name: Blue
-      colors:
-      - {name: Accent 1, color: '#2196F3'}
-      - {name: Accent 2, color: '#1976D2'}
-    - name: Orange
-      colors:
-      - {name: Accent 1, color: '#FF9800'}
-      - {name: Accent 2, color: '#F57C00'}
-    - name: Red
-      colors:
-      - {name: Accent 1, color: '#F44336'}
-      - {name: Accent 2, color: '#D32F2F'}
-    - name: Pink
-      colors:
-      - {name: Accent 1, color: '#E91E63'}
-      - {name: Accent 2, color: '#C2185B'}
-    - name: Purple
-      colors:
-      - {name: Accent 1, color: '#9C27B0'}
-      - {name: Accent 2, color: '#7B1FA2'}
-    - name: Deep Purple
-      colors:
-      - {name: Accent 1, color: '#673AB7'}
-      - {name: Accent 2, color: '#512DA8'}
-    - name: Indigo
-      colors:
-      - {name: Accent 1, color: '#3F51B5'}
-      - {name: Accent 2, color: '#303F9F'}
-    - name: Light Blue
-      colors:
-      - {name: Accent 1, color: '#03A9F4'}
-      - {name: Accent 2, color: '#0288D1'}
-    - name: Cyan
-      colors:
-      - {name: Accent 1, color: '#00BCD4'}
-      - {name: Accent 2, color: '#0097A7'}
-    - name: Teal
-      colors:
-      - {name: Accent 1, color: '#009688'}
-      - {name: Accent 2, color: '#00796B'}
-    - name: Green
-      colors:
-      - {name: Accent 1, color: '#4CAF50'}
-      - {name: Accent 2, color: '#388E3C'}
-    - name: Light Green
-      colors:
-      - {name: Accent 1, color: '#8BC34A'}
-      - {name: Accent 2, color: '#689F38'}
-    - name: Lime
-      colors:
-      - {name: Accent 1, color: '#CDDC39'}
-      - {name: Accent 2, color: '#AFB42B'}
-    - name: Deep orange
-      colors:
-      - {name: Accent 1, color: '#FF5722'}
-      - {name: Accent 2, color: '#E64A19'}
-    - name: Brown
-      colors:
-      - {name: Accent 1, color: '#795548'}
-      - {name: Accent 2, color: '#5D4037'}
-    - name: Grey
-      colors:
-      - {name: Accent 1, color: '#9E9E9E'}
-      - {name: Accent 2, color: '#616161'}
-  colors:
-  - {name: Accent 1, color: '#9E9E9E'}
-  - {name: Accent 2, color: '#616161'}
-  - {name: Background, color: '#D7D7D7'}
-  - {name: Header Background, color: '#333333'}
-  - {name: Sidebar Background, color: 'rgb(51, 51, 51)'}
-  - {name: Main_Black, color: 'rgb(25, 28, 26)'}
-  - {name: Grid_Black, color: 'rgb(40, 40, 40)'}
-  - {name: Orange, color: 'rgb(253, 101, 45)'}
-  - {name: Text_White, color: 'rgb(255, 255, 255)'}
-  - {name: Text_DecentWhite, color: 'rgb(235, 235, 235)'}
-  - {name: Text_Grey, color: 'rgb(200, 200, 200)'}
-  - {name: Text_DarkGrey, color: 'rgb(175, 175, 175)'}
-  - {name: Text_LightBlack, color: 'rgb(40, 40, 40)'}
+  name: table_content_talent_dev-1
+- components: [Link, Label]
+  name: table_content_talent_dev-2
+- components: [Button]
+  name: feature-talent-dev
+- components: [Label, Link]
+  name: transparent-headers
+- components: [Link, Label]
+  name: left-alignment-header
+- components: [Link]
+  name: underline-link
+- components: [Image]
+  name: artist-image-tables
+- components: [Link]
+  name: artist_name_shadow_arrows_left
+- components: [Link]
+  name: 'artist_name_shadow_arrows_right '
+- components: [Link]
+  name: 'artist_name_shadow_arrows_left_home '
+- components: [Link]
+  name: 'artist_name_shadow_arrows_right_home '
+- components: [RowTemplate]
+  name: rows_discover_page_no_image_table
+- components: [ColumnPanel]
+  name: grid-main
+- components: [Link]
+  name: description-bio-link
+- components: [FlowPanel]
+  name: section-background
+- components: [DropDown, DatePicker, TextBox]
+  name: target-dropdown
+- components: [TextArea]
+  name: target-textarea
+- components: [RepeatingPanel]
+  name: sidebar-notes
+- components: [Label]
+  name: timestamp-note-format
+- components: [Label]
+  name: content-note-format
+- components: [Button]
+  name: save-button-sidebar
+- components: [LinearPanel]
+  name: 'gauge-background '
+- components: [LinearPanel]
+  name: score-tile-background
+- components: [Label]
+  name: contact-details-saved-values
+- components: [Button]
+  name: contact-button
+- components: [ColumnPanel]
+  name: left-discover-page
+- components: [Button]
+  name: play-spotify-button
+- components: [ColumnPanel]
+  name: spotify-footer-class
+- components: [Button]
+  name: play-spotify-button-artist
+- components: [Button]
+  name: autoplay-toggle-button

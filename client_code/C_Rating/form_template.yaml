@@ -1,99 +1,99 @@
-container:
-  type: ColumnPanel
-  properties: {col_widths: '{}'}
 components:
-- name: content_panel
-  properties: {col_widths: '{"PFXCUC":15,"OHKNNE":10,"UEQSYQ":35}'}
-  type: ColumnPanel
-  layout_properties: {grid_position: 'HINVKU,JGCJXX'}
-  components:
-  - type: Label
-    properties: {role: title, bold: false, align: left, spacing_above: small, background: '', icon: '', underline: false, font: '', icon_align: left, foreground: '', spacing_below: small, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: All your previously rated Artists}
+- components:
+  - layout_properties: {grid_position: 'JAZERV,LGQSDW'}
     name: label_1
-    layout_properties: {grid_position: 'JAZERV,LGQSDW'}
-  - type: Label
-    properties: {role: description-bio, bold: false, align: left, spacing_above: small, background: '', icon: '', underline: false, font: '', icon_align: left, foreground: '', spacing_below: small, visible: true, border: '', italic: true, font_size: null, tooltip: '', text: This table contains a list of all evaluated artists.}
+    properties: {align: left, background: '', bold: false, border: '', font: '', font_size: null, foreground: '', icon: '', icon_align: left, italic: false, role: title, spacing_above: small, spacing_below: small, text: All your previously rated Artists, tooltip: '', underline: false, visible: true}
+    type: Label
+  - layout_properties: {grid_position: 'EZORSW,VNYUUN'}
     name: label_2
-    layout_properties: {grid_position: 'EZORSW,VNYUUN'}
-  - name: text_box_search
+    properties: {align: left, background: '', bold: false, border: '', font: '', font_size: null, foreground: '', icon: '', icon_align: left, italic: true, role: description-bio, spacing_above: small, spacing_below: small, text: This table contains a list of all evaluated artists., tooltip: '', underline: false, visible: true}
+    type: Label
+  - event_bindings: {change: button_search_click, pressed_enter: button_search_click}
+    layout_properties: {grid_position: 'AMIUZR,PFXCUC'}
+    name: text_box_search
     properties: {role: text_box_small}
     type: TextBox
-    layout_properties: {grid_position: 'AMIUZR,PFXCUC'}
-    event_bindings: {pressed_enter: button_search_click, change: button_search_click}
-  - name: button_search
-    properties: {text: Search Artist, role: feature}
-    type: Button
+  - event_bindings: {click: button_search_click}
     layout_properties: {grid_position: 'AMIUZR,OHKNNE'}
-    event_bindings: {click: button_search_click}
-  - name: spacer_1
+    name: button_search
+    properties: {role: feature, text: Search Artist}
+    type: Button
+  - layout_properties: {grid_position: 'AMIUZR,UEQSYQ'}
+    name: spacer_1
     properties: {height: 32}
     type: Spacer
-    layout_properties: {grid_position: 'AMIUZR,UEQSYQ'}
-  - name: spacer_2
+  - layout_properties: {grid_position: 'ZNJFBY,XOUPVU'}
+    name: spacer_2
     properties: {height: 32}
     type: Spacer
-    layout_properties: {grid_position: 'ZNJFBY,XOUPVU'}
-  - type: DataGrid
-    properties:
-      role: null
-      spacing_above: small
-      columns:
-      - {id: OYDYNQ, title: Date, data_key: DateOfRecommendation, $$hashKey: 'object:5657'}
-      - {id: DCLCSV, title: Artist, data_key: column_1, $$hashKey: 'object:2535', width: 81, expand: false}
-      - {id: FCILTB, title: '', data_key: Name, $$hashKey: 'object:5658'}
-      - {id: YHPGYN, title: '        Interest', data_key: Interest, $$hashKey: 'object:5659'}
-      - {id: SAPGXS, data_key: Watchlist, title: ''}
-      background: ''
-      rows_per_page: 7
-      wrap_on: never
-      foreground: ''
-      show_page_controls: true
-      auto_header: false
-      spacing_below: small
-      visible: true
-      border: ''
-      tooltip: ''
-    name: data_ratings_heads
-    layout_properties: {grid_position: 'PYIXLJ,NDPCXR'}
-    components:
-    - name: xy_panel_1
+  - components:
+    - components:
+      - data_bindings: []
+        event_bindings: {click: link_date_click}
+        layout_properties: {width: null, x: 0, y: 0}
+        name: link_date
+        properties:
+          icon: ''
+          icon_align: right
+          role: [table_content_talent_dev-2, left-alignment-header]
+          text: Date
+        type: Link
+      - event_bindings: {click: link_artist_click}
+        layout_properties: {width: null, x: 0, y: 0}
+        name: link_artist
+        properties:
+          icon_align: right
+          role: [table_content_talent_dev-2, left-alignment-header]
+          text: Artist
+        type: Link
+      - event_bindings: {click: link_interest_click}
+        layout_properties: {width: null, x: 0, y: 0}
+        name: link_interest
+        properties: {align: left, icon_align: right, role: table_content_talent_dev-2, text: Interest}
+        type: Link
+      - layout_properties: {width: null, x: 0, y: 0}
+        name: link_1_icons
+        properties: {role: table_content_talent_dev-2, text: ''}
+        type: Link
+      layout_properties: {}
+      name: xy_panel_1
       properties:
         height: 27
         role: [bottom_line, talent-dev-custom-class]
       type: XYPanel
+    - data_bindings: []
       layout_properties: {}
-      components:
-      - name: link_date
-        properties:
-          text: Date
-          role: [table_content_talent_dev-2, left-alignment-header]
-          icon_align: right
-          icon: ''
-        type: Link
-        layout_properties: {x: 0, y: 0, width: null}
-        event_bindings: {click: link_date_click}
-        data_bindings: []
-      - name: link_artist
-        properties:
-          role: [table_content_talent_dev-2, left-alignment-header]
-          text: Artist
-          icon_align: right
-        type: Link
-        layout_properties: {x: 0, y: 0, width: null}
-        event_bindings: {click: link_artist_click}
-      - name: link_interest
-        properties: {text: Interest, role: table_content_talent_dev-2, align: left, icon_align: right}
-        type: Link
-        layout_properties: {x: 0, y: 0, width: null}
-        event_bindings: {click: link_interest_click}
-      - name: link_1_icons
-        properties: {role: table_content_talent_dev-2, text: ''}
-        type: Link
-        layout_properties: {x: 0, y: 0, width: null}
-    - type: RepeatingPanel
-      properties: {role: table_content_small, spacing_above: none, background: '', item_template: C_Rating.RatingRows, foreground: '', items: null, spacing_below: none, visible: true, border: '', tooltip: ''}
       name: data_ratings_data
-      layout_properties: {}
-      data_bindings: []
-is_package: true
+      properties: {background: '', border: '', foreground: '', item_template: C_Rating.RatingRows, items: null, role: table_content_small, spacing_above: none, spacing_below: none, tooltip: '', visible: true}
+      type: RepeatingPanel
+    layout_properties: {grid_position: 'PYIXLJ,NDPCXR'}
+    name: data_ratings_heads
+    properties:
+      auto_header: false
+      background: ''
+      border: ''
+      columns:
+      - {$$hashKey: 'object:5657', data_key: DateOfRecommendation, id: OYDYNQ, title: Date}
+      - {$$hashKey: 'object:2535', data_key: column_1, expand: false, id: DCLCSV, title: Artist, width: 81}
+      - {$$hashKey: 'object:5658', data_key: Name, id: FCILTB, title: ''}
+      - {$$hashKey: 'object:5659', data_key: Interest, id: YHPGYN, title: '        Interest'}
+      - {data_key: Watchlist, id: SAPGXS, title: ''}
+      foreground: ''
+      role: null
+      rows_per_page: 7
+      show_page_controls: true
+      spacing_above: small
+      spacing_below: small
+      tooltip: ''
+      visible: true
+      wrap_on: never
+    type: DataGrid
+  layout_properties: {grid_position: 'HINVKU,JGCJXX'}
+  name: content_panel
+  properties: {col_widths: '{"PFXCUC":15,"OHKNNE":10,"UEQSYQ":35}'}
+  type: ColumnPanel
+container:
+  properties: {col_widths: '{}'}
+  type: ColumnPanel
 custom_component: true
+is_package: true

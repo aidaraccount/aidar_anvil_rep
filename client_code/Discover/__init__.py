@@ -77,15 +77,9 @@ class Discover(DiscoverTemplate):
     print(f"Discover model_id: {model_id}")
     self.model_id = model_id
 
-    # artist_id
-    temp_artist_id = self.url_dict['artist_id']
-    global cur_artist_id
-    cur_artist_id = temp_artist_id
-    global artist_id
-    artist_id = int(temp_artist_id)
-
     # get_suggestion
-    sug = json.loads(anvil.server.call('get_suggestion', 'Inspect', self.model_id, temp_artist_id)) # Free, Explore, Inspect, Dissect
+    url_artist_id = self.url_dict['artist_id']
+    sug = json.loads(anvil.server.call('get_suggestion', 'Inspect', self.model_id, url_artist_id)) # Free, Explore, Inspect, Dissect
     self.sug = sug
 
     # check status
@@ -105,10 +99,10 @@ class Discover(DiscoverTemplate):
       if result == "FILTERS":
         click_button(f'model_profile?model_id={self.model_id}&section=Filter', event_args)
             
-    elif sug["Status"] == 'Free Limit Reached!':
-      alert(title='Free Limit Reached..',
-        content="Sorry, the free version is limited in the number of suggested artists - if you're interested in continuing, please upgrade to one of our subscription plans.\n\nFor any questions, please contact us at info@aidar.ai\n\nYour AIDAR Team")
-      self.visible = False
+    # elif sug["Status"] == 'Free Limit Reached!':
+    #   alert(title='Free Limit Reached..',
+    #     content="Sorry, the free version is limited in the number of suggested artists - if you're interested in continuing, please upgrade to one of our subscription plans.\n\nFor any questions, please contact us at info@aidar.ai\n\nYour AIDAR Team")
+    #   self.visible = False
       
     else:      
       self.nav_releases.role = 'section_buttons_focused'
@@ -116,13 +110,16 @@ class Discover(DiscoverTemplate):
       self.sec_success.visible = False
       self.sec_fandom.visible = False
       self.sec_musical.visible = False
-   
+
+      artist_id = int(sug["ArtistID"])
+      self.artist_id = artist_id
+      
       watchlist_presence = anvil.server.call('check_watchlist_presence', self.model_id, artist_id)
       
       # -------------------------------
       # NOTES
-      self.get_watchlist_notes(model_id, cur_artist_id)
-      self.get_watchlist_details(model_id, cur_artist_id)
+      self.get_watchlist_notes(model_id, artist_id)
+      self.get_watchlist_details(model_id, artist_id)
       
       # -------------------------------
       # ARTIST HEADER
@@ -316,7 +313,7 @@ class Discover(DiscoverTemplate):
       else: smc = '-'
       self.sub_major_coop.text = smc
 
-      co_artists = json.loads(anvil.server.call('get_co_artists', int(cur_artist_id)))
+      co_artists = json.loads(anvil.server.call('get_co_artists', artist_id))
       if co_artists == []:
         self.co_artists_avg.text = '0'
       else:
@@ -325,16 +322,16 @@ class Discover(DiscoverTemplate):
       # --------
       # b) release tables
       if self.data_grid_releases.visible is True:
-        self.data_grid_releases_data.items = json.loads(anvil.server.call('get_dev_releases', int(cur_artist_id)))
+        self.data_grid_releases_data.items = json.loads(anvil.server.call('get_dev_releases', artist_id))
 
       # --------
       # c) release cycle
       if self.data_grid_cycle.visible is True:        
-        self.data_grid_cycle_data.items = anvil.server.call('get_release_cycle', int(cur_artist_id))
+        self.data_grid_cycle_data.items = anvil.server.call('get_release_cycle', artist_id)
 
       # --------
       # d) release timing
-      data = json.loads(anvil.server.call('get_dev_releases', int(cur_artist_id)))
+      data = json.loads(anvil.server.call('get_dev_releases', artist_id))
       self.create_release_timing_scatter_chart(data=data)
 
       # --------
@@ -354,7 +351,7 @@ class Discover(DiscoverTemplate):
       self.sort_dropdown.set_event_handler('change', self.sort_data)
       
       # Load the data when the form is initialized
-      labels_freq = json.loads(anvil.server.call('get_labels_freq', int(cur_artist_id)))
+      labels_freq = json.loads(anvil.server.call('get_labels_freq', artist_id))
       if labels_freq != []:
         labels = [x['LabelName'] for x in labels_freq]
         cooperations = [x["NoLabels"] for x in labels_freq]
@@ -385,13 +382,13 @@ class Discover(DiscoverTemplate):
       # --------
       # h) related artists table
       if self.data_grid_related_artists.visible is True:
-        self.data_grid_related_artists_data.items = json.loads(anvil.server.call('get_dev_related_artists', int(cur_artist_id), int(self.model_id)))
+        self.data_grid_related_artists_data.items = json.loads(anvil.server.call('get_dev_related_artists', artist_id, int(self.model_id)))
 
       
       # -------------------------------
       # II. SUCCESS
       # Load data
-      dev_successes = json.loads(anvil.server.call('get_dev_successes', int(cur_artist_id)))
+      dev_successes = json.loads(anvil.server.call('get_dev_successes', artist_id))
       dates = [x['Date'] for x in dev_successes]
       artist_popularity = [x["ArtistPopularity"] for x in dev_successes]
       artist_followers = [x["ArtistFollower"] for x in dev_successes]
@@ -422,7 +419,7 @@ class Discover(DiscoverTemplate):
       # III. FANDOM
       # a) mtl. listeners    
       # Load data for the Scatter plot (Spotify Monthly Listeners)
-      monthly_listeners_data = json.loads(anvil.server.call('get_mtl_listeners', int(cur_artist_id)))      
+      monthly_listeners_data = json.loads(anvil.server.call('get_mtl_listeners', artist_id))      
       
       if monthly_listeners_data != []:
         sp_mtl_lis_lat = monthly_listeners_data[-1]['MtlListeners']
@@ -448,7 +445,7 @@ class Discover(DiscoverTemplate):
       # --------
       # b) mtl. listeners country
       # Load data for the Scatter plot (Spotify Monthly Listeners by Country)
-      monthly_listeners_country_data = json.loads(anvil.server.call('get_mtl_listeners_country', int(cur_artist_id)))
+      monthly_listeners_country_data = json.loads(anvil.server.call('get_mtl_listeners_country', artist_id))
           
       if monthly_listeners_country_data != []:
         self.audience_country.text = monthly_listeners_country_data[0]['CountryName']
@@ -473,7 +470,7 @@ class Discover(DiscoverTemplate):
 
       # --------
       # c) mtl. listeners city
-      monthly_listeners_city_data = json.loads(anvil.server.call('get_mtl_listeners_city', int(cur_artist_id)))
+      monthly_listeners_city_data = json.loads(anvil.server.call('get_mtl_listeners_city', artist_id))
       
       if monthly_listeners_city_data != []:
         self.audience_city.text = monthly_listeners_city_data[0]['CityWithCountryCode']
@@ -494,7 +491,7 @@ class Discover(DiscoverTemplate):
                 
       # --------
       # d) Social Media followers
-      audience_follower = json.loads(anvil.server.call('get_audience_follower2', int(cur_artist_id)))
+      audience_follower = json.loads(anvil.server.call('get_audience_follower2', artist_id))
       
       if audience_follower != []:
         # Initialize a dictionary to hold data for each platform
@@ -1257,14 +1254,14 @@ class Discover(DiscoverTemplate):
     if self.link_watchlist_name.icon == 'fa:star':
       self.link_watchlist_name.icon = 'fa:star-o'
       self.link_watchlist_name2.icon = 'fa:star-o'
-      self.update_watchlist_lead(artist_id, False, None, False)
+      self.update_watchlist_lead(self.artist_id, False, None, False)
       Notification("",
         title=f"{name} removed from the watchlist!",
         style="success").show()
     else:
       self.link_watchlist_name.icon = 'fa:star'
       self.link_watchlist_name2.icon = 'fa:star'
-      self.update_watchlist_lead(artist_id, True, 'Action required', True)
+      self.update_watchlist_lead(self.artist_id, True, 'Action required', True)
       Notification("",
         title=f"{name} added to the watchlist!",
         style="success").show()
@@ -1318,46 +1315,46 @@ class Discover(DiscoverTemplate):
   # -------------------------------
   # RATING BUTTONS
   def button_1_click(self, **event_args):
-    anvil.server.call('add_interest', user["user_id"], self.model_id, artist_id, 1, False, '')
+    anvil.server.call('add_interest', user["user_id"], self.model_id, self.artist_id, 1, False, '')
     self.header.scroll_into_view(smooth=True)
-    temp_artist_id = anvil.server.call('get_next_artist_id', self.model_id)
-    routing.set_url_hash(f'artists?artist_id={temp_artist_id}', load_from_cache=False)
+    next_artist_id = anvil.server.call('get_next_artist_id', self.model_id)
+    routing.set_url_hash(f'artists?artist_id={next_artist_id}', load_from_cache=False)
 
   def button_2_click(self, **event_args):
-    anvil.server.call('add_interest', user["user_id"], self.model_id, artist_id, 2, False, '')
+    anvil.server.call('add_interest', user["user_id"], self.model_id, self.artist_id, 2, False, '')
     self.header.scroll_into_view(smooth=True)
-    temp_artist_id = anvil.server.call('get_next_artist_id', self.model_id)
-    routing.set_url_hash(f'artists?artist_id={temp_artist_id}', load_from_cache=False)
+    next_artist_id = anvil.server.call('get_next_artist_id', self.model_id)
+    routing.set_url_hash(f'artists?artist_id={next_artist_id}', load_from_cache=False)
 
   def button_3_click(self, **event_args):
-    anvil.server.call('add_interest', user["user_id"], self.model_id, artist_id, 3, False, '')
+    anvil.server.call('add_interest', user["user_id"], self.model_id, self.artist_id, 3, False, '')
     self.header.scroll_into_view(smooth=True)
-    temp_artist_id = anvil.server.call('get_next_artist_id', self.model_id)
-    routing.set_url_hash(f'artists?artist_id={temp_artist_id}', load_from_cache=False)
+    next_artist_id = anvil.server.call('get_next_artist_id', self.model_id)
+    routing.set_url_hash(f'artists?artist_id={next_artist_id}', load_from_cache=False)
 
   def button_4_click(self, **event_args):
-    anvil.server.call('add_interest', user["user_id"], self.model_id, artist_id, 4, False, '')
+    anvil.server.call('add_interest', user["user_id"], self.model_id, self.artist_id, 4, False, '')
     self.header.scroll_into_view(smooth=True)
-    temp_artist_id = anvil.server.call('get_next_artist_id', self.model_id)
-    routing.set_url_hash(f'artists?artist_id={temp_artist_id}', load_from_cache=False)
+    next_artist_id = anvil.server.call('get_next_artist_id', self.model_id)
+    routing.set_url_hash(f'artists?artist_id={next_artist_id}', load_from_cache=False)
 
   def button_5_click(self, **event_args):
-    anvil.server.call('add_interest', user["user_id"], self.model_id, artist_id, 5, False, '')
+    anvil.server.call('add_interest', user["user_id"], self.model_id, self.artist_id, 5, False, '')
     self.header.scroll_into_view(smooth=True)
-    temp_artist_id = anvil.server.call('get_next_artist_id', self.model_id)
-    routing.set_url_hash(f'artists?artist_id={temp_artist_id}', load_from_cache=False)
+    next_artist_id = anvil.server.call('get_next_artist_id', self.model_id)
+    routing.set_url_hash(f'artists?artist_id={next_artist_id}', load_from_cache=False)
 
   def button_6_click(self, **event_args):
-    anvil.server.call('add_interest', user["user_id"], self.model_id, artist_id, 6, False, '')
+    anvil.server.call('add_interest', user["user_id"], self.model_id, self.artist_id, 6, False, '')
     self.header.scroll_into_view(smooth=True)
-    temp_artist_id = anvil.server.call('get_next_artist_id', self.model_id)
-    routing.set_url_hash(f'artists?artist_id={temp_artist_id}', load_from_cache=False)
+    next_artist_id = anvil.server.call('get_next_artist_id', self.model_id)
+    routing.set_url_hash(f'artists?artist_id={next_artist_id}', load_from_cache=False)
 
   def button_7_click(self, **event_args):
-    anvil.server.call('add_interest', user["user_id"], self.model_id, artist_id, 7, False, '')
+    anvil.server.call('add_interest', user["user_id"], self.model_id, self.artist_id, 7, False, '')
     self.header.scroll_into_view(smooth=True)
-    temp_artist_id = anvil.server.call('get_next_artist_id', self.model_id)
-    routing.set_url_hash(f'artists?artist_id={temp_artist_id}', load_from_cache=False)
+    next_artist_id = anvil.server.call('get_next_artist_id', self.model_id)
+    routing.set_url_hash(f'artists?artist_id={next_artist_id}', load_from_cache=False)
   
   # -------------------------------
   # DESCRIPTION LINKS
@@ -1472,20 +1469,18 @@ class Discover(DiscoverTemplate):
   def button_remove_filters_click(self, **event_args):
     anvil.server.call('change_filters', self.model_id, filters_json = None)
     self.header.scroll_into_view(smooth=True)
-    temp_artist_id = anvil.server.call('get_next_artist_id', self.model_id)
-    routing.set_url_hash(f'artists?artist_id={temp_artist_id}', load_from_cache=False)
-    # self.refresh_sug(self.model_id, temp_artist_id=None)
+    next_artist_id = anvil.server.call('get_next_artist_id', self.model_id)
+    routing.set_url_hash(f'artists?artist_id={next_artist_id}', load_from_cache=False)
 
   def drop_down_model_change(self, **event_args):
     model_data = json.loads(anvil.server.call('get_model_ids',  user["user_id"]))
     model_id_new = [item['model_id'] for item in model_data if item['model_name'] == self.drop_down_model.selected_value][0]
     self.model_id=model_id_new
     save_var('model_id', model_id_new)
-    save_var('temp_artist_id', artist_id)
     anvil.server.call('update_model_usage', user["user_id"], model_id_new)
     self.header.scroll_into_view(smooth=True)
     get_open_form().refresh_models_underline()
-    self.refresh_sug(model_id_new, temp_artist_id=artist_id)
+    routing.set_url_hash(f'artists?artist_id={self.artist_id}', load_from_cache=False)
 
   def Text_Box_for_Artist_Phone_pressed_enter(self, **event_args):
     """This method is called when the user presses Enter in this text box"""
@@ -1494,17 +1489,15 @@ class Discover(DiscoverTemplate):
 # -----------------------------------------------------------------------------------------
 #  Start of the Sidebar Watchilish Functions 
 # -----------------------------------------------------------------------------------------    
-  def get_watchlist_notes(self, model_id, cur_artist_id, **event_args):
-    self.repeating_panel_1.items = json.loads(anvil.server.call('get_watchlist_notes', user["user_id"], cur_artist_id))
-
+  def get_watchlist_notes(self, model_id, artist_id, **event_args):
+    self.repeating_panel_1.items = json.loads(anvil.server.call('get_watchlist_notes', user["user_id"], artist_id))
 
   def button_note_click(self, **event_args):
-    anvil.server.call('add_note', user["user_id"], self.model_id, cur_artist_id, "", "", self.comments_area_section.text)
-    # self.comments_area_section.text = str(user["UserName"]) + ": " + ""
-    self.get_watchlist_notes(self.model_id, cur_artist_id)
+    anvil.server.call('add_note', user["user_id"], self.model_id, self.artist_id, "", "", self.comments_area_section.text)
+    self.get_watchlist_notes(self.model_id, self._artist_id)
 
-  def get_watchlist_details (self, model_id, cur_artist_id, **event_args):
-    details = json.loads(anvil.server.call('get_watchlist_details', model_id, cur_artist_id))
+  def get_watchlist_details (self, model_id, artist_id, **event_args):
+    details = json.loads(anvil.server.call('get_watchlist_details', model_id, artist_id))
 
     if details[0]["Description"] is None:
       self.label_description_2.text = '-'
@@ -1548,10 +1541,10 @@ class Discover(DiscoverTemplate):
 
   def update_details_on_sidebar(self, **event_args):
     """This method is called when an item is selected"""
-    details = json.loads(anvil.server.call('get_watchlist_details', self.model_id, cur_artist_id))
+    details = json.loads(anvil.server.call('get_watchlist_details', self.model_id, self.artist_id))
     anvil.server.call('update_watchlist_details',
                       self.model_id,
-                      cur_artist_id,
+                      self.artist_id,
                       True,
                       self.status_dropdown.selected_value,
                       self.priority_dropdown.selected_value,
@@ -1572,10 +1565,10 @@ class Discover(DiscoverTemplate):
           title=f"{name} added to the watchlist!",
           style="success").show()
 
-    self.get_watchlist_details(self.model_id, cur_artist_id)
+    self.get_watchlist_details(self.model_id, self.artist_id)
 
   def contacts_button_click(self, **event_args):
-    details = json.loads(anvil.server.call('get_watchlist_details', self.model_id, cur_artist_id))
+    details = json.loads(anvil.server.call('get_watchlist_details', self.model_id, self.artist_id))
 
     if self.contacts_button.icon == 'fa:edit':
       self.contacts_button.icon = 'fa:save'
@@ -1607,8 +1600,6 @@ class Discover(DiscoverTemplate):
     self.update_details_on_sidebar()
 
   def description_button_click(self, **event_args):
-    # details = json.loads(anvil.server.call('get_watchlist_details', self.model_id, cur_artist_id))
-
     if self.description_button.icon == 'fa:edit':
       self.description_button.icon = 'fa:save'
 

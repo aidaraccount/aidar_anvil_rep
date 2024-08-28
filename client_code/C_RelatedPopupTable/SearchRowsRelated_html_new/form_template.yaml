@@ -1,47 +1,47 @@
-container:
-  type: DataRowPanel
-  properties:
-    role: [rows_dropdown]
-    align: center
-    visible: true
 components:
-- type: Link
-  properties: {col_widths: '{}', spacing_below: none, spacing_above: none}
-  name: related_pic_link
-  layout_properties: {column: CGJCWL}
-  components:
-  - type: Image
-    properties: {role: artist-image-tables, vertical_align: center, spacing_above: small, background: '', horizontal_align: center, source: '', foreground: '', display_mode: shrink_to_fit, spacing_below: small, visible: true, border: '', tooltip: '', height: '70'}
-    name: related_image
+- components:
+  - data_bindings:
+    - {code: 'self.item[''ArtistPictureURL'']', property: source}
     layout_properties: {column: CGJCWL, grid_position: 'JKDRVH,YEAIII'}
-    data_bindings:
-    - {property: source, code: 'self.item[''ArtistPictureURL'']'}
+    name: related_image
+    properties: {background: '', border: '', display_mode: shrink_to_fit, foreground: '', height: '70', horizontal_align: center, role: artist-image-tables, source: '', spacing_above: small, spacing_below: small, tooltip: '', vertical_align: center, visible: true}
+    type: Image
   data_bindings:
-  - {property: url, code: 'self.item[''ArtistID'']'}
+  - {code: 'self.item[''ArtistID'']', property: url}
   event_bindings: {click: related_click}
-- name: label_1
-  properties: {align: center}
-  type: Label
-  layout_properties: {column: TTVDHC}
-  data_bindings:
-  - {property: text, code: 'self.item[''ArtistPopularity_lat'']', writeback: false}
-- name: label_2
-  properties: {align: center}
-  type: Label
-  layout_properties: {column: ITWSTJ}
-  data_bindings:
-  - {property: text, code: 'self.item[''ArtistFollower_lat'']', writeback: false}
-- type: Link
-  properties: {role: artist_name, bold: false, align: center, col_widths: '', spacing_above: small, background: '', icon: '', wrap_on: mobile, underline: false, font: '', col_spacing: medium, icon_align: left, foreground: '', url: '', spacing_below: small, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: ''}
-  name: related_name_link
-  layout_properties: {column: OHHGOJ}
-  data_bindings:
-  - {property: text, code: 'self.item[''Name'']'}
-  - {property: url, code: 'self.item[''ArtistID'']'}
-  event_bindings: {click: related_click}
-- name: link_1
-  properties: {text: show rel. artists, role: null, icon: 'fa:arrow-right', icon_align: right}
+  layout_properties: {column: CGJCWL}
+  name: related_pic_link
+  properties: {col_widths: '{}', spacing_above: none, spacing_below: none}
   type: Link
-  layout_properties: {column: YTCRRC}
+- data_bindings:
+  - {code: 'self.item[''ArtistPopularity_lat'']', property: text, writeback: false}
+  layout_properties: {column: TTVDHC}
+  name: label_1
+  properties: {align: center}
+  type: Label
+- data_bindings:
+  - {code: 'self.item[''ArtistFollower_lat'']', property: text, writeback: false}
+  layout_properties: {column: ITWSTJ}
+  name: label_2
+  properties: {align: center}
+  type: Label
+- data_bindings:
+  - {code: 'self.item[''Name'']', property: text}
+  - {code: 'self.item[''ArtistID'']', property: url}
   event_bindings: {click: related_click}
+  layout_properties: {column: OHHGOJ}
+  name: related_name_link
+  properties: {align: center, background: '', bold: false, border: '', col_spacing: medium, col_widths: '', font: '', font_size: null, foreground: '', icon: '', icon_align: left, italic: false, role: artist_name, spacing_above: small, spacing_below: small, text: '', tooltip: '', underline: false, url: '', visible: true, wrap_on: mobile}
+  type: Link
+- event_bindings: {click: related_click}
+  layout_properties: {column: YTCRRC}
+  name: link_1
+  properties: {icon: 'fa:arrow-right', icon_align: right, role: null, text: show rel. artists}
+  type: Link
+container:
+  properties:
+    align: center
+    role: [rows_dropdown]
+    visible: true
+  type: DataRowPanel
 is_package: true

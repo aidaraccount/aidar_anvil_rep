@@ -1,29 +1,29 @@
-container: {type: DataRowPanel}
 components:
-- type: Link
-  properties: {role: null, bold: false, align: left, col_widths: '', spacing_above: small, background: '', icon: '', wrap_on: mobile, underline: false, font: '', col_spacing: medium, icon_align: left, foreground: '', url: '', spacing_below: small, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: ''}
-  name: inspect_link
-  layout_properties: {column: YTCRRC}
+- data_bindings:
+  - {code: '''add as Ref. Artist''', property: text}
+  - {code: 'self.item[''SpotifyArtistID'']', property: tag}
   event_bindings: {click: inspect_link_click}
-  data_bindings:
-  - {property: text, code: '''add as Ref. Artist'''}
-  - {property: tag, code: 'self.item[''SpotifyArtistID'']'}
-- type: Image
-  properties: {role: null, vertical_align: center, spacing_above: small, background: '', horizontal_align: center, source: '', foreground: '', display_mode: shrink_to_fit, spacing_below: small, visible: true, border: '', tooltip: '', height: '70'}
-  name: inspect_image
+  layout_properties: {column: YTCRRC}
+  name: inspect_link
+  properties: {align: left, background: '', bold: false, border: '', col_spacing: medium, col_widths: '', font: '', font_size: null, foreground: '', icon: '', icon_align: left, italic: false, role: null, spacing_above: small, spacing_below: small, text: '', tooltip: '', underline: false, url: '', visible: true, wrap_on: mobile}
+  type: Link
+- data_bindings:
+  - {code: 'self.item[''ArtistPictureURL'']', property: source}
   layout_properties: {column: CGJCWL, grid_position: 'SZDAUI,LQAFPI'}
-  data_bindings:
-  - {property: source, code: 'self.item[''ArtistPictureURL'']'}
-- name: label_1
-  properties: {align: center}
-  type: Label
+  name: inspect_image
+  properties: {background: '', border: '', display_mode: shrink_to_fit, foreground: '', height: '70', horizontal_align: center, role: null, source: '', spacing_above: small, spacing_below: small, tooltip: '', vertical_align: center, visible: true}
+  type: Image
+- data_bindings:
+  - {code: 'self.item[''ArtistPopularity_lat'']', property: text, writeback: false}
   layout_properties: {column: TTVDHC}
-  data_bindings:
-  - {property: text, code: 'self.item[''ArtistPopularity_lat'']', writeback: false}
-- name: label_2
+  name: label_1
   properties: {align: center}
   type: Label
+- data_bindings:
+  - {code: 'self.item[''ArtistFollower_lat'']', property: text, writeback: false}
   layout_properties: {column: ITWSTJ}
-  data_bindings:
-  - {property: text, code: 'self.item[''ArtistFollower_lat'']', writeback: false}
+  name: label_2
+  properties: {align: center}
+  type: Label
+container: {type: DataRowPanel}
 is_package: true

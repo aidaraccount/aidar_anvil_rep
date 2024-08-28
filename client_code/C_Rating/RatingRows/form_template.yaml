@@ -1,54 +1,54 @@
-container:
-  type: DataRowPanel
-  properties: {align: center}
 components:
-- type: Link
-  properties: {role: table_content_small, bold: false, align: left, col_widths: '', spacing_above: small, background: '', icon: '', wrap_on: mobile, underline: false, font: '', col_spacing: medium, icon_align: left, foreground: '', url: '', spacing_below: small, visible: true, border: '', italic: false, font_size: null, tooltip: '', text: Name}
-  name: inspect_name_link
-  layout_properties: {grid_position: 'OTFROG,RDFSJW', column: FCILTB}
+- data_bindings:
+  - {code: 'self.item[''Name'']', property: text}
+  - {code: 'self.item[''ArtistID'']', property: url}
   event_bindings: {click: inspect_name_link_click}
-  data_bindings:
-  - {property: text, code: 'self.item[''Name'']'}
-  - {property: url, code: 'self.item[''ArtistID'']'}
-- type: Link
-  properties: {col_widths: '{}'}
-  name: inspect_pic_link
-  layout_properties: {column: DCLCSV}
-  data_bindings:
-  - {property: url, code: 'self.item[''ArtistID'']'}
-  components:
-  - type: Image
-    properties: {role: null, vertical_align: center, spacing_above: small, background: '', horizontal_align: center, source: '', foreground: '', display_mode: zoom_to_fill, spacing_below: small, visible: true, border: '', tooltip: '', height: '67'}
-    name: inspect_image
+  layout_properties: {column: FCILTB, grid_position: 'OTFROG,RDFSJW'}
+  name: inspect_name_link
+  properties: {align: left, background: '', bold: false, border: '', col_spacing: medium, col_widths: '', font: '', font_size: null, foreground: '', icon: '', icon_align: left, italic: false, role: table_content_small, spacing_above: small, spacing_below: small, text: Name, tooltip: '', underline: false, url: '', visible: true, wrap_on: mobile}
+  type: Link
+- components:
+  - data_bindings:
+    - {code: 'self.item[''ArtistPictureURL'']', property: source}
     layout_properties: {grid_position: 'OTFROG,UMCAVJ'}
-    data_bindings:
-    - {property: source, code: 'self.item[''ArtistPictureURL'']'}
+    name: inspect_image
+    properties: {background: '', border: '', display_mode: zoom_to_fill, foreground: '', height: '67', horizontal_align: center, role: null, source: '', spacing_above: small, spacing_below: small, tooltip: '', vertical_align: center, visible: true}
+    type: Image
+  data_bindings:
+  - {code: 'self.item[''ArtistID'']', property: url}
   event_bindings: {click: inspect_pic_link_click}
-- name: label_1
+  layout_properties: {column: DCLCSV}
+  name: inspect_pic_link
+  properties: {col_widths: '{}'}
+  type: Link
+- data_bindings:
+  - {code: 'self.item[''Interest'']', property: text, writeback: false}
+  layout_properties: {column: YHPGYN}
+  name: label_1
   properties: {align: center, text: ''}
   type: Label
-  layout_properties: {column: YHPGYN}
-  data_bindings:
-  - {property: text, code: 'self.item[''Interest'']', writeback: false}
-- name: xy_panel_1
+- components:
+  - event_bindings: {click: button_discover_click}
+    layout_properties: {width: 95, x: 0, y: 0}
+    name: button_discover
+    properties: {background: 'theme:Orange', foreground: 'theme:Text_DecentWhite', icon: 'fa:male', role: feature, text: '', tooltip: Investigate Artist}
+    type: Button
+  - data_bindings: []
+    event_bindings: {click: button_watchlist_click}
+    layout_properties: {width: 40, x: 85, y: 0}
+    name: button_watchlist
+    properties: {icon: 'fa:address-card-o', role: feature, text: '', tooltip: ''}
+    type: Button
+  - event_bindings: {click: button_watchlist_delete_click}
+    layout_properties: {width: 40, x: 130, y: null}
+    name: button_watchlist_delete
+    properties: {icon: 'fa:trash-o', role: feature, text: '', tooltip: remove from Watchlist, visible: false}
+    type: Button
+  layout_properties: {column: SAPGXS}
+  name: xy_panel_1
   properties: {height: 20}
   type: XYPanel
-  layout_properties: {column: SAPGXS}
-  components:
-  - name: button_discover
-    properties: {text: '', role: feature, foreground: 'theme:Text_DecentWhite', background: 'theme:Orange', icon: 'fa:male', tooltip: Investigate Artist}
-    type: Button
-    layout_properties: {x: 0, y: 0, width: 95}
-    event_bindings: {click: button_discover_click}
-  - name: button_watchlist
-    properties: {text: '', icon: 'fa:address-card-o', role: feature, tooltip: ''}
-    type: Button
-    layout_properties: {x: 85, y: 0, width: 40}
-    data_bindings: []
-    event_bindings: {click: button_watchlist_click}
-  - name: button_watchlist_delete
-    properties: {text: '', icon: 'fa:trash-o', role: feature, visible: false, tooltip: remove from Watchlist}
-    type: Button
-    layout_properties: {x: 130, y: null, width: 40}
-    event_bindings: {click: button_watchlist_delete_click}
+container:
+  properties: {align: center}
+  type: DataRowPanel
 is_package: true
