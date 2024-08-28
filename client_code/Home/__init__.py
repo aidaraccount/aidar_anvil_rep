@@ -87,11 +87,11 @@ class Home(HomeTemplate):
     
     
   def link_discover_click(self, **event_args):
-    temp_artist_id = anvil.server.call('get_next_artist_id', self.model_id)
+    temp_artist_id = anvil.server.call('get_next_artist_id', load_var('model_id'))
     click_link(self.artist_link, f'artists?artist_id={temp_artist_id}', event_args)
     
   def button_discover_click(self, **event_args):
-    temp_artist_id = anvil.server.call('get_next_artist_id', self.model_id)
+    temp_artist_id = anvil.server.call('get_next_artist_id', load_var('model_id'))
     click_button(f'artists?artist_id={temp_artist_id}', event_args)
     
   def link_funnel_click(self, **event_args):

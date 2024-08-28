@@ -74,9 +74,6 @@ class ModelProfile(ModelProfileTemplate):
     self.status.text = infos["status"]
 
     # activate button
-    print(type(self.model_id_view))
-    print(type(model_id_active_new))
-    print(int(self.model_id_view) == int(model_id_active_new))
     if int(self.model_id_view) == int(model_id_active_new):
       self.activated.visible = True
       self.activate.visible = False

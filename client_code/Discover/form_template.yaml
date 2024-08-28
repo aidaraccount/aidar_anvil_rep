@@ -180,6 +180,7 @@ components:
       type: FlowPanel
     - components:
       - event_bindings: {click: spotify_artist_button_click}
+        layout_properties: {}
         name: spotify_artist_button
         properties:
           align: right
@@ -188,17 +189,19 @@ components:
           spacing_above: none
           spacing_below: none
           text: ''
+          tooltip: play top tracks
         type: Button
       - event_bindings: {click: autoplay_button_click}
         layout_properties: {}
         name: autoplay_button
         properties:
           align: center
-          icon: fa:toggle-on
+          icon: fa:toggle-off
           role: [play-spotify-button, play-spotify-button-artist, autoplay-toggle-button]
           spacing_above: none
           spacing_below: none
           text: ''
+          tooltip: auto play
           visible: true
         type: Button
       layout_properties: {grid_position: 'KTIEJU,SKLDLY JRLCNO,DJZEPN'}
@@ -1245,7 +1248,7 @@ components:
     type: FlowPanel
   layout_properties: {slot: footer-slot}
   name: Footer
-  properties: {background: 'theme:Grid_Black', col_spacing: tiny, col_widths: '{"KTIVUF":20,"XUSTNC":30,"THIOWY":10,"OZIYBS":20}', spacing_above: none, spacing_below: none, visible: true}
+  properties: {background: 'theme:Grid_Black', col_spacing: tiny, col_widths: '{"XUSTNC":30,"THIOWY":10,"OZIYBS":20,"CLCEVO":15}', spacing_above: none, spacing_below: none, visible: true}
   type: ColumnPanel
 container:
   properties: {background: '', html: '@theme:Discover_Sidebar_and_JS.html', role: test}

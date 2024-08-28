@@ -27,7 +27,7 @@ class RowTemplate1(RowTemplate1Template):
       self.parent.parent.parent.parent.parent.parent.spotify_HTML_player()
       self.parent.parent.parent.parent.parent.parent.call_js('createOrUpdateSpotifyPlayer', 'track', self.item["SpotifyTrackID"])
       anvil.js.call_js('playSpotify')
- 
+      
     else:
       anvil.js.call_js('playSpotify')
 
@@ -35,6 +35,12 @@ class RowTemplate1(RowTemplate1Template):
     save_var('lastplayed', self.item["SpotifyTrackID"])
 
     if self.button_play_track.icon == 'fa:play-circle':
+      # reset all other:
+      self.parent.parent.parent.parent.parent.parent.reset_track_play_buttons()
+      # set specific one
       self.button_play_track.icon = 'fa:pause-circle'
     else:
       self.button_play_track.icon = 'fa:play-circle'
+    
+    self.parent.parent.parent.parent.parent.parent.spotify_artist_button.icon = 'fa:play-circle'
+ 
