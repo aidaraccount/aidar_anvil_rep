@@ -13,7 +13,15 @@ components:
 - event_bindings: {click: button_play_track_click}
   layout_properties: {column: RAPPVC}
   name: button_play_track
-  properties: {align: center, icon: 'fa:play-circle', role: play-spotify-button, spacing_above: none, spacing_below: none, text: '', visible: true}
+  properties:
+    align: center
+    icon: fa:play-circle
+    role: play-spotify-button
+    spacing_above: none
+    spacing_below: none
+    text: |2+
+
+    visible: true
   type: Button
 container:
   properties: {role: rows_discover_page_no_image_table}

@@ -725,10 +725,10 @@ class Discover(DiscoverTemplate):
           <div class="percent">
             <span class="percent__int">0.</span>
             <!-- <span class="percent__dec">00</span> -->
+            <span class="label" style="font-size: 13px;>Fit Likelihood</span>
           </div>
         </div>
 
-        <span class="label">Fit Likelihood</span>
       </li>
       '''
       html_panel = HtmlPanel(html=custom_html)
