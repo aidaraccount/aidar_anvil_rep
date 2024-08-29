@@ -29,7 +29,6 @@ class Watchlist_Details(Watchlist_DetailsTemplate):
 
     self.get_watchlist_selection(temp_artist_id = temp_artist_id)
 
-
   def drop_down_selection_change(self, **event_args):
     self.get_watchlist_selection(temp_artist_id=None)
   
