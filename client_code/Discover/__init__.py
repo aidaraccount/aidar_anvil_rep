@@ -153,7 +153,6 @@ class Discover(DiscoverTemplate):
       # self.call_js('updateArtistName', sug["Name"])
       # self.component.call_js('consoleTestfunction')
 
-
       # --------
       # genres
       if sug["Genres"] == 'None':
@@ -252,8 +251,8 @@ class Discover(DiscoverTemplate):
       # --------
       # prediction
       if (str(sug["Prediction"]) == 'nan') or (str(sug["Prediction"]) == 'None'):
-        self.prediction.visible = False
-        self.prediction_text.visible = False
+        # self.prediction.visible = False
+        # self.prediction_text.visible = False
         self.column_panel_5.visible= False
         self.linear_panel_2.visible= True
         self.no_prediction.visible = True
@@ -265,10 +264,10 @@ class Discover(DiscoverTemplate):
           self.pred = '0%'
         else: 
           self.pred = "{:.2f}".format(round(float(sug["Prediction"])/7*100,0))
-        self.prediction.text = self.pred
+        # self.prediction.text = self.pred
         # should delete prediction and prediction_Text visible from here
-        self.prediction.visible = False
-        self.prediction_text.visible = False
+        # self.prediction.visible = False
+        # self.prediction_text.visible = False
         self.linear_panel_2.visible= False
         self.no_prediction.visible = False
       self.custom_HTML_prediction()
@@ -724,7 +723,7 @@ class Discover(DiscoverTemplate):
           <div class="percent">
             <span class="percent__int">0.</span>
             <!-- <span class="percent__dec">00</span> -->
-            <span class="label" style="font-size: 13px;>Fit Likelihood</span>
+            <span class="label" style="font-size: 13px;">Fit Likelihood</span>
           </div>
         </div>
 

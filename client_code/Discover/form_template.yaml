@@ -223,14 +223,6 @@ components:
       type: ColumnPanel
     - components:
       - layout_properties: {}
-        name: prediction
-        properties: {align: center, bold: true, font_size: 32, role: artist_name_shadow, spacing_above: none, spacing_below: none, visible: false}
-        type: Label
-      - layout_properties: {}
-        name: prediction_text
-        properties: {align: center, role: feature, spacing_above: none, spacing_below: none, text: fit likelihood, visible: false}
-        type: Label
-      - layout_properties: {}
         name: no_prediction
         properties: {align: center, role: artist_name_shadow, text: Model     ramp-up}
         type: Label

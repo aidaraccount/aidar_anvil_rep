@@ -116,37 +116,47 @@ class Watchlist_Details(Watchlist_DetailsTemplate):
   def get_watchlist_details (self, model_id, cur_ai_artist_id, **event_args):
     cur_ai_artist_id = cur_ai_artist_id
     details = json.loads(anvil.server.call('get_watchlist_details', model_id, cur_ai_artist_id))
-
+    
+    print(details[1])
     # Image & Name
     self.image_detail.source = details[0]["ArtistPictureURL"]
     self.label_name.text = details[0]["Name"]    
 
-    # # Links & Contact Information
-    # if details[0]["SpotifyLink"] is None:
-    #   self.link_spotify.text = 'Profile'
-    #   self.link_spotify.url = details[0]["ArtistURL"]
-    #   self.text_box_spotify.text = details[0]["ArtistURL"]
-    # else:
-    #   self.link_spotify.text = 'Profile'
-    #   self.link_spotify.url = details[0]["SpotifyLink"]
-    #   self.text_box_spotify.text = details[0]["SpotifyLink"]
-    
-    # if details[0]["InstaLink"] is None:
-    #   self.link_insta.text = '-'
-    #   self.text_box_insta.text = None
-    # else:
-    #   self.link_insta.text = 'Profile'
-    #   self.link_insta.url = details[0]["InstaLink"]
-    #   self.text_box_insta.text = details[0]["InstaLink"]
+    # Social Media Section
+    platform_dict = {
+      "Spotify": "fa:spotify",
+      "Amazon": "fa:amazon",
+      "Soundcloud": "fa:soundcloud",
+      "Apple Music": "fa:apple",
+      "Facebook": "fa:facebook",
+      "Instagram": "fa:instagram",
+      "Twitter": "fab:x-twitter",
+      "YouTube": "fa:youtube",
+      "Deezer": "fab:deezer",
+      "TikTok": "fab:tiktok"
+    }
       
-    # if details[0]["SoundCloudLink"] is None:
-    #   self.link_sound.text = '-'
-    #   self.text_box_sound.text = None
-    # else:
-    #   self.link_sound.text = 'Profile'
-    #   self.link_sound.url = details[0]["SoundCloudLink"]
-    #   self.text_box_sound.text = details[0]["SoundCloudLink"]
+    if details[1]["ArtistID"] == '':
+      self.social_media_link.visible = False
+    else:
+      social_media_list = details[1]["Platform"]
+      social_media_list_url = details[1]["PlatformURL"]
+      print(social_media_list)
+      print(social_media_list['0'])
+      for i in range(0, len(social_media_list)):
+        found = False
 
+        if social_media_list[str(i)] in platform_dict:  
+          found = True
+          social_media_link = Link(icon=platform_dict[social_media_list[str(i)]])
+          social_media_link.role = "music-icons-tile"
+          
+        if found is True:
+          # social_media_link.role = 'genre-box'
+          social_media_link.url = social_media_list_url[str(i)]
+          self.flow_panel_social_media_tile.add_component(social_media_link)
+
+    
     if details[0]["Description"] is None:
       self.text_description.text = '-'
       self.text_area_description.text = None
@@ -174,13 +184,21 @@ class Watchlist_Details(Watchlist_DetailsTemplate):
       self.text_box_phone.text = details[0]["Phone"]
 
     # tags
-    if details[0]["Status"] is None: self.drop_down_status.selected_value = 'Action required'
-    else: self.drop_down_status.selected_value = details[0]["Status"]
-    if details[0]["Priority"] is None: self.drop_down_priority.selected_value = 'mid'
-    else: self.drop_down_priority.selected_value = details[0]["Priority"]
-    if details[0]["Reminder"] is None: self.date_picker_reminder.date = ''
-    else: self.date_picker_reminder.date = details[0]["Reminder"]
-  
+    if details[0]["Status"] is None: 
+      self.drop_down_status.selected_value = 'Action required'
+    else: 
+      self.drop_down_status.selected_value = details[0]["Status"]
+    if details[0]["Priority"] is None: 
+      self.drop_down_priority.selected_value = 'mid'
+    else: 
+      self.drop_down_priority.selected_value = details[0]["Priority"]
+    if details[0]["Reminder"] is None: 
+      self.date_picker_reminder.date = ''
+    else: 
+      self.date_picker_reminder.date = details[0]["Reminder"]
+
+    
+    
   def get_watchlist_notes (self, model_id, cur_ai_artist_id, **event_args):
     cur_ai_artist_id = cur_ai_artist_id
     self.repeating_panel_detail.items = json.loads(anvil.server.call('get_watchlist_notes', user["user_id"], cur_ai_artist_id))
@@ -258,9 +276,3 @@ class Watchlist_Details(Watchlist_DetailsTemplate):
       anvil.server.call('update_watchlist_lead', self.model_id, cur_ai_artist_id, False, None, False)
       self.get_watchlist_selection(temp_artist_id = None)
       self.parent.parent.update_no_notifications()
-
-
-  def refresh_sug(self, **event_args):
-    url_artist_id = self.url_dict['artist_id']
-    sug = json.loads(anvil.server.call('get_suggestion', 'Inspect', self.model_id, url_artist_id))
-    self.sug = sug

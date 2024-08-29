@@ -80,6 +80,10 @@ components:
     name: label_name
     properties: {role: sub_title, spacing_above: none, spacing_below: none}
     type: Label
+  - layout_properties: {grid_position: 'HDFDKN,FADFZU MPUOEM,AQPEBC'}
+    name: flow_panel_social_media_tile
+    properties: {spacing_above: none, spacing_below: none}
+    type: FlowPanel
   - components:
     - event_bindings: {click: button_investigate_click}
       name: button_investigate
