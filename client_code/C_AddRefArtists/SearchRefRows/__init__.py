@@ -32,6 +32,9 @@ class SearchRefRows(SearchRefRowsTemplate):
   def add_ref_artist(self, **event_args):
     status = anvil.server.call('add_ref_artist', user["user_id"], model_id, self.inspect_link.tag)
     if status == 'Event created':
+      # increase No. references by 1
+      self.parent.parent.parent.parent.parent.parent.no_references.text = int(self.parent.parent.parent.parent.parent.parent.no_references.text) + 1
+    
       alert(title='Processing Reference Artist..',
             content='We are processing your artist, which may take a short moment. You will find it at REF. ARTISTS soon.\n\nFeel free to add additional reference artists or start to DISCOVER - both  will improve your model accuracy.\n\nEnjoy it!')
 
@@ -44,6 +47,6 @@ class SearchRefRows(SearchRefRowsTemplate):
 
       self.parent.parent.parent.parent.data_grid_artists_header.visible = False
       self.parent.parent.parent.parent.text_box_search.text = ''
-    
+
     elif status == 'No SpotifyArtistID':
       alert(title='Error..', content='This is not a valid Spotify Artist ID.\n\nYou find the Spotify Artist ID on open.spotify.com. It contains 22 characters.\n\nMichael Jackson for example is available under https://open.spotify.com/artist/3fMbdgg4jU18AjLCKBhRSm. The last part of this URL is the Spotify Artist ID -> "3fMbdgg4jU18AjLCKBhRSm"')

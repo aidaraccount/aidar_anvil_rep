@@ -1494,7 +1494,8 @@ class Discover(DiscoverTemplate):
 
   def button_note_click(self, **event_args):
     anvil.server.call('add_note', user["user_id"], self.model_id, self.artist_id, "", "", self.comments_area_section.text)
-    self.get_watchlist_notes(self.model_id, self._artist_id)
+    self.get_watchlist_notes(self.model_id, self.artist_id)
+    self.update_details_on_sidebar()
 
   def get_watchlist_details (self, model_id, artist_id, **event_args):
     details = json.loads(anvil.server.call('get_watchlist_details', model_id, artist_id))
@@ -1596,8 +1597,8 @@ class Discover(DiscoverTemplate):
       self.label_mail.visible = True
       self.label_phone.visible = True
       
-    # save text boxes
-    self.update_details_on_sidebar()
+      # save text boxes
+      self.update_details_on_sidebar()
 
   def description_button_click(self, **event_args):
     if self.description_button.icon == 'fa:edit':
@@ -1612,8 +1613,8 @@ class Discover(DiscoverTemplate):
       self.text_area_description.visible = False
       self.label_description_2.visible = True
 
-    # save text boxes
-    self.update_details_on_sidebar()
+      # save text boxes
+      self.update_details_on_sidebar()
 
   def button_track_test_click(self, track_id=None, **event_args):
     anvil.js.call_js('playSpotify')
