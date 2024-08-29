@@ -16,19 +16,15 @@ components:
   properties: {align: right, role: feature, text: Delete Model}
   type: Button
 - components:
-  - layout_properties: {grid_position: 'XTTLYB,DZTBEJ'}
-    name: spacer_3
-    properties: {height: 32, visible: false}
-    type: Spacer
-  - event_bindings: {click: edit_icon_click}
-    layout_properties: {grid_position: 'XTTLYB,MDAFFD'}
-    name: edit_icon
-    properties: {icon: 'fa:pencil', icon_align: right}
-    type: Link
   - layout_properties: {grid_position: 'VLZTYX,JGWMQG'}
     name: model_name
     properties: {role: artist_name}
     type: Label
+  - event_bindings: {click: edit_icon_click}
+    layout_properties: {grid_position: 'VLZTYX,OKQBDV'}
+    name: edit_icon
+    properties: {icon: 'fa:pencil', icon_align: right}
+    type: Link
   - layout_properties: {grid_position: 'UASNUV,RYKQHD'}
     name: model_name_text
     properties: {role: text_box_small}
@@ -92,7 +88,7 @@ components:
     type: ColumnPanel
   layout_properties: {grid_position: 'LBNEEL,AWENUG'}
   name: header_left
-  properties: {col_widths: '{"DZTBEJ":50,"MDAFFD":10}', role: tile-background-left}
+  properties: {col_widths: '{"JGWMQG":55,"OKQBDV":5}', role: tile-background-left}
   type: ColumnPanel
 - components:
   - layout_properties: {grid_position: 'ISLIBQ,SPJFCR'}
