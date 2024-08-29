@@ -18,7 +18,7 @@ components:
 - components:
   - layout_properties: {grid_position: 'XTTLYB,DZTBEJ'}
     name: spacer_3
-    properties: {height: 32}
+    properties: {height: 32, visible: false}
     type: Spacer
   - event_bindings: {click: edit_icon_click}
     layout_properties: {grid_position: 'XTTLYB,MDAFFD'}
