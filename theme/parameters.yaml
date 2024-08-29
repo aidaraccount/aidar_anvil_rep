@@ -236,7 +236,7 @@ roles:
   name: header-2
 - components: [Label, RichText]
   name: header-3
-- components: [Label, RichText]
+- components: [Label, RichText, Button]
   name: header-4
 - components: [Label, Button]
   name: transition-effect
