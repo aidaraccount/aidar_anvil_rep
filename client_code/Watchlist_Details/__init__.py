@@ -136,6 +136,7 @@ class Watchlist_Details(Watchlist_DetailsTemplate):
       "TikTok": "fab:tiktok"
     }
 
+    self.flow_panel_social_media_tile.clear()
     if len(details[1]["ArtistID"]) == 0:
       self.flow_panel_social_media_tile.visible = False
     else:
