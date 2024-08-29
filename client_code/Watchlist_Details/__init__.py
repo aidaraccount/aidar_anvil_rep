@@ -258,3 +258,9 @@ class Watchlist_Details(Watchlist_DetailsTemplate):
       anvil.server.call('update_watchlist_lead', self.model_id, cur_ai_artist_id, False, None, False)
       self.get_watchlist_selection(temp_artist_id = None)
       self.parent.parent.update_no_notifications()
+
+
+  def refresh_sug(self, **event_args):
+    url_artist_id = self.url_dict['artist_id']
+    sug = json.loads(anvil.server.call('get_suggestion', 'Inspect', self.model_id, url_artist_id))
+    self.sug = sug
