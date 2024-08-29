@@ -392,7 +392,7 @@ body, html {
   color: rgb(174, 174, 174);
   /* color: %color:Orange%;   */
 }
-.anvil-role-large-title {
+.anvil-role-header-1 {
   font-family: GS-semibold;
   font-size: 36px;
   color: rgb(240, 236, 228);
