@@ -4,11 +4,37 @@ components:
       col_widths: {}
       grid_position: WKTSPW,ALNASW
     name: label_1_copy
-    properties: {align: left, background: '', bold: false, border: '', font: '', font_size: null, foreground: '', icon: '', icon_align: left, italic: false, role: title, spacing_above: small, spacing_below: small, text: Model Profile, tooltip: '', underline: false, visible: true}
+    properties: {align: left, background: '', bold: false, border: '', font: '', font_size: null, foreground: '', icon: '', icon_align: left, italic: false, role: large-title, spacing_above: small, spacing_below: small, text: Model Profile, tooltip: '', underline: false, visible: true}
     type: Label
   layout_properties: {grid_position: 'KVHHAQ,OJTLIC'}
   name: content_panel
   properties: {col_widths: '{}'}
+  type: ColumnPanel
+- components:
+  - layout_properties: {grid_position: 'BKOAUM,PVSQDK NDXTVQ,WELWJG'}
+    name: model_name
+    properties: {italic: false, role: large-title, spacing_above: none, spacing_below: none}
+    type: Label
+  - layout_properties: {grid_position: 'BKOAUM,PVSQDK UNOILA,UPTSZM'}
+    name: model_name_text
+    properties: {role: text_box_small, spacing_above: none, spacing_below: none}
+    type: TextBox
+  - layout_properties: {full_width_row: false, grid_position: 'BKOAUM,PVSQDK FLAQVT,RCNWKZ'}
+    name: model_description
+    properties: {role: feature, spacing_above: none, spacing_below: none}
+    type: Label
+  - layout_properties: {grid_position: 'BKOAUM,PVSQDK MFUWIO,OULVDM'}
+    name: model_description_text
+    properties: {height: 37.14453125, role: text_box_small, spacing_above: none, spacing_below: none}
+    type: TextArea
+  - event_bindings: {click: edit_icon_click}
+    layout_properties: {grid_position: 'BKOAUM,CPEJAI'}
+    name: edit_icon
+    properties: {icon: 'fa:pencil', icon_align: right}
+    type: Link
+  layout_properties: {grid_position: 'NLZULK,ULUUQH'}
+  name: column_panel_6
+  properties: {col_widths: '{"PVSQDK":30,"CPEJAI":2}', role: tile-background-general, spacing_above: none, spacing_below: none}
   type: ColumnPanel
 - event_bindings: {click: delete_click}
   layout_properties: {grid_position: 'FRPOQL,YNENUK'}
@@ -16,27 +42,6 @@ components:
   properties: {align: right, role: feature, text: Delete Model}
   type: Button
 - components:
-  - layout_properties: {grid_position: 'VLZTYX,JGWMQG'}
-    name: model_name
-    properties: {role: artist_name}
-    type: Label
-  - event_bindings: {click: edit_icon_click}
-    layout_properties: {grid_position: 'VLZTYX,OKQBDV'}
-    name: edit_icon
-    properties: {icon: 'fa:pencil', icon_align: right}
-    type: Link
-  - layout_properties: {grid_position: 'UASNUV,RYKQHD'}
-    name: model_name_text
-    properties: {role: text_box_small}
-    type: TextBox
-  - layout_properties: {grid_position: 'VQCXFK,PGRELO'}
-    name: model_description
-    properties: {role: feature}
-    type: Label
-  - layout_properties: {grid_position: 'XZZYNR,TIFYPG'}
-    name: model_description_text
-    properties: {role: text_box_small}
-    type: TextArea
   - layout_properties: {grid_position: 'EQATCZ,QASFLE'}
     name: spacer_1
     properties: {height: 32}
@@ -88,7 +93,7 @@ components:
     type: ColumnPanel
   layout_properties: {grid_position: 'LBNEEL,AWENUG'}
   name: header_left
-  properties: {col_widths: '{"JGWMQG":55,"OKQBDV":5}', role: tile-background-left}
+  properties: {col_widths: '{}', role: tile-background-left}
   type: ColumnPanel
 - components:
   - layout_properties: {grid_position: 'ISLIBQ,SPJFCR'}

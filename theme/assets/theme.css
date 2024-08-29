@@ -44,11 +44,11 @@ body, html {
 }
 
 #loadingSpinner {
-    border-radius: 0;
-    border-radius: 0;
-    box-shadow: none;/*0px 0px 10px 10px #fcfcfc;*/
-    background-color: transparent;
-    background-image: url(_/theme/pics/LoadingSpinner_circle.svg) !important;
+  border-radius: 0;
+  border-radius: 0;
+  box-shadow: none;/*0px 0px 10px 10px #fcfcfc;*/
+  background-color: transparent;
+  background-image: url(_/theme/pics/LoadingSpinner_circle.svg) !important;
 }
 
 /* underlining the activated model and watchlist in the navigation */
@@ -390,6 +390,12 @@ body, html {
   font-family: GS-semibold;
   font-size: 36px;
   color: rgb(174, 174, 174);
+  /* color: %color:Orange%;   */
+}
+.anvil-role-large-title {
+  font-family: GS-semibold;
+  font-size: 36px;
+  color: rgb(240, 236, 228);
   /* color: %color:Orange%;   */
 }
 .anvil-role-title p {

@@ -83,7 +83,7 @@ color_scheme:
 roles:
 - components: [Label]
   display_in_toolbox: false
-  name: title
+  name: large-title
 - components: [ColumnPanel]
   display_in_toolbox: false
   name: card
