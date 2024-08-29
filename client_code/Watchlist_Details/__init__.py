@@ -135,14 +135,13 @@ class Watchlist_Details(Watchlist_DetailsTemplate):
       "Deezer": "fab:deezer",
       "TikTok": "fab:tiktok"
     }
-      
-    if details[1]["ArtistID"] == '':
-      self.social_media_link.visible = False
+
+    if len(details[1]["ArtistID"]) == 0:
+      self.flow_panel_social_media_tile.visible = False
     else:
+      self.flow_panel_social_media_tile.visible = True
       social_media_list = details[1]["Platform"]
       social_media_list_url = details[1]["PlatformURL"]
-      print(social_media_list)
-      print(social_media_list['0'])
       for i in range(0, len(social_media_list)):
         found = False
 
