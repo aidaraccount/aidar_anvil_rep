@@ -91,7 +91,7 @@ components:
         border: ''
         columns:
         - {$$hashKey: 'object:34645', data_key: ArtistPictureURL, expand: false, id: CGJCWL, title: Artist, width: 70}
-        - {$$hashKey: 'object:27702', data_key: Name, id: OHHGOJ, title: ''}
+        - {$$hashKey: 'object:27702', data_key: Name, expand: false, id: OHHGOJ, title: '', width: 222.1953125}
         - {$$hashKey: 'object:27703', data_key: ArtistPopularity_lat, id: TTVDHC, title: Popularity}
         - {$$hashKey: 'object:27704', data_key: ArtistFollower_lat, id: ITWSTJ, title: Follower}
         - {$$hashKey: 'object:27824', data_key: Investigate, id: YTCRRC, title: ''}

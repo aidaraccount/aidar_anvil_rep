@@ -142,16 +142,22 @@ roles:
   name: little_note
 - components: [RichText, Label]
   name: description-bio
-- {name: table_content_popup}
-- {name: related-artist-search-dropdown-header}
-- {name: table_content_talent_dev}
-- {name: talent-dev-custom-class}
-- {name: center-table-element}
+- components: [RepeatingPanel]
+  name: table_content_popup
+- components: [DropDown]
+  name: related-artist-search-dropdown-header
+- components: [Label]
+  name: table_content_talent_dev
+- components: [Label]
+  name: talent-dev-custom-class
+- components: [Label]
+  name: center-table-element
 - components: [RowTemplate]
   name: rows_dropdown
 - components: [RowTemplate]
   name: rows_discover_page
-- {name: section_buttons}
+- components: [Button]
+  name: section_buttons
 - components: [Label]
   name: sort-label
 - components: [Label]
@@ -208,7 +214,7 @@ roles:
   name: save-button-sidebar
 - components: [LinearPanel]
   name: 'gauge-background '
-- components: [LinearPanel]
+- components: [LinearPanel, ColumnPanel]
   name: score-tile-background
 - components: [Label]
   name: contact-details-saved-values
@@ -224,3 +230,5 @@ roles:
   name: play-spotify-button-artist
 - components: [Button]
   name: autoplay-toggle-button
+- components: [ColumnPanel]
+  name: tile-background-general
