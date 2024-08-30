@@ -68,7 +68,6 @@ def load_var(var):
 def refresh():
   #location.reload()
   current_hash = location.hash
-  print(current_hash)
   temporary_hash = ''
   location.hash = temporary_hash
   location.hash = current_hash

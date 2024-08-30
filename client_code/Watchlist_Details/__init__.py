@@ -79,7 +79,7 @@ class Watchlist_Details(Watchlist_DetailsTemplate):
       self.repeating_panel_selection.items = watchlist_selection
       
       # a) show details and notes for 1st element of selection list
-      if temp_artist_id == 'None':
+      if temp_artist_id == 'None' or temp_artist_id is None:
         cur_ai_artist_id = watchlist_selection[0]['ArtistID']
         self.repeating_panel_selection.get_components()[0].image_1.border = '1px solid #fd652d' # orange
 
@@ -117,7 +117,6 @@ class Watchlist_Details(Watchlist_DetailsTemplate):
     cur_ai_artist_id = cur_ai_artist_id
     details = json.loads(anvil.server.call('get_watchlist_details', model_id, cur_ai_artist_id))
     
-    print(details[1])
     # Image & Name
     self.image_detail.source = details[0]["ArtistPictureURL"]
     self.label_name.text = details[0]["Name"]    
@@ -155,7 +154,6 @@ class Watchlist_Details(Watchlist_DetailsTemplate):
           # social_media_link.role = 'genre-box'
           social_media_link.url = social_media_list_url[str(i)]
           self.flow_panel_social_media_tile.add_component(social_media_link)
-
     
     if details[0]["Description"] is None:
       self.text_description.text = '-'
