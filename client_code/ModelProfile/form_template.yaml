@@ -19,6 +19,35 @@ components:
     name: model_name
     properties: {align: left, italic: false, role: header-2, spacing_above: small, spacing_below: small}
     type: Label
+  - components:
+    - layout_properties: {grid_position: 'VSJGNI,ITVLOL YKXGAX,LUBYJH'}
+      name: label_1
+      properties: {role: feature, text: 'Creation date:'}
+      type: Label
+    - layout_properties: {grid_position: 'VSJGNI,ITVLOL UGMLWW,QVPOPD'}
+      name: label_1_copy_2
+      properties: {role: feature, text: 'Last usage:'}
+      type: Label
+    - layout_properties: {grid_position: 'VSJGNI,ITVLOL KAWMAP,JKSHZP'}
+      name: label_2
+      properties: {role: feature, text: 'Last re-train:'}
+      type: Label
+    - layout_properties: {grid_position: 'VSJGNI,STYMRW DUJKTG,EZRJOP'}
+      name: creation_date
+      properties: {role: value}
+      type: Label
+    - layout_properties: {grid_position: 'VSJGNI,STYMRW DDIFDG,IBTDTF'}
+      name: usage_date
+      properties: {role: value}
+      type: Label
+    - layout_properties: {grid_position: 'VSJGNI,STYMRW MSUYUG,NZMFVF'}
+      name: train_model_date
+      properties: {role: value}
+      type: Label
+    layout_properties: {grid_position: 'BKOAUM,PVSQDK LBHRKQ,ALTSOS'}
+    name: stats
+    properties: {}
+    type: ColumnPanel
   - layout_properties: {grid_position: 'BKOAUM,PVSQDK UNOILA,UPTSZM'}
     name: model_name_text
     properties: {role: text_box_small, spacing_above: small, spacing_below: small}
@@ -84,7 +113,7 @@ components:
     type: Spacer
   layout_properties: {grid_position: 'NLZULK,ULUUQH'}
   name: column_panel_6
-  properties: {col_widths: '{"PVSQDK":35,"CPEJAI":17,"UPTSZM":60,"RCNWKZ":60}', role: tile-background-general, spacing_above: none, spacing_below: none}
+  properties: {col_widths: '{"PVSQDK":35,"CPEJAI":17,"UPTSZM":60,"RCNWKZ":60}', role: tile-background-left, spacing_above: none, spacing_below: none}
   type: ColumnPanel
 - components:
   - layout_properties: {grid_position: 'ISLIBQ,SPJFCR'}
@@ -135,45 +164,6 @@ components:
     properties: {}
     type: ColumnPanel
   - components:
-    - layout_properties: {grid_position: 'PCSFMM,KHRAYJ'}
-      name: label_2
-      properties: {role: feature, text: 'Last re-train:'}
-      type: Label
-    - layout_properties: {grid_position: 'PCSFMM,YJXUGB'}
-      name: train_model_date
-      properties: {role: value}
-      type: Label
-    layout_properties: {grid_position: 'WFRCPF,MMOKVJ QISXEI,GGCOWX'}
-    name: column_panel_5
-    properties: {}
-    type: ColumnPanel
-  - components:
-    - layout_properties: {grid_position: 'VSJGNI,ITVLOL'}
-      name: label_1
-      properties: {role: feature, text: 'Creation date:'}
-      type: Label
-    - layout_properties: {grid_position: 'VSJGNI,STYMRW'}
-      name: creation_date
-      properties: {role: value}
-      type: Label
-    layout_properties: {grid_position: 'WFRCPF,MMOKVJ QWOYUK,GXIJCY'}
-    name: stats
-    properties: {}
-    type: ColumnPanel
-  - components:
-    - layout_properties: {grid_position: 'XTWRFS,CIPPFA'}
-      name: label_1_copy_2
-      properties: {role: feature, text: 'Last usage:'}
-      type: Label
-    - layout_properties: {grid_position: 'XTWRFS,KCGJLG'}
-      name: usage_date
-      properties: {role: value}
-      type: Label
-    layout_properties: {grid_position: 'WFRCPF,MMOKVJ JEINEF,GTGDFA'}
-    name: stats_copy
-    properties: {}
-    type: ColumnPanel
-  - components:
     - components:
       - layout_properties: {}
         name: status
@@ -203,7 +193,7 @@ components:
     name: column_panel_4
     properties: {col_widths: '{"WPNPYF":25,"YGLHRZ":45}'}
     type: ColumnPanel
-  layout_properties: {grid_position: 'LBNEEL,NCEQRR'}
+  layout_properties: {grid_position: 'NLZULK,GKPKDK'}
   name: header_right
   properties: {col_widths: '{"MMOKVJ":30,"RHZPFX":29}', role: tile-background-general}
   type: ColumnPanel

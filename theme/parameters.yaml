@@ -240,3 +240,7 @@ roles:
   name: header-4
 - components: [Label, Button]
   name: transition-effect
+- components: [ColumnPanel]
+  name: tile-background-left
+- components: [ColumnPanel]
+  name: tile-background-right
