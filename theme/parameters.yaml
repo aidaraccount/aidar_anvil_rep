@@ -244,3 +244,7 @@ roles:
   name: tile-background-left
 - components: [ColumnPanel]
   name: tile-background-right
+- components: [Label, RichText, Button]
+  name: header-8
+- components: [Label, RichText, Button]
+  name: header-10

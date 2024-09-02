@@ -259,7 +259,7 @@ components:
   properties: {background: '', col_widths: '{"FADFZU":20,"TDEVWC":40}', role: grid}
   type: ColumnPanel
 container:
-  properties: {col_widths: '{"UMKIPM":15,"DORKHT":63}', role: title}
+  properties: {col_widths: '{"UMKIPM":15,"DORKHT":63}', role: title, spacing_above: small}
   type: ColumnPanel
 custom_component: false
 is_package: true
