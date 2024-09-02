@@ -229,6 +229,8 @@ components:
       name: linear_panel_2
       properties:
         role: [score-tile-background]
+        spacing_above: none
+        spacing_below: none
         visible: true
       type: LinearPanel
     - components:

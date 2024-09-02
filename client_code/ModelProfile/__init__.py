@@ -25,7 +25,8 @@ class ModelProfile(ModelProfileTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
-
+    self.html = '@theme:Modelpage_html_JS.html'
+      
     model_id_active = load_var("model_id")
     print(f"ModelProfile model_id_active: {model_id_active}")
     model_id_view = self.url_dict['model_id']
@@ -103,6 +104,38 @@ class ModelProfile(ModelProfileTemplate):
     elif section == 'AddRefArtists':
       self.nav_add_references_click()
 
+    self.custom_HTML_prediction()
+    
+  def custom_HTML_prediction(self):
+    # if self.pred:
+    # <li class="note-display" data-note="{self.pred}">
+    custom_html = '''
+    <li class="note-display" data-note="65">
+      <div class="circle">
+        <svg width="140" height="140" class="circle__svg">
+          <defs>
+            <linearGradient id="grad1" x1="100%" y1="100%" x2="0%" y2="0%">
+              <stop offset="0%" style="stop-color:#812675;stop-opacity:1" />
+              <stop offset="100%" style="stop-color:#E95F30;stop-opacity:1" />
+            </linearGradient>
+          </defs>
+          <circle cx="70" cy="70" r="65" class="circle__progress circle__progress--path"></circle>
+          <circle cx="70" cy="70" r="65" class="circle__progress circle__progress--fill" stroke="url(#grad1)"></circle>
+        </svg>
+
+        <div class="percent">
+          <span class="percent__int">0.</span>
+          <!-- <span class="percent__dec">00</span> -->
+          <span class="label" style="font-size: 13px;">Fit Likelihood</span>
+        </div>
+      </div>
+
+    </li>
+    '''
+    html_panel = HtmlPanel(html=custom_html)
+    self.column_panel_5.add_component(html_panel)
+    # else:
+    #   print("NO SELF PRED?")
   
   def edit_icon_click(self, **event_args):
     if self.model_name.visible is True: 
