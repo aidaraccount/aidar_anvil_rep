@@ -10,6 +10,7 @@ import string
 import json
 import time
 
+
 from ..Home import Home
 from ..C_EditRefArtists import C_EditRefArtists
 from ..C_AddRefArtists import C_AddRefArtists
@@ -24,7 +25,7 @@ import anvil.js
 import anvil.js.window
 
 
-@routing.route('model_profile', url_keys=['model_id', 'section'], title='Model Profile')
+@routing.route('model_profile_new', url_keys=['model_id', 'section'], title='Model Profile New')
 class ModelProfile(ModelProfile_newTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
