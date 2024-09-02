@@ -24,6 +24,7 @@ from ..RelatedArtistSearch import RelatedArtistSearch
 from ..CreateModel import CreateModel
 from ..ConnectModel import ConnectModel
 from ..ModelProfile import ModelProfile
+from ..ModelProfile_new import ModelProfile_new
 
 routing.logger.debug = False
 

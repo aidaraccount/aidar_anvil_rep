@@ -1,4 +1,4 @@
-from ._anvil_designer import ModelProfileTemplate
+from ._anvil_designer import ModelProfile_newTemplate
 from anvil import *
 import anvil.server
 import anvil.users
@@ -25,7 +25,7 @@ import anvil.js.window
 
 
 @routing.route('model_profile', url_keys=['model_id', 'section'], title='Model Profile')
-class ModelProfile(ModelProfileTemplate):
+class ModelProfile(ModelProfile_newTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
