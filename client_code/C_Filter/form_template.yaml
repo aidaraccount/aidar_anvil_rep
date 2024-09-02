@@ -4,7 +4,7 @@ components:
       col_widths: {}
       grid_position: SLSTXO,HTZYCF
     name: label_1
-    properties: {align: left, background: '', bold: false, border: '', font: '', font_size: null, foreground: '', icon: '', icon_align: left, italic: false, role: title, spacing_above: small, spacing_below: small, text: Filters, tooltip: '', underline: false, visible: true}
+    properties: {align: left, background: '', bold: false, border: '', font: '', font_size: null, foreground: '', icon: '', icon_align: left, italic: false, role: header-1, spacing_above: small, spacing_below: small, text: Filters, tooltip: '', underline: false, visible: true}
     type: Label
   - layout_properties:
       col_widths: {}

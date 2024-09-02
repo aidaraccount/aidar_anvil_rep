@@ -81,9 +81,9 @@ color_scheme:
       - {color: '#616161', name: Accent 2}
       name: Grey
 roles:
-- components: [Label]
+- components: [Label, RichText]
   display_in_toolbox: false
-  name: title
+  name: header-1
 - components: [ColumnPanel]
   display_in_toolbox: false
   name: card
@@ -232,3 +232,11 @@ roles:
   name: autoplay-toggle-button
 - components: [ColumnPanel]
   name: tile-background-general
+- components: [Label, RichText]
+  name: header-2
+- components: [Label, RichText]
+  name: header-3
+- components: [Label, RichText, Button]
+  name: header-4
+- components: [Label, Button]
+  name: transition-effect

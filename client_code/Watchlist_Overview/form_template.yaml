@@ -4,7 +4,7 @@ components:
       col_widths: {}
       grid_position: WKTSPW,ALNASW
     name: label_1_copy
-    properties: {align: left, background: '', bold: false, border: '', font: '', font_size: null, foreground: '', icon: '', icon_align: left, italic: false, role: title, spacing_above: small, spacing_below: small, text: Development of Watchlist Artists, tooltip: '', underline: false, visible: true}
+    properties: {align: left, background: '', bold: false, border: '', font: '', font_size: null, foreground: '', icon: '', icon_align: left, italic: false, role: header-1, spacing_above: small, spacing_below: small, text: Development of Watchlist Artists, tooltip: '', underline: false, visible: true}
     type: Label
   - layout_properties:
       col_widths: {}

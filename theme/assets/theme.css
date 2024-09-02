@@ -44,11 +44,11 @@ body, html {
 }
 
 #loadingSpinner {
-    border-radius: 0;
-    border-radius: 0;
-    box-shadow: none;/*0px 0px 10px 10px #fcfcfc;*/
-    background-color: transparent;
-    background-image: url(_/theme/pics/LoadingSpinner_circle.svg) !important;
+  border-radius: 0;
+  border-radius: 0;
+  box-shadow: none;/*0px 0px 10px 10px #fcfcfc;*/
+  background-color: transparent;
+  background-image: url(_/theme/pics/LoadingSpinner_circle.svg) !important;
 }
 
 /* underlining the activated model and watchlist in the navigation */
@@ -386,11 +386,32 @@ body, html {
   font-size: 36px;
   color: %color:Orange%;  
 }
-.anvil-role-title {
+.anvil-role-header-1 {
   font-family: GS-semibold;
   font-size: 36px;
-  color: rgb(174, 174, 174);
+  color: rgb(240, 236, 228);
   /* color: %color:Orange%;   */
+}
+.anvil-role-header-2 {
+  font-family: GS-semibold;
+  font-size: 30px;
+  color: rgb(240, 236, 228);
+  /* color: %color:Orange%;   */
+}
+.anvil-role-header-3 {
+  font-family: GS-semibold;
+  font-size: 26px;
+  color: rgb(240, 236, 228);
+  /* color: %color:Orange%;   */
+}
+.anvil-role-header-4 {
+  font-family: GS-regular;
+  font-size: 24x;
+  color: rgb(240, 236, 228);
+  /* color: %color:Orange%;   */
+}
+.anvil-role-transition-effect {
+  transition: 0.5s;
 }
 .anvil-role-title p {
   margin: 0 !important;
@@ -601,8 +622,8 @@ body, html {
   position: relative;
   background-color: rgb(25, 16, 53);
   border-radius: 100px;
-  height: 130px;
-  width: 130px;
+  height: 140px;
+  width: 140px;
   display: flex;
   justify-content: center;
   align-items: center;
