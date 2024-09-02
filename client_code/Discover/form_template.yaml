@@ -225,7 +225,7 @@ components:
         name: no_prediction
         properties: {align: center, role: artist_name_shadow, text: Model     ramp-up}
         type: Label
-      layout_properties: {grid_position: 'XBWMVA,RCCOIP'}
+      layout_properties: {full_width_row: false, grid_position: 'XBWMVA,RCCOIP'}
       name: linear_panel_2
       properties:
         role: [score-tile-background]
