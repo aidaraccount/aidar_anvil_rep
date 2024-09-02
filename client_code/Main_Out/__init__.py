@@ -36,8 +36,6 @@ class Main_Out(Main_OutTemplate):
     #print(f"{datetime.datetime.now()}: Main_Out - link_login_click - 2", flush=True)
     user = anvil.users.get_user()
     #print(f"{datetime.datetime.now()}: Main_Out - link_login_click - 3", flush=True)
-    print(user)
-    print(user is not None)
     if user is not None:
       try:
         anvil.server.call("server_transfer_user_id")
@@ -48,7 +46,6 @@ class Main_Out(Main_OutTemplate):
         #print(f"{datetime.datetime.now()}: Main_Out - link_login_click - 5", flush=True)
         open_form("Main_In")
 
-        print("location.hash", location.hash)
         if location.hash == '':
           routing.set_url_hash('home', load_from_cache=False)
         elif location.hash[:8] == '#artists':

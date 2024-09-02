@@ -224,7 +224,7 @@ components:
       - components:
         - components:
           - components:
-            - event_bindings: {change: text_area_note_change}
+            - event_bindings: {change: null}
               layout_properties: {grid_position: 'HOAKDL,TOMDSC'}
               name: text_area_note
               properties: {align: left, height: '35', placeholder: Add a note, role: text_box_small}

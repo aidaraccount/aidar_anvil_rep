@@ -10,8 +10,7 @@ components:
   properties: {icon: 'fa:edit', role: contact-button, spacing_above: none, spacing_below: none, text: ''}
   type: Button
 - components:
-  - data_bindings: []
-    layout_properties: {grid_position: 'JSWZAI,LNLZLJ'}
+  - layout_properties: {grid_position: 'JSWZAI,LNLZLJ'}
     name: comments_area_section
     properties: {role: target-textarea, spacing_above: none, spacing_below: none}
     type: TextArea
@@ -302,8 +301,7 @@ components:
       name: nav_releases
       properties: {col_spacing: medium, role: section_buttons, spacing_above: none, spacing_below: none, text: Releases}
       type: Link
-    - components: []
-      event_bindings: {click: nav_success_click}
+    - event_bindings: {click: nav_success_click}
       layout_properties: {}
       name: nav_success
       properties: {role: section_buttons, spacing_above: none, spacing_below: none, text: Success}
@@ -1240,7 +1238,7 @@ components:
     type: FlowPanel
   layout_properties: {slot: footer-slot}
   name: Footer
-  properties: {background: 'theme:Grid_Black', col_spacing: tiny, col_widths: '{"XUSTNC":30,"THIOWY":10,"OZIYBS":20,"CLCEVO":15}', spacing_above: none, spacing_below: none, visible: true}
+  properties: {background: 'theme:Grid_Black', col_spacing: tiny, col_widths: '{"XUSTNC":30,"THIOWY":5,"OZIYBS":20,"CLCEVO":20}', spacing_above: none, spacing_below: none, visible: true}
   type: ColumnPanel
 container:
   properties: {background: '', html: '@theme:Discover_Sidebar_and_JS.html', role: test}

@@ -86,8 +86,7 @@ components:
           text: Fol. Dif.
           tooltip: Spotify Follower Difference (last Month)
         type: Link
-      - components: []
-        event_bindings: {click: link_foldev_click}
+      - event_bindings: {click: link_foldev_click}
         layout_properties: {width: null, x: null, y: null}
         name: link_foldev
         properties:
@@ -116,7 +115,6 @@ components:
       name: repeating_panel_data
       properties: {foreground: '', item_template: Watchlist_Overview.RowTemplate3, role: table_content_small}
       type: RepeatingPanel
-    data_bindings: []
     layout_properties: {full_width_row: false, grid_position: 'MXANCB,DCXPKB'}
     name: data_grid_1
     properties:
