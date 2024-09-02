@@ -10,7 +10,6 @@ import string
 import json
 import time
 
-
 from ..Home import Home
 from ..C_EditRefArtists import C_EditRefArtists
 from ..C_AddRefArtists import C_AddRefArtists

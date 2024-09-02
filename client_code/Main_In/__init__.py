@@ -131,7 +131,7 @@ class Main_In(Main_InTemplate):
     return handler
 
   def models_click(self, link_model_id, model_link, **event_args):
-    click_button(f'model_profile?model_id={link_model_id}&section=Main', event_args)
+    click_button(f'model_profile_new?model_id={link_model_id}&section=Main', event_args)
     self.reset_nav_backgrounds()
     model_link.background = "theme:Accent 2"
   # ------------
