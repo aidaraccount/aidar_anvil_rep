@@ -543,7 +543,10 @@ body, html {
   gap: 10px;  /* Optional: space between columns */
 }
 .anvil-role-equal-height-container {
-    display: flex;
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* Two equal columns */
+}
+
 }
 .anvil-role-tile-background-left, 
 .anvil-role-tile-background-right {

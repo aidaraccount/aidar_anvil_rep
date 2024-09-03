@@ -184,7 +184,7 @@ components:
       type: ColumnPanel
     layout_properties: {grid_position: 'WZONXA,ULSUGL'}
     name: grid_panel_1
-    properties: {role: equal-height-container, spacing_above: none, spacing_below: none}
+    properties: {role: grid, spacing_above: none, spacing_below: none}
     type: GridPanel
   - components:
     - layout_properties: {grid_position: 'LYIFFQ,DLPCQT'}
