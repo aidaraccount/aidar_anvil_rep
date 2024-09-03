@@ -100,7 +100,7 @@ class ModelProfile_new(ModelProfile_newTemplate):
     
     # SECTION
     if section == 'Main':
-      self.nav_references_click()
+      self.nav_model_click()
     elif section == 'PrevRated':
       self.nav_prev_rated_click()
     elif section == 'Filter':
@@ -178,9 +178,11 @@ class ModelProfile_new(ModelProfile_newTemplate):
 
   def nav_references_click(self, **event_args):
     self.nav_references.role = 'section_buttons_focused'
+    self.nav_model.role = 'section_buttons'
     self.nav_prev_rated.role = 'section_buttons'
     self.nav_filters.role = 'section_buttons'
     self.sec_references.visible = True
+    self.sec_models.visible = False
     self.sec_prev_rated.visible = False
     self.sec_filters.visible = False
     self.sec_references.clear()
@@ -199,8 +201,10 @@ class ModelProfile_new(ModelProfile_newTemplate):
   def nav_prev_rated_click(self, **event_args):    
     self.nav_references.role = 'section_buttons'
     self.nav_prev_rated.role = 'section_buttons_focused'
+    self.nav_model.role = 'section_buttons'
     self.nav_filters.role = 'section_buttons'
     self.sec_references.visible = False
+    self.sec_models.visible = False
     self.sec_prev_rated.visible = True
     self.sec_filters.visible = False
     self.sec_prev_rated.clear()
@@ -210,8 +214,10 @@ class ModelProfile_new(ModelProfile_newTemplate):
     self.nav_references.role = 'section_buttons'
     self.nav_prev_rated.role = 'section_buttons'
     self.nav_filters.role = 'section_buttons_focused'
+    self.nav_model.role = 'section_buttons'
     self.sec_references.visible = False
     self.sec_prev_rated.visible = False
+    self.sec_models.visible = False
     self.sec_filters.visible = True
     self.sec_filters.clear()
     self.sec_filters.add_component(C_Filter(self.model_id_view))
@@ -256,3 +262,15 @@ class ModelProfile_new(ModelProfile_newTemplate):
             content="We started to re-train your model. This will take roughly 10 minutes to be effective.\n\nDue to high computational effort, re-training the model is only available once per day.",
             buttons=[("Ok", "Ok")]
       )
+
+  def nav_model_click(self, **event_args):
+    self.nav_model.role = 'section_buttons_focused'
+    self.nav_references.role = 'section_buttons'
+    self.nav_prev_rated.role = 'section_buttons'
+    self.nav_filters.role = 'section_buttons'
+    self.sec_references.visible = False
+    self.sec_models.visible = True
+    self.sec_prev_rated.visible = False
+    self.sec_filters.visible = False
+    self.sec_references.clear()
+    self.sec_references.add_component(C_EditRefArtists(self.model_id_view))

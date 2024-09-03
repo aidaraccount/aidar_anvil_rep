@@ -156,7 +156,7 @@ roles:
   name: rows_dropdown
 - components: [RowTemplate]
   name: rows_discover_page
-- components: [Button]
+- components: [Button, Link]
   name: section_buttons
 - components: [Label]
   name: sort-label
