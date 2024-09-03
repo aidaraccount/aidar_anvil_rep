@@ -248,3 +248,7 @@ roles:
   name: header-8
 - components: [Label, RichText, Button]
   name: header-10
+- components: [Button]
+  name: call-to-action-button
+- components: [Label, RichText, Button]
+  name: header-5

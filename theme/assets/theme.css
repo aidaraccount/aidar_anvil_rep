@@ -1676,3 +1676,28 @@ footer a, .footer .anvil-component {
 .anvil-role-autoplay-toggle-button {}
 
 .anvil-role-spotify-footer-class {}
+
+.anvil-role-call-to-action-button button {
+  font-family: Gs-regular;
+  color: white;
+  background: #E95F30;
+  border: 0px;
+  box-shadow: none;
+  text-shadow: none;
+  transition: 0.5s;
+  margin: 0 0 0 0;
+  padding: 0 0 0 0;
+  width: 100px;
+}
+.anvil-role-call-to-action-button > button:hover {
+  background: #BA7305;
+  color: white;
+}
+.anvil-role-call-to-action-button > button:focus{
+  background: transparent;
+  color: #E95F30;
+}
+.anvil-role-call-to-action-button > button:active{
+  background: transparent;
+  color: #E95F30;
+}

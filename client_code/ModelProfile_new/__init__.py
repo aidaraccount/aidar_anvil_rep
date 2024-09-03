@@ -25,7 +25,7 @@ import anvil.js.window
 
 
 @routing.route('model_profile_new', url_keys=['model_id', 'section'], title='Model Profile New')
-class ModelProfile(ModelProfile_newTemplate):
+class ModelProfile_new(ModelProfile_newTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
@@ -225,7 +225,7 @@ class ModelProfile(ModelProfile_newTemplate):
   def activate_click(self, **event_args):
     anvil.server.call('update_model_usage', user["user_id"], self.model_id_view)
     save_var('model_id', self.model_id_view)
-    click_button(f'model_profile?model_id={self.model_id_view}&section=Main', event_args)
+    click_button(f'model_profile_new?model_id={self.model_id_view}&section=Main', event_args)
     get_open_form().refresh_models_underline()
     
   def discover_click(self, **event_args):
