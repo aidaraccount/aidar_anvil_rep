@@ -260,3 +260,5 @@ roles:
   name: header-5_bold
 - components: [Label, RichText, Button]
   name: header-6_grey
+- components: [ColumnPanel, GridPanel]
+  name: equal-height-container
