@@ -695,6 +695,7 @@ body, html {
   min-height: 80px;
   min-width: 80px; 
   overflow: hidden;
+  padding: 4px 5px 4px 5px;
 }
 
 .anvil-role-tile-background-right .anvil-panel-row-XBWMVA .anvil-panel-col-RCCOIP .col-padding.col-padding-medium {
@@ -1694,10 +1695,16 @@ footer a, .footer .anvil-component {
   color: white;
 }
 .anvil-role-call-to-action-button > button:focus{
-  background: transparent;
-  color: #E95F30;
+  background: #BA7305;
+  color: white;
 }
 .anvil-role-call-to-action-button > button:active{
-  background: transparent;
-  color: #E95F30;
+  background: #BA7305;
+  color: white;
+}
+
+.anvil-role-tile-background-left .anvil-panel-row-VHHPAR{
+  position: absolute;
+  bottom: 15px; 
+  right: 15px;
 }

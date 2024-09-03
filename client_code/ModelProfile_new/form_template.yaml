@@ -7,7 +7,7 @@ components:
   - components:
     - layout_properties: {grid_position: 'OZOCCT,IOYMOS'}
       name: spacer
-      properties: {height: 21}
+      properties: {height: '15'}
       type: Spacer
     - layout_properties: {grid_position: 'BKOAUM,PVSQDK NDXTVQ,WELWJG'}
       name: model_name
@@ -37,6 +37,10 @@ components:
       name: train_model_date
       properties: {role: header-8, spacing_above: none, spacing_below: none}
       type: Label
+    - layout_properties: {grid_position: 'BKOAUM,PVSQDK BEMLZY,KIUGSI'}
+      name: spacer_1
+      properties: {height: '12'}
+      type: Spacer
     - layout_properties: {grid_position: 'BKOAUM,PVSQDK UNOILA,UPTSZM'}
       name: model_name_text
       properties: {role: text_box_small, spacing_above: small, spacing_below: small}
@@ -68,14 +72,9 @@ components:
         properties:
           align: center
           bold: false
-          role: [table_content, header-4, transition-effect]
+          role: [table_content, transition-effect, header-5]
           text: Model is active
         type: Label
-      layout_properties: {grid_position: 'BKOAUM,CPEJAI UOQARU,FOXPZE'}
-      name: flow_panel_2
-      properties: {align: right}
-      type: FlowPanel
-    - components:
       - event_bindings: {click: activate_click}
         layout_properties: {}
         name: activate
@@ -99,16 +98,16 @@ components:
           text: Discover
         type: Button
       layout_properties: {grid_position: 'BKOAUM,CPEJAI VHHPAR,XRBKPA'}
-      name: linear_panel_1
-      properties: {}
+      name: buttons_panel
+      properties: {role: null, spacing_above: none, spacing_below: none}
       type: LinearPanel
     - layout_properties: {grid_position: 'HOAGJS,PWBFEL'}
       name: spacer_copy
-      properties: {height: 21}
+      properties: {height: '15'}
       type: Spacer
     layout_properties: {grid_position: 'VURMQD,PRYSSC IWFBYA,IUPXRN'}
     name: column_panel_6
-    properties: {col_widths: '{"PVSQDK":35,"CPEJAI":17,"UPTSZM":60,"RCNWKZ":60}', role: tile-background-left, spacing_above: none, spacing_below: none}
+    properties: {col_widths: '{"PVSQDK":35,"CPEJAI":19,"UPTSZM":60,"RCNWKZ":60}', role: tile-background-left, spacing_above: none, spacing_below: none}
     type: ColumnPanel
   - components:
     - layout_properties: {grid_position: 'LYIFFQ,DLPCQT'}
@@ -155,7 +154,7 @@ components:
         type: Label
       layout_properties: {grid_position: 'OBYYDX,LDUSMS'}
       name: linear_panel_6
-      properties: {}
+      properties: {role: highlights-tile-background}
       type: LinearPanel
     - components:
       - name: label_Success
@@ -166,7 +165,7 @@ components:
         type: Label
       layout_properties: {grid_position: 'OBYYDX,XJAPXX'}
       name: linear_panel_5
-      properties: {}
+      properties: {role: highlights-tile-background}
       type: LinearPanel
     - components:
       - name: label_Fandom
@@ -177,7 +176,7 @@ components:
         type: Label
       layout_properties: {grid_position: 'BDCZKC,BBSSOQ'}
       name: linear_panel_4
-      properties: {}
+      properties: {role: highlights-tile-background}
       type: LinearPanel
     - components:
       - layout_properties: {}
@@ -190,7 +189,7 @@ components:
         type: Label
       layout_properties: {grid_position: 'BDCZKC,LODZWZ'}
       name: linear_panel_3
-      properties: {}
+      properties: {role: highlights-tile-background}
       type: LinearPanel
     - layout_properties: {grid_position: 'YTIUNJ,QUMLCT'}
       name: spacer_7

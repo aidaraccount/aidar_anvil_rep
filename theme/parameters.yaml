@@ -252,3 +252,7 @@ roles:
   name: call-to-action-button
 - components: [Label, RichText, Button]
   name: header-5
+- components: [LinearPanel]
+  name: position-bottom
+- components: [LinearPanel]
+  name: highlights-tile-background
