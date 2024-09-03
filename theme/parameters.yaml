@@ -256,3 +256,7 @@ roles:
   name: position-bottom
 - components: [LinearPanel]
   name: highlights-tile-background
+- components: [Label, RichText, Button]
+  name: header-5_bold
+- components: [Label, RichText, Button]
+  name: header-6_grey

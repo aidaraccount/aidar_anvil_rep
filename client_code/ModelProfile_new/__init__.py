@@ -137,8 +137,19 @@ class ModelProfile_new(ModelProfile_newTemplate):
 
     </li>
     '''
-    html_panel = HtmlPanel(html=custom_html)
-    self.column_panel_5.add_component(html_panel)
+    html_panel_1 = HtmlPanel(html=custom_html)
+    overall_html_panel = HtmlPanel(html=custom_html)
+    similarity_html_panel = HtmlPanel(html=custom_html)
+    success_html_panel = HtmlPanel(html=custom_html)
+    fandom_html_panel = HtmlPanel(html=custom_html)
+    musical_html_panel = HtmlPanel(html=custom_html)
+    
+    self.column_panel_5.add_component(html_panel_1)
+    self.column_panel_2.add_component(overall_html_panel)
+    self.similarity_model.add_component(similarity_html_panel)
+    self.success_model.add_component(success_html_panel)
+    self.fandom_model.add_component(fandom_html_panel)
+    self.musical_model.add_component(musical_html_panel)
     # else:
     #   print("NO SELF PRED?")
   
