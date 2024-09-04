@@ -80,11 +80,38 @@ class ModelProfile_new(ModelProfile_newTemplate):
     self.status.text = infos["overall_status"]
 
     # Progress Circle
-    if infos["overall_status"] == 'Fine tuning':
-      # print("STILL FINE TUNING")
-      self.linear_panel_2.visible = True
-    else:
+      # if infos["model_1_acc"] is not None:
+      #   self.model_1_custom_html(infos["model_1_acc"])
+      #   if infos["model_2_acc"] is not None:
+      #     print("model 2 is also true")
+      #     if infos["model_3_acc"] is not None:
+      #       print("model 3 is also true")
+      #       if infos["model_4_acc"] is not None:
+      #         print("model 4 is also true")
+    if infos["overall_cont_type"] == 'auto':
       self.custom_HTML_prediction()
+      if infos["model_4_acc"] is not None:
+        self.model_1_custom_html(infos["model_1_acc"])
+        print("model 2 is also true")
+        print("model 3 is also true")
+        print("model 4 is also true")
+      elif infos["model_3_acc"] is not None:
+        self.model_1_custom_html(infos["model_1_acc"])
+        print("model 2 is also true")
+        print("model 3 is also true")
+      elif infos["model_2_acc"] is not None:
+        self.model_1_custom_html(infos["model_1_acc"])
+        print("model 2 is also true")
+      elif infos["model_1_acc"] is not None:
+        self.model_1_custom_html(infos["model_1_acc"])
+        print("LETS TRY THIS AGAIN")
+      else:
+        print("THE IF STATEMENT REACHED HERE")
+    else:
+      print("STILL FINE TUNING", infos["overall_cont_type"])
+      self.linear_panel_2.visible = True
+
+    # if infos[""]
     
     # activate button
     if int(self.model_id_view) == int(model_id_active_new):
@@ -142,18 +169,21 @@ class ModelProfile_new(ModelProfile_newTemplate):
       </li>
     '''
     html_panel_1 = HtmlPanel(html=custom_html)
-    overall_html_panel = HtmlPanel(html=custom_html)
-    similarity_html_panel = HtmlPanel(html=custom_html)
-    success_html_panel = HtmlPanel(html=custom_html)
-    fandom_html_panel = HtmlPanel(html=custom_html)
-    musical_html_panel = HtmlPanel(html=custom_html)
-  
     self.column_panel_5.add_component(html_panel_1)
-    self.column_panel_2.add_component(overall_html_panel)
+    
+    
+    similarity_html_panel = HtmlPanel(html=custom_html)
     self.similarity_model.add_component(similarity_html_panel)
+    
+    success_html_panel = HtmlPanel(html=custom_html)
     self.success_model.add_component(success_html_panel)
+    
+    fandom_html_panel = HtmlPanel(html=custom_html)
     self.fandom_model.add_component(fandom_html_panel)
+    
+    musical_html_panel = HtmlPanel(html=custom_html)
     self.musical_model.add_component(musical_html_panel)
+  
     # infos = json.loads(anvil.server.call('get_model_stats', self.model_id_view))[0]
     
     # if infos["overall_status"] == 'Fine tuning':
@@ -161,6 +191,32 @@ class ModelProfile_new(ModelProfile_newTemplate):
     #   self.linear_panel_2.visible = True
     # # <li class="note-display" data-note="{self.pred}">
     # else:
+  def model_1_custom_html(self, accuracy):
+    model_1_html = f'''
+      <li class="note-display" data-note={accuracy}>
+        <div class="circle">
+          <svg width="140" height="140" class="circle__svg">
+            <defs>
+              <linearGradient id="grad1" x1="100%" y1="100%" x2="0%" y2="0%">
+                <stop offset="0%" style="stop-color:#812675;stop-opacity:1" />
+                <stop offset="100%" style="stop-color:#E95F30;stop-opacity:1" />
+              </linearGradient>
+            </defs>
+            <circle cx="70" cy="70" r="65" class="circle__progress circle__progress--path"></circle>
+            <circle cx="70" cy="70" r="65" class="circle__progress circle__progress--fill" stroke="url(#grad1)"></circle>
+          </svg>
+  
+          <div class="percent">
+            <span class="percent__int">0.</span>
+            <!-- <span class="percent__dec">00</span> -->
+            <span class="label" style="font-size: 13px;">Accuracy</span>
+          </div>
+        </div>
+  
+      </li>
+    '''
+    overall_html_panel = HtmlPanel(html=model_1_html)
+    self.column_panel_2.add_component(overall_html_panel)
   
   def edit_icon_click(self, **event_args):
     if self.model_name.visible is True: 
