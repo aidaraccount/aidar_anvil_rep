@@ -22,8 +22,11 @@ def click_link(element, target, event_args):
 
 def click_button(target, event_args):
   routing.clear_cache()
-  if event_args['keys']['ctrl'] is True:
-    anvil.js.window.open(f"{anvil.server.get_app_origin()}/#{target}", '_blank')
+  if event_args != {}:
+    if event_args['keys']['ctrl'] is True:
+      anvil.js.window.open(f"{anvil.server.get_app_origin()}/#{target}", '_blank')
+    else:
+      routing.set_url_hash(target, load_from_cache=False)
   else:
     routing.set_url_hash(target, load_from_cache=False)
   get_open_form().reset_nav_backgrounds()
