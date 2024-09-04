@@ -76,7 +76,7 @@ class ModelProfile(ModelProfileTemplate):
       self.train_model_date.text = '-'
     else:
       self.train_model_date.text = infos["train_model_date"]
-    self.status.text = infos["status"]
+    self.status.text = infos["overall_status"]
 
     # activate button
     if int(self.model_id_view) == int(model_id_active_new):
