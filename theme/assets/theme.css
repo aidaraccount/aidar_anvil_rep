@@ -715,7 +715,8 @@ body, html {
   justify-content: center;
   align-items: center;
 }
-.anvil-role-tile-background-right .anvil-panel-row-BYJTOC .anvil-panel-col-VCJINP .col-padding.col-padding-medium {
+.anvil-role-tile-background-right .anvil-panel-row-BYJTOC .anvil-panel-col-VCJINP .col-padding.col-padding-medium,
+.anvil-role-tile-background-general .anvil-panel-row-BYJTOC .anvil-panel-col-VCJINP .col-padding.col-padding-medium {
   display: flex;
   justify-content: center;
   align-items: center;
