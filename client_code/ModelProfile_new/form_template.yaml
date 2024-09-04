@@ -245,7 +245,7 @@ components:
         type: Spacer
       - layout_properties: {grid_position: 'XYWBST,SMZDEW'}
         name: Similarity_label
-        properties: {align: center, role: header-4, spacing_above: none, spacing_below: none, text: Similarity Model}
+        properties: {align: center, role: header-4, spacing_above: none, spacing_below: none, text: Similarity Submodel}
         type: Label
       - layout_properties: {grid_position: 'WNZMTN,UVTAUT'}
         name: similarity_model
@@ -288,7 +288,7 @@ components:
         type: Spacer
       - layout_properties: {grid_position: 'QXODRE,SAQBZO'}
         name: Success_label
-        properties: {align: center, role: header-4, spacing_above: none, spacing_below: none, text: Success Model}
+        properties: {align: center, role: header-4, spacing_above: none, spacing_below: none, text: Success Submodel}
         type: Label
       - layout_properties: {grid_position: 'WNZMTN,UVTAUT'}
         name: success_model
@@ -331,7 +331,7 @@ components:
         type: Spacer
       - layout_properties: {grid_position: 'BAQSFK,AOIFRQ'}
         name: Fandom_label
-        properties: {align: center, role: header-4, spacing_above: none, spacing_below: none, text: Fandom Model}
+        properties: {align: center, role: header-4, spacing_above: none, spacing_below: none, text: Fandom Submodel}
         type: Label
       - layout_properties: {grid_position: 'WNZMTN,UVTAUT'}
         name: fandom_model
@@ -374,7 +374,7 @@ components:
         type: Spacer
       - layout_properties: {grid_position: 'GHDXSA,LWZYDW'}
         name: Musical_label
-        properties: {align: center, role: header-4, spacing_above: none, spacing_below: none, text: Musical Model}
+        properties: {align: center, role: header-4, spacing_above: none, spacing_below: none, text: Musical Submodel}
         type: Label
       - layout_properties: {grid_position: 'WNZMTN,UVTAUT'}
         name: musical_model

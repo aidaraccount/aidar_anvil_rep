@@ -79,6 +79,13 @@ class ModelProfile_new(ModelProfile_newTemplate):
       self.train_model_date.text = infos["train_model_date"]
     self.status.text = infos["overall_status"]
 
+    # Progress Circle
+    if infos["overall_status"] == 'Fine tuning':
+      # print("STILL FINE TUNING")
+      self.linear_panel_2.visible = True
+    else:
+      self.custom_HTML_prediction()
+    
     # activate button
     if int(self.model_id_view) == int(model_id_active_new):
       self.activated.visible = True
@@ -108,35 +115,31 @@ class ModelProfile_new(ModelProfile_newTemplate):
       self.nav_filters_click()
     elif section == 'AddRefArtists':
       self.nav_add_references_click()
-
-    self.custom_HTML_prediction()
     
   def custom_HTML_prediction(self):
-    # if self.pred:
-    # <li class="note-display" data-note="{self.pred}">
     self.pred = "{:.2f}".format(round(float(3.01)/7*100,0))
     custom_html = f'''
-    <li class="note-display" data-note={self.pred}>
-      <div class="circle">
-        <svg width="140" height="140" class="circle__svg">
-          <defs>
-            <linearGradient id="grad1" x1="100%" y1="100%" x2="0%" y2="0%">
-              <stop offset="0%" style="stop-color:#812675;stop-opacity:1" />
-              <stop offset="100%" style="stop-color:#E95F30;stop-opacity:1" />
-            </linearGradient>
-          </defs>
-          <circle cx="70" cy="70" r="65" class="circle__progress circle__progress--path"></circle>
-          <circle cx="70" cy="70" r="65" class="circle__progress circle__progress--fill" stroke="url(#grad1)"></circle>
-        </svg>
-
-        <div class="percent">
-          <span class="percent__int">0.</span>
-          <!-- <span class="percent__dec">00</span> -->
-          <span class="label" style="font-size: 13px;">Accuracy</span>
+      <li class="note-display" data-note={self.pred}>
+        <div class="circle">
+          <svg width="140" height="140" class="circle__svg">
+            <defs>
+              <linearGradient id="grad1" x1="100%" y1="100%" x2="0%" y2="0%">
+                <stop offset="0%" style="stop-color:#812675;stop-opacity:1" />
+                <stop offset="100%" style="stop-color:#E95F30;stop-opacity:1" />
+              </linearGradient>
+            </defs>
+            <circle cx="70" cy="70" r="65" class="circle__progress circle__progress--path"></circle>
+            <circle cx="70" cy="70" r="65" class="circle__progress circle__progress--fill" stroke="url(#grad1)"></circle>
+          </svg>
+  
+          <div class="percent">
+            <span class="percent__int">0.</span>
+            <!-- <span class="percent__dec">00</span> -->
+            <span class="label" style="font-size: 13px;">Accuracy</span>
+          </div>
         </div>
-      </div>
-
-    </li>
+  
+      </li>
     '''
     html_panel_1 = HtmlPanel(html=custom_html)
     overall_html_panel = HtmlPanel(html=custom_html)
@@ -144,15 +147,20 @@ class ModelProfile_new(ModelProfile_newTemplate):
     success_html_panel = HtmlPanel(html=custom_html)
     fandom_html_panel = HtmlPanel(html=custom_html)
     musical_html_panel = HtmlPanel(html=custom_html)
-    
+  
     self.column_panel_5.add_component(html_panel_1)
     self.column_panel_2.add_component(overall_html_panel)
     self.similarity_model.add_component(similarity_html_panel)
     self.success_model.add_component(success_html_panel)
     self.fandom_model.add_component(fandom_html_panel)
     self.musical_model.add_component(musical_html_panel)
+    # infos = json.loads(anvil.server.call('get_model_stats', self.model_id_view))[0]
+    
+    # if infos["overall_status"] == 'Fine tuning':
+    #   print("STILL FINE TUNING")
+    #   self.linear_panel_2.visible = True
+    # # <li class="note-display" data-note="{self.pred}">
     # else:
-    #   print("NO SELF PRED?")
   
   def edit_icon_click(self, **event_args):
     if self.model_name.visible is True: 
