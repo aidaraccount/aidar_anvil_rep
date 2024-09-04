@@ -248,7 +248,7 @@ components:
         properties: {align: center, role: header-4, spacing_above: none, spacing_below: none, text: Similarity Submodel}
         type: Label
       - layout_properties: {grid_position: 'WNZMTN,UVTAUT'}
-        name: similarity_model
+        name: similarity_submodel
         properties: {}
         type: ColumnPanel
       - components:
@@ -257,7 +257,7 @@ components:
           properties: {align: center, bold: true, font_size: 32, role: artist_name_shadow, spacing_above: none, spacing_below: none}
           type: Label
         layout_properties: {full_width_row: false, grid_position: 'BYJTOC,VCJINP'}
-        name: linear_panel_2_copy
+        name: similarity_training
         properties: {role: score-tile-background, spacing_above: small, spacing_below: small, visible: false}
         type: LinearPanel
       - layout_properties: {grid_position: 'MWIGWT,JBKKPJ'}
@@ -265,7 +265,7 @@ components:
         properties: {align: center, bold: true, role: header-5_bold, spacing_above: none, spacing_below: none, text: active}
         type: Label
       - layout_properties: {grid_position: 'MVPOWD,COPDOT'}
-        name: similarity_training
+        name: similarity_in_training
         properties: {align: center, bold: false, role: header-5_bold, spacing_above: none, spacing_below: none, text: in training, visible: false}
         type: Label
       - data_bindings: []
@@ -291,7 +291,7 @@ components:
         properties: {align: center, role: header-4, spacing_above: none, spacing_below: none, text: Success Submodel}
         type: Label
       - layout_properties: {grid_position: 'WNZMTN,UVTAUT'}
-        name: success_model
+        name: success_submodel
         properties: {}
         type: ColumnPanel
       - components:
@@ -300,7 +300,7 @@ components:
           properties: {align: center, bold: true, font_size: 32, role: artist_name_shadow, spacing_above: none, spacing_below: none}
           type: Label
         layout_properties: {full_width_row: false, grid_position: 'BYJTOC,VCJINP'}
-        name: linear_panel_2_copy_2
+        name: success_training
         properties: {role: score-tile-background, spacing_above: small, spacing_below: small, visible: false}
         type: LinearPanel
       - layout_properties: {grid_position: 'MRKYNF,AQIXMZ'}
@@ -308,7 +308,7 @@ components:
         properties: {align: center, bold: true, role: header-5_bold, spacing_above: none, spacing_below: none, text: active, visible: false}
         type: Label
       - layout_properties: {grid_position: 'DXROAT,IDARLA'}
-        name: success_training
+        name: success_in_training
         properties: {align: center, bold: false, role: header-5_bold, spacing_above: none, spacing_below: none, text: in training, visible: true}
         type: Label
       - data_bindings: []
@@ -334,7 +334,7 @@ components:
         properties: {align: center, role: header-4, spacing_above: none, spacing_below: none, text: Fandom Submodel}
         type: Label
       - layout_properties: {grid_position: 'WNZMTN,UVTAUT'}
-        name: fandom_model
+        name: fandom_submodel
         properties: {}
         type: ColumnPanel
       - components:
@@ -343,7 +343,7 @@ components:
           properties: {align: center, bold: true, font_size: 32, role: artist_name_shadow, spacing_above: none, spacing_below: none}
           type: Label
         layout_properties: {full_width_row: false, grid_position: 'BYJTOC,VCJINP'}
-        name: linear_panel_2_copy_3
+        name: fandom_training
         properties: {role: score-tile-background, spacing_above: small, spacing_below: small, visible: false}
         type: LinearPanel
       - layout_properties: {grid_position: 'HMXBCG,YUUBZC'}
@@ -351,7 +351,7 @@ components:
         properties: {align: center, bold: true, role: header-5_bold, spacing_above: none, spacing_below: none, text: active, visible: false}
         type: Label
       - layout_properties: {grid_position: 'XDNBPP,UXKRTB'}
-        name: fandom_training
+        name: fandom_in_training
         properties: {align: center, bold: false, role: header-5_bold, spacing_above: none, spacing_below: none, text: in training, visible: true}
         type: Label
       - data_bindings: []
@@ -377,7 +377,7 @@ components:
         properties: {align: center, role: header-4, spacing_above: none, spacing_below: none, text: Musical Submodel}
         type: Label
       - layout_properties: {grid_position: 'WNZMTN,UVTAUT'}
-        name: musical_model
+        name: musical_submodel
         properties: {}
         type: ColumnPanel
       - components:
@@ -386,7 +386,7 @@ components:
           properties: {align: center, bold: true, font_size: 32, role: artist_name_shadow, spacing_above: none, spacing_below: none}
           type: Label
         layout_properties: {full_width_row: false, grid_position: 'BYJTOC,VCJINP'}
-        name: linear_panel_2_copy_4
+        name: musical_training
         properties: {role: score-tile-background, spacing_above: small, spacing_below: small, visible: false}
         type: LinearPanel
       - layout_properties: {grid_position: 'XMOPWZ,LBFIND'}
@@ -394,7 +394,7 @@ components:
         properties: {align: center, bold: true, role: header-5_bold, spacing_above: none, spacing_below: none, text: active, visible: false}
         type: Label
       - layout_properties: {grid_position: 'IMGAHB,LJOQOL'}
-        name: musical_training
+        name: musical_in_training
         properties: {align: center, bold: false, role: header-5_bold, spacing_above: none, spacing_below: none, text: in training, visible: true}
         type: Label
       - data_bindings: []

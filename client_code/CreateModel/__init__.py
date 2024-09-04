@@ -46,7 +46,7 @@ class CreateModel(CreateModelTemplate):
         # continue to add ref artists
         alert(title='Congratulations..',
           content="your Model was successfully created!\n\nNow, let's set your model up by adding some artists as reference.")        
-        click_button(f'model_profile?model_id={model_id}&section=AddRefArtists', event_args)
+        click_button(f'model_profile_new?model_id={model_id}&section=AddRefArtists', event_args)
         
         # refresh models components
         get_open_form().refresh_models_components()

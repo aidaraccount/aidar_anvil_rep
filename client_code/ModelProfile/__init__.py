@@ -225,7 +225,7 @@ class ModelProfile(ModelProfileTemplate):
   def activate_click(self, **event_args):
     anvil.server.call('update_model_usage', user["user_id"], self.model_id_view)
     save_var('model_id', self.model_id_view)
-    click_button(f'model_profile?model_id={self.model_id_view}&section=Main', event_args)
+    click_button(f'model_profile_new?model_id={self.model_id_view}&section=Main', event_args)
     get_open_form().refresh_models_underline()
     
   def discover_click(self, **event_args):
