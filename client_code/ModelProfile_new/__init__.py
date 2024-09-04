@@ -55,6 +55,7 @@ class ModelProfile_new(ModelProfile_newTemplate):
     # HEADER
     infos = json.loads(anvil.server.call('get_model_stats', self.model_id_view))[0]
     self.retrain_date = infos["train_model_date"]
+    print(infos)
 
     # model name and description text and text boxes
     self.model_name.text = infos["model_name"]
