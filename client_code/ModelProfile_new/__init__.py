@@ -51,9 +51,11 @@ class ModelProfile_new(ModelProfile_newTemplate):
     
     self.nav_references.role = 'section_buttons_focused'
     self.sec_filters.visible = False
-    
-    # HEADER
+
+    # ---------------
+    # HEADER LEFT
     infos = json.loads(anvil.server.call('get_model_stats', self.model_id_view))[0]
+    self.infos = infos
     self.retrain_date = infos["train_model_date"]
     print(infos)
 
@@ -69,6 +71,16 @@ class ModelProfile_new(ModelProfile_newTemplate):
       self.creation_date.text = infos["creation_date"]
     self.usage_date.text = infos["usage_date"]
 
+    # activate button
+    if int(self.model_id_view) == int(model_id_active_new):
+      self.activated.visible = True
+      self.activate.visible = False
+    else:
+      self.activated.visible = False
+      self.activate.visible = True   
+    
+    # ---------------
+    # HEADER RIGHT
     # stats
     self.no_references.text = infos["no_references"]
     self.total_ratings.text = infos["total_ratings"]
@@ -85,56 +97,22 @@ class ModelProfile_new(ModelProfile_newTemplate):
     else:
       self.linear_panel_2.visible = True
       self.column_panel_5.visible = False
+    
+    # ---------------
+    # SECCTIONS
+    # # retrain button
+    # if infos["total_ratings"] < 75:
+    #   self.retrain.visible = False
+    #   self.retrain_wait.visible = True
+    #   self.retrain_wait.text = 'At least 75 ratings required for training the model'
+    # elif self.retrain_date != time.strftime("%Y-%m-%d"):
+    #   self.retrain.visible = True
+    #   self.retrain_wait.visible = False
+    # else:
+    #   self.retrain.visible = False
+    #   self.retrain_wait.visible = True
       
-    if infos["model_4_acc"] is not None:
-      self.custom_HTML_level_1_active(infos["model_1_acc"])
-      self.custom_HTML_level_2_active(infos["model_2_acc"])
-      self.custom_HTML_level_3_active(infos["model_3_acc"])
-      self.custom_HTML_level_4_active(infos["model_4_acc"])
-      print("empty")
-    elif infos["model_3_acc"] is not None:
-      self.custom_HTML_level_1_active(infos["model_1_acc"])
-      self.custom_HTML_level_2_active(infos["model_2_acc"])
-      self.custom_HTML_level_3_active(infos["model_3_acc"])
-      self.custom_HTML_level_4_inactive(infos["total_ratings"]/float(100)*100)
-    elif infos["model_2_acc"] is not None:
-      self.custom_HTML_level_1_active(infos["model_1_acc"])
-      self.custom_HTML_level_2_active(infos["model_2_acc"])
-      self.custom_HTML_level_3_inactive(infos["total_ratings"]/float(75)*100)
-      self.custom_HTML_level_4_inactive(infos["total_ratings"]/float(100)*100)
-    elif infos["model_1_acc"] is not None:
-      self.custom_HTML_level_1_active(infos["model_1_acc"])
-      self.custom_HTML_level_2_inactive(infos["total_ratings"]/float(50)*100)
-      self.custom_HTML_level_3_inactive(infos["total_ratings"]/float(75)*100)
-      self.custom_HTML_level_4_inactive(infos["total_ratings"]/float(100)*100)
-    else:
-      self.custom_HTML_level_1_inactive(infos["total_ratings"]/float(10)*100)
-      self.custom_HTML_level_2_inactive(infos["total_ratings"]/float(50)*100)
-      self.custom_HTML_level_3_inactive(infos["total_ratings"]/float(75)*100)
-      self.custom_HTML_level_4_inactive(infos["total_ratings"]/float(100)*100)
-
-
-    # activate button
-    if int(self.model_id_view) == int(model_id_active_new):
-      self.activated.visible = True
-      self.activate.visible = False
-    else:
-      self.activated.visible = False
-      self.activate.visible = True      
-    
-    # retrain button
-    if infos["total_ratings"] < 75:
-      self.retrain.visible = False
-      self.retrain_wait.visible = True
-      self.retrain_wait.text = 'At least 75 ratings required for training the model'
-    elif self.retrain_date != time.strftime("%Y-%m-%d"):
-      self.retrain.visible = True
-      self.retrain_wait.visible = False
-    else:
-      self.retrain.visible = False
-      self.retrain_wait.visible = True
-    
-    # SECTION
+    # secction routing
     if section == 'Main':
       self.nav_model_click()
     elif section == 'PrevRated':
@@ -142,7 +120,7 @@ class ModelProfile_new(ModelProfile_newTemplate):
     elif section == 'Filter':
       self.nav_filters_click()
     elif section == 'AddRefArtists':
-      self.nav_add_references_click()
+      self.nav_add_references_click()   
     
   def custom_HTML_prediction(self, accuracy):
     custom_html = f'''
@@ -412,6 +390,7 @@ class ModelProfile_new(ModelProfile_newTemplate):
     self.nav_prev_rated.role = 'section_buttons'
     self.nav_filters.role = 'section_buttons'
     self.sec_references.visible = True
+    self.sec_models.visible = False
     self.sec_prev_rated.visible = False
     self.sec_filters.visible = False
     self.sec_references.clear()
@@ -491,5 +470,58 @@ class ModelProfile_new(ModelProfile_newTemplate):
     self.sec_models.visible = True
     self.sec_prev_rated.visible = False
     self.sec_filters.visible = False
-    self.sec_references.clear()
-    self.sec_references.add_component(C_EditRefArtists(self.model_id_view))
+
+    # Model 1
+    if self.similarity_submodel.get_components() == []:
+      if self.infos["model_1_acc"] is not None:
+        self.custom_HTML_level_1_active(self.infos["model_1_acc"])
+      else:
+        self.custom_HTML_level_1_inactive(min(self.infos["total_ratings"]/float(10)*100, 100))
+      
+    # Model 2
+    if self.success_submodel.get_components() == []:
+      if self.infos["model_2_acc"] is not None:
+        self.custom_HTML_level_2_active(self.infos["model_2_acc"])
+      else:
+        self.custom_HTML_level_2_inactive(min(self.infos["total_ratings"]/float(50)*100, 100))
+        
+    # Model 3
+    if self.fandom_submodel.get_components() == []:
+      if self.infos["model_3_acc"] is not None:
+        self.custom_HTML_level_3_active(self.infos["model_3_acc"])
+      else:
+        self.custom_HTML_level_3_inactive(min(self.infos["total_ratings"]/float(75)*100, 100))
+        
+    # Model 4
+    if self.musical_submodel.get_components() == []:
+      if self.infos["model_4_acc"] is not None:
+        self.custom_HTML_level_4_active(self.infos["model_4_acc"])
+      else:
+        self.custom_HTML_level_4_inactive(min(self.infos["total_ratings"]/float(100)*100, 100))
+
+    # if self.infos["model_4_acc"] is not None:
+    #   self.custom_HTML_level_1_active(self.infos["model_1_acc"])
+    #   self.custom_HTML_level_2_active(self.infos["model_2_acc"])
+    #   self.custom_HTML_level_3_active(self.infos["model_3_acc"])
+    #   self.custom_HTML_level_4_active(self.infos["model_4_acc"])
+    #   print("empty")
+    # elif self.infos["model_3_acc"] is not None:
+    #   self.custom_HTML_level_1_active(self.infos["model_1_acc"])
+    #   self.custom_HTML_level_2_active(self.infos["model_2_acc"])
+    #   self.custom_HTML_level_3_active(self.infos["model_3_acc"])
+    #   self.custom_HTML_level_4_inactive(self.infos["total_ratings"]/float(100)*100)
+    # elif self.infos["model_2_acc"] is not None:
+    #   self.custom_HTML_level_1_active(self.infos["model_1_acc"])
+    #   self.custom_HTML_level_2_active(self.infos["model_2_acc"])
+    #   self.custom_HTML_level_3_inactive(self.infos["total_ratings"]/float(75)*100)
+    #   self.custom_HTML_level_4_inactive(self.infos["total_ratings"]/float(100)*100)
+    # elif self.infos["model_1_acc"] is not None:
+    #   self.custom_HTML_level_1_active(self.infos["model_1_acc"])
+    #   self.custom_HTML_level_2_inactive(self.infos["total_ratings"]/float(50)*100)
+    #   self.custom_HTML_level_3_inactive(self.infos["total_ratings"]/float(75)*100)
+    #   self.custom_HTML_level_4_inactive(self.infos["total_ratings"]/float(100)*100)
+    # else:
+    #   self.custom_HTML_level_1_inactive(self.infos["total_ratings"]/float(10)*100)
+    #   self.custom_HTML_level_2_inactive(self.infos["total_ratings"]/float(50)*100)
+    #   self.custom_HTML_level_3_inactive(self.infos["total_ratings"]/float(75)*100)
+    #   self.custom_HTML_level_4_inactive(self.infos["total_ratings"]/float(100)*100)
