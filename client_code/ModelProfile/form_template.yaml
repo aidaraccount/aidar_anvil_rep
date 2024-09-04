@@ -201,8 +201,7 @@ components:
   properties: {col_widths: '{}', role: tile-background-general}
   type: ColumnPanel
 - components:
-  - components: []
-    event_bindings: {click: nav_references_click}
+  - event_bindings: {click: nav_references_click}
     layout_properties: {}
     name: nav_references
     properties: {col_spacing: medium, role: section_buttons, spacing_above: none, spacing_below: none, text: Reference Artists}
@@ -221,8 +220,7 @@ components:
   name: flow_panel_sections
   properties: {role: section-background, spacing: small}
   type: FlowPanel
-- components: []
-  layout_properties: {grid_position: 'REYRFT,FBTOLL'}
+- layout_properties: {grid_position: 'REYRFT,FBTOLL'}
   name: sec_references
   properties: {col_widths: '{}', spacing_above: medium}
   type: ColumnPanel
@@ -230,8 +228,7 @@ components:
   name: sec_prev_rated
   properties: {col_widths: '{}', spacing_above: medium}
   type: ColumnPanel
-- components: []
-  layout_properties: {grid_position: 'SSBXRV,UICLSP'}
+- layout_properties: {grid_position: 'SSBXRV,UICLSP'}
   name: sec_filters
   properties: {spacing_above: medium}
   type: ColumnPanel
