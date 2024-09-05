@@ -270,3 +270,5 @@ roles:
   name: header-6_bold
 - components: [ColumnPanel]
   name: tile-background-general-no-background
+- components: [LinearPanel, ColumnPanel]
+  name: score-tile-background-larger

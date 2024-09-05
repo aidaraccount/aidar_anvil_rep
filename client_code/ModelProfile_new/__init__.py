@@ -97,11 +97,12 @@ class ModelProfile_new(ModelProfile_newTemplate):
     # Progress Circle
     if infos["overall_status"] == 'Running':
       self.custom_HTML_prediction(infos["overall_acc"])
+      self.custom_HTML_prediction_2(infos["overall_acc"])
     else:
       self.linear_panel_2.visible = True
       self.linear_panel_2_2.visible = True
       self.column_panel_5.visible = False
-      self.Overall_model_label.visible = False
+      # self.Overall_model_label.visible = False
 
     
     
@@ -156,6 +157,28 @@ class ModelProfile_new(ModelProfile_newTemplate):
     html_panel_1 = HtmlPanel(html=custom_html)
     self.column_panel_5.add_component(html_panel_1)
     
+  def custom_HTML_prediction_2(self, accuracy):
+    custom_html = f'''
+      <li class="note-display" data-note={accuracy}>
+        <div class="circle">
+          <svg width="168" height="168" class="circle__svg">
+            <defs>
+              <linearGradient id="grad1" x1="100%" y1="100%" x2="0%" y2="0%">
+                <stop offset="0%" style="stop-color:#812675;stop-opacity:1" />
+                <stop offset="100%" style="stop-color:#E95F30;stop-opacity:1" />
+              </linearGradient>
+            </defs>
+            <circle cx="84" cy="84" r="79" class="circle__progress circle__progress--path"></circle>
+            <circle cx="84" cy="84" r="79" class="circle__progress circle__progress--fill" stroke="url(#grad1)"></circle>
+          </svg>
+          <div class="percent">
+            <span class="percent__int">0.</span>
+            <!-- <span class="percent__dec">00</span> -->
+            <span class="label" style="font-size: 13px;">Accuracy</span>
+          </div>
+        </div>
+      </li>
+    '''
     html_panel_2 = HtmlPanel(html=custom_html)
     self.column_panel_2.add_component(html_panel_2)
     
@@ -190,13 +213,13 @@ class ModelProfile_new(ModelProfile_newTemplate):
         <div class="circle">
           <svg width="140" height="140" class="circle__svg">
             <defs>
-              <linearGradient id="grad1" x1="100%" y1="100%" x2="0%" y2="0%">
+              <linearGradient id="grad2" x1="100%" y1="100%" x2="0%" y2="0%">
                 <stop offset="0%" style="stop-color:#4C4C4C;stop-opacity:1" />
-                <stop offset="100%" style="stop-color:#E95F30;stop-opacity:1" />
+                <stop offset="100%" style="stop-color:#707070;stop-opacity:1" />
               </linearGradient>
             </defs>
             <circle cx="70" cy="70" r="65" class="circle__progress circle__progress--path"></circle>
-            <circle cx="70" cy="70" r="65" class="circle__progress circle__progress--fill" stroke="url(#grad1)"></circle>
+            <circle cx="70" cy="70" r="65" class="circle__progress circle__progress--fill" stroke="url(#grad2)"></circle>
           </svg>
           <div class="percent">
             <span class="percent__int">0.</span>
@@ -246,7 +269,7 @@ class ModelProfile_new(ModelProfile_newTemplate):
               </linearGradient>
             </defs>
             <circle cx="70" cy="70" r="65" class="circle__progress circle__progress--path"></circle>
-            <circle cx="70" cy="70" r="65" class="circle__progress circle__progress--fill" stroke="url(#grad1)"></circle>
+            <circle cx="70" cy="70" r="65" class="circle__progress circle__progress--fill" stroke="url(#grad2)"></circle>
           </svg>
           <div class="percent">
             <span class="percent__int">0.</span>
@@ -290,13 +313,13 @@ class ModelProfile_new(ModelProfile_newTemplate):
         <div class="circle">
           <svg width="140" height="140" class="circle__svg">
             <defs>
-              <linearGradient id="grad1" x1="100%" y1="100%" x2="0%" y2="0%">
-                <stop offset="0%" style="stop-color:#812675;stop-opacity:1" />
-                <stop offset="100%" style="stop-color:#E95F30;stop-opacity:1" />
+              <linearGradient id="grad2" x1="100%" y1="100%" x2="0%" y2="0%">
+                <stop offset="0%" style="stop-color:#4C4C4C;stop-opacity:1" />
+                <stop offset="100%" style="stop-color:#707070;stop-opacity:1" />
               </linearGradient>
             </defs>
             <circle cx="70" cy="70" r="65" class="circle__progress circle__progress--path"></circle>
-            <circle cx="70" cy="70" r="65" class="circle__progress circle__progress--fill" stroke="url(#grad1)"></circle>
+            <circle cx="70" cy="70" r="65" class="circle__progress circle__progress--fill" stroke="url(#grad2)"></circle>
           </svg>
           <div class="percent">
             <span class="percent__int">0.</span>
@@ -340,13 +363,13 @@ class ModelProfile_new(ModelProfile_newTemplate):
         <div class="circle">
           <svg width="140" height="140" class="circle__svg">
             <defs>
-              <linearGradient id="grad1" x1="100%" y1="100%" x2="0%" y2="0%">
-                <stop offset="0%" style="stop-color:#812675;stop-opacity:1" />
-                <stop offset="100%" style="stop-color:#E95F30;stop-opacity:1" />
+              <linearGradient id="grad2" x1="100%" y1="100%" x2="0%" y2="0%">
+                <stop offset="0%" style="stop-color:#4C4C4C;stop-opacity:1" />
+                <stop offset="100%" style="stop-color:#707070;stop-opacity:1" />
               </linearGradient>
             </defs>
             <circle cx="70" cy="70" r="65" class="circle__progress circle__progress--path"></circle>
-            <circle cx="70" cy="70" r="65" class="circle__progress circle__progress--fill" stroke="url(#grad1)"></circle>
+            <circle cx="70" cy="70" r="65" class="circle__progress circle__progress--fill" stroke="url(#grad2)"></circle>
           </svg>
           <div class="percent">
             <span class="percent__int">0.</span>
@@ -489,6 +512,7 @@ class ModelProfile_new(ModelProfile_newTemplate):
         self.similarity_active_summary.visible = True
         self.similarity_in_training.visible = False
         self.similarity_in_training_summary.visible = False
+        self.Level_value.text = "Level 0"
       else:
         self.custom_HTML_level_1_inactive(min(self.infos["total_ratings"]/float(10)*100, 100))
         self.model_1_accuracy_summary.text = "{}{}".format(min(self.infos["total_ratings"]/float(10)*100, 100), "%")
@@ -496,6 +520,7 @@ class ModelProfile_new(ModelProfile_newTemplate):
         self.similarity_active_summary.visible = False
         self.similarity_in_training.visible = True
         self.similarity_in_training_summary.visible = True
+        self.Level_value.text = "Level 0"
          
     # Model 2
     if self.success_submodel.get_components() == []:
@@ -507,6 +532,7 @@ class ModelProfile_new(ModelProfile_newTemplate):
         self.success_active_summary.visible = True
         self.success_in_training.visible = False
         self.success_in_training_summary.visible = False
+        self.Level_value.text = "Level 1"
       else:
         self.custom_HTML_level_2_inactive(min(self.infos["total_ratings"]/float(50)*100, 100))
         # print("SUBMODEL 2 INACTIVE IS RUNNING")
@@ -525,6 +551,7 @@ class ModelProfile_new(ModelProfile_newTemplate):
         self.fandom_active_summary.visible = True
         self.fandom_in_training.visible = False
         self.fandom_in_training_summary.visible = False
+        self.Level_value.text = "Level 2"
       else:
         self.custom_HTML_level_3_inactive(min(self.infos["total_ratings"]/float(75)*100, 100))
         self.model_3_accuracy_summary.text = "{}{}".format(min(round(self.infos["total_ratings"]/int(75)*100), 100), "%")
@@ -542,6 +569,7 @@ class ModelProfile_new(ModelProfile_newTemplate):
         self.musical_active_summary.visible = True
         self.musical_in_training.visible = False
         self.musical_in_training_summary.visible = False
+        self.Level_value.text = "Level 3"
       else:
         self.custom_HTML_level_4_inactive(min(self.infos["total_ratings"]/float(100)*100, 100))
         self.model_4_accuracy_summary.text = "{}{}".format(min(round(self.infos["total_ratings"]/int(100)*100), 100), "%")

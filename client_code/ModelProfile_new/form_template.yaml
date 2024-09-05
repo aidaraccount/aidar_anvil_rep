@@ -129,7 +129,7 @@ components:
       - event_bindings: {}
         layout_properties: {grid_position: 'LWXOHX,KPWEAN'}
         name: Ratings_histogram
-        properties: {height: 321.83203125, interactive: false, spacing_above: none, spacing_below: none}
+        properties: {height: 365.9140625, interactive: false, spacing_above: none, spacing_below: none}
         type: Plot
       - layout_properties: {grid_position: 'LWXOHX,RUWEMC'}
         name: spacer_3
@@ -144,6 +144,10 @@ components:
         name: spacer_5
         properties: {height: '15'}
         type: Spacer
+      - layout_properties: {grid_position: 'ACLDSN,FYVJGI'}
+        name: Level_value
+        properties: {align: center, role: header-3, spacing_above: none, spacing_below: none}
+        type: Label
       - layout_properties: {grid_position: 'WNZMTN,UVTAUT'}
         name: column_panel_5
         properties: {}
@@ -319,7 +323,7 @@ components:
             type: Label
           layout_properties: {grid_position: 'ZWYNFG,GUCUJD'}
           name: linear_panel_2_2
-          properties: {role: score-tile-background, spacing_above: small, spacing_below: small, visible: false}
+          properties: {role: score-tile-background-larger, spacing_above: small, spacing_below: small, visible: false}
           type: LinearPanel
         layout_properties: {grid_position: 'BCYOSN,BYWHFN'}
         name: column_panel_4
@@ -376,10 +380,14 @@ components:
         name: spacer_7_copy
         properties: {height: '10'}
         type: Spacer
-      layout_properties: {grid_position: 'ZSDYMK,DNNMSJ'}
+      layout_properties: {grid_position: 'ZSDYMK,DNNMSJ VTMGHL,GXWFKB'}
       name: column_panel_KPIs_copy
       properties: {col_widths: '{}', role: tile-background-general}
       type: ColumnPanel
+    - layout_properties: {grid_position: 'ZSDYMK,DNNMSJ ZNILQT,CVKIBE'}
+      name: label_2
+      properties: {align: center, role: header-5_bold, spacing_above: none, spacing_below: none, text: LEVEL 0}
+      type: Label
     - components:
       - layout_properties: {grid_position: 'ISLIBQ,SPJFCR'}
         name: spacer_5_copy_2
@@ -419,10 +427,14 @@ components:
         name: spacer_7_copy_2
         properties: {height: '10'}
         type: Spacer
-      layout_properties: {grid_position: 'ZSDYMK,IAARJV'}
+      layout_properties: {grid_position: 'ZSDYMK,IAARJV WMGDXC,OSTSFN'}
       name: column_panel_KPIs_copy_2
       properties: {col_widths: '{}', role: tile-background-general}
       type: ColumnPanel
+    - layout_properties: {grid_position: 'ZSDYMK,IAARJV XQBRCV,FUAQQL'}
+      name: label_3
+      properties: {align: center, role: header-5_bold, spacing_above: none, spacing_below: none, text: LEVEL 1}
+      type: Label
     - components:
       - layout_properties: {grid_position: 'ISLIBQ,SPJFCR'}
         name: spacer_5_copy_3
@@ -462,10 +474,14 @@ components:
         name: spacer_7_copy_3
         properties: {height: '10'}
         type: Spacer
-      layout_properties: {grid_position: 'ZSDYMK,XPPAOU'}
+      layout_properties: {grid_position: 'ZSDYMK,XPPAOU EBQYXN,BSJMUE'}
       name: column_panel_KPIs_copy_3
       properties: {col_widths: '{}', role: tile-background-general}
       type: ColumnPanel
+    - layout_properties: {grid_position: 'ZSDYMK,XPPAOU XLPJSP,UMTAEC'}
+      name: label_4
+      properties: {align: center, role: header-5_bold, spacing_above: none, spacing_below: none, text: LEVEL 2}
+      type: Label
     - components:
       - layout_properties: {grid_position: 'ISLIBQ,SPJFCR'}
         name: spacer_5_copy_4
@@ -505,10 +521,14 @@ components:
         name: spacer_7_copy_4
         properties: {height: '10'}
         type: Spacer
-      layout_properties: {grid_position: 'ZSDYMK,BXJGNC'}
+      layout_properties: {grid_position: 'ZSDYMK,BXJGNC MJYCGX,UNPGUS'}
       name: column_panel_KPIs_copy_4
       properties: {col_widths: '{}', role: tile-background-general}
       type: ColumnPanel
+    - layout_properties: {grid_position: 'ZSDYMK,BXJGNC UQAUJI,PJAWPQ'}
+      name: label_5
+      properties: {align: center, role: header-5_bold, spacing_above: none, spacing_below: none, text: LEVEL 3}
+      type: Label
     layout_properties: {grid_position: 'XJBRQH,IMWFKP'}
     name: sec_models
     properties: {}
