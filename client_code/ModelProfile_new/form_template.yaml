@@ -293,25 +293,46 @@ components:
     properties: {role: section-background, spacing: small}
     type: FlowPanel
   - components:
-    - components: []
-      layout_properties: {grid_position: 'SRRHIA,BJQTYX'}
-      name: column_panel_2
-      properties: {}
-      type: ColumnPanel
     - components:
+      - layout_properties: {grid_position: 'YWCMEK,YRZFYN'}
+        name: spacer_4
+        properties: {height: '15', spacing_above: none, spacing_below: none}
+        type: Spacer
+      - layout_properties: {grid_position: 'YWCMEK,ELMBCC'}
+        name: Overall_model_label
+        properties: {align: center, role: header-5_bold, spacing_above: none, spacing_below: none, text: Overall Model}
+        type: Label
+      - layout_properties: {grid_position: 'YWCMEK,JNPVWQ'}
+        name: spacer_6
+        properties: {height: '15', spacing_above: none, spacing_below: none}
+        type: Spacer
       - components:
-        - layout_properties: {}
-          name: status_copy
-          properties: {align: center, bold: true, font_size: 32, role: artist_name_shadow, spacing_above: none, spacing_below: none}
-          type: Label
-        layout_properties: {grid_position: 'ZWYNFG,GUCUJD'}
-        name: linear_panel_2_copy
-        properties: {role: score-tile-background, spacing_above: small, spacing_below: small, visible: true}
-        type: LinearPanel
-      layout_properties: {grid_position: 'GLUCMP,EUZHCQ'}
-      name: column_panel_4
-      properties: {role: tile-background-general-no-background}
+        - components: []
+          layout_properties: {grid_position: 'WNUBLX,XSAGTY'}
+          name: column_panel_2
+          properties: {role: tile-background-general-no-background, spacing_above: none}
+          type: ColumnPanel
+        - components:
+          - layout_properties: {}
+            name: status_2
+            properties: {align: center, bold: true, font_size: 32, role: artist_name_shadow, spacing_above: none, spacing_below: none}
+            type: Label
+          layout_properties: {grid_position: 'ZWYNFG,GUCUJD'}
+          name: linear_panel_2_2
+          properties: {role: score-tile-background, spacing_above: small, spacing_below: small, visible: false}
+          type: LinearPanel
+        layout_properties: {grid_position: 'BCYOSN,BYWHFN'}
+        name: column_panel_4
+        properties: {role: tile-background-general-no-background, spacing_above: none, spacing_below: large}
+        type: ColumnPanel
+      layout_properties: {grid_position: 'GPCTDZ,HTBJRJ'}
+      name: column_panel_7
+      properties: {col_widths: '{"YRZFYN":25,"ELMBCC":15,"JNPVWQ":40}', spacing_above: large, spacing_below: none}
       type: ColumnPanel
+    - layout_properties: {grid_position: 'UNKOMN,PLVPNP'}
+      name: label_1
+      properties: {role: header-5, text: 'Sub-Model contribution:'}
+      type: Label
     - components:
       - layout_properties: {grid_position: 'ISLIBQ,SPJFCR'}
         name: spacer_5_copy

@@ -739,6 +739,7 @@ body, html {
 .anvil-role-tile-background-general-no-background {
   border-radius: 15px;
   height: 100%;
+  /* margin: 50px 0 50px 0; */
 }
 .anvil-role-tile-background-general-no-background .anvil-panel-row-ZWYNFG .anvil-panel-col-GUCUJD .col-padding.col-padding-medium,
 .anvil-role-tile-background-right .anvil-panel-row-BYJTOC .anvil-panel-col-VCJINP .col-padding.col-padding-medium,

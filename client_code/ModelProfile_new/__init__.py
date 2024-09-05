@@ -92,13 +92,16 @@ class ModelProfile_new(ModelProfile_newTemplate):
     else:
       self.retrain_model_date_value.text = infos["train_model_date"]
     self.status.text = infos["overall_status"]
+    self.status_2.text = infos["overall_status"]
 
     # Progress Circle
     if infos["overall_status"] == 'Running':
       self.custom_HTML_prediction(infos["overall_acc"])
     else:
       self.linear_panel_2.visible = True
+      self.linear_panel_2_2.visible = True
       self.column_panel_5.visible = False
+      self.Overall_model_label.visible = False
 
     
     
@@ -188,7 +191,7 @@ class ModelProfile_new(ModelProfile_newTemplate):
           <svg width="140" height="140" class="circle__svg">
             <defs>
               <linearGradient id="grad1" x1="100%" y1="100%" x2="0%" y2="0%">
-                <stop offset="0%" style="stop-color:#812675;stop-opacity:1" />
+                <stop offset="0%" style="stop-color:#4C4C4C;stop-opacity:1" />
                 <stop offset="100%" style="stop-color:#E95F30;stop-opacity:1" />
               </linearGradient>
             </defs>
@@ -237,9 +240,9 @@ class ModelProfile_new(ModelProfile_newTemplate):
         <div class="circle">
           <svg width="140" height="140" class="circle__svg">
             <defs>
-              <linearGradient id="grad1" x1="100%" y1="100%" x2="0%" y2="0%">
-                <stop offset="0%" style="stop-color:#812675;stop-opacity:1" />
-                <stop offset="100%" style="stop-color:#E95F30;stop-opacity:1" />
+              <linearGradient id="grad2" x1="100%" y1="100%" x2="0%" y2="0%">
+                <stop offset="0%" style="stop-color:#4C4C4C;stop-opacity:1" />
+                <stop offset="100%" style="stop-color:#707070;stop-opacity:1" />
               </linearGradient>
             </defs>
             <circle cx="70" cy="70" r="65" class="circle__progress circle__progress--path"></circle>
@@ -498,6 +501,7 @@ class ModelProfile_new(ModelProfile_newTemplate):
     if self.success_submodel.get_components() == []:
       if self.infos["model_2_acc"] is not None:
         self.custom_HTML_level_2_active(self.infos["model_2_acc"])
+        # print("SUBMODEL 2 ACTIVE IS RUNNING")
         self.model_2_accuracy_summary.text = "{}{}".format(round(self.infos["model_2_acc"]), "%")
         self.success_active.visible = True
         self.success_active_summary.visible = True
@@ -505,6 +509,7 @@ class ModelProfile_new(ModelProfile_newTemplate):
         self.success_in_training_summary.visible = False
       else:
         self.custom_HTML_level_2_inactive(min(self.infos["total_ratings"]/float(50)*100, 100))
+        # print("SUBMODEL 2 INACTIVE IS RUNNING")
         self.model_2_accuracy_summary.text = "{}{}".format(min(round(self.infos["total_ratings"]/int(50)*100), 100), "%")
         self.success_active.visible = False
         self.success_active_summary.visible = False
