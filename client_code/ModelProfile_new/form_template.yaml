@@ -131,7 +131,7 @@ components:
         name: buttons_panel
         properties: {role: null, spacing_above: none, spacing_below: none}
         type: LinearPanel
-      layout_properties: {col_xs: 0, row: FEJHDY, width_xs: 12}
+      layout_properties: {col_xs: 0, row: FEJHDY, width_xs: 9}
       name: column_panel_6
       properties: {col_widths: '{"PVSQDK":40,"CPEJAI":18,"QSKFUQ":15,"IZQGEI":15,"TUJCHM":20,"WKNLWJ":10}', role: tile-background-left, spacing_above: none, spacing_below: none}
       type: ColumnPanel
