@@ -386,7 +386,7 @@ components:
       type: ColumnPanel
     - layout_properties: {grid_position: 'ZSDYMK,DNNMSJ ZNILQT,CVKIBE'}
       name: label_2
-      properties: {align: center, role: header-5_bold, spacing_above: none, spacing_below: none, text: LEVEL 0}
+      properties: {align: center, role: header-5_bold, spacing_above: none, spacing_below: none, text: LEVEL 1}
       type: Label
     - components:
       - layout_properties: {grid_position: 'ISLIBQ,SPJFCR'}
@@ -431,9 +431,9 @@ components:
       name: column_panel_KPIs_copy_2
       properties: {col_widths: '{}', role: tile-background-general}
       type: ColumnPanel
-    - layout_properties: {grid_position: 'ZSDYMK,IAARJV XQBRCV,FUAQQL'}
+    - layout_properties: {grid_position: 'ZSDYMK,IAARJV KZVTAU,KTXMMP'}
       name: label_3
-      properties: {align: center, role: header-5_bold, spacing_above: none, spacing_below: none, text: LEVEL 1}
+      properties: {align: center, role: header-5_bold, spacing_above: none, spacing_below: none, text: LEVEL 2}
       type: Label
     - components:
       - layout_properties: {grid_position: 'ISLIBQ,SPJFCR'}
@@ -480,7 +480,7 @@ components:
       type: ColumnPanel
     - layout_properties: {grid_position: 'ZSDYMK,XPPAOU XLPJSP,UMTAEC'}
       name: label_4
-      properties: {align: center, role: header-5_bold, spacing_above: none, spacing_below: none, text: LEVEL 2}
+      properties: {align: center, role: header-5_bold, spacing_above: none, spacing_below: none, text: LEVEL 3}
       type: Label
     - components:
       - layout_properties: {grid_position: 'ISLIBQ,SPJFCR'}
@@ -527,7 +527,7 @@ components:
       type: ColumnPanel
     - layout_properties: {grid_position: 'ZSDYMK,BXJGNC UQAUJI,PJAWPQ'}
       name: label_5
-      properties: {align: center, role: header-5_bold, spacing_above: none, spacing_below: none, text: LEVEL 3}
+      properties: {align: center, role: header-5_bold, spacing_above: none, spacing_below: none, text: LEVEL 4}
       type: Label
     layout_properties: {grid_position: 'XJBRQH,IMWFKP'}
     name: sec_models
