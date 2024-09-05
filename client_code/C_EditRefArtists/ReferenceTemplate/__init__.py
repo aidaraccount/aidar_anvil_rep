@@ -30,14 +30,14 @@ class ReferenceTemplate(ReferenceTemplateTemplate):
   def button_1_click(self, **event_args):
     c = confirm("Do you wish to delete this artist as a reference?")
     if c is True:
-      self.parent.parent.parent.parent.parent.no_references.text = int(self.parent.parent.parent.parent.parent.no_references.text) - 1
+      self.parent.parent.parent.parent.parent.parent.no_references.text = int(self.parent.parent.parent.parent.parent.parent.no_references.text) - 1
       anvil.server.call('delete_reference', model_id, self.item[0]['ArtistID'])
       self.parent.parent.parent.get_references()
 
   def button_2_click(self, **event_args):
     c = confirm("Do you wish to delete this artist as a reference?")
     if c is True:
-      self.parent.parent.parent.parent.parent.no_references.text = int(self.parent.parent.parent.parent.parent.no_references.text) - 1
+      self.parent.parent.parent.parent.parent.parent.no_references.text = int(self.parent.parent.parent.parent.parent.parent.no_references.text) - 1
       anvil.server.call('delete_reference', model_id, self.item[1]['ArtistID'])
       self.parent.parent.parent.get_references()
       
@@ -45,6 +45,6 @@ class ReferenceTemplate(ReferenceTemplateTemplate):
   def button_3_click(self, **event_args):
     c = confirm("Do you wish to delete this artist as a reference?")
     if c is True:
-      self.parent.parent.parent.parent.parent.no_references.text = int(self.parent.parent.parent.parent.parent.no_references.text) - 1
+      self.parent.parent.parent.parent.parent.parent.no_references.text = int(self.parent.parent.parent.parent.parent.parent.no_references.text) - 1
       anvil.server.call('delete_reference', model_id, self.item[2]['ArtistID'])
       self.parent.parent.parent.get_references()

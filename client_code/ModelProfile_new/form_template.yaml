@@ -106,6 +106,10 @@ components:
         name: spacer_copy
         properties: {height: '15'}
         type: Spacer
+      - layout_properties: {grid_position: 'EBLRLW,ZTKROF'}
+        name: no_references
+        properties: {text: ''}
+        type: Label
       layout_properties: {col_xs: 0, row: FEJHDY, width_xs: 12}
       name: column_panel_6
       properties: {col_widths: '{"PVSQDK":35,"CPEJAI":19,"RCNWKZ":60}', role: tile-background-left, spacing_above: none, spacing_below: none}
@@ -132,7 +136,7 @@ components:
         - name: label_Similarity
           properties: {role: feature, text: 'No. references:'}
           type: Label
-        - name: no_references
+        - name: model_1_accuracy
           properties: {role: value}
           type: Label
         layout_properties: {grid_position: 'OBYYDX,LDUSMS'}

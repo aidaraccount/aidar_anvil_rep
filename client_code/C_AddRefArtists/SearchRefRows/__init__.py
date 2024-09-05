@@ -33,7 +33,7 @@ class SearchRefRows(SearchRefRowsTemplate):
     status = anvil.server.call('add_ref_artist', user["user_id"], model_id, self.inspect_link.tag)
     if status == 'Event created':
       # increase No. references by 1
-      self.parent.parent.parent.parent.parent.parent.no_references.text = int(self.parent.parent.parent.parent.parent.parent.no_references.text) + 1
+      self.parent.parent.parent.parent.parent.parent.parent.no_references.text = int(self.parent.parent.parent.parent.parent.parent.parent.no_references.text) + 1
     
       alert(title='Processing Reference Artist..',
             content='We are processing your artist, which may take a short moment. You will find it at REF. ARTISTS soon.\n\nFeel free to add additional reference artists or start to DISCOVER - both  will improve your model accuracy.\n\nEnjoy it!')

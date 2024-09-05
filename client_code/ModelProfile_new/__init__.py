@@ -499,29 +499,4 @@ class ModelProfile_new(ModelProfile_newTemplate):
       else:
         self.custom_HTML_level_4_inactive(min(self.infos["total_ratings"]/float(100)*100, 100))
 
-    # if self.infos["model_4_acc"] is not None:
-    #   self.custom_HTML_level_1_active(self.infos["model_1_acc"])
-    #   self.custom_HTML_level_2_active(self.infos["model_2_acc"])
-    #   self.custom_HTML_level_3_active(self.infos["model_3_acc"])
-    #   self.custom_HTML_level_4_active(self.infos["model_4_acc"])
-    #   print("empty")
-    # elif self.infos["model_3_acc"] is not None:
-    #   self.custom_HTML_level_1_active(self.infos["model_1_acc"])
-    #   self.custom_HTML_level_2_active(self.infos["model_2_acc"])
-    #   self.custom_HTML_level_3_active(self.infos["model_3_acc"])
-    #   self.custom_HTML_level_4_inactive(self.infos["total_ratings"]/float(100)*100)
-    # elif self.infos["model_2_acc"] is not None:
-    #   self.custom_HTML_level_1_active(self.infos["model_1_acc"])
-    #   self.custom_HTML_level_2_active(self.infos["model_2_acc"])
-    #   self.custom_HTML_level_3_inactive(self.infos["total_ratings"]/float(75)*100)
-    #   self.custom_HTML_level_4_inactive(self.infos["total_ratings"]/float(100)*100)
-    # elif self.infos["model_1_acc"] is not None:
-    #   self.custom_HTML_level_1_active(self.infos["model_1_acc"])
-    #   self.custom_HTML_level_2_inactive(self.infos["total_ratings"]/float(50)*100)
-    #   self.custom_HTML_level_3_inactive(self.infos["total_ratings"]/float(75)*100)
-    #   self.custom_HTML_level_4_inactive(self.infos["total_ratings"]/float(100)*100)
-    # else:
-    #   self.custom_HTML_level_1_inactive(self.infos["total_ratings"]/float(10)*100)
-    #   self.custom_HTML_level_2_inactive(self.infos["total_ratings"]/float(50)*100)
-    #   self.custom_HTML_level_3_inactive(self.infos["total_ratings"]/float(75)*100)
-    #   self.custom_HTML_level_4_inactive(self.infos["total_ratings"]/float(100)*100)
+    
