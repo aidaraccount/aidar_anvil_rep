@@ -66,10 +66,10 @@ class ModelProfile_new(ModelProfile_newTemplate):
     else:
       self.model_description.text = infos["description"]
     if infos["creation_date"] == 'None':
-      self.creation_date.text = '-'
+      self.creation_date_value.text = '-'
     else:
-      self.creation_date.text = infos["creation_date"]
-    self.usage_date.text = infos["usage_date"]
+      self.creation_date_value.text = infos["creation_date"]
+    self.usage_date_value.text = infos["usage_date"]
 
     # activate button
     if int(self.model_id_view) == int(model_id_active_new):
@@ -86,9 +86,9 @@ class ModelProfile_new(ModelProfile_newTemplate):
     self.total_ratings.text = infos["total_ratings"]
     self.high_ratings.text = infos["high_ratings"]
     if infos["train_model_date"] == 'None':
-      self.train_model_date.text = '-'
+      self.retrain_model_date_value.text = '-'
     else:
-      self.train_model_date.text = infos["train_model_date"]
+      self.retrain_model_date_value.text = infos["train_model_date"]
     self.status.text = infos["overall_status"]
 
     # Progress Circle
@@ -455,7 +455,7 @@ class ModelProfile_new(ModelProfile_newTemplate):
     if res == 'success':
       self.retrain.visible = False
       self.retrain_wait.visible = True
-      self.train_model_date.text = time.strftime("%Y-%m-%d")
+      self.retrain_model_date_value.text = time.strftime("%Y-%m-%d")
       alert(title='Re-training of your model is running',
             content="We started to re-train your model. This will take roughly 10 minutes to be effective.\n\nDue to high computational effort, re-training the model is only available once per day.",
             buttons=[("Ok", "Ok")]
