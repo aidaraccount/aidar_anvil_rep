@@ -18,6 +18,18 @@ components:
         name: model_name_text
         properties: {role: text_box_small, spacing_above: small, spacing_below: small}
         type: TextBox
+      - layout_properties: {grid_position: 'BKOAUM,PVSQDK OACVVY,PNPPFH'}
+        name: model_description
+        properties: {role: description-bio, spacing_above: small, spacing_below: small}
+        type: Label
+      - layout_properties: {grid_position: 'BKOAUM,PVSQDK YREHNG,CXUGOE'}
+        name: model_description_text
+        properties: {height: '', role: text_box_small, spacing_above: small, spacing_below: small}
+        type: TextArea
+      - layout_properties: {grid_position: 'BKOAUM,PVSQDK WVWLVR,WFBZSY'}
+        name: spacer_1
+        properties: {height: '12'}
+        type: Spacer
       - layout_properties: {grid_position: 'BKOAUM,PVSQDK LZCZZH,QSKFUQ HDFXPW,XKMGUH'}
         name: creation_date_header
         properties: {role: header-8, spacing_above: none, spacing_below: none, text: 'Creation date:'}
@@ -66,18 +78,6 @@ components:
         name: no_references
         properties: {role: header-8, spacing_above: none, spacing_below: none, text: ''}
         type: Label
-      - layout_properties: {grid_position: 'BKOAUM,PVSQDK BEMLZY,KIUGSI'}
-        name: spacer_1
-        properties: {height: '12'}
-        type: Spacer
-      - layout_properties: {full_width_row: false, grid_position: 'BKOAUM,PVSQDK FLAQVT,RCNWKZ'}
-        name: model_description
-        properties: {role: description-bio, spacing_above: small, spacing_below: small}
-        type: Label
-      - layout_properties: {grid_position: 'BKOAUM,PVSQDK MFUWIO,OULVDM'}
-        name: model_description_text
-        properties: {height: '', role: text_box_small, spacing_above: small, spacing_below: small}
-        type: TextArea
       - components:
         - event_bindings: {click: edit_icon_click}
           name: edit_icon
@@ -126,14 +126,10 @@ components:
         name: buttons_panel
         properties: {role: null, spacing_above: none, spacing_below: none}
         type: LinearPanel
-      - layout_properties: {grid_position: 'HOAGJS,PWBFEL'}
-        name: spacer_copy
-        properties: {height: '15'}
-        type: Spacer
       - event_bindings: {}
         layout_properties: {grid_position: 'LWXOHX,KPWEAN'}
-        name: plot_1
-        properties: {height: 295.609375, spacing_above: none, spacing_below: none}
+        name: Ratings_histogram
+        properties: {height: 321.83203125, interactive: false, spacing_above: none, spacing_below: none}
         type: Plot
       - layout_properties: {grid_position: 'LWXOHX,RUWEMC'}
         name: spacer_3
@@ -141,7 +137,7 @@ components:
         type: Spacer
       layout_properties: {col_xs: 0, row: FEJHDY, width_xs: 12}
       name: column_panel_6
-      properties: {col_widths: '{"PVSQDK":40,"CPEJAI":16,"RCNWKZ":60,"QSKFUQ":15,"IZQGEI":15,"TUJCHM":20,"WKNLWJ":10,"KPWEAN":50,"RUWEMC":10}', role: tile-background-left, spacing_above: none, spacing_below: none}
+      properties: {col_widths: '{"PVSQDK":40,"CPEJAI":16,"QSKFUQ":15,"IZQGEI":15,"TUJCHM":20,"WKNLWJ":10,"KPWEAN":45,"RUWEMC":15}', role: tile-background-left, spacing_above: none, spacing_below: none}
       type: ColumnPanel
     - components:
       - layout_properties: {grid_position: 'ISLIBQ,SPJFCR'}
@@ -303,14 +299,19 @@ components:
       properties: {}
       type: ColumnPanel
     - components:
-      - layout_properties: {}
-        name: status_copy
-        properties: {align: center, bold: true, font_size: 32, role: artist_name_shadow, spacing_above: none, spacing_below: none}
-        type: Label
-      layout_properties: {grid_position: 'LFEPAD,IOJARP'}
-      name: linear_panel_2_copy
-      properties: {role: score-tile-background, spacing_above: small, spacing_below: small, visible: false}
-      type: LinearPanel
+      - components:
+        - layout_properties: {}
+          name: status_copy
+          properties: {align: center, bold: true, font_size: 32, role: artist_name_shadow, spacing_above: none, spacing_below: none}
+          type: Label
+        layout_properties: {grid_position: 'ZWYNFG,GUCUJD'}
+        name: linear_panel_2_copy
+        properties: {role: score-tile-background, spacing_above: small, spacing_below: small, visible: true}
+        type: LinearPanel
+      layout_properties: {grid_position: 'GLUCMP,EUZHCQ'}
+      name: column_panel_4
+      properties: {role: tile-background-general-no-background}
+      type: ColumnPanel
     - components:
       - layout_properties: {grid_position: 'ISLIBQ,SPJFCR'}
         name: spacer_5_copy

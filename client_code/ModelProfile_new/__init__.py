@@ -60,8 +60,6 @@ class ModelProfile_new(ModelProfile_newTemplate):
     self.infos = infos
     self.retrain_date = infos["train_model_date"]
     print(infos)
-    print(infos["ratings"])
-
 
     # model name and description text and text boxes
     self.model_name.text = infos["model_name"]
@@ -101,6 +99,8 @@ class ModelProfile_new(ModelProfile_newTemplate):
     else:
       self.linear_panel_2.visible = True
       self.column_panel_5.visible = False
+
+    
     
     # ---------------
     # SECCTIONS
@@ -125,6 +125,8 @@ class ModelProfile_new(ModelProfile_newTemplate):
       self.nav_filters_click()
     elif section == 'AddRefArtists':
       self.nav_add_references_click()   
+
+    self.create_ratings_histogram_chart()
     
   def custom_HTML_prediction(self, accuracy):
     custom_html = f'''
@@ -543,25 +545,26 @@ class ModelProfile_new(ModelProfile_newTemplate):
         self.musical_in_training.visible = True
         self.musical_in_training_summary.visible = True
 
-
-  def create_monthly_listeners_by_city_bar_chart(self, ratings_data=None):
+  def create_ratings_histogram_chart(self, ratings_data=None):
     if ratings_data is None:
       ratings_data = self.infos["ratings"]
 
+    rating_values = [item['interest'] for item in self.infos["ratings"]]
+    rating_counts = [item['cnt'] for item in self.infos["ratings"]]
 
     # Format the text for the bar annotations
-    formatted_text = [f'{x/1e6:.1f}M' if x >= 1e6 else f'{x/1e3:.1f}K' if x >= 1e3 else str(x) for x in monthly_listeners]
+    formatted_text = [f'{x/1e6:.1f}M' if x >= 1e6 else f'{x/1e3:.1f}K' if x >= 1e3 else str(x) for x in rating_counts]
     
     # Creating the Bar Chart
     fig = go.Figure(data=(
       go.Bar(
-        x = city_w_country_code,
-        y = monthly_listeners,
+        x = rating_values,
+        y = rating_counts,
         text = formatted_text,
         textposition='none',
         hoverinfo='none',
-        hovertext= city_w_country_code,
-        hovertemplate= 'City: %{hovertext}<br>Monthly Listeners: %{text} <extra></extra>',
+        hovertext= rating_values,
+        hovertemplate= 'Rating: %{hovertext}<br>Count: %{text} <extra></extra>',
       )
     ))
 
@@ -570,15 +573,17 @@ class ModelProfile_new(ModelProfile_newTemplate):
       plot_bgcolor='rgba(0,0,0,0)',
       paper_bgcolor='rgba(0,0,0,0)',
       xaxis=dict(
-        tickvals=list(range(len(city_w_country_code))),
+        tickvals=rating_values,
+        title='Rating'
         # ticktext=truncated_labels,  # Display truncated labels on the x-axis
       ),
       yaxis=dict(
         gridcolor='rgb(175,175,175)',  # Color of the gridlines
         gridwidth=1,  # Thickness of the gridlines
         griddash='dash',  # Dash style of the gridlines
-        range=[0, max(monthly_listeners) * 1.2],  # Adjust y-axis range to add extra space
+        range=[0, max(rating_counts) * 1.01],  # Adjust y-axis range to add extra space
         tickformat='~s',  # Format numbers with SI unit prefixes
+        title='Count',
         zerolinecolor='rgb(240,240,240)',  # Set the color of the zero line
       ),
       margin=dict(
@@ -597,4 +602,4 @@ class ModelProfile_new(ModelProfile_newTemplate):
         marker_line_width=0.1,
         opacity=0.9
       )
-    self.Spotify_Monthly_Listeners_by_City_Graph.figure = fig
+    self.Ratings_histogram.figure = fig

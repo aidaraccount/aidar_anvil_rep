@@ -700,8 +700,6 @@ body, html {
   z-index: 1;
 }
 
-
-
 .anvil-role-highlights-tile-background {
   /*background: linear-gradient(to top left, rgba(259, 250, 250, 0.1) 50%, rgb(131, 111, 59));*/
   background: linear-gradient(to top left, rgba(25, 16, 53, 0.3) 30%, rgb(25, 16, 53));
@@ -737,12 +735,19 @@ body, html {
   justify-content: center;
   align-items: center;
 }
+
+.anvil-role-tile-background-general-no-background {
+  border-radius: 15px;
+  height: 100%;
+}
+.anvil-role-tile-background-general-no-background .anvil-panel-row-ZWYNFG .anvil-panel-col-GUCUJD .col-padding.col-padding-medium,
 .anvil-role-tile-background-right .anvil-panel-row-BYJTOC .anvil-panel-col-VCJINP .col-padding.col-padding-medium,
 .anvil-role-tile-background-general .anvil-panel-row-BYJTOC .anvil-panel-col-VCJINP .col-padding.col-padding-medium {
   display: flex;
   justify-content: center;
   align-items: center;
 }
+
 
 .anvil-role-value-regular-tile {
   font-family: GS-regular;

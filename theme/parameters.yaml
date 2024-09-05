@@ -268,3 +268,5 @@ roles:
   name: header-7
 - components: [Label, RichText, Button]
   name: header-6_bold
+- components: [ColumnPanel]
+  name: tile-background-general-no-background
