@@ -475,28 +475,36 @@ class ModelProfile_new(ModelProfile_newTemplate):
     if self.similarity_submodel.get_components() == []:
       if self.infos["model_1_acc"] is not None:
         self.custom_HTML_level_1_active(self.infos["model_1_acc"])
+        self.model_1_accuracy_summary.text = "{}{}".format(round(self.infos["model_1_acc"]), "%")
       else:
         self.custom_HTML_level_1_inactive(min(self.infos["total_ratings"]/float(10)*100, 100))
+        self.model_1_accuracy_summary.text = "{}{}".format(min(self.infos["total_ratings"]/float(10)*100, 100), "%")
+        
       
     # Model 2
     if self.success_submodel.get_components() == []:
       if self.infos["model_2_acc"] is not None:
         self.custom_HTML_level_2_active(self.infos["model_2_acc"])
+        self.model_2_accuracy_summary.text = "{}{}".format(round(self.infos["model_2_acc"]), "%")
       else:
         self.custom_HTML_level_2_inactive(min(self.infos["total_ratings"]/float(50)*100, 100))
+        self.model_2_accuracy_summary.text = "{}{}".format(min(round(self.infos["total_ratings"]/int(50)*100), 100), "%")
         
     # Model 3
     if self.fandom_submodel.get_components() == []:
       if self.infos["model_3_acc"] is not None:
         self.custom_HTML_level_3_active(self.infos["model_3_acc"])
+        self.model_3_accuracy_summary.text = "{}{}".format(round(self.infos["model_3_acc"]), "%")
       else:
         self.custom_HTML_level_3_inactive(min(self.infos["total_ratings"]/float(75)*100, 100))
+        self.model_3_accuracy_summary.text = "{}{}".format(min(round(self.infos["total_ratings"]/int(75)*100), 100), "%")
         
     # Model 4
     if self.musical_submodel.get_components() == []:
       if self.infos["model_4_acc"] is not None:
         self.custom_HTML_level_4_active(self.infos["model_4_acc"])
+        self.model_4_accuracy_summary.text = "{}{}".format(round(self.infos["model_4_acc"]), "%")
       else:
         self.custom_HTML_level_4_inactive(min(self.infos["total_ratings"]/float(100)*100, 100))
-
+        self.model_4_accuracy_summary.text = "{}{}".format(min(round(self.infos["total_ratings"]/int(100)*100), 100), "%")
     

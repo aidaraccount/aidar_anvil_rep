@@ -254,7 +254,7 @@ roles:
   name: header-5
 - components: [LinearPanel]
   name: position-bottom
-- components: [LinearPanel]
+- components: [LinearPanel, ColumnPanel]
   name: highlights-tile-background
 - components: [Label, RichText, Button]
   name: header-5_bold
@@ -262,3 +262,5 @@ roles:
   name: header-6_grey
 - components: [ColumnPanel, GridPanel]
   name: equal-height-container
+- components: [ColumnPanel]
+  name: highlights-tile-background-for-col

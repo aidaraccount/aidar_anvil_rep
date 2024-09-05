@@ -42,29 +42,29 @@ components:
         name: retrain_model_date_value
         properties: {role: header-8, spacing_above: none, spacing_below: none}
         type: Label
-      - layout_properties: {grid_position: 'BKOAUM,PVSQDK LZCZZH,TUJCHM TNXPSI,SJWAIC'}
-        name: number_of_references_header
-        properties: {role: header-8, spacing_above: none, spacing_below: none, text: 'Number of References:'}
+      - layout_properties: {grid_position: 'BKOAUM,PVSQDK LZCZZH,TUJCHM ZBVCMY,RWIIZE'}
+        name: high_ratings_header
+        properties: {role: header-8, spacing_above: none, spacing_below: none, text: 'High Ratings:'}
         type: Label
       - layout_properties: {grid_position: 'BKOAUM,PVSQDK LZCZZH,TUJCHM DGRLFB,QRYKBI'}
         name: total_ratings_header
         properties: {role: header-8, spacing_above: none, spacing_below: none, text: 'Total Ratings:'}
         type: Label
-      - layout_properties: {grid_position: 'BKOAUM,PVSQDK LZCZZH,TUJCHM NFGVZK,TJSZSQ'}
-        name: high_ratings_header
-        properties: {role: header-8, spacing_above: none, spacing_below: none, text: 'High Ratings:'}
+      - layout_properties: {grid_position: 'BKOAUM,PVSQDK LZCZZH,TUJCHM FDNZCK,WGJEEL'}
+        name: number_of_references_header
+        properties: {role: header-8, spacing_above: none, spacing_below: none, text: 'Number of References:'}
         type: Label
-      - layout_properties: {grid_position: 'BKOAUM,PVSQDK LZCZZH,WKNLWJ QXTSCK,UBYLIA'}
-        name: no_references
-        properties: {role: header-8, spacing_above: none, spacing_below: none, text: ''}
+      - layout_properties: {grid_position: 'BKOAUM,PVSQDK LZCZZH,WKNLWJ PGNVDB,MBXQAN'}
+        name: high_ratings
+        properties: {role: header-8, spacing_above: none, spacing_below: none}
         type: Label
       - layout_properties: {grid_position: 'BKOAUM,PVSQDK LZCZZH,WKNLWJ YYVWNJ,FTBZHH'}
         name: total_ratings
         properties: {role: header-8, spacing_above: none, spacing_below: none}
         type: Label
-      - layout_properties: {grid_position: 'BKOAUM,PVSQDK LZCZZH,WKNLWJ RNZITK,ZMVRLE'}
-        name: high_ratings
-        properties: {role: header-8, spacing_above: none, spacing_below: none}
+      - layout_properties: {grid_position: 'BKOAUM,PVSQDK LZCZZH,WKNLWJ IFLLUF,MFPTBP'}
+        name: no_references
+        properties: {role: header-8, spacing_above: none, spacing_below: none, text: ''}
         type: Label
       - layout_properties: {grid_position: 'BKOAUM,PVSQDK BEMLZY,KIUGSI'}
         name: spacer_1
@@ -153,45 +153,89 @@ components:
         properties: {role: score-tile-background, spacing_above: small, spacing_below: small, visible: false}
         type: LinearPanel
       - components:
-        - name: Similarity_summary
-          properties: {role: feature, text: 'No. references:'}
+        - layout_properties: {grid_position: 'QBFMSK,GADKJR'}
+          name: similarity_summary_header
+          properties: {role: feature, text: Similarity Sub-Model}
           type: Label
-        - name: model_1_accuracy
+        - layout_properties: {grid_position: 'EWSWHL,XKHWXY'}
+          name: model_1_accuracy_summary
           properties: {role: value}
           type: Label
-        layout_properties: {grid_position: 'OBYYDX,LDUSMS'}
-        name: linear_panel_6
-        properties: {role: highlights-tile-background}
-        type: LinearPanel
+        - layout_properties: {grid_position: 'EWSWHL,LBWBCN PMQNCP,XTHOBD'}
+          name: similarity_active_copy
+          properties: {align: center, bold: true, role: header-5_bold, spacing_above: none, spacing_below: none, text: active}
+          type: Label
+        - layout_properties: {grid_position: 'EWSWHL,LBWBCN TAFXNE,RUUXSY'}
+          name: similarity_in_training_copy
+          properties: {align: center, bold: false, role: header-8, spacing_above: none, spacing_below: none, text: in training, visible: false}
+          type: Label
+        layout_properties: {grid_position: 'PQLPIK,WWQGWT'}
+        name: column_panel_3
+        properties: {col_widths: '{"IFISOS":25,"XKHWXY":15,"LBWBCN":15}', role: highlights-tile-background-for-col}
+        type: ColumnPanel
       - components:
-        - name: Success_summary
-          properties: {role: feature, text: 'Total ratings:'}
+        - layout_properties: {grid_position: 'QBFMSK,GADKJR'}
+          name: success_summary_header
+          properties: {role: feature, text: Success Sub-Model}
           type: Label
-        layout_properties: {grid_position: 'OBYYDX,XJAPXX'}
-        name: linear_panel_5
-        properties: {role: highlights-tile-background}
-        type: LinearPanel
+        - layout_properties: {grid_position: 'EWSWHL,XKHWXY PSEKJH,PILRVR'}
+          name: model_2_accuracy_summary
+          properties: {role: value}
+          type: Label
+        - layout_properties: {grid_position: 'EWSWHL,LBWBCN PMQNCP,XTHOBD'}
+          name: similarity_active_copy_copy
+          properties: {align: center, bold: true, role: header-5_bold, spacing_above: none, spacing_below: none, text: active}
+          type: Label
+        - layout_properties: {grid_position: 'EWSWHL,LBWBCN TAFXNE,RUUXSY'}
+          name: similarity_in_training_copy_copy
+          properties: {align: center, bold: false, role: header-8, spacing_above: none, spacing_below: none, text: in training, visible: false}
+          type: Label
+        layout_properties: {grid_position: 'CNRFLR,HUQNLQ'}
+        name: column_panel_3_copy
+        properties: {col_widths: '{"XKHWXY":15,"LBWBCN":15}', role: highlights-tile-background-for-col}
+        type: ColumnPanel
       - components:
-        - name: Fandom_summary
-          properties: {role: feature, text: 'High ratings:'}
+        - layout_properties: {grid_position: 'YNEJOO,ZFYVNZ'}
+          name: fandom_summary_header
+          properties: {role: feature, text: Fandom Sub-Model}
           type: Label
-        layout_properties: {grid_position: 'BDCZKC,BBSSOQ'}
-        name: linear_panel_4
-        properties: {role: highlights-tile-background}
-        type: LinearPanel
+        - layout_properties: {grid_position: 'EWSWHL,XKHWXY HREYHC,GPQALY'}
+          name: model_3_accuracy_summary
+          properties: {role: value}
+          type: Label
+        - layout_properties: {grid_position: 'EWSWHL,LBWBCN PMQNCP,XTHOBD'}
+          name: similarity_active_copy_copy_copy
+          properties: {align: center, bold: true, role: header-5_bold, spacing_above: none, spacing_below: none, text: active}
+          type: Label
+        - layout_properties: {grid_position: 'EWSWHL,LBWBCN TAFXNE,RUUXSY'}
+          name: similarity_in_training_copy_copy_copy
+          properties: {align: center, bold: false, role: header-8, spacing_above: none, spacing_below: none, text: in training, visible: false}
+          type: Label
+        layout_properties: {grid_position: 'RDQCTG,TYRGPK'}
+        name: column_panel_3_copy_copy
+        properties: {col_widths: '{"XKHWXY":15,"LBWBCN":15}', role: highlights-tile-background-for-col}
+        type: ColumnPanel
       - components:
-        - layout_properties: {}
-          name: Musical_summary
-          properties: {role: feature, text: 'Musical:'}
+        - layout_properties: {grid_position: 'CSPTTI,GOCMWF'}
+          name: musical_summary_header
+          properties: {role: feature, text: Musical Sub-Model}
           type: Label
-        - layout_properties: {}
-          name: high_ratings_copy
-          properties: {role: value, text: In training}
+        - layout_properties: {grid_position: 'EWSWHL,XKHWXY SHIGMP,DNHWID'}
+          name: model_4_accuracy_summary
+          properties: {role: value}
           type: Label
-        layout_properties: {grid_position: 'BDCZKC,LODZWZ'}
-        name: linear_panel_3
-        properties: {role: highlights-tile-background}
-        type: LinearPanel
+        - layout_properties: {grid_position: 'EWSWHL,LBWBCN PMQNCP,XTHOBD'}
+          name: similarity_active_copy_copy_copy_copy
+          properties: {align: center, bold: true, role: header-5_bold, spacing_above: none, spacing_below: none, text: active}
+          type: Label
+        - layout_properties: {grid_position: 'EWSWHL,LBWBCN TAFXNE,RUUXSY'}
+          name: similarity_in_training_copy_copy_copy_copy
+          properties: {align: center, bold: false, role: header-8, spacing_above: none, spacing_below: none, text: in training, visible: false}
+          type: Label
+        layout_properties: {grid_position: 'LZSSLI,NOQKWS'}
+        name: column_panel_3_copy_copy_copy
+        properties: {col_widths: '{"XKHWXY":15,"LBWBCN":15}', role: highlights-tile-background-for-col}
+        type: ColumnPanel
       - layout_properties: {grid_position: 'YTIUNJ,QUMLCT'}
         name: spacer_7
         properties: {height: 32}
@@ -248,10 +292,20 @@ components:
     properties: {role: section-background, spacing: small}
     type: FlowPanel
   - components:
-    - layout_properties: {grid_position: 'DXIAGS,CIDKDB'}
+    - components: []
+      layout_properties: {grid_position: 'SRRHIA,BJQTYX'}
       name: column_panel_2
       properties: {}
       type: ColumnPanel
+    - components:
+      - layout_properties: {}
+        name: status_copy
+        properties: {align: center, bold: true, font_size: 32, role: artist_name_shadow, spacing_above: none, spacing_below: none}
+        type: Label
+      layout_properties: {grid_position: 'LFEPAD,IOJARP'}
+      name: linear_panel_2_copy
+      properties: {role: score-tile-background, spacing_above: small, spacing_below: small, visible: false}
+      type: LinearPanel
     - components:
       - layout_properties: {grid_position: 'ISLIBQ,SPJFCR'}
         name: spacer_5_copy
