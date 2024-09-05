@@ -130,14 +130,23 @@ components:
         name: spacer_copy
         properties: {height: '15'}
         type: Spacer
+      - event_bindings: {}
+        layout_properties: {grid_position: 'LWXOHX,KPWEAN'}
+        name: plot_1
+        properties: {height: 295.609375, spacing_above: none, spacing_below: none}
+        type: Plot
+      - layout_properties: {grid_position: 'LWXOHX,RUWEMC'}
+        name: spacer_3
+        properties: {height: 32}
+        type: Spacer
       layout_properties: {col_xs: 0, row: FEJHDY, width_xs: 12}
       name: column_panel_6
-      properties: {col_widths: '{"PVSQDK":40,"CPEJAI":16,"RCNWKZ":60,"QSKFUQ":15,"IZQGEI":15,"TUJCHM":20,"WKNLWJ":10}', role: tile-background-left, spacing_above: none, spacing_below: none}
+      properties: {col_widths: '{"PVSQDK":40,"CPEJAI":16,"RCNWKZ":60,"QSKFUQ":15,"IZQGEI":15,"TUJCHM":20,"WKNLWJ":10,"KPWEAN":50,"RUWEMC":10}', role: tile-background-left, spacing_above: none, spacing_below: none}
       type: ColumnPanel
     - components:
       - layout_properties: {grid_position: 'ISLIBQ,SPJFCR'}
         name: spacer_5
-        properties: {height: '32'}
+        properties: {height: '15'}
         type: Spacer
       - layout_properties: {grid_position: 'WNZMTN,UVTAUT'}
         name: column_panel_5
@@ -155,19 +164,19 @@ components:
       - components:
         - layout_properties: {grid_position: 'QBFMSK,GADKJR'}
           name: similarity_summary_header
-          properties: {role: feature, text: Similarity Sub-Model}
+          properties: {role: header-7, spacing_above: none, spacing_below: small, text: Similarity Sub-Model}
           type: Label
         - layout_properties: {grid_position: 'EWSWHL,XKHWXY'}
           name: model_1_accuracy_summary
-          properties: {role: value}
+          properties: {role: value, spacing_above: none, spacing_below: none}
           type: Label
         - layout_properties: {grid_position: 'EWSWHL,LBWBCN PMQNCP,XTHOBD'}
-          name: similarity_active_copy
-          properties: {align: center, bold: true, role: header-5_bold, spacing_above: none, spacing_below: none, text: active}
+          name: similarity_active_summary
+          properties: {align: center, bold: true, role: header-6_bold, spacing_above: none, spacing_below: none, text: active}
           type: Label
         - layout_properties: {grid_position: 'EWSWHL,LBWBCN TAFXNE,RUUXSY'}
-          name: similarity_in_training_copy
-          properties: {align: center, bold: false, role: header-8, spacing_above: none, spacing_below: none, text: in training, visible: false}
+          name: similarity_in_training_summary
+          properties: {align: center, bold: false, role: header-6_bold, spacing_above: none, spacing_below: none, text: in training, visible: false}
           type: Label
         layout_properties: {grid_position: 'PQLPIK,WWQGWT'}
         name: column_panel_3
@@ -176,19 +185,19 @@ components:
       - components:
         - layout_properties: {grid_position: 'QBFMSK,GADKJR'}
           name: success_summary_header
-          properties: {role: feature, text: Success Sub-Model}
+          properties: {role: header-7, spacing_above: none, spacing_below: small, text: Success Sub-Model}
           type: Label
         - layout_properties: {grid_position: 'EWSWHL,XKHWXY PSEKJH,PILRVR'}
           name: model_2_accuracy_summary
-          properties: {role: value}
+          properties: {role: value, spacing_above: none, spacing_below: none}
           type: Label
         - layout_properties: {grid_position: 'EWSWHL,LBWBCN PMQNCP,XTHOBD'}
-          name: similarity_active_copy_copy
-          properties: {align: center, bold: true, role: header-5_bold, spacing_above: none, spacing_below: none, text: active}
+          name: success_active_summary
+          properties: {align: center, bold: true, role: header-6_bold, spacing_above: none, spacing_below: none, text: active}
           type: Label
         - layout_properties: {grid_position: 'EWSWHL,LBWBCN TAFXNE,RUUXSY'}
-          name: similarity_in_training_copy_copy
-          properties: {align: center, bold: false, role: header-8, spacing_above: none, spacing_below: none, text: in training, visible: false}
+          name: success_in_training_summary
+          properties: {align: center, bold: false, role: header-6_bold, spacing_above: none, spacing_below: none, text: in training, visible: false}
           type: Label
         layout_properties: {grid_position: 'CNRFLR,HUQNLQ'}
         name: column_panel_3_copy
@@ -197,19 +206,19 @@ components:
       - components:
         - layout_properties: {grid_position: 'YNEJOO,ZFYVNZ'}
           name: fandom_summary_header
-          properties: {role: feature, text: Fandom Sub-Model}
+          properties: {role: header-7, spacing_above: none, text: Fandom Sub-Model}
           type: Label
         - layout_properties: {grid_position: 'EWSWHL,XKHWXY HREYHC,GPQALY'}
           name: model_3_accuracy_summary
-          properties: {role: value}
+          properties: {role: value, spacing_above: none, spacing_below: none}
           type: Label
         - layout_properties: {grid_position: 'EWSWHL,LBWBCN PMQNCP,XTHOBD'}
-          name: similarity_active_copy_copy_copy
-          properties: {align: center, bold: true, role: header-5_bold, spacing_above: none, spacing_below: none, text: active}
+          name: fandom_active_summary
+          properties: {align: center, bold: true, role: header-6_bold, spacing_above: none, spacing_below: none, text: active}
           type: Label
         - layout_properties: {grid_position: 'EWSWHL,LBWBCN TAFXNE,RUUXSY'}
-          name: similarity_in_training_copy_copy_copy
-          properties: {align: center, bold: false, role: header-8, spacing_above: none, spacing_below: none, text: in training, visible: false}
+          name: fandom_in_training_summary
+          properties: {align: center, bold: false, role: header-6_bold, spacing_above: none, spacing_below: none, text: in training, visible: false}
           type: Label
         layout_properties: {grid_position: 'RDQCTG,TYRGPK'}
         name: column_panel_3_copy_copy
@@ -218,28 +227,24 @@ components:
       - components:
         - layout_properties: {grid_position: 'CSPTTI,GOCMWF'}
           name: musical_summary_header
-          properties: {role: feature, text: Musical Sub-Model}
+          properties: {role: header-7, spacing_above: none, text: Musical Sub-Model}
           type: Label
         - layout_properties: {grid_position: 'EWSWHL,XKHWXY SHIGMP,DNHWID'}
           name: model_4_accuracy_summary
-          properties: {role: value}
+          properties: {role: value, spacing_above: none, spacing_below: none}
           type: Label
         - layout_properties: {grid_position: 'EWSWHL,LBWBCN PMQNCP,XTHOBD'}
-          name: similarity_active_copy_copy_copy_copy
-          properties: {align: center, bold: true, role: header-5_bold, spacing_above: none, spacing_below: none, text: active}
+          name: musical_active_summary
+          properties: {align: center, bold: true, role: header-6_bold, spacing_above: none, spacing_below: none, text: active}
           type: Label
         - layout_properties: {grid_position: 'EWSWHL,LBWBCN TAFXNE,RUUXSY'}
-          name: similarity_in_training_copy_copy_copy_copy
-          properties: {align: center, bold: false, role: header-8, spacing_above: none, spacing_below: none, text: in training, visible: false}
+          name: musical_in_training_summary
+          properties: {align: center, bold: false, role: header-6_bold, spacing_above: none, spacing_below: none, text: in training, visible: false}
           type: Label
         layout_properties: {grid_position: 'LZSSLI,NOQKWS'}
         name: column_panel_3_copy_copy_copy
         properties: {col_widths: '{"XKHWXY":15,"LBWBCN":15}', role: highlights-tile-background-for-col}
         type: ColumnPanel
-      - layout_properties: {grid_position: 'YTIUNJ,QUMLCT'}
-        name: spacer_7
-        properties: {height: 32}
-        type: Spacer
       layout_properties: {col_xs: 0, row: FEJHDY, width_xs: 3}
       name: column_panel_KPIs
       properties: {col_widths: '{}', role: tile-background-right, spacing_above: none}

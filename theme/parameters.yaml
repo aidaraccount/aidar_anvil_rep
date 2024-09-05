@@ -264,3 +264,7 @@ roles:
   name: equal-height-container
 - components: [ColumnPanel]
   name: highlights-tile-background-for-col
+- components: [Label, RichText, Button]
+  name: header-7
+- components: [Label, RichText, Button]
+  name: header-6_bold

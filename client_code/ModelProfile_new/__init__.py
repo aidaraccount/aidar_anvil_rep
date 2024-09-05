@@ -1,5 +1,6 @@
 from ._anvil_designer import ModelProfile_newTemplate
 from anvil import *
+import plotly.graph_objects as go
 import anvil.server
 import anvil.users
 import anvil.tables as tables
@@ -59,6 +60,8 @@ class ModelProfile_new(ModelProfile_newTemplate):
     self.infos = infos
     self.retrain_date = infos["train_model_date"]
     print(infos)
+    print(infos["ratings"])
+
 
     # model name and description text and text boxes
     self.model_name.text = infos["model_name"]
@@ -477,35 +480,121 @@ class ModelProfile_new(ModelProfile_newTemplate):
       if self.infos["model_1_acc"] is not None:
         self.custom_HTML_level_1_active(self.infos["model_1_acc"])
         self.model_1_accuracy_summary.text = "{}{}".format(round(self.infos["model_1_acc"]), "%")
+        self.similarity_active.visible = True
+        self.similarity_active_summary.visible = True
+        self.similarity_in_training.visible = False
+        self.similarity_in_training_summary.visible = False
       else:
         self.custom_HTML_level_1_inactive(min(self.infos["total_ratings"]/float(10)*100, 100))
         self.model_1_accuracy_summary.text = "{}{}".format(min(self.infos["total_ratings"]/float(10)*100, 100), "%")
-        
-      
+        self.similarity_active.visible = False
+        self.similarity_active_summary.visible = False
+        self.similarity_in_training.visible = True
+        self.similarity_in_training_summary.visible = True
+         
     # Model 2
     if self.success_submodel.get_components() == []:
       if self.infos["model_2_acc"] is not None:
         self.custom_HTML_level_2_active(self.infos["model_2_acc"])
         self.model_2_accuracy_summary.text = "{}{}".format(round(self.infos["model_2_acc"]), "%")
+        self.success_active.visible = True
+        self.success_active_summary.visible = True
+        self.success_in_training.visible = False
+        self.success_in_training_summary.visible = False
       else:
         self.custom_HTML_level_2_inactive(min(self.infos["total_ratings"]/float(50)*100, 100))
         self.model_2_accuracy_summary.text = "{}{}".format(min(round(self.infos["total_ratings"]/int(50)*100), 100), "%")
+        self.success_active.visible = False
+        self.success_active_summary.visible = False
+        self.success_in_training.visible = True
+        self.success_in_training_summary.visible = True   
         
     # Model 3
     if self.fandom_submodel.get_components() == []:
       if self.infos["model_3_acc"] is not None:
         self.custom_HTML_level_3_active(self.infos["model_3_acc"])
         self.model_3_accuracy_summary.text = "{}{}".format(round(self.infos["model_3_acc"]), "%")
+        self.fandom_active.visible = True
+        self.fandom_active_summary.visible = True
+        self.fandom_in_training.visible = False
+        self.fandom_in_training_summary.visible = False
       else:
         self.custom_HTML_level_3_inactive(min(self.infos["total_ratings"]/float(75)*100, 100))
         self.model_3_accuracy_summary.text = "{}{}".format(min(round(self.infos["total_ratings"]/int(75)*100), 100), "%")
+        self.fandom_active.visible = False
+        self.fandom_active_summary.visible = False
+        self.fandom_in_training.visible = True
+        self.fandom_in_training_summary.visible = True
         
     # Model 4
     if self.musical_submodel.get_components() == []:
       if self.infos["model_4_acc"] is not None:
         self.custom_HTML_level_4_active(self.infos["model_4_acc"])
         self.model_4_accuracy_summary.text = "{}{}".format(round(self.infos["model_4_acc"]), "%")
+        self.musical_active.visible = True
+        self.musical_active_summary.visible = True
+        self.musical_in_training.visible = False
+        self.musical_in_training_summary.visible = False
       else:
         self.custom_HTML_level_4_inactive(min(self.infos["total_ratings"]/float(100)*100, 100))
         self.model_4_accuracy_summary.text = "{}{}".format(min(round(self.infos["total_ratings"]/int(100)*100), 100), "%")
+        self.musical_active.visible = False
+        self.musical_active_summary.visible = False
+        self.musical_in_training.visible = True
+        self.musical_in_training_summary.visible = True
+
+
+  def create_monthly_listeners_by_city_bar_chart(self, ratings_data=None):
+    if ratings_data is None:
+      ratings_data = self.infos["ratings"]
+
+
+    # Format the text for the bar annotations
+    formatted_text = [f'{x/1e6:.1f}M' if x >= 1e6 else f'{x/1e3:.1f}K' if x >= 1e3 else str(x) for x in monthly_listeners]
     
+    # Creating the Bar Chart
+    fig = go.Figure(data=(
+      go.Bar(
+        x = city_w_country_code,
+        y = monthly_listeners,
+        text = formatted_text,
+        textposition='none',
+        hoverinfo='none',
+        hovertext= city_w_country_code,
+        hovertemplate= 'City: %{hovertext}<br>Monthly Listeners: %{text} <extra></extra>',
+      )
+    ))
+
+    fig.update_layout(
+      template='plotly_dark',
+      plot_bgcolor='rgba(0,0,0,0)',
+      paper_bgcolor='rgba(0,0,0,0)',
+      xaxis=dict(
+        tickvals=list(range(len(city_w_country_code))),
+        # ticktext=truncated_labels,  # Display truncated labels on the x-axis
+      ),
+      yaxis=dict(
+        gridcolor='rgb(175,175,175)',  # Color of the gridlines
+        gridwidth=1,  # Thickness of the gridlines
+        griddash='dash',  # Dash style of the gridlines
+        range=[0, max(monthly_listeners) * 1.2],  # Adjust y-axis range to add extra space
+        tickformat='~s',  # Format numbers with SI unit prefixes
+        zerolinecolor='rgb(240,240,240)',  # Set the color of the zero line
+      ),
+      margin=dict(
+        t=50  # Increase top margin to accommodate the labels
+      ),
+      hoverlabel=dict(
+        bgcolor='rgba(237,139,82, 0.4)'
+      )
+    )
+    # This is to style the bars
+    for trace in fig.data:
+      trace.update(
+        # marker_color='rgb(240,229,252)',
+        marker_color='rgba(237,139,82, 1)',
+        marker_line_color='rgb(237,139,82)',
+        marker_line_width=0.1,
+        opacity=0.9
+      )
+    self.Spotify_Monthly_Listeners_by_City_Graph.figure = fig
