@@ -1641,6 +1641,12 @@ footer a, .footer .anvil-component {
   stroke-opacity: 0.3;
   stroke-linecap: round;
 }
+.circle__progress_inactive {
+  fill: #29282F;
+  stroke-width: 10px;
+  stroke-opacity: 0.3;
+  stroke-linecap: round;
+}
 .note-display:nth-child(1) .circle__progress {
   /* stroke: transparent;  */
 }

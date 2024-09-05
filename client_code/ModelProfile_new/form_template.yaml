@@ -81,7 +81,7 @@ components:
       - event_bindings: {}
         layout_properties: {grid_position: 'BKOAUM,PVSQDK SPUSLR,DGGXUH'}
         name: Ratings_histogram
-        properties: {height: 365.9140625, interactive: false, spacing_above: none, spacing_below: none}
+        properties: {height: 328, interactive: false, spacing_above: none, spacing_below: none}
         type: Plot
       - components:
         - event_bindings: {click: edit_icon_click}
