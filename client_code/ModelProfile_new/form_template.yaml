@@ -323,16 +323,21 @@ components:
           type: LinearPanel
         layout_properties: {grid_position: 'BCYOSN,BYWHFN'}
         name: column_panel_4
-        properties: {role: tile-background-general-no-background, spacing_above: none, spacing_below: large}
+        properties: {role: tile-background-general-no-background, spacing_above: none, spacing_below: none}
         type: ColumnPanel
       layout_properties: {grid_position: 'GPCTDZ,HTBJRJ'}
       name: column_panel_7
       properties: {col_widths: '{"YRZFYN":25,"ELMBCC":15,"JNPVWQ":40}', spacing_above: large, spacing_below: none}
       type: ColumnPanel
-    - layout_properties: {grid_position: 'UNKOMN,PLVPNP'}
+    - layout_properties: {grid_position: 'GYSHLD,FWJLLJ'}
       name: label_1
-      properties: {role: header-5, text: 'Sub-Model contribution:'}
+      properties: {role: header-5, spacing_above: none, spacing_below: none, text: 'Sub-Model contribution:'}
       type: Label
+    - data_bindings: []
+      layout_properties: {grid_position: 'EQUDJD,VAQQJD'}
+      name: image_1
+      properties: {display_mode: fill_width, height: 61, source: _/theme/pics/ModelArrows.png, spacing_above: none, spacing_below: small}
+      type: Image
     - components:
       - layout_properties: {grid_position: 'ISLIBQ,SPJFCR'}
         name: spacer_5_copy
@@ -527,7 +532,7 @@ components:
       type: Label
     layout_properties: {grid_position: 'XJBRQH,IMWFKP'}
     name: sec_models
-    properties: {}
+    properties: {col_widths: '{"VAQQJD":50}'}
     type: ColumnPanel
   - layout_properties: {grid_position: 'LYSTLE,IIHJEC'}
     name: sec_references
