@@ -187,14 +187,8 @@ $(function() {
 <!-- Put body before nav so that it sits underneath -->   
 <div class="structure">
   <div class="nav" anvil-drop-redirect=".title.placeholder, .nav-elt.placeholder, .nav-elt .drop-here">
-    <div class="menu-btn" onclick="toggleSidebar();">
-      <i class="fa fa-bars"></i>
-    </div>
 
-    <div anvil-if-slot-empty="title" anvil-drop-slot="title" class="title placeholder anvil-designer-only">
-      Drop a title here
-    </div>
-    <div anvil-slot="title" class="title"></div>
+
 
     <div class="nav-right" anvil-drop-redirect=".nav-elt">
       <div anvil-slot-repeat="nav-right" class="nav-elt">
@@ -208,13 +202,24 @@ $(function() {
 
 <div class="body" anvil-drop-default anvil-drop-container=">.cards .anvil-container" anvil-drop-redirect=">.cards > .placeholder">
     <div class="sidebar" anvil-drop-redirect=">.drop-here">
-        <div anvil-slot-repeat="sidebar" class="sidebar-elt">
-            <div anvil-drop-here class="drop-here"></div>
-            <div anvil-slot class="content"></div>
-        </div>
-        <div class="sidebar-elt anvil-designer-only drop-here" anvil-drop-slot="sidebar">
-            <div class="content placeholder"><i class="glyphicon glyphicon-plus"></i></div>
-        </div>
+      <!-- <div class="menu-btn" onclick="toggleSidebar();">
+        <i class="fa fa-bars"></i>
+      </div> -->
+      <button class="nav-button open" id="sidebar-button">
+        <img class="note_svg_button">
+        <i class="fa fa-bars"></i>
+      </button>
+      <div anvil-if-slot-empty="title" anvil-drop-slot="title" class="title placeholder anvil-designer-only">
+        Drop a title here
+      </div>
+      <div anvil-slot="title" class="title"></div>
+      <div anvil-slot-repeat="sidebar" class="sidebar-elt">
+          <div anvil-drop-here class="drop-here"></div>
+          <div anvil-slot class="content"></div>
+      </div>
+      <div class="sidebar-elt anvil-designer-only drop-here" anvil-drop-slot="sidebar">
+          <div class="content placeholder"><i class="glyphicon glyphicon-plus"></i></div>
+      </div>
     </div>
     <div class="sidebar-click-guard"></div>
 

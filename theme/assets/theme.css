@@ -551,20 +551,43 @@ body, html {
 .anvil-role-equal-height-container > .row {
   display:flex;
 }
+
+.body {
+  /* background-color: %color:Main_Black%; */
+  /* background: linear-gradient(to bottom, rgb(30, 6, 74), black); */
+  background: linear-gradient(to bottom right, rgb(31, 11, 59), black);
+}
+.anvil-role-grid {
+  /* background-color: %color:Grid_Black%; */
+  background: linear-gradient(to bottom right, rgb(31, 11, 59), rgba(250, 250, 250, 0.05));
+  border-radius: 12px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  padding: 0;
+}
+.anvil-role-grid-main {
+  background: linear-gradient(to bottom right, rgb(31, 11, 59), rgba(250, 250, 250, 0.05));
+  /* background: linear-gradient (to bottom right, rgba(30, 6, 74, 0.09), rgb(30, 6, 74)); */
+  /* background: linear-gradient(to bottom right, rgba(250, 250, 250, 0.08) 50%, rgb(30, 6, 74)); */
+  border-radius: 12px;
+  margin-top: 7px;
+  margin-bottom: 7px;
+  padding: 0;
+}
 .anvil-role-tile-background-left {
-  background: linear-gradient(to top left, rgba(259, 250, 250, 0.1) 50%, rgb(31, 11, 59));
+  background: linear-gradient(to bottom right, rgb(31, 11, 59), rgba(250, 250, 250, 0.05));
   border-radius: 15px;
   height: 100%;
   /* width: 75%; */
 }
 .anvil-role-tile-background-right {
-  background: linear-gradient(to top left, rgba(259, 250, 250, 0.1) 50%, rgb(31, 11, 59));
+  background: linear-gradient(to bottom right, rgb(31, 11, 59), rgba(250, 250, 250, 0.05));
   border-radius: 15px;
   height: 100%;
   /* width: 25%; */
 }
 .anvil-role-tile-background-general {
-  background: linear-gradient(to top left, rgba(259, 250, 250, 0.1) 50%, rgb(31, 11, 59));
+  background: linear-gradient(to bottom right, rgb(31, 11, 59), rgba(250, 250, 250, 0.05));
   border-radius: 15px;
   height: 100%;
 }
@@ -906,21 +929,6 @@ a>.link-text {
   color: %color:Text_Grey%;
   text-shadow: 2px 2px 7px rgba(0, 0, 0, 0.9);
 }
-.anvil-role-grid {
-  /* background-color: %color:Grid_Black%; */
-  background: linear-gradient(to top left, rgba(250, 250, 250, 0.08) 50%, rgb(31, 11, 59));
-  border-radius: 12px;
-  margin-top: 5px;
-  margin-bottom: 5px;
-  padding: 0;
-}
-.anvil-role-grid-main {
-  background: linear-gradient(to top left, rgba(250, 250, 250, 0.08) 50%, rgb(31, 11, 59));
-  border-radius: 12px;
-  margin-top: 7px;
-  margin-bottom: 7px;
-  padding: 0;
-}
 .anvil-role-value {
   font-size: 24px;
   font-weight: bold;
@@ -1013,11 +1021,6 @@ div.row {
   width: 100%;
   height: 40vh;
   background-color: %Main_Black%;
-}
-
-.body {
-  background-color: %color:Main_Black%;
-      background: linear-gradient(to bottom, rgb(30, 6, 74), black);
 }
 
 .anvil-role-related-artist-layout {
@@ -1189,29 +1192,27 @@ body.anvil-highlight .nav-elt.placeholder {
 }
 
 .nav {
-    flex: 0 0;
-    flex-basis: auto;
-    flex-basis: content;
-  
-    z-index: 10;
-
-    position: relative;
-    background-color: white;
-    padding: 8px 16px 7px; /* expect 5px margin */
-    min-height: 62px;
-    font-size: 16px;
-    color: %color:Accent 1%;
+  flex: 0 0;
+  flex-basis: auto;
+  flex-basis: content;
+  z-index: 10;
+  position: relative;
+  background: white;
+  padding: 8px 16px 7px; /* expect 5px margin */
+  min-height: 62px;
+  font-size: 16px;
+  color: %color:Accent 1%;
 }
 
 .nav > .menu-btn {
-    color: %color:Sidebar Background%;
-    cursor: pointer;
-    width: 32px;
-    height: 32px;
-    border-radius: 16px;
-    padding: 5px;
-    margin-top: 7px;
-    text-align: center;
+  color: %color:Sidebar Background%;
+  cursor: pointer;
+  width: 32px;
+  height: 32px;
+  border-radius: 16px;
+  padding: 5px;
+  margin-top: 7px;
+  text-align: center;
 }
 
 /* ---- OWN FONT ----------------------- */
@@ -1421,6 +1422,27 @@ footer a, .footer .anvil-component {
 }
 .sidebar-button.open {
   right: 400px;
+}
+.nav-button {
+  font-family: Gs-regular;
+  font-size: 18px;
+  position: fixed;
+  left: 0px;
+  /* right: -400px; */
+  /* right: 400px; */
+  top: 15%;
+  background-color: rgb(233,95,48);
+  color: white;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  z-index: 1000;
+  transition: right 0.2s;
+  border-top-right-radius: 15px;
+  border-bottom-right-radius: 15px;
+}
+.nav-button.open {
+  left: 200px;
 }
 #right-sidebar .header-sidebar{
   padding: 20px;

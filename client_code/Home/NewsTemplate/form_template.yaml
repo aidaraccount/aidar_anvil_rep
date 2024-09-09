@@ -27,11 +27,11 @@ components:
       type: Label
     layout_properties: {grid_position: 'QYPTLL,MFAYRC'}
     name: xy_panel_1
-    properties: {height: '55'}
+    properties: {height: '55', role: null, spacing_above: none, spacing_below: none}
     type: XYPanel
   layout_properties: {grid_position: 'PNMDAK,WVYGWD'}
   name: column_panel_1
-  properties: {background: 'theme:Sidebar Background', border: '1px solid rgb(40, 40, 40);', col_widths: '{}', role: grid}
+  properties: {background: '', border: '', col_widths: '{}', role: grid, spacing_above: none, spacing_below: none}
   type: ColumnPanel
 container:
   properties: {background: ''}

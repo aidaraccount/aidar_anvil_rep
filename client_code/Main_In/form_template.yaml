@@ -90,7 +90,7 @@ components:
   type: Link
 - layout_properties: {slot: title}
   name: image_1
-  properties: {display_mode: original_size, height: '25', source: _/theme/pics/Logo_black_small2.png, spacing_above: small}
+  properties: {display_mode: original_size, height: '10', source: _/theme/pics/AIDAR_white_logo_small.png, spacing_above: small}
   type: Image
 container:
   properties: {background: '', html: '@theme:dashboard.html'}
