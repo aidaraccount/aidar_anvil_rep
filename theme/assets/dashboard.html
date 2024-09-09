@@ -182,14 +182,36 @@ $(function() {
     });
     $('.sidebar-click-guard').on("click", toggleSidebar);
 })
+
+    // window.onload = function () {
+  if(typeof sidebar === 'undefined') {
+    const sidebar = document.getElementById('right-sidebar');
+    const button = document.getElementById('nav-button');
+    const mainContent = document.querySelector('.anvil-role-left-discover-page')
+    // console.log(mainContent)
+  
+    if (sidebar && button) {
+      button.addEventListener('click', function () {
+        sidebar.classList.toggle('open');
+        button.classList.toggle('open');
+        mainContent.classList.toggle('shifted');
+      });
+    } else {
+      console.error("Sidebar or button element not found..");
+    }
+  }
 </script>
     
 <!-- Put body before nav so that it sits underneath -->   
 <div class="structure">
   <div class="nav" anvil-drop-redirect=".title.placeholder, .nav-elt.placeholder, .nav-elt .drop-here">
-
-
-
+    <!-- <div class="menu-btn" onclick="toggleSidebar();">
+      <i class="fa fa-bars"></i>
+    </div> -->
+    <!-- <div anvil-if-slot-empty="title" anvil-drop-slot="title" class="title placeholder anvil-designer-only">
+      Drop a title here
+    </div>
+    <div anvil-slot="title" class="title"></div> -->
     <div class="nav-right" anvil-drop-redirect=".nav-elt">
       <div anvil-slot-repeat="nav-right" class="nav-elt">
         <div anvil-drop-here class="drop-here"></div>
@@ -205,8 +227,7 @@ $(function() {
       <!-- <div class="menu-btn" onclick="toggleSidebar();">
         <i class="fa fa-bars"></i>
       </div> -->
-      <button class="nav-button open" id="sidebar-button">
-        <img class="note_svg_button">
+      <button class="nav-button open" id="nav-button">
         <i class="fa fa-bars"></i>
       </button>
       <div anvil-if-slot-empty="title" anvil-drop-slot="title" class="title placeholder anvil-designer-only">
