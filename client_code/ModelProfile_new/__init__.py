@@ -518,12 +518,12 @@ class ModelProfile_new(ModelProfile_newTemplate):
         self.similarity_percentage.text = "{}{}".format(round(self.infos["model_1_acc"]), "%")
       else:
         self.custom_HTML_level_1_inactive(min(self.infos["total_ratings"]/float(10)*100, 100))
-        self.model_1_accuracy_summary.text = "{}{}".format(min(self.infos["total_ratings"]/float(10)*100, 100), "%")
+        self.model_1_accuracy_summary.text = "{}{}".format(min(round(self.infos["total_ratings"]/int(10)*100), 100), "%")
         self.similarity_active.visible = False
         self.similarity_active_summary.visible = False
         self.similarity_in_training.visible = True
         self.similarity_in_training_summary.visible = True
-        self.similarity_percentage.text = "{}{}".format(min(self.infos["total_ratings"]/float(10)*100, 100), "%")
+        self.similarity_percentage.text = "{}{}".format(min(round(self.infos["total_ratings"]/int(10)*100), 100), "%")
          
     # Model 2
     if self.success_submodel.get_components() == []:
