@@ -161,7 +161,7 @@
   </div>
 
 <div class="body" anvil-drop-default anvil-drop-container=">.cards .anvil-container" anvil-drop-redirect=">.cards > .placeholder">
-    <div id="left-sidebar" class="sidebaropen" anvil-drop-redirect=">.drop-here">
+    <div id="left-sidebar" class="sidebar open" anvil-drop-redirect=">.drop-here">
       <!-- <div class="menu-btn" onclick="toggleSidebar();">
         <i class="fa fa-bars"></i>
       </div> -->
@@ -198,109 +198,65 @@
 </div>    
 
 <script>
-
   ///////////////////////////////////////////////////
   // This is the original JQuery function used to hide and show the old Sidebar
   ///////////////////////////////////////////////////
-  function toggleSidebar() {
-      var s = $('.sidebaropen');
-      if (!s.is(':hidden')) {
-          $('.sidebar-click-guard').hide();
-          s.addClass('floating').animate({left: -s.width()}, {complete: function() { s.hide(); }});
-      } else {
-          $('.sidebar-click-guard').show();
-          s.show().addClass('floating').css('left', '-100%').css('left', -s.width())
-              .animate({left: 0}, {complete: function() { s.removeClass('floating'); }});
-      }
-  }
+  // function toggleSidebar() {
+  //     var s = $('.sidebaropen');
+  //     if (!s.is(':hidden')) {
+  //         $('.sidebar-click-guard').hide();
+  //         s.addClass('floating').animate({left: -s.width()}, {complete: function() { s.hide(); }});
+  //     } else {
+  //         $('.sidebar-click-guard').show();
+  //         s.show().addClass('floating').css('left', '-100%').css('left', -s.width())
+  //             .animate({left: 0}, {complete: function() { s.removeClass('floating'); }});
+  //     }
+  // }
     
-  $(function() {
-      $('.sidebaropen').on("click", function() {
-          if (window.innerWidth <= 767) {
-              toggleSidebar();
-          }
-      });
-      $('.sidebar-click-guard').on("click", toggleSidebar);
-  })
-
+  // $(function() {
+  //     $('.sidebaropen').on("click", function() {
+  //         if (window.innerWidth <= 767) {
+  //             toggleSidebar();
+  //         }
+  //     });
+  //     $('.sidebar-click-guard').on("click", toggleSidebar);
+  // })
   ///////////////////////////////////////////////////
   // This Function is from the Discover Page
   ///////////////////////////////////////////////////
-  // // window.onload = function () {
-  // if(typeof leftsidebar === 'undefined') {
-  //   const leftsidebar = document.getElementById('left-sidebar');
-  //   const button = document.getElementById('nav-button');
-  //   // const mainContent = document.querySelector('.anvil-role-left-discover-page')
-  //   // console.log(mainContent)
-  
-  //   if (leftsidebar && button) {
-  //     button.addEventListener('click', function () {
-  //       leftsidebar.classList.toggle('open');
-  //       button.classList.toggle('open');
-  //       // mainContent.classList.toggle('shifted');
-  //     });
-  //   } else {
-  //     console.error("Sidebar or button element not found..");
-  //   }
-  // }
+  // window.onload = function () {
+  if(typeof leftsidebar === 'undefined') {
+    const leftsidebar = document.getElementById('left-sidebar');
+    const button = document.getElementById('nav-button');
+    const mainContent = document.querySelector('.anvil-role-main-content-page');
+    // console.log(mainContent)
+    if (leftsidebar && button) {
+      // Add a transition effect for smooth sliding
+      // leftsidebar.style.transition = 'left 0.2s';
 
-  //////////////////////////////
-  // This ChatGPT Jquery function in Vanilla JS
-  ///////////////////////////////////////////////////
-  // function toggleSidebar() {
-  //   // Get the sidebar element
-  //   var s = document.querySelector('.sidebar');
+      // Initially position the sidebar off-screen (left)
+      // leftsidebar.style.left = `-${leftsidebar.offsetWidth}px`;
+      // button.style.left = `-${leftsidebar.offsetWidth}px`;
     
-  //   // Check if the sidebar is visible
-  //   if (window.getComputedStyle(s).display !== 'none') {
-  //     // Hide the sidebar and click-guard
-  //     document.querySelector('.sidebar-click-guard').style.display = 'none';
-      
-  //     // Add the 'floating' class and animate the sidebar out of view (slide it to the left)
-  //     s.classList.add('floating');
-  //     s.style.transition = 'left 0.3s'; // Adding transition for smooth animation
-  //     s.style.left = `-${s.offsetWidth}px`; // Move it left by its own width
-  
-  //     // After the transition, hide the sidebar
-  //     s.addEventListener('transitionend', function() {
-  //       s.style.display = 'none';
-  //     }, { once: true }); // Only listen for the event once
-  //   } else {
-  //     // Show the sidebar and click-guard
-  //     document.querySelector('.sidebar-click-guard').style.display = 'block';
-      
-  //     // Show the sidebar and prepare it for animation
-  //     s.style.display = 'block';
-  //     s.classList.add('floating');
-  //     s.style.left = `-${s.offsetWidth}px`; // Start the sidebar offscreen
-      
-  //     // Trigger reflow (to ensure the initial left value is applied)
-  //     s.getBoundingClientRect();
-  
-  //     // Slide the sidebar back into view
-  //     s.style.transition = 'left 0.3s'; // Smooth animation
-  //     s.style.left = '0'; // Slide to the right
-  
-  //     // After animation, remove the 'floating' class
-  //     s.addEventListener('transitionend', function() {
-  //       s.classList.remove('floating');
-  //     }, { once: true });
-  //   }
-  // }
-  
-  // // This is equivalent to $(document).ready(...)
-  // document.addEventListener('DOMContentLoaded', function() {
-  //   var sidebar = document.querySelector('.sidebar');
-  //   var clickGuard = document.querySelector('.sidebar-click-guard');
-  
-  //   // Add click listener to sidebar
-  //   sidebar.addEventListener('click', function() {
-  //     if (window.innerWidth <= 767) {
-  //       toggleSidebar(); // Toggle only if screen width is 767px or less
-  //     }
-  //   });
-  
-  //   // Add click listener to the click-guard overlay
-  //   clickGuard.addEventListener('click', toggleSidebar);
-  // });
+      button.addEventListener('click', function () {
+        leftsidebar.classList.toggle('open');
+        button.classList.toggle('open');
+        mainContent.classList.toggle('shifted');
+
+        // // Check if the sidebar is open or closed
+        // if (leftsidebar.classList.contains('open')) {
+        //   // Slide the sidebar in (set left to 0 to bring it on-screen)
+        //   leftsidebar.style.left = '0';
+        // } else {
+        //   // Slide the sidebar out (set left to the negative width of the sidebar to hide it)
+        //   leftsidebar.style.left = `-${leftsidebar.offsetWidth}px`;
+        // }
+        // Optionally shift the main content if necessary
+        // mainContent.classList.toggle('shifted');
+      });
+    } else {
+      console.error("Sidebar or button element not found..");
+    }
+  }
+
 </script>

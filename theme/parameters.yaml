@@ -272,3 +272,4 @@ roles:
   name: tile-background-general-no-background
 - components: [LinearPanel, ColumnPanel]
   name: score-tile-background-larger
+- {components: null, name: main-content-page}

@@ -199,7 +199,7 @@ components:
   properties: {col_widths: '{"KOMNWW":35,"KTTOYW":25}'}
   type: ColumnPanel
 container:
-  properties: {col_widths: '{}'}
+  properties: {col_widths: '{}', role: main-content-page}
   type: ColumnPanel
 custom_component: false
 is_package: true
