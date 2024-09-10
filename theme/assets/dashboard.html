@@ -165,6 +165,9 @@
       <!-- <div class="menu-btn" onclick="toggleSidebar();">
         <i class="fa fa-bars"></i>
       </div> -->
+      <button class="nav-button open" id="nav-button">
+        <i class="fa fa-bars"></i>
+      </button>
       <div anvil-if-slot-empty="title" anvil-drop-slot="title" class="title placeholder anvil-designer-only">
         Drop a title here
       </div>
@@ -191,9 +194,6 @@
         </div>
     </div>
 </div>
-<button class="nav-button open" id="nav-button">
-  <i class="fa fa-bars"></i>
-</button>
   
 </div>    
 
@@ -202,7 +202,7 @@
   // This is the original JQuery function used to hide and show the old Sidebar
   ///////////////////////////////////////////////////
   // function toggleSidebar() {
-  //     var s = $('.sidebaropen');
+  //     var s = $('.sidebar open');
   //     if (!s.is(':hidden')) {
   //         $('.sidebar-click-guard').hide();
   //         s.addClass('floating').animate({left: -s.width()}, {complete: function() { s.hide(); }});
@@ -227,32 +227,22 @@
   // window.onload = function () {
   if(typeof leftsidebar === 'undefined') {
     const leftsidebar = document.getElementById('left-sidebar');
-    const button = document.getElementById('nav-button');
-    const mainContent = document.querySelector('.anvil-role-main-content-page');
-    // console.log(mainContent)
-    if (leftsidebar && button) {
-      // Add a transition effect for smooth sliding
-      // leftsidebar.style.transition = 'left 0.2s';
-
-      // Initially position the sidebar off-screen (left)
-      // leftsidebar.style.left = `-${leftsidebar.offsetWidth}px`;
-      // button.style.left = `-${leftsidebar.offsetWidth}px`;
-    
-      button.addEventListener('click', function () {
+    const navbutton = document.getElementById('nav-button');
+    if (leftsidebar && navbutton) {
+      navbutton.addEventListener('click', function () {
+        const navmainContent = document.querySelector('.anvil-role-main-content-page');
         leftsidebar.classList.toggle('open');
-        button.classList.toggle('open');
-        mainContent.classList.toggle('shifted');
-
-        // // Check if the sidebar is open or closed
+        navbutton.classList.toggle('open');
+        navmainContent.classList.toggle('shifted');
         // if (leftsidebar.classList.contains('open')) {
         //   // Slide the sidebar in (set left to 0 to bring it on-screen)
-        //   leftsidebar.style.left = '0';
+        //   // leftsidebar.style.left = '0';
+        //   navmainContent.style.marginLeft = `${leftsidebar.offsetWidth}px`;
         // } else {
         //   // Slide the sidebar out (set left to the negative width of the sidebar to hide it)
-        //   leftsidebar.style.left = `-${leftsidebar.offsetWidth}px`;
+        //   // leftsidebar.style.left = `-${leftsidebar.offsetWidth}px`;
+        //   navmainContent.style.marginLeft = '0';  // Reset content position
         // }
-        // Optionally shift the main content if necessary
-        // mainContent.classList.toggle('shifted');
       });
     } else {
       console.error("Sidebar or button element not found..");

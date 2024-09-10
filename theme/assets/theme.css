@@ -1369,8 +1369,12 @@ footer a, .footer .anvil-component {
 .anvil-role-left-discover-page.shifted{
   margin-right: 400px;
 }
-.anvil-role-main-content-page.shifted {
+.anvil-role-main-content-page {
   margin-left: 250px;
+  transition: margin-left 0.2s;
+}
+.anvil-role-main-content-page.shifted {
+  margin-left: 0px;
 }
 
 #right-sidebar {

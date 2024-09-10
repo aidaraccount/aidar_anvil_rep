@@ -1158,7 +1158,12 @@ components:
     type: Spacer
   layout_properties: {slot: default}
   name: column_panel_1
-  properties: {col_spacing: medium, col_widths: '{"LTMDQS":45}', role: left-discover-page, spacing_above: small, spacing_below: small}
+  properties:
+    col_spacing: medium
+    col_widths: '{"LTMDQS":45}'
+    role: [left-discover-page, main-content-page]
+    spacing_above: small
+    spacing_below: small
   type: ColumnPanel
 - components:
   - layout_properties: {grid_position: 'UQVSNC,CLCEVO'}
@@ -1248,7 +1253,7 @@ components:
   properties: {background: 'theme:Grid_Black', col_spacing: tiny, col_widths: '{"XUSTNC":30,"THIOWY":5,"OZIYBS":20,"CLCEVO":20}', spacing_above: none, spacing_below: none, visible: true}
   type: ColumnPanel
 container:
-  properties: {background: '', html: '@theme:Discover_Sidebar_and_JS.html', role: test}
+  properties: {background: '', html: '@theme:Discover_Sidebar_and_JS.html', role: null}
   type: HtmlTemplate
 custom_component: false
 is_package: true
