@@ -160,14 +160,11 @@
     </div>
   </div>
 
-<div class="body" anvil-drop-default anvil-drop-container=">.cards .anvil-container" anvil-drop-redirect=">.cards > .placeholder">
+  <div class="body" anvil-drop-default anvil-drop-container=">.cards .anvil-container" anvil-drop-redirect=">.cards > .placeholder">
     <div id="left-sidebar" class="sidebar open" anvil-drop-redirect=">.drop-here">
       <!-- <div class="menu-btn" onclick="toggleSidebar();">
         <i class="fa fa-bars"></i>
       </div> -->
-      <button class="nav-button open" id="nav-button">
-        <i class="fa fa-bars"></i>
-      </button>
       <div anvil-if-slot-empty="title" anvil-drop-slot="title" class="title placeholder anvil-designer-only">
         Drop a title here
       </div>
@@ -193,11 +190,81 @@
             <img src="https://anvil.works/template-assets/column-panel-icon.png" style="height: 30px; margin-right: -7px; margin-top: -5px"> Card components to create new cards.
         </div>
     </div>
-</div>
-  
+  </div>
+  <button class="nav-button open" id="nav-button" onclick="toggleSidebar();">
+    <i class="fa fa-bars"></i>
+  </button>
+
 </div>    
 
 <script>
+  ///////////////////////////////////////////////////
+  // This ChatGPT version of the jQuery function
+  ///////////////////////////////////////////////////
+  function toggleSidebar() {
+    // Get the sidebar element
+    // var s = document.querySelector('.sidebar');
+    var s = document.getElementById('left-sidebar');
+    var b = document.querySelector('.nav-button');
+    
+    // Check if the sidebar is visible
+    if (window.getComputedStyle(s).display !== 'none') {
+      // Hide the sidebar and click-guard
+      document.querySelector('.sidebar-click-guard').style.display = 'none';
+      
+      // Add the 'floating' class and animate the sidebar out of view (slide it to the left)
+      s.classList.remove('open');
+      // s.classList.add('floating');
+      s.style.transition = 'left 0.3s'; // Adding transition for smooth animation
+      s.style.left = `-${s.offsetWidth}px`; // Move it left by its own width
+      b.style.transition = 'left 0.3s'; // Adding transition for smooth animation
+      b.classList.remove('open');
+  
+      // After the transition, hide the sidebar
+      b.addEventListener('transitionend', function() {
+        s.style.display = 'none';
+      }, { once: true }); // Only listen for the event once
+    } else {
+      // Show the sidebar and click-guard
+      document.querySelector('.sidebar-click-guard').style.display = 'block';
+      
+      // Show the sidebar and prepare it for animation
+      s.style.display = 'block';
+      s.classList.add('open');
+      s.style.left = `-${s.offsetWidth}px`; // Start the sidebar offscreen
+      b.classList.add('open');
+      
+      // Trigger reflow (to ensure the initial left value is applied)
+      s.getBoundingClientRect();
+  
+      // Slide the sidebar back into view
+      s.style.transition = 'left 0.3s'; // Smooth animation
+      s.style.left = '0'; // Slide to the right
+  
+      // After animation, remove the 'floating' class
+      s.addEventListener('transitionend', function() {
+        s.classList.remove('floating');
+      }, { once: true });
+    }
+  }
+  
+  // This is equivalent to $(document).ready(...)
+  document.addEventListener('DOMContentLoaded', function() {
+    var sidebar = document.querySelector('.sidebar');
+    var clickGuard = document.querySelector('.sidebar-click-guard');
+  
+    // Add click listener to sidebar
+    sidebar.addEventListener('click', function() {
+      if (window.innerWidth <= 767) {
+        toggleSidebar(); // Toggle only if screen width is 767px or less
+      }
+    });
+  
+    // Add click listener to the click-guard overlay
+    clickGuard.addEventListener('click', toggleSidebar);
+  });
+
+  
   ///////////////////////////////////////////////////
   // This is the original JQuery function used to hide and show the old Sidebar
   ///////////////////////////////////////////////////
@@ -224,16 +291,24 @@
   ///////////////////////////////////////////////////
   // This Function is from the Discover Page
   ///////////////////////////////////////////////////
-  // window.onload = function () {
-  if(typeof leftsidebar === 'undefined') {
-    const leftsidebar = document.getElementById('left-sidebar');
-    const navbutton = document.getElementById('nav-button');
-    if (leftsidebar && navbutton) {
-      navbutton.addEventListener('click', function () {
-        const navmainContent = document.querySelector('.anvil-role-main-content-page');
-        leftsidebar.classList.toggle('open');
-        navbutton.classList.toggle('open');
-        navmainContent.classList.toggle('shifted');
+  // window.onload = 
+    // function toggleSidebar() {
+    //   if(typeof leftsidebar === 'undefined') {
+    //     const leftsidebar = document.getElementById('left-sidebar');
+    //     const navbutton = document.getElementById('nav-button');
+    //     if (leftsidebar && navbutton) {
+    //       navbutton.addEventListener('click', function () {
+    //         // const navmainContent = document.querySelector('.anvil-role-main-content-page');
+    //         leftsidebar.classList.toggle('open');
+    //         navbutton.classList.toggle('open');
+    //         // navmainContent.classList.toggle('shifted');
+    //       });
+    //     } else {
+    //       console.error("Sidebar or button element not found..");
+    //     }
+    //   }
+    // }
+
         // if (leftsidebar.classList.contains('open')) {
         //   // Slide the sidebar in (set left to 0 to bring it on-screen)
         //   // leftsidebar.style.left = '0';
@@ -243,10 +318,4 @@
         //   // leftsidebar.style.left = `-${leftsidebar.offsetWidth}px`;
         //   navmainContent.style.marginLeft = '0';  // Reset content position
         // }
-      });
-    } else {
-      console.error("Sidebar or button element not found..");
-    }
-  }
-
 </script>

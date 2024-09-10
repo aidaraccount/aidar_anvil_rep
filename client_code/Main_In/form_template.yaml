@@ -93,6 +93,6 @@ components:
   properties: {display_mode: original_size, height: '20', source: _/theme/pics/AIDAR_white_logo_small.png, spacing_above: medium, spacing_below: large}
   type: Image
 container:
-  properties: {background: '', html: '@theme:dashboard.html', role: main-content-page}
+  properties: {background: '', html: '@theme:dashboard.html', role: null}
   type: HtmlTemplate
 is_package: true

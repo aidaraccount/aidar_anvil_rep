@@ -196,7 +196,7 @@ components:
     type: ColumnPanel
   layout_properties: {full_width_row: false, grid_position: 'LYJBFU,QTFFSI'}
   name: content_panel
-  properties: {col_widths: '{"KOMNWW":35,"KTTOYW":25}', role: main-content-page}
+  properties: {col_widths: '{"KOMNWW":35,"KTTOYW":25}', role: null}
   type: ColumnPanel
 container:
   properties: {col_widths: '{}', role: null}
