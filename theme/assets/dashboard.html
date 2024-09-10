@@ -161,7 +161,7 @@
   </div>
 
   <div class="body" anvil-drop-default anvil-drop-container=">.cards .anvil-container" anvil-drop-redirect=">.cards > .placeholder">
-    <div id="left-sidebar" class="sidebar open" anvil-drop-redirect=">.drop-here">
+    <div id="left-sidebar" class="sidebar" anvil-drop-redirect=">.drop-here">
       <!-- <div class="menu-btn" onclick="toggleSidebar();">
         <i class="fa fa-bars"></i>
       </div> -->
@@ -204,7 +204,7 @@
   function toggleSidebar() {
     // Get the sidebar element
     // var s = document.querySelector('.sidebar');
-    var s = document.getElementById('left-sidebar');
+    var s = document.querySelector('.sidebar');
     var b = document.querySelector('.nav-button');
     
     // Check if the sidebar is visible
@@ -213,8 +213,8 @@
       document.querySelector('.sidebar-click-guard').style.display = 'none';
       
       // Add the 'floating' class and animate the sidebar out of view (slide it to the left)
-      s.classList.remove('open');
-      // s.classList.add('floating');
+      // s.classList.remove('open');
+      s.classList.add('floating');
       s.style.transition = 'left 0.3s'; // Adding transition for smooth animation
       s.style.left = `-${s.offsetWidth}px`; // Move it left by its own width
       b.style.transition = 'left 0.3s'; // Adding transition for smooth animation
@@ -230,7 +230,7 @@
       
       // Show the sidebar and prepare it for animation
       s.style.display = 'block';
-      s.classList.add('open');
+      s.classList.add('floating');
       s.style.left = `-${s.offsetWidth}px`; // Start the sidebar offscreen
       b.classList.add('open');
       
@@ -240,7 +240,6 @@
       // Slide the sidebar back into view
       s.style.transition = 'left 0.3s'; // Smooth animation
       s.style.left = '0'; // Slide to the right
-  
       // After animation, remove the 'floating' class
       s.addEventListener('transitionend', function() {
         s.classList.remove('floating');
