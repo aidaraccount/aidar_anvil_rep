@@ -165,7 +165,6 @@
       <!-- <div class="menu-btn" onclick="toggleSidebar();">
         <i class="fa fa-bars"></i>
       </div> -->
-   
       <div anvil-if-slot-empty="title" anvil-drop-slot="title" class="title placeholder anvil-designer-only">
         Drop a title here
       </div>
@@ -179,7 +178,6 @@
       </div>
     </div>
     <div class="sidebar-click-guard"></div>
-
     <div class="cards anvil-measure-content">
         <div anvil-if-slot-empty="default"
              anvil-drop-slot="default"
@@ -201,7 +199,7 @@
 
 <script>
   function toggleSidebar() {
-      var s = $('.sidebar');
+      var s = $('.sidebar.open');
       if (!s.is(':hidden')) {
           $('.sidebar-click-guard').hide();
           s.addClass('floating').animate({left: -s.width()}, {complete: function() { s.hide(); }});
@@ -213,7 +211,7 @@
   }
     
   $(function() {
-      $('.sidebar').on("click", function() {
+      $('.sidebar.open').on("click", function() {
           if (window.innerWidth <= 767) {
               toggleSidebar();
           }
@@ -221,21 +219,21 @@
       $('.sidebar-click-guard').on("click", toggleSidebar);
   })
   
-  // window.onload = function () {
-  if(typeof leftsidebar === 'undefined') {
-    const leftsidebar = document.getElementById('left-sidebar');
-    const button = document.getElementById('nav-button');
-    // const mainContent = document.querySelector('.anvil-role-left-discover-page')
-    // console.log(mainContent)
+  // // window.onload = function () {
+  // if(typeof leftsidebar === 'undefined') {
+  //   const leftsidebar = document.getElementById('left-sidebar');
+  //   const button = document.getElementById('nav-button');
+  //   // const mainContent = document.querySelector('.anvil-role-left-discover-page')
+  //   // console.log(mainContent)
   
-    if (leftsidebar && button) {
-      button.addEventListener('click', function () {
-        leftsidebar.classList.toggle('open');
-        button.classList.toggle('open');
-        // mainContent.classList.toggle('shifted');
-      });
-    } else {
-      console.error("Sidebar or button element not found..");
-    }
-  }
+  //   if (leftsidebar && button) {
+  //     button.addEventListener('click', function () {
+  //       leftsidebar.classList.toggle('open');
+  //       button.classList.toggle('open');
+  //       // mainContent.classList.toggle('shifted');
+  //     });
+  //   } else {
+  //     console.error("Sidebar or button element not found..");
+  //   }
+  // }
 </script>
