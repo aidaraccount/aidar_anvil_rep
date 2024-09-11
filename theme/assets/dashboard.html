@@ -22,7 +22,7 @@
     text-transform: uppercase;
   }
   .sidebar-elt>.content a:hover {
-    background: linear-gradient(to bottom right, rgb(31, 11, 59), rgba(250, 250, 250, 0.05));
+    background: linear-gradient(to bottom right, rgb(31, 11, 59), rgba(250, 250, 250, 0.15));
   }
   .sidebar-elt .content a.anvil-component {
       padding-left: 14px;
@@ -32,7 +32,7 @@
       color: #ddd;
   }  
   .sidebar-elt a:hover, .sidebar-elt a:active {
-      color: white;
+      color: orange
   }
   /* Responsive bits: Make the menu overlay the screen
       (and hidden by default) rather than displacing it
@@ -47,7 +47,7 @@
   }
   @media(max-width:767px) {
       .runner .sidebar {
-          display: none;
+          display: block;
           position: absolute;
           top: 62px;
           bottom: 0px;
@@ -61,7 +61,7 @@
           bottom: 0px;
           left: 0;
           right: 0;
-          background-color: #888;
+          background: linear-gradient(to bottom right, rgb(31, 11, 59), rgba(250, 250, 250, 0.15));
           opacity: 0.5;
           z-index: 10;
       }
@@ -100,19 +100,21 @@
       background: linear-gradient(to bottom right, rgb(31, 11, 59), rgba(250, 250, 250, 0.05));
   }
   .nav-right {
-      float: right;
-      color: #333;
+    float: right;
+    color: #333;
   }
   .nav-elt {
-      display: inline-block;
-      vertical-align: top;
-      margin-left: 10px;
-      position: relative;
+    display: inline-block;
+    vertical-align: top;
+    position: absolute;
+    width: 70px;
+    top: 50px;
+    right: 50px;
   }
   .nav-elt.placeholder {
       margin-top: 5px;
       opacity: 0.8;
-      color: #888;
+      color: linear-gradient(to bottom right, rgb(31, 11, 59), rgba(250, 250, 250, 0.15));
       visibility: hidden;
   }  
   body.anvil-highlight .nav-elt.placeholder {
@@ -142,7 +144,7 @@
 
 <!-- Put body before nav so that it sits underneath -->   
 <div class="structure">
-  <div class="nav" anvil-drop-redirect=".title.placeholder, .nav-elt.placeholder, .nav-elt .drop-here">
+  <div class="" anvil-drop-redirect=".title.placeholder, .nav-elt.placeholder, .nav-elt .drop-here">
     <!-- <div class="menu-btn" onclick="toggleSidebar();">
       <i class="fa fa-bars"></i>
     </div> -->
@@ -150,14 +152,6 @@
       Drop a title here
     </div>
     <div anvil-slot="title" class="title"></div> -->
-    <div class="nav-right" anvil-drop-redirect=".nav-elt">
-      <div anvil-slot-repeat="nav-right" class="nav-elt">
-        <div anvil-drop-here class="drop-here"></div>
-      </div>
-      <div class="nav-elt placeholder anvil-designer-only" anvil-drop-slot="nav-right">
-        <i class="glyphicon glyphicon-plus"></i>
-      </div>
-    </div>
   </div>
 
       <!-- <div class="menu-btn" onclick="toggleSidebar();">
@@ -169,7 +163,7 @@
         <i class="fa fa-bars"></i>
       </button>
       <div anvil-if-slot-empty="title" anvil-drop-slot="title" class="title placeholder anvil-designer-only">
-        Drop a title here
+        Drop Logo Here
       </div>
       <div anvil-slot="title" class="title"></div>
       <div anvil-slot-repeat="sidebar" class="sidebar-elt">      
@@ -189,6 +183,14 @@
       <div class="anvil-designer-only instructions">
         <i class="fa fa-info-circle"></i> Add
         <img src="https://anvil.works/template-assets/column-panel-icon.png" style="height: 30px; margin-right: -7px; margin-top: -5px"> Card components to create new cards.
+      </div>
+    </div>
+    <div class="nav-right" anvil-drop-redirect=".nav-elt">
+      <div anvil-slot-repeat="nav-right" class="nav-elt">
+        <div anvil-drop-here class="drop-here"></div>
+      </div>
+      <div class="nav-elt placeholder anvil-designer-only" anvil-drop-slot="nav-right">
+        <i class="glyphicon glyphicon-plus"></i>
       </div>
     </div>
   </div>

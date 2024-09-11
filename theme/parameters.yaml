@@ -13,6 +13,7 @@ color_scheme:
   - {color: 'rgb(200, 200, 200)', name: Text_Grey}
   - {color: 'rgb(175, 175, 175)', name: Text_DarkGrey}
   - {color: 'rgb(40, 40, 40)', name: Text_LightBlack}
+  - {color: 'rgba(253, 101, 45, 0.2)', name: Accent 3}
   preset_groups:
   - name: Accent
     options:
@@ -246,17 +247,17 @@ roles:
   name: tile-background-right
 - components: [Label, RichText, Button]
   name: header-8
-- components: [Label, RichText, Button]
+- components: [Label, RichText, Button, Link]
   name: header-10
 - components: [Button]
   name: call-to-action-button
-- components: [Label, RichText, Button]
+- components: [Label, RichText, Button, Link]
   name: header-5
 - components: [LinearPanel]
   name: position-bottom
 - components: [LinearPanel, ColumnPanel]
   name: highlights-tile-background
-- components: [Label, RichText, Button]
+- components: [Label, RichText, Button, Link]
   name: header-5_bold
 - components: [Label, RichText, Button]
   name: header-6_grey
@@ -264,12 +265,13 @@ roles:
   name: equal-height-container
 - components: [ColumnPanel]
   name: highlights-tile-background-for-col
-- components: [Label, RichText, Button]
+- components: [Label, RichText, Button, Link]
   name: header-7
-- components: [Label, RichText, Button]
+- components: [Label, RichText, Button, Link]
   name: header-6_bold
 - components: [ColumnPanel]
   name: tile-background-general-no-background
 - components: [LinearPanel, ColumnPanel]
   name: score-tile-background-larger
-- {components: null, name: main-content-page}
+- components: [Image]
+  name: navbar-image
