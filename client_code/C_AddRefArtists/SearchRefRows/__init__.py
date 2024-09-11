@@ -31,7 +31,7 @@ class SearchRefRows(SearchRefRowsTemplate):
       self.add_ref_artist()
   
   def add_ref_artist(self, **event_args):
-    status = anvil.server.call('add_ref_artist', user["user_id"], self.model_id, self.inspect_link.tag)
+    status = anvil.server.call('add_ref_artist', user["user_id"], self.model_id, self.item['SpotifyArtistID'])
     if status == 'Event created':
       # increase No. references by 1
       self.parent.parent.parent.parent.parent.parent.parent.no_references.text = int(self.parent.parent.parent.parent.parent.parent.parent.no_references.text) + 1

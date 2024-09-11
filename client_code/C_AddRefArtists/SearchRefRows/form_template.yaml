@@ -1,7 +1,6 @@
 components:
 - data_bindings:
   - {code: '''add as Ref. Artist''', property: text}
-  - {code: 'self.item[''SpotifyArtistID'']', property: tag}
   event_bindings: {click: inspect_link_click}
   layout_properties: {column: YTCRRC}
   name: inspect_link
