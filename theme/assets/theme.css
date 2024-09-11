@@ -551,20 +551,43 @@ body, html {
 .anvil-role-equal-height-container > .row {
   display:flex;
 }
+
+.body {
+  /* background-color: %color:Main_Black%; */
+  /* background: linear-gradient(to bottom, rgb(30, 6, 74), black); */
+  background: linear-gradient(to bottom right, rgb(31, 11, 59), black);
+}
+.anvil-role-grid {
+  /* background-color: %color:Grid_Black%; */
+  background: linear-gradient(to bottom right, rgb(31, 11, 59), rgba(250, 250, 250, 0.05));
+  border-radius: 12px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  padding: 0;
+}
+.anvil-role-grid-main {
+  background: linear-gradient(to bottom right, rgb(31, 11, 59), rgba(250, 250, 250, 0.05));
+  /* background: linear-gradient (to bottom right, rgba(30, 6, 74, 0.09), rgb(30, 6, 74)); */
+  /* background: linear-gradient(to bottom right, rgba(250, 250, 250, 0.08) 50%, rgb(30, 6, 74)); */
+  border-radius: 12px;
+  margin-top: 7px;
+  margin-bottom: 7px;
+  padding: 0;
+}
 .anvil-role-tile-background-left {
-  background: linear-gradient(to top left, rgba(259, 250, 250, 0.1) 50%, rgb(31, 11, 59));
+  background: linear-gradient(to bottom right, rgb(31, 11, 59), rgba(250, 250, 250, 0.05));
   border-radius: 15px;
   height: 100%;
   /* width: 75%; */
 }
 .anvil-role-tile-background-right {
-  background: linear-gradient(to top left, rgba(259, 250, 250, 0.1) 50%, rgb(31, 11, 59));
+  background: linear-gradient(to bottom right, rgb(31, 11, 59), rgba(250, 250, 250, 0.05));
   border-radius: 15px;
   height: 100%;
   /* width: 25%; */
 }
 .anvil-role-tile-background-general {
-  background: linear-gradient(to top left, rgba(259, 250, 250, 0.1) 50%, rgb(31, 11, 59));
+  background: linear-gradient(to bottom right, rgb(31, 11, 59), rgba(250, 250, 250, 0.05));
   border-radius: 15px;
   height: 100%;
 }
@@ -906,21 +929,6 @@ a>.link-text {
   color: %color:Text_Grey%;
   text-shadow: 2px 2px 7px rgba(0, 0, 0, 0.9);
 }
-.anvil-role-grid {
-  /* background-color: %color:Grid_Black%; */
-  background: linear-gradient(to top left, rgba(250, 250, 250, 0.08) 50%, rgb(31, 11, 59));
-  border-radius: 12px;
-  margin-top: 5px;
-  margin-bottom: 5px;
-  padding: 0;
-}
-.anvil-role-grid-main {
-  background: linear-gradient(to top left, rgba(250, 250, 250, 0.08) 50%, rgb(31, 11, 59));
-  border-radius: 12px;
-  margin-top: 7px;
-  margin-bottom: 7px;
-  padding: 0;
-}
 .anvil-role-value {
   font-size: 24px;
   font-weight: bold;
@@ -1013,11 +1021,6 @@ div.row {
   width: 100%;
   height: 40vh;
   background-color: %Main_Black%;
-}
-
-.body {
-  background-color: %color:Main_Black%;
-      background: linear-gradient(to bottom, rgb(30, 6, 74), black);
 }
 
 .anvil-role-related-artist-layout {
@@ -1178,40 +1181,28 @@ body.anvil-highlight .nav-elt.placeholder {
   }
 }
 
-.sidebar {
-    background-color: %color:Sidebar Background%;
-    color: white;
-    padding: 10px 0;
-    flex-shrink: 0;
-
-    overflow-y: auto;
-    overflow-x: hidden;
-}
-
 .nav {
-    flex: 0 0;
-    flex-basis: auto;
-    flex-basis: content;
-  
-    z-index: 10;
-
-    position: relative;
-    background-color: white;
-    padding: 8px 16px 7px; /* expect 5px margin */
-    min-height: 62px;
-    font-size: 16px;
-    color: %color:Accent 1%;
+  flex: 0 0;
+  flex-basis: auto;
+  flex-basis: content;
+  z-index: 10;
+  position: relative;
+  background: white;
+  padding: 8px 16px 7px; /* expect 5px margin */
+  min-height: 62px;
+  font-size: 16px;
+  color: %color:Accent 1%;
 }
 
 .nav > .menu-btn {
-    color: %color:Sidebar Background%;
-    cursor: pointer;
-    width: 32px;
-    height: 32px;
-    border-radius: 16px;
-    padding: 5px;
-    margin-top: 7px;
-    text-align: center;
+  color: %color:Sidebar Background%;
+  cursor: pointer;
+  width: 32px;
+  height: 32px;
+  border-radius: 16px;
+  padding: 5px;
+  margin-top: 7px;
+  text-align: center;
 }
 
 /* ---- OWN FONT ----------------------- */
@@ -1329,7 +1320,7 @@ body.anvil-highlight .nav-elt.placeholder {
   padding: 0 72px 0 72px;
   padding: 0 72px 0 72px;
   padding: 0 72px 0 72px;
-  z-index: 1;
+  z-index: 2000;
   box-shadow: 0 -4px 5px 0 rgba(0, 0, 0, 0.14), 0 -1px 10px 0 rgba(0, 0, 0, 0.12), 0 -2px 4px -1px rgba(0, 0, 0, 0.2);    
 }
 
@@ -1378,6 +1369,13 @@ footer a, .footer .anvil-component {
 .anvil-role-left-discover-page.shifted{
   margin-right: 400px;
 }
+.anvil-role-main-content-page {
+  margin-left: 250px;
+  transition: margin-left 0.2s;
+}
+.anvil-role-main-content-page.shifted {
+  margin-left: 0px;
+}
 
 #right-sidebar {
   font-family: Gs-regular;
@@ -1388,12 +1386,12 @@ footer a, .footer .anvil-component {
   /* right: 0px; */
   top: 0;
   width: 400px;
-  height: 90%;
+  height: 100%;
   background-color: rgb(10,3,30);
   box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5);
   transition: right 0.2s;
   overflow-x: hidden;
-  margin: 0 0 0 0px;
+  padding: 0 0 100px 0;
   border-bottom-left-radius: 15px;
   border-top-left-radius: 15px;
   z-index: 999;
@@ -1422,6 +1420,83 @@ footer a, .footer .anvil-component {
 .sidebar-button.open {
   right: 400px;
 }
+/* #left-sidebar.open {
+  left: 0px;
+} */
+.sidebar {
+  /* background-color: %color:Sidebar Background%; */
+  /* color: white; */
+  /* padding: 10px 0; */
+  /* flex-shrink: 0; */
+  /* overflow-y: auto; */
+  /* overflow-x: hidden; */
+}
+#left-sidebar {
+  font-family: Gs-regular;
+  color: rgb(250,250,250);
+  position: fixed;
+  top: 0;
+  left: 0px;
+  /* left: -250px; */
+  width: 250px;
+  height: 100%;
+  background-color: rgb(10,3,30);
+  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5);
+  transition: left 0.3s ease;
+  /* overflow-x: hidden; */
+  /* margin: 0 0 0 0px; */
+  border-bottom-right-radius: 15px;
+  border-top-right-radius: 15px;
+  z-index: 999;
+  padding: 10px 0;
+  /* flex-shrink: 0; */
+}
+.nav-button {
+  font-family: Gs-regular;
+  font-size: 18px;
+  position: fixed;
+  top: 20%;
+  left: 250px;
+  /* left: 0; */
+  background-color: rgb(233,95,48);
+  color: white;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  z-index: 1100;
+  transition: left 0.3s ease;
+  border-top-right-radius: 15px;
+  border-bottom-right-radius: 15px;
+}
+/* .nav-button.closed {
+  position: absolute;
+  top: 62px;
+  bottom: 0px;
+  left: 0px;
+  z-index: 2;
+} */
+.main-content-move {
+  margin-left: 250px;
+  transition: margin-left 0.3s ease;
+}
+/* Sidebar click guard to close sidebar */
+.sidebar-click-guard {
+  display: none;         /* Hidden by default */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent overlay */
+  z-index: 999;          /* Just below the sidebar */
+} 
+
+.anvil-role-navbar-image {
+  margin: 10px 0 0 0;
+  padding: 10px 0 40px 0;
+  border-bottom: 1px solid #888;
+}
+
 #right-sidebar .header-sidebar{
   padding: 20px;
   background: rgb(233,95,48);
@@ -1637,6 +1712,12 @@ footer a, .footer .anvil-component {
 }
 .circle__progress {
   fill: #1A0F36;
+  stroke-width: 10px;
+  stroke-opacity: 0.3;
+  stroke-linecap: round;
+}
+.circle__progress_inactive {
+  fill: #29282F;
   stroke-width: 10px;
   stroke-opacity: 0.3;
   stroke-linecap: round;

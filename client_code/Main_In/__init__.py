@@ -78,7 +78,7 @@ class Main_In(Main_InTemplate):
         #print(f"{datetime.datetime.now()}: Main_In - link_login_click - 3a", flush=True)
         #routing.set_url_hash('', load_from_cache=False)
         #print(f"{datetime.datetime.now()}: Main_In - link_login_click - 3b", flush=True)  # 3:10m, 2:12m - 19s
-        #self.link_home.background = "theme:Accent 2"
+        #self.link_home.background = "theme:Accent 3"
         #print(f"{datetime.datetime.now()}: Main_In - link_login_click - 3c", flush=True)
         self.update_no_notifications()
         #print(f"{datetime.datetime.now()}: Main_In - link_login_click - 3d", flush=True)  # 17s, 14s - 1.5s
@@ -133,14 +133,14 @@ class Main_In(Main_InTemplate):
   def models_click(self, link_model_id, model_link, **event_args):
     click_button(f'model_profile_new?model_id={link_model_id}&section=Main', event_args)
     self.reset_nav_backgrounds()
-    model_link.background = "theme:Accent 2"
+    model_link.background = "theme:Accent 3"
   # ------------
       
   def logout_click(self, **event_args):
     logout()
 
   def update_no_notifications(self, **event_args):
-    NoNotifications = json.loads(anvil.server.call('get_no_notifications', self.model_id))
+    NoNotifications = json.loads(anvil.server.call('get_no_notifications', user["user_id"]))
     self.link_manage.text = 'MANAGE (' + str(NoNotifications[0]["cnt"]) + ')'
 
   def reset_nav_backgrounds(self, **event_args):    
@@ -159,21 +159,21 @@ class Main_In(Main_InTemplate):
     #self.link_settings.background = None
 
     if location.hash[:9] == '#home':
-      self.link_home.background = "theme:Accent 2"
+      self.link_home.background = "theme:Accent 3"
       
     elif location.hash[:9] == '#artists?':
-      self.link_discover_ai.background = "theme:Accent 2"
+      self.link_discover_ai.background = "theme:Accent 3"
     elif location.hash[:13] == '#rel_artists?':
-      self.link_discover_rel.background = "theme:Accent 2"
+      self.link_discover_rel.background = "theme:Accent 3"
     elif location.hash[:15] == '#search_artist?':
-      self.link_discover_name.background = "theme:Accent 2"
+      self.link_discover_name.background = "theme:Accent 3"
       
     elif location.hash[:19] == '#watchlist_details?':
-      self.link_manage_watchlist.background = "theme:Accent 2"
+      self.link_manage_watchlist.background = "theme:Accent 3"
     elif location.hash[:17] == '#watchlist_funnel':
-      self.link_manage_funnel.background = "theme:Accent 2"
+      self.link_manage_funnel.background = "theme:Accent 3"
     elif location.hash[:19] == '#watchlist_overview':
-      self.link_manage_dev.background = "theme:Accent 2"
+      self.link_manage_dev.background = "theme:Accent 3"
       
   
   def change_nav_visibility(self, status, **event_args):
@@ -198,7 +198,7 @@ class Main_In(Main_InTemplate):
   def link_home_click(self, **event_args):
     click_link(self.link_home, 'home', event_args)
     self.reset_nav_backgrounds()
-    self.link_home.background = "theme:Accent 2"
+    self.link_home.background = "theme:Accent 3"
   
   #----------------------------------------------------------------------------------------------  
   # DISCOVER
@@ -218,18 +218,18 @@ class Main_In(Main_InTemplate):
     artist_id = anvil.server.call('get_next_artist_id', load_var('model_id'))
     click_link(self.link_discover_ai, f'artists?artist_id={artist_id}', event_args)
     self.reset_nav_backgrounds()
-    self.link_discover_ai.background = "theme:Accent 2"
+    self.link_discover_ai.background = "theme:Accent 3"
 
   def link_discover_rel_click(self, **event_args):
     click_link(self.link_discover_rel, 'rel_artists?artist_id=None', event_args)
     self.reset_nav_backgrounds()
-    self.link_discover_rel.background = "theme:Accent 2"
+    self.link_discover_rel.background = "theme:Accent 3"
     
   def link_discover_name_click(self, **event_args):
     click_link(self.link_discover_name, 'search_artist?text=None', event_args)
     
     self.reset_nav_backgrounds()
-    self.link_discover_name.background = "theme:Accent 2"
+    self.link_discover_name.background = "theme:Accent 3"
 
   #----------------------------------------------------------------------------------------------
   # MANAGE
@@ -248,19 +248,19 @@ class Main_In(Main_InTemplate):
   def link_manage_watchlist_click(self, temp_artist_id=None, **event_args):
     click_link(self.link_manage_watchlist, 'watchlist_details?artist_id=None', event_args)
     self.reset_nav_backgrounds()
-    self.link_manage_watchlist.background = "theme:Accent 2"
+    self.link_manage_watchlist.background = "theme:Accent 3"
     
   def link_manage_funnel_click(self, **event_args):
     #click_link(self.link_manage_funnel, 'watchlist_funnel', event_args)    
     routing.set_url_hash('watchlist_funnel', load_from_cache=False)
     
     self.reset_nav_backgrounds()
-    self.link_manage_funnel.background = "theme:Accent 2"
+    self.link_manage_funnel.background = "theme:Accent 3"
 
   def link_manage_dev_click(self, **event_args):
     click_link(self.link_manage_dev, 'watchlist_overview', event_args)
     self.reset_nav_backgrounds()
-    self.link_manage_dev.background = "theme:Accent 2"
+    self.link_manage_dev.background = "theme:Accent 3"
 
   #----------------------------------------------------------------------------------------------
   # MODELS

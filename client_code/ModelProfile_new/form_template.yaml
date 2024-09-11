@@ -54,30 +54,35 @@ components:
         name: retrain_model_date_value
         properties: {role: header-8, spacing_above: none, spacing_below: none}
         type: Label
+      - layout_properties: {grid_position: 'BKOAUM,PVSQDK LZCZZH,TUJCHM WYEAND,XOPIWI'}
+        name: number_of_references_header
+        properties: {role: header-8, spacing_above: none, spacing_below: none, text: 'Number of References:'}
+        type: Label
+      - layout_properties: {grid_position: 'BKOAUM,PVSQDK LZCZZH,TUJCHM UVQRHQ,IWGQXD'}
+        name: total_ratings_header
+        properties: {role: header-8, spacing_above: none, spacing_below: none, text: 'Total Ratings:'}
+        type: Label
       - layout_properties: {grid_position: 'BKOAUM,PVSQDK LZCZZH,TUJCHM ZBVCMY,RWIIZE'}
         name: high_ratings_header
         properties: {role: header-8, spacing_above: none, spacing_below: none, text: 'High Ratings:'}
         type: Label
-      - layout_properties: {grid_position: 'BKOAUM,PVSQDK LZCZZH,TUJCHM DGRLFB,QRYKBI'}
-        name: total_ratings_header
-        properties: {role: header-8, spacing_above: none, spacing_below: none, text: 'Total Ratings:'}
+      - layout_properties: {grid_position: 'BKOAUM,PVSQDK LZCZZH,WKNLWJ WSZNQZ,RLKTQY'}
+        name: no_references
+        properties: {align: right, role: header-8, spacing_above: none, spacing_below: none, text: ''}
         type: Label
-      - layout_properties: {grid_position: 'BKOAUM,PVSQDK LZCZZH,TUJCHM FDNZCK,WGJEEL'}
-        name: number_of_references_header
-        properties: {role: header-8, spacing_above: none, spacing_below: none, text: 'Number of References:'}
+      - layout_properties: {grid_position: 'BKOAUM,PVSQDK LZCZZH,WKNLWJ SHUWYF,HXQWLU'}
+        name: total_ratings
+        properties: {align: right, role: header-8, spacing_above: none, spacing_below: none}
         type: Label
       - layout_properties: {grid_position: 'BKOAUM,PVSQDK LZCZZH,WKNLWJ PGNVDB,MBXQAN'}
         name: high_ratings
-        properties: {role: header-8, spacing_above: none, spacing_below: none}
+        properties: {align: right, role: header-8, spacing_above: none, spacing_below: none}
         type: Label
-      - layout_properties: {grid_position: 'BKOAUM,PVSQDK LZCZZH,WKNLWJ YYVWNJ,FTBZHH'}
-        name: total_ratings
-        properties: {role: header-8, spacing_above: none, spacing_below: none}
-        type: Label
-      - layout_properties: {grid_position: 'BKOAUM,PVSQDK LZCZZH,WKNLWJ IFLLUF,MFPTBP'}
-        name: no_references
-        properties: {role: header-8, spacing_above: none, spacing_below: none, text: ''}
-        type: Label
+      - event_bindings: {}
+        layout_properties: {grid_position: 'BKOAUM,PVSQDK SPUSLR,DGGXUH'}
+        name: Ratings_histogram
+        properties: {height: 328, interactive: false, spacing_above: none, spacing_below: none}
+        type: Plot
       - components:
         - event_bindings: {click: edit_icon_click}
           name: edit_icon
@@ -109,7 +114,7 @@ components:
             role: [call-to-action-button, header-5]
             spacing_above: none
             spacing_below: none
-            text: Activate
+            text: Activate Model
           type: Button
         - event_bindings: {click: discover_click}
           layout_properties: {}
@@ -126,18 +131,9 @@ components:
         name: buttons_panel
         properties: {role: null, spacing_above: none, spacing_below: none}
         type: LinearPanel
-      - event_bindings: {}
-        layout_properties: {grid_position: 'LWXOHX,KPWEAN'}
-        name: Ratings_histogram
-        properties: {height: 365.9140625, interactive: false, spacing_above: none, spacing_below: none}
-        type: Plot
-      - layout_properties: {grid_position: 'LWXOHX,RUWEMC'}
-        name: spacer_3
-        properties: {height: 32}
-        type: Spacer
-      layout_properties: {col_xs: 0, row: FEJHDY, width_xs: 12}
+      layout_properties: {col_xs: 0, row: FEJHDY, width_xs: 9}
       name: column_panel_6
-      properties: {col_widths: '{"PVSQDK":40,"CPEJAI":16,"QSKFUQ":15,"IZQGEI":15,"TUJCHM":20,"WKNLWJ":10,"KPWEAN":45,"RUWEMC":15}', role: tile-background-left, spacing_above: none, spacing_below: none}
+      properties: {col_widths: '{"PVSQDK":40,"CPEJAI":18,"QSKFUQ":15,"IZQGEI":15,"TUJCHM":20,"WKNLWJ":10}', role: tile-background-left, spacing_above: none, spacing_below: none}
       type: ColumnPanel
     - components:
       - layout_properties: {grid_position: 'ISLIBQ,SPJFCR'}
@@ -311,8 +307,7 @@ components:
         properties: {height: '15', spacing_above: none, spacing_below: none}
         type: Spacer
       - components:
-        - components: []
-          layout_properties: {grid_position: 'WNUBLX,XSAGTY'}
+        - layout_properties: {grid_position: 'WNUBLX,XSAGTY'}
           name: column_panel_2
           properties: {role: tile-background-general-no-background, spacing_above: none}
           type: ColumnPanel
@@ -327,16 +322,41 @@ components:
           type: LinearPanel
         layout_properties: {grid_position: 'BCYOSN,BYWHFN'}
         name: column_panel_4
-        properties: {role: tile-background-general-no-background, spacing_above: none, spacing_below: large}
+        properties: {role: tile-background-general-no-background, spacing_above: none, spacing_below: none}
         type: ColumnPanel
       layout_properties: {grid_position: 'GPCTDZ,HTBJRJ'}
       name: column_panel_7
       properties: {col_widths: '{"YRZFYN":25,"ELMBCC":15,"JNPVWQ":40}', spacing_above: large, spacing_below: none}
       type: ColumnPanel
-    - layout_properties: {grid_position: 'UNKOMN,PLVPNP'}
+    - layout_properties: {grid_position: 'GYSHLD,FWJLLJ'}
       name: label_1
-      properties: {role: header-5, text: 'Sub-Model contribution:'}
+      properties: {role: header-5, spacing_above: none, spacing_below: none, text: 'Sub-Model contribution:'}
       type: Label
+    - components:
+      - layout_properties: {grid_position: 'JQEVOG,CWKSFV'}
+        name: image_1
+        properties: {display_mode: fill_width, height: 61, source: _/theme/pics/ModelArrows.png, spacing_above: none, spacing_below: small}
+        type: Image
+      - layout_properties: {grid_position: 'MDLEQB,FVTUWG'}
+        name: similarity_cont
+        properties: {align: center, role: header-5_bold, spacing_above: none, spacing_below: none}
+        type: Label
+      - layout_properties: {grid_position: 'MDLEQB,MQIESW'}
+        name: success_cont
+        properties: {align: center, role: header-5_bold, spacing_above: none, spacing_below: none}
+        type: Label
+      - layout_properties: {grid_position: 'MDLEQB,ITWWUM'}
+        name: musical_cont
+        properties: {align: center, role: header-5_bold, spacing_above: none, spacing_below: none}
+        type: Label
+      - layout_properties: {grid_position: 'MDLEQB,VPJJPC'}
+        name: fandom_cont
+        properties: {align: center, role: header-5_bold, spacing_above: none, spacing_below: none}
+        type: Label
+      layout_properties: {grid_position: 'ZCNHZB,ZNKYJV'}
+      name: column_panel_8
+      properties: {spacing_above: none, spacing_below: none}
+      type: ColumnPanel
     - components:
       - layout_properties: {grid_position: 'ISLIBQ,SPJFCR'}
         name: spacer_5_copy
@@ -371,8 +391,7 @@ components:
         name: similarity_in_training
         properties: {align: center, bold: false, role: header-5_bold, spacing_above: none, spacing_below: none, text: in training, visible: false}
         type: Label
-      - data_bindings: []
-        layout_properties: {grid_position: 'HHEIUP,NJVGMZ'}
+      - layout_properties: {grid_position: 'HHEIUP,NJVGMZ'}
         name: similarity_num_rec
         properties: {align: center, italic: false, role: header-6_grey, spacing_above: none, spacing_below: none, text: starting with 10 rec.}
         type: Label
@@ -418,8 +437,7 @@ components:
         name: success_in_training
         properties: {align: center, bold: false, role: header-5_bold, spacing_above: none, spacing_below: none, text: in training, visible: true}
         type: Label
-      - data_bindings: []
-        layout_properties: {grid_position: 'AFWKMV,EXBJKJ'}
+      - layout_properties: {grid_position: 'AFWKMV,EXBJKJ'}
         name: success_num_rec
         properties: {align: center, italic: false, role: header-6_grey, spacing_above: none, spacing_below: none, text: starting with 50 rec.}
         type: Label
@@ -431,7 +449,7 @@ components:
       name: column_panel_KPIs_copy_2
       properties: {col_widths: '{}', role: tile-background-general}
       type: ColumnPanel
-    - layout_properties: {grid_position: 'ZSDYMK,IAARJV XQBRCV,FUAQQL'}
+    - layout_properties: {grid_position: 'ZSDYMK,IAARJV KZVTAU,KTXMMP'}
       name: label_3
       properties: {align: center, role: header-5_bold, spacing_above: none, spacing_below: none, text: LEVEL 2}
       type: Label
@@ -465,8 +483,7 @@ components:
         name: fandom_in_training
         properties: {align: center, bold: false, role: header-5_bold, spacing_above: none, spacing_below: none, text: in training, visible: true}
         type: Label
-      - data_bindings: []
-        layout_properties: {grid_position: 'CMCWBV,GCBRKM'}
+      - layout_properties: {grid_position: 'CMCWBV,GCBRKM'}
         name: fandom_num_rec
         properties: {align: center, italic: false, role: header-6_grey, spacing_above: none, spacing_below: none, text: starting with 75 rec.}
         type: Label
@@ -512,8 +529,7 @@ components:
         name: musical_in_training
         properties: {align: center, bold: false, role: header-5_bold, spacing_above: none, spacing_below: none, text: in training, visible: true}
         type: Label
-      - data_bindings: []
-        layout_properties: {grid_position: 'VBNFJJ,BEFCFZ'}
+      - layout_properties: {grid_position: 'VBNFJJ,BEFCFZ'}
         name: muscial_num_rec
         properties: {align: center, italic: false, role: header-6_grey, spacing_above: none, spacing_below: none, text: starting with 100 rec.}
         type: Label
@@ -531,7 +547,7 @@ components:
       type: Label
     layout_properties: {grid_position: 'XJBRQH,IMWFKP'}
     name: sec_models
-    properties: {}
+    properties: {col_widths: '{}'}
     type: ColumnPanel
   - layout_properties: {grid_position: 'LYSTLE,IIHJEC'}
     name: sec_references

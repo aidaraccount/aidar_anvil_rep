@@ -1,201 +1,190 @@
 <style>
-    .sidebar .placeholder {
-        text-align: center;
-    }
-    
-    .sidebar-elt::first {
-        border-top: 1px solid #888;
-    }
-    
-    .sidebar-elt {
-        position: relative;
-        border-bottom: 1px solid #888;
-    }
-    
-    .sidebar-elt .drop-here {
-        position: absolute;
-        top: -8px;
-        left: 0;
-        right: 0;
-        height: 5px;
-    }
-    
-    .sidebar-elt>.content a {
-      font-size: 16px;
-      color:white;
-      text-transform: uppercase;
-    }
-    
-    .sidebar-elt>.content a:hover {
-    background: #444;
-    }
-    
-    .sidebar-elt .content a.anvil-component {
-        padding-left: 14px;
-        padding-right: 14px;
-    }
-    
-    .sidebar-elt a {
-        color: #ddd;
-    }
-    
-    .sidebar-elt a:hover, .sidebar-elt a:active {
-        color: white;
-    }
-    
-    /* Responsive bits: Make the menu overlay the screen
-       (and hidden by default) rather than displacing it
-       on small screens
-    */
-    
-    .sidebar.floating {
-        position: absolute;
-        top: 62px;
-        bottom: 0px;
-        left: 0px;
-        z-index: 2;
-    }
-    
-    @media(max-width:767px) {
-        .runner .sidebar {
-            display: none;
-            position: absolute;
-            top: 62px;
-            bottom: 0px;
-            left: 0px;
-            z-index: 12;
-        }
-    
-        .runner .sidebar-click-guard {
-            display: none;
-            position: absolute;
-            top: 62px;
-            bottom: 0px;
-            left: 0;
-            right: 0;
-            background-color: #888;
-            opacity: 0.5;
-            z-index: 10;
-        }
-    
-        .designer .sidebar {
-            max-width: 30%;
-        }
-    
-        .sidebar.floating {
-            top: 62px;
-            z-index: 12;
-        }
-    
-    }
-    
-    .structure {
-        position: relative;
-        width: 100%;
-        display: flex;
-        flex-direction: column;
-        align-items: stretch;
-        min-height: 100vh;
-    }
-    
-    .body {
-        flex-grow: 1;
-      
-        display: flex;
-        flex-direction: row;
-        align-items: stretch;
-    }
-     
-    .nav .title, .nav .menu-btn {
-        display: inline-block;
-        vertical-align: top;
-        margin-left: 7px;
-    }
-    .nav .menu-btn, .nav .title.placeholder {
-        margin-top: 5px;
-        margin-left: 0;
-    }
-    
-    .nav > .menu-btn:hover {
-        background-color: #ccc;
-    }
-    
-    .nav-right {
-        float: right;
-        color: #333;
-    }
-    .nav-elt {
-        display: inline-block;
-        vertical-align: top;
-        margin-left: 10px;
-        position: relative;
-    }
-    .nav-elt.placeholder {
-        margin-top: 5px;
-        opacity: 0.8;
-        color: #888;
-        visibility: hidden;
-    }  
-    body.anvil-highlight .nav-elt.placeholder {
-        visibility: visible;
-    } 
-    .nav-elt .drop-here {
-        position: absolute;
-        top: 0;
-        left: -7.5px;
-        bottom: 0;
-        width: 5px;
-    }
-    .cards {
-        flex-grow: 1;
-        font-weight: bold;
-        color: #555;
-        font-size: 24px;
-        padding: 24px 16px;
-        max-width: 100%;
-        overflow-x: hidden;
-    }  
-    
-    .designer .anvil-highlight .cards .anvil-container .anvil-container .anvil-container {
-        outline: 1px dashed rgba(0,0,0,0.3)
-    }
-    </style>
+  .sidebar .placeholder {
+      text-align: center;
+  }
+  .sidebar-elt::first {
+      border-top: 1px solid #888;
+  }
+  .sidebar-elt {
+      position: relative;
+      border-bottom: 1px solid #888;
+  }
+  .sidebar-elt .drop-here {
+      position: absolute;
+      top: -8px;
+      left: 0;
+      right: 0;
+      height: 5px;
+  }
+  .sidebar-elt>.content a {
+    font-size: 16px;
+    color:white;
+    text-transform: uppercase;
+  }
+  .sidebar-elt>.content a:hover {
+    background: linear-gradient(to bottom right, rgb(31, 11, 59), rgba(250, 250, 250, 0.15));
+  }
+  .sidebar-elt .content a.anvil-component {
+      padding-left: 14px;
+      padding-right: 14px;
+  }
+  .sidebar-elt a {
+      color: #ddd;
+  }  
+  .sidebar-elt a:hover, .sidebar-elt a:active {
+      color: orange
+  }
+  /* Responsive bits: Make the menu overlay the screen
+      (and hidden by default) rather than displacing it
+      on small screens
+  */
+  .sidebar.floating {
+      position: absolute;
+      top: 62px;
+      bottom: 0px;
+      left: 0px;
+      z-index: 2;
+  }
+  @media(max-width:767px) {
+      .runner .sidebar {
+          display: block;
+          position: absolute;
+          top: 62px;
+          bottom: 0px;
+          left: 0px;
+          z-index: 12;
+      }
+      .runner .sidebar-click-guard {
+          display: none;
+          position: absolute;
+          top: 62px;
+          bottom: 0px;
+          left: 0;
+          right: 0;
+          background: linear-gradient(to bottom right, rgb(31, 11, 59), rgba(250, 250, 250, 0.15));
+          opacity: 0.5;
+          z-index: 10;
+      }
+      .designer .sidebar {
+          max-width: 30%;
+      }
+      .sidebar.floating {
+          top: 62px;
+          z-index: 12;
+      }
+  }
+  .structure {
+      position: relative;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      min-height: 100vh;
+  }
+  .body {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+  }
+  .nav .title, .nav .menu-btn {
+      display: inline-block;
+      vertical-align: top;
+      margin-left: 7px;
+  }
+  .nav .menu-btn, .nav .title.placeholder {
+      margin-top: 5px;
+      margin-left: 0;
+  }
+  .nav > .menu-btn:hover {
+      background: linear-gradient(to bottom right, rgb(31, 11, 59), rgba(250, 250, 250, 0.05));
+  }
+  .nav-right {
+    float: right;
+    color: #333;
+  }
+  .nav-elt {
+    display: inline-block;
+    vertical-align: top;
+    position: absolute;
+    width: 70px;
+    top: 50px;
+    right: 50px;
+  }
+  .nav-elt.placeholder {
+      margin-top: 5px;
+      opacity: 0.8;
+      color: linear-gradient(to bottom right, rgb(31, 11, 59), rgba(250, 250, 250, 0.15));
+      visibility: hidden;
+  }  
+  body.anvil-highlight .nav-elt.placeholder {
+      visibility: visible;
+  } 
+  .nav-elt .drop-here {
+      position: absolute;
+      top: 0;
+      left: -7.5px;
+      bottom: 0;
+      width: 5px;
+  }
+  .cards {
+      flex-grow: 1;
+      font-weight: bold;
+      color: #555;
+      font-size: 24px;
+      padding: 24px 16px;
+      max-width: 100%;
+      overflow-x: hidden;
+  }  
+  .designer .anvil-highlight .cards .anvil-container .anvil-container .anvil-container {
+      outline: 1px dashed rgba(0,0,0,0.3)
+  }
+</style>
 
-<script>
-function toggleSidebar() {
-    var s = $('.sidebar');
-    if (!s.is(':hidden')) {
-        $('.sidebar-click-guard').hide();
-        s.addClass('floating').animate({left: -s.width()}, {complete: function() { s.hide(); }});
-    } else {
-        $('.sidebar-click-guard').show();
-        s.show().addClass('floating').css('left', '-100%').css('left', -s.width())
-            .animate({left: 0}, {complete: function() { s.removeClass('floating'); }});
-    }
-}
-  
-$(function() {
-    $('.sidebar').on("click", function() {
-        if (window.innerWidth <= 767) {
-            toggleSidebar();
-        }
-    });
-    $('.sidebar-click-guard').on("click", toggleSidebar);
-})
-</script>
-    
+
 <!-- Put body before nav so that it sits underneath -->   
 <div class="structure">
-  <div class="nav" anvil-drop-redirect=".title.placeholder, .nav-elt.placeholder, .nav-elt .drop-here">
-    <div class="menu-btn" onclick="toggleSidebar();">
+  <div class="" anvil-drop-redirect=".title.placeholder, .nav-elt.placeholder, .nav-elt .drop-here">
+    <!-- <div class="menu-btn" onclick="toggleSidebar();">
       <i class="fa fa-bars"></i>
-    </div>
-
-    <div anvil-if-slot-empty="title" anvil-drop-slot="title" class="title placeholder anvil-designer-only">
+    </div> -->
+    <!-- <div anvil-if-slot-empty="title" anvil-drop-slot="title" class="title placeholder anvil-designer-only">
       Drop a title here
     </div>
-    <div anvil-slot="title" class="title"></div>
+    <div anvil-slot="title" class="title"></div> -->
+  </div>
 
+      <!-- <div class="menu-btn" onclick="toggleSidebar();">
+        <i class="fa fa-bars"></i>
+      </div> -->
+  <div class="body" anvil-drop-default anvil-drop-container=">.cards .anvil-container" anvil-drop-redirect=">.cards > .placeholder">
+    <div id="left-sidebar" class="sidebar" anvil-drop-redirect=">.drop-here">
+      <button class="nav-button" id="nav-button" onclick="toggleSidebar();">
+        <i class="fa fa-bars"></i>
+      </button>
+      <div anvil-if-slot-empty="title" anvil-drop-slot="title" class="title placeholder anvil-designer-only">
+        Drop Logo Here
+      </div>
+      <div anvil-slot="title" class="title"></div>
+      <div anvil-slot-repeat="sidebar" class="sidebar-elt">      
+        <div anvil-drop-here class="drop-here"></div>
+        <div anvil-slot class="content"></div>
+      </div>
+      <div class="sidebar-elt anvil-designer-only drop-here" anvil-drop-slot="sidebar">
+        <div class="content placeholder"><i class="glyphicon glyphicon-plus"></i></div>
+      </div>
+    </div>
+    <div class="sidebar-click-guard"></div>
+    <div class="cards anvil-measure-content main-content-move">
+      <div anvil-if-slot-empty="default" anvil-drop-slot="default" class="placeholder">
+        Drop a ColumnPanel here to add content
+      </div>
+      <div anvil-slot="default"></div>
+      <div class="anvil-designer-only instructions">
+        <i class="fa fa-info-circle"></i> Add
+        <img src="https://anvil.works/template-assets/column-panel-icon.png" style="height: 30px; margin-right: -7px; margin-top: -5px"> Card components to create new cards.
+      </div>
+    </div>
     <div class="nav-right" anvil-drop-redirect=".nav-elt">
       <div anvil-slot-repeat="nav-right" class="nav-elt">
         <div anvil-drop-here class="drop-here"></div>
@@ -205,31 +194,67 @@ $(function() {
       </div>
     </div>
   </div>
-
-<div class="body" anvil-drop-default anvil-drop-container=">.cards .anvil-container" anvil-drop-redirect=">.cards > .placeholder">
-    <div class="sidebar" anvil-drop-redirect=">.drop-here">
-        <div anvil-slot-repeat="sidebar" class="sidebar-elt">
-            <div anvil-drop-here class="drop-here"></div>
-            <div anvil-slot class="content"></div>
-        </div>
-        <div class="sidebar-elt anvil-designer-only drop-here" anvil-drop-slot="sidebar">
-            <div class="content placeholder"><i class="glyphicon glyphicon-plus"></i></div>
-        </div>
-    </div>
-    <div class="sidebar-click-guard"></div>
-
-    <div class="cards anvil-measure-content">
-        <div anvil-if-slot-empty="default"
-             anvil-drop-slot="default"
-             class="placeholder">
-             Drop a ColumnPanel here to add content
-        </div>
-        <div anvil-slot="default"></div>
-        <div class="anvil-designer-only instructions">
-            <i class="fa fa-info-circle"></i> Add
-            <img src="https://anvil.works/template-assets/column-panel-icon.png" style="height: 30px; margin-right: -7px; margin-top: -5px"> Card components to create new cards.
-        </div>
-    </div>
-</div>
-  
 </div>    
+
+<script>
+  ///////////////////////////////////////////////////
+  // This ChatGPT version of the jQuery function
+  ///////////////////////////////////////////////////
+  function toggleSidebar() {
+    // Get the sidebar, button, and content element
+    var s = document.querySelector('.sidebar');
+    var b = document.querySelector('.nav-button');
+    var content = document.querySelector('.main-content-move')
+    
+  // Check if the sidebar is currently open or closed
+    if (s.style.left === '0px') {
+      // Sidebar is open, so close it
+      s.style.left = `-${s.offsetWidth}px`;  // Move sidebar off-screen
+      b.style.left = '0'; // Keep the button on the left
+      content.style.marginLeft = '0'; // Reset content margin
+      document.querySelector('.sidebar-click-guard').style.display = 'none'; // Hide click guard
+    } else {
+      // Sidebar is closed, so open it
+      s.style.left = '0';  // Slide sidebar in
+      b.style.left = `${s.offsetWidth}px`;  // Move button with the sidebar
+      content.style.marginLeft = `${s.offsetWidth}px`;  // Shift content
+      document.querySelector('.sidebar-click-guard').style.display = 'none'; // Hide click guard
+    }
+  }
+
+  // Initialize event listeners on DOM content load
+  document.addEventListener('DOMContentLoaded', function() {
+    var button = document.getElementById('nav-button')
+    var clickGuard = document.querySelector('.sidebar-click-guard');
+
+    // Add event listener to the button to toggle sidebar
+    button.addEventListener('click', toggleSidebar);
+
+    // Add event listener to the click-guard to close sidebar when clicked
+    clickGuard.addEventListener('click', toggleSidebar);
+});
+  
+  ///////////////////////////////////////////////////
+  // This is the original JQuery function used to hide and show the old Sidebar
+  ///////////////////////////////////////////////////
+  // function toggleSidebar() {
+  //     var s = $('.sidebar open');
+  //     if (!s.is(':hidden')) {
+  //         $('.sidebar-click-guard').hide();
+  //         s.addClass('floating').animate({left: -s.width()}, {complete: function() { s.hide(); }});
+  //     } else {
+  //         $('.sidebar-click-guard').show();
+  //         s.show().addClass('floating').css('left', '-100%').css('left', -s.width())
+  //             .animate({left: 0}, {complete: function() { s.removeClass('floating'); }});
+  //     }
+  // }
+    
+  // $(function() {
+  //     $('.sidebaropen').on("click", function() {
+  //         if (window.innerWidth <= 767) {
+  //             toggleSidebar();
+  //         }
+  //     });
+  //     $('.sidebar-click-guard').on("click", toggleSidebar);
+  // })
+</script>
