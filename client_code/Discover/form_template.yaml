@@ -1161,7 +1161,7 @@ components:
   properties:
     col_spacing: medium
     col_widths: '{"LTMDQS":45}'
-    role: [left-discover-page]
+    role: [left-discover-page, main-content-page]
     spacing_above: small
     spacing_below: small
   type: ColumnPanel
