@@ -162,6 +162,9 @@
 
   <div class="body" anvil-drop-default anvil-drop-container=">.cards .anvil-container" anvil-drop-redirect=">.cards > .placeholder">
     <div id="left-sidebar" class="sidebar" anvil-drop-redirect=">.drop-here">
+      <button class="nav-button" id="nav-button" onclick="toggleSidebar();">
+        <i class="fa fa-bars"></i>
+      </button>
       <!-- <div class="menu-btn" onclick="toggleSidebar();">
         <i class="fa fa-bars"></i>
       </div> -->
@@ -191,9 +194,6 @@
         </div>
     </div>
   </div>
-      <button class="nav-button open" id="nav-button" onclick="toggleSidebar();">
-        <i class="fa fa-bars"></i>
-      </button>
 
 </div>    
 
@@ -213,16 +213,16 @@
       document.querySelector('.sidebar-click-guard').style.display = 'none';
       
       // Add the 'floating' class and animate the sidebar out of view (slide it to the left)
-      // s.classList.remove('open');
       s.classList.add('floating');
       s.style.transition = 'left 0.3s'; // Adding transition for smooth animation
       s.style.left = `-${s.offsetWidth}px`; // Move it left by its own width
-      b.style.transition = 'left 0.3s'; // Adding transition for smooth animation
-      b.classList.remove('open');
+      // b.style.transition = 'left 0.3s'; // Adding transition for smooth animation
+      b.classList.add('close');
   
       // After the transition, hide the sidebar
       b.addEventListener('transitionend', function() {
         s.style.display = 'none';
+        b.style.display = 'block';
       }, { once: true }); // Only listen for the event once
     } else {
       // Show the sidebar and click-guard
@@ -232,7 +232,8 @@
       s.style.display = 'block';
       s.classList.add('floating');
       s.style.left = `-${s.offsetWidth}px`; // Start the sidebar offscreen
-      b.classList.add('open');
+      // s.style.left = `-250px`; // Start the sidebar offscreen
+      // b.classList.add('close');
       
       // Trigger reflow (to ensure the initial left value is applied)
       s.getBoundingClientRect();
@@ -241,8 +242,9 @@
       s.style.transition = 'left 0.3s'; // Smooth animation
       s.style.left = '0'; // Slide to the right
       // After animation, remove the 'floating' class
-      s.addEventListener('transitionend', function() {
+      b.addEventListener('transitionend', function() {
         s.classList.remove('floating');
+        b.classList.remove('close')
       }, { once: true });
     }
   }

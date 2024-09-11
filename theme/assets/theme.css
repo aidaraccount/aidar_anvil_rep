@@ -1456,7 +1456,7 @@ footer a, .footer .anvil-component {
   font-family: Gs-regular;
   font-size: 18px;
   position: fixed;
-  left: 0px;
+  left: 250px;
   /* right: -400px; */
   /* right: 400px; */
   top: 15%;
@@ -1470,8 +1470,12 @@ footer a, .footer .anvil-component {
   border-top-right-radius: 15px;
   border-bottom-right-radius: 15px;
 }
-.nav-button.open {
-  left: 250px;
+.nav-button.close {
+      position: absolute;
+      top: 62px;
+      bottom: 0px;
+      left: 0px;
+      z-index: 2;
 }
 #right-sidebar .header-sidebar{
   padding: 20px;
