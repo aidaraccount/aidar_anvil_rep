@@ -1420,27 +1420,6 @@ footer a, .footer .anvil-component {
 .sidebar-button.open {
   right: 400px;
 }
-#left-sidebar {
-  font-family: Gs-regular;
-  color: rgb(250,250,250);
-  /* position: sticky; */
-  /* comment right: 0px to have the sidebar visible at all times  */
-  /* left: -250px; */
-  /* right: 0px; */
-  /* top: 0; */
-  width: 250px;
-  height: 700px;
-  background-color: rgb(10,3,30);
-  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5);
-  transition: left 0.2s;
-  overflow-x: hidden;
-  margin: 0 0 0 0px;
-  border-bottom-right-radius: 15px;
-  border-top-right-radius: 15px;
-  z-index: 999;
-  padding: 10px 0;
-  flex-shrink: 0;
-}
 /* #left-sidebar.open {
   left: 0px;
 } */
@@ -1452,31 +1431,66 @@ footer a, .footer .anvil-component {
   /* overflow-y: auto; */
   /* overflow-x: hidden; */
 }
+#left-sidebar {
+  font-family: Gs-regular;
+  color: rgb(250,250,250);
+  position: fixed;
+  top: 0;
+  left: 0px;
+  /* left: -250px; */
+  width: 250px;
+  height: 100%;
+  background-color: rgb(10,3,30);
+  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5);
+  transition: left 0.3s ease;
+  /* overflow-x: hidden; */
+  /* margin: 0 0 0 0px; */
+  border-bottom-right-radius: 15px;
+  border-top-right-radius: 15px;
+  z-index: 999;
+  padding: 10px 0;
+  /* flex-shrink: 0; */
+}
 .nav-button {
   font-family: Gs-regular;
   font-size: 18px;
   position: fixed;
+  top: 20%;
   left: 250px;
-  /* right: -400px; */
-  /* right: 400px; */
-  top: 15%;
+  /* left: 0; */
   background-color: rgb(233,95,48);
   color: white;
   border: none;
   padding: 10px;
   cursor: pointer;
-  z-index: 1000;
-  transition: left 0.2s;
+  z-index: 1100;
+  transition: left 0.3s ease;
   border-top-right-radius: 15px;
   border-bottom-right-radius: 15px;
 }
-.nav-button.close {
-      position: absolute;
-      top: 62px;
-      bottom: 0px;
-      left: 0px;
-      z-index: 2;
+/* .nav-button.closed {
+  position: absolute;
+  top: 62px;
+  bottom: 0px;
+  left: 0px;
+  z-index: 2;
+} */
+.main-content-move {
+  margin-left: 250px;
+  transition: margin-left 0.3s ease;
 }
+/* Sidebar click guard to close sidebar */
+.sidebar-click-guard {
+  display: none;         /* Hidden by default */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent overlay */
+  z-index: 999;          /* Just below the sidebar */
+}
+
 #right-sidebar .header-sidebar{
   padding: 20px;
   background: rgb(233,95,48);
