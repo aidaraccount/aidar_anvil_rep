@@ -515,7 +515,7 @@ class ModelProfile_new(ModelProfile_newTemplate):
         self.similarity_active_summary.visible = True
         self.similarity_in_training.visible = False
         self.similarity_in_training_summary.visible = False
-        self.similarity_percentage.text = "{}{}".format(round(self.infos["model_1_acc"]), "%")
+        self.similarity_cont.text = "{}{}".format(round(self.infos["model_1_cont"])*100, "%")
       else:
         self.custom_HTML_level_1_inactive(min(self.infos["total_ratings"]/float(10)*100, 100))
         self.model_1_accuracy_summary.text = "{}{}".format(min(round(self.infos["total_ratings"]/int(10)*100), 100), "%")
@@ -523,7 +523,7 @@ class ModelProfile_new(ModelProfile_newTemplate):
         self.similarity_active_summary.visible = False
         self.similarity_in_training.visible = True
         self.similarity_in_training_summary.visible = True
-        self.similarity_percentage.text = "{}{}".format(min(round(self.infos["total_ratings"]/int(10)*100), 100), "%")
+        self.similarity_cont.text = "0%"
          
     # Model 2
     if self.success_submodel.get_components() == []:
@@ -534,15 +534,15 @@ class ModelProfile_new(ModelProfile_newTemplate):
         self.success_active_summary.visible = True
         self.success_in_training.visible = False
         self.success_in_training_summary.visible = False
-        self.success_percentage.text = "{}{}".format(round(self.infos["model_2_acc"]), "%")
+        self.success_cont.text = "{}{}".format(round(self.infos["model_2_cont"])*100, "%")
       else:
         self.custom_HTML_level_2_inactive(min(self.infos["total_ratings"]/float(50)*100, 100))
         self.model_2_accuracy_summary.text = "{}{}".format(min(round(self.infos["total_ratings"]/int(50)*100), 100), "%")
         self.success_active.visible = False
         self.success_active_summary.visible = False
         self.success_in_training.visible = True
-        self.success_in_training_summary.visible = True   
-        self.success_percentage.text = "{}{}".format(min(round(self.infos["total_ratings"]/int(50)*100), 100), "%")
+        self.success_in_training_summary.visible = True
+        self.success_cont.text = "0%"
         
     # Model 3
     if self.fandom_submodel.get_components() == []:
@@ -553,7 +553,7 @@ class ModelProfile_new(ModelProfile_newTemplate):
         self.fandom_active_summary.visible = True
         self.fandom_in_training.visible = False
         self.fandom_in_training_summary.visible = False
-        self.fandom_percentage.text = "{}{}".format(round(self.infos["model_3_acc"]), "%")
+        self.fandom_cont.text = "{}{}".format(round(self.infos["model_3_cont"])*100, "%")
       else:
         self.custom_HTML_level_3_inactive(min(self.infos["total_ratings"]/float(75)*100, 100))
         self.model_3_accuracy_summary.text = "{}{}".format(min(round(self.infos["total_ratings"]/int(75)*100), 100), "%")
@@ -561,7 +561,7 @@ class ModelProfile_new(ModelProfile_newTemplate):
         self.fandom_active_summary.visible = False
         self.fandom_in_training.visible = True
         self.fandom_in_training_summary.visible = True
-        self.fandom_percentage.text = "{}{}".format(min(round(self.infos["total_ratings"]/int(75)*100), 100), "%")
+        self.fandom_cont.text = "0%"
         
     # Model 4
     if self.musical_submodel.get_components() == []:
@@ -572,7 +572,7 @@ class ModelProfile_new(ModelProfile_newTemplate):
         self.musical_active_summary.visible = True
         self.musical_in_training.visible = False
         self.musical_in_training_summary.visible = False
-        self.musical_percentage.text = "{}{}".format(round(self.infos["model_4_acc"]), "%")
+        self.musical_cont.text = "{}{}".format(round(self.infos["model_4_cont"])*100, "%")
       else:
         self.custom_HTML_level_4_inactive(min(self.infos["total_ratings"]/float(100)*100, 100))
         self.model_4_accuracy_summary.text = "{}{}".format(min(round(self.infos["total_ratings"]/int(100)*100), 100), "%")
@@ -580,7 +580,7 @@ class ModelProfile_new(ModelProfile_newTemplate):
         self.musical_active_summary.visible = False
         self.musical_in_training.visible = True
         self.musical_in_training_summary.visible = True
-        self.musical_percentage.text = "{}{}".format(min(round(self.infos["total_ratings"]/int(100)*100), 100), "%")
+        self.musical_cont.text = "0%"
 
   def create_ratings_histogram_chart(self, ratings_data=None):
     if ratings_data is None:

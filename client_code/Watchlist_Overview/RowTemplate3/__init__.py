@@ -27,4 +27,4 @@ class RowTemplate3(RowTemplate3Template):
     click_button(f'watchlist_details?artist_id={self.item["ArtistID"]}', event_args)
 
   def link_artist_click(self, **event_args):
-    click_link(self.related_artist_pic_link, f'artists?artist_id={self.item["ArtistID"]}', event_args)
+    click_link(self.link_artist, f'artists?artist_id={self.item["ArtistID"]}', event_args)
