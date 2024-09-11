@@ -20,8 +20,6 @@ class SearchRows(SearchRowsTemplate):
     # Any code you write here will run before the form opens.
     global user
     user = anvil.users.get_user()
-    global model_id
-    model_id = self.item["ModelID"]
     
     if self.item["Watchlist"] == 1:
       self.button_watchlist.background = '#fd652d' # orange

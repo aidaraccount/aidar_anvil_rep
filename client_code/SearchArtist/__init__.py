@@ -26,7 +26,7 @@ class SearchArtist(SearchArtistTemplate):
     user = anvil.users.get_user()
 
     if search != 'None':
-      self.data_grid_artists_data.items = json.loads(anvil.server.call('search_artist', self.model_id, search.strip()))
+      self.data_grid_artists_data.items = json.loads(anvil.server.call('search_artist', user["user_id"], search.strip()))
       self.text_box_search.text = search
     
     anvil.js.window.sessionStorage.removeItem("search")
