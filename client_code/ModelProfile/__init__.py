@@ -507,6 +507,10 @@ class ModelProfile(ModelProfileTemplate):
     self.sec_filters.visible = False
 
     # Model 1
+    print(round(self.infos["model_1_cont"])*100)
+    print(round(self.infos["model_1_cont"]))
+    print(self.infos["model_1_cont"])
+    
     if self.similarity_submodel.get_components() == []:
       if self.infos["model_1_acc"] is not None:
         self.custom_HTML_level_1_active(round(self.infos["model_1_acc"]))
