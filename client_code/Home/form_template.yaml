@@ -51,7 +51,7 @@ components:
           type: RepeatingPanel
         layout_properties: {grid_position: 'YPIXHC,CPOJZC'}
         name: xy_panel_funnel
-        properties: {height: '570', role: null}
+        properties: {height: '570', role: full-page-length}
         type: XYPanel
       - components:
         - layout_properties: {width: 484, x: 29.5, y: 80}
@@ -202,7 +202,10 @@ components:
       type: ColumnPanel
     layout_properties: {grid_position: 'MCJJQJ,QCTEKK'}
     name: grid_panel_1
-    properties: {role: equal-height-container, spacing_above: none, spacing_below: none}
+    properties:
+      role: [equal-height-container, home-page]
+      spacing_above: none
+      spacing_below: none
     type: GridPanel
   layout_properties: {grid_position: 'KSSRUA,WOQOPF'}
   name: content_panel

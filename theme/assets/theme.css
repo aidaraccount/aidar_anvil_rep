@@ -551,6 +551,13 @@ body, html {
 .anvil-role-equal-height-container > .row {
   display:flex;
 }
+.anvil-role-equal-height-container.anvil-role-home-page > .row {
+  display:flex;
+  height: 100vh;
+}
+.anvil-role-full-page-length {
+  height: 100rem;
+}
 
 .body {
   /* background-color: %color:Main_Black%; */
