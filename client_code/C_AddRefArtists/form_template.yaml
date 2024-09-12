@@ -56,24 +56,29 @@ components:
     type: Button
   - components:
     - components:
-      - layout_properties: {width: 200, x: 0, y: 0}
-        name: label_4
-        properties: {role: table_content, text: Artist}
+      - layout_properties: {width: null, x: null, y: null}
+        name: Artist
+        properties: {background: '', role: table_content_talent_dev-2, spacing_above: none, spacing_below: none, text: Artist}
         type: Label
-      - layout_properties: {width: 200, x: 310, y: 0}
-        name: label_5
-        properties: {align: center, role: table_content, text: Popularity, tooltip: Latest Spotity Artist Popularity (ranges from 1 to 100)}
+      - layout_properties: {width: null, x: null, y: null}
+        name: Popularity
+        properties: {align: center, role: table_content_talent_dev-2, spacing_above: none, spacing_below: none, text: Popularity, tooltip: Latest Spotity Artist Popularity (ranges from 1 to 100)}
         type: Label
-      - layout_properties: {width: 200, x: 528, y: 0}
-        name: label_5_copy
-        properties: {align: center, role: table_content, text: Follower, tooltip: Latest number of followers on Spotity}
+      - layout_properties: {width: null, x: null, y: null}
+        name: Follower
+        properties: {align: center, role: table_content_talent_dev-2, spacing_above: none, spacing_below: none, text: Follower, tooltip: Latest number of followers on Spotity}
         type: Label
-      - layout_properties: {width: 200, x: 754, y: 0}
-        name: label_5_copy_copy
-        properties: {align: left, role: table_content, text: Add as REF. ARTIST, tooltip: ''}
+      - layout_properties: {width: null, x: null, y: null}
+        name: Add_as_ref_artist
+        properties: {align: left, role: table_content_talent_dev-2, spacing_above: none, spacing_below: none, text: '', tooltip: ''}
         type: Label
+      layout_properties: {}
       name: xy_panel_1
-      properties: {height: 27, role: bottom_line}
+      properties:
+        height: 27
+        role: [bottom_line, talent-dev-custom-class]
+        spacing_above: none
+        spacing_below: none
       type: XYPanel
     - data_bindings: []
       layout_properties: {}
