@@ -509,7 +509,7 @@ class ModelProfile(ModelProfileTemplate):
     # Model 1
     if self.similarity_submodel.get_components() == []:
       if self.infos["model_1_acc"] is not None:
-        self.custom_HTML_level_1_active(self.infos["model_1_acc"])
+        self.custom_HTML_level_1_active(round(self.infos["model_1_acc"]))
         self.model_1_accuracy_summary.text = "{}{}".format(round(self.infos["model_1_acc"]), "%")
         self.similarity_active.visible = True
         self.similarity_active_summary.visible = True
@@ -528,7 +528,7 @@ class ModelProfile(ModelProfileTemplate):
     # Model 2
     if self.success_submodel.get_components() == []:
       if self.infos["model_2_acc"] is not None:
-        self.custom_HTML_level_2_active(self.infos["model_2_acc"])
+        self.custom_HTML_level_2_active(round(self.infos["model_2_acc"]))
         self.model_2_accuracy_summary.text = "{}{}".format(round(self.infos["model_2_acc"]), "%")
         self.success_active.visible = True
         self.success_active_summary.visible = True
@@ -547,7 +547,7 @@ class ModelProfile(ModelProfileTemplate):
     # Model 3
     if self.fandom_submodel.get_components() == []:
       if self.infos["model_3_acc"] is not None:
-        self.custom_HTML_level_3_active(self.infos["model_3_acc"])
+        self.custom_HTML_level_3_active(round(self.infos["model_3_acc"]))
         self.model_3_accuracy_summary.text = "{}{}".format(round(self.infos["model_3_acc"]), "%")
         self.fandom_active.visible = True
         self.fandom_active_summary.visible = True
@@ -566,7 +566,7 @@ class ModelProfile(ModelProfileTemplate):
     # Model 4
     if self.musical_submodel.get_components() == []:
       if self.infos["model_4_acc"] is not None:
-        self.custom_HTML_level_4_active(self.infos["model_4_acc"])
+        self.custom_HTML_level_4_active(round(self.infos["model_4_acc"]))
         self.model_4_accuracy_summary.text = "{}{}".format(round(self.infos["model_4_acc"]), "%")
         self.musical_active.visible = True
         self.musical_active_summary.visible = True
