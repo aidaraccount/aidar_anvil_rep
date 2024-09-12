@@ -51,7 +51,7 @@ components:
           type: RepeatingPanel
         layout_properties: {grid_position: 'YPIXHC,CPOJZC'}
         name: xy_panel_funnel
-        properties: {height: '570', role: full-page-length}
+        properties: {height: '570', role: null}
         type: XYPanel
       - components:
         - layout_properties: {width: 484, x: 29.5, y: 80}
