@@ -16,11 +16,14 @@ class C_RelatedPopupTable(C_RelatedPopupTableTemplate):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
 
+    global user
+    user = anvil.users.get_user()
+    
     model_id = load_var("model_id")
     print(f"C_RelatedPopupTable model_id: {model_id}")
     
     # Any code you write here will run before the form opens.
-    self.data_grid_artists_data.items = json.loads(anvil.server.call('search_artist', model_id, search_text.strip()))
+    self.data_grid_artists_data.items = json.loads(anvil.server.call('search_artist', user["user_id"], search_text.strip()))
 
   def close_alert(self, **event_args):
     self.raise_event("x-close-alert")

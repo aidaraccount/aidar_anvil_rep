@@ -20,8 +20,6 @@ class SearchRowsRelated_html_new(SearchRowsRelated_html_newTemplate):
     # Any code you write here will run before the form opens.
     global user
     user = anvil.users.get_user()
-    global model_id
-    model_id = self.item["ModelID"]
 
   # CLICKS 
   def related_click(self, **event_args):

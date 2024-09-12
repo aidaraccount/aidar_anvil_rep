@@ -8,6 +8,7 @@ from anvil.tables import app_tables
 
 from ...Main_In import Main_In
 from ...Discover import Discover
+from ...nav import click_link, click_button, logout, login_check, load_var, save_var
 
 class SearchRefRows(SearchRefRowsTemplate):
   def __init__(self, **properties):
@@ -17,8 +18,8 @@ class SearchRefRows(SearchRefRowsTemplate):
     # Any code you write here will run before the form opens.
     global user
     user = anvil.users.get_user()
-    global model_id
-    model_id = self.item["ModelID"]
+    
+    self.model_id = load_var("model_id")
   
   def inspect_link_click(self, **event_args):
     if int(self.item["ArtistPopularity_lat"]) > 30:
@@ -30,7 +31,7 @@ class SearchRefRows(SearchRefRowsTemplate):
       self.add_ref_artist()
   
   def add_ref_artist(self, **event_args):
-    status = anvil.server.call('add_ref_artist', user["user_id"], model_id, self.inspect_link.tag)
+    status = anvil.server.call('add_ref_artist', user["user_id"], self.model_id, self.item['SpotifyArtistID'])
     if status == 'Event created':
       # increase No. references by 1
       self.parent.parent.parent.parent.parent.parent.parent.no_references.text = int(self.parent.parent.parent.parent.parent.parent.parent.no_references.text) + 1
