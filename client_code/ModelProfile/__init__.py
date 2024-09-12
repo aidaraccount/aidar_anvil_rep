@@ -1,5 +1,6 @@
 from ._anvil_designer import ModelProfileTemplate
 from anvil import *
+import plotly.graph_objects as go
 import anvil.server
 import anvil.users
 import anvil.tables as tables
@@ -9,6 +10,7 @@ import random
 import string
 import json
 import time
+import math
 
 from ..Home import Home
 from ..C_EditRefArtists import C_EditRefArtists
@@ -52,9 +54,11 @@ class ModelProfile(ModelProfileTemplate):
     
     self.nav_references.role = 'section_buttons_focused'
     self.sec_filters.visible = False
-    
-    # HEADER
+
+    # ---------------
+    # HEADER LEFT
     infos = json.loads(anvil.server.call('get_model_stats', self.model_id_view))[0]
+    self.infos = infos
     self.retrain_date = infos["train_model_date"]
 
     # model name and description text and text boxes
@@ -64,20 +68,10 @@ class ModelProfile(ModelProfileTemplate):
     else:
       self.model_description.text = infos["description"]
     if infos["creation_date"] == 'None':
-      self.creation_date.text = '-'
+      self.creation_date_value.text = '-'
     else:
-      self.creation_date.text = infos["creation_date"]
-    self.usage_date.text = infos["usage_date"]
-
-    # stats
-    self.no_references.text = infos["no_references"]
-    self.total_ratings.text = infos["total_ratings"]
-    self.high_ratings.text = infos["high_ratings"]
-    if infos["train_model_date"] == 'None':
-      self.train_model_date.text = '-'
-    else:
-      self.train_model_date.text = infos["train_model_date"]
-    self.status.text = infos["overall_status"]
+      self.creation_date_value.text = infos["creation_date"]
+    self.usage_date_value.text = infos["usage_date"]
 
     # activate button
     if int(self.model_id_view) == int(model_id_active_new):
@@ -85,64 +79,312 @@ class ModelProfile(ModelProfileTemplate):
       self.activate.visible = False
     else:
       self.activated.visible = False
-      self.activate.visible = True      
+      self.activate.visible = True   
     
-    # retrain button
-    if infos["total_ratings"] < 75:
-      self.retrain.visible = False
-      self.retrain_wait.visible = True
-      self.retrain_wait.text = 'At least 75 ratings required for training the model'
-    elif self.retrain_date != time.strftime("%Y-%m-%d"):
-      self.retrain.visible = True
-      self.retrain_wait.visible = False
+    # ---------------
+    # HEADER RIGHT
+    # stats
+    self.no_references.text = infos["no_references"]
+    self.total_ratings.text = infos["total_ratings"]
+    self.high_ratings.text = infos["high_ratings"]
+    if infos["train_model_date"] == 'None':
+      self.retrain_model_date_value.text = '-'
     else:
-      self.retrain.visible = False
-      self.retrain_wait.visible = True
+      self.retrain_model_date_value.text = infos["train_model_date"]
+    self.status.text = infos["overall_status"]
+    self.status_2.text = infos["overall_status"]
+
+    # Level
+    self.Level_value.text = infos["overall_level"]
     
-    # SECTION
+    # Progress Circle
+    if infos["overall_status"] == 'Running':
+      self.custom_HTML_prediction(infos["overall_acc"])
+      self.custom_HTML_prediction_2(infos["overall_acc"])
+    else:
+      self.linear_panel_2.visible = True
+      self.linear_panel_2_2.visible = True
+      self.column_panel_5.visible = False
+      # self.Overall_model_label.visible = False
+
+    
+    
+    # ---------------
+    # SECCTIONS
+    # # retrain button
+    # if infos["total_ratings"] < 75:
+    #   self.retrain.visible = False
+    #   self.retrain_wait.visible = True
+    #   self.retrain_wait.text = 'At least 75 ratings required for training the model'
+    # elif self.retrain_date != time.strftime("%Y-%m-%d"):
+    #   self.retrain.visible = True
+    #   self.retrain_wait.visible = False
+    # else:
+    #   self.retrain.visible = False
+    #   self.retrain_wait.visible = True
+      
+    # secction routing
     if section == 'Main':
-      self.nav_references_click()
+      self.nav_model_click()
     elif section == 'PrevRated':
       self.nav_prev_rated_click()
     elif section == 'Filter':
       self.nav_filters_click()
     elif section == 'AddRefArtists':
-      self.nav_add_references_click()
+      self.nav_add_references_click()   
 
-    self.custom_HTML_prediction()
+    self.create_ratings_histogram_chart()
     
-  def custom_HTML_prediction(self):
-    # if self.pred:
-    # <li class="note-display" data-note="{self.pred}">
-    self.pred = "{:.2f}".format(round(float(3.01)/7*100,0))
+  def custom_HTML_prediction(self, accuracy):
     custom_html = f'''
-    <li class="note-display" data-note={self.pred}>
-      <div class="circle">
-        <svg width="140" height="140" class="circle__svg">
-          <defs>
-            <linearGradient id="grad1" x1="100%" y1="100%" x2="0%" y2="0%">
-              <stop offset="0%" style="stop-color:#812675;stop-opacity:1" />
-              <stop offset="100%" style="stop-color:#E95F30;stop-opacity:1" />
-            </linearGradient>
-          </defs>
-          <circle cx="70" cy="70" r="65" class="circle__progress circle__progress--path"></circle>
-          <circle cx="70" cy="70" r="65" class="circle__progress circle__progress--fill" stroke="url(#grad1)"></circle>
-        </svg>
-
-        <div class="percent">
-          <span class="percent__int">0.</span>
-          <!-- <span class="percent__dec">00</span> -->
-          <span class="label" style="font-size: 13px;">Accuracy</span>
+      <li class="note-display" data-note={accuracy}>
+        <div class="circle">
+          <svg width="140" height="140" class="circle__svg">
+            <defs>
+              <linearGradient id="grad1" x1="100%" y1="100%" x2="0%" y2="0%">
+                <stop offset="0%" style="stop-color:#812675;stop-opacity:1" />
+                <stop offset="100%" style="stop-color:#E95F30;stop-opacity:1" />
+              </linearGradient>
+            </defs>
+            <circle cx="70" cy="70" r="65" class="circle__progress circle__progress--path"></circle>
+            <circle cx="70" cy="70" r="65" class="circle__progress circle__progress--fill" stroke="url(#grad1)"></circle>
+          </svg>
+          <div class="percent">
+            <span class="percent__int">0.</span>
+            <!-- <span class="percent__dec">00</span> -->
+            <span class="label" style="font-size: 13px;">Accuracy</span>
+          </div>
         </div>
-      </div>
-
-    </li>
+      </li>
     '''
-    html_panel = HtmlPanel(html=custom_html)
-    self.column_panel_5.add_component(html_panel)
-    # else:
-    #   print("NO SELF PRED?")
-  
+    html_panel_1 = HtmlPanel(html=custom_html)
+    self.column_panel_5.add_component(html_panel_1)
+    
+  def custom_HTML_prediction_2(self, accuracy):
+    custom_html = f'''
+      <li class="note-display" data-note={accuracy}>
+        <div class="circle">
+          <svg width="168" height="168" class="circle__svg">
+            <defs>
+              <linearGradient id="grad1" x1="100%" y1="100%" x2="0%" y2="0%">
+                <stop offset="0%" style="stop-color:#812675;stop-opacity:1" />
+                <stop offset="100%" style="stop-color:#E95F30;stop-opacity:1" />
+              </linearGradient>
+            </defs>
+            <circle cx="84" cy="84" r="79" class="circle__progress circle__progress--path"></circle>
+            <circle cx="84" cy="84" r="79" class="circle__progress circle__progress--fill" stroke="url(#grad1)"></circle>
+          </svg>
+          <div class="percent">
+            <span class="percent__int">0.</span>
+            <!-- <span class="percent__dec">00</span> -->
+            <span class="label" style="font-size: 13px;">Accuracy</span>
+          </div>
+        </div>
+      </li>
+    '''
+    html_panel_2 = HtmlPanel(html=custom_html)
+    self.column_panel_2.add_component(html_panel_2)
+    
+  def custom_HTML_level_1_active(self, accuracy):
+    custom_html = f'''
+      <li class="note-display" data-note={accuracy}>
+        <div class="circle">
+          <svg width="140" height="140" class="circle__svg">
+            <defs>
+              <linearGradient id="grad1" x1="100%" y1="100%" x2="0%" y2="0%">
+                <stop offset="0%" style="stop-color:#812675;stop-opacity:1" />
+                <stop offset="100%" style="stop-color:#E95F30;stop-opacity:1" />
+              </linearGradient>
+            </defs>
+            <circle cx="70" cy="70" r="65" class="circle__progress circle__progress--path"></circle>
+            <circle cx="70" cy="70" r="65" class="circle__progress circle__progress--fill" stroke="url(#grad1)"></circle>
+          </svg>
+          <div class="percent">
+            <span class="percent__int">0.</span>
+            <!-- <span class="percent__dec">00</span> -->
+            <span class="label" style="font-size: 13px;">Accuracy</span>
+          </div>
+        </div>
+      </li>
+    '''
+    similarity_html_panel = HtmlPanel(html=custom_html)
+    self.similarity_submodel.add_component(similarity_html_panel)
+    
+  def custom_HTML_level_1_inactive(self, accuracy):
+    custom_html = f'''
+      <li class="note-display" data-note={accuracy}>
+        <div class="circle">
+          <svg width="140" height="140" class="circle__svg">
+            <defs>
+              <linearGradient id="grad2" x1="100%" y1="100%" x2="0%" y2="0%">
+                <stop offset="0%" style="stop-color:#4C4C4C;stop-opacity:1" />
+                <stop offset="100%" style="stop-color:#707070;stop-opacity:1" />
+              </linearGradient>
+            </defs>
+            <circle cx="70" cy="70" r="65" class="circle__progress_inactive circle__progress--path"></circle>
+            <circle cx="70" cy="70" r="65" class="circle__progress_inactive circle__progress--fill" stroke="url(#grad2)"></circle>
+          </svg>
+          <div class="percent">
+            <span class="percent__int">0.</span>
+            <!-- <span class="percent__dec">00</span> -->
+            <span class="label" style="font-size: 13px;">Trained</span>
+          </div>
+        </div>
+      </li>
+    '''
+    similarity_html_panel = HtmlPanel(html=custom_html)
+    self.similarity_submodel.add_component(similarity_html_panel)
+    
+  def custom_HTML_level_2_active(self, accuracy):
+    custom_html = f'''
+      <li class="note-display" data-note={accuracy}>
+        <div class="circle">
+          <svg width="140" height="140" class="circle__svg">
+            <defs>
+              <linearGradient id="grad1" x1="100%" y1="100%" x2="0%" y2="0%">
+                <stop offset="0%" style="stop-color:#812675;stop-opacity:1" />
+                <stop offset="100%" style="stop-color:#E95F30;stop-opacity:1" />
+              </linearGradient>
+            </defs>
+            <circle cx="70" cy="70" r="65" class="circle__progress circle__progress--path"></circle>
+            <circle cx="70" cy="70" r="65" class="circle__progress circle__progress--fill" stroke="url(#grad1)"></circle>
+          </svg>
+          <div class="percent">
+            <span class="percent__int">0.</span>
+            <!-- <span class="percent__dec">00</span> -->
+            <span class="label" style="font-size: 13px;">Accuracy</span>
+          </div>
+        </div>
+      </li>
+    '''    
+    success_html_panel = HtmlPanel(html=custom_html)
+    self.success_submodel.add_component(success_html_panel)
+    
+  def custom_HTML_level_2_inactive(self, accuracy):
+    custom_html = f'''
+      <li class="note-display" data-note={accuracy}>
+        <div class="circle">
+          <svg width="140" height="140" class="circle__svg">
+            <defs>
+              <linearGradient id="grad2" x1="100%" y1="100%" x2="0%" y2="0%">
+                <stop offset="0%" style="stop-color:#4C4C4C;stop-opacity:1" />
+                <stop offset="100%" style="stop-color:#707070;stop-opacity:1" />
+              </linearGradient>
+            </defs>
+            <circle cx="70" cy="70" r="65" class="circle__progress_inactive circle__progress--path"></circle>
+            <circle cx="70" cy="70" r="65" class="circle__progress_inactive circle__progress--fill" stroke="url(#grad2)"></circle>
+          </svg>
+          <div class="percent">
+            <span class="percent__int">0.</span>
+            <!-- <span class="percent__dec">00</span> -->
+            <span class="label" style="font-size: 13px;">Trained</span>
+          </div>
+        </div>
+      </li>
+    '''    
+    success_html_panel = HtmlPanel(html=custom_html)
+    self.success_submodel.add_component(success_html_panel)
+    
+  def custom_HTML_level_3_active(self, accuracy):
+    custom_html = f'''
+      <li class="note-display" data-note={accuracy}>
+        <div class="circle">
+          <svg width="140" height="140" class="circle__svg">
+            <defs>
+              <linearGradient id="grad1" x1="100%" y1="100%" x2="0%" y2="0%">
+                <stop offset="0%" style="stop-color:#812675;stop-opacity:1" />
+                <stop offset="100%" style="stop-color:#E95F30;stop-opacity:1" />
+              </linearGradient>
+            </defs>
+            <circle cx="70" cy="70" r="65" class="circle__progress circle__progress--path"></circle>
+            <circle cx="70" cy="70" r="65" class="circle__progress circle__progress--fill" stroke="url(#grad1)"></circle>
+          </svg>
+          <div class="percent">
+            <span class="percent__int">0.</span>
+            <!-- <span class="percent__dec">00</span> -->
+            <span class="label" style="font-size: 13px;">Accuracy</span>
+          </div>
+        </div>
+      </li>
+    '''       
+    fandom_html_panel = HtmlPanel(html=custom_html)
+    self.fandom_submodel.add_component(fandom_html_panel)
+    
+  def custom_HTML_level_3_inactive(self, accuracy):
+    custom_html = f'''
+      <li class="note-display" data-note={accuracy}>
+        <div class="circle">
+          <svg width="140" height="140" class="circle__svg">
+            <defs>
+              <linearGradient id="grad2" x1="100%" y1="100%" x2="0%" y2="0%">
+                <stop offset="0%" style="stop-color:#4C4C4C;stop-opacity:1" />
+                <stop offset="100%" style="stop-color:#707070;stop-opacity:1" />
+              </linearGradient>
+            </defs>
+            <circle cx="70" cy="70" r="65" class="circle__progress_inactive circle__progress--path"></circle>
+            <circle cx="70" cy="70" r="65" class="circle__progress_inactive circle__progress--fill" stroke="url(#grad2)"></circle>
+          </svg>
+          <div class="percent">
+            <span class="percent__int">0.</span>
+            <!-- <span class="percent__dec">00</span> -->
+            <span class="label" style="font-size: 13px;">Trained</span>
+          </div>
+        </div>
+      </li>
+    '''       
+    fandom_html_panel = HtmlPanel(html=custom_html)
+    self.fandom_submodel.add_component(fandom_html_panel)
+            
+  def custom_HTML_level_4_active(self, accuracy):
+    custom_html = f'''
+      <li class="note-display" data-note={accuracy}>
+        <div class="circle">
+          <svg width="140" height="140" class="circle__svg">
+            <defs>
+              <linearGradient id="grad1" x1="100%" y1="100%" x2="0%" y2="0%">
+                <stop offset="0%" style="stop-color:#812675;stop-opacity:1" />
+                <stop offset="100%" style="stop-color:#E95F30;stop-opacity:1" />
+              </linearGradient>
+            </defs>
+            <circle cx="70" cy="70" r="65" class="circle__progress circle__progress--path"></circle>
+            <circle cx="70" cy="70" r="65" class="circle__progress circle__progress--fill" stroke="url(#grad1)"></circle>
+          </svg>
+          <div class="percent">
+            <span class="percent__int">0.</span>
+            <!-- <span class="percent__dec">00</span> -->
+            <span class="label" style="font-size: 13px;">Accuracy</span>
+          </div>
+        </div>
+      </li>
+    '''    
+    musical_html_panel = HtmlPanel(html=custom_html)
+    self.musical_submodel.add_component(musical_html_panel)
+    
+  def custom_HTML_level_4_inactive(self, accuracy):
+    custom_html = f'''
+      <li class="note-display" data-note={accuracy}>
+        <div class="circle">
+          <svg width="140" height="140" class="circle__svg">
+            <defs>
+              <linearGradient id="grad2" x1="100%" y1="100%" x2="0%" y2="0%">
+                <stop offset="0%" style="stop-color:#4C4C4C;stop-opacity:1" />
+                <stop offset="100%" style="stop-color:#707070;stop-opacity:1" />
+              </linearGradient>
+            </defs>
+            <circle cx="70" cy="70" r="65" class="circle__progress_inactive circle__progress--path"></circle>
+            <circle cx="70" cy="70" r="65" class="circle__progress_inactive circle__progress--fill" stroke="url(#grad2)"></circle>
+          </svg>
+          <div class="percent">
+            <span class="percent__int">0.</span>
+            <!-- <span class="percent__dec">00</span> -->
+            <span class="label" style="font-size: 13px;">Trained</span>
+          </div>
+        </div>
+      </li>
+    '''    
+    musical_html_panel = HtmlPanel(html=custom_html)
+    self.musical_submodel.add_component(musical_html_panel)
+            
   def edit_icon_click(self, **event_args):
     if self.model_name.visible is True: 
       self.model_name.visible = False
@@ -168,9 +410,11 @@ class ModelProfile(ModelProfileTemplate):
 
   def nav_references_click(self, **event_args):
     self.nav_references.role = 'section_buttons_focused'
+    self.nav_model.role = 'section_buttons'
     self.nav_prev_rated.role = 'section_buttons'
     self.nav_filters.role = 'section_buttons'
     self.sec_references.visible = True
+    self.sec_models.visible = False
     self.sec_prev_rated.visible = False
     self.sec_filters.visible = False
     self.sec_references.clear()
@@ -181,6 +425,7 @@ class ModelProfile(ModelProfileTemplate):
     self.nav_prev_rated.role = 'section_buttons'
     self.nav_filters.role = 'section_buttons'
     self.sec_references.visible = True
+    self.sec_models.visible = False
     self.sec_prev_rated.visible = False
     self.sec_filters.visible = False
     self.sec_references.clear()
@@ -189,8 +434,10 @@ class ModelProfile(ModelProfileTemplate):
   def nav_prev_rated_click(self, **event_args):    
     self.nav_references.role = 'section_buttons'
     self.nav_prev_rated.role = 'section_buttons_focused'
+    self.nav_model.role = 'section_buttons'
     self.nav_filters.role = 'section_buttons'
     self.sec_references.visible = False
+    self.sec_models.visible = False
     self.sec_prev_rated.visible = True
     self.sec_filters.visible = False
     self.sec_prev_rated.clear()
@@ -200,8 +447,10 @@ class ModelProfile(ModelProfileTemplate):
     self.nav_references.role = 'section_buttons'
     self.nav_prev_rated.role = 'section_buttons'
     self.nav_filters.role = 'section_buttons_focused'
+    self.nav_model.role = 'section_buttons'
     self.sec_references.visible = False
     self.sec_prev_rated.visible = False
+    self.sec_models.visible = False
     self.sec_filters.visible = True
     self.sec_filters.clear()
     self.sec_filters.add_component(C_Filter(self.model_id_view))
@@ -226,7 +475,7 @@ class ModelProfile(ModelProfileTemplate):
   def activate_click(self, **event_args):
     anvil.server.call('update_model_usage', user["user_id"], self.model_id_view)
     save_var('model_id', self.model_id_view)
-    click_button(f'model_profile_new?model_id={self.model_id_view}&section=Main', event_args)
+    click_button(f'model_profile?model_id={self.model_id_view}&section=Main', event_args)
     get_open_form().refresh_models_underline()
     
   def discover_click(self, **event_args):
@@ -241,8 +490,154 @@ class ModelProfile(ModelProfileTemplate):
     if res == 'success':
       self.retrain.visible = False
       self.retrain_wait.visible = True
-      self.train_model_date.text = time.strftime("%Y-%m-%d")
+      self.retrain_model_date_value.text = time.strftime("%Y-%m-%d")
       alert(title='Re-training of your model is running',
             content="We started to re-train your model. This will take roughly 10 minutes to be effective.\n\nDue to high computational effort, re-training the model is only available once per day.",
             buttons=[("Ok", "Ok")]
       )
+
+  def nav_model_click(self, **event_args):
+    self.nav_model.role = 'section_buttons_focused'
+    self.nav_references.role = 'section_buttons'
+    self.nav_prev_rated.role = 'section_buttons'
+    self.nav_filters.role = 'section_buttons'
+    self.sec_references.visible = False
+    self.sec_models.visible = True
+    self.sec_prev_rated.visible = False
+    self.sec_filters.visible = False
+
+    # Model 1
+    if self.similarity_submodel.get_components() == []:
+      if self.infos["model_1_acc"] is not None:
+        self.custom_HTML_level_1_active(self.infos["model_1_acc"])
+        self.model_1_accuracy_summary.text = "{}{}".format(round(self.infos["model_1_acc"]), "%")
+        self.similarity_active.visible = True
+        self.similarity_active_summary.visible = True
+        self.similarity_in_training.visible = False
+        self.similarity_in_training_summary.visible = False
+        self.similarity_cont.text = "{}{}".format(round(self.infos["model_1_cont"])*100, "%")
+      else:
+        self.custom_HTML_level_1_inactive(min(self.infos["total_ratings"]/float(10)*100, 100))
+        self.model_1_accuracy_summary.text = "{}{}".format(min(round(self.infos["total_ratings"]/int(10)*100), 100), "%")
+        self.similarity_active.visible = False
+        self.similarity_active_summary.visible = False
+        self.similarity_in_training.visible = True
+        self.similarity_in_training_summary.visible = True
+        self.similarity_cont.text = "0%"
+         
+    # Model 2
+    if self.success_submodel.get_components() == []:
+      if self.infos["model_2_acc"] is not None:
+        self.custom_HTML_level_2_active(self.infos["model_2_acc"])
+        self.model_2_accuracy_summary.text = "{}{}".format(round(self.infos["model_2_acc"]), "%")
+        self.success_active.visible = True
+        self.success_active_summary.visible = True
+        self.success_in_training.visible = False
+        self.success_in_training_summary.visible = False
+        self.success_cont.text = "{}{}".format(round(self.infos["model_2_cont"])*100, "%")
+      else:
+        self.custom_HTML_level_2_inactive(min(self.infos["total_ratings"]/float(50)*100, 100))
+        self.model_2_accuracy_summary.text = "{}{}".format(min(round(self.infos["total_ratings"]/int(50)*100), 100), "%")
+        self.success_active.visible = False
+        self.success_active_summary.visible = False
+        self.success_in_training.visible = True
+        self.success_in_training_summary.visible = True
+        self.success_cont.text = "0%"
+        
+    # Model 3
+    if self.fandom_submodel.get_components() == []:
+      if self.infos["model_3_acc"] is not None:
+        self.custom_HTML_level_3_active(self.infos["model_3_acc"])
+        self.model_3_accuracy_summary.text = "{}{}".format(round(self.infos["model_3_acc"]), "%")
+        self.fandom_active.visible = True
+        self.fandom_active_summary.visible = True
+        self.fandom_in_training.visible = False
+        self.fandom_in_training_summary.visible = False
+        self.fandom_cont.text = "{}{}".format(round(self.infos["model_3_cont"])*100, "%")
+      else:
+        self.custom_HTML_level_3_inactive(min(self.infos["total_ratings"]/float(75)*100, 100))
+        self.model_3_accuracy_summary.text = "{}{}".format(min(round(self.infos["total_ratings"]/int(75)*100), 100), "%")
+        self.fandom_active.visible = False
+        self.fandom_active_summary.visible = False
+        self.fandom_in_training.visible = True
+        self.fandom_in_training_summary.visible = True
+        self.fandom_cont.text = "0%"
+        
+    # Model 4
+    if self.musical_submodel.get_components() == []:
+      if self.infos["model_4_acc"] is not None:
+        self.custom_HTML_level_4_active(self.infos["model_4_acc"])
+        self.model_4_accuracy_summary.text = "{}{}".format(round(self.infos["model_4_acc"]), "%")
+        self.musical_active.visible = True
+        self.musical_active_summary.visible = True
+        self.musical_in_training.visible = False
+        self.musical_in_training_summary.visible = False
+        self.musical_cont.text = "{}{}".format(round(self.infos["model_4_cont"])*100, "%")
+      else:
+        self.custom_HTML_level_4_inactive(min(self.infos["total_ratings"]/float(100)*100, 100))
+        self.model_4_accuracy_summary.text = "{}{}".format(min(round(self.infos["total_ratings"]/int(100)*100), 100), "%")
+        self.musical_active.visible = False
+        self.musical_active_summary.visible = False
+        self.musical_in_training.visible = True
+        self.musical_in_training_summary.visible = True
+        self.musical_cont.text = "0%"
+
+  def create_ratings_histogram_chart(self, ratings_data=None):
+    if ratings_data is None:
+      ratings_data = self.infos["ratings"]
+
+    rating_values = [item['interest'] for item in self.infos["ratings"]]
+    rating_counts = [item['cnt'] for item in self.infos["ratings"]]
+
+    max_y_value = max(rating_counts) * 1.1
+    dynamic_tick = max(1, math.ceil(max_y_value / 5))  # Mindestens 1, sonst aufrunden
+
+    # Format the text for the bar annotations
+    formatted_text = [f'{x/1e6:.1f}M' if x >= 1e6 else f'{x/1e3:.1f}K' if x >= 1e3 else str(x) for x in rating_counts]
+    
+    # Creating the Bar Chart
+    fig = go.Figure(data=(
+      go.Bar(
+        x = rating_values,
+        y = rating_counts,
+        width=0.5,
+        text = formatted_text,
+        textposition='none',
+        hoverinfo='none',
+        hovertext= rating_values,
+        hovertemplate= 'Rating: %{hovertext}<br>Count: %{text} <extra></extra>',
+      )
+    ))
+
+    fig.update_layout(
+      template='plotly_dark',
+      plot_bgcolor='rgba(0,0,0,0)',
+      paper_bgcolor='rgba(0,0,0,0)',
+      xaxis=dict(
+        tickvals=rating_values,
+        title='Rating'
+      ),
+      yaxis=dict(
+        gridcolor='rgb(175,175,175)',  # Color of the gridlines
+        gridwidth=1,  # Thickness of the gridlines
+        griddash='dash',  # Dash style of the gridlines
+        range=[0, max_y_value],
+        tickformat='~s',  # Format numbers with SI unit prefixes
+        title='Count',
+        zerolinecolor='rgb(240,240,240)',  # Set the color of the zero line
+        dtick=dynamic_tick,
+      ),
+      hoverlabel=dict(
+        bgcolor='rgba(237,139,82, 0.4)'
+      )
+    )
+    # This is to style the bars
+    for trace in fig.data:
+      trace.update(
+        # marker_color='rgb(240,229,252)',
+        marker_color='rgba(237,139,82, 1)',
+        marker_line_color='rgb(237,139,82)',
+        marker_line_width=0.1,
+        opacity=0.9
+      )
+    self.Ratings_histogram.figure = fig
