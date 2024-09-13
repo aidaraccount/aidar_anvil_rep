@@ -1,7 +1,8 @@
 components:
-- layout_properties: {slot: default}
+- components: []
+  layout_properties: {slot: default}
   name: content_panel
-  properties: {col_widths: '{}'}
+  properties: {col_widths: '{}', role: null}
   type: ColumnPanel
 - event_bindings: {click: link_home_click}
   layout_properties: {slot: sidebar}
