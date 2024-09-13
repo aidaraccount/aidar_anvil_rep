@@ -163,34 +163,34 @@ components:
     properties: {role: grid, spacing_above: none, spacing_below: none}
     type: ColumnPanel
   - components:
-    - layout_properties: {width: 349.94090625, x: 10, y: 0}
-      name: repeating_panel_news
-      properties: {item_template: Home.NewsTemplate, spacing_above: none}
-      type: RepeatingPanel
-    data_bindings: []
-    layout_properties: {grid_position: 'MRIQRW,EQZHSN VOPZWR,YALILB'}
-    name: xy_panel_news
-    properties: {height: '350'}
-    type: XYPanel
-  - layout_properties: {grid_position: 'MRIQRW,EQZHSN TYLLYQ,XBHHJU'}
-    name: label_4
-    properties: {align: center, role: description, text: No News present}
-    type: Label
-  - components:
+    - layout_properties: {grid_position: 'QVMUXU,YLIXLM'}
+      name: label_2
+      properties: {align: center, role: artist_name, text: News}
+      type: Label
     - components:
-      - layout_properties: {grid_position: 'QVMUXU,YLIXLM'}
-        name: label_2
-        properties: {align: center, role: artist_name, text: News}
+      - layout_properties: {width: 349.94090625, x: 10, y: 0}
+        name: repeating_panel_news
+        properties: {item_template: Home.NewsTemplate, spacing_above: none}
+        type: RepeatingPanel
+      data_bindings: []
+      layout_properties: {grid_position: 'XNMQVL,IVUSFC'}
+      name: xy_panel_news
+      properties: {height: '350'}
+      type: XYPanel
+    - components:
+      - layout_properties: {width: 306.08190625, x: 0, y: 0}
+        name: label_4
+        properties: {align: center, role: description, text: No News present}
         type: Label
-      - components: []
-        layout_properties: {grid_position: 'IIHDPQ,YNGXOJ'}
-        name: xy_panel_news_empty
-        properties: {height: '350', visible: false}
-        type: XYPanel
-      layout_properties: {grid_position: 'WVVMFB,NGWDAS'}
-      name: column_panel_5
-      properties: {role: grid}
-      type: ColumnPanel
+      layout_properties: {grid_position: 'CHRITB,MZHEYA'}
+      name: xy_panel_news_empty
+      properties: {height: '350', visible: false}
+      type: XYPanel
+    layout_properties: {grid_position: 'MRIQRW,EQZHSN PXHEAF,MAMJJC'}
+    name: column_panel_5
+    properties: {role: grid}
+    type: ColumnPanel
+  - components: []
     layout_properties: {grid_position: 'XELTJA,MQQCSE'}
     name: column_panel_2
     properties: {role: null}
