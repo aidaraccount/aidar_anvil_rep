@@ -89,10 +89,14 @@ components:
   name: link_logout
   properties: {align: left, background: '', bold: false, border: '', col_spacing: medium, col_widths: '', font: '', font_size: 16, foreground: '', icon: '', icon_align: left, italic: false, role: header-5_bold, spacing_above: none, spacing_below: none, text: Log Out, tooltip: '', underline: false, url: '', visible: true, wrap_on: mobile}
   type: Link
-- layout_properties: {slot: title}
+- layout_properties: {slot: logo}
   name: image_1
   properties: {display_mode: original_size, height: '20', role: navbar-image, source: _/theme/pics/AIDAR_white_logo_small.png, spacing_above: none, spacing_below: none}
   type: Image
+- layout_properties: {slot: search_box}
+  name: text_box_1
+  properties: {}
+  type: TextBox
 container:
   properties: {background: '', html: '@theme:dashboard.html', role: null}
   type: HtmlTemplate

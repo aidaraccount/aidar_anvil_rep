@@ -144,14 +144,14 @@
 
 <!-- Put body before nav so that it sits underneath -->   
 <div class="structure">
-  <div class="" anvil-drop-redirect=".title.placeholder, .nav-elt.placeholder, .nav-elt .drop-here">
+  <div class="nav" anvil-drop-redirect=".title.placeholder, .nav-elt.placeholder, .nav-elt .drop-here">
     <!-- <div class="menu-btn" onclick="toggleSidebar();">
       <i class="fa fa-bars"></i>
     </div> -->
-    <!-- <div anvil-if-slot-empty="title" anvil-drop-slot="title" class="title placeholder anvil-designer-only">
-      Drop a title here
+    <div anvil-if-slot-empty="search_box" anvil-drop-slot="search_box" class="search_box placeholder anvil-designer-only">
+      Drop a searchbox here
     </div>
-    <div anvil-slot="title" class="title"></div> -->
+    <div anvil-slot="search_box" class="search_box"></div>
   </div>
 
       <!-- <div class="menu-btn" onclick="toggleSidebar();">
@@ -162,10 +162,10 @@
       <button class="nav-button" id="nav-button" onclick="toggleSidebar();">
         <i class="fa fa-bars"></i>
       </button>
-      <div anvil-if-slot-empty="title" anvil-drop-slot="title" class="title placeholder anvil-designer-only">
+      <div anvil-if-slot-empty="logo" anvil-drop-slot="logo" class="logo placeholder anvil-designer-only">
         Drop Logo Here
       </div>
-      <div anvil-slot="title" class="title"></div>
+      <div anvil-slot="logo" class="logo"></div>
       <div anvil-slot-repeat="sidebar" class="sidebar-elt">      
         <div anvil-drop-here class="drop-here"></div>
         <div anvil-slot class="content"></div>
