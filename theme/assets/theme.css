@@ -563,6 +563,12 @@ body, html {
   /* background-color: %color:Main_Black%; */
   /* background: linear-gradient(to bottom, rgb(30, 6, 74), black); */
   background: linear-gradient(to bottom right, rgb(31, 11, 59), black);
+  flex-grow: 1;
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  padding: 60px 0 0 0;
+  }
 }
 .anvil-role-grid {
   /* background-color: %color:Grid_Black%; */
@@ -1104,26 +1110,33 @@ anvil-role-test {
   width: 100%;
   overflow-y: hidden;
   text-transform: uppercase;
-  font-weight: bold;
-  box-shadow: 0 1px 3px #888;
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   -khtml-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-}
-.nav {
   flex: 0 0;
-  flex-basis: auto;
   flex-basis: content;
   z-index: 10;
-  position: relative;
-  background: white;
-  padding: 8px 16px 7px; /* expect 5px margin */
-  min-height: 62px;
-  font-size: 16px;
-  color: %color:Accent 1%;
+  background: transparent;
+  padding: 20px 0 0 0; /* expect 5px margin */
+  min-height: 60px;
+  font-size: 18px;
+  font-family: Gs-regular;
+  display: flex;
+  justify-content: center; 
+  align-items: center;
+}
+.nav {
+  /* box-shadow: 0 1px 3px #888; */
+  /* flex-basis: auto; */
+  /* position: relative; */
+  /* color: %color:Accent 1%; */
+}
+.search_box {
+  width: 500px;
+  margin-left: 250px;
 }
 
 .nav > .menu-btn {
@@ -1444,7 +1457,7 @@ footer a, .footer .anvil-component {
   color: rgb(250,250,250);
   position: fixed;
   top: 0;
-  left: -250px;
+  left: 0px;
   /* left: -250px; */
   width: 250px;
   height: 100%;
@@ -1484,6 +1497,10 @@ footer a, .footer .anvil-component {
   z-index: 2;
 } */
 .main-content-move {
+  margin-left: 250px;
+  transition: margin-left 0.3s ease;
+}
+..main-content-move-nav {
   margin-left: 250px;
   transition: margin-left 0.3s ease;
 }
