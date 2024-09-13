@@ -95,7 +95,7 @@ class Main_In(Main_InTemplate):
   def refresh_models_components(self):
     self.remove_model_components()
     
-    model_ids = json.loads(anvil.server.call('get_model_ids',  user["user_id"]))    
+    model_ids = json.loads(anvil.server.call('get_model_ids',  user["user_id"]))
     for i in range(0, len(model_ids)):
       if model_ids[i]["is_last_used"] is True:
         model_link = Link(
