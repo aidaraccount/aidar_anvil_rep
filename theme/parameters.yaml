@@ -281,3 +281,5 @@ roles:
   name: home-page
 - components: [XYPanel]
   name: full-page-length
+- components: [TextBox]
+  name: search-bar-related-artists

@@ -1,0 +1,75 @@
+components:
+- components:
+  - layout_properties: {}
+    name: spacer_1
+    properties: {height: 10}
+    type: Spacer
+  - layout_properties: {}
+    name: label_1
+    properties: {align: center, role: artist_name, spacing_above: small, text: Select the Artist You Meant}
+    type: Label
+  - components:
+    - layout_properties: {width: 106.3125, x: 0, y: 0}
+      name: Column_Artists
+      properties:
+        align: center
+        role: table_content_popup
+        text: |
+          Artist
+      type: Label
+    - layout_properties: {width: 171.4375, x: 0, y: 0}
+      name: Column_Popularity
+      properties: {align: center, role: table_content_popup, text: Popularity, tooltip: Latest number of followers on Spotity}
+      type: Label
+    - layout_properties: {width: 103.921875, x: 0, y: 0}
+      name: Column_Followers
+      properties: {align: center, role: table_content_popup, text: Followers, tooltip: Latest Spotity Artist Popularity (ranges from 1 to 100)}
+      type: Label
+    - layout_properties: {width: 200, x: 0, y: 0}
+      name: Column_Options
+      properties: {align: center, role: table_content_popup, text: '', tooltip: Latest Spotity Artist Popularity (ranges from 1 to 100)}
+      type: Label
+    layout_properties: {}
+    name: xy_panel_1
+    properties:
+      height: 27
+      role: [bottom_line, 'related-artist-search-dropdown-header ']
+    type: XYPanel
+  - layout_properties: {}
+    name: data_grid_artists_data
+    properties: {background: '', border: '', foreground: '', item_template: C_RelatedPopupTable.SearchRowsRelated_html_new, items: null, role: table_content, spacing_above: none, spacing_below: none, tooltip: '', visible: true}
+    type: RepeatingPanel
+  data_bindings: []
+  layout_properties: {slot: default}
+  name: data_grid_artists_header
+  properties:
+    auto_header: false
+    background: ''
+    border: ''
+    columns:
+    - {$$hashKey: 'object:34645', data_key: ArtistPictureURL, expand: false, id: CGJCWL, title: Artist, width: 70}
+    - {$$hashKey: 'object:27702', data_key: Name, id: OHHGOJ, title: ''}
+    - {$$hashKey: 'object:27703', data_key: ArtistPopularity_lat, id: TTVDHC, title: Popularity}
+    - {$$hashKey: 'object:27704', data_key: ArtistFollower_lat, id: ITWSTJ, title: Follower}
+    - {$$hashKey: 'object:27824', data_key: Investigate, id: YTCRRC, title: ''}
+    foreground: ''
+    role: [anvil-data-grid th, anvil-data-grid td]
+    rows_per_page: 3
+    show_page_controls: true
+    spacing_above: none
+    spacing_below: none
+    tooltip: ''
+    visible: true
+    wrap_on: never
+  type: DataGrid
+container:
+  properties:
+    background: theme:Orange
+    border: 0px
+    foreground: theme:Orange
+    html: ''
+    role: [background-gradient-alerts, anvil-data-grid th]
+    visible: true
+  type: HtmlTemplate
+custom_component: true
+is_package: true

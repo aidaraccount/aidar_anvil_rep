@@ -8,6 +8,7 @@ import anvil.users
 import json
 import datetime
 from anvil.js.window import location
+from ..C_SearchPopupTable import C_SearchPopupTable
 
 from anvil_extras import routing
 from ..nav import click_link, click_button, logout, login_check, save_var, load_var
@@ -148,7 +149,7 @@ class Main_In(Main_InTemplate):
     self.link_discover.background = None
     self.link_discover_ai.background = None
     self.link_discover_rel.background = None
-    self.link_discover_name.background = None
+
     self.link_manage.background = None
     self.link_manage_watchlist.background = None
     self.link_manage_funnel.background = None
@@ -165,8 +166,6 @@ class Main_In(Main_InTemplate):
       self.link_discover_ai.background = "theme:Accent 3"
     elif location.hash[:13] == '#rel_artists?':
       self.link_discover_rel.background = "theme:Accent 3"
-    elif location.hash[:15] == '#search_artist?':
-      self.link_discover_name.background = "theme:Accent 3"
       
     elif location.hash[:19] == '#watchlist_details?':
       self.link_manage_watchlist.background = "theme:Accent 3"
@@ -183,7 +182,7 @@ class Main_In(Main_InTemplate):
     self.link_discover.visible = status
     self.link_discover_ai.visible = status
     self.link_discover_rel.visible = status
-    self.link_discover_name.visible = status
+
 
     self.linear_panel_manage.visible = status
     self.link_manage.visible = status
@@ -207,12 +206,12 @@ class Main_In(Main_InTemplate):
       self.link_discover.icon = 'fa:angle-up'
       self.link_discover_ai.visible = True
       self.link_discover_rel.visible = True
-      self.link_discover_name.visible = True
+
     else:
       self.link_discover.icon = 'fa:angle-down'
       self.link_discover_ai.visible = False
       self.link_discover_rel.visible = False
-      self.link_discover_name.visible = False
+
   
   def link_discover_ai_click(self, temp_artist_id=None, **event_args):
     artist_id = anvil.server.call('get_next_artist_id', load_var('model_id'))
@@ -225,11 +224,11 @@ class Main_In(Main_InTemplate):
     self.reset_nav_backgrounds()
     self.link_discover_rel.background = "theme:Accent 3"
     
-  def link_discover_name_click(self, **event_args):
-    click_link(self.link_discover_name, 'search_artist?text=None', event_args)
+  # def link_discover_name_click(self, **event_args):
+  #   click_link(self.link_discover_name, 'search_artist?text=None', event_args)
     
-    self.reset_nav_backgrounds()
-    self.link_discover_name.background = "theme:Accent 3"
+  #   self.reset_nav_backgrounds()
+  #   self.link_discover_name.background = "theme:Accent 3"
 
   #----------------------------------------------------------------------------------------------
   # MANAGE
@@ -283,3 +282,14 @@ class Main_In(Main_InTemplate):
   # SETTINGS
   def link_settings_click(self, **event_args):
     pass
+
+  def SearchBar_pressed_enter(self, **event_args):
+    searchdata = json.loads(anvil.server.call('search_artist', user["user_id"], self.SearchBar.text.strip()))
+    print(searchdata)
+
+    search_text = self.SearchBar.text
+    popup_table = alert(
+      content=C_SearchPopupTable(self.model_id, search_text),
+      large=True,
+      buttons=[]
+    )

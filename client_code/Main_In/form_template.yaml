@@ -25,11 +25,6 @@ components:
     name: link_discover_rel
     properties: {align: left, background: '', bold: false, border: '', col_spacing: medium, col_widths: '', font: '', font_size: null, foreground: '', icon: 'fa:angle-right', icon_align: left, italic: false, role: nav_sub, spacing_above: none, spacing_below: small, text: Related Artists, tooltip: '', underline: false, url: '', visible: true, wrap_on: mobile}
     type: Link
-  - event_bindings: {click: link_discover_name_click}
-    layout_properties: {}
-    name: link_discover_name
-    properties: {align: left, background: '', bold: false, border: '', col_spacing: medium, col_widths: '', font: '', font_size: null, foreground: '', icon: 'fa:angle-right', icon_align: left, italic: false, role: nav_sub, spacing_above: none, spacing_below: small, text: BY NAME, tooltip: '', underline: false, url: '', visible: true, wrap_on: mobile}
-    type: Link
   layout_properties: {slot: sidebar}
   name: linear_panel_discover
   properties: {}
@@ -93,9 +88,12 @@ components:
   name: image_1
   properties: {display_mode: original_size, height: '20', role: navbar-image, source: _/theme/pics/AIDAR_white_logo_small.png, spacing_above: none, spacing_below: none}
   type: Image
-- layout_properties: {slot: search_box}
-  name: text_box_1
-  properties: {}
+- event_bindings: {pressed_enter: SearchBar_pressed_enter}
+  layout_properties: {slot: search_box}
+  name: SearchBar
+  properties:
+    placeholder: Search by Artist Name, Spotify ID or UUID
+    role: [text_box_small, search-bar-related-artists]
   type: TextBox
 container:
   properties: {background: '', html: '@theme:dashboard.html', role: null}

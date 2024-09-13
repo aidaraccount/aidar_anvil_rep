@@ -23,7 +23,7 @@ components:
         foreground: ''
         hide_text: false
         italic: false
-        placeholder: Enter an artists name..
+        placeholder: Enter an Artist Name, Spotify ID or UUID
         role: [text_box_small, search-bar-related-artists]
         spacing_above: none
         spacing_below: small
