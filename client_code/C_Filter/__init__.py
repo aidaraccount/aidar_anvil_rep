@@ -155,7 +155,11 @@ class C_Filter(C_FilterTemplate):
     origin_data = self.repeating_panel_origin.items
     if origin_data is not None:
       for element in origin_data:
-        filters_json += f'{{"ModelID":"{self.model_id}","Type":"origin","Column":"{element["Column"][:2]}","Operator":"is","Value":"{element["Value"]}"}},'
+        if element["Value"] is True:
+          operator = 'is'
+        else:
+          operator = 'is not'
+        filters_json += f'{{"ModelID":"{self.model_id}","Type":"origin","Column":"country_code","Operator":"{operator}","Value":"{element["Column"][:2]}"}},'
     
     # correct and close the json string
     if filters_json[-1] == ",": filters_json = filters_json[:-1]
@@ -165,6 +169,7 @@ class C_Filter(C_FilterTemplate):
     if filters_json == '[]': filters_json = None
     
     # change filters
+    print(filters_json)
     anvil.server.call('change_filters',
                       self.model_id,
                       filters_json
