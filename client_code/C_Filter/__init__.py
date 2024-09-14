@@ -157,9 +157,7 @@ class C_Filter(C_FilterTemplate):
     origin_data = self.repeating_panel_origin.items
     if origin_data is not None:
       for element in origin_data:
-        print(element["Value"])
-        print(element["Value"] is True)
-        if element["Value"]:
+        if element["Value"] == 'True':
           operator = 'is'
         else:
           operator = 'is not'
