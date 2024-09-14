@@ -65,6 +65,7 @@ class C_Filter(C_FilterTemplate):
                "avg_tempo <=": "avg_tempo_max"}
     
     fil = json.loads(anvil.server.call('get_filters', self.model_id))
+    print(fil)
     
     for filter in fil:
       if filter["Type"] == 'general':
@@ -88,6 +89,7 @@ class C_Filter(C_FilterTemplate):
 
     # Origin Filters
     filter_origin = [item for item in fil if item['Type'] == 'origin']
+    print(filter_origin)
     if len(filter_origin) > 0:
       self.repeating_panel_origin.items = filter_origin
       self.label_no_origin_filters.visible = False
@@ -155,7 +157,9 @@ class C_Filter(C_FilterTemplate):
     origin_data = self.repeating_panel_origin.items
     if origin_data is not None:
       for element in origin_data:
-        if element["Value"] is True:
+        print(element["Value"])
+        print(element["Value"] is True)
+        if element["Value"]:
           operator = 'is'
         else:
           operator = 'is not'
@@ -177,8 +181,7 @@ class C_Filter(C_FilterTemplate):
     temp_artist_id = anvil.server.call('get_next_artist_id', load_var('model_id'))
     routing.set_url_hash(f'artists?artist_id={temp_artist_id}', load_from_cache=False)
 
-  def clear_filters_button_click(self, **event_args):
-    
+  def clear_filters_button_click(self, **event_args):    
     anvil.server.call('change_filters',
                       self.model_id,
                       filters_json = None
