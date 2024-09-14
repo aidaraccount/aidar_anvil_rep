@@ -165,11 +165,10 @@ class C_Filter(C_FilterTemplate):
     if filters_json == '[]': filters_json = None
     
     # change filters
-    print(filters_json)
-    # anvil.server.call('change_filters',
-    #                   self.model_id,
-    #                   filters_json
-    #                  )
+    anvil.server.call('change_filters',
+                      self.model_id,
+                      filters_json
+                     )
     temp_artist_id = anvil.server.call('get_next_artist_id', load_var('model_id'))
     routing.set_url_hash(f'artists?artist_id={temp_artist_id}', load_from_cache=False)
 

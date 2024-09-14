@@ -92,7 +92,7 @@ components:
   layout_properties: {slot: search_box}
   name: SearchBar
   properties:
-    placeholder: Search by Artist Name, Spotify ID or UUID
+    placeholder: Search Artist by Name, Spotify ID or UUID
     role: [text_box_small, search-bar-related-artists]
   type: TextBox
 container:
