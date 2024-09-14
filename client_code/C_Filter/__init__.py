@@ -155,7 +155,7 @@ class C_Filter(C_FilterTemplate):
     origin_data = self.repeating_panel_origin.items
     if origin_data is not None:
       for element in origin_data:
-        filters_json += f'{{"ModelID":"{self.model_id}","Type":"origin","Column":"{element["Column"].lower()}","Operator":"is","Value":"{element["Value"]}"}},'
+        filters_json += f'{{"ModelID":"{self.model_id}","Type":"origin","Column":"{element["Column"][:2]}","Operator":"is","Value":"{element["Value"]}"}},'
     
     # correct and close the json string
     if filters_json[-1] == ",": filters_json = filters_json[:-1]
@@ -165,10 +165,11 @@ class C_Filter(C_FilterTemplate):
     if filters_json == '[]': filters_json = None
     
     # change filters
-    anvil.server.call('change_filters',
-                      self.model_id,
-                      filters_json
-                     )
+    print(filters_json)
+    # anvil.server.call('change_filters',
+    #                   self.model_id,
+    #                   filters_json
+    #                  )
     temp_artist_id = anvil.server.call('get_next_artist_id', load_var('model_id'))
     routing.set_url_hash(f'artists?artist_id={temp_artist_id}', load_from_cache=False)
 
