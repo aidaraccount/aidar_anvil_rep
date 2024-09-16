@@ -206,13 +206,13 @@
     if (s.style.left === '0px') {
       // Sidebar is open, so close it
       s.style.left = `-${s.offsetWidth}px`;  // Move sidebar off-screen
-      b.style.left = '0'; // Keep the button on the left
-      content.style.marginLeft = '0'; // Reset content margin
-      contentNav.style.marginLeft = '0'; // Reset content margin
+      b.style.left = '0px'; // Keep the button on the left
+      content.style.marginLeft = '0px'; // Reset content margin
+      contentNav.style.marginLeft = '0px'; // Reset content margin
       document.querySelector('.sidebar-click-guard').style.display = 'none'; // Hide click guard
     } else {
       // Sidebar is closed, so open it
-      s.style.left = '0';  // Slide sidebar in
+      s.style.left = '0px';  // Slide sidebar in
       b.style.left = `${s.offsetWidth}px`;  // Move button with the sidebar
       content.style.marginLeft = `${s.offsetWidth}px`;  // Shift content
       contentNav.style.marginLeft = `${s.offsetWidth}px`;  // Shift content
