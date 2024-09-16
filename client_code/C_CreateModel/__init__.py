@@ -30,6 +30,12 @@ class C_CreateModel(C_CreateModelTemplate):
     if self.text_box_access_token.text == '':
       alert(title='Missing Access Token',
         content="Please add an Access Token!")
+      status = 'Missing Access Token'
+      
+    elif self.text_box_model_name.text == '':
+      alert(title='Missing Model Name',
+        content="Please add a Model Name!")
+      status = 'Missing Model Name'
         
     else:
       status = anvil.server.call('create_model',
@@ -43,11 +49,6 @@ class C_CreateModel(C_CreateModelTemplate):
         anvil.server.call('update_model_usage', user["user_id"], model_id)
         save_var('model_id', model_id)
     
-        # continue to add ref artists
-        # alert(title='Congratulations..',
-        #   content="your Model was successfully created!\n\nNow, let's set your model up by adding some artists as reference.")        
-        # click_button(f'model_profile?model_id={model_id}&section=AddRefArtists', event_args)
-        
         # refresh models components
         get_open_form().refresh_models_components()
         get_open_form().change_nav_visibility(status=True)
@@ -55,8 +56,21 @@ class C_CreateModel(C_CreateModelTemplate):
       else:
         alert(title='Error..', content=status)
 
+    return status
+
   def text_box_model_name_lost_focus(self, **event_args):
     self.text_box_description.focus()
 
   def text_box_description_lost_focus(self, **event_args):
     self.text_box_access_token.focus()
+
+  def text_box_model_name_change(self, **event_args):
+    print(self.parent.parent.get_components()[-1].get_components())
+    if self.text_box_model_name.text == '' and self.text_box_access_token.text == '':
+      self.parent.parent.get_components()[-1].get_components()[1].role = 'call-to-action-button'
+    else:
+      self.parent.parent.get_components()[-1].get_components()[1].role = ''
+      self.parent.parent.get_components()[-1].get_components()[1].role = ''
+      self.parent.parent.get_components()[-1].get_components()[1].role = ''
+      self.parent.parent.get_components()[-1].get_components()[1].role = ''
+      self.parent.parent.get_components()[-1].get_components()[1].role = ''
