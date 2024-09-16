@@ -1,4 +1,4 @@
-from ._anvil_designer import CreateModelTemplate
+from ._anvil_designer import C_CreateModelTemplate
 from anvil import *
 import anvil.server
 import anvil.users
@@ -15,7 +15,7 @@ from ..C_AddRefArtists import C_AddRefArtists
 
 
 @routing.route('create_model', title='Create Model')
-class CreateModel(CreateModelTemplate):
+class C_CreateModel(C_CreateModelTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)

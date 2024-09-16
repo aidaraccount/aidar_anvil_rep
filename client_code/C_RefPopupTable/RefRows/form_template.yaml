@@ -1,0 +1,47 @@
+components:
+- components:
+  - data_bindings:
+    - {code: 'self.item[''ArtistPictureURL'']', property: source}
+    layout_properties: {column: CGJCWL, grid_position: 'JKDRVH,YEAIII'}
+    name: related_image
+    properties: {background: '', border: '', display_mode: shrink_to_fit, foreground: '', height: '70', horizontal_align: center, role: artist-image-tables, source: '', spacing_above: small, spacing_below: small, tooltip: '', vertical_align: center, visible: true}
+    type: Image
+  data_bindings:
+  - {code: 'self.item[''ArtistID'']', property: url}
+  event_bindings: {click: related_click}
+  layout_properties: {column: CGJCWL}
+  name: related_pic_link
+  properties: {col_widths: '{}', spacing_above: none, spacing_below: none}
+  type: Link
+- data_bindings:
+  - {code: 'self.item[''ArtistPopularity_lat'']', property: text, writeback: false}
+  layout_properties: {column: TTVDHC}
+  name: label_1
+  properties: {align: center}
+  type: Label
+- data_bindings:
+  - {code: 'self.item[''ArtistFollower_lat'']', property: text, writeback: false}
+  layout_properties: {column: ITWSTJ}
+  name: label_2
+  properties: {align: center}
+  type: Label
+- data_bindings:
+  - {code: 'self.item[''Name'']', property: text}
+  - {code: 'self.item[''ArtistID'']', property: url}
+  event_bindings: {click: related_click}
+  layout_properties: {column: OHHGOJ}
+  name: related_name_link
+  properties: {align: center, background: '', bold: false, border: '', col_spacing: medium, col_widths: '', font: '', font_size: null, foreground: '', icon: '', icon_align: left, italic: false, role: artist_name, spacing_above: small, spacing_below: small, text: '', tooltip: '', underline: false, url: '', visible: true, wrap_on: mobile}
+  type: Link
+- event_bindings: {click: related_click}
+  layout_properties: {column: YTCRRC}
+  name: link_1
+  properties: {icon: 'fa:arrow-right', icon_align: right, role: null, text: Add as Reference}
+  type: Link
+container:
+  properties:
+    align: center
+    role: [rows_dropdown]
+    visible: true
+  type: DataRowPanel
+is_package: true

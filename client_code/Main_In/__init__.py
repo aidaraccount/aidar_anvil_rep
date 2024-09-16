@@ -22,10 +22,11 @@ from ..Watchlist_Overview import Watchlist_Overview
 from ..NoModel import NoModel
 from ..SearchArtist import SearchArtist
 from ..RelatedArtistSearch import RelatedArtistSearch
-from ..CreateModel import CreateModel
+from ..C_CreateModel import C_CreateModel
 from ..ConnectModel import ConnectModel
-# from ..ModelProfile import ModelProfile
+
 from ..ModelProfile import ModelProfileTemplate
+from ..RampUp import RampUpTemplate
 
 routing.logger.debug = False
 
@@ -275,7 +276,7 @@ class Main_In(Main_InTemplate):
         component.visible = True
 
   def create_model_click(self, **event_args):
-    click_link(self.create_model, 'create_model', event_args)
+    click_link(self.create_model, 'model_setup?section=Basics', event_args)
     self.reset_nav_backgrounds()
 
   #----------------------------------------------------------------------------------------------

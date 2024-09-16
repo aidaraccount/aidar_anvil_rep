@@ -1,4 +1,4 @@
-from ._anvil_designer import SearchRowsRelated_html_newTemplate
+from ._anvil_designer import SearchRowsTemplate
 from anvil import *
 import anvil.server
 import anvil.users
@@ -13,7 +13,7 @@ from anvil_extras import routing
 from ...nav import click_link, click_button, logout, login_check, load_var, save_var
 
 
-class SearchRowsRelated_html_new(SearchRowsRelated_html_newTemplate):
+class SearchRows(SearchRowsTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
@@ -21,10 +21,8 @@ class SearchRowsRelated_html_new(SearchRowsRelated_html_newTemplate):
     global user
     user = anvil.users.get_user()
 
-  # CLICKS 
+  # CLICKS
   def related_click(self, **event_args):
     self.parent.parent.parent.close_alert()
-    save_var('value', self.item["Name"])
+    save_var("value", self.item["Name"])
     click_link(self.link_1, f'artists?artist_id={self.item["ArtistID"]}', event_args)
-
-

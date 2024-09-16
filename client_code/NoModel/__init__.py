@@ -7,7 +7,7 @@ import anvil.tables.query as q
 from anvil.tables import app_tables
 
 from ..ConnectModel import ConnectModel
-from ..CreateModel import CreateModel
+from ..C_CreateModel import C_CreateModel
 
 from anvil_extras import routing
 from ..nav import click_link, click_button

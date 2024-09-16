@@ -37,7 +37,7 @@ components:
     type: XYPanel
   - layout_properties: {}
     name: data_grid_artists_data
-    properties: {background: '', border: '', foreground: '', item_template: C_RelatedPopupTable.SearchRowsRelated_html_new, items: null, role: table_content, spacing_above: none, spacing_below: none, tooltip: '', visible: true}
+    properties: {background: '', border: '', foreground: '', item_template: C_SearchPopupTable.SearchRows, items: null, role: table_content, spacing_above: none, spacing_below: none, tooltip: '', visible: true}
     type: RepeatingPanel
   data_bindings: []
   layout_properties: {slot: default}
