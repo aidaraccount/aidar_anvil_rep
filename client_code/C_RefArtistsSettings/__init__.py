@@ -20,12 +20,13 @@ class C_RefArtistsSettings(C_RefArtistsSettingsTemplate):
     # Any code you write here will run before the form opens.
     global user
     user = anvil.users.get_user()
-    self.model_id_in_creation = load_var("model_id_in_creation")
+    self.model_id_view = load_var("model_id_view")
+    print(self.model_id_view)
 
     self.get_references()
   
   def get_references(self, **event_args):
-    references = json.loads(anvil.server.call('get_references', self.model_id_in_creation))
+    references = json.loads(anvil.server.call('get_references', self.model_id_view))
     self.repeating_panel_reference.items = references
     
     if references != []:
@@ -37,14 +38,14 @@ class C_RefArtistsSettings(C_RefArtistsSettingsTemplate):
   def text_box_search_pressed_enter(self, **event_args):
     search_text = self.text_box_search.text
     popup_table = alert(
-      content=C_RefPopupTable(self.model_id_in_creation, search_text),
+      content=C_RefPopupTable(self.model_id_view, search_text),
       large=True,
       buttons=[]
     )
     
     self.get_references()
     
-    artist_id = anvil.server.call('get_next_artist_id', self.model_id_in_creation)
+    artist_id = anvil.server.call('get_next_artist_id', self.model_id_view)
     print(artist_id)
     if artist_id is not None:
       self.parent.parent.get_components()[-1].get_components()[1].role = 'call-to-action-button'

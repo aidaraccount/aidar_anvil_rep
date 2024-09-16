@@ -16,7 +16,7 @@ class ReferenceTemplate(ReferenceTemplateTemplate):
     # Any code you write here will run before the form opens.
     global user
     user = anvil.users.get_user()
-    self.model_id_view = load_var("model_id_in_creation")
+    self.model_id_view = load_var("model_id_view")
 
     if self.label_name_3.text is None:
       self.button_3.visible = False

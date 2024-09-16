@@ -276,7 +276,7 @@ class Main_In(Main_InTemplate):
         component.visible = True
 
   def create_model_click(self, **event_args):
-    click_link(self.create_model, 'model_setup?section=Basics', event_args)
+    click_link(self.create_model, 'model_setup?model_id=None&section=Basics', event_args)
     self.reset_nav_backgrounds()
 
   #----------------------------------------------------------------------------------------------

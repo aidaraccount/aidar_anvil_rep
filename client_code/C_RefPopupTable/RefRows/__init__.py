@@ -25,8 +25,6 @@ class RefRows(RefRowsTemplate):
   # CLICKS
   def related_click(self, **event_args):
     self.parent.parent.parent.close_alert()
-    # save_var("value", self.item["ArtistID"])
-    # click_link(self.link_1, 'model_setup?section=References', event_args)
 
     status = anvil.server.call('add_ref_artist', user["user_id"], self.model_id_in_creation, self.item['SpotifyArtistID'])
     if status == 'Event created':    
