@@ -33,6 +33,7 @@ class ReferenceTemplate(ReferenceTemplateTemplate):
     if c is True:
       # self.parent.parent.parent.parent.parent.parent.no_references.text = int(self.parent.parent.parent.parent.parent.parent.no_references.text) - 1
       anvil.server.call('delete_reference', self.model_id_view, self.item[0]['ArtistID'])
+      self.parent.parent.parent.parent.parent.parent.next_role(section='Reference_Artists')
       self.parent.parent.parent.get_references()
 
   def button_2_click(self, **event_args):
@@ -40,6 +41,7 @@ class ReferenceTemplate(ReferenceTemplateTemplate):
     if c is True:
       # self.parent.parent.parent.parent.parent.parent.no_references.text = int(self.parent.parent.parent.parent.parent.parent.no_references.text) - 1
       anvil.server.call('delete_reference', self.model_id_view, self.item[1]['ArtistID'])
+      self.parent.parent.parent.parent.parent.parent.next_role(section='Reference_Artists')
       self.parent.parent.parent.get_references()
     
   def button_3_click(self, **event_args):
@@ -47,4 +49,5 @@ class ReferenceTemplate(ReferenceTemplateTemplate):
     if c is True:
       # self.parent.parent.parent.parent.parent.parent.no_references.text = int(self.parent.parent.parent.parent.parent.parent.no_references.text) - 1
       anvil.server.call('delete_reference', self.model_id_view, self.item[2]['ArtistID'])
+      self.parent.parent.parent.parent.parent.parent.next_role(section='Reference_Artists')
       self.parent.parent.parent.get_references()

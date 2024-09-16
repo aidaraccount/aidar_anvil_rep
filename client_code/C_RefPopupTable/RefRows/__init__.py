@@ -20,7 +20,7 @@ class RefRows(RefRowsTemplate):
     # Any code you write here will run before the form opens.
     global user
     user = anvil.users.get_user()
-    self.model_id = load_var('model_id')
+    self.model_id_in_creation = load_var('model_id_in_creation')
 
   # CLICKS
   def related_click(self, **event_args):
@@ -28,11 +28,11 @@ class RefRows(RefRowsTemplate):
     # save_var("value", self.item["ArtistID"])
     # click_link(self.link_1, 'model_setup?section=References', event_args)
 
-    status = anvil.server.call('add_ref_artist', user["user_id"], self.model_id, self.item['SpotifyArtistID'])
+    status = anvil.server.call('add_ref_artist', user["user_id"], self.model_id_in_creation, self.item['SpotifyArtistID'])
     if status == 'Event created':    
       alert(title='Processing Reference Artist..', 
             content='We are processing your artist, which may take a short moment. You will find it at REF. ARTISTS soon.\n\nFeel free to add additional reference artists or start to DISCOVER - both  will improve your model accuracy.\n\nEnjoy it!')
-
+    
     elif status == 'No SpotifyArtistID':
       alert(title='Error..', content='This is not a valid Spotify Artist ID.\n\nYou find the Spotify Artist ID on open.spotify.com. It contains 22 characters.\n\nMichael Jackson for example is available under https://open.spotify.com/artist/3fMbdgg4jU18AjLCKBhRSm. The last part of this URL is the Spotify Artist ID -> "3fMbdgg4jU18AjLCKBhRSm"')
 
