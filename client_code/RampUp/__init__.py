@@ -44,10 +44,7 @@ class RampUp(RampUpTemplate):
     
     # ---------------
     # HEADER
-    print(self.model_name_txt)
-    print(self.model_name_txt is not None)
     if self.model_name_txt is not None:
-      print("in")
       self.column_panel_header.visible = True
       self.model_name.text = self.model_name_txt
       self.model_description.text = self.model_description_txt
@@ -71,6 +68,8 @@ class RampUp(RampUpTemplate):
       self.Back.visible = True
       self.Next.visible = False
       self.Discovering.visible = True
+    
+    self.text_box_change()
 
   def nav_Basics_load (self, **event_args):
     self.nav_Basics.role = "section_buttons_focused"
@@ -97,10 +96,18 @@ class RampUp(RampUpTemplate):
     self.sec_Reference_Artists.visible = True
     self.sec_Level_of_Pop.visible = False
     self.sec_Reference_Artists.clear()
-    self.sec_Reference_Artists.add_component(C_RefArtistsSettings(model_id=load_var('model_id')))
+    self.sec_Reference_Artists.add_component(C_RefArtistsSettings())
 
-  def nav_References_click(self, **event_args):
-    click_link(self.nav_References, 'model_setup?section=Reference_Artists', event_args)
+  def nav_References_click(self, **event_args):    
+    if self.text_box_access_token.text == '':
+      alert(title='Missing Access Token',
+        content="Please add an Access Token!")      
+    elif self.text_box_model_name.text == '':
+      alert(title='Missing Model Name',
+        content="Please add a Model Name!")
+    else:
+      self.button_create_model_click()
+      click_link(self.nav_References, 'model_setup?section=Reference_Artists', event_args)
   
   def nav_Level_Pop_load(self, **event_args):
     self.nav_Basics.role = "section_buttons"
@@ -110,7 +117,7 @@ class RampUp(RampUpTemplate):
     self.sec_Reference_Artists.visible = False
     self.sec_Level_of_Pop.visible = True
     self.sec_Level_of_Pop.clear()
-    # self.sec_Reference_Artists.add_component(C_RefArtistsSettings(self.model_id_view))
+    # self.sec_Reference_Artists.add_component(C_RefArtistsSettings())
 
   def nav_Level_Pop_click(self, **event_args):
     click_link(self.nav_Level_Pop, 'model_setup?section=Level_of_Pop', event_args)
@@ -124,7 +131,11 @@ class RampUp(RampUpTemplate):
         click_button('model_setup?section=Reference_Artists', event_args)
       
     elif self.section == 'Reference_Artists':
-      click_button('model_setup?section=Level_of_Pop', event_args)
+      artist_id = anvil.server.call('get_next_artist_id', self.model_id_in_creation)
+      if artist_id is not None:
+        click_button('model_setup?section=Level_of_Pop', event_args)
+      else:        
+        alert(title='Not enough References', content="Please add additional Reference Artists!")
 
   def Back_click(self, **event_args):
     if self.section == "Level_of_Pop":
@@ -152,6 +163,8 @@ class RampUp(RampUpTemplate):
     elif self.model_id_in_creation is not None:
       print("creation in progress!")
       status = 'Congratulations, your Model was successfully created!'
+
+      print("ADD MODEL UPDATE!!")
     
     else:
       status = anvil.server.call('create_model',

@@ -16,7 +16,7 @@ class ReferenceTemplate(ReferenceTemplateTemplate):
     # Any code you write here will run before the form opens.
     global user
     user = anvil.users.get_user()
-    self.model_id_view = load_var("model_id_view")
+    self.model_id_view = load_var("model_id_in_creation")
 
     if self.label_name_3.text is None:
       self.button_3.visible = False
@@ -41,7 +41,6 @@ class ReferenceTemplate(ReferenceTemplateTemplate):
       # self.parent.parent.parent.parent.parent.parent.no_references.text = int(self.parent.parent.parent.parent.parent.parent.no_references.text) - 1
       anvil.server.call('delete_reference', self.model_id_view, self.item[1]['ArtistID'])
       self.parent.parent.parent.get_references()
-      
     
   def button_3_click(self, **event_args):
     c = confirm("Do you wish to delete this artist as a reference?")
