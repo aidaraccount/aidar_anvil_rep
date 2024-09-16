@@ -30,7 +30,8 @@ class RampUp(RampUpTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
-
+    self.C_CreateModel = C_CreateModel
+    
     section = self.url_dict["section"]
     self.section = section
     # Any code you write here will run before the form opens.
@@ -104,7 +105,9 @@ class RampUp(RampUpTemplate):
 
   def Next_click(self, **event_args):
     if self.section == "Basics":
-      C_CreateModel.button_create_model_click(self)
+      print(self.sec_Basics.get_components())
+      self.sec_Basics.get_components()[0].button_create_model_click()
+      # self.C_CreateModel.button_create_model_click()
       click_button('model_setup?section=Reference_Artists', event_args)
     elif self.section == 'Reference_Artists':
       click_button('model_setup?section=Level_of_Pop', event_args)
