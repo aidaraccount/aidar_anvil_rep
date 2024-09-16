@@ -45,15 +45,7 @@ components:
     name: flow_panel_sections
     properties: {role: section-background, spacing: small}
     type: FlowPanel
-  - components:
-    - layout_properties: {grid_position: 'RNNIJX,UYQUXC'}
-      name: model_name_text
-      properties: {role: text_box_small, spacing_above: small, spacing_below: small}
-      type: TextBox
-    - layout_properties: {grid_position: 'HNALQZ,VWYZST'}
-      name: model_description_text
-      properties: {height: '', role: text_box_small, spacing_above: small, spacing_below: small}
-      type: TextArea
+  - components: []
     layout_properties: {grid_position: 'LYSTLE,IIHJEC'}
     name: sec_Basics
     properties: {col_widths: '{}', spacing_above: medium}
@@ -66,6 +58,28 @@ components:
     name: sec_Level_of_Pop
     properties: {spacing_above: medium}
     type: ColumnPanel
+  - components:
+    - event_bindings: {click: Back_click}
+      layout_properties: {}
+      name: Back
+      properties:
+        text: |
+          Back
+      type: Button
+    - event_bindings: {click: Next_click}
+      layout_properties: {}
+      name: Next
+      properties: {text: Next}
+      type: Button
+    - event_bindings: {click: Discovering_click}
+      layout_properties: {}
+      name: Discovering
+      properties: {text: Start Discovering}
+      type: Button
+    layout_properties: {grid_position: 'UXWYNP,ZGPTWH'}
+    name: flow_panel_1
+    properties: {align: right}
+    type: FlowPanel
   layout_properties: {slot: default}
   name: column_panel_1
   properties: {col_widths: '{}', spacing_above: large, spacing_below: large}

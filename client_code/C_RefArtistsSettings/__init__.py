@@ -12,7 +12,6 @@ from anvil_extras import routing
 from ..nav import click_link, click_button, logout, save_var, load_var
 
 
-@routing.route("add_ref_artists", title="Add Ref. Artists")
 class C_RefArtistsSettings(C_RefArtistsSettingsTemplate):
   def __init__(self, model_id, **properties):
     # Set Form properties and Data Bindings.
@@ -23,13 +22,11 @@ class C_RefArtistsSettings(C_RefArtistsSettingsTemplate):
     user = anvil.users.get_user()
     self.model_id = model_id
 
-  # def text_box_search_enter(self, **event_args):
-  #   anvil.server.reset_session()
-  #   self.data_grid_artists_header.visible = True
-  #   search_text = self.text_box_search.text
-  #   self.data_grid_artists_data.items = json.loads(
-  #     anvil.server.call("search_artist", user["user_id"], search_text.strip())
-  #   )
+    self.get_references()
+
+  
+  def get_references(self, **event_args):
+    self.repeating_panel_reference.items = json.loads(anvil.server.call('get_references', self.model_id))
   
   def text_box_search_pressed_enter(self, **event_args):
     search_text = self.text_box_search.text
@@ -38,4 +35,6 @@ class C_RefArtistsSettings(C_RefArtistsSettingsTemplate):
       large=True,
       buttons=[]
     )
+    self.get_references()
+
 
