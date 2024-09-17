@@ -402,7 +402,7 @@ class ModelProfile(ModelProfileTemplate):
       self.model_name.text = self.model_name_text.text
       self.model_description.text = self.model_description_text.text
       self.edit_icon.icon = 'fa:pencil'
-      res = anvil.server.call('update_model_stats', self.model_id_view, self.model_name_text.text, self.model_description_text.text)
+      res = anvil.server.call('update_model_stats', self.model_id_view, self.model_name_text.text, self.model_description_text.text, False)
       if res == 'success':
         Notification("",
           title="Model updated!",
