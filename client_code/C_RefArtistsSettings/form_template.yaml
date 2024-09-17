@@ -1,8 +1,38 @@
 components:
 - components:
+  - layout_properties: {grid_position: 'MOFTQL,WPJLPP'}
+    name: step_2_title
+    properties:
+      align: center
+      role: header-4
+      spacing_above: none
+      spacing_below: none
+      text: "Step 2: \nAdd Reference Artists"
+    type: Label
+  - layout_properties: {grid_position: 'SBVPLH,AVHOSK'}
+    name: step_2_desc
+    properties:
+      align: center
+      background: ''
+      bold: false
+      border: ''
+      font: ''
+      font_size: null
+      foreground: ''
+      icon: ''
+      icon_align: left
+      italic: false
+      role: header-7
+      spacing_above: none
+      spacing_below: medium
+      text: "Secondly, we will need a starting point. \nPlease provide at least 3 artists (3+ recommended) whose musical style, origin, career development, and level of popularity you would like AIDAR to use as a foundation for future suggestions."
+      tooltip: ''
+      underline: false
+      visible: true
+    type: Label
   - layout_properties: {grid_position: 'CUCHCX,FBLWSL'}
     name: label_1
-    properties: {align: left, background: '', bold: false, border: '', font: '', font_size: null, foreground: '', icon: '', icon_align: left, italic: false, role: description-bio, spacing_above: small, spacing_below: small, text: 'Add an artist’s name, Spotify id, or uuid and select the correct reference artist:​', tooltip: '', underline: false, visible: true}
+    properties: {align: left, background: '', bold: false, border: '', font: '', font_size: null, foreground: '', icon: '', icon_align: left, italic: false, role: header-7, spacing_above: medium, spacing_below: none, text: 'Add a reference artist by searching their name, Spotify id, or uuid in the field below:', tooltip: '', underline: false, visible: true}
     type: Label
   - event_bindings: {pressed_enter: text_box_search_pressed_enter}
     layout_properties:
@@ -13,14 +43,14 @@ components:
     type: TextBox
   - layout_properties: {grid_position: 'LOODPK,GUDBNN'}
     name: no_refs
-    properties: {}
+    properties: {role: header-6_grey, spacing_above: none, spacing_below: none}
     type: Label
   - layout_properties: {grid_position: 'QIIQUM,AXRUCK'}
     name: repeating_panel_reference
     properties: {item_template: C_EditRefArtists.ReferenceTemplate}
     type: RepeatingPanel
-  layout_properties: {grid_position: 'SPJEQL,QYLSQN'}
-  name: content_panel
+  layout_properties: {grid_position: 'NHQHAS,SGYZWB'}
+  name: sec_Reference_Artists
   properties: {col_widths: '{}'}
   type: ColumnPanel
 container:
