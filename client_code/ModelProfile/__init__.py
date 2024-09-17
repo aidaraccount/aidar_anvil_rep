@@ -59,53 +59,59 @@ class ModelProfile(ModelProfileTemplate):
     # HEADER LEFT
     infos = json.loads(anvil.server.call('get_model_stats', self.model_id_view))[0]
     self.infos = infos
-    self.retrain_date = infos["train_model_date"]
 
-    # model name and description text and text boxes
-    self.model_name.text = infos["model_name"]
-    if infos["description"] is None:
-      self.model_description.text = '-'
+    # check ramp-up
+    if infos["ramp_up"] is True:
+      routing.set_url_hash(f'model_setup?model_id={infos["model_id"]}&section=Basics', load_from_cache=False)
+      
     else:
-      self.model_description.text = infos["description"]
-    if infos["creation_date"] == 'None':
-      self.creation_date_value.text = '-'
-    else:
-      self.creation_date_value.text = infos["creation_date"]
-    self.usage_date_value.text = infos["usage_date"]
-
-    # activate button
-    if int(self.model_id_view) == int(model_id_active_new):
-      self.activated.visible = True
-      self.activate.visible = False
-    else:
-      self.activated.visible = False
-      self.activate.visible = True   
-    
-    # ---------------
-    # HEADER RIGHT
-    # stats
-    self.no_references.text = infos["no_references"]
-    self.total_ratings.text = infos["total_ratings"]
-    self.high_ratings.text = infos["high_ratings"]
-    if infos["train_model_date"] == 'None':
-      self.retrain_model_date_value.text = '-'
-    else:
-      self.retrain_model_date_value.text = infos["train_model_date"]
-    self.status.text = infos["overall_status"]
-    self.status_2.text = infos["overall_status"]
-
-    # Level
-    self.Level_value.text = infos["overall_level"]
-    
-    # Progress Circle
-    if infos["overall_status"] == 'Running':
-      self.custom_HTML_prediction(infos["overall_acc"])
-      self.custom_HTML_prediction_2(infos["overall_acc"])
-    else:
-      self.linear_panel_2.visible = True
-      self.linear_panel_2_2.visible = True
-      self.column_panel_5.visible = False
-      # self.Overall_model_label.visible = False
+      self.retrain_date = infos["train_model_date"]
+  
+      # model name and description text and text boxes
+      self.model_name.text = infos["model_name"]
+      if infos["description"] is None:
+        self.model_description.text = '-'
+      else:
+        self.model_description.text = infos["description"]
+      if infos["creation_date"] == 'None':
+        self.creation_date_value.text = '-'
+      else:
+        self.creation_date_value.text = infos["creation_date"]
+      self.usage_date_value.text = infos["usage_date"]
+  
+      # activate button
+      if int(self.model_id_view) == int(model_id_active_new):
+        self.activated.visible = True
+        self.activate.visible = False
+      else:
+        self.activated.visible = False
+        self.activate.visible = True   
+      
+      # ---------------
+      # HEADER RIGHT
+      # stats
+      self.no_references.text = infos["no_references"]
+      self.total_ratings.text = infos["total_ratings"]
+      self.high_ratings.text = infos["high_ratings"]
+      if infos["train_model_date"] == 'None':
+        self.retrain_model_date_value.text = '-'
+      else:
+        self.retrain_model_date_value.text = infos["train_model_date"]
+      self.status.text = infos["overall_status"]
+      self.status_2.text = infos["overall_status"]
+  
+      # Level
+      self.Level_value.text = infos["overall_level"]
+      
+      # Progress Circle
+      if infos["overall_status"] == 'Running':
+        self.custom_HTML_prediction(infos["overall_acc"])
+        self.custom_HTML_prediction_2(infos["overall_acc"])
+      else:
+        self.linear_panel_2.visible = True
+        self.linear_panel_2_2.visible = True
+        self.column_panel_5.visible = False
+        # self.Overall_model_label.visible = False
 
     
     
@@ -507,10 +513,6 @@ class ModelProfile(ModelProfileTemplate):
     self.sec_filters.visible = False
 
     # Model 1
-    print(round(self.infos["model_1_cont"])*100)
-    print(round(self.infos["model_1_cont"]))
-    print(self.infos["model_1_cont"])
-    
     if self.similarity_submodel.get_components() == []:
       if self.infos["model_1_acc"] is not None:
         self.custom_HTML_level_1_active(round(self.infos["model_1_acc"]))
