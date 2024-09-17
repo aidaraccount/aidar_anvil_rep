@@ -42,10 +42,11 @@ class RampUp(RampUpTemplate):
     section = self.url_dict["section"]
     self.section = section
     print(f"RampUp section: {section}")
+
+    self.Discovering.role = 'call-to-action-button'  # needs to be individualized!!!
     
     # ---------------
-    # EXISTING MODEL?
-    # fill header and test fields
+    # EXISTING MODEL? (fill header and test fields)
     if self.model_id_view != 'None':
       self.column_panel_header.visible = True
       model_stats = json.loads(anvil.server.call('get_model_stats', self.model_id_view))[0]
@@ -76,33 +77,6 @@ class RampUp(RampUpTemplate):
       self.Next.visible = False
       self.Discovering.visible = True
 
-  # # ---------------
-  # # NAVIGATION BAR
-  # def nav_Basics_click(self, **event_args):
-  #   if self.model_id:
-  #     click_link(self.nav_Basics, f'model_setup?model_id={self.model_id}&section=Basics', event_args)
-  #   else:
-  #     click_link(self.nav_Basics, 'model_setup?model_id=None&section=Basics', event_args)
-
-  # def nav_References_click(self, **event_args):
-  #   # status = self.button_create_model_click()
-  #   # if status == 'Congratulations, your Model was successfully created!':
-  #   if self.model_id:
-  #     click_link(self.nav_References, f'model_setup?model_id={self.model_id}&section=Reference_Artists', event_args)
-  #   else:
-  #     click_link(self.nav_References, 'model_setup?model_id=None&section=Reference_Artists', event_args)
-
-  # def nav_Level_Pop_click(self, **event_args):
-  #   # artist_id = anvil.server.call('get_next_artist_id', self.model_id_in_creation)
-  #   # if artist_id is not None:
-  #   #   click_button(f'model_setup?model_id={self.model_id}&section=Level_of_Pop', event_args)
-  #   # else:        
-  #   #   alert(title='Not enough References', content="Please add additional Reference Artists!")
-  #   if self.model_id:
-  #     click_link(self.nav_Level_Pop, f'model_setup?model_id={self.model_id}&section=Level_of_Pop', event_args)
-  #   else:
-  #     click_link(self.nav_Level_Pop, 'model_setup?model_id=None&section=Level_of_Pop', event_args)
-    
   # ---------------
   # NAVIGATION BUTTONS
   def Next_click(self, **event_args):
@@ -161,6 +135,13 @@ class RampUp(RampUpTemplate):
       click_button(f'model_setup?model_id={self.model_id_view}&section=Basics', event_args)
 
   def Discovering_click(self, **event_args):
+    # end ramp-up
+    anvil.server.call('update_model_stats',
+                      self.model_id_view,
+                      self.text_box_model_name.text,
+                      self.text_box_description.text,
+                      False)
+    # load artist
     artist_id = anvil.server.call('get_next_artist_id', load_var('model_id_view'))
     click_button(f'artists?artist_id={artist_id}', event_args)
 
@@ -192,69 +173,23 @@ class RampUp(RampUpTemplate):
     self.sec_Reference_Artists.visible = False
     self.sec_Level_of_Pop.visible = True
     self.sec_Level_of_Pop.clear()
-    self.sec_Reference_Artists.add_component(C_LevelOfPopularity())
+    self.sec_Level_of_Pop.add_component(C_LevelOfPopularity())
 
   # ---------------
-  # BASICS FUNCTIONS
-  # def button_create_model_click(self, **event_args):
-  #   if self.model_id_in_creation is not None:
-  #     status = anvil.server.call('update_model_stats',
-  #                                self.model_id_in_creation,
-  #                                self.text_box_model_name.text,
-  #                                self.text_box_description.text, True)
-  #     if status == 'success':
-  #       status = 'Congratulations, your Model was successfully created!'  
-  #       save_var('model_name_txt', self.text_box_model_name.text)
-  #       save_var('model_description_txt', self.text_box_description.text)
-    
-  #   else:
-  #     access_token = f"{''.join(random.choice((string.ascii_letters + string.digits)) for _ in range(3))}-{''.join(random.choice((string.ascii_letters + string.digits)) for _ in range(3))}-{''.join(random.choice((string.ascii_letters + string.digits)) for _ in range(3))}"
-  #     status = anvil.server.call('create_model',
-  #                                user["user_id"],
-  #                                self.text_box_model_name.text,
-  #                                self.text_box_description.text,
-  #                                access_token)
-  #     if (status == 'Congratulations, your Model was successfully created!'):
-  #       # refresh model_id
-  #       model_id = anvil.server.call('get_model_id',  user["user_id"])
-  #       anvil.server.call('update_model_usage', user["user_id"], model_id)
-  #       save_var('model_id', model_id)
-  #       save_var('model_id_in_creation', model_id)
-
-  #       # save name & description
-  #       save_var('model_name_txt', self.text_box_model_name.text)
-  #       save_var('model_description_txt', self.text_box_description.text)
-    
-  #       # refresh models components
-  #       get_open_form().refresh_models_components()
-  #       get_open_form().change_nav_visibility(status=True)
-        
-  #     else:
-  #       alert(title='Error..', content=status)
-
-  #   return status
-
+  # OTHER FUNCTIONS
   def text_box_model_name_lost_focus(self, **event_args):
     self.text_box_description.focus()
 
   def delete_click(self, ask=True, **event_args):
-    print("DELETE COMPLETE MODEL")
-    print("ON MODEL VIEW GO TO RAMP UP (add a bool to models table)")
-    result = ''
-    if ask:
-      result = alert(title='Do you want to delete this model setup?',
-            content="Are you sure to delete this model setup?",
-            buttons=[
-              ("Cancel", "Cancel"),
-              ("Delete", "Delete")
-            ])
-    
-    if result == 'Delete' or ask is False:
-      save_var('model_id_in_creation', None)
-      save_var('model_name_txt', None)
-      save_var('model_description_txt', None)
-      
-      if ask:
+    result = alert(title='Do you want to delete this model setup?',
+          content="Are you sure to delete this model setup?",
+          buttons=[
+            ("Cancel", "Cancel"),
+            ("Delete", "Delete")
+          ])
+    if result == 'Delete':
+      res = anvil.server.call('delete_model', self.model_id_view)
+      if res == 'success':
         Notification("",
           title="Model deleted!",
           style="success").show()

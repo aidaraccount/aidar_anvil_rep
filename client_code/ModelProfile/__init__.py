@@ -15,6 +15,7 @@ import math
 from ..Home import Home
 from ..C_EditRefArtists import C_EditRefArtists
 from ..C_AddRefArtists import C_AddRefArtists
+from ..C_RefArtistsSettings import C_RefArtistsSettings
 from ..C_Rating import C_Rating
 from ..C_Filter import C_Filter
 
@@ -424,18 +425,19 @@ class ModelProfile(ModelProfileTemplate):
     self.sec_prev_rated.visible = False
     self.sec_filters.visible = False
     self.sec_references.clear()
-    self.sec_references.add_component(C_EditRefArtists(self.model_id_view))
+    # self.sec_references.add_component(C_EditRefArtists(self.model_id_view))
+    self.sec_references.add_component(C_RefArtistsSettings())
 
-  def nav_add_references_click(self, **event_args):
-    self.nav_references.role = 'section_buttons_focused'
-    self.nav_prev_rated.role = 'section_buttons'
-    self.nav_filters.role = 'section_buttons'
-    self.sec_references.visible = True
-    self.sec_models.visible = False
-    self.sec_prev_rated.visible = False
-    self.sec_filters.visible = False
-    self.sec_references.clear()
-    self.sec_references.add_component(C_AddRefArtists(self.model_id_view))
+  # def nav_add_references_click(self, **event_args):
+  #   self.nav_references.role = 'section_buttons_focused'
+  #   self.nav_prev_rated.role = 'section_buttons'
+  #   self.nav_filters.role = 'section_buttons'
+  #   self.sec_references.visible = True
+  #   self.sec_models.visible = False
+  #   self.sec_prev_rated.visible = False
+  #   self.sec_filters.visible = False
+  #   self.sec_references.clear()
+  #   self.sec_references.add_component(C_AddRefArtists(self.model_id_view))
   
   def nav_prev_rated_click(self, **event_args):    
     self.nav_references.role = 'section_buttons'

@@ -8,7 +8,7 @@ import anvil.tables.query as q
 from anvil.tables import app_tables
 import json
 
-from anvil_extras import routing
+import anvil.js.window
 from ..nav import click_link, click_button, logout, save_var, load_var
 
 
@@ -21,7 +21,7 @@ class C_RefArtistsSettings(C_RefArtistsSettingsTemplate):
     global user
     user = anvil.users.get_user()
     self.model_id_view = load_var("model_id_view")
-    print(self.model_id_view)
+    print("C_RefArtistsSettings model_id_view:", self.model_id_view)
 
     self.get_references()
   
@@ -44,10 +44,15 @@ class C_RefArtistsSettings(C_RefArtistsSettingsTemplate):
     )
     
     self.get_references()
-    
-    artist_id = anvil.server.call('get_next_artist_id', self.model_id_view)
-    print(artist_id)
-    if artist_id is not None:
-      self.parent.parent.get_components()[-1].get_components()[1].role = 'call-to-action-button'
-    else:
-      self.parent.parent.get_components()[-1].get_components()[1].role = ''
+
+    # SOURCE INDIVIDUAL CODE
+    if anvil.js.window.location.hash.lstrip('#').split('?')[0] == 'model_setup':
+      # Update Next-Button in RampUp
+      artist_id = anvil.server.call('get_next_artist_id', self.model_id_view)
+      if artist_id is not None:
+        self.parent.parent.get_components()[-1].get_components()[1].role = 'call-to-action-button'
+      else:
+        self.parent.parent.get_components()[-1].get_components()[1].role = ''
+        
+    elif anvil.js.window.location.hash.lstrip('#').split('?')[0] == 'model_profile':
+      pass
