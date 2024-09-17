@@ -283,3 +283,7 @@ roles:
   name: full-page-length
 - components: [TextBox]
   name: search-bar-related-artists
+- components: [FlowPanel]
+  name: rampup-steps
+- components: [Label, Button, Link]
+  name: rampup-labels

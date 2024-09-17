@@ -299,18 +299,38 @@ body, html {
   border-color: %color:Orange%;
   padding: 10px 30px 10px;
 }
-.anvil-role-section-background > .flow-panel-gutter > .flow-panel-item.anvil-always-inline-container:has( .anvil-role-section_buttons_focused) {
+.anvil-role-section-background.anvil-role-rampup-steps > .flow-panel-gutter > .flow-panel-item.anvil-always-inline-container:has( .anvil-role-rampup-labels_focused):first-child {
+  padding: 0 50px;
+}
+.anvil-role-section-background.anvil-role-rampup-steps > .flow-panel-gutter > .flow-panel-item.anvil-always-inline-container:has( .anvil-role-rampup-labels):first-child {
+  padding: 0 50px;
+}
+.anvil-role-section-background.anvil-role-rampup-steps > .flow-panel-gutter > .flow-panel-item.anvil-always-inline-container:has( .anvil-role-rampup-labels_focused) {
   display: flex;
   justify-content: center;
   flex-grow: 1;
   border-bottom: 2px solid;
   border-color: %color:Orange%;
 }
-.anvil-role-section-background > .flow-panel-gutter > .flow-panel-item.anvil-always-inline-container:has( .anvil-role-section_buttons) {
+.anvil-role-section-background.anvil-role-rampup-steps > .flow-panel-gutter > .flow-panel-item.anvil-always-inline-container:has( .anvil-role-rampup-labels) {
   display: flex;
   justify-content: center;
   flex-grow: 1;
 }
+.anvil-role-rampup-steps {}
+.anvil-role-rampup-labels {
+  font-family: GS-light;
+  font-size: 20px;
+  color: rgb(250, 250, 250);
+  padding: 10px 30px 10px;
+}
+.anvil-role-rampup-labels_focused {
+  font-family: GS-medium;
+  font-size: 20px;
+  color: %color:Orange%;
+  padding: 10px 30px 10px;
+}
+
 
 /* Discover Page Buttons for the Release, Success, Fandom, and Music Sections */
 

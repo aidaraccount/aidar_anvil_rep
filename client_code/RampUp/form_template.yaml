@@ -35,24 +35,35 @@ components:
     properties: {col_widths: '{"NFIWSL":45,"HHYSER":15}', role: tile-background-left, spacing_above: none, spacing_below: none}
     type: ColumnPanel
   - components:
-    - event_bindings: {}
-      layout_properties: {}
+    - layout_properties: {}
       name: nav_Basics
-      properties: {role: section_buttons, spacing_above: none, spacing_below: none, text: 1. Basics}
-      type: Link
-    - event_bindings: {}
-      layout_properties: {}
+      properties: {role: rampup-labels, spacing_above: none, spacing_below: none, text: 1. Basics}
+      type: Label
+    - layout_properties: {}
       name: nav_References
-      properties: {col_spacing: medium, role: section_buttons, spacing_above: none, spacing_below: none, text: 2. Reference Artists}
-      type: Link
-    - event_bindings: {}
-      layout_properties: {}
+      properties:
+        role: rampup-labels
+        spacing_above: none
+        spacing_below: none
+        text: |
+          2. Reference Artists
+      type: Label
+    - layout_properties: {}
       name: nav_Level_Pop
-      properties: {col_spacing: medium, role: section_buttons, spacing_above: none, spacing_below: none, text: 3. Level of Popularity}
-      type: Link
+      properties:
+        role: rampup-labels
+        spacing_above: none
+        spacing_below: none
+        text: |
+          3. Level of Popularity
+      type: Label
     layout_properties: {grid_position: 'ZAVFTJ,JAVACL'}
     name: flow_panel_sections
-    properties: {role: section-background, spacing: small, spacing_above: none, spacing_below: none}
+    properties:
+      role: [section-background, rampup-steps]
+      spacing: small
+      spacing_above: none
+      spacing_below: none
     type: FlowPanel
   - components:
     - layout_properties: {grid_position: 'SHGSWM,SKRVBZ'}

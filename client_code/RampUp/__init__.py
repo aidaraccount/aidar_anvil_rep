@@ -170,17 +170,17 @@ class RampUp(RampUpTemplate):
   # ---------------
   # LOAD SECTIONS
   def nav_Basics_load(self, **event_args):
-    self.nav_Basics.role = "section_buttons_focused"
-    self.nav_References.role = "section_buttons"
-    self.nav_Level_Pop.role = "section_buttons"
+    self.nav_Basics.role = "rampup-labels_focused"
+    self.nav_References.role = "rampup-labels"
+    self.nav_Level_Pop.role = "rampup-labels"
     self.sec_Basics.visible = True
     self.sec_Reference_Artists.visible = False
     self.sec_Level_of_Pop.visible = False
     
   def nav_References_load(self, **event_args):
-    self.nav_Basics.role = "section_buttons"
-    self.nav_References.role = "section_buttons_focused"
-    self.nav_Level_Pop.role = "section_buttons"
+    self.nav_Basics.role = "rampup-labels"
+    self.nav_References.role = "rampup-labels_focused"
+    self.nav_Level_Pop.role = "rampup-labels"
     self.sec_Basics.visible = False
     self.sec_Reference_Artists.visible = True
     self.sec_Level_of_Pop.visible = False
@@ -188,9 +188,9 @@ class RampUp(RampUpTemplate):
     self.sec_Reference_Artists.add_component(C_RefArtistsSettings())
 
   def nav_Level_Pop_load(self, **event_args):
-    self.nav_Basics.role = "section_buttons"
-    self.nav_References.role = "section_buttons"
-    self.nav_Level_Pop.role = "section_buttons_focused"
+    self.nav_Basics.role = "rampup-labels"
+    self.nav_References.role = "rampup-labels"
+    self.nav_Level_Pop.role = "rampup-labels_focused"
     self.sec_Basics.visible = False
     self.sec_Reference_Artists.visible = False
     self.sec_Level_of_Pop.visible = True
