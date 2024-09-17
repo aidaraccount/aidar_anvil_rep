@@ -117,7 +117,8 @@ class RampUp(RampUpTemplate):
           status = anvil.server.call('update_model_stats',
                                     self.model_id_view,
                                     self.text_box_model_name.text,
-                                    self.text_box_description.text)
+                                    self.text_box_description.text,
+                                    True)
           if status == 'success':
             status = 'Congratulations, your Model was successfully created!'
         else:
@@ -200,7 +201,7 @@ class RampUp(RampUpTemplate):
   #     status = anvil.server.call('update_model_stats',
   #                                self.model_id_in_creation,
   #                                self.text_box_model_name.text,
-  #                                self.text_box_description.text)
+  #                                self.text_box_description.text, True)
   #     if status == 'success':
   #       status = 'Congratulations, your Model was successfully created!'  
   #       save_var('model_name_txt', self.text_box_model_name.text)
