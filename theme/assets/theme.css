@@ -285,35 +285,33 @@ body, html {
 .anvil-role-section_buttons {
   font-family: GS-light;
   font-size: 20px;
-  /* background: linear-gradient(to bottom right, #ee9735, #fd652d); */
   color: rgb(250, 250, 250);
-  /* border-radius: 15px; */
   padding: 10px 30px 10px;
-  /* text-decoration-color: %color:Orange%; */
-  /* text-decoration-thickness: 2px; */
   .link-text {
     font-weight: bold !important;
   }
 }
-/* .anvil-role-section_buttons:hover {
-  background: linear-gradient(to bottom right, #fd652d, #ee9735);
-  color: rgb(250, 250, 250);
-} */
 .anvil-role-section_buttons_focused {
   font-family: GS-medium;
   font-size: 20px;
-  /* background: linear-gradient(to bottom right, #ee9735, #fd652d); */
   color: %color:Orange%;
   border-bottom: 2px solid;
   border-color: %color:Orange%;
-  /* border-radius: 15px; */
   padding: 10px 30px 10px;
-  /* text-decoration-color: %color:Orange%; */
-  /* text-decoration-thickness: 2px; */
 }
-/* .anvil-role-section_buttons_focused:hover {
-  color: rgb(250, 250, 250)
-} */
+.anvil-role-section-background > .flow-panel-gutter > .flow-panel-item.anvil-always-inline-container:has( .anvil-role-section_buttons_focused) {
+  display: flex;
+  justify-content: center;
+  flex-grow: 1;
+  border-bottom: 2px solid;
+  border-color: %color:Orange%;
+}
+.anvil-role-section-background > .flow-panel-gutter > .flow-panel-item.anvil-always-inline-container:has( .anvil-role-section_buttons) {
+  display: flex;
+  justify-content: center;
+  flex-grow: 1;
+}
+
 /* Discover Page Buttons for the Release, Success, Fandom, and Music Sections */
 
 .anvil-data-grid>.data-grid-footer-panel>.pagination-buttons>a {

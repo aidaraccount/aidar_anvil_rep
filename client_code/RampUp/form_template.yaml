@@ -52,45 +52,34 @@ components:
       type: Link
     layout_properties: {grid_position: 'ZAVFTJ,JAVACL'}
     name: flow_panel_sections
-    properties: {role: section-background, spacing: small}
+    properties: {role: section-background, spacing: small, spacing_above: none, spacing_below: none}
     type: FlowPanel
   - components:
     - layout_properties: {grid_position: 'SHGSWM,SKRVBZ'}
       name: label_1
-      properties: {text: 'Step 1: The Basics'}
+      properties:
+        align: center
+        role: header-4
+        spacing_above: none
+        spacing_below: none
+        text: "Step 1: \nThe Basics"
       type: Label
     - layout_properties: {grid_position: 'NDZWDG,GPXECC'}
       name: label_2
-      properties:
-        align: left
-        background: ''
-        bold: false
-        border: ''
-        font: ''
-        font_size: null
-        foreground: ''
-        icon: ''
-        icon_align: left
-        italic: false
-        role: description-bio
-        spacing_above: small
-        spacing_below: small
-        text: |-
-          Let's give your model a name and a quick description:
-
-          Name your Model
-        tooltip: ''
-        underline: false
-        visible: true
+      properties: {align: center, background: '', bold: false, border: '', font: '', font_size: null, foreground: '', icon: '', icon_align: left, italic: false, role: header-7, spacing_above: none, spacing_below: none, text: 'Let''s give your model a name and a quick description:', tooltip: '', underline: false, visible: true}
+      type: Label
+    - layout_properties: {grid_position: 'LEQGTG,VJWEBZ'}
+      name: label_5
+      properties: {role: header-7, spacing_above: medium, spacing_below: none, text: 'Add a recognizable name for your model:'}
       type: Label
     - event_bindings: {change: next_role, lost_focus: text_box_model_name_lost_focus}
       layout_properties: {grid_position: 'DPGOLG,AFZNCJ'}
       name: text_box_model_name
-      properties: {align: left, background: '', bold: false, border: '', enabled: true, font: '', font_size: null, foreground: '', hide_text: false, italic: false, placeholder: Name of the Model, role: text_box_small, spacing_above: small, spacing_below: medium, text: '', tooltip: '', type: text, underline: false, visible: true}
+      properties: {align: left, background: '', bold: false, border: '', enabled: true, font: '', font_size: null, foreground: '', hide_text: false, italic: false, placeholder: Name of the Model, role: text_box_small, spacing_above: small, spacing_below: small, text: '', tooltip: '', type: text, underline: false, visible: true}
       type: TextBox
-    - layout_properties: {grid_position: 'EDIRVV,RVEXEW'}
-      name: label_2_copy
-      properties: {align: left, background: '', bold: false, border: '', font: '', font_size: null, foreground: '', icon: '', icon_align: left, italic: false, role: description-bio, spacing_above: small, spacing_below: small, text: Add a description, tooltip: '', underline: false, visible: true}
+    - layout_properties: {grid_position: 'DCGQSQ,SOXMZG'}
+      name: label_5_copy
+      properties: {role: header-7, spacing_above: medium, spacing_below: none, text: 'Add a short description:'}
       type: Label
     - event_bindings: {}
       layout_properties: {grid_position: 'QIBNRF,COEMLM'}
