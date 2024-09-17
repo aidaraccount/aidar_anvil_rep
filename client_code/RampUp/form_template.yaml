@@ -98,7 +98,7 @@ components:
         hide_text: false
         italic: false
         placeholder: Name of the Model
-        role: [text_box_small, search-bar-related-artists]
+        role: [text_box_small, rampup-text-field]
         spacing_above: small
         spacing_below: small
         text: ''
@@ -126,7 +126,7 @@ components:
         hide_text: false
         italic: false
         placeholder: Description of the Model
-        role: [text_box_small, search-bar-related-artists]
+        role: [text_box_small, rampup-text-field]
         spacing_above: small
         spacing_below: medium
         text: ''

@@ -287,3 +287,5 @@ roles:
   name: rampup-steps
 - components: [Label, Button, Link]
   name: rampup-labels
+- components: [TextBox]
+  name: rampup-text-field

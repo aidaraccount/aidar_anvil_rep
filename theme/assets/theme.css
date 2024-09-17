@@ -384,7 +384,14 @@ body, html {
   background-repeat: no-repeat;
   background-position: 10px center;
   text-align: left !important;
-
+}
+.anvil-role-rampup-text-field {
+  font-family: GS-regular;
+  width: 100%;
+  border-radius: 10px;
+  background-repeat: no-repeat;
+  background-position: 10px center;
+  text-align: left;
 }
 
 .anvil-role-search-bar-related-artists[type="text"] {
