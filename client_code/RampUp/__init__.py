@@ -14,6 +14,7 @@ import math
 
 from ..Home import Home
 from ..C_RefArtistsSettings import C_RefArtistsSettings
+from ..C_LevelOfPopularity import C_LevelOfPopularity
 
 from anvil_extras import routing
 from ..nav import click_link, click_button, load_var, save_var
@@ -185,7 +186,8 @@ class RampUp(RampUpTemplate):
     self.sec_Reference_Artists.visible = True
     self.sec_Level_of_Pop.visible = False
     self.sec_Reference_Artists.clear()
-    self.sec_Reference_Artists.add_component(C_RefArtistsSettings())
+    self.sec_Reference_Artists.add_component(C_LevelOfPopularity())
+    # self.sec_Reference_Artists.add_component(C_RefArtistsSettings())
 
   def nav_Level_Pop_load(self, **event_args):
     self.nav_Basics.role = "rampup-labels"
@@ -195,7 +197,7 @@ class RampUp(RampUpTemplate):
     self.sec_Reference_Artists.visible = False
     self.sec_Level_of_Pop.visible = True
     self.sec_Level_of_Pop.clear()
-    # self.sec_Reference_Artists.add_component(C_RefArtistsSettings())
+    self.sec_Reference_Artists.add_component(C_LevelOfPopularity())
 
   # ---------------
   # BASICS FUNCTIONS
