@@ -113,9 +113,7 @@ class RampUp(RampUpTemplate):
         
       else:
         # save changes
-        print("1", self.model_id_view)
         if self.model_id_view != 'None':
-          print("model_id_view is!")
           status = anvil.server.call('update_model_stats',
                                     self.model_id_view,
                                     self.text_box_model_name.text,
@@ -133,21 +131,18 @@ class RampUp(RampUpTemplate):
           if status == 'Congratulations, your Model was successfully created!':
             # refresh model_id_view
             self.model_id_view = anvil.server.call('get_model_id', user["user_id"])
-            print("2", self.model_id_view)
             anvil.server.call('update_model_usage', user["user_id"], self.model_id_view)
             save_var('model_id', self.model_id_view)
             self.model_id = self.model_id_view
             save_var('model_id_view', self.model_id_view)
             self.model_id_view = self.model_id_view
     
-            # refresh models components
-            get_open_form().refresh_models_components()
-            get_open_form().change_nav_visibility(status=True)
+        # refresh models components
+        get_open_form().refresh_models_components()
+        get_open_form().change_nav_visibility(status=True)
             
-        # check
+        # check & routing
         if status == 'Congratulations, your Model was successfully created!':
-          
-          # routing
           click_button(f'model_setup?model_id={self.model_id_view}&section=Reference_Artists', event_args)
         
     # Reference_Artists
@@ -186,8 +181,7 @@ class RampUp(RampUpTemplate):
     self.sec_Reference_Artists.visible = True
     self.sec_Level_of_Pop.visible = False
     self.sec_Reference_Artists.clear()
-    self.sec_Reference_Artists.add_component(C_LevelOfPopularity())
-    # self.sec_Reference_Artists.add_component(C_RefArtistsSettings())
+    self.sec_Reference_Artists.add_component(C_RefArtistsSettings())
 
   def nav_Level_Pop_load(self, **event_args):
     self.nav_Basics.role = "rampup-labels"

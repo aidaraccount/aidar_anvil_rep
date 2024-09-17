@@ -2,7 +2,7 @@ components:
 - components:
   - data_bindings:
     - {code: 'self.item[0][''ArtistPictureURL'']', property: source, writeback: false}
-    layout_properties: {width: 300, x: 0, y: 0}
+    layout_properties: {width: 230, x: 0, y: 0}
     name: image_1
     properties: {display_mode: zoom_to_fill, height: 155, vertical_align: center}
     type: Image
@@ -13,7 +13,7 @@ components:
     properties: {role: artist_name_shadow}
     type: Label
   - event_bindings: {click: button_1_click}
-    layout_properties: {width: 45, x: 240, y: 10}
+    layout_properties: {width: 45, x: 180, y: 10}
     name: button_1
     properties: {icon: 'fa:trash-o', icon_align: right, role: feature, text: ''}
     type: Button
@@ -24,7 +24,7 @@ components:
 - components:
   - data_bindings:
     - {code: 'self.item[1][''ArtistPictureURL'']', property: source, writeback: false}
-    layout_properties: {width: 300, x: 0, y: 0}
+    layout_properties: {width: 230, x: 0, y: 0}
     name: image_2
     properties: {display_mode: zoom_to_fill, height: 156, vertical_align: center}
     type: Image
@@ -35,7 +35,7 @@ components:
     properties: {role: artist_name_shadow}
     type: Label
   - event_bindings: {click: button_2_click}
-    layout_properties: {width: 45, x: 240, y: 10}
+    layout_properties: {width: 45, x: 180, y: 10}
     name: button_2
     properties: {icon: 'fa:trash-o', role: feature, text: ''}
     type: Button
@@ -46,7 +46,7 @@ components:
 - components:
   - data_bindings:
     - {code: 'self.item[2][''ArtistPictureURL'']', property: source, writeback: false}
-    layout_properties: {width: 300, x: 0, y: 0}
+    layout_properties: {width: 230, x: 0, y: 0}
     name: image_3
     properties: {display_mode: zoom_to_fill, height: 154, vertical_align: center}
     type: Image
@@ -57,7 +57,7 @@ components:
     properties: {role: artist_name_shadow}
     type: Label
   - event_bindings: {click: button_3_click}
-    layout_properties: {width: 45, x: 240, y: 10}
+    layout_properties: {width: 45, x: 180, y: 10}
     name: button_3
     properties: {icon: 'fa:trash-o', role: feature, text: ''}
     type: Button

@@ -20,13 +20,13 @@ class RefRows(RefRowsTemplate):
     # Any code you write here will run before the form opens.
     global user
     user = anvil.users.get_user()
-    self.model_id_in_creation = load_var('model_id_in_creation')
+    self.model_id_view = load_var('model_id_view')
 
   # CLICKS
   def related_click(self, **event_args):
     self.parent.parent.parent.close_alert()
 
-    status = anvil.server.call('add_ref_artist', user["user_id"], self.model_id_in_creation, self.item['SpotifyArtistID'])
+    status = anvil.server.call('add_ref_artist', user["user_id"], self.model_id_view, self.item['SpotifyArtistID'])
     if status == 'Event created':    
       alert(title='Processing Reference Artist..', 
             content='We are processing your artist, which may take a short moment. You will find it at REF. ARTISTS soon.\n\nFeel free to add additional reference artists or start to DISCOVER - both  will improve your model accuracy.\n\nEnjoy it!')
