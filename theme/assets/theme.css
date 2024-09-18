@@ -1094,6 +1094,10 @@ div.row {
 }
 
 .modal.fade.alert-modal.in {
+  display: flex !important; 
+  justify-content: center;
+}
+.modal.fade.alert-modal {
   display: flex !important;
   justify-content: center;
 }
@@ -1865,6 +1869,10 @@ footer a, .footer .anvil-component {
 .anvil-role-autoplay-toggle-button {}
 
 .anvil-role-spotify-footer-class {}
+
+.anvil-role-opacity-100 {opacity: 100%;}
+.anvil-role-opacity-50 {opacity: 50%;}
+.anvil-role-opacity-25 {opacity: 25%;}
 
 .anvil-role-call-to-action-button button {
   font-family: Gs-regular;

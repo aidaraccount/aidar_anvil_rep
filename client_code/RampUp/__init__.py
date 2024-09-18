@@ -203,12 +203,12 @@ class RampUp(RampUpTemplate):
 
   def next_role(self, section='Basics', **event_args):
     if section == 'Basics' and self.text_box_model_name.text != '':
-      self.Next.role = 'call-to-action-button'
+      self.Next.role = ['call-to-action-button', 'header-5', 'opacity-100']
     elif section == 'Reference_Artists':
       artist_id = anvil.server.call('get_next_artist_id', self.model_id_view)          
       if artist_id is not None:
-        self.Next.role = 'call-to-action-button'
+        self.Next.role = ['call-to-action-button', 'header-5', 'opacity-100']
       else:
-        self.Next.role = ''
+        self.Next.role = ['call-to-action-button', 'header-5', 'opacity-25']
     else:
-      self.Next.role = ''
+      self.Next.role = ['call-to-action-button', 'header-5', 'opacity-25']

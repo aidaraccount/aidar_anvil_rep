@@ -289,3 +289,9 @@ roles:
   name: rampup-labels
 - components: [TextBox]
   name: rampup-text-field
+- components: [Button]
+  name: opacity-100
+- components: [Button]
+  name: opacity-50
+- components: [Button]
+  name: opacity-25
