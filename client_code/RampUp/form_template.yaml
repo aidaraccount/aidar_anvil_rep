@@ -152,7 +152,7 @@ components:
       type: Label
     - layout_properties: {grid_position: 'QGPYCT,BNNRLU'}
       name: label_2_copy_2
-      properties: {align: center, background: '', bold: false, border: '', font: '', font_size: null, foreground: '', icon: '', icon_align: left, italic: false, role: description-bio, spacing_above: none, spacing_below: none, text: 'Secondly, we will need a starting point. Please provide at least three artists whose musical style, origin, career development, and level of popularity you would like AIDAR to use as a foundation for future suggestions.', tooltip: '', underline: false, visible: true}
+      properties: {align: center, background: '', bold: false, border: '', font: '', font_size: null, foreground: '', icon: '', icon_align: left, italic: false, role: header-7, spacing_above: none, spacing_below: none, text: 'Secondly, we will need a starting point. Please provide at least three artists whose musical style, origin, career development, and level of popularity you would like AIDAR to use as a foundation for future suggestions.', tooltip: '', underline: false, visible: true}
       type: Label
     layout_properties: {grid_position: 'MXGVOS,CQOYIF'}
     name: sec_Reference_Artists_title

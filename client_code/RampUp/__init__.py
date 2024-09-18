@@ -164,8 +164,6 @@ class RampUp(RampUpTemplate):
     self.sec_Level_of_Pop.visible = False
     self.sec_Reference_Artists.clear()
     self.sec_Reference_Artists_title.visible = True
-    my_component = C_RefArtistsSettings()
-    my_component.text_box_search.role = 'search-bar-related-artists'
     self.sec_Reference_Artists.add_component(C_RefArtistsSettings())
 
   def nav_Level_Pop_load(self, **event_args):
