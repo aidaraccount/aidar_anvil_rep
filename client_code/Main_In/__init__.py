@@ -46,7 +46,8 @@ class Main_In(Main_InTemplate):
     # Any code you write here will run before the form opens.    
     global user
     user = anvil.users.get_user()
-    #print(f"Main_In user: {user}")
+    print(f"Main_In user: {user}")
+    
     if user is None:
       self.visible = False
       
@@ -72,9 +73,9 @@ class Main_In(Main_InTemplate):
       #print(f"{datetime.datetime.now()}: Main_In - link_login_click - 3", flush=True)  # 20s, 17s - 4s
             
       if self.model_id is None:
-        status = False
         routing.set_url_hash('no_model', load_from_cache=False)
-        self.change_nav_visibility(status=status)
+        self.change_nav_visibility(status=True)
+        self.SearchBar.visible = False
 
       else:
         #print(f"{datetime.datetime.now()}: Main_In - link_login_click - 3a", flush=True)
@@ -225,12 +226,6 @@ class Main_In(Main_InTemplate):
     self.reset_nav_backgrounds()
     self.link_discover_rel.background = "theme:Accent 3"
     
-  # def link_discover_name_click(self, **event_args):
-  #   click_link(self.link_discover_name, 'search_artist?text=None', event_args)
-    
-  #   self.reset_nav_backgrounds()
-  #   self.link_discover_name.background = "theme:Accent 3"
-
   #----------------------------------------------------------------------------------------------
   # MANAGE
   def change_manage_visibility(self, **event_args):
@@ -286,8 +281,6 @@ class Main_In(Main_InTemplate):
 
   def SearchBar_pressed_enter(self, **event_args):
     searchdata = json.loads(anvil.server.call('search_artist', user["user_id"], self.SearchBar.text.strip()))
-    print(searchdata)
-
     search_text = self.SearchBar.text
     popup_table = alert(
       content=C_SearchPopupTable(self.model_id, search_text),

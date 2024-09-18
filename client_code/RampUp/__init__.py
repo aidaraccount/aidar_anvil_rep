@@ -144,6 +144,8 @@ class RampUp(RampUpTemplate):
     # load artist
     artist_id = anvil.server.call('get_next_artist_id', load_var('model_id_view'))
     click_button(f'artists?artist_id={artist_id}', event_args)
+    # add search bar, if missing due to inital model setup
+    get_open_form().SearchBar.visible = True
 
   # ---------------
   # LOAD SECTIONS

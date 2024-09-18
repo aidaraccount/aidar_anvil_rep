@@ -70,7 +70,3 @@ class C_CreateModel(C_CreateModelTemplate):
       self.parent.parent.get_components()[-1].get_components()[1].role = 'call-to-action-button'
     else:
       self.parent.parent.get_components()[-1].get_components()[1].role = ''
-      self.parent.parent.get_components()[-1].get_components()[1].role = ''
-      self.parent.parent.get_components()[-1].get_components()[1].role = ''
-      self.parent.parent.get_components()[-1].get_components()[1].role = ''
-      self.parent.parent.get_components()[-1].get_components()[1].role = ''

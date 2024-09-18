@@ -26,4 +26,4 @@ class NoModel(NoModelTemplate):
     click_button('connect_model', event_args)
 
   def button_create_model_click(self, **event_args):
-    click_button('create_model', event_args)
+    click_button('model_setup?model_id=None&section=Basics', event_args)
