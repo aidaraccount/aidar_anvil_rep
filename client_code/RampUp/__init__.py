@@ -164,6 +164,8 @@ class RampUp(RampUpTemplate):
     self.sec_Level_of_Pop.visible = False
     self.sec_Reference_Artists.clear()
     self.sec_Reference_Artists_title.visible = True
+    my_component = C_RefArtistsSettings()
+    my_component.text_box_search.role = 'search-bar-related-artists'
     self.sec_Reference_Artists.add_component(C_RefArtistsSettings())
 
   def nav_Level_Pop_load(self, **event_args):
@@ -203,7 +205,7 @@ class RampUp(RampUpTemplate):
 
   def next_role(self, section='Basics', **event_args):
     if section == 'Basics' and self.text_box_model_name.text != '':
-      self.Next.role = ['call-to-action-button', 'header-5', 'opacity-100']
+      self.Next.role = ['call-to-action-button','header-5','opacity-100']
     elif section == 'Reference_Artists':
       artist_id = anvil.server.call('get_next_artist_id', self.model_id_view)          
       if artist_id is not None:
