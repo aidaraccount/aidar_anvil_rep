@@ -180,6 +180,9 @@ class RampUp(RampUpTemplate):
   def text_box_model_name_lost_focus(self, **event_args):
     self.text_box_description.focus()
 
+  def text_box_description_pressed_enter(self, **event_args):
+    self.Next_click()
+
   def delete_click(self, ask=True, **event_args):
     result = alert(title='Do you want to delete this model setup?',
           content="Are you sure to delete this model setup?",
