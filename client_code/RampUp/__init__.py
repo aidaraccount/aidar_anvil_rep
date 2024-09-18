@@ -163,6 +163,7 @@ class RampUp(RampUpTemplate):
     self.sec_Reference_Artists.visible = True
     self.sec_Level_of_Pop.visible = False
     self.sec_Reference_Artists.clear()
+    self.sec_Reference_Artists_title.visible = True
     self.sec_Reference_Artists.add_component(C_RefArtistsSettings())
 
   def nav_Level_Pop_load(self, **event_args):
