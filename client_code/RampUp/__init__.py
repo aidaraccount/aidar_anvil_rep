@@ -43,7 +43,7 @@ class RampUp(RampUpTemplate):
     self.section = section
     print(f"RampUp section: {section}")
 
-    self.Discovering.role = 'call-to-action-button'  # needs to be individualized!!!
+    self.Discovering.role = ['call-to-action-button','header-5','opacity-100']  # needs to be individualized!!!
     
     # ---------------
     # EXISTING MODEL? (fill header and test fields)
@@ -164,6 +164,10 @@ class RampUp(RampUpTemplate):
     self.sec_Level_of_Pop.visible = False
     self.sec_Reference_Artists.clear()
     self.sec_Reference_Artists_title.visible = True
+    # print(C_RefArtistsSettings().get_components()[0].get_components())
+    # print(C_RefArtistsSettings().get_components()[0].get_components()[1])
+    # print(C_RefArtistsSettings().get_components()[0].get_components()[1].role)
+    # C_RefArtistsSettings().get_components()[0].get_components()[1].role= ['text_box_small', 'search-bar-related-artists']
     self.sec_Reference_Artists.add_component(C_RefArtistsSettings())
 
   def nav_Level_Pop_load(self, **event_args):
@@ -207,7 +211,7 @@ class RampUp(RampUpTemplate):
     elif section == 'Reference_Artists':
       artist_id = anvil.server.call('get_next_artist_id', self.model_id_view)          
       if artist_id is not None:
-        self.Next.role = ['call-to-action-button', 'header-5', 'opacity-100']
+        self.Next.role = ['call-to-action-button','header-5','opacity-100']
       else:
         self.Next.role = ['call-to-action-button', 'header-5', 'opacity-25']
     else:
