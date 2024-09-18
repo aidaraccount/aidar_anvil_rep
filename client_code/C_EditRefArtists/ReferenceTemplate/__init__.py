@@ -34,7 +34,6 @@ class ReferenceTemplate(ReferenceTemplateTemplate):
     c = confirm("Do you wish to delete this artist as a reference?")
     if c is True:
       anvil.server.call('delete_reference', self.model_id_view, self.item[0]['ArtistID'])
-      self.parent.parent.parent.get_references()
          
       # SOURCE INDIVIDUAL CODE
       if anvil.js.window.location.hash.lstrip('#').split('?')[0] == 'model_setup':
@@ -42,12 +41,13 @@ class ReferenceTemplate(ReferenceTemplateTemplate):
       elif anvil.js.window.location.hash.lstrip('#').split('?')[0] == 'model_profile':
         # self.parent.parent.parent.parent.parent.parent.no_references.text = int(self.parent.parent.parent.parent.parent.parent.no_references.text) - 1
         pass
+        
+      self.parent.parent.parent.get_references()
         
   def button_2_click(self, **event_args):
     c = confirm("Do you wish to delete this artist as a reference?")
     if c is True:
       anvil.server.call('delete_reference', self.model_id_view, self.item[1]['ArtistID'])
-      self.parent.parent.parent.get_references()
          
       # SOURCE INDIVIDUAL CODE
       if anvil.js.window.location.hash.lstrip('#').split('?')[0] == 'model_setup':
@@ -56,11 +56,12 @@ class ReferenceTemplate(ReferenceTemplateTemplate):
         # self.parent.parent.parent.parent.parent.parent.no_references.text = int(self.parent.parent.parent.parent.parent.parent.no_references.text) - 1
         pass
         
+      self.parent.parent.parent.get_references()
+        
   def button_3_click(self, **event_args):
     c = confirm("Do you wish to delete this artist as a reference?")
     if c is True:
       anvil.server.call('delete_reference', self.model_id_view, self.item[2]['ArtistID'])
-      self.parent.parent.parent.get_references()
          
       # SOURCE INDIVIDUAL CODE
       if anvil.js.window.location.hash.lstrip('#').split('?')[0] == 'model_setup':
@@ -68,3 +69,5 @@ class ReferenceTemplate(ReferenceTemplateTemplate):
       elif anvil.js.window.location.hash.lstrip('#').split('?')[0] == 'model_profile':
         # self.parent.parent.parent.parent.parent.parent.no_references.text = int(self.parent.parent.parent.parent.parent.parent.no_references.text) - 1
         pass
+        
+      self.parent.parent.parent.get_references()
