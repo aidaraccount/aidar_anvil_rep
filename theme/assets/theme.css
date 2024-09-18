@@ -1092,7 +1092,9 @@ div.row {
   left: 50%;
   transform: translate(-50%, -75%) !important;
 }
-
+.modal-backdrop.fade.in {
+  z-index: 0;
+}
 .modal.fade.alert-modal.in {
   display: flex !important; 
   justify-content: center;
