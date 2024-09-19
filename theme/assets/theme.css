@@ -1888,6 +1888,10 @@ footer a, .footer .anvil-component {
   padding: 0 0 0 0;
   width: 100px;
 }
+.anvil-role-150px-width button {
+  width: 200px
+}
+
 .anvil-role-call-to-action-button > button:hover {
   background: #BA7305;
   color: white;

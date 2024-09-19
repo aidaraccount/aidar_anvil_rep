@@ -43,7 +43,7 @@ class RampUp(RampUpTemplate):
     self.section = section
     print(f"RampUp section: {section}")
 
-    self.Discovering.role = ['call-to-action-button','header-5','opacity-100']  # needs to be individualized!!!
+    self.Discovering.role = ['call-to-action-button','header-5','opacity-100', '150px-width']  # needs to be individualized!!!
     
     # ---------------
     # EXISTING MODEL? (fill header and test fields)
