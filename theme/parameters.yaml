@@ -295,3 +295,5 @@ roles:
   name: opacity-50
 - components: [Button]
   name: opacity-25
+- components: [Button]
+  name: back-button

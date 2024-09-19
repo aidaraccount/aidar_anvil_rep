@@ -1891,6 +1891,9 @@ footer a, .footer .anvil-component {
 .anvil-role-150px-width button {
   width: 200px
 }
+.anvil-role-back-button button {
+  background: rgb(88,32,57);
+}
 
 .anvil-role-call-to-action-button > button:hover {
   background: #BA7305;
@@ -1911,3 +1914,6 @@ footer a, .footer .anvil-component {
   right: 15px;
 }
 
+.anvil-panel-row-QGPYCT .anvil-panel-col-BNNRLU .anvil-role-header-7 {
+  margin: 0 45px; 
+}

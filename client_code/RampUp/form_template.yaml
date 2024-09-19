@@ -182,7 +182,7 @@ components:
       layout_properties: {}
       name: Back
       properties:
-        role: [opacity-100, call-to-action-button, header-5]
+        role: [opacity-100, call-to-action-button, header-5, back-button]
         spacing_above: none
         spacing_below: none
         text: |
@@ -198,7 +198,7 @@ components:
       layout_properties: {expand: false, width: null}
       name: Discovering
       properties:
-        role: [header-5, call-to-action-button]
+        role: [header-5]
         spacing_above: none
         spacing_below: none
         text: Start Discovering
