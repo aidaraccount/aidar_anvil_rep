@@ -53,7 +53,7 @@ components:
     - {$$hashKey: 'object:27704', data_key: ArtistFollower_lat, id: ITWSTJ, title: Follower}
     - {$$hashKey: 'object:27824', data_key: Investigate, id: YTCRRC, title: ''}
     foreground: ''
-    role: [anvil-data-grid th, anvil-data-grid td]
+    role: null
     rows_per_page: 3
     show_page_controls: true
     spacing_above: none
