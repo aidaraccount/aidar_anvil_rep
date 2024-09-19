@@ -182,7 +182,7 @@ class RampUp(RampUpTemplate):
     self.sec_Reference_Artists.visible = False
     self.sec_Level_of_Pop.visible = True
     self.sec_Level_of_Pop.clear()
-    # self.sec_Level_of_Pop_title.visible = True
+    self.sec_Level_of_Pop_title.visible = True
     self.sec_Level_of_Pop.add_component(C_LevelOfPopularity())
 
 
