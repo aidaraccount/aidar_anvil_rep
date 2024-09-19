@@ -1090,7 +1090,8 @@ div.row {
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -75%) !important;
+  transform: translate(-47%, -80%) !important;
+  width: 55%;
 }
 .modal-backdrop.fade.in {
   z-index: 0;
