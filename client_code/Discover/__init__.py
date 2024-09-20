@@ -388,6 +388,7 @@ class Discover(DiscoverTemplate):
       # II. SUCCESS
       # Load data
       dev_successes = json.loads(anvil.server.call('get_dev_successes', artist_id))
+      print("HERE:", artist_id, dev_successes)
       dates = [x['Date'] for x in dev_successes]
       artist_popularity = [x["ArtistPopularity"] for x in dev_successes]
       artist_followers = [x["ArtistFollower"] for x in dev_successes]
@@ -407,6 +408,7 @@ class Discover(DiscoverTemplate):
       
       # --------
       # b) Followers
+      print("ArtistFollower_lat:", sug["ArtistFollower_lat"])
       if sug["ArtistFollower_lat"] == 'None': 
         self.sp_fol_lat.text = '-'
       else: 
@@ -1021,6 +1023,8 @@ class Discover(DiscoverTemplate):
     if artist_followers is None:
       artist_followers = self.scatter_data["artist_followers"]
 
+    print(artist_followers)
+    
     # Format the text for the bar annotations
     formatted_text = [f'{x/1e6:.1f}M' if x >= 1e6 else f'{x/1e3:.1f}K' if x >= 1e3 else str(x) for x in artist_followers]
 
