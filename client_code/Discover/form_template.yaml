@@ -1250,7 +1250,7 @@ components:
     type: FlowPanel
   layout_properties: {slot: footer-slot}
   name: Footer
-  properties: {background: 'theme:Grid_Black', col_spacing: tiny, col_widths: '{"XUSTNC":30,"THIOWY":5,"OZIYBS":20,"CLCEVO":20}', spacing_above: none, spacing_below: none, visible: true}
+  properties: {background: 'theme:Grid_Black', col_spacing: tiny, col_widths: '{"XUSTNC":30,"THIOWY":5,"OZIYBS":20,"CLCEVO":20,"KXLRPY":6,"ZCPELY":54}', spacing_above: none, spacing_below: none, visible: true}
   type: ColumnPanel
 container:
   properties: {background: '', html: '@theme:Discover_Sidebar_and_JS.html', role: null}
