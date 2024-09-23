@@ -24,6 +24,7 @@ from ..SearchArtist import SearchArtist
 from ..RelatedArtistSearch import RelatedArtistSearch
 from ..C_CreateModel import C_CreateModel
 from ..ConnectModel import ConnectModel
+from ..CreateWatchlist import CreateWatchlist
 
 from ..ModelProfile import ModelProfileTemplate
 from ..RampUp import RampUpTemplate
@@ -135,8 +136,7 @@ class Main_In(Main_InTemplate):
     return handler
 
   def watchlists_click(self, link_watchlist_id, wl_link, **event_args):
-    # click_button(f'model_profile?model_id={link_model_id}&section=Main', event_args)
-    click_button('watchlist_details?artist_id=None', event_args)
+    click_button(f'watchlist_details?watchlist_id={link_watchlist_id}&artist_id=None', event_args)
     self.reset_nav_backgrounds()
     wl_link.background = "theme:Accent 3"
   # ------------
@@ -289,8 +289,7 @@ class Main_In(Main_InTemplate):
         component.visible = True
 
   def create_watchlist_click(self, **event_args):
-    # click_link(self.create_watchlist, 'model_setup?model_id=None&section=Basics', event_args)
-    click_link(self.create_watchlist, 'watchlist_details?artist_id=None', event_args)
+    click_link(self.create_watchlist, 'create_watchlist', event_args)
     self.reset_nav_backgrounds()
   
   #----------------------------------------------------------------------------------------------

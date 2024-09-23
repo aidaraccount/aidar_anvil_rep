@@ -1,0 +1,79 @@
+components:
+- components:
+  - layout_properties:
+      col_widths: {}
+      grid_position: WKTSPW,ALNASW
+    name: label_1_copy
+    properties: {align: left, background: '', bold: false, border: '', font: '', font_size: null, foreground: '', icon: '', icon_align: left, italic: false, role: header-1, spacing_above: small, spacing_below: small, text: Create a new Watchlist, tooltip: '', underline: false, visible: true}
+    type: Label
+  - components:
+    - layout_properties: {grid_position: 'YOQRAN,ZZKNFN'}
+      name: label_2
+      properties:
+        align: left
+        background: ''
+        bold: false
+        border: ''
+        font: ''
+        font_size: null
+        foreground: ''
+        icon: ''
+        icon_align: left
+        italic: false
+        role: description-bio
+        spacing_above: small
+        spacing_below: small
+        text: |-
+          Please fill out the following information:
+
+          Name of the Watchlist
+        tooltip: ''
+        underline: false
+        visible: true
+      type: Label
+    layout_properties: {grid_position: 'LSHEBX,NHZPRK'}
+    name: column_panel_2
+    properties: {}
+    type: ColumnPanel
+  - components:
+    - components:
+      - event_bindings: {change: text_box_watchlist_name_change, lost_focus: text_box_watchlist_name_lost_focus}
+        layout_properties: {grid_position: 'RIKOCW,CJKVAV'}
+        name: text_box_watchlist_name
+        properties: {align: left, background: '', bold: false, border: '', enabled: true, font: '', font_size: null, foreground: '', hide_text: false, italic: false, placeholder: Name of the Watchlist, role: text_box_small, spacing_above: small, spacing_below: medium, text: '', tooltip: '', type: text, underline: false, visible: true}
+        type: TextBox
+      - layout_properties:
+          col_widths: {}
+          grid_position: OSOBLW,IKUZJY
+        name: label_2_copy
+        properties: {align: left, background: '', bold: false, border: '', font: '', font_size: null, foreground: '', icon: '', icon_align: left, italic: false, role: description-bio, spacing_above: small, spacing_below: small, text: Add a short description to your Watchlist, tooltip: '', underline: false, visible: true}
+        type: Label
+      - event_bindings: {}
+        layout_properties:
+          col_widths: {}
+          grid_position: FKXHKD,ISUOEY
+        name: text_box_description
+        properties: {align: left, background: '', bold: false, border: '', enabled: true, font: '', font_size: null, foreground: '', hide_text: false, italic: false, placeholder: Description of the Watchlist, role: text_box_small, spacing_above: small, spacing_below: medium, text: '', tooltip: '', type: text, underline: false, visible: true}
+        type: TextBox
+      - event_bindings: {click: button_create_watchlist_click}
+        layout_properties: {grid_position: 'YLYYRQ,PKAMGL'}
+        name: CreateButton
+        properties: {align: right, role: header-5, spacing_above: none, spacing_below: none, text: Create Watchlist}
+        type: Button
+      layout_properties: {grid_position: 'VAGXOA,GUUPWI'}
+      name: column_panel_1
+      properties: {col_widths: '{}', spacing_above: none, spacing_below: none}
+      type: ColumnPanel
+    layout_properties: {grid_position: 'ALFBHG,GJKNXI'}
+    name: rich_text_1
+    properties: {align: left, background: '', border: '', content: '', data: null, enable_slots: true, font: '', font_size: null, foreground: '', format: markdown, role: null, spacing_above: small, spacing_below: small, tooltip: '', visible: true}
+    type: RichText
+  layout_properties: {grid_position: 'NDYFJH,LLBANU'}
+  name: content_panel
+  properties: {col_widths: '{}'}
+  type: ColumnPanel
+container:
+  properties: {col_widths: '{}'}
+  type: ColumnPanel
+custom_component: false
+is_package: true

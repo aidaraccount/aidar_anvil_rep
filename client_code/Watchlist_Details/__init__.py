@@ -11,7 +11,7 @@ from anvil_extras import routing
 from ..nav import click_link, click_button, logout, login_check, load_var
 
 
-@routing.route('watchlist_details', url_keys=['artist_id'], title='Watchlist')
+@routing.route('watchlist_details', url_keys=['watchlist_id', 'artist_id'], title='Watchlist')
 class Watchlist_Details(Watchlist_DetailsTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
