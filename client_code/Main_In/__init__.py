@@ -89,10 +89,58 @@ class Main_In(Main_InTemplate):
       #print(f"{datetime.datetime.now()}: Main_In - link_login_click - 5", flush=True)
       #print(f"TotalTime Main_In: {datetime.datetime.now() - begin}", flush=True)
       
-      # MODEL PROFILES IN NAV
+      # WATCHLIST & MODEL PROFILES IN NAV
+      self.refresh_watchlists_components()
       self.refresh_models_components()
 
+
+  # WATCHLIST ROUTING
+  def refresh_watchlists_components(self):
+    self.remove_watchlists_components()
     
+    wl_ids = json.loads(anvil.server.call('get_watchlist_ids',  user["user_id"]))
+    for i in range(0, len(wl_ids)):
+      if wl_ids[i]["is_last_used"] is True:
+        wl_link = Link(
+          icon='fa:angle-right',
+          text=wl_ids[i]["watchlist_name"],
+          tag=wl_ids[i]["watchlist_id"],
+          role='underline-link'
+          )
+      else:
+        wl_link = Link(
+          icon='fa:angle-right',
+          text=wl_ids[i]["watchlist_name"],
+          tag=wl_ids[i]["watchlist_id"]
+          )
+      wl_link.set_event_handler('click', self.create_watchlist_click_handler(wl_ids[i]["watchlist_id"], wl_link))
+      self.nav_watchlists.add_component(wl_link)
+  
+  def remove_watchlist_components(self):
+    for component in self.nav_watchlists.get_components():
+      if isinstance(component, Link):
+        component.remove_from_parent()
+    
+  def refresh_watchlists_underline(self):
+    for component in self.nav_watchlists.get_components():
+      if isinstance(component, Link):
+        if int(component.tag) == int(load_var("watchlist_id")):
+          component.role = 'underline-link'
+        else:
+          component.role = ''
+  
+  def create_watchlist_click_handler(self, watchlist_id, wl_link):
+    def handler(**event_args):
+      self.watchlists_click(watchlist_id, wl_link, **event_args)
+    return handler
+
+  def watchlists_click(self, link_watchlist_id, wl_link, **event_args):
+    # click_button(f'model_profile?model_id={link_model_id}&section=Main', event_args)
+    click_button('watchlist_details?artist_id=None', event_args)
+    self.reset_nav_backgrounds()
+    wl_link.background = "theme:Accent 3"
+  # ------------
+
   # MODEL ROUTING
   def refresh_models_components(self):
     self.remove_model_components()
@@ -144,7 +192,7 @@ class Main_In(Main_InTemplate):
 
   def update_no_notifications(self, **event_args):
     NoNotifications = json.loads(anvil.server.call('get_no_notifications', user["user_id"]))
-    self.link_manage.text = 'MANAGE (' + str(NoNotifications[0]["cnt"]) + ')'
+    self.link_watchlists.text = 'MANAGE (' + str(NoNotifications[0]["cnt"]) + ')'
 
   def reset_nav_backgrounds(self, **event_args):    
     self.link_home.background = None
@@ -152,14 +200,15 @@ class Main_In(Main_InTemplate):
     self.link_discover_ai.background = None
     self.link_discover_rel.background = None
 
-    self.link_manage.background = None
+    self.link_watchlists.background = None
     self.link_manage_watchlist.background = None
     self.link_manage_funnel.background = None
     self.link_manage_dev.background = None
     self.link_models.background = None
+    for component in self.nav_watchlists.get_components():
+      component.background = None
     for component in self.nav_models.get_components():
       component.background = None
-    #self.link_settings.background = None
 
     if location.hash[:9] == '#home':
       self.link_home.background = "theme:Accent 3"
@@ -187,7 +236,7 @@ class Main_In(Main_InTemplate):
 
 
     self.linear_panel_manage.visible = status
-    self.link_manage.visible = status
+    self.link_watchlists.visible = status
     self.link_manage_watchlist.visible = status
     self.link_manage_funnel.visible = status
     self.link_manage_dev.visible = status
@@ -225,17 +274,35 @@ class Main_In(Main_InTemplate):
     click_link(self.link_discover_rel, 'rel_artists?artist_id=None', event_args)
     self.reset_nav_backgrounds()
     self.link_discover_rel.background = "theme:Accent 3"
-    
+
+  #----------------------------------------------------------------------------------------------
+  # WATCHLISTS
+  def change_watchlists_visibility(self, **event_args):
+    if self.link_watchlists.icon == 'fa:angle-down':
+      self.link_watchlists.icon = 'fa:angle-up'
+      for component in self.nav_watchlists.get_components():
+        component.visible = False
+      self.column_panel_nav_wl.visible = True
+    else:
+      self.link_watchlists.icon = 'fa:angle-down'
+      for component in self.nav_watchlists.get_components():
+        component.visible = True
+
+  def create_watchlist_click(self, **event_args):
+    # click_link(self.create_watchlist, 'model_setup?model_id=None&section=Basics', event_args)
+    click_link(self.create_watchlist, 'watchlist_details?artist_id=None', event_args)
+    self.reset_nav_backgrounds()
+  
   #----------------------------------------------------------------------------------------------
   # MANAGE
   def change_manage_visibility(self, **event_args):
     if self.link_manage_watchlist.visible is False:
-      self.link_manage.icon = 'fa:angle-up'
+      self.link_watchlists.icon = 'fa:angle-up'
       self.link_manage_watchlist.visible = True
       self.link_manage_funnel.visible = True
       self.link_manage_dev.visible = True
     else:
-      self.link_manage.icon = 'fa:angle-down'
+      self.link_watchlists.icon = 'fa:angle-down'
       self.link_manage_watchlist.visible = False
       self.link_manage_funnel.visible = False
       self.link_manage_dev.visible = False
