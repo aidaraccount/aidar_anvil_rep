@@ -96,7 +96,7 @@ class Main_In(Main_InTemplate):
 
   # WATCHLIST ROUTING
   def refresh_watchlists_components(self):
-    self.remove_watchlists_components()
+    self.remove_watchlist_components()
     
     wl_ids = json.loads(anvil.server.call('get_watchlist_ids',  user["user_id"]))
     for i in range(0, len(wl_ids)):
