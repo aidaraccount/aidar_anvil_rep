@@ -192,7 +192,7 @@ class Main_In(Main_InTemplate):
 
   def update_no_notifications(self, **event_args):
     NoNotifications = json.loads(anvil.server.call('get_no_notifications', user["user_id"]))
-    self.link_watchlists.text = 'MANAGE (' + str(NoNotifications[0]["cnt"]) + ')'
+    self.link_watchlists.text = 'WATCHLISTS (' + str(NoNotifications[0]["cnt"]) + ')'
 
   def reset_nav_backgrounds(self, **event_args):    
     self.link_home.background = None
@@ -312,7 +312,6 @@ class Main_In(Main_InTemplate):
     self.link_manage_watchlist.background = "theme:Accent 3"
     
   def link_manage_funnel_click(self, **event_args):
-    #click_link(self.link_manage_funnel, 'watchlist_funnel', event_args)    
     routing.set_url_hash('watchlist_funnel', load_from_cache=False)
     
     self.reset_nav_backgrounds()

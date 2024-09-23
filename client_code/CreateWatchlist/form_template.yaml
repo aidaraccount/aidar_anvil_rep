@@ -48,7 +48,7 @@ components:
         name: label_2_copy
         properties: {align: left, background: '', bold: false, border: '', font: '', font_size: null, foreground: '', icon: '', icon_align: left, italic: false, role: description-bio, spacing_above: small, spacing_below: small, text: Add a short description to your Watchlist, tooltip: '', underline: false, visible: true}
         type: Label
-      - event_bindings: {}
+      - event_bindings: {pressed_enter: button_create_watchlist_click}
         layout_properties:
           col_widths: {}
           grid_position: FKXHKD,ISUOEY

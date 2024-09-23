@@ -35,14 +35,17 @@ class CreateWatchlist(CreateWatchlistTemplate):
         self.text_box_watchlist_name.text,
         self.text_box_description.text
       )
+      print("status:", status)
       if status == "Congratulations, your Watchlist was successfully created!":
         # refresh watchlist_id
         watchlist_id = anvil.server.call("get_watchlist_id", user["user_id"])
+        print("watchlist_id:", watchlist_id)
         anvil.server.call("update_watchlist_usage", user["user_id"], watchlist_id)
         save_var("watchlist_id", watchlist_id)
 
         # refresh models components
         get_open_form().refresh_watchlists_components()
+        routing.set_url_hash(f'watchlist_details?watchlist_id={watchlist_id}&artist_id=None', load_from_cache=False)
 
       else:
         alert(title="Error..", content=status)
