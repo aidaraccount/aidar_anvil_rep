@@ -411,6 +411,7 @@ class ModelProfile(ModelProfileTemplate):
       self.edit_icon.icon = 'fa:pencil'
       res = anvil.server.call('update_model_stats', self.model_id_view, self.model_name_text.text, self.model_description_text.text, False)
       if res == 'success':
+        get_open_form().refresh_models_components()
         Notification("",
           title="Model updated!",
           style="success").show()

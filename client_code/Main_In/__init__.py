@@ -16,7 +16,7 @@ from ..nav import click_link, click_button, logout, login_check, save_var, load_
 from ..Main_Out import Main_Out
 from ..Home import Home
 from ..Discover import Discover
-from ..Watchlist_Details import Watchlist_Details
+from ..WatchlistDetails import WatchlistDetails
 from ..Watchlist_Funnel import Watchlist_Funnel
 from ..Watchlist_Overview import Watchlist_Overview
 from ..NoModel import NoModel
