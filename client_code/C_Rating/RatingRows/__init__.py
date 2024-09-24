@@ -23,6 +23,8 @@ class RatingRows(RatingRowsTemplate):
     user = anvil.users.get_user()
     global model_id
     model_id = self.item["ModelID"]
+    wl_id_view = load_var("watchlist_id")
+    self.wl_id_view = wl_id_view
     
     if self.item["Watchlist"] == 1:
       self.button_watchlist.background = '#fd652d' # orange
@@ -49,7 +51,7 @@ class RatingRows(RatingRowsTemplate):
     
     else:
       # add to Watchlist (incl. change Button) and show delete Button
-      anvil.server.call('update_watchlist_lead', model_id, self.item["ArtistID"], True, 'Action required', True)
+      anvil.server.call('update_watchlist_lead', self.wl_id_view, self.item["ArtistID"], True, 'Action required', True)
       self.parent.parent.parent.parent.parent.parent.update_no_notifications()
       self.item["Watchlist"] = 1
       
@@ -65,7 +67,7 @@ class RatingRows(RatingRowsTemplate):
   def button_watchlist_delete_click(self, **event_args):
     c = confirm("Do you wish to delete this artist from your watchlist?")
     if c is True:
-      anvil.server.call('update_watchlist_lead', model_id, self.item["ArtistID"], False, None, False)
+      anvil.server.call('update_watchlist_lead', self.wl_id_view, self.item["ArtistID"], False, None, False)
       self.parent.parent.parent.parent.parent.parent.update_no_notifications()
       self.item["Watchlist"] = 0
       

@@ -10,18 +10,6 @@ components:
   name: content_panel
   properties: {col_widths: '{}'}
   type: ColumnPanel
-- layout_properties: {grid_position: 'BHIMRO,NAQJIH'}
-  name: spacer_1
-  properties: {height: 75}
-  type: Spacer
-- layout_properties: {grid_position: 'IEPKDJ,XPWKEL'}
-  name: label_1
-  properties: {align: center, bold: false, role: sub_title, text: No artists added to your Watchlist yet}
-  type: Label
-- layout_properties: {grid_position: 'BBWYLC,CQVMNJ'}
-  name: label_2
-  properties: {align: center, bold: false, role: description, text: 'Please discover new artists and if of interest, add them to the Watchlist'}
-  type: Label
 - components:
   - layout_properties: {grid_position: 'OZOCCT,IOYMOS'}
     name: spacer
@@ -88,6 +76,18 @@ components:
   name: column_panel_6_copy
   properties: {col_widths: '{"PVSQDK":40,"CPEJAI":18}', role: tile-background-left, spacing_above: none, spacing_below: none}
   type: ColumnPanel
+- layout_properties: {grid_position: 'NTPPQP,WRDECA'}
+  name: spacer_1
+  properties: {height: 75}
+  type: Spacer
+- layout_properties: {grid_position: 'PXDUFY,PMWFLW'}
+  name: label_1
+  properties: {align: center, bold: false, role: sub_title, text: No artists added to your Watchlist yet}
+  type: Label
+- layout_properties: {grid_position: 'CQDXGS,LVLXPB'}
+  name: label_2
+  properties: {align: center, bold: false, role: description, text: 'Please discover new artists and if of interest, add them to the Watchlist'}
+  type: Label
 - components:
   - components:
     - components:

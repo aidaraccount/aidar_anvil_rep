@@ -1285,7 +1285,7 @@ class Discover(DiscoverTemplate):
         style="success").show()
 
   def update_watchlist_lead(self, artist_id, watchlist, status, notification, **event_args):
-    anvil.server.call('update_watchlist_lead', self.model_id, artist_id, watchlist, status, notification)
+    anvil.server.call('update_watchlist_lead', self.wl_id_view, artist_id, watchlist, status, notification)
     self.parent.parent.update_no_notifications()
   
   # -------------------------------
@@ -1518,12 +1518,12 @@ class Discover(DiscoverTemplate):
     self.repeating_panel_1.items = json.loads(anvil.server.call('get_watchlist_notes', user["user_id"], artist_id))
 
   def button_note_click(self, **event_args):
-    anvil.server.call('add_note', user["user_id"], self.model_id, self.artist_id, "", "", self.comments_area_section.text)
+    anvil.server.call('add_note', user["user_id"], self.artist_id, "", "", self.comments_area_section.text)
     self.get_watchlist_notes(self.model_id, self.artist_id)
     self.update_details_on_sidebar()
 
-  def get_watchlist_details (self, model_id, artist_id, **event_args):
-    details = json.loads(anvil.server.call('get_watchlist_details', model_id, artist_id))
+  def get_watchlist_details (self, artist_id, **event_args):
+    details = json.loads(anvil.server.call('get_watchlist_details', self.watchlist_id, artist_id))
 
     if details[0]["Description"] is None:
       self.label_description_2.text = '-'
@@ -1567,9 +1567,9 @@ class Discover(DiscoverTemplate):
 
   def update_details_on_sidebar(self, **event_args):
     """This method is called when an item is selected"""
-    details = json.loads(anvil.server.call('get_watchlist_details', self.model_id, self.artist_id))
+    details = json.loads(anvil.server.call('get_watchlist_details', self.watchlist_id, self.artist_id))
     anvil.server.call('update_watchlist_details',
-                      self.model_id,
+                      self.watchlist_id,
                       self.artist_id,
                       True,
                       self.status_dropdown.selected_value,
@@ -1591,10 +1591,10 @@ class Discover(DiscoverTemplate):
           title=f"{name} added to the watchlist!",
           style="success").show()
 
-    self.get_watchlist_details(self.model_id, self.artist_id)
+    self.get_watchlist_details(self.artist_id)
 
   def contacts_button_click(self, **event_args):
-    details = json.loads(anvil.server.call('get_watchlist_details', self.model_id, self.artist_id))
+    details = json.loads(anvil.server.call('get_watchlist_details', self.watchlist_id, self.artist_id))
 
     if self.contacts_button.icon == 'fa:edit':
       self.contacts_button.icon = 'fa:save'

@@ -43,7 +43,7 @@ class Main_In(Main_InTemplate):
     model_id = load_var("model_id")
     print(f"Main_In model_id: {model_id}")
     print(f"Main_In user_id: {load_var('user_id')}")
-    
+
     # Any code you write here will run before the form opens.    
     global user
     user = anvil.users.get_user()
@@ -61,7 +61,8 @@ class Main_In(Main_InTemplate):
       
       #begin = datetime.datetime.now()
       #print(f"{datetime.datetime.now()}: Main_In - link_login_click - 2", flush=True)
-      
+
+      # model_id
       if user["user_id"] is None:
         self.model_id = None
       else:
@@ -70,7 +71,15 @@ class Main_In(Main_InTemplate):
           #anvil.server.call('update_model_usage', user["user_id"], self.model_id)
         else:
           self.model_id = model_id
-      
+
+
+      # watchlist_id
+      watchlist_id = load_var("watchlist_id")
+      if watchlist_id is None:
+        save_var("watchlist_id", anvil.server.call('get_watchlist_id',  user["user_id"]))
+      self.watchlist_id = watchlist_id
+      print(f"Main_In watchlist_id: {watchlist_id}")
+          
       #print(f"{datetime.datetime.now()}: Main_In - link_login_click - 3", flush=True)  # 20s, 17s - 4s
             
       if self.model_id is None:
@@ -125,7 +134,7 @@ class Main_In(Main_InTemplate):
   def refresh_watchlists_underline(self):
     for component in self.nav_watchlists.get_components():
       if isinstance(component, Link):
-        if int(component.tag) == int(load_var("watchlist_id")):
+        if int(component.tag) == int(self.watchlist_id):
           component.role = 'underline-link'
         else:
           component.role = ''

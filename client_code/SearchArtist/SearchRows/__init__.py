@@ -7,10 +7,11 @@ import anvil.tables.query as q
 from anvil.tables import app_tables
 
 from anvil_extras import routing
-from ...nav import click_link, click_button
+from ...nav import click_link, click_button, logout, login_check, load_var, save_var
 
 from ...Main_In import Main_In
 from ...Discover import Discover
+
 
 class SearchRows(SearchRowsTemplate):
   def __init__(self, **properties):
@@ -20,6 +21,9 @@ class SearchRows(SearchRowsTemplate):
     # Any code you write here will run before the form opens.
     global user
     user = anvil.users.get_user()
+    
+    wl_id_view = load_var("watchlist_id")
+    self.wl_id_view = wl_id_view
     
     if self.item["Watchlist"] == 1:
       self.button_watchlist.background = '#fd652d' # orange
@@ -49,7 +53,7 @@ class SearchRows(SearchRowsTemplate):
     else:
       # add to Watchlist (incl. change Button) and show delete Button
       anvil.server.call('update_watchlist_lead',
-                        self.item["ModelID"],
+                        self.wl_id_view,
                         self.item["ArtistID"],
                         True,
                         'Action required',
@@ -71,7 +75,7 @@ class SearchRows(SearchRowsTemplate):
   def button_watchlist_delete_click(self, **event_args):
     c = confirm("Do you wish to delete this artist from your watchlist?")
     if c is True:
-      anvil.server.call('update_watchlist_lead', self.item["ModelID"], self.item["ArtistID"], False, None, False)
+      anvil.server.call('update_watchlist_lead', self.wl_id_view, self.item["ArtistID"], False, None, False)
       self.parent.parent.parent.parent.parent.parent.update_no_notifications()
       self.item["Watchlist"] = 0
       
