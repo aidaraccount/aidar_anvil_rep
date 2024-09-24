@@ -31,13 +31,46 @@ class C_LevelOfPopularity(C_LevelOfPopularityTemplate):
     fig = go.Figure(data=[go.Scatter(
         x=popularity,
         y=[0]*len(popularity),
-        mode='markers+text', # Display as dots
-        textposition='top center',  # Position text above the points
+        mode='markers', # Display as dots
         marker=dict(size=10, color='rgba(237,139,82,1)'),
-        showlegend=False, # Don't show legend
         hoverinfo='skip',  # Disable hover effect since we display the text
+        # text=names,  # Display artist names
+        # textfont=dict(color='white', size=12),  # Ensure text is visible
+        # texttemplate="%{text}",  # Show text at all times
+        # textposition='top center',  # Position text above the points
+        # showlegend=False, # Don't show legend
     )])
-    
+    # Add a line using another scatter trace
+    fig.add_trace(go.Scatter(
+        x=[min(popularity), max(popularity)],
+        y=[0, 0],  # A line on the y=0 axis
+        mode='lines',
+        line=dict(color='white', width=2)
+    ))    
+    # # Add annotations for each artist name as bubbles
+    # for i, name in enumerate(names):
+    #     fig.add_annotation(
+    #         x=popularity[i],  # Align with the popularity point
+    #         y=0.1,  # Position slightly above the dot
+    #         text=name,  # Artist's name as text
+    #         showarrow=True,  # Display an arrow
+    #         arrowhead=2,  # Arrow type
+    #         arrowsize=1,  # Arrow size
+    #         arrowwidth=1,  # Arrow line width
+    #         arrowcolor='white',  # Arrow color
+    #         ax=popularity[i],  # Arrow start point (x)
+    #         ay=0,  # Arrow start point (y) aligned with dot
+    #         font=dict(
+    #             color='white', 
+    #             size=12, 
+    #             family="Arial"
+    #         ),
+    #         bgcolor='rgba(255, 255, 255, 0.2)',  # Light semi-transparent background
+    #         bordercolor='white',  # Border color to simulate bubble
+    #         borderwidth=2,  # Bubble border width
+    #         borderpad=4  # Padding around the text to make bubble bigger
+    #     )
+        
     # Define a solid line along the x-axis using layout shapes
     fig.update_layout(
         shapes=[
