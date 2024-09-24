@@ -52,13 +52,14 @@ class C_LevelOfPopularity(C_LevelOfPopularityTemplate):
     annotations = [
       dict(
         x=popularity, 
-        y=[0]*len(popularity), 
+        # y=[0]*len(popularity), 
+        y=[0], 
         text=names, 
         yshift=yshift, 
-        font_size=font_size, 
-        textangle=textangle, 
-        arrowsize=arrowsize, 
-        arrowhead=arrowhead
+        # font_size=font_size, 
+        # textangle=textangle, 
+        # arrowsize=arrowsize, 
+        # arrowhead=arrowhead
       )
       for i in range(len(popularity))
                   # for x,y,t,ys,fs,ta,az,ah in zip(popularity,
