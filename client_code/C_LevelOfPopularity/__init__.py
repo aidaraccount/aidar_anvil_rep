@@ -21,15 +21,25 @@ class C_LevelOfPopularity(C_LevelOfPopularityTemplate):
     # Any code you write here will run before the form opens.    
     self.model_id_view = load_var("model_id_view")
 
-    data = json.loads(anvil.server.call('get_pop_bar_artists', self.model_id_view))
+    # data = json.loads(anvil.server.call('get_pop_bar_artists', self.model_id_view))
+    data = [
+    {'name': 'Taylor McCall', 'artist_popularity_lat': 39, 'image_url': 'https://picsum.photos/200/300'},
+    {'name': 'Tanner Usrey', 'artist_popularity_lat': 52, 'image_url': 'https://picsum.photos/200/300'},
+    {'name': 'Flatland Cavalry', 'artist_popularity_lat': 63, 'image_url': 'https://picsum.photos/200/300'},
+    {'name': 'Josh Meloy', 'artist_popularity_lat': 66, 'image_url': 'https://picsum.photos/200/300'},
+    {'name': 'Sam R Barber', 'artist_popularity_lat': 69, 'image_url': 'https://picsum.photos/200/300'},
+    {'name': 'Zach Bryan', 'artist_popularity_lat': 85, 'image_url': 'https://picsum.photos/200/300'}
+    ]
+
     print(data)
      # Extract names and popularity
     names = [artist['name'] for artist in data]
     popularity = [artist['artist_popularity_lat'] for artist in data]
+    images = [artist['image_url'] for artist in data]
 
     yshift = [50] * len(popularity)
     # This is for Image annotations
-    # image_size = 50
+    image_size = 50
     
     # This is for Text Annotations
     font_size = [18] * len(popularity)
@@ -49,30 +59,52 @@ class C_LevelOfPopularity(C_LevelOfPopularityTemplate):
         # texttemplate="%{text}",  # Show text at all times
         # showlegend=False, # Don't show legend
     )])
+    # annotations = [
+    #   dict(
+    #     x=x, 
+    #     y=y, 
+    #     text=t, 
+    #     yshift=ys, 
+    #     font_size=fs, 
+    #     textangle=ta, 
+    #     arrowsize=az, 
+    #     arrowhead=ah)
+    #   for x,y,t,ys,fs,ta,az,ah in zip(popularity,
+    #                                   [0]*len(popularity), 
+    #                                   names, 
+    #                                   yshift, 
+    #                                   font_size, 
+    #                                   textangle, 
+    #                                   arrowsize,
+    #                                   arrowhead
+    #                                 )
+    # ]
+
+    # Add the images using layout.images
+    fig.update_layout(
+      images=[dict(
+        source=images[i],
+        x=popularity[i],  # Place the image at the corresponding popularity value
+        y=0.05,  # Slightly above the x-axis
+        xref="x", yref="y",
+        sizex=10, sizey=10,  # Image size (adjust as needed)
+        xanchor="center", yanchor="bottom",  # Anchor the image to the center of the x position
+        layer="above"  # Ensure the image is placed above the plot elements
+      ) for i in range(len(images))]
+    )   
+    # Add artist names using layout.annotations
     annotations = [
       dict(
-        x=popularity, 
-        # y=[0]*len(popularity), 
-        y=[0], 
-        text=names, 
-        yshift=yshift, 
-        # font_size=font_size, 
-        # textangle=textangle, 
-        # arrowsize=arrowsize, 
-        # arrowhead=arrowhead
-      )
-      for i in range(len(popularity))
-                  # for x,y,t,ys,fs,ta,az,ah in zip(popularity,
-                  #                        [0]*len(popularity), 
-                  #                        names, 
-                  #                        yshift, 
-                  #                        font_size, 
-                  #                        textangle, 
-                  #                        arrowsize,
-                  #                        arrowhead
-                  #                       )
-    ]
-        
+        x=popularity[i], 
+        y=0.15,  # Place the names higher than the images
+        xref="x", 
+        yref="y",
+        text=names[i],  # Display the artist name
+        showarrow=False,
+        font=dict(color="white", size=12),
+        align="center"
+      ) for i in range(len(names))
+    ] 
     # Define a solid line along the x-axis using layout shapes
     fig.update_layout(
       shapes=[
