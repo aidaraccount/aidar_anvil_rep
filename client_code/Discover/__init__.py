@@ -125,8 +125,8 @@ class Discover(DiscoverTemplate):
       
       # -------------------------------
       # NOTES
-      self.get_watchlist_notes(model_id, artist_id)
-      self.get_watchlist_details(model_id, artist_id)
+      self.get_watchlist_notes(artist_id)
+      self.get_watchlist_details(artist_id)
       
       # -------------------------------
       # ARTIST HEADER
@@ -1514,12 +1514,12 @@ class Discover(DiscoverTemplate):
 # -----------------------------------------------------------------------------------------
 #  Start of the Sidebar Watchilish Functions 
 # -----------------------------------------------------------------------------------------    
-  def get_watchlist_notes(self, model_id, artist_id, **event_args):
+  def get_watchlist_notes(self, artist_id, **event_args):
     self.repeating_panel_1.items = json.loads(anvil.server.call('get_watchlist_notes', user["user_id"], artist_id))
 
   def button_note_click(self, **event_args):
     anvil.server.call('add_note', user["user_id"], self.artist_id, "", "", self.comments_area_section.text)
-    self.get_watchlist_notes(self.model_id, self.artist_id)
+    self.get_watchlist_notes(self.artist_id)
     self.update_details_on_sidebar()
 
   def get_watchlist_details (self, artist_id, **event_args):

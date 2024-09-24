@@ -213,7 +213,9 @@ class WatchlistDetails(WatchlistDetailsTemplate):
     }
 
     self.flow_panel_social_media_tile.clear()
-    if len(details[1]["ArtistID"]) == 0:
+    print(len(details[1]))
+    print(details[1]["ArtistID"])
+    if details[1]["ArtistID"] == {}:
       self.flow_panel_social_media_tile.visible = False
     else:
       self.flow_panel_social_media_tile.visible = True
@@ -271,9 +273,7 @@ class WatchlistDetails(WatchlistDetailsTemplate):
       self.date_picker_reminder.date = ''
     else: 
       self.date_picker_reminder.date = details[0]["Reminder"]
-
-    
-    
+  
   def get_watchlist_notes (self, cur_ai_artist_id, **event_args):
     cur_ai_artist_id = cur_ai_artist_id
     self.repeating_panel_detail.items = json.loads(anvil.server.call('get_watchlist_notes', user["user_id"], cur_ai_artist_id))

@@ -34,8 +34,8 @@ class SelectionTemplate(SelectionTemplateTemplate):
     # load the data of the newly selected artist
     cur_ai_artist_id = self.link_selection.url
     self.parent.parent.parent.parent.update_cur_ai_artist_id(cur_ai_artist_id)
-    self.parent.parent.parent.parent.get_watchlist_details(self.wl_id_view, cur_ai_artist_id)
-    self.parent.parent.parent.parent.get_watchlist_notes(model_id, cur_ai_artist_id)
+    self.parent.parent.parent.parent.get_watchlist_details(cur_ai_artist_id)
+    self.parent.parent.parent.parent.get_watchlist_notes(cur_ai_artist_id)
 
     # change the border color to the new selected artist
     components = self.parent.get_components()
