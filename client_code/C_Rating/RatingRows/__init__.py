@@ -6,7 +6,7 @@ import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
 
-from ...Watchlist_Details import Watchlist_Details
+from ...WatchlistDetails import WatchlistDetails
 from ...Main_In import Main_In
 
 from anvil_extras import routing

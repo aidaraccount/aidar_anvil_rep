@@ -194,22 +194,26 @@ class Main_In(Main_InTemplate):
     NoNotifications = json.loads(anvil.server.call('get_no_notifications', user["user_id"]))
     self.link_watchlists.text = 'WATCHLISTS (' + str(NoNotifications[0]["cnt"]) + ')'
 
-  def reset_nav_backgrounds(self, **event_args):    
+  def reset_nav_backgrounds(self, **event_args):
+    # delete old background
     self.link_home.background = None
+    
     self.link_discover.background = None
     self.link_discover_ai.background = None
     self.link_discover_rel.background = None
 
     self.link_watchlists.background = None
-    self.link_manage_watchlist.background = None
-    self.link_manage_funnel.background = None
-    self.link_manage_dev.background = None
-    self.link_models.background = None
     for component in self.nav_watchlists.get_components():
       component.background = None
+    
+    self.link_monitor_funnel.background = None
+    self.link_monitor_dev.background = None
+    
+    self.link_models.background = None    
     for component in self.nav_models.get_components():
       component.background = None
 
+    # set new bacckground
     if location.hash[:9] == '#home':
       self.link_home.background = "theme:Accent 3"
       
@@ -218,12 +222,10 @@ class Main_In(Main_InTemplate):
     elif location.hash[:13] == '#rel_artists?':
       self.link_discover_rel.background = "theme:Accent 3"
       
-    elif location.hash[:19] == '#watchlist_details?':
-      self.link_manage_watchlist.background = "theme:Accent 3"
     elif location.hash[:17] == '#watchlist_funnel':
-      self.link_manage_funnel.background = "theme:Accent 3"
+      self.link_monitor_funnel.background = "theme:Accent 3"
     elif location.hash[:19] == '#watchlist_overview':
-      self.link_manage_dev.background = "theme:Accent 3"
+      self.link_monitor_dev.background = "theme:Accent 3"
       
   
   def change_nav_visibility(self, status, **event_args):
@@ -234,12 +236,11 @@ class Main_In(Main_InTemplate):
     self.link_discover_ai.visible = status
     self.link_discover_rel.visible = status
 
-
-    self.linear_panel_manage.visible = status
     self.link_watchlists.visible = status
-    self.link_manage_watchlist.visible = status
-    self.link_manage_funnel.visible = status
-    self.link_manage_dev.visible = status
+    
+    self.linear_panel_monitor.visible = status
+    self.link_monitor_funnel.visible = status
+    self.link_monitor_dev.visible = status
     
     self.link_models.visible = True
   
@@ -294,33 +295,26 @@ class Main_In(Main_InTemplate):
   
   #----------------------------------------------------------------------------------------------
   # MANAGE
-  def change_manage_visibility(self, **event_args):
-    if self.link_manage_watchlist.visible is False:
-      self.link_watchlists.icon = 'fa:angle-up'
-      self.link_manage_watchlist.visible = True
-      self.link_manage_funnel.visible = True
-      self.link_manage_dev.visible = True
+  def change_monitor_visibility(self, **event_args):
+    if self.link_monitor_funnel.visible is False:
+      self.link_monitor.icon = 'fa:angle-up'
+      self.link_monitor_funnel.visible = True
+      self.link_monitor_dev.visible = True
     else:
-      self.link_watchlists.icon = 'fa:angle-down'
-      self.link_manage_watchlist.visible = False
-      self.link_manage_funnel.visible = False
-      self.link_manage_dev.visible = False
-
-  def link_manage_watchlist_click(self, temp_artist_id=None, **event_args):
-    click_link(self.link_manage_watchlist, 'watchlist_details?artist_id=None', event_args)
-    self.reset_nav_backgrounds()
-    self.link_manage_watchlist.background = "theme:Accent 3"
+      self.link_monitor.icon = 'fa:angle-down'
+      self.link_monitor_funnel.visible = False
+      self.link_monitor_dev.visible = False
     
-  def link_manage_funnel_click(self, **event_args):
+  def link_monitor_funnel_click(self, **event_args):
     routing.set_url_hash('watchlist_funnel', load_from_cache=False)
     
     self.reset_nav_backgrounds()
-    self.link_manage_funnel.background = "theme:Accent 3"
+    self.link_monitor_funnel.background = "theme:Accent 3"
 
-  def link_manage_dev_click(self, **event_args):
-    click_link(self.link_manage_dev, 'watchlist_overview', event_args)
+  def link_monitor_dev_click(self, **event_args):
+    click_link(self.link_monitor_dev, 'watchlist_overview', event_args)
     self.reset_nav_backgrounds()
-    self.link_manage_dev.background = "theme:Accent 3"
+    self.link_monitor_dev.background = "theme:Accent 3"
 
   #----------------------------------------------------------------------------------------------
   # MODELS
