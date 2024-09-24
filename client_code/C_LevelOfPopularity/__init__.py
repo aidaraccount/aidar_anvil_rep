@@ -21,21 +21,21 @@ class C_LevelOfPopularity(C_LevelOfPopularityTemplate):
     # Any code you write here will run before the form opens.    
     self.model_id_view = load_var("model_id_view")
 
-    # data = json.loads(anvil.server.call('get_pop_bar_artists', self.model_id_view))
-    data = [
-    {'name': 'Taylor McCall', 'artist_popularity_lat': 39, 'image_url': 'https://picsum.photos/200/300'},
-    {'name': 'Tanner Usrey', 'artist_popularity_lat': 52, 'image_url': 'https://picsum.photos/200/300'},
-    {'name': 'Flatland Cavalry', 'artist_popularity_lat': 63, 'image_url': 'https://picsum.photos/200/300'},
-    {'name': 'Josh Meloy', 'artist_popularity_lat': 66, 'image_url': 'https://picsum.photos/200/300'},
-    {'name': 'Sam R Barber', 'artist_popularity_lat': 69, 'image_url': 'https://picsum.photos/200/300'},
-    {'name': 'Zach Bryan', 'artist_popularity_lat': 85, 'image_url': 'https://picsum.photos/200/300'}
-    ]
+    data = json.loads(anvil.server.call('get_pop_bar_artists', self.model_id_view))
+    # data = [
+    # {'name': 'Taylor McCall', 'artist_popularity_lat': 39, 'artist_picture_url': 'https://picsum.photos/200/300'},
+    # {'name': 'Tanner Usrey', 'artist_popularity_lat': 52, 'artist_picture_url': 'https://picsum.photos/200/300'},
+    # {'name': 'Flatland Cavalry', 'artist_popularity_lat': 63, 'artist_picture_url': 'https://picsum.photos/200/300'},
+    # {'name': 'Josh Meloy', 'artist_popularity_lat': 66, 'artist_picture_url': 'https://picsum.photos/200/300'},
+    # {'name': 'Sam R Barber', 'artist_popularity_lat': 69, 'artist_picture_url': 'https://picsum.photos/200/300'},
+    # {'name': 'Zach Bryan', 'artist_popularity_lat': 85, 'artist_picture_url': 'https://picsum.photos/200/300'}
+    # ]
 
     print(data)
      # Extract names and popularity
     names = [artist['name'] for artist in data]
     popularity = [artist['artist_popularity_lat'] for artist in data]
-    images = [artist['image_url'] for artist in data]
+    images = [artist['artist_picture_url'] for artist in data]
 
     yshift = [50] * len(popularity)
     # This is for Image annotations
