@@ -32,9 +32,6 @@ class WatchlistDetails(WatchlistDetailsTemplate):
     self.temp_artist_id = temp_artist_id
     print(f"WatchlistDetails temp_artist_id: {temp_artist_id}")
 
-    print("ATTENTION !!!!!! FIXED VALUE !!!!")
-    self.model_id = 2
-
     # initial visibile settings
     self.wl_name_text.visible = False
     self.wl_description_text.visible = False
@@ -174,7 +171,7 @@ class WatchlistDetails(WatchlistDetailsTemplate):
       # get watchlist details and notes
       self.update_cur_ai_artist_id(cur_ai_artist_id)
       self.get_watchlist_details(cur_ai_artist_id)
-      self.get_watchlist_notes(self.model_id, cur_ai_artist_id)
+      self.get_watchlist_notes(cur_ai_artist_id)
 
       # get notifications
       components = self.repeating_panel_selection.get_components()
@@ -277,14 +274,14 @@ class WatchlistDetails(WatchlistDetailsTemplate):
 
     
     
-  def get_watchlist_notes (self, model_id, cur_ai_artist_id, **event_args):
+  def get_watchlist_notes (self, cur_ai_artist_id, **event_args):
     cur_ai_artist_id = cur_ai_artist_id
     self.repeating_panel_detail.items = json.loads(anvil.server.call('get_watchlist_notes', user["user_id"], cur_ai_artist_id))
   
   def button_note_click(self, **event_args):
     anvil.server.call('add_note', user["user_id"], cur_ai_artist_id, "", "", self.text_area_note.text)
     self.text_area_note.text = ""
-    self.get_watchlist_notes(self.model_id, cur_ai_artist_id)
+    self.get_watchlist_notes(cur_ai_artist_id)
 
   def button_edit_click(self, **event_args):
     details = json.loads(anvil.server.call('get_watchlist_details', self.wl_id_view, cur_ai_artist_id))
