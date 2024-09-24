@@ -77,6 +77,13 @@ class Discover(DiscoverTemplate):
     print(f"Discover model_id: {model_id}")
     self.model_id = model_id
 
+    # watchlist_id
+    watchlist_id = load_var("watchlist_id")
+    if watchlist_id is None:
+      save_var("watchlist_id", anvil.server.call('get_watchlist_id',  self.user_id))
+    print(f"Discover watchlist_id: {watchlist_id}")
+    self.watchlist_id = watchlist_id
+    
     # get_suggestion
     url_artist_id = self.url_dict['artist_id']
     sug = json.loads(anvil.server.call('get_suggestion', 'Inspect', self.model_id, url_artist_id)) # Free, Explore, Inspect, Dissect
@@ -675,7 +682,19 @@ class Discover(DiscoverTemplate):
         self.button_remove_filters.visible = True
         
       # --------
-      # c) Models Drop-Down
+      # c) Watchlist Drop-Down
+      if self.user_id is None:
+        self.drop_down_wl.visible = False
+      else:
+        self.drop_down_wl.visible = True
+        wl_data = json.loads(anvil.server.call('get_watchlist_ids',  self.user_id))
+        wl_name_last_used = [item['watchlist_name'] for item in wl_data if item['is_last_used']][0]
+        self.drop_down_wl.selected_value = wl_name_last_used      
+        watchlist_names = [item['watchlist_name'] for item in wl_data]
+        self.drop_down_wl.items = watchlist_names
+
+      # --------
+      # d) Models Drop-Down
       if self.user_id is None:
         self.drop_down_model.visible = False
       else:
@@ -685,7 +704,7 @@ class Discover(DiscoverTemplate):
         self.drop_down_model.selected_value = model_name_last_used      
         model_names = [item['model_name'] for item in model_data]
         self.drop_down_model.items = model_names
-
+        
   # ----------------------------------------------
   def form_show(self, **event_args):
     embed_iframe_element = document.getElementById('embed-iframe')
@@ -1481,9 +1500,16 @@ class Discover(DiscoverTemplate):
     get_open_form().refresh_models_underline()
     routing.set_url_hash(f'artists?artist_id={self.artist_id}', load_from_cache=False)
 
-  def Text_Box_for_Artist_Phone_pressed_enter(self, **event_args):
-    """This method is called when the user presses Enter in this text box"""
-    pass
+  def drop_down_wl_change(self, **event_args):
+    wl_data = json.loads(anvil.server.call('get_watchlist_ids',  user["user_id"]))
+    wl_id_new = [item['watchlist_id'] for item in wl_data if item['watchlist_name'] == self.drop_down_wl.selected_value][0]
+    self.watchlist_id=wl_id_new
+    save_var('watchlist_id', wl_id_new)
+    anvil.server.call('update_watchlist_usage', user["user_id"], wl_id_new)
+    self.header.scroll_into_view(smooth=True)
+    get_open_form().refresh_watchlists_underline()
+    routing.set_url_hash(f'artists?artist_id={self.artist_id}', load_from_cache=False)
+
   
 # -----------------------------------------------------------------------------------------
 #  Start of the Sidebar Watchilish Functions 
