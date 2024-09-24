@@ -28,6 +28,10 @@ class C_LevelOfPopularity(C_LevelOfPopularityTemplate):
     popularity = [artist['artist_popularity_lat'] for artist in data]
 
     yshift = [50] * len(popularity)
+    # This is for Image annotations
+    # image_size = 50
+    
+    # This is for Text Annotations
     font_size = [18] * len(popularity)
     textangle = [0] * len(popularity)
     arrowsize = [2] * len(popularity)
@@ -45,16 +49,28 @@ class C_LevelOfPopularity(C_LevelOfPopularityTemplate):
         # texttemplate="%{text}",  # Show text at all times
         # showlegend=False, # Don't show legend
     )])
-    annotations = [dict(x=x, y=y, text=t, yshift=ys, font_size=fs, textangle=ta, arrowsize=az, arrowhead=ah)
-                  for x,y,t,ys,fs,ta,az,ah in zip(popularity,
-                                         [0]*len(popularity), 
-                                         names, 
-                                         yshift, 
-                                         font_size, 
-                                         textangle, 
-                                         arrowsize,
-                                         arrowhead
-                                        )]
+    annotations = [
+      dict(
+        x=popularity, 
+        y=[0]*len(popularity), 
+        text=names, 
+        yshift=yshift, 
+        font_size=font_size, 
+        textangle=textangle, 
+        arrowsize=arrowsize, 
+        arrowhead=arrowhead
+      )
+      for i in range(len(popularity))
+                  # for x,y,t,ys,fs,ta,az,ah in zip(popularity,
+                  #                        [0]*len(popularity), 
+                  #                        names, 
+                  #                        yshift, 
+                  #                        font_size, 
+                  #                        textangle, 
+                  #                        arrowsize,
+                  #                        arrowhead
+                  #                       )
+    ]
         
     # Define a solid line along the x-axis using layout shapes
     fig.update_layout(
