@@ -26,61 +26,47 @@ class C_LevelOfPopularity(C_LevelOfPopularityTemplate):
      # Extract names and popularity
     names = [artist['name'] for artist in data]
     popularity = [artist['artist_popularity_lat'] for artist in data]
-    
+
+    yshift = [50] * len(popularity)
+    font_size = [18] * len(popularity)
+    textangle = [0] * len(popularity)
+    arrowsize = [2] * len(popularity)
+    arrowhead = [1] * len(popularity)
     # Create the bar chart
     fig = go.Figure(data=[go.Scatter(
         x=popularity,
         y=[0]*len(popularity),
         mode='markers', # Display as dots
-        marker=dict(size=10, color='rgba(237,139,82,1)'),
+        marker=dict(size=20, color='rgba(237,139,82,1)'),
         hoverinfo='skip',  # Disable hover effect since we display the text
         # text=names,  # Display artist names
+        # textposition='top center',  # Position text above the points
         # textfont=dict(color='white', size=12),  # Ensure text is visible
         # texttemplate="%{text}",  # Show text at all times
-        # textposition='top center',  # Position text above the points
         # showlegend=False, # Don't show legend
     )])
-    # Add a line using another scatter trace
-    fig.add_trace(go.Scatter(
-        x=[min(popularity), max(popularity)],
-        y=[0, 0],  # A line on the y=0 axis
-        mode='lines',
-        line=dict(color='white', width=2)
-    ))    
-    # # Add annotations for each artist name as bubbles
-    # for i, name in enumerate(names):
-    #     fig.add_annotation(
-    #         x=popularity[i],  # Align with the popularity point
-    #         y=0.1,  # Position slightly above the dot
-    #         text=name,  # Artist's name as text
-    #         showarrow=True,  # Display an arrow
-    #         arrowhead=2,  # Arrow type
-    #         arrowsize=1,  # Arrow size
-    #         arrowwidth=1,  # Arrow line width
-    #         arrowcolor='white',  # Arrow color
-    #         ax=popularity[i],  # Arrow start point (x)
-    #         ay=0,  # Arrow start point (y) aligned with dot
-    #         font=dict(
-    #             color='white', 
-    #             size=12, 
-    #             family="Arial"
-    #         ),
-    #         bgcolor='rgba(255, 255, 255, 0.2)',  # Light semi-transparent background
-    #         bordercolor='white',  # Border color to simulate bubble
-    #         borderwidth=2,  # Bubble border width
-    #         borderpad=4  # Padding around the text to make bubble bigger
-    #     )
+    annotations = [dict(x=x, y=y, text=t, yshift=ys, font_size=fs, textangle=ta, arrowsize=az, arrowhead=ah)
+                  for x,y,t,ys,fs,ta,az,ah in zip(popularity,
+                                         [0]*len(popularity), 
+                                         names, 
+                                         yshift, 
+                                         font_size, 
+                                         textangle, 
+                                         arrowsize,
+                                         arrowhead
+                                        )]
         
     # Define a solid line along the x-axis using layout shapes
     fig.update_layout(
-        shapes=[
-            dict(
-                type='line',
-                x0=min(popularity), y0=0,  # Start of the line at y=1
-                x1=max(popularity), y1=0,  # End of the line at y=1
-                line=dict(color='white', width=2)  # Solid white line
-            )
-        ]
+      shapes=[
+          dict(
+              type='line',
+              x0=min(popularity), y0=0,  # Start of the line at y=1
+              x1=max(popularity), y1=0,  # End of the line at y=1
+              line=dict(color='white', width=2)  # Solid white line
+          )
+      ],
+      annotations=annotations,
     )
     # Customize the layout of the chart
     fig.update_layout(
@@ -103,3 +89,4 @@ class C_LevelOfPopularity(C_LevelOfPopularityTemplate):
     
     # Assign the figure to the Plot component
     self.artist_popularity_plot.figure = fig
+    print(fig.data)
