@@ -31,29 +31,24 @@ class C_LevelOfPopularity(C_LevelOfPopularityTemplate):
     fig = go.Figure(data=[go.Scatter(
         x=popularity,
         y=[0]*len(popularity),
-        mode='markers', # Display as dots
+        mode='markers+text', # Display as dots
+        textposition='top center',  # Position text above the points
         marker=dict(size=10, color='rgba(237,139,82,1)'),
-        showlegend=False # Don't show legend
+        showlegend=False, # Don't show legend
+        hoverinfo='skip',  # Disable hover effect since we display the text
     )])
     
-    # Add annotations (artist names in bubbles)
-    annotations = []
-    for i, artist_name in enumerate(names):
-        annotations.append(
+    # Define a solid line along the x-axis using layout shapes
+    fig.update_layout(
+        shapes=[
             dict(
-                x=popularity[i],  # x coordinate
-                y=0.5,  # y coordinate slightly above the point
-                text=artist_name,  # Artist's name
-                showarrow=True,  # Show arrow pointing to the point
-                arrowhead=2,  # Arrowhead style
-                ax=0,  # x-axis offset for the arrow
-                ay=-20,  # y-axis offset for the arrow
-                bgcolor="rgba(237,139,82,0.8)",  # Bubble background color
-                font=dict(color="white"),  # Text color inside the bubble
-                arrowcolor="rgba(237,139,82,1)"  # Arrow color
+                type='line',
+                x0=min(popularity), y0=0,  # Start of the line at y=1
+                x1=max(popularity), y1=0,  # End of the line at y=1
+                line=dict(color='white', width=2)  # Solid white line
             )
-        )
-      
+        ]
+    )
     # Customize the layout of the chart
     fig.update_layout(
         xaxis=dict(
