@@ -36,16 +36,7 @@ class C_LevelOfPopularity(C_LevelOfPopularityTemplate):
     names = [artist['name'] for artist in data]
     popularity = [artist['artist_popularity_lat'] for artist in data]
     images = [artist['artist_picture_url'] for artist in data]
-
-    yshift = [50] * len(popularity)
-    # This is for Image annotations
-    image_size = 50
     
-    # This is for Text Annotations
-    font_size = [18] * len(popularity)
-    textangle = [0] * len(popularity)
-    arrowsize = [2] * len(popularity)
-    arrowhead = [1] * len(popularity)
     # Create the bar chart
     fig = go.Figure(data=[go.Scatter(
         x=popularity,
@@ -53,41 +44,16 @@ class C_LevelOfPopularity(C_LevelOfPopularityTemplate):
         mode='markers', # Display as dots
         marker=dict(size=20, color='rgba(237,139,82,1)'),
         hoverinfo='skip',  # Disable hover effect since we display the text
-        # text=names,  # Display artist names
-        # textposition='top center',  # Position text above the points
-        # textfont=dict(color='white', size=12),  # Ensure text is visible
-        # texttemplate="%{text}",  # Show text at all times
-        # showlegend=False, # Don't show legend
     )])
-    # annotations = [
-    #   dict(
-    #     x=x, 
-    #     y=y, 
-    #     text=t, 
-    #     yshift=ys, 
-    #     font_size=fs, 
-    #     textangle=ta, 
-    #     arrowsize=az, 
-    #     arrowhead=ah)
-    #   for x,y,t,ys,fs,ta,az,ah in zip(popularity,
-    #                                   [0]*len(popularity), 
-    #                                   names, 
-    #                                   yshift, 
-    #                                   font_size, 
-    #                                   textangle, 
-    #                                   arrowsize,
-    #                                   arrowhead
-    #                                 )
-    # ]
 
     # Add the images using layout.images
     fig.update_layout(
       images=[dict(
         source=images[i],
         x=popularity[i],  # Place the image at the corresponding popularity value
-        y=0.05,  # Slightly above the x-axis
+        y=0.02,  # Slightly above the x-axis
         xref="x", yref="y",
-        sizex=10, sizey=10,  # Image size (adjust as needed)
+        sizex=3, sizey=3,  # Image size (adjust as needed)
         xanchor="center", yanchor="bottom",  # Anchor the image to the center of the x position
         layer="above"  # Ensure the image is placed above the plot elements
       ) for i in range(len(images))]
@@ -96,12 +62,14 @@ class C_LevelOfPopularity(C_LevelOfPopularityTemplate):
     annotations = [
       dict(
         x=popularity[i], 
-        y=0.15,  # Place the names higher than the images
+        # y=0.15,  # Place the names higher than the images
+        y = 0.1,  # Place the names higher than the images
         xref="x", 
         yref="y",
         text=names[i],  # Display the artist name
         showarrow=False,
-        font=dict(color="white", size=12),
+        textangle = -5,
+        font=dict(color="white", size=10),
         align="center"
       ) for i in range(len(names))
     ] 
@@ -127,7 +95,9 @@ class C_LevelOfPopularity(C_LevelOfPopularityTemplate):
         ),
         yaxis=dict(
             visible=False,  # Hide the y-axis since it's not meaningful
-            showgrid=False  # Disable y-axis grid lines
+            showgrid=False,  # Disable y-axis grid lines
+            range=[0, [0.5]*len(popularity)],  # Adjust y-axis range to add extra space
+
         ),
         plot_bgcolor='rgba(0,0,0,0)',  # Transparent background
         paper_bgcolor='rgba(0,0,0,0)',  # Transparent background
