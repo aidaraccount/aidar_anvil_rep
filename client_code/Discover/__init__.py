@@ -1253,16 +1253,6 @@ class Discover(DiscoverTemplate):
       countryname=countryname
     )
     alert(content=custom_alert_form, large=True, buttons=[])
-
-  
-  # def text_box_search_pressed_enter(self, **event_args):
-  #   search_text = self.text_box_search.text
-  #   popup_table = alert(
-  #     content=C_RelatedPopupTable(self.model_id, search_text),
-  #     large=True,
-  #     buttons=[]
-  #   )
- 
   
   # -------------------------------
   # WATCHLIST  

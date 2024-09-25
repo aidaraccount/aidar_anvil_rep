@@ -134,7 +134,7 @@ class Main_In(Main_InTemplate):
   def refresh_watchlists_underline(self):
     for component in self.nav_watchlists.get_components():
       if isinstance(component, Link):
-        if int(component.tag) == int(self.watchlist_id):
+        if int(component.tag) == int(load_var("watchlist_id")):
           component.role = 'underline-link'
         else:
           component.role = ''
