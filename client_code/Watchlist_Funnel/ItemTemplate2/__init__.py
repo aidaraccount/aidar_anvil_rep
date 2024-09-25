@@ -51,6 +51,7 @@ class ItemTemplate2(ItemTemplate2Template):
       
     anvil.server.call('update_watchlist_lead',
                       user["user_id"],
+                      self.wl_id_view,
                       self.item["ArtistID"],
                       True,
                       status_left_new,
@@ -70,6 +71,7 @@ class ItemTemplate2(ItemTemplate2Template):
     
     anvil.server.call('update_watchlist_lead',
                       user["user_id"],
+                      self.wl_id_view,
                       self.item["ArtistID"],
                       True,
                       status_right_new,

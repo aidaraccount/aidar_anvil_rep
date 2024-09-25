@@ -63,6 +63,7 @@ class SelectionTemplate(SelectionTemplateTemplate):
     details = json.loads(anvil.server.call('get_watchlist_details', self.wl_id_view, cur_ai_artist_id))
     anvil.server.call('update_watchlist_lead',
                       user["user_id"],
+                      self.wl_id_view,
                       cur_ai_artist_id,
                       watchlist,
                       details[0]["Status"],
