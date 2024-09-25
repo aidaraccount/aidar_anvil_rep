@@ -22,14 +22,6 @@ class C_LevelOfPopularity(C_LevelOfPopularityTemplate):
     self.model_id_view = load_var("model_id_view")
 
     data = json.loads(anvil.server.call('get_pop_bar_artists', self.model_id_view))
-    # data = [
-    # {'name': 'Taylor McCall', 'artist_popularity_lat': 39, 'artist_picture_url': 'https://picsum.photos/200/300'},
-    # {'name': 'Tanner Usrey', 'artist_popularity_lat': 52, 'artist_picture_url': 'https://picsum.photos/200/300'},
-    # {'name': 'Flatland Cavalry', 'artist_popularity_lat': 63, 'artist_picture_url': 'https://picsum.photos/200/300'},
-    # {'name': 'Josh Meloy', 'artist_popularity_lat': 66, 'artist_picture_url': 'https://picsum.photos/200/300'},
-    # {'name': 'Sam R Barber', 'artist_popularity_lat': 69, 'artist_picture_url': 'https://picsum.photos/200/300'},
-    # {'name': 'Zach Bryan', 'artist_popularity_lat': 85, 'artist_picture_url': 'https://picsum.photos/200/300'}
-    # ]
 
     print(data)
      # Extract names and popularity
@@ -108,4 +100,3 @@ class C_LevelOfPopularity(C_LevelOfPopularityTemplate):
     
     # Assign the figure to the Plot component
     self.artist_popularity_plot.figure = fig
-    print(fig.data)
