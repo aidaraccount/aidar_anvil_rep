@@ -121,7 +121,7 @@ class Discover(DiscoverTemplate):
       artist_id = int(sug["ArtistID"])
       self.artist_id = artist_id
       
-      watchlist_presence = anvil.server.call('check_watchlist_presence', self.model_id, artist_id)
+      watchlist_presence = anvil.server.call('check_watchlist_presence', self.watchlist_id, artist_id)
       
       # -------------------------------
       # NOTES

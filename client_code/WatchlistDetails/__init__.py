@@ -190,8 +190,6 @@ class WatchlistDetails(WatchlistDetailsTemplate):
   
   def get_watchlist_details (self, cur_ai_artist_id, **event_args):
     cur_ai_artist_id = cur_ai_artist_id
-    print("self.wl_id_view", self.wl_id_view)
-    print("cur_ai_artist_id", cur_ai_artist_id)
     details = json.loads(anvil.server.call('get_watchlist_details', self.wl_id_view, cur_ai_artist_id))
     
     # Image & Name
@@ -213,8 +211,6 @@ class WatchlistDetails(WatchlistDetailsTemplate):
     }
 
     self.flow_panel_social_media_tile.clear()
-    print(len(details[1]))
-    print(details[1]["ArtistID"])
     if details[1]["ArtistID"] == {}:
       self.flow_panel_social_media_tile.visible = False
     else:

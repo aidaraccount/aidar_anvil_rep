@@ -19,8 +19,6 @@ class ItemTemplate2(ItemTemplate2Template):
     user = anvil.users.get_user()
     global model_id
     model_id = anvil.server.call('get_model_id',  user["user_id"])
-    wl_id_view = load_var("watchlist_id")
-    self.wl_id_view = wl_id_view
     
     # Any code you write here will run before the form opens.
     # cut the name
@@ -51,7 +49,7 @@ class ItemTemplate2(ItemTemplate2Template):
       
     anvil.server.call('update_watchlist_lead',
                       user["user_id"],
-                      self.wl_id_view,
+                      None,
                       self.item["ArtistID"],
                       True,
                       status_left_new,
@@ -71,7 +69,7 @@ class ItemTemplate2(ItemTemplate2Template):
     
     anvil.server.call('update_watchlist_lead',
                       user["user_id"],
-                      self.wl_id_view,
+                      None,
                       self.item["ArtistID"],
                       True,
                       status_right_new,

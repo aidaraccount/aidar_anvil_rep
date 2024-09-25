@@ -26,7 +26,7 @@ class RatingRows(RatingRowsTemplate):
     wl_id_view = load_var("watchlist_id")
     self.wl_id_view = wl_id_view
     
-    if self.item["Watchlist"] == 1:
+    if self.item["active"] == 1:
       self.button_watchlist.background = '#fd652d' # orange
       self.button_watchlist.foreground = '#f5f4f1' # white
       self.button_watchlist.tooltip = 'go to Watchlist'
@@ -45,7 +45,7 @@ class RatingRows(RatingRowsTemplate):
 
   # BUTTONS
   def button_watchlist_click(self, **event_args):
-    if self.item["Watchlist"] == 1:
+    if self.item["active"] == 1:
       # route to Watchlist Details
       click_button(f'watchlist_details?artist_id={self.item["ArtistID"]}', event_args)
     
@@ -53,7 +53,7 @@ class RatingRows(RatingRowsTemplate):
       # add to Watchlist (incl. change Button) and show delete Button
       anvil.server.call('update_watchlist_lead', user["user_id"], self.wl_id_view, self.item["ArtistID"], True, 'Action required', True)
       self.parent.parent.parent.parent.parent.parent.update_no_notifications()
-      self.item["Watchlist"] = 1
+      self.item["active"] = 1
       
       self.button_watchlist.background = '#fd652d' # orange
       self.button_watchlist.foreground = '#f5f4f1' # white
@@ -69,7 +69,7 @@ class RatingRows(RatingRowsTemplate):
     if c is True:
       anvil.server.call('update_watchlist_lead', user["user_id"], self.wl_id_view, self.item["ArtistID"], False, None, False)
       self.parent.parent.parent.parent.parent.parent.update_no_notifications()
-      self.item["Watchlist"] = 0
+      self.item["active"] = 0
       
       self.button_watchlist.background = ''
       self.button_watchlist.foreground = ''
