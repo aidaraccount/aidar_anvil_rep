@@ -34,7 +34,7 @@ class C_LevelOfPopularity(C_LevelOfPopularityTemplate):
         x=popularity,
         y=[0]*len(popularity),
         mode='markers', # Display as dots
-        marker=dict(size=20, color='rgba(237,139,82,1)'),
+        marker=dict(size=1, color='rgba(237,139,82,1)'),
         hoverinfo='skip',  # Disable hover effect since we display the text
     )])
 
@@ -84,11 +84,11 @@ class C_LevelOfPopularity(C_LevelOfPopularityTemplate):
           showgrid=False, 
           zeroline=True,
           zerolinewidth=2,
-          # range=[min(popularity), max(popularity)],  # Ensure the range matches the data
+          range=[0, max(popularity)+5],  # Ensure the range matches the data
           rangeslider=dict(
             visible=True,  # Enable the range slider
-            thickness=0.05,  # Thickness of the slider
-            bgcolor = "rgba(237,139,82,1)",
+            thickness=0.45,  # Thickness of the slider
+            # bgcolor = "rgba(237,139,82,1)",
             autorange=True,
           ),
         ),
