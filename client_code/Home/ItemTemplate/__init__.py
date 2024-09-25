@@ -42,7 +42,7 @@ class ItemTemplate(ItemTemplateTemplate):
       status_left_new = 'Build connection'
 
     anvil.server.call('update_watchlist_lead',
-                      self.wl_id_view,
+                      user["user_id"],
                       self.item["ArtistID"],
                       True,
                       status_left_new,
@@ -59,7 +59,7 @@ class ItemTemplate(ItemTemplateTemplate):
       status_right_new = 'Success'
 
     anvil.server.call('update_watchlist_lead',
-                      self.wl_id_view,
+                      user["user_id"],
                       self.item["ArtistID"],
                       True,
                       status_right_new,

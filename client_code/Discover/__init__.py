@@ -1275,7 +1275,7 @@ class Discover(DiscoverTemplate):
         style="success").show()
 
   def update_watchlist_lead(self, artist_id, watchlist, status, notification, **event_args):
-    anvil.server.call('update_watchlist_lead', self.wl_id_view, artist_id, watchlist, status, notification)
+    anvil.server.call('update_watchlist_lead', user["user_id"], artist_id, watchlist, status, notification)
     self.parent.parent.update_no_notifications()
   
   # -------------------------------
@@ -1559,7 +1559,7 @@ class Discover(DiscoverTemplate):
     """This method is called when an item is selected"""
     details = json.loads(anvil.server.call('get_watchlist_details', self.watchlist_id, self.artist_id))
     anvil.server.call('update_watchlist_details',
-                      self.watchlist_id,
+                      user["user_id"],
                       self.artist_id,
                       True,
                       self.status_dropdown.selected_value,

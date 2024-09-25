@@ -50,7 +50,7 @@ class ItemTemplate2(ItemTemplate2Template):
       status_left_new = 'In negotiations'
       
     anvil.server.call('update_watchlist_lead',
-                      self.wl_id_view,
+                      user["user_id"],
                       self.item["ArtistID"],
                       True,
                       status_left_new,
@@ -69,7 +69,7 @@ class ItemTemplate2(ItemTemplate2Template):
       status_right_new = 'Success'
     
     anvil.server.call('update_watchlist_lead',
-                      self.wl_id_view,
+                      user["user_id"],
                       self.item["ArtistID"],
                       True,
                       status_right_new,

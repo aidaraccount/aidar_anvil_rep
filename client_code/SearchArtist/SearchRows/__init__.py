@@ -53,7 +53,7 @@ class SearchRows(SearchRowsTemplate):
     else:
       # add to Watchlist (incl. change Button) and show delete Button
       anvil.server.call('update_watchlist_lead',
-                        self.wl_id_view,
+                        user["user_id"],
                         self.item["ArtistID"],
                         True,
                         'Action required',
@@ -75,7 +75,7 @@ class SearchRows(SearchRowsTemplate):
   def button_watchlist_delete_click(self, **event_args):
     c = confirm("Do you wish to delete this artist from your watchlist?")
     if c is True:
-      anvil.server.call('update_watchlist_lead', self.wl_id_view, self.item["ArtistID"], False, None, False)
+      anvil.server.call('update_watchlist_lead', user["user_id"], self.item["ArtistID"], False, None, False)
       self.parent.parent.parent.parent.parent.parent.update_no_notifications()
       self.item["Watchlist"] = 0
       
