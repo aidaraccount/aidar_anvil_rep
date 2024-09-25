@@ -55,6 +55,6 @@ class RelatedArtistSearch(RelatedArtistSearchTemplate):
   def load_related_artists(self):
     if self.artist_id:
       self.data_grid_related_artists_data.items = json.loads(
-        anvil.server.call('search_related_artists', user["user_id"], self.model_id, self.artist_id)
+        anvil.server.call('search_related_artists', user["user_id"], self.artist_id)
       )
       

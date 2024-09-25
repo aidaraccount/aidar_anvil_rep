@@ -1645,14 +1645,12 @@ class Discover(DiscoverTemplate):
       self.spotify_artist_button.icon = 'fa:play-circle'
       anvil.js.call_js('playSpotify')
 
-    #reset track play buttons
     self.reset_track_play_buttons()
 
   def reset_track_play_buttons(self,  **event_args):
     components = self.data_grid_releases_data.get_components()
     for component in components:
       component.button_play_track.icon = 'fa:play-circle'
-  
   
   def autoplay_button_click(self, **event_args):
     if self.autoplay_button.icon == 'fa:toggle-on':
