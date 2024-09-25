@@ -10,7 +10,7 @@ components:
     type: Label
   - layout_properties: {grid_position: 'WKXQLT,NCRJCE'}
     name: artist_popularity_plot
-    properties: {height: '350', spacing_above: none, spacing_below: none}
+    properties: {height: '350', interactive: true, spacing_above: large, spacing_below: large}
     type: Plot
   layout_properties: {slot: default}
   name: column_panel_1

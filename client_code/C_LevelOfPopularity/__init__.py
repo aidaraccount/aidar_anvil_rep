@@ -83,7 +83,13 @@ class C_LevelOfPopularity(C_LevelOfPopularityTemplate):
           title='Popularity',
           showgrid=False, 
           zeroline=True,
-          zerolinewidth=2
+          zerolinewidth=2,
+          # range=[min(popularity)-5, max(popularity)+5],  # Ensure the range matches the data
+          rangeslider=dict(
+            visible=True,  # Enable the range slider
+            thickness=0.1,  # Thickness of the slider
+            autorange=True,
+          ),
         ),
         yaxis=dict(
             visible=False,  # Hide the y-axis since it's not meaningful
@@ -91,8 +97,8 @@ class C_LevelOfPopularity(C_LevelOfPopularityTemplate):
             range=[0, [0.5]*len(popularity)],  # Adjust y-axis range to add extra space
 
         ),
-        plot_bgcolor='rgba(0,0,0,0)',  # Transparent background
-        paper_bgcolor='rgba(0,0,0,0)',  # Transparent background
+        plot_bgcolor='rgba(250,250,250,1)',  # Transparent background
+        paper_bgcolor='rgba(250,250,250,1)',  # Transparent background
         font=dict(color="white"),
         template='plotly_dark',
         hoverlabel=dict(bgcolor="rgba(237,139,82, 0.8)")  # Customize hover background
