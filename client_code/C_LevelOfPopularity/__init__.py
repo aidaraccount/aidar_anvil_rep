@@ -43,7 +43,7 @@ class C_LevelOfPopularity(C_LevelOfPopularityTemplate):
       images=[dict(
         source=images[i],
         x=popularity[i],  # Place the image at the corresponding popularity value
-        y=0.02,  # Slightly above the x-axis
+        y=0.3,  # Slightly above the x-axis
         xref="x", yref="y",
         sizex=3, sizey=3,  # Image size (adjust as needed)
         xanchor="center", yanchor="bottom",  # Anchor the image to the center of the x position
@@ -55,7 +55,7 @@ class C_LevelOfPopularity(C_LevelOfPopularityTemplate):
       dict(
         x=popularity[i], 
         # y=0.15,  # Place the names higher than the images
-        y = 0.1,  # Place the names higher than the images
+        y = 1.2,  # Place the names higher than the images
         xref="x", 
         yref="y",
         text=names[i],  # Display the artist name
@@ -70,9 +70,9 @@ class C_LevelOfPopularity(C_LevelOfPopularityTemplate):
       shapes=[
           dict(
               type='line',
-              x0=min(popularity), y0=0,  # Start of the line at y=1
-              x1=max(popularity), y1=0,  # End of the line at y=1
-              line=dict(color='white', width=2)  # Solid white line
+              x0=min(popularity), y0=0,  # Start of the line at y=0
+              x1=max(popularity), y1=0,  # End of the line at y=0
+              line=dict(color='white', width=1)  # Solid white line
           )
       ],
       annotations=annotations,
@@ -84,21 +84,21 @@ class C_LevelOfPopularity(C_LevelOfPopularityTemplate):
           showgrid=False, 
           zeroline=True,
           zerolinewidth=2,
-          # range=[min(popularity)-5, max(popularity)+5],  # Ensure the range matches the data
+          # range=[min(popularity), max(popularity)],  # Ensure the range matches the data
           rangeslider=dict(
             visible=True,  # Enable the range slider
-            thickness=0.1,  # Thickness of the slider
+            thickness=0.2,  # Thickness of the slider
             autorange=True,
           ),
         ),
         yaxis=dict(
             visible=False,  # Hide the y-axis since it's not meaningful
             showgrid=False,  # Disable y-axis grid lines
-            range=[0, [0.5]*len(popularity)],  # Adjust y-axis range to add extra space
+            range=[0, 2],  # Adjust y-axis range to add extra space
 
         ),
-        plot_bgcolor='rgba(250,250,250,1)',  # Transparent background
-        paper_bgcolor='rgba(250,250,250,1)',  # Transparent background
+        plot_bgcolor='rgba(250,250,250,0.5)',  # Transparent background
+        paper_bgcolor='rgba(250,250,250,0.5)',  # Transparent background
         font=dict(color="white"),
         template='plotly_dark',
         hoverlabel=dict(bgcolor="rgba(237,139,82, 0.8)")  # Customize hover background
