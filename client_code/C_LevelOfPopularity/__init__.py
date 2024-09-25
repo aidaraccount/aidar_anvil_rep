@@ -55,12 +55,12 @@ class C_LevelOfPopularity(C_LevelOfPopularityTemplate):
       dict(
         x=popularity[i], 
         # y=0.15,  # Place the names higher than the images
-        y = 1.2,  # Place the names higher than the images
+        y = 1.5,  # Place the names higher than the images
         xref="x", 
         yref="y",
         text=names[i],  # Display the artist name
         showarrow=False,
-        textangle = -5,
+        # textangle = -5,
         font=dict(color="white", size=10),
         align="center"
       ) for i in range(len(names))
@@ -87,18 +87,19 @@ class C_LevelOfPopularity(C_LevelOfPopularityTemplate):
           # range=[min(popularity), max(popularity)],  # Ensure the range matches the data
           rangeslider=dict(
             visible=True,  # Enable the range slider
-            thickness=0.2,  # Thickness of the slider
+            thickness=0.05,  # Thickness of the slider
+            bgcolor = "rgba(237,139,82,1)",
             autorange=True,
           ),
         ),
         yaxis=dict(
             visible=False,  # Hide the y-axis since it's not meaningful
-            showgrid=False,  # Disable y-axis grid lines
+            showgrid=True,  # Disable y-axis grid lines
             range=[0, 2],  # Adjust y-axis range to add extra space
 
         ),
-        plot_bgcolor='rgba(250,250,250,0.5)',  # Transparent background
-        paper_bgcolor='rgba(250,250,250,0.5)',  # Transparent background
+        plot_bgcolor='rgba(0,0,0,0)',  # Transparent background
+        paper_bgcolor='rgba(0,0,0,0)',  # Transparent background
         font=dict(color="white"),
         template='plotly_dark',
         hoverlabel=dict(bgcolor="rgba(237,139,82, 0.8)")  # Customize hover background
