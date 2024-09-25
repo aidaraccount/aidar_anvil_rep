@@ -24,7 +24,9 @@ class RowTemplate3(RowTemplate3Template):
 
   
   def button_details_click(self, **event_args):
-    click_button(f'watchlist_details?artist_id={self.item["ArtistID"]}', event_args)
+    link_watchlist_id = anvil.server.call('get_watchlist_id_for_artist', self.item["ArtistID"])
+    print(link_watchlist_id)
+    click_button(f'watchlist_details?watchlist_id={link_watchlist_id}&artist_id={self.item["ArtistID"]}', event_args)
 
   def link_artist_click(self, **event_args):
     click_link(self.link_artist, f'artists?artist_id={self.item["ArtistID"]}', event_args)
