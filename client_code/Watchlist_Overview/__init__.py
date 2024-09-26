@@ -32,55 +32,6 @@ class Watchlist_Overview(Watchlist_OverviewTemplate):
       self.repeating_panel_data.items = sorted(data, key=lambda x: x.get('Name', float('inf')), reverse=True)
       self.link_artist.icon = 'fa:angle-down'  
 
-  #   data = [
-  #     {"name": "Alice", "age": 30},
-  #     {"name": "Bob", "age": 25},
-  #     {"name": "Charlie", "age": 35}
-  #   ]
-
-  #   Set the item template for the RepeatingPanel
-  #   self.TEST_REPEATING_PANEL.item_template = 'RowTemplateTEST'
-        
-  #   Assign data to the RepeatingPanel
-  #   self.TEST_REPEATING_PANEL.items = data
-    
-  #   Set up your data grid columns with custom IDs and headers
-  #   self.setup_columns()
-
-  # def setup_columns(self):
-  #   Define the columns with custom IDs
-  #   columns = [
-  #       {"id": "nameColumn", "title": "", "data_key": "name"},
-  #       {"id": "ageColumn", "title": "", "data_key": "age"}
-  #   ]
-
-  #   Assign the columns to the DataGrid
-  #   self.TEST_DATA_GRID.columns = columns
-
-  #   Add sorting links to headers
-  #   self.add_sorting_links()
-
-  # def add_sorting_links(self):
-  #   Create and add sorting links to headers
-  #   name_link = Link(text="Name", role="header-link")
-  #   name_link.set_event_handler('click', self.sort_by_name)
-  #   self.TEST_DATA_GRID.columns[0]["header"] = name_link
-
-  #   age_link = Link(text="Age", role="header-link")
-  #   age_link.set_event_handler('click', self.sort_by_age)
-  #   self.TEST_DATA_GRID.columns[1]["header"] = age_link
-
-
-  # def sort_by_name(self, **event_args):
-  #   Sort the repeating panel items by name
-  #   sorted_items = sorted(self.TEST_REPEATING_PANEL.items, key=lambda x: x['name'])
-  #   self.TEST_REPEATING_PANEL.items = sorted_items
-
-  # def sort_by_age(self, **event_args):
-  #   Sort the repeating panel items by age
-  #   sorted_items = sorted(self.TEST_REPEATING_PANEL.items, key=lambda x: x['age'])
-  #   self.TEST_REPEATING_PANEL.items = sorted_items
-  
   
   def get_data(self, **event_args):
     # get raw data

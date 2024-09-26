@@ -27,7 +27,7 @@ class Watchlist_Funnel(Watchlist_FunnelTemplate):
     self.model_id = model_id
 
     # FUNNEL DATA
-    data = json.loads(anvil.server.call('get_watchlist_selection', user["user_id"]))
+    data = json.loads(anvil.server.call('get_watchlist_selection', user["user_id"], None))
     self.repeating_panel_1.items = [item for item in data if item['Status'] in ['Reconnect later', 'Not interested', None]] #BACKLOG
     self.repeating_panel_2.items = [item for item in data if item['Status'] in ['Action required', 'Requires revision', 'Waiting for decision']] #EVALUATION
     self.repeating_panel_3.items = [item for item in data if item['Status'] in ['Build connection', 'Awaiting response', 'Exploring opportunities', 'Positive response']] #CONTACTING
@@ -35,7 +35,7 @@ class Watchlist_Funnel(Watchlist_FunnelTemplate):
     self.repeating_panel_5.items = [item for item in data if item['Status'] in ['Success']] #Success
 
   def button_search_click(self, **event_args):
-    data = json.loads(anvil.server.call('get_watchlist_selection', user["user_id"]))
+    data = json.loads(anvil.server.call('get_watchlist_selection', user["user_id"], None))
     data = [entry for entry in data if str(entry["Name"]).lower().find(str(self.text_box_search.text).lower()) != -1]
     
     self.repeating_panel_1.items = [item for item in data if item['Status'] in ['Reconnect later', 'Not interested', None]] #BACKLOG

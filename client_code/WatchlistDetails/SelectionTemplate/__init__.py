@@ -8,6 +8,7 @@ from anvil.tables import app_tables
 import json
 
 from ...Main_In import Main_In
+from ...nav import click_link, click_button, click_box, logout, login_check, load_var, save_var
 
 
 class SelectionTemplate(SelectionTemplateTemplate):
@@ -20,6 +21,8 @@ class SelectionTemplate(SelectionTemplateTemplate):
     user = anvil.users.get_user()
     global model_id
     model_id = anvil.server.call('get_model_id',  user["user_id"])
+    wl_id_view = load_var("watchlist_id")
+    self.wl_id_view = wl_id_view
 
     if len(self.item['Name']) > 12:
       self.link_selection.text = self.item['Name'][0:12] + '..'
@@ -31,8 +34,8 @@ class SelectionTemplate(SelectionTemplateTemplate):
     # load the data of the newly selected artist
     cur_ai_artist_id = self.link_selection.url
     self.parent.parent.parent.parent.update_cur_ai_artist_id(cur_ai_artist_id)
-    self.parent.parent.parent.parent.get_watchlist_details(model_id, cur_ai_artist_id)
-    self.parent.parent.parent.parent.get_watchlist_notes(model_id, cur_ai_artist_id)
+    self.parent.parent.parent.parent.get_watchlist_details(cur_ai_artist_id)
+    self.parent.parent.parent.parent.get_watchlist_notes(cur_ai_artist_id)
 
     # change the border color to the new selected artist
     components = self.parent.get_components()
@@ -57,9 +60,10 @@ class SelectionTemplate(SelectionTemplateTemplate):
   
   def update_watchlist_notification(self, watchlist, notification, **event_args):
     cur_ai_artist_id = self.link_selection.url
-    details = json.loads(anvil.server.call('get_watchlist_details', model_id, cur_ai_artist_id))
+    details = json.loads(anvil.server.call('get_watchlist_details', self.wl_id_view, cur_ai_artist_id))
     anvil.server.call('update_watchlist_lead',
-                      model_id,
+                      user["user_id"],
+                      self.wl_id_view,
                       cur_ai_artist_id,
                       watchlist,
                       details[0]["Status"],

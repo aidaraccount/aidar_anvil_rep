@@ -77,6 +77,13 @@ class Discover(DiscoverTemplate):
     print(f"Discover model_id: {model_id}")
     self.model_id = model_id
 
+    # watchlist_id
+    watchlist_id = load_var("watchlist_id")
+    if watchlist_id is None:
+      save_var("watchlist_id", anvil.server.call('get_watchlist_id',  self.user_id))
+    print(f"Discover watchlist_id: {watchlist_id}")
+    self.watchlist_id = watchlist_id
+    
     # get_suggestion
     url_artist_id = self.url_dict['artist_id']
     sug = json.loads(anvil.server.call('get_suggestion', 'Inspect', self.model_id, url_artist_id)) # Free, Explore, Inspect, Dissect
@@ -113,13 +120,16 @@ class Discover(DiscoverTemplate):
 
       artist_id = int(sug["ArtistID"])
       self.artist_id = artist_id
-      
-      watchlist_presence = anvil.server.call('check_watchlist_presence', self.model_id, artist_id)
+
+      if self.watchlist_id is None:
+        watchlist_presence = 'False'
+      else:
+        watchlist_presence = anvil.server.call('check_watchlist_presence', self.watchlist_id, artist_id)
       
       # -------------------------------
       # NOTES
-      self.get_watchlist_notes(model_id, artist_id)
-      self.get_watchlist_details(model_id, artist_id)
+      self.get_watchlist_notes(artist_id)
+      self.get_watchlist_details(artist_id)
       
       # -------------------------------
       # ARTIST HEADER
@@ -675,7 +685,19 @@ class Discover(DiscoverTemplate):
         self.button_remove_filters.visible = True
         
       # --------
-      # c) Models Drop-Down
+      # c) Watchlist Drop-Down
+      if self.user_id is None:
+        self.drop_down_wl.visible = False
+      else:
+        self.drop_down_wl.visible = True
+        wl_data = json.loads(anvil.server.call('get_watchlist_ids',  self.user_id))
+        wl_name_last_used = [item['watchlist_name'] for item in wl_data if item['is_last_used']][0]
+        self.drop_down_wl.selected_value = wl_name_last_used      
+        watchlist_names = [item['watchlist_name'] for item in wl_data]
+        self.drop_down_wl.items = watchlist_names
+
+      # --------
+      # d) Models Drop-Down
       if self.user_id is None:
         self.drop_down_model.visible = False
       else:
@@ -685,7 +707,7 @@ class Discover(DiscoverTemplate):
         self.drop_down_model.selected_value = model_name_last_used      
         model_names = [item['model_name'] for item in model_data]
         self.drop_down_model.items = model_names
-
+        
   # ----------------------------------------------
   def form_show(self, **event_args):
     embed_iframe_element = document.getElementById('embed-iframe')
@@ -1020,7 +1042,7 @@ class Discover(DiscoverTemplate):
       dates = self.scatter_data["dates"]
     if artist_followers is None:
       artist_followers = self.scatter_data["artist_followers"]
-
+    
     # Format the text for the bar annotations
     formatted_text = [f'{x/1e6:.1f}M' if x >= 1e6 else f'{x/1e3:.1f}K' if x >= 1e3 else str(x) for x in artist_followers]
 
@@ -1234,16 +1256,6 @@ class Discover(DiscoverTemplate):
       countryname=countryname
     )
     alert(content=custom_alert_form, large=True, buttons=[])
-
-  
-  # def text_box_search_pressed_enter(self, **event_args):
-  #   search_text = self.text_box_search.text
-  #   popup_table = alert(
-  #     content=C_RelatedPopupTable(self.model_id, search_text),
-  #     large=True,
-  #     buttons=[]
-  #   )
- 
   
   # -------------------------------
   # WATCHLIST  
@@ -1266,7 +1278,7 @@ class Discover(DiscoverTemplate):
         style="success").show()
 
   def update_watchlist_lead(self, artist_id, watchlist, status, notification, **event_args):
-    anvil.server.call('update_watchlist_lead', self.model_id, artist_id, watchlist, status, notification)
+    anvil.server.call('update_watchlist_lead', user["user_id"], self.watchlist_id, artist_id, watchlist, status, notification)
     self.parent.parent.update_no_notifications()
   
   # -------------------------------
@@ -1481,23 +1493,30 @@ class Discover(DiscoverTemplate):
     get_open_form().refresh_models_underline()
     routing.set_url_hash(f'artists?artist_id={self.artist_id}', load_from_cache=False)
 
-  def Text_Box_for_Artist_Phone_pressed_enter(self, **event_args):
-    """This method is called when the user presses Enter in this text box"""
-    pass
+  def drop_down_wl_change(self, **event_args):
+    wl_data = json.loads(anvil.server.call('get_watchlist_ids',  user["user_id"]))
+    wl_id_new = [item['watchlist_id'] for item in wl_data if item['watchlist_name'] == self.drop_down_wl.selected_value][0]
+    self.watchlist_id=wl_id_new
+    save_var('watchlist_id', wl_id_new)
+    anvil.server.call('update_watchlist_usage', user["user_id"], wl_id_new)
+    self.header.scroll_into_view(smooth=True)
+    get_open_form().refresh_watchlists_underline()
+    routing.set_url_hash(f'artists?artist_id={self.artist_id}', load_from_cache=False)
+
   
 # -----------------------------------------------------------------------------------------
 #  Start of the Sidebar Watchilish Functions 
 # -----------------------------------------------------------------------------------------    
-  def get_watchlist_notes(self, model_id, artist_id, **event_args):
+  def get_watchlist_notes(self, artist_id, **event_args):
     self.repeating_panel_1.items = json.loads(anvil.server.call('get_watchlist_notes', user["user_id"], artist_id))
 
   def button_note_click(self, **event_args):
-    anvil.server.call('add_note', user["user_id"], self.model_id, self.artist_id, "", "", self.comments_area_section.text)
-    self.get_watchlist_notes(self.model_id, self.artist_id)
+    anvil.server.call('add_note', user["user_id"], self.artist_id, "", "", self.comments_area_section.text)
+    self.get_watchlist_notes(self.artist_id)
     self.update_details_on_sidebar()
 
-  def get_watchlist_details (self, model_id, artist_id, **event_args):
-    details = json.loads(anvil.server.call('get_watchlist_details', model_id, artist_id))
+  def get_watchlist_details (self, artist_id, **event_args):
+    details = json.loads(anvil.server.call('get_watchlist_details', self.watchlist_id, artist_id))
 
     if details[0]["Description"] is None:
       self.label_description_2.text = '-'
@@ -1541,9 +1560,10 @@ class Discover(DiscoverTemplate):
 
   def update_details_on_sidebar(self, **event_args):
     """This method is called when an item is selected"""
-    details = json.loads(anvil.server.call('get_watchlist_details', self.model_id, self.artist_id))
+    details = json.loads(anvil.server.call('get_watchlist_details', self.watchlist_id, self.artist_id))
     anvil.server.call('update_watchlist_details',
-                      self.model_id,
+                      user["user_id"],
+                      self.watchlist_id,
                       self.artist_id,
                       True,
                       self.status_dropdown.selected_value,
@@ -1565,10 +1585,10 @@ class Discover(DiscoverTemplate):
           title=f"{name} added to the watchlist!",
           style="success").show()
 
-    self.get_watchlist_details(self.model_id, self.artist_id)
+    self.get_watchlist_details(self.artist_id)
 
   def contacts_button_click(self, **event_args):
-    details = json.loads(anvil.server.call('get_watchlist_details', self.model_id, self.artist_id))
+    details = json.loads(anvil.server.call('get_watchlist_details', self.watchlist_id, self.artist_id))
 
     if self.contacts_button.icon == 'fa:edit':
       self.contacts_button.icon = 'fa:save'
@@ -1629,14 +1649,12 @@ class Discover(DiscoverTemplate):
       self.spotify_artist_button.icon = 'fa:play-circle'
       anvil.js.call_js('playSpotify')
 
-    #reset track play buttons
     self.reset_track_play_buttons()
 
   def reset_track_play_buttons(self,  **event_args):
     components = self.data_grid_releases_data.get_components()
     for component in components:
       component.button_play_track.icon = 'fa:play-circle'
-  
   
   def autoplay_button_click(self, **event_args):
     if self.autoplay_button.icon == 'fa:toggle-on':

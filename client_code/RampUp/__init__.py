@@ -114,6 +114,16 @@ class RampUp(RampUpTemplate):
     
         # refresh models components
         get_open_form().refresh_models_components()
+        get_open_form().refresh_models_underline()
+        
+        # refresh watchlists components
+        watchlist_id = anvil.server.call("get_watchlist_id", user["user_id"])
+        anvil.server.call("update_watchlist_usage", user["user_id"], watchlist_id)
+        save_var("watchlist_id", watchlist_id)
+        get_open_form().refresh_watchlists_components()
+        get_open_form().refresh_watchlists_underline()
+
+        # refresh visibility
         get_open_form().change_nav_visibility(status=True)
             
         # check & routing

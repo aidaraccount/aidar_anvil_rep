@@ -21,10 +21,8 @@ class RelatedRows(RelatedRowsTemplate):
     # Any code you write here will run before the form opens.
     global user
     user = anvil.users.get_user()
-    global model_id
-    model_id = self.item["ModelID"]
-
-    if self.item["Watchlist"] == 1:
+    
+    if self.item["active"] == 1:
       self.button_watchlist.background = "#fd652d"  # orange
       self.button_watchlist.foreground = "#f5f4f1"  # white
       self.button_watchlist.tooltip = "go to Watchlist"
@@ -44,7 +42,7 @@ class RelatedRows(RelatedRowsTemplate):
 
   # BUTTONS
   def button_watchlist_click(self, **event_args):
-    if self.item["Watchlist"] == 1:
+    if self.item["active"] == 1:
       # route to Watchlist Details
       click_link(self.inspect_name_link, f'watchlist_details?artist_id={self.item["ArtistID"]}', event_args)
       
@@ -59,7 +57,7 @@ class RelatedRows(RelatedRowsTemplate):
         True,
       )
       self.parent.parent.parent.parent.parent.parent.parent.update_no_notifications()
-      self.item["Watchlist"] = 1
+      self.item["active"] = 1
 
       self.button_watchlist.background = "#fd652d"  # orange
       self.button_watchlist.foreground = "#f5f4f1"  # white
@@ -83,7 +81,7 @@ class RelatedRows(RelatedRowsTemplate):
         False,
       )
       self.parent.parent.parent.parent.parent.parent.parent.update_no_notifications()
-      self.item["Watchlist"] = 0
+      self.item["active"] = 0
 
       self.button_watchlist.background = ""
       self.button_watchlist.foreground = ""

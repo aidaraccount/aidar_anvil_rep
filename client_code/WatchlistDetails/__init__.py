@@ -1,4 +1,4 @@
-from ._anvil_designer import Watchlist_DetailsTemplate
+from ._anvil_designer import WatchlistDetailsTemplate
 from anvil import *
 import anvil.server
 import anvil.users
@@ -8,34 +8,110 @@ from anvil.tables import app_tables
 import json
 
 from anvil_extras import routing
-from ..nav import click_link, click_button, logout, login_check, load_var
+from ..nav import click_link, click_button, logout, login_check, load_var, save_var
 
 
-@routing.route('watchlist_details', url_keys=['artist_id'], title='Watchlist')
-class Watchlist_Details(Watchlist_DetailsTemplate):
+@routing.route('watchlist_details', url_keys=['watchlist_id', 'artist_id'], title='Watchlist')
+class WatchlistDetails(WatchlistDetailsTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
-    
-    model_id = load_var("model_id")
-    print(f"Watchlist_Details model_id: {model_id}")
-    temp_artist_id = self.url_dict['artist_id']
-    print(f"Watchlist_Details temp_artist_id: {temp_artist_id}")
-    
+        
     # Any code you write here will run before the form opens.
     global user
     user = anvil.users.get_user()
-    self.model_id = model_id
 
+    wl_id_active = anvil.server.call('get_watchlist_id', user["user_id"])
+    print(f"WatchlistDetails wl_id_active: {wl_id_active}")
+    
+    wl_id_view = self.url_dict['watchlist_id']
+    self.wl_id_view = wl_id_view
+    save_var("WatchlistDetails wl_id_view:", wl_id_view)
+    
+    temp_artist_id = self.url_dict['artist_id']
+    self.temp_artist_id = temp_artist_id
+    print(f"WatchlistDetails temp_artist_id: {temp_artist_id}")
+
+    # initial visibile settings
+    self.wl_name_text.visible = False
+    self.wl_description_text.visible = False
+    
+    if int(wl_id_view) == int(wl_id_active):
+      self.activated.visible = True
+      self.activate.visible = False
+    else:
+      self.activated.visible = False
+      self.activate.visible = True   
+    
+    # model name and description text and text boxes
+    infos = json.loads(anvil.server.call('get_watchlist_stats', wl_id_view))[0]    
+    self.wl_name.text = infos["watchlist_name"]
+    if infos["description"] is None:
+      self.wl_description.text = '-'
+    else:
+      self.wl_description.text = infos["description"]
+
+    # get_watchlist_selection
     self.get_watchlist_selection(temp_artist_id = temp_artist_id)
 
+  # ------------------
+  # HEADER
+  def edit_icon_click(self, **event_args):
+    if self.wl_name.visible is True: 
+      self.wl_name.visible = False
+      self.wl_description.visible = False
+      self.wl_name_text.visible = True
+      self.wl_description_text.visible = True
+      self.wl_name_text.text = self.wl_name.text
+      self.wl_description_text.text = self.wl_description.text
+      self.edit_icon.icon = 'fa:save'
+    else:
+      self.wl_name_text.visible = False
+      self.wl_description_text.visible = False
+      self.wl_name.visible = True
+      self.wl_description.visible = True
+      self.wl_name.text = self.wl_name_text.text
+      self.wl_description.text = self.wl_description_text.text
+      self.edit_icon.icon = 'fa:pencil'
+      res = anvil.server.call('update_watchlist_stats', self.wl_id_view, self.wl_name_text.text, self.wl_description_text.text)
+      if res == 'success':
+        get_open_form().refresh_watchlists_components()
+        Notification("",
+          title="Watchlist updated!",
+          style="success").show()
+
+  def delete_click(self, **event_args):
+    result = alert(title='Do you want to delete this watchlist?',
+          content="Are you sure to delete this watchlist?\n\nEverything will be lost! All artists, all notes, etc. - all you did will be gone for ever.",
+          buttons=[
+            ("Cancel", "Cancel"),
+            ("Delete", "Delete")
+          ])
+    if result == 'Delete':
+      res = anvil.server.call('delete_watchlist', self.wl_id_view)
+      if res == 'success':
+        Notification("",
+          title="Watchlist deleted!",
+          style="success").show()
+        click_button('home', event_args)
+        get_open_form().refresh_watchlists_components()
+        get_open_form().refresh_watchlists_underline()
+
+  def activate_click(self, **event_args):
+    anvil.server.call('update_watchlist_usage', user["user_id"], self.wl_id_view)
+    save_var('watchlist_id', self.wl_id_view)
+    click_button(f'watchlist_details?watchlist_id={self.wl_id_view}&artist_id={self.temp_artist_id}', event_args)
+    get_open_form().refresh_watchlists_underline()
+  
+  # ------------------
+  # LEFT SIDE
   def drop_down_selection_change(self, **event_args):
     self.get_watchlist_selection(temp_artist_id=None)
   
   # get information for selection bar on the left
   def get_watchlist_selection(self, temp_artist_id, **event_args):
     # 1. get selection data
-    watchlist_selection = json.loads(anvil.server.call('get_watchlist_selection', user["user_id"]))
+    watchlist_selection = json.loads(anvil.server.call('get_watchlist_selection', None, self.wl_id_view))
 
     # 2. sort it according to the drop_down_selection
     # transform None to 'None'
@@ -94,8 +170,8 @@ class Watchlist_Details(Watchlist_DetailsTemplate):
         
       # get watchlist details and notes
       self.update_cur_ai_artist_id(cur_ai_artist_id)
-      self.get_watchlist_details(self.model_id, cur_ai_artist_id)
-      self.get_watchlist_notes(self.model_id, cur_ai_artist_id)
+      self.get_watchlist_details(cur_ai_artist_id)
+      self.get_watchlist_notes(cur_ai_artist_id)
 
       # get notifications
       components = self.repeating_panel_selection.get_components()
@@ -107,15 +183,14 @@ class Watchlist_Details(Watchlist_DetailsTemplate):
       # hide all watchlist content and only show dummy text
       self.column_panel_5.visible = False
       self.column_panel_4.visible = False
-      self.label_description.visible = False
 
   def update_cur_ai_artist_id(self, new_value):
     global cur_ai_artist_id
     cur_ai_artist_id = new_value
   
-  def get_watchlist_details (self, model_id, cur_ai_artist_id, **event_args):
+  def get_watchlist_details (self, cur_ai_artist_id, **event_args):
     cur_ai_artist_id = cur_ai_artist_id
-    details = json.loads(anvil.server.call('get_watchlist_details', model_id, cur_ai_artist_id))
+    details = json.loads(anvil.server.call('get_watchlist_details', self.wl_id_view, cur_ai_artist_id))
     
     # Image & Name
     self.image_detail.source = details[0]["ArtistPictureURL"]
@@ -136,7 +211,7 @@ class Watchlist_Details(Watchlist_DetailsTemplate):
     }
 
     self.flow_panel_social_media_tile.clear()
-    if len(details[1]["ArtistID"]) == 0:
+    if details[1]["ArtistID"] == {}:
       self.flow_panel_social_media_tile.visible = False
     else:
       self.flow_panel_social_media_tile.visible = True
@@ -194,20 +269,18 @@ class Watchlist_Details(Watchlist_DetailsTemplate):
       self.date_picker_reminder.date = ''
     else: 
       self.date_picker_reminder.date = details[0]["Reminder"]
-
-    
-    
-  def get_watchlist_notes (self, model_id, cur_ai_artist_id, **event_args):
+  
+  def get_watchlist_notes (self, cur_ai_artist_id, **event_args):
     cur_ai_artist_id = cur_ai_artist_id
     self.repeating_panel_detail.items = json.loads(anvil.server.call('get_watchlist_notes', user["user_id"], cur_ai_artist_id))
   
   def button_note_click(self, **event_args):
-    anvil.server.call('add_note', user["user_id"], self.model_id, cur_ai_artist_id, "", "", self.text_area_note.text)
+    anvil.server.call('add_note', user["user_id"], cur_ai_artist_id, "", "", self.text_area_note.text)
     self.text_area_note.text = ""
-    self.get_watchlist_notes(self.model_id, cur_ai_artist_id)
+    self.get_watchlist_notes(cur_ai_artist_id)
 
   def button_edit_click(self, **event_args):
-    details = json.loads(anvil.server.call('get_watchlist_details', self.model_id, cur_ai_artist_id))
+    details = json.loads(anvil.server.call('get_watchlist_details', self.wl_id_view, cur_ai_artist_id))
     
     if self.button_edit.icon == 'fa:edit':
       self.button_edit.icon = 'fa:save'
@@ -248,9 +321,10 @@ class Watchlist_Details(Watchlist_DetailsTemplate):
       self.update_watchlist_details()
   
   def update_watchlist_details(self, **event_args):
-    details = json.loads(anvil.server.call('get_watchlist_details', self.model_id, cur_ai_artist_id))
+    details = json.loads(anvil.server.call('get_watchlist_details', self.wl_id_view, cur_ai_artist_id))
     anvil.server.call('update_watchlist_details',
-                      self.model_id,
+                      user["user_id"],
+                      self.wl_id_view,
                       cur_ai_artist_id,
                       True,
                       self.drop_down_status.selected_value,
@@ -263,7 +337,7 @@ class Watchlist_Details(Watchlist_DetailsTemplate):
                       self.text_area_description.text
                       )
     
-    self.get_watchlist_details(self.model_id, cur_ai_artist_id)
+    self.get_watchlist_details(cur_ai_artist_id)
   
   def button_investigate_click(self, **event_args):
     click_button(f'artists?artist_id={cur_ai_artist_id}', event_args)
@@ -271,6 +345,6 @@ class Watchlist_Details(Watchlist_DetailsTemplate):
   def button_delete_click(self, **event_args):
     c = confirm("Do you wish to delete this artist from your watchlist?")
     if c is True:
-      anvil.server.call('update_watchlist_lead', self.model_id, cur_ai_artist_id, False, None, False)
+      anvil.server.call('update_watchlist_lead', user["user_id"], self.wl_id_view, cur_ai_artist_id, False, self.drop_down_status.selected_value, False)
       self.get_watchlist_selection(temp_artist_id = None)
       self.parent.parent.update_no_notifications()

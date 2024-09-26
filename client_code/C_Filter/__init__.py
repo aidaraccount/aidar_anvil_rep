@@ -62,13 +62,13 @@ class C_Filter(C_FilterTemplate):
                "avg_valence >=": "avg_valence_min",
                "avg_valence <=": "avg_valence_max",
                "avg_tempo >=": "avg_tempo_min",
-               "avg_tempo <=": "avg_tempo_max"}
+               "avg_tempo <=": "avg_tempo_max",
+               "gender =": "drop_down_gender"}
     
     fil = json.loads(anvil.server.call('get_filters', self.model_id))
-    print(fil)
     
     for filter in fil:
-      if filter["Type"] == 'general':
+      if filter["Type"] in ('general', 'gender'):
         element = getattr(self, my_dict[f'{filter["Column"]} {filter["Operator"]}'], None)
         if filter["Column"] in ("artist_popularity_lat", "artist_follower_lat", "avg_duration", "avg_loudness", "avg_tempo"):
           element.text = "{:.0f}".format(round(float(filter["Value"]), 0))
@@ -80,6 +80,11 @@ class C_Filter(C_FilterTemplate):
         elif filter["Column"] in ("major_coop", "sub_major_coop"):
           if filter["Value"] == '1': element.selected_value = 'Yes'
           if filter["Value"] == '0': element.selected_value = 'No'
+        elif filter["Column"] in ("gender"):
+          if filter["Value"] == 'female': element.selected_value = 'Female'
+          if filter["Value"] == 'male': element.selected_value = 'Male'
+          if filter["Value"] == 'mixed': element.selected_value = 'Mixed'
+          if filter["Value"] == 'other': element.selected_value = 'Other'
 
     # Genre Filters
     filter_genre = [item for item in fil if item['Type'] == 'genre']
@@ -109,7 +114,8 @@ class C_Filter(C_FilterTemplate):
     if self.drop_down_major.selected_value == 'No': filters_json += f'{{"ModelID":"{self.model_id}","Type":"general","Column":"major_coop","Operator":"=","Value":"0"}},'
     if self.drop_down_submajor.selected_value == 'Yes': filters_json += f'{{"ModelID":"{self.model_id}","Type":"general","Column":"sub_major_coop","Operator":"=","Value":"1"}},'
     if self.drop_down_submajor.selected_value == 'No': filters_json += f'{{"ModelID":"{self.model_id}","Type":"general","Column":"sub_major_coop","Operator":"=","Value":"0"}},'
-    
+
+    # 2. Musical Features
     if self.avg_duration_min.text is not None: filters_json += f'{{"ModelID":"{self.model_id}","Type":"general","Column":"avg_duration","Operator":">=","Value":"{self.avg_duration_min.text}"}},'
     if self.avg_duration_max.text is not None: filters_json += f'{{"ModelID":"{self.model_id}","Type":"general","Column":"avg_duration","Operator":"<=","Value":"{self.avg_duration_max.text}"}},'
     
@@ -147,13 +153,13 @@ class C_Filter(C_FilterTemplate):
     if self.avg_tempo_min.text is not None: filters_json += f'{{"ModelID":"{self.model_id}","Type":"general","Column":"avg_tempo","Operator":">=","Value":"{self.avg_tempo_min.text}"}},'
     if self.avg_tempo_max.text is not None: filters_json += f'{{"ModelID":"{self.model_id}","Type":"general","Column":"avg_tempo","Operator":"<=","Value":"{self.avg_tempo_max.text}"}},'
 
-    # 2. Genres
+    # 3. Genres
     genre_data = self.repeating_panel_genre.items
     if genre_data is not None:
       for element in genre_data:
         filters_json += f'{{"ModelID":"{self.model_id}","Type":"genre","Column":"{element["Column"].lower()}","Operator":"is","Value":"{element["Value"]}"}},'
     
-    # 3. Origins
+    # 4. Origins
     origin_data = self.repeating_panel_origin.items
     if origin_data is not None:
       for element in origin_data:
@@ -162,7 +168,13 @@ class C_Filter(C_FilterTemplate):
         else:
           operator = 'is not'
         filters_json += f'{{"ModelID":"{self.model_id}","Type":"origin","Column":"country_code","Operator":"{operator}","Value":"{element["Column"][:2]}"}},'
-    
+
+    # 5. Gender
+    if self.drop_down_gender.selected_value == 'Female': filters_json += f'{{"ModelID":"{self.model_id}","Type":"gender","Column":"gender","Operator":"=","Value":"female"}},'
+    if self.drop_down_gender.selected_value == 'Male': filters_json += f'{{"ModelID":"{self.model_id}","Type":"gender","Column":"gender","Operator":"=","Value":"male"}},'
+    if self.drop_down_gender.selected_value == 'Mixed': filters_json += f'{{"ModelID":"{self.model_id}","Type":"gender","Column":"gender","Operator":"=","Value":"mixed"}},'
+    if self.drop_down_gender.selected_value == 'Other': filters_json += f'{{"ModelID":"{self.model_id}","Type":"gender","Column":"gender","Operator":"=","Value":"other"}},'
+        
     # correct and close the json string
     if filters_json[-1] == ",": filters_json = filters_json[:-1]
     filters_json += "]"
