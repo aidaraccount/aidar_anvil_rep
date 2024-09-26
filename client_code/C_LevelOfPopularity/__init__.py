@@ -34,7 +34,8 @@ class C_LevelOfPopularity(C_LevelOfPopularityTemplate):
         x=popularity,
         y=[0]*len(popularity),
         mode='markers', # Display as dots
-        marker=dict(size=1, color='rgba(237,139,82,1)'),
+        # marker=dict(size=0, color='rgba(237,139,82,1)'),
+        marker=dict(size=0),
         hoverinfo='skip',  # Disable hover effect since we display the text
     )])
 
@@ -54,13 +55,12 @@ class C_LevelOfPopularity(C_LevelOfPopularityTemplate):
     annotations = [
       dict(
         x=popularity[i], 
-        # y=0.15,  # Place the names higher than the images
         y = 1.5,  # Place the names higher than the images
         xref="x", 
         yref="y",
         text=names[i],  # Display the artist name
         showarrow=False,
-        # textangle = -5,
+        textangle = -5,
         font=dict(color="white", size=10),
         align="center"
       ) for i in range(len(names))
@@ -87,10 +87,12 @@ class C_LevelOfPopularity(C_LevelOfPopularityTemplate):
           range=[0, max(popularity)+5],  # Ensure the range matches the data
           rangeslider=dict(
             visible=True,  # Enable the range slider
-            thickness=0.45,  # Thickness of the slider
+            thickness=0.15,  # Thickness of the slider
             # bgcolor = "rgba(237,139,82,1)",
-            autorange=True,
+            autorange=False,
+            range=[0, max(popularity)+5]
           ),
+          fixedrange=True,
         ),
         yaxis=dict(
             visible=False,  # Hide the y-axis since it's not meaningful
@@ -107,3 +109,10 @@ class C_LevelOfPopularity(C_LevelOfPopularityTemplate):
     
     # Assign the figure to the Plot component
     self.artist_popularity_plot.figure = fig
+
+
+  # Callback for capturing slider values
+  # def slider_callback(self, **event_args):
+  #   # Access the current range of the slider
+  #   updated_range = self.artist_popularity_plot.get_active_trace().layout.xaxis.range
+  #   print("Updated Range:", updated_range)
