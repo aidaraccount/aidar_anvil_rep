@@ -15,7 +15,7 @@ components:
   - event_bindings: {change: slider_1_change}
     layout_properties: {grid_position: 'DSZTNF,NASZWV'}
     name: slider_1
-    properties: {animate: true, bar_height: '', connect: 'False,True,False', format: .0f, pips: true, pips_density: 5, pips_mode: values, pips_values: '0,25,50,75,100', role: slider, start: '10,90', tooltips: false}
+    properties: {animate: true, bar_height: '', connect: 'False,True,False', format: .0f, pips: true, pips_density: 5, pips_mode: values, pips_values: '0,25,50,75,100', role: slider, spacing_above: none, spacing_below: none, start: '10,90', tooltips: false, visible: true}
     type: form:dep_h86ijk4pnzr0f:Slider
   layout_properties: {slot: default}
   name: column_panel_1

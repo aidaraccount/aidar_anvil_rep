@@ -1920,5 +1920,12 @@ footer a, .footer .anvil-component {
 }
 
 .anvil-role-slider {
-  --slider-height: 5px;
+    -webkit-appearance: none;
+    width: 100%;
+    --slider-height: 5px !important;
+    opacity: 0.7;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+    --slider-bar_color: rgb(233,95,48) !important;
+    --slider-handle-size: 12px !important;
 }
