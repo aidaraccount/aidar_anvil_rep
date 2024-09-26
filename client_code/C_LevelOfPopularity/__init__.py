@@ -81,7 +81,10 @@ class C_LevelOfPopularity(C_LevelOfPopularityTemplate):
         showgrid=False, 
         zeroline=True,
         zerolinewidth=2,
-        range=[0 , max(popularity)+5],  # Ensure the range matches the data
+        range=[0, 100],  # Ensure the range matches the data
+        tickvals=[],  # Hide tick values
+        ticktext=[],  # Hide tick text
+        showticklabels=False  
       ),
       yaxis=dict(
         visible=False,  # Hide the y-axis since it's not meaningful
