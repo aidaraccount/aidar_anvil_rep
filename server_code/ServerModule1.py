@@ -18,3 +18,13 @@ def server_transfer_user_id():
     if new_user_id is not None:
       user_row = app_tables.users.get(email = user["email"])
       user_row['user_id'] = new_user_id
+
+@anvil.server.callable
+def update_slider_start(value):
+  print(f"Slider start value: {value}")
+  # You can update the graph, filter data, etc., based on this value
+
+@anvil.server.callable
+def update_slider_end(value):
+  print(f"Slider end value: {value}")
+  # Update your logic based on this value

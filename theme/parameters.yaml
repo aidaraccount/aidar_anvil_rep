@@ -297,3 +297,5 @@ roles:
   name: opacity-25
 - components: [Button]
   name: back-button
+- components: [Slider]
+  name: slider

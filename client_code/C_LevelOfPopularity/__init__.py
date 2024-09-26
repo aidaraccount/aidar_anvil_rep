@@ -104,3 +104,10 @@ class C_LevelOfPopularity(C_LevelOfPopularityTemplate):
   #   # Access the current range of the slider
   #   updated_range = self.artist_popularity_plot.get_active_trace().layout.xaxis.range
   #   print("Updated Range:", updated_range)
+
+  def slider_1_change(self, handle, **event_args):
+    """This method is called when the slider has finished sliding"""
+    print(
+        f"slider 1 change\nhandle={handle} | value={self.slider_1.values[handle]} | formatted={self.slider_1.formatted_values[handle]}"
+    )
+    

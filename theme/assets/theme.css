@@ -1918,3 +1918,7 @@ footer a, .footer .anvil-component {
 .anvil-panel-row-QGPYCT .anvil-panel-col-BNNRLU .anvil-role-header-7 {
   margin: 0 45px; 
 }
+
+.anvil-role-slider {
+  --slider-height: 5px;
+}

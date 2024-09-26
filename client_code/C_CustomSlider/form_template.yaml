@@ -1,0 +1,7 @@
+components: []
+container:
+  properties:
+    html: "<div style=\"position: relative; width: 100%;\">\n  <!-- Range slider for the left side -->\n  <input \n    type=\"range\" \n    min=\"0\" \n    max=\"100\" \n    value=\"0\" \n    id=\"sliderStart\" \n    style=\"position: absolute; top: 0px; left: 0px; width: 100%; z-index: 10;\" \n    oninput=\"setStartValue(this.value)\"\n  >\n  <!-- Range slider for the right side -->\n  <input \n    type=\"range\" \n    min=\"0\" \n    max=\"100\" \n    value=\"100\" \n    id=\"sliderEnd\" \n    style=\"position: absolute; top: 0px; left: 0px; width: 100%; z-index: 5;\" \n    oninput=\"setEndValue(this.value)\"\n  >\n  <!-- Invisible layer or background, if you want to place this above the graph -->\n</div>\n\n<script>\n  // JavaScript to update the selected range\n  function setStartValue(value) {\n    anvil.call('update_slider_start', value);\n  }\n  \n  function setEndValue(value) {\n    anvil.call('update_slider_end', value);\n  }\n</script>"
+  type: HtmlTemplate
+custom_component: true
+is_package: true
