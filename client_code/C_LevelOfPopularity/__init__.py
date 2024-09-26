@@ -32,10 +32,10 @@ class C_LevelOfPopularity(C_LevelOfPopularityTemplate):
     # Create the bar chart
     fig = go.Figure(data=[go.Scatter(
         x=popularity,
-        y=[0]*len(popularity),
+        y=[2]*len(popularity),
         mode='markers', # Display as dots
-        # marker=dict(size=0, color='rgba(237,139,82,1)'),
-        marker=dict(size=0),
+        marker=dict(size=12, color='rgba(237,139,82,1)'),
+        # marker=dict(size=12),
         hoverinfo='skip',  # Disable hover effect since we display the text
     )])
 
@@ -84,10 +84,10 @@ class C_LevelOfPopularity(C_LevelOfPopularityTemplate):
           showgrid=False, 
           zeroline=True,
           zerolinewidth=2,
-          range=[0, max(popularity)+5],  # Ensure the range matches the data
+          range=[0 , max(popularity)+5],  # Ensure the range matches the data
           rangeslider=dict(
             visible=True,  # Enable the range slider
-            thickness=0.15,  # Thickness of the slider
+            thickness=1,  # Thickness of the slider
             # bgcolor = "rgba(237,139,82,1)",
             autorange=False,
             range=[0, max(popularity)+5]
@@ -100,6 +100,7 @@ class C_LevelOfPopularity(C_LevelOfPopularityTemplate):
             range=[0, 2],  # Adjust y-axis range to add extra space
 
         ),
+        dragmode = "zoom",
         plot_bgcolor='rgba(0,0,0,0)',  # Transparent background
         paper_bgcolor='rgba(0,0,0,0)',  # Transparent background
         font=dict(color="white"),
