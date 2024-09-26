@@ -121,7 +121,6 @@ class Discover(DiscoverTemplate):
       artist_id = int(sug["ArtistID"])
       self.artist_id = artist_id
 
-      print(self.watchlist_id)
       if self.watchlist_id is None:
         watchlist_presence = 'False'
       else:
