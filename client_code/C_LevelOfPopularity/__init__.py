@@ -32,7 +32,7 @@ class C_LevelOfPopularity(C_LevelOfPopularityTemplate):
     # Create the bar chart
     fig = go.Figure(data=[go.Scatter(
         x=popularity,
-        y=[2]*len(popularity),
+        y=[0]*len(popularity),
         mode='markers', # Display as dots
         marker=dict(size=12, color='rgba(237,139,82,1)'),
         # marker=dict(size=12),
@@ -70,42 +70,29 @@ class C_LevelOfPopularity(C_LevelOfPopularityTemplate):
       shapes=[
           dict(
               type='line',
-              x0=min(popularity), y0=0,  # Start of the line at y=0
-              x1=max(popularity), y1=0,  # End of the line at y=0
+              x0=0, y0=0,  # Start of the line at y=0
+              x1=100, y1=0,  # End of the line at y=0
               line=dict(color='white', width=1)  # Solid white line
           )
       ],
       annotations=annotations,
-    )
-    # Customize the layout of the chart
-    fig.update_layout(
-        xaxis=dict(
-          title='Popularity',
-          showgrid=False, 
-          zeroline=True,
-          zerolinewidth=2,
-          range=[0 , max(popularity)+5],  # Ensure the range matches the data
-          rangeslider=dict(
-            visible=True,  # Enable the range slider
-            thickness=1,  # Thickness of the slider
-            # bgcolor = "rgba(237,139,82,1)",
-            autorange=False,
-            range=[0, max(popularity)+5]
-          ),
-          fixedrange=True,
-        ),
-        yaxis=dict(
-            visible=False,  # Hide the y-axis since it's not meaningful
-            showgrid=True,  # Disable y-axis grid lines
-            range=[0, 2],  # Adjust y-axis range to add extra space
-
-        ),
-        dragmode = "zoom",
-        plot_bgcolor='rgba(0,0,0,0)',  # Transparent background
-        paper_bgcolor='rgba(0,0,0,0)',  # Transparent background
-        font=dict(color="white"),
-        template='plotly_dark',
-        hoverlabel=dict(bgcolor="rgba(237,139,82, 0.8)")  # Customize hover background
+      xaxis=dict(
+        title='Popularity',
+        showgrid=False, 
+        zeroline=True,
+        zerolinewidth=2,
+        range=[0 , max(popularity)+5],  # Ensure the range matches the data
+      ),
+      yaxis=dict(
+        visible=False,  # Hide the y-axis since it's not meaningful
+        showgrid=False,  # Disable y-axis grid lines
+        range=[0, 2],  # Adjust y-axis range to add extra space
+      ),
+      plot_bgcolor='rgba(0,0,0,0)',  # Transparent background
+      paper_bgcolor='rgba(0,0,0,0)',  # Transparent background
+      font=dict(color="white"),
+      template='plotly_dark',
+      hoverlabel=dict(bgcolor="rgba(237,139,82, 0.8)")  # Customize hover background
     )
     
     # Assign the figure to the Plot component
