@@ -23,8 +23,8 @@ class C_LevelOfPopularity(C_LevelOfPopularityTemplate):
 
     data = json.loads(anvil.server.call('get_pop_bar_artists', self.model_id_view))
 
-    print(data)
-     # Extract names and popularity
+    # print(data)
+    # Extract names and popularity
     names = [artist['name'] for artist in data]
     popularity = [artist['artist_popularity_lat'] for artist in data]
     images = [artist['artist_picture_url'] for artist in data]
@@ -110,7 +110,11 @@ class C_LevelOfPopularity(C_LevelOfPopularityTemplate):
 
   def slider_1_change(self, handle, **event_args):
     """This method is called when the slider has finished sliding"""
-    print(
-        f"slider 1 change\nhandle={handle} | value={self.slider_1.values[handle]} | formatted={self.slider_1.formatted_values[handle]}"
-    )
+    # print(
+    #     f"slider 1 change\nhandle={handle} | value={self.slider_1.values[handle]} | formatted={self.slider_1.formatted_values[handle]}"
+    # )
+    
+    save_var('min_pop', self.slider_1.formatted_values[0])
+    save_var('max_pop', self.slider_1.formatted_values[1])
+    print('Pop-Range:', self.slider_1.formatted_values[0], self.slider_1.formatted_values[1])
     

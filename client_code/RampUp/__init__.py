@@ -145,15 +145,23 @@ class RampUp(RampUpTemplate):
       click_button(f'model_setup?model_id={self.model_id_view}&section=Basics', event_args)
 
   def Discovering_click(self, **event_args):
+    # save popularity min and max
+    anvil.server.call('update_model_popularity_range',
+                      self.model_id_view,
+                      load_var('min_pop'),
+                      load_var('max_pop'))
+  
     # end ramp-up
     anvil.server.call('update_model_stats',
                       self.model_id_view,
                       self.text_box_model_name.text,
                       self.text_box_description.text,
                       False)
+
     # load artist
     artist_id = anvil.server.call('get_next_artist_id', load_var('model_id_view'))
     click_button(f'artists?artist_id={artist_id}', event_args)
+    
     # add search bar, if missing due to inital model setup
     get_open_form().SearchBar.visible = True
 
@@ -167,8 +175,6 @@ class RampUp(RampUpTemplate):
     self.sec_Reference_Artists.visible = False
     self.sec_Level_of_Pop.visible = False
 
-
-    
   def nav_References_load(self, **event_args):
     self.nav_Basics.role = "rampup-labels"
     self.nav_References.role = "rampup-labels_focused"
@@ -193,8 +199,7 @@ class RampUp(RampUpTemplate):
     self.sec_Level_of_Pop.visible = True
     self.sec_Level_of_Pop.clear()
     self.sec_Level_of_Pop_title.visible = True
-    self.sec_Level_of_Pop.add_component(C_LevelOfPopularity())
-
+    self.sec_pop = self.sec_Level_of_Pop.add_component(C_LevelOfPopularity())
 
   # ---------------
   # OTHER FUNCTIONS
