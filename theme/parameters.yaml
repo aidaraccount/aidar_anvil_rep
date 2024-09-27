@@ -299,3 +299,5 @@ roles:
   name: back-button
 - components: [Slider]
   name: slider
+- components: [ColumnPanel]
+  name: level-of-pop-page

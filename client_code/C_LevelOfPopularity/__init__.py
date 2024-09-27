@@ -45,7 +45,7 @@ class C_LevelOfPopularity(C_LevelOfPopularityTemplate):
     # Create the bar chart
     fig = go.Figure(data=[go.Scatter(
         x=popularity,
-        y=[0.5]*len(popularity),
+        y=[0.3]*len(popularity),
         mode='markers', # Display as dots
         marker=dict(size=12, color='rgba(237,139,82,1)'),
         hoverinfo='text',  # Disable hover effect since we display the text
@@ -57,7 +57,7 @@ class C_LevelOfPopularity(C_LevelOfPopularityTemplate):
       images=[dict(
         source=images[i],
         x=popularity[i],  # Place the image at the corresponding popularity value
-        y=1,  # Slightly above the x-axis
+        y=0.6,  # Slightly above the x-axis
         xref="x", yref="y",
         sizex=5, sizey=5,  # Image size (adjust as needed)
         xanchor="center", yanchor="bottom",  # Anchor the image to the center of the x position
@@ -68,26 +68,26 @@ class C_LevelOfPopularity(C_LevelOfPopularityTemplate):
     annotations = [
       dict(
         x=popularity[i], 
-        y = 1.5,  # Place the names higher than the images
+        y = 1,  # Place the names higher than the images
         xref="x", 
         yref="y",
         text=names[i],  # Display the artist name
         showarrow=False,
-        textangle = -5,
+        textangle = -13,
         font=dict(color="white", size=10),
         align="center"
       ) for i in range(len(names))
     ] 
     # Define a solid line along the x-axis using layout shapes
     fig.update_layout(
-      # shapes=[
-      #     dict(
-      #         type='line',
-      #         x0=0, y0=0,  # Start of the line at y=0
-      #         x1=100, y1=0,  # End of the line at y=0
-      #         line=dict(color='white', width=1)  # Solid white line
-      #     )
-      # ],
+      shapes=[
+          dict(
+              type='line',
+              x0=0, y0=0,  # Start of the line at y=0
+              x1=100, y1=0,  # End of the line at y=0
+              line=dict(color='white', width=1)  # Solid white line
+          )
+      ],
       annotations=annotations,
       dragmode=False,
       xaxis=dict(
@@ -109,7 +109,8 @@ class C_LevelOfPopularity(C_LevelOfPopularityTemplate):
       paper_bgcolor='rgba(0,0,0,0)',  # Transparent background
       font=dict(color="white"),
       template='plotly_dark',
-      hoverlabel=dict(bgcolor="rgba(237,139,82, 0.8)")  # Customize hover background
+      hoverlabel=dict(bgcolor="rgba(237,139,82, 0.8)"), # Customize hover background
+      hovermode="closest",  # Ensures hover appears near the data point
     )
     
     # Disable zooming, panning, and other interactions

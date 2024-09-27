@@ -15,11 +15,11 @@ components:
   - event_bindings: {change: slider_1_change}
     layout_properties: {full_width_row: false, grid_position: 'DSZTNF,NASZWV'}
     name: slider_1
-    properties: {animate: true, bar_height: '', connect: 'False,True,False', format: .0f, limit: '', padding: '', pips: true, pips_density: 5, pips_mode: values, pips_values: '0,20,40,60,80,100', role: slider, spacing_above: none, spacing_below: none, start: '10,90', tooltips: false, visible: true}
+    properties: {animate: true, bar_height: '', connect: 'False,True,False', format: .0f, limit: '', padding: '', pips: true, pips_density: 5, pips_mode: values, pips_values: '0,20,40,60,80,100', role: slider, spacing_above: none, spacing_below: none, start: '0,100', tooltips: false, visible: true}
     type: form:dep_h86ijk4pnzr0f:Slider
   layout_properties: {slot: default}
   name: column_panel_1
-  properties: {}
+  properties: {role: level-of-pop-page}
   type: ColumnPanel
 container:
   properties:
