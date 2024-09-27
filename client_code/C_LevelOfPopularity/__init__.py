@@ -84,7 +84,8 @@ class C_LevelOfPopularity(C_LevelOfPopularityTemplate):
         range=[0, 100],  # Ensure the range matches the data
         tickvals=[],  # Hide tick values
         ticktext=[],  # Hide tick text
-        showticklabels=False  
+        showticklabels=False,
+        dragmode=False,
       ),
       yaxis=dict(
         visible=False,  # Hide the y-axis since it's not meaningful
