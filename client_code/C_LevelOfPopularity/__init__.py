@@ -36,10 +36,11 @@ class C_LevelOfPopularity(C_LevelOfPopularityTemplate):
     hover_texts = [
       # f"<b>{names[i]}</b><br><img src='{images[i]}' style='width:50px;height:50px;'>"
       f"""
-      <b>Artist Name: {names[i]}</b><br>
+      <b>{names[i]}</b><br>
+      <br>
       <b>Followers: {followers[i]}</b><br>
       <b>Spotify Followers: {followers[i]}</b><br>
-      <b>Instagram Followers: {followers[i]}</b><br>"""
+      <b>Instagram Followers: {followers[i]}</b>"""
       for i in range(len(names))
     ]
     # Create the bar chart
@@ -47,7 +48,7 @@ class C_LevelOfPopularity(C_LevelOfPopularityTemplate):
         x=popularity,
         y=[0.3]*len(popularity),
         mode='markers', # Display as dots
-        marker=dict(size=12, color='rgba(237,139,82,1)'),
+        marker=dict(size=1, color='rgba(237,139,82,0)'),
         hoverinfo='text',  # Disable hover effect since we display the text
         text=hover_texts,  # Display artist names
     )])
@@ -57,7 +58,7 @@ class C_LevelOfPopularity(C_LevelOfPopularityTemplate):
       images=[dict(
         source=images[i],
         x=popularity[i],  # Place the image at the corresponding popularity value
-        y=0.6,  # Slightly above the x-axis
+        y=0.1,  # Slightly above the x-axis
         xref="x", yref="y",
         sizex=5, sizey=5,  # Image size (adjust as needed)
         xanchor="center", yanchor="bottom",  # Anchor the image to the center of the x position
@@ -68,7 +69,7 @@ class C_LevelOfPopularity(C_LevelOfPopularityTemplate):
     annotations = [
       dict(
         x=popularity[i], 
-        y = 1,  # Place the names higher than the images
+        y = 0.6,  # Place the names higher than the images
         xref="x", 
         yref="y",
         text=names[i],  # Display the artist name
@@ -88,7 +89,7 @@ class C_LevelOfPopularity(C_LevelOfPopularityTemplate):
               line=dict(color='white', width=1)  # Solid white line
           )
       ],
-      annotations=annotations,
+      # annotations=annotations,
       dragmode=False,
       xaxis=dict(
         title='Popularity',
@@ -103,14 +104,15 @@ class C_LevelOfPopularity(C_LevelOfPopularityTemplate):
       yaxis=dict(
         visible=False,  # Hide the y-axis since it's not meaningful
         showgrid=False,  # Disable y-axis grid lines
-        # range=[0, 2],  # Adjust y-axis range to add extra space
+        zeroline=False,
+        zerolinewidth=0,
       ),
       plot_bgcolor='rgba(0,0,0,0)',  # Transparent background
       paper_bgcolor='rgba(0,0,0,0)',  # Transparent background
       font=dict(color="white"),
       template='plotly_dark',
       hoverlabel=dict(bgcolor="rgba(237,139,82, 0.8)"), # Customize hover background
-      hovermode="closest",  # Ensures hover appears near the data point
+      hovermode="x unified",  # Ensures hover appears near the data point
     )
     
     # Disable zooming, panning, and other interactions
