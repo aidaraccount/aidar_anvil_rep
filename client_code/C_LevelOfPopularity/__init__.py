@@ -23,12 +23,18 @@ class C_LevelOfPopularity(C_LevelOfPopularityTemplate):
 
     data = json.loads(anvil.server.call('get_pop_bar_artists', self.model_id_view))
 
-    # print(data)
+    print(data)
     # Extract names and popularity
     names = [artist['name'] for artist in data]
     popularity = [artist['artist_popularity_lat'] for artist in data]
     images = [artist['artist_picture_url'] for artist in data]
-    
+    followers = [artist['artist_picture_url'] for artist in data]
+
+    # Create the hover text with image tag
+    hover_texts = [
+      f"<b>{names[i]}</b><br><img src='{images[i]}' style='width:50px;height:50px;'>"
+      for i in range(len(names))
+    ]
     # Create the bar chart
     fig = go.Figure(data=[go.Scatter(
         x=popularity,
@@ -36,7 +42,7 @@ class C_LevelOfPopularity(C_LevelOfPopularityTemplate):
         mode='markers', # Display as dots
         marker=dict(size=12, color='rgba(237,139,82,1)'),
         hoverinfo='text',  # Disable hover effect since we display the text
-        text=names,  # Display artist names
+        text=hover_texts,  # Display artist names
     )])
 
     # Add the images using layout.images
@@ -67,14 +73,14 @@ class C_LevelOfPopularity(C_LevelOfPopularityTemplate):
     ] 
     # Define a solid line along the x-axis using layout shapes
     fig.update_layout(
-      shapes=[
-          dict(
-              type='line',
-              x0=0, y0=0,  # Start of the line at y=0
-              x1=100, y1=0,  # End of the line at y=0
-              line=dict(color='white', width=1)  # Solid white line
-          )
-      ],
+      # shapes=[
+      #     dict(
+      #         type='line',
+      #         x0=0, y0=0,  # Start of the line at y=0
+      #         x1=100, y1=0,  # End of the line at y=0
+      #         line=dict(color='white', width=1)  # Solid white line
+      #     )
+      # ],
       annotations=annotations,
       dragmode=False,
       xaxis=dict(
