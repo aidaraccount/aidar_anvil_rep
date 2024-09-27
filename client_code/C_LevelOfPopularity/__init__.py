@@ -32,11 +32,11 @@ class C_LevelOfPopularity(C_LevelOfPopularityTemplate):
     # Create the bar chart
     fig = go.Figure(data=[go.Scatter(
         x=popularity,
-        y=[0]*len(popularity),
+        y=[0.5]*len(popularity),
         mode='markers', # Display as dots
         marker=dict(size=12, color='rgba(237,139,82,1)'),
-        # marker=dict(size=12),
-        hoverinfo='skip',  # Disable hover effect since we display the text
+        hoverinfo='text',  # Disable hover effect since we display the text
+        text=names,  # Display artist names
     )])
 
     # Add the images using layout.images
@@ -44,9 +44,9 @@ class C_LevelOfPopularity(C_LevelOfPopularityTemplate):
       images=[dict(
         source=images[i],
         x=popularity[i],  # Place the image at the corresponding popularity value
-        y=0.3,  # Slightly above the x-axis
+        y=1,  # Slightly above the x-axis
         xref="x", yref="y",
-        sizex=3, sizey=3,  # Image size (adjust as needed)
+        sizex=5, sizey=5,  # Image size (adjust as needed)
         xanchor="center", yanchor="bottom",  # Anchor the image to the center of the x position
         layer="above"  # Ensure the image is placed above the plot elements
       ) for i in range(len(images))]
@@ -89,7 +89,7 @@ class C_LevelOfPopularity(C_LevelOfPopularityTemplate):
       yaxis=dict(
         visible=False,  # Hide the y-axis since it's not meaningful
         showgrid=False,  # Disable y-axis grid lines
-        range=[0, 2],  # Adjust y-axis range to add extra space
+        # range=[0, 2],  # Adjust y-axis range to add extra space
       ),
       plot_bgcolor='rgba(0,0,0,0)',  # Transparent background
       paper_bgcolor='rgba(0,0,0,0)',  # Transparent background
@@ -98,15 +98,16 @@ class C_LevelOfPopularity(C_LevelOfPopularityTemplate):
       hoverlabel=dict(bgcolor="rgba(237,139,82, 0.8)")  # Customize hover background
     )
     
+    # Disable zooming, panning, and other interactions
+    config = dict(
+      displayModeBar=False,  # Hide the mode bar (zoom, pan, etc.)
+      scrollZoom=False,      # Disable scroll to zoom
+      dragmode=False,        # Disable dragging and panning
+    )
     # Assign the figure to the Plot component
     self.artist_popularity_plot.figure = fig
+    self.artist_popularity_plot.config = config
 
-
-  # Callback for capturing slider values
-  # def slider_callback(self, **event_args):
-  #   # Access the current range of the slider
-  #   updated_range = self.artist_popularity_plot.get_active_trace().layout.xaxis.range
-  #   print("Updated Range:", updated_range)
 
   def slider_1_change(self, handle, **event_args):
     """This method is called when the slider has finished sliding"""
