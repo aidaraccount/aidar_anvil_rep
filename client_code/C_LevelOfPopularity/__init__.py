@@ -76,6 +76,7 @@ class C_LevelOfPopularity(C_LevelOfPopularityTemplate):
           )
       ],
       annotations=annotations,
+      dragmode=False,
       xaxis=dict(
         title='Popularity',
         showgrid=False, 
@@ -85,7 +86,6 @@ class C_LevelOfPopularity(C_LevelOfPopularityTemplate):
         tickvals=[],  # Hide tick values
         ticktext=[],  # Hide tick text
         showticklabels=False,
-        dragmode=False,
       ),
       yaxis=dict(
         visible=False,  # Hide the y-axis since it's not meaningful
@@ -101,7 +101,7 @@ class C_LevelOfPopularity(C_LevelOfPopularityTemplate):
     
     # Disable zooming, panning, and other interactions
     config = dict(
-      displayModeBar=True,  # Hide the mode bar (zoom, pan, etc.)
+      displayModeBar=False,  # Hide the mode bar (zoom, pan, etc.)
       scrollZoom=False,      # Disable scroll to zoom
       dragmode=False,        # Disable dragging and panning
       showAxisDragHandles=False,
