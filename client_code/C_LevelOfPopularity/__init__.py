@@ -100,9 +100,14 @@ class C_LevelOfPopularity(C_LevelOfPopularityTemplate):
     
     # Disable zooming, panning, and other interactions
     config = dict(
-      displayModeBar=False,  # Hide the mode bar (zoom, pan, etc.)
+      displayModeBar=True,  # Hide the mode bar (zoom, pan, etc.)
       scrollZoom=False,      # Disable scroll to zoom
       dragmode=False,        # Disable dragging and panning
+      showAxisDragHandles=False,
+      showAxisRangeEntryBoxes=False,
+      editSelection=False,
+      responsive=True,
+      autosizable=True,
     )
     # Assign the figure to the Plot component
     self.artist_popularity_plot.figure = fig
