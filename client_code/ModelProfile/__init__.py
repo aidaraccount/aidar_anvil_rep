@@ -524,7 +524,7 @@ class ModelProfile(ModelProfileTemplate):
         self.similarity_active_summary.visible = True
         self.similarity_in_training.visible = False
         self.similarity_in_training_summary.visible = False
-        self.similarity_cont.text = "{}{}".format(round(self.infos["model_1_cont"])*100, "%")
+        self.similarity_cont.text = "{}{}".format(round(self.infos["model_1_cont"]*100), "%")
       else:
         self.custom_HTML_level_1_inactive(min(round(self.infos["total_ratings"]/int(10)*100), 100))
         self.model_1_accuracy_summary.text = "{}{}".format(min(round(self.infos["total_ratings"]/int(10)*100), 100), "%")
@@ -543,7 +543,7 @@ class ModelProfile(ModelProfileTemplate):
         self.success_active_summary.visible = True
         self.success_in_training.visible = False
         self.success_in_training_summary.visible = False
-        self.success_cont.text = "{}{}".format(round(self.infos["model_2_cont"])*100, "%")
+        self.success_cont.text = "{}{}".format(round(self.infos["model_2_cont"]*100), "%")
       else:
         self.custom_HTML_level_2_inactive(min(round(self.infos["total_ratings"]/int(50)*100), 100))
         self.model_2_accuracy_summary.text = "{}{}".format(min(round(self.infos["total_ratings"]/int(50)*100), 100), "%")
@@ -562,7 +562,7 @@ class ModelProfile(ModelProfileTemplate):
         self.fandom_active_summary.visible = True
         self.fandom_in_training.visible = False
         self.fandom_in_training_summary.visible = False
-        self.fandom_cont.text = "{}{}".format(round(self.infos["model_3_cont"])*100, "%")
+        self.fandom_cont.text = "{}{}".format(round(self.infos["model_3_cont"]*100), "%")
       else:
         self.custom_HTML_level_3_inactive(min(round(self.infos["total_ratings"]/int(75)*100), 100))
         self.model_3_accuracy_summary.text = "{}{}".format(min(round(self.infos["total_ratings"]/int(75)*100), 100), "%")
@@ -581,7 +581,7 @@ class ModelProfile(ModelProfileTemplate):
         self.musical_active_summary.visible = True
         self.musical_in_training.visible = False
         self.musical_in_training_summary.visible = False
-        self.musical_cont.text = "{}{}".format(round(self.infos["model_4_cont"])*100, "%")
+        self.musical_cont.text = "{}{}".format(round(self.infos["model_4_cont"]*100), "%")
       else:
         self.custom_HTML_level_4_inactive(min(round(self.infos["total_ratings"]/int(100)*100), 100))
         self.model_4_accuracy_summary.text = "{}{}".format(min(round(self.infos["total_ratings"]/int(100)*100), 100), "%")
