@@ -93,8 +93,7 @@ class Main_In(Main_InTemplate):
         #print(f"{datetime.datetime.now()}: Main_In - link_login_click - 3b", flush=True)  # 3:10m, 2:12m - 19s
         #self.link_home.background = "theme:Accent 3"
         #print(f"{datetime.datetime.now()}: Main_In - link_login_click - 3c", flush=True)
-        # self.update_no_notifications()
-        pass
+        self.update_no_notifications()
         #print(f"{datetime.datetime.now()}: Main_In - link_login_click - 3d", flush=True)  # 17s, 14s - 1.5s
       
       #print(f"{datetime.datetime.now()}: Main_In - link_login_click - 5", flush=True)
