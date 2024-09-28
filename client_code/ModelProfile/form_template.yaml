@@ -389,7 +389,7 @@ components:
         type: Label
       - layout_properties: {grid_position: 'HHEIUP,NJVGMZ'}
         name: similarity_num_rec
-        properties: {align: center, italic: false, role: header-6_grey, spacing_above: none, spacing_below: none, text: starting with 10 rec.}
+        properties: {align: center, italic: false, role: header-6_grey, spacing_above: none, spacing_below: none, text: starting with 0 rec.}
         type: Label
       - layout_properties: {grid_position: 'YTIUNJ,QUMLCT'}
         name: spacer_7_copy
@@ -435,7 +435,7 @@ components:
         type: Label
       - layout_properties: {grid_position: 'AFWKMV,EXBJKJ'}
         name: success_num_rec
-        properties: {align: center, italic: false, role: header-6_grey, spacing_above: none, spacing_below: none, text: starting with 50 rec.}
+        properties: {align: center, italic: false, role: header-6_grey, spacing_above: none, spacing_below: none, text: starting with 0 rec.}
         type: Label
       - layout_properties: {grid_position: 'YTIUNJ,QUMLCT'}
         name: spacer_7_copy_2
