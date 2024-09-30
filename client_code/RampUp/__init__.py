@@ -147,7 +147,7 @@ class RampUp(RampUpTemplate):
   def Discovering_click(self, **event_args):
     # save popularity min and max
     anvil.server.call('update_model_popularity_range',
-                      self.model_id_view,
+                      int(self.model_id_view),
                       load_var('min_pop'),
                       load_var('max_pop'))
   
