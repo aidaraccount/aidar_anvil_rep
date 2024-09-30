@@ -46,7 +46,7 @@ class C_LevelOfPopularity(C_LevelOfPopularityTemplate):
     # Create the bar chart
     fig = go.Figure(data=[go.Scatter(
         x=popularity,
-        y=[0.3]*len(popularity),
+        y=[0.2]*len(popularity),
         mode='markers', # Display as dots
         marker=dict(size=1, color='rgba(237,139,82,0)'),
         hoverinfo='text',  # Disable hover effect since we display the text
@@ -111,7 +111,7 @@ class C_LevelOfPopularity(C_LevelOfPopularityTemplate):
       paper_bgcolor='rgba(0,0,0,0)',  # Transparent background
       font=dict(color="white"),
       template='plotly_dark',
-      hoverlabel=dict(bgcolor="rgba(237,139,82, 0.8)"), # Customize hover background
+      hoverlabel=dict(bgcolor="rgba(250,250,250, 0.8)"), # Customize hover background
       hovermode="x",  # Ensures hover appears near the data point
     )
     
