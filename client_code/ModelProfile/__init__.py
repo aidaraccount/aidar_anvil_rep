@@ -105,7 +105,7 @@ class ModelProfile(ModelProfileTemplate):
       self.Level_value.text = infos["overall_level"]
       
       # Progress Circle
-      if infos["overall_status"] == 'Running':
+      if infos["overall_acc"] is not None:
         self.custom_HTML_prediction(infos["overall_acc"])
         self.custom_HTML_prediction_2(infos["overall_acc"])
       else:
