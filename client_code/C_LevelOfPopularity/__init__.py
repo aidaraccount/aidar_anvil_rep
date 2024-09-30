@@ -23,6 +23,7 @@ class C_LevelOfPopularity(C_LevelOfPopularityTemplate):
 
     data = json.loads(anvil.server.call('get_pop_bar_artists', self.model_id_view))
 
+
     print(data)
     # Extract names and popularity
     names = [artist['name'] for artist in data]
@@ -31,7 +32,7 @@ class C_LevelOfPopularity(C_LevelOfPopularityTemplate):
     followers = [artist['artist_follower_lat'] for artist in data]
     spotify_fol = [artist['artist_follower_lat'] for artist in data]
     insta_fol = [artist['artist_follower_lat'] for artist in data]
-
+    
     # Create the hover text with image tag
     hover_texts = [
       # f"<b>{names[i]}</b><br><img src='{images[i]}' style='width:50px;height:50px;'>"
@@ -54,14 +55,31 @@ class C_LevelOfPopularity(C_LevelOfPopularityTemplate):
         text=hover_texts,  # Display artist names
     )])
 
+    # Function to slightly offset positions on both x and y axes to avoid overlapping
+    def adjust_position(x_pos, y_pos, x_min_distance=3, y_offset=0.04):
+      adjusted_x_pos = x_pos[:]
+      adjusted_y_pos = y_pos[:]
+      for i in range(1, len(adjusted_x_pos)):
+        # Offset x-axis if the points are too close
+        if abs(adjusted_x_pos[i] - adjusted_x_pos[i - 1]) <= x_min_distance:
+          adjusted_x_pos[i] += x_min_distance  # Slightly offset the x position
+        # Always offset y-axis by a fixed amount to avoid overlapping on the y-axis
+          adjusted_y_pos[i] += y_offset
+      return adjusted_x_pos, adjusted_y_pos
+
+    # Apply the adjustment to both x and y positions
+    y_values = [0.01] * len(popularity)  # Default y position for images
+    adjusted_popularity, adjusted_y_values = adjust_position(popularity, y_values)
+
     # Add the images using layout.images
     fig.update_layout(
       images=[dict(
         source=images[i],
-        x=popularity[i],  # Place the image at the corresponding popularity value
-        y=0.1,  # Slightly above the x-axis
+        # x=popularity[i],  # Place the image at the corresponding popularity value
+        x=adjusted_popularity[i],  # Place the image at the corresponding popularity value
+        y=adjusted_y_values[i],  # Slightly above the x-axis
         xref="x", yref="y",
-        sizex=5, sizey=5,  # Image size (adjust as needed)
+        sizex=7, sizey=7,  # Image size (adjust as needed)
         xanchor="center", yanchor="bottom",  # Anchor the image to the center of the x position
         layer="above"  # Ensure the image is placed above the plot elements
       ) for i in range(len(images))]
