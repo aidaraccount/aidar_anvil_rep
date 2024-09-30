@@ -112,7 +112,7 @@ class C_LevelOfPopularity(C_LevelOfPopularityTemplate):
       font=dict(color="white"),
       template='plotly_dark',
       hoverlabel=dict(bgcolor="rgba(237,139,82, 0.8)"), # Customize hover background
-      hovermode="x unified",  # Ensures hover appears near the data point
+      hovermode="x",  # Ensures hover appears near the data point
     )
     
     # Disable zooming, panning, and other interactions
