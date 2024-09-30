@@ -38,9 +38,10 @@ class C_LevelOfPopularity(C_LevelOfPopularityTemplate):
       f"""
       <b>{names[i]}</b><br>
       <br>
+      <b>Popularity: {popularity[i]}</b><br>
       <b>Followers: {followers[i]}</b><br>
-      <b>Spotify Followers: {followers[i]}</b><br>
-      <b>Instagram Followers: {followers[i]}</b>"""
+      <b>Spotify Followers: {spotify_fol[i]}</b><br>
+      <b>Instagram Followers: {insta_fol[i]}</b>"""
       for i in range(len(names))
     ]
     # Create the bar chart
