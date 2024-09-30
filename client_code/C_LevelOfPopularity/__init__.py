@@ -111,7 +111,7 @@ class C_LevelOfPopularity(C_LevelOfPopularityTemplate):
       # annotations=annotations,
       dragmode=False,
       xaxis=dict(
-        title='Popularity',
+        # title='Popularity',
         showgrid=False, 
         zeroline=True,
         zerolinewidth=2,
@@ -121,10 +121,11 @@ class C_LevelOfPopularity(C_LevelOfPopularityTemplate):
         showticklabels=False,
       ),
       yaxis=dict(
+        showticklabels=False,
+        showline=False,
+        zeroline=False,
         visible=False,  # Hide the y-axis since it's not meaningful
         showgrid=False,  # Disable y-axis grid lines
-        zeroline=False,
-        zerolinewidth=0,
       ),
       plot_bgcolor='rgba(0,0,0,0)',  # Transparent background
       paper_bgcolor='rgba(0,0,0,0)',  # Transparent background
@@ -159,4 +160,23 @@ class C_LevelOfPopularity(C_LevelOfPopularityTemplate):
     save_var('min_pop', self.slider_1.formatted_values[0])
     save_var('max_pop', self.slider_1.formatted_values[1])
     # print('Pop-Range:', self.slider_1.formatted_values[0], self.slider_1.formatted_values[1])
+
+  def set_slider_text_boxes(self):
+    self.text_box_left.text, self.text_box_right.text = self.slider_1.formatted_values
+
+  def slider_1_slide(self, handle, **event_args):
+    """This method is called when the slider is sliding or dragging"""
+    self.set_slider_text_boxes()
+    print(
+        f"slider 1 slide\nhandle={handle} | value={self.slider_1.values[handle]} | formatted={self.slider_1.formatted_values[handle]}"
+    )
     
+  def slider_1_textbox_enter(self, **event_args):
+    """This method is called when the user presses Enter in this text box"""
+    self.slider_1.values = self.text_box_left.text, self.text_box_right.text
+    self.set_slider_text_boxes()        
+  
+  def slider_1_button_reset_click(self, **event_args):
+    """This method is called when the button is clicked"""
+    self.slider_1.reset()
+    self.set_slider_text_boxes()

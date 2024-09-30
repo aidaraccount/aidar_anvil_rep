@@ -13,10 +13,33 @@ components:
     name: artist_popularity_plot
     properties: {height: '350', interactive: true, spacing_above: none, spacing_below: none}
     type: Plot
-  - event_bindings: {change: slider_1_change}
-    layout_properties: {full_width_row: false, grid_position: 'DSZTNF,NASZWV'}
+  - layout_properties: {grid_position: 'HCKBXH,YXATHK'}
+    name: spacer_1
+    properties: {height: 32}
+    type: Spacer
+  - data_bindings:
+    - {code: 'self.slider_1.formatted_values[0]', property: text, writeback: true}
+    event_bindings: {pressed_enter: slider_1_textbox_enter}
+    layout_properties: {grid_position: 'NABZKH,UZMCFL'}
+    name: text_box_left
+    properties: {align: center, font: '', font_size: 14, role: text_box, spacing_above: none, spacing_below: none}
+    type: TextBox
+  - event_bindings: {click: slider_1_button_reset_click}
+    layout_properties: {grid_position: 'NABZKH,VEBGHF'}
+    name: slider_1_button_reset
+    properties: {align: full, background: '', bold: false, border: '', enabled: true, font: '', font_size: null, foreground: '', icon: 'fa:refresh', icon_align: left, italic: false, role: header-6_grey, spacing_above: none, spacing_below: none, text: RESET, tooltip: '', underline: false, visible: true}
+    type: Button
+  - data_bindings:
+    - {code: 'self.slider_1.formatted_values[1]', property: text, writeback: true}
+    event_bindings: {pressed_enter: slider_1_textbox_enter}
+    layout_properties: {grid_position: 'NABZKH,RFUYML'}
+    name: text_box_right
+    properties: {align: center, font: '', font_size: 14, role: text_box, spacing_above: none, spacing_below: none}
+    type: TextBox
+  - event_bindings: {change: slider_1_change, slide: slider_1_slide}
+    layout_properties: {grid_position: 'GHSZQO,IVWYGD'}
     name: slider_1
-    properties: {animate: true, bar_height: '', connect: 'False,True,False', format: .0f, limit: '', padding: '', pips: true, pips_density: 5, pips_mode: values, pips_values: '0,20,40,60,80,100', role: slider, spacing_above: none, spacing_below: none, start: '20,50', tooltips: false, visible: true}
+    properties: {animate: true, bar_height: '', behaviour: tap, connect: 'False,True,False', format: .0f, limit: '', padding: '', pips: true, pips_density: 5, pips_mode: values, pips_values: '0,20,40,60,80,100', role: slider, spacing_above: none, spacing_below: none, start: '20,50', step: 0, tooltips: false, visible: true}
     type: form:dep_h86ijk4pnzr0f:Slider
   layout_properties: {slot: default}
   name: column_panel_1
