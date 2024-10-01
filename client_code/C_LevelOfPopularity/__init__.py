@@ -21,6 +21,7 @@ class C_LevelOfPopularity(C_LevelOfPopularityTemplate):
     # Any code you write here will run before the form opens.    
     self.model_id_view = load_var("model_id_view")
 
+
     data = json.loads(anvil.server.call('get_pop_bar_artists', self.model_id_view))
 
 

@@ -1921,7 +1921,7 @@ footer a, .footer .anvil-component {
 
 .anvil-role-slider {
   -webkit-appearance: none;
-  width: 100%;
+  width: 98.2%;
   --slider-height: 8px !important;
   --slider-bar_color: rgb(233, 95, 48) !important;
   --slider-handle-size: 20px !important;
@@ -1930,15 +1930,16 @@ footer a, .footer .anvil-component {
   transition: opacity .2s;
   padding: 20px 80px !important;
   position: absolute;
-  top: -180px;
+  top: -195px;
   max-width: 1540px;
   min-width: 1340px;
   opacity: 1;
 }
-@media only screen and (min-width: 641px) and (max-width: 1512px) {
+
+@media only screen and (max-width: 1512px) {
   .anvil-role-slider {
     -webkit-appearance: none;
-    width: 100%;
+    width: 98%;
     --slider-height: 8px !important;
     --slider-bar_color: rgb(233, 95, 48) !important;
     --slider-handle-size: 20px !important;
@@ -1947,16 +1948,16 @@ footer a, .footer .anvil-component {
     transition: opacity .2s;
     padding: 20px 80px !important;
     position: absolute;
-    top: -205px;
+    top: -195px;
     max-width: 1540px;
     min-width: 842px;
     opacity: 1;
   }
 }
-@media only screen and (max-width: 640px) {
+@media only screen and (max-width: 1050px) {
   .anvil-role-slider {
     -webkit-appearance: none;
-    width: 100%;
+    width: 98%;
     --slider-height: 8px !important;
     --slider-bar_color: rgb(233, 95, 48) !important;
     --slider-handle-size: 20px !important;
@@ -1965,23 +1966,31 @@ footer a, .footer .anvil-component {
     transition: opacity .2s;
     padding: 20px 80px !important;
     position: absolute;
-    top: -205px;
-    max-width: 1540px;
-    min-width: 440px;
+    top: -195px;
+    max-width: 830px;
+    min-width: 642px;
     opacity: 1;
   }
 }
-@media only screen and (max-width: 640px) {
+.anvil-role-level-of-pop-page .user-select-none.svg-container .cartesianlayer .zerolinelayer {
+  display: none
+}
+@media only screen and (min-width: 1919px) {
   .anvil-role-level-of-pop-page .user-select-none.svg-container {
-    max-width: 450px;
-    min-width: 450px;
+    max-width:1330px;
   }
 }  
-@media only screen and (min-width: 641px) and (max-width: 1512px) {
+@media only screen and (max-width: 1050px) {
+  .anvil-role-level-of-pop-page .user-select-none.svg-container {
+    max-width:830px;
+  }
+}  
+@media only screen and (max-width: 1512px) {
   .anvil-role-level-of-pop-page .user-select-none.svg-container {
     max-width:1000px;
   }
 }  
+
 .anvil-role-slider .noUi-pips.noUi-pips-horizontal{
   color:white;
   font-family: Gs-regular;
