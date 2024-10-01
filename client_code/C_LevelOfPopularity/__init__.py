@@ -30,9 +30,10 @@ class C_LevelOfPopularity(C_LevelOfPopularityTemplate):
     names = [artist['name'] for artist in data]
     popularity = [artist['artist_popularity_lat'] for artist in data]
     images = [artist['artist_picture_url'] for artist in data]
-    followers = [artist['artist_follower_lat'] for artist in data]
     spotify_fol = [artist['artist_follower_lat'] for artist in data]
-    insta_fol = [artist['artist_follower_lat'] for artist in data]
+    spotify_mon_lis = [artist['sp_mtl_listeners_lat'] for artist in data]
+    tiktok_fol = [artist['tiktok_follower_lat'] for artist in data]
+    soundcld_fol = [artist['soundcloud_follower_lat'] for artist in data]
     
     # Create the hover text with image tag
     hover_texts = [
@@ -41,9 +42,10 @@ class C_LevelOfPopularity(C_LevelOfPopularityTemplate):
       <b>{names[i]}</b><br>
       <br>
       <b>Popularity: {popularity[i]}</b><br>
-      <b>Followers: {followers[i]}</b><br>
       <b>Spotify Followers: {spotify_fol[i]}</b><br>
-      <b>Instagram Followers: {insta_fol[i]}</b>"""
+      <b>Spotify listeners (month): {spotify_mon_lis[i]}</b><br>
+      <b>TikTok Followers: {tiktok_fol[i]}</b><br>
+      <b>SoundCloud Followers: {soundcld_fol[i]}</b>"""
       for i in range(len(names))
     ]
     # Create the bar chart
