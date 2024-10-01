@@ -25,6 +25,7 @@ class Observe(ObserveTemplate):
     self.model_id = model_id
     print(f"Observe model_id: {model_id}")
     
-    # FUNNEL DATA
-    artists = json.loads(anvil.server.call('get_references', model_id))
-    self.repeating_panel.items = artists
+    # OBSERVED DATA
+    observed = json.loads(anvil.server.call('get_observed', model_id))
+    print(observed)
+    self.repeating_panel.items = observed
