@@ -27,5 +27,11 @@ class Observe(ObserveTemplate):
     
     # OBSERVED DATA
     observed = json.loads(anvil.server.call('get_observed', model_id))
-    print(observed)
-    self.repeating_panel.items = observed
+
+    # add running Number
+    for i, artist in enumerate(observed, start=1):
+      artist['Number'] = i
+    
+    print(observed[0])
+    self.repeating_panel_1.items = observed
+    self.repeating_panel_2.items = observed
