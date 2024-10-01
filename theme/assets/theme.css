@@ -1953,10 +1953,15 @@ footer a, .footer .anvil-component {
     opacity: 1;
   }
 }
+@media only screen and (max-width: 640px) {
+  .anvil-role-level-of-pop-page .user-select-none.svg-container {
+    max-width: 450px;
+    min-width: 450px;
+  }
+}  
 @media only screen and (max-width: 1512px) {
   .anvil-role-level-of-pop-page .user-select-none.svg-container {
     max-width:1000px;
-    transition: width 0.2sec; 
   }
 }  
 .anvil-role-slider .noUi-pips.noUi-pips-horizontal{
