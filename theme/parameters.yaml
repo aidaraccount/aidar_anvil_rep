@@ -245,7 +245,7 @@ roles:
   name: tile-background-left
 - components: [ColumnPanel]
   name: tile-background-right
-- components: [Label, RichText, Button]
+- components: [Label, RichText, Button, TextBox]
   name: header-8
 - components: [Label, RichText, Button, Link]
   name: header-10
@@ -301,3 +301,7 @@ roles:
   name: slider
 - components: [ColumnPanel]
   name: level-of-pop-page
+- components: [Label, RichtText, Button, TextBox, Link]
+  name: header-6
+- components: [TextBox, Button]
+  name: slider-refresh

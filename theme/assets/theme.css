@@ -1973,4 +1973,7 @@ footer a, .footer .anvil-component {
   background:white;
 }
 
+.anvil-role-slider-refresh {
+  background: transparent;
+}
 /* user-select-none svg-container */
