@@ -1936,7 +1936,24 @@ footer a, .footer .anvil-component {
   opacity: 1;
 }
 
-@media only screen and (max-width: 1512px) {
+.anvil-role-slider  {
+  -webkit-appearance: none;
+  width: 98.2%;
+  --slider-height: 8px !important;
+  --slider-bar_color: rgb(233, 95, 48) !important;
+  --slider-handle-size: 20px !important;
+  opacity: 0.7;
+  -webkit-transition: .2s;
+  transition: opacity .2s;
+  padding: 20px 80px !important;
+  position: absolute;
+  top: -195px;
+  max-width: 1540px;
+  min-width: 1340px;
+  opacity: 1;
+}
+
+@media only screen and (max-width: 1540px) {
   .anvil-role-slider {
     -webkit-appearance: none;
     width: 98%;
@@ -1985,7 +2002,7 @@ footer a, .footer .anvil-component {
     max-width:830px;
   }
 }  
-@media only screen and (max-width: 1512px) {
+@media only screen and (max-width: 1540px) {
   .anvil-role-level-of-pop-page .user-select-none.svg-container {
     max-width:1000px;
   }
