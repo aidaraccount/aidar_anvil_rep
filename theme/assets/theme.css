@@ -1973,7 +1973,18 @@ footer a, .footer .anvil-component {
   background:white;
 }
 
-.anvil-role-slider-refresh {
+.anvil-role-slider-inputbox {
   background: transparent;
+  border: 0px;
+  border-bottom: 1px solid;
+  width: 70px;
+  border-radius: 0px;
+  border-color: rgb(233, 95, 48);
+}
+.anvil-role-slider-refresh button {
+  background: transparent;
+  border: 0px solid;
+  width: 100px !important;
+  border-radius: 10px;
 }
 /* user-select-none svg-container */

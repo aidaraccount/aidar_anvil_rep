@@ -251,7 +251,7 @@ roles:
   name: header-10
 - components: [Button]
   name: call-to-action-button
-- components: [Label, RichText, Button, Link]
+- components: [Label, RichText, Button, Link, TextBox]
   name: header-5
 - components: [LinearPanel]
   name: position-bottom
@@ -305,3 +305,5 @@ roles:
   name: header-6
 - components: [TextBox, Button]
   name: slider-refresh
+- components: [TextBox, Button]
+  name: slider-inputbox
