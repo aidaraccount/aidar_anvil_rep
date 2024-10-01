@@ -386,7 +386,9 @@ class Discover(DiscoverTemplate):
       # --------
       # g) co-artists by popularity
       if self.data_grid_co_artists_pop.visible is True:
-        self.data_grid_co_artists_pop_data.items = sorted(co_artists, key=lambda x: float(x['ArtistPopularity_lat']), reverse=True)
+        # self.data_grid_co_artists_pop_data.items = sorted(co_artists, key=lambda x: float(x['ArtistPopularity_lat']), reverse=True)
+        self.data_grid_co_artists_pop_data.items = sorted(co_artists, key=lambda x: float(x['ArtistPopularity_lat']) if x['ArtistPopularity_lat'] not in [None, ''] else 0.0, reverse=True)
+
       
       # --------
       # h) related artists table
