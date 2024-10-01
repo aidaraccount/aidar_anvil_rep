@@ -1935,7 +1935,7 @@ footer a, .footer .anvil-component {
   min-width: 1340px;
   opacity: 1;
 }
-@media only screen and (max-width: 1512px) {
+@media only screen and (min-width: 641px) and (max-width: 1512px) {
   .anvil-role-slider {
     -webkit-appearance: none;
     width: 100%;
@@ -1977,7 +1977,7 @@ footer a, .footer .anvil-component {
     min-width: 450px;
   }
 }  
-@media only screen and (max-width: 1512px) {
+@media only screen and (min-width: 641px) and (max-width: 1512px) {
   .anvil-role-level-of-pop-page .user-select-none.svg-container {
     max-width:1000px;
   }
