@@ -170,9 +170,9 @@ class C_LevelOfPopularity(C_LevelOfPopularityTemplate):
   def slider_1_slide(self, handle, **event_args):
     """This method is called when the slider is sliding or dragging"""
     self.set_slider_text_boxes()
-    print(
-        f"slider 1 slide\nhandle={handle} | value={self.slider_1.values[handle]} | formatted={self.slider_1.formatted_values[handle]}"
-    )
+    # print(
+    #     f"slider 1 slide\nhandle={handle} | value={self.slider_1.values[handle]} | formatted={self.slider_1.formatted_values[handle]}"
+    # )
     
   def slider_1_textbox_enter(self, **event_args):
     """This method is called when the user presses Enter in this text box"""
