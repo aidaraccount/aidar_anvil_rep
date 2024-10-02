@@ -59,7 +59,7 @@ class C_LevelOfPopularity(C_LevelOfPopularityTemplate):
     )])
 
     # Function to slightly offset positions on both x and y axes to avoid overlapping
-    def adjust_position(x_pos, y_pos, x_min_distance=3, y_offset=0.04):
+    def adjust_position(x_pos, y_pos, x_min_distance=3, y_offset=0.06):
       adjusted_x_pos = x_pos[:]
       adjusted_y_pos = y_pos[:]
       for i in range(1, len(adjusted_x_pos)):
@@ -71,7 +71,7 @@ class C_LevelOfPopularity(C_LevelOfPopularityTemplate):
       return adjusted_x_pos, adjusted_y_pos
 
     # Apply the adjustment to both x and y positions
-    y_values = [0.01] * len(popularity)  # Default y position for images
+    y_values = [0.03] * len(popularity)  # Default y position for images
     adjusted_popularity, adjusted_y_values = adjust_position(popularity, y_values)
 
     # Add the images using layout.images

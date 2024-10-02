@@ -204,7 +204,7 @@ components:
     type: ColumnPanel
   - layout_properties: {grid_position: 'WAZAPC,OHNLXA'}
     name: sec_Level_of_Pop
-    properties: {spacing_above: medium}
+    properties: {spacing_above: small}
     type: ColumnPanel
   - components:
     - event_bindings: {click: Back_click}
