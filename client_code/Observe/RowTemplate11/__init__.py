@@ -7,6 +7,9 @@ import anvil.tables.query as q
 from anvil.tables import app_tables
 import json
 
+from anvil_extras import routing
+from ...nav import click_link, click_button, logout, login_check, load_var
+
 
 class RowTemplate11(RowTemplate11Template):
   def __init__(self, **properties):
@@ -44,3 +47,10 @@ class RowTemplate11(RowTemplate11Template):
     '''
     html_panel = HtmlPanel(html=custom_html)
     self.column_panel_pred.add_component(html_panel)
+
+  def pic_click(self, **event_args):
+    click_link(self.link_pic, f'artists?artist_id={self.item["ArtistID"]}', event_args)
+
+  def name_click(self, **event_args):
+    click_link(self.link_name, f'artists?artist_id={self.item["ArtistID"]}', event_args)
+    
