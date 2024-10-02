@@ -4,7 +4,8 @@ components:
   name: content_panel
   properties: {col_widths: '{}', role: null}
   type: ColumnPanel
-- event_bindings: {click: link_home_click}
+- components: []
+  event_bindings: {click: link_home_click}
   layout_properties: {slot: sidebar}
   name: link_home
   properties: {align: left, background: '', bold: false, border: '', col_spacing: medium, col_widths: '', font: '', font_size: null, foreground: '', icon: 'fa:angle-right', icon_align: left, italic: false, role: nav_main, spacing_above: small, spacing_below: small, text: HOME, tooltip: '', underline: false, url: '', visible: true, wrap_on: mobile}
@@ -29,6 +30,11 @@ components:
   name: linear_panel_discover
   properties: {}
   type: LinearPanel
+- event_bindings: {click: link_observe_click}
+  layout_properties: {slot: sidebar}
+  name: link_observe
+  properties: {align: left, background: '', bold: false, border: '', col_spacing: medium, col_widths: '', font: '', font_size: null, foreground: '', icon: 'fa:angle-right', icon_align: left, italic: false, role: nav_main, spacing_above: small, spacing_below: small, text: OBSERVE, tooltip: '', underline: false, url: '', visible: true, wrap_on: mobile}
+  type: Link
 - components:
   - components:
     - event_bindings: {click: change_watchlists_visibility}

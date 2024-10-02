@@ -307,3 +307,5 @@ roles:
   name: slider-refresh
 - components: [TextBox, Button]
   name: slider-inputbox
+- components: [Image]
+  name: artist-image

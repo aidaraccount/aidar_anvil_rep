@@ -33,5 +33,5 @@ class Observe(ObserveTemplate):
       artist['Number'] = i
     
     print(observed[0])
-    self.repeating_panel_1.items = observed
-    self.repeating_panel_2.items = observed
+    self.repeating_panel_table.items = observed
+    

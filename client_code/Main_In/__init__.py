@@ -211,6 +211,8 @@ class Main_In(Main_InTemplate):
     self.link_discover.background = None
     self.link_discover_ai.background = None
     self.link_discover_rel.background = None
+    
+    self.link_observe.background = None
 
     self.link_watchlists.background = None
     for component in self.nav_watchlists.get_components():
@@ -224,13 +226,16 @@ class Main_In(Main_InTemplate):
       component.background = None
 
     # set new bacckground
-    if location.hash[:9] == '#home':
+    if location.hash[:5] == '#home':
       self.link_home.background = "theme:Accent 3"
       
     elif location.hash[:9] == '#artists?':
       self.link_discover_ai.background = "theme:Accent 3"
     elif location.hash[:13] == '#rel_artists?':
       self.link_discover_rel.background = "theme:Accent 3"
+      
+    if location.hash[:8] == '#observe':
+      self.link_observe.background = "theme:Accent 3"
       
     elif location.hash[:17] == '#watchlist_funnel':
       self.link_monitor_funnel.background = "theme:Accent 3"
@@ -246,6 +251,8 @@ class Main_In(Main_InTemplate):
     self.link_discover_ai.visible = status
     self.link_discover_rel.visible = status
 
+    self.link_observe.visible = status
+    
     self.link_watchlists.visible = status
     
     self.linear_panel_monitor.visible = status
@@ -286,6 +293,13 @@ class Main_In(Main_InTemplate):
     self.reset_nav_backgrounds()
     self.link_discover_rel.background = "theme:Accent 3"
 
+  #----------------------------------------------------------------------------------------------
+  # HOME
+  def link_observe_click(self, **event_args):
+    click_link(self.link_observe, 'observe', event_args)
+    self.reset_nav_backgrounds()
+    self.link_observe.background = "theme:Accent 3"
+    
   #----------------------------------------------------------------------------------------------
   # WATCHLISTS
   def change_watchlists_visibility(self, **event_args):
