@@ -12,7 +12,8 @@ class RowTemplate11(RowTemplate11Template):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
-
+    self.html = '@theme:Observe.html'
+    
     # Any code you write here will run before the form opens.
     # fit likelihood
     pred = "{:.0f}".format(round(float(self.item["Prediction"])/7*100,0))

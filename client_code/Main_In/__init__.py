@@ -25,7 +25,7 @@ from ..RelatedArtistSearch import RelatedArtistSearch
 from ..C_CreateModel import C_CreateModel
 from ..ConnectModel import ConnectModel
 from ..CreateWatchlist import CreateWatchlist
-from ..Observe import Observe
+from ..Observe_2 import Observe_2
 
 from ..ModelProfile import ModelProfileTemplate
 from ..RampUp import RampUpTemplate
@@ -296,7 +296,7 @@ class Main_In(Main_InTemplate):
   #----------------------------------------------------------------------------------------------
   # HOME
   def link_observe_click(self, **event_args):
-    click_link(self.link_observe, 'observe', event_args)
+    click_link(self.link_observe, 'observe_2', event_args)
     self.reset_nav_backgrounds()
     self.link_observe.background = "theme:Accent 3"
     

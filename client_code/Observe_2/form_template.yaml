@@ -1,0 +1,34 @@
+components:
+- components:
+  - layout_properties: {grid_position: 'JAZERV,LGQSDW'}
+    name: label_1
+    properties: {align: left, background: '', bold: false, border: '', font: '', font_size: null, foreground: '', icon: '', icon_align: left, italic: false, role: header-1, spacing_above: small, spacing_below: small, text: Observe, tooltip: '', underline: false, visible: true}
+    type: Label
+  - layout_properties: {grid_position: 'AMIUZR,UEQSYQ'}
+    name: spacer_1
+    properties: {height: 32}
+    type: Spacer
+  - components:
+    - name: repeating_panel_table
+      properties: {item_template: Observe.RowTemplate11}
+      type: RepeatingPanel
+    layout_properties: {grid_position: 'NUGHYG,HVXOZQ'}
+    name: data_grid_1
+    properties:
+      auto_header: false
+      columns:
+      - {data_key: column_1, id: JKSDUP, title: Column 1}
+      rows_per_page: 5
+    type: DataGrid
+  - layout_properties: {grid_position: 'TINJGS,EKTRMF'}
+    name: spacer_2
+    properties: {height: 32}
+    type: Spacer
+  layout_properties: {slot: default}
+  name: content_panel
+  properties: {col_widths: '{"UEQSYQ":35}'}
+  type: ColumnPanel
+container:
+  properties: {html: '@theme:Observe.html'}
+  type: HtmlTemplate
+is_package: true
