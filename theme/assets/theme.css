@@ -1925,29 +1925,11 @@ footer a, .footer .anvil-component {
   --slider-height: 8px !important;
   --slider-bar_color: rgb(233, 95, 48) !important;
   --slider-handle-size: 20px !important;
-  opacity: 0.7;
   -webkit-transition: .2s;
   transition: opacity .2s;
   padding: 20px 80px !important;
   position: absolute;
-  top: -195px;
-  max-width: 1540px;
-  min-width: 1340px;
-  opacity: 1;
-}
-
-.anvil-role-slider  {
-  -webkit-appearance: none;
-  width: 98.2%;
-  --slider-height: 8px !important;
-  --slider-bar_color: rgb(233, 95, 48) !important;
-  --slider-handle-size: 20px !important;
-  opacity: 0.7;
-  -webkit-transition: .2s;
-  transition: opacity .2s;
-  padding: 20px 80px !important;
-  position: absolute;
-  top: -195px;
+  top: -197px;
   max-width: 1540px;
   min-width: 1340px;
   opacity: 1;
@@ -1965,7 +1947,7 @@ footer a, .footer .anvil-component {
     transition: opacity .2s;
     padding: 20px 80px !important;
     position: absolute;
-    top: -195px;
+    top: -197px;
     max-width: 1540px;
     min-width: 842px;
     opacity: 1;
@@ -1983,7 +1965,7 @@ footer a, .footer .anvil-component {
     transition: opacity .2s;
     padding: 20px 80px !important;
     position: absolute;
-    top: -195px;
+    top: -197px;
     max-width: 830px;
     min-width: 642px;
     opacity: 1;

@@ -71,7 +71,7 @@ class C_LevelOfPopularity(C_LevelOfPopularityTemplate):
       return adjusted_x_pos, adjusted_y_pos
 
     # Apply the adjustment to both x and y positions
-    y_values = [0.01] * len(popularity)  # Default y position for images
+    y_values = [0.03] * len(popularity)  # Default y position for images
     adjusted_popularity, adjusted_y_values = adjust_position(popularity, y_values)
 
     # Add the images using layout.images
