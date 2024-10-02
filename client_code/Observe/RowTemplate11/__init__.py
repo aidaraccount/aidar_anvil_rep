@@ -18,11 +18,23 @@ class RowTemplate11(RowTemplate11Template):
     self.html = '@theme:Observe.html'
     
     # Any code you write here will run before the form opens.
+    # name and flag
+    artist_name_component = Label(text=self.item["Name"], role="artist-name-tile", spacing_above=0, spacing_below=0)
+    self.Artist_Name_Details.add_component(artist_name_component)
+
+    print(self.item["CountryCode"])
+    if self.item["CountryCode"] == 'None' or self.item["CountryCode"] is None:
+      pass
+    else:
+      country_flag = Image(source="https://flagcdn.com/w40/" + self.item["CountryCode"].lower() + ".png", spacing_below=0, spacing_above=0)
+      country_flag.role = 'country-flag-icon'
+      country_flag.tooltip = self.item["CountryCode"]
+      self.Artist_Name_Details.add_component(country_flag)
+      
+
+    
     # fit likelihood
     pred = "{:.0f}".format(round(float(self.item["Prediction"])/7*100,0))
-    # pred = self.item['Prediction']/7*100
-    print(pred)
-    print(type(pred))
     custom_html = f'''
     <li class="note-display" data-note="{pred}">
       <div class="circle">
