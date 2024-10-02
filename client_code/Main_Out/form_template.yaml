@@ -86,7 +86,7 @@ components:
     type: Spacer
   - layout_properties: {grid_position: 'UXGUXQ,SMVDYR PLUTDJ,KQONDT'}
     name: label_4
-    properties: {align: center, background: '', bold: false, border: '', font: '', font_size: null, foreground: '', icon: '', icon_align: left, italic: false, role: title-main-out, spacing_above: small, spacing_below: none, text: MVP LOGIN, tooltip: '', underline: false, visible: true}
+    properties: {align: center, background: '', bold: false, border: '', font: '', font_size: null, foreground: '', icon: '', icon_align: left, italic: false, role: title-main-out, spacing_above: small, spacing_below: none, text: WELCOME TO AIDAR, tooltip: '', underline: false, visible: true}
     type: Label
   - layout_properties: {grid_position: 'UXGUXQ,SMVDYR WHTUIB,CIURHS'}
     name: label_5
