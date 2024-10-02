@@ -130,4 +130,4 @@ class RowTemplate11(RowTemplate11Template):
 
   def convert_date(self, date_str):
     date_obj = datetime.strptime(date_str, '%Y-%m-%d')
-    return date_obj.strftime('%b %d, %y')
+    return date_obj.strftime('%b %d, %Y')
