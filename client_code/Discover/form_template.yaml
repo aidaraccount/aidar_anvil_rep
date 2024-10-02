@@ -1227,6 +1227,10 @@ components:
     properties: {role: artist_name_shadow}
     type: Link
   - components:
+    - layout_properties: {}
+      name: label_4
+      properties: {role: sort-label, text: 'Pick Roster:'}
+      type: Label
     - event_bindings: {change: drop_down_wl_change}
       layout_properties: {}
       name: drop_down_wl
@@ -1237,6 +1241,23 @@ components:
     properties: {align: right, spacing: medium, spacing_above: none, spacing_below: none}
     type: FlowPanel
   - components:
+    - layout_properties: {}
+      name: label_1
+      properties: {role: sort-label, text: 'Pick Model:'}
+      type: Label
+    - event_bindings: {change: drop_down_model_change}
+      name: drop_down_model
+      properties: {align: right, role: description-bio, spacing_above: none, spacing_below: none}
+      type: DropDown
+    layout_properties: {grid_position: 'UQVSNC,XUSTNC OPLCOW,ZCPELY IITDKV,VSSSGR'}
+    name: flow_panel_4
+    properties: {align: right, spacing_above: none, spacing_below: none}
+    type: FlowPanel
+  - layout_properties: {grid_position: 'UQVSNC,XUSTNC OPLCOW,CLPNPV SLPMDJ,LOPKOG'}
+    name: spacer_9
+    properties: {height: 32}
+    type: Spacer
+  - components:
     - event_bindings: {click: button_set_filters_click}
       name: button_set_filters
       properties: {align: right, icon: 'fa:filter', role: feature, text: Set Filters}
@@ -1245,17 +1266,13 @@ components:
       name: button_remove_filters
       properties: {background: 'theme:Orange', foreground: 'theme:Text_DecentWhite', icon: 'fa:ban', role: feature, text: '', tooltip: remove filters, visible: true}
       type: Button
-    - event_bindings: {change: drop_down_model_change}
-      name: drop_down_model
-      properties: {align: right, role: description-bio, spacing_above: none, spacing_below: none}
-      type: DropDown
-    layout_properties: {grid_position: 'UQVSNC,XUSTNC OPLCOW,ZCPELY MMBTTS,JEJQNK'}
-    name: flow_panel_4
-    properties: {align: right, spacing_above: none, spacing_below: none}
+    layout_properties: {grid_position: 'UQVSNC,XUSTNC OPLCOW,CLPNPV EBNBRP,LVBKZH'}
+    name: flow_panel_6
+    properties: {align: right}
     type: FlowPanel
   layout_properties: {slot: footer-slot}
   name: Footer
-  properties: {background: 'theme:Grid_Black', col_spacing: tiny, col_widths: '{"XUSTNC":30,"THIOWY":5,"OZIYBS":20,"CLCEVO":20,"KXLRPY":6,"ZCPELY":54}', spacing_above: none, spacing_below: none, visible: true}
+  properties: {background: 'theme:Grid_Black', col_spacing: tiny, col_widths: '{"XUSTNC":30,"THIOWY":5,"OZIYBS":20,"CLCEVO":20,"KXLRPY":6,"ZCPELY":44,"CLPNPV":30}', spacing_above: none, spacing_below: none, visible: true}
   type: ColumnPanel
 container:
   properties: {background: '', html: '@theme:Discover_Sidebar_and_JS.html', role: null}
