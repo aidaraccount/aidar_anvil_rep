@@ -20,12 +20,11 @@ class C_LevelOfPopularity(C_LevelOfPopularityTemplate):
 
     # Any code you write here will run before the form opens.    
     self.model_id_view = load_var("model_id_view")
-
+    save_var('min_pop', 20)
+    save_var('max_pop', 50)
 
     data = json.loads(anvil.server.call('get_pop_bar_artists', self.model_id_view))
 
-
-    print(data)
     # Extract names and popularity
     names = [artist['name'] for artist in data]
     popularity = [artist['artist_popularity_lat'] for artist in data]
