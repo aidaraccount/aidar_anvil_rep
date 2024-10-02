@@ -29,70 +29,84 @@ components:
     name: link_name
     properties: {role: null}
     type: Link
-  - layout_properties: {grid_position: 'VKDHZE,KDLTZC NKTHAH,AXXWDO'}
-    name: column_panel_2
-    properties: {}
-    type: ColumnPanel
+  - components:
+    - layout_properties: {}
+      name: gender
+      properties: {font_size: null, role: null, spacing_above: none, spacing_below: none}
+      type: Label
+    - layout_properties: {}
+      name: gender_birthday_line
+      properties: {spacing_above: none, spacing_below: none, text: '|'}
+      type: Label
+    - layout_properties: {}
+      name: birthday
+      properties: {font_size: null, role: null, spacing_above: none, spacing_below: none}
+      type: Label
+    layout_properties: {grid_position: 'VKDHZE,KDLTZC WFUJIW,GWEHLE'}
+    name: Artist_Details
+    properties: {role: description-tile-bio-text, spacing_above: none, spacing_below: small, vertical_align: bottom}
+    type: FlowPanel
+  - layout_properties: {grid_position: 'VKDHZE,KDLTZC DQSSRJ,FLEMFX'}
+    name: flow_panel_genre_tile
+    properties: {align: left, role: music-genre-tile, spacing_above: none, spacing_below: none}
+    type: FlowPanel
   - components:
     - components:
       - layout_properties: {grid_position: 'FYRUAU,LWZRYK'}
         name: label_1
-        properties: {align: left, role: note, text: Spotify Popularity}
+        properties: {align: center, role: note, text: Spotify Popularity}
         type: Label
       - data_bindings:
         - {code: 'self.item[''ArtistPopularity_lat'']', property: text, writeback: false}
         layout_properties: {grid_position: 'ZEHYMB,NRWJID'}
         name: label_3
-        properties: {role: value}
+        properties: {align: center, role: value}
         type: Label
       layout_properties: {grid_position: 'NDCNUT,TCQAJZ'}
       name: column_panel_4
-      properties: {spacing_above: medium}
+      properties: {spacing_above: large}
       type: ColumnPanel
     - components:
       - layout_properties: {grid_position: 'FYRUAU,LWZRYK'}
         name: label_1_copy
-        properties: {align: left, role: note, text: Spotify Follower}
+        properties: {align: center, role: note, spacing_above: small, text: Spotify Follower}
         type: Label
-      - data_bindings:
-        - {code: 'self.item[''ArtistFollower_lat'']', property: text, writeback: false}
+      - data_bindings: []
         layout_properties: {grid_position: 'ZEHYMB,NRWJID'}
-        name: label_3_copy
-        properties: {role: value}
+        name: label_sp_fol
+        properties: {align: center, role: value}
         type: Label
       layout_properties: {grid_position: 'NDCNUT,HTXSGM'}
       name: column_panel_4_copy
-      properties: {spacing_above: medium}
+      properties: {spacing_above: large}
       type: ColumnPanel
     - components:
       - layout_properties: {grid_position: 'FYRUAU,LWZRYK'}
         name: label_1_copy_2
-        properties: {align: left, role: note, text: Spotify Mtl. Listeners}
+        properties: {align: center, role: note, text: Spotify Mtl. Listeners}
         type: Label
-      - data_bindings:
-        - {code: 'self.item[''SpotifyMtlListeners_lat'']', property: text, writeback: false}
+      - data_bindings: []
         layout_properties: {grid_position: 'ZEHYMB,NRWJID'}
-        name: label_3_copy_2
-        properties: {role: value}
+        name: label_mtl_fol
+        properties: {align: center, role: value}
         type: Label
       layout_properties: {grid_position: 'NDCNUT,PUGGDX'}
       name: column_panel_4_copy_2
-      properties: {spacing_above: medium}
+      properties: {spacing_above: large}
       type: ColumnPanel
     - components:
       - layout_properties: {grid_position: 'FYRUAU,LWZRYK'}
         name: label_1_copy_copy
-        properties: {align: left, role: note, text: TikTok Follower}
+        properties: {align: center, role: note, text: TikTok Follower}
         type: Label
-      - data_bindings:
-        - {code: 'self.item[''TikTokFollower_lat'']', property: text, writeback: false}
+      - data_bindings: []
         layout_properties: {grid_position: 'ZEHYMB,NRWJID'}
-        name: label_3_copy_copy
-        properties: {role: value}
+        name: label_tiktok_fol
+        properties: {align: center, role: value}
         type: Label
       layout_properties: {grid_position: 'NDCNUT,GXKWJN'}
       name: column_panel_4_copy_copy
-      properties: {spacing_above: medium}
+      properties: {spacing_above: large}
       type: ColumnPanel
     layout_properties: {grid_position: 'VKDHZE,RHGWMN'}
     name: column_panel_3
@@ -104,7 +118,7 @@ components:
     type: ColumnPanel
   layout_properties: {column: JKSDUP}
   name: column_panel_1
-  properties: {col_spacing: small, col_widths: '{"UZMWIH":10,"KDLTZC":20,"URSRLP":12,"AXXWDO":25,"RHGWMN":35,"FZNRID":5}', role: grid}
+  properties: {col_spacing: small, col_widths: '{"UZMWIH":10,"KDLTZC":20,"URSRLP":12,"RHGWMN":35,"FZNRID":5}', role: grid}
   type: ColumnPanel
 container: {type: DataRowPanel}
 is_package: true

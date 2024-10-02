@@ -6,6 +6,7 @@ import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
 import json
+from datetime import datetime
 
 from anvil_extras import routing
 from ...nav import click_link, click_button, logout, login_check, load_var
@@ -22,7 +23,6 @@ class RowTemplate11(RowTemplate11Template):
     artist_name_component = Label(text=self.item["Name"], role="artist-name-tile", spacing_above=0, spacing_below=0)
     self.Artist_Name_Details.add_component(artist_name_component)
 
-    print(self.item["CountryCode"])
     if self.item["CountryCode"] == 'None' or self.item["CountryCode"] is None:
       pass
     else:
@@ -30,8 +30,56 @@ class RowTemplate11(RowTemplate11Template):
       country_flag.role = 'country-flag-icon'
       country_flag.tooltip = self.item["CountryCode"]
       self.Artist_Name_Details.add_component(country_flag)
-      
+    
+    # birt date
+    if self.item["BirthDate"] is None:
+      self.birthday.visible = False
+    else:
+      self.birthday.visible = True
+      self.birthday.text = self.convert_date(self.item["BirthDate"])
 
+    # gender
+    if self.item["Gender"] is None:
+      self.gender.visible = False
+    else:
+      self.gender.visible = True
+      self.gender.text = self.item["Gender"]
+
+    # line condition
+    if self.item["BirthDate"] is not None and self.item["Gender"] is not None:
+      self.gender_birthday_line.visible = True
+    else:
+      self.gender_birthday_line.visible = False
+
+    # genres
+    if self.item["genres_list"] is None:
+      pass
+    else:
+      genres_list = self.item["genres_list"]
+      for g in (range(0, min(len(genres_list), 4))):
+        genre_label = Label(text=genres_list[g])
+        genre_label.role = 'genre-box'
+        self.flow_panel_genre_tile.add_component(genre_label)
+      if len(genres_list) > 4:
+        genre_label = Label(text='...')
+        genre_label.role = 'genre-box'
+        self.flow_panel_genre_tile.add_component(genre_label)
+    
+    # stats
+    if self.item['ArtistFollower_lat'] is None:
+      self.label_sp_fol.text = '-'
+    else:
+      self.label_sp_fol.text = self.shorten_number(self.item["ArtistFollower_lat"])
+      
+    if self.item['SpotifyMtlListeners_lat'] is None:
+      self.label_mtl_fol.text = '-'
+    else:
+      self.label_mtl_fol.text = self.shorten_number(self.item["SpotifyMtlListeners_lat"])
+      
+    if self.item['TikTokFollower_lat'] is None:
+      self.label_tiktok_fol.text = '-'
+    else:
+      self.label_tiktok_fol.text = self.shorten_number(self.item["TikTokFollower_lat"])
     
     # fit likelihood
     pred = "{:.0f}".format(round(float(self.item["Prediction"])/7*100,0))
@@ -65,4 +113,21 @@ class RowTemplate11(RowTemplate11Template):
 
   def name_click(self, **event_args):
     click_link(self.link_name, f'artists?artist_id={self.item["ArtistID"]}', event_args)
-    
+
+  def shorten_number(self, num):
+    thresholds = [
+      (1_000_000_000_000, 'T'),  # Trillion
+      (1_000_000_000, 'B'),      # Billion
+      (1_000_000, 'M'),          # Million
+      (1_000, 'K')               # Thousand
+    ]    
+    if num >= thresholds[3][0]:
+      for threshold, suffix in thresholds:
+        if num >= threshold:
+          return f'{num / threshold:.1f}{suffix}'
+    else:
+      return f'{num:.0f}'
+
+  def convert_date(self, date_str):
+    date_obj = datetime.strptime(date_str, '%Y-%m-%d')
+    return date_obj.strftime('%b %d, %y')
