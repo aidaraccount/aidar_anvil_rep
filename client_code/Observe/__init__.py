@@ -26,23 +26,11 @@ class Observe(ObserveTemplate):
     self.model_id = model_id
     print(f"Observe model_id: {model_id}")
 
+    # GENERAL
     # model_selection
     models = json.loads(anvil.server.call('get_model_ids',  user["user_id"]))
     print(models)
-    # if self.item["genres_list"] is None:
-    #   pass
-    # else:
-    #   genres_list = self.item["genres_list"]
-    #   for g in (range(0, min(len(genres_list), 4))):
-    #     genre_label = Label(text=genres_list[g])
-    #     genre_label.role = 'genre-box'
-    #     self.flow_panel_genre_tile.add_component(genre_label)
-    #   if len(genres_list) > 4:
-    #     genre_label = Label(text='...')
-    #     genre_label.role = 'genre-box'
-    #     self.flow_panel_genre_tile.add_component(genre_label)
-
-
+    
     # model_ids = json.loads(anvil.server.call('get_model_ids',  user["user_id"]))
     for i in range(0, len(models)):
       if models[i]["is_last_used"] is True:
@@ -55,23 +43,38 @@ class Observe(ObserveTemplate):
         model_link = Link(
           text=models[i]["model_name"],
           tag=models[i]["model_id"],
-          role='genre-box'
+          role='genre-box-deselect'
           )
-      model_link.set_event_handler('click', self.activate_model())
+      model_link.set_event_handler('click', self.create_activate_model_handler(models[i]["model_id"]))
       self.flow_panel_models.add_component(model_link)
-  
-
     
-    # get data
+    # table
+    self.refresh_table(model_id)
+    # self.activate_model(None)
+
+  # refresh the table
+  def refresh_table(self, model_id):
     observed = json.loads(anvil.server.call('get_observed', model_id, False))
-    # add running Number
     for i, artist in enumerate(observed, start=1):
       artist['Number'] = i
 
-    # table
     self.repeating_panel_table.items = observed
 
-
   # activate model
-  def activate_model(self):
-    print('activated')
+  def create_activate_model_handler(self, model_id):
+    def handler(**event_args):
+      self.activate_model(model_id)
+    return handler
+    
+  def activate_model(self, model_id):
+    print(model_id)
+    for component in self.flow_panel_models.get_components():
+      if isinstance(component, Link):
+        if int(component.tag) == model_id:
+          if component.role == 'genre-box':
+            component.role = 'genre-box-deselect'
+          else:
+            component.role = 'genre-box'
+          self.refresh_table(model_id)
+        else:
+          pass

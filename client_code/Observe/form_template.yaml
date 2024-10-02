@@ -4,10 +4,6 @@ components:
     name: label_1
     properties: {align: left, background: '', bold: false, border: '', font: '', font_size: null, foreground: '', icon: '', icon_align: left, italic: false, role: header-1, spacing_above: small, spacing_below: small, text: Observe, tooltip: '', underline: false, visible: true}
     type: Label
-  - layout_properties: {grid_position: 'AMIUZR,UEQSYQ'}
-    name: spacer_1
-    properties: {height: 32}
-    type: Spacer
   - components:
     - layout_properties: {grid_position: 'FFHUXB,SNYWAS'}
       name: label_1_copy
@@ -21,10 +17,19 @@ components:
     name: no_trained_model
     properties: {}
     type: ColumnPanel
-  - layout_properties: {grid_position: 'LPTTSR,MEZHGW'}
+  - components:
+    - layout_properties: {}
+      name: label_3
+      properties: {role: feature, text: 'Model selection:    '}
+      type: Label
+    layout_properties: {grid_position: 'LPTTSR,MEZHGW'}
     name: flow_panel_models
     properties: {}
     type: FlowPanel
+  - layout_properties: {grid_position: 'PMQGGX,HPQFLE'}
+    name: spacer_1
+    properties: {height: 32}
+    type: Spacer
   - components:
     - name: repeating_panel_table
       properties: {item_template: Observe.RowTemplate11}
@@ -43,7 +48,7 @@ components:
     type: Spacer
   layout_properties: {slot: default}
   name: content_panel
-  properties: {col_widths: '{"UEQSYQ":35}'}
+  properties: {col_widths: '{}'}
   type: ColumnPanel
 container:
   properties: {html: '@theme:Observe.html'}
