@@ -83,6 +83,7 @@ class RowTemplate11(RowTemplate11Template):
     
     # fit likelihood
     pred = "{:.0f}".format(round(float(self.item["Prediction"])/7*100,0))
+    print(pred)
     custom_html = f'''
     <li class="note-display" data-note="{pred}">
       <div class="circle">
@@ -106,6 +107,7 @@ class RowTemplate11(RowTemplate11Template):
     </li>
     '''
     html_panel = HtmlPanel(html=custom_html)
+    self.column_panel_pred.clear()
     self.column_panel_pred.add_component(html_panel)
 
   def pic_click(self, **event_args):
