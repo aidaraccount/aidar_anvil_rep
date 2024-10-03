@@ -1,4 +1,104 @@
 components:
+- components:
+  - layout_properties: {grid_position: 'UQVSNC,CLCEVO'}
+    name: spotify_player_spot
+    properties: {role: spotify-footer-class, visible: true}
+    type: ColumnPanel
+  - layout_properties: {grid_position: 'UQVSNC,THIOWY'}
+    name: spacer_3
+    properties: {height: 32}
+    type: Spacer
+  - layout_properties: {grid_position: 'UQVSNC,OZIYBS THYALW,GCKCDI'}
+    name: label_2
+    properties: {font_size: 15, italic: true, spacing_below: none, text: '  no fit'}
+    type: Label
+  - layout_properties: {grid_position: 'UQVSNC,OZIYBS THYALW,EQAUIK'}
+    name: label_3
+    properties: {align: right, font_size: 15, italic: true, spacing_below: none, text: Match!}
+    type: Label
+  - event_bindings: {click: button_1_click}
+    layout_properties: {grid_position: 'UQVSNC,OZIYBS CFGNEX,IXXGLU'}
+    name: button_1
+    properties: {role: feature, spacing_above: none, spacing_below: none, text: '1'}
+    type: Button
+  - event_bindings: {click: button_2_click}
+    layout_properties: {grid_position: 'UQVSNC,OZIYBS CFGNEX,NSUNGO'}
+    name: button_1_copy
+    properties: {role: feature, spacing_above: none, spacing_below: none, text: '2'}
+    type: Button
+  - event_bindings: {click: button_3_click}
+    layout_properties: {grid_position: 'UQVSNC,OZIYBS CFGNEX,OBEDSI'}
+    name: button_1_copy_2
+    properties: {role: feature, spacing_above: none, spacing_below: none, text: '3'}
+    type: Button
+  - event_bindings: {click: button_4_click}
+    layout_properties: {grid_position: 'UQVSNC,OZIYBS CFGNEX,XGWHAT'}
+    name: button_1_copy_3
+    properties: {background: 'rgb(255,217,203)', bold: false, role: feature, spacing_above: none, spacing_below: none, text: '4'}
+    type: Button
+  - event_bindings: {click: button_5_click}
+    layout_properties: {grid_position: 'UQVSNC,OZIYBS CFGNEX,TTQFFE'}
+    name: button_1_copy_4
+    properties: {background: 'rgb(254,178,150)', bold: true, foreground: '', role: feature, spacing_above: none, spacing_below: none, text: '5'}
+    type: Button
+  - event_bindings: {click: button_6_click}
+    layout_properties: {grid_position: 'UQVSNC,OZIYBS CFGNEX,LNXGHL'}
+    name: button_1_copy_5
+    properties: {background: 'rgb(254,140,98)', bold: true, foreground: '', role: feature, spacing_above: none, spacing_below: none, text: '6'}
+    type: Button
+  - event_bindings: {click: button_7_click}
+    layout_properties: {grid_position: 'UQVSNC,OZIYBS CFGNEX,ZLIZAI'}
+    name: button_1_copy_6
+    properties: {background: 'rgb(253, 101, 45)', bold: true, border: '', foreground: 'theme:Text_White', role: feature, spacing_above: none, spacing_below: none, text: '7'}
+    type: Button
+  - layout_properties: {grid_position: 'UQVSNC,XUSTNC OPLCOW,KXLRPY XFGLNV,LOXIMQ'}
+    name: spacer_6
+    properties: {height: '15', spacing_below: none}
+    type: Spacer
+  - event_bindings: {click: link_watchlist_name_click}
+    layout_properties: {grid_position: 'UQVSNC,XUSTNC OPLCOW,KXLRPY RSFAQY,VELSAP'}
+    name: link_watchlist_name2
+    properties: {role: artist_name_shadow}
+    type: Link
+  - components:
+    - layout_properties: {}
+      name: label_4
+      properties: {role: sort-label, text: 'Watchlist:'}
+      type: Label
+    layout_properties: {grid_position: 'UQVSNC,XUSTNC OPLCOW,ZCPELY NDEGSB,WOLXQF'}
+    name: flow_panel_3
+    properties: {align: right, spacing: medium, spacing_above: none, spacing_below: none}
+    type: FlowPanel
+  - event_bindings: {change: drop_down_wl_change}
+    layout_properties: {grid_position: 'UQVSNC,XUSTNC OPLCOW,ZCPELY NDEGSB,TKPFPI'}
+    name: drop_down_wl
+    properties: {align: left, role: null, spacing_above: none, spacing_below: none}
+    type: DropDown
+  - components:
+    - event_bindings: {click: button_set_filters_click}
+      name: button_set_filters
+      properties: {align: right, icon: 'fa:filter', role: feature, spacing_above: none, spacing_below: none, text: Set Filters}
+      type: Button
+    - event_bindings: {click: button_remove_filters_click}
+      name: button_remove_filters
+      properties: {background: 'theme:Orange', foreground: 'theme:Text_DecentWhite', icon: 'fa:ban', role: feature, spacing_above: none, spacing_below: none, text: '', tooltip: remove filters, visible: true}
+      type: Button
+    - name: label_1
+      properties: {role: sort-label, text: 'Model:'}
+      type: Label
+    layout_properties: {grid_position: 'UQVSNC,XUSTNC OPLCOW,ZCPELY ZJMGCR,NIPEPX'}
+    name: flow_panel_master
+    properties: {align: right, spacing: medium, spacing_above: none, spacing_below: none}
+    type: FlowPanel
+  - event_bindings: {change: drop_down_model_change}
+    layout_properties: {grid_position: 'UQVSNC,XUSTNC OPLCOW,ZCPELY ZJMGCR,LIKSHX'}
+    name: drop_down_model
+    properties: {align: left, role: description-bio, spacing_above: none, spacing_below: none}
+    type: DropDown
+  layout_properties: {slot: footer-slot}
+  name: Footer
+  properties: {background: 'theme:Grid_Black', col_spacing: tiny, col_widths: '{"XUSTNC":30,"THIOWY":5,"OZIYBS":20,"CLCEVO":20,"KXLRPY":6,"ZCPELY":69}', spacing_above: none, spacing_below: none, visible: true}
+  type: ColumnPanel
 - event_bindings: {click: description_button_click}
   layout_properties: {slot: edit_button_decription}
   name: description_button
@@ -530,7 +630,7 @@ components:
           type: DropDown
         layout_properties: {grid_position: 'IAMBWZ,XJZTDJ'}
         name: flow_panel_2
-        properties: {align: right, role: Discover_xypanel, spacing_above: none, spacing_below: none}
+        properties: {align: right, role: Discover_xypanel, spacing: huge, spacing_above: none, spacing_below: none}
         type: FlowPanel
       - event_bindings: {}
         layout_properties: {grid_position: 'IRLWMZ,IIQMSK'}
@@ -1164,117 +1264,6 @@ components:
     role: [left-discover-page]
     spacing_above: small
     spacing_below: small
-  type: ColumnPanel
-- components:
-  - layout_properties: {grid_position: 'UQVSNC,CLCEVO'}
-    name: spotify_player_spot
-    properties: {role: spotify-footer-class, visible: true}
-    type: ColumnPanel
-  - layout_properties: {grid_position: 'UQVSNC,THIOWY'}
-    name: spacer_3
-    properties: {height: 32}
-    type: Spacer
-  - layout_properties: {grid_position: 'UQVSNC,OZIYBS THYALW,GCKCDI'}
-    name: label_2
-    properties: {font_size: 15, italic: true, spacing_below: none, text: '  no fit'}
-    type: Label
-  - layout_properties: {grid_position: 'UQVSNC,OZIYBS THYALW,EQAUIK'}
-    name: label_3
-    properties: {align: right, font_size: 15, italic: true, spacing_below: none, text: Match!}
-    type: Label
-  - event_bindings: {click: button_1_click}
-    layout_properties: {grid_position: 'UQVSNC,OZIYBS CFGNEX,IXXGLU'}
-    name: button_1
-    properties: {role: feature, spacing_above: none, spacing_below: none, text: '1'}
-    type: Button
-  - event_bindings: {click: button_2_click}
-    layout_properties: {grid_position: 'UQVSNC,OZIYBS CFGNEX,NSUNGO'}
-    name: button_1_copy
-    properties: {role: feature, spacing_above: none, spacing_below: none, text: '2'}
-    type: Button
-  - event_bindings: {click: button_3_click}
-    layout_properties: {grid_position: 'UQVSNC,OZIYBS CFGNEX,OBEDSI'}
-    name: button_1_copy_2
-    properties: {role: feature, spacing_above: none, spacing_below: none, text: '3'}
-    type: Button
-  - event_bindings: {click: button_4_click}
-    layout_properties: {grid_position: 'UQVSNC,OZIYBS CFGNEX,XGWHAT'}
-    name: button_1_copy_3
-    properties: {background: 'rgb(255,217,203)', bold: false, role: feature, spacing_above: none, spacing_below: none, text: '4'}
-    type: Button
-  - event_bindings: {click: button_5_click}
-    layout_properties: {grid_position: 'UQVSNC,OZIYBS CFGNEX,TTQFFE'}
-    name: button_1_copy_4
-    properties: {background: 'rgb(254,178,150)', bold: true, foreground: '', role: feature, spacing_above: none, spacing_below: none, text: '5'}
-    type: Button
-  - event_bindings: {click: button_6_click}
-    layout_properties: {grid_position: 'UQVSNC,OZIYBS CFGNEX,LNXGHL'}
-    name: button_1_copy_5
-    properties: {background: 'rgb(254,140,98)', bold: true, foreground: '', role: feature, spacing_above: none, spacing_below: none, text: '6'}
-    type: Button
-  - event_bindings: {click: button_7_click}
-    layout_properties: {grid_position: 'UQVSNC,OZIYBS CFGNEX,ZLIZAI'}
-    name: button_1_copy_6
-    properties: {background: 'rgb(253, 101, 45)', bold: true, border: '', foreground: 'theme:Text_White', role: feature, spacing_above: none, spacing_below: none, text: '7'}
-    type: Button
-  - layout_properties: {grid_position: 'UQVSNC,XUSTNC OPLCOW,KXLRPY XFGLNV,LOXIMQ'}
-    name: spacer_6
-    properties: {height: '15', spacing_below: none}
-    type: Spacer
-  - event_bindings: {click: link_watchlist_name_click}
-    layout_properties: {grid_position: 'UQVSNC,XUSTNC OPLCOW,KXLRPY RSFAQY,VELSAP'}
-    name: link_watchlist_name2
-    properties: {role: artist_name_shadow}
-    type: Link
-  - components:
-    - layout_properties: {}
-      name: label_4
-      properties: {role: sort-label, text: 'Watchlist:'}
-      type: Label
-    - event_bindings: {change: drop_down_wl_change}
-      layout_properties: {}
-      name: drop_down_wl
-      properties: {align: right, role: null, spacing_above: none, spacing_below: none}
-      type: DropDown
-    layout_properties: {grid_position: 'UQVSNC,XUSTNC OPLCOW,ZCPELY NDEGSB,WOLXQF'}
-    name: flow_panel_3
-    properties: {align: right, spacing: medium, spacing_above: none, spacing_below: none}
-    type: FlowPanel
-  - components:
-    - layout_properties: {}
-      name: label_1
-      properties: {role: sort-label, text: 'Model:'}
-      type: Label
-    - event_bindings: {change: drop_down_model_change}
-      name: drop_down_model
-      properties: {align: right, role: description-bio, spacing_above: none, spacing_below: none}
-      type: DropDown
-    - event_bindings: {click: button_set_filters_click}
-      layout_properties: {}
-      name: button_set_filters
-      properties: {align: right, icon: 'fa:filter', role: feature, spacing_above: none, spacing_below: none, text: Set Filters}
-      type: Button
-    - event_bindings: {click: button_remove_filters_click}
-      layout_properties: {}
-      name: button_remove_filters
-      properties: {background: 'theme:Orange', foreground: 'theme:Text_DecentWhite', icon: 'fa:ban', role: feature, spacing_above: none, spacing_below: none, text: '', tooltip: remove filters, visible: true}
-      type: Button
-    layout_properties: {grid_position: 'UQVSNC,XUSTNC OPLCOW,ZCPELY IITDKV,VSSSGR'}
-    name: flow_panel_4
-    properties: {align: right, spacing_above: none, spacing_below: none}
-    type: FlowPanel
-  - layout_properties: {grid_position: 'UQVSNC,XUSTNC OPLCOW,CLPNPV SLPMDJ,LOPKOG'}
-    name: spacer_9
-    properties: {height: 32}
-    type: Spacer
-  - components: []
-    layout_properties: {grid_position: 'UQVSNC,XUSTNC OPLCOW,CLPNPV EBNBRP,LVBKZH'}
-    name: flow_panel_6
-    properties: {align: right}
-    type: FlowPanel
-  layout_properties: {slot: footer-slot}
-  name: Footer
-  properties: {background: 'theme:Grid_Black', col_spacing: tiny, col_widths: '{"XUSTNC":30,"THIOWY":5,"OZIYBS":20,"CLCEVO":20,"KXLRPY":6,"ZCPELY":44,"CLPNPV":30}', spacing_above: none, spacing_below: none, visible: true}
   type: ColumnPanel
 container:
   properties: {background: '', html: '@theme:Discover_Sidebar_and_JS.html', role: null}
