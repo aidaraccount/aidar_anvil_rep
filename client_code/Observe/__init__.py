@@ -31,6 +31,8 @@ class Observe(ObserveTemplate):
     # model_selection
     models = json.loads(anvil.server.call('get_model_ids',  user["user_id"]))
     print(models)
+
+    working_model = False
     for i in range(0, len(models)):
       if models[i]["is_last_used"] is True:        
         model_link = Link(
@@ -38,12 +40,14 @@ class Observe(ObserveTemplate):
           tag=models[i]["model_id"],
           role='genre-box'
           )
+        working_model = True
       else:
         model_link = Link(
           text=models[i]["model_name"],
           tag=models[i]["model_id"],
           role='genre-box-deselect'
           )
+        working_model = True
       if models[i]["ramp_up"] is True:        
         model_link = Link(
           text=models[i]["model_name"],
@@ -52,13 +56,18 @@ class Observe(ObserveTemplate):
           )
       model_link.set_event_handler('click', self.create_activate_model_handler(models[i]["model_id"]))
       self.flow_panel_models.add_component(model_link)
-    
+
     # table
-    self.refresh_table()
+    if working_model is True:
+      self.refresh_table()
+    else:
+      self.data_grid.visible = False
     
 
   # refresh the table
   def refresh_table(self):
+    self.data_grid.visible = True
+    
     # get list of activated models
     model_ids = []
     for component in self.flow_panel_models.get_components():
@@ -66,7 +75,6 @@ class Observe(ObserveTemplate):
       if isinstance(component, Link):
         if component.role == 'genre-box':
           model_ids.append(component.tag)
-    print(model_ids)
 
     # get un/-rated status
     if self.link_rated.role == 'genre-box-deselect':
@@ -77,12 +85,11 @@ class Observe(ObserveTemplate):
       rated = None
     
     # get data
-    observed = json.loads(anvil.server.call('get_observed', model_ids[0], rated))
+    observed = json.loads(anvil.server.call('get_observed', model_ids, rated))
     
     # add numbering
     for i, artist in enumerate(observed, start=1):
       artist['Number'] = i
-    # print(observed)
 
     # hand-over the data
     self.repeating_panel_table.items = observed
@@ -96,6 +103,7 @@ class Observe(ObserveTemplate):
   # change active status
   def activate_model(self, model_id):
     print('activate_model: ', model_id)
+    active_model = False
     for component in self.flow_panel_models.get_components():
       print('component.tag', component.tag)
       if isinstance(component, Link):
@@ -109,8 +117,11 @@ class Observe(ObserveTemplate):
               component.role = 'genre-box-deselect'
             else:
               component.role = 'genre-box'
-            print('REFRESH TABLE!')
-            self.refresh_table()
+              active_model = False
+            if active_model is True:
+              self.refresh_table()
+            else:
+              self.data_grid.visible = False
         else:
           pass
 
