@@ -30,7 +30,6 @@ class Observe(ObserveTemplate):
     # GENERAL
     # model_selection
     models = json.loads(anvil.server.call('get_model_ids',  user["user_id"]))
-    print(models)
 
     working_model = False
     for i in range(0, len(models)):
@@ -40,20 +39,20 @@ class Observe(ObserveTemplate):
           tag=models[i]["model_id"],
           role='genre-box'
           )
-        working_model = True
       else:
         model_link = Link(
           text=models[i]["model_name"],
           tag=models[i]["model_id"],
           role='genre-box-deselect'
           )
-        working_model = True
-      if models[i]["ramp_up"] is True:        
+      if models[i]["fully_trained"] is False:        
         model_link = Link(
           text=models[i]["model_name"],
           tag=models[i]["model_id"],
           role='genre-box-deactive'
           )
+      else:        
+        working_model = True
       model_link.set_event_handler('click', self.create_activate_model_handler(models[i]["model_id"]))
       self.flow_panel_models.add_component(model_link)
 
@@ -62,6 +61,8 @@ class Observe(ObserveTemplate):
       self.refresh_table()
     else:
       self.no_trained_model.visible = True
+      self.flow_panel_ratings.visible = False
+      self.flow_panel_models.visible = False
       self.data_grid.visible = False
     
 
@@ -70,7 +71,6 @@ class Observe(ObserveTemplate):
     # get list of activated models
     model_ids = []
     for component in self.flow_panel_models.get_components():
-      print('component.tag', component.tag)
       if isinstance(component, Link):
         if component.role == 'genre-box':
           model_ids.append(component.tag)
@@ -104,16 +104,14 @@ class Observe(ObserveTemplate):
     
   # change active status
   def activate_model(self, model_id):
-    print('activate_model: ', model_id)
     working_model = False
     for component in self.flow_panel_models.get_components():
-      print('component.tag', component.tag)
       if isinstance(component, Link):
         # change activation
         if int(component.tag) == model_id:
           if component.role == 'genre-box-deactive':
             Notification("",
-              title="Model not fully trained yet!",
+              title="Model not fully trained yet - you need at least 50 ratings!",
               style="info").show()
           else:
             if component.role == 'genre-box':
