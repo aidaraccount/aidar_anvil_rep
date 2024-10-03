@@ -7,6 +7,7 @@ import anvil.tables.query as q
 from anvil.tables import app_tables
 import json
 
+
 from anvil_extras import routing
 from ..nav import click_link, click_button, logout, login_check, load_var
 
