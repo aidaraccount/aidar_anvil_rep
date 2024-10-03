@@ -283,10 +283,16 @@ components:
       name: nav_prev_rated
       properties: {col_spacing: medium, role: section_buttons, spacing_above: none, spacing_below: none, text: Prev. Rated}
       type: Link
-    - event_bindings: {click: nav_filters_click}
+    - components: []
+      event_bindings: {click: nav_filters_click}
       layout_properties: {}
       name: nav_filters
       properties: {role: section_buttons, spacing_above: none, spacing_below: none, text: Filters}
+      type: Link
+    - event_bindings: {click: nav_filters_click}
+      layout_properties: {}
+      name: nav_level_of_pop
+      properties: {role: section_buttons, spacing_above: none, spacing_below: none, text: Level of Popularity}
       type: Link
     layout_properties: {grid_position: 'ZAVFTJ,JAVACL'}
     name: flow_panel_sections
@@ -554,13 +560,18 @@ components:
     name: sec_references
     properties: {col_widths: '{}', spacing_above: medium}
     type: ColumnPanel
-  - layout_properties: {grid_position: 'JTTONT,MHUQDZ'}
+  - components: []
+    layout_properties: {grid_position: 'JTTONT,MHUQDZ'}
     name: sec_prev_rated
     properties: {col_widths: '{}', spacing_above: medium}
     type: ColumnPanel
   - layout_properties: {grid_position: 'WAZAPC,OHNLXA'}
     name: sec_filters
     properties: {spacing_above: medium}
+    type: ColumnPanel
+  - layout_properties: {grid_position: 'YGIDUA,FGCUNP'}
+    name: sec_level_of_pop
+    properties: {col_widths: '{}', spacing_above: medium}
     type: ColumnPanel
   layout_properties: {slot: default}
   name: column_panel_1

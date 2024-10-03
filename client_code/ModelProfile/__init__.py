@@ -18,6 +18,7 @@ from ..C_AddRefArtists import C_AddRefArtists
 from ..C_RefArtistsSettings import C_RefArtistsSettings
 from ..C_Rating import C_Rating
 from ..C_Filter import C_Filter
+from ..C_LevelOfPopularity import C_LevelOfPopularity
 
 from anvil_extras import routing
 from ..nav import click_link, click_button, load_var, save_var
@@ -138,7 +139,9 @@ class ModelProfile(ModelProfileTemplate):
     elif section == 'Filter':
       self.nav_filters_click()
     elif section == 'AddRefArtists':
-      self.nav_add_references_click()   
+      self.nav_add_references_click()
+    elif section == 'LevelOfPopularity':
+      self.nav_level_of_pop_click()
 
     self.create_ratings_histogram_chart()
     
@@ -421,10 +424,12 @@ class ModelProfile(ModelProfileTemplate):
     self.nav_model.role = 'section_buttons'
     self.nav_prev_rated.role = 'section_buttons'
     self.nav_filters.role = 'section_buttons'
+    self.nav_level_of_pop.role = 'section_buttons'
     self.sec_references.visible = True
     self.sec_models.visible = False
     self.sec_prev_rated.visible = False
     self.sec_filters.visible = False
+    self.sec_level_of_pop.visible = False
     self.sec_references.clear()
     # self.sec_references.add_component(C_EditRefArtists(self.model_id_view))
     self.sec_references.add_component(C_RefArtistsSettings())
@@ -442,25 +447,42 @@ class ModelProfile(ModelProfileTemplate):
   
   def nav_prev_rated_click(self, **event_args):    
     self.nav_references.role = 'section_buttons'
-    self.nav_prev_rated.role = 'section_buttons_focused'
     self.nav_model.role = 'section_buttons'
+    self.nav_prev_rated.role = 'section_buttons_focused'
     self.nav_filters.role = 'section_buttons'
+    self.nav_level_of_pop.role = 'section_buttons'
     self.sec_references.visible = False
     self.sec_models.visible = False
     self.sec_prev_rated.visible = True
     self.sec_filters.visible = False
+    self.sec_level_of_pop.visible = False
     self.sec_prev_rated.clear()
     self.sec_prev_rated.add_component(C_Rating(self.model_id_view))
-    
+
+  def nav_level_of_pop_click(selfm **event_args):
+    self.nav_references.role = 'section_buttons'
+    self.nav_model.role = 'section_buttons'
+    self.nav_prev_rated.role = 'section_buttons'
+    self.nav_filters.role = 'section_buttons'
+    self.nav_level_of_pop.role = 'section_buttons_focused'
+    self.sec_references.visible = False
+    self.sec_models.visible = False
+    self.sec_prev_rated.visible = False
+    self.sec_filters.visible = False
+    self.sec_level_of_pop.visible = True
+    self.sec_prev_rated.clear()
+    self.sec_prev_rated.add_component(C_LevelOfPopularity())
   def nav_filters_click(self, **event_args):
     self.nav_references.role = 'section_buttons'
+    self.nav_model.role = 'section_buttons'
     self.nav_prev_rated.role = 'section_buttons'
     self.nav_filters.role = 'section_buttons_focused'
-    self.nav_model.role = 'section_buttons'
+    self.nav_level_of_pop.role = 'section_buttons'
     self.sec_references.visible = False
-    self.sec_prev_rated.visible = False
     self.sec_models.visible = False
+    self.sec_prev_rated.visible = False
     self.sec_filters.visible = True
+    self.sec_level_of_pop.visible = False
     self.sec_filters.clear()
     self.sec_filters.add_component(C_Filter(self.model_id_view))
 
@@ -506,14 +528,16 @@ class ModelProfile(ModelProfileTemplate):
       )
 
   def nav_model_click(self, **event_args):
-    self.nav_model.role = 'section_buttons_focused'
     self.nav_references.role = 'section_buttons'
+    self.nav_model.role = 'section_buttons_focused'
     self.nav_prev_rated.role = 'section_buttons'
     self.nav_filters.role = 'section_buttons'
+    self.nav_level_of_pop.role = 'section_buttons'
     self.sec_references.visible = False
     self.sec_models.visible = True
     self.sec_prev_rated.visible = False
     self.sec_filters.visible = False
+    self.sec_level_of_pop.visible = False
 
     # Model 1
     if self.similarity_submodel.get_components() == []:
