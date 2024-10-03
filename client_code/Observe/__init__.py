@@ -61,11 +61,13 @@ class Observe(ObserveTemplate):
     if working_model is True:
       self.refresh_table()
     else:
+      self.no_trained_model.visible = True
       self.data_grid.visible = False
     
 
   # refresh the table
   def refresh_table(self):
+    self.no_trained_model.visible = False
     self.data_grid.visible = True
     
     # get list of activated models
