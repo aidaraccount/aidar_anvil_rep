@@ -289,7 +289,7 @@ components:
       name: nav_filters
       properties: {role: section_buttons, spacing_above: none, spacing_below: none, text: Filters}
       type: Link
-    - event_bindings: {click: nav_filters_click}
+    - event_bindings: {click: nav_level_of_pop_click}
       layout_properties: {}
       name: nav_level_of_pop
       properties: {role: section_buttons, spacing_above: none, spacing_below: none, text: Level of Popularity}
@@ -569,9 +569,25 @@ components:
     name: sec_filters
     properties: {spacing_above: medium}
     type: ColumnPanel
-  - layout_properties: {grid_position: 'YGIDUA,FGCUNP'}
-    name: sec_level_of_pop
-    properties: {col_widths: '{}', spacing_above: medium}
+  - components:
+    - components: []
+      layout_properties: {grid_position: 'OTKVPX,PXLLQZ'}
+      name: sec_level_of_pop
+      properties: {col_widths: '{}', spacing_above: medium}
+      type: ColumnPanel
+    - event_bindings: {click: save_click}
+      layout_properties: {grid_position: 'DHRNVK,PVLZIF'}
+      name: save
+      properties:
+        align: right
+        role: [header-5, call-to-action-button]
+        spacing_above: none
+        spacing_below: none
+        text: Save
+      type: Button
+    layout_properties: {grid_position: 'OTARPG,IBSULO'}
+    name: sec_level_of_pop_master
+    properties: {}
     type: ColumnPanel
   layout_properties: {slot: default}
   name: column_panel_1

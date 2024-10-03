@@ -20,9 +20,19 @@ class C_LevelOfPopularity(C_LevelOfPopularityTemplate):
 
     # Any code you write here will run before the form opens.    
     self.model_id_view = load_var("model_id_view")
-    save_var('min_pop', 20)
-    save_var('max_pop', 50)
-
+    
+    infos = json.loads(anvil.server.call('get_model_stats', self.model_id_view))[0]
+    print(infos["min_pop"])
+    if infos["min_pop"] is None:
+      save_var('min_pop', 20)
+      save_var('max_pop', 50)
+    else:
+      self.slider_1.values = infos["min_pop"], infos["max_pop"]
+      self.set_slider_text_boxes()
+      save_var("min_pop", infos["min_pop"])
+      save_var("max_pop", infos["max_pop"])
+    
+    
     data = json.loads(anvil.server.call('get_pop_bar_artists', self.model_id_view))
 
     # Extract names and popularity
@@ -181,4 +191,6 @@ class C_LevelOfPopularity(C_LevelOfPopularityTemplate):
   def slider_1_button_reset_click(self, **event_args):
     """This method is called when the button is clicked"""
     self.slider_1.reset()
+    save_var('min_pop', 20)
+    save_var('max_pop', 50)
     self.set_slider_text_boxes()

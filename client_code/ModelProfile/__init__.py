@@ -429,7 +429,7 @@ class ModelProfile(ModelProfileTemplate):
     self.sec_models.visible = False
     self.sec_prev_rated.visible = False
     self.sec_filters.visible = False
-    self.sec_level_of_pop.visible = False
+    self.sec_level_of_pop_master.visible = False
     self.sec_references.clear()
     # self.sec_references.add_component(C_EditRefArtists(self.model_id_view))
     self.sec_references.add_component(C_RefArtistsSettings())
@@ -455,11 +455,11 @@ class ModelProfile(ModelProfileTemplate):
     self.sec_models.visible = False
     self.sec_prev_rated.visible = True
     self.sec_filters.visible = False
-    self.sec_level_of_pop.visible = False
+    self.sec_level_of_pop_master.visible = False
     self.sec_prev_rated.clear()
     self.sec_prev_rated.add_component(C_Rating(self.model_id_view))
 
-  def nav_level_of_pop_click(selfm **event_args):
+  def nav_level_of_pop_click(self, **event_args):
     self.nav_references.role = 'section_buttons'
     self.nav_model.role = 'section_buttons'
     self.nav_prev_rated.role = 'section_buttons'
@@ -469,9 +469,10 @@ class ModelProfile(ModelProfileTemplate):
     self.sec_models.visible = False
     self.sec_prev_rated.visible = False
     self.sec_filters.visible = False
-    self.sec_level_of_pop.visible = True
-    self.sec_prev_rated.clear()
-    self.sec_prev_rated.add_component(C_LevelOfPopularity())
+    self.sec_level_of_pop_master.visible = True
+    self.sec_level_of_pop.clear()
+    self.sec_level_of_pop.add_component(C_LevelOfPopularity())
+
   def nav_filters_click(self, **event_args):
     self.nav_references.role = 'section_buttons'
     self.nav_model.role = 'section_buttons'
@@ -482,9 +483,18 @@ class ModelProfile(ModelProfileTemplate):
     self.sec_models.visible = False
     self.sec_prev_rated.visible = False
     self.sec_filters.visible = True
-    self.sec_level_of_pop.visible = False
+    self.sec_level_of_pop_master.visible = False
     self.sec_filters.clear()
     self.sec_filters.add_component(C_Filter(self.model_id_view))
+
+  def save_click(self, **event_args):
+    anvil.server.call('update_model_popularity_range',
+                      int(self.model_id_view),
+                      load_var('min_pop'),
+                      load_var('max_pop'))
+    Notification("",
+        title=f"Popularity range is updated from {load_var('min_pop')} to {load_var('max_pop')}!",
+        style="success").show()
 
   def delete_click(self, **event_args):
     result = alert(title='Do you want to delete this model?',
@@ -537,7 +547,7 @@ class ModelProfile(ModelProfileTemplate):
     self.sec_models.visible = True
     self.sec_prev_rated.visible = False
     self.sec_filters.visible = False
-    self.sec_level_of_pop.visible = False
+    self.sec_level_of_pop_master.visible = False
 
     # Model 1
     if self.similarity_submodel.get_components() == []:
