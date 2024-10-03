@@ -66,10 +66,7 @@ class Observe(ObserveTemplate):
     
 
   # refresh the table
-  def refresh_table(self):
-    self.no_trained_model.visible = False
-    self.data_grid.visible = True
-    
+  def refresh_table(self):    
     # get list of activated models
     model_ids = []
     for component in self.flow_panel_models.get_components():
@@ -95,6 +92,9 @@ class Observe(ObserveTemplate):
 
     # hand-over the data
     self.repeating_panel_table.items = observed
+    
+    self.no_trained_model.visible = False
+    self.data_grid.visible = True
 
   # activate model
   def create_activate_model_handler(self, model_id):
@@ -105,10 +105,11 @@ class Observe(ObserveTemplate):
   # change active status
   def activate_model(self, model_id):
     print('activate_model: ', model_id)
-    active_model = False
+    working_model = False
     for component in self.flow_panel_models.get_components():
       print('component.tag', component.tag)
       if isinstance(component, Link):
+        # change activation
         if int(component.tag) == model_id:
           if component.role == 'genre-box-deactive':
             Notification("",
@@ -119,13 +120,18 @@ class Observe(ObserveTemplate):
               component.role = 'genre-box-deselect'
             else:
               component.role = 'genre-box'
-              active_model = False
-            if active_model is True:
-              self.refresh_table()
-            else:
-              self.data_grid.visible = False
         else:
           pass
+          
+        # check for active model
+        if component.role == 'genre-box':
+          working_model = True
+
+    # update data
+    if working_model is True:
+      self.refresh_table()
+    else:
+      self.data_grid.visible = False
 
   def link_unrated_click(self, **event_args):
     if self.link_unrated.role == 'genre-box':
