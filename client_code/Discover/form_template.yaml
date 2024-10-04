@@ -1064,7 +1064,7 @@ components:
         type: ColumnPanel
       layout_properties: {grid_position: 'WNNGDM,EZSLYL'}
       name: column_panel_3_copy_copy
-      properties: {role: grid}
+      properties: {role: grid, visible: false}
       type: ColumnPanel
     - components:
       - layout_properties: {grid_position: 'IUBCUJ,KHEYCG'}
