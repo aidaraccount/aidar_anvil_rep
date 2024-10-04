@@ -355,8 +355,8 @@ class Discover(DiscoverTemplate):
       ]
       self.sort_dropdown.selected_value = "high_num"
       self.sort_dropdown.role = 'sort-dropdown'
-      self.drop_down_wl.role = 'sort-dropdown'
-      self.drop_down_model.role = 'sort-dropdown'
+      self.drop_down_wl.role = 'sort-dropdown-footer'
+      self.drop_down_model.role = 'sort-dropdown-footer'
   
       # Add event handler for the dropdown
       self.sort_dropdown.set_event_handler('change', self.sort_data)

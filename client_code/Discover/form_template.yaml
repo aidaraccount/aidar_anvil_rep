@@ -61,43 +61,58 @@ components:
     properties: {role: artist_name_shadow}
     type: Link
   - components:
-    - layout_properties: {}
-      name: label_4
-      properties: {role: sort-label, text: 'Watchlist:'}
-      type: Label
-    layout_properties: {grid_position: 'UQVSNC,XUSTNC OPLCOW,ZCPELY NDEGSB,WOLXQF'}
-    name: flow_panel_3
-    properties: {align: right, spacing: medium, spacing_above: none, spacing_below: none}
-    type: FlowPanel
-  - event_bindings: {change: drop_down_wl_change}
-    layout_properties: {grid_position: 'UQVSNC,XUSTNC OPLCOW,ZCPELY NDEGSB,TKPFPI'}
-    name: drop_down_wl
-    properties: {align: left, role: null, spacing_above: none, spacing_below: none}
-    type: DropDown
+    - components:
+      - layout_properties: {}
+        name: label_4
+        properties: {align: right, role: sort-label, text: 'Watchlist:'}
+        type: Label
+      layout_properties: {grid_position: 'SPLPLH,GADAWF'}
+      name: flow_panel_3
+      properties: {align: right, gap: none, spacing: medium, spacing_above: none, spacing_below: none}
+      type: FlowPanel
+    - event_bindings: {change: drop_down_wl_change}
+      layout_properties: {grid_position: 'SPLPLH,OCJXMS'}
+      name: drop_down_wl
+      properties: {align: left, role: null, spacing_above: none, spacing_below: none}
+      type: DropDown
+    - components:
+      - layout_properties: {}
+        name: label_1
+        properties: {align: right, role: sort-label, text: 'Model:'}
+        type: Label
+      layout_properties: {grid_position: 'EVSCIN,SMUZQJ'}
+      name: flow_panel_master
+      properties: {align: right, gap: none, spacing: medium, spacing_above: none, spacing_below: none}
+      type: FlowPanel
+    - event_bindings: {change: drop_down_model_change}
+      layout_properties: {grid_position: 'EVSCIN,ZCFZEN'}
+      name: drop_down_model
+      properties: {align: left, role: null, spacing_above: none, spacing_below: none}
+      type: DropDown
+    layout_properties: {grid_position: 'UQVSNC,XUSTNC OPLCOW,TPLKDW'}
+    name: column_panel_dropdowns
+    properties: {col_spacing: small, col_widths: '{"GADAWF":30,"OCJXMS":30,"SMUZQJ":30,"ZCFZEN":30}', spacing_above: none, spacing_below: none}
+    type: ColumnPanel
+  - layout_properties: {grid_position: 'UQVSNC,XUSTNC OPLCOW,ZCPELY UKJBFI,KJORFO'}
+    name: spacer_9
+    properties: {height: 32}
+    type: Spacer
   - components:
     - event_bindings: {click: button_set_filters_click}
       name: button_set_filters
-      properties: {align: right, icon: 'fa:filter', role: feature, spacing_above: none, spacing_below: none, text: Set Filters}
+      properties: {align: right, icon: 'fa:filter', role: feature, spacing_above: none, spacing_below: none, text: ''}
       type: Button
     - event_bindings: {click: button_remove_filters_click}
       name: button_remove_filters
       properties: {background: 'theme:Orange', foreground: 'theme:Text_DecentWhite', icon: 'fa:ban', role: feature, spacing_above: none, spacing_below: none, text: '', tooltip: remove filters, visible: true}
       type: Button
-    - name: label_1
-      properties: {role: sort-label, text: 'Model:'}
-      type: Label
-    layout_properties: {grid_position: 'UQVSNC,XUSTNC OPLCOW,ZCPELY ZJMGCR,NIPEPX'}
-    name: flow_panel_master
-    properties: {align: right, spacing: medium, spacing_above: none, spacing_below: none}
+    layout_properties: {grid_position: 'UQVSNC,XUSTNC OPLCOW,ZCPELY VCUETK,UBTYMZ'}
+    name: flow_panel_filters
+    properties: {}
     type: FlowPanel
-  - event_bindings: {change: drop_down_model_change}
-    layout_properties: {grid_position: 'UQVSNC,XUSTNC OPLCOW,ZCPELY ZJMGCR,LIKSHX'}
-    name: drop_down_model
-    properties: {align: left, role: description-bio, spacing_above: none, spacing_below: none}
-    type: DropDown
   layout_properties: {slot: footer-slot}
   name: Footer
-  properties: {background: 'theme:Grid_Black', col_spacing: tiny, col_widths: '{"XUSTNC":30,"THIOWY":5,"OZIYBS":20,"CLCEVO":20,"KXLRPY":6,"ZCPELY":69}', spacing_above: none, spacing_below: none, visible: true}
+  properties: {background: 'theme:Grid_Black', col_spacing: tiny, col_widths: '{"XUSTNC":30,"THIOWY":5,"OZIYBS":20,"CLCEVO":20,"KXLRPY":35,"ZCPELY":15,"TPLKDW":45}', spacing_above: none, spacing_below: none, visible: true}
   type: ColumnPanel
 - event_bindings: {click: description_button_click}
   layout_properties: {slot: edit_button_decription}
