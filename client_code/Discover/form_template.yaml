@@ -108,11 +108,11 @@ components:
       type: Button
     layout_properties: {grid_position: 'UQVSNC,XUSTNC OPLCOW,ZCPELY VCUETK,UBTYMZ'}
     name: flow_panel_filters
-    properties: {gap: small, role: top-margin-button, spacing_above: none, spacing_below: none}
+    properties: {gap: tiny, role: top-margin-button, spacing_above: none, spacing_below: none}
     type: FlowPanel
   layout_properties: {slot: footer-slot}
   name: Footer
-  properties: {background: 'theme:Grid_Black', col_spacing: tiny, col_widths: '{"XUSTNC":30,"THIOWY":5,"OZIYBS":20,"CLCEVO":20,"KXLRPY":25,"ZCPELY":15,"TPLKDW":55}', spacing_above: none, spacing_below: none, visible: true}
+  properties: {background: 'theme:Grid_Black', col_spacing: tiny, col_widths: '{"XUSTNC":30,"THIOWY":5,"OZIYBS":20,"CLCEVO":20,"KXLRPY":20,"ZCPELY":25,"TPLKDW":50}', spacing_above: none, spacing_below: none, visible: true}
   type: ColumnPanel
 - event_bindings: {click: description_button_click}
   layout_properties: {slot: edit_button_decription}
