@@ -46,6 +46,7 @@ class Discover(DiscoverTemplate):
     if user is None:
       if load_var('user_id') is None:
         open_form('Main_Out')
+        # open_form('Main_Out_New')
       else:
         self.user_id = load_var('user_id')
         self.refresh_sug()

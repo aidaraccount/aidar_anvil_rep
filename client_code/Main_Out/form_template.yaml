@@ -92,7 +92,8 @@ components:
     name: label_5
     properties: {role: description-login, spacing_below: none, text: email}
     type: Label
-  - layout_properties: {grid_position: 'UXGUXQ,SMVDYR PXEGWF,CETUWS'}
+  - event_bindings: {pressed_enter: login_email_pressed_enter}
+    layout_properties: {grid_position: 'UXGUXQ,SMVDYR PXEGWF,CETUWS'}
     name: login_email
     properties: {role: text_box_small, spacing_above: none, text: '', type: email}
     type: TextBox
