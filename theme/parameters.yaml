@@ -307,3 +307,11 @@ roles:
   name: slider-refresh
 - components: [TextBox, Button]
   name: slider-inputbox
+- components: [Image]
+  name: artist-image
+- components: [Link]
+  name: genre-box-deselect
+- components: [Link]
+  name: genre-box-deactive
+- components: [Link]
+  name: genre-box

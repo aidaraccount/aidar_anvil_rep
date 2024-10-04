@@ -73,8 +73,7 @@ components:
     name: flow_panel_1
     properties: {align: center}
     type: FlowPanel
-  - data_bindings: []
-    event_bindings: {change: slider_1_change, slide: slider_1_slide}
+  - event_bindings: {change: slider_1_change, slide: slider_1_slide}
     layout_properties: {grid_position: 'GHSZQO,IVWYGD'}
     name: slider_1
     properties: {animate: true, bar_height: '', behaviour: tap, connect: 'False,True,False', format: .0f, limit: '', padding: '', pips: true, pips_density: 5, pips_mode: values, pips_values: '0,20,40,60,80,100', role: slider, spacing_above: none, spacing_below: none, start: '20,50', step: 0, tooltips: false, visible: true}

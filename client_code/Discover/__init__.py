@@ -391,6 +391,7 @@ class Discover(DiscoverTemplate):
         # self.data_grid_co_artists_pop_data.items = sorted(co_artists, key=lambda x: float(x['ArtistPopularity_lat']), reverse=True)
         self.data_grid_co_artists_pop_data.items = sorted(co_artists, key=lambda x: float(x['ArtistPopularity_lat']) if x['ArtistPopularity_lat'] not in [None, ''] else 0.0, reverse=True)
 
+      
       # --------
       # h) related artists table
       if self.data_grid_related_artists.visible is True:

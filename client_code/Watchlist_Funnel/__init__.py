@@ -18,14 +18,14 @@ class Watchlist_Funnel(Watchlist_FunnelTemplate):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
 
-    model_id = load_var("model_id")
-    print(f"Watchlist_Funnel model_id: {model_id}")
-
     # Any code you write here will run before the form opens.
     global user
     user = anvil.users.get_user()
-    self.model_id = model_id
 
+    model_id = load_var("model_id")
+    self.model_id = model_id
+    print(f"Watchlist_Funnel model_id: {model_id}")
+    
     # FUNNEL DATA
     data = json.loads(anvil.server.call('get_watchlist_selection', user["user_id"], None))
     self.repeating_panel_1.items = [item for item in data if item['Status'] in ['Reconnect later', 'Not interested', None]] #BACKLOG
