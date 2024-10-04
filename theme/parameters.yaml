@@ -315,3 +315,7 @@ roles:
   name: genre-box-deactive
 - components: [Link]
   name: genre-box
+- components: [ColumnPanel, FlowPanel]
+  name: margin
+- components: [Button, FlowPanel]
+  name: top-margin-button

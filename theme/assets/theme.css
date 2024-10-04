@@ -879,13 +879,14 @@ body, html {
   border: none;
   color: white;
   font-size: 16px;
-  width: 100px;
+  width: 100%;
   text-align: center;
   -moz-appearance: none;
   position: relative;
   display: flex;
   align-items: center;
 }
+
 
 /* Container for the custom dropdown styling */
 .anvil-component.anvil-role-sort-dropdown {
@@ -970,8 +971,11 @@ a>.link-text {
   white-space:pre-wrap;
   font-weight: normal;
 }
-.anvil-role-Discover_xypanel {
+.anvil-role-margin {
   margin: 10px 0 0 0;
+}
+.anvil-role-top-margin-button {
+  margin: 15px 0 0 0;
 }
 .anvil-role-Discover_artist_name {
   font-family: GS-medium;
