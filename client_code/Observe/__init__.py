@@ -32,6 +32,7 @@ class Observe(ObserveTemplate):
     models = json.loads(anvil.server.call('get_model_ids',  user["user_id"]))
 
     working_model = False
+    is_last_used_is_not_trained = False
     for i in range(0, len(models)):
       if models[i]["is_last_used"] is True:        
         model_link = Link(
@@ -39,12 +40,15 @@ class Observe(ObserveTemplate):
           tag=models[i]["model_id"],
           role='genre-box'
           )
+        if models[i]["fully_trained"] is False:
+          is_last_used_is_not_trained = True
       else:
         model_link = Link(
           text=models[i]["model_name"],
           tag=models[i]["model_id"],
           role='genre-box-deselect'
           )
+      
       if models[i]["fully_trained"] is False:        
         model_link = Link(
           text=models[i]["model_name"],
@@ -53,9 +57,18 @@ class Observe(ObserveTemplate):
           )
       else:        
         working_model = True
+        
       model_link.set_event_handler('click', self.create_activate_model_handler(models[i]["model_id"]))
       self.flow_panel_models.add_component(model_link)
 
+    # if is_last_used is not fully trained, activate first trained:
+    if is_last_used_is_not_trained is True:
+      for component in self.flow_panel_models.get_components():
+        if isinstance(component, Link):
+          if component.role == 'genre-box-deselect':
+            component.role = 'genre-box'
+            break
+      
     # table
     if working_model is True:
       self.refresh_table()
@@ -82,20 +95,21 @@ class Observe(ObserveTemplate):
       rated = True
     else:
       rated = None
-    
-    # get data
-    observed = json.loads(anvil.server.call('get_observed', model_ids, rated))
-    
-    # add numbering
-    for i, artist in enumerate(observed, start=1):
-      artist['Number'] = i
 
-    # hand-over the data
-    self.repeating_panel_table.items = observed
-    
-    self.no_trained_model.visible = False
-    self.data_grid.visible = True
-
+    if len(model_ids) > 0:
+      # get data
+      observed = json.loads(anvil.server.call('get_observed', model_ids, rated))
+      
+      # add numbering
+      for i, artist in enumerate(observed, start=1):
+        artist['Number'] = i
+  
+      # hand-over the data
+      self.repeating_panel_table.items = observed
+      
+      self.no_trained_model.visible = False
+      self.data_grid.visible = True
+  
   # activate model
   def create_activate_model_handler(self, model_id):
     def handler(**event_args):
@@ -107,6 +121,7 @@ class Observe(ObserveTemplate):
     working_model = False
     for component in self.flow_panel_models.get_components():
       if isinstance(component, Link):
+        
         # change activation
         if int(component.tag) == model_id:
           if component.role == 'genre-box-deactive':
