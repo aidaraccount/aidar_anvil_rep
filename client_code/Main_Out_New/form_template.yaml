@@ -6,7 +6,7 @@ components:
   type: Button
 - layout_properties: {slot: password-slot}
   name: login_pw
-  properties: {placeholder: Password}
+  properties: {hide_text: true, placeholder: Password, spacing_above: none, spacing_below: none}
   type: TextBox
 - layout_properties: {slot: email-slot}
   name: login_email
