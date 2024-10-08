@@ -62,10 +62,8 @@ class Main_Out_New(Main_Out_NewTemplate):
 
   def link_forgot_password_click(self, **event_args):
     """Triggered when the user clicks 'Forgot your password?'"""
-    
     # Ask the user for their email address
     email = alert("Enter your email to reset your password:", title="Forgot Password", large=True, buttons=[("Submit", True)])
-    
     if email:
       try:
         # Send a password reset email to the provided address

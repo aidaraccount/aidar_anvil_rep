@@ -319,3 +319,7 @@ roles:
   name: margin
 - components: [Button, FlowPanel]
   name: top-margin-button
+- components: [Link]
+  name: header-7-on-white-bg
+- components: [Link]
+  name: margin-padding-0

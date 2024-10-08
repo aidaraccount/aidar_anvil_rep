@@ -471,6 +471,16 @@ body, html {
   color: rgb(240, 236, 228);
   /* color: %color:Orange%;   */
 }
+.anvil-role-header-7-on-white-bg {
+  font-family: GS-regular;
+  font-size: 14px;
+  color: rgb(0, 0, 0);
+  /* color: %color:Orange%;   */
+}
+.anvil-role-margin-padding-0 {
+  margin: 0 0 0 0;
+  padding: 0 0 0 0;
+}
 .anvil-role-header-8 {
   font-family: GS-regular;
   font-size: 12px;
