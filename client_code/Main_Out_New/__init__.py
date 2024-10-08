@@ -64,19 +64,11 @@ class Main_Out_New(Main_Out_NewTemplate):
   def link_forgot_password_click(self, **event_args):
     """Triggered when the user clicks 'Forgot your password?'"""
     # Ask the user for their email address
-    # email = alert("Enter your email to reset your password:", title="Forgot Password", large=True, buttons=[("Submit", True)])
-    email = alert(
-          content=C_ForgotPasswordPopup(),
-          # large=True,
-          buttons=[]
-        )
-    if email:
-      try:
-        # Send a password reset email to the provided address
-        anvil.users.send_password_reset_email(email)
-        alert("A password reset link has been sent to your email.")
-      except anvil.users.UserNotFound:
-        alert("No account with that email address exists.")
+    alert(
+      content=C_ForgotPasswordPopup(),
+      # large=True,
+      buttons=[]
+    )
 # def check_log_status(self, **event_args):
 #   if anvil.users.get_user() is None:    
 #     self.link_login.visible = True

@@ -12,4 +12,17 @@ class C_ForgotPasswordPopup(C_ForgotPasswordPopupTemplate):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
 
-    # Any code you write here will run before the form opens.
+  def submit_button_click(self, **event_args):
+    """This method is called when the submit button is clicked"""    
+    email = self.email_field.text  # Get the email from the input field
+    if email:
+      try:
+        # Use the built-in function to send the password reset email
+        anvil.users.send_password_reset_email(email)
+        alert("A password reset email has been sent to " + email + ".")
+        self.remove_from_parent()  # Close the popup after sending
+        print("THE RESET EMAIL HAS BEEN SENT")
+      except anvil.users.UserNotFound:
+        alert("User not found. Please check the email address.")
+    else:
+      alert("Please enter an email address.")

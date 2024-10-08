@@ -11,7 +11,8 @@ components:
   name: email_field
   properties: {placeholder: Email, spacing_above: none, spacing_below: none}
   type: TextBox
-- layout_properties: {slot: Submit-button}
+- event_bindings: {click: submit_button_click}
+  layout_properties: {slot: Submit-button}
   name: submit_button
   properties: {spacing_above: none, spacing_below: none, text: Submit}
   type: Button
@@ -152,7 +153,7 @@ container:
         <div class="forgot-password-container">
             <div class="login-form">
               <!-- <h2>Login</h2> -->
-              <form id="loginForm">
+              <div id="loginForm">
                 <!-- <input anvil-if-slot-empty="email-slot" type="email" id="email" placeholder="Email" required> -->
                 <!-- <input type="password" id="password" placeholder="Password" required> -->
                 <div anvil-slot="title-slot">
@@ -169,7 +170,7 @@ container:
                 <div anvil-slot="Submit-button">
                   <div anvil-if-slot-empty="Submit-button">Submit-button</div>
                 </div>
-              </form>
+              </div>
             </div>
           </div>
       </body>
