@@ -2116,3 +2116,7 @@ footer a, .footer .anvil-component {
 }
 /* user-select-none svg-container */
 
+.anvil-role-forgot-password-success .modal-content{
+  width: 450px;
+  margin: 250px 0px 70px -120px;
+}

@@ -28,3 +28,11 @@ def update_slider_start(value):
 def update_slider_end(value):
   print(f"Slider end value: {value}")
   # Update your logic based on this value
+
+@anvil.server.callable
+def check_user_exists(email):
+  # Check if a user exists in the Users table by email
+  user = app_tables.users.get(email=email)
+  
+  # Return True if user exists, otherwise return False
+  return user is not None

@@ -59,7 +59,14 @@ class Main_Out_New(Main_Out_NewTemplate):
           elif location.hash[:8] == '#artists':
             routing.set_url_hash(location.hash, load_from_cache=False)
     except anvil.users.AuthenticationFailed:
-      alert("Login Failed. Please check your credentials.")
+      # alert("Login Failed. Please check your credentials.")
+      alert(
+          "Please check your credentials.",
+          title="Login Failed.",
+          large=False,
+          buttons=[("Go Back", True)],
+          role="forgot-password-success"
+        )
 
   def link_forgot_password_click(self, **event_args):
     """Triggered when the user clicks 'Forgot your password?'"""

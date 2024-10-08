@@ -6,7 +6,6 @@ import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
 
-
 class C_ForgotPasswordPopup(C_ForgotPasswordPopupTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
@@ -16,13 +15,33 @@ class C_ForgotPasswordPopup(C_ForgotPasswordPopupTemplate):
     """This method is called when the submit button is clicked"""    
     email = self.email_field.text  # Get the email from the input field
     if email:
-      try:
+      # Call the server function to check if the user exists
+      user_exists = anvil.server.call('check_user_exists', email)
+      
+      if user_exists:
         # Use the built-in function to send the password reset email
         anvil.users.send_password_reset_email(email)
-        alert("A password reset email has been sent to " + email + ".")
+        alert(
+          "A recovery email has been sent to the provided email address",
+          title="Success",
+          large=False,
+          buttons=[("OK", True)],
+          role="forgot-password-success"
+        )
         self.remove_from_parent()  # Close the popup after sending
-        print("THE RESET EMAIL HAS BEEN SENT")
-      except anvil.users.UserNotFound:
-        alert("User not found. Please check the email address.")
+      else:
+        alert(
+          "Please enter a valid email address.",
+          title="User not found.",
+          large=False,
+          buttons=[("Go Back", True)],
+          role="forgot-password-success"
+        )
     else:
-      alert("Please enter an email address.")
+      alert(
+          "Please enter a valid email address.",
+          title="User not found",
+          large=False,
+          buttons=[("Go Back", True)],
+          role="forgot-password-success"
+        )
