@@ -429,6 +429,12 @@ body, html {
   color: rgb(240, 236, 228);
   /* color: %color:Orange%;   */
 }
+.anvil-role-header-3-on-white-bg {
+  font-family: GS-semibold;
+  font-size: 26px;
+  color: rgb(44, 28, 68);
+  /* color: %color:Orange%;   */
+}
 .anvil-role-header-4 {
   font-family: GS-regular;
   font-size: 24px;

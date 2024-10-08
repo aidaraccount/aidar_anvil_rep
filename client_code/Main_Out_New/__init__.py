@@ -11,6 +11,7 @@ import re
 from anvil_extras import routing
 from anvil.js.window import location
 from ..nav import click_link, click_button, logout, save_var, load_var
+from ..C_ForgotPasswordPopup import C_ForgotPasswordPopup
 
 
 class Main_Out_New(Main_Out_NewTemplate):
@@ -63,7 +64,12 @@ class Main_Out_New(Main_Out_NewTemplate):
   def link_forgot_password_click(self, **event_args):
     """Triggered when the user clicks 'Forgot your password?'"""
     # Ask the user for their email address
-    email = alert("Enter your email to reset your password:", title="Forgot Password", large=True, buttons=[("Submit", True)])
+    # email = alert("Enter your email to reset your password:", title="Forgot Password", large=True, buttons=[("Submit", True)])
+    email = alert(
+          content=C_ForgotPasswordPopup(),
+          # large=True,
+          buttons=[]
+        )
     if email:
       try:
         # Send a password reset email to the provided address

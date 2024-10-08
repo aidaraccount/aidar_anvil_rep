@@ -1,0 +1,174 @@
+components:
+- layout_properties: {slot: title-slot}
+  name: title_label
+  properties: {role: header-3-on-white-bg, spacing_above: none, spacing_below: none, text: 'Forgot your password?'}
+  type: Label
+- layout_properties: {slot: message-slot}
+  name: message_label
+  properties: {align: left, role: header-7-on-white-bg, spacing_above: none, spacing_below: none, text: 'We will send an email to reset your password to the following email:'}
+  type: Label
+- layout_properties: {slot: Email-slot}
+  name: email_field
+  properties: {placeholder: Email, spacing_above: none, spacing_below: none}
+  type: TextBox
+- layout_properties: {slot: Submit-button}
+  name: submit_button
+  properties: {spacing_above: none, spacing_below: none, text: Submit}
+  type: Button
+container:
+  properties:
+    html: |
+      <!DOCTYPE html>
+      <html lang="en">
+      <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Forgot Password Component</title>
+        <style>
+          * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+          }
+          body, html {
+            height: 100%;
+            overflow: hidden;
+            /* font-family: GB-regular; */
+          }
+          .container {
+            display: flex;
+            height: 100vh;
+            width: 100vw;
+            padding: 0;
+            /* justify-content: center; */
+            /* align-items: center; */
+          }
+          .left-side {
+            background: linear-gradient(to bottom right, rgb(31, 11, 59), black);
+            flex: 1;
+            height: 100%;
+          }
+          .right-side {
+            background-color: white;
+            flex: 1;
+            height: 100%;
+            /* display: flex;
+            justify-content: center;
+            align-items: center; */
+          }
+          .login-form-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: white;
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            padding: 40px;
+            width: 450px;
+            z-index: 1;
+          }
+          .login-form {
+            /* background-color: white;
+            padding: 20px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            max-width: 320px; */
+            width: 100%;
+          }
+          .login-form h2 {
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 24px;
+            color: #333;
+          }
+
+          .login-form input {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+          }
+          .login-form input[type="checkbox"] {
+            width: auto;
+          }
+          .remember-me {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 14px;
+          }
+          .login-form button {
+            width: 100%;
+            padding: 12px;
+            background-color: rgb(31, 11, 59);
+            color: white;
+            font-size: 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+          }
+          .login-form button:hover {
+            background-color: orange;
+          }
+          .login-form .submit-button {
+            width: 100%;
+            padding: 12px;
+            background-color: rgb(31, 11, 59);
+            color: white;
+            font-size: 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+          }
+          .login-form .submit-button:hover {
+            background-color: orange;
+          }
+          .login-form .forgot-password {
+            text-align: right;
+            display: block;
+            margin-top: 10px;
+            font-size: 14px;
+            color: #555;
+            text-decoration: none;
+          }
+          .login-form .forgot-password:hover {
+            color: rgb(31, 11, 59);
+          }
+        </style>
+      </head>
+      <body>
+        <div class="login-form-container">
+            <div class="login-form">
+              <!-- <h2>Login</h2> -->
+              <form id="loginForm">
+                <!-- <input anvil-if-slot-empty="email-slot" type="email" id="email" placeholder="Email" required> -->
+                <!-- <input type="password" id="password" placeholder="Password" required> -->
+                <div anvil-slot="title-slot">
+                  <div anvil-if-slot-empty="title-slot">Title Slot</div>
+                </div>
+                <!-- <div class="remember-me"> -->
+                <div anvil-slot="message-slot">
+                  <div anvil-if-slot-empty="message-slot">Message Slot</div>
+                </div>
+                <div anvil-slot="Email-slot">
+                  <div anvil-if-slot-empty="Email-slot">Email Slot</div>
+                </div>
+                <!-- </div> -->
+                <div anvil-slot="Submit-button">
+                  <div anvil-if-slot-empty="Submit-button">Submit-button</div>
+                </div>
+              </form>
+            </div>
+          </div>
+      </body>
+  type: HtmlTemplate
+custom_component: true
+is_package: true
