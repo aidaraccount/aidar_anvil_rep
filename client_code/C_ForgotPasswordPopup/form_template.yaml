@@ -56,7 +56,7 @@ container:
             justify-content: center;
             align-items: center; */
           }
-          .login-form-container {
+          .forgot-password-container {
             position: absolute;
             top: 50%;
             left: 50%;
@@ -70,6 +70,10 @@ container:
             padding: 40px;
             width: 450px;
             z-index: 1;
+          }
+          div.modal-content {
+            width: 210px;
+            margin: 320px 0 0 0;
           }
           .login-form {
             /* background-color: white;
@@ -145,7 +149,7 @@ container:
         </style>
       </head>
       <body>
-        <div class="login-form-container">
+        <div class="forgot-password-container">
             <div class="login-form">
               <!-- <h2>Login</h2> -->
               <form id="loginForm">
