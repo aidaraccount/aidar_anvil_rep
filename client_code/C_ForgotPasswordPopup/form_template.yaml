@@ -45,9 +45,12 @@ container:
             /* align-items: center; */
           }
           .left-side {
-            background: linear-gradient(to bottom right, rgb(31, 11, 59), black);
+            position: relative;
+            /* background: linear-gradient(to bottom right, rgb(31, 11, 59), black); */
+            background-image: url(_/theme/Stock%20Images/Backgrounds/header-background.png);
             flex: 1;
             height: 100%;
+            background-size: 100% 100%;
           }
           .right-side {
             background-color: white;
