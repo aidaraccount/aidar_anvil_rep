@@ -12,7 +12,7 @@ from anvil_extras import routing
 from ..nav import click_link, click_button, click_box, logout, login_check, load_var, save_var
 
 
-@routing.route('',     title='Home')
+@routing.route('',     title='Login')
 @routing.route('home', title='Home')
 class Home(HomeTemplate):
   def __init__(self, **properties):

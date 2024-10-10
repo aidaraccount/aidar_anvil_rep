@@ -13,7 +13,8 @@ from anvil.js.window import location
 from ..nav import click_link, click_button, logout, save_var, load_var
 from ..C_ForgotPasswordPopup import C_ForgotPasswordPopup
 
-
+# @routing.route('',     title='Login')
+@routing.route('login', title='Login')
 class Main_Out_New(Main_Out_NewTemplate):
   def __init__(self, **properties):    
     # Set Form properties and Data Bindings.
