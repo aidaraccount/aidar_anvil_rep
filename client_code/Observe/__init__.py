@@ -96,7 +96,15 @@ class Observe(ObserveTemplate):
     else:
       rated = None
 
-    if len(model_ids) > 0:
+    selection = True
+    if self.link_rated.role == 'genre-box-deselect' and self.link_unrated.role == 'genre-box-deselect':
+      selection = False
+      
+    self.data_grid.visible = False
+    
+    if len(model_ids) > 0 and selection is True:
+      self.data_grid.visible = True
+      
       # get data
       observed = json.loads(anvil.server.call('get_observed', model_ids, rated))
       
@@ -149,7 +157,7 @@ class Observe(ObserveTemplate):
   def link_unrated_click(self, **event_args):
     if self.link_unrated.role == 'genre-box':
       self.link_unrated.role = 'genre-box-deselect'
-      self.link_rated.role = 'genre-box'
+      # self.link_rated.role = 'genre-box'
     else:
       self.link_unrated.role = 'genre-box'
     self.refresh_table()
@@ -157,7 +165,7 @@ class Observe(ObserveTemplate):
   def link_rated_click(self, **event_args):
     if self.link_rated.role == 'genre-box':
       self.link_rated.role = 'genre-box-deselect'
-      self.link_unrated.role = 'genre-box'
+      # self.link_unrated.role = 'genre-box'
     else:
       self.link_rated.role = 'genre-box'
     self.refresh_table()

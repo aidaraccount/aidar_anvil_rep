@@ -31,11 +31,13 @@ class RowTemplate11(RowTemplate11Template):
       country_flag.role = 'country-flag-icon'
       country_flag.tooltip = self.item["CountryCode"]
       self.Artist_Name_Details.add_component(country_flag)
-    
+
+    self.gender_birth_spacer.visible = False
     # birt date
     if self.item["BirthDate"] is None:
       self.birthday.visible = False
     else:
+      self.gender_birth_spacer.visible = True
       self.birthday.visible = True
       self.birthday.text = self.convert_date(self.item["BirthDate"])
 
@@ -43,6 +45,7 @@ class RowTemplate11(RowTemplate11Template):
     if self.item["Gender"] is None:
       self.gender.visible = False
     else:
+      self.gender_birth_spacer.visible = True
       self.gender.visible = True
       self.gender.text = self.item["Gender"]
 
