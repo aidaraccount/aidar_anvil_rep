@@ -30,7 +30,6 @@ class Main_Out_New(Main_Out_NewTemplate):
 
   def button_login_click(self, **event_args):
     """Triggered when the user clicks the login button"""
-    
     # Get values from the form
     email = self.login_email.text
     password = self.login_pw.text
@@ -94,3 +93,7 @@ class Main_Out_New(Main_Out_NewTemplate):
 #     self.link_register.visible = False
 #     self.link_logout.visible = False
 #     self.link_home.visible = False
+
+  def login_email_pressed_enter(self, **event_args):
+    """This method is called when the user presses Enter in this text box"""
+    self.login_pw.focus()

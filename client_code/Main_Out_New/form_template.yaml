@@ -17,11 +17,13 @@ components:
   name: login_button
   properties: {align: center, spacing_above: none, spacing_below: none, text: Login}
   type: Button
-- layout_properties: {slot: password-slot}
+- event_bindings: {pressed_enter: button_login_click}
+  layout_properties: {slot: password-slot}
   name: login_pw
   properties: {hide_text: true, placeholder: Password, spacing_above: none, spacing_below: none}
   type: TextBox
-- layout_properties: {slot: email-slot}
+- event_bindings: {pressed_enter: login_email_pressed_enter}
+  layout_properties: {slot: email-slot}
   name: login_email
   properties: {placeholder: Email}
   type: TextBox
