@@ -171,35 +171,51 @@ class RampUp(RampUpTemplate):
     self.nav_Basics.role = "rampup-labels_focused"
     self.nav_References.role = "rampup-labels"
     self.nav_Level_Pop.role = "rampup-labels"
+    self.nav_Growth_Importance.role = "rampup-labels"
     self.sec_Basics.visible = True
     self.sec_Reference_Artists.visible = False
     self.sec_Level_of_Pop.visible = False
+    self.sec_Growth_Importance.visible = False
 
   def nav_References_load(self, **event_args):
     self.nav_Basics.role = "rampup-labels"
     self.nav_References.role = "rampup-labels_focused"
     self.nav_Level_Pop.role = "rampup-labels"
+    self.nav_Growth_Importance.role = "rampup-labels"
     self.sec_Basics.visible = False
     self.sec_Reference_Artists.visible = True
     self.sec_Level_of_Pop.visible = False
     self.sec_Reference_Artists.clear()
     self.sec_Reference_Artists_title.visible = True
-    # print(C_RefArtistsSettings().get_components()[0].get_components())
-    # print(C_RefArtistsSettings().get_components()[0].get_components()[1])
-    # print(C_RefArtistsSettings().get_components()[0].get_components()[1].role)
-    # C_RefArtistsSettings().get_components()[0].get_components()[1].role= ['text_box_small', 'search-bar-related-artists']
     self.sec_Reference_Artists.add_component(C_RefArtistsSettings())
+    self.sec_Growth_Importance.visible = False
+
 
   def nav_Level_Pop_load(self, **event_args):
     self.nav_Basics.role = "rampup-labels"
     self.nav_References.role = "rampup-labels"
     self.nav_Level_Pop.role = "rampup-labels_focused"
+    self.nav_Growth_Importance.role = "rampup-labels"
     self.sec_Basics.visible = False
     self.sec_Reference_Artists.visible = False
     self.sec_Level_of_Pop.visible = True
     self.sec_Level_of_Pop.clear()
     self.sec_Level_of_Pop_title.visible = True
     self.sec_pop = self.sec_Level_of_Pop.add_component(C_LevelOfPopularity())
+    self.sec_Growth_Importance.visible = False
+
+  def nav_Growth_Importance_load(self, **event_args):
+    self.nav_Basics.role = "rampup-labels"
+    self.nav_References.role = "rampup-labels"
+    self.nav_Level_Pop.role = "rampup-labels"
+    self.nav_Growth_Importance.role = "rampup-labels_focused"
+    self.sec_Basics.visible = False
+    self.sec_Reference_Artists.visible = False
+    self.sec_Level_of_Pop.visible = False
+    self.sec_Growth_Importance.visible = True
+    self.sec_Growth_Importance.clear()
+    self.sec_Growth_Importance_title.visible = True
+    self.sec_pop = self.sec_Growth_Importance.add_component(C_LevelOfPopularity())
 
   # ---------------
   # OTHER FUNCTIONS
