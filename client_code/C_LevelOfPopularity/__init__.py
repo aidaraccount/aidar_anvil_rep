@@ -162,7 +162,6 @@ class C_LevelOfPopularity(C_LevelOfPopularityTemplate):
     self.artist_popularity_plot.figure = fig
     self.artist_popularity_plot.config = config
 
-
   def slider_1_change(self, handle, **event_args):
     save_var('min_pop', self.slider_1.formatted_values[0])
     save_var('max_pop', self.slider_1.formatted_values[1])

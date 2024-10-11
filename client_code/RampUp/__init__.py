@@ -146,7 +146,6 @@ class RampUp(RampUpTemplate):
 
     # Level_of_Pop
     elif self.section == "Level_of_Pop":  
-      print("GROWTH IMPORTANCE SHOULD BE NEXT")
       click_button(f'model_setup?model_id={self.model_id_view}&section=Growth_Importance', event_args)
 
   def Back_click(self, **event_args):
