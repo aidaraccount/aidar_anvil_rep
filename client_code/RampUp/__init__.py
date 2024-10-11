@@ -15,6 +15,7 @@ import math
 from ..Home import Home
 from ..C_RefArtistsSettings import C_RefArtistsSettings
 from ..C_LevelOfPopularity import C_LevelOfPopularity
+from ..C_GrowthImportance import C_GrowthImportance
 
 from anvil_extras import routing
 from ..nav import click_link, click_button, load_var, save_var
@@ -75,13 +76,13 @@ class RampUp(RampUpTemplate):
       self.nav_Level_Pop_load()
       self.Back.visible = True
       self.Next.visible = True
-      self.Discovering.visible = False
-    elif section == "Growth_Importance":
-      self.nav_References_load()
-      self.Back.visible = True
-      self.Next.visible = True
       self.next_role(section)
       self.Discovering.visible = False
+    elif section == "Growth_Importance":
+      self.nav_Growth_Importance_load()
+      self.Back.visible = True
+      self.Next.visible = False
+      self.Discovering.visible = True
 
   # ---------------
   # NAVIGATION BUTTONS
@@ -142,15 +143,16 @@ class RampUp(RampUpTemplate):
         click_button(f'model_setup?model_id={self.model_id_view}&section=Level_of_Pop', event_args)
       else:
         alert(title='Not enough References', content="Please add additional Reference Artists!")
-    elif self.section == 'Level_of_Pop':
-      if artist_id is not None:
-        click_button(f'model_setup?model_id={self.model_id_view}&section=Growth_Importance', event_args)
-      else:
-        pass
-      
-            
+
+    # Level_of_Pop
+    elif self.section == "Level_of_Pop":  
+      print("GROWTH IMPORTANCE SHOULD BE NEXT")
+      click_button(f'model_setup?model_id={self.model_id_view}&section=Growth_Importance', event_args)
+
   def Back_click(self, **event_args):
-    if self.section == "Level_of_Pop":
+    if self.section == "Growth_Importance":
+      click_button(f'model_setup?model_id={self.model_id_view}&section=Level_of_Pop', event_args)
+    elif self.section == "Level_of_Pop":
       click_button(f'model_setup?model_id={self.model_id_view}&section=Reference_Artists', event_args)
     elif self.section == 'Reference_Artists':
       click_button(f'model_setup?model_id={self.model_id_view}&section=Basics', event_args)
@@ -222,10 +224,10 @@ class RampUp(RampUpTemplate):
     self.sec_Basics.visible = False
     self.sec_Reference_Artists.visible = False
     self.sec_Level_of_Pop.visible = False
-    self.sec_Growth_Importance.visible = True
     self.sec_Growth_Importance.clear()
+    self.sec_Growth_Importance.visible = True
     self.sec_Growth_Importance_title.visible = True
-    self.sec_pop = self.sec_Growth_Importance.add_component(C_LevelOfPopularity())
+    self.sec_pop = self.sec_Growth_Importance.add_component(C_GrowthImportance())
 
   # ---------------
   # OTHER FUNCTIONS
@@ -261,5 +263,10 @@ class RampUp(RampUpTemplate):
         self.Next.role = ['call-to-action-button','header-5','opacity-100']
       else:
         self.Next.role = ['call-to-action-button', 'header-5', 'opacity-25']
+    elif section == 'Level_of_Pop':
+      # artist_id = anvil.server.call('get_next_artist_id', self.model_id_view)          
+      # if artist_id is not None:
+      print("THIS ROLE SHOULD BE KICKING IN RN")
+      self.Next.role = ['call-to-action-button','header-5','opacity-100']
     else:
       self.Next.role = ['call-to-action-button', 'header-5', 'opacity-25']
