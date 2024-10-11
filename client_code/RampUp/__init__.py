@@ -74,8 +74,14 @@ class RampUp(RampUpTemplate):
     elif section == "Level_of_Pop":
       self.nav_Level_Pop_load()
       self.Back.visible = True
-      self.Next.visible = False
-      self.Discovering.visible = True
+      self.Next.visible = True
+      self.Discovering.visible = False
+    elif section == "Growth_Importance":
+      self.nav_References_load()
+      self.Back.visible = True
+      self.Next.visible = True
+      self.next_role(section)
+      self.Discovering.visible = False
 
   # ---------------
   # NAVIGATION BUTTONS
@@ -83,8 +89,7 @@ class RampUp(RampUpTemplate):
     # Basics
     if self.section == "Basics":
       if self.text_box_model_name.text == '':        
-        alert(title='Model Name required', content="Please add a name for the model!")
-        
+        alert(title='Model Name required', content="Please add a name for the model!")  
       else:
         # save changes
         if self.model_id_view != 'None':
@@ -137,6 +142,12 @@ class RampUp(RampUpTemplate):
         click_button(f'model_setup?model_id={self.model_id_view}&section=Level_of_Pop', event_args)
       else:
         alert(title='Not enough References', content="Please add additional Reference Artists!")
+    elif self.section == 'Level_of_Pop':
+      if artist_id is not None:
+        click_button(f'model_setup?model_id={self.model_id_view}&section=Growth_Importance', event_args)
+      else:
+        pass
+      
             
   def Back_click(self, **event_args):
     if self.section == "Level_of_Pop":
@@ -189,7 +200,6 @@ class RampUp(RampUpTemplate):
     self.sec_Reference_Artists_title.visible = True
     self.sec_Reference_Artists.add_component(C_RefArtistsSettings())
     self.sec_Growth_Importance.visible = False
-
 
   def nav_Level_Pop_load(self, **event_args):
     self.nav_Basics.role = "rampup-labels"
