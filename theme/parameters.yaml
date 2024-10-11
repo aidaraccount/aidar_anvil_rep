@@ -325,3 +325,5 @@ roles:
   name: margin-padding-0
 - components: [Link, Label]
   name: header-3-on-white-bg
+- components: [Button]
+  name: 'slider-refresh-growth '
