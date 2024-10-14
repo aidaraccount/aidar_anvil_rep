@@ -31,7 +31,6 @@ class C_Filter(C_FilterTemplate):
 
   
   def load_filters(self, **event_args):
-
     # General Filters
     my_dict = {"artist_popularity_lat >=": "artist_popularity_lat_min",
                "artist_popularity_lat <=": "artist_popularity_lat_max",
@@ -39,6 +38,7 @@ class C_Filter(C_FilterTemplate):
                "artist_follower_lat <=": "artist_follower_lat_max",
                "major_coop =": "drop_down_major",
                "sub_major_coop =": "drop_down_submajor",
+               "CURRENT_DATE - last_release_date <=": "days_since_last_release",
                "avg_duration >=": "avg_duration_min",
                "avg_duration <=": "avg_duration_max",
                "avg_danceability >=": "avg_danceability_min",
@@ -68,9 +68,9 @@ class C_Filter(C_FilterTemplate):
     fil = json.loads(anvil.server.call('get_filters', self.model_id))
     
     for filter in fil:
-      if filter["Type"] in ('general', 'gender'):
+      if filter["Type"] in ('general', 'gender', 'date'):
         element = getattr(self, my_dict[f'{filter["Column"]} {filter["Operator"]}'], None)
-        if filter["Column"] in ("artist_popularity_lat", "artist_follower_lat", "avg_duration", "avg_loudness", "avg_tempo"):
+        if filter["Column"] in ("artist_popularity_lat", "artist_follower_lat", "avg_duration", "avg_loudness", "avg_tempo", "CURRENT_DATE - last_release_date"):
           element.text = "{:.0f}".format(round(float(filter["Value"]), 0))
         elif filter["Column"] in ("avg_danceability", "avg_energy", "avg_mode", "avg_speechiness", "avg_acousticness", "avg_instrumentalness", "avg_liveness", "avg_valence"):
           element.text = "{:.0f}".format(round(float(filter["Value"])*100, 0))
@@ -114,6 +114,8 @@ class C_Filter(C_FilterTemplate):
     if self.drop_down_major.selected_value == 'No': filters_json += f'{{"ModelID":"{self.model_id}","Type":"general","Column":"major_coop","Operator":"=","Value":"0"}},'
     if self.drop_down_submajor.selected_value == 'Yes': filters_json += f'{{"ModelID":"{self.model_id}","Type":"general","Column":"sub_major_coop","Operator":"=","Value":"1"}},'
     if self.drop_down_submajor.selected_value == 'No': filters_json += f'{{"ModelID":"{self.model_id}","Type":"general","Column":"sub_major_coop","Operator":"=","Value":"0"}},'
+
+    if self.days_since_last_release.text is not None: filters_json += f'{{"ModelID":"{self.model_id}","Type":"date","Column":"CURRENT_DATE - last_release_date","Operator":"<=","Value":"{self.days_since_last_release.text}"}},'
 
     # 2. Musical Features
     if self.avg_duration_min.text is not None: filters_json += f'{{"ModelID":"{self.model_id}","Type":"general","Column":"avg_duration","Operator":">=","Value":"{self.avg_duration_min.text}"}},'
