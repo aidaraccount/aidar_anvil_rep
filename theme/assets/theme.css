@@ -2269,6 +2269,18 @@ footer a, .footer .anvil-component {
 .anvil-role-slider .noUi-pips.noUi-pips-horizontal .noUi-marker {
   background:white;
 }
+.anvil-role-slider-growth .noUi-pips.noUi-pips-horizontal{
+  color:white;
+  font-family: Gs-regular;
+}
+/* Large Ticks CSS */
+..anvil-role-slider-growth .noUi-pips.noUi-pips-horizontal .noUi-marker-large {
+  background:white;
+}
+/* Small Ticks CSS */
+..anvil-role-slider-growth .noUi-pips.noUi-pips-horizontal .noUi-marker {
+  background:white;
+}
 
 .anvil-role-slider-inputbox {
   background: transparent;
