@@ -1990,9 +1990,27 @@ footer a, .footer .anvil-component {
   padding: 20px 80px !important;
   position: absolute;
   top: -197px;
-  max-width: 1540px;
-  min-width: 1340px;
+  max-width: 1470px;
+  min-width: 1260px;
   opacity: 1;
+}
+@media only screen and (max-width: 1770px) {
+  .anvil-role-slider {
+    -webkit-appearance: none;
+    width: 98%;
+    --slider-height: 8px !important;
+    --slider-bar_color: rgb(233, 95, 48) !important;
+    --slider-handle-size: 20px !important;
+    opacity: 0.7;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+    padding: 20px 80px !important;
+    position: absolute;
+    top: -197px;
+    max-width: 1540px;
+    min-width: 1150px;
+    opacity: 1;
+  }
 }
 @media only screen and (max-width: 1705px) {
   .anvil-role-slider {
