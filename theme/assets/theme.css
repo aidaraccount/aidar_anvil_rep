@@ -1978,7 +1978,9 @@ footer a, .footer .anvil-component {
 .anvil-panel-row-QGPYCT .anvil-panel-col-BNNRLU .anvil-role-header-7 {
   margin: 0 45px; 
 }
-
+.anvil-role-level-of-pop-page .anvil-panel-section .user-select-none.svg-container {
+  margin: 0 0 0 -0.1px;
+}
 .anvil-role-slider {
   -webkit-appearance: none;
   width: 98.2%;
@@ -2025,8 +2027,8 @@ footer a, .footer .anvil-component {
     padding: 20px 80px !important;
     position: absolute;
     top: -197px;
-    max-width: 1540px;
-    min-width: 1270px;
+    max-width: 1300px;
+    min-width: 1080px;
     opacity: 1;
   }
 }
@@ -2043,8 +2045,8 @@ footer a, .footer .anvil-component {
     padding: 20px 80px !important;
     position: absolute;
     top: -197px;
-    max-width: 1310px;
-    min-width: 1185px;
+    max-width: 1250px;
+    min-width: 1030px;
     opacity: 1;
   }
 }
@@ -2061,12 +2063,84 @@ footer a, .footer .anvil-component {
     padding: 20px 80px !important;
     position: absolute;
     top: -197px;
-    max-width: 1270px;
-    min-width: 1000px;
+    max-width: 1160px;
+    min-width: 940px;
     opacity: 1;
   }
 }
-@media only screen and (max-width: 1050px) {
+@media only screen and (max-width: 1430px) {
+  .anvil-role-slider {
+    -webkit-appearance: none;
+    width: 98%;
+    --slider-height: 8px !important;
+    --slider-bar_color: rgb(233, 95, 48) !important;
+    --slider-handle-size: 20px !important;
+    opacity: 0.7;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+    padding: 20px 80px !important;
+    position: absolute;
+    top: -197px;
+    max-width: 1160px;
+    min-width: 860px;
+    opacity: 1;
+  }
+}
+@media only screen and (max-width: 1345px) {
+  .anvil-role-slider {
+    -webkit-appearance: none;
+    width: 98%;
+    --slider-height: 8px !important;
+    --slider-bar_color: rgb(233, 95, 48) !important;
+    --slider-handle-size: 20px !important;
+    opacity: 0.7;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+    padding: 20px 80px !important;
+    position: absolute;
+    top: -197px;
+    max-width: 1160px;
+    min-width: 790px;
+    opacity: 1;
+  }
+}
+@media only screen and (max-width: 1245px) {
+  .anvil-role-slider {
+    -webkit-appearance: none;
+    width: 98%;
+    --slider-height: 8px !important;
+    --slider-bar_color: rgb(233, 95, 48) !important;
+    --slider-handle-size: 20px !important;
+    opacity: 0.7;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+    padding: 20px 80px !important;
+    position: absolute;
+    top: -197px;
+    max-width: 1160px;
+    min-width: 700px;
+    opacity: 1;
+  }
+}
+@media only screen and (max-width: 1145px) {
+  .anvil-role-slider {
+    -webkit-appearance: none;
+    width: 98%;
+    --slider-height: 8px !important;
+    --slider-bar_color: rgb(233, 95, 48) !important;
+    --slider-handle-size: 20px !important;
+    opacity: 0.7;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+    padding: 20px 80px !important;
+    position: absolute;
+    top: -197px;
+    max-width: 1160px;
+    min-width: 620px;
+    opacity: 1;
+  }
+}
+@media only screen and (max-width: 1070px) {
   .anvil-role-slider {
     -webkit-appearance: none;
     width: 98%;
@@ -2080,7 +2154,7 @@ footer a, .footer .anvil-component {
     position: absolute;
     top: -197px;
     max-width: 830px;
-    min-width: 642px;
+    min-width: 570px;
     opacity: 1;
   }
 }
