@@ -1980,7 +1980,7 @@ footer a, .footer .anvil-component {
 }
 .anvil-role-level-of-pop-page .anvil-panel-section .user-select-none.svg-container {
   margin: 0 0 0 -0.1px;
-  transition: width 0.2s ease-in;
+  transition: width 0.01s ease-in;
 }
 .anvil-role-slider {
   -webkit-appearance: none;
