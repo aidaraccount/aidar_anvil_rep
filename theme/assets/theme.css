@@ -1980,6 +1980,7 @@ footer a, .footer .anvil-component {
 }
 .anvil-role-level-of-pop-page .anvil-panel-section .user-select-none.svg-container {
   margin: 0 0 0 -0.1px;
+  transition: width 0.2s ease-in;
 }
 .anvil-role-slider {
   -webkit-appearance: none;
@@ -1993,7 +1994,7 @@ footer a, .footer .anvil-component {
   position: absolute;
   top: -197px;
   max-width: 1470px;
-  min-width: 1260px;
+  min-width: 1180px;
   opacity: 1;
 }
 @media only screen and (max-width: 1770px) {
