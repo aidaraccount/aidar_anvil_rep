@@ -2008,8 +2008,8 @@ footer a, .footer .anvil-component {
   padding: 20px 80px !important;
   position: absolute;
   top: -197px;
-  max-width: 1470px;
-  min-width: 1180px;
+  max-width: 2060px;
+  min-width: 1690px;
   opacity: 1;
 }
 @media only screen and (max-width: 1770px) {
