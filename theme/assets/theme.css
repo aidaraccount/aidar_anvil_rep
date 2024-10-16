@@ -1986,7 +1986,7 @@ footer a, .footer .anvil-component {
   -webkit-appearance: none;
   width: 98.2%;
   --slider-height: 8px !important;
-  --slider-bar_color: rgb(233, 95, 48) !important;
+  /* --slider-bar_color: rgb(233, 95, 48) !important; */
   --slider-handle-size: 20px !important;
   -webkit-transition: .2s;
   transition: opacity .2s;
