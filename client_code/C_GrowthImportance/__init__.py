@@ -50,26 +50,3 @@ class C_GrowthImportance(C_GrowthImportanceTemplate):
     save_var("min_pop", 20)
     save_var("max_pop", 50)
     # self.set_slider_text_boxes()
-
-  def shorten_number(self, num):
-    thresholds = [
-      (1_000_000_000_000, "T"),  # Trillion
-      (1_000_000_000, "B"),  # Billion
-      (1_000_000, "M"),  # Million
-      (1_000, "K"),  # Thousand
-    ]
-
-    def shorten_single_number(n):
-      if n is None or not isinstance(n, (int, float)):
-        return "-"
-      for threshold, suffix in thresholds:
-        if n >= threshold:
-          return f"{n / threshold:.1f}{suffix}"
-      return f"{n:.0f}"
-
-    # If input is a list, process each number
-    if isinstance(num, list):
-      return [shorten_single_number(n) for n in num]
-    # If input is a single number, just process it
-    else:
-      return shorten_single_number(num)

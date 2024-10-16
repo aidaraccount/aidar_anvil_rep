@@ -73,17 +73,20 @@ class RowTemplate11(RowTemplate11Template):
     if self.item['ArtistFollower_lat'] is None:
       self.label_sp_fol.text = '-'
     else:
-      self.label_sp_fol.text = self.shorten_number(self.item["ArtistFollower_lat"])
+      # self.label_sp_fol.text = self.shorten_number(self.item["ArtistFollower_lat"])
+      self.label_sp_fol.text = anvil.server.call('shorten_number', self.item["ArtistFollower_lat"])
       
     if self.item['SpotifyMtlListeners_lat'] is None:
       self.label_mtl_fol.text = '-'
     else:
-      self.label_mtl_fol.text = self.shorten_number(self.item["SpotifyMtlListeners_lat"])
+      # self.label_mtl_fol.text = self.shorten_number(self.item["SpotifyMtlListeners_lat"])
+      self.label_mtl_fol.text = anvil.server.call('shorten_number', self.item["SpotifyMtlListeners_lat"])
       
     if self.item['TikTokFollower_lat'] is None:
       self.label_tiktok_fol.text = '-'
     else:
-      self.label_tiktok_fol.text = self.shorten_number(self.item["TikTokFollower_lat"])
+      # self.label_tiktok_fol.text = self.shorten_number(self.item["TikTokFollower_lat"])
+      self.label_tiktok_fol.text = anvil.server.call('shorten_number', self.item["TikTokFollower_lat"])
     
     # fit likelihood
     pred = "{:.0f}".format(round(float(self.item["Prediction"])/7*100,0))
@@ -120,19 +123,6 @@ class RowTemplate11(RowTemplate11Template):
   def name_click(self, **event_args):
     click_link(self.link_name, f'artists?artist_id={self.item["ArtistID"]}', event_args)
 
-  def shorten_number(self, num):
-    thresholds = [
-      (1_000_000_000_000, 'T'),  # Trillion
-      (1_000_000_000, 'B'),      # Billion
-      (1_000_000, 'M'),          # Million
-      (1_000, 'K')               # Thousand
-    ]    
-    if num >= thresholds[3][0]:
-      for threshold, suffix in thresholds:
-        if num >= threshold:
-          return f'{num / threshold:.1f}{suffix}'
-    else:
-      return f'{num:.0f}'
 
   def convert_date(self, date_str):
     date_obj = datetime.strptime(date_str, '%Y-%m-%d')

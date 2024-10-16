@@ -38,14 +38,15 @@ class C_LevelOfPopularity(C_LevelOfPopularityTemplate):
     # Extract names and popularity
     names = [artist['name'] for artist in data]
     popularity = [artist['artist_popularity_lat'] for artist in data]
-    spotify_followers = [artist['artist_follower_lat'] for artist in data]
-    print("spotify_followers", [i for i in spotify_followers])
     images = [artist['artist_picture_url'] for artist in data]
-    spotify_fol = anvil.server.call('shorten_number', [i for i in spotify_followers])
+    spotify_fol = anvil.server.call('shorten_number', [artist['artist_follower_lat'] for artist in data])
+    spotify_mon_lis = anvil.server.call('shorten_number', [artist['sp_mtl_listeners_lat'] for artist in data])
+    tiktok_fol = anvil.server.call('shorten_number', [artist['tiktok_follower_lat'] for artist in data])
+    soundcld_fol = anvil.server.call('shorten_number', [artist['soundcloud_follower_lat'] for artist in data])
     # spotify_fol = self.shorten_number([artist['artist_follower_lat'] for artist in data])
-    spotify_mon_lis = self.shorten_number([artist['sp_mtl_listeners_lat'] for artist in data])
-    tiktok_fol = self.shorten_number([artist['tiktok_follower_lat'] for artist in data])
-    soundcld_fol = self.shorten_number([artist['soundcloud_follower_lat'] for artist in data])
+    # spotify_mon_lis = self.shorten_number([artist['sp_mtl_listeners_lat'] for artist in data])
+    # tiktok_fol = self.shorten_number([artist['tiktok_follower_lat'] for artist in data])
+    # soundcld_fol = self.shorten_number([artist['soundcloud_follower_lat'] for artist in data])
     
     # Create the hover text with image tag
     hover_texts = [
@@ -185,25 +186,3 @@ class C_LevelOfPopularity(C_LevelOfPopularityTemplate):
     save_var('max_pop', 50)
     self.set_slider_text_boxes()
   
-  def shorten_number(self, num):
-    thresholds = [
-        (1_000_000_000_000, 'T'),  # Trillion
-        (1_000_000_000, 'B'),      # Billion
-        (1_000_000, 'M'),          # Million
-        (1_000, 'K')               # Thousand
-    ]
-    
-    def shorten_single_number(n):
-        if n is None or not isinstance(n, (int, float)):
-            return '-'
-        for threshold, suffix in thresholds:
-            if n >= threshold:
-                return f'{n / threshold:.1f}{suffix}'
-        return f'{n:.0f}'
-    
-    # If input is a list, process each number
-    if isinstance(num, list):
-        return [shorten_single_number(n) for n in num]
-    # If input is a single number, just process it
-    else:
-        return shorten_single_number(num)

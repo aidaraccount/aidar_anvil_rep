@@ -38,7 +38,7 @@ def check_user_exists(email):
   return user is not None
 
 @anvil.server.callable
-def shorten_number(self, num):
+def shorten_number(num):
   thresholds = [
       (1_000_000_000_000, 'T'),  # Trillion
       (1_000_000_000, 'B'),      # Billion
