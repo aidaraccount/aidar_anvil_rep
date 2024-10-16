@@ -1982,6 +1982,9 @@ footer a, .footer .anvil-component {
   margin: 0 0 0 -0.1px;
   transition: width 0.01s ease-in;
 }
+.anvil-role-slider .noUi-connect {
+  background: rgb(233, 95, 48)
+}
 .anvil-role-slider {
   -webkit-appearance: none;
   width: 98.2%;
@@ -2160,6 +2163,9 @@ footer a, .footer .anvil-component {
   }
 }
 
+.anvil-role-slider-growth .noUi-connect {
+  background: rgb(233, 95, 48)
+}
 .anvil-role-slider-growth {
   -webkit-appearance: none;
   width: 98.2%;
