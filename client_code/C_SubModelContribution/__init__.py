@@ -1,4 +1,4 @@
-from ._anvil_designer import C_GrowthImportanceTemplate
+from ._anvil_designer import C_SubModelContributionTemplate
 from ..C_RefPopupTable import C_RefPopupTable
 from anvil import *
 import anvil.server
@@ -13,7 +13,7 @@ import plotly.graph_objects as go
 from ..nav import click_link, click_button, logout, save_var, load_var
 
 
-class C_GrowthImportance(C_GrowthImportanceTemplate):
+class C_SubModelContribution(C_SubModelContributionTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
@@ -50,3 +50,7 @@ class C_GrowthImportance(C_GrowthImportanceTemplate):
     save_var("min_pop", 20)
     save_var("max_pop", 50)
     # self.set_slider_text_boxes()
+
+  def slider_1_slide(self, handle, **event_args):
+    """This method is called when the slider is sliding or dragging"""
+    pass

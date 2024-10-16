@@ -15,7 +15,7 @@ import math
 from ..Home import Home
 from ..C_RefArtistsSettings import C_RefArtistsSettings
 from ..C_LevelOfPopularity import C_LevelOfPopularity
-from ..C_GrowthImportance import C_GrowthImportance
+from ..C_SubModelContribution import C_SubModelContribution
 
 from anvil_extras import routing
 from ..nav import click_link, click_button, load_var, save_var
@@ -78,8 +78,8 @@ class RampUp(RampUpTemplate):
       self.Next.visible = True
       self.next_role(section)
       self.Discovering.visible = False
-    elif section == "Growth_Importance":
-      self.nav_Growth_Importance_load()
+    elif section == "Sub_Model_Contribution":
+      self.nav_SubModelContribution_load()
       self.Back.visible = True
       self.Next.visible = False
       self.Discovering.visible = True
@@ -146,10 +146,10 @@ class RampUp(RampUpTemplate):
 
     # Level_of_Pop
     elif self.section == "Level_of_Pop":  
-      click_button(f'model_setup?model_id={self.model_id_view}&section=Growth_Importance', event_args)
+      click_button(f'model_setup?model_id={self.model_id_view}&section=Sub_Model_Contribution', event_args)
 
   def Back_click(self, **event_args):
-    if self.section == "Growth_Importance":
+    if self.section == "Sub_Model_Contribution":
       click_button(f'model_setup?model_id={self.model_id_view}&section=Level_of_Pop', event_args)
     elif self.section == "Level_of_Pop":
       click_button(f'model_setup?model_id={self.model_id_view}&section=Reference_Artists', event_args)
@@ -183,50 +183,50 @@ class RampUp(RampUpTemplate):
     self.nav_Basics.role = "rampup-labels_focused"
     self.nav_References.role = "rampup-labels"
     self.nav_Level_Pop.role = "rampup-labels"
-    self.nav_Growth_Importance.role = "rampup-labels"
+    self.nav_SubModelContribution.role = "rampup-labels"
     self.sec_Basics.visible = True
     self.sec_Reference_Artists.visible = False
     self.sec_Level_of_Pop.visible = False
-    self.sec_Growth_Importance.visible = False
+    self.sec_SubModelContribution.visible = False
 
   def nav_References_load(self, **event_args):
     self.nav_Basics.role = "rampup-labels"
     self.nav_References.role = "rampup-labels_focused"
     self.nav_Level_Pop.role = "rampup-labels"
-    self.nav_Growth_Importance.role = "rampup-labels"
+    self.nav_SubModelContribution.role = "rampup-labels"
     self.sec_Basics.visible = False
     self.sec_Reference_Artists.visible = True
     self.sec_Level_of_Pop.visible = False
     self.sec_Reference_Artists.clear()
     self.sec_Reference_Artists_title.visible = True
     self.sec_Reference_Artists.add_component(C_RefArtistsSettings())
-    self.sec_Growth_Importance.visible = False
+    self.sec_SubModelContribution.visible = False
 
   def nav_Level_Pop_load(self, **event_args):
     self.nav_Basics.role = "rampup-labels"
     self.nav_References.role = "rampup-labels"
     self.nav_Level_Pop.role = "rampup-labels_focused"
-    self.nav_Growth_Importance.role = "rampup-labels"
+    self.nav_SubModelContribution.role = "rampup-labels"
     self.sec_Basics.visible = False
     self.sec_Reference_Artists.visible = False
     self.sec_Level_of_Pop.visible = True
     self.sec_Level_of_Pop.clear()
     self.sec_Level_of_Pop_title.visible = True
     self.sec_pop = self.sec_Level_of_Pop.add_component(C_LevelOfPopularity())
-    self.sec_Growth_Importance.visible = False
+    self.sec_SubModelContribution.visible = False
 
-  def nav_Growth_Importance_load(self, **event_args):
+  def nav_SubModelContribution_load(self, **event_args):
     self.nav_Basics.role = "rampup-labels"
     self.nav_References.role = "rampup-labels"
     self.nav_Level_Pop.role = "rampup-labels"
-    self.nav_Growth_Importance.role = "rampup-labels_focused"
+    self.nav_SubModelContribution.role = "rampup-labels_focused"
     self.sec_Basics.visible = False
     self.sec_Reference_Artists.visible = False
     self.sec_Level_of_Pop.visible = False
-    self.sec_Growth_Importance.clear()
-    self.sec_Growth_Importance.visible = True
-    self.sec_Growth_Importance_title.visible = True
-    self.sec_pop = self.sec_Growth_Importance.add_component(C_GrowthImportance())
+    self.sec_SubModelContribution.clear()
+    self.sec_SubModelContribution.visible = True
+    self.sec_SubModelContribution.visible = True
+    self.sec_pop = self.sec_SubModelContribution.add_component(C_SubModelContribution())
 
   # ---------------
   # OTHER FUNCTIONS
