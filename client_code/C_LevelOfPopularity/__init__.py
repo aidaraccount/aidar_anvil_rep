@@ -38,8 +38,11 @@ class C_LevelOfPopularity(C_LevelOfPopularityTemplate):
     # Extract names and popularity
     names = [artist['name'] for artist in data]
     popularity = [artist['artist_popularity_lat'] for artist in data]
+    spotify_followers = [artist['artist_follower_lat'] for artist in data]
+    print("spotify_followers", [i for i in spotify_followers])
     images = [artist['artist_picture_url'] for artist in data]
-    spotify_fol = self.shorten_number([artist['artist_follower_lat'] for artist in data])
+    spotify_fol = anvil.server.call('shorten_number', [i for i in spotify_followers])
+    # spotify_fol = self.shorten_number([artist['artist_follower_lat'] for artist in data])
     spotify_mon_lis = self.shorten_number([artist['sp_mtl_listeners_lat'] for artist in data])
     tiktok_fol = self.shorten_number([artist['tiktok_follower_lat'] for artist in data])
     soundcld_fol = self.shorten_number([artist['soundcloud_follower_lat'] for artist in data])
@@ -181,7 +184,7 @@ class C_LevelOfPopularity(C_LevelOfPopularityTemplate):
     save_var('min_pop', 20)
     save_var('max_pop', 50)
     self.set_slider_text_boxes()
-
+  
   def shorten_number(self, num):
     thresholds = [
         (1_000_000_000_000, 'T'),  # Trillion
