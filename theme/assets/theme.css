@@ -2000,9 +2000,9 @@ footer a, .footer .anvil-component {
 .anvil-role-slider {
   -webkit-appearance: none;
   width: 98.2%;
-  --slider-height: 8px !important;
-  /* --slider-bar_color: rgb(233, 95, 48) !important; */
-  --slider-handle-size: 20px !important;
+  /* --slider-height: 8px !important;
+  --slider-bar_color: rgb(233, 95, 48) !important;
+  --slider-handle-size: 20px !important; */
   -webkit-transition: .2s;
   transition: opacity .2s;
   padding: 20px 80px !important;
@@ -2175,9 +2175,20 @@ footer a, .footer .anvil-component {
   }
 }
 
+.anvil-role-slider-growth .noUi-horizontal {
+  height: 8px;
+}
 .anvil-role-slider-growth .noUi-connect {
   background: rgb(233, 95, 48);
   height: 8px;
+}
+.anvil-role-slider-growth .noUi-handle.noUi-handle-lower, 
+.anvil-role-slider-growth .noUi-handle.noUi-handle-upper {
+  width: 10px;
+  height: 30px;
+  right: -5px;
+  top: -10px;
+  border-radius: 4px;
 }
 .anvil-role-slider-growth {
   -webkit-appearance: none;
