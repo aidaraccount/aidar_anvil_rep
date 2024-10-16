@@ -1989,7 +1989,8 @@ footer a, .footer .anvil-component {
   background: rgb(233, 95, 48);
   height: 8px;
 }
-.anvil-role-slider .noUi-handle.noUi-handle-lower {
+.anvil-role-slider .noUi-handle.noUi-handle-lower, 
+.anvil-role-slider .noUi-handle.noUi-handle-upper {
   width: 10px;
   height: 30px;
   right: -5px;
