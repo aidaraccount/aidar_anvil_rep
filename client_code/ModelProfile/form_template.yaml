@@ -323,7 +323,7 @@ components:
         role: [section_buttons, section_buttons-flex-items]
         spacing_above: none
         spacing_below: none
-        text: Submodel Contributions
+        text: Importance
       type: Link
     layout_properties: {grid_position: 'ZAVFTJ,JAVACL'}
     name: flow_panel_sections

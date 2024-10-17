@@ -438,6 +438,7 @@ class ModelProfile(ModelProfileTemplate):
     self.nav_prev_rated.role = 'section_buttons'
     self.nav_filters.role = 'section_buttons'
     self.nav_level_of_pop.role = 'section_buttons'
+    self.nav_submodel_cont.role = 'section_buttons'
     self.sec_references.visible = True
     self.sec_models.visible = False
     self.sec_prev_rated.visible = False
@@ -454,6 +455,7 @@ class ModelProfile(ModelProfileTemplate):
     self.nav_prev_rated.role = 'section_buttons_focused'
     self.nav_filters.role = 'section_buttons'
     self.nav_level_of_pop.role = 'section_buttons'
+    self.nav_submodel_cont.role = 'section_buttons'
     self.sec_references.visible = False
     self.sec_models.visible = False
     self.sec_prev_rated.visible = True
@@ -469,6 +471,7 @@ class ModelProfile(ModelProfileTemplate):
     self.nav_prev_rated.role = 'section_buttons'
     self.nav_filters.role = 'section_buttons'
     self.nav_level_of_pop.role = 'section_buttons_focused'
+    self.nav_submodel_cont.role = 'section_buttons'
     self.sec_references.visible = False
     self.sec_models.visible = False
     self.sec_prev_rated.visible = False
@@ -500,6 +503,7 @@ class ModelProfile(ModelProfileTemplate):
     self.nav_prev_rated.role = 'section_buttons'
     self.nav_filters.role = 'section_buttons_focused'
     self.nav_level_of_pop.role = 'section_buttons'
+    self.nav_submodel_cont.role = 'section_buttons'
     self.sec_references.visible = False
     self.sec_models.visible = False
     self.sec_prev_rated.visible = False
@@ -521,10 +525,11 @@ class ModelProfile(ModelProfileTemplate):
   def save_click_submodel(self, **event_args):
     anvil.server.call('update_sub_model_contribution',
                       int(self.model_id_view),
-                      load_var('artist_career_fit'),
-                      load_var('musical_fit'),
-                      load_var('growth_imp_fit'),
-                      0)
+                      int(load_var('artist_career_fit')) / 100,
+                      0.4,
+                      int(load_var('growth_imp_fit')) / 100,
+                      int(load_var('musical_fit')) / 100
+                     )
     # Notification("",
     #     title= f"""
     #     Submodel contributions have been updated such as:
@@ -590,6 +595,7 @@ class ModelProfile(ModelProfileTemplate):
     self.nav_prev_rated.role = 'section_buttons'
     self.nav_filters.role = 'section_buttons'
     self.nav_level_of_pop.role = 'section_buttons'
+    self.nav_submodel_cont.role = 'section_buttons'
     self.sec_references.visible = False
     self.sec_models.visible = True
     self.sec_prev_rated.visible = False

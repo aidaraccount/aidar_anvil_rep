@@ -251,7 +251,7 @@ components:
         text: |-
           Do you prefer fitting artists in terms of career and music? Or do you focus more on the numbers and need strong growth value?​
 
-          Please use the slider. The scale ranges from 0 (not important) to 10 (very important).​
+          Please use the slider. The scale ranges from 0 (not important) to 100 (very important).​
         tooltip: ''
         underline: false
         visible: true
