@@ -62,7 +62,7 @@ components:
       name: slider_2
       properties: {animate: true, bar_height: '', behaviour: tap, connect: lower, format: .0f, limit: '', max: 100, min: 0, padding: '', pips: true, pips_density: 1, pips_mode: values, pips_stepped: true, pips_values: '0,10,20,30,40,50,60,70,80,90,100', role: slider-growth, spacing_above: none, spacing_below: none, start: '0', step: 1, tooltips: false, visible: true}
       type: form:dep_h86ijk4pnzr0f:Slider
-    - event_bindings: {click: slider_1_button_reset_click}
+    - event_bindings: {click: slider_2_button_reset_click}
       layout_properties: {grid_position: 'TPURJH,EMGWJO'}
       name: slider_2_button_reset
       properties:
@@ -99,7 +99,7 @@ components:
       name: slider_3
       properties: {animate: true, bar_height: '', behaviour: tap, connect: lower, format: .0f, limit: '', max: 100, min: 0, padding: '', pips: true, pips_density: 1, pips_mode: values, pips_stepped: true, pips_values: '0,10,20,30,40,50,60,70,80,90,100', role: slider-growth, spacing_above: none, spacing_below: none, start: '0', step: 1, tooltips: false, visible: true}
       type: form:dep_h86ijk4pnzr0f:Slider
-    - event_bindings: {click: slider_1_button_reset_click}
+    - event_bindings: {click: slider_3_button_reset_click}
       layout_properties: {grid_position: 'TPURJH,EMGWJO'}
       name: slider_3_button_reset
       properties:

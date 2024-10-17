@@ -327,3 +327,5 @@ roles:
   name: header-3-on-white-bg
 - components: [Button]
   name: 'slider-refresh-growth '
+- components: [Notification]
+  name: alert-notification
