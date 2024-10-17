@@ -279,6 +279,11 @@ body, html {
   margin-bottom: 5px;
   padding: 0;
 }
+.anvil-role-section-background-flex {
+  display:flex;
+  flex-wrap:wrap;
+}
+.anvil-ro
 .flow-panel-gutter:has( .anvil-role-section_buttons_focused) {
   padding: 0 15px 0;
 }
