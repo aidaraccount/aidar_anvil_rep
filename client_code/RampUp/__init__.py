@@ -224,7 +224,7 @@ class RampUp(RampUpTemplate):
     self.sec_Reference_Artists.visible = False
     self.sec_Level_of_Pop.visible = False
     self.sec_SubModelContribution.clear()
-    self.sec_SubModelContribution.visible = True
+    self.sec_SubModelContribution_title.visible = True
     self.sec_SubModelContribution.visible = True
     self.sec_pop = self.sec_SubModelContribution.add_component(C_SubModelContribution())
 

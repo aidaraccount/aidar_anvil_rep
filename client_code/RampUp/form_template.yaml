@@ -229,7 +229,7 @@ components:
         spacing_below: medium
         text: |-
           Step 4:
-          Growth Importance
+          Importance
         visible: true
       type: Label
     - layout_properties: {grid_position: 'JAXKXQ,WJGFYP'}
@@ -249,15 +249,15 @@ components:
         spacing_above: none
         spacing_below: none
         text: |-
-          How important is growth to you? Do you develop the artists from the ground up, or do they need to be rising stars already? Please use the slider. The scale ranges from 0% (no growth) to 100% (exponential growth).​
+          Do you prefer fitting artists in terms of career and music? Or do you focus more on the numbers and need strong growth value?​
 
-          IMPORTANT: Setting the growth to 100% will make the model purely focus on growth. The fit of the artists can no longer be guaranteed.​
+          Please use the slider. The scale ranges from 0 (not important) to 10 (very important).​
         tooltip: ''
         underline: false
         visible: true
       type: Label
     layout_properties: {grid_position: 'YHZVBW,ILDXQZ'}
-    name: sec_Growth_Importance_title
+    name: sec_SubModelContribution_title
     properties: {visible: false}
     type: ColumnPanel
   - layout_properties: {grid_position: 'WINBTJ,YQOWFT'}

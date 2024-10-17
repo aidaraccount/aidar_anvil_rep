@@ -50,7 +50,3 @@ class C_SubModelContribution(C_SubModelContributionTemplate):
     save_var("min_pop", 20)
     save_var("max_pop", 50)
     # self.set_slider_text_boxes()
-
-  def slider_1_slide(self, handle, **event_args):
-    """This method is called when the slider is sliding or dragging"""
-    pass
