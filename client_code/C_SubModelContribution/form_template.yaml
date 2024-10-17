@@ -23,7 +23,7 @@ components:
     - event_bindings: {change: slider_1_change, slide: slider_1_slide}
       layout_properties: {grid_position: 'TPURJH,WPAWIH'}
       name: slider_1
-      properties: {animate: true, bar_height: '', behaviour: tap, connect: lower, format: .0f, limit: '', max: 10, min: 0, padding: '', pips: true, pips_density: -1, pips_mode: values, pips_stepped: true, pips_values: '0,1,2,3,4,5,6,7,8,9,10', role: slider-growth, spacing_above: none, spacing_below: none, start: '5', step: 1, tooltips: false, visible: true}
+      properties: {animate: true, bar_height: '', behaviour: tap, connect: lower, format: .0f, limit: '', max: 10, min: 0, padding: '', pips: true, pips_density: -1, pips_mode: values, pips_stepped: true, pips_values: '0,1,2,3,4,5,6,7,8,9,10', role: slider-growth, spacing_above: none, spacing_below: none, start: '6', step: 1, tooltips: false, visible: true}
       type: form:dep_h86ijk4pnzr0f:Slider
     - event_bindings: {click: slider_1_button_reset_click}
       layout_properties: {grid_position: 'TPURJH,EMGWJO'}
@@ -60,7 +60,7 @@ components:
     - event_bindings: {change: slider_1_change, slide: slider_1_slide}
       layout_properties: {grid_position: 'TPURJH,WPAWIH'}
       name: slider_2
-      properties: {animate: true, bar_height: '', behaviour: tap, connect: lower, format: .0f, limit: '', max: 10, min: 0, padding: '', pips: true, pips_density: -1, pips_mode: values, pips_stepped: true, pips_values: '0,1,2,3,4,5,6,7,8,9,10', role: slider-growth, spacing_above: none, spacing_below: none, start: '5', step: 1, tooltips: false, visible: true}
+      properties: {animate: true, bar_height: '', behaviour: tap, connect: lower, format: .0f, limit: '', max: 10, min: 0, padding: '', pips: true, pips_density: -1, pips_mode: values, pips_stepped: true, pips_values: '0,1,2,3,4,5,6,7,8,9,10', role: slider-growth, spacing_above: none, spacing_below: none, start: '6', step: 1, tooltips: false, visible: true}
       type: form:dep_h86ijk4pnzr0f:Slider
     - event_bindings: {click: slider_1_button_reset_click}
       layout_properties: {grid_position: 'TPURJH,EMGWJO'}
@@ -97,7 +97,7 @@ components:
     - event_bindings: {change: slider_1_change, slide: slider_1_slide}
       layout_properties: {grid_position: 'TPURJH,WPAWIH'}
       name: slider_3
-      properties: {animate: true, bar_height: '', behaviour: tap, connect: lower, format: .0f, limit: '', max: 10, min: 0, padding: '', pips: true, pips_density: -1, pips_mode: values, pips_stepped: true, pips_values: '0,1,2,3,4,5,6,7,8,9,10', role: slider-growth, spacing_above: none, spacing_below: none, start: '5', step: 1, tooltips: false, visible: true}
+      properties: {animate: true, bar_height: '', behaviour: tap, connect: lower, format: .0f, limit: '', max: 10, min: 0, padding: '', pips: true, pips_density: -1, pips_mode: values, pips_stepped: true, pips_values: '0,1,2,3,4,5,6,7,8,9,10', role: slider-growth, spacing_above: none, spacing_below: none, start: '3', step: 1, tooltips: false, visible: true}
       type: form:dep_h86ijk4pnzr0f:Slider
     - event_bindings: {click: slider_1_button_reset_click}
       layout_properties: {grid_position: 'TPURJH,EMGWJO'}
