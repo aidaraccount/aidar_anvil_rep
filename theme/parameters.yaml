@@ -331,3 +331,5 @@ roles:
   name: alert-notification
 - components: [FlowPanel]
   name: section-background-flex
+- components: [Link]
+  name: section_buttons-flex-items

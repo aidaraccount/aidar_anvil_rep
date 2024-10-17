@@ -283,7 +283,12 @@ body, html {
   display:flex;
   flex-wrap:wrap;
 }
-.anvil-ro
+.anvil-role-section-background-flex .flow-panel-gutter {
+  justify-content: center !important;
+}
+.anvil-role-section_buttons-flex-items {
+
+}
 .flow-panel-gutter:has( .anvil-role-section_buttons_focused) {
   padding: 0 15px 0;
 }

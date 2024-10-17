@@ -271,33 +271,59 @@ components:
     - event_bindings: {click: nav_model_click}
       layout_properties: {}
       name: nav_model
-      properties: {role: section_buttons, spacing_above: none, spacing_below: none, text: Model Status}
+      properties:
+        role: [section_buttons, section_buttons-flex-items]
+        spacing_above: none
+        spacing_below: none
+        text: Model Status
       type: Link
     - event_bindings: {click: nav_references_click}
       layout_properties: {}
       name: nav_references
-      properties: {col_spacing: medium, role: section_buttons, spacing_above: none, spacing_below: none, text: Reference Artists}
+      properties:
+        col_spacing: medium
+        role: [section_buttons, section_buttons-flex-items]
+        spacing_above: none
+        spacing_below: none
+        text: Reference Artists
       type: Link
     - event_bindings: {click: nav_prev_rated_click}
       layout_properties: {}
       name: nav_prev_rated
-      properties: {col_spacing: medium, role: section_buttons, spacing_above: none, spacing_below: none, text: Prev. Rated}
+      properties:
+        col_spacing: medium
+        role: [section_buttons, section_buttons-flex-items]
+        spacing_above: none
+        spacing_below: none
+        text: Prev. Rated
       type: Link
     - components: []
       event_bindings: {click: nav_filters_click}
       layout_properties: {}
       name: nav_filters
-      properties: {role: section_buttons, spacing_above: none, spacing_below: none, text: Filters}
+      properties:
+        role: [section_buttons, section_buttons-flex-items]
+        spacing_above: none
+        spacing_below: none
+        text: Filters
       type: Link
     - event_bindings: {click: nav_level_of_pop_click}
       layout_properties: {}
       name: nav_level_of_pop
-      properties: {role: section_buttons, spacing_above: none, spacing_below: none, text: Level of Popularity}
+      properties:
+        role: [section_buttons, section_buttons-flex-items]
+        spacing_above: none
+        spacing_below: none
+        text: Level of Popularity
       type: Link
     - event_bindings: {click: nav_submodel_cont_click}
       layout_properties: {}
       name: nav_submodel_cont
-      properties: {role: section_buttons, spacing_above: none, spacing_below: none, text: Submodel Contributions}
+      properties:
+        role: [section_buttons, section_buttons-flex-items]
+        spacing_above: none
+        spacing_below: none
+        text: Submodel Contributions
       type: Link
     layout_properties: {grid_position: 'ZAVFTJ,JAVACL'}
     name: flow_panel_sections
