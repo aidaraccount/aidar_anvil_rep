@@ -26,14 +26,53 @@ class C_SubModelContribution(C_SubModelContributionTemplate):
     
     infos = json.loads(anvil.server.call("get_model_stats", self.model_id_view))[0]
     print(infos)
-    if infos["min_pop"] is None:
-      save_var("min_pop", 1)
-    else:
-      self.slider_1.values = infos["min_pop"]
-      save_var("min_pop", infos["min_pop"])
+    # if infos["min_pop"] is None:
+    #   save_var("min_pop", 1)
+    # else:
+    #   self.slider_1.values = infos["min_pop"]
+    #   save_var("min_pop", infos["min_pop"])
+    # Populate sliders with initial values from the model stats
+    self.slider_1.value = infos['model_1_cont'] * 100  # Assuming percentage values
+    self.slider_2.value = infos['model_2_cont'] * 100
+    self.slider_3.value = infos['model_3_cont'] * 100
 
-  def slider_1_change(self, handle, **event_args):
-    save_var("min_pop", self.slider_1.formatted_values[0])
+  def slider_1_change(self, **event_args):
+    # Call the server function to update contributions when slider 1 changes
+    anvil.server.call('update_sub_model_contribution', 
+                      self.model_id_view,
+                      self.slider_1.value / 100,  # Convert back to float
+                      self.slider_2.value / 100,
+                      self.slider_3.value / 100,
+                      0)  # Assuming model_4 is not used, pass 0 or handle as needed
+    print("slider 1 change:", self.slider_1.value)
+
+  def slider_2_change(self, **event_args):
+    # Call the server function to update contributions when slider 2 changes
+    anvil.server.call('update_sub_model_contribution', 
+                      self.model_id_view,
+                      self.slider_1.value / 100,  # Convert back to float
+                      self.slider_2.value / 100,
+                      self.slider_3.value / 100,
+                      0)
+    print("slider 2 change:", self.slider_2.value)
+  def slider_3_change(self, **event_args):
+    # Call the server function to update contributions when slider 3 changes
+    anvil.server.call('update_sub_model_contribution', 
+                      self.model_id_view,
+                      self.slider_1.value / 100,  # Convert back to float
+                      self.slider_2.value / 100,
+                      self.slider_3.value / 100,
+                      0)
+    print("slider 3 change:", self.slider_3.value)
+  
+  def slider_1_button_reset_click(self, **event_args):
+    self.slider_1.reset()
+    save_var("min_pop", 20)
+    save_var("max_pop", 50)
+    # self.set_slider_text_boxes()
+
+  # def slider_1_change(self, handle, **event_args):
+  #   save_var("min_pop", self.slider_1.formatted_values[0])
   
   # def set_slider_text_boxes(self):
   #   self.text_box_left.text, self.text_box_right.text = self.slider_1.formatted_values
@@ -45,8 +84,3 @@ class C_SubModelContribution(C_SubModelContributionTemplate):
   #   self.slider_1.values = self.text_box_left.text, self.text_box_right.text
   #   self.set_slider_text_boxes()
 
-  def slider_1_button_reset_click(self, **event_args):
-    self.slider_1.reset()
-    save_var("min_pop", 20)
-    save_var("max_pop", 50)
-    # self.set_slider_text_boxes()
