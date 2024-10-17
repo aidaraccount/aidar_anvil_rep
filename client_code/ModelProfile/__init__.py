@@ -521,11 +521,18 @@ class ModelProfile(ModelProfileTemplate):
   def save_click_submodel(self, **event_args):
     anvil.server.call('update_sub_model_contribution',
                       int(self.model_id_view),
-                      load_var('min_pop'),
-                      load_var('max_pop'))
+                      load_var('artist_career_fit'),
+                      load_var('musical_fit'),
+                      load_var('growth_imp_fit'),
+                      0)
     Notification("",
-        title=f"Popularity range is updated from {load_var('min_pop')} to {load_var('max_pop')}!",
-        style="success").show()
+        title= f"""
+        Submodel contributions have been updated such as:
+        Artist Career Fit Importance: {load_var('artist_career_fit')}%,
+        Musical Fit: {load_var('musical_fit')}%,
+        Growth Importance: {load_var('growth_imp_fit')}% !""",      
+        style="success",
+        role='alert-notification').show()
   
   def delete_click(self, **event_args):
     result = alert(title='Do you want to delete this model?',
