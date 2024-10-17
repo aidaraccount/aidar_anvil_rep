@@ -19,6 +19,7 @@ from ..C_RefArtistsSettings import C_RefArtistsSettings
 from ..C_Rating import C_Rating
 from ..C_Filter import C_Filter
 from ..C_LevelOfPopularity import C_LevelOfPopularity
+from ..C_SubModelContribution import C_SubModelContribution
 
 from anvil_extras import routing
 from ..nav import click_link, click_button, load_var, save_var
@@ -419,20 +420,6 @@ class ModelProfile(ModelProfileTemplate):
           title="Model updated!",
           style="success").show()
 
-  def nav_references_click(self, **event_args):
-    self.nav_references.role = 'section_buttons_focused'
-    self.nav_model.role = 'section_buttons'
-    self.nav_prev_rated.role = 'section_buttons'
-    self.nav_filters.role = 'section_buttons'
-    self.nav_level_of_pop.role = 'section_buttons'
-    self.sec_references.visible = True
-    self.sec_models.visible = False
-    self.sec_prev_rated.visible = False
-    self.sec_filters.visible = False
-    self.sec_level_of_pop_master.visible = False
-    self.sec_references.clear()
-    # self.sec_references.add_component(C_EditRefArtists(self.model_id_view))
-    self.sec_references.add_component(C_RefArtistsSettings())
 
   # def nav_add_references_click(self, **event_args):
   #   self.nav_references.role = 'section_buttons_focused'
@@ -445,6 +432,22 @@ class ModelProfile(ModelProfileTemplate):
   #   self.sec_references.clear()
   #   self.sec_references.add_component(C_AddRefArtists(self.model_id_view))
   
+  def nav_references_click(self, **event_args):
+    self.nav_references.role = 'section_buttons_focused'
+    self.nav_model.role = 'section_buttons'
+    self.nav_prev_rated.role = 'section_buttons'
+    self.nav_filters.role = 'section_buttons'
+    self.nav_level_of_pop.role = 'section_buttons'
+    self.sec_references.visible = True
+    self.sec_models.visible = False
+    self.sec_prev_rated.visible = False
+    self.sec_filters.visible = False
+    self.sec_level_of_pop_master.visible = False
+    self.sec_submodel_contributions_master.visible = False
+    self.sec_references.clear()
+    # self.sec_references.add_component(C_EditRefArtists(self.model_id_view))
+    self.sec_references.add_component(C_RefArtistsSettings())
+    
   def nav_prev_rated_click(self, **event_args):    
     self.nav_references.role = 'section_buttons'
     self.nav_model.role = 'section_buttons'
@@ -456,6 +459,7 @@ class ModelProfile(ModelProfileTemplate):
     self.sec_prev_rated.visible = True
     self.sec_filters.visible = False
     self.sec_level_of_pop_master.visible = False
+    self.sec_submodel_contributions_master.visible = False
     self.sec_prev_rated.clear()
     self.sec_prev_rated.add_component(C_Rating(self.model_id_view))
 
@@ -469,10 +473,27 @@ class ModelProfile(ModelProfileTemplate):
     self.sec_models.visible = False
     self.sec_prev_rated.visible = False
     self.sec_filters.visible = False
+    self.sec_submodel_contributions_master.visible = False    
     self.sec_level_of_pop_master.visible = True
     self.sec_level_of_pop.clear()
     self.sec_level_of_pop.add_component(C_LevelOfPopularity())
 
+  def nav_submodel_cont_click(self, **event_args):
+    self.nav_references.role = 'section_buttons'
+    self.nav_model.role = 'section_buttons'
+    self.nav_prev_rated.role = 'section_buttons'
+    self.nav_filters.role = 'section_buttons'
+    self.nav_level_of_pop.role = 'section_buttons'
+    self.nav_submodel_cont.role = 'section_buttons_focused'
+    self.sec_references.visible = False
+    self.sec_models.visible = False
+    self.sec_prev_rated.visible = False
+    self.sec_filters.visible = False
+    self.sec_level_of_pop_master.visible = False
+    self.sec_submodel_contributions_master.visible = True    
+    self.sec_submodel_contributions.clear()
+    self.sec_submodel_contributions.add_component(C_SubModelContribution())
+  
   def nav_filters_click(self, **event_args):
     self.nav_references.role = 'section_buttons'
     self.nav_model.role = 'section_buttons'
@@ -484,6 +505,7 @@ class ModelProfile(ModelProfileTemplate):
     self.sec_prev_rated.visible = False
     self.sec_filters.visible = True
     self.sec_level_of_pop_master.visible = False
+    self.sec_submodel_contributions_master.visible = False
     self.sec_filters.clear()
     self.sec_filters.add_component(C_Filter(self.model_id_view))
 
@@ -496,6 +518,15 @@ class ModelProfile(ModelProfileTemplate):
         title=f"Popularity range is updated from {load_var('min_pop')} to {load_var('max_pop')}!",
         style="success").show()
 
+  def save_click_submodel(self, **event_args):
+    anvil.server.call('update_sub_model_contribution',
+                      int(self.model_id_view),
+                      load_var('min_pop'),
+                      load_var('max_pop'))
+    Notification("",
+        title=f"Popularity range is updated from {load_var('min_pop')} to {load_var('max_pop')}!",
+        style="success").show()
+  
   def delete_click(self, **event_args):
     result = alert(title='Do you want to delete this model?',
           content="Are you sure to delete this model?\n\nEverything will be lost! All reference artists, all previously rated artists - all you did will be gone for ever.",
@@ -547,6 +578,7 @@ class ModelProfile(ModelProfileTemplate):
     self.sec_models.visible = True
     self.sec_prev_rated.visible = False
     self.sec_filters.visible = False
+    self.sec_submodel_contributions_master.visible = False
     self.sec_level_of_pop_master.visible = False
 
     # Model 1
