@@ -27,6 +27,7 @@ class C_RefArtistsSettings(C_RefArtistsSettingsTemplate):
   
   def get_references(self, **event_args):
     references = json.loads(anvil.server.call('get_references', self.model_id_view))
+    print('references:', references)
     self.repeating_panel_reference.items = references
     
     if references != []:
@@ -52,7 +53,7 @@ class C_RefArtistsSettings(C_RefArtistsSettingsTemplate):
       if artist_id is not None:
         self.parent.parent.get_components()[-1].get_components()[1].role = ['call-to-action-button','header-5','opacity-100']
       else:
-        self.parent.parent.get_components()[-1].get_components()[1].role = ''
+        self.parent.parent.get_components()[-1].get_components()[1].role = ['call-to-action-button', 'header-5', 'opacity-25']
         
     elif anvil.js.window.location.hash.lstrip('#').split('?')[0] == 'model_profile':
       pass
