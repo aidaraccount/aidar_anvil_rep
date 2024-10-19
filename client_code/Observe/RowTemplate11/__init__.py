@@ -73,19 +73,16 @@ class RowTemplate11(RowTemplate11Template):
     if self.item['ArtistFollower_lat'] is None:
       self.label_sp_fol.text = '-'
     else:
-      # self.label_sp_fol.text = self.shorten_number(self.item["ArtistFollower_lat"])
       self.label_sp_fol.text = anvil.server.call('shorten_number', self.item["ArtistFollower_lat"])
       
     if self.item['SpotifyMtlListeners_lat'] is None:
       self.label_mtl_fol.text = '-'
     else:
-      # self.label_mtl_fol.text = self.shorten_number(self.item["SpotifyMtlListeners_lat"])
       self.label_mtl_fol.text = anvil.server.call('shorten_number', self.item["SpotifyMtlListeners_lat"])
       
     if self.item['TikTokFollower_lat'] is None:
       self.label_tiktok_fol.text = '-'
     else:
-      # self.label_tiktok_fol.text = self.shorten_number(self.item["TikTokFollower_lat"])
       self.label_tiktok_fol.text = anvil.server.call('shorten_number', self.item["TikTokFollower_lat"])
     
     # fit likelihood

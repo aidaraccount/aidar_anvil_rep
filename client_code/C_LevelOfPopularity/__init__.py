@@ -43,14 +43,9 @@ class C_LevelOfPopularity(C_LevelOfPopularityTemplate):
     spotify_mon_lis = anvil.server.call('shorten_number', [artist['sp_mtl_listeners_lat'] for artist in data])
     tiktok_fol = anvil.server.call('shorten_number', [artist['tiktok_follower_lat'] for artist in data])
     soundcld_fol = anvil.server.call('shorten_number', [artist['soundcloud_follower_lat'] for artist in data])
-    # spotify_fol = self.shorten_number([artist['artist_follower_lat'] for artist in data])
-    # spotify_mon_lis = self.shorten_number([artist['sp_mtl_listeners_lat'] for artist in data])
-    # tiktok_fol = self.shorten_number([artist['tiktok_follower_lat'] for artist in data])
-    # soundcld_fol = self.shorten_number([artist['soundcloud_follower_lat'] for artist in data])
     
     # Create the hover text with image tag
     hover_texts = [
-      # f"<b>{names[i]}</b><br><img src='{images[i]}' style='width:50px;height:50px;'>"
       f"""
       <b>{names[i]}</b><br>
       <br>

@@ -257,8 +257,8 @@ class Discover(DiscoverTemplate):
       if sug["ArtistFollower_lat"] == 'None':
         self.KPI_tile_2.text = '-'
       else:
-        self.KPI_tile_2.text = f'{round(int(sug["ArtistFollower_lat"])/1000):,}K'
-
+        self.KPI_tile_2.text = anvil.server.call('shorten_number', sug["ArtistFollower_lat"])
+        
       # --------
       # prediction
       if (str(sug["Prediction"]) == 'nan') or (str(sug["Prediction"]) == 'None'):
@@ -521,14 +521,14 @@ class Discover(DiscoverTemplate):
         if platform_data['tiktok']['dates'] != []:
           tiktok_fol_lat = platform_data['tiktok']['followers'][-1]
           self.tiktok_follower.text = f'{int(tiktok_fol_lat):,}'
-          self.KPI_tile_3.text = f'{round(int(tiktok_fol_lat)/1000):,}K'
+          self.KPI_tile_3.text = anvil.server.call('shorten_number', tiktok_fol_lat)
         else:
           self.KPI_tile_3.text = '-'
           
         if platform_data['soundcloud']['dates'] != []:
           soundcloud_fol_lat = platform_data['soundcloud']['followers'][-1]
           self.soundcloud_follower.text = f'{int(soundcloud_fol_lat):,}'
-          self.KPI_tile_4.text = f'{round(int(soundcloud_fol_lat)/1000):,}K'
+          self.KPI_tile_4.text = anvil.server.call('shorten_number', soundcloud_fol_lat)
         else:
           self.KPI_tile_4.text = '-'
         
@@ -722,7 +722,7 @@ class Discover(DiscoverTemplate):
     else:
       print("Embed iframe element not found. Will not initialize Spotify player.")
 
-    print("form show is running")
+    # print("form show is running")
     
   def spotify_HTML_player(self):
     c_web_player_html = '''
@@ -995,11 +995,15 @@ class Discover(DiscoverTemplate):
     self.Spotify_Monthly_Listeners_by_City_Graph.figure = fig
   
   def create_artist_popularity_scatter_chart(self, dates=None, artist_popularity=None):
+    scatter_data_pop = {
+      "dates": [date for date, followers in zip(self.scatter_data["dates"], self.scatter_data["artist_popularity"]) if followers is not None],
+      "artist_popularity": [popularity for popularity in self.scatter_data["artist_popularity"] if popularity is not None]
+    }
+    
     if dates is None:
-      dates = self.scatter_data["dates"]
+      dates = scatter_data_pop["dates"]
     if artist_popularity is None:
-      artist_popularity = self.scatter_data["artist_popularity"]
-
+      artist_popularity = scatter_data_pop["artist_popularity"]
     
     # Creating the Scatter Chart
     fig = go.Figure(data=(
@@ -1043,10 +1047,15 @@ class Discover(DiscoverTemplate):
     self.Spotify_Popularity_Graph.figure = fig
     
   def create_artist_followers_scatter_chart(self, dates=None, artist_followers=None):
+    scatter_data_fol = {
+      "dates": [date for date, followers in zip(self.scatter_data["dates"], self.scatter_data["artist_followers"]) if followers is not None],
+      "artist_followers": [followers for followers in self.scatter_data["artist_followers"] if followers is not None]
+    }
+
     if dates is None:
-      dates = self.scatter_data["dates"]
+      dates = scatter_data_fol["dates"]
     if artist_followers is None:
-      artist_followers = self.scatter_data["artist_followers"]
+      artist_followers = scatter_data_fol["artist_followers"]
     
     # Format the text for the bar annotations
     formatted_text = [f'{x/1e6:.1f}M' if x >= 1e6 else f'{x/1e3:.1f}K' if x >= 1e3 else str(x) for x in artist_followers]

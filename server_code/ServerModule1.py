@@ -3,6 +3,7 @@ import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
 import anvil.server
+import numpy as np
 
 # This is a server module. It runs on the Anvil server,
 # rather than in the user's browser.
@@ -40,23 +41,24 @@ def check_user_exists(email):
 @anvil.server.callable
 def shorten_number(num):
   thresholds = [
-      (1_000_000_000_000, 'T'),  # Trillion
-      (1_000_000_000, 'B'),      # Billion
-      (1_000_000, 'M'),          # Million
-      (1_000, 'K')               # Thousand
+    (1_000_000_000_000, 'T'),  # Trillion
+    (1_000_000_000, 'B'),      # Billion
+    (1_000_000, 'M'),          # Million
+    (1_000, 'K')               # Thousand
   ]
   
   def shorten_single_number(n):
-      if n is None or not isinstance(n, (int, float)):
-          return '-'
-      for threshold, suffix in thresholds:
-          if n >= threshold:
-              return f'{n / threshold:.1f}{suffix}'
-      return f'{n:.0f}'
+    if n is None or not (isinstance(n, (int, float, np.integer)) or (isinstance(n, str) and n.isdigit())):
+      return '-'
+    n = int(n)
+    for threshold, suffix in thresholds:
+      if n >= threshold:
+        return f'{n / threshold:.1f}{suffix}'
+    return f'{n:.0f}'
   
   # If input is a list, process each number
   if isinstance(num, list):
-      return [shorten_single_number(n) for n in num]
+    return [shorten_single_number(n) for n in num]
   # If input is a single number, just process it
   else:
-      return shorten_single_number(num)
+    return shorten_single_number(num)
