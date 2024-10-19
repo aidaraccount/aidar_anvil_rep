@@ -106,32 +106,22 @@ class ModelProfile(ModelProfileTemplate):
       # Level
       self.Level_value.text = infos["overall_level"]
       
-      # Progress Circle
-      if infos["overall_acc"] is not None:
+      # Overall Progress Circles
+      if (infos["total_ratings"] + infos["no_references"]) > 50:
         self.custom_HTML_prediction(infos["overall_acc"])
         self.custom_HTML_prediction_2(infos["overall_acc"])
+        self.overall_num_rec.visible = False
       else:
-        self.linear_panel_2.visible = True
-        self.linear_panel_2_2.visible = True
-        self.column_panel_5.visible = False
-        # self.Overall_model_label.visible = False
-
+        self.custom_HTML_prediction_inactive((infos["total_ratings"] + infos["no_references"])/50*100)
+        self.custom_HTML_prediction_2_inactive((infos["total_ratings"] + infos["no_references"])/50*100)
+        self.overall_num_rec.visible = True
+        # self.linear_panel_2.visible = True
+        # self.linear_panel_2_2.visible = True
+        # self.column_panel_5.visible = False
     
     
     # ---------------
-    # SECCTIONS
-    # # retrain button
-    # if infos["total_ratings"] < 75:
-    #   self.retrain.visible = False
-    #   self.retrain_wait.visible = True
-    #   self.retrain_wait.text = 'At least 75 ratings required for training the model'
-    # elif self.retrain_date != time.strftime("%Y-%m-%d"):
-    #   self.retrain.visible = True
-    #   self.retrain_wait.visible = False
-    # else:
-    #   self.retrain.visible = False
-    #   self.retrain_wait.visible = True
-      
+    # SECCTIONS      
     # secction routing
     if section == 'Main':
       self.nav_model_click()
@@ -170,6 +160,31 @@ class ModelProfile(ModelProfileTemplate):
     '''
     html_panel_1 = HtmlPanel(html=custom_html)
     self.column_panel_5.add_component(html_panel_1)
+      
+  def custom_HTML_prediction_inactive(self, accuracy):
+    custom_html = f'''
+      <li class="note-display" data-note={accuracy}>
+        <div class="circle">
+          <svg width="140" height="140" class="circle__svg">
+            <defs>
+              <linearGradient id="grad2" x1="100%" y1="100%" x2="0%" y2="0%">
+                <stop offset="0%" style="stop-color:#4C4C4C;stop-opacity:1" />
+                <stop offset="100%" style="stop-color:#707070;stop-opacity:1" />
+              </linearGradient>
+            </defs>
+            <circle cx="70" cy="70" r="65" class="circle__progress_inactive circle__progress--path"></circle>
+            <circle cx="70" cy="70" r="65" class="circle__progress_inactive circle__progress--fill" stroke="url(#grad2)"></circle>
+          </svg>
+          <div class="percent">
+            <span class="percent__int">0.</span>
+            <!-- <span class="percent__dec">00</span> -->
+            <span class="label" style="font-size: 13px;">Trained</span>
+          </div>
+        </div>
+      </li>
+    '''
+    html_panel_1 = HtmlPanel(html=custom_html)
+    self.column_panel_5.add_component(html_panel_1)
     
   def custom_HTML_prediction_2(self, accuracy):
     custom_html = f'''
@@ -189,6 +204,31 @@ class ModelProfile(ModelProfileTemplate):
             <span class="percent__int">0.</span>
             <!-- <span class="percent__dec">00</span> -->
             <span class="label" style="font-size: 13px;">Accuracy</span>
+          </div>
+        </div>
+      </li>
+    '''
+    html_panel_2 = HtmlPanel(html=custom_html)
+    self.column_panel_2.add_component(html_panel_2)
+    
+  def custom_HTML_prediction_2_inactive(self, accuracy):
+    custom_html = f'''
+      <li class="note-display" data-note={accuracy}>
+        <div class="circle">
+          <svg width="168" height="168" class="circle__svg">
+            <defs>
+              <linearGradient id="grad2" x1="100%" y1="100%" x2="0%" y2="0%">
+                <stop offset="0%" style="stop-color:#4C4C4C;stop-opacity:1" />
+                <stop offset="100%" style="stop-color:#707070;stop-opacity:1" />
+              </linearGradient>
+            </defs>
+            <circle cx="84" cy="84" r="79" class="circle__progress_inactive circle__progress--path"></circle>
+            <circle cx="84" cy="84" r="79" class="circle__progress_inactive circle__progress--fill" stroke="url(#grad2)"></circle>
+          </svg>
+          <div class="percent">
+            <span class="percent__int">0.</span>
+            <!-- <span class="percent__dec">00</span> -->
+            <span class="label" style="font-size: 13px;">Trained</span>
           </div>
         </div>
       </li>
@@ -609,17 +649,13 @@ class ModelProfile(ModelProfileTemplate):
         self.custom_HTML_level_1_active(round(self.infos["model_1_acc"]))
         self.model_1_accuracy_summary.text = "{}{}".format(round(self.infos["model_1_acc"]), "%")
         self.similarity_active.visible = True
-        self.similarity_active_summary.visible = True
         self.similarity_in_training.visible = False
-        self.similarity_in_training_summary.visible = False
         self.similarity_cont.text = "{}{}".format(round(self.infos["model_1_cont"]*100), "%")
       else:
         self.custom_HTML_level_1_inactive(min(round(self.infos["total_ratings"]/int(10)*100), 100))
         self.model_1_accuracy_summary.text = "{}{}".format(min(round(self.infos["total_ratings"]/int(10)*100), 100), "%")
         self.similarity_active.visible = False
-        self.similarity_active_summary.visible = False
         self.similarity_in_training.visible = True
-        self.similarity_in_training_summary.visible = True
         self.similarity_cont.text = "0%"
          
     # Model 2
@@ -628,17 +664,13 @@ class ModelProfile(ModelProfileTemplate):
         self.custom_HTML_level_2_active(round(self.infos["model_2_acc"]))
         self.model_2_accuracy_summary.text = "{}{}".format(round(self.infos["model_2_acc"]), "%")
         self.success_active.visible = True
-        self.success_active_summary.visible = True
         self.success_in_training.visible = False
-        self.success_in_training_summary.visible = False
         self.success_cont.text = "{}{}".format(round(self.infos["model_2_cont"]*100), "%")
       else:
         self.custom_HTML_level_2_inactive(min(round(self.infos["total_ratings"]/int(50)*100), 100))
         self.model_2_accuracy_summary.text = "{}{}".format(min(round(self.infos["total_ratings"]/int(50)*100), 100), "%")
         self.success_active.visible = False
-        self.success_active_summary.visible = False
         self.success_in_training.visible = True
-        self.success_in_training_summary.visible = True
         self.success_cont.text = "0%"
         
     # Model 3
@@ -647,36 +679,28 @@ class ModelProfile(ModelProfileTemplate):
         self.custom_HTML_level_3_active(round(self.infos["model_3_acc"]))
         self.model_3_accuracy_summary.text = "{}{}".format(round(self.infos["model_3_acc"]), "%")
         self.fandom_active.visible = True
-        self.fandom_active_summary.visible = True
         self.fandom_in_training.visible = False
-        self.fandom_in_training_summary.visible = False
         self.fandom_cont.text = "{}{}".format(round(self.infos["model_3_cont"]*100), "%")
       else:
         self.custom_HTML_level_3_inactive(min(round(self.infos["total_ratings"]/int(75)*100), 100))
         self.model_3_accuracy_summary.text = "{}{}".format(min(round(self.infos["total_ratings"]/int(75)*100), 100), "%")
         self.fandom_active.visible = False
-        self.fandom_active_summary.visible = False
         self.fandom_in_training.visible = True
-        self.fandom_in_training_summary.visible = True
         self.fandom_cont.text = "0%"
         
     # Model 4
     if self.musical_submodel.get_components() == []:
-      if self.infos["model_4_acc"] is not None:
-        self.custom_HTML_level_4_active(round(self.infos["model_4_acc"]))
-        self.model_4_accuracy_summary.text = "{}{}".format(round(self.infos["model_4_acc"]), "%")
+      if self.infos["model_1_acc"] is not None:
+        self.custom_HTML_level_4_active(round(0.95*self.infos["model_1_acc"]))
+        self.model_4_accuracy_summary.text = "{}{}".format(round(0.95*self.infos["model_1_acc"]), "%")
         self.musical_active.visible = True
-        self.musical_active_summary.visible = True
         self.musical_in_training.visible = False
-        self.musical_in_training_summary.visible = False
         self.musical_cont.text = "{}{}".format(round(self.infos["model_4_cont"]*100), "%")
       else:
         self.custom_HTML_level_4_inactive(min(round(self.infos["total_ratings"]/int(100)*100), 100))
         self.model_4_accuracy_summary.text = "{}{}".format(min(round(self.infos["total_ratings"]/int(100)*100), 100), "%")
         self.musical_active.visible = False
-        self.musical_active_summary.visible = False
         self.musical_in_training.visible = True
-        self.musical_in_training_summary.visible = True
         self.musical_cont.text = "0%"
 
   def create_ratings_histogram_chart(self, ratings_data=None):
@@ -726,6 +750,14 @@ class ModelProfile(ModelProfileTemplate):
       ),
       hoverlabel=dict(
         bgcolor='rgba(237,139,82, 0.4)'
+      ),
+      autosize=True,  # Automatically adjust the chart size to fit the container
+      height=200,  # Adjust the height as needed to fit the container
+      margin=dict(
+          l=10,  # Left margin
+          r=10,  # Right margin
+          t=10,  # Top margin
+          b=10   # Bottom margin
       )
     )
     # This is to style the bars

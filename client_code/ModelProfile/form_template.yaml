@@ -79,9 +79,9 @@ components:
         properties: {align: right, role: header-8, spacing_above: none, spacing_below: none}
         type: Label
       - event_bindings: {}
-        layout_properties: {grid_position: 'BKOAUM,PVSQDK SPUSLR,DGGXUH'}
+        layout_properties: {full_width_row: true, grid_position: 'BKOAUM,PVSQDK SPUSLR,DGGXUH'}
         name: Ratings_histogram
-        properties: {height: 328, interactive: false, spacing_above: none, spacing_below: none}
+        properties: {height: '200', interactive: false, spacing_above: small, spacing_below: small}
         type: Plot
       - components:
         - event_bindings: {click: edit_icon_click}
@@ -142,7 +142,7 @@ components:
         type: Spacer
       - layout_properties: {grid_position: 'ACLDSN,FYVJGI'}
         name: Level_value
-        properties: {align: center, role: header-3, spacing_above: none, spacing_below: none}
+        properties: {align: center, role: header-3, spacing_above: none, spacing_below: none, visible: false}
         type: Label
       - layout_properties: {grid_position: 'WNZMTN,UVTAUT'}
         name: column_panel_5
@@ -159,91 +159,63 @@ components:
         type: LinearPanel
       - components:
         - layout_properties: {grid_position: 'QBFMSK,GADKJR'}
+          name: success_summary_header
+          properties: {role: header-7, spacing_above: none, spacing_below: small, text: Pop. Acc.}
+          type: Label
+        - layout_properties: {grid_position: ''}
+          name: model_2_accuracy_summary
+          properties: {role: value, spacing_above: none, spacing_below: none}
+          type: Label
+        layout_properties: {grid_position: 'PQLPIK,VGSLBB'}
+        name: column_panel_3_copy
+        properties: {col_widths: '{"XKHWXY":15}', role: highlights-tile-background-for-col}
+        type: ColumnPanel
+      - components:
+        - layout_properties: {grid_position: 'QBFMSK,GADKJR'}
           name: similarity_summary_header
-          properties: {role: header-7, spacing_above: none, spacing_below: small, text: Similarity Sub-Model}
+          properties: {role: header-7, spacing_above: none, spacing_below: small, text: Career Acc.}
           type: Label
         - layout_properties: {grid_position: 'EWSWHL,XKHWXY'}
           name: model_1_accuracy_summary
           properties: {role: value, spacing_above: none, spacing_below: none}
           type: Label
-        - layout_properties: {grid_position: 'EWSWHL,LBWBCN PMQNCP,XTHOBD'}
-          name: similarity_active_summary
-          properties: {align: center, bold: true, role: header-6_bold, spacing_above: none, spacing_below: none, text: active}
-          type: Label
-        - layout_properties: {grid_position: 'EWSWHL,LBWBCN TAFXNE,RUUXSY'}
-          name: similarity_in_training_summary
-          properties: {align: center, bold: false, role: header-6_bold, spacing_above: none, spacing_below: none, text: in training, visible: false}
-          type: Label
         layout_properties: {grid_position: 'PQLPIK,WWQGWT'}
         name: column_panel_3
-        properties: {col_widths: '{"IFISOS":25,"XKHWXY":15,"LBWBCN":15}', role: highlights-tile-background-for-col}
-        type: ColumnPanel
-      - components:
-        - layout_properties: {grid_position: 'QBFMSK,GADKJR'}
-          name: success_summary_header
-          properties: {role: header-7, spacing_above: none, spacing_below: small, text: Success Sub-Model}
-          type: Label
-        - layout_properties: {grid_position: 'EWSWHL,XKHWXY PSEKJH,PILRVR'}
-          name: model_2_accuracy_summary
-          properties: {role: value, spacing_above: none, spacing_below: none}
-          type: Label
-        - layout_properties: {grid_position: 'EWSWHL,LBWBCN PMQNCP,XTHOBD'}
-          name: success_active_summary
-          properties: {align: center, bold: true, role: header-6_bold, spacing_above: none, spacing_below: none, text: active}
-          type: Label
-        - layout_properties: {grid_position: 'EWSWHL,LBWBCN TAFXNE,RUUXSY'}
-          name: success_in_training_summary
-          properties: {align: center, bold: false, role: header-6_bold, spacing_above: none, spacing_below: none, text: in training, visible: false}
-          type: Label
-        layout_properties: {grid_position: 'CNRFLR,HUQNLQ'}
-        name: column_panel_3_copy
-        properties: {col_widths: '{"XKHWXY":15,"LBWBCN":15}', role: highlights-tile-background-for-col}
-        type: ColumnPanel
-      - components:
-        - layout_properties: {grid_position: 'YNEJOO,ZFYVNZ'}
-          name: fandom_summary_header
-          properties: {role: header-7, spacing_above: none, text: Fandom Sub-Model}
-          type: Label
-        - layout_properties: {grid_position: 'EWSWHL,XKHWXY HREYHC,GPQALY'}
-          name: model_3_accuracy_summary
-          properties: {role: value, spacing_above: none, spacing_below: none}
-          type: Label
-        - layout_properties: {grid_position: 'EWSWHL,LBWBCN PMQNCP,XTHOBD'}
-          name: fandom_active_summary
-          properties: {align: center, bold: true, role: header-6_bold, spacing_above: none, spacing_below: none, text: active}
-          type: Label
-        - layout_properties: {grid_position: 'EWSWHL,LBWBCN TAFXNE,RUUXSY'}
-          name: fandom_in_training_summary
-          properties: {align: center, bold: false, role: header-6_bold, spacing_above: none, spacing_below: none, text: in training, visible: false}
-          type: Label
-        layout_properties: {grid_position: 'RDQCTG,TYRGPK'}
-        name: column_panel_3_copy_copy
-        properties: {col_widths: '{"XKHWXY":15,"LBWBCN":15}', role: highlights-tile-background-for-col}
+        properties: {col_widths: '{"XKHWXY":15}', role: highlights-tile-background-for-col}
         type: ColumnPanel
       - components:
         - layout_properties: {grid_position: 'CSPTTI,GOCMWF'}
           name: musical_summary_header
-          properties: {role: header-7, spacing_above: none, text: Musical Sub-Model}
+          properties: {role: header-7, spacing_above: none, text: Musical Acc.}
           type: Label
-        - layout_properties: {grid_position: 'EWSWHL,XKHWXY SHIGMP,DNHWID'}
+        - layout_properties: {grid_position: ''}
           name: model_4_accuracy_summary
           properties: {role: value, spacing_above: none, spacing_below: none}
           type: Label
-        - layout_properties: {grid_position: 'EWSWHL,LBWBCN PMQNCP,XTHOBD'}
-          name: musical_active_summary
-          properties: {align: center, bold: true, role: header-6_bold, spacing_above: none, spacing_below: none, text: active}
-          type: Label
-        - layout_properties: {grid_position: 'EWSWHL,LBWBCN TAFXNE,RUUXSY'}
-          name: musical_in_training_summary
-          properties: {align: center, bold: false, role: header-6_bold, spacing_above: none, spacing_below: none, text: in training, visible: false}
-          type: Label
-        layout_properties: {grid_position: 'LZSSLI,NOQKWS'}
+        layout_properties: {grid_position: 'RDQCTG,OZTITN'}
         name: column_panel_3_copy_copy_copy
-        properties: {col_widths: '{"XKHWXY":15,"LBWBCN":15}', role: highlights-tile-background-for-col}
+        properties: {col_widths: '{"XKHWXY":15}', role: highlights-tile-background-for-col}
         type: ColumnPanel
+      - components:
+        - layout_properties: {grid_position: 'YNEJOO,ZFYVNZ'}
+          name: fandom_summary_header
+          properties: {role: header-7, spacing_above: none, text: Growth Acc.}
+          type: Label
+        - layout_properties: {grid_position: ''}
+          name: model_3_accuracy_summary
+          properties: {role: value, spacing_above: none, spacing_below: none}
+          type: Label
+        layout_properties: {grid_position: 'RDQCTG,TYRGPK'}
+        name: column_panel_3_copy_copy
+        properties: {col_widths: '{"XKHWXY":15}', role: highlights-tile-background-for-col}
+        type: ColumnPanel
+      - layout_properties: {grid_position: 'SLQSZQ,OVSYVE'}
+        name: overall_num_rec
+        properties: {align: center, italic: false, role: header-6_grey, spacing_above: none, spacing_below: none, text: trained with 50+ ratings, visible: true}
+        type: Label
       layout_properties: {col_xs: 0, row: FEJHDY, width_xs: 3}
       name: column_panel_KPIs
-      properties: {col_widths: '{}', role: tile-background-right, spacing_above: none}
+      properties: {col_spacing: medium, col_widths: '{}', role: tile-background-right, spacing_above: none}
       type: ColumnPanel
     layout_properties: {grid_position: 'NZJWYV,NAWAWK'}
     name: grid_panel_1
@@ -277,6 +249,24 @@ components:
         spacing_below: none
         text: Model Status
       type: Link
+    - event_bindings: {click: nav_submodel_cont_click}
+      layout_properties: {}
+      name: nav_submodel_cont
+      properties:
+        role: [section_buttons, section_buttons-flex-items]
+        spacing_above: none
+        spacing_below: none
+        text: Contribution
+      type: Link
+    - event_bindings: {click: nav_level_of_pop_click}
+      layout_properties: {}
+      name: nav_level_of_pop
+      properties:
+        role: [section_buttons, section_buttons-flex-items]
+        spacing_above: none
+        spacing_below: none
+        text: Popularity
+      type: Link
     - event_bindings: {click: nav_references_click}
       layout_properties: {}
       name: nav_references
@@ -285,7 +275,7 @@ components:
         role: [section_buttons, section_buttons-flex-items]
         spacing_above: none
         spacing_below: none
-        text: Reference Artists
+        text: Ref. Artists
       type: Link
     - event_bindings: {click: nav_prev_rated_click}
       layout_properties: {}
@@ -306,24 +296,6 @@ components:
         spacing_above: none
         spacing_below: none
         text: Filters
-      type: Link
-    - event_bindings: {click: nav_level_of_pop_click}
-      layout_properties: {}
-      name: nav_level_of_pop
-      properties:
-        role: [section_buttons, section_buttons-flex-items]
-        spacing_above: none
-        spacing_below: none
-        text: Level of Popularity
-      type: Link
-    - event_bindings: {click: nav_submodel_cont_click}
-      layout_properties: {}
-      name: nav_submodel_cont
-      properties:
-        role: [section_buttons, section_buttons-flex-items]
-        spacing_above: none
-        spacing_below: none
-        text: Importance
       type: Link
     layout_properties: {grid_position: 'ZAVFTJ,JAVACL'}
     name: flow_panel_sections
@@ -376,19 +348,19 @@ components:
         name: image_1
         properties: {display_mode: fill_width, height: 61, source: _/theme/pics/ModelArrows.png, spacing_above: none, spacing_below: small}
         type: Image
+      - layout_properties: {grid_position: 'MDLEQB,WSDHMG'}
+        name: success_cont
+        properties: {align: center, role: header-5_bold, spacing_above: none, spacing_below: none}
+        type: Label
       - layout_properties: {grid_position: 'MDLEQB,FVTUWG'}
         name: similarity_cont
         properties: {align: center, role: header-5_bold, spacing_above: none, spacing_below: none}
         type: Label
-      - layout_properties: {grid_position: 'MDLEQB,MQIESW'}
-        name: success_cont
-        properties: {align: center, role: header-5_bold, spacing_above: none, spacing_below: none}
-        type: Label
-      - layout_properties: {grid_position: 'MDLEQB,ITWWUM'}
+      - layout_properties: {grid_position: 'MDLEQB,TBKYKD'}
         name: musical_cont
         properties: {align: center, role: header-5_bold, spacing_above: none, spacing_below: none}
         type: Label
-      - layout_properties: {grid_position: 'MDLEQB,VPJJPC'}
+      - layout_properties: {grid_position: 'MDLEQB,ITWWUM'}
         name: fandom_cont
         properties: {align: center, role: header-5_bold, spacing_above: none, spacing_below: none}
         type: Label
@@ -396,59 +368,6 @@ components:
       name: column_panel_8
       properties: {spacing_above: none, spacing_below: none}
       type: ColumnPanel
-    - components:
-      - layout_properties: {grid_position: 'QUHZPM,FWGZXZ'}
-        name: spacer_2
-        properties: {height: '10'}
-        type: Spacer
-      - layout_properties: {grid_position: 'XYWBST,SMZDEW'}
-        name: Similarity_label
-        properties:
-          align: center
-          role: header-4
-          spacing_above: none
-          spacing_below: none
-          text: |-
-            Similarity
-            Sub-Model
-        type: Label
-      - layout_properties: {grid_position: 'WNZMTN,UVTAUT'}
-        name: similarity_submodel
-        properties: {}
-        type: ColumnPanel
-      - components:
-        - layout_properties: {}
-          name: similarity
-          properties: {align: center, bold: true, font_size: 32, role: artist_name_shadow, spacing_above: none, spacing_below: none}
-          type: Label
-        layout_properties: {full_width_row: false, grid_position: 'BYJTOC,VCJINP'}
-        name: similarity_training
-        properties: {role: score-tile-background, spacing_above: small, spacing_below: small, visible: false}
-        type: LinearPanel
-      - layout_properties: {grid_position: 'MWIGWT,JBKKPJ'}
-        name: similarity_active
-        properties: {align: center, bold: true, role: header-5_bold, spacing_above: none, spacing_below: none, text: active}
-        type: Label
-      - layout_properties: {grid_position: 'MVPOWD,COPDOT'}
-        name: similarity_in_training
-        properties: {align: center, bold: false, role: header-5_bold, spacing_above: none, spacing_below: none, text: in training, visible: false}
-        type: Label
-      - layout_properties: {grid_position: 'HHEIUP,NJVGMZ'}
-        name: similarity_num_rec
-        properties: {align: center, italic: false, role: header-6_grey, spacing_above: none, spacing_below: none, text: starting with 0 rec., visible: false}
-        type: Label
-      - layout_properties: {grid_position: 'YTIUNJ,QUMLCT'}
-        name: spacer_7_copy
-        properties: {height: '10'}
-        type: Spacer
-      layout_properties: {grid_position: 'ZSDYMK,DNNMSJ VTMGHL,GXWFKB'}
-      name: column_panel_KPIs_copy
-      properties: {col_widths: '{}', role: tile-background-general}
-      type: ColumnPanel
-    - layout_properties: {grid_position: 'ZSDYMK,DNNMSJ ZNILQT,CVKIBE'}
-      name: label_2
-      properties: {align: center, role: header-5_bold, spacing_above: none, spacing_below: none, text: LEVEL 1, visible: false}
-      type: Label
     - components:
       - layout_properties: {grid_position: 'ISLIBQ,SPJFCR'}
         name: spacer_5_copy_2
@@ -498,62 +417,62 @@ components:
       name: column_panel_KPIs_copy_2
       properties: {col_widths: '{}', role: tile-background-general}
       type: ColumnPanel
-    - layout_properties: {grid_position: 'ZSDYMK,IAARJV KZVTAU,KTXMMP'}
-      name: label_3
-      properties: {align: center, role: header-5_bold, spacing_above: none, spacing_below: none, text: LEVEL 2, visible: false}
+    - layout_properties: {grid_position: 'ZSDYMK,IAARJV QRZBIP,SBEWQA'}
+      name: label_2
+      properties: {align: center, role: header-5_bold, spacing_above: none, spacing_below: none, text: LEVEL 1, visible: false}
       type: Label
     - components:
-      - layout_properties: {grid_position: 'ISLIBQ,SPJFCR'}
-        name: spacer_5_copy_3
+      - layout_properties: {grid_position: 'QUHZPM,FWGZXZ'}
+        name: spacer_2
         properties: {height: '10'}
         type: Spacer
-      - layout_properties: {grid_position: 'BAQSFK,AOIFRQ'}
-        name: Fandom_label
+      - layout_properties: {grid_position: 'XYWBST,SMZDEW'}
+        name: Similarity_label
         properties:
           align: center
           role: header-4
           spacing_above: none
           spacing_below: none
           text: |-
-            Growth
+            Career
             Sub-Model
         type: Label
       - layout_properties: {grid_position: 'WNZMTN,UVTAUT'}
-        name: fandom_submodel
+        name: similarity_submodel
         properties: {}
         type: ColumnPanel
       - components:
         - layout_properties: {}
-          name: fandom
+          name: similarity
           properties: {align: center, bold: true, font_size: 32, role: artist_name_shadow, spacing_above: none, spacing_below: none}
           type: Label
         layout_properties: {full_width_row: false, grid_position: 'BYJTOC,VCJINP'}
-        name: fandom_training
+        name: similarity_training
         properties: {role: score-tile-background, spacing_above: small, spacing_below: small, visible: false}
         type: LinearPanel
-      - layout_properties: {grid_position: 'HMXBCG,YUUBZC'}
-        name: fandom_active
-        properties: {align: center, bold: true, role: header-5_bold, spacing_above: none, spacing_below: none, text: active, visible: false}
+      - layout_properties: {grid_position: 'MWIGWT,JBKKPJ'}
+        name: similarity_active
+        properties: {align: center, bold: true, role: header-5_bold, spacing_above: none, spacing_below: none, text: active}
         type: Label
-      - layout_properties: {grid_position: 'XDNBPP,UXKRTB'}
-        name: fandom_in_training
-        properties: {align: center, bold: false, role: header-5_bold, spacing_above: none, spacing_below: none, text: in training, visible: true}
+      - layout_properties: {grid_position: 'MVPOWD,COPDOT'}
+        name: similarity_in_training
+        properties: {align: center, bold: false, role: header-5_bold, spacing_above: none, spacing_below: none, text: in training, visible: false}
         type: Label
-      - layout_properties: {grid_position: 'CMCWBV,GCBRKM'}
-        name: fandom_num_rec
-        properties: {align: center, italic: false, role: header-6_grey, spacing_above: none, spacing_below: none, text: starting with 75 rec., visible: false}
+      - layout_properties: {grid_position: 'HHEIUP,NJVGMZ'}
+        name: similarity_num_rec
+        properties: {align: center, italic: false, role: header-6_grey, spacing_above: none, spacing_below: none, text: starting with 0 rec., visible: false}
         type: Label
       - layout_properties: {grid_position: 'YTIUNJ,QUMLCT'}
-        name: spacer_7_copy_3
+        name: spacer_7_copy
         properties: {height: '10'}
         type: Spacer
-      layout_properties: {grid_position: 'ZSDYMK,XPPAOU EBQYXN,BSJMUE'}
-      name: column_panel_KPIs_copy_3
+      layout_properties: {grid_position: 'ZSDYMK,PZCKWU BBGKWU,JCSZRQ'}
+      name: column_panel_KPIs_copy
       properties: {col_widths: '{}', role: tile-background-general}
       type: ColumnPanel
-    - layout_properties: {grid_position: 'ZSDYMK,XPPAOU XLPJSP,UMTAEC'}
-      name: label_4
-      properties: {align: center, role: header-5_bold, spacing_above: none, spacing_below: none, text: LEVEL 3, visible: false}
+    - layout_properties: {grid_position: 'ZSDYMK,PZCKWU MMGRQS,CSHQWX'}
+      name: label_3
+      properties: {align: center, role: header-5_bold, spacing_above: none, spacing_below: none, text: LEVEL 2, visible: false}
       type: Label
     - components:
       - layout_properties: {grid_position: 'ISLIBQ,SPJFCR'}
@@ -600,15 +519,68 @@ components:
         name: spacer_7_copy_4
         properties: {height: '10'}
         type: Spacer
-      layout_properties: {grid_position: 'ZSDYMK,BXJGNC MJYCGX,UNPGUS'}
+      layout_properties: {grid_position: 'ZSDYMK,RXZKME PNIEDT,THNFSN'}
       name: column_panel_KPIs_copy_4
       properties: {col_widths: '{}', role: tile-background-general}
       type: ColumnPanel
-    - layout_properties: {grid_position: 'ZSDYMK,BXJGNC UQAUJI,PJAWPQ'}
+    - layout_properties: {grid_position: 'ZSDYMK,RXZKME PQGBNS,ZJMOBN'}
+      name: label_4
+      properties: {align: center, role: header-5_bold, spacing_above: none, spacing_below: none, text: LEVEL 3, visible: false}
+      type: Label
+    - components:
+      - layout_properties: {grid_position: 'ISLIBQ,SPJFCR'}
+        name: spacer_5_copy_3
+        properties: {height: '10'}
+        type: Spacer
+      - layout_properties: {grid_position: 'BAQSFK,AOIFRQ'}
+        name: Fandom_label
+        properties:
+          align: center
+          role: header-4
+          spacing_above: none
+          spacing_below: none
+          text: |-
+            Growth
+            Sub-Model
+        type: Label
+      - layout_properties: {grid_position: 'WNZMTN,UVTAUT'}
+        name: fandom_submodel
+        properties: {}
+        type: ColumnPanel
+      - components:
+        - layout_properties: {}
+          name: fandom
+          properties: {align: center, bold: true, font_size: 32, role: artist_name_shadow, spacing_above: none, spacing_below: none}
+          type: Label
+        layout_properties: {full_width_row: false, grid_position: 'BYJTOC,VCJINP'}
+        name: fandom_training
+        properties: {role: score-tile-background, spacing_above: small, spacing_below: small, visible: false}
+        type: LinearPanel
+      - layout_properties: {grid_position: 'HMXBCG,YUUBZC'}
+        name: fandom_active
+        properties: {align: center, bold: true, role: header-5_bold, spacing_above: none, spacing_below: none, text: active, visible: false}
+        type: Label
+      - layout_properties: {grid_position: 'XDNBPP,UXKRTB'}
+        name: fandom_in_training
+        properties: {align: center, bold: false, role: header-5_bold, spacing_above: none, spacing_below: none, text: in training, visible: true}
+        type: Label
+      - layout_properties: {grid_position: 'CMCWBV,GCBRKM'}
+        name: fandom_num_rec
+        properties: {align: center, italic: false, role: header-6_grey, spacing_above: none, spacing_below: none, text: starting with 75 rec., visible: false}
+        type: Label
+      - layout_properties: {grid_position: 'YTIUNJ,QUMLCT'}
+        name: spacer_7_copy_3
+        properties: {height: '10'}
+        type: Spacer
+      layout_properties: {grid_position: 'ZSDYMK,XPPAOU'}
+      name: column_panel_KPIs_copy_3
+      properties: {col_widths: '{}', role: tile-background-general}
+      type: ColumnPanel
+    - layout_properties: {grid_position: 'ZSDYMK,XPPAOU CBJRSJ,BKFTOZ'}
       name: label_5
       properties: {align: center, role: header-5_bold, spacing_above: none, spacing_below: none, text: LEVEL 4, visible: false}
       type: Label
-    layout_properties: {grid_position: 'XJBRQH,IMWFKP'}
+    layout_properties: {grid_position: 'XJBRQH,VLIJIZ'}
     name: sec_models
     properties: {col_widths: '{}'}
     type: ColumnPanel
