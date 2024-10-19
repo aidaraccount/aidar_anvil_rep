@@ -403,7 +403,14 @@ components:
         type: Spacer
       - layout_properties: {grid_position: 'XYWBST,SMZDEW'}
         name: Similarity_label
-        properties: {align: center, role: header-4, spacing_above: none, spacing_below: none, text: Similarity Sub-Model}
+        properties:
+          align: center
+          role: header-4
+          spacing_above: none
+          spacing_below: none
+          text: |-
+            Similarity
+            Sub-Model
         type: Label
       - layout_properties: {grid_position: 'WNZMTN,UVTAUT'}
         name: similarity_submodel
@@ -428,7 +435,7 @@ components:
         type: Label
       - layout_properties: {grid_position: 'HHEIUP,NJVGMZ'}
         name: similarity_num_rec
-        properties: {align: center, italic: false, role: header-6_grey, spacing_above: none, spacing_below: none, text: starting with 0 rec.}
+        properties: {align: center, italic: false, role: header-6_grey, spacing_above: none, spacing_below: none, text: starting with 0 rec., visible: false}
         type: Label
       - layout_properties: {grid_position: 'YTIUNJ,QUMLCT'}
         name: spacer_7_copy
@@ -440,7 +447,7 @@ components:
       type: ColumnPanel
     - layout_properties: {grid_position: 'ZSDYMK,DNNMSJ ZNILQT,CVKIBE'}
       name: label_2
-      properties: {align: center, role: header-5_bold, spacing_above: none, spacing_below: none, text: LEVEL 1}
+      properties: {align: center, role: header-5_bold, spacing_above: none, spacing_below: none, text: LEVEL 1, visible: false}
       type: Label
     - components:
       - layout_properties: {grid_position: 'ISLIBQ,SPJFCR'}
@@ -449,7 +456,14 @@ components:
         type: Spacer
       - layout_properties: {grid_position: 'QXODRE,SAQBZO'}
         name: Success_label
-        properties: {align: center, role: header-4, spacing_above: none, spacing_below: none, text: Success Sub-Model}
+        properties:
+          align: center
+          role: header-4
+          spacing_above: none
+          spacing_below: none
+          text: |-
+            Popularity
+            Sub-Model
         type: Label
       - layout_properties: {grid_position: 'WNZMTN,UVTAUT'}
         name: success_submodel
@@ -474,7 +488,7 @@ components:
         type: Label
       - layout_properties: {grid_position: 'AFWKMV,EXBJKJ'}
         name: success_num_rec
-        properties: {align: center, italic: false, role: header-6_grey, spacing_above: none, spacing_below: none, text: starting with 0 rec.}
+        properties: {align: center, italic: false, role: header-6_grey, spacing_above: none, spacing_below: none, text: starting with 0 rec., visible: false}
         type: Label
       - layout_properties: {grid_position: 'YTIUNJ,QUMLCT'}
         name: spacer_7_copy_2
@@ -486,7 +500,7 @@ components:
       type: ColumnPanel
     - layout_properties: {grid_position: 'ZSDYMK,IAARJV KZVTAU,KTXMMP'}
       name: label_3
-      properties: {align: center, role: header-5_bold, spacing_above: none, spacing_below: none, text: LEVEL 2}
+      properties: {align: center, role: header-5_bold, spacing_above: none, spacing_below: none, text: LEVEL 2, visible: false}
       type: Label
     - components:
       - layout_properties: {grid_position: 'ISLIBQ,SPJFCR'}
@@ -495,7 +509,14 @@ components:
         type: Spacer
       - layout_properties: {grid_position: 'BAQSFK,AOIFRQ'}
         name: Fandom_label
-        properties: {align: center, role: header-4, spacing_above: none, spacing_below: none, text: Fandom Sub-Model}
+        properties:
+          align: center
+          role: header-4
+          spacing_above: none
+          spacing_below: none
+          text: |-
+            Growth
+            Sub-Model
         type: Label
       - layout_properties: {grid_position: 'WNZMTN,UVTAUT'}
         name: fandom_submodel
@@ -520,7 +541,7 @@ components:
         type: Label
       - layout_properties: {grid_position: 'CMCWBV,GCBRKM'}
         name: fandom_num_rec
-        properties: {align: center, italic: false, role: header-6_grey, spacing_above: none, spacing_below: none, text: starting with 75 rec.}
+        properties: {align: center, italic: false, role: header-6_grey, spacing_above: none, spacing_below: none, text: starting with 75 rec., visible: false}
         type: Label
       - layout_properties: {grid_position: 'YTIUNJ,QUMLCT'}
         name: spacer_7_copy_3
@@ -532,7 +553,7 @@ components:
       type: ColumnPanel
     - layout_properties: {grid_position: 'ZSDYMK,XPPAOU XLPJSP,UMTAEC'}
       name: label_4
-      properties: {align: center, role: header-5_bold, spacing_above: none, spacing_below: none, text: LEVEL 3}
+      properties: {align: center, role: header-5_bold, spacing_above: none, spacing_below: none, text: LEVEL 3, visible: false}
       type: Label
     - components:
       - layout_properties: {grid_position: 'ISLIBQ,SPJFCR'}
@@ -541,7 +562,14 @@ components:
         type: Spacer
       - layout_properties: {grid_position: 'GHDXSA,LWZYDW'}
         name: Musical_label
-        properties: {align: center, role: header-4, spacing_above: none, spacing_below: none, text: Musical Sub-Model}
+        properties:
+          align: center
+          role: header-4
+          spacing_above: none
+          spacing_below: none
+          text: |-
+            Musical
+            Sub-Model
         type: Label
       - layout_properties: {grid_position: 'WNZMTN,UVTAUT'}
         name: musical_submodel
@@ -566,7 +594,7 @@ components:
         type: Label
       - layout_properties: {grid_position: 'VBNFJJ,BEFCFZ'}
         name: muscial_num_rec
-        properties: {align: center, italic: false, role: header-6_grey, spacing_above: none, spacing_below: none, text: starting with 100 rec.}
+        properties: {align: center, italic: false, role: header-6_grey, spacing_above: none, spacing_below: none, text: starting with 100 rec., visible: false}
         type: Label
       - layout_properties: {grid_position: 'YTIUNJ,QUMLCT'}
         name: spacer_7_copy_4
@@ -578,7 +606,7 @@ components:
       type: ColumnPanel
     - layout_properties: {grid_position: 'ZSDYMK,BXJGNC UQAUJI,PJAWPQ'}
       name: label_5
-      properties: {align: center, role: header-5_bold, spacing_above: none, spacing_below: none, text: LEVEL 4}
+      properties: {align: center, role: header-5_bold, spacing_above: none, spacing_below: none, text: LEVEL 4, visible: false}
       type: Label
     layout_properties: {grid_position: 'XJBRQH,IMWFKP'}
     name: sec_models
