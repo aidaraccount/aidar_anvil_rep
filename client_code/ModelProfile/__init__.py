@@ -731,12 +731,29 @@ class ModelProfile(ModelProfileTemplate):
     ))
 
     fig.update_layout(
+      title={
+        'text': "Distribution of Ratings",
+        'y':0.95,  # Adjust the vertical position of the title
+        'x':0.5,  # Center the title horizontally
+        'xanchor': 'center',
+        'yanchor': 'top',
+        'font': {
+          'size': 14,
+          'color': 'white'
+        }
+      },
       template='plotly_dark',
       plot_bgcolor='rgba(0,0,0,0)',
       paper_bgcolor='rgba(0,0,0,0)',
       xaxis=dict(
         tickvals=rating_values,
-        title='Rating'
+        title='Rating',
+        titlefont=dict(
+          size=12  # Set the font size for the x-axis title
+        ),
+        tickfont=dict(
+          size=10  # Set the font size for the x-axis tick labels
+        ),
       ),
       yaxis=dict(
         gridcolor='rgb(175,175,175)',  # Color of the gridlines
@@ -745,6 +762,12 @@ class ModelProfile(ModelProfileTemplate):
         range=[0, max_y_value],
         tickformat='~s',  # Format numbers with SI unit prefixes
         title='Count',
+        titlefont=dict(
+          size=12  # Set the font size for the x-axis title
+        ),
+        tickfont=dict(
+          size=10  # Set the font size for the x-axis tick labels
+        ),
         zerolinecolor='rgb(240,240,240)',  # Set the color of the zero line
         dtick=dynamic_tick,
       ),
@@ -756,7 +779,7 @@ class ModelProfile(ModelProfileTemplate):
       margin=dict(
           l=10,  # Left margin
           r=10,  # Right margin
-          t=10,  # Top margin
+          t=35,  # Top margin
           b=10   # Bottom margin
       )
     )
