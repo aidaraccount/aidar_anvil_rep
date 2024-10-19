@@ -1,4 +1,6 @@
 from ._anvil_designer import DiscoverTemplate
+from ._anvil_designer import DiscoverTemplate
+from ._anvil_designer import DiscoverTemplate
 from anvil import *
 import plotly.graph_objects as go
 import anvil.tables as tables
@@ -38,6 +40,7 @@ class Discover(DiscoverTemplate):
     
     # Any code you write here will run before the form opens.
     global user
+    user = anvil.users.get_user()
     user = anvil.users.get_user()
     print(f"Discover user: {user}")
     print(f"Discover user_id: {load_var('user_id')}")
@@ -157,12 +160,6 @@ class Discover(DiscoverTemplate):
       self.Artist_Name_Details.add_component(artist_name_component)
       artist_name_component_sidebar = Label(text=sug["Name"], role="artist-name-tile", spacing_above=0, spacing_below=0)
       self.Artist_Name_Details_Sidebar.add_component(artist_name_component_sidebar)
-      # Add this line where you want to update the artist name
-      
-      # anvil.js.call_js('updateArtistName', sug["Name"])
-      
-      # self.call_js('updateArtistName', sug["Name"])
-      # self.component.call_js('consoleTestfunction')
 
       # --------
       # genres
@@ -251,7 +248,7 @@ class Discover(DiscoverTemplate):
         self.KPI_tile_1.text = '-'
       else:
         self.KPI_tile_1.text = sug["ArtistPopularity_lat"]
-
+        
       # --------
       # follower
       if sug["ArtistFollower_lat"] == 'None':
@@ -262,8 +259,6 @@ class Discover(DiscoverTemplate):
       # --------
       # prediction
       if (str(sug["Prediction"]) == 'nan') or (str(sug["Prediction"]) == 'None'):
-        # self.prediction.visible = False
-        # self.prediction_text.visible = False
         self.column_panel_5.visible= False
         self.linear_panel_2.visible= True
         self.no_prediction.visible = True
@@ -275,10 +270,6 @@ class Discover(DiscoverTemplate):
           self.pred = '0%'
         else: 
           self.pred = "{:.2f}".format(round(float(sug["Prediction"])/7*100,0))
-        # self.prediction.text = self.pred
-        # should delete prediction and prediction_Text visible from here
-        # self.prediction.visible = False
-        # self.prediction_text.visible = False
         self.linear_panel_2.visible= False
         self.no_prediction.visible = False
       self.custom_HTML_prediction()
@@ -296,6 +287,29 @@ class Discover(DiscoverTemplate):
           self.bio.visible = False
       else:
         self.bio.visible = False
+
+      # --------
+      # KPI_1: fcg.ev_sp_fol_30, fcg.ev_sp_li_30, fcg.ev_tt_fol_30
+      if sug["ArtistFollower_lat"] == 'None':
+        self.KPI_1.content = """<span style="font-family: GS-regular; font-size: 20px; color: rgb(255, 255, 255); padding-left: 10px;">-</span>"""
+      else:
+        self.KPI_1.content = f"""<span style="font-family: GS-regular; font-size: 20px; color: rgb(255, 255, 255); padding-left: 10px;">{anvil.server.call('shorten_number', sug["ArtistFollower_lat"])}</span>"""
+        
+        if sug["ev_sp_fol_30"] != 'None':
+          val = int("{:.0f}".format(round(float(sug["ev_sp_fol_30"])*100, 0)))
+          if val >= 3:
+            ev = f"""+{val}%"""
+            "{:.0f}".format(round(float(sug["ev_sp_fol_30"])*100, 0))
+            col = 'green'
+          elif val < 0:
+            ev = f"""{val}%"""
+            col = 'red'
+          else:
+            ev = f"""+{val}%"""
+            col = 'grey'
+          
+          self.KPI_1.content = self.KPI_1.content + f"""<span style="font-size: 16px; color: {col};">  {ev}</span>"""
+
       
       # -------------------------------
       # I. RELEASES
@@ -437,6 +451,24 @@ class Discover(DiscoverTemplate):
       
       if monthly_listeners_data != []:
         sp_mtl_lis_lat = monthly_listeners_data[-1]['MtlListeners']
+
+        # KPI_2
+        self.KPI_2.content = f"""<span style="font-family: GS-regular; font-size: 20px; color: rgb(255, 255, 255); padding-left: 10px;">{anvil.server.call('shorten_number', sp_mtl_lis_lat)}</span>"""
+        if sug["ev_sp_li_30"] != 'None':
+          val = int("{:.0f}".format(round(float(sug["ev_sp_li_30"])*100, 0)))
+          if val >= 3:
+            ev = f"""+{val}%"""
+            "{:.0f}".format(round(float(sug["ev_sp_li_30"])*100, 0))
+            col = 'green'
+          elif val < 0:
+            ev = f"""{val}%"""
+            col = 'red'
+          else:
+            ev = f"""+{val}%"""
+            col = 'grey'            
+          self.KPI_2.content = self.KPI_2.content + f"""<span style="font-size: 16px; color: {col};">  {ev}</span>"""
+
+        # other
         self.sp_mtl_listeners.text = f'{int(sp_mtl_lis_lat):,}'
         
         dates = [x['Date'] for x in monthly_listeners_data]
@@ -452,6 +484,7 @@ class Discover(DiscoverTemplate):
         self.create_artist_monthly_listeners_scatter_chart()
       
       else:
+        self.KPI_2.content = """<span style="font-family: GS-regular; font-size: 20px; color: rgb(255, 255, 255); padding-left: 10px;">-</span>"""
         self.sp_mtl_listeners.text = '-'
         self.Spotify_Monthly_Listeners_Graph.visible = False
         self.No_Spotify_Monthly_Listeners_Graph.visible = True
@@ -520,9 +553,28 @@ class Discover(DiscoverTemplate):
 
         if platform_data['tiktok']['dates'] != []:
           tiktok_fol_lat = platform_data['tiktok']['followers'][-1]
+          
+          # KPI_3
+          self.KPI_3.content = f"""<span style="font-family: GS-regular; font-size: 20px; color: rgb(255, 255, 255); padding-left: 10px;">{anvil.server.call('shorten_number', tiktok_fol_lat)}</span>"""
+          if sug["ev_tt_fol_30"] != 'None':
+            val = int("{:.0f}".format(round(float(sug["ev_tt_fol_30"])*100, 0)))
+            if val >= 3:
+              ev = f"""+{val}%"""
+              "{:.0f}".format(round(float(sug["ev_tt_fol_30"])*100, 0))
+              col = 'green'
+            elif val < 0:
+              ev = f"""{val}%"""
+              col = 'red'
+            else:
+              ev = f"""+{val}%"""
+              col = 'grey'            
+            self.KPI_3.content = self.KPI_3.content + f"""<span style="font-size: 16px; color: {col};">  {ev}</span>"""
+            
+          # other
           self.tiktok_follower.text = f'{int(tiktok_fol_lat):,}'
           self.KPI_tile_3.text = anvil.server.call('shorten_number', tiktok_fol_lat)
         else:
+          self.KPI_3.content = """<span style="font-family: GS-regular; font-size: 20px; color: rgb(255, 255, 255); padding-left: 10px;">-</span>"""
           self.KPI_tile_3.text = '-'
           
         if platform_data['soundcloud']['dates'] != []:
@@ -610,6 +662,7 @@ class Discover(DiscoverTemplate):
           self.soundcloud_follower.text = '-'
           
       else:
+        self.KPI_3.content = """<span style="font-family: GS-regular; font-size: 20px; color: rgb(255, 255, 255); padding-left: 10px;">-</span>"""
         self.tiktok_follower.text = '-'
         self.soundcloud_follower.text = '-'
         self.KPI_tile_3.text = '-'

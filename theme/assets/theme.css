@@ -881,6 +881,11 @@ body, html {
   padding-left: 10px;
 }
 
+.anvil-role-no-padding {
+  padding-bottom: 0px;
+  padding-top: 0px;  
+}
+
 /* CSS for Tiles ENDS Here  */
 
 /* CSS for the Sort Dropdown of Visuals Starts Here*/
