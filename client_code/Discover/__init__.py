@@ -92,7 +92,7 @@ class Discover(DiscoverTemplate):
     url_artist_id = self.url_dict['artist_id']
     sug = json.loads(anvil.server.call('get_suggestion', 'Inspect', self.model_id, url_artist_id)) # Free, Explore, Inspect, Dissect
     self.sug = sug
-
+    
     # check status
     if sug["Status"] == 'Empty Model!':
       alert(title='Train you Model..',
@@ -243,19 +243,30 @@ class Discover(DiscoverTemplate):
         self.gender_birthday_line.visible = False
       
       # --------
-      # popularity
-      if sug["ArtistPopularity_lat"] == 'None':
+      # KPI_tile_1: prediction_size
+      if sug["prediction_size"] == 'None':
         self.KPI_tile_1.text = '-'
       else:
-        self.KPI_tile_1.text = sug["ArtistPopularity_lat"]
-        
-      # --------
-      # follower
-      if sug["ArtistFollower_lat"] == 'None':
+        self.KPI_tile_1.text = "{:.0f}".format(round(float(sug["prediction_size"])/7*100,0)) + '%'
+              
+      # KPI_tile_2: prediction_rel
+      if sug["prediction_rel"] == 'None':
         self.KPI_tile_2.text = '-'
       else:
-        self.KPI_tile_2.text = anvil.server.call('shorten_number', sug["ArtistFollower_lat"])
-        
+        self.KPI_tile_2.text = "{:.0f}".format(round(float(sug["prediction_rel"])/7*100,0)) + '%'
+      
+      # KPI_tile_3: prediction_musical // ATTENTION !!! musical not active yet
+      if sug["prediction_rel"] == 'None':
+        self.KPI_tile_3.text = '-'
+      else:
+        self.KPI_tile_3.text = "{:.0f}".format(round(float(sug["prediction_rel"])/7*100,0)) + '%'
+      
+      # KPI_tile_4: prediction_growth
+      if sug["prediction_growth"] == 'None':
+        self.KPI_tile_4.text = '-'
+      else:
+        self.KPI_tile_4.text = "{:.0f}".format(round(float(sug["prediction_growth"])/7*100,0)) + '%'
+      
       # --------
       # prediction
       if (str(sug["Prediction"]) == 'nan') or (str(sug["Prediction"]) == 'None'):
@@ -572,17 +583,12 @@ class Discover(DiscoverTemplate):
             
           # other
           self.tiktok_follower.text = f'{int(tiktok_fol_lat):,}'
-          self.KPI_tile_3.text = anvil.server.call('shorten_number', tiktok_fol_lat)
         else:
           self.KPI_3.content = """<span style="font-family: GS-regular; font-size: 20px; color: rgb(255, 255, 255); padding-left: 10px;">-</span>"""
-          self.KPI_tile_3.text = '-'
           
         if platform_data['soundcloud']['dates'] != []:
           soundcloud_fol_lat = platform_data['soundcloud']['followers'][-1]
           self.soundcloud_follower.text = f'{int(soundcloud_fol_lat):,}'
-          self.KPI_tile_4.text = anvil.server.call('shorten_number', soundcloud_fol_lat)
-        else:
-          self.KPI_tile_4.text = '-'
         
         def create_social_media_followers_chart(data, platform, color):
 
@@ -665,8 +671,6 @@ class Discover(DiscoverTemplate):
         self.KPI_3.content = """<span style="font-family: GS-regular; font-size: 20px; color: rgb(255, 255, 255); padding-left: 10px;">-</span>"""
         self.tiktok_follower.text = '-'
         self.soundcloud_follower.text = '-'
-        self.KPI_tile_3.text = '-'
-        self.KPI_tile_4.text = '-'
         self.no_social_media.visible = True
       
       

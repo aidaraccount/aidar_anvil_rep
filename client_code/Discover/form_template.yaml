@@ -391,7 +391,7 @@ components:
       - components:
         - layout_properties: {}
           name: label_8
-          properties: {role: sub_title-regular-tile, spacing_above: small, spacing_below: none, text: Spotify Popularity}
+          properties: {role: sub_title-regular-tile, spacing_above: small, spacing_below: none, text: Pop. Fit}
           type: Label
         - layout_properties: {}
           name: KPI_tile_1
@@ -404,7 +404,7 @@ components:
       - components:
         - layout_properties: {}
           name: label_7
-          properties: {role: sub_title-regular-tile, spacing_above: small, spacing_below: none, text: Spotify Follower}
+          properties: {role: sub_title-regular-tile, spacing_above: small, spacing_below: none, text: Career Fit}
           type: Label
         - layout_properties: {}
           name: KPI_tile_2
@@ -417,7 +417,7 @@ components:
       - components:
         - layout_properties: {}
           name: label_5
-          properties: {role: sub_title-regular-tile, spacing_above: small, spacing_below: none, text: Soundcloud Follower}
+          properties: {role: sub_title-regular-tile, spacing_above: small, spacing_below: none, text: Growth Fit}
           type: Label
         - layout_properties: {}
           name: KPI_tile_4
@@ -430,7 +430,7 @@ components:
       - components:
         - layout_properties: {}
           name: label_6
-          properties: {role: sub_title-regular-tile, spacing_above: small, spacing_below: none, text: TikTok Follower}
+          properties: {role: sub_title-regular-tile, spacing_above: small, spacing_below: none, text: Musical Fit}
           type: Label
         - layout_properties: {}
           name: KPI_tile_3
