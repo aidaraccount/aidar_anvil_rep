@@ -195,6 +195,13 @@ body, html {
 /* .anvil-role-rows_discover_page_no_image_table > .data-row-col[data-grid-col-id="RAPPVC"] {
   flex-grow: 0.2;
 } */
+
+.anvil-role-rows_discover_page>.data-row-col>div {
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
 .data-row-col[data-grid-col-id="RAPPVC"]{ 
   flex-grow: 0.2;
 }
@@ -1013,6 +1020,7 @@ a>.link-text {
   font-size: 20px;
   color: %color:Text_White%;
   margin: 10px 0 0 0;
+  height: 100%;
 }
 .anvil-role-artist_name {
   font-family: GS-medium;
