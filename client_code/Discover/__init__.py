@@ -884,6 +884,9 @@ class Discover(DiscoverTemplate):
     tracks = [x["Title"] for x in data]
     labels = [x["LabelName"] for x in data]
     release = [0] * len(data)
+
+    # Get today's date
+    today = datetime.today().strftime('%Y-%m-%d')
     
     # Creating the Scatter Chart
     fig = go.Figure(data=(
@@ -911,7 +914,8 @@ class Discover(DiscoverTemplate):
       paper_bgcolor='rgba(0,0,0,0)',
       margin = dict(t=50),
       xaxis=dict (
-        showgrid=False
+        showgrid=False,
+        range=[min(dates), today],  # Set x-axis range to end at today's date
       ),
       yaxis=dict(
         range=[0.02, -0.01],  # Limit the y-axis
