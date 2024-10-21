@@ -365,8 +365,19 @@ class Main_In(Main_InTemplate):
   def SearchBar_pressed_enter(self, **event_args):
     searchdata = json.loads(anvil.server.call('search_artist', user["user_id"], self.SearchBar.text.strip()))
     search_text = self.SearchBar.text
-    popup_table = alert(
-      content=C_SearchPopupTable(self.model_id, search_text),
-      large=True,
-      buttons=[]
-    )
+    self.SearchBar.focus()
+    if not searchdata:
+      alert(title="Artist is not found or missing",
+        content="If the artist you are looking for is not found or is missing, please add the Spotify Id in the search bar so that we can add them to our catalogue",
+        # large=True,
+        buttons=[("OK", "OK")],
+        role="alert-notification"
+      )
+      
+    else:
+      popup_table = alert(
+        content=C_SearchPopupTable(self.model_id, search_text),
+        large=True,
+        buttons=[]
+      )
+      
