@@ -434,7 +434,7 @@ components:
           spacing_above: none
           spacing_below: none
           text: |-
-            Career
+            Similarity
             Sub-Model
         type: Label
       - layout_properties: {grid_position: 'WNZMTN,UVTAUT'}
