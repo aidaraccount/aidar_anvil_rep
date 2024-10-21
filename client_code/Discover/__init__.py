@@ -1523,11 +1523,11 @@ class Discover(DiscoverTemplate):
       content="Total number of Co-Artists per Track divided by total number of Tracks.")
 
   def info_sp_pop_lat(self, **event_args):
-      alert(title='Spotify Popularity lat.',
-      content="Latest value of Spotify Popularity - measured between 0 and 100.")
+      alert(title='Spotify Popularity',
+      content="Current value of Spotify Popularity - measured between 0 and 100.")
   def info_sp_fol_lat(self, **event_args):
-      alert(title='Spotify Follower lat.',
-      content="Latest number of Spotify Follower.")
+      alert(title='Spotify Follower',
+      content="Current number of Spotify Follower.")
     
   def info_sp_mtl_listeners(self, **event_args):
       alert(title='Spotify Monthly Listeners',

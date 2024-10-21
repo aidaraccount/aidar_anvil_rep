@@ -173,7 +173,7 @@ components:
       - components:
         - layout_properties: {grid_position: 'QBFMSK,GADKJR'}
           name: similarity_summary_header
-          properties: {role: header-7, spacing_above: none, spacing_below: small, text: Career Acc.}
+          properties: {role: header-7, spacing_above: none, spacing_below: small, text: Similarity Acc.}
           type: Label
         - layout_properties: {grid_position: 'EWSWHL,XKHWXY'}
           name: model_1_accuracy_summary
