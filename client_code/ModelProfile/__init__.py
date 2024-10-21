@@ -576,23 +576,21 @@ class ModelProfile(ModelProfileTemplate):
                       int(load_var('growth_imp_fit')) / 100,
                       int(load_var('musical_fit')) / 100
                      )
-    # Notification("",
-    #     title= f"""
-    #     Submodel contributions have been updated such as:
+    Notification("",
+      title= f"""Submodel contributions updated to:        
+      - {load_var('artist_career_fit')}% Similarity,
+      - {load_var('musical_fit')}% Musical, and
+      - {load_var('growth_imp_fit')}% Growth!""",      
+      style="success").show()
+    # alert(title="Submodel contributions have been saved",
+    #     content=f"""
     #     Artist Career Fit Importance: {load_var('artist_career_fit')}%,
     #     Musical Fit: {load_var('musical_fit')}%,
-    #     Growth Importance: {load_var('growth_imp_fit')}% !""",      
-    #     style="success",
-    #     role='alert-notification').show()
-    alert(title="Submodel contributions have been saved",
-        content=f"""
-        Artist Career Fit Importance: {load_var('artist_career_fit')}%,
-        Musical Fit: {load_var('musical_fit')}%,
-        Growth Importance: {load_var('growth_imp_fit')}%!""",
-        # large=True,
-        buttons=[("OK", "OK")],
-        role="alert-notification"
-      )
+    #     Growth Importance: {load_var('growth_imp_fit')}%!""",
+    #     # large=True,
+    #     buttons=[("OK", "OK")],
+    #     role="alert-notification"
+    #   )
   
   def delete_click(self, **event_args):
     result = alert(title='Do you want to delete this model?',
