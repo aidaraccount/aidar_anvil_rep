@@ -915,7 +915,7 @@ class Discover(DiscoverTemplate):
       margin = dict(t=50),
       xaxis=dict (
         showgrid=False,
-        range=[min(dates), today],  # Set x-axis range to end at today's date
+        range=[min(dates), today]  # Set x-axis range to end at today's date
       ),
       yaxis=dict(
         range=[0.02, -0.01],  # Limit the y-axis

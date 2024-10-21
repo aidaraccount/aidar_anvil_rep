@@ -195,6 +195,9 @@ body, html {
 /* .anvil-role-rows_discover_page_no_image_table > .data-row-col[data-grid-col-id="RAPPVC"] {
   flex-grow: 0.2;
 } */
+.anvil-container-overflow, .anvil-panel-col {
+  overflow: hidden !important;
+}
 
 .anvil-role-rows_discover_page>.data-row-col>div {
   height: 100%;
