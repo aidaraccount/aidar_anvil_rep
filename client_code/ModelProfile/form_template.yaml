@@ -585,7 +585,11 @@ components:
     properties: {col_widths: '{}'}
     type: ColumnPanel
   - components:
-    - layout_properties: {grid_position: 'VFTCCQ,NZHHSO'}
+    - layout_properties: {grid_position: 'NHIKFB,JCKQGC'}
+      name: label_ref_artists
+      properties: {align: center, bold: true, role: header-4, spacing_above: medium, spacing_below: none, text: Reference Artists}
+      type: Label
+    - layout_properties: {grid_position: 'THAWJL,GYRTTH'}
       name: label_2_copy
       properties: {align: left, background: '', bold: false, border: '', font: '', font_size: null, foreground: '', icon: '', icon_align: left, italic: true, role: header-7, spacing_above: small, spacing_below: small, text: 'When setting up a new model, reference artists are the central starting point to let the model learn what you''re interested in. We recommend to add at least three reference artists - click on the button to add further:', tooltip: '', underline: false, visible: true}
       type: Label
