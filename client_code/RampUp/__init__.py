@@ -145,7 +145,13 @@ class RampUp(RampUpTemplate):
         alert(title='Not enough References', content="Please add additional Reference Artists!")
 
     # Level_of_Pop
-    elif self.section == "Level_of_Pop":  
+    elif self.section == "Level_of_Pop":
+      # save popularity min and max
+      anvil.server.call('update_model_popularity_range',
+                        int(self.model_id_view),
+                        load_var('min_pop'),
+                        load_var('max_pop'))
+      
       click_button(f'model_setup?model_id={self.model_id_view}&section=Sub_Model_Contribution', event_args)
 
   def Back_click(self, **event_args):
@@ -156,13 +162,7 @@ class RampUp(RampUpTemplate):
     elif self.section == 'Reference_Artists':
       click_button(f'model_setup?model_id={self.model_id_view}&section=Basics', event_args)
 
-  def Discovering_click(self, **event_args):
-    # save popularity min and max
-    anvil.server.call('update_model_popularity_range',
-                      int(self.model_id_view),
-                      load_var('min_pop'),
-                      load_var('max_pop'))
-  
+  def Discovering_click(self, **event_args):  
     # end ramp-up
     anvil.server.call('update_model_stats',
                       self.model_id_view,
