@@ -311,7 +311,7 @@ components:
         type: Spacer
       - layout_properties: {grid_position: 'YWCMEK,ELMBCC'}
         name: Overall_model_label
-        properties: {align: center, role: header-5_bold, spacing_above: none, spacing_below: none, text: Overall Model}
+        properties: {align: center, role: header-4, spacing_above: none, spacing_below: none, text: Overall Model}
         type: Label
       - layout_properties: {grid_position: 'YWCMEK,JNPVWQ'}
         name: spacer_6
@@ -593,6 +593,11 @@ components:
       name: label_2_copy
       properties: {align: left, background: '', bold: false, border: '', font: '', font_size: null, foreground: '', icon: '', icon_align: left, italic: true, role: header-7, spacing_above: small, spacing_below: small, text: 'When setting up a new model, reference artists are the central starting point to let the model learn what you''re interested in. We recommend to add at least three reference artists - click on the button to add further:', tooltip: '', underline: false, visible: true}
       type: Label
+    layout_properties: {grid_position: 'CWARCL,LZSGRJ'}
+    name: sec_references_master
+    properties: {col_widths: '{}', spacing_above: medium}
+    type: ColumnPanel
+  - components: []
     layout_properties: {grid_position: 'LYSTLE,IIHJEC'}
     name: sec_references
     properties: {col_widths: '{}', spacing_above: medium}

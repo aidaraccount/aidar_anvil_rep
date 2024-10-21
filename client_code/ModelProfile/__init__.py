@@ -459,13 +459,14 @@ class ModelProfile(ModelProfileTemplate):
         Notification("",
           title="Model updated!",
           style="success").show()
-
-
+  
+  
   # def nav_add_references_click(self, **event_args):
   #   self.nav_references.role = 'section_buttons_focused'
   #   self.nav_prev_rated.role = 'section_buttons'
   #   self.nav_filters.role = 'section_buttons'
   #   self.sec_references.visible = True
+  #   self.sec_references_master = True
   #   self.sec_models.visible = False
   #   self.sec_prev_rated.visible = False
   #   self.sec_filters.visible = False
@@ -480,6 +481,7 @@ class ModelProfile(ModelProfileTemplate):
     self.nav_level_of_pop.role = 'section_buttons'
     self.nav_submodel_cont.role = 'section_buttons'
     self.sec_references.visible = True
+    self.sec_references_master.visible = True
     self.sec_models.visible = False
     self.sec_prev_rated.visible = False
     self.sec_filters.visible = False
@@ -497,6 +499,7 @@ class ModelProfile(ModelProfileTemplate):
     self.nav_level_of_pop.role = 'section_buttons'
     self.nav_submodel_cont.role = 'section_buttons'
     self.sec_references.visible = False
+    self.sec_references_master.visible = False
     self.sec_models.visible = False
     self.sec_prev_rated.visible = True
     self.sec_filters.visible = False
@@ -513,6 +516,7 @@ class ModelProfile(ModelProfileTemplate):
     self.nav_level_of_pop.role = 'section_buttons_focused'
     self.nav_submodel_cont.role = 'section_buttons'
     self.sec_references.visible = False
+    self.sec_references_master.visible = False
     self.sec_models.visible = False
     self.sec_prev_rated.visible = False
     self.sec_filters.visible = False
@@ -529,6 +533,7 @@ class ModelProfile(ModelProfileTemplate):
     self.nav_level_of_pop.role = 'section_buttons'
     self.nav_submodel_cont.role = 'section_buttons_focused'
     self.sec_references.visible = False
+    self.sec_references_master.visible = False
     self.sec_models.visible = False
     self.sec_prev_rated.visible = False
     self.sec_filters.visible = False
@@ -545,6 +550,7 @@ class ModelProfile(ModelProfileTemplate):
     self.nav_level_of_pop.role = 'section_buttons'
     self.nav_submodel_cont.role = 'section_buttons'
     self.sec_references.visible = False
+    self.sec_references_master.visible = False
     self.sec_models.visible = False
     self.sec_prev_rated.visible = False
     self.sec_filters.visible = True
@@ -637,6 +643,7 @@ class ModelProfile(ModelProfileTemplate):
     self.nav_level_of_pop.role = 'section_buttons'
     self.nav_submodel_cont.role = 'section_buttons'
     self.sec_references.visible = False
+    self.sec_references_master.visible = False
     self.sec_models.visible = True
     self.sec_prev_rated.visible = False
     self.sec_filters.visible = False
