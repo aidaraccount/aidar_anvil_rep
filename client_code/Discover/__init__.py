@@ -92,6 +92,7 @@ class Discover(DiscoverTemplate):
     url_artist_id = self.url_dict['artist_id']
     sug = json.loads(anvil.server.call('get_suggestion', 'Inspect', self.model_id, url_artist_id)) # Free, Explore, Inspect, Dissect
     self.sug = sug
+
     
     # check status
     if sug["Status"] == 'Empty Model!':
