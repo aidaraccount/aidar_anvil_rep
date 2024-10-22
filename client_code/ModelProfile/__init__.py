@@ -572,7 +572,7 @@ class ModelProfile(ModelProfileTemplate):
     anvil.server.call('update_sub_model_contribution',
                       int(self.model_id_view),
                       int(load_var('artist_career_fit')) / 100,
-                      0.4,
+                      1,
                       int(load_var('growth_imp_fit')) / 100,
                       int(load_var('musical_fit')) / 100
                      )
