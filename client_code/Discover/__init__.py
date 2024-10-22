@@ -92,7 +92,19 @@ class Discover(DiscoverTemplate):
     url_artist_id = self.url_dict['artist_id']
     sug = json.loads(anvil.server.call('get_suggestion', 'Inspect', self.model_id, url_artist_id)) # Free, Explore, Inspect, Dissect
     self.sug = sug
-
+    
+    # Extract the total ratings
+    total_ratings = sug.get('total_ratings', 0)
+    print(total_ratings)
+    # Check if the user has hit a milestone and show an alert
+    if total_ratings == 313:
+      print("success1")
+    elif total_ratings == 314:
+      print("success2")
+        # self.show_milestone_alert(25)
+    elif total_ratings == 315:
+      print("success3")
+        # self.show_milestone_alert(50)
     
     # check status
     if sug["Status"] == 'Empty Model!':
@@ -1740,3 +1752,11 @@ class Discover(DiscoverTemplate):
    
     save_var('autoPlayStatus', self.autoplay_button.icon)
     
+  def show_milestone_alert(self, milestone):
+    """Show a congratulatory alert when a user reaches a milestone."""
+    alert(
+        title="Congratulations!",
+        content=f"You have reached {milestone} ratings! Keep up the great work!",
+        buttons=[("OK", "OK")],
+        role="alert-notification"
+    )
