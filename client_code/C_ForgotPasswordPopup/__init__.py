@@ -26,7 +26,7 @@ class C_ForgotPasswordPopup(C_ForgotPasswordPopupTemplate):
           title="Success",
           large=False,
           buttons=[("OK", True)],
-          role="forgot-password-success"
+          role=["forgot-password-success","remove-focus"]
         )
         self.remove_from_parent()  # Close the popup after sending
       else:
@@ -35,7 +35,7 @@ class C_ForgotPasswordPopup(C_ForgotPasswordPopupTemplate):
           title="User not found.",
           large=False,
           buttons=[("Go Back", True)],
-          role="forgot-password-success"
+          role=["forgot-password-success","remove-focus"]
         )
     else:
       alert(
@@ -43,5 +43,5 @@ class C_ForgotPasswordPopup(C_ForgotPasswordPopupTemplate):
           title="User not found",
           large=False,
           buttons=[("Go Back", True)],
-          role="forgot-password-success"
+          role=["forgot-password-success","remove-focus"]
         )

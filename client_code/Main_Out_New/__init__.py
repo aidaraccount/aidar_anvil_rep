@@ -65,7 +65,7 @@ class Main_Out_New(Main_Out_NewTemplate):
           title="Login Failed.",
           large=False,
           buttons=[("Go Back", True)],
-          role="forgot-password-success"
+          role=["forgot-password-success","remove-focus"]
         )
 
   def link_forgot_password_click(self, **event_args):

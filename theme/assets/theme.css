@@ -2434,3 +2434,9 @@ footer a, .footer .anvil-component {
 .anvil-role-alert-notification {
   text-align: center;
 }
+
+/* Disable focus outline globally or just for alert elements */
+.anvil-role-remove-focus {
+    outline: none !important;  /* Remove the focus outline */
+    box-shadow: none !important; /* Remove any potential focus shadow */
+}
