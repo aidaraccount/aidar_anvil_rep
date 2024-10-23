@@ -3,7 +3,7 @@ body * {
 }
 
 body {
-  font-family: "GS-regular";
+  font-family: GS-regular;
   margin: 0;
   min-height: 100%;
 }
@@ -2426,15 +2426,61 @@ footer a, .footer .anvil-component {
 }
 /* user-select-none svg-container */
 
-.anvil-role-forgot-password-success .modal-content{
+.anvil-role-forgot-password-success>.modal-content{
   width: 450px;
-  margin: 250px 0px 70px -120px;
+  margin: 195px 0px 70px -120px;
+  font-family: Gs-regular;
+  background: linear-gradient(to top left, rgb(43, 24, 72) 50%, rgb(134, 59, 59));
+  color: white;
+  border: none;
+  text-align: center;
+  font-size: 18px;
+  border-radius: 8px;
+}
+.anvil-role-forgot-password-success>.modal-content .modal-footer {
+  display: flex;
+  justify-content: center;
+}
+.anvil-role-forgot-password-success>.modal-content .modal-footer .btn.btn-default{
+  font-family: Gs-regular;
+  color: white;
+  background: #E95F30;
+  border: 0px;
+  box-shadow: none;
+  text-shadow: none;
+  transition: 0.5s;
+  margin: 0 0 0 0;
+  padding: 0 0 0 0;
+  width: 100px;
 }
 
 .anvil-role-alert-notification {
   text-align: center;
 }
-
+.anvil-role-alert-notification>.modal-content {
+  font-family: Gs-regular;
+  background: linear-gradient(to top left, rgb(43, 24, 72) 50%, rgb(134, 59, 59));
+  color: white;
+  border: none;
+  font-size: 18px;
+  border-radius: 8px;
+}
+.anvil-role-alert-notification>.modal-content .modal-footer {
+  display: flex;
+  justify-content: center;
+}
+.anvil-role-alert-notification>.modal-content .modal-footer .btn.btn-default{
+  font-family: Gs-regular;
+  color: white;
+  background: #E95F30;
+  border: 0px;
+  box-shadow: none;
+  text-shadow: none;
+  transition: 0.5s;
+  margin: 0 0 0 0;
+  padding: 0 0 0 0;
+  width: 100px;
+}
 /* Disable focus outline globally or just for alert elements */
 .anvil-role-remove-focus {
     outline: none !important;  /* Remove the focus outline */

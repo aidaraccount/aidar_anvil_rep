@@ -95,7 +95,6 @@ class Discover(DiscoverTemplate):
     
     # Extract the total ratings
     total_ratings = sug.get('total_ratings', 0)
-    print(total_ratings)
     # Check if the user has hit a milestone and show an alert
     if total_ratings == "10":
       self.show_milestone_alert(10)
@@ -1756,5 +1755,5 @@ class Discover(DiscoverTemplate):
         title="Congratulations!",
         content=f"You have reached {milestone} ratings! Keep up the great work!",
         buttons=[("OK", "OK")],
-        role="alert-notification"
+        role=["alert-notification","remove-focus"]
     )
