@@ -97,12 +97,12 @@ class Discover(DiscoverTemplate):
     total_ratings = sug.get('total_ratings', 0)
     print(total_ratings)
     # Check if the user has hit a milestone and show an alert
-    if total_ratings == 313:
+    if total_ratings == "10":
       print("success1")
-    elif total_ratings == 314:
+    elif total_ratings == "25":
       print("success2")
         # self.show_milestone_alert(25)
-    elif total_ratings == 315:
+    elif total_ratings == "50":
       print("success3")
         # self.show_milestone_alert(50)
     
