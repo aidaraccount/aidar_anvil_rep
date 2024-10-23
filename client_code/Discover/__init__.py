@@ -98,13 +98,11 @@ class Discover(DiscoverTemplate):
     print(total_ratings)
     # Check if the user has hit a milestone and show an alert
     if total_ratings == "10":
-      print("success1")
+      self.show_milestone_alert(10)
     elif total_ratings == "25":
-      print("success2")
-        # self.show_milestone_alert(25)
+      self.show_milestone_alert(25)
     elif total_ratings == "50":
-      print("success3")
-        # self.show_milestone_alert(50)
+      self.show_milestone_alert(50)
     
     # check status
     if sug["Status"] == 'Empty Model!':
