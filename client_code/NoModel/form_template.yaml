@@ -16,39 +16,21 @@ components:
     name: spacer_2
     properties: {height: '50'}
     type: Spacer
-  - layout_properties: {grid_position: 'XUTHAX,IDDLSB'}
-    name: label_1
-    properties: {align: center, background: '', bold: false, border: '', font: '', font_size: null, foreground: '', icon: '', icon_align: left, italic: false, role: sub_title, spacing_above: small, spacing_below: small, text: Please create a new model or join an existing model of your colleague, tooltip: '', underline: false, visible: true}
-    type: Label
   - components:
-    - components:
-      - layout_properties: {width: 467, x: 0, y: 0}
-        name: image_2
-        properties: {display_mode: zoom_to_fill, height: 156, source: _/theme/pics/Artist2.png}
-        type: Image
-      - event_bindings: {click: button_create_model_click}
-        layout_properties: {width: 450, x: 10, y: 50}
-        name: link_1
-        properties: {align: center, role: artist_name_shadow, text: Create new AI-Model}
-        type: Link
-      layout_properties: {grid_position: 'GCWTAW,FXBSVE'}
-      name: xy_panel_1
-      properties: {height: '150'}
-      type: XYPanel
-    - components:
-      - layout_properties: {width: 467, x: 0, y: 0}
-        name: image_3
-        properties: {display_mode: zoom_to_fill, height: 155, source: _/theme/pics/Fans2.jpg}
-        type: Image
-      - event_bindings: {click: button_connect_model_click}
-        layout_properties: {width: 450, x: 10, y: 50}
-        name: link_2
-        properties: {align: center, role: artist_name_shadow, text: Join existing AI-Model}
-        type: Link
-      layout_properties: {grid_position: 'GCWTAW,SVBCEZ'}
-      name: xy_panel_2
-      properties: {height: '150'}
-      type: XYPanel
+    - event_bindings: {click: button_create_model_click}
+      layout_properties: {grid_position: 'QHDFGH,AYKOUU'}
+      name: link_1
+      properties: {align: center, role: artist_name_shadow, text: Create a new scouting assistant}
+      type: Link
+    - layout_properties: {grid_position: 'PUWYKN,DZGEQT'}
+      name: label_1
+      properties: {align: center, text: OR}
+      type: Label
+    - event_bindings: {click: button_connect_model_click}
+      layout_properties: {grid_position: 'YKMXCH,KBFFUM'}
+      name: link_2
+      properties: {align: center, role: artist_name_shadow, text: join existing one}
+      type: Link
     - layout_properties: {grid_position: 'NLGDLB,YIYPIT'}
       name: spacer_3
       properties: {height: '50'}
