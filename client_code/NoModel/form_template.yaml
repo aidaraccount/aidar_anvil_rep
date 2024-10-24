@@ -19,7 +19,7 @@ components:
   - components:
     - layout_properties: {grid_position: 'FPXQXN,DQKWMI'}
       name: image_2
-      properties: {height: 321.7890625, source: _/theme/Stock Images/TTM_artists_2.png}
+      properties: {height: '600', source: _/theme/Stock Images/TTM_artists_2.png}
       type: Image
     - components:
       - event_bindings: {click: button_create_model_click}
@@ -38,7 +38,7 @@ components:
         type: Link
       layout_properties: {grid_position: 'FPXQXN,OXZVEA'}
       name: column_panel_1
-      properties: {}
+      properties: {role: section-background-flex-column}
       type: ColumnPanel
     layout_properties: {grid_position: 'YYTKHZ,OCPHZV'}
     name: column_panel_2

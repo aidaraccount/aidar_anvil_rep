@@ -294,6 +294,13 @@ body, html {
   margin-bottom: 5px;
   padding: 0;
 }
+
+.anvil-role-section-background-flex-column {}
+.anvil-panel-col.anvil-panel-col-OXZVEA:has( .anvil-role-section-background-flex-column) {
+  display:flex;
+  flex-direction: column;
+  justify-content: center;
+}
 .anvil-role-section-background-flex {
   display:flex;
   flex-wrap:wrap;

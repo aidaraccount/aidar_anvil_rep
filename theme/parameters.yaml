@@ -337,3 +337,5 @@ roles:
   name: no-padding
 - components: [ColumnPanel]
   name: section-background-justify
+- components: [ColumnPanel]
+  name: section-background-flex-column
