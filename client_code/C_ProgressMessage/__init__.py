@@ -1,4 +1,4 @@
-from ._anvil_designer import C_PercentageCirleTemplate
+from ._anvil_designer import C_ProgressMessageTemplate
 from anvil import *
 import anvil.server
 import anvil.users
@@ -19,7 +19,7 @@ import anvil.js
 import anvil.js.window
 
 
-class C_PercentageCirle(C_PercentageCirleTemplate):
+class C_ProgressMessage(C_ProgressMessageTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
@@ -27,6 +27,11 @@ class C_PercentageCirle(C_PercentageCirleTemplate):
 
     infos = json.loads(anvil.server.call('get_model_stats', self.model_id_view))[0]
     self.infos = infos
+
+    if (infos["total_ratings"] + infos["no_references"]) > 50:
+      self.custom_HTML_prediction(infos["overall_acc"])
+    else:
+      self.custom_HTML_prediction_inactive((infos["total_ratings"] + infos["no_references"])/50*100)
 
   def custom_HTML_prediction(self, accuracy):
     custom_html = f'''
@@ -52,4 +57,29 @@ class C_PercentageCirle(C_PercentageCirleTemplate):
     '''
     html_panel_1 = HtmlPanel(html=custom_html)
     self.circle_slot_spot.add_component(html_panel_1)
-    # Any code you write here will run before the form opens.
+
+  def custom_HTML_prediction_inactive(self, accuracy):
+    custom_html = f'''
+      <li class="note-display" data-note={accuracy}>
+        <div class="circle">
+          <svg width="140" height="140" class="circle__svg">
+            <defs>
+              <linearGradient id="grad2" x1="100%" y1="100%" x2="0%" y2="0%">
+                <stop offset="0%" style="stop-color:#4C4C4C;stop-opacity:1" />
+                <stop offset="100%" style="stop-color:#707070;stop-opacity:1" />
+              </linearGradient>
+            </defs>
+            <circle cx="70" cy="70" r="65" class="circle__progress_inactive circle__progress--path"></circle>
+            <circle cx="70" cy="70" r="65" class="circle__progress_inactive circle__progress--fill" stroke="url(#grad2)"></circle>
+          </svg>
+          <div class="percent">
+            <span class="percent__int">0.</span>
+            <!-- <span class="percent__dec">00</span> -->
+            <span class="label" style="font-size: 13px;">Trained</span>
+          </div>
+        </div>
+      </li>
+    '''
+    html_panel_1 = HtmlPanel(html=custom_html)
+    self.column_panel_5.add_component(html_panel_1)
+    

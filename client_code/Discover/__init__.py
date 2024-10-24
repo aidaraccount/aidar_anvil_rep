@@ -14,6 +14,7 @@ import plotly.graph_objects as go
 from collections import defaultdict
 import itertools
 from ..C_CustomAlertForm import C_CustomAlertForm  # Import the custom form
+from ..C_ProgressMessage import C_ProgressMessage
 from anvil import js
 import anvil.js
 import anvil.js.window
@@ -95,13 +96,14 @@ class Discover(DiscoverTemplate):
     
     # Extract the total ratings
     total_ratings = sug.get('total_ratings', 0)
+    print(total_ratings)
     # Check if the user has hit a milestone and show an alert
-    if total_ratings == "10":
-      self.show_milestone_alert(10)
+    if total_ratings == "14":
+      self.show_milestone_alert_2()
     elif total_ratings == "25":
-      self.show_milestone_alert(25)
+      self.show_milestone_alert_2()
     elif total_ratings == "50":
-      self.show_milestone_alert(50)
+      self.show_milestone_alert_2()
     
     # check status
     if sug["Status"] == 'Empty Model!':
@@ -1757,3 +1759,13 @@ class Discover(DiscoverTemplate):
         buttons=[("OK", "OK")],
         role=["alert-notification","remove-focus"]
     )
+    
+  def show_milestone_alert_2(self):
+    """Show a congratulatory alert when a user reaches a milestone."""
+    alert(
+        # title="Congratulations!",
+        content=C_ProgressMessage(),
+        buttons=[]
+        # role=["alert-notification","remove-focus"]
+    )
+
