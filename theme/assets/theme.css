@@ -298,6 +298,10 @@ body, html {
   display:flex;
   flex-wrap:wrap;
 }
+.anvil-role-section-background-justify {
+  justify-content: center;
+  align-items: center;
+}
 .anvil-role-section-background-flex .flow-panel-gutter {
   justify-content: center !important;
 }
@@ -2458,7 +2462,6 @@ footer a, .footer .anvil-component {
   padding: 0 0 0 0;
   width: 100px;
 }
-
 .anvil-role-alert-notification {
   text-align: center;
 }

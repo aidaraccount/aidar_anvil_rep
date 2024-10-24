@@ -329,9 +329,11 @@ roles:
   name: 'slider-refresh-growth '
 - components: [Notification]
   name: alert-notification
-- components: [FlowPanel]
+- components: [FlowPanel, ColumnPanel]
   name: section-background-flex
 - components: [Link]
   name: section_buttons-flex-items
 - components: [RichText]
   name: no-padding
+- components: [ColumnPanel]
+  name: section-background-justify
