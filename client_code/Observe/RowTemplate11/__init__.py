@@ -75,19 +75,19 @@ class RowTemplate11(RowTemplate11Template):
     if self.item['ArtistFollower_lat'] is None:
       self.label_sp_fol.text = '-'
     else:
-      self.label_sp_fol.text = self.shorten_number(self.item["ArtistFollower_lat"])
+      self.label_sp_fol.text = get_open_form().shorten_number(self.item["ArtistFollower_lat"])
       
     # print(f"{datetime.now()}: Observe Row 3a", flush=True)
     if self.item['SpotifyMtlListeners_lat'] is None:
       self.label_mtl_fol.text = '-'
     else:
-      self.label_mtl_fol.text = self.shorten_number(self.item["SpotifyMtlListeners_lat"])
+      self.label_mtl_fol.text = get_open_form().shorten_number(self.item["SpotifyMtlListeners_lat"])
       
     # print(f"{datetime.now()}: Observe Row 3b", flush=True)
     if self.item['TikTokFollower_lat'] is None:
       self.label_tiktok_fol.text = '-'
     else:
-      self.label_tiktok_fol.text = self.shorten_number(self.item["TikTokFollower_lat"])
+      self.label_tiktok_fol.text = get_open_form().shorten_number(self.item["TikTokFollower_lat"])
     
     # print(f"{datetime.now()}: Observe Row 4", flush=True)
     # fit likelihood
@@ -130,28 +130,3 @@ class RowTemplate11(RowTemplate11Template):
   def convert_date(self, date_str):
     date_obj = datetime.strptime(date_str, '%Y-%m-%d')
     return date_obj.strftime('%b %d, %Y')
-
-  def shorten_number(self, num):
-    thresholds = [
-      (1_000_000_000_000, 'T'),  # Trillion
-      (1_000_000_000, 'B'),      # Billion
-      (1_000_000, 'M'),          # Million
-      (1_000, 'K')               # Thousand
-    ]
-    
-    def shorten_single_number(n):
-      # Check if n is None or not a number-like object
-      if n is None or not (isinstance(n, (int, float)) or (isinstance(n, str) and n.isdigit())):
-        return '-'
-      n = int(n)
-      for threshold, suffix in thresholds:
-        if n >= threshold:
-          return f'{n / threshold:.1f}{suffix}'
-      return f'{n:.0f}'
-    
-    # If input is a list, process each number
-    if isinstance(num, list):
-      return [shorten_single_number(n) for n in num]
-    # If input is a single number, just process it
-    else:
-      return shorten_single_number(num)

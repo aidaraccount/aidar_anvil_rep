@@ -304,7 +304,7 @@ class Discover(DiscoverTemplate):
       if sug["ArtistFollower_lat"] == 'None':
         self.KPI_1.content = """<span style="font-family: GS-regular; font-size: 20px; color: rgb(255, 255, 255); padding-left: 10px;">-</span>"""
       else:
-        self.KPI_1.content = f"""<span style="font-family: GS-regular; font-size: 20px; color: rgb(255, 255, 255); padding-left: 10px;">{anvil.server.call('shorten_number', sug["ArtistFollower_lat"])}</span>"""
+        self.KPI_1.content = f"""<span style="font-family: GS-regular; font-size: 20px; color: rgb(255, 255, 255); padding-left: 10px;">{get_open_form().shorten_number(sug["ArtistFollower_lat"])}</span>"""
         
         if sug["ev_sp_fol_30"] != 'None':
           val = int("{:.0f}".format(round(float(sug["ev_sp_fol_30"])*100, 0)))
@@ -464,7 +464,7 @@ class Discover(DiscoverTemplate):
         sp_mtl_lis_lat = monthly_listeners_data[-1]['MtlListeners']
 
         # KPI_2
-        self.KPI_2.content = f"""<span style="font-family: GS-regular; font-size: 20px; color: rgb(255, 255, 255); padding-left: 10px;">{anvil.server.call('shorten_number', sp_mtl_lis_lat)}</span>"""
+        self.KPI_2.content = f"""<span style="font-family: GS-regular; font-size: 20px; color: rgb(255, 255, 255); padding-left: 10px;">{get_open_form().shorten_number(sp_mtl_lis_lat)}</span>"""
         if sug["ev_sp_li_30"] != 'None':
           val = int("{:.0f}".format(round(float(sug["ev_sp_li_30"])*100, 0)))
           if val >= 3:
@@ -566,7 +566,7 @@ class Discover(DiscoverTemplate):
           tiktok_fol_lat = platform_data['tiktok']['followers'][-1]
           
           # KPI_3
-          self.KPI_3.content = f"""<span style="font-family: GS-regular; font-size: 20px; color: rgb(255, 255, 255); padding-left: 10px;">{anvil.server.call('shorten_number', tiktok_fol_lat)}</span>"""
+          self.KPI_3.content = f"""<span style="font-family: GS-regular; font-size: 20px; color: rgb(255, 255, 255); padding-left: 10px;">{get_open_form().shorten_number(tiktok_fol_lat)}</span>"""
           if sug["ev_tt_fol_30"] != 'None':
             val = int("{:.0f}".format(round(float(sug["ev_tt_fol_30"])*100, 0)))
             if val >= 3:
