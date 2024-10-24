@@ -339,3 +339,5 @@ roles:
   name: section-background-justify
 - components: [ColumnPanel]
   name: section-background-flex-column
+- components: [Link, Button, Label]
+  name: header-4
