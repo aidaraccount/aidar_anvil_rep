@@ -6,7 +6,7 @@ import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
 import json
-
+from datetime import datetime
 
 from anvil_extras import routing
 from ..nav import click_link, click_button, logout, login_check, load_var
@@ -17,7 +17,7 @@ class Observe(ObserveTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
-
+    # print(f"{datetime.now()}: Observe 0", flush=True)
 
     # Any code you write here will run before the form opens.
     global user
@@ -29,6 +29,7 @@ class Observe(ObserveTemplate):
 
     # GENERAL
     # model_selection
+    # print(f"{datetime.now()}: Observe 1", flush=True)
     models = json.loads(anvil.server.call('get_model_ids',  user["user_id"]))
 
     working_model = False
@@ -69,6 +70,7 @@ class Observe(ObserveTemplate):
             component.role = 'genre-box'
             break
       
+    # print(f"{datetime.now()}: Observe 2", flush=True)
     # table
     if working_model is True:
       self.refresh_table()
@@ -78,9 +80,11 @@ class Observe(ObserveTemplate):
       self.flow_panel_models.visible = False
       self.data_grid.visible = False
     
+    # print(f"{datetime.now()}: Observe 3", flush=True)
 
   # refresh the table
   def refresh_table(self):    
+    # print(f"{datetime.now()}: Observe 2a", flush=True)
     # get list of activated models
     model_ids = []
     for component in self.flow_panel_models.get_components():
@@ -106,17 +110,22 @@ class Observe(ObserveTemplate):
       self.data_grid.visible = True
       
       # get data
+      # print(f"{datetime.now()}: Observe 2b", flush=True)
       observed = json.loads(anvil.server.call('get_observed', model_ids, rated))
       
       # add numbering
+      # print(f"{datetime.now()}: Observe 2c", flush=True)
       for i, artist in enumerate(observed, start=1):
         artist['Number'] = i
   
       # hand-over the data
+      # print(f"{datetime.now()}: Observe 2d", flush=True)
       self.repeating_panel_table.items = observed
       
+      # print(f"{datetime.now()}: Observe 2e", flush=True)
       self.no_trained_model.visible = False
       self.data_grid.visible = True
+      # print(f"{datetime.now()}: Observe 2f", flush=True)
   
   # activate model
   def create_activate_model_handler(self, model_id):
@@ -169,4 +178,3 @@ class Observe(ObserveTemplate):
     else:
       self.link_rated.role = 'genre-box'
     self.refresh_table()
-      
