@@ -61,11 +61,11 @@ class RowTemplate11(RowTemplate11Template):
       pass
     else:
       genres_list = self.item["genres_list"]
-      for g in (range(0, min(len(genres_list), 4))):
+      for g in (range(0, min(len(genres_list), 3))):
         genre_label = Label(text=genres_list[g])
         genre_label.role = 'genre-box'
         self.flow_panel_genre_tile.add_component(genre_label)
-      if len(genres_list) > 4:
+      if len(genres_list) > 3:
         genre_label = Label(text='...')
         genre_label.role = 'genre-box'
         self.flow_panel_genre_tile.add_component(genre_label)

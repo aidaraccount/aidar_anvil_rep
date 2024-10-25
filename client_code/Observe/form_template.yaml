@@ -68,7 +68,7 @@ components:
   - components:
     - layout_properties: {}
       name: label_3_copy_copy_copy
-      properties: {role: feature, text: 'Min. Growth Fit Prediction [%]:    '}
+      properties: {role: feature, text: '   Min. Growth Fit Prediction [%]:    '}
       type: Label
     - data_bindings: []
       event_bindings: {pressed_enter: refresh_table}
@@ -83,7 +83,7 @@ components:
   - components:
     - layout_properties: {}
       name: label_3_copy_copy_copy_copy
-      properties: {role: feature, text: 'Max. days since latest Release:    '}
+      properties: {role: feature, text: '   Max. days since latest Release:    '}
       type: Label
     - data_bindings: []
       event_bindings: {pressed_enter: refresh_table}
