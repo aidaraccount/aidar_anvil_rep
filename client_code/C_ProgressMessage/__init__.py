@@ -24,8 +24,8 @@ class C_ProgressMessage(C_ProgressMessageTemplate):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
     self.html = '@theme:Modelpage_html_JS.html'
-
-    infos = json.loads(anvil.server.call('get_model_stats', self.model_id_view))[0]
+    self.model_id = model_id
+    infos = json.loads(anvil.server.call('get_model_stats', self.model_id))[0]
     self.infos = infos
 
     if (infos["total_ratings"] + infos["no_references"]) > 50:
@@ -81,5 +81,5 @@ class C_ProgressMessage(C_ProgressMessageTemplate):
       </li>
     '''
     html_panel_1 = HtmlPanel(html=custom_html)
-    self.column_panel_5.add_component(html_panel_1)
+    self.circle_slot_spot.add_component(html_panel_1)
     

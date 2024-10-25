@@ -1,14 +1,36 @@
 components:
-- layout_properties: {slot: circle-slot}
-  name: circle_slot_spot
-  properties: {}
+- components:
+  - layout_properties: {grid_position: 'TGMKQQ,JFIZPQ'}
+    name: Message_title
+    properties: {align: center, role: header-3, text: Congratulations!}
+    type: Label
+  - components:
+    - layout_properties: {grid_position: 'GJMCQO,YCCJQX'}
+      name: label_1
+      properties:
+        align: center
+        text: |-
+          You have reached 10 ratings!
+          Keep up the great work!
+      type: Label
+    layout_properties: {grid_position: 'IQJMHS,DHVWGA'}
+    name: Message_body
+    properties: {}
+    type: ColumnPanel
+  - layout_properties: {grid_position: 'IQJMHS,GTDIPG'}
+    name: circle_slot_spot
+    properties: {}
+    type: ColumnPanel
+  - layout_properties: {grid_position: 'XLESHC,WTVRDJ'}
+    name: Ok_button
+    properties: {role: call-to-action-button, text: OK}
+    type: Button
+  layout_properties: {slot: default}
+  name: ProgressMessage
+  properties: {role: section-background-flex-column}
   type: ColumnPanel
-- layout_properties: {slot: ok-button}
-  name: OK
-  properties: {role: call-to-action-button, text: OK}
-  type: Button
 container:
   properties:
-    html: "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <title>Login Page</title>\n  <style>\n    * {\n      margin: 0;\n      padding: 0;\n      box-sizing: border-box;\n    }\n    body, html {\n      height: 100%;\n      overflow: hidden;\n      /* font-family: GB-regular; */\n    }\n    .alert-form-container {\n      position: absolute;\n      top: 50%;\n      left: 50%;\n      transform: translate(-50%, -50%);\n      background-image: url(_/theme/Stock%20Images/Backgrounds/header-background.png);\n      display: flex;\n      justify-content: center;\n      align-items: center;\n      background-color: white;\n      box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);\n      border-radius: 8px;\n      padding: 50px;\n      width: 550px;\n      z-index: 1;\n    }\n    .alert-form {\n      /* background-color: white;\n      padding: 20px;\n      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);\n      border-radius: 8px;\n      max-width: 320px; */\n      width: 100%;\n    }\n    .alert-form h2 {\n      margin-bottom: 20px;\n      text-align: center;\n      font-size: 24px;\n      color: white;\n    }\n    .alert-message {\n      display: flex;\n      align-items: center;\n      justify-content: center;\n      color: white\n    }\n    .message-slot {\n      color: white;\n      text-align: left;\n      font-size: 16px\n    }\n    .circle-slot {}\n  </style>\n</head>\n<body>\n    \n</body>\n  <div class=\"alert-form-container\">\n    <div class=\"alert-form\">\n      <h2>Congratulations!</h2>\n      <div class=\"alert-message\">\n        <div class=\"message-slot\">\n          You have reached 10 ratings!\n          Keep up the great work!\n        </div>\n        <div class=\"circle-slot\" anvil-slot=\"circle-slot\">\n          <div anvil-if-slot-empty=\"circle-slot\">Circle Slot</div>\n        </div>\n\n      </div>\n      <div anvil-slot=\"ok-button\">\n        <div anvil-if-slot-empty=\"ok-button\">Login-button</div>\n      </div>\n    </div>\n  </div>\n"
+    html: "<!-- <!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <title>Login Page</title>\n  <style>\n    * {\n      margin: 0;\n      padding: 0;\n      box-sizing: border-box;\n    }\n    body, html {\n      height: 100%;\n      overflow: hidden;\n      /* font-family: GB-regular; */\n      background-image: url(_/theme/Stock%20Images/Backgrounds/header-background.png);\n    }\n    .alert-form-container {\n      /* position: absolute; */\n      top: 50%;\n      left: 50%;\n      transform: translate(-50%, -50%);\n      display: flex;\n      justify-content: center;\n      align-items: center;\n      /* background-color: white; */\n      box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);\n      border-radius: 8px;\n      padding: 50px;\n      width: 550px;\n      z-index: 1;\n    }\n    .alert-form {\n      /* background-color: white;\n      padding: 20px;\n      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);\n      border-radius: 8px;\n      max-width: 320px; */\n      width: 100%;\n    }\n    .alert-form h2 {\n      margin-bottom: 20px;\n      text-align: center;\n      font-size: 24px;\n      color: white;\n    }\n    .alert-message {\n      display: flex;\n      align-items: center;\n      justify-content: center;\n      color: white\n    }\n    .message-slot {\n      color: white;\n      text-align: left;\n      font-size: 16px\n    }\n    .circle-slot {}\n  </style>\n</head>\n<body>\n    \n</body>\n  <div class=\"alert-form-container\">\n    <div class=\"alert-form\">\n      <h2>Congratulations!</h2>\n      <div class=\"alert-message\">\n        <div class=\"message-slot\">\n          You have reached 10 ratings!\n          Keep up the great work!\n        </div>\n        <div class=\"circle-slot\" anvil-slot=\"circle-slot\">\n          <div anvil-if-slot-empty=\"circle-slot\">Circle Slot</div>\n        </div>\n\n      </div>\n      <div anvil-slot=\"ok-button\">\n        <div anvil-if-slot-empty=\"ok-button\">Login-button</div>\n      </div>\n    </div>\n  </div>\n -->\n<!-- \n <center style=\"font-style:italic; color:#888; margin: 3em;\">\n  (Insert your custom HTML here)\n</center>\n<div anvil-slot=\"default\"></div> -->"
   type: HtmlTemplate
 is_package: true
