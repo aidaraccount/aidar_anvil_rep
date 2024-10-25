@@ -71,7 +71,7 @@ components:
       properties: {role: feature, text: 'Min. Growth Fit Prediction [%]:    '}
       type: Label
     - data_bindings: []
-      event_bindings: {}
+      event_bindings: {pressed_enter: refresh_table}
       layout_properties: {width: 81.3333}
       name: min_growth_pred
       properties: {hide_text: false, placeholder: '75', role: text_box_small, text: '75', type: number}
@@ -86,7 +86,7 @@ components:
       properties: {role: feature, text: 'Max. days since latest Release:    '}
       type: Label
     - data_bindings: []
-      event_bindings: {}
+      event_bindings: {pressed_enter: refresh_table}
       layout_properties: {width: 81.3333}
       name: max_release_days
       properties: {hide_text: false, placeholder: '21', role: text_box_small, text: '21', type: number}

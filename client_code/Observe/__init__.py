@@ -88,7 +88,7 @@ class Observe(ObserveTemplate):
 
   
   # GET TABLE DATA
-  def refresh_table(self):    
+  def refresh_table(self, **event_args):    
     # print(f"{datetime.now()}: Observe 2a", flush=True)
     # get list of activated models
     model_ids = []
@@ -138,7 +138,7 @@ class Observe(ObserveTemplate):
                                               type,
                                               rated,
                                               watchlist,
-                                              value=None
+                                              value
                                              ))
       
       # add numbering
@@ -201,7 +201,7 @@ class Observe(ObserveTemplate):
       self.link_rated.role = 'genre-box-deselect'
     elif self.link_rated.text == 'all':
       self.link_rated.text = 'rated'
-      self.link_rated.role = 'genre-box'      
+      self.link_rated.role = 'genre-box'
     self.refresh_table()
 
   # WATCHLIST BUTTON
@@ -224,6 +224,7 @@ class Observe(ObserveTemplate):
     self.nav_release_fits.role = 'section_buttons'
     self.flow_panel_growth.visible = False
     self.flow_panel_release.visible = False
+    self.refresh_table()
 
   def nav_grow_fits_click(self, **event_args):
     self.nav_top_fits.role = 'section_buttons'
@@ -231,6 +232,7 @@ class Observe(ObserveTemplate):
     self.nav_release_fits.role = 'section_buttons'
     self.flow_panel_growth.visible = True
     self.flow_panel_release.visible = False
+    self.refresh_table()
 
   def nav_release_fit_click(self, **event_args):
     self.nav_top_fits.role = 'section_buttons'
@@ -238,3 +240,4 @@ class Observe(ObserveTemplate):
     self.nav_release_fits.role = 'section_buttons_focused'
     self.flow_panel_growth.visible = False
     self.flow_panel_release.visible = True
+    self.refresh_table()
