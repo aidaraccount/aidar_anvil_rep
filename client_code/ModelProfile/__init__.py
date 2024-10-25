@@ -39,6 +39,7 @@ class ModelProfile(ModelProfileTemplate):
     model_id_active = load_var("model_id")
     print(f"ModelProfile model_id_active: {model_id_active}")
     model_id_view = self.url_dict['model_id']
+    print(self.url_dict)
     self.model_id_view = model_id_view
     save_var("model_id_view", model_id_view)
     print(f"ModelProfile model_id_view: {model_id_view}")

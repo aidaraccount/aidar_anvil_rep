@@ -20,7 +20,7 @@ import anvil.js.window
 
 
 class C_ProgressMessage(C_ProgressMessageTemplate):
-  def __init__(self, **properties):
+  def __init__(self, model_id, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
     self.html = '@theme:Modelpage_html_JS.html'

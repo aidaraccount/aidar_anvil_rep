@@ -1764,7 +1764,7 @@ class Discover(DiscoverTemplate):
     """Show a congratulatory alert when a user reaches a milestone."""
     alert(
         # title="Congratulations!",
-        content=C_ProgressMessage(),
+        content=C_ProgressMessage(self.model_id),
         buttons=[]
         # role=["alert-notification","remove-focus"]
     )
