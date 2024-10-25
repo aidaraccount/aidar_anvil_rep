@@ -29,6 +29,8 @@ components:
   name: ProgressMessage
   properties:
     role: [section-background-flex-column, background-alerts]
+    spacing_above: none
+    spacing_below: none
   type: ColumnPanel
 container:
   properties:
