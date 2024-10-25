@@ -27,7 +27,8 @@ components:
     type: Button
   layout_properties: {slot: default}
   name: ProgressMessage
-  properties: {role: section-background-flex-column}
+  properties:
+    role: [section-background-flex-column, background-alerts]
   type: ColumnPanel
 container:
   properties:

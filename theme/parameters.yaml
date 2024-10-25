@@ -341,3 +341,9 @@ roles:
   name: section-background-flex-column
 - components: [Link, Button, Label]
   name: header-4
+- components: [ColumnPanel]
+  name: background-gradient-alerts
+- components: [ColumnPanel]
+  name: background-alerts
+- components: [ColumnPanel, HTMLTemplate]
+  name: progress-message

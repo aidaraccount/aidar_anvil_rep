@@ -1765,7 +1765,7 @@ class Discover(DiscoverTemplate):
     alert(
         # title="Congratulations!",
         content=C_ProgressMessage(self.model_id),
-        buttons=[]
-        # role=["alert-notification","remove-focus"]
+        buttons=[],
+        role=["progress-message","remove-focus"]
     )
 

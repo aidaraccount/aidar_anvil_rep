@@ -1179,6 +1179,13 @@ div.row {
     margin: 0px;
   }
 }
+.anvil-role-background-alerts {
+  background: linear-gradient(to top left, rgb(43, 24, 72) 50%, rgb(134, 59, 59));
+}
+
+.anvil-role-progress-message {
+  
+}
 
 .modal-content {
   border-radius: 15px;
