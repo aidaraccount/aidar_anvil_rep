@@ -20,30 +20,19 @@ import anvil.js.window
 
 
 class C_ProgressMessage(C_ProgressMessageTemplate):
-  def __init__(self, model_id, **properties):
+  def __init__(self, model_id, milestone, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
     self.html = '@theme:Modelpage_html_JS.html'
     self.model_id = model_id
     infos = json.loads(anvil.server.call('get_model_stats', self.model_id))[0]
     self.infos = infos
+    self.congrats_message.content = f"You have reachedd {milestone} ratings! \n Keep up the great work!"
 
     if (infos["total_ratings"] + infos["no_references"]) > 50:
       self.custom_HTML_prediction(infos["overall_acc"])
-      self.congrats_message.content = f"""
-      <span>
-        You have reachedd {infos["overall_acc"]} ratings!
-        Keep up the great work!
-      </span>"
-      """
     else:
       self.custom_HTML_prediction_inactive((infos["total_ratings"] + infos["no_references"])/50*100)
-      self.congrats_message.content = f"""
-      <span>
-        You have reached {(infos["total_ratings"] + infos["no_references"])/50*100} ratings!
-        Keep up the great work!
-      </span>"
-      """
 
   def custom_HTML_prediction(self, accuracy):
     custom_html = f'''
@@ -94,4 +83,7 @@ class C_ProgressMessage(C_ProgressMessageTemplate):
     '''
     html_panel_1 = HtmlPanel(html=custom_html)
     self.circle_slot_spot.add_component(html_panel_1)
+
+  def Ok_button_click(self, **event_args):
+    self.raise_event("x-close-alert")
     

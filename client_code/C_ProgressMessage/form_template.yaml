@@ -19,7 +19,8 @@ components:
     properties:
       role: [section-background-flex, section-background-justify]
     type: ColumnPanel
-  - layout_properties: {grid_position: 'XLESHC,WTVRDJ'}
+  - event_bindings: {click: Ok_button_click}
+    layout_properties: {grid_position: 'XLESHC,WTVRDJ'}
     name: Ok_button
     properties:
       role: [call-to-action-button, header-5]

@@ -99,11 +99,11 @@ class Discover(DiscoverTemplate):
     print(total_ratings)
     # Check if the user has hit a milestone and show an alert
     if total_ratings == "14":
-      self.show_milestone_alert_2()
+      self.show_milestone_alert_2(14)
     elif total_ratings == "25":
-      self.show_milestone_alert_2()
+      self.show_milestone_alert_2(25)
     elif total_ratings == "50":
-      self.show_milestone_alert_2()
+      self.show_milestone_alert_2(50)
     
     # check status
     if sug["Status"] == 'Empty Model!':
@@ -1760,11 +1760,11 @@ class Discover(DiscoverTemplate):
         role=["alert-notification","remove-focus"]
     )
     
-  def show_milestone_alert_2(self):
+  def show_milestone_alert_2(self, milestone):
     """Show a congratulatory alert when a user reaches a milestone."""
     alert(
         # title="Congratulations!",
-        content=C_ProgressMessage(self.model_id),
+        content=C_ProgressMessage(self.model_id, milestone),
         buttons=[],
         role=["progress-message","remove-focus"]
     )
