@@ -7,13 +7,8 @@ components:
   - components:
     - data_bindings: []
       layout_properties: {grid_position: 'FKMPTE,DGYSXR'}
-      name: rich_text_1
-      properties:
-        align: center
-        content: |-
-          You have reached 10 ratings!
-          Keep up the great work!
-        role: header-6_bold
+      name: congrats_message
+      properties: {align: center, content: '', role: header-6_bold}
       type: RichText
     - layout_properties: {grid_position: 'FKMPTE,GWPMZP'}
       name: circle_slot_spot

@@ -30,8 +30,20 @@ class C_ProgressMessage(C_ProgressMessageTemplate):
 
     if (infos["total_ratings"] + infos["no_references"]) > 50:
       self.custom_HTML_prediction(infos["overall_acc"])
+      self.congrats_message.content = f"""
+      <span>
+        You have reachedd {infos["overall_acc"]} ratings!
+        Keep up the great work!
+      </span>"
+      """
     else:
       self.custom_HTML_prediction_inactive((infos["total_ratings"] + infos["no_references"])/50*100)
+      self.congrats_message.content = f"""
+      <span>
+        You have reached {(infos["total_ratings"] + infos["no_references"])/50*100} ratings!
+        Keep up the great work!
+      </span>"
+      """
 
   def custom_HTML_prediction(self, accuracy):
     custom_html = f'''
