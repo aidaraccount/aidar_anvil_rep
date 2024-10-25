@@ -13,18 +13,27 @@ components:
       name: label_3_copy
       properties: {role: feature, text: 'Artist selection:    '}
       type: Label
-    - event_bindings: {click: link_unrated_click}
-      layout_properties: {}
-      name: link_unrated
-      properties: {role: genre-box, text: unrated}
-      type: Link
     - event_bindings: {click: link_rated_click}
       layout_properties: {}
       name: link_rated
-      properties: {role: genre-box-deselect, text: rated}
+      properties: {role: genre-box, text: unrated}
       type: Link
     layout_properties: {grid_position: 'HRBOSD,YLDDFN'}
     name: flow_panel_ratings
+    properties: {spacing_below: none}
+    type: FlowPanel
+  - components:
+    - layout_properties: {}
+      name: label_3_copy_copy
+      properties: {role: feature, text: 'Watchlist selection:    '}
+      type: Label
+    - event_bindings: {click: link_watchlist_click}
+      layout_properties: {}
+      name: link_watchlist
+      properties: {role: genre-box-deselect, text: all}
+      type: Link
+    layout_properties: {grid_position: 'YLNPWQ,VKPMGJ'}
+    name: flow_panel_ratings_copy
     properties: {spacing_below: none}
     type: FlowPanel
   - components:

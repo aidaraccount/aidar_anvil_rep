@@ -93,25 +93,29 @@ class Observe(ObserveTemplate):
           model_ids.append(component.tag)
 
     # get un/-rated status
-    if self.link_rated.role == 'genre-box-deselect':
-      rated = False
-    elif self.link_unrated.role == 'genre-box-deselect':
+    if self.link_rated.text == 'rated':
       rated = True
+    elif self.link_rated.text == 'unrated':
+      rated = False
     else:
       rated = None
 
-    selection = True
-    if self.link_rated.role == 'genre-box-deselect' and self.link_unrated.role == 'genre-box-deselect':
-      selection = False
-      
+    # get watchlist status
+    if self.link_watchlist.text == 'on watchlist':
+      watchlist = True
+    elif self.link_watchlist.text == 'not on watchlist':
+      watchlist = False
+    else:
+      watchlist = None
+
     self.data_grid.visible = False
     
-    if len(model_ids) > 0 and selection is True:
+    if len(model_ids) > 0:
       self.data_grid.visible = True
       
       # get data
       # print(f"{datetime.now()}: Observe 2b", flush=True)
-      observed = json.loads(anvil.server.call('get_observed', model_ids, rated))
+      observed = json.loads(anvil.server.call('get_observed', user["user_id"], model_ids, rated, watchlist))
       
       # add numbering
       # print(f"{datetime.now()}: Observe 2c", flush=True)
@@ -163,18 +167,26 @@ class Observe(ObserveTemplate):
     else:
       self.data_grid.visible = False
 
-  def link_unrated_click(self, **event_args):
-    if self.link_unrated.role == 'genre-box':
-      self.link_unrated.role = 'genre-box-deselect'
-      # self.link_rated.role = 'genre-box'
-    else:
-      self.link_unrated.role = 'genre-box'
+  def link_rated_click(self, **event_args):
+    if self.link_rated.text == 'rated':
+      self.link_rated.text = 'unrated'
+      self.link_rated.role = 'genre-box'
+    elif self.link_rated.text == 'unrated':
+      self.link_rated.text = 'all'
+      self.link_rated.role = 'genre-box-deselect'
+    elif self.link_rated.text == 'all':
+      self.link_rated.text = 'rated'
+      self.link_rated.role = 'genre-box'      
     self.refresh_table()
 
-  def link_rated_click(self, **event_args):
-    if self.link_rated.role == 'genre-box':
-      self.link_rated.role = 'genre-box-deselect'
-      # self.link_unrated.role = 'genre-box'
-    else:
-      self.link_rated.role = 'genre-box'
+  def link_watchlist_click(self, **event_args):
+    if self.link_watchlist.text == 'on watchlist':
+      self.link_watchlist.text = 'not on watchlist'
+      self.link_watchlist.role = 'genre-box'
+    elif self.link_watchlist.text == 'not on watchlist':
+      self.link_watchlist.text = 'all'
+      self.link_watchlist.role = 'genre-box-deselect'
+    elif self.link_watchlist.text == 'all':
+      self.link_watchlist.text = 'on watchlist'
+      self.link_watchlist.role = 'genre-box'      
     self.refresh_table()
