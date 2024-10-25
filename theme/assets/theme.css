@@ -1186,6 +1186,17 @@ div.row {
 .anvil-role-progress-message {
   width: 550px;
 }
+.anvil-role-progress-message .modal-body{
+  padding: 0px;
+}
+.anvil-role-progress-message .anvil-role-background-alerts {
+  border-radius: 8px;
+}
+
+.anvil-role-progress-message .anvil-role-section-background-flex .anvil-panel-col{
+  display: flex;
+  align-items: center;
+}
 
 .modal-content {
   border-radius: 15px;

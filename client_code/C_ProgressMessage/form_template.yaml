@@ -5,25 +5,30 @@ components:
     properties: {align: center, role: header-3, text: Congratulations!}
     type: Label
   - components:
-    - layout_properties: {grid_position: 'GJMCQO,YCCJQX'}
-      name: label_1
+    - data_bindings: []
+      layout_properties: {grid_position: 'FKMPTE,DGYSXR'}
+      name: rich_text_1
       properties:
         align: center
-        text: |-
+        content: |-
           You have reached 10 ratings!
           Keep up the great work!
-      type: Label
+        role: header-6_bold
+      type: RichText
+    - layout_properties: {grid_position: 'FKMPTE,GWPMZP'}
+      name: circle_slot_spot
+      properties: {}
+      type: ColumnPanel
     layout_properties: {grid_position: 'IQJMHS,DHVWGA'}
     name: Message_body
-    properties: {}
-    type: ColumnPanel
-  - layout_properties: {grid_position: 'IQJMHS,GTDIPG'}
-    name: circle_slot_spot
-    properties: {}
+    properties:
+      role: [section-background-flex, section-background-justify]
     type: ColumnPanel
   - layout_properties: {grid_position: 'XLESHC,WTVRDJ'}
     name: Ok_button
-    properties: {role: call-to-action-button, text: OK}
+    properties:
+      role: [call-to-action-button, header-5]
+      text: OK
     type: Button
   layout_properties: {slot: default}
   name: ProgressMessage
