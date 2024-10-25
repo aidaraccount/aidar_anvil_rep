@@ -28,6 +28,10 @@ class Observe(ObserveTemplate):
     print(f"Observe model_id: {model_id}")
 
     # GENERAL
+    self.nav_top_fits.role = 'section_buttons_focused'
+    self.flow_panel_growth.visible = False
+    self.flow_panel_release.visible = False
+    
     # model_selection
     # print(f"{datetime.now()}: Observe 1", flush=True)
     models = json.loads(anvil.server.call('get_model_ids',  user["user_id"]))
@@ -82,7 +86,8 @@ class Observe(ObserveTemplate):
     
     # print(f"{datetime.now()}: Observe 3", flush=True)
 
-  # refresh the table
+  
+  # GET TABLE DATA
   def refresh_table(self):    
     # print(f"{datetime.now()}: Observe 2a", flush=True)
     # get list of activated models
@@ -92,7 +97,19 @@ class Observe(ObserveTemplate):
         if component.role == 'genre-box':
           model_ids.append(component.tag)
 
-    # get un/-rated status
+    # get type status
+    if self.nav_top_fits.role == 'section_buttons_focused':
+      type = 'top_fits'
+      value = None
+    elif self.nav_grow_fits.role == 'section_buttons_focused':
+      type = 'grow_fits'
+      value = self.min_growth_pred.text/100*7
+    elif self.nav_release_fits.role == 'section_buttons_focused':
+      type = 'release_fits'
+      value = self.max_release_days.text
+    print(value)
+    
+    # get rated status
     if self.link_rated.text == 'rated':
       rated = True
     elif self.link_rated.text == 'unrated':
@@ -115,7 +132,14 @@ class Observe(ObserveTemplate):
       
       # get data
       # print(f"{datetime.now()}: Observe 2b", flush=True)
-      observed = json.loads(anvil.server.call('get_observed', user["user_id"], model_ids, rated, watchlist))
+      observed = json.loads(anvil.server.call('get_observed', 
+                                              user["user_id"],
+                                              model_ids,
+                                              type,
+                                              rated,
+                                              watchlist,
+                                              value=None
+                                             ))
       
       # add numbering
       # print(f"{datetime.now()}: Observe 2c", flush=True)
@@ -131,7 +155,7 @@ class Observe(ObserveTemplate):
       self.data_grid.visible = True
       # print(f"{datetime.now()}: Observe 2f", flush=True)
   
-  # activate model
+  # MODEL BUTTONS
   def create_activate_model_handler(self, model_id):
     def handler(**event_args):
       self.activate_model(model_id)
@@ -167,6 +191,7 @@ class Observe(ObserveTemplate):
     else:
       self.data_grid.visible = False
 
+  # RATED BUTTON
   def link_rated_click(self, **event_args):
     if self.link_rated.text == 'rated':
       self.link_rated.text = 'unrated'
@@ -179,6 +204,7 @@ class Observe(ObserveTemplate):
       self.link_rated.role = 'genre-box'      
     self.refresh_table()
 
+  # WATCHLIST BUTTON
   def link_watchlist_click(self, **event_args):
     if self.link_watchlist.text == 'on watchlist':
       self.link_watchlist.text = 'not on watchlist'
@@ -190,3 +216,25 @@ class Observe(ObserveTemplate):
       self.link_watchlist.text = 'on watchlist'
       self.link_watchlist.role = 'genre-box'      
     self.refresh_table()
+
+  # NAVIGATION
+  def nav_top_fits_click(self, **event_args):
+    self.nav_top_fits.role = 'section_buttons_focused'
+    self.nav_grow_fits.role = 'section_buttons'
+    self.nav_release_fits.role = 'section_buttons'
+    self.flow_panel_growth.visible = False
+    self.flow_panel_release.visible = False
+
+  def nav_grow_fits_click(self, **event_args):
+    self.nav_top_fits.role = 'section_buttons'
+    self.nav_grow_fits.role = 'section_buttons_focused'
+    self.nav_release_fits.role = 'section_buttons'
+    self.flow_panel_growth.visible = True
+    self.flow_panel_release.visible = False
+
+  def nav_release_fit_click(self, **event_args):
+    self.nav_top_fits.role = 'section_buttons'
+    self.nav_grow_fits.role = 'section_buttons'
+    self.nav_release_fits.role = 'section_buttons_focused'
+    self.flow_panel_growth.visible = False
+    self.flow_panel_release.visible = True

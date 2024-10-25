@@ -46,6 +46,56 @@ components:
     properties: {spacing_above: none}
     type: FlowPanel
   - components:
+    - event_bindings: {click: nav_top_fits_click}
+      layout_properties: {}
+      name: nav_top_fits
+      properties: {col_spacing: medium, role: section_buttons, spacing_above: none, spacing_below: none, text: Top Fits}
+      type: Link
+    - event_bindings: {click: nav_grow_fits_click}
+      layout_properties: {}
+      name: nav_grow_fits
+      properties: {role: section_buttons, spacing_above: none, spacing_below: none, text: Growing Fits}
+      type: Link
+    - event_bindings: {click: nav_release_fit_click}
+      layout_properties: {}
+      name: nav_release_fits
+      properties: {role: section_buttons, spacing_above: none, spacing_below: none, text: Release Fits, visible: true}
+      type: Link
+    layout_properties: {grid_position: 'NREIRO,ZMEOXP'}
+    name: flow_panel_sections
+    properties: {background: '', role: section-background, spacing: small, spacing_above: none, spacing_below: none}
+    type: FlowPanel
+  - components:
+    - layout_properties: {}
+      name: label_3_copy_copy_copy
+      properties: {role: feature, text: 'Min. Growth Fit Prediction [%]:    '}
+      type: Label
+    - data_bindings: []
+      event_bindings: {}
+      layout_properties: {width: 81.3333}
+      name: min_growth_pred
+      properties: {hide_text: false, placeholder: '75', role: text_box_small, text: '75', type: number}
+      type: TextBox
+    layout_properties: {grid_position: 'WXPOUF,BUZUAZ'}
+    name: flow_panel_growth
+    properties: {spacing_below: none}
+    type: FlowPanel
+  - components:
+    - layout_properties: {}
+      name: label_3_copy_copy_copy_copy
+      properties: {role: feature, text: 'Max. days since latest Release:    '}
+      type: Label
+    - data_bindings: []
+      event_bindings: {}
+      layout_properties: {width: 81.3333}
+      name: max_release_days
+      properties: {hide_text: false, placeholder: '21', role: text_box_small, text: '21', type: number}
+      type: TextBox
+    layout_properties: {grid_position: 'IQUPUH,KGITLF'}
+    name: flow_panel_release
+    properties: {spacing_below: none}
+    type: FlowPanel
+  - components:
     - layout_properties: {grid_position: 'FFHUXB,SNYWAS'}
       name: label_1_copy
       properties: {align: center, bold: false, role: sub_title, text: None of your AI models is fully trained yet}
