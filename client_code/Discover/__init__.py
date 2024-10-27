@@ -485,17 +485,16 @@ class Discover(DiscoverTemplate):
           getattr(self, lab_30).content = """<span style="font-family: GS-regular; font-size: 20px; color: rgb(255, 255, 255);">-</span>"""
         else:
           val_0 = eval(val_0, {"sug": sug})
-          val_7 = eval(val_7, {"sug": sug})
           ev_7 = eval(ev_7, {"sug": sug})
-          val_30 = eval(val_30, {"sug": sug})
           ev_30 = eval(ev_30, {"sug": sug})
         
           # t0:
           getattr(self, lab_0).content = f"""<span style="font-family: GS-regular; font-size: 20px; color: rgb(255, 255, 255);">{get_open_form().shorten_number(val_0)}</span>"""
           
           # t7
-          getattr(self, lab_7).content = f"""<span style="font-family: GS-regular; font-size: 20px; color: rgb(255, 255, 255);">{get_open_form().shorten_number(val_7)}</span>"""
           if ev_7 != 'None':
+            val_7 = eval(val_7, {"sug": sug})
+            getattr(self, lab_7).content = f"""<span style="font-family: GS-regular; font-size: 20px; color: rgb(255, 255, 255);">{get_open_form().shorten_number(val_7)}</span>"""
             val = int("{:.0f}".format(round(float(ev_7)*100, 0)))
             if val >= 3:
               ev = f"""+{val}%"""
@@ -510,8 +509,9 @@ class Discover(DiscoverTemplate):
             getattr(self, lab_7).content = getattr(self, lab_7).content + f"""<span style="font-size: 16px; color: {col};">  {ev}</span>"""
   
           # t30
-          getattr(self, lab_30).content = f"""<span style="font-family: GS-regular; font-size: 20px; color: rgb(255, 255, 255);">{get_open_form().shorten_number(val_30)}</span>"""
           if ev_30 != 'None':
+            val_30 = eval(val_30, {"sug": sug})
+            getattr(self, lab_30).content = f"""<span style="font-family: GS-regular; font-size: 20px; color: rgb(255, 255, 255);">{get_open_form().shorten_number(val_30)}</span>"""
             val = int("{:.0f}".format(round(float(ev_30)*100, 0)))
             if val >= 3:
               ev = f"""+{val}%"""
