@@ -141,11 +141,12 @@ class Observe(ObserveTemplate):
                                               value
                                              ))
       
-      # add numbering
+      # add numbering & type
       # print(f"{datetime.now()}: Observe 2c", flush=True)
       for i, artist in enumerate(observed, start=1):
         artist['Number'] = i
-  
+        artist['Type'] = type
+      
       # hand-over the data
       # print(f"{datetime.now()}: Observe 2d", flush=True)
       self.repeating_panel_table.items = observed

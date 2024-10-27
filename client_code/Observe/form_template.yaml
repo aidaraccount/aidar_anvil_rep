@@ -59,7 +59,7 @@ components:
     - event_bindings: {click: nav_release_fit_click}
       layout_properties: {}
       name: nav_release_fits
-      properties: {role: section_buttons, spacing_above: none, spacing_below: none, text: Release Fits, visible: true}
+      properties: {role: section_buttons, spacing_above: none, spacing_below: none, text: Releasing Fits, visible: true}
       type: Link
     layout_properties: {grid_position: 'NREIRO,ZMEOXP'}
     name: flow_panel_sections

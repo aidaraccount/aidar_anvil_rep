@@ -71,45 +71,113 @@ class RowTemplate11(RowTemplate11Template):
         self.flow_panel_genre_tile.add_component(genre_label)
     
     # print(f"{datetime.now()}: Observe Row 3", flush=True)
-    # label_sp_fol: fcg.ev_sp_fol_30, fcg.ev_sp_li_30, fcg.ev_tt_fol_30
-      if self.item["ArtistFollower_lat"] == 'None':
-        self.label_sp_fol.content = """<span style="font-family: GS-regular; font-size: 20px; color: rgb(255, 255, 255); padding-left: 10px;">-</span>"""
-      else:
-        self.label_sp_fol.content = f"""<span style="font-family: GS-regular; font-size: 20px; color: rgb(255, 255, 255); padding-left: 10px;">{get_open_form().shorten_number(self.item["ArtistFollower_lat"])}</span>"""
-        
-        if self.item["ev_sp_fol_30"] != 'None':
-          val = int("{:.0f}".format(round(float(self.item["ev_sp_fol_30"])*100, 0)))
-          if val >= 3:
-            ev = f"""+{val}%"""
-            "{:.0f}".format(round(float(self.item["ev_sp_fol_30"])*100, 0))
-            col = 'green'
-          elif val < 0:
-            ev = f"""{val}%"""
-            col = 'red'
-          else:
-            ev = f"""+{val}%"""
-            col = 'grey'
-          
-          self.label_sp_fol.content = self.label_sp_fol.content + f"""<span style="font-size: 16px; color: {col};">  {ev}</span>"""
-
-    
     # stats
-    # if self.item['ArtistFollower_lat'] is None:
-    #   self.label_sp_fol.text = '-'
-    # else:
-    #   self.label_sp_fol.text = get_open_form().shorten_number(self.item["ArtistFollower_lat"])
+    # label_sp_fol: fcg.ev_sp_fol_30, fcg.ev_sp_li_30, fcg.ev_tt_fol_30
+    if self.item["ArtistFollower_lat"] == 'None':
+      self.label_sp_fol.content = """<span style="font-family: GS-regular; font-size: 20px; color: rgb(255, 255, 255); padding-left: 10px;">-</span>"""
+    else:
+      self.label_sp_fol.content = f"""<span style="font-family: GS-regular; font-size: 20px; color: rgb(255, 255, 255); padding-left: 10px;">{get_open_form().shorten_number(self.item["ArtistFollower_lat"])}</span>"""
       
+      if self.item["ev_sp_fol_30"] is not None:
+        val = int("{:.0f}".format(round(float(self.item["ev_sp_fol_30"])*100, 0)))
+        if val >= 3:
+          ev = f"""+{val}%"""
+          "{:.0f}".format(round(float(self.item["ev_sp_fol_30"])*100, 0))
+          col = 'green'
+        elif val < 0:
+          ev = f"""{val}%"""
+          col = 'red'
+        else:
+          ev = f"""+{val}%"""
+          col = 'grey'
+        
+        self.label_sp_fol.content = self.label_sp_fol.content + f"""<br><span style="font-size: 16px; color: {col};">{ev}</span>"""
+
     # print(f"{datetime.now()}: Observe Row 3a", flush=True)
-    if self.item['SpotifyMtlListeners_lat'] is None:
-      self.label_mtl_fol.text = '-'
+    # label_mtl_lis:
+    if self.item["SpotifyMtlListeners_lat"] == 'None':
+      self.label_mtl_lis.content = """<span style="font-family: GS-regular; font-size: 20px; color: rgb(255, 255, 255); padding-left: 10px;">-</span>"""
     else:
-      self.label_mtl_fol.text = get_open_form().shorten_number(self.item["SpotifyMtlListeners_lat"])
+      self.label_mtl_lis.content = f"""<span style="font-family: GS-regular; font-size: 20px; color: rgb(255, 255, 255); padding-left: 10px;">{get_open_form().shorten_number(self.item["SpotifyMtlListeners_lat"])}</span>"""
       
+      if self.item["ev_sp_li_30"] is not None:
+        val = int("{:.0f}".format(round(float(self.item["ev_sp_li_30"])*100, 0)))
+        if val >= 3:
+          ev = f"""+{val}%"""
+          "{:.0f}".format(round(float(self.item["ev_sp_li_30"])*100, 0))
+          col = 'green'
+        elif val < 0:
+          ev = f"""{val}%"""
+          col = 'red'
+        else:
+          ev = f"""+{val}%"""
+          col = 'grey'
+        
+        self.label_mtl_lis.content = self.label_mtl_lis.content + f"""<br><span style="font-size: 16px; color: {col};">{ev}</span>"""
+    
     # print(f"{datetime.now()}: Observe Row 3b", flush=True)
-    if self.item['TikTokFollower_lat'] is None:
-      self.label_tiktok_fol.text = '-'
+    # label_tiktok_fol:
+    if self.item["TikTokFollower_lat"] == 'None':
+      self.label_tiktok_fol.content = """<span style="font-family: GS-regular; font-size: 20px; color: rgb(255, 255, 255); padding-left: 10px;">-</span>"""
     else:
-      self.label_tiktok_fol.text = get_open_form().shorten_number(self.item["TikTokFollower_lat"])
+      self.label_tiktok_fol.content = f"""<span style="font-family: GS-regular; font-size: 20px; color: rgb(255, 255, 255); padding-left: 10px;">{get_open_form().shorten_number(self.item["TikTokFollower_lat"])}</span>"""
+      
+      if self.item["ev_tt_fol_30"] is not None:
+        val = int("{:.0f}".format(round(float(self.item["ev_tt_fol_30"])*100, 0)))
+        if val >= 3:
+          ev = f"""+{val}%"""
+          "{:.0f}".format(round(float(self.item["ev_tt_fol_30"])*100, 0))
+          col = 'green'
+        elif val < 0:
+          ev = f"""{val}%"""
+          col = 'red'
+        else:
+          ev = f"""+{val}%"""
+          col = 'grey'
+        
+        self.label_tiktok_fol.content = self.label_tiktok_fol.content + f"""<br><span style="font-size: 16px; color: {col};">{ev}</span>"""
+
+    # INVIVIDUAL STATS
+    # self.nav_grow_fits.role = 'section_buttons_focused'
+    print(self.item["Type"])
+    if self.item["Type"] == 'top_fits':
+      self.label_indiv.text = 'Spotify Pop.'
+      self.label_indiv_cont.role = 'header-5'
+      var = get_open_form().shorten_number(self.item["ArtistPopularity_lat"])
+      ev_var = self.item["ev_sp_pop_30"]
+    elif self.item["Type"] == 'grow_fits':
+      self.label_indiv.text = 'Growth Fit'
+      self.label_indiv_cont.role = 'header-5'
+      var = str(round(self.item["prediction_growth"]/7*100)) + '%'
+      ev_var = None
+    elif self.item["Type"] == 'release_fits':
+      self.label_indiv.text = 'Latest Release'
+      self.label_indiv_cont.role = 'header-6'
+      var = self.convert_date(str(self.item["LastReleaseDate"]))
+      ev_var = None
+      
+    if var == 'None':
+      self.label_indiv_cont.content = """<span style="font-family: GS-regular; font-size: 20px; color: rgb(255, 255, 255); padding-left: 10px;">-</span>"""
+    else:
+      self.label_indiv_cont.content = f"""<span style="font-family: GS-regular; font-size: 20px; color: rgb(255, 255, 255); padding-left: 10px;">{var}</span>"""
+      
+      if ev_var is not None:
+        val = int("{:.0f}".format(round(float(ev_var)*100, 0)))
+        if val >= 3:
+          ev = f"""+{val}%"""
+          "{:.0f}".format(round(float(ev_var)*100, 0))
+          col = 'green'
+        elif val < 0:
+          ev = f"""{val}%"""
+          col = 'red'
+        else:
+          ev = f"""+{val}%"""
+          col = 'grey'
+        
+        self.label_indiv_cont.content = self.label_indiv_cont.content + f"""<br><span style="font-size: 16px; color: {col};">{ev}</span>"""
+
+
+
     
     # print(f"{datetime.now()}: Observe Row 4", flush=True)
     # fit likelihood
