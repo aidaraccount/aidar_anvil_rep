@@ -507,7 +507,9 @@ class Discover(DiscoverTemplate):
               ev = f"""+{val}%"""
               col = 'grey'    
             getattr(self, lab_7).content = getattr(self, lab_7).content + f"""<span style="font-size: 16px; color: {col};">  {ev}</span>"""
-  
+          else:
+            getattr(self, lab_7).content = """<span style="font-family: GS-regular; font-size: 20px; color: rgb(255, 255, 255);">-</span>"""
+          
           # t30
           if ev_30 != 'None':
             val_30 = eval(val_30, {"sug": sug})
@@ -524,6 +526,8 @@ class Discover(DiscoverTemplate):
               ev = f"""+{val}%"""
               col = 'grey'    
             getattr(self, lab_30).content = getattr(self, lab_30).content + f"""<span style="font-size: 16px; color: {col};">  {ev}</span>"""
+          else:
+            getattr(self, lab_30).content = """<span style="font-family: GS-regular; font-size: 20px; color: rgb(255, 255, 255);">-</span>"""
       
       # -------------------------------
       # III. FANDOM
