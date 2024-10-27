@@ -335,3 +335,5 @@ roles:
   name: section_buttons-flex-items
 - components: [RichText]
   name: no-padding
+- components: [Label, RichText, Link]
+  name: header-9

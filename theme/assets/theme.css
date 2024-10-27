@@ -502,7 +502,6 @@ body, html {
   font-family: GS-regular;
   font-size: 14px;
   color: rgb(0, 0, 0);
-  /* color: %color:Orange%;   */
 }
 .anvil-role-margin-padding-0 {
   margin: 0 0 0 0;
@@ -512,13 +511,16 @@ body, html {
   font-family: GS-regular;
   font-size: 12px;
   color: rgb(240, 236, 228);
-  /* color: %color:Orange%;   */
+}
+.anvil-role-header-9 {
+  font-family: GS-regular;
+  font-size: 10px;
+  color: rgb(240, 236, 228);
 }
 .anvil-role-header-10 {
   font-family: GS-regular;
   font-size: 8px;
-  /* color: rgb(240, 236, 228); */
-  /* color: %color:Orange%;   */
+  color: rgb(240, 236, 228);
 }
 
 .anvil-role-transition-effect {
