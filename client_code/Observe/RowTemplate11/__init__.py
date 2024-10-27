@@ -71,11 +71,33 @@ class RowTemplate11(RowTemplate11Template):
         self.flow_panel_genre_tile.add_component(genre_label)
     
     # print(f"{datetime.now()}: Observe Row 3", flush=True)
+    # label_sp_fol: fcg.ev_sp_fol_30, fcg.ev_sp_li_30, fcg.ev_tt_fol_30
+      if self.item["ArtistFollower_lat"] == 'None':
+        self.label_sp_fol.content = """<span style="font-family: GS-regular; font-size: 20px; color: rgb(255, 255, 255); padding-left: 10px;">-</span>"""
+      else:
+        self.label_sp_fol.content = f"""<span style="font-family: GS-regular; font-size: 20px; color: rgb(255, 255, 255); padding-left: 10px;">{get_open_form().shorten_number(self.item["ArtistFollower_lat"])}</span>"""
+        
+        if self.item["ev_sp_fol_30"] != 'None':
+          val = int("{:.0f}".format(round(float(self.item["ev_sp_fol_30"])*100, 0)))
+          if val >= 3:
+            ev = f"""+{val}%"""
+            "{:.0f}".format(round(float(self.item["ev_sp_fol_30"])*100, 0))
+            col = 'green'
+          elif val < 0:
+            ev = f"""{val}%"""
+            col = 'red'
+          else:
+            ev = f"""+{val}%"""
+            col = 'grey'
+          
+          self.label_sp_fol.content = self.label_sp_fol.content + f"""<span style="font-size: 16px; color: {col};">  {ev}</span>"""
+
+    
     # stats
-    if self.item['ArtistFollower_lat'] is None:
-      self.label_sp_fol.text = '-'
-    else:
-      self.label_sp_fol.text = get_open_form().shorten_number(self.item["ArtistFollower_lat"])
+    # if self.item['ArtistFollower_lat'] is None:
+    #   self.label_sp_fol.text = '-'
+    # else:
+    #   self.label_sp_fol.text = get_open_form().shorten_number(self.item["ArtistFollower_lat"])
       
     # print(f"{datetime.now()}: Observe Row 3a", flush=True)
     if self.item['SpotifyMtlListeners_lat'] is None:
