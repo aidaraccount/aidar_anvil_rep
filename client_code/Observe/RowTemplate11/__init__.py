@@ -74,9 +74,9 @@ class RowTemplate11(RowTemplate11Template):
     # stats
     # label_sp_fol: fcg.ev_sp_fol_30, fcg.ev_sp_li_30, fcg.ev_tt_fol_30
     if self.item["ArtistFollower_lat"] == 'None':
-      self.label_sp_fol.content = """<span style="font-family: GS-regular; font-size: 20px; color: rgb(255, 255, 255); padding-left: 10px;">-</span>"""
+      self.label_sp_fol.content = """<span style="font-family: GS-regular; font-size: 20px; color: rgb(255, 255, 255);">-</span>"""
     else:
-      self.label_sp_fol.content = f"""<span style="font-family: GS-regular; font-size: 20px; color: rgb(255, 255, 255); padding-left: 10px;">{get_open_form().shorten_number(self.item["ArtistFollower_lat"])}</span>"""
+      self.label_sp_fol.content = f"""<span style="font-family: GS-regular; font-size: 20px; color: rgb(255, 255, 255);">{get_open_form().shorten_number(self.item["ArtistFollower_lat"])}</span>"""
       
       if self.item["ev_sp_fol_30"] is not None:
         val = int("{:.0f}".format(round(float(self.item["ev_sp_fol_30"])*100, 0)))
@@ -96,9 +96,9 @@ class RowTemplate11(RowTemplate11Template):
     # print(f"{datetime.now()}: Observe Row 3a", flush=True)
     # label_mtl_lis:
     if self.item["SpotifyMtlListeners_lat"] == 'None':
-      self.label_mtl_lis.content = """<span style="font-family: GS-regular; font-size: 20px; color: rgb(255, 255, 255); padding-left: 10px;">-</span>"""
+      self.label_mtl_lis.content = """<span style="font-family: GS-regular; font-size: 20px; color: rgb(255, 255, 255);">-</span>"""
     else:
-      self.label_mtl_lis.content = f"""<span style="font-family: GS-regular; font-size: 20px; color: rgb(255, 255, 255); padding-left: 10px;">{get_open_form().shorten_number(self.item["SpotifyMtlListeners_lat"])}</span>"""
+      self.label_mtl_lis.content = f"""<span style="font-family: GS-regular; font-size: 20px; color: rgb(255, 255, 255);">{get_open_form().shorten_number(self.item["SpotifyMtlListeners_lat"])}</span>"""
       
       if self.item["ev_sp_li_30"] is not None:
         val = int("{:.0f}".format(round(float(self.item["ev_sp_li_30"])*100, 0)))
@@ -118,9 +118,9 @@ class RowTemplate11(RowTemplate11Template):
     # print(f"{datetime.now()}: Observe Row 3b", flush=True)
     # label_tiktok_fol:
     if self.item["TikTokFollower_lat"] == 'None':
-      self.label_tiktok_fol.content = """<span style="font-family: GS-regular; font-size: 20px; color: rgb(255, 255, 255); padding-left: 10px;">-</span>"""
+      self.label_tiktok_fol.content = """<span style="font-family: GS-regular; font-size: 20px; color: rgb(255, 255, 255);">-</span>"""
     else:
-      self.label_tiktok_fol.content = f"""<span style="font-family: GS-regular; font-size: 20px; color: rgb(255, 255, 255); padding-left: 10px;">{get_open_form().shorten_number(self.item["TikTokFollower_lat"])}</span>"""
+      self.label_tiktok_fol.content = f"""<span style="font-family: GS-regular; font-size: 20px; color: rgb(255, 255, 255);">{get_open_form().shorten_number(self.item["TikTokFollower_lat"])}</span>"""
       
       if self.item["ev_tt_fol_30"] is not None:
         val = int("{:.0f}".format(round(float(self.item["ev_tt_fol_30"])*100, 0)))
@@ -141,25 +141,28 @@ class RowTemplate11(RowTemplate11Template):
     # self.nav_grow_fits.role = 'section_buttons_focused'
     print(self.item["Type"])
     if self.item["Type"] == 'top_fits':
-      self.label_indiv.text = 'Spotify Pop.'
+      self.label_indiv.content = 'Spotify<br>Pop.'
       self.label_indiv_cont.role = 'header-5'
+      font_size = 20
       var = get_open_form().shorten_number(self.item["ArtistPopularity_lat"])
       ev_var = self.item["ev_sp_pop_30"]
     elif self.item["Type"] == 'grow_fits':
-      self.label_indiv.text = 'Growth Fit'
+      self.label_indiv.content = 'Growth<br>Fit'
       self.label_indiv_cont.role = 'header-5'
+      font_size = 20
       var = str(round(self.item["prediction_growth"]/7*100)) + '%'
       ev_var = None
     elif self.item["Type"] == 'release_fits':
-      self.label_indiv.text = 'Latest Release'
+      self.label_indiv.content = 'Latest<br>Release'
       self.label_indiv_cont.role = 'header-6'
+      font_size = 18
       var = self.convert_date(str(self.item["LastReleaseDate"]))
       ev_var = None
       
     if var == 'None':
-      self.label_indiv_cont.content = """<span style="font-family: GS-regular; font-size: 20px; color: rgb(255, 255, 255); padding-left: 10px;">-</span>"""
+      self.label_indiv_cont.content = """<span style="font-family: GS-regular; font-size: 20px; color: rgb(255, 255, 255);">-</span>"""
     else:
-      self.label_indiv_cont.content = f"""<span style="font-family: GS-regular; font-size: 20px; color: rgb(255, 255, 255); padding-left: 10px;">{var}</span>"""
+      self.label_indiv_cont.content = f"""<span style="font-family: GS-regular; font-size: {font_size}px; color: rgb(255, 255, 255);">{var}</span>"""
       
       if ev_var is not None:
         val = int("{:.0f}".format(round(float(ev_var)*100, 0)))
