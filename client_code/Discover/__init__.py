@@ -321,7 +321,6 @@ class Discover(DiscoverTemplate):
           
           self.KPI_1.content = self.KPI_1.content + f"""<span style="font-size: 16px; color: {col};">  {ev}</span>"""
 
-      
       # -------------------------------
       # I. RELEASES
       # a) stats
@@ -416,13 +415,11 @@ class Discover(DiscoverTemplate):
       if self.data_grid_co_artists_pop.visible is True:
         # self.data_grid_co_artists_pop_data.items = sorted(co_artists, key=lambda x: float(x['ArtistPopularity_lat']), reverse=True)
         self.data_grid_co_artists_pop_data.items = sorted(co_artists, key=lambda x: float(x['ArtistPopularity_lat']) if x['ArtistPopularity_lat'] not in [None, ''] else 0.0, reverse=True)
-
       
       # --------
       # h) related artists table
       if self.data_grid_related_artists.visible is True:
         self.data_grid_related_artists_data.items = json.loads(anvil.server.call('get_dev_related_artists', artist_id, int(self.model_id)))
-
       
       # -------------------------------
       # II. SUCCESS
@@ -452,7 +449,56 @@ class Discover(DiscoverTemplate):
       else: 
         self.sp_fol_lat.text = f'{int(sug["ArtistFollower_lat"]):,}'
         self.create_artist_followers_scatter_chart()
+
+      # --------
+      # c) Stats
+      dict = {
+        'dev1': ('dev1_t0',  'sug["ArtistPopularity_lat"]',
+                 'dev1_t7',  'int(sug["ArtistPopularity_lat"]) + (int(sug["ArtistPopularity_lat"]) * float(sug["ev_sp_pop_7"]))', 'sug["ev_sp_pop_7"]',
+                 'dev1_t30', 'int(sug["ArtistPopularity_lat"]) + (int(sug["ArtistPopularity_lat"]) * float(sug["ev_sp_pop_30"]))', 'sug["ev_sp_pop_30"]'),
+        'dev2': ('dev2_t0',  'sug["ArtistFollower_lat"]',
+                 'dev2_t7',  'int(sug["ArtistFollower_lat"]) + (int(sug["ArtistFollower_lat"]) * float(sug["ev_sp_fol_7"]))', 'sug["ev_sp_fol_7"]',
+                 'dev2_t30', 'int(sug["ArtistFollower_lat"]) + (int(sug["ArtistFollower_lat"]) * float(sug["ev_sp_fol_30"]))', 'sug["ev_sp_fol_30"]')
+      }
+      for dev in ['dev1', 'dev2']:
+        lab_0, val_0, lab_7, val_7, ev_7, lab_30, val_30, ev_30 = dict[dev]
+
+        val_0 = eval(val_0, {"sug": sug})
+        val_7 = eval(val_7, {"sug": sug})
+        ev_7 = eval(ev_7, {"sug": sug})
+        val_30 = eval(val_30, {"sug": sug})
+        ev_30 = eval(ev_30, {"sug": sug})
         
+        # t0:
+        print(val_0)
+        print(val_7)
+        print(val_30)
+        if val_0 == 'None':
+          getattr(self, lab_0).content = """<span style="font-family: GS-regular; font-size: 20px; color: rgb(255, 255, 255); padding-left: 10px;">-</span>"""
+        else:
+          getattr(self, lab_0).content = f"""<span style="font-family: GS-regular; font-size: 20px; color: rgb(255, 255, 255); padding-left: 10px;">{val_0}</span>"""
+          
+        # # t7
+        if val_7 == 'None':
+          getattr(self, lab_7).content = """<span style="font-family: GS-regular; font-size: 20px; color: rgb(255, 255, 255); padding-left: 10px;">-</span>"""
+        else:
+          getattr(self, lab_7).content = f"""<span style="font-family: GS-regular; font-size: 20px; color: rgb(255, 255, 255); padding-left: 10px;">{get_open_form().shorten_number(val_7)}</span>"""
+          
+          if ev_7 != 'None':
+            val = int("{:.0f}".format(round(float(ev_7)*100, 0)))
+            if val >= 3:
+              ev = f"""+{val}%"""
+              "{:.0f}".format(round(float(ev_7)*100, 0))
+              col = 'green'
+            elif val < 0:
+              ev = f"""{val}%"""
+              col = 'red'
+            else:
+              ev = f"""+{val}%"""
+              col = 'grey'
+            
+            getattr(self, lab_7).content = getattr(self, lab_7).content + f"""<span style="font-size: 16px; color: {col};">  {ev}</span>"""
+
       
       # -------------------------------
       # III. FANDOM
