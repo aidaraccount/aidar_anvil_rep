@@ -24,7 +24,7 @@ components:
       name: label_7
       properties: {role: description-bio, text: 'Should the model remain strictly aligned with your references and well-rated artists, or would you prefer introducing a bit more diversity and creative exploration?'}
       type: Label
-    - event_bindings: {change: slider_1_change, slide: slider_1_slide}
+    - event_bindings: {change: slider_1_change}
       layout_properties: {grid_position: 'TPURJH,WPAWIH'}
       name: slider_1
       properties: {animate: true, bar_height: '', behaviour: tap, connect: lower, format: .0f, limit: '', max: 100, min: 0, padding: '', pips: true, pips_density: 1, pips_mode: values, pips_stepped: true, pips_values: '0,10,20,30,40,50,60,70,80,90,100', role: slider-growth, spacing_above: none, spacing_below: none, start: '0', step: 1, tooltips: false, visible: true}
