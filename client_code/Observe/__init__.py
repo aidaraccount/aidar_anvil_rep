@@ -17,7 +17,7 @@ class Observe(ObserveTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
-    # print(f"{datetime.now()}: Observe 0", flush=True)
+    print(f"{datetime.now()}: Observe 0", flush=True)
 
     # Any code you write here will run before the form opens.
     global user
@@ -33,7 +33,7 @@ class Observe(ObserveTemplate):
     self.flow_panel_release.visible = False
     
     # model_selection
-    # print(f"{datetime.now()}: Observe 1", flush=True)
+    print(f"{datetime.now()}: Observe 1", flush=True)
     models = json.loads(anvil.server.call('get_model_ids',  user["user_id"]))
 
     working_model = False
@@ -74,7 +74,7 @@ class Observe(ObserveTemplate):
             component.role = 'genre-box'
             break
       
-    # print(f"{datetime.now()}: Observe 2", flush=True)
+    print(f"{datetime.now()}: Observe 2", flush=True)
     # table
     if working_model is True:
       self.refresh_table()
@@ -84,12 +84,12 @@ class Observe(ObserveTemplate):
       self.flow_panel_models.visible = False
       self.data_grid.visible = False
     
-    # print(f"{datetime.now()}: Observe 3", flush=True)
+    print(f"{datetime.now()}: Observe 3", flush=True)
 
   
   # GET TABLE DATA
   def refresh_table(self, **event_args):    
-    # print(f"{datetime.now()}: Observe 2a", flush=True)
+    print(f"{datetime.now()}: Observe 2a", flush=True)
     # get list of activated models
     model_ids = []
     for component in self.flow_panel_models.get_components():
@@ -107,7 +107,6 @@ class Observe(ObserveTemplate):
     elif self.nav_release_fits.role == 'section_buttons_focused':
       type = 'release_fits'
       value = self.max_release_days.text
-    print(value)
     
     # get rated status
     if self.link_rated.text == 'rated':
@@ -131,7 +130,7 @@ class Observe(ObserveTemplate):
       self.data_grid.visible = True
       
       # get data
-      # print(f"{datetime.now()}: Observe 2b", flush=True)
+      print(f"{datetime.now()}: Observe 2b", flush=True)
       observed = json.loads(anvil.server.call('get_observed', 
                                               user["user_id"],
                                               model_ids,
@@ -142,19 +141,19 @@ class Observe(ObserveTemplate):
                                              ))
       
       # add numbering & type
-      # print(f"{datetime.now()}: Observe 2c", flush=True)
+      print(f"{datetime.now()}: Observe 2c", flush=True)
       for i, artist in enumerate(observed, start=1):
         artist['Number'] = i
         artist['Type'] = type
       
       # hand-over the data
-      # print(f"{datetime.now()}: Observe 2d", flush=True)
+      print(f"{datetime.now()}: Observe 2d", flush=True)
       self.repeating_panel_table.items = observed
       
-      # print(f"{datetime.now()}: Observe 2e", flush=True)
+      print(f"{datetime.now()}: Observe 2e", flush=True)
       self.no_trained_model.visible = False
       self.data_grid.visible = True
-      # print(f"{datetime.now()}: Observe 2f", flush=True)
+      print(f"{datetime.now()}: Observe 2f", flush=True)
   
   # MODEL BUTTONS
   def create_activate_model_handler(self, model_id):
