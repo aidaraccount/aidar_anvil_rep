@@ -128,7 +128,8 @@ class Observe(ObserveTemplate):
       watchlist = None
 
     self.data_grid.visible = False
-    
+
+    print(len(model_ids))
     if len(model_ids) > 0:
       self.data_grid.visible = True
       
