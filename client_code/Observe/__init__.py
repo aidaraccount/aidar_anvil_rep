@@ -82,6 +82,8 @@ class Observe(ObserveTemplate):
       self.no_trained_model.visible = True
       self.flow_panel_ratings.visible = False
       self.flow_panel_models.visible = False
+      self.flow_panel_wl.visible = False
+      self.flow_panel_sections.visible = False
       self.data_grid.visible = False
     
     print(f"{datetime.now()}: Observe 3", flush=True)

@@ -33,7 +33,7 @@ components:
       properties: {role: genre-box-deselect, text: all}
       type: Link
     layout_properties: {grid_position: 'YLNPWQ,VKPMGJ'}
-    name: flow_panel_ratings_copy
+    name: flow_panel_wl
     properties: {spacing_below: none}
     type: FlowPanel
   - components:
