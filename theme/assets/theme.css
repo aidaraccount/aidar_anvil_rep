@@ -1469,7 +1469,6 @@ body.anvil-highlight .nav-elt.placeholder {
   bottom: 0;
   width: 100%;
   font-size: 20px;
-  font-weight: 500;
   background-color:  %color:Primary 500%;;
   color: white;
   min-height: 70px;
