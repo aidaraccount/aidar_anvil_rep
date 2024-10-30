@@ -80,6 +80,7 @@ class Observe(ObserveTemplate):
       self.refresh_table()
     else:
       self.no_trained_model.visible = True
+      self.no_artists.visible = False
       self.flow_panel_ratings.visible = False
       self.flow_panel_models.visible = False
       self.flow_panel_wl.visible = False
@@ -150,11 +151,20 @@ class Observe(ObserveTemplate):
       
       # hand-over the data
       print(f"{datetime.now()}: Observe 2d", flush=True)
-      self.repeating_panel_table.items = observed
+      if len(observed) > 0:
+        self.repeating_panel_table.items = observed
+        self.data_grid.visible = True
+        self.no_artists.visible = False
+      else:
+        self.data_grid.visible = False
+        self.no_artists.visible = True
       
-      print(f"{datetime.now()}: Observe 2e", flush=True)
       self.no_trained_model.visible = False
-      self.data_grid.visible = True
+      print(f"{datetime.now()}: Observe 2e", flush=True)
+
+    else:
+      self.data_grid.visible = False
+      self.no_artists.visible = True
       print(f"{datetime.now()}: Observe 2f", flush=True)
   
   # MODEL BUTTONS

@@ -109,6 +109,19 @@ components:
     properties: {}
     type: ColumnPanel
   - components:
+    - layout_properties: {grid_position: 'FFHUXB,SNYWAS'}
+      name: label_1_copy_copy
+      properties: {align: center, bold: false, role: sub_title, text: No artists found}
+      type: Label
+    - layout_properties: {grid_position: 'XVSVDO,ELBDZT'}
+      name: label_2_copy
+      properties: {align: center, bold: false, role: description, text: Oops! No matches for your selection. Try adjusting your filters.}
+      type: Label
+    layout_properties: {grid_position: 'HDZENB,JZGCGC'}
+    name: no_artists
+    properties: {}
+    type: ColumnPanel
+  - components:
     - name: repeating_panel_table
       properties: {item_template: Observe.RowTemplate11}
       type: RepeatingPanel
