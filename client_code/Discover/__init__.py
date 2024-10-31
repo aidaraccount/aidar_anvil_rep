@@ -6,7 +6,7 @@ from anvil.tables import app_tables
 import anvil.users
 import anvil.server
 import json
-from datetime import datetime
+from datetime import datetime, timedelta
 import plotly.graph_objects as go
 from collections import defaultdict
 import itertools
@@ -954,13 +954,19 @@ class Discover(DiscoverTemplate):
     self.Most_Frequent_Labels_Graph.figure = fig
 
   def create_release_timing_scatter_chart(self, data):    
-    dates = [x["AlbumReleaseDate"] for x in data]
+    dates_str = [x["AlbumReleaseDate"] for x in data]
     tracks = [x["Title"] for x in data]
     labels = [x["LabelName"] for x in data]
     release = [0] * len(data)
 
+    dates = [datetime.strptime(date, '%Y-%m-%d') for date in dates_str]
+    min_date = min(dates)
+    # Substracting 50 days from the min date of the list of dates for visual purposes.
+    date_before_min = min_date - timedelta(days=50)
     # Get today's date
     today = datetime.today().strftime('%Y-%m-%d')
+    date_before_min = date_before_min.strftime('%Y-%m-%d')
+    print(date_before_min)
     
     # Creating the Scatter Chart
     fig = go.Figure(data=(
@@ -989,7 +995,7 @@ class Discover(DiscoverTemplate):
       margin = dict(t=50),
       xaxis=dict (
         showgrid=False,
-        range=[min(dates), today]  # Set x-axis range to end at today's date
+        range=[date_before_min, today]  # Set x-axis range to end at today's date
       ),
       yaxis=dict(
         range=[0.02, -0.01],  # Limit the y-axis
