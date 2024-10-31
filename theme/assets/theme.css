@@ -199,6 +199,11 @@ body, html {
   overflow: hidden !important;
 }
 
+.anvil-role-rows_discover_page {
+  display: flex;
+  align-items: center;
+}
+
 .anvil-role-rows_discover_page>.data-row-col>div {
   height: 100%;
   display: flex;
