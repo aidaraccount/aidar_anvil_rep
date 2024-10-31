@@ -3,7 +3,7 @@ components:
   - components:
     - data_bindings:
       - {code: 'self.item[''ArtistPictureURL'']', property: source, writeback: false}
-      layout_properties: {grid_position: 'ZCXBZR,YZBAZV'}
+      layout_properties: {full_width_row: false, grid_position: 'ZCXBZR,YZBAZV'}
       name: related_artist_image
       properties: {display_mode: zoom_to_fill, height: '65', role: artist-image-tables, spacing_above: small, spacing_below: small}
       type: Image
@@ -21,6 +21,7 @@ components:
     layout_properties: {grid_position: 'BGRBQL,GABOGC'}
     name: related_artist_name_link
     properties:
+      align: left
       role: [artist_name, center-table-element]
       spacing:
         padding: [null, null, null, null]
