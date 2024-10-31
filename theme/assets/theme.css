@@ -168,10 +168,19 @@ body, html {
   font-weight: normal;
 }
 
+.anvil-role-center-table-element .anvil-panel-col.anvil-panel-col-POBPFZ{
+  flex-grow: 16 !important;
+}
+
 .anvil-role-center-table-element {}
+
 
 /* This code makes sure the Artist names in the tables in the Discvoer by AI >> Releases page are centered. In case the box in which they are located changes the class might need to be changed as well */
 .anvil-panel-col.anvil-panel-col-ZUUXYF:has( .anvil-role-artist_name.anvil-role-center-table-element){
+  display: flex;
+  align-items: center;
+}
+.anvil-panel-col.anvil-panel-col-GABOGC:has( .anvil-role-artist_name.anvil-role-center-table-element){
   display: flex;
   align-items: center;
 }
@@ -204,10 +213,8 @@ body, html {
   align-items: center;
 }
 
-.anvil-role-rows_discover_page>.data-row-col>div {
-  height: 100%;
-  display: flex;
-  align-items: center;
+.anvil-role-rows_discover_page>.data-row-col {
+  flex-grow: 0.4
 }
 
 .data-row-col[data-grid-col-id="RAPPVC"]{ 

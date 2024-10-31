@@ -733,8 +733,7 @@ components:
         name: data_grid_co_artists_pop
         properties:
           columns:
-          - {data_key: column_1, id: JKSDUP, title: ''}
-          - {data_key: column_1, id: KMZHOJ, title: Artist}
+          - {data_key: column_1, id: JKSDUP, title: Artist}
           - {data_key: ArtistPopularity_lat, id: VJQQOR, title: Popularity}
           - {data_key: NoTracks, id: QNDOGE, title: No. of joint Tracks}
           role: table_header

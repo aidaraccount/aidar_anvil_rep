@@ -337,3 +337,5 @@ roles:
   name: no-padding
 - components: [Label, RichText, Link]
   name: header-9
+- components: [ColumnPanel]
+  name: center-table-element
