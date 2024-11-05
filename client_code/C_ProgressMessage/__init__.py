@@ -27,7 +27,7 @@ class C_ProgressMessage(C_ProgressMessageTemplate):
     self.model_id = model_id
     infos = json.loads(anvil.server.call('get_model_stats', self.model_id))[0]
     self.infos = infos
-    self.congrats_message.content = f"You have reachedd {milestone} ratings! \n Keep up the great work!"
+    self.congrats_message.content = f"You have reached {milestone} ratings! \n\n Keep up the great work!"
 
     if (infos["total_ratings"] + infos["no_references"]) > 50:
       self.custom_HTML_prediction(infos["overall_acc"])

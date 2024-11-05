@@ -12,12 +12,7 @@ from anvil import get_open_form
 
 def click_link(element, target, event_args):
   routing.clear_cache()
-  print("event_args:", event_args)
-  # if event_args['keys']['ctrl'] is True:
-  #   element.url = f"{anvil.server.get_app_origin()}/#{target}"
-  # else:
-  element.url = ''
-  routing.set_url_hash(target, load_from_cache=False)
+  # print("event_args:", event_args)
   # if event_args['keys']['ctrl'] is True:
   #   element.url = f"{anvil.server.get_app_origin()}/#{target}"
   # else:

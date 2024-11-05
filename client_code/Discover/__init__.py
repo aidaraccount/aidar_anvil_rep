@@ -59,7 +59,7 @@ class Discover(DiscoverTemplate):
   # SUGGESTIONS
   def refresh_sug(self, **event_args):
     #begin = datetime.now()
-    #print(f"{datetime.now()}: Discover - __init__ - 2", flush=True)
+    # print(f"{datetime.now()}: Discover - __init__ - 2", flush=True)
     #print(f"{datetime.now()}: Discover - __init__ - 3", flush=True)
     #print(f"TotalTime Discover: {datetime.now() - begin}", flush=True)
     
@@ -89,18 +89,7 @@ class Discover(DiscoverTemplate):
     url_artist_id = self.url_dict['artist_id']
     sug = json.loads(anvil.server.call('get_suggestion', 'Inspect', self.model_id, url_artist_id)) # Free, Explore, Inspect, Dissect
     self.sug = sug
-    
-    # Extract the total ratings
-    total_ratings = sug.get('total_ratings', 0)
-    print(total_ratings)
-    # Check if the user has hit a milestone and show an alert
-    if total_ratings == "10":
-      self.show_milestone_alert_2(10)
-    elif total_ratings == "25":
-      self.show_milestone_alert_2(25)
-    elif total_ratings == "50":
-      self.show_milestone_alert_2(50)
-    
+        
     # check status
     if sug["Status"] == 'Empty Model!':
       alert(title='Train you Model..',
@@ -137,6 +126,16 @@ class Discover(DiscoverTemplate):
         watchlist_presence = 'False'
       else:
         watchlist_presence = anvil.server.call('check_watchlist_presence', self.watchlist_id, artist_id)
+
+      # -------------------------------
+      # MILESTONE ALERT
+      total_ratings = sug['total_ratings']
+      if total_ratings == "10":
+        self.show_milestone_alert_2(10)
+      elif total_ratings == "25":
+        self.show_milestone_alert_2(25)
+      elif total_ratings == "50":
+        self.show_milestone_alert_2(50)
       
       # -------------------------------
       # NOTES
@@ -978,7 +977,6 @@ class Discover(DiscoverTemplate):
     # Get today's date
     today = datetime.today().strftime('%Y-%m-%d')
     date_before_min = date_before_min.strftime('%Y-%m-%d')
-    print(date_before_min)
     
     # Creating the Scatter Chart
     fig = go.Figure(data=(
@@ -987,7 +985,7 @@ class Discover(DiscoverTemplate):
         y = release,
         textposition='outside',
         hoverinfo='none',
-        hovertext= [f"Date: {date}<br>Track: {track}<br>Label: {label}" for date, track, label in zip(dates, tracks, labels)],
+        hovertext= [f"Date: {date.strftime('%Y-%m-%d')}<br>Track: {track}<br>Label: {label}" for date, track, label in zip(dates, tracks, labels)],
         hovertemplate='%{hovertext}<extra></extra>',
         marker=dict(
             color='rgb(237,139,82)',  # Color of the markers
