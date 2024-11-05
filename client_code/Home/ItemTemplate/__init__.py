@@ -17,8 +17,8 @@ class ItemTemplate(ItemTemplateTemplate):
 
     global user
     user = anvil.users.get_user()
-    global model_id
-    model_id = anvil.server.call('get_model_id',  user["user_id"])
+    # global model_id
+    # model_id = anvil.server.call('get_model_id',  user["user_id"])
 
     # Any code you write here will run before the form opens.
     # cut the name
