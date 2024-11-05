@@ -1,15 +1,12 @@
 from ._anvil_designer import DiscoverTemplate
-from ._anvil_designer import DiscoverTemplate
-from ._anvil_designer import DiscoverTemplate
 from anvil import *
-import plotly.graph_objects as go
 import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
 import anvil.users
 import anvil.server
 import json
-from datetime import datetime
+from datetime import datetime, timedelta
 import plotly.graph_objects as go
 from collections import defaultdict
 import itertools
@@ -22,7 +19,6 @@ from anvil.js.window import document
 from anvil.js.window import updateGauge
 from anvil.js.window import playSpotify
 from anvil.js.window import playSpotify_2
-# from anvil.js.window import createOrUpdateSpotifyPlayer
 
 from anvil_extras import routing
 from ..nav import click_link, click_button, logout, login_check, load_var, save_var
@@ -316,7 +312,7 @@ class Discover(DiscoverTemplate):
       if sug["ArtistFollower_lat"] == 'None':
         self.KPI_1.content = """<span style="font-family: GS-regular; font-size: 20px; color: rgb(255, 255, 255); padding-left: 10px;">-</span>"""
       else:
-        self.KPI_1.content = f"""<span style="font-family: GS-regular; font-size: 20px; color: rgb(255, 255, 255); padding-left: 10px;">{anvil.server.call('shorten_number', sug["ArtistFollower_lat"])}</span>"""
+        self.KPI_1.content = f"""<span style="font-family: GS-regular; font-size: 20px; color: rgb(255, 255, 255); padding-left: 10px;">{get_open_form().shorten_number(sug["ArtistFollower_lat"])}</span>"""
         
         if sug["ev_sp_fol_30"] != 'None':
           val = int("{:.0f}".format(round(float(sug["ev_sp_fol_30"])*100, 0)))
@@ -333,7 +329,6 @@ class Discover(DiscoverTemplate):
           
           self.KPI_1.content = self.KPI_1.content + f"""<span style="font-size: 16px; color: {col};">  {ev}</span>"""
 
-      
       # -------------------------------
       # I. RELEASES
       # a) stats
@@ -428,13 +423,11 @@ class Discover(DiscoverTemplate):
       if self.data_grid_co_artists_pop.visible is True:
         # self.data_grid_co_artists_pop_data.items = sorted(co_artists, key=lambda x: float(x['ArtistPopularity_lat']), reverse=True)
         self.data_grid_co_artists_pop_data.items = sorted(co_artists, key=lambda x: float(x['ArtistPopularity_lat']) if x['ArtistPopularity_lat'] not in [None, ''] else 0.0, reverse=True)
-
       
       # --------
       # h) related artists table
       if self.data_grid_related_artists.visible is True:
         self.data_grid_related_artists_data.items = json.loads(anvil.server.call('get_dev_related_artists', artist_id, int(self.model_id)))
-
       
       # -------------------------------
       # II. SUCCESS
@@ -464,7 +457,89 @@ class Discover(DiscoverTemplate):
       else: 
         self.sp_fol_lat.text = f'{int(sug["ArtistFollower_lat"]):,}'
         self.create_artist_followers_scatter_chart()
+
+      # --------
+      # II. SUCCESS - c) Stats
+      ev_dict = {
+        'dev1': ('dev1_t0',  'sug["ArtistPopularity_lat"]',
+                 'dev1_t7',  'int(sug["ArtistPopularity_lat"]) / (float(sug["ev_sp_pop_7"])+1)', 'sug["ev_sp_pop_7"]',
+                 'dev1_t30', 'int(sug["ArtistPopularity_lat"]) / (float(sug["ev_sp_pop_30"])+1)', 'sug["ev_sp_pop_30"]'),
+        'dev2': ('dev2_t0',  'sug["ArtistFollower_lat"]',
+                 'dev2_t7',  'int(sug["ArtistFollower_lat"]) / (float(sug["ev_sp_fol_7"])+1)', 'sug["ev_sp_fol_7"]',
+                 'dev2_t30', 'int(sug["ArtistFollower_lat"]) / (float(sug["ev_sp_fol_30"])+1)', 'sug["ev_sp_fol_30"]'),
+        'dev3': ('dev3_t0',  'sug["SpotifyMtlListeners_lat"]',
+                 'dev3_t7',  'int(sug["SpotifyMtlListeners_lat"]) / (float(sug["ev_sp_li_7"])+1)', 'sug["ev_sp_li_7"]',
+                 'dev3_t30', 'int(sug["SpotifyMtlListeners_lat"]) / (float(sug["ev_sp_li_30"])+1)', 'sug["ev_sp_li_30"]')  #,
+        # 'dev4': ('dev4_t0',  'sug["TikTokFollower_lat"]',
+        #          'dev4_t7',  'int(sug["TikTokFollower_lat"]) / (float(sug["ev_tt_fol_7"])+1)', 'sug["ev_tt_fol_7"]',
+        #          'dev4_t30', 'int(sug["TikTokFollower_lat"]) / (float(sug["ev_tt_fol_30"])+1)', 'sug["ev_tt_fol_30"]'),
+        # 'dev5': ('dev5_t0',  'sug["sp_mtl_listeners_lat"]',
+        #          'dev5_t7',  'int(sug["sp_mtl_listeners_lat"]) / (float(sug["ev_sp_li_7"])+1)', 'sug["ev_sp_li_7"]',
+        #          'dev5_t30', 'int(sug["sp_mtl_listeners_lat"]) / (float(sug["ev_sp_li_30"])+1)', 'sug["ev_sp_li_30"]')
+      }
+      
+      for dev in ['dev1', 'dev2', 'dev3']:
+        cont = False
+        if dev == 'dev1' and sug["ArtistPopularity_lat"] != 'None':
+          cont = True
+        elif dev == 'dev2' and sug["ArtistFollower_lat"] != 'None':
+          cont = True
+        elif dev == 'dev3' and sug["SpotifyMtlListeners_lat"] != 'None':
+          cont = True
+        elif dev == 'dev4' and sug["TikTokFollower_lat"] != 'None':
+          cont = True
+
+        lab_0, val_0, lab_7, val_7, ev_7, lab_30, val_30, ev_30 = ev_dict[dev]
+
+        if cont is False:
+          getattr(self, lab_0).content = """<span style="font-family: GS-regular; font-size: 20px; color: rgb(255, 255, 255);">-</span>"""
+          getattr(self, lab_7).content = """<span style="font-family: GS-regular; font-size: 20px; color: rgb(255, 255, 255);">-</span>"""
+          getattr(self, lab_30).content = """<span style="font-family: GS-regular; font-size: 20px; color: rgb(255, 255, 255);">-</span>"""
+        else:
+          val_0 = eval(val_0, {"sug": sug})
+          ev_7 = eval(ev_7, {"sug": sug})
+          ev_30 = eval(ev_30, {"sug": sug})
         
+          # t0:
+          getattr(self, lab_0).content = f"""<span style="font-family: GS-regular; font-size: 20px; color: rgb(255, 255, 255);">{get_open_form().shorten_number(val_0)}</span>"""
+          
+          # t7
+          if ev_7 != 'None':
+            val_7 = eval(val_7, {"sug": sug})
+            getattr(self, lab_7).content = f"""<span style="font-family: GS-regular; font-size: 20px; color: rgb(255, 255, 255);">{get_open_form().shorten_number(val_7)}</span>"""
+            val = int("{:.0f}".format(round(float(ev_7)*100, 0)))
+            if val >= 3:
+              ev = f"""+{val}%"""
+              "{:.0f}".format(round(float(ev_7)*100, 0))
+              col = 'green'
+            elif val < 0:
+              ev = f"""{val}%"""
+              col = 'red'
+            else:
+              ev = f"""+{val}%"""
+              col = 'grey'    
+            getattr(self, lab_7).content = getattr(self, lab_7).content + f"""<span style="font-size: 16px; color: {col};">  {ev}</span>"""
+          else:
+            getattr(self, lab_7).content = """<span style="font-family: GS-regular; font-size: 20px; color: rgb(255, 255, 255);">-</span>"""
+          
+          # t30
+          if ev_30 != 'None':
+            val_30 = eval(val_30, {"sug": sug})
+            getattr(self, lab_30).content = f"""<span style="font-family: GS-regular; font-size: 20px; color: rgb(255, 255, 255);">{get_open_form().shorten_number(val_30)}</span>"""
+            val = int("{:.0f}".format(round(float(ev_30)*100, 0)))
+            if val >= 3:
+              ev = f"""+{val}%"""
+              "{:.0f}".format(round(float(ev_30)*100, 0))
+              col = 'green'
+            elif val < 0:
+              ev = f"""{val}%"""
+              col = 'red'
+            else:
+              ev = f"""+{val}%"""
+              col = 'grey'    
+            getattr(self, lab_30).content = getattr(self, lab_30).content + f"""<span style="font-size: 16px; color: {col};">  {ev}</span>"""
+          else:
+            getattr(self, lab_30).content = """<span style="font-family: GS-regular; font-size: 20px; color: rgb(255, 255, 255);">-</span>"""
       
       # -------------------------------
       # III. FANDOM
@@ -476,7 +551,7 @@ class Discover(DiscoverTemplate):
         sp_mtl_lis_lat = monthly_listeners_data[-1]['MtlListeners']
 
         # KPI_2
-        self.KPI_2.content = f"""<span style="font-family: GS-regular; font-size: 20px; color: rgb(255, 255, 255); padding-left: 10px;">{anvil.server.call('shorten_number', sp_mtl_lis_lat)}</span>"""
+        self.KPI_2.content = f"""<span style="font-family: GS-regular; font-size: 20px; color: rgb(255, 255, 255); padding-left: 10px;">{get_open_form().shorten_number(sp_mtl_lis_lat)}</span>"""
         if sug["ev_sp_li_30"] != 'None':
           val = int("{:.0f}".format(round(float(sug["ev_sp_li_30"])*100, 0)))
           if val >= 3:
@@ -578,7 +653,7 @@ class Discover(DiscoverTemplate):
           tiktok_fol_lat = platform_data['tiktok']['followers'][-1]
           
           # KPI_3
-          self.KPI_3.content = f"""<span style="font-family: GS-regular; font-size: 20px; color: rgb(255, 255, 255); padding-left: 10px;">{anvil.server.call('shorten_number', tiktok_fol_lat)}</span>"""
+          self.KPI_3.content = f"""<span style="font-family: GS-regular; font-size: 20px; color: rgb(255, 255, 255); padding-left: 10px;">{get_open_form().shorten_number(tiktok_fol_lat)}</span>"""
           if sug["ev_tt_fol_30"] != 'None':
             val = int("{:.0f}".format(round(float(sug["ev_tt_fol_30"])*100, 0)))
             if val >= 3:
@@ -603,7 +678,6 @@ class Discover(DiscoverTemplate):
           self.soundcloud_follower.text = f'{int(soundcloud_fol_lat):,}'
         
         def create_social_media_followers_chart(data, platform, color):
-
           # Format the text for the bar annotations
           formatted_text = [f'{x/1e6:.1f}M' if x >= 1e6 else f'{x/1e3:.1f}K' if x >= 1e3 else str(x) for x in data['followers']]
           
@@ -892,13 +966,19 @@ class Discover(DiscoverTemplate):
     self.Most_Frequent_Labels_Graph.figure = fig
 
   def create_release_timing_scatter_chart(self, data):    
-    dates = [x["AlbumReleaseDate"] for x in data]
+    dates_str = [x["AlbumReleaseDate"] for x in data]
     tracks = [x["Title"] for x in data]
     labels = [x["LabelName"] for x in data]
     release = [0] * len(data)
 
+    dates = [datetime.strptime(date, '%Y-%m-%d') for date in dates_str]
+    min_date = min(dates)
+    # Substracting 50 days from the min date of the list of dates for visual purposes.
+    date_before_min = min_date - timedelta(days=50)
     # Get today's date
     today = datetime.today().strftime('%Y-%m-%d')
+    date_before_min = date_before_min.strftime('%Y-%m-%d')
+    print(date_before_min)
     
     # Creating the Scatter Chart
     fig = go.Figure(data=(
@@ -927,7 +1007,7 @@ class Discover(DiscoverTemplate):
       margin = dict(t=50),
       xaxis=dict (
         showgrid=False,
-        range=[min(dates), today]  # Set x-axis range to end at today's date
+        range=[date_before_min, today]  # Set x-axis range to end at today's date
       ),
       yaxis=dict(
         range=[0.02, -0.01],  # Limit the y-axis

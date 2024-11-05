@@ -36,7 +36,7 @@ components:
 - event_bindings: {click: related_click}
   layout_properties: {column: YTCRRC}
   name: link_1
-  properties: {icon: 'fa:arrow-right', icon_align: right, italic: false, role: null, spacing_above: none, spacing_below: none, text: See Related Artists}
+  properties: {icon: 'fa:arrow-right', icon_align: right, italic: false, role: null, spacing_above: none, spacing_below: none, text: See Rel. Artists}
   type: Link
 container:
   properties:

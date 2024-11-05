@@ -13,18 +13,27 @@ components:
       name: label_3_copy
       properties: {role: feature, text: 'Artist selection:    '}
       type: Label
-    - event_bindings: {click: link_unrated_click}
-      layout_properties: {}
-      name: link_unrated
-      properties: {role: genre-box, text: unrated}
-      type: Link
     - event_bindings: {click: link_rated_click}
       layout_properties: {}
       name: link_rated
-      properties: {role: genre-box-deselect, text: rated}
+      properties: {role: genre-box, text: unrated}
       type: Link
     layout_properties: {grid_position: 'HRBOSD,YLDDFN'}
     name: flow_panel_ratings
+    properties: {spacing_below: none}
+    type: FlowPanel
+  - components:
+    - layout_properties: {}
+      name: label_3_copy_copy
+      properties: {role: feature, text: 'Watchlist selection:    '}
+      type: Label
+    - event_bindings: {click: link_watchlist_click}
+      layout_properties: {}
+      name: link_watchlist
+      properties: {role: genre-box-deselect, text: all}
+      type: Link
+    layout_properties: {grid_position: 'YLNPWQ,VKPMGJ'}
+    name: flow_panel_wl
     properties: {spacing_below: none}
     type: FlowPanel
   - components:
@@ -37,6 +46,56 @@ components:
     properties: {spacing_above: none}
     type: FlowPanel
   - components:
+    - event_bindings: {click: nav_top_fits_click}
+      layout_properties: {}
+      name: nav_top_fits
+      properties: {col_spacing: medium, role: section_buttons, spacing_above: none, spacing_below: none, text: Top Fits}
+      type: Link
+    - event_bindings: {click: nav_grow_fits_click}
+      layout_properties: {}
+      name: nav_grow_fits
+      properties: {role: section_buttons, spacing_above: none, spacing_below: none, text: Growing Fits}
+      type: Link
+    - event_bindings: {click: nav_release_fit_click}
+      layout_properties: {}
+      name: nav_release_fits
+      properties: {role: section_buttons, spacing_above: none, spacing_below: none, text: Releasing Fits, visible: true}
+      type: Link
+    layout_properties: {grid_position: 'NREIRO,ZMEOXP'}
+    name: flow_panel_sections
+    properties: {background: '', role: section-background, spacing: small, spacing_above: none, spacing_below: none}
+    type: FlowPanel
+  - components:
+    - layout_properties: {}
+      name: label_3_copy_copy_copy
+      properties: {role: feature, text: '   Min. Growth Fit Prediction [%]:    '}
+      type: Label
+    - data_bindings: []
+      event_bindings: {pressed_enter: refresh_table}
+      layout_properties: {width: 81.3333}
+      name: min_growth_pred
+      properties: {hide_text: false, placeholder: '75', role: text_box_small, text: '75', type: number}
+      type: TextBox
+    layout_properties: {grid_position: 'WXPOUF,BUZUAZ'}
+    name: flow_panel_growth
+    properties: {spacing_below: none}
+    type: FlowPanel
+  - components:
+    - layout_properties: {}
+      name: label_3_copy_copy_copy_copy
+      properties: {role: feature, text: '   Max. days since latest Release:    '}
+      type: Label
+    - data_bindings: []
+      event_bindings: {pressed_enter: refresh_table}
+      layout_properties: {width: 81.3333}
+      name: max_release_days
+      properties: {hide_text: false, placeholder: '21', role: text_box_small, text: '21', type: number}
+      type: TextBox
+    layout_properties: {grid_position: 'IQUPUH,KGITLF'}
+    name: flow_panel_release
+    properties: {spacing_below: none}
+    type: FlowPanel
+  - components:
     - layout_properties: {grid_position: 'FFHUXB,SNYWAS'}
       name: label_1_copy
       properties: {align: center, bold: false, role: sub_title, text: None of your AI models is fully trained yet}
@@ -47,6 +106,19 @@ components:
       type: Label
     layout_properties: {grid_position: 'XMRDBE,TEXHQX'}
     name: no_trained_model
+    properties: {}
+    type: ColumnPanel
+  - components:
+    - layout_properties: {grid_position: 'FFHUXB,SNYWAS'}
+      name: label_1_copy_copy
+      properties: {align: center, bold: false, role: sub_title, text: No artists found}
+      type: Label
+    - layout_properties: {grid_position: 'XVSVDO,ELBDZT'}
+      name: label_2_copy
+      properties: {align: center, bold: false, role: description, text: Oops! No matches for your selection. Try adjusting your filters.}
+      type: Label
+    layout_properties: {grid_position: 'HDZENB,JZGCGC'}
+    name: no_artists
     properties: {}
     type: ColumnPanel
   - components:

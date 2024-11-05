@@ -294,8 +294,7 @@ components:
         properties: {role: music-icons-tile, spacing_above: none, spacing_below: none}
         type: FlowPanel
       - components:
-        - data_bindings: []
-          name: KPI_1
+        - name: KPI_1
           properties: {enable_slots: false, format: restricted_html, role: no-padding, spacing_above: none, spacing_below: none, tooltip: Evolution of last 30 days}
           type: RichText
         - layout_properties: {}
@@ -307,8 +306,7 @@ components:
         properties: {role: highlights-tile-background, spacing_above: small, spacing_below: none}
         type: LinearPanel
       - components:
-        - data_bindings: []
-          name: KPI_2
+        - name: KPI_2
           properties: {enable_slots: false, format: restricted_html, role: no-padding, spacing_above: none, spacing_below: none, tooltip: Evolution of last 30 days}
           type: RichText
         - layout_properties: {}
@@ -320,8 +318,7 @@ components:
         properties: {role: highlights-tile-background, spacing_above: small, spacing_below: none}
         type: LinearPanel
       - components:
-        - data_bindings: []
-          name: KPI_3
+        - name: KPI_3
           properties: {enable_slots: false, format: restricted_html, role: no-padding, spacing_above: none, spacing_below: none, tooltip: Evolution of last 30 days}
           type: RichText
         - layout_properties: {}
@@ -807,40 +804,186 @@ components:
       properties: {height: 32}
       type: Spacer
     - components:
+      - layout_properties: {grid_position: 'JNAMVS,SXUSHR'}
+        name: Heading_for_Spotify_Popularity_Graph_copy_copy_2
+        properties: {role: Discover_artist_name, spacing_above: none, spacing_below: none, text: Development}
+        type: Label
+      - layout_properties: {grid_position: 'PGBNUO,UQTVVS EPNXJQ,VEXRVX PYODPC,PFRSQF'}
+        name: label_10_copy_4
+        properties: {align: center, role: header-9, spacing_above: none, spacing_below: none, text: 7 days ago}
+        type: Label
+      - event_bindings: {click: info_sp_pop_lat}
+        layout_properties: {grid_position: 'PGBNUO,SPUHHC MYWCPY,IIJUUQ'}
+        name: link_19_copy_2_copy_copy_copy_copy_2
+        properties: {align: center, background: '', bold: false, border: '', col_spacing: medium, col_widths: '', font: '', font_size: null, foreground: '', icon: '', icon_align: left, italic: false, role: header-5, spacing_above: medium, spacing_below: none, text: Spotify Popularity, tooltip: '', underline: false, url: '', visible: true, wrap_on: mobile}
+        type: Link
+      - event_bindings: {click: info_sp_pop_lat}
+        layout_properties: {grid_position: 'PGBNUO,SPUHHC TIXZBD,RXIILD'}
+        name: link_19_copy_2_copy_copy_copy_copy_2_copy
+        properties: {align: center, background: '', bold: false, border: '', col_spacing: medium, col_widths: '', font: '', font_size: null, foreground: '', icon: '', icon_align: left, italic: false, role: header-5, spacing_above: large, spacing_below: none, text: Spotify Follower, tooltip: '', underline: false, url: '', visible: true, wrap_on: mobile}
+        type: Link
+      - event_bindings: {click: info_sp_pop_lat}
+        layout_properties: {grid_position: 'PGBNUO,UQTVVS FFHTOZ,FIQNKF'}
+        name: link_19_copy_2_copy_copy_copy_copy_2_copy_copy_copy
+        properties: {align: center, background: '', bold: false, border: '', col_spacing: medium, col_widths: '', font: '', font_size: null, foreground: '', icon: '', icon_align: left, italic: false, role: header-5, spacing_above: large, spacing_below: none, text: TikTok Follower, tooltip: '', underline: false, url: '', visible: true, wrap_on: mobile}
+        type: Link
+      - layout_properties: {grid_position: 'PGBNUO,UQTVVS EPNXJQ,CNFCCW KSKQJL,AEOPAU'}
+        name: dev4_t30
+        properties: {align: center, enable_slots: false, format: restricted_html, role: no-padding, spacing_above: none, spacing_below: none, tooltip: Evolution of last 30 days}
+        type: RichText
+      - event_bindings: {click: info_sp_pop_lat}
+        layout_properties: {grid_position: 'PGBNUO,UQTVVS UMBNJL,JYKRGF'}
+        name: link_19_copy_2_copy_copy_copy_copy_2_copy_copy
+        properties: {align: center, background: '', bold: false, border: '', col_spacing: medium, col_widths: '', font: '', font_size: null, foreground: '', icon: '', icon_align: left, italic: false, role: header-5, spacing_above: medium, spacing_below: none, text: Spotify mtl. Listeners, tooltip: '', underline: false, url: '', visible: true, wrap_on: mobile}
+        type: Link
+      - layout_properties: {grid_position: 'PGBNUO,UQTVVS EPNXJQ,VEXRVX LULRIE,KLYUTY'}
+        name: dev4_t7
+        properties: {align: center, enable_slots: false, format: restricted_html, role: no-padding, spacing_above: none, spacing_below: none, tooltip: Evolution of last 30 days}
+        type: RichText
+      - layout_properties: {grid_position: 'PGBNUO,UQTVVS EPNXJQ,KEZRMP VLLNUV,KFGZDZ'}
+        name: label_9_copy_4
+        properties: {align: center, role: header-9, spacing_above: none, spacing_below: none, text: today}
+        type: Label
+      - layout_properties: {grid_position: 'PGBNUO,UQTVVS EPNXJQ,KEZRMP JHVMJB,CMIDYR'}
+        name: dev4_t0
+        properties: {align: center, enable_slots: false, format: restricted_html, role: no-padding, spacing_above: none, spacing_below: none, tooltip: Evolution of last 30 days}
+        type: RichText
+      - layout_properties: {grid_position: 'PGBNUO,UQTVVS EPNXJQ,CNFCCW TVLQXU,PUQWFH'}
+        name: label_11_copy_4
+        properties: {align: center, role: header-9, spacing_above: none, spacing_below: none, text: 30 days ago}
+        type: Label
+      - layout_properties: {grid_position: 'PGBNUO,SPUHHC FLBKDU,GNCPLP VROHGX,UGHESG'}
+        name: label_10_copy_3
+        properties: {align: center, role: header-9, spacing_above: none, spacing_below: none, text: 7 days ago, visible: false}
+        type: Label
+      - layout_properties: {grid_position: 'PGBNUO,SPUHHC FLBKDU,OMKUOH EAFQKU,IOIVRT'}
+        name: dev5_t30
+        properties: {align: center, enable_slots: false, format: restricted_html, role: no-padding, spacing_above: none, spacing_below: none, tooltip: Evolution of last 30 days, visible: false}
+        type: RichText
+      - event_bindings: {click: info_sp_pop_lat}
+        layout_properties: {grid_position: 'PGBNUO,SPUHHC FNGHQU,IDQWAP'}
+        name: link_19_copy_2_copy_copy_copy_copy_2_copy_copy_copy_copy
+        properties: {align: center, background: '', bold: false, border: '', col_spacing: medium, col_widths: '', font: '', font_size: null, foreground: '', icon: '', icon_align: left, italic: false, role: header-5, spacing_above: large, spacing_below: none, text: Instagram Follower, tooltip: '', underline: false, url: '', visible: false, wrap_on: mobile}
+        type: Link
+      - layout_properties: {grid_position: 'PGBNUO,SPUHHC FLBKDU,NOREFP ETOTFL,PKLVVV'}
+        name: dev5_t0
+        properties: {align: center, enable_slots: false, format: restricted_html, role: no-padding, spacing_above: none, spacing_below: none, tooltip: Evolution of last 30 days, visible: false}
+        type: RichText
+      - layout_properties: {grid_position: 'PGBNUO,SPUHHC FLBKDU,NOREFP SMVVBA,SFLFHN'}
+        name: label_9_copy_3
+        properties: {align: center, role: header-9, spacing_above: none, spacing_below: none, text: today, visible: false}
+        type: Label
+      - layout_properties: {grid_position: 'PGBNUO,SPUHHC FLBKDU,OMKUOH BVTITR,DRQDHA'}
+        name: label_11_copy_3
+        properties: {align: center, role: header-9, spacing_above: none, spacing_below: none, text: 30 days ago, visible: false}
+        type: Label
+      - layout_properties: {grid_position: 'PGBNUO,SPUHHC FLBKDU,GNCPLP DVOGBH,HRXWYJ'}
+        name: dev5_t7
+        properties: {align: center, enable_slots: false, format: restricted_html, role: no-padding, spacing_above: none, spacing_below: none, tooltip: Evolution of last 30 days, visible: false}
+        type: RichText
+      layout_properties: {grid_position: 'VRXXCE,WBHRZR'}
+      name: Panel_for_Spotify_Popularity_Graph_copy
+      properties: {role: grid-main, visible: false}
+      type: ColumnPanel
+    - components:
       - layout_properties: {grid_position: 'BCHOZO,TMNYIR'}
         name: Heading_for_Spotify_Popularity_Graph_copy
         properties: {role: Discover_artist_name, spacing_above: none, spacing_below: none, text: ' Spotify Popularity'}
+        type: Label
+      - layout_properties: {grid_position: 'JTENZN,QOKQTS'}
+        name: spacer_7
+        properties: {height: 32}
+        type: Spacer
+      - layout_properties: {grid_position: 'JTENZN,QWEDSL JCFZWG,DPPQWB'}
+        name: dev1_t0
+        properties: {align: center, enable_slots: false, format: restricted_html, role: no-padding, spacing_above: none, spacing_below: none, tooltip: Evolution of last 30 days}
+        type: RichText
+      - layout_properties: {grid_position: 'JTENZN,AXMSMX HBXIPR,JYBBPK'}
+        name: dev1_t7
+        properties: {align: center, enable_slots: false, format: restricted_html, role: no-padding, spacing_above: none, spacing_below: none, tooltip: Evolution of last 30 days}
+        type: RichText
+      - layout_properties: {grid_position: 'JTENZN,QWEDSL MYEFZW,RRVXNK'}
+        name: label_9
+        properties: {align: center, role: header-9, spacing_above: none, spacing_below: none, text: today}
+        type: Label
+      - layout_properties: {grid_position: 'JTENZN,AXMSMX HLQUUM,JETCMR'}
+        name: label_10
+        properties: {align: center, role: header-9, spacing_above: none, spacing_below: none, text: 7 days ago}
+        type: Label
+      - layout_properties: {grid_position: 'JTENZN,OYJKOP ZJUCAV,WFBFWW'}
+        name: dev1_t30
+        properties: {align: center, enable_slots: false, format: restricted_html, role: no-padding, spacing_above: none, spacing_below: none, tooltip: Evolution of last 30 days}
+        type: RichText
+      - layout_properties: {grid_position: 'JTENZN,OYJKOP NHOBSX,FLPRJT'}
+        name: label_11
+        properties: {align: center, role: header-9, spacing_above: none, spacing_below: none, text: 30 days ago}
         type: Label
       - event_bindings: {}
         layout_properties: {grid_position: 'VQTYJE,RKWVRK'}
         name: Spotify_Popularity_Graph
         properties: {height: '300', interactive: true, spacing_above: small, spacing_below: small, tooltip: '', visible: true}
         type: Plot
+      - layout_properties: {grid_position: 'JTENZN,SEJVBE'}
+        name: spacer_10
+        properties: {height: 32}
+        type: Spacer
       - layout_properties: {grid_position: 'EBWGNK,KOJDEF'}
         name: No_Spotify_Popularity_Graph
         properties: {align: center, role: description, spacing_above: large, spacing_below: large, text: no data available, visible: false}
         type: Label
-      layout_properties: {grid_position: 'LQBFWD,XVWGUZ'}
+      layout_properties: {grid_position: 'REOTLD,MBPQKG'}
       name: Panel_for_Spotify_Popularity_Graph
-      properties: {role: grid-main}
+      properties: {col_widths: '{"QOKQTS":15,"QWEDSL":10,"AXMSMX":10,"OYJKOP":10,"SEJVBE":15}', role: grid-main}
       type: ColumnPanel
     - components:
       - layout_properties: {grid_position: 'MHFOQZ,VJFZOS'}
         name: Heading_for_Spotify_Followers_Graph_copy
         properties: {role: Discover_artist_name, spacing_above: none, spacing_below: none, text: ' Spotify Follower'}
         type: Label
+      - layout_properties: {grid_position: 'TYUFHT,PJQXRC'}
+        name: spacer_12
+        properties: {height: 32}
+        type: Spacer
+      - layout_properties: {grid_position: 'TYUFHT,FIYWKR BYVKXH,YMRIRQ'}
+        name: dev2_t0
+        properties: {align: center, enable_slots: false, format: restricted_html, role: no-padding, spacing_above: none, spacing_below: none, tooltip: Evolution of last 30 days}
+        type: RichText
+      - layout_properties: {grid_position: 'TYUFHT,FIYWKR NFTVGL,XFGMYO'}
+        name: label_9_copy_2
+        properties: {align: center, role: header-9, spacing_above: none, spacing_below: none, text: today}
+        type: Label
+      - layout_properties: {grid_position: 'TYUFHT,OUSXVT EKHTMJ,ALWANJ'}
+        name: dev2_t7
+        properties: {align: center, enable_slots: false, format: restricted_html, role: no-padding, spacing_above: none, spacing_below: none, tooltip: Evolution of last 30 days}
+        type: RichText
+      - layout_properties: {grid_position: 'TYUFHT,UMMOBO LWEPNC,FJZOHI'}
+        name: label_11_copy_2
+        properties: {align: center, role: header-9, spacing_above: none, spacing_below: none, text: 30 days ago}
+        type: Label
+      - layout_properties: {grid_position: 'TYUFHT,UMMOBO BFKEWK,ZMSCDP'}
+        name: dev2_t30
+        properties: {align: center, enable_slots: false, format: restricted_html, role: no-padding, spacing_above: none, spacing_below: none, tooltip: Evolution of last 30 days}
+        type: RichText
+      - layout_properties: {grid_position: 'TYUFHT,OUSXVT ZMBUAN,ZEEDLE'}
+        name: label_10_copy_2
+        properties: {align: center, role: header-9, spacing_above: none, spacing_below: none, text: 7 days ago}
+        type: Label
       - event_bindings: {}
         layout_properties: {grid_position: 'VQTYJE,FJXENJ'}
         name: Spotify_Followers_Graph
         properties: {height: '300', interactive: true, spacing_above: none, spacing_below: none, tooltip: '', visible: true}
         type: Plot
+      - layout_properties: {grid_position: 'TYUFHT,JPDJGB'}
+        name: spacer_11
+        properties: {height: 32}
+        type: Spacer
       - layout_properties: {grid_position: 'UWEOXY,PSFSFL'}
         name: No_Spotify_Followers_Graph
         properties: {align: center, role: description, spacing_above: large, spacing_below: large, text: no data available, visible: false}
         type: Label
-      layout_properties: {grid_position: 'PYRJPZ,MZKQML'}
+      layout_properties: {grid_position: 'RSQBUW,ERZDZL'}
       name: Panel_for_Spotify_Followers_Graph
-      properties: {role: grid-main, spacing_above: none, spacing_below: none}
+      properties: {col_widths: '{"PJQXRC":15,"FIYWKR":10,"OUSXVT":10,"UMMOBO":10,"JPDJGB":15}', role: grid-main, spacing_above: none, spacing_below: none}
       type: ColumnPanel
     layout_properties: {grid_position: 'SHZKXU,TURGAE'}
     name: sec_success
@@ -926,18 +1069,50 @@ components:
         name: Heading_for_Spotify_Monthly_Listeners_Graph_copy
         properties: {role: Discover_artist_name, spacing_above: none, spacing_below: none, text: ' Spotify Monthly Listeners'}
         type: Label
+      - layout_properties: {grid_position: 'LJEWLO,XPKPSB'}
+        name: spacer_14
+        properties: {height: 32}
+        type: Spacer
+      - layout_properties: {grid_position: 'LJEWLO,ZTJWYM DSUTZN,HGICGD'}
+        name: dev3_t0
+        properties: {align: center, enable_slots: false, format: restricted_html, role: no-padding, spacing_above: none, spacing_below: none, tooltip: Evolution of last 30 days}
+        type: RichText
+      - layout_properties: {grid_position: 'LJEWLO,KPHRDB QJKLNN,OEKYRO'}
+        name: dev3_t7
+        properties: {align: center, enable_slots: false, format: restricted_html, role: no-padding, spacing_above: none, spacing_below: none, tooltip: Evolution of last 30 days}
+        type: RichText
+      - layout_properties: {grid_position: 'LJEWLO,KPHRDB ETXBJI,AWBTPW'}
+        name: label_10_copy
+        properties: {align: center, role: header-9, spacing_above: none, spacing_below: none, text: 7 days ago}
+        type: Label
+      - layout_properties: {grid_position: 'LJEWLO,ZTJWYM SHLBBF,DKSGRM'}
+        name: label_9_copy
+        properties: {align: center, role: header-9, spacing_above: none, spacing_below: none, text: today}
+        type: Label
+      - layout_properties: {grid_position: 'LJEWLO,WVDYXZ MDDDOC,CUEISX'}
+        name: label_11_copy
+        properties: {align: center, role: header-9, spacing_above: none, spacing_below: none, text: 30 days ago}
+        type: Label
+      - layout_properties: {grid_position: 'LJEWLO,WVDYXZ HXQBKX,AASGHU'}
+        name: dev3_t30
+        properties: {align: center, enable_slots: false, format: restricted_html, role: no-padding, spacing_above: none, spacing_below: none, tooltip: Evolution of last 30 days}
+        type: RichText
       - event_bindings: {}
         layout_properties: {grid_position: 'VQTYJE,RKWVRK'}
         name: Spotify_Monthly_Listeners_Graph
         properties: {height: '300', interactive: true, spacing_above: none, spacing_below: none, tooltip: '', visible: true}
         type: Plot
+      - layout_properties: {grid_position: 'LJEWLO,MAZPYD'}
+        name: spacer_13
+        properties: {height: 32}
+        type: Spacer
       - layout_properties: {grid_position: 'MCTTTL,OTDAWL'}
         name: No_Spotify_Monthly_Listeners_Graph
         properties: {align: center, role: description, spacing_above: large, spacing_below: large, text: no data available, visible: false}
         type: Label
-      layout_properties: {grid_position: 'THWUBZ,UTVCWM'}
+      layout_properties: {grid_position: 'UPQLHM,RQJOLJ'}
       name: Panel_for_Spotify_Monthly_Listeners_Graph
-      properties: {role: grid-main}
+      properties: {col_widths: '{"XPKPSB":15,"ZTJWYM":10,"KPHRDB":10,"WVDYXZ":10,"MAZPYD":15}', role: grid-main}
       type: ColumnPanel
     - components:
       - layout_properties: {grid_position: 'BCHOZO,TMNYIR'}

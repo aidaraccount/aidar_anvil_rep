@@ -6,7 +6,7 @@ import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
 import json
-
+from datetime import datetime
 
 from anvil_extras import routing
 from ..nav import click_link, click_button, logout, login_check, load_var
@@ -17,7 +17,7 @@ class Observe(ObserveTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
-
+    # print(f"{datetime.now()}: Observe 0", flush=True)
 
     # Any code you write here will run before the form opens.
     global user
@@ -28,7 +28,12 @@ class Observe(ObserveTemplate):
     print(f"Observe model_id: {model_id}")
 
     # GENERAL
+    self.nav_top_fits.role = 'section_buttons_focused'
+    self.flow_panel_growth.visible = False
+    self.flow_panel_release.visible = False
+    
     # model_selection
+    # print(f"{datetime.now()}: Observe 1", flush=True)
     models = json.loads(anvil.server.call('get_model_ids',  user["user_id"]))
 
     working_model = False
@@ -69,18 +74,25 @@ class Observe(ObserveTemplate):
             component.role = 'genre-box'
             break
       
+    # print(f"{datetime.now()}: Observe 2", flush=True)
     # table
     if working_model is True:
       self.refresh_table()
     else:
       self.no_trained_model.visible = True
+      self.no_artists.visible = False
       self.flow_panel_ratings.visible = False
       self.flow_panel_models.visible = False
+      self.flow_panel_wl.visible = False
+      self.flow_panel_sections.visible = False
       self.data_grid.visible = False
     
+    # print(f"{datetime.now()}: Observe 3", flush=True)
 
-  # refresh the table
-  def refresh_table(self):    
+  
+  # GET TABLE DATA
+  def refresh_table(self, **event_args):    
+    # print(f"{datetime.now()}: Observe 2a", flush=True)
     # get list of activated models
     model_ids = []
     for component in self.flow_panel_models.get_components():
@@ -88,37 +100,73 @@ class Observe(ObserveTemplate):
         if component.role == 'genre-box':
           model_ids.append(component.tag)
 
-    # get un/-rated status
-    if self.link_rated.role == 'genre-box-deselect':
-      rated = False
-    elif self.link_unrated.role == 'genre-box-deselect':
+    # get type status
+    if self.nav_top_fits.role == 'section_buttons_focused':
+      type = 'top_fits'
+      value = None
+    elif self.nav_grow_fits.role == 'section_buttons_focused':
+      type = 'grow_fits'
+      value = self.min_growth_pred.text/100*7
+    elif self.nav_release_fits.role == 'section_buttons_focused':
+      type = 'release_fits'
+      value = self.max_release_days.text
+    
+    # get rated status
+    if self.link_rated.text == 'rated':
       rated = True
+    elif self.link_rated.text == 'unrated':
+      rated = False
     else:
       rated = None
 
-    selection = True
-    if self.link_rated.role == 'genre-box-deselect' and self.link_unrated.role == 'genre-box-deselect':
-      selection = False
-      
+    # get watchlist status
+    if self.link_watchlist.text == 'on watchlist':
+      watchlist = True
+    elif self.link_watchlist.text == 'not on watchlist':
+      watchlist = False
+    else:
+      watchlist = None
+
     self.data_grid.visible = False
-    
-    if len(model_ids) > 0 and selection is True:
-      self.data_grid.visible = True
+
+    if len(model_ids) > 0:    
+      self.no_trained_model.visible = False
       
       # get data
-      observed = json.loads(anvil.server.call('get_observed', model_ids, rated))
+      # print(f"{datetime.now()}: Observe 2b", flush=True)
+      observed = json.loads(anvil.server.call('get_observed', 
+                                              user["user_id"],
+                                              model_ids,
+                                              type,
+                                              rated,
+                                              watchlist,
+                                              value
+                                             ))
       
-      # add numbering
+      # add numbering & type
+      # print(f"{datetime.now()}: Observe 2c", flush=True)
       for i, artist in enumerate(observed, start=1):
         artist['Number'] = i
-  
-      # hand-over the data
-      self.repeating_panel_table.items = observed
+        artist['Type'] = type
       
-      self.no_trained_model.visible = False
-      self.data_grid.visible = True
+      # hand-over the data
+      # print(f"{datetime.now()}: Observe 2d", flush=True)
+      if len(observed) > 0:
+        self.no_artists.visible = False
+        self.repeating_panel_table.items = observed
+        self.data_grid.visible = True
+      else:
+        self.data_grid.visible = False
+        self.no_artists.visible = True
+      
+      # print(f"{datetime.now()}: Observe 2e", flush=True)
+
+    else:
+      self.data_grid.visible = False
+      self.no_artists.visible = True
+      # print(f"{datetime.now()}: Observe 2f", flush=True)
   
-  # activate model
+  # MODEL BUTTONS
   def create_activate_model_handler(self, model_id):
     def handler(**event_args):
       self.activate_model(model_id)
@@ -152,21 +200,56 @@ class Observe(ObserveTemplate):
     if working_model is True:
       self.refresh_table()
     else:
+      self.no_artists.visible = True
       self.data_grid.visible = False
 
-  def link_unrated_click(self, **event_args):
-    if self.link_unrated.role == 'genre-box':
-      self.link_unrated.role = 'genre-box-deselect'
-      # self.link_rated.role = 'genre-box'
-    else:
-      self.link_unrated.role = 'genre-box'
-    self.refresh_table()
-
+  # RATED BUTTON
   def link_rated_click(self, **event_args):
-    if self.link_rated.role == 'genre-box':
+    if self.link_rated.text == 'rated':
+      self.link_rated.text = 'unrated'
+      self.link_rated.role = 'genre-box'
+    elif self.link_rated.text == 'unrated':
+      self.link_rated.text = 'all'
       self.link_rated.role = 'genre-box-deselect'
-      # self.link_unrated.role = 'genre-box'
-    else:
+    elif self.link_rated.text == 'all':
+      self.link_rated.text = 'rated'
       self.link_rated.role = 'genre-box'
     self.refresh_table()
-      
+
+  # WATCHLIST BUTTON
+  def link_watchlist_click(self, **event_args):
+    if self.link_watchlist.text == 'on watchlist':
+      self.link_watchlist.text = 'not on watchlist'
+      self.link_watchlist.role = 'genre-box'
+    elif self.link_watchlist.text == 'not on watchlist':
+      self.link_watchlist.text = 'all'
+      self.link_watchlist.role = 'genre-box-deselect'
+    elif self.link_watchlist.text == 'all':
+      self.link_watchlist.text = 'on watchlist'
+      self.link_watchlist.role = 'genre-box'      
+    self.refresh_table()
+
+  # NAVIGATION
+  def nav_top_fits_click(self, **event_args):
+    self.nav_top_fits.role = 'section_buttons_focused'
+    self.nav_grow_fits.role = 'section_buttons'
+    self.nav_release_fits.role = 'section_buttons'
+    self.flow_panel_growth.visible = False
+    self.flow_panel_release.visible = False
+    self.refresh_table()
+
+  def nav_grow_fits_click(self, **event_args):
+    self.nav_top_fits.role = 'section_buttons'
+    self.nav_grow_fits.role = 'section_buttons_focused'
+    self.nav_release_fits.role = 'section_buttons'
+    self.flow_panel_growth.visible = True
+    self.flow_panel_release.visible = False
+    self.refresh_table()
+
+  def nav_release_fit_click(self, **event_args):
+    self.nav_top_fits.role = 'section_buttons'
+    self.nav_grow_fits.role = 'section_buttons'
+    self.nav_release_fits.role = 'section_buttons_focused'
+    self.flow_panel_growth.visible = False
+    self.flow_panel_release.visible = True
+    self.refresh_table()
