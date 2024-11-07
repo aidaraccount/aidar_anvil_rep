@@ -29,6 +29,9 @@ components:
           align: center
           foreground: ''
           role: [header-3, orange]
+          spacing:
+            margin: [null, null, 5, null]
+            padding: [null, null, 0, null]
           text: Create a new AI Scouting Assistant
         type: Link
       - layout_properties: {grid_position: 'PUWYKN,DZGEQT'}
