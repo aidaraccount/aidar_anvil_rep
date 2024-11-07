@@ -2548,3 +2548,7 @@ footer a, .footer .anvil-component {
     outline: none !important;  /* Remove the focus outline */
     box-shadow: none !important; /* Remove any potential focus shadow */
 }
+
+.anvil-role-left-discover-page .anvil-container-overflow .anvil-panel-col {
+  overflow: hidden !important;
+}
