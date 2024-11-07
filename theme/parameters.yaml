@@ -347,3 +347,5 @@ roles:
   name: background-alerts
 - components: [ColumnPanel, HTMLTemplate]
   name: progress-message
+- components: [Label, RichText, Link]
+  name: orange

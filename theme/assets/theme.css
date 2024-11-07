@@ -453,7 +453,12 @@ body, html {
   font-family: GS-regular;
   font-size: 26px;
 }
+
 /* Titles CSS Starts Here  */
+.anvil-role-orange {
+  color: %color:Orange% !important;
+}
+
 .anvil-role-title-main-out {
   font-family: GS-semibold;
   font-size: 36px;
