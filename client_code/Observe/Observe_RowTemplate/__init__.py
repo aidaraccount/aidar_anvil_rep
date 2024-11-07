@@ -1,4 +1,4 @@
-from ._anvil_designer import RowTemplate11Template
+from ._anvil_designer import Observe_RowTemplateTemplate
 from anvil import *
 import anvil.server
 import anvil.users
@@ -13,7 +13,7 @@ from anvil_extras import routing
 from ...nav import click_link, click_button, logout, login_check, load_var
 
 
-class RowTemplate11(RowTemplate11Template):
+class Observe_RowTemplate(Observe_RowTemplateTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)

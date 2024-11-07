@@ -2,13 +2,12 @@ components:
 - components:
   - layout_properties: {grid_position: 'JAZERV,LGQSDW'}
     name: label_1
-    properties: {align: left, background: '', bold: false, border: '', font: '', font_size: null, foreground: '', icon: '', icon_align: left, italic: false, role: header-1, spacing_above: small, spacing_below: small, text: Observe, tooltip: '', underline: false, visible: true}
+    properties: {align: left, background: '', bold: false, border: '', font: '', font_size: null, foreground: '', icon: '', icon_align: left, italic: false, role: header-1, spacing_above: small, spacing_below: small, text: Notification Settings, tooltip: '', underline: false, visible: true}
     type: Label
-  - event_bindings: {click: notifications_click}
-    layout_properties: {grid_position: 'WFWZER,IQITZZ'}
-    name: notification_link
-    properties: {align: right, icon: 'fa:send-o', role: header-6, spacing_above: none, spacing_below: none, text: Notification Settings}
-    type: Link
+  - layout_properties: {grid_position: 'MHFFII,LVOWSM'}
+    name: spacer_1
+    properties: {height: '16'}
+    type: Spacer
   - components:
     - layout_properties: {}
       name: label_3_copy
@@ -47,29 +46,9 @@ components:
     properties: {spacing_above: none}
     type: FlowPanel
   - components:
-    - event_bindings: {click: nav_top_fits_click}
-      layout_properties: {}
-      name: nav_top_fits
-      properties: {col_spacing: medium, role: section_buttons, spacing_above: none, spacing_below: none, text: Top Fits}
-      type: Link
-    - event_bindings: {click: nav_grow_fits_click}
-      layout_properties: {}
-      name: nav_grow_fits
-      properties: {role: section_buttons, spacing_above: none, spacing_below: none, text: Growing Fits}
-      type: Link
-    - event_bindings: {click: nav_release_fit_click}
-      layout_properties: {}
-      name: nav_release_fits
-      properties: {role: section_buttons, spacing_above: none, spacing_below: none, text: Releasing Fits, visible: true}
-      type: Link
-    layout_properties: {grid_position: 'NREIRO,ZMEOXP'}
-    name: flow_panel_sections
-    properties: {background: '', role: section-background, spacing: small, spacing_above: none, spacing_below: none}
-    type: FlowPanel
-  - components:
     - layout_properties: {}
       name: label_3_copy_copy_copy
-      properties: {role: feature, text: '   Min. Growth Fit Prediction [%]:    '}
+      properties: {role: feature, text: 'Min. Growth Fit Prediction [%]:    '}
       type: Label
     - data_bindings: []
       event_bindings: {pressed_enter: refresh_table}
@@ -84,7 +63,7 @@ components:
   - components:
     - layout_properties: {}
       name: label_3_copy_copy_copy_copy
-      properties: {role: feature, text: '   Max. days since latest Release:    '}
+      properties: {role: feature, text: 'Max. days since latest Release:    '}
       type: Label
     - data_bindings: []
       event_bindings: {pressed_enter: refresh_table}
@@ -99,32 +78,20 @@ components:
   - components:
     - layout_properties: {grid_position: 'FFHUXB,SNYWAS'}
       name: label_1_copy
-      properties: {align: center, bold: false, role: sub_title, text: None of your AI models is fully trained yet}
+      properties: {align: center, bold: false, role: sub_title, text: No running notifications}
       type: Label
     - layout_properties: {grid_position: 'XVSVDO,ELBDZT'}
       name: label_2
-      properties: {align: center, bold: false, role: description, text: Please continue training you model further to enable it to keep an eye on emerging talents for you.}
+      properties: {align: center, bold: false, role: description, text: Please create a notification to be automatically updated}
       type: Label
     layout_properties: {grid_position: 'XMRDBE,TEXHQX'}
-    name: no_trained_model
+    name: no_notifications
     properties: {}
     type: ColumnPanel
   - components:
-    - layout_properties: {grid_position: 'FFHUXB,SNYWAS'}
-      name: label_1_copy_copy
-      properties: {align: center, bold: false, role: sub_title, text: No artists found}
-      type: Label
-    - layout_properties: {grid_position: 'XVSVDO,ELBDZT'}
-      name: label_2_copy
-      properties: {align: center, bold: false, role: description, text: Oops! No matches for your selection. Try adjusting your filters.}
-      type: Label
-    layout_properties: {grid_position: 'HDZENB,JZGCGC'}
-    name: no_artists
-    properties: {}
-    type: ColumnPanel
-  - components:
-    - name: repeating_panel_table
-      properties: {item_template: Observe.Observe_RowTemplate}
+    - layout_properties: {}
+      name: repeating_panel_table
+      properties: {item_template: Notifications.Notifications_RowTemplate}
       type: RepeatingPanel
     layout_properties: {grid_position: 'NUGHYG,HVXOZQ'}
     name: data_grid

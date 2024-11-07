@@ -1,0 +1,18 @@
+components:
+- components:
+  - data_bindings:
+    - {code: 'str(self.item[''Number''])+''.''', property: text, writeback: false}
+    layout_properties: {grid_position: 'VKDHZE,FZNRID'}
+    name: label_nr
+    properties: {bold: true, role: header-1, spacing_above: small}
+    type: Label
+  - layout_properties: {grid_position: 'VKBGJV,CVMCJR'}
+    name: spacer_1
+    properties: {height: '5', spacing_above: none, spacing_below: none}
+    type: Spacer
+  layout_properties: {column: JKSDUP}
+  name: column_panel_1
+  properties: {col_spacing: tiny, col_widths: '{"URSRLP":17,"FZNRID":5}', role: grid}
+  type: ColumnPanel
+container: {type: DataRowPanel}
+is_package: true

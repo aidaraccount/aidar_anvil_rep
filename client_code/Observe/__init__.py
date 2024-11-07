@@ -253,3 +253,6 @@ class Observe(ObserveTemplate):
     self.flow_panel_growth.visible = False
     self.flow_panel_release.visible = True
     self.refresh_table()
+
+  def notifications_click(self, **event_args):
+    click_link(self.notification_link, 'notifications', event_args)
