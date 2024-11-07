@@ -14,18 +14,18 @@ components:
     type: Image
   - layout_properties: {grid_position: 'QIJWID,UQSWOC'}
     name: spacer_2
-    properties: {height: '50'}
+    properties: {height: 28}
     type: Spacer
   - components:
     - layout_properties: {grid_position: 'FPXQXN,DQKWMI'}
       name: image_2
-      properties: {height: '700', source: _/theme/Stock Images/TTM_artists_2.png}
+      properties: {height: 405, source: _/theme/Stock Images/TTM_artists_2.png}
       type: Image
     - components:
       - event_bindings: {click: button_create_model_click}
         layout_properties: {grid_position: 'QHDFGH,AYKOUU'}
         name: link_1
-        properties: {align: center, foreground: '', role: header-4, text: Create a new scouting assistant}
+        properties: {align: center, foreground: '', role: header-3, text: Create a new AI Scouting Assistant}
         type: Link
       - layout_properties: {grid_position: 'PUWYKN,DZGEQT'}
         name: label_1
@@ -34,7 +34,7 @@ components:
       - event_bindings: {click: button_connect_model_click}
         layout_properties: {grid_position: 'YKMXCH,KBFFUM'}
         name: link_2
-        properties: {align: center, role: header-4, text: join existing one}
+        properties: {align: center, role: header-5, text: join existing one}
         type: Link
       layout_properties: {grid_position: 'FPXQXN,OXZVEA'}
       name: column_panel_1

@@ -233,11 +233,11 @@ roles:
   name: autoplay-toggle-button
 - components: [ColumnPanel]
   name: tile-background-general
-- components: [Label, RichText]
+- components: [Label, RichText, Link]
   name: header-2
-- components: [Label, RichText]
+- components: [Label, RichText, Link]
   name: header-3
-- components: [Label, RichText, Button]
+- components: [Label, RichText, Button, Link]
   name: header-4
 - components: [Label, Button]
   name: transition-effect
