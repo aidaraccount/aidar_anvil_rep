@@ -19,5 +19,18 @@ class Notifications_RowTemplate(Notifications_RowTemplateTemplate):
     self.init_components(**properties)
 
     # Any code you write here will run before the form opens.
-    pass
-    
+    if self.item["type"] == 'mail':
+      # visibility
+      self.p_name.visible = False
+      self.m_name.visible = True
+
+      # content
+      self.m_name.text = self.item["name"]
+
+    elif self.item["type"] == 'playlist':
+      # visibility
+      self.p_name.visible = True
+      self.m_name.visible = False
+
+      # content
+      self.p_name.text = self.item["name"]

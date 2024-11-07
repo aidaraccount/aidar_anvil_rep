@@ -17,7 +17,6 @@ class Notifications(NotificationsTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
-    # print(f"{datetime.now()}: Observe 0", flush=True)
 
     # Any code you write here will run before the form opens.
     global user
@@ -28,9 +27,24 @@ class Notifications(NotificationsTemplate):
     print(f"Notifications model_id: {model_id}")
 
     # GENERAL
-    pass
+    self.get_notifications()
 
   
   # GET TABLE DATA
   def get_notifications(self, **event_args):
-    self.no_notifications.visible = False
+
+    # notifications = json.loads(anvil.server.call('get_notifications',  user["user_id"]))
+    notifications = \
+      [{'type': 'mail', 'name': 'This weeks Top releases'},
+       {'type': 'mail', 'name': 'Growing Top10'},
+       {'type': 'playlist', 'name': 'My Playlist'}]
+
+    if len(notifications) > 0:
+      self.no_notifications.visible = False
+      self.repeating_panel_table.items = notifications
+      self.data_grid.visible = True
+
+    else:
+      self.data_grid.visible = False
+      self.no_notifications.visible = True
+    
