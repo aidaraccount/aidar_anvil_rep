@@ -45,15 +45,15 @@ class Notifications_RowTemplate(Notifications_RowTemplateTemplate):
 
   # WATCHLIST BUTTON
   def link_watchlist_click(self, **event_args):
-    if self.link_watchlist.text == 'on watchlist':
-      self.link_watchlist.text = 'not on watchlist'
-      self.link_watchlist.role = 'genre-box'
-    elif self.link_watchlist.text == 'not on watchlist':
-      self.link_watchlist.text = 'all'
-      self.link_watchlist.role = 'genre-box-deselect'
-    elif self.link_watchlist.text == 'all':
-      self.link_watchlist.text = 'on watchlist'
-      self.link_watchlist.role = 'genre-box'      
+    if self.watchlist_selection_option.text == 'on watchlist':
+      self.watchlist_selection_option.text = 'not on watchlist'
+      self.watchlist_selection_option.role = 'genre-box'
+    elif self.watchlist_selection_option.text == 'not on watchlist':
+      self.watchlist_selection_option.text = 'all'
+      self.watchlist_selection_option.role = 'genre-box-deselect'
+    elif self.watchlist_selection_option.text == 'all':
+      self.watchlist_selection_option.text = 'on watchlist'
+      self.watchlist_selection_option.role = 'genre-box'      
     # self.refresh_table()
   
   def update_notifications(self, **event_args):
