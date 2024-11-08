@@ -19,18 +19,36 @@ class Notifications_RowTemplate(Notifications_RowTemplateTemplate):
     self.init_components(**properties)
 
     # Any code you write here will run before the form opens.
-    if self.item["type"] == 'mail':
-      # visibility
-      self.p_name.visible = False
-      self.m_name.visible = True
+    # general content
+    self.name.text = self.item["name"]
 
-      # content
-      self.m_name.text = self.item["name"]
+    # type specific content
+    if self.item["type"] == 'mail':
+      self.name.icon = 'fa:envelope-o'
 
     elif self.item["type"] == 'playlist':
-      # visibility
-      self.p_name.visible = True
-      self.m_name.visible = False
+      self.name.icon = 'fa:spotify'
 
-      # content
-      self.p_name.text = self.item["name"]
+  
+  def update_notifications(self, **event_args):
+    # anvil.server.call('update_notification',
+    #                   notification_id = self.item["notification_id"],
+    #                   type = self.item["type"],
+    #                   name = self.name.text,
+    #                   active =,
+    #                   freq_1 =,
+    #                   freq_2 =,
+    #                   freq_3 =,
+    #                   metric =,
+    #                   no_artists =,
+    #                   repetition =,
+    #                   rated =,
+    #                   watchlist =,
+    #                   model_ids =,
+    #                   release_days =,
+    #                   min_overall_fit =,
+    #                   min_pop_fit =,
+    #                   min_sim_fit =,
+    #                   min_mus_fit =,
+    #                   min_grow_fit =)
+    pass
