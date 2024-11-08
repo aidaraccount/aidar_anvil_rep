@@ -56,7 +56,7 @@ class Notifications_RowTemplate(Notifications_RowTemplateTemplate):
       self.watchlist_selection_option.role = 'genre-box'      
     # self.refresh_table()
   
-  def update_notifications(self, **event_args):
+  def update_notification(self, **event_args):
     # anvil.server.call('update_notification',
     #                   notification_id = self.item["notification_id"],
     #                   type = self.item["type"],
