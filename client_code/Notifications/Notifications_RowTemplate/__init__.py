@@ -30,6 +30,31 @@ class Notifications_RowTemplate(Notifications_RowTemplateTemplate):
     elif self.item["type"] == 'playlist':
       self.name.icon = 'fa:spotify'
 
+  # RATED BUTTON
+  def artist_selection_option_click(self, **event_args):
+    if self.artist_selection_option.text == 'rated':
+      self.artist_selection_option.text = 'unrated'
+      self.artist_selection_option.role = 'genre-box'
+    elif self.artist_selection_option.text == 'unrated':
+      self.artist_selection_option.text = 'all'
+      self.artist_selection_option.role = 'genre-box-deselect'
+    elif self.artist_selection_option.text == 'all':
+      self.artist_selection_option.text = 'rated'
+      self.artist_selection_option.role = 'genre-box'
+    # self.refresh_table()
+
+  # WATCHLIST BUTTON
+  def link_watchlist_click(self, **event_args):
+    if self.link_watchlist.text == 'on watchlist':
+      self.link_watchlist.text = 'not on watchlist'
+      self.link_watchlist.role = 'genre-box'
+    elif self.link_watchlist.text == 'not on watchlist':
+      self.link_watchlist.text = 'all'
+      self.link_watchlist.role = 'genre-box-deselect'
+    elif self.link_watchlist.text == 'all':
+      self.link_watchlist.text = 'on watchlist'
+      self.link_watchlist.role = 'genre-box'      
+    # self.refresh_table()
   
   def update_notifications(self, **event_args):
     # anvil.server.call('update_notification',

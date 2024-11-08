@@ -71,12 +71,12 @@ components:
   - components:
     - components:
       - layout_properties: {}
-        name: label_3_copy
+        name: artist_selection_field_title
         properties: {role: feature, spacing_above: none, spacing_below: none, text: 'Artist selection:    '}
         type: Label
-      - event_bindings: {click: link_rated_click}
+      - event_bindings: {click: artist_selection_option_click}
         layout_properties: {}
-        name: link_rated
+        name: artist_selection_option
         properties: {role: genre-box, spacing_above: none, spacing_below: none, text: unrated}
         type: Link
       layout_properties: {grid_position: 'NLKRHG,JZRKCX'}
@@ -85,7 +85,7 @@ components:
       type: FlowPanel
     - components:
       - layout_properties: {}
-        name: label_3_copy_copy
+        name: watchlist_selection_field_title
         properties: {role: feature, spacing_above: none, spacing_below: none, text: 'Watchlist selection:    '}
         type: Label
       - event_bindings: {click: link_watchlist_click}
@@ -99,7 +99,7 @@ components:
       type: FlowPanel
     - components:
       - layout_properties: {}
-        name: label_3
+        name: model_selection_field_title
         properties: {role: feature, spacing_above: none, spacing_below: none, text: 'Model selection:    '}
         type: Label
       layout_properties: {grid_position: 'IVMJRA,IBKOJU'}
