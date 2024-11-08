@@ -70,7 +70,7 @@ class Notifications_RowTemplate(Notifications_RowTemplateTemplate):
     #                   repetition =,
     #                   rated =,
     #                   watchlist =,
-    #                   model_ids =,
     #                   release_days =,
-    #                   min_grow_fit =)
+    #                   min_grow_fit =,
+    #                   model_ids =)
     pass
