@@ -35,9 +35,9 @@ class Notifications(NotificationsTemplate):
 
     # notifications = json.loads(anvil.server.call('get_notifications',  user["user_id"]))
     notifications = \
-      [{'type': 'mail', 'name': 'This weeks Top releases'},
-       {'type': 'mail', 'name': 'Growing Top10'},
-       {'type': 'playlist', 'name': 'My Playlist'}]
+      [{'type': 'mail', 'name': 'This weeks Top releases', 'no_artists': 10},
+       {'type': 'mail', 'name': 'Growing Top10', 'no_artists': 20},
+       {'type': 'playlist', 'name': 'My Playlist', 'no_artists': 5}]
 
     if len(notifications) > 0:
       self.no_notifications.visible = False

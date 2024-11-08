@@ -21,6 +21,7 @@ class Notifications_RowTemplate(Notifications_RowTemplateTemplate):
     # Any code you write here will run before the form opens.
     # general content
     self.name.text = self.item["name"]
+    self.no_artists_box.text = self.item["no_artists"]
 
     # type specific content
     if self.item["type"] == 'mail':
@@ -40,15 +41,11 @@ class Notifications_RowTemplate(Notifications_RowTemplateTemplate):
     #                   freq_2 =,
     #                   freq_3 =,
     #                   metric =,
-    #                   no_artists =,
+    #                   no_artists = self.no_artists_box.text,
     #                   repetition =,
     #                   rated =,
     #                   watchlist =,
     #                   model_ids =,
     #                   release_days =,
-    #                   min_overall_fit =,
-    #                   min_pop_fit =,
-    #                   min_sim_fit =,
-    #                   min_mus_fit =,
     #                   min_grow_fit =)
     pass

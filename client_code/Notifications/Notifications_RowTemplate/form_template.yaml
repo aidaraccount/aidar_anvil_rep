@@ -8,6 +8,10 @@ components:
     name: name
     properties: {icon: '', role: header-5}
     type: Label
+  - layout_properties: {grid_position: 'HZTXYB,BGQYMC'}
+    name: no_artists_box
+    properties: {}
+    type: TextBox
   layout_properties: {column: JKSDUP}
   name: column_panel_1
   properties: {col_spacing: tiny, col_widths: '{}', role: grid}
