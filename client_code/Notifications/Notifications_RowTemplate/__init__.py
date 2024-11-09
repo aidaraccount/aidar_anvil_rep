@@ -57,20 +57,25 @@ class Notifications_RowTemplate(Notifications_RowTemplateTemplate):
     # self.refresh_table()
   
   def update_notification(self, **event_args):
-    # anvil.server.call('update_notification',
-    #                   notification_id = self.item["notification_id"],
-    #                   type = self.item["type"],
-    #                   name = self.name.text,
-    #                   active =,
-    #                   freq_1 =,
-    #                   freq_2 =,
-    #                   freq_3 =,
-    #                   metric =,
-    #                   no_artists = self.no_artists_box.text,
-    #                   repetition =,
-    #                   rated =,
-    #                   watchlist =,
-    #                   release_days =,
-    #                   min_grow_fit =,
-    #                   model_ids =)
-    pass
+    anvil.server.call('update_notification',
+                      notification_id = self.item["notification_id"],
+                      type = self.item["type"],
+                      name = self.name.text,
+                      active = True,
+                      freq_1 = 'daily',
+                      freq_2 = None,
+                      freq_3 = None,
+                      metric = 'Growing Fits',
+                      no_artists = self.no_artists_box.text,
+                      repetition = 'Show artists again',
+                      rated = False,
+                      watchlist = None,
+                      release_days = None,
+                      min_grow_fit = 0.75,
+                      model_ids = [2, 129])
+
+  def delete_notification_click(self, **event_args):
+    anvil.server.call('delete_notification',
+                      notification_id = self.item["notification_id"])
+
+    self.parent.parent.parent.parent.get_notifications()
