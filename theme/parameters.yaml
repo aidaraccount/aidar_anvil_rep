@@ -349,3 +349,5 @@ roles:
   name: progress-message
 - components: [Label, RichText, Link]
   name: orange
+- components: [TextBox]
+  name: notification-settings-textbox

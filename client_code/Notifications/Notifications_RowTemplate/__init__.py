@@ -89,8 +89,30 @@ class Notifications_RowTemplate(Notifications_RowTemplateTemplate):
     elif self.frequency_option_1.text == 'Every X Days':
       self.frequency_option_1.text = 'Monthly'
       self.frequency_option_1.role = 'genre-box'
-      self.frequency_option_2.visible = False
-      
-    elif self.frequency_option_1.text == 'all':
-      pass
+      self.frequency_option_2.visible = True
+      self.frequency_option_2.text = 'Starting:'
+      self.frequency_option_2.role = ''
+      self.frequency_option_3.visible = True
+      self.frequency_option_3.text = 'Monday'  
+      self.frequency_days_option.visible = False
+    elif self.frequency_option_1.text == 'Monthly':
+       self.frequency_option_1.text = 'Daily'
+    # self.refresh_table()
+
+  def frequency_option_3_click(self, **event_args):
+    if self.frequency_option_3.text == 'Monday':
+      self.frequency_option_3.text = 'Tuesday'
+      self.frequency_option_3.role = 'genre-box'
+    elif self.frequency_option_3.text == 'Tuesday':
+      self.frequency_option_3.text = 'Wednesday'
+      self.frequency_option_3.role = 'genre-box'
+    elif self.frequency_option_3.text == 'Wednesday':
+      self.frequency_option_3.text = 'Thursday'
+      self.frequency_option_3.role = 'genre-box'
+    elif self.frequency_option_3.text == 'Thursday':
+      self.frequency_option_3.text = 'Friday'
+      self.frequency_option_3.role = 'genre-box'
+    elif self.frequency_option_3.text == 'Friday':
+      self.frequency_option_3.text = 'Monday'
+      self.frequency_option_3.role = 'genre-box'
     # self.refresh_table()
