@@ -79,3 +79,13 @@ class Notifications_RowTemplate(Notifications_RowTemplateTemplate):
                       notification_id = self.item["notification_id"])
 
     self.parent.parent.parent.parent.get_notifications()
+
+
+  def frequency_option_1_click(self, **event_args):
+    if self.frequency_option_1.text == 'Daily':
+      self.frequency_option_2.visible = True
+    elif self.frequency_option_1.text == 'not on watchlist':
+      pass
+    elif self.frequency_option_1.text == 'all':
+      pass
+    # self.refresh_table()
