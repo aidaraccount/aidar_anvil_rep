@@ -85,12 +85,11 @@ class Notifications_RowTemplate(Notifications_RowTemplateTemplate):
     if self.frequency_option_1.text == 'Daily':
       self.frequency_option_1.text = 'Every X Days'
       self.frequency_option_1.role = 'genre-box'
-    elif self.frequency_option_1.text == 'Every X Days':
       self.frequency_days_option.visible = True
-      self.frequency_option_2.text = ''
+    elif self.frequency_option_1.text == 'Every X Days':
+      self.frequency_option_1.text = 'Monthly'
       self.frequency_option_1.role = 'genre-box'
-      self.frequency_option_2.visible = True
-      self.frequency_option_2.text = ''
+      self.frequency_option_2.visible = False
       
     elif self.frequency_option_1.text == 'all':
       pass
