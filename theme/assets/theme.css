@@ -113,10 +113,13 @@ body, html {
 .anvil-role-notification-settings-textbox {
   font-size: 14px;
   font-weight: normal;
-  margin: 7px 0 0px 0;
-  padding-bottom: 3px;
+  margin: 8px 0 0px 0;
+  padding-bottom: 0px;
   width: 45px;
-  padding-top: 3px;
+  padding-top: 4px;
+  background: rgb(130, 39, 118);
+  border-radius: 10px;
+  border: 1px solid rgb(130, 39, 118);
 }
 
 /* CSS for formatting tables STARTS here*/
