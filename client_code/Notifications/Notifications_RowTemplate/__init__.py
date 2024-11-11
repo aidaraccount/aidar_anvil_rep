@@ -83,9 +83,15 @@ class Notifications_RowTemplate(Notifications_RowTemplateTemplate):
 
   def frequency_option_1_click(self, **event_args):
     if self.frequency_option_1.text == 'Daily':
+      self.frequency_option_1.text = 'Every X Days'
+      self.frequency_option_1.role = 'genre-box'
+    elif self.frequency_option_1.text == 'Every X Days':
+      self.frequency_days_option.visible = True
+      self.frequency_option_2.text = ''
+      self.frequency_option_1.role = 'genre-box'
       self.frequency_option_2.visible = True
-    elif self.frequency_option_1.text == 'not on watchlist':
-      pass
+      self.frequency_option_2.text = ''
+      
     elif self.frequency_option_1.text == 'all':
       pass
     # self.refresh_table()

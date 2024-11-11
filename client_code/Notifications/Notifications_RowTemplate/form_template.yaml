@@ -23,8 +23,12 @@ components:
       properties: {role: genre-box, spacing_above: none, spacing_below: none, text: Daily}
       type: Link
     - layout_properties: {}
+      name: frequency_days_option
+      properties: {visible: false}
+      type: TextBox
+    - layout_properties: {}
       name: frequency_option_2
-      properties: {spacing_above: none, spacing_below: none, visible: false}
+      properties: {role: genre-box, spacing_above: none, spacing_below: none, visible: false}
       type: Link
     - layout_properties: {}
       name: frequency_option_3
