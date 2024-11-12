@@ -351,3 +351,5 @@ roles:
   name: orange
 - components: [TextBox]
   name: notification-settings-textbox
+- components: [DatePicker]
+  name: date-picker
