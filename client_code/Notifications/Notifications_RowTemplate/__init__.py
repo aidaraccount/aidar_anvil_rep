@@ -32,27 +32,27 @@ class Notifications_RowTemplate(Notifications_RowTemplateTemplate):
 
   # RATED BUTTON
   def artist_selection_option_click(self, **event_args):
-    if self.artist_selection_option.text == 'rated':
-      self.artist_selection_option.text = 'unrated'
+    if self.artist_selection_option.text == 'Rated':
+      self.artist_selection_option.text = 'Unrated'
       self.artist_selection_option.role = 'genre-box'
-    elif self.artist_selection_option.text == 'unrated':
-      self.artist_selection_option.text = 'all'
+    elif self.artist_selection_option.text == 'Unrated':
+      self.artist_selection_option.text = 'All'
       self.artist_selection_option.role = 'genre-box-deselect'
-    elif self.artist_selection_option.text == 'all':
-      self.artist_selection_option.text = 'rated'
+    elif self.artist_selection_option.text == 'All':
+      self.artist_selection_option.text = 'Rated'
       self.artist_selection_option.role = 'genre-box'
     # self.refresh_table()
 
   # WATCHLIST BUTTON
-  def link_watchlist_click(self, **event_args):
-    if self.watchlist_selection_option.text == 'on watchlist':
-      self.watchlist_selection_option.text = 'not on watchlist'
+  def watchlist_selection_option_click(self, **event_args):
+    if self.watchlist_selection_option.text == 'On watchlist':
+      self.watchlist_selection_option.text = 'Not on watchlist'
       self.watchlist_selection_option.role = 'genre-box'
-    elif self.watchlist_selection_option.text == 'not on watchlist':
-      self.watchlist_selection_option.text = 'all'
+    elif self.watchlist_selection_option.text == 'Not on watchlist':
+      self.watchlist_selection_option.text = 'All'
       self.watchlist_selection_option.role = 'genre-box-deselect'
-    elif self.watchlist_selection_option.text == 'all':
-      self.watchlist_selection_option.text = 'on watchlist'
+    elif self.watchlist_selection_option.text == 'All':
+      self.watchlist_selection_option.text = 'On watchlist'
       self.watchlist_selection_option.role = 'genre-box'      
     # self.refresh_table()
   
@@ -136,3 +136,21 @@ class Notifications_RowTemplate(Notifications_RowTemplateTemplate):
       self.metrics_option_1.text = 'Top Fits'
       self.frequency_option_1.role = 'genre-box'
     # self.refresh_table()
+  
+  def update_notification_1(self, **event_args):
+    anvil.server.call('update_notification',
+                      notification_id = self.item["notification_id"],
+                      type = self.item["type"],
+                      name = self.name.text,
+                      active = True,
+                      freq_1 = self.frequency_option_1.text,
+                      freq_2 = None,
+                      freq_3 = None,
+                      metric = self.metrics_option_1.text,
+                      no_artists = self.no_artists_box.text,
+                      repetition = 'Show artists again',
+                      rated = False,
+                      watchlist = None,
+                      release_days = None,
+                      min_grow_fit = self.min_growth_value.text ,
+                      model_ids = [2, 129])

@@ -4,11 +4,29 @@ components:
     name: name
     properties: {icon: '', role: header-5, spacing_above: none, spacing_below: none}
     type: Label
-  - event_bindings: {click: delete_notification_click}
-    layout_properties: {grid_position: 'HWYMXP,LMVJPD'}
-    name: delete_notification
-    properties: {align: right, icon: 'fa:trash-o'}
-    type: Link
+  - components:
+    - event_bindings: {click: update_notification_1}
+      layout_properties: {}
+      name: save_button
+      properties: {icon: 'fa:save', role: play-spotify-button, text: ''}
+      type: Button
+    - event_bindings: {click: delete_notification_click}
+      name: button_1
+      properties: {icon: 'fa:trash-o', role: play-spotify-button, text: ''}
+      type: Button
+    layout_properties: {grid_position: 'HWYMXP,NWICXJ'}
+    name: flow_panel_6
+    properties: {align: right}
+    type: FlowPanel
+  - layout_properties: {grid_position: 'IRYPMY,XTCPXD ELCSVV,OFXRDE'}
+    name: general_title
+    properties:
+      role: header-5
+      spacing_above: none
+      spacing_below: none
+      text: |
+        General:
+    type: Label
   - layout_properties: {grid_position: 'IRYPMY,XTCPXD VKBGJV,CVMCJR'}
     name: spacer_1
     properties: {height: '5', spacing_above: none, spacing_below: none}
@@ -81,13 +99,17 @@ components:
       properties: {role: header-7, spacing_above: none, spacing_below: none, text: 'Min growth fit:'}
       type: Label
     - layout_properties: {}
-      name: text_box_2
+      name: min_growth_value
       properties: {align: center, role: notification-settings-textbox}
       type: TextBox
     layout_properties: {grid_position: 'IRYPMY,XTCPXD TGMUZX,NBGDHR'}
     name: flow_panel_2
     properties: {spacing_above: none, spacing_below: none}
     type: FlowPanel
+  - layout_properties: {grid_position: 'IRYPMY,FTXCAA HHAZQI,JUHPCS'}
+    name: selection_parameters_title
+    properties: {role: header-5, spacing_above: none, spacing_below: none, text: 'Selection Parameters:'}
+    type: Label
   - components:
     - components:
       - layout_properties: {}
@@ -97,7 +119,7 @@ components:
       - event_bindings: {click: artist_selection_option_click}
         layout_properties: {}
         name: artist_selection_option
-        properties: {role: genre-box, spacing_above: none, spacing_below: none, text: unrated}
+        properties: {role: genre-box, spacing_above: none, spacing_below: none, text: Unrated}
         type: Link
       layout_properties: {grid_position: 'NLKRHG,JZRKCX'}
       name: flow_panel_ratings
@@ -108,10 +130,10 @@ components:
         name: watchlist_selection_field_title
         properties: {role: feature, spacing_above: none, spacing_below: none, text: 'Watchlist selection:    '}
         type: Label
-      - event_bindings: {click: link_watchlist_click}
+      - event_bindings: {click: watchlist_selection_option_click}
         layout_properties: {}
-        name: link_watchlist
-        properties: {role: genre-box-deselect, spacing_above: none, spacing_below: none, text: all}
+        name: watchlist_selection_option
+        properties: {role: genre-box-deselect, spacing_above: none, spacing_below: none, text: All}
         type: Link
       layout_properties: {grid_position: 'ZHCLDG,WDDQFF'}
       name: flow_panel_wl
@@ -126,7 +148,7 @@ components:
       name: flow_panel_models
       properties: {spacing_above: none, spacing_below: none}
       type: FlowPanel
-    layout_properties: {grid_position: 'IRYPMY,FTXCAA'}
+    layout_properties: {grid_position: 'IRYPMY,FTXCAA KTLBIL,NTDNMJ'}
     name: column_panel_2
     properties: {}
     type: ColumnPanel
@@ -145,7 +167,7 @@ components:
     type: FlowPanel
   layout_properties: {column: JKSDUP}
   name: column_panel_1
-  properties: {col_spacing: tiny, col_widths: '{"KJXYOX":60,"XTCPXD":35,"FTXCAA":25,"NDUSEU":50,"LMVJPD":10}', role: grid}
+  properties: {col_spacing: tiny, col_widths: '{"KJXYOX":60,"XTCPXD":35,"FTXCAA":25,"NDUSEU":45,"NWICXJ":8}', role: grid}
   type: ColumnPanel
 container: {type: DataRowPanel}
 is_package: true
