@@ -154,3 +154,36 @@ class Notifications_RowTemplate(Notifications_RowTemplateTemplate):
                       release_days = None,
                       min_grow_fit = self.min_growth_value.text ,
                       model_ids = [2, 129])
+
+  def edit_icon_click(self, **event_args):
+    if self.name.visible is True: 
+      self.name.visible = False
+      self.model_name_text.visible = True
+      self.model_name_text.text = self.name.text
+      self.edit_icon.icon = 'fa:save'
+    else:
+      self.model_name_text.visible = False
+      self.name.visible = True
+      self.name.text = self.model_name_text.text
+      self.edit_icon.icon = 'fa:pencil'
+      res = anvil.server.call('update_notification',
+                      notification_id = self.item["notification_id"],
+                      type = self.item["type"],
+                      name = self.name.text,
+                      active = True,
+                      freq_1 = self.frequency_option_1.text,
+                      freq_2 = None,
+                      freq_3 = None,
+                      metric = self.metrics_option_1.text,
+                      no_artists = self.no_artists_box.text,
+                      repetition = 'Show artists again',
+                      rated = False,
+                      watchlist = None,
+                      release_days = None,
+                      min_grow_fit = self.min_growth_value.text ,
+                      model_ids = [2, 129])
+      if res == 'success':
+        get_open_form().refresh_models_components()
+        Notification("",
+          title="Model updated!",
+          style="success").show()
