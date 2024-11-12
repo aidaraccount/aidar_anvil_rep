@@ -15,8 +15,23 @@ components:
         role: [play-spotify-button]
         text: ''
       type: Button
-    layout_properties: {grid_position: 'HWYMXP,NDUSEU'}
+    layout_properties: {grid_position: 'HWYMXP,NDUSEU RKCBDD,WGHDQV'}
     name: flow_panel_7
+    properties: {visible: false}
+    type: FlowPanel
+  - components:
+    - event_bindings: {click: edit_icon_click_2}
+      layout_properties: {}
+      name: name_link
+      properties: {role: header-4, text: New Notification Alert 1}
+      type: Link
+    - event_bindings: {pressed_enter: edit_icon_click_2}
+      layout_properties: {}
+      name: model_name_text_2
+      properties: {visible: false}
+      type: TextBox
+    layout_properties: {grid_position: 'HWYMXP,NDUSEU VTZATA,MLDFXV'}
+    name: flow_panel_8
     properties: {}
     type: FlowPanel
   - layout_properties: {grid_position: 'HWYMXP,HCVQMZ'}
