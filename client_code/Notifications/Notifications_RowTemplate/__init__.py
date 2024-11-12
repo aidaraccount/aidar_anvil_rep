@@ -101,6 +101,7 @@ class Notifications_RowTemplate(Notifications_RowTemplateTemplate):
       self.frequency_option_1.text = 'Daily'
       self.frequency_option_2.visible = False
       self.frequency_option_3.visible = False
+      self.frequency_picker.visible = False
     # self.refresh_table()
 
   def frequency_option_3_click(self, **event_args):
