@@ -37,7 +37,7 @@ components:
       type: Link
     - layout_properties: {}
       name: frequency_picker
-      properties: {role: target-dropdown, visible: false}
+      properties: {role: target-dropdown, spacing_above: none, spacing_below: none, visible: false}
       type: DatePicker
     layout_properties: {grid_position: 'IRYPMY,XTCPXD QLPYOA,EUXCVR'}
     name: flow_panel_5

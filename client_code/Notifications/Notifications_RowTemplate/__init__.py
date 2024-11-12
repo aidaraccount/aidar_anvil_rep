@@ -93,8 +93,8 @@ class Notifications_RowTemplate(Notifications_RowTemplateTemplate):
       self.frequency_option_1.role = 'genre-box'
       self.frequency_option_2.visible = True
       self.frequency_option_2.text = 'Starting:'
-      self.frequency_option_3.visible = True
-      self.frequency_option_3.text = 'Monday'  
+      # self.frequency_option_3.visible = True
+      # self.frequency_option_3.text = 'Monday'  
       self.frequency_days_option.visible = False
       self.frequency_picker.visible = True
     elif self.frequency_option_1.text == 'Monthly':
