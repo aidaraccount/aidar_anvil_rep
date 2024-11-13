@@ -75,11 +75,11 @@ components:
       properties: {role: genre-box, spacing_above: none, spacing_below: none, text: Daily}
       type: Link
     - layout_properties: {}
-      name: frequency_days_option
+      name: frequency_option_2
       properties: {align: center, role: notification-settings-textbox, visible: false}
       type: TextBox
     - layout_properties: {}
-      name: frequency_option_2
+      name: frequency_days_label
       properties: {role: header-7, spacing_above: none, spacing_below: none, visible: false}
       type: Label
     - event_bindings: {click: frequency_option_3_click}
@@ -121,7 +121,7 @@ components:
       properties: {role: header-7, spacing_above: none, spacing_below: none, text: 'Max days since last release:'}
       type: Label
     - layout_properties: {}
-      name: text_box_1
+      name: days_since_rel_field_value
       properties: {align: center, role: notification-settings-textbox, spacing_above: none, spacing_below: none}
       type: TextBox
     layout_properties: {grid_position: 'IRYPMY,XTCPXD MPLFXR,ACSIVI'}

@@ -23,6 +23,10 @@ class Notifications_RowTemplate(Notifications_RowTemplateTemplate):
     self.name.text = self.item["name"]
     self.no_artists_box.text = self.item["no_artists"]
     self.min_growth_value.text = self.item["min_grow_fit"]
+    self.metrics_option_1.text = self.item["metric"]
+    self.frequency_option_1.text = self.item["freq_1"]
+    self.frequency_option_2.text = self.item["freq_2"]
+    self.frequency_option_3.text = self.item["freq_3"]
 
     # type specific content
     if self.item["type"] == 'mail':
@@ -86,24 +90,22 @@ class Notifications_RowTemplate(Notifications_RowTemplateTemplate):
     if self.frequency_option_1.text == 'Daily':
       self.frequency_option_1.text = 'Every X Days'
       self.frequency_option_1.role = 'genre-box'
-      self.frequency_days_option.visible = True
-      self.frequency_option_2.visible = False
+      self.frequency_days_label.visible = False
+      self.frequency_option_2.visible = True
       self.frequency_option_3.visible = False
       self.frequency_option_4.visible = True
       self.frequency_option_4.text = 'Days'
     elif self.frequency_option_1.text == 'Every X Days':
       self.frequency_option_1.text = 'Monthly'
       self.frequency_option_1.role = 'genre-box'
-      self.frequency_option_2.visible = True
-      self.frequency_option_2.text = 'Starting:'
-      # self.frequency_option_3.visible = True
-      # self.frequency_option_3.text = 'Monday'  
-      self.frequency_days_option.visible = False
+      self.frequency_days_label.visible = True
+      self.frequency_days_label.text = 'Starting:'
+      self.frequency_option_2.visible = False
       self.frequency_picker.visible = True
       self.frequency_option_4.visible = False
     elif self.frequency_option_1.text == 'Monthly':
       self.frequency_option_1.text = 'Daily'
-      self.frequency_option_2.visible = False
+      self.frequency_days_label.visible = False
       self.frequency_option_3.visible = False
       self.frequency_picker.visible = False
     # self.refresh_table()
