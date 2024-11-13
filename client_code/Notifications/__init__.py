@@ -55,7 +55,7 @@ class Notifications(NotificationsTemplate):
                       type = 'mail',
                       name = 'My Notification',
                       active = True,
-                      freq_1 = 'daily',
+                      freq_1 = 'Daily',
                       freq_2 = None,
                       freq_3 = None,
                       metric = 'Top Fits',
