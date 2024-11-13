@@ -22,6 +22,7 @@ class Notifications_RowTemplate(Notifications_RowTemplateTemplate):
     # general content
     self.name.text = self.item["name"]
     self.no_artists_box.text = self.item["no_artists"]
+    self.min_growth_value.text = self.item["min_grow_fit"]
 
     # type specific content
     if self.item["type"] == 'mail':
@@ -136,8 +137,16 @@ class Notifications_RowTemplate(Notifications_RowTemplateTemplate):
       self.metrics_option_1.text = 'Top Fits'
       self.frequency_option_1.role = 'genre-box'
     # self.refresh_table()
+
   
   def update_notification_1(self, **event_args):
+    # if self.frequency_option_1.text == 'Daily':
+    #   freq_2 = None
+
+    if self.min_growth_value.text == '':
+      min_growth_value = None
+    else:
+      min_growth_value = self.min_growth_value.text
     anvil.server.call('update_notification',
                       notification_id = self.item["notification_id"],
                       type = self.item["type"],
@@ -152,7 +161,7 @@ class Notifications_RowTemplate(Notifications_RowTemplateTemplate):
                       rated = False,
                       watchlist = None,
                       release_days = None,
-                      min_grow_fit = self.min_growth_value.text ,
+                      min_grow_fit = min_growth_value ,
                       model_ids = [2, 129])
 
   def edit_icon_click(self, **event_args):
