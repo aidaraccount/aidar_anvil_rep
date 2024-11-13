@@ -142,9 +142,17 @@ class Notifications_RowTemplate(Notifications_RowTemplateTemplate):
 
   
   def update_notification_1(self, **event_args):
-    # if self.frequency_option_1.text == 'Daily':
-    #   freq_2 = None
+    if self.frequency_option_1.text == 'Daily':
+      freq_2 = None
+      freq_3 = None
+    elif self.frequency_option_1.text == 'Every X Days':
+      freq_2 = self.frequency_option_2.text
+      freq_3 = None
+    elif self.frequency_option_1.text == 'Monthly':
+      freq_2 = None
+      freq_3 = self.frequency_picker.text 
 
+    
     if self.min_growth_value.text == '':
       min_growth_value = None
     else:
@@ -155,8 +163,8 @@ class Notifications_RowTemplate(Notifications_RowTemplateTemplate):
                       name = self.name.text,
                       active = True,
                       freq_1 = self.frequency_option_1.text,
-                      freq_2 = None,
-                      freq_3 = None,
+                      freq_2 = freq_2,
+                      freq_3 = freq_3,
                       metric = self.metrics_option_1.text,
                       no_artists = self.no_artists_box.text,
                       repetition = 'Show artists again',
