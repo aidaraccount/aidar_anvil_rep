@@ -48,8 +48,7 @@ class Notifications_RowTemplate(Notifications_RowTemplateTemplate):
     elif self.frequency_option_1.text == 'Monthly':
       self.frequency_days_label.visible = True
       self.frequency_picker.visible = True
-
-    
+ 
     # for i in range(0, len(models)):
     #   if models[i]["is_last_used"] is True:        
     #     model_link = Link(
@@ -126,6 +125,7 @@ class Notifications_RowTemplate(Notifications_RowTemplateTemplate):
       self.frequency_option_3.visible = False
       self.frequency_option_4.visible = True
       self.frequency_option_4.text = 'Days'
+      self.frequency_picker.visible = True
     elif self.frequency_option_1.text == 'Every X Days':
       self.frequency_option_1.text = 'Monthly'
       self.frequency_option_1.role = 'genre-box'
@@ -189,7 +189,7 @@ class Notifications_RowTemplate(Notifications_RowTemplateTemplate):
       freq_3 = None
     elif self.frequency_option_1.text == 'Every X Days':
       freq_2 = self.frequency_option_2.text
-      freq_3 = None
+      freq_3 = self.frequency_picker.date
     elif self.frequency_option_1.text == 'Monthly':
       freq_2 = None
       freq_3 = self.frequency_picker.date
