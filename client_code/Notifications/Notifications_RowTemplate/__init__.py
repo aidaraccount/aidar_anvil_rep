@@ -28,6 +28,18 @@ class Notifications_RowTemplate(Notifications_RowTemplateTemplate):
     self.frequency_option_2.text = self.item["freq_2"]
     self.frequency_option_3.text = self.item["freq_3"]
     self.days_since_rel_field_value.text = self.item["release_days"]
+    # activate Notification
+    if self.item["active"] is True:
+      self.activate.visible = False
+      self.deactivate.visible = True
+    else:
+      self.activate.visible = True
+      self.deactivate.visible = False
+    # type specific content
+    if self.item["type"] == 'mail':
+      self.name_link.icon = 'fa:envelope-o'
+    elif self.item["type"] == 'playlist':
+      self.name_link.icon = 'fa:spotify'
 
     # for i in range(0, len(models)):
     #   if models[i]["is_last_used"] is True:        
@@ -56,29 +68,12 @@ class Notifications_RowTemplate(Notifications_RowTemplateTemplate):
         
     #   model_link.set_event_handler('click', self.create_activate_model_handler(models[i]["model_id"]))
     #   self.flow_panel_models.add_component(model_link)
-    
-    # type specific content
-    if self.item["type"] == 'mail':
-      self.name_link.icon = 'fa:envelope-o'
-
-    elif self.item["type"] == 'playlist':
-      self.name_link.icon = 'fa:spotify'
-
-    # activate Notification
-    if self.item["active"] is True:
-      self.activate.visible = False
-      self.deactivate.visible = True
-    else:
-      self.activate.visible = True
-      self.deactivate.visible = False
 
   def activate_notification(self, **event_args):
     if self.activate.visible is True:
-      self.item["active"] = True
       self.activate.visible = False
       self.deactivate.visible = True
     else:
-      self.item["active"] = False
       self.activate.visible = True
       self.deactivate.visible = False
     self.update_notification_1()
@@ -113,7 +108,6 @@ class Notifications_RowTemplate(Notifications_RowTemplateTemplate):
 
     self.parent.parent.parent.parent.get_notifications()
   
-
   def frequency_option_1_click(self, **event_args):
     if self.frequency_option_1.text == 'Daily':
       self.frequency_option_1.text = 'Every X Days'
@@ -137,22 +131,22 @@ class Notifications_RowTemplate(Notifications_RowTemplateTemplate):
       self.frequency_option_3.visible = False
       self.frequency_picker.visible = False
 
-  def frequency_option_3_click(self, **event_args):
-    if self.frequency_option_3.text == 'Monday':
-      self.frequency_option_3.text = 'Tuesday'
-      self.frequency_option_3.role = 'genre-box'
-    elif self.frequency_option_3.text == 'Tuesday':
-      self.frequency_option_3.text = 'Wednesday'
-      self.frequency_option_3.role = 'genre-box'
-    elif self.frequency_option_3.text == 'Wednesday':
-      self.frequency_option_3.text = 'Thursday'
-      self.frequency_option_3.role = 'genre-box'
-    elif self.frequency_option_3.text == 'Thursday':
-      self.frequency_option_3.text = 'Friday'
-      self.frequency_option_3.role = 'genre-box'
-    elif self.frequency_option_3.text == 'Friday':
-      self.frequency_option_3.text = 'Monday'
-      self.frequency_option_3.role = 'genre-box'
+  # def frequency_option_3_click(self, **event_args):
+  #   if self.frequency_option_3.text == 'Monday':
+  #     self.frequency_option_3.text = 'Tuesday'
+  #     self.frequency_option_3.role = 'genre-box'
+  #   elif self.frequency_option_3.text == 'Tuesday':
+  #     self.frequency_option_3.text = 'Wednesday'
+  #     self.frequency_option_3.role = 'genre-box'
+  #   elif self.frequency_option_3.text == 'Wednesday':
+  #     self.frequency_option_3.text = 'Thursday'
+  #     self.frequency_option_3.role = 'genre-box'
+  #   elif self.frequency_option_3.text == 'Thursday':
+  #     self.frequency_option_3.text = 'Friday'
+  #     self.frequency_option_3.role = 'genre-box'
+  #   elif self.frequency_option_3.text == 'Friday':
+  #     self.frequency_option_3.text = 'Monday'
+  #     self.frequency_option_3.role = 'genre-box'
 
   def metrics_option_1_click(self, **event_args):
     if self.metrics_option_1.text == 'Top Fits':
@@ -174,18 +168,23 @@ class Notifications_RowTemplate(Notifications_RowTemplateTemplate):
       freq_3 = None
     elif self.frequency_option_1.text == 'Monthly':
       freq_2 = None
-      freq_3 = self.frequency_picker.text 
+      freq_3 = self.frequency_picker.date
     
     if self.min_growth_value.text == '':
       min_growth_value = None
     else:
       min_growth_value = self.min_growth_value.text
+
+    if self.days_since_rel_field_value.text == '':
+      release_days = None
+    else:
+      release_days = self.days_since_rel_field_value.text
       
     anvil.server.call('update_notification',
                       notification_id = self.item["notification_id"],
                       type = self.item["type"],
                       name = self.name_link.text,
-                      active = self.item["active"],
+                      active = self.deactivate.visible,
                       freq_1 = self.frequency_option_1.text,
                       freq_2 = freq_2,
                       freq_3 = freq_3,
@@ -194,32 +193,32 @@ class Notifications_RowTemplate(Notifications_RowTemplateTemplate):
                       repetition = 'Show artists again',
                       rated = False,
                       watchlist = None,
-                      release_days = self.days_since_rel_field_value.text,
+                      release_days = release_days,
                       min_grow_fit = min_growth_value ,
                       model_ids = [2, 129])
 
-  def edit_icon_click(self, **event_args):
-    if self.name_link.visible is True: 
-      self.name_link.visible = False
-      self.model_name_text.visible = True
-      self.model_name_text.text = self.name_link.text
-      self.edit_icon.icon = 'fa:save'
-    else:
-      self.model_name_text.visible = False
-      self.name_link.visible = True
-      self.name_link.text = self.model_name_text.text
-      self.edit_icon.icon = 'fa:pencil'
+  # def edit_icon_click(self, **event_args):
+  #   if self.name_link.visible is True: 
+  #     self.name_link.visible = False
+  #     self.model_name_text.visible = True
+  #     self.model_name_text.text = self.name_link.text
+  #     self.edit_icon.icon = 'fa:save'
+  #   else:
+  #     self.model_name_text.visible = False
+  #     self.name_link.visible = True
+  #     self.name_link.text = self.model_name_text.text
+  #     self.edit_icon.icon = 'fa:pencil'
 
   def edit_icon_click_2(self, **event_args):
     if self.name_link.visible is True: 
       self.name_link.visible = False
       self.model_name_text_2.visible = True
       self.model_name_text_2.text = self.name_link.text
-      self.edit_icon.icon = 'fa:save'
+      # self.edit_icon.icon = 'fa:save'
     else:
       self.model_name_text_2.visible = False
       self.name_link.visible = True
       self.name_link.text = self.model_name_text_2.text
-      self.edit_icon.icon = 'fa:pencil'
+      # self.edit_icon.icon = 'fa:pencil'
 
 

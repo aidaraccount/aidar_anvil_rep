@@ -65,7 +65,7 @@ class Notifications(NotificationsTemplate):
                       watchlist = None,
                       release_days = None,
                       min_grow_fit = None,
-                      model_ids = [2])
+                      model_ids = [28])
     
     self.get_notifications()
     
