@@ -22,13 +22,34 @@ class Notifications_RowTemplate(Notifications_RowTemplateTemplate):
     # general content
     self.name_link.text = self.item["name"]
     self.no_artists_box.text = self.item["no_artists"]
-    self.min_growth_value.text = self.item["min_grow_fit"]
     self.metrics_option_1.text = self.item["metric"]
     self.frequency_option_1.text = self.item["freq_1"]
     self.frequency_option_2.text = self.item["freq_2"]
     self.weekdays.text = self.item["freq_3"]
     self.days_since_rel_field_value.text = self.item["release_days"]
     self.notif_rep_value.text = self.item["repetition"]
+    self.frequency_picker.date = self.item["freq_3"]
+
+    if self.item['min_grow_fit'] is None:
+      self.min_growth_value.text = 0
+    else:
+      self.min_growth_value.text = float(self.item["min_grow_fit"])*100
+    # Rated Value
+    if self.item["rated"] is True:
+      self.artist_selection_option.text = 'Rated'
+    elif self.item["rated"] is False:
+      self.artist_selection_option.text = 'Unrated'
+    elif self.item["rated"] is None:
+      self.artist_selection_option.text = 'All'
+
+    # Watchlist Value
+    if self.item["watchlist"] is True:
+      self.watchlist_selection_option.text = 'On watchlist'
+    elif self.item["watchlist"] is False:
+      self.watchlist_selection_option.text = 'Not on watchlist'
+    elif self.item["watchlist"] is None:
+      self.watchlist_selection_option.text = 'All'
+      
     # activate Notification
     if self.item["active"] is True:
       self.activate.visible = False
@@ -53,7 +74,10 @@ class Notifications_RowTemplate(Notifications_RowTemplateTemplate):
       self.frequency_days_label_starting.visible = True
       self.frequency_picker.visible = True
 
-    
+    if self.metrics_option_1.text == 'Growing Fits':
+      self.min_growth_fit.visible = True
+    elif self.metrics_option_1.text == 'Releasing Fits':
+      self.max_days_since_rel.visible = True
     # for i in range(0, len(models)):
     #   if models[i]["is_last_used"] is True:        
     #     model_link = Link(
@@ -199,11 +223,27 @@ class Notifications_RowTemplate(Notifications_RowTemplateTemplate):
     elif self.frequency_option_1.text == 'Monthly':
       freq_2 = None
       freq_3 = self.frequency_picker.date
-    
+
+    # artist selection = self.item["rated"] True(Rated) False None(All)
+    if self.artist_selection_option.text == 'Rated':
+      artist_selection_option = True
+    elif self.artist_selection_option.text == 'Unrated':
+      artist_selection_option = False
+    elif self.artist_selection_option.text == 'All':
+      artist_selection_option = None
+
+    # watchilist selection = self.item["watchlist"] True(On watchlist) False None(All)
+    if self.watchlist_selection_option.text == 'On watchlist':
+      watchlist_selection_option = True
+    elif self.watchlist_selection_option.text == 'Not on watchlist':
+      watchlist_selection_option = False
+    elif self.watchlist_selection_option.text == 'All':
+      watchlist_selection_option = None
+      
     if self.min_growth_value.text == '':
       min_growth_value = None
     else:
-      min_growth_value = self.min_growth_value.text
+      min_growth_value = float(self.min_growth_value.text)/100
 
     if self.days_since_rel_field_value.text == '':
       release_days = None
@@ -221,8 +261,8 @@ class Notifications_RowTemplate(Notifications_RowTemplateTemplate):
                       metric = self.metrics_option_1.text,
                       no_artists = self.no_artists_box.text,
                       repetition = 'Show artists again',
-                      rated = False,
-                      watchlist = None,
+                      rated = artist_selection_option,
+                      watchlist = watchlist_selection_option,
                       release_days = release_days,
                       min_grow_fit = min_growth_value ,
                       model_ids = [28])
