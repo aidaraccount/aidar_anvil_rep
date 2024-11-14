@@ -72,47 +72,54 @@ components:
     name: buttons_panel
     properties: {role: null, spacing_above: none, spacing_below: none}
     type: LinearPanel
+  - layout_properties: {grid_position: 'CHHRMY,XKHHNJ'}
+    name: frequency_field_title
+    properties: {role: header-7, spacing_above: none, spacing_below: none, text: 'Frequency:'}
+    type: Label
   - layout_properties: {grid_position: 'IRYPMY,XTCPXD VKBGJV,CVMCJR'}
     name: spacer_1
     properties: {height: '5', spacing_above: none, spacing_below: none}
     type: Spacer
   - components:
-    - name: frequency_field_title
-      properties: {role: header-7, spacing_above: none, spacing_below: none, text: 'Frequency:'}
-      type: Label
     - event_bindings: {click: frequency_option_1_click}
       layout_properties: {}
       name: frequency_option_1
       properties: {role: genre-box, spacing_above: none, spacing_below: none, text: Daily}
       type: Link
-    - layout_properties: {}
-      name: frequency_option_2
+    layout_properties: {grid_position: 'IRYPMY,XTCPXD QLPYOA,EUXCVR'}
+    name: flow_panel_5
+    properties: {spacing_above: none, spacing_below: none}
+    type: FlowPanel
+  - components:
+    - name: frequency_option_2
       properties: {align: center, role: notification-settings-textbox, visible: false}
       type: TextBox
-    - layout_properties: {}
-      name: frequency_days_label
-      properties: {role: header-7, spacing_above: none, spacing_below: none, visible: false}
+    - name: frequency_days_label_days
+      properties: {role: header-7, spacing_above: none, spacing_below: none, text: Days, visible: false}
       type: Label
-    - event_bindings: {click: frequency_option_3_click}
-      layout_properties: {}
-      name: frequency_option_3
-      properties: {role: genre-box, spacing_above: none, spacing_below: none, visible: false}
-      type: Link
-    - layout_properties: {}
-      name: frequency_option_4
-      properties: {role: header-7, spacing_above: none, spacing_below: none, visible: false}
+    layout_properties: {grid_position: 'IRYPMY,XTCPXD HPRRUM,WZBNTO'}
+    name: flow_panel_1
+    properties: {}
+    type: FlowPanel
+  - event_bindings: {click: frequency_option_3_click}
+    layout_properties: {grid_position: 'IRYPMY,XTCPXD NKLUYW,ISOXQH'}
+    name: frequency_option_3
+    properties: {role: genre-box, spacing_above: none, spacing_below: none, visible: false}
+    type: Link
+  - components:
+    - name: frequency_days_label_starting
+      properties: {role: header-7, spacing_above: none, spacing_below: none, text: 'Starting:', visible: false}
       type: Label
-    - layout_properties: {}
-      name: frequency_picker
+    - name: frequency_picker
       properties:
         role: [target-dropdown, date-picker]
         spacing_above: none
         spacing_below: none
         visible: false
       type: DatePicker
-    layout_properties: {grid_position: 'IRYPMY,XTCPXD QLPYOA,EUXCVR'}
-    name: flow_panel_5
-    properties: {spacing_above: none, spacing_below: none}
+    layout_properties: {grid_position: 'IRYPMY,XTCPXD VPIQIM,PPBWHS'}
+    name: flow_panel_2
+    properties: {}
     type: FlowPanel
   - components:
     - layout_properties: {}
@@ -123,7 +130,7 @@ components:
       name: no_artists_box
       properties: {align: center, role: notification-settings-textbox, spacing_above: none, spacing_below: none}
       type: TextBox
-    layout_properties: {grid_position: 'IRYPMY,XTCPXD KIGOVK,DTOXYZ'}
+    layout_properties: {grid_position: 'IRYPMY,GOUNXL ZPULUE,HNPGRY'}
     name: Max_num_artist
     properties: {spacing_above: none, spacing_below: none}
     type: FlowPanel
@@ -137,7 +144,7 @@ components:
       name: notif_rep_value
       properties: {role: genre-box, spacing_above: none, spacing_below: none, text: Show artists again}
       type: Link
-    layout_properties: {grid_position: 'IRYPMY,XTCPXD BQJLWZ,EBNTKG'}
+    layout_properties: {grid_position: 'IRYPMY,GOUNXL SRTXOO,KMQBFE'}
     name: notification_rep
     properties: {spacing_above: none, spacing_below: none}
     type: FlowPanel

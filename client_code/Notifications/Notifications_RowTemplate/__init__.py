@@ -44,11 +44,20 @@ class Notifications_RowTemplate(Notifications_RowTemplateTemplate):
 
     if self.frequency_option_1.text == 'Every X Days':
       self.frequency_option_2.visible = True
-      self.frequency_option_4.visible = True
-    elif self.frequency_option_1.text == 'Monthly':
-      self.frequency_days_label.visible = True
+      self.frequency_days_label_days.visible = True
+      self.frequency_days_label_starting.visible = True
       self.frequency_picker.visible = True
- 
+    elif self.frequency_option_1.text == 'Monthly':
+      self.frequency_days_label_starting.visible = True
+      self.frequency_picker.visible = True
+
+    print("frequency_option_1", self.frequency_option_1.text)
+    print("frequency_option_2", self.frequency_option_2.text)
+    print("frequency_days_label_starting", self.frequency_days_label_starting.text)
+    print("frequency_option_3", self.frequency_option_3.text)
+    print("frequency_days_label_days", self.frequency_days_label_days.text)
+    print("frequency_picker", self.frequency_picker.date)
+    
     # for i in range(0, len(models)):
     #   if models[i]["is_last_used"] is True:        
     #     model_link = Link(
@@ -120,23 +129,22 @@ class Notifications_RowTemplate(Notifications_RowTemplateTemplate):
     if self.frequency_option_1.text == 'Daily':
       self.frequency_option_1.text = 'Every X Days'
       self.frequency_option_1.role = 'genre-box'
-      self.frequency_days_label.visible = False
+      self.frequency_days_label_starting.visible = True
       self.frequency_option_2.visible = True
       self.frequency_option_3.visible = False
-      self.frequency_option_4.visible = True
-      self.frequency_option_4.text = 'Days'
+      self.frequency_days_label_days.visible = True
+      self.frequency_days_label_days.text = 'Days'
       self.frequency_picker.visible = True
     elif self.frequency_option_1.text == 'Every X Days':
       self.frequency_option_1.text = 'Monthly'
       self.frequency_option_1.role = 'genre-box'
-      self.frequency_days_label.visible = True
-      self.frequency_days_label.text = 'Starting:'
+      self.frequency_days_label_starting.visible = True
       self.frequency_option_2.visible = False
       self.frequency_picker.visible = True
-      self.frequency_option_4.visible = False
+      self.frequency_days_label_days.visible = False
     elif self.frequency_option_1.text == 'Monthly':
       self.frequency_option_1.text = 'Daily'
-      self.frequency_days_label.visible = False
+      self.frequency_days_label_starting.visible = False
       self.frequency_option_3.visible = False
       self.frequency_picker.visible = False
 
