@@ -163,8 +163,8 @@ components:
       properties: {align: center, role: notification-settings-textbox}
       type: TextBox
     layout_properties: {grid_position: 'IRYPMY,CTXMUI SFHSYC,BFWKSY'}
-    name: flow_panel_2
-    properties: {spacing_above: none, spacing_below: none}
+    name: min_growth_fit
+    properties: {spacing_above: none, spacing_below: none, visible: false}
     type: FlowPanel
   - components:
     - name: days_since_rel_field_title
@@ -176,7 +176,7 @@ components:
       type: TextBox
     layout_properties: {grid_position: 'IRYPMY,CTXMUI JUHZUF,RSTLBX'}
     name: max_days_since_rel
-    properties: {spacing_above: none, spacing_below: none}
+    properties: {spacing_above: none, spacing_below: none, visible: false}
     type: FlowPanel
   - components:
     - components:

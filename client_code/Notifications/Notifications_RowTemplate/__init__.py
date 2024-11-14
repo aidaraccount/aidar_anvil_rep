@@ -42,6 +42,14 @@ class Notifications_RowTemplate(Notifications_RowTemplateTemplate):
     elif self.item["type"] == 'playlist':
       self.name_link.icon = 'fa:spotify'
 
+    if self.frequency_option_1.text == 'Every X Days':
+      self.frequency_option_2.visible = True
+      self.frequency_option_4.visible = True
+    elif self.frequency_option_1.text == 'Monthly':
+      self.frequency_days_label.visible = True
+      self.frequency_picker.visible = True
+
+    
     # for i in range(0, len(models)):
     #   if models[i]["is_last_used"] is True:        
     #     model_link = Link(
@@ -164,12 +172,16 @@ class Notifications_RowTemplate(Notifications_RowTemplateTemplate):
     if self.metrics_option_1.text == 'Top Fits':
       self.metrics_option_1.text = 'Growing Fits'
       self.frequency_option_1.role = 'genre-box'
+      self.min_growth_fit.visible = True
     elif self.metrics_option_1.text == 'Growing Fits':
       self.metrics_option_1.text = 'Releasing Fits'
       self.frequency_option_1.role = 'genre-box'
+      self.min_growth_fit.visible = False
+      self.max_days_since_rel.visible = True
     elif self.metrics_option_1.text == 'Releasing Fits':
       self.metrics_option_1.text = 'Top Fits'
       self.frequency_option_1.role = 'genre-box'
+      self.max_days_since_rel.visible = False
 
   def update_notification_1(self, **event_args):
     if self.frequency_option_1.text == 'Daily':
