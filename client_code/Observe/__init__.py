@@ -102,15 +102,15 @@ class Observe(ObserveTemplate):
 
     # get metric status
     if self.nav_top_fits.role == 'section_buttons_focused':
-      metric = 'top_fits'
+      metric = 'Top Fits'
       min_grow_fit = None
       release_days = None
     elif self.nav_grow_fits.role == 'section_buttons_focused':
-      metric = 'grow_fits'
+      metric = 'Growing Fits'
       min_grow_fit = self.min_growth_pred.text/100
       release_days = None
     elif self.nav_release_fits.role == 'section_buttons_focused':
-      metric = 'release_fits'
+      metric = 'Releasing Fits'
       min_grow_fit = None
       release_days = self.max_release_days.text
     
