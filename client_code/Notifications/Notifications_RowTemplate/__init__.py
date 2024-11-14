@@ -131,6 +131,9 @@ class Notifications_RowTemplate(Notifications_RowTemplateTemplate):
       self.frequency_option_3.visible = False
       self.frequency_picker.visible = False
 
+  def notification_repetition_value_click(self, **event_args):
+    if self.notif_rep_value.text == 'Show artists again':
+      
   # def frequency_option_3_click(self, **event_args):
   #   if self.frequency_option_3.text == 'Monday':
   #     self.frequency_option_3.text = 'Tuesday'
