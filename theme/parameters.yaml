@@ -265,7 +265,7 @@ roles:
   name: equal-height-container
 - components: [ColumnPanel]
   name: highlights-tile-background-for-col
-- components: [Label, RichText, Button, Link]
+- components: [Label, RichText, Button, Link, DatePicker]
   name: header-7
 - components: [Label, RichText, Button, Link]
   name: header-6_bold
@@ -353,3 +353,5 @@ roles:
   name: notification-settings-textbox
 - components: [DatePicker]
   name: date-picker
+- components: [DatePicker]
+  name: bottom-border

@@ -35,7 +35,7 @@ components:
     type: FlowPanel
   - components:
     - layout_properties: {}
-      name: activated
+      name: notification_status
       properties:
         align: right
         bold: false
@@ -74,7 +74,19 @@ components:
     type: LinearPanel
   - layout_properties: {grid_position: 'CHHRMY,XKHHNJ'}
     name: frequency_field_title
-    properties: {role: header-7, spacing_above: none, spacing_below: none, text: 'Frequency:'}
+    properties: {role: header-5, spacing_above: none, spacing_below: none, text: 'Frequency:'}
+    type: Label
+  - layout_properties: {grid_position: 'CHHRMY,RLTAPJ'}
+    name: label_2
+    properties: {}
+    type: Label
+  - layout_properties: {grid_position: 'CHHRMY,AYAGRA'}
+    name: label_3
+    properties: {}
+    type: Label
+  - layout_properties: {grid_position: 'CHHRMY,YZCLAD'}
+    name: label_5
+    properties: {}
     type: Label
   - layout_properties: {grid_position: 'IRYPMY,XTCPXD VKBGJV,CVMCJR'}
     name: spacer_1
@@ -84,43 +96,46 @@ components:
     - event_bindings: {click: frequency_option_1_click}
       layout_properties: {}
       name: frequency_option_1
-      properties: {role: genre-box, spacing_above: none, spacing_below: none, text: Daily}
+      properties: {align: left, role: genre-box, spacing_above: none, spacing_below: none, text: Daily}
       type: Link
     layout_properties: {grid_position: 'IRYPMY,XTCPXD QLPYOA,EUXCVR'}
     name: flow_panel_5
-    properties: {spacing_above: none, spacing_below: none}
+    properties: {align: left, spacing_above: none, spacing_below: none}
     type: FlowPanel
   - components:
     - name: frequency_option_2
       properties: {align: center, role: notification-settings-textbox, visible: false}
       type: TextBox
-    - name: frequency_days_label_days
-      properties: {role: header-7, spacing_above: none, spacing_below: none, text: Days, visible: false}
+    - layout_properties: {}
+      name: frequency_days_label_days
+      properties: {role: header-6, spacing_above: none, spacing_below: none, text: Days, visible: false}
       type: Label
     layout_properties: {grid_position: 'IRYPMY,XTCPXD HPRRUM,WZBNTO'}
     name: flow_panel_1
-    properties: {}
+    properties: {align: left, spacing_above: none, spacing_below: none}
     type: FlowPanel
-  - event_bindings: {click: frequency_option_3_click}
-    layout_properties: {grid_position: 'IRYPMY,XTCPXD NKLUYW,ISOXQH'}
-    name: frequency_option_3
-    properties: {role: genre-box, spacing_above: none, spacing_below: none, visible: false}
-    type: Link
   - components:
-    - name: frequency_days_label_starting
-      properties: {role: header-7, spacing_above: none, spacing_below: none, text: 'Starting:', visible: false}
+    - layout_properties: {}
+      name: frequency_days_label_starting
+      properties: {role: header-6, spacing_above: none, spacing_below: none, text: ' Starting:', visible: false}
       type: Label
-    - name: frequency_picker
+    - layout_properties: {}
+      name: frequency_picker
       properties:
-        role: [target-dropdown, date-picker]
+        role: [target-dropdown, date-picker, header-7, bottom-border]
         spacing_above: none
         spacing_below: none
         visible: false
       type: DatePicker
     layout_properties: {grid_position: 'IRYPMY,XTCPXD VPIQIM,PPBWHS'}
     name: flow_panel_2
-    properties: {}
+    properties: {align: left, spacing_above: none, spacing_below: none}
     type: FlowPanel
+  - event_bindings: {click: frequency_option_3_click}
+    layout_properties: {grid_position: 'IRYPMY,XTCPXD YKNCJN,OQKPFR'}
+    name: weekdays
+    properties: {role: genre-box, spacing_above: none, spacing_below: none, visible: false}
+    type: Link
   - components:
     - layout_properties: {}
       name: label_1
@@ -229,7 +244,7 @@ components:
     type: ColumnPanel
   layout_properties: {column: JKSDUP}
   name: column_panel_1
-  properties: {col_spacing: tiny, col_widths: '{"XTCPXD":30,"FTXCAA":30,"NDUSEU":40,"NWICXJ":18,"HCVQMZ":20,"CTXMUI":20}', role: grid}
+  properties: {col_spacing: tiny, col_widths: '{"XTCPXD":22,"FTXCAA":27,"NDUSEU":38,"NWICXJ":22,"HCVQMZ":18,"CTXMUI":22,"GOUNXL":24,"XKHHNJ":14,"RLTAPJ":15,"AYAGRA":14,"YZCLAD":17}', role: grid}
   type: ColumnPanel
 container: {type: DataRowPanel}
 is_package: true

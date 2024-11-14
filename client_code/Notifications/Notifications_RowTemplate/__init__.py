@@ -26,16 +26,18 @@ class Notifications_RowTemplate(Notifications_RowTemplateTemplate):
     self.metrics_option_1.text = self.item["metric"]
     self.frequency_option_1.text = self.item["freq_1"]
     self.frequency_option_2.text = self.item["freq_2"]
-    self.frequency_option_3.text = self.item["freq_3"]
+    self.weekdays.text = self.item["freq_3"]
     self.days_since_rel_field_value.text = self.item["release_days"]
     self.notif_rep_value.text = self.item["repetition"]
     # activate Notification
     if self.item["active"] is True:
       self.activate.visible = False
       self.deactivate.visible = True
+      self.notification_status.text = 'Notification is active'
     else:
       self.activate.visible = True
       self.deactivate.visible = False
+      self.notification_status.text = 'Notification is inactive'
     # type specific content
     if self.item["type"] == 'mail':
       self.name_link.icon = 'fa:envelope-o'
@@ -51,12 +53,6 @@ class Notifications_RowTemplate(Notifications_RowTemplateTemplate):
       self.frequency_days_label_starting.visible = True
       self.frequency_picker.visible = True
 
-    print("frequency_option_1", self.frequency_option_1.text)
-    print("frequency_option_2", self.frequency_option_2.text)
-    print("frequency_days_label_starting", self.frequency_days_label_starting.text)
-    print("frequency_option_3", self.frequency_option_3.text)
-    print("frequency_days_label_days", self.frequency_days_label_days.text)
-    print("frequency_picker", self.frequency_picker.date)
     
     # for i in range(0, len(models)):
     #   if models[i]["is_last_used"] is True:        
@@ -90,9 +86,11 @@ class Notifications_RowTemplate(Notifications_RowTemplateTemplate):
     if self.activate.visible is True:
       self.activate.visible = False
       self.deactivate.visible = True
+      self.notification_status.text = 'Notification is active'
     else:
       self.activate.visible = True
       self.deactivate.visible = False
+      self.notification_status.text = 'Notification is inactive'
     self.update_notification_1()
     
   # RATED BUTTON
@@ -131,7 +129,7 @@ class Notifications_RowTemplate(Notifications_RowTemplateTemplate):
       self.frequency_option_1.role = 'genre-box'
       self.frequency_days_label_starting.visible = True
       self.frequency_option_2.visible = True
-      self.frequency_option_3.visible = False
+      self.weekdays.visible = False
       self.frequency_days_label_days.visible = True
       self.frequency_days_label_days.text = 'Days'
       self.frequency_picker.visible = True
@@ -145,7 +143,7 @@ class Notifications_RowTemplate(Notifications_RowTemplateTemplate):
     elif self.frequency_option_1.text == 'Monthly':
       self.frequency_option_1.text = 'Daily'
       self.frequency_days_label_starting.visible = False
-      self.frequency_option_3.visible = False
+      self.weekdays.visible = False
       self.frequency_picker.visible = False
 
   def notification_repetition_value_click(self, **event_args):
@@ -159,22 +157,22 @@ class Notifications_RowTemplate(Notifications_RowTemplateTemplate):
       self.notif_rep_value.text = 'Show artists again'
       self.notif_rep_value.role = 'genre-box'
       
-  # def frequency_option_3_click(self, **event_args):
-  #   if self.frequency_option_3.text == 'Monday':
-  #     self.frequency_option_3.text = 'Tuesday'
-  #     self.frequency_option_3.role = 'genre-box'
-  #   elif self.frequency_option_3.text == 'Tuesday':
-  #     self.frequency_option_3.text = 'Wednesday'
-  #     self.frequency_option_3.role = 'genre-box'
-  #   elif self.frequency_option_3.text == 'Wednesday':
-  #     self.frequency_option_3.text = 'Thursday'
-  #     self.frequency_option_3.role = 'genre-box'
-  #   elif self.frequency_option_3.text == 'Thursday':
-  #     self.frequency_option_3.text = 'Friday'
-  #     self.frequency_option_3.role = 'genre-box'
-  #   elif self.frequency_option_3.text == 'Friday':
-  #     self.frequency_option_3.text = 'Monday'
-  #     self.frequency_option_3.role = 'genre-box'
+  # def weekdays_click(self, **event_args):
+  #   if self.weekdays.text == 'Monday':
+  #     self.weekdays.text = 'Tuesday'
+  #     self.weekdays.role = 'genre-box'
+  #   elif self.weekdays.text == 'Tuesday':
+  #     self.weekdays.text = 'Wednesday'
+  #     self.weekdays.role = 'genre-box'
+  #   elif self.weekdays.text == 'Wednesday':
+  #     self.weekdays.text = 'Thursday'
+  #     self.weekdays.role = 'genre-box'
+  #   elif self.weekdays.text == 'Thursday':
+  #     self.weekdays.text = 'Friday'
+  #     self.weekdays.role = 'genre-box'
+  #   elif self.weekdays.text == 'Friday':
+  #     self.weekdays.text = 'Monday'
+  #     self.weekdays.role = 'genre-box'
 
   def metrics_option_1_click(self, **event_args):
     if self.metrics_option_1.text == 'Top Fits':

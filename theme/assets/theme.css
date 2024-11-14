@@ -1854,6 +1854,11 @@ footer a, .footer .anvil-component {
 .anvil-role-date-picker>.form-inline select {
   border-radius: 10px;
 }
+.anvil-role-bottom-border>.form-control {
+  border: none;
+  border-bottom: 0.2px solid;
+  border-radius: 0px;
+}
 
 .contact-table-details .anvil-role-target-dropdown {
   font-family: Gs-regular;
