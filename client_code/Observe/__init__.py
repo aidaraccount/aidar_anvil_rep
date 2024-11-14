@@ -100,16 +100,19 @@ class Observe(ObserveTemplate):
         if component.role == 'genre-box':
           model_ids.append(component.tag)
 
-    # get type status
+    # get metric status
     if self.nav_top_fits.role == 'section_buttons_focused':
-      type = 'top_fits'
-      value = None
+      metric = 'top_fits'
+      min_grow_fit = None
+      release_days = None
     elif self.nav_grow_fits.role == 'section_buttons_focused':
-      type = 'grow_fits'
-      value = self.min_growth_pred.text/100*7
+      metric = 'grow_fits'
+      min_grow_fit = self.min_growth_pred.text/100
+      release_days = None
     elif self.nav_release_fits.role == 'section_buttons_focused':
-      type = 'release_fits'
-      value = self.max_release_days.text
+      metric = 'release_fits'
+      min_grow_fit = None
+      release_days = self.max_release_days.text
     
     # get rated status
     if self.link_rated.text == 'rated':
@@ -137,17 +140,18 @@ class Observe(ObserveTemplate):
       observed = json.loads(anvil.server.call('get_observed', 
                                               user["user_id"],
                                               model_ids,
-                                              type,
+                                              metric,
                                               rated,
                                               watchlist,
-                                              value
+                                              min_grow_fit,
+                                              release_days
                                              ))
       
-      # add numbering & type
+      # add numbering & metric
       # print(f"{datetime.now()}: Observe 2c", flush=True)
       for i, artist in enumerate(observed, start=1):
         artist['Number'] = i
-        artist['Type'] = type
+        artist['Metric'] = metric
       
       # hand-over the data
       # print(f"{datetime.now()}: Observe 2d", flush=True)
