@@ -1,4 +1,4 @@
-from ._anvil_designer import Observe_RowTemplateTemplate
+from ._anvil_designer import Observe_Row_TemplateTemplate
 from anvil import *
 import anvil.server
 import anvil.users
@@ -13,7 +13,7 @@ from anvil_extras import routing
 from ...nav import click_link, click_button, logout, login_check, load_var
 
 
-class Observe_RowTemplate(Observe_RowTemplateTemplate):
+class Observe_Row_Template(Observe_Row_TemplateTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
@@ -139,19 +139,19 @@ class Observe_RowTemplate(Observe_RowTemplateTemplate):
 
     # INVIVIDUAL STATS
     # self.nav_grow_fits.role = 'section_buttons_focused'
-    if self.item["Type"] == 'top_fits':
+    if self.item["Metric"] == 'Top Fits':
       self.label_indiv.content = 'Spotify<br>Pop.'
       self.label_indiv_cont.role = 'header-5'
       font_size = 20
       var = get_open_form().shorten_number(self.item["ArtistPopularity_lat"])
       ev_var = self.item["ev_sp_pop_30"]
-    elif self.item["Type"] == 'grow_fits':
+    elif self.item["Metric"] == 'Growing Fits':
       self.label_indiv.content = 'Growth<br>Fit'
       self.label_indiv_cont.role = 'header-5'
       font_size = 20
       var = str(round(self.item["prediction_growth"]/7*100)) + '%'
       ev_var = None
-    elif self.item["Type"] == 'release_fits':
+    elif self.item["Metric"] == 'Releasing Fits':
       self.label_indiv.content = 'Latest<br>Release'
       self.label_indiv_cont.role = 'header-6'
       font_size = 18

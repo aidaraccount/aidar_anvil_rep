@@ -121,8 +121,9 @@ components:
     properties: {}
     type: ColumnPanel
   - components:
-    - name: repeating_panel_table
-      properties: {item_template: Observe.Observe_RowTemplate}
+    - layout_properties: {}
+      name: repeating_panel_table
+      properties: {item_template: Observe.Observe_Row_Template}
       type: RepeatingPanel
     layout_properties: {grid_position: 'NUGHYG,HVXOZQ'}
     name: data_grid
