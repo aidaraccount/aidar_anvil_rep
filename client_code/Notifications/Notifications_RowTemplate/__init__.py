@@ -219,7 +219,7 @@ class Notifications_RowTemplate(Notifications_RowTemplateTemplate):
                       watchlist = None,
                       release_days = release_days,
                       min_grow_fit = min_growth_value ,
-                      model_ids = [2, 129])
+                      model_ids = [28])
 
   # def edit_icon_click(self, **event_args):
   #   if self.name_link.visible is True: 
