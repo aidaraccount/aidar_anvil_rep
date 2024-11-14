@@ -132,10 +132,11 @@ components:
       name: notif_rep_title
       properties: {role: header-7, spacing_above: none, spacing_below: none, text: 'Notification Repetition:'}
       type: Label
-    - layout_properties: {}
+    - event_bindings: {click: frequency_option_1_click}
+      layout_properties: {}
       name: notif_rep_value
-      properties: {align: center, role: notification-settings-textbox, spacing_above: none, spacing_below: none}
-      type: TextBox
+      properties: {role: genre-box, spacing_above: none, spacing_below: none, text: Show artists again}
+      type: Link
     layout_properties: {grid_position: 'IRYPMY,XTCPXD BQJLWZ,EBNTKG'}
     name: notification_rep
     properties: {spacing_above: none, spacing_below: none}

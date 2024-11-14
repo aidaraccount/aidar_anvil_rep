@@ -28,6 +28,7 @@ class Notifications_RowTemplate(Notifications_RowTemplateTemplate):
     self.frequency_option_2.text = self.item["freq_2"]
     self.frequency_option_3.text = self.item["freq_3"]
     self.days_since_rel_field_value.text = self.item["release_days"]
+    self.notif_rep_value.text = self.item["repetition"]
     # activate Notification
     if self.item["active"] is True:
       self.activate.visible = False
@@ -133,6 +134,14 @@ class Notifications_RowTemplate(Notifications_RowTemplateTemplate):
 
   def notification_repetition_value_click(self, **event_args):
     if self.notif_rep_value.text == 'Show artists again':
+      self.notif_rep_value.text = 'Show artists twice'
+      self.notif_rep_value.role = 'genre-box'
+    elif self.notif_rep_value.text == 'Show artists twice':
+      self.notif_rep_value.text = 'Repetitive'
+      self.notif_rep_value.role = 'genre-box'
+    elif self.notif_rep_value.text == 'Repetitive':
+      self.notif_rep_value.text = 'Show artists again'
+      self.notif_rep_value.role = 'genre-box'
       
   # def frequency_option_3_click(self, **event_args):
   #   if self.frequency_option_3.text == 'Monday':
