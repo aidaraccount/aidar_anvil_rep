@@ -14,7 +14,8 @@ components:
         name: model_name
         properties: {align: left, italic: false, role: header-2, spacing_above: small, spacing_below: small}
         type: Label
-      - layout_properties: {grid_position: 'BKOAUM,PVSQDK EQCUCU,PULXYL'}
+      - event_bindings: {pressed_enter: model_name_text_pressed_enter}
+        layout_properties: {grid_position: 'BKOAUM,PVSQDK EQCUCU,PULXYL'}
         name: model_name_text
         properties: {role: text_box_small, spacing_above: small, spacing_below: small}
         type: TextBox

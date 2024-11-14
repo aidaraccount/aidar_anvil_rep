@@ -110,6 +110,17 @@ body, html {
   padding-top: 5px;
   padding-bottom: 5px;
 }
+.anvil-role-notification-settings-textbox {
+  font-size: 14px;
+  font-weight: normal;
+  margin: 8px 5px 0 4px;
+  color: white;
+  background: transparent; 
+  padding-bottom: 3px;
+  width: 65px;
+  padding-top: 2px;
+  border-radius: 10px;
+}
 
 /* CSS for formatting tables STARTS here*/
 .anvil-role-bottom_line {
@@ -1832,6 +1843,21 @@ footer a, .footer .anvil-component {
 .anvil-role-target-dropdown>.form-control { 
   color: white;
   background: transparent; 
+}
+.anvil-role-date-picker {
+  width: 115px;
+  font-size: 14px;
+  margin: 0px 0 0 5px;
+  padding: 5px 0px 0 0px;
+  border-radius: 10px;
+}
+.anvil-role-date-picker>.form-inline select {
+  border-radius: 10px;
+}
+.anvil-role-bottom-border>.form-control {
+  border: none;
+  border-bottom: 0.2px solid;
+  border-radius: 0px;
 }
 
 .contact-table-details .anvil-role-target-dropdown {

@@ -1,0 +1,127 @@
+components:
+- components:
+  - data_bindings:
+    - {code: 'str(self.item[''Number''])+''.''', property: text, writeback: false}
+    layout_properties: {grid_position: 'VKDHZE,FZNRID'}
+    name: label_nr
+    properties: {bold: true, role: header-1, spacing_above: small}
+    type: Label
+  - components:
+    - data_bindings:
+      - {code: 'self.item[''ArtistPictureURL'']', property: source, writeback: false}
+      layout_properties: {grid_position: 'CPKHLF,ZXAVCF'}
+      name: image_1
+      properties: {display_mode: zoom_to_fill, height: '100', role: artist-image, source: 'item[''ArtistPictureURL'']'}
+      type: Image
+    event_bindings: {click: pic_click}
+    layout_properties: {grid_position: 'VKDHZE,UZMWIH'}
+    name: link_pic
+    properties: {}
+    type: Link
+  - components:
+    - layout_properties: {grid_position: 'MMGJTS,PQKUCA'}
+      name: Artist_Name_Details
+      properties: {spacing: small, spacing_below: none, vertical_align: top}
+      type: FlowPanel
+    data_bindings: []
+    event_bindings: {click: name_click}
+    layout_properties: {grid_position: 'VKDHZE,KDLTZC RRMHQP,VBRKHB'}
+    name: link_name
+    properties: {role: null}
+    type: Link
+  - components:
+    - layout_properties: {}
+      name: gender_birth_spacer
+      properties: {spacing_above: none, spacing_below: none, text: ' '}
+      type: Label
+    - layout_properties: {}
+      name: gender
+      properties: {font_size: null, role: null, spacing_above: none, spacing_below: none}
+      type: Label
+    - layout_properties: {}
+      name: gender_birthday_line
+      properties: {spacing_above: none, spacing_below: none, text: '|'}
+      type: Label
+    - layout_properties: {}
+      name: birthday
+      properties: {font_size: null, role: null, spacing_above: none, spacing_below: none}
+      type: Label
+    layout_properties: {grid_position: 'VKDHZE,KDLTZC WFUJIW,GWEHLE'}
+    name: Artist_Details
+    properties: {role: description-tile-bio-text, spacing_above: none, spacing_below: small, vertical_align: bottom}
+    type: FlowPanel
+  - layout_properties: {grid_position: 'VKDHZE,KDLTZC DQSSRJ,FLEMFX'}
+    name: flow_panel_genre_tile
+    properties: {align: left, role: music-genre-tile, spacing_above: none, spacing_below: medium}
+    type: FlowPanel
+  - components:
+    - components:
+      - layout_properties: {grid_position: 'JXYPST,PRIBTP'}
+        name: label_indiv_copy_copy_copy
+        properties: {align: center, content: Spotify<br>Follower, format: restricted_html, role: header-8, spacing_above: none, spacing_below: none}
+        type: RichText
+      - layout_properties: {grid_position: 'RXFTZA,TDQBBQ'}
+        name: label_sp_fol
+        properties: {align: center, format: restricted_html, role: header-5, spacing_above: none, spacing_below: none}
+        type: RichText
+      layout_properties: {grid_position: 'NDCNUT,TJOCYR'}
+      name: column_panel_4_copy
+      properties: {spacing_above: large}
+      type: ColumnPanel
+    - components:
+      - layout_properties: {grid_position: 'CRAQYV,PKGAYP'}
+        name: label_indiv_copy_copy
+        properties: {align: center, content: Spotify<br>mtl. List., format: restricted_html, role: header-8, spacing_above: none, spacing_below: none}
+        type: RichText
+      - layout_properties: {grid_position: 'LOGZQX,BHPDCG'}
+        name: label_mtl_lis
+        properties: {align: center, format: restricted_html, role: header-5, spacing_above: none, spacing_below: none}
+        type: RichText
+      layout_properties: {grid_position: 'NDCNUT,PUGGDX'}
+      name: column_panel_4_copy_2
+      properties: {spacing_above: large}
+      type: ColumnPanel
+    - components:
+      - layout_properties: {grid_position: 'DNOUAX,RCYKVU'}
+        name: label_indiv_copy
+        properties: {align: center, content: TikTok<br>Follower, format: restricted_html, role: header-8, spacing_above: none, spacing_below: none}
+        type: RichText
+      - layout_properties: {grid_position: 'ZEHYMB,NHFEJM'}
+        name: label_tiktok_fol
+        properties: {align: center, format: restricted_html, role: header-5, spacing_above: none, spacing_below: none}
+        type: RichText
+      layout_properties: {grid_position: 'NDCNUT,GXKWJN'}
+      name: column_panel_4_copy_copy
+      properties: {spacing_above: large}
+      type: ColumnPanel
+    - components:
+      - layout_properties: {grid_position: 'MGBBSY,HSVBUU'}
+        name: label_indiv
+        properties: {align: center, format: restricted_html, role: header-8, spacing_above: none, spacing_below: none}
+        type: RichText
+      - layout_properties: {grid_position: 'ZEHYMB,DPBMIE'}
+        name: label_indiv_cont
+        properties: {align: center, format: restricted_html, role: null, spacing_above: none, spacing_below: none}
+        type: RichText
+      layout_properties: {grid_position: 'NDCNUT,ZWSJXT'}
+      name: column_panel_4
+      properties: {spacing_above: large}
+      type: ColumnPanel
+    layout_properties: {grid_position: 'VKDHZE,RHGWMN'}
+    name: column_panel_3
+    properties: {col_spacing: small}
+    type: ColumnPanel
+  - layout_properties: {grid_position: 'VKDHZE,URSRLP'}
+    name: column_panel_pred
+    properties: {spacing_above: medium, spacing_below: medium}
+    type: ColumnPanel
+  - layout_properties: {grid_position: 'VKBGJV,CVMCJR'}
+    name: spacer_1
+    properties: {height: '5', spacing_above: none, spacing_below: none}
+    type: Spacer
+  layout_properties: {column: JKSDUP}
+  name: column_panel_1
+  properties: {col_spacing: tiny, col_widths: '{"UZMWIH":10,"KDLTZC":20,"URSRLP":17,"RHGWMN":30,"FZNRID":5}', role: grid}
+  type: ColumnPanel
+container: {type: DataRowPanel}
+is_package: true

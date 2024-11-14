@@ -1,0 +1,59 @@
+components:
+- components:
+  - layout_properties: {grid_position: 'JAZERV,LGQSDW'}
+    name: label_1
+    properties: {align: left, background: '', bold: false, border: '', font: '', font_size: null, foreground: '', icon: '', icon_align: left, italic: false, role: header-1, spacing_above: small, spacing_below: small, text: Notification Settings, tooltip: '', underline: false, visible: true}
+    type: Label
+  - layout_properties: {grid_position: 'MHFFII,LVOWSM'}
+    name: spacer_1
+    properties: {height: '16'}
+    type: Spacer
+  - components:
+    - layout_properties: {grid_position: 'FFHUXB,SNYWAS'}
+      name: label_1_copy
+      properties: {align: center, bold: false, role: sub_title, text: No running notifications}
+      type: Label
+    - layout_properties: {grid_position: 'XVSVDO,ELBDZT'}
+      name: label_2
+      properties: {align: center, bold: false, role: description, text: Please create a notification to be automatically updated}
+      type: Label
+    layout_properties: {grid_position: 'XMRDBE,TEXHQX'}
+    name: no_notifications
+    properties: {}
+    type: ColumnPanel
+  - event_bindings: {click: add_mail_notification_click}
+    layout_properties: {grid_position: 'BGWTXZ,JYVHEC'}
+    name: add_mail_notification
+    properties:
+      align: center
+      role: [grid, header-5]
+      spacing:
+        padding: [7, null, null, null]
+      spacing_above: small
+      text: + add mail notification
+    type: Link
+  - components:
+    - layout_properties: {}
+      name: repeating_panel_table
+      properties: {item_template: Notifications.Notifications_RowTemplate}
+      type: RepeatingPanel
+    layout_properties: {grid_position: 'NUGHYG,HVXOZQ'}
+    name: data_grid
+    properties:
+      auto_header: false
+      columns:
+      - {data_key: column_1, id: JKSDUP, title: Column 1}
+      rows_per_page: 7
+    type: DataGrid
+  - layout_properties: {grid_position: 'TINJGS,EKTRMF'}
+    name: spacer_2
+    properties: {height: 32}
+    type: Spacer
+  layout_properties: {slot: default}
+  name: content_panel
+  properties: {col_widths: '{}'}
+  type: ColumnPanel
+container:
+  properties: {html: '@theme:Observe.html'}
+  type: HtmlTemplate
+is_package: true

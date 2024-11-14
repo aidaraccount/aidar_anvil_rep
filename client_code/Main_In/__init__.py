@@ -26,9 +26,10 @@ from ..C_CreateModel import C_CreateModel
 from ..ConnectModel import ConnectModel
 from ..CreateWatchlist import CreateWatchlist
 from ..Observe import Observe
-
 from ..ModelProfile import ModelProfileTemplate
 from ..RampUp import RampUpTemplate
+from ..Notifications import Notifications
+
 
 routing.logger.debug = False
 

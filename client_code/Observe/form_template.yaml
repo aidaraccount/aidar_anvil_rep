@@ -4,10 +4,11 @@ components:
     name: label_1
     properties: {align: left, background: '', bold: false, border: '', font: '', font_size: null, foreground: '', icon: '', icon_align: left, italic: false, role: header-1, spacing_above: small, spacing_below: small, text: Observe, tooltip: '', underline: false, visible: true}
     type: Label
-  - layout_properties: {grid_position: 'RGDSQN,DKQKCD'}
-    name: spacer_1_copy
-    properties: {height: '16'}
-    type: Spacer
+  - event_bindings: {click: notifications_click}
+    layout_properties: {grid_position: 'WFWZER,IQITZZ'}
+    name: notification_link
+    properties: {align: right, icon: 'fa:send-o', role: header-6, spacing_above: none, spacing_below: none, text: Notification Settings}
+    type: Link
   - components:
     - layout_properties: {}
       name: label_3_copy
@@ -70,8 +71,7 @@ components:
       name: label_3_copy_copy_copy
       properties: {role: feature, text: '   Min. Growth Fit Prediction [%]:    '}
       type: Label
-    - data_bindings: []
-      event_bindings: {pressed_enter: refresh_table}
+    - event_bindings: {pressed_enter: refresh_table}
       layout_properties: {width: 81.3333}
       name: min_growth_pred
       properties: {hide_text: false, placeholder: '75', role: text_box_small, text: '75', type: number}
@@ -85,8 +85,7 @@ components:
       name: label_3_copy_copy_copy_copy
       properties: {role: feature, text: '   Max. days since latest Release:    '}
       type: Label
-    - data_bindings: []
-      event_bindings: {pressed_enter: refresh_table}
+    - event_bindings: {pressed_enter: refresh_table}
       layout_properties: {width: 81.3333}
       name: max_release_days
       properties: {hide_text: false, placeholder: '21', role: text_box_small, text: '21', type: number}
@@ -123,7 +122,7 @@ components:
     type: ColumnPanel
   - components:
     - name: repeating_panel_table
-      properties: {item_template: Observe.RowTemplate11}
+      properties: {item_template: Observe.Observe_RowTemplate}
       type: RepeatingPanel
     layout_properties: {grid_position: 'NUGHYG,HVXOZQ'}
     name: data_grid
@@ -139,7 +138,7 @@ components:
     type: Spacer
   layout_properties: {slot: default}
   name: content_panel
-  properties: {col_widths: '{}'}
+  properties: {col_widths: '{"YLDDFN":35}'}
   type: ColumnPanel
 container:
   properties: {html: '@theme:Observe.html'}
