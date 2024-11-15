@@ -19,6 +19,9 @@ class Notifications_RowTemplate(Notifications_RowTemplateTemplate):
     self.init_components(**properties)
 
     # Any code you write here will run before the form opens.
+    global user
+    user = anvil.users.get_user()
+    
     # general content
     self.name_link.text = self.item["name"]
     self.no_artists_box.text = self.item["no_artists"]
@@ -78,34 +81,35 @@ class Notifications_RowTemplate(Notifications_RowTemplateTemplate):
       self.min_growth_fit.visible = True
     elif self.metrics_option_1.text == 'Releasing Fits':
       self.max_days_since_rel.visible = True
-    # for i in range(0, len(models)):
-    #   if models[i]["is_last_used"] is True:        
-    #     model_link = Link(
-    #       text=models[i]["model_name"],
-    #       tag=models[i]["model_id"],
-    #       role='genre-box'
-    #       )
-    #     if models[i]["fully_trained"] is False:
-    #       is_last_used_is_not_trained = True
-    #   else:
-    #     model_link = Link(
-    #       text=models[i]["model_name"],
-    #       tag=models[i]["model_id"],
-    #       role='genre-box-deselect'
-    #       )
-      
-    #   if models[i]["fully_trained"] is False:        
-    #     model_link = Link(
-    #       text=models[i]["model_name"],
-    #       tag=models[i]["model_id"],
-    #       role='genre-box-deactive'
-    #       )
-    #   else:        
-    #     working_model = True
-        
-    #   model_link.set_event_handler('click', self.create_activate_model_handler(models[i]["model_id"]))
-    #   self.flow_panel_models.add_component(model_link)
 
+    # models
+    models = json.loads(anvil.server.call('get_model_ids',  user["user_id"]))
+    active_models = self.item["model_ids"]
+    for i in range(0, len(models)):
+      if models[i]["model_id"] in active_models:        
+        model_link = Link(
+          text=models[i]["model_name"],
+          tag=models[i]["model_id"],
+          role='genre-box'
+          )
+      else:
+        model_link = Link(
+          text=models[i]["model_name"],
+          tag=models[i]["model_id"],
+          role='genre-box-deselect'
+          )
+      
+      if models[i]["fully_trained"] is False:        
+        model_link = Link(
+          text=models[i]["model_name"],
+          tag=models[i]["model_id"],
+          role='genre-box-deactive'
+          )
+      
+      model_link.set_event_handler('click', self.create_activate_model_handler(models[i]["model_id"]))
+      self.flow_panel_models.add_component(model_link)
+
+  
   def activate_notification(self, **event_args):
     if self.activate.visible is True:
       self.activate.visible = False
@@ -249,7 +253,13 @@ class Notifications_RowTemplate(Notifications_RowTemplateTemplate):
       release_days = None
     else:
       release_days = self.days_since_rel_field_value.text
-      
+
+    model_ids = []
+    for component in self.flow_panel_models.get_components():
+      if isinstance(component, Link):
+        if component.role == 'genre-box':
+          model_ids.append(component.tag)
+    
     anvil.server.call('update_notification',
                       notification_id = self.item["notification_id"],
                       type = self.item["type"],
@@ -265,7 +275,7 @@ class Notifications_RowTemplate(Notifications_RowTemplateTemplate):
                       watchlist = watchlist_selection_option,
                       release_days = release_days,
                       min_grow_fit = min_growth_value ,
-                      model_ids = [28])
+                      model_ids = model_ids)
 
   # def edit_icon_click(self, **event_args):
   #   if self.name_link.visible is True: 
@@ -291,4 +301,39 @@ class Notifications_RowTemplate(Notifications_RowTemplateTemplate):
       self.name_link.text = self.model_name_text_2.text
       # self.edit_icon.icon = 'fa:pencil'
 
+  # MODEL BUTTONS
+  def create_activate_model_handler(self, model_id):
+    def handler(**event_args):
+      self.activate_model(model_id)
+    return handler
 
+  # change active status
+  def activate_model(self, model_id):
+    working_model = False
+    for component in self.flow_panel_models.get_components():
+      if isinstance(component, Link):
+        
+        # change activation
+        if int(component.tag) == model_id:
+          if component.role == 'genre-box-deactive':
+            Notification("",
+              title="Model not fully trained yet - you need at least 50 ratings!",
+              style="info").show()
+          else:
+            if component.role == 'genre-box':
+              component.role = 'genre-box-deselect'
+            else:
+              component.role = 'genre-box'
+        else:
+          pass
+          
+        # check for active model
+        if component.role == 'genre-box':
+          working_model = True
+
+    # # update data
+    # if working_model is True:
+    #   self.refresh_table()
+    # else:
+    #   self.no_artists.visible = True
+    #   self.data_grid.visible = False
