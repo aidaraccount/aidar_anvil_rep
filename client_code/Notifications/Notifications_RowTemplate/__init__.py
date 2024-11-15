@@ -109,114 +109,6 @@ class Notifications_RowTemplate(Notifications_RowTemplateTemplate):
       model_link.set_event_handler('click', self.create_activate_model_handler(models[i]["model_id"]))
       self.flow_panel_models.add_component(model_link)
 
-  
-  def activate_notification(self, **event_args):
-    if self.activate.visible is True:
-      self.activate.visible = False
-      self.deactivate.visible = True
-      self.notification_status.text = 'Notification is active'
-    else:
-      self.activate.visible = True
-      self.deactivate.visible = False
-      self.notification_status.text = 'Notification is inactive'
-    self.update_notification_1()
-    
-  # RATED BUTTON
-  def artist_selection_option_click(self, **event_args):
-    if self.artist_selection_option.text == 'Rated':
-      self.artist_selection_option.text = 'Unrated'
-      self.artist_selection_option.role = 'genre-box'
-    elif self.artist_selection_option.text == 'Unrated':
-      self.artist_selection_option.text = 'All'
-      self.artist_selection_option.role = 'genre-box-deselect'
-    elif self.artist_selection_option.text == 'All':
-      self.artist_selection_option.text = 'Rated'
-      self.artist_selection_option.role = 'genre-box'
-
-  # WATCHLIST BUTTON
-  def watchlist_selection_option_click(self, **event_args):
-    if self.watchlist_selection_option.text == 'On watchlist':
-      self.watchlist_selection_option.text = 'Not on watchlist'
-      self.watchlist_selection_option.role = 'genre-box'
-    elif self.watchlist_selection_option.text == 'Not on watchlist':
-      self.watchlist_selection_option.text = 'All'
-      self.watchlist_selection_option.role = 'genre-box-deselect'
-    elif self.watchlist_selection_option.text == 'All':
-      self.watchlist_selection_option.text = 'On watchlist'
-      self.watchlist_selection_option.role = 'genre-box'      
-  
-  def delete_notification_click(self, **event_args):
-    anvil.server.call('delete_notification',
-                      notification_id = self.item["notification_id"])
-
-    self.parent.parent.parent.parent.get_notifications()
-  
-  def frequency_option_1_click(self, **event_args):
-    if self.frequency_option_1.text == 'Daily':
-      self.frequency_option_1.text = 'Every X Days'
-      self.frequency_option_1.role = 'genre-box'
-      self.frequency_days_label_starting.visible = True
-      self.frequency_option_2.visible = True
-      self.weekdays.visible = False
-      self.frequency_days_label_days.visible = True
-      self.frequency_days_label_days.text = 'Days'
-      self.frequency_picker.visible = True
-    elif self.frequency_option_1.text == 'Every X Days':
-      self.frequency_option_1.text = 'Monthly'
-      self.frequency_option_1.role = 'genre-box'
-      self.frequency_days_label_starting.visible = True
-      self.frequency_option_2.visible = False
-      self.frequency_picker.visible = True
-      self.frequency_days_label_days.visible = False
-    elif self.frequency_option_1.text == 'Monthly':
-      self.frequency_option_1.text = 'Daily'
-      self.frequency_days_label_starting.visible = False
-      self.weekdays.visible = False
-      self.frequency_picker.visible = False
-
-  def notification_repetition_value_click(self, **event_args):
-    if self.notif_rep_value.text == 'Show artists again':
-      self.notif_rep_value.text = 'Show artists twice'
-      self.notif_rep_value.role = 'genre-box'
-    elif self.notif_rep_value.text == 'Show artists twice':
-      self.notif_rep_value.text = 'Repetitive'
-      self.notif_rep_value.role = 'genre-box'
-    elif self.notif_rep_value.text == 'Repetitive':
-      self.notif_rep_value.text = 'Show artists again'
-      self.notif_rep_value.role = 'genre-box'
-      
-  # def weekdays_click(self, **event_args):
-  #   if self.weekdays.text == 'Monday':
-  #     self.weekdays.text = 'Tuesday'
-  #     self.weekdays.role = 'genre-box'
-  #   elif self.weekdays.text == 'Tuesday':
-  #     self.weekdays.text = 'Wednesday'
-  #     self.weekdays.role = 'genre-box'
-  #   elif self.weekdays.text == 'Wednesday':
-  #     self.weekdays.text = 'Thursday'
-  #     self.weekdays.role = 'genre-box'
-  #   elif self.weekdays.text == 'Thursday':
-  #     self.weekdays.text = 'Friday'
-  #     self.weekdays.role = 'genre-box'
-  #   elif self.weekdays.text == 'Friday':
-  #     self.weekdays.text = 'Monday'
-  #     self.weekdays.role = 'genre-box'
-
-  def metrics_option_1_click(self, **event_args):
-    if self.metrics_option_1.text == 'Top Fits':
-      self.metrics_option_1.text = 'Growing Fits'
-      self.frequency_option_1.role = 'genre-box'
-      self.min_growth_fit.visible = True
-    elif self.metrics_option_1.text == 'Growing Fits':
-      self.metrics_option_1.text = 'Releasing Fits'
-      self.frequency_option_1.role = 'genre-box'
-      self.min_growth_fit.visible = False
-      self.max_days_since_rel.visible = True
-    elif self.metrics_option_1.text == 'Releasing Fits':
-      self.metrics_option_1.text = 'Top Fits'
-      self.frequency_option_1.role = 'genre-box'
-      self.max_days_since_rel.visible = False
-
   def update_notification_1(self, **event_args):
     if self.frequency_option_1.text == 'Daily':
       freq_2 = None
@@ -277,20 +169,103 @@ class Notifications_RowTemplate(Notifications_RowTemplateTemplate):
                       min_grow_fit = min_growth_value ,
                       model_ids = model_ids)
     Notification("",
-        title="The notification setting has been updated",
+        title=f"The {self.name_link.text} notification settings has been updated",
         style="success").show()
+  
+  def activate_notification(self, **event_args):
+    if self.activate.visible is True:
+      self.activate.visible = False
+      self.deactivate.visible = True
+      self.notification_status.text = 'Notification is active'
+    else:
+      self.activate.visible = True
+      self.deactivate.visible = False
+      self.notification_status.text = 'Notification is inactive'
+    self.update_notification_1()
 
-  # def edit_icon_click(self, **event_args):
-  #   if self.name_link.visible is True: 
-  #     self.name_link.visible = False
-  #     self.model_name_text.visible = True
-  #     self.model_name_text.text = self.name_link.text
-  #     self.edit_icon.icon = 'fa:save'
-  #   else:
-  #     self.model_name_text.visible = False
-  #     self.name_link.visible = True
-  #     self.name_link.text = self.model_name_text.text
-  #     self.edit_icon.icon = 'fa:pencil'
+  # RATED BUTTON
+  def artist_selection_option_click(self, **event_args):
+    if self.artist_selection_option.text == 'Rated':
+      self.artist_selection_option.text = 'Unrated'
+      self.artist_selection_option.role = 'genre-box'
+    elif self.artist_selection_option.text == 'Unrated':
+      self.artist_selection_option.text = 'All'
+      self.artist_selection_option.role = 'genre-box-deselect'
+    elif self.artist_selection_option.text == 'All':
+      self.artist_selection_option.text = 'Rated'
+      self.artist_selection_option.role = 'genre-box'
+    self.update_notification_1()
+
+  # WATCHLIST BUTTON
+  def watchlist_selection_option_click(self, **event_args):
+    if self.watchlist_selection_option.text == 'On watchlist':
+      self.watchlist_selection_option.text = 'Not on watchlist'
+      self.watchlist_selection_option.role = 'genre-box'
+    elif self.watchlist_selection_option.text == 'Not on watchlist':
+      self.watchlist_selection_option.text = 'All'
+      self.watchlist_selection_option.role = 'genre-box-deselect'
+    elif self.watchlist_selection_option.text == 'All':
+      self.watchlist_selection_option.text = 'On watchlist'
+      self.watchlist_selection_option.role = 'genre-box'  
+    self.update_notification_1()
+  
+  def delete_notification_click(self, **event_args):
+    anvil.server.call('delete_notification',
+                      notification_id = self.item["notification_id"])
+
+    self.parent.parent.parent.parent.get_notifications()
+  
+  def frequency_option_1_click(self, **event_args):
+    if self.frequency_option_1.text == 'Daily':
+      self.frequency_option_1.text = 'Every X Days'
+      self.frequency_option_1.role = 'genre-box'
+      self.frequency_days_label_starting.visible = True
+      self.frequency_option_2.visible = True
+      self.weekdays.visible = False
+      self.frequency_days_label_days.visible = True
+      self.frequency_days_label_days.text = 'Days'
+      self.frequency_picker.visible = True
+    elif self.frequency_option_1.text == 'Every X Days':
+      self.frequency_option_1.text = 'Monthly'
+      self.frequency_option_1.role = 'genre-box'
+      self.frequency_days_label_starting.visible = True
+      self.frequency_option_2.visible = False
+      self.frequency_picker.visible = True
+      self.frequency_days_label_days.visible = False
+    elif self.frequency_option_1.text == 'Monthly':
+      self.frequency_option_1.text = 'Daily'
+      self.frequency_days_label_starting.visible = False
+      self.weekdays.visible = False
+      self.frequency_picker.visible = False
+    self.update_notification_1()
+
+  def notification_repetition_value_click(self, **event_args):
+    if self.notif_rep_value.text == 'Show artists again':
+      self.notif_rep_value.text = 'Show artists twice'
+      self.notif_rep_value.role = 'genre-box'
+    elif self.notif_rep_value.text == 'Show artists twice':
+      self.notif_rep_value.text = 'Repetitive'
+      self.notif_rep_value.role = 'genre-box'
+    elif self.notif_rep_value.text == 'Repetitive':
+      self.notif_rep_value.text = 'Show artists again'
+      self.notif_rep_value.role = 'genre-box'
+    self.update_notification_1()
+
+  def metrics_option_1_click(self, **event_args):
+    if self.metrics_option_1.text == 'Top Fits':
+      self.metrics_option_1.text = 'Growing Fits'
+      self.frequency_option_1.role = 'genre-box'
+      self.min_growth_fit.visible = True
+    elif self.metrics_option_1.text == 'Growing Fits':
+      self.metrics_option_1.text = 'Releasing Fits'
+      self.frequency_option_1.role = 'genre-box'
+      self.min_growth_fit.visible = False
+      self.max_days_since_rel.visible = True
+    elif self.metrics_option_1.text == 'Releasing Fits':
+      self.metrics_option_1.text = 'Top Fits'
+      self.frequency_option_1.role = 'genre-box'
+      self.max_days_since_rel.visible = False
+    self.update_notification_1()
 
   def edit_icon_click_2(self, **event_args):
     if self.name_link.visible is True: 
@@ -341,3 +316,31 @@ class Notifications_RowTemplate(Notifications_RowTemplateTemplate):
     #   self.no_artists.visible = True
     #   self.data_grid.visible = False
 
+  # def weekdays_click(self, **event_args):
+  #   if self.weekdays.text == 'Monday':
+  #     self.weekdays.text = 'Tuesday'
+  #     self.weekdays.role = 'genre-box'
+  #   elif self.weekdays.text == 'Tuesday':
+  #     self.weekdays.text = 'Wednesday'
+  #     self.weekdays.role = 'genre-box'
+  #   elif self.weekdays.text == 'Wednesday':
+  #     self.weekdays.text = 'Thursday'
+  #     self.weekdays.role = 'genre-box'
+  #   elif self.weekdays.text == 'Thursday':
+  #     self.weekdays.text = 'Friday'
+  #     self.weekdays.role = 'genre-box'
+  #   elif self.weekdays.text == 'Friday':
+  #     self.weekdays.text = 'Monday'
+  #     self.weekdays.role = 'genre-box'
+
+  # def edit_icon_click(self, **event_args):
+  #   if self.name_link.visible is True: 
+  #     self.name_link.visible = False
+  #     self.model_name_text.visible = True
+  #     self.model_name_text.text = self.name_link.text
+  #     self.edit_icon.icon = 'fa:save'
+  #   else:
+  #     self.model_name_text.visible = False
+  #     self.name_link.visible = True
+  #     self.name_link.text = self.model_name_text.text
+  #     self.edit_icon.icon = 'fa:pencil'
