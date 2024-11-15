@@ -183,6 +183,18 @@ components:
       name: notif_rep_value
       properties: {role: genre-box, spacing_above: none, spacing_below: none, text: Show artists again}
       type: Link
+    - event_bindings: {change: update_notification_1}
+      name: artist_rep_x_days_freq
+      properties: {align: center, role: notification-settings-textbox, visible: false}
+      type: TextBox
+    - name: artist_rep_x_days
+      properties:
+        role: [header-6, margin-top]
+        spacing_above: none
+        spacing_below: none
+        text: Days
+        visible: false
+      type: Label
     layout_properties: {grid_position: 'IRYPMY,GOUNXL SRTXOO,KMQBFE'}
     name: notification_rep
     properties: {spacing_above: none, spacing_below: none}

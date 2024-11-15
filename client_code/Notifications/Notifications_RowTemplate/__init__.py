@@ -247,8 +247,16 @@ class Notifications_RowTemplate(Notifications_RowTemplateTemplate):
       self.notif_rep_value.text = 'Repetitive'
       self.notif_rep_value.role = 'genre-box'
     elif self.notif_rep_value.text == 'Repetitive':
+      self.notif_rep_value.text = 'Every X Days'
+      self.notif_rep_value.role = 'genre-box'
+      self.artist_rep_x_days_freq.visible = True
+      self.artist_rep_x_days.visible = True
+    elif self.notif_rep_value.text == 'Every X Days':
       self.notif_rep_value.text = 'Show artists again'
       self.notif_rep_value.role = 'genre-box'
+      self.artist_rep_x_days_freq.visible = False
+      self.artist_rep_x_days.visible = False
+      
     self.update_notification_1()
 
   def metrics_option_1_click(self, **event_args):
