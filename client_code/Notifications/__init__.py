@@ -55,12 +55,12 @@ class Notifications(NotificationsTemplate):
                       freq_3 = None,
                       metric = 'Top Fits',
                       no_artists = 5,
-                      repetition = 'Show artists again',
+                      repetition = 'Repeat suggestions',
                       rated = False,
                       watchlist = None,
                       release_days = None,
                       min_grow_fit = None,
-                      model_ids = [28])
+                      model_ids = [])
     
     self.get_notifications()
     

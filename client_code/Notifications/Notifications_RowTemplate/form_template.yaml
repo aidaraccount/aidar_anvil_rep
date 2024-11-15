@@ -9,6 +9,7 @@ components:
       spacing_above: small
       spacing_below: none
       text: Notification is active
+      visible: false
     type: Label
   - components:
     - event_bindings: {click: edit_icon_click_2}
@@ -50,7 +51,7 @@ components:
         properties:
           align: right
           icon: ''
-          role: [call-to-action-button, header-6]
+          role: [header-6]
           spacing_above: small
           spacing_below: none
           text: Deactivate
@@ -60,11 +61,6 @@ components:
       name: buttons_panel
       properties: {role: null, spacing_above: none, spacing_below: none}
       type: LinearPanel
-    - event_bindings: {click: update_notification_1}
-      layout_properties: {}
-      name: save_button
-      properties: {icon: 'fa:save', role: play-spotify-button, text: '', visible: false}
-      type: Button
     - event_bindings: {click: delete_notification_click}
       layout_properties: {}
       name: button_1
@@ -81,19 +77,19 @@ components:
     type: FlowPanel
   - layout_properties: {grid_position: 'CHHRMY,XKHHNJ'}
     name: frequency_field_title
-    properties: {role: header-5, spacing_above: none, spacing_below: none, text: 'Frequency:'}
+    properties: {role: header-6_bold, spacing_above: none, spacing_below: none, text: 'Frequency:'}
     type: Label
   - layout_properties: {grid_position: 'CHHRMY,RLTAPJ'}
     name: label_2
-    properties: {role: header-5, text: 'General:'}
+    properties: {role: header-6_bold, text: 'General:'}
     type: Label
   - layout_properties: {grid_position: 'CHHRMY,OVXSOO'}
     name: label_3
-    properties: {role: header-5, text: 'Metric:'}
+    properties: {role: header-6_bold, text: 'Metric:'}
     type: Label
   - layout_properties: {grid_position: 'CHHRMY,YZCLAD'}
     name: label_5
-    properties: {role: header-5, text: 'Selection Parameters:'}
+    properties: {role: header-6_bold, text: 'Selection Parameters:'}
     type: Label
   - layout_properties: {grid_position: 'IRYPMY,XTCPXD VKBGJV,CVMCJR'}
     name: spacer_1
@@ -150,7 +146,7 @@ components:
     name: flow_panel_2
     properties: {align: left, spacing_above: none, spacing_below: none}
     type: FlowPanel
-  - event_bindings: {click: frequency_option_3_click}
+  - event_bindings: {}
     layout_properties: {grid_position: 'IRYPMY,XTCPXD YKNCJN,OQKPFR'}
     name: weekdays
     properties: {role: genre-box, spacing_above: none, spacing_below: none, visible: false}
@@ -181,20 +177,26 @@ components:
     - event_bindings: {click: notification_repetition_value_click}
       layout_properties: {}
       name: notif_rep_value
-      properties: {role: genre-box, spacing_above: none, spacing_below: none, text: Show artists again}
+      properties: {role: genre-box, spacing_above: none, spacing_below: none, text: Repeat suggestions}
       type: Link
-    - event_bindings: {change: update_notification_1}
-      name: artist_rep_x_days_freq
-      properties: {align: center, role: notification-settings-textbox, visible: false}
-      type: TextBox
-    - name: artist_rep_x_days
-      properties:
-        role: [header-6, margin-top]
-        spacing_above: none
-        spacing_below: none
-        text: Days
-        visible: false
-      type: Label
+    - components:
+      - event_bindings: {change: update_notification_1}
+        layout_properties: {grid_position: 'FYAGVZ,FIWFFE'}
+        name: artist_rep_x_days_freq
+        properties: {align: center, role: notification-settings-textbox, visible: true}
+        type: TextBox
+      - layout_properties: {grid_position: 'FYAGVZ,MYETHT'}
+        name: artist_rep_x_days
+        properties:
+          role: [header-6, margin-top]
+          spacing_above: none
+          spacing_below: none
+          text: Days
+          visible: true
+        type: Label
+      name: column_panel_rep
+      properties: {}
+      type: ColumnPanel
     layout_properties: {grid_position: 'IRYPMY,GOUNXL SRTXOO,KMQBFE'}
     name: notification_rep
     properties: {spacing_above: none, spacing_below: none}
@@ -272,7 +274,7 @@ components:
       - event_bindings: {click: watchlist_selection_option_click}
         layout_properties: {}
         name: watchlist_selection_option
-        properties: {role: genre-box-deselect, spacing_above: none, spacing_below: none, text: All}
+        properties: {role: genre-box, spacing_above: none, spacing_below: none, text: All}
         type: Link
       layout_properties: {grid_position: 'ZHCLDG,WDDQFF'}
       name: flow_panel_wl
