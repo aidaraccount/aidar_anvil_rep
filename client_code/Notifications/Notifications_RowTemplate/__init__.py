@@ -276,6 +276,9 @@ class Notifications_RowTemplate(Notifications_RowTemplateTemplate):
                       release_days = release_days,
                       min_grow_fit = min_growth_value ,
                       model_ids = model_ids)
+    Notification("",
+        title="The notification setting has been updated",
+        style="success").show()
 
   # def edit_icon_click(self, **event_args):
   #   if self.name_link.visible is True: 

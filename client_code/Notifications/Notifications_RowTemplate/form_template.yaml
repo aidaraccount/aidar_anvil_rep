@@ -51,7 +51,7 @@ components:
           align: right
           icon: ''
           role: [call-to-action-button, header-6]
-          spacing_above: none
+          spacing_above: small
           spacing_below: none
           text: Deactivate
           underline: false
