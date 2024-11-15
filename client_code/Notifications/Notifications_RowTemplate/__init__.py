@@ -270,14 +270,22 @@ class Notifications_RowTemplate(Notifications_RowTemplateTemplate):
   def edit_icon_click_2(self, **event_args):
     if self.name_link.visible is True: 
       self.name_link.visible = False
-      self.model_name_text_2.visible = True
-      self.model_name_text_2.text = self.name_link.text
-      # self.edit_icon.icon = 'fa:save'
-    else:
-      self.model_name_text_2.visible = False
+      self.model_name_text.visible = True
+      self.model_name_text.text = self.name_link.text
+      self.model_name_text.focus()
+
+  def edit_icon_click_2_lose_focus(self, **event_args):    
+    if self.model_name_text.visible is True:
+      self.model_name_text.visible = False
       self.name_link.visible = True
-      self.name_link.text = self.model_name_text_2.text
-      # self.edit_icon.icon = 'fa:pencil'
+      self.name_link.text = self.model_name_text.text
+
+  def edit_icon_click_2_enter(self, **event_args):
+    if self.model_name_text.visible is True:
+      self.model_name_text.visible = False
+      self.name_link.visible = True
+      self.name_link.text = self.model_name_text.text
+
 
   # MODEL BUTTONS
   def create_activate_model_handler(self, model_id):
