@@ -6,8 +6,7 @@ import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
 import json
-from datetime import datetime
-
+from datetime import date, datetime
 from anvil_extras import routing
 from ..nav import click_link, click_button, logout, login_check, load_var
 
@@ -51,15 +50,16 @@ class Notifications(NotificationsTemplate):
                       name = 'My Notification',
                       active = True,
                       freq_1 = 'Daily',
-                      freq_2 = None,
-                      freq_3 = None,
+                      freq_2 = 7,
+                      freq_3 = date.today().strftime("%Y-%m-%d"),
                       metric = 'Top Fits',
                       no_artists = 5,
-                      repetition = 'Repeat suggestions',
+                      repetition_1 = 'Repeat suggestions',
+                      repetition_2 = 90,
                       rated = False,
                       watchlist = None,
-                      release_days = None,
-                      min_grow_fit = None,
+                      release_days = 21,
+                      min_grow_fit = 0.75,
                       model_ids = [])
     
     self.get_notifications()

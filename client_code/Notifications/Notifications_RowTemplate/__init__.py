@@ -47,20 +47,22 @@ class Notifications_RowTemplate(Notifications_RowTemplateTemplate):
     self.frequency_option_2.text = self.item["freq_2"]
     self.frequency_picker.date = self.item["freq_3"]
     # self.weekdays.text = self.item["freq_3"]    
-    
-    if self.frequency_option_1.text == 'Every X Days':
-      self.frequency_option_2.visible = True
-      self.frequency_days_label_days.visible = True
-      self.frequency_days_label_starting.visible = True
-      self.frequency_picker.visible = True
+
+    if self.frequency_option_1.text == 'Daily':
+      self.flow_panel_freq_2.visible = False
+      self.flow_panel_freq_3.visible = False
+    elif self.frequency_option_1.text == 'Every X Days':
+      self.flow_panel_freq_2.visible = True
+      self.flow_panel_freq_3.visible = True
     elif self.frequency_option_1.text == 'Monthly':
-      self.frequency_days_label_starting.visible = True
-      self.frequency_picker.visible = True
+      self.flow_panel_freq_2.visible = False
+      self.flow_panel_freq_3.visible = True
       
     # B) General
     self.no_artists_box.text = self.item["no_artists"]
-    self.notif_rep_value.text = self.item["repetition"]
-    if self.item["repetition"] == 'Repeat after X days':
+    self.notif_rep_value.text = self.item["repetition_1"]
+    self.artist_rep_x_days_freq.text = self.item["repetition_2"]
+    if self.item["repetition_1"] == 'Repeat after X days':
       self.column_panel_rep.visible = True
     else:
       self.column_panel_rep.visible = False    
@@ -72,7 +74,7 @@ class Notifications_RowTemplate(Notifications_RowTemplateTemplate):
     if self.item['min_grow_fit'] is None:
       self.min_growth_value.text = 0
     else:
-      self.min_growth_value.text = float(self.item["min_grow_fit"])*100
+      self.min_growth_value.text = int("{:.0f}".format(float(self.item["min_grow_fit"])*100))      
     
     if self.metrics_option_1.text == 'Growing Fits':
       self.min_growth_fit.visible = True
@@ -169,7 +171,8 @@ class Notifications_RowTemplate(Notifications_RowTemplateTemplate):
                       freq_3 = freq_3,
                       metric = self.metrics_option_1.text,
                       no_artists = self.no_artists_box.text,
-                      repetition = self.notif_rep_value.text,
+                      repetition_1 = self.notif_rep_value.text,
+                      repetition_2 = self.artist_rep_x_days_freq.text,
                       rated = artist_selection_option,
                       watchlist = watchlist_selection_option,
                       release_days = release_days,
@@ -227,23 +230,21 @@ class Notifications_RowTemplate(Notifications_RowTemplateTemplate):
   def frequency_option_1_click(self, **event_args):
     if self.frequency_option_1.text == 'Daily':
       self.frequency_option_1.text = 'Every X Days'
-      self.frequency_days_label_starting.visible = True
-      self.frequency_option_2.visible = True
+      self.flow_panel_freq_2.visible = True
       self.weekdays.visible = False
       self.frequency_days_label_days.visible = True
       self.frequency_days_label_days.text = 'Days'
-      self.frequency_picker.visible = True
+      self.flow_panel_freq_3.visible = True
     elif self.frequency_option_1.text == 'Every X Days':
       self.frequency_option_1.text = 'Monthly'
-      self.frequency_days_label_starting.visible = True
-      self.frequency_option_2.visible = False
-      self.frequency_picker.visible = True
+      self.flow_panel_freq_2.visible = False
+      self.flow_panel_freq_3.visible = True
       self.frequency_days_label_days.visible = False
     elif self.frequency_option_1.text == 'Monthly':
       self.frequency_option_1.text = 'Daily'
-      self.frequency_days_label_starting.visible = False
+      self.flow_panel_freq_2.visible = False
       self.weekdays.visible = False
-      self.frequency_picker.visible = False
+      self.flow_panel_freq_3.visible = False
     self.update_notification_1()
 
   
@@ -287,6 +288,7 @@ class Notifications_RowTemplate(Notifications_RowTemplateTemplate):
       self.model_name_text.visible = False
       self.name_link.visible = True
       self.name_link.text = self.model_name_text.text
+      self.update_notification_1()
 
   
   def edit_icon_click_2_enter(self, **event_args):
@@ -294,6 +296,7 @@ class Notifications_RowTemplate(Notifications_RowTemplateTemplate):
       self.model_name_text.visible = False
       self.name_link.visible = True
       self.name_link.text = self.model_name_text.text
+      self.update_notification_1()
 
 
   # MODEL BUTTONS
@@ -318,7 +321,7 @@ class Notifications_RowTemplate(Notifications_RowTemplateTemplate):
               component.role = 'genre-box-deselect'
             else:
               component.role = 'genre-box'
-
+    self.update_notification_1()
 
   # def weekdays_click(self, **event_args):
   #   if self.weekdays.text == 'Monday':
