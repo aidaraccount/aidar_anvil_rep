@@ -153,7 +153,7 @@ components:
   - components:
     - layout_properties: {}
       name: notif_rep_title
-      properties: {role: header-7, spacing_above: none, spacing_below: none, text: 'Notification Repetition:'}
+      properties: {role: header-7, spacing_above: none, spacing_below: none, text: 'Artist Repetition:'}
       type: Label
     - event_bindings: {click: notification_repetition_value_click}
       layout_properties: {}

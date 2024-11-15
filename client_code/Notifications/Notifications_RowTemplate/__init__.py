@@ -337,3 +337,4 @@ class Notifications_RowTemplate(Notifications_RowTemplateTemplate):
     # else:
     #   self.no_artists.visible = True
     #   self.data_grid.visible = False
+
