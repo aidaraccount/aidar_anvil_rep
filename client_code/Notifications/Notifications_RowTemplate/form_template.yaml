@@ -51,7 +51,7 @@ components:
           align: right
           icon: ''
           role: [call-to-action-button, header-6]
-          spacing_above: small
+          spacing_above: none
           spacing_below: none
           text: Deactivate
           underline: false
@@ -63,11 +63,17 @@ components:
     - event_bindings: {click: update_notification_1}
       layout_properties: {}
       name: save_button
-      properties: {icon: 'fa:save', role: play-spotify-button, text: ''}
+      properties: {icon: 'fa:save', role: play-spotify-button, text: '', visible: false}
       type: Button
     - event_bindings: {click: delete_notification_click}
+      layout_properties: {}
       name: button_1
-      properties: {icon: 'fa:trash-o', role: play-spotify-button, text: ''}
+      properties:
+        icon: fa:trash-o
+        role: [play-spotify-button]
+        spacing_above: none
+        spacing_below: none
+        text: ''
       type: Button
     layout_properties: {grid_position: 'HWYMXP,NWICXJ'}
     name: flow_panel_6

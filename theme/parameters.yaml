@@ -355,5 +355,5 @@ roles:
   name: date-picker
 - components: [DatePicker]
   name: bottom-border
-- components: [Label]
+- components: [Label, Button]
   name: margin-top
