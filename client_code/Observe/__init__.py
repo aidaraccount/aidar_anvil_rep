@@ -23,71 +23,78 @@ class Observe(ObserveTemplate):
     global user
     user = anvil.users.get_user()
 
-    model_id = load_var("model_id")
-    self.model_id = model_id
-    print(f"Observe model_id: {model_id}")
-
-    # GENERAL
-    self.nav_top_fits.role = 'section_buttons_focused'
-    self.flow_panel_growth.visible = False
-    self.flow_panel_release.visible = False
-    
-    # model_selection
-    # print(f"{datetime.now()}: Observe 1", flush=True)
-    models = json.loads(anvil.server.call('get_model_ids',  user["user_id"]))
-
-    working_model = False
-    is_last_used_is_not_trained = False
-    for i in range(0, len(models)):
-      if models[i]["is_last_used"] is True:        
-        model_link = Link(
-          text=models[i]["model_name"],
-          tag=models[i]["model_id"],
-          role='genre-box'
-          )
-        if models[i]["fully_trained"] is False:
-          is_last_used_is_not_trained = True
-      else:
-        model_link = Link(
-          text=models[i]["model_name"],
-          tag=models[i]["model_id"],
-          role='genre-box-deselect'
-          )
+    if user['expiration_date'] is not None and (datetime.today().date() - user['expiration_date']).days > 0:
+      print("EXPIRED HOME")
+      routing.set_url_hash('no_subs', load_from_cache=False)
+      get_open_form().change_nav_visibility(status=False)
+      get_open_form().SearchBar.visible = False
       
-      if models[i]["fully_trained"] is False:        
-        model_link = Link(
-          text=models[i]["model_name"],
-          tag=models[i]["model_id"],
-          role='genre-box-deactive'
-          )
-      else:        
-        working_model = True
-        
-      model_link.set_event_handler('click', self.create_activate_model_handler(models[i]["model_id"]))
-      self.flow_panel_models.add_component(model_link)
-
-    # if is_last_used is not fully trained, activate first trained:
-    if is_last_used_is_not_trained is True:
-      for component in self.flow_panel_models.get_components():
-        if isinstance(component, Link):
-          if component.role == 'genre-box-deselect':
-            component.role = 'genre-box'
-            break
-      
-    # print(f"{datetime.now()}: Observe 2", flush=True)
-    # table
-    if working_model is True:
-      self.refresh_table()
     else:
-      self.no_trained_model.visible = True
-      self.no_artists.visible = False
-      self.flow_panel_ratings.visible = False
-      self.flow_panel_models.visible = False
-      self.flow_panel_wl.visible = False
-      self.flow_panel_sections.visible = False
-      self.data_grid.visible = False
-    
-    # print(f"{datetime.now()}: Observe 3", flush=True)
+      model_id = load_var("model_id")
+      self.model_id = model_id
+      print(f"Observe model_id: {model_id}")
+  
+      # GENERAL
+      self.nav_top_fits.role = 'section_buttons_focused'
+      self.flow_panel_growth.visible = False
+      self.flow_panel_release.visible = False
+      
+      # model_selection
+      # print(f"{datetime.now()}: Observe 1", flush=True)
+      models = json.loads(anvil.server.call('get_model_ids',  user["user_id"]))
+  
+      working_model = False
+      is_last_used_is_not_trained = False
+      for i in range(0, len(models)):
+        if models[i]["is_last_used"] is True:        
+          model_link = Link(
+            text=models[i]["model_name"],
+            tag=models[i]["model_id"],
+            role='genre-box'
+            )
+          if models[i]["fully_trained"] is False:
+            is_last_used_is_not_trained = True
+        else:
+          model_link = Link(
+            text=models[i]["model_name"],
+            tag=models[i]["model_id"],
+            role='genre-box-deselect'
+            )
+        
+        if models[i]["fully_trained"] is False:        
+          model_link = Link(
+            text=models[i]["model_name"],
+            tag=models[i]["model_id"],
+            role='genre-box-deactive'
+            )
+        else:        
+          working_model = True
+          
+        model_link.set_event_handler('click', self.create_activate_model_handler(models[i]["model_id"]))
+        self.flow_panel_models.add_component(model_link)
+  
+      # if is_last_used is not fully trained, activate first trained:
+      if is_last_used_is_not_trained is True:
+        for component in self.flow_panel_models.get_components():
+          if isinstance(component, Link):
+            if component.role == 'genre-box-deselect':
+              component.role = 'genre-box'
+              break
+        
+      # print(f"{datetime.now()}: Observe 2", flush=True)
+      # table
+      if working_model is True:
+        self.refresh_table()
+      else:
+        self.no_trained_model.visible = True
+        self.no_artists.visible = False
+        self.flow_panel_ratings.visible = False
+        self.flow_panel_models.visible = False
+        self.flow_panel_wl.visible = False
+        self.flow_panel_sections.visible = False
+        self.data_grid.visible = False
+      
+      # print(f"{datetime.now()}: Observe 3", flush=True)
 
   
   # GET TABLE DATA

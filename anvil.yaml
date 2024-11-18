@@ -33,6 +33,9 @@ db_schema:
     - admin_ui: {order: 9, width: 200}
       name: remembered_logins
       type: simpleObject
+    - admin_ui: {order: 10, width: 200}
+      name: expiration_date
+      type: date
     server: full
     title: Users
   waiters:

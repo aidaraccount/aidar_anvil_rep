@@ -6,6 +6,7 @@ import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
 import json
+from datetime import datetime
 
 from anvil_extras import routing
 from ..nav import click_link, click_button, logout, login_check, load_var
@@ -17,20 +18,28 @@ class Watchlist_Overview(Watchlist_OverviewTemplate):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
 
-    model_id = load_var("model_id")
-    print(f"Watchlist_Overview model_id: {model_id}")
 
     global user
     user = anvil.users.get_user()
-    self.model_id = model_id
     
     # Any code you write here will run before the form opens.
-    data = self.get_data()
-
-    if data != 'no_data':
-      # standard sorting
-      self.repeating_panel_data.items = sorted(data, key=lambda x: x.get('Name', float('inf')), reverse=True)
-      self.link_artist.icon = 'fa:angle-down'  
+    if user['expiration_date'] is not None and (datetime.today().date() - user['expiration_date']).days > 0:
+      print("EXPIRED HOME")
+      routing.set_url_hash('no_subs', load_from_cache=False)
+      get_open_form().change_nav_visibility(status=False)
+      get_open_form().SearchBar.visible = False
+      
+    else:
+      model_id = load_var("model_id")
+      print(f"Watchlist_Overview model_id: {model_id}")
+      self.model_id = model_id
+    
+      data = self.get_data()
+  
+      if data != 'no_data':
+        # standard sorting
+        self.repeating_panel_data.items = sorted(data, key=lambda x: x.get('Name', float('inf')), reverse=True)
+        self.link_artist.icon = 'fa:angle-down'  
 
   
   def get_data(self, **event_args):

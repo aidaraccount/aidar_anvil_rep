@@ -338,6 +338,10 @@ body, html {
   justify-content: center;
   align-items: center;
 }
+.anvil-role-section-background-left {
+  justify-content: left;
+  align-items: center;
+}
 .anvil-role-section-background-flex .flow-panel-gutter {
   justify-content: center !important;
 }
@@ -1729,6 +1733,10 @@ footer a, .footer .anvil-component {
   padding: 10px 0 40px 0;
   border-bottom: 1px solid #888;
 }
+.anvil-role-image-bottom-border {
+  border-top: 1px solid;
+  padding: 0 0 0 20px;
+}
 
 #right-sidebar .header-sidebar{
   padding: 20px;
@@ -2062,6 +2070,31 @@ footer a, .footer .anvil-component {
 .anvil-role-opacity-100 {opacity: 100%;}
 .anvil-role-opacity-50 {opacity: 50%;}
 .anvil-role-opacity-25 {opacity: 25%;}
+
+.anvil-role-call-to-action-button-longer button {
+  font-family: Gs-regular;
+  color: white;
+  background: #E95F30;
+  border: 0px;
+  box-shadow: none;
+  text-shadow: none;
+  transition: 0.5s;
+  margin: 0 0 0 0;
+  padding: 0 0 0 0;
+  width: 500px;
+}
+.anvil-role-call-to-action-button-longer > button:hover {
+  background: #BA7305;
+  color: white;
+}
+.anvil-role-call-to-action-button-longer > button:focus{
+  background: #BA7305;
+  color: white;
+}
+.anvil-role-call-to-action-button-longer > button:active{
+  background: #BA7305;
+  color: white;
+}
 
 .anvil-role-call-to-action-button button {
   font-family: Gs-regular;

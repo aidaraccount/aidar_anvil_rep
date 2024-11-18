@@ -6,7 +6,7 @@ import anvil.tables.query as q
 from anvil.tables import app_tables
 import anvil.users
 import json
-import datetime
+from datetime import datetime
 from anvil.js.window import location
 from ..C_SearchPopupTable import C_SearchPopupTable
 
@@ -20,6 +20,7 @@ from ..WatchlistDetails import WatchlistDetails
 from ..Watchlist_Funnel import Watchlist_Funnel
 from ..Watchlist_Overview import Watchlist_Overview
 from ..NoModel import NoModel
+from ..NoSubscription import NoSubscription
 from ..SearchArtist import SearchArtist
 from ..RelatedArtistSearch import RelatedArtistSearch
 from ..C_CreateModel import C_CreateModel
@@ -50,11 +51,11 @@ class Main_In(Main_InTemplate):
     global user
     user = anvil.users.get_user()
     print(f"Main_In user: {user}")
-    
+        
     if user is None:
       self.visible = False
-      
-    else:
+        
+    else:      
       self.role = 'POST_LOGIN_PAGE'
       self.visible = True
     
@@ -70,10 +71,8 @@ class Main_In(Main_InTemplate):
       else:
         if model_id is None:
           self.model_id = save_var("model_id", anvil.server.call('get_model_id',  user["user_id"]))
-          #anvil.server.call('update_model_usage', user["user_id"], self.model_id)
         else:
           self.model_id = model_id
-
 
       # watchlist_id
       watchlist_id = load_var("watchlist_id")
@@ -90,13 +89,8 @@ class Main_In(Main_InTemplate):
         self.SearchBar.visible = False
 
       else:
-        #print(f"{datetime.datetime.now()}: Main_In - link_login_click - 3a", flush=True)
-        #routing.set_url_hash('', load_from_cache=False)
-        #print(f"{datetime.datetime.now()}: Main_In - link_login_click - 3b", flush=True)  # 3:10m, 2:12m - 19s
-        #self.link_home.background = "theme:Accent 3"
-        #print(f"{datetime.datetime.now()}: Main_In - link_login_click - 3c", flush=True)
+        #print(f"{datetime.datetime.now()}: Main_In - link_login_click - 4", flush=True)
         self.update_no_notifications()
-        #print(f"{datetime.datetime.now()}: Main_In - link_login_click - 3d", flush=True)  # 17s, 14s - 1.5s
       
       #print(f"{datetime.datetime.now()}: Main_In - link_login_click - 5", flush=True)
       #print(f"TotalTime Main_In: {datetime.datetime.now() - begin}", flush=True)
@@ -249,18 +243,20 @@ class Main_In(Main_InTemplate):
 
     self.linear_panel_discover.visible = status
     self.link_discover.visible = status
-    self.link_discover_ai.visible = status
-    self.link_discover_rel.visible = status
+    # self.link_discover_ai.visible = status
+    # self.link_discover_rel.visible = status
 
     self.link_observe.visible = status
-    
-    self.link_watchlists.visible = status
-    
+
+    self.column_panel_nav_wl.visible = status
+        
     self.linear_panel_monitor.visible = status
-    self.link_monitor_funnel.visible = status
-    self.link_monitor_dev.visible = status
+    # self.link_monitor_funnel.visible = status
+    # self.link_monitor_dev.visible = status
+
+    self.column_panel_nav.visible = status
     
-    self.link_models.visible = True
+    # self.link_models.visible = True
   
   #----------------------------------------------------------------------------------------------
   # HOME

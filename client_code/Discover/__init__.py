@@ -35,21 +35,25 @@ class Discover(DiscoverTemplate):
     self.add_event_handler('show', self.form_show)
     # self.add_event_handler('show', self.play_spotify)
     
-    # Any code you write here will run before the form opens.
     global user
-    user = anvil.users.get_user()
     user = anvil.users.get_user()
     print(f"Discover user: {user}")
     print(f"Discover user_id: {load_var('user_id')}")
-
-    # check for valid user
-    if user is None:
+    
+    # Any code you write here will run before the form opens.
+    if user is None or user == 'None':
       if load_var('user_id') is None:
         open_form('Main_Out')
         # open_form('Main_Out_New')
       else:
         self.user_id = load_var('user_id')
         self.refresh_sug()
+        
+    elif user['expiration_date'] is not None and (datetime.today().date() - user['expiration_date']).days > 0:
+      routing.set_url_hash('no_subs', load_from_cache=False)
+      get_open_form().change_nav_visibility(status=False)
+      get_open_form().SearchBar.visible = False
+      
     else:
       self.user_id = user["user_id"]
       self.refresh_sug()

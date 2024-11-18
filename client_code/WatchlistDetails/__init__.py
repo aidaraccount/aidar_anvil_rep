@@ -6,6 +6,7 @@ import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
 import json
+from datetime import datetime
 
 from anvil_extras import routing
 from ..nav import click_link, click_button, logout, login_check, load_var, save_var
@@ -21,39 +22,47 @@ class WatchlistDetails(WatchlistDetailsTemplate):
     global user
     user = anvil.users.get_user()
 
-    wl_id_active = anvil.server.call('get_watchlist_id', user["user_id"])
-    print(f"WatchlistDetails wl_id_active: {wl_id_active}")
-    
-    wl_id_view = self.url_dict['watchlist_id']
-    self.wl_id_view = wl_id_view
-    save_var("WatchlistDetails wl_id_view:", wl_id_view)
-    
-    temp_artist_id = self.url_dict['artist_id']
-    self.temp_artist_id = temp_artist_id
-    print(f"WatchlistDetails temp_artist_id: {temp_artist_id}")
-
-    # initial visibile settings
-    self.wl_name_text.visible = False
-    self.wl_description_text.visible = False
-    
-    if int(wl_id_view) == int(wl_id_active):
-      self.activated.visible = True
-      self.activate.visible = False
+    if user['expiration_date'] is not None and (datetime.today().date() - user['expiration_date']).days > 0:
+      print("EXPIRED HOME")
+      routing.set_url_hash('no_subs', load_from_cache=False)
+      get_open_form().change_nav_visibility(status=False)
+      get_open_form().SearchBar.visible = False
+      
     else:
-      self.activated.visible = False
-      self.activate.visible = True   
-    
-    # model name and description text and text boxes
-    infos = json.loads(anvil.server.call('get_watchlist_stats', wl_id_view))[0]    
-    self.wl_name.text = infos["watchlist_name"]
-    if infos["description"] is None:
-      self.wl_description.text = '-'
-    else:
-      self.wl_description.text = infos["description"]
+      wl_id_active = anvil.server.call('get_watchlist_id', user["user_id"])
+      print(f"WatchlistDetails wl_id_active: {wl_id_active}")
+      
+      wl_id_view = self.url_dict['watchlist_id']
+      self.wl_id_view = wl_id_view
+      save_var("WatchlistDetails wl_id_view:", wl_id_view)
+      
+      temp_artist_id = self.url_dict['artist_id']
+      self.temp_artist_id = temp_artist_id
+      print(f"WatchlistDetails temp_artist_id: {temp_artist_id}")
+  
+      # initial visibile settings
+      self.wl_name_text.visible = False
+      self.wl_description_text.visible = False
+      
+      if int(wl_id_view) == int(wl_id_active):
+        self.activated.visible = True
+        self.activate.visible = False
+      else:
+        self.activated.visible = False
+        self.activate.visible = True   
+      
+      # model name and description text and text boxes
+      infos = json.loads(anvil.server.call('get_watchlist_stats', wl_id_view))[0]    
+      self.wl_name.text = infos["watchlist_name"]
+      if infos["description"] is None:
+        self.wl_description.text = '-'
+      else:
+        self.wl_description.text = infos["description"]
+  
+      # get_watchlist_selection
+      self.get_watchlist_selection(temp_artist_id = temp_artist_id)
 
-    # get_watchlist_selection
-    self.get_watchlist_selection(temp_artist_id = temp_artist_id)
-
+  
   # ------------------
   # HEADER
   def edit_icon_click(self, **event_args):

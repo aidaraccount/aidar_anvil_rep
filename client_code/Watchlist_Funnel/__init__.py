@@ -6,6 +6,7 @@ import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
 import json
+from datetime import datetime
 
 from anvil_extras import routing
 from ..nav import click_link, click_button, logout, login_check, load_var
@@ -18,22 +19,30 @@ class Watchlist_Funnel(Watchlist_FunnelTemplate):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
 
-    # Any code you write here will run before the form opens.
     global user
     user = anvil.users.get_user()
-
-    model_id = load_var("model_id")
-    self.model_id = model_id
-    print(f"Watchlist_Funnel model_id: {model_id}")
     
-    # FUNNEL DATA
-    data = json.loads(anvil.server.call('get_watchlist_selection', user["user_id"], None))
-    self.repeating_panel_1.items = [item for item in data if item['Status'] in ['Reconnect later', 'Not interested', None]] #BACKLOG
-    self.repeating_panel_2.items = [item for item in data if item['Status'] in ['Action required', 'Requires revision', 'Waiting for decision']] #EVALUATION
-    self.repeating_panel_3.items = [item for item in data if item['Status'] in ['Build connection', 'Awaiting response', 'Exploring opportunities', 'Positive response']] #CONTACTING
-    self.repeating_panel_4.items = [item for item in data if item['Status'] in ['In negotiations', 'Contract in progress']] #NEGOTIATION
-    self.repeating_panel_5.items = [item for item in data if item['Status'] in ['Success']] #Success
+    # Any code you write here will run before the form opens.
+    if user['expiration_date'] is not None and (datetime.today().date() - user['expiration_date']).days > 0:
+      print("EXPIRED HOME")
+      routing.set_url_hash('no_subs', load_from_cache=False)
+      get_open_form().change_nav_visibility(status=False)
+      get_open_form().SearchBar.visible = False
+      
+    else:
+      model_id = load_var("model_id")
+      self.model_id = model_id
+      print(f"Watchlist_Funnel model_id: {model_id}")
+      
+      # FUNNEL DATA
+      data = json.loads(anvil.server.call('get_watchlist_selection', user["user_id"], None))
+      self.repeating_panel_1.items = [item for item in data if item['Status'] in ['Reconnect later', 'Not interested', None]] #BACKLOG
+      self.repeating_panel_2.items = [item for item in data if item['Status'] in ['Action required', 'Requires revision', 'Waiting for decision']] #EVALUATION
+      self.repeating_panel_3.items = [item for item in data if item['Status'] in ['Build connection', 'Awaiting response', 'Exploring opportunities', 'Positive response']] #CONTACTING
+      self.repeating_panel_4.items = [item for item in data if item['Status'] in ['In negotiations', 'Contract in progress']] #NEGOTIATION
+      self.repeating_panel_5.items = [item for item in data if item['Status'] in ['Success']] #Success
 
+  
   def button_search_click(self, **event_args):
     data = json.loads(anvil.server.call('get_watchlist_selection', user["user_id"], None))
     data = [entry for entry in data if str(entry["Name"]).lower().find(str(self.text_box_search.text).lower()) != -1]

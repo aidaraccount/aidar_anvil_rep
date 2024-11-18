@@ -357,3 +357,9 @@ roles:
   name: bottom-border
 - components: [Label, Button]
   name: margin-top
+- components: [ColumnPanel]
+  name: section-background-left
+- components: [Image]
+  name: image-bottom-border
+- components: [Button]
+  name: call-to-action-button-longer
