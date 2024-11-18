@@ -6,7 +6,7 @@ import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
 import json
-import datetime
+from datetime import datetime
 
 from anvil_extras import routing
 from ..nav import click_link, click_button, click_box, logout, login_check, load_var, save_var
@@ -30,6 +30,12 @@ class Home(HomeTemplate):
     # Any code you write here will run before the form opens.
     if user is None or user == 'None':
       self.visible = False
+      
+    elif user['expiration_date'] is not None and (datetime.today().date() - user['expiration_date']).days > 0:
+      print("EXPIRED HOME")
+      routing.set_url_hash('no_subs', load_from_cache=False)
+      # self.change_nav_visibility(status=True)
+      # self.SearchBar.visible = False
       
     else:
       #begin = datetime.datetime.now()

@@ -20,6 +20,7 @@ class NoSubscription(NoSubscriptionTemplate):
     self.init_components(**properties)
 
     # Any code you write here will run before the form opens.
+    print("NO SUB PAGE LOADED!")
 
   def button_connect_model_click(self, **event_args):
     # click_button("connect_model", event_args)
