@@ -119,7 +119,13 @@ body, html {
   padding-bottom: 3px;
   width: 65px;
   padding-top: 2px;
-  border-radius: 10px;
+  border-radius: 0px; 
+  border: none;
+  border-bottom: 1px solid;
+}
+
+.anvil-role-margin-top {
+  margin-top: 15px;
 }
 
 /* CSS for formatting tables STARTS here*/

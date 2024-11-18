@@ -1,4 +1,4 @@
-from ._anvil_designer import Observe_RowTemplateTemplate
+from ._anvil_designer import Observe_Row_TemplateTemplate
 from anvil import *
 import anvil.server
 import anvil.users
@@ -13,18 +13,18 @@ from anvil_extras import routing
 from ...nav import click_link, click_button, logout, login_check, load_var
 
 
-class Observe_RowTemplate(Observe_RowTemplateTemplate):
+class Observe_Row_Template(Observe_Row_TemplateTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
-    print(f"{datetime.now()}: Observe Row 1", flush=True)
+    # print(f"{datetime.now()}: Observe Row 1", flush=True)
     
     # Any code you write here will run before the form opens.
     # name and flag
     artist_name_component = Label(text=self.item["Name"], role="artist-name-tile", spacing_above=0, spacing_below=0)
     self.Artist_Name_Details.add_component(artist_name_component)
 
-    print(f"{datetime.now()}: Observe Row 2", flush=True)
+    # print(f"{datetime.now()}: Observe Row 2", flush=True)
     if self.item["CountryCode"] == 'None' or self.item["CountryCode"] is None:
       pass
     else:
@@ -70,7 +70,7 @@ class Observe_RowTemplate(Observe_RowTemplateTemplate):
         genre_label.role = 'genre-box'
         self.flow_panel_genre_tile.add_component(genre_label)
     
-    print(f"{datetime.now()}: Observe Row 3", flush=True)
+    # print(f"{datetime.now()}: Observe Row 3", flush=True)
     # stats
     # label_sp_fol: fcg.ev_sp_fol_30, fcg.ev_sp_li_30, fcg.ev_tt_fol_30
     if self.item["ArtistFollower_lat"] == 'None':
@@ -93,7 +93,7 @@ class Observe_RowTemplate(Observe_RowTemplateTemplate):
         
         self.label_sp_fol.content = self.label_sp_fol.content + f"""<br><span style="font-size: 16px; color: {col};">{ev}</span>"""
 
-    print(f"{datetime.now()}: Observe Row 3a", flush=True)
+    # print(f"{datetime.now()}: Observe Row 3a", flush=True)
     # label_mtl_lis:
     if self.item["SpotifyMtlListeners_lat"] == 'None':
       self.label_mtl_lis.content = """<span style="font-family: GS-regular; font-size: 20px; color: rgb(255, 255, 255);">-</span>"""
@@ -115,7 +115,7 @@ class Observe_RowTemplate(Observe_RowTemplateTemplate):
         
         self.label_mtl_lis.content = self.label_mtl_lis.content + f"""<br><span style="font-size: 16px; color: {col};">{ev}</span>"""
     
-    print(f"{datetime.now()}: Observe Row 3b", flush=True)
+    # print(f"{datetime.now()}: Observe Row 3b", flush=True)
     # label_tiktok_fol:
     if self.item["TikTokFollower_lat"] == 'None':
       self.label_tiktok_fol.content = """<span style="font-family: GS-regular; font-size: 20px; color: rgb(255, 255, 255);">-</span>"""
@@ -139,19 +139,19 @@ class Observe_RowTemplate(Observe_RowTemplateTemplate):
 
     # INVIVIDUAL STATS
     # self.nav_grow_fits.role = 'section_buttons_focused'
-    if self.item["Type"] == 'top_fits':
+    if self.item["Metric"] == 'Top Fits':
       self.label_indiv.content = 'Spotify<br>Pop.'
       self.label_indiv_cont.role = 'header-5'
       font_size = 20
       var = get_open_form().shorten_number(self.item["ArtistPopularity_lat"])
       ev_var = self.item["ev_sp_pop_30"]
-    elif self.item["Type"] == 'grow_fits':
+    elif self.item["Metric"] == 'Growing Fits':
       self.label_indiv.content = 'Growth<br>Fit'
       self.label_indiv_cont.role = 'header-5'
       font_size = 20
       var = str(round(self.item["prediction_growth"]/7*100)) + '%'
       ev_var = None
-    elif self.item["Type"] == 'release_fits':
+    elif self.item["Metric"] == 'Releasing Fits':
       self.label_indiv.content = 'Latest<br>Release'
       self.label_indiv_cont.role = 'header-6'
       font_size = 18
@@ -178,7 +178,7 @@ class Observe_RowTemplate(Observe_RowTemplateTemplate):
         
         self.label_indiv_cont.content = self.label_indiv_cont.content + f"""<br><span style="font-size: 16px; color: {col};">{ev}</span>"""
 
-    print(f"{datetime.now()}: Observe Row 4", flush=True)
+    # print(f"{datetime.now()}: Observe Row 4", flush=True)
     # fit likelihood
     pred = "{:.0f}".format(round(float(self.item["Prediction"])/7*100,0))
     custom_html = f'''
@@ -206,7 +206,7 @@ class Observe_RowTemplate(Observe_RowTemplateTemplate):
     html_panel = HtmlPanel(html=custom_html)
     self.column_panel_pred.add_component(html_panel)
     anvil.js.call_js('observeFitLikelihoodCircle')
-    print(f"{datetime.now()}: Observe Row 5", flush=True)
+    # print(f"{datetime.now()}: Observe Row 5", flush=True)
 
 
   def pic_click(self, **event_args):
