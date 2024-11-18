@@ -49,94 +49,101 @@ class ModelProfile(ModelProfileTemplate):
     global user
     user = anvil.users.get_user()
 
-    model_id_active_new = anvil.server.call('get_model_id', user["user_id"])
-    print(f"ModelProfile model_id_active_new: {model_id_active_new}")
-    
-    # initial visibile settings
-    self.model_name_text.visible = False
-    self.model_description_text.visible = False
-    
-    self.nav_references.role = 'section_buttons_focused'
-    self.sec_filters.visible = False
-
-    # ---------------
-    # HEADER LEFT
-    infos = json.loads(anvil.server.call('get_model_stats', self.model_id_view))[0]
-    self.infos = infos
-
-    # check ramp-up
-    if infos["ramp_up"] is True:
-      routing.set_url_hash(f'model_setup?model_id={infos["model_id"]}&section=Basics', load_from_cache=False)
+    if user['expiration_date'] is not None and (datetime.today().date() - user['expiration_date']).days > 0:
+      print("EXPIRED HOME")
+      routing.set_url_hash('no_subs', load_from_cache=False)
+      get_open_form().change_nav_visibility(status=False)
+      get_open_form().SearchBar.visible = False
       
     else:
-      self.retrain_date = infos["train_model_date"]
-  
-      # model name and description text and text boxes
-      self.model_name.text = infos["model_name"]
-      if infos["description"] is None:
-        self.model_description.text = '-'
-      else:
-        self.model_description.text = infos["description"]
-      if infos["creation_date"] == 'None':
-        self.creation_date_value.text = '-'
-      else:
-        self.creation_date_value.text = infos["creation_date"]
-      self.usage_date_value.text = infos["usage_date"]
-  
-      # activate button
-      if int(self.model_id_view) == int(model_id_active_new):
-        self.activated.visible = True
-        self.activate.visible = False
-      else:
-        self.activated.visible = False
-        self.activate.visible = True   
+      model_id_active_new = anvil.server.call('get_model_id', user["user_id"])
+      print(f"ModelProfile model_id_active_new: {model_id_active_new}")
       
+      # initial visibile settings
+      self.model_name_text.visible = False
+      self.model_description_text.visible = False
+      
+      self.nav_references.role = 'section_buttons_focused'
+      self.sec_filters.visible = False
+  
       # ---------------
-      # HEADER RIGHT
-      # stats
-      self.no_references.text = infos["no_references"]
-      self.total_ratings.text = infos["total_ratings"]
-      self.high_ratings.text = infos["high_ratings"]
-      if infos["train_model_date"] == 'None':
-        self.retrain_model_date_value.text = '-'
-      else:
-        self.retrain_model_date_value.text = infos["train_model_date"]
-      self.status.text = infos["overall_status"]
-      self.status_2.text = infos["overall_status"]
+      # HEADER LEFT
+      infos = json.loads(anvil.server.call('get_model_stats', self.model_id_view))[0]
+      self.infos = infos
   
-      # Level
-      self.Level_value.text = infos["overall_level"]
-      
-      # Overall Progress Circles
-      if (infos["total_ratings"] + infos["no_references"]) > 50:
-        self.custom_HTML_prediction(infos["overall_acc"])
-        self.custom_HTML_prediction_2(infos["overall_acc"])
-        self.overall_num_rec.visible = False
+      # check ramp-up
+      if infos["ramp_up"] is True:
+        routing.set_url_hash(f'model_setup?model_id={infos["model_id"]}&section=Basics', load_from_cache=False)
+        
       else:
-        self.custom_HTML_prediction_inactive((infos["total_ratings"] + infos["no_references"])/50*100)
-        self.custom_HTML_prediction_2_inactive((infos["total_ratings"] + infos["no_references"])/50*100)
-        self.overall_num_rec.visible = True
-        # self.linear_panel_2.visible = True
-        # self.linear_panel_2_2.visible = True
-        # self.column_panel_5.visible = False
+        self.retrain_date = infos["train_model_date"]
     
+        # model name and description text and text boxes
+        self.model_name.text = infos["model_name"]
+        if infos["description"] is None:
+          self.model_description.text = '-'
+        else:
+          self.model_description.text = infos["description"]
+        if infos["creation_date"] == 'None':
+          self.creation_date_value.text = '-'
+        else:
+          self.creation_date_value.text = infos["creation_date"]
+        self.usage_date_value.text = infos["usage_date"]
     
-    # ---------------
-    # SECCTIONS      
-    # secction routing
-    if section == 'Main':
-      self.nav_model_click()
-    elif section == 'PrevRated':
-      self.nav_prev_rated_click()
-    elif section == 'Filter':
-      self.nav_filters_click()
-    elif section == 'AddRefArtists':
-      self.nav_add_references_click()
-    elif section == 'LevelOfPopularity':
-      self.nav_level_of_pop_click()
+        # activate button
+        if int(self.model_id_view) == int(model_id_active_new):
+          self.activated.visible = True
+          self.activate.visible = False
+        else:
+          self.activated.visible = False
+          self.activate.visible = True   
+        
+        # ---------------
+        # HEADER RIGHT
+        # stats
+        self.no_references.text = infos["no_references"]
+        self.total_ratings.text = infos["total_ratings"]
+        self.high_ratings.text = infos["high_ratings"]
+        if infos["train_model_date"] == 'None':
+          self.retrain_model_date_value.text = '-'
+        else:
+          self.retrain_model_date_value.text = infos["train_model_date"]
+        self.status.text = infos["overall_status"]
+        self.status_2.text = infos["overall_status"]
+    
+        # Level
+        self.Level_value.text = infos["overall_level"]
+        
+        # Overall Progress Circles
+        if (infos["total_ratings"] + infos["no_references"]) > 50:
+          self.custom_HTML_prediction(infos["overall_acc"])
+          self.custom_HTML_prediction_2(infos["overall_acc"])
+          self.overall_num_rec.visible = False
+        else:
+          self.custom_HTML_prediction_inactive((infos["total_ratings"] + infos["no_references"])/50*100)
+          self.custom_HTML_prediction_2_inactive((infos["total_ratings"] + infos["no_references"])/50*100)
+          self.overall_num_rec.visible = True
+          # self.linear_panel_2.visible = True
+          # self.linear_panel_2_2.visible = True
+          # self.column_panel_5.visible = False
+            
+      # ---------------
+      # SECCTIONS      
+      # secction routing
+      if section == 'Main':
+        self.nav_model_click()
+      elif section == 'PrevRated':
+        self.nav_prev_rated_click()
+      elif section == 'Filter':
+        self.nav_filters_click()
+      elif section == 'AddRefArtists':
+        self.nav_add_references_click()
+      elif section == 'LevelOfPopularity':
+        self.nav_level_of_pop_click()
+  
+      self.create_ratings_histogram_chart()
 
-    self.create_ratings_histogram_chart()
-    
+  
   def custom_HTML_prediction(self, accuracy):
     custom_html = f'''
       <li class="note-display" data-note={accuracy}>

@@ -34,8 +34,8 @@ class Home(HomeTemplate):
     elif user['expiration_date'] is not None and (datetime.today().date() - user['expiration_date']).days > 0:
       print("EXPIRED HOME")
       routing.set_url_hash('no_subs', load_from_cache=False)
-      # self.change_nav_visibility(status=True)
-      # self.SearchBar.visible = False
+      get_open_form().change_nav_visibility(status=False)
+      get_open_form().SearchBar.visible = False
       
     else:
       #begin = datetime.datetime.now()

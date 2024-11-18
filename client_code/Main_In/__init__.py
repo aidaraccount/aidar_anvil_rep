@@ -55,62 +55,61 @@ class Main_In(Main_InTemplate):
     if user is None:
       self.visible = False
 
-    elif user['expiration_date'] is not None and (datetime.today().date() - user['expiration_date']).days > 0:
-      print("EXPIRED")
-      routing.set_url_hash('no_subs', load_from_cache=False)
-      # self.change_nav_visibility(status=True)
-      # self.SearchBar.visible = False
+    # elif user['expiration_date'] is not None and (datetime.today().date() - user['expiration_date']).days > 0:
+    #   print("EXPIRED")
+    #   routing.set_url_hash('no_subs', load_from_cache=False)
+    #   self.change_nav_visibility(status=True)
+    #   self.SearchBar.visible = False
         
-    # else:      
-    #   self.role = 'POST_LOGIN_PAGE'
-    #   self.visible = True
+    else:      
+      self.role = 'POST_LOGIN_PAGE'
+      self.visible = True
     
-    #   global status
-    #   status = True
+      global status
+      status = True
       
-    #   #begin = datetime.datetime.now()
-    #   #print(f"{datetime.datetime.now()}: Main_In - link_login_click - 2", flush=True)
+      #begin = datetime.datetime.now()
+      #print(f"{datetime.datetime.now()}: Main_In - link_login_click - 2", flush=True)
 
-    #   # model_id
-    #   if user["user_id"] is None:
-    #     self.model_id = None
-    #   else:
-    #     if model_id is None:
-    #       self.model_id = save_var("model_id", anvil.server.call('get_model_id',  user["user_id"]))
-    #       #anvil.server.call('update_model_usage', user["user_id"], self.model_id)
-    #     else:
-    #       self.model_id = model_id
+      # model_id
+      if user["user_id"] is None:
+        self.model_id = None
+      else:
+        if model_id is None:
+          self.model_id = save_var("model_id", anvil.server.call('get_model_id',  user["user_id"]))
+          #anvil.server.call('update_model_usage', user["user_id"], self.model_id)
+        else:
+          self.model_id = model_id
 
-
-    #   # watchlist_id
-    #   watchlist_id = load_var("watchlist_id")
-    #   if watchlist_id is None:
-    #     save_var("watchlist_id", anvil.server.call('get_watchlist_id',  user["user_id"]))
-    #   self.watchlist_id = watchlist_id
-    #   print(f"Main_In watchlist_id: {watchlist_id}")
+      # watchlist_id
+      watchlist_id = load_var("watchlist_id")
+      if watchlist_id is None:
+        save_var("watchlist_id", anvil.server.call('get_watchlist_id',  user["user_id"]))
+      self.watchlist_id = watchlist_id
+      print(f"Main_In watchlist_id: {watchlist_id}")
           
-    #   #print(f"{datetime.datetime.now()}: Main_In - link_login_click - 3", flush=True)  # 20s, 17s - 4s
+      #print(f"{datetime.datetime.now()}: Main_In - link_login_click - 3", flush=True)  # 20s, 17s - 4s
             
-    #   if self.model_id is None:
-    #     routing.set_url_hash('no_model', load_from_cache=False)
-    #     self.change_nav_visibility(status=True)
-    #     self.SearchBar.visible = False
+      if self.model_id is None:
+        routing.set_url_hash('no_model', load_from_cache=False)
+        self.change_nav_visibility(status=True)
+        self.SearchBar.visible = False
 
-    #   else:
-    #     #print(f"{datetime.datetime.now()}: Main_In - link_login_click - 3a", flush=True)
-    #     #routing.set_url_hash('', load_from_cache=False)
-    #     #print(f"{datetime.datetime.now()}: Main_In - link_login_click - 3b", flush=True)  # 3:10m, 2:12m - 19s
-    #     #self.link_home.background = "theme:Accent 3"
-    #     #print(f"{datetime.datetime.now()}: Main_In - link_login_click - 3c", flush=True)
-    #     self.update_no_notifications()
-    #     #print(f"{datetime.datetime.now()}: Main_In - link_login_click - 3d", flush=True)  # 17s, 14s - 1.5s
+      else:
+        #print(f"{datetime.datetime.now()}: Main_In - link_login_click - 3a", flush=True)
+        #routing.set_url_hash('', load_from_cache=False)
+        #print(f"{datetime.datetime.now()}: Main_In - link_login_click - 3b", flush=True)  # 3:10m, 2:12m - 19s
+        #self.link_home.background = "theme:Accent 3"
+        #print(f"{datetime.datetime.now()}: Main_In - link_login_click - 3c", flush=True)
+        self.update_no_notifications()
+        #print(f"{datetime.datetime.now()}: Main_In - link_login_click - 3d", flush=True)  # 17s, 14s - 1.5s
       
-    #   #print(f"{datetime.datetime.now()}: Main_In - link_login_click - 5", flush=True)
-    #   #print(f"TotalTime Main_In: {datetime.datetime.now() - begin}", flush=True)
+      #print(f"{datetime.datetime.now()}: Main_In - link_login_click - 5", flush=True)
+      #print(f"TotalTime Main_In: {datetime.datetime.now() - begin}", flush=True)
       
-    #   # WATCHLIST & MODEL PROFILES IN NAV
-    #   self.refresh_watchlists_components()
-    #   self.refresh_models_components()
+      # WATCHLIST & MODEL PROFILES IN NAV
+      self.refresh_watchlists_components()
+      self.refresh_models_components()
 
 
   # WATCHLIST ROUTING
@@ -256,18 +255,20 @@ class Main_In(Main_InTemplate):
 
     self.linear_panel_discover.visible = status
     self.link_discover.visible = status
-    self.link_discover_ai.visible = status
-    self.link_discover_rel.visible = status
+    # self.link_discover_ai.visible = status
+    # self.link_discover_rel.visible = status
 
     self.link_observe.visible = status
-    
-    self.link_watchlists.visible = status
-    
+
+    self.column_panel_nav_wl.visible = status
+        
     self.linear_panel_monitor.visible = status
-    self.link_monitor_funnel.visible = status
-    self.link_monitor_dev.visible = status
+    # self.link_monitor_funnel.visible = status
+    # self.link_monitor_dev.visible = status
+
+    self.column_panel_nav.visible = status
     
-    self.link_models.visible = True
+    # self.link_models.visible = True
   
   #----------------------------------------------------------------------------------------------
   # HOME

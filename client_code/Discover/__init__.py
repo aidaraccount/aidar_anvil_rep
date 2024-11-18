@@ -43,13 +43,19 @@ class Discover(DiscoverTemplate):
     print(f"Discover user_id: {load_var('user_id')}")
 
     # check for valid user
-    if user is None:
+    if user is None or user == 'None':
       if load_var('user_id') is None:
         open_form('Main_Out')
         # open_form('Main_Out_New')
       else:
         self.user_id = load_var('user_id')
         self.refresh_sug()
+        
+    elif user['expiration_date'] is not None and (datetime.today().date() - user['expiration_date']).days > 0:
+      routing.set_url_hash('no_subs', load_from_cache=False)
+      get_open_form().change_nav_visibility(status=False)
+      get_open_form().SearchBar.visible = False
+      
     else:
       self.user_id = user["user_id"]
       self.refresh_sug()
