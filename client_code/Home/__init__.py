@@ -20,14 +20,14 @@ class Home(HomeTemplate):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
 
-    model_id = load_var("model_id")
-    print(f"Home model_id: {model_id}")
-    
-    # Any code you write here will run before the form opens.
     global user
     user = anvil.users.get_user()
     print(f"Home user: {user}")
     
+    model_id = load_var("model_id")
+    print(f"Home model_id: {model_id}")
+    
+    # Any code you write here will run before the form opens.
     if user is None or user == 'None':
       self.visible = False
       
