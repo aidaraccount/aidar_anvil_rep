@@ -54,8 +54,11 @@ class Main_In(Main_InTemplate):
     
     if user is None:
       self.visible = False
-      
+
+    # elif user['expiration_date']:
+    
     else:
+      print(user['expiration_date'])
       self.role = 'POST_LOGIN_PAGE'
       self.visible = True
     
