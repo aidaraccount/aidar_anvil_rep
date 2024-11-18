@@ -6,11 +6,15 @@ components:
     type: Spacer
   - layout_properties: {grid_position: 'TIAQNO,YZPJXU'}
     name: image_1
-    properties: {height: 39.2265625, horizontal_align: left, role: image-bottom-border, source: _/theme/pics/Logo_white.png}
+    properties: {height: '40', horizontal_align: left, role: null, source: _/theme/pics/Logo_white.png}
+    type: Image
+  - layout_properties: {grid_position: 'IETAJJ,CCUEAC'}
+    name: image_2
+    properties: {height: '30', role: image-bottom-border}
     type: Image
   - layout_properties: {grid_position: 'QIJWID,UQSWOC'}
     name: spacer_2
-    properties: {height: '80'}
+    properties: {height: '30'}
     type: Spacer
   - components:
     - layout_properties: {grid_position: 'CPMQPE,FMTOQK'}
@@ -20,7 +24,8 @@ components:
         role: [header-3, orange]
         text: Your trial has expired, we'd be sad to see you go.
       type: Label
-    - layout_properties: {grid_position: 'SLAWQW,WUFFCG'}
+    - event_bindings: {click: button_1_click}
+      layout_properties: {grid_position: 'SLAWQW,WUFFCG'}
       name: button_1
       properties:
         align: left

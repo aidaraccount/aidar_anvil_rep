@@ -27,4 +27,7 @@ class NoSubscription(NoSubscriptionTemplate):
 
   # def button_create_model_click(self, **event_args):
     # click_button("model_setup?model_id=None&section=Basics", event_args)
+
+  def button_1_click(self, **event_args):
+    print("Send email to AIDAR address")
     
