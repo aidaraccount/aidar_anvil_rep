@@ -20,6 +20,7 @@ from ..WatchlistDetails import WatchlistDetails
 from ..Watchlist_Funnel import Watchlist_Funnel
 from ..Watchlist_Overview import Watchlist_Overview
 from ..NoModel import NoModel
+from ..NoSubscription import NoSubscription
 from ..SearchArtist import SearchArtist
 from ..RelatedArtistSearch import RelatedArtistSearch
 from ..C_CreateModel import C_CreateModel
@@ -85,7 +86,7 @@ class Main_In(Main_InTemplate):
       #print(f"{datetime.datetime.now()}: Main_In - link_login_click - 3", flush=True)  # 20s, 17s - 4s
             
       if self.model_id is None:
-        routing.set_url_hash('no_model', load_from_cache=False)
+        routing.set_url_hash('no_subs', load_from_cache=False)
         self.change_nav_visibility(status=True)
         self.SearchBar.visible = False
 

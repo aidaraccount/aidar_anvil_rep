@@ -13,7 +13,7 @@ from anvil_extras import routing
 from ..nav import click_link, click_button
 
 
-@routing.route("no_model", title="No Model")
+@routing.route("no_subs", title="No Subscription")
 class NoSubscription(NoSubscriptionTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
@@ -22,7 +22,9 @@ class NoSubscription(NoSubscriptionTemplate):
     # Any code you write here will run before the form opens.
 
   def button_connect_model_click(self, **event_args):
-    click_button("connect_model", event_args)
+    # click_button("connect_model", event_args)
+    print("Send email to AIDAR address")
 
-  def button_create_model_click(self, **event_args):
-    click_button("model_setup?model_id=None&section=Basics", event_args)
+  # def button_create_model_click(self, **event_args):
+    # click_button("model_setup?model_id=None&section=Basics", event_args)
+    
