@@ -54,12 +54,6 @@ class Main_In(Main_InTemplate):
         
     if user is None:
       self.visible = False
-
-    # elif user['expiration_date'] is not None and (datetime.today().date() - user['expiration_date']).days > 0:
-    #   print("EXPIRED")
-    #   routing.set_url_hash('no_subs', load_from_cache=False)
-    #   self.change_nav_visibility(status=True)
-    #   self.SearchBar.visible = False
         
     else:      
       self.role = 'POST_LOGIN_PAGE'
@@ -77,7 +71,6 @@ class Main_In(Main_InTemplate):
       else:
         if model_id is None:
           self.model_id = save_var("model_id", anvil.server.call('get_model_id',  user["user_id"]))
-          #anvil.server.call('update_model_usage', user["user_id"], self.model_id)
         else:
           self.model_id = model_id
 
@@ -96,13 +89,8 @@ class Main_In(Main_InTemplate):
         self.SearchBar.visible = False
 
       else:
-        #print(f"{datetime.datetime.now()}: Main_In - link_login_click - 3a", flush=True)
-        #routing.set_url_hash('', load_from_cache=False)
-        #print(f"{datetime.datetime.now()}: Main_In - link_login_click - 3b", flush=True)  # 3:10m, 2:12m - 19s
-        #self.link_home.background = "theme:Accent 3"
-        #print(f"{datetime.datetime.now()}: Main_In - link_login_click - 3c", flush=True)
+        #print(f"{datetime.datetime.now()}: Main_In - link_login_click - 4", flush=True)
         self.update_no_notifications()
-        #print(f"{datetime.datetime.now()}: Main_In - link_login_click - 3d", flush=True)  # 17s, 14s - 1.5s
       
       #print(f"{datetime.datetime.now()}: Main_In - link_login_click - 5", flush=True)
       #print(f"TotalTime Main_In: {datetime.datetime.now() - begin}", flush=True)
