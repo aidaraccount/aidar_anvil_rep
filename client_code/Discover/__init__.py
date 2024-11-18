@@ -35,14 +35,12 @@ class Discover(DiscoverTemplate):
     self.add_event_handler('show', self.form_show)
     # self.add_event_handler('show', self.play_spotify)
     
-    # Any code you write here will run before the form opens.
     global user
-    user = anvil.users.get_user()
     user = anvil.users.get_user()
     print(f"Discover user: {user}")
     print(f"Discover user_id: {load_var('user_id')}")
-
-    # check for valid user
+    
+    # Any code you write here will run before the form opens.
     if user is None or user == 'None':
       if load_var('user_id') is None:
         open_form('Main_Out')

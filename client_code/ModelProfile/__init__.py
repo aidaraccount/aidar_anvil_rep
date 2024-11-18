@@ -10,6 +10,7 @@ import random
 import string
 import json
 import time
+from datetime import datetime
 import math
 
 from ..Home import Home
@@ -35,20 +36,11 @@ class ModelProfile(ModelProfileTemplate):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
     self.html = '@theme:Modelpage_html_JS.html'
-      
-    model_id_active = load_var("model_id")
-    print(f"ModelProfile model_id_active: {model_id_active}")
-    model_id_view = self.url_dict['model_id']
-    print(self.url_dict)
-    self.model_id_view = model_id_view
-    save_var("model_id_view", model_id_view)
-    print(f"ModelProfile model_id_view: {model_id_view}")
-    section = self.url_dict['section']
-    
-    # Any code you write here will run before the form opens.
+        
     global user
     user = anvil.users.get_user()
-
+    
+    # Any code you write here will run before the form opens.
     if user['expiration_date'] is not None and (datetime.today().date() - user['expiration_date']).days > 0:
       print("EXPIRED HOME")
       routing.set_url_hash('no_subs', load_from_cache=False)
@@ -56,6 +48,15 @@ class ModelProfile(ModelProfileTemplate):
       get_open_form().SearchBar.visible = False
       
     else:
+      model_id_active = load_var("model_id")
+      print(f"ModelProfile model_id_active: {model_id_active}")
+      model_id_view = self.url_dict['model_id']
+      print(self.url_dict)
+      self.model_id_view = model_id_view
+      save_var("model_id_view", model_id_view)
+      print(f"ModelProfile model_id_view: {model_id_view}")
+      section = self.url_dict['section']
+      
       model_id_active_new = anvil.server.call('get_model_id', user["user_id"])
       print(f"ModelProfile model_id_active_new: {model_id_active_new}")
       

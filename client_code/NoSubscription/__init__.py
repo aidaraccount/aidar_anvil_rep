@@ -5,6 +5,7 @@ import anvil.users
 import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
+import anvil.js
 
 from ..ConnectModel import ConnectModel
 from ..C_CreateModel import C_CreateModel
@@ -20,15 +21,16 @@ class NoSubscription(NoSubscriptionTemplate):
     self.init_components(**properties)
 
     # Any code you write here will run before the form opens.
-    print("NO SUB PAGE LOADED!")
+    pass
 
-  def button_connect_model_click(self, **event_args):
-    # click_button("connect_model", event_args)
-    print("Send email to AIDAR address")
-
-  # def button_create_model_click(self, **event_args):
-    # click_button("model_setup?model_id=None&section=Basics", event_args)
-
+  
   def button_1_click(self, **event_args):
     print("Send email to AIDAR address")
     
+    email_address = "info@aidar.ai"
+    subject = "Renew Subscription"
+    body = "Dear AIDAR team, I would like to..."
+    mailto_link = f"mailto:{email_address}?subject={subject}&body={body}"
+    
+    # Open the mailto link using JavaScript
+    anvil.js.window.open(mailto_link, "_self")    

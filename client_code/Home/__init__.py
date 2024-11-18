@@ -22,10 +22,6 @@ class Home(HomeTemplate):
 
     global user
     user = anvil.users.get_user()
-    print(f"Home user: {user}")
-    
-    model_id = load_var("model_id")
-    print(f"Home model_id: {model_id}")
     
     # Any code you write here will run before the form opens.
     if user is None or user == 'None':
@@ -38,6 +34,8 @@ class Home(HomeTemplate):
       get_open_form().SearchBar.visible = False
       
     else:
+      model_id = load_var("model_id")
+      print(f"Home model_id: {model_id}")
       #begin = datetime.datetime.now()
       
       self.model_id=model_id

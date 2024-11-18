@@ -21,8 +21,8 @@ components:
       name: label_1
       properties:
         align: left
-        role: [header-3, orange]
-        text: Your trial has expired, we'd be sad to see you go.
+        role: [header-3]
+        text: Your subscription has expired, we'd be sad to see you go.
       type: Label
     - event_bindings: {click: button_1_click}
       layout_properties: {grid_position: 'SLAWQW,WUFFCG'}
@@ -30,13 +30,8 @@ components:
       properties:
         align: left
         role: [call-to-action-button-longer, header-6, header-7]
-        text: Get in touch with us to continue exploring
+        text: Get in touch with us to continue discovering
       type: Button
-    - event_bindings: {click: button_connect_model_click}
-      layout_properties: {grid_position: 'IEBCZR,NYLNNE'}
-      name: link_2_copy
-      properties: {align: left, role: header-5, text: Get in touch with us to continue exploring, visible: false}
-      type: Link
     layout_properties: {grid_position: 'YYTKHZ,OCPHZV'}
     name: column_panel_2
     properties: {col_widths: '{}', role: null}
