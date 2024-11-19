@@ -128,7 +128,7 @@ class Notifications_RowTemplate(Notifications_RowTemplateTemplate):
 
   def frequency_option_2_lost_focus(self, **event_args):
     # Validate number of days only if "Every X Days" is selected
-    if self.frequency_option_1.text == "Every X Days":
+    if self.frequency_option_1.text == "Every X days":
       if not self.frequency_option_2.text.strip() or not self.frequency_option_2.text.isdigit():
         # alert("Please enter a valid number of days for 'Every X Days'.",
         #       title="Invalid Input", buttons=[("OK", "OK")])
@@ -141,6 +141,20 @@ class Notifications_RowTemplate(Notifications_RowTemplateTemplate):
         self.update_notification_1()
       else:
         self.every_x_days_warning.visible = False    
+        
+  def artist_rep_x_days_freq_lost_focus(self, **event_args):
+    # Validate number of days only if "Every X Days" is selected
+    if self.notif_rep_value.text == "Repeat after X days":
+      if not self.artist_rep_x_days_freq.text.strip() or not self.artist_rep_x_days_freq.text.isdigit():
+        self.artist_rep_x_days_freq_warning.visible = True
+        self.artist_rep_x_days_freq.text = "14"  # Reset to default value
+        self.update_notification_1()
+      if int(self.artist_rep_x_days_freq.text) < 1: 
+        self.artist_rep_x_days_freq_warning.visible = True
+        self.artist_rep_x_days_freq.text = "1"  # Reset to default value
+        self.update_notification_1()
+      else:
+        self.artist_rep_x_days_freq_warning.visible = False    
         
     
   def update_notification_1(self, **event_args):
@@ -164,7 +178,7 @@ class Notifications_RowTemplate(Notifications_RowTemplateTemplate):
     if self.frequency_option_1.text == 'Daily':
       freq_2 = None
       freq_3 = None
-    elif self.frequency_option_1.text == 'Every X Days':
+    elif self.frequency_option_1.text == 'Every X days':
       freq_2 = self.frequency_option_2.text
       freq_3 = self.frequency_picker.date
     elif self.frequency_option_1.text == 'Monthly':
@@ -263,13 +277,13 @@ class Notifications_RowTemplate(Notifications_RowTemplateTemplate):
   
   def frequency_option_1_click(self, **event_args):
     if self.frequency_option_1.text == 'Daily':
-      self.frequency_option_1.text = 'Every X Days'
+      self.frequency_option_1.text = 'Every X days'
       self.flow_panel_freq_2.visible = True
       self.weekdays.visible = False
       self.frequency_days_label_days.visible = True
       self.frequency_days_label_days.text = 'Days'
       self.flow_panel_freq_3.visible = True
-    elif self.frequency_option_1.text == 'Every X Days':
+    elif self.frequency_option_1.text == 'Every X days':
       self.frequency_option_1.text = 'Monthly'
       self.flow_panel_freq_2.visible = False
       self.flow_panel_freq_3.visible = True
