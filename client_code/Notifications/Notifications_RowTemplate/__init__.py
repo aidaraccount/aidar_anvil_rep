@@ -8,6 +8,7 @@ from anvil.tables import app_tables
 import json
 from datetime import datetime
 from anvil.js.window import observeFitLikelihoodCircle
+import re
 
 from anvil_extras import routing
 from ...nav import click_link, click_button, logout, login_check, load_var
@@ -132,14 +133,15 @@ class Notifications_RowTemplate(Notifications_RowTemplateTemplate):
         # alert("Please enter a valid number of days for 'Every X Days'.",
         #       title="Invalid Input", buttons=[("OK", "OK")])
         self.every_x_days_warning.visible = True
-        self.frequency_option_2.text = "8"  # Reset to default value
+        self.frequency_option_2.text = "7"  # Reset to default value
         self.update_notification_1()
       if int(self.frequency_option_2.text) < 1: 
         self.every_x_days_warning.visible = True
         self.frequency_option_2.text = "1"  # Reset to default value
         self.update_notification_1()
       else:
-        self.every_x_days_warning.visible = False
+        self.every_x_days_warning.visible = False    
+        
     
   def update_notification_1(self, **event_args):
     # Validate the no_artists_box input (ensure it's between 1 and 20)
@@ -148,18 +150,15 @@ class Notifications_RowTemplate(Notifications_RowTemplateTemplate):
         # alert("The number of artists field cannot be empty. Please enter a value between 1 and 20.", 
         #       title="Missing Input", buttons=[("OK", "OK")], role=["remove-focus"])
         self.max_number_artist_warning.visible = True
-        print("FIELD IS EMPTY")
         return  # Stop execution if the field is empty
       else:
         self.max_number_artist_warning.visible = False
       no_artists = int(self.no_artists_box.text)
       if no_artists < 1 or no_artists > 20:
         self.max_number_artist_warning.visible = True
-        print("NUMBER IS OUT OF BOUNDS 1 AND 20")
         return
     except ValueError:
       self.max_number_artist_warning.visible = True
-      print("VALUE IS NOT A NUMBER")
       return  # Stop execution if the input is not a number
       
     if self.frequency_option_1.text == 'Daily':
