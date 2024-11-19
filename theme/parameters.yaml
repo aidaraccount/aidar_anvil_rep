@@ -363,3 +363,5 @@ roles:
   name: image-bottom-border
 - components: [Button]
   name: call-to-action-button-longer
+- components: [Label]
+  name: warning-label

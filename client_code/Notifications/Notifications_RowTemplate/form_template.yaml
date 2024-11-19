@@ -123,7 +123,7 @@ components:
         text: Every
         visible: true
       type: Label
-    - event_bindings: {change: update_notification_1, pressed_enter: update_notification_1}
+    - event_bindings: {change: update_notification_1, lost_focus: frequency_option_2_lost_focus, pressed_enter: frequency_option_2_lost_focus}
       layout_properties: {}
       name: frequency_option_2
       properties: {align: center, role: notification-settings-textbox, text: '7', type: text, visible: true}
@@ -141,6 +141,13 @@ components:
     name: flow_panel_freq_2
     properties: {align: left, spacing_above: none, spacing_below: none}
     type: FlowPanel
+  - layout_properties: {grid_position: 'IRYPMY,XTCPXD LWYNIZ,ODQPUS'}
+    name: every_x_days_warning
+    properties:
+      role: [header-10, warning-label]
+      text: Please enter a valid number between 1 and 20 for the number of artists.
+      visible: false
+    type: Label
   - components:
     - layout_properties: {}
       name: frequency_days_label_starting
@@ -189,6 +196,13 @@ components:
     name: Max_num_artist
     properties: {spacing_above: none, spacing_below: none}
     type: FlowPanel
+  - layout_properties: {grid_position: 'IRYPMY,GOUNXL ERRCJY,RYKEPQ'}
+    name: max_number_artist_warning
+    properties:
+      role: [header-10, warning-label]
+      text: Please enter a valid number between 1 and 20 for the number of artists.
+      visible: false
+    type: Label
   - components:
     - layout_properties: {}
       name: notif_rep_title

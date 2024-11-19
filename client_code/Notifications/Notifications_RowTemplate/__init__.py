@@ -125,23 +125,42 @@ class Notifications_RowTemplate(Notifications_RowTemplateTemplate):
       model_link.set_event_handler('click', self.create_activate_model_handler(models[i]["model_id"]))
       self.flow_panel_models.add_component(model_link)
 
-  
+  def frequency_option_2_lost_focus(self, **event_args):
+    # Validate number of days only if "Every X Days" is selected
+    if self.frequency_option_1.text == "Every X Days":
+      if not self.frequency_option_2.text.strip() or not self.frequency_option_2.text.isdigit():
+        # alert("Please enter a valid number of days for 'Every X Days'.",
+        #       title="Invalid Input", buttons=[("OK", "OK")])
+        self.every_x_days_warning.visible = True
+        self.frequency_option_2.text = "8"  # Reset to default value
+        self.update_notification_1()
+      if self.frequency_option_2.text < 1: 
+        self.every_x_days_warning.visible = True
+        self.frequency_option_2.text = "8"  # Reset to default value
+        self.update_notification_1()
+      else:
+        self.every_x_days_warning.visible = False
+    
   def update_notification_1(self, **event_args):
     # Validate the no_artists_box input (ensure it's between 1 and 20)
     try:
       if not self.no_artists_box.text.strip():  # Check if the field is empty
-        alert("The number of artists field cannot be empty. Please enter a value between 1 and 20.", 
-              title="Missing Input", buttons=[("OK", "OK")], role=["remove-focus"])
+        # alert("The number of artists field cannot be empty. Please enter a value between 1 and 20.", 
+        #       title="Missing Input", buttons=[("OK", "OK")], role=["remove-focus"])
+        self.max_number_artist_warning.visible = True
+        print("FIELD IS EMPTY")
         return  # Stop execution if the field is empty
+      else:
+        self.max_number_artist_warning.visible = False
       no_artists = int(self.no_artists_box.text)
       if no_artists < 1 or no_artists > 20:
-        alert("Please enter a number between 1 and 20 for the number of artists.", 
-              title="Invalid Input", buttons=[("OK", "OK")], role=["remove-focus"])
-        return  # Stop execution if the value is invalid
+        self.max_number_artist_warning.visible = True
+        print("NUMBER IS OUT OF BOUNDS 1 AND 20")
+        return
     except ValueError:
-        alert("Please enter a valid number between 1 and 20 for the number of artists.", 
-              title="Invalid Input", buttons=[("OK", "OK")], role=["remove-focus"])
-        return  # Stop execution if the input is not a number
+      self.max_number_artist_warning.visible = True
+      print("VALUE IS NOT A NUMBER")
+      return  # Stop execution if the input is not a number
       
     if self.frequency_option_1.text == 'Daily':
       freq_2 = None

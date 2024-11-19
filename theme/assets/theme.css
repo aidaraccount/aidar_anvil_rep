@@ -577,6 +577,10 @@ body, html {
   color: rgb(240, 236, 228);
 }
 
+.anvil-role-warning-label {
+  color: red
+}
+
 .anvil-role-transition-effect {
   transition: 0.5s;
 }
