@@ -26,6 +26,17 @@ class C_Filter(C_FilterTemplate):
     self.model_id=model_id
     #print(f"{datetime.datetime.now()}: C_Filter - __init__ - 2", flush=True)
 
+    # ------------------------------------------------- !!! ATTENTION !!!
+    # SCORPIO EXTENSION - has_top5_de
+    print(user['email'])
+    if user['email'] == 'scorpio_team_account':
+      self.de_header.visible = True
+      self.de_content.visible = True
+    else:      
+      self.de_header.visible = False
+      self.de_content.visible = False
+    # ------------------------------------------------- !!! ATTENTION !!!
+    
     self.load_filters()
     #print(f"{datetime.datetime.now()}: C_Filter - __init__ - 3", flush=True)
 
@@ -63,12 +74,13 @@ class C_Filter(C_FilterTemplate):
                "avg_valence <=": "avg_valence_max",
                "avg_tempo >=": "avg_tempo_min",
                "avg_tempo <=": "avg_tempo_max",
-               "gender =": "drop_down_gender"}
+               "gender =": "drop_down_gender",
+               "has_top5_de =": "drop_down_has_top5_de"}
     
     fil = json.loads(anvil.server.call('get_filters', self.model_id))
     
     for filter in fil:
-      if filter["Type"] in ('general', 'gender', 'date'):
+      if filter["Type"] in ('general', 'gender', 'has_top5_de', 'date'):
         element = getattr(self, my_dict[f'{filter["Column"]} {filter["Operator"]}'], None)
         if filter["Column"] in ("artist_popularity_lat", "artist_follower_lat", "avg_duration", "avg_loudness", "avg_tempo", "CURRENT_DATE - last_release_date"):
           element.text = "{:.0f}".format(round(float(filter["Value"]), 0))
@@ -85,6 +97,9 @@ class C_Filter(C_FilterTemplate):
           if filter["Value"] == 'male': element.selected_value = 'Male'
           if filter["Value"] == 'mixed': element.selected_value = 'Mixed'
           if filter["Value"] == 'other': element.selected_value = 'Other'
+        elif filter["Column"] in ("has_top5_de"):
+          if filter["Value"] == 'True': element.selected_value = 'True'
+          if filter["Value"] == 'False': element.selected_value = 'False'
 
     # Genre Filters
     filter_genre = [item for item in fil if item['Type'] == 'genre']
@@ -176,7 +191,11 @@ class C_Filter(C_FilterTemplate):
     if self.drop_down_gender.selected_value == 'Male': filters_json += f'{{"ModelID":"{self.model_id}","Type":"gender","Column":"gender","Operator":"=","Value":"male"}},'
     if self.drop_down_gender.selected_value == 'Mixed': filters_json += f'{{"ModelID":"{self.model_id}","Type":"gender","Column":"gender","Operator":"=","Value":"mixed"}},'
     if self.drop_down_gender.selected_value == 'Other': filters_json += f'{{"ModelID":"{self.model_id}","Type":"gender","Column":"gender","Operator":"=","Value":"other"}},'
-        
+
+    # 6. German Audience
+    if self.drop_down_has_top5_de.selected_value == 'True': filters_json += f'{{"ModelID":"{self.model_id}","Type":"has_top5_de","Column":"has_top5_de","Operator":"=","Value":"True"}},'
+    if self.drop_down_has_top5_de.selected_value == 'False': filters_json += f'{{"ModelID":"{self.model_id}","Type":"has_top5_de","Column":"has_top5_de","Operator":"=","Value":"False"}},'
+    
     # correct and close the json string
     if filters_json[-1] == ",": filters_json = filters_json[:-1]
     filters_json += "]"
