@@ -180,7 +180,7 @@ components:
         spacing_below: none
         text: 'Max No. artists:'
       type: Label
-    - event_bindings: {change: update_notification_1, lost_focus: update_notification_1, pressed_enter: update_notification_1}
+    - event_bindings: {change: update_notification_1, pressed_enter: update_notification_1}
       layout_properties: {}
       name: no_artists_box
       properties: {align: center, placeholder: 1-20, role: notification-settings-textbox, spacing_above: none, spacing_below: none, text: '5'}
