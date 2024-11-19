@@ -87,6 +87,7 @@ class Observe(ObserveTemplate):
         self.refresh_table()
       else:
         self.no_trained_model.visible = True
+        self.notification_link.visible = False
         self.no_artists.visible = False
         self.flow_panel_ratings.visible = False
         self.flow_panel_models.visible = False
@@ -141,6 +142,7 @@ class Observe(ObserveTemplate):
 
     if len(model_ids) > 0:    
       self.no_trained_model.visible = False
+      self.notification_link.visible = True
       
       # get data
       # print(f"{datetime.now()}: Observe 2b", flush=True)
