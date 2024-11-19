@@ -129,17 +129,18 @@ class Notifications_RowTemplate(Notifications_RowTemplateTemplate):
   def update_notification_1(self, **event_args):
     # Validate the no_artists_box input (ensure it's between 1 and 20)
     try:
-        if self.no_artists_box.text.strip():  # Check if the field is not empty
-            no_artists = int(self.no_artists_box.text)
-            if no_artists < 1 or no_artists > 20:
-                alert("Please enter a number between 1 and 20 for the number of artists.", 
-                      title="Invalid Input", buttons=[("OK", "OK")])
-                return  # Stop execution if the value is invalid
-        else:
-            no_artists = None
+      if not self.no_artists_box.text.strip():  # Check if the field is empty
+        alert("The number of artists field cannot be empty. Please enter a value between 1 and 20.", 
+              title="Missing Input", buttons=[("OK", "OK")], role=["remove-focus"])
+        return  # Stop execution if the field is empty
+      no_artists = int(self.no_artists_box.text)
+      if no_artists < 1 or no_artists > 20:
+        alert("Please enter a number between 1 and 20 for the number of artists.", 
+              title="Invalid Input", buttons=[("OK", "OK")], role=["remove-focus"])
+        return  # Stop execution if the value is invalid
     except ValueError:
         alert("Please enter a valid number between 1 and 20 for the number of artists.", 
-              title="Invalid Input", buttons=[("OK", "OK")])
+              title="Invalid Input", buttons=[("OK", "OK")], role=["remove-focus"])
         return  # Stop execution if the input is not a number
       
     if self.frequency_option_1.text == 'Daily':
