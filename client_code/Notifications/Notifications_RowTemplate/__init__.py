@@ -134,9 +134,9 @@ class Notifications_RowTemplate(Notifications_RowTemplateTemplate):
         self.every_x_days_warning.visible = True
         self.frequency_option_2.text = "8"  # Reset to default value
         self.update_notification_1()
-      if self.frequency_option_2.text < 1: 
+      if int(self.frequency_option_2.text) < 1: 
         self.every_x_days_warning.visible = True
-        self.frequency_option_2.text = "8"  # Reset to default value
+        self.frequency_option_2.text = "1"  # Reset to default value
         self.update_notification_1()
       else:
         self.every_x_days_warning.visible = False
