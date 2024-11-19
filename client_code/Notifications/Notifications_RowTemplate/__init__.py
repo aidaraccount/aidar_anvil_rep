@@ -147,6 +147,15 @@ class Notifications_RowTemplate(Notifications_RowTemplateTemplate):
       freq_2 = None
       freq_3 = None
     elif self.frequency_option_1.text == 'Every X Days':
+      # Validate number of days and starting date for "Every X Days"
+      if not self.frequency_option_2.text.strip():
+        alert("Please specify the number of days for 'Every X Days'.",
+              title="Missing Input", buttons=[("OK", "OK")], role=["remove-focus"])
+        return
+      if not self.frequency_picker.date:
+        alert("Please select a starting date for 'Every X Days'.",
+              title="Missing Input", buttons=[("OK", "OK")], role=["remove-focus"])
+        return
       freq_2 = self.frequency_option_2.text
       freq_3 = self.frequency_picker.date
     elif self.frequency_option_1.text == 'Monthly':
