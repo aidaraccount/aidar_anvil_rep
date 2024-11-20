@@ -22,7 +22,6 @@ class C_LevelOfPopularity(C_LevelOfPopularityTemplate):
     self.model_id_view = load_var("model_id_view")
     
     infos = json.loads(anvil.server.call('get_model_stats', self.model_id_view))[0]
-    print(infos["min_pop"])
     if infos["min_pop"] is None:
       save_var('min_pop', 20)
       save_var('max_pop', 50)

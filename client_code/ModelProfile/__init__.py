@@ -42,7 +42,6 @@ class ModelProfile(ModelProfileTemplate):
     
     # Any code you write here will run before the form opens.
     if user['expiration_date'] is not None and (datetime.today().date() - user['expiration_date']).days > 0:
-      print("EXPIRED HOME")
       routing.set_url_hash('no_subs', load_from_cache=False)
       get_open_form().change_nav_visibility(status=False)
       get_open_form().SearchBar.visible = False
@@ -51,7 +50,6 @@ class ModelProfile(ModelProfileTemplate):
       model_id_active = load_var("model_id")
       print(f"ModelProfile model_id_active: {model_id_active}")
       model_id_view = self.url_dict['model_id']
-      print(self.url_dict)
       self.model_id_view = model_id_view
       save_var("model_id_view", model_id_view)
       print(f"ModelProfile model_id_view: {model_id_view}")

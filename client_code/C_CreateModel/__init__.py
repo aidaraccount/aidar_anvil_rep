@@ -65,7 +65,6 @@ class C_CreateModel(C_CreateModelTemplate):
     self.text_box_access_token.focus()
 
   def text_box_model_name_change(self, **event_args):
-    print(self.parent.parent.get_components()[-1].get_components())
     if self.text_box_model_name.text == '' and self.text_box_access_token.text == '':
       self.parent.parent.get_components()[-1].get_components()[1].role = 'call-to-action-button'
     else:

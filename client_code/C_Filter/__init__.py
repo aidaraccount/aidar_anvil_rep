@@ -28,7 +28,6 @@ class C_Filter(C_FilterTemplate):
 
     # ------------------------------------------------- !!! ATTENTION !!!
     # SCORPIO EXTENSION - has_top5_de
-    print(user['email'])
     if user['email'] == 'scorpio_team_account':
       self.de_header.visible = True
       self.de_content.visible = True
@@ -109,7 +108,6 @@ class C_Filter(C_FilterTemplate):
 
     # Origin Filters
     filter_origin = [item for item in fil if item['Type'] == 'origin']
-    print(filter_origin)
     if len(filter_origin) > 0:
       self.repeating_panel_origin.items = filter_origin
       self.label_no_origin_filters.visible = False
@@ -204,7 +202,6 @@ class C_Filter(C_FilterTemplate):
     if filters_json == '[]': filters_json = None
     
     # change filters
-    print(filters_json)
     anvil.server.call('change_filters',
                       self.model_id,
                       filters_json

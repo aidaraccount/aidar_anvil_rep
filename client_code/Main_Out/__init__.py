@@ -77,18 +77,7 @@ class Main_Out(Main_OutTemplate):
             routing.set_url_hash('home', load_from_cache=False)
           elif location.hash[:8] == '#artists':
             routing.set_url_hash(location.hash, load_from_cache=False)
-            
-    #     except:
-    #       alert(
-    #         title="Unveiling New Features!!",
-    #         content="Apologies for any inconvenience caused.\n\nWe are presently integrating new features and will have the site accessible again shortly.\n\nFeel free to contact us via email at info@aidar.ai.\n\nThank you,\nYour AIDAR Team",
-    #       )
-    # except:
-    #   print("ERROR!!")
-    #   Notification("",
-    #     title="Authentification failed!",
-    #     style="danger").show()
-  
+    
   def link_logout_click(self, **event_args):
     anvil.users.logout()
     anvil.js.window.sessionStorage.clear()

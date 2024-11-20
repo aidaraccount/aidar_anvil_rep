@@ -27,7 +27,6 @@ class C_RefArtistsSettings(C_RefArtistsSettingsTemplate):
   
   def get_references(self, **event_args):
     references = json.loads(anvil.server.call('get_references', self.model_id_view))
-    print('references:', references)
     self.repeating_panel_reference.items = references
     
     if references != []:

@@ -20,18 +20,8 @@ class C_SubModelContribution(C_SubModelContributionTemplate):
 
     # Any code you write here will run before the form opens.
     self.model_id_view = load_var("model_id_view")
-
-    # Need to replace "min_pop" with the field that Janek provides in the get_model_stats
-    # then need to replicate for slider for Musical Fit importance and Growth Importance
     
     infos = json.loads(anvil.server.call("get_model_stats", self.model_id_view))[0]
-    print(infos)
-    # if infos["min_pop"] is None:
-    #   save_var("min_pop", 1)
-    # else:
-    #   self.slider_1.values = infos["min_pop"]
-    #   save_var("min_pop", infos["min_pop"])
-    # Populate sliders with initial values from the model stats
     self.slider_1.value = infos['model_1_cont'] * 100  # Assuming percentage values
     self.slider_2.value = infos['model_4_cont'] * 100
     self.slider_3.value = infos['model_3_cont'] * 100

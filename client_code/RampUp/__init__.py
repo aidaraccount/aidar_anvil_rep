@@ -263,9 +263,6 @@ class RampUp(RampUpTemplate):
       else:
         self.Next.role = ['call-to-action-button', 'header-5', 'opacity-25']
     elif section == 'Level_of_Pop':
-      # artist_id = anvil.server.call('get_next_artist_id', self.model_id_view)          
-      # if artist_id is not None:
-      print("THIS ROLE SHOULD BE KICKING IN RN")
       self.Next.role = ['call-to-action-button','header-5','opacity-100']
     else:
       self.Next.role = ['call-to-action-button', 'header-5', 'opacity-25']
