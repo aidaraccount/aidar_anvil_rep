@@ -21,7 +21,8 @@ components:
     name: link_discover_ai
     properties: {align: left, background: '', bold: false, border: '', col_spacing: medium, col_widths: '', font: '', font_size: null, foreground: '', icon: 'fa:angle-right', icon_align: left, italic: false, role: nav_sub, spacing_above: none, spacing_below: small, text: Artists BY AI, tooltip: '', underline: false, url: '', visible: true, wrap_on: mobile}
     type: Link
-  - event_bindings: {click: link_discover_rel_click}
+  - data_bindings: []
+    event_bindings: {click: link_discover_rel_click}
     layout_properties: {}
     name: link_discover_rel
     properties: {align: left, background: '', bold: false, border: '', col_spacing: medium, col_widths: '', font: '', font_size: null, foreground: '', icon: 'fa:angle-right', icon_align: left, italic: false, role: nav_sub, spacing_above: none, spacing_below: small, text: Related Artists, tooltip: '', underline: false, url: '', visible: true, wrap_on: mobile}
