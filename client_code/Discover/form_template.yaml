@@ -956,14 +956,14 @@ components:
         name: dev2_t7
         properties: {align: center, enable_slots: false, format: restricted_html, role: no-padding, spacing_above: none, spacing_below: none, tooltip: Evolution of last 30 days}
         type: RichText
-      - layout_properties: {grid_position: 'TYUFHT,UMMOBO LWEPNC,FJZOHI'}
-        name: label_11_copy_2
-        properties: {align: center, role: header-9, spacing_above: none, spacing_below: none, text: 30 days ago}
-        type: Label
       - layout_properties: {grid_position: 'TYUFHT,UMMOBO BFKEWK,ZMSCDP'}
         name: dev2_t30
         properties: {align: center, enable_slots: false, format: restricted_html, role: no-padding, spacing_above: none, spacing_below: none, tooltip: Evolution of last 30 days}
         type: RichText
+      - layout_properties: {grid_position: 'TYUFHT,UMMOBO XXXHZF,RNYDXN'}
+        name: label_11_copy_2
+        properties: {align: center, role: header-9, spacing_above: none, spacing_below: none, text: 30 days ago}
+        type: Label
       - layout_properties: {grid_position: 'TYUFHT,OUSXVT ZMBUAN,ZEEDLE'}
         name: label_10_copy_2
         properties: {align: center, role: header-9, spacing_above: none, spacing_below: none, text: 7 days ago}
@@ -1089,14 +1089,14 @@ components:
         name: label_9_copy
         properties: {align: center, role: header-9, spacing_above: none, spacing_below: none, text: today}
         type: Label
-      - layout_properties: {grid_position: 'LJEWLO,WVDYXZ MDDDOC,CUEISX'}
-        name: label_11_copy
-        properties: {align: center, role: header-9, spacing_above: none, spacing_below: none, text: 30 days ago}
-        type: Label
       - layout_properties: {grid_position: 'LJEWLO,WVDYXZ HXQBKX,AASGHU'}
         name: dev3_t30
         properties: {align: center, enable_slots: false, format: restricted_html, role: no-padding, spacing_above: none, spacing_below: none, tooltip: Evolution of last 30 days}
         type: RichText
+      - layout_properties: {grid_position: 'LJEWLO,WVDYXZ JRJICL,IESRSC'}
+        name: label_11_copy
+        properties: {align: center, role: header-9, spacing_above: none, spacing_below: none, text: 30 days ago}
+        type: Label
       - event_bindings: {}
         layout_properties: {grid_position: 'VQTYJE,RKWVRK'}
         name: Spotify_Monthly_Listeners_Graph
