@@ -327,8 +327,7 @@ class Main_In(Main_InTemplate):
       self.link_monitor_dev.visible = False
     
   def link_monitor_funnel_click(self, **event_args):
-    routing.set_url_hash('watchlist_funnel', load_from_cache=False)
-    
+    click_link(self.link_monitor_funnel, 'watchlist_funnel', event_args)
     self.reset_nav_backgrounds()
     self.link_monitor_funnel.background = "theme:Accent 3"
 
