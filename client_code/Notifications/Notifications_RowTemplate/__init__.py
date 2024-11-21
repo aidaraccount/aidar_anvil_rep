@@ -135,6 +135,15 @@ class Notifications_RowTemplate(Notifications_RowTemplateTemplate):
         self.every_x_days_warning.visible = False    
         self.update_notification_1()
         
+  def date_picker_lost_focus(self, **event_args):
+    # Validate number of days only if "Every X Days" is selected
+    if self.frequency_option_1.text in ["Every X days", "Monthly"]:
+      if not self.frequency_option_2.text.strip() or not self.frequency_option_2.text.isdigit() or int(self.frequency_option_2.text) < 1:
+        self.every_x_days_warning.visible = True
+      else:
+        self.every_x_days_warning.visible = False    
+        self.update_notification_1()
+        
   def artist_rep_x_days_freq_lost_focus(self, **event_args):
     # Validate number of days only if "Every X Days" is selected
     if self.notif_rep_value.text == "Repeat after X days":
