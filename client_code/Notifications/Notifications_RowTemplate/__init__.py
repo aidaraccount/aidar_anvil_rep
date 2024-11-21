@@ -210,6 +210,8 @@ class Notifications_RowTemplate(Notifications_RowTemplateTemplate):
       
     if self.min_growth_value.text == '':
       min_growth_value = None
+    elif self.min_growth_value.text.isalpha():
+      min_growth_value = None
     else:
       min_growth_value = float(self.min_growth_value.text)/100
 
@@ -325,9 +327,11 @@ class Notifications_RowTemplate(Notifications_RowTemplateTemplate):
       self.metrics_option_1.text = 'Releasing Fits'
       self.min_growth_fit.visible = False
       self.max_days_since_rel.visible = True
+      self.min_growth_warning.visible = False
     elif self.metrics_option_1.text == 'Releasing Fits':
       self.metrics_option_1.text = 'Top Fits'
       self.max_days_since_rel.visible = False
+      self.days_since_rel_field_warning.visible = False
     self.update_notification_1()
   
   def edit_icon_click_2(self, **event_args):
