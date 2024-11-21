@@ -102,6 +102,7 @@ class Notifications_RowTemplate(Notifications_RowTemplateTemplate):
     # model selection
     models = json.loads(anvil.server.call('get_model_ids',  user["user_id"]))
     active_models = self.item["model_ids"]
+
     for i in range(0, len(models)):
       if models[i]["model_id"] in active_models:        
         model_link = Link(
@@ -120,11 +121,13 @@ class Notifications_RowTemplate(Notifications_RowTemplateTemplate):
         model_link = Link(
           text=models[i]["model_name"],
           tag=models[i]["model_id"],
-          role='genre-box-deactive'
+          role='genre-box-deactive',
           )
       
       model_link.set_event_handler('click', self.create_activate_model_handler(models[i]["model_id"]))
       self.flow_panel_models.add_component(model_link)
+
+
 
   def frequency_option_2_lost_focus(self, **event_args):
     # Validate number of days only if "Every X Days" is selected
@@ -157,7 +160,7 @@ class Notifications_RowTemplate(Notifications_RowTemplateTemplate):
   def min_growth_value_lost_focus(self, **event_args):
     # Validate number of days only if "Every X Days" is selected
     if self.metrics_option_1.text == "Growing Fits":
-      if not self.min_growth_value.text.strip() or not self.min_growth_value.text.isdigit() or int(self.min_growth_value.text) < 1:
+      if not self.min_growth_value.text.strip() or not self.min_growth_value.text.isdigit() or int(self.min_growth_value.text) < 0:
         self.min_growth_warning.visible = True
       else:
         self.min_growth_warning.visible = False    
@@ -220,11 +223,24 @@ class Notifications_RowTemplate(Notifications_RowTemplateTemplate):
     else:
       release_days = self.days_since_rel_field_value.text
 
+    # model_ids = []
+    # for component in self.flow_panel_models.get_components():
+    #   if isinstance(component, Link):
+    #     if component.role == 'genre-box':
+    #       model_ids.append(component.tag)
+
+    # Collect selected model IDs
     model_ids = []
     for component in self.flow_panel_models.get_components():
-      if isinstance(component, Link):
-        if component.role == 'genre-box':
-          model_ids.append(component.tag)
+        if isinstance(component, Link) and component.role == 'genre-box':  # Only active models
+            model_ids.append(component.tag)
+
+    # Check if any models are selected
+    if not model_ids:
+      self.models_warning.visible = True
+      return  # Stop execution if no models are selected
+    else:
+      self.models_warning.visible = False
     
     anvil.server.call('update_notification',
                       notification_id = self.item["notification_id"],

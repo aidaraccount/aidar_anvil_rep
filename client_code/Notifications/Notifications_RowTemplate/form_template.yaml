@@ -352,10 +352,17 @@ components:
       name: flow_panel_models
       properties: {spacing_above: none, spacing_below: none}
       type: FlowPanel
-    layout_properties: {grid_position: 'IRYPMY,FTXCAA'}
+    layout_properties: {grid_position: 'IRYPMY,FTXCAA ROXVCL,ZYGQBF'}
     name: column_panel_2
     properties: {}
     type: ColumnPanel
+  - layout_properties: {grid_position: 'IRYPMY,FTXCAA KZHZGU,KSCZSQ'}
+    name: models_warning
+    properties:
+      role: [warning-label, header-8]
+      text: Please select at least one trained model for your notification
+      visible: false
+    type: Label
   layout_properties: {column: JKSDUP}
   name: column_panel_1
   properties: {col_spacing: tiny, col_widths: '{"XTCPXD":22,"FTXCAA":27,"NDUSEU":38,"NWICXJ":24,"HCVQMZ":16,"CTXMUI":22,"GOUNXL":24,"XKHHNJ":15,"RLTAPJ":16,"YZCLAD":18,"OVXSOO":15}', role: grid}
