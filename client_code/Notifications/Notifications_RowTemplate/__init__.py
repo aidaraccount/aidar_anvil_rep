@@ -129,18 +129,11 @@ class Notifications_RowTemplate(Notifications_RowTemplateTemplate):
   def frequency_option_2_lost_focus(self, **event_args):
     # Validate number of days only if "Every X Days" is selected
     if self.frequency_option_1.text == "Every X days":
-      if not self.frequency_option_2.text.strip() or not self.frequency_option_2.text.isdigit():
-        # alert("Please enter a valid number of days for 'Every X Days'.",
-        #       title="Invalid Input", buttons=[("OK", "OK")])
+      if not self.frequency_option_2.text.strip() or not self.frequency_option_2.text.isdigit() or int(self.frequency_option_2.text) < 1:
         self.every_x_days_warning.visible = True
-        self.frequency_option_2.text = "7"  # Reset to default value
-        self.update_notification_1()
-      if int(self.frequency_option_2.text) < 1: 
-        self.every_x_days_warning.visible = True
-        self.frequency_option_2.text = "1"  # Reset to default value
-        self.update_notification_1()
       else:
         self.every_x_days_warning.visible = False    
+        self.update_notification_1()
         
   def artist_rep_x_days_freq_lost_focus(self, **event_args):
     # Validate number of days only if "Every X Days" is selected

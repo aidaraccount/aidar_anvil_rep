@@ -123,7 +123,7 @@ components:
         text: Every
         visible: true
       type: Label
-    - event_bindings: {change: update_notification_1, lost_focus: frequency_option_2_lost_focus, pressed_enter: frequency_option_2_lost_focus}
+    - event_bindings: {change: frequency_option_2_lost_focus, lost_focus: frequency_option_2_lost_focus, pressed_enter: frequency_option_2_lost_focus}
       layout_properties: {}
       name: frequency_option_2
       properties: {align: center, role: notification-settings-textbox, text: '7', type: text, visible: true}
