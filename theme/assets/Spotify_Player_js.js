@@ -4,8 +4,8 @@ var controller;
 function createOrUpdateSpotifyPlayer(trackOrArtist, artistSpotifyID) {
   const element = document.querySelector('.anvil-role-spotify-footer-class #embed-iframe');
   const autoplaybutton = document.querySelector('.anvil-role-autoplay-toggle-button .fa-toggle-on')
-  console.log("THIS IS THE ELEMENT:", element)
-  console.log("THIS IS THE AUTOPLAY BUTTON ELEMENT:", autoplaybutton)
+  // console.log("THIS IS THE ELEMENT:", element)
+  // console.log("THIS IS THE AUTOPLAY BUTTON ELEMENT:", autoplaybutton)
   
   if (!element) {
     console.error("ERROR MESSAGE: Embed iframe element not found.")
@@ -15,7 +15,7 @@ function createOrUpdateSpotifyPlayer(trackOrArtist, artistSpotifyID) {
   console.log(artistSpotifyID);
   
   const options = {
-    theme: 'dark',
+    theme: '0',
     width: '100%',
     height: '80',
     uri: `spotify:${trackOrArtist}:${artistSpotifyID}`,
