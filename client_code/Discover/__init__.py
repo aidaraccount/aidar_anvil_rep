@@ -975,65 +975,66 @@ class Discover(DiscoverTemplate):
     release = [0] * len(data)
 
     dates = [datetime.strptime(date, '%Y-%m-%d') for date in dates_str]
-    min_date = min(dates)
-    # Substracting 50 days from the min date of the list of dates for visual purposes.
-    date_before_min = min_date - timedelta(days=50)
-    # Get today's date
-    today = datetime.today().strftime('%Y-%m-%d')
-    date_before_min = date_before_min.strftime('%Y-%m-%d')
-    
-    # Creating the Scatter Chart
-    fig = go.Figure(data=(
-      go.Scatter(
-        x = dates,
-        y = release,
-        textposition='outside',
-        hoverinfo='none',
-        hovertext= [f"Date: {date.strftime('%Y-%m-%d')}<br>Track: {track}<br>Label: {label}" for date, track, label in zip(dates, tracks, labels)],
-        hovertemplate='%{hovertext}<extra></extra>',
-        marker=dict(
-            color='rgb(237,139,82)',  # Color of the markers
-            size=15,  # Size of the markers
-            line=dict(
-                color='rgb(237,139,82)',  # Color of the marker borders
-                width=2  # Width of the marker borders
-            )
+    if len(dates) > 0:
+      min_date = min(dates)
+      # Substracting 50 days from the min date of the list of dates for visual purposes.
+      date_before_min = min_date - timedelta(days=50)
+      # Get today's date
+      today = datetime.today().strftime('%Y-%m-%d')
+      date_before_min = date_before_min.strftime('%Y-%m-%d')
+      
+      # Creating the Scatter Chart
+      fig = go.Figure(data=(
+        go.Scatter(
+          x = dates,
+          y = release,
+          textposition='outside',
+          hoverinfo='none',
+          hovertext= [f"Date: {date.strftime('%Y-%m-%d')}<br>Track: {track}<br>Label: {label}" for date, track, label in zip(dates, tracks, labels)],
+          hovertemplate='%{hovertext}<extra></extra>',
+          marker=dict(
+              color='rgb(237,139,82)',  # Color of the markers
+              size=15,  # Size of the markers
+              line=dict(
+                  color='rgb(237,139,82)',  # Color of the marker borders
+                  width=2  # Width of the marker borders
+              )
+          ),
+          mode='markers+text'  # Display both markers and text
+        )
+      ))
+      fig.update_layout(
+        template='plotly_dark',
+        plot_bgcolor='rgba(0,0,0,0)',
+        paper_bgcolor='rgba(0,0,0,0)',
+        margin = dict(t=50),
+        xaxis=dict (
+          showgrid=False,
+          range=[date_before_min, today]  # Set x-axis range to end at today's date
         ),
-        mode='markers+text'  # Display both markers and text
+        yaxis=dict(
+          range=[0.02, -0.01],  # Limit the y-axis
+          showticklabels=False,  # Hide the tick labels
+          showline=False,  # Hide the axis line
+          zeroline=True,  # Ensure the zero line is visible
+          # zerolinecolor='rgb(237,139,82)',  # Set the color of the zero line
+          zerolinecolor='rgb(175,175,175)',  # Set the color of the zero line
+          zerolinewidth=2,  # Optionally set the width of the zero line
+          showgrid=False  # Disable the grid lines
+        ),
+        hoverlabel=dict(
+          bgcolor='rgba(237,139,82, 0.4)'
+        )
       )
-    ))
-    fig.update_layout(
-      template='plotly_dark',
-      plot_bgcolor='rgba(0,0,0,0)',
-      paper_bgcolor='rgba(0,0,0,0)',
-      margin = dict(t=50),
-      xaxis=dict (
-        showgrid=False,
-        range=[date_before_min, today]  # Set x-axis range to end at today's date
-      ),
-      yaxis=dict(
-        range=[0.02, -0.01],  # Limit the y-axis
-        showticklabels=False,  # Hide the tick labels
-        showline=False,  # Hide the axis line
-        zeroline=True,  # Ensure the zero line is visible
-        # zerolinecolor='rgb(237,139,82)',  # Set the color of the zero line
-        zerolinecolor='rgb(175,175,175)',  # Set the color of the zero line
-        zerolinewidth=2,  # Optionally set the width of the zero line
-        showgrid=False  # Disable the grid lines
-      ),
-      hoverlabel=dict(
-        bgcolor='rgba(237,139,82, 0.4)'
-      )
-    )
-    for trace in fig.data:
-      trace.update(
-        marker_color='rgb(219,106,37)',
-        marker_line_color='rgb(219,106,37)',
-        marker_line_width=1,
-        opacity=0.8
-      )
-    
-    self.Release_Timing_Graph.figure = fig
+      for trace in fig.data:
+        trace.update(
+          marker_color='rgb(219,106,37)',
+          marker_line_color='rgb(219,106,37)',
+          marker_line_width=1,
+          opacity=0.8
+        )
+      
+      self.Release_Timing_Graph.figure = fig
   
   def create_monthly_listeners_by_country_bar_chart(self, country_codes=None, monthly_listeners=None, country_name=None):
     if country_codes is None:

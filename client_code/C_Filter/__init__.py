@@ -108,6 +108,7 @@ class C_Filter(C_FilterTemplate):
 
     # Origin Filters
     filter_origin = [item for item in fil if item['Type'] == 'origin']
+    print(filter_origin)
     if len(filter_origin) > 0:
       self.repeating_panel_origin.items = filter_origin
       self.label_no_origin_filters.visible = False
@@ -176,6 +177,7 @@ class C_Filter(C_FilterTemplate):
     
     # 4. Origins
     origin_data = self.repeating_panel_origin.items
+    print(origin_data)
     if origin_data is not None:
       for element in origin_data:
         if element["Value"] == 'True':
