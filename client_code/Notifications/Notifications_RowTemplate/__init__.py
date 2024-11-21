@@ -138,10 +138,11 @@ class Notifications_RowTemplate(Notifications_RowTemplateTemplate):
   def date_picker_lost_focus(self, **event_args):
     # Validate number of days only if "Every X Days" is selected
     if self.frequency_option_1.text in ["Every X days", "Monthly"]:
-      if not self.frequency_option_2.text.strip() or not self.frequency_option_2.text.isdigit() or int(self.frequency_option_2.text) < 1:
-        self.every_x_days_warning.visible = True
+      print(self.frequency_picker.date)
+      if self.frequency_picker.date is None:
+        self.every_x_days_start_warning.visible = True
       else:
-        self.every_x_days_warning.visible = False    
+        self.every_x_days_start_warning.visible = False    
         self.update_notification_1()
         
   def artist_rep_x_days_freq_lost_focus(self, **event_args):
@@ -157,8 +158,7 @@ class Notifications_RowTemplate(Notifications_RowTemplateTemplate):
         self.update_notification_1()
       else:
         self.artist_rep_x_days_freq_warning.visible = False    
-        
-    
+         
   def update_notification_1(self, **event_args):
     # Validate the no_artists_box input (ensure it's between 1 and 20)
     try:
@@ -229,7 +229,6 @@ class Notifications_RowTemplate(Notifications_RowTemplateTemplate):
                       min_grow_fit = min_growth_value ,
                       model_ids = model_ids)
 
-  
   def activate_notification(self, **event_args):
     if self.activate.visible is True:
       self.activate.visible = False
@@ -247,7 +246,6 @@ class Notifications_RowTemplate(Notifications_RowTemplateTemplate):
         style="success").show()
     self.update_notification_1()
 
-  
   # RATED BUTTON
   def artist_selection_option_click(self, **event_args):
     if self.artist_selection_option.text == 'Rated':
@@ -258,7 +256,6 @@ class Notifications_RowTemplate(Notifications_RowTemplateTemplate):
       self.artist_selection_option.text = 'Rated'
     self.update_notification_1()
 
-  
   # WATCHLIST BUTTON
   def watchlist_selection_option_click(self, **event_args):
     if self.watchlist_selection_option.text == 'On watchlist':
@@ -269,14 +266,12 @@ class Notifications_RowTemplate(Notifications_RowTemplateTemplate):
       self.watchlist_selection_option.text = 'On watchlist'
     self.update_notification_1()
 
-  
   def delete_notification_click(self, **event_args):
     anvil.server.call('delete_notification',
                       notification_id = self.item["notification_id"])
 
     self.parent.parent.parent.parent.get_notifications()
 
-  
   def frequency_option_1_click(self, **event_args):
     if self.frequency_option_1.text == 'Daily':
       self.frequency_option_1.text = 'Every X days'
@@ -297,7 +292,6 @@ class Notifications_RowTemplate(Notifications_RowTemplateTemplate):
       self.flow_panel_freq_3.visible = False
     self.update_notification_1()
 
-  
   def notification_repetition_value_click(self, **event_args):
     if self.notif_rep_value.text == 'Suggest artists once':
       self.notif_rep_value.text = 'Repeat suggestions'
@@ -310,7 +304,6 @@ class Notifications_RowTemplate(Notifications_RowTemplateTemplate):
       
     self.update_notification_1()
 
-  
   def metrics_option_1_click(self, **event_args):
     if self.metrics_option_1.text == 'Top Fits':
       self.metrics_option_1.text = 'Growing Fits'
@@ -323,7 +316,6 @@ class Notifications_RowTemplate(Notifications_RowTemplateTemplate):
       self.metrics_option_1.text = 'Top Fits'
       self.max_days_since_rel.visible = False
     self.update_notification_1()
-
   
   def edit_icon_click_2(self, **event_args):
     if self.name_link.visible is True: 
@@ -332,14 +324,12 @@ class Notifications_RowTemplate(Notifications_RowTemplateTemplate):
       self.model_name_text.text = self.name_link.text
       self.model_name_text.focus()
 
-  
   def edit_icon_click_2_lose_focus(self, **event_args):    
     if self.model_name_text.visible is True:
       self.model_name_text.visible = False
       self.name_link.visible = True
       self.name_link.text = self.model_name_text.text
       self.update_notification_1()
-
   
   def edit_icon_click_2_enter(self, **event_args):
     if self.model_name_text.visible is True:

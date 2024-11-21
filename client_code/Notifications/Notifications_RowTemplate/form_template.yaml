@@ -144,7 +144,7 @@ components:
   - layout_properties: {grid_position: 'IRYPMY,XTCPXD LWYNIZ,ODQPUS'}
     name: every_x_days_warning
     properties:
-      role: [header-10, warning-label]
+      role: [warning-label, header-8]
       text: Please enter a valid number for over how many days you would like to receive this notification
       visible: false
     type: Label
@@ -159,7 +159,7 @@ components:
         visible: true
       type: Label
     - data_bindings: []
-      event_bindings: {change: update_notification_1}
+      event_bindings: {change: date_picker_lost_focus}
       layout_properties: {}
       name: frequency_picker
       properties:
@@ -177,7 +177,7 @@ components:
   - layout_properties: {grid_position: 'IRYPMY,XTCPXD SIRFNR,CAWKVY'}
     name: every_x_days_start_warning
     properties:
-      role: [header-10, warning-label]
+      role: [warning-label, header-8]
       text: Please enter a valid date to begin receiving this notification
       visible: false
     type: Label
@@ -207,7 +207,7 @@ components:
   - layout_properties: {grid_position: 'IRYPMY,GOUNXL ERRCJY,RYKEPQ'}
     name: max_number_artist_warning
     properties:
-      role: [header-10, warning-label]
+      role: [warning-label, header-8]
       text: Please enter a valid number between 1 and 20 for the number of artists.
       visible: false
     type: Label
@@ -246,7 +246,7 @@ components:
   - layout_properties: {grid_position: 'IRYPMY,GOUNXL GKUWVH,ODZJJD'}
     name: artist_rep_x_days_freq_warning
     properties:
-      role: [header-10, warning-label]
+      role: [warning-label, header-8]
       text: Please enter a valid number for over how many days you would like an artist show up again
       visible: false
     type: Label
@@ -285,7 +285,7 @@ components:
   - layout_properties: {grid_position: 'IRYPMY,CTXMUI ODZAAL,ZRXONG'}
     name: artist_rep_x_days_freq_warning_copy
     properties:
-      role: [header-10, warning-label]
+      role: [warning-label, header-8]
       text: Please enter a valid number for over how many days you would like an artist show up again
       visible: false
     type: Label
@@ -310,7 +310,7 @@ components:
   - layout_properties: {grid_position: 'IRYPMY,CTXMUI EWSPVV,KWJKJS'}
     name: artist_rep_x_days_freq_warning_copy_2
     properties:
-      role: [header-10, warning-label]
+      role: [warning-label, header-8]
       text: Please enter a valid number for over how many days you would like an artist show up again
       visible: false
     type: Label
