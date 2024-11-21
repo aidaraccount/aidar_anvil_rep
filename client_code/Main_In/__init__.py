@@ -121,6 +121,7 @@ class Main_In(Main_InTemplate):
           )
       wl_link.set_event_handler('click', self.create_watchlist_click_handler(wl_ids[i]["watchlist_id"], wl_link))
       self.nav_watchlists.add_component(wl_link)
+      print('add_component', self.nav_watchlists.get_components())
 
 
   def remove_watchlist_components(self):
@@ -142,7 +143,7 @@ class Main_In(Main_InTemplate):
     return handler
 
   def watchlists_click(self, link_watchlist_id, wl_link, **event_args):
-    click_button(f'watchlist_details?watchlist_id={link_watchlist_id}&artist_id=None', event_args)
+    click_link(wl_link, f'watchlist_details?watchlist_id={link_watchlist_id}&artist_id=None', event_args)
     self.reset_nav_backgrounds()
     wl_link.background = "theme:Accent 3"
   # ------------
@@ -188,7 +189,7 @@ class Main_In(Main_InTemplate):
     return handler
 
   def models_click(self, link_model_id, model_link, **event_args):
-    click_button(f'model_profile?model_id={link_model_id}&section=Main', event_args)
+    click_link(model_link, f'model_profile?model_id={link_model_id}&section=Main', event_args)
     self.reset_nav_backgrounds()
     model_link.background = "theme:Accent 3"
   # ------------

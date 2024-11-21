@@ -8,16 +8,24 @@ from anvil_extras import routing
 import anvil.js
 from anvil.js.window import location
 from anvil import get_open_form
+import time
 
 
 def click_link(element, target, event_args):
   routing.clear_cache()
   if event_args['keys']['ctrl'] is True:
+    # 1. change element.url as fast as possible/ before the browser is running the click
     element.url = f"{anvil.server.get_app_origin()}/#{target}"
+    
+    # 2. wait till browser did the action and reset element.url to avoid new tabs being opened every time onwards
+    time.sleep(0.3)
+    element.url = ""
+    
   else:
     routing.set_url_hash(target, load_from_cache=False)
 
   get_open_form().reset_nav_backgrounds()
+
   
 
 def click_button(target, event_args):
