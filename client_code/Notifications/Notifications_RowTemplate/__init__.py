@@ -153,6 +153,24 @@ class Notifications_RowTemplate(Notifications_RowTemplateTemplate):
       else:
         self.artist_rep_x_days_freq_warning.visible = False    
         self.update_notification_1()
+        
+  def min_growth_value_lost_focus(self, **event_args):
+    # Validate number of days only if "Every X Days" is selected
+    if self.metrics_option_1.text == "Growing Fits":
+      if not self.min_growth_value.text.strip() or not self.min_growth_value.text.isdigit() or int(self.min_growth_value.text) < 1:
+        self.min_growth_warning.visible = True
+      else:
+        self.min_growth_warning.visible = False    
+        self.update_notification_1()
+        
+  def max_days_since_rel_lost_focus(self, **event_args):
+    # Validate number of days only if "Every X Days" is selected
+    if self.metrics_option_1.text == "Releasing Fits":
+      if not self.days_since_rel_field_value.text.strip() or not self.days_since_rel_field_value.text.isdigit():
+        self.days_since_rel_field_warning.visible = True
+      else:
+        self.days_since_rel_field_warning.visible = False    
+        self.update_notification_1()
          
   def update_notification_1(self, **event_args):
     # Validate the no_artists_box input (ensure it's between 1 and 20)
