@@ -148,16 +148,11 @@ class Notifications_RowTemplate(Notifications_RowTemplateTemplate):
   def artist_rep_x_days_freq_lost_focus(self, **event_args):
     # Validate number of days only if "Every X Days" is selected
     if self.notif_rep_value.text == "Repeat after X days":
-      if not self.artist_rep_x_days_freq.text.strip() or not self.artist_rep_x_days_freq.text.isdigit():
+      if not self.artist_rep_x_days_freq.text.strip() or not self.artist_rep_x_days_freq.text.isdigit() or int(self.artist_rep_x_days_freq.text) < 1:
         self.artist_rep_x_days_freq_warning.visible = True
-        self.artist_rep_x_days_freq.text = "14"  # Reset to default value
-        self.update_notification_1()
-      if int(self.artist_rep_x_days_freq.text) < 1: 
-        self.artist_rep_x_days_freq_warning.visible = True
-        self.artist_rep_x_days_freq.text = "1"  # Reset to default value
-        self.update_notification_1()
       else:
         self.artist_rep_x_days_freq_warning.visible = False    
+        self.update_notification_1()
          
   def update_notification_1(self, **event_args):
     # Validate the no_artists_box input (ensure it's between 1 and 20)
