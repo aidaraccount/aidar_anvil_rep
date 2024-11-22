@@ -192,6 +192,15 @@
 </div>    
 
 <script>
+
+  function navbar_noModel_noSubs(visible) {
+    const navBar = document.getElementById("left-sidebar"); // Ensure the nav bar has an ID
+    console.log()
+    if (navBar) {
+      navBar.style.display = visible ? "block" : "none";
+    }
+  }
+
   ///////////////////////////////////////////////////
   // This ChatGPT version of the jQuery function
   ///////////////////////////////////////////////////
