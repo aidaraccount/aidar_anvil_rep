@@ -20,6 +20,7 @@ class NoModel(NoModelTemplate):
     self.init_components(**properties)
 
     # Any code you write here will run before the form opens.
+    get_open_form().SearchBar.visible = False
 
   
   def button_connect_model_click(self, **event_args):

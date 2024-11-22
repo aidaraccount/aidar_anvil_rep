@@ -51,17 +51,21 @@ class Discover(DiscoverTemplate):
         
     elif user['expiration_date'] is not None and (datetime.today().date() - user['expiration_date']).days > 0:
       routing.set_url_hash('no_subs', load_from_cache=False)
-      get_open_form().change_nav_visibility(status=False)
+      # get_open_form().change_nav_visibility(status=False)
       get_open_form().SearchBar.visible = False
       
     else:
       self.user_id = user["user_id"]
       self.refresh_sug()
+      self.header.scroll_into_view(smooth=True)
       
 
   # -------------------------------------------
   # SUGGESTIONS
   def refresh_sug(self, **event_args):
+    
+    self.header.scroll_into_view(smooth=True)
+    
     #begin = datetime.now()
     # print(f"{datetime.now()}: Discover - __init__ - 2", flush=True)
     #print(f"{datetime.now()}: Discover - __init__ - 3", flush=True)
@@ -858,6 +862,8 @@ class Discover(DiscoverTemplate):
         self.show_milestone_alert(25)
       elif total_ratings == "50":
         self.show_milestone_alert(50)
+  
+    self.header.scroll_into_view(smooth=True)
 
   
   # ----------------------------------------------

@@ -475,7 +475,7 @@ components:
       layout_properties: {grid_position: 'EQSMLB,VMICQX'}
       name: drop_down_add_genre
       properties:
-        items: [Blues, CCM, Christian, Classic, Country, Dance, Disco, EDM, Electro, Folk, Funk, HipHop, House, Indie, Jazz, Latin, Metal, Pop, Punk, Rap, Reggae, Rock, Schlager, Shamanic, Show, Soul, Soundtrack, Tunes]
+        items: [african, alternative, american, asian, australian, blues, children's music, 'classical, ensemble & opera', comedy & spoken word, country, electronic, european, folk & traditional, hip-hop & rap, holiday, instrumental, jazz & standards, latin, metal, middle eastern, others, pop, punk, 'r&b, funk & soul', reggae, rock, 'soundtrack, stage & screen', spirituals, sports]
         placeholder: Add Genre..
         role: text_box_small
       type: DropDown
