@@ -85,6 +85,7 @@ class Main_In(Main_InTemplate):
             
       if self.model_id is None:
         routing.set_url_hash('no_model', load_from_cache=False)
+        # self.change_nav_visibility(status=False)
         self.change_nav_visibility(status=False)
         self.SearchBar.visible = False
 
@@ -258,7 +259,8 @@ class Main_In(Main_InTemplate):
     self.column_panel_nav.visible = status
     
     # self.link_models.visible = True
-    self.call_js("navbar_noModel_noSubs", status)
+    # self.call_js("navbar_noModel_noSubs", status)
+    self.call_js("toggleSidebar")
   
   #----------------------------------------------------------------------------------------------
   # HOME
