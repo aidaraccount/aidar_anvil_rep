@@ -178,12 +178,12 @@ class C_Filter(C_FilterTemplate):
     origin_data = self.repeating_panel_origin.items
     if origin_data is not None:
       for element in origin_data:
-        if element["Value"] == 'True':
+        if element["Value"] == 'True' or element["Value"] is True:
           operator = 'is'
         else:
           operator = 'is not'
         filters_json += f'{{"ModelID":"{self.model_id}","Type":"origin","Column":"country_code","Operator":"{operator}","Value":"{element["Column"][:2]}"}},'
-
+    
     # 5. Gender
     if self.drop_down_gender.selected_value == 'Female': filters_json += f'{{"ModelID":"{self.model_id}","Type":"gender","Column":"gender","Operator":"=","Value":"female"}},'
     if self.drop_down_gender.selected_value == 'Male': filters_json += f'{{"ModelID":"{self.model_id}","Type":"gender","Column":"gender","Operator":"=","Value":"male"}},'
