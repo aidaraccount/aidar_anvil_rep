@@ -15,7 +15,7 @@ function createOrUpdateSpotifyPlayer(trackOrArtist, artistSpotifyID) {
   console.log(artistSpotifyID);
   
   const options = {
-    theme: '0',
+    theme: 'dark',
     width: '100%',
     height: '80',
     uri: `spotify:${trackOrArtist}:${artistSpotifyID}`,
