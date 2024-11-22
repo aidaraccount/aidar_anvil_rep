@@ -123,7 +123,6 @@ class Main_In(Main_InTemplate):
       self.nav_watchlists.add_component(wl_link)
       print('add_component', self.nav_watchlists.get_components())
 
-
   def remove_watchlist_components(self):
     for component in self.nav_watchlists.get_components():
       if isinstance(component, Link):
@@ -404,6 +403,3 @@ class Main_In(Main_InTemplate):
     else:
       return shorten_single_number(num)
 
-
-  def show_nav_bar(self):
-    
