@@ -85,9 +85,9 @@ class Main_In(Main_InTemplate):
             
       if self.model_id is None:
         routing.set_url_hash('no_model', load_from_cache=False)
-        # self.change_nav_visibility(status=False)
         self.change_nav_visibility(status=False)
         self.SearchBar.visible = False
+        # self.call_js("hideNavBar")
 
       else:
         #print(f"{datetime.datetime.now()}: Main_In - link_login_click - 4", flush=True)
@@ -241,27 +241,23 @@ class Main_In(Main_InTemplate):
       
   
   def change_nav_visibility(self, status, **event_args):
+    self.image_1.visible = status
     self.link_home.visible = status
-
     self.linear_panel_discover.visible = status
     self.link_discover.visible = status
     # self.link_discover_ai.visible = status
     # self.link_discover_rel.visible = status
-
     self.link_observe.visible = status
-
+    self.nav_watchlists.visible = status
     self.column_panel_nav_wl.visible = status
-        
     self.linear_panel_monitor.visible = status
     # self.link_monitor_funnel.visible = status
     # self.link_monitor_dev.visible = status
-
     self.column_panel_nav.visible = status
-    
+
     # self.link_models.visible = True
     # self.call_js("navbar_noModel_noSubs", status)
-    self.call_js("toggleSidebar")
-  
+    # self.call_js("toggleSidebar")
   #----------------------------------------------------------------------------------------------
   # HOME
   def link_home_click(self, **event_args):

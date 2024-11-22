@@ -192,9 +192,12 @@
 </div>    
 
 <script>
-
-  function navbar_noModel_noSubs(visible) {
-    const navBar = document.querySelector('.structure'); // Ensure the nav bar has an ID
+  function toggleNavigationBar(visible) {
+    var s = document.querySelector('.sidebar');
+    var b = document.querySelector('.nav-button');
+    var content = document.querySelector('.main-content-move')
+    var contentNav = document.querySelector('.main-content-move-nav')
+    
     if (navBar) {
       navBar.style.display = visible ? "block" : "none";
     }
@@ -209,11 +212,11 @@
     var b = document.querySelector('.nav-button');
     var content = document.querySelector('.main-content-move')
     var contentNav = document.querySelector('.main-content-move-nav')
-
-  // Get the computed left position of the sidebar
-  var sidebarLeft = window.getComputedStyle(s).left;
     
-  // Check if the sidebar is currently open or closed
+    // Get the computed left position of the sidebar
+    var sidebarLeft = window.getComputedStyle(s).left;
+    
+    // Check if the sidebar is currently open or closed
     if (sidebarLeft === '0px' || sidebarLeft === '250px') {
       // Sidebar is open, so close it
       s.style.left = `-${s.offsetWidth}px`;  // Move sidebar off-screen
