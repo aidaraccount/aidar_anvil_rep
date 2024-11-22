@@ -403,3 +403,7 @@ class Main_In(Main_InTemplate):
     # If input is a single number, just process it
     else:
       return shorten_single_number(num)
+
+
+  def show_nav_bar(self):
+    
