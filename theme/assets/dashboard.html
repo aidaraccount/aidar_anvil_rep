@@ -192,16 +192,30 @@
 </div>    
 
 <script>
-  function toggleNavigationBar(visible) {
+  function navbar_noModel_noSubs(visible) {
     var s = document.querySelector('.sidebar');
     var b = document.querySelector('.nav-button');
     var content = document.querySelector('.main-content-move')
     var contentNav = document.querySelector('.main-content-move-nav')
-    
-    if (navBar) {
-      navBar.style.display = visible ? "block" : "none";
+    console.log(s)
+    console.log(b)
+    console.log(content)
+    console.log(contentNav)
+
+    var currentHash = window.location.hash;
+    console.log("current hash", currentHash);
+
+    if (currentHash === '#no_subs' || currentHash === '#no_model') {
+        s.style.display = 'none';
+        b.style.display = 'none';
+        content.style.marginLeft = '0px';
+        contentNav.style.marginLeft = '0px';
+    } else {
+        s.style.display = 'block';
+        b.style.display = 'block';
     }
-  }
+  } 
+  document.addEventListener('DOMContentLoaded', navbar_noModel_noSubs())
 
   ///////////////////////////////////////////////////
   // This ChatGPT version of the jQuery function
@@ -232,8 +246,8 @@
       contentNav.style.marginLeft = `${s.offsetWidth}px`;  // Shift content
       document.querySelector('.sidebar-click-guard').style.display = 'none'; // Hide click guard
     }
-  }
-
+  }     
+  // })
   // Initialize event listeners on DOM content load
   document.addEventListener('DOMContentLoaded', function() {
     var button = document.getElementById('nav-button')

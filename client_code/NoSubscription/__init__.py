@@ -13,7 +13,6 @@ from ..C_CreateModel import C_CreateModel
 from anvil_extras import routing
 from ..nav import click_link, click_button
 
-
 @routing.route("no_subs", title="No Subscription")
 class NoSubscription(NoSubscriptionTemplate):
   def __init__(self, **properties):
