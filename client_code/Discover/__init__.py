@@ -130,16 +130,6 @@ class Discover(DiscoverTemplate):
         watchlist_presence = 'False'
       else:
         watchlist_presence = anvil.server.call('check_watchlist_presence', self.watchlist_id, artist_id)
-
-      # -------------------------------
-      # MILESTONE ALERT
-      total_ratings = sug['total_ratings']
-      if total_ratings == "10":
-        self.show_milestone_alert_2(10)
-      elif total_ratings == "25":
-        self.show_milestone_alert_2(25)
-      elif total_ratings == "50":
-        self.show_milestone_alert_2(50)
       
       # -------------------------------
       # NOTES
@@ -858,7 +848,18 @@ class Discover(DiscoverTemplate):
         self.drop_down_model.selected_value = model_name_last_used      
         model_names = [item['model_name'] for item in model_data]
         self.drop_down_model.items = model_names
-        
+      
+      # -------------------------------
+      # MILESTONE ALERT
+      total_ratings = sug['total_ratings']
+      if total_ratings == "10":
+        self.show_milestone_alert(10)
+      elif total_ratings == "25":
+        self.show_milestone_alert(25)
+      elif total_ratings == "50":
+        self.show_milestone_alert(50)
+
+  
   # ----------------------------------------------
   def form_show(self, **event_args):
     embed_iframe_element = document.getElementById('embed-iframe')
@@ -1680,11 +1681,13 @@ class Discover(DiscoverTemplate):
   def get_watchlist_notes(self, artist_id, **event_args):
     self.repeating_panel_1.items = json.loads(anvil.server.call('get_watchlist_notes', user["user_id"], artist_id))
 
+  
   def button_note_click(self, **event_args):
     anvil.server.call('add_note', user["user_id"], self.artist_id, "", "", self.comments_area_section.text)
     self.get_watchlist_notes(self.artist_id)
     self.update_details_on_sidebar()
 
+  
   def get_watchlist_details (self, artist_id, **event_args):
     details = json.loads(anvil.server.call('get_watchlist_details', self.watchlist_id, artist_id))
 
@@ -1728,6 +1731,7 @@ class Discover(DiscoverTemplate):
     else: 
       self.date_picker_1.date = details[0]["Reminder"]
 
+  
   def update_details_on_sidebar(self, **event_args):
     """This method is called when an item is selected"""
     details = json.loads(anvil.server.call('get_watchlist_details', self.watchlist_id, self.artist_id))
@@ -1757,6 +1761,7 @@ class Discover(DiscoverTemplate):
 
     self.get_watchlist_details(self.artist_id)
 
+  
   def contacts_button_click(self, **event_args):
     details = json.loads(anvil.server.call('get_watchlist_details', self.watchlist_id, self.artist_id))
 
@@ -1789,6 +1794,7 @@ class Discover(DiscoverTemplate):
       # save text boxes
       self.update_details_on_sidebar()
 
+  
   def description_button_click(self, **event_args):
     if self.description_button.icon == 'fa:edit':
       self.description_button.icon = 'fa:save'
@@ -1805,9 +1811,11 @@ class Discover(DiscoverTemplate):
       # save text boxes
       self.update_details_on_sidebar()
 
+  
   def button_track_test_click(self, track_id=None, **event_args):
     anvil.js.call_js('playSpotify')
 
+  
   def spotify_artist_button_click(self, **event_args):
     if self.spotify_artist_button.icon == 'fa:play-circle':
       self.spotify_artist_button.icon = 'fa:pause-circle'
@@ -1825,6 +1833,7 @@ class Discover(DiscoverTemplate):
     components = self.data_grid_releases_data.get_components()
     for component in components:
       component.button_play_track.icon = 'fa:play-circle'
+
   
   def autoplay_button_click(self, **event_args):
     if self.autoplay_button.icon == 'fa:toggle-on':
@@ -1834,19 +1843,10 @@ class Discover(DiscoverTemplate):
    
     save_var('autoPlayStatus', self.autoplay_button.icon)
     
-  def show_milestone_alert(self, milestone):
-    """Show a congratulatory alert when a user reaches a milestone."""
-    alert(
-        title="Congratulations!",
-        content=f"You have reached {milestone} ratings! Keep up the great work!",
-        buttons=[("OK", "OK")],
-        role=["alert-notification","remove-focus"]
-    )
     
-  def show_milestone_alert_2(self, milestone):
-    """Show a congratulatory alert when a user reaches a milestone."""
+  def show_milestone_alert(self, milestone):
+    # Show a congratulatory alert when a user reaches a milestone.
     alert(
-        # title="Congratulations!",
         content=C_ProgressMessage(self.model_id, milestone),
         buttons=[],
         role=["progress-message","remove-focus"]
