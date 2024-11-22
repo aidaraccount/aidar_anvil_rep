@@ -89,6 +89,9 @@ class Main_In(Main_InTemplate):
         self.SearchBar.visible = True
         # self.call_js("hideNavBar")
 
+      if user['expiration_date'] is not None and (datetime.today().date() - user['expiration_date']).days > 0:
+        routing.set_url_hash('no_subs', load_from_cache=False)
+      
       else:
         #print(f"{datetime.datetime.now()}: Main_In - link_login_click - 4", flush=True)
         self.update_no_notifications()
