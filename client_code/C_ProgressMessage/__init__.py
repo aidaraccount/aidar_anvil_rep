@@ -21,22 +21,28 @@ import anvil.js.window
 
 class C_ProgressMessage(C_ProgressMessageTemplate):
   def __init__(self, model_id, milestone, **properties):
+    
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
     self.html = '@theme:Modelpage_html_JS.html'
-    self.model_id = model_id
-    infos = json.loads(anvil.server.call('get_model_stats', self.model_id))[0]
-    self.infos = infos
-    self.congrats_message.content = f"You have reached {milestone} ratings! \n\n Keep up the great work!"
+        
+    if milestone == 10:
+      self.Message_title.text = "Good start!"
+      self.congrats_message.content = f"You have reached {milestone} ratings!\n\nKeep going, so that the AI can learn what you're interested in and what not!?"
+      self.custom_HTML_prediction_inactive(milestone*2)
+    elif milestone == 25:
+      self.Message_title.text = "You're getting there!"
+      self.congrats_message.content = f"You have reached {milestone} ratings!\n\nYou personal AI Scouting Assistant is starting to get a picture of your preferences. Keep rating some more artists, till the AI is fully trained - being able to observe the market for you."
+      self.custom_HTML_prediction_inactive(milestone*2)
+    elif milestone == 50:
+      self.Message_title.text = "Congratulations!"
+      self.congrats_message.content = "You did it! Your model is trained!\n\nYour model is now able to observe the market for fiiting talents for you. Go to 'Observe' and setup your specific notifications.\n\nConsider: Although your  model is now trained, it is still a young model - keep rating more artists from time to time to improve it's accuracy."
+      self.custom_HTML_prediction(milestone*2)
+    
 
-    if (infos["total_ratings"] + infos["no_references"]) > 50:
-      self.custom_HTML_prediction(infos["overall_acc"])
-    else:
-      self.custom_HTML_prediction_inactive((infos["total_ratings"] + infos["no_references"])/50*100)
-
-  def custom_HTML_prediction(self, accuracy):
+  def custom_HTML_prediction(self, training_status):
     custom_html = f'''
-      <li class="note-display" data-note={accuracy}>
+      <li class="note-display" data-note={training_status}>
         <div class="circle">
           <svg width="140" height="140" class="circle__svg">
             <defs>
@@ -51,7 +57,7 @@ class C_ProgressMessage(C_ProgressMessageTemplate):
           <div class="percent">
             <span class="percent__int">0.</span>
             <!-- <span class="percent__dec">00</span> -->
-            <span class="label" style="font-size: 13px;">Accuracy</span>
+            <span class="label" style="font-size: 13px;">Trained</span>
           </div>
         </div>
       </li>
@@ -59,9 +65,9 @@ class C_ProgressMessage(C_ProgressMessageTemplate):
     html_panel_1 = HtmlPanel(html=custom_html)
     self.circle_slot_spot.add_component(html_panel_1)
 
-  def custom_HTML_prediction_inactive(self, accuracy):
+  def custom_HTML_prediction_inactive(self, training_status):
     custom_html = f'''
-      <li class="note-display" data-note={accuracy}>
+      <li class="note-display" data-note={training_status}>
         <div class="circle">
           <svg width="140" height="140" class="circle__svg">
             <defs>

@@ -25,7 +25,6 @@ class Observe(ObserveTemplate):
 
     if user['expiration_date'] is not None and (datetime.today().date() - user['expiration_date']).days > 0:
       routing.set_url_hash('no_subs', load_from_cache=False)
-      # get_open_form().change_nav_visibility(status=False)
       get_open_form().SearchBar.visible = False
       
     else:

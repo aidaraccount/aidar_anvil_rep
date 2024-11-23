@@ -2,13 +2,13 @@ components:
 - components:
   - layout_properties: {grid_position: 'TGMKQQ,JFIZPQ'}
     name: Message_title
-    properties: {align: center, role: header-3, text: Congratulations!}
+    properties: {align: center, role: header-3, text: ''}
     type: Label
   - components:
     - data_bindings: []
       layout_properties: {grid_position: 'FKMPTE,DGYSXR'}
       name: congrats_message
-      properties: {align: center, content: '', role: header-6_bold}
+      properties: {align: center, content: '', role: header-6}
       type: RichText
     - layout_properties: {grid_position: 'FKMPTE,GWPMZP'}
       name: circle_slot_spot

@@ -301,7 +301,7 @@ roles:
   name: slider
 - components: [ColumnPanel]
   name: level-of-pop-page
-- components: [Label, RichtText, Button, TextBox, Link]
+- components: [Label, Button, TextBox, Link, RichText]
   name: header-6
 - components: [TextBox, Button]
   name: slider-refresh
@@ -319,11 +319,11 @@ roles:
   name: margin
 - components: [Button, FlowPanel]
   name: top-margin-button
-- components: [Link, Label]
+- components: [Link, Label, RichText]
   name: header-7-on-white-bg
 - components: [Link]
   name: margin-padding-0
-- components: [Link, Label]
+- components: [Link, Label, RichText]
   name: header-3-on-white-bg
 - components: [Button]
   name: 'slider-refresh-growth '

@@ -42,15 +42,18 @@ class RelatedRows(RelatedRowsTemplate):
 
   # BUTTONS
   def button_watchlist_click(self, **event_args):
+    print(self.item)
     if self.item["active"] == 1:
       # route to Watchlist Details
-      click_link(self.inspect_name_link, f'watchlist_details?artist_id={self.item["ArtistID"]}', event_args)
+      click_link(self.inspect_name_link, f'watchlist_details?watchlist_id={self.item["watchlist_id"]}&artist_id={self.item["ArtistID"]}', event_args)
       
     else:
       # add to Watchlist (incl. change Button) and show delete Button
+      active_watchlist_id = anvil.server.call("get_watchlist_id", user["user_id"])
       anvil.server.call(
         "update_watchlist_lead",
-        self.item["ModelID"],
+        self.item["UserID"],
+        active_watchlist_id,
         self.item["ArtistID"],
         True,
         "Action required",

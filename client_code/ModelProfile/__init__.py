@@ -43,7 +43,6 @@ class ModelProfile(ModelProfileTemplate):
     # Any code you write here will run before the form opens.
     if user['expiration_date'] is not None and (datetime.today().date() - user['expiration_date']).days > 0:
       routing.set_url_hash('no_subs', load_from_cache=False)
-      # get_open_form().change_nav_visibility(status=False)
       get_open_form().SearchBar.visible = False
       
     else:
@@ -69,7 +68,7 @@ class ModelProfile(ModelProfileTemplate):
       # HEADER LEFT
       infos = json.loads(anvil.server.call('get_model_stats', self.model_id_view))[0]
       self.infos = infos
-  
+      
       # check ramp-up
       if infos["ramp_up"] is True:
         routing.set_url_hash(f'model_setup?model_id={infos["model_id"]}&section=Basics', load_from_cache=False)

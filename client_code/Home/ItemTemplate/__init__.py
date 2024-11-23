@@ -29,8 +29,8 @@ class ItemTemplate(ItemTemplateTemplate):
 
 
   def link_1_click(self, **event_args):
-    click_link(self.link_1, f'watchlist_details?artist_id={self.item["ArtistID"]}', event_args)
-
+    click_link(self.link_1, f'watchlist_details?watchlist_id={self.item["watchlist_id"]}&artist_id={self.item["ArtistID"]}', event_args)
+    
   def link_left_click(self, **event_args):
     if self.item["Status"] in ['Action required', 'Requires revision', 'Waiting for decision']: #EVALUATION
       status_left_new = 'Reconnect later'
