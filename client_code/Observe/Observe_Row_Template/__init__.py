@@ -204,6 +204,7 @@ class Observe_Row_Template(Observe_Row_TemplateTemplate):
     </li>
     '''
     html_panel = HtmlPanel(html=custom_html)
+        
     self.column_panel_pred.add_component(html_panel)
     anvil.js.call_js('observeFitLikelihoodCircle')
     # print(f"{datetime.now()}: Observe Row 5", flush=True)
@@ -212,6 +213,7 @@ class Observe_Row_Template(Observe_Row_TemplateTemplate):
   def pic_click(self, **event_args):
     click_link(self.link_pic, f'artists?artist_id={self.item["ArtistID"]}', event_args)
 
+  
   def name_click(self, **event_args):
     click_link(self.link_name, f'artists?artist_id={self.item["ArtistID"]}', event_args)
 

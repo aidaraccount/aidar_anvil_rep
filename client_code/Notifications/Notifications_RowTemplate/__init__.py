@@ -7,7 +7,6 @@ import anvil.tables.query as q
 from anvil.tables import app_tables
 import json
 from datetime import datetime
-from anvil.js.window import observeFitLikelihoodCircle
 import re
 
 from anvil_extras import routing
