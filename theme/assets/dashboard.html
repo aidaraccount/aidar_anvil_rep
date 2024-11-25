@@ -192,7 +192,7 @@
 </div>    
 
 <script>
-  function navbar_noModel_noSubs(visible) {
+  function navbar_noModel_noSubs() {
     var s = document.querySelector('.sidebar');
     var b = document.querySelector('.nav-button');
     var content = document.querySelector('.main-content-move')
@@ -209,9 +209,12 @@
     } else {
         s.style.display = 'block';
         b.style.display = 'block';
+        content.style.marginLeft = `${s.offsetWidth}px`;  // Shift content
+        contentNav.style.marginLeft = `${s.offsetWidth}px`;  // Shift content
     }
   } 
   document.addEventListener('DOMContentLoaded', navbar_noModel_noSubs())
+
 
   ///////////////////////////////////////////////////
   // This ChatGPT version of the jQuery function

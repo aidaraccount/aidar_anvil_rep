@@ -5,6 +5,8 @@ import anvil.users
 import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
+from anvil.js.window import navbar_noModel_noSubs
+
 
 from ..ConnectModel import ConnectModel
 from ..C_CreateModel import C_CreateModel
@@ -28,3 +30,5 @@ class NoModel(NoModelTemplate):
 
   def button_create_model_click(self, **event_args):
     click_button('model_setup?model_id=None&section=Basics', event_args)
+    # this function is called from the Native Libraries
+    anvil.js.call_js("navbar_noModel_noSubs")
