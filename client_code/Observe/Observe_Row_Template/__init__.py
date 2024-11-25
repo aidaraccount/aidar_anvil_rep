@@ -205,7 +205,7 @@ class Observe_Row_Template(Observe_Row_TemplateTemplate):
     '''
     html_panel = HtmlPanel(html=custom_html)
     self.column_panel_pred.add_component(html_panel)
-    # anvil.js.call_js('observeFitLikelihoodCircle')
+    anvil.js.call_js('observeFitLikelihoodCircle')
     # anvil.js.call_js('Test')
     # print(f"{datetime.now()}: Observe Row 5", flush=True)
 
