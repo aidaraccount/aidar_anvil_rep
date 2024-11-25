@@ -130,7 +130,7 @@ class Notifications_RowTemplate(Notifications_RowTemplateTemplate):
 
   def frequency_option_2_lost_focus(self, **event_args):
     # Validate number of days only if "Every X Days" is selected
-    if self.frequency_option_1.text == "Every X days":
+    if self.frequency_option_1.text == "Every X Days":
       if not self.frequency_option_2.text.strip() or not self.frequency_option_2.text.isdigit() or int(self.frequency_option_2.text) < 1:
         self.every_x_days_warning.visible = True
       else:
@@ -139,7 +139,7 @@ class Notifications_RowTemplate(Notifications_RowTemplateTemplate):
         
   def date_picker_lost_focus(self, **event_args):
     # Validate number of days only if "Every X Days" is selected
-    if self.frequency_option_1.text in ["Every X days", "Monthly"]:
+    if self.frequency_option_1.text in ["Every X Days", "Monthly"]:
       print(self.frequency_picker.date)
       if self.frequency_picker.date is None:
         self.every_x_days_start_warning.visible = True
@@ -195,7 +195,7 @@ class Notifications_RowTemplate(Notifications_RowTemplateTemplate):
     if self.frequency_option_1.text == 'Daily':
       freq_2 = None
       freq_3 = None
-    elif self.frequency_option_1.text == 'Every X days':
+    elif self.frequency_option_1.text == 'Every X Days':
       freq_2 = self.frequency_option_2.text
       freq_3 = self.frequency_picker.date
     elif self.frequency_option_1.text == 'Monthly':
@@ -304,13 +304,13 @@ class Notifications_RowTemplate(Notifications_RowTemplateTemplate):
 
   def frequency_option_1_click(self, **event_args):
     if self.frequency_option_1.text == 'Daily':
-      self.frequency_option_1.text = 'Every X days'
+      self.frequency_option_1.text = 'Every X Days'
       self.flow_panel_freq_2.visible = True
       self.weekdays.visible = False
       self.frequency_days_label_days.visible = True
       self.frequency_days_label_days.text = 'Days'
       self.flow_panel_freq_3.visible = True
-    elif self.frequency_option_1.text == 'Every X days':
+    elif self.frequency_option_1.text == 'Every X Days':
       self.frequency_option_1.text = 'Monthly'
       self.flow_panel_freq_2.visible = False
       self.flow_panel_freq_3.visible = True
