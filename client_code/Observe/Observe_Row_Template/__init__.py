@@ -18,7 +18,7 @@ class Observe_Row_Template(Observe_Row_TemplateTemplate):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
     # print(f"{datetime.now()}: Observe Row 1", flush=True)
-    
+    self.html = "@theme:Observe.html"
     # Any code you write here will run before the form opens.
     # name and flag
     artist_name_component = Label(text=self.item["Name"], role="artist-name-tile", spacing_above=0, spacing_below=0)
@@ -204,9 +204,9 @@ class Observe_Row_Template(Observe_Row_TemplateTemplate):
     </li>
     '''
     html_panel = HtmlPanel(html=custom_html)
-        
     self.column_panel_pred.add_component(html_panel)
-    anvil.js.call_js('observeFitLikelihoodCircle')
+    # anvil.js.call_js('observeFitLikelihoodCircle')
+    # anvil.js.call_js('Test')
     # print(f"{datetime.now()}: Observe Row 5", flush=True)
 
 
