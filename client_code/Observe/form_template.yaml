@@ -129,13 +129,14 @@ components:
       name: repeating_panel_table
       properties: {item_template: Observe.Observe_Row_Template}
       type: RepeatingPanel
+    data_bindings: []
     layout_properties: {grid_position: 'NUGHYG,HVXOZQ'}
     name: data_grid
     properties:
       auto_header: false
       columns:
       - {data_key: column_1, id: JKSDUP, title: Column 1}
-      rows_per_page: 10
+      rows_per_page: 5
     type: DataGrid
   - layout_properties: {grid_position: 'TINJGS,EKTRMF'}
     name: spacer_2
@@ -146,6 +147,6 @@ components:
   properties: {col_widths: '{"YLDDFN":35,"RWXMUM":40,"IQITZZ":20}'}
   type: ColumnPanel
 container:
-  properties: {html: '@theme:Observe.html'}
+  properties: {html: ''}
   type: HtmlTemplate
 is_package: true

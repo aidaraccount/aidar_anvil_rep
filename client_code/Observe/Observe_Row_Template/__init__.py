@@ -19,6 +19,7 @@ class Observe_Row_Template(Observe_Row_TemplateTemplate):
     self.init_components(**properties)
     # print(f"{datetime.now()}: Observe Row 1", flush=True)
     self.html = "@theme:Observe.html"
+    self.add_event_handler('show', self.form_show)
     # Any code you write here will run before the form opens.
     # name and flag
     artist_name_component = Label(text=self.item["Name"], role="artist-name-tile", spacing_above=0, spacing_below=0)
@@ -205,7 +206,7 @@ class Observe_Row_Template(Observe_Row_TemplateTemplate):
     '''
     html_panel = HtmlPanel(html=custom_html)
     self.column_panel_pred.add_component(html_panel)
-    anvil.js.call_js('observeFitLikelihoodCircle')
+    # anvil.js.call_js('observeFitLikelihoodCircle')
     # anvil.js.call_js('Test')
     # print(f"{datetime.now()}: Observe Row 5", flush=True)
 
@@ -221,3 +222,6 @@ class Observe_Row_Template(Observe_Row_TemplateTemplate):
   def convert_date(self, date_str):
     date_obj = datetime.strptime(date_str, '%Y-%m-%d')
     return date_obj.strftime('%b %d, %Y')
+
+  def form_show(self, **event_args):
+    anvil.js.call_js('observeFitLikelihoodCircle')
