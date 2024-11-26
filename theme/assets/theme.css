@@ -1682,6 +1682,11 @@ footer a, .footer .anvil-component {
   /* margin: 0 0 0 0px; */
   /* flex-shrink: 0; */
 }
+@media only screen and (max-width: 400px) {
+  #left-sidebar {
+    width: 120px;
+  }
+}
 .nav-button {
   font-family: Gs-regular;
   font-size: 18px;
@@ -1698,6 +1703,11 @@ footer a, .footer .anvil-component {
   transition: left 0.3s ease;
   border-top-right-radius: 15px;
   border-bottom-right-radius: 15px;
+}
+@media only screen and (max-width: 400px) {
+  .nav-button {
+    left: 120px;
+  }
 }
 /* .nav-button.closed {
   position: absolute;
