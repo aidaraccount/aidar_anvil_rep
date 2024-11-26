@@ -1684,7 +1684,7 @@ footer a, .footer .anvil-component {
 }
 @media only screen and (max-width: 400px) {
   #left-sidebar {
-    width: 120px;
+    width: 200px;
   }
 }
 .nav-button {
