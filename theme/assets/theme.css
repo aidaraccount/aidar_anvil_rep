@@ -2633,3 +2633,9 @@ footer a, .footer .anvil-component {
 .anvil-role-left-discover-page .anvil-container-overflow .anvil-panel-col {
   overflow: hidden !important;
 }
+
+@media screen and (max-width: 768px) {
+    .runner .anvil-panel-col.wrap-mobile {
+        min-width: 0%;
+    }
+}

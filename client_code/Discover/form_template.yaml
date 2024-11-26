@@ -17,37 +17,37 @@ components:
     properties: {align: right, font_size: 15, italic: true, spacing_below: none, text: Match!}
     type: Label
   - event_bindings: {click: button_1_click}
-    layout_properties: {grid_position: 'UQVSNC,OZIYBS CFGNEX,IXXGLU'}
+    layout_properties: {grid_position: 'UQVSNC,OZIYBS CGSVOU,TBKJMY'}
     name: button_1
     properties: {role: feature, spacing_above: none, spacing_below: none, text: '1'}
     type: Button
   - event_bindings: {click: button_2_click}
-    layout_properties: {grid_position: 'UQVSNC,OZIYBS CFGNEX,NSUNGO'}
+    layout_properties: {grid_position: 'UQVSNC,OZIYBS CGSVOU,NRMJGG'}
     name: button_1_copy
     properties: {role: feature, spacing_above: none, spacing_below: none, text: '2'}
     type: Button
   - event_bindings: {click: button_3_click}
-    layout_properties: {grid_position: 'UQVSNC,OZIYBS CFGNEX,OBEDSI'}
+    layout_properties: {grid_position: 'UQVSNC,OZIYBS CGSVOU,YXPZGW'}
     name: button_1_copy_2
     properties: {role: feature, spacing_above: none, spacing_below: none, text: '3'}
     type: Button
   - event_bindings: {click: button_4_click}
-    layout_properties: {grid_position: 'UQVSNC,OZIYBS CFGNEX,XGWHAT'}
+    layout_properties: {grid_position: 'UQVSNC,OZIYBS CGSVOU,GNCWNN'}
     name: button_1_copy_3
     properties: {background: 'rgb(255,217,203)', bold: false, role: feature, spacing_above: none, spacing_below: none, text: '4'}
     type: Button
   - event_bindings: {click: button_5_click}
-    layout_properties: {grid_position: 'UQVSNC,OZIYBS CFGNEX,TTQFFE'}
+    layout_properties: {grid_position: 'UQVSNC,OZIYBS CGSVOU,RCWSXT'}
     name: button_1_copy_4
     properties: {background: 'rgb(254,178,150)', bold: true, foreground: '', role: feature, spacing_above: none, spacing_below: none, text: '5'}
     type: Button
   - event_bindings: {click: button_6_click}
-    layout_properties: {grid_position: 'UQVSNC,OZIYBS CFGNEX,LNXGHL'}
+    layout_properties: {grid_position: 'UQVSNC,OZIYBS CGSVOU,MVRMZJ'}
     name: button_1_copy_5
     properties: {background: 'rgb(254,140,98)', bold: true, foreground: '', role: feature, spacing_above: none, spacing_below: none, text: '6'}
     type: Button
   - event_bindings: {click: button_7_click}
-    layout_properties: {grid_position: 'UQVSNC,OZIYBS CFGNEX,ZLIZAI'}
+    layout_properties: {grid_position: 'UQVSNC,OZIYBS CGSVOU,UZOAFJ'}
     name: button_1_copy_6
     properties: {background: 'rgb(253, 101, 45)', bold: true, border: '', foreground: 'theme:Text_White', role: feature, spacing_above: none, spacing_below: none, text: '7'}
     type: Button

@@ -156,7 +156,7 @@ roles:
   name: center-table-element
 - components: [RowTemplate]
   name: rows_dropdown
-- components: [RowTemplate]
+- components: [RowTemplate, ColumnPanel]
   name: rows_discover_page
 - components: [Button, Link]
   name: section_buttons
