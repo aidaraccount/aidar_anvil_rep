@@ -1707,6 +1707,8 @@ footer a, .footer .anvil-component {
 @media only screen and (max-width: 400px) {
   .nav-button {
     left: 120px;
+    position: fixed;
+    z-index: 9000; 
   }
 }
 /* .nav-button.closed {
