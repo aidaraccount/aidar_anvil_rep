@@ -1727,7 +1727,7 @@ footer a, .footer .anvil-component {
 /* Sidebar click guard to close sidebar */
 .sidebar-click-guard {
   /* Hidden by default */
-  /* display: none;          */
+  display: none;         
   position: fixed;
   top: 0;
   left: 0;
