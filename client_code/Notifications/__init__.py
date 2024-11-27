@@ -26,7 +26,7 @@ class Notifications(NotificationsTemplate):
     print(f"Notifications model_id: {model_id}")
 
     # GENERAL
-    self.get_notifications()
+    self.get_playlist()
 
   
   # GET TABLE DATA
@@ -49,13 +49,13 @@ class Notifications(NotificationsTemplate):
     playlist = json.loads(anvil.server.call('get_notifications',  user["user_id"]))
     
     if len(playlist) > 0:
-      self.no_playlist.visible = False
+      self.no_playlists.visible = False
       self.repeating_panel_Spotify.items = playlist
-      self.data_grid.visible = True
+      self.data_grid_Spotify.visible = True
 
     else:
       self.data_grid_Spotify.visible = False
-      self.no_playlist.visible = True
+      self.no_playlists.visible = True
 
   def add_mail_notification_click(self, **event_args):
     anvil.server.call('create_notification',
@@ -81,7 +81,7 @@ class Notifications(NotificationsTemplate):
   def add_Spotify_playlist_click(self, **event_args):
     anvil.server.call('create_notification',
                       user_id = user["user_id"],
-                      type = 'mail',
+                      type = 'playlist',
                       name = 'My Notification',
                       active = True,
                       freq_1 = 'Daily',
@@ -97,5 +97,5 @@ class Notifications(NotificationsTemplate):
                       min_grow_fit = 0.75,
                       model_ids = [])
     
-    self.get_notifications()
+    self.get_playlist()
     

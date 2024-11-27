@@ -21,6 +21,19 @@ components:
     name: no_notifications
     properties: {}
     type: ColumnPanel
+  - components:
+    - layout_properties: {grid_position: 'FFHUXB,SNYWAS'}
+      name: label_1_copy_copy
+      properties: {align: center, bold: false, role: sub_title, text: No Spotify playlists created}
+      type: Label
+    - layout_properties: {grid_position: 'XVSVDO,ELBDZT'}
+      name: label_2_copy
+      properties: {align: center, bold: false, role: description, text: Please create a Spotify playlist using the button below}
+      type: Label
+    layout_properties: {grid_position: 'ELHQGL,FTJFYQ'}
+    name: no_playlists
+    properties: {}
+    type: ColumnPanel
   - event_bindings: {click: add_mail_notification_click}
     layout_properties: {grid_position: 'BGWTXZ,JYVHEC'}
     name: add_mail_notification
@@ -32,7 +45,7 @@ components:
       spacing_above: small
       text: + add mail notification
     type: Link
-  - event_bindings: {click: add_mail_notification_click}
+  - event_bindings: {click: add_Spotify_playlist_click}
     layout_properties: {grid_position: 'BGWTXZ,VYAAHY'}
     name: add_Spotify_playlist
     properties:

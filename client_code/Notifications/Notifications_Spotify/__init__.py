@@ -30,7 +30,7 @@ class Notifications_Spotify(Notifications_SpotifyTemplate):
     if self.item["type"] == "mail":
       self.name_link.icon = "fa:envelope-o"
     elif self.item["type"] == "playlist":
-      self.name_link.icon = "fa:music"
+      self.name_link.icon = "fa:spotify"
 
     # activate/ deactivate Button
     if self.item["active"] is True:
@@ -320,7 +320,7 @@ class Notifications_Spotify(Notifications_SpotifyTemplate):
       "delete_notification", notification_id=self.item["notification_id"]
     )
 
-    self.parent.parent.parent.parent.get_notifications()
+    self.parent.parent.parent.parent.get_playlist()
 
   def frequency_option_1_click(self, **event_args):
     if self.frequency_option_1.text == "Daily":
