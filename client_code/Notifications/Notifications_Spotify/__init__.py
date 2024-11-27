@@ -60,7 +60,8 @@ class Notifications_Spotify(Notifications_SpotifyTemplate):
 
     # B) General
     self.no_artists_box.text = self.item["no_artists"]
-    self.notif_rep_value.text = self.item["repetition_1"]
+    # self.notif_rep_value.text = self.item["repetition_1"]
+    self.notif_rep_value.text = "Latest Release"
     self.artist_rep_x_days_freq.text = self.item["repetition_2"]
     if self.item["repetition_1"] == "Repeat after X days":
       self.column_panel_rep.visible = True
@@ -206,6 +207,22 @@ class Notifications_Spotify(Notifications_SpotifyTemplate):
     except ValueError:
       self.max_number_artist_warning.visible = True
       return  # Stop execution if the input is not a number
+      
+    try:
+      if not self.no_latest_rel_box.text.strip():  # Check if the field is empty
+        # alert("The number of artists field cannot be empty. Please enter a value between 1 and 20.",
+        #       title="Missing Input", buttons=[("OK", "OK")], role=["remove-focus"])
+        self.max_number_lat_rel_warning.visible = True
+        return  # Stop execution if the field is empty
+      else:
+        self.max_number_lat_rel_warning.visible = False
+      no_lat_rel = int(self.no_latest_rel_box.text)
+      if no_lat_rel < 1 or no_lat_rel > 10:
+        self.max_number_lat_rel_warning.visible = True
+        return
+    except ValueError:
+      self.max_number_lat_rel_warning.visible = True
+      return  # Stop execution if the input is not a number
 
     if self.frequency_option_1.text == "Daily":
       freq_2 = None
@@ -343,13 +360,13 @@ class Notifications_Spotify(Notifications_SpotifyTemplate):
     self.update_notification_1()
 
   def notification_repetition_value_click(self, **event_args):
-    if self.notif_rep_value.text == "Suggest artists once":
-      self.notif_rep_value.text = "Repeat suggestions"
-    elif self.notif_rep_value.text == "Repeat suggestions":
+    if self.notif_rep_value.text == "Latest Release":
+      self.notif_rep_value.text = "Top Releases"
+    elif self.notif_rep_value.text == "Top Releases":
       self.notif_rep_value.text = "Repeat after X days"
       self.column_panel_rep.visible = True
     elif self.notif_rep_value.text == "Repeat after X days":
-      self.notif_rep_value.text = "Suggest artists once"
+      self.notif_rep_value.text = "Latest Release"
       self.column_panel_rep.visible = False
 
     self.update_notification_1()
