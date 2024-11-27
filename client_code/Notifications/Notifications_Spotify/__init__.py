@@ -200,7 +200,7 @@ class Notifications_Spotify(Notifications_SpotifyTemplate):
       else:
         self.max_number_artist_warning.visible = False
       no_artists = int(self.no_artists_box.text)
-      if no_artists < 1 or no_artists > 20:
+      if no_artists < 1 or no_artists > 50:
         self.max_number_artist_warning.visible = True
         return
     except ValueError:

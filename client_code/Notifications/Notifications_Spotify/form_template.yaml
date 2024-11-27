@@ -208,7 +208,7 @@ components:
     name: max_number_artist_warning
     properties:
       role: [warning-label, header-8]
-      text: Please enter a valid number between 1 and 20 for the number of artists.
+      text: Please enter a valid number between 1 and 50 for the number of artists to be included in your playlist
       visible: false
     type: Label
   - components:
