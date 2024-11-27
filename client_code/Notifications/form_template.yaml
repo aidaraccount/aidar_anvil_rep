@@ -45,8 +45,8 @@ components:
     type: Link
   - components:
     - layout_properties: {}
-      name: repeating_panel_table
-      properties: {item_template: Notifications.Notifications_RowTemplate}
+      name: repeating_panel_email
+      properties: {item_template: Notifications.Notifications_mail}
       type: RepeatingPanel
     layout_properties: {grid_position: 'NUGHYG,HVXOZQ'}
     name: data_grid
@@ -56,10 +56,23 @@ components:
       - {data_key: column_1, id: JKSDUP, title: Column 1}
       rows_per_page: 7
     type: DataGrid
-  - layout_properties: {grid_position: 'TINJGS,EKTRMF'}
+  - layout_properties: {grid_position: 'DVWSMK,DMUGOI'}
     name: spacer_2
     properties: {height: 32}
     type: Spacer
+  - components:
+    - layout_properties: {}
+      name: repeating_panel_Spotify
+      properties: {item_template: Notifications.Notifications_Spotify}
+      type: RepeatingPanel
+    layout_properties: {grid_position: 'TINJGS,ISKXHY'}
+    name: data_grid_Spotify
+    properties:
+      auto_header: false
+      columns:
+      - {data_key: column_1, id: JKSDUP, title: Column 1}
+      rows_per_page: 7
+    type: DataGrid
   layout_properties: {slot: default}
   name: content_panel
   properties: {col_widths: '{}'}
