@@ -30,7 +30,7 @@ class Notifications_Spotify(Notifications_SpotifyTemplate):
     if self.item["type"] == "mail":
       self.name_link.icon = "fa:envelope-o"
     elif self.item["type"] == "playlist":
-      self.name_link.icon = "fa:spotify"
+      self.name_link.icon = "fa:music"
 
     # activate/ deactivate Button
     if self.item["active"] is True:

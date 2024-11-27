@@ -15,7 +15,7 @@ components:
     - event_bindings: {click: edit_icon_click_2}
       layout_properties: {}
       name: name_link
-      properties: {role: header-4, text: New Notification Alert 1}
+      properties: {icon: mus, role: header-4, text: New Notification Alert 1}
       type: Link
     - event_bindings: {lost_focus: edit_icon_click_2_lose_focus, pressed_enter: edit_icon_click_2_enter}
       layout_properties: {}

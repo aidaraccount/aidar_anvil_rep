@@ -36,7 +36,7 @@ class Notifications(NotificationsTemplate):
     
     if len(notifications) > 0:
       self.no_notifications.visible = False
-      self.repeating_panel_table.items = notifications
+      self.repeating_panel_email.items = notifications
       self.data_grid.visible = True
 
     else:
@@ -44,6 +44,27 @@ class Notifications(NotificationsTemplate):
       self.no_notifications.visible = True
 
   def add_mail_notification_click(self, **event_args):
+    anvil.server.call('create_notification',
+                      user_id = user["user_id"],
+                      type = 'mail',
+                      name = 'My Notification',
+                      active = True,
+                      freq_1 = 'Daily',
+                      freq_2 = 7,
+                      freq_3 = date.today().strftime("%Y-%m-%d"),
+                      metric = 'Top Fits',
+                      no_artists = 5,
+                      repetition_1 = 'Repeat suggestions',
+                      repetition_2 = 90,
+                      rated = False,
+                      watchlist = None,
+                      release_days = 21,
+                      min_grow_fit = 0.75,
+                      model_ids = [])
+    
+    self.get_notifications()
+
+  def add_Spotify_playlist_click(self, **event_args):
     anvil.server.call('create_notification',
                       user_id = user["user_id"],
                       type = 'mail',

@@ -34,7 +34,7 @@ components:
     type: Link
   - event_bindings: {click: add_mail_notification_click}
     layout_properties: {grid_position: 'BGWTXZ,VYAAHY'}
-    name: add_mail_notification_copy
+    name: add_Spotify_playlist
     properties:
       align: center
       role: [grid, header-5]
