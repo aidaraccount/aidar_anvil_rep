@@ -111,7 +111,25 @@ components:
       type: Link
     layout_properties: {grid_position: 'IRYPMY,XTCPXD QLPYOA,EUXCVR'}
     name: flow_panel_5
-    properties: {align: left, spacing_above: none, spacing_below: none}
+    properties: {align: left, spacing_above: none, spacing_below: none, visible: false}
+    type: FlowPanel
+  - components:
+    - layout_properties: {}
+      name: label_1_copy_copy
+      properties:
+        role: [header-6]
+        spacing_above: none
+        spacing_below: none
+        text: 'URL:'
+      type: Label
+    - event_bindings: {click: frequency_option_1_click}
+      layout_properties: {}
+      name: frequency_option_1_copy
+      properties: {align: left, role: genre-box, spacing_above: none, spacing_below: none, text: Daily}
+      type: Link
+    layout_properties: {grid_position: 'IRYPMY,XTCPXD GYBTCS,WUUVPQ'}
+    name: flow_panel_5_copy
+    properties: {align: left, spacing_above: none, spacing_below: none, visible: false}
     type: FlowPanel
   - components:
     - layout_properties: {}
@@ -139,7 +157,7 @@ components:
       type: Label
     layout_properties: {grid_position: 'IRYPMY,XTCPXD HPRRUM,WZBNTO'}
     name: flow_panel_freq_2
-    properties: {align: left, spacing_above: none, spacing_below: none}
+    properties: {align: left, spacing_above: none, spacing_below: none, visible: false}
     type: FlowPanel
   - layout_properties: {grid_position: 'IRYPMY,XTCPXD LWYNIZ,ODQPUS'}
     name: every_x_days_warning
@@ -172,7 +190,33 @@ components:
       type: DatePicker
     layout_properties: {grid_position: 'IRYPMY,XTCPXD VPIQIM,PPBWHS'}
     name: flow_panel_freq_3
-    properties: {align: left, spacing_above: none, spacing_below: none}
+    properties: {align: left, spacing_above: none, spacing_below: none, visible: false}
+    type: FlowPanel
+  - components:
+    - layout_properties: {}
+      name: frequency_days_label_starting_copy_2
+      properties:
+        role: [header-6, margin-top]
+        spacing_above: none
+        spacing_below: none
+        text: 'Last updated:'
+        visible: true
+      type: Label
+    - data_bindings: []
+      event_bindings: {change: date_picker_lost_focus}
+      layout_properties: {}
+      name: frequency_picker_copy
+      properties:
+        format: '%d/%m/%Y'
+        min_date: today()
+        role: [target-dropdown, date-picker, header-7, bottom-border]
+        spacing_above: none
+        spacing_below: none
+        visible: true
+      type: DatePicker
+    layout_properties: {grid_position: 'IRYPMY,XTCPXD LODPHD,OWNTRU'}
+    name: flow_panel_freq_3_copy
+    properties: {align: left, spacing_above: none, spacing_below: none, visible: false}
     type: FlowPanel
   - layout_properties: {grid_position: 'IRYPMY,XTCPXD SIRFNR,CAWKVY'}
     name: every_x_days_start_warning
@@ -202,10 +246,35 @@ components:
       type: TextBox
     layout_properties: {grid_position: 'IRYPMY,GOUNXL ZPULUE,HNPGRY'}
     name: Max_num_artist
-    properties: {spacing_above: none, spacing_below: none}
+    properties: {spacing_above: none, spacing_below: none, visible: false}
     type: FlowPanel
-  - layout_properties: {grid_position: 'IRYPMY,GOUNXL ERRCJY,RYKEPQ'}
+  - layout_properties: {grid_position: 'IRYPMY,GOUNXL BMALLO,TXPJGC'}
     name: max_number_artist_warning
+    properties:
+      role: [warning-label, header-8]
+      text: Please enter a valid number between 1 and 20 for the number of artists.
+      visible: false
+    type: Label
+  - components:
+    - layout_properties: {}
+      name: label_1_copy_2
+      properties:
+        role: [margin-top, header-6]
+        spacing_above: none
+        spacing_below: none
+        text: 'Max No. artists:'
+      type: Label
+    - event_bindings: {lost_focus: update_notification_1, pressed_enter: update_notification_1}
+      layout_properties: {}
+      name: no_artists_box_copy
+      properties: {align: center, placeholder: 1-20, role: notification-settings-textbox, spacing_above: none, spacing_below: none, text: '5'}
+      type: TextBox
+    layout_properties: {grid_position: 'IRYPMY,GOUNXL ISZXRG,OJZTCI'}
+    name: Max_num_artist_copy
+    properties: {spacing_above: none, spacing_below: none, visible: false}
+    type: FlowPanel
+  - layout_properties: {grid_position: 'IRYPMY,GOUNXL MMWOHI,SAOBYB'}
+    name: max_number_artist_warning_copy
     properties:
       role: [warning-label, header-8]
       text: Please enter a valid number between 1 and 20 for the number of artists.
@@ -248,6 +317,70 @@ components:
     properties:
       role: [warning-label, header-8]
       text: Please enter a valid number for over how many days you would like an artist show up again
+      visible: false
+    type: Label
+  - components:
+    - layout_properties: {}
+      name: notif_rep_title_copy
+      properties: {role: header-6, spacing_above: none, spacing_below: none, text: 'Song Selection:'}
+      type: Label
+    - event_bindings: {click: notification_repetition_value_click}
+      layout_properties: {}
+      name: notif_rep_value_copy
+      properties: {role: genre-box, spacing_above: none, spacing_below: none, text: Latest Release}
+      type: Link
+    - components:
+      - event_bindings: {change: artist_rep_x_days_freq_lost_focus, lost_focus: artist_rep_x_days_freq_lost_focus, pressed_enter: artist_rep_x_days_freq_lost_focus}
+        layout_properties: {grid_position: 'FYAGVZ,FIWFFE'}
+        name: artist_rep_x_days_freq_copy
+        properties: {align: center, role: notification-settings-textbox, text: '90', type: text, visible: true}
+        type: TextBox
+      - layout_properties: {grid_position: 'FYAGVZ,MYETHT'}
+        name: artist_rep_x_days_copy
+        properties:
+          role: [header-6, margin-top]
+          spacing_above: none
+          spacing_below: none
+          text: Days
+          visible: true
+        type: Label
+      name: column_panel_rep_copy
+      properties: {}
+      type: ColumnPanel
+    layout_properties: {grid_position: 'IRYPMY,GOUNXL LZEYQG,HTOMRO'}
+    name: notification_rep_copy
+    properties: {spacing_above: none, spacing_below: none, visible: false}
+    type: FlowPanel
+  - layout_properties: {grid_position: 'IRYPMY,GOUNXL HFCTWO,MISLLZ'}
+    name: artist_rep_x_days_freq_warning_copy
+    properties:
+      role: [warning-label, header-8]
+      text: Please enter a valid number for over how many days you would like an artist show up again
+      visible: false
+    type: Label
+  - components:
+    - layout_properties: {}
+      name: label_1_copy_2_copy
+      properties:
+        role: [margin-top, header-6]
+        spacing_above: none
+        spacing_below: none
+        text: 'No. of latest releases:'
+      type: Label
+    - event_bindings: {lost_focus: update_notification_1, pressed_enter: update_notification_1}
+      layout_properties: {}
+      name: no_artists_box_copy_copy
+      properties: {align: center, placeholder: 1-20, role: notification-settings-textbox, spacing_above: none, spacing_below: none, text: '5'}
+      type: TextBox
+    layout_properties: {grid_position: 'IRYPMY,GOUNXL IFYKLM,QECNVD'}
+    name: Max_num_artist_copy_copy
+    properties: {spacing_above: none, spacing_below: none}
+    type: FlowPanel
+  - layout_properties: {grid_position: 'IRYPMY,GOUNXL WIFGBG,PWYRRF'}
+    name: max_number_artist_warning_copy_copy
+    properties:
+      role: [warning-label, header-8]
+      text: Please enter a valid number between 1 and 20 for the number of artists.
       visible: false
     type: Label
   - components:
