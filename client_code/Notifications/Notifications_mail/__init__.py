@@ -39,6 +39,7 @@ class Notifications_mail(Notifications_mailTemplate):
       self.Max_num_artist_spotify.visible = True
       self.song_selection.visible = True
       self.no_latest_releases.visible = True
+      self.last_updated_spotify.visible = True
       
     
     # activate/ deactivate Button
