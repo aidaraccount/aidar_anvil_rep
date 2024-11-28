@@ -29,8 +29,17 @@ class Notifications_mail(Notifications_mailTemplate):
     self.name_link.text = self.item["name"]
     if self.item["type"] == 'mail':
       self.name_link.icon = 'fa:envelope-o'
+      self.frequency_master_1.visible = True
+      self.frequency_field_title.visible = True
+      self.Max_num_artist_mail.visible = True
     elif self.item["type"] == 'playlist':
       self.name_link.icon = 'fa:spotify'
+      self.url_master.visible = True
+      self.status_field_title.visible = True
+      self.Max_num_artist_spotify.visible = True
+      self.song_selection.visible = True
+      self.no_latest_releases.visible = True
+      
     
     # activate/ deactivate Button
     if self.item["active"] is True:

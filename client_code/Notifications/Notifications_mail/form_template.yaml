@@ -75,9 +75,13 @@ components:
     name: flow_panel_6
     properties: {align: right}
     type: FlowPanel
-  - layout_properties: {grid_position: 'CHHRMY,XKHHNJ'}
+  - layout_properties: {grid_position: 'CHHRMY,XKHHNJ VHJKBV,ITQXLL'}
     name: frequency_field_title
-    properties: {role: header-6_bold, spacing_above: none, spacing_below: none, text: 'Frequency:'}
+    properties: {role: header-6_bold, spacing_above: none, spacing_below: none, text: 'Frequency:', visible: false}
+    type: Label
+  - layout_properties: {grid_position: 'CHHRMY,XKHHNJ GZCFBC,NPQPWR'}
+    name: status_field_title
+    properties: {role: header-6_bold, spacing_above: none, spacing_below: none, text: 'Status:', visible: false}
     type: Label
   - layout_properties: {grid_position: 'CHHRMY,RLTAPJ'}
     name: label_2
@@ -110,7 +114,7 @@ components:
       properties: {align: left, role: genre-box, spacing_above: none, spacing_below: none, text: Daily}
       type: Link
     layout_properties: {grid_position: 'IRYPMY,XTCPXD QLPYOA,EUXCVR'}
-    name: flow_panel_5
+    name: frequency_master_1
     properties: {align: left, spacing_above: none, spacing_below: none, visible: false}
     type: FlowPanel
   - components:
@@ -128,7 +132,7 @@ components:
       properties: {align: left, role: genre-box, spacing_above: none, spacing_below: none, text: Daily}
       type: Link
     layout_properties: {grid_position: 'IRYPMY,XTCPXD GYBTCS,WUUVPQ'}
-    name: flow_panel_5_copy
+    name: url_master
     properties: {align: left, spacing_above: none, spacing_below: none, visible: false}
     type: FlowPanel
   - components:
@@ -245,7 +249,7 @@ components:
       properties: {align: center, placeholder: 1-20, role: notification-settings-textbox, spacing_above: none, spacing_below: none, text: '5'}
       type: TextBox
     layout_properties: {grid_position: 'IRYPMY,GOUNXL ZPULUE,HNPGRY'}
-    name: Max_num_artist
+    name: Max_num_artist_mail
     properties: {spacing_above: none, spacing_below: none, visible: false}
     type: FlowPanel
   - layout_properties: {grid_position: 'IRYPMY,GOUNXL BMALLO,TXPJGC'}
@@ -270,7 +274,7 @@ components:
       properties: {align: center, placeholder: 1-20, role: notification-settings-textbox, spacing_above: none, spacing_below: none, text: '5'}
       type: TextBox
     layout_properties: {grid_position: 'IRYPMY,GOUNXL ISZXRG,OJZTCI'}
-    name: Max_num_artist_copy
+    name: Max_num_artist_spotify
     properties: {spacing_above: none, spacing_below: none, visible: false}
     type: FlowPanel
   - layout_properties: {grid_position: 'IRYPMY,GOUNXL MMWOHI,SAOBYB'}
@@ -348,7 +352,7 @@ components:
       properties: {}
       type: ColumnPanel
     layout_properties: {grid_position: 'IRYPMY,GOUNXL LZEYQG,HTOMRO'}
-    name: notification_rep_copy
+    name: song_selection
     properties: {spacing_above: none, spacing_below: none, visible: false}
     type: FlowPanel
   - layout_properties: {grid_position: 'IRYPMY,GOUNXL HFCTWO,MISLLZ'}
@@ -373,8 +377,8 @@ components:
       properties: {align: center, placeholder: 1-20, role: notification-settings-textbox, spacing_above: none, spacing_below: none, text: '5'}
       type: TextBox
     layout_properties: {grid_position: 'IRYPMY,GOUNXL IFYKLM,QECNVD'}
-    name: Max_num_artist_copy_copy
-    properties: {spacing_above: none, spacing_below: none}
+    name: no_latest_releases
+    properties: {spacing_above: none, spacing_below: none, visible: false}
     type: FlowPanel
   - layout_properties: {grid_position: 'IRYPMY,GOUNXL WIFGBG,PWYRRF'}
     name: max_number_artist_warning_copy_copy
