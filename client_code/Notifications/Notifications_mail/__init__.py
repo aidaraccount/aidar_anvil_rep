@@ -201,6 +201,39 @@ class Notifications_mail(Notifications_mailTemplate):
       self.max_number_artist_warning.visible = True
       return  # Stop execution if the input is not a number
       
+    # Validate the no_artists_box input (ensure it's between 1 and 20)
+    try:
+      if not self.no_artists_box_spotify.text.strip():  # Check if the field is empty
+        # alert("The number of artists field cannot be empty. Please enter a value between 1 and 20.", 
+        #       title="Missing Input", buttons=[("OK", "OK")], role=["remove-focus"])
+        self.max_number_artist_spotify_warning.visible = True
+        return  # Stop execution if the field is empty
+      else:
+        self.max_number_artist_spotify_warning.visible = False
+      no_artists = int(self.no_artists_box_spotify.text)
+      if no_artists < 1 or no_artists > 50:
+        self.max_number_artist_spotify_warning.visible = True
+        return
+    except ValueError:
+      self.max_number_artist_spotify_warning.visible = True
+      return  # Stop execution if the input is not a number
+      
+    try:
+      if not self.no_latest_rel_box_spotify.text.strip():  # Check if the field is empty
+        # alert("The number of artists field cannot be empty. Please enter a value between 1 and 20.", 
+        #       title="Missing Input", buttons=[("OK", "OK")], role=["remove-focus"])
+        self.no_latest_rel_box_spotify_warning.visible = True
+        return  # Stop execution if the field is empty
+      else:
+        self.no_latest_rel_box_spotify_warning.visible = False
+      no_artists = int(self.no_latest_rel_box_spotify.text)
+      if no_artists < 1 or no_artists > 10:
+        self.no_latest_rel_box_spotify_warning.visible = True
+        return
+    except ValueError:
+      self.no_latest_rel_box_spotify_warning.visible = True
+      return  # Stop execution if the input is not a number
+      
     if self.frequency_option_1.text == 'Daily':
       freq_2 = None
       freq_3 = None
