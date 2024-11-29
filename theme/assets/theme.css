@@ -688,6 +688,10 @@ body, html {
     flex-direction: column; 
     height: 100vh;
   }
+  .anvil-role-tile-background-left .anvil-panel-row {
+    display: block;
+    /* flex-direction: column; */
+  }
 }
 
 .anvil-role-full-page-length {
