@@ -698,6 +698,11 @@ body, html {
   .data-row-col[data-grid-col-id="RAPPVC"] {
     flex-grow: 0.8;
   }
+  .anvil-role-Discover_xypanel .anvil-component.anvil-role-sort-dropdown {
+    position: relative;
+    display: flex;
+    justify-content: right;
+    margin: 0 -50px 0px 0px;
 }
 
 .anvil-role-full-page-length {
