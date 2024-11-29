@@ -683,6 +683,9 @@ body, html {
     display:flex;
     flex-direction: column; 
   }
+  .anvil-role-equal-height-container > .row > div {
+    width: 100%;
+  }
   .anvil-role-equal-height-container.anvil-role-home-page > .row {
     display:flex;
     flex-direction: column; 
@@ -691,6 +694,9 @@ body, html {
   .anvil-role-tile-background-left .anvil-panel-row {
     display: block;
     /* flex-direction: column; */
+  }
+  .data-row-col[data-grid-col-id="RAPPVC"] {
+    flex-grow: 0.8;
   }
 }
 
