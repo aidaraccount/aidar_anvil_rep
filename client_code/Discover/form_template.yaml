@@ -112,7 +112,7 @@ components:
     type: FlowPanel
   layout_properties: {slot: footer-slot}
   name: Footer
-  properties: {background: 'theme:New_spotify_player_scheme', col_spacing: tiny, col_widths: '{"XUSTNC":30,"THIOWY":5,"OZIYBS":20,"CLCEVO":20,"KXLRPY":20,"ZCPELY":25,"TPLKDW":50}', spacing_above: none, spacing_below: none, visible: true}
+  properties: {background: 'theme:New_spotify_player_scheme', col_spacing: tiny, col_widths: '{"XUSTNC":30,"THIOWY":5,"OZIYBS":20,"CLCEVO":20,"KXLRPY":20,"ZCPELY":25,"TPLKDW":50}', role: footer, spacing_above: none, spacing_below: none, visible: true}
   type: ColumnPanel
 - event_bindings: {click: description_button_click}
   layout_properties: {slot: edit_button_decription}

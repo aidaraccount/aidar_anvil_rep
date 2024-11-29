@@ -366,3 +366,5 @@ roles:
   name: call-to-action-button-longer
 - components: [Label]
   name: warning-label
+- components: [ColumnPanel]
+  name: footer

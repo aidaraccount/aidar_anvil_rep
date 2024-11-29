@@ -703,6 +703,16 @@ body, html {
     display: flex;
     justify-content: right;
     margin: 0 -50px 0px 0px;
+  }
+  .anvil-role-footer .anvil-panel-row.anvil-panel-row-UQVSNC{
+    display: block;
+  }
+  .anvil-role-footer .anvil-panel-col.anvil-panel-col-THIOWY{
+    display: none;
+  }
+  .cards {
+    padding: 24px 16px 170px !important;
+  }
 }
 
 .anvil-role-full-page-length {
