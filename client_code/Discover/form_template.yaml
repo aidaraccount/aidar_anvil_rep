@@ -1115,45 +1115,39 @@ components:
       properties: {col_widths: '{"XPKPSB":15,"ZTJWYM":10,"KPHRDB":10,"WVDYXZ":10,"MAZPYD":15}', role: grid-main}
       type: ColumnPanel
     - components:
-      - components:
-        - layout_properties: {grid_position: 'BCHOZO,TMNYIR'}
-          name: Header_for_Spotify_Monthly_Listeners_by_Country_Graph_Copy
-          properties: {role: Discover_artist_name, spacing_above: none, spacing_below: none, text: ' Spotify Monthly Listeners by Country', visible: true}
-          type: Label
-        - event_bindings: {}
-          layout_properties: {grid_position: 'VQTYJE,RKWVRK'}
-          name: Spotify_Monthly_Listeners_by_Country_Graph
-          properties: {height: '300', interactive: true, spacing_above: none, spacing_below: none, tooltip: '', visible: true}
-          type: Plot
-        - layout_properties: {grid_position: 'MCTTTL,OTDAWL'}
-          name: No_Spotify_Monthly_Listeners_by_Country_Graph
-          properties: {align: center, role: description, spacing_above: large, spacing_below: large, text: no data available, visible: false}
-          type: Label
-        layout_properties: {grid_position: 'UEJOET,ZOJWLN'}
-        name: Panel_for_Spotify_Monthly_Listeners_by_Country_Graph
-        properties: {role: grid-main, visible: true}
-        type: ColumnPanel
-      - components:
-        - layout_properties: {grid_position: 'BCHOZO,TMNYIR'}
-          name: Header_for_Spotify_Monthly_Listeners_by_City_Graph_Copy
-          properties: {role: Discover_artist_name, spacing_above: none, spacing_below: none, text: ' Spotify Monthly Listeners by City'}
-          type: Label
-        - event_bindings: {}
-          layout_properties: {grid_position: 'VQTYJE,RKWVRK'}
-          name: Spotify_Monthly_Listeners_by_City_Graph
-          properties: {height: '300', interactive: true, spacing_above: none, spacing_below: none, tooltip: '', visible: true}
-          type: Plot
-        - layout_properties: {grid_position: 'MCTTTL,OTDAWL'}
-          name: No_Spotify_Monthly_Listeners_by_City_Graph
-          properties: {align: center, role: description, spacing_above: large, spacing_below: large, text: no data available, visible: false}
-          type: Label
-        layout_properties: {grid_position: 'SGSJVM,DOTQLN'}
-        name: Panel_for_Spotify_Monthly_Listeners_by_City_Graph
-        properties: {role: grid-main}
-        type: ColumnPanel
+      - layout_properties: {grid_position: 'TWCFRU,YKKUIK'}
+        name: label_12
+        properties: {role: Discover_artist_name, text: Spotify Monthly Listeners by Location}
+        type: Label
+      - layout_properties: {grid_position: 'AYTLXS,MQTQHD'}
+        name: Header_for_Spotify_Monthly_Listeners_by_Country_Graph_Copy
+        properties: {role: Discover_artist_name, spacing_above: none, spacing_below: none, text: By country, visible: true}
+        type: Label
+      - event_bindings: {}
+        layout_properties: {grid_position: 'SNWCPV,MOZAKJ'}
+        name: Spotify_Monthly_Listeners_by_Country_Graph
+        properties: {height: '300', interactive: true, spacing_above: none, spacing_below: none, tooltip: '', visible: true}
+        type: Plot
+      - layout_properties: {grid_position: 'ZJAQLE,ZRJQGD'}
+        name: No_Spotify_Monthly_Listeners_by_Country_Graph
+        properties: {align: center, role: description, spacing_above: large, spacing_below: large, text: no data available, visible: false}
+        type: Label
+      - layout_properties: {grid_position: 'ZDCKPQ,ZAAISO'}
+        name: Header_for_Spotify_Monthly_Listeners_by_City_Graph_Copy
+        properties: {role: Discover_artist_name, spacing_above: none, spacing_below: none, text: By city}
+        type: Label
+      - event_bindings: {}
+        layout_properties: {grid_position: 'TMWXDQ,BHFHSN'}
+        name: Spotify_Monthly_Listeners_by_City_Graph
+        properties: {height: '300', interactive: true, spacing_above: none, spacing_below: none, tooltip: '', visible: true}
+        type: Plot
+      - layout_properties: {grid_position: 'SGSJVM,GDNRYG'}
+        name: No_Spotify_Monthly_Listeners_by_City_Graph
+        properties: {align: center, role: description, spacing_above: large, spacing_below: large, text: no data available, visible: false}
+        type: Label
       layout_properties: {grid_position: 'HTFFMR,SQFGIN'}
       name: Panel_for_Spotify_Monthly_Listeners_by_Location
-      properties: {}
+      properties: {role: grid-main}
       type: ColumnPanel
     - components:
       - layout_properties: {grid_position: 'EAIWHG,HMKTEH'}
