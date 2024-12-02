@@ -386,6 +386,17 @@ class Discover(DiscoverTemplate):
       self.sort_dropdown.role = 'sort-dropdown'
       self.drop_down_wl.role = 'sort-dropdown-footer'
       self.drop_down_model.role = 'sort-dropdown-footer'
+      
+      self.sort_dropdown_countries.items = [
+        # ("Sort", "Sort"), # Placeholder option
+        ("A-Z", "alpha"),
+        ("Z-A", "reverse_alpha"),
+        ("Highest First", "high_num"),
+        ("Lowest First", "low_num")
+      ]
+      self.sort_dropdown_countries.selected_value = "high_num"
+      self.sort_dropdown_countries.role = 'sort-dropdown'
+
   
       # Add event handler for the dropdown
       self.sort_dropdown.set_event_handler('change', self.sort_data)
