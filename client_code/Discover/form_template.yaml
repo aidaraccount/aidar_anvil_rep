@@ -1123,7 +1123,7 @@ components:
         - components:
           - layout_properties: {}
             name: Sort_Label_countries
-            properties: {role: sort-label, spacing_above: none, spacing_below: none, text: 'Sort:'}
+            properties: {role: sort-label, spacing_above: none, spacing_below: none, text: Highlight by country}
             type: Label
           - event_bindings: {change: sort_data}
             name: sort_dropdown_countries
