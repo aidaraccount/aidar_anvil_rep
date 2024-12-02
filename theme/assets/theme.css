@@ -677,6 +677,44 @@ body, html {
   display:flex;
   height: 100vh;
 }
+
+@media only screen and (max-width: 416px) {
+  .anvil-role-equal-height-container > .row {
+    display:flex;
+    flex-direction: column; 
+  }
+  .anvil-role-equal-height-container > .row > div {
+    width: 100%;
+  }
+  .anvil-role-equal-height-container.anvil-role-home-page > .row {
+    display:flex;
+    flex-direction: column; 
+    height: 100vh;
+  }
+  .anvil-role-tile-background-left .anvil-panel-row {
+    display: block;
+    /* flex-direction: column; */
+  }
+  .data-row-col[data-grid-col-id="RAPPVC"] {
+    flex-grow: 0.8;
+  }
+  .anvil-role-Discover_xypanel .anvil-component.anvil-role-sort-dropdown {
+    position: relative;
+    display: flex;
+    justify-content: right;
+    margin: 0 -50px 0px 0px;
+  }
+  .anvil-role-footer .anvil-panel-row.anvil-panel-row-UQVSNC{
+    display: block;
+  }
+  .anvil-role-footer .anvil-panel-col.anvil-panel-col-THIOWY{
+    display: none;
+  }
+  .cards {
+    padding: 24px 16px 170px !important;
+  }
+}
+
 .anvil-role-full-page-length {
   height: 100rem;
 }
