@@ -386,12 +386,14 @@ class Discover(DiscoverTemplate):
       self.sort_dropdown.role = 'sort-dropdown'
       self.drop_down_wl.role = 'sort-dropdown-footer'
       self.drop_down_model.role = 'sort-dropdown-footer'
-
+     
       # This dataset is loaded a couple more times below, perhaps the import needs to be performed above
-      monthly_listeners_country_data = json.loads(anvil.server.call('get_mtl_listeners_country', artist_id))
-      self.sort_dropdown_countries.items = [x['CountryName'] for x in monthly_listeners_country_data]
-      self.sort_dropdown_countries.selected_value = "high_num"
       self.sort_dropdown_countries.role = 'sort-dropdown'
+      monthly_listeners_country_data = json.loads(anvil.server.call('get_mtl_listeners_country', artist_id))
+      country_names_items = [x['CountryName'] for x in monthly_listeners_country_data]
+      self.sort_dropdown_countries.items = country_names_items
+      # monthly_listeners_country_data_last_used = [x['CountryName'] for x in monthly_listeners_country_data if x['is_last_used']][0]
+      # self.sort_dropdown_countries.selected_value = monthly_listeners_country_data_last_used
 
   
       # Add event handler for the dropdown
