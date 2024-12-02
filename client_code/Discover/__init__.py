@@ -390,8 +390,11 @@ class Discover(DiscoverTemplate):
       # This dataset is loaded a couple more times below, perhaps the import needs to be performed above
       self.sort_dropdown_countries.role = 'sort-dropdown'
       monthly_listeners_country_data = json.loads(anvil.server.call('get_mtl_listeners_country', artist_id))
-      country_names_items = [x['CountryName'] for x in monthly_listeners_country_data]
-      self.sort_dropdown_countries.items = country_names_items
+      # country_names_items = [x['CountryName'] for x in monthly_listeners_country_data]
+      dropdown_items = [(x['CountryName'], x['CountryCode']) for x in monthly_listeners_country_data]
+      self.sort_dropdown_countries.items = [("All Countries", "all")] + dropdown_items
+
+      # self.sort_dropdown_countries.items = country_names_items
       # monthly_listeners_country_data_last_used = [x['CountryName'] for x in monthly_listeners_country_data if x['is_last_used']][0]
       # self.sort_dropdown_countries.selected_value = monthly_listeners_country_data_last_used
 
@@ -1694,20 +1697,17 @@ class Discover(DiscoverTemplate):
     get_open_form().refresh_watchlists_underline()
     routing.set_url_hash(f'artists?artist_id={self.artist_id}', load_from_cache=False)
 
-  
 # -----------------------------------------------------------------------------------------
 #  Start of the Sidebar Watchilish Functions 
 # -----------------------------------------------------------------------------------------    
   def get_watchlist_notes(self, artist_id, **event_args):
     self.repeating_panel_1.items = json.loads(anvil.server.call('get_watchlist_notes', user["user_id"], artist_id))
 
-  
   def button_note_click(self, **event_args):
     anvil.server.call('add_note', user["user_id"], self.artist_id, "", "", self.comments_area_section.text)
     self.get_watchlist_notes(self.artist_id)
     self.update_details_on_sidebar()
 
-  
   def get_watchlist_details (self, artist_id, **event_args):
     details = json.loads(anvil.server.call('get_watchlist_details', self.watchlist_id, artist_id))
 
@@ -1751,7 +1751,6 @@ class Discover(DiscoverTemplate):
     else: 
       self.date_picker_1.date = details[0]["Reminder"]
 
-  
   def update_details_on_sidebar(self, **event_args):
     """This method is called when an item is selected"""
     details = json.loads(anvil.server.call('get_watchlist_details', self.watchlist_id, self.artist_id))
@@ -1781,7 +1780,6 @@ class Discover(DiscoverTemplate):
 
     self.get_watchlist_details(self.artist_id)
 
-  
   def contacts_button_click(self, **event_args):
     details = json.loads(anvil.server.call('get_watchlist_details', self.watchlist_id, self.artist_id))
 
@@ -1814,7 +1812,6 @@ class Discover(DiscoverTemplate):
       # save text boxes
       self.update_details_on_sidebar()
 
-  
   def description_button_click(self, **event_args):
     if self.description_button.icon == 'fa:edit':
       self.description_button.icon = 'fa:save'
@@ -1831,11 +1828,9 @@ class Discover(DiscoverTemplate):
       # save text boxes
       self.update_details_on_sidebar()
 
-  
   def button_track_test_click(self, track_id=None, **event_args):
     anvil.js.call_js('playSpotify')
 
-  
   def spotify_artist_button_click(self, **event_args):
     if self.spotify_artist_button.icon == 'fa:play-circle':
       self.spotify_artist_button.icon = 'fa:pause-circle'
@@ -1854,7 +1849,6 @@ class Discover(DiscoverTemplate):
     for component in components:
       component.button_play_track.icon = 'fa:play-circle'
 
-  
   def autoplay_button_click(self, **event_args):
     if self.autoplay_button.icon == 'fa:toggle-on':
       self.autoplay_button.icon = 'fa:toggle-off'
@@ -1862,7 +1856,6 @@ class Discover(DiscoverTemplate):
       self.autoplay_button.icon = 'fa:toggle-on'
    
     save_var('autoPlayStatus', self.autoplay_button.icon)
-    
     
   def show_milestone_alert(self, milestone):
     # Show a congratulatory alert when a user reaches a milestone.
@@ -1872,3 +1865,6 @@ class Discover(DiscoverTemplate):
         role=["progress-message","remove-focus"]
     )
 
+  def sort_dropdown_countries_change(self, **event_args):
+    selected_country_code = self.sort_dropdown_countries.selected_value
+    self.update_country_highlight(selected_country_code)
