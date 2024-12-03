@@ -1206,7 +1206,15 @@ class Discover(DiscoverTemplate):
     self.Spotify_Monthly_Listeners_by_City_Graph.figure = fig
     self.current_page = page
     self.total_pages = (len(city_w_country_code) + items_per_page - 1) // items_per_page
-
+    if self.current_page == 1:
+      self.prev_button.enabled = False
+    else:
+      self.prev_button.enabled = True
+    if self.current_page == self.total_pages:
+      self.next_button.enabled = False
+    else:
+      self.next_button.enabled = True      
+    
   def next_page(self, **event_args):
     if self.current_page < self.total_pages:
       self.create_monthly_listeners_by_city_bar_chart(page=self.current_page + 1)
