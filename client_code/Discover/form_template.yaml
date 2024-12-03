@@ -1143,11 +1143,11 @@ components:
           type: FlowPanel
         layout_properties: {grid_position: 'TIVOLE,IWIPXN'}
         name: column_panel_6
-        properties: {}
+        properties: {col_widths: '{"BKHOVK":25,"JJZPDN":35}'}
         type: ColumnPanel
       - layout_properties: {grid_position: 'AYTLXS,MQTQHD'}
         name: Header_for_Spotify_Monthly_Listeners_by_Country_Graph_Copy
-        properties: {role: Discover_artist_name, spacing_above: none, spacing_below: none, text: By country, visible: true}
+        properties: {align: center, role: Discover_artist_name, spacing_above: none, spacing_below: none, text: By country, visible: true}
         type: Label
       - event_bindings: {click: Spotify_Monthly_Listeners_by_Country_Graph_click}
         layout_properties: {grid_position: 'SNWCPV,MOZAKJ'}
@@ -1160,20 +1160,51 @@ components:
         type: Label
       - layout_properties: {grid_position: 'ZDCKPQ,ZAAISO'}
         name: Header_for_Spotify_Monthly_Listeners_by_City_Graph_Copy
-        properties: {role: Discover_artist_name, spacing_above: none, spacing_below: none, text: By city}
+        properties: {align: center, role: Discover_artist_name, spacing_above: none, spacing_below: none, text: By city}
         type: Label
+      - event_bindings: {click: previous_page}
+        layout_properties: {grid_position: 'TMWXDQ,ZGBIVS'}
+        name: prev_button
+        properties:
+          align: right
+          icon: fa:arrow-circle-o-left
+          role: [header-7, contact-button]
+          spacing_above: none
+          spacing_below: none
+          text: ''
+        type: Button
       - event_bindings: {}
         layout_properties: {grid_position: 'TMWXDQ,BHFHSN'}
         name: Spotify_Monthly_Listeners_by_City_Graph
         properties: {height: '300', interactive: true, spacing_above: none, spacing_below: none, tooltip: '', visible: true}
         type: Plot
-      - layout_properties: {grid_position: 'SGSJVM,GDNRYG'}
+      - event_bindings: {click: next_page}
+        layout_properties: {grid_position: 'TMWXDQ,IZSYAA'}
+        name: next_button
+        properties:
+          align: left
+          icon: fa:arrow-circle-o-right
+          role: [header-7, contact-button]
+          spacing_above: none
+          spacing_below: none
+          text: ''
+        type: Button
+      - layout_properties: {grid_position: 'WHRCSY,CCXIEZ'}
         name: No_Spotify_Monthly_Listeners_by_City_Graph
         properties: {align: center, role: description, spacing_above: large, spacing_below: large, text: no data available, visible: false}
         type: Label
+      - components: []
+        layout_properties: {grid_position: 'RLWAIM,ALQCGZ'}
+        name: column_panel_10
+        properties: {col_widths: '{}', spacing_above: none, spacing_below: none}
+        type: ColumnPanel
+      - layout_properties: {grid_position: 'BOVFFG,RGTQRZ'}
+        name: spacer_15
+        properties: {height: 32}
+        type: Spacer
       layout_properties: {grid_position: 'HTFFMR,SQFGIN'}
       name: Panel_for_Spotify_Monthly_Listeners_by_Location
-      properties: {role: grid-main}
+      properties: {col_widths: '{"ZGBIVS":4,"BHFHSN":52,"IZSYAA":4}', role: grid-main}
       type: ColumnPanel
     - components:
       - layout_properties: {grid_position: 'EAIWHG,HMKTEH'}

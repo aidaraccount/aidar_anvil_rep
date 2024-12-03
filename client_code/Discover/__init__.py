@@ -1139,7 +1139,6 @@ class Discover(DiscoverTemplate):
     monthly_listeners_page = monthly_listeners[start_index:end_index]
     country_name_page = country_name[start_index:end_index]
 
-    
     bar_colors = [
       'rgba(237,139,82,1)' if code == selected_country_name or selected_country_name == "All countries" else 'rgba(125,125,125,0.6)'
       for code in country_name
@@ -1150,12 +1149,18 @@ class Discover(DiscoverTemplate):
     # Creating the Bar Chart
     fig = go.Figure(data=(
       go.Bar(
-        x = city_w_country_code,
-        y = monthly_listeners,
-        text = formatted_text,
+        x=city_w_country_code_page,
+        y=monthly_listeners_page,
+        text=formatted_text,
         textposition='none',
         hoverinfo='none',
-        hovertext= city_w_country_code,
+        hovertext=city_w_country_code_page,
+        # x = city_w_country_code,
+        # y = monthly_listeners,
+        # text = formatted_text,
+        # textposition='none',
+        # hoverinfo='none',
+        # hovertext= city_w_country_code,
         hovertemplate= 'City: %{hovertext}<br>Monthly Listeners: %{text} <extra></extra>',
       )
     ))
@@ -1165,14 +1170,14 @@ class Discover(DiscoverTemplate):
       plot_bgcolor='rgba(0,0,0,0)',
       paper_bgcolor='rgba(0,0,0,0)',
       xaxis=dict(
-        range = [-0.5, items_per_page - 1],
+        # range = [-0.5, items_per_page - 1],
         tickvals=list(range(len(city_w_country_code))),
-        tickmode ='linear',
-        fixedrange=False,  # Allow scrolling
-        showgrid=True,
+        # tickmode ='linear',
+        # fixedrange=False,  # Allow scrolling
+        # showgrid=True,
         # ticktext=truncated_labels,  # Display truncated labels on the x-axis
       ),
-      dragmode = 'pan',
+      # dragmode = 'pan',
       yaxis=dict(
         gridcolor='rgb(175,175,175)',  # Color of the gridlines
         gridwidth=1,  # Thickness of the gridlines
@@ -1199,7 +1204,17 @@ class Discover(DiscoverTemplate):
         opacity=0.9
       )
     self.Spotify_Monthly_Listeners_by_City_Graph.figure = fig
-  
+    self.current_page = page
+    self.total_pages = (len(city_w_country_code) + items_per_page - 1) // items_per_page
+
+  def next_page(self, **event_args):
+    if self.current_page < self.total_pages:
+      self.create_monthly_listeners_by_city_bar_chart(page=self.current_page + 1)
+
+  def previous_page(self, **event_args):
+    if self.current_page > 1:
+      self.create_monthly_listeners_by_city_bar_chart(page=self.current_page - 1)
+        
   def create_artist_popularity_scatter_chart(self, dates=None, artist_popularity=None):
     scatter_data_pop = {
       "dates": [date for date, followers in zip(self.scatter_data["dates"], self.scatter_data["artist_popularity"]) if followers is not None],
