@@ -390,16 +390,25 @@ class Discover(DiscoverTemplate):
       self.drop_down_wl.role = 'sort-dropdown-footer'
       self.drop_down_model.role = 'sort-dropdown-footer'
      
-      # This dataset is loaded a couple more times below, perhaps the import needs to be performed above
       self.sort_dropdown_countries.role = 'sort-dropdown'
+      # This dataset is loaded a couple more times below, perhaps the import needs to be performed above
       monthly_listeners_country_data = json.loads(anvil.server.call('get_mtl_listeners_country', artist_id))
+      print("line 395",monthly_listeners_country_data)
       monthly_listeners_city_data = json.loads(anvil.server.call('get_mtl_listeners_city', artist_id))
       country_names_items = [x['CountryName'] for x in monthly_listeners_country_data]
       dropdown_items = [(x['CountryName'], x['CountryCode']) for x in monthly_listeners_country_data]
       self.sort_dropdown_countries.items = [("All Countries", "all")] + dropdown_items
 
-      self.city_data = monthly_listeners_city_data
-      print(self.city_data)
+      # self.city_data = monthly_listeners_city_data
+      country_codes_city = [x['CountryCode'] for x in monthly_listeners_city_data]
+      city_name = [x['CityWithCountryCode'] for x in monthly_listeners_city_data]
+      monthly_listeners_city =  [x['MtlListeners'] for x in monthly_listeners_city_data]
+      self.city_data = {
+          "country_codes" : country_codes_city,
+          "monthly_listeners_city" : monthly_listeners_city,
+          "city_name": city_name
+        }
+      print("line 402:",self.city_data)
       # monthly_listeners_country_data = json.loads(anvil.server.call('get_mtl_listeners_country', artist_id))
       # monthly_listeners_city_data = json.loads(anvil.server.call('get_mtl_listeners_city', artist_id))
   
@@ -1886,43 +1895,6 @@ class Discover(DiscoverTemplate):
     self.update_country_highlight(selected_country_code)
     self.update_city_highlight(selected_country_code)
 
-  # def update_country_highlight(self, selected_country_code):
-  #   country_codes = self.listeners_country_data["country_codes"]
-  #   monthly_listeners = self.listeners_country_data["monthly_listeners"]
-  #   country_names = self.listeners_country_data["country_name"]
-
-  #   # Highlight only the selected country
-  #   if selected_country_code != "all":
-  #       highlight_mask = [code == selected_country_code for code in country_codes]
-  #   else:
-  #       highlight_mask = [True] * len(country_codes)
-
-  #   bar_colors = ["rgba(237,139,82, 1)" if mask else "rgba(100,100,100, 0.4)" for mask in highlight_mask]
-    
-  #   # Update the graph
-  #   self.create_monthly_listeners_by_country_bar_chart(
-  #       country_codes=country_codes,
-  #       monthly_listeners=monthly_listeners,
-  #       country_name=country_names,
-  #   )
-  #   for trace, color in zip(self.Spotify_Monthly_Listeners_by_Country_Graph.figure.data, bar_colors):
-  #       trace.update(marker_color=color)
-  
-  def update_city_highlight(self, selected_country_code):
-    if selected_country_code == "all":
-        filtered_city_data = self.city_data
-    else:
-        filtered_city_data = [city for city in self.city_data if city['CountryCode'] == selected_country_code]
-
-    city_names = [city['CityWithCountryCode'] for city in filtered_city_data]
-    monthly_listeners = [city['MonthlyListeners'] for city in filtered_city_data]
-
-    # Create or update the graph
-    self.create_monthly_listeners_by_city_bar_chart(
-        city_w_country_code=city_names,
-        monthly_listeners=monthly_listeners,
-    )
-
   def update_country_highlight(self, selected_country_code):
     country_codes = self.listeners_country_data["country_codes"]
     monthly_listeners = self.listeners_country_data["monthly_listeners"]
@@ -1967,3 +1939,48 @@ class Discover(DiscoverTemplate):
       )
     )
     self.Spotify_Monthly_Listeners_by_Country_Graph.figure = fig
+
+  def update_city_highlight(self, selected_country_code):
+    country_codes = self.city_data["country_codes"]
+    monthly_listeners = self.city_data["monthly_listeners_city"]
+    city_name = self.city_data["city_name"]
+
+    # Highlight the selected country
+    bar_colors = [
+      'rgba(237,139,82,1)' if code == selected_country_code or selected_country_code == "all" else 'rgba(125,125,125,0.6)'
+      for code in country_codes
+    ]
+
+    formatted_text = [f'{x/1e6:.1f}M' if x >= 1e6 else f'{x/1e3:.1f}K' if x >= 1e3 else str(x) for x in monthly_listeners]
+    fig = go.Figure(data=(
+      go.Bar(
+        x=city_name,
+        y=monthly_listeners,
+        text=formatted_text,
+        textposition='none',
+        hoverinfo='none',
+        hovertext=city_name,
+        hovertemplate='Country: %{hovertext}<br>Monthly Listeners: %{text} <extra></extra>',
+        marker=dict(color=bar_colors)
+      )
+    ))
+    fig.update_layout(
+      template='plotly_dark',
+      plot_bgcolor='rgba(0,0,0,0)',
+      paper_bgcolor='rgba(0,0,0,0)',
+      yaxis=dict(
+        gridcolor='rgb(175,175,175)',
+        gridwidth=0.1,
+        griddash='dash',
+        range=[0, max(monthly_listeners) * 1.1],
+        tickformat='~s',
+        zerolinecolor='rgb(240,240,240)',
+      ),
+      margin=dict(
+        t=50  # Increase top margin to accommodate the labels
+      ),
+      hoverlabel=dict(
+        bgcolor='rgba(237,139,82, 0.4)'
+      )
+    )
+    self.Spotify_Monthly_Listeners_by_City_Graph.figure = fig

@@ -1126,11 +1126,12 @@ components:
             properties: {role: sort-label, spacing_above: none, spacing_below: none, text: Highlight by country}
             type: Label
           - event_bindings: {change: sort_data}
+            layout_properties: {}
             name: sort_dropdown_countries
             properties:
               align: right
               include_placeholder: false
-              items: ['["A-Z", "Z-A", "Highest First", "Lowest First"]', '']
+              items: [All countries, '']
               placeholder: ''
               spacing_above: none
               spacing_below: none
