@@ -2693,14 +2693,14 @@ footer a, .footer .anvil-component {
 }
 /* Disabeled button options  */
 .btn-default[disabled] {
-  background-color: none;
+  background-color: transparent;
 }
-.btn-default[disabled] :hover {
-  background-color: none !important;
+.btn-default[disabled]:hover {
+  background-color: transparent;
 }
-.btn-default[disabled] :focus {
-  background-color: none !important;
+.btn-default[disabled]:focus {
+  background-color: transparent;
 }
-.btn-default[disabled] :active {
-  background-color: none !important;
+.btn-default[disabled]:active {
+  background-color: transparent;
 }
