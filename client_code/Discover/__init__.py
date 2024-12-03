@@ -1123,13 +1123,23 @@ class Discover(DiscoverTemplate):
       )
     self.Spotify_Monthly_Listeners_by_Country_Graph.figure = fig
 
-  def create_monthly_listeners_by_city_bar_chart(self, city_w_country_code=None, monthly_listeners=None):
+  def create_monthly_listeners_by_city_bar_chart(self, page=1, items_per_page=10, city_w_country_code=None, monthly_listeners=None):
     selected_country_name = self.sort_dropdown_countries.selected_value
     
     city_w_country_code = self.listeners_city_data["city_w_country_code"]
     monthly_listeners = self.listeners_city_data["monthly_listeners"]
     country_name = self.listeners_city_data["country_name_city"]
 
+    # Calculate the range for the current page
+    start_index = (page - 1) * items_per_page
+    end_index = start_index + items_per_page
+
+    # Slice the data for the current page
+    city_w_country_code_page = city_w_country_code[start_index:end_index]
+    monthly_listeners_page = monthly_listeners[start_index:end_index]
+    country_name_page = country_name[start_index:end_index]
+
+    
     bar_colors = [
       'rgba(237,139,82,1)' if code == selected_country_name or selected_country_name == "All countries" else 'rgba(125,125,125,0.6)'
       for code in country_name
@@ -1155,9 +1165,14 @@ class Discover(DiscoverTemplate):
       plot_bgcolor='rgba(0,0,0,0)',
       paper_bgcolor='rgba(0,0,0,0)',
       xaxis=dict(
+        range = [-0.5, items_per_page - 1],
         tickvals=list(range(len(city_w_country_code))),
+        tickmode ='linear',
+        fixedrange=False,  # Allow scrolling
+        showgrid=True,
         # ticktext=truncated_labels,  # Display truncated labels on the x-axis
       ),
+      dragmode = 'pan',
       yaxis=dict(
         gridcolor='rgb(175,175,175)',  # Color of the gridlines
         gridwidth=1,  # Thickness of the gridlines
