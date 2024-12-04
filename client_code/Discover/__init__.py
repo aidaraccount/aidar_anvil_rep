@@ -1051,7 +1051,7 @@ class Discover(DiscoverTemplate):
     self.create_monthly_listeners_by_country_bar_chart()
     self.create_monthly_listeners_by_city_bar_chart()
 
-  def create_monthly_listeners_by_country_bar_chart(self, country_page=1, items_per_page=10, country_codes=None, monthly_listeners=None, country_name=None):
+  def create_monthly_listeners_by_country_bar_chart(self, country_page=1, items_per_page=15, country_codes=None, monthly_listeners=None, country_name=None):
     print(load_var('sort_dropdown_countries'))
     print(load_var('sort_dropdown_countries') == "None")
     print(load_var('sort_dropdown_countries') is None)
