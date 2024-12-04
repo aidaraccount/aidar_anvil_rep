@@ -147,6 +147,10 @@
       Drop a searchbox here
     </div>
     <div anvil-slot="search_box" class="search_box main-content-move-nav"></div>
+    <!-- <div anvil-if-slot-empty="search_box_2" anvil-drop-slot="search_box_2" class="placeholder anvil-designer-only">
+      Drop a searchbox here
+    </div> -->
+    
   </div>
 
       <!-- <div class="menu-btn" onclick="toggleSidebar();">
@@ -199,7 +203,7 @@
     var contentNav = document.querySelector('.main-content-move-nav')
 
     var currentHash = window.location.hash;
-    console.log("current hash", currentHash);
+    // console.log("current hash", currentHash);
 
     if (currentHash === '#no_subs' || currentHash === '#no_model') {
         s.style.display = 'none';
