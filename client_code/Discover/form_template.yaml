@@ -1180,7 +1180,7 @@ components:
           type: Button
         layout_properties: {grid_position: 'RRENLI,TWXOYT'}
         name: column_panel_15
-        properties: {col_widths: '{"YPDMVD":5,"AFRPCF":49,"YKYHSM":6}', role: equal-height-container}
+        properties: {col_widths: '{"YPDMVD":4,"AFRPCF":52,"YKYHSM":4}', role: equal-height-container}
         type: ColumnPanel
       - layout_properties: {grid_position: 'ZJAQLE,ZRJQGD'}
         name: No_Spotify_Monthly_Listeners_by_Country_Graph

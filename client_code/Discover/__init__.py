@@ -1131,6 +1131,16 @@ class Discover(DiscoverTemplate):
         opacity=0.9
       )
     self.Spotify_Monthly_Listeners_by_Country_Graph.figure = fig
+    self.current_page = page
+    self.total_pages = (len(country_code_page) + items_per_page - 1) // items_per_page
+    if self.current_page == 1:
+      self.prev_button_city.enabled = False
+    else:
+      self.prev_button_city.enabled = True
+    if self.current_page == self.total_pages:
+      self.next_button_city.enabled = False
+    else:
+      self.next_button_city.enabled = True      
 
   def create_monthly_listeners_by_city_bar_chart(self, page=1, items_per_page=15, city_w_country_code=None, monthly_listeners=None):
     selected_country_name = self.sort_dropdown_countries.selected_value
