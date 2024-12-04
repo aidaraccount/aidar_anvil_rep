@@ -1149,11 +1149,39 @@ components:
         name: Header_for_Spotify_Monthly_Listeners_by_Country_Graph_Copy
         properties: {align: center, role: Discover_artist_name, spacing_above: none, spacing_below: none, text: By country, visible: true}
         type: Label
-      - event_bindings: {click: Spotify_Monthly_Listeners_by_Country_Graph_click}
-        layout_properties: {grid_position: 'SNWCPV,MOZAKJ'}
-        name: Spotify_Monthly_Listeners_by_Country_Graph
-        properties: {height: '300', interactive: true, spacing_above: none, spacing_below: none, tooltip: '', visible: true}
-        type: Plot
+      - components:
+        - event_bindings: {click: previous_page}
+          layout_properties: {grid_position: 'PZNCOL,YPDMVD'}
+          name: prev_button_country
+          properties:
+            align: right
+            icon: fa:arrow-circle-o-left
+            role: [header-7, contact-button]
+            spacing_above: none
+            spacing_below: none
+            text: ''
+          type: Button
+        - event_bindings: {click: Spotify_Monthly_Listeners_by_Country_Graph_click}
+          layout_properties: {grid_position: 'PZNCOL,AFRPCF'}
+          name: Spotify_Monthly_Listeners_by_Country_Graph
+          properties: {height: '300', interactive: true, spacing_above: none, spacing_below: none, tooltip: '', visible: true}
+          type: Plot
+        - event_bindings: {click: next_page}
+          layout_properties: {grid_position: 'PZNCOL,YKYHSM'}
+          name: next_button_country
+          properties:
+            align: left
+            enabled: true
+            icon: fa:arrow-circle-o-right
+            role: [header-7, contact-button]
+            spacing_above: none
+            spacing_below: none
+            text: ''
+          type: Button
+        layout_properties: {grid_position: 'RRENLI,TWXOYT'}
+        name: column_panel_15
+        properties: {col_widths: '{"YPDMVD":5,"AFRPCF":49,"YKYHSM":6}', role: equal-height-container}
+        type: ColumnPanel
       - layout_properties: {grid_position: 'ZJAQLE,ZRJQGD'}
         name: No_Spotify_Monthly_Listeners_by_Country_Graph
         properties: {align: center, role: description, spacing_above: large, spacing_below: large, text: no data available, visible: false}
@@ -1165,7 +1193,7 @@ components:
       - components:
         - event_bindings: {click: previous_page}
           layout_properties: {grid_position: 'PGNJVE,YDWCUV'}
-          name: prev_button
+          name: prev_button_city
           properties:
             align: right
             icon: fa:arrow-circle-o-left
@@ -1181,7 +1209,7 @@ components:
           type: Plot
         - event_bindings: {click: next_page}
           layout_properties: {grid_position: 'PGNJVE,JUZAGW'}
-          name: next_button
+          name: next_button_city
           properties:
             align: left
             enabled: true

@@ -684,6 +684,17 @@ body, html {
   z-index: 2;
 }
 
+.anvil-role-equal-height-container .anvil-panel-row.anvil-panel-row-PGNJVE .anvil-panel-col.anvil-panel-col-YDWCUV {
+  z-index: 2;
+}
+.anvil-role-equal-height-container .anvil-panel-row.anvil-panel-row-PGNJVE .anvil-panel-col.anvil-panel-col-YIYUKP {
+  z-index: 1;
+  margin: 0px -70px 0px -50px;
+}
+.anvil-role-equal-height-container .anvil-panel-row.anvil-panel-row-PGNJVE .anvil-panel-col.anvil-panel-col-JUZAGW {
+  z-index: 2;
+}
+
 .anvil-role-equal-height-container > .row {
   display:flex;
 }

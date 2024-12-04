@@ -1052,7 +1052,7 @@ class Discover(DiscoverTemplate):
     self.create_monthly_listeners_by_country_bar_chart()
     self.create_monthly_listeners_by_city_bar_chart()
 
-  def create_monthly_listeners_by_country_bar_chart(self, country_codes=None, monthly_listeners=None, country_name=None):
+  def create_monthly_listeners_by_country_bar_chart(self, page=1, items_per_page=15, country_codes=None, monthly_listeners=None, country_name=None):
     print(load_var('sort_dropdown_countries'))
     print(load_var('sort_dropdown_countries') == "None")
     print(load_var('sort_dropdown_countries') is None)
@@ -1066,6 +1066,15 @@ class Discover(DiscoverTemplate):
     monthly_listeners = self.listeners_country_data["monthly_listeners"]
     country_name = self.listeners_country_data["country_name"]
 
+    # Calculate the range for the current page
+    start_index = (page - 1) * items_per_page
+    end_index = start_index + items_per_page
+
+    # Slice the data for the current page
+    country_code_page = country_codes[start_index:end_index]
+    monthly_listeners_page = monthly_listeners[start_index:end_index]
+    country_name_page = country_name[start_index:end_index]
+
     # Highlight the selected country
     bar_colors = [
       'rgba(237,139,82,1)' if name == selected_country_name or selected_country_name == "All countries" else 'rgba(125,125,125,0.6)'
@@ -1078,12 +1087,12 @@ class Discover(DiscoverTemplate):
     # Creating the Bar Chart
     fig = go.Figure(data=(
       go.Bar(
-        x = country_codes,
-        y = monthly_listeners,
+        x = country_code_page,
+        y = monthly_listeners_page,
         text = formatted_text,
         textposition='none',
         hoverinfo='none',
-        hovertext= country_name,
+        hovertext= country_name_page,
         hovertemplate='Country: %{hovertext}<br>Monthly Listeners: %{text} <extra></extra>',
       )
     ))
@@ -1207,13 +1216,13 @@ class Discover(DiscoverTemplate):
     self.current_page = page
     self.total_pages = (len(city_w_country_code) + items_per_page - 1) // items_per_page
     if self.current_page == 1:
-      self.prev_button.enabled = False
+      self.prev_button_city.enabled = False
     else:
-      self.prev_button.enabled = True
+      self.prev_button_city.enabled = True
     if self.current_page == self.total_pages:
-      self.next_button.enabled = False
+      self.next_button_city.enabled = False
     else:
-      self.next_button.enabled = True      
+      self.next_button_city.enabled = True      
     
   def next_page(self, **event_args):
     if self.current_page < self.total_pages:
