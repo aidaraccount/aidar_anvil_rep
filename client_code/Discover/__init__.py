@@ -1077,7 +1077,7 @@ class Discover(DiscoverTemplate):
     # Highlight the selected country
     bar_colors = [
       'rgba(237,139,82,1)' if name == selected_country_name or selected_country_name == "All countries" else 'rgba(125,125,125,0.6)'
-      for name in country_name
+      for name in country_name_page
     ]
 
     # Format the text for the bar annotations
@@ -1171,7 +1171,7 @@ class Discover(DiscoverTemplate):
 
     bar_colors = [
       'rgba(237,139,82,1)' if code == selected_country_name or selected_country_name == "All countries" else 'rgba(125,125,125,0.6)'
-      for code in country_name
+      for code in country_name_page
     ]
     # Format the text for the bar annotations
     formatted_text = [f'{x/1e6:.1f}M' if x >= 1e6 else f'{x/1e3:.1f}K' if x >= 1e3 else str(x) for x in monthly_listeners]
