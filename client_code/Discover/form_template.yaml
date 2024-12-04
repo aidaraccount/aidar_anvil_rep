@@ -1150,7 +1150,7 @@ components:
         properties: {align: center, role: Discover_artist_name, spacing_above: none, spacing_below: none, text: By country, visible: true}
         type: Label
       - components:
-        - event_bindings: {click: previous_page}
+        - event_bindings: {click: previous_page_country}
           layout_properties: {grid_position: 'PZNCOL,YPDMVD'}
           name: prev_button_country
           properties:
@@ -1166,7 +1166,7 @@ components:
           name: Spotify_Monthly_Listeners_by_Country_Graph
           properties: {height: '300', interactive: true, spacing_above: none, spacing_below: none, tooltip: '', visible: true}
           type: Plot
-        - event_bindings: {click: next_page}
+        - event_bindings: {click: next_page_country}
           layout_properties: {grid_position: 'PZNCOL,YKYHSM'}
           name: next_button_country
           properties:

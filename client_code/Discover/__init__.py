@@ -1048,11 +1048,10 @@ class Discover(DiscoverTemplate):
 
   def sort_dropdown_countries_change(self, **event_args):
     save_var('sort_dropdown_countries',self.sort_dropdown_countries.selected_value)
-    
     self.create_monthly_listeners_by_country_bar_chart()
     self.create_monthly_listeners_by_city_bar_chart()
 
-  def create_monthly_listeners_by_country_bar_chart(self, page=1, items_per_page=15, country_codes=None, monthly_listeners=None, country_name=None):
+  def create_monthly_listeners_by_country_bar_chart(self, country_page=1, items_per_page=10, country_codes=None, monthly_listeners=None, country_name=None):
     print(load_var('sort_dropdown_countries'))
     print(load_var('sort_dropdown_countries') == "None")
     print(load_var('sort_dropdown_countries') is None)
@@ -1067,7 +1066,7 @@ class Discover(DiscoverTemplate):
     country_name = self.listeners_country_data["country_name"]
 
     # Calculate the range for the current page
-    start_index = (page - 1) * items_per_page
+    start_index = (country_page - 1) * items_per_page
     end_index = start_index + items_per_page
 
     # Slice the data for the current page
@@ -1131,8 +1130,12 @@ class Discover(DiscoverTemplate):
         opacity=0.9
       )
     self.Spotify_Monthly_Listeners_by_Country_Graph.figure = fig
-    self.current_page = page
-    self.total_pages = (len(country_code_page) + items_per_page - 1) // items_per_page
+    self.current_page = country_page
+    print("line 1135", self.current_page)
+    print("line 1136", country_page)
+    self.total_pages = (len(country_codes) + items_per_page - 1) // items_per_page
+    print("line 1138", self.total_pages)
+    print("line 1139 - country_code_page", country_code_page)
     if self.current_page == 1:
       self.prev_button_country.enabled = False
     else:
@@ -1144,11 +1147,11 @@ class Discover(DiscoverTemplate):
 
   def next_page_country(self, **event_args):
     if self.current_page < self.total_pages:
-      self.create_monthly_listeners_by_country_bar_chart(page=self.current_page + 1)
+      self.create_monthly_listeners_by_country_bar_chart(country_page=self.current_page + 1)
 
   def previous_page_country(self, **event_args):
     if self.current_page > 1:
-      self.create_monthly_listeners_by_country_bar_chart(page=self.current_page - 1)
+      self.create_monthly_listeners_by_country_bar_chart(country_page=self.current_page - 1)
       
   def create_monthly_listeners_by_city_bar_chart(self, page=1, items_per_page=15, city_w_country_code=None, monthly_listeners=None):
     selected_country_name = self.sort_dropdown_countries.selected_value
@@ -1245,6 +1248,7 @@ class Discover(DiscoverTemplate):
   def next_page_city(self, **event_args):
     if self.current_page < self.total_pages:
       self.create_monthly_listeners_by_city_bar_chart(page=self.current_page + 1)
+      print("1251", "it True")      
 
   def previous_page_city(self, **event_args):
     if self.current_page > 1:
