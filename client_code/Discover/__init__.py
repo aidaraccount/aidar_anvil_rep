@@ -1123,7 +1123,7 @@ class Discover(DiscoverTemplate):
       )
     self.Spotify_Monthly_Listeners_by_Country_Graph.figure = fig
 
-  def create_monthly_listeners_by_city_bar_chart(self, page=1, items_per_page=10, city_w_country_code=None, monthly_listeners=None):
+  def create_monthly_listeners_by_city_bar_chart(self, page=1, items_per_page=15, city_w_country_code=None, monthly_listeners=None):
     selected_country_name = self.sort_dropdown_countries.selected_value
     
     city_w_country_code = self.listeners_city_data["city_w_country_code"]
