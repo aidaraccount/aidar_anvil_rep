@@ -115,9 +115,9 @@ components:
     role: [text_box_small, search-bar-related-artists]
   type: TextBox
 - layout_properties: {slot: nav-right_2}
-  name: label_1
-  properties: {}
-  type: Label
+  name: link_1
+  properties: {icon: 'fa:comments', role: header-5_bold, spacing_above: none, spacing_below: none}
+  type: Link
 container:
   properties: {background: '', html: '@theme:dashboard.html', role: null}
   type: HtmlTemplate
