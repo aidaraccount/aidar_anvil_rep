@@ -112,9 +112,6 @@
       color: linear-gradient(to bottom right, rgb(31, 11, 59), rgba(250, 250, 250, 0.15));
       visibility: hidden;
   }  
-  body.anvil-highlight .nav-elt.placeholder {
-      visibility: visible;
-  } 
   .nav-elt .drop-here {
       position: absolute;
       top: 0;
@@ -122,6 +119,34 @@
       bottom: 0;
       width: 5px;
   }
+  body.anvil-highlight .nav-elt.placeholder {
+      visibility: visible;
+  } 
+  .nav-elt_2 {
+    display: inline-block;
+    vertical-align: top;
+    position: absolute;
+    width: 70px;
+    top: 25px;
+    right: 150px;
+    z-index: 100;
+  }
+  .nav-elt_2.placeholder {
+      margin-top: 5px;
+      opacity: 0.8;
+      color: linear-gradient(to bottom right, rgb(31, 11, 59), rgba(250, 250, 250, 0.15));
+      visibility: hidden;
+  }  
+  .nav-elt_2 .drop-here {
+      position: absolute;
+      top: 0;
+      left: -7.5px;
+      bottom: 0;
+      width: 5px;
+  }
+  body.anvil-highlight .nav-elt_2.placeholder {
+      visibility: visible;
+  } 
   .cards {
       flex-grow: 1;
       font-weight: bold;
@@ -189,6 +214,14 @@
         <div anvil-drop-here class="drop-here"></div>
       </div>
       <div class="nav-elt placeholder anvil-designer-only" anvil-drop-slot="nav-right">
+        <i class="glyphicon glyphicon-plus"></i>
+      </div>
+    </div>
+    <div class="nav-right_2" anvil-drop-redirect=".nav-elt_2">
+      <div anvil-slot-repeat="nav-right_2" class="nav-elt_2">
+        <div anvil-drop-here class="drop-here"></div>
+      </div>
+      <div class="nav-elt_2 placeholder anvil-designer-only" anvil-drop-slot="nav-right_2">
         <i class="glyphicon glyphicon-plus"></i>
       </div>
     </div>

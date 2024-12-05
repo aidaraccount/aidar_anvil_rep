@@ -114,6 +114,10 @@ components:
     placeholder: Search Artist by Name, Spotify ID or UUID
     role: [text_box_small, search-bar-related-artists]
   type: TextBox
+- layout_properties: {slot: nav-right_2}
+  name: label_1
+  properties: {}
+  type: Label
 container:
   properties: {background: '', html: '@theme:dashboard.html', role: null}
   type: HtmlTemplate
