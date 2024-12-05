@@ -1131,11 +1131,9 @@ class Discover(DiscoverTemplate):
       )
     self.Spotify_Monthly_Listeners_by_Country_Graph.figure = fig
     self.current_page = country_page
-    print("line 1135", self.current_page)
-    print("line 1136", country_page)
     self.total_pages = (len(country_codes) + items_per_page - 1) // items_per_page
-    print("line 1138", self.total_pages)
-    print("line 1139 - country_code_page", country_code_page)
+    self.prev_button_country.visible = True
+    self.next_button_country.visible = True
     if self.current_page == 1:
       self.prev_button_country.enabled = False
     else:
@@ -1147,8 +1145,8 @@ class Discover(DiscoverTemplate):
 
   def next_page_country(self, **event_args):
     if self.current_page < self.total_pages:
-      self.create_monthly_listeners_by_country_bar_chart(country_page=self.current_page + 1)
-
+      self.create_monthly_listeners_by_country_bar_chart(country_page=self.current_page + 1)  
+    
   def previous_page_country(self, **event_args):
     if self.current_page > 1:
       self.create_monthly_listeners_by_country_bar_chart(country_page=self.current_page - 1)
@@ -1236,6 +1234,8 @@ class Discover(DiscoverTemplate):
     self.Spotify_Monthly_Listeners_by_City_Graph.figure = fig
     self.current_page = page
     self.total_pages = (len(city_w_country_code) + items_per_page - 1) // items_per_page
+    self.prev_button_city.visible = True
+    self.next_button_city.visible = True
     if self.current_page == 1:
       self.prev_button_city.enabled = False
     else:
