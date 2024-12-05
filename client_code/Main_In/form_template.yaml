@@ -114,8 +114,9 @@ components:
     placeholder: Search Artist by Name, Spotify ID or UUID
     role: [text_box_small, search-bar-related-artists]
   type: TextBox
-- layout_properties: {slot: nav-right_2}
-  name: link_1
+- event_bindings: {click: feedback_click}
+  layout_properties: {slot: nav-right_2}
+  name: feedback
   properties: {icon: 'fa:comments', role: header-5_bold, spacing_above: none, spacing_below: none}
   type: Link
 container:

@@ -1,4 +1,6 @@
 from ._anvil_designer import Main_InTemplate
+from ..C_FeedbackForm import C_FeedbackForm
+
 from anvil import *
 import anvil.server
 import anvil.tables as tables
@@ -402,4 +404,11 @@ class Main_In(Main_InTemplate):
     # If input is a single number, just process it
     else:
       return shorten_single_number(num)
+
+  def feedback_click(self, **event_args):
+    popup_table = alert(
+      content=C_FeedbackForm(),
+      large=True,
+      buttons=[]
+    )
 
