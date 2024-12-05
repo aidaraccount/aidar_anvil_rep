@@ -1,5 +1,6 @@
 components:
-- layout_properties: {slot: submit-button}
+- event_bindings: {click: submit_feedback_click}
+  layout_properties: {slot: submit-button}
   name: button_1
   properties: {role: call-to-action-button, text: Submit}
   type: Button

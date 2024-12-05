@@ -602,6 +602,7 @@ class Discover(DiscoverTemplate):
           "country_name": country_name
         }
         self.Spotify_Monthly_Listeners_by_Country_Graph.visible = True
+        self.flow_panel_countries.visible = True
         self.No_Spotify_Monthly_Listeners_by_Country_Graph.visible = False
         
         self.create_monthly_listeners_by_country_bar_chart()
@@ -609,6 +610,7 @@ class Discover(DiscoverTemplate):
       else:
         self.audience_country.text = '-'
         self.Spotify_Monthly_Listeners_by_Country_Graph.visible = False
+        self.flow_panel_countries.visible = False
         self.No_Spotify_Monthly_Listeners_by_Country_Graph.visible = True
 
       # --------
