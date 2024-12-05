@@ -101,8 +101,8 @@ class Notifications_RowTemplate(Notifications_RowTemplateTemplate):
     # model selection
     models = json.loads(anvil.server.call('get_model_ids',  user["user_id"]))
     active_models = self.item["model_ids"]
-
-    for i in range(0, len(models)):
+    
+    for i in range(0, len(models)):      
       if models[i]["model_id"] in active_models:        
         model_link = Link(
           text=models[i]["model_name"],
@@ -221,12 +221,6 @@ class Notifications_RowTemplate(Notifications_RowTemplateTemplate):
       release_days = None
     else:
       release_days = self.days_since_rel_field_value.text
-
-    # model_ids = []
-    # for component in self.flow_panel_models.get_components():
-    #   if isinstance(component, Link):
-    #     if component.role == 'genre-box':
-    #       model_ids.append(component.tag)
 
     # Collect selected model IDs
     model_ids = []

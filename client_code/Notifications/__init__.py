@@ -44,6 +44,26 @@ class Notifications(NotificationsTemplate):
       self.no_notifications.visible = True
 
   def add_mail_notification_click(self, **event_args):
+    # get a trained model to activate it at the beginning
+    models = json.loads(anvil.server.call('get_model_ids',  user["user_id"]))
+
+    model_id_pre_select = None
+    for i in range(0, len(models)):
+      if models[i]["is_last_used"] is True and models[i]["fully_trained"] is True:
+        model_id_pre_select = models[i]["model_id"]
+      
+      else:        
+        for i in range(0, len(models)):
+          if models[i]["fully_trained"] is True:
+            model_id_pre_select = models[i]["model_id"]
+            break
+
+    if model_id_pre_select:
+      model_ids = [model_id_pre_select]
+    else:
+      model_ids = []
+
+    # save the initial notification
     anvil.server.call('create_notification',
                       user_id = user["user_id"],
                       type = 'mail',
@@ -60,7 +80,8 @@ class Notifications(NotificationsTemplate):
                       watchlist = None,
                       release_days = 21,
                       min_grow_fit = 0.75,
-                      model_ids = [])
-    
+                      model_ids = model_ids)
+
+    # update the notifications table
     self.get_notifications()
     
