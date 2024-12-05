@@ -117,7 +117,7 @@ components:
 - event_bindings: {click: feedback_click}
   layout_properties: {slot: nav-right_2}
   name: feedback
-  properties: {icon: 'fa:comments', role: header-5_bold, spacing_above: none, spacing_below: none, visible: true}
+  properties: {icon: 'fa:comments', role: header-5_bold, spacing_above: none, spacing_below: none, visible: false}
   type: Link
 container:
   properties: {background: '', html: '@theme:dashboard.html', role: null}

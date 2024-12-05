@@ -762,18 +762,18 @@ class Discover(DiscoverTemplate):
         self.no_social_media.visible = True
       
       
-      # -------------------------------
-      # IV. MUSICAL
-      # a) musical distance
-      if sug["MinMusDist"] == 'None': mmd = 'N/A'
-      else: mmd = "{:.2f}".format(round(float(sug["MinMusDist"]),2))
-      self.min_mus_dis.text = mmd
-      if sug["AvgMusDist"] == 'None': amd = 'N/A'
-      else: amd = "{:.2f}".format(round(float(sug["AvgMusDist"]),2))
-      self.avg_mus_dis.text = amd
-      if sug["MaxMusDist"] == 'None': xmd = 'N/A'
-      else: xmd = "{:.2f}".format(round(float(sug["MaxMusDist"]),2))
-      self.max_mus_dis.text = xmd
+      # # -------------------------------
+      # # IV. MUSICAL
+      # # a) musical distance
+      # if sug["MinMusDist"] == 'None': mmd = 'N/A'
+      # else: mmd = "{:.2f}".format(round(float(sug["MinMusDist"]),2))
+      # self.min_mus_dis.text = mmd
+      # if sug["AvgMusDist"] == 'None': amd = 'N/A'
+      # else: amd = "{:.2f}".format(round(float(sug["AvgMusDist"]),2))
+      # self.avg_mus_dis.text = amd
+      # if sug["MaxMusDist"] == 'None': xmd = 'N/A'
+      # else: xmd = "{:.2f}".format(round(float(sug["MaxMusDist"]),2))
+      # self.max_mus_dis.text = xmd
       
       # --------
       # b) musical features

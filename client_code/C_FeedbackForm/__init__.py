@@ -19,6 +19,8 @@ class C_FeedbackForm(C_FeedbackFormTemplate):
     
     
   def submit_feedback_click(self, **event_args):
+    print(self.get_components())
+    
     user = anvil.users.get_user()
     model_id = load_var("model_id")
     model_id_view = load_var("model_id_view")
