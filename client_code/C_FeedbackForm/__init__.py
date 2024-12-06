@@ -17,7 +17,6 @@ class C_FeedbackForm(C_FeedbackFormTemplate):
 
     # Any code you write here will run before the form opens.
     
-    
   def submit_feedback_click(self, **event_args):
     print(self.get_components())
     
@@ -30,7 +29,7 @@ class C_FeedbackForm(C_FeedbackFormTemplate):
     anvil.server.call('add_feedback',
                       user_id=user["user_id"],
                       rating=None,  # cannot access the notes
-                      feedback='my feedback',  # cannot access the test box
+                      feedback= self.feedback_comment.text,  # cannot access the test box
                       details=f"url={routing.get_url_components()[0]}, model_id={model_id}, model_id_view={model_id_view}, watchlist_id={watchlist_id}"
     )
     
