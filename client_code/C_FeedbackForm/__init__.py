@@ -24,7 +24,9 @@ class C_FeedbackForm(C_FeedbackFormTemplate):
     model_id = load_var("model_id")
     model_id_view = load_var("model_id_view")
     watchlist_id = load_var("watchlist_id")
-    
+
+    rating = int(anvil.js.window.document.getElementById("rating-input").value)
+    print(rating)
     # add_feedback(user_id: int, rating: int | None, feedback: str, details: str)
     anvil.server.call('add_feedback',
                       user_id=user["user_id"],
