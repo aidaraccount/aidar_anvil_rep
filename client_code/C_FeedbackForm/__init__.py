@@ -25,12 +25,12 @@ class C_FeedbackForm(C_FeedbackFormTemplate):
     model_id_view = load_var("model_id_view")
     watchlist_id = load_var("watchlist_id")
 
+    # Get the rating from the HTML stars
     rating = int(anvil.js.window.document.getElementById("rating-input").value)
-    print(rating)
     # add_feedback(user_id: int, rating: int | None, feedback: str, details: str)
     anvil.server.call('add_feedback',
                       user_id=user["user_id"],
-                      rating=None,  # cannot access the notes
+                      rating=rating,  # cannot access the notes
                       feedback= self.feedback_comment.text,  # cannot access the test box
                       details=f"url={routing.get_url_components()[0]}, model_id={model_id}, model_id_view={model_id_view}, watchlist_id={watchlist_id}"
     )
