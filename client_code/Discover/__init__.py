@@ -1115,7 +1115,8 @@ class Discover(DiscoverTemplate):
         zerolinecolor='rgb(240,240,240)',  # Set the color of the zero line
       ),
       margin=dict(
-        t=50  # Increase top margin to accommodate the labels
+        t=0,  # Top margin
+        b=20   # Bottom margin
       ),
       hoverlabel=dict(
         bgcolor='rgba(237,139,82, 0.4)'
@@ -1217,7 +1218,8 @@ class Discover(DiscoverTemplate):
         zerolinecolor='rgb(240,240,240)',  # Set the color of the zero line
       ),
       margin=dict(
-        t=50  # Increase top margin to accommodate the labels
+        t=0,  # Top margin
+        b=20   # Bottom margin
       ),
       hoverlabel=dict(
         bgcolor='rgba(237,139,82, 0.4)'
@@ -1447,18 +1449,23 @@ class Discover(DiscoverTemplate):
     fig = go.Figure(data=traces)
         
     fig.update_layout(
-        template='plotly_dark',
-        plot_bgcolor='rgba(0,0,0,0)',
-        paper_bgcolor='rgba(0,0,0,0)',
-        margin=dict(t=50),
-        xaxis=dict(
-            showgrid=False  # Remove x-axis gridlines
-        ),
-        yaxis=dict(
-            showgrid=True,  # Ensure y-axis gridlines are visible
-            gridcolor='rgba(250,250,250,1)',  # Color of the gridlines
-            gridwidth=2  # Emphasized thickness of the gridlines
-        )
+      template='plotly_dark',
+      plot_bgcolor='rgba(0,0,0,0)',
+      paper_bgcolor='rgba(0,0,0,0)',
+      xaxis=dict(
+          showgrid=False  # Remove x-axis gridlines
+      ),
+      yaxis=dict(
+          showgrid=True,  # Ensure y-axis gridlines are visible
+          gridcolor='rgba(250,250,250,1)',  # Color of the gridlines
+          gridwidth=2  # Emphasized thickness of the gridlines
+      ),
+      margin=dict(
+          l=5,  # Left margin
+          r=5,  # Right margin
+          t=0,  # Top margin
+          b=5   # Bottom margin
+      )
     )
     
     self.Social_Media_Followers_Graph.figure = fig
