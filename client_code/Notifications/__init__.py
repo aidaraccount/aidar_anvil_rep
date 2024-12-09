@@ -31,7 +31,6 @@ class Notifications(NotificationsTemplate):
   
   # GET TABLE DATA
   def get_notifications(self, **event_args):
-
     notifications = json.loads(anvil.server.call('get_notifications',  user["user_id"]))
     
     if len(notifications) > 0:
@@ -80,7 +79,54 @@ class Notifications(NotificationsTemplate):
                       watchlist = None,
                       release_days = 21,
                       min_grow_fit = 0.75,
-                      model_ids = model_ids)
+                      model_ids = model_ids,
+                      song_selection_1 = None,
+                      song_selection_2 = None)
+
+    # update the notifications table
+    self.get_notifications()
+
+    
+  def add_playlist_notification_click(self, **event_args):
+    # get a trained model to activate it at the beginning
+    models = json.loads(anvil.server.call('get_model_ids',  user["user_id"]))
+
+    model_id_pre_select = None
+    for i in range(0, len(models)):
+      if models[i]["is_last_used"] is True and models[i]["fully_trained"] is True:
+        model_id_pre_select = models[i]["model_id"]
+      
+      else:        
+        for i in range(0, len(models)):
+          if models[i]["fully_trained"] is True:
+            model_id_pre_select = models[i]["model_id"]
+            break
+
+    if model_id_pre_select:
+      model_ids = [model_id_pre_select]
+    else:
+      model_ids = []
+
+    # save the initial notification
+    anvil.server.call('create_notification',
+                      user_id = user["user_id"],
+                      type = 'mail',
+                      name = 'My Notification',
+                      active = True,
+                      freq_1 = 'Daily',
+                      freq_2 = 7,
+                      freq_3 = date.today().strftime("%Y-%m-%d"),
+                      metric = 'Top Fits',
+                      no_artists = 5,
+                      repetition_1 = 'Repeat suggestions',
+                      repetition_2 = 90,
+                      rated = False,
+                      watchlist = None,
+                      release_days = 21,
+                      min_grow_fit = 0.75,
+                      model_ids = model_ids,
+                      song_selection_1 = None,
+                      song_selection_2 = None)
 
     # update the notifications table
     self.get_notifications()

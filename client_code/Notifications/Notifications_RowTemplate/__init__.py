@@ -251,7 +251,9 @@ class Notifications_RowTemplate(Notifications_RowTemplateTemplate):
                       watchlist = watchlist_selection_option,
                       release_days = release_days,
                       min_grow_fit = min_growth_value ,
-                      model_ids = model_ids)
+                      model_ids = model_ids,
+                      song_selection_1 = None,
+                      song_selection_2 = None)
 
   def activate_notification(self, **event_args):
     if self.activate.visible is True:
