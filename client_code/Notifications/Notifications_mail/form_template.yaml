@@ -128,7 +128,13 @@ components:
       type: Label
     - layout_properties: {}
       name: playlist_url
-      properties: {role: header-6, spacing_above: none, spacing_below: none, text: Go to Playlist}
+      properties:
+        role: header-6
+        spacing:
+          padding: [null, null, null, 5]
+        spacing_above: none
+        spacing_below: none
+        text: Go to Playlist
       type: Link
     layout_properties: {grid_position: 'IRYPMY,XTCPXD GYBTCS,WUUVPQ'}
     name: url_master
@@ -216,8 +222,13 @@ components:
         text: 'Last updated:'
         visible: true
       type: Label
-    - name: larst_updated_value
-      properties: {role: header-6}
+    - layout_properties: {}
+      name: larst_updated_value
+      properties:
+        role: header-6
+        spacing:
+          margin: [15, null, 0, null]
+          padding: [null, null, null, 5]
       type: Label
     layout_properties: {grid_position: 'IRYPMY,XTCPXD LODPHD,OWNTRU'}
     name: last_updated_spotify
