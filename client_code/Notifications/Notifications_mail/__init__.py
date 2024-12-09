@@ -25,20 +25,22 @@ class Notifications_mail(Notifications_mailTemplate):
     # -------------
     # load initial data
     # 0) Header
-    # Name & its Icon
+    # Name, its Icon & activate Button
     self.name_link.text = self.item["name"]
     if self.item["type"] == 'mail':
       self.name_link.icon = 'fa:envelope-o'
+      
+      # activate/ deactivate Button
+      if self.item["active"] is True:
+        self.activate.visible = False
+        self.deactivate.visible = True
+      else:
+        self.activate.visible = True
+        self.deactivate.visible = False
+        
     elif self.item["type"] == 'playlist':
       self.name_link.icon = 'fa:spotify'
     
-    # activate/ deactivate Button
-    if self.item["active"] is True:
-      self.activate.visible = False
-      self.deactivate.visible = True
-    else:
-      self.activate.visible = True
-      self.deactivate.visible = False
     
     # A1) Frequency
     if self.item["type"] == 'mail':
