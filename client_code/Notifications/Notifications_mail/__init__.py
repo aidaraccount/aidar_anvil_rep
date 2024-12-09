@@ -64,16 +64,15 @@ class Notifications_mail(Notifications_mailTemplate):
     if self.item["type"] == 'playlist':
       self.status_field_title.visible = True
       
-      self.url_master.visible = True
-      self.last_updated_spotify.visible = True
 
+      print(self.item["sp_playlist_id"])
       if self.item["sp_playlist_id"] is None or self.item["sp_playlist_id"] == '':
-        self.playlist_url.url = 'created soon!'
-        self.playlist_url.role = 'header-6'
+        self.playlist_in_creation.visible = True
       else:
+        self.url_master.visible = True
+        self.last_updated_spotify.visible = True
         self.playlist_url.url = f"https://open.spotify.com/playlist/{self.item['sp_playlist_id']}"
-        self.playlist_url.role = ['header-6', 'orange']
-      self.larst_updated_value.text = self.item["last_update"]
+        self.larst_updated_value.text = self.item["last_update"]
     
     # B) General
     self.no_artists_box.text = self.item["no_artists"]
