@@ -29,46 +29,46 @@ class Notifications_mail(Notifications_mailTemplate):
     self.name_link.text = self.item["name"]
     if self.item["type"] == 'mail':
       self.name_link.icon = 'fa:envelope-o'
-      self.frequency_master_1.visible = True
-      self.frequency_field_title.visible = True
     elif self.item["type"] == 'playlist':
       self.name_link.icon = 'fa:spotify'
-      self.url_master.visible = True
-      self.status_field_title.visible = True
-      self.song_selection.visible = True
-      self.no_latest_releases.visible = True
-      self.last_updated_spotify.visible = True
-      
     
     # activate/ deactivate Button
     if self.item["active"] is True:
       self.activate.visible = False
       self.deactivate.visible = True
-      # self.notification_status.text = 'Notification is active'
     else:
       self.activate.visible = True
       self.deactivate.visible = False
-      # self.notification_status.text = 'Notification is inactive'
     
     # A1) Frequency
-    self.frequency_option_1.text = self.item["freq_1"]
-    self.frequency_option_2.text = self.item["freq_2"]
-    self.frequency_picker.date = self.item["freq_3"]
-    # self.weekdays.text = self.item["freq_3"]    
-
-    if self.frequency_option_1.text == 'Daily':
-      self.flow_panel_freq_2.visible = False
-      self.flow_panel_freq_3.visible = False
-    elif self.frequency_option_1.text == 'Every X Days':
-      self.flow_panel_freq_2.visible = True
-      self.flow_panel_freq_3.visible = True
-    elif self.frequency_option_1.text == 'Monthly':
-      self.flow_panel_freq_2.visible = False
-      self.flow_panel_freq_3.visible = True
+    if self.item["type"] == 'mail':
+      self.frequency_master_1.visible = True
+      self.frequency_field_title.visible = True
+      
+      self.frequency_option_1.text = self.item["freq_1"]
+      self.frequency_option_2.text = self.item["freq_2"]
+      self.frequency_picker.date = self.item["freq_3"]
+      # self.weekdays.text = self.item["freq_3"]    
+  
+      if self.frequency_option_1.text == 'Daily':
+        self.flow_panel_freq_2.visible = False
+        self.flow_panel_freq_3.visible = False
+      elif self.frequency_option_1.text == 'Every X Days':
+        self.flow_panel_freq_2.visible = True
+        self.flow_panel_freq_3.visible = True
+      elif self.frequency_option_1.text == 'Monthly':
+        self.flow_panel_freq_2.visible = False
+        self.flow_panel_freq_3.visible = True
 
     # A2) Status
-    self.playlist_url.url = self.item["url"]
-    self.larst_updated_value.text = self.item["last_updated"]
+    if self.item["type"] == 'playlist':
+      self.status_field_title.visible = True
+      
+      self.url_master.visible = True
+      self.last_updated_spotify.visible = True
+      
+      self.playlist_url.url = self.item["url"]
+      self.larst_updated_value.text = self.item["last_updated"]
     
     # B) General
     self.no_artists_box.text = self.item["no_artists"]
@@ -79,9 +79,13 @@ class Notifications_mail(Notifications_mailTemplate):
     else:
       self.column_panel_rep.visible = False    
 
-    # song selection
-    self.song_selection_type.text = self.item["song_selection_1"]
-    self.no_latest_rel_box_spotify.text = self.item["song_selection_2"]
+    # for playlists
+    if self.item["type"] == 'playlist':
+      self.song_selection.visible = True
+      self.no_latest_releases.visible = True
+      
+      self.song_selection_type.text = self.item["song_selection_1"]
+      self.no_latest_rel_box_spotify.text = self.item["song_selection_2"]
     
     # C) Metric
     self.metrics_option_1.text = self.item["metric"]
@@ -142,88 +146,11 @@ class Notifications_mail(Notifications_mailTemplate):
       model_link.set_event_handler('click', self.create_activate_model_handler(models[i]["model_id"]))
       self.flow_panel_models.add_component(model_link)
 
-
-
-  def frequency_option_2_lost_focus(self, **event_args):
-    # Validate number of days only if "Every X Days" is selected
-    if self.frequency_option_1.text == "Every X Days":
-      if not self.frequency_option_2.text.strip() or not self.frequency_option_2.text.isdigit() or int(self.frequency_option_2.text) < 1:
-        self.every_x_days_warning.visible = True
-      else:
-        self.every_x_days_warning.visible = False    
-        self.update_notification_1()
-        
-  def date_picker_lost_focus(self, **event_args):
-    # Validate number of days only if "Every X Days" is selected
-    if self.frequency_option_1.text in ["Every X Days", "Monthly"]:
-      print(self.frequency_picker.date)
-      if self.frequency_picker.date is None:
-        self.every_x_days_start_warning.visible = True
-      else:
-        self.every_x_days_start_warning.visible = False    
-        self.update_notification_1()
-        
-  def artist_rep_x_days_freq_lost_focus(self, **event_args):
-    # Validate number of days only if "Every X Days" is selected
-    if self.notif_rep_value.text == "Repeat after X days":
-      if not self.artist_rep_x_days_freq.text.strip() or not self.artist_rep_x_days_freq.text.isdigit() or int(self.artist_rep_x_days_freq.text) < 1:
-        self.artist_rep_x_days_freq_warning.visible = True
-      else:
-        self.artist_rep_x_days_freq_warning.visible = False    
-        self.update_notification_1()
-        
-  def min_growth_value_lost_focus(self, **event_args):
-    # Validate number of days only if "Every X Days" is selected
-    if self.metrics_option_1.text == "Growing Fits":
-      if not self.min_growth_value.text.strip() or not self.min_growth_value.text.isdigit() or int(self.min_growth_value.text) < 0:
-        self.min_growth_warning.visible = True
-      else:
-        self.min_growth_warning.visible = False    
-        self.update_notification_1()
-        
-  def max_days_since_rel_lost_focus(self, **event_args):
-    # Validate number of days only if "Every X Days" is selected
-    if self.metrics_option_1.text == "Releasing Fits":
-      if not self.days_since_rel_field_value.text.strip() or not self.days_since_rel_field_value.text.isdigit():
-        self.days_since_rel_field_warning.visible = True
-      else:
-        self.days_since_rel_field_warning.visible = False    
-        self.update_notification_1()
-         
-  def update_notification_1(self, **event_args):
-    # Validate the no_artists_box input (ensure it's between 1 and 20)
-    try:
-      if not self.no_artists_box.text.strip():  # Check if the field is empty
-        # alert("The number of artists field cannot be empty. Please enter a value between 1 and 20.", 
-        #       title="Missing Input", buttons=[("OK", "OK")], role=["remove-focus"])
-        self.max_number_artist_warning.visible = True
-        return  # Stop execution if the field is empty
-      else:
-        self.max_number_artist_warning.visible = False
-      no_artists = int(self.no_artists_box.text)
-      if no_artists < 1 or no_artists > 20:
-        self.max_number_artist_warning.visible = True
-        return
-    except ValueError:
-      self.max_number_artist_warning.visible = True
-      return  # Stop execution if the input is not a number
-      
-    try:
-      if not self.no_latest_rel_box_spotify.text.strip():  # Check if the field is empty
-        # alert("The number of artists field cannot be empty. Please enter a value between 1 and 20.", 
-        #       title="Missing Input", buttons=[("OK", "OK")], role=["remove-focus"])
-        self.no_latest_rel_box_spotify_warning.visible = True
-        return  # Stop execution if the field is empty
-      else:
-        self.no_latest_rel_box_spotify_warning.visible = False
-      no_artists = int(self.no_latest_rel_box_spotify.text)
-      if no_artists < 1 or no_artists > 10:
-        self.no_latest_rel_box_spotify_warning.visible = True
-        return
-    except ValueError:
-      self.no_latest_rel_box_spotify_warning.visible = True
-      return  # Stop execution if the input is not a number
-      
+  
+  # NOTIFICATION MODIFICATION
+  def update_notification(self, **event_args):
+    # prepare data
+    # frequency 2 and 3
     if self.frequency_option_1.text == 'Daily':
       freq_2 = None
       freq_3 = None
@@ -260,16 +187,7 @@ class Notifications_mail(Notifications_mailTemplate):
         if isinstance(component, Link) and component.role == 'genre-box':  # Only active models
             model_ids.append(component.tag)
 
-    # Check if any models are selected
-    if not model_ids:
-      self.models_warning.visible = True
-      return  # Stop execution if no models are selected
-    else:
-      self.models_warning.visible = False
-      
-    print(self.song_selection_type.text)
-    print(self.no_latest_rel_box_spotify.text)
-    print(type(self.no_latest_rel_box_spotify.text))
+    # do the update
     anvil.server.call('update_notification',
                       notification_id = self.item["notification_id"],
                       type = self.item["type"],
@@ -294,44 +212,41 @@ class Notifications_mail(Notifications_mailTemplate):
     if self.activate.visible is True:
       self.activate.visible = False
       self.deactivate.visible = True
-      # self.notification_status.text = 'Notification is active'
       Notification("",
         title=f'"{self.name_link.text}" is activated',
         style="success").show()
     else:
       self.activate.visible = True
       self.deactivate.visible = False
-      # self.notification_status.text = 'Notification is inactive'
       Notification("",
         title=f'"{self.name_link.text}" is no longer active',
-        style="success").show()
-    self.update_notification_1()
+        style="success").show()      
+    self.update_notification()
 
-  # RATED BUTTON
+  def delete_notification_click(self, **event_args):
+    anvil.server.call('delete_notification',
+                      notification_id = self.item["notification_id"])
+    self.parent.parent.parent.parent.get_notifications()
+
+  
+  # BUTTON FUNCTIONALITIES
   def artist_selection_option_click(self, **event_args):
     if self.artist_selection_option.text == 'Rated':
       self.artist_selection_option.text = 'Unrated'
     elif self.artist_selection_option.text == 'Unrated':
       self.artist_selection_option.text = 'All'
     elif self.artist_selection_option.text == 'All':
-      self.artist_selection_option.text = 'Rated'
-    self.update_notification_1()
+      self.artist_selection_option.text = 'Rated'      
+    self.update_notification()
 
-  # WATCHLIST BUTTON
   def watchlist_selection_option_click(self, **event_args):
     if self.watchlist_selection_option.text == 'On watchlist':
       self.watchlist_selection_option.text = 'Not on watchlist'
     elif self.watchlist_selection_option.text == 'Not on watchlist':
       self.watchlist_selection_option.text = 'All'
     elif self.watchlist_selection_option.text == 'All':
-      self.watchlist_selection_option.text = 'On watchlist'
-    self.update_notification_1()
-
-  def delete_notification_click(self, **event_args):
-    anvil.server.call('delete_notification',
-                      notification_id = self.item["notification_id"])
-
-    self.parent.parent.parent.parent.get_notifications()
+      self.watchlist_selection_option.text = 'On watchlist'      
+    self.update_notification()
 
   def frequency_option_1_click(self, **event_args):
     if self.frequency_option_1.text == 'Daily':
@@ -350,8 +265,8 @@ class Notifications_mail(Notifications_mailTemplate):
       self.frequency_option_1.text = 'Daily'
       self.flow_panel_freq_2.visible = False
       self.weekdays.visible = False
-      self.flow_panel_freq_3.visible = False
-    self.update_notification_1()
+      self.flow_panel_freq_3.visible = False      
+    self.update_notification()
 
   def notification_repetition_value_click(self, **event_args):
     if self.notif_rep_value.text == 'Suggest artists once':
@@ -361,9 +276,8 @@ class Notifications_mail(Notifications_mailTemplate):
       self.column_panel_rep.visible = True
     elif self.notif_rep_value.text == 'Repeat after X days':
       self.notif_rep_value.text = 'Suggest artists once'
-      self.column_panel_rep.visible = False
-      
-    self.update_notification_1()
+      self.column_panel_rep.visible = False      
+    self.update_notification()
 
   def metrics_option_1_click(self, **event_args):
     if self.metrics_option_1.text == 'Top Fits':
@@ -373,43 +287,107 @@ class Notifications_mail(Notifications_mailTemplate):
       self.metrics_option_1.text = 'Releasing Fits'
       self.min_growth_fit.visible = False
       self.max_days_since_rel.visible = True
-      self.min_growth_warning.visible = False
     elif self.metrics_option_1.text == 'Releasing Fits':
       self.metrics_option_1.text = 'Top Fits'
       self.max_days_since_rel.visible = False
-      self.days_since_rel_field_warning.visible = False
-    self.update_notification_1()
+    self.update_notification()
   
-  def edit_icon_click_2(self, **event_args):
-    if self.name_link.visible is True: 
-      self.name_link.visible = False
-      self.model_name_text.visible = True
-      self.model_name_text.text = self.name_link.text
-      self.model_name_text.focus()
+  # def edit_icon_click_2(self, **event_args):
+  #   if self.name_link.visible is True: 
+  #     self.name_link.visible = False
+  #     self.model_name_text.visible = True
+  #     self.model_name_text.text = self.name_link.text
+  #     self.model_name_text.focus()      
+  #     self.update_notification()
 
   def edit_icon_click_2_lose_focus(self, **event_args):    
     if self.model_name_text.visible is True:
       self.model_name_text.visible = False
       self.name_link.visible = True
-      self.name_link.text = self.model_name_text.text
-      self.update_notification_1()
+      self.name_link.text = self.model_name_text.text      
+      self.update_notification()
   
   def edit_icon_click_2_enter(self, **event_args):
     if self.model_name_text.visible is True:
       self.model_name_text.visible = False
       self.name_link.visible = True
-      self.name_link.text = self.model_name_text.text
-      self.update_notification_1()
+      self.name_link.text = self.model_name_text.text      
+      self.update_notification()
 
+  
+  # LOST FOCUS CHECKS
+  def frequency_option_2_lost_focus(self, **event_args):
+    # Validate number of days only if "Every X Days" is selected
+    if self.frequency_option_1.text == "Every X Days":
+      if not self.frequency_option_2.text.strip() or not self.frequency_option_2.text.isdigit() or int(self.frequency_option_2.text) < 1:
+        self.every_x_days_warning.visible = True
+      else:
+        self.every_x_days_warning.visible = False    
+        self.update_notification()
+        
+  def date_picker_lost_focus(self, **event_args):
+    # Validate number of days only if "Every X Days" is selected
+    if self.frequency_option_1.text in ["Every X Days", "Monthly"]:
+      print(self.frequency_picker.date)
+      if self.frequency_picker.date is None:
+        self.every_x_days_start_warning.visible = True
+      else:
+        self.every_x_days_start_warning.visible = False    
+        self.update_notification()
+        
+  def artist_rep_x_days_freq_lost_focus(self, **event_args):
+    # Validate number of days only if "Every X Days" is selected
+    if self.notif_rep_value.text == "Repeat after X days":
+      if not self.artist_rep_x_days_freq.text.strip() or not self.artist_rep_x_days_freq.text.isdigit() or int(self.artist_rep_x_days_freq.text) < 1:
+        self.artist_rep_x_days_freq_warning.visible = True
+      else:
+        self.artist_rep_x_days_freq_warning.visible = False    
+        self.update_notification()
+        
+  def min_growth_value_lost_focus(self, **event_args):
+    # Validate number of days only if "Every X Days" is selected
+    if self.metrics_option_1.text == "Growing Fits":
+      if not self.min_growth_value.text.strip() or not self.min_growth_value.text.isdigit() or int(self.min_growth_value.text) < 0 or int(self.min_growth_value.text) > 100:
+        self.min_growth_warning.visible = True
+      else:
+        self.min_growth_warning.visible = False    
+        self.update_notification()
+        
+  def max_days_since_rel_lost_focus(self, **event_args):
+    # Validate number of days only if "Every X Days" is selected
+    if self.metrics_option_1.text == "Releasing Fits":
+      if not self.days_since_rel_field_value.text.strip() or not self.days_since_rel_field_value.text.isdigit():
+        self.days_since_rel_field_warning.visible = True
+      else:
+        self.days_since_rel_field_warning.visible = False    
+        self.update_notification()
 
+  def no_latest_rel_box_spotify_lost_focus(self, **event_args):
+    # Validate number latest releases only if "Latest Releases" is selected
+    if self.song_selection_type.text == "Latest Releases":
+      if not self.no_latest_rel_box_spotify.text.strip() or not self.no_latest_rel_box_spotify.text.isdigit() or int(self.no_latest_rel_box_spotify.text) < 0 or int(self.no_latest_rel_box_spotify.text) > 10:
+        self.no_latest_rel_box_spotify_warning.visible = True
+      else:
+        self.no_latest_rel_box_spotify_warning.visible = False    
+        self.update_notification()
+
+  def no_artists_box_lost_focus(self, **event_args):
+    # Validate the no_artists_box input (ensure it's between 1 and 20)
+    if not self.no_artists_box.text.strip() or not self.no_artists_box.text.isdigit() or int(self.no_artists_box.text) < 0 or int(self.no_artists_box.text) > 20:
+      self.max_number_artist_warning.visible = True
+    else:
+      self.max_number_artist_warning.visible = False    
+      self.update_notification()
+
+  
+  # BASE FUNCTIONS
   # MODEL BUTTONS
   def create_activate_model_handler(self, model_id):
     def handler(**event_args):
       self.activate_model(model_id)
     return handler
 
-  
-  # change active status
+  # change active status of MODEL BUTTONS
   def activate_model(self, model_id):
     for component in self.flow_panel_models.get_components():
       if isinstance(component, Link):        
@@ -424,17 +402,17 @@ class Notifications_mail(Notifications_mailTemplate):
               component.role = 'genre-box-deselect'
             else:
               component.role = 'genre-box'
-    self.update_notification_1()
+    
+    # Check if any models are selected    
+    # a) ccollect selected model IDs
+    model_ids = []
+    for component in self.flow_panel_models.get_components():
+        if isinstance(component, Link) and component.role == 'genre-box':  # Only active models
+            model_ids.append(component.tag)
 
-  # def weekdays_click(self, **event_args):
-  #   if self.weekdays.text == 'Monday':
-  #     self.weekdays.text = 'Tuesday'
-  #   elif self.weekdays.text == 'Tuesday':
-  #     self.weekdays.text = 'Wednesday'
-  #   elif self.weekdays.text == 'Wednesday':
-  #     self.weekdays.text = 'Thursday'
-  #   elif self.weekdays.text == 'Thursday':
-  #     self.weekdays.text = 'Friday'
-  #   elif self.weekdays.text == 'Friday':
-  #     self.weekdays.text = 'Monday'
-
+    # b) show warning or update_notification
+    if not model_ids:
+      self.models_warning.visible = True
+    else:
+      self.models_warning.visible = False
+      self.update_notification()
