@@ -72,7 +72,7 @@ class Notifications_mail(Notifications_mailTemplate):
         self.url_master.visible = True
         self.last_updated_spotify.visible = True
         self.playlist_url.url = f"https://open.spotify.com/playlist/{self.item['sp_playlist_id']}"
-        self.larst_updated_value.text = self.item["last_update"]
+        self.larst_updated_value.text = self.item["last_update"][:-3]
     
     # B) General
     self.no_artists_box.text = self.item["no_artists"]
