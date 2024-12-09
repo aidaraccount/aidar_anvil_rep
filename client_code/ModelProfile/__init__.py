@@ -113,7 +113,7 @@ class ModelProfile(ModelProfileTemplate):
         self.Level_value.text = infos["overall_level"]
         
         # Overall Progress Circles
-        if (infos["total_ratings"] + infos["no_references"]) > 50:
+        if (infos["total_ratings"] + infos["no_references"]) >= 50:
           self.custom_HTML_prediction(infos["overall_acc"])
           self.custom_HTML_prediction_2(infos["overall_acc"])
           self.overall_num_rec.visible = False

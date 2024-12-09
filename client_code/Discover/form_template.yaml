@@ -1115,40 +1115,149 @@ components:
       properties: {col_widths: '{"XPKPSB":15,"ZTJWYM":10,"KPHRDB":10,"WVDYXZ":10,"MAZPYD":15}', role: grid-main}
       type: ColumnPanel
     - components:
-      - layout_properties: {grid_position: 'BCHOZO,TMNYIR'}
-        name: Header_for_Spotify_Monthly_Listeners_by_Country_Graph_Copy
-        properties: {role: Discover_artist_name, spacing_above: none, spacing_below: none, text: ' Spotify Monthly Listeners by Country', visible: true}
+      - layout_properties: {grid_position: 'IBAIYM,MUKITF'}
+        name: label_12
+        properties: {role: Discover_artist_name, text: ' Spotify Monthly Listeners by Location'}
         type: Label
-      - event_bindings: {}
-        layout_properties: {grid_position: 'VQTYJE,RKWVRK'}
-        name: Spotify_Monthly_Listeners_by_Country_Graph
-        properties: {height: '300', interactive: true, spacing_above: none, spacing_below: none, tooltip: '', visible: true}
-        type: Plot
-      - layout_properties: {grid_position: 'MCTTTL,OTDAWL'}
+      - components:
+        - layout_properties: {}
+          name: Sort_Label_countries
+          properties: {role: header-6, spacing_above: none, spacing_below: none, text: 'Highlight:'}
+          type: Label
+        - event_bindings: {change: sort_dropdown_countries_change}
+          layout_properties: {}
+          name: sort_dropdown_countries
+          properties:
+            align: right
+            include_placeholder: false
+            items: [All countries, Afghanistan, Åland Islands, Albania, Algeria, American Samoa, Andorra, Angola, Anguilla, Antarctica, Antigua and Barbuda, Argentina, Armenia, Aruba, Australia, Austria, Azerbaijan, Bahamas, Bahrain, Bangladesh, Barbados, Belarus, Belgium, Belize, Benin, Bermuda, Bhutan, Bolivia, Bonaire, Bosnia and Herzegovina, Botswana, Bouvet Island, Brazil, British Indian Ocean Territory, Brunei Darussalam, Bulgaria, Burkina Faso, Burundi, Cabo Verde, Cambodia, Cameroon, Canada, Cayman Islands, Central African Republic, Chad, Chile, China, Christmas Island, Cocos (Keeling) Islands, Colombia, Comoros, Congo, Congo, Cook Islands, Costa Rica, Côte d'Ivoire, Croatia, Cuba, Curaçao, Cyprus, Czechia, Denmark, Djibouti, Dominica, Dominican Republic, Ecuador, Egypt, El Salvador, Equatorial Guinea, Eritrea, Estonia, Eswatini, Ethiopia, Falkland Islands (Malvinas), Faroe Islands, Fiji, Finland, France, French Guiana, French Polynesia, French Southern Territories, Gabon, Gambia, Georgia, Germany, Ghana, Gibraltar, Greece, Greenland, Grenada, Guadeloupe, Guam, Guatemala, Guernsey, Guinea, Guinea-Bissau, Guyana, Haiti, Heard Island and McDonald Islands, Holy See, Honduras, Hong Kong, Hungary, Iceland, India, Indonesia, Iran, Iraq, Ireland, Isle of Man, Israel, Italy, Jamaica, Japan, Jersey, Jordan, Kazakhstan, Kenya, Kiribati, Korea, Korea, Kosovo, Kuwait, Kyrgyzstan, Lao People's Democratic Republic, Latvia, Lebanon, Lesotho, Liberia, Libya, Liechtenstein, Lithuania, Luxembourg, Macao, Madagascar, Malawi, Malaysia, Maldives, Mali, Malta, Marshall Islands, Martinique, Mauritania, Mauritius, Mayotte, Mexico, Micronesia, Moldova, Monaco, Mongolia, Montenegro, Montserrat, Morocco, Mozambique, Myanmar, Namibia, Nauru, Nepal, Netherlands, New Caledonia, New Zealand, Nicaragua, Niger, Nigeria, Niue, Norfolk Island, North Macedonia, Northern Mariana Islands, Norway, Oman, Pakistan, Palau, Palestine, Panama, Papua New Guinea, Paraguay, Peru, Philippines, Pitcairn, Poland, Portugal, Puerto Rico, Qatar, Réunion, Romania, Russian Federation, Rwanda, Saint Barthélemy, Saint Helena, Saint Kitts and Nevis, Saint Lucia, Saint Martin (French part), Saint Pierre and Miquelon, Saint Vincent and the Grenadines, Samoa, San Marino, Sao Tome and Principe, Saudi Arabia, Senegal, Serbia, Seychelles, Sierra Leone, Singapore, Sint Maarten (Dutch part), Slovakia, Slovenia, Solomon Islands, Somalia, South Africa, South Georgia and the South Sandwich Islands, South Sudan, Spain, Sri Lanka, Sudan, Suriname, Svalbard and Jan Mayen, Sweden, Switzerland, Syrian Arab Republic, Taiwan, Tajikistan, Tanzania, Thailand, Timor-Leste, Togo, Tokelau, Tonga, Trinidad and Tobago, Tunisia, Türkiye, Turkmenistan, Turks and Caicos Islands, Tuvalu, Uganda, Ukraine, United Arab Emirates, United Kingdom of Great Britain and Northern Ireland, United States Minor Outlying Islands, United States of America, Uruguay, Uzbekistan, Vanuatu, Venezuela, Viet Nam, Virgin Islands (British), Virgin Islands (U.S.), Wallis and Futuna, Western Sahara, Yemen, Zambia, Zimbabwe]
+            placeholder: ''
+            spacing_above: none
+            spacing_below: none
+            visible: true
+          type: DropDown
+        layout_properties: {grid_position: 'IBAIYM,XDQSIH'}
+        name: flow_panel_countries
+        properties: {align: right, gap: tiny, role: Discover_xypanel, spacing: huge, spacing_above: none, spacing_below: none}
+        type: FlowPanel
+      - components: []
+        layout_properties: {grid_position: 'TIVOLE,IWIPXN'}
+        name: column_panel_6
+        properties: {col_widths: '{}'}
+        type: ColumnPanel
+      - layout_properties: {grid_position: 'AYTLXS,MQTQHD'}
+        name: Header_for_Spotify_Monthly_Listeners_by_Country_Graph_Copy
+        properties:
+          align: center
+          role: header-5
+          spacing:
+            padding: [null, null, 0, null]
+          spacing_above: none
+          spacing_below: none
+          text: By country
+          visible: true
+        type: Label
+      - components:
+        - event_bindings: {click: previous_page_country}
+          layout_properties: {grid_position: 'PZNCOL,YPDMVD'}
+          name: prev_button_country
+          properties:
+            align: right
+            icon: fa:arrow-circle-o-left
+            role: [header-7, contact-button]
+            spacing_above: none
+            spacing_below: none
+            text: ''
+            visible: false
+          type: Button
+        - event_bindings: {click: Spotify_Monthly_Listeners_by_Country_Graph_click}
+          layout_properties: {grid_position: 'PZNCOL,AFRPCF'}
+          name: Spotify_Monthly_Listeners_by_Country_Graph
+          properties: {height: '220', interactive: true, spacing_above: none, spacing_below: none, tooltip: '', visible: true}
+          type: Plot
+        - event_bindings: {click: next_page_country}
+          layout_properties: {grid_position: 'PZNCOL,YKYHSM'}
+          name: next_button_country
+          properties:
+            align: left
+            enabled: true
+            icon: fa:arrow-circle-o-right
+            role: [header-7, contact-button]
+            spacing_above: none
+            spacing_below: none
+            text: ''
+            visible: false
+          type: Button
+        layout_properties: {grid_position: 'RRENLI,TWXOYT'}
+        name: column_panel_15
+        properties: {col_widths: '{"YPDMVD":4,"AFRPCF":52,"YKYHSM":4}', role: equal-height-container}
+        type: ColumnPanel
+      - layout_properties: {grid_position: 'ZJAQLE,ZRJQGD'}
         name: No_Spotify_Monthly_Listeners_by_Country_Graph
         properties: {align: center, role: description, spacing_above: large, spacing_below: large, text: no data available, visible: false}
         type: Label
-      layout_properties: {grid_position: 'ETLXXT,GOLQGE'}
-      name: Panel_for_Spotify_Monthly_Listeners_by_Country_Graph
-      properties: {role: grid-main, visible: true}
-      type: ColumnPanel
-    - components:
-      - layout_properties: {grid_position: 'BCHOZO,TMNYIR'}
+      - layout_properties: {grid_position: 'ZDCKPQ,ZAAISO'}
         name: Header_for_Spotify_Monthly_Listeners_by_City_Graph_Copy
-        properties: {role: Discover_artist_name, spacing_above: none, spacing_below: none, text: ' Spotify Monthly Listeners by City'}
+        properties:
+          align: center
+          role: header-5
+          spacing:
+            padding: [20, null, 0, null]
+          spacing_above: none
+          spacing_below: none
+          text: By city
         type: Label
-      - event_bindings: {}
-        layout_properties: {grid_position: 'VQTYJE,RKWVRK'}
-        name: Spotify_Monthly_Listeners_by_City_Graph
-        properties: {height: '300', interactive: true, spacing_above: none, spacing_below: none, tooltip: '', visible: true}
-        type: Plot
-      - layout_properties: {grid_position: 'MCTTTL,OTDAWL'}
+      - components:
+        - event_bindings: {click: previous_page_city}
+          layout_properties: {grid_position: 'PGNJVE,YDWCUV'}
+          name: prev_button_city
+          properties:
+            align: right
+            icon: fa:arrow-circle-o-left
+            role: [header-7, contact-button]
+            spacing_above: none
+            spacing_below: none
+            text: ''
+            visible: false
+          type: Button
+        - event_bindings: {}
+          layout_properties: {grid_position: 'PGNJVE,YIYUKP'}
+          name: Spotify_Monthly_Listeners_by_City_Graph
+          properties: {height: '220', interactive: true, spacing_above: none, spacing_below: none, tooltip: '', visible: true}
+          type: Plot
+        - event_bindings: {click: next_page_city}
+          layout_properties: {grid_position: 'PGNJVE,JUZAGW'}
+          name: next_button_city
+          properties:
+            align: left
+            enabled: true
+            icon: fa:arrow-circle-o-right
+            role: [header-7, contact-button]
+            spacing_above: none
+            spacing_below: none
+            text: ''
+            visible: false
+          type: Button
+        layout_properties: {grid_position: 'LSOQOY,BFSACH'}
+        name: column_panel_13
+        properties: {col_widths: '{"YDWCUV":4,"YIYUKP":52,"JUZAGW":4}', role: equal-height-container, spacing_above: none, spacing_below: none}
+        type: ColumnPanel
+      - layout_properties: {grid_position: 'WHRCSY,CCXIEZ'}
         name: No_Spotify_Monthly_Listeners_by_City_Graph
         properties: {align: center, role: description, spacing_above: large, spacing_below: large, text: no data available, visible: false}
         type: Label
-      layout_properties: {grid_position: 'KNHWAN,LESWWE'}
-      name: Panel_for_Spotify_Monthly_Listeners_by_City_Graph
-      properties: {role: grid-main}
+      - components: []
+        layout_properties: {grid_position: 'RLWAIM,ALQCGZ'}
+        name: column_panel_10
+        properties: {col_widths: '{}', spacing_above: none, spacing_below: none}
+        type: ColumnPanel
+      - layout_properties: {grid_position: 'BOVFFG,RGTQRZ'}
+        name: spacer_15
+        properties: {height: 32}
+        type: Spacer
+      layout_properties: {grid_position: 'HTFFMR,SQFGIN'}
+      name: Panel_for_Spotify_Monthly_Listeners_by_Location
+      properties: {col_widths: '{}', role: grid-main}
       type: ColumnPanel
     - components:
       - layout_properties: {grid_position: 'EAIWHG,HMKTEH'}
@@ -1157,7 +1266,14 @@ components:
         type: Label
       - layout_properties: {grid_position: 'NAHBBS,VCXBFA PGAVCG,KMFFPR'}
         name: instagram_chart_header
-        properties: {align: center, role: Discover_artist_name, spacing_above: none, spacing_below: none, text: Instagram}
+        properties:
+          align: center
+          role: header-5
+          spacing:
+            padding: [null, null, 0, null]
+          spacing_above: none
+          spacing_below: none
+          text: Instagram
         type: Label
       - event_bindings: {}
         layout_properties: {grid_position: 'NAHBBS,VCXBFA HXOEJW,OVSMAN'}
@@ -1170,7 +1286,14 @@ components:
         type: Label
       - layout_properties: {grid_position: 'NAHBBS,EDBJGP JIAXPW,FVBVYO'}
         name: tiktok_chart_header
-        properties: {align: center, role: Discover_artist_name, spacing_above: none, spacing_below: none, text: TikTok}
+        properties:
+          align: center
+          role: header-5
+          spacing:
+            padding: [null, null, 0, null]
+          spacing_above: none
+          spacing_below: none
+          text: TikTok
         type: Label
       - event_bindings: {}
         layout_properties: {grid_position: 'NAHBBS,EDBJGP UEAENK,DYMISO'}
@@ -1183,7 +1306,14 @@ components:
         type: Label
       - layout_properties: {grid_position: 'XYJVKD,KHKOKZ AABEPO,YBFDQV'}
         name: youtube_chart_header
-        properties: {align: center, role: Discover_artist_name, spacing_above: none, spacing_below: none, text: YouTube}
+        properties:
+          align: center
+          role: header-5
+          spacing:
+            padding: [null, null, 0, null]
+          spacing_above: none
+          spacing_below: none
+          text: YouTube
         type: Label
       - event_bindings: {}
         layout_properties: {grid_position: 'XYJVKD,KHKOKZ NVGVDR,KLCFXR'}
@@ -1196,7 +1326,14 @@ components:
         type: Label
       - layout_properties: {grid_position: 'XYJVKD,PNSRES WRKDTB,VQJWWI'}
         name: soundcloud_chart_header
-        properties: {align: center, role: Discover_artist_name, spacing_above: none, spacing_below: none, text: SoundCloud}
+        properties:
+          align: center
+          role: header-5
+          spacing:
+            padding: [null, null, 0, null]
+          spacing_above: none
+          spacing_below: none
+          text: SoundCloud
         type: Label
       - event_bindings: {}
         layout_properties: {grid_position: 'XYJVKD,PNSRES BJHMVD,FYNLFC'}

@@ -101,8 +101,8 @@ class Notifications_RowTemplate(Notifications_RowTemplateTemplate):
     # model selection
     models = json.loads(anvil.server.call('get_model_ids',  user["user_id"]))
     active_models = self.item["model_ids"]
-
-    for i in range(0, len(models)):
+    
+    for i in range(0, len(models)):      
       if models[i]["model_id"] in active_models:        
         model_link = Link(
           text=models[i]["model_name"],
@@ -222,12 +222,6 @@ class Notifications_RowTemplate(Notifications_RowTemplateTemplate):
     else:
       release_days = self.days_since_rel_field_value.text
 
-    # model_ids = []
-    # for component in self.flow_panel_models.get_components():
-    #   if isinstance(component, Link):
-    #     if component.role == 'genre-box':
-    #       model_ids.append(component.tag)
-
     # Collect selected model IDs
     model_ids = []
     for component in self.flow_panel_models.get_components():
@@ -257,7 +251,9 @@ class Notifications_RowTemplate(Notifications_RowTemplateTemplate):
                       watchlist = watchlist_selection_option,
                       release_days = release_days,
                       min_grow_fit = min_growth_value ,
-                      model_ids = model_ids)
+                      model_ids = model_ids,
+                      song_selection_1 = None,
+                      song_selection_2 = None)
 
   def activate_notification(self, **event_args):
     if self.activate.visible is True:

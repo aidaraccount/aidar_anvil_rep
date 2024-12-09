@@ -670,6 +670,34 @@ body, html {
   height: 100%;
   gap: 10px;  /* Optional: space between columns */
 }
+.anvil-role-equal-height-container .anvil-panel-row.anvil-panel-row-PZNCOL {
+  align-items: center;
+}
+.anvil-role-equal-height-container .anvil-panel-row.anvil-panel-row-PZNCOL .anvil-panel-col.anvil-panel-col-YPDMVD {
+  z-index: 2;
+}
+.anvil-role-equal-height-container .anvil-panel-row.anvil-panel-row-PZNCOL .anvil-panel-col.anvil-panel-col-AFRPCF {
+  z-index: 1;
+  margin: 0px -70px 0px -50px;
+}
+.anvil-role-equal-height-container .anvil-panel-row.anvil-panel-row-PZNCOL .anvil-panel-col.anvil-panel-col-YKYHSM {
+  z-index: 2;
+}
+
+.anvil-role-equal-height-container .anvil-panel-row.anvil-panel-row-PGNJVE {
+  align-items: center;
+}
+.anvil-role-equal-height-container .anvil-panel-row.anvil-panel-row-PGNJVE .anvil-panel-col.anvil-panel-col-YDWCUV {
+  z-index: 2;
+}
+.anvil-role-equal-height-container .anvil-panel-row.anvil-panel-row-PGNJVE .anvil-panel-col.anvil-panel-col-YIYUKP {
+  z-index: 1;
+  margin: 0px -70px 0px -50px;
+}
+.anvil-role-equal-height-container .anvil-panel-row.anvil-panel-row-PGNJVE .anvil-panel-col.anvil-panel-col-JUZAGW {
+  z-index: 2;
+}
+
 .anvil-role-equal-height-container > .row {
   display:flex;
 }
@@ -2676,4 +2704,21 @@ footer a, .footer .anvil-component {
     .runner .anvil-panel-col.wrap-mobile {
         min-width: 0%;
     }
+}
+/* Disabeled button options  */
+.btn-default[disabled] {
+  background-color: transparent;
+  color: rgba(125, 125, 125, 0.5);
+}
+.btn-default[disabled]:hover {
+  background-color: transparent;
+  color: rgba(125, 125, 125, 0.5);
+}
+.btn-default[disabled]:focus {
+  background-color: transparent;
+  color: rgba(125, 125, 125, 0.5);
+}
+.btn-default[disabled]:active {
+  background-color: transparent;
+  color: rgba(125, 125, 125, 0.5);
 }
