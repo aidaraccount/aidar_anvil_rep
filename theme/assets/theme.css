@@ -706,7 +706,7 @@ body, html {
   height: 100vh;
 }
 
-@media only screen and (max-width: 416px) {
+@media only screen and (max-width: 431px) {
   .anvil-role-equal-height-container > .row {
     display:flex;
     flex-direction: column; 
@@ -1693,6 +1693,12 @@ footer a, .footer .anvil-component {
   border-top-left-radius: 15px;
   z-index: 999;
 }
+@media only screen and (max-width: 431px) {
+  #right-sidebar {
+    width: 300px;
+  }
+}
+
 #right-sidebar.open {
   right: 0px;
 }
@@ -1717,6 +1723,12 @@ footer a, .footer .anvil-component {
 .sidebar-button.open {
   right: 400px;
 }
+@media only screen and (max-width: 431px) {
+  .sidebar-button.open {
+    right: 300px;
+  }
+}
+
 /* #left-sidebar.open {
   left: 0px;
 } */
@@ -1748,7 +1760,7 @@ footer a, .footer .anvil-component {
   /* margin: 0 0 0 0px; */
   /* flex-shrink: 0; */
 }
-@media only screen and (max-width: 400px) {
+@media only screen and (max-width: 431px) {
   #left-sidebar {
     width: 200px;
   }
@@ -1770,9 +1782,9 @@ footer a, .footer .anvil-component {
   border-top-right-radius: 15px;
   border-bottom-right-radius: 15px;
 }
-@media only screen and (max-width: 400px) {
+@media only screen and (max-width: 431px) {
   .nav-button {
-    left: 120px;
+    left: 200px;
     position: fixed;
     z-index: 9000; 
   }
