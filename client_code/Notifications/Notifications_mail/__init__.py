@@ -208,23 +208,6 @@ class Notifications_mail(Notifications_mailTemplate):
       self.max_number_artist_warning.visible = True
       return  # Stop execution if the input is not a number
       
-    # Validate the no_artists_box input (ensure it's between 1 and 20)
-    try:
-      if not self.no_artists_box_spotify.text.strip():  # Check if the field is empty
-        # alert("The number of artists field cannot be empty. Please enter a value between 1 and 20.", 
-        #       title="Missing Input", buttons=[("OK", "OK")], role=["remove-focus"])
-        self.max_number_artist_spotify_warning.visible = True
-        return  # Stop execution if the field is empty
-      else:
-        self.max_number_artist_spotify_warning.visible = False
-      no_artists = int(self.no_artists_box_spotify.text)
-      if no_artists < 1 or no_artists > 50:
-        self.max_number_artist_spotify_warning.visible = True
-        return
-    except ValueError:
-      self.max_number_artist_spotify_warning.visible = True
-      return  # Stop execution if the input is not a number
-      
     try:
       if not self.no_latest_rel_box_spotify.text.strip():  # Check if the field is empty
         # alert("The number of artists field cannot be empty. Please enter a value between 1 and 20.", 
@@ -271,12 +254,6 @@ class Notifications_mail(Notifications_mailTemplate):
     else:
       release_days = self.days_since_rel_field_value.text
 
-    # model_ids = []
-    # for component in self.flow_panel_models.get_components():
-    #   if isinstance(component, Link):
-    #     if component.role == 'genre-box':
-    #       model_ids.append(component.tag)
-
     # Collect selected model IDs
     model_ids = []
     for component in self.flow_panel_models.get_components():
@@ -289,7 +266,10 @@ class Notifications_mail(Notifications_mailTemplate):
       return  # Stop execution if no models are selected
     else:
       self.models_warning.visible = False
-    
+      
+    print(self.song_selection_type.text)
+    print(self.no_latest_rel_box_spotify.text)
+    print(type(self.no_latest_rel_box_spotify.text))
     anvil.server.call('update_notification',
                       notification_id = self.item["notification_id"],
                       type = self.item["type"],
@@ -305,8 +285,10 @@ class Notifications_mail(Notifications_mailTemplate):
                       rated = artist_selection_option,
                       watchlist = watchlist_selection_option,
                       release_days = release_days,
-                      min_grow_fit = min_growth_value ,
-                      model_ids = model_ids)
+                      min_grow_fit = min_growth_value,
+                      model_ids = model_ids,
+                      song_selection_1 = self.song_selection_type.text,
+                      song_selection_2 = self.no_latest_rel_box_spotify.text)
 
   def activate_notification(self, **event_args):
     if self.activate.visible is True:
