@@ -124,10 +124,10 @@ components:
         role: [header-6]
         spacing_above: none
         spacing_below: none
-        text: 'URL:'
+        text: 'Spotify URL:'
       type: Label
     - layout_properties: {}
-      name: link_1
+      name: playlist_url
       properties: {role: header-6, spacing_above: none, spacing_below: none, text: Go to Playlist}
       type: Link
     layout_properties: {grid_position: 'IRYPMY,XTCPXD GYBTCS,WUUVPQ'}
@@ -208,14 +208,16 @@ components:
     properties: {role: genre-box, spacing_above: none, spacing_below: none, visible: false}
     type: Link
   - components:
-    - layout_properties: {}
-      name: frequency_days_label_starting_copy_2
+    - name: frequency_days_label_starting_copy_2
       properties:
         role: [header-6, margin-top]
         spacing_above: none
         spacing_below: none
         text: 'Last updated:'
         visible: true
+      type: Label
+    - name: larst_updated_value
+      properties: {role: header-6}
       type: Label
     layout_properties: {grid_position: 'IRYPMY,XTCPXD LODPHD,OWNTRU'}
     name: last_updated_spotify
@@ -237,7 +239,7 @@ components:
       type: TextBox
     layout_properties: {grid_position: 'IRYPMY,GOUNXL ZPULUE,HNPGRY'}
     name: Max_num_artist_mail
-    properties: {spacing_above: none, spacing_below: none, visible: false}
+    properties: {spacing_above: none, spacing_below: none, visible: true}
     type: FlowPanel
   - layout_properties: {grid_position: 'IRYPMY,GOUNXL BMALLO,TXPJGC'}
     name: max_number_artist_warning
@@ -247,35 +249,6 @@ components:
       visible: false
     type: Label
   - components:
-    - layout_properties: {}
-      name: label_1_copy_2
-      properties:
-        role: [margin-top, header-6]
-        spacing_above: none
-        spacing_below: none
-        text: 'Max No. artists:'
-      type: Label
-    - event_bindings: {lost_focus: update_notification_1, pressed_enter: update_notification_1}
-      layout_properties: {}
-      name: no_artists_box_spotify
-      properties: {align: center, placeholder: 1-50, role: notification-settings-textbox, spacing_above: none, spacing_below: none, text: '5'}
-      type: TextBox
-    layout_properties: {grid_position: 'IRYPMY,GOUNXL ISZXRG,OJZTCI'}
-    name: Max_num_artist_spotify
-    properties: {spacing_above: none, spacing_below: none, visible: false}
-    type: FlowPanel
-  - layout_properties: {grid_position: 'IRYPMY,GOUNXL MMWOHI,SAOBYB'}
-    name: max_number_artist_spotify_warning
-    properties:
-      role: [warning-label, header-8]
-      text: Please enter a valid number between 1 and 50 for the number of artists.
-      visible: false
-    type: Label
-  - components:
-    - layout_properties: {}
-      name: notif_rep_title
-      properties: {role: header-6, spacing_above: none, spacing_below: none, text: 'Artist Repetition:'}
-      type: Label
     - event_bindings: {click: notification_repetition_value_click}
       layout_properties: {}
       name: notif_rep_value
@@ -317,38 +290,13 @@ components:
       type: Label
     - event_bindings: {click: notification_repetition_value_click}
       layout_properties: {}
-      name: notif_rep_value_copy
+      name: song_selection_type
       properties: {role: genre-box, spacing_above: none, spacing_below: none, text: Latest Release}
       type: Link
-    - components:
-      - event_bindings: {change: artist_rep_x_days_freq_lost_focus, lost_focus: artist_rep_x_days_freq_lost_focus, pressed_enter: artist_rep_x_days_freq_lost_focus}
-        layout_properties: {grid_position: 'FYAGVZ,FIWFFE'}
-        name: artist_rep_x_days_freq_copy
-        properties: {align: center, role: notification-settings-textbox, text: '90', type: text, visible: true}
-        type: TextBox
-      - layout_properties: {grid_position: 'FYAGVZ,MYETHT'}
-        name: artist_rep_x_days_copy
-        properties:
-          role: [header-6, margin-top]
-          spacing_above: none
-          spacing_below: none
-          text: Days
-          visible: true
-        type: Label
-      name: column_panel_rep_copy
-      properties: {}
-      type: ColumnPanel
     layout_properties: {grid_position: 'IRYPMY,GOUNXL LZEYQG,HTOMRO'}
     name: song_selection
     properties: {spacing_above: none, spacing_below: none, visible: false}
     type: FlowPanel
-  - layout_properties: {grid_position: 'IRYPMY,GOUNXL HFCTWO,MISLLZ'}
-    name: artist_rep_x_days_freq_warning_copy
-    properties:
-      role: [warning-label, header-8]
-      text: Please enter a valid number for over how many days you would like an artist show up again
-      visible: false
-    type: Label
   - components:
     - layout_properties: {}
       name: label_1_copy_2_copy

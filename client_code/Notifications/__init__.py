@@ -87,7 +87,7 @@ class Notifications(NotificationsTemplate):
     self.get_notifications()
 
     
-  def add_playlist_notification_click(self, **event_args):
+  def add_spotify_playlist_click(self, **event_args):
     # get a trained model to activate it at the beginning
     models = json.loads(anvil.server.call('get_model_ids',  user["user_id"]))
 
@@ -110,8 +110,8 @@ class Notifications(NotificationsTemplate):
     # save the initial notification
     anvil.server.call('create_notification',
                       user_id = user["user_id"],
-                      type = 'mail',
-                      name = 'My Notification',
+                      type = 'playlist',
+                      name = 'My Spotify Playlist',
                       active = True,
                       freq_1 = 'Daily',
                       freq_2 = 7,
@@ -125,29 +125,9 @@ class Notifications(NotificationsTemplate):
                       release_days = 21,
                       min_grow_fit = 0.75,
                       model_ids = model_ids,
-                      song_selection_1 = None,
-                      song_selection_2 = None)
+                      song_selection_1 = 'Latest Releases',
+                      song_selection_2 = '2')
 
     # update the notifications table
     self.get_notifications()
     
-  def add_spotify_playlist_click(self, **event_args):
-    anvil.server.call('create_notification',
-                      user_id = user["user_id"],
-                      type = 'playlist',
-                      name = 'My Notification',
-                      active = True,
-                      freq_1 = 'Daily',
-                      freq_2 = 7,
-                      freq_3 = date.today().strftime("%Y-%m-%d"),
-                      metric = 'Top Fits',
-                      no_artists = 5,
-                      repetition_1 = 'Repeat suggestions',
-                      repetition_2 = 90,
-                      rated = False,
-                      watchlist = None,
-                      release_days = 21,
-                      min_grow_fit = 0.75,
-                      model_ids = [])
-    
-    self.get_notifications()

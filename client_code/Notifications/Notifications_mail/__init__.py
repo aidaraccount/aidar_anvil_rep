@@ -31,12 +31,10 @@ class Notifications_mail(Notifications_mailTemplate):
       self.name_link.icon = 'fa:envelope-o'
       self.frequency_master_1.visible = True
       self.frequency_field_title.visible = True
-      self.Max_num_artist_mail.visible = True
     elif self.item["type"] == 'playlist':
       self.name_link.icon = 'fa:spotify'
       self.url_master.visible = True
       self.status_field_title.visible = True
-      self.Max_num_artist_spotify.visible = True
       self.song_selection.visible = True
       self.no_latest_releases.visible = True
       self.last_updated_spotify.visible = True
@@ -52,7 +50,7 @@ class Notifications_mail(Notifications_mailTemplate):
       self.deactivate.visible = False
       # self.notification_status.text = 'Notification is inactive'
     
-    # A) Frequency
+    # A1) Frequency
     self.frequency_option_1.text = self.item["freq_1"]
     self.frequency_option_2.text = self.item["freq_2"]
     self.frequency_picker.date = self.item["freq_3"]
@@ -67,7 +65,11 @@ class Notifications_mail(Notifications_mailTemplate):
     elif self.frequency_option_1.text == 'Monthly':
       self.flow_panel_freq_2.visible = False
       self.flow_panel_freq_3.visible = True
-      
+
+    # A2) Status
+    self.playlist_url.url = self.item["url"]
+    self.larst_updated_value.text = self.item["last_updated"]
+    
     # B) General
     self.no_artists_box.text = self.item["no_artists"]
     self.notif_rep_value.text = self.item["repetition_1"]
@@ -77,6 +79,10 @@ class Notifications_mail(Notifications_mailTemplate):
     else:
       self.column_panel_rep.visible = False    
 
+    # song selection
+    self.song_selection_type.text = self.item["song_selection_1"]
+    self.no_latest_rel_box_spotify.text = self.item["song_selection_2"]
+    
     # C) Metric
     self.metrics_option_1.text = self.item["metric"]
     self.days_since_rel_field_value.text = self.item["release_days"]
