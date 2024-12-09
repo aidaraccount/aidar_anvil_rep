@@ -66,9 +66,14 @@ class Notifications_mail(Notifications_mailTemplate):
       
       self.url_master.visible = True
       self.last_updated_spotify.visible = True
-      
-      self.playlist_url.url = self.item["url"]
-      self.larst_updated_value.text = self.item["last_updated"]
+
+      if self.item["sp_playlist_id"] is None or self.item["sp_playlist_id"] == '':
+        self.playlist_url.url = 'created soon!'
+        self.playlist_url.role = 'header-6'
+      else:
+        self.playlist_url.url = f"https://open.spotify.com/playlist/{self.item['sp_playlist_id']}"
+        self.playlist_url.role = ['header-6', 'orange']
+      self.larst_updated_value.text = self.item["last_update"]
     
     # B) General
     self.no_artists_box.text = self.item["no_artists"]
@@ -230,6 +235,12 @@ class Notifications_mail(Notifications_mailTemplate):
 
   
   # BUTTON FUNCTIONALITIES
+  def edit_icon_click_2(self, **event_args):
+    self.name_link.visible = False
+    self.model_name_text.visible = True
+    self.model_name_text.text = self.name_link.text
+    self.model_name_text.focus()
+      
   def artist_selection_option_click(self, **event_args):
     if self.artist_selection_option.text == 'Rated':
       self.artist_selection_option.text = 'Unrated'
@@ -291,31 +302,15 @@ class Notifications_mail(Notifications_mailTemplate):
       self.metrics_option_1.text = 'Top Fits'
       self.max_days_since_rel.visible = False
     self.update_notification()
-  
-  # def edit_icon_click_2(self, **event_args):
-  #   if self.name_link.visible is True: 
-  #     self.name_link.visible = False
-  #     self.model_name_text.visible = True
-  #     self.model_name_text.text = self.name_link.text
-  #     self.model_name_text.focus()      
-  #     self.update_notification()
-
-  def edit_icon_click_2_lose_focus(self, **event_args):    
-    if self.model_name_text.visible is True:
-      self.model_name_text.visible = False
-      self.name_link.visible = True
-      self.name_link.text = self.model_name_text.text      
-      self.update_notification()
-  
-  def edit_icon_click_2_enter(self, **event_args):
-    if self.model_name_text.visible is True:
-      self.model_name_text.visible = False
-      self.name_link.visible = True
-      self.name_link.text = self.model_name_text.text      
-      self.update_notification()
-
+    
   
   # LOST FOCUS CHECKS
+  def edit_icon_click_2_lose_focus(self, **event_args):
+    self.model_name_text.visible = False
+    self.name_link.visible = True
+    self.name_link.text = self.model_name_text.text      
+    self.update_notification()
+      
   def frequency_option_2_lost_focus(self, **event_args):
     # Validate number of days only if "Every X Days" is selected
     if self.frequency_option_1.text == "Every X Days":
