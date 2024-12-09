@@ -64,8 +64,6 @@ class Notifications_mail(Notifications_mailTemplate):
     if self.item["type"] == 'playlist':
       self.status_field_title.visible = True
       
-
-      print(self.item["sp_playlist_id"])
       if self.item["sp_playlist_id"] is None or self.item["sp_playlist_id"] == '':
         self.playlist_in_creation.visible = True
       else:
@@ -322,7 +320,6 @@ class Notifications_mail(Notifications_mailTemplate):
   def date_picker_lost_focus(self, **event_args):
     # Validate number of days only if "Every X Days" is selected
     if self.frequency_option_1.text in ["Every X Days", "Monthly"]:
-      print(self.frequency_picker.date)
       if self.frequency_picker.date is None:
         self.every_x_days_start_warning.visible = True
       else:
