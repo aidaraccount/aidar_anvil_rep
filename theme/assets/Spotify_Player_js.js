@@ -63,7 +63,6 @@ function playSpotify_2() {
       controller.isPaused = false;
     }
   } else {
-    console.log("NOTTTTTTTTTT OKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK 222222222222222222")
     console.error("Spotify controller is not initialized.");
   }
 }
