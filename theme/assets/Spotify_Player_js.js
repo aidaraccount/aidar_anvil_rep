@@ -28,9 +28,15 @@ function createOrUpdateSpotifyPlayer(trackOrArtist, artistSpotifyID) {
       controller = EmbedController;
       controller.addListener('ready', () => {
         console.log('Spotify Player ready_1');
+        console.log('line 31 - before current state')
+        current_state()
+        console.log('line 33 - after current state')
         if (autoplaybutton) {
           // The below line will activate playing music when the page is opened and the spotify player is built
           playSpotify_2();
+          console.log('line 37 - before current state')
+          current_state()
+          console.log('line 39 - after current state')
         }
       });
       // Listen for state changes
@@ -54,9 +60,15 @@ function createOrUpdateSpotifyPlayer(trackOrArtist, artistSpotifyID) {
         controller = EmbedController;
         controller.addListener('ready', () => {
           console.log('Spotify Player ready_2');
+          console.log('line 63 - before current state')
+          current_state()
+          console.log('line 65 - after current state')
           if (autoplaybutton) {
             // The below line will activate playing music when the page is opened and the spotify player is built
             playSpotify_2();
+            console.log('line 66 - before current state')
+            current_state()
+            console.log('line 68 - after current state')
           }
         });
 
@@ -94,18 +106,19 @@ function playSpotify_2() {
   }
 }
 // });
+function current_state() {
+  controller.addListener('player_state_changed', (state) => {
+    console.log("player_state_changed triggered!");
+    console.log(state); // Log the entire state object
+    const { position, duration, track_window: { current_track } } = state;
+  
+    if (position === 0 && current_track && duration > 0) {
+      console.log("Track has ended. Moving to the next song.");
+      // playNextSong();
+    }
+  });
+}
 
-controller.addListener('player_state_changed', (state) => {
-  console.log("player_state_changed triggered!");
-  console.log(state); // Log the entire state object
-  const { position, duration, track_window: { current_track } } = state;
-
-  if (position === 0 && current_track && duration > 0) {
-    console.log("Track has ended. Moving to the next song.");
-    // playNextSong();
-  }
-});
-console.log("line 108",controller)
 
 controller.getCurrentState().then((state) => {
   if (!state) {
