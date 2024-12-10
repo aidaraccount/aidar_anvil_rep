@@ -33,17 +33,17 @@ function createOrUpdateSpotifyPlayer(trackOrArtist, artistSpotifyID) {
         }
       });
       // Listen for state changes
-      controller.addListener('player_state_changed', ({ position, duration, track_window: { current_track } }) => {
-        console.log('Currently Playing:', current_track);
-        console.log('Position in Song:', position);
-        console.log('Duration of Song:', duration);
+      // controller.addListener('player_state_changed', ({ position, duration, track_window: { current_track } }) => {
+      //   console.log('Currently Playing:', current_track);
+      //   console.log('Position in Song:', position);
+      //   console.log('Duration of Song:', duration);
 
-        // Check if the song has ended
-        if (position === 0 && current_track && duration > 0) {
-          console.log("Track has ended. Moving to the next song.");
-          // playNextSong();
-        }
-      });
+      //   // Check if the song has ended
+      //   if (position === 0 && current_track && duration > 0) {
+      //     console.log("Track has ended. Moving to the next song.");
+      //     // playNextSong();
+      //   }
+      // });
     });
   } else {
     window.onSpotifyIframeApiReady = (IFrameAPI) => {
@@ -59,16 +59,16 @@ function createOrUpdateSpotifyPlayer(trackOrArtist, artistSpotifyID) {
         });
 
         // Listen for state changes
-        controller.addListener('player_state_changed', ({ position, duration, track_window: { current_track } }) => {
-          console.log('Currently Playing:', current_track);
-          console.log('Position in Song:', position);
-          console.log('Duration of Song:', duration);
+        // controller.addListener('player_state_changed', ({ position, duration, track_window: { current_track } }) => {
+        //   console.log('Currently Playing:', current_track);
+        //   console.log('Position in Song:', position);
+        //   console.log('Duration of Song:', duration);
 
-          if (position === 0 && current_track && duration > 0) {
-            console.log("Track has ended. Moving to the next song.");
-            // playNextSong();
-          }
-        });
+        //   if (position === 0 && current_track && duration > 0) {
+        //     console.log("Track has ended. Moving to the next song.");
+        //     // playNextSong();
+        //   }
+        // });
       }); 
     };
   }
