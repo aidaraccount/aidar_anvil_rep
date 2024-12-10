@@ -29,14 +29,32 @@ function createOrUpdateSpotifyPlayer(trackOrArtist, artistSpotifyID) {
       controller.addListener('ready', () => {
         console.log('Spotify Player ready_1');
         console.log('line 31 - before current state')
-        current_state()
-        console.log('line 33 - after current state')
+        console.log("line 32:",controller)
+        controller.addListener('player_state_changed', ({
+          position,
+          duration,
+          track_window: { current_track }
+        }) => {
+          console.log('Currently Playing', current_track);
+          console.log('Position in Song', position);
+          console.log('Duration of Song', duration);
+        });
+        console.log('line 42 - after current state')
         if (autoplaybutton) {
           // The below line will activate playing music when the page is opened and the spotify player is built
           playSpotify_2();
-          console.log('line 37 - before current state')
-          current_state()
-          console.log('line 39 - after current state')
+          console.log('line 46 - before current state')
+          console.log("line 47:",controller)
+          controller.addListener('player_state_changed', ({
+            position,
+            duration,
+            track_window: { current_track }
+          }) => {
+            console.log('Currently Playing', current_track);
+            console.log('Position in Song', position);
+            console.log('Duration of Song', duration);
+          });
+          console.log('line 57 - after current state')
         }
       });
       // Listen for state changes
@@ -60,15 +78,33 @@ function createOrUpdateSpotifyPlayer(trackOrArtist, artistSpotifyID) {
         controller = EmbedController;
         controller.addListener('ready', () => {
           console.log('Spotify Player ready_2');
-          console.log('line 63 - before current state')
-          current_state()
-          console.log('line 65 - after current state')
+          console.log('line 81 - before current state')
+          console.log("line 82:",controller)
+          controller.addListener('player_state_changed', ({
+            position,
+            duration,
+            track_window: { current_track }
+          }) => {
+            console.log('Currently Playing', current_track);
+            console.log('Position in Song', position);
+            console.log('Duration of Song', duration);
+          });
+          console.log('line 92 - after current state')
           if (autoplaybutton) {
             // The below line will activate playing music when the page is opened and the spotify player is built
             playSpotify_2();
-            console.log('line 66 - before current state')
-            current_state()
-            console.log('line 68 - after current state')
+            console.log('line 96 - before current state')
+            console.log("line 97:",controller)
+            controller.addListener('player_state_changed', ({
+              position,
+              duration,
+              track_window: { current_track }
+            }) => {
+              console.log('Currently Playing', current_track);
+              console.log('Position in Song', position);
+              console.log('Duration of Song', duration);
+            });
+            console.log('line 107 - after current state')
           }
         });
 
@@ -106,39 +142,19 @@ function playSpotify_2() {
   }
 }
 // });
-function current_state() {
-  controller.addListener('player_state_changed', (state) => {
-    console.log("player_state_changed triggered!");
-    console.log(state); // Log the entire state object
-    const { position, duration, track_window: { current_track } } = state;
-  
-    if (position === 0 && current_track && duration > 0) {
-      console.log("Track has ended. Moving to the next song.");
-      // playNextSong();
-    }
-  });
-}
+controller.addListener('player_state_changed', (state) => {
+  console.log("player_state_changed triggered!");
+  console.log(state); // Log the entire state object
+  const { position, duration, track_window: { current_track } } = state;
 
-
-controller.getCurrentState().then((state) => {
-  if (!state) {
-    console.log("User is not playing music through the Web Playback SDK");
-  } else {
-    console.log("Current state:", state);
+  if (position === 0 && current_track && duration > 0) {
+    console.log("Track has ended. Moving to the next song.");
+    // playNextSong();
   }
-}).catch((err) => {
-  console.error("Error getting current state:", err);
 });
 
-controller.addListener('initialization_error', ({ message }) => {
-  console.error('Initialization error:', message);
-});
-controller.addListener('authentication_error', ({ message }) => {
-  console.error('Authentication error:', message);
-});
-controller.addListener('account_error', ({ message }) => {
-  console.error('Account error:', message);
-});
-controller.addListener('playback_error', ({ message }) => {
-  console.error('Playback error:', message);
-});
+
+
+
+
+
