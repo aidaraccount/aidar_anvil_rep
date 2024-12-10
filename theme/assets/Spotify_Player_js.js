@@ -12,7 +12,7 @@ function createOrUpdateSpotifyPlayer(trackOrArtist, artistSpotifyID) {
     return;
   }
   
-  console.log(artistSpotifyID);
+  // console.log(artistSpotifyID);
   
   const options = {
     theme: 'dark',
@@ -20,7 +20,7 @@ function createOrUpdateSpotifyPlayer(trackOrArtist, artistSpotifyID) {
     height: '80',
     uri: `spotify:${trackOrArtist}:${artistSpotifyID}`,
   };
-  console.log(options);
+  // console.log(options);
 
   if (window.SpotifyIframeAPI) {
     window.SpotifyIframeAPI.createController(element, options, (EmbedController) => {
@@ -32,6 +32,18 @@ function createOrUpdateSpotifyPlayer(trackOrArtist, artistSpotifyID) {
           playSpotify_2();
         }
       });
+      // Listen for state changes
+      // controller.addListener('player_state_changed', ({ position, duration, track_window: { current_track } }) => {
+      //   console.log('Currently Playing:', current_track);
+      //   console.log('Position in Song:', position);
+      //   console.log('Duration of Song:', duration);
+
+      //   // Check if the song has ended
+      //   if (position === 0 && current_track && duration > 0) {
+      //     console.log("Track has ended. Moving to the next song.");
+      //     // playNextSong();
+      //   }
+      // });
     });
   } else {
     window.onSpotifyIframeApiReady = (IFrameAPI) => {
@@ -47,7 +59,19 @@ function createOrUpdateSpotifyPlayer(trackOrArtist, artistSpotifyID) {
             console.error("THIS FUNCTION IS NOT WORKING")
           }
         });
-      });
+
+        // Listen for state changes
+        // controller.addListener('player_state_changed', ({ position, duration, track_window: { current_track } }) => {
+        //   console.log('Currently Playing:', current_track);
+        //   console.log('Position in Song:', position);
+        //   console.log('Duration of Song:', duration);
+
+        //   if (position === 0 && current_track && duration > 0) {
+        //     console.log("Track has ended. Moving to the next song.");
+        //     // playNextSong();
+        //   }
+        // });
+      }); 
     };
   }
 }
@@ -70,3 +94,4 @@ function playSpotify_2() {
   }
 }
 // });
+
