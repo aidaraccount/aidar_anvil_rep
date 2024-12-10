@@ -23,6 +23,7 @@ function createOrUpdateSpotifyPlayer(trackOrArtist, artistSpotifyID) {
   // console.log(options);
 
   if (window.SpotifyIframeAPI) {
+    console.log('Spotify API is being initialized...1')
     window.SpotifyIframeAPI.createController(element, options, (EmbedController) => {
       controller = EmbedController;
       controller.addListener('ready', () => {
@@ -46,6 +47,7 @@ function createOrUpdateSpotifyPlayer(trackOrArtist, artistSpotifyID) {
       // });
     });
   } else {
+    console.log('Spotify API is being initialized...2')
     window.onSpotifyIframeApiReady = (IFrameAPI) => {
       window.SpotifyIframeAPI = IFrameAPI; // Store the API globally for future use
       IFrameAPI.createController(element, options, (EmbedController) => {
@@ -93,3 +95,37 @@ function playSpotify_2() {
 }
 // });
 
+controller.addListener('player_state_changed', (state) => {
+  console.log("player_state_changed triggered!");
+  console.log(state); // Log the entire state object
+  const { position, duration, track_window: { current_track } } = state;
+
+  if (position === 0 && current_track && duration > 0) {
+    console.log("Track has ended. Moving to the next song.");
+    // playNextSong();
+  }
+});
+console.log("line 108",controller)
+
+controller.getCurrentState().then((state) => {
+  if (!state) {
+    console.log("User is not playing music through the Web Playback SDK");
+  } else {
+    console.log("Current state:", state);
+  }
+}).catch((err) => {
+  console.error("Error getting current state:", err);
+});
+
+controller.addListener('initialization_error', ({ message }) => {
+  console.error('Initialization error:', message);
+});
+controller.addListener('authentication_error', ({ message }) => {
+  console.error('Authentication error:', message);
+});
+controller.addListener('account_error', ({ message }) => {
+  console.error('Account error:', message);
+});
+controller.addListener('playback_error', ({ message }) => {
+  console.error('Playback error:', message);
+});
