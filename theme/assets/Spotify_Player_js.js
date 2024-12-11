@@ -33,7 +33,10 @@ function createOrUpdateSpotifyPlayer(trackOrArtist, artistSpotifyID) {
         }
       });
       controller.addListener('playback_update', e => {
-        console.log('position')
+        console.log('Paused:', e.data.isPaused)
+        console.log('Buffering:',e.data.isBuffering)
+        console.log('Duration:',e.data.duration)
+        console.log('Position:',e.data.position)
       });
     });
   } else {
@@ -49,7 +52,10 @@ function createOrUpdateSpotifyPlayer(trackOrArtist, artistSpotifyID) {
           }
         });
         controller.addListener('playback_update', e => {
-          console.log(document.getElementById('playback_update'))
+          console.log('Paused:', e.data.isPaused)
+          console.log('Buffering:',e.data.isBuffering)
+          console.log('Duration:',e.data.duration)
+          console.log('Position:',e.data.position)
         });
       }); 
     };
