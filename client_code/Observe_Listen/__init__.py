@@ -26,22 +26,34 @@ class Observe_Listen(Observe_ListenTemplate):
     print(f"Notifications model_id: {model_id}")
 
     # GENERAL
-    notifications = json.loads(anvil.server.call("get_notifications", user["user_id"], 'playlist'))
-    print(notifications)
-    print(notifications[1])
+    self.notifications = json.loads(anvil.server.call("get_notifications", user["user_id"], 'playlist'))
+    print(self.notifications[1])
     
-    if len(notifications) > 0:
-      self.get_notifications()
+    if len(self.notifications) > 0:
+
+      # adding navigation components
+      self.flow_panel.visible = True
+      for notification in self.notifications:
+        notification_link = Link(
+          text=notification["name"],
+          role='section_buttons'
+        )      
+        notification_link.set_event_handler('click', self.create_click_notification_handler(notification["notification_id"]))
+        self.flow_panel.add_component(notification_link)
+      
+      # load first notification
+      self.no_notifications.visible = False
+      self.get_notifications(notification["notification_id"])
     else:
+      self.flow_panel.visible = False
       self.data_grid.visible = False
       self.no_notifications.visible = True
 
+  
   # GET TABLE DATA
-  def get_notifications(self, **event_args):
-      self.no_notifications.visible = False
-      self.repeating_panel_email.items = [notifications[1]]
-      self.data_grid.visible = True
-
+  def get_notifications(self, notification_id, **event_args):
+    self.repeating_panel_email.items = [item for item in self.notifications if item["notification_id"] == notification_id]
+    self.data_grid.visible = True
 
   def add_spotify_playlist_click(self, **event_args):
     # get a trained model to activate it at the beginning
@@ -64,7 +76,7 @@ class Observe_Listen(Observe_ListenTemplate):
       model_ids = []
 
     # save the initial notification
-    anvil.server.call(
+    notification_id = anvil.server.call(
       "create_notification",
       user_id=user["user_id"],
       type="playlist",
@@ -87,4 +99,12 @@ class Observe_Listen(Observe_ListenTemplate):
     )
 
     # update the notifications table
-    self.get_notifications()
+    self.get_notifications(notification_id)
+
+  
+  # BASE FUNCTIONS FOR LINK EVENTS
+  def create_click_notification_handler(self, notification_id):
+    def handler(**event_args):
+      self.get_notifications(notification_id)
+    return handler
+    

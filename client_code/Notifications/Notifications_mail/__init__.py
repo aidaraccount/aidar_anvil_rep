@@ -409,3 +409,13 @@ class Notifications_mail(Notifications_mailTemplate):
     else:
       self.models_warning.visible = False
       self.update_notification()
+
+  def link_max_click(self, **event_args):
+    self.column_panel_min_max.visible = True
+    self.link_max.visible = False
+    self.link_min.visible = True
+
+  def link_min_click(self, **event_args):
+    self.column_panel_min_max.visible = False
+    self.link_min.visible = False
+    self.link_max.visible = True
