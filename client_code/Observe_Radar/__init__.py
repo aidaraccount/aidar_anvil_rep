@@ -1,4 +1,4 @@
-from ._anvil_designer import ObserveTemplate
+from ._anvil_designer import Observe_RadarTemplate
 from anvil import *
 import anvil.server
 import anvil.users
@@ -12,8 +12,8 @@ from anvil_extras import routing
 from ..nav import click_link, click_button, logout, login_check, load_var
 
 
-@routing.route("observe", title="Observe")
-class Observe(ObserveTemplate):
+@routing.route("radar", title="Observe - Artist Radar")
+class Observe_Radar(Observe_RadarTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
