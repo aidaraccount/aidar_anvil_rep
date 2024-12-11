@@ -1,7 +1,7 @@
 // window.addEventListener('load', function() {
 var controller;
 
-function createOrUpdateSpotifyPlayer(trackOrArtist, artistSpotifyID) {
+function createOrUpdateSpotifyPlayer(trackOrArtist, currentArtistSpotifyID, nextArtistSpotifyID) {
   const element = document.querySelector('.anvil-role-spotify-footer-class #embed-iframe');
   const autoplaybutton = document.querySelector('.anvil-role-autoplay-toggle-button .fa-toggle-on')
   // console.log("THIS IS THE ELEMENT:", element)
@@ -12,13 +12,15 @@ function createOrUpdateSpotifyPlayer(trackOrArtist, artistSpotifyID) {
     return;
   }
   
-  // console.log(artistSpotifyID);
+  console.log("track or artist", trackOrArtist);
+  console.log("Current Artist Spotify ID", currentArtistSpotifyID);
+  console.log("Next Artist Spotify ID", nextArtistSpotifyID);
   
   const options = {
     theme: 'dark',
     width: '100%',
     height: '80',
-    uri: `spotify:${trackOrArtist}:${artistSpotifyID}`,
+    uri: `spotify:${trackOrArtist}:${currentArtistSpotifyID}`,
   };
   console.log(options.uri);
 
@@ -42,7 +44,7 @@ function createOrUpdateSpotifyPlayer(trackOrArtist, artistSpotifyID) {
         // Check if the song has ended
         if (!isPaused && position >= duration && duration > 0) {
           console.log("Track has ended. Moving to the next song.");
-          playNextSong('track', artistSpotifyID); // Function to handle loading the next song
+          playNextSong('track', nextArtistSpotifyID); // Function to handle loading the next song
         }
       });
     });
@@ -68,7 +70,7 @@ function createOrUpdateSpotifyPlayer(trackOrArtist, artistSpotifyID) {
           // Check if the song has ended
           if (!isPaused && position >= duration && duration > 0) {
             console.log("Track has ended. Moving to the next song.");
-            playNextSong('track', artistSpotifyID);; // Function to handle loading the next song
+            playNextSong('track', nextArtistSpotifyID);; // Function to handle loading the next song
           }
         });
       }); 
@@ -98,7 +100,7 @@ function playSpotify_2() {
 function playNextSong(trackOrArtist, artistSpotifyID) {
   // Update this logic to load the appropriate next song URI
   // const nextSongUri = getNextSongUri(); // Replace with your logic to fetch the next song's URI
-  const nextSongUri = `spotify:track:${trackOrArtist}`; // Replace with your logic to fetch the next song's URI
+  const nextSongUri = `spotify:${trackOrArtist}:${artistSpotifyID}`; // Replace with your logic to fetch the next song's URI
   if (controller && nextSongUri) {
     controller.loadUri(nextSongUri);
     console.log(`Loading next song: ${nextSongUri}`);
