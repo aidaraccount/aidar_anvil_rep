@@ -33,6 +33,7 @@ class RowTemplate1(RowTemplate1Template):
 
     self.lastplayed = self.item["SpotifyTrackID"]
     save_var('lastplayed', self.item["SpotifyTrackID"])
+    # print(self.lastplayed)
 
     if self.button_play_track.icon == 'fa:play-circle':
       # reset all other:
