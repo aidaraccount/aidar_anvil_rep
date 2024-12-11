@@ -33,7 +33,7 @@ function createOrUpdateSpotifyPlayer(trackOrArtist, artistSpotifyID) {
         }
       });
       controller.addListener('playback_update', e => {
-        const { isPaused, isBuffering, duration, position } = e.data;
+        const {isPaused, isBuffering, duration, position } = e.data;
         // console.log('Paused:', isPaused)
         // console.log('Buffering:', isBuffering)
         // console.log('Duration:', duration)
@@ -42,7 +42,7 @@ function createOrUpdateSpotifyPlayer(trackOrArtist, artistSpotifyID) {
         // Check if the song has ended
         if (!isPaused && position >= duration && duration > 0) {
           console.log("Track has ended. Moving to the next song.");
-          playNextSong(); // Function to handle loading the next song
+          playNextSong('track', artistSpotifyID); // Function to handle loading the next song
         }
       });
     });
@@ -68,7 +68,7 @@ function createOrUpdateSpotifyPlayer(trackOrArtist, artistSpotifyID) {
           // Check if the song has ended
           if (!isPaused && position >= duration && duration > 0) {
             console.log("Track has ended. Moving to the next song.");
-            playNextSong(); // Function to handle loading the next song
+            playNextSong('track', artistSpotifyID);; // Function to handle loading the next song
           }
         });
       }); 
@@ -95,10 +95,10 @@ function playSpotify_2() {
 // });
 
 // Function to load the next song
-function playNextSong() {
+function playNextSong(trackOrArtist, artistSpotifyID) {
   // Update this logic to load the appropriate next song URI
   // const nextSongUri = getNextSongUri(); // Replace with your logic to fetch the next song's URI
-  const nextSongUri = 'spotify:track:67IfTiMwPNN0wQE7Scfzu9'; // Replace with your logic to fetch the next song's URI
+  const nextSongUri = `spotify:track:${trackOrArtist}`; // Replace with your logic to fetch the next song's URI
   if (controller && nextSongUri) {
     controller.loadUri(nextSongUri);
     console.log(`Loading next song: ${nextSongUri}`);
