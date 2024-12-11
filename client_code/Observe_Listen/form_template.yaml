@@ -50,13 +50,21 @@ components:
       rows_per_page: 1
       show_page_controls: false
     type: DataGrid
-  - layout_properties: {grid_position: 'DVWSMK,DMUGOI'}
+  - layout_properties: {grid_position: 'WERHBM,JXKDMT'}
     name: spacer_2
     properties: {height: 32}
     type: Spacer
+  - layout_properties: {grid_position: 'XPKAAX,UTUSTE'}
+    name: column_panel_playlist
+    properties: {}
+    type: ColumnPanel
+  - layout_properties: {grid_position: 'XPKAAX,TJGMKK'}
+    name: column_panel_discover
+    properties: {}
+    type: ColumnPanel
   layout_properties: {slot: default}
   name: content_panel
-  properties: {col_widths: '{"CDPZDK":55,"POUDWM":5}'}
+  properties: {col_widths: '{"CDPZDK":55,"POUDWM":5,"UTUSTE":25,"TJGMKK":35}'}
   type: ColumnPanel
 container:
   properties: {html: '@theme:Observe.html'}

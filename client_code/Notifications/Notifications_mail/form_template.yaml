@@ -50,6 +50,12 @@ components:
       name: buttons_panel
       properties: {role: null, spacing_above: none, spacing_below: none}
       type: LinearPanel
+    - components: []
+      event_bindings: {click: link_min_max_click}
+      layout_properties: {}
+      name: link_min_max
+      properties: {align: left, icon: 'fa:angle-double-down', icon_align: left, visible: true}
+      type: Link
     - event_bindings: {click: delete_notification_click}
       layout_properties: {}
       name: button_1
@@ -60,12 +66,6 @@ components:
         spacing_below: none
         text: ''
       type: Button
-    - components: []
-      event_bindings: {click: link_max_click}
-      layout_properties: {}
-      name: link_max
-      properties: {align: left, icon: 'fa:angle-double-down', icon_align: left, visible: false}
-      type: Link
     layout_properties: {grid_position: 'HWYMXP,NWICXJ'}
     name: flow_panel_6
     properties: {align: right}
@@ -455,11 +455,6 @@ components:
         text: Please select at least one trained model for your notification
         visible: false
       type: Label
-    - event_bindings: {click: link_min_click}
-      layout_properties: {grid_position: 'KOGBZE,QJMVMY'}
-      name: link_min
-      properties: {align: right, icon: 'fa:angle-double-up', icon_align: right}
-      type: Link
     layout_properties: {grid_position: 'IYJZVL,BVZKFA'}
     name: column_panel_min_max
     properties: {col_widths: '{"YDMOXG":40,"QCBNZC":20,"FEDFEU":45,"GVRIJF":15,"NCOFFD":30,"XWWOVW":30}'}

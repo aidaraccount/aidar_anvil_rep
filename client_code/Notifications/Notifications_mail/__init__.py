@@ -41,6 +41,8 @@ class Notifications_mail(Notifications_mailTemplate):
     elif self.item["type"] == 'playlist':
       self.name_link.icon = 'fa:spotify'
     
+    # 0) Base
+    self.column_panel_min_max.visible = False
     
     # A1) Frequency
     if self.item["type"] == 'mail':
@@ -410,12 +412,10 @@ class Notifications_mail(Notifications_mailTemplate):
       self.models_warning.visible = False
       self.update_notification()
 
-  def link_max_click(self, **event_args):
-    self.column_panel_min_max.visible = True
-    self.link_max.visible = False
-    self.link_min.visible = True
-
-  def link_min_click(self, **event_args):
-    self.column_panel_min_max.visible = False
-    self.link_min.visible = False
-    self.link_max.visible = True
+  def link_min_max_click(self, **event_args):
+    if self.link_min_max.icon == 'fa:angle-double-down':
+      self.column_panel_min_max.visible = True
+      self.link_min_max.icon = 'fa:angle-double-up'
+    else:
+      self.column_panel_min_max.visible = False
+      self.link_min_max.icon = 'fa:angle-double-down'
