@@ -33,7 +33,7 @@ function createOrUpdateSpotifyPlayer(trackOrArtist, artistSpotifyID) {
         }
       });
       controller.addListener('playback_update', e => {
-        console.log(document.getElementById('playback_update'))
+        console.log('position')
       });
     });
   } else {
