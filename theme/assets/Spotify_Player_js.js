@@ -32,6 +32,9 @@ function createOrUpdateSpotifyPlayer(trackOrArtist, artistSpotifyID) {
           playSpotify_2();
         }
       });
+      controller.addListener('playback_update', e => {
+        console.log(document.getElementById('playback_update'))
+      });
     });
   } else {
     window.onSpotifyIframeApiReady = (IFrameAPI) => {
@@ -44,6 +47,9 @@ function createOrUpdateSpotifyPlayer(trackOrArtist, artistSpotifyID) {
             // The below line will activate playing music when the page is opened and the spotify player is built
             playSpotify_2();
           }
+        });
+        controller.addListener('playback_update', e => {
+          console.log(document.getElementById('playback_update'))
         });
       }); 
     };
