@@ -29,13 +29,13 @@ class RowTemplate1(RowTemplate1Template):
     print("line 52 - next index:", next_index)
     
     if next_index < len(all_rows):  # Check if there's a next row
-        current_track_id = all_rows[current_index]["SpotifyTrackID"]
-        next_track_id = all_rows[next_index]["SpotifyTrackID"]
-        print(f"Current Track ID: {current_track_id}")
-        print(f"Next Track ID: {next_track_id}")
-        # Optionally, perform an action with the next track ID, like preloading
+      current_track_id = all_rows[current_index]["SpotifyTrackID"]
+      next_track_id = all_rows[next_index]["SpotifyTrackID"]
+      print(f"Current Track ID: {current_track_id}")
+      print(f"Next Track ID: {next_track_id}")
+      # Optionally, perform an action with the next track ID, like preloading
     else:
-        print("No next track available.")
+      print("No next track available.")
       
     if load_var("lastplayed") != self.item["SpotifyTrackID"]:
       self.parent.parent.parent.parent.parent.parent.spotify_player_spot.clear()
