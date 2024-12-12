@@ -23,6 +23,9 @@ class RowTemplate1(RowTemplate1Template):
   def button_play_track_click(self, **event_args):
 
     all_rows = self.parent.items
+    # spotify_track_ids = [entry["SpotifyTrackID"] for entry in track_data]
+    track_ids = [entry["SpotifyTrackID"] for entry in all_rows]
+    print(track_ids)
     current_index = all_rows.index(self.item)
     print("line 51 - current index:", current_index)
     next_index = current_index + 1

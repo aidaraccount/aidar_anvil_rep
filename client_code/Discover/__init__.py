@@ -361,11 +361,13 @@ class Discover(DiscoverTemplate):
       # --------
       # b) release tables
       if self.data_grid_releases.visible is True:
-        track_data = json.loads(anvil.server.call('get_dev_releases', artist_id))
-        print(track_data)
-        print(type(track_data))
+        # track_data = json.loads(anvil.server.call('get_dev_releases', artist_id))
+        # spotify_track_ids = [entry["SpotifyTrackID"] for entry in track_data]
+        # for element in track_data:
+        #   element["SpotifyTrackIDs"] = spotify_track_ids
+        # self.data_grid_releases_data.items = track_data
         self.data_grid_releases_data.items = json.loads(anvil.server.call('get_dev_releases', artist_id))
-
+        
       # --------
       # c) release cycle
       if self.data_grid_cycle.visible is True:        
