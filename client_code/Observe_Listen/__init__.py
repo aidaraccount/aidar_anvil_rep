@@ -8,7 +8,9 @@ from anvil.tables import app_tables
 import json
 from datetime import date, datetime
 from anvil_extras import routing
-from ..nav import click_link, click_button, logout, login_check, load_var
+from ..nav import click_link, click_button, logout, login_check, load_var, save_var
+
+from ..C_Notification_Settings import C_Notification_Settings
 
 
 @routing.route("listen", title="Observe - Listen-In")
@@ -25,6 +27,8 @@ class Observe_Listen(Observe_ListenTemplate):
     self.model_id = model_id
     print(f"Notifications model_id: {model_id}")
 
+    save_var('toggle', 'up')
+    
     # GENERAL
     self.get_all_notifications(None)
     
@@ -59,7 +63,7 @@ class Observe_Listen(Observe_ListenTemplate):
       
     else:
       self.flow_panel.visible = False
-      self.data_grid.visible = False
+      self.notification_settings.visible = False
       self.no_notifications.visible = True
   
   # ACTIVATE NOTIFICATION
@@ -74,13 +78,17 @@ class Observe_Listen(Observe_ListenTemplate):
   
   # GET NOTIFICATION SETTINGS
   def get_notification_settings(self, notification_id, **event_args):      
-    self.repeating_panel_email.items = [item for item in self.notifications if item["notification_id"] == notification_id]
-    self.data_grid.visible = True
+    items = [item for item in self.notifications if item["notification_id"] == notification_id]
+    
+    self.notification_settings.clear()
+    self.notification_settings.add_component(C_Notification_Settings(items, notification_id))
+    self.notification_settings.visible = True
+    
     self.get_observe_tracks(notification_id)
-
+    
   # GET PLAYLIST DETAILS
   def get_observe_tracks(self, notification_id, **event_args):
-    
+  
     notification = [item for item in self.notifications if item["notification_id"] == notification_id][0]
     
     observed_tracks = anvil.server.call('get_observed_tracks', 
@@ -95,7 +103,7 @@ class Observe_Listen(Observe_ListenTemplate):
                                         notification["song_selection_2"]
                                         )
 
-    print(observed_tracks)
+    # print(observed_tracks)
     
     self.repeating_panel_artists.items = observed_tracks
     self.repeating_panel_artists.visible = True
@@ -151,6 +159,7 @@ class Observe_Listen(Observe_ListenTemplate):
     )
 
     # update the notifications table
+    save_var('toggle', 'down')
     self.get_all_notifications(notification_id)
 
   
