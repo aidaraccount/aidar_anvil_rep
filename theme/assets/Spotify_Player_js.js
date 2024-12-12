@@ -1,7 +1,7 @@
 // window.addEventListener('load', function() {
 var controller;
 
-function createOrUpdateSpotifyPlayer(trackOrArtist, currentArtistSpotifyID, nextArtistSpotifyID) {
+function createOrUpdateSpotifyPlayer(trackOrArtist, currentArtistSpotifyID, spotifyTrackIDsList=null) {
   const element = document.querySelector('.anvil-role-spotify-footer-class #embed-iframe');
   const autoplaybutton = document.querySelector('.anvil-role-autoplay-toggle-button .fa-toggle-on')
   // console.log("THIS IS THE ELEMENT:", element)
@@ -11,10 +11,7 @@ function createOrUpdateSpotifyPlayer(trackOrArtist, currentArtistSpotifyID, next
     console.error("ERROR MESSAGE: Embed iframe element not found.")
     return;
   }
-  
-  console.log("track or artist", trackOrArtist);
-  console.log("Current Artist Spotify ID", currentArtistSpotifyID);
-  console.log("Next Artist Spotify ID", nextArtistSpotifyID);
+
   
   const options = {
     theme: 'dark',
@@ -22,7 +19,22 @@ function createOrUpdateSpotifyPlayer(trackOrArtist, currentArtistSpotifyID, next
     height: '80',
     uri: `spotify:${trackOrArtist}:${currentArtistSpotifyID}`,
   };
-  console.log(options.uri);
+  // console.log(options.uri);
+
+  if (spotifyTrackIDsList) {
+    // Find the index of the specified track ID
+    const index = spotifyTrackIDsList.indexOf(currentArtistSpotifyID);
+    console.log("line 17 - Current Index:", index)
+    // Get the next track ID, if it exists
+    const nextArtistSpotifyID = index !== -1 && index < spotifyTrackIDsList.length - 1 ? spotifyTrackIDsList[index + 1] : null;
+    console.log("line 20 - next track id:", nextArtistSpotifyID)
+  
+    console.log("track or artist", trackOrArtist);
+    console.log("Current Artist Spotify ID", currentArtistSpotifyID);
+    console.log("Next Artist Spotify ID", nextArtistSpotifyID);
+    
+    currentArtistSpotifyID = nextArtistSpotifyID
+  } 
 
   if (window.SpotifyIframeAPI) {
     window.SpotifyIframeAPI.createController(element, options, (EmbedController) => {
@@ -44,7 +56,7 @@ function createOrUpdateSpotifyPlayer(trackOrArtist, currentArtistSpotifyID, next
         // Check if the song has ended
         if (!isPaused && position >= duration && duration > 0) {
           console.log("Track has ended. Moving to the next song.");
-          playNextSong('track', nextArtistSpotifyID); // Function to handle loading the next song
+          playNextSong('track', currentArtistSpotifyID); // Function to handle loading the next song
         }
       });
     });
@@ -70,7 +82,7 @@ function createOrUpdateSpotifyPlayer(trackOrArtist, currentArtistSpotifyID, next
           // Check if the song has ended
           if (!isPaused && position >= duration && duration > 0) {
             console.log("Track has ended. Moving to the next song.");
-            playNextSong('track', nextArtistSpotifyID);; // Function to handle loading the next song
+            playNextSong('track', currentArtistSpotifyID);; // Function to handle loading the next song
           }
         });
       }); 
@@ -97,10 +109,10 @@ function playSpotify_2() {
 // });
 
 // Function to load the next song
-function playNextSong(trackOrArtist, artistSpotifyID) {
+function playNextSong(trackOrArtist, nextArtistSpotifyID) {
   // Update this logic to load the appropriate next song URI
   // const nextSongUri = getNextSongUri(); // Replace with your logic to fetch the next song's URI
-  const nextSongUri = `spotify:${trackOrArtist}:${artistSpotifyID}`; // Replace with your logic to fetch the next song's URI
+  const nextSongUri = `spotify:${trackOrArtist}:${nextArtistSpotifyID}`; // Replace with your logic to fetch the next song's URI
   if (controller && nextSongUri) {
     controller.loadUri(nextSongUri);
     console.log(`Loading next song: ${nextSongUri}`);

@@ -23,27 +23,26 @@ class RowTemplate1(RowTemplate1Template):
   def button_play_track_click(self, **event_args):
 
     all_rows = self.parent.items
-    # spotify_track_ids = [entry["SpotifyTrackID"] for entry in track_data]
     track_ids = [entry["SpotifyTrackID"] for entry in all_rows]
-    print(track_ids)
+    # print(track_ids)
     current_index = all_rows.index(self.item)
-    print("line 51 - current index:", current_index)
+    # print("line 51 - current index:", current_index)
     next_index = current_index + 1
-    print("line 52 - next index:", next_index)
+    # print("line 52 - next index:", next_index)
     
-    if next_index < len(all_rows):  # Check if there's a next row
-      current_track_id = all_rows[current_index]["SpotifyTrackID"]
-      next_track_id = all_rows[next_index]["SpotifyTrackID"]
-      print(f"Current Track ID: {current_track_id}")
-      print(f"Next Track ID: {next_track_id}")
-      # Optionally, perform an action with the next track ID, like preloading
-    else:
-      print("No next track available.")
+    # if next_index < len(all_rows):  # Check if there's a next row
+    #   current_track_id = all_rows[current_index]["SpotifyTrackID"]
+    #   next_track_id = all_rows[next_index]["SpotifyTrackID"]
+    #   print(f"Current Track ID: {current_track_id}")
+    #   print(f"Next Track ID: {next_track_id}")
+    #   # Optionally, perform an action with the next track ID, like preloading
+    # else:
+    #   print("No next track available.")
       
     if load_var("lastplayed") != self.item["SpotifyTrackID"]:
       self.parent.parent.parent.parent.parent.parent.spotify_player_spot.clear()
       self.parent.parent.parent.parent.parent.parent.spotify_HTML_player()
-      self.parent.parent.parent.parent.parent.parent.call_js('createOrUpdateSpotifyPlayer', 'track', self.item["SpotifyTrackID"], next_track_id)
+      self.parent.parent.parent.parent.parent.parent.call_js('createOrUpdateSpotifyPlayer', 'track', self.item["SpotifyTrackID"], track_ids)
       anvil.js.call_js('playSpotify')
       
     else:
