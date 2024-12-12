@@ -232,7 +232,7 @@ class Notifications_mail(Notifications_mailTemplate):
   def delete_notification_click(self, **event_args):
     anvil.server.call('delete_notification',
                       notification_id = self.item["notification_id"])
-    self.parent.parent.parent.parent.get_notifications()
+    self.parent.parent.parent.parent.get_all_notifications(None)
 
   
   # BUTTON FUNCTIONALITIES

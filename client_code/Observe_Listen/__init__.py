@@ -26,35 +26,57 @@ class Observe_Listen(Observe_ListenTemplate):
     print(f"Notifications model_id: {model_id}")
 
     # GENERAL
-    self.notifications = json.loads(anvil.server.call("get_notifications", user["user_id"], 'playlist'))
-    print(self.notifications[1])
+    self.get_all_notifications(None)
     
-    if len(self.notifications) > 0:
 
-      # adding navigation components
-      self.flow_panel.visible = True
-      for notification in self.notifications:
-        notification_link = Link(
-          text=notification["name"],
-          role='section_buttons'
-        )      
-        notification_link.set_event_handler('click', self.create_click_notification_handler(notification["notification_id"]))
-        self.flow_panel.add_component(notification_link)
-      
-      # load first notification
+
+  # GET ALL NOTIFICATIONS
+  def get_all_notifications(self, notification_id, **event_args):
+    self.notifications = json.loads(anvil.server.call("get_notifications", user["user_id"], 'playlist'))
+    
+    # clear all navigation components
+    self.flow_panel.clear()
+    
+    # adding navigation components
+    self.flow_panel.visible = True
+    for notification in self.notifications:
+      notification_link = Link(
+        text=notification["name"],
+        role='section_buttons',
+        tag=notification["notification_id"]
+      )      
+      notification_link.set_event_handler('click', self.create_click_notification_handler(notification["notification_id"]))
+      self.flow_panel.add_component(notification_link)
+
+    # load and activate defined/first notification
+    if len(self.notifications) > 0:      
       self.no_notifications.visible = False
-      self.get_notifications(notification["notification_id"])
-      self.get_observe_tracks(notification["notification_id"])
+  
+      if notification_id is None:
+        notification_id = self.notifications[0]["notification_id"]
+  
+      self.activate_notification(notification_id)
+      
     else:
       self.flow_panel.visible = False
       self.data_grid.visible = False
       self.no_notifications.visible = True
-
   
-  # GET NOTIFICATION DETAILS
-  def get_notifications(self, notification_id, **event_args):
+  # ACTIVATE NOTIFICATION
+  def activate_notification(self, notification_id):    
+    for component in self.flow_panel.get_components():
+      if isinstance(component, Link):          
+        if int(component.tag) == notification_id:
+          component.role = 'section_buttons_focused'
+          self.get_notification_settings(notification_id)
+        else:
+          component.role = 'section_buttons'
+  
+  # GET NOTIFICATION SETTINGS
+  def get_notification_settings(self, notification_id, **event_args):      
     self.repeating_panel_email.items = [item for item in self.notifications if item["notification_id"] == notification_id]
     self.data_grid.visible = True
+    self.get_observe_tracks(notification_id)
 
   # GET PLAYLIST DETAILS
   def get_observe_tracks(self, notification_id, **event_args):
@@ -129,14 +151,11 @@ class Observe_Listen(Observe_ListenTemplate):
     )
 
     # update the notifications table
-    self.get_notifications(notification_id)
-    self.get_observe_tracks(notification_id)
+    self.get_all_notifications(notification_id)
 
   
   # BASE FUNCTIONS FOR LINK EVENTS
   def create_click_notification_handler(self, notification_id):
-    def handler(**event_args):
-      self.get_notifications(notification_id)
-      self.get_observe_tracks(notification_id)
+    def handler(**event_args):      
+      self.activate_notification(notification_id)   
     return handler
-    

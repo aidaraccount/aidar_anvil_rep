@@ -216,6 +216,8 @@ class Main_In(Main_InTemplate):
     self.link_discover_rel.background = None
     
     self.link_observe.background = None
+    self.link_radar.background = None
+    self.link_listen.background = None
 
     self.link_watchlists.background = None
     for component in self.nav_watchlists.get_components():
