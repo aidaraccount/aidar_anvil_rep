@@ -20,6 +20,8 @@ from anvil.js.window import updateGauge
 from anvil.js.window import playSpotify
 from anvil.js.window import playSpotify_2
 
+# from anvil.js import callable
+
 from anvil_extras import routing
 from ..nav import click_link, click_button, logout, login_check, load_var, save_var
 import time
@@ -1964,7 +1966,10 @@ class Discover(DiscoverTemplate):
         buttons=[],
         role=["progress-message","remove-focus"]
     )
-    
+
+  # @callable("change_play_button")
+  def change_play_button(self):
+    print('This button has changed icons')
 
   # def update_city_highlight(self):
   #   country_codes = self.listeners_city_data["country_name_city"]

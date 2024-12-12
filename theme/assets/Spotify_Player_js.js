@@ -1,5 +1,6 @@
 // window.addEventListener('load', function() {
 var controller;
+let globalCurrentArtistSpotifyID = null; // To persist the current track ID across function calls
 
 function createOrUpdateSpotifyPlayer(trackOrArtist, currentArtistSpotifyID, spotifyTrackIDsList=null) {
   const element = document.querySelector('.anvil-role-spotify-footer-class #embed-iframe');
@@ -12,29 +13,27 @@ function createOrUpdateSpotifyPlayer(trackOrArtist, currentArtistSpotifyID, spot
     return;
   }
 
+  console.log("Global Current Artist Spotify ID BEFORE", globalCurrentArtistSpotifyID);
+  console.log("Check", !globalCurrentArtistSpotifyID);
+  // if (!globalCurrentArtistSpotifyID) {
+  //   // Initialize globalCurrentArtistSpotifyID only if it hasn't been set
+  //   globalCurrentArtistSpotifyID = currentArtistSpotifyID;
+  // } else {
+  //   globalCurrentArtistSpotifyID = currentArtistSpotifyID;
+  // }
+  globalCurrentArtistSpotifyID = currentArtistSpotifyID;
+  
+  console.log("track or artist", trackOrArtist);
+  console.log("Current Spotify ID", currentArtistSpotifyID);
+  console.log("Global Current Spotify ID", globalCurrentArtistSpotifyID);
   
   const options = {
     theme: 'dark',
     width: '100%',
     height: '80',
-    uri: `spotify:${trackOrArtist}:${currentArtistSpotifyID}`,
+    uri: `spotify:${trackOrArtist}:${globalCurrentArtistSpotifyID}`,
   };
   // console.log(options.uri);
-
-  if (spotifyTrackIDsList) {
-    // Find the index of the specified track ID
-    const index = spotifyTrackIDsList.indexOf(currentArtistSpotifyID);
-    console.log("line 17 - Current Index:", index)
-    // Get the next track ID, if it exists
-    const nextArtistSpotifyID = index !== -1 && index < spotifyTrackIDsList.length - 1 ? spotifyTrackIDsList[index + 1] : null;
-    console.log("line 20 - next track id:", nextArtistSpotifyID)
-  
-    console.log("track or artist", trackOrArtist);
-    console.log("Current Artist Spotify ID", currentArtistSpotifyID);
-    console.log("Next Artist Spotify ID", nextArtistSpotifyID);
-    
-    currentArtistSpotifyID = nextArtistSpotifyID
-  } 
 
   if (window.SpotifyIframeAPI) {
     window.SpotifyIframeAPI.createController(element, options, (EmbedController) => {
@@ -48,15 +47,18 @@ function createOrUpdateSpotifyPlayer(trackOrArtist, currentArtistSpotifyID, spot
       });
       controller.addListener('playback_update', e => {
         const {isPaused, isBuffering, duration, position } = e.data;
-        // console.log('Paused:', isPaused)
-        // console.log('Buffering:', isBuffering)
-        // console.log('Duration:', duration)
-        // console.log('Position:', position)
-
+        
         // Check if the song has ended
         if (!isPaused && position >= duration && duration > 0) {
           console.log("Track has ended. Moving to the next song.");
-          playNextSong('track', currentArtistSpotifyID); // Function to handle loading the next song
+
+          // Load next song only if spotifyTrackIDsList is provided
+          if (spotifyTrackIDsList) {
+            playNextSong('track', spotifyTrackIDsList); // Function to handle loading the next song
+            anvil.call("update_play_pause_buttons", globalCurrentArtistSpotifyID)
+          } else {
+            console.log("No track list provided. Playback stopped.")
+          }
         }
       });
     });
@@ -74,15 +76,18 @@ function createOrUpdateSpotifyPlayer(trackOrArtist, currentArtistSpotifyID, spot
         });
         controller.addListener('playback_update', e => {
           const { isPaused, isBuffering, duration, position } = e.data;
-          // console.log('Paused:', isPaused)
-          // console.log('Buffering:', isBuffering)
-          // console.log('Duration:', duration)
-          // console.log('Position:', position)
-
+          
           // Check if the song has ended
           if (!isPaused && position >= duration && duration > 0) {
             console.log("Track has ended. Moving to the next song.");
-            playNextSong('track', currentArtistSpotifyID);; // Function to handle loading the next song
+
+            // Load next osng only if spotifyTrackIDsList is provided
+            if (spotifyTrackIDsList) {
+              playNextSong('track', spotifyTrackIDsList); // Function to handle loading the next song
+              anvil.call("update_play_pause_buttons", globalCurrentArtistSpotifyID)
+            } else {
+              console.log("No track list provided. Playback stopped.");
+            }
           }
         });
       }); 
@@ -109,11 +114,19 @@ function playSpotify_2() {
 // });
 
 // Function to load the next song
-function playNextSong(trackOrArtist, nextArtistSpotifyID) {
+function playNextSong(trackOrArtist, spotifyTrackIDsList) {
+  if (!spotifyTrackIDsList) {
+    console.error("No track list available. Check out Spotify_Player_js.js file - playNextSong() function.");
+    return;
+  }
+
+  const index = spotifyTrackIDsList.indexOf(globalCurrentArtistSpotifyID);
+  const nextArtistSpotifyID = index !== -1 && index < spotifyTrackIDsList.length - 1 ? spotifyTrackIDsList[index + 1] : null;
   // Update this logic to load the appropriate next song URI
   // const nextSongUri = getNextSongUri(); // Replace with your logic to fetch the next song's URI
-  const nextSongUri = `spotify:${trackOrArtist}:${nextArtistSpotifyID}`; // Replace with your logic to fetch the next song's URI
-  if (controller && nextSongUri) {
+  if (controller && nextArtistSpotifyID) {
+    const nextSongUri = `spotify:${trackOrArtist}:${nextArtistSpotifyID}`; // Replace with your logic to fetch the next song's URI
+    globalCurrentArtistSpotifyID = nextArtistSpotifyID;
     controller.loadUri(nextSongUri);
     console.log(`Loading next song: ${nextSongUri}`);
     controller.play()

@@ -47,6 +47,7 @@ class RowTemplate1(RowTemplate1Template):
       
     else:
       anvil.js.call_js('playSpotify')
+      # pass
 
     self.lastplayed = self.item["SpotifyTrackID"]
     save_var('lastplayed', self.item["SpotifyTrackID"])
@@ -61,6 +62,18 @@ class RowTemplate1(RowTemplate1Template):
       self.button_play_track.icon = 'fa:play-circle'
     
     self.parent.parent.parent.parent.parent.parent.spotify_artist_button.icon = 'fa:play-circle'
+    
+    self.update_play_pause_buttons(self.item["SpotifyTrackID"])
 
+  @anvil.server.callable
+  def update_play_pause_buttons(self, current_track_id):
+    # Iterate through rows and update button icons
+    for row in self.parent.get_components():
+      if row.item['SpotifyTrackID'] == current_track_id:
+        row.button_play_track.icon = 'fa:pause-circle'
+      else:
+        row.button_play_track.icon = 'fa:play-circle'
+
+    print("THIS FUNCTION IS RUNNING WILD")
 
     
