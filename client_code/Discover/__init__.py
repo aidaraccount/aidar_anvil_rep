@@ -1967,10 +1967,6 @@ class Discover(DiscoverTemplate):
         role=["progress-message","remove-focus"]
     )
 
-  # @callable("change_play_button")
-  def change_play_button(self):
-    print('This button has changed icons')
-
   # def update_city_highlight(self):
   #   country_codes = self.listeners_city_data["country_name_city"]
   #   monthly_listeners = self.listeners_city_data["monthly_listeners"]

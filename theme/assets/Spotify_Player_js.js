@@ -55,7 +55,7 @@ function createOrUpdateSpotifyPlayer(trackOrArtist, currentArtistSpotifyID, spot
           // Load next song only if spotifyTrackIDsList is provided
           if (spotifyTrackIDsList) {
             playNextSong('track', spotifyTrackIDsList); // Function to handle loading the next song
-            anvil.call("update_play_pause_buttons", globalCurrentArtistSpotifyID)
+            // anvil.server.call("update_play_pause_buttons", globalCurrentArtistSpotifyID);
           } else {
             console.log("No track list provided. Playback stopped.")
           }
@@ -84,7 +84,7 @@ function createOrUpdateSpotifyPlayer(trackOrArtist, currentArtistSpotifyID, spot
             // Load next osng only if spotifyTrackIDsList is provided
             if (spotifyTrackIDsList) {
               playNextSong('track', spotifyTrackIDsList); // Function to handle loading the next song
-              anvil.call("update_play_pause_buttons", globalCurrentArtistSpotifyID)
+              // anvil.server.call("update_play_pause_buttons", globalCurrentArtistSpotifyID);
             } else {
               console.log("No track list provided. Playback stopped.");
             }

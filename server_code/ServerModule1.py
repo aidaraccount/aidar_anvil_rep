@@ -3,7 +3,9 @@ import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
 import anvil.server
-import numpy as np
+import numpy as 
+from anvil import get_open_form
+
 
 # This is a server module. It runs on the Anvil server,
 # rather than in the user's browser.
@@ -37,3 +39,14 @@ def check_user_exists(email):
   
   # Return True if user exists, otherwise return False
   return user is not None
+
+@anvil.server.callable
+def update_play_pause_buttons(current_track_id):
+  # form = get_open_form()
+  # for row in form.songs_repeating_panel.get_components():
+  #     if row.item['SpotifyTrackID'] == current_track_id:
+  #         row.button_play_track.icon = 'fa:pause-circle'
+  #     else:
+  #         row.button_play_track.icon = 'fa:play-circle'
+
+  print("THIS FUNCTION IS RUNNING WILD")
