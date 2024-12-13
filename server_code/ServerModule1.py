@@ -40,10 +40,14 @@ def check_user_exists(email):
   # Return True if user exists, otherwise return False
   return user is not None
 
-# @anvil.server.callable
-# def update_play_pause_buttons(current_track_id):
-#   """Update play/pause buttons in the repeating panel."""
-#   form = get_open_form()  # Access the current form
-#   form.update_play_pause_buttons(current_track_id)
+@anvil.server.callable
+def updateButtons(current_track_id):
+    # Assuming this is a client-side method:
+    # repeating_panel = anvil.get_component("songs_repeating_panel")  # Adjust for your actual panel name
+    # for row in repeating_panel.get_components():
+    #     if row.item["SpotifyTrackID"] == current_track_id:
+    #         row.button_play_track.icon = "fa:pause-circle"
+    #     else:
+    #         row.button_play_track.icon = "fa:play-circle"
 
-#   print("THIS FUNCTION IS RUNNING WILD")
+  print("THIS IS THE SERVER FUNCTION THAT IS RUNNING", current_track_id)

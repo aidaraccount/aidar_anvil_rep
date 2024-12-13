@@ -26,6 +26,14 @@ function createOrUpdateSpotifyPlayer(trackOrArtist, currentArtistSpotifyID, spot
   console.log("track or artist", trackOrArtist);
   console.log("Current Spotify ID", currentArtistSpotifyID);
   console.log("Global Current Spotify ID", globalCurrentArtistSpotifyID);
+
+  // Update the hidden text box with the new ID
+  const nowPlayingBox = document.querySelector('.anvil-role-now-playing-id');
+  console.log("This is the now playing box", nowPlayingBox)
+  if (nowPlayingBox) {
+    nowPlayingBox.value = globalCurrentArtistSpotifyID;
+    console.log("nowPlayingBox_value:", nowPlayingBox.value)
+  }
   
   const options = {
     theme: 'dark',
@@ -122,15 +130,16 @@ function playNextSong(trackOrArtist, spotifyTrackIDsList) {
   if (controller && nextArtistSpotifyID) {
     const nextSongUri = `spotify:${trackOrArtist}:${nextArtistSpotifyID}`; // Replace with your logic to fetch the next song's URI
     globalCurrentArtistSpotifyID = nextArtistSpotifyID;
+    console.log("globalCurrentArtistSpotifyID of Next Song:", globalCurrentArtistSpotifyID)
     controller.loadUri(nextSongUri);
     console.log(`Loading next song: ${nextSongUri}`);
     controller.play()
 
-    // Update the hidden text box with the new ID
-    const nowPlayingBox = document.querySelector('[role=now-playing-id]');
-    if (nowPlayingBox) {
-      nowPlayingBox.value = globalCurrentArtistSpotifyID;
-      anvil.call_now("updateButtons");
+  const nowPlayingBox = document.querySelector('.anvil-role-now-playing-id');
+  if (nowPlayingBox) {
+    nowPlayingBox.value = globalCurrentArtistSpotifyID;
+    console.log("nowPlayingBox_value in the nextupsong:", nowPlayingBox.value)
+  }
   } else {
     console.error("No next song URI available or controller is not initialized.");
   }

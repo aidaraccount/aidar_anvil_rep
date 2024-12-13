@@ -38,8 +38,9 @@ class Discover(DiscoverTemplate):
     # self.add_event_handler('show', self.play_spotify)
     # text box that controls which play button from the Track Releases table will be a play or a pause button
     self.now_playing_id.role = 'now-playing-id'
+    print("THis is the text of the now_playing_id box:",self.now_playing_id.text)
     # Bind the hidden text box value to a callback
-    self.now_playing_id.set_event_handler('change', self.update_play_pause_buttons())
+    # self.now_playing_id.set_event_handler('change', self.update_play_pause_buttons)
     
     global user
     user = anvil.users.get_user()
@@ -1971,13 +1972,23 @@ class Discover(DiscoverTemplate):
         role=["progress-message","remove-focus"]
     )
 
-  def update_play_pause_buttons(self, **event_args):
-    current_track_id = self.now_playing_id.text
-    for row in self.data_grid_releases_data.get_components():  # Replace with your repeating panel name
-        if row.item["SpotifyTrackID"] == current_track_id:
-            row.button_play_track.icon = 'fa:pause-circle'
-        else:
-            row.button_play_track.icon = 'fa:play-circle'
+  def update_play_pause_buttons(self):
+    print("This is the text of now_playing_id on change: ",self.now_playing_id.text)
+  # def update_play_pause_buttons(self, current_track_id):
+  #   current_track_id = self.now_playing_id.text
+  #   print("This is the current_track_id",current_track_id)
+  #   print("This is the self.now_playing_id.text",self.now_playing_id.text)
+  #   for row in self.data_grid_releases_data.get_components():  # Replace with your repeating panel name
+  #     print("These are the row current_track_id:",current_track_id)
+  #     print("These are the row row.items[SpotifyTrackID]:",row.item["SpotifyTrackID"])
+  #     print("This is the statement result:", row.item["SpotifyTrackID"] == current_track_id)
+  #     if row.item["SpotifyTrackID"] == current_track_id:
+  #       row.button_play_track.icon = 'fa:pause-circle'
+  #     else:
+  #       row.button_play_track.icon = 'fa:play-circle'
+  
+  
+
   # def update_city_highlight(self):
   #   country_codes = self.listeners_city_data["country_name_city"]
   #   monthly_listeners = self.listeners_city_data["monthly_listeners"]
