@@ -24,21 +24,7 @@ class RowTemplate1(RowTemplate1Template):
 
     all_rows = self.parent.items
     track_ids = [entry["SpotifyTrackID"] for entry in all_rows]
-    # print(track_ids)
-    current_index = all_rows.index(self.item)
-    # print("line 51 - current index:", current_index)
-    next_index = current_index + 1
-    # print("line 52 - next index:", next_index)
-    
-    # if next_index < len(all_rows):  # Check if there's a next row
-    #   current_track_id = all_rows[current_index]["SpotifyTrackID"]
-    #   next_track_id = all_rows[next_index]["SpotifyTrackID"]
-    #   print(f"Current Track ID: {current_track_id}")
-    #   print(f"Next Track ID: {next_track_id}")
-    #   # Optionally, perform an action with the next track ID, like preloading
-    # else:
-    #   print("No next track available.")
-      
+
     if load_var("lastplayed") != self.item["SpotifyTrackID"]:
       self.parent.parent.parent.parent.parent.parent.spotify_player_spot.clear()
       self.parent.parent.parent.parent.parent.parent.spotify_HTML_player()
@@ -53,15 +39,18 @@ class RowTemplate1(RowTemplate1Template):
     save_var('lastplayed', self.item["SpotifyTrackID"])
     # print(self.lastplayed)
 
-    if self.button_play_track.icon == 'fa:play-circle':
-      # reset all other:
-      self.parent.parent.parent.parent.parent.parent.reset_track_play_buttons()
-      # set specific one
-      self.button_play_track.icon = 'fa:pause-circle'
-    else:
-      self.button_play_track.icon = 'fa:play-circle'
+    # Update buttons dynamically
+    self.parent.parent.parent.parent.parent.parent.update_play_pause_buttons(self.item["SpotifyTrackID"])
     
-    self.parent.parent.parent.parent.parent.parent.spotify_artist_button.icon = 'fa:play-circle'
+    # if self.button_play_track.icon == 'fa:play-circle':
+    #   # reset all other:
+    #   self.parent.parent.parent.parent.parent.parent.reset_track_play_buttons()
+    #   # set specific one
+    #   self.button_play_track.icon = 'fa:pause-circle'
+    # else:
+    #   self.button_play_track.icon = 'fa:play-circle'
+    
+    # self.parent.parent.parent.parent.parent.parent.spotify_artist_button.icon = 'fa:play-circle'
     
     # self.update_play_pause_buttons(self.item["SpotifyTrackID"])
 

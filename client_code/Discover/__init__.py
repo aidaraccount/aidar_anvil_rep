@@ -1967,6 +1967,13 @@ class Discover(DiscoverTemplate):
         role=["progress-message","remove-focus"]
     )
 
+  def update_play_pause_buttons(self, current_track_id):
+    """Update buttons in the repeating panel based on the current playing track ID."""
+    for row in self.data_grid_releases_data.get_components():  # Replace with your repeating panel name
+      if row.item["SpotifyTrackID"] == current_track_id:
+        row.button_play_track.icon = 'fa:pause-circle'
+      else:
+        row.button_play_track.icon = 'fa:play-circle'
   # def update_city_highlight(self):
   #   country_codes = self.listeners_city_data["country_name_city"]
   #   monthly_listeners = self.listeners_city_data["monthly_listeners"]

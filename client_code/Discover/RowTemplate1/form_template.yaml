@@ -23,7 +23,11 @@ components:
 
     visible: true
   type: Button
+- layout_properties: {column: RAPPVC}
+  name: new_play_button
+  properties: {}
+  type: ColumnPanel
 container:
-  properties: {role: rows_discover_page_no_image_table}
+  properties: {align: left, role: rows_discover_page_no_image_table}
   type: DataRowPanel
 is_package: true

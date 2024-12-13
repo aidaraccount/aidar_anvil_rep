@@ -55,7 +55,6 @@ function createOrUpdateSpotifyPlayer(trackOrArtist, currentArtistSpotifyID, spot
           // Load next song only if spotifyTrackIDsList is provided
           if (spotifyTrackIDsList) {
             playNextSong('track', spotifyTrackIDsList); // Function to handle loading the next song
-            // anvil.server.call("update_play_pause_buttons", globalCurrentArtistSpotifyID);
           } else {
             console.log("No track list provided. Playback stopped.")
           }
@@ -84,7 +83,6 @@ function createOrUpdateSpotifyPlayer(trackOrArtist, currentArtistSpotifyID, spot
             // Load next osng only if spotifyTrackIDsList is provided
             if (spotifyTrackIDsList) {
               playNextSong('track', spotifyTrackIDsList); // Function to handle loading the next song
-              // anvil.server.call("update_play_pause_buttons", globalCurrentArtistSpotifyID);
             } else {
               console.log("No track list provided. Playback stopped.");
             }
@@ -119,17 +117,16 @@ function playNextSong(trackOrArtist, spotifyTrackIDsList) {
     console.error("No track list available. Check out Spotify_Player_js.js file - playNextSong() function.");
     return;
   }
-
   const index = spotifyTrackIDsList.indexOf(globalCurrentArtistSpotifyID);
   const nextArtistSpotifyID = index !== -1 && index < spotifyTrackIDsList.length - 1 ? spotifyTrackIDsList[index + 1] : null;
-  // Update this logic to load the appropriate next song URI
-  // const nextSongUri = getNextSongUri(); // Replace with your logic to fetch the next song's URI
   if (controller && nextArtistSpotifyID) {
     const nextSongUri = `spotify:${trackOrArtist}:${nextArtistSpotifyID}`; // Replace with your logic to fetch the next song's URI
     globalCurrentArtistSpotifyID = nextArtistSpotifyID;
     controller.loadUri(nextSongUri);
     console.log(`Loading next song: ${nextSongUri}`);
     controller.play()
+
+    anvil.server.call("update_play_pause_buttons", globalCurrentArtistSpotifyID);
   } else {
     console.error("No next song URI available or controller is not initialized.");
   }

@@ -42,11 +42,8 @@ def check_user_exists(email):
 
 @anvil.server.callable
 def update_play_pause_buttons(current_track_id):
-  # form = get_open_form()
-  # for row in form.songs_repeating_panel.get_components():
-  #     if row.item['SpotifyTrackID'] == current_track_id:
-  #         row.button_play_track.icon = 'fa:pause-circle'
-  #     else:
-  #         row.button_play_track.icon = 'fa:play-circle'
+  """Update play/pause buttons in the repeating panel."""
+  form = get_open_form()  # Access the current form
+  form.update_play_pause_buttons(current_track_id)
 
   print("THIS FUNCTION IS RUNNING WILD")
