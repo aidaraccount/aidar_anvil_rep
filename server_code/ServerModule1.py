@@ -41,7 +41,7 @@ def check_user_exists(email):
   return user is not None
 
 @anvil.server.callable
-def updateButtons(current_track_id):
+def update_play_pause_buttons():
     # Assuming this is a client-side method:
     # repeating_panel = anvil.get_component("songs_repeating_panel")  # Adjust for your actual panel name
     # for row in repeating_panel.get_components():
@@ -50,4 +50,4 @@ def updateButtons(current_track_id):
     #     else:
     #         row.button_play_track.icon = "fa:play-circle"
 
-  print("THIS IS THE SERVER FUNCTION THAT IS RUNNING", current_track_id)
+  print("THIS IS THE SERVER FUNCTION THAT IS RUNNING")

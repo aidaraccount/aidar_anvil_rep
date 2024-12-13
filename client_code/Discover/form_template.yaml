@@ -590,8 +590,12 @@ components:
       - event_bindings: {change: update_play_pause_buttons}
         layout_properties: {grid_position: 'NIOLSQ,VXZBHC'}
         name: now_playing_id
-        properties: {visible: true}
+        properties: {visible: false}
         type: TextBox
+      - layout_properties: {grid_position: 'LBMOCQ,UYRKBN'}
+        name: button_3
+        properties: {icon: 'fa:play-circle', role: button-custom-class-test, text: ''}
+        type: Button
       - components:
         - name: data_grid_releases_data
           properties: {item_template: Discover.RowTemplate1, role: table_content_small, spacing_above: none, spacing_below: none}

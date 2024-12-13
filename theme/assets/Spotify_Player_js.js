@@ -32,7 +32,17 @@ function createOrUpdateSpotifyPlayer(trackOrArtist, currentArtistSpotifyID, spot
   console.log("This is the now playing box", nowPlayingBox)
   if (nowPlayingBox) {
     nowPlayingBox.value = globalCurrentArtistSpotifyID;
+    console.log("nowPlayingBox_value:", nowPlayingBox)
     console.log("nowPlayingBox_value:", nowPlayingBox.value)
+  }
+
+  const buttonPlay = document.querySelector('.anvil-role-button-custom-class-test');
+  console.log("This is the buttonPlay", buttonPlay)
+  if (buttonPlay) {
+    let icon = buttonPlay.querySelector('i')
+    if (icon) {
+    icon.className = 'anvil-component-icon left fa fa-pause-circle left-icon'
+    }
   }
   
   const options = {
