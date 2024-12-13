@@ -40,10 +40,10 @@ def check_user_exists(email):
   # Return True if user exists, otherwise return False
   return user is not None
 
-@anvil.server.callable
-def update_play_pause_buttons(current_track_id):
-  """Update play/pause buttons in the repeating panel."""
-  form = get_open_form()  # Access the current form
-  form.update_play_pause_buttons(current_track_id)
+# @anvil.server.callable
+# def update_play_pause_buttons(current_track_id):
+#   """Update play/pause buttons in the repeating panel."""
+#   form = get_open_form()  # Access the current form
+#   form.update_play_pause_buttons(current_track_id)
 
-  print("THIS FUNCTION IS RUNNING WILD")
+#   print("THIS FUNCTION IS RUNNING WILD")

@@ -40,7 +40,7 @@ class RowTemplate1(RowTemplate1Template):
     # print(self.lastplayed)
 
     # Update buttons dynamically
-    self.parent.parent.parent.parent.parent.parent.update_play_pause_buttons(self.item["SpotifyTrackID"])
+    # self.parent.parent.parent.parent.parent.parent.update_play_pause_buttons(self.item["SpotifyTrackID"])
     
     # if self.button_play_track.icon == 'fa:play-circle':
     #   # reset all other:

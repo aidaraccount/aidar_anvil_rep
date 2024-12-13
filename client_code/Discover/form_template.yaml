@@ -588,7 +588,7 @@ components:
         properties: {role: Discover_artist_name, spacing_above: none, spacing_below: none, text: ' Track Releases'}
         type: Label
       - layout_properties: {grid_position: 'NIOLSQ,VXZBHC'}
-        name: text_box_1
+        name: now_playing_id
         properties: {visible: false}
         type: TextBox
       - components:

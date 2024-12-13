@@ -36,6 +36,10 @@ class Discover(DiscoverTemplate):
     self.html = '@theme:Discover_Sidebar_and_JS.html'
     self.add_event_handler('show', self.form_show)
     # self.add_event_handler('show', self.play_spotify)
+    # text box that controls which play button from the Track Releases table will be a play or a pause button
+    self.now_playing_id.role = 'now-playing-id'
+    # Bind the hidden text box value to a callback
+    self.now_playing_id.set_event_handler('change', self.update_play_pause_buttons())
     
     global user
     user = anvil.users.get_user()
@@ -1967,13 +1971,13 @@ class Discover(DiscoverTemplate):
         role=["progress-message","remove-focus"]
     )
 
-  def update_play_pause_buttons(self, current_track_id):
-    """Update buttons in the repeating panel based on the current playing track ID."""
+  def update_play_pause_buttons(self, **event_args):
+    current_track_id = self.now_playing_id.text
     for row in self.data_grid_releases_data.get_components():  # Replace with your repeating panel name
-      if row.item["SpotifyTrackID"] == current_track_id:
-        row.button_play_track.icon = 'fa:pause-circle'
-      else:
-        row.button_play_track.icon = 'fa:play-circle'
+        if row.item["SpotifyTrackID"] == current_track_id:
+            row.button_play_track.icon = 'fa:pause-circle'
+        else:
+            row.button_play_track.icon = 'fa:play-circle'
   # def update_city_highlight(self):
   #   country_codes = self.listeners_city_data["country_name_city"]
   #   monthly_listeners = self.listeners_city_data["monthly_listeners"]

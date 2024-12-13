@@ -126,7 +126,11 @@ function playNextSong(trackOrArtist, spotifyTrackIDsList) {
     console.log(`Loading next song: ${nextSongUri}`);
     controller.play()
 
-    anvil.server.call("update_play_pause_buttons", globalCurrentArtistSpotifyID);
+    // Update the hidden text box with the new ID
+    const nowPlayingBox = document.querySelector('[role=now-playing-id]');
+    if (nowPlayingBox) {
+      nowPlayingBox.value = globalCurrentArtistSpotifyID;
+      anvil.call_now("updateButtons");
   } else {
     console.error("No next song URI available or controller is not initialized.");
   }
