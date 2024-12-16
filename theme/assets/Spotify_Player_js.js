@@ -54,6 +54,9 @@ function createOrUpdateSpotifyPlayer(trackOrArtist, currentArtistSpotifyID, spot
     });
   } 
   else {
+    if (controller) {
+      controller.destroy(); // Clear the current controller to avoid mismatches
+    }
     window.onSpotifyIframeApiReady = (IFrameAPI) => {
       window.SpotifyIframeAPI = IFrameAPI; // Store the API globally for future use
       IFrameAPI.createController(element, options, (EmbedController) => {
