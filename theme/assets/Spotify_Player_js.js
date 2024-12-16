@@ -29,13 +29,12 @@ function createOrUpdateSpotifyPlayer(trackOrArtist, currentArtistSpotifyID, spot
 
   // Update the hidden text box with the new ID
   const nowPlayingBox = document.querySelector('.anvil-role-now-playing-id');
+  const buttonPlay = document.querySelector('.anvil-role-button-custom-class-test');
   if (nowPlayingBox) {
     nowPlayingBox.value = globalCurrentArtistSpotifyID;
-    console.log("nowPlayingBox_value:", nowPlayingBox)
-    console.log("nowPlayingBox_value:", nowPlayingBox.value)
   }
-
-  const buttonPlay = document.querySelector('.anvil-role-button-custom-class-test');
+  
+  
   console.log("This is the buttonPlay", buttonPlay)
   if (buttonPlay) {
     let icon = buttonPlay.querySelector('i')

@@ -374,7 +374,12 @@ class Discover(DiscoverTemplate):
         #   element["SpotifyTrackIDs"] = spotify_track_ids
         # self.data_grid_releases_data.items = track_data
         self.data_grid_releases_data.items = json.loads(anvil.server.call('get_dev_releases', artist_id))
-        
+        for row in self.data_grid_releases_data.get_components():  # Replace with your repeating panel name
+          print("get components 1", row.get_components()[1])
+          row.get_components()[1].role = ["play-spotify-button", f"button-{i}"]
+          # row.role = f"row-{i}"
+          print(row.get_components()[1].role)
+          i += 1
       # --------
       # c) release cycle
       if self.data_grid_cycle.visible is True:        
@@ -1979,7 +1984,7 @@ class Discover(DiscoverTemplate):
     print("This is the self.now_playing_id.text",self.now_playing_id.text)
     i = 0
     for row in self.data_grid_releases_data.get_components():  # Replace with your repeating panel name
-      print(row.get_components()[1])
+      print("get components 1", row.get_components()[1])
       row.get_components()[1].role = f"button-{i}"
       # row.role = f"row-{i}"
       print(row.get_components()[1].role)
