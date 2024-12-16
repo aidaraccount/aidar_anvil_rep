@@ -1973,24 +1973,24 @@ class Discover(DiscoverTemplate):
     )
 
 
-  # def update_play_pause_buttons(self, current_track_id):
-  #   current_track_id = self.now_playing_id.text
-  #   print("This is the current_track_id",current_track_id)
-  #   print("This is the self.now_playing_id.text",self.now_playing_id.text)
-  #   i = 0
-  #   for row in self.data_grid_releases_data.get_components():  # Replace with your repeating panel name
-  #     print(row.get_components()[1])
-  #     row.get_components()[1].role = f"button-{i}"
-  #     # row.role = f"row-{i}"
-  #     print(row.get_components()[1].role)
-  #     i += 1
-  #     # print("These are the row current_track_id:",current_track_id)
-  #     # print("These are the row row.items[SpotifyTrackID]:",row.item["SpotifyTrackID"])
-  #     # print("This is the statement result:", row.item["SpotifyTrackID"] == current_track_id)
-  #     if row.item["SpotifyTrackID"] == current_track_id:
-  #       row.button_play_track.icon = 'fa:pause-circle'
-  #     else:
-  #       row.button_play_track.icon = 'fa:play-circle'
+  def update_play_pause_buttons(self, current_track_id):
+    current_track_id = self.now_playing_id.text
+    print("This is the current_track_id",current_track_id)
+    print("This is the self.now_playing_id.text",self.now_playing_id.text)
+    i = 0
+    for row in self.data_grid_releases_data.get_components():  # Replace with your repeating panel name
+      print(row.get_components()[1])
+      row.get_components()[1].role = f"button-{i}"
+      # row.role = f"row-{i}"
+      print(row.get_components()[1].role)
+      i += 1
+      # print("These are the row current_track_id:",current_track_id)
+      # print("These are the row row.items[SpotifyTrackID]:",row.item["SpotifyTrackID"])
+      # print("This is the statement result:", row.item["SpotifyTrackID"] == current_track_id)
+      if row.item["SpotifyTrackID"] == current_track_id:
+        row.button_play_track.icon = 'fa:pause-circle'
+      else:
+        row.button_play_track.icon = 'fa:play-circle'
   
   
 

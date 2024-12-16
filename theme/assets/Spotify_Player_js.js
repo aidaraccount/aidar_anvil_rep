@@ -29,7 +29,6 @@ function createOrUpdateSpotifyPlayer(trackOrArtist, currentArtistSpotifyID, spot
 
   // Update the hidden text box with the new ID
   const nowPlayingBox = document.querySelector('.anvil-role-now-playing-id');
-  console.log("This is the now playing box", nowPlayingBox)
   if (nowPlayingBox) {
     nowPlayingBox.value = globalCurrentArtistSpotifyID;
     console.log("nowPlayingBox_value:", nowPlayingBox)
