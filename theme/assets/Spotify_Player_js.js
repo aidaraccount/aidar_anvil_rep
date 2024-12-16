@@ -51,6 +51,7 @@ function createOrUpdateSpotifyPlayer(trackOrArtist, currentArtistSpotifyID, spot
   };
   // console.log(options.uri);
 
+  // the if statment checks if the SpotifyIgrameAPI already exists (if it is already loaded)
   if (window.SpotifyIframeAPI) {
     window.SpotifyIframeAPI.createController(element, options, (EmbedController) => {
       controller = EmbedController;
@@ -147,15 +148,7 @@ function playNextSong(trackOrArtist, spotifyTrackIDsList) {
     console.log(`Loading next song: ${nextSongUri}`);
     controller.play()
 
-    // Update the class for the found element (button)
-    // console.log("This is the buttonPlay", buttonPlay)
-    // if (buttonPlay) {
-    //   let icon = buttonPlay.querySelector('i')
-    //   if (icon) {
-    //   icon.className = 'anvil-component-icon left fa fa-pause-circle left-icon'
-    //   }
-    // }
-
+    // For loop to change the icon of the play button. 
     spotifyTrackIDsList.forEach(function(currentId) {
       const buttonPlay = document.querySelector(`.anvil-role-${currentId}`);
       console.log("Button PLAY HTML", buttonPlay)
