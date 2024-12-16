@@ -28,20 +28,20 @@ function createOrUpdateSpotifyPlayer(trackOrArtist, currentArtistSpotifyID, spot
   console.log("Global Current Spotify ID", globalCurrentArtistSpotifyID);
 
   // Update the hidden text box with the new ID
-  const nowPlayingBox = document.querySelector('.anvil-role-now-playing-id');
-  const buttonPlay = document.querySelector('.anvil-role-button-custom-class-test');
-  if (nowPlayingBox) {
-    nowPlayingBox.value = globalCurrentArtistSpotifyID;
-  }
+  // const nowPlayingBox = document.querySelector('.anvil-role-now-playing-id');
+  // if (nowPlayingBox) {
+  //   nowPlayingBox.value = globalCurrentArtistSpotifyID;
+  // }
   
-  
-  console.log("This is the buttonPlay", buttonPlay)
-  if (buttonPlay) {
-    let icon = buttonPlay.querySelector('i')
-    if (icon) {
-    icon.className = 'anvil-component-icon left fa fa-pause-circle left-icon'
-    }
-  }
+  // const buttonPlay = document.querySelector('.anvil-role-button-custom-class-test');
+  // console.log("This is the buttonPlay", buttonPlay)
+  // if (buttonPlay) {
+  //   let icon = buttonPlay.querySelector('i')
+  //   if (icon) {
+  //   icon.className = 'anvil-component-icon left fa fa-pause-circle left-icon'
+  //   }
+  // }
+
   
   const options = {
     theme: 'dark',
@@ -77,7 +77,8 @@ function createOrUpdateSpotifyPlayer(trackOrArtist, currentArtistSpotifyID, spot
         }
       });
     });
-  } else {
+  } 
+  else {
     window.onSpotifyIframeApiReady = (IFrameAPI) => {
       window.SpotifyIframeAPI = IFrameAPI; // Store the API globally for future use
       IFrameAPI.createController(element, options, (EmbedController) => {
@@ -129,12 +130,15 @@ function playSpotify_2() {
 
 // Function to load the next song
 function playNextSong(trackOrArtist, spotifyTrackIDsList) {
+  // If statement to check if we are playing a list of custom songs or a playlist from Spotify
   if (!spotifyTrackIDsList) {
     console.error("No track list available. Check out Spotify_Player_js.js file - playNextSong() function.");
     return;
   }
+  // Declaring the index of the current playing song and defining the index for the next song to play
   const index = spotifyTrackIDsList.indexOf(globalCurrentArtistSpotifyID);
   const nextArtistSpotifyID = index !== -1 && index < spotifyTrackIDsList.length - 1 ? spotifyTrackIDsList[index + 1] : null;
+  //  check if controller is instantiated and next song is define
   if (controller && nextArtistSpotifyID) {
     const nextSongUri = `spotify:${trackOrArtist}:${nextArtistSpotifyID}`; // Replace with your logic to fetch the next song's URI
     globalCurrentArtistSpotifyID = nextArtistSpotifyID;
@@ -143,6 +147,36 @@ function playNextSong(trackOrArtist, spotifyTrackIDsList) {
     console.log(`Loading next song: ${nextSongUri}`);
     controller.play()
 
+    // Update the class for the found element (button)
+    // console.log("This is the buttonPlay", buttonPlay)
+    // if (buttonPlay) {
+    //   let icon = buttonPlay.querySelector('i')
+    //   if (icon) {
+    //   icon.className = 'anvil-component-icon left fa fa-pause-circle left-icon'
+    //   }
+    // }
+
+    spotifyTrackIDsList.forEach(function(currentId) {
+      const buttonPlay = document.querySelector(`.anvil-role-${currentId}`);
+      console.log("Button PLAY HTML", buttonPlay)
+      if (currentId === globalCurrentArtistSpotifyID) {
+        if (buttonPlay) {
+          let icon = buttonPlay.querySelector('i')
+          if (icon) {
+            icon.className = 'anvil-component-icon left fa fa-pause-circle left-icon'
+          }
+        }
+      } else {
+        if (buttonPlay) {
+          let icon = buttonPlay.querySelector('i')
+          if (icon) {
+            icon.className = 'anvil-component-icon left fa fa-play-circle left-icon'
+          }
+        }
+      }
+    }) 
+    
+  // Text box test
   const nowPlayingBox = document.querySelector('.anvil-role-now-playing-id');
   if (nowPlayingBox) {
     nowPlayingBox.value = globalCurrentArtistSpotifyID;
@@ -151,6 +185,8 @@ function playNextSong(trackOrArtist, spotifyTrackIDsList) {
   } else {
     console.error("No next song URI available or controller is not initialized.");
   }
+
+  
 }
 
 

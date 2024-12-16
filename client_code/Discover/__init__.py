@@ -37,8 +37,8 @@ class Discover(DiscoverTemplate):
     self.add_event_handler('show', self.form_show)
     # self.add_event_handler('show', self.play_spotify)
     # text box that controls which play button from the Track Releases table will be a play or a pause button
-    self.now_playing_id.role = 'now-playing-id'
-    print("THis is the text of the now_playing_id box:",self.now_playing_id.text)
+    # self.now_playing_id.role = 'now-playing-id'
+    # print("THis is the text of the now_playing_id box:",self.now_playing_id.text)
     # Bind the hidden text box value to a callback
     # self.now_playing_id.set_event_handler('change', self.update_play_pause_buttons)
     
@@ -373,10 +373,12 @@ class Discover(DiscoverTemplate):
         # for element in track_data:
         #   element["SpotifyTrackIDs"] = spotify_track_ids
         # self.data_grid_releases_data.items = track_data
-        self.data_grid_releases_data.items = json.loads(anvil.server.call('get_dev_releases', artist_id))
+        track_data = json.loads(anvil.server.call('get_dev_releases', artist_id))
+        self.data_grid_releases_data.items = track_data
+        i=0
         for row in self.data_grid_releases_data.get_components():  # Replace with your repeating panel name
           print("get components 1", row.get_components()[1])
-          row.get_components()[1].role = ["play-spotify-button", f"button-{i}"]
+          # row.get_components()[1].role = ["play-spotify-button", f"{track_data[i]['SpotifyTrackID']}"]
           # row.role = f"row-{i}"
           print(row.get_components()[1].role)
           i += 1
@@ -1978,24 +1980,24 @@ class Discover(DiscoverTemplate):
     )
 
 
-  def update_play_pause_buttons(self, current_track_id):
-    current_track_id = self.now_playing_id.text
-    print("This is the current_track_id",current_track_id)
-    print("This is the self.now_playing_id.text",self.now_playing_id.text)
-    i = 0
-    for row in self.data_grid_releases_data.get_components():  # Replace with your repeating panel name
-      print("get components 1", row.get_components()[1])
-      row.get_components()[1].role = f"button-{i}"
-      # row.role = f"row-{i}"
-      print(row.get_components()[1].role)
-      i += 1
-      # print("These are the row current_track_id:",current_track_id)
-      # print("These are the row row.items[SpotifyTrackID]:",row.item["SpotifyTrackID"])
-      # print("This is the statement result:", row.item["SpotifyTrackID"] == current_track_id)
-      if row.item["SpotifyTrackID"] == current_track_id:
-        row.button_play_track.icon = 'fa:pause-circle'
-      else:
-        row.button_play_track.icon = 'fa:play-circle'
+  # def update_play_pause_buttons(self, current_track_id):
+  #   current_track_id = self.now_playing_id.text
+  #   print("This is the current_track_id",current_track_id)
+  #   print("This is the self.now_playing_id.text",self.now_playing_id.text)
+  #   i = 0
+  #   for row in self.data_grid_releases_data.get_components():  # Replace with your repeating panel name
+  #     print("get components 1", row.get_components()[1])
+  #     row.get_components()[1].role = f"button-{i}"
+  #     # row.role = f"row-{i}"
+  #     print(row.get_components()[1].role)
+  #     i += 1
+  #     # print("These are the row current_track_id:",current_track_id)
+  #     # print("These are the row row.items[SpotifyTrackID]:",row.item["SpotifyTrackID"])
+  #     # print("This is the statement result:", row.item["SpotifyTrackID"] == current_track_id)
+  #     if row.item["SpotifyTrackID"] == current_track_id:
+  #       row.button_play_track.icon = 'fa:pause-circle'
+  #     else:
+  #       row.button_play_track.icon = 'fa:play-circle'
   
   
 
