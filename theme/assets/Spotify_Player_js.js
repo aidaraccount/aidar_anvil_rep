@@ -5,54 +5,28 @@ let globalCurrentArtistSpotifyID = null; // To persist the current track ID acro
 function createOrUpdateSpotifyPlayer(trackOrArtist, currentArtistSpotifyID, spotifyTrackIDsList=null) {
   const element = document.querySelector('.anvil-role-spotify-footer-class #embed-iframe');
   const autoplaybutton = document.querySelector('.anvil-role-autoplay-toggle-button .fa-toggle-on')
-  // console.log("THIS IS THE ELEMENT:", element)
-  // console.log("THIS IS THE AUTOPLAY BUTTON ELEMENT:", autoplaybutton)
   
   if (!element) {
     console.error("ERROR MESSAGE: Embed iframe element not found.")
     return;
   }
 
-  console.log("Global Current Artist Spotify ID BEFORE", globalCurrentArtistSpotifyID);
-  console.log("Check", !globalCurrentArtistSpotifyID);
-  // if (!globalCurrentArtistSpotifyID) {
-  //   // Initialize globalCurrentArtistSpotifyID only if it hasn't been set
-  //   globalCurrentArtistSpotifyID = currentArtistSpotifyID;
-  // } else {
-  //   globalCurrentArtistSpotifyID = currentArtistSpotifyID;
-  // }
   globalCurrentArtistSpotifyID = currentArtistSpotifyID;
-  
-  console.log("track or artist", trackOrArtist);
-  console.log("Current Spotify ID", currentArtistSpotifyID);
-  console.log("Global Current Spotify ID", globalCurrentArtistSpotifyID);
-
-  // Update the hidden text box with the new ID
-  // const nowPlayingBox = document.querySelector('.anvil-role-now-playing-id');
-  // if (nowPlayingBox) {
-  //   nowPlayingBox.value = globalCurrentArtistSpotifyID;
-  // }
-  
-  // const buttonPlay = document.querySelector('.anvil-role-button-custom-class-test');
-  // console.log("This is the buttonPlay", buttonPlay)
-  // if (buttonPlay) {
-  //   let icon = buttonPlay.querySelector('i')
-  //   if (icon) {
-  //   icon.className = 'anvil-component-icon left fa fa-pause-circle left-icon'
-  //   }
-  // }
-
-  
+    
   const options = {
     theme: 'dark',
     width: '100%',
     height: '80',
     uri: `spotify:${trackOrArtist}:${globalCurrentArtistSpotifyID}`,
   };
-  // console.log(options.uri);
+
+  console.log(`Initializing Spotify player with URI: ${options.uri}`);
 
   // the if statment checks if the SpotifyIgrameAPI already exists (if it is already loaded)
   if (window.SpotifyIframeAPI) {
+    if (controller) {
+      controller.destroy(); // Clear the current controller to avoid mismatches
+    }
     window.SpotifyIframeAPI.createController(element, options, (EmbedController) => {
       controller = EmbedController;
       controller.addListener('ready', () => {
