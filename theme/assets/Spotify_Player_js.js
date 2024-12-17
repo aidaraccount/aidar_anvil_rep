@@ -5,14 +5,16 @@ let globalCurrentArtistSpotifyID = null; // To persist the current track ID acro
 function createOrUpdateSpotifyPlayer(trackOrArtist, currentArtistSpotifyID, spotifyTrackIDsList=null) {
   const element = document.querySelector('.anvil-role-spotify-footer-class #embed-iframe');
   const autoplaybutton = document.querySelector('.anvil-role-autoplay-toggle-button .fa-toggle-on')
-  
+
+  // check if the html for the player is imported (in the Discover Page)
   if (!element) {
     console.error("ERROR MESSAGE: Embed iframe element not found.")
     return;
   }
 
   globalCurrentArtistSpotifyID = currentArtistSpotifyID;
-    
+
+  // set the options for the Spotify Player
   const options = {
     theme: 'dark',
     width: '100%',
@@ -20,7 +22,7 @@ function createOrUpdateSpotifyPlayer(trackOrArtist, currentArtistSpotifyID, spot
     uri: `spotify:${trackOrArtist}:${globalCurrentArtistSpotifyID}`,
   };
 
-  console.log(`Initializing Spotify player with URI: ${options.uri}`);
+  // console.log(`Initializing Spotify player with URI: ${options.uri}`);
 
   // the if statment checks if the SpotifyIgrameAPI already exists (if it is already loaded)
   if (window.SpotifyIframeAPI) {
@@ -84,28 +86,20 @@ function createOrUpdateSpotifyPlayer(trackOrArtist, currentArtistSpotifyID, spot
   }
 }
 
+// This function is triggered only when the AUTOPLAY button is switched on
 function autoPlaySpotify() {
   if (controller) {
-    console.log("SPOTIFY PLAYER autoPlaySpotify FUNCTION IS RUN")
     // Check the playback state and decide what to do
     if (controller.isPaused) {
-      console.log("SPOTIFY PLAYER autoPlaySpotify FUNCTION IS RUN")
       controller.resume();  // Resume playing from the paused position
       controller.isPlaying = true;
       controller.isPaused = false;
     } else if (!controller.isPlaying) {
-      console.log("SPOTIFY PLAYER autoPlaySpotify FUNCTION IS RUN")
       controller.play();    // Start playing if not already playing
       controller.isPlaying = true;
       controller.isPaused = false;
-    } else {
-      console.log("NATIVE LIBRARY FUNCTION IS RUN")
-      controller.pause();   // Pause the player if it's currently playing
-      controller.isPlaying = false;
-      controller.isPaused = true;
     }
   } else {
-    console.log("SPOTIFY PLAYER autoPlaySpotify FUNCTION IS RUN")
     console.error("Spotify controller is not initialized.");
   }
 }
