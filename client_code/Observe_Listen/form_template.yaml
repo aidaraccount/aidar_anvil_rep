@@ -40,12 +40,10 @@ components:
     name: notification_settings
     properties: {}
     type: ColumnPanel
-  - layout_properties: {grid_position: 'WERHBM,JXKDMT'}
-    name: spacer_2
-    properties: {height: 32}
-    type: Spacer
   - components:
-    - layout_properties: {grid_position: 'LKFQXY,PFLHPE'}
+    - data_bindings:
+      - {code: '''listen-left-element''', property: role, writeback: false}
+      layout_properties: {grid_position: 'LKFQXY,PFLHPE'}
       name: repeating_panel_artists
       properties: {item_template: Observe_Listen.RepeatingPanel_Artists}
       type: RepeatingPanel
@@ -53,13 +51,75 @@ components:
     name: column_panel_playlist
     properties: {}
     type: ColumnPanel
-  - layout_properties: {grid_position: 'XPKAAX,TJGMKK'}
+  - components:
+    - data_bindings:
+      - {code: '''listen-right-element''', property: role, writeback: false}
+      layout_properties: {grid_position: 'MJFCFF,KLFZBR'}
+      name: label_3
+      properties:
+        align: center
+        text: |
+          TEST
+
+          TEST
+
+          TEST
+
+          TEST
+
+          TEST
+
+          TEST
+
+          TEST
+
+          TEST
+
+          TEST
+
+          TEST
+
+          TEST
+
+          TEST
+
+          TEST
+
+          TEST
+
+          TEST
+
+          TEST
+
+          TEST
+
+          TEST
+
+          TEST
+
+          TEST
+
+          TEST
+
+          TEST
+
+          TEST
+
+          TEST
+
+          TEST
+
+          TEST
+      type: Label
+    layout_properties: {grid_position: 'XPKAAX,TJGMKK'}
     name: column_panel_discover
     properties: {}
     type: ColumnPanel
+  data_bindings:
+  - {code: '''listen-complete-element''', property: role, writeback: false}
   layout_properties: {slot: default}
   name: content_panel
-  properties: {col_widths: '{"CDPZDK":55,"POUDWM":5,"UTUSTE":20,"TJGMKK":40}'}
+  properties: {col_spacing: medium, col_widths: '{"CDPZDK":55,"POUDWM":5,"UTUSTE":20,"TJGMKK":40}'}
   type: ColumnPanel
 container:
   properties: {html: '@theme:Observe.html'}
