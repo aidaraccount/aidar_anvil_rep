@@ -2,6 +2,44 @@
 var controller;
 let globalCurrentArtistSpotifyID = null; // To persist the current track ID across function calls
 
+function createSpotifyController(IFrameAPI) {
+  if (controller) {
+    controller.destroy(); // Ensure we start clean
+    controller = null;
+  }
+
+  const options = {
+    theme: 'dark',
+    width: '100%',
+    height: '80',
+    uri: `spotify:${trackOrArtist}:${globalCurrentArtistSpotifyID}`,
+  };
+
+  IFrameAPI.createController(element, options, (EmbedController) => {
+    controller = EmbedController;
+
+    controller.addListener('ready', () => {
+      console.log('Spotify PLayer Ready');
+      if (autoplaybutton) {
+        playSpotify_2();
+      }
+    });
+
+    controller.addListener('playback_update', e => {
+      const {isPaused, duration, position} = e.data;
+
+      if (!isPaused && duration >= duration && duration > 0) {
+        console.log('Track has ended. Moving to the next song.');
+        if (spotifyTrackIDsList) {
+          playNextSong('track', spotifyTrackIDsList);
+        } else {
+          console.log('No track list provided. Playback stopped.');
+        }
+      }
+    });
+  })
+}
+
 function createOrUpdateSpotifyPlayer(trackOrArtist, currentArtistSpotifyID, spotifyTrackIDsList=null) {
   const element = document.querySelector('.anvil-role-spotify-footer-class #embed-iframe');
   const autoplaybutton = document.querySelector('.anvil-role-autoplay-toggle-button .fa-toggle-on')
@@ -12,18 +50,13 @@ function createOrUpdateSpotifyPlayer(trackOrArtist, currentArtistSpotifyID, spot
   }
 
   globalCurrentArtistSpotifyID = currentArtistSpotifyID;
-    
-  const options = {
-    theme: 'dark',
-    width: '100%',
-    height: '80',
-    uri: `spotify:${trackOrArtist}:${globalCurrentArtistSpotifyID}`,
-  };
-
-  console.log(`Initializing Spotify player with URI: ${options.uri}`);
 
   // the if statment checks if the SpotifyIgrameAPI already exists (if it is already loaded)
   if (window.SpotifyIframeAPI) {
+    createSpotifyController(window.SpotifyIframeAPI)
+  } else {
+    if (!window.onSpotifyIframeApiReady)
+  }
     if (controller) {
       controller.destroy(); // Clear the current controller to avoid mismatches
     }
