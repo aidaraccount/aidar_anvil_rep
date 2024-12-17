@@ -169,6 +169,7 @@ class C_Notification_Settings(C_Notification_SettingsTemplate):
     else:
       self.column_panel_min_max.visible = False
       self.link_min_max.icon = "fa:angle-double-down"
+
   
   # NOTIFICATION MODIFICATION
   def update_notification(self, **event_args):
@@ -258,6 +259,7 @@ class C_Notification_Settings(C_Notification_SettingsTemplate):
     )
     self.parent.parent.parent.get_all_notifications(None)
 
+  
   # BUTTON FUNCTIONALITIES
   def edit_icon_click_2(self, **event_args):
     self.name_link.visible = False
@@ -327,6 +329,7 @@ class C_Notification_Settings(C_Notification_SettingsTemplate):
       self.max_days_since_rel.visible = False
     self.update_notification()
 
+  
   # LOST FOCUS CHECKS
   def edit_icon_click_2_lose_focus(self, **event_args):
     self.model_name_text.visible = False
@@ -422,6 +425,7 @@ class C_Notification_Settings(C_Notification_SettingsTemplate):
       self.max_number_artist_warning.visible = False
       self.update_notification()
 
+  
   # BASE FUNCTIONS
   # MODEL BUTTONS
   def create_activate_model_handler(self, model_id):

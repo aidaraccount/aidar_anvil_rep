@@ -4,10 +4,6 @@ components:
     name: label_1
     properties: {align: left, background: '', bold: false, border: '', font: '', font_size: null, foreground: '', icon: '', icon_align: left, italic: false, role: header-1, spacing_above: small, spacing_below: small, text: Listen-In, tooltip: '', underline: false, visible: true}
     type: Label
-  - layout_properties: {grid_position: 'MHFFII,LVOWSM'}
-    name: spacer_1
-    properties: {height: '16'}
-    type: Spacer
   - components:
     - layout_properties: {grid_position: 'FFHUXB,SNYWAS'}
       name: label_1_copy
@@ -21,15 +17,14 @@ components:
     name: no_notifications
     properties: {}
     type: ColumnPanel
-  - components: []
-    layout_properties: {grid_position: 'NYIXVI,CDPZDK'}
+  - layout_properties: {grid_position: 'NYIXVI,CDPZDK'}
     name: flow_panel
     properties: {background: '', role: section-background, spacing: small, spacing_above: none, spacing_below: none}
     type: FlowPanel
   - components:
     - event_bindings: {click: add_spotify_playlist_click}
       layout_properties: {}
-      name: link_1
+      name: create_playlist
       properties: {align: center, bold: false, icon: 'fa:plus', role: section_buttons, text: ''}
       type: Link
     layout_properties: {grid_position: 'NYIXVI,POUDWM'}
@@ -115,13 +110,52 @@ components:
     name: column_panel_discover
     properties: {}
     type: ColumnPanel
+  - layout_properties: {grid_position: 'GDKCKL,GSIXXN'}
+    name: footer_trick_spacer
+    properties: {height: '70'}
+    type: Spacer
   data_bindings:
   - {code: '''listen-complete-element''', property: role, writeback: false}
   layout_properties: {slot: default}
   name: content_panel
   properties: {col_spacing: medium, col_widths: '{"CDPZDK":55,"POUDWM":5,"UTUSTE":20,"TJGMKK":40}'}
   type: ColumnPanel
+- components:
+  - layout_properties: {grid_position: 'ULLGXX,KYFIEK'}
+    name: footer_left
+    properties:
+      spacing:
+        margin: [0, null, 0, null]
+    type: ColumnPanel
+  - components:
+    - event_bindings: {click: play_button_central_click}
+      layout_properties: {grid_position: 'BIYFHH,LBPKYO'}
+      name: play_button_central
+      properties:
+        icon: fa:play
+        role: [play-spotify-button, play-spotify-button-artist]
+        spacing:
+          margin: [0, null, 0, null]
+        text: ''
+      type: Button
+    layout_properties: {grid_position: 'ULLGXX,BMCCVG'}
+    name: footer_center
+    properties: {}
+    type: ColumnPanel
+  - layout_properties: {grid_position: 'ULLGXX,GGFVYT'}
+    name: footer_right
+    properties:
+      spacing:
+        margin: [0, null, 0, null]
+    type: ColumnPanel
+  layout_properties: {slot: footer-slot}
+  name: Footer
+  properties:
+    spacing:
+      margin: [0, null, 0, null]
+  type: ColumnPanel
 container:
-  properties: {html: '@theme:Observe.html'}
+  properties:
+    html: "<div anvil-slot=\"default\"></div>\n\n<!-- <div anvil-drop-default anvil-drop-redirect=\".placeholder\" anvil-drop-container=\".anvil-container\"></div> -->\n<div class=\"footer\">\n  <div class=\"footer-slot\" anvil-slot=\"footer-slot\">\n    <div class=\"placeholder anvil-designer-only\" anvil-if-slot-empty=\"footer-slot\" anvil-drop-here>Add a Component here</div>\n  </div>\n</div> "
   type: HtmlTemplate
 is_package: true

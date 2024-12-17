@@ -2741,8 +2741,8 @@ footer a, .footer .anvil-component {
   overflow-y: auto;
 }
 .anvil-role-listen-left-element {
-  height: 70vh;
+  height: calc(100vh - 70px);
 }
 .anvil-role-listen-right-element {
-  height: 70vh;
+  height: calc(100vh - 70px);
 }

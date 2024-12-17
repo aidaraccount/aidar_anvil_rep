@@ -315,7 +315,7 @@ class Main_In(Main_InTemplate):
     self.link_radar.background = "theme:Accent 3"
 
   def link_listen_click(self, **event_args):
-    click_link(self.link_listen, 'listen', event_args)
+    click_link(self.link_listen, 'listen?notification_id=None', event_args)
     self.reset_nav_backgrounds()
     self.link_listen.background = "theme:Accent 3"
   

@@ -13,3 +13,9 @@ class RepeatingPanel_Tracks(RepeatingPanel_TracksTemplate):
     self.init_components(**properties)
 
     # Any code you write here will run before the form opens.
+
+    # set album picture    
+    if self.item["album_picture_url"] is not None:
+      self.album_img.source = self.item["album_picture_url"]
+    else:
+      self.album_img.source = '_/theme/pics/Favicon_orange.JPG'

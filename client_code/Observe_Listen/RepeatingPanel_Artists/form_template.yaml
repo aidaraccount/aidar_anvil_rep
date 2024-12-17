@@ -1,18 +1,22 @@
 components:
 - components:
+  - data_bindings:
+    - {code: 'self.item[''name'']', property: text, writeback: false}
+    layout_properties: {grid_position: 'VDZTQN,AOKKJG'}
+    name: artists_name
+    properties: {role: artist_name}
+    type: Label
   - layout_properties: {grid_position: 'KFABOG,BFZBNK'}
     name: repeating_panel_tracks
     properties: {item_template: Observe_Listen.RepeatingPanel_Artists.RepeatingPanel_Tracks}
     type: RepeatingPanel
-  - data_bindings:
-    - {code: 'self.item[''name'']', property: text, writeback: false}
-    layout_properties: {grid_position: 'KFABOG,QIXLJY'}
-    name: artists_name
-    properties: {}
-    type: Label
+  - layout_properties: {grid_position: 'KFABOG,MTZNVH'}
+    name: artist_img
+    properties: {height: '80'}
+    type: Image
   layout_properties: {grid_position: 'HWNXIQ,FLRKAI'}
   name: column_panel_1
-  properties: {role: null}
+  properties: {col_spacing: small, col_widths: '{"BFZBNK":35,"MTZNVH":25}', role: null}
   type: ColumnPanel
 container: {type: ColumnPanel}
 is_package: true
