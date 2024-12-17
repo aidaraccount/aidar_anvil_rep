@@ -2,7 +2,7 @@
 var controller;
 let globalCurrentArtistSpotifyID = null; // To persist the current track ID across function calls
 
-function createSpotifyController(IFrameAPI) {
+function createSpotifyController(trackOrArtist, IFrameAPI) {
   if (controller) {
     controller.destroy(); // Ensure we start clean
     controller = null;
@@ -53,16 +53,22 @@ function createOrUpdateSpotifyPlayer(trackOrArtist, currentArtistSpotifyID, spot
 
   // the if statment checks if the SpotifyIgrameAPI already exists (if it is already loaded)
   if (window.SpotifyIframeAPI) {
-    createSpotifyController(window.SpotifyIframeAPI)
+    createSpotifyController(trackOrArtist, window.SpotifyIframeAPI)
   } else {
-    if (!window.onSpotifyIframeApiReady)
-  }
-    if (controller) {
-      controller.destroy(); // Clear the current controller to avoid mismatches
+    if (!window.onSpotifyIframeApiReady) {
+      window.onSpotifyIframeApiReady = (IFrameAPI) => {
+        window.SpotifyIframeAPI = IFrameAPI;
+        createSpotifyController(trackOrArtist, IFrameAPI);
+      };
     }
-    window.SpotifyIframeAPI.createController(element, options, (EmbedController) => {
-      controller = EmbedController;
-      setupPlayerListeners(EmbedController, autoplaybutton, spotifyTrackIDsList);
+  }
+}
+    // if (controller) {
+    //   controller.destroy(); // Clear the current controller to avoid mismatches
+    // }
+    // window.SpotifyIframeAPI.createController(element, options, (EmbedController) => {
+    //   controller = EmbedController;
+    //   setupPlayerListeners(EmbedController, autoplaybutton, spotifyTrackIDsList);
       // controller.addListener('ready', () => {
       //   console.log('Spotify Player ready_1');
       //   if (autoplaybutton) {
@@ -85,14 +91,14 @@ function createOrUpdateSpotifyPlayer(trackOrArtist, currentArtistSpotifyID, spot
       //     }
       //   }
       // });
-    });
-  } 
-  else {
-    window.onSpotifyIframeApiReady = (IFrameAPI) => {
-      window.SpotifyIframeAPI = IFrameAPI; // Store the API globally for future use
-      IFrameAPI.createController(element, options, (EmbedController) => {
-        controller = EmbedController;
-        setupPlayerListeners(EmbedController, autoplaybutton, spotifyTrackIDsList);
+  //   });
+  // } 
+  // else {
+  //   window.onSpotifyIframeApiReady = (IFrameAPI) => {
+  //     window.SpotifyIframeAPI = IFrameAPI; // Store the API globally for future use
+  //     IFrameAPI.createController(element, options, (EmbedController) => {
+  //       controller = EmbedController;
+  //       setupPlayerListeners(EmbedController, autoplaybutton, spotifyTrackIDsList);
         // controller.addListener('ready', () => {
         //   console.log('Spotify Player ready_2');
         //   if (autoplaybutton) {
@@ -115,32 +121,32 @@ function createOrUpdateSpotifyPlayer(trackOrArtist, currentArtistSpotifyID, spot
         //     }
         //   }
         // });
-      }); 
-    };
-  }
-}
+//       }); 
+//     };
+//   }
+// }
 
-function setupPlayerListeners(EmbedController, autoplaybutton, spotifyTrackIDsList) {
-  EmbedController.addListener('ready', () => {
-    console.log('Spotify Player ready');
-    if (autoplaybutton) {
-      // The below line will activate playing music when the page is opened and the spotify player is built
-      playSpotify_2();
-    }
-  });
-  EmbedController.addListener('playback_update', e => {
-    const { isPaused, duration, position } = e.data;
-    if (!isPaused && position >= duration && duration > 0) {
-      console.log("Track has ended. Moving to the next song.");
-      // Load next osng only if spotifyTrackIDsList is provided
-      if (spotifyTrackIDsList) {
-        playNextSong('track', spotifyTrackIDsList); // Function to handle loading the next song
-      } else {
-        console.log("No track list provided. Playback stopped.");
-      }
-    }
-  });
-}
+// function setupPlayerListeners(EmbedController, autoplaybutton, spotifyTrackIDsList) {
+//   EmbedController.addListener('ready', () => {
+//     console.log('Spotify Player ready');
+//     if (autoplaybutton) {
+//       // The below line will activate playing music when the page is opened and the spotify player is built
+//       playSpotify_2();
+//     }
+//   });
+//   EmbedController.addListener('playback_update', e => {
+//     const { isPaused, duration, position } = e.data;
+//     if (!isPaused && position >= duration && duration > 0) {
+//       console.log("Track has ended. Moving to the next song.");
+//       // Load next osng only if spotifyTrackIDsList is provided
+//       if (spotifyTrackIDsList) {
+//         playNextSong('track', spotifyTrackIDsList); // Function to handle loading the next song
+//       } else {
+//         console.log("No track list provided. Playback stopped.");
+//       }
+//     }
+//   });
+// }
 
 
 function playSpotify_2() {
