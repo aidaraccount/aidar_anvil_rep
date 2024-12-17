@@ -2,7 +2,7 @@
 var controller;
 let globalCurrentArtistSpotifyID = null; // To persist the current track ID across function calls
 
-function createSpotifyController(trackOrArtist, IFrameAPI) {
+function createSpotifyController(trackOrArtist, element, autoplaybutton, spotifyTrackIDsList, IFrameAPI) {
   if (controller) {
     controller.destroy(); // Ensure we start clean
     controller = null;
@@ -28,7 +28,7 @@ function createSpotifyController(trackOrArtist, IFrameAPI) {
     controller.addListener('playback_update', e => {
       const {isPaused, duration, position} = e.data;
 
-      if (!isPaused && duration >= duration && duration > 0) {
+      if (!isPaused && position >= duration && duration > 0) {
         console.log('Track has ended. Moving to the next song.');
         if (spotifyTrackIDsList) {
           playNextSong('track', spotifyTrackIDsList);
@@ -53,12 +53,12 @@ function createOrUpdateSpotifyPlayer(trackOrArtist, currentArtistSpotifyID, spot
 
   // the if statment checks if the SpotifyIgrameAPI already exists (if it is already loaded)
   if (window.SpotifyIframeAPI) {
-    createSpotifyController(trackOrArtist, window.SpotifyIframeAPI)
+    createSpotifyController(trackOrArtist, element, autoplaybutton, spotifyTrackIDsList, window.SpotifyIframeAPI)
   } else {
     if (!window.onSpotifyIframeApiReady) {
       window.onSpotifyIframeApiReady = (IFrameAPI) => {
         window.SpotifyIframeAPI = IFrameAPI;
-        createSpotifyController(trackOrArtist, IFrameAPI);
+        createSpotifyController(trackOrArtist, element, autoplaybutton, spotifyTrackIDsList, IFrameAPI);
       };
     }
   }
@@ -189,7 +189,7 @@ function playNextSong(trackOrArtist, spotifyTrackIDsList) {
     // For loop to change the icon of the play button. 
     spotifyTrackIDsList.forEach(function(currentId) {
       const buttonPlay = document.querySelector(`.anvil-role-${currentId}`);
-      console.log("Button PLAY HTML", buttonPlay)
+      // console.log("Button PLAY HTML", buttonPlay)
       if (currentId === globalCurrentArtistSpotifyID) {
         if (buttonPlay) {
           let icon = buttonPlay.querySelector('i')
