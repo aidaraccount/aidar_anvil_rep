@@ -216,8 +216,6 @@ function playNextSong(trackOrArtist, spotifyTrackIDsList) {
   } else {
     console.error("No next song URI available or controller is not initialized.");
   }
-
-  
 }
 
 
