@@ -31,7 +31,10 @@ class Observe_Listen(Observe_ListenTemplate):
     
     # GENERAL
     self.get_all_notifications(None)
-    
+
+    # ToDos:
+    # Don't save after changing stuff, add a save button
+    # extend url with playlist id
 
 
   # GET ALL NOTIFICATIONS
