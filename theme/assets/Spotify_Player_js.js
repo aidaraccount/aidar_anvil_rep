@@ -2,48 +2,6 @@
 var controller;
 let globalCurrentArtistSpotifyID = null; // To persist the current track ID across function calls
 
-function createSpotifyController(trackOrArtist, element, autoplaybutton, spotifyTrackIDsList, IFrameAPI) {
-  if (controller) {
-    controller.destroy(); // Ensure we start clean
-    controller = null;
-    console.log('the controller has been destroyed')
-  }
-
-  console.log("Track or Artist",trackOrArtist)
-  console.log("URI song:", globalCurrentArtistSpotifyID)
-  
-  const options = {
-    theme: 'dark',
-    width: '100%',
-    height: '80',
-    uri: `spotify:${trackOrArtist}:${globalCurrentArtistSpotifyID}`,
-  };
-
-  IFrameAPI.createController(element, options, (EmbedController) => {
-    controller = EmbedController;
-
-    controller.addListener('ready', () => {
-      console.log('Spotify Player Ready');
-      if (autoplaybutton) {
-        playSpotify_2();
-      }
-    });
-
-    controller.addListener('playback_update', e => {
-      const {isPaused, duration, position} = e.data;
-
-      if (!isPaused && position >= duration && duration > 0) {
-        console.log('Track has ended. Moving to the next song.');
-        if (spotifyTrackIDsList) {
-          playNextSong('track', spotifyTrackIDsList);
-        } else {
-          console.log('No track list provided. Playback stopped.');
-        }
-      }
-    });
-  })
-}
-
 function createOrUpdateSpotifyPlayer(trackOrArtist, currentArtistSpotifyID, spotifyTrackIDsList=null) {
   const element = document.querySelector('.anvil-role-spotify-footer-class #embed-iframe');
   const autoplaybutton = document.querySelector('.anvil-role-autoplay-toggle-button .fa-toggle-on')
@@ -54,40 +12,100 @@ function createOrUpdateSpotifyPlayer(trackOrArtist, currentArtistSpotifyID, spot
   }
 
   globalCurrentArtistSpotifyID = currentArtistSpotifyID;
+    
+  const options = {
+    theme: 'dark',
+    width: '100%',
+    height: '80',
+    uri: `spotify:${trackOrArtist}:${globalCurrentArtistSpotifyID}`,
+  };
+
+  console.log(`Initializing Spotify player with URI: ${options.uri}`);
 
   // the if statment checks if the SpotifyIgrameAPI already exists (if it is already loaded)
   if (window.SpotifyIframeAPI) {
-    console.log("createOrUpdateSpotifyPlayer", "Scenario IF 1")
-    createSpotifyController(trackOrArtist, element, autoplaybutton, spotifyTrackIDsList, window.SpotifyIframeAPI)
+    window.SpotifyIframeAPI.createController(element, options, (EmbedController) => {
+      controller = EmbedController;
+      controller.addListener('ready', () => {
+        console.log('Spotify Player ready_1');
+        if (autoplaybutton) {
+          // The below line will activate playing music when the page is opened and the spotify player is built
+          autoPlaySpotify();
+        }
+      });
+      controller.addListener('playback_update', e => {
+        const {isPaused, isBuffering, duration, position } = e.data;
+        
+        // Check if the song has ended
+        if (!isPaused && position >= duration && duration > 0) {
+          console.log("Track has ended. Moving to the next song.");
+
+          // Load next song only if spotifyTrackIDsList is provided
+          if (spotifyTrackIDsList) {
+            playNextSong('track', spotifyTrackIDsList); // Function to handle loading the next song
+          } else {
+            console.log("No track list provided. Playback stopped.")
+          }
+        }
+      });
+    });
   } else {
-    console.log("createOrUpdateSpotifyPlayer", "Scenario IF 2")
-    if (!window.onSpotifyIframeApiReady) {
-      console.log("createOrUpdateSpotifyPlayer", "Scenario IF 3")
-      window.onSpotifyIframeApiReady = (IFrameAPI) => {
-        window.SpotifyIframeAPI = IFrameAPI;
-        createSpotifyController(trackOrArtist, element, autoplaybutton, spotifyTrackIDsList, IFrameAPI);
-      };
-    }
+    // if (controller) {
+    //   controller.destroy(); // Clear the current controller to avoid mismatches
+    // }
+    window.onSpotifyIframeApiReady = (IFrameAPI) => {
+      window.SpotifyIframeAPI = IFrameAPI; // Store the API globally for future use
+      IFrameAPI.createController(element, options, (EmbedController) => {
+        controller = EmbedController;
+        controller.addListener('ready', () => {
+          console.log('Spotify Player ready_2');
+          if (autoplaybutton) {
+            // The below line will activate playing music when the page is opened and the spotify player is built
+            autoPlaySpotify();
+          }
+        });
+        controller.addListener('playback_update', e => {
+          const { isPaused, isBuffering, duration, position } = e.data;
+          
+          // Check if the song has ended
+          if (!isPaused && position >= duration && duration > 0) {
+            console.log("Track has ended. Moving to the next song.");
+
+            // Load next osng only if spotifyTrackIDsList is provided
+            if (spotifyTrackIDsList) {
+              playNextSong('track', spotifyTrackIDsList); // Function to handle loading the next song
+            } else {
+              console.log("No track list provided. Playback stopped.");
+            }
+          }
+        });
+      }); 
+    };
   }
 }
 
-function playSpotify_2() {
+function autoPlaySpotify() {
   if (controller) {
-    console.log("SPOTIFY PLAYER PLAYSPOTIFY_2 FUNCTION IS RUN")
+    console.log("SPOTIFY PLAYER autoPlaySpotify FUNCTION IS RUN")
     // Check the playback state and decide what to do
     if (controller.isPaused) {
-      console.log("SPOTIFY PLAYER PLAYSPOTIFY_2 FUNCTION IS RUN")
+      console.log("SPOTIFY PLAYER autoPlaySpotify FUNCTION IS RUN")
       controller.resume();  // Resume playing from the paused position
       controller.isPlaying = true;
       controller.isPaused = false;
     } else if (!controller.isPlaying) {
-      console.log("SPOTIFY PLAYER PLAYSPOTIFY_2 FUNCTION IS RUN")
+      console.log("SPOTIFY PLAYER autoPlaySpotify FUNCTION IS RUN")
       controller.play();    // Start playing if not already playing
       controller.isPlaying = true;
       controller.isPaused = false;
+    } else {
+      console.log("NATIVE LIBRARY FUNCTION IS RUN")
+      controller.pause();   // Pause the player if it's currently playing
+      controller.isPlaying = false;
+      controller.isPaused = true;
     }
   } else {
-    console.log("SPOTIFY PLAYER PLAYSPOTIFY_2 FUNCTION IS RUN")
+    console.log("SPOTIFY PLAYER autoPlaySpotify FUNCTION IS RUN")
     console.error("Spotify controller is not initialized.");
   }
 }

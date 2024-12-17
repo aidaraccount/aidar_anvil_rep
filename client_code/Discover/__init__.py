@@ -18,7 +18,7 @@ import anvil.js.window
 from anvil.js.window import document
 from anvil.js.window import updateGauge
 from anvil.js.window import playSpotify
-from anvil.js.window import playSpotify_2
+from anvil.js.window import autoPlaySpotify
 
 # from anvil.js import callable
 
