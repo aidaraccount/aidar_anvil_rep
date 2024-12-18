@@ -12,7 +12,9 @@ from anvil_extras import routing
 from ..nav import click_link, click_button, logout, login_check, load_var, save_var
 
 from ..C_Notification_Settings import C_Notification_Settings
-from anvil.js.window import playSpotify_2
+# from anvil.js.window import autoPlaySpotify
+from anvil.js.window import document
+from anvil.js.window import playSpotify
 
 
 @routing.route("listen", url_keys=['notification_id'], title="Observe - Listen-In")
@@ -20,7 +22,7 @@ class Observe_Listen(Observe_ListenTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
-
+    self.add_event_handler('show', self.form_show)
     # Any code you write here will run before the form opens.
     global user
     user = anvil.users.get_user()
@@ -38,7 +40,19 @@ class Observe_Listen(Observe_ListenTemplate):
     # GENERAL
     self.get_all_notifications(url_notification_id)
 
+    # Instantiate Spotify Player
+    self.footer_left.clear()
+    self.spotify_HTML_player()
 
+
+  def form_show(self, **event_args):
+    embed_iframe_element = document.getElementById('embed-iframe')
+    if embed_iframe_element:
+      self.call_js('createOrUpdateSpotifyPlayer', 'track', self.current_track_id)
+      # self.call_js('playSpotify_2')
+    else:
+      print("Embed iframe element not found. Will not initialize Spotify player.")
+  
   # GET ALL NOTIFICATIONS
   def get_all_notifications(self, notification_id, **event_args):
     self.notifications = json.loads(anvil.server.call("get_notifications", user["user_id"], 'playlist'))
@@ -116,7 +130,9 @@ class Observe_Listen(Observe_ListenTemplate):
                                         notification["song_selection_2"]
                                         )
 
-    # print(observed_tracks)
+    self.current_track_id = observed_tracks[0]['tracks'][0]['spotify_track_id']
+    print(self.current_track_id)
+    print(observed_tracks)
     
     self.repeating_panel_artists.items = observed_tracks
     self.repeating_panel_artists.visible = True
@@ -197,10 +213,10 @@ class Observe_Listen(Observe_ListenTemplate):
       self.play_button_central.icon = 'fa:pause'
       self.footer_left.clear()
       self.spotify_HTML_player()
-      self.call_js('createOrUpdateSpotifyPlayer', 'track', '1JoM3HEBn0cNTi8bNSyqTb')
-      anvil.js.call_js('playSpotify_2')
+      self.call_js('createOrUpdateSpotifyPlayer', 'track', self.current_track_id)
+      anvil.js.call_js('playSpotify')
     else:
       self.play_button_central.icon = 'fa:play'
-      anvil.js.call_js('playSpotify_2')
+      anvil.js.call_js('playSpotify')
 
     # self.reset_track_play_buttons()

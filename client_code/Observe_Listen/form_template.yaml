@@ -124,6 +124,7 @@ components:
   - layout_properties: {grid_position: 'ULLGXX,KYFIEK'}
     name: footer_left
     properties:
+      role: spotify-footer-class
       spacing:
         margin: [0, null, 0, null]
     type: ColumnPanel

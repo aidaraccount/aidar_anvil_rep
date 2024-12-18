@@ -1,5 +1,6 @@
 components:
-- layout_properties: {grid_position: 'PYGHAJ,FCKORH'}
+- event_bindings: {click: play_button_click}
+  layout_properties: {grid_position: 'PYGHAJ,FCKORH'}
   name: play_button
   properties:
     icon: fa:play
