@@ -56,7 +56,6 @@ class Observe_Listen(Observe_ListenTemplate):
     embed_iframe_element = document.getElementById('embed-iframe')
     if embed_iframe_element:
       self.call_js('createOrUpdateSpotifyPlayer', 'track', self.current_track_id, self.all_track_ids)
-      self.call_js('buttonSync', self.current_track_id)
       # self.call_js('playSpotify_2')
     else:
       print("Embed iframe element not found. Will not initialize Spotify player.")

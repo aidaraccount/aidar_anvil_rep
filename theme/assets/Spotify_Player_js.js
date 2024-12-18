@@ -144,18 +144,8 @@ function playNextSong(trackOrArtist, spotifyTrackIDsList) {
         }
       }
     }) 
-    
-  // Text box test
-  const nowPlayingBox = document.querySelector('.anvil-role-now-playing-id');
-  if (nowPlayingBox) {
-    nowPlayingBox.value = globalCurrentArtistSpotifyID;
-    console.log("nowPlayingBox_value in the nextupsong:", nowPlayingBox.value)
-  }
-  } else {
-    console.error("No next song URI available or controller is not initialized.");
   }
 }
-
 
 
 
