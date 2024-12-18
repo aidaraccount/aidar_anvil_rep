@@ -310,7 +310,7 @@ class Main_In(Main_InTemplate):
       self.link_listen.visible = False
 
   def link_observe_click(self, **event_args):
-    click_link(self.link_radar, 'radar', event_args)
+    click_link(self.link_radar, 'radar?notification_id=None', event_args)
     self.reset_nav_backgrounds()
     self.link_radar.background = "theme:Accent 3"
 

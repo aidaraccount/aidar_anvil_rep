@@ -7,14 +7,13 @@ import anvil.tables.query as q
 from anvil.tables import app_tables
 import json
 import anvil.js
+from anvil.js.window import document
+from anvil.js.window import playSpotify
 from datetime import date, datetime
 from anvil_extras import routing
 from ..nav import click_link, click_button, logout, login_check, load_var, save_var
 
 from ..C_Notification_Settings import C_Notification_Settings
-# from anvil.js.window import autoPlaySpotify
-from anvil.js.window import document
-from anvil.js.window import playSpotify
 
 
 @routing.route("listen", url_keys=['notification_id'], title="Observe - Listen-In")
@@ -23,26 +22,32 @@ class Observe_Listen(Observe_ListenTemplate):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
     self.add_event_handler('show', self.form_show)
+    
     # Any code you write here will run before the form opens.
     global user
     user = anvil.users.get_user()
-
-    model_id = load_var("model_id")
-    self.model_id = model_id
-    print(f"Notifications model_id: {model_id}")
-
-    url_notification_id = self.url_dict['notification_id']
-    self.url_notification_id = url_notification_id
     
-    save_var('toggle', 'up')
-    self.footer_trick_spacer.visible = False
-    
-    # GENERAL
-    self.get_all_notifications(url_notification_id)
-
-    # Instantiate Spotify Player
-    self.footer_left.clear()
-    self.spotify_HTML_player()
+    if user['expiration_date'] is not None and (datetime.today().date() - user['expiration_date']).days > 0:
+      routing.set_url_hash('no_subs', load_from_cache=False)
+      get_open_form().SearchBar.visible = False
+      
+    else:      
+      model_id = load_var("model_id")
+      self.model_id = model_id
+      print(f"Notifications model_id: {model_id}")
+  
+      url_notification_id = self.url_dict['notification_id']
+      self.url_notification_id = url_notification_id
+      
+      save_var('toggle', 'up')
+      self.footer_trick_spacer.visible = False
+      
+      # GENERAL
+      self.get_all_notifications(url_notification_id)
+  
+      # Instantiate Spotify Player
+      self.footer_left.clear()
+      self.spotify_HTML_player()
 
 
   def form_show(self, **event_args):
