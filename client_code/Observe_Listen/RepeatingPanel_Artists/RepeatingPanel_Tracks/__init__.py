@@ -22,21 +22,10 @@ class RepeatingPanel_Tracks(RepeatingPanel_TracksTemplate):
       self.album_img.source = '_/theme/pics/Favicon_orange.JPG'
 
   def play_button_click(self, **event_args):
-    print('THIS BUTTON HAS BEEN CLICKED')
-    print("1",self.parent)
-    print("2",self.parent.parent)
-    print("3",self.parent.parent.parent)
-    print("4",self.parent.parent.parent.parent)
-    print("5",self.parent.parent.parent.parent.parent)
-    print("6",self.parent.parent.parent.parent.parent.parent)
-    print("7",self.parent.parent.parent.parent.parent.parent.parent)
-    print("8",self.parent.parent.parent.parent.parent.parent.parent.parent)
     all_rows = self.parent.parent.parent.parent.items
     all_track_ids = [track['spotify_track_id'] for artist in all_rows for track in artist['tracks']]
     # print("all_track_ids", all_track_ids)
-    
-    
-    
+    print("item",self.item)
     print(load_var("lastplayed") )
     if load_var("lastplayed") != self.item["spotify_track_id"]:
       self.parent.parent.parent.parent.parent.parent.parent.footer_left.clear()

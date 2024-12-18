@@ -9,6 +9,8 @@ import json
 import anvil.js
 from anvil.js.window import document
 from anvil.js.window import playSpotify
+from anvil.js.window import buttonSync
+
 from datetime import date, datetime
 from anvil_extras import routing
 from ..nav import click_link, click_button, logout, login_check, load_var, save_var
@@ -48,12 +50,13 @@ class Observe_Listen(Observe_ListenTemplate):
       # Instantiate Spotify Player
       self.footer_left.clear()
       self.spotify_HTML_player()
-
+      
 
   def form_show(self, **event_args):
     embed_iframe_element = document.getElementById('embed-iframe')
     if embed_iframe_element:
-      self.call_js('createOrUpdateSpotifyPlayer', 'track', self.current_track_id)
+      self.call_js('createOrUpdateSpotifyPlayer', 'track', self.current_track_id, self.all_track_ids)
+      self.call_js('buttonSync', self.current_track_id)
       # self.call_js('playSpotify_2')
     else:
       print("Embed iframe element not found. Will not initialize Spotify player.")
@@ -136,6 +139,8 @@ class Observe_Listen(Observe_ListenTemplate):
                                         )
 
     self.current_track_id = observed_tracks[0]['tracks'][0]['spotify_track_id']
+    self.all_track_ids = [track['spotify_track_id'] for artist in observed_tracks for track in artist['tracks']]
+
     print(self.current_track_id)
     # print(observed_tracks)
     
@@ -213,16 +218,51 @@ class Observe_Listen(Observe_ListenTemplate):
     html_webplayer_panel = HtmlPanel(html=c_web_player_html)
     self.footer_left.add_component(html_webplayer_panel)
     
+  # def play_button_central_click(self, **event_args):
+  #   if self.play_button_central.icon == 'fa:play':
+  #     self.play_button_central.icon = 'fa:pause'
+  #     self.footer_left.clear()
+  #     self.spotify_HTML_player()
+  #     self.call_js('createOrUpdateSpotifyPlayer', 'track', self.current_track_id)
+  #     anvil.js.call_js('playSpotify')
+  #   else:
+  #     self.play_button_central.icon = 'fa:play'
+  #     anvil.js.call_js('playSpotify')
+
+  #   self.reset_track_play_buttons()
+    
   def play_button_central_click(self, **event_args):
-    if self.play_button_central.icon == 'fa:play':
-      self.play_button_central.icon = 'fa:pause'
-      self.footer_left.clear()
-      self.spotify_HTML_player()
-      self.call_js('createOrUpdateSpotifyPlayer', 'track', self.current_track_id)
+    if self.play_button_central.icon == 'fa:play-circle':
+      self.play_button_central.icon = 'fa:pause-circle'
       anvil.js.call_js('playSpotify')
     else:
-      self.play_button_central.icon = 'fa:play'
+      self.play_button_central.icon = 'fa:play-circle'
       anvil.js.call_js('playSpotify')
+
+
+
+    # self.lastplayed = self.item["spotify_track_id"]
+    # save_var('lastplayed', self.item["spotify_track_id"])
+    # # print(self.lastplayed)
+
+    # if self.play_button_central.icon == 'fa:play-circle':
+    #   # reset all other:
+    #   self.reset_track_play_buttons()
+    #   # set specific one
+    #   self.play_button.icon = 'fa:pause-circle'
+    #   self.play_button_central.icon = 'fa:pause-circle'
+    # else:
+    #   self.play_button.icon = 'fa:play-circle'
+    #   self.play_button_central.icon = 'fa:play-circle'
+    # if self.play_button_central.icon == 'fa:play':
+    #   self.play_button_central.icon = 'fa:pause'
+    #   self.footer_left.clear()
+    #   self.spotify_HTML_player()
+    #   self.call_js('createOrUpdateSpotifyPlayer', 'track', self.current_track_id)
+    #   anvil.js.call_js('playSpotify')
+    # else:
+    #   self.play_button_central.icon = 'fa:play'
+    #   anvil.js.call_js('playSpotify')
 
     # self.reset_track_play_buttons()
 
