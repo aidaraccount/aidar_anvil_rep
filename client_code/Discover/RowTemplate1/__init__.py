@@ -21,19 +21,30 @@ class RowTemplate1(RowTemplate1Template):
     # Any code you write here will run before the form opens.
 
   def button_play_track_click(self, **event_args):
+    print('THIS BUTTON HAS BEEN CLICKED')
+    all_rows = self.parent.items
+    track_ids = [entry["SpotifyTrackID"] for entry in all_rows]
 
+    print(load_var("lastplayed") )
     if load_var("lastplayed") != self.item["SpotifyTrackID"]:
       self.parent.parent.parent.parent.parent.parent.spotify_player_spot.clear()
       self.parent.parent.parent.parent.parent.parent.spotify_HTML_player()
-      self.parent.parent.parent.parent.parent.parent.call_js('createOrUpdateSpotifyPlayer', 'track', self.item["SpotifyTrackID"])
+      self.parent.parent.parent.parent.parent.parent.call_js('createOrUpdateSpotifyPlayer', 'track', self.item["SpotifyTrackID"], track_ids)
       anvil.js.call_js('playSpotify')
       
     else:
       anvil.js.call_js('playSpotify')
+      # pass
 
+    print(self.item["SpotifyTrackID"])
     self.lastplayed = self.item["SpotifyTrackID"]
     save_var('lastplayed', self.item["SpotifyTrackID"])
+    # print(self.lastplayed)
 
+    # Update buttons dynamically
+    # self.parent.parent.parent.parent.parent.parent.update_play_pause_buttons(self.item["SpotifyTrackID"])
+    # self.parent.parent.parent.parent.parent.parent.update_play_pause_buttons(self.item["SpotifyTrackID"])
+    
     if self.button_play_track.icon == 'fa:play-circle':
       # reset all other:
       self.parent.parent.parent.parent.parent.parent.reset_track_play_buttons()
@@ -43,4 +54,9 @@ class RowTemplate1(RowTemplate1Template):
       self.button_play_track.icon = 'fa:play-circle'
     
     self.parent.parent.parent.parent.parent.parent.spotify_artist_button.icon = 'fa:play-circle'
- 
+    
+    # self.update_play_pause_buttons(self.item["SpotifyTrackID"])
+
+
+
+    
