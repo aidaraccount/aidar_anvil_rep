@@ -2,6 +2,7 @@
 var controller;
 let globalCurrentArtistSpotifyID = null; // To persist the current track ID across function calls
 
+
 function createOrUpdateSpotifyPlayer(trackOrArtist, currentArtistSpotifyID, spotifyTrackIDsList=null) {
   const element = document.querySelector('.anvil-role-spotify-footer-class #embed-iframe');
   const autoplaybutton = document.querySelector('.anvil-role-autoplay-toggle-button .fa-toggle-on')
@@ -35,6 +36,7 @@ function createOrUpdateSpotifyPlayer(trackOrArtist, currentArtistSpotifyID, spot
           autoPlaySpotify();
         }
       });
+      
       controller.addListener('playback_update', e => {
         const {isPaused, isBuffering, duration, position } = e.data;
         
@@ -50,7 +52,24 @@ function createOrUpdateSpotifyPlayer(trackOrArtist, currentArtistSpotifyID, spot
           }
         }
       });
+      
+      controller.addListener('playback_update', e => {
+        const {isPaused, isBuffering, duration, position } = e.data;
+        
+        // Log the current playback state
+        if (isBuffering) {
+          console.log("Playback is buffering - 1");
+        } else if (isPaused) {
+          console.log("Playback is paused - 1");
+          setPlayButtonIcons(isPaused, spotifyTrackIDsList)
+        } else {
+          console.log("Playback is playing - 1");
+          setPlayButtonIcons(isPaused, spotifyTrackIDsList)
+        }
+      });
+      
     });
+    
   } else {
     // if (controller) {
     //   controller.destroy(); // Clear the current controller to avoid mismatches
@@ -66,6 +85,7 @@ function createOrUpdateSpotifyPlayer(trackOrArtist, currentArtistSpotifyID, spot
             autoPlaySpotify();
           }
         });
+        
         controller.addListener('playback_update', e => {
           const { isPaused, isBuffering, duration, position } = e.data;
           
@@ -81,10 +101,27 @@ function createOrUpdateSpotifyPlayer(trackOrArtist, currentArtistSpotifyID, spot
             }
           }
         });
+        
+        controller.addListener('playback_update', e => {
+          const {isPaused, isBuffering, duration, position } = e.data;
+          
+          // Log the current playback state
+          if (isBuffering) {
+            console.log("Playback is buffering - 2");
+          } else if (isPaused) {
+            console.log("Playback is paused - 2");
+            setPlayButtonIcons(isPaused, spotifyTrackIDsList)
+          } else {
+            console.log("Playback is playing - 2");
+            setPlayButtonIcons(isPaused, spotifyTrackIDsList)
+          }
+        });
+        
       }); 
     };
   }
 }
+
 
 // This function is triggered only when the AUTOPLAY button is switched on
 function autoPlaySpotify() {
@@ -105,16 +142,22 @@ function autoPlaySpotify() {
 }
 // });
 
+
 // Function to load the next song
 function playNextSong(trackOrArtist, spotifyTrackIDsList) {
+  
   // If statement to check if we are playing a list of custom songs or a playlist from Spotify
   if (!spotifyTrackIDsList) {
     console.error("No track list available. Check out Spotify_Player_js.js file - playNextSong() function.");
     return;
   }
+  
   // Declaring the index of the current playing song and defining the index for the next song to play
   const index = spotifyTrackIDsList.indexOf(globalCurrentArtistSpotifyID);
   const nextArtistSpotifyID = index !== -1 && index < spotifyTrackIDsList.length - 1 ? spotifyTrackIDsList[index + 1] : null;
+  sessionStorage.setItem("lastplayedtrackid", nextArtistSpotifyID);
+  console.log(`Browser Cache lastplayedtrackid: ${nextArtistSpotifyID}`);
+  
   //  check if controller is instantiated and next song is define
   if (controller && nextArtistSpotifyID) {
     const nextSongUri = `spotify:${trackOrArtist}:${nextArtistSpotifyID}`; // Replace with your logic to fetch the next song's URI
@@ -124,11 +167,22 @@ function playNextSong(trackOrArtist, spotifyTrackIDsList) {
     console.log(`Loading next song: ${nextSongUri}`);
     controller.play()
 
-    // For loop to change the icon of the play button. 
-    spotifyTrackIDsList.forEach(function(currentId) {
+    // Set play button icons
+    setPlayButtonIcons(false, spotifyTrackIDsList)
+
+  }
+}
+
+
+// Function to set the play button icons
+function setPlayButtonIcons(isPaused, spotifyTrackIDsList=null) {
+  
+  // Set the icon of the small play buttons
+  if (spotifyTrackIDsList) {
+    spotifyTrackIDsList.forEach(function(currentId) {    
       const buttonPlay = document.querySelector(`.anvil-role-${currentId}`);
-      // console.log("Button PLAY HTML", buttonPlay)
-      if (currentId === globalCurrentArtistSpotifyID) {
+      
+      if (currentId === globalCurrentArtistSpotifyID && !isPaused) {
         if (buttonPlay) {
           let icon = buttonPlay.querySelector('i')
           if (icon) {
@@ -143,9 +197,26 @@ function playNextSong(trackOrArtist, spotifyTrackIDsList) {
           }
         }
       }
-    }) 
+    })
   }
+  
+  // Set the icon of the big central play button
+  const buttonPlayBig = document.querySelector(`.anvil-role-play-spotify-button-artist`);
+
+  if (isPaused) {
+    if (buttonPlayBig) {
+      let icon = buttonPlayBig.querySelector('i')
+      if (icon) {
+        icon.className = 'anvil-component-icon left fa fa-play-circle left-icon'
+      }
+    }
+  } else {
+    if (buttonPlayBig) {
+      let icon = buttonPlayBig.querySelector('i')
+      if (icon) {
+        icon.className = 'anvil-component-icon left fa fa-pause-circle left-icon'
+      }
+    }        
+  }
+    
 }
-
-
-

@@ -9,7 +9,7 @@ import json
 import anvil.js
 from anvil.js.window import document
 from anvil.js.window import playSpotify
-from anvil.js.window import buttonSync
+# from anvil.js.window import buttonSync
 
 from datetime import date, datetime
 from anvil_extras import routing
@@ -55,8 +55,7 @@ class Observe_Listen(Observe_ListenTemplate):
   def form_show(self, **event_args):
     embed_iframe_element = document.getElementById('embed-iframe')
     if embed_iframe_element:
-      self.call_js('createOrUpdateSpotifyPlayer', 'track', self.current_track_id, self.all_track_ids)
-      # self.call_js('playSpotify_2')
+      self.call_js('createOrUpdateSpotifyPlayer', 'track', self.initial_track_id, self.all_track_ids)
     else:
       print("Embed iframe element not found. Will not initialize Spotify player.")
   
@@ -137,10 +136,11 @@ class Observe_Listen(Observe_ListenTemplate):
                                         notification["song_selection_2"]
                                         )
 
-    self.current_track_id = observed_tracks[0]['tracks'][0]['spotify_track_id']
+    self.initial_track_id = observed_tracks[0]['tracks'][0]['spotify_track_id']
+    save_var('lastplayedtrackid', self.initial_track_id)
     self.all_track_ids = [track['spotify_track_id'] for artist in observed_tracks for track in artist['tracks']]
 
-    print(self.current_track_id)
+    print(self.initial_track_id)
     # print(observed_tracks)
     
     self.repeating_panel_artists.items = observed_tracks
@@ -217,66 +217,45 @@ class Observe_Listen(Observe_ListenTemplate):
     html_webplayer_panel = HtmlPanel(html=c_web_player_html)
     self.footer_left.add_component(html_webplayer_panel)
     
-  # def play_button_central_click(self, **event_args):
-  #   if self.play_button_central.icon == 'fa:play':
-  #     self.play_button_central.icon = 'fa:pause'
-  #     self.footer_left.clear()
-  #     self.spotify_HTML_player()
-  #     self.call_js('createOrUpdateSpotifyPlayer', 'track', self.current_track_id)
-  #     anvil.js.call_js('playSpotify')
-  #   else:
-  #     self.play_button_central.icon = 'fa:play'
-  #     anvil.js.call_js('playSpotify')
-
-  #   self.reset_track_play_buttons()
-    
+  # playSpotify (starts, stops and resumes the music)
   def play_button_central_click(self, **event_args):
     if self.play_button_central.icon == 'fa:play-circle':
-      self.play_button_central.icon = 'fa:pause-circle'
+      # self.play_button_central.icon = 'fa:pause-circle'
+      self.set_small_track_play_buttons()
       anvil.js.call_js('playSpotify')
     else:
-      self.play_button_central.icon = 'fa:play-circle'
+      # self.play_button_central.icon = 'fa:play-circle'
+      self.set_small_track_play_buttons()
       anvil.js.call_js('playSpotify')
 
+    
 
 
-    # self.lastplayed = self.item["spotify_track_id"]
-    # save_var('lastplayed', self.item["spotify_track_id"])
-    # # print(self.lastplayed)
-
-    # if self.play_button_central.icon == 'fa:play-circle':
-    #   # reset all other:
-    #   self.reset_track_play_buttons()
-    #   # set specific one
-    #   self.play_button.icon = 'fa:pause-circle'
-    #   self.play_button_central.icon = 'fa:pause-circle'
+  # SET SMALL PLAY BUTTONS
+  def set_small_track_play_buttons(self,  **event_args):
+    pass
+    # if self.play_button_central.icon == 'fa:pause-circle':
+    #   icon_type_1 = 'fa:pause-circle'
+    #   icon_type_2 = 'fa:play-circle'
     # else:
-    #   self.play_button.icon = 'fa:play-circle'
-    #   self.play_button_central.icon = 'fa:play-circle'
-    # if self.play_button_central.icon == 'fa:play':
-    #   self.play_button_central.icon = 'fa:pause'
-    #   self.footer_left.clear()
-    #   self.spotify_HTML_player()
-    #   self.call_js('createOrUpdateSpotifyPlayer', 'track', self.current_track_id)
-    #   anvil.js.call_js('playSpotify')
-    # else:
-    #   self.play_button_central.icon = 'fa:play'
-    #   anvil.js.call_js('playSpotify')
-
-    # self.reset_track_play_buttons()
-
-  def reset_track_play_buttons(self,  **event_args):
-    parent_components = self.repeating_panel_artists.get_components()
-    print("parent_components",parent_components)
-    for parent_component in parent_components:
-      print("parent_component",parent_component)
-      child_components = parent_component.get_components()[0].get_components()
-      print("child_components",child_components)
-      for child_component in child_components:
-        print("child_component",child_component)
-        if isinstance(child_component, RepeatingPanel):
-          grandchild_components = child_component.get_components()
-          print("grandchild_components",grandchild_components)
-          for grandchild_component in grandchild_components:
-            print("grandchild_component",grandchild_component)
-            grandchild_component.play_button.icon = 'fa:play-circle'
+    #   icon_type_1 = 'fa:play-circle'
+    #   icon_type_2 = 'fa:play-circle'
+    
+    # parent_components = self.repeating_panel_artists.get_components()
+    # # print("parent_components",parent_components)
+    # for parent_component in parent_components:
+    #   # print("parent_component",parent_component)
+    #   child_components = parent_component.get_components()[0].get_components()
+    #   # print("child_components",child_components)
+    #   for child_component in child_components:
+    #     # print("child_component",child_component)
+    #     if isinstance(child_component, RepeatingPanel):
+    #       grandchild_components = child_component.get_components()
+    #       # print("grandchild_components",grandchild_components)
+    #       for grandchild_component in grandchild_components:
+    #         # print("grandchild_component",grandchild_component)
+    #         if load_var('lastplayedtrackid') == grandchild_component.play_button.role[1]:
+    #           grandchild_component.play_button.icon = icon_type_1
+    #         else:
+    #           grandchild_component.play_button.icon = icon_type_2
+              

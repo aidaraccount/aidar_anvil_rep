@@ -129,8 +129,12 @@ components:
         margin: [0, null, 0, null]
     type: ColumnPanel
   - components:
+    - layout_properties: {grid_position: 'BIYFHH,IHGLLL'}
+      name: spacer_2
+      properties: {height: '5'}
+      type: Spacer
     - event_bindings: {click: play_button_central_click}
-      layout_properties: {grid_position: 'BIYFHH,LBPKYO'}
+      layout_properties: {grid_position: 'BIYFHH,NOMROL'}
       name: play_button_central
       properties:
         icon: fa:play-circle
@@ -139,6 +143,10 @@ components:
           margin: [0, null, 0, null]
         text: ''
       type: Button
+    - layout_properties: {grid_position: 'BIYFHH,SWOVSS'}
+      name: spacer_1
+      properties: {height: '5'}
+      type: Spacer
     layout_properties: {grid_position: 'ULLGXX,BMCCVG'}
     name: footer_center
     properties: {}
