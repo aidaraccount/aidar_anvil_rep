@@ -132,7 +132,7 @@ class Observe_Listen(Observe_ListenTemplate):
 
     self.current_track_id = observed_tracks[0]['tracks'][0]['spotify_track_id']
     print(self.current_track_id)
-    print(observed_tracks)
+    # print(observed_tracks)
     
     self.repeating_panel_artists.items = observed_tracks
     self.repeating_panel_artists.visible = True
@@ -220,3 +220,19 @@ class Observe_Listen(Observe_ListenTemplate):
       anvil.js.call_js('playSpotify')
 
     # self.reset_track_play_buttons()
+
+  def reset_track_play_buttons(self,  **event_args):
+    parent_components = self.repeating_panel_artists.get_components()
+    print("parent_components",parent_components)
+    for parent_component in parent_components:
+      print("parent_component",parent_component)
+      child_components = parent_component.get_components()[0].get_components()
+      print("child_components",child_components)
+      for child_component in child_components:
+        print("child_component",child_component)
+        if isinstance(child_component, RepeatingPanel):
+          grandchild_components = child_component.get_components()
+          print("grandchild_components",grandchild_components)
+          for grandchild_component in grandchild_components:
+            print("grandchild_component",grandchild_component)
+            grandchild_component.play_button.icon = 'fa:play-circle'

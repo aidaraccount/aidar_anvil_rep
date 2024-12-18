@@ -133,7 +133,7 @@ components:
       layout_properties: {grid_position: 'BIYFHH,LBPKYO'}
       name: play_button_central
       properties:
-        icon: fa:play
+        icon: fa:play-circle
         role: [play-spotify-button, play-spotify-button-artist]
         spacing:
           margin: [0, null, 0, null]

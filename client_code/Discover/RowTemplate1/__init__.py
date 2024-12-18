@@ -21,7 +21,7 @@ class RowTemplate1(RowTemplate1Template):
     # Any code you write here will run before the form opens.
 
   def button_play_track_click(self, **event_args):
-    print('THIS BUTTON HAS BEEN CLICKED')
+    # print('THIS BUTTON HAS BEEN CLICKED')
     all_rows = self.parent.items
     track_ids = [entry["SpotifyTrackID"] for entry in all_rows]
 
@@ -36,7 +36,7 @@ class RowTemplate1(RowTemplate1Template):
       anvil.js.call_js('playSpotify')
       # pass
 
-    print(self.item["SpotifyTrackID"])
+    # print(self.item["SpotifyTrackID"])
     self.lastplayed = self.item["SpotifyTrackID"]
     save_var('lastplayed', self.item["SpotifyTrackID"])
     # print(self.lastplayed)
