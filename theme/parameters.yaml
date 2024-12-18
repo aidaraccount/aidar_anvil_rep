@@ -368,3 +368,5 @@ roles:
   name: warning-label
 - components: [ColumnPanel]
   name: footer
+- components: [Button]
+  name: button-custom-class-test

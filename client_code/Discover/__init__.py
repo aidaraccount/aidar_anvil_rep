@@ -18,7 +18,9 @@ import anvil.js.window
 from anvil.js.window import document
 from anvil.js.window import updateGauge
 from anvil.js.window import playSpotify
-from anvil.js.window import playSpotify_2
+from anvil.js.window import autoPlaySpotify
+
+# from anvil.js import callable
 
 from anvil_extras import routing
 from ..nav import click_link, click_button, logout, login_check, load_var, save_var
@@ -34,6 +36,11 @@ class Discover(DiscoverTemplate):
     self.html = '@theme:Discover_Sidebar_and_JS.html'
     self.add_event_handler('show', self.form_show)
     # self.add_event_handler('show', self.play_spotify)
+    # text box that controls which play button from the Track Releases table will be a play or a pause button
+    # self.now_playing_id.role = 'now-playing-id'
+    # print("THis is the text of the now_playing_id box:",self.now_playing_id.text)
+    # Bind the hidden text box value to a callback
+    # self.now_playing_id.set_event_handler('change', self.update_play_pause_buttons)
     
     global user
     user = anvil.users.get_user()
@@ -361,8 +368,20 @@ class Discover(DiscoverTemplate):
       # --------
       # b) release tables
       if self.data_grid_releases.visible is True:
-        self.data_grid_releases_data.items = json.loads(anvil.server.call('get_dev_releases', artist_id))
-
+        # track_data = json.loads(anvil.server.call('get_dev_releases', artist_id))
+        # spotify_track_ids = [entry["SpotifyTrackID"] for entry in track_data]
+        # for element in track_data:
+        #   element["SpotifyTrackIDs"] = spotify_track_ids
+        # self.data_grid_releases_data.items = track_data
+        track_data = json.loads(anvil.server.call('get_dev_releases', artist_id))
+        self.data_grid_releases_data.items = track_data
+        i=0
+        for row in self.data_grid_releases_data.get_components():  # Replace with your repeating panel name
+          print("get components 1", row.get_components()[1])
+          # row.get_components()[1].role = ["play-spotify-button", f"{track_data[i]['SpotifyTrackID']}"]
+          # row.role = f"row-{i}"
+          print(row.get_components()[1].role)
+          i += 1
       # --------
       # c) release cycle
       if self.data_grid_cycle.visible is True:        
@@ -1959,7 +1978,28 @@ class Discover(DiscoverTemplate):
         buttons=[],
         role=["progress-message","remove-focus"]
     )
-    
+
+
+  # def update_play_pause_buttons(self, current_track_id):
+  #   current_track_id = self.now_playing_id.text
+  #   print("This is the current_track_id",current_track_id)
+  #   print("This is the self.now_playing_id.text",self.now_playing_id.text)
+  #   i = 0
+  #   for row in self.data_grid_releases_data.get_components():  # Replace with your repeating panel name
+  #     print("get components 1", row.get_components()[1])
+  #     row.get_components()[1].role = f"button-{i}"
+  #     # row.role = f"row-{i}"
+  #     print(row.get_components()[1].role)
+  #     i += 1
+  #     # print("These are the row current_track_id:",current_track_id)
+  #     # print("These are the row row.items[SpotifyTrackID]:",row.item["SpotifyTrackID"])
+  #     # print("This is the statement result:", row.item["SpotifyTrackID"] == current_track_id)
+  #     if row.item["SpotifyTrackID"] == current_track_id:
+  #       row.button_play_track.icon = 'fa:pause-circle'
+  #     else:
+  #       row.button_play_track.icon = 'fa:play-circle'
+  
+  
 
   # def update_city_highlight(self):
   #   country_codes = self.listeners_city_data["country_name_city"]
