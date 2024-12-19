@@ -2151,6 +2151,10 @@ footer a, .footer .anvil-component {
   font-size: 44px;
   padding: 0;
 }
+.anvil-role-play-spotify-button-artist2 button {
+  font-size: 44px;
+  padding: 0;
+}
 
 .anvil-role-autoplay-toggle-button {}
 

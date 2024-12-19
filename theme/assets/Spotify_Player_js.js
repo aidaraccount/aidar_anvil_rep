@@ -3,6 +3,7 @@ var controller;
 let globalCurrentArtistSpotifyID = null; // To persist the current track ID across function calls
 
 
+// window.createOrUpdateSpotifyPlayer = function(trackOrArtist, currentArtistSpotifyID, spotifyTrackIDsList=null) {
 function createOrUpdateSpotifyPlayer(trackOrArtist, currentArtistSpotifyID, spotifyTrackIDsList=null) {
   const element = document.querySelector('.anvil-role-spotify-footer-class #embed-iframe');
   const autoplaybutton = document.querySelector('.anvil-role-autoplay-toggle-button .fa-toggle-on')
@@ -61,10 +62,10 @@ function createOrUpdateSpotifyPlayer(trackOrArtist, currentArtistSpotifyID, spot
           console.log("Playback is buffering - 1");
         } else if (isPaused) {
           console.log("Playback is paused - 1");
-          setPlayButtonIcons(isPaused, spotifyTrackIDsList)
+          setPlayButtonIcons(isPaused, trackOrArtist, spotifyTrackIDsList)
         } else {
           console.log("Playback is playing - 1");
-          setPlayButtonIcons(isPaused, spotifyTrackIDsList)
+          setPlayButtonIcons(isPaused, trackOrArtist, spotifyTrackIDsList)
         }
       });
       
@@ -110,10 +111,10 @@ function createOrUpdateSpotifyPlayer(trackOrArtist, currentArtistSpotifyID, spot
             console.log("Playback is buffering - 2");
           } else if (isPaused) {
             console.log("Playback is paused - 2");
-            setPlayButtonIcons(isPaused, spotifyTrackIDsList)
+            setPlayButtonIcons(isPaused, trackOrArtist, spotifyTrackIDsList)
           } else {
             console.log("Playback is playing - 2");
-            setPlayButtonIcons(isPaused, spotifyTrackIDsList)
+            setPlayButtonIcons(isPaused, trackOrArtist, spotifyTrackIDsList)
           }
         });
         
@@ -168,14 +169,14 @@ function playNextSong(trackOrArtist, spotifyTrackIDsList) {
     controller.play()
 
     // Set play button icons
-    setPlayButtonIcons(false, spotifyTrackIDsList)
+    setPlayButtonIcons(false, 'track', spotifyTrackIDsList)
 
   }
 }
 
 
 // Function to set the play button icons
-function setPlayButtonIcons(isPaused, spotifyTrackIDsList=null) {
+function setPlayButtonIcons(isPaused, trackOrArtist, spotifyTrackIDsList=null) {
   
   // Set the icon of the small play buttons
   if (spotifyTrackIDsList) {
@@ -200,7 +201,8 @@ function setPlayButtonIcons(isPaused, spotifyTrackIDsList=null) {
     })
   }
   
-  // Set the icon of the big central play button
+  // Set the icon of the big central play button on DISCOVER
+  // should be play when nothing is playling to start the artists tracks
   const buttonPlayBig = document.querySelector(`.anvil-role-play-spotify-button-artist`);
 
   if (isPaused) {
@@ -210,13 +212,42 @@ function setPlayButtonIcons(isPaused, spotifyTrackIDsList=null) {
         icon.className = 'anvil-component-icon left fa fa-play-circle left-icon'
       }
     }
-  } else {
+  }
+  if (trackOrArtist ==  'track') {
+    if (buttonPlayBig) {
+      let icon = buttonPlayBig.querySelector('i')
+      if (icon) {
+        icon.className = 'anvil-component-icon left fa fa-play-circle left-icon'
+      }
+    }    
+  }
+  if (trackOrArtist ==  'artist' && !isPaused) {
     if (buttonPlayBig) {
       let icon = buttonPlayBig.querySelector('i')
       if (icon) {
         icon.className = 'anvil-component-icon left fa fa-pause-circle left-icon'
       }
+    }    
+  }
+  
+  // Set the icon of the big central play button on LISTEN-IN
+  // all three buttons (small play, big play and console play) should be aligned
+  const buttonPlayBig2 = document.querySelector(`.anvil-role-play-spotify-button-artist2`);
+
+  if (isPaused) {
+    if (buttonPlayBig2) {
+      let icon = buttonPlayBig2.querySelector('i')
+      if (icon) {
+        icon.className = 'anvil-component-icon left fa fa-play-circle left-icon'
+      }
+    }
+  } else {
+    if (buttonPlayBig2) {
+      let icon = buttonPlayBig2.querySelector('i')
+      if (icon) {
+        icon.className = 'anvil-component-icon left fa fa-pause-circle left-icon'
+      }
     }        
   }
-    
+  
 }

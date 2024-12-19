@@ -7,9 +7,8 @@ import anvil.tables.query as q
 from anvil.tables import app_tables
 import json
 import anvil.js
-from anvil.js.window import document
-from anvil.js.window import playSpotify
-# from anvil.js.window import buttonSync
+from anvil.js.window import document, playSpotify
+
 
 from datetime import date, datetime
 from anvil_extras import routing

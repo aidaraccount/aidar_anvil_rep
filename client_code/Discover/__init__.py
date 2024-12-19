@@ -15,10 +15,7 @@ from ..C_ProgressMessage import C_ProgressMessage
 from anvil import js
 import anvil.js
 import anvil.js.window
-from anvil.js.window import document
-from anvil.js.window import updateGauge
-from anvil.js.window import playSpotify
-from anvil.js.window import autoPlaySpotify
+from anvil.js.window import document, updateGauge, playSpotify, autoPlaySpotify
 
 # from anvil.js import callable
 

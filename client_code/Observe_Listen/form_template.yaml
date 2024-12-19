@@ -138,7 +138,7 @@ components:
       name: play_button_central
       properties:
         icon: fa:play-circle
-        role: [play-spotify-button, play-spotify-button-artist]
+        role: [play-spotify-button, play-spotify-button-artist2]
         spacing:
           margin: [0, null, 0, null]
         text: ''
@@ -165,6 +165,6 @@ components:
   type: ColumnPanel
 container:
   properties:
-    html: "<div anvil-slot=\"default\"></div>\n\n<!-- <div anvil-drop-default anvil-drop-redirect=\".placeholder\" anvil-drop-container=\".anvil-container\"></div> -->\n<div class=\"footer\">\n  <div class=\"footer-slot\" anvil-slot=\"footer-slot\">\n    <div class=\"placeholder anvil-designer-only\" anvil-if-slot-empty=\"footer-slot\" anvil-drop-here>Add a Component here</div>\n  </div>\n</div> "
+    html: "<div anvil-slot=\"default\"></div>\n\n<!-- <script src=\"_/theme/Spotify_Player_js.js\"></script> -->\n\n<!-- <div anvil-drop-default anvil-drop-redirect=\".placeholder\" anvil-drop-container=\".anvil-container\"></div> -->\n<div class=\"footer\">\n  <div class=\"footer-slot\" anvil-slot=\"footer-slot\">\n    <div class=\"placeholder anvil-designer-only\" anvil-if-slot-empty=\"footer-slot\" anvil-drop-here>Add a Component here</div>\n  </div>\n</div> "
   type: HtmlTemplate
 is_package: true

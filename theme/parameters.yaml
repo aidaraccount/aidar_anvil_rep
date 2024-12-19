@@ -370,3 +370,5 @@ roles:
   name: footer
 - components: [Button]
   name: button-custom-class-test
+- components: [Button]
+  name: play-spotify-button-artist2
