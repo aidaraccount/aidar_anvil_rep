@@ -1957,6 +1957,12 @@ footer a, .footer .anvil-component {
 .anvil-role-date-picker>.form-inline select {
   border-radius: 10px;
 }
+.anvil-role-bottom-border {
+  /* border: none; */
+  border-bottom: 0.2px rgb(175, 175, 175) solid;
+  border-top: 0.2px rgb(175, 175, 175) solid;
+  border-radius: 0px;
+}
 .anvil-role-bottom-border>.form-control {
   border: none;
   border-bottom: 0.2px solid;
