@@ -2,7 +2,6 @@
 var controller;
 let globalCurrentArtistSpotifyID = null; // To persist the current track ID across function calls
 
-
 // window.createOrUpdateSpotifyPlayer = function(trackOrArtist, currentArtistSpotifyID, spotifyTrackIDsList=null) {
 function createOrUpdateSpotifyPlayer(trackOrArtist, currentArtistSpotifyID, spotifyTrackIDsList=null) {
   const element = document.querySelector('.anvil-role-spotify-footer-class #embed-iframe');
@@ -173,7 +172,6 @@ function playNextSong(trackOrArtist, spotifyTrackIDsList) {
 
   }
 }
-
 
 // Function to set the play button icons
 function setPlayButtonIcons(isPaused, trackOrArtist, spotifyTrackIDsList=null) {
