@@ -20,6 +20,6 @@ components:
   properties: {role: header-6}
   type: Label
 container:
-  properties: {col_spacing: tiny, col_widths: '{"FCKORH":20,"IRHGEV":40,"LIWRTR":20}'}
+  properties: {col_spacing: tiny, col_widths: '{"FCKORH":20,"IRHGEV":40,"LIWRTR":20}', spacing_above: none, spacing_below: none}
   type: ColumnPanel
 is_package: true
