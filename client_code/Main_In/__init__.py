@@ -128,7 +128,6 @@ class Main_In(Main_InTemplate):
           )
       wl_link.set_event_handler('click', self.create_watchlist_click_handler(wl_ids[i]["watchlist_id"], wl_link))
       self.nav_watchlists.add_component(wl_link)
-      print('add_component', self.nav_watchlists.get_components())
 
   def remove_watchlist_components(self):
     for component in self.nav_watchlists.get_components():

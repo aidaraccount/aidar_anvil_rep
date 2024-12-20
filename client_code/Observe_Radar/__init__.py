@@ -47,9 +47,6 @@ class Observe_Radar(Observe_RadarTemplate):
   # GET ALL NOTIFICATIONS
   def get_all_notifications(self, notification_id, **event_args):
     self.notifications = json.loads(anvil.server.call("get_notifications", user["user_id"], 'mail'))
-    print('get_all_notifications - all:', self.notifications)
-    print('get_all_notifications:', notification_id)
-    print('get_all_notifications - type:', type(notification_id))
     
     # clear all navigation components
     self.flow_panel.clear()
@@ -83,7 +80,6 @@ class Observe_Radar(Observe_RadarTemplate):
 
   # ACTIVATE NOTIFICATION
   def activate_notification(self, notification_id):
-    print('activate_notification:', notification_id)
     for component in self.flow_panel.get_components():
       if isinstance(component, Link):          
         if int(component.tag) == notification_id:
@@ -94,7 +90,6 @@ class Observe_Radar(Observe_RadarTemplate):
 
   # GET NOTIFICATION SETTINGS
   def get_notification_settings(self, notification_id, **event_args):
-    print('get_notification_settings:', notification_id)
     items = [item for item in self.notifications if item["notification_id"] == notification_id]
     
     self.notification_settings.clear()
@@ -105,8 +100,6 @@ class Observe_Radar(Observe_RadarTemplate):
     
   # GET PLAYLIST DETAILS
   def get_observed(self, notification_id, **event_args):
-    print('get_observed:', notification_id)
-
     # get data
     notification = [item for item in self.notifications if item["notification_id"] == notification_id][0]
     
@@ -178,7 +171,6 @@ class Observe_Radar(Observe_RadarTemplate):
       song_selection_1="Latest Releases",
       song_selection_2="2",
     )
-    print('add_observation_click:', notification_id)
     
     # update the notifications table
     save_var('toggle', 'down')

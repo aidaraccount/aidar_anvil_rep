@@ -32,12 +32,6 @@ class Discover(DiscoverTemplate):
     self.init_components(**properties)
     self.html = '@theme:Discover_Sidebar_and_JS.html'
     self.add_event_handler('show', self.form_show)
-    # self.add_event_handler('show', self.play_spotify)
-    # text box that controls which play button from the Track Releases table will be a play or a pause button
-    # self.now_playing_id.role = 'now-playing-id'
-    # print("THis is the text of the now_playing_id box:",self.now_playing_id.text)
-    # Bind the hidden text box value to a callback
-    # self.now_playing_id.set_event_handler('change', self.update_play_pause_buttons)
     
     global user
     user = anvil.users.get_user()
@@ -101,7 +95,8 @@ class Discover(DiscoverTemplate):
     url_artist_id = self.url_dict['artist_id']
     sug = json.loads(anvil.server.call('get_suggestion', 'Inspect', self.model_id, url_artist_id)) # Free, Explore, Inspect, Dissect
     self.sug = sug
-        
+    save_var('lastplayed', self.sug["SpotifyArtistID"])
+    
     # check status
     if sug["Status"] == 'Empty Model!':
       alert(title='Train you Model..',
@@ -365,20 +360,8 @@ class Discover(DiscoverTemplate):
       # --------
       # b) release tables
       if self.data_grid_releases.visible is True:
-        # track_data = json.loads(anvil.server.call('get_dev_releases', artist_id))
-        # spotify_track_ids = [entry["SpotifyTrackID"] for entry in track_data]
-        # for element in track_data:
-        #   element["SpotifyTrackIDs"] = spotify_track_ids
-        # self.data_grid_releases_data.items = track_data
-        track_data = json.loads(anvil.server.call('get_dev_releases', artist_id))
-        self.data_grid_releases_data.items = track_data
-        i=0
-        for row in self.data_grid_releases_data.get_components():  # Replace with your repeating panel name
-          print("get components 1", row.get_components()[1])
-          # row.get_components()[1].role = ["play-spotify-button", f"{track_data[i]['SpotifyTrackID']}"]
-          # row.role = f"row-{i}"
-          print(row.get_components()[1].role)
-          i += 1
+        self.data_grid_releases_data.items = json.loads(anvil.server.call('get_dev_releases', artist_id))
+
       # --------
       # c) release cycle
       if self.data_grid_cycle.visible is True:        
@@ -435,7 +418,6 @@ class Discover(DiscoverTemplate):
       # --------
       # g) co-artists by popularity
       if self.data_grid_co_artists_pop.visible is True:
-        # self.data_grid_co_artists_pop_data.items = sorted(co_artists, key=lambda x: float(x['ArtistPopularity_lat']), reverse=True)
         self.data_grid_co_artists_pop_data.items = sorted(co_artists, key=lambda x: float(x['ArtistPopularity_lat']) if x['ArtistPopularity_lat'] not in [None, ''] else 0.0, reverse=True)
       
       # --------
@@ -483,13 +465,7 @@ class Discover(DiscoverTemplate):
                  'dev2_t30', 'int(sug["ArtistFollower_lat"]) / (float(sug["ev_sp_fol_30"])+1)', 'sug["ev_sp_fol_30"]'),
         'dev3': ('dev3_t0',  'sug["SpotifyMtlListeners_lat"]',
                  'dev3_t7',  'int(sug["SpotifyMtlListeners_lat"]) / (float(sug["ev_sp_li_7"])+1)', 'sug["ev_sp_li_7"]',
-                 'dev3_t30', 'int(sug["SpotifyMtlListeners_lat"]) / (float(sug["ev_sp_li_30"])+1)', 'sug["ev_sp_li_30"]')  #,
-        # 'dev4': ('dev4_t0',  'sug["TikTokFollower_lat"]',
-        #          'dev4_t7',  'int(sug["TikTokFollower_lat"]) / (float(sug["ev_tt_fol_7"])+1)', 'sug["ev_tt_fol_7"]',
-        #          'dev4_t30', 'int(sug["TikTokFollower_lat"]) / (float(sug["ev_tt_fol_30"])+1)', 'sug["ev_tt_fol_30"]'),
-        # 'dev5': ('dev5_t0',  'sug["sp_mtl_listeners_lat"]',
-        #          'dev5_t7',  'int(sug["sp_mtl_listeners_lat"]) / (float(sug["ev_sp_li_7"])+1)', 'sug["ev_sp_li_7"]',
-        #          'dev5_t30', 'int(sug["sp_mtl_listeners_lat"]) / (float(sug["ev_sp_li_30"])+1)', 'sug["ev_sp_li_30"]')
+                 'dev3_t30', 'int(sug["SpotifyMtlListeners_lat"]) / (float(sug["ev_sp_li_30"])+1)', 'sug["ev_sp_li_30"]')
       }
       
       for dev in ['dev1', 'dev2', 'dev3']:
@@ -780,19 +756,7 @@ class Discover(DiscoverTemplate):
       
       # # -------------------------------
       # # IV. MUSICAL
-      # # a) musical distance
-      # if sug["MinMusDist"] == 'None': mmd = 'N/A'
-      # else: mmd = "{:.2f}".format(round(float(sug["MinMusDist"]),2))
-      # self.min_mus_dis.text = mmd
-      # if sug["AvgMusDist"] == 'None': amd = 'N/A'
-      # else: amd = "{:.2f}".format(round(float(sug["AvgMusDist"]),2))
-      # self.avg_mus_dis.text = amd
-      # if sug["MaxMusDist"] == 'None': xmd = 'N/A'
-      # else: xmd = "{:.2f}".format(round(float(sug["MaxMusDist"]),2))
-      # self.max_mus_dis.text = xmd
-      
-      # --------
-      # b) musical features
+      # a) musical features
       if sug["AvgDuration"] == 'None': f1 = '-'
       else: f1 = "{:.0f}".format(round(float(sug["AvgDuration"]),0))
       self.feature_1.text = f1 + ' sec'
@@ -895,8 +859,6 @@ class Discover(DiscoverTemplate):
       # self.call_js('playSpotify_2')
     else:
       print("Embed iframe element not found. Will not initialize Spotify player.")
-
-    # print("form show is running")
     
   def spotify_HTML_player(self):
     c_web_player_html = '''
@@ -946,16 +908,11 @@ class Discover(DiscoverTemplate):
       
     truncated_labels = [self.truncate_label(label) for label in labels]
 
-    # Format the text for the bar annotations
-    # formatted_text = [f'{x/1e6:.1f}M' if x >= 1e6 else f'{x/1e3:.1f}K' if x >= 1e3 else str(x) for x in cooperations]
-
     # Creating the Bar Chart
     fig = go.Figure(data=(
       go.Bar(
         x = labels,
         y = cooperations,
-        # text = formatted_text,
-        # textposition='outside',
         hoverinfo='none',
         hovertext= labels,
         hovertemplate='Label: %{hovertext}<br>Cooperations: %{y} <extra></extra>',
@@ -1045,7 +1002,6 @@ class Discover(DiscoverTemplate):
           showticklabels=False,  # Hide the tick labels
           showline=False,  # Hide the axis line
           zeroline=True,  # Ensure the zero line is visible
-          # zerolinecolor='rgb(237,139,82)',  # Set the color of the zero line
           zerolinecolor='rgb(175,175,175)',  # Set the color of the zero line
           zerolinewidth=2,  # Optionally set the width of the zero line
           showgrid=False  # Disable the grid lines
@@ -1070,9 +1026,6 @@ class Discover(DiscoverTemplate):
     self.create_monthly_listeners_by_city_bar_chart()
 
   def create_monthly_listeners_by_country_bar_chart(self, country_page=1, items_per_page=15, country_codes=None, monthly_listeners=None, country_name=None):
-    print(load_var('sort_dropdown_countries'))
-    print(load_var('sort_dropdown_countries') == "None")
-    print(load_var('sort_dropdown_countries') is None)
     if load_var('sort_dropdown_countries') is None:
       self.sort_dropdown_countries.selected_value = "All countries"
     else:
@@ -1120,7 +1073,6 @@ class Discover(DiscoverTemplate):
       paper_bgcolor='rgba(0,0,0,0)',
       xaxis=dict(
         tickvals=list(range(len(country_codes))),
-        # ticktext=truncated_labels,  # Display truncated labels on the x-axis
       ),
       yaxis=dict(
         gridcolor='rgb(175,175,175)',  # Color of the gridlines
@@ -1141,10 +1093,7 @@ class Discover(DiscoverTemplate):
     # This is to style the bars
     for trace in fig.data:
       trace.update(
-        # marker_color='rgb(240,229,252)',
         marker=dict(color=bar_colors),
-        # marker_color='rgba(237,139,82, 1)',
-        # marker_line_color='rgb(237,139,82)',
         marker_line_width=0.1,
         opacity=0.9
       )
@@ -1202,12 +1151,6 @@ class Discover(DiscoverTemplate):
         textposition='none',
         hoverinfo='none',
         hovertext=city_w_country_code_page,
-        # x = city_w_country_code,
-        # y = monthly_listeners,
-        # text = formatted_text,
-        # textposition='none',
-        # hoverinfo='none',
-        # hovertext= city_w_country_code,
         hovertemplate= 'City: %{hovertext}<br>Monthly Listeners: %{text} <extra></extra>',
       )
     ))
@@ -1217,14 +1160,8 @@ class Discover(DiscoverTemplate):
       plot_bgcolor='rgba(0,0,0,0)',
       paper_bgcolor='rgba(0,0,0,0)',
       xaxis=dict(
-        # range = [-0.5, items_per_page - 1],
         tickvals=list(range(len(city_w_country_code))),
-        # tickmode ='linear',
-        # fixedrange=False,  # Allow scrolling
-        # showgrid=True,
-        # ticktext=truncated_labels,  # Display truncated labels on the x-axis
       ),
-      # dragmode = 'pan',
       yaxis=dict(
         gridcolor='rgb(175,175,175)',  # Color of the gridlines
         gridwidth=1,  # Thickness of the gridlines
@@ -1244,10 +1181,7 @@ class Discover(DiscoverTemplate):
     # This is to style the bars
     for trace in fig.data:
       trace.update(
-        # marker_color='rgb(240,229,252)',
         marker=dict(color=bar_colors),
-        # marker_color='rgba(237,139,82, 1)',
-        # marker_line_color='rgb(237,139,82)',
         marker_line_width=0.1,
         opacity=0.9
       )
@@ -1268,7 +1202,6 @@ class Discover(DiscoverTemplate):
   def next_page_city(self, **event_args):
     if self.current_page < self.total_pages:
       self.create_monthly_listeners_by_city_bar_chart(page=self.current_page + 1)
-      print("1251", "it True")      
 
   def previous_page_city(self, **event_args):
     if self.current_page > 1:
@@ -1945,13 +1878,17 @@ class Discover(DiscoverTemplate):
   def spotify_artist_button_click(self, **event_args):
     if self.spotify_artist_button.icon == 'fa:play-circle':
       self.spotify_artist_button.icon = 'fa:pause-circle'
-      self.spotify_player_spot.clear()
-      self.spotify_HTML_player()
-      self.call_js('createOrUpdateSpotifyPlayer', 'artist', self.sug["SpotifyArtistID"])
-      anvil.js.call_js('playSpotify')
+
+      if load_var("lastplayed") != self.sug["SpotifyArtistID"]:
+        self.spotify_player_spot.clear()
+        self.spotify_HTML_player()
+        self.call_js('createOrUpdateSpotifyPlayer', 'artist', self.sug["SpotifyArtistID"])
+            
     else:
       self.spotify_artist_button.icon = 'fa:play-circle'
-      anvil.js.call_js('playSpotify')
+      
+    anvil.js.call_js('playSpotify')
+    save_var('lastplayed', self.sug["SpotifyArtistID"])
 
     self.reset_track_play_buttons()
 
@@ -1975,70 +1912,3 @@ class Discover(DiscoverTemplate):
         buttons=[],
         role=["progress-message","remove-focus"]
     )
-
-
-  # def update_play_pause_buttons(self, current_track_id):
-  #   current_track_id = self.now_playing_id.text
-  #   print("This is the current_track_id",current_track_id)
-  #   print("This is the self.now_playing_id.text",self.now_playing_id.text)
-  #   i = 0
-  #   for row in self.data_grid_releases_data.get_components():  # Replace with your repeating panel name
-  #     print("get components 1", row.get_components()[1])
-  #     row.get_components()[1].role = f"button-{i}"
-  #     # row.role = f"row-{i}"
-  #     print(row.get_components()[1].role)
-  #     i += 1
-  #     # print("These are the row current_track_id:",current_track_id)
-  #     # print("These are the row row.items[SpotifyTrackID]:",row.item["SpotifyTrackID"])
-  #     # print("This is the statement result:", row.item["SpotifyTrackID"] == current_track_id)
-  #     if row.item["SpotifyTrackID"] == current_track_id:
-  #       row.button_play_track.icon = 'fa:pause-circle'
-  #     else:
-  #       row.button_play_track.icon = 'fa:play-circle'
-  
-  
-
-  # def update_city_highlight(self):
-  #   country_codes = self.listeners_city_data["country_name_city"]
-  #   monthly_listeners = self.listeners_city_data["monthly_listeners"]
-  #   city_name = self.listeners_city_data["city_w_country_code"]
-
-  #   # Highlight the selected country
-  #   bar_colors = [
-  #     'rgba(237,139,82,1)' if code == selected_country_name or selected_country_name == "all" else 'rgba(125,125,125,0.6)'
-  #     for code in country_codes
-  #   ]
-
-  #   formatted_text = [f'{x/1e6:.1f}M' if x >= 1e6 else f'{x/1e3:.1f}K' if x >= 1e3 else str(x) for x in monthly_listeners]
-  #   fig = go.Figure(data=(
-  #     go.Bar(
-  #       x=city_name,
-  #       y=monthly_listeners,
-  #       text=formatted_text,
-  #       textposition='none',
-  #       hoverinfo='none',
-  #       hovertext=city_name,
-  #       hovertemplate='Country: %{hovertext}<br>Monthly Listeners: %{text} <extra></extra>',
-  #       marker=dict(color=bar_colors)
-  #     )
-  #   ))
-  #   fig.update_layout(
-  #     template='plotly_dark',
-  #     plot_bgcolor='rgba(0,0,0,0)',
-  #     paper_bgcolor='rgba(0,0,0,0)',
-  #     yaxis=dict(
-  #       gridcolor='rgb(175,175,175)',
-  #       gridwidth=0.1,
-  #       griddash='dash',
-  #       range=[0, max(monthly_listeners) * 1.1],
-  #       tickformat='~s',
-  #       zerolinecolor='rgb(240,240,240)',
-  #     ),
-  #     margin=dict(
-  #       t=50  # Increase top margin to accommodate the labels
-  #     ),
-  #     hoverlabel=dict(
-  #       bgcolor='rgba(237,139,82, 0.4)'
-  #     )
-  #   )
-  #   self.Spotify_Monthly_Listeners_by_City_Graph.figure = fig

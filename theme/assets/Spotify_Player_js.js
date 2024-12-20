@@ -144,7 +144,7 @@ function autoPlaySpotify() {
 
 
 // Function to load the next song
-function playNextSong(trackOrArtist, spotifyTrackIDsList) {
+function playNextSong(trackOrArtist, spotifyTrackIDsList, direction='forward') {
   
   // If statement to check if we are playing a list of custom songs or a playlist from Spotify
   if (!spotifyTrackIDsList) {
@@ -152,11 +152,18 @@ function playNextSong(trackOrArtist, spotifyTrackIDsList) {
     return;
   }
   
-  // Declaring the index of the current playing song and defining the index for the next song to play
+  // Declaring the index of the current playing song and get the id for the next song to play
   const index = spotifyTrackIDsList.indexOf(globalCurrentArtistSpotifyID);
-  const nextArtistSpotifyID = index !== -1 && index < spotifyTrackIDsList.length - 1 ? spotifyTrackIDsList[index + 1] : null;
+  let nextArtistSpotifyID = null;
+  if (direction === 'forward') {
+    nextArtistSpotifyID = index !== -1 && index < spotifyTrackIDsList.length - 1 ? spotifyTrackIDsList[index + 1] : null;
+  } else if (direction === 'backward') {
+    nextArtistSpotifyID = index !== -1 && index < spotifyTrackIDsList.length - 1 ? spotifyTrackIDsList[index - 1] : null;
+  }
+
+  // save the id to browser cache
   sessionStorage.setItem("lastplayedtrackid", nextArtistSpotifyID);
-  console.log(`Browser Cache lastplayedtrackid: ${nextArtistSpotifyID}`);
+  sessionStorage.setItem("lastplayed", nextArtistSpotifyID);
   
   //  check if controller is instantiated and next song is define
   if (controller && nextArtistSpotifyID) {

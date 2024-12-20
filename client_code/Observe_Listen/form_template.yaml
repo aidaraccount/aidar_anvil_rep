@@ -133,6 +133,16 @@ components:
       name: spacer_2
       properties: {height: '5'}
       type: Spacer
+    - event_bindings: {click: backward_button_click}
+      layout_properties: {grid_position: 'BIYFHH,AJMACV'}
+      name: backward_button
+      properties:
+        icon: fa:step-backward
+        role: icon-button
+        spacing:
+          margin: [15, null, null, null]
+        text: ''
+      type: Button
     - event_bindings: {click: play_button_central_click}
       layout_properties: {grid_position: 'BIYFHH,NOMROL'}
       name: play_button_central
@@ -143,13 +153,23 @@ components:
           margin: [0, null, 0, null]
         text: ''
       type: Button
+    - event_bindings: {click: forward_button_click}
+      layout_properties: {grid_position: 'BIYFHH,KKLQEM'}
+      name: forward_button
+      properties:
+        icon: fa:step-forward
+        role: icon-button
+        spacing:
+          margin: [15, null, null, null]
+        text: ''
+      type: Button
     - layout_properties: {grid_position: 'BIYFHH,SWOVSS'}
       name: spacer_1
       properties: {height: '5'}
       type: Spacer
     layout_properties: {grid_position: 'ULLGXX,BMCCVG'}
     name: footer_center
-    properties: {}
+    properties: {col_spacing: none, col_widths: '{"IHGLLL":19,"AJMACV":6,"NOMROL":10,"KKLQEM":6,"SWOVSS":19}'}
     type: ColumnPanel
   - layout_properties: {grid_position: 'ULLGXX,GGFVYT'}
     name: footer_right

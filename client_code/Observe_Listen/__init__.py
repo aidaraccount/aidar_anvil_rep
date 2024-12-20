@@ -61,9 +61,6 @@ class Observe_Listen(Observe_ListenTemplate):
   # GET ALL NOTIFICATIONS
   def get_all_notifications(self, notification_id, **event_args):
     self.notifications = json.loads(anvil.server.call("get_notifications", user["user_id"], 'playlist'))
-    print('get_all_notifications - all:', self.notifications)
-    print('get_all_notifications:', notification_id)
-    print('get_all_notifications - type:', type(notification_id))
     
     # clear all navigation components
     self.flow_panel.clear()
@@ -97,7 +94,6 @@ class Observe_Listen(Observe_ListenTemplate):
   
   # ACTIVATE NOTIFICATION
   def activate_notification(self, notification_id):
-    print('activate_notification:', notification_id)
     for component in self.flow_panel.get_components():
       if isinstance(component, Link):          
         if int(component.tag) == notification_id:
@@ -108,7 +104,6 @@ class Observe_Listen(Observe_ListenTemplate):
   
   # GET NOTIFICATION SETTINGS
   def get_notification_settings(self, notification_id, **event_args):
-    print('get_notification_settings:', notification_id)
     items = [item for item in self.notifications if item["notification_id"] == notification_id]
     
     self.notification_settings.clear()
@@ -118,9 +113,7 @@ class Observe_Listen(Observe_ListenTemplate):
     self.get_observe_tracks(notification_id)
     
   # GET PLAYLIST DETAILS
-  def get_observe_tracks(self, notification_id, **event_args):
-    print('get_observe_tracks:', notification_id)
-  
+  def get_observe_tracks(self, notification_id, **event_args):  
     notification = [item for item in self.notifications if item["notification_id"] == notification_id][0]
     
     observed_tracks = anvil.server.call('get_observed_tracks', 
@@ -195,7 +188,6 @@ class Observe_Listen(Observe_ListenTemplate):
       song_selection_1="Latest Releases",
       song_selection_2="2",
     )
-    print('add_spotify_playlist_click:', notification_id)
     
     # update the notifications table
     save_var('toggle', 'down')
@@ -218,43 +210,12 @@ class Observe_Listen(Observe_ListenTemplate):
     
   # playSpotify (starts, stops and resumes the music)
   def play_button_central_click(self, **event_args):
-    if self.play_button_central.icon == 'fa:play-circle':
-      # self.play_button_central.icon = 'fa:pause-circle'
-      self.set_small_track_play_buttons()
-      anvil.js.call_js('playSpotify')
-    else:
-      # self.play_button_central.icon = 'fa:play-circle'
-      self.set_small_track_play_buttons()
-      anvil.js.call_js('playSpotify')
+    anvil.js.call_js('playSpotify')
 
-    
+  def backward_button_click(self, **event_args):
+    anvil.js.call_js('playNextSong', 'track', self.all_track_ids, 'backward')
 
-
-  # SET SMALL PLAY BUTTONS
-  def set_small_track_play_buttons(self,  **event_args):
-    pass
-    # if self.play_button_central.icon == 'fa:pause-circle':
-    #   icon_type_1 = 'fa:pause-circle'
-    #   icon_type_2 = 'fa:play-circle'
-    # else:
-    #   icon_type_1 = 'fa:play-circle'
-    #   icon_type_2 = 'fa:play-circle'
-    
-    # parent_components = self.repeating_panel_artists.get_components()
-    # # print("parent_components",parent_components)
-    # for parent_component in parent_components:
-    #   # print("parent_component",parent_component)
-    #   child_components = parent_component.get_components()[0].get_components()
-    #   # print("child_components",child_components)
-    #   for child_component in child_components:
-    #     # print("child_component",child_component)
-    #     if isinstance(child_component, RepeatingPanel):
-    #       grandchild_components = child_component.get_components()
-    #       # print("grandchild_components",grandchild_components)
-    #       for grandchild_component in grandchild_components:
-    #         # print("grandchild_component",grandchild_component)
-    #         if load_var('lastplayedtrackid') == grandchild_component.play_button.role[1]:
-    #           grandchild_component.play_button.icon = icon_type_1
-    #         else:
-    #           grandchild_component.play_button.icon = icon_type_2
-              
+  def forward_button_click(self, **event_args):
+    print('load_var("lastplayedtrackid")', load_var("lastplayedtrackid"))
+    print('self.all_track_ids', self.all_track_ids)
+    anvil.js.call_js('playNextSong', 'track', self.all_track_ids, 'forward')

@@ -24,15 +24,10 @@ class RepeatingPanel_Tracks(RepeatingPanel_TracksTemplate):
   def play_button_click(self, **event_args):
     all_rows = self.parent.parent.parent.parent.items
     all_track_ids = [track['spotify_track_id'] for artist in all_rows for track in artist['tracks']]
-    # print("all_track_ids", all_track_ids)
-    # print("item",self.item)
-    # print('lastplayedtrackid:', load_var("lastplayedtrackid"))
-    # print('self.item["spotify_track_id"]:', self.item["spotify_track_id"])
     
     if load_var("lastplayedtrackid") != self.item["spotify_track_id"]:
       self.lastplayedtrackid = self.item["spotify_track_id"]
       save_var('lastplayedtrackid', self.item["spotify_track_id"])
-      # print(self.lastplayedtrackid)
       
       self.parent.parent.parent.parent.parent.parent.parent.footer_left.clear()
       self.parent.parent.parent.parent.parent.parent.parent.spotify_HTML_player()
@@ -41,15 +36,3 @@ class RepeatingPanel_Tracks(RepeatingPanel_TracksTemplate):
       
     else:
       anvil.js.call_js('playSpotify')
-
-    # # Update buttons dynamically    
-    # if self.play_button.icon == 'fa:pause-circle':
-    #   # set all other:
-    #   self.parent.parent.parent.parent.parent.parent.parent.set_small_track_play_buttons()
-    #   # set specific one
-    #   self.play_button.icon = 'fa:play-circle'
-    #   self.parent.parent.parent.parent.parent.parent.parent.play_button_central.icon = 'fa:play-circle'
-    # else:
-    #   self.play_button.icon = 'fa:pause-circle'
-    #   self.parent.parent.parent.parent.parent.parent.parent.play_button_central.icon = 'fa:pause-circle'
-    

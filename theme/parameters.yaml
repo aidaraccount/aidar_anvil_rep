@@ -374,3 +374,5 @@ roles:
   name: play-spotify-button-artist2
 - components: [ColumnPanel, RepeatingPanel]
   name: bottom-border
+- components: [Button]
+  name: icon-button
