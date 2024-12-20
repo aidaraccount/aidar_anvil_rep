@@ -213,6 +213,4 @@ class Observe_Listen(Observe_ListenTemplate):
     anvil.js.call_js('playNextSong', 'track', self.all_track_ids, 'backward')
 
   def forward_button_click(self, **event_args):
-    print('load_var("lastplayedtrackid")', load_var("lastplayedtrackid"))
-    print('self.all_track_ids', self.all_track_ids)
     anvil.js.call_js('playNextSong', 'track', self.all_track_ids, 'forward')

@@ -2152,8 +2152,6 @@ footer a, .footer .anvil-component {
   text-shadow: none;
   transition: 0.5s;
   width: 55px;
-  pointer-events: none; /* Prevent interaction */
-  outline: none;        /* Remove focus outline */
 }
 .anvil-role-play-spotify-button > button:hover,
 .anvil-role-icon-button > button:hover {

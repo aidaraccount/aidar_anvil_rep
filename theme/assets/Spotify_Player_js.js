@@ -176,7 +176,12 @@ function playNextSong(trackOrArtist, spotifyTrackIDsList, direction='forward') {
     console.log("globalCurrentArtistSpotifyID of Next Song:", globalCurrentArtistSpotifyID)
     controller.loadUri(nextSongUri);
     console.log(`Loading next song: ${nextSongUri}`);
-    controller.play()
+    
+    speakText("Presenting, Eyelar!", () => {
+      controller.play(); // This will run after the speech synthesis is complete
+    });
+    
+    // controller.play()
 
     // Set play button icons
     setPlayButtonIcons(false, 'track', spotifyTrackIDsList)
@@ -264,18 +269,13 @@ function setPlayButtonIcons(isPaused, trackOrArtist, spotifyTrackIDsList=null) {
     
     const buttonBackward = document.querySelector(`.anvil-role-backward-button`);
     if (buttonBackward) {
-      buttonBackward.addEventListener('click', (event) => {
-        event.preventDefault(); // Prevent the button from gaining focus
-      });
-    
-      if (globalCurrentArtistSpotifyID === spotifyTrackIDsList[0]) {
+     if (globalCurrentArtistSpotifyID === spotifyTrackIDsList[0]) {
         buttonBackward.classList.remove('anvil-role-icon-button');
         buttonBackward.classList.add('anvil-role-icon-button-disabled');
       } else {
         buttonBackward.classList.remove('anvil-role-icon-button-disabled');
         buttonBackward.classList.add('anvil-role-icon-button');
       }
-      // buttonBackward.blur();
     }
 
     const buttonForward = document.querySelector(`.anvil-role-forward-button`);
@@ -287,8 +287,30 @@ function setPlayButtonIcons(isPaused, trackOrArtist, spotifyTrackIDsList=null) {
         buttonForward.classList.remove('anvil-role-icon-button-disabled');
         buttonForward.classList.add('anvil-role-icon-button');
       }
-      buttonForward.blur();
     }
   
   }  
+}
+
+
+function speakText(text, callback) {
+  // Check if the browser supports speech synthesis
+  if ('speechSynthesis' in window) {
+    const utterance = new SpeechSynthesisUtterance(text); // Create a speech utterance
+    
+    // Attach an event listener for when the speech ends
+    utterance.onend = () => {
+      console.log('Speech synthesis completed.');
+      if (callback) {
+        callback(); // Execute the callback function
+      }
+    };
+    
+    window.speechSynthesis.speak(utterance); // Speak the text
+  } else {
+    console.error('Speech synthesis is not supported in this browser.');
+    if (callback) {
+      callback(); // Fallback to execute callback immediately
+    }
+  }
 }
