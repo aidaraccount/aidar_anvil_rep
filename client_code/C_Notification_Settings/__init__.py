@@ -253,11 +253,17 @@ class C_Notification_Settings(C_Notification_SettingsTemplate):
       ).show()
     self.update_notification()
 
+  
   def delete_notification_click(self, **event_args):
-    anvil.server.call(
-      "delete_notification", notification_id=self.items["notification_id"]
-    )
-    self.parent.parent.parent.get_all_notifications(None)
+    result = alert(title='Sure to delete?',
+          content="Are you sure to delete this notification?",
+          buttons=[
+            ("Cancel", "Cancel"),
+            ("Delete", "Delete")
+          ])
+    if result == 'Delete':
+      anvil.server.call("delete_notification", notification_id=self.items["notification_id"])
+      self.parent.parent.parent.get_all_notifications(None)
 
   
   # BUTTON FUNCTIONALITIES

@@ -376,3 +376,5 @@ roles:
   name: bottom-border
 - components: [Button]
   name: icon-button
+- components: [Button]
+  name: icon-button-disabled

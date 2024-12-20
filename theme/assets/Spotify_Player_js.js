@@ -156,9 +156,13 @@ function playNextSong(trackOrArtist, spotifyTrackIDsList, direction='forward') {
   const index = spotifyTrackIDsList.indexOf(globalCurrentArtistSpotifyID);
   let nextArtistSpotifyID = null;
   if (direction === 'forward') {
-    nextArtistSpotifyID = index !== -1 && index < spotifyTrackIDsList.length - 1 ? spotifyTrackIDsList[index + 1] : null;
+    nextArtistSpotifyID = index !== -1 && index < spotifyTrackIDsList.length - 1
+      ? spotifyTrackIDsList[index + 1]
+      : null;
   } else if (direction === 'backward') {
-    nextArtistSpotifyID = index !== -1 && index < spotifyTrackIDsList.length - 1 ? spotifyTrackIDsList[index - 1] : null;
+    nextArtistSpotifyID = index !== -1 && index > 0
+      ? spotifyTrackIDsList[index - 1] 
+      : null;
   }
 
   // save the id to browser cache
@@ -254,5 +258,37 @@ function setPlayButtonIcons(isPaused, trackOrArtist, spotifyTrackIDsList=null) {
       }
     }        
   }
+
+  // set classes of forward and backward buttons on LISTEN-IN
+  if (spotifyTrackIDsList) {
+    
+    const buttonBackward = document.querySelector(`.anvil-role-backward-button`);
+    if (buttonBackward) {
+      buttonBackward.addEventListener('click', (event) => {
+        event.preventDefault(); // Prevent the button from gaining focus
+      });
+    
+      if (globalCurrentArtistSpotifyID === spotifyTrackIDsList[0]) {
+        buttonBackward.classList.remove('anvil-role-icon-button');
+        buttonBackward.classList.add('anvil-role-icon-button-disabled');
+      } else {
+        buttonBackward.classList.remove('anvil-role-icon-button-disabled');
+        buttonBackward.classList.add('anvil-role-icon-button');
+      }
+      // buttonBackward.blur();
+    }
+
+    const buttonForward = document.querySelector(`.anvil-role-forward-button`);
+    if (buttonForward) {
+      if (globalCurrentArtistSpotifyID === spotifyTrackIDsList[spotifyTrackIDsList.length - 1]) {
+        buttonForward.classList.remove('anvil-role-icon-button');
+        buttonForward.classList.add('anvil-role-icon-button-disabled');
+      } else {
+        buttonForward.classList.remove('anvil-role-icon-button-disabled');
+        buttonForward.classList.add('anvil-role-icon-button');
+      }
+      buttonForward.blur();
+    }
   
+  }  
 }

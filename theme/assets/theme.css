@@ -2142,6 +2142,19 @@ footer a, .footer .anvil-component {
   transition: 0.5s;
   width: 55px;
 }
+.anvil-role-icon-button-disabled button {
+  font-family: Gs-regular;
+  font-size: 24px;
+  color: #9E9E9E;
+  background: transparent;
+  border: 0px;
+  box-shadow: none;
+  text-shadow: none;
+  transition: 0.5s;
+  width: 55px;
+  pointer-events: none; /* Prevent interaction */
+  outline: none;        /* Remove focus outline */
+}
 .anvil-role-play-spotify-button > button:hover,
 .anvil-role-icon-button > button:hover {
   background: transparent;
@@ -2151,6 +2164,10 @@ footer a, .footer .anvil-component {
 .anvil-role-icon-button > button:focus {
   background: transparent;
   color: #E95F30;
+}
+.anvil-role-icon-button-disabled > button:focus {
+  background: transparent;
+  color: #9E9E9E;
 }
 .anvil-role-play-spotify-button > button:active,
 .anvil-role-icon-button > button:active {

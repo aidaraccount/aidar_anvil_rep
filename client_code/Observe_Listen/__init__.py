@@ -131,9 +131,6 @@ class Observe_Listen(Observe_ListenTemplate):
     self.initial_track_id = observed_tracks[0]['tracks'][0]['spotify_track_id']
     save_var('lastplayedtrackid', self.initial_track_id)
     self.all_track_ids = [track['spotify_track_id'] for artist in observed_tracks for track in artist['tracks']]
-
-    print(self.initial_track_id)
-    # print(observed_tracks)
     
     self.repeating_panel_artists.items = observed_tracks
     self.repeating_panel_artists.visible = True
