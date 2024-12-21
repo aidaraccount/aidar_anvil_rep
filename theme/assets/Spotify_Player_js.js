@@ -1,9 +1,7 @@
-// window.addEventListener('load', function() {
 var controller;
-let globalCurrentArtistSpotifyID = null; // To persist the current track ID across function calls
+let globalCurrentSpotifyID = null;
 
-// window.createOrUpdateSpotifyPlayer = function(trackOrArtist, currentArtistSpotifyID, spotifyTrackIDsList=null) {
-function createOrUpdateSpotifyPlayer(trackOrArtist, currentArtistSpotifyID, spotifyTrackIDsList=null) {
+function createOrUpdateSpotifyPlayer(trackOrArtist, currentSpotifyID, spotifyTrackIDsList=null, spotifyArtistIDsList=null, spotifyArtistNameList=null) {
   const element = document.querySelector('.anvil-role-spotify-footer-class #embed-iframe');
   const autoplaybutton = document.querySelector('.anvil-role-autoplay-toggle-button .fa-toggle-on')
 
@@ -13,17 +11,15 @@ function createOrUpdateSpotifyPlayer(trackOrArtist, currentArtistSpotifyID, spot
     return;
   }
 
-  globalCurrentArtistSpotifyID = currentArtistSpotifyID;
+  globalCurrentSpotifyID = currentSpotifyID;
 
   // set the options for the Spotify Player
   const options = {
     theme: 'dark',
     width: '100%',
     height: '80',
-    uri: `spotify:${trackOrArtist}:${globalCurrentArtistSpotifyID}`,
+    uri: `spotify:${trackOrArtist}:${globalCurrentSpotifyID}`,
   };
-
-  // console.log(`Initializing Spotify player with URI: ${options.uri}`);
 
   // the if statment checks if the SpotifyIgrameAPI already exists (if it is already loaded)
   if (window.SpotifyIframeAPI) {
@@ -32,7 +28,6 @@ function createOrUpdateSpotifyPlayer(trackOrArtist, currentArtistSpotifyID, spot
       controller.addListener('ready', () => {
         console.log('Spotify Player ready_1');
         if (autoplaybutton) {
-          // The below line will activate playing music when the page is opened and the spotify player is built
           autoPlaySpotify();
         }
       });
@@ -46,7 +41,7 @@ function createOrUpdateSpotifyPlayer(trackOrArtist, currentArtistSpotifyID, spot
 
           // Load next song only if spotifyTrackIDsList is provided
           if (spotifyTrackIDsList) {
-            playNextSong('track', spotifyTrackIDsList); // Function to handle loading the next song
+            playNextSong('track', spotifyTrackIDsList, spotifyArtistIDsList, spotifyArtistNameList);
           } else {
             console.log("No track list provided. Playback stopped.")
           }
@@ -61,19 +56,16 @@ function createOrUpdateSpotifyPlayer(trackOrArtist, currentArtistSpotifyID, spot
           console.log("Playback is buffering - 1");
         } else if (isPaused) {
           console.log("Playback is paused - 1");
-          setPlayButtonIcons(isPaused, trackOrArtist, spotifyTrackIDsList)
+          setPlayButtonIcons(isPaused, trackOrArtist, spotifyTrackIDsList, spotifyArtistIDsList)
         } else {
           console.log("Playback is playing - 1");
-          setPlayButtonIcons(isPaused, trackOrArtist, spotifyTrackIDsList)
+          setPlayButtonIcons(isPaused, trackOrArtist, spotifyTrackIDsList, spotifyArtistIDsList)
         }
       });
       
     });
     
   } else {
-    // if (controller) {
-    //   controller.destroy(); // Clear the current controller to avoid mismatches
-    // }
     window.onSpotifyIframeApiReady = (IFrameAPI) => {
       window.SpotifyIframeAPI = IFrameAPI; // Store the API globally for future use
       IFrameAPI.createController(element, options, (EmbedController) => {
@@ -81,7 +73,6 @@ function createOrUpdateSpotifyPlayer(trackOrArtist, currentArtistSpotifyID, spot
         controller.addListener('ready', () => {
           console.log('Spotify Player ready_2');
           if (autoplaybutton) {
-            // The below line will activate playing music when the page is opened and the spotify player is built
             autoPlaySpotify();
           }
         });
@@ -95,7 +86,7 @@ function createOrUpdateSpotifyPlayer(trackOrArtist, currentArtistSpotifyID, spot
 
             // Load next osng only if spotifyTrackIDsList is provided
             if (spotifyTrackIDsList) {
-              playNextSong('track', spotifyTrackIDsList); // Function to handle loading the next song
+              playNextSong('track', spotifyTrackIDsList, spotifyArtistIDsList, spotifyArtistNameList);
             } else {
               console.log("No track list provided. Playback stopped.");
             }
@@ -110,10 +101,10 @@ function createOrUpdateSpotifyPlayer(trackOrArtist, currentArtistSpotifyID, spot
             console.log("Playback is buffering - 2");
           } else if (isPaused) {
             console.log("Playback is paused - 2");
-            setPlayButtonIcons(isPaused, trackOrArtist, spotifyTrackIDsList)
+            setPlayButtonIcons(isPaused, trackOrArtist, spotifyTrackIDsList, spotifyArtistIDsList)
           } else {
             console.log("Playback is playing - 2");
-            setPlayButtonIcons(isPaused, trackOrArtist, spotifyTrackIDsList)
+            setPlayButtonIcons(isPaused, trackOrArtist, spotifyTrackIDsList, spotifyArtistIDsList)
           }
         });
         
@@ -140,11 +131,10 @@ function autoPlaySpotify() {
     console.error("Spotify controller is not initialized.");
   }
 }
-// });
 
 
 // Function to load the next song
-function playNextSong(trackOrArtist, spotifyTrackIDsList, direction='forward') {
+function playNextSong(trackOrArtist, spotifyTrackIDsList, spotifyArtistIDsList=null, spotifyArtistNameList=null, direction='forward') {
   
   // If statement to check if we are playing a list of custom songs or a playlist from Spotify
   if (!spotifyTrackIDsList) {
@@ -153,51 +143,114 @@ function playNextSong(trackOrArtist, spotifyTrackIDsList, direction='forward') {
   }
   
   // Declaring the index of the current playing song and get the id for the next song to play
-  const index = spotifyTrackIDsList.indexOf(globalCurrentArtistSpotifyID);
-  let nextArtistSpotifyID = null;
-  if (direction === 'forward') {
-    nextArtistSpotifyID = index !== -1 && index < spotifyTrackIDsList.length - 1
-      ? spotifyTrackIDsList[index + 1]
-      : null;
+  const index = spotifyTrackIDsList.indexOf(globalCurrentSpotifyID);
+  let nextSpotifyTrackID = null;
+  let nextSpotifyArtistID = null;
+  let nextSpotifyArtistName = null;
+  
+  if (direction === 'initial') {
+    nextSpotifyTrackID = spotifyTrackIDsList[index];
+    if (spotifyArtistIDsList) {
+      nextSpotifyArtistID = spotifyArtistIDsList[index];
+      nextSpotifyArtistName = spotifyArtistNameList[index];
+    }
+  } else if (direction === 'forward') {
+    if (index !== -1 && index < spotifyTrackIDsList.length - 1) {
+      nextSpotifyTrackID = spotifyTrackIDsList[index + 1];
+      if (spotifyArtistIDsList) {
+        nextSpotifyArtistID = spotifyArtistIDsList[index + 1];
+        nextSpotifyArtistName = spotifyArtistNameList[index + 1];
+      }
+    }
   } else if (direction === 'backward') {
-    nextArtistSpotifyID = index !== -1 && index > 0
-      ? spotifyTrackIDsList[index - 1] 
-      : null;
+    if (index !== -1 && index > 0) {
+      nextSpotifyTrackID = spotifyTrackIDsList[index - 1];
+      if (spotifyArtistIDsList) {
+        nextSpotifyArtistID = spotifyArtistIDsList[index - 1];
+        nextSpotifyArtistName = spotifyArtistNameList[index - 1];
+      }
+    }
+  } else if (direction === 'fast-forward' && spotifyArtistIDsList) {
+    if (index !== -1 && index < spotifyTrackIDsList.length - 1) {
+      const currentArtistID = spotifyArtistIDsList[index];
+      let nextIndex = index + 1;
+      while (nextIndex < spotifyArtistIDsList.length && spotifyArtistIDsList[nextIndex] === currentArtistID) {
+        nextIndex++;
+      }
+      if (nextIndex < spotifyTrackIDsList.length) {
+        nextSpotifyTrackID = spotifyTrackIDsList[nextIndex];
+        nextSpotifyArtistID = spotifyArtistIDsList[nextIndex];
+        nextSpotifyArtistName = spotifyArtistNameList[nextIndex];
+      }
+    }
+  } else if (direction === 'fast-backward' && spotifyArtistIDsList) {
+    if (index !== -1 && index > 0) {
+      const currentArtistID = spotifyArtistIDsList[index];
+      let prevIndex = index - 1;
+      while (prevIndex >= 0 && spotifyArtistIDsList[prevIndex] === currentArtistID) {
+        prevIndex--;
+      }
+      if (prevIndex >= 0) {
+        nextSpotifyTrackID = spotifyTrackIDsList[prevIndex];
+        nextSpotifyArtistID = spotifyArtistIDsList[prevIndex];
+        nextSpotifyArtistName = spotifyArtistNameList[prevIndex];
+        // Move to the first track of the previous artist
+        while (prevIndex > 0 && spotifyArtistIDsList[prevIndex - 1] === nextSpotifyArtistID) {
+          prevIndex--;
+        }
+        nextSpotifyTrackID = spotifyTrackIDsList[prevIndex];
+        nextSpotifyArtistID = spotifyArtistIDsList[prevIndex];
+        nextSpotifyArtistName = spotifyArtistNameList[prevIndex];
+      }
+    }
   }
 
   // save the id to browser cache
-  sessionStorage.setItem("lastplayedtrackid", nextArtistSpotifyID);
-  sessionStorage.setItem("lastplayed", nextArtistSpotifyID);
+  sessionStorage.setItem("lastplayed", nextSpotifyTrackID);
+  sessionStorage.setItem("lastplayedtrackid", nextSpotifyTrackID);
+  if (spotifyArtistIDsList) {
+    sessionStorage.setItem("lastplayedartistid", nextSpotifyArtistID)
+  }
   
   //  check if controller is instantiated and next song is define
-  if (controller && nextArtistSpotifyID) {
-    const nextSongUri = `spotify:${trackOrArtist}:${nextArtistSpotifyID}`; // Replace with your logic to fetch the next song's URI
-    globalCurrentArtistSpotifyID = nextArtistSpotifyID;
-    console.log("globalCurrentArtistSpotifyID of Next Song:", globalCurrentArtistSpotifyID)
+  if (controller && nextSpotifyTrackID) {
+    const nextSongUri = `spotify:${trackOrArtist}:${nextSpotifyTrackID}`;
+    globalCurrentSpotifyID = nextSpotifyTrackID;
     controller.loadUri(nextSongUri);
-    console.log(`Loading next song: ${nextSongUri}`);
     
-    speakText("Presenting, Eyelar!", () => {
-      controller.play(); // This will run after the speech synthesis is complete
-    });
+    // Check if the artist has changed to read their name
+    // Version 1: start player when speech is over
+    // const currentArtistID = spotifyArtistIDsList ? spotifyArtistIDsList[index] : null;    
+    // if (nextSpotifyArtistID && (currentArtistID !== nextSpotifyArtistID || sessionStorage.getItem("has_played") === 'False')) {
+    //   speakText(`...Presenting, ${nextSpotifyArtistName}!`, () => {
+    //     controller.play();
+    //   });
+    // } else {
+    //   controller.play();
+    // }
     
-    // controller.play()
-
+    // Version 2: start player imediatelly
+    const currentArtistID = spotifyArtistIDsList ? spotifyArtistIDsList[index] : null;    
+    if (nextSpotifyArtistID && (currentArtistID !== nextSpotifyArtistID || sessionStorage.getItem("has_played") === 'False')) {
+      speakText(`...Presenting, ${nextSpotifyArtistName}!`)
+    }
+    controller.play();
+    
     // Set play button icons
-    setPlayButtonIcons(false, 'track', spotifyTrackIDsList)
+    setPlayButtonIcons(false, 'track', spotifyTrackIDsList, spotifyArtistIDsList)
 
   }
 }
 
 // Function to set the play button icons
-function setPlayButtonIcons(isPaused, trackOrArtist, spotifyTrackIDsList=null) {
+function setPlayButtonIcons(isPaused, trackOrArtist, spotifyTrackIDsList=null, spotifyArtistIDsList=null) {
   
   // Set the icon of the small play buttons
   if (spotifyTrackIDsList) {
     spotifyTrackIDsList.forEach(function(currentId) {    
       const buttonPlay = document.querySelector(`.anvil-role-${currentId}`);
       
-      if (currentId === globalCurrentArtistSpotifyID && !isPaused) {
+      if (currentId === globalCurrentSpotifyID && !isPaused) {
         if (buttonPlay) {
           let icon = buttonPlay.querySelector('i')
           if (icon) {
@@ -269,7 +322,7 @@ function setPlayButtonIcons(isPaused, trackOrArtist, spotifyTrackIDsList=null) {
     
     const buttonBackward = document.querySelector(`.anvil-role-backward-button`);
     if (buttonBackward) {
-     if (globalCurrentArtistSpotifyID === spotifyTrackIDsList[0]) {
+     if (globalCurrentSpotifyID === spotifyTrackIDsList[0]) {
         buttonBackward.classList.remove('anvil-role-icon-button');
         buttonBackward.classList.add('anvil-role-icon-button-disabled');
       } else {
@@ -280,7 +333,7 @@ function setPlayButtonIcons(isPaused, trackOrArtist, spotifyTrackIDsList=null) {
 
     const buttonForward = document.querySelector(`.anvil-role-forward-button`);
     if (buttonForward) {
-      if (globalCurrentArtistSpotifyID === spotifyTrackIDsList[spotifyTrackIDsList.length - 1]) {
+      if (globalCurrentSpotifyID === spotifyTrackIDsList[spotifyTrackIDsList.length - 1]) {
         buttonForward.classList.remove('anvil-role-icon-button');
         buttonForward.classList.add('anvil-role-icon-button-disabled');
       } else {
@@ -289,11 +342,62 @@ function setPlayButtonIcons(isPaused, trackOrArtist, spotifyTrackIDsList=null) {
       }
     }
   
-  }  
+  }
+
+  // set classes of fast-forward and fast-backward buttons on LISTEN-IN
+  if (spotifyTrackIDsList && spotifyArtistIDsList) {
+    const buttonFastBackward = document.querySelector(`.anvil-role-fast-backward-button`);
+    if (buttonFastBackward) {
+      // Check if there is a previous artist
+      const currentArtistIndex = spotifyTrackIDsList.indexOf(globalCurrentSpotifyID);
+      let hasPreviousArtist = false;
+      if (currentArtistIndex > 0) {
+        const currentArtistID = spotifyArtistIDsList[currentArtistIndex];
+        for (let i = currentArtistIndex - 1; i >= 0; i--) {
+          if (spotifyArtistIDsList[i] !== currentArtistID) {
+            hasPreviousArtist = true;
+            break;
+          }
+        }
+      }
+  
+      if (hasPreviousArtist) {
+        buttonFastBackward.classList.remove('anvil-role-icon-button-disabled');
+        buttonFastBackward.classList.add('anvil-role-icon-button');
+      } else {
+        buttonFastBackward.classList.remove('anvil-role-icon-button');
+        buttonFastBackward.classList.add('anvil-role-icon-button-disabled');
+      }
+    }
+  
+    const buttonFastForward = document.querySelector(`.anvil-role-fast-forward-button`);
+    if (buttonFastForward) {
+      // Check if there is a next artist
+      const currentArtistIndex = spotifyTrackIDsList.indexOf(globalCurrentSpotifyID);
+      let hasNextArtist = false;
+      if (currentArtistIndex < spotifyTrackIDsList.length - 1) {
+        const currentArtistID = spotifyArtistIDsList[currentArtistIndex];
+        for (let i = currentArtistIndex + 1; i < spotifyArtistIDsList.length; i++) {
+          if (spotifyArtistIDsList[i] !== currentArtistID) {
+            hasNextArtist = true;
+            break;
+          }
+        }
+      }
+  
+      if (hasNextArtist) {
+        buttonFastForward.classList.remove('anvil-role-icon-button-disabled');
+        buttonFastForward.classList.add('anvil-role-icon-button');
+      } else {
+        buttonFastForward.classList.remove('anvil-role-icon-button');
+        buttonFastForward.classList.add('anvil-role-icon-button-disabled');
+      }
+    }
+  }
 }
 
 
-function speakText(text, callback) {
+function speakText(text, callback=null) {
   // Check if the browser supports speech synthesis
   if ('speechSynthesis' in window) {
     const utterance = new SpeechSynthesisUtterance(text); // Create a speech utterance

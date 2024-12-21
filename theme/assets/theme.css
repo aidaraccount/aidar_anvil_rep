@@ -2128,24 +2128,13 @@ footer a, .footer .anvil-component {
 }
 /* CSS for Fit Likelihood on the Discover Page ENDS Here */
 
-/* This is to provide class for the play/pause buttons on the Discover page */
-/* small and big play buttons for tables */
+/* This is to provide class for the play/pause buttons on the Discover and ListenIn page */
+/* small and big play buttons for tables and icons */
 .anvil-role-play-spotify-button button,
 .anvil-role-icon-button button {
   font-family: Gs-regular;
   font-size: 24px;
   color: #E95F30;
-  background: transparent;
-  border: 0px;
-  box-shadow: none;
-  text-shadow: none;
-  transition: 0.5s;
-  width: 55px;
-}
-.anvil-role-icon-button-disabled button {
-  font-family: Gs-regular;
-  font-size: 24px;
-  color: #9E9E9E;
   background: transparent;
   border: 0px;
   box-shadow: none;
@@ -2163,17 +2152,38 @@ footer a, .footer .anvil-component {
   background: transparent;
   color: #E95F30;
 }
-.anvil-role-icon-button-disabled > button:focus {
-  background: transparent;
-  color: #9E9E9E;
-}
 .anvil-role-play-spotify-button > button:active,
 .anvil-role-icon-button > button:active {
   background: transparent;
   color: #E95F30;
 }
 
-/* bis play buttons on Discover and ListenIn */
+/* disables icon buttons */
+.anvil-role-icon-button-disabled button {
+  font-family: Gs-regular;
+  font-size: 24px;
+  color: #9E9E9E;
+  background: transparent;
+  border: 0px;
+  box-shadow: none;
+  text-shadow: none;
+  transition: 0.5s;
+  width: 55px;
+}
+.anvil-role-icon-button-disabled > button:hover {
+  background: transparent;
+  color: #9E9E9E;
+}
+.anvil-role-icon-button-disabled > button:focus {
+  background: transparent;
+  color: #9E9E9E;
+}
+.anvil-role-icon-button-disabled > button:active {
+  background: transparent;
+  color: #9E9E9E;
+}
+
+/* big play buttons on Discover and ListenIn */
 .anvil-role-play-spotify-button-artist button {
   font-size: 44px;
   padding: 0;

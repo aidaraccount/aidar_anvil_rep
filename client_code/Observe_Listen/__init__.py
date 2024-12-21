@@ -20,10 +20,12 @@ from ..C_Notification_Settings import C_Notification_Settings
 @routing.route("listen", url_keys=['notification_id'], title="Observe - Listen-In")
 class Observe_Listen(Observe_ListenTemplate):
   def __init__(self, **properties):
+    
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
     self.add_event_handler('show', self.form_show)
     self.repeating_panel_artists.role = ['listen-left-element', 'grid-main']
+    
     # Any code you write here will run before the form opens.
     global user
     user = anvil.users.get_user()
@@ -41,6 +43,7 @@ class Observe_Listen(Observe_ListenTemplate):
       self.url_notification_id = url_notification_id
       
       save_var('toggle', 'up')
+      save_var('has_played', 'False')
       self.footer_trick_spacer.visible = False
       
       # GENERAL
@@ -127,10 +130,16 @@ class Observe_Listen(Observe_ListenTemplate):
                                         notification["no_artists"],
                                         notification["song_selection_2"]
                                         )
-
+    
     self.initial_track_id = observed_tracks[0]['tracks'][0]['spotify_track_id']
+    self.initial_artist_id = observed_tracks[0]['tracks'][0]['spotify_artist_id']
+    
     save_var('lastplayedtrackid', self.initial_track_id)
+    save_var('lastplayedartistid', self.initial_artist_id)
+    
     self.all_track_ids = [track['spotify_track_id'] for artist in observed_tracks for track in artist['tracks']]
+    self.all_artist_ids = [track['spotify_artist_id'] for artist in observed_tracks for track in artist['tracks']]
+    self.all_artist_names = [track['name'] for artist in observed_tracks for track in artist['tracks']]
     
     self.repeating_panel_artists.items = observed_tracks
     self.repeating_panel_artists.visible = True
@@ -207,10 +216,24 @@ class Observe_Listen(Observe_ListenTemplate):
     
   # playSpotify (starts, stops and resumes the music)
   def play_button_central_click(self, **event_args):
-    anvil.js.call_js('playSpotify')
+    if load_var('has_played') == 'False':
+      anvil.js.call_js('playNextSong', 'track', self.all_track_ids, self.all_artist_ids, self.all_artist_names, 'initial')
+    else:
+      anvil.js.call_js('playSpotify')
+    save_var('has_played', 'True')
 
   def backward_button_click(self, **event_args):
-    anvil.js.call_js('playNextSong', 'track', self.all_track_ids, 'backward')
+    save_var('has_played', 'True')
+    anvil.js.call_js('playNextSong', 'track', self.all_track_ids, self.all_artist_ids, self.all_artist_names, 'backward')
 
   def forward_button_click(self, **event_args):
-    anvil.js.call_js('playNextSong', 'track', self.all_track_ids, 'forward')
+    save_var('has_played', 'True')
+    anvil.js.call_js('playNextSong', 'track', self.all_track_ids, self.all_artist_ids, self.all_artist_names, 'forward')
+
+  def fast_backward_button_click(self, **event_args):
+    save_var('has_played', 'True')
+    anvil.js.call_js('playNextSong', 'track', self.all_track_ids, self.all_artist_ids, self.all_artist_names, 'fast-backward')
+
+  def fast_forward_button_click(self, **event_args):
+    save_var('has_played', 'True')
+    anvil.js.call_js('playNextSong', 'track', self.all_track_ids, self.all_artist_ids, self.all_artist_names, 'fast-forward')
