@@ -1125,6 +1125,7 @@ class C_Discover(C_DiscoverTemplate):
     labels = [x["LabelName"] for x in data]
     release = [0] * len(data)
 
+    print('dates_str:', dates_str)
     dates = [datetime.strptime(date, "%Y-%m-%d") for date in dates_str]
     if len(dates) > 0:
       min_date = min(dates)

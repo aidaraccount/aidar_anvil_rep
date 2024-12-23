@@ -49,7 +49,7 @@ class Observe_Listen(Observe_ListenTemplate):
       
       # GENERAL
       self.get_all_notifications(url_notification_id)
-      self.column_panel_discover.add_component(C_Discover(4))
+      # self.column_panel_discover.add_component(C_Discover(4))
       
       # Instantiate Spotify Player
       self.footer_left.clear()

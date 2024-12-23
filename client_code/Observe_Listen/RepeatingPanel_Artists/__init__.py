@@ -6,6 +6,8 @@ import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
 
+from ...C_Discover import C_Discover
+
 
 class RepeatingPanel_Artists(RepeatingPanel_ArtistsTemplate):
   def __init__(self, **properties):
@@ -22,4 +24,7 @@ class RepeatingPanel_Artists(RepeatingPanel_ArtistsTemplate):
       self.artist_img.source = '_/theme/pics/Favicon_orange.JPG'
 
   def link_artist_img_click(self, **event_args):
-    print('self.item["artist_id"]', self.item["artist_id"])
+    print('self.item["artist_id"]:', self.item["artist_id"])
+
+    print(self.parent.parent.parent.parent.parent)
+    self.parent.parent.parent.parent.parent.column_panel_discover.add_component(C_Discover(self.item["artist_id"]))
