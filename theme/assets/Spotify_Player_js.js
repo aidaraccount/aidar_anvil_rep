@@ -1,7 +1,7 @@
 var controller;
 let globalCurrentSpotifyID = null;
 
-function createOrUpdateSpotifyPlayer(trackOrArtist, currentSpotifyID, spotifyTrackIDsList=null, spotifyArtistIDsList=null, spotifyArtistNameList=null) {
+function createOrUpdateSpotifyPlayer(trackOrArtist, currentSpotifyID, spotifyTrackIDsList, spotifyArtistIDsList, spotifyArtistNameList) {
   const element = document.querySelector('.anvil-role-spotify-footer-class #embed-iframe');
   const autoplaybutton = document.querySelector('.anvil-role-autoplay-toggle-button .fa-toggle-on')
 
@@ -134,7 +134,7 @@ function autoPlaySpotify() {
 
 
 // Function to load the next song
-function playNextSong(trackOrArtist, spotifyTrackIDsList, spotifyArtistIDsList=null, spotifyArtistNameList=null, direction='forward') {
+function playNextSong(trackOrArtist, spotifyTrackIDsList, spotifyArtistIDsList, spotifyArtistNameList, direction='forward') {
   
   // If statement to check if we are playing a list of custom songs or a playlist from Spotify
   if (!spotifyTrackIDsList) {
@@ -219,18 +219,16 @@ function playNextSong(trackOrArtist, spotifyTrackIDsList, spotifyArtistIDsList=n
     controller.loadUri(nextSongUri);
     
     // Check if the artist has changed to read their name
-    // Version 1: start player when speech is over
-    // const currentArtistID = spotifyArtistIDsList ? spotifyArtistIDsList[index] : null;    
-    // if (nextSpotifyArtistID && (currentArtistID !== nextSpotifyArtistID || sessionStorage.getItem("has_played") === 'False')) {
-    //   speakText(`...Presenting, ${nextSpotifyArtistName}!`, () => {
-    //     controller.play();
-    //   });
-    // } else {
-    //   controller.play();
-    // }
+    const currentArtistID = spotifyArtistIDsList ? spotifyArtistIDsList[index] : null;
+
+    console.log("index: " + index);
+    console.log("spotifyTrackIDsList: " + spotifyArtistIDsList);
+    console.log("nextSpotifyTrackID: " + nextSpotifyTrackID);
+    console.log("spotifyArtistIDsList: " + spotifyArtistIDsList);
+    console.log("currentArtistID: " + currentArtistID);
+    console.log("nextSpotifyArtistID: " + nextSpotifyArtistID);
+    console.log("sessionStorage.getItem('has_played'): " + sessionStorage.getItem("has_played"));
     
-    // Version 2: start player imediatelly
-    const currentArtistID = spotifyArtistIDsList ? spotifyArtistIDsList[index] : null;    
     if (nextSpotifyArtistID && (currentArtistID !== nextSpotifyArtistID || sessionStorage.getItem("has_played") === 'False')) {
       speakText(`...Presenting, ${nextSpotifyArtistName}!`)
     }

@@ -57,7 +57,7 @@ class Observe_Listen(Observe_ListenTemplate):
   def form_show(self, **event_args):
     embed_iframe_element = document.getElementById('embed-iframe')
     if embed_iframe_element:
-      self.call_js('createOrUpdateSpotifyPlayer', 'track', self.initial_track_id, self.all_track_ids)
+      self.call_js('createOrUpdateSpotifyPlayer', 'track', self.initial_track_id, self.all_track_ids, self.all_artist_ids, self.all_artist_names)
     else:
       print("Embed iframe element not found. Will not initialize Spotify player.")
   
@@ -221,6 +221,9 @@ class Observe_Listen(Observe_ListenTemplate):
     else:
       anvil.js.call_js('playSpotify')
     save_var('has_played', 'True')
+    # save_var('lastplayedtrackid', self.all_track_ids[0])
+    # save_var('lastplayedartistid', self.all_artist_ids[0])
+      
 
   def backward_button_click(self, **event_args):
     save_var('has_played', 'True')
