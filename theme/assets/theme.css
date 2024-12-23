@@ -625,9 +625,10 @@ body, html {
 /* Titles CSS Ends Here  */
 
 /* CSS for Tiles STARTS Here  */
+/* was set to 95% initially */
 @media (min-width: 992px) {
     .anvil-role-POST_LOGIN_PAGE .anvil-panel-section-container.anvil-container-overflow {
-      max-width: 97%;
+      max-width: 100%;
     }
 }
 .anvil-role-title-tile {
@@ -1163,13 +1164,14 @@ a>.link-text {
   font-family: GS-medium;
   font-size: 20px;
   color: %color:Text_White%;
-  margin: 10px 0 0 0;
+  margin: 10px 0 0 5px;
   height: 100%;
 }
 .anvil-role-artist_name {
   font-family: GS-medium;
   font-size: 18px;
   color: %color:Text_White%;
+  margin: 5px 0 0 5px;
 }
 .anvil-role-artist_name_shadow {
   font-size: 22px;
@@ -1657,7 +1659,7 @@ footer a, .footer .anvil-component {
 }
 .main-content {
   flex: 1;
-  padding: 20px;
+  /* padding: 20px; */
 }
 .anvil-role-left-discover-page{
   margin-right: 0;
@@ -1957,10 +1959,14 @@ footer a, .footer .anvil-component {
 .anvil-role-date-picker>.form-inline select {
   border-radius: 10px;
 }
-.anvil-role-bottom-border {
-  /* border: none; */
-  border-bottom: 0.2px rgb(175, 175, 175) solid;
+.anvil-role-top-border {
   border-top: 0.2px rgb(175, 175, 175) solid;
+  border-bottom: none;
+  border-radius: 0px;
+}
+.anvil-role-bottom-border {
+  border-top: none;
+  border-bottom: 0.2px rgb(175, 175, 175) solid;
   border-radius: 0px;
 }
 .anvil-role-bottom-border>.form-control {
@@ -2780,12 +2786,13 @@ footer a, .footer .anvil-component {
 
 /* Observe_Listen individual classes  */
 .anvil-role-listen-complete-element {
-  height: 77vh;
+  height: calc(100vh + 180px);
   overflow-y: auto;
 }
 .anvil-role-listen-left-element {
-  height: calc(100vh - 70px);
+  height: calc(95vh - 85px);
 }
 .anvil-role-listen-right-element {
-  height: calc(100vh - 70px);
+  /* height: calc(100vh - 230px); */
+  height: calc(95vh - 85px);
 }

@@ -24,7 +24,6 @@ from ..nav import click_link, click_button, logout, login_check, load_var, save_
 import time
 
 
-@routing.route("artists", url_keys=["artist_id"], title="Artists")
 class C_Discover(C_DiscoverTemplate):
   def __init__(self, **properties):
     # print(f"{datetime.now()}: Discover - __init__ - 1", flush=True)
@@ -58,12 +57,12 @@ class C_Discover(C_DiscoverTemplate):
     else:
       self.user_id = user["user_id"]
       self.refresh_sug()
-      self.grid_panel_1.scroll_into_view(smooth=True)
+      self.column_panel_header.scroll_into_view(smooth=True)
 
   # -------------------------------------------
   # SUGGESTIONS
   def refresh_sug(self, **event_args):
-    self.grid_panel_1.scroll_into_view(smooth=True)
+    self.column_panel_header.scroll_into_view(smooth=True)
 
     # begin = datetime.now()
     # print(f"{datetime.now()}: Discover - __init__ - 2", flush=True)
@@ -76,7 +75,7 @@ class C_Discover(C_DiscoverTemplate):
     self.flow_panel_genre_tile.clear()
     self.flow_panel_social_media_tile.clear()
     self.spotify_player_spot.clear()
-    # self.column_panel_5.clear()
+    # self.column_panel_1.clear()
 
     # model_id
     model_id = load_var("model_id")
@@ -94,7 +93,7 @@ class C_Discover(C_DiscoverTemplate):
 
     # get_suggestion
     # url_artist_id = self.url_dict["artist_id"]
-    url_artist_id = 4  # ATTENTION !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    url_artist_id = 107650  # ATTENTION !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     sug = json.loads(
       anvil.server.call("get_suggestion", "Inspect", self.model_id, url_artist_id)
     )  # Free, Explore, Inspect, Dissect
@@ -302,7 +301,7 @@ class C_Discover(C_DiscoverTemplate):
       # --------
       # prediction
       if (str(sug["Prediction"]) == "nan") or (str(sug["Prediction"]) == "None"):
-        self.column_panel_5.visible = False
+        self.column_panel_1.visible = False
         self.linear_panel_2.visible = True
         self.no_prediction.visible = True
         self.pred = None
@@ -1014,7 +1013,7 @@ class C_Discover(C_DiscoverTemplate):
       elif total_ratings == "50":
         self.show_milestone_alert(50)
 
-    self.grid_panel_1.scroll_into_view(smooth=True)
+    self.column_panel_header.scroll_into_view(smooth=True)
 
   # ----------------------------------------------
   def form_show(self, **event_args):
@@ -1058,7 +1057,7 @@ class C_Discover(C_DiscoverTemplate):
       </li>
       """
       html_panel = HtmlPanel(html=custom_html)
-      self.column_panel_5.add_component(html_panel)
+      self.column_panel_1.add_component(html_panel)
     else:
       print("NO SELF PRED?")
 
@@ -1787,7 +1786,7 @@ class C_Discover(C_DiscoverTemplate):
     anvil.server.call(
       "add_interest", user["user_id"], self.model_id, self.artist_id, 1, False, ""
     )
-    self.grid_panel_1.scroll_into_view(smooth=True)
+    self.column_panel_header.scroll_into_view(smooth=True)
     next_artist_id = anvil.server.call("get_next_artist_id", self.model_id)
     routing.set_url_hash(f"artists?artist_id={next_artist_id}", load_from_cache=False)
 
@@ -1795,7 +1794,7 @@ class C_Discover(C_DiscoverTemplate):
     anvil.server.call(
       "add_interest", user["user_id"], self.model_id, self.artist_id, 2, False, ""
     )
-    self.grid_panel_1.scroll_into_view(smooth=True)
+    self.column_panel_header.scroll_into_view(smooth=True)
     next_artist_id = anvil.server.call("get_next_artist_id", self.model_id)
     routing.set_url_hash(f"artists?artist_id={next_artist_id}", load_from_cache=False)
 
@@ -1803,7 +1802,7 @@ class C_Discover(C_DiscoverTemplate):
     anvil.server.call(
       "add_interest", user["user_id"], self.model_id, self.artist_id, 3, False, ""
     )
-    self.grid_panel_1.scroll_into_view(smooth=True)
+    self.column_panel_header.scroll_into_view(smooth=True)
     next_artist_id = anvil.server.call("get_next_artist_id", self.model_id)
     routing.set_url_hash(f"artists?artist_id={next_artist_id}", load_from_cache=False)
 
@@ -1811,7 +1810,7 @@ class C_Discover(C_DiscoverTemplate):
     anvil.server.call(
       "add_interest", user["user_id"], self.model_id, self.artist_id, 4, False, ""
     )
-    self.grid_panel_1.scroll_into_view(smooth=True)
+    self.column_panel_header.scroll_into_view(smooth=True)
     next_artist_id = anvil.server.call("get_next_artist_id", self.model_id)
     routing.set_url_hash(f"artists?artist_id={next_artist_id}", load_from_cache=False)
 
@@ -1819,7 +1818,7 @@ class C_Discover(C_DiscoverTemplate):
     anvil.server.call(
       "add_interest", user["user_id"], self.model_id, self.artist_id, 5, False, ""
     )
-    self.grid_panel_1.scroll_into_view(smooth=True)
+    self.column_panel_header.scroll_into_view(smooth=True)
     next_artist_id = anvil.server.call("get_next_artist_id", self.model_id)
     routing.set_url_hash(f"artists?artist_id={next_artist_id}", load_from_cache=False)
 
@@ -1827,7 +1826,7 @@ class C_Discover(C_DiscoverTemplate):
     anvil.server.call(
       "add_interest", user["user_id"], self.model_id, self.artist_id, 6, False, ""
     )
-    self.grid_panel_1.scroll_into_view(smooth=True)
+    self.column_panel_header.scroll_into_view(smooth=True)
     next_artist_id = anvil.server.call("get_next_artist_id", self.model_id)
     routing.set_url_hash(f"artists?artist_id={next_artist_id}", load_from_cache=False)
 
@@ -1835,7 +1834,7 @@ class C_Discover(C_DiscoverTemplate):
     anvil.server.call(
       "add_interest", user["user_id"], self.model_id, self.artist_id, 7, False, ""
     )
-    self.grid_panel_1.scroll_into_view(smooth=True)
+    self.column_panel_header.scroll_into_view(smooth=True)
     next_artist_id = anvil.server.call("get_next_artist_id", self.model_id)
     routing.set_url_hash(f"artists?artist_id={next_artist_id}", load_from_cache=False)
 
@@ -2024,7 +2023,7 @@ class C_Discover(C_DiscoverTemplate):
 
   def button_remove_filters_click(self, **event_args):
     anvil.server.call("change_filters", self.model_id, filters_json=None)
-    self.grid_panel_1.scroll_into_view(smooth=True)
+    self.column_panel_header.scroll_into_view(smooth=True)
     next_artist_id = anvil.server.call("get_next_artist_id", self.model_id)
     routing.set_url_hash(f"artists?artist_id={next_artist_id}", load_from_cache=False)
 
@@ -2038,7 +2037,7 @@ class C_Discover(C_DiscoverTemplate):
     self.model_id = model_id_new
     save_var("model_id", model_id_new)
     anvil.server.call("update_model_usage", user["user_id"], model_id_new)
-    self.grid_panel_1.scroll_into_view(smooth=True)
+    self.column_panel_header.scroll_into_view(smooth=True)
     get_open_form().refresh_models_underline()
     routing.set_url_hash(f"artists?artist_id={self.artist_id}", load_from_cache=False)
 
@@ -2052,7 +2051,7 @@ class C_Discover(C_DiscoverTemplate):
     self.watchlist_id = wl_id_new
     save_var("watchlist_id", wl_id_new)
     anvil.server.call("update_watchlist_usage", user["user_id"], wl_id_new)
-    self.grid_panel_1.scroll_into_view(smooth=True)
+    self.column_panel_header.scroll_into_view(smooth=True)
     get_open_form().refresh_watchlists_underline()
     routing.set_url_hash(f"artists?artist_id={self.artist_id}", load_from_cache=False)
 

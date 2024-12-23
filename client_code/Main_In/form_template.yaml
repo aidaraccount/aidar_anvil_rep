@@ -2,7 +2,12 @@ components:
 - components: []
   layout_properties: {slot: default}
   name: content_panel
-  properties: {col_widths: '{}', role: null}
+  properties:
+    col_spacing: small
+    col_widths: '{}'
+    role: null
+    spacing:
+      margin: [null, 21, null, 21]
   type: ColumnPanel
 - components: []
   event_bindings: {click: link_home_click}

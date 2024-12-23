@@ -354,7 +354,7 @@ roles:
   name: notification-settings-textbox
 - components: [DatePicker]
   name: date-picker
-- components: [DatePicker]
+- components: []
   name: bottom-border
 - components: [Label, Button]
   name: margin-top
@@ -372,9 +372,9 @@ roles:
   name: button-custom-class-test
 - components: [Button]
   name: play-spotify-button-artist2
-- components: [ColumnPanel, RepeatingPanel]
-  name: bottom-border
 - components: [Button]
   name: icon-button
 - components: [Button]
   name: icon-button-disabled
+- {name: top-border}
+- {name: buttom-border}

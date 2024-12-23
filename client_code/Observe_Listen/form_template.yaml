@@ -31,34 +31,37 @@ components:
     name: flow_panel_copy
     properties: {background: '', role: section-background, spacing: small, spacing_above: none, spacing_below: none}
     type: FlowPanel
-  - layout_properties: {grid_position: 'SMXRFC,AGBMHM'}
+  - layout_properties: {full_width_row: false, grid_position: 'SMXRFC,AGBMHM'}
     name: notification_settings
-    properties: {}
+    properties: {col_spacing: none}
     type: ColumnPanel
   - components:
     - components:
-      - data_bindings:
-        - {code: '''listen-left-element''', property: role, writeback: false}
+      - data_bindings: []
         layout_properties: {grid_position: 'LKFQXY,PFLHPE'}
         name: repeating_panel_artists
         properties: {item_template: Observe_Listen.RepeatingPanel_Artists}
         type: RepeatingPanel
+      data_bindings:
+      - {code: '''listen-left-element''', property: role, writeback: false}
       layout_properties: {grid_position: 'VHWGHE,MRXTVC'}
       name: column_panel_playlist
       properties: {}
       type: ColumnPanel
     - components:
-      - layout_properties: {grid_position: 'HGVXAS,QYWFNW'}
+      - layout_properties: {grid_position: 'YVFTTK,AUTZMN'}
         name: c_discover_1
         properties: {}
         type: form:C_Discover
+      data_bindings:
+      - {code: '''listen-right-element''', property: role, writeback: false}
       layout_properties: {grid_position: 'VHWGHE,MYBKSI'}
       name: column_panel_discover
       properties: {}
       type: ColumnPanel
     layout_properties: {grid_position: 'WGSOJT,UYCALG'}
     name: column_panel_content
-    properties: {col_spacing: none, col_widths: '{"MRXTVC":15,"MYBKSI":45}'}
+    properties: {col_spacing: small, col_widths: '{"MRXTVC":15,"MYBKSI":45}'}
     type: ColumnPanel
   - layout_properties: {grid_position: 'GDKCKL,GSIXXN'}
     name: footer_trick_spacer
@@ -68,7 +71,7 @@ components:
   - {code: '''listen-complete-element''', property: role, writeback: false}
   layout_properties: {slot: default}
   name: content_panel
-  properties: {col_spacing: medium, col_widths: '{"CDPZDK":55,"POUDWM":5}'}
+  properties: {col_spacing: none, col_widths: '{"CDPZDK":55,"POUDWM":5}'}
   type: ColumnPanel
 - components:
   - layout_properties: {grid_position: 'ULLGXX,KYFIEK'}

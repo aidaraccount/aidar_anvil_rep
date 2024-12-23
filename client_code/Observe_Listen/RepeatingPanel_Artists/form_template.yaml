@@ -1,22 +1,35 @@
 components:
 - data_bindings:
   - {code: 'self.item[''name'']', property: text, writeback: false}
-  layout_properties: {grid_position: 'MWWZFD,FPFEYV'}
+  layout_properties: {grid_position: 'GPZJEO,JFGKGB MWWZFD,FPFEYV'}
   name: artists_name
-  properties: {role: artist_name}
+  properties:
+    role: artist_name
+    spacing:
+      margin: [null, null, 0, null]
+      padding: [null, null, 0, null]
   type: Label
+- layout_properties: {grid_position: 'GPZJEO,KSJXBR'}
+  name: artist_img
+  properties:
+    height: '80'
+    margin: [5, null, null, null]
+  type: Image
 - components:
   - layout_properties: {grid_position: 'KFABOG,BFZBNK'}
     name: repeating_panel_tracks
     properties: {item_template: Observe_Listen.RepeatingPanel_Artists.RepeatingPanel_Tracks, role: null}
     type: RepeatingPanel
-  - layout_properties: {grid_position: 'KFABOG,MTZNVH'}
-    name: artist_img
-    properties: {height: '80'}
-    type: Image
-  layout_properties: {grid_position: 'HWNXIQ,FLRKAI'}
+  layout_properties: {grid_position: 'GPZJEO,JFGKGB HWNXIQ,FLRKAI'}
   name: column_panel_1
-  properties: {col_spacing: small, col_widths: '{"BFZBNK":35,"MTZNVH":25}', role: bottom-border}
+  properties:
+    col_spacing: tiny
+    col_widths: '{"BFZBNK":40}'
+    role: bottom-border
+    spacing:
+      margin: [null, null, 0, null]
   type: ColumnPanel
-container: {type: ColumnPanel}
+container:
+  properties: {col_spacing: tiny, col_widths: '{"JFGKGB":40,"KSJXBR":20}', role: buttom-border}
+  type: ColumnPanel
 is_package: true
