@@ -627,7 +627,7 @@ body, html {
 /* CSS for Tiles STARTS Here  */
 @media (min-width: 992px) {
     .anvil-role-POST_LOGIN_PAGE .anvil-panel-section-container.anvil-container-overflow {
-        max-width: 95%;
+      max-width: 97%;
     }
 }
 .anvil-role-title-tile {

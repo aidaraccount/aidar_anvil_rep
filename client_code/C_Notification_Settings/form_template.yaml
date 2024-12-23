@@ -455,6 +455,13 @@ components:
         text: Please select at least one trained model for your notification
         visible: false
       type: Label
+    - layout_properties: {grid_position: 'BAEOKR,ENBENW'}
+      name: button_save
+      properties:
+        align: right
+        role: [call-to-action-button, header-6]
+        text: save
+      type: Button
     layout_properties: {grid_position: 'IYJZVL,BVZKFA'}
     name: column_panel_min_max
     properties: {col_widths: '{"YDMOXG":40,"QCBNZC":20,"FEDFEU":45,"GVRIJF":15,"NCOFFD":30,"XWWOVW":30}'}

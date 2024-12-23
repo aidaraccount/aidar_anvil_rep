@@ -221,8 +221,6 @@ class Observe_Listen(Observe_ListenTemplate):
     else:
       anvil.js.call_js('playSpotify')
     save_var('has_played', 'True')
-    # save_var('lastplayedtrackid', self.all_track_ids[0])
-    # save_var('lastplayedartistid', self.all_artist_ids[0])
       
 
   def backward_button_click(self, **event_args):
