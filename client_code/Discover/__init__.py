@@ -30,7 +30,7 @@ class Discover(DiscoverTemplate):
     
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
-    self.html = '@theme:Discover_Sidebar_and_JS.html'
+    self.html = '@theme:Discover.html'
     self.add_event_handler('show', self.form_show)
     
     global user

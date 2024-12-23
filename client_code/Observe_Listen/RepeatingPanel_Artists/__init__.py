@@ -20,3 +20,6 @@ class RepeatingPanel_Artists(RepeatingPanel_ArtistsTemplate):
       self.artist_img.source = self.item["artist_picture_url"]
     else:
       self.artist_img.source = '_/theme/pics/Favicon_orange.JPG'
+
+  def link_artist_img_click(self, **event_args):
+    print('self.item["artist_id"]', self.item["artist_id"])

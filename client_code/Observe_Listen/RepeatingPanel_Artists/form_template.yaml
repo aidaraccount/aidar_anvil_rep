@@ -9,12 +9,18 @@ components:
       margin: [null, null, 0, null]
       padding: [null, null, 0, null]
   type: Label
-- layout_properties: {grid_position: 'GPZJEO,KSJXBR'}
-  name: artist_img
-  properties:
-    height: '80'
-    margin: [5, null, null, null]
-  type: Image
+- components:
+  - layout_properties: {grid_position: 'TORRLL,IUKTPX'}
+    name: artist_img
+    properties:
+      height: '80'
+      margin: [5, null, null, null]
+    type: Image
+  event_bindings: {click: link_artist_img_click}
+  layout_properties: {grid_position: 'GPZJEO,KSJXBR'}
+  name: link_artist_img
+  properties: {col_spacing: none}
+  type: Link
 - components:
   - layout_properties: {grid_position: 'KFABOG,BFZBNK'}
     name: repeating_panel_tracks

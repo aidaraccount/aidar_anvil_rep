@@ -1628,7 +1628,8 @@ components:
     spacing_below: small
   type: ColumnPanel
 container:
-  properties: {background: '', html: '@theme:Discover_Sidebar_and_JS.html', role: null}
+  data_bindings: []
+  properties: {background: '', html: '@theme:Discover.html', role: null}
   type: HtmlTemplate
 custom_component: false
 is_package: true

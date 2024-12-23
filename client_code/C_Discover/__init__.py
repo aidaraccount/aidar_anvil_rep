@@ -25,12 +25,12 @@ import time
 
 
 class C_Discover(C_DiscoverTemplate):
-  def __init__(self, **properties):
+  def __init__(self, url_artist_id, **properties):
     # print(f"{datetime.now()}: Discover - __init__ - 1", flush=True)
 
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
-    self.html = "@theme:Discover_Sidebar_and_JS.html"
+    self.html = "@theme:C_Discover.html"
     self.add_event_handler("show", self.form_show)
 
     global user
@@ -38,6 +38,8 @@ class C_Discover(C_DiscoverTemplate):
     print(f"Discover user: {user}")
     print(f"Discover user_id: {load_var('user_id')}")
 
+    self.url_artist_id = url_artist_id
+    
     # Any code you write here will run before the form opens.
     if user is None or user == "None":
       if load_var("user_id") is None:
@@ -74,7 +76,7 @@ class C_Discover(C_DiscoverTemplate):
     self.Artist_Name_Details_Sidebar.clear()
     self.flow_panel_genre_tile.clear()
     self.flow_panel_social_media_tile.clear()
-    self.spotify_player_spot.clear()
+    # self.spotify_player_spot.clear()
     # self.column_panel_1.clear()
 
     # model_id
@@ -93,9 +95,9 @@ class C_Discover(C_DiscoverTemplate):
 
     # get_suggestion
     # url_artist_id = self.url_dict["artist_id"]
-    url_artist_id = 107650  # ATTENTION !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    # url_artist_id = 107650  # ATTENTION !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     sug = json.loads(
-      anvil.server.call("get_suggestion", "Inspect", self.model_id, url_artist_id)
+      anvil.server.call("get_suggestion", "Inspect", self.model_id, self.url_artist_id)
     )  # Free, Explore, Inspect, Dissect
     self.sug = sug
     save_var("lastplayed", self.sug["SpotifyArtistID"])
@@ -315,7 +317,7 @@ class C_Discover(C_DiscoverTemplate):
         self.linear_panel_2.visible = False
         self.no_prediction.visible = False
       self.custom_HTML_prediction()
-      self.spotify_HTML_player()
+      # self.spotify_HTML_player()
 
       # --------
       # biography
@@ -961,12 +963,11 @@ class C_Discover(C_DiscoverTemplate):
 
       # -------------------------------
       # FOOTER:
-      # a) Spotify Web-Player (old!)
-      # self.c_web_player.html = '<iframe style="border-radius:12px" src="https://open.spotify.com/embed/artist/' + sug["SpotifyArtistID"] + '?utm_source=generator&theme=0&autoplay=true" width="100%" height="80" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"> </iframe>'
-      if load_var("autoPlayStatus") is not None:
-        self.autoplay_button.icon = load_var("autoPlayStatus")
-        if load_var("autoPlayStatus") == "fa:toggle-on":
-          self.spotify_artist_button.icon = "fa:pause-circle"
+      # a) Spotify Web-Player
+      # if load_var("autoPlayStatus") is not None:
+      #   self.autoplay_button.icon = load_var("autoPlayStatus")
+      #   if load_var("autoPlayStatus") == "fa:toggle-on":
+      #     self.spotify_artist_button.icon = "fa:pause-circle"
       # --------
       # b) Filter Button visibility
       activefilters = anvil.server.call("check_filter_presence", self.model_id)
@@ -1017,19 +1018,21 @@ class C_Discover(C_DiscoverTemplate):
 
   # ----------------------------------------------
   def form_show(self, **event_args):
-    embed_iframe_element = document.getElementById("embed-iframe")
-    if embed_iframe_element:
-      self.call_js("createOrUpdateSpotifyPlayer", "artist", self.sug["SpotifyArtistID"])
-      # self.call_js('playSpotify_2')
-    else:
-      print("Embed iframe element not found. Will not initialize Spotify player.")
+    # embed_iframe_element = document.getElementById("embed-iframe")
+    # if embed_iframe_element:
+    #   self.call_js("createOrUpdateSpotifyPlayer", "artist", self.sug["SpotifyArtistID"])
+    #   # self.call_js('playSpotify_2')
+    # else:
+    #   print("Embed iframe element not found. Will not initialize Spotify player.")
+    pass
 
   def spotify_HTML_player(self):
-    c_web_player_html = """
-      <div id="embed-iframe"></div>
-      """
-    html_webplayer_panel = HtmlPanel(html=c_web_player_html)
-    self.spotify_player_spot.add_component(html_webplayer_panel)
+    # c_web_player_html = """
+    #   <div id="embed-iframe"></div>
+    #   """
+    # html_webplayer_panel = HtmlPanel(html=c_web_player_html)
+    # self.spotify_player_spot.add_component(html_webplayer_panel)
+    pass
 
   def custom_HTML_prediction(self):
     if self.pred:
@@ -2204,23 +2207,24 @@ class C_Discover(C_DiscoverTemplate):
     anvil.js.call_js("playSpotify")
 
   def spotify_artist_button_click(self, **event_args):
-    if self.spotify_artist_button.icon == "fa:play-circle":
-      self.spotify_artist_button.icon = "fa:pause-circle"
+    # if self.spotify_artist_button.icon == "fa:play-circle":
+    #   self.spotify_artist_button.icon = "fa:pause-circle"
 
-      if load_var("lastplayed") != self.sug["SpotifyArtistID"]:
-        self.spotify_player_spot.clear()
-        self.spotify_HTML_player()
-        self.call_js(
-          "createOrUpdateSpotifyPlayer", "artist", self.sug["SpotifyArtistID"]
-        )
+    #   if load_var("lastplayed") != self.sug["SpotifyArtistID"]:
+    #     self.spotify_player_spot.clear()
+    #     self.spotify_HTML_player()
+    #     self.call_js(
+    #       "createOrUpdateSpotifyPlayer", "artist", self.sug["SpotifyArtistID"]
+    #     )
+    #
+    # else:
+    #   self.spotify_artist_button.icon = "fa:play-circle"
 
-    else:
-      self.spotify_artist_button.icon = "fa:play-circle"
+    # anvil.js.call_js("playSpotify")
+    # save_var("lastplayed", self.sug["SpotifyArtistID"])
 
-    anvil.js.call_js("playSpotify")
-    save_var("lastplayed", self.sug["SpotifyArtistID"])
-
-    self.reset_track_play_buttons()
+    # self.reset_track_play_buttons()
+    pass
 
   def reset_track_play_buttons(self, **event_args):
     components = self.data_grid_releases_data.get_components()

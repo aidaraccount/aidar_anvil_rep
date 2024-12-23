@@ -15,6 +15,7 @@ from anvil_extras import routing
 from ..nav import click_link, click_button, logout, login_check, load_var, save_var
 
 from ..C_Notification_Settings import C_Notification_Settings
+from ..C_Discover import C_Discover
 
 
 @routing.route("listen", url_keys=['notification_id'], title="Observe - Listen-In")
@@ -48,7 +49,8 @@ class Observe_Listen(Observe_ListenTemplate):
       
       # GENERAL
       self.get_all_notifications(url_notification_id)
-  
+      self.column_panel_discover.add_component(C_Discover(4))
+      
       # Instantiate Spotify Player
       self.footer_left.clear()
       self.spotify_HTML_player()
