@@ -237,6 +237,11 @@ function playNextSong(trackOrArtist, spotifyTrackIDsList, spotifyArtistIDsList, 
     // Set play button icons
     setPlayButtonIcons(false, 'track', spotifyTrackIDsList, spotifyArtistIDsList)
 
+    // return sp_artist_id of next artist if its a new one
+    if (nextSpotifyArtistID && (currentArtistID !== nextSpotifyArtistID || sessionStorage.getItem("has_played") === 'False')) {
+      return nextSpotifyArtistID;
+    }
+    
   }
 }
 

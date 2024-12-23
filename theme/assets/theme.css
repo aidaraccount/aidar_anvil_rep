@@ -1614,7 +1614,7 @@ body.anvil-highlight .nav-elt.placeholder {
   bottom: 0;
   width: 100%;
   font-size: 20px;
-  background-color:  %color:Primary 500%;
+  background-color:  %color:SpotifyPlayer%;
   color: white;
   min-height: 70px;
   text-align: center;
@@ -1623,11 +1623,18 @@ body.anvil-highlight .nav-elt.placeholder {
   box-shadow: 0 -4px 5px 0 rgba(0, 0, 0, 0.14), 0 -1px 10px 0 rgba(0, 0, 0, 0.12), 0 -2px 4px -1px rgba(0, 0, 0, 0.2);    
 }
 
-.footer > .footer-slot > .placeholder { outline: 1px dotted; padding-left: 16px; padding-right: 16px; margin-top: 12px; display:none; }
-.anvil-highlight .footer > .footer-slot > .placeholder { display:block; }
+.footer > .footer-slot > .placeholder {
+  outline: 1px dotted;
+  padding-left: 16px;
+  padding-right: 16px;
+  margin-top: 12px;
+  display:none;
+}
+.anvil-highlight .footer > .footer-slot > .placeholder {
+  display:block;
+}
 
 .footer {
-  background-color: %color:Grid_Black%;
   padding: 0 !important;
   margin: 0 !important;
 }

@@ -1125,7 +1125,6 @@ class C_Discover(C_DiscoverTemplate):
     labels = [x["LabelName"] for x in data]
     release = [0] * len(data)
 
-    print('dates_str:', dates_str)
     dates = [datetime.strptime(date, "%Y-%m-%d") for date in dates_str]
     if len(dates) > 0:
       min_date = min(dates)
@@ -1790,57 +1789,64 @@ class C_Discover(C_DiscoverTemplate):
     anvil.server.call(
       "add_interest", user["user_id"], self.model_id, self.artist_id, 1, False, ""
     )
-    self.column_panel_header.scroll_into_view(smooth=True)
-    next_artist_id = anvil.server.call("get_next_artist_id", self.model_id)
-    routing.set_url_hash(f"artists?artist_id={next_artist_id}", load_from_cache=False)
+    # self.column_panel_header.scroll_into_view(smooth=True)
+    # next_artist_id = anvil.server.call("get_next_artist_id", self.model_id)
+    # routing.set_url_hash(f"artists?artist_id={next_artist_id}", load_from_cache=False)
+    Notification("", title="Artist rated with 1!", style="success").show()
 
   def button_2_click(self, **event_args):
     anvil.server.call(
       "add_interest", user["user_id"], self.model_id, self.artist_id, 2, False, ""
     )
-    self.column_panel_header.scroll_into_view(smooth=True)
-    next_artist_id = anvil.server.call("get_next_artist_id", self.model_id)
-    routing.set_url_hash(f"artists?artist_id={next_artist_id}", load_from_cache=False)
+    # self.column_panel_header.scroll_into_view(smooth=True)
+    # next_artist_id = anvil.server.call("get_next_artist_id", self.model_id)
+    # routing.set_url_hash(f"artists?artist_id={next_artist_id}", load_from_cache=False)
+    Notification("", title="Artist rated with 2!", style="success").show()
 
   def button_3_click(self, **event_args):
     anvil.server.call(
       "add_interest", user["user_id"], self.model_id, self.artist_id, 3, False, ""
     )
-    self.column_panel_header.scroll_into_view(smooth=True)
-    next_artist_id = anvil.server.call("get_next_artist_id", self.model_id)
-    routing.set_url_hash(f"artists?artist_id={next_artist_id}", load_from_cache=False)
+    # self.column_panel_header.scroll_into_view(smooth=True)
+    # next_artist_id = anvil.server.call("get_next_artist_id", self.model_id)
+    # routing.set_url_hash(f"artists?artist_id={next_artist_id}", load_from_cache=False)
+    Notification("", title="Artist rated with 3!", style="success").show()
 
   def button_4_click(self, **event_args):
     anvil.server.call(
       "add_interest", user["user_id"], self.model_id, self.artist_id, 4, False, ""
     )
-    self.column_panel_header.scroll_into_view(smooth=True)
-    next_artist_id = anvil.server.call("get_next_artist_id", self.model_id)
-    routing.set_url_hash(f"artists?artist_id={next_artist_id}", load_from_cache=False)
+    # self.column_panel_header.scroll_into_view(smooth=True)
+    # next_artist_id = anvil.server.call("get_next_artist_id", self.model_id)
+    # routing.set_url_hash(f"artists?artist_id={next_artist_id}", load_from_cache=False)
+    Notification("", title="Artist rated with 4!", style="success").show()
 
   def button_5_click(self, **event_args):
     anvil.server.call(
       "add_interest", user["user_id"], self.model_id, self.artist_id, 5, False, ""
     )
-    self.column_panel_header.scroll_into_view(smooth=True)
-    next_artist_id = anvil.server.call("get_next_artist_id", self.model_id)
-    routing.set_url_hash(f"artists?artist_id={next_artist_id}", load_from_cache=False)
+    # self.column_panel_header.scroll_into_view(smooth=True)
+    # next_artist_id = anvil.server.call("get_next_artist_id", self.model_id)
+    # routing.set_url_hash(f"artists?artist_id={next_artist_id}", load_from_cache=False)
+    Notification("", title="Artist rated with 5!", style="success").show()
 
   def button_6_click(self, **event_args):
     anvil.server.call(
       "add_interest", user["user_id"], self.model_id, self.artist_id, 6, False, ""
     )
-    self.column_panel_header.scroll_into_view(smooth=True)
-    next_artist_id = anvil.server.call("get_next_artist_id", self.model_id)
-    routing.set_url_hash(f"artists?artist_id={next_artist_id}", load_from_cache=False)
+    # self.column_panel_header.scroll_into_view(smooth=True)
+    # next_artist_id = anvil.server.call("get_next_artist_id", self.model_id)
+    # routing.set_url_hash(f"artists?artist_id={next_artist_id}", load_from_cache=False)
+    Notification("", title="Artist rated with 6!", style="success").show()
 
   def button_7_click(self, **event_args):
     anvil.server.call(
       "add_interest", user["user_id"], self.model_id, self.artist_id, 7, False, ""
     )
-    self.column_panel_header.scroll_into_view(smooth=True)
-    next_artist_id = anvil.server.call("get_next_artist_id", self.model_id)
-    routing.set_url_hash(f"artists?artist_id={next_artist_id}", load_from_cache=False)
+    # self.column_panel_header.scroll_into_view(smooth=True)
+    # next_artist_id = anvil.server.call("get_next_artist_id", self.model_id)
+    # routing.set_url_hash(f"artists?artist_id={next_artist_id}", load_from_cache=False)
+    Notification("", title="Artist rated with 7!", style="success").show()
 
   # -------------------------------
   # DESCRIPTION LINKS

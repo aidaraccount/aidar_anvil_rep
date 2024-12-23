@@ -49,7 +49,12 @@ class Observe_Listen(Observe_ListenTemplate):
       
       # GENERAL
       self.get_all_notifications(url_notification_id)
-      # self.column_panel_discover.add_component(C_Discover(4))
+      
+      self.column_panel_discover.clear()
+      print('self.repeating_panel_artists.items[0]["artist_id"]:', self.repeating_panel_artists.items[0]["artist_id"])
+      first_artist_id = self.repeating_panel_artists.items[0]["artist_id"]
+      self.column_panel_discover.clear()
+      self.column_panel_discover.add_component(C_Discover(first_artist_id))
       
       # Instantiate Spotify Player
       self.footer_left.clear()
@@ -133,6 +138,8 @@ class Observe_Listen(Observe_ListenTemplate):
                                         notification["song_selection_2"]
                                         )
     
+    # print('observed_tracks:', observed_tracks)
+    
     self.initial_track_id = observed_tracks[0]['tracks'][0]['spotify_track_id']
     self.initial_artist_id = observed_tracks[0]['tracks'][0]['spotify_artist_id']
     
@@ -141,6 +148,7 @@ class Observe_Listen(Observe_ListenTemplate):
     
     self.all_track_ids = [track['spotify_track_id'] for artist in observed_tracks for track in artist['tracks']]
     self.all_artist_ids = [track['spotify_artist_id'] for artist in observed_tracks for track in artist['tracks']]
+    self.all_ai_artist_ids = [track['artist_id'] for artist in observed_tracks for track in artist['tracks']]
     self.all_artist_names = [track['name'] for artist in observed_tracks for track in artist['tracks']]
     
     self.repeating_panel_artists.items = observed_tracks
@@ -227,16 +235,43 @@ class Observe_Listen(Observe_ListenTemplate):
 
   def backward_button_click(self, **event_args):
     save_var('has_played', 'True')
-    anvil.js.call_js('playNextSong', 'track', self.all_track_ids, self.all_artist_ids, self.all_artist_names, 'backward')
+    nextSpotifyArtistID = anvil.js.call_js('playNextSong', 'track', self.all_track_ids, self.all_artist_ids, self.all_artist_names, 'backward')
 
+    # load related artist profile if its new
+    if (nextSpotifyArtistID):
+      new_artist_id = self.all_ai_artist_ids[self.all_artist_ids.index(nextSpotifyArtistID)]
+      self.column_panel_discover.clear()
+      self.column_panel_discover.add_component(C_Discover(new_artist_id))
+      
   def forward_button_click(self, **event_args):
+    # play next song
     save_var('has_played', 'True')
-    anvil.js.call_js('playNextSong', 'track', self.all_track_ids, self.all_artist_ids, self.all_artist_names, 'forward')
+    nextSpotifyArtistID = anvil.js.call_js('playNextSong', 'track', self.all_track_ids, self.all_artist_ids, self.all_artist_names, 'forward')
+    
+    # load related artist profile if its new
+    if (nextSpotifyArtistID):
+      new_artist_id = self.all_ai_artist_ids[self.all_artist_ids.index(nextSpotifyArtistID)]
+      self.column_panel_discover.clear()
+      self.column_panel_discover.add_component(C_Discover(new_artist_id))
 
+  
   def fast_backward_button_click(self, **event_args):
+    # play first song of next artist
     save_var('has_played', 'True')
-    anvil.js.call_js('playNextSong', 'track', self.all_track_ids, self.all_artist_ids, self.all_artist_names, 'fast-backward')
+    nextSpotifyArtistID = anvil.js.call_js('playNextSong', 'track', self.all_track_ids, self.all_artist_ids, self.all_artist_names, 'fast-backward')
+    
+    # load related artist profile
+    new_artist_id = self.all_ai_artist_ids[self.all_artist_ids.index(nextSpotifyArtistID)]
+    self.column_panel_discover.clear()
+    self.column_panel_discover.add_component(C_Discover(new_artist_id))
 
   def fast_forward_button_click(self, **event_args):
+    # play first song of next artist
     save_var('has_played', 'True')
-    anvil.js.call_js('playNextSong', 'track', self.all_track_ids, self.all_artist_ids, self.all_artist_names, 'fast-forward')
+    nextSpotifyArtistID = anvil.js.call_js('playNextSong', 'track', self.all_track_ids, self.all_artist_ids, self.all_artist_names, 'fast-forward')
+
+    # load related artist profile
+    new_artist_id = self.all_ai_artist_ids[self.all_artist_ids.index(nextSpotifyArtistID)]
+    self.column_panel_discover.clear()
+    self.column_panel_discover.add_component(C_Discover(new_artist_id))
+    

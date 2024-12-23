@@ -1,14 +1,22 @@
 components:
-- data_bindings:
-  - {code: 'self.item[''name'']', property: text, writeback: false}
-  layout_properties: {grid_position: 'GPZJEO,JFGKGB MWWZFD,FPFEYV'}
-  name: artists_name
+- components:
+  - data_bindings:
+    - {code: 'self.item[''name'']', property: text, writeback: false}
+    layout_properties: {grid_position: 'JXLDPM,GKCIFP'}
+    name: artists_name
+    properties:
+      role: artist_name
+      spacing:
+        margin: [0, null, 0, null]
+        padding: [null, null, 0, null]
+    type: Label
+  event_bindings: {click: link_artist_click}
+  layout_properties: {grid_position: 'GPZJEO,JFGKGB KQQKIN,DVRCQJ'}
+  name: link_1
   properties:
-    role: artist_name
     spacing:
       margin: [null, null, 0, null]
-      padding: [null, null, 0, null]
-  type: Label
+  type: Link
 - components:
   - layout_properties: {grid_position: 'TORRLL,IUKTPX'}
     name: artist_img
@@ -16,7 +24,7 @@ components:
       height: '80'
       margin: [5, null, null, null]
     type: Image
-  event_bindings: {click: link_artist_img_click}
+  event_bindings: {click: link_artist_click}
   layout_properties: {grid_position: 'GPZJEO,KSJXBR'}
   name: link_artist_img
   properties: {col_spacing: none}

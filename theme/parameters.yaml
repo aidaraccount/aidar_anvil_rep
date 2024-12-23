@@ -14,7 +14,7 @@ color_scheme:
   - {color: 'rgb(175, 175, 175)', name: Text_DarkGrey}
   - {color: 'rgb(40, 40, 40)', name: Text_LightBlack}
   - {color: 'rgba(253, 101, 45, 0.2)', name: Accent 3}
-  - {color: 'rgb(32,32,32)', name: New_spotify_player_scheme}
+  - {color: 'rgb(31,31,31)', name: SpotifyPlayer}
   preset_groups:
   - name: Accent
     options:
