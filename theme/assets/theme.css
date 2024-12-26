@@ -402,7 +402,6 @@ body, html {
 
 
 /* Discover Page Buttons for the Release, Success, Fandom, and Music Sections */
-
 .anvil-data-grid>.data-grid-footer-panel>.pagination-buttons>a {
   font-size: 18px;
 }
@@ -1511,6 +1510,7 @@ body.anvil-highlight .nav-elt.placeholder {
 
 
 
+/* ------------------------------------------------------ */
 /* ---- OWN FONT ----------------------- */
 @font-face {
   font-family: 'GS-bold';
@@ -1536,7 +1536,6 @@ body.anvil-highlight .nav-elt.placeholder {
   font-family: 'GS-semibold';
   src: url("_/theme/fonts/GeneralSans-Semibold.otf") format("opentype");
 }
-/* ---- OWN FONT ----------------------- */
 
 /* Other Fonts  */
 /* From https://fonts.googleapis.com/css?family=Roboto */
@@ -1607,6 +1606,7 @@ body.anvil-highlight .nav-elt.placeholder {
 /* Other Fonts */
 
 
+/* ------------------------------------------------------ */
 /* Footer bar */
 .footer {
   position: fixed;
@@ -1618,7 +1618,8 @@ body.anvil-highlight .nav-elt.placeholder {
   color: white;
   min-height: 70px;
   text-align: center;
-  padding: 0 72px 0 72px;
+  padding: 0 !important;
+  margin: 0 !important;
   z-index: 2000;
   box-shadow: 0 -4px 5px 0 rgba(0, 0, 0, 0.14), 0 -1px 10px 0 rgba(0, 0, 0, 0.12), 0 -2px 4px -1px rgba(0, 0, 0, 0.2);    
 }
@@ -1632,11 +1633,6 @@ body.anvil-highlight .nav-elt.placeholder {
 }
 .anvil-highlight .footer > .footer-slot > .placeholder {
   display:block;
-}
-
-.footer {
-  padding: 0 !important;
-  margin: 0 !important;
 }
 
 .footer a, .footer a.anvil-component {
@@ -1659,6 +1655,63 @@ footer a, .footer .anvil-component {
   padding: 0 4px;
 }
 
+
+/* ------------------------------------------------------ */
+/* Footer bar ListenIn */
+.footer_listen {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  
+  width: calc(75% - 250px);
+  /* width: 60%; */
+  margin-left: calc((100% - 250px) / 2.35);
+  /* margin-left: 40%; */
+  
+  font-size: 20px;
+  background-color:  %color:SpotifyPlayer%;
+  color: white;
+  min-height: 70px;
+  text-align: center;
+  padding: 0 !important;
+  /* margin: 0 !important; */
+  margin-bottom: 72px;
+  z-index: 2000;
+  box-shadow: 0 -4px 5px 0 rgba(0, 0, 0, 0.14), 0 -1px 10px 0 rgba(0, 0, 0, 0.12), 0 -2px 4px -1px rgba(0, 0, 0, 0.2);    
+}
+
+.footer_listen > .footer-slot > .placeholder {
+  outline: 1px dotted;
+  padding-left: 16px;
+  padding-right: 16px;
+  margin-top: 12px;
+  display:none;
+}
+.anvil-highlight .footer_listen > .footer-slot > .placeholder {
+  display:block;
+}
+
+.footer_listen a, .footer_listen a.anvil-component {
+  padding: 5px;
+  border-radius: 20px;
+}
+
+.footer_listen a, .footer_listen .anvil-component {
+  display: block;
+  color: white;
+  line-height: 30px;
+  min-width: 30px;
+  min-height: 30px;
+}
+.footer_listen a:hover, .footer_listen a:active {
+  color: #eee; text-decoration: none;
+  background-color: %color:Primary 700%;
+}
+.footer_listen a .link-text {
+  padding: 0 4px;
+}
+
+/* ------------------------------------------------------ */
 /* CSS for the Sidebar on the Discover Page STARTS Here */
 .container-panel {
   display: flex;
@@ -2207,10 +2260,10 @@ footer a, .footer .anvil-component {
 }
 
 
-
+/* classes to be captured by js */
 .anvil-role-autoplay-toggle-button {}
-
 .anvil-role-spotify-footer-class {}
+
 
 .anvil-role-opacity-100 {opacity: 100%;}
 .anvil-role-opacity-50 {opacity: 50%;}
