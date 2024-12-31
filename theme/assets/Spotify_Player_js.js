@@ -241,6 +241,11 @@ function playNextSong(trackOrArtist, spotifyTrackIDsList, spotifyArtistIDsList, 
     if (nextSpotifyArtistID && (currentArtistID !== nextSpotifyArtistID || sessionStorage.getItem("has_played") === 'False')) {
       return nextSpotifyArtistID;
     }
+
+    // call test function
+    anvil.call('print_test', 'my text is awesome').then(function(result) {
+      console.log("It's working!!");
+    });
     
   }
 }

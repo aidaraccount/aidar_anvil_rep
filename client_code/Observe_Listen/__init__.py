@@ -6,8 +6,8 @@ import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
 import json
-import anvil.js
 from anvil.js.window import document, playSpotify
+import anvil.js
 
 
 from datetime import date, datetime
@@ -274,4 +274,7 @@ class Observe_Listen(Observe_ListenTemplate):
     new_artist_id = self.all_ai_artist_ids[self.all_artist_ids.index(nextSpotifyArtistID)]
     self.column_panel_discover.clear()
     self.column_panel_discover.add_component(C_Discover(new_artist_id))
-    
+
+  @anvil.js.expose
+  def print_test(param):
+    print(f"TEST PRINT: {param}")
