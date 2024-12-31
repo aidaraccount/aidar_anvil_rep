@@ -37,7 +37,7 @@ class RepeatingPanel_Tracks(RepeatingPanel_TracksTemplate):
       
       self.parent.parent.parent.parent.parent.parent.parent.parent.footer_left.clear()
       self.parent.parent.parent.parent.parent.parent.parent.parent.spotify_HTML_player()
-      self.parent.parent.parent.parent.parent.parent.parent.parent.call_js('createOrUpdateSpotifyPlayer', 'track', self.item["spotify_track_id"], all_track_ids, all_artist_ids, all_artist_names)
+      self.parent.parent.parent.parent.parent.parent.parent.parent.call_js('createOrUpdateSpotifyPlayer', anvil.js.get_dom_node(self), 'track', self.item["spotify_track_id"], all_track_ids, all_artist_ids, all_artist_names)
       anvil.js.call_js('playSpotify')
       
     else:

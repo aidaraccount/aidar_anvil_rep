@@ -29,7 +29,7 @@ class RepPanel_TrackReleases(RepPanel_TrackReleasesTemplate):
     if load_var("lastplayed") != self.item["SpotifyTrackID"]:
       self.parent.parent.parent.parent.parent.parent.spotify_player_spot.clear()
       self.parent.parent.parent.parent.parent.parent.spotify_HTML_player()
-      self.parent.parent.parent.parent.parent.parent.call_js('createOrUpdateSpotifyPlayer', 'track', self.item["SpotifyTrackID"], track_ids)
+      self.parent.parent.parent.parent.parent.parent.call_js('createOrUpdateSpotifyPlayer', anvil.js.get_dom_node(self), 'track', self.item["SpotifyTrackID"], track_ids)
       anvil.js.call_js('playSpotify')
       
     else:

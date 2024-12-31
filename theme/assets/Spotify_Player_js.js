@@ -1,7 +1,7 @@
 var controller;
 let globalCurrentSpotifyID = null;
 
-function createOrUpdateSpotifyPlayer(trackOrArtist, currentSpotifyID, spotifyTrackIDsList, spotifyArtistIDsList, spotifyArtistNameList) {
+function createOrUpdateSpotifyPlayer(formElement, trackOrArtist, currentSpotifyID, spotifyTrackIDsList, spotifyArtistIDsList, spotifyArtistNameList) {
   const element = document.querySelector('.anvil-role-spotify-footer-class #embed-iframe');
   const autoplaybutton = document.querySelector('.anvil-role-autoplay-toggle-button .fa-toggle-on')
 
@@ -41,7 +41,7 @@ function createOrUpdateSpotifyPlayer(trackOrArtist, currentSpotifyID, spotifyTra
 
           // Load next song only if spotifyTrackIDsList is provided
           if (spotifyTrackIDsList) {
-            playNextSong('track', spotifyTrackIDsList, spotifyArtistIDsList, spotifyArtistNameList);
+            playNextSong(formElement, 'track', spotifyTrackIDsList, spotifyArtistIDsList, spotifyArtistNameList);
           } else {
             console.log("No track list provided. Playback stopped.")
           }
@@ -86,7 +86,7 @@ function createOrUpdateSpotifyPlayer(trackOrArtist, currentSpotifyID, spotifyTra
 
             // Load next osng only if spotifyTrackIDsList is provided
             if (spotifyTrackIDsList) {
-              playNextSong('track', spotifyTrackIDsList, spotifyArtistIDsList, spotifyArtistNameList);
+              playNextSong(formElement, 'track', spotifyTrackIDsList, spotifyArtistIDsList, spotifyArtistNameList);
             } else {
               console.log("No track list provided. Playback stopped.");
             }
@@ -134,7 +134,7 @@ function autoPlaySpotify() {
 
 
 // Function to load the next song
-function playNextSong(trackOrArtist, spotifyTrackIDsList, spotifyArtistIDsList, spotifyArtistNameList, direction='forward') {
+function playNextSong(formElement, trackOrArtist, spotifyTrackIDsList, spotifyArtistIDsList, spotifyArtistNameList, direction='forward') {
   
   // If statement to check if we are playing a list of custom songs or a playlist from Spotify
   if (!spotifyTrackIDsList) {
@@ -203,6 +203,13 @@ function playNextSong(trackOrArtist, spotifyTrackIDsList, spotifyArtistIDsList, 
         nextSpotifyArtistName = spotifyArtistNameList[prevIndex];
       }
     }
+  } else {
+    const index = spotifyTrackIDsList.indexOf(direction);
+    nextSpotifyTrackID = spotifyTrackIDsList[index];
+    if (spotifyArtistIDsList) {
+      nextSpotifyArtistID = spotifyArtistIDsList[index];
+      nextSpotifyArtistName = spotifyArtistNameList[index];
+    }    
   }
 
   // save the id to browser cache
@@ -237,15 +244,17 @@ function playNextSong(trackOrArtist, spotifyTrackIDsList, spotifyArtistIDsList, 
     // Set play button icons
     setPlayButtonIcons(false, 'track', spotifyTrackIDsList, spotifyArtistIDsList)
 
-    // return sp_artist_id of next artist if its a new one
-    if (nextSpotifyArtistID && (currentArtistID !== nextSpotifyArtistID || sessionStorage.getItem("has_played") === 'False')) {
-      return nextSpotifyArtistID;
+    // load similar artist profile
+    if (nextSpotifyArtistID && (currentArtistID !== nextSpotifyArtistID && sessionStorage.getItem("has_played") === 'True')) {
+      console.log('load similar artist profile - start')
+      anvil.call(formElement, 'reload_discover', nextSpotifyArtistID);
+      console.log('load similar artist profile - end')
     }
-
-    // call test function
-    anvil.call('print_test', 'my text is awesome').then(function(result) {
-      console.log("It's working!!");
-    });
+    
+    // // return sp_artist_id of next artist if its a new one
+    // if (nextSpotifyArtistID && (currentArtistID !== nextSpotifyArtistID || sessionStorage.getItem("has_played") === 'False')) {
+    //   return nextSpotifyArtistID;
+    // }
     
   }
 }

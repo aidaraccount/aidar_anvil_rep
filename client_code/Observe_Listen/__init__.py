@@ -50,7 +50,6 @@ class Observe_Listen(Observe_ListenTemplate):
       # GENERAL
       self.get_all_notifications(url_notification_id)
       
-      self.column_panel_discover.clear()
       print('self.repeating_panel_artists.items[0]["artist_id"]:', self.repeating_panel_artists.items[0]["artist_id"])
       first_artist_id = self.repeating_panel_artists.items[0]["artist_id"]
       self.column_panel_discover.clear()
@@ -64,7 +63,7 @@ class Observe_Listen(Observe_ListenTemplate):
   def form_show(self, **event_args):
     embed_iframe_element = document.getElementById('embed-iframe')
     if embed_iframe_element:
-      self.call_js('createOrUpdateSpotifyPlayer', 'track', self.initial_track_id, self.all_track_ids, self.all_artist_ids, self.all_artist_names)
+      self.call_js('createOrUpdateSpotifyPlayer', anvil.js.get_dom_node(self), 'track', self.initial_track_id, self.all_track_ids, self.all_artist_ids, self.all_artist_names)
     else:
       print("Embed iframe element not found. Will not initialize Spotify player.")
   
@@ -156,9 +155,10 @@ class Observe_Listen(Observe_ListenTemplate):
 
 
   # GET DISCOVER DETAILS
-  # .....
-  # .....
-  # .....
+  def reload_discover(self, nextSpotifyArtistID):    
+    new_artist_id = self.all_ai_artist_ids[self.all_artist_ids.index(nextSpotifyArtistID)]
+    self.column_panel_discover.clear()
+    self.column_panel_discover.add_component(C_Discover(new_artist_id))
   
 
   # CREATE A NEW PLAYLIST
@@ -227,54 +227,28 @@ class Observe_Listen(Observe_ListenTemplate):
   # playSpotify (starts, stops and resumes the music)
   def play_button_central_click(self, **event_args):
     if load_var('has_played') == 'False':
-      anvil.js.call_js('playNextSong', 'track', self.all_track_ids, self.all_artist_ids, self.all_artist_names, 'initial')
+      anvil.js.call_js('playNextSong', anvil.js.get_dom_node(self), 'track', self.all_track_ids, self.all_artist_ids, self.all_artist_names, 'initial')
     else:
       anvil.js.call_js('playSpotify')
     save_var('has_played', 'True')
       
 
   def backward_button_click(self, **event_args):
+    # play previous song
     save_var('has_played', 'True')
-    nextSpotifyArtistID = anvil.js.call_js('playNextSong', 'track', self.all_track_ids, self.all_artist_ids, self.all_artist_names, 'backward')
+    anvil.js.call_js('playNextSong', anvil.js.get_dom_node(self), 'track', self.all_track_ids, self.all_artist_ids, self.all_artist_names, 'backward')
 
-    # load related artist profile if its new
-    if (nextSpotifyArtistID):
-      new_artist_id = self.all_ai_artist_ids[self.all_artist_ids.index(nextSpotifyArtistID)]
-      self.column_panel_discover.clear()
-      self.column_panel_discover.add_component(C_Discover(new_artist_id))
-      
   def forward_button_click(self, **event_args):
     # play next song
     save_var('has_played', 'True')
-    nextSpotifyArtistID = anvil.js.call_js('playNextSong', 'track', self.all_track_ids, self.all_artist_ids, self.all_artist_names, 'forward')
+    anvil.js.call_js('playNextSong', anvil.js.get_dom_node(self), 'track', self.all_track_ids, self.all_artist_ids, self.all_artist_names, 'forward')
     
-    # load related artist profile if its new
-    if (nextSpotifyArtistID):
-      new_artist_id = self.all_ai_artist_ids[self.all_artist_ids.index(nextSpotifyArtistID)]
-      self.column_panel_discover.clear()
-      self.column_panel_discover.add_component(C_Discover(new_artist_id))
-
-  
   def fast_backward_button_click(self, **event_args):
     # play first song of next artist
     save_var('has_played', 'True')
-    nextSpotifyArtistID = anvil.js.call_js('playNextSong', 'track', self.all_track_ids, self.all_artist_ids, self.all_artist_names, 'fast-backward')
+    anvil.js.call_js('playNextSong', anvil.js.get_dom_node(self), 'track', self.all_track_ids, self.all_artist_ids, self.all_artist_names, 'fast-backward')
     
-    # load related artist profile
-    new_artist_id = self.all_ai_artist_ids[self.all_artist_ids.index(nextSpotifyArtistID)]
-    self.column_panel_discover.clear()
-    self.column_panel_discover.add_component(C_Discover(new_artist_id))
-
   def fast_forward_button_click(self, **event_args):
     # play first song of next artist
     save_var('has_played', 'True')
-    nextSpotifyArtistID = anvil.js.call_js('playNextSong', 'track', self.all_track_ids, self.all_artist_ids, self.all_artist_names, 'fast-forward')
-
-    # load related artist profile
-    new_artist_id = self.all_ai_artist_ids[self.all_artist_ids.index(nextSpotifyArtistID)]
-    self.column_panel_discover.clear()
-    self.column_panel_discover.add_component(C_Discover(new_artist_id))
-
-  @anvil.js.expose
-  def print_test(param):
-    print(f"TEST PRINT: {param}")
+    anvil.js.call_js('playNextSong', anvil.js.get_dom_node(self), 'track', self.all_track_ids, self.all_artist_ids, self.all_artist_names, 'fast-forward')

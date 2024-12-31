@@ -1020,7 +1020,7 @@ class C_Discover(C_DiscoverTemplate):
   def form_show(self, **event_args):
     # embed_iframe_element = document.getElementById("embed-iframe")
     # if embed_iframe_element:
-    #   self.call_js("createOrUpdateSpotifyPlayer", "artist", self.sug["SpotifyArtistID"])
+    #   self.call_js("createOrUpdateSpotifyPlayer", anvil.js.get_dom_node(self), "artist", self.sug["SpotifyArtistID"])
     #   # self.call_js('playSpotify_2')
     # else:
     #   print("Embed iframe element not found. Will not initialize Spotify player.")
@@ -2221,7 +2221,7 @@ class C_Discover(C_DiscoverTemplate):
     #     self.spotify_player_spot.clear()
     #     self.spotify_HTML_player()
     #     self.call_js(
-    #       "createOrUpdateSpotifyPlayer", "artist", self.sug["SpotifyArtistID"]
+    #       "createOrUpdateSpotifyPlayer", anvil.js.get_dom_node(self), "artist", self.sug["SpotifyArtistID"]
     #     )
     #
     # else:

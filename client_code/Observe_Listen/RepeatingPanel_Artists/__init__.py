@@ -8,6 +8,7 @@ from anvil.tables import app_tables
 import anvil.js
 
 from ...C_Discover import C_Discover
+from ...nav import click_link, click_button, logout, login_check, load_var, save_var
 
 
 class RepeatingPanel_Artists(RepeatingPanel_ArtistsTemplate):
@@ -26,5 +27,17 @@ class RepeatingPanel_Artists(RepeatingPanel_ArtistsTemplate):
 
   
   def link_artist_click(self, **event_args):
+    # get all required data
+    observed_tracks = self.parent.parent.parent.parent.parent.repeating_panel_artists.items
+    self.all_track_ids = [track['spotify_track_id'] for artist in observed_tracks for track in artist['tracks']]
+    self.all_artist_ids = [track['spotify_artist_id'] for artist in observed_tracks for track in artist['tracks']]
+    self.all_ai_artist_ids = [track['artist_id'] for artist in observed_tracks for track in artist['tracks']]
+    self.all_artist_names = [track['name'] for artist in observed_tracks for track in artist['tracks']]
+        
+    # start the first song of this artist
+    save_var('has_played', 'True')
+    anvil.js.call_js('playNextSong', anvil.js.get_dom_node(self), 'track', self.all_track_ids, self.all_artist_ids, self.all_artist_names, self.item["tracks"][0]['spotify_track_id'])
+
+    # refresh artist profile
     self.parent.parent.parent.parent.parent.column_panel_discover.clear()
     self.parent.parent.parent.parent.parent.column_panel_discover.add_component(C_Discover(self.item["artist_id"]))
