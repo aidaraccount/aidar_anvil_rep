@@ -1789,67 +1789,60 @@ class C_Discover(C_DiscoverTemplate):
     self.parent.parent.parent.parent.set_rating_highlight(None if self.sug["Interest"] == "None" else int(self.sug["Interest"]))
   
   def button_1_click(self, **event_args):
-    anvil.server.call(
-      "add_interest", user["user_id"], self.model_id, self.artist_id, 1, False, ""
-    )
-    # self.column_panel_header.scroll_into_view(smooth=True)
-    # next_artist_id = anvil.server.call("get_next_artist_id", self.model_id)
-    # routing.set_url_hash(f"artists?artist_id={next_artist_id}", load_from_cache=False)
-    Notification("", title="Artist rated with 1!", style="success").show()
+    if self.parent.parent.parent.parent.button_1.role != ['feature', 'highlight-button']:
+      anvil.server.call("add_interest", user["user_id"], self.model_id, self.artist_id, 1, False, "")
+      Notification("", title="Artist rated with 1!", style="success").show()
+    else:
+      anvil.server.call("add_interest", user["user_id"], self.model_id, self.artist_id, None, False, "")
+      Notification("", title="Artist no longer rated!", style="warning").show()
 
   def button_2_click(self, **event_args):
-    anvil.server.call(
-      "add_interest", user["user_id"], self.model_id, self.artist_id, 2, False, ""
-    )
-    # self.column_panel_header.scroll_into_view(smooth=True)
-    # next_artist_id = anvil.server.call("get_next_artist_id", self.model_id)
-    # routing.set_url_hash(f"artists?artist_id={next_artist_id}", load_from_cache=False)
-    Notification("", title="Artist rated with 2!", style="success").show()
+    if self.parent.parent.parent.parent.button_2.role != ['feature', 'highlight-button']:
+      anvil.server.call("add_interest", user["user_id"], self.model_id, self.artist_id, 2, False, "")
+      Notification("", title="Artist rated with 2!", style="success").show()
+    else:
+      anvil.server.call("add_interest", user["user_id"], self.model_id, self.artist_id, None, False, "")
+      Notification("", title="Artist no longer rated!", style="warning").show()
 
   def button_3_click(self, **event_args):
-    anvil.server.call(
-      "add_interest", user["user_id"], self.model_id, self.artist_id, 3, False, ""
-    )
-    # self.column_panel_header.scroll_into_view(smooth=True)
-    # next_artist_id = anvil.server.call("get_next_artist_id", self.model_id)
-    # routing.set_url_hash(f"artists?artist_id={next_artist_id}", load_from_cache=False)
-    Notification("", title="Artist rated with 3!", style="success").show()
+    if self.parent.parent.parent.parent.button_3.role != ['feature', 'highlight-button']:
+      anvil.server.call("add_interest", user["user_id"], self.model_id, self.artist_id, 3, False, "")
+      Notification("", title="Artist rated with 3!", style="success").show()
+    else:
+      anvil.server.call("add_interest", user["user_id"], self.model_id, self.artist_id, None, False, "")
+      Notification("", title="Artist no longer rated!", style="warning").show()
 
   def button_4_click(self, **event_args):
-    anvil.server.call(
-      "add_interest", user["user_id"], self.model_id, self.artist_id, 4, False, ""
-    )
-    # self.column_panel_header.scroll_into_view(smooth=True)
-    # next_artist_id = anvil.server.call("get_next_artist_id", self.model_id)
-    # routing.set_url_hash(f"artists?artist_id={next_artist_id}", load_from_cache=False)
-    Notification("", title="Artist rated with 4!", style="success").show()
+    if self.parent.parent.parent.parent.button_4.role != ['feature', 'highlight-button']:
+      anvil.server.call("add_interest", user["user_id"], self.model_id, self.artist_id, 4, False, "")
+      Notification("", title="Artist rated with 4!", style="success").show()
+    else:
+      anvil.server.call("add_interest", user["user_id"], self.model_id, self.artist_id, None, False, "")
+      Notification("", title="Artist no longer rated!", style="warning").show()
 
   def button_5_click(self, **event_args):
-    anvil.server.call(
-      "add_interest", user["user_id"], self.model_id, self.artist_id, 5, False, ""
-    )
-    # self.column_panel_header.scroll_into_view(smooth=True)
-    # next_artist_id = anvil.server.call("get_next_artist_id", self.model_id)
-    # routing.set_url_hash(f"artists?artist_id={next_artist_id}", load_from_cache=False)
-    Notification("", title="Artist rated with 5!", style="success").show()
+    if self.parent.parent.parent.parent.button_5.role != ['feature', 'highlight-button']:
+      anvil.server.call("add_interest", user["user_id"], self.model_id, self.artist_id, 5, False, "")
+      Notification("", title="Artist rated with 5!", style="success").show()
+    else:
+      anvil.server.call("add_interest", user["user_id"], self.model_id, self.artist_id, None, False, "")
+      Notification("", title="Artist no longer rated!", style="warning").show()
 
   def button_6_click(self, **event_args):
-    anvil.server.call(
-      "add_interest", user["user_id"], self.model_id, self.artist_id, 6, False, ""
-    )
-    # self.column_panel_header.scroll_into_view(smooth=True)
-    # next_artist_id = anvil.server.call("get_next_artist_id", self.model_id)
-    # routing.set_url_hash(f"artists?artist_id={next_artist_id}", load_from_cache=False)
-    Notification("", title="Artist rated with 6!", style="success").show()
+    if self.parent.parent.parent.parent.button_6.role != ['feature', 'highlight-button']:
+      anvil.server.call("add_interest", user["user_id"], self.model_id, self.artist_id, 6, False, "")
+      Notification("", title="Artist rated with 6!", style="success").show()
+    else:
+      anvil.server.call("add_interest", user["user_id"], self.model_id, self.artist_id, None, False, "")
+      Notification("", title="Artist no longer rated!", style="warning").show()
 
   def button_7_click(self, **event_args):
-    anvil.server.call(
-      "add_interest", user["user_id"], self.model_id, self.artist_id, 7, False, ""
-    )
-    # self.column_panel_header.scroll_into_view(smooth=True)
-    # next_artist_id = anvil.server.call("get_next_artist_id", self.model_id)
-    # routing.set_url_hash(f"artists?artist_id={next_artist_id}", load_from_cache=False)
-    Notification("", title="Artist rated with 7!", style="success").show()
+    if self.parent.parent.parent.parent.button_7.role != ['feature', 'highlight-button']:
+      anvil.server.call("add_interest", user["user_id"], self.model_id, self.artist_id, 7, False, "")
+      Notification("", title="Artist rated with 7!", style="success").show()
+    else:
+      anvil.server.call("add_interest", user["user_id"], self.model_id, self.artist_id, None, False, "")
+      Notification("", title="Artist no longer rated!", style="warning").show()
 
   # -------------------------------
   # DESCRIPTION LINKS
