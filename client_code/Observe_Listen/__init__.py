@@ -143,7 +143,7 @@ class Observe_Listen(Observe_ListenTemplate):
                                         notification["song_selection_2"]
                                         )
     
-    # print('observed_tracks:', observed_tracks)
+    print('observed_tracks:', observed_tracks)
     
     self.initial_track_id = observed_tracks[0]['tracks'][0]['spotify_track_id']
     self.initial_artist_id = observed_tracks[0]['tracks'][0]['spotify_artist_id']
