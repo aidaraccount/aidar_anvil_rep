@@ -1646,7 +1646,7 @@ components:
       padding: ['5', null, null, null]
     spacing_above: none
     spacing_below: none
-    visible: true
+    visible: false
   type: ColumnPanel
 container:
   properties: {background: '', html: '@theme:C_Discover.html', role: null}

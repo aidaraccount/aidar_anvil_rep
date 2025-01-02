@@ -216,7 +216,9 @@ class Observe_Listen(Observe_ListenTemplate):
       click_link(notification_link, f'listen?notification_id={notification_id}', event_args)
     return handler
 
+  
   # FOOTER
+  # Spotify Widget
   def spotify_HTML_player(self):
     c_web_player_html = '''
       <div id="embed-iframe"></div>
@@ -224,15 +226,14 @@ class Observe_Listen(Observe_ListenTemplate):
     html_webplayer_panel = HtmlPanel(html=c_web_player_html)
     self.footer_left.add_component(html_webplayer_panel)
     
-  # playSpotify (starts, stops and resumes the music)
+  # Play Controller
   def play_button_central_click(self, **event_args):
     if load_var('has_played') == 'False':
       anvil.js.call_js('playNextSong', anvil.js.get_dom_node(self), 'track', self.all_track_ids, self.all_artist_ids, self.all_artist_names, 'initial')
     else:
       anvil.js.call_js('playSpotify')
     save_var('has_played', 'True')
-      
-
+  
   def backward_button_click(self, **event_args):
     # play previous song
     save_var('has_played', 'True')
@@ -252,3 +253,26 @@ class Observe_Listen(Observe_ListenTemplate):
     # play first song of next artist
     save_var('has_played', 'True')
     anvil.js.call_js('playNextSong', anvil.js.get_dom_node(self), 'track', self.all_track_ids, self.all_artist_ids, self.all_artist_names, 'fast-forward')
+
+  # Ratings
+  def button_1_click(self, **event_args):
+    self.column_panel_discover.get_components()[0].button_1_click()
+    
+  def button_2_click(self, **event_args):
+    self.column_panel_discover.get_components()[0].button_2_click()
+    
+  def button_3_click(self, **event_args):
+    self.column_panel_discover.get_components()[0].button_3_click()
+    
+  def button_4_click(self, **event_args):
+    self.column_panel_discover.get_components()[0].button_4_click()
+    
+  def button_5_click(self, **event_args):
+    self.column_panel_discover.get_components()[0].button_5_click()
+    
+  def button_6_click(self, **event_args):
+    self.column_panel_discover.get_components()[0].button_6_click()
+    
+  def button_7_click(self, **event_args):
+    self.column_panel_discover.get_components()[0].button_7_click()
+    
