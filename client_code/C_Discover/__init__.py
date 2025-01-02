@@ -1786,6 +1786,9 @@ class C_Discover(C_DiscoverTemplate):
 
   # -------------------------------
   # RATING BUTTONS
+  def set_rating_highlight(self, **event_args):
+    self.parent.parent.parent.parent.set_rating_highlight(None if self.sug["Interest"] == "None" else int(self.sug["Interest"]))
+  
   def button_1_click(self, **event_args):
     anvil.server.call(
       "add_interest", user["user_id"], self.model_id, self.artist_id, 1, False, ""
