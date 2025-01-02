@@ -35,10 +35,15 @@ class RepeatingPanel_Tracks(RepeatingPanel_TracksTemplate):
       save_var('lastplayedtrackid', self.item["spotify_track_id"])
       save_var('lastplayedartistid', self.item["spotify_artist_id"])
       
-      self.parent.parent.parent.parent.parent.parent.parent.parent.footer_left.clear()
-      self.parent.parent.parent.parent.parent.parent.parent.parent.spotify_HTML_player()
-      self.parent.parent.parent.parent.parent.parent.parent.parent.call_js('createOrUpdateSpotifyPlayer', anvil.js.get_dom_node(self), 'track', self.item["spotify_track_id"], all_track_ids, all_artist_ids, all_artist_names)
-      anvil.js.call_js('playSpotify')
+      # self.parent.parent.parent.parent.parent.parent.parent.parent.footer_left.clear()
+      # self.parent.parent.parent.parent.parent.parent.parent.parent.spotify_HTML_player()
+      # self.parent.parent.parent.parent.parent.parent.parent.parent.call_js('createOrUpdateSpotifyPlayer', anvil.js.get_dom_node(self), 'track', self.item["spotify_track_id"], all_track_ids, all_artist_ids, all_artist_names)
+      # anvil.js.call_js('playSpotify')
+      
+      # function playNextSong(formElement, trackOrArtist, spotifyTrackIDsList, spotifyArtistIDsList, spotifyArtistNameList, direction='forward') {
+      anvil.js.call_js('playNextSong', anvil.js.get_dom_node(self), 'track', all_track_ids, all_artist_ids, all_artist_names, self.item["tracks"][0]['spotify_track_id'])
+      # anvil.js.call_js('playNextSong', anvil.js.get_dom_node(self), 'track', self.all_track_ids, self.all_artist_ids, self.all_artist_names, self.item["tracks"][0]['spotify_track_id'])
+
       
     else:
       anvil.js.call_js('playSpotify')

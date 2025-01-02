@@ -38,6 +38,9 @@ class RepeatingPanel_Artists(RepeatingPanel_ArtistsTemplate):
     save_var('has_played', 'True')
     anvil.js.call_js('playNextSong', anvil.js.get_dom_node(self), 'track', self.all_track_ids, self.all_artist_ids, self.all_artist_names, self.item["tracks"][0]['spotify_track_id'])
 
-    # refresh artist profile
-    self.parent.parent.parent.parent.parent.column_panel_discover.clear()
-    self.parent.parent.parent.parent.parent.column_panel_discover.add_component(C_Discover(self.item["artist_id"]))
+    # refresh artist profile (not needed!!)
+    # not needed as handles by playNextSong from Spotify_Player_js.js
+    # in the code: anvil.call(formElement, 'reload_discover', nextSpotifyArtistID);
+    # self.parent.parent.parent.parent.parent.column_panel_discover.clear()
+    # self.parent.parent.parent.parent.parent.column_panel_discover.add_component(C_Discover(self.item["artist_id"]))
+    

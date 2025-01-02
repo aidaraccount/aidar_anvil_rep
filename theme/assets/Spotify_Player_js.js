@@ -149,6 +149,7 @@ function playNextSong(formElement, trackOrArtist, spotifyTrackIDsList, spotifyAr
   let nextSpotifyArtistName = null;
   
   if (direction === 'initial') {
+    console.log("first song? index: " + index);
     nextSpotifyTrackID = spotifyTrackIDsList[index];
     if (spotifyArtistIDsList) {
       nextSpotifyArtistID = spotifyArtistIDsList[index];
@@ -223,7 +224,13 @@ function playNextSong(formElement, trackOrArtist, spotifyTrackIDsList, spotifyAr
   if (controller && nextSpotifyTrackID) {
     const nextSongUri = `spotify:${trackOrArtist}:${nextSpotifyTrackID}`;
     globalCurrentSpotifyID = nextSpotifyTrackID;
-    controller.loadUri(nextSongUri);
+
+    // reload the controler only if not the first song is played (as its alreay pre-loaded)
+    if (index === 0 && direction === 'initial') {
+      console.log("No new CONTROLLER needed!");
+    } else {
+      controller.loadUri(nextSongUri);
+    }
     
     // Check if the artist has changed to read their name
     const currentArtistID = spotifyArtistIDsList ? spotifyArtistIDsList[index] : null;
@@ -239,22 +246,19 @@ function playNextSong(formElement, trackOrArtist, spotifyTrackIDsList, spotifyAr
     if (nextSpotifyArtistID && (currentArtistID !== nextSpotifyArtistID || sessionStorage.getItem("has_played") === 'False')) {
       speakText(`...Presenting, ${nextSpotifyArtistName}!`)
     }
+
+    // start playling
     controller.play();
+    controller.isPlaying = true;
+    controller.isPaused = false;
     
     // Set play button icons
     setPlayButtonIcons(false, 'track', spotifyTrackIDsList, spotifyArtistIDsList)
 
     // load similar artist profile
     if (nextSpotifyArtistID && (currentArtistID !== nextSpotifyArtistID && sessionStorage.getItem("has_played") === 'True')) {
-      console.log('load similar artist profile - start')
       anvil.call(formElement, 'reload_discover', nextSpotifyArtistID);
-      console.log('load similar artist profile - end')
     }
-    
-    // // return sp_artist_id of next artist if its a new one
-    // if (nextSpotifyArtistID && (currentArtistID !== nextSpotifyArtistID || sessionStorage.getItem("has_played") === 'False')) {
-    //   return nextSpotifyArtistID;
-    // }
     
   }
 }
