@@ -14,7 +14,6 @@ class RepeatingPanel_Tracks(RepeatingPanel_TracksTemplate):
     self.init_components(**properties)
     
     # Any code you write here will run before the form opens.
-
     # set album picture    
     if self.item["album_picture_url"] is not None:
       self.album_img.source = self.item["album_picture_url"]
@@ -27,23 +26,18 @@ class RepeatingPanel_Tracks(RepeatingPanel_TracksTemplate):
     all_track_ids = [track['spotify_track_id'] for artist in all_rows for track in artist['tracks']]
     all_artist_ids = [track['spotify_artist_id'] for artist in all_rows for track in artist['tracks']]
     all_artist_names = [track['name'] for artist in all_rows for track in artist['tracks']]
-
-    print('all_track_ids:', all_track_ids)
-    print('all_artist_ids:', all_artist_ids)
     
     if load_var("lastplayedtrackid") != self.item["spotify_track_id"]:
       save_var('lastplayedtrackid', self.item["spotify_track_id"])
       save_var('lastplayedartistid', self.item["spotify_artist_id"])
       
-      # self.parent.parent.parent.parent.parent.parent.parent.parent.footer_left.clear()
-      # self.parent.parent.parent.parent.parent.parent.parent.parent.spotify_HTML_player()
-      # self.parent.parent.parent.parent.parent.parent.parent.parent.call_js('createOrUpdateSpotifyPlayer', anvil.js.get_dom_node(self), 'track', self.item["spotify_track_id"], all_track_ids, all_artist_ids, all_artist_names)
-      # anvil.js.call_js('playSpotify')
-      
-      # function playNextSong(formElement, trackOrArtist, spotifyTrackIDsList, spotifyArtistIDsList, spotifyArtistNameList, direction='forward') {
-      anvil.js.call_js('playNextSong', anvil.js.get_dom_node(self), 'track', all_track_ids, all_artist_ids, all_artist_names, self.item["tracks"][0]['spotify_track_id'])
-      # anvil.js.call_js('playNextSong', anvil.js.get_dom_node(self), 'track', self.all_track_ids, self.all_artist_ids, self.all_artist_names, self.item["tracks"][0]['spotify_track_id'])
-
+      anvil.js.call_js('playNextSong',
+                       anvil.js.get_dom_node(self),
+                       'track',
+                       all_track_ids,
+                       all_artist_ids,
+                       all_artist_names,
+                       self.item["spotify_track_id"])
       
     else:
       anvil.js.call_js('playSpotify')

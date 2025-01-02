@@ -2109,7 +2109,7 @@ footer a, .footer .anvil-component {
 
 /* Rating buttons on the ListenIn page */
 .anvil-role-highlight-button button {
-  box-shadow: 0 0 5px #E95F30, 0 0 10px #E95F30, 0 0 15px #E95F30; /* Static orange glow */
+  box-shadow: 0 0 5px #E95F30, 0 0 9px #E95F30, 0 0 13px #E95F30; /* Static orange glow */
   transition: all 0.3s ease; /* Smooth hover effect */
 }
 .anvil-role-feature > button:hover {

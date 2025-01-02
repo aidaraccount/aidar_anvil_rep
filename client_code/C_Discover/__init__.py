@@ -17,8 +17,6 @@ import anvil.js
 import anvil.js.window
 from anvil.js.window import document, updateGauge, playSpotify, autoPlaySpotify
 
-# from anvil.js import callable
-
 from anvil_extras import routing
 from ..nav import click_link, click_button, logout, login_check, load_var, save_var
 import time
@@ -61,6 +59,7 @@ class C_Discover(C_DiscoverTemplate):
       self.refresh_sug()
       self.column_panel_header.scroll_into_view(smooth=True)
 
+  
   # -------------------------------------------
   # SUGGESTIONS
   def refresh_sug(self, **event_args):
@@ -99,6 +98,7 @@ class C_Discover(C_DiscoverTemplate):
     sug = json.loads(
       anvil.server.call("get_suggestion", "Inspect", self.model_id, self.url_artist_id)
     )  # Free, Explore, Inspect, Dissect
+    print(sug)
     self.sug = sug
     save_var("lastplayed", self.sug["SpotifyArtistID"])
 
@@ -162,12 +162,14 @@ class C_Discover(C_DiscoverTemplate):
 
       # --------
       # watchlist
-      if watchlist_presence == "True":
-        self.link_watchlist_name.icon = "fa:star"
-        self.link_watchlist_name2.icon = "fa:star"
-      else:
-        self.link_watchlist_name.icon = "fa:star-o"
-        self.link_watchlist_name2.icon = "fa:star-o"
+      # if watchlist_presence == "True":
+      #   self.link_watchlist_name.icon = "fa:star"
+      #   # self.link_watchlist_name2.icon = "fa:star"
+      #   self.parent.parent.parent.parent.link_watchlist_name2.icon = "fa:star"
+      # else:
+      #   self.link_watchlist_name.icon = "fa:star-o"
+      #   # self.link_watchlist_name2.icon = "fa:star-o"        
+      #   self.parent.parent.parent.parent.link_watchlist_name2.icon = "fa:star-o"
 
       # --------
       # name
@@ -1711,25 +1713,23 @@ class C_Discover(C_DiscoverTemplate):
 
   # -------------------------------
   # WATCHLIST
-  def link_watchlist_name_click(self, **event_args):
+  def link_watchlist_name_click(self, **event_args):    
     name = self.Artist_Name_Details.get_components()
     name = name[0].text
     if self.link_watchlist_name.icon == "fa:star":
       self.link_watchlist_name.icon = "fa:star-o"
-      self.link_watchlist_name2.icon = "fa:star-o"
+      # self.link_watchlist_name2.icon = "fa:star-o"
+      self.parent.parent.parent.parent.link_watchlist_name2.icon = "fa:star-o"
       self.update_watchlist_lead(self.artist_id, False, None, False)
-      Notification(
-        "", title=f"{name} removed from the watchlist!", style="success"
-      ).show()
+      Notification("", title=f"{name} removed from the watchlist!", style="success").show()
     else:
       self.link_watchlist_name.icon = "fa:star"
-      self.link_watchlist_name2.icon = "fa:star"
+      # self.link_watchlist_name2.icon = "fa:star"
+      self.parent.parent.parent.parent.link_watchlist_name2.icon = "fa:star"
       self.update_watchlist_lead(self.artist_id, True, "Action required", True)
       Notification("", title=f"{name} added to the watchlist!", style="success").show()
 
-  def update_watchlist_lead(
-    self, artist_id, watchlist, status, notification, **event_args
-  ):
+  def update_watchlist_lead(self, artist_id, watchlist, status, notification, **event_args):
     anvil.server.call(
       "update_watchlist_lead",
       user["user_id"],
@@ -1739,7 +1739,8 @@ class C_Discover(C_DiscoverTemplate):
       status,
       notification,
     )
-    self.parent.parent.update_no_notifications()
+    
+    self.parent.parent.parent.parent.parent.parent.update_no_notifications()
 
   # -------------------------------
   # SECTION NAVIGATION
@@ -2153,7 +2154,8 @@ class C_Discover(C_DiscoverTemplate):
 
     if self.link_watchlist_name.icon == "fa:star-o":
       self.link_watchlist_name.icon = "fa:star"
-      self.link_watchlist_name2.icon = "fa:star"
+      # self.link_watchlist_name2.icon = "fa:star"
+      self.parent.parent.parent.parent.link_watchlist_name2.icon = "fa:star"
       name = self.Artist_Name_Details.get_components()
       name = name[0].text
       Notification("", title=f"{name} added to the watchlist!", style="success").show()
@@ -2233,10 +2235,10 @@ class C_Discover(C_DiscoverTemplate):
     # self.reset_track_play_buttons()
     pass
 
-  def reset_track_play_buttons(self, **event_args):
-    components = self.data_grid_releases_data.get_components()
-    for component in components:
-      component.button_play_track.icon = "fa:play-circle"
+  # def reset_track_play_buttons(self, **event_args):
+  #   components = self.data_grid_releases_data.get_components()
+  #   for component in components:
+  #     component.button_play_track.icon = "fa:play-circle"
 
   def autoplay_button_click(self, **event_args):
     if self.autoplay_button.icon == "fa:toggle-on":
@@ -2253,3 +2255,16 @@ class C_Discover(C_DiscoverTemplate):
       buttons=[],
       role=["progress-message", "remove-focus"],
     )
+
+  def set_watchlist_icons(self):
+    if self.watchlist_id is None:
+      watchlist_presence = "False"
+    else:
+      watchlist_presence = anvil.server.call("check_watchlist_presence", self.watchlist_id, self.url_artist_id)
+    
+    if watchlist_presence == "True":
+      self.link_watchlist_name.icon = "fa:star"
+      self.parent.parent.parent.parent.link_watchlist_name2.icon = "fa:star"
+    else:
+      self.link_watchlist_name.icon = "fa:star-o"     
+      self.parent.parent.parent.parent.link_watchlist_name2.icon = "fa:star-o"

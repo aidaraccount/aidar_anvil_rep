@@ -52,9 +52,12 @@ class Observe_Listen(Observe_ListenTemplate):
       
       print('self.repeating_panel_artists.items[0]["artist_id"]:', self.repeating_panel_artists.items[0]["artist_id"])
       first_artist_id = self.repeating_panel_artists.items[0]["artist_id"]
-      self.reset_rating_highlight()
+      # self.reset_rating_highlight()
       self.column_panel_discover.clear()
       self.column_panel_discover.add_component(C_Discover(first_artist_id))
+
+      # set watchlist status
+      self.column_panel_discover.get_components()[0].set_watchlist_icons()
       
       # Instantiate Spotify Player
       self.footer_left.clear()
@@ -161,7 +164,9 @@ class Observe_Listen(Observe_ListenTemplate):
     self.reset_rating_highlight()
     self.column_panel_discover.clear()
     self.column_panel_discover.add_component(C_Discover(new_artist_id))
-  
+    
+    # set watchlist status
+    self.column_panel_discover.get_components()[0].set_watchlist_icons()
 
   # CREATE A NEW PLAYLIST
   def add_spotify_playlist_click(self, **event_args):
@@ -261,78 +266,65 @@ class Observe_Listen(Observe_ListenTemplate):
     anvil.js.call_js('playNextSong', anvil.js.get_dom_node(self), 'track', self.all_track_ids, self.all_artist_ids, self.all_artist_names, 'fast-forward')
 
   # Ratings
-  def reset_rating_highlight(self, **event_args):
-    self.button_1.role = ['feature']
-    self.button_2.role = ['feature']
-    self.button_3.role = ['feature']
-    self.button_4.role = ['feature']
-    self.button_5.role = ['feature']
-    self.button_6.role = ['feature']
-    self.button_7.role = ['feature']
+  def set_rating_highlight(self, no=None, **event_args):
+    if no == 1 and self.button_1.role != ['feature', 'highlight-button']:
+      self.button_1.role = ['feature', 'highlight-button']
+    else:
+      self.button_1.role = ['feature']
+    if no == 2 and self.button_2.role != ['feature', 'highlight-button']:
+      self.button_2.role = ['feature', 'highlight-button']
+    else:
+      self.button_2.role = ['feature']
+    if no == 3 and self.button_3.role != ['feature', 'highlight-button']:
+      self.button_3.role = ['feature', 'highlight-button']
+    else:
+      self.button_3.role = ['feature']
+    if no == 4 and self.button_4.role != ['feature', 'highlight-button']:
+      self.button_4.role = ['feature', 'highlight-button']
+    else:
+      self.button_4.role = ['feature']
+    if no == 5 and self.button_5.role != ['feature', 'highlight-button']:
+      self.button_5.role = ['feature', 'highlight-button']
+    else:
+      self.button_5.role = ['feature']
+    if no == 6 and self.button_6.role != ['feature', 'highlight-button']:
+      self.button_6.role = ['feature', 'highlight-button']
+    else:
+      self.button_6.role = ['feature']
+    if no == 7 and self.button_7.role != ['feature', 'highlight-button']:
+      self.button_7.role = ['feature', 'highlight-button']
+    else:
+      self.button_7.role = ['feature']
     
   def button_1_click(self, **event_args):
     # self.column_panel_discover.get_components()[0].button_1_click()
-    if self.button_1.role == ['feature', 'highlight-button']:
-      self.reset_rating_highlight()
-      self.button_1.role = ['feature']
-    else:
-      self.reset_rating_highlight()
-      self.button_1.role = ['feature', 'highlight-button']
+    self.set_rating_highlight(1)
     
   def button_2_click(self, **event_args):
     # self.column_panel_discover.get_components()[0].button_2_click()
-    if self.button_2.role == ['feature', 'highlight-button']:
-      self.reset_rating_highlight()
-      self.button_2.role = ['feature']
-    else:
-      self.reset_rating_highlight()
-      self.button_2.role = ['feature', 'highlight-button']
+    self.set_rating_highlight(2)
     
   def button_3_click(self, **event_args):
     # self.column_panel_discover.get_components()[0].button_3_click()
-    if self.button_3.role == ['feature', 'highlight-button']:
-      self.reset_rating_highlight()
-      self.button_3.role = ['feature']
-    else:
-      self.reset_rating_highlight()
-      self.button_3.role = ['feature', 'highlight-button']
+    self.set_rating_highlight(3)
     
   def button_4_click(self, **event_args):
     # self.column_panel_discover.get_components()[0].button_4_click()
-    if self.button_4.role == ['feature', 'highlight-button']:
-      self.reset_rating_highlight()
-      self.button_4.role = ['feature']
-    else:
-      self.reset_rating_highlight()
-      self.button_4.role = ['feature', 'highlight-button']
+    self.set_rating_highlight(4)
     
   def button_5_click(self, **event_args):
     # self.column_panel_discover.get_components()[0].button_5_click()
-    if self.button_5.role == ['feature', 'highlight-button']:
-      self.reset_rating_highlight()
-      self.button_5.role = ['feature']
-    else:
-      self.reset_rating_highlight()
-      self.button_5.role = ['feature', 'highlight-button']
+    self.set_rating_highlight(5)
     
   def button_6_click(self, **event_args):
     # self.column_panel_discover.get_components()[0].button_6_click()
-    if self.button_6.role == ['feature', 'highlight-button']:
-      self.reset_rating_highlight()
-      self.button_6.role = ['feature']
-    else:
-      self.reset_rating_highlight()
-      self.button_6.role = ['feature', 'highlight-button']
+    self.set_rating_highlight(6)
     
   def button_7_click(self, **event_args):
     # self.column_panel_discover.get_components()[0].button_7_click()
-    if self.button_7.role == ['feature', 'highlight-button']:
-      self.reset_rating_highlight()
-      self.button_7.role = ['feature']
-    else:
-      self.reset_rating_highlight()
-      self.button_7.role = ['feature', 'highlight-button']
+    self.set_rating_highlight(7)
 
+  # watchlist
   def link_watchlist_name_click(self, **event_args):
     self.column_panel_discover.get_components()[0].link_watchlist_name_click()
     
