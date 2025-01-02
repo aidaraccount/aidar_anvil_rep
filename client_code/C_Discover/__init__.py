@@ -98,7 +98,6 @@ class C_Discover(C_DiscoverTemplate):
     sug = json.loads(
       anvil.server.call("get_suggestion", "Inspect", self.model_id, self.url_artist_id)
     )  # Free, Explore, Inspect, Dissect
-    print(sug)
     self.sug = sug
     save_var("lastplayed", self.sug["SpotifyArtistID"])
 
