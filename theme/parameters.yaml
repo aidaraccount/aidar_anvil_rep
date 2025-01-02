@@ -378,3 +378,5 @@ roles:
   name: icon-button-disabled
 - {name: top-border}
 - {name: buttom-border}
+- components: [Button]
+  name: highlight-button

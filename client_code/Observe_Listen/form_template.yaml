@@ -75,7 +75,7 @@ components:
     properties:
       role: spotify-footer-class
       spacing:
-        margin: [0, null, 0, 10]
+        margin: ['10', null, 0, 10]
     type: ColumnPanel
   - components:
     - components:
@@ -85,7 +85,7 @@ components:
         properties:
           role: feature
           spacing:
-            margin: [null, '5', null, null]
+            margin: [10, '5', '10', '40']
             padding: [null, '14', null, '14']
           spacing_above: small
           spacing_below: none
@@ -93,11 +93,11 @@ components:
         type: Button
       - event_bindings: {click: button_2_click}
         layout_properties: {}
-        name: button_1_copy
+        name: button_2
         properties:
           role: feature
           spacing:
-            margin: [null, '5', null, '5']
+            margin: [10, '5', '10', '5']
             padding: [null, '12.5', null, '12.5']
           spacing_above: small
           spacing_below: none
@@ -105,59 +105,59 @@ components:
         type: Button
       - event_bindings: {click: button_3_click}
         layout_properties: {}
-        name: button_1_copy_2
+        name: button_3
         properties:
           role: feature
           spacing:
-            margin: [null, '5', null, '5']
+            margin: [10, '5', '10', '5']
           spacing_above: small
           spacing_below: none
           text: '3'
         type: Button
       - event_bindings: {click: button_4_click}
         layout_properties: {}
-        name: button_1_copy_3
+        name: button_4
         properties:
           background: rgb(255,217,203)
           bold: false
           role: feature
           spacing:
-            margin: [null, '5', null, '5']
+            margin: ['10', '5', '10', '5']
           spacing_above: small
           spacing_below: none
           text: '4'
         type: Button
       - event_bindings: {click: button_5_click}
         layout_properties: {}
-        name: button_1_copy_4
+        name: button_5
         properties:
           background: rgb(254,178,150)
           bold: true
           foreground: ''
           role: feature
           spacing:
-            margin: [null, '5', null, 5]
+            margin: ['10', '5', '10', 5]
           spacing_above: small
           spacing_below: none
           text: '5'
         type: Button
       - event_bindings: {click: button_6_click}
         layout_properties: {}
-        name: button_1_copy_5
+        name: button_6
         properties:
           background: rgb(254,140,98)
           bold: true
           foreground: ''
           role: feature
           spacing:
-            margin: [null, '5', null, 5]
+            margin: ['10', '5', '10', 5]
           spacing_above: small
           spacing_below: none
           text: '6'
         type: Button
       - event_bindings: {click: button_7_click}
         layout_properties: {}
-        name: button_1_copy_6
+        name: button_7
         properties:
           background: rgb(253, 101, 45)
           bold: true
@@ -165,33 +165,41 @@ components:
           foreground: theme:Text_White
           role: feature
           spacing:
-            margin: [null, null, null, '5']
+            margin: ['10', '5', '10', '5']
           spacing_above: small
           spacing_below: none
           text: '7'
         type: Button
       - event_bindings: {click: link_watchlist_name_click}
+        layout_properties: {}
         name: link_watchlist_name2
-        properties: {role: artist_name_shadow, spacing_above: none, spacing_below: none}
+        properties:
+          icon: fa:star-o
+          role: artist_name_shadow
+          spacing:
+            margin: ['5', null, null, '5']
+          spacing_above: none
+          spacing_below: none
         type: Link
       layout_properties: {grid_position: 'SWSPEX,OVHDMI'}
       name: flow_panel_1
       properties:
         align: center
-        gap: medium
+        gap: none
         spacing:
-          margin: [null, null, 0, null]
+          margin: [0, null, 0, null]
         vertical_align: full
       type: FlowPanel
     - components:
       - data_bindings:
         - {code: '[''fast-backward-button'', ''icon-button-disabled'']', property: role, writeback: false}
         event_bindings: {click: fast_backward_button_click}
+        layout_properties: {}
         name: fast_backward_button
         properties:
           icon: fa:fast-backward
           spacing:
-            margin: [15, null, null, null]
+            margin: [0, null, null, null]
             padding: [null, 0, null, 0]
           text: ''
           tooltip: previous artist
@@ -199,12 +207,13 @@ components:
       - data_bindings:
         - {code: '[''backward-button'', ''icon-button-disabled'']', property: role, writeback: false}
         event_bindings: {click: backward_button_click}
+        layout_properties: {}
         name: backward_button
         properties:
           icon: fa:step-backward
           role: icon-button-disabled
           spacing:
-            margin: [15, null, null, null]
+            margin: [0, null, null, null]
             padding: [null, 0, null, 0]
           text: ''
           tooltip: previous track
@@ -222,12 +231,13 @@ components:
       - data_bindings:
         - {code: '[''forward-button'', ''icon-button'']', property: role, writeback: false}
         event_bindings: {click: forward_button_click}
+        layout_properties: {}
         name: forward_button
         properties:
           icon: fa:step-forward
           role: icon-button
           spacing:
-            margin: [15, null, null, null]
+            margin: [0, null, null, null]
             padding: [null, 0, null, 0]
           text: ''
           tooltip: next track
@@ -235,11 +245,12 @@ components:
       - data_bindings:
         - {code: '[''fast-forward-button'', ''icon-button'']', property: role, writeback: false}
         event_bindings: {click: fast_forward_button_click}
+        layout_properties: {}
         name: fast_forward_button
         properties:
           icon: fa:fast-forward
           spacing:
-            margin: [15, null, null, null]
+            margin: [0, null, null, null]
             padding: [null, 0, null, 0]
           text: ''
           tooltip: next artist
@@ -251,6 +262,7 @@ components:
         gap: none
         spacing:
           margin: [0, null, 0, null]
+        vertical_align: full
       type: FlowPanel
     layout_properties: {grid_position: 'ULLGXX,BMCCVG'}
     name: footer_center

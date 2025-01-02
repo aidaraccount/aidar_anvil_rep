@@ -281,15 +281,6 @@ body, html {
   position: relative !important;
   width: auto !important;
 }
-/* Customize width of COLUMN 9 in Watchlist Overview Table */
-/* .data-row-col:has(> .anvil-role-feature){ */
-  /* width: 110px !important; */
-  /* width: 150px !important;
-  min-widht: 109px;
-  max-width: 150px;
-  text-align: center;
-} */
-
 
 .anvil-role-col-artist-image {
   display: flex;
@@ -976,7 +967,6 @@ body, html {
 }
 
 .anvil-role-highlights-tile-background {
-  /*background: linear-gradient(to top left, rgba(259, 250, 250, 0.1) 50%, rgb(131, 111, 59));*/
   background: linear-gradient(to top left, rgba(25, 16, 53, 0.3) 30%, rgb(25, 16, 53));
   border-radius: 15px;
   display: flex;
@@ -989,7 +979,6 @@ body, html {
   padding: 4px 5px 4px 5px;
 }
 .anvil-role-highlights-tile-background-for-col {
-  /*background: linear-gradient(to top left, rgba(259, 250, 250, 0.1) 50%, rgb(131, 111, 59));*/
   background: linear-gradient(to top left, rgba(25, 16, 53, 0.3) 30%, rgb(25, 16, 53));
   border-radius: 15px;
   justify-content: left;
@@ -1221,7 +1210,6 @@ a>.link-text {
   font-weight: bold;
   color: %color:Text_Grey%;
   padding: 0 !important;
-  /* max-width: 110%;  */
 }
 
 .anvil-role-feature-login  .btn.btn-default.to-disable{
@@ -1230,8 +1218,6 @@ a>.link-text {
 .data-row-col:has(> .anvil-role-feature-talent-dev) {
   width: auto !important;
   flex-grow: 1 !important;
-  /* width: 105% !important; */
-  /* max-width: 120%;  */
 }
 
 .anvil-role-feature {
@@ -1239,8 +1225,6 @@ a>.link-text {
   font-size: 14px;
   color: %color:Text_Grey%;
   padding: 0 !important;
-  /* width: 105% !important; */
-  /* max-width: 120%;  */
 }
 
 .anvil-role-feature .btn.btn-default.to-disable {
@@ -1407,12 +1391,6 @@ anvil-role-test {
   justify-content: center; 
   align-items: center;
 }
-.nav {
-  /* box-shadow: 0 1px 3px #888; */
-  /* flex-basis: auto; */
-  /* position: relative; */
-  /* color: %color:Accent 1%; */
-}
 .search_box {
   width: 1000px;
   margin-left: 250px;
@@ -1478,12 +1456,7 @@ body.anvil-highlight .nav-elt.placeholder {
     padding: 0 0px;
 }
 
-.cards > .anvil-container {
-    /*outline: none !important;*/
-}
-
-.anvil-role-card,
-.designer .anvil-highlight .anvil-role-card {
+.anvil-role-card, .designer .anvil-highlight .anvil-role-card {
     background-color: grey;
     box-shadow: 1px 2px 4px #888;
     font-weight: normal;
@@ -1496,11 +1469,6 @@ body.anvil-highlight .nav-elt.placeholder {
 .anvil-role-card>.anvil-panel-section>.anvil-panel-section-container {
     padding: 0 15px;
 }
-
-/* Responsive bits: Make the menu overlay the screen
-   (and hidden by default) rather than displacing it
-   on small screens
-*/
 
 @media(max-width:767px) {
   .cards {
@@ -2139,7 +2107,16 @@ footer a, .footer .anvil-component {
 }
 /* CSS for Fit Likelihood on the Discover Page ENDS Here */
 
-/* This is to provide class for the play/pause buttons on the Discover and ListenIn page */
+/* Rating buttons on the ListenIn page */
+.anvil-role-highlight-button button {
+  box-shadow: 0 0 5px #E95F30, 0 0 10px #E95F30, 0 0 15px #E95F30; /* Static orange glow */
+  transition: all 0.3s ease; /* Smooth hover effect */
+}
+.anvil-role-feature > button:hover {
+  box-shadow: 0 0 10px #E95F30, 0 0 20px #E95F30, 0 0 30px #E95F30; /* Brighter glow on hover */
+}
+
+/* Play/pause buttons on the Discover and ListenIn page */
 /* small and big play buttons for tables and icons */
 .anvil-role-play-spotify-button button,
 .anvil-role-icon-button button {
@@ -2202,8 +2179,12 @@ footer a, .footer .anvil-component {
 .anvil-role-play-spotify-button-artist2 button {
   font-size: 44px;
   padding: 0;
+  min-height: 0;
 }
-
+.anvil-role-play-spotify-button-artist2 .btn { /* to reduce the height of the central play button in the footer of ListenIn */
+  min-height: 0 !important;
+  line-height: 1 !important;
+}
 
 /* classes to be captured by js */
 .anvil-role-autoplay-toggle-button {}
