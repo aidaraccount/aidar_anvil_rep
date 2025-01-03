@@ -68,6 +68,155 @@ components:
       visible: false
     type: Link
   - components:
+    - components:
+      - event_bindings: {click: activate_notification}
+        layout_properties: {}
+        name: activate
+        properties:
+          align: right
+          icon: ''
+          role: [header-6, call-to-action-button-longer]
+          spacing:
+            margin: [0, null, null, null]
+            padding: [null, '12', null, '12']
+          spacing_above: small
+          spacing_below: none
+          text: activate mail notification
+          underline: false
+          visible: false
+        type: Button
+      name: buttons_panel
+      properties: {role: null, spacing_above: none, spacing_below: none}
+      type: LinearPanel
+    - event_bindings: {click: activate_notification}
+      layout_properties: {}
+      name: deactivate
+      properties:
+        align: right
+        icon: ''
+        role: [header-6]
+        spacing:
+          margin: [0, null, null, null]
+        spacing_above: small
+        spacing_below: none
+        text: mail notification is active
+        underline: false
+        visible: false
+      type: Button
+    layout_properties: {grid_position: 'ERXBZU,JRYXHV BNRQRY,ZLFLNI'}
+    name: flow_panel_6
+    properties: {align: center}
+    type: FlowPanel
+  - layout_properties: {grid_position: 'ERXBZU,JRYXHV CBORUZ,SUDXUW'}
+    name: spacer_3
+    properties: {height: 32}
+    type: Spacer
+  - components:
+    - layout_properties: {}
+      name: label_1_copy
+      properties:
+        role: [header-6]
+        spacing:
+          margin: [15, null, null, null]
+        spacing_above: none
+        spacing_below: none
+        text: Sent
+      type: Label
+    - event_bindings: {click: frequency_option_1_click}
+      layout_properties: {}
+      name: frequency_option_1
+      properties:
+        align: left
+        role: genre-box
+        spacing:
+          margin: [15, null, null, null]
+        spacing_above: none
+        spacing_below: none
+        text: Daily
+      type: Link
+    layout_properties: {grid_position: 'ERXBZU,JRYXHV CBORUZ,TXONPH'}
+    name: frequency_master_1
+    properties: {align: right, spacing_above: none, spacing_below: none, visible: false}
+    type: FlowPanel
+  - components:
+    - layout_properties: {}
+      name: frequency_days_label_starting_copy
+      properties:
+        role: [header-6, margin-top]
+        spacing_above: none
+        spacing_below: none
+        text: Every
+        visible: true
+      type: Label
+    - event_bindings: {change: frequency_option_2_lost_focus, lost_focus: frequency_option_2_lost_focus, pressed_enter: frequency_option_2_lost_focus}
+      layout_properties: {}
+      name: frequency_option_2
+      properties:
+        align: center
+        margin: [8, null, null, null]
+        role: notification-settings-textbox
+        text: '7'
+        type: text
+        visible: true
+      type: TextBox
+    - layout_properties: {}
+      name: frequency_days_label_days
+      properties:
+        role: [header-6, margin-top]
+        spacing_above: none
+        spacing_below: none
+        text: Days
+        visible: true
+      type: Label
+    layout_properties: {grid_position: 'ERXBZU,JRYXHV CBORUZ,KKBXMT GKYJSK,WOFQJY'}
+    name: flow_panel_freq_2
+    properties: {align: center, spacing_above: none, spacing_below: none, visible: false}
+    type: FlowPanel
+  - layout_properties: {grid_position: 'ERXBZU,JRYXHV CBORUZ,KKBXMT WKEUYS,VHWIQW'}
+    name: every_x_days_warning
+    properties:
+      role: [warning-label, header-8]
+      text: Please enter a valid number for over how many days you would like to receive this notification
+      visible: false
+    type: Label
+  - components:
+    - layout_properties: {}
+      name: frequency_days_label_starting
+      properties:
+        role: [header-6, margin-top]
+        spacing_above: none
+        spacing_below: none
+        text: ' Starting:'
+        visible: true
+      type: Label
+    - data_bindings: []
+      event_bindings: {change: date_picker_lost_focus}
+      layout_properties: {}
+      name: frequency_picker
+      properties:
+        format: '%d/%m/%Y'
+        min_date: today()
+        role: [target-dropdown, date-picker, header-7, bottom-border]
+        spacing_above: none
+        spacing_below: none
+        visible: true
+      type: DatePicker
+    layout_properties: {grid_position: 'ERXBZU,JRYXHV CBORUZ,GVSODR IJDZXW,JDUFUE'}
+    name: flow_panel_freq_3
+    properties: {align: left, spacing_above: none, spacing_below: none, visible: false}
+    type: FlowPanel
+  - layout_properties: {grid_position: 'ERXBZU,JRYXHV CBORUZ,GVSODR XLPPMN,DBKUEK'}
+    name: every_x_days_start_warning
+    properties:
+      role: [warning-label, header-8]
+      text: Please enter a valid date to begin receiving this notification
+      visible: false
+    type: Label
+  - layout_properties: {grid_position: 'ERXBZU,JRYXHV CBORUZ,QJPNSN'}
+    name: spacer_2
+    properties: {height: 32}
+    type: Spacer
+  - components:
     - event_bindings: {click: edit_icon_click}
       layout_properties: {}
       name: edit_icon
@@ -103,163 +252,21 @@ components:
   name: column_panel_header
   properties:
     col_spacing: tiny
-    col_widths: '{"JRYXHV":60,"JLICJT":10,"AQCBFA":10}'
+    col_widths: '{"JRYXHV":60,"JLICJT":10,"AQCBFA":10,"SUDXUW":10,"TXONPH":14,"KKBXMT":12,"GVSODR":14,"QJPNSN":10}'
     role: null
     spacing:
       margin: [0, null, 0, 0]
   type: ColumnPanel
 - components:
-  - layout_properties: {grid_position: 'HWYMXP,HCVQMZ'}
-    name: spacer_2
-    properties: {height: 32}
-    type: Spacer
   - components:
-    - components:
-      - event_bindings: {click: activate_notification}
-        layout_properties: {}
-        name: activate
-        properties:
-          align: right
-          icon: ''
-          role: [call-to-action-button, header-6]
-          spacing_above: small
-          spacing_below: none
-          text: Activate
-          underline: false
-          visible: false
-        type: Button
-      - event_bindings: {click: activate_notification}
-        layout_properties: {}
-        name: deactivate
-        properties:
-          align: right
-          icon: ''
-          role: [header-6]
-          spacing_above: small
-          spacing_below: none
-          text: Deactivate
-          underline: false
-          visible: false
-        type: Button
-      name: buttons_panel
-      properties: {role: null, spacing_above: none, spacing_below: none}
-      type: LinearPanel
-    layout_properties: {grid_position: 'HWYMXP,NWICXJ'}
-    name: flow_panel_6
-    properties: {align: right}
-    type: FlowPanel
-  - components:
-    - layout_properties: {grid_position: 'KNPRAE,FEDFEU JJDYED,YDMOXG AVAYRI,NCOFFD'}
-      name: frequency_field_title
-      properties: {role: header-6_bold, spacing_above: none, spacing_below: none, text: 'Frequency:', visible: false}
-      type: Label
-    - layout_properties: {grid_position: 'KNPRAE,FEDFEU JJDYED,YDMOXG AVAYRI,XWWOVW'}
+    - layout_properties: {grid_position: 'MCQZWJ,RQFBFR'}
+      name: spacer_5
+      properties: {height: 32}
+      type: Spacer
+    - layout_properties: {grid_position: 'MCQZWJ,PSAECS EHXMIG,VEWMCW TYZOBK,BYWZBL'}
       name: label_2
       properties: {role: header-6_bold, text: 'General:'}
       type: Label
-    - layout_properties: {grid_position: 'KNPRAE,FEDFEU JJDYED,QCBNZC'}
-      name: label_3
-      properties: {role: header-6_bold, text: 'Metric:'}
-      type: Label
-    - layout_properties: {grid_position: 'KNPRAE,GVRIJF'}
-      name: label_5
-      properties: {role: header-6_bold, text: 'Selection Parameters:'}
-      type: Label
-    - components:
-      - layout_properties: {}
-        name: label_1_copy
-        properties:
-          role: [header-6]
-          spacing_above: none
-          spacing_below: none
-          text: Sent
-        type: Label
-      - event_bindings: {click: frequency_option_1_click}
-        layout_properties: {}
-        name: frequency_option_1
-        properties: {align: left, role: genre-box, spacing_above: none, spacing_below: none, text: Daily}
-        type: Link
-      layout_properties: {grid_position: 'EHXMIG,YFKDTV BLVQQV,HYRKYT'}
-      name: frequency_master_1
-      properties: {align: left, spacing_above: none, spacing_below: none, visible: false}
-      type: FlowPanel
-    - components:
-      - layout_properties: {}
-        name: frequency_days_label_starting_copy
-        properties:
-          role: [header-6, margin-top]
-          spacing_above: none
-          spacing_below: none
-          text: Every
-          visible: true
-        type: Label
-      - event_bindings: {change: frequency_option_2_lost_focus, lost_focus: frequency_option_2_lost_focus, pressed_enter: frequency_option_2_lost_focus}
-        layout_properties: {}
-        name: frequency_option_2
-        properties: {align: center, role: notification-settings-textbox, text: '7', type: text, visible: true}
-        type: TextBox
-      - layout_properties: {}
-        name: frequency_days_label_days
-        properties:
-          role: [header-6, margin-top]
-          spacing_above: none
-          spacing_below: none
-          text: Days
-          visible: true
-        type: Label
-      layout_properties: {grid_position: 'EHXMIG,YFKDTV BTFMUD,NWOPME'}
-      name: flow_panel_freq_2
-      properties: {align: left, spacing_above: none, spacing_below: none, visible: false}
-      type: FlowPanel
-    - layout_properties: {grid_position: 'EHXMIG,YFKDTV ZRTUJG,KZDENZ'}
-      name: every_x_days_warning
-      properties:
-        role: [warning-label, header-8]
-        text: Please enter a valid number for over how many days you would like to receive this notification
-        visible: false
-      type: Label
-    - components:
-      - layout_properties: {}
-        name: frequency_days_label_starting
-        properties:
-          role: [header-6, margin-top]
-          spacing_above: none
-          spacing_below: none
-          text: ' Starting:'
-          visible: true
-        type: Label
-      - data_bindings: []
-        event_bindings: {change: date_picker_lost_focus}
-        layout_properties: {}
-        name: frequency_picker
-        properties:
-          format: '%d/%m/%Y'
-          min_date: today()
-          role: [target-dropdown, date-picker, header-7, bottom-border]
-          spacing_above: none
-          spacing_below: none
-          visible: true
-        type: DatePicker
-      layout_properties: {grid_position: 'EHXMIG,YFKDTV KYNKRD,SCOVTT'}
-      name: flow_panel_freq_3
-      properties: {align: left, spacing_above: none, spacing_below: none, visible: false}
-      type: FlowPanel
-    - layout_properties: {grid_position: 'EHXMIG,YFKDTV AEHYBI,NVIFZK'}
-      name: every_x_days_start_warning
-      properties:
-        role: [warning-label, header-8]
-        text: Please enter a valid date to begin receiving this notification
-        visible: false
-      type: Label
-    - event_bindings: {}
-      layout_properties: {grid_position: 'EHXMIG,YFKDTV IKXPYB,LXYHVE'}
-      name: weekdays
-      properties: {role: genre-box, spacing_above: none, spacing_below: none, visible: false}
-      type: Link
-    - layout_properties: {grid_position: 'EHXMIG,YFKDTV PEWELB,TAAQLD'}
-      name: spacer_3
-      properties: {height: 32, visible: false}
-      type: Spacer
     - components:
       - layout_properties: {}
         name: label_1
@@ -276,11 +283,11 @@ components:
         name: no_artists_box
         properties: {align: center, placeholder: 1-20, role: notification-settings-textbox, spacing_above: none, spacing_below: none, text: '5'}
         type: TextBox
-      layout_properties: {grid_position: 'EHXMIG,VEWMCW JPAUCM,TRVTVO'}
+      layout_properties: {grid_position: 'MCQZWJ,PSAECS EHXMIG,VEWMCW JPAUCM,TRVTVO'}
       name: Max_num_artist_mail
       properties: {spacing_above: none, spacing_below: none, visible: true}
       type: FlowPanel
-    - layout_properties: {grid_position: 'EHXMIG,VEWMCW BZPDVI,QIAEHD'}
+    - layout_properties: {grid_position: 'MCQZWJ,PSAECS EHXMIG,VEWMCW BZPDVI,QIAEHD'}
       name: max_number_artist_warning
       properties:
         role: [warning-label, header-8]
@@ -311,11 +318,11 @@ components:
         name: column_panel_rep
         properties: {}
         type: ColumnPanel
-      layout_properties: {grid_position: 'EHXMIG,VEWMCW KCACJQ,GSDJHK'}
+      layout_properties: {grid_position: 'MCQZWJ,PSAECS EHXMIG,VEWMCW KCACJQ,GSDJHK'}
       name: notification_rep
       properties: {spacing_above: none, spacing_below: none, visible: false}
       type: FlowPanel
-    - layout_properties: {grid_position: 'EHXMIG,VEWMCW PJEDLE,QOXSIK'}
+    - layout_properties: {grid_position: 'MCQZWJ,PSAECS EHXMIG,VEWMCW PJEDLE,QOXSIK'}
       name: artist_rep_x_days_freq_warning
       properties:
         role: [warning-label, header-8]
@@ -332,7 +339,7 @@ components:
         name: song_selection_type
         properties: {role: genre-box, spacing_above: none, spacing_below: none, text: Latest Release}
         type: Link
-      layout_properties: {grid_position: 'EHXMIG,VEWMCW NJXSPC,DRMQIA'}
+      layout_properties: {grid_position: 'MCQZWJ,PSAECS EHXMIG,VEWMCW NJXSPC,DRMQIA'}
       name: song_selection
       properties: {spacing_above: none, spacing_below: none, visible: false}
       type: FlowPanel
@@ -350,16 +357,20 @@ components:
         name: no_latest_rel_box_spotify
         properties: {align: center, placeholder: 1-10, role: notification-settings-textbox, spacing_above: none, spacing_below: none, text: '5'}
         type: TextBox
-      layout_properties: {grid_position: 'EHXMIG,VEWMCW CMSROU,HJMBNJ'}
+      layout_properties: {grid_position: 'MCQZWJ,PSAECS EHXMIG,VEWMCW CMSROU,HJMBNJ'}
       name: no_latest_releases
       properties: {spacing_above: none, spacing_below: none, visible: false}
       type: FlowPanel
-    - layout_properties: {grid_position: 'EHXMIG,VEWMCW BIPAOP,UAODYS'}
+    - layout_properties: {grid_position: 'MCQZWJ,PSAECS EHXMIG,VEWMCW BIPAOP,UAODYS'}
       name: no_latest_rel_box_spotify_warning
       properties:
         role: [warning-label, header-8]
         text: Please enter a valid number between 1 and 10 for the number of latest releases.
         visible: false
+      type: Label
+    - layout_properties: {grid_position: 'MCQZWJ,PSAECS EHXMIG,YGGVFU DBEXWV,YVKRSY'}
+      name: label_3
+      properties: {role: header-6_bold, text: 'Metric:'}
       type: Label
     - components:
       - layout_properties: {}
@@ -383,7 +394,7 @@ components:
           spacing_below: none
           text: Top Fits
         type: Link
-      layout_properties: {grid_position: 'EHXMIG,YGGVFU ZWBPVP,IULSXW'}
+      layout_properties: {grid_position: 'MCQZWJ,PSAECS EHXMIG,YGGVFU ZWBPVP,IULSXW'}
       name: flow_panel_4
       properties: {spacing_above: none, spacing_below: none}
       type: FlowPanel
@@ -401,11 +412,11 @@ components:
         name: min_growth_value
         properties: {align: center, role: notification-settings-textbox, text: '75', type: text}
         type: TextBox
-      layout_properties: {grid_position: 'EHXMIG,YGGVFU QYULAF,AUYINZ'}
+      layout_properties: {grid_position: 'MCQZWJ,PSAECS EHXMIG,YGGVFU QYULAF,AUYINZ'}
       name: min_growth_fit
       properties: {spacing_above: none, spacing_below: none, visible: false}
       type: FlowPanel
-    - layout_properties: {grid_position: 'EHXMIG,YGGVFU PJFQBX,SHGPRA'}
+    - layout_properties: {grid_position: 'MCQZWJ,PSAECS EHXMIG,YGGVFU PJFQBX,SHGPRA'}
       name: min_growth_warning
       properties:
         role: [warning-label, header-8]
@@ -426,16 +437,20 @@ components:
         name: days_since_rel_field_value
         properties: {align: center, role: notification-settings-textbox, spacing_above: none, spacing_below: none, text: '21', type: text}
         type: TextBox
-      layout_properties: {grid_position: 'EHXMIG,YGGVFU LACTOK,VEYIQG'}
+      layout_properties: {grid_position: 'MCQZWJ,PSAECS EHXMIG,YGGVFU LACTOK,VEYIQG'}
       name: max_days_since_rel
       properties: {spacing_above: none, spacing_below: none, visible: false}
       type: FlowPanel
-    - layout_properties: {grid_position: 'EHXMIG,YGGVFU NTPEEX,SWJUAF'}
+    - layout_properties: {grid_position: 'MCQZWJ,PSAECS EHXMIG,YGGVFU NTPEEX,SWJUAF'}
       name: days_since_rel_field_warning
       properties:
         role: [warning-label, header-8]
         text: Please enter a valid number for the maximum number of days since the last release was made
         visible: false
+      type: Label
+    - layout_properties: {grid_position: 'MCQZWJ,PSAECS EHXMIG,HMRWON QOZPNS,KQTODB'}
+      name: label_5
+      properties: {role: header-6_bold, text: 'Selection Parameters:'}
       type: Label
     - components:
       - layout_properties: {}
@@ -447,7 +462,7 @@ components:
         name: artist_selection_option
         properties: {role: genre-box, spacing_above: none, spacing_below: none, text: Unrated}
         type: Link
-      layout_properties: {grid_position: 'EHXMIG,HMRWON SFZLJO,UVTDPG'}
+      layout_properties: {grid_position: 'MCQZWJ,PSAECS EHXMIG,HMRWON SFZLJO,UVTDPG'}
       name: flow_panel_ratings
       properties: {spacing_above: none, spacing_below: none}
       type: FlowPanel
@@ -461,7 +476,7 @@ components:
         name: watchlist_selection_option
         properties: {role: genre-box, spacing_above: none, spacing_below: none, text: All}
         type: Link
-      layout_properties: {grid_position: 'EHXMIG,HMRWON XYKOQS,XZRSEY'}
+      layout_properties: {grid_position: 'MCQZWJ,PSAECS EHXMIG,HMRWON XYKOQS,XZRSEY'}
       name: flow_panel_wl
       properties: {spacing_above: none, spacing_below: none}
       type: FlowPanel
@@ -470,33 +485,43 @@ components:
         name: model_selection_field_title
         properties: {role: header-6, spacing_above: none, spacing_below: none, text: 'Model selection:    '}
         type: Label
-      layout_properties: {grid_position: 'EHXMIG,HMRWON LTZODP,SMHGNW'}
+      layout_properties: {grid_position: 'MCQZWJ,PSAECS EHXMIG,HMRWON LTZODP,SMHGNW'}
       name: flow_panel_models
       properties: {spacing_above: none, spacing_below: none}
       type: FlowPanel
-    - layout_properties: {grid_position: 'EHXMIG,HMRWON MTHTHX,RWXFWP'}
+    - layout_properties: {grid_position: 'MCQZWJ,PSAECS EHXMIG,HMRWON MTHTHX,RWXFWP'}
       name: models_warning
       properties:
         role: [warning-label, header-8]
         text: Please select at least one trained model for your notification
         visible: false
       type: Label
+    - layout_properties: {grid_position: 'MCQZWJ,PSAECS EHXMIG,SBYWNA'}
+      name: spacer_4
+      properties: {height: 32}
+      type: Spacer
     - event_bindings: {click: button_save_click}
-      layout_properties: {grid_position: 'BAEOKR,ENBENW'}
+      layout_properties: {grid_position: 'MCQZWJ,PSAECS BAEOKR,ENBENW'}
       name: button_save
       properties:
         align: right
         role: [call-to-action-button, header-6]
+        spacing:
+          margin: [null, 10, null, null]
         spacing_above: medium
         text: save
       type: Button
     layout_properties: {grid_position: 'IYJZVL,BVZKFA'}
     name: column_panel_min_max
-    properties: {col_widths: '{"YDMOXG":40,"QCBNZC":20,"FEDFEU":45,"GVRIJF":15,"NCOFFD":30,"XWWOVW":30}'}
+    properties:
+      col_spacing: tiny
+      col_widths: '{"RQFBFR":5,"PSAECS":55,"VEWMCW":15,"YGGVFU":20,"HMRWON":20,"SBYWNA":5}'
+      spacing:
+        margin: [20, null, null, null]
     type: ColumnPanel
   layout_properties: {}
   name: column_panel_1
-  properties: {col_spacing: tiny, col_widths: '{"NWICXJ":12,"HCVQMZ":30}', role: null, visible: true}
+  properties: {col_spacing: tiny, col_widths: '{}', role: null, visible: true}
   type: ColumnPanel
 container: {type: DataRowPanel}
 custom_component: true

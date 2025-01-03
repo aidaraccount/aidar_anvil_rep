@@ -52,12 +52,11 @@ class C_Notification_Settings(C_Notification_SettingsTemplate):
     # A1) Frequency
     if items["type"] == "mail":
       self.frequency_master_1.visible = True
-      self.frequency_field_title.visible = True
+      self.last_updated_spotify.visible = False
 
       self.frequency_option_1.text = items["freq_1"]
       self.frequency_option_2.text = items["freq_2"]
       self.frequency_picker.date = items["freq_3"]
-      # self.weekdays.text = items["freq_3"]
 
       if self.frequency_option_1.text == "Daily":
         self.flow_panel_freq_2.visible = False
@@ -292,7 +291,6 @@ class C_Notification_Settings(C_Notification_SettingsTemplate):
     if self.frequency_option_1.text == "Daily":
       self.frequency_option_1.text = "Every X Days"
       self.flow_panel_freq_2.visible = True
-      self.weekdays.visible = False
       self.frequency_days_label_days.visible = True
       self.frequency_days_label_days.text = "Days"
       self.flow_panel_freq_3.visible = True
@@ -304,7 +302,6 @@ class C_Notification_Settings(C_Notification_SettingsTemplate):
     elif self.frequency_option_1.text == "Monthly":
       self.frequency_option_1.text = "Daily"
       self.flow_panel_freq_2.visible = False
-      self.weekdays.visible = False
       self.flow_panel_freq_3.visible = False
     self.update_notification()
 
