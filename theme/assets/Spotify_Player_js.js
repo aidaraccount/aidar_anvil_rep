@@ -268,8 +268,13 @@ function setPlayButtonIcons(isPaused, trackOrArtist, spotifyTrackIDsList=null, s
   
   // Set the icon of the small play buttons
   if (spotifyTrackIDsList) {
-    spotifyTrackIDsList.forEach(function(currentId) {    
+    spotifyTrackIDsList.forEach(function(currentId) {
       const buttonPlay = document.querySelector(`.anvil-role-${currentId}`);
+      console.log("setPlayButtonIcons - buttonPlay: " + buttonPlay);
+      
+      const buttonPlay_inner = document.querySelector(`.anvil-role-${currentId}-inner`);
+      console.log("setPlayButtonIcons - buttonPlay_inner: " + buttonPlay_inner);
+      
       
       if (currentId === globalCurrentSpotifyID && !isPaused) {
         if (buttonPlay) {
@@ -286,6 +291,23 @@ function setPlayButtonIcons(isPaused, trackOrArtist, spotifyTrackIDsList=null, s
           }
         }
       }
+      
+      if (currentId === globalCurrentSpotifyID && !isPaused) {
+        if (buttonPlay_inner) {
+          let icon = buttonPlay_inner.querySelector('i')
+          if (icon) {
+            icon.className = 'anvil-component-icon left fa fa-pause-circle left-icon'
+          }
+        }
+      } else {
+        if (buttonPlay_inner) {
+          let icon = buttonPlay_inner.querySelector('i')
+          if (icon) {
+            icon.className = 'anvil-component-icon left fa fa-play-circle left-icon'
+          }
+        }
+      }
+      
     })
   }
   
