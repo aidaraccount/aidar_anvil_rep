@@ -437,8 +437,6 @@ class C_Discover(C_DiscoverTemplate):
       ]
       self.sort_dropdown.selected_value = "high_num"
       self.sort_dropdown.role = "sort-dropdown"
-      self.drop_down_wl.role = "sort-dropdown-footer"
-      self.drop_down_model.role = "sort-dropdown-footer"
       self.sort_dropdown_countries.role = "sort-dropdown"
 
       # Add event handler for the dropdown
@@ -2034,18 +2032,19 @@ class C_Discover(C_DiscoverTemplate):
     routing.set_url_hash(f"artists?artist_id={next_artist_id}", load_from_cache=False)
 
   def drop_down_model_change(self, **event_args):
-    model_data = json.loads(anvil.server.call("get_model_ids", user["user_id"]))
-    model_id_new = [
-      item["model_id"]
-      for item in model_data
-      if item["model_name"] == self.drop_down_model.selected_value
-    ][0]
-    self.model_id = model_id_new
-    save_var("model_id", model_id_new)
-    anvil.server.call("update_model_usage", user["user_id"], model_id_new)
-    self.column_panel_header.scroll_into_view(smooth=True)
-    get_open_form().refresh_models_underline()
-    routing.set_url_hash(f"artists?artist_id={self.artist_id}", load_from_cache=False)
+    # model_data = json.loads(anvil.server.call("get_model_ids", user["user_id"]))
+    # model_id_new = [
+    #   item["model_id"]
+    #   for item in model_data
+    #   if item["model_name"] == self.drop_down_model.selected_value
+    # ][0]
+    # self.model_id = model_id_new
+    # save_var("model_id", model_id_new)
+    # anvil.server.call("update_model_usage", user["user_id"], model_id_new)
+    # self.column_panel_header.scroll_into_view(smooth=True)
+    # get_open_form().refresh_models_underline()
+    # routing.set_url_hash(f"artists?artist_id={self.artist_id}", load_from_cache=False)
+    pass
 
   def drop_down_wl_change(self, **event_args):
     wl_data = json.loads(anvil.server.call("get_watchlist_ids", user["user_id"]))
@@ -2059,7 +2058,7 @@ class C_Discover(C_DiscoverTemplate):
     anvil.server.call("update_watchlist_usage", user["user_id"], wl_id_new)
     self.column_panel_header.scroll_into_view(smooth=True)
     get_open_form().refresh_watchlists_underline()
-    routing.set_url_hash(f"artists?artist_id={self.artist_id}", load_from_cache=False)
+    # routing.set_url_hash(f"artists?artist_id={self.artist_id}", load_from_cache=False)
 
   # -----------------------------------------------------------------------------------------
   #  Start of the Sidebar Watchilish Functions

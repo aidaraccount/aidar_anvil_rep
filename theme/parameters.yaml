@@ -380,3 +380,5 @@ roles:
 - {name: buttom-border}
 - components: [Button]
   name: highlight-button
+- components: [DropDown]
+  name: dropdown

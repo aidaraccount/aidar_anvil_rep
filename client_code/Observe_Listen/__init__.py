@@ -46,24 +46,38 @@ class Observe_Listen(Observe_ListenTemplate):
       save_var('toggle', 'up')
       save_var('has_played', 'False')
       self.footer_trick_spacer.visible = False
-      
+
+      # -----------      
       # GENERAL
+      # a) get notification/ playlist data
       self.get_all_notifications(url_notification_id)
-      
+
+      # b) fill C_Discover
       first_artist_id = self.repeating_panel_artists.items[0]["artist_id"]
       self.column_panel_discover.clear()
       self.column_panel_discover.add_component(C_Discover(first_artist_id))
-      
-      # set ratings status
+
+      # -----------
+      # FOOTER
+      # a) set ratings status
       self.column_panel_discover.get_components()[0].set_rating_highlight()
-      # set watchlist status
-      self.column_panel_discover.get_components()[0].set_watchlist_icons()
-      # refresh play buttons
-      # anvil.js.call_js('setPlayButtonIcons', 'track')
       
-      # Instantiate Spotify Player
+      # b) set watchlist status
+      self.column_panel_discover.get_components()[0].set_watchlist_icons()
+            
+      # c) Instantiate Spotify Player
       self.footer_left.clear()
       self.spotify_HTML_player()
+      
+      # d) Watchlist Drop-Down
+      wl_data = json.loads(anvil.server.call('get_watchlist_ids',  user["user_id"]))
+      self.drop_down_wl.selected_value = [item['watchlist_name'] for item in wl_data if item['is_last_used']][0]
+      self.drop_down_wl.items = [item['watchlist_name'] for item in wl_data]
+
+      # e) Models Drop-Down
+      model_data = json.loads(anvil.server.call('get_model_ids',  user["user_id"]))
+      self.drop_down_model.selected_value = [item['model_name'] for item in model_data if item['is_last_used']][0]
+      self.drop_down_model.items = [item['model_name'] for item in model_data]
       
 
   def form_show(self, **event_args):
@@ -228,7 +242,8 @@ class Observe_Listen(Observe_ListenTemplate):
       click_link(notification_link, f'listen?notification_id={notification_id}', event_args)
     return handler
 
-  
+
+  # ------------------------------------------------------------
   # FOOTER
   # Spotify Widget
   def spotify_HTML_player(self):
@@ -328,4 +343,23 @@ class Observe_Listen(Observe_ListenTemplate):
   # watchlist
   def link_watchlist_name_click(self, **event_args):
     self.column_panel_discover.get_components()[0].link_watchlist_name_click()
-    
+
+  # Model dropdown
+  def drop_down_model_change(self, **event_args):
+    model_data = json.loads(anvil.server.call('get_model_ids',  user["user_id"]))
+    model_id_new = [item['model_id'] for item in model_data if item['model_name'] == self.drop_down_model.selected_value][0]
+    self.model_id=model_id_new
+    save_var('model_id', model_id_new)
+    anvil.server.call('update_model_usage', user["user_id"], model_id_new)
+    get_open_form().refresh_models_underline()
+    self.reload_discover(load_var('lastplayedartistid'))
+
+  # Watchlist dropdown
+  def drop_down_wl_change(self, **event_args):
+    wl_data = json.loads(anvil.server.call('get_watchlist_ids',  user["user_id"]))
+    wl_id_new = [item['watchlist_id'] for item in wl_data if item['watchlist_name'] == self.drop_down_wl.selected_value][0]
+    self.watchlist_id=wl_id_new
+    save_var('watchlist_id', wl_id_new)
+    anvil.server.call('update_watchlist_usage', user["user_id"], wl_id_new)
+    get_open_form().refresh_watchlists_underline()
+    self.reload_discover(load_var('lastplayedartistid'))

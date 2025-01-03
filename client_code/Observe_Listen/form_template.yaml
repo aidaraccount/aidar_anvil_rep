@@ -286,7 +286,7 @@ components:
       - event_bindings: {change: drop_down_wl_change}
         layout_properties: {grid_position: 'SPLPLH,OCJXMS'}
         name: drop_down_wl
-        properties: {align: left, role: null, spacing_above: none, spacing_below: none}
+        properties: {align: left, role: dropdown, spacing_above: none, spacing_below: none}
         type: DropDown
       - components:
         - layout_properties: {}
@@ -300,7 +300,7 @@ components:
       - event_bindings: {change: drop_down_model_change}
         layout_properties: {grid_position: 'EVSCIN,ZCFZEN'}
         name: drop_down_model
-        properties: {align: left, role: null, spacing_above: none, spacing_below: none}
+        properties: {align: left, role: dropdown, spacing_above: none, spacing_below: none}
         type: DropDown
       layout_properties: {grid_position: 'BBIUKI,SVDFHR'}
       name: column_panel_dropdowns

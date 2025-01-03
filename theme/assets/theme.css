@@ -1029,7 +1029,19 @@ body, html {
 /* CSS for Tiles ENDS Here  */
 
 /* CSS for the Sort Dropdown of Visuals Starts Here*/
-/* Style the dropdown */
+.anvil-component.anvil-role-dropdown select {
+  background: rgba(70, 70, 70, 0.9);
+  border: none;
+  color: white;
+  font-size: 16px;
+  width: 100%;
+  text-align: center;
+  -moz-appearance: none;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
 .anvil-component.anvil-role-sort-dropdown select {
   background: transparent;
   border: none;
@@ -1045,19 +1057,6 @@ body, html {
   appearance: none;
   position: relative;
 }
-.anvil-component.anvil-role-sort-dropdown-footer select {
-  background: rgba(70, 70, 70, 0.9);
-  border: none;
-  color: white;
-  font-size: 16px;
-  width: 100%;
-  text-align: center;
-  -moz-appearance: none;
-  position: relative;
-  display: flex;
-  align-items: center;
-}
-
 
 /* Container for the custom dropdown styling */
 .anvil-component.anvil-role-sort-dropdown {
