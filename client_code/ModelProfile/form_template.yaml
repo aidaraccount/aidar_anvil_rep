@@ -86,12 +86,14 @@ components:
         type: Plot
       - components:
         - event_bindings: {click: edit_icon_click}
+          layout_properties: {}
           name: edit_icon
           properties: {icon: 'fa:pencil', role: contact-button, spacing_above: none, spacing_below: none, text: ''}
           type: Button
         - event_bindings: {click: delete_click}
+          layout_properties: {}
           name: delete
-          properties: {align: center, icon: 'fa:trash', role: play-spotify-button, spacing_above: none, spacing_below: none, text: ''}
+          properties: {align: center, icon: 'fa:trash-o', role: play-spotify-button, spacing_above: none, spacing_below: none, text: ''}
           type: Button
         layout_properties: {grid_position: 'BKOAUM,CPEJAI VJHIHB,PAUTRX'}
         name: flow_panel_1

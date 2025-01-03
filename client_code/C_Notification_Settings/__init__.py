@@ -31,9 +31,9 @@ class C_Notification_Settings(C_Notification_SettingsTemplate):
     # load initial data
     # 0) Header
     # Name, its Icon & activate Button
-    self.name_link.text = items["name"]
+    self.notification_name.text = items["name"]
     if items["type"] == "mail":
-      self.name_link.icon = "fa:envelope-o"
+      self.notification_name.icon = "fa:envelope-o"
 
       # activate/ deactivate Button
       if items["active"] is True:
@@ -44,7 +44,7 @@ class C_Notification_Settings(C_Notification_SettingsTemplate):
         self.deactivate.visible = False
 
     elif items["type"] == "playlist":
-      self.name_link.icon = "fa:spotify"
+      self.notification_name.icon = "fa:spotify"
 
     # 0) Base
     self.column_panel_min_max.visible = False
@@ -71,16 +71,13 @@ class C_Notification_Settings(C_Notification_SettingsTemplate):
 
     # A2) Status
     if items["type"] == "playlist":
-      self.status_field_title.visible = True
-
       if items["sp_playlist_id"] is None or items["sp_playlist_id"] == "":
         self.playlist_in_creation.visible = True
       else:
-        self.url_master.visible = True
+        self.playlist_url.visible = True
         self.last_updated_spotify.visible = True
-        self.playlist_url.url = (
-          f"https://open.spotify.com/playlist/{items['sp_playlist_id']}"
-        )
+        self.playlist_url.url = (f"https://open.spotify.com/playlist/{items['sp_playlist_id']}")
+        self.playlist_url.text = (f"https://open.spotify.com/playlist/{items['sp_playlist_id']}")
         self.larst_updated_value.text = items["last_update"][:-3]
 
     # B) General
@@ -165,10 +162,10 @@ class C_Notification_Settings(C_Notification_SettingsTemplate):
     toggle = load_var('toggle')
     if toggle == 'down':
       self.column_panel_min_max.visible = True
-      self.link_min_max.icon = "fa:angle-double-up"
+      self.edit_icon.icon = "fa:save"
     else:
       self.column_panel_min_max.visible = False
-      self.link_min_max.icon = "fa:angle-double-down"
+      self.edit_icon.icon = "fa:pencil"
 
   
   # NOTIFICATION MODIFICATION
@@ -218,7 +215,7 @@ class C_Notification_Settings(C_Notification_SettingsTemplate):
       "update_notification",
       notification_id=self.items["notification_id"],
       type=self.items["type"],
-      name=self.name_link.text,
+      name=self.notification_name.text,
       active=self.deactivate.visible,
       freq_1=self.frequency_option_1.text,
       freq_2=freq_2,
@@ -243,7 +240,7 @@ class C_Notification_Settings(C_Notification_SettingsTemplate):
       self.activate.visible = False
       self.deactivate.visible = True
       Notification(
-        "", title=f'"{self.name_link.text}" is activated', style="success"
+        "", title=f'"{self.notification_name.text}" is activated', style="success"
       ).show()
     else:
       self.activate.visible = True
@@ -268,9 +265,9 @@ class C_Notification_Settings(C_Notification_SettingsTemplate):
   
   # BUTTON FUNCTIONALITIES
   def edit_icon_click_2(self, **event_args):
-    self.name_link.visible = False
+    self.notification_name.visible = False
     self.model_name_text.visible = True
-    self.model_name_text.text = self.name_link.text
+    self.model_name_text.text = self.notification_name.text
     self.model_name_text.focus()
 
   def artist_selection_option_click(self, **event_args):
@@ -339,8 +336,8 @@ class C_Notification_Settings(C_Notification_SettingsTemplate):
   # LOST FOCUS CHECKS
   def edit_icon_click_2_lose_focus(self, **event_args):
     self.model_name_text.visible = False
-    self.name_link.visible = True
-    self.name_link.text = self.model_name_text.text
+    self.notification_name.visible = True
+    self.notification_name.text = self.model_name_text.text
     self.update_notification()
 
   def frequency_option_2_lost_focus(self, **event_args):
@@ -474,12 +471,15 @@ class C_Notification_Settings(C_Notification_SettingsTemplate):
       self.models_warning.visible = False
       self.update_notification()
 
-  def link_min_max_click(self, **event_args):
-    if self.link_min_max.icon == "fa:angle-double-down":
+  def edit_icon_click(self, **event_args):
+    if self.edit_icon.icon == "fa:pencil":
       save_var('toggle', 'down')
       self.column_panel_min_max.visible = True
-      self.link_min_max.icon = "fa:angle-double-up"
+      self.edit_icon.icon = "fa:save"
     else:
       save_var('toggle', 'up')
       self.column_panel_min_max.visible = False
-      self.link_min_max.icon = "fa:angle-double-down"
+      self.edit_icon.icon = "fa:pencil"
+
+  def button_save_click(self, **event_args):
+    self.edit_icon_click()
