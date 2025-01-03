@@ -1,6 +1,6 @@
 components:
 - components:
-  - layout_properties: {grid_position: 'ERXBZU,AQCBFA'}
+  - layout_properties: {grid_position: 'WMQJCQ,PEPOJS'}
     name: spacer_1
     properties: {height: 14}
     type: Spacer
@@ -15,7 +15,7 @@ components:
         margin: [20, null, null, null]
         visible: false
       type: TextBox
-    layout_properties: {grid_position: 'ERXBZU,JRYXHV WMQJCQ,NZCEAI'}
+    layout_properties: {grid_position: 'WMQJCQ,NZCEAI'}
     name: flow_panel_8
     properties:
       align: center
@@ -23,7 +23,39 @@ components:
         margin: [null, null, 10, null]
       visible: true
     type: FlowPanel
-  - layout_properties: {grid_position: 'ERXBZU,JRYXHV ALRXDY,MIWAAW'}
+  - components:
+    - event_bindings: {click: edit_icon_click}
+      layout_properties: {}
+      name: edit_icon
+      properties:
+        icon: fa:pencil
+        role: contact-button
+        spacing:
+          margin: [20, null, null, null]
+          padding: [null, 0, null, 0]
+        spacing_above: none
+        spacing_below: none
+        text: ''
+      type: Button
+    - event_bindings: {click: delete_notification_click}
+      layout_properties: {}
+      name: delete
+      properties:
+        align: center
+        icon: fa:trash-o
+        role: play-spotify-button
+        spacing:
+          margin: [20, null, null, null]
+          padding: [null, 0, null, 0]
+        spacing_above: none
+        spacing_below: none
+        text: ''
+      type: Button
+    layout_properties: {grid_position: 'WMQJCQ,YTOAXA'}
+    name: flow_panel_1
+    properties: {align: right}
+    type: FlowPanel
+  - layout_properties: {grid_position: 'ALRXDY,MIWAAW'}
     name: playlist_in_creation
     properties: {align: center, role: header-6, text: Playlist will be created soon!, visible: false}
     type: Label
@@ -51,11 +83,11 @@ components:
         spacing_above: none
         spacing_below: none
       type: Label
-    layout_properties: {grid_position: 'ERXBZU,JRYXHV KUZPWP,CCRVYS'}
+    layout_properties: {grid_position: 'KUZPWP,CCRVYS'}
     name: last_updated_spotify
     properties: {align: center, gap: none, spacing_above: none, spacing_below: none, vertical_align: bottom, visible: true}
     type: FlowPanel
-  - layout_properties: {grid_position: 'ERXBZU,JRYXHV DOHWAS,INKNKV'}
+  - layout_properties: {grid_position: 'DOHWAS,INKNKV'}
     name: playlist_url
     properties:
       align: center
@@ -103,411 +135,393 @@ components:
         underline: false
         visible: false
       type: Button
-    layout_properties: {grid_position: 'ERXBZU,JRYXHV BNRQRY,ZLFLNI'}
+    layout_properties: {grid_position: 'BNRQRY,ZLFLNI'}
     name: flow_panel_6
-    properties: {align: center}
-    type: FlowPanel
-  - layout_properties: {grid_position: 'ERXBZU,JRYXHV CBORUZ,SUDXUW'}
-    name: spacer_3
-    properties: {height: 32}
-    type: Spacer
-  - components:
-    - layout_properties: {}
-      name: label_1_copy
-      properties:
-        role: [header-6]
-        spacing:
-          margin: [15, null, null, null]
-        spacing_above: none
-        spacing_below: none
-        text: Sent
-      type: Label
-    - event_bindings: {click: frequency_option_1_click}
-      layout_properties: {}
-      name: frequency_option_1
-      properties:
-        align: left
-        role: genre-box
-        spacing:
-          margin: [15, null, null, null]
-        spacing_above: none
-        spacing_below: none
-        text: Daily
-      type: Link
-    layout_properties: {grid_position: 'ERXBZU,JRYXHV CBORUZ,TXONPH'}
-    name: frequency_master_1
-    properties: {align: right, spacing_above: none, spacing_below: none, visible: false}
-    type: FlowPanel
-  - components:
-    - layout_properties: {}
-      name: frequency_days_label_starting_copy
-      properties:
-        role: [header-6, margin-top]
-        spacing_above: none
-        spacing_below: none
-        text: Every
-        visible: true
-      type: Label
-    - event_bindings: {change: frequency_option_2_lost_focus, lost_focus: frequency_option_2_lost_focus, pressed_enter: frequency_option_2_lost_focus}
-      layout_properties: {}
-      name: frequency_option_2
-      properties:
-        align: center
-        margin: [8, null, null, null]
-        role: notification-settings-textbox
-        text: '7'
-        type: text
-        visible: true
-      type: TextBox
-    - layout_properties: {}
-      name: frequency_days_label_days
-      properties:
-        role: [header-6, margin-top]
-        spacing_above: none
-        spacing_below: none
-        text: Days
-        visible: true
-      type: Label
-    layout_properties: {grid_position: 'ERXBZU,JRYXHV CBORUZ,KKBXMT GKYJSK,WOFQJY'}
-    name: flow_panel_freq_2
-    properties: {align: center, spacing_above: none, spacing_below: none, visible: false}
-    type: FlowPanel
-  - layout_properties: {grid_position: 'ERXBZU,JRYXHV CBORUZ,KKBXMT WKEUYS,VHWIQW'}
-    name: every_x_days_warning
     properties:
-      role: [warning-label, header-8]
-      text: Please enter a valid number for over how many days you would like to receive this notification
-      visible: false
-    type: Label
+      align: center
+      spacing:
+        margin: [10, null, 0, null]
+    type: FlowPanel
   - components:
-    - layout_properties: {}
-      name: frequency_days_label_starting
+    - components:
+      - layout_properties: {}
+        name: label_1_copy
+        properties:
+          role: [header-6]
+          spacing:
+            margin: [15, null, null, null]
+          spacing_above: none
+          spacing_below: none
+          text: Sent
+        type: Label
+      - event_bindings: {click: frequency_option_1_click}
+        layout_properties: {}
+        name: frequency_option_1
+        properties:
+          align: left
+          role: genre-box
+          spacing:
+            margin: [15, null, null, null]
+          spacing_above: none
+          spacing_below: none
+          text: Daily
+        type: Link
+      layout_properties: {grid_position: 'EFVGHL,XRGHBO'}
+      name: frequency_master_1
+      properties: {align: right, spacing_above: none, spacing_below: none, visible: false}
+      type: FlowPanel
+    - components:
+      - layout_properties: {}
+        name: frequency_days_label_starting_copy
+        properties:
+          role: [header-6, margin-top]
+          spacing_above: none
+          spacing_below: none
+          text: Every
+          visible: true
+        type: Label
+      - event_bindings: {change: frequency_option_2_lost_focus, lost_focus: frequency_option_2_lost_focus, pressed_enter: frequency_option_2_lost_focus}
+        layout_properties: {}
+        name: frequency_option_2
+        properties:
+          align: center
+          margin: [8, null, null, null]
+          role: notification-settings-textbox
+          text: '7'
+          type: text
+          visible: true
+        type: TextBox
+      - layout_properties: {}
+        name: frequency_days_label_days
+        properties:
+          role: [header-6, margin-top]
+          spacing_above: none
+          spacing_below: none
+          text: Days
+          visible: true
+        type: Label
+      layout_properties: {grid_position: 'EFVGHL,AKLHYG AANLHC,GHITBR'}
+      name: flow_panel_freq_2
+      properties: {align: center, spacing_above: none, spacing_below: none, visible: false}
+      type: FlowPanel
+    - layout_properties: {grid_position: 'EFVGHL,AKLHYG AWYSDC,GQYGNP'}
+      name: every_x_days_warning
       properties:
-        role: [header-6, margin-top]
-        spacing_above: none
-        spacing_below: none
-        text: ' Starting:'
-        visible: true
+        role: [warning-label, header-8]
+        text: Please enter a valid number for over how many days you would like to receive this notification
+        visible: false
       type: Label
-    - data_bindings: []
-      event_bindings: {change: date_picker_lost_focus}
-      layout_properties: {}
-      name: frequency_picker
+    - components:
+      - layout_properties: {}
+        name: frequency_days_label_starting
+        properties:
+          role: [header-6, margin-top]
+          spacing_above: none
+          spacing_below: none
+          text: ' Starting:'
+          visible: true
+        type: Label
+      - data_bindings: []
+        event_bindings: {change: date_picker_lost_focus}
+        layout_properties: {}
+        name: frequency_picker
+        properties:
+          format: '%d/%m/%Y'
+          min_date: today()
+          role: [target-dropdown, date-picker, header-7, bottom-border]
+          spacing_above: none
+          spacing_below: none
+          visible: true
+        type: DatePicker
+      layout_properties: {grid_position: 'EFVGHL,BMPXNP VPDMAS,MFTMZE'}
+      name: flow_panel_freq_3
+      properties: {align: left, spacing_above: none, spacing_below: none, visible: false}
+      type: FlowPanel
+    - layout_properties: {grid_position: 'EFVGHL,BMPXNP OWLUTI,XRJQLA'}
+      name: every_x_days_start_warning
       properties:
-        format: '%d/%m/%Y'
-        min_date: today()
-        role: [target-dropdown, date-picker, header-7, bottom-border]
-        spacing_above: none
-        spacing_below: none
-        visible: true
-      type: DatePicker
-    layout_properties: {grid_position: 'ERXBZU,JRYXHV CBORUZ,GVSODR IJDZXW,JDUFUE'}
-    name: flow_panel_freq_3
-    properties: {align: left, spacing_above: none, spacing_below: none, visible: false}
-    type: FlowPanel
-  - layout_properties: {grid_position: 'ERXBZU,JRYXHV CBORUZ,GVSODR XLPPMN,DBKUEK'}
-    name: every_x_days_start_warning
+        role: [warning-label, header-8]
+        text: Please enter a valid date to begin receiving this notification
+        visible: false
+      type: Label
+    layout_properties: {grid_position: 'ANHPQN,LGYVWH'}
+    name: column_panel_5
     properties:
-      role: [warning-label, header-8]
-      text: Please enter a valid date to begin receiving this notification
-      visible: false
-    type: Label
-  - layout_properties: {grid_position: 'ERXBZU,JRYXHV CBORUZ,QJPNSN'}
-    name: spacer_2
-    properties: {height: 32}
-    type: Spacer
-  - components:
-    - event_bindings: {click: edit_icon_click}
-      layout_properties: {}
-      name: edit_icon
-      properties:
-        icon: fa:pencil
-        role: contact-button
-        spacing:
-          margin: [20, null, null, null]
-          padding: [null, '6', null, '6']
-        spacing_above: none
-        spacing_below: none
-        text: ''
-      type: Button
-    - event_bindings: {click: delete_notification_click}
-      layout_properties: {}
-      name: delete
-      properties:
-        align: center
-        icon: fa:trash-o
-        role: play-spotify-button
-        spacing:
-          margin: [20, null, null, null]
-          padding: [null, '6', null, '6']
-        spacing_above: none
-        spacing_below: none
-        text: ''
-      type: Button
-    layout_properties: {grid_position: 'ERXBZU,JLICJT'}
-    name: flow_panel_1
-    properties: {align: right}
-    type: FlowPanel
+      spacing:
+        margin: [0, '25', 25, '25']
+    type: ColumnPanel
   layout_properties: {}
   name: column_panel_header
   properties:
     col_spacing: tiny
-    col_widths: '{"JRYXHV":60,"JLICJT":10,"AQCBFA":10,"SUDXUW":10,"TXONPH":14,"KKBXMT":12,"GVSODR":14,"QJPNSN":10}'
+    col_widths: '{"PEPOJS":10,"NZCEAI":40,"YTOAXA":10}'
     role: null
     spacing:
-      margin: [0, null, 0, 0]
+      margin: [0, 0, 0, 0]
+      padding: [null, '75', null, '75']
   type: ColumnPanel
 - components:
   - components:
-    - layout_properties: {grid_position: 'MCQZWJ,RQFBFR'}
-      name: spacer_5
-      properties: {height: 32}
-      type: Spacer
-    - layout_properties: {grid_position: 'MCQZWJ,PSAECS EHXMIG,VEWMCW TYZOBK,BYWZBL'}
-      name: label_2
-      properties: {role: header-6_bold, text: 'General:'}
-      type: Label
     - components:
-      - layout_properties: {}
-        name: label_1
-        properties:
-          role: [margin-top, header-6]
-          spacing:
-            margin: [13, null, null, null]
-          spacing_above: none
-          spacing_below: none
-          text: 'Max No. artists:'
+      - layout_properties: {grid_position: 'HNRWOZ,GTXILM'}
+        name: label_2
+        properties: {role: header-6_bold, text: 'General:'}
         type: Label
-      - event_bindings: {change: no_artists_box_lost_focus, lost_focus: no_artists_box_lost_focus, pressed_enter: no_artists_box_lost_focus}
-        layout_properties: {}
-        name: no_artists_box
-        properties: {align: center, placeholder: 1-20, role: notification-settings-textbox, spacing_above: none, spacing_below: none, text: '5'}
-        type: TextBox
-      layout_properties: {grid_position: 'MCQZWJ,PSAECS EHXMIG,VEWMCW JPAUCM,TRVTVO'}
-      name: Max_num_artist_mail
-      properties: {spacing_above: none, spacing_below: none, visible: true}
-      type: FlowPanel
-    - layout_properties: {grid_position: 'MCQZWJ,PSAECS EHXMIG,VEWMCW BZPDVI,QIAEHD'}
-      name: max_number_artist_warning
-      properties:
-        role: [warning-label, header-8]
-        text: Please enter a valid number between 1 and 20 for the number of artists.
-        visible: false
-      type: Label
-    - components:
-      - event_bindings: {click: notification_repetition_value_click}
-        layout_properties: {}
-        name: notif_rep_value
-        properties: {role: genre-box, spacing_above: none, spacing_below: none, text: Repeat suggestions}
-        type: Link
       - components:
-        - event_bindings: {change: artist_rep_x_days_freq_lost_focus, lost_focus: artist_rep_x_days_freq_lost_focus, pressed_enter: artist_rep_x_days_freq_lost_focus}
-          layout_properties: {grid_position: 'FYAGVZ,FIWFFE'}
-          name: artist_rep_x_days_freq
-          properties: {align: center, role: notification-settings-textbox, text: '90', type: text, visible: true}
+        - layout_properties: {}
+          name: label_1
+          properties:
+            role: [margin-top, header-6]
+            spacing:
+              margin: [13, null, null, null]
+            spacing_above: none
+            spacing_below: none
+            text: 'Max No. artists:'
+          type: Label
+        - event_bindings: {change: no_artists_box_lost_focus, lost_focus: no_artists_box_lost_focus, pressed_enter: no_artists_box_lost_focus}
+          layout_properties: {}
+          name: no_artists_box
+          properties: {align: center, placeholder: 1-20, role: notification-settings-textbox, spacing_above: none, spacing_below: none, text: '5'}
           type: TextBox
-        - layout_properties: {grid_position: 'FYAGVZ,MYETHT'}
-          name: artist_rep_x_days
+        layout_properties: {grid_position: 'UMBXOF,DVWQFO'}
+        name: Max_num_artist_mail
+        properties: {spacing_above: none, spacing_below: none, visible: true}
+        type: FlowPanel
+      - layout_properties: {grid_position: 'DPGDEA,SEWGNO'}
+        name: max_number_artist_warning
+        properties:
+          role: [warning-label, header-8]
+          text: Please enter a valid number between 1 and 20 for the number of artists.
+          visible: false
+        type: Label
+      - components:
+        - event_bindings: {click: notification_repetition_value_click}
+          layout_properties: {}
+          name: notif_rep_value
+          properties: {role: genre-box, spacing_above: none, spacing_below: none, text: Repeat suggestions}
+          type: Link
+        - components:
+          - event_bindings: {change: artist_rep_x_days_freq_lost_focus, lost_focus: artist_rep_x_days_freq_lost_focus, pressed_enter: artist_rep_x_days_freq_lost_focus}
+            layout_properties: {grid_position: 'FYAGVZ,FIWFFE'}
+            name: artist_rep_x_days_freq
+            properties: {align: center, role: notification-settings-textbox, text: '90', type: text, visible: true}
+            type: TextBox
+          - layout_properties: {grid_position: 'FYAGVZ,MYETHT'}
+            name: artist_rep_x_days
+            properties:
+              role: [header-6, margin-top]
+              spacing_above: none
+              spacing_below: none
+              text: Days
+              visible: true
+            type: Label
+          name: column_panel_rep
+          properties: {}
+          type: ColumnPanel
+        layout_properties: {grid_position: 'KWHWCK,PKFSTW'}
+        name: notification_rep
+        properties: {spacing_above: none, spacing_below: none, visible: false}
+        type: FlowPanel
+      - layout_properties: {grid_position: 'WJTHYO,DXBLRZ'}
+        name: artist_rep_x_days_freq_warning
+        properties:
+          role: [warning-label, header-8]
+          text: Please enter a valid number for over how many days you would like an artist show up again
+          visible: false
+        type: Label
+      - components:
+        - layout_properties: {}
+          name: notif_rep_title_copy
+          properties: {role: header-6, spacing_above: none, spacing_below: none, text: 'Song Selection:'}
+          type: Label
+        - event_bindings: {click: notification_repetition_value_click}
+          layout_properties: {}
+          name: song_selection_type
+          properties: {role: genre-box, spacing_above: none, spacing_below: none, text: Latest Release}
+          type: Link
+        layout_properties: {grid_position: 'RFOINZ,SNZDSR'}
+        name: song_selection
+        properties: {spacing_above: none, spacing_below: none, visible: false}
+        type: FlowPanel
+      - components:
+        - layout_properties: {}
+          name: label_1_copy_2_copy
+          properties:
+            role: [margin-top, header-6]
+            spacing_above: none
+            spacing_below: none
+            text: 'No. of latest releases:'
+          type: Label
+        - event_bindings: {change: no_latest_rel_box_spotify_lost_focus, lost_focus: no_latest_rel_box_spotify_lost_focus, pressed_enter: no_latest_rel_box_spotify_lost_focus}
+          layout_properties: {}
+          name: no_latest_rel_box_spotify
+          properties: {align: center, placeholder: 1-10, role: notification-settings-textbox, spacing_above: none, spacing_below: none, text: '5'}
+          type: TextBox
+        layout_properties: {grid_position: 'BJUIWF,AUVPAC'}
+        name: no_latest_releases
+        properties: {spacing_above: none, spacing_below: none, visible: false}
+        type: FlowPanel
+      - layout_properties: {grid_position: 'IGSJJM,LJCDTG'}
+        name: no_latest_rel_box_spotify_warning
+        properties:
+          role: [warning-label, header-8]
+          text: Please enter a valid number between 1 and 10 for the number of latest releases.
+          visible: false
+        type: Label
+      layout_properties: {grid_position: 'KIENMN,RZRLDP'}
+      name: column_panel_2
+      properties:
+        spacing:
+          margin: [null, null, null, '0']
+      type: ColumnPanel
+    - components:
+      - layout_properties: {grid_position: 'RFISWP,TJEWAT'}
+        name: label_3
+        properties: {role: header-6_bold, text: 'Metric:'}
+        type: Label
+      - components:
+        - layout_properties: {}
+          name: metric_field_title
+          properties:
+            role: header-6
+            spacing:
+              margin: [13, null, null, null]
+            spacing_above: none
+            spacing_below: none
+            text: 'Metric:'
+          type: Label
+        - event_bindings: {click: metrics_option_1_click}
+          layout_properties: {}
+          name: metrics_option_1
+          properties:
+            role: genre-box
+            spacing:
+              margin: [13, null, null, null]
+            spacing_above: none
+            spacing_below: none
+            text: Top Fits
+          type: Link
+        layout_properties: {grid_position: 'SOCAFR,UEALWY'}
+        name: flow_panel_4
+        properties: {spacing_above: none, spacing_below: none}
+        type: FlowPanel
+      - components:
+        - layout_properties: {}
+          name: label_4
           properties:
             role: [header-6, margin-top]
             spacing_above: none
             spacing_below: none
-            text: Days
-            visible: true
+            text: 'Min growth fit:'
           type: Label
-        name: column_panel_rep
-        properties: {}
-        type: ColumnPanel
-      layout_properties: {grid_position: 'MCQZWJ,PSAECS EHXMIG,VEWMCW KCACJQ,GSDJHK'}
-      name: notification_rep
-      properties: {spacing_above: none, spacing_below: none, visible: false}
-      type: FlowPanel
-    - layout_properties: {grid_position: 'MCQZWJ,PSAECS EHXMIG,VEWMCW PJEDLE,QOXSIK'}
-      name: artist_rep_x_days_freq_warning
-      properties:
-        role: [warning-label, header-8]
-        text: Please enter a valid number for over how many days you would like an artist show up again
-        visible: false
-      type: Label
-    - components:
-      - layout_properties: {}
-        name: notif_rep_title_copy
-        properties: {role: header-6, spacing_above: none, spacing_below: none, text: 'Song Selection:'}
-        type: Label
-      - event_bindings: {click: notification_repetition_value_click}
-        layout_properties: {}
-        name: song_selection_type
-        properties: {role: genre-box, spacing_above: none, spacing_below: none, text: Latest Release}
-        type: Link
-      layout_properties: {grid_position: 'MCQZWJ,PSAECS EHXMIG,VEWMCW NJXSPC,DRMQIA'}
-      name: song_selection
-      properties: {spacing_above: none, spacing_below: none, visible: false}
-      type: FlowPanel
-    - components:
-      - layout_properties: {}
-        name: label_1_copy_2_copy
+        - event_bindings: {change: min_growth_value_lost_focus, lost_focus: min_growth_value_lost_focus, pressed_enter: min_growth_value_lost_focus}
+          layout_properties: {}
+          name: min_growth_value
+          properties: {align: center, role: notification-settings-textbox, text: '75', type: text}
+          type: TextBox
+        layout_properties: {grid_position: 'MWGMMD,WLCHJO'}
+        name: min_growth_fit
+        properties: {spacing_above: none, spacing_below: none, visible: false}
+        type: FlowPanel
+      - layout_properties: {grid_position: 'XVVLMS,WRNODG'}
+        name: min_growth_warning
         properties:
-          role: [margin-top, header-6]
-          spacing_above: none
-          spacing_below: none
-          text: 'No. of latest releases:'
+          role: [warning-label, header-8]
+          text: Please enter a valid number for minimum growing fits up to 100%
+          visible: false
         type: Label
-      - event_bindings: {change: no_latest_rel_box_spotify_lost_focus, lost_focus: no_latest_rel_box_spotify_lost_focus, pressed_enter: no_latest_rel_box_spotify_lost_focus}
-        layout_properties: {}
-        name: no_latest_rel_box_spotify
-        properties: {align: center, placeholder: 1-10, role: notification-settings-textbox, spacing_above: none, spacing_below: none, text: '5'}
-        type: TextBox
-      layout_properties: {grid_position: 'MCQZWJ,PSAECS EHXMIG,VEWMCW CMSROU,HJMBNJ'}
-      name: no_latest_releases
-      properties: {spacing_above: none, spacing_below: none, visible: false}
-      type: FlowPanel
-    - layout_properties: {grid_position: 'MCQZWJ,PSAECS EHXMIG,VEWMCW BIPAOP,UAODYS'}
-      name: no_latest_rel_box_spotify_warning
-      properties:
-        role: [warning-label, header-8]
-        text: Please enter a valid number between 1 and 10 for the number of latest releases.
-        visible: false
-      type: Label
-    - layout_properties: {grid_position: 'MCQZWJ,PSAECS EHXMIG,YGGVFU DBEXWV,YVKRSY'}
-      name: label_3
-      properties: {role: header-6_bold, text: 'Metric:'}
-      type: Label
-    - components:
-      - layout_properties: {}
-        name: metric_field_title
+      - components:
+        - layout_properties: {}
+          name: days_since_rel_field_title
+          properties:
+            role: [header-6, margin-top]
+            spacing_above: none
+            spacing_below: none
+            text: 'Max days since last release:'
+          type: Label
+        - event_bindings: {change: max_days_since_rel_lost_focus, lost_focus: max_days_since_rel_lost_focus, pressed_enter: max_days_since_rel_lost_focus}
+          layout_properties: {}
+          name: days_since_rel_field_value
+          properties: {align: center, role: notification-settings-textbox, spacing_above: none, spacing_below: none, text: '21', type: text}
+          type: TextBox
+        layout_properties: {grid_position: 'XUDEXM,ZLPRTH'}
+        name: max_days_since_rel
+        properties: {spacing_above: none, spacing_below: none, visible: false}
+        type: FlowPanel
+      - layout_properties: {grid_position: 'OKRAPD,XDVFCP'}
+        name: days_since_rel_field_warning
         properties:
-          role: header-6
-          spacing:
-            margin: [13, null, null, null]
-          spacing_above: none
-          spacing_below: none
-          text: 'Metric:'
+          role: [warning-label, header-8]
+          text: Please enter a valid number for the maximum number of days since the last release was made
+          visible: false
         type: Label
-      - event_bindings: {click: metrics_option_1_click}
-        layout_properties: {}
-        name: metrics_option_1
+      layout_properties: {grid_position: 'KIENMN,UQUGNS'}
+      name: column_panel_3
+      properties: {}
+      type: ColumnPanel
+    - components:
+      - layout_properties: {grid_position: 'BCSPHQ,KRDGFS'}
+        name: label_5
+        properties: {role: header-6_bold, text: 'Selection Parameters:'}
+        type: Label
+      - components:
+        - layout_properties: {}
+          name: artist_selection_field_title
+          properties: {role: header-6, spacing_above: none, spacing_below: none, text: 'Artist selection:    '}
+          type: Label
+        - event_bindings: {click: artist_selection_option_click}
+          layout_properties: {}
+          name: artist_selection_option
+          properties: {role: genre-box, spacing_above: none, spacing_below: none, text: Unrated}
+          type: Link
+        layout_properties: {grid_position: 'KNOUYP,VFIRSH'}
+        name: flow_panel_ratings
+        properties: {spacing_above: none, spacing_below: none}
+        type: FlowPanel
+      - components:
+        - layout_properties: {}
+          name: watchlist_selection_field_title
+          properties: {role: header-6, spacing_above: none, spacing_below: none, text: 'Watchlist selection:    '}
+          type: Label
+        - event_bindings: {click: watchlist_selection_option_click}
+          layout_properties: {}
+          name: watchlist_selection_option
+          properties: {role: genre-box, spacing_above: none, spacing_below: none, text: All}
+          type: Link
+        layout_properties: {grid_position: 'WFBPVL,ZVEICY'}
+        name: flow_panel_wl
+        properties: {spacing_above: none, spacing_below: none}
+        type: FlowPanel
+      - components:
+        - layout_properties: {}
+          name: model_selection_field_title
+          properties: {role: header-6, spacing_above: none, spacing_below: none, text: 'Model selection:    '}
+          type: Label
+        layout_properties: {grid_position: 'RQHVQA,IONJOK'}
+        name: flow_panel_models
+        properties: {spacing_above: none, spacing_below: none}
+        type: FlowPanel
+      - layout_properties: {grid_position: 'RIKFNM,GRYCWQ'}
+        name: models_warning
         properties:
-          role: genre-box
-          spacing:
-            margin: [13, null, null, null]
-          spacing_above: none
-          spacing_below: none
-          text: Top Fits
-        type: Link
-      layout_properties: {grid_position: 'MCQZWJ,PSAECS EHXMIG,YGGVFU ZWBPVP,IULSXW'}
-      name: flow_panel_4
-      properties: {spacing_above: none, spacing_below: none}
-      type: FlowPanel
-    - components:
-      - layout_properties: {}
-        name: label_4
-        properties:
-          role: [header-6, margin-top]
-          spacing_above: none
-          spacing_below: none
-          text: 'Min growth fit:'
+          role: [warning-label, header-8]
+          text: Please select at least one trained model for your notification
+          visible: false
         type: Label
-      - event_bindings: {change: min_growth_value_lost_focus, lost_focus: min_growth_value_lost_focus, pressed_enter: min_growth_value_lost_focus}
-        layout_properties: {}
-        name: min_growth_value
-        properties: {align: center, role: notification-settings-textbox, text: '75', type: text}
-        type: TextBox
-      layout_properties: {grid_position: 'MCQZWJ,PSAECS EHXMIG,YGGVFU QYULAF,AUYINZ'}
-      name: min_growth_fit
-      properties: {spacing_above: none, spacing_below: none, visible: false}
-      type: FlowPanel
-    - layout_properties: {grid_position: 'MCQZWJ,PSAECS EHXMIG,YGGVFU PJFQBX,SHGPRA'}
-      name: min_growth_warning
+      layout_properties: {grid_position: 'KIENMN,MSTJYP'}
+      name: column_panel_4
       properties:
-        role: [warning-label, header-8]
-        text: Please enter a valid number for minimum growing fits up to 100%
-        visible: false
-      type: Label
-    - components:
-      - layout_properties: {}
-        name: days_since_rel_field_title
-        properties:
-          role: [header-6, margin-top]
-          spacing_above: none
-          spacing_below: none
-          text: 'Max days since last release:'
-        type: Label
-      - event_bindings: {change: max_days_since_rel_lost_focus, lost_focus: max_days_since_rel_lost_focus, pressed_enter: max_days_since_rel_lost_focus}
-        layout_properties: {}
-        name: days_since_rel_field_value
-        properties: {align: center, role: notification-settings-textbox, spacing_above: none, spacing_below: none, text: '21', type: text}
-        type: TextBox
-      layout_properties: {grid_position: 'MCQZWJ,PSAECS EHXMIG,YGGVFU LACTOK,VEYIQG'}
-      name: max_days_since_rel
-      properties: {spacing_above: none, spacing_below: none, visible: false}
-      type: FlowPanel
-    - layout_properties: {grid_position: 'MCQZWJ,PSAECS EHXMIG,YGGVFU NTPEEX,SWJUAF'}
-      name: days_since_rel_field_warning
-      properties:
-        role: [warning-label, header-8]
-        text: Please enter a valid number for the maximum number of days since the last release was made
-        visible: false
-      type: Label
-    - layout_properties: {grid_position: 'MCQZWJ,PSAECS EHXMIG,HMRWON QOZPNS,KQTODB'}
-      name: label_5
-      properties: {role: header-6_bold, text: 'Selection Parameters:'}
-      type: Label
-    - components:
-      - layout_properties: {}
-        name: artist_selection_field_title
-        properties: {role: header-6, spacing_above: none, spacing_below: none, text: 'Artist selection:    '}
-        type: Label
-      - event_bindings: {click: artist_selection_option_click}
-        layout_properties: {}
-        name: artist_selection_option
-        properties: {role: genre-box, spacing_above: none, spacing_below: none, text: Unrated}
-        type: Link
-      layout_properties: {grid_position: 'MCQZWJ,PSAECS EHXMIG,HMRWON SFZLJO,UVTDPG'}
-      name: flow_panel_ratings
-      properties: {spacing_above: none, spacing_below: none}
-      type: FlowPanel
-    - components:
-      - layout_properties: {}
-        name: watchlist_selection_field_title
-        properties: {role: header-6, spacing_above: none, spacing_below: none, text: 'Watchlist selection:    '}
-        type: Label
-      - event_bindings: {click: watchlist_selection_option_click}
-        layout_properties: {}
-        name: watchlist_selection_option
-        properties: {role: genre-box, spacing_above: none, spacing_below: none, text: All}
-        type: Link
-      layout_properties: {grid_position: 'MCQZWJ,PSAECS EHXMIG,HMRWON XYKOQS,XZRSEY'}
-      name: flow_panel_wl
-      properties: {spacing_above: none, spacing_below: none}
-      type: FlowPanel
-    - components:
-      - layout_properties: {}
-        name: model_selection_field_title
-        properties: {role: header-6, spacing_above: none, spacing_below: none, text: 'Model selection:    '}
-        type: Label
-      layout_properties: {grid_position: 'MCQZWJ,PSAECS EHXMIG,HMRWON LTZODP,SMHGNW'}
-      name: flow_panel_models
-      properties: {spacing_above: none, spacing_below: none}
-      type: FlowPanel
-    - layout_properties: {grid_position: 'MCQZWJ,PSAECS EHXMIG,HMRWON MTHTHX,RWXFWP'}
-      name: models_warning
-      properties:
-        role: [warning-label, header-8]
-        text: Please select at least one trained model for your notification
-        visible: false
-      type: Label
-    - layout_properties: {grid_position: 'MCQZWJ,PSAECS EHXMIG,SBYWNA'}
-      name: spacer_4
-      properties: {height: 32}
-      type: Spacer
+        spacing:
+          margin: [null, '0', null, null]
+      type: ColumnPanel
     - event_bindings: {click: button_save_click}
-      layout_properties: {grid_position: 'MCQZWJ,PSAECS BAEOKR,ENBENW'}
+      layout_properties: {grid_position: 'BAEOKR,ENBENW'}
       name: button_save
       properties:
         align: right
         role: [call-to-action-button, header-6]
         spacing:
-          margin: [null, 10, null, null]
+          margin: [null, '0', null, '0']
         spacing_above: medium
         text: save
       type: Button
@@ -515,13 +529,21 @@ components:
     name: column_panel_min_max
     properties:
       col_spacing: tiny
-      col_widths: '{"RQFBFR":5,"PSAECS":55,"VEWMCW":15,"YGGVFU":20,"HMRWON":20,"SBYWNA":5}'
+      col_widths: '{"RZRLDP":20,"UQUGNS":20,"MSTJYP":20}'
+      role: top-border
       spacing:
-        margin: [20, null, null, null]
+        margin: [5, '75', null, '75']
+        padding: [10, null, null, null]
     type: ColumnPanel
-  layout_properties: {}
+  layout_properties: {column: 'null'}
   name: column_panel_1
-  properties: {col_spacing: tiny, col_widths: '{}', role: null, visible: true}
+  properties:
+    col_spacing: tiny
+    col_widths: '{}'
+    role: null
+    spacing:
+      margin: [null, null, null, 0]
+    visible: true
   type: ColumnPanel
 container: {type: DataRowPanel}
 custom_component: true

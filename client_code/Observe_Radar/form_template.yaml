@@ -2,7 +2,7 @@ components:
 - components:
   - layout_properties: {grid_position: 'JAZERV,LGQSDW'}
     name: label_1
-    properties: {align: left, background: '', bold: false, border: '', font: '', font_size: null, foreground: '', icon: '', icon_align: left, italic: false, role: header-1, spacing_above: small, spacing_below: small, text: Observe, tooltip: '', underline: false, visible: true}
+    properties: {align: left, background: '', bold: false, border: '', font: '', font_size: null, foreground: '', icon: '', icon_align: left, italic: false, role: header-1, spacing_above: small, spacing_below: small, text: Artist Radar, tooltip: '', underline: false, visible: true}
     type: Label
   - components:
     - layout_properties: {grid_position: 'FFHUXB,SNYWAS'}
