@@ -56,9 +56,10 @@ class Observe_Listen(Observe_ListenTemplate):
       
       # set ratings status
       self.column_panel_discover.get_components()[0].set_rating_highlight()
-
       # set watchlist status
       self.column_panel_discover.get_components()[0].set_watchlist_icons()
+      # refresh play buttons
+      # anvil.js.call_js('setPlayButtonIcons', 'track')
       
       # Instantiate Spotify Player
       self.footer_left.clear()
@@ -166,10 +167,11 @@ class Observe_Listen(Observe_ListenTemplate):
     self.column_panel_discover.add_component(C_Discover(new_artist_id))
     
     # set ratings status
-    self.column_panel_discover.get_components()[0].set_rating_highlight()
-    
+    self.column_panel_discover.get_components()[0].set_rating_highlight()    
     # set watchlist status
     self.column_panel_discover.get_components()[0].set_watchlist_icons()
+    # refresh play buttons
+    anvil.js.call_js('setPlayButtonIcons', 'track')
 
   # CREATE A NEW PLAYLIST
   def add_spotify_playlist_click(self, **event_args):

@@ -56,10 +56,10 @@ function createOrUpdateSpotifyPlayer(formElement, trackOrArtist, currentSpotifyI
           console.log("Playback is buffering - 1");
         } else if (isPaused) {
           console.log("Playback is paused - 1");
-          setPlayButtonIcons(isPaused, trackOrArtist, spotifyTrackIDsList, spotifyArtistIDsList)
+          setPlayButtonIcons(trackOrArtist, spotifyTrackIDsList, spotifyArtistIDsList)
         } else {
           console.log("Playback is playing - 1");
-          setPlayButtonIcons(isPaused, trackOrArtist, spotifyTrackIDsList, spotifyArtistIDsList)
+          setPlayButtonIcons(trackOrArtist, spotifyTrackIDsList, spotifyArtistIDsList)
         }
       });
       
@@ -101,10 +101,10 @@ function createOrUpdateSpotifyPlayer(formElement, trackOrArtist, currentSpotifyI
             console.log("Playback is buffering - 2");
           } else if (isPaused) {
             console.log("Playback is paused - 2");
-            setPlayButtonIcons(isPaused, trackOrArtist, spotifyTrackIDsList, spotifyArtistIDsList)
+            setPlayButtonIcons(trackOrArtist, spotifyTrackIDsList, spotifyArtistIDsList)
           } else {
             console.log("Playback is playing - 2");
-            setPlayButtonIcons(isPaused, trackOrArtist, spotifyTrackIDsList, spotifyArtistIDsList)
+            setPlayButtonIcons(trackOrArtist, spotifyTrackIDsList, spotifyArtistIDsList)
           }
         });
         
@@ -253,7 +253,7 @@ function playNextSong(formElement, trackOrArtist, spotifyTrackIDsList, spotifyAr
     controller.isPaused = false;
     
     // Set play button icons
-    setPlayButtonIcons(false, 'track', spotifyTrackIDsList, spotifyArtistIDsList)
+    setPlayButtonIcons('track', spotifyTrackIDsList, spotifyArtistIDsList)
 
     // load similar artist profile
     if (nextSpotifyArtistID && (currentArtistID !== nextSpotifyArtistID && sessionStorage.getItem("has_played") === 'True')) {
@@ -264,19 +264,15 @@ function playNextSong(formElement, trackOrArtist, spotifyTrackIDsList, spotifyAr
 }
 
 // Function to set the play button icons
-function setPlayButtonIcons(isPaused, trackOrArtist, spotifyTrackIDsList=null, spotifyArtistIDsList=null) {
+function setPlayButtonIcons(trackOrArtist, spotifyTrackIDsList=null, spotifyArtistIDsList=null) {
   
   // Set the icon of the small play buttons
   if (spotifyTrackIDsList) {
     spotifyTrackIDsList.forEach(function(currentId) {
-      const buttonPlay = document.querySelector(`.anvil-role-${currentId}`);
-      console.log("setPlayButtonIcons - buttonPlay: " + buttonPlay);
-      
-      const buttonPlay_inner = document.querySelector(`.anvil-role-${currentId}-inner`);
-      console.log("setPlayButtonIcons - buttonPlay_inner: " + buttonPlay_inner);
-      
-      
-      if (currentId === globalCurrentSpotifyID && !isPaused) {
+
+      // inside the Listen-In playlist
+      const buttonPlay = document.querySelector(`.anvil-role-${currentId}`);      
+      if (currentId === globalCurrentSpotifyID && !controller.isPaused) {
         if (buttonPlay) {
           let icon = buttonPlay.querySelector('i')
           if (icon) {
@@ -291,8 +287,10 @@ function setPlayButtonIcons(isPaused, trackOrArtist, spotifyTrackIDsList=null, s
           }
         }
       }
-      
-      if (currentId === globalCurrentSpotifyID && !isPaused) {
+
+      // inside the Listen-In C_Discover artists Track Releases
+      const buttonPlay_inner = document.querySelector(`.anvil-role-${currentId}-inner`);    
+      if (currentId === globalCurrentSpotifyID && !controller.isPaused) {
         if (buttonPlay_inner) {
           let icon = buttonPlay_inner.querySelector('i')
           if (icon) {
@@ -315,7 +313,7 @@ function setPlayButtonIcons(isPaused, trackOrArtist, spotifyTrackIDsList=null, s
   // should be play when nothing is playling to start the artists tracks
   const buttonPlayBig = document.querySelector(`.anvil-role-play-spotify-button-artist`);
 
-  if (isPaused) {
+  if (controller.isPaused) {
     if (buttonPlayBig) {
       let icon = buttonPlayBig.querySelector('i')
       if (icon) {
@@ -331,7 +329,7 @@ function setPlayButtonIcons(isPaused, trackOrArtist, spotifyTrackIDsList=null, s
       }
     }    
   }
-  if (trackOrArtist ==  'artist' && !isPaused) {
+  if (trackOrArtist ==  'artist' && !controller.isPaused) {
     if (buttonPlayBig) {
       let icon = buttonPlayBig.querySelector('i')
       if (icon) {
@@ -344,7 +342,7 @@ function setPlayButtonIcons(isPaused, trackOrArtist, spotifyTrackIDsList=null, s
   // all three buttons (small play, big play and console play) should be aligned
   const buttonPlayBig2 = document.querySelector(`.anvil-role-play-spotify-button-artist2`);
 
-  if (isPaused) {
+  if (controller.isPaused) {
     if (buttonPlayBig2) {
       let icon = buttonPlayBig2.querySelector('i')
       if (icon) {
