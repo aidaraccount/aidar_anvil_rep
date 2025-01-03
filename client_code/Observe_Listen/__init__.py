@@ -25,7 +25,6 @@ class Observe_Listen(Observe_ListenTemplate):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
     self.add_event_handler('show', self.form_show)
-    self.repeating_panel_artists.role = ['listen-left-element', 'grid-main']
     
     # Any code you write here will run before the form opens.
     global user
@@ -52,33 +51,6 @@ class Observe_Listen(Observe_ListenTemplate):
       # a) get notification/ playlist data
       self.get_all_notifications(url_notification_id)
 
-      # b) fill C_Discover
-      first_artist_id = self.repeating_panel_artists.items[0]["artist_id"]
-      self.column_panel_discover.clear()
-      self.column_panel_discover.add_component(C_Discover(first_artist_id))
-
-      # -----------
-      # FOOTER
-      # a) set ratings status
-      self.column_panel_discover.get_components()[0].set_rating_highlight()
-      
-      # b) set watchlist status
-      self.column_panel_discover.get_components()[0].set_watchlist_icons()
-            
-      # c) Instantiate Spotify Player
-      self.footer_left.clear()
-      self.spotify_HTML_player()
-      
-      # d) Watchlist Drop-Down
-      wl_data = json.loads(anvil.server.call('get_watchlist_ids',  user["user_id"]))
-      self.drop_down_wl.selected_value = [item['watchlist_name'] for item in wl_data if item['is_last_used']][0]
-      self.drop_down_wl.items = [item['watchlist_name'] for item in wl_data]
-
-      # e) Models Drop-Down
-      model_data = json.loads(anvil.server.call('get_model_ids',  user["user_id"]))
-      self.drop_down_model.selected_value = [item['model_name'] for item in model_data if item['is_last_used']][0]
-      self.drop_down_model.items = [item['model_name'] for item in model_data]
-      
 
   def form_show(self, **event_args):
     embed_iframe_element = document.getElementById('embed-iframe')
@@ -90,12 +62,14 @@ class Observe_Listen(Observe_ListenTemplate):
   # GET ALL NOTIFICATIONS
   def get_all_notifications(self, notification_id, **event_args):
     self.notifications = json.loads(anvil.server.call("get_notifications", user["user_id"], 'playlist'))
-    
+     
     # clear all navigation components
     self.flow_panel.clear()
     
     # adding navigation components
     self.flow_panel.visible = True
+    self.create_playlist.visible = True
+    
     for notification in self.notifications:
       notification_link = Link(
         text=notification["name"],
@@ -105,9 +79,11 @@ class Observe_Listen(Observe_ListenTemplate):
       notification_link.set_event_handler('click', self.create_click_notification_handler(notification["notification_id"], notification_link))
       self.flow_panel.add_component(notification_link)
 
-    # load and activate defined/first notification
-    if len(self.notifications) > 0:      
+    # check notification presence & trained model presence
+    if len(self.notifications) > 0:
+      # if existing notifications: load and activate defined/first notification
       self.no_notifications.visible = False
+      self.no_trained_model.visible = False
   
       if notification_id is None or notification_id == 'None':
         notification_id = self.notifications[0]["notification_id"]
@@ -118,8 +94,21 @@ class Observe_Listen(Observe_ListenTemplate):
       
     else:
       self.flow_panel.visible = False
+      self.create_playlist.visible = False
       self.notification_settings.visible = False
-      self.no_notifications.visible = True
+      self.column_panel_content.visible = False
+  
+      models = json.loads(anvil.server.call('get_model_ids',  user["user_id"]))    
+      if not any(item.get('fully_trained', True) for item in models):
+        # if no trained model
+        self.no_trained_model.visible = True
+        self.no_notifications.visible = False
+  
+      else:
+        # else, just missing notification      
+        self.no_trained_model.visible = False
+        self.no_notifications.visible = True
+
   
   # ACTIVATE NOTIFICATION
   def activate_notification(self, notification_id):
@@ -170,12 +159,41 @@ class Observe_Listen(Observe_ListenTemplate):
     self.all_ai_artist_ids = [track['artist_id'] for artist in observed_tracks for track in artist['tracks']]
     self.all_artist_names = [track['name'] for artist in observed_tracks for track in artist['tracks']]
     
+    self.column_panel_content.visible = True
     self.repeating_panel_artists.items = observed_tracks
-    self.repeating_panel_artists.visible = True
+    self.initial_load_discover()
 
 
   # GET DISCOVER DETAILS
-  def reload_discover(self, nextSpotifyArtistID):    
+  def initial_load_discover(self, **event_args):
+    # b) fill C_Discover
+    first_artist_id = self.repeating_panel_artists.items[0]["artist_id"]
+    self.column_panel_discover.clear()
+    self.column_panel_discover.add_component(C_Discover(first_artist_id))
+
+    # -----------
+    # FOOTER
+    # a) set ratings status
+    self.column_panel_discover.get_components()[0].set_rating_highlight()
+    
+    # b) set watchlist status
+    self.column_panel_discover.get_components()[0].set_watchlist_icons()
+          
+    # c) Instantiate Spotify Player
+    self.footer_left.clear()
+    self.spotify_HTML_player()
+    
+    # d) Watchlist Drop-Down
+    wl_data = json.loads(anvil.server.call('get_watchlist_ids',  user["user_id"]))
+    self.drop_down_wl.selected_value = [item['watchlist_name'] for item in wl_data if item['is_last_used']][0]
+    self.drop_down_wl.items = [item['watchlist_name'] for item in wl_data]
+
+    # e) Models Drop-Down
+    model_data = json.loads(anvil.server.call('get_model_ids',  user["user_id"]))
+    self.drop_down_model.selected_value = [item['model_name'] for item in model_data if item['is_last_used']][0]
+    self.drop_down_model.items = [item['model_name'] for item in model_data]
+    
+  def reload_discover(self, nextSpotifyArtistID, **event_args):
     new_artist_id = self.all_ai_artist_ids[self.all_artist_ids.index(nextSpotifyArtistID)]
     self.column_panel_discover.clear()
     self.column_panel_discover.add_component(C_Discover(new_artist_id))

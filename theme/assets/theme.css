@@ -739,8 +739,6 @@ body, html {
 }
 
 .body {
-  /* background-color: %color:Main_Black%; */
-  /* background: linear-gradient(to bottom, rgb(30, 6, 74), black); */
   background: linear-gradient(to bottom right, rgb(31, 11, 59), black);
   flex-grow: 1;
   display: flex;
@@ -749,8 +747,8 @@ body, html {
   padding: 60px 0 0 0;
 }
 
+
 .anvil-role-grid {
-  /* background-color: %color:Grid_Black%; */
   background: linear-gradient(to bottom right, rgb(31, 11, 59), rgba(250, 250, 250, 0.05));
   border-radius: 12px;
   margin-top: 5px;
@@ -759,18 +757,17 @@ body, html {
 }
 .anvil-role-grid-main {
   background: linear-gradient(to bottom right, rgb(31, 11, 59), rgba(250, 250, 250, 0.05));
-  /* background: linear-gradient (to bottom right, rgba(30, 6, 74, 0.09), rgb(30, 6, 74)); */
-  /* background: linear-gradient(to bottom right, rgba(250, 250, 250, 0.08) 50%, rgb(30, 6, 74)); */
   border-radius: 12px;
-  margin-top: 7px;
-  margin-bottom: 7px;
+  margin-top: 5px;
+  margin-bottom: 5px;
   padding: 0;
 }
+
+
 .anvil-role-tile-background-left {
   background: linear-gradient(to bottom right, rgb(31, 11, 59), rgba(250, 250, 250, 0.05));
   border-radius: 15px;
   height: 100%;
-  /* width: 75%; */
 }
 .anvil-role-tile-background-right {
   background: linear-gradient(to bottom right, rgb(31, 11, 59), rgba(250, 250, 250, 0.05));
@@ -2771,7 +2768,7 @@ footer a, .footer .anvil-component {
 
 /* Observe_Listen individual classes  */
 .anvil-role-listen-complete-element {
-  height: calc(100vh + 180px);
+  height: calc(100vh + 285px);
   overflow-y: auto;
 }
 .anvil-role-listen-left-element {

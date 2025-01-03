@@ -39,8 +39,7 @@ class Observe_Radar(Observe_RadarTemplate):
       
       save_var('toggle', 'up')
       
-      # GENERAL
-  
+      # GENERAL  
       self.get_all_notifications(url_notification_id)
 
     

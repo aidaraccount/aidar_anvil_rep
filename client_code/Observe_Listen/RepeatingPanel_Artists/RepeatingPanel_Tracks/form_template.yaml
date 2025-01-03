@@ -9,7 +9,7 @@ components:
     icon: fa:play-circle
     role: [play-spotify-button]
     spacing:
-      margin: [0, null, null, null]
+      margin: [0, null, null, 3]
       padding: [null, 0, null, 0]
     text: ''
   type: Button

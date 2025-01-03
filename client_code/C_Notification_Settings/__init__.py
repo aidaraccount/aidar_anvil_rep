@@ -72,6 +72,7 @@ class C_Notification_Settings(C_Notification_SettingsTemplate):
     if items["type"] == "playlist":
       if items["sp_playlist_id"] is None or items["sp_playlist_id"] == "":
         self.playlist_in_creation.visible = True
+        self.last_updated_spotify.visible = False
       else:
         self.playlist_url.visible = True
         self.last_updated_spotify.visible = True

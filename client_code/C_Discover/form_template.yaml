@@ -1519,7 +1519,7 @@ components:
     col_widths: '{}'
     role: [left-discover-page]
     spacing:
-      margin: [5, null, null, null]
+      margin: [0, null, 0, null]
     spacing_above: small
     spacing_below: small
   type: ColumnPanel
