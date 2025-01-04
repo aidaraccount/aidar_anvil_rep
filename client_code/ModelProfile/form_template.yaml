@@ -247,7 +247,7 @@ components:
       layout_properties: {}
       name: nav_model
       properties:
-        role: [section_buttons, section_buttons-flex-items]
+        role: [section_buttons]
         spacing_above: none
         spacing_below: none
         text: Model Status
@@ -256,7 +256,7 @@ components:
       layout_properties: {}
       name: nav_submodel_cont
       properties:
-        role: [section_buttons, section_buttons-flex-items]
+        role: [section_buttons]
         spacing_above: none
         spacing_below: none
         text: Contribution
@@ -265,7 +265,7 @@ components:
       layout_properties: {}
       name: nav_level_of_pop
       properties:
-        role: [section_buttons, section_buttons-flex-items]
+        role: [section_buttons]
         spacing_above: none
         spacing_below: none
         text: Popularity
@@ -275,7 +275,7 @@ components:
       name: nav_references
       properties:
         col_spacing: medium
-        role: [section_buttons, section_buttons-flex-items]
+        role: [section_buttons]
         spacing_above: none
         spacing_below: none
         text: Ref. Artists
@@ -285,7 +285,7 @@ components:
       name: nav_prev_rated
       properties:
         col_spacing: medium
-        role: [section_buttons, section_buttons-flex-items]
+        role: [section_buttons]
         spacing_above: none
         spacing_below: none
         text: Prev. Rated
@@ -294,7 +294,7 @@ components:
       layout_properties: {}
       name: nav_filters
       properties:
-        role: [section_buttons, section_buttons-flex-items]
+        role: [section_buttons]
         spacing_above: none
         spacing_below: none
         text: Filters

@@ -55,10 +55,29 @@ components:
     name: flow_panel_1
     properties: {align: right}
     type: FlowPanel
-  - layout_properties: {grid_position: 'REOABT,KWGWBG'}
+  - components:
+    - layout_properties: {grid_position: 'KBQPZQ,QQOGWD'}
+      name: mail_status_active
+      properties:
+        align: center
+        italic: true
+        role: [header-7]
+        spacing:
+          margin: [null, null, 0, null]
+          padding: [null, null, 0, null]
+      type: Label
+    - layout_properties: {grid_position: 'VMUHZE,JBNNHR'}
+      name: mail_status_details
+      properties:
+        align: center
+        role: header-6
+        spacing:
+          margin: [0, null, null, null]
+      type: Label
+    layout_properties: {grid_position: 'DPHIVA,MAUNXA'}
     name: mail_status
-    properties: {align: center, role: header-6}
-    type: Label
+    properties: {}
+    type: ColumnPanel
   - components:
     - layout_properties: {grid_position: 'CTVSYS,GXWKUK'}
       name: playlist_in_creation
@@ -123,7 +142,7 @@ components:
           properties:
             align: right
             icon: ''
-            role: [header-6, call-to-action-button-longer]
+            role: [header-6, call-to-action-button]
             spacing:
               margin: [0, null, null, null]
               padding: [null, '12', null, '12']
@@ -136,7 +155,9 @@ components:
         name: buttons_panel
         properties: {role: null, spacing_above: none, spacing_below: none}
         type: LinearPanel
-      - event_bindings: {click: activate_notification}
+      - data_bindings:
+        - {code: '[''header-6'', ''call-to-action-button-disabled'']', property: role, writeback: false}
+        event_bindings: {click: activate_notification}
         layout_properties: {}
         name: deactivate
         properties:
@@ -147,7 +168,7 @@ components:
             margin: [0, null, null, null]
           spacing_above: small
           spacing_below: none
-          text: mail notification is active
+          text: deactivate mail notification
           underline: false
           visible: false
         type: Button
@@ -156,7 +177,7 @@ components:
       properties:
         align: center
         spacing:
-          margin: [10, null, 0, null]
+          margin: [10, null, 10, null]
       type: FlowPanel
     - components:
       - layout_properties: {}

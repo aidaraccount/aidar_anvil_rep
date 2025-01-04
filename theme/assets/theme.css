@@ -336,16 +336,16 @@ body, html {
 .anvil-role-section-background-flex .flow-panel-gutter {
   justify-content: center !important;
 }
-.anvil-role-section_buttons-flex-items {
 
-}
 .flow-panel-gutter:has( .anvil-role-section_buttons_focused) {
+  margin: 0;
   padding: 0 15px 0;
 }
 .anvil-role-section_buttons {
   font-family: GS-light;
   font-size: 20px;
   color: rgb(250, 250, 250);
+  margin: 0;
   padding: 10px 30px 10px;
   .link-text {
     font-weight: bold !important;
@@ -355,9 +355,10 @@ body, html {
   font-family: GS-medium;
   font-size: 20px;
   color: %color:Orange%;
+  margin: 0;
+  padding: 10px 30px 10px;
   border-bottom: 2px solid;
   border-color: %color:Orange%;
-  padding: 10px 30px 10px;
 }
 .anvil-role-section-background.anvil-role-rampup-steps > .flow-panel-gutter > .flow-panel-item.anvil-always-inline-container:has( .anvil-role-rampup-labels_focused):first-child {
   padding: 0 50px;
@@ -466,10 +467,6 @@ body, html {
 }
 
 /* Titles CSS Starts Here  */
-.anvil-role-orange {
-  color: %color:Orange% !important;
-}
-
 .anvil-role-title-main-out {
   font-family: GS-semibold;
   font-size: 36px;
@@ -941,21 +938,6 @@ body, html {
   align-items: center;
 }
 
-/* .anvil-role-gauge-background {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  background: conic-gradient(
-    #ff5f6d 0%,
-    #ff5f6d var(--gauge-percentage, 0%),
-    #ffc371 var(--gauge-percentage, 0%),
-    #ffc371 100%
-  );
-  z-index: -1;
-} */
 
 .anvil-role-score-label {
   font-size: 24px;
@@ -2103,150 +2085,7 @@ footer a, .footer .anvil-component {
 }
 /* CSS for Fit Likelihood on the Discover Page ENDS Here */
 
-/* Rating buttons on the ListenIn page */
-.anvil-role-highlight-button button {
-  box-shadow: 0 0 5px #E95F30, 0 0 9px #E95F30, 0 0 13px #E95F30; /* Static orange glow */
-  transition: all 0.3s ease; /* Smooth hover effect */
-}
-.anvil-role-feature > button:hover {
-  box-shadow: 0 0 10px #E95F30, 0 0 20px #E95F30, 0 0 30px #E95F30; /* Brighter glow on hover */
-}
 
-/* Play/pause buttons on the Discover and ListenIn page */
-/* small and big play buttons for tables and icons */
-.anvil-role-play-spotify-button button,
-.anvil-role-icon-button button {
-  font-family: Gs-regular;
-  font-size: 24px;
-  color: #E95F30;
-  background: transparent;
-  border: 0px;
-  box-shadow: none;
-  text-shadow: none;
-  transition: 0.5s;
-  width: 55px;
-}
-.anvil-role-play-spotify-button > button:hover,
-.anvil-role-icon-button > button:hover {
-  background: transparent;
-  color: #BA7305;
-}
-.anvil-role-play-spotify-button > button:focus,
-.anvil-role-icon-button > button:focus {
-  background: transparent;
-  color: #E95F30;
-}
-.anvil-role-play-spotify-button > button:active,
-.anvil-role-icon-button > button:active {
-  background: transparent;
-  color: #E95F30;
-}
-
-/* disables icon buttons */
-.anvil-role-icon-button-disabled button {
-  font-family: Gs-regular;
-  font-size: 24px;
-  color: #9E9E9E;
-  background: transparent;
-  border: 0px;
-  box-shadow: none;
-  text-shadow: none;
-  transition: 0.5s;
-  width: 55px;
-}
-.anvil-role-icon-button-disabled > button:hover {
-  background: transparent;
-  color: #9E9E9E;
-}
-.anvil-role-icon-button-disabled > button:focus {
-  background: transparent;
-  color: #9E9E9E;
-}
-.anvil-role-icon-button-disabled > button:active {
-  background: transparent;
-  color: #9E9E9E;
-}
-
-/* big play buttons on Discover and ListenIn */
-.anvil-role-play-spotify-button-artist button {
-  font-size: 44px;
-  padding: 0;
-}
-.anvil-role-play-spotify-button-artist2 button {
-  font-size: 44px;
-  padding: 0;
-  min-height: 0;
-}
-.anvil-role-play-spotify-button-artist2 .btn { /* to reduce the height of the central play button in the footer of ListenIn */
-  min-height: 0 !important;
-  line-height: 1 !important;
-}
-
-/* classes to be captured by js */
-.anvil-role-autoplay-toggle-button {}
-.anvil-role-spotify-footer-class {}
-
-
-.anvil-role-opacity-100 {opacity: 100%;}
-.anvil-role-opacity-50 {opacity: 50%;}
-.anvil-role-opacity-25 {opacity: 25%;}
-
-.anvil-role-call-to-action-button-longer button {
-  font-family: Gs-regular;
-  color: white;
-  background: #E95F30;
-  border: 0px;
-  box-shadow: none;
-  text-shadow: none;
-  transition: 0.5s;
-  margin: 0 0 0 0;
-  padding: 0 0 0 0;
-  width: 500px;
-}
-.anvil-role-call-to-action-button-longer > button:hover {
-  background: #BA7305;
-  color: white;
-}
-.anvil-role-call-to-action-button-longer > button:focus{
-  background: #BA7305;
-  color: white;
-}
-.anvil-role-call-to-action-button-longer > button:active{
-  background: #BA7305;
-  color: white;
-}
-
-.anvil-role-call-to-action-button button {
-  font-family: Gs-regular;
-  color: white;
-  background: #E95F30;
-  border: 0px;
-  box-shadow: none;
-  text-shadow: none;
-  transition: 0.5s;
-  margin: 0 0 0 0;
-  padding: 0 0 0 0;
-  width: 100px;
-}
-.anvil-role-150px-width button {
-  width: 200px
-}
-.anvil-role-back-button button {
-  background: rgb(88,32,57);
-}
-
-.anvil-role-call-to-action-button > button:hover {
-  background: #BA7305;
-  color: white;
-}
-.anvil-role-call-to-action-button > button:focus{
-  background: #BA7305;
-  color: white;
-}
-.anvil-role-call-to-action-button > button:active{
-  background: #BA7305;
-  color: white;
-}
 
 .anvil-role-tile-background-left .anvil-panel-row-VHHPAR{
   position: absolute;
@@ -2766,9 +2605,230 @@ footer a, .footer .anvil-component {
   color: rgba(125, 125, 125, 0.5);
 }
 
-/* Observe_Listen individual classes  */
+
+
+
+/*
+----------------------------------------------------------------------------------------
+Area 1: General Classes
+----------------------------------------------------------------------------------------
+1.1. Width */
+.anvil-role-width-50px {width: 50px}
+.anvil-role-width-100px {width: 100px}
+.anvil-role-width-150px {width: 150px}
+.anvil-role-width-200px {width: 200px}
+.anvil-role-width-300px {width: 300px}
+.anvil-role-width-500px {width: 500px}
+.anvil-role-width-750px {width: 750px}
+
+/* ----------------------------
+1.2. Text Color */
+.anvil-role-orange {color: %color:Orange% !important;}
+.anvil-role-white {color: %color:Text_White% !important;}
+
+/* ----------------------------
+1.3. Opacity */
+.anvil-role-opacity-100 {opacity: 100%;}
+.anvil-role-opacity-50 {opacity: 50%;}
+.anvil-role-opacity-25 {opacity: 25%;}
+
+
+
+/*
+----------------------------------------------------------------------------------------
+Area 2: Classes to be captured by js
+----------------------------------------------------------------------------------------
+*/
+.anvil-role-autoplay-toggle-button {}
+.anvil-role-spotify-footer-class {}
+
+
+
+/*
+----------------------------------------------------------------------------------------
+Area 3: BUTTONS
+----------------------------------------------------------------------------------------
+3.1. Rating buttons on the ListenIn page */
+.anvil-role-highlight-button button {
+  box-shadow: 0 0 5px #E95F30, 0 0 9px #E95F30, 0 0 13px #E95F30; /* Static orange glow */
+  transition: all 0.3s ease; /* Smooth hover effect */
+}
+.anvil-role-feature > button:hover {
+  box-shadow: 0 0 10px #E95F30, 0 0 20px #E95F30, 0 0 30px #E95F30; /* Brighter glow on hover */
+}
+
+/* ----------------------------
+3.2. Play/pause buttons on the Discover and ListenIn page */
+/* small and big play buttons for tables and icons */
+.anvil-role-play-spotify-button button,
+.anvil-role-icon-button button {
+  font-family: Gs-regular;
+  font-size: 24px;
+  color: #E95F30;
+  background: transparent;
+  border: 0px;
+  box-shadow: none;
+  text-shadow: none;
+  transition: 0.5s;
+  width: 55px;
+}
+.anvil-role-play-spotify-button > button:hover,
+.anvil-role-icon-button > button:hover {
+  background: transparent;
+  color: #BA7305;
+}
+.anvil-role-play-spotify-button > button:focus,
+.anvil-role-icon-button > button:focus {
+  background: transparent;
+  color: #E95F30;
+}
+.anvil-role-play-spotify-button > button:active,
+.anvil-role-icon-button > button:active {
+  background: transparent;
+  color: #E95F30;
+}
+
+/* ----------------------------
+3.3. disabled icon buttons */
+.anvil-role-icon-button-disabled button {
+  font-family: Gs-regular;
+  font-size: 24px;
+  color: #9E9E9E;
+  background: transparent;
+  border: 0px;
+  box-shadow: none;
+  text-shadow: none;
+  transition: 0.5s;
+  width: 55px;
+}
+.anvil-role-icon-button-disabled > button:hover {
+  background: transparent;
+  color: #9E9E9E;
+}
+.anvil-role-icon-button-disabled > button:focus {
+  background: transparent;
+  color: #9E9E9E;
+}
+.anvil-role-icon-button-disabled > button:active {
+  background: transparent;
+  color: #9E9E9E;
+}
+
+/* ----------------------------
+3.4. big play buttons on Discover and ListenIn */
+.anvil-role-play-spotify-button-artist button {
+  font-size: 44px;
+  padding: 0;
+}
+.anvil-role-play-spotify-button-artist2 button {
+  font-size: 44px;
+  padding: 0;
+  min-height: 0;
+}
+.anvil-role-play-spotify-button-artist2 .btn { /* to reduce the height of the central play button in the footer of ListenIn */
+  min-height: 0 !important;
+  line-height: 1 !important;
+}
+
+/* ----------------------------
+3.5. Call 2 Action Button */
+.anvil-role-call-to-action-button button {
+  font-family: Gs-regular;
+  color: white;
+  background: #E95F30;
+  border: 0px;
+  box-shadow: none;
+  text-shadow: none;
+  transition: 0.5s;
+  margin: 0;
+  padding: 0 25px;
+  min-width: 100px;
+}
+.anvil-role-call-to-action-button > button:hover {
+  background: #BA7305;
+  color: white;
+}
+.anvil-role-call-to-action-button > button:focus{
+  background: #BA7305;
+  color: white;
+}
+.anvil-role-call-to-action-button > button:active{
+  background: #BA7305;
+  color: white;
+}
+
+/* ----------------------------
+3.6. Call 2 Action Button Longer */
+.anvil-role-call-to-action-button-longer button {
+  font-family: Gs-regular;
+  color: white;
+  background: #E95F30;
+  border: 0px;
+  box-shadow: none;
+  text-shadow: none;
+  transition: 0.5s;
+  margin: 0;
+  padding: 0 15px;
+  min-width: 500px;
+}
+.anvil-role-call-to-action-button-longer > button:hover {
+  background: #BA7305;
+  color: white;
+}
+.anvil-role-call-to-action-button-longer > button:focus{
+  background: #BA7305;
+  color: white;
+}
+.anvil-role-call-to-action-button-longer > button:active{
+  background: #BA7305;
+  color: white;
+}
+
+/* ----------------------------
+3.7. Call 2 Action Button Disabled */
+.anvil-role-call-to-action-button-disabled button {
+  font-family: Gs-regular;
+  color: #D7D7D7;
+  background: #616161;
+  border: 0px;
+  box-shadow: none;
+  text-shadow: none;
+  transition: 0.5s;
+  margin: 0;
+  padding: 0 15px;
+  min-width: 100px;
+}
+.anvil-role-call-to-action-button-disabled > button:hover {
+  background: #BA7305;
+  color: white;
+}
+.anvil-role-call-to-action-button-disabled > button:focus{
+  background: #616161;
+  color: #9E9E9E;
+}
+.anvil-role-call-to-action-button-disabled > button:active{
+  background: #616161;
+  color: #9E9E9E;
+}
+
+/* ----------------------------
+3.8. Other Buttons */
+.anvil-role-150px-width button {
+  width: 200px
+}
+.anvil-role-back-button button {
+  background: rgb(88,32,57);
+}
+
+
+
+/*
+----------------------------------------------------------------------------------------
+Area 4: PAGE INDIVIDUAL CLASSES
+----------------------------------------------------------------------------------------
+4.1. Observe_Listen individual classes */
 .anvil-role-listen-complete-element {
-  height: calc(100vh + 285px);
+  height: calc(100vh + 260px);
   overflow-y: auto;
 }
 .anvil-role-listen-left-element {

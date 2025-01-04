@@ -69,9 +69,15 @@ class C_Notification_Settings(C_Notification_SettingsTemplate):
       if items["active"] is True:
         self.activate.visible = False
         self.deactivate.visible = True
+        self.mail_status_details.visible = True
+        self.mail_status_active.text = 'notification is active!'
+        self.mail_status_active.role = ['header-7', 'orange']
       else:
         self.activate.visible = True
         self.deactivate.visible = False
+        self.mail_status_details.visible = False
+        self.mail_status_active.text = 'notification is deactivated'
+        self.mail_status_active.role = ['header-7', 'white']
 
       # load settings
       self.frequency_option_1.text = items["freq_1"]
@@ -81,16 +87,16 @@ class C_Notification_Settings(C_Notification_SettingsTemplate):
       if self.frequency_option_1.text == "Daily":
         self.flow_panel_freq_2.visible = False
         self.flow_panel_freq_3.visible = False
-        self.mail_status.text = 'Mail is sent daily!'
+        self.mail_status_details.text = 'Mail is sent daily!'
       elif self.frequency_option_1.text == "Every X Days":
         self.flow_panel_freq_2.visible = True
         self.flow_panel_freq_3.visible = True
-        self.mail_status.text = f'Mail is sent every {self.frequency_option_2.text} days starting {self.frequency_picker.date}!'
+        self.mail_status_details.text = f'Mail is sent every {self.frequency_option_2.text} days starting {self.frequency_picker.date}!'
       elif self.frequency_option_1.text == "Monthly":
         self.flow_panel_freq_2.visible = False
         self.flow_panel_freq_3.visible = True
-        self.mail_status.text = f'Mail is sent monthly starting {self.frequency_picker.date}!'
-
+        self.mail_status_details.text = f'Mail is sent monthly starting {self.frequency_picker.date}!'
+        
     # ----------
     # NOTIFICATION SETTINGS
     # a) General
@@ -259,7 +265,7 @@ class C_Notification_Settings(C_Notification_SettingsTemplate):
       self.activate.visible = True
       self.deactivate.visible = False
       Notification(
-        "", title=f'"{self.name_link.text}" is no longer active', style="success"
+        "", title=f'"{self.notification_name.text}" is no longer active', style="warning"
       ).show()
     self.update_notification()
 
