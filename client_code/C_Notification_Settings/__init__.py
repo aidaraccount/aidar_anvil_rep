@@ -27,49 +27,27 @@ class C_Notification_Settings(C_Notification_SettingsTemplate):
 
     self.notification_id = notification_id
     
+    self.column_panel_min_max.visible = False
+    
     # -------------
-    # load initial data
-    # 0) Header
-    # Name, its Icon & activate Button
+    # HEADER
+    # a) Name & its Icon
     self.notification_name.text = items["name"]
     if items["type"] == "mail":
       self.notification_name.icon = "fa:envelope-o"
-
-      # activate/ deactivate Button
-      if items["active"] is True:
-        self.activate.visible = False
-        self.deactivate.visible = True
-      else:
-        self.activate.visible = True
-        self.deactivate.visible = False
-
     elif items["type"] == "playlist":
       self.notification_name.icon = "fa:spotify"
 
-    # 0) Base
-    self.column_panel_min_max.visible = False
-
-    # A1) Frequency
+    # ----------
+    # STATIC INFORMATION
+    # a) static mail information
     if items["type"] == "mail":
-      self.frequency_master_1.visible = True
-      self.last_updated_spotify.visible = False
-
-      self.frequency_option_1.text = items["freq_1"]
-      self.frequency_option_2.text = items["freq_2"]
-      self.frequency_picker.date = items["freq_3"]
-
-      if self.frequency_option_1.text == "Daily":
-        self.flow_panel_freq_2.visible = False
-        self.flow_panel_freq_3.visible = False
-      elif self.frequency_option_1.text == "Every X Days":
-        self.flow_panel_freq_2.visible = True
-        self.flow_panel_freq_3.visible = True
-      elif self.frequency_option_1.text == "Monthly":
-        self.flow_panel_freq_2.visible = False
-        self.flow_panel_freq_3.visible = True
-
-    # A2) Status
+      self.playlist_status.visible = False
+      
+    # b) static playlist information
     if items["type"] == "playlist":
+      self.mail_status.visible = False
+      
       if items["sp_playlist_id"] is None or items["sp_playlist_id"] == "":
         self.playlist_in_creation.visible = True
         self.last_updated_spotify.visible = False
@@ -80,7 +58,42 @@ class C_Notification_Settings(C_Notification_SettingsTemplate):
         self.playlist_url.text = (f"https://open.spotify.com/playlist/{items['sp_playlist_id']}")
         self.larst_updated_value.text = items["last_update"][:-3]
 
-    # B) General
+    # ----------
+    # MAIL SETTINGS
+    self.mail_settings.visible = False
+    if items["type"] == "mail":
+      self.frequency_master_1.visible = True
+      self.last_updated_spotify.visible = False
+
+      # activate/ deactivate Button
+      if items["active"] is True:
+        self.activate.visible = False
+        self.deactivate.visible = True
+      else:
+        self.activate.visible = True
+        self.deactivate.visible = False
+
+      # load settings
+      self.frequency_option_1.text = items["freq_1"]
+      self.frequency_option_2.text = items["freq_2"]
+      self.frequency_picker.date = items["freq_3"]
+
+      if self.frequency_option_1.text == "Daily":
+        self.flow_panel_freq_2.visible = False
+        self.flow_panel_freq_3.visible = False
+        self.mail_status.text = 'Mail is sent daily!'
+      elif self.frequency_option_1.text == "Every X Days":
+        self.flow_panel_freq_2.visible = True
+        self.flow_panel_freq_3.visible = True
+        self.mail_status.text = f'Mail is sent every {self.frequency_option_2.text} days starting {self.frequency_picker.date}!'
+      elif self.frequency_option_1.text == "Monthly":
+        self.flow_panel_freq_2.visible = False
+        self.flow_panel_freq_3.visible = True
+        self.mail_status.text = f'Mail is sent monthly starting {self.frequency_picker.date}!'
+
+    # ----------
+    # NOTIFICATION SETTINGS
+    # a) General
     self.no_artists_box.text = items["no_artists"]
     self.notif_rep_value.text = items["repetition_1"]
     self.artist_rep_x_days_freq.text = items["repetition_2"]
@@ -97,7 +110,7 @@ class C_Notification_Settings(C_Notification_SettingsTemplate):
       self.song_selection_type.text = items["song_selection_1"]
       self.no_latest_rel_box_spotify.text = items["song_selection_2"]
 
-    # C) Metric
+    # b) Metric
     self.metrics_option_1.text = items["metric"]
     self.days_since_rel_field_value.text = items["release_days"]
 
@@ -113,7 +126,7 @@ class C_Notification_Settings(C_Notification_SettingsTemplate):
     elif self.metrics_option_1.text == "Releasing Fits":
       self.max_days_since_rel.visible = True
 
-    # D) Selection Parameters
+    # c) Selection Parameters
     # artist selection
     if items["rated"] is True:
       self.artist_selection_option.text = "Rated"
@@ -162,10 +175,10 @@ class C_Notification_Settings(C_Notification_SettingsTemplate):
     toggle = load_var('toggle')
     if toggle == 'down':
       self.column_panel_min_max.visible = True
-      self.edit_icon.icon = "fa:save"
+      self.edit_icon.icon = "fa:angle-up"
     else:
       self.column_panel_min_max.visible = False
-      self.edit_icon.icon = "fa:pencil"
+      self.edit_icon.icon = "fa:angle-down"
 
   
   # NOTIFICATION MODIFICATION
@@ -470,14 +483,24 @@ class C_Notification_Settings(C_Notification_SettingsTemplate):
       self.update_notification()
 
   def edit_icon_click(self, **event_args):
-    if self.edit_icon.icon == "fa:pencil":
+    if self.edit_icon.icon == "fa:angle-down":
       save_var('toggle', 'down')
+      if self.items["type"] == "mail":
+        self.mail_settings.visible = True
+      else:
+        self.mail_settings.visible = False
       self.column_panel_min_max.visible = True
-      self.edit_icon.icon = "fa:save"
+      self.edit_icon.icon = "fa:angle-up"
     else:
       save_var('toggle', 'up')
+      self.mail_settings.visible = False
       self.column_panel_min_max.visible = False
-      self.edit_icon.icon = "fa:pencil"
+      self.edit_icon.icon = "fa:angle-down"
+
+  def button_save_mail_click(self, **event_args):
+    pass
+    self.edit_icon_click()
 
   def button_save_click(self, **event_args):
+    pass
     self.edit_icon_click()
