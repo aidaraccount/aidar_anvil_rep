@@ -28,8 +28,8 @@ components:
       layout_properties: {}
       name: edit_icon
       properties:
-        icon: fa:angle-down
-        role: contact-button
+        icon: fa:pencil
+        role: icon-button
         spacing:
           margin: [20, null, null, null]
           padding: [null, 0, null, 0]
@@ -285,6 +285,7 @@ components:
           margin: [null, '0', null, '0']
         spacing_above: medium
         text: save
+        visible: false
       type: Button
     layout_properties: {grid_position: 'ANHPQN,LGYVWH'}
     name: mail_settings
@@ -568,6 +569,7 @@ components:
           margin: [null, '0', null, '0']
         spacing_above: medium
         text: save
+        visible: false
       type: Button
     layout_properties: {grid_position: 'IYJZVL,BVZKFA'}
     name: column_panel_min_max

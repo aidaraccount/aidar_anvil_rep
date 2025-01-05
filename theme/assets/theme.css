@@ -1957,52 +1957,6 @@ footer a, .footer .anvil-component {
   padding: 7px 13px;
 }
 
-.anvil-role-contact-button > button {
-  color: #E95F30;
-  font-size: 24px;
-  background: transparent;
-  border: 0px;
-  box-shadow: none;
-  text-shadow: none;
-  transition: 0.5s
-}
-.anvil-role-contact-button > button:hover {
-  background: transparent;
-  color: #BA7305;
-}
-.anvil-role-contact-button > button:focus{
-  background: transparent;
-  color: #E95F30;
-}
-.anvil-role-contact-button > button:active{
-  background: transparent;
-  color: #E95F30;
-}
-
-.anvil-role-save-button-sidebar > button {
-  font-family: Gs-regular;
-  font-size: 16px;
-  color: #E95F30;
-  background: white;
-  border: 0px;
-  box-shadow: none;
-  text-shadow: none;
-  transition: 0.5s;
-  margin: 10px 0 0 0;
-}
-.anvil-role-save-button-sidebar > button:hover {
-  background: linear-gradient(to top left, rgba(232, 232, 232, 0.8) 50%, white);
-  color: #BA7305;
-}
-.anvil-role-save-button-sidebar > button:focus{
-  background: white;
-  color: #E95F30;
-}
-.anvil-role-save-button-sidebar > button:active{
-  background: white;
-  color: #E95F30;
-}
-
 
 /* CSS for the Sidebar on the Discover Page ENDS Here */
 
@@ -2707,6 +2661,54 @@ Area 3: BUTTONS
 .anvil-role-icon-button-disabled > button:active {
   background: transparent;
   color: #9E9E9E;
+}
+
+/* SIMILAR TO icon-button?? (???) */
+.anvil-role-contact-button > button {
+  color: #E95F30;
+  font-size: 24px;
+  background: transparent;
+  border: 0px;
+  box-shadow: none;
+  text-shadow: none;
+  transition: 0.5s
+}
+.anvil-role-contact-button > button:hover {
+  background: transparent;
+  color: #BA7305;
+}
+.anvil-role-contact-button > button:focus{
+  background: transparent;
+  color: #E95F30;
+}
+.anvil-role-contact-button > button:active{
+  background: transparent;
+  color: #E95F30;
+}
+
+/* where used? (???) */
+.anvil-role-save-button-sidebar > button {
+  font-family: Gs-regular;
+  font-size: 16px;
+  color: #E95F30;
+  background: white;
+  border: 0px;
+  box-shadow: none;
+  text-shadow: none;
+  transition: 0.5s;
+  margin: 10px 0 0 0;
+}
+.anvil-role-save-button-sidebar > button:hover {
+  background: linear-gradient(to top left, rgba(232, 232, 232, 0.8) 50%, white);
+  color: #BA7305;
+}
+.anvil-role-save-button-sidebar > button:focus{
+  background: white;
+  color: #E95F30;
+}
+.anvil-role-save-button-sidebar > button:active{
+  background: white;
+  color: #E95F30;
 }
 
 /* ----------------------------
