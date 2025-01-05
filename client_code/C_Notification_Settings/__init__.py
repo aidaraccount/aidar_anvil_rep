@@ -177,15 +177,6 @@ class C_Notification_Settings(C_Notification_SettingsTemplate):
       )
       self.flow_panel_models.add_component(model_link)
 
-    # # set toggle
-    # toggle = load_var('toggle')
-    # if toggle == 'down':
-    #   self.column_panel_min_max.visible = True
-    #   self.edit_icon.icon = "fa:save"
-    # else:
-    #   self.column_panel_min_max.visible = False
-    #   self.edit_icon.icon = "fa:pencil"
-
   
   # NOTIFICATION MODIFICATION
   def update_notification(self, **event_args):
@@ -262,7 +253,6 @@ class C_Notification_Settings(C_Notification_SettingsTemplate):
       self.activate.visible = True
       self.deactivate.visible = False
       
-    self.button_save_mail.role = ['header-6', 'call-to-action-button']
     self.edit_icon.role = ['icon-button']
 
   
@@ -279,13 +269,6 @@ class C_Notification_Settings(C_Notification_SettingsTemplate):
 
   
   # BUTTON FUNCTIONALITIES
-  # name
-  def edit_icon_click_2(self, **event_args):  # !!!!!!!! TO DELETE??????
-    self.notification_name.visible = False
-    self.model_name_text.visible = True
-    self.model_name_text.text = self.notification_name.text
-    self.model_name_text.focus()
-
   # mail settings
   def frequency_option_1_click(self, **event_args):
     if self.frequency_option_1.text == "Daily":
@@ -303,7 +286,6 @@ class C_Notification_Settings(C_Notification_SettingsTemplate):
       self.frequency_option_1.text = "Daily"
       self.flow_panel_freq_2.visible = False
       self.flow_panel_freq_3.visible = False
-    self.button_save_mail.role = ['header-6', 'call-to-action-button']
     self.edit_icon.role = ['icon-button']
 
   # selection settings
@@ -314,7 +296,6 @@ class C_Notification_Settings(C_Notification_SettingsTemplate):
       self.artist_selection_option.text = "All"
     elif self.artist_selection_option.text == "All":
       self.artist_selection_option.text = "Rated"
-    self.button_save.role = ['header-6', 'call-to-action-button']
     self.edit_icon.role = ['icon-button']
 
   def watchlist_selection_option_click(self, **event_args):
@@ -324,7 +305,6 @@ class C_Notification_Settings(C_Notification_SettingsTemplate):
       self.watchlist_selection_option.text = "All"
     elif self.watchlist_selection_option.text == "All":
       self.watchlist_selection_option.text = "On watchlist"
-    self.button_save.role = ['header-6', 'call-to-action-button']
     self.edit_icon.role = ['icon-button']
 
   def notification_repetition_value_click(self, **event_args):
@@ -336,7 +316,6 @@ class C_Notification_Settings(C_Notification_SettingsTemplate):
     elif self.notif_rep_value.text == "Repeat after X days":
       self.notif_rep_value.text = "Suggest artists once"
       self.column_panel_rep.visible = False
-    self.button_save.role = ['header-6', 'call-to-action-button']
     self.edit_icon.role = ['icon-button']
 
   def metrics_option_1_click(self, **event_args):
@@ -350,17 +329,12 @@ class C_Notification_Settings(C_Notification_SettingsTemplate):
     elif self.metrics_option_1.text == "Releasing Fits":
       self.metrics_option_1.text = "Top Fits"
       self.max_days_since_rel.visible = False
-    self.button_save.role = ['header-6', 'call-to-action-button']
     self.edit_icon.role = ['icon-button']
 
   
   # LOST FOCUS CHECKS
   # name
-  def edit_icon_click_2_lose_focus(self, **event_args):   # !!!!!!!! TO DELETE??????
-    self.model_name_text.visible = False
-    self.notification_name.visible = True
-    self.notification_name.text = self.model_name_text.text
-    self.button_save_mail.role = ['header-6', 'call-to-action-button']
+  def model_name_text_lose_focus(self, **event_args):   # !!!!!!!! TO DELETE??????
     self.edit_icon.role = ['icon-button']
 
   # mail settings
@@ -373,11 +347,9 @@ class C_Notification_Settings(C_Notification_SettingsTemplate):
         or int(self.frequency_option_2.text) < 1
       ):
         self.every_x_days_warning.visible = True
-        self.button_save_mail.role = ['header-6', 'call-to-action-button-disabled']
         self.edit_icon.role = ['icon-button-disabled']
       else:
         self.every_x_days_warning.visible = False
-        self.button_save_mail.role = ['header-6', 'call-to-action-button']
         self.edit_icon.role = ['icon-button']
 
   def date_picker_lost_focus(self, **event_args):
@@ -385,11 +357,9 @@ class C_Notification_Settings(C_Notification_SettingsTemplate):
     if self.frequency_option_1.text in ["Every X Days", "Monthly"]:
       if self.frequency_picker.date is None:
         self.every_x_days_start_warning.visible = True
-        self.button_save_mail.role = ['header-6', 'call-to-action-button-disabled']
         self.edit_icon.role = ['icon-button-disabled']
       else:
         self.every_x_days_start_warning.visible = False
-        self.button_save_mail.role = ['header-6', 'call-to-action-button']
         self.edit_icon.role = ['icon-button']
 
   # selection settings
@@ -402,11 +372,9 @@ class C_Notification_Settings(C_Notification_SettingsTemplate):
         or int(self.artist_rep_x_days_freq.text) < 1
       ):
         self.artist_rep_x_days_freq_warning.visible = True
-        self.button_save.role = ['header-6', 'call-to-action-button-disabled']
         self.edit_icon.role = ['icon-button-disabled']
       else:
         self.artist_rep_x_days_freq_warning.visible = False
-        self.button_save.role = ['header-6', 'call-to-action-button']
         self.edit_icon.role = ['icon-button']
 
   def min_growth_value_lost_focus(self, **event_args):
@@ -419,11 +387,9 @@ class C_Notification_Settings(C_Notification_SettingsTemplate):
         or int(self.min_growth_value.text) > 100
       ):
         self.min_growth_warning.visible = True
-        self.button_save.role = ['header-6', 'call-to-action-button-disabled']
         self.edit_icon.role = ['icon-button-disabled']
       else:
         self.min_growth_warning.visible = False
-        self.button_save.role = ['header-6', 'call-to-action-button']
         self.edit_icon.role = ['icon-button']
 
   def max_days_since_rel_lost_focus(self, **event_args):
@@ -434,11 +400,9 @@ class C_Notification_Settings(C_Notification_SettingsTemplate):
         or not self.days_since_rel_field_value.text.isdigit()
       ):
         self.days_since_rel_field_warning.visible = True
-        self.button_save.role = ['header-6', 'call-to-action-button-disabled']
         self.edit_icon.role = ['icon-button-disabled']
       else:
         self.days_since_rel_field_warning.visible = False
-        self.button_save.role = ['header-6', 'call-to-action-button']
         self.edit_icon.role = ['icon-button']
 
   def no_latest_rel_box_spotify_lost_focus(self, **event_args):
@@ -451,11 +415,9 @@ class C_Notification_Settings(C_Notification_SettingsTemplate):
         or int(self.no_latest_rel_box_spotify.text) > 10
       ):
         self.no_latest_rel_box_spotify_warning.visible = True
-        self.button_save.role = ['header-6', 'call-to-action-button-disabled']
         self.edit_icon.role = ['icon-button-disabled']
       else:
         self.no_latest_rel_box_spotify_warning.visible = False
-        self.button_save.role = ['header-6', 'call-to-action-button']
         self.edit_icon.role = ['icon-button']
 
   def no_artists_box_lost_focus(self, **event_args):
@@ -467,11 +429,9 @@ class C_Notification_Settings(C_Notification_SettingsTemplate):
       or int(self.no_artists_box.text) > 20
     ):
       self.max_number_artist_warning.visible = True
-      self.button_save.role = ['header-6', 'call-to-action-button-disabled']
       self.edit_icon.role = ['icon-button-disabled']
     else:
       self.max_number_artist_warning.visible = False
-      self.button_save.role = ['header-6', 'call-to-action-button']
       self.edit_icon.role = ['icon-button']
 
   
@@ -483,6 +443,7 @@ class C_Notification_Settings(C_Notification_SettingsTemplate):
 
     return handler
 
+  
   # change active status of MODEL BUTTONS
   def activate_model(self, model_id):
     for component in self.flow_panel_models.get_components():
@@ -513,58 +474,55 @@ class C_Notification_Settings(C_Notification_SettingsTemplate):
     # b) show warning or update_notification
     if not model_ids:
       self.models_warning.visible = True
-      self.button_save_mail.role = ['header-6', 'call-to-action-button-disabled']
       self.edit_icon.role = ['icon-button-disabled']
     else:
       self.models_warning.visible = False
-      self.button_save_mail.role = ['header-6', 'call-to-action-button']
       self.edit_icon.role = ['icon-button']
 
+  
   def edit_icon_click(self, **event_args):
     if self.edit_icon.icon == "fa:pencil":
-      # save_var('toggle', 'down')
+      # show settings
       if self.items["type"] == "mail":
         self.mail_settings.visible = True
       else:
         self.mail_settings.visible = False
       self.column_panel_min_max.visible = True
+      
+      # name
+      self.notification_name.visible = False
+      self.model_name_text.visible = True
+      self.model_name_text.text = self.notification_name.text
+      
+      # hide status
+      self.playlist_status.visible = False
+      self.mail_status.visible = False
+
+      # set edit_icon
       self.edit_icon.icon = "fa:save"
       self.edit_icon.role = ['icon-button-disabled']
+          
     else:
-      # save_var('toggle', 'up')
+      # close settings
       self.mail_settings.visible = False
-      print(self.column_panel_min_max.visible)
       self.column_panel_min_max.visible = False
-      print(self.column_panel_min_max.visible)
+      
+      # name      
+      self.model_name_text.visible = False
+      self.notification_name.visible = True
+      self.notification_name.text = self.model_name_text.text
+  
+      # show status
+      if self.items["type"] == "mail":
+        self.mail_status.visible = True
+      else:
+        self.playlist_status.visible = True
+
+      # save changes (& reload notifications)
+      if self.edit_icon.role == ['icon-button']:
+        self.update_notification()
+
+      # reset edit_icon
       self.edit_icon.icon = "fa:pencil"
       self.edit_icon.role = ['icon-button']
-
-  def button_save_mail_click(self, **event_args):
-    if self.button_save_mail.role == ['header-6', 'call-to-action-button']:      
-      # notification
-      if self.activate.visible is True:
-        Notification("", title=f'"{self.notification_name.text}" is no longer active', style="warning").show()
-      else:
-        Notification("", title=f'"{self.notification_name.text}" is activated!', style="success").show()
-        
-      # update icons & change button
-      self.edit_icon_click()
-      self.button_save_mail.role = ['header-6', 'call-to-action-button-disabled']
-      self.edit_icon.role = ['icon-button-disabled']
       
-      # save data (& reload notifications)
-      self.update_notification()
-
-  
-  def button_save_click(self, **event_args):
-    if self.button_save.role == ['header-6', 'call-to-action-button']:  
-      # notification
-      pass
-      
-      # update icons & change button
-      self.edit_icon_click()
-      self.button_save.role = ['header-6', 'call-to-action-button-disabled']
-      self.edit_icon.role = ['icon-button-disabled']
-      
-      # save data
-      self.update_notification()

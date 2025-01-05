@@ -37,8 +37,6 @@ class Observe_Radar(Observe_RadarTemplate):
       url_notification_id = self.url_dict['notification_id']
       self.url_notification_id = url_notification_id
       
-      save_var('toggle', 'up')
-      
       # GENERAL  
       self.get_all_notifications(url_notification_id)
 
@@ -172,7 +170,6 @@ class Observe_Radar(Observe_RadarTemplate):
     )
     
     # update the notifications table
-    save_var('toggle', 'down')
     click_link(self.create_observation, f'radar?notification_id={notification_id}', event_args)
 
   

@@ -42,7 +42,6 @@ class Observe_Listen(Observe_ListenTemplate):
       url_notification_id = self.url_dict['notification_id']
       self.url_notification_id = url_notification_id
       
-      save_var('toggle', 'up')
       save_var('has_played', 'False')
       self.footer_trick_spacer.visible = False
 
@@ -250,7 +249,6 @@ class Observe_Listen(Observe_ListenTemplate):
     )
     
     # update the notifications table
-    save_var('toggle', 'down')
     click_link(self.create_playlist, f'listen?notification_id={notification_id}', event_args)
 
   

@@ -59,11 +59,28 @@ components:
     - event_bindings: {click: add_spotify_playlist_click}
       layout_properties: {}
       name: create_playlist
-      properties: {align: center, bold: false, icon: 'fa:plus', role: section_buttons, text: ''}
+      properties:
+        align: center
+        bold: false
+        col_spacing: none
+        icon: fa:plus
+        icon_align: left
+        role: section_buttons
+        spacing:
+          padding: [12, 15, 15, 15]
+        text: ''
       type: Link
     layout_properties: {grid_position: 'NYIXVI,POUDWM'}
     name: flow_panel_copy
-    properties: {background: '', role: section-background, spacing: small, spacing_above: none, spacing_below: none}
+    properties:
+      align: center
+      background: ''
+      gap: none
+      role: [section-background, section-background-flex]
+      spacing:
+        margin: [null, null, null, 10]
+      spacing_above: none
+      spacing_below: none
     type: FlowPanel
   - layout_properties: {full_width_row: false, grid_position: 'SMXRFC,AGBMHM'}
     name: notification_settings
