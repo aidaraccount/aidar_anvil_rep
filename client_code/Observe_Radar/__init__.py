@@ -50,6 +50,9 @@ class Observe_Radar(Observe_RadarTemplate):
     
     # adding navigation components
     self.flow_panel.visible = True
+    self.flow_panel_create.visible = True
+    
+    # adding navigation components
     for notification in self.notifications:
       notification_link = Link(
         text=notification["name"],
@@ -62,6 +65,7 @@ class Observe_Radar(Observe_RadarTemplate):
     # load and activate defined/first notification
     if len(self.notifications) > 0:      
       self.no_notifications.visible = False
+      self.no_trained_model.visible = False
   
       if notification_id is None or notification_id == 'None':
         notification_id = self.notifications[0]["notification_id"]
@@ -69,11 +73,26 @@ class Observe_Radar(Observe_RadarTemplate):
         notification_id = int(notification_id)
       
       self.activate_notification(notification_id)
-      
+
     else:
       self.flow_panel.visible = False
+      self.flow_panel_create.visible = False
       self.notification_settings.visible = False
-      self.no_notifications.visible = True
+      self.data_grid.visible = False
+  
+      models = json.loads(anvil.server.call('get_model_ids',  user["user_id"]))    
+      if not any(item.get('fully_trained', True) for item in models):
+        # if no trained model
+        self.no_trained_model.visible = True
+        self.no_notifications.visible = False
+        self.no_artists.visible = False
+  
+      else:
+        # else, just missing notification      
+        self.no_trained_model.visible = False
+        self.no_notifications.visible = True
+        self.no_artists.visible = False
+    
 
   # ACTIVATE NOTIFICATION
   def activate_notification(self, notification_id):
@@ -151,7 +170,7 @@ class Observe_Radar(Observe_RadarTemplate):
       "create_notification",
       user_id=user["user_id"],
       type="mail",
-      name="My Observation",
+      name="My Radar",
       active=True,
       freq_1="Daily",
       freq_2=7,

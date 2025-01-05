@@ -67,7 +67,7 @@ class Observe_Listen(Observe_ListenTemplate):
     
     # adding navigation components
     self.flow_panel.visible = True
-    self.create_playlist.visible = True
+    self.flow_panel_create.visible = True
     
     for notification in self.notifications:
       notification_link = Link(
@@ -93,7 +93,7 @@ class Observe_Listen(Observe_ListenTemplate):
       
     else:
       self.flow_panel.visible = False
-      self.create_playlist.visible = False
+      self.flow_panel_create.visible = False
       self.notification_settings.visible = False
       self.column_panel_content.visible = False
   
@@ -102,11 +102,13 @@ class Observe_Listen(Observe_ListenTemplate):
         # if no trained model
         self.no_trained_model.visible = True
         self.no_notifications.visible = False
+        self.no_artists.visible = False
   
       else:
         # else, just missing notification      
         self.no_trained_model.visible = False
         self.no_notifications.visible = True
+        self.no_artists.visible = False
 
   
   # ACTIVATE NOTIFICATION
@@ -147,20 +149,29 @@ class Observe_Listen(Observe_ListenTemplate):
     
     # print('observed_tracks:', observed_tracks)
     
-    self.initial_track_id = observed_tracks[0]['tracks'][0]['spotify_track_id']
-    self.initial_artist_id = observed_tracks[0]['tracks'][0]['spotify_artist_id']
-    
-    save_var('lastplayedtrackid', self.initial_track_id)
-    save_var('lastplayedartistid', self.initial_artist_id)
-    
-    self.all_track_ids = [track['spotify_track_id'] for artist in observed_tracks for track in artist['tracks']]
-    self.all_artist_ids = [track['spotify_artist_id'] for artist in observed_tracks for track in artist['tracks']]
-    self.all_ai_artist_ids = [track['artist_id'] for artist in observed_tracks for track in artist['tracks']]
-    self.all_artist_names = [track['name'] for artist in observed_tracks for track in artist['tracks']]
-    
-    self.column_panel_content.visible = True
-    self.repeating_panel_artists.items = observed_tracks
-    self.initial_load_discover()
+    # hand-over the data
+    if len(observed_tracks) > 0:
+      self.no_artists.visible = False
+
+      self.initial_track_id = observed_tracks[0]['tracks'][0]['spotify_track_id']
+      self.initial_artist_id = observed_tracks[0]['tracks'][0]['spotify_artist_id']
+      
+      save_var('lastplayedtrackid', self.initial_track_id)
+      save_var('lastplayedartistid', self.initial_artist_id)
+      
+      self.all_track_ids = [track['spotify_track_id'] for artist in observed_tracks for track in artist['tracks']]
+      self.all_artist_ids = [track['spotify_artist_id'] for artist in observed_tracks for track in artist['tracks']]
+      self.all_ai_artist_ids = [track['artist_id'] for artist in observed_tracks for track in artist['tracks']]
+      self.all_artist_names = [track['name'] for artist in observed_tracks for track in artist['tracks']]
+      
+      self.repeating_panel_artists.items = observed_tracks
+      self.initial_load_discover()
+      
+      self.column_panel_content.visible = True
+      
+    else:
+      self.column_panel_content.visible = False
+      self.no_artists.visible = True
 
 
   # GET DISCOVER DETAILS
@@ -230,7 +241,7 @@ class Observe_Listen(Observe_ListenTemplate):
       "create_notification",
       user_id=user["user_id"],
       type="playlist",
-      name="My Spotify Playlist",
+      name="My Playlist",
       active=True,
       freq_1="Daily",
       freq_2=7,

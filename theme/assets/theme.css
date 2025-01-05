@@ -95,30 +95,6 @@ body, html {
   padding-left: 15px !important;
 }
 
-.anvil-role-text_box {
-  color: %color:Text_DarkGrey%;
-}
-.anvil-role-text_box_small {
-  font-size: 16px;
-  font-weight: normal;
-  color: %color:Text_LightDark%;
-  padding-top: 5px;
-  padding-bottom: 5px;
-}
-.anvil-role-notification-settings-textbox {
-  font-size: 14px;
-  font-weight: normal;
-  margin: 8px 5px 0 4px;
-  color: white;
-  background: transparent; 
-  padding-bottom: 3px;
-  width: 65px;
-  padding-top: 2px;
-  border-radius: 0px; 
-  border: none;
-  border-bottom: 1px solid;
-}
-
 .anvil-role-margin-top {
   margin-top: 15px;
 }
@@ -2556,7 +2532,16 @@ footer a, .footer .anvil-component {
 
 
 
+/*
+----------------------------------------------------------------------------------------
+CSS Content Overview
 
+Area 1: General Classes
+Area 2: Classes to be captured by js
+Area 3: Buttons
+Area 4: Text Boxes
+Area 5: PAGE INDIVIDUAL CLASSES
+*/
 /*
 ----------------------------------------------------------------------------------------
 Area 1: General Classes
@@ -2595,7 +2580,7 @@ Area 2: Classes to be captured by js
 
 /*
 ----------------------------------------------------------------------------------------
-Area 3: BUTTONS
+Area 3: Buttons
 ----------------------------------------------------------------------------------------
 3.1. Rating buttons on the ListenIn page */
 .anvil-role-highlight-button button {
@@ -2818,12 +2803,55 @@ Area 3: BUTTONS
 }
 
 
+/*
+----------------------------------------------------------------------------------------
+Area 4: Text Boxes
+----------------------------------------------------------------------------------------
+4.1. Classical text box & smaller version */
+.anvil-role-text_box {
+  opacity: 0.7;
+  
+  font-size: 20px;
+  font-weight: normal;
+  color: white;
+  
+  background: %color:Accent 2%;
+  
+  padding-top: 5px;
+  padding-bottom: 5px;
+  
+  border-radius: 7px; 
+}
+.anvil-role-text_box_small {  
+  font-size: 16px;
+  font-weight: normal;
+  color: %color:Text_LightDark%;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+/* ----------------------------
+4.2. Textbox for Notification Settings (currently page individual !!! !!!) */
+.anvil-role-notification-settings-textbox {
+  font-size: 14px;
+  font-weight: normal;
+  margin: 8px 5px 0 4px;
+  color: white;
+  background: transparent; 
+  padding-bottom: 3px;
+  width: 65px;
+  padding-top: 2px;
+  border-radius: 0px; 
+  border: none;
+  border-bottom: 1px solid;
+}
+
 
 /*
 ----------------------------------------------------------------------------------------
-Area 4: PAGE INDIVIDUAL CLASSES
+Area 5: Page individual classes
 ----------------------------------------------------------------------------------------
-4.1. Observe_Listen individual classes */
+5.1. Observe_Listen individual classes */
 .anvil-role-listen-complete-element {
   height: calc(100vh + 260px);
   overflow-y: auto;

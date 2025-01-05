@@ -26,6 +26,22 @@ components:
       name: label_2_copy_2
       properties: {align: center, bold: false, role: description, text: Please configure an Artist Radar to monitor the market for you}
       type: Label
+    - event_bindings: {click: add_observation_click}
+      layout_properties: {grid_position: 'AXWHXI,JHWIXV'}
+      name: initial_radar
+      properties:
+        align: center
+        icon: ''
+        role: [header-6, call-to-action-button-longer]
+        spacing:
+          margin: [20, null, null, null]
+          padding: [null, '12', null, '12']
+        spacing_above: small
+        spacing_below: none
+        text: configure personal artist radar
+        underline: false
+        visible: true
+      type: Button
     layout_properties: {grid_position: 'PBLRPG,MEMJDI'}
     name: no_notifications
     properties: {}
@@ -48,7 +64,7 @@ components:
         text: ''
       type: Link
     layout_properties: {grid_position: 'KQARMC,TOIWMF'}
-    name: flow_panel_copy
+    name: flow_panel_create
     properties:
       align: center
       background: ''
@@ -74,7 +90,11 @@ components:
       type: Label
     layout_properties: {grid_position: 'ZTNYTQ,QZRHOV'}
     name: no_artists
-    properties: {}
+    properties:
+      role: top-border
+      spacing:
+        margin: ['5', null, null, null]
+        padding: [30, null, null, null]
     type: ColumnPanel
   - components:
     - layout_properties: {}
