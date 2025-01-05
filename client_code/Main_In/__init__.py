@@ -238,8 +238,10 @@ class Main_In(Main_InTemplate):
     elif location.hash[:13] == '#rel_artists?':
       self.link_discover_rel.background = "theme:Accent 3"
       
-    if location.hash[:8] == '#observe':
-      self.link_observe.background = "theme:Accent 3"
+    elif location.hash[:6] == '#radar':
+      self.link_radar.background = "theme:Accent 3"
+    elif location.hash[:7] == '#listen':
+      self.link_listen.background = "theme:Accent 3"
       
     elif location.hash[:17] == '#watchlist_funnel':
       self.link_monitor_funnel.background = "theme:Accent 3"

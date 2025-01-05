@@ -382,3 +382,5 @@ roles:
   name: highlight-button
 - components: [DropDown]
   name: dropdown
+- components: [Button]
+  name: call-to-action-button-disabled

@@ -95,11 +95,6 @@ body, html {
   padding-left: 15px !important;
 }
 
-.anvil-role-call_to_action_button button {
-  font-size: 18px;
-  border: 2px %color:Grid_Black%;
-  text-shadow: 0 0 0 hsla(0,0%,100%,.5);
-}
 .anvil-role-text_box {
   color: %color:Text_DarkGrey%;
 }
@@ -2788,8 +2783,8 @@ Area 3: BUTTONS
 3.7. Call 2 Action Button Disabled */
 .anvil-role-call-to-action-button-disabled button {
   font-family: Gs-regular;
-  color: #D7D7D7;
-  background: #616161;
+  color: %color:Background%;
+  background: %color:Accent 2%;
   border: 0px;
   box-shadow: none;
   text-shadow: none;
@@ -2799,16 +2794,16 @@ Area 3: BUTTONS
   min-width: 100px;
 }
 .anvil-role-call-to-action-button-disabled > button:hover {
-  background: #BA7305;
+  background: %color:Accent 2%;
   color: white;
 }
 .anvil-role-call-to-action-button-disabled > button:focus{
-  background: #616161;
-  color: #9E9E9E;
+  background: %color:Accent 2%;
+  color: %color:Accent 1%;
 }
 .anvil-role-call-to-action-button-disabled > button:active{
-  background: #616161;
-  color: #9E9E9E;
+  background: %color:Accent 2%;
+  color: %color:Accent 1%;
 }
 
 /* ----------------------------

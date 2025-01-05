@@ -135,38 +135,33 @@ components:
     type: ColumnPanel
   - components:
     - components:
-      - components:
-        - event_bindings: {click: activate_notification}
-          layout_properties: {}
-          name: activate
-          properties:
-            align: right
-            icon: ''
-            role: [header-6, call-to-action-button]
-            spacing:
-              margin: [0, null, null, null]
-              padding: [null, '12', null, '12']
-            spacing_above: small
-            spacing_below: none
-            text: activate mail notification
-            underline: false
-            visible: false
-          type: Button
-        name: buttons_panel
-        properties: {role: null, spacing_above: none, spacing_below: none}
-        type: LinearPanel
-      - data_bindings:
-        - {code: '[''header-6'', ''call-to-action-button-disabled'']', property: role, writeback: false}
+      - data_bindings: []
+        event_bindings: {click: activate_notification}
+        name: activate
+        properties:
+          align: right
+          icon: ''
+          role: [header-6, call-to-action-button]
+          spacing:
+            margin: [0, null, null, null]
+            padding: [null, '12', null, '12']
+          spacing_above: none
+          spacing_below: none
+          text: activate mail notification
+          underline: false
+          visible: false
+        type: Button
+      - data_bindings: []
         event_bindings: {click: activate_notification}
         layout_properties: {}
         name: deactivate
         properties:
           align: right
           icon: ''
-          role: [header-6]
+          role: [header-6, call-to-action-button-disabled]
           spacing:
             margin: [0, null, null, null]
-          spacing_above: small
+          spacing_above: none
           spacing_below: none
           text: deactivate mail notification
           underline: false
@@ -285,7 +280,7 @@ components:
       name: button_save_mail
       properties:
         align: right
-        role: [call-to-action-button, header-6]
+        role: [header-6, call-to-action-button-disabled]
         spacing:
           margin: [null, '0', null, '0']
         spacing_above: medium
@@ -568,7 +563,7 @@ components:
       name: button_save
       properties:
         align: right
-        role: [call-to-action-button, header-6]
+        role: [header-6, call-to-action-button-disabled]
         spacing:
           margin: [null, '0', null, '0']
         spacing_above: medium

@@ -19,14 +19,14 @@ class C_Notification_Settings(C_Notification_SettingsTemplate):
     self.init_components(**properties)
 
     # Any code you write here will run before the form opens.
+    # vars
     global user
     user = anvil.users.get_user()
-
     items = items[0]
     self.items = items
-
     self.notification_id = notification_id
-    
+
+    # visibility
     self.column_panel_min_max.visible = False
     
     # -------------
@@ -258,16 +258,11 @@ class C_Notification_Settings(C_Notification_SettingsTemplate):
     if self.activate.visible is True:
       self.activate.visible = False
       self.deactivate.visible = True
-      Notification(
-        "", title=f'"{self.notification_name.text}" is activated', style="success"
-      ).show()
     else:
       self.activate.visible = True
       self.deactivate.visible = False
-      Notification(
-        "", title=f'"{self.notification_name.text}" is no longer active', style="warning"
-      ).show()
-    self.update_notification()
+      
+    self.button_save_mail.role = ['header-6', 'call-to-action-button']
 
   
   def delete_notification_click(self, **event_args):
@@ -504,9 +499,30 @@ class C_Notification_Settings(C_Notification_SettingsTemplate):
       self.edit_icon.icon = "fa:angle-down"
 
   def button_save_mail_click(self, **event_args):
+    # save data
     pass
+    
+    # notification & visibility
+    if self.activate.visible is True:
+      self.activate.visible = False
+      self.deactivate.visible = True
+      Notification(
+        "", title=f'"{self.notification_name.text}" is activated', style="success"
+      ).show()
+    else:
+      self.activate.visible = True
+      self.deactivate.visible = False
+      Notification(
+        "", title=f'"{self.notification_name.text}" is no longer active', style="warning"
+      ).show()
+
+    # update icons & cghange button
     self.edit_icon_click()
+    self.button_save_mail.role = ['header-6', 'call-to-action-button-disabled']
 
   def button_save_click(self, **event_args):
     pass
+    
+    # update icons & cghange button
     self.edit_icon_click()
+    self.button_save.role = ['header-6', 'call-to-action-button-disabled']
