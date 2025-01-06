@@ -1101,13 +1101,13 @@ class Discover(DiscoverTemplate):
     self.prev_button_country.visible = True
     self.next_button_country.visible = True
     if self.current_page == 1:
-      self.prev_button_country.enabled = False
+      self.prev_button_country.role = ['icon-button-disabled', 'header-6']
     else:
-      self.prev_button_country.enabled = True
+      self.prev_button_country.role = ['icon-button', 'header-6']
     if self.current_page == self.total_pages:
-      self.next_button_country.enabled = False
+      self.next_button_country.role = ['icon-button-disabled', 'header-6']
     else:
-      self.next_button_country.enabled = True      
+      self.next_button_country.role = ['icon-button', 'header-6']  
 
   def next_page_country(self, **event_args):
     if self.current_page < self.total_pages:
@@ -1189,13 +1189,13 @@ class Discover(DiscoverTemplate):
     self.prev_button_city.visible = True
     self.next_button_city.visible = True
     if self.current_page == 1:
-      self.prev_button_city.enabled = False
+      self.prev_button_city.role = ['icon-button-disabled', 'header-6']
     else:
-      self.prev_button_city.enabled = True
+      self.prev_button_city.role = ['icon-button', 'header-6']
     if self.current_page == self.total_pages:
-      self.next_button_city.enabled = False
+      self.next_button_city.role = ['icon-button-disabled', 'header-6']
     else:
-      self.next_button_city.enabled = True      
+      self.next_button_city.role = ['icon-button', 'header-6']
 
   def next_page_city(self, **event_args):
     if self.current_page < self.total_pages:

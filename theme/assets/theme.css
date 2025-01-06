@@ -2605,8 +2605,8 @@ Area 3: Buttons
 }
 .anvil-role-icon-button > button:focus,
 .anvil-role-icon-button > button:active {
-  background: transparent;
-  color: #E95F30;
+  background: transparent !important;
+  color: #E95F30 !important;
 }
 
 /* ----------------------------
@@ -2625,8 +2625,8 @@ Area 3: Buttons
 .anvil-role-icon-button-disabled > button:hover,
 .anvil-role-icon-button-disabled > button:focus,
 .anvil-role-icon-button-disabled > button:active {
-  background: transparent;
-  color: #9E9E9E;
+  background: transparent !important;
+  color: #9E9E9E !important;
 }
 
 /* where used? (???) */

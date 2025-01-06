@@ -1167,7 +1167,7 @@ components:
           properties:
             align: right
             icon: fa:arrow-circle-o-left
-            role: [header-7, contact-button]
+            role: [icon-button, header-6]
             spacing_above: none
             spacing_below: none
             text: ''
@@ -1185,7 +1185,7 @@ components:
             align: left
             enabled: true
             icon: fa:arrow-circle-o-right
-            role: [header-7, contact-button]
+            role: [header-6, icon-button]
             spacing_above: none
             spacing_below: none
             text: ''
@@ -1217,7 +1217,7 @@ components:
           properties:
             align: right
             icon: fa:arrow-circle-o-left
-            role: [header-7, contact-button]
+            role: [header-6, icon-button]
             spacing_above: none
             spacing_below: none
             text: ''
@@ -1235,7 +1235,7 @@ components:
             align: left
             enabled: true
             icon: fa:arrow-circle-o-right
-            role: [header-7, contact-button]
+            role: [header-6, icon-button]
             spacing_above: none
             spacing_below: none
             text: ''

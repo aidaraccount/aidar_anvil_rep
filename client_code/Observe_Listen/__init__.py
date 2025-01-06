@@ -57,6 +57,13 @@ class Observe_Listen(Observe_ListenTemplate):
       self.call_js('createOrUpdateSpotifyPlayer', anvil.js.get_dom_node(self), 'track', self.initial_track_id, self.all_track_ids, self.all_artist_ids, self.all_artist_names)
     else:
       print("Embed iframe element not found. Will not initialize Spotify player.")
+
+  def spotify_HTML_player(self):
+    c_web_player_html = '''
+      <div id="embed-iframe"></div>
+      '''
+    html_webplayer_panel = HtmlPanel(html=c_web_player_html)
+    self.footer_left.add_component(html_webplayer_panel)
   
   # GET ALL NOTIFICATIONS
   def get_all_notifications(self, notification_id, **event_args):
@@ -191,7 +198,7 @@ class Observe_Listen(Observe_ListenTemplate):
           
     # c) Instantiate Spotify Player
     self.footer_left.clear()
-    self.footer_left.add_component(HtmlPanel(html='<div id="embed-iframe"></div>'))
+    self.spotify_HTML_player()
     
     # d) Watchlist Drop-Down
     wl_data = json.loads(anvil.server.call('get_watchlist_ids',  user["user_id"]))
