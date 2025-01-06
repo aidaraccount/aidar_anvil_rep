@@ -190,8 +190,9 @@ class Observe_Listen(Observe_ListenTemplate):
     self.column_panel_discover.get_components()[0].set_watchlist_icons()
           
     # c) Instantiate Spotify Player
+    print('self.footer_left.clear()!!!')
     self.footer_left.clear()
-    self.spotify_HTML_player()
+    self.footer_left.add_component(HtmlPanel(html='<div id="embed-iframe"></div>'))
     
     # d) Watchlist Drop-Down
     wl_data = json.loads(anvil.server.call('get_watchlist_ids',  user["user_id"]))
@@ -271,15 +272,7 @@ class Observe_Listen(Observe_ListenTemplate):
 
 
   # ------------------------------------------------------------
-  # FOOTER
-  # Spotify Widget
-  def spotify_HTML_player(self):
-    c_web_player_html = '''
-      <div id="embed-iframe"></div>
-      '''
-    html_webplayer_panel = HtmlPanel(html=c_web_player_html)
-    self.footer_left.add_component(html_webplayer_panel)
-    
+  # FOOTER    
   # Play Controller
   def play_button_central_click(self, **event_args):
     if load_var('has_played') == 'False':

@@ -2585,9 +2585,6 @@ Area 3: Buttons
   box-shadow: 0 0 5px #E95F30, 0 0 9px #E95F30, 0 0 13px #E95F30; /* Static orange glow */
   transition: all 0.3s ease; /* Smooth hover effect */
 }
-/* .anvil-role-feature > button:hover {
-  box-shadow: 0 0 10px #E95F30, 0 0 20px #E95F30, 0 0 30px #E95F30; /* Brighter glow on hover */
-} */
 
 /* ----------------------------
 3.3. disabled icon buttons */
@@ -2641,29 +2638,6 @@ Area 3: Buttons
   color: #9E9E9E;
 }
 
-/* SIMILAR TO icon-button?? (???) */
-/* .anvil-role-contact-button > button {
-  color: #E95F30;
-  font-size: 24px;
-  background: transparent;
-  border: 0px;
-  box-shadow: none;
-  text-shadow: none;
-  transition: 0.5s
-}
-.anvil-role-contact-button > button:hover {
-  background: transparent;
-  color: #BA7305;
-}
-.anvil-role-contact-button > button:focus{
-  background: transparent;
-  color: #E95F30;
-}
-.anvil-role-contact-button > button:active{
-  background: transparent;
-  color: #E95F30;
-} */
-
 /* where used? (???) */
 .anvil-role-save-button-sidebar > button {
   font-family: Gs-regular;
@@ -2692,7 +2666,6 @@ Area 3: Buttons
 
 /* ----------------------------
 3.2. Play/pause buttons on the Discover and ListenIn page */
-/* small and big play buttons for tables and icons */
 .anvil-role-play-spotify-button button {
   font-family: Gs-regular;
   font-size: 24px;
