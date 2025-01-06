@@ -44,7 +44,9 @@ components:
         icon: fa:refresh
         icon_align: left
         italic: false
-        role: [opacity-100, header-5, call-to-action-button, 'slider-refresh-growth ']
+        role: [opacity-100, call-to-action-button, 'slider-refresh-growth ', header-6]
+        spacing:
+          margin: [5, null, null, null]
         spacing_above: none
         spacing_below: none
         text: ''
@@ -85,7 +87,9 @@ components:
         icon: fa:refresh
         icon_align: left
         italic: false
-        role: [opacity-100, header-5, call-to-action-button, 'slider-refresh-growth ']
+        role: [opacity-100, call-to-action-button, 'slider-refresh-growth ', header-6]
+        spacing:
+          margin: [5, null, null, null]
         spacing_above: none
         spacing_below: none
         text: ''
@@ -126,7 +130,9 @@ components:
         icon: fa:refresh
         icon_align: left
         italic: false
-        role: [opacity-100, header-5, call-to-action-button, 'slider-refresh-growth ']
+        role: [opacity-100, call-to-action-button, 'slider-refresh-growth ', header-6]
+        spacing:
+          margin: [5, null, null, null]
         spacing_above: none
         spacing_below: none
         text: ''

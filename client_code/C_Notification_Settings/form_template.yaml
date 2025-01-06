@@ -45,7 +45,7 @@ components:
       properties:
         align: center
         icon: fa:trash-o
-        role: play-spotify-button
+        role: icon-button-disabled
         spacing:
           margin: [20, null, null, null]
           padding: [null, 0, null, 0]

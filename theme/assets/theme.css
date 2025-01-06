@@ -2404,7 +2404,7 @@ footer a, .footer .anvil-component {
   background:white;
 }
 
-.anvil-role-slider-inputbox {
+.anvil-role-slider-inputbox {  /* individual class for C_LevelOfPopularity input box */
   background: transparent;
   border: 0px;
   border-bottom: 1px solid;
@@ -2412,10 +2412,9 @@ footer a, .footer .anvil-component {
   border-radius: 0px;
   border-color: rgb(233, 95, 48);
 }
-.anvil-role-slider-refresh button {
+.anvil-role-slider-refresh button {  /* individual class for C_LevelOfPopularity reset button */
   background: transparent;
   border: 0px solid;
-  width: 100px !important;
   border-radius: 10px;
 }
 .anvil-role-slider-refresh-growth button {
@@ -2525,8 +2524,7 @@ Area 2: Classes to be captured by js
 Area 3: Buttons
 Area 4: Text Boxes
 Area 5: PAGE INDIVIDUAL CLASSES
-*/
-/*
+
 ----------------------------------------------------------------------------------------
 Area 1: General Classes
 ----------------------------------------------------------------------------------------
@@ -2582,19 +2580,17 @@ Area 2: Classes to be captured by js
 ----------------------------------------------------------------------------------------
 Area 3: Buttons
 ----------------------------------------------------------------------------------------
-3.1. Rating buttons on the ListenIn page */
+3.1. Highlight Button (static glow) */
 .anvil-role-highlight-button button {
   box-shadow: 0 0 5px #E95F30, 0 0 9px #E95F30, 0 0 13px #E95F30; /* Static orange glow */
   transition: all 0.3s ease; /* Smooth hover effect */
 }
-.anvil-role-feature > button:hover {
+/* .anvil-role-feature > button:hover {
   box-shadow: 0 0 10px #E95F30, 0 0 20px #E95F30, 0 0 30px #E95F30; /* Brighter glow on hover */
-}
+} */
 
 /* ----------------------------
-3.2. Play/pause buttons on the Discover and ListenIn page */
-/* small and big play buttons for tables and icons */
-.anvil-role-play-spotify-button button,
+3.3. disabled icon buttons */
 .anvil-role-icon-button button {
   font-family: Gs-regular;
   font-size: 24px;
@@ -2606,24 +2602,21 @@ Area 3: Buttons
   transition: 0.5s;
   width: 55px;
 }
-.anvil-role-play-spotify-button > button:hover,
 .anvil-role-icon-button > button:hover {
   background: transparent;
   color: #BA7305;
 }
-.anvil-role-play-spotify-button > button:focus,
 .anvil-role-icon-button > button:focus {
   background: transparent;
   color: #E95F30;
 }
-.anvil-role-play-spotify-button > button:active,
 .anvil-role-icon-button > button:active {
   background: transparent;
   color: #E95F30;
 }
 
 /* ----------------------------
-3.3. disabled icon buttons */
+3.3. disabled icon buttons disabled */
 .anvil-role-icon-button-disabled button {
   font-family: Gs-regular;
   font-size: 24px;
@@ -2649,7 +2642,7 @@ Area 3: Buttons
 }
 
 /* SIMILAR TO icon-button?? (???) */
-.anvil-role-contact-button > button {
+/* .anvil-role-contact-button > button {
   color: #E95F30;
   font-size: 24px;
   background: transparent;
@@ -2669,7 +2662,7 @@ Area 3: Buttons
 .anvil-role-contact-button > button:active{
   background: transparent;
   color: #E95F30;
-}
+} */
 
 /* where used? (???) */
 .anvil-role-save-button-sidebar > button {
@@ -2696,8 +2689,36 @@ Area 3: Buttons
   color: #E95F30;
 }
 
+
 /* ----------------------------
-3.4. big play buttons on Discover and ListenIn */
+3.2. Play/pause buttons on the Discover and ListenIn page */
+/* small and big play buttons for tables and icons */
+.anvil-role-play-spotify-button button {
+  font-family: Gs-regular;
+  font-size: 24px;
+  color: #E95F30;
+  background: transparent;
+  border: 0px;
+  box-shadow: none;
+  text-shadow: none;
+  transition: 0.5s;
+  width: 55px;
+}
+.anvil-role-play-spotify-button > button:hover {
+  background: transparent;
+  color: #BA7305;
+}
+.anvil-role-play-spotify-button > button:focus {
+  background: transparent;
+  color: #E95F30;
+}
+.anvil-role-play-spotify-button > button:active {
+  background: transparent;
+  color: #E95F30;
+}
+
+/* ----------------------------
+3.4. big round Play Buttons on Discover and ListenIn */
 .anvil-role-play-spotify-button-artist button {
   font-size: 44px;
   padding: 0;

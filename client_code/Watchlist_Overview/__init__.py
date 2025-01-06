@@ -112,21 +112,21 @@ class Watchlist_Overview(Watchlist_OverviewTemplate):
     if self.link_poplat.icon == '' or self.link_poplat.icon == 'fa:angle-up':
       self.reset_icons()
       self.link_poplat.icon = 'fa:angle-down'
-      self.repeating_panel_data.items = sorted(self.repeating_panel_data.items, key=lambda x: x.get('PopularityLat', float('inf')), reverse=True)
+      self.repeating_panel_data.items = sorted(self.repeating_panel_data.items, key=lambda x: int(x['PopularityLat']), reverse=True)
     elif self.link_poplat.icon == 'fa:angle-down':
       self.reset_icons()
       self.link_poplat.icon = 'fa:angle-up'
-      self.repeating_panel_data.items = sorted(self.repeating_panel_data.items, key=lambda x: x.get('PopularityLat', float('inf')), reverse=False)
+      self.repeating_panel_data.items = sorted(self.repeating_panel_data.items, key=lambda x: int(x['PopularityLat']), reverse=False)
 
   def link_popdif_click(self, **event_args):
     if self.link_popdif.icon == '' or self.link_popdif.icon == 'fa:angle-up':
       self.reset_icons()
       self.link_popdif.icon = 'fa:angle-down'
-      self.repeating_panel_data.items = sorted(self.repeating_panel_data.items, key=lambda x: x.get('PopularityDif', float('inf')), reverse=True)
+      self.repeating_panel_data.items = sorted(self.repeating_panel_data.items, key=lambda x: int(x['PopularityDif']), reverse=True)
     elif self.link_popdif.icon == 'fa:angle-down':
       self.reset_icons()
       self.link_popdif.icon = 'fa:angle-up'
-      self.repeating_panel_data.items = sorted(self.repeating_panel_data.items, key=lambda x: x.get('PopularityDif', float('inf')), reverse=False)
+      self.repeating_panel_data.items = sorted(self.repeating_panel_data.items, key=lambda x: int(x['PopularityDif']), reverse=False)
 
   def link_popdev_click(self, **event_args):
     if self.link_popdev.icon == '' or self.link_popdev.icon == 'fa:angle-up':

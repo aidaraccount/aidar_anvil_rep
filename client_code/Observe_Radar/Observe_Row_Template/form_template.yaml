@@ -4,7 +4,14 @@ components:
     - {code: 'str(self.item[''Number''])+''.''', property: text, writeback: false}
     layout_properties: {grid_position: 'VKDHZE,FZNRID'}
     name: label_nr
-    properties: {bold: true, role: header-1, spacing_above: small}
+    properties:
+      align: center
+      bold: true
+      role: header-1
+      spacing:
+        margin: [null, 5, null, 5]
+        padding: [null, null, null, 0]
+      spacing_above: small
     type: Label
   - components:
     - data_bindings:
