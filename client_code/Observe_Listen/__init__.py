@@ -190,7 +190,6 @@ class Observe_Listen(Observe_ListenTemplate):
     self.column_panel_discover.get_components()[0].set_watchlist_icons()
           
     # c) Instantiate Spotify Player
-    print('self.footer_left.clear()!!!')
     self.footer_left.clear()
     self.footer_left.add_component(HtmlPanel(html='<div id="embed-iframe"></div>'))
     
