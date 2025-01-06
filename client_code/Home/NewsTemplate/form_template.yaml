@@ -21,7 +21,7 @@ components:
       type: Label
     - data_bindings:
       - {code: 'str(self.item[''Date'']) + "  "', property: text, writeback: false}
-      layout_properties: {width: 200, x: 160, y: 0}
+      layout_properties: {width: 181, x: 160, y: 0}
       name: label_date
       properties: {align: right, font_size: 14}
       type: Label

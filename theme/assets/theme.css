@@ -2603,10 +2603,7 @@ Area 3: Buttons
   background: transparent;
   color: #BA7305;
 }
-.anvil-role-icon-button > button:focus {
-  background: transparent;
-  color: #E95F30;
-}
+.anvil-role-icon-button > button:focus,
 .anvil-role-icon-button > button:active {
   background: transparent;
   color: #E95F30;
@@ -2625,14 +2622,8 @@ Area 3: Buttons
   transition: 0.5s;
   width: 55px;
 }
-.anvil-role-icon-button-disabled > button:hover {
-  background: transparent;
-  color: #9E9E9E;
-}
-.anvil-role-icon-button-disabled > button:focus {
-  background: transparent;
-  color: #9E9E9E;
-}
+.anvil-role-icon-button-disabled > button:hover,
+.anvil-role-icon-button-disabled > button:focus,
 .anvil-role-icon-button-disabled > button:active {
   background: transparent;
   color: #9E9E9E;
@@ -2654,11 +2645,8 @@ Area 3: Buttons
   background: linear-gradient(to top left, rgba(232, 232, 232, 0.8) 50%, white);
   color: #BA7305;
 }
-.anvil-role-save-button-sidebar > button:focus{
-  background: white;
-  color: #E95F30;
-}
-.anvil-role-save-button-sidebar > button:active{
+.anvil-role-save-button-sidebar > button:focus,
+.anvil-role-save-button-sidebar > button:active {
   background: white;
   color: #E95F30;
 }
@@ -2681,13 +2669,10 @@ Area 3: Buttons
   background: transparent;
   color: #BA7305;
 }
-.anvil-role-play-spotify-button > button:focus {
-  background: transparent;
-  color: #E95F30;
-}
+.anvil-role-play-spotify-button > button:focus,
 .anvil-role-play-spotify-button > button:active {
-  background: transparent;
-  color: #E95F30;
+  background: transparent !important;
+  color: #E95F30 !important;
 }
 
 /* ----------------------------
@@ -2720,15 +2705,9 @@ Area 3: Buttons
   padding: 0 25px;
   min-width: 100px;
 }
-.anvil-role-call-to-action-button > button:hover {
-  background: #BA7305;
-  color: white;
-}
-.anvil-role-call-to-action-button > button:focus{
-  background: #BA7305;
-  color: white;
-}
-.anvil-role-call-to-action-button > button:active{
+.anvil-role-call-to-action-button > button:hover,
+.anvil-role-call-to-action-button > button:focus,
+.anvil-role-call-to-action-button > button:active {
   background: #BA7305;
   color: white;
 }
@@ -2747,15 +2726,9 @@ Area 3: Buttons
   padding: 0 15px;
   min-width: 500px;
 }
-.anvil-role-call-to-action-button-longer > button:hover {
-  background: #BA7305;
-  color: white;
-}
-.anvil-role-call-to-action-button-longer > button:focus{
-  background: #BA7305;
-  color: white;
-}
-.anvil-role-call-to-action-button-longer > button:active{
+.anvil-role-call-to-action-button-longer > button:hover,
+.anvil-role-call-to-action-button-longer > button:focus,
+.anvil-role-call-to-action-button-longer > button:active {
   background: #BA7305;
   color: white;
 }
@@ -2778,11 +2751,8 @@ Area 3: Buttons
   background: %color:Accent 2%;
   color: white;
 }
-.anvil-role-call-to-action-button-disabled > button:focus{
-  background: %color:Accent 2%;
-  color: %color:Accent 1%;
-}
-.anvil-role-call-to-action-button-disabled > button:active{
+.anvil-role-call-to-action-button-disabled > button:focus,
+.anvil-role-call-to-action-button-disabled > button:active {
   background: %color:Accent 2%;
   color: %color:Accent 1%;
 }
