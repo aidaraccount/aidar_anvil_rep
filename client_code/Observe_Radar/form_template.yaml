@@ -1,0 +1,124 @@
+components:
+- components:
+  - layout_properties: {grid_position: 'JAZERV,LGQSDW'}
+    name: label_1
+    properties: {align: left, background: '', bold: false, border: '', font: '', font_size: null, foreground: '', icon: '', icon_align: left, italic: false, role: header-1, spacing_above: small, spacing_below: small, text: Artist Radar, tooltip: '', underline: false, visible: true}
+    type: Label
+  - components:
+    - layout_properties: {grid_position: 'FFHUXB,SNYWAS'}
+      name: label_1_copy
+      properties: {align: center, bold: false, role: sub_title, text: None of your AI models is fully trained yet}
+      type: Label
+    - layout_properties: {grid_position: 'XVSVDO,ELBDZT'}
+      name: label_2
+      properties: {align: center, bold: false, role: description, text: Please continue training your model further to enable it to keep an eye on emerging talents for you.}
+      type: Label
+    layout_properties: {grid_position: 'STRELO,NFXGFN'}
+    name: no_trained_model
+    properties: {}
+    type: ColumnPanel
+  - components:
+    - layout_properties: {grid_position: 'FFHUXB,SNYWAS'}
+      name: label_1_copy_copy_2
+      properties: {align: center, bold: false, role: sub_title, text: No Artist Radar configured}
+      type: Label
+    - layout_properties: {grid_position: 'XVSVDO,ELBDZT'}
+      name: label_2_copy_2
+      properties: {align: center, bold: false, role: description, text: Please configure an Artist Radar to monitor the market for you}
+      type: Label
+    - event_bindings: {click: add_observation_click}
+      layout_properties: {grid_position: 'AXWHXI,JHWIXV'}
+      name: initial_radar
+      properties:
+        align: center
+        icon: ''
+        role: [header-6, call-to-action-button-longer]
+        spacing:
+          margin: [20, null, null, null]
+          padding: [null, '12', null, '12']
+        spacing_above: small
+        spacing_below: none
+        text: configure personal artist radar
+        underline: false
+        visible: true
+      type: Button
+    layout_properties: {grid_position: 'PBLRPG,MEMJDI'}
+    name: no_notifications
+    properties: {}
+    type: ColumnPanel
+  - layout_properties: {grid_position: 'KQARMC,PJNAFI'}
+    name: flow_panel
+    properties: {background: '', role: section-background, spacing: small, spacing_above: none, spacing_below: none}
+    type: FlowPanel
+  - components:
+    - event_bindings: {click: add_observation_click}
+      layout_properties: {}
+      name: create_observation
+      properties:
+        align: center
+        bold: false
+        icon: fa:plus
+        role: section_buttons
+        spacing:
+          padding: [12, null, 14, null]
+        text: ''
+      type: Link
+    layout_properties: {grid_position: 'KQARMC,TOIWMF'}
+    name: flow_panel_create
+    properties:
+      align: center
+      background: ''
+      role: [section-background, section-background-flex]
+      spacing:
+        margin: [null, null, null, 10]
+      spacing_above: none
+      spacing_below: none
+    type: FlowPanel
+  - components: []
+    layout_properties: {grid_position: 'KEHZZR,DOLCTP'}
+    name: notification_settings
+    properties: {}
+    type: ColumnPanel
+  - components:
+    - layout_properties: {grid_position: 'FFHUXB,SNYWAS'}
+      name: label_1_copy_copy
+      properties: {align: center, bold: false, role: sub_title, text: No artists found}
+      type: Label
+    - layout_properties: {grid_position: 'XVSVDO,ELBDZT'}
+      name: label_2_copy
+      properties: {align: center, bold: false, role: description, text: Oops! No matches for your selection. Try adjusting your settings.}
+      type: Label
+    layout_properties: {grid_position: 'ZTNYTQ,QZRHOV'}
+    name: no_artists
+    properties:
+      role: top-border
+      spacing:
+        margin: ['5', null, null, null]
+        padding: [30, null, null, null]
+    type: ColumnPanel
+  - components:
+    - layout_properties: {}
+      name: repeating_panel_table
+      properties: {item_template: Observe_Radar.Observe_Row_Template}
+      type: RepeatingPanel
+    data_bindings: []
+    layout_properties: {grid_position: 'NUGHYG,HVXOZQ'}
+    name: data_grid
+    properties:
+      auto_header: false
+      columns:
+      - {data_key: column_1, id: JKSDUP, title: Column 1}
+      rows_per_page: 5
+    type: DataGrid
+  - layout_properties: {grid_position: 'TINJGS,EKTRMF'}
+    name: spacer_2
+    properties: {height: 32}
+    type: Spacer
+  layout_properties: {slot: default}
+  name: content_panel
+  properties: {col_spacing: none, col_widths: '{"PJNAFI":75,"TOIWMF":10}'}
+  type: ColumnPanel
+container:
+  properties: {html: ''}
+  type: HtmlTemplate
+is_package: true

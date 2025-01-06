@@ -37,12 +37,14 @@ components:
     type: Spacer
   - components:
     - event_bindings: {click: edit_icon_click}
+      layout_properties: {}
       name: edit_icon
-      properties: {icon: 'fa:pencil', role: contact-button, spacing_above: none, spacing_below: none, text: ''}
+      properties: {icon: 'fa:pencil', role: icon-button, spacing_above: none, spacing_below: none, text: ''}
       type: Button
     - event_bindings: {click: delete_click}
+      layout_properties: {}
       name: delete
-      properties: {align: center, icon: 'fa:trash', role: play-spotify-button, spacing_above: none, spacing_below: none, text: ''}
+      properties: {align: center, icon: 'fa:trash-o', role: icon-button, spacing_above: none, spacing_below: none, text: ''}
       type: Button
     layout_properties: {grid_position: 'BKOAUM,CPEJAI VJHIHB,PAUTRX'}
     name: flow_panel_1_copy
@@ -52,7 +54,7 @@ components:
     - layout_properties: {}
       name: activated
       properties:
-        align: center
+        align: right
         bold: false
         role: [table_content, transition-effect, header-5]
         text: Watchlist is active
@@ -63,7 +65,7 @@ components:
       properties:
         align: right
         icon: ''
-        role: [call-to-action-button, header-5]
+        role: [call-to-action-button, header-6]
         spacing_above: none
         spacing_below: none
         text: Activate Watchlist
@@ -74,7 +76,7 @@ components:
     type: LinearPanel
   layout_properties: {grid_position: 'IECXYJ,WBSPZC'}
   name: column_panel_6_copy
-  properties: {col_widths: '{"PVSQDK":40,"CPEJAI":18}', role: tile-background-left, spacing_above: none, spacing_below: none}
+  properties: {col_widths: '{"PVSQDK":40,"CPEJAI":18}', role: grid-main, spacing_above: none, spacing_below: none}
   type: ColumnPanel
 - layout_properties: {grid_position: 'NTPPQP,WRDECA'}
   name: spacer_1
@@ -146,8 +148,14 @@ components:
     type: FlowPanel
   - components:
     - event_bindings: {click: button_investigate_click}
+      layout_properties: {}
       name: button_investigate
-      properties: {align: left, background: 'theme:Orange', foreground: 'theme:Text_DecentWhite', role: feature, text: '    Details    '}
+      properties:
+        align: left
+        background: theme:Orange
+        foreground: theme:Text_DecentWhite
+        role: [call-to-action-button, header-6]
+        text: '    Details    '
       type: Button
     - event_bindings: {click: button_edit_click}
       name: button_edit
@@ -316,7 +324,7 @@ components:
     type: FlowPanel
   layout_properties: {grid_position: 'HHCFTV,DORKHT'}
   name: column_panel_4
-  properties: {background: '', col_widths: '{"FADFZU":20,"TDEVWC":40}', role: grid}
+  properties: {background: '', col_widths: '{"FADFZU":20,"TDEVWC":40}', role: grid-main}
   type: ColumnPanel
 container:
   properties: {col_widths: '{"UMKIPM":15,"DORKHT":63}', role: title, spacing_above: small}

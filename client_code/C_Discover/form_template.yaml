@@ -1,119 +1,4 @@
 components:
-- components:
-  - layout_properties: {grid_position: 'UQVSNC,CLCEVO'}
-    name: spotify_player_spot
-    properties: {role: spotify-footer-class, visible: true}
-    type: ColumnPanel
-  - layout_properties: {grid_position: 'UQVSNC,THIOWY'}
-    name: spacer_3
-    properties: {height: 32}
-    type: Spacer
-  - layout_properties: {grid_position: 'UQVSNC,OZIYBS THYALW,GCKCDI'}
-    name: label_2
-    properties: {font_size: 15, italic: true, spacing_below: none, text: '  no fit'}
-    type: Label
-  - layout_properties: {grid_position: 'UQVSNC,OZIYBS THYALW,EQAUIK'}
-    name: label_3
-    properties: {align: right, font_size: 15, italic: true, spacing_below: none, text: Match!}
-    type: Label
-  - event_bindings: {click: button_1_click}
-    layout_properties: {grid_position: 'UQVSNC,OZIYBS CGSVOU,TBKJMY'}
-    name: button_1
-    properties: {role: feature, spacing_above: none, spacing_below: none, text: '1'}
-    type: Button
-  - event_bindings: {click: button_2_click}
-    layout_properties: {grid_position: 'UQVSNC,OZIYBS CGSVOU,NRMJGG'}
-    name: button_1_copy
-    properties: {role: feature, spacing_above: none, spacing_below: none, text: '2'}
-    type: Button
-  - event_bindings: {click: button_3_click}
-    layout_properties: {grid_position: 'UQVSNC,OZIYBS CGSVOU,YXPZGW'}
-    name: button_1_copy_2
-    properties: {role: feature, spacing_above: none, spacing_below: none, text: '3'}
-    type: Button
-  - event_bindings: {click: button_4_click}
-    layout_properties: {grid_position: 'UQVSNC,OZIYBS CGSVOU,GNCWNN'}
-    name: button_1_copy_3
-    properties: {background: 'rgb(255,217,203)', bold: false, role: feature, spacing_above: none, spacing_below: none, text: '4'}
-    type: Button
-  - event_bindings: {click: button_5_click}
-    layout_properties: {grid_position: 'UQVSNC,OZIYBS CGSVOU,RCWSXT'}
-    name: button_1_copy_4
-    properties: {background: 'rgb(254,178,150)', bold: true, foreground: '', role: feature, spacing_above: none, spacing_below: none, text: '5'}
-    type: Button
-  - event_bindings: {click: button_6_click}
-    layout_properties: {grid_position: 'UQVSNC,OZIYBS CGSVOU,MVRMZJ'}
-    name: button_1_copy_5
-    properties: {background: 'rgb(254,140,98)', bold: true, foreground: '', role: feature, spacing_above: none, spacing_below: none, text: '6'}
-    type: Button
-  - event_bindings: {click: button_7_click}
-    layout_properties: {grid_position: 'UQVSNC,OZIYBS CGSVOU,UZOAFJ'}
-    name: button_1_copy_6
-    properties: {background: 'rgb(253, 101, 45)', bold: true, border: '', foreground: 'theme:Text_White', role: feature, spacing_above: none, spacing_below: none, text: '7'}
-    type: Button
-  - layout_properties: {grid_position: 'UQVSNC,XUSTNC OPLCOW,KXLRPY XFGLNV,LOXIMQ'}
-    name: spacer_6
-    properties: {height: '15', spacing_below: none}
-    type: Spacer
-  - event_bindings: {click: link_watchlist_name_click}
-    layout_properties: {grid_position: 'UQVSNC,XUSTNC OPLCOW,KXLRPY RSFAQY,VELSAP'}
-    name: link_watchlist_name2
-    properties: {role: artist_name_shadow}
-    type: Link
-  - components:
-    - components:
-      - layout_properties: {}
-        name: label_4
-        properties: {align: right, role: sort-label, text: 'Watchlist:'}
-        type: Label
-      layout_properties: {grid_position: 'SPLPLH,GADAWF'}
-      name: flow_panel_3
-      properties: {align: right, gap: none, spacing: medium, spacing_above: none, spacing_below: none}
-      type: FlowPanel
-    - event_bindings: {change: drop_down_wl_change}
-      layout_properties: {grid_position: 'SPLPLH,OCJXMS'}
-      name: drop_down_wl
-      properties: {align: left, role: dropdown, spacing_above: none, spacing_below: none}
-      type: DropDown
-    - components:
-      - layout_properties: {}
-        name: label_1
-        properties: {align: right, role: sort-label, text: 'Model:'}
-        type: Label
-      layout_properties: {grid_position: 'EVSCIN,SMUZQJ'}
-      name: flow_panel_master
-      properties: {align: right, gap: none, spacing: medium, spacing_above: none, spacing_below: none}
-      type: FlowPanel
-    - event_bindings: {change: drop_down_model_change}
-      layout_properties: {grid_position: 'EVSCIN,ZCFZEN'}
-      name: drop_down_model
-      properties: {align: left, role: dropdown, spacing_above: none, spacing_below: none}
-      type: DropDown
-    layout_properties: {grid_position: 'UQVSNC,XUSTNC OPLCOW,TPLKDW'}
-    name: column_panel_dropdowns
-    properties: {col_spacing: small, col_widths: '{"GADAWF":30,"OCJXMS":30,"SMUZQJ":30,"ZCFZEN":30}', role: margin, spacing_above: none, spacing_below: none}
-    type: ColumnPanel
-  - layout_properties: {grid_position: 'UQVSNC,XUSTNC OPLCOW,ZCPELY UKJBFI,KJORFO'}
-    name: spacer_9
-    properties: {height: 32}
-    type: Spacer
-  - components:
-    - event_bindings: {click: button_set_filters_click}
-      name: button_set_filters
-      properties: {align: right, icon: 'fa:filter', role: feature, spacing_above: none, spacing_below: none, text: ''}
-      type: Button
-    - event_bindings: {click: button_remove_filters_click}
-      name: button_remove_filters
-      properties: {background: 'theme:Orange', foreground: 'theme:Text_DecentWhite', icon: 'fa:ban', role: feature, spacing_above: none, spacing_below: none, text: '', tooltip: remove filters, visible: true}
-      type: Button
-    layout_properties: {grid_position: 'UQVSNC,XUSTNC OPLCOW,ZCPELY VCUETK,UBTYMZ'}
-    name: flow_panel_filters
-    properties: {gap: tiny, role: top-margin-button, spacing_above: none, spacing_below: none}
-    type: FlowPanel
-  layout_properties: {slot: footer-slot}
-  name: Footer
-  properties: {background: 'theme:New_spotify_player_scheme', col_spacing: tiny, col_widths: '{"XUSTNC":30,"THIOWY":5,"OZIYBS":20,"CLCEVO":20,"KXLRPY":20,"ZCPELY":25,"TPLKDW":50}', role: footer, spacing_above: none, spacing_below: none, visible: true}
-  type: ColumnPanel
 - event_bindings: {click: description_button_click}
   layout_properties: {slot: edit_button_decription}
   name: description_button
@@ -231,10 +116,6 @@ components:
   properties: {spacing_above: none, spacing_below: none}
   type: FlowPanel
 - components:
-  - layout_properties: {grid_position: 'SYXIOJ,LTMDQS'}
-    name: header
-    properties: {align: left, background: '', bold: false, border: '', font: '', font_size: null, foreground: '', icon: '', icon_align: left, italic: false, role: header-1, spacing_above: none, spacing_below: none, text: Discover Artists by AI, tooltip: '', underline: false, visible: true}
-    type: Label
   - components:
     - components:
       - components:
@@ -344,6 +225,7 @@ components:
             spacing_below: none
             text: ''
             tooltip: play top tracks
+            visible: false
           type: Button
         - event_bindings: {click: autoplay_button_click}
           layout_properties: {}
@@ -356,31 +238,37 @@ components:
             spacing_below: none
             text: ''
             tooltip: auto play
-            visible: true
+            visible: false
           type: Button
         layout_properties: {grid_position: 'QJNNIK,NMEONP'}
         name: flow_panel_5
-        properties: {align: right, spacing: medium, spacing_above: none, spacing_below: none, vertical_align: full}
+        properties: {align: right, spacing: medium, spacing_above: none, spacing_below: none, vertical_align: full, visible: true}
         type: FlowPanel
-      layout_properties: {col_xs: 0, row: SPGXSL, width_xs: 9}
-      name: column_panel_Artist
-      properties: {col_spacing: small, col_widths: '{"BINRLY":20,"SKLDLY":40,"ABDFHZ":15,"NMEONP":15,"FBYDQY":15,"XSLXKQ":15}', role: tile-background-left}
+      layout_properties: {grid_position: 'KLUXEH,NTTBRD'}
+      name: column_panel_artist_header
+      properties:
+        col_spacing: small
+        col_widths: '{"BINRLY":20,"SKLDLY":40,"ABDFHZ":15,"NMEONP":15,"FBYDQY":15,"XSLXKQ":15}'
+        role: tile-background-left
+        spacing:
+          margin: [0, null, null, null]
       type: ColumnPanel
     - components:
       - layout_properties: {grid_position: 'KEEZIY,CJTGRG'}
         name: spacer_5
         properties: {height: 32}
         type: Spacer
-      - layout_properties: {grid_position: 'LNTFQP,OFGQGL'}
-        name: column_panel_5
-        properties: {}
+      - components: []
+        layout_properties: {grid_position: 'UEJNNJ,BZHSIU'}
+        name: column_panel_1
+        properties: {col_spacing: none}
         type: ColumnPanel
       - components:
         - layout_properties: {}
           name: no_prediction
           properties: {align: center, role: artist_name_shadow, text: Model     ramp-up}
           type: Label
-        layout_properties: {full_width_row: false, grid_position: 'XBWMVA,RCCOIP'}
+        layout_properties: {grid_position: 'LVKXJU,ZIDDGV'}
         name: linear_panel_2
         properties:
           role: [score-tile-background]
@@ -440,14 +328,19 @@ components:
         name: linear_panel_4
         properties: {role: highlights-tile-background, spacing_above: none, spacing_below: small}
         type: LinearPanel
-      layout_properties: {col_xs: 8, row: SPGXSL, width_xs: 3}
+      layout_properties: {grid_position: 'KLUXEH,HENTNH'}
       name: column_panel_KPIs
-      properties: {col_spacing: medium, col_widths: '{}', role: tile-background-right}
+      properties:
+        col_spacing: none
+        col_widths: '{}'
+        role: tile-background-right
+        spacing:
+          margin: [0, null, null, null]
       type: ColumnPanel
-    layout_properties: {grid_position: 'FFPQHD,HGMABE'}
-    name: grid_panel_1
-    properties: {role: equal-height-container}
-    type: GridPanel
+    layout_properties: {grid_position: 'TKXVNT,FRNRAB'}
+    name: column_panel_header
+    properties: {col_spacing: tiny, col_widths: '{"NTTBRD":45,"HENTNH":15}'}
+    type: ColumnPanel
   - layout_properties: {grid_position: 'UTITLB,JDUPJF'}
     name: spacer_8
     properties: {height: '26'}
@@ -591,8 +484,9 @@ components:
         properties: {role: Discover_artist_name, spacing_above: none, spacing_below: none, text: ' Track Releases'}
         type: Label
       - components:
-        - name: data_grid_releases_data
-          properties: {item_template: Discover.RepPanel_TrackReleases, role: table_content_small, spacing_above: none, spacing_below: none}
+        - layout_properties: {}
+          name: data_grid_releases_data
+          properties: {item_template: C_Discover.RepPanel_TrackReleases, role: table_content_small, spacing_above: none, spacing_below: none}
           type: RepeatingPanel
         layout_properties: {grid_position: 'UHLFFT,AZCCED'}
         name: data_grid_releases
@@ -1619,20 +1513,147 @@ components:
     type: ColumnPanel
   - layout_properties: {grid_position: 'MNSGLO,DTALNU'}
     name: spacer_bottom_margin
-    properties: {height: '180', spacing_above: none, spacing_below: none}
+    properties: {height: '180', spacing_above: none, spacing_below: none, visible: false}
     type: Spacer
   layout_properties: {slot: default}
-  name: column_panel_1
+  name: column_panel_artist_profile
   properties:
-    col_spacing: medium
-    col_widths: '{"LTMDQS":45}'
+    col_spacing: none
+    col_widths: '{}'
     role: [left-discover-page]
+    spacing:
+      margin: [0, null, 0, null]
     spacing_above: small
     spacing_below: small
   type: ColumnPanel
+- components:
+  - layout_properties: {grid_position: 'UQVSNC,CLCEVO'}
+    name: spotify_player_spot
+    properties: {role: spotify-footer-class, visible: false}
+    type: ColumnPanel
+  - layout_properties: {grid_position: 'UQVSNC,THIOWY'}
+    name: spacer_3
+    properties: {height: 32, visible: false}
+    type: Spacer
+  - layout_properties: {grid_position: 'UQVSNC,OZIYBS THYALW,GCKCDI'}
+    name: label_2
+    properties: {font_size: 15, italic: true, spacing_below: none, text: '  no fit', visible: false}
+    type: Label
+  - layout_properties: {grid_position: 'UQVSNC,OZIYBS THYALW,EQAUIK'}
+    name: label_3
+    properties: {align: right, font_size: 15, italic: true, spacing_below: none, text: Match!, visible: false}
+    type: Label
+  - event_bindings: {click: button_1_click}
+    layout_properties: {grid_position: 'UQVSNC,OZIYBS CGSVOU,TBKJMY'}
+    name: button_1
+    properties: {role: feature, spacing_above: small, spacing_below: none, text: '1'}
+    type: Button
+  - event_bindings: {click: button_2_click}
+    layout_properties: {grid_position: 'UQVSNC,OZIYBS CGSVOU,NRMJGG'}
+    name: button_1_copy
+    properties: {role: feature, spacing_above: small, spacing_below: none, text: '2'}
+    type: Button
+  - event_bindings: {click: button_3_click}
+    layout_properties: {grid_position: 'UQVSNC,OZIYBS CGSVOU,YXPZGW'}
+    name: button_1_copy_2
+    properties: {role: feature, spacing_above: small, spacing_below: none, text: '3'}
+    type: Button
+  - event_bindings: {click: button_4_click}
+    layout_properties: {grid_position: 'UQVSNC,OZIYBS CGSVOU,GNCWNN'}
+    name: button_1_copy_3
+    properties: {background: 'rgb(255,217,203)', bold: false, role: feature, spacing_above: small, spacing_below: none, text: '4'}
+    type: Button
+  - event_bindings: {click: button_5_click}
+    layout_properties: {grid_position: 'UQVSNC,OZIYBS CGSVOU,RCWSXT'}
+    name: button_1_copy_4
+    properties: {background: 'rgb(254,178,150)', bold: true, foreground: '', role: feature, spacing_above: small, spacing_below: none, text: '5'}
+    type: Button
+  - event_bindings: {click: button_6_click}
+    layout_properties: {grid_position: 'UQVSNC,OZIYBS CGSVOU,MVRMZJ'}
+    name: button_1_copy_5
+    properties: {background: 'rgb(254,140,98)', bold: true, foreground: '', role: feature, spacing_above: small, spacing_below: none, text: '6'}
+    type: Button
+  - event_bindings: {click: button_7_click}
+    layout_properties: {grid_position: 'UQVSNC,OZIYBS CGSVOU,UZOAFJ'}
+    name: button_1_copy_6
+    properties: {background: 'rgb(253, 101, 45)', bold: true, border: '', foreground: 'theme:Text_White', role: feature, spacing_above: small, spacing_below: none, text: '7'}
+    type: Button
+  - layout_properties: {grid_position: 'UQVSNC,XUSTNC OPLCOW,KXLRPY XFGLNV,LOXIMQ'}
+    name: spacer_6
+    properties: {height: '15', spacing_below: none, visible: false}
+    type: Spacer
+  - event_bindings: {click: link_watchlist_name_click}
+    layout_properties: {grid_position: 'UQVSNC,XUSTNC OPLCOW,KXLRPY RSFAQY,VELSAP'}
+    name: link_watchlist_name2
+    properties: {role: artist_name_shadow, spacing_above: none, spacing_below: none}
+    type: Link
+  - components:
+    - components:
+      - layout_properties: {}
+        name: label_4
+        properties: {align: right, role: sort-label, text: 'Watchlist:'}
+        type: Label
+      layout_properties: {grid_position: 'SPLPLH,GADAWF'}
+      name: flow_panel_3
+      properties: {align: right, gap: none, spacing: medium, spacing_above: none, spacing_below: none}
+      type: FlowPanel
+    - event_bindings: {change: drop_down_wl_change}
+      layout_properties: {grid_position: 'SPLPLH,OCJXMS'}
+      name: drop_down_wl
+      properties: {align: left, role: null, spacing_above: none, spacing_below: none}
+      type: DropDown
+    - components:
+      - layout_properties: {}
+        name: label_1
+        properties: {align: right, role: sort-label, text: 'Model:'}
+        type: Label
+      layout_properties: {grid_position: 'EVSCIN,SMUZQJ'}
+      name: flow_panel_master
+      properties: {align: right, gap: none, spacing: medium, spacing_above: none, spacing_below: none}
+      type: FlowPanel
+    - event_bindings: {change: drop_down_model_change}
+      layout_properties: {grid_position: 'EVSCIN,ZCFZEN'}
+      name: drop_down_model
+      properties: {align: left, role: null, spacing_above: none, spacing_below: none}
+      type: DropDown
+    layout_properties: {grid_position: 'UQVSNC,XUSTNC OPLCOW,TPLKDW'}
+    name: column_panel_dropdowns
+    properties: {col_spacing: small, col_widths: '{"GADAWF":30,"OCJXMS":30,"SMUZQJ":30,"ZCFZEN":30}', role: margin, spacing_above: none, spacing_below: none, visible: false}
+    type: ColumnPanel
+  - layout_properties: {grid_position: 'UQVSNC,XUSTNC OPLCOW,ZCPELY UKJBFI,KJORFO'}
+    name: spacer_9
+    properties: {height: 32, visible: false}
+    type: Spacer
+  - components:
+    - event_bindings: {click: button_set_filters_click}
+      layout_properties: {}
+      name: button_set_filters
+      properties: {align: right, icon: 'fa:filter', role: feature, spacing_above: none, spacing_below: none, text: '', visible: false}
+      type: Button
+    - event_bindings: {click: button_remove_filters_click}
+      layout_properties: {}
+      name: button_remove_filters
+      properties: {background: 'theme:Orange', foreground: 'theme:Text_DecentWhite', icon: 'fa:ban', role: feature, spacing_above: none, spacing_below: none, text: '', tooltip: remove filters, visible: false}
+      type: Button
+    layout_properties: {grid_position: 'UQVSNC,XUSTNC OPLCOW,ZCPELY VCUETK,UBTYMZ'}
+    name: flow_panel_filters
+    properties: {gap: tiny, role: top-margin-button, spacing_above: none, spacing_below: none}
+    type: FlowPanel
+  layout_properties: {slot: footer-slot}
+  name: footer
+  properties:
+    background: theme:New_spotify_player_scheme
+    col_spacing: tiny
+    col_widths: '{"XUSTNC":25,"THIOWY":5,"OZIYBS":30,"CLCEVO":15,"KXLRPY":25,"ZCPELY":15,"TPLKDW":55}'
+    role: footer
+    spacing:
+      padding: ['5', null, null, null]
+    spacing_above: none
+    spacing_below: none
+    visible: false
+  type: ColumnPanel
 container:
-  data_bindings: []
-  properties: {background: '', html: '@theme:Discover.html', role: null}
+  properties: {background: '', html: '@theme:C_Discover.html', role: null}
   type: HtmlTemplate
-custom_component: false
+custom_component: true
 is_package: true

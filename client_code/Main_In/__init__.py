@@ -28,11 +28,10 @@ from ..RelatedArtistSearch import RelatedArtistSearch
 from ..C_CreateModel import C_CreateModel
 from ..ConnectModel import ConnectModel
 from ..CreateWatchlist import CreateWatchlist
-from ..Observe import Observe
+from ..Observe_Radar import Observe_Radar
+from ..Observe_Listen import Observe_Listen
 from ..ModelProfile import ModelProfileTemplate
 from ..RampUp import RampUpTemplate
-from ..Notifications import Notifications
-
 
 routing.logger.debug = False
 
@@ -127,7 +126,6 @@ class Main_In(Main_InTemplate):
           )
       wl_link.set_event_handler('click', self.create_watchlist_click_handler(wl_ids[i]["watchlist_id"], wl_link))
       self.nav_watchlists.add_component(wl_link)
-      print('add_component', self.nav_watchlists.get_components())
 
   def remove_watchlist_components(self):
     for component in self.nav_watchlists.get_components():
@@ -215,6 +213,8 @@ class Main_In(Main_InTemplate):
     self.link_discover_rel.background = None
     
     self.link_observe.background = None
+    self.link_radar.background = None
+    self.link_listen.background = None
 
     self.link_watchlists.background = None
     for component in self.nav_watchlists.get_components():
@@ -236,8 +236,10 @@ class Main_In(Main_InTemplate):
     elif location.hash[:13] == '#rel_artists?':
       self.link_discover_rel.background = "theme:Accent 3"
       
-    if location.hash[:8] == '#observe':
-      self.link_observe.background = "theme:Accent 3"
+    elif location.hash[:6] == '#radar':
+      self.link_radar.background = "theme:Accent 3"
+    elif location.hash[:7] == '#listen':
+      self.link_listen.background = "theme:Accent 3"
       
     elif location.hash[:17] == '#watchlist_funnel':
       self.link_monitor_funnel.background = "theme:Accent 3"
@@ -294,12 +296,28 @@ class Main_In(Main_InTemplate):
     self.link_discover_rel.background = "theme:Accent 3"
 
   #----------------------------------------------------------------------------------------------
-  # HOME
+  # OBSERVE
+  def change_observe_visibility(self, **event_args):
+    if self.link_radar.visible is False:
+      self.link_observe.icon = 'fa:angle-up'
+      self.link_radar.visible = True
+      self.link_listen.visible = True
+
+    else:
+      self.link_observe.icon = 'fa:angle-down'
+      self.link_radar.visible = False
+      self.link_listen.visible = False
+
   def link_observe_click(self, **event_args):
-    click_link(self.link_observe, 'observe', event_args)
+    click_link(self.link_radar, 'radar?notification_id=None', event_args)
     self.reset_nav_backgrounds()
-    self.link_observe.background = "theme:Accent 3"
-    
+    self.link_radar.background = "theme:Accent 3"
+
+  def link_listen_click(self, **event_args):
+    click_link(self.link_listen, 'listen?notification_id=None', event_args)
+    self.reset_nav_backgrounds()
+    self.link_listen.background = "theme:Accent 3"
+  
   #----------------------------------------------------------------------------------------------
   # WATCHLISTS
   def change_watchlists_visibility(self, **event_args):

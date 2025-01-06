@@ -1,8 +1,10 @@
+<!-- SIDE BAR -->
 <div class="container-panel">
   <div class="main-content">
     <div class="anvil-container" anvil-drop-container=".anvil-container">
     </div>
   </div>
+
   <div id="right-sidebar" class="anvil-container" anvil-slot="sidebar">
     <div class="header-sidebar" anvil-slot="Artist_Name_Details_Sidebar">
         <img class="note_svg" src="_/theme/icons/Note.svg" alt="Notes Icon">
@@ -70,13 +72,6 @@
             <div anvil-if-slot-empty="Text_Box_for_Artist_Phone">Artist Phone Num</div>
           </td>
         </tr>
-        <!-- <tr>
-          <th>Other</th>
-          <td>
-            <div class="artist-name-sidebar contact-table-details" anvil-slot="Text_Box_for_Artist_Other">
-            <div anvil-if-slot-empty="Text_Box_for_Artist_Other">Artist Other Det</div>
-          </td>
-        </tr> -->
       </table>
     </div>
     <div class="description-section-sidebar">
@@ -89,14 +84,12 @@
       <div anvil-slot="descripion-area">
         <div anvil-if-slot-empty="descripion-area">Text Area Goes Here</div>
       </div>
-      <!-- <textarea class="description" rows="4">Text</textarea> -->
     </div>
     <div class="comments-section-sidebar">
       <h3>Comments</h3>
       <div anvil-slot="comment-area">
         <div anvil-if-slot-empty="comment-area">Text Area Goes Here</div>
       </div>
-      <!-- <textarea class="comment" rows="2">Note</textarea> -->
     </div>
   </div>
 </div>
@@ -106,12 +99,13 @@
   Notes
 </button>
 
-<!-- <div anvil-drop-default anvil-drop-redirect=".placeholder" anvil-drop-container=".anvil-container"></div> -->
+<!-- FOOTER -->
 <div class="footer">
   <div class="footer-slot" anvil-slot="footer-slot">
     <div class="placeholder anvil-designer-only" anvil-if-slot-empty="footer-slot" anvil-drop-here>Drop a FlowPanel or Label or Link Component here</div>
   </div>
 </div> 
+
 
 <script>
   
@@ -132,11 +126,6 @@
       console.error("Sidebar or button element not found..");
     }
   }
-    // Define a function to update the artist name
-    // window.updateArtistName = function(name) {
-    //   document.getElementById('artist-name-cell').textContent = name;
-    // };
-  // }
 
   (function() {
     let displays = document.querySelectorAll('.note-display');
@@ -181,43 +170,4 @@
     }
   })();
 
-  // function createOrUpdateSpotifyPlayer(artistSpotifyID) {
-  //   const element = document.getElementById('embed-iframe');
-      
-  //   if (!element) {
-  //     console.error("ERROR MESSAGE: Embed iframe element not found.")
-  //     return;
-  //   }
-      
-  //   console.log("THIS IS THE ELEMENT:", element);
-  //   console.log(artistSpotifyID);
-    
-  //   const options = {
-  //     theme: 'dark',
-  //     width: '100%',
-  //     height: '80',
-  //     uri: `spotify:artist:${artistSpotifyID}`,
-  //   };
-  //   console.log(options);
-  
-  //   if (window.SpotifyIframeAPI) {
-  //     window.SpotifyIframeAPI.createController(element, options, (EmbedController) => {
-  //       controller = EmbedController;
-  //       controller.addListener('ready', () => {
-  //         console.log('Spotify Player ready');
-  //       });
-  //     });
-  //   } else {
-  //     window.onSpotifyIframeApiReady = (IFrameAPI) => {
-  //       window.SpotifyIframeAPI = IFrameAPI; // Store the API globally for future use
-  //       IFrameAPI.createController(element, options, (EmbedController) => {
-  //         controller = EmbedController;
-  //         controller.addListener('ready', () => {
-  //           console.log('Spotify Player ready');
-  //         });
-  //       });
-  //     };
-  //   }
-  // }
-  // };
 </script>

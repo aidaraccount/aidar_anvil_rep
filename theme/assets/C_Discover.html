@@ -1,0 +1,165 @@
+<!-- SIDE BAR -->
+<div class="container-panel">
+  <div class="main-content">
+    <div class="anvil-container" anvil-drop-container=".anvil-container">
+    </div>
+  </div>
+
+  <div id="right-sidebar" class="anvil-container" anvil-slot="sidebar">
+    <div class="header-sidebar" anvil-slot="Artist_Name_Details_Sidebar">
+        <img class="note_svg" src="_/theme/icons/Note.svg" alt="Notes Icon">
+        <span>
+          Notes for&nbsp<span anvil-if-slot-empty="Artist_Name_Details_Sidebar">Artist Title Here</span>
+        </span>
+    </div>
+    <div class="section-contact-sidebar">
+      <div class="contact-table">
+        <table> 
+          <tr>
+            <th>Status</th>
+            <td>
+              <div class="sidebar-dropdowns" anvil-slot="Status_picker">
+                <div anvil-if-slot-empty="Status_picker">Status Picker</div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <th>Priority</th>
+            <td>
+              <div class="sidebar-dropdowns" anvil-slot="Priority_picker">
+                <div anvil-if-slot-empty="Priority_picker">Priority Picker</div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <th>Reminder</th>
+            <td>
+              <div class="sidebar-dropdowns" anvil-slot="Date_picker">
+                <div anvil-if-slot-empty="Date_picker">Date Picker</div>
+              </div>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <div class="section-contact-sidebar">
+      <div class='contact-title-sidebar'>
+        <h3 class="right-sidebar-heading">Contact</h3>
+        <div anvil-slot="edit_button_contacts" style="margin: 20px 0 10px 0;">
+          <span anvil-if-slot-empty="edit_button_contacts">button</span>
+        </div>
+      </div>
+      <table class="contact-table">
+        <tr>
+          <th>Name</th>
+          <td>
+            <div class="artist-name-sidebar contact-table-details" anvil-slot="Text_Box_for_Artist_Name">
+              <div anvil-if-slot-empty="Text_Box_for_Artist_Name">Artist Name</div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <th>Email</th>
+          <td>
+            <div class="artist-name-sidebar contact-table-details" anvil-slot="Text_Box_for_Artist_Email">
+            <div anvil-if-slot-empty="Text_Box_for_Artist_Email">Artist Email</div>
+          </td>
+        </tr>
+        <tr>
+          <th>Phone</th>
+          <td>
+            <div class="artist-name-sidebar contact-table-details" anvil-slot="Text_Box_for_Artist_Phone">
+            <div anvil-if-slot-empty="Text_Box_for_Artist_Phone">Artist Phone Num</div>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <div class="description-section-sidebar">
+      <div class='contact-title-sidebar'>
+        <h3 class="right-sidebar-heading">Description</h3>
+        <div anvil-slot="edit_button_decription" style="margin: 20px 0 10px 0;">
+          <span anvil-if-slot-empty="edit_button_decription">button</span>
+        </div>
+      </div>
+      <div anvil-slot="descripion-area">
+        <div anvil-if-slot-empty="descripion-area">Text Area Goes Here</div>
+      </div>
+    </div>
+    <div class="comments-section-sidebar">
+      <h3>Comments</h3>
+      <div anvil-slot="comment-area">
+        <div anvil-if-slot-empty="comment-area">Text Area Goes Here</div>
+      </div>
+    </div>
+  </div>
+</div>
+<button class="sidebar-button" id="sidebar-button">
+  <img class="note_svg_button" src="_/theme/icons/Note.svg" alt="Notes Icon">
+  <br>
+  Notes
+</button>
+
+
+<script>
+  
+  // window.onload = function () {
+  if(typeof sidebar === 'undefined') {
+    const sidebar = document.getElementById('right-sidebar');
+    const button = document.getElementById('sidebar-button');
+    const mainContent = document.querySelector('.anvil-role-left-discover-page')
+    // console.log(mainContent)
+  
+    if (sidebar && button) {
+      button.addEventListener('click', function () {
+        sidebar.classList.toggle('open');
+        button.classList.toggle('open');
+        mainContent.classList.toggle('shifted');
+      });
+    } else {
+      console.error("Sidebar or button element not found..");
+    }
+  }
+
+  (function() {
+    let displays = document.querySelectorAll('.note-display');
+    const transitionDuration = 900;
+    
+    displays.forEach(display => {
+      let note = parseFloat(display.dataset.note);
+      // console.log("Discover - THIS IS THE NOTE VALUE: ", note)
+      let [int, dec] = display.dataset.note.split('.');
+      [int, dec] = [Number(int), Number(dec)];
+      
+      strokeTransition(display, note);
+  
+      increaseNumber(display, int, 'int');
+      });
+  
+    function increaseNumber(display, number, className) {
+      let element = display.querySelector(`.percent__${className}`),
+          decPoint = className === 'int' ? '%' : '',
+          interval = 900 / number,
+          counter = 0;
+  
+      let increaseInterval = setInterval(() => {
+        if (counter === number) { window.clearInterval(increaseInterval); }
+  
+        element.textContent = counter + decPoint;
+        counter++;
+      }, interval);
+    }
+    
+    function strokeTransition(display, note) {
+      let progress = display.querySelector('.circle__progress--fill');
+      let radius = progress.r.baseVal.value;
+      let circumference = 2 * Math.PI * radius;
+      let offset = circumference * (100 - note) / 100;
+  
+      progress.style.setProperty('--initialStroke', circumference);
+      progress.style.setProperty('--transitionDuration', `${transitionDuration}ms`);
+  
+      setTimeout(() => progress.style.strokeDashoffset = offset, 1000);
+    }
+  })();
+
+</script>

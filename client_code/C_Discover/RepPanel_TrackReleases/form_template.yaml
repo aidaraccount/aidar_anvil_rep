@@ -1,0 +1,31 @@
+components:
+- components:
+  - data_bindings:
+    - {code: 'self.item[''AlbumReleaseDate'']', property: text, writeback: false}
+    layout_properties: {grid_position: 'SHFHWU,SANFYP'}
+    name: AlbumReleaseDate
+    properties: {}
+    type: Label
+  layout_properties: {column: JKSDUP}
+  name: column_panel_1
+  properties: {spacing_above: none, spacing_below: none}
+  type: ColumnPanel
+- data_bindings:
+  - {code: '["play-spotify-button", f"{self.item[''SpotifyTrackID'']}-inner"]', property: role, writeback: false}
+  event_bindings: {click: button_play_track_click}
+  layout_properties: {column: RAPPVC}
+  name: button_play_track
+  properties:
+    align: center
+    icon: fa:play-circle
+    role: play-spotify-button
+    spacing_above: none
+    spacing_below: none
+    text: |2+
+
+    visible: true
+  type: Button
+container:
+  properties: {align: left, role: rows_discover_page_no_image_table}
+  type: DataRowPanel
+is_package: true

@@ -86,22 +86,28 @@ components:
         type: Plot
       - components:
         - event_bindings: {click: edit_icon_click}
+          layout_properties: {}
           name: edit_icon
-          properties: {icon: 'fa:pencil', role: contact-button, spacing_above: none, spacing_below: none, text: ''}
+          properties: {icon: 'fa:pencil', role: icon-button, spacing_above: none, spacing_below: none, text: ''}
           type: Button
         - event_bindings: {click: delete_click}
+          layout_properties: {}
           name: delete
-          properties: {align: center, icon: 'fa:trash', role: play-spotify-button, spacing_above: none, spacing_below: none, text: ''}
+          properties: {align: center, icon: 'fa:trash-o', role: icon-button, spacing_above: none, spacing_below: none, text: ''}
           type: Button
         layout_properties: {grid_position: 'BKOAUM,CPEJAI VJHIHB,PAUTRX'}
         name: flow_panel_1
         properties: {align: right}
         type: FlowPanel
+      - layout_properties: {grid_position: 'BKOAUM,CPEJAI TSVHYK,SRAKQX'}
+        name: spacer_3
+        properties: {height: 242}
+        type: Spacer
       - components:
         - layout_properties: {}
           name: activated
           properties:
-            align: center
+            align: right
             bold: false
             role: [table_content, transition-effect, header-5]
             text: Model is active
@@ -112,7 +118,7 @@ components:
           properties:
             align: right
             icon: ''
-            role: [call-to-action-button, header-5]
+            role: [call-to-action-button, header-6]
             spacing_above: none
             spacing_below: none
             text: Activate Model
@@ -123,7 +129,7 @@ components:
           properties:
             align: right
             icon: ''
-            role: [call-to-action-button, header-5]
+            role: [call-to-action-button, header-6]
             spacing_above: small
             spacing_below: small
             text: Discover
@@ -134,7 +140,7 @@ components:
         type: LinearPanel
       layout_properties: {col_xs: 0, row: FEJHDY, width_xs: 9}
       name: column_panel_6
-      properties: {col_widths: '{"PVSQDK":40,"CPEJAI":18,"QSKFUQ":15,"IZQGEI":15,"TUJCHM":20,"WKNLWJ":10}', role: tile-background-left, spacing_above: none, spacing_below: none}
+      properties: {col_widths: '{"PVSQDK":40,"CPEJAI":18,"QSKFUQ":15,"IZQGEI":15,"TUJCHM":20,"WKNLWJ":10}', role: grid-main, spacing_above: none, spacing_below: none}
       type: ColumnPanel
     - components:
       - layout_properties: {grid_position: 'ISLIBQ,SPJFCR'}
@@ -245,7 +251,7 @@ components:
       layout_properties: {}
       name: nav_model
       properties:
-        role: [section_buttons, section_buttons-flex-items]
+        role: [section_buttons]
         spacing_above: none
         spacing_below: none
         text: Model Status
@@ -254,7 +260,7 @@ components:
       layout_properties: {}
       name: nav_submodel_cont
       properties:
-        role: [section_buttons, section_buttons-flex-items]
+        role: [section_buttons]
         spacing_above: none
         spacing_below: none
         text: Contribution
@@ -263,7 +269,7 @@ components:
       layout_properties: {}
       name: nav_level_of_pop
       properties:
-        role: [section_buttons, section_buttons-flex-items]
+        role: [section_buttons]
         spacing_above: none
         spacing_below: none
         text: Popularity
@@ -273,7 +279,7 @@ components:
       name: nav_references
       properties:
         col_spacing: medium
-        role: [section_buttons, section_buttons-flex-items]
+        role: [section_buttons]
         spacing_above: none
         spacing_below: none
         text: Ref. Artists
@@ -283,7 +289,7 @@ components:
       name: nav_prev_rated
       properties:
         col_spacing: medium
-        role: [section_buttons, section_buttons-flex-items]
+        role: [section_buttons]
         spacing_above: none
         spacing_below: none
         text: Prev. Rated
@@ -292,7 +298,7 @@ components:
       layout_properties: {}
       name: nav_filters
       properties:
-        role: [section_buttons, section_buttons-flex-items]
+        role: [section_buttons]
         spacing_above: none
         spacing_below: none
         text: Filters
@@ -623,7 +629,7 @@ components:
       name: save
       properties:
         align: right
-        role: [header-5, call-to-action-button]
+        role: [call-to-action-button, header-6]
         spacing_above: none
         spacing_below: none
         text: Save
@@ -646,7 +652,7 @@ components:
       name: save_submodel_cont
       properties:
         align: right
-        role: [header-5, call-to-action-button]
+        role: [call-to-action-button, header-6]
         spacing_above: none
         spacing_below: none
         text: Save

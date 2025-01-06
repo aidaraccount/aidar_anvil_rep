@@ -29,7 +29,7 @@ components:
         align: center
         font: ''
         font_size: null
-        role: [text_box, header-5, slider-inputbox]
+        role: [header-5, slider-inputbox]
         spacing_above: none
         spacing_below: none
       type: TextBox
@@ -48,7 +48,10 @@ components:
         icon: fa:refresh
         icon_align: left
         italic: false
-        role: [opacity-100, header-5, slider-refresh, call-to-action-button]
+        role: [opacity-100, slider-refresh, call-to-action-button, header-6]
+        spacing:
+          margin: [5, '5', null, '5']
+          padding: [null, '20', null, '20']
         spacing_above: none
         spacing_below: none
         text: ''
@@ -65,7 +68,7 @@ components:
         align: center
         font: ''
         font_size: null
-        role: [text_box, header-5, slider-inputbox]
+        role: [header-5, slider-inputbox]
         spacing_above: none
         spacing_below: none
       type: TextBox

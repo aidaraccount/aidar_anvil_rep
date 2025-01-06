@@ -1,0 +1,401 @@
+components:
+- components:
+  - layout_properties: {grid_position: 'JAZERV,LGQSDW'}
+    name: label_1
+    properties: {align: left, background: '', bold: false, border: '', font: '', font_size: null, foreground: '', icon: '', icon_align: left, italic: false, role: header-1, spacing_above: small, spacing_below: small, text: Listen-In, tooltip: '', underline: false, visible: true}
+    type: Label
+  - components:
+    - layout_properties: {grid_position: 'FFHUXB,SNYWAS'}
+      name: label_1_copy_copy_2
+      properties: {align: center, bold: false, role: sub_title, text: None of your AI models is fully trained yet}
+      type: Label
+    - layout_properties: {grid_position: 'XVSVDO,ELBDZT'}
+      name: label_2_copy_2
+      properties: {align: center, bold: false, role: description, text: Please continue training your model further to enable it to keep an eye on emerging talents for you.}
+      type: Label
+    layout_properties: {grid_position: 'UNFYDP,RDASLL'}
+    name: no_trained_model
+    properties: {}
+    type: ColumnPanel
+  - components:
+    - layout_properties: {grid_position: 'FFHUXB,SNYWAS'}
+      name: label_1_copy
+      properties: {align: center, bold: false, role: sub_title, text: No Playlist configured}
+      type: Label
+    - layout_properties: {grid_position: 'XVSVDO,ELBDZT'}
+      name: label_2
+      properties: {align: center, bold: false, role: description, text: Please configure a playlist to be automatically updated}
+      type: Label
+    - event_bindings: {click: add_spotify_playlist_click}
+      layout_properties: {grid_position: 'BGFPTK,NNAUFV'}
+      name: initial_playlist
+      properties:
+        align: center
+        icon: ''
+        role: [header-6, call-to-action-button-longer]
+        spacing:
+          margin: [20, null, null, null]
+          padding: [null, '12', null, '12']
+        spacing_above: small
+        spacing_below: none
+        text: configure personal playlist
+        underline: false
+        visible: true
+      type: Button
+    layout_properties: {grid_position: 'XMRDBE,TEXHQX'}
+    name: no_notifications
+    properties: {}
+    type: ColumnPanel
+  - layout_properties: {grid_position: 'NYIXVI,CDPZDK'}
+    name: flow_panel
+    properties:
+      background: ''
+      role: [section-background, section-background-flex]
+      spacing: small
+      spacing_above: none
+      spacing_below: none
+    type: FlowPanel
+  - components:
+    - event_bindings: {click: add_spotify_playlist_click}
+      layout_properties: {}
+      name: create_playlist
+      properties:
+        align: center
+        bold: false
+        col_spacing: none
+        icon: fa:plus
+        icon_align: left
+        role: section_buttons
+        spacing:
+          padding: [12, 15, 15, 15]
+        text: ''
+      type: Link
+    layout_properties: {grid_position: 'NYIXVI,POUDWM'}
+    name: flow_panel_create
+    properties:
+      align: center
+      background: ''
+      gap: none
+      role: [section-background, section-background-flex]
+      spacing:
+        margin: [null, null, null, 10]
+      spacing_above: none
+      spacing_below: none
+    type: FlowPanel
+  - components: []
+    layout_properties: {full_width_row: false, grid_position: 'SMXRFC,AGBMHM'}
+    name: notification_settings
+    properties: {col_spacing: none}
+    type: ColumnPanel
+  - components:
+    - layout_properties: {grid_position: 'FFHUXB,SNYWAS'}
+      name: label_1_copy_copy
+      properties: {align: center, bold: false, role: sub_title, text: No artists found}
+      type: Label
+    - layout_properties: {grid_position: 'XVSVDO,ELBDZT'}
+      name: label_2_copy
+      properties: {align: center, bold: false, role: description, text: Oops! No matches for your selection. Try adjusting your settings.}
+      type: Label
+    layout_properties: {grid_position: 'AXIIPR,LQTPSK'}
+    name: no_artists
+    properties:
+      role: top-border
+      spacing:
+        padding: [30, null, null, null]
+      visible: true
+    type: ColumnPanel
+  - components:
+    - components:
+      - data_bindings:
+        - {code: '[''grid'']', property: role, writeback: false}
+        layout_properties: {grid_position: 'LKFQXY,PFLHPE'}
+        name: repeating_panel_artists
+        properties: {item_template: Observe_Listen.RepeatingPanel_Artists}
+        type: RepeatingPanel
+      data_bindings:
+      - {code: '[''listen-left-element'']', property: role, writeback: false}
+      layout_properties: {grid_position: 'VHWGHE,MRXTVC'}
+      name: column_panel_playlist
+      properties: {}
+      type: ColumnPanel
+    - components: []
+      data_bindings:
+      - {code: '''listen-right-element''', property: role, writeback: false}
+      layout_properties: {grid_position: 'VHWGHE,MYBKSI'}
+      name: column_panel_discover
+      properties:
+        spacing:
+          margin: [5, null, null, null]
+      type: ColumnPanel
+    layout_properties: {grid_position: 'WGSOJT,UYCALG'}
+    name: column_panel_content
+    properties:
+      col_spacing: small
+      col_widths: '{"MRXTVC":15,"MYBKSI":45}'
+      spacing:
+        margin: [0, null, null, null]
+    type: ColumnPanel
+  - layout_properties: {grid_position: 'GDKCKL,GSIXXN'}
+    name: footer_trick_spacer
+    properties: {height: '70'}
+    type: Spacer
+  data_bindings:
+  - {code: '''listen-complete-element''', property: role, writeback: false}
+  layout_properties: {slot: default}
+  name: content_panel
+  properties: {col_spacing: none, col_widths: '{"CDPZDK":55,"POUDWM":5}'}
+  type: ColumnPanel
+- components:
+  - layout_properties: {grid_position: 'ULLGXX,KYFIEK'}
+    name: footer_left
+    properties:
+      role: spotify-footer-class
+      spacing:
+        margin: ['10', null, 0, 10]
+    type: ColumnPanel
+  - components:
+    - components:
+      - event_bindings: {click: button_1_click}
+        layout_properties: {}
+        name: button_1
+        properties:
+          role: feature
+          spacing:
+            margin: [10, '5', '10', '40']
+            padding: [null, '14', null, '14']
+          spacing_above: small
+          spacing_below: none
+          text: '1'
+        type: Button
+      - event_bindings: {click: button_2_click}
+        layout_properties: {}
+        name: button_2
+        properties:
+          role: feature
+          spacing:
+            margin: [10, '5', '10', '5']
+            padding: [null, '12.5', null, '12.5']
+          spacing_above: small
+          spacing_below: none
+          text: '2'
+        type: Button
+      - event_bindings: {click: button_3_click}
+        layout_properties: {}
+        name: button_3
+        properties:
+          role: feature
+          spacing:
+            margin: [10, '5', '10', '5']
+          spacing_above: small
+          spacing_below: none
+          text: '3'
+        type: Button
+      - event_bindings: {click: button_4_click}
+        layout_properties: {}
+        name: button_4
+        properties:
+          background: rgb(255,217,203)
+          bold: false
+          role: feature
+          spacing:
+            margin: ['10', '5', '10', '5']
+          spacing_above: small
+          spacing_below: none
+          text: '4'
+        type: Button
+      - event_bindings: {click: button_5_click}
+        layout_properties: {}
+        name: button_5
+        properties:
+          background: rgb(254,178,150)
+          bold: true
+          foreground: ''
+          role: feature
+          spacing:
+            margin: ['10', '5', '10', 5]
+          spacing_above: small
+          spacing_below: none
+          text: '5'
+        type: Button
+      - event_bindings: {click: button_6_click}
+        layout_properties: {}
+        name: button_6
+        properties:
+          background: rgb(254,140,98)
+          bold: true
+          foreground: ''
+          role: feature
+          spacing:
+            margin: ['10', '5', '10', 5]
+          spacing_above: small
+          spacing_below: none
+          text: '6'
+        type: Button
+      - event_bindings: {click: button_7_click}
+        layout_properties: {}
+        name: button_7
+        properties:
+          background: rgb(253, 101, 45)
+          bold: true
+          border: ''
+          foreground: theme:Text_White
+          role: feature
+          spacing:
+            margin: ['10', '5', '10', '5']
+          spacing_above: small
+          spacing_below: none
+          text: '7'
+        type: Button
+      - event_bindings: {click: link_watchlist_name_click}
+        layout_properties: {}
+        name: link_watchlist_name2
+        properties:
+          icon: fa:star-o
+          role: artist_name_shadow
+          spacing:
+            margin: ['5', null, null, '5']
+          spacing_above: none
+          spacing_below: none
+        type: Link
+      layout_properties: {grid_position: 'SWSPEX,OVHDMI'}
+      name: flow_panel_1
+      properties:
+        align: center
+        gap: none
+        spacing:
+          margin: [0, null, 0, null]
+        vertical_align: full
+      type: FlowPanel
+    - components:
+      - data_bindings:
+        - {code: '[''fast-backward-button'', ''icon-button-disabled'']', property: role, writeback: false}
+        event_bindings: {click: fast_backward_button_click}
+        layout_properties: {}
+        name: fast_backward_button
+        properties:
+          icon: fa:fast-backward
+          spacing:
+            margin: [0, null, null, null]
+            padding: [null, 0, null, 0]
+          text: ''
+          tooltip: previous artist
+        type: Button
+      - data_bindings:
+        - {code: '[''backward-button'', ''icon-button-disabled'']', property: role, writeback: false}
+        event_bindings: {click: backward_button_click}
+        layout_properties: {}
+        name: backward_button
+        properties:
+          icon: fa:step-backward
+          role: icon-button-disabled
+          spacing:
+            margin: [0, null, null, null]
+            padding: [null, 0, null, 0]
+          text: ''
+          tooltip: previous track
+        type: Button
+      - event_bindings: {click: play_button_central_click}
+        name: play_button_central
+        properties:
+          icon: fa:play-circle
+          role: [play-spotify-button, play-spotify-button-artist2]
+          spacing:
+            margin: [0, null, 0, null]
+          text: ''
+          tooltip: play/pause
+        type: Button
+      - data_bindings:
+        - {code: '[''forward-button'', ''icon-button'']', property: role, writeback: false}
+        event_bindings: {click: forward_button_click}
+        layout_properties: {}
+        name: forward_button
+        properties:
+          icon: fa:step-forward
+          role: icon-button
+          spacing:
+            margin: [0, null, null, null]
+            padding: [null, 0, null, 0]
+          text: ''
+          tooltip: next track
+        type: Button
+      - data_bindings:
+        - {code: '[''fast-forward-button'', ''icon-button'']', property: role, writeback: false}
+        event_bindings: {click: fast_forward_button_click}
+        layout_properties: {}
+        name: fast_forward_button
+        properties:
+          icon: fa:fast-forward
+          spacing:
+            margin: [0, null, null, null]
+            padding: [null, 0, null, 0]
+          text: ''
+          tooltip: next artist
+        type: Button
+      layout_properties: {grid_position: 'ZUDRUD,DIHTVN'}
+      name: flow_panel_2
+      properties:
+        align: center
+        gap: none
+        spacing:
+          margin: [0, null, 0, null]
+        vertical_align: full
+      type: FlowPanel
+    layout_properties: {grid_position: 'ULLGXX,BMCCVG'}
+    name: footer_center
+    properties:
+      col_spacing: none
+      col_widths: '{}'
+      spacing:
+        margin: [0, null, 0, null]
+    type: ColumnPanel
+  - components:
+    - components:
+      - components:
+        - layout_properties: {}
+          name: label_4
+          properties: {align: right, role: sort-label, text: 'Watchlist:'}
+          type: Label
+        layout_properties: {grid_position: 'SPLPLH,GADAWF'}
+        name: flow_panel_3
+        properties: {align: right, gap: none, spacing: medium, spacing_above: none, spacing_below: none}
+        type: FlowPanel
+      - event_bindings: {change: drop_down_wl_change}
+        layout_properties: {grid_position: 'SPLPLH,OCJXMS'}
+        name: drop_down_wl
+        properties: {align: left, role: dropdown, spacing_above: none, spacing_below: none}
+        type: DropDown
+      - components:
+        - layout_properties: {}
+          name: label_1_copy_2
+          properties: {align: right, role: sort-label, text: 'Model:'}
+          type: Label
+        layout_properties: {grid_position: 'EVSCIN,SMUZQJ'}
+        name: flow_panel_master
+        properties: {align: right, gap: none, spacing: medium, spacing_above: none, spacing_below: none}
+        type: FlowPanel
+      - event_bindings: {change: drop_down_model_change}
+        layout_properties: {grid_position: 'EVSCIN,ZCFZEN'}
+        name: drop_down_model
+        properties: {align: left, role: dropdown, spacing_above: none, spacing_below: none}
+        type: DropDown
+      layout_properties: {grid_position: 'BBIUKI,SVDFHR'}
+      name: column_panel_dropdowns
+      properties: {col_spacing: small, col_widths: '{"GADAWF":30,"OCJXMS":30,"SMUZQJ":30,"ZCFZEN":30}', role: margin, spacing_above: none, spacing_below: none, visible: true}
+      type: ColumnPanel
+    layout_properties: {grid_position: 'ULLGXX,GGFVYT'}
+    name: footer_right
+    properties:
+      spacing:
+        margin: [0, null, 0, null]
+    type: ColumnPanel
+  layout_properties: {slot: footer-slot}
+  name: Footer
+  properties:
+    spacing:
+      margin: [0, null, 0, null]
+  type: ColumnPanel
+container:
+  properties:
+    html: "<div anvil-slot=\"default\"></div>\n\n<div class=\"footer\">\n  <div class=\"footer-slot\" anvil-slot=\"footer-slot\">\n    <div class=\"placeholder anvil-designer-only\" anvil-if-slot-empty=\"footer-slot\" anvil-drop-here>Add a Component here</div>\n  </div>\n</div> "
+  type: HtmlTemplate
+is_package: true
