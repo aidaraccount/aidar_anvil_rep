@@ -43,7 +43,6 @@ class Watchlist_Overview(Watchlist_OverviewTemplate):
   def get_data(self, **event_args):
     # get raw data
     data = anvil.server.call('get_watchlist_overview', user["user_id"])
-    print(data)
     
     if data != 'no_data':
       data = json.loads(data)
@@ -93,21 +92,21 @@ class Watchlist_Overview(Watchlist_OverviewTemplate):
     if self.link_artist.icon == '' or self.link_artist.icon == 'fa:angle-up':
       self.reset_icons()
       self.link_artist.icon = 'fa:angle-down'
-      self.repeating_panel_data.items = sorted(self.repeating_panel_data.items, key=lambda x: x.get('Name', float('inf')), reverse=True)
+      self.repeating_panel_data.items = sorted(self.repeating_panel_data.items, key=lambda x: x['Name'], reverse=True)
     elif self.link_artist.icon == 'fa:angle-down':
       self.reset_icons()
       self.link_artist.icon = 'fa:angle-up'
-      self.repeating_panel_data.items = sorted(self.repeating_panel_data.items, key=lambda x: x.get('Name', float('inf')), reverse=False)
+      self.repeating_panel_data.items = sorted(self.repeating_panel_data.items, key=lambda x: x['Name'], reverse=False)
 
   def link_release_click(self, **event_args):
     if self.link_release.icon == '' or self.link_release.icon == 'fa:angle-up':
       self.reset_icons()
       self.link_release.icon = 'fa:angle-down'
-      self.repeating_panel_data.items = sorted(self.repeating_panel_data.items, key=lambda x: x.get('LastReleaseDate', float('inf')), reverse=True)
+      self.repeating_panel_data.items = sorted(self.repeating_panel_data.items, key=lambda x: x['LastReleaseDate'], reverse=True)
     elif self.link_release.icon == 'fa:angle-down':
       self.reset_icons()
       self.link_release.icon = 'fa:angle-up'
-      self.repeating_panel_data.items = sorted(self.repeating_panel_data.items, key=lambda x: x.get('LastReleaseDate', float('inf')), reverse=False)
+      self.repeating_panel_data.items = sorted(self.repeating_panel_data.items, key=lambda x: x['LastReleaseDate'], reverse=False)
 
   def link_poplat_click(self, **event_args):
     if self.link_poplat.icon == '' or self.link_poplat.icon == 'fa:angle-up':
