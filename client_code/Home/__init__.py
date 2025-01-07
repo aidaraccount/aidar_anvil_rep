@@ -100,7 +100,3 @@ class Home(HomeTemplate):
     
   def link_funnel_click(self, **event_args):
     click_link(self.link_funnel, 'watchlist_funnel', event_args)
-
-  def text_search_pressed_enter(self, **event_args):
-    click_box(f'search_artist?text={self.text_search.text}')
-    

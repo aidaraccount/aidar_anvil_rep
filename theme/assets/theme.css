@@ -2515,6 +2515,10 @@ footer a, .footer .anvil-component {
 
 
 
+
+
+
+
 /*
 ----------------------------------------------------------------------------------------
 CSS Content Overview
@@ -2545,6 +2549,7 @@ Area 1: General Classes
 
 /* ----------------------------
 1.2. Width (no!) */
+.anvil-role-width-100 {width: 100% !important}
 .anvil-role-width-50px {width: 50px}
 .anvil-role-width-100px {width: 100px}
 .anvil-role-width-150px {width: 150px}
@@ -2815,7 +2820,14 @@ Area 4: Text Boxes
 ----------------------------------------------------------------------------------------
 Area 5: Page individual classes
 ----------------------------------------------------------------------------------------
-5.1. Observe_Listen individual classes */
+5.1. Home individual classes */
+.anvil-role-home-discover-button {
+  left: auto !important;
+  right: 1em;
+}
+
+/* ----------------------------
+5.2. Observe_Listen individual classes */
 .anvil-role-listen-complete-element {
   height: calc(100vh + 260px);
   overflow-y: auto;
