@@ -23,7 +23,7 @@ components:
     layout_properties: {grid_position: 'XLESHC,WTVRDJ'}
     name: Ok_button
     properties:
-      role: [call-to-action-button, header-5]
+      role: [call-to-action-button, header-6]
       text: OK
     type: Button
   layout_properties: {slot: default}

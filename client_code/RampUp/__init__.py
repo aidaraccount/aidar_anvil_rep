@@ -44,7 +44,7 @@ class RampUp(RampUpTemplate):
     self.section = section
     print(f"RampUp section: {section}")
 
-    self.Discovering.role = ['call-to-action-button','header-5','opacity-100', '150px-width']  # needs to be individualized!!!
+    self.Discovering.role = ['call-to-action-button','header-6','opacity-100', '150px-width']  # needs to be individualized!!!
     
     # ---------------
     # EXISTING MODEL? (fill header and test fields)
@@ -162,7 +162,7 @@ class RampUp(RampUpTemplate):
     elif self.section == 'Reference_Artists':
       click_button(f'model_setup?model_id={self.model_id_view}&section=Basics', event_args)
 
-  def Discovering_click(self, **event_args):  
+  def Discovering_click(self, **event_args):
     # end ramp-up
     anvil.server.call('update_model_stats',
                       self.model_id_view,
@@ -255,14 +255,14 @@ class RampUp(RampUpTemplate):
 
   def next_role(self, section='Basics', **event_args):
     if section == 'Basics' and self.text_box_model_name.text != '':
-      self.Next.role = ['call-to-action-button','header-5','opacity-100']
+      self.Next.role = ['call-to-action-button','header-6','opacity-100']
     elif section == 'Reference_Artists':
       artist_id = anvil.server.call('get_next_artist_id', self.model_id_view)          
       if artist_id is not None:
-        self.Next.role = ['call-to-action-button','header-5','opacity-100']
+        self.Next.role = ['call-to-action-button','header-6','opacity-100']
       else:
-        self.Next.role = ['call-to-action-button', 'header-5', 'opacity-25']
+        self.Next.role = ['call-to-action-button', 'header-6', 'opacity-25']
     elif section == 'Level_of_Pop':
-      self.Next.role = ['call-to-action-button','header-5','opacity-100']
+      self.Next.role = ['call-to-action-button','header-6','opacity-100']
     else:
-      self.Next.role = ['call-to-action-button', 'header-5', 'opacity-25']
+      self.Next.role = ['call-to-action-button', 'header-6', 'opacity-25']

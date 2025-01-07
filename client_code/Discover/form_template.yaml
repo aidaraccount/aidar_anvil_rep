@@ -117,12 +117,12 @@ components:
 - event_bindings: {click: description_button_click}
   layout_properties: {slot: edit_button_decription}
   name: description_button
-  properties: {icon: 'fa:edit', role: contact-button, text: ''}
+  properties: {icon: 'fa:edit', role: icon-button, text: ''}
   type: Button
 - event_bindings: {click: contacts_button_click}
   layout_properties: {slot: edit_button_contacts}
   name: contacts_button
-  properties: {icon: 'fa:edit', role: contact-button, spacing_above: none, spacing_below: none, text: ''}
+  properties: {icon: 'fa:edit', role: icon-button, spacing_above: none, spacing_below: none, text: ''}
   type: Button
 - components:
   - layout_properties: {grid_position: 'JSWZAI,LNLZLJ'}
@@ -134,7 +134,9 @@ components:
     name: button_2
     properties:
       align: right
-      role: save-button-sidebar
+      role: [header-6, call-to-action-button]
+      spacing:
+        margin: [5, 20, 5, null]
       spacing_above: none
       spacing_below: none
       text: |

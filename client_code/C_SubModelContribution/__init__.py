@@ -76,16 +76,3 @@ class C_SubModelContribution(C_SubModelContributionTemplate):
   def slider_3_button_reset_click(self, **event_args):
     self.slider_3.reset()
     save_var('growth_imp_fit', self.slider_3.value)
-  # def slider_1_change(self, handle, **event_args):
-  #   save_var("min_pop", self.slider_1.formatted_values[0])
-  
-  # def set_slider_text_boxes(self):
-  #   self.text_box_left.text, self.text_box_right.text = self.slider_1.formatted_values
-
-  # def slider_1_slide(self, handle, **event_args):
-  #   self.set_slider_text_boxes()
-  
-  # def slider_1_textbox_enter(self, **event_args):
-  #   self.slider_1.values = self.text_box_left.text, self.text_box_right.text
-  #   self.set_slider_text_boxes()
-

@@ -57,6 +57,6 @@ class CreateWatchlist(CreateWatchlistTemplate):
 
   def text_box_watchlist_name_change(self, **event_args):
     if self.text_box_watchlist_name.text != "":
-      self.CreateButton.role = ['call-to-action-button', 'header-5', 'opacity-100', '150px-width']
+      self.CreateButton.role = ['call-to-action-button', 'header-6', 'opacity-100', '150px-width']
     else:
-      self.CreateButton.role = ['header-5', 'opacity-100', '150px-width']
+      self.CreateButton.role = ['header-6', 'opacity-100', '150px-width']

@@ -19,7 +19,9 @@ components:
   - event_bindings: {click: button_add_refs_click}
     layout_properties: {grid_position: 'UWEVQV,LJLVWE'}
     name: button_add_refs
-    properties: {role: feature, text: Add additional Reference Artists}
+    properties:
+      role: [call-to-action-button-disabled, header-6]
+      text: Add additional Reference Artists
     type: Button
   - layout_properties: {grid_position: 'AODQCB,QMJTXR'}
     name: spacer_1

@@ -58,7 +58,12 @@ components:
       - event_bindings: {click: button_create_watchlist_click}
         layout_properties: {grid_position: 'YLYYRQ,PKAMGL'}
         name: CreateButton
-        properties: {align: right, role: header-5, spacing_above: none, spacing_below: none, text: Create Watchlist}
+        properties:
+          align: right
+          role: [call-to-action-button, header-6]
+          spacing_above: none
+          spacing_below: none
+          text: Create Watchlist
         type: Button
       layout_properties: {grid_position: 'VAGXOA,GUUPWI'}
       name: column_panel_1

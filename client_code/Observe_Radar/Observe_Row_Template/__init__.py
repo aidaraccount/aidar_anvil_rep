@@ -142,13 +142,13 @@ class Observe_Row_Template(Observe_Row_TemplateTemplate):
     # self.nav_grow_fits.role = 'section_buttons_focused'
     if self.item["Metric"] == 'Top Fits':
       self.label_indiv.content = 'Spotify<br>Pop.'
-      self.label_indiv_cont.role = 'header-5'
+      self.label_indiv_cont.role = 'header-6'
       font_size = 20
       var = get_open_form().shorten_number(self.item["ArtistPopularity_lat"])
       ev_var = self.item["ev_sp_pop_30"]
     elif self.item["Metric"] == 'Growing Fits':
       self.label_indiv.content = 'Growth<br>Fit'
-      self.label_indiv_cont.role = 'header-5'
+      self.label_indiv_cont.role = 'header-6'
       font_size = 20
       var = str(round(self.item["prediction_growth"]/7*100)) + '%'
       ev_var = None

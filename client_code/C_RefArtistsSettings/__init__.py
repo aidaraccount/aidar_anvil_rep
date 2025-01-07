@@ -50,9 +50,9 @@ class C_RefArtistsSettings(C_RefArtistsSettingsTemplate):
       # Update Next-Button in RampUp
       artist_id = anvil.server.call('get_next_artist_id', self.model_id_view)
       if artist_id is not None:
-        self.parent.parent.get_components()[-1].get_components()[1].role = ['call-to-action-button','header-5','opacity-100']
+        self.parent.parent.get_components()[-1].get_components()[1].role = ['call-to-action-button','header-6','opacity-100']
       else:
-        self.parent.parent.get_components()[-1].get_components()[1].role = ['call-to-action-button', 'header-5', 'opacity-25']
+        self.parent.parent.get_components()[-1].get_components()[1].role = ['call-to-action-button', 'header-6', 'opacity-25']
         
     elif anvil.js.window.location.hash.lstrip('#').split('?')[0] == 'model_profile':
       pass

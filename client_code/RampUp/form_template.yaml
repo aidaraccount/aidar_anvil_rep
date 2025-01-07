@@ -269,7 +269,7 @@ components:
       layout_properties: {}
       name: Back
       properties:
-        role: [opacity-100, call-to-action-button, header-5, back-button]
+        role: [opacity-100, call-to-action-button, back-button, header-6]
         spacing_above: none
         spacing_below: none
         text: |
@@ -278,13 +278,13 @@ components:
     - event_bindings: {click: Next_click}
       layout_properties: {}
       name: Next
-      properties: {role: header-5, spacing_above: none, spacing_below: none, text: Next}
+      properties: {role: header-6, spacing_above: none, spacing_below: none, text: Next}
       type: Button
     - event_bindings: {click: Discovering_click}
       layout_properties: {expand: false, width: null}
       name: Discovering
       properties:
-        role: [header-5]
+        role: [header-6]
         spacing_above: none
         spacing_below: none
         text: Start Discovering
