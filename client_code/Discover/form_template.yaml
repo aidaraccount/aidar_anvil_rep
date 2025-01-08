@@ -338,7 +338,7 @@ components:
         type: LinearPanel
       - components:
         - data_bindings:
-          - {code: '[''cap-play-spotify-button'', ''cap-play-spotify-button-big1'', ''play-spotify-button-big'']', property: role, writeback: false}
+          - {code: '[''cap-play-pause'', ''cap-play-spotify-button-big1'', ''play-spotify-button-big'']', property: role, writeback: false}
           event_bindings: {click: spotify_artist_button_click}
           layout_properties: {}
           name: spotify_artist_button

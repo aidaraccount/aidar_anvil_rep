@@ -311,7 +311,7 @@ function setPlayButtonIcons(trackOrArtist, spotifyTrackIDsList=null, spotifyArti
   
   // Set the icon of the big central play button on DISCOVER
   // should be play when nothing is playling to start the artists tracks
-  const buttonPlayBig = document.querySelector(`.anvil-role-cap-play-spotify-button-artist`);
+  const buttonPlayBig = document.querySelector(`.anvil-role-cap-play-spotify-button-big1`);
 
   if (controller.isPaused) {
     if (buttonPlayBig) {
@@ -340,7 +340,7 @@ function setPlayButtonIcons(trackOrArtist, spotifyTrackIDsList=null, spotifyArti
   
   // Set the icon of the big central play button on LISTEN-IN
   // all three buttons (small play, big play and console play) should be aligned
-  const buttonPlayBig2 = document.querySelector(`.anvil-role-cap-play-spotify-button-artist2`);
+  const buttonPlayBig2 = document.querySelector(`.anvil-role-cap-play-spotify-button-big2`);
 
   if (controller.isPaused) {
     if (buttonPlayBig2) {

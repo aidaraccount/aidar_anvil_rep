@@ -2576,7 +2576,7 @@ Area 1: General Classes
 Area 2: Classes to be captured by js
 ----------------------------------------------------------------------------------------
 2.1. Native Libraries */
-.anvil-role-cap-play-spotify-button {}
+.anvil-role-cap-play-pause {} /* play/pause */
 
 /* ----------------------------
 2.2. Spotify_Player_js.js */

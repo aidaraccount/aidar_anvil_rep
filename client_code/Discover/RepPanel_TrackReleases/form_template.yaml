@@ -11,7 +11,7 @@ components:
   properties: {spacing_above: none, spacing_below: none}
   type: ColumnPanel
 - data_bindings:
-  - {code: '["play-spotify-button", f"{self.item[''SpotifyTrackID'']}"]', property: role, writeback: false}
+  - {code: '["cap-play-pause", "play-spotify-button", f"{self.item[''SpotifyTrackID'']}"]', property: role, writeback: false}
   event_bindings: {click: button_play_track_click}
   layout_properties: {column: RAPPVC}
   name: button_play_track
