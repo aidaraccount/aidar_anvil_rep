@@ -1,7 +1,7 @@
 components:
 - components:
   - data_bindings:
-    - {code: '[''cap-spotify-footer-class'']', property: role, writeback: false}
+    - {code: '[''cap-spotify-footer'']', property: role, writeback: false}
     layout_properties: {grid_position: 'UQVSNC,CLCEVO'}
     name: spotify_player_spot
     properties: {role: spotify-footer-class, visible: true}

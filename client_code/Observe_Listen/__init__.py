@@ -287,6 +287,11 @@ class Observe_Listen(Observe_ListenTemplate):
   # ------------------------------------------------------------
   # FOOTER    
   # Play Controller
+  def specific_track(self, spotify_track_id, **event_args):
+    # play previous song
+    save_var('has_played', 'True')
+    anvil.js.call_js('playNextSong', anvil.js.get_dom_node(self), 'track', self.all_track_ids, self.all_artist_ids, self.all_artist_names, 'backward')
+
   def play_button_central_click(self, **event_args):
     if load_var('has_played') == 'False':
       anvil.js.call_js('playNextSong', anvil.js.get_dom_node(self), 'track', self.all_track_ids, self.all_artist_ids, self.all_artist_names, 'initial')

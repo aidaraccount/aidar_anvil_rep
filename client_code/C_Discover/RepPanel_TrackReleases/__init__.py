@@ -20,40 +20,25 @@ class RepPanel_TrackReleases(RepPanel_TrackReleasesTemplate):
     # Any code you write here will run before the form opens.
     pass
 
+  
   def button_play_track_click(self, **event_args):
     all_rows = self.parent.items
     all_track_ids = [entry["SpotifyTrackID"] for entry in all_rows]
-    print(all_rows)
-    
-    print('load_var("lastplayedtrackid"):', load_var("lastplayedtrackid"))
-    print('self.item["SpotifyTrackID"]:', self.item["SpotifyTrackID"])
     
     if load_var("lastplayedtrackid") != self.item["SpotifyTrackID"]:
       self.lastplayedtrackid = self.item["SpotifyTrackID"]
       save_var('lastplayedtrackid', self.item["SpotifyTrackID"])
-      # save_var('lastplayedartistid', self.item["spotify_artist_id"])
     
-      # self.parent.parent.parent.parent.parent.parent.parent.parent.parent.parent.footer_left.clear()
-      # self.parent.parent.parent.parent.parent.parent.parent.parent.parent.parent.spotify_HTML_player()
-      # self.parent.parent.parent.parent.parent.parent.parent.parent.parent.parent.call_js(
-        # "createOrUpdateSpotifyPlayer",
-        # anvil.js.get_dom_node(self),
-        # "track",
-        # self.item["SpotifyTrackID"],
-        # track_ids
-        
+      self.parent.parent.parent.parent.parent.parent.parent.parent.parent.parent.footer_left.clear()
+      self.parent.parent.parent.parent.parent.parent.parent.parent.parent.parent.spotify_HTML_player()
       anvil.js.call_js(
-        'playNextSong',
+        "createOrUpdateSpotifyPlayer",
         anvil.js.get_dom_node(self),
-        'track',
-        all_track_ids,
-        None,
-        None,
-        'initial')
-      # )
-      # function createOrUpdateSpotifyPlayer(formElement, trackOrArtist, currentSpotifyID, spotifyTrackIDsList, spotifyArtistIDsList, spotifyArtistNameList)
-      # function playNextSong(               formElement, trackOrArtist, spotifyTrackIDsList, spotifyArtistIDsList, spotifyArtistNameList, direction='forward')
-      # anvil.js.call_js("playSpotify")
+        "track",
+        self.item["SpotifyTrackID"],
+        all_track_ids
+      )
+      anvil.js.call_js("playSpotify")
 
     else:
       anvil.js.call_js("playSpotify")

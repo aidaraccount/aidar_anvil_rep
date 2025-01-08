@@ -270,7 +270,7 @@ components:
       type: FlowPanel
     - components:
       - data_bindings:
-        - {code: '[''fast-backward-button'', ''icon-button-disabled'']', property: role, writeback: false}
+        - {code: '[''cap-fast-backward-button'', ''icon-button-disabled'']', property: role, writeback: false}
         event_bindings: {click: fast_backward_button_click}
         layout_properties: {}
         name: fast_backward_button
@@ -283,7 +283,7 @@ components:
           tooltip: previous artist
         type: Button
       - data_bindings:
-        - {code: '[''backward-button'', ''icon-button-disabled'']', property: role, writeback: false}
+        - {code: '[''cap-backward-button'', ''icon-button-disabled'']', property: role, writeback: false}
         event_bindings: {click: backward_button_click}
         layout_properties: {}
         name: backward_button
@@ -310,7 +310,7 @@ components:
           tooltip: play/pause
         type: Button
       - data_bindings:
-        - {code: '[''forward-button'', ''icon-button'']', property: role, writeback: false}
+        - {code: '[''cap-forward-button'', ''icon-button'']', property: role, writeback: false}
         event_bindings: {click: forward_button_click}
         layout_properties: {}
         name: forward_button
@@ -324,7 +324,7 @@ components:
           tooltip: next track
         type: Button
       - data_bindings:
-        - {code: '[''fast-forward-button'', ''icon-button'']', property: role, writeback: false}
+        - {code: '[''cap-fast-forward-button'', ''icon-button'']', property: role, writeback: false}
         event_bindings: {click: fast_forward_button_click}
         layout_properties: {}
         name: fast_forward_button

@@ -851,7 +851,7 @@ class Discover(DiscoverTemplate):
     embed_iframe_element = document.getElementById('embed-iframe')
     if embed_iframe_element:
       self.call_js('createOrUpdateSpotifyPlayer', anvil.js.get_dom_node(self), 'artist', self.sug["SpotifyArtistID"])
-      # self.call_js('playSpotify_2')
+      print("Embed iframe element found. Initialize Spotify player!")
     else:
       print("Embed iframe element not found. Will not initialize Spotify player.")
     
@@ -861,6 +861,7 @@ class Discover(DiscoverTemplate):
       '''
     html_webplayer_panel = HtmlPanel(html=c_web_player_html)
     self.spotify_player_spot.add_component(html_webplayer_panel)
+    print('self.spotify_player_spot.add_component(html_webplayer_panel)')
 
   def custom_HTML_prediction(self):
     if self.pred:

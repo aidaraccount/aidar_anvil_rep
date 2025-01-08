@@ -1,5 +1,4 @@
 var controller;
-let globalCurrentSpotifyID = null;
 
 // function to play/pause spotify
 function playSpotify() {
@@ -9,10 +8,10 @@ function playSpotify() {
   buttons.forEach(button => {
     button.onclick = function () {
 
-      console.log("controller.isPaused:" + controller.isPaused);
-      console.log("controller.isPlaying:" + controller.isPlaying);
-      console.log("!controller.isPlaying:" + !controller.isPlaying);
-      console.log("controller" + controller);
+      // console.log("controller.isPaused:" + controller.isPaused);
+      // console.log("controller.isPlaying:" + controller.isPlaying);
+      // console.log("!controller.isPlaying:" + !controller.isPlaying);
+      // console.log("controller" + controller);
       
       if (controller.isPaused) {
         console.log('1. Resume playing from the paused position')
@@ -45,14 +44,15 @@ function createOrUpdateSpotifyPlayer(formElement, trackOrArtist, currentSpotifyI
     return;
   }
 
-  globalCurrentSpotifyID = currentSpotifyID;
+  // globalCurrentSpotifyID = currentSpotifyID;
+  sessionStorage.setItem("globalCurrentSpotifyID", currentSpotifyID);
 
   // set the options for the Spotify Player
   const options = {
     theme: 'dark',
     width: '100%',
     height: '80',
-    uri: `spotify:${trackOrArtist}:${globalCurrentSpotifyID}`,
+    uri: `spotify:${trackOrArtist}:${sessionStorage.getItem("globalCurrentSpotifyID")}`,
   };
 
   // the if statment checks if the SpotifyIgrameAPI already exists (if it is already loaded)
@@ -167,6 +167,8 @@ function autoPlaySpotify() {
 
 // Function to load the next song
 function playNextSong(formElement, trackOrArtist, spotifyTrackIDsList, spotifyArtistIDsList, spotifyArtistNameList, direction='forward') {
+
+  let globalSpotifyArtistIDsList = spotifyArtistIDsList;
   
   // If statement to check if we are playing a list of custom songs or a playlist from Spotify
   if (!spotifyTrackIDsList) {
@@ -175,7 +177,7 @@ function playNextSong(formElement, trackOrArtist, spotifyTrackIDsList, spotifyAr
   }
   
   // Declaring the index of the current playing song and get the id for the next song to play
-  const index = spotifyTrackIDsList.indexOf(globalCurrentSpotifyID);
+  const index = spotifyTrackIDsList.indexOf(sessionStorage.getItem("globalCurrentSpotifyID"));
   let nextSpotifyTrackID = null;
   let nextSpotifyArtistID = null;
   let nextSpotifyArtistName = null;
@@ -245,6 +247,13 @@ function playNextSong(formElement, trackOrArtist, spotifyTrackIDsList, spotifyAr
     }    
   }
 
+  // console.log("111 index: " + index);
+  // console.log("111 globalSpotifyArtistIDsList: " + globalSpotifyArtistIDsList);  
+  // console.log("111 spotifyArtistIDsList: " + spotifyArtistIDsList);
+  // console.log("111 nextSpotifyTrackID: " + nextSpotifyTrackID);
+  // console.log("111 nextSpotifyArtistID: " + nextSpotifyArtistID);
+  // console.log("111 nextSpotifyArtistName: " + nextSpotifyArtistName);
+  
   // save the id to browser cache
   sessionStorage.setItem("lastplayedtrackid", nextSpotifyTrackID);
   if (spotifyArtistIDsList) {
@@ -254,7 +263,9 @@ function playNextSong(formElement, trackOrArtist, spotifyTrackIDsList, spotifyAr
   //  check if controller is instantiated and next song is define
   if (controller && nextSpotifyTrackID) {
     const nextSongUri = `spotify:${trackOrArtist}:${nextSpotifyTrackID}`;
-    globalCurrentSpotifyID = nextSpotifyTrackID;
+    // globalCurrentSpotifyID = nextSpotifyTrackID;
+    sessionStorage.setItem("globalCurrentSpotifyID", nextSpotifyTrackID);
+    console.log("globalCurrentSpotifyID" + sessionStorage.getItem("globalCurrentSpotifyID"));
 
     // reload the controler only if not the first song is played (as its alreay pre-loaded)
     if (index === 0 && direction === 'initial') {
@@ -266,13 +277,13 @@ function playNextSong(formElement, trackOrArtist, spotifyTrackIDsList, spotifyAr
     // Check if the artist has changed to read their name
     const currentArtistID = spotifyArtistIDsList ? spotifyArtistIDsList[index] : null;
 
-    console.log("index: " + index);
-    console.log("spotifyTrackIDsList: " + spotifyArtistIDsList);
-    console.log("nextSpotifyTrackID: " + nextSpotifyTrackID);
-    console.log("spotifyArtistIDsList: " + spotifyArtistIDsList);
-    console.log("currentArtistID: " + currentArtistID);
-    console.log("nextSpotifyArtistID: " + nextSpotifyArtistID);
-    console.log("sessionStorage.getItem('has_played'): " + sessionStorage.getItem("has_played"));
+    // console.log("222 index: " + index);
+    // console.log("222 spotifyTrackIDsList: " + spotifyArtistIDsList);
+    // console.log("222 nextSpotifyTrackID: " + nextSpotifyTrackID);
+    // console.log("222 spotifyArtistIDsList: " + spotifyArtistIDsList);
+    // console.log("222 currentArtistID: " + currentArtistID);
+    // console.log("222 nextSpotifyArtistID: " + nextSpotifyArtistID);
+    // console.log("222 sessionStorage.getItem('has_played'): " + sessionStorage.getItem("has_played"));
     
     if (nextSpotifyArtistID && (currentArtistID !== nextSpotifyArtistID || sessionStorage.getItem("has_played") === 'False')) {
       speakText(`...Presenting, ${nextSpotifyArtistName}!`)
@@ -287,6 +298,12 @@ function playNextSong(formElement, trackOrArtist, spotifyTrackIDsList, spotifyAr
     setPlayButtonIcons('track', spotifyTrackIDsList, spotifyArtistIDsList)
 
     // load similar artist profile
+    // console.log("333 nextSpotifyArtistID: " + nextSpotifyArtistID);
+    // console.log("333 currentArtistID: " + currentArtistID);
+    // console.log("333 nextSpotifyArtistID: " + nextSpotifyArtistID);
+    // console.log("333 sessionStorage.getItem(has_played): " + sessionStorage.getItem("has_played"));
+    // console.log("333 nextSpotifyArtistID && (currentArtistID !== nextSpotifyArtistID && sessionStorage.getItem(has_played) === 'True'): " + nextSpotifyArtistID && (currentArtistID !== nextSpotifyArtistID && sessionStorage.getItem("has_played") === 'True'));
+    
     if (nextSpotifyArtistID && (currentArtistID !== nextSpotifyArtistID && sessionStorage.getItem("has_played") === 'True')) {
       anvil.call(formElement, 'reload_discover', nextSpotifyArtistID);
     }
@@ -303,7 +320,7 @@ function setPlayButtonIcons(trackOrArtist, spotifyTrackIDsList=null, spotifyArti
 
       // inside the Listen-In playlist
       const buttonPlay = document.querySelector(`.anvil-role-${currentId}`);      
-      if (currentId === globalCurrentSpotifyID && !controller.isPaused) {
+      if (currentId === sessionStorage.getItem("globalCurrentSpotifyID") && !controller.isPaused) {
         if (buttonPlay) {
           let icon = buttonPlay.querySelector('i')
           if (icon) {
@@ -321,7 +338,7 @@ function setPlayButtonIcons(trackOrArtist, spotifyTrackIDsList=null, spotifyArti
 
       // inside the Listen-In C_Discover artists Track Releases
       const buttonPlay_inner = document.querySelector(`.anvil-role-${currentId}-inner`);    
-      if (currentId === globalCurrentSpotifyID && !controller.isPaused) {
+      if (currentId === sessionStorage.getItem("globalCurrentSpotifyID") && !controller.isPaused) {
         if (buttonPlay_inner) {
           let icon = buttonPlay_inner.querySelector('i')
           if (icon) {
@@ -394,7 +411,7 @@ function setPlayButtonIcons(trackOrArtist, spotifyTrackIDsList=null, spotifyArti
     
     const buttonBackward = document.querySelector(`.anvil-role-cap-backward-button`);
     if (buttonBackward) {
-     if (globalCurrentSpotifyID === spotifyTrackIDsList[0]) {
+     if (sessionStorage.getItem("globalCurrentSpotifyID") === spotifyTrackIDsList[0]) {
         buttonBackward.classList.remove('anvil-role-icon-button');
         buttonBackward.classList.add('anvil-role-icon-button-disabled');
       } else {
@@ -405,7 +422,7 @@ function setPlayButtonIcons(trackOrArtist, spotifyTrackIDsList=null, spotifyArti
 
     const buttonForward = document.querySelector(`.anvil-role-cap-forward-button`);
     if (buttonForward) {
-      if (globalCurrentSpotifyID === spotifyTrackIDsList[spotifyTrackIDsList.length - 1]) {
+      if (sessionStorage.getItem("globalCurrentSpotifyID") === spotifyTrackIDsList[spotifyTrackIDsList.length - 1]) {
         buttonForward.classList.remove('anvil-role-icon-button');
         buttonForward.classList.add('anvil-role-icon-button-disabled');
       } else {
@@ -421,7 +438,7 @@ function setPlayButtonIcons(trackOrArtist, spotifyTrackIDsList=null, spotifyArti
     const buttonFastBackward = document.querySelector(`.anvil-role-cap-fast-backward-button`);
     if (buttonFastBackward) {
       // Check if there is a previous artist
-      const currentArtistIndex = spotifyTrackIDsList.indexOf(globalCurrentSpotifyID);
+      const currentArtistIndex = spotifyTrackIDsList.indexOf(sessionStorage.getItem("globalCurrentSpotifyID"));
       let hasPreviousArtist = false;
       if (currentArtistIndex > 0) {
         const currentArtistID = spotifyArtistIDsList[currentArtistIndex];
@@ -445,7 +462,7 @@ function setPlayButtonIcons(trackOrArtist, spotifyTrackIDsList=null, spotifyArti
     const buttonFastForward = document.querySelector(`.anvil-role-cap-fast-forward-button`);
     if (buttonFastForward) {
       // Check if there is a next artist
-      const currentArtistIndex = spotifyTrackIDsList.indexOf(globalCurrentSpotifyID);
+      const currentArtistIndex = spotifyTrackIDsList.indexOf(sessionStorage.getItem("globalCurrentSpotifyID"));
       let hasNextArtist = false;
       if (currentArtistIndex < spotifyTrackIDsList.length - 1) {
         const currentArtistID = spotifyArtistIDsList[currentArtistIndex];

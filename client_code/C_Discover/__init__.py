@@ -2232,6 +2232,7 @@ class C_Discover(C_DiscoverTemplate):
     components = self.data_grid_releases_data.get_components()
     for component in components:
       component.button_play_track.icon = "fa:play-circle"
+    # pass
 
   def autoplay_button_click(self, **event_args):
     if self.autoplay_button.icon == "fa:toggle-on":

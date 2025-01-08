@@ -20,31 +20,26 @@ class RepeatingPanel_Tracks(RepeatingPanel_TracksTemplate):
     else:
       self.album_img.source = '_/theme/pics/Favicon_orange.JPG'
 
+  
   def play_button_click(self, **event_args):
     save_var('has_played', 'True')
     all_rows = self.parent.parent.parent.parent.items
     all_track_ids = [track['spotify_track_id'] for artist in all_rows for track in artist['tracks']]
     all_artist_ids = [track['spotify_artist_id'] for artist in all_rows for track in artist['tracks']]
     all_artist_names = [track['name'] for artist in all_rows for track in artist['tracks']]
-
-    print('load_var("lastplayedtrackid")', load_var("lastplayedtrackid"))
-    print('load_var("lastplayedartistid")', load_var("lastplayedartistid"))
-    print('all_track_ids', all_track_ids)
-    print('all_artist_ids', all_artist_ids)
-    print('all_artist_names', all_artist_names)
-    print(load_var("lastplayedtrackid") != self.item["spotify_track_id"])
     
     if load_var("lastplayedtrackid") != self.item["spotify_track_id"]:
       save_var('lastplayedtrackid', self.item["spotify_track_id"])
-      save_var('lastplayedartistid', self.item["spotify_artist_id"])
       
-      anvil.js.call_js('playNextSong',
-                       anvil.js.get_dom_node(self),
-                       'track',
-                       all_track_ids,
-                       all_artist_ids,
-                       all_artist_names,
-                       self.item["spotify_track_id"])
+      anvil.js.call_js(
+        'playNextSong',
+        anvil.js.get_dom_node(self),
+        'track',
+        all_track_ids,
+        all_artist_ids,
+        all_artist_names,
+        self.item["spotify_track_id"]
+      )
       
     else:
       anvil.js.call_js('playSpotify')
