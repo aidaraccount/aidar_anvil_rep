@@ -1,6 +1,40 @@
 var controller;
 let globalCurrentSpotifyID = null;
 
+// function to play/pause spotify
+function playSpotify() {
+  console.log("sessionStorage.getItem('has_played'): " + sessionStorage.getItem("has_played"));
+  const buttons = document.querySelectorAll('.anvil-role-cap-play-pause');
+  
+  buttons.forEach(button => {
+    button.onclick = function () {
+
+      console.log("controller.isPaused:" + controller.isPaused);
+      console.log("controller.isPlaying:" + controller.isPlaying);
+      console.log("!controller.isPlaying:" + !controller.isPlaying);
+      console.log("controller" + controller);
+      
+      if (controller.isPaused) {
+        console.log('1. Resume playing from the paused position')
+        controller.resume();  // Resume playing from the paused position
+        controller.isPlaying = true;
+        controller.isPaused = false;
+      } else if (!controller.isPlaying) {
+        console.log('2. Start playing if not already playing')
+        controller.play();    // Start playing if not already playing
+        controller.isPlaying = true;
+        controller.isPaused = false;
+      } else {
+        console.log('3. Pause the player if its currently playing')
+        controller.pause();   // Pause the player if it's currently playing
+        controller.isPlaying = false;
+        controller.isPaused = true;
+      }
+    };
+  });
+}
+
+// function to initialize the spotify console
 function createOrUpdateSpotifyPlayer(formElement, trackOrArtist, currentSpotifyID, spotifyTrackIDsList, spotifyArtistIDsList, spotifyArtistNameList) {
   const element = document.querySelector('.anvil-role-cap-spotify-footer-class #embed-iframe');
   const autoplaybutton = document.querySelector('.anvil-role-cap-autoplay-toggle-button .fa-toggle-on')
@@ -113,7 +147,6 @@ function createOrUpdateSpotifyPlayer(formElement, trackOrArtist, currentSpotifyI
   }
 }
 
-
 // This function is triggered only when the AUTOPLAY button is switched on
 function autoPlaySpotify() {
   if (controller) {
@@ -132,13 +165,12 @@ function autoPlaySpotify() {
   }
 }
 
-
 // Function to load the next song
 function playNextSong(formElement, trackOrArtist, spotifyTrackIDsList, spotifyArtistIDsList, spotifyArtistNameList, direction='forward') {
   
   // If statement to check if we are playing a list of custom songs or a playlist from Spotify
   if (!spotifyTrackIDsList) {
-    console.error("No track list available. Check out Spotify_Player_js.js file - playNextSong() function.");
+    console.error("No track list available. Check out Spotify_Player.js file - playNextSong() function.");
     return;
   }
   
@@ -437,7 +469,7 @@ function setPlayButtonIcons(trackOrArtist, spotifyTrackIDsList=null, spotifyArti
   }
 }
 
-
+// function for speaking the artists name
 function speakText(text, callback=null) {
   // Check if the browser supports speech synthesis
   if ('speechSynthesis' in window) {

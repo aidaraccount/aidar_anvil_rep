@@ -1,4 +1,4 @@
-from ._anvil_designer import C_CustomAlertFormTemplate
+from ._anvil_designer import C_ArtistBioTemplate
 from anvil import *
 import anvil.server
 import anvil.users
@@ -7,7 +7,7 @@ import anvil.tables.query as q
 from anvil.tables import app_tables
 
 
-class C_CustomAlertForm(C_CustomAlertFormTemplate):
+class C_ArtistBio(C_ArtistBioTemplate):
   def __init__(self, text, pickurl, artist_name, countryflag, countryname, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)

@@ -146,7 +146,9 @@ components:
   properties: {col_spacing: none, col_widths: '{"CDPZDK":55,"POUDWM":5}'}
   type: ColumnPanel
 - components:
-  - layout_properties: {grid_position: 'ULLGXX,KYFIEK'}
+  - data_bindings:
+    - {code: '[''cap-spotify-footer-class'']', property: role, writeback: false}
+    layout_properties: {grid_position: 'ULLGXX,KYFIEK'}
     name: footer_left
     properties:
       role: spotify-footer-class
@@ -294,11 +296,14 @@ components:
           text: ''
           tooltip: previous track
         type: Button
-      - event_bindings: {click: play_button_central_click}
+      - data_bindings:
+        - {code: '[''cap-play-pause'', ''cap-play-spotify-button-big2'', ''play-spotify-button-big'']', property: role, writeback: false}
+        event_bindings: {click: play_button_central_click}
+        layout_properties: {}
         name: play_button_central
         properties:
           icon: fa:play-circle
-          role: [play-spotify-button, play-spotify-button-artist2]
+          role: null
           spacing:
             margin: [0, null, 0, null]
           text: ''

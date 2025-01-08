@@ -1,0 +1,40 @@
+/*
+----------------------------------------------------------------------------------------
+Area 1: Base
+----------------------------------------------------------------------------------------
+1.1. Grid */
+.anvil-role-grid {
+  background: linear-gradient(to bottom right, rgb(31, 11, 59), rgba(250, 250, 250, 0.05));
+  border-radius: 12px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+.anvil-role-grid-main {
+  background: linear-gradient(to bottom right, rgb(31, 11, 59), rgba(250, 250, 250, 0.05));
+  border-radius: 12px;
+  padding: 5px 7px 5px 7px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+/* ----------------------------
+1.2. Width (no!) */
+.anvil-role-width-100 {width: 100% !important}
+.anvil-role-width-50px {width: 50px}
+.anvil-role-width-100px {width: 100px}
+.anvil-role-width-150px {width: 150px}
+.anvil-role-width-200px {width: 200px}
+.anvil-role-width-300px {width: 300px}
+.anvil-role-width-500px {width: 500px}
+.anvil-role-width-750px {width: 750px}
+
+/* ----------------------------
+1.3. Text Color (yes!) */
+.anvil-role-orange {color: %color:Orange% !important;}
+.anvil-role-white {color: %color:Text_White% !important;}
+
+/* ----------------------------
+1.4. Opacity (???) */
+.anvil-role-opacity-100 {opacity: 100%;}
+.anvil-role-opacity-50 {opacity: 50%;}
+.anvil-role-opacity-25 {opacity: 25%;}

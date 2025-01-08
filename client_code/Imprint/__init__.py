@@ -40,7 +40,6 @@ class Imprint(ImprintTemplate):
 
   def link_main_click(self, **event_args):
     open_form('Main_Out')
-    # open_form('Main_Out_New')
 
 
 def check_log_status(self, **event_args):

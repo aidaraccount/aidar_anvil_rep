@@ -1,0 +1,43 @@
+/*
+----------------------------------------------------------------------------------------
+Area 4: Text Boxes
+----------------------------------------------------------------------------------------
+4.1. Classical text box & smaller version */
+.anvil-role-text_box {
+  opacity: 0.7;
+  
+  font-size: 20px;
+  font-weight: normal;
+  color: white;
+  
+  background: %color:Accent 2%;
+  
+  padding-top: 5px;
+  padding-bottom: 5px;
+  
+  border-radius: 7px; 
+}
+.anvil-role-text_box_small {  
+  font-size: 16px;
+  font-weight: normal;
+  color: %color:Text_LightDark%;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+
+/* ----------------------------
+4.2. Textbox for Notification Settings (currently page individual !!! !!!) */
+.anvil-role-notification-settings-textbox {
+  font-size: 14px;
+  font-weight: normal;
+  margin: 8px 5px 0 4px;
+  color: white;
+  background: transparent; 
+  padding-bottom: 3px;
+  width: 65px;
+  padding-top: 2px;
+  border-radius: 0px; 
+  border: none;
+  border-bottom: 1px solid;
+}

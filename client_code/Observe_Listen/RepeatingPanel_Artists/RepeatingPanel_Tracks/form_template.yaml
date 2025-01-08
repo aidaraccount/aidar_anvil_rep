@@ -1,6 +1,6 @@
 components:
 - data_bindings:
-  - {code: '["play-spotify-button", f"{self.item[''spotify_track_id'']}"]', property: role, writeback: false}
+  - {code: '["cap-play-pause", "play-spotify-button", f"{self.item[''spotify_track_id'']}"]', property: role, writeback: false}
   event_bindings: {click: play_button_click}
   layout_properties: {grid_position: 'PYGHAJ,FCKORH'}
   name: play_button

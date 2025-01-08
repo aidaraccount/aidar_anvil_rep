@@ -10,12 +10,12 @@ from datetime import datetime, timedelta
 import plotly.graph_objects as go
 from collections import defaultdict
 import itertools
-from ..C_CustomAlertForm import C_CustomAlertForm  # Import the custom form
+from ..C_ArtistBio import C_ArtistBio
 from ..C_ProgressMessage import C_ProgressMessage
 from anvil import js
 import anvil.js
 import anvil.js.window
-from anvil.js.window import document, updateGauge, playSpotify, autoPlaySpotify
+from anvil.js.window import document, playSpotify, autoPlaySpotify
 
 from anvil_extras import routing
 from ..nav import click_link, click_button, logout, login_check, load_var, save_var
@@ -42,7 +42,6 @@ class C_Discover(C_DiscoverTemplate):
     if user is None or user == "None":
       if load_var("user_id") is None:
         open_form("Main_Out")
-        # open_form('Main_Out_New')
       else:
         self.user_id = load_var("user_id")
         self.refresh_sug()
@@ -1699,7 +1698,7 @@ class C_Discover(C_DiscoverTemplate):
       countryname = country["CountryName"]
       source = "https://flagcdn.com/w40/" + country["CountryCode"].lower() + ".png"
     country_flag = Image(source=source, spacing_below=0, spacing_above=0)
-    custom_alert_form = C_CustomAlertForm(
+    custom_alert_form = C_ArtistBio(
       text=self.sug["Biography"],
       pickurl=self.sug["ArtistPictureURL"],
       artist_name=self.sug["Name"],

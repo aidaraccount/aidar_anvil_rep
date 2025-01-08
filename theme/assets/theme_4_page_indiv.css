@@ -1,0 +1,22 @@
+/*
+----------------------------------------------------------------------------------------
+Area 5: Page individual classes
+----------------------------------------------------------------------------------------
+5.1. Home individual classes */
+.anvil-role-home-discover-button {
+  left: auto !important;
+  right: 1em;
+}
+
+/* ----------------------------
+5.2. Observe_Listen individual classes */
+.anvil-role-listen-complete-element {
+  height: calc(100vh + 260px);
+  overflow-y: auto;
+}
+.anvil-role-listen-left-element {
+  height: calc(95vh - 85px);
+}
+.anvil-role-listen-right-element {
+  height: calc(95vh - 85px);
+}

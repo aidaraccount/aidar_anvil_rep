@@ -1,3 +1,47 @@
+/*
+CSS Content Overview
+
+Area 1: Base
+Area 2: Buttons
+Area 3: Text Boxes
+Area 4: Page Individual
+*/
+
+@import url('_/theme/theme_1_base.css');
+@import url('_/theme/theme_2_buttons.css');
+@import url('_/theme/theme_3_textboxes.css');
+@import url('_/theme/theme_4_page_indiv.css');
+
+
+/*
+----------------------------------------------------------------------------------------
+Classes to be captured by js
+----------------------------------------------------------------------------------------
+1. Native Libraries */
+
+/* ----------------------------
+2. Spotify_Player.js */
+.anvil-role-cap-play-pause {}
+.anvil-role-cap-spotify-footer-class {}
+.anvil-role-cap-autoplay-toggle-button {}
+/* ${currentId} */
+/* ${currentId}-inner */
+.anvil-role-cap-play-spotify-button-big1 {}
+.anvil-role-cap-play-spotify-button-big2 {}
+.anvil-role-cap-backward-button {}
+.anvil-role-cap-forward-button {}
+.anvil-role-cap-fast-backward-button {}
+.anvil-role-cap-fast-forward-button {}
+
+
+
+
+/*
+----------------------------------------------------------------------------------------
+OLD UNSTRUCTURED
+----------------------------------------------------------------------------------------
+*/
+
 body * {
   box-sizing: border-box;
 }
@@ -871,28 +915,6 @@ body, html {
   margin-right: 1px;
   margin-left: 1px;
 }
-
-.anvil-role-score-tile-background {
-  position: relative;
-  background-color: rgb(25, 16, 53);
-  border-radius: 100px;
-  height: 140px;
-  width: 140px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.anvil-role-score-tile-background-larger {
-  position: relative;
-  background-color: rgb(25, 16, 53);
-  border-radius: 100px;
-  height: 168px;
-  width: 168px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
 
 .anvil-role-score-label {
   font-size: 24px;
@@ -2511,365 +2533,4 @@ footer a, .footer .anvil-component {
 .btn-default[disabled]:active {
   background-color: transparent;
   color: rgba(125, 125, 125, 0.5);
-}
-
-
-
-
-
-
-
-/*
-----------------------------------------------------------------------------------------
-CSS Content Overview
-
-Area 1: General Classes
-Area 2: Classes to be captured by js
-Area 3: Buttons
-Area 4: Text Boxes
-Area 5: PAGE INDIVIDUAL CLASSES
-
-----------------------------------------------------------------------------------------
-Area 1: General Classes
-----------------------------------------------------------------------------------------
-1.1. Grid */
-.anvil-role-grid {
-  background: linear-gradient(to bottom right, rgb(31, 11, 59), rgba(250, 250, 250, 0.05));
-  border-radius: 12px;
-  margin-top: 5px;
-  margin-bottom: 5px;
-}
-.anvil-role-grid-main {
-  background: linear-gradient(to bottom right, rgb(31, 11, 59), rgba(250, 250, 250, 0.05));
-  border-radius: 12px;
-  padding: 5px 7px 5px 7px;
-  margin-top: 5px;
-  margin-bottom: 5px;
-}
-
-/* ----------------------------
-1.2. Width (no!) */
-.anvil-role-width-100 {width: 100% !important}
-.anvil-role-width-50px {width: 50px}
-.anvil-role-width-100px {width: 100px}
-.anvil-role-width-150px {width: 150px}
-.anvil-role-width-200px {width: 200px}
-.anvil-role-width-300px {width: 300px}
-.anvil-role-width-500px {width: 500px}
-.anvil-role-width-750px {width: 750px}
-
-/* ----------------------------
-1.3. Text Color (yes!) */
-.anvil-role-orange {color: %color:Orange% !important;}
-.anvil-role-white {color: %color:Text_White% !important;}
-
-/* ----------------------------
-1.4. Opacity (???) */
-.anvil-role-opacity-100 {opacity: 100%;}
-.anvil-role-opacity-50 {opacity: 50%;}
-.anvil-role-opacity-25 {opacity: 25%;}
-
-
-
-/*
-----------------------------------------------------------------------------------------
-Area 2: Classes to be captured by js
-----------------------------------------------------------------------------------------
-2.1. Native Libraries */
-.anvil-role-cap-play-pause {} /* play/pause */
-
-/* ----------------------------
-2.2. Spotify_Player_js.js */
-.anvil-role-cap-spotify-footer-class {}
-.anvil-role-cap-autoplay-toggle-button {}
-/* ${currentId} */
-/* ${currentId}-inner */
-.anvil-role-cap-play-spotify-button-big1 {}
-.anvil-role-cap-play-spotify-button-big2 {}
-.anvil-role-cap-backward-button {}
-.anvil-role-cap-forward-button {}
-.anvil-role-cap-fast-backward-button {}
-.anvil-role-cap-fast-forward-button {}
-
-/*
-----------------------------------------------------------------------------------------
-Area 3: Buttons
-----------------------------------------------------------------------------------------
-3.1. Highlight Button (static glow) */
-.anvil-role-highlight-button button {
-  box-shadow: 0 0 5px #E95F30, 0 0 9px #E95F30, 0 0 13px #E95F30; /* Static orange glow */
-  transition: all 0.3s ease; /* Smooth hover effect */
-}
-
-/* ----------------------------
-3.3. disabled icon buttons */
-.anvil-role-icon-button button {
-  font-family: Gs-regular;
-  font-size: 24px;
-  color: #E95F30;
-  background: transparent;
-  border: 0px;
-  box-shadow: none;
-  text-shadow: none;
-  transition: 0.5s;
-  width: 55px;
-}
-.anvil-role-icon-button > button:hover {
-  background: transparent;
-  color: #BA7305;
-}
-.anvil-role-icon-button > button:focus,
-.anvil-role-icon-button > button:active {
-  background: transparent !important;
-  color: #E95F30 !important;
-}
-
-/* ----------------------------
-3.3. disabled icon buttons disabled */
-.anvil-role-icon-button-disabled button {
-  font-family: Gs-regular;
-  font-size: 24px;
-  color: #9E9E9E;
-  background: transparent;
-  border: 0px;
-  box-shadow: none;
-  text-shadow: none;
-  transition: 0.5s;
-  width: 55px;
-}
-.anvil-role-icon-button-disabled > button:hover,
-.anvil-role-icon-button-disabled > button:focus,
-.anvil-role-icon-button-disabled > button:active {
-  background: transparent !important;
-  color: #9E9E9E !important;
-}
-
-/* where used? (???) */
-.anvil-role-save-button-sidebar > button {
-  font-family: Gs-regular;
-  font-size: 16px;
-  color: #E95F30;
-  background: white;
-  border: 0px;
-  box-shadow: none;
-  text-shadow: none;
-  transition: 0.5s;
-  margin: 10px 0 0 0;
-}
-.anvil-role-save-button-sidebar > button:hover {
-  background: linear-gradient(to top left, rgba(232, 232, 232, 0.8) 50%, white);
-  color: #BA7305;
-}
-.anvil-role-save-button-sidebar > button:focus,
-.anvil-role-save-button-sidebar > button:active {
-  background: white;
-  color: #E95F30;
-}
-
-
-/* ----------------------------
-3.2. Play/pause buttons on the Discover and ListenIn page */
-.anvil-role-play-spotify-button button {
-  font-family: Gs-regular;
-  font-size: 24px;
-  color: #E95F30;
-  background: transparent;
-  border: 0px;
-  box-shadow: none;
-  text-shadow: none;
-  transition: 0.5s;
-  width: 55px;
-}
-.anvil-role-play-spotify-button > button:hover {
-  background: transparent;
-  color: #BA7305;
-}
-.anvil-role-play-spotify-button > button:focus,
-.anvil-role-play-spotify-button > button:active {
-  background: transparent !important;
-  color: #E95F30 !important;
-}
-
-/* ----------------------------
-3.4. big round Play Buttons on Discover and ListenIn */
-.anvil-role-play-spotify-button-big button {
-  font-family: Gs-regular;
-  font-size: 44px;
-  color: #E95F30;
-  background: transparent;
-  padding: 0;
-  border: 0px;
-  box-shadow: none;
-  text-shadow: none;
-  transition: 0.5s;
-  width: 55px;
-  min-height: 0 !important;
-  line-height: 1 !important;
-}
-.anvil-role-play-spotify-button-big > button:hover {
-  background: transparent;
-  color: #BA7305;
-}
-.anvil-role-play-spotify-button-big > button:focus,
-.anvil-role-play-spotify-button-big > button:active {
-  background: transparent !important;
-  color: #E95F30 !important;
-}
-
-
-/* .anvil-role-play-spotify-button-artist button {
-  font-size: 44px;
-  padding: 0;
-}
-.anvil-role-play-spotify-button-artist2 button {
-  font-size: 44px;
-  padding: 0;
-  min-height: 0;
-}
-.anvil-role-play-spotify-button-artist2 .btn { /* to reduce the height of the central play button in the footer of ListenIn
-  min-height: 0 !important;
-  line-height: 1 !important;
-} */
-
-/* ----------------------------
-3.5. Call 2 Action Button */
-.anvil-role-call-to-action-button button {
-  font-family: Gs-regular;
-  color: white;
-  background: #E95F30;
-  border: 0px;
-  box-shadow: none;
-  text-shadow: none;
-  transition: 0.5s;
-  margin: 0;
-  padding: 0 25px;
-  min-width: 100px;
-}
-.anvil-role-call-to-action-button > button:hover,
-.anvil-role-call-to-action-button > button:focus,
-.anvil-role-call-to-action-button > button:active {
-  background: #BA7305;
-  color: white;
-}
-
-/* ----------------------------
-3.6. Call 2 Action Button Longer */
-.anvil-role-call-to-action-button-longer button {
-  font-family: Gs-regular;
-  color: white;
-  background: #E95F30;
-  border: 0px;
-  box-shadow: none;
-  text-shadow: none;
-  transition: 0.5s;
-  margin: 0;
-  padding: 0 15px;
-  min-width: 500px;
-}
-.anvil-role-call-to-action-button-longer > button:hover,
-.anvil-role-call-to-action-button-longer > button:focus,
-.anvil-role-call-to-action-button-longer > button:active {
-  background: #BA7305;
-  color: white;
-}
-
-/* ----------------------------
-3.7. Call 2 Action Button Disabled */
-.anvil-role-call-to-action-button-disabled button {
-  font-family: Gs-regular;
-  color: %color:Background%;
-  background: %color:Accent 2%;
-  border: 0px;
-  box-shadow: none;
-  text-shadow: none;
-  transition: 0.5s;
-  margin: 0;
-  padding: 0 15px;
-  min-width: 100px;
-}
-.anvil-role-call-to-action-button-disabled > button:hover {
-  background: %color:Accent 2%;
-  color: white;
-}
-.anvil-role-call-to-action-button-disabled > button:focus,
-.anvil-role-call-to-action-button-disabled > button:active {
-  background: %color:Accent 2%;
-  color: %color:Accent 1%;
-}
-
-/* ----------------------------
-3.8. Other Buttons */
-.anvil-role-150px-width button {
-  width: 200px
-}
-.anvil-role-back-button button {
-  background: rgb(88,32,57);
-}
-
-
-/*
-----------------------------------------------------------------------------------------
-Area 4: Text Boxes
-----------------------------------------------------------------------------------------
-4.1. Classical text box & smaller version */
-.anvil-role-text_box {
-  opacity: 0.7;
-  
-  font-size: 20px;
-  font-weight: normal;
-  color: white;
-  
-  background: %color:Accent 2%;
-  
-  padding-top: 5px;
-  padding-bottom: 5px;
-  
-  border-radius: 7px; 
-}
-.anvil-role-text_box_small {  
-  font-size: 16px;
-  font-weight: normal;
-  color: %color:Text_LightDark%;
-  padding-top: 5px;
-  padding-bottom: 5px;
-}
-
-/* ----------------------------
-4.2. Textbox for Notification Settings (currently page individual !!! !!!) */
-.anvil-role-notification-settings-textbox {
-  font-size: 14px;
-  font-weight: normal;
-  margin: 8px 5px 0 4px;
-  color: white;
-  background: transparent; 
-  padding-bottom: 3px;
-  width: 65px;
-  padding-top: 2px;
-  border-radius: 0px; 
-  border: none;
-  border-bottom: 1px solid;
-}
-
-
-/*
-----------------------------------------------------------------------------------------
-Area 5: Page individual classes
-----------------------------------------------------------------------------------------
-5.1. Home individual classes */
-.anvil-role-home-discover-button {
-  left: auto !important;
-  right: 1em;
-}
-
-/* ----------------------------
-5.2. Observe_Listen individual classes */
-.anvil-role-listen-complete-element {
-  height: calc(100vh + 260px);
-  overflow-y: auto;
-}
-.anvil-role-listen-left-element {
-  height: calc(95vh - 85px);
-}
-.anvil-role-listen-right-element {
-  height: calc(95vh - 85px);
 }
