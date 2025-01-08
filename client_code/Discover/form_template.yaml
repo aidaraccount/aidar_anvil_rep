@@ -1,6 +1,8 @@
 components:
 - components:
-  - layout_properties: {grid_position: 'UQVSNC,CLCEVO'}
+  - data_bindings:
+    - {code: '[''cap-spotify-footer-class'']', property: role, writeback: false}
+    layout_properties: {grid_position: 'UQVSNC,CLCEVO'}
     name: spotify_player_spot
     properties: {role: spotify-footer-class, visible: true}
     type: ColumnPanel
@@ -335,7 +337,9 @@ components:
         properties: {role: highlights-tile-background, spacing_above: small, spacing_below: none}
         type: LinearPanel
       - components:
-        - event_bindings: {click: spotify_artist_button_click}
+        - data_bindings:
+          - {code: '[''cap-play-spotify-button'', ''cap-play-spotify-button-big1'', ''play-spotify-button-big'']', property: role, writeback: false}
+          event_bindings: {click: spotify_artist_button_click}
           layout_properties: {}
           name: spotify_artist_button
           properties:
@@ -347,13 +351,15 @@ components:
             text: ''
             tooltip: play top tracks
           type: Button
-        - event_bindings: {click: autoplay_button_click}
+        - data_bindings:
+          - {code: '[''cap-autoplay-toggle-button'', ''play-spotify-button-big'']', property: role, writeback: false}
+          event_bindings: {click: autoplay_button_click}
           layout_properties: {}
           name: autoplay_button
           properties:
             align: center
             icon: fa:toggle-off
-            role: [play-spotify-button, play-spotify-button-artist, autoplay-toggle-button]
+            role: [autoplay-toggle-button, play-spotify-button-artist]
             spacing_above: none
             spacing_below: none
             text: ''

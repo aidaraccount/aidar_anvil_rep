@@ -2,8 +2,8 @@ var controller;
 let globalCurrentSpotifyID = null;
 
 function createOrUpdateSpotifyPlayer(formElement, trackOrArtist, currentSpotifyID, spotifyTrackIDsList, spotifyArtistIDsList, spotifyArtistNameList) {
-  const element = document.querySelector('.anvil-role-spotify-footer-class #embed-iframe');
-  const autoplaybutton = document.querySelector('.anvil-role-autoplay-toggle-button .fa-toggle-on')
+  const element = document.querySelector('.anvil-role-cap-spotify-footer-class #embed-iframe');
+  const autoplaybutton = document.querySelector('.anvil-role-cap-autoplay-toggle-button .fa-toggle-on')
 
   // check if the html for the player is imported (in the Discover Page)
   if (!element) {
@@ -311,7 +311,7 @@ function setPlayButtonIcons(trackOrArtist, spotifyTrackIDsList=null, spotifyArti
   
   // Set the icon of the big central play button on DISCOVER
   // should be play when nothing is playling to start the artists tracks
-  const buttonPlayBig = document.querySelector(`.anvil-role-play-spotify-button-artist`);
+  const buttonPlayBig = document.querySelector(`.anvil-role-cap-play-spotify-button-artist`);
 
   if (controller.isPaused) {
     if (buttonPlayBig) {
@@ -340,7 +340,7 @@ function setPlayButtonIcons(trackOrArtist, spotifyTrackIDsList=null, spotifyArti
   
   // Set the icon of the big central play button on LISTEN-IN
   // all three buttons (small play, big play and console play) should be aligned
-  const buttonPlayBig2 = document.querySelector(`.anvil-role-play-spotify-button-artist2`);
+  const buttonPlayBig2 = document.querySelector(`.anvil-role-cap-play-spotify-button-artist2`);
 
   if (controller.isPaused) {
     if (buttonPlayBig2) {
@@ -361,7 +361,7 @@ function setPlayButtonIcons(trackOrArtist, spotifyTrackIDsList=null, spotifyArti
   // set classes of forward and backward buttons on LISTEN-IN
   if (spotifyTrackIDsList) {
     
-    const buttonBackward = document.querySelector(`.anvil-role-backward-button`);
+    const buttonBackward = document.querySelector(`.anvil-role-cap-backward-button`);
     if (buttonBackward) {
      if (globalCurrentSpotifyID === spotifyTrackIDsList[0]) {
         buttonBackward.classList.remove('anvil-role-icon-button');
@@ -372,7 +372,7 @@ function setPlayButtonIcons(trackOrArtist, spotifyTrackIDsList=null, spotifyArti
       }
     }
 
-    const buttonForward = document.querySelector(`.anvil-role-forward-button`);
+    const buttonForward = document.querySelector(`.anvil-role-cap-forward-button`);
     if (buttonForward) {
       if (globalCurrentSpotifyID === spotifyTrackIDsList[spotifyTrackIDsList.length - 1]) {
         buttonForward.classList.remove('anvil-role-icon-button');
@@ -387,7 +387,7 @@ function setPlayButtonIcons(trackOrArtist, spotifyTrackIDsList=null, spotifyArti
 
   // set classes of fast-forward and fast-backward buttons on LISTEN-IN
   if (spotifyTrackIDsList && spotifyArtistIDsList) {
-    const buttonFastBackward = document.querySelector(`.anvil-role-fast-backward-button`);
+    const buttonFastBackward = document.querySelector(`.anvil-role-cap-fast-backward-button`);
     if (buttonFastBackward) {
       // Check if there is a previous artist
       const currentArtistIndex = spotifyTrackIDsList.indexOf(globalCurrentSpotifyID);
@@ -411,7 +411,7 @@ function setPlayButtonIcons(trackOrArtist, spotifyTrackIDsList=null, spotifyArti
       }
     }
   
-    const buttonFastForward = document.querySelector(`.anvil-role-fast-forward-button`);
+    const buttonFastForward = document.querySelector(`.anvil-role-cap-fast-forward-button`);
     if (buttonFastForward) {
       // Check if there is a next artist
       const currentArtistIndex = spotifyTrackIDsList.indexOf(globalCurrentSpotifyID);

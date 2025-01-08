@@ -2575,11 +2575,21 @@ Area 1: General Classes
 ----------------------------------------------------------------------------------------
 Area 2: Classes to be captured by js
 ----------------------------------------------------------------------------------------
-*/
-.anvil-role-autoplay-toggle-button {}
-.anvil-role-spotify-footer-class {}
+2.1. Native Libraries */
+.anvil-role-cap-play-spotify-button {}
 
-
+/* ----------------------------
+2.2. Spotify_Player_js.js */
+.anvil-role-cap-spotify-footer-class {}
+.anvil-role-cap-autoplay-toggle-button {}
+/* ${currentId} */
+/* ${currentId}-inner */
+.anvil-role-cap-play-spotify-button-big1 {}
+.anvil-role-cap-play-spotify-button-big2 {}
+.anvil-role-cap-backward-button {}
+.anvil-role-cap-forward-button {}
+.anvil-role-cap-fast-backward-button {}
+.anvil-role-cap-fast-forward-button {}
 
 /*
 ----------------------------------------------------------------------------------------
@@ -2682,7 +2692,32 @@ Area 3: Buttons
 
 /* ----------------------------
 3.4. big round Play Buttons on Discover and ListenIn */
-.anvil-role-play-spotify-button-artist button {
+.anvil-role-play-spotify-button-big button {
+  font-family: Gs-regular;
+  font-size: 44px;
+  color: #E95F30;
+  background: transparent;
+  padding: 0;
+  border: 0px;
+  box-shadow: none;
+  text-shadow: none;
+  transition: 0.5s;
+  width: 55px;
+  min-height: 0 !important;
+  line-height: 1 !important;
+}
+.anvil-role-play-spotify-button-big > button:hover {
+  background: transparent;
+  color: #BA7305;
+}
+.anvil-role-play-spotify-button-big > button:focus,
+.anvil-role-play-spotify-button-big > button:active {
+  background: transparent !important;
+  color: #E95F30 !important;
+}
+
+
+/* .anvil-role-play-spotify-button-artist button {
   font-size: 44px;
   padding: 0;
 }
@@ -2691,10 +2726,10 @@ Area 3: Buttons
   padding: 0;
   min-height: 0;
 }
-.anvil-role-play-spotify-button-artist2 .btn { /* to reduce the height of the central play button in the footer of ListenIn */
+.anvil-role-play-spotify-button-artist2 .btn { /* to reduce the height of the central play button in the footer of ListenIn
   min-height: 0 !important;
   line-height: 1 !important;
-}
+} */
 
 /* ----------------------------
 3.5. Call 2 Action Button */
