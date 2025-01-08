@@ -1,4 +1,4 @@
-from ._anvil_designer import Main_OutTemplate
+from ._anvil_designer import MainOutTemplate
 from anvil import *
 import anvil.server
 import anvil.users
@@ -15,7 +15,7 @@ from ..C_ForgotPasswordPopup import C_ForgotPasswordPopup
 
 
 @routing.route('login', title='Login')
-class Main_Out(Main_OutTemplate):
+class MainOut(MainOutTemplate):
   def __init__(self, **properties):    
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
@@ -24,7 +24,7 @@ class Main_Out(Main_OutTemplate):
     user = None
     
     model_id = load_var("model_id")
-    print(f"Main_Out model_id: {model_id}")
+    print(f"MainOut model_id: {model_id}")
     
     # Any code you write here will run before the form opens.
     # check_log_status(self)
@@ -52,7 +52,7 @@ class Main_Out(Main_OutTemplate):
             save_var("model_id", anvil.server.call('get_model_id',  user["user_id"]))
 
           # Navigate to main page after successful login
-          open_form("Main_In")
+          open_form("MainIn")
         
           if location.hash == '':
             routing.set_url_hash('home', load_from_cache=False)

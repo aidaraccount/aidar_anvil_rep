@@ -7,7 +7,7 @@ import anvil.tables.query as q
 from anvil.tables import app_tables
 
 from ...WatchlistDetails import WatchlistDetails
-from ...Main_In import Main_In
+from ...MainIn import MainIn
 
 from anvil_extras import routing
 from ...nav import click_link, click_button, logout, login_check, load_var, save_var

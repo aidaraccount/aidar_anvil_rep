@@ -6,7 +6,7 @@ import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
 import datetime
-from ..Main_In import Main_In
+from ..MainIn import MainIn
 
 class Imprint(ImprintTemplate):
   def __init__(self, **properties):
@@ -23,7 +23,7 @@ class Imprint(ImprintTemplate):
     user = anvil.users.get_user()
     if (user is not None):
       anvil.server.call('check_user_presence', mail=user['email'])
-      open_form('Main_In', temp_artist_id = None, user_id = user["user_id"], value=None)
+      open_form('MainIn', temp_artist_id = None, user_id = user["user_id"], value=None)
 
   def link_logout_click(self, **event_args):
     anvil.users.logout()
@@ -36,10 +36,10 @@ class Imprint(ImprintTemplate):
     user = anvil.users.get_user()
     if (user is not None):
       anvil.server.call('check_user_presence', mail=user['email'])
-      open_form('Main_In', temp_artist_id = None, user_id = user["user_id"], value=None)
+      open_form('MainIn', temp_artist_id = None, user_id = user["user_id"], value=None)
 
   def link_main_click(self, **event_args):
-    open_form('Main_Out')
+    open_form('MainOut')
 
 
 def check_log_status(self, **event_args):

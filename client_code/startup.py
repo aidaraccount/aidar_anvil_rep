@@ -3,8 +3,8 @@ import anvil.users
 from anvil import open_form
 from anvil_extras import routing
 
-from .Main_Out import Main_Out
-from .Main_In import Main_In
+from .MainOut import MainOut
+from .MainIn import MainIn
 from .Home import Home
 
 
@@ -13,4 +13,4 @@ if user:
   routing.launch()
 else:
   routing.launch()
-  open_form('Main_Out')
+  open_form('MainOut')

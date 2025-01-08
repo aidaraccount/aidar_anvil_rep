@@ -40,7 +40,7 @@ class Discover(DiscoverTemplate):
     # Any code you write here will run before the form opens.
     if user is None or user == 'None':
       if load_var('user_id') is None:
-        open_form('Main_Out')
+        open_form('MainOut')
       else:
         self.user_id = load_var('user_id')
         self.refresh_sug()
@@ -73,7 +73,6 @@ class Discover(DiscoverTemplate):
     self.flow_panel_genre_tile.clear()
     self.flow_panel_social_media_tile.clear()
     self.spotify_player_spot.clear()
-    # self.column_panel_5.clear()
     
     # model_id
     model_id = load_var("model_id")

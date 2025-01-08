@@ -1,4 +1,4 @@
-from ._anvil_designer import C_Notification_SettingsTemplate
+from ._anvil_designer import C_NotificationSettingsTemplate
 from anvil import *
 import anvil.server
 import anvil.users
@@ -13,7 +13,7 @@ from anvil_extras import routing
 from ..nav import click_link, click_button, logout, login_check, load_var, save_var
 
 
-class C_Notification_Settings(C_Notification_SettingsTemplate):
+class C_NotificationSettings(C_NotificationSettingsTemplate):
   def __init__(self, items, notification_id, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
@@ -180,6 +180,7 @@ class C_Notification_Settings(C_Notification_SettingsTemplate):
   
   # NOTIFICATION MODIFICATION
   def update_notification(self, **event_args):
+    print('calling update_notification')
     # prepare data
     # # frequency 2 and 3
     # if self.frequency_option_1.text == "Daily":

@@ -6,15 +6,16 @@ import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
 import json
-from anvil.js.window import document, playSpotify
+from anvil.js.window import document, playSpotify, setPlayButtonIcons
 import anvil.js
+import time
 
 
 from datetime import date, datetime
 from anvil_extras import routing
 from ..nav import click_link, click_button, logout, login_check, load_var, save_var
 
-from ..C_Notification_Settings import C_Notification_Settings
+from ..C_NotificationSettings import C_NotificationSettings
 from ..C_Discover import C_Discover
 
 
@@ -55,6 +56,7 @@ class Observe_Listen(Observe_ListenTemplate):
     embed_iframe_element = document.getElementById('embed-iframe')
     if embed_iframe_element:
       self.call_js('createOrUpdateSpotifyPlayer', anvil.js.get_dom_node(self), 'track', self.initial_track_id, self.all_track_ids, self.all_artist_ids, self.all_artist_names)
+      print("Embed iframe element found. Initialize Spotify player!")
     else:
       print("Embed iframe element not found. Will not initialize Spotify player.")
 
@@ -64,9 +66,11 @@ class Observe_Listen(Observe_ListenTemplate):
       '''
     html_webplayer_panel = HtmlPanel(html=c_web_player_html)
     self.footer_left.add_component(html_webplayer_panel)
+    print('self.footer_left.add_component(html_webplayer_panel)')
   
   # GET ALL NOTIFICATIONS
   def get_all_notifications(self, notification_id, **event_args):
+    print('calling get_all_notifications')
     self.notifications = json.loads(anvil.server.call("get_notifications", user["user_id"], 'playlist'))
      
     # clear all navigation components
@@ -120,6 +124,7 @@ class Observe_Listen(Observe_ListenTemplate):
   
   # ACTIVATE NOTIFICATION
   def activate_notification(self, notification_id):
+    print('calling activate_notification')
     for component in self.flow_panel.get_components():
       if isinstance(component, Link):          
         if int(component.tag) == notification_id:
@@ -130,16 +135,18 @@ class Observe_Listen(Observe_ListenTemplate):
   
   # GET NOTIFICATION SETTINGS
   def get_notification_settings(self, notification_id, **event_args):
+    print('calling get_notification_settings')
     items = [item for item in self.notifications if item["notification_id"] == notification_id]
     
     self.notification_settings.clear()
-    self.notification_settings.add_component(C_Notification_Settings(items, notification_id))
+    self.notification_settings.add_component(C_NotificationSettings(items, notification_id))
     self.notification_settings.visible = True
     
     self.get_observe_tracks(notification_id)
     
   # GET PLAYLIST DETAILS
   def get_observe_tracks(self, notification_id, **event_args):  
+    print('calling get_observe_tracks')
     notification = [item for item in self.notifications if item["notification_id"] == notification_id][0]
     
     observed_tracks = anvil.server.call('get_observed_tracks', 
@@ -153,9 +160,7 @@ class Observe_Listen(Observe_ListenTemplate):
                                         notification["no_artists"],
                                         notification["song_selection_2"]
                                         )
-    
-    # print('observed_tracks:', observed_tracks)
-    
+        
     # hand-over the data
     if len(observed_tracks) > 0:
       self.no_artists.visible = False
@@ -183,6 +188,7 @@ class Observe_Listen(Observe_ListenTemplate):
 
   # GET DISCOVER DETAILS
   def initial_load_discover(self, **event_args):
+    print('calling initial_load_discover')
     # b) fill C_Discover
     first_artist_id = self.repeating_panel_artists.items[0]["artist_id"]
     self.column_panel_discover.clear()
@@ -199,6 +205,7 @@ class Observe_Listen(Observe_ListenTemplate):
     # c) Instantiate Spotify Player
     self.footer_left.clear()
     self.spotify_HTML_player()
+    self.form_show()
     
     # d) Watchlist Drop-Down
     wl_data = json.loads(anvil.server.call('get_watchlist_ids',  user["user_id"]))

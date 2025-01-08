@@ -9,7 +9,7 @@ from anvil.tables import app_tables
 from anvil_extras import routing
 from ...nav import click_link, click_button, logout, login_check, load_var, save_var
 
-from ...Main_In import Main_In
+from ...MainIn import MainIn
 from ...Discover import Discover
 
 

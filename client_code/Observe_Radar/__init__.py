@@ -11,7 +11,7 @@ from datetime import date, datetime
 from anvil_extras import routing
 from ..nav import click_link, click_button, logout, login_check, load_var, save_var
 
-from ..C_Notification_Settings import C_Notification_Settings
+from ..C_NotificationSettings import C_NotificationSettings
 
 
 @routing.route("radar", url_keys=['notification_id'], title="Observe - Artist Radar")
@@ -109,7 +109,7 @@ class Observe_Radar(Observe_RadarTemplate):
     items = [item for item in self.notifications if item["notification_id"] == notification_id]
     
     self.notification_settings.clear()
-    self.notification_settings.add_component(C_Notification_Settings(items, notification_id))
+    self.notification_settings.add_component(C_NotificationSettings(items, notification_id))
     self.notification_settings.visible = True
     
     self.get_observed(notification_id)

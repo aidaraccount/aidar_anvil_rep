@@ -29,7 +29,7 @@ class C_Discover(C_DiscoverTemplate):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
     self.html = "@theme:C_Discover.html"
-    self.add_event_handler("show", self.form_show)
+    # self.add_event_handler("show", self.form_show)
 
     global user
     user = anvil.users.get_user()
@@ -41,7 +41,7 @@ class C_Discover(C_DiscoverTemplate):
     # Any code you write here will run before the form opens.
     if user is None or user == "None":
       if load_var("user_id") is None:
-        open_form("Main_Out")
+        open_form("MainOut")
       else:
         self.user_id = load_var("user_id")
         self.refresh_sug()
@@ -98,7 +98,7 @@ class C_Discover(C_DiscoverTemplate):
       anvil.server.call("get_suggestion", "Inspect", self.model_id, self.url_artist_id)
     )  # Free, Explore, Inspect, Dissect
     self.sug = sug
-    save_var("lastplayed", self.sug["SpotifyArtistID"])
+    save_var("lastplayedtrackid", self.sug["SpotifyArtistID"])
 
     # check status
     if sug["Status"] == "Empty Model!":
@@ -1015,22 +1015,22 @@ class C_Discover(C_DiscoverTemplate):
     self.column_panel_header.scroll_into_view(smooth=True)
 
   # ----------------------------------------------
-  def form_show(self, **event_args):
-    # embed_iframe_element = document.getElementById("embed-iframe")
-    # if embed_iframe_element:
-    #   self.call_js("createOrUpdateSpotifyPlayer", anvil.js.get_dom_node(self), "artist", self.sug["SpotifyArtistID"])
-    #   # self.call_js('playSpotify_2')
-    # else:
-    #   print("Embed iframe element not found. Will not initialize Spotify player.")
-    pass
+  # def form_show(self, **event_args):
+  #   # embed_iframe_element = document.getElementById("embed-iframe")
+  #   # if embed_iframe_element:
+  #   #   self.call_js("createOrUpdateSpotifyPlayer", anvil.js.get_dom_node(self), "artist", self.sug["SpotifyArtistID"])
+  #   #   # self.call_js('playSpotify_2')
+  #   # else:
+  #   #   print("Embed iframe element not found. Will not initialize Spotify player.")
+  #   pass
 
-  def spotify_HTML_player(self):
-    # c_web_player_html = """
-    #   <div id="embed-iframe"></div>
-    #   """
-    # html_webplayer_panel = HtmlPanel(html=c_web_player_html)
-    # self.spotify_player_spot.add_component(html_webplayer_panel)
-    pass
+  # def spotify_HTML_player(self):
+  #   # c_web_player_html = """
+  #   #   <div id="embed-iframe"></div>
+  #   #   """
+  #   # html_webplayer_panel = HtmlPanel(html=c_web_player_html)
+  #   # self.spotify_player_spot.add_component(html_webplayer_panel)
+  #   pass
 
   def custom_HTML_prediction(self):
     if self.pred:
@@ -2212,7 +2212,7 @@ class C_Discover(C_DiscoverTemplate):
     # if self.spotify_artist_button.icon == "fa:play-circle":
     #   self.spotify_artist_button.icon = "fa:pause-circle"
 
-    #   if load_var("lastplayed") != self.sug["SpotifyArtistID"]:
+    #   if load_var("lastplayedtrackid") != self.sug["SpotifyArtistID"]:
     #     self.spotify_player_spot.clear()
     #     self.spotify_HTML_player()
     #     self.call_js(
@@ -2223,7 +2223,7 @@ class C_Discover(C_DiscoverTemplate):
     #   self.spotify_artist_button.icon = "fa:play-circle"
 
     # anvil.js.call_js("playSpotify")
-    # save_var("lastplayed", self.sug["SpotifyArtistID"])
+    # save_var("lastplayedtrackid", self.sug["SpotifyArtistID"])
 
     # self.reset_track_play_buttons()
     pass

@@ -6,7 +6,7 @@ import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
 
-from ...Main_In import Main_In
+from ...MainIn import MainIn
 from ...Discover import Discover
 from ...nav import click_link, click_button, logout, login_check, load_var, save_var
 

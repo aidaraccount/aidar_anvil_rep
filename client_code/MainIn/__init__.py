@@ -1,4 +1,4 @@
-from ._anvil_designer import Main_InTemplate
+from ._anvil_designer import MainInTemplate
 from ..C_FeedbackForm import C_FeedbackForm
 
 from anvil import *
@@ -15,7 +15,7 @@ from ..C_SearchPopupTable import C_SearchPopupTable
 from anvil_extras import routing
 from ..nav import click_link, click_button, logout, login_check, save_var, load_var
 
-from ..Main_Out import Main_Out
+from ..MainOut import MainOut
 from ..Home import Home
 from ..Discover import Discover
 from ..WatchlistDetails import WatchlistDetails
@@ -37,21 +37,21 @@ routing.logger.debug = False
 
 
 @routing.main_router
-class Main_In(Main_InTemplate):
+class MainIn(MainInTemplate):
   def __init__(self, **properties):
-    #print(f"{datetime.datetime.now()}: Main_In - link_login_click - 1", flush=True)
+    #print(f"{datetime.datetime.now()}: MainIn - link_login_click - 1", flush=True)
     
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
     
     model_id = load_var("model_id")
-    print(f"Main_In model_id: {model_id}")
-    print(f"Main_In user_id: {load_var('user_id')}")
+    print(f"MainIn model_id: {model_id}")
+    print(f"MainIn user_id: {load_var('user_id')}")
 
     # Any code you write here will run before the form opens.    
     global user
     user = anvil.users.get_user()
-    print(f"Main_In user: {user}")
+    print(f"MainIn user: {user}")
         
     if user is None:
       self.visible = False
@@ -68,7 +68,7 @@ class Main_In(Main_InTemplate):
         self.SearchBar.visible = False
       
       #begin = datetime.datetime.now()
-      #print(f"{datetime.datetime.now()}: Main_In - link_login_click - 2", flush=True)
+      #print(f"{datetime.datetime.now()}: MainIn - link_login_click - 2", flush=True)
 
       # model_id
       if user["user_id"] is None:
@@ -84,21 +84,20 @@ class Main_In(Main_InTemplate):
       if watchlist_id is None:
         save_var("watchlist_id", anvil.server.call('get_watchlist_id',  user["user_id"]))
       self.watchlist_id = watchlist_id
-      print(f"Main_In watchlist_id: {watchlist_id}")
+      print(f"MainIn watchlist_id: {watchlist_id}")
           
-      #print(f"{datetime.datetime.now()}: Main_In - link_login_click - 3", flush=True)  # 20s, 17s - 4s
+      #print(f"{datetime.datetime.now()}: MainIn - link_login_click - 3", flush=True)  # 20s, 17s - 4s
             
       if self.model_id is None:
         routing.set_url_hash('no_model', load_from_cache=False)
         self.change_nav_visibility(status=True)
         self.SearchBar.visible = True
-        # self.call_js("hideNavBar")
 
-      #print(f"{datetime.datetime.now()}: Main_In - link_login_click - 4", flush=True)
+      #print(f"{datetime.datetime.now()}: MainIn - link_login_click - 4", flush=True)
       self.update_no_notifications()
       
-      #print(f"{datetime.datetime.now()}: Main_In - link_login_click - 5", flush=True)
-      #print(f"TotalTime Main_In: {datetime.datetime.now() - begin}", flush=True)
+      #print(f"{datetime.datetime.now()}: MainIn - link_login_click - 5", flush=True)
+      #print(f"TotalTime MainIn: {datetime.datetime.now() - begin}", flush=True)
       
       # WATCHLIST & MODEL PROFILES IN NAV
       self.refresh_watchlists_components()

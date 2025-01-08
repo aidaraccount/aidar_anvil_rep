@@ -22,7 +22,7 @@ Classes to be captured by js
 /* ----------------------------
 2. Spotify_Player.js */
 .anvil-role-cap-play-pause {}
-.anvil-role-cap-spotify-footer-class {}
+.anvil-role-cap-spotify-footer {}
 .anvil-role-cap-autoplay-toggle-button {}
 /* ${currentId} */
 /* ${currentId}-inner */
@@ -460,15 +460,6 @@ body, html {
   background-position: 10px center;
   text-align: left !important;
 }
-.anvil-role-rampup-text-field {
-  font-family: GS-regular;
-  width: 100%;
-  border-radius: 10px;
-  background-repeat: no-repeat;
-  background-position: 10px center;
-  text-align: left;
-}
-
 .anvil-role-search-bar-related-artists[type="text"] {
   padding: 7px 8px 5px 40px;
   background-color: rgba(128,110,137, 0.4);

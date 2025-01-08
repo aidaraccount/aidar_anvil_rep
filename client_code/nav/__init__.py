@@ -51,7 +51,7 @@ def logout():
   anvil.users.logout()
   # anvil.js.window.sessionStorage.clear()
   anvil.js.window.sessionStorage.removeItem("model_id")
-  open_form('Main_Out')
+  open_form('MainOut')
   routing.set_url_hash('', load_from_cache=False)
 
 
@@ -61,7 +61,7 @@ def login_check():
     status = True
   else:
     status = False
-    open_form('Main_Out')
+    open_form('MainOut')
   return status
 
 

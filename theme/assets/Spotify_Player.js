@@ -36,7 +36,7 @@ function playSpotify() {
 
 // function to initialize the spotify console
 function createOrUpdateSpotifyPlayer(formElement, trackOrArtist, currentSpotifyID, spotifyTrackIDsList, spotifyArtistIDsList, spotifyArtistNameList) {
-  const element = document.querySelector('.anvil-role-cap-spotify-footer-class #embed-iframe');
+  const element = document.querySelector('.anvil-role-cap-spotify-footer #embed-iframe');
   const autoplaybutton = document.querySelector('.anvil-role-cap-autoplay-toggle-button .fa-toggle-on')
 
   // check if the html for the player is imported (in the Discover Page)
@@ -96,7 +96,7 @@ function createOrUpdateSpotifyPlayer(formElement, trackOrArtist, currentSpotifyI
           setPlayButtonIcons(trackOrArtist, spotifyTrackIDsList, spotifyArtistIDsList)
         }
       });
-      
+    
     });
     
   } else {
@@ -112,7 +112,7 @@ function createOrUpdateSpotifyPlayer(formElement, trackOrArtist, currentSpotifyI
         });
         
         controller.addListener('playback_update', e => {
-          const { isPaused, isBuffering, duration, position } = e.data;
+          const {isPaused, isBuffering, duration, position} = e.data;
           
           // Check if the song has ended
           if (!isPaused && position >= duration && duration > 0) {
@@ -128,7 +128,7 @@ function createOrUpdateSpotifyPlayer(formElement, trackOrArtist, currentSpotifyI
         });
         
         controller.addListener('playback_update', e => {
-          const {isPaused, isBuffering, duration, position } = e.data;
+          const {isPaused, isBuffering, duration, position} = e.data;
           
           // Log the current playback state
           if (isBuffering) {
@@ -246,7 +246,6 @@ function playNextSong(formElement, trackOrArtist, spotifyTrackIDsList, spotifyAr
   }
 
   // save the id to browser cache
-  sessionStorage.setItem("lastplayed", nextSpotifyTrackID);
   sessionStorage.setItem("lastplayedtrackid", nextSpotifyTrackID);
   if (spotifyArtistIDsList) {
     sessionStorage.setItem("lastplayedartistid", nextSpotifyArtistID)
