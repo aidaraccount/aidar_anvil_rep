@@ -24,7 +24,7 @@ components:
       type: Label
     - layout_properties: {grid_position: 'XVSVDO,ELBDZT'}
       name: label_2
-      properties: {align: center, bold: false, role: description, text: Please configure a playlist to be automatically updated}
+      properties: {align: center, bold: false, role: description, text: 'Please configure a playlist that will continuously be updated automatically '}
       type: Label
     - event_bindings: {click: add_spotify_playlist_click}
       layout_properties: {grid_position: 'BGFPTK,NNAUFV'}
