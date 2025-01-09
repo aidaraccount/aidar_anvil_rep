@@ -166,7 +166,9 @@ class Observe_Listen(Observe_ListenTemplate):
                                         notification["no_artists"],
                                         notification["song_selection_2"]
                                         )
-        
+
+    # print(observed_tracks)
+    
     # hand-over the data
     if len(observed_tracks) > 0:
       self.no_artists.visible = False
@@ -304,6 +306,13 @@ class Observe_Listen(Observe_ListenTemplate):
     else:
       anvil.js.call_js('playSpotify')
     save_var('has_played', 'True')
+
+    # element = document.getElementById('3NpoqwjUZlCX6XfeOQcNMm')
+    # element.scrollTo({
+    #   "top": 100,          # Scroll to 100px from the top of the element
+    #   "left": 0,           # Scroll to 0px horizontally
+    #   "behavior": "smooth" # Smooth scrolling
+    # })
   
   def backward_button_click(self, **event_args):
     # play previous song

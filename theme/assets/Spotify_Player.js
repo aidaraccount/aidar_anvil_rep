@@ -274,21 +274,25 @@ function playNextSong(formElement, trackOrArtist, spotifyTrackIDsList, spotifyAr
       controller.loadUri(nextSongUri);
     }
     
-    // Check if the artist has changed to read their name
-    const currentArtistID = spotifyArtistIDsList ? spotifyArtistIDsList[index] : null;
-
-    // console.log("222 index: " + index);
-    // console.log("222 spotifyTrackIDsList: " + spotifyArtistIDsList);
-    // console.log("222 nextSpotifyTrackID: " + nextSpotifyTrackID);
-    // console.log("222 spotifyArtistIDsList: " + spotifyArtistIDsList);
-    // console.log("222 currentArtistID: " + currentArtistID);
-    // console.log("222 nextSpotifyArtistID: " + nextSpotifyArtistID);
-    // console.log("222 sessionStorage.getItem('has_played'): " + sessionStorage.getItem("has_played"));
-    
+    // Check if the artist has changed -> read their name & scroll into view
+    const currentArtistID = spotifyArtistIDsList ? spotifyArtistIDsList[index] : null;    
     if (nextSpotifyArtistID && (currentArtistID !== nextSpotifyArtistID || sessionStorage.getItem("has_played") === 'False')) {
+      // read name
       speakText(`...Presenting, ${nextSpotifyArtistName}!`)
+      
+      // scroll in view
+      const scroll_element = document.querySelector(`.anvil-role-${nextSpotifyArtistID}`);
+      if (scroll_element) {
+        scroll_element.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
+        });        
+      } else {
+        console.error(`Element with class .anvil-role-${nextSpotifyArtistID} not found`);
+      }
+      
     }
-
+    
     // start playling
     controller.play();
     controller.isPlaying = true;
@@ -298,12 +302,6 @@ function playNextSong(formElement, trackOrArtist, spotifyTrackIDsList, spotifyAr
     setPlayButtonIcons('track', spotifyTrackIDsList, spotifyArtistIDsList)
 
     // load similar artist profile
-    // console.log("333 nextSpotifyArtistID: " + nextSpotifyArtistID);
-    // console.log("333 currentArtistID: " + currentArtistID);
-    // console.log("333 nextSpotifyArtistID: " + nextSpotifyArtistID);
-    // console.log("333 sessionStorage.getItem(has_played): " + sessionStorage.getItem("has_played"));
-    // console.log("333 nextSpotifyArtistID && (currentArtistID !== nextSpotifyArtistID && sessionStorage.getItem(has_played) === 'True'): " + nextSpotifyArtistID && (currentArtistID !== nextSpotifyArtistID && sessionStorage.getItem("has_played") === 'True'));
-    
     if (nextSpotifyArtistID && (currentArtistID !== nextSpotifyArtistID && sessionStorage.getItem("has_played") === 'True')) {
       anvil.call(formElement, 'reload_discover', nextSpotifyArtistID);
     }

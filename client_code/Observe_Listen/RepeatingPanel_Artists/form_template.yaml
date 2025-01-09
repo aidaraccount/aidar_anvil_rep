@@ -2,6 +2,7 @@ components:
 - components:
   - data_bindings:
     - {code: 'self.item[''name'']', property: text, writeback: false}
+    - {code: '[f"{self.item[''spotify_artist_id'']}", "artist_name"]', property: role, writeback: false}
     layout_properties: {grid_position: 'JXLDPM,GKCIFP'}
     name: artists_name
     properties:

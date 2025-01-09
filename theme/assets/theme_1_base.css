@@ -34,7 +34,18 @@ Area 1: Base
 .anvil-role-white {color: %color:Text_White% !important;}
 
 /* ----------------------------
-1.4. Opacity (???) */
+1.4. Link only on text (needs the class on the link itself as well as its paren e.g. a new column panel) */
+.anvil-role-link-text-only {
+  display: inline-block;
+}
+.anvil-role-link-text-only-parent {
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    align-items: center;     /* Center vertically */
+}
+
+/* ----------------------------
+1.5. Opacity (???) */
 .anvil-role-opacity-100 {opacity: 100%;}
 .anvil-role-opacity-50 {opacity: 50%;}
 .anvil-role-opacity-25 {opacity: 25%;}
