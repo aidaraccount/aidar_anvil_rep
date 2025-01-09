@@ -119,12 +119,15 @@ components:
       name: last_updated_spotify
       properties: {align: center, gap: none, spacing_above: none, spacing_below: none, vertical_align: bottom, visible: true}
       type: FlowPanel
-    - layout_properties: {grid_position: 'AUADNT,NVQDQS'}
+    - data_bindings:
+      - {code: '[''header-7'', ''width-500px'']', property: role, writeback: false}
+      layout_properties: {grid_position: 'AUADNT,NVQDQS'}
       name: playlist_url
       properties:
         align: center
         role: [header-7]
         spacing:
+          margin: [null, '30', null, '30']
           padding: [null, null, null, 0]
         spacing_above: none
         spacing_below: none
@@ -313,7 +316,7 @@ components:
             spacing_below: none
             text: 'Max No. artists:'
           type: Label
-        - event_bindings: {change: no_artists_box_lost_focus, lost_focus: no_artists_box_lost_focus, pressed_enter: no_artists_box_lost_focus}
+        - event_bindings: {change: no_artists_box_lost_focus}
           layout_properties: {}
           name: no_artists_box
           properties: {align: center, placeholder: 1-20, role: notification-settings-textbox, spacing_above: none, spacing_below: none, text: '5'}
@@ -336,7 +339,7 @@ components:
           properties: {role: genre-box, spacing_above: none, spacing_below: none, text: Repeat suggestions}
           type: Link
         - components:
-          - event_bindings: {change: artist_rep_x_days_freq_lost_focus, lost_focus: artist_rep_x_days_freq_lost_focus, pressed_enter: artist_rep_x_days_freq_lost_focus}
+          - event_bindings: {change: artist_rep_x_days_freq_lost_focus}
             layout_properties: {grid_position: 'FYAGVZ,FIWFFE'}
             name: artist_rep_x_days_freq
             properties: {align: center, role: notification-settings-textbox, text: '90', type: text, visible: true}
@@ -387,7 +390,7 @@ components:
             spacing_below: none
             text: 'No. of latest releases:'
           type: Label
-        - event_bindings: {change: no_latest_rel_box_spotify_lost_focus, lost_focus: no_latest_rel_box_spotify_lost_focus, pressed_enter: no_latest_rel_box_spotify_lost_focus}
+        - event_bindings: {change: no_latest_rel_box_spotify_lost_focus}
           layout_properties: {}
           name: no_latest_rel_box_spotify
           properties: {align: center, placeholder: 1-10, role: notification-settings-textbox, spacing_above: none, spacing_below: none, text: '5'}
@@ -449,7 +452,7 @@ components:
             spacing_below: none
             text: 'Min growth fit:'
           type: Label
-        - event_bindings: {change: min_growth_value_lost_focus, lost_focus: min_growth_value_lost_focus, pressed_enter: min_growth_value_lost_focus}
+        - event_bindings: {change: min_growth_value_lost_focus}
           layout_properties: {}
           name: min_growth_value
           properties: {align: center, role: notification-settings-textbox, text: '75', type: text}
@@ -474,7 +477,7 @@ components:
             spacing_below: none
             text: 'Max days since last release:'
           type: Label
-        - event_bindings: {change: max_days_since_rel_lost_focus, lost_focus: max_days_since_rel_lost_focus, pressed_enter: max_days_since_rel_lost_focus}
+        - event_bindings: {change: max_days_since_rel_lost_focus}
           layout_properties: {}
           name: days_since_rel_field_value
           properties: {align: center, role: notification-settings-textbox, spacing_above: none, spacing_below: none, text: '21', type: text}

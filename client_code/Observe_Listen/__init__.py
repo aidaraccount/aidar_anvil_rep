@@ -91,6 +91,9 @@ class Observe_Listen(Observe_ListenTemplate):
 
     # check notification presence & trained model presence
     if len(self.notifications) > 0:
+      self.html = "@theme:ObserveListen.html"
+      self.footer.visible = True
+    
       # if existing notifications: load and activate defined/first notification
       self.no_notifications.visible = False
       self.no_trained_model.visible = False
@@ -103,6 +106,9 @@ class Observe_Listen(Observe_ListenTemplate):
       self.activate_notification(notification_id)
       
     else:
+      self.html = ''
+      self.footer.visible = False
+      
       self.flow_panel.visible = False
       self.flow_panel_create.visible = False
       self.notification_settings.visible = False
@@ -120,7 +126,7 @@ class Observe_Listen(Observe_ListenTemplate):
         self.no_trained_model.visible = False
         self.no_notifications.visible = True
         self.no_artists.visible = False
-
+        
   
   # ACTIVATE NOTIFICATION
   def activate_notification(self, notification_id):

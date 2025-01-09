@@ -140,7 +140,7 @@ components:
     properties: {height: '70'}
     type: Spacer
   data_bindings:
-  - {code: '''listen-complete-element''', property: role, writeback: false}
+  - {code: '[''listen-complete-element'']', property: role, writeback: false}
   layout_properties: {slot: default}
   name: content_panel
   properties: {col_spacing: none, col_widths: '{"CDPZDK":55,"POUDWM":5}'}
@@ -394,13 +394,14 @@ components:
         margin: [0, null, 0, null]
     type: ColumnPanel
   layout_properties: {slot: footer-slot}
-  name: Footer
+  name: footer
   properties:
     spacing:
       margin: [0, null, 0, null]
   type: ColumnPanel
 container:
-  properties:
-    html: "<div anvil-slot=\"default\"></div>\n\n<div class=\"footer\">\n  <div class=\"footer-slot\" anvil-slot=\"footer-slot\">\n    <div class=\"placeholder anvil-designer-only\" anvil-if-slot-empty=\"footer-slot\" anvil-drop-here>Add a Component here</div>\n  </div>\n</div> "
+  data_bindings:
+  - {code: '[''TEST TEST'']', property: role, writeback: false}
+  properties: {html: ''}
   type: HtmlTemplate
 is_package: true
