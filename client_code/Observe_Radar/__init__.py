@@ -126,7 +126,8 @@ class Observe_Radar(Observe_RadarTemplate):
                                             notification["rated"],
                                             notification["watchlist"],
                                             notification["min_grow_fit"],
-                                            notification["release_days"]
+                                            notification["release_days"],
+                                            notification["no_artists"]
                                             ))
     
     # add numbering & metric
@@ -142,6 +143,9 @@ class Observe_Radar(Observe_RadarTemplate):
     else:
       self.data_grid.visible = False
       self.no_artists.visible = True
+    
+    # pushover
+    anvil.server.call('sent_push_over',  'Observe_Radar', f'User {user["user_id"]}: using Artist Radar')
       
   
   # CREATE A NEW OBSERBATION

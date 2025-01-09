@@ -389,14 +389,18 @@ class MainIn(MainInTemplate):
         buttons=[("OK", "OK")],
         role=["alert-notification","remove-focus"]
       )
-      
+            
     else:
-      popup_table = alert(
+      alert(
         content=C_SearchPopupTable(self.model_id, search_text),
         large=True,
         buttons=[]
       )
 
+    # pushover
+    anvil.server.call('sent_push_over',  'SearchBar', f'User {user["user_id"]}: using SearchBar')
+
+    
   def shorten_number(self, num):
     thresholds = [
       (1_000_000_000_000, 'T'),  # Trillion

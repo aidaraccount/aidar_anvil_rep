@@ -17,6 +17,9 @@ class RepeatingPanel_Artists(RepeatingPanel_ArtistsTemplate):
     self.init_components(**properties)
 
     # Any code you write here will run before the form opens.
+    global user
+    user = anvil.users.get_user()
+    
     self.repeating_panel_tracks.items = self.item["tracks"]
     
     # set artist picture
@@ -37,3 +40,6 @@ class RepeatingPanel_Artists(RepeatingPanel_ArtistsTemplate):
     # start the first song of this artist
     save_var('has_played', 'True')
     anvil.js.call_js('playNextSong', anvil.js.get_dom_node(self), 'track', self.all_track_ids, self.all_artist_ids, self.all_artist_names, self.item["tracks"][0]['spotify_track_id'])
+
+    # pushover
+    anvil.server.call('sent_push_over',  'Observe_Listen', f'User {user["user_id"]}: artist click')

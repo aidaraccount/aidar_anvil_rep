@@ -30,8 +30,8 @@ Area 1: Base
 
 /* ----------------------------
 1.3. Text Color (yes!) */
-.anvil-role-orange {color: %color:Orange% !important;}
-.anvil-role-white {color: %color:Text_White% !important;}
+.anvil-role-orange {color: rgb(253, 101, 45) !important;}  /* %color:Orange% */
+.anvil-role-white {color: rgb(255, 255, 255) !important;}  /* %color:Text_White% */
 
 /* ----------------------------
 1.4. Link only on text (needs the class on the link itself as well as its paren e.g. a new column panel) */

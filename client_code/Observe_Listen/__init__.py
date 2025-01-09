@@ -305,10 +305,10 @@ class Observe_Listen(Observe_ListenTemplate):
   # ------------------------------------------------------------
   # FOOTER    
   # Play Controller
-  def specific_track(self, spotify_track_id, **event_args):
-    # play previous song
-    save_var('has_played', 'True')
-    anvil.js.call_js('playNextSong', anvil.js.get_dom_node(self), 'track', self.all_track_ids, self.all_artist_ids, self.all_artist_names, 'backward')
+  # def specific_track(self, spotify_track_id, **event_args):
+  #   # play previous song
+  #   save_var('has_played', 'True')
+  #   anvil.js.call_js('playNextSong', anvil.js.get_dom_node(self), 'track', self.all_track_ids, self.all_artist_ids, self.all_artist_names, 'backward')
 
   def play_button_central_click(self, **event_args):
     if load_var('has_played') == 'False':
@@ -316,33 +316,31 @@ class Observe_Listen(Observe_ListenTemplate):
     else:
       anvil.js.call_js('playSpotify')
     save_var('has_played', 'True')
-
-    # element = document.getElementById('3NpoqwjUZlCX6XfeOQcNMm')
-    # element.scrollTo({
-    #   "top": 100,          # Scroll to 100px from the top of the element
-    #   "left": 0,           # Scroll to 0px horizontally
-    #   "behavior": "smooth" # Smooth scrolling
-    # })
+    anvil.server.call('sent_push_over',  'Observe_Listen', f'User {user["user_id"]}: play/pause playlist')
   
   def backward_button_click(self, **event_args):
     # play previous song
     save_var('has_played', 'True')
     anvil.js.call_js('playNextSong', anvil.js.get_dom_node(self), 'track', self.all_track_ids, self.all_artist_ids, self.all_artist_names, 'backward')
-
+    anvil.server.call('sent_push_over',  'Observe_Listen', f'User {user["user_id"]}: backward playlist')
+  
   def forward_button_click(self, **event_args):
     # play next song
     save_var('has_played', 'True')
     anvil.js.call_js('playNextSong', anvil.js.get_dom_node(self), 'track', self.all_track_ids, self.all_artist_ids, self.all_artist_names, 'forward')
+    anvil.server.call('sent_push_over',  'Observe_Listen', f'User {user["user_id"]}: forward playlist')
     
   def fast_backward_button_click(self, **event_args):
     # play first song of next artist
     save_var('has_played', 'True')
     anvil.js.call_js('playNextSong', anvil.js.get_dom_node(self), 'track', self.all_track_ids, self.all_artist_ids, self.all_artist_names, 'fast-backward')
-    
+    anvil.server.call('sent_push_over',  'Observe_Listen', f'User {user["user_id"]}: artist backward playlist')
+
   def fast_forward_button_click(self, **event_args):
     # play first song of next artist
     save_var('has_played', 'True')
     anvil.js.call_js('playNextSong', anvil.js.get_dom_node(self), 'track', self.all_track_ids, self.all_artist_ids, self.all_artist_names, 'fast-forward')
+    anvil.server.call('sent_push_over',  'Observe_Listen', f'User {user["user_id"]}: artist forward playlist')
 
   # Ratings
   def set_rating_highlight(self, no=None, rating=False, **event_args):

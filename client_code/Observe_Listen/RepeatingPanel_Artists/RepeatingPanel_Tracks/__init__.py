@@ -14,6 +14,9 @@ class RepeatingPanel_Tracks(RepeatingPanel_TracksTemplate):
     self.init_components(**properties)
     
     # Any code you write here will run before the form opens.
+    global user
+    user = anvil.users.get_user()
+    
     # set album picture    
     if self.item["album_picture_url"] is not None:
       self.album_img.source = self.item["album_picture_url"]
@@ -43,3 +46,6 @@ class RepeatingPanel_Tracks(RepeatingPanel_TracksTemplate):
       
     else:
       anvil.js.call_js('playSpotify')
+
+    # pushover
+    anvil.server.call('sent_push_over',  'Observe_Listen', f'User {user["user_id"]}: track click')
