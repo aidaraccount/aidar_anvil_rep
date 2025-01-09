@@ -126,7 +126,8 @@ class Observe_Radar(Observe_RadarTemplate):
                                             notification["rated"],
                                             notification["watchlist"],
                                             notification["min_grow_fit"],
-                                            notification["release_days"]
+                                            notification["release_days"],
+                                            20
                                             ))
     
     # add numbering & metric
