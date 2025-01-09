@@ -108,7 +108,8 @@ components:
       auto_header: false
       columns:
       - {data_key: column_1, id: JKSDUP, title: Column 1}
-      rows_per_page: 5
+      rows_per_page: null
+      show_page_controls: false
     type: DataGrid
   - layout_properties: {grid_position: 'TINJGS,EKTRMF'}
     name: spacer_2

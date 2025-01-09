@@ -45,6 +45,8 @@ class Observe_Listen(Observe_ListenTemplate):
       
       save_var('has_played', 'False')
       self.footer_trick_spacer.visible = False
+      
+      self.discover_is_loading = False
 
       # -----------      
       # GENERAL
@@ -226,16 +228,24 @@ class Observe_Listen(Observe_ListenTemplate):
     self.drop_down_model.items = [item['model_name'] for item in model_data]
     
   def reload_discover(self, nextSpotifyArtistID, **event_args):
-    new_artist_id = self.all_ai_artist_ids[self.all_artist_ids.index(nextSpotifyArtistID)]
-    self.column_panel_discover.clear()
-    self.column_panel_discover.add_component(C_Discover(new_artist_id))
+    if self.discover_is_loading:
+      return  # Ignore this call if another is already in progress
+
+    self.discover_is_loading = True  # Lock the function
+    try:
+      # load C_Discover
+      new_artist_id = self.all_ai_artist_ids[self.all_artist_ids.index(nextSpotifyArtistID)]
+      self.column_panel_discover.clear()
+      self.column_panel_discover.add_component(C_Discover(new_artist_id))
+      # set ratings status
+      self.column_panel_discover.get_components()[0].set_rating_highlight()    
+      # set watchlist status
+      self.column_panel_discover.get_components()[0].set_watchlist_icons()
+      # refresh play buttons
+      anvil.js.call_js('setPlayButtonIcons', 'track')
     
-    # set ratings status
-    self.column_panel_discover.get_components()[0].set_rating_highlight()    
-    # set watchlist status
-    self.column_panel_discover.get_components()[0].set_watchlist_icons()
-    # refresh play buttons
-    anvil.js.call_js('setPlayButtonIcons', 'track')
+    finally:
+      self.discover_is_loading = False  # Unlock the function    
 
   # CREATE A NEW PLAYLIST
   def add_spotify_playlist_click(self, **event_args):
