@@ -505,3 +505,11 @@ function speakText(text, callback=null) {
     }
   }
 }
+
+// // function hide the playlist play buttons
+// function hidePlaylistButtons() {
+//   const buttons = document.querySelectorAll('.anvil-role-cap-play-playlist');  
+//   buttons.forEach(button => {
+//     button.style.display = 'none'; // Hides the button
+//   });
+// }

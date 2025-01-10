@@ -18,15 +18,13 @@ class RepeatingPanel_Tracks(RepeatingPanel_TracksTemplate):
     global user
     user = anvil.users.get_user()
 
-    self.play_button_copy.visible = False
+    self.play_button.visible = False
     
     # set album picture    
     if self.item["album_picture_url"] is not None:
       self.album_img.source = self.item["album_picture_url"]
-      self.album_img_copy.source = self.item["album_picture_url"]
     else:
       self.album_img.source = '_/theme/pics/Favicon_orange.JPG'
-      self.album_img_copy.source = '_/theme/pics/Favicon_orange.JPG'
 
   
   def play_button_click(self, **event_args):
@@ -55,31 +53,17 @@ class RepeatingPanel_Tracks(RepeatingPanel_TracksTemplate):
     # pushover
     anvil.server.call('sent_push_over',  'Observe_Listen', f'User {user["user_id"]}: track click')
 
-  def album_img_copy_mouse_enter(self, x, y, **event_args):
-    self.play_button_copy.visible = True
-    # print(f"in: {x}/{y}")
-    save_var('x_in', x)
-    save_var('y_in', y)
+  def album_img_mouse_enter(self, x, y, **event_args):
+    # anvil.js.call_js('hidePlaylistButtons')
+    self.play_button.visible = True
 
-  def album_img_copy_mouse_leave(self, x, y, **event_args):
-    x_in = float(load_var('x_in'))
-    y_in = float(load_var('y_in'))
+    # print('Parent Lvl 0:', self.get_components()[0].get_components()[0].get_components()[1].visible)
+
     
-    # if x_in == 0 & 3 < x < 47: 
-    #   # left in
-    #   pass
-    # elif x_in == 49 & 3 < x < 47: 
-    #   # right in
-    #   pass
-    # elif y_in < 1 & 3 < y < 47: 
-    #   # top in
-    #   pass
-    # elif y_in > 49 & 3 < y < 47: 
-    #   # bottom in
-    #   pass
-    # else:
-    #   self.play_button_copy.visible = False
-
-    # if x == -1 or 
-    # print(f"in: {x_in}/{y_in} | out: {x}/{y}")
+  def album_img_mouse_leave(self, x, y, **event_args):
+    if x <= 0 or \
+      x >= 50 or \
+      y <= 0 or \
+      y >= 50:
+      self.play_button.visible = False      
     print(f"out: {x}/{y}")

@@ -37,6 +37,7 @@ Classes to be captured by js
 /* ----------------------------
 2. Spotify_Player.js */
 .anvil-role-cap-play-pause {}
+.anvil-role-cap-play-playlist {}
 .anvil-role-cap-spotify-footer {}
 .anvil-role-cap-autoplay-toggle-button {}
 /* ${nextSpotifyArtistID} */

@@ -1,73 +1,59 @@
 components:
-- data_bindings:
-  - {code: '["cap-play-pause", "play-spotify-button", f"{self.item[''spotify_track_id'']}"]', property: role, writeback: false}
-  event_bindings: {click: play_button_click}
-  layout_properties: {grid_position: 'PYGHAJ,FCKORH'}
-  name: play_button
-  properties:
-    align: center
-    icon: fa:play-circle
-    role: [play-spotify-button]
-    spacing:
-      margin: [0, null, null, 3]
-      padding: [null, 0, null, 0]
-    text: ''
-  type: Button
-- layout_properties: {grid_position: 'PYGHAJ,LIWRTR'}
-  name: album_img
-  properties:
-    height: '50'
-    margin: [0, null, null, null]
-  type: Image
-- data_bindings:
-  - {code: 'self.item[''title'']', property: text, writeback: false}
-  layout_properties: {grid_position: 'PYGHAJ,IRHGEV'}
-  name: title
-  properties:
-    role: header-6
-    spacing:
-      margin: [0, null, null, null]
-  type: Label
-- components: []
-  data_bindings:
-  - {code: '[''parent'']', property: role, writeback: false}
-  layout_properties: {grid_position: 'OJGLWC,TFGLYO'}
-  name: column_panel_1
-  properties: {}
-  type: ColumnPanel
 - components:
-  - data_bindings:
-    - {code: '[''picture-base'']', property: role, writeback: false}
-    event_bindings: {mouse_enter: album_img_copy_mouse_enter, mouse_leave: album_img_copy_mouse_leave}
-    layout_properties: {width: 50, x: 0, y: 0}
-    name: album_img_copy
+  - components:
+    - data_bindings:
+      - {code: '[''picture-base'']', property: role, writeback: false}
+      event_bindings: {mouse_enter: album_img_mouse_enter, mouse_leave: album_img_mouse_leave}
+      layout_properties: {width: 50, x: 0, y: 0}
+      name: album_img
+      properties:
+        height: '50'
+        margin: [0, null, null, null]
+      type: Image
+    - data_bindings:
+      - {code: '["cap-play-playlist", "height-40px", "cap-play-pause", "play-spotify-button", f"{self.item[''spotify_track_id'']}"]', property: role, writeback: false}
+      event_bindings: {click: play_button_click}
+      layout_properties: {width: 40, x: 5, y: 5}
+      name: play_button
+      properties:
+        align: center
+        icon: fa:play-circle
+        role: [play-spotify-button]
+        spacing:
+          margin: [0, null, null, 0]
+          padding: [0, 0, 0, 0]
+        spacing_above: none
+        spacing_below: none
+        text: ''
+      type: Button
+    data_bindings:
+    - {code: '[''width-50px'']', property: role, writeback: false}
+    layout_properties: {width: 50}
+    name: xy_panel_1
     properties:
       height: '50'
-      margin: [0, null, null, null]
-    type: Image
+      margin: [0, null, 0, null]
+    type: XYPanel
   - data_bindings:
-    - {code: '["height-40px", "cap-play-pause", "play-spotify-button", f"{self.item[''spotify_track_id'']}"]', property: role, writeback: false}
-    event_bindings: {click: play_button_click}
-    layout_properties: {width: 40, x: 5, y: 5}
-    name: play_button_copy
+    - {code: 'self.item[''title'']', property: text, writeback: false}
+    layout_properties: {}
+    name: title
     properties:
-      align: center
-      icon: fa:play-circle
-      role: [play-spotify-button]
+      role: header-6
       spacing:
-        margin: [0, null, null, 0]
-        padding: [0, 0, 0, 0]
+        margin: [0, null, null, 5]
       spacing_above: none
       spacing_below: none
-      text: ''
-    type: Button
-  data_bindings:
-  - {code: '[''width-50px'']', property: role, writeback: false}
-  layout_properties: {grid_position: 'SLRUTB,VVNXNS'}
-  name: xy_panel_1
-  properties: {height: '50'}
-  type: XYPanel
+    type: Label
+  layout_properties: {full_width_row: true, grid_position: 'IREPAC,YMKVKR'}
+  name: flow_panel_1
+  properties:
+    gap: none
+    spacing:
+      margin: [0, null, 0, null]
+    vertical_align: top
+  type: FlowPanel
 container:
-  properties: {col_spacing: tiny, col_widths: '{"FCKORH":20,"IRHGEV":40,"LIWRTR":20}', role: null, spacing_above: none, spacing_below: none}
+  properties: {col_spacing: tiny, col_widths: '{}', role: null, spacing_above: none, spacing_below: none}
   type: ColumnPanel
 is_package: true
