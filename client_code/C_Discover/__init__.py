@@ -1794,7 +1794,7 @@ class C_Discover(C_DiscoverTemplate):
         # Notification("", title=f'Artist rated with 1 for "{model_name}" - model selection does not fit playlists model!', style='warning').show()
         alert(
           title='Attention! Model selection does not fit playlist models!',
-          content=f'Artist was rated with 1 for the model "{model_name}". Ensure its the correct model. If not, switch the model on the bottom right.',
+          content=f'Artist was rated with 1 for the model "{model_name}".\n\nEnsure its the correct model. If not, switch the model on the bottom right.',
         )
     else:
       anvil.server.call("add_interest", user["user_id"], self.model_id, self.artist_id, None, False, "")
@@ -1809,7 +1809,7 @@ class C_Discover(C_DiscoverTemplate):
         # Notification("", title=f'Artist rated with 2 for "{model_name}" - model selection does not fit playlists model!', style='warning').show()
         alert(
           title='Attention! Model selection does not fit playlist models!',
-          content=f'Artist was rated with 2 for the model "{model_name}". Ensure its the correct model. If not, switch the model on the bottom right.',
+          content=f'Artist was rated with 2 for the model "{model_name}".\n\nEnsure its the correct model. If not, switch the model on the bottom right.',
         )
     else:
       anvil.server.call("add_interest", user["user_id"], self.model_id, self.artist_id, None, False, "")
@@ -1824,7 +1824,7 @@ class C_Discover(C_DiscoverTemplate):
         # Notification("", title=f'Artist rated with 3 for "{model_name}" - model selection does not fit playlists model!', style='warning').show()
         alert(
           title='Attention! Model selection does not fit playlist models!',
-          content=f'Artist was rated with 3 for the model "{model_name}". Ensure its the correct model. If not, switch the model on the bottom right.',
+          content=f'Artist was rated with 3 for the model "{model_name}".\n\nEnsure its the correct model. If not, switch the model on the bottom right.',
         )
     else:
       anvil.server.call("add_interest", user["user_id"], self.model_id, self.artist_id, None, False, "")
@@ -1839,7 +1839,7 @@ class C_Discover(C_DiscoverTemplate):
         # Notification("", title=f'Artist rated with 4 for "{model_name}" - model selection does not fit playlists model!', style='warning').show()
         alert(
           title='Attention! Model selection does not fit playlist models!',
-          content=f'Artist was rated with 4 for the model "{model_name}". Ensure its the correct model. If not, switch the model on the bottom right.',
+          content=f'Artist was rated with 4 for the model "{model_name}".\n\nEnsure its the correct model. If not, switch the model on the bottom right.',
         )
     else:
       anvil.server.call("add_interest", user["user_id"], self.model_id, self.artist_id, None, False, "")
@@ -1854,7 +1854,7 @@ class C_Discover(C_DiscoverTemplate):
         # Notification("", title=f'Artist rated with 5 for "{model_name}" - model selection does not fit playlists model!', style='warning').show()
         alert(
           title='Attention! Model selection does not fit playlist models!',
-          content=f'Artist was rated with 5 for the model "{model_name}". Ensure its the correct model. If not, switch the model on the bottom right.',
+          content=f'Artist was rated with 5 for the model "{model_name}".\n\nEnsure its the correct model. If not, switch the model on the bottom right.',
         )
     else:
       anvil.server.call("add_interest", user["user_id"], self.model_id, self.artist_id, None, False, "")
@@ -1869,7 +1869,7 @@ class C_Discover(C_DiscoverTemplate):
         # Notification("", title=f'Artist rated with 6 for "{model_name}" - model selection does not fit playlists model!', style='warning').show()
         alert(
           title='Attention! Model selection does not fit playlist models!',
-          content=f'Artist was rated with 6 for the model "{model_name}". Ensure its the correct model. If not, switch the model on the bottom right.',
+          content=f'Artist was rated with 6 for the model "{model_name}".\n\nEnsure its the correct model. If not, switch the model on the bottom right.',
         )
     else:
       anvil.server.call("add_interest", user["user_id"], self.model_id, self.artist_id, None, False, "")
@@ -1884,7 +1884,7 @@ class C_Discover(C_DiscoverTemplate):
         # Notification("", title=f'Artist rated with 7 for "{model_name}" - model selection does not fit playlists model!', style='warning').show()
         alert(
           title='Attention! Model selection does not fit playlist models!',
-          content=f'Artist was rated with 7 for the model "{model_name}". Ensure its the correct model. If not, switch the model on the bottom right.',
+          content=f'Artist was rated with 7 for the model "{model_name}".\n\nEnsure its the correct model. If not, switch the model on the bottom right.',
         )
     else:
       anvil.server.call("add_interest", user["user_id"], self.model_id, self.artist_id, None, False, "")

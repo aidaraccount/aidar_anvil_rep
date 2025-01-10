@@ -137,16 +137,32 @@ class RampUp(RampUpTemplate):
           click_button(f'model_setup?model_id={self.model_id_view}&section=Reference_Artists', event_args)
         
     # Reference_Artists
-    elif self.section == 'Reference_Artists':
-      artists = self.sec_Reference_Artists.get_components()[0].repeating_panel_reference.items[0]
-      no_artists = len([item for item in artists if item['ArtistID'] is not None])
-
-      if no_artists <= 2:
-        
+    elif self.section == 'Reference_Artists':        
       artist_id = anvil.server.call('get_next_artist_id', self.model_id_view)
-      if artist_id is not None:
-        # click_button(f'model_setup?model_id={self.model_id_view}&section=Level_of_Pop', event_args)
-        pass
+      
+      if artist_id is not None:        
+        artists = self.sec_Reference_Artists.get_components()[0].repeating_panel_reference.items[0]
+        no_artists = len([item for item in artists if item['ArtistID'] is not None])
+      
+        if no_artists <= 2:
+          result = alert(
+            title='Too few references added..',
+            content="Please add at least 3 artists in the style you're looking for! Otherwise, the model may struggle to provide accurate suggestions right away.",
+            buttons=[
+              ("Ignore", "IGNORE"),
+              ("Add more references", "BACK")
+            ],
+            # role=["forgot-password-success", "remove-focus"]
+          )
+          
+          if result == "BACK":
+            pass
+          elif result == "IGNORE":
+            click_button(f'model_setup?model_id={self.model_id_view}&section=Level_of_Pop', event_args)
+            
+        else:
+          click_button(f'model_setup?model_id={self.model_id_view}&section=Level_of_Pop', event_args)
+          
       else:
         alert(title='Not enough References', content="Please add additional Reference Artists!")
 

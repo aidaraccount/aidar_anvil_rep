@@ -32,7 +32,13 @@ components:
       type: FlowPanel
     layout_properties: {grid_position: 'BPSZSV,UGUGBO'}
     name: column_panel_header
-    properties: {col_widths: '{"NFIWSL":45,"HHYSER":15}', role: tile-background-left, spacing_above: none, spacing_below: none}
+    properties:
+      col_widths: '{"NFIWSL":45,"HHYSER":15}'
+      role: tile-background-left
+      spacing:
+        padding: [null, 10, null, 10]
+      spacing_above: none
+      spacing_below: none
     type: ColumnPanel
   - components:
     - layout_properties: {}
