@@ -61,3 +61,4 @@ class RepeatingPanel_Tracks(RepeatingPanel_TracksTemplate):
   def album_img_copy_mouse_leave(self, x, y, **event_args):
     # self.play_button_copy.visible = False
     print("out!")
+    print(event_args)

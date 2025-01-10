@@ -36,7 +36,9 @@ components:
   properties: {}
   type: ColumnPanel
 - components:
-  - event_bindings: {mouse_enter: album_img_copy_mouse_enter, mouse_leave: album_img_copy_mouse_leave}
+  - data_bindings:
+    - {code: '[''picture-base'']', property: role, writeback: false}
+    event_bindings: {mouse_enter: album_img_copy_mouse_enter, mouse_leave: album_img_copy_mouse_leave}
     layout_properties: {width: 50, x: 0, y: 0}
     name: album_img_copy
     properties:
