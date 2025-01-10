@@ -147,7 +147,7 @@ class MainIn(MainInTemplate):
   def watchlists_click(self, link_watchlist_id, wl_link, **event_args):
     click_link(wl_link, f'watchlist_details?watchlist_id={link_watchlist_id}&artist_id=None', event_args)
     self.reset_nav_backgrounds()
-    wl_link.background = "theme:Accent 3"
+    wl_link.background = "theme:Brown"
   # ------------
 
   # MODEL ROUTING
@@ -193,7 +193,7 @@ class MainIn(MainInTemplate):
   def models_click(self, link_model_id, model_link, **event_args):
     click_link(model_link, f'model_profile?model_id={link_model_id}&section=Main', event_args)
     self.reset_nav_backgrounds()
-    model_link.background = "theme:Accent 3"
+    model_link.background = "theme:Brown"
   # ------------
       
   def logout_click(self, **event_args):
@@ -228,22 +228,22 @@ class MainIn(MainInTemplate):
 
     # set new bacckground
     if location.hash[:5] == '#home':
-      self.link_home.background = "theme:Accent 3"
+      self.link_home.background = "theme:Brown"
       
     elif location.hash[:9] == '#artists?':
-      self.link_discover_ai.background = "theme:Accent 3"
+      self.link_discover_ai.background = "theme:Brown"
     elif location.hash[:13] == '#rel_artists?':
-      self.link_discover_rel.background = "theme:Accent 3"
+      self.link_discover_rel.background = "theme:Brown"
       
     elif location.hash[:6] == '#radar':
-      self.link_radar.background = "theme:Accent 3"
+      self.link_radar.background = "theme:Brown"
     elif location.hash[:7] == '#listen':
-      self.link_listen.background = "theme:Accent 3"
+      self.link_listen.background = "theme:Brown"
       
     elif location.hash[:17] == '#watchlist_funnel':
-      self.link_monitor_funnel.background = "theme:Accent 3"
+      self.link_monitor_funnel.background = "theme:Brown"
     elif location.hash[:19] == '#watchlist_overview':
-      self.link_monitor_dev.background = "theme:Accent 3"
+      self.link_monitor_dev.background = "theme:Brown"
       
   
   def change_nav_visibility(self, status, **event_args):
@@ -267,7 +267,7 @@ class MainIn(MainInTemplate):
   def link_home_click(self, **event_args):
     click_link(self.link_home, 'home', event_args)
     self.reset_nav_backgrounds()
-    self.link_home.background = "theme:Accent 3"
+    self.link_home.background = "theme:Brown"
   
   #----------------------------------------------------------------------------------------------  
   # DISCOVER
@@ -287,12 +287,12 @@ class MainIn(MainInTemplate):
     artist_id = anvil.server.call('get_next_artist_id', load_var('model_id'))
     click_link(self.link_discover_ai, f'artists?artist_id={artist_id}', event_args)
     self.reset_nav_backgrounds()
-    self.link_discover_ai.background = "theme:Accent 3"
+    self.link_discover_ai.background = "theme:Brown"
 
   def link_discover_rel_click(self, **event_args):
     click_link(self.link_discover_rel, 'rel_artists?artist_id=None', event_args)
     self.reset_nav_backgrounds()
-    self.link_discover_rel.background = "theme:Accent 3"
+    self.link_discover_rel.background = "theme:Brown"
 
   #----------------------------------------------------------------------------------------------
   # OBSERVE
@@ -310,12 +310,12 @@ class MainIn(MainInTemplate):
   def link_observe_click(self, **event_args):
     click_link(self.link_radar, 'radar?notification_id=None', event_args)
     self.reset_nav_backgrounds()
-    self.link_radar.background = "theme:Accent 3"
+    self.link_radar.background = "theme:Brown"
 
   def link_listen_click(self, **event_args):
     click_link(self.link_listen, 'listen?notification_id=None', event_args)
     self.reset_nav_backgrounds()
-    self.link_listen.background = "theme:Accent 3"
+    self.link_listen.background = "theme:Brown"
   
   #----------------------------------------------------------------------------------------------
   # WATCHLISTS
@@ -349,12 +349,12 @@ class MainIn(MainInTemplate):
   def link_monitor_funnel_click(self, **event_args):
     click_link(self.link_monitor_funnel, 'watchlist_funnel', event_args)
     self.reset_nav_backgrounds()
-    self.link_monitor_funnel.background = "theme:Accent 3"
+    self.link_monitor_funnel.background = "theme:Brown"
 
   def link_monitor_dev_click(self, **event_args):
     click_link(self.link_monitor_dev, 'watchlist_overview', event_args)
     self.reset_nav_backgrounds()
-    self.link_monitor_dev.background = "theme:Accent 3"
+    self.link_monitor_dev.background = "theme:Brown"
 
   #----------------------------------------------------------------------------------------------
   # MODELS

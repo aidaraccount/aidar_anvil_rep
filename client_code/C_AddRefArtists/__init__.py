@@ -36,11 +36,11 @@ class C_AddRefArtists(C_AddRefArtistsTemplate):
   def button_add_ref_artist_click(self, **event_args):
     status = anvil.server.call('add_ref_artist', user["user_id"], self.model_id, self.text_box_spotify_artist_id.text)
     if status == 'Event created':
-      if self.label_cnt_1.background == 'theme:Accent 1':
+      if self.label_cnt_1.background == 'theme:Accent_1':
         self.label_cnt_1.background = 'theme:Orange'
-      elif self.label_cnt_2.background == 'theme:Accent 1':
+      elif self.label_cnt_2.background == 'theme:Accent_1':
         self.label_cnt_2.background = 'theme:Orange'
-      elif self.label_cnt_3.background == 'theme:Accent 1':
+      elif self.label_cnt_3.background == 'theme:Accent_1':
         self.label_cnt_3.background = 'theme:Orange'
       
       alert(title='Processing Reference Artist..',

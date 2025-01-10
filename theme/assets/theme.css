@@ -14,8 +14,18 @@ Area 4: Page Individual
 
 :root {--Orange: %color:Orange%;}
 :root {--OrangeDiscreet: %color:OrangeDiscreet%;}
+
 :root {--Purple: %color:Purple%;}
+:root {--Sangria: %color:Sangria%;}
+:root {--Brown: %color:Brown%;}
+
+:root {--Text_White: %color:Text_White%;}
 :root {--Text_WhiteDiscreet: %color:Text_WhiteDiscreet%;}
+
+:root {--Grid_Black: %color:Grid_Black%}
+
+:root {--Accent_1: %color:Accent_1%;}
+:root {--Accent_2: %color:Accent_2%;}
 
 
 /*
@@ -29,6 +39,7 @@ Classes to be captured by js
 .anvil-role-cap-play-pause {}
 .anvil-role-cap-spotify-footer {}
 .anvil-role-cap-autoplay-toggle-button {}
+/* ${nextSpotifyArtistID} */
 /* ${currentId} */
 /* ${currentId}-inner */
 .anvil-role-cap-play-spotify-button-big1 {}

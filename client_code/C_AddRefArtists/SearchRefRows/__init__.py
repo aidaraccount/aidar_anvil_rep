@@ -39,11 +39,11 @@ class SearchRefRows(SearchRefRowsTemplate):
       alert(title='Processing Reference Artist..',
             content='We are processing your artist, which may take a short moment. You will find it at REF. ARTISTS soon.\n\nFeel free to add additional reference artists or start to DISCOVER - both  will improve your model accuracy.\n\nEnjoy it!')
 
-      if self.parent.parent.parent.parent.label_cnt_1.background == 'theme:Accent 1':
+      if self.parent.parent.parent.parent.label_cnt_1.background == 'theme:Accent_1':
         self.parent.parent.parent.parent.label_cnt_1.background = 'theme:Orange'
-      elif self.parent.parent.parent.parent.label_cnt_2.background == 'theme:Accent 1':
+      elif self.parent.parent.parent.parent.label_cnt_2.background == 'theme:Accent_1':
         self.parent.parent.parent.parent.label_cnt_2.background = 'theme:Orange'
-      elif self.parent.parent.parent.parent.label_cnt_3.background == 'theme:Accent 1':
+      elif self.parent.parent.parent.parent.label_cnt_3.background == 'theme:Accent_1':
         self.parent.parent.parent.parent.label_cnt_3.background = 'theme:Orange'
 
       self.parent.parent.parent.parent.data_grid_artists_header.visible = False

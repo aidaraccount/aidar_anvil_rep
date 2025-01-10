@@ -9,7 +9,7 @@ Area 4: Text Boxes
   font-weight: normal;
   color: white;
   
-  background: #616161;
+  background: var(--Accent_1);
   
   padding-top: 5px;
   padding-bottom: 5px;
@@ -20,7 +20,7 @@ Area 4: Text Boxes
   font-family: GS-regular;
   font-size: 16px;
   font-weight: normal;
-  color: rgb(40, 40, 40);
+  color: var(--Grid_Black);
   
   padding-top: 5px;
   padding-bottom: 5px;
@@ -43,7 +43,7 @@ Area 4: Text Boxes
   font-size: 14px;
   font-weight: normal;
   margin: 8px 5px 0 4px;
-  color: white;
+  color: var(--Text_WhiteDiscreet);
   background: transparent; 
   padding-bottom: 3px;
   width: 65px;
