@@ -3,7 +3,7 @@
 Area 5: Page individual classes
 ----------------------------------------------------------------------------------------
 5.1. Home individual classes */
-.anvil-role-home-discover-button {
+.anvil-role-home-discover-button {  /* neccessary for flexible positioning */
   left: auto !important;
   right: 1em;
 }

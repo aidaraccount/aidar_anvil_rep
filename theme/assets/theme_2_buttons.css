@@ -4,7 +4,7 @@ Area 3: Buttons
 ----------------------------------------------------------------------------------------
 3.1. Highlight Button (static glow) */
 .anvil-role-highlight-button button {
-  box-shadow: 0 0 5px #E95F30, 0 0 9px #E95F30, 0 0 13px #E95F30; /* Static orange glow */
+  box-shadow: 0 0 5px var(--Orange), 0 0 9px var(--Orange), 0 0 13px var(--Orange); /* Static orange glow */
   transition: all 0.3s ease; /* Smooth hover effect */
 }
 
@@ -13,7 +13,7 @@ Area 3: Buttons
 .anvil-role-icon-button button {
   font-family: Gs-regular;
   font-size: 24px;
-  color: #E95F30;
+  color: var(--Orange);
   background: transparent;
   border: 0px;
   box-shadow: none;
@@ -23,12 +23,12 @@ Area 3: Buttons
 }
 .anvil-role-icon-button > button:hover {
   background: transparent;
-  color: #BA7305;
+  color: var(--OrangeDiscreet);
 }
 .anvil-role-icon-button > button:focus,
 .anvil-role-icon-button > button:active {
   background: transparent !important;
-  color: #E95F30 !important;
+  color: var(--Orange) !important;
 }
 
 /* ----------------------------
@@ -55,8 +55,8 @@ Area 3: Buttons
 .anvil-role-save-button-sidebar > button {
   font-family: Gs-regular;
   font-size: 16px;
-  color: #E95F30;
-  background: white;
+  color: var(--Orange);
+  background: var(--Text_WhiteDiscreet);
   border: 0px;
   box-shadow: none;
   text-shadow: none;
@@ -64,13 +64,13 @@ Area 3: Buttons
   margin: 10px 0 0 0;
 }
 .anvil-role-save-button-sidebar > button:hover {
-  background: linear-gradient(to top left, rgba(232, 232, 232, 0.8) 50%, white);
-  color: #BA7305;
+  background: linear-gradient(to top left, rgba(232, 232, 232, 0.8) 50%, var(--Text_WhiteDiscreet));
+  color: var(--OrangeDiscreet);
 }
 .anvil-role-save-button-sidebar > button:focus,
 .anvil-role-save-button-sidebar > button:active {
-  background: white;
-  color: #E95F30;
+  background: var(--Text_WhiteDiscreet);
+  color: var(--Orange);
 }
 
 
@@ -79,7 +79,7 @@ Area 3: Buttons
 .anvil-role-play-spotify-button button {
   font-family: Gs-regular;
   font-size: 24px;
-  color: #E95F30;
+  color: var(--Orange);
   background: transparent;
   border: 0px;
   box-shadow: none;
@@ -89,12 +89,12 @@ Area 3: Buttons
 }
 .anvil-role-play-spotify-button > button:hover {
   background: transparent;
-  color: #BA7305;
+  color: var(--OrangeDiscreet);
 }
 .anvil-role-play-spotify-button > button:focus,
 .anvil-role-play-spotify-button > button:active {
   background: transparent !important;
-  color: #E95F30 !important;
+  color: var(--Orange) !important;
 }
 
 /* ----------------------------
@@ -102,7 +102,7 @@ Area 3: Buttons
 .anvil-role-play-spotify-button-big button {
   font-family: Gs-regular;
   font-size: 44px;
-  color: #E95F30;
+  color: var(--Orange);
   background: transparent;
   padding: 0;
   border: 0px;
@@ -115,20 +115,20 @@ Area 3: Buttons
 }
 .anvil-role-play-spotify-button-big > button:hover {
   background: transparent;
-  color: #BA7305;
+  color: var(--OrangeDiscreet);
 }
 .anvil-role-play-spotify-button-big > button:focus,
 .anvil-role-play-spotify-button-big > button:active {
   background: transparent !important;
-  color: #E95F30 !important;
+  color: var(--Orange) !important;
 }
 
 /* ----------------------------
 3.5. Call 2 Action Button */
 .anvil-role-call-to-action-button button {
   font-family: Gs-regular;
-  color: white;
-  background: #E95F30;
+  color: var(--Text_WhiteDiscreet);
+  background: var(--Orange);
   border: 0px;
   box-shadow: none;
   text-shadow: none;
@@ -140,16 +140,16 @@ Area 3: Buttons
 .anvil-role-call-to-action-button > button:hover,
 .anvil-role-call-to-action-button > button:focus,
 .anvil-role-call-to-action-button > button:active {
-  background: #BA7305;
-  color: white;
+  background: var(--OrangeDiscreet);
+  color: var(--Text_WhiteDiscreet);
 }
 
 /* ----------------------------
 3.6. Call 2 Action Button Longer */
 .anvil-role-call-to-action-button-longer button {
   font-family: Gs-regular;
-  color: white;
-  background: #E95F30;
+  color: var(--Text_WhiteDiscreet);
+  background: var(--Orange);
   border: 0px;
   box-shadow: none;
   text-shadow: none;
@@ -161,15 +161,15 @@ Area 3: Buttons
 .anvil-role-call-to-action-button-longer > button:hover,
 .anvil-role-call-to-action-button-longer > button:focus,
 .anvil-role-call-to-action-button-longer > button:active {
-  background: #BA7305;
-  color: white;
+  background: var(--OrangeDiscreet);
+  color: var(--Text_WhiteDiscreet);
 }
 
 /* ----------------------------
 3.7. Call 2 Action Button Disabled */
 .anvil-role-call-to-action-button-disabled button {
   font-family: Gs-regular;
-  color: #D7D7D7;
+  color: var(--Text_WhiteDiscreet);
   background: #616161;
   border: 0px;
   box-shadow: none;
@@ -181,7 +181,7 @@ Area 3: Buttons
 }
 .anvil-role-call-to-action-button-disabled > button:hover {
   background: #616161;
-  color: white;
+  color: var(--Text_WhiteDiscreet);
 }
 .anvil-role-call-to-action-button-disabled > button:focus,
 .anvil-role-call-to-action-button-disabled > button:active {
@@ -195,5 +195,5 @@ Area 3: Buttons
   width: 200px
 }
 .anvil-role-back-button button {
-  background: rgb(88,32,57);
+  background: var(--Purple);
 }

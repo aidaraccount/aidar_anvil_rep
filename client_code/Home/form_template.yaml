@@ -95,8 +95,8 @@ components:
         layout_properties: {width: 98, x: null, y: 140}
         name: button_discover
         properties:
-          background: theme:Orange
-          foreground: theme:Text_DecentWhite
+          background: ''
+          foreground: ''
           role: [call-to-action-button, header-6]
           spacing:
             padding: [null, '15', null, '15']
