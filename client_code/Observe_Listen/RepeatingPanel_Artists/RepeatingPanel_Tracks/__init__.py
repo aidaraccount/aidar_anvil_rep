@@ -22,10 +22,8 @@ class RepeatingPanel_Tracks(RepeatingPanel_TracksTemplate):
     # set album picture    
     if self.item["album_picture_url"] is not None:
       self.album_img.source = self.item["album_picture_url"]
-      self.album_img_copy.source = self.item["album_picture_url"]
     else:
       self.album_img.source = '_/theme/pics/Favicon_orange.JPG'
-      self.album_img_copy.source = '_/theme/pics/Favicon_orange.JPG'
 
   
   def play_button_click(self, **event_args):
@@ -53,11 +51,3 @@ class RepeatingPanel_Tracks(RepeatingPanel_TracksTemplate):
 
     # pushover
     anvil.server.call('sent_push_over',  'Observe_Listen', f'User {user["user_id"]}: track click')
-
-  def album_img_copy_mouse_enter(self, x, y, **event_args):
-    # self.play_button_copy.visible = True
-    print("in!")
-
-  def album_img_copy_mouse_leave(self, x, y, **event_args):
-    # self.play_button_copy.visible = False
-    print("out!")
