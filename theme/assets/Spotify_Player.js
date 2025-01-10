@@ -90,10 +90,10 @@ function createOrUpdateSpotifyPlayer(formElement, trackOrArtist, currentSpotifyI
           console.log("Playback is buffering - 1");
         } else if (isPaused) {
           console.log("Playback is paused - 1");
-          setPlayButtonIcons(trackOrArtist, spotifyTrackIDsList, spotifyArtistIDsList)
+          setPlayButtonIcons(formElement, trackOrArtist, spotifyTrackIDsList, spotifyArtistIDsList)
         } else {
           console.log("Playback is playing - 1");
-          setPlayButtonIcons(trackOrArtist, spotifyTrackIDsList, spotifyArtistIDsList)
+          setPlayButtonIcons(formElement, trackOrArtist, spotifyTrackIDsList, spotifyArtistIDsList)
         }
       });
     
@@ -135,10 +135,10 @@ function createOrUpdateSpotifyPlayer(formElement, trackOrArtist, currentSpotifyI
             console.log("Playback is buffering - 2");
           } else if (isPaused) {
             console.log("Playback is paused - 2");
-            setPlayButtonIcons(trackOrArtist, spotifyTrackIDsList, spotifyArtistIDsList)
+            setPlayButtonIcons(formElement, trackOrArtist, spotifyTrackIDsList, spotifyArtistIDsList)
           } else {
             console.log("Playback is playing - 2");
-            setPlayButtonIcons(trackOrArtist, spotifyTrackIDsList, spotifyArtistIDsList)
+            setPlayButtonIcons(formElement, trackOrArtist, spotifyTrackIDsList, spotifyArtistIDsList)
           }
         });
         
@@ -299,7 +299,7 @@ function playNextSong(formElement, trackOrArtist, spotifyTrackIDsList, spotifyAr
     controller.isPaused = false;
     
     // Set play button icons
-    setPlayButtonIcons('track', spotifyTrackIDsList, spotifyArtistIDsList)
+    setPlayButtonIcons(formElement, 'track', spotifyTrackIDsList, spotifyArtistIDsList)
 
     // load similar artist profile
     if (nextSpotifyArtistID && (currentArtistID !== nextSpotifyArtistID && sessionStorage.getItem("has_played") === 'True')) {
@@ -310,7 +310,7 @@ function playNextSong(formElement, trackOrArtist, spotifyTrackIDsList, spotifyAr
 }
 
 // Function to set the play button icons
-function setPlayButtonIcons(trackOrArtist, spotifyTrackIDsList=null, spotifyArtistIDsList=null) {
+function setPlayButtonIcons(formElement, trackOrArtist, spotifyTrackIDsList=null, spotifyArtistIDsList=null) {
   
   // Set the icon of the small play buttons
   if (spotifyTrackIDsList) {
@@ -325,6 +325,8 @@ function setPlayButtonIcons(trackOrArtist, spotifyTrackIDsList=null, spotifyArti
         //     parentDiv.className = 'align-center anvil-spacing-above-none anvil-spacing-below-none anvil-component-icon-present left-icon anvil-inlinable anvil-button anvil-component anvil-role-cap-playing anvil-role-cap-play-playlist anvil-role-height-40px anvil-role-cap-play-pause anvil-role-play-spotify-button anvil-role-4kCAuIMAPLGFTJEaUYuve5'
         //   }
         // }
+        anvil.call(formElement, 'show_hide', 'True', currentId);
+        
         if (buttonPlay) {
           let icon = buttonPlay.querySelector('i')
           if (icon) {

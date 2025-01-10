@@ -242,7 +242,7 @@ class Observe_Listen(Observe_ListenTemplate):
       # set watchlist status
       self.column_panel_discover.get_components()[0].set_watchlist_icons()
       # refresh play buttons
-      anvil.js.call_js('setPlayButtonIcons', 'track')
+      anvil.js.call_js('setPlayButtonIcons', anvil.js.get_dom_node(self), 'track')
     
     finally:
       self.discover_is_loading = False  # Unlock the function    
@@ -424,3 +424,22 @@ class Observe_Listen(Observe_ListenTemplate):
     anvil.server.call('update_watchlist_usage', user["user_id"], wl_id_new)
     get_open_form().refresh_watchlists_underline()
     self.reload_discover(load_var('lastplayedartistid'))
+
+  def show_hide(self, show, track_id):
+    if show == 'True':
+      show = True
+      hide = False
+    else:
+      show = False
+      hide = True
+      
+    print(show)
+    print(track_id)
+    for component in self.repeating_panel_artists.get_components():
+      for component_inner in component.get_components()[2].get_components()[0].get_components():
+        
+        print(component_inner.get_components()[0].get_components()[1].role[4])
+        if component_inner.get_components()[0].get_components()[1].role[4] == track_id:
+          component_inner.get_components()[0].get_components()[1].visible = show
+        else:
+          component_inner.get_components()[0].get_components()[1].visible = hide

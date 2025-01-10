@@ -5,6 +5,7 @@ import anvil.users
 import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
+from anvil.js.window import document, setPlayButtonIcons
 
 from ....nav import click_link, click_button, load_var, save_var
 
@@ -56,8 +57,8 @@ class RepeatingPanel_Tracks(RepeatingPanel_TracksTemplate):
   def album_img_mouse_enter(self, x, y, **event_args):
     for component in self.parent.parent.parent.parent.parent.parent.parent.parent.repeating_panel_artists.get_components():
       for component_inner in component.get_components()[2].get_components()[0].get_components():
-        print(component_inner.get_components()[0].get_components()[1].icon)
-        print(component_inner.get_components()[0].get_components()[1].role)
+        # print(component_inner.get_components()[0].get_components()[1].icon)
+        # print(component_inner.get_components()[0].get_components()[1].role)
         if component_inner.get_components()[0].get_components()[1].icon == 'fa:play-circle':
           component_inner.get_components()[0].get_components()[1].visible = False
         else:
@@ -74,3 +75,4 @@ class RepeatingPanel_Tracks(RepeatingPanel_TracksTemplate):
         self.play_button.visible = False
       else:
         self.play_button.visible = True
+    
