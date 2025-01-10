@@ -374,31 +374,115 @@ class Observe_Listen(Observe_ListenTemplate):
       self.button_7.role = ['feature']
     
   def button_1_click(self, **event_args):
-    self.column_panel_discover.get_components()[0].button_1_click()
+    # get notification model_ids
+    notification_model_ids = []
+    for component in self.notification_settings.get_components()[0].flow_panel_models.get_components():
+      if (isinstance(component, Link) and component.role == "genre-box"):  # Only active models
+        notification_model_ids.append(component.tag)
+
+    # add interest
+    if int(self.model_id) in notification_model_ids:
+      self.column_panel_discover.get_components()[0].button_1_click(True, self.drop_down_model.selected_value)
+    else:
+      self.column_panel_discover.get_components()[0].button_1_click(False, self.drop_down_model.selected_value)
+
+    # set rating highlight
     self.set_rating_highlight(1, True)
     
   def button_2_click(self, **event_args):
-    self.column_panel_discover.get_components()[0].button_2_click()
+    # get notification model_ids
+    notification_model_ids = []
+    for component in self.notification_settings.get_components()[0].flow_panel_models.get_components():
+      if (isinstance(component, Link) and component.role == "genre-box"):  # Only active models
+        notification_model_ids.append(component.tag)
+
+    # add interest
+    if int(self.model_id) in notification_model_ids:
+      self.column_panel_discover.get_components()[0].button_2_click(True, self.drop_down_model.selected_value)
+    else:
+      self.column_panel_discover.get_components()[0].button_2_click(False, self.drop_down_model.selected_value)
+
+    # set rating highlight
     self.set_rating_highlight(2, True)
     
   def button_3_click(self, **event_args):
-    self.column_panel_discover.get_components()[0].button_3_click()
+    # get notification model_ids
+    notification_model_ids = []
+    for component in self.notification_settings.get_components()[0].flow_panel_models.get_components():
+      if (isinstance(component, Link) and component.role == "genre-box"):  # Only active models
+        notification_model_ids.append(component.tag)
+
+    # add interest
+    if int(self.model_id) in notification_model_ids:
+      self.column_panel_discover.get_components()[0].button_3_click(True, self.drop_down_model.selected_value)
+    else:
+      self.column_panel_discover.get_components()[0].button_3_click(False, self.drop_down_model.selected_value)
+
+    # set rating highlight
     self.set_rating_highlight(3, True)
     
   def button_4_click(self, **event_args):
-    self.column_panel_discover.get_components()[0].button_4_click()
+    # get notification model_ids
+    notification_model_ids = []
+    for component in self.notification_settings.get_components()[0].flow_panel_models.get_components():
+      if (isinstance(component, Link) and component.role == "genre-box"):  # Only active models
+        notification_model_ids.append(component.tag)
+
+    # add interest
+    if int(self.model_id) in notification_model_ids:
+      self.column_panel_discover.get_components()[0].button_4_click(True, self.drop_down_model.selected_value)
+    else:
+      self.column_panel_discover.get_components()[0].button_4_click(False, self.drop_down_model.selected_value)
+
+    # set rating highlight
     self.set_rating_highlight(4, True)
     
   def button_5_click(self, **event_args):
-    self.column_panel_discover.get_components()[0].button_5_click()
+    # get notification model_ids
+    notification_model_ids = []
+    for component in self.notification_settings.get_components()[0].flow_panel_models.get_components():
+      if (isinstance(component, Link) and component.role == "genre-box"):  # Only active models
+        notification_model_ids.append(component.tag)
+
+    # add interest
+    if int(self.model_id) in notification_model_ids:
+      self.column_panel_discover.get_components()[0].button_5_click(True, self.drop_down_model.selected_value)
+    else:
+      self.column_panel_discover.get_components()[0].button_5_click(False, self.drop_down_model.selected_value)
+
+    # set rating highlight
     self.set_rating_highlight(5, True)
     
   def button_6_click(self, **event_args):
-    self.column_panel_discover.get_components()[0].button_6_click()
+    # get notification model_ids
+    notification_model_ids = []
+    for component in self.notification_settings.get_components()[0].flow_panel_models.get_components():
+      if (isinstance(component, Link) and component.role == "genre-box"):  # Only active models
+        notification_model_ids.append(component.tag)
+
+    # add interest
+    if int(self.model_id) in notification_model_ids:
+      self.column_panel_discover.get_components()[0].button_6_click(True, self.drop_down_model.selected_value)
+    else:
+      self.column_panel_discover.get_components()[0].button_6_click(False, self.drop_down_model.selected_value)
+
+    # set rating highlight
     self.set_rating_highlight(6, True)
     
   def button_7_click(self, **event_args):
-    self.column_panel_discover.get_components()[0].button_7_click()
+    # get notification model_ids
+    notification_model_ids = []
+    for component in self.notification_settings.get_components()[0].flow_panel_models.get_components():
+      if (isinstance(component, Link) and component.role == "genre-box"):  # Only active models
+        notification_model_ids.append(component.tag)
+
+    # add interest
+    if int(self.model_id) in notification_model_ids:
+      self.column_panel_discover.get_components()[0].button_7_click(True, self.drop_down_model.selected_value)
+    else:
+      self.column_panel_discover.get_components()[0].button_7_click(False, self.drop_down_model.selected_value)
+
+    # set rating highlight
     self.set_rating_highlight(7, True)
 
   # watchlist

@@ -221,7 +221,9 @@ components:
         properties: {role: highlights-tile-background, spacing_above: small, spacing_below: none}
         type: LinearPanel
       - components:
-        - event_bindings: {click: spotify_artist_button_click}
+        - data_bindings:
+          - {code: '[''cap-play-pause'', ''cap-play-spotify-button-big1'', ''play-spotify-button-big'']', property: role, writeback: false}
+          event_bindings: {click: spotify_artist_button_click}
           layout_properties: {}
           name: spotify_artist_button
           properties:
@@ -234,13 +236,15 @@ components:
             tooltip: play top tracks
             visible: false
           type: Button
-        - event_bindings: {click: autoplay_button_click}
+        - data_bindings:
+          - {code: '[''cap-autoplay-toggle-button'', ''play-spotify-button-big'']', property: role, writeback: false}
+          event_bindings: {click: autoplay_button_click}
           layout_properties: {}
           name: autoplay_button
           properties:
             align: center
             icon: fa:toggle-off
-            role: [play-spotify-button, play-spotify-button-artist, autoplay-toggle-button]
+            role: [autoplay-toggle-button, play-spotify-button-artist]
             spacing_above: none
             spacing_below: none
             text: ''
@@ -249,33 +253,27 @@ components:
           type: Button
         layout_properties: {grid_position: 'QJNNIK,NMEONP'}
         name: flow_panel_5
-        properties: {align: right, spacing: medium, spacing_above: none, spacing_below: none, vertical_align: full, visible: true}
+        properties: {align: right, spacing: medium, spacing_above: none, spacing_below: none, vertical_align: full, visible: false}
         type: FlowPanel
-      layout_properties: {grid_position: 'KLUXEH,NTTBRD'}
-      name: column_panel_artist_header
-      properties:
-        col_spacing: small
-        col_widths: '{"BINRLY":20,"SKLDLY":40,"ABDFHZ":15,"NMEONP":15,"FBYDQY":15,"XSLXKQ":15}'
-        role: tile-background-left
-        spacing:
-          margin: [0, null, null, null]
+      layout_properties: {col_xs: 0, row: SPGXSL, width_xs: 9}
+      name: column_panel_Artist
+      properties: {col_spacing: small, col_widths: '{"BINRLY":20,"SKLDLY":40,"ABDFHZ":15,"NMEONP":15,"FBYDQY":15,"XSLXKQ":15}', role: tile-background-left}
       type: ColumnPanel
     - components:
       - layout_properties: {grid_position: 'KEEZIY,CJTGRG'}
         name: spacer_5
         properties: {height: 32}
         type: Spacer
-      - components: []
-        layout_properties: {grid_position: 'UEJNNJ,BZHSIU'}
-        name: column_panel_1
-        properties: {col_spacing: none}
+      - layout_properties: {grid_position: 'LNTFQP,OFGQGL'}
+        name: column_panel_5
+        properties: {}
         type: ColumnPanel
       - components:
         - layout_properties: {}
           name: no_prediction
           properties: {align: center, role: artist_name_shadow, text: Model     ramp-up}
           type: Label
-        layout_properties: {grid_position: 'LVKXJU,ZIDDGV'}
+        layout_properties: {full_width_row: false, grid_position: 'XBWMVA,RCCOIP'}
         name: linear_panel_2
         properties:
           role: [score-tile-background]
@@ -335,19 +333,17 @@ components:
         name: linear_panel_4
         properties: {role: highlights-tile-background, spacing_above: none, spacing_below: small}
         type: LinearPanel
-      layout_properties: {grid_position: 'KLUXEH,HENTNH'}
+      layout_properties: {col_xs: 8, row: SPGXSL, width_xs: 3}
       name: column_panel_KPIs
-      properties:
-        col_spacing: none
-        col_widths: '{}'
-        role: tile-background-right
-        spacing:
-          margin: [0, null, null, null]
+      properties: {col_spacing: tiny, col_widths: '{}', role: tile-background-right}
       type: ColumnPanel
-    layout_properties: {grid_position: 'TKXVNT,FRNRAB'}
-    name: column_panel_header
-    properties: {col_spacing: tiny, col_widths: '{"NTTBRD":45,"HENTNH":15}'}
-    type: ColumnPanel
+    layout_properties: {full_width_row: true, grid_position: 'MCXMOT,NDQGJE'}
+    name: grid_panel_1
+    properties:
+      role: equal-height-container
+      spacing:
+        margin: [0, null, 0, null]
+    type: GridPanel
   - layout_properties: {grid_position: 'UTITLB,JDUPJF'}
     name: spacer_8
     properties: {height: '26'}

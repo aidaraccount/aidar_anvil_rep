@@ -711,6 +711,16 @@ body, html {
 .anvil-role-equal-height-container > .row {
   display:flex;
 }
+
+.anvil-role-equal-height-container > .row > div:first-child {
+  padding-left: 15px !important;
+  padding-right: 7px !important;
+}
+.anvil-role-equal-height-container > .row > div:nth-child(2) {
+  padding-left: 7px !important;
+  padding-right: 15px !important;
+}
+
 .anvil-role-equal-height-container.anvil-role-home-page > .row {
   display:flex;
   height: 100vh;
@@ -726,6 +736,7 @@ body, html {
   }
   .anvil-role-equal-height-container.anvil-role-home-page > .row {
     display:flex;
+    flex-direction: column; 
     flex-direction: column; 
     height: 100vh;
   }

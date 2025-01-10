@@ -56,13 +56,13 @@ class C_Discover(C_DiscoverTemplate):
     else:
       self.user_id = user["user_id"]
       self.refresh_sug()
-      self.column_panel_header.scroll_into_view(smooth=True)
+      self.grid_panel_1.scroll_into_view(smooth=True)
 
   
   # -------------------------------------------
   # SUGGESTIONS
   def refresh_sug(self, **event_args):
-    self.column_panel_header.scroll_into_view(smooth=True)
+    self.grid_panel_1.scroll_into_view(smooth=True)
 
     # begin = datetime.now()
     # print(f"{datetime.now()}: Discover - __init__ - 2", flush=True)
@@ -75,7 +75,7 @@ class C_Discover(C_DiscoverTemplate):
     self.flow_panel_genre_tile.clear()
     self.flow_panel_social_media_tile.clear()
     # self.spotify_player_spot.clear()
-    # self.column_panel_1.clear()
+    # self.column_panel_5.clear()
 
     # model_id
     model_id = load_var("model_id")
@@ -303,7 +303,7 @@ class C_Discover(C_DiscoverTemplate):
       # --------
       # prediction
       if (str(sug["Prediction"]) == "nan") or (str(sug["Prediction"]) == "None"):
-        self.column_panel_1.visible = False
+        self.column_panel_5.visible = False
         self.linear_panel_2.visible = True
         self.no_prediction.visible = True
         self.pred = None
@@ -1012,7 +1012,7 @@ class C_Discover(C_DiscoverTemplate):
       elif total_ratings == "50":
         self.show_milestone_alert(50)
 
-    self.column_panel_header.scroll_into_view(smooth=True)
+    self.grid_panel_1.scroll_into_view(smooth=True)
 
   # ----------------------------------------------
   # def form_show(self, **event_args):
@@ -1058,7 +1058,7 @@ class C_Discover(C_DiscoverTemplate):
       </li>
       """
       html_panel = HtmlPanel(html=custom_html)
-      self.column_panel_1.add_component(html_panel)
+      self.column_panel_5.add_component(html_panel)
     else:
       print("NO SELF PRED?")
 
@@ -1785,61 +1785,110 @@ class C_Discover(C_DiscoverTemplate):
   def set_rating_highlight(self, **event_args):
     self.parent.parent.parent.parent.set_rating_highlight(None if self.sug["Interest"] == "None" else int(self.sug["Interest"]))
   
-  def button_1_click(self, **event_args):
+  def button_1_click(self, similar, model_name, **event_args):
     if self.parent.parent.parent.parent.button_1.role != ['feature', 'highlight-button']:
       anvil.server.call("add_interest", user["user_id"], self.model_id, self.artist_id, 1, False, "")
-      Notification("", title="Artist rated with 1!", style="success").show()
+      if similar:
+        Notification("", title=f'Artist rated with 1 for "{model_name}"!', style='success').show()
+      else:
+        # Notification("", title=f'Artist rated with 1 for "{model_name}" - model selection does not fit playlists model!', style='warning').show()
+        alert(
+          title='Attention! Model selection does not fit playlist models!',
+          content=f'Artist was rated with 1 for the model "{model_name}". Ensure its the correct model. If not, switch the model on the bottom right.',
+        )
     else:
       anvil.server.call("add_interest", user["user_id"], self.model_id, self.artist_id, None, False, "")
-      Notification("", title="Artist no longer rated!", style="warning").show()
+      Notification("", title='Artist no longer rated!', style="warning").show()
 
-  def button_2_click(self, **event_args):
+  def button_2_click(self, similar, model_name, **event_args):
     if self.parent.parent.parent.parent.button_2.role != ['feature', 'highlight-button']:
       anvil.server.call("add_interest", user["user_id"], self.model_id, self.artist_id, 2, False, "")
-      Notification("", title="Artist rated with 2!", style="success").show()
+      if similar:
+        Notification("", title=f'Artist rated with 2 for "{model_name}"!', style='success').show()
+      else:
+        # Notification("", title=f'Artist rated with 2 for "{model_name}" - model selection does not fit playlists model!', style='warning').show()
+        alert(
+          title='Attention! Model selection does not fit playlist models!',
+          content=f'Artist was rated with 2 for the model "{model_name}". Ensure its the correct model. If not, switch the model on the bottom right.',
+        )
     else:
       anvil.server.call("add_interest", user["user_id"], self.model_id, self.artist_id, None, False, "")
-      Notification("", title="Artist no longer rated!", style="warning").show()
+      Notification("", title='Artist no longer rated!', style="warning").show()
 
-  def button_3_click(self, **event_args):
+  def button_3_click(self, similar, model_name, **event_args):
     if self.parent.parent.parent.parent.button_3.role != ['feature', 'highlight-button']:
       anvil.server.call("add_interest", user["user_id"], self.model_id, self.artist_id, 3, False, "")
-      Notification("", title="Artist rated with 3!", style="success").show()
+      if similar:
+        Notification("", title=f'Artist rated with 3 for "{model_name}"!', style='success').show()
+      else:
+        # Notification("", title=f'Artist rated with 3 for "{model_name}" - model selection does not fit playlists model!', style='warning').show()
+        alert(
+          title='Attention! Model selection does not fit playlist models!',
+          content=f'Artist was rated with 3 for the model "{model_name}". Ensure its the correct model. If not, switch the model on the bottom right.',
+        )
     else:
       anvil.server.call("add_interest", user["user_id"], self.model_id, self.artist_id, None, False, "")
-      Notification("", title="Artist no longer rated!", style="warning").show()
+      Notification("", title='Artist no longer rated!', style="warning").show()
 
-  def button_4_click(self, **event_args):
+  def button_4_click(self, similar, model_name, **event_args):
     if self.parent.parent.parent.parent.button_4.role != ['feature', 'highlight-button']:
       anvil.server.call("add_interest", user["user_id"], self.model_id, self.artist_id, 4, False, "")
-      Notification("", title="Artist rated with 4!", style="success").show()
+      if similar:
+        Notification("", title=f'Artist rated with 4 for "{model_name}"!', style='success').show()
+      else:
+        # Notification("", title=f'Artist rated with 4 for "{model_name}" - model selection does not fit playlists model!', style='warning').show()
+        alert(
+          title='Attention! Model selection does not fit playlist models!',
+          content=f'Artist was rated with 4 for the model "{model_name}". Ensure its the correct model. If not, switch the model on the bottom right.',
+        )
     else:
       anvil.server.call("add_interest", user["user_id"], self.model_id, self.artist_id, None, False, "")
-      Notification("", title="Artist no longer rated!", style="warning").show()
+      Notification("", title='Artist no longer rated!', style="warning").show()
 
-  def button_5_click(self, **event_args):
+  def button_5_click(self, similar, model_name, **event_args):
     if self.parent.parent.parent.parent.button_5.role != ['feature', 'highlight-button']:
       anvil.server.call("add_interest", user["user_id"], self.model_id, self.artist_id, 5, False, "")
-      Notification("", title="Artist rated with 5!", style="success").show()
+      if similar:
+        Notification("", title=f'Artist rated with 5 for "{model_name}"!', style='success').show()
+      else:
+        # Notification("", title=f'Artist rated with 5 for "{model_name}" - model selection does not fit playlists model!', style='warning').show()
+        alert(
+          title='Attention! Model selection does not fit playlist models!',
+          content=f'Artist was rated with 5 for the model "{model_name}". Ensure its the correct model. If not, switch the model on the bottom right.',
+        )
     else:
       anvil.server.call("add_interest", user["user_id"], self.model_id, self.artist_id, None, False, "")
-      Notification("", title="Artist no longer rated!", style="warning").show()
+      Notification("", title='Artist no longer rated!', style="warning").show()
 
-  def button_6_click(self, **event_args):
+  def button_6_click(self, similar, model_name, **event_args):
     if self.parent.parent.parent.parent.button_6.role != ['feature', 'highlight-button']:
       anvil.server.call("add_interest", user["user_id"], self.model_id, self.artist_id, 6, False, "")
-      Notification("", title="Artist rated with 6!", style="success").show()
+      if similar:
+        Notification("", title=f'Artist rated with 6 for "{model_name}"!', style='success').show()
+      else:
+        # Notification("", title=f'Artist rated with 6 for "{model_name}" - model selection does not fit playlists model!', style='warning').show()
+        alert(
+          title='Attention! Model selection does not fit playlist models!',
+          content=f'Artist was rated with 6 for the model "{model_name}". Ensure its the correct model. If not, switch the model on the bottom right.',
+        )
     else:
       anvil.server.call("add_interest", user["user_id"], self.model_id, self.artist_id, None, False, "")
-      Notification("", title="Artist no longer rated!", style="warning").show()
+      Notification("", title='Artist no longer rated!', style="warning").show()
 
-  def button_7_click(self, **event_args):
+  def button_7_click(self, similar, model_name, **event_args):
     if self.parent.parent.parent.parent.button_7.role != ['feature', 'highlight-button']:
       anvil.server.call("add_interest", user["user_id"], self.model_id, self.artist_id, 7, False, "")
-      Notification("", title="Artist rated with 7!", style="success").show()
+      if similar:
+        Notification("", title=f'Artist rated with 7 for "{model_name}"!', style='success').show()
+      else:
+        # Notification("", title=f'Artist rated with 7 for "{model_name}" - model selection does not fit playlists model!', style='warning').show()
+        alert(
+          title='Attention! Model selection does not fit playlist models!',
+          content=f'Artist was rated with 7 for the model "{model_name}". Ensure its the correct model. If not, switch the model on the bottom right.',
+        )
     else:
       anvil.server.call("add_interest", user["user_id"], self.model_id, self.artist_id, None, False, "")
-      Notification("", title="Artist no longer rated!", style="warning").show()
+      Notification("", title='Artist no longer rated!', style="warning").show()
 
   # -------------------------------
   # DESCRIPTION LINKS
@@ -2026,7 +2075,7 @@ class C_Discover(C_DiscoverTemplate):
 
   def button_remove_filters_click(self, **event_args):
     anvil.server.call("change_filters", self.model_id, filters_json=None)
-    self.column_panel_header.scroll_into_view(smooth=True)
+    self.grid_panel_1.scroll_into_view(smooth=True)
     next_artist_id = anvil.server.call("get_next_artist_id", self.model_id)
     routing.set_url_hash(f"artists?artist_id={next_artist_id}", load_from_cache=False)
 
@@ -2040,7 +2089,7 @@ class C_Discover(C_DiscoverTemplate):
     # self.model_id = model_id_new
     # save_var("model_id", model_id_new)
     # anvil.server.call("update_model_usage", user["user_id"], model_id_new)
-    # self.column_panel_header.scroll_into_view(smooth=True)
+    # self.grid_panel_1.scroll_into_view(smooth=True)
     # get_open_form().refresh_models_underline()
     # routing.set_url_hash(f"artists?artist_id={self.artist_id}", load_from_cache=False)
     pass
@@ -2055,7 +2104,7 @@ class C_Discover(C_DiscoverTemplate):
     self.watchlist_id = wl_id_new
     save_var("watchlist_id", wl_id_new)
     anvil.server.call("update_watchlist_usage", user["user_id"], wl_id_new)
-    self.column_panel_header.scroll_into_view(smooth=True)
+    self.grid_panel_1.scroll_into_view(smooth=True)
     get_open_form().refresh_watchlists_underline()
     # routing.set_url_hash(f"artists?artist_id={self.artist_id}", load_from_cache=False)
 

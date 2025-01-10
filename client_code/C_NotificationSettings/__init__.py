@@ -216,9 +216,7 @@ class C_NotificationSettings(C_NotificationSettingsTemplate):
     # Collect selected model IDs
     model_ids = []
     for component in self.flow_panel_models.get_components():
-      if (
-        isinstance(component, Link) and component.role == "genre-box"
-      ):  # Only active models
+      if (isinstance(component, Link) and component.role == "genre-box"):  # Only active models
         model_ids.append(component.tag)
 
     # do the update
