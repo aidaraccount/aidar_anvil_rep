@@ -1,42 +1,33 @@
 components:
 - components:
-  - components:
-    - data_bindings:
-      - {code: '[''picture-base'']', property: role, writeback: false}
-      event_bindings: {mouse_enter: album_img_mouse_enter, mouse_leave: album_img_mouse_leave}
-      layout_properties: {width: 50, x: 0, y: 0}
-      name: album_img
-      properties:
-        height: '50'
-        margin: [0, null, null, null]
-      type: Image
-    - data_bindings:
-      - {code: '["cap-play-playlist", "height-40px", "cap-play-pause", "play-spotify-button", f"{self.item[''spotify_track_id'']}"]', property: role, writeback: false}
-      event_bindings: {click: play_button_click}
-      layout_properties: {width: 40, x: 5, y: 5}
-      name: play_button
-      properties:
-        align: center
-        icon: fa:play-circle
-        role: [play-spotify-button]
-        spacing:
-          margin: [0, null, null, 0]
-          padding: [0, 0, 0, 0]
-        spacing_above: none
-        spacing_below: none
-        text: ''
-      type: Button
-    data_bindings:
-    - {code: '[''width-50px'']', property: role, writeback: false}
-    layout_properties: {width: 50}
-    name: xy_panel_1
+  - data_bindings:
+    - {code: '[''picture-base'']', property: role, writeback: false}
+    event_bindings: {mouse_enter: album_img_mouse_enter, mouse_leave: album_img_mouse_leave}
+    layout_properties: {width: 50, x: 0, y: 0}
+    name: album_img
     properties:
       height: '50'
-      margin: [0, null, 0, null]
-    type: XYPanel
+      margin: [0, null, null, null]
+    type: Image
+  - data_bindings:
+    - {code: '["cap-play-playlist", "height-40px", "cap-play-pause", "play-spotify-button", f"{self.item[''spotify_track_id'']}"]', property: role, writeback: false}
+    event_bindings: {click: play_button_click}
+    layout_properties: {width: 40, x: 5, y: 5}
+    name: play_button
+    properties:
+      align: center
+      icon: fa:play-circle
+      role: [play-spotify-button]
+      spacing:
+        margin: [0, null, null, 0]
+        padding: [0, 0, 0, 0]
+      spacing_above: none
+      spacing_below: none
+      text: ''
+    type: Button
   - data_bindings:
     - {code: 'self.item[''title'']', property: text, writeback: false}
-    layout_properties: {}
+    layout_properties: {width: null, x: 55, y: 0}
     name: title
     properties:
       role: header-6
@@ -45,14 +36,13 @@ components:
       spacing_above: none
       spacing_below: none
     type: Label
-  layout_properties: {full_width_row: true, grid_position: 'IREPAC,YMKVKR'}
-  name: flow_panel_1
+  data_bindings: []
+  layout_properties: {full_width_row: true, grid_position: 'CTLSKS,YFDHNJ'}
+  name: xy_panel_1
   properties:
-    gap: none
-    spacing:
-      margin: [0, null, 0, null]
-    vertical_align: top
-  type: FlowPanel
+    height: '50'
+    margin: [0, null, 0, null]
+  type: XYPanel
 container:
   properties: {col_spacing: tiny, col_widths: '{}', role: null, spacing_above: none, spacing_below: none}
   type: ColumnPanel

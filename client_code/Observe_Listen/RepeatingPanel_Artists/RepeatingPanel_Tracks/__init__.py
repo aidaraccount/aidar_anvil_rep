@@ -54,16 +54,23 @@ class RepeatingPanel_Tracks(RepeatingPanel_TracksTemplate):
     anvil.server.call('sent_push_over',  'Observe_Listen', f'User {user["user_id"]}: track click')
 
   def album_img_mouse_enter(self, x, y, **event_args):
-    # anvil.js.call_js('hidePlaylistButtons')
+    for component in self.parent.parent.parent.parent.parent.parent.parent.parent.repeating_panel_artists.get_components():
+      for component_inner in component.get_components()[2].get_components()[0].get_components():
+        print(component_inner.get_components()[0].get_components()[1].icon)
+        print(component_inner.get_components()[0].get_components()[1].role)
+        if component_inner.get_components()[0].get_components()[1].icon == 'fa:play-circle':
+          component_inner.get_components()[0].get_components()[1].visible = False
+        else:
+          component_inner.get_components()[0].get_components()[1].visible = True
+        
     self.play_button.visible = True
-
-    # print('Parent Lvl 0:', self.get_components()[0].get_components()[0].get_components()[1].visible)
-
-    
+      
   def album_img_mouse_leave(self, x, y, **event_args):
     if x <= 0 or \
       x >= 50 or \
       y <= 0 or \
       y >= 50:
-      self.play_button.visible = False      
-    print(f"out: {x}/{y}")
+      if self.play_button.icon == 'fa:play-circle':
+        self.play_button.visible = False
+      else:
+        self.play_button.visible = True

@@ -317,8 +317,14 @@ function setPlayButtonIcons(trackOrArtist, spotifyTrackIDsList=null, spotifyArti
     spotifyTrackIDsList.forEach(function(currentId) {
 
       // inside the Listen-In playlist
-      const buttonPlay = document.querySelector(`.anvil-role-${currentId}`);      
+      const buttonPlay = document.querySelector(`.anvil-role-${currentId}`);
       if (currentId === sessionStorage.getItem("globalCurrentSpotifyID") && !controller.isPaused) {
+        // if (buttonPlay && buttonPlay.parentElement) {
+        //   let parentDiv = buttonPlay.parentElement;
+        //   if (parentDiv) {
+        //     parentDiv.className = 'align-center anvil-spacing-above-none anvil-spacing-below-none anvil-component-icon-present left-icon anvil-inlinable anvil-button anvil-component anvil-role-cap-playing anvil-role-cap-play-playlist anvil-role-height-40px anvil-role-cap-play-pause anvil-role-play-spotify-button anvil-role-4kCAuIMAPLGFTJEaUYuve5'
+        //   }
+        // }
         if (buttonPlay) {
           let icon = buttonPlay.querySelector('i')
           if (icon) {
@@ -326,6 +332,12 @@ function setPlayButtonIcons(trackOrArtist, spotifyTrackIDsList=null, spotifyArti
           }
         }
       } else {
+        // if (buttonPlay && buttonPlay.parentElement) {
+        //   let parentDiv = buttonPlay.parentElement;
+        //   if (parentDiv) {
+        //     parentDiv.className = 'align-center anvil-spacing-above-none anvil-spacing-below-none anvil-component-icon-present left-icon anvil-inlinable anvil-button anvil-component anvil-role-cap-not-playing anvil-role-cap-play-playlist anvil-role-height-40px anvil-role-cap-play-pause anvil-role-play-spotify-button anvil-role-4kCAuIMAPLGFTJEaUYuve5'
+        //   }
+        // }
         if (buttonPlay) {
           let icon = buttonPlay.querySelector('i')
           if (icon) {
