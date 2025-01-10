@@ -138,9 +138,15 @@ class RampUp(RampUpTemplate):
         
     # Reference_Artists
     elif self.section == 'Reference_Artists':
+      artists = self.sec_Reference_Artists.get_components()[0].repeating_panel_reference.items[0]
+      no_artists = len([item for item in artists if item['ArtistID'] is not None])
+
+      if no_artists <= 2:
+        
       artist_id = anvil.server.call('get_next_artist_id', self.model_id_view)
       if artist_id is not None:
-        click_button(f'model_setup?model_id={self.model_id_view}&section=Level_of_Pop', event_args)
+        # click_button(f'model_setup?model_id={self.model_id_view}&section=Level_of_Pop', event_args)
+        pass
       else:
         alert(title='Not enough References', content="Please add additional Reference Artists!")
 
