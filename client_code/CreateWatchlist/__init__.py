@@ -35,11 +35,10 @@ class CreateWatchlist(CreateWatchlistTemplate):
         self.text_box_watchlist_name.text,
         self.text_box_description.text
       )
-      print("status:", status)
+      
       if status == "Congratulations, your Watchlist was successfully created!":
         # refresh watchlist_id
         watchlist_id = anvil.server.call("get_watchlist_id", user["user_id"])
-        print("watchlist_id:", watchlist_id)
         anvil.server.call("update_watchlist_usage", user["user_id"], watchlist_id)
         save_var("watchlist_id", watchlist_id)
 
@@ -57,6 +56,6 @@ class CreateWatchlist(CreateWatchlistTemplate):
 
   def text_box_watchlist_name_change(self, **event_args):
     if self.text_box_watchlist_name.text != "":
-      self.CreateButton.role = ['call-to-action-button', 'header-6', 'opacity-100', '150px-width']
+      self.CreateButton.role = ['call-to-action-button', 'header-6']
     else:
-      self.CreateButton.role = ['header-6', 'opacity-100', '150px-width']
+      self.CreateButton.role = ['call-to-action-button-disabled', 'header-6']

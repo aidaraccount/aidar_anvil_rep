@@ -286,7 +286,9 @@ components:
       name: Next
       properties: {role: header-6, spacing_above: none, spacing_below: none, text: Next}
       type: Button
-    - event_bindings: {click: Discovering_click}
+    - data_bindings:
+      - {code: '[''call-to-action-button'',''header-6'',''opacity-100'', ''width-150px'']', property: role, writeback: false}
+      event_bindings: {click: Discovering_click}
       layout_properties: {expand: false, width: null}
       name: Discovering
       properties:

@@ -52,10 +52,7 @@ class WatchlistDetails(WatchlistDetailsTemplate):
       # model name and description text and text boxes
       infos = json.loads(anvil.server.call('get_watchlist_stats', wl_id_view))[0]    
       self.wl_name.text = infos["watchlist_name"]
-      if infos["description"] is None:
-        self.wl_description.text = '-'
-      else:
-        self.wl_description.text = infos["description"]
+      self.wl_description.text = '-' if infos["description"] is None else infos["description"]
   
       # get_watchlist_selection
       self.get_watchlist_selection(temp_artist_id = temp_artist_id)
@@ -66,20 +63,26 @@ class WatchlistDetails(WatchlistDetailsTemplate):
   def edit_icon_click(self, **event_args):
     if self.wl_name.visible is True: 
       self.wl_name.visible = False
-      self.wl_description.visible = False
       self.wl_name_text.visible = True
-      self.wl_description_text.visible = True
       self.wl_name_text.text = self.wl_name.text
-      self.wl_description_text.text = self.wl_description.text
+      
+      self.wl_description.visible = False
+      self.wl_description_text.visible = True
+      self.wl_description_text.text = '' if self.wl_description.text == '-' else self.wl_description.text
+      
       self.edit_icon.icon = 'fa:save'
+      
     else:
-      self.wl_name_text.visible = False
-      self.wl_description_text.visible = False
-      self.wl_name.visible = True
-      self.wl_description.visible = True
-      self.wl_name.text = self.wl_name_text.text
-      self.wl_description.text = self.wl_description_text.text
       self.edit_icon.icon = 'fa:pencil'
+      
+      self.wl_name_text.visible = False
+      self.wl_name.visible = True
+      self.wl_name.text = self.wl_name_text.text
+      
+      self.wl_description_text.visible = False
+      self.wl_description.visible = True
+      self.wl_description.text = '-' if self.wl_description_text.text == '' else self.wl_description_text.text
+      
       res = anvil.server.call('update_watchlist_stats', self.wl_id_view, self.wl_name_text.text, self.wl_description_text.text)
       if res == 'success':
         get_open_form().refresh_watchlists_components()

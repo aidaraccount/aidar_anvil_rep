@@ -78,14 +78,8 @@ class ModelProfile(ModelProfileTemplate):
     
         # model name and description text and text boxes
         self.model_name.text = infos["model_name"]
-        if infos["description"] is None:
-          self.model_description.text = '-'
-        else:
-          self.model_description.text = infos["description"]
-        if infos["creation_date"] == 'None':
-          self.creation_date_value.text = '-'
-        else:
-          self.creation_date_value.text = infos["creation_date"]
+        self.model_description.text = '-' if infos["description"] is None else infos["description"]
+        self.creation_date_value.text = '-' if infos["creation_date"] == 'None' else infos["creation_date"]          
         self.usage_date_value.text = infos["usage_date"]
     
         # activate button
@@ -101,11 +95,8 @@ class ModelProfile(ModelProfileTemplate):
         # stats
         self.no_references.text = infos["no_references"]
         self.total_ratings.text = infos["total_ratings"]
-        self.high_ratings.text = infos["high_ratings"]
-        if infos["train_model_date"] == 'None':
-          self.retrain_model_date_value.text = '-'
-        else:
-          self.retrain_model_date_value.text = infos["train_model_date"]
+        self.high_ratings.text = infos["high_ratings"]        
+        self.retrain_model_date_value.text = '-' if infos["train_model_date"] == 'None' else infos["train_model_date"]
         self.status.text = infos["overall_status"]
         self.status_2.text = infos["overall_status"]
     
@@ -444,21 +435,28 @@ class ModelProfile(ModelProfileTemplate):
             
   def edit_icon_click(self, **event_args):
     if self.model_name.visible is True: 
-      self.model_name.visible = False
-      self.model_description.visible = False
-      self.model_name_text.visible = True
-      self.model_description_text.visible = True
-      self.model_name_text.text = self.model_name.text
-      self.model_description_text.text = self.model_description.text
       self.edit_icon.icon = 'fa:save'
+      
+      self.model_name.visible = False
+      self.model_name_text.visible = True
+      self.model_name_text.text = self.model_name.text
+
+      self.model_description.visible = False
+      self.model_description_text.visible = True
+      self.model_description_text.text = '' if self.model_description.text == '-' else self.model_description.text
+          
     else:
-      self.model_name_text.visible = False
-      self.model_description_text.visible = False
-      self.model_name.visible = True
-      self.model_description.visible = True
-      self.model_name.text = self.model_name_text.text
-      self.model_description.text = self.model_description_text.text
       self.edit_icon.icon = 'fa:pencil'
+
+      self.model_name_text.visible = False
+      self.model_name.visible = True
+      self.model_name.text = self.model_name_text.text
+      
+      self.model_description_text.visible = False
+      self.model_description.visible = True
+      self.model_description.text = '-' if self.model_description_text.text == '' else self.model_description_text.text
+
+      # save
       res = anvil.server.call('update_model_stats', self.model_id_view, self.model_name_text.text, self.model_description_text.text, False)
       if res == 'success':
         get_open_form().refresh_models_components()
@@ -466,19 +464,7 @@ class ModelProfile(ModelProfileTemplate):
           title="Model updated!",
           style="success").show()
   
-  
-  # def nav_add_references_click(self, **event_args):
-  #   self.nav_references.role = 'section_buttons_focused'
-  #   self.nav_prev_rated.role = 'section_buttons'
-  #   self.nav_filters.role = 'section_buttons'
-  #   self.sec_references.visible = True
-  #   self.sec_references_master = True
-  #   self.sec_models.visible = False
-  #   self.sec_prev_rated.visible = False
-  #   self.sec_filters.visible = False
-  #   self.sec_references.clear()
-  #   self.sec_references.add_component(C_AddRefArtists(self.model_id_view))
-  
+    
   def nav_references_click(self, **event_args):
     self.nav_references.role = 'section_buttons_focused'
     self.nav_model.role = 'section_buttons'
@@ -494,7 +480,6 @@ class ModelProfile(ModelProfileTemplate):
     self.sec_level_of_pop_master.visible = False
     self.sec_submodel_contributions_master.visible = False
     self.sec_references.clear()
-    # self.sec_references.add_component(C_EditRefArtists(self.model_id_view))
     self.sec_references.add_component(C_RefArtistsSettings())
     
   def nav_prev_rated_click(self, **event_args):    

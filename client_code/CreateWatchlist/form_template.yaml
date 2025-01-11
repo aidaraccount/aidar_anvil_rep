@@ -60,7 +60,7 @@ components:
         name: CreateButton
         properties:
           align: right
-          role: [call-to-action-button, header-6]
+          role: [header-6, call-to-action-button-disabled]
           spacing_above: none
           spacing_below: none
           text: Create Watchlist

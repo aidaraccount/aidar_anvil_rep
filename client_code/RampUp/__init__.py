@@ -43,18 +43,23 @@ class RampUp(RampUpTemplate):
     section = self.url_dict["section"]
     self.section = section
     print(f"RampUp section: {section}")
-
-    self.Discovering.role = ['call-to-action-button','header-6','opacity-100', '150px-width']  # needs to be individualized!!!
     
     # ---------------
     # EXISTING MODEL? (fill header and test fields)
     if self.model_id_view != 'None':
       self.column_panel_header.visible = True
+      
       model_stats = json.loads(anvil.server.call('get_model_stats', self.model_id_view))[0]
+      
       self.model_name.text = model_stats["model_name"]
       self.text_box_model_name.text = model_stats["model_name"]
-      self.model_description.text = model_stats["description"]
-      self.text_box_description.text = model_stats["description"]
+      
+      text_box_description = '-' if model_stats["description"] is None else model_stats["description"]
+      self.model_description.text = text_box_description
+      
+      text_box_description = '' if model_stats["description"] is None else model_stats["description"]
+      self.text_box_description.text = text_box_description
+      
     else:
       self.column_panel_header.visible = False
 
@@ -92,7 +97,7 @@ class RampUp(RampUpTemplate):
       if self.text_box_model_name.text == '':        
         alert(title='Model Name required', content="Please add a name for the model!")  
       else:
-        # save changes
+        # save changes        
         if self.model_id_view != 'None':
           status = anvil.server.call('update_model_stats',
                                     self.model_id_view,
@@ -185,11 +190,12 @@ class RampUp(RampUpTemplate):
       click_button(f'model_setup?model_id={self.model_id_view}&section=Basics', event_args)
 
   def Discovering_click(self, **event_args):
-    # end ramp-up
+    # end ramp-up    
+    text_box_description = None if self.text_box_description.text == '' else self.text_box_description.text
     anvil.server.call('update_model_stats',
                       self.model_id_view,
                       self.text_box_model_name.text,
-                      self.text_box_description.text,
+                      text_box_description,
                       False)
 
     # load artist
