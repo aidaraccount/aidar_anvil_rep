@@ -90,10 +90,8 @@ class C_Discover(C_DiscoverTemplate):
       save_var("watchlist_id", anvil.server.call("get_watchlist_id", self.user_id))
     print(f"Discover watchlist_id: {watchlist_id}")
     self.watchlist_id = watchlist_id
-
+    
     # get_suggestion
-    # url_artist_id = self.url_dict["artist_id"]
-    # url_artist_id = 107650  # ATTENTION !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     sug = json.loads(
       anvil.server.call("get_suggestion", "Inspect", self.model_id, self.url_artist_id)
     )  # Free, Explore, Inspect, Dissect

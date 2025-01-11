@@ -387,7 +387,7 @@ class MainIn(MainInTemplate):
         content="If the artist you are looking for is not found or is missing, please add the Spotify Id in the search bar so that we can add them to our catalogue",
         # large=True,
         buttons=[("OK", "OK")],
-        role=["alert-notification","remove-focus"]
+        role=["alert-notification", "remove-focus"]
       )
             
     else:

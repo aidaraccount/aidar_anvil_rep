@@ -49,3 +49,19 @@ Area 1: Base
 .anvil-role-opacity-100 {opacity: 100%;}
 .anvil-role-opacity-50 {opacity: 50%;}
 .anvil-role-opacity-25 {opacity: 25%;}
+
+/* ----------------------------
+1.6. Tour (???) */
+.anvil-role-tour-parent {
+  position: relative;
+  /* width: 200px;
+  height: 200px; */
+}
+.anvil-role-tour {
+  background-color: grey;
+  position: absolute;
+  top: 50px;
+  left: 50px;
+  width: 300px;
+  height: auto;
+}

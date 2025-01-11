@@ -53,7 +53,6 @@ class Discover(DiscoverTemplate):
       self.user_id = user["user_id"]
       self.refresh_sug()
       self.header.scroll_into_view(smooth=True)
-
       
 
   # -------------------------------------------
@@ -848,12 +847,70 @@ class Discover(DiscoverTemplate):
   
   # ----------------------------------------------
   def form_show(self, **event_args):
+    # spotify widget
     embed_iframe_element = document.getElementById('embed-iframe')
     if embed_iframe_element:
       self.call_js('createOrUpdateSpotifyPlayer', anvil.js.get_dom_node(self), 'artist', self.sug["SpotifyArtistID"])
       print("Embed iframe element found. Initialize Spotify player!")
     else:
       print("Embed iframe element not found. Will not initialize Spotify player.")
+
+    # intro alert
+    # alert(
+    #   title='Log into your Spotify Account!',
+    #   content='Click on the picture to open open.spotify.com and log into your account.\n\nThis enables you to listen to the complete song and be add free.',
+    # )
+    # alert(title="Log into your Spotify Account!",
+    #   content='Click on the picture to open open.spotify.com and log into your account.\n\nThis enables you to listen to the complete song and be add free.',
+    #   buttons=[("OK")],
+    #   role=["alert-notification", "remove-focus"]
+    # )
+    
+    self.tour_steps = [
+      {"title": "Spotify Player", 
+        "content": "This is the Spotify Player. You can play songs here.",
+        "x": 100, "y": 50},
+      {"title": "Search Bar",
+        "content": "Use the search bar to find songs or artists.",
+        "x": 300, "y": 100},
+      {"title": "Playlist",
+        "content": "This is your playlist. Drag songs here to add them.",
+        "x": 500, "y": 150}
+    ]
+
+    self.current_step = 0
+    self.show_hint()
+    
+  def show_hint(self):
+    # Show the current step's hint
+    step = self.tour_steps[self.current_step]
+    self.hint_title.text = step["title"]
+    self.hint_content.text = step["content"]
+
+    # Position the hint dynamically
+    print(f"{step['x']}px")
+    print(self.tour_panel)
+    print(self.tour_panel.role)
+    
+    # self.tour_panel.style["left"] = f"{step['x']}px"
+    # self.tour_panel.style["top"] = f"{step['y']}px"
+
+
+  def next_hint(self, **event_args):
+    # Go to the next step
+    self.current_step += 1
+    if self.current_step < len(self.tour_steps):
+      self.show_hint()
+    else:
+      self.tour_panel.visible = False
+
+  def prev_hint(self, **event_args):
+    # Go to the previous step
+    if self.current_step > 0:
+      self.current_step -= 1
+      self.show_hint()
+
+
     
   def spotify_HTML_player(self):
     c_web_player_html = '''
