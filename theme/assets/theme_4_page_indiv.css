@@ -20,3 +20,20 @@ Area 5: Page individual classes
 .anvil-role-listen-right-element {
   height: calc(95vh - 85px);
 }
+
+
+/* ----------------------------
+5.3. Tour on Discover */
+.anvil-role-tour-discover-1 {
+  margin: 0 !important;
+  top: 50%;
+  left: -30%;
+}
+.anvil-role-tour-discover-2 {
+  margin: 0 !important;
+  top: 10%;
+  left: 0%;
+}
+.anvil-role-tour-discover-3 {
+  top: 30px;
+}

@@ -869,13 +869,16 @@ class Discover(DiscoverTemplate):
     self.tour_steps = [
       {"title": "Spotify Player", 
         "content": "This is the Spotify Player. You can play songs here.",
-        "x": 100, "y": 50},
+        "x": 100, "y": 50,
+        "role": "tour-discover-1"},
       {"title": "Search Bar",
         "content": "Use the search bar to find songs or artists.",
-        "x": 300, "y": 100},
+        "x": 300, "y": 100,
+        "role": "tour-discover-2"},
       {"title": "Playlist",
         "content": "This is your playlist. Drag songs here to add them.",
-        "x": 500, "y": 150}
+        "x": 500, "y": 150,
+        "role": "tour-discover-3"}
     ]
 
     self.current_step = 0
@@ -884,13 +887,23 @@ class Discover(DiscoverTemplate):
   def show_hint(self):
     # Show the current step's hint
     step = self.tour_steps[self.current_step]
-    self.hint_title.text = step["title"]
-    self.hint_content.text = step["content"]
+    # self.hint_title.text = step["title"]
+    # self.hint_content.text = step["content"]
 
-    # Position the hint dynamically
-    print(f"{step['x']}px")
-    print(self.tour_panel)
-    print(self.tour_panel.role)
+    res = alert(title=step["title"],
+      content=step["content"],
+      buttons=[("CLOSE"), ("NEXT")],
+      role=["alert-notification", "remove-focus", step["role"]]
+    )
+    print(res)
+
+    if res == 'NEXT':
+      self.next_hint()
+      
+    # # Position the hint dynamically
+    # print(f"{step['x']}px")
+    # print(self.tour_panel)
+    # print(self.tour_panel.role)
     
     # self.tour_panel.style["left"] = f"{step['x']}px"
     # self.tour_panel.style["top"] = f"{step['y']}px"
@@ -901,8 +914,8 @@ class Discover(DiscoverTemplate):
     self.current_step += 1
     if self.current_step < len(self.tour_steps):
       self.show_hint()
-    else:
-      self.tour_panel.visible = False
+    # else:
+    #   self.tour_panel.visible = False
 
   def prev_hint(self, **event_args):
     # Go to the previous step
