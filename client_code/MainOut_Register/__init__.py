@@ -27,70 +27,86 @@ class MainOut_Register(MainOut_RegisterTemplate):
   def button_register_click(self, **event_args):
     email_regex = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
     
-    try:
-      if self.first_name.text == '':
-        alert(
-          "Please add your first name.",
-          title="Missing Data",
-          large=False,
-          buttons=[("Go Back", True)],
-          role=["forgot-password-success", "remove-focus"],
-        )
-      
-      elif self.last_name.text == '':
-        alert(
-          "Please add your second name.",
-          title="Missing Data",
-          large=False,
-          buttons=[("Go Back", True)],
-          role=["forgot-password-success", "remove-focus"],
-        )
-
-      elif re.match(email_regex, self.login_email.text) is None:
-        alert(
-          "Please enter a valid mail address.",
-          title="No valid mail!",
-          large=False,
-          buttons=[("Go Back", True)],
-          role=["forgot-password-success", "remove-focus"],
-        )        
-      
-      elif self.login_pw.text == '':
-        alert(
-          "Please enter a valid password.",
-          title="No valid password!",
-          large=False,
-          buttons=[("Go Back", True)],
-          role=["forgot-password-success", "remove-focus"],
-        )
-        
-      elif self.login_pw.text != self.login_pw_conf.text:
-        alert(
-          "Please ensure your password is correct in both fields.",
-          title="Passwords do not match!",
-          large=False,
-          buttons=[("Go Back", True)],
-          role=["forgot-password-success", "remove-focus"],
-        )
-
-        # LICENSE KEY
-      
-      else:
-        sign_up = anvil.users.signup_with_email(self.login_email.text,
-                                                self.login_pw.text)
-        print(sign_up)
-
-        # save name
-        
-
-    except anvil.users.AuthenticationFailed:
+    if self.first_name.text == '':
       alert(
-        "Please check your credentials.",
-        title="Registration Failed.",
+        "Please add your first name.",
+        title="Missing Data!",
         large=False,
         buttons=[("Go Back", True)],
         role=["forgot-password-success", "remove-focus"],
       )
+    
+    elif self.last_name.text == '':
+      alert(
+        "Please add your second name.",
+        title="Missing Data!",
+        large=False,
+        buttons=[("Go Back", True)],
+        role=["forgot-password-success", "remove-focus"],
+      )
+
+    elif re.match(email_regex, self.login_email.text) is None:
+      alert(
+        "Please enter a valid mail address.",
+        title="No valid mail!",
+        large=False,
+        buttons=[("Go Back", True)],
+        role=["forgot-password-success", "remove-focus"],
+      )        
+    
+    elif self.login_pw.text == '':
+      alert(
+        "Please enter a valid password.",
+        title="No valid password!",
+        large=False,
+        buttons=[("Go Back", True)],
+        role=["forgot-password-success", "remove-focus"],
+      )
+      
+    elif self.login_pw.text != self.login_pw_conf.text:
+      alert(
+        "Please ensure your password is correct in both fields.",
+        title="Passwords do not match!",
+        large=False,
+        buttons=[("Go Back", True)],
+        role=["forgot-password-success", "remove-focus"],
+      )
+
+      # LICENSE KEY
+    
+    else:
+      # create user and sent mail confirmation mail
+      res = anvil.server.call('sign_up_with_extra_data',
+                        self.login_email.text,
+                        self.login_pw.text,
+                        self.first_name.text,
+                        self.last_name.text)
+
+      # alert
+      if res == 'success':
+        alert(
+          "Please confirm your email by clicking the link we just sent you.",
+          title="Registration successful!",
+          large=False,
+          buttons=[("Go Back", True)],
+          role=["forgot-password-success", "remove-focus"],
+        )
+      elif res == 'user exists':
+        alert(
+          "This user already exists.",
+          title="Registration Failed!",
+          large=False,
+          buttons=[("Go Back", True)],
+          role=["forgot-password-success", "remove-focus"],
+        )
+      elif res == 'other':
+        alert(
+          "Please check your credentials.",
+          title="Registration Failed!",
+          large=False,
+          buttons=[("Go Back", True)],
+          role=["forgot-password-success", "remove-focus"],
+        )
   
   def login_email_pressed_enter(self, **event_args):
     """This method is called when the user presses Enter in this text box"""

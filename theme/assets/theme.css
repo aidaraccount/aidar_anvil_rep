@@ -2466,9 +2466,11 @@ footer a, .footer .anvil-component {
 }
 /* user-select-none svg-container */
 
+/* -------------------- */
+/* alert for forgot password and register */
 .anvil-role-forgot-password-success>.modal-content{
-  width: 450px;
-  margin: 195px 0px 70px -120px;
+  width: 400px;
+  margin: 195px 0px 70px -95px;
   font-family: Gs-regular;
   background: linear-gradient(to top left, rgb(43, 24, 72) 50%, rgb(134, 59, 59));
   color: white;
@@ -2493,6 +2495,8 @@ footer a, .footer .anvil-component {
   padding: 0 0 0 0;
   width: 100px;
 }
+
+
 .anvil-role-alert-notification {
   text-align: center;
 }

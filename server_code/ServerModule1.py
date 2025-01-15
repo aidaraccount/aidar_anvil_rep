@@ -13,23 +13,23 @@ import numpy as np
 # them with @anvil.server.callable.
 
 @anvil.server.callable
-def server_transfer_user_id():
-  user = anvil.users.get_user()
-  if user["user_id"] is None:
-    new_user_id = anvil.server.call('check_user_presence', user["email"])
-    if new_user_id is not None:
-      user_row = app_tables.users.get(email = user["email"])
-      user_row['user_id'] = new_user_id
+def sign_up_with_extra_data(email, password, first_name, last_name):
+  try:
+    # Sign up the user
+    user = anvil.users.signup_with_email(email, password)
+    
+    # Add extra data
+    user['first_name'] = first_name
+    user['last_name'] = last_name
 
-@anvil.server.callable
-def update_slider_start(value):
-  print(f"Slider start value: {value}")
-  # You can update the graph, filter data, etc., based on this value
+    return 'success'
+    
+  except anvil.users.UserExists:
+    return 'user exists'
 
-@anvil.server.callable
-def update_slider_end(value):
-  print(f"Slider end value: {value}")
-  # Update your logic based on this value
+  except Exception:
+    return 'other'
+
 
 @anvil.server.callable
 def check_user_exists(email):
@@ -38,3 +38,25 @@ def check_user_exists(email):
   
   # Return True if user exists, otherwise return False
   return user is not None
+
+
+@anvil.server.callable
+def server_transfer_user_id():
+  user = anvil.users.get_user()
+  if user["user_id"] is None:
+    new_user_id = anvil.server.call('check_user_presence', user["email"])
+    if new_user_id is not None:
+      user_row = app_tables.users.get(email = user["email"])
+      user_row['user_id'] = new_user_id
+
+
+@anvil.server.callable
+def update_slider_start(value):
+  print(f"Slider start value: {value}")
+  # You can update the graph, filter data, etc., based on this value
+
+
+@anvil.server.callable
+def update_slider_end(value):
+  print(f"Slider end value: {value}")
+  # Update your logic based on this value
