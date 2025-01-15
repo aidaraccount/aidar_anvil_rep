@@ -25,39 +25,17 @@ class MainOut_Register(MainOut_RegisterTemplate):
 
   
   def button_register_click(self, **event_args):
-    """Triggered when the user clicks the login button"""
-    # Get values from the form
-    email = self.login_email.text
-    password = self.login_pw.text
-    remember_me = self.remember_me_checkbox.checked
-
+    """Triggered when the user clicks the register button"""
     try:
       # Log in user with the "Remember me" option
-      user = anvil.users.login_with_email(email, password, remember=remember_me)
-
-      # user = anvil.users.get_user()
-
-      save_var("user", user)
-      if user is not None:
-        anvil.server.call("server_transfer_user_id")
-
-        # Save user_id and model_id to session storage
-        if user["user_id"] is not None:
-          save_var("user_id", user["user_id"])
-          save_var("model_id", anvil.server.call("get_model_id", user["user_id"]))
-
-        # Navigate to main page after successful login
-        open_form("MainIn")
-
-        if location.hash == "":
-          routing.set_url_hash("home", load_from_cache=False)
-        elif location.hash[:8] == "#artists":
-          routing.set_url_hash(location.hash, load_from_cache=False)
+      sign_up = anvil.users.signup_with_email(self.login_email.text,
+                                              self.login_pw.text)
+      print(sign_up)
 
     except anvil.users.AuthenticationFailed:
       alert(
         "Please check your credentials.",
-        title="Login Failed.",
+        title="Registration Failed.",
         large=False,
         buttons=[("Go Back", True)],
         role=["forgot-password-success", "remove-focus"],
@@ -65,8 +43,10 @@ class MainOut_Register(MainOut_RegisterTemplate):
 
   def login_email_pressed_enter(self, **event_args):
     """This method is called when the user presses Enter in this text box"""
-    self.login_pw.focus()
+    # self.login_pw.focus()
+    pass
 
-  def link_register_click(self, **event_args):
+  def link_get_access_click(self, **event_args):
     """This method is called when the link is clicked"""
     pass
+

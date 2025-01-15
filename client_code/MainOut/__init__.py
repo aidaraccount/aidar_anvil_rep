@@ -33,14 +33,11 @@ class MainOut(MainOutTemplate):
 
   def button_login_click(self, **event_args):
     """Triggered when the user clicks the login button"""
-    # Get values from the form
-    email = self.login_email.text
-    password = self.login_pw.text
-    remember_me = self.remember_me_checkbox.checked
-    
     try:
       # Log in user with the "Remember me" option
-      user = anvil.users.login_with_email(email, password, remember=remember_me)
+      user = anvil.users.login_with_email(self.login_email.text,
+                                          self.login_pw.text,
+                                          remember=self.remember_me_checkbox.checked)
       
       # user = anvil.users.get_user()
       
@@ -82,5 +79,5 @@ class MainOut(MainOutTemplate):
     self.login_pw.focus()
 
   def link_register_click(self, **event_args):
-    """This method is called when the link is clicked"""
-    pass
+    routing.set_url_hash('register', load_from_cache=False)
+    open_form('MainOut_Register')
