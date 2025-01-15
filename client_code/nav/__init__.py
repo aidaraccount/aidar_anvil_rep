@@ -50,6 +50,9 @@ def click_box(target):
 def logout():
   anvil.users.logout()
   anvil.js.window.sessionStorage.removeItem("model_id")
+  anvil.js.window.sessionStorage.removeItem("user_id")
+  anvil.js.window.sessionStorage.removeItem("watchlist_id")
+  
   open_form('MainOut')
   routing.set_url_hash('', load_from_cache=False)
 

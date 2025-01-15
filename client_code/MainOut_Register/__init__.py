@@ -82,7 +82,7 @@ class MainOut_Register(MainOut_RegisterTemplate):
                         self.first_name.text,
                         self.last_name.text)
 
-      # alert
+      # alerts & redirect
       if res == 'success':
         alert(
           "Please confirm your email by clicking the link we just sent you.",
@@ -91,6 +91,8 @@ class MainOut_Register(MainOut_RegisterTemplate):
           buttons=[("Go Back", True)],
           role=["forgot-password-success", "remove-focus"],
         )
+        anvil.js.window.location.href = "https://www.aidar.ai"
+        
       elif res == 'user exists':
         alert(
           "This user already exists.",

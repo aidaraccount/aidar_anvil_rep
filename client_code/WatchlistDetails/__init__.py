@@ -236,7 +236,6 @@ class WatchlistDetails(WatchlistDetailsTemplate):
           social_media_link.role = "music-icons-tile"
           
         if found is True:
-          # social_media_link.role = 'genre-box'
           social_media_link.url = social_media_list_url[str(i)]
           self.flow_panel_social_media_tile.add_component(social_media_link)
     
