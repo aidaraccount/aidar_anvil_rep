@@ -1,10 +1,10 @@
 components:
 - components:
-  - event_bindings: {}
+  - event_bindings: {change: license_key_change}
     layout_properties: {grid_position: 'PJCIDJ,OTTQGA'}
     name: license_key
     properties:
-      hide_text: true
+      hide_text: false
       margin: ['15', null, null, null]
       placeholder: Company License Key
       spacing_above: none

@@ -13,10 +13,10 @@ import numpy as np
 # them with @anvil.server.callable.
 
 @anvil.server.callable
-def sign_up_with_extra_data(email, password, first_name, last_name):
+def sign_up_with_extra_data(email, password, first_name, last_name, customer_id):
   try:
     # Sign up the user
-    user = anvil.users.signup_with_email(email, password)
+    user = anvil.users.signup_with_email(customer_id, email, password)
     
     # Add extra data
     user['first_name'] = first_name

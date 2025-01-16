@@ -7,6 +7,7 @@ import anvil.tables.query as q
 from anvil.tables import app_tables
 import datetime
 import re
+import json
 
 from anvil_extras import routing
 from anvil.js.window import location
@@ -26,8 +27,20 @@ class MainOut_Register(MainOut_RegisterTemplate):
   
   def button_register_click(self, **event_args):
     email_regex = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
+
+    customer_id = anvil.server.call('check_customer_license_key', self.license_key.text)
+    print('customer_id:', customer_id)
     
-    if self.first_name.text == '':
+    if customer_id is None:
+      alert(
+        "Please check your Customer License Key - if the problem remains, get in touch with your admin.",
+        title="Wrong Customer License Key!",
+        large=False,
+        buttons=[("Go Back", True)],
+        role=["forgot-password-success", "remove-focus"],
+      )
+    
+    elif self.first_name.text == '':
       alert(
         "Please add your first name.",
         title="Missing Data!",
@@ -71,16 +84,16 @@ class MainOut_Register(MainOut_RegisterTemplate):
         buttons=[("Go Back", True)],
         role=["forgot-password-success", "remove-focus"],
       )
-
-      # LICENSE KEY
     
     else:
       # create user and sent mail confirmation mail
+      # function is placed in the ServerModule
       res = anvil.server.call('sign_up_with_extra_data',
-                        self.login_email.text,
-                        self.login_pw.text,
-                        self.first_name.text,
-                        self.last_name.text)
+                              customer_id,
+                              self.login_email.text,
+                              self.login_pw.text,
+                              self.first_name.text,
+                              self.last_name.text)
 
       # alerts & redirect
       if res == 'success':
@@ -115,3 +128,8 @@ class MainOut_Register(MainOut_RegisterTemplate):
     """This method is called when the user presses Enter in this text box"""
     # self.login_pw.focus()
     pass
+
+  def license_key_change(self, **event_args):
+    # self.license_key.placeholder = 'xxx-xxx-xxx'
+    if len(self.license_key.text) in (3, 7):
+      self.license_key.text = f'{self.license_key.text}-'
