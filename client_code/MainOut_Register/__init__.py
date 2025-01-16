@@ -109,13 +109,9 @@ class MainOut_Register(MainOut_RegisterTemplate):
           buttons=[("Go Back", True)],
           role=["forgot-password-success", "remove-focus"],
         )
-  
+
+  # POSITION JUMPS
   def login_email_pressed_enter(self, **event_args):
     """This method is called when the user presses Enter in this text box"""
     # self.login_pw.focus()
     pass
-
-  def link_get_access_click(self, **event_args):
-    """This method is called when the link is clicked"""
-    pass
-

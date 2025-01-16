@@ -50,13 +50,14 @@ components:
           padding: [null, null, 0, null]
         text: No license yet?
       type: Label
-    - event_bindings: {click: link_get_access_click}
+    - event_bindings: {}
       layout_properties: {}
       name: link_get_access
       properties:
         spacing:
           margin: [0, null, 0, 5]
         text: get access
+        url: https://www.aidar.ai/#contactus
       type: Link
     layout_properties: {grid_position: 'CASKSP,DAZLNL'}
     name: flow_panel_1

@@ -8,6 +8,15 @@ components:
     name: image_1
     properties: {height: 50, source: _/theme/pics/Logo_white.png}
     type: Image
+  - layout_properties: {grid_position: 'OIGCZL,YWVYIA'}
+    name: label_5
+    properties:
+      align: center
+      role: header-6
+      spacing:
+        margin: [0, null, null, null]
+      text: Early Access
+    type: Label
   - layout_properties: {grid_position: 'PWWMOL,HVHYZT'}
     name: spacer_2
     properties: {height: 16}
