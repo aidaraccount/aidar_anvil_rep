@@ -130,6 +130,14 @@ class MainOut_Register(MainOut_RegisterTemplate):
     pass
 
   def license_key_change(self, **event_args):
-    # self.license_key.placeholder = 'xxx-xxx-xxx'
+    # add - after 3 and 7 characters
     if len(self.license_key.text) in (3, 7):
       self.license_key.text = f'{self.license_key.text}-'
+
+    # do not allow --
+    if len(self.license_key.text) > 3:
+      if self.license_key.text[len(self.license_key.text)-2:len(self.license_key.text)] == '--':
+        self.license_key.text = self.license_key.text[:len(self.license_key.text)-1]
+    
+    # Limit to 11 characters
+    self.license_key.text = self.license_key.text[:11]
