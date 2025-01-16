@@ -1,6 +1,6 @@
 components:
 - components:
-  - event_bindings: {change: license_key_change}
+  - event_bindings: {change: license_key_change, pressed_enter: button_register_click}
     layout_properties: {grid_position: 'PJCIDJ,OTTQGA'}
     name: license_key
     properties:
@@ -16,14 +16,15 @@ components:
     role: top-border
     spacing:
       margin: ['0', null, null, null]
+    visible: true
   type: ColumnPanel
 - components:
-  - event_bindings: {pressed_enter: login_email_pressed_enter}
+  - event_bindings: {pressed_enter: first_name_pressed_enter}
     layout_properties: {grid_position: 'YJEFQP,XSYIOQ'}
     name: first_name
     properties: {placeholder: First Name}
     type: TextBox
-  - event_bindings: {pressed_enter: login_email_pressed_enter}
+  - event_bindings: {pressed_enter: last_name_pressed_enter}
     layout_properties: {grid_position: 'YJEFQP,RSPHYC'}
     name: last_name
     properties: {placeholder: Last Name}
@@ -74,12 +75,12 @@ components:
     spacing:
       margin: ['25', null, 0, null]
   type: ColumnPanel
-- event_bindings: {}
+- event_bindings: {pressed_enter: login_pw_pressed_enter}
   layout_properties: {slot: password-slot}
   name: login_pw
   properties: {hide_text: true, placeholder: Password, spacing_above: none, spacing_below: none}
   type: TextBox
-- event_bindings: {}
+- event_bindings: {lost_focus: login_pw_conf_pressed_enter, pressed_enter: login_pw_conf_pressed_enter}
   layout_properties: {slot: password-slot}
   name: login_pw_conf
   properties: {hide_text: true, placeholder: Password Confirmation, spacing_above: none, spacing_below: none}

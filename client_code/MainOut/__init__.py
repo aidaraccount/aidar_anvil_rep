@@ -35,11 +35,8 @@ class MainOut(MainOutTemplate):
                                           self.login_pw.text,
                                           remember=self.remember_me_checkbox.checked)
       
-      # user = anvil.users.get_user()
-
-      print('user:', user)
-      print('user:', user is not None)
       if user is not None:
+        # copies the user to postgres db (via ServerModule)
         anvil.server.call("server_transfer_user_id")
         
         # Save user_id and model_id to session storage

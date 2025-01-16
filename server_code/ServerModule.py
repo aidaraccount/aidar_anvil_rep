@@ -13,12 +13,13 @@ import numpy as np
 # them with @anvil.server.callable.
 
 @anvil.server.callable
-def sign_up_with_extra_data(email, password, first_name, last_name, customer_id):
+def sign_up_with_extra_data(customer_id, email, password, first_name, last_name):
   try:
     # Sign up the user
-    user = anvil.users.signup_with_email(customer_id, email, password)
+    user = anvil.users.signup_with_email(email, password)
     
     # Add extra data
+    user['customer_id'] = customer_id
     user['first_name'] = first_name
     user['last_name'] = last_name
 
@@ -44,7 +45,7 @@ def check_user_exists(email):
 def server_transfer_user_id():
   user = anvil.users.get_user()
   if user["user_id"] is None:
-    new_user_id = anvil.server.call('check_user_presence', user["email"], user["first_name"], user["last_name"])
+    new_user_id = anvil.server.call('check_user_presence', user["customer_id"], user["email"], user["first_name"], user["last_name"])
     if new_user_id is not None:
       user_row = app_tables.users.get(email = user["email"])
       user_row['user_id'] = new_user_id

@@ -3,10 +3,10 @@ db_schema:
   users:
     client: none
     columns:
-    - admin_ui: {order: -1, width: 114}
+    - admin_ui: {order: -1, width: 84}
       name: user_id
       type: number
-    - admin_ui: {order: 0, width: 249}
+    - admin_ui: {order: 0, width: 226}
       name: email
       type: string
     - admin_ui: {order: 1, width: 135}
@@ -42,6 +42,9 @@ db_schema:
     - admin_ui: {order: 0.75, width: 117}
       name: last_name
       type: string
+    - admin_ui: {order: -0.5, width: 112}
+      name: customer_id
+      type: number
     server: full
     title: Users
   waiters:
