@@ -44,19 +44,17 @@ class MainIn(MainInTemplate):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
     
-    model_id = load_var("model_id")
-    print(f"MainIn model_id: {model_id}")
-    print(f"MainIn user_id: {load_var('user_id')}")
-
     # Any code you write here will run before the form opens.    
     global user
     user = anvil.users.get_user()
-    print(f"MainIn user: {user}")
-        
+    
     if user is None:
       self.visible = False
-        
-    else:      
+      print("MainIn user_id: None")
+    
+    else:
+      print(f"MainIn user_id: {user['user_id']}")
+    
       self.role = 'POST_LOGIN_PAGE'
       self.visible = True
     
@@ -70,22 +68,20 @@ class MainIn(MainInTemplate):
       #begin = datetime.datetime.now()
       #print(f"{datetime.datetime.now()}: MainIn - link_login_click - 2", flush=True)
 
-      # model_id
+      # model_id & watchlist_id
       if user["user_id"] is None:
         self.model_id = None
+        self.watchlist_id = None
+        
       else:
-        if model_id is None:
-          self.model_id = save_var("model_id", anvil.server.call('get_model_id',  user["user_id"]))
-        else:
-          self.model_id = model_id
+        # model_id
+        self.model_id = save_var("model_id", anvil.server.call('get_model_id',  user["user_id"]))
+        print(f"MainIn model_id: {self.model_id}")
 
-      # watchlist_id
-      watchlist_id = load_var("watchlist_id")
-      if watchlist_id is None:
-        save_var("watchlist_id", anvil.server.call('get_watchlist_id',  user["user_id"]))
-      self.watchlist_id = watchlist_id
-      print(f"MainIn watchlist_id: {watchlist_id}")
-          
+        # watchlist_id
+        self.watchlist_id = save_var("watchlist_id", anvil.server.call('get_watchlist_id',  user["user_id"]))
+        print(f"MainIn watchlist_id: {self.watchlist_id}")
+                
       #print(f"{datetime.datetime.now()}: MainIn - link_login_click - 3", flush=True)  # 20s, 17s - 4s
             
       if self.model_id is None:
@@ -107,24 +103,25 @@ class MainIn(MainInTemplate):
   # WATCHLIST ROUTING
   def refresh_watchlists_components(self):
     self.remove_watchlist_components()
-    
     wl_ids = json.loads(anvil.server.call('get_watchlist_ids',  user["user_id"]))
-    for i in range(0, len(wl_ids)):
-      if wl_ids[i]["is_last_used"] is True:
-        wl_link = Link(
-          icon='fa:angle-right',
-          text=wl_ids[i]["watchlist_name"],
-          tag=wl_ids[i]["watchlist_id"],
-          role='underline-link'
-          )
-      else:
-        wl_link = Link(
-          icon='fa:angle-right',
-          text=wl_ids[i]["watchlist_name"],
-          tag=wl_ids[i]["watchlist_id"]
-          )
-      wl_link.set_event_handler('click', self.create_watchlist_click_handler(wl_ids[i]["watchlist_id"], wl_link))
-      self.nav_watchlists.add_component(wl_link)
+    
+    if len(wl_ids) > 0:
+      for i in range(0, len(wl_ids)):
+        if wl_ids[i]["is_last_used"] is True:
+          wl_link = Link(
+            icon='fa:angle-right',
+            text=wl_ids[i]["watchlist_name"],
+            tag=wl_ids[i]["watchlist_id"],
+            role='underline-link'
+            )
+        else:
+          wl_link = Link(
+            icon='fa:angle-right',
+            text=wl_ids[i]["watchlist_name"],
+            tag=wl_ids[i]["watchlist_id"]
+            )
+        wl_link.set_event_handler('click', self.create_watchlist_click_handler(wl_ids[i]["watchlist_id"], wl_link))
+        self.nav_watchlists.add_component(wl_link)
 
   def remove_watchlist_components(self):
     for component in self.nav_watchlists.get_components():
@@ -152,25 +149,26 @@ class MainIn(MainInTemplate):
 
   # MODEL ROUTING
   def refresh_models_components(self):
-    self.remove_model_components()
-    
+    self.remove_model_components()    
     model_ids = json.loads(anvil.server.call('get_model_ids',  user["user_id"]))
-    for i in range(0, len(model_ids)):
-      if model_ids[i]["is_last_used"] is True:
-        model_link = Link(
-          icon='fa:angle-right',
-          text=model_ids[i]["model_name"],
-          tag=model_ids[i]["model_id"],
-          role='underline-link'
-          )
-      else:
-        model_link = Link(
-          icon='fa:angle-right',
-          text=model_ids[i]["model_name"],
-          tag=model_ids[i]["model_id"]
-          )
-      model_link.set_event_handler('click', self.create_model_click_handler(model_ids[i]["model_id"], model_link))
-      self.nav_models.add_component(model_link)
+
+    if len(model_ids) > 0:
+      for i in range(0, len(model_ids)):
+        if model_ids[i]["is_last_used"] is True:
+          model_link = Link(
+            icon='fa:angle-right',
+            text=model_ids[i]["model_name"],
+            tag=model_ids[i]["model_id"],
+            role='underline-link'
+            )
+        else:
+          model_link = Link(
+            icon='fa:angle-right',
+            text=model_ids[i]["model_name"],
+            tag=model_ids[i]["model_id"]
+            )
+        model_link.set_event_handler('click', self.create_model_click_handler(model_ids[i]["model_id"], model_link))
+        self.nav_models.add_component(model_link)
   
   def remove_model_components(self):
     for component in self.nav_models.get_components():

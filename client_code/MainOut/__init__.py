@@ -23,16 +23,12 @@ class MainOut(MainOutTemplate):
 
     global user
     user = None
-    
-    model_id = load_var("model_id")
-    print(f"MainOut model_id: {model_id}")
-    
+        
     # Any code you write here will run before the form opens.
     pass
     
 
   def button_login_click(self, **event_args):
-    """Triggered when the user clicks the login button"""
     try:
       # Log in user with the "Remember me" option
       user = anvil.users.login_with_email(self.login_email.text,
@@ -40,32 +36,42 @@ class MainOut(MainOutTemplate):
                                           remember=self.remember_me_checkbox.checked)
       
       # user = anvil.users.get_user()
-      
-      save_var("user", user)
-      if user is not None:
-          anvil.server.call("server_transfer_user_id")
-        
-          # Save user_id and model_id to session storage
-          if user["user_id"] is not None:
-            save_var("user_id", user["user_id"])
-            save_var("model_id", anvil.server.call('get_model_id',  user["user_id"]))
 
-          # Navigate to main page after successful login
-          open_form("MainIn")
-        
-          if location.hash == '':
-            routing.set_url_hash('home', load_from_cache=False)
-          elif location.hash[:8] == '#artists':
-            routing.set_url_hash(location.hash, load_from_cache=False)
-            
-    except anvil.users.AuthenticationFailed:
-      alert(
-          "Please check your credentials.",
+      print('user:', user)
+      print('user:', user is not None)
+      if user is not None:
+        anvil.server.call("server_transfer_user_id")
+      
+        # Save user_id and model_id to session storage
+        if user["user_id"] is not None:
+          save_var("user_id", user["user_id"])
+          save_var("model_id", anvil.server.call('get_model_id',  user["user_id"]))
+
+        # Navigate to main page after successful login
+        open_form("MainIn")
+      
+        if location.hash == '':
+          routing.set_url_hash('home', load_from_cache=False)
+        elif location.hash[:8] == '#artists':
+          routing.set_url_hash(location.hash, load_from_cache=False)
+
+      else:        
+        alert(
+          "Please check your credentials or contact our support at info@aidar.ai.",
           title="Login Failed.",
           large=False,
           buttons=[("Go Back", True)],
           role=["forgot-password-success", "remove-focus"]
         )
+        
+    except anvil.users.AuthenticationFailed:
+      alert(
+        "Please check your credentials.",
+        title="Login Failed.",
+        large=False,
+        buttons=[("Go Back", True)],
+        role=["forgot-password-success", "remove-focus"]
+      )
 
   def link_forgot_password_click(self, **event_args):
     """Triggered when the user clicks 'Forgot your password?'"""
