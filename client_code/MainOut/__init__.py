@@ -41,7 +41,7 @@ class MainOut(MainOutTemplate):
       print('user:', user is not None)
       if user is not None:
         anvil.server.call("server_transfer_user_id")
-      
+        
         # Save user_id and model_id to session storage
         if user["user_id"] is not None:
           save_var("user_id", user["user_id"])
