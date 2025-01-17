@@ -8,10 +8,6 @@ components:
     name: image_1
     properties: {height: '40', horizontal_align: left, role: null, source: _/theme/pics/Logo_white.png}
     type: Image
-  - layout_properties: {grid_position: 'IETAJJ,CCUEAC'}
-    name: image_2
-    properties: {height: '30', role: image-bottom-border}
-    type: Image
   - layout_properties: {grid_position: 'QIJWID,UQSWOC'}
     name: spacer_2
     properties: {height: '30'}
