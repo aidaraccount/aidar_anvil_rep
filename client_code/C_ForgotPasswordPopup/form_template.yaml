@@ -1,7 +1,13 @@
 components:
 - layout_properties: {slot: title-slot}
   name: title_label
-  properties: {role: header-3-on-white-bg, spacing_above: none, spacing_below: none, text: 'Forgot your password?'}
+  properties:
+    role: header-3-on-white-bg
+    spacing:
+      margin: [null, null, 10, null]
+    spacing_above: none
+    spacing_below: none
+    text: Forgot your password?
   type: Label
 - layout_properties: {slot: message-slot}
   name: message_label
@@ -9,7 +15,11 @@ components:
   type: Label
 - layout_properties: {slot: Email-slot}
   name: email_field
-  properties: {placeholder: Email, spacing_above: none, spacing_below: none}
+  properties:
+    margin: [5, null, null, null]
+    placeholder: Email
+    spacing_above: none
+    spacing_below: none
   type: TextBox
 - event_bindings: {click: submit_button_click}
   layout_properties: {slot: Submit-button}

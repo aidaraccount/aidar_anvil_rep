@@ -3,25 +3,25 @@ db_schema:
   users:
     client: none
     columns:
-    - admin_ui: {width: 200}
+    - admin_ui: {order: -1, width: 84}
       name: user_id
       type: number
-    - admin_ui: {width: 200}
+    - admin_ui: {order: 0, width: 226}
       name: email
       type: string
-    - admin_ui: {width: 200}
+    - admin_ui: {order: 1, width: 135}
       name: enabled
       type: bool
     - admin_ui: {width: 200}
       name: last_login
       type: datetime
-    - admin_ui: {width: 200}
+    - admin_ui: {order: 3, width: 200}
       name: password_hash
       type: string
     - admin_ui: {width: 200}
       name: n_password_failures
       type: number
-    - admin_ui: {width: 200}
+    - admin_ui: {order: 1.125, width: 141}
       name: confirmed_email
       type: bool
     - admin_ui: {width: 200}
@@ -33,9 +33,18 @@ db_schema:
     - admin_ui: {order: 9, width: 200}
       name: remembered_logins
       type: simpleObject
-    - admin_ui: {order: 10, width: 200}
+    - admin_ui: {order: 1.25, width: 137}
       name: expiration_date
       type: date
+    - admin_ui: {order: 0.5, width: 112}
+      name: first_name
+      type: string
+    - admin_ui: {order: 0.75, width: 117}
+      name: last_name
+      type: string
+    - admin_ui: {order: -0.5, width: 112}
+      name: customer_id
+      type: number
     server: full
     title: Users
   waiters:
@@ -68,7 +77,7 @@ services:
 - client_config: {}
   server_config: {}
   source: /runtime/services/tables.yml
-- client_config: {allow_remember_me: true, allow_signup: false, confirm_email: true, enable_automatically: true, remember_me_days: 365, use_email: true, use_token: false}
+- client_config: {allow_remember_me: true, allow_signup: true, confirm_email: true, enable_automatically: true, remember_me_days: 365, use_email: true, use_token: false}
   server_config:
     email_content:
       confirm_address: {html: '<h2>Welcome to AIDAR,</h2><p>your AI driven A&amp;R platform.</p><p><br></p><p>Please click the following link to confirm that this is your account: {{confirm_link}}</p><p><br></p><p>If we can help you with anything, please reach out to us: info@aidar.ai</p><p><br></p><p>Thanks,</p><p>Your AIDAR team</p>'}

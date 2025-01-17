@@ -24,7 +24,7 @@ def click_link(element, target, event_args):
   else:
     routing.set_url_hash(target, load_from_cache=False)
 
-  get_open_form().reset_nav_backgrounds()
+  # get_open_form().reset_nav_backgrounds()
 
   
 
@@ -38,7 +38,7 @@ def click_button(target, event_args):
   else:
     routing.set_url_hash(target, load_from_cache=False)
   
-  get_open_form().reset_nav_backgrounds()
+  # get_open_form().reset_nav_backgrounds()
 
 
 def click_box(target):
@@ -49,8 +49,10 @@ def click_box(target):
 
 def logout():
   anvil.users.logout()
-  # anvil.js.window.sessionStorage.clear()
   anvil.js.window.sessionStorage.removeItem("model_id")
+  anvil.js.window.sessionStorage.removeItem("user_id")
+  anvil.js.window.sessionStorage.removeItem("watchlist_id")
+  
   open_form('MainOut')
   routing.set_url_hash('', load_from_cache=False)
 
@@ -78,7 +80,6 @@ def load_var(var):
 
 
 def refresh():
-  #location.reload()
   current_hash = location.hash
   temporary_hash = ''
   location.hash = temporary_hash
