@@ -28,7 +28,7 @@ class C_Filter(C_FilterTemplate):
 
     # ------------------------------------------------- !!! ATTENTION !!!
     # SCORPIO EXTENSION - has_top5_de
-    if user['email'] == 'scorpio_team_account':
+    if user['email'] in ['janek-meyn@web.de', 'scorpio_team_account'] or user['email'].endswith('@fkpscorpio.com'):
       self.de_header.visible = True
       self.de_content.visible = True
     else:      
@@ -206,9 +206,19 @@ class C_Filter(C_FilterTemplate):
                       self.model_id,
                       filters_json
                      )
+    
     temp_artist_id = anvil.server.call('get_next_artist_id', load_var('model_id'))
-    routing.set_url_hash(f'artists?artist_id={temp_artist_id}', load_from_cache=False)
+    if temp_artist_id is None:
+      alert(title='No Artists found..',
+        content="Sorry, we cound't find any artists for your selection. Please change your FILTERS to find additional artists.",
+        buttons=[
+          ("Ok", "OK")
+        ]
+      )
+    else:
+      routing.set_url_hash(f'artists?artist_id={temp_artist_id}', load_from_cache=False)
 
+  
   def clear_filters_button_click(self, **event_args):    
     anvil.server.call('change_filters',
                       self.model_id,

@@ -91,8 +91,6 @@ class Discover(DiscoverTemplate):
     # get_suggestion
     url_artist_id = self.url_dict['artist_id']
     sug = json.loads(anvil.server.call('get_suggestion', 'Inspect', self.model_id, url_artist_id)) # Free, Explore, Inspect, Dissect
-    self.sug = sug
-    save_var('lastplayed', self.sug["SpotifyArtistID"])
     
     # check status
     if sug["Status"] == 'Empty Model!':
@@ -116,7 +114,10 @@ class Discover(DiscoverTemplate):
     #     content="Sorry, the free version is limited in the number of suggested artists - if you're interested in continuing, please upgrade to one of our subscription plans.\n\nFor any questions, please contact us at info@aidar.ai\n\nYour AIDAR Team")
     #   self.visible = False
       
-    else:      
+    else:
+      self.sug = sug
+      save_var('lastplayed', self.sug["SpotifyArtistID"])
+    
       self.nav_releases.role = 'section_buttons_focused'
       self.sec_releases.visible = True
       self.sec_success.visible = False
