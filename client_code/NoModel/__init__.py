@@ -25,10 +25,8 @@ class NoModel(NoModelTemplate):
     get_open_form().SearchBar.visible = False
 
   
-  def button_connect_model_click(self, **event_args):
-    click_button('connect_model', event_args)
-
   def button_create_model_click(self, **event_args):
     click_button('model_setup?model_id=None&section=Basics', event_args)
-    # this function is called from the Native Libraries
+    
+    # this function is called from hideNavBar.js
     anvil.js.call_js("navbar_noModel_noSubs")

@@ -32,12 +32,13 @@ class MainOut_Register(MainOut_RegisterTemplate):
     print('MainOut_Register customer_id:', customer_id)
     
     if customer_id is None:
+      anvil.server.call('sent_push_over',  'User Registration Failed', f'Wrong Customer License Key: {self.login_email.text}')
       alert(
         title="Wrong Customer License Key!",
         content="Please check your Customer License Key - if the problem remains, get in touch with your admin.",
         buttons=[("Go Back", True)],
         role=["forgot-password-success", "remove-focus"],
-      )    
+      )
     elif self.first_name.text == '':
       alert(
         title="Missing Data!",
@@ -85,6 +86,7 @@ class MainOut_Register(MainOut_RegisterTemplate):
       
       # alerts & redirect
       if res == 'success':
+        anvil.server.call('sent_push_over',  'User Registration', f'{self.login_email.text} registered for Customer {customer_id}')
         alert(
           title="Registration successful!",
           content="Please confirm your email by clicking the link we just sent you.",
