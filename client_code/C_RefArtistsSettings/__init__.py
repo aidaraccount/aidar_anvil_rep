@@ -56,3 +56,13 @@ class C_RefArtistsSettings(C_RefArtistsSettingsTemplate):
         
     elif anvil.js.window.location.hash.lstrip('#').split('?')[0] == 'model_profile':
       pass
+
+    # reset search field and button
+    self.text_box_search.text = ''
+    self.search_button.role = ['call-to-action-button-disabled', 'header-6']
+
+  def text_box_search_change(self, **event_args):
+    if self.text_box_search.text != '':
+      self.search_button.role = ['call-to-action-button', 'header-6']
+    else:
+      self.search_button.role = ['call-to-action-button-disabled', 'header-6']

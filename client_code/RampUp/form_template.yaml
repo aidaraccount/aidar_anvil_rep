@@ -212,7 +212,7 @@ components:
         text: |-
           To boost your AI-assistant, let’s finetune the popularity / “size” of artists that you are looking for. Please use the slider. The scale ranges from 0% (completely unknown artist) to 100% (Taylor Swift)
 
-          ​​IMPORTANT: We added some example artists to support your decision.​Do not consider any factors besides the popularity / “size” of the artists depicted below.​
+          ​​IMPORTANT: We added some example artists to support your decision.​ Do not consider any factors besides the popularity / “size” of the artists depicted below.​
         tooltip: ''
         underline: false
         visible: true
