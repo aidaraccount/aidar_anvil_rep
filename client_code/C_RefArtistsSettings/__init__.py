@@ -36,26 +36,36 @@ class C_RefArtistsSettings(C_RefArtistsSettingsTemplate):
     self.no_refs.text = f"{no_refs} of 3+ references added"
   
   def text_box_search_pressed_enter(self, **event_args):
-    search_text = self.text_box_search.text
-    popup_table = alert(
-      content=C_RefPopupTable(self.model_id_view, search_text),
-      large=True,
-      buttons=[]
-    )
+    ref_data = json.loads(anvil.server.call("search_artist", user["user_id"], self.text_box_search.text.strip()))
+    print('ref_data:', ref_data)
     
-    self.get_references()
-
-    # SOURCE INDIVIDUAL CODE
-    if anvil.js.window.location.hash.lstrip('#').split('?')[0] == 'model_setup':
-      # Update Next-Button in RampUp
-      artist_id = anvil.server.call('get_next_artist_id', self.model_id_view)
-      if artist_id is not None:
-        self.parent.parent.get_components()[-1].get_components()[1].role = ['call-to-action-button','header-6','opacity-100']
-      else:
-        self.parent.parent.get_components()[-1].get_components()[1].role = ['call-to-action-button', 'header-6', 'opacity-25']
-        
-    elif anvil.js.window.location.hash.lstrip('#').split('?')[0] == 'model_profile':
-      pass
+    if not ref_data:
+      alert(title="Artist not found or missing",
+        content="If you can't find the artist you're looking for, just enter their Spotify ID in the overall top search bar, and we'll add them to our catalog.",
+        buttons=[("OK", "OK")],
+        role=["alert-notification","remove-focus"]
+      )
+            
+    else:    
+      alert(
+        content=C_RefPopupTable(ref_data),
+        large=True,
+        buttons=[]
+      )
+      
+      self.get_references()
+  
+      # SOURCE INDIVIDUAL CODE
+      if anvil.js.window.location.hash.lstrip('#').split('?')[0] == 'model_setup':
+        # Update Next-Button in RampUp
+        artist_id = anvil.server.call('get_next_artist_id', self.model_id_view)
+        if artist_id is not None:
+          self.parent.parent.get_components()[-1].get_components()[1].role = ['call-to-action-button','header-6','opacity-100']
+        else:
+          self.parent.parent.get_components()[-1].get_components()[1].role = ['call-to-action-button', 'header-6', 'opacity-25']
+          
+      elif anvil.js.window.location.hash.lstrip('#').split('?')[0] == 'model_profile':
+        pass
 
     # reset search field and button
     self.text_box_search.text = ''

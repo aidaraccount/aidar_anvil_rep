@@ -12,7 +12,7 @@ from ..nav import click_link, click_button, logout, save_var, load_var
 
 
 class C_RefPopupTable(C_RefPopupTableTemplate):
-  def __init__(self, model_id, search_text, **properties):
+  def __init__(self, ref_data, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
 
@@ -20,7 +20,7 @@ class C_RefPopupTable(C_RefPopupTableTemplate):
     user = anvil.users.get_user()
 
     # Any code you write here will run before the form opens.    
-    self.data_grid_artists_data.items = json.loads(anvil.server.call("search_artist", user["user_id"], search_text.strip()))
+    self.data_grid_artists_data.items = ref_data
 
   def close_alert(self, **event_args):
     self.raise_event("x-close-alert")

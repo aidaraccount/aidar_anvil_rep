@@ -1,5 +1,4 @@
 from ._anvil_designer import C_LevelOfPopularityTemplate
-from ..C_RefPopupTable import C_RefPopupTable
 from anvil import *
 import anvil.server
 import anvil.users
