@@ -2,29 +2,29 @@ var controller;
 
 // function to play/pause spotify
 function playSpotify() {
-  console.log("sessionStorage.getItem('has_played'): " + sessionStorage.getItem("has_played"));
+  console.log("playSpotify - sessionStorage.getItem('has_played'): " + sessionStorage.getItem("has_played"));
   const buttons = document.querySelectorAll('.anvil-role-cap-play-pause');
   
   buttons.forEach(button => {
     button.onclick = function () {
 
-      // console.log("controller.isPaused:" + controller.isPaused);
-      // console.log("controller.isPlaying:" + controller.isPlaying);
-      // console.log("!controller.isPlaying:" + !controller.isPlaying);
-      // console.log("controller" + controller);
+      console.log("playSpotify - controller.isPaused:" + controller.isPaused);
+      console.log("playSpotify - controller.isPlaying:" + controller.isPlaying);
+      console.log("playSpotify - !controller.isPlaying:" + !controller.isPlaying);
+      console.log("playSpotify - controller" + controller);
       
       if (controller.isPaused) {
-        console.log('1. Resume playing from the paused position')
+        console.log('playSpotify - 1. Resume playing from the paused position')
         controller.resume();  // Resume playing from the paused position
         controller.isPlaying = true;
         controller.isPaused = false;
       } else if (!controller.isPlaying) {
-        console.log('2. Start playing if not already playing')
+        console.log('playSpotify - 2. Start playing if not already playing')
         controller.play();    // Start playing if not already playing
         controller.isPlaying = true;
         controller.isPaused = false;
       } else {
-        console.log('3. Pause the player if its currently playing')
+        console.log('playSpotify - 3. Pause the player if its currently playing')
         controller.pause();   // Pause the player if it's currently playing
         controller.isPlaying = false;
         controller.isPaused = true;
@@ -53,21 +53,25 @@ function createOrUpdateSpotifyPlayer(formElement, trackOrArtist, currentSpotifyI
 
   // globalCurrentSpotifyID = currentSpotifyID;
   sessionStorage.setItem("globalCurrentSpotifyID", currentSpotifyID);
+  console.log("createOrUpdateSpotifyPlayer - setItem globalCurrentSpotifyID: " + currentSpotifyID);
 
   // set the options for the Spotify Player
   const options = {
     theme: 'dark',
     width: '100%',
     height: '80',
-    uri: `spotify:${trackOrArtist}:${sessionStorage.getItem("globalCurrentSpotifyID")}`,
+    uri: `spotify:${trackOrArtist}:${currentSpotifyID}`,
   };
 
   // the if statment checks if the SpotifyIgrameAPI already exists (if it is already loaded)
   if (window.SpotifyIframeAPI) {
+    let controller_status = 'not_ready';
+    
     window.SpotifyIframeAPI.createController(element, options, (EmbedController) => {
       controller = EmbedController;
       controller.addListener('ready', () => {
-        console.log('Spotify Player ready_1');
+        console.log('createOrUpdateSpotifyPlayer - Spotify Player ready_1');
+        controller_status = 'ready';
         if (autoplaybutton) {
           autoPlaySpotify();
         }
@@ -76,15 +80,22 @@ function createOrUpdateSpotifyPlayer(formElement, trackOrArtist, currentSpotifyI
       controller.addListener('playback_update', e => {
         const {isPaused, isBuffering, duration, position } = e.data;
         
+        console.log("createOrUpdateSpotifyPlayer - 111 isPaused: " + isPaused);
+        console.log("createOrUpdateSpotifyPlayer - 111 isBuffering: " + isBuffering);  
+        console.log("createOrUpdateSpotifyPlayer - 111 duration: " + duration);
+        console.log("createOrUpdateSpotifyPlayer - 111 position: " + position);
+        console.log("createOrUpdateSpotifyPlayer - 111 controller_status: " + controller_status);
+        
         // Check if the song has ended
-        if (!isPaused && position >= duration && duration > 0) {
-          console.log("Track has ended. Moving to the next song.");
-
+        if (!isPaused && position >= duration && duration > 0 && controller_status === 'ready') {
+          console.log("createOrUpdateSpotifyPlayer - Pos. 1: Track has ended. Moving to the next song.");
+          controller_status = 'not_ready';
+          
           // Load next song only if spotifyTrackIDsList is provided
           if (spotifyTrackIDsList) {
             playNextSong(formElement, 'track', spotifyTrackIDsList, spotifyArtistIDsList, spotifyArtistNameList);
           } else {
-            console.log("No track list provided. Playback stopped.")
+            console.log("createOrUpdateSpotifyPlayer - No track list provided. Playback stopped.")
           }
         }
       });
@@ -94,12 +105,12 @@ function createOrUpdateSpotifyPlayer(formElement, trackOrArtist, currentSpotifyI
         
         // Log the current playback state
         if (isBuffering) {
-          console.log("Playback is buffering - 1");
+          console.log("createOrUpdateSpotifyPlayer - Playback is buffering - 1");
         } else if (isPaused) {
-          console.log("Playback is paused - 1");
+          console.log("createOrUpdateSpotifyPlayer - Playback is paused - 1");
           setPlayButtonIcons(trackOrArtist, spotifyTrackIDsList, spotifyArtistIDsList)
         } else {
-          console.log("Playback is playing - 1");
+          console.log("createOrUpdateSpotifyPlayer - Playback is playing - 1");
           setPlayButtonIcons(trackOrArtist, spotifyTrackIDsList, spotifyArtistIDsList)
         }
       });
@@ -112,7 +123,7 @@ function createOrUpdateSpotifyPlayer(formElement, trackOrArtist, currentSpotifyI
       IFrameAPI.createController(element, options, (EmbedController) => {
         controller = EmbedController;
         controller.addListener('ready', () => {
-          console.log('Spotify Player ready_2');
+          console.log('createOrUpdateSpotifyPlayer - Spotify Player ready_2');
           if (autoplaybutton) {
             autoPlaySpotify();
           }
@@ -123,13 +134,13 @@ function createOrUpdateSpotifyPlayer(formElement, trackOrArtist, currentSpotifyI
           
           // Check if the song has ended
           if (!isPaused && position >= duration && duration > 0) {
-            console.log("Track has ended. Moving to the next song.");
+            console.log("createOrUpdateSpotifyPlayer - Pos. 2: Track has ended. Moving to the next song.");
 
             // Load next osng only if spotifyTrackIDsList is provided
             if (spotifyTrackIDsList) {
               playNextSong(formElement, 'track', spotifyTrackIDsList, spotifyArtistIDsList, spotifyArtistNameList);
             } else {
-              console.log("No track list provided. Playback stopped.");
+              console.log("createOrUpdateSpotifyPlayer - No track list provided. Playback stopped.");
             }
           }
         });
@@ -139,12 +150,12 @@ function createOrUpdateSpotifyPlayer(formElement, trackOrArtist, currentSpotifyI
           
           // Log the current playback state
           if (isBuffering) {
-            console.log("Playback is buffering - 2");
+            console.log("createOrUpdateSpotifyPlayer - Playback is buffering - 2");
           } else if (isPaused) {
-            console.log("Playback is paused - 2");
+            console.log("createOrUpdateSpotifyPlayer - Playback is paused - 2");
             setPlayButtonIcons(trackOrArtist, spotifyTrackIDsList, spotifyArtistIDsList)
           } else {
-            console.log("Playback is playing - 2");
+            console.log("createOrUpdateSpotifyPlayer - Playback is playing - 2");
             setPlayButtonIcons(trackOrArtist, spotifyTrackIDsList, spotifyArtistIDsList)
           }
         });
@@ -191,12 +202,14 @@ function playNextSong(formElement, trackOrArtist, spotifyTrackIDsList, spotifyAr
   
   // Declaring the index of the current playing song and get the id for the next song to play
   const index = spotifyTrackIDsList.indexOf(sessionStorage.getItem("globalCurrentSpotifyID"));
+  console.log("playNextSong - getItem globalCurrentSpotifyID: " + sessionStorage.getItem("globalCurrentSpotifyID"));
+  
   let nextSpotifyTrackID = null;
   let nextSpotifyArtistID = null;
   let nextSpotifyArtistName = null;
   
   if (direction === 'initial') {
-    console.log("first song? index: " + index);
+    console.log("playNextSong - first song? index: " + index);
     nextSpotifyTrackID = spotifyTrackIDsList[index];
     if (spotifyArtistIDsList) {
       nextSpotifyArtistID = spotifyArtistIDsList[index];
@@ -269,8 +282,11 @@ function playNextSong(formElement, trackOrArtist, spotifyTrackIDsList, spotifyAr
   
   // save the id to browser cache
   sessionStorage.setItem("lastplayedtrackid", nextSpotifyTrackID);
+  console.log("playNextSong - setItem lastplayedtrackid: " + nextSpotifyTrackID);
+  
   if (spotifyArtistIDsList) {
     sessionStorage.setItem("lastplayedartistid", nextSpotifyArtistID)
+    console.log("playNextSong - setItem lastplayedartistid: " + nextSpotifyArtistID);
   }
   
   //  check if controller is instantiated and next song is define
@@ -278,17 +294,20 @@ function playNextSong(formElement, trackOrArtist, spotifyTrackIDsList, spotifyAr
     const nextSongUri = `spotify:${trackOrArtist}:${nextSpotifyTrackID}`;
     // globalCurrentSpotifyID = nextSpotifyTrackID;
     sessionStorage.setItem("globalCurrentSpotifyID", nextSpotifyTrackID);
-    console.log("globalCurrentSpotifyID" + sessionStorage.getItem("globalCurrentSpotifyID"));
+    console.log("playNextSong - setItem globalCurrentSpotifyID: " + nextSpotifyTrackID);
 
     // reload the controler only if not the first song is played (as its alreay pre-loaded)
     if (index === 0 && direction === 'initial') {
-      console.log("No new CONTROLLER needed!");
+      console.log("playNextSong - No new CONTROLLER needed!");
     } else {
       controller.loadUri(nextSongUri);
+      console.log("playNextSong - Loading next song uri!");
     }
     
     // Check if the artist has changed -> read their name & scroll into view
-    const currentArtistID = spotifyArtistIDsList ? spotifyArtistIDsList[index] : null;    
+    const currentArtistID = spotifyArtistIDsList ? spotifyArtistIDsList[index] : null;  
+    console.log("playNextSong - 222 currentArtistID: " + currentArtistID);
+    
     if (nextSpotifyArtistID && (currentArtistID !== nextSpotifyArtistID || sessionStorage.getItem("has_played") === 'False')) {
       // read name
       speakText(`...Presenting, ${nextSpotifyArtistName}!`)
