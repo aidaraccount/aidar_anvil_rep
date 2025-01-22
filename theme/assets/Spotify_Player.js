@@ -35,6 +35,13 @@ function playSpotify() {
 
 // function to initialize the spotify console
 function createOrUpdateSpotifyPlayer(formElement, trackOrArtist, currentSpotifyID, spotifyTrackIDsList, spotifyArtistIDsList, spotifyArtistNameList) {
+  
+  console.log("createOrUpdateSpotifyPlayer - 000 trackOrArtist: " + trackOrArtist);
+  console.log("createOrUpdateSpotifyPlayer - 000 currentSpotifyID: " + currentSpotifyID);  
+  console.log("createOrUpdateSpotifyPlayer - 000 spotifyTrackIDsList: " + spotifyTrackIDsList);
+  console.log("createOrUpdateSpotifyPlayer - 000 spotifyArtistIDsList: " + spotifyArtistIDsList);
+  console.log("createOrUpdateSpotifyPlayer - 000 spotifyArtistNameList: " + spotifyArtistNameList);
+  
   const element = document.querySelector('.anvil-role-cap-spotify-footer #embed-iframe');
   const autoplaybutton = document.querySelector('.anvil-role-cap-autoplay-toggle-button .fa-toggle-on')
 
@@ -168,6 +175,12 @@ function autoPlaySpotify() {
 // Function to load the next song
 function playNextSong(formElement, trackOrArtist, spotifyTrackIDsList, spotifyArtistIDsList, spotifyArtistNameList, direction='forward') {
 
+  console.log("playNextSong - 000 trackOrArtist: " + trackOrArtist);
+  console.log("playNextSong - 000 spotifyTrackIDsList: " + spotifyTrackIDsList);  
+  console.log("playNextSong - 000 spotifyArtistIDsList: " + spotifyArtistIDsList);
+  console.log("playNextSong - 000 spotifyArtistNameList: " + spotifyArtistNameList);
+  console.log("playNextSong - 000 direction: " + direction);
+  
   let globalSpotifyArtistIDsList = spotifyArtistIDsList;
   
   // If statement to check if we are playing a list of custom songs or a playlist from Spotify
@@ -247,12 +260,12 @@ function playNextSong(formElement, trackOrArtist, spotifyTrackIDsList, spotifyAr
     }    
   }
 
-  // console.log("111 index: " + index);
-  // console.log("111 globalSpotifyArtistIDsList: " + globalSpotifyArtistIDsList);  
-  // console.log("111 spotifyArtistIDsList: " + spotifyArtistIDsList);
-  // console.log("111 nextSpotifyTrackID: " + nextSpotifyTrackID);
-  // console.log("111 nextSpotifyArtistID: " + nextSpotifyArtistID);
-  // console.log("111 nextSpotifyArtistName: " + nextSpotifyArtistName);
+  console.log("playNextSong - 111 index: " + index);
+  console.log("playNextSong - 111 globalSpotifyArtistIDsList: " + globalSpotifyArtistIDsList);  
+  console.log("playNextSong - 111 spotifyArtistIDsList: " + spotifyArtistIDsList);
+  console.log("playNextSong - 111 nextSpotifyTrackID: " + nextSpotifyTrackID);
+  console.log("playNextSong - 111 nextSpotifyArtistID: " + nextSpotifyArtistID);
+  console.log("playNextSong - 111 nextSpotifyArtistName: " + nextSpotifyArtistName);
   
   // save the id to browser cache
   sessionStorage.setItem("lastplayedtrackid", nextSpotifyTrackID);
