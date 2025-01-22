@@ -8,10 +8,10 @@ function playSpotify() {
   buttons.forEach(button => {
     button.onclick = function () {
 
-      console.log("playSpotify - controller.isPaused:" + controller.isPaused);
-      console.log("playSpotify - controller.isPlaying:" + controller.isPlaying);
-      console.log("playSpotify - !controller.isPlaying:" + !controller.isPlaying);
-      console.log("playSpotify - controller" + controller);
+      // console.log("playSpotify - controller.isPaused:" + controller.isPaused);
+      // console.log("playSpotify - controller.isPlaying:" + controller.isPlaying);
+      // console.log("playSpotify - !controller.isPlaying:" + !controller.isPlaying);
+      // console.log("playSpotify - controller" + controller);
       
       if (controller.isPaused) {
         console.log('playSpotify - 1. Resume playing from the paused position')
@@ -36,11 +36,11 @@ function playSpotify() {
 // function to initialize the spotify console
 function createOrUpdateSpotifyPlayer(formElement, trackOrArtist, currentSpotifyID, spotifyTrackIDsList, spotifyArtistIDsList, spotifyArtistNameList) {
   
-  console.log("createOrUpdateSpotifyPlayer - 000 trackOrArtist: " + trackOrArtist);
-  console.log("createOrUpdateSpotifyPlayer - 000 currentSpotifyID: " + currentSpotifyID);  
-  console.log("createOrUpdateSpotifyPlayer - 000 spotifyTrackIDsList: " + spotifyTrackIDsList);
-  console.log("createOrUpdateSpotifyPlayer - 000 spotifyArtistIDsList: " + spotifyArtistIDsList);
-  console.log("createOrUpdateSpotifyPlayer - 000 spotifyArtistNameList: " + spotifyArtistNameList);
+  // console.log("createOrUpdateSpotifyPlayer - 000 trackOrArtist: " + trackOrArtist);
+  // console.log("createOrUpdateSpotifyPlayer - 000 currentSpotifyID: " + currentSpotifyID);  
+  // console.log("createOrUpdateSpotifyPlayer - 000 spotifyTrackIDsList: " + spotifyTrackIDsList);
+  // console.log("createOrUpdateSpotifyPlayer - 000 spotifyArtistIDsList: " + spotifyArtistIDsList);
+  // console.log("createOrUpdateSpotifyPlayer - 000 spotifyArtistNameList: " + spotifyArtistNameList);
   
   const element = document.querySelector('.anvil-role-cap-spotify-footer #embed-iframe');
   const autoplaybutton = document.querySelector('.anvil-role-cap-autoplay-toggle-button .fa-toggle-on')
@@ -80,11 +80,11 @@ function createOrUpdateSpotifyPlayer(formElement, trackOrArtist, currentSpotifyI
       controller.addListener('playback_update', e => {
         const {isPaused, isBuffering, duration, position } = e.data;
         
-        console.log("createOrUpdateSpotifyPlayer - 111 isPaused: " + isPaused);
-        console.log("createOrUpdateSpotifyPlayer - 111 isBuffering: " + isBuffering);  
-        console.log("createOrUpdateSpotifyPlayer - 111 duration: " + duration);
-        console.log("createOrUpdateSpotifyPlayer - 111 position: " + position);
-        console.log("createOrUpdateSpotifyPlayer - 111 controller_status: " + controller_status);
+        // console.log("createOrUpdateSpotifyPlayer - 111 isPaused: " + isPaused);
+        // console.log("createOrUpdateSpotifyPlayer - 111 isBuffering: " + isBuffering);  
+        // console.log("createOrUpdateSpotifyPlayer - 111 duration: " + duration);
+        // console.log("createOrUpdateSpotifyPlayer - 111 position: " + position);
+        // console.log("createOrUpdateSpotifyPlayer - 111 controller_status: " + controller_status);
         
         // Check if the song has ended
         if (!isPaused && position >= duration && duration > 0 && controller_status === 'ready') {
@@ -186,11 +186,11 @@ function autoPlaySpotify() {
 // Function to load the next song
 function playNextSong(formElement, trackOrArtist, spotifyTrackIDsList, spotifyArtistIDsList, spotifyArtistNameList, direction='forward') {
 
-  console.log("playNextSong - 000 trackOrArtist: " + trackOrArtist);
-  console.log("playNextSong - 000 spotifyTrackIDsList: " + spotifyTrackIDsList);  
-  console.log("playNextSong - 000 spotifyArtistIDsList: " + spotifyArtistIDsList);
-  console.log("playNextSong - 000 spotifyArtistNameList: " + spotifyArtistNameList);
-  console.log("playNextSong - 000 direction: " + direction);
+  // console.log("playNextSong - 000 trackOrArtist: " + trackOrArtist);
+  // console.log("playNextSong - 000 spotifyTrackIDsList: " + spotifyTrackIDsList);  
+  // console.log("playNextSong - 000 spotifyArtistIDsList: " + spotifyArtistIDsList);
+  // console.log("playNextSong - 000 spotifyArtistNameList: " + spotifyArtistNameList);
+  // console.log("playNextSong - 000 direction: " + direction);
   
   let globalSpotifyArtistIDsList = spotifyArtistIDsList;
   
@@ -273,12 +273,12 @@ function playNextSong(formElement, trackOrArtist, spotifyTrackIDsList, spotifyAr
     }    
   }
 
-  console.log("playNextSong - 111 index: " + index);
-  console.log("playNextSong - 111 globalSpotifyArtistIDsList: " + globalSpotifyArtistIDsList);  
-  console.log("playNextSong - 111 spotifyArtistIDsList: " + spotifyArtistIDsList);
-  console.log("playNextSong - 111 nextSpotifyTrackID: " + nextSpotifyTrackID);
-  console.log("playNextSong - 111 nextSpotifyArtistID: " + nextSpotifyArtistID);
-  console.log("playNextSong - 111 nextSpotifyArtistName: " + nextSpotifyArtistName);
+  // console.log("playNextSong - 111 index: " + index);
+  // console.log("playNextSong - 111 globalSpotifyArtistIDsList: " + globalSpotifyArtistIDsList);  
+  // console.log("playNextSong - 111 spotifyArtistIDsList: " + spotifyArtistIDsList);
+  // console.log("playNextSong - 111 nextSpotifyTrackID: " + nextSpotifyTrackID);
+  // console.log("playNextSong - 111 nextSpotifyArtistID: " + nextSpotifyArtistID);
+  // console.log("playNextSong - 111 nextSpotifyArtistName: " + nextSpotifyArtistName);
   
   // save the id to browser cache
   sessionStorage.setItem("lastplayedtrackid", nextSpotifyTrackID);
