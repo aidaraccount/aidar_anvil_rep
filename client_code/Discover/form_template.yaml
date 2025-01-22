@@ -1370,7 +1370,7 @@ components:
       type: ColumnPanel
     data_bindings:
     - {code: '[''sec_fandom'']', property: role, writeback: false}
-    layout_properties: {grid_position: 'FOUKHU,NVVFEM'}
+    layout_properties: {full_width_row: true, grid_position: 'FOUKHU,NVVFEM'}
     name: sec_fandom
     properties: {spacing_above: medium}
     type: ColumnPanel
@@ -1646,7 +1646,8 @@ components:
     spacing_below: small
   type: ColumnPanel
 container:
-  data_bindings: []
+  data_bindings:
+  - {code: '[''discover_self'']', property: role, writeback: false}
   properties: {background: '', html: '@theme:Discover.html', role: null}
   type: HtmlTemplate
 custom_component: false
