@@ -252,9 +252,6 @@ body, html {
 /* .anvil-role-rows_discover_page_no_image_table > .data-row-col[data-grid-col-id="RAPPVC"] {
   flex-grow: 0.2;
 } */
-/* .anvil-role-left-discover-page .anvil-panel-col {
-  overflow: hidden !important;
-} */
 
 .anvil-role-rows_discover_page {
   display: flex;
@@ -2533,11 +2530,19 @@ footer a, .footer .anvil-component {
 
 /* --------------- */
 /* Ensure there is no overflow for Fandom on Discover after clicking on the Popularity Settings */
-
-/* .anvil-role-left-discover-page .anvil-panel-col {
+.anvil-role-left-discover-page .anvil-panel-col {
   overflow: hidden !important;
-} */
-.anvil-role-left-discover-page {
+}
+.anvil-role-left-discover-page .anvil-container-overflow .anvil-panel-col {
+  overflow: hidden !important;
+}
+
+.main_in_content_panel .anvil-panel-selection .anvil-panel-row .anvil-panel-col {
+  width: 100% !important;
+}
+
+
+/* .anvil-role-left-discover-page {
   overflow: hidden !important;
   .anvil-container-overflow {
     overflow: hidden !important;
@@ -2545,16 +2550,16 @@ footer a, .footer .anvil-component {
       overflow: hidden !important;
     }
   }
-}
+} */
 /* .anvil-role-left-discover-page .anvil-container-overflow {
   overflow: hidden !important;
 } */
 /* .anvil-container-overflow .anvil-panel-col {
   overflow: hidden;
 } */
-.anvil-role-level-of-pop-page .anvil-container-overflow .anvil-panel-col {
+/* .anvil-role-level-of-pop-page .anvil-container-overflow .anvil-panel-col {
   overflow: visible;
-}
+} */
 
 
 @media screen and (max-width: 768px) {

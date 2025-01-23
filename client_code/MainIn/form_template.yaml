@@ -1,5 +1,7 @@
 components:
 - components: []
+  data_bindings:
+  - {code: '[''main_in_content_panel'']', property: role, writeback: false}
   layout_properties: {slot: default}
   name: content_panel
   properties:
