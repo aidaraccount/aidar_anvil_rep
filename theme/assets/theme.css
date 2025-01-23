@@ -2552,9 +2552,9 @@ footer a, .footer .anvil-component {
 /* .anvil-container-overflow .anvil-panel-col {
   overflow: hidden;
 } */
-/* .anvil-role-level-of-pop-page .anvil-container-overflow .anvil-panel-col {
+.anvil-role-level-of-pop-page .anvil-container-overflow .anvil-panel-col {
   overflow: visible;
-} */
+}
 
 
 @media screen and (max-width: 768px) {
