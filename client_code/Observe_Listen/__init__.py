@@ -279,7 +279,7 @@ class Observe_Listen(Observe_ListenTemplate):
       freq_2=7,
       freq_3=date.today().strftime("%Y-%m-%d"),
       metric="Top Fits",
-      no_artists=5,
+      no_artists=15,
       repetition_1="Repeat suggestions",
       repetition_2=90,
       rated=False,
