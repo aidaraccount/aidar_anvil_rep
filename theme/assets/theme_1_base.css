@@ -49,3 +49,22 @@ Area 1: Base
 .anvil-role-opacity-100 {opacity: 100%;}
 .anvil-role-opacity-50 {opacity: 50%;}
 .anvil-role-opacity-25 {opacity: 25%;}
+
+
+/* ----------------------------
+1.6. Overflow Settings
+Ensure there is no overflow: visible except for the Popularity Settings as its needed for the Slider! */
+.anvil-role-level-of-pop-page .anvil-panel-section .anvil-panel-section-container .anvil-panel-section-gutter .anvil-panel-row .anvil-panel-col {
+  overflow: visible !important;
+}
+.anvil-role-main_in_content_panel .anvil-panel-section .anvil-panel-section-container .anvil-panel-section-gutter .anvil-panel-row .anvil-panel-col {
+  width: 100% !important;
+  overflow-x: hidden;
+  overflow-y: scroll;
+}
+
+/* hiding the overflow for the pictures on Home */
+.anvil-role-home-funnel-pic-element .anvil-panel-section .anvil-panel-section-container .anvil-panel-section-gutter .anvil-panel-row .anvil-panel-col {
+  overflow: hidden;
+}
+

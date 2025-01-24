@@ -37,7 +37,7 @@ class C_RefArtistsSettings(C_RefArtistsSettingsTemplate):
   
   def text_box_search_pressed_enter(self, **event_args):
     ref_data = json.loads(anvil.server.call("search_artist", user["user_id"], self.text_box_search.text.strip()))
-    print('ref_data:', ref_data)
+    # print('ref_data:', ref_data)
     
     if not ref_data:
       alert(title="Artist not found or missing",

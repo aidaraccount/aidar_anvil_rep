@@ -1674,17 +1674,7 @@ footer a, .footer .anvil-component {
   }
 }
 
-/* #left-sidebar.open {
-  left: 0px;
-} */
-.sidebar {
-  /* background-color: %color:Sidebar Background%; */
-  /* color: white; */
-  /* padding: 10px 0; */
-  /* flex-shrink: 0; */
-  /* overflow-y: auto; */
-  /* overflow-x: hidden; */
-}
+
 #left-sidebar {
   font-family: Gs-regular;
   color: rgb(250,250,250);
@@ -1697,13 +1687,11 @@ footer a, .footer .anvil-component {
   background-color: rgb(10,3,30);
   box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5);
   transition: left 0.3s ease;
-  /* overflow-x: hidden; */
+  overflow-y: scroll;
   border-bottom-right-radius: 15px;
   border-top-right-radius: 15px;
   z-index: 999;
-  padding: 10px 0 100px 0;
-  /* margin: 0 0 0 0px; */
-  /* flex-shrink: 0; */
+  padding: 10px 0 10px 0;
 }
 @media only screen and (max-width: 431px) {
   #left-sidebar {
@@ -2527,39 +2515,6 @@ footer a, .footer .anvil-component {
     box-shadow: none !important; /* Remove any potential focus shadow */
 }
 
-
-/* --------------- */
-/* Ensure there is no overflow for Fandom on Discover after clicking on the Popularity Settings */
-.anvil-role-left-discover-page .anvil-panel-col {
-  overflow: hidden !important;
-}
-.anvil-role-left-discover-page .anvil-container-overflow .anvil-panel-col {
-  overflow: hidden !important;
-}
-
-.anvil-role-main_in_content_panel .anvil-panel-section .anvil-panel-section-container .anvil-panel-section-gutter .anvil-panel-row .anvil-panel-col {
-  width: 100% !important;
-}
-
-
-/* .anvil-role-left-discover-page {
-  overflow: hidden !important;
-  .anvil-container-overflow {
-    overflow: hidden !important;
-    .anvil-panel-col {
-      overflow: hidden !important;
-    }
-  }
-} */
-/* .anvil-role-left-discover-page .anvil-container-overflow {
-  overflow: hidden !important;
-} */
-/* .anvil-container-overflow .anvil-panel-col {
-  overflow: hidden;
-} */
-/* .anvil-role-level-of-pop-page .anvil-container-overflow .anvil-panel-col {
-  overflow: visible;
-} */
 
 
 @media screen and (max-width: 768px) {

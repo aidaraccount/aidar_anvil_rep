@@ -86,6 +86,8 @@ components:
   properties: {role: level-of-pop-page}
   type: ColumnPanel
 container:
+  data_bindings:
+  - {code: '[''level-of-pop_self'']', property: role, writeback: false}
   properties: {html: ''}
   type: HtmlTemplate
 custom_component: true

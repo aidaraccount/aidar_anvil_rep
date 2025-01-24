@@ -40,5 +40,8 @@ components:
   name: xy_panel_1
   properties: {height: '130', spacing_above: none, spacing_below: none}
   type: XYPanel
-container: {type: ColumnPanel}
+container:
+  data_bindings:
+  - {code: '[''home-funnel-pic-element'']', property: role, writeback: false}
+  type: ColumnPanel
 is_package: true
