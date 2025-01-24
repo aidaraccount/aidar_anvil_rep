@@ -24,7 +24,7 @@ def click_link(element, target, event_args):
   else:
     routing.set_url_hash(target, load_from_cache=False)
 
-  # get_open_form().reset_nav_backgrounds()
+  get_open_form().reset_nav_backgrounds()
 
   
 
@@ -38,7 +38,7 @@ def click_button(target, event_args):
   else:
     routing.set_url_hash(target, load_from_cache=False)
   
-  # get_open_form().reset_nav_backgrounds()
+  get_open_form().reset_nav_backgrounds()
 
 
 def click_box(target):

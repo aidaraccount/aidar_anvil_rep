@@ -621,6 +621,7 @@ class Discover(DiscoverTemplate):
         self.create_monthly_listeners_by_city_bar_chart()
         
       else:
+        self.audience_city.text = '-'
         self.Spotify_Monthly_Listeners_by_City_Graph.visible = False
         self.No_Spotify_Monthly_Listeners_by_City_Graph.visible = True
                 
@@ -862,7 +863,6 @@ class Discover(DiscoverTemplate):
       '''
     html_webplayer_panel = HtmlPanel(html=c_web_player_html)
     self.spotify_player_spot.add_component(html_webplayer_panel)
-    print('self.spotify_player_spot.add_component(html_webplayer_panel)')
 
   def custom_HTML_prediction(self):
     if self.pred:

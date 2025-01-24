@@ -731,6 +731,7 @@ class C_Discover(C_DiscoverTemplate):
         self.create_monthly_listeners_by_city_bar_chart()
 
       else:
+        self.audience_city.text = '-'
         self.Spotify_Monthly_Listeners_by_City_Graph.visible = False
         self.No_Spotify_Monthly_Listeners_by_City_Graph.visible = True
 
