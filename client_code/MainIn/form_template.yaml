@@ -1,4 +1,31 @@
 components:
+- components:
+  - components: []
+    event_bindings: {click: feedback_click}
+    layout_properties: {}
+    name: feedback
+    properties: {icon: 'fa:comments', role: header-6, spacing_above: none, spacing_below: none, visible: true}
+    type: Link
+  - event_bindings: {click: settings_click}
+    layout_properties: {}
+    name: settings
+    properties:
+      icon: fa:cog
+      role: header-6
+      spacing:
+        margin: [null, '5', null, '5']
+      spacing_above: none
+      spacing_below: none
+    type: Link
+  - event_bindings: {click: logout_click}
+    layout_properties: {}
+    name: link_logout
+    properties: {align: left, background: '', bold: false, border: '', col_spacing: medium, col_widths: '', font: '', font_size: 16, foreground: '', icon: '', icon_align: left, italic: false, role: header-5, spacing_above: none, spacing_below: none, text: Log Out, tooltip: '', underline: false, url: '', visible: true, wrap_on: mobile}
+    type: Link
+  layout_properties: {slot: top_right}
+  name: nav_right
+  properties: {gap: tiny, spacing_above: none, spacing_below: none, vertical_align: middle}
+  type: FlowPanel
 - components: []
   data_bindings:
   - {code: '[''main_in_content_panel'']', property: role, writeback: false}
@@ -119,11 +146,6 @@ components:
   name: link_settings
   properties: {align: left, background: '', bold: false, border: '', col_spacing: medium, col_widths: '', font: '', font_size: null, foreground: '', icon: 'fa:angle-right', icon_align: left, italic: false, role: nav_main, spacing_above: small, spacing_below: small, text: SETTINGS, tooltip: '', underline: false, url: '', visible: false, wrap_on: mobile}
   type: Link
-- event_bindings: {click: logout_click}
-  layout_properties: {slot: nav-right}
-  name: link_logout
-  properties: {align: left, background: '', bold: false, border: '', col_spacing: medium, col_widths: '', font: '', font_size: 16, foreground: '', icon: '', icon_align: left, italic: false, role: header-5_bold, spacing_above: none, spacing_below: none, text: Log Out, tooltip: '', underline: false, url: '', visible: true, wrap_on: mobile}
-  type: Link
 - layout_properties: {slot: logo}
   name: image_1
   properties: {display_mode: original_size, height: '20', role: navbar-image, source: _/theme/pics/AIDAR_white_logo_small.png, spacing_above: none, spacing_below: none}
@@ -135,11 +157,6 @@ components:
     placeholder: Search Artist by Name, Spotify ID or UUID
     role: [text_box_small, search-bar-related-artists]
   type: TextBox
-- event_bindings: {click: feedback_click}
-  layout_properties: {slot: nav-right_2}
-  name: feedback
-  properties: {icon: 'fa:comments', role: header-5_bold, spacing_above: none, spacing_below: none, visible: true}
-  type: Link
 container:
   properties: {background: '', html: '@theme:dashboard.html', role: null}
   type: HtmlTemplate

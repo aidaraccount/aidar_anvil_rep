@@ -1382,11 +1382,6 @@ anvil-role-test {
   text-align: center;
 }
 
-.nav-right {
-  float: right;
-  font-size: 14px !important;
-}
-
 .nav-elt {
   display: inline-block;
   vertical-align: top;
@@ -1649,7 +1644,7 @@ footer a, .footer .anvil-component {
 }
 .sidebar-button {
   font-family: Gs-regular;
-  font-size: 18px;
+  font-size: 15px;
   position: fixed;
   right: 0px;
   /* right: -400px; */
@@ -1708,7 +1703,7 @@ footer a, .footer .anvil-component {
   background-color: rgb(233,95,48);
   color: white;
   border: none;
-  padding: 10px;
+  padding: 10px 10px 10px 6px;
   cursor: pointer;
   z-index: 1100;
   transition: left 0.3s ease;

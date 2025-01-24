@@ -603,6 +603,7 @@ class ModelProfile(ModelProfileTemplate):
     get_open_form().refresh_models_underline()
     temp_artist_id = anvil.server.call('get_next_artist_id', self.model_id_view)
     click_button(f'artists?artist_id={temp_artist_id}', event_args)
+    click_button(f'artists?artist_id={temp_artist_id}', event_args)
     
   def retrain_click(self, **event_args):
     res = anvil.server.call('retrain_model', self.model_id_view)
