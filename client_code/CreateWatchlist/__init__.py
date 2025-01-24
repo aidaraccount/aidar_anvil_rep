@@ -43,8 +43,8 @@ class CreateWatchlist(CreateWatchlistTemplate):
         save_var("watchlist_id", watchlist_id)
 
         # refresh models components
-        get_open_form().refresh_watchlists_components()
         routing.set_url_hash(f'watchlist_details?watchlist_id={watchlist_id}&artist_id=None', load_from_cache=False)
+        get_open_form().refresh_watchlists_components()
 
       else:
         alert(title="Error..", content=status)

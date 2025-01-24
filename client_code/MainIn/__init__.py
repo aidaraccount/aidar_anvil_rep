@@ -123,6 +123,8 @@ class MainIn(MainInTemplate):
         wl_link.set_event_handler('click', self.create_watchlist_click_handler(wl_ids[i]["watchlist_id"], wl_link))
         self.nav_watchlists.add_component(wl_link)
 
+    self.reset_nav_backgrounds()
+    
   def remove_watchlist_components(self):
     for component in self.nav_watchlists.get_components():
       if isinstance(component, Link):
@@ -169,6 +171,8 @@ class MainIn(MainInTemplate):
             )
         model_link.set_event_handler('click', self.create_model_click_handler(model_ids[i]["model_id"], model_link))
         self.nav_models.add_component(model_link)
+
+    self.reset_nav_backgrounds()
   
   def remove_model_components(self):
     for component in self.nav_models.get_components():
@@ -242,24 +246,26 @@ class MainIn(MainInTemplate):
       for component in self.nav_watchlists.get_components():
         query_string = location.hash.split("?")[1]
         params = dict(pair.split("=") for pair in query_string.split("&"))
-        watchlist_id = params.get("watchlist_id")        
-        if isinstance(component, anvil.Link):
-          if int(component.tag) == int(watchlist_id):
-            component.background = "theme:Brown"          
+        watchlist_id = params.get("watchlist_id")
+        if watchlist_id != 'None':
+          if isinstance(component, anvil.Link):
+            if int(component.tag) == int(watchlist_id):
+              component.background = "theme:Brown"          
     
     elif location.hash[:17] == '#watchlist_funnel':
       self.link_monitor_funnel.background = "theme:Brown"
     elif location.hash[:19] == '#watchlist_overview':
       self.link_monitor_dev.background = "theme:Brown"
       
-    elif location.hash[:15] == '#model_profile?':
+    elif location.hash[:15] == '#model_profile?' or location.hash[:13] == '#model_setup?':
       for component in self.nav_models.get_components():
         query_string = location.hash.split("?")[1]
         params = dict(pair.split("=") for pair in query_string.split("&"))
-        model_id = params.get("model_id")        
-        if isinstance(component, anvil.Link):
-          if int(component.tag) == int(model_id):
-            component.background = "theme:Brown"
+        model_id = params.get("model_id")
+        if model_id != 'None':
+          if isinstance(component, anvil.Link):
+            if int(component.tag) == int(model_id):
+              component.background = "theme:Brown"
   
   def change_nav_visibility(self, status, **event_args):
     self.image_1.visible = status
