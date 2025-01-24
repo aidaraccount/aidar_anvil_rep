@@ -2537,7 +2537,7 @@ footer a, .footer .anvil-component {
   overflow: hidden !important;
 }
 
-.main_in_content_panel .anvil-panel-selection .anvil-panel-row .anvil-panel-col {
+.anvil-role-main_in_content_panel .anvil-panel-section .anvil-panel-section-container .anvil-panel-section-gutter .anvil-panel-row .anvil-panel-col {
   width: 100% !important;
 }
 
