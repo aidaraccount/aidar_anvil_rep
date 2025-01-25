@@ -387,3 +387,5 @@ roles:
   name: dropdown
 - components: [Button]
   name: call-to-action-button-disabled
+- components: [Button]
+  name: icon-button-small

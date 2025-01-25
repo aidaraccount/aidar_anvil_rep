@@ -7,6 +7,7 @@ import anvil.tables.query as q
 from anvil.tables import app_tables
 import random
 import string
+from anvil.js.window import navigator
 
 from anvil_extras import routing
 from ..nav import click_link, click_button, save_var
@@ -23,6 +24,8 @@ class Settings(SettingsTemplate):
     user = anvil.users.get_user()
 
     self.nav_account_click()
+    self.key.text = '111-222-333'
+    self.link.text = 'app.aidar.ai/register/626-623-752'
     
   
   def nav_account_click(self, **event_args):
@@ -36,3 +39,7 @@ class Settings(SettingsTemplate):
     self.nav_user.role = 'section_buttons_focused'
     self.sec_account.visible = False
     self.sec_user.visible = True
+
+  def copy_click(self, **event_args):
+    navigator.clipboard.writeText(f'https://{self.link.text}')
+    Notification("", title="Link copied!", style="success").show()
