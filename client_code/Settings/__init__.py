@@ -8,6 +8,7 @@ from anvil.tables import app_tables
 import random
 import string
 from anvil.js.window import navigator
+import json
 
 from anvil_extras import routing
 from ..nav import click_link, click_button, save_var
@@ -26,6 +27,8 @@ class Settings(SettingsTemplate):
     user = anvil.users.get_user()
 
     self.nav_account_click()
+
+    # load data    
     self.key.text = '111-222-333'
     self.link.text = 'app.aidar.ai/register/626-623-752'
     
@@ -38,6 +41,24 @@ class Settings(SettingsTemplate):
     self.sec_account.visible = True
     self.sec_user.visible = False
 
+    # reset save button
+    self.profile_save.role = ['header-6', 'call-to-action-button-disabled']
+    
+    # load data
+    acc_data = json.loads(anvil.server.call('get_settings_account', user["user_id"]))[0]
+    print(acc_data)
+
+    self.mail.text = acc_data['mail']
+    if acc_data['first_name'] is not None:
+      self.text_box_first_name.text = acc_data['first_name']
+    else:      
+      self.text_box_first_name.text = '-'
+    if acc_data['last_name'] is not None:
+      self.text_box_last_name.text = acc_data['last_name']
+    else:      
+      self.text_box_last_name.text = '-'
+
+    
   def nav_user_click(self, **event_args):
     self.nav_account.role = 'section_buttons'
     self.nav_user.role = 'section_buttons_focused'
@@ -48,9 +69,32 @@ class Settings(SettingsTemplate):
   # -----------------------
   # 1. ACCOUNT SETTINGS
   # a) Profile Management
+  def text_box_first_name_change(self, **event_args):
+    self.profile_save.role = ['header-6', 'call-to-action-button']
 
+  def text_box_last_name_change(self, **event_args):
+    self.profile_save.role = ['header-6', 'call-to-action-button']
+
+  def profile_save_click(self, **event_args):
+    if self.profile_save.role == ['header-6', 'call-to-action-button']:
+      status = anvil.server.call('update_settings_account',
+                                user["user_id"],
+                                self.text_box_first_name.text,
+                                self.text_box_last_name.text
+                                )
+  
+      if status == 'success':
+        Notification("", title="Changes saved!", style="success").show()
+        anvil.js.get_dom_node(self.text_box_last_name).blur()
+        anvil.js.get_dom_node(self.text_box_first_name).blur()
+        self.profile_save.role = ['header-6', 'call-to-action-button-disabled']
+      else:
+        Notification("", title="Error! Sorry, something went wrong..", style="warning").show()
+    
+  
   # b) Subscription Status
 
+  
   # c) Password
   def reset_pw_click(self, **event_args):   
     res = alert(title='Do you want to reset your password?',
@@ -76,9 +120,8 @@ class Settings(SettingsTemplate):
   # 2. USER MANAGEMENT
   # a) User Roles & Permissions
 
+  
   # b) User Invite  
   def copy_click(self, **event_args):
     navigator.clipboard.writeText(f'https://{self.link.text}')
     Notification("", title="Link copied!", style="success").show()
-
-
