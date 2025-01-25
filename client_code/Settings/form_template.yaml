@@ -196,6 +196,62 @@ components:
   - components:
     - components:
       - layout_properties: {grid_position: 'XMKZJJ,YJDVPX'}
+        name: label_1_copy_2_copy
+        properties:
+          role: header-5
+          spacing:
+            margin: [null, null, '10', null]
+          spacing_above: none
+          spacing_below: none
+          text: User Roles & Permissions
+        type: Label
+      - data_bindings:
+        - {code: '[''header-6'', ''width-200px'']', property: role, writeback: false}
+        layout_properties: {grid_position: 'YNHHNO,XMXUHZ'}
+        name: label_2_copy_2_copy_copy_copy
+        properties:
+          role: header-6
+          spacing:
+            margin: [null, null, null, '15']
+          text: 17/20 accounts in use - 3 admins
+        type: Label
+      - components:
+        - data_bindings:
+          - {code: '[''text_box_small'', ''width-200px'']', property: role, writeback: false}
+          layout_properties: {}
+          name: mail_enter_copy
+          properties:
+            margin: [null, '10', null, '15']
+            placeholder: enter user name
+            role: text_box_small
+            spacing_above: small
+          type: TextBox
+        - layout_properties: {}
+          name: button_2_copy
+          properties:
+            align: left
+            role: [header-6, call-to-action-button-disabled]
+            text: search
+          type: Button
+        layout_properties: {grid_position: 'MYYSGB,CXTTUY'}
+        name: flow_panel_1_copy_copy_copy
+        properties:
+          gap: medium
+          spacing:
+            margin: ['0', null, '0', null]
+          spacing_above: none
+          spacing_below: none
+        type: FlowPanel
+      layout_properties: {grid_position: 'RPSKHD,CEQHDQ'}
+      name: roles
+      properties:
+        col_spacing: tiny
+        col_widths: '{}'
+        spacing:
+          margin: ['25', null, null, '0']
+      type: ColumnPanel
+    - components:
+      - layout_properties: {grid_position: 'XMKZJJ,YJDVPX'}
         name: label_1_copy_3
         properties:
           role: header-5
@@ -312,8 +368,8 @@ components:
           spacing_above: none
           spacing_below: none
         type: FlowPanel
-      layout_properties: {grid_position: 'XVLZZD,LTGCZZ'}
-      name: profile_copy
+      layout_properties: {grid_position: 'MXSTGK,IYXPHX'}
+      name: invite
       properties:
         col_spacing: tiny
         col_widths: '{}'
