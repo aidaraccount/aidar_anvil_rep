@@ -12,6 +12,8 @@ from anvil.js.window import navigator
 from anvil_extras import routing
 from ..nav import click_link, click_button, save_var
 
+from ..C_ForgotPasswordPopup import C_ForgotPasswordPopup
+
 
 @routing.route("settings", title="Settings")
 class Settings(SettingsTemplate):
@@ -27,7 +29,9 @@ class Settings(SettingsTemplate):
     self.key.text = '111-222-333'
     self.link.text = 'app.aidar.ai/register/626-623-752'
     
-  
+
+  # -----------------------
+  # NAVIGATION
   def nav_account_click(self, **event_args):
     self.nav_account.role = 'section_buttons_focused'
     self.nav_user.role = 'section_buttons'
@@ -40,6 +44,41 @@ class Settings(SettingsTemplate):
     self.sec_account.visible = False
     self.sec_user.visible = True
 
+  
+  # -----------------------
+  # 1. ACCOUNT SETTINGS
+  # a) Profile Management
+
+  # b) Subscription Status
+
+  # c) Password
+  def reset_pw_click(self, **event_args):   
+    res = alert(title='Do you want to reset your password?',
+      content="Are you sure to reset your password?",
+      buttons=[
+        ("Cancel", "NO"),
+        ("Yes, reset password", "YES")
+      ],
+      role=["forgot-password-success","remove-focus"]
+    )
+    if res == 'YES':
+      anvil.users.send_password_reset_email('janek-meyn@web.de')  # ATTENTION !!!
+      alert(
+        "A recovery email has been sent to your email address",
+        title="Success",
+        large=False,
+        buttons=[("OK", True)],
+        role=["forgot-password-success","remove-focus"]
+      )
+
+  
+  # -----------------------
+  # 2. USER MANAGEMENT
+  # a) User Roles & Permissions
+
+  # b) User Invite  
   def copy_click(self, **event_args):
     navigator.clipboard.writeText(f'https://{self.link.text}')
     Notification("", title="Link copied!", style="success").show()
+
+

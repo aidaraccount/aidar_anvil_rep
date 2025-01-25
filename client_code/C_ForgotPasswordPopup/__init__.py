@@ -45,3 +45,7 @@ class C_ForgotPasswordPopup(C_ForgotPasswordPopupTemplate):
           buttons=[("Go Back", True)],
           role=["forgot-password-success","remove-focus"]
         )
+
+  def email_field_pressed_enter(self, **event_args):
+    """This method is called when the user presses Enter in this text box"""
+    pass

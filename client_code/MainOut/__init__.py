@@ -71,7 +71,6 @@ class MainOut(MainOutTemplate):
       )
 
   def link_forgot_password_click(self, **event_args):
-    """Triggered when the user clicks 'Forgot your password?'"""
     alert(
       content=C_ForgotPasswordPopup(),
       buttons=[]

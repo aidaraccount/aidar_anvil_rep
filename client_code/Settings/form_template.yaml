@@ -170,8 +170,9 @@ components:
           spacing_below: none
           text: Password
         type: Label
-      - layout_properties: {grid_position: 'WQJPWC,JYORAO'}
-        name: link_1
+      - event_bindings: {click: reset_pw_click}
+        layout_properties: {grid_position: 'WQJPWC,JYORAO'}
+        name: reset_pw
         properties:
           role: [header-6, orange]
           spacing:

@@ -13,7 +13,8 @@ components:
   name: message_label
   properties: {align: left, role: header-7-on-white-bg, spacing_above: none, spacing_below: none, text: 'We will send an email to reset your password to the following email:'}
   type: Label
-- layout_properties: {slot: Email-slot}
+- event_bindings: {pressed_enter: email_field_pressed_enter}
+  layout_properties: {slot: Email-slot}
   name: email_field
   properties:
     margin: [5, null, null, null]
@@ -111,6 +112,7 @@ container:
             border: 1px solid #ccc;
             border-radius: 4px;
             font-size: 16px;
+            color: var(--Text_LightBlack);
           }
           .login-form input[type="checkbox"] {
             width: auto;
