@@ -12,22 +12,27 @@ Area 4: Page Individual
 @import url('_/theme/theme_3_textboxes.css');
 @import url('_/theme/theme_4_page_indiv.css');
 
-:root {--Orange: %color:Orange%;}
-:root {--OrangeDiscreet: %color:OrangeDiscreet%;}
+:root {
+  --Orange: %color:Orange%;
+  --OrangeDiscreet: %color:OrangeDiscreet%;
 
-:root {--Purple: %color:Purple%;}
-:root {--Sangria: %color:Sangria%;}
-:root {--Brown: %color:Brown%;}
+  --Purple: %color:Purple%;
+  --Sangria: %color:Sangria%;
+  --Brown: %color:Brown%;
 
-:root {--Text_White: %color:Text_White%;}
-:root {--Text_WhiteDiscreet: %color:Text_WhiteDiscreet%;}
+  --Text_White: %color:Text_White%;
+  --Text_WhiteDiscreet: %color:Text_WhiteDiscreet%;
 
-:root {--Grid_Black: %color:Grid_Black%}
+  --Grid_Black: %color:Grid_Black%;
 
-:root {--Accent_1: %color:Accent_1%;}
-:root {--Accent_2: %color:Accent_2%;}
+  --Accent_1: %color:Accent_1%;
+  --Accent_2: %color:Accent_2%;
 
+  --Background: %color:Background%;
+  --Background_20: rgba(215, 215, 215, 0.20);
+}
 
+rgba(123, 123, 123, 0.2)
 /*
 ----------------------------------------------------------------------------------------
 Classes to be captured by js
@@ -1871,10 +1876,6 @@ footer a, .footer .anvil-component {
   background: transparent; 
 }
 
-.anvil-role-target-dropdown>.form-control { 
-  color: white;
-  background: transparent; 
-}
 .anvil-role-date-picker {
   width: 115px;
   font-size: 14px;

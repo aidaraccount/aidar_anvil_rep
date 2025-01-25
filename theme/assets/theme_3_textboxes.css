@@ -11,8 +11,8 @@ Area 4: Text Boxes
   
   background: var(--Accent_1);
   
-  padding-top: 5px;
-  padding-bottom: 5px;
+  padding-top: 4px;
+  padding-bottom: 4px;
   
   border-radius: 7px;
 }
@@ -20,12 +20,15 @@ Area 4: Text Boxes
   font-family: GS-regular;
   font-size: 16px;
   font-weight: normal;
-  color: var(--Grid_Black);
+  color: var(--Text_WhiteDiscreet);
   
-  padding-top: 5px;
-  padding-bottom: 5px;
-  
+  padding-top: 4px;
+  padding-bottom: 4px;
+
+  border-color: var(--Accent_2);
   border-radius: 7px;
+  
+  background: var(--Background_20);
 }
 
 .anvil-role-rampup-text-field {
@@ -51,4 +54,28 @@ Area 4: Text Boxes
   border-radius: 0px; 
   border: none;
   border-bottom: 1px solid;
+}
+
+/* ----------------------------
+4.3. Dropdowns */
+.form-control {
+  font-family: GS-regular;
+  font-size: 16px;
+  font-weight: normal;
+  color: var(--Text_WhiteDiscreet);
+
+  pading: 0;
+  
+  border-color: var(--Accent_2);
+  border-radius: 7px;
+  
+  background: var(--Background_20);
+}
+.form-control select option {
+  font-family: GS-regular;
+  font-size: 16px;
+  font-weight: normal;
+  color: var(--Text_WhiteDiscreet) !important;
+  
+  background: var(--Background_20) !important;
 }
