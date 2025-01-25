@@ -69,13 +69,15 @@ Area 4: Text Boxes
   border-color: var(--Accent_2);
   border-radius: 7px;
   
-  background: var(--Background_20);
+  background-color: var(--Background_20);
 }
-.form-control select option {
+.form-control > * {
   font-family: GS-regular;
   font-size: 16px;
   font-weight: normal;
-  color: var(--Text_WhiteDiscreet) !important;
+  color: var(--Text_LightBlack);
+  /* color: var(--Text_WhiteDiscreet); */
   
-  background: var(--Background_20) !important;
+  background-color: var(--Background_20);
+  /* is working, but the refering background is near white, making the transparent background hardly visible*/
 }
