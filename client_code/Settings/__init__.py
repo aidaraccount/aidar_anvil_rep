@@ -48,6 +48,11 @@ class Settings(SettingsTemplate):
     acc_data = json.loads(anvil.server.call('get_settings_account', user["user_id"]))[0]
     print(acc_data)
 
+    # hide admin nav
+    if acc_data['admin'] is None or acc_data['admin'] is False:
+      self.nav_user.visible = False
+    
+    # Profile Management
     self.mail.text = acc_data['mail']
     if acc_data['first_name'] is not None:
       self.text_box_first_name.text = acc_data['first_name']
@@ -57,7 +62,23 @@ class Settings(SettingsTemplate):
       self.text_box_last_name.text = acc_data['last_name']
     else:      
       self.text_box_last_name.text = '-'
-
+    # Subscription Status
+    if acc_data['name'] is not None:
+      self.orga.text = acc_data['name']
+    else:      
+      self.orga.text = 'ADIAR Test Account'
+    if acc_data['active'] is not None:
+      if acc_data['active'] is True:
+        self.user.text = 'active'
+      else:
+        self.user.text = 'inactive'
+    else:
+      self.user.text = 'limited access'
+    if acc_data['admin'] is not None and acc_data['admin'] is True:
+      self.admin.text = 'yes'
+    else:
+        self.admin.text = 'no'
+    
     
   def nav_user_click(self, **event_args):
     self.nav_account.role = 'section_buttons'
