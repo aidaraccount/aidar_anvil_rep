@@ -86,6 +86,11 @@ class Settings(SettingsTemplate):
     self.sec_account.visible = False
     self.sec_user.visible = True
 
+    # load data
+    sub_data = json.loads(anvil.server.call('get_settings_subscription', user["user_id"]))[0]
+    print(sub_data)
+
+    
   
   # -----------------------
   # 1. ACCOUNT SETTINGS
