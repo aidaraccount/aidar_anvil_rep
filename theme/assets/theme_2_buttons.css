@@ -76,6 +76,27 @@ Area 3: Buttons
 }
 
 
+/* ----------------------------
+3.4. icon buttons small */
+.anvil-role-icon-button-disabled-small button {
+  font-family: Gs-regular;
+  font-size: 16px;
+  color: var(--Accent_1);
+  background: transparent;
+  border: 0px;
+  box-shadow: none;
+  text-shadow: none;
+  transition: 0.5s;
+  width: 35px;
+}
+.anvil-role-icon-button-disabled-small > button:hover,
+.anvil-role-icon-button-disabled-small > button:focus,
+.anvil-role-icon-button-disabled-small > button:active {
+  background: transparent !important;
+  color: var(--Accent_1) !important;
+}
+
+
 /* where used? (???) */
 .anvil-role-save-button-sidebar > button {
   font-family: Gs-regular;

@@ -4,18 +4,30 @@ components:
   event_bindings: {click: button_active_click}
   layout_properties: {column: OJLQEN}
   name: button_active
-  properties: {text: button_1}
+  properties:
+    role: [call-to-action-button-disabled, header-7]
+    text: button_1
   type: Button
 - data_bindings:
   - {code: 'self.item[''admin'']', property: text, writeback: false}
   event_bindings: {click: button_admin_click}
   layout_properties: {column: SHAFXF}
   name: button_admin
-  properties: {text: button_1}
+  properties:
+    role: [call-to-action-button-disabled, header-7]
+    text: button_1
   type: Button
 - layout_properties: {column: UFBDCV}
   name: button_1
-  properties: {icon: 'fa:trash-o', role: icon-button-disabled, text: ''}
+  properties:
+    icon: fa:trash-o
+    role: icon-button-disabled-small
+    spacing:
+      margin: [5, null, '5', null]
+      padding: ['0', '0', '0', '0']
+    spacing_above: none
+    spacing_below: none
+    text: ''
   type: Button
 container: {type: DataRowPanel}
 is_package: true

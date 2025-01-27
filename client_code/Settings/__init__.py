@@ -85,15 +85,23 @@ class Settings(SettingsTemplate):
     self.nav_user.role = 'section_buttons_focused'
     self.sec_account.visible = False
     self.sec_user.visible = True
-
+ 
     # load data
     sub_data = self.get_data()
     # print(sub_data)
-
-    # User Roles & Permissions
+    
+    # Summary
     sum_data = json.loads(sub_data['summary'])[0]
-    self.summary.text = f"{sum_data['active_count']}/{sum_data['no_licenses']} account/s in use - {sum_data['admin_count']} admin/s"
+    admin_text = 'admin' if sum_data['admin_count'] == 1 else 'admins'
+    self.summary.text = f"{sum_data['active_count']}/{sum_data['no_licenses']} accounts in use - {sum_data['admin_count']} {admin_text}"
+    
+    # User Roles & Permissions
+    # center table header
+    for component in self.users.get_components()[0].get_components():
+      if component.text in ['Status', 'Admin', 'Delete']:
+        component.role = ['table_header_center']
 
+    # add data to table
     table_data = json.loads(sub_data['table'])
     table_data = [
       {
@@ -106,8 +114,7 @@ class Settings(SettingsTemplate):
     print(table_data)
 
     self.users_data.items = table_data
-
-    
+  
     
     # User Invite
     inv_data = json.loads(sub_data['invite'])[0]
@@ -170,8 +177,7 @@ class Settings(SettingsTemplate):
   # 2. USER MANAGEMENT
   # a) User Roles & Permissions
   def search_user_click(self, **event_args):
-    sub_data = self.get_data()
-    
+    sub_data = self.get_data()    
     table_data = json.loads(sub_data['table'])
     table_data = [
       {
@@ -180,10 +186,13 @@ class Settings(SettingsTemplate):
         'admin': 'yes' if entry['admin'] else 'no'
       }
       for entry in table_data
-    ]
-    
+    ]    
     self.users_data.items = [entry for entry in table_data if str(entry["name"]).lower().find(str(self.search_user_box.text).lower()) != -1]
-    
+
+  def roles_save_click(self, **event_args):
+    print('roles_save_click implementation missing!')
+
+  
   # b) User Invite
   def refresh_key_click(self, **event_args):
     res = alert(

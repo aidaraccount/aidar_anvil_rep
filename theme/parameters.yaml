@@ -389,3 +389,5 @@ roles:
   name: call-to-action-button-disabled
 - components: [Button]
   name: icon-button-small
+- components: [Button]
+  name: icon-button-disabled-small
