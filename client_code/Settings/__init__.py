@@ -43,7 +43,7 @@ class Settings(SettingsTemplate):
     
     # load data
     acc_data = json.loads(anvil.server.call('get_settings_account', user["user_id"]))[0]
-    print(acc_data)
+    # print(acc_data)
 
     # hide admin nav
     if acc_data['admin'] is None or acc_data['admin'] is False:
@@ -75,8 +75,11 @@ class Settings(SettingsTemplate):
       self.admin.text = 'yes'
     else:
         self.admin.text = 'no'
-    
-    
+
+  
+  def get_data(self, **event_args):
+    return anvil.server.call('get_settings_subscription', user["user_id"])
+  
   def nav_user_click(self, **event_args):
     self.nav_account.role = 'section_buttons'
     self.nav_user.role = 'section_buttons_focused'
@@ -84,14 +87,27 @@ class Settings(SettingsTemplate):
     self.sec_user.visible = True
 
     # load data
-    sub_data = anvil.server.call('get_settings_subscription', user["user_id"])
+    sub_data = self.get_data()
     # print(sub_data)
 
     # User Roles & Permissions
     sum_data = json.loads(sub_data['summary'])[0]
     self.summary.text = f"{sum_data['active_count']}/{sum_data['no_licenses']} account/s in use - {sum_data['admin_count']} admin/s"
 
-    table_data = json.loads(sub_data['table'])[0]
+    table_data = json.loads(sub_data['table'])
+    table_data = [
+      {
+        **entry, 
+        'active': 'active' if entry['active'] else 'inactive',
+        'admin': 'yes' if entry['admin'] else 'no'
+      }
+      for entry in table_data
+    ]
+    print(table_data)
+
+    self.users_data.items = table_data
+
+    
     
     # User Invite
     inv_data = json.loads(sub_data['invite'])[0]
@@ -126,7 +142,7 @@ class Settings(SettingsTemplate):
     
   
   # b) Subscription Status
-
+  # no actions available
   
   # c) Password
   def reset_pw_click(self, **event_args):
@@ -153,8 +169,21 @@ class Settings(SettingsTemplate):
   # -----------------------
   # 2. USER MANAGEMENT
   # a) User Roles & Permissions
-
-  
+  def search_user_click(self, **event_args):
+    sub_data = self.get_data()
+    
+    table_data = json.loads(sub_data['table'])
+    table_data = [
+      {
+        **entry, 
+        'active': 'active' if entry['active'] else 'inactive',
+        'admin': 'yes' if entry['admin'] else 'no'
+      }
+      for entry in table_data
+    ]
+    
+    self.users_data.items = [entry for entry in table_data if str(entry["name"]).lower().find(str(self.search_user_box.text).lower()) != -1]
+    
   # b) User Invite
   def refresh_key_click(self, **event_args):
     res = alert(
@@ -206,4 +235,3 @@ class Settings(SettingsTemplate):
       self.mail_enters.text = ''
       self.sent_invite.role = ['pos-abs-bottom', 'header-6', 'call-to-action-button-disabled']
       self.nav_user_click()
-      

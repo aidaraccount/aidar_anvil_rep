@@ -229,16 +229,18 @@ components:
       - components:
         - data_bindings:
           - {code: '[''text_box_small'', ''width-200px'']', property: role, writeback: false}
+          event_bindings: {change: search_user_click, pressed_enter: search_user_click}
           layout_properties: {}
-          name: mail_enter_copy
+          name: search_user_box
           properties:
             margin: [null, '10', null, '15']
             placeholder: enter user name
             role: text_box_small
             spacing_above: small
           type: TextBox
-        - layout_properties: {}
-          name: button_2_copy
+        - event_bindings: {click: search_user_click}
+          layout_properties: {}
+          name: search_user
           properties:
             align: left
             role: [header-6, call-to-action-button-disabled]
@@ -253,6 +255,24 @@ components:
           spacing_above: none
           spacing_below: none
         type: FlowPanel
+      - components:
+        - layout_properties: {}
+          name: users_data
+          properties: {item_template: Settings.RowTemplate_users_data, role: table_content_small}
+          type: RepeatingPanel
+        layout_properties: {grid_position: 'BBRXOG,AHZAMN'}
+        name: users
+        properties:
+          columns:
+          - {data_key: name, expand: false, id: JKSDUP, title: Name}
+          - {data_key: mail, expand: false, id: VJQQOR, title: Mail}
+          - {data_key: active, expand: false, id: OJLQEN, title: Status}
+          - {data_key: admin, expand: false, id: SHAFXF, title: Admin}
+          - {data_key: '', expand: false, id: UFBDCV, title: Delete}
+          margin: [null, null, null, '15']
+          role: table_header
+          rows_per_page: 7
+        type: DataGrid
       - layout_properties: {grid_position: 'IKBXDY,SRWLLU'}
         name: roles_save
         properties:
