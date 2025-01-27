@@ -1,0 +1,430 @@
+components:
+- components:
+  - layout_properties:
+      col_widths: {}
+      grid_position: XNLGXX,BMKXOR
+    name: header
+    properties: {align: left, background: '', bold: false, border: '', font: '', font_size: null, foreground: '', icon: '', icon_align: left, italic: false, role: header-1, spacing_above: small, spacing_below: small, text: Settings, tooltip: '', underline: false, visible: true}
+    type: Label
+  - components:
+    - event_bindings: {click: nav_account_click}
+      layout_properties: {}
+      name: nav_account
+      properties:
+        role: [section_buttons]
+        spacing_above: none
+        spacing_below: none
+        text: Account Settings
+      type: Link
+    - event_bindings: {click: nav_user_click}
+      layout_properties: {}
+      name: nav_user
+      properties:
+        role: [section_buttons]
+        spacing_above: none
+        spacing_below: none
+        text: User Management
+      type: Link
+    layout_properties: {grid_position: 'YQKRNJ,MTAXIJ'}
+    name: flow_panel_sections
+    properties:
+      role: [section-background, section-background-flex]
+      spacing: small
+    type: FlowPanel
+  - components:
+    - components:
+      - layout_properties: {grid_position: 'XMKZJJ,YJDVPX'}
+        name: label_1
+        properties:
+          role: header-5
+          spacing:
+            margin: [null, null, '10', null]
+          spacing_above: none
+          spacing_below: none
+          text: Profile Management
+        type: Label
+      - layout_properties: {grid_position: 'LQRANB,IMSUXV'}
+        name: label_2
+        properties:
+          role: header-6
+          spacing:
+            margin: [null, null, null, '15']
+          text: Mail
+        type: Label
+      - layout_properties: {grid_position: 'LQRANB,EOLZZQ'}
+        name: mail
+        properties: {role: header-6}
+        type: Label
+      - layout_properties: {grid_position: 'XLRXWF,ROBXKQ'}
+        name: label_4
+        properties:
+          role: header-6
+          spacing:
+            margin: [null, null, null, '15']
+          text: First name
+        type: Label
+      - data_bindings:
+        - {code: '[''text_box_small'', ''width-200px'']', property: role, writeback: false}
+        event_bindings: {change: text_box_first_name_change, pressed_enter: profile_save_click}
+        layout_properties: {grid_position: 'XLRXWF,SQVWMY'}
+        name: text_box_first_name
+        properties: {role: text_box_small, spacing_above: none}
+        type: TextBox
+      - layout_properties: {grid_position: ',undefined'}
+        name: label_5
+        properties:
+          align: left
+          role: header-6
+          spacing:
+            margin: [null, null, null, '15']
+          text: Last name
+        type: Label
+      - data_bindings:
+        - {code: '[''text_box_small'', ''width-200px'']', property: role, writeback: false}
+        event_bindings: {change: text_box_last_name_change, pressed_enter: profile_save_click}
+        layout_properties: {grid_position: ',MOSLGE'}
+        name: text_box_last_name
+        properties: {role: text_box_small, spacing_above: none}
+        type: TextBox
+      - event_bindings: {click: profile_save_click}
+        layout_properties: {grid_position: 'ZVKKWY,CGXTIF'}
+        name: profile_save
+        properties:
+          align: right
+          role: [header-6, call-to-action-button-disabled]
+          text: save
+        type: Button
+      layout_properties: {grid_position: 'COWKZZ,BSIMWA'}
+      name: profile
+      properties:
+        col_spacing: tiny
+        col_widths: '{"IMSUXV":10,"EOLZZQ":50,"ROBXKQ":10,"SQVWMY":50,"undefined":10,"MOSLGE":50}'
+        spacing:
+          margin: ['25', null, null, '0']
+      type: ColumnPanel
+    - components:
+      - layout_properties: {grid_position: 'XMKZJJ,YJDVPX'}
+        name: label_1_copy
+        properties:
+          role: header-5
+          spacing:
+            margin: [null, null, '10', null]
+          spacing_above: none
+          spacing_below: none
+          text: Subscription Status
+        type: Label
+      - layout_properties: {grid_position: 'LQRANB,IMSUXV'}
+        name: label_2_copy
+        properties:
+          role: header-6
+          spacing:
+            margin: [null, null, null, '15']
+          text: Organisation
+        type: Label
+      - layout_properties: {grid_position: 'LQRANB,EOLZZQ'}
+        name: orga
+        properties: {role: header-6}
+        type: Label
+      - layout_properties: {grid_position: 'PMRBGG,DLAEPU'}
+        name: label_2_copy_copy
+        properties:
+          role: header-6
+          spacing:
+            margin: [null, null, null, '15']
+          text: User status
+        type: Label
+      - layout_properties: {grid_position: 'PMRBGG,ANTSNG'}
+        name: user
+        properties: {role: header-6}
+        type: Label
+      - layout_properties: {grid_position: 'NSVSYP,XYWRPX'}
+        name: label_2_copy_copy_copy
+        properties:
+          role: header-6
+          spacing:
+            margin: [null, null, null, '15']
+          text: Admin status
+        type: Label
+      - layout_properties: {grid_position: 'NSVSYP,WKRSRH'}
+        name: admin
+        properties: {role: header-6}
+        type: Label
+      - layout_properties: {grid_position: 'VDJRBN,LUZQKK'}
+        name: label_2_copy_copy_copy_copy
+        properties:
+          role: header-6
+          spacing:
+            margin: [null, null, null, '15']
+          text: All admins
+          visible: false
+        type: Label
+      - layout_properties: {grid_position: 'VDJRBN,UHXHMD'}
+        name: admins
+        properties: {role: header-6, visible: false}
+        type: Label
+      layout_properties: {grid_position: 'KTREQY,XTJAUJ'}
+      name: subscription
+      properties:
+        col_spacing: tiny
+        col_widths: '{"IMSUXV":10,"EOLZZQ":50,"DLAEPU":10,"ANTSNG":50,"XYWRPX":10,"WKRSRH":50,"LUZQKK":10,"UHXHMD":50}'
+        spacing:
+          margin: ['25', null, null, '0']
+      type: ColumnPanel
+    - components:
+      - layout_properties: {grid_position: 'XMKZJJ,YJDVPX'}
+        name: label_1_copy_2
+        properties:
+          role: header-5
+          spacing:
+            margin: [null, null, '10', null]
+          spacing_above: none
+          spacing_below: none
+          text: Password
+        type: Label
+      - event_bindings: {click: reset_pw_click}
+        layout_properties: {grid_position: 'WQJPWC,JYORAO'}
+        name: reset_pw
+        properties:
+          role: [header-6, orange]
+          spacing:
+            margin: [null, null, null, '15']
+          text: Reset password
+        type: Link
+      layout_properties: {grid_position: 'IIOJLX,SEUMDD'}
+      name: password
+      properties:
+        col_spacing: tiny
+        col_widths: '{}'
+        spacing:
+          margin: ['25', null, null, '0']
+      type: ColumnPanel
+    layout_properties: {grid_position: 'WMSIRL,VVYQPX'}
+    name: sec_account
+    properties:
+      spacing:
+        margin: ['5', '25', '25', '25']
+      spacing_above: medium
+    type: ColumnPanel
+  - components:
+    - components:
+      - layout_properties: {grid_position: 'XMKZJJ,YJDVPX'}
+        name: label_1_copy_2_copy
+        properties:
+          role: header-5
+          spacing:
+            margin: [null, null, '10', null]
+          spacing_above: none
+          spacing_below: none
+          text: User Roles & Permissions
+        type: Label
+      - data_bindings: []
+        layout_properties: {grid_position: 'YNHHNO,XMXUHZ'}
+        name: summary
+        properties:
+          role: header-6
+          spacing:
+            margin: [null, null, null, '15']
+          text: ''
+        type: Label
+      - components:
+        - data_bindings:
+          - {code: '[''text_box_small'', ''width-200px'']', property: role, writeback: false}
+          layout_properties: {}
+          name: mail_enter_copy
+          properties:
+            margin: [null, '10', null, '15']
+            placeholder: enter user name
+            role: text_box_small
+            spacing_above: small
+          type: TextBox
+        - layout_properties: {}
+          name: button_2_copy
+          properties:
+            align: left
+            role: [header-6, call-to-action-button-disabled]
+            text: search
+          type: Button
+        layout_properties: {grid_position: 'MYYSGB,CXTTUY'}
+        name: flow_panel_1_copy_copy_copy
+        properties:
+          gap: medium
+          spacing:
+            margin: ['0', null, '0', null]
+          spacing_above: none
+          spacing_below: none
+        type: FlowPanel
+      - layout_properties: {grid_position: 'IKBXDY,SRWLLU'}
+        name: roles_save
+        properties:
+          align: right
+          role: [header-6, call-to-action-button-disabled]
+          text: save
+        type: Button
+      layout_properties: {grid_position: 'RPSKHD,CEQHDQ'}
+      name: roles
+      properties:
+        col_spacing: tiny
+        col_widths: '{}'
+        spacing:
+          margin: ['25', null, null, '0']
+      type: ColumnPanel
+    - components:
+      - layout_properties: {grid_position: 'XMKZJJ,YJDVPX'}
+        name: label_1_copy_3
+        properties:
+          role: header-5
+          spacing:
+            margin: [null, null, '10', null]
+          spacing_above: none
+          spacing_below: none
+          text: User Invite
+        type: Label
+      - components:
+        - data_bindings:
+          - {code: '[''header-6'', ''width-200px'']', property: role, writeback: false}
+          name: label_2_copy_2_copy_copy
+          properties:
+            role: header-6
+            spacing:
+              margin: [null, null, null, '15']
+            text: Company License Key
+          type: Label
+        - data_bindings: []
+          layout_properties: {}
+          name: key
+          properties: {role: header-6}
+          type: Label
+        - event_bindings: {click: refresh_key_click}
+          layout_properties: {}
+          name: refresh_key
+          properties:
+            align: left
+            icon: fa:refresh
+            role: icon-button-small
+            spacing:
+              padding: ['0', '0', '0', '0']
+            spacing_above: none
+            spacing_below: none
+            text: ''
+          type: Button
+        layout_properties: {grid_position: 'LZNSBT,YXBZAH'}
+        name: flow_panel_1
+        properties:
+          gap: medium
+          spacing:
+            margin: ['0', null, '0', null]
+          spacing_above: none
+          spacing_below: none
+        type: FlowPanel
+      - components:
+        - data_bindings:
+          - {code: '[''header-6'', ''width-200px'']', property: role, writeback: false}
+          name: label_2_copy_2_copy
+          properties:
+            role: header-6
+            spacing:
+              margin: [null, null, null, '15']
+            text: Invite link
+          type: Label
+        - data_bindings: []
+          layout_properties: {}
+          name: link
+          properties:
+            role: header-6
+            spacing:
+              margin: [null, '10', null, null]
+          type: Label
+        - event_bindings: {click: copy_click}
+          layout_properties: {}
+          name: copy
+          properties:
+            role: [header-6, orange]
+            text: copy link
+          type: Link
+        layout_properties: {grid_position: 'OXYVGS,GNXKWP'}
+        name: flow_panel_1_copy
+        properties:
+          gap: medium
+          spacing:
+            margin: ['0', null, '0', null]
+          spacing_above: none
+          spacing_below: none
+          visible: false
+        type: FlowPanel
+      - components:
+        - data_bindings:
+          - {code: '[''header-6'', ''width-200px'']', property: role, writeback: false}
+          layout_properties: {}
+          name: label_2_copy_2_copy_copy_2
+          properties:
+            role: header-6
+            spacing:
+              margin: [null, null, null, '15']
+            text: Sent invite
+          type: Label
+        - data_bindings:
+          - {code: '[''text_box_small'', ''width-200px'']', property: role, writeback: false}
+          event_bindings: {pressed_enter: sent_invite_click}
+          layout_properties: {}
+          name: mail_enter
+          properties:
+            margin: [null, '10', null, null]
+            placeholder: enter mail address
+            role: text_box_small
+            spacing_above: small
+            visible: false
+          type: TextBox
+        - data_bindings:
+          - {code: '[''text_box_small'', ''width-250px'']', property: role, writeback: false}
+          event_bindings: {change: mail_enters_change}
+          layout_properties: {}
+          name: mail_enters
+          properties:
+            margin: [null, '10', null, null]
+            placeholder: enter mail addresses (separated by semicolon)
+            text: ''
+            visible: true
+          type: TextArea
+        - data_bindings:
+          - {code: '[''pos-abs-bottom'', ''header-6'', ''call-to-action-button-disabled'']', property: role, writeback: false}
+          event_bindings: {click: sent_invite_click}
+          layout_properties: {}
+          name: sent_invite
+          properties:
+            align: left
+            role: [header-6, call-to-action-button-disabled]
+            text: sent invite
+          type: Button
+        layout_properties: {grid_position: 'CWUNJX,LNMEFQ'}
+        name: flow_panel_1_copy_copy
+        properties:
+          gap: medium
+          spacing:
+            margin: ['0', null, '0', null]
+          spacing_above: none
+          spacing_below: none
+        type: FlowPanel
+      layout_properties: {grid_position: 'MXSTGK,IYXPHX'}
+      name: invite
+      properties:
+        col_spacing: tiny
+        col_widths: '{}'
+        spacing:
+          margin: ['25', null, null, '0']
+      type: ColumnPanel
+    layout_properties: {grid_position: 'CSZYSA,APYBBP'}
+    name: sec_user
+    properties:
+      spacing:
+        margin: ['5', '25', '25', '25']
+      spacing_above: medium
+    type: ColumnPanel
+  layout_properties: {grid_position: 'NDYFJH,LLBANU'}
+  name: content_panel
+  properties: {col_widths: '{}'}
+  type: ColumnPanel
+container:
+  properties: {col_widths: '{}'}
+  type: ColumnPanel
+custom_component: false
+is_package: true

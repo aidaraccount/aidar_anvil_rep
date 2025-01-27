@@ -93,10 +93,6 @@
   .nav > .menu-btn:hover {
       background: linear-gradient(to bottom right, rgb(31, 11, 59), rgba(250, 250, 250, 0.05));
   }
-  .nav-right {
-    float: right;
-    color: #333;
-  }
   .nav-elt {
     display: inline-block;
     vertical-align: top;
@@ -159,28 +155,23 @@
   .designer .anvil-highlight .cards .anvil-container .anvil-container .anvil-container {
       outline: 1px dashed rgba(0,0,0,0.3)
   }
+  
+  /* positioning of top right buttons */
+  .top_right {
+    position: absolute;
+    right: 35px;
+  }
 </style>
 
 
 <!-- Put body before nav so that it sits underneath -->   
 <div class="structure">
+  
   <div class="nav" anvil-drop-redirect=".title.placeholder, .nav-elt.placeholder, .nav-elt .drop-here">
-    <!-- <div class="menu-btn" onclick="toggleSidebar();">
-      <i class="fa fa-bars"></i>
-    </div> -->
-    <div anvil-if-slot-empty="search_box" anvil-drop-slot="search_box" class="placeholder anvil-designer-only">
-      Drop a searchbox here
-    </div>
     <div anvil-slot="search_box" class="search_box main-content-move-nav"></div>
-    <!-- <div anvil-if-slot-empty="search_box_2" anvil-drop-slot="search_box_2" class="placeholder anvil-designer-only">
-      Drop a searchbox here
-    </div> -->
-    
+    <div anvil-slot="top_right" class="top_right"></div>
   </div>
 
-      <!-- <div class="menu-btn" onclick="toggleSidebar();">
-        <i class="fa fa-bars"></i>
-      </div> -->
   <div class="body" anvil-drop-default anvil-drop-container=">.cards .anvil-container" anvil-drop-redirect=">.cards > .placeholder">
     <div id="left-sidebar" class="sidebar" anvil-drop-redirect=">.drop-here">
       <button class="nav-button" id="nav-button" onclick="toggleSidebar();">
@@ -209,23 +200,8 @@
         <img src="https://anvil.works/template-assets/column-panel-icon.png" style="height: 30px; margin-right: -7px; margin-top: -5px"> Card components to create new cards.
       </div>
     </div>
-    <div class="nav-right" anvil-drop-redirect=".nav-elt">
-      <div anvil-slot-repeat="nav-right" class="nav-elt">
-        <div anvil-drop-here class="drop-here"></div>
-      </div>
-      <div class="nav-elt placeholder anvil-designer-only" anvil-drop-slot="nav-right">
-        <i class="glyphicon glyphicon-plus"></i>
-      </div>
-    </div>
-    <div class="nav-right_2" anvil-drop-redirect=".nav-elt_2">
-      <div anvil-slot-repeat="nav-right_2" class="nav-elt_2">
-        <div anvil-drop-here class="drop-here"></div>
-      </div>
-      <div class="nav-elt_2 placeholder anvil-designer-only" anvil-drop-slot="nav-right_2">
-        <i class="glyphicon glyphicon-plus"></i>
-      </div>
-    </div>
   </div>
+  
 </div>    
 
 <script>

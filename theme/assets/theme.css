@@ -12,22 +12,28 @@ Area 4: Page Individual
 @import url('_/theme/theme_3_textboxes.css');
 @import url('_/theme/theme_4_page_indiv.css');
 
-:root {--Orange: %color:Orange%;}
-:root {--OrangeDiscreet: %color:OrangeDiscreet%;}
+:root {
+  --Orange: %color:Orange%;
+  --OrangeDiscreet: %color:OrangeDiscreet%;
 
-:root {--Purple: %color:Purple%;}
-:root {--Sangria: %color:Sangria%;}
-:root {--Brown: %color:Brown%;}
+  --Purple: %color:Purple%;
+  --Sangria: %color:Sangria%;
+  --Brown: %color:Brown%;
 
-:root {--Text_White: %color:Text_White%;}
-:root {--Text_WhiteDiscreet: %color:Text_WhiteDiscreet%;}
+  --Text_White: %color:Text_White%;
+  --Text_WhiteDiscreet: %color:Text_WhiteDiscreet%;
+  --Text_LightBlack: %color:Text_LightBlack%;
 
-:root {--Grid_Black: %color:Grid_Black%}
+  --Grid_Black: %color:Grid_Black%;
 
-:root {--Accent_1: %color:Accent_1%;}
-:root {--Accent_2: %color:Accent_2%;}
+  --Accent_1: %color:Accent_1%;
+  --Accent_2: %color:Accent_2%;
 
+  --Background: %color:Background%;
+  --Background_20: rgba(215, 215, 215, 0.20);
+}
 
+rgba(123, 123, 123, 0.2)
 /*
 ----------------------------------------------------------------------------------------
 Classes to be captured by js
@@ -1382,11 +1388,6 @@ anvil-role-test {
   text-align: center;
 }
 
-.nav-right {
-  float: right;
-  font-size: 14px !important;
-}
-
 .nav-elt {
   display: inline-block;
   vertical-align: top;
@@ -1649,7 +1650,7 @@ footer a, .footer .anvil-component {
 }
 .sidebar-button {
   font-family: Gs-regular;
-  font-size: 18px;
+  font-size: 15px;
   position: fixed;
   right: 0px;
   /* right: -400px; */
@@ -1708,7 +1709,7 @@ footer a, .footer .anvil-component {
   background-color: rgb(233,95,48);
   color: white;
   border: none;
-  padding: 10px;
+  padding: 10px 10px 10px 6px;
   cursor: pointer;
   z-index: 1100;
   transition: left 0.3s ease;
@@ -1876,10 +1877,6 @@ footer a, .footer .anvil-component {
   background: transparent; 
 }
 
-.anvil-role-target-dropdown>.form-control { 
-  color: white;
-  background: transparent; 
-}
 .anvil-role-date-picker {
   width: 115px;
   font-size: 14px;

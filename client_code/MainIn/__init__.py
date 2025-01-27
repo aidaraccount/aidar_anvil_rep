@@ -31,6 +31,7 @@ from ..Observe_Radar import Observe_Radar
 from ..Observe_Listen import Observe_Listen
 from ..ModelProfile import ModelProfileTemplate
 from ..RampUp import RampUpTemplate
+from ..Settings import Settings
 
 routing.logger.debug = False
 
@@ -197,10 +198,7 @@ class MainIn(MainInTemplate):
     self.reset_nav_backgrounds()
     model_link.background = "theme:Brown"
   # ------------
-      
-  def logout_click(self, **event_args):
-    logout()
-
+  
   def update_no_notifications(self, **event_args):
     NoNotifications = json.loads(anvil.server.call('get_no_notifications', user["user_id"]))
     self.link_watchlists.text = 'WATCHLISTS (' + str(NoNotifications[0]["cnt"]) + ')'
@@ -448,6 +446,11 @@ class MainIn(MainInTemplate):
     else:
       return shorten_single_number(num)
 
+  #----------------------------------------------------------------------------------------------
+  # Top Right Buttons
+  def logout_click(self, **event_args):
+    logout()
+    
   def feedback_click(self, **event_args):
     popup_table = alert(
       content=C_FeedbackForm(),
@@ -455,3 +458,7 @@ class MainIn(MainInTemplate):
       buttons=[]
     )
 
+  def settings_click(self, **event_args):
+    click_link(self.settings, 'settings', event_args)
+    self.reset_nav_backgrounds()
+    
