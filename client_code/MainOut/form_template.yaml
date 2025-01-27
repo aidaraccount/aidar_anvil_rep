@@ -1,67 +1,13 @@
 components:
-- event_bindings: {click: link_forgot_password_click}
-  layout_properties: {slot: forgot-password-slot}
-  name: forgot_password_link
-  properties:
-    role: [header-7-on-white-bg, margin-padding-0]
-    spacing_above: none
-    spacing_below: none
-    text: Forgot your password?
-  type: Link
-- layout_properties: {slot: checkbox-slot}
-  name: remember_me_checkbox
-  properties: {spacing_above: none, spacing_below: none, text: Remember me}
-  type: CheckBox
-- event_bindings: {click: button_login_click}
-  layout_properties: {slot: login-button}
-  name: login_button
-  properties: {align: center, spacing_above: none, spacing_below: none, text: Login}
-  type: Button
-- components:
-  - components:
-    - layout_properties: {}
-      name: label_1
-      properties:
-        spacing:
-          margin: [0, null, 0, null]
-          padding: [null, null, 0, null]
-        text: New to AIDAR?
-      type: Label
-    - event_bindings: {click: link_register_click}
-      layout_properties: {}
-      name: link_register
-      properties:
-        spacing:
-          margin: [0, null, 0, 5]
-        text: Register here
-      type: Link
-    layout_properties: {grid_position: 'CASKSP,DAZLNL'}
-    name: flow_panel_1
-    properties:
-      align: center
-      gap: medium
-      spacing:
-        margin: ['5', null, 0, null]
-    type: FlowPanel
-  layout_properties: {slot: login-button}
-  name: column_panel_1
-  properties:
-    role: top-border
-    spacing:
-      margin: ['25', null, 0, null]
+- components: []
+  data_bindings:
+  - {code: '[''width-100'']', property: role, writeback: false}
+  layout_properties: {slot: default}
+  name: content_panel
+  properties: {}
   type: ColumnPanel
-- event_bindings: {pressed_enter: button_login_click}
-  layout_properties: {slot: password-slot}
-  name: login_pw
-  properties: {hide_text: true, placeholder: Password, spacing_above: none, spacing_below: none}
-  type: TextBox
-- event_bindings: {pressed_enter: login_email_pressed_enter}
-  layout_properties: {slot: email-slot}
-  name: login_email
-  properties: {placeholder: Email}
-  type: TextBox
 container:
   properties:
-    html: "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <title>Login Page</title>\n  <style>\n    * {\n      margin: 0;\n      padding: 0;\n      box-sizing: border-box;\n    }\n    body, html {\n      height: 100%;\n      overflow: hidden;\n    }\n    .container {\n      display: flex;\n      height: 100vh;\n      width: 100vw;\n      padding: 0;\n    }\n    .left-side {\n      position: relative;\n      background-image: url(_/theme/Stock%20Images/Backgrounds/header-background.png);\n      flex: 1;\n      height: 100%;\n      background-size: 100% 100%;\n    }\n    .right-side {\n      position: relative;\n      background-color: white;\n      flex: 1;\n      height: 100%;\n    }\n    .login-form-container {\n      position: absolute;\n      top: 50%;\n      left: 50%;\n      transform: translate(-50%, -50%);\n      display: flex;\n      justify-content: center;\n      align-items: center;\n      background-color: white;\n      box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);\n      border-radius: 8px;\n      padding: 40px 40px 25px 40px;\n      width: 450px;\n      z-index: 1;\n    }\n    .login-form {\n      width: 100%;\n    }\n    .login-form h2 {\n      margin-bottom: 20px;\n      text-align: center;\n      font-size: 24px;\n      color: #333;\n    }\n    .login-form input {\n      width: 100%;\n      padding: 12px;\n      margin-bottom: 15px;\n      border: 1px solid #ccc;\n      border-radius: 4px;\n      font-size: 16px;\n      color: var(--Text_LightBlack);\n    }\n    .login-form input[type=\"checkbox\"] {\n      width: auto;\n    }\n    .remember-me {\n      display: flex;\n      justify-content: space-between;\n      align-items: center;\n      font-size: 14px;\n    }\n    .login-form button {\n      width: 100%;\n      padding: 12px;\n      background-color: rgb(31, 11, 59);\n      color: white;\n      font-size: 16px;\n      border: none;\n      border-radius: 4px;\n      cursor: pointer;\n      transition: background-color 0.3s ease;\n    }\n    .login-form button:hover {\n      background-color: orange;\n    }\n    .login-form .submit-button {\n      width: 100%;\n      padding: 12px;\n      background-color: rgb(31, 11, 59);\n      color: white;\n      font-size: 16px;\n      border: none;\n      border-radius: 4px;\n      cursor: pointer;\n      transition: background-color 0.3s ease;\n    }\n    .login-form .submit-button:hover {\n      background-color: orange;\n    }\n    .login-form .forgot-password {\n      text-align: right;\n      display: block;\n      margin-top: 10px;\n      font-size: 14px;\n      color: #555;\n      text-decoration: none;\n    }\n    .login-form .forgot-password:hover {\n      color: rgb(31, 11, 59);\n    }\n    .lp-left-image {\n      position: absolute;\n      top: 3%;\n      left: 3%;\n      height: 30px\n    }\n    .lp-right-image {\n      position: absolute;\n      top: 50%;\n      left: 50%;\n      transform: translate(-20%, -50%);\n    }\n    .lp-footer {\n      position: fixed;\n      bottom: 0;\n      width: 100%;\n      display: flex;\n      justify-content: center;\n    }\n    .footer-flex-item {\n      padding: 0px 10px 5px 10px;\n      color: white !important;\n    }\n  </style>\n</head>\n<body>\n\n  <div class=\"container\">\n    <!-- Left side with gradient background -->\n    <div class=\"left-side\">\n      <a href=\"https://www.aidar.ai\" target=”_blank”><img src=\"_/theme/pics/AIDAR_white_logo_small.png\" class=\"lp-left-image\"></a>    \n    </div>\n\n    <!-- Login Form Positioned in the Middle -->\n    <div class=\"login-form-container\">\n      <div class=\"login-form\">\n        <h2>Welcome to <img src=\"_/theme/pics/Logo_black.png\" style=\"height:23px; margin:0 0 10px 3px;\"></h2>\n        <div id=\"loginForm\">\n          <div anvil-slot=\"email-slot\">\n            <div anvil-if-slot-empty=\"email-slot\">Test</div>\n          </div>\n          <div anvil-slot=\"password-slot\">\n            <div anvil-if-slot-empty=\"password-slot\">Test</div>\n          </div>\n          \n          <div class=\"remember-me\">\n            <div anvil-slot=\"checkbox-slot\">\n              <div anvil-if-slot-empty=\"checkbox-slot\">Checkbox Slot</div>\n            </div>\n            <div anvil-slot=\"forgot-password-slot\">\n              <div anvil-if-slot-empty=\"forgot-password-slot\">Forgot Password Slot</div>\n            </div>\n          </div>\n          \n          <!-- <button type=\"submit\">Login</button> -->\n          <div anvil-slot=\"login-button\">\n            <div anvil-if-slot-empty=\"login-button\">Login-button</div>\n          </div>\n        </div>\n      </div>\n    </div>\n    <footer class=\"lp-footer\">  \n        <a class=\"footer-flex-item\" href=\"https://www.aidar.ai/data%20protection.html\" target=\"_blank\" >Privacy Policy</a>\n        <a class=\"footer-flex-item\" href=\"https://www.aidar.ai/imprint.html\" target=\"_blank\" >Imprint</a>\n    </footer>\n  </div>\n</body>\n</html>"
+    html: "<style>\n  .structure {\n    position: relative;\n    width: 100%;\n    display: flex;\n    flex-direction: column;\n    align-items: stretch;\n    min-height: 100vh;\n  }  \n  .cards {\n    flex-grow: 1;\n    font-weight: bold;\n    color: #555;\n    font-size: 24px;\n    padding: 24px 16px;\n    max-width: 100%;\n    overflow-x: hidden;\n  }  \n  \n  /* logo top left */\n  .lp-left-image {\n    position: absolute;\n    top: 3%;\n    left: 3%;\n    height: 30px\n  }\n\n  /* footer */\n  .lp-footer {\n    position: fixed;\n    bottom: 0;\n    width: 100%;\n    display: flex;\n    justify-content: center;\n  }\n  .footer-flex-item {\n    padding: 0px 10px 5px 10px;\n    color: white !important;\n  }\n</style>\n\n<div class=\"structure\">  \n  <div class=\"body\" anvil-drop-default anvil-drop-container=\">.cards .anvil-container\" anvil-drop-redirect=\">.cards > .placeholder\">\n    \n    <!-- Logo top left -->\n    <a href=\"https://www.aidar.ai\" target=”_blank”><img src=\"_/theme/pics/AIDAR_white_logo_small.png\" class=\"lp-left-image\"></a>    \n\n    <!-- content_panel -->\n    <div class=\"cards anvil-measure-content main-content-move\">\n      <!-- <div anvil-if-slot-empty=\"default\" anvil-drop-slot=\"default\" class=\"placeholder\">\n        Drop a ColumnPanel here to add content\n      </div> -->\n      <div anvil-slot=\"default\"></div>      \n    </div>\n  \n    <!-- Footer -->\n    <footer class=\"lp-footer\">  \n        <a class=\"footer-flex-item\" href=\"https://www.aidar.ai/data%20protection.html\" target=\"_blank\" >Privacy Policy</a>\n        <a class=\"footer-flex-item\" href=\"https://www.aidar.ai/imprint.html\" target=\"_blank\" >Imprint</a>\n    </footer>\n  \n  </div>  \n</div>\n"
   type: HtmlTemplate
 is_package: true

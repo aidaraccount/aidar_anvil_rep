@@ -20,6 +20,7 @@ Area 1: Base
 /* ----------------------------
 1.2. Width (no!) */
 .anvil-role-width-100 {width: 100% !important}
+
 .anvil-role-width-50px {width: 50px}
 .anvil-role-width-100px {width: 100px}
 .anvil-role-width-150px {width: 150px}

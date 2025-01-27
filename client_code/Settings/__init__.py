@@ -177,9 +177,9 @@ class Settings(SettingsTemplate):
       )
     self.nav_user_click()
     
-  # def copy_click(self, **event_args):
-  #   navigator.clipboard.writeText(f'https://{self.link.text}')
-  #   Notification("", title="Link copied!", style="success").show()
+  def copy_click(self, **event_args):
+    navigator.clipboard.writeText(f'https://{self.link.text}')
+    Notification("", title="Link copied!", style="success").show()
     
   def mail_enters_change(self, **event_args):
     email_regex = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'

@@ -36,7 +36,7 @@ from ..Settings import Settings
 routing.logger.debug = False
 
 
-@routing.main_router
+# @routing.main_router
 class MainIn(MainInTemplate):
   def __init__(self, **properties):
     #print(f"{datetime.datetime.now()}: MainIn - link_login_click - 1", flush=True)
