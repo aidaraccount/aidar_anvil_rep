@@ -9,6 +9,7 @@ import random
 import string
 from anvil.js.window import navigator
 import json
+import re
 
 from anvil_extras import routing
 from ..nav import click_link, click_button, save_var
@@ -179,4 +180,30 @@ class Settings(SettingsTemplate):
   # def copy_click(self, **event_args):
   #   navigator.clipboard.writeText(f'https://{self.link.text}')
   #   Notification("", title="Link copied!", style="success").show()
+    
+  def mail_enters_change(self, **event_args):
+    email_regex = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
+    mails = [item.strip() for item in re.split(r'[;\n]', self.mail_enters.text) if item.strip()]
 
+    error = False
+    for mail in mails:
+      if re.match(email_regex, mail) is None:
+        error = True
+
+    if error is True or self.mail_enters.text == '':
+      self.sent_invite.role = ['pos-abs-bottom', 'header-6', 'call-to-action-button-disabled']
+    else:      
+      self.sent_invite.role = ['pos-abs-bottom', 'header-6', 'call-to-action-button']
+
+  def sent_invite_click(self, **event_args):
+    if self.sent_invite.role == ['pos-abs-bottom', 'header-6', 'call-to-action-button']:
+      mails = [item.strip() for item in re.split(r'[;\n]', self.mail_enters.text) if item.strip()]
+      print(mails)
+
+      anvil.server.call('sent_mail_invite', user["user_id"], mails)
+      Notification("", title=f"{len(mails)} new user/s invited!", style="success").show()
+      
+      self.mail_enters.text = ''
+      self.sent_invite.role = ['pos-abs-bottom', 'header-6', 'call-to-action-button-disabled']
+      self.nav_user_click()
+      

@@ -69,3 +69,10 @@ Ensure there is no overflow: visible except for the Popularity Settings as its n
   overflow: hidden;
 }
 
+/* ----------------------------
+1.7. Positioning Settings
+place elements to the bottom */
+.anvil-role-pos-abs-bottom {
+  position: absolute;
+  bottom: 0;
+}

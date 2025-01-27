@@ -364,6 +364,7 @@ components:
           type: Label
         - data_bindings:
           - {code: '[''text_box_small'', ''width-200px'']', property: role, writeback: false}
+          event_bindings: {pressed_enter: sent_invite_click}
           layout_properties: {}
           name: mail_enter
           properties:
@@ -371,9 +372,24 @@ components:
             placeholder: enter mail address
             role: text_box_small
             spacing_above: small
+            visible: false
           type: TextBox
-        - layout_properties: {}
-          name: button_2
+        - data_bindings:
+          - {code: '[''text_box_small'', ''width-250px'']', property: role, writeback: false}
+          event_bindings: {change: mail_enters_change}
+          layout_properties: {}
+          name: mail_enters
+          properties:
+            margin: [null, '10', null, null]
+            placeholder: enter mail addresses (separated by semicolon)
+            text: ''
+            visible: true
+          type: TextArea
+        - data_bindings:
+          - {code: '[''pos-abs-bottom'', ''header-6'', ''call-to-action-button-disabled'']', property: role, writeback: false}
+          event_bindings: {click: sent_invite_click}
+          layout_properties: {}
+          name: sent_invite
           properties:
             align: left
             role: [header-6, call-to-action-button-disabled]

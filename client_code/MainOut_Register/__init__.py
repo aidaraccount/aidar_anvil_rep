@@ -24,6 +24,7 @@ class MainOut_Register(MainOut_RegisterTemplate):
     # Any code you write here will run before the form opens.
     # # check for key in url
     # print('add , url_keys=['license_key'] to @routing.route("register", title="Register")')
+    # print('add routing.set_url_hash('register?license_key=None', load_from_cache=False) to MainOut - link_register_click')
     # print(anvil.js.window.location.hash.lstrip('#').split('?')[1][12:])
     # if anvil.js.window.location.hash.lstrip('#').split('?')[1][12:] != 'None':
     #   self.license_key.text = anvil.js.window.location.hash.lstrip('#').split('?')[1][12:]
