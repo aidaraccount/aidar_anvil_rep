@@ -27,10 +27,6 @@ class Settings(SettingsTemplate):
     user = anvil.users.get_user()
 
     self.nav_account_click()
-
-    # load data    
-    self.key.text = '111-222-333'
-    self.link.text = 'app.aidar.ai/register/626-623-752'
     
 
   # -----------------------
@@ -87,11 +83,21 @@ class Settings(SettingsTemplate):
     self.sec_user.visible = True
 
     # load data
-    sub_data = json.loads(anvil.server.call('get_settings_subscription', user["user_id"]))[0]
-    print(sub_data)
+    sub_data = anvil.server.call('get_settings_subscription', user["user_id"])
+    # print(sub_data)
+
+    # User Roles & Permissions
+    sum_data = json.loads(sub_data['summary'])[0]
+    self.summary.text = f"{sum_data['active_count']}/{sum_data['no_licenses']} account/s in use - {sum_data['admin_count']} admin/s"
+
+    table_data = json.loads(sub_data['table'])[0]
+    
+    # User Invite
+    inv_data = json.loads(sub_data['invite'])[0]
+    self.key.text = inv_data['license_key']
+    self.link.text = f"app.aidar.ai/#register?license_key={inv_data['license_key']}"
 
     
-  
   # -----------------------
   # 1. ACCOUNT SETTINGS
   # a) Profile Management
