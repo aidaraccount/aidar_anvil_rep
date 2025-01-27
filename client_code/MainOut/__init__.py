@@ -25,12 +25,8 @@ class MainOut(MainOutTemplate):
     user = None
         
     # Any code you write here will run before the form opens.
-    # pass
-    print('MainOut 1', anvil.js.window.location.hash.lstrip('#'))
-    print('MainOut 2', anvil.js.window.location.hash.lstrip('#').split('?'))
-    print('MainOut 3', anvil.js.window.location.hash.lstrip('#').split('?')[0])
+    # check for register page url
     if anvil.js.window.location.hash.lstrip('#').split('?')[0] == 'register':
-      print('MainOut 4', anvil.js.window.location.hash.lstrip('#').split('?')[1][12:])
       self.link_register_click(anvil.js.window.location.hash.lstrip('#').split('?')[1][12:])
     
 
