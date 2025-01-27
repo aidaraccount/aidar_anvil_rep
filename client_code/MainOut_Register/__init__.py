@@ -15,7 +15,7 @@ from ..nav import click_link, click_button, logout, save_var, load_var
 from ..C_ForgotPasswordPopup import C_ForgotPasswordPopup
 
 
-@routing.route("register", title="Register")
+@routing.route("register", url_keys=['license_key'], title="Register")
 class MainOut_Register(MainOut_RegisterTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
@@ -25,10 +25,12 @@ class MainOut_Register(MainOut_RegisterTemplate):
     # # check for key in url
     # print('add , url_keys=['license_key'] to @routing.route("register", title="Register")')
     # print('add routing.set_url_hash('register?license_key=None', load_from_cache=False) to MainOut - link_register_click')
-    # print(anvil.js.window.location.hash.lstrip('#').split('?')[1][12:])
-    # if anvil.js.window.location.hash.lstrip('#').split('?')[1][12:] != 'None':
-    #   self.license_key.text = anvil.js.window.location.hash.lstrip('#').split('?')[1][12:]
-    pass
+    print('MainOut_Register 1', anvil.js.window.location.hash.lstrip('#'))
+    print('MainOut_Register 2', anvil.js.window.location.hash.lstrip('#').split('?'))
+    print('MainOut_Register 3', anvil.js.window.location.hash.lstrip('#').split('?')[1][12:])
+    if anvil.js.window.location.hash.lstrip('#').split('?')[1][12:] != 'None':
+      self.license_key.text = anvil.js.window.location.hash.lstrip('#').split('?')[1][12:]
+    # pass
     
   
   def button_register_click(self, **event_args):
