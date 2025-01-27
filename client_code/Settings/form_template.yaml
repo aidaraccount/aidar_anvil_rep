@@ -294,8 +294,9 @@ components:
           name: key
           properties: {role: header-6}
           type: Label
-        - layout_properties: {}
-          name: button_1
+        - event_bindings: {click: refresh_key_click}
+          layout_properties: {}
+          name: refresh_key
           properties:
             align: left
             icon: fa:refresh

@@ -15,15 +15,19 @@ from ..nav import click_link, click_button, logout, save_var, load_var
 from ..C_ForgotPasswordPopup import C_ForgotPasswordPopup
 
 
-@routing.route("register", title="Register")
+@routing.route("register", url_keys=['license_key'], title="Register")
 class MainOut_Register(MainOut_RegisterTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
 
     # Any code you write here will run before the form opens.
-    pass
-
+    # check for key in url
+    print(anvil.js.window.location.hash)
+    print(anvil.js.window.location.hash.lstrip('#').split('?'))
+    print(anvil.js.window.location.hash.lstrip('#').split('?')[0])
+    print(anvil.js.window.location.hash.lstrip('#').split('?')[1])
+    
   
   def button_register_click(self, **event_args):
     email_regex = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'

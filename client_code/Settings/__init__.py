@@ -128,8 +128,9 @@ class Settings(SettingsTemplate):
 
   
   # c) Password
-  def reset_pw_click(self, **event_args):   
-    res = alert(title='Do you want to reset your password?',
+  def reset_pw_click(self, **event_args):
+    res = alert(
+      title='Do you want to reset your password?',
       content="Are you sure to reset your password?",
       buttons=[
         ("Cancel", "NO"),
@@ -140,8 +141,8 @@ class Settings(SettingsTemplate):
     if res == 'YES':
       anvil.users.send_password_reset_email('janek-meyn@web.de')  # ATTENTION !!!
       alert(
-        "A recovery email has been sent to your email address",
         title="Success",
+        content="A recovery email has been sent to your email address",
         large=False,
         buttons=[("OK", True)],
         role=["forgot-password-success","remove-focus"]
@@ -153,7 +154,29 @@ class Settings(SettingsTemplate):
   # a) User Roles & Permissions
 
   
-  # b) User Invite  
+  # b) User Invite
+  def refresh_key_click(self, **event_args):
+    res = alert(
+      title='Do you want to reset your company license key?',
+      content="All pending invitations are no longer able to register.",
+      buttons=[
+        ("Cancel", "NO"),
+        ("Yes, reset key", "YES")
+      ],
+      role=["forgot-password-success","remove-focus"]
+    )
+    if res == 'YES':
+      new_key = anvil.server.call('update_settings_license_key', user["user_id"])
+      alert(
+        title="Your new Company License Key is...",
+        content=f'New Key: {new_key}',
+        large=False,
+        buttons=[("OK", True)],
+        role=["forgot-password-success","remove-focus"]
+      )
+    self.nav_user_click()
+    
   def copy_click(self, **event_args):
     navigator.clipboard.writeText(f'https://{self.link.text}')
     Notification("", title="Link copied!", style="success").show()
+
