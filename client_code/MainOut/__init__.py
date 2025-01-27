@@ -25,7 +25,9 @@ class MainOut(MainOutTemplate):
     user = None
         
     # Any code you write here will run before the form opens.
-    pass
+    # check for register page url
+    if anvil.js.window.location.hash.lstrip('#').split('?')[0] == 'register':
+      self.link_register_click(anvil.js.window.location.hash.lstrip('#').split('?')[1][12:])
     
 
   def button_login_click(self, **event_args):
@@ -80,6 +82,7 @@ class MainOut(MainOutTemplate):
     """This method is called when the user presses Enter in this text box"""
     self.login_pw.focus()
 
-  def link_register_click(self, **event_args):
-    routing.set_url_hash('register', load_from_cache=False)
+  def link_register_click(self, license_key='None', **event_args):
+    # routing.set_url_hash('register', load_from_cache=False)
+    routing.set_url_hash(f'register?license_key={license_key}', load_from_cache=False)
     open_form('MainOut_Register')
