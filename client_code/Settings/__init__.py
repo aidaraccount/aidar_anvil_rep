@@ -176,7 +176,7 @@ class Settings(SettingsTemplate):
       )
     self.nav_user_click()
     
-  def copy_click(self, **event_args):
-    navigator.clipboard.writeText(f'https://{self.link.text}')
-    Notification("", title="Link copied!", style="success").show()
+  # def copy_click(self, **event_args):
+  #   navigator.clipboard.writeText(f'https://{self.link.text}')
+  #   Notification("", title="Link copied!", style="success").show()
 

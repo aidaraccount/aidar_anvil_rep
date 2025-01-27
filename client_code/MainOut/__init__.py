@@ -81,5 +81,5 @@ class MainOut(MainOutTemplate):
     self.login_pw.focus()
 
   def link_register_click(self, **event_args):
-    routing.set_url_hash('register', load_from_cache=False)
+    routing.set_url_hash('register?license_key=None', load_from_cache=False)
     open_form('MainOut_Register')
