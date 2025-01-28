@@ -116,8 +116,9 @@ class Settings(SettingsTemplate):
     ]
     # print(table_data)
 
-    self.users_data.items = table_data
-  
+    # self.users_data.items = table_data
+    self.users_data.items = [{'data': item, 'settings_page': self} for item in table_data]
+    
     # b) User Invite
     inv_data = json.loads(sub_data['invite'])[0]
     self.key.text = inv_data['license_key']
@@ -189,13 +190,25 @@ class Settings(SettingsTemplate):
       }
       for entry in table_data
     ]    
-    self.users_data.items = [entry for entry in table_data if str(entry["name"]).lower().find(str(self.search_user_box.text).lower()) != -1]
-    
+    # self.users_data.items = [entry for entry in table_data if str(entry["name"]).lower().find(str(self.search_user_box.text).lower()) != -1]
+    self.users_data.items = [
+      {'data': entry, 'settings_page': self}
+      for entry in table_data
+      if str(entry["name"]).lower().find(str(self.search_user_box.text).lower()) != -1
+    ]
+
   def roles_save_click(self, **event_args):
     if self.roles_save.role == ['header-6', 'call-to-action-button']:
       change_list = json.loads(load_var('change_list').replace("'", '"'))
       anvil.server.call('update_settings_user_role', change_list)
       
+      if self.search_user_box.text == '':
+        self.nav_user_click()
+      else:
+        self.nav_user_click()
+        self.search_user_click()
+      self.roles_save.role = ['header-6', 'call-to-action-button-disabled']
+      Notification("", title="Changes saved!", style="success").show()
   
   # b) User Invite
   def refresh_key_click(self, **event_args):

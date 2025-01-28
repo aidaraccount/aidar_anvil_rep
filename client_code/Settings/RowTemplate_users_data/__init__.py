@@ -16,6 +16,11 @@ class RowTemplate_users_data(RowTemplate_users_dataTemplate):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
 
+    # Access the parent (Settings page) and allocate data
+    self.settings_page = self.item.get('settings_page', None)
+    self.item = self.item.get('data', None)
+
+    # initiate change_list
     save_var('change_list', [])
     
     # Any code you write here will run before the form opens.
@@ -30,15 +35,23 @@ class RowTemplate_users_data(RowTemplate_users_dataTemplate):
       self.button_active.text = 'active'
     
     # update change_list
-    new_list = {'user_id': self.item['user_id'], 'customer_id': self.item['customer_id'], 'active': self.button_active.text, 'admin': self.button_admin.text}
+    new_list = {"user_id": self.item["user_id"], "customer_id": self.item["customer_id"], "active": self.button_active.text, "admin": self.button_admin.text}
     change_list = load_var('change_list')
+    
+    if change_list is None or change_list == '':
+      change_list = []
+    else:
+      change_list = change_list.replace("'", '"')
+      change_list = json.loads(change_list)
+    
     for index, item in enumerate(change_list):
       if item['user_id'] == new_list['user_id']:
         change_list[index] = new_list
         break
     else:
       change_list.append(new_list)
-    save_var('change_list', change_list)
+        
+    save_var('change_list', str(change_list))
 
     # change button roles
     if self.button_active.role == ['header-7', 'call-to-action-button']:
@@ -58,19 +71,13 @@ class RowTemplate_users_data(RowTemplate_users_dataTemplate):
     
     # update change_list
     new_list = {"user_id": self.item["user_id"], "customer_id": self.item["customer_id"], "active": self.button_active.text, "admin": self.button_admin.text}
-    # print("New item:", new_list)
-    
     change_list = load_var('change_list')
-    # print("Loaded change_list:", change_list)
-    # print("Type of change_list:", type(change_list))
-
+    
     if change_list is None or change_list == '':
       change_list = []
     else:
       change_list = change_list.replace("'", '"')
       change_list = json.loads(change_list)
-      # change_list = json.loads(change_list)
-    # print(change_list)
     
     for index, item in enumerate(change_list):
       if item['user_id'] == new_list['user_id']:
@@ -80,9 +87,6 @@ class RowTemplate_users_data(RowTemplate_users_dataTemplate):
       change_list.append(new_list)
         
     save_var('change_list', str(change_list))
-    # print("Updated change_list saved:", change_list)
-    # print("Updated change_list saved - type:", type(change_list))
-    # print("-----------")
     
     # change button roles
     if self.button_admin.role == ['header-7', 'call-to-action-button']:
@@ -92,4 +96,48 @@ class RowTemplate_users_data(RowTemplate_users_dataTemplate):
     
     # change save button role
     self.parent.parent.parent.parent.parent.parent.roles_save.role = ['header-6', 'call-to-action-button']
-    
+
+  
+  def button_delete_click(self, **event_args):    
+    res = alert(
+      title='Do you want to remove this user from your subscription?',
+      content="The user will no longer be able to log in to AIDAR.",
+      buttons=[
+        ("Cancel", "NO"),
+        ("Yes, remove", "YES")
+      ],
+      role=["forgot-password-success","remove-focus"]
+    )
+    if res == 'YES':
+      # remove user from users_customers
+      anvil.server.call('update_settings_delete_user', self.item["user_id"], self.item["customer_id"])
+      Notification("", title="User removed!", style="success").show()
+
+      # remove row from table      
+      for component in self.parent.get_components():
+        print(component.item['user_id'])
+        print(component.item['user_id'] == self.item['user_id'])
+        if component.item['user_id'] == self.item['user_id']:
+          component.remove_from_parent()
+      
+      # remove from change_list      
+      change_list = load_var('change_list')
+      
+      if change_list is not None and change_list != '':
+        change_list = change_list.replace("'", '"')
+        change_list = json.loads(change_list)
+      
+        for index, item in enumerate(change_list):
+          if item['user_id'] == self.item['user_id']:
+            del change_list[index]
+            break
+            
+        save_var('change_list', str(change_list))
+
+      # refresh summary and filter data if filterd before
+      print('self.search_user_box.text:', self.search_user_box.text)
+      if self.settings_page.search_user_box.text == '':
+        self.settings_page.nav_user_click()
+      else:
+        self.settings_page.nav_user_click()
+        self.settings_page.search_user_click()

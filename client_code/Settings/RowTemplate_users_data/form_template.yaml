@@ -17,8 +17,9 @@ components:
     role: [call-to-action-button-disabled, header-7]
     text: button_1
   type: Button
-- layout_properties: {column: UFBDCV}
-  name: button_1
+- event_bindings: {click: button_delete_click}
+  layout_properties: {column: UFBDCV}
+  name: button_delete
   properties:
     icon: fa:trash-o
     role: icon-button-disabled-small
