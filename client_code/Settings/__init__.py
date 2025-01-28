@@ -194,8 +194,8 @@ class Settings(SettingsTemplate):
   def roles_save_click(self, **event_args):
     if self.roles_save.role == ['header-6', 'call-to-action-button']:
       change_list = json.loads(load_var('change_list').replace("'", '"'))
+      anvil.server.call('update_settings_user_role', change_list)
       
-
   
   # b) User Invite
   def refresh_key_click(self, **event_args):
