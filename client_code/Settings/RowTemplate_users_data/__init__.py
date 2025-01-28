@@ -135,7 +135,6 @@ class RowTemplate_users_data(RowTemplate_users_dataTemplate):
         save_var('change_list', str(change_list))
 
       # refresh summary and filter data if filterd before
-      print('self.search_user_box.text:', self.search_user_box.text)
       if self.settings_page.search_user_box.text == '':
         self.settings_page.nav_user_click()
       else:
