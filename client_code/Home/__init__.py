@@ -37,6 +37,10 @@ class Home(HomeTemplate):
       #begin = datetime.datetime.now()
       
       self.model_id=model_id
+
+      # welcome name
+      if user["first_name"] is not None:
+        self.label_welcome.text = f'Welcome {user["first_name"]}'        
       
       #print(f"{datetime.datetime.now()}: Home - __init__ - 2", flush=True)
       
