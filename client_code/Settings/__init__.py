@@ -12,7 +12,7 @@ import json
 import re
 
 from anvil_extras import routing
-from ..nav import click_link, click_button, save_var
+from ..nav import click_link, click_button, save_var, load_var
 
 from ..C_ForgotPasswordPopup import C_ForgotPasswordPopup
 
@@ -31,7 +31,7 @@ class Settings(SettingsTemplate):
     
 
   # -----------------------
-  # NAVIGATION
+  # 1. NAVIGATION ACCOUNT SETTINGS
   def nav_account_click(self, **event_args):
     self.nav_account.role = 'section_buttons_focused'
     self.nav_user.role = 'section_buttons'
@@ -49,7 +49,7 @@ class Settings(SettingsTemplate):
     if acc_data['admin'] is None or acc_data['admin'] is False:
       self.nav_user.visible = False
     
-    # Profile Management
+    # a) Profile Management
     self.mail.text = acc_data['mail']
     if acc_data['first_name'] is not None:
       self.text_box_first_name.text = acc_data['first_name']
@@ -59,7 +59,8 @@ class Settings(SettingsTemplate):
       self.text_box_last_name.text = acc_data['last_name']
     else:      
       self.text_box_last_name.text = '-'
-    # Subscription Status
+    
+    # b) Subscription Status
     if acc_data['name'] is not None:
       self.orga.text = acc_data['name']
     else:      
@@ -77,6 +78,8 @@ class Settings(SettingsTemplate):
         self.admin.text = 'no'
 
   
+  # -----------------------
+  # 2. NAVIGATION USER MANAGEMENT
   def get_data(self, **event_args):
     return anvil.server.call('get_settings_subscription', user["user_id"])
   
@@ -95,7 +98,7 @@ class Settings(SettingsTemplate):
     admin_text = 'admin' if sum_data['admin_count'] == 1 else 'admins'
     self.summary.text = f"{sum_data['active_count']}/{sum_data['no_licenses']} accounts in use - {sum_data['admin_count']} {admin_text}"
     
-    # User Roles & Permissions
+    # a) User Roles & Permissions
     # center table header
     for component in self.users.get_components()[0].get_components():
       if component.text in ['Status', 'Admin', 'Delete']:
@@ -111,12 +114,11 @@ class Settings(SettingsTemplate):
       }
       for entry in table_data
     ]
-    print(table_data)
+    # print(table_data)
 
     self.users_data.items = table_data
   
-    
-    # User Invite
+    # b) User Invite
     inv_data = json.loads(sub_data['invite'])[0]
     self.key.text = inv_data['license_key']
     self.link.text = f"app.aidar.ai/#register?license_key={inv_data['license_key']}"
@@ -188,9 +190,11 @@ class Settings(SettingsTemplate):
       for entry in table_data
     ]    
     self.users_data.items = [entry for entry in table_data if str(entry["name"]).lower().find(str(self.search_user_box.text).lower()) != -1]
-
+    
   def roles_save_click(self, **event_args):
-    print('roles_save_click implementation missing!')
+    if self.roles_save.role == ['header-6', 'call-to-action-button']:
+      change_list = json.loads(load_var('change_list').replace("'", '"'))
+      
 
   
   # b) User Invite
