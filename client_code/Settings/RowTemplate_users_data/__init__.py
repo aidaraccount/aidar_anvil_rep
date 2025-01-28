@@ -115,8 +115,6 @@ class RowTemplate_users_data(RowTemplate_users_dataTemplate):
 
       # remove row from table      
       for component in self.parent.get_components():
-        print(component.item['user_id'])
-        print(component.item['user_id'] == self.item['user_id'])
         if component.item['user_id'] == self.item['user_id']:
           component.remove_from_parent()
       

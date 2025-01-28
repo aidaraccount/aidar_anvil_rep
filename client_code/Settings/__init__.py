@@ -253,7 +253,6 @@ class Settings(SettingsTemplate):
   def sent_invite_click(self, **event_args):
     if self.sent_invite.role == ['pos-abs-bottom', 'header-6', 'call-to-action-button']:
       mails = [item.strip() for item in re.split(r'[;\n]', self.mail_enters.text) if item.strip()]
-      print(mails)
 
       anvil.server.call('sent_mail_invite', user["user_id"], mails)
       Notification("", title=f"{len(mails)} new user/s invited!", style="success").show()
