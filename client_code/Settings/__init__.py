@@ -166,7 +166,7 @@ class Settings(SettingsTemplate):
       role=["forgot-password-success","remove-focus"]
     )
     if res == 'YES':
-      anvil.users.send_password_reset_email('janek-meyn@web.de')  # ATTENTION !!!
+      anvil.users.send_password_reset_email(user["email"])
       alert(
         title="Success",
         content="A recovery email has been sent to your email address",
