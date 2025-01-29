@@ -60,7 +60,7 @@ components:
   - event_bindings: {click: link_watchlist_name_click}
     layout_properties: {grid_position: 'UQVSNC,XUSTNC OPLCOW,KXLRPY RSFAQY,VELSAP'}
     name: link_watchlist_name2
-    properties: {role: artist_name_shadow}
+    properties: {icon: '', role: artist_name_shadow}
     type: Link
   - components:
     - components:
