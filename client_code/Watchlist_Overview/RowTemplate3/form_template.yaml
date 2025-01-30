@@ -21,7 +21,7 @@ components:
   layout_properties: {column: SXXXLP}
   name: button_details
   properties:
-    background: theme:Orange
+    background: ''
     foreground: theme:Text_DecentWhite
     icon: fa:address-card-o
     role: [feature, feature-talent-dev]

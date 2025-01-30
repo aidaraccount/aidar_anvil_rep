@@ -37,12 +37,12 @@ components:
     event_bindings: {click: button_watchlist_click}
     layout_properties: {width: 40, x: 85, y: 0}
     name: button_watchlist
-    properties: {icon: 'fa:address-card-o', role: feature, text: '', tooltip: ''}
+    properties: {icon: 'fa:star-o', role: feature, text: '', tooltip: add to Watchlist}
     type: Button
-  - event_bindings: {click: button_watchlist_delete_click}
+  - event_bindings: {click: button_watchlist_visit_click}
     layout_properties: {width: 40, x: 130, y: null}
-    name: button_watchlist_delete
-    properties: {icon: 'fa:trash-o', role: feature, text: '', tooltip: remove from Watchlist, visible: false}
+    name: button_watchlist_visit
+    properties: {icon: 'fa:address-card-o', role: feature, text: '', tooltip: go to Watchlist, visible: false}
     type: Button
   layout_properties: {column: SAPGXS}
   name: xy_panel_1
