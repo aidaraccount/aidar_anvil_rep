@@ -31,7 +31,7 @@ components:
   - event_bindings: {click: button_discover_click}
     layout_properties: {width: 95, x: 0, y: 0}
     name: button_discover
-    properties: {background: 'theme:Orange', foreground: 'theme:Text_DecentWhite', icon: 'fa:male', role: feature, text: '', tooltip: Investigate Artist}
+    properties: {background: 'theme:Orange', foreground: 'theme:Text_DecentWhite', icon: 'fa:male', role: feature, text: '', tooltip: go to Artist Profile}
     type: Button
   - data_bindings: []
     event_bindings: {click: button_watchlist_click}

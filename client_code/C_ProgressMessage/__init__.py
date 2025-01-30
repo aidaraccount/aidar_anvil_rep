@@ -27,16 +27,16 @@ class C_ProgressMessage(C_ProgressMessageTemplate):
     self.html = '@theme:Modelpage_html_JS.html'
         
     if milestone == 10:
-      self.Message_title.text = "Good start!"
-      self.congrats_message.content = f"You have reached {milestone} ratings!\n\nKeep going, so that the AI can learn what you're interested in and what not!?"
+      self.Message_title.text = "Great start!"
+      self.congrats_message.content = "Keep going, so that your personal AI scouting agent learns even better what you're into."
       self.custom_HTML_prediction_inactive(milestone*2)
     elif milestone == 25:
-      self.Message_title.text = "You're getting there!"
-      self.congrats_message.content = f"You have reached {milestone} ratings!\n\nYou personal AI Scouting Assistant is starting to get a picture of your preferences. Keep rating some more artists, till the AI is fully trained - being able to observe the market for you."
+      self.Message_title.text = "You are half-way there!"
+      self.congrats_message.content = "Your personal AI Scouting Agent is starting to understand your preferences.\n\nKeep rating some more artists, until your personal agent is fully trained. Only then, it can keep searching for you - nonstop."
       self.custom_HTML_prediction_inactive(milestone*2)
     elif milestone == 50:
-      self.Message_title.text = "Congratulations!"
-      self.congrats_message.content = "You did it! Your model is trained!\n\nYour model is now able to observe the market for fiiting talents for you. Go to 'Observe' and setup your specific notifications.\n\nConsider: Although your  model is now trained, it is still a young model - keep rating more artists from time to time to improve it's accuracy."
+      self.Message_title.text = "Congratulations - You did it!"
+      self.congrats_message.content = "Your agent is trained and is now able to continue searching for talent for you. Go to 'Observe' and setup your notifications.\n\nConsider: Although your agent is now trained, it is still a young model - keep rating more artists to grow it's accuracy."
       self.custom_HTML_prediction(milestone*2)
     
 
