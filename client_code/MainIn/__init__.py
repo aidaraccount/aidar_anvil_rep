@@ -163,13 +163,14 @@ class MainIn(MainInTemplate):
             text=model_ids[i]["model_name"],
             tag=model_ids[i]["model_id"],
             role='underline-link'
-            )
+          )
+          save_var("model_id", model_ids[i]["model_id"])
         else:
           model_link = Link(
             icon='fa:angle-right',
             text=model_ids[i]["model_name"],
             tag=model_ids[i]["model_id"]
-            )
+          )
         model_link.set_event_handler('click', self.create_model_click_handler(model_ids[i]["model_id"], model_link))
         self.nav_models.add_component(model_link)
 
