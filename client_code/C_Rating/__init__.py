@@ -26,6 +26,7 @@ class C_Rating(C_RatingTemplate):
     #print(f"{datetime.datetime.now()}: C_Rating - __init__ - 2", flush=True)
 
     data = self.get_data()
+    print(data)
     #print(f"{datetime.datetime.now()}: C_Rating - __init__ - 3", flush=True)
 
     # standard sorting
