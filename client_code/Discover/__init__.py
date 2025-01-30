@@ -1514,7 +1514,7 @@ class Discover(DiscoverTemplate):
                       watchlist,
                       status,
                       notification)
-    self.parent.parent.update_no_notifications()
+    get_open_form().update_no_notifications()
   
   # -------------------------------
   # SECTION NAVIGATION

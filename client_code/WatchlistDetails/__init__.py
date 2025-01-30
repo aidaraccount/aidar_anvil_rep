@@ -361,7 +361,7 @@ class WatchlistDetails(WatchlistDetailsTemplate):
                         False,
                         self.drop_down_status.selected_value, False)
       self.get_watchlist_selection(temp_artist_id = None)
-      self.parent.parent.update_no_notifications()
+      get_open_form().update_no_notifications()
 
   def text_area_note_change(self, **event_args):
     pass

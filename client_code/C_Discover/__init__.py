@@ -1737,7 +1737,7 @@ class C_Discover(C_DiscoverTemplate):
       notification,
     )
     
-    self.parent.parent.parent.parent.parent.parent.update_no_notifications()
+    get_open_form().update_no_notifications()
 
   # -------------------------------
   # SECTION NAVIGATION

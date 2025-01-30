@@ -60,7 +60,7 @@ class SearchRows(SearchRowsTemplate):
                         'Action required',
                         True
                         )
-      self.parent.parent.parent.parent.parent.parent.update_no_notifications()
+      get_open_form().update_no_notifications()
       self.item["active"] = 1
       
       self.button_watchlist.background = '#fd652d' # orange
@@ -83,7 +83,7 @@ class SearchRows(SearchRowsTemplate):
                         False,
                         None,
                         False)
-      self.parent.parent.parent.parent.parent.parent.update_no_notifications()
+      get_open_form().update_no_notifications()
       self.item["active"] = 0
       
       self.button_watchlist.background = ''

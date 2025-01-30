@@ -69,4 +69,4 @@ class SelectionTemplate(SelectionTemplateTemplate):
                       details[0]["Status"],
                       notification
                       )
-    self.parent.parent.parent.parent.parent.parent.update_no_notifications()
+    get_open_form().update_no_notifications()

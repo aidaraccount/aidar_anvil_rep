@@ -47,6 +47,7 @@ class RatingRows(RatingRowsTemplate):
   def button_watchlist_click(self, **event_args):
     if self.item["active"] == 1:
       # route to Watchlist Details
+      print(self.item)
       click_button(f'watchlist_details?watchlist_id={self.item["watchlist_id"]}&artist_id={self.item["ArtistID"]}', event_args)
     
     else:
@@ -58,7 +59,7 @@ class RatingRows(RatingRowsTemplate):
                         True,
                         'Action required',
                         True)
-      self.parent.parent.parent.parent.parent.parent.update_no_notifications()
+      get_open_form().update_no_notifications()
       self.item["active"] = 1
       
       self.button_watchlist.background = '#fd652d' # orange
@@ -80,7 +81,7 @@ class RatingRows(RatingRowsTemplate):
                         False,
                         None,
                         False)
-      self.parent.parent.parent.parent.parent.parent.update_no_notifications()
+      get_open_form().update_no_notifications()
       self.item["active"] = 0
       
       self.button_watchlist.background = ''

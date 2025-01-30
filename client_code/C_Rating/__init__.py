@@ -36,7 +36,7 @@ class C_Rating(C_RatingTemplate):
     
   
   def get_data(self, **event_args):
-    data = json.loads(anvil.server.call('get_ratings', user["user_id"], self.model_id))    
+    data = json.loads(anvil.server.call('get_ratings', user["user_id"], self.model_id))
     return data
 
   # RESET ICONS
