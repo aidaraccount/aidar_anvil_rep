@@ -26,11 +26,10 @@ class C_Rating(C_RatingTemplate):
     #print(f"{datetime.datetime.now()}: C_Rating - __init__ - 2", flush=True)
 
     data = self.get_data()
-    print(data)
     #print(f"{datetime.datetime.now()}: C_Rating - __init__ - 3", flush=True)
 
     # standard sorting
-    self.data_ratings_data.items = sorted(data, key=lambda x: x.get('DateOfRecommendation', float('inf')), reverse=True)
+    self.data_ratings_data.items = sorted(data, key=lambda x: x.get('DateTime', float('inf')), reverse=True)
     self.link_date.icon = 'fa:angle-down'
     
     #print(f"{datetime.datetime.now()}: C_Rating - __init__ - 4", flush=True)
@@ -51,11 +50,11 @@ class C_Rating(C_RatingTemplate):
     if self.link_date.icon == '' or self.link_date.icon == 'fa:angle-up':
       self.reset_icons()
       self.link_date.icon = 'fa:angle-down'
-      self.data_ratings_data.items = sorted(self.data_ratings_data.items, key=lambda x: x.get('DateOfRecommendation', float('inf')), reverse=True)
+      self.data_ratings_data.items = sorted(self.data_ratings_data.items, key=lambda x: x.get('DateTime', float('inf')), reverse=True)
     elif self.link_date.icon == 'fa:angle-down':
       self.reset_icons()
       self.link_date.icon = 'fa:angle-up'
-      self.data_ratings_data.items = sorted(self.data_ratings_data.items, key=lambda x: x.get('DateOfRecommendation', float('inf')), reverse=False)
+      self.data_ratings_data.items = sorted(self.data_ratings_data.items, key=lambda x: x.get('DateTime', float('inf')), reverse=False)
 
   def link_artist_click(self, **event_args):
     if self.link_artist.icon == '' or self.link_artist.icon == 'fa:angle-up':

@@ -1695,7 +1695,7 @@ footer a, .footer .anvil-component {
   border-bottom-right-radius: 15px;
   border-top-right-radius: 15px;
   z-index: 999;
-  padding: 10px 0 10px 0;
+  padding: 10px 0 100px 0;
 }
 @media only screen and (max-width: 431px) {
   #left-sidebar {
