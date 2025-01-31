@@ -54,7 +54,7 @@ class MainIn(MainInTemplate):
     
     else:
       print(f"MainIn user_id: {user['user_id']}")
-    
+      
       self.role = 'POST_LOGIN_PAGE'
       self.visible = True
     
@@ -98,6 +98,11 @@ class MainIn(MainInTemplate):
       # NAVIGATION
       self.refresh_watchlists_components()
       self.refresh_models_components()
+
+      # open spezific hash if available
+      print('MainIn location.hash:', location.hash)
+      routing.set_url_hash(location.hash, load_from_cache=False)
+      
       self.reset_nav_backgrounds()
 
 
