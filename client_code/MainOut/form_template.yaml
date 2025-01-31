@@ -1,4 +1,8 @@
 components:
+- layout_properties: {slot: email-slot}
+  name: content_panel
+  properties: {visible: false}
+  type: ColumnPanel
 - event_bindings: {click: link_forgot_password_click}
   layout_properties: {slot: forgot-password-slot}
   name: forgot_password_link

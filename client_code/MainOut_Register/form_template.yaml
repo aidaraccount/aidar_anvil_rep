@@ -1,4 +1,8 @@
 components:
+- layout_properties: {slot: email-slot}
+  name: content_panel
+  properties: {visible: false}
+  type: ColumnPanel
 - components:
   - event_bindings: {change: license_key_change, pressed_enter: button_register_click}
     layout_properties: {grid_position: 'PJCIDJ,OTTQGA'}
