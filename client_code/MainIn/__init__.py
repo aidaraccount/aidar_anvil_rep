@@ -227,7 +227,7 @@ class MainIn(MainInTemplate):
     for component in self.nav_models.get_components():
       component.background = None
 
-    # set new bacckground    
+    # set new background    
     if location.hash[:5] == '#home' or location.hash == '':
       self.link_home.background = "theme:Brown"
       
