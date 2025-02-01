@@ -190,6 +190,15 @@ class RampUp(RampUpTemplate):
       click_button(f'model_setup?model_id={self.model_id_view}&section=Basics', event_args)
 
   def Discovering_click(self, **event_args):
+    # save contribution
+    anvil.server.call('update_sub_model_contribution',
+                      int(self.model_id_view),
+                      int(load_var('artist_career_fit')) / 100,
+                      1,
+                      int(load_var('growth_imp_fit')) / 100,
+                      int(load_var('musical_fit')) / 100
+                     )
+    
     # end ramp-up    
     text_box_description = None if self.text_box_description.text == '' else self.text_box_description.text
     anvil.server.call('update_model_stats',

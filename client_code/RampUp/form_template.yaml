@@ -65,12 +65,7 @@ components:
       type: Label
     - layout_properties: {}
       name: nav_SubModelContribution
-      properties:
-        role: rampup-labels
-        spacing_above: none
-        spacing_below: none
-        text: |
-          Growth Importance
+      properties: {role: rampup-labels, spacing_above: none, spacing_below: none, text: Contribution}
       type: Label
     layout_properties: {grid_position: 'ZAVFTJ,JAVACL'}
     name: flow_panel_sections
