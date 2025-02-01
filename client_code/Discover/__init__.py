@@ -258,10 +258,10 @@ class Discover(DiscoverTemplate):
         self.KPI_tile_2.text = "{:.0f}".format(round(float(sug["prediction_rel"])/7*100,0)) + '%'
       
       # KPI_tile_3: prediction_musical // ATTENTION !!! musical not active yet
-      if sug["prediction_rel"] == 'None':
+      if sug["prediction_musical"] == 'None':
         self.KPI_tile_3.text = '-'
       else:
-        self.KPI_tile_3.text = "{:.0f}".format(round(float(sug["prediction_rel"])/7*100,0)) + '%'
+        self.KPI_tile_3.text = "{:.0f}".format(round(float(sug["prediction_musical"])/7*100,0)) + '%'
       
       # KPI_tile_4: prediction_growth
       if sug["prediction_growth"] == 'None':

@@ -443,11 +443,11 @@ components:
       - components:
         - layout_properties: {}
           name: label_6
-          properties: {role: sub_title-regular-tile, spacing_above: small, spacing_below: none, text: Musical Fit}
+          properties: {align: left, role: sub_title-regular-tile, spacing_above: small, spacing_below: none, text: Musical Fit}
           type: Label
         - layout_properties: {}
           name: KPI_tile_3
-          properties: {role: value-regular-tile, spacing_above: none, spacing_below: none, text: ''}
+          properties: {align: left, role: value-regular-tile, spacing_above: none, spacing_below: none, text: ''}
           type: Label
         layout_properties: {grid_position: 'ORIZUZ,FEOKJD GPIHJY,LGILBY'}
         name: linear_panel_4
