@@ -131,6 +131,7 @@ class C_Discover(C_DiscoverTemplate):
       self.sec_success.visible = False
       self.sec_fandom.visible = False
       self.sec_musical.visible = False
+      self.sec_live.visible = False
 
       artist_id = int(sug["ArtistID"])
       self.artist_id = artist_id
@@ -1738,6 +1739,7 @@ class C_Discover(C_DiscoverTemplate):
     )
     
     get_open_form().update_no_notifications()
+    get_open_form().update_no_notifications()
 
   # -------------------------------
   # SECTION NAVIGATION
@@ -1746,40 +1748,61 @@ class C_Discover(C_DiscoverTemplate):
     self.nav_success.role = "section_buttons"
     self.nav_fandom.role = "section_buttons"
     self.nav_musical.role = "section_buttons"
+    self.nav_live.role = "section_buttons"
     self.sec_releases.visible = True
     self.sec_success.visible = False
     self.sec_fandom.visible = False
     self.sec_musical.visible = False
+    self.sec_live.visible = False
 
   def nav_success_click(self, **event_args):
     self.nav_releases.role = "section_buttons"
     self.nav_success.role = "section_buttons_focused"
     self.nav_fandom.role = "section_buttons"
     self.nav_musical.role = "section_buttons"
+    self.nav_live.role = "section_buttons"
     self.sec_releases.visible = False
     self.sec_success.visible = True
     self.sec_fandom.visible = False
     self.sec_musical.visible = False
+    self.sec_live.visible = False
 
   def nav_fandom_click(self, **event_args):
     self.nav_releases.role = "section_buttons"
     self.nav_success.role = "section_buttons"
     self.nav_fandom.role = "section_buttons_focused"
     self.nav_musical.role = "section_buttons"
+    self.nav_live.role = "section_buttons"
     self.sec_releases.visible = False
     self.sec_success.visible = False
     self.sec_fandom.visible = True
     self.sec_musical.visible = False
+    self.sec_live.visible = False
 
   def nav_musical_click(self, **event_args):
     self.nav_releases.role = "section_buttons"
     self.nav_success.role = "section_buttons"
     self.nav_fandom.role = "section_buttons"
     self.nav_musical.role = "section_buttons_focused"
+    self.nav_live.role = "section_buttons"
     self.sec_releases.visible = False
     self.sec_success.visible = False
     self.sec_fandom.visible = False
     self.sec_musical.visible = True
+    self.sec_live.visible = False
+    
+  def nav_live_click(self, **event_args):
+    self.nav_releases.role = "section_buttons"
+    self.nav_success.role = "section_buttons"
+    self.nav_fandom.role = "section_buttons"
+    self.nav_musical.role = "section_buttons"
+    self.nav_live.role = "section_buttons_focused"
+    self.sec_releases.visible = False
+    self.sec_success.visible = False
+    self.sec_success.visible = False
+    self.sec_fandom.visible = False
+    self.sec_musical.visible = False
+    self.sec_live.visible = True
 
   # -------------------------------
   # RATING BUTTONS

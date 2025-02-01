@@ -369,10 +369,16 @@ components:
       name: nav_fandom
       properties: {role: section_buttons, spacing_above: none, spacing_below: none, text: Fandom, visible: true}
       type: Link
-    - event_bindings: {click: nav_musical_click}
+    - components: []
+      event_bindings: {click: nav_musical_click}
       layout_properties: {}
       name: nav_musical
       properties: {role: section_buttons, spacing_above: none, spacing_below: none, text: Musical}
+      type: Link
+    - event_bindings: {click: nav_live_click}
+      layout_properties: {}
+      name: nav_live
+      properties: {role: section_buttons, spacing_above: none, spacing_below: none, text: Live}
       type: Link
     layout_properties: {grid_position: 'CKLNBG,MMQKXA'}
     name: flow_panel_sections
@@ -943,7 +949,7 @@ components:
         properties: {role: investigate_value, spacing_below: none}
         type: Label
       - event_bindings: {click: info_tiktok_fol}
-        layout_properties: {grid_position: 'HUFCDC,ESMZOW'}
+        layout_properties: {grid_position: 'HSCJLX,IXLNIV'}
         name: link_19_copy_2_copy_copy_copy_copy_copy_copy_2
         properties: {align: left, background: '', bold: false, border: '', col_spacing: medium, col_widths: '', font: '', font_size: null, foreground: '', icon: '', icon_align: left, italic: false, role: investigate_feature, spacing_above: none, spacing_below: none, text: TikTok Followers lat., tooltip: '', underline: false, url: '', visible: true, wrap_on: mobile}
         type: Link
@@ -1263,62 +1269,6 @@ components:
     type: ColumnPanel
   - components:
     - components:
-      - layout_properties: {grid_position: 'UUHTYK,BPYOXP'}
-        name: rel_1_copy_copy
-        properties: {role: Discover_artist_name, spacing_above: none, spacing_below: none, text: ' Musical Distance'}
-        type: Label
-      - components:
-        - components:
-          - layout_properties: {col_xs: 1, grid_position: 'YVCDWR,DAWINA', row: XCTFKJ, width: 72.75, width_xs: 11}
-            name: min_mus_dis
-            properties: {align: left, background: '', bold: true, border: '', font: '', font_size: null, foreground: 'theme:PrimaryNumber', icon: '', icon_align: left, italic: false, role: investigate_value, spacing_above: small, spacing_below: none, text: '', tooltip: '', underline: false, visible: true}
-            type: Label
-          - event_bindings: {click: info_min_distance_click}
-            layout_properties: {grid_position: 'TZABOD,AECNFO'}
-            name: link_1_copy
-            properties: {align: left, background: '', bold: false, border: '', col_spacing: medium, col_widths: '', font: '', font_size: null, foreground: '', icon: '', icon_align: left, italic: false, role: investigate_feature, spacing_above: none, spacing_below: none, text: Min. musical Distance, tooltip: '', underline: false, url: '', visible: true, wrap_on: mobile}
-            type: Link
-          layout_properties: {grid_position: 'CKKGXL,DKEDZJ'}
-          name: column_panel_2_copy
-          properties: {background: '', border: '', col_spacing: medium, col_widths: '{}', foreground: '', role: grid, spacing_above: none, spacing_below: none, tooltip: '', visible: true, wrap_on: mobile}
-          type: ColumnPanel
-        - components:
-          - layout_properties: {col_xs: 1, grid_position: 'RMLVSZ,QXZGJL', row: OCXZRC, width: 72.75, width_xs: 11}
-            name: avg_mus_dis
-            properties: {align: left, background: '', bold: true, border: '', font: '', font_size: null, foreground: 'theme:PrimaryNumber', icon: '', icon_align: left, italic: false, role: investigate_value, spacing_above: small, spacing_below: none, text: '', tooltip: '', underline: false, visible: true}
-            type: Label
-          - event_bindings: {click: info_avg_distance_click}
-            layout_properties: {grid_position: 'HIMGHL,NMXKNB'}
-            name: link_3_copy
-            properties: {align: left, background: '', bold: false, border: '', col_spacing: medium, col_widths: '', font: '', font_size: null, foreground: '', icon: '', icon_align: left, italic: false, role: investigate_feature, spacing_above: none, spacing_below: none, text: Avg. musical Distance, tooltip: '', underline: false, url: '', visible: true, wrap_on: mobile}
-            type: Link
-          layout_properties: {grid_position: 'CKKGXL,GJVLZT'}
-          name: column_panel_3_copy_2
-          properties: {background: '', border: '', col_spacing: medium, col_widths: '{}', foreground: '', role: grid, spacing_above: none, spacing_below: none, tooltip: '', visible: true, wrap_on: mobile}
-          type: ColumnPanel
-        - components:
-          - layout_properties: {col_xs: 1, grid_position: 'AEPZLF,CEHZHY', row: SQNGAS, width: 72.75, width_xs: 11}
-            name: max_mus_dis
-            properties: {align: left, background: '', bold: true, border: '', font: '', font_size: null, foreground: 'theme:PrimaryNumber', icon: '', icon_align: left, italic: false, role: investigate_value, spacing_above: small, spacing_below: none, text: '', tooltip: '', underline: false, visible: true}
-            type: Label
-          - event_bindings: {click: info_max_distance_click}
-            layout_properties: {grid_position: 'HLGMJF,ENQDPS'}
-            name: link_5_copy
-            properties: {align: left, background: '', bold: false, border: '', col_spacing: medium, col_widths: '', font: '', font_size: null, foreground: '', icon: '', icon_align: left, italic: false, role: investigate_feature, spacing_above: none, spacing_below: none, text: Max. musical Distance, tooltip: '', underline: false, url: '', visible: true, wrap_on: mobile}
-            type: Link
-          layout_properties: {grid_position: 'CKKGXL,NWLAYP'}
-          name: column_panel_1_copy
-          properties: {background: '', border: '', col_spacing: medium, col_widths: '{}', foreground: '', role: grid, spacing_above: none, spacing_below: none, tooltip: '', visible: true, wrap_on: mobile}
-          type: ColumnPanel
-        layout_properties: {grid_position: 'VQTYJE,NHNSHS'}
-        name: column_panel_14
-        properties: {}
-        type: ColumnPanel
-      layout_properties: {grid_position: 'WNNGDM,EZSLYL'}
-      name: column_panel_3_copy_copy
-      properties: {role: grid, visible: false}
-      type: ColumnPanel
-    - components:
       - layout_properties: {grid_position: 'IUBCUJ,KHEYCG'}
         name: rel_1_copy_copy_copy
         properties: {role: Discover_artist_name, spacing_above: none, spacing_below: none, text: ' Musical Features'}
@@ -1517,6 +1467,75 @@ components:
       type: ColumnPanel
     layout_properties: {grid_position: 'OTLNZS,FRDIQK'}
     name: sec_musical
+    properties: {spacing_above: medium}
+    type: ColumnPanel
+  - components:
+    - components:
+      - layout_properties: {grid_position: 'TWMNHK,DOECEQ'}
+        name: time_since_last_event
+        properties: {role: investigate_value, spacing_below: none}
+        type: Label
+      - event_bindings: {click: info_tiktok_fol}
+        layout_properties: {grid_position: 'ZBCQVA,ZFWDQQ'}
+        name: link_19_copy_2_copy_copy_copy_copy_copy_copy_2_copy_2_copy
+        properties: {align: left, background: '', bold: false, border: '', col_spacing: medium, col_widths: '', font: '', font_size: null, foreground: '', icon: '', icon_align: left, italic: false, role: investigate_feature, spacing_above: none, spacing_below: none, text: Time since last Event, tooltip: '', underline: false, url: '', visible: true, wrap_on: mobile}
+        type: Link
+      layout_properties: {grid_position: 'WNNGDM,OWVGNF'}
+      name: column_panel_7_copy_4_copy_copy
+      properties: {role: grid}
+      type: ColumnPanel
+    - components:
+      - layout_properties: {grid_position: 'KDWUSN,POFJTH'}
+        name: time_until_next_event
+        properties: {role: investigate_value, spacing_below: none}
+        type: Label
+      - event_bindings: {click: info_tiktok_fol}
+        layout_properties: {grid_position: 'FXLUAY,BTNWFO'}
+        name: link_19_copy_2_copy_copy_copy_copy_copy_copy_2_copy_2
+        properties: {align: left, background: '', bold: false, border: '', col_spacing: medium, col_widths: '', font: '', font_size: null, foreground: '', icon: '', icon_align: left, italic: false, role: investigate_feature, spacing_above: none, spacing_below: none, text: Time until next Event, tooltip: '', underline: false, url: '', visible: true, wrap_on: mobile}
+        type: Link
+      layout_properties: {grid_position: 'WNNGDM,QYTUAI'}
+      name: column_panel_7_copy_4_copy
+      properties: {role: grid}
+      type: ColumnPanel
+    - components:
+      - layout_properties: {grid_position: 'XMXLBH,XHOVHS'}
+        name: events_last_365days
+        properties: {role: investigate_value, spacing_below: none}
+        type: Label
+      - event_bindings: {click: info_tiktok_fol}
+        layout_properties: {grid_position: 'IMWJAI,FKNAZW'}
+        name: link_19_copy_2_copy_copy_copy_copy_copy_copy_2_copy_2_copy_2_copy
+        properties: {align: left, background: '', bold: false, border: '', col_spacing: medium, col_widths: '', font: '', font_size: null, foreground: '', icon: '', icon_align: left, italic: false, role: investigate_feature, spacing_above: none, spacing_below: none, text: No. Events in last 365 Days, tooltip: '', underline: false, url: '', visible: true, wrap_on: mobile}
+        type: Link
+      layout_properties: {grid_position: 'WNNGDM,MRXQEW'}
+      name: column_panel_7_copy_4_copy_copy_2_copy
+      properties: {role: grid}
+      type: ColumnPanel
+    - components:
+      - layout_properties: {grid_position: 'MZQGPU,CRHNUW'}
+        name: concert_festival_ratio
+        properties: {role: investigate_value, spacing_below: none}
+        type: Label
+      - event_bindings: {click: info_tiktok_fol}
+        layout_properties: {grid_position: 'YIAUUD,FUZSPA'}
+        name: link_19_copy_2_copy_copy_copy_copy_copy_copy_2_copy_2_copy_2
+        properties: {align: left, background: '', bold: false, border: '', col_spacing: medium, col_widths: '', font: '', font_size: null, foreground: '', icon: '', icon_align: left, italic: false, role: investigate_feature, spacing_above: none, spacing_below: none, text: Concert / Festival Ratio, tooltip: '', underline: false, url: '', visible: true, wrap_on: mobile}
+        type: Link
+      layout_properties: {grid_position: 'OCMDDK,HUINLL'}
+      name: column_panel_7_copy_4_copy_copy_2
+      properties: {role: grid}
+      type: ColumnPanel
+    - layout_properties: {grid_position: 'OCMDDK,LNSNQJ'}
+      name: spacer_17
+      properties: {height: 32}
+      type: Spacer
+    - layout_properties: {grid_position: 'OCMDDK,WULGPT'}
+      name: spacer_16
+      properties: {height: 32}
+      type: Spacer
+    layout_properties: {grid_position: 'YHSJHZ,ZBVNXM'}
+    name: sec_live
     properties: {spacing_above: medium}
     type: ColumnPanel
   - layout_properties: {grid_position: 'MNSGLO,DTALNU'}
