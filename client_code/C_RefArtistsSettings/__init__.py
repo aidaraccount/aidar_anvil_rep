@@ -69,7 +69,9 @@ class C_RefArtistsSettings(C_RefArtistsSettingsTemplate):
 
     # reset search field and button
     self.text_box_search.text = ''
+    self.text_box_search.focus()
     self.search_button.role = ['call-to-action-button-disabled', 'header-6']
+    
 
   def text_box_search_change(self, **event_args):
     if self.text_box_search.text != '':
