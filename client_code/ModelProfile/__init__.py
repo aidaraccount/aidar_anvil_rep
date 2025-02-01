@@ -680,7 +680,7 @@ class ModelProfile(ModelProfileTemplate):
     if self.musical_submodel.get_components() == []:
       if self.infos["model_1_acc"] is not None:
         self.custom_HTML_level_4_active(round(0.95*self.infos["model_1_acc"]))
-        self.model_4_accuracy_summary.text = "{}{}".format(round(0.95*self.infos["model_1_acc"]), "%")
+        self.model_4_accuracy_summary.text = "{}{}".format(round(self.infos["model_4_acc"]), "%")
         self.musical_active.visible = True
         self.musical_in_training.visible = False
         self.musical_cont.text = "{}{}".format(round(self.infos["model_4_cont"]*100), "%")
