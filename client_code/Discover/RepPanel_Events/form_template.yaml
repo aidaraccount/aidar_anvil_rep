@@ -22,7 +22,21 @@ components:
   name: date
   properties: {}
   type: ColumnPanel
-- layout_properties: {column: VJQQOR}
+- components:
+  - data_bindings:
+    - {code: 'f"{self.item[''city_name'']}, {self.item[''country_code'']}"', property: text, writeback: false}
+    layout_properties: {grid_position: 'AFCWTO,HECMBM'}
+    name: place
+    properties: {}
+    type: Label
+  - data_bindings:
+    - {code: 'self.item[''event_name'']', property: text, writeback: false}
+    - {code: 'self.item[''event_url'']', property: url, writeback: false}
+    layout_properties: {grid_position: 'GKICYY,MFSWIT'}
+    name: event_name
+    properties: {}
+    type: Link
+  layout_properties: {column: VJQQOR}
   name: details
   properties: {}
   type: ColumnPanel
