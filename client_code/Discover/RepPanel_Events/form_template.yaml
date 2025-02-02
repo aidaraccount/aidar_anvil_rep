@@ -20,7 +20,7 @@ components:
     type: Label
   layout_properties: {column: JKSDUP}
   name: date
-  properties: {role: grid}
+  properties: {role: grid-light}
   type: ColumnPanel
 - components:
   - data_bindings:

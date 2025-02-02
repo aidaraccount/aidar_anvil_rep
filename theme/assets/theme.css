@@ -30,6 +30,7 @@ Area 4: Page Individual
   --Accent_2: %color:Accent_2%;
 
   --Background: %color:Background%;
+  --Background_10: rgba(215, 215, 215, 0.10);
   --Background_20: rgba(215, 215, 215, 0.20);
 }
 
@@ -582,15 +583,11 @@ body, html {
   }
 }
 .anvil-role-artist-image {
-  /* position: absolute !important; */
   border-radius: 15px;
   height: auto !important;
   width: auto;
-  max-width: 330px; 
+  max-width: 280px; 
   max-height: 330px;
-  top: 40% !important;
-  left: 6% !important;
-  margin: 5px;
 }
 .anvil-role-flex-container-parent-tile {
   display: flex;

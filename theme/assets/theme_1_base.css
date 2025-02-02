@@ -16,6 +16,12 @@ Area 1: Base
   margin-top: 5px;
   margin-bottom: 5px;
 }
+.anvil-role-grid-light {
+  background: linear-gradient(to bottom right, var(--Background_10), rgba(250, 250, 250, 0.05));  /* no clean color! */
+  border-radius: 12px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
 
 /* ----------------------------
 1.2. Width (no!) */

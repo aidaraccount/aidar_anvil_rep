@@ -809,11 +809,34 @@ class Discover(DiscoverTemplate):
         self.no_events.text = event_data['header']['no_events'] if event_data['header']['no_events'] is not None else '-'
 
         # b) past events tables
-        print('event_data["past"]:', event_data["past"])
-        self.past_events_data.items = event_data["past"]
-        
+        # print('event_data["past"]:', event_data["past"])
+        if event_data["past"] is not None:
+          self.past_events_data_grid.visible = True
+          self.no_past_events_data_grid.visible = False
+          self.past_events_data.items = event_data["past"]
+        else:
+          self.past_events_data_grid.visible = False
+          self.no_past_events_data_grid.visible = True
+              
+        # c) future events tables
+        # print('event_data["future"]:', event_data["future"])
+        if event_data["future"] is not None:
+          self.no_future_events_data_grid.visible = False
+          if len(event_data["future"]) > 0:
+            self.no_future_events_data_events.visible = False
+            self.future_events_data_grid.visible = True
+            self.future_events_data.items = event_data["future"]
+          else:
+            self.future_events_data_grid.visible = False
+            self.no_future_events_data_events.visible = True
+        else:
+          self.future_events_data_grid.visible = False
+          self.no_future_events_data_grid.visible = True
+          self.no_future_events_data_events.visible = False
+          
       else:
         # a) stats
+        self.time_since_last_event.text = '-'
         self.time_since_last_event.text = '-'
         self.time_until_next_event.text = '-'
         self.events_last_365days.text = '-'
@@ -821,8 +844,14 @@ class Discover(DiscoverTemplate):
         self.no_events.text = '-'
 
         # b) past events table
+        self.past_events_data_grid.visible = False
+        self.no_past_events_data_grid.visible = True
       
-      
+        # c) future events table
+        self.future_events_data_grid.visible = False
+        self.no_future_events_data_grid.visible = True
+        self.no_future_events_data_events.visible = False
+              
       # -------------------------------
       # FOOTER:
       # a) Spotify Web-Player (old!)
