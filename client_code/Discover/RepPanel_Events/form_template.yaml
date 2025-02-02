@@ -1,0 +1,30 @@
+components:
+- components:
+  - data_bindings:
+    - {code: 'self.item[''month'']', property: text, writeback: false}
+    layout_properties: {grid_position: 'MFQIUC,PNGURF'}
+    name: month
+    properties: {align: center}
+    type: Label
+  - data_bindings:
+    - {code: 'self.item[''day'']', property: text, writeback: false}
+    layout_properties: {grid_position: 'OHCFXJ,MQOTWD'}
+    name: day
+    properties: {align: center}
+    type: Label
+  - data_bindings:
+    - {code: 'self.item[''year'']', property: text, writeback: false}
+    layout_properties: {grid_position: 'AYKQVG,EDLMRM'}
+    name: year
+    properties: {align: center}
+    type: Label
+  layout_properties: {column: JKSDUP}
+  name: date
+  properties: {}
+  type: ColumnPanel
+- layout_properties: {column: VJQQOR}
+  name: details
+  properties: {}
+  type: ColumnPanel
+container: {type: DataRowPanel}
+is_package: true

@@ -796,22 +796,31 @@ class Discover(DiscoverTemplate):
       
       # -------------------------------
       # V. Live
-      # a) stats
+      # get data
       event_data = anvil.server.call('get_songkick_events',  artist_id)
-      print('event_data:', event_data)
+      # print('event_data:', event_data)
       
       if event_data is not None:
+        # a) stats
         self.time_since_last_event.text = event_data['header']['time_since_last_event'] if event_data['header']['time_since_last_event'] is not None else '-'
         self.time_until_next_event.text = event_data['header']['time_until_next_event'] if event_data['header']['time_until_next_event'] is not None else '-'
         self.events_last_365days.text = event_data['header']['events_last_365days'] if event_data['header']['events_last_365days'] is not None else '-'
         self.concert_festival_ratio.text = event_data['header']['concert_festival_ratio'] if event_data['header']['concert_festival_ratio'] is not None else '-'
         self.no_events.text = event_data['header']['no_events'] if event_data['header']['no_events'] is not None else '-'
+
+        # b) past events tables
+        print('event_data["past"]:', event_data["past"])
+        self.past_events_data.items = event_data["past"]
+        
       else:
+        # a) stats
         self.time_since_last_event.text = '-'
         self.time_until_next_event.text = '-'
         self.events_last_365days.text = '-'
         self.concert_festival_ratio.text = '-'
         self.no_events.text = '-'
+
+        # b) past events table
       
       
       # -------------------------------
