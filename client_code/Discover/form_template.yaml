@@ -1712,8 +1712,14 @@ components:
       properties: {height: 32}
       type: Spacer
     - components:
+      - layout_properties: {grid_position: 'IKJUTY,FPNUII'}
+        name: rel_1_copy_copy_copy_copy
+        properties: {role: Discover_artist_name, spacing_above: none, spacing_below: none, text: Past Events}
+        type: Label
       - components:
-        - name: past_events_data
+        - data_bindings:
+          - {code: '[''pos-center-vertical'']', property: role, writeback: false}
+          name: past_events_data
           properties: {item_template: Discover.RepPanel_Events}
           type: RepeatingPanel
         layout_properties: {grid_position: 'EEBMXF,QPOKPL'}
@@ -1723,7 +1729,7 @@ components:
           columns:
           - {data_key: column_1, expand: false, id: JKSDUP, title: Column 1, width: 101}
           - {data_key: column_2, id: VJQQOR, title: Column 2}
-          rows_per_page: 5
+          rows_per_page: 3
         type: DataGrid
       layout_properties: {grid_position: 'NAXRPQ,VPCCYU'}
       name: past_events

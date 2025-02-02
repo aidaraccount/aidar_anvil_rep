@@ -35,6 +35,100 @@ Area 1: Base
 .anvil-role-white {color: var(--Text_White) !important;}
 
 /* ----------------------------
+1.3. Text Size */
+.anvil-role-header-1 {
+  font-family: GS-semibold;
+  font-size: 36px;
+  color: rgb(240, 236, 228);
+  line-height: 1;
+}
+.anvil-role-header-2 {
+  font-family: GS-semibold;
+  font-size: 30px;
+  color: rgb(240, 236, 228);
+  line-height: 1;
+}
+.anvil-role-header-3 {
+  font-family: GS-semibold;
+  font-size: 26px;
+  color: rgb(240, 236, 228);
+  line-height: 1;
+}
+.anvil-role-header-3-on-white-bg {
+  font-family: GS-semibold;
+  font-size: 26px;
+  color: rgb(44, 28, 68);
+  line-height: 1;
+}
+.anvil-role-header-4 {
+  font-family: GS-regular;
+  font-size: 24px;
+  color: rgb(240, 236, 228);
+  line-height: 1;
+}
+.anvil-role-header-5 {
+  font-family: GS-regular;
+  font-size: 20px;
+  color: rgb(240, 236, 228);
+  line-height: 1;
+}
+.anvil-role-header-5_bold {
+  font-family: GS-semibold;
+  font-size: 20px;
+  color: rgb(240, 236, 228);
+  line-height: 1;
+}
+.anvil-role-header-6 {
+  font-family: GS-regular;
+  font-family: GS-regular;
+  font-size: 16px;
+  color: rgb(240, 236, 228);
+  line-height: 1;
+}
+.anvil-role-header-6_bold {
+  font-family: GS-semibold;
+  font-size: 16px;
+  color: rgb(240, 236, 228);
+  line-height: 1;
+}
+.anvil-role-header-6_grey {
+  font-family: GS-regular;
+  font-size: 16px;
+  color: rgb(174, 174, 174);
+  line-height: 1;
+}
+.anvil-role-header-7 {
+  font-family: GS-regular;
+  font-size: 14px;
+  color: rgb(240, 236, 228);
+  line-height: 1;
+}
+.anvil-role-header-7-on-white-bg {
+  font-family: GS-regular;
+  font-size: 14px;
+  color: rgb(0, 0, 0);
+  line-height: 1;
+}
+.anvil-role-header-8 {
+  font-family: GS-regular;
+  font-size: 12px;
+  color: rgb(240, 236, 228);
+  line-height: 1;
+}
+.anvil-role-header-9 {
+  font-family: GS-regular;
+  font-size: 10px;
+  color: rgb(240, 236, 228);
+  line-height: 1;
+}
+.anvil-role-header-10 {
+  font-family: GS-regular;
+  font-size: 8px;
+  color: rgb(240, 236, 228);
+  line-height: 1;
+}
+
+/* ----------------------------
 1.4. Link only on text (needs the class on the link itself as well as its paren e.g. a new column panel) */
 .anvil-role-link-text-only {
   display: inline-block;

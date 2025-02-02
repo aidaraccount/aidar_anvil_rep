@@ -4,41 +4,42 @@ components:
     - {code: 'self.item[''month'']', property: text, writeback: false}
     layout_properties: {grid_position: 'MFQIUC,PNGURF'}
     name: month
-    properties: {align: center}
+    properties: {align: center, role: header-7, spacing_above: none, spacing_below: none}
     type: Label
   - data_bindings:
     - {code: 'self.item[''day'']', property: text, writeback: false}
     layout_properties: {grid_position: 'OHCFXJ,MQOTWD'}
     name: day
-    properties: {align: center}
+    properties: {align: center, role: header-3, spacing_above: none, spacing_below: none}
     type: Label
   - data_bindings:
     - {code: 'self.item[''year'']', property: text, writeback: false}
     layout_properties: {grid_position: 'AYKQVG,EDLMRM'}
     name: year
-    properties: {align: center}
+    properties: {align: center, role: header-8, spacing_above: none, spacing_below: none}
     type: Label
   layout_properties: {column: JKSDUP}
   name: date
-  properties: {}
+  properties: {role: grid}
   type: ColumnPanel
 - components:
   - data_bindings:
     - {code: 'f"{self.item[''city_name'']}, {self.item[''country_code'']}"', property: text, writeback: false}
     layout_properties: {grid_position: 'AFCWTO,HECMBM'}
     name: place
-    properties: {}
+    properties: {role: header-6_bold, spacing_above: none, spacing_below: none}
     type: Label
   - data_bindings:
     - {code: 'self.item[''event_name'']', property: text, writeback: false}
     - {code: 'self.item[''event_url'']', property: url, writeback: false}
     layout_properties: {grid_position: 'GKICYY,MFSWIT'}
     name: event_name
-    properties: {}
+    properties: {role: header-7, spacing_above: none, spacing_below: none}
     type: Link
+  data_bindings: []
   layout_properties: {column: VJQQOR}
   name: details
-  properties: {}
+  properties: {spacing_above: small}
   type: ColumnPanel
 container: {type: DataRowPanel}
 is_package: true

@@ -2,14 +2,24 @@
 ----------------------------------------------------------------------------------------
 Area 5: Page individual classes
 ----------------------------------------------------------------------------------------
-5.1. Home individual classes */
+5.1. HOME individual classes */
 .anvil-role-home-discover-button {  /* neccessary for flexible positioning */
   left: auto !important;
   right: 1em;
 }
 
+
 /* ----------------------------
-5.2. Observe_Listen individual classes */
+5.2. DISCOVER & C_DISCOVER individual classes
+Live: past & future table: center second column vertically */
+.anvil-role-pos-center-vertical .data-row-col:nth-child(2) {
+  display: flex;
+  align-items: center;
+}
+
+
+/* ----------------------------
+5.3. OBSERVE_LISTEN individual classes */
 .anvil-role-listen-complete-element {
   height: calc(100vh + 260px);
   overflow-y: auto;
