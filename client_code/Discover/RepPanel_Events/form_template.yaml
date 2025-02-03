@@ -32,9 +32,13 @@ components:
   - data_bindings:
     - {code: 'self.item[''event_name'']', property: text, writeback: false}
     - {code: 'self.item[''event_url'']', property: url, writeback: false}
+    - {code: '[''header-7'']', property: role, writeback: false}
     layout_properties: {grid_position: 'GKICYY,MFSWIT'}
     name: event_name
-    properties: {role: header-7, spacing_above: none, spacing_below: none}
+    properties:
+      role: [header-7]
+      spacing_above: none
+      spacing_below: none
     type: Link
   data_bindings: []
   layout_properties: {column: VJQQOR}

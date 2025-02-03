@@ -826,6 +826,7 @@ class Discover(DiscoverTemplate):
             self.no_future_events_data_events.visible = False
             self.future_events_data_grid.visible = True
             self.future_events_data.items = event_data["future"]
+            self.future_events_data.items = event_data["future"]
           else:
             self.future_events_data_grid.visible = False
             self.no_future_events_data_events.visible = True
@@ -833,6 +834,12 @@ class Discover(DiscoverTemplate):
           self.future_events_data_grid.visible = False
           self.no_future_events_data_grid.visible = True
           self.no_future_events_data_events.visible = False
+
+        # d) event cycle
+        # print('event_data["cycle"]:', event_data["cycle"])
+        self.no_event_cycle.visible = False
+        self.Event_Timing_Graph.visible = True
+        self.create_event_timing_scatter_chart(data=event_data["cycle"])
           
       else:
         # a) stats
@@ -852,6 +859,10 @@ class Discover(DiscoverTemplate):
         self.no_future_events_data_grid.visible = True
         self.no_future_events_data_events.visible = False
               
+        # d) event cycle
+        self.no_event_cycle.visible = True
+        self.Event_Timing_Graph.visible = False
+        
       # -------------------------------
       # FOOTER:
       # a) Spotify Web-Player (old!)
@@ -1074,6 +1085,73 @@ class Discover(DiscoverTemplate):
       
       self.Release_Timing_Graph.figure = fig
 
+  def create_event_timing_scatter_chart(self, data):    
+    dates_str = [x["date"] for x in data]
+    place = [x["place"] for x in data]
+    event_name = [x["event_name"] for x in data]
+    y_data = [0] * len(data)
+
+    dates = [datetime.strptime(date, '%Y-%m-%d') for date in dates_str]
+    if len(dates) > 0:
+      today = datetime.today().strftime('%Y-%m-%d')
+      min_date = min(dates) - timedelta(days=50)
+      max_date = max(dates) + timedelta(days=50)
+      date_before_min = min_date  # Substracting 50 days from the min date of the list of dates for visual purposes.
+      date_before_min = date_before_min.strftime('%Y-%m-%d')
+      
+      # Creating the Scatter Chart
+      fig = go.Figure(data=(
+        go.Scatter(
+          x = dates,
+          y = y_data,
+          textposition='outside',
+          hoverinfo='none',
+          hovertext= [f"{date.strftime('%Y-%m-%d')}<br>{place}<br>{event_name}" for date, place, event_name in zip(dates, place, event_name)],
+          hovertemplate='%{hovertext}<extra></extra>',
+          marker=dict(
+              color='rgb(237,139,82)',  # Color of the markers
+              size=15,  # Size of the markers
+              line=dict(
+                  color='rgb(237,139,82)',  # Color of the marker borders
+                  width=2  # Width of the marker borders
+              )
+          ),
+          mode='markers+text'  # Display both markers and text
+        )
+      ))
+      fig.update_layout(
+        template='plotly_dark',
+        plot_bgcolor='rgba(0,0,0,0)',
+        paper_bgcolor='rgba(0,0,0,0)',
+        margin = dict(t=50),
+        xaxis=dict (
+          showgrid=False,
+          range=[date_before_min, max(today, str(max_date)[:10])]  # Set x-axis range
+        ),
+        yaxis=dict(
+          range=[0.02, -0.01],  # Limit the y-axis
+          showticklabels=False,  # Hide the tick labels
+          showline=False,  # Hide the axis line
+          zeroline=True,  # Ensure the zero line is visible
+          zerolinecolor='rgb(175,175,175)',  # Set the color of the zero line
+          zerolinewidth=2,  # Optionally set the width of the zero line
+          showgrid=False  # Disable the grid lines
+        ),
+        hoverlabel=dict(
+          bgcolor='rgba(237,139,82, 0.4)'
+        )
+      )
+      for trace in fig.data:
+        trace.update(
+          marker_color='rgb(219,106,37)',
+          marker_line_color='rgb(219,106,37)',
+          marker_line_width=1,
+          opacity=0.8
+        )
+        
+      self.Event_Timing_Graph.figure = fig
+  
+  
   def sort_dropdown_countries_change(self, **event_args):
     save_var('sort_dropdown_countries',self.sort_dropdown_countries.selected_value)
     self.create_monthly_listeners_by_country_bar_chart()
