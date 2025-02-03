@@ -391,3 +391,5 @@ roles:
   name: icon-button-small
 - components: [Button]
   name: icon-button-disabled-small
+- components: [ColumnPanel, LinearPanel]
+  name: grid-light

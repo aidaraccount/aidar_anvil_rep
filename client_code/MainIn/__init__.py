@@ -452,6 +452,7 @@ class MainIn(MainInTemplate):
     else:
       return shorten_single_number(num)
 
+  
   #----------------------------------------------------------------------------------------------
   # Top Right Buttons
   def logout_click(self, **event_args):

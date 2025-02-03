@@ -794,7 +794,64 @@ class Discover(DiscoverTemplate):
       else: f12 = "{:.0f}".format(round(float(sug["AvgTempo"]),0))
       self.feature_12.text = f12 + ' bpm'
       
+      # -------------------------------
+      # V. Live
+      # get data
+      event_data = anvil.server.call('get_songkick_events',  artist_id)
+      # print('event_data:', event_data)
       
+      if event_data is not None:
+        # a) stats
+        self.time_since_last_event.text = event_data['header']['time_since_last_event'] if event_data['header']['time_since_last_event'] is not None else '-'
+        self.time_until_next_event.text = event_data['header']['time_until_next_event'] if event_data['header']['time_until_next_event'] is not None else '-'
+        self.events_last_365days.text = event_data['header']['events_last_365days'] if event_data['header']['events_last_365days'] is not None else '-'
+        self.concert_festival_ratio.text = event_data['header']['concert_festival_ratio'] if event_data['header']['concert_festival_ratio'] is not None else '-'
+        self.no_events.text = event_data['header']['no_events'] if event_data['header']['no_events'] is not None else '-'
+
+        # b) past events tables
+        # print('event_data["past"]:', event_data["past"])
+        if event_data["past"] is not None:
+          self.past_events_data_grid.visible = True
+          self.no_past_events_data_grid.visible = False
+          self.past_events_data.items = event_data["past"]
+        else:
+          self.past_events_data_grid.visible = False
+          self.no_past_events_data_grid.visible = True
+              
+        # c) future events tables
+        # print('event_data["future"]:', event_data["future"])
+        if event_data["future"] is not None:
+          self.no_future_events_data_grid.visible = False
+          if len(event_data["future"]) > 0:
+            self.no_future_events_data_events.visible = False
+            self.future_events_data_grid.visible = True
+            self.future_events_data.items = event_data["future"]
+          else:
+            self.future_events_data_grid.visible = False
+            self.no_future_events_data_events.visible = True
+        else:
+          self.future_events_data_grid.visible = False
+          self.no_future_events_data_grid.visible = True
+          self.no_future_events_data_events.visible = False
+          
+      else:
+        # a) stats
+        self.time_since_last_event.text = '-'
+        self.time_since_last_event.text = '-'
+        self.time_until_next_event.text = '-'
+        self.events_last_365days.text = '-'
+        self.concert_festival_ratio.text = '-'
+        self.no_events.text = '-'
+
+        # b) past events table
+        self.past_events_data_grid.visible = False
+        self.no_past_events_data_grid.visible = True
+      
+        # c) future events table
+        self.future_events_data_grid.visible = False
+        self.no_future_events_data_grid.visible = True
+        self.no_future_events_data_events.visible = False
+              
       # -------------------------------
       # FOOTER:
       # a) Spotify Web-Player (old!)
@@ -1523,41 +1580,62 @@ class Discover(DiscoverTemplate):
     self.nav_success.role = 'section_buttons'
     self.nav_fandom.role = 'section_buttons'
     self.nav_musical.role = 'section_buttons'
+    self.nav_live.role = "section_buttons"
     self.sec_releases.visible = True
     self.sec_success.visible = False
     self.sec_fandom.visible = False
     self.sec_musical.visible = False
+    self.sec_live.visible = False
   
   def nav_success_click(self, **event_args):
     self.nav_releases.role = 'section_buttons'
     self.nav_success.role = 'section_buttons_focused'
     self.nav_fandom.role = 'section_buttons'
     self.nav_musical.role = 'section_buttons'
+    self.nav_live.role = "section_buttons"
     self.sec_releases.visible = False
     self.sec_success.visible = True
     self.sec_fandom.visible = False
     self.sec_musical.visible = False
+    self.sec_live.visible = False
 
   def nav_fandom_click(self, **event_args):
     self.nav_releases.role = 'section_buttons'
     self.nav_success.role = 'section_buttons'
     self.nav_fandom.role = 'section_buttons_focused'
     self.nav_musical.role = 'section_buttons'
+    self.nav_live.role = "section_buttons"
     self.sec_releases.visible = False
     self.sec_success.visible = False
     self.sec_fandom.visible = True
     self.sec_musical.visible = False
+    self.sec_live.visible = False
     
   def nav_musical_click(self, **event_args):
     self.nav_releases.role = 'section_buttons'
     self.nav_success.role = 'section_buttons'
     self.nav_fandom.role = 'section_buttons'
     self.nav_musical.role = 'section_buttons_focused'
+    self.nav_live.role = "section_buttons"
     self.sec_releases.visible = False
     self.sec_success.visible = False
     self.sec_fandom.visible = False
     self.sec_musical.visible = True
+    self.sec_live.visible = False
 
+  def nav_live_click(self, **event_args):
+    self.nav_releases.role = "section_buttons"
+    self.nav_success.role = "section_buttons"
+    self.nav_fandom.role = "section_buttons"
+    self.nav_musical.role = "section_buttons"
+    self.nav_live.role = "section_buttons_focused"
+    self.sec_releases.visible = False
+    self.sec_success.visible = False
+    self.sec_success.visible = False
+    self.sec_fandom.visible = False
+    self.sec_musical.visible = False
+    self.sec_live.visible = True
+    
   # -------------------------------
   # RATING BUTTONS
   def button_1_click(self, **event_args):

@@ -30,6 +30,7 @@ Area 4: Page Individual
   --Accent_2: %color:Accent_2%;
 
   --Background: %color:Background%;
+  --Background_10: rgba(215, 215, 215, 0.10);
   --Background_20: rgba(215, 215, 215, 0.20);
 }
 
@@ -500,98 +501,11 @@ body, html {
   font-size: 36px;
   color: %color:Orange%;  
 }
-.anvil-role-header-1 {
-  font-family: GS-semibold;
-  font-size: 36px;
-  color: rgb(240, 236, 228);
-  /* color: %color:Orange%;   */
-}
-.anvil-role-header-2 {
-  font-family: GS-semibold;
-  font-size: 30px;
-  color: rgb(240, 236, 228);
-  /* color: %color:Orange%;   */
-}
-.anvil-role-header-3 {
-  font-family: GS-semibold;
-  font-size: 26px;
-  color: rgb(240, 236, 228);
-  /* color: %color:Orange%;   */
-}
-.anvil-role-header-3-on-white-bg {
-  font-family: GS-semibold;
-  font-size: 26px;
-  color: rgb(44, 28, 68);
-  /* color: %color:Orange%;   */
-}
-.anvil-role-header-4 {
-  font-family: GS-regular;
-  font-size: 24px;
-  color: rgb(240, 236, 228);
-  /* color: %color:Orange%;   */
-}
-.anvil-role-header-5 {
-  font-family: GS-regular;
-  font-size: 20px;
-  color: rgb(240, 236, 228);
-  /* color: %color:Orange%;   */
-}
-.anvil-role-header-5_bold {
-  font-family: GS-semibold;
-  font-size: 20px;
-  color: rgb(240, 236, 228);
-  /* color: %color:Orange%;   */
-}
-.anvil-role-header-6 {
-  font-family: GS-regular;
-  font-family: GS-regular;
-  font-size: 16px;
-  color: rgb(240, 236, 228);
-  /* color: %color:Orange%;   */
-}
-.anvil-role-header-6_bold {
-  font-family: GS-semibold;
-  font-size: 16px;
-  color: rgb(240, 236, 228);
-  /* color: %color:Orange%;   */
-}
-.anvil-role-header-6_grey {
-  font-family: GS-regular;
-  font-size: 16px;
-  color: rgb(174, 174, 174);
-  /* color: %color:Orange%;   */
-}
-.anvil-role-header-7 {
-  font-family: GS-regular;
-  font-size: 14px;
-  color: rgb(240, 236, 228);
-  /* color: %color:Orange%;   */
-}
-.anvil-role-header-7-on-white-bg {
-  font-family: GS-regular;
-  font-size: 14px;
-  color: rgb(0, 0, 0);
-}
+
 .anvil-role-margin-padding-0 {
   margin: 0 0 0 0;
   padding: 0 0 0 0;
 }
-.anvil-role-header-8 {
-  font-family: GS-regular;
-  font-size: 12px;
-  color: rgb(240, 236, 228);
-}
-.anvil-role-header-9 {
-  font-family: GS-regular;
-  font-size: 10px;
-  color: rgb(240, 236, 228);
-}
-.anvil-role-header-10 {
-  font-family: GS-regular;
-  font-size: 8px;
-  color: rgb(240, 236, 228);
-}
-
 .anvil-role-warning-label {
   color: red
 }
@@ -669,15 +583,11 @@ body, html {
   }
 }
 .anvil-role-artist-image {
-  /* position: absolute !important; */
   border-radius: 15px;
   height: auto !important;
   width: auto;
-  max-width: 330px; 
+  max-width: 280px; 
   max-height: 330px;
-  top: 40% !important;
-  left: 6% !important;
-  margin: 5px;
 }
 .anvil-role-flex-container-parent-tile {
   display: flex;

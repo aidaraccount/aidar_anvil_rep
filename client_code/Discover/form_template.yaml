@@ -310,7 +310,12 @@ components:
           type: Label
         layout_properties: {grid_position: 'QJNNIK,ABDFHZ'}
         name: linear_panel_6_copy
-        properties: {role: highlights-tile-background, spacing_above: small, spacing_below: none}
+        properties:
+          role: grid-light
+          spacing:
+            margin: [null, null, null, '0']
+          spacing_above: small
+          spacing_below: none
         type: LinearPanel
       - components:
         - name: KPI_2
@@ -322,7 +327,7 @@ components:
           type: Label
         layout_properties: {grid_position: 'QJNNIK,FBYDQY'}
         name: linear_panel_6_copy_copy
-        properties: {role: highlights-tile-background, spacing_above: small, spacing_below: none}
+        properties: {role: grid-light, spacing_above: small, spacing_below: none}
         type: LinearPanel
       - components:
         - name: KPI_3
@@ -334,7 +339,7 @@ components:
           type: Label
         layout_properties: {grid_position: 'QJNNIK,XSLXKQ'}
         name: linear_panel_6_copy_copy_copy
-        properties: {role: highlights-tile-background, spacing_above: small, spacing_below: none}
+        properties: {role: grid-light, spacing_above: small, spacing_below: none}
         type: LinearPanel
       - components:
         - data_bindings:
@@ -377,7 +382,7 @@ components:
         col_widths: '{"BINRLY":20,"SKLDLY":40,"ABDFHZ":15,"NMEONP":15,"FBYDQY":15,"XSLXKQ":15}'
         role: tile-background-left
         spacing:
-          padding: [null, '5', null, '5']
+          padding: [null, '5', null, '10']
       type: ColumnPanel
     - components:
       - layout_properties: {grid_position: 'KEEZIY,CJTGRG'}
@@ -398,7 +403,7 @@ components:
         properties:
           role: [score-tile-background]
           spacing_above: none
-          spacing_below: none
+          spacing_below: small
           visible: true
         type: LinearPanel
       - components:
@@ -412,7 +417,7 @@ components:
           type: Label
         layout_properties: {grid_position: 'ORIZUZ,FEOKJD VVXWEI,TQIGGV'}
         name: linear_panel_6
-        properties: {role: highlights-tile-background, spacing_above: small, spacing_below: none}
+        properties: {role: grid-light, spacing_above: small, spacing_below: none}
         type: LinearPanel
       - components:
         - layout_properties: {}
@@ -425,7 +430,7 @@ components:
           type: Label
         layout_properties: {grid_position: 'ORIZUZ,NIJZSN HDZJOY,YGPOQI'}
         name: linear_panel_5
-        properties: {role: highlights-tile-background, spacing_above: small, spacing_below: none}
+        properties: {role: grid-light, spacing_above: small, spacing_below: none}
         type: LinearPanel
       - components:
         - layout_properties: {}
@@ -438,7 +443,7 @@ components:
           type: Label
         layout_properties: {grid_position: 'ORIZUZ,NIJZSN GJRDAX,FMCRXN'}
         name: linear_panel_3
-        properties: {role: highlights-tile-background, spacing_above: none, spacing_below: small}
+        properties: {role: grid-light, spacing_above: none, spacing_below: small}
         type: LinearPanel
       - components:
         - layout_properties: {}
@@ -451,11 +456,16 @@ components:
           type: Label
         layout_properties: {grid_position: 'ORIZUZ,FEOKJD GPIHJY,LGILBY'}
         name: linear_panel_4
-        properties: {role: highlights-tile-background, spacing_above: none, spacing_below: small}
+        properties: {role: grid-light, spacing_above: none, spacing_below: small}
         type: LinearPanel
       layout_properties: {col_xs: 8, row: SPGXSL, width_xs: 3}
       name: column_panel_KPIs
-      properties: {col_spacing: tiny, col_widths: '{}', role: tile-background-right}
+      properties:
+        col_spacing: tiny
+        col_widths: '{}'
+        role: tile-background-right
+        spacing:
+          padding: [null, '7', null, '7']
       type: ColumnPanel
     layout_properties: {grid_position: 'FFPQHD,HGMABE'}
     name: grid_panel_1
@@ -485,6 +495,10 @@ components:
       layout_properties: {}
       name: nav_musical
       properties: {role: section_buttons, spacing_above: none, spacing_below: none, text: Musical}
+      type: Link
+    - event_bindings: {click: nav_live_click}
+      name: nav_live
+      properties: {role: section_buttons, spacing_above: none, spacing_below: none, text: Live}
       type: Link
     layout_properties: {grid_position: 'CKLNBG,MMQKXA'}
     name: flow_panel_sections
@@ -1630,6 +1644,145 @@ components:
       type: ColumnPanel
     layout_properties: {grid_position: 'OTLNZS,FRDIQK'}
     name: sec_musical
+    properties: {spacing_above: medium}
+    type: ColumnPanel
+  - components:
+    - components:
+      - layout_properties: {grid_position: 'MZQGPU,CRHNUW'}
+        name: no_events
+        properties: {role: investigate_value, spacing_below: none}
+        type: Label
+      - event_bindings: {click: info_tiktok_fol}
+        layout_properties: {grid_position: 'CEYRER,PQYGHF'}
+        name: link_19_copy_2_copy_copy_copy_copy_copy_copy_2_copy_2_copy_2_copy_2
+        properties: {align: left, background: '', bold: false, border: '', col_spacing: medium, col_widths: '', font: '', font_size: null, foreground: '', icon: '', icon_align: left, italic: false, role: investigate_feature, spacing_above: none, spacing_below: none, text: No. past and upcoming Events, tooltip: '', underline: false, url: '', visible: true, wrap_on: mobile}
+        type: Link
+      layout_properties: {grid_position: 'WNNGDM,PSUCJV'}
+      name: column_panel_7_copy_4_copy_copy_2_copy_2
+      properties: {role: grid}
+      type: ColumnPanel
+    - components:
+      - layout_properties: {grid_position: 'TWMNHK,DOECEQ'}
+        name: time_since_last_event
+        properties: {role: investigate_value, spacing_below: none}
+        type: Label
+      - event_bindings: {click: info_tiktok_fol}
+        layout_properties: {grid_position: 'ZBCQVA,ZFWDQQ'}
+        name: link_19_copy_2_copy_copy_copy_copy_copy_copy_2_copy_2_copy
+        properties: {align: left, background: '', bold: false, border: '', col_spacing: medium, col_widths: '', font: '', font_size: null, foreground: '', icon: '', icon_align: left, italic: false, role: investigate_feature, spacing_above: none, spacing_below: none, text: Time since last Event, tooltip: '', underline: false, url: '', visible: true, wrap_on: mobile}
+        type: Link
+      layout_properties: {grid_position: 'WNNGDM,OWVGNF'}
+      name: column_panel_7_copy_4_copy_copy
+      properties: {role: grid}
+      type: ColumnPanel
+    - components:
+      - layout_properties: {grid_position: 'KDWUSN,POFJTH'}
+        name: time_until_next_event
+        properties: {role: investigate_value, spacing_below: none}
+        type: Label
+      - event_bindings: {click: info_tiktok_fol}
+        layout_properties: {grid_position: 'FXLUAY,BTNWFO'}
+        name: link_19_copy_2_copy_copy_copy_copy_copy_copy_2_copy_2
+        properties: {align: left, background: '', bold: false, border: '', col_spacing: medium, col_widths: '', font: '', font_size: null, foreground: '', icon: '', icon_align: left, italic: false, role: investigate_feature, spacing_above: none, spacing_below: none, text: Time until next Event, tooltip: '', underline: false, url: '', visible: true, wrap_on: mobile}
+        type: Link
+      layout_properties: {grid_position: 'WNNGDM,QYTUAI'}
+      name: column_panel_7_copy_4_copy
+      properties: {role: grid}
+      type: ColumnPanel
+    - components:
+      - layout_properties: {grid_position: 'XMXLBH,XHOVHS'}
+        name: events_last_365days
+        properties: {role: investigate_value, spacing_below: none}
+        type: Label
+      - event_bindings: {click: info_tiktok_fol}
+        layout_properties: {grid_position: 'IMWJAI,FKNAZW'}
+        name: link_19_copy_2_copy_copy_copy_copy_copy_copy_2_copy_2_copy_2_copy
+        properties: {align: left, background: '', bold: false, border: '', col_spacing: medium, col_widths: '', font: '', font_size: null, foreground: '', icon: '', icon_align: left, italic: false, role: investigate_feature, spacing_above: none, spacing_below: none, text: No. Events in last 365 Days, tooltip: '', underline: false, url: '', visible: true, wrap_on: mobile}
+        type: Link
+      layout_properties: {grid_position: 'OCMDDK,UWIJDK'}
+      name: column_panel_7_copy_4_copy_copy_2_copy
+      properties: {role: grid}
+      type: ColumnPanel
+    - components:
+      - layout_properties: {grid_position: 'MZQGPU,CRHNUW'}
+        name: concert_festival_ratio
+        properties: {role: investigate_value, spacing_below: none}
+        type: Label
+      - event_bindings: {click: info_tiktok_fol}
+        layout_properties: {grid_position: 'OJOIJT,DXFUQF'}
+        name: link_19_copy_2_copy_copy_copy_copy_copy_copy_2_copy_2_copy_2
+        properties: {align: left, background: '', bold: false, border: '', col_spacing: medium, col_widths: '', font: '', font_size: null, foreground: '', icon: '', icon_align: left, italic: false, role: investigate_feature, spacing_above: none, spacing_below: none, text: Concert to Festival Ratio, tooltip: '', underline: false, url: '', visible: true, wrap_on: mobile}
+        type: Link
+      layout_properties: {grid_position: 'OCMDDK,HUINLL'}
+      name: column_panel_7_copy_4_copy_copy_2
+      properties: {role: grid}
+      type: ColumnPanel
+    - layout_properties: {grid_position: 'OCMDDK,JBQRYN'}
+      name: spacer_16
+      properties: {height: 32}
+      type: Spacer
+    - components:
+      - layout_properties: {grid_position: 'IKJUTY,FPNUII'}
+        name: rel_1_copy_copy_copy_copy
+        properties: {role: Discover_artist_name, spacing_above: none, spacing_below: none, text: Past Events}
+        type: Label
+      - components:
+        - data_bindings:
+          - {code: '[''pos-center-vertical'']', property: role, writeback: false}
+          name: past_events_data
+          properties: {item_template: Discover.RepPanel_Events}
+          type: RepeatingPanel
+        layout_properties: {grid_position: 'EEBMXF,QPOKPL'}
+        name: past_events_data_grid
+        properties:
+          auto_header: false
+          columns:
+          - {data_key: column_1, expand: false, id: JKSDUP, title: Column 1, width: 101}
+          - {data_key: column_2, id: VJQQOR, title: Column 2}
+          rows_per_page: 3
+        type: DataGrid
+      - layout_properties: {grid_position: 'EUKNVY,DFVOTQ'}
+        name: no_past_events_data_grid
+        properties: {align: center, role: description, spacing_above: large, spacing_below: large, text: no data available, visible: true}
+        type: Label
+      layout_properties: {grid_position: ',undefined'}
+      name: past_events
+      properties: {role: grid-main}
+      type: ColumnPanel
+    - components:
+      - layout_properties: {grid_position: 'IKJUTY,FPNUII'}
+        name: rel_1_copy_copy_copy_copy_copy
+        properties: {role: Discover_artist_name, spacing_above: none, spacing_below: none, text: Future Events}
+        type: Label
+      - components:
+        - data_bindings:
+          - {code: '[''pos-center-vertical'']', property: role, writeback: false}
+          name: future_events_data
+          properties: {item_template: Discover.RepPanel_Events}
+          type: RepeatingPanel
+        layout_properties: {grid_position: 'EEBMXF,QPOKPL'}
+        name: future_events_data_grid
+        properties:
+          auto_header: false
+          columns:
+          - {data_key: column_1, expand: false, id: JKSDUP, title: Column 1, width: 101}
+          - {data_key: column_2, id: VJQQOR, title: Column 2}
+          rows_per_page: 3
+        type: DataGrid
+      - layout_properties: {grid_position: 'EUKNVY,DFVOTQ'}
+        name: no_future_events_data_grid
+        properties: {align: center, role: description, spacing_above: large, spacing_below: large, text: no data available, visible: true}
+        type: Label
+      - layout_properties: {grid_position: 'PICCEC,WOTEND'}
+        name: no_future_events_data_events
+        properties: {align: center, role: description, spacing_above: large, spacing_below: large, text: No events planned, visible: true}
+        type: Label
+      layout_properties: {grid_position: ',KQDTJF'}
+      name: past_events_copy
+      properties: {role: grid-main}
+      type: ColumnPanel
+    layout_properties: {grid_position: 'QPPTPM,JKJLRI'}
+    name: sec_live
     properties: {spacing_above: medium}
     type: ColumnPanel
   - layout_properties: {grid_position: 'MNSGLO,DTALNU'}
