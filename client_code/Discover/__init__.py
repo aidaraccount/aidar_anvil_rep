@@ -382,7 +382,6 @@ class Discover(DiscoverTemplate):
       ]
       self.sort_dropdown.selected_value = "high_num"
       self.sort_dropdown.role = 'sort-dropdown'
-      self.sort_dropdown_countries.role = 'sort-dropdown'
 
       # Add event handler for the dropdown
       self.sort_dropdown.set_event_handler('change', self.sort_data)
@@ -826,7 +825,6 @@ class Discover(DiscoverTemplate):
             self.no_future_events_data_events.visible = False
             self.future_events_data_grid.visible = True
             self.future_events_data.items = event_data["future"]
-            self.future_events_data.items = event_data["future"]
           else:
             self.future_events_data_grid.visible = False
             self.no_future_events_data_events.visible = True
@@ -1151,7 +1149,7 @@ class Discover(DiscoverTemplate):
         
       self.Event_Timing_Graph.figure = fig
   
-  
+  # MTL LISTENERS by COUNTRY
   def sort_dropdown_countries_change(self, **event_args):
     save_var('sort_dropdown_countries',self.sort_dropdown_countries.selected_value)
     self.create_monthly_listeners_by_country_bar_chart()
@@ -1251,6 +1249,7 @@ class Discover(DiscoverTemplate):
     if self.current_page > 1:
       self.create_monthly_listeners_by_country_bar_chart(country_page=self.current_page - 1)
       
+  # MTL LISTENERS by CITY
   def create_monthly_listeners_by_city_bar_chart(self, page=1, items_per_page=15, city_w_country_code=None, monthly_listeners=None):
     selected_country_name = self.sort_dropdown_countries.selected_value
     
