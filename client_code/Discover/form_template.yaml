@@ -1934,7 +1934,7 @@ components:
         type: Spacer
       layout_properties: {grid_position: 'BCWRNQ,OEZANJ'}
       name: Panel_for_Spotify_Monthly_Listeners_by_Location_copy
-      properties: {col_widths: '{}', role: grid-main, visible: false}
+      properties: {col_widths: '{}', role: grid-main, visible: true}
       type: ColumnPanel
     layout_properties: {grid_position: 'QPPTPM,JKJLRI'}
     name: sec_live
