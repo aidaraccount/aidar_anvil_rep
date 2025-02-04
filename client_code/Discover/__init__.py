@@ -1044,6 +1044,9 @@ class Discover(DiscoverTemplate):
       )
     self.Most_Frequent_Labels_Graph.figure = fig
 
+  
+  # ----------------------------------
+  # RELEASE AND EVENT TIMING CHARTS
   def create_release_timing_scatter_chart(self, data):    
     dates_str = [x["AlbumReleaseDate"] for x in data]
     tracks = [x["Title"] for x in data]

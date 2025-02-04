@@ -136,12 +136,13 @@ class C_Discover(C_DiscoverTemplate):
       artist_id = int(sug["ArtistID"])
       self.artist_id = artist_id
 
-      if self.watchlist_id is None:
-        watchlist_presence = "False"
-      else:
-        watchlist_presence = anvil.server.call(
-          "check_watchlist_presence", self.watchlist_id, artist_id
-        )
+      # if self.watchlist_id is None:
+      # a) Spotify Web-Player (old!)
+      #   watchlist_presence = "False"
+      # else:
+      #   watchlist_presence = anvil.server.call(
+      #     "check_watchlist_presence", self.watchlist_id, artist_id
+      #   )
 
       # -------------------------------
       # NOTES
@@ -962,6 +963,98 @@ class C_Discover(C_DiscoverTemplate):
       self.feature_12.text = f12 + " bpm"
 
       # -------------------------------
+      # V. Live
+      # get data
+      event_data = anvil.server.call('get_songkick_events',  artist_id)
+      # print('event_data:', event_data)
+      
+      if event_data is not None:
+        # a) stats
+        self.time_since_last_event.text = event_data['header']['time_since_last_event'] if event_data['header']['time_since_last_event'] is not None else '-'
+        self.time_until_next_event.text = event_data['header']['time_until_next_event'] if event_data['header']['time_until_next_event'] is not None else '-'
+        self.events_last_365days.text = event_data['header']['events_last_365days'] if event_data['header']['events_last_365days'] is not None else '-'
+        self.concert_festival_ratio.text = event_data['header']['concert_festival_ratio'] if event_data['header']['concert_festival_ratio'] is not None else '-'
+        self.no_events.text = event_data['header']['no_events'] if event_data['header']['no_events'] is not None else '-'
+
+        # b) past events tables
+        # print('event_data["past"]:', event_data["past"])
+        if event_data["past"] is not None:
+          self.past_events_data_grid.visible = True
+          self.no_past_events_data_grid.visible = False
+          self.past_events_data.items = event_data["past"]
+        else:
+          self.past_events_data_grid.visible = False
+          self.no_past_events_data_grid.visible = True
+              
+        # c) future events tables
+        # print('event_data["future"]:', event_data["future"])
+        if event_data["future"] is not None:
+          self.no_future_events_data_grid.visible = False
+          if len(event_data["future"]) > 0:
+            self.no_future_events_data_events.visible = False
+            self.future_events_data_grid.visible = True
+            self.future_events_data.items = event_data["future"]
+          else:
+            self.future_events_data_grid.visible = False
+            self.no_future_events_data_events.visible = True
+        else:
+          self.future_events_data_grid.visible = False
+          self.no_future_events_data_grid.visible = True
+          self.no_future_events_data_events.visible = False
+
+        # d) event cycle
+        # print('event_data["cycle"]:', event_data["cycle"])
+        self.no_event_cycle.visible = False
+        self.Event_Timing_Graph.visible = True
+        self.create_event_timing_scatter_chart(data=event_data["cycle"])
+
+        # e) country
+        # print('event_data["country"]:', event_data["country"])
+        self.flow_panel_countries_2.visible = True
+        self.Events_by_Country_Graph.visible = True
+        self.No_Events_by_Country_Graph.visible = False
+        self.events_country_data = event_data["country"]
+        self.create_events_by_country_bar_chart()
+
+        # f) city        
+        # print('event_data["city"]:', event_data["city"])
+        self.Events_by_City_Graph.visible = True
+        self.No_Events_by_City_Graph.visible = False
+        self.events_city_data = event_data["city"]
+        self.create_events_by_city_bar_chart()
+          
+      else:
+        # a) stats
+        self.time_since_last_event.text = '-'
+        self.time_since_last_event.text = '-'
+        self.time_until_next_event.text = '-'
+        self.events_last_365days.text = '-'
+        self.concert_festival_ratio.text = '-'
+        self.no_events.text = '-'
+
+        # b) past events table
+        self.past_events_data_grid.visible = False
+        self.no_past_events_data_grid.visible = True
+      
+        # c) future events table
+        self.future_events_data_grid.visible = False
+        self.no_future_events_data_grid.visible = True
+        self.no_future_events_data_events.visible = False
+              
+        # d) event cycle
+        self.no_event_cycle.visible = True
+        self.Event_Timing_Graph.visible = False
+
+        # e) country
+        self.flow_panel_countries_2.visible = False
+        self.Events_by_Country_Graph.visible = False
+        self.No_Events_by_Country_Graph.visible = True
+
+        # f) city
+        self.Events_by_City_Graph.visible = False
+        self.No_Events_by_City_Graph.visible = True
+        
+      # -------------------------------
       # FOOTER:
       # a) Spotify Web-Player
       # if load_var("autoPlayStatus") is not None:
@@ -1016,6 +1109,10 @@ class C_Discover(C_DiscoverTemplate):
 
     self.grid_panel_1.scroll_into_view(smooth=True)
 
+
+
+
+  
   # ----------------------------------------------
   # def form_show(self, **event_args):
   #   # embed_iframe_element = document.getElementById("embed-iframe")
@@ -1118,7 +1215,10 @@ class C_Discover(C_DiscoverTemplate):
         opacity=0.9,
       )
     self.Most_Frequent_Labels_Graph.figure = fig
-
+  
+  
+  # ----------------------------------
+  # RELEASE AND EVENT TIMING CHARTS
   def create_release_timing_scatter_chart(self, data):
     dates_str = [x["AlbumReleaseDate"] for x in data]
     tracks = [x["Title"] for x in data]
@@ -1189,23 +1289,97 @@ class C_Discover(C_DiscoverTemplate):
 
       self.Release_Timing_Graph.figure = fig
 
+  def create_event_timing_scatter_chart(self, data):    
+    dates_str = [x["date"] for x in data]
+    place = [x["place"] for x in data]
+    event_name = [x["event_name"] for x in data]
+    y_data = [0] * len(data)
+
+    dates = [datetime.strptime(date, '%Y-%m-%d') for date in dates_str]
+    if len(dates) > 0:
+      today = datetime.today().strftime('%Y-%m-%d')
+      min_date = min(dates) - timedelta(days=50)
+      max_date = max(dates) + timedelta(days=50)
+      date_before_min = min_date  # Substracting 50 days from the min date of the list of dates for visual purposes.
+      date_before_min = date_before_min.strftime('%Y-%m-%d')
+      
+      # Creating the Scatter Chart
+      fig = go.Figure(data=(
+        go.Scatter(
+          x = dates,
+          y = y_data,
+          textposition='outside',
+          hoverinfo='none',
+          hovertext= [f"{date.strftime('%Y-%m-%d')}<br>{place}<br>{event_name}" for date, place, event_name in zip(dates, place, event_name)],
+          hovertemplate='%{hovertext}<extra></extra>',
+          marker=dict(
+              color='rgb(237,139,82)',  # Color of the markers
+              size=15,  # Size of the markers
+              line=dict(
+                  color='rgb(237,139,82)',  # Color of the marker borders
+                  width=2  # Width of the marker borders
+              )
+          ),
+          mode='markers+text'  # Display both markers and text
+        )
+      ))
+      fig.update_layout(
+        template='plotly_dark',
+        plot_bgcolor='rgba(0,0,0,0)',
+        paper_bgcolor='rgba(0,0,0,0)',
+        margin = dict(t=50),
+        xaxis=dict (
+          showgrid=False,
+          range=[date_before_min, max(today, str(max_date)[:10])]  # Set x-axis range
+        ),
+        yaxis=dict(
+          range=[0.02, -0.01],  # Limit the y-axis
+          showticklabels=False,  # Hide the tick labels
+          showline=False,  # Hide the axis line
+          zeroline=True,  # Ensure the zero line is visible
+          zerolinecolor='rgb(175,175,175)',  # Set the color of the zero line
+          zerolinewidth=2,  # Optionally set the width of the zero line
+          showgrid=False  # Disable the grid lines
+        ),
+        hoverlabel=dict(
+          bgcolor='rgba(237,139,82, 0.4)'
+        )
+      )
+      for trace in fig.data:
+        trace.update(
+          marker_color='rgb(219,106,37)',
+          marker_line_color='rgb(219,106,37)',
+          marker_line_width=1,
+          opacity=0.8
+        )
+        
+      self.Event_Timing_Graph.figure = fig
+
+  
+  # ----------------------------------
+  # COUNTRY AND CITY GRAPHS WITH FILTER
   def sort_dropdown_countries_change(self, **event_args):
-    save_var("sort_dropdown_countries", self.sort_dropdown_countries.selected_value)
+    save_var('sort_dropdown_countries', self.sort_dropdown_countries.selected_value)
     self.create_monthly_listeners_by_country_bar_chart()
     self.create_monthly_listeners_by_city_bar_chart()
+    self.create_events_by_country_bar_chart()
+    self.create_events_by_city_bar_chart()
 
-  def create_monthly_listeners_by_country_bar_chart(
-    self,
-    country_page=1,
-    items_per_page=15,
-    country_codes=None,
-    monthly_listeners=None,
-    country_name=None,
-  ):
-    if load_var("sort_dropdown_countries") is None:
+  def sort_dropdown_countries_change_2(self, **event_args):
+    save_var('sort_dropdown_countries', self.sort_dropdown_countries_2.selected_value)
+    self.create_monthly_listeners_by_country_bar_chart()
+    self.create_monthly_listeners_by_city_bar_chart()
+    self.create_events_by_country_bar_chart()
+    self.create_events_by_city_bar_chart()
+  
+  # MTL LISTENERS by COUNTRY
+  def create_monthly_listeners_by_country_bar_chart(self, country_page=1, items_per_page=15, country_codes=None, monthly_listeners=None, country_name=None):
+    if load_var('sort_dropdown_countries') is None:
       self.sort_dropdown_countries.selected_value = "All countries"
+      self.sort_dropdown_countries_2.selected_value = "All countries"
     else:
-      self.sort_dropdown_countries.selected_value = load_var("sort_dropdown_countries")
+      self.sort_dropdown_countries.selected_value = load_var('sort_dropdown_countries')
+      self.sort_dropdown_countries_2.selected_value = load_var('sort_dropdown_countries')
     selected_country_name = self.sort_dropdown_countries.selected_value
 
     country_codes = self.listeners_country_data["country_codes"]
@@ -1223,60 +1397,56 @@ class C_Discover(C_DiscoverTemplate):
 
     # Highlight the selected country
     bar_colors = [
-      "rgba(237,139,82,1)"
-      if name == selected_country_name or selected_country_name == "All countries"
-      else "rgba(125,125,125,0.6)"
+      'rgba(237,139,82,1)' if name == selected_country_name or selected_country_name == "All countries" else 'rgba(125,125,125,0.6)'
       for name in country_name_page
     ]
 
     # Format the text for the bar annotations
-    formatted_text = [
-      f"{x/1e6:.1f}M" if x >= 1e6 else f"{x/1e3:.1f}K" if x >= 1e3 else str(x)
-      for x in monthly_listeners
-    ]
-
+    formatted_text = [f'{x/1e6:.1f}M' if x >= 1e6 else f'{x/1e3:.1f}K' if x >= 1e3 else str(x) for x in monthly_listeners]
+    
     # Creating the Bar Chart
-    fig = go.Figure(
-      data=(
-        go.Bar(
-          x=country_code_page,
-          y=monthly_listeners_page,
-          text=formatted_text,
-          textposition="none",
-          hoverinfo="none",
-          hovertext=country_name_page,
-          hovertemplate="Country: %{hovertext}<br>Monthly Listeners: %{text} <extra></extra>",
-        )
+    fig = go.Figure(data=(
+      go.Bar(
+        x = country_code_page,
+        y = monthly_listeners_page,
+        text = formatted_text,
+        textposition='none',
+        hoverinfo='none',
+        hovertext= country_name_page,
+        hovertemplate='Country: %{hovertext}<br>Monthly Listeners: %{text} <extra></extra>',
       )
-    )
+    ))
 
     fig.update_layout(
-      template="plotly_dark",
-      plot_bgcolor="rgba(0,0,0,0)",
-      paper_bgcolor="rgba(0,0,0,0)",
+      template='plotly_dark',
+      plot_bgcolor='rgba(0,0,0,0)',
+      paper_bgcolor='rgba(0,0,0,0)',
       xaxis=dict(
         tickvals=list(range(len(country_codes))),
       ),
       yaxis=dict(
-        gridcolor="rgb(175,175,175)",  # Color of the gridlines
+        gridcolor='rgb(175,175,175)',  # Color of the gridlines
         gridwidth=0.1,  # Thickness of the gridlines
-        griddash="dash",  # Dash style of the gridlines
-        range=[
-          0,
-          max(monthly_listeners) * 1.1,
-        ],  # Adjust y-axis range to add extra space
-        tickformat="~s",  # Format numbers with SI unit prefixes
-        zerolinecolor="rgb(240,240,240)",  # Set the color of the zero line
+        griddash='dash',  # Dash style of the gridlines
+        range=[0, max(monthly_listeners) * 1.1],  # Adjust y-axis range to add extra space
+        tickformat='~s',  # Format numbers with SI unit prefixes
+        zerolinecolor='rgb(240,240,240)',  # Set the color of the zero line
       ),
       margin=dict(
         t=0,  # Top margin
-        b=20,  # Bottom margin
+        b=20   # Bottom margin
       ),
-      hoverlabel=dict(bgcolor="rgba(237,139,82, 0.4)"),
+      hoverlabel=dict(
+        bgcolor='rgba(237,139,82, 0.4)'
+      )
     )
     # This is to style the bars
     for trace in fig.data:
-      trace.update(marker=dict(color=bar_colors), marker_line_width=0.1, opacity=0.9)
+      trace.update(
+        marker=dict(color=bar_colors),
+        marker_line_width=0.1,
+        opacity=0.9
+      )
     self.Spotify_Monthly_Listeners_by_Country_Graph.figure = fig
     self.current_page = country_page
     self.total_pages = (len(country_codes) + items_per_page - 1) // items_per_page
@@ -1289,25 +1459,114 @@ class C_Discover(C_DiscoverTemplate):
     if self.current_page == self.total_pages:
       self.next_button_country.role = ['icon-button-disabled', 'header-6']
     else:
-      self.next_button_country.role = ['icon-button', 'header-6']
+      self.next_button_country.role = ['icon-button', 'header-6']  
 
   def next_page_country(self, **event_args):
     if self.current_page < self.total_pages:
-      self.create_monthly_listeners_by_country_bar_chart(
-        country_page=self.current_page + 1
-      )
-
+      self.create_monthly_listeners_by_country_bar_chart(country_page=self.current_page + 1)  
+    
   def previous_page_country(self, **event_args):
     if self.current_page > 1:
-      self.create_monthly_listeners_by_country_bar_chart(
-        country_page=self.current_page - 1
+      self.create_monthly_listeners_by_country_bar_chart(country_page=self.current_page - 1)
+
+  # EVENTS by COUNTRY
+  def create_events_by_country_bar_chart(self, country_page=1, items_per_page=15, country_codes=None, no_events=None, country_name=None):
+    if load_var('sort_dropdown_countries') is None:
+      self.sort_dropdown_countries.selected_value = "All countries"
+      self.sort_dropdown_countries_2.selected_value = "All countries"
+    else:
+      self.sort_dropdown_countries.selected_value = load_var('sort_dropdown_countries')
+      self.sort_dropdown_countries_2.selected_value = load_var('sort_dropdown_countries')
+    selected_country_name = self.sort_dropdown_countries_2.selected_value
+
+    country_codes = [item["country_code"] for item in self.events_country_data]
+    no_events = [item["no_events"] for item in self.events_country_data]
+    country_name = [item["country"] for item in self.events_country_data]
+
+    # Calculate the range for the current page
+    start_index = (country_page - 1) * items_per_page
+    end_index = start_index + items_per_page
+
+    # Slice the data for the current page
+    country_code_page = country_codes[start_index:end_index]
+    no_events_page = no_events[start_index:end_index]
+    country_name_page = country_name[start_index:end_index]
+
+    # Highlight the selected country
+    bar_colors = [
+      'rgba(237,139,82,1)' if name == selected_country_name or selected_country_name == "All countries" else 'rgba(125,125,125,0.6)'
+      for name in country_name_page
+    ]
+    
+    # Creating the Bar Chart
+    fig = go.Figure(data=(
+      go.Bar(
+        x = country_code_page,
+        y = no_events_page,
+        text = no_events,
+        textposition='none',
+        hoverinfo='none',
+        hovertext= country_name_page,
+        hovertemplate='Country: %{hovertext}<br>Number Events: %{text} <extra></extra>',
       )
+    ))
 
-  def create_monthly_listeners_by_city_bar_chart(
-    self, page=1, items_per_page=15, city_w_country_code=None, monthly_listeners=None
-  ):
+    fig.update_layout(
+      template='plotly_dark',
+      plot_bgcolor='rgba(0,0,0,0)',
+      paper_bgcolor='rgba(0,0,0,0)',
+      xaxis=dict(
+        tickvals=list(range(len(country_codes))),
+      ),
+      yaxis=dict(
+        gridcolor='rgb(175,175,175)',  # Color of the gridlines
+        gridwidth=0.1,  # Thickness of the gridlines
+        griddash='dash',  # Dash style of the gridlines
+        range=[0, max(no_events) * 1.2],  # Adjust y-axis range to add extra space
+        tickformat='~s',  # Format numbers with SI unit prefixes
+        zerolinecolor='rgb(240,240,240)',  # Set the color of the zero line
+      ),
+      margin=dict(
+        t=0,  # Top margin
+        b=20   # Bottom margin
+      ),
+      hoverlabel=dict(
+        bgcolor='rgba(237,139,82, 0.4)'
+      )
+    )
+    # This is to style the bars
+    for trace in fig.data:
+      trace.update(
+        marker=dict(color=bar_colors),
+        marker_line_width=0.1,
+        opacity=0.9
+      )
+    self.Events_by_Country_Graph.figure = fig
+    self.current_page = country_page
+    self.total_pages = (len(country_codes) + items_per_page - 1) // items_per_page
+    self.prev_button_country_2.visible = True
+    self.next_button_country_2.visible = True
+    if self.current_page == 1:
+      self.prev_button_country_2.role = ['icon-button-disabled', 'header-6']
+    else:
+      self.prev_button_country_2.role = ['icon-button', 'header-6']
+    if self.current_page == self.total_pages:
+      self.next_button_country_2.role = ['icon-button-disabled', 'header-6']
+    else:
+      self.next_button_country_2.role = ['icon-button', 'header-6']  
+
+  def next_page_country_2(self, **event_args):
+    if self.current_page < self.total_pages:
+      self.create_events_by_country_bar_chart(country_page=self.current_page + 1)  
+    
+  def previous_page_country_2(self, **event_args):
+    if self.current_page > 1:
+      self.create_events_by_country_bar_chart(country_page=self.current_page - 1)
+
+  # MTL LISTENERS by CITY
+  def create_monthly_listeners_by_city_bar_chart(self, page=1, items_per_page=15, city_w_country_code=None, monthly_listeners=None):
     selected_country_name = self.sort_dropdown_countries.selected_value
-
+    
     city_w_country_code = self.listeners_city_data["city_w_country_code"]
     monthly_listeners = self.listeners_city_data["monthly_listeners"]
     country_name = self.listeners_city_data["country_name_city"]
@@ -1322,59 +1581,55 @@ class C_Discover(C_DiscoverTemplate):
     country_name_page = country_name[start_index:end_index]
 
     bar_colors = [
-      "rgba(237,139,82,1)"
-      if code == selected_country_name or selected_country_name == "All countries"
-      else "rgba(125,125,125,0.6)"
+      'rgba(237,139,82,1)' if code == selected_country_name or selected_country_name == "All countries" else 'rgba(125,125,125,0.6)'
       for code in country_name_page
     ]
     # Format the text for the bar annotations
-    formatted_text = [
-      f"{x/1e6:.1f}M" if x >= 1e6 else f"{x/1e3:.1f}K" if x >= 1e3 else str(x)
-      for x in monthly_listeners
-    ]
-
+    formatted_text = [f'{x/1e6:.1f}M' if x >= 1e6 else f'{x/1e3:.1f}K' if x >= 1e3 else str(x) for x in monthly_listeners]
+    
     # Creating the Bar Chart
-    fig = go.Figure(
-      data=(
-        go.Bar(
-          x=city_w_country_code_page,
-          y=monthly_listeners_page,
-          text=formatted_text,
-          textposition="none",
-          hoverinfo="none",
-          hovertext=city_w_country_code_page,
-          hovertemplate="City: %{hovertext}<br>Monthly Listeners: %{text} <extra></extra>",
-        )
+    fig = go.Figure(data=(
+      go.Bar(
+        x=city_w_country_code_page,
+        y=monthly_listeners_page,
+        text=formatted_text,
+        textposition='none',
+        hoverinfo='none',
+        hovertext=city_w_country_code_page,
+        hovertemplate= 'City: %{hovertext}<br>Monthly Listeners: %{text} <extra></extra>',
       )
-    )
+    ))
 
     fig.update_layout(
-      template="plotly_dark",
-      plot_bgcolor="rgba(0,0,0,0)",
-      paper_bgcolor="rgba(0,0,0,0)",
+      template='plotly_dark',
+      plot_bgcolor='rgba(0,0,0,0)',
+      paper_bgcolor='rgba(0,0,0,0)',
       xaxis=dict(
         tickvals=list(range(len(city_w_country_code))),
       ),
       yaxis=dict(
-        gridcolor="rgb(175,175,175)",  # Color of the gridlines
+        gridcolor='rgb(175,175,175)',  # Color of the gridlines
         gridwidth=1,  # Thickness of the gridlines
-        griddash="dash",  # Dash style of the gridlines
-        range=[
-          0,
-          max(monthly_listeners) * 1.2,
-        ],  # Adjust y-axis range to add extra space
-        tickformat="~s",  # Format numbers with SI unit prefixes
-        zerolinecolor="rgb(240,240,240)",  # Set the color of the zero line
+        griddash='dash',  # Dash style of the gridlines
+        range=[0, max(monthly_listeners) * 1.2],  # Adjust y-axis range to add extra space
+        tickformat='~s',  # Format numbers with SI unit prefixes
+        zerolinecolor='rgb(240,240,240)',  # Set the color of the zero line
       ),
       margin=dict(
         t=0,  # Top margin
-        b=20,  # Bottom margin
+        b=20   # Bottom margin
       ),
-      hoverlabel=dict(bgcolor="rgba(237,139,82, 0.4)"),
+      hoverlabel=dict(
+        bgcolor='rgba(237,139,82, 0.4)'
+      )
     )
     # This is to style the bars
     for trace in fig.data:
-      trace.update(marker=dict(color=bar_colors), marker_line_width=0.1, opacity=0.9)
+      trace.update(
+        marker=dict(color=bar_colors),
+        marker_line_width=0.1,
+        opacity=0.9
+      )
     self.Spotify_Monthly_Listeners_by_City_Graph.figure = fig
     self.current_page = page
     self.total_pages = (len(city_w_country_code) + items_per_page - 1) // items_per_page
@@ -1397,6 +1652,95 @@ class C_Discover(C_DiscoverTemplate):
     if self.current_page > 1:
       self.create_monthly_listeners_by_city_bar_chart(page=self.current_page - 1)
 
+  # EVENTS by CITY
+  def create_events_by_city_bar_chart(self, page=1, items_per_page=15, city_w_country_code=None, no_events=None):
+    selected_country_name = self.sort_dropdown_countries_2.selected_value
+    
+    city_w_country_code = [item["city_name"] for item in self.events_city_data]
+    no_events = [item["no_events"] for item in self.events_city_data]
+    country_name = [item["country"] for item in self.events_city_data]
+
+    # Calculate the range for the current page
+    start_index = (page - 1) * items_per_page
+    end_index = start_index + items_per_page
+
+    # Slice the data for the current page
+    city_w_country_code_page = city_w_country_code[start_index:end_index]
+    no_events_page = no_events[start_index:end_index]
+    country_name_page = country_name[start_index:end_index]
+
+    bar_colors = [
+      'rgba(237,139,82,1)' if code == selected_country_name or selected_country_name == "All countries" else 'rgba(125,125,125,0.6)'
+      for code in country_name_page
+    ]
+    
+    # Creating the Bar Chart
+    fig = go.Figure(data=(
+      go.Bar(
+        x=city_w_country_code_page,
+        y=no_events_page,
+        text=no_events,
+        textposition='none',
+        hoverinfo='none',
+        hovertext=city_w_country_code_page,
+        hovertemplate= 'City: %{hovertext}<br>Number Events: %{text} <extra></extra>',
+      )
+    ))
+
+    fig.update_layout(
+      template='plotly_dark',
+      plot_bgcolor='rgba(0,0,0,0)',
+      paper_bgcolor='rgba(0,0,0,0)',
+      xaxis=dict(
+        tickvals=list(range(len(city_w_country_code))),
+      ),
+      yaxis=dict(
+        gridcolor='rgb(175,175,175)',  # Color of the gridlines
+        gridwidth=1,  # Thickness of the gridlines
+        griddash='dash',  # Dash style of the gridlines
+        range=[0, max(no_events) * 1.2],  # Adjust y-axis range to add extra space
+        tickformat='~s',  # Format numbers with SI unit prefixes
+        zerolinecolor='rgb(240,240,240)',  # Set the color of the zero line
+      ),
+      margin=dict(
+        t=0,  # Top margin
+        b=20   # Bottom margin
+      ),
+      hoverlabel=dict(
+        bgcolor='rgba(237,139,82, 0.4)'
+      )
+    )
+    # This is to style the bars
+    for trace in fig.data:
+      trace.update(
+        marker=dict(color=bar_colors),
+        marker_line_width=0.1,
+        opacity=0.9
+      )
+    self.Events_by_City_Graph.figure = fig
+    self.current_page = page
+    self.total_pages = (len(city_w_country_code) + items_per_page - 1) // items_per_page
+    self.prev_button_city_2.visible = True
+    self.next_button_city_2.visible = True
+    if self.current_page == 1:
+      self.prev_button_city_2.role = ['icon-button-disabled', 'header-6']
+    else:
+      self.prev_button_city_2.role = ['icon-button', 'header-6']
+    if self.current_page == self.total_pages:
+      self.next_button_city_2.role = ['icon-button-disabled', 'header-6']
+    else:
+      self.next_button_city_2.role = ['icon-button', 'header-6']
+
+  def next_page_city_2(self, **event_args):
+    if self.current_page < self.total_pages:
+      self.create_events_by_city_bar_chart(page=self.current_page + 1)
+
+  def previous_page_city_2(self, **event_args):
+    if self.current_page > 1:
+      self.create_events_by_city_bar_chart(page=self.current_page - 1)
+
+  
+  # ----------------------------------
   def create_artist_popularity_scatter_chart(self, dates=None, artist_popularity=None):
     scatter_data_pop = {
       "dates": [
