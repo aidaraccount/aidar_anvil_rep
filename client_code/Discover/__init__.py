@@ -123,6 +123,7 @@ class Discover(DiscoverTemplate):
       self.sec_success.visible = False
       self.sec_fandom.visible = False
       self.sec_musical.visible = False
+      self.sec_live.visible = False
 
       artist_id = int(sug["ArtistID"])
       self.artist_id = artist_id
