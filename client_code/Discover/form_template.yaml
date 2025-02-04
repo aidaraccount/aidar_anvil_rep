@@ -471,6 +471,10 @@ components:
     name: grid_panel_1
     properties: {role: equal-height-container}
     type: GridPanel
+  - layout_properties: {grid_position: 'ZGLGHV,DIIDDY'}
+    name: shorts
+    properties: {}
+    type: ColumnPanel
   - layout_properties: {grid_position: 'UTITLB,JDUPJF'}
     name: spacer_8
     properties: {height: '26'}

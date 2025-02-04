@@ -12,6 +12,7 @@ from collections import defaultdict
 import itertools
 from ..C_ArtistBio import C_ArtistBio
 from ..C_ProgressMessage import C_ProgressMessage
+from ..C_Short import C_Short
 from anvil import js
 import anvil.js
 import anvil.js.window
@@ -115,6 +116,14 @@ class Discover(DiscoverTemplate):
     #   self.visible = False
       
     else:
+
+      # -------------
+      # TEST SHORTS
+      self.shorts.add_component(C_Short())
+
+      # -------------
+
+      
       self.sug = sug
       save_var('lastplayed', self.sug["SpotifyArtistID"])
     
