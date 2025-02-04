@@ -842,14 +842,16 @@ class Discover(DiscoverTemplate):
 
         # e) country
         # print('event_data["country"]:', event_data["country"])
+        self.flow_panel_countries_2.visible = True
+        self.Events_by_Country_Graph.visible = True
+        self.No_Events_by_Country_Graph.visible = False
         self.events_country_data = event_data["country"]
-        # self.Spotify_Monthly_Listeners_by_Country_Graph.visible = True
-        # self.flow_panel_countries.visible = True
-        # self.No_Spotify_Monthly_Listeners_by_Country_Graph.visible = False
         self.create_events_by_country_bar_chart()
 
         # f) city        
-        print('event_data["city"]:', event_data["city"])
+        # print('event_data["city"]:', event_data["city"])
+        self.Events_by_City_Graph.visible = True
+        self.No_Events_by_City_Graph.visible = False
         self.events_city_data = event_data["city"]
         self.create_events_by_city_bar_chart()
           
@@ -876,8 +878,13 @@ class Discover(DiscoverTemplate):
         self.Event_Timing_Graph.visible = False
 
         # e) country
+        self.flow_panel_countries_2.visible = False
+        self.Events_by_Country_Graph.visible = False
+        self.No_Events_by_Country_Graph.visible = True
 
         # f) city
+        self.Events_by_City_Graph.visible = False
+        self.No_Events_by_City_Graph.visible = True
         
         
       # -------------------------------
@@ -1337,7 +1344,7 @@ class Discover(DiscoverTemplate):
         gridcolor='rgb(175,175,175)',  # Color of the gridlines
         gridwidth=0.1,  # Thickness of the gridlines
         griddash='dash',  # Dash style of the gridlines
-        range=[0, max(no_events) * 1.1],  # Adjust y-axis range to add extra space
+        range=[0, max(no_events) * 1.2],  # Adjust y-axis range to add extra space
         tickformat='~s',  # Format numbers with SI unit prefixes
         zerolinecolor='rgb(240,240,240)',  # Set the color of the zero line
       ),
@@ -1535,16 +1542,16 @@ class Discover(DiscoverTemplate):
     self.Events_by_City_Graph.figure = fig
     self.current_page = page
     self.total_pages = (len(city_w_country_code) + items_per_page - 1) // items_per_page
-    self.prev_button_city.visible = True
-    self.next_button_city.visible = True
+    self.prev_button_city_2.visible = True
+    self.next_button_city_2.visible = True
     if self.current_page == 1:
-      self.prev_button_city.role = ['icon-button-disabled', 'header-6']
+      self.prev_button_city_2.role = ['icon-button-disabled', 'header-6']
     else:
-      self.prev_button_city.role = ['icon-button', 'header-6']
+      self.prev_button_city_2.role = ['icon-button', 'header-6']
     if self.current_page == self.total_pages:
-      self.next_button_city.role = ['icon-button-disabled', 'header-6']
+      self.next_button_city_2.role = ['icon-button-disabled', 'header-6']
     else:
-      self.next_button_city.role = ['icon-button', 'header-6']
+      self.next_button_city_2.role = ['icon-button', 'header-6']
 
   def next_page_city_2(self, **event_args):
     if self.current_page < self.total_pages:

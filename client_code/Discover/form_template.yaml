@@ -1178,7 +1178,7 @@ components:
           align: center
           role: header-5
           spacing:
-            padding: [null, null, 0, null]
+            padding: [null, null, 3, null]
           spacing_above: none
           spacing_below: none
           text: by Country
@@ -1229,7 +1229,7 @@ components:
           align: center
           role: header-5
           spacing:
-            padding: [20, null, 0, null]
+            padding: [20, null, 3, null]
           spacing_above: none
           spacing_below: none
           text: by City
@@ -1292,7 +1292,7 @@ components:
           align: center
           role: header-5
           spacing:
-            padding: [null, null, 0, null]
+            padding: [null, null, '3', null]
           spacing_above: none
           spacing_below: none
           text: Instagram
@@ -1312,7 +1312,7 @@ components:
           align: center
           role: header-5
           spacing:
-            padding: [null, null, 0, null]
+            padding: [null, null, '3', null]
           spacing_above: none
           spacing_below: none
           text: TikTok
@@ -1332,7 +1332,7 @@ components:
           align: center
           role: header-5
           spacing:
-            padding: [null, null, 0, null]
+            padding: [null, null, '3', null]
           spacing_above: none
           spacing_below: none
           text: YouTube
@@ -1352,7 +1352,7 @@ components:
           align: center
           role: header-5
           spacing:
-            padding: [null, null, 0, null]
+            padding: [null, null, '3', null]
           spacing_above: none
           spacing_below: none
           text: SoundCloud
@@ -1771,7 +1771,7 @@ components:
           align: center
           role: description
           spacing:
-            margin: ['129', null, '129', null]
+            margin: ['0', null, '0', null]
           spacing_above: large
           spacing_below: large
           text: no events planned
@@ -1833,7 +1833,8 @@ components:
           align: center
           role: header-5
           spacing:
-            padding: [null, null, 0, null]
+            margin: [null, null, 0, null]
+            padding: [null, null, 3, null]
           spacing_above: none
           spacing_below: none
           text: by Country
@@ -1876,7 +1877,7 @@ components:
         type: ColumnPanel
       - layout_properties: {grid_position: 'ZJAQLE,ZRJQGD'}
         name: No_Events_by_Country_Graph
-        properties: {align: center, role: description, spacing_above: large, spacing_below: large, text: no data available, visible: false}
+        properties: {align: center, role: description, spacing_above: large, spacing_below: large, text: no data available, visible: true}
         type: Label
       - layout_properties: {grid_position: 'ZDCKPQ,ZAAISO'}
         name: Header_for_Spotify_Monthly_Listeners_by_City_Graph_Copy_copy
@@ -1884,7 +1885,7 @@ components:
           align: center
           role: header-5
           spacing:
-            padding: [20, null, 0, null]
+            padding: [20, null, 3, null]
           spacing_above: none
           spacing_below: none
           text: by City
@@ -1926,7 +1927,7 @@ components:
         type: ColumnPanel
       - layout_properties: {grid_position: 'WHRCSY,CCXIEZ'}
         name: No_Events_by_City_Graph
-        properties: {align: center, role: description, spacing_above: large, spacing_below: large, text: no data available, visible: false}
+        properties: {align: center, role: description, spacing_above: large, spacing_below: large, text: no data available, visible: true}
         type: Label
       - layout_properties: {grid_position: 'BOVFFG,RGTQRZ'}
         name: spacer_15_copy
