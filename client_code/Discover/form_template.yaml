@@ -1840,9 +1840,9 @@ components:
           visible: true
         type: Label
       - components:
-        - event_bindings: {click: previous_page_country}
+        - event_bindings: {click: previous_page_country_2}
           layout_properties: {grid_position: 'PZNCOL,YPDMVD'}
-          name: prev_button_country_copy
+          name: prev_button_country_2
           properties:
             align: right
             icon: fa:arrow-circle-o-left
@@ -1857,9 +1857,9 @@ components:
           name: Events_by_Country_Graph
           properties: {height: '220', interactive: true, spacing_above: none, spacing_below: none, tooltip: '', visible: true}
           type: Plot
-        - event_bindings: {click: next_page_country}
+        - event_bindings: {click: next_page_country_2}
           layout_properties: {grid_position: 'PZNCOL,YKYHSM'}
-          name: next_button_country_copy
+          name: next_button_country_2
           properties:
             align: left
             enabled: true
@@ -1890,9 +1890,9 @@ components:
           text: by City
         type: Label
       - components:
-        - event_bindings: {click: previous_page_city}
+        - event_bindings: {click: previous_page_city_2}
           layout_properties: {grid_position: 'PGNJVE,YDWCUV'}
-          name: prev_button_city_copy
+          name: prev_button_city_2
           properties:
             align: right
             icon: fa:arrow-circle-o-left
@@ -1907,9 +1907,9 @@ components:
           name: Events_by_City_Graph
           properties: {height: '220', interactive: true, spacing_above: none, spacing_below: none, tooltip: '', visible: true}
           type: Plot
-        - event_bindings: {click: next_page_city}
+        - event_bindings: {click: next_page_city_2}
           layout_properties: {grid_position: 'PGNJVE,JUZAGW'}
-          name: next_button_city_copy
+          name: next_button_city_2
           properties:
             align: left
             enabled: true
