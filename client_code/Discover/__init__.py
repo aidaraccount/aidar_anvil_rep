@@ -841,12 +841,17 @@ class Discover(DiscoverTemplate):
         self.create_event_timing_scatter_chart(data=event_data["cycle"])
 
         # e) country
-        print('event_data["country"]:', event_data["country"])
+        # print('event_data["country"]:', event_data["country"])
         self.events_country_data = event_data["country"]
         # self.Spotify_Monthly_Listeners_by_Country_Graph.visible = True
         # self.flow_panel_countries.visible = True
         # self.No_Spotify_Monthly_Listeners_by_Country_Graph.visible = False
         self.create_events_by_country_bar_chart()
+
+        # f) city        
+        print('event_data["city"]:', event_data["city"])
+        self.events_city_data = event_data["city"]
+        self.create_events_by_city_bar_chart()
           
       else:
         # a) stats
@@ -869,6 +874,11 @@ class Discover(DiscoverTemplate):
         # d) event cycle
         self.no_event_cycle.visible = True
         self.Event_Timing_Graph.visible = False
+
+        # e) country
+
+        # f) city
+        
         
       # -------------------------------
       # FOOTER:
@@ -1164,11 +1174,19 @@ class Discover(DiscoverTemplate):
   # ----------------------------------
   # COUNTRY AND CITY GRAPHS WITH FILTER
   def sort_dropdown_countries_change(self, **event_args):
-    save_var('sort_dropdown_countries',self.sort_dropdown_countries.selected_value)
+    save_var('sort_dropdown_countries', self.sort_dropdown_countries.selected_value)
     self.create_monthly_listeners_by_country_bar_chart()
     self.create_monthly_listeners_by_city_bar_chart()
     self.create_events_by_country_bar_chart()
-    
+    self.create_events_by_city_bar_chart()
+
+  def sort_dropdown_countries_change_2(self, **event_args):
+    save_var('sort_dropdown_countries', self.sort_dropdown_countries_2.selected_value)
+    self.create_monthly_listeners_by_country_bar_chart()
+    self.create_monthly_listeners_by_city_bar_chart()
+    self.create_events_by_country_bar_chart()
+    self.create_events_by_city_bar_chart()
+  
   # MTL LISTENERS by COUNTRY
   def create_monthly_listeners_by_country_bar_chart(self, country_page=1, items_per_page=15, country_codes=None, monthly_listeners=None, country_name=None):
     if load_var('sort_dropdown_countries') is None:
@@ -1266,9 +1284,6 @@ class Discover(DiscoverTemplate):
     if self.current_page > 1:
       self.create_monthly_listeners_by_country_bar_chart(country_page=self.current_page - 1)
 
-
-
-  
   # EVENTS by COUNTRY
   def create_events_by_country_bar_chart(self, country_page=1, items_per_page=15, country_codes=None, no_events=None, country_name=None):
     if load_var('sort_dropdown_countries') is None:
@@ -1362,13 +1377,7 @@ class Discover(DiscoverTemplate):
   def previous_page_country_2(self, **event_args):
     if self.current_page > 1:
       self.create_events_by_country_bar_chart(country_page=self.current_page - 1)
-      
 
-
-
-
-
-  
   # MTL LISTENERS by CITY
   def create_monthly_listeners_by_city_bar_chart(self, page=1, items_per_page=15, city_w_country_code=None, monthly_listeners=None):
     selected_country_name = self.sort_dropdown_countries.selected_value
@@ -1457,7 +1466,96 @@ class Discover(DiscoverTemplate):
   def previous_page_city(self, **event_args):
     if self.current_page > 1:
       self.create_monthly_listeners_by_city_bar_chart(page=self.current_page - 1)
-        
+
+  # EVENTS by CITY
+  def create_events_by_city_bar_chart(self, page=1, items_per_page=15, city_w_country_code=None, no_events=None):
+    selected_country_name = self.sort_dropdown_countries_2.selected_value
+    
+    city_w_country_code = [item["city_name"] for item in self.events_city_data]
+    no_events = [item["no_events"] for item in self.events_city_data]
+    country_name = [item["country"] for item in self.events_city_data]
+
+    # Calculate the range for the current page
+    start_index = (page - 1) * items_per_page
+    end_index = start_index + items_per_page
+
+    # Slice the data for the current page
+    city_w_country_code_page = city_w_country_code[start_index:end_index]
+    no_events_page = no_events[start_index:end_index]
+    country_name_page = country_name[start_index:end_index]
+
+    bar_colors = [
+      'rgba(237,139,82,1)' if code == selected_country_name or selected_country_name == "All countries" else 'rgba(125,125,125,0.6)'
+      for code in country_name_page
+    ]
+    
+    # Creating the Bar Chart
+    fig = go.Figure(data=(
+      go.Bar(
+        x=city_w_country_code_page,
+        y=no_events_page,
+        text=no_events,
+        textposition='none',
+        hoverinfo='none',
+        hovertext=city_w_country_code_page,
+        hovertemplate= 'City: %{hovertext}<br>Number Events: %{text} <extra></extra>',
+      )
+    ))
+
+    fig.update_layout(
+      template='plotly_dark',
+      plot_bgcolor='rgba(0,0,0,0)',
+      paper_bgcolor='rgba(0,0,0,0)',
+      xaxis=dict(
+        tickvals=list(range(len(city_w_country_code))),
+      ),
+      yaxis=dict(
+        gridcolor='rgb(175,175,175)',  # Color of the gridlines
+        gridwidth=1,  # Thickness of the gridlines
+        griddash='dash',  # Dash style of the gridlines
+        range=[0, max(no_events) * 1.2],  # Adjust y-axis range to add extra space
+        tickformat='~s',  # Format numbers with SI unit prefixes
+        zerolinecolor='rgb(240,240,240)',  # Set the color of the zero line
+      ),
+      margin=dict(
+        t=0,  # Top margin
+        b=20   # Bottom margin
+      ),
+      hoverlabel=dict(
+        bgcolor='rgba(237,139,82, 0.4)'
+      )
+    )
+    # This is to style the bars
+    for trace in fig.data:
+      trace.update(
+        marker=dict(color=bar_colors),
+        marker_line_width=0.1,
+        opacity=0.9
+      )
+    self.Events_by_City_Graph.figure = fig
+    self.current_page = page
+    self.total_pages = (len(city_w_country_code) + items_per_page - 1) // items_per_page
+    self.prev_button_city.visible = True
+    self.next_button_city.visible = True
+    if self.current_page == 1:
+      self.prev_button_city.role = ['icon-button-disabled', 'header-6']
+    else:
+      self.prev_button_city.role = ['icon-button', 'header-6']
+    if self.current_page == self.total_pages:
+      self.next_button_city.role = ['icon-button-disabled', 'header-6']
+    else:
+      self.next_button_city.role = ['icon-button', 'header-6']
+
+  def next_page_city_2(self, **event_args):
+    if self.current_page < self.total_pages:
+      self.create_events_by_city_bar_chart(page=self.current_page + 1)
+
+  def previous_page_city_2(self, **event_args):
+    if self.current_page > 1:
+      self.create_events_by_city_bar_chart(page=self.current_page - 1)
+
+  
+  # ----------------------------------
   def create_artist_popularity_scatter_chart(self, dates=None, artist_popularity=None):
     scatter_data_pop = {
       "dates": [date for date, followers in zip(self.scatter_data["dates"], self.scatter_data["artist_popularity"]) if followers is not None],

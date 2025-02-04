@@ -1811,7 +1811,7 @@ components:
           type: Label
         - data_bindings:
           - {code: '[''sort-dropdown'']', property: role, writeback: false}
-          event_bindings: {change: sort_dropdown_countries_change}
+          event_bindings: {change: sort_dropdown_countries_change_2}
           layout_properties: {}
           name: sort_dropdown_countries_2
           properties:
