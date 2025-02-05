@@ -28,7 +28,7 @@ class C_Filter(C_FilterTemplate):
 
     # ------------------------------------------------- !!! ATTENTION !!!
     # SCORPIO EXTENSION - has_top5_de
-    if user['email'] in ['janek-meyn@web.de', 'scorpio_team_account'] or user['email'].endswith('@fkpscorpio.com'):
+    if user['email'] == 'janek-meyn@web.de' or user['email'].endswith('@fkpscorpio.com'):
       self.de_header.visible = True
       self.de_content.visible = True
     else:      
