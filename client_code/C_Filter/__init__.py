@@ -48,6 +48,7 @@ class C_Filter(C_FilterTemplate):
                "artist_follower_lat <=": "artist_follower_lat_max",
                "major_coop =": "drop_down_major",
                "sub_major_coop =": "drop_down_submajor",
+               "(CURRENT_DATE - first_release_date) / 365 <=": "years_since_first_release",
                "CURRENT_DATE - last_release_date <=": "days_since_last_release",
                "avg_duration >=": "avg_duration_min",
                "avg_duration <=": "avg_duration_max",
@@ -128,6 +129,7 @@ class C_Filter(C_FilterTemplate):
     if self.drop_down_submajor.selected_value == 'Yes': filters_json += f'{{"ModelID":"{self.model_id}","Type":"general","Column":"sub_major_coop","Operator":"=","Value":"1"}},'
     if self.drop_down_submajor.selected_value == 'No': filters_json += f'{{"ModelID":"{self.model_id}","Type":"general","Column":"sub_major_coop","Operator":"=","Value":"0"}},'
 
+    if self.years_since_first_release.text is not None: filters_json += f'{{"ModelID":"{self.model_id}","Type":"date","Column":"(CURRENT_DATE - first_release_date) / 365","Operator":"<=","Value":"{self.years_since_first_release.text}"}},'
     if self.days_since_last_release.text is not None: filters_json += f'{{"ModelID":"{self.model_id}","Type":"date","Column":"CURRENT_DATE - last_release_date","Operator":"<=","Value":"{self.days_since_last_release.text}"}},'
 
     # 2. Musical Features
