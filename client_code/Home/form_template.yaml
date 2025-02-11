@@ -22,6 +22,21 @@ components:
     properties: {height: 16}
     type: Spacer
   - components:
+    - data_bindings:
+      - {code: '[''to_fetch'']', property: role, writeback: false}
+      layout_properties: {grid_position: 'UXECHR,FSRFUN'}
+      name: flow_panel_shorts
+      properties: {align: center}
+      type: FlowPanel
+    layout_properties: {grid_position: 'MRIQRW,QVOGKC VXETJW,PGKBLD'}
+    name: shorts
+    properties: {}
+    type: ColumnPanel
+  - layout_properties: {grid_position: 'MRIQRW,QVOGKC ICYOFY,SVDXSS'}
+    name: spacer_1
+    properties: {height: 32, visible: false}
+    type: Spacer
+  - components:
     - components:
       - layout_properties: {width: 170, x: 10, y: 45}
         name: label_3_copy
@@ -70,54 +85,9 @@ components:
       name: xy_panel_funnel_empty
       properties: {height: '570', visible: false}
       type: XYPanel
-    layout_properties: {grid_position: 'MRIQRW,QVOGKC'}
+    layout_properties: {grid_position: 'MRIQRW,QVOGKC OMQCUB,LQDUPM'}
     name: column_panel_1
     properties: {role: tile-background-left, spacing_above: none, spacing_below: none, visible: false}
-    type: ColumnPanel
-  - components:
-    - event_bindings: {click: link_discover_click}
-      layout_properties: {grid_position: 'ZCMPFD,LYHAJU'}
-      name: link_discover
-      properties: {align: center, role: artist_name, spacing_below: none, text: Keep discovering}
-      type: Link
-    - components:
-      - components:
-        - data_bindings:
-          - {code: '[''width-100'']', property: role, writeback: false}
-          layout_properties: {grid_position: 'XISFUA,MXKFIP'}
-          name: artist_image
-          properties: {background: '', border: '', border_radius: '', display_mode: zoom_to_fill, foreground: '', height: '183', horizontal_align: center, role: null, source: _/theme/pics/Artist2.png, spacing_above: none, spacing_below: none, tooltip: '', vertical_align: center, visible: true}
-          type: Image
-        data_bindings:
-        - {code: '[''width-100'']', property: role, writeback: false}
-        event_bindings: {click: link_discover_click}
-        layout_properties: {width: null, x: null, y: 0}
-        name: artist_link
-        properties:
-          col_widths: '{}'
-          spacing:
-            margin: [null, 5, 5, 5]
-        type: Link
-      - data_bindings:
-        - {code: '[''home-discover-button'', ''call-to-action-button'', ''header-6'']', property: role, writeback: false}
-        event_bindings: {click: button_discover_click}
-        layout_properties: {width: 98, x: null, y: 140}
-        name: button_discover
-        properties:
-          background: ''
-          foreground: ''
-          role: [call-to-action-button, header-6]
-          spacing:
-            padding: [null, '15', null, '15']
-          text: Discover
-        type: Button
-      layout_properties: {grid_position: 'CTMTJF,CSGOXM'}
-      name: xy_panel_3
-      properties: {height: 182, spacing_above: none, spacing_below: none}
-      type: XYPanel
-    layout_properties: {grid_position: 'MRIQRW,EQZHSN NTXMQM,VLOQPL'}
-    name: column_panel_3
-    properties: {role: grid-main, spacing_above: none, spacing_below: none}
     type: ColumnPanel
   - components:
     - layout_properties: {grid_position: 'WKPYND,DNKUEW'}
@@ -181,8 +151,53 @@ components:
       name: xy_panel_4
       properties: {height: '186'}
       type: XYPanel
-    layout_properties: {grid_position: 'MRIQRW,EQZHSN NTXMQM,YXDPNR'}
+    layout_properties: {grid_position: 'MRIQRW,EQZHSN QJMHOC,KXUQZV'}
     name: column_panel_4
+    properties: {role: grid-main, spacing_above: none, spacing_below: none}
+    type: ColumnPanel
+  - components:
+    - event_bindings: {click: link_discover_click}
+      layout_properties: {grid_position: 'ZCMPFD,LYHAJU'}
+      name: link_discover
+      properties: {align: center, role: artist_name, spacing_below: none, text: Keep discovering}
+      type: Link
+    - components:
+      - components:
+        - data_bindings:
+          - {code: '[''width-100'']', property: role, writeback: false}
+          layout_properties: {grid_position: 'XISFUA,MXKFIP'}
+          name: artist_image
+          properties: {background: '', border: '', border_radius: '', display_mode: zoom_to_fill, foreground: '', height: '183', horizontal_align: center, role: null, source: _/theme/pics/Artist2.png, spacing_above: none, spacing_below: none, tooltip: '', vertical_align: center, visible: true}
+          type: Image
+        data_bindings:
+        - {code: '[''width-100'']', property: role, writeback: false}
+        event_bindings: {click: link_discover_click}
+        layout_properties: {width: null, x: null, y: 0}
+        name: artist_link
+        properties:
+          col_widths: '{}'
+          spacing:
+            margin: [null, 5, 5, 5]
+        type: Link
+      - data_bindings:
+        - {code: '[''home-discover-button'', ''call-to-action-button'', ''header-6'']', property: role, writeback: false}
+        event_bindings: {click: button_discover_click}
+        layout_properties: {width: 98, x: null, y: 140}
+        name: button_discover
+        properties:
+          background: ''
+          foreground: ''
+          role: [call-to-action-button, header-6]
+          spacing:
+            padding: [null, '15', null, '15']
+          text: Discover
+        type: Button
+      layout_properties: {grid_position: 'CTMTJF,CSGOXM'}
+      name: xy_panel_3
+      properties: {height: 182, spacing_above: none, spacing_below: none}
+      type: XYPanel
+    layout_properties: {grid_position: 'MRIQRW,EQZHSN PLMWVW,NEYKAU'}
+    name: column_panel_3
     properties: {role: grid-main, spacing_above: none, spacing_below: none}
     type: ColumnPanel
   - components:
@@ -232,7 +247,7 @@ components:
     type: GridPanel
   layout_properties: {grid_position: 'VHEAUQ,QULOXH'}
   name: content_panel
-  properties: {col_widths: '{"QVOGKC":35,"EQZHSN":25}', role: null}
+  properties: {col_widths: '{"QVOGKC":45,"EQZHSN":15}', role: null}
   type: ColumnPanel
 container:
   properties: {col_widths: '{}', role: null}

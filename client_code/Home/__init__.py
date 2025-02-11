@@ -11,6 +11,8 @@ from datetime import datetime
 from anvil_extras import routing
 from ..nav import click_link, click_button, click_box, logout, login_check, load_var, save_var
 
+from ..C_Short import C_Short
+
 
 @routing.route('',     title='Login')
 @routing.route('home', title='Home')
@@ -43,9 +45,24 @@ class Home(HomeTemplate):
         self.label_welcome.text = f'Welcome {user["first_name"]}'        
       
       #print(f"{datetime.datetime.now()}: Home - __init__ - 2", flush=True)
+
+
+      # -------------
+      # TEST SHORTS
+      shorts = anvil.server.call('get_shorts', user["user_id"])      
+      # print('shorts:', shorts)
       
-      # # FUNNEL DATA
+      if shorts is not None and len(shorts) > 0:
+        shorts = json.loads(shorts)
+        # print(shorts[0]["external_url"])
+        
+        # for i in range(0, min(len(shorts), 1)):
+        #   self.flow_panel_shorts.add_component(C_Short(external_url=shorts[i]["external_url"]))
+        self.flow_panel_shorts.add_component(C_Short(external_url=[item["external_url"] for item in shorts]))
+      # -------------
+      
       data = anvil.server.call('app_home', user["user_id"])
+      # # FUNNEL
       # #print(f"{datetime.datetime.now()}: Home - __init__ - 2a", flush=True)    
   
       # if len(data['funnel1']) == 0 and len(data['funnel2']) == 0 and len(data['funnel3']) == 0:
