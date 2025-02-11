@@ -13,8 +13,9 @@ class C_Short(C_ShortTemplate):
     self.init_components(**properties)
 
     # Any code you write here will run before the form opens.
-    print('external_url:', external_url)
-    
+    # print('external_url:', external_url)
+
+    # adding the shorts to the html base
     self.html += """
     <div class="masonry-container">
     """
@@ -22,9 +23,14 @@ class C_Short(C_ShortTemplate):
     for url in external_url[:10]:
       self.html += f"""
         <div class="masonry-item">
-            <blockquote class="instagram-media" data-instgrm-permalink="{url}" data-instgrm-version="14"></blockquote>
+          <blockquote class="instagram-media" data-instgrm-permalink="{url}" data-instgrm-version="14"></blockquote>
         </div>
       """
+      # self.html += f"""
+      # <div class="masonry-item">
+      #   <iframe src="{url}/embed/" width="300" height="360" frameborder="0" scrolling="no" allowtransparency="true" allowfullscreen="true"></iframe>
+      # </div>
+      # """
     
     self.html += """
     </div>
