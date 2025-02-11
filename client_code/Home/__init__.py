@@ -44,20 +44,20 @@ class Home(HomeTemplate):
       
       #print(f"{datetime.datetime.now()}: Home - __init__ - 2", flush=True)
       
-      # FUNNEL DATA
+      # # FUNNEL DATA
       data = anvil.server.call('app_home', user["user_id"])
-      #print(f"{datetime.datetime.now()}: Home - __init__ - 2a", flush=True)    
+      # #print(f"{datetime.datetime.now()}: Home - __init__ - 2a", flush=True)    
   
-      if len(data['funnel1']) == 0 and len(data['funnel2']) == 0 and len(data['funnel3']) == 0:
-        self.xy_panel_funnel.visible = False
-        self.xy_panel_funnel_empty.visible = True
-      else:
-        self.repeating_panel_2.items = data['funnel1']  #[item for item in funnel if item['Status'] in ['Action required', 'Requires revision', 'Waiting for decision']] #EVALUATION
-        #print(f"{datetime.datetime.now()}: Home - __init__ - 2b", flush=True)
-        self.repeating_panel_3.items = data['funnel2']  #[item for item in funnel if item['Status'] in ['Build connection', 'Awaiting response', 'Exploring opportunities', 'Positive response']] #CONTACTING
-        #print(f"{datetime.datetime.now()}: Home - __init__ - 2c", flush=True)
-        self.repeating_panel_4.items = data['funnel3']  #[item for item in funnel if item['Status'] in ['In negotiations', 'Contract in progress']] #NEGOTIATION
-      #print(f"{datetime.datetime.now()}: Home - __init__ - 3", flush=True)
+      # if len(data['funnel1']) == 0 and len(data['funnel2']) == 0 and len(data['funnel3']) == 0:
+      #   self.xy_panel_funnel.visible = False
+      #   self.xy_panel_funnel_empty.visible = True
+      # else:
+      #   self.repeating_panel_2.items = data['funnel1']  #[item for item in funnel if item['Status'] in ['Action required', 'Requires revision', 'Waiting for decision']] #EVALUATION
+      #   #print(f"{datetime.datetime.now()}: Home - __init__ - 2b", flush=True)
+      #   self.repeating_panel_3.items = data['funnel2']  #[item for item in funnel if item['Status'] in ['Build connection', 'Awaiting response', 'Exploring opportunities', 'Positive response']] #CONTACTING
+      #   #print(f"{datetime.datetime.now()}: Home - __init__ - 2c", flush=True)
+      #   self.repeating_panel_4.items = data['funnel3']  #[item for item in funnel if item['Status'] in ['In negotiations', 'Contract in progress']] #NEGOTIATION
+      # #print(f"{datetime.datetime.now()}: Home - __init__ - 3", flush=True)
   
       # STATS
       stats = data['stats']

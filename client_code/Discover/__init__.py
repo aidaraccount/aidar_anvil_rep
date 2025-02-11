@@ -119,9 +119,12 @@ class Discover(DiscoverTemplate):
 
       # -------------
       # TEST SHORTS
-      shorts = anvil.server.call('get_shorts', [url_artist_id])      
-      # print('shorts:', shorts)
+      shorts = anvil.server.call('get_shorts', user["user_id"])      
+      print('shorts:', shorts)
+      
       if shorts is not None and len(shorts) > 0:
+        shorts = json.loads(shorts)
+        print(shorts[0]["external_url"])
         for i in range(0, min(len(shorts), 1)):
           self.flow_panel_shorts.add_component(C_Short(external_url=shorts[i]["external_url"]))
           # self.column_panel_shorts.add_component(C_Short(external_url=shorts[i]["external_url"]))
