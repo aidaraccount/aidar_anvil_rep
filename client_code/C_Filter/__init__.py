@@ -100,6 +100,8 @@ class C_Filter(C_FilterTemplate):
         elif filter["Column"] in ("has_top5_de"):
           if filter["Value"] == 'True': element.selected_value = 'True'
           if filter["Value"] == 'False': element.selected_value = 'False'
+        elif filter["Column"] in ("(CURRENT_DATE - first_release_date) / 365"):
+          element.text = "{:.1f}".format(float(filter["Value"]) + 1)
 
     # Genre Filters
     filter_genre = [item for item in fil if item['Type'] == 'genre']
@@ -129,7 +131,7 @@ class C_Filter(C_FilterTemplate):
     if self.drop_down_submajor.selected_value == 'Yes': filters_json += f'{{"ModelID":"{self.model_id}","Type":"general","Column":"sub_major_coop","Operator":"=","Value":"1"}},'
     if self.drop_down_submajor.selected_value == 'No': filters_json += f'{{"ModelID":"{self.model_id}","Type":"general","Column":"sub_major_coop","Operator":"=","Value":"0"}},'
 
-    if self.years_since_first_release.text is not None: filters_json += f'{{"ModelID":"{self.model_id}","Type":"date","Column":"(CURRENT_DATE - first_release_date) / 365","Operator":"<=","Value":"{self.years_since_first_release.text}"}},'
+    if self.years_since_first_release.text is not None: filters_json += f'{{"ModelID":"{self.model_id}","Type":"date","Column":"(CURRENT_DATE - first_release_date) / 365","Operator":"<=","Value":"{self.years_since_first_release.text - 1}"}},'
     if self.days_since_last_release.text is not None: filters_json += f'{{"ModelID":"{self.model_id}","Type":"date","Column":"CURRENT_DATE - last_release_date","Operator":"<=","Value":"{self.days_since_last_release.text}"}},'
 
     # 2. Musical Features
