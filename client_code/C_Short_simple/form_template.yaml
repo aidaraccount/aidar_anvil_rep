@@ -1,0 +1,6 @@
+components: []
+container:
+  properties:
+    html: "<!-- <center style=\"font-style:italic; color:#888; margin: 3em;\">\n  (Insert your custom HTML here)\n</center>\n<div anvil-slot=\"default\"></div> -->\n\n<style>\n  .masonry-item {\n    /* display: inline-block; */\n    /* break-inside: avoid; */\n    padding: 7px;\n    margin-bottom: 10px;\n    background: linear-gradient(to bottom right, var(--Background_10), rgba(250, 250, 250, 0.05));  /* no clean color! */\n    border-radius: 12px;\n    a {\n      font-family: GS-regular;\n      font-size: 20px;\n      line-height: 1;\n      text-align: center !important;\n    }\n    p {\n      font-family: GS-regular;\n      font-size: 14px;\n      color: rgb(240, 236, 228);\n      line-height: 1;\n      text-align: center;\n    }\n    blockquote {\n      padding: 10px 20px;\n      margin: 0 0 20px;\n      font-size: 17.5px;\n      border-left: 0 !important;\n    }\n    iframe {\n      min-width: 200px !important;\n      margin: 0 !important;\n      border-radius: 8px !important;\n    }\n  }\n  \n</style>"
+  type: HtmlTemplate
+is_package: true

@@ -12,6 +12,7 @@ from datetime import datetime
 from anvil_extras import routing
 from ..nav import click_link, click_button, click_box, logout, login_check, load_var, save_var
 
+from ..C_Short_simple import C_Short_simple
 from ..C_Short import C_Short
 from ..C_Shorts import C_Shorts
 
@@ -57,11 +58,18 @@ class Home(HomeTemplate):
       if shorts is not None and len(shorts) > 0:
         shorts = json.loads(shorts)
         print(shorts[0])
+        print(shorts[0]["external_url"])
 
-        # shortS
-        self.flow_panel_shorts.add_component(C_Shorts(data=shorts[:9]))
+        # 1. Simple
+        self.flow_panel_short_simple.add_component(C_Short_simple(data=shorts[0]))
+        self.flow_panel_short_simple.add_component(C_Short_simple(data=shorts[1]))
+        self.flow_panel_short_simple.add_component(C_Short_simple(data=shorts[2]))
+        self.flow_panel_short_simple.add_component(C_Short_simple(data=shorts[3]))
+        self.flow_panel_short_simple.add_component(C_Short_simple(data=shorts[4]))
+        self.flow_panel_short_simple.add_component(C_Short_simple(data=shorts[5]))
         
-        # # short
+        # # 2. Single Short
+        # # errors, sometimes with/without details
         # # for i in range(0, min(len(shorts), 9)):
         # self.flow_panel_short.add_component(C_Short(
         #   i=0,
@@ -71,6 +79,10 @@ class Home(HomeTemplate):
         #   name=shorts[0]["name"]
         # ))
         
+        # # 3. Maesonary
+        # # works ok, reload of whole page
+        # self.flow_panel_shorts.add_component(C_Shorts(data=shorts[:9]))
+                
       # -------------
       
       data = anvil.server.call('app_home', user["user_id"])

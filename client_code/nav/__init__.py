@@ -24,9 +24,9 @@ def click_link(element, target, event_args):
   else:
     routing.set_url_hash(target, load_from_cache=False)
 
-    # reresh completely to reload the blockquotes in C_Shorts
-    if target == 'home':
-      location.reload()
+    # # reresh completely to reload the blockquotes in C_Shorts
+    # if target == 'home':
+    #   location.reload()
 
   get_open_form().reset_nav_backgrounds()
 
