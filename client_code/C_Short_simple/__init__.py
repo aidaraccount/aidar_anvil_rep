@@ -20,14 +20,18 @@ class C_Short_simple(C_Short_simpleTemplate):
       <div anvil-slot="name-slot">
         <div anvil-if-slot-empty="name-slot">{data["name"]}</div>
       </div>
-      <div anvil-role="feature">
-        <p class="label-text">{data["created_date"]}</p>
-      </div>
+      <p anvil-role="social-date" class="label-text social-date">{data["created_date"]}</p>
       <iframe src="{data["external_url"]}/embed/?omitscript=true&hidecaption=true"
         width="400" height="480"
         frameborder="0" scrolling="no"
         allowtransparency="true" allowfullscreen="true">
       </iframe>
+      <div anvil-role="social-stats" class="social-stats">
+        <p class="label-text"><i class="fas fa-bullhorn"></i> {data["views"]:,}</p>
+        <p class="label-text"><i class="fas fa-heart"></i> {data["likes"]:,}</p>
+        <p class="label-text"><i class="fas fa-comment"></i> {data["comments"]:,}</p>
+      </div>
+      <p anvil-role="social-desc" class="label-text social-desc">{data["description"]}</p>
     </div>
     """
 

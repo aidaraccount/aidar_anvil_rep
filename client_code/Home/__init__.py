@@ -57,16 +57,13 @@ class Home(HomeTemplate):
       
       if shorts is not None and len(shorts) > 0:
         shorts = json.loads(shorts)
-        print(shorts[0])
-        print(shorts[0]["external_url"])
+        # print(shorts[0])
+        # print(shorts[0]["external_url"])
+        # print(type(shorts[0]["views"]))
 
         # 1. Simple
-        self.flow_panel_short_simple.add_component(C_Short_simple(data=shorts[0]))
-        self.flow_panel_short_simple.add_component(C_Short_simple(data=shorts[1]))
-        self.flow_panel_short_simple.add_component(C_Short_simple(data=shorts[2]))
-        self.flow_panel_short_simple.add_component(C_Short_simple(data=shorts[3]))
-        self.flow_panel_short_simple.add_component(C_Short_simple(data=shorts[4]))
-        self.flow_panel_short_simple.add_component(C_Short_simple(data=shorts[5]))
+        for i in range(0, min(len(shorts), 15)):
+          self.flow_panel_short_simple.add_component(C_Short_simple(data=shorts[i]))
         
         # # 2. Single Short
         # # errors, sometimes with/without details
