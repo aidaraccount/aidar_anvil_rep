@@ -17,7 +17,7 @@ class C_Short_simple(C_Short_simpleTemplate):
     # Any code you write here will run before the form opens.
     self.html += f"""
     <div class="masonry-item">
-      <div anvil-slot="name-slot">
+      <div anvil-role="social-name" class="social-name" anvil-slot="name-slot">
         <div anvil-if-slot-empty="name-slot">{data["name"]}</div>
       </div>
       <p anvil-role="social-date" class="label-text social-date">{data["created_date"]}</p>
