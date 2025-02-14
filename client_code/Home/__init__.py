@@ -187,17 +187,17 @@ class Home(HomeTemplate):
 
     # Check if any watchlists are selected
     # a) collect selected watchlist IDs
-    watchlist_ids = []
+    wl_ids = []
     for component in self.flow_panel_watchlists.get_components():
       if (
         isinstance(component, Link) and component.role == "genre-box"
       ):  # Only active models
-        watchlist_ids.append(component.tag)
+        wl_ids.append(component.tag)
 
     # b) show warning or update_notification
-    if not watchlist_ids:
+    if not wl_ids:
       # self.models_warning.visible = True
       pass
     else:
       # self.models_warning.visible = False
-      pass
+      self.get_shorts(wl_ids)
