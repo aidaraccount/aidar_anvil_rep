@@ -21,45 +21,49 @@ components:
     name: spacer_2
     properties: {height: 16}
     type: Spacer
-  - components:
-    - layout_properties: {}
-      name: wl_selection
-      properties: {role: header-6, spacing_above: none, spacing_below: none, text: 'Watchlist selection:    '}
-      type: Label
+  - layout_properties: {grid_position: 'MRIQRW,QVOGKC ZIVPMJ,KUKJJM'}
+    name: wl_selection
+    properties: {align: center, role: header-6, spacing_above: none, spacing_below: none, text: 'Watchlist selection:    '}
+    type: Label
+  - components: []
     layout_properties: {grid_position: 'MRIQRW,QVOGKC UEPSKA,AMYWGI'}
     name: flow_panel_watchlists
     properties:
       align: center
       spacing:
-        margin: [null, null, 10, null]
+        margin: [null, null, 20, null]
       spacing_above: none
       spacing_below: none
     type: FlowPanel
   - components:
     - layout_properties: {grid_position: 'FFHUXB,SNYWAS'}
-      name: no_watchlists
+      name: no_watchlists_header
       properties: {align: center, bold: false, role: sub_title, text: No watchlists selected / present}
       type: Label
     - layout_properties: {grid_position: 'XVSVDO,ELBDZT'}
-      name: label_2_copy
-      properties: {align: center, bold: false, role: description, text: Please select a watchlist above or add a new watchlist if you do not have any.}
+      name: no_watchlists_text
+      properties: {align: center, bold: false, role: description, text: Please select a watchlist above or create a new watchlist if you do not have any.}
       type: Label
     layout_properties: {grid_position: 'MRIQRW,QVOGKC EPUTWF,NXBVIT'}
-    name: no_trained_model
-    properties: {}
+    name: no_watchlists
+    properties:
+      spacing:
+        margin: ['50', null, null, null]
     type: ColumnPanel
   - components:
     - layout_properties: {grid_position: 'FFHUXB,SNYWAS'}
-      name: label_1_copy_copy
+      name: no_shorts_header
       properties: {align: center, bold: false, role: sub_title, text: No Shorts available for the selected watchlists}
       type: Label
     - layout_properties: {grid_position: 'XVSVDO,ELBDZT'}
-      name: label_2_copy_copy
-      properties: {align: center, bold: false, role: description, text: 'Sorry, there are no shorts available for all artists on your selected watchlists.'}
+      name: no_shorts_text
+      properties: {align: center, bold: false, role: description, text: 'Sorry, there are no shorts available for all artists on your selected watchlists. Add further artists to your watchlists.'}
       type: Label
     layout_properties: {grid_position: 'MRIQRW,QVOGKC JETFJJ,RDDSTC'}
-    name: no_trained_model_copy
-    properties: {}
+    name: no_shorts
+    properties:
+      spacing:
+        margin: ['50', null, null, null]
     type: ColumnPanel
   - layout_properties: {grid_position: 'MRIQRW,QVOGKC NSUREX,HDQBIO'}
     name: flow_panel_shorts

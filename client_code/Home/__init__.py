@@ -58,6 +58,7 @@ class Home(HomeTemplate):
 
       if watchlists is not None and len(watchlists) > 0:
         self.no_watchlists.visible = False
+        self.reload.visible = False
         
         for i in range(0, len(watchlists)):
           # if watchlists[i]["watchlist_id"] in active_watchlists:
@@ -85,6 +86,8 @@ class Home(HomeTemplate):
 
       else:
         self.no_watchlists.visible = True
+        self.no_shorts.visible = False
+        self.reload.visible = False
       
       # get data
       self.get_shorts()
@@ -166,17 +169,26 @@ class Home(HomeTemplate):
     self.flow_panel_shorts.clear()
 
     # add new shorts
-    if wl_ids != []:      
+    if wl_ids != []:  
       # get data
       shorts = anvil.server.call('get_shorts', wl_ids, 0, 12)  # user["user_id"]
       
       # present shorts
       if shorts is not None and len(shorts) > 0:
+        self.no_shorts.visible = False
+        self.reload.visible = True
         shorts = json.loads(shorts)
 
-        self.no_shorts = len(shorts)
+        self.num_shorts = len(shorts)
         for i in range(0, len(shorts)):
           self.flow_panel_shorts.add_component(C_Short_simple(data=shorts[i]))
+
+      else:
+        self.no_shorts.visible = True
+        self.reload.visible = False
+    else:
+      self.no_shorts.visible = True
+      self.reload.visible = False
 
   def add_shorts(self, **event_args):
     # get active watchlist ids
@@ -188,16 +200,17 @@ class Home(HomeTemplate):
     # add new shorts
     if wl_ids != []:      
       # get data
-      shorts = anvil.server.call('get_shorts', wl_ids, self.no_shorts, 9)  # user["user_id"]
+      shorts = anvil.server.call('get_shorts', wl_ids, self.num_shorts, 9)  # user["user_id"]
       
       # present shorts
       if shorts is not None and len(shorts) > 0:
+        self.reload.visible = True
         shorts = json.loads(shorts)
         
         for i in range(0, len(shorts)):
           self.flow_panel_shorts.add_component(C_Short_simple(data=shorts[i]))
         
-        self.no_shorts = self.no_shorts + len(shorts)
+        self.num_shorts = self.num_shorts + len(shorts)
         
       else:
         self.reload.visible = False
