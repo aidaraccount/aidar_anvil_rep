@@ -798,9 +798,10 @@ class Discover(DiscoverTemplate):
       # -------------------------------
       # V. Live
       # get data
-      # event_data = anvil.server.call('get_songkick_events',  artist_id)
-      # print('event_data:', event_data)
-      event_data = None
+      print('before event_data:')
+      event_data = anvil.server.call('get_songkick_events',  artist_id)
+      print('event_data:', event_data)
+      # event_data = None
       
       if event_data is not None:
         # a) stats
