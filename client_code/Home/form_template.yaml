@@ -35,29 +35,46 @@ components:
       spacing_above: none
       spacing_below: none
     type: FlowPanel
+  - components:
+    - layout_properties: {grid_position: 'FFHUXB,SNYWAS'}
+      name: no_watchlists
+      properties: {align: center, bold: false, role: sub_title, text: No watchlists selected / present}
+      type: Label
+    - layout_properties: {grid_position: 'XVSVDO,ELBDZT'}
+      name: label_2_copy
+      properties: {align: center, bold: false, role: description, text: Please select a watchlist above or add a new watchlist if you do not have any.}
+      type: Label
+    layout_properties: {grid_position: 'MRIQRW,QVOGKC EPUTWF,NXBVIT'}
+    name: no_trained_model
+    properties: {}
+    type: ColumnPanel
+  - components:
+    - layout_properties: {grid_position: 'FFHUXB,SNYWAS'}
+      name: label_1_copy_copy
+      properties: {align: center, bold: false, role: sub_title, text: No Shorts available for the selected watchlists}
+      type: Label
+    - layout_properties: {grid_position: 'XVSVDO,ELBDZT'}
+      name: label_2_copy_copy
+      properties: {align: center, bold: false, role: description, text: 'Sorry, there are no shorts available for all artists on your selected watchlists.'}
+      type: Label
+    layout_properties: {grid_position: 'MRIQRW,QVOGKC JETFJJ,RDDSTC'}
+    name: no_trained_model_copy
+    properties: {}
+    type: ColumnPanel
   - layout_properties: {grid_position: 'MRIQRW,QVOGKC NSUREX,HDQBIO'}
     name: flow_panel_shorts
     properties: {align: center, gap: tiny}
     type: FlowPanel
-  - components:
-    - event_bindings: {click: add_shorts}
-      layout_properties: {grid_position: 'WZZBST,SBSFFI'}
-      name: reload
-      properties:
-        role: [call-to-action-button, header-7]
-        text: add further shorts
-      type: Button
-    layout_properties: {grid_position: 'MRIQRW,QVOGKC FGOFRS,JIOKPA'}
-    name: column_panel_6
-    properties: {}
-    type: ColumnPanel
-  - layout_properties: {grid_position: 'MRIQRW,QVOGKC TKPMMQ,GFTFRS'}
-    name: image_2
-    properties: {}
-    type: Image
+  - event_bindings: {click: add_shorts}
+    layout_properties: {grid_position: 'MRIQRW,QVOGKC XFZZDL,EQOLGW'}
+    name: reload
+    properties:
+      role: [call-to-action-button, header-7]
+      text: load further shorts
+    type: Button
   - layout_properties: {grid_position: 'MRIQRW,QVOGKC ICYOFY,SVDXSS'}
     name: spacer_1
-    properties: {height: 32, visible: false}
+    properties: {height: 79, visible: false}
     type: Spacer
   - components:
     - components:
@@ -98,15 +115,6 @@ components:
       layout_properties: {grid_position: 'YPIXHC,CPOJZC'}
       name: xy_panel_funnel
       properties: {height: '570', role: null}
-      type: XYPanel
-    - components:
-      - layout_properties: {width: 484, x: 29.5, y: 80}
-        name: label_3
-        properties: {align: center, role: description, text: Please add artists to your Watchlist to use the Funnel}
-        type: Label
-      layout_properties: {grid_position: 'RCBTWN,IBMUSP'}
-      name: xy_panel_funnel_empty
-      properties: {height: '570', visible: false}
       type: XYPanel
     layout_properties: {grid_position: 'MRIQRW,QVOGKC OMQCUB,LQDUPM'}
     name: column_panel_1
@@ -255,19 +263,6 @@ components:
     name: column_panel_4
     properties: {role: grid-main, spacing_above: none, spacing_below: none}
     type: ColumnPanel
-  - components: []
-    layout_properties: {grid_position: 'XELTJA,MQQCSE'}
-    name: column_panel_2
-    properties: {role: null}
-    type: ColumnPanel
-  - components: []
-    layout_properties: {grid_position: 'MCJJQJ,QCTEKK'}
-    name: grid_panel_1
-    properties:
-      role: [equal-height-container, home-page]
-      spacing_above: none
-      spacing_below: none
-    type: GridPanel
   layout_properties: {grid_position: 'VHEAUQ,QULOXH'}
   name: content_panel
   properties: {col_widths: '{"QVOGKC":45,"EQZHSN":15}', role: null}
