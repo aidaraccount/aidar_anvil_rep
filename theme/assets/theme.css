@@ -32,6 +32,7 @@ Area 4: Page Individual
   --Background: %color:Background%;
   --Background_10: rgba(215, 215, 215, 0.10);
   --Background_20: rgba(215, 215, 215, 0.20);
+  --Background_Purple: %color:Background_Purple%;
 }
 
 rgba(123, 123, 123, 0.2)

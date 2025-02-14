@@ -8,6 +8,76 @@ Area 5: Page individual classes
   right: 1em;
 }
 
+/* Socials */
+.masonry-item {
+  padding: 7px 7px 0px 7px;
+  margin-bottom: 10px;
+  background: var(--Background_Purple);
+  border-radius: 12px;
+  width: 314px;
+  overflow: hidden; /* to hide top */
+  p {
+    font-family: GS-regular;
+    color: rgb(240, 236, 228);
+    line-height: 1;
+    text-align: center;
+    font-weight: normal;
+  }
+  .social-name {
+    z-index: 9999; /* to hide top */
+    position: relative; /* to hide top */
+    background: var(--Background_Purple); /* to hide top */
+    padding-bottom: 1px; /* to hide top */
+    padding-top: 1px; /* to hide top */
+    a {
+      font-family: GS-regular;
+      font-size: 20px;
+      line-height: 1;
+      text-align: center !important;
+    }
+  }
+  .social-date {
+    font-size: 14px;
+    z-index: 1; /* to hide top */
+    position: relative; /* to hide top */
+    background: var(--Background_Purple); /* to hide top */
+    padding-bottom: 15px; /* to hide top */
+  }
+  blockquote {
+    padding: 10px 20px;
+    margin: 0 0 20px;
+    font-size: 17.5px;
+    border-left: 0 !important;
+  }
+  iframe {
+    position: relative; /* to hide top */
+    top: -65px; /* to hide top */
+    min-width: 200px !important;
+    max-width: 300px !important;
+    height: 428px;
+    margin: 0 !important;
+  }
+  .social-stats {
+    position: relative; /* to hide top */
+    top: -50px; /* to hide top */
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    justify-content: center;
+    p {
+      font-size: 14px;
+      font-weight: bold;
+      margin: 0;
+    }
+  }
+  .social-desc {
+    position: relative; /* to hide top */
+    top: -30px; /* to hide top */
+    font-size: 14px;  
+    margin: 0;
+  }
+}
+
 
 /* ----------------------------
 5.2. DISCOVER & C_DISCOVER individual classes
