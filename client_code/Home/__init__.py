@@ -51,36 +51,45 @@ class Home(HomeTemplate):
 
 
       # -------------
-      # TEST SHORT/S
-      shorts = anvil.server.call('get_shorts', user["user_id"])      
-      # print('shorts:', shorts)
-      
-      if shorts is not None and len(shorts) > 0:
-        shorts = json.loads(shorts)
-        # print(shorts[0])
-        # print(shorts[0]["external_url"])
-        # print(type(shorts[0]["views"]))
+      # SHORTS
+      # get watchlists
+      watchlists = json.loads(anvil.server.call("get_watchlist_ids", user["user_id"]))
+      print(watchlists)
+      # active_watchlists = items["watchlist_id"]
+  
+      for i in range(0, len(watchlists)):
+        # if watchlists[i]["watchlist_id"] in active_watchlists:
+        wl_link = Link(
+          text=watchlists[i]["watchlist_name"], tag=watchlists[i]["watchlist_id"], role="genre-box"
+        )
+        # else:
+        #   wl_link = Link(
+        #     text=watchlists[i]["watchlist_name"],
+        #     tag=watchlists[i]["watchlist_id"],
+        #     role="genre-box-deselect",
+        #   )
+  
+        # if watchlists[i]["fully_trained"] is False:
+        #   wl_link = Link(
+        #     text=watchlists[i]["watchlist_name"],
+        #     tag=watchlists[i]["watchlist_id"],
+        #     role="genre-box-deactive",
+        #   )
+  
+        wl_link.set_event_handler(
+          "click", self.create_activate_watchlist_handler(watchlists[i]["watchlist_id"])
+        )
+        self.flow_panel_watchlists.add_component(wl_link)
 
-        # 1. Simple
-        for i in range(0, min(len(shorts), 15)):
-          self.flow_panel_short_simple.add_component(C_Short_simple(data=shorts[i]))
-        
-        # # 2. Single Short
-        # # errors, sometimes with/without details
-        # # for i in range(0, min(len(shorts), 9)):
-        # self.flow_panel_short.add_component(C_Short(
-        #   i=0,
-        #   artist_id=shorts[0]["artist_id"],
-        #   created_date=shorts[0]["created_date"],
-        #   external_url=shorts[0]["external_url"],
-        #   name=shorts[0]["name"]
-        # ))
-        
-        # # 3. Maesonary
-        # # works ok, reload of whole page
-        # self.flow_panel_shorts.add_component(C_Shorts(data=shorts[:9]))
-                
-      # -------------
+      
+      # get data
+      wl_ids = []
+      for component in self.flow_panel_watchlists.get_components():
+        if (isinstance(component, Link) and component.role == "genre-box"):  # Only active models
+          wl_ids.append(component.tag)
+
+      self.get_shorts(wl_ids)
+    
       
       data = anvil.server.call('app_home', user["user_id"])
       # # FUNNEL
@@ -142,3 +151,53 @@ class Home(HomeTemplate):
     
   def link_funnel_click(self, **event_args):
     click_link(self.link_funnel, 'watchlist_funnel', event_args)
+
+  def get_shorts(self, wl_ids, **event_args):    
+      shorts = anvil.server.call('get_shorts', user["user_id"])  # , wl_ids
+
+      # clean present shorts
+      pass
+    
+      # present shorts
+      if shorts is not None and len(shorts) > 0:
+        shorts = json.loads(shorts)
+        
+        for i in range(0, min(len(shorts), 15)):
+          self.flow_panel_short_simple.add_component(C_Short_simple(data=shorts[i]))
+        
+  
+  # ------------------
+  # WATCHLIST BUTTONS
+  def create_activate_watchlist_handler(self, watchlist_id):
+    def handler(**event_args):
+      self.activate_watchlist(watchlist_id)
+
+    return handler
+  
+  # change active status of MODEL BUTTONS
+  def activate_watchlist(self, watchlist_id):
+    for component in self.flow_panel_watchlists.get_components():
+      if isinstance(component, Link):
+        # change activation
+        if int(component.tag) == watchlist_id:
+          if component.role == "genre-box":
+            component.role = "genre-box-deselect"
+          else:
+            component.role = "genre-box"
+
+    # Check if any watchlists are selected
+    # a) collect selected watchlist IDs
+    watchlist_ids = []
+    for component in self.flow_panel_watchlists.get_components():
+      if (
+        isinstance(component, Link) and component.role == "genre-box"
+      ):  # Only active models
+        watchlist_ids.append(component.tag)
+
+    # b) show warning or update_notification
+    if not watchlist_ids:
+      # self.models_warning.visible = True
+      pass
+    else:
+      # self.models_warning.visible = False
+      pass

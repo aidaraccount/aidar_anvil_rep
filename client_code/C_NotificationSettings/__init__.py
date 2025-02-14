@@ -441,7 +441,6 @@ class C_NotificationSettings(C_NotificationSettingsTemplate):
       self.activate_model(model_id)
 
     return handler
-
   
   # change active status of MODEL BUTTONS
   def activate_model(self, model_id):
