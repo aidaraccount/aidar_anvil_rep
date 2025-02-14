@@ -14,6 +14,10 @@ class C_Short_simple(C_Short_simpleTemplate):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
 
+    views = '-' if data["views"] is None else f'{data["views"]:,}'
+    likes = '-' if data["likes"] is None else f'{data["likes"]:,}'
+    comments = '-' if data["comments"] is None else f'{data["comments"]:,}'
+    
     # Any code you write here will run before the form opens.
     self.html = f"""
     <div class="masonry-item">
@@ -27,9 +31,9 @@ class C_Short_simple(C_Short_simpleTemplate):
         allowtransparency="true" allowfullscreen="true">
       </iframe>
       <div anvil-role="social-stats" class="social-stats">
-        <p class="label-text"><i class="fas fa-bullhorn"></i> {data["views"]:,}</p>
-        <p class="label-text"><i class="fas fa-heart"></i> {data["likes"]:,}</p>
-        <p class="label-text"><i class="fas fa-comment"></i> {data["comments"]:,}</p>
+        <p class="label-text"><i class="fas fa-bullhorn"></i> {views}</p>
+        <p class="label-text"><i class="fas fa-heart"></i> {likes}</p>
+        <p class="label-text"><i class="fas fa-comment"></i> {comments}</p>
       </div>
       <p anvil-role="social-desc" class="label-text social-desc">{data["description"]}</p>
     </div>
