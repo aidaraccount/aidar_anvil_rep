@@ -36,9 +36,25 @@ components:
       spacing_below: none
     type: FlowPanel
   - layout_properties: {grid_position: 'MRIQRW,QVOGKC NSUREX,HDQBIO'}
-    name: flow_panel_short_simple
+    name: flow_panel_shorts
     properties: {align: center, gap: tiny}
     type: FlowPanel
+  - components:
+    - event_bindings: {click: add_shorts}
+      layout_properties: {grid_position: 'WZZBST,SBSFFI'}
+      name: reload
+      properties:
+        role: [call-to-action-button, header-7]
+        text: add further shorts
+      type: Button
+    layout_properties: {grid_position: 'MRIQRW,QVOGKC FGOFRS,JIOKPA'}
+    name: column_panel_6
+    properties: {}
+    type: ColumnPanel
+  - layout_properties: {grid_position: 'MRIQRW,QVOGKC TKPMMQ,GFTFRS'}
+    name: image_2
+    properties: {}
+    type: Image
   - layout_properties: {grid_position: 'MRIQRW,QVOGKC ICYOFY,SVDXSS'}
     name: spacer_1
     properties: {height: 32, visible: false}

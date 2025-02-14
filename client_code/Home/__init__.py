@@ -51,10 +51,10 @@ class Home(HomeTemplate):
 
 
       # -------------
-      # SHORTS
+      # SHORTS      
       # get watchlists
       watchlists = json.loads(anvil.server.call("get_watchlist_ids", user["user_id"]))
-      print(watchlists)
+      # print(watchlists)
       # active_watchlists = items["watchlist_id"]
   
       for i in range(0, len(watchlists)):
@@ -81,14 +81,8 @@ class Home(HomeTemplate):
         )
         self.flow_panel_watchlists.add_component(wl_link)
 
-      
       # get data
-      wl_ids = []
-      for component in self.flow_panel_watchlists.get_components():
-        if (isinstance(component, Link) and component.role == "genre-box"):  # Only active models
-          wl_ids.append(component.tag)
-
-      self.get_shorts(wl_ids)
+      self.get_shorts()
     
       
       data = anvil.server.call('app_home', user["user_id"])
@@ -152,19 +146,53 @@ class Home(HomeTemplate):
   def link_funnel_click(self, **event_args):
     click_link(self.link_funnel, 'watchlist_funnel', event_args)
 
-  def get_shorts(self, wl_ids, **event_args):    
-      shorts = anvil.server.call('get_shorts', user["user_id"])  # , wl_ids
+  def get_shorts(self, **event_args):
+    # get active watchlist ids
+    wl_ids = []
+    for component in self.flow_panel_watchlists.get_components():
+      if (isinstance(component, Link) and component.role == "genre-box"):  # Only active models
+        wl_ids.append(component.tag)
+      
+    # clean present shorts
+    self.flow_panel_shorts.clear()
 
-      # clean present shorts
-      pass
+    # add new shorts
+    if wl_ids != []:      
+      # get data
+      shorts = anvil.server.call('get_shorts', wl_ids, 0, 12)  # user["user_id"]
+      
+      # present shorts
+      if shorts is not None and len(shorts) > 0:
+        shorts = json.loads(shorts)
+
+        self.no_shorts = len(shorts)
+        for i in range(0, len(shorts)):
+          self.flow_panel_shorts.add_component(C_Short_simple(data=shorts[i]))
+
+  def add_shorts(self, **event_args):
+    # get active watchlist ids
+    wl_ids = []
+    for component in self.flow_panel_watchlists.get_components():
+      if (isinstance(component, Link) and component.role == "genre-box"):  # Only active models
+        wl_ids.append(component.tag)
     
+    # add new shorts
+    if wl_ids != []:      
+      # get data
+      shorts = anvil.server.call('get_shorts', wl_ids, self.no_shorts, 9)  # user["user_id"]
+      
       # present shorts
       if shorts is not None and len(shorts) > 0:
         shorts = json.loads(shorts)
         
-        for i in range(0, min(len(shorts), 15)):
-          self.flow_panel_short_simple.add_component(C_Short_simple(data=shorts[i]))
+        for i in range(0, len(shorts)):
+          self.flow_panel_shorts.add_component(C_Short_simple(data=shorts[i]))
         
+        self.no_shorts = self.no_shorts + len(shorts)
+        
+      else:
+        self.reload.visible = False
+              
   
   # ------------------
   # WATCHLIST BUTTONS
@@ -194,10 +222,5 @@ class Home(HomeTemplate):
       ):  # Only active models
         wl_ids.append(component.tag)
 
-    # b) show warning or update_notification
-    if not wl_ids:
-      # self.models_warning.visible = True
-      pass
-    else:
-      # self.models_warning.visible = False
-      self.get_shorts(wl_ids)
+    print('wl_ids:', wl_ids)
+    self.get_shorts()
