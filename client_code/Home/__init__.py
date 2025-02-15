@@ -183,9 +183,13 @@ class Home(HomeTemplate):
         for i in range(0, len(shorts)):
           self.flow_panel_shorts.add_component(C_Short_simple(data=shorts[i]))
 
+        if len(shorts) < 12:
+          self.reload.visible = False
+      
       else:
         self.no_shorts.visible = True
         self.reload.visible = False
+        
     else:
       self.no_shorts.visible = True
       self.reload.visible = False
