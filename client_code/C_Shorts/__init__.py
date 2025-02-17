@@ -17,10 +17,10 @@ class C_Shorts(C_ShortsTemplate):
     # Any code you write here will run before the form opens.    
     # print('external_url:', external_url)
     artist_ids = [item["artist_id"] for item in data]
-    created_dates = [item["created_date"] for item in data]
+    created_datetimes = [item["created_datetime"] for item in data]
     external_urls = [item["external_url"] for item in data]
     names = [item["name"] for item in data]
-    print('created_dates:', created_dates[0])
+    print('created_datetimes:', created_datetimes[0])
     
     # adding the shorts to the html base    
     self.html += """
@@ -40,7 +40,7 @@ class C_Shorts(C_ShortsTemplate):
               <div anvil-if-slot-empty="name-slot-{i}">{names[i]}</div>
             </div>
             <div anvil-role="feature">
-              <p class="label-text">{created_dates[i]}</p>
+              <p class="label-text">{created_datetimes[i]}</p>
             </div>
             <blockquote class="instagram-media" data-instgrm-permalink="{external_urls[i]}" data-instgrm-version="14"></blockquote>
           </div>
@@ -53,7 +53,7 @@ class C_Shorts(C_ShortsTemplate):
         #       <div anvil-if-slot-empty="name-slot-{i}">{names[i]}</div>
         #     </div>
         #     <div anvil-role="feature">
-        #       <p class="label-text">{created_dates[i]}</p>
+        #       <p class="label-text">{created_datetimes[i]}</p>
         #     </div>
         #     <iframe src="{external_urls[i]}/embed/?omitscript=true&hidecaption=true"
         #       width="400" height="480"
