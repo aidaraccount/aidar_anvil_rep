@@ -71,13 +71,6 @@ class Home(HomeTemplate):
           #     role="genre-box-deselect",
           #   )
     
-          # if watchlists[i]["fully_trained"] is False:
-          #   wl_link = Link(
-          #     text=watchlists[i]["watchlist_name"],
-          #     tag=watchlists[i]["watchlist_id"],
-          #     role="genre-box-deactive",
-          #   )
-    
           wl_link.set_event_handler(
             "click", self.create_activate_watchlist_handler(watchlists[i]["watchlist_id"])
           )
@@ -92,26 +85,10 @@ class Home(HomeTemplate):
       self.get_shorts()
       
       print(f"{datetime.datetime.now()}: Home - __init__ - 2", flush=True)
-    
-      
-      data = anvil.server.call('app_home', user["user_id"])
-      # # FUNNEL
-      # #print(f"{datetime.datetime.now()}: Home - __init__ - 2a", flush=True)    
-  
-      # if len(data['funnel1']) == 0 and len(data['funnel2']) == 0 and len(data['funnel3']) == 0:
-      #   self.xy_panel_funnel.visible = False
-      #   self.xy_panel_funnel_empty.visible = True
-      # else:
-      #   self.repeating_panel_2.items = data['funnel1']  #[item for item in funnel if item['Status'] in ['Action required', 'Requires revision', 'Waiting for decision']] #EVALUATION
-      #   #print(f"{datetime.datetime.now()}: Home - __init__ - 2b", flush=True)
-      #   self.repeating_panel_3.items = data['funnel2']  #[item for item in funnel if item['Status'] in ['Build connection', 'Awaiting response', 'Exploring opportunities', 'Positive response']] #CONTACTING
-      #   #print(f"{datetime.datetime.now()}: Home - __init__ - 2c", flush=True)
-      #   self.repeating_panel_4.items = data['funnel3']  #[item for item in funnel if item['Status'] in ['In negotiations', 'Contract in progress']] #NEGOTIATION
-      # #print(f"{datetime.datetime.now()}: Home - __init__ - 3", flush=True)
-  
-      print(f"{datetime.datetime.now()}: Home - __init__ - 3", flush=True)
-      
+          
       # STATS
+      data = anvil.server.call('app_home', user["user_id"])
+      
       stats = data['stats']
       for stat in stats:
         if stat['stat'] == 'Success': won_cnt = stat['cnt']
@@ -133,7 +110,7 @@ class Home(HomeTemplate):
       if tot_cnt == 1: self.label_tot_txt.text = 'total\nrating'
       else: self.label_tot_txt.text = 'total\nratings'
         
-      print(f"{datetime.datetime.now()}: Home - __init__ - 4", flush=True)
+      print(f"{datetime.datetime.now()}: Home - __init__ - 3", flush=True)
   
       # NEWS
       news = data['news']
@@ -142,9 +119,8 @@ class Home(HomeTemplate):
         self.xy_panel_news_empty.visible = True
       else:
         self.repeating_panel_news.items = news
-      print(f"{datetime.datetime.now()}: Home - __init__ - 5", flush=True)
-      
-    
+      print(f"{datetime.datetime.now()}: Home - __init__ - 4", flush=True)
+          
     
   def link_discover_click(self, **event_args):
     temp_artist_id = anvil.server.call('get_next_artist_id', load_var('model_id'))
@@ -186,11 +162,17 @@ class Home(HomeTemplate):
           self.reload.visible = False
       
       else:
-        self.no_shorts.visible = True
+        if self.no_watchlists.visible is False:
+          self.no_shorts.visible = True
+        else:
+          self.no_shorts.visible = False
         self.reload.visible = False
         
     else:
-      self.no_shorts.visible = True
+      if self.no_watchlists.visible is False:
+        self.no_shorts.visible = True
+      else:
+        self.no_shorts.visible = False
       self.reload.visible = False
 
   def add_shorts(self, **event_args):
