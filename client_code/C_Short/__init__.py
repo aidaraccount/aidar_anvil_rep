@@ -7,6 +7,7 @@ import anvil.tables.query as q
 from anvil.tables import app_tables
 
 from ..nav import click_link, click_button
+from anvil.js.window import shortHeight
 
 
 class C_Short(C_ShortTemplate):
@@ -30,8 +31,8 @@ class C_Short(C_ShortTemplate):
         </div>
       </div>
       <p anvil-role="social-date" class="label-text social-date">{data["created_datetime"]}</p>
-      <iframe src="{data["external_url"]}/embed/?omitscript=true&hidecaption=true"
-        width="400" height="480"
+      <iframe anvil-role="iframe-class" class="iframe-class" src="{data["external_url"]}/embed/?omitscript=true&hidecaption=true"
+        width="400"
         frameborder="0" scrolling="no"
         allowtransparency="true" allowfullscreen="true">
       </iframe>
@@ -56,6 +57,7 @@ class C_Short(C_ShortTemplate):
     )
     self.add_component(button, slot="wl-button-slot")
 
+
   
   def create_link_click_handler(self, artist_id, link):
     def handler(**event_args):
@@ -66,3 +68,6 @@ class C_Short(C_ShortTemplate):
     def handler(**event_args):
       click_button(f'watchlist_details?watchlist_id={watchlist_id}&artist_id={artist_id}', event_args)
     return handler
+
+  def form_show(self, **event_args):
+    anvil.js.call_js('shortHeight')

@@ -1,5 +1,6 @@
 components: []
 container:
+  event_bindings: {show: form_show}
   properties: {html: ''}
   type: HtmlTemplate
 is_package: true

@@ -60,11 +60,11 @@ Area 5: Page individual classes
     border-left: 0 !important;
   }
   iframe {
-    position: relative; /* to hide top */
-    top: -65px; /* to hide top */
+    /* position: relative; /* to hide top */
+    /* top: -65px; /* to hide top */
     min-width: 200px !important;
     max-width: 300px !important;
-    height: 428px;
+    /* height: 428px; */
     margin: 0 !important;
   }
   .social-stats {
