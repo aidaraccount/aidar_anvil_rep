@@ -24,7 +24,7 @@ Area 5: Page individual classes
     font-weight: normal;
   }
   .social-name {
-    z-index: 9999; /* to hide top */
+    z-index: 2; /* to hide top */
     position: relative; /* to hide top */
     background: var(--Background_Purple); /* to hide top */
     padding-bottom: 1px; /* to hide top */
@@ -35,6 +35,12 @@ Area 5: Page individual classes
       line-height: 1;
       text-align: center !important;
     }
+  }
+  .social-wl-button {
+    z-index: 3;
+    position: relative;
+    top: -40px;
+    left: 270px;
   }
   .social-date {
     font-size: 14px;

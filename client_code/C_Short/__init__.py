@@ -23,11 +23,11 @@ class C_Short(C_ShortTemplate):
     # Any code you write here will run before the form opens.
     self.html = f"""
     <div class="masonry-item">
-      <div anvil-role="social-name" class="social-name" anvil-slot="wl-slot">
-        <div anvil-if-slot-empty="wl-slot">{data["name"]}</div>
-      </div>
-      <div anvil-role="wl-button" class="wl-button" anvil-slot="name-slot">
+      <div anvil-role="social-name" class="social-name" anvil-slot="name-slot">
         <div anvil-if-slot-empty="name-slot">{data["name"]}</div>
+      </div>
+      <div anvil-role="social-wl-button" class="social-wl-button" anvil-slot="wl-button-slot">
+        <div anvil-if-slot-empty="wl-button-slot">{data["watchlist_id"]}</div>
       </div>
       <p anvil-role="social-date" class="label-text social-date">{data["created_date"]}</p>
       <iframe src="{data["external_url"]}/embed/?omitscript=true&hidecaption=true"
