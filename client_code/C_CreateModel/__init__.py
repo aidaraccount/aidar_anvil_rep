@@ -33,9 +33,9 @@ class C_CreateModel(C_CreateModelTemplate):
       status = 'Missing Access Token'
       
     elif self.text_box_model_name.text == '':
-      alert(title='Missing Model Name',
-        content="Please add a Model Name!")
-      status = 'Missing Model Name'
+      alert(title='Missing Agent Name',
+        content="Please add an Agent Name!")
+      status = 'Missing Agent Name'
         
     else:
       status = anvil.server.call('create_model',
@@ -43,7 +43,7 @@ class C_CreateModel(C_CreateModelTemplate):
                                  self.text_box_model_name.text,
                                  self.text_box_description.text,
                                  self.text_box_access_token.text)
-      if (status == 'Congratulations, your Model was successfully created!'):
+      if (status == 'Congratulations, your Agent was successfully created!'):
         # refresh model_id
         model_id = anvil.server.call('get_model_id',  user["user_id"])
         anvil.server.call('update_model_usage', user["user_id"], model_id)

@@ -95,12 +95,12 @@ class Discover(DiscoverTemplate):
     # check status
     if sug["Status"] == 'Empty Model!':
       alert(title='Train you Model..',
-        content="Sorry, we cound't find any artists for your model. Make sure your model is fully set up!\n\nTherefore, go to ADD REF. ARTISTS and add some starting artists that you are interested in.")
+        content="Sorry, we cound't find any artists for your model. Make sure your Agent is fully set up!\n\nTherefore, go to ADD REF. ARTISTS and add some starting artists that you are interested in.")
       self.visible = False
 
     elif sug["Status"] == 'No Findings!':
       result = alert(title='No Artists found..',
-        content="Sorry, we cound't find any artists for your model. Please check two potential issues:\n\n1. Please check your FILTERS and change them to find additional artists.\n\n2. If you're just setting up your model or are subscribed to the Explore subscription, go to the ADD REF. ARTISTS page and add additional reference artists.",
+        content="Sorry, we cound't find any artists for your model. Please check two potential issues:\n\n1. Please check your FILTERS and change them to find additional artists.\n\n2. If you're just setting up your Agent or are subscribed to the Explore subscription, go to the ADD REF. ARTISTS page and add additional reference artists.",
         buttons=[
           ("Change Filters", "FILTERS"),
           ("Ok", "OK")

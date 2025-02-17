@@ -37,7 +37,7 @@ class SearchRefRows(SearchRefRowsTemplate):
       self.parent.parent.parent.parent.parent.parent.parent.no_references.text = int(self.parent.parent.parent.parent.parent.parent.parent.no_references.text) + 1
     
       alert(title='Processing Reference Artist..',
-            content='We are processing your artist, which may take a short moment. You will find it at REF. ARTISTS soon.\n\nFeel free to add additional reference artists or start to DISCOVER - both  will improve your model accuracy.\n\nEnjoy it!')
+            content='We are processing your artist, which may take a short moment. You will find it at REF. ARTISTS soon.\n\nFeel free to add additional reference artists or start to DISCOVER - both  will improve your Agent accuracy.\n\nEnjoy it!')
 
       if self.parent.parent.parent.parent.label_cnt_1.background == 'theme:Accent_1':
         self.parent.parent.parent.parent.label_cnt_1.background = 'theme:Orange'

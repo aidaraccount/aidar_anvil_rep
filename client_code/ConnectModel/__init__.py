@@ -26,7 +26,7 @@ class ConnectModel(ConnectModelTemplate):
     status = anvil.server.call('connect_model_by_access_token', user["user_id"], self.text_box_access_token.text)
     if status == 'Connection Successful':
       alert(title='Model Connected!',
-            content='You connected successfully to the model and are ready to go.\n\nEnjoy it!')
+            content='You connected successfully to the Agent and are ready to go.\n\nEnjoy it!')
       click_button('home', event_args)
 
     else:

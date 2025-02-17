@@ -105,7 +105,7 @@ class RampUp(RampUpTemplate):
                                     self.text_box_description.text,
                                     True)
           if status == 'success':
-            status = 'Congratulations, your Model was successfully created!'
+            status = 'Congratulations, your Agent was successfully created!'
         else:
           access_token = f"{''.join(random.choice((string.ascii_letters + string.digits)) for _ in range(3))}-{''.join(random.choice((string.ascii_letters + string.digits)) for _ in range(3))}-{''.join(random.choice((string.ascii_letters + string.digits)) for _ in range(3))}"
           status = anvil.server.call('create_model',
@@ -114,7 +114,7 @@ class RampUp(RampUpTemplate):
                                      self.text_box_description.text,
                                      access_token)
           
-          if status == 'Congratulations, your Model was successfully created!':
+          if status == 'Congratulations, your Agent was successfully created!':
             # refresh model_id_view
             self.model_id_view = anvil.server.call('get_model_id', user["user_id"])
             anvil.server.call('update_model_usage', user["user_id"], self.model_id_view)
@@ -138,7 +138,7 @@ class RampUp(RampUpTemplate):
         get_open_form().change_nav_visibility(status=True)
             
         # check & routing
-        if status == 'Congratulations, your Model was successfully created!':
+        if status == 'Congratulations, your Agent was successfully created!':
           click_button(f'model_setup?model_id={self.model_id_view}&section=Reference_Artists', event_args)
         
     # Reference_Artists
@@ -152,7 +152,7 @@ class RampUp(RampUpTemplate):
         if no_artists <= 2:
           result = alert(
             title='Too few references added..',
-            content="Please add at least 3 artists in the style you're looking for! Otherwise, the model may struggle to provide accurate suggestions right away.",
+            content="Please add at least 3 artists in the style you're looking for! Otherwise, the Agent may struggle to provide accurate suggestions right away.",
             buttons=[
               ("Ignore", "IGNORE"),
               ("Add more references", "BACK")
@@ -274,8 +274,8 @@ class RampUp(RampUpTemplate):
     self.Next_click()
 
   def delete_click(self, ask=True, **event_args):
-    result = alert(title='Do you want to delete this model setup?',
-          content="Are you sure to delete this model setup?",
+    result = alert(title='Do you want to delete this Agent setup?',
+          content="Are you sure to delete this Agent setup?",
           buttons=[
             ("Cancel", "Cancel"),
             ("Delete", "Delete")

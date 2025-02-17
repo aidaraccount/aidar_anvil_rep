@@ -36,7 +36,7 @@ class C_ProgressMessage(C_ProgressMessageTemplate):
       self.custom_HTML_prediction_inactive(milestone*2)
     elif milestone == 50:
       self.Message_title.text = "Congratulations - You did it!"
-      self.congrats_message.content = "Your agent is trained and is now able to continue searching for talent for you. Go to 'Observe' and setup your notifications.\n\nConsider: Although your agent is now trained, it is still a young model - keep rating more artists to grow it's accuracy."
+      self.congrats_message.content = "Your agent is trained and is now able to continue searching for talent for you. Go to 'Observe' and setup your notifications.\n\nConsider: Although your agent is now trained, it is still - keep rating more artists to grow it's accuracy."
       self.custom_HTML_prediction(milestone*2)
     
 

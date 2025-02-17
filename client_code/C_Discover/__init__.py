@@ -104,14 +104,14 @@ class C_Discover(C_DiscoverTemplate):
     if sug["Status"] == "Empty Model!":
       alert(
         title="Train you Model..",
-        content="Sorry, we cound't find any artists for your model. Make sure your model is fully set up!\n\nTherefore, go to ADD REF. ARTISTS and add some starting artists that you are interested in.",
+        content="Sorry, we cound't find any artists for your model. Make sure your Agent is fully set up!\n\nTherefore, go to ADD REF. ARTISTS and add some starting artists that you are interested in.",
       )
       self.visible = False
 
     elif sug["Status"] == "No Findings!":
       result = alert(
         title="No Artists found..",
-        content="Sorry, we cound't find any artists for your model. Please check two potential issues:\n\n1. Please check your FILTERS and change them to find additional artists.\n\n2. If you're just setting up your model or are subscribed to the Explore subscription, go to the ADD REF. ARTISTS page and add additional reference artists.",
+        content="Sorry, we cound't find any artists for your model. Please check two potential issues:\n\n1. Please check your FILTERS and change them to find additional artists.\n\n2. If you're just setting up your Agent or are subscribed to the Explore subscription, go to the ADD REF. ARTISTS page and add additional reference artists.",
         buttons=[("Change Filters", "FILTERS"), ("Ok", "OK")],
       )
       self.visible = False
@@ -2159,10 +2159,10 @@ class C_Discover(C_DiscoverTemplate):
       if similar:
         Notification("", title=f'Artist rated with 1 for "{model_name}"!', style='success').show()
       else:
-        # Notification("", title=f'Artist rated with 1 for "{model_name}" - model selection does not fit playlists model!', style='warning').show()
+        # Notification("", title=f'Artist rated with 1 for "{model_name}" - Agent selection does not fit Playlists Agents!', style='warning').show()
         alert(
-          title='Attention! Model selection does not fit playlist models!',
-          content=f'Artist was rated with 1 for the model "{model_name}".\n\nEnsure its the correct model. If not, switch the model on the bottom right.',
+          title='Attention! Agent selection does not fit Playlist Agents!',
+          content=f'Artist was rated with 1 for the Agent "{model_name}".\n\nEnsure its the correct Agent. If not, switch the Agent on the bottom right.',
         )
     else:
       anvil.server.call("add_interest", user["user_id"], self.model_id, self.artist_id, None, False, "")
@@ -2174,10 +2174,10 @@ class C_Discover(C_DiscoverTemplate):
       if similar:
         Notification("", title=f'Artist rated with 2 for "{model_name}"!', style='success').show()
       else:
-        # Notification("", title=f'Artist rated with 2 for "{model_name}" - model selection does not fit playlists model!', style='warning').show()
+        # Notification("", title=f'Artist rated with 2 for "{model_name}" - Agent selection does not fit Playlists Agents!', style='warning').show()
         alert(
-          title='Attention! Model selection does not fit playlist models!',
-          content=f'Artist was rated with 2 for the model "{model_name}".\n\nEnsure its the correct model. If not, switch the model on the bottom right.',
+          title='Attention! Agent selection does not fit Playlist Agents!',
+          content=f'Artist was rated with 2 for the Agent "{model_name}".\n\nEnsure its the correct Agent. If not, switch the Agent on the bottom right.',
         )
     else:
       anvil.server.call("add_interest", user["user_id"], self.model_id, self.artist_id, None, False, "")
@@ -2189,10 +2189,10 @@ class C_Discover(C_DiscoverTemplate):
       if similar:
         Notification("", title=f'Artist rated with 3 for "{model_name}"!', style='success').show()
       else:
-        # Notification("", title=f'Artist rated with 3 for "{model_name}" - model selection does not fit playlists model!', style='warning').show()
+        # Notification("", title=f'Artist rated with 3 for "{model_name}" - Agent selection does not fit Playlists Agents!', style='warning').show()
         alert(
-          title='Attention! Model selection does not fit playlist models!',
-          content=f'Artist was rated with 3 for the model "{model_name}".\n\nEnsure its the correct model. If not, switch the model on the bottom right.',
+          title='Attention! Agent selection does not fit Playlist Agents!',
+          content=f'Artist was rated with 3 for the Agent "{model_name}".\n\nEnsure its the correct Agent. If not, switch the Agent on the bottom right.',
         )
     else:
       anvil.server.call("add_interest", user["user_id"], self.model_id, self.artist_id, None, False, "")
@@ -2204,10 +2204,10 @@ class C_Discover(C_DiscoverTemplate):
       if similar:
         Notification("", title=f'Artist rated with 4 for "{model_name}"!', style='success').show()
       else:
-        # Notification("", title=f'Artist rated with 4 for "{model_name}" - model selection does not fit playlists model!', style='warning').show()
+        # Notification("", title=f'Artist rated with 4 for "{model_name}" - Agent selection does not fit Playlists Agents!', style='warning').show()
         alert(
-          title='Attention! Model selection does not fit playlist models!',
-          content=f'Artist was rated with 4 for the model "{model_name}".\n\nEnsure its the correct model. If not, switch the model on the bottom right.',
+          title='Attention! Agent selection does not fit Playlist Agents!',
+          content=f'Artist was rated with 4 for the Agent "{model_name}".\n\nEnsure its the correct Agent. If not, switch the Agent on the bottom right.',
         )
     else:
       anvil.server.call("add_interest", user["user_id"], self.model_id, self.artist_id, None, False, "")
@@ -2219,10 +2219,10 @@ class C_Discover(C_DiscoverTemplate):
       if similar:
         Notification("", title=f'Artist rated with 5 for "{model_name}"!', style='success').show()
       else:
-        # Notification("", title=f'Artist rated with 5 for "{model_name}" - model selection does not fit playlists model!', style='warning').show()
+        # Notification("", title=f'Artist rated with 5 for "{model_name}" - Agent selection does not fit Playlists Agents!', style='warning').show()
         alert(
-          title='Attention! Model selection does not fit playlist models!',
-          content=f'Artist was rated with 5 for the model "{model_name}".\n\nEnsure its the correct model. If not, switch the model on the bottom right.',
+          title='Attention! Agent selection does not fit Playlist Agents!',
+          content=f'Artist was rated with 5 for the Agent "{model_name}".\n\nEnsure its the correct Agent. If not, switch the Agent on the bottom right.',
         )
     else:
       anvil.server.call("add_interest", user["user_id"], self.model_id, self.artist_id, None, False, "")
@@ -2234,10 +2234,10 @@ class C_Discover(C_DiscoverTemplate):
       if similar:
         Notification("", title=f'Artist rated with 6 for "{model_name}"!', style='success').show()
       else:
-        # Notification("", title=f'Artist rated with 6 for "{model_name}" - model selection does not fit playlists model!', style='warning').show()
+        # Notification("", title=f'Artist rated with 6 for "{model_name}" - Agent selection does not fit Playlists Agents!', style='warning').show()
         alert(
-          title='Attention! Model selection does not fit playlist models!',
-          content=f'Artist was rated with 6 for the model "{model_name}".\n\nEnsure its the correct model. If not, switch the model on the bottom right.',
+          title='Attention! Agent selection does not fit Playlist Agents!',
+          content=f'Artist was rated with 6 for the Agent "{model_name}".\n\nEnsure its the correct Agent. If not, switch the Agent on the bottom right.',
         )
     else:
       anvil.server.call("add_interest", user["user_id"], self.model_id, self.artist_id, None, False, "")
@@ -2249,10 +2249,10 @@ class C_Discover(C_DiscoverTemplate):
       if similar:
         Notification("", title=f'Artist rated with 7 for "{model_name}"!', style='success').show()
       else:
-        # Notification("", title=f'Artist rated with 7 for "{model_name}" - model selection does not fit playlists model!', style='warning').show()
+        # Notification("", title=f'Artist rated with 7 for "{model_name}" - Agent selection does not fit Playlists Agents!', style='warning').show()
         alert(
-          title='Attention! Model selection does not fit playlist models!',
-          content=f'Artist was rated with 7 for the model "{model_name}".\n\nEnsure its the correct model. If not, switch the model on the bottom right.',
+          title='Attention! Agent selection does not fit Playlist Agents!',
+          content=f'Artist was rated with 7 for the Agent "{model_name}".\n\nEnsure its the correct Agent. If not, switch the Agent on the bottom right.',
         )
     else:
       anvil.server.call("add_interest", user["user_id"], self.model_id, self.artist_id, None, False, "")

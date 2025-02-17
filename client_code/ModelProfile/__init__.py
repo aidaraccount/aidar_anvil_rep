@@ -610,8 +610,8 @@ class ModelProfile(ModelProfileTemplate):
       self.retrain.visible = False
       self.retrain_wait.visible = True
       self.retrain_model_date_value.text = time.strftime("%Y-%m-%d")
-      alert(title='Re-training of your model is running',
-            content="We started to re-train your model. This will take roughly 10 minutes to be effective.\n\nDue to high computational effort, re-training the model is only available once per day.",
+      alert(title='Re-training of your Agent is running',
+            content="We started to re-train your model. This will take roughly 10 minutes to be effective.\n\nDue to high computational effort, re-training the Agent is only available once per day.",
             buttons=[("Ok", "Ok")]
       )
 
