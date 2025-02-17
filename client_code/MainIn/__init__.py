@@ -348,12 +348,12 @@ class MainIn(MainInTemplate):
     if self.link_watchlists.icon == 'fa:angle-down':
       self.link_watchlists.icon = 'fa:angle-up'
       for component in self.nav_watchlists.get_components():
-        component.visible = False
-      self.column_panel_nav_wl.visible = True
+        component.visible = True
     else:
       self.link_watchlists.icon = 'fa:angle-down'
       for component in self.nav_watchlists.get_components():
-        component.visible = True
+        component.visible = False
+      self.column_panel_nav_wl.visible = True
 
   def create_watchlist_click(self, **event_args):
     click_link(self.create_watchlist, 'create_watchlist', event_args)
@@ -387,12 +387,12 @@ class MainIn(MainInTemplate):
     if self.link_models.icon == 'fa:angle-down':
       self.link_models.icon = 'fa:angle-up'
       for component in self.nav_models.get_components():
-        component.visible = False
-      self.column_panel_nav.visible = True
+        component.visible = True
     else:
       self.link_models.icon = 'fa:angle-down'
       for component in self.nav_models.get_components():
-        component.visible = True
+        component.visible = False
+      self.column_panel_nav.visible = True
 
   def create_model_click(self, **event_args):
     click_link(self.create_model, 'model_setup?model_id=None&section=Basics', event_args)

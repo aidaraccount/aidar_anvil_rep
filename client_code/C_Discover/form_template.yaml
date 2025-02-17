@@ -276,7 +276,7 @@ components:
       - components:
         - layout_properties: {}
           name: no_prediction
-          properties: {align: center, role: artist_name_shadow, text: Model     ramp-up}
+          properties: {align: center, role: artist_name_shadow, text: Agent in Ramp-up}
           type: Label
         layout_properties: {full_width_row: false, grid_position: 'XBWMVA,RCCOIP'}
         name: linear_panel_2
@@ -286,10 +286,19 @@ components:
           spacing_below: small
           visible: true
         type: LinearPanel
+      - layout_properties: {grid_position: 'DPOAGW,FZDFIC'}
+        name: label_13
+        properties:
+          align: center
+          role: [header-8]
+          spacing:
+            margin: [10, null, null, null]
+          text: Sub Fit Likelihoods
+        type: Label
       - components:
         - layout_properties: {}
           name: label_8
-          properties: {role: sub_title-regular-tile, spacing_above: small, spacing_below: none, text: Pop. Fit}
+          properties: {role: sub_title-regular-tile, spacing_above: small, spacing_below: none, text: Popularity}
           type: Label
         - layout_properties: {}
           name: KPI_tile_1
@@ -302,7 +311,7 @@ components:
       - components:
         - layout_properties: {}
           name: label_7
-          properties: {role: sub_title-regular-tile, spacing_above: small, spacing_below: none, text: Similarity Fit}
+          properties: {role: sub_title-regular-tile, spacing_above: small, spacing_below: none, text: Similarity}
           type: Label
         - layout_properties: {}
           name: KPI_tile_2
@@ -315,7 +324,7 @@ components:
       - components:
         - layout_properties: {}
           name: label_5
-          properties: {role: sub_title-regular-tile, spacing_above: small, spacing_below: none, text: Growth Fit}
+          properties: {role: sub_title-regular-tile, spacing_above: small, spacing_below: none, text: Growth}
           type: Label
         - layout_properties: {}
           name: KPI_tile_4
@@ -328,7 +337,7 @@ components:
       - components:
         - layout_properties: {}
           name: label_6
-          properties: {role: sub_title-regular-tile, spacing_above: small, spacing_below: none, text: Musical Fit}
+          properties: {role: sub_title-regular-tile, spacing_above: small, spacing_below: none, text: Musical}
           type: Label
         - layout_properties: {}
           name: KPI_tile_3

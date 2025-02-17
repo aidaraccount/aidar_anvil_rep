@@ -2,7 +2,7 @@ components:
 - components:
   - layout_properties: {grid_position: 'AEKMRL,JCLASH'}
     name: label_1_copy
-    properties: {align: left, background: '', bold: false, border: '', font: '', font_size: null, foreground: '', icon: '', icon_align: left, italic: false, role: header-1, spacing_above: small, spacing_below: small, text: Model Profile, tooltip: '', underline: false, visible: true}
+    properties: {align: left, background: '', bold: false, border: '', font: '', font_size: null, foreground: '', icon: '', icon_align: left, italic: false, role: header-1, spacing_above: small, spacing_below: small, text: AI-Agent Profile, tooltip: '', underline: false, visible: true}
     type: Label
   - components:
     - components:
@@ -110,7 +110,7 @@ components:
             align: right
             bold: false
             role: [table_content, transition-effect, header-5]
-            text: Model is active
+            text: Agent is active
           type: Label
         - event_bindings: {click: activate_click}
           layout_properties: {}
@@ -121,7 +121,7 @@ components:
             role: [call-to-action-button, header-6]
             spacing_above: none
             spacing_below: none
-            text: Activate Model
+            text: Activate Agent
           type: Button
         - event_bindings: {click: discover_click}
           layout_properties: {}
@@ -260,7 +260,7 @@ components:
         role: [section_buttons]
         spacing_above: none
         spacing_below: none
-        text: Model Status
+        text: Agent Status
       type: Link
     - event_bindings: {click: nav_submodel_cont_click}
       layout_properties: {}
@@ -323,7 +323,7 @@ components:
         type: Spacer
       - layout_properties: {grid_position: 'YWCMEK,ELMBCC'}
         name: Overall_model_label
-        properties: {align: center, role: header-4, spacing_above: none, spacing_below: none, text: Overall Model}
+        properties: {align: center, role: header-4, spacing_above: none, spacing_below: none, text: Overall}
         type: Label
       - layout_properties: {grid_position: 'YWCMEK,JNPVWQ'}
         name: spacer_6
@@ -353,7 +353,7 @@ components:
       type: ColumnPanel
     - layout_properties: {grid_position: 'GYSHLD,FWJLLJ'}
       name: label_1
-      properties: {role: header-5, spacing_above: none, spacing_below: none, text: 'Sub-Model contribution:'}
+      properties: {role: header-5, spacing_above: none, spacing_below: none, text: 'Sub-Agent contribution:'}
       type: Label
     - components:
       - layout_properties: {grid_position: 'JQEVOG,CWKSFV'}
@@ -394,7 +394,7 @@ components:
           spacing_below: none
           text: |-
             Popularity
-            Sub-Model
+            Sub-Agent
         type: Label
       - layout_properties: {grid_position: 'WNZMTN,UVTAUT'}
         name: success_submodel
@@ -447,7 +447,7 @@ components:
           spacing_below: none
           text: |-
             Similarity
-            Sub-Model
+            Sub-Agent
         type: Label
       - layout_properties: {grid_position: 'WNZMTN,UVTAUT'}
         name: similarity_submodel
@@ -500,7 +500,7 @@ components:
           spacing_below: none
           text: |-
             Musical
-            Sub-Model
+            Sub-Agent
         type: Label
       - layout_properties: {grid_position: 'WNZMTN,UVTAUT'}
         name: musical_submodel
@@ -553,7 +553,7 @@ components:
           spacing_below: none
           text: |-
             Growth
-            Sub-Model
+            Sub-Agent
         type: Label
       - layout_properties: {grid_position: 'WNZMTN,UVTAUT'}
         name: fandom_submodel
@@ -603,7 +603,7 @@ components:
       type: Label
     - layout_properties: {grid_position: 'THAWJL,GYRTTH'}
       name: label_2_copy
-      properties: {align: left, background: '', bold: false, border: '', font: '', font_size: null, foreground: '', icon: '', icon_align: left, italic: true, role: header-7, spacing_above: small, spacing_below: small, text: 'When setting up a new model, reference artists are the central starting point to let the model learn what you''re interested in. We recommend to add at least three reference artists - click on the button to add further:', tooltip: '', underline: false, visible: true}
+      properties: {align: left, background: '', bold: false, border: '', font: '', font_size: null, foreground: '', icon: '', icon_align: left, italic: true, role: header-7, spacing_above: small, spacing_below: small, text: 'When setting up a new agent, reference artists are the central starting point to let the agent learn what you''re interested in. We recommend to add at least three reference artists - click on the button to add further:', tooltip: '', underline: false, visible: true}
       type: Label
     layout_properties: {grid_position: 'CWARCL,LZSGRJ'}
     name: sec_references_master
@@ -647,7 +647,7 @@ components:
   - components:
     - layout_properties: {grid_position: 'AFYQZK,FHDGCN'}
       name: label_8
-      properties: {align: center, bold: true, role: header-4, spacing_above: medium, spacing_below: none, text: Sub-Model Contribution}
+      properties: {align: center, bold: true, role: header-4, spacing_above: medium, spacing_below: none, text: Sub-Agent Contribution}
       type: Label
     - layout_properties: {grid_position: 'OTKVPX,PXLLQZ'}
       name: sec_submodel_contributions

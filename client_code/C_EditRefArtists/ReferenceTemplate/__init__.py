@@ -20,15 +20,15 @@ class ReferenceTemplate(ReferenceTemplateTemplate):
     user = anvil.users.get_user()
     self.model_id_view = load_var("model_id_view")
 
-    if self.label_name_3.text is None:
+    if self.label_link_3.text is None:
       self.button_3.visible = False
       self.image_3.visible = False
-      self.label_name_3.visible = False
+      self.label_link_3.visible = False
     
-    if self.label_name_2.text is None:
+    if self.label_link_2.text is None:
       self.button_2.visible = False
       self.image_2.visible = False
-      self.label_name_2.visible = False
+      self.label_link_2.visible = False
 
   def button_1_click(self, **event_args):
     c = confirm("Do you wish to delete this artist as a reference?")
@@ -71,3 +71,13 @@ class ReferenceTemplate(ReferenceTemplateTemplate):
         pass
         
       self.parent.parent.parent.get_references()
+
+  def label_link_1_click(self, **event_args):
+    click_link(self.label_link_1, f'artists?artist_id={self.label_link_1.tag}', event_args)
+
+  def label_link_2_click(self, **event_args):
+    click_link(self.label_link_2, f'artists?artist_id={self.label_link_2.tag}', event_args)
+
+  def label_link_3_click(self, **event_args):
+    click_link(self.label_link_3, f'artists?artist_id={self.label_link_3.tag}', event_args)
+    
