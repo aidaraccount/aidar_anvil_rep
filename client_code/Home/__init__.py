@@ -143,7 +143,7 @@ class Home(HomeTemplate):
       
     # clean present shorts
     self.flow_panel_Test.clear()
-    self.flow_panel_shorts.clear()
+    # self.flow_panel_shorts.clear()
 
     # add new shorts
     if wl_ids != []:  
@@ -159,7 +159,7 @@ class Home(HomeTemplate):
         self.num_shorts = len(shorts)
         for i in range(0, len(shorts)):
           self.flow_panel_Test.add_component(C_Short_Test(data=shorts[i]))
-          self.flow_panel_shorts.add_component(C_Short(data=shorts[i]))
+          # self.flow_panel_shorts.add_component(C_Short(data=shorts[i]))
 
         if len(shorts) < 12:
           self.reload.visible = False
@@ -197,7 +197,7 @@ class Home(HomeTemplate):
         
         for i in range(0, len(shorts)):
           self.flow_panel_Test.add_component(C_Short_Test(data=shorts[i]))
-          self.flow_panel_shorts.add_component(C_Short(data=shorts[i]))
+          # self.flow_panel_shorts.add_component(C_Short(data=shorts[i]))
         
         self.num_shorts = self.num_shorts + len(shorts)
         

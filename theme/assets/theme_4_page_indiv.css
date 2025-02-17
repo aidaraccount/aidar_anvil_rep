@@ -11,30 +11,27 @@ Area 5: Page individual classes
 /* Socials */
 .masonry-item-test {
   iframe {
-    width: 100%;
-    height: 100vh; /* Full viewport height */
-  }
-  
-  .EmbedVideo {
-    position: relative;
-    width: 100%;
-    height: 100vh; /* Full height */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  .aand {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-  }
-  
-  .aakh {
-    width: 100%;
-    height: 100%;
-  }
+    .EmbedVideo {
+        position: relative;
+        width: 100%;
+        height: auto; /* Allow it to adjust to content */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    .aand {
+        position: relative;
+        width: 100%;
+        height: auto; /* Let it fit its content */
+    }
+    
+    .aakh {
+        width: 100%;
+        height: auto; /* Allow it to expand based on content */
+    }
 
+  }
 }
 
 
