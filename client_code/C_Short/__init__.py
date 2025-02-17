@@ -31,7 +31,7 @@ class C_Short(C_ShortTemplate):
       </div>
       <p anvil-role="social-date" class="label-text social-date">{data["created_datetime"]}</p>
       <iframe src="{data["external_url"]}/embed/?omitscript=true&hidecaption=true"
-        width="400" height="480"
+        width="400"
         frameborder="0" scrolling="no"
         allowtransparency="true" allowfullscreen="true">
       </iframe>
