@@ -25,7 +25,7 @@ import time
 @routing.route('artists', url_keys=['artist_id'], title='Artists')
 class Discover(DiscoverTemplate):
   def __init__(self, **properties):
-    #print(f"{datetime.now()}: Discover - __init__ - 1", flush=True)    
+    print(f"{datetime.now()}: Discover - __init__ - 1", flush=True)    
     
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
@@ -62,10 +62,10 @@ class Discover(DiscoverTemplate):
     
     self.header.scroll_into_view(smooth=True)
     
-    #begin = datetime.now()
-    # print(f"{datetime.now()}: Discover - __init__ - 2", flush=True)
-    #print(f"{datetime.now()}: Discover - __init__ - 3", flush=True)
-    #print(f"TotalTime Discover: {datetime.now() - begin}", flush=True)
+    begin = datetime.now()
+    print(f"{datetime.now()}: Discover - __init__ - 2", flush=True)
+    print(f"{datetime.now()}: Discover - __init__ - 3", flush=True)
+    print(f"TotalTime Discover: {datetime.now() - begin}", flush=True)
     
     self.spacer_bottom_margin.height = 80
     self.Artist_Name_Details.clear()
@@ -115,6 +115,7 @@ class Discover(DiscoverTemplate):
     #   self.visible = False
       
     else:
+      
       self.sug = sug
       save_var('lastplayed', self.sug["SpotifyArtistID"])
     
@@ -803,7 +804,7 @@ class Discover(DiscoverTemplate):
       # V. Live
       # get data
       event_data = anvil.server.call('get_songkick_events',  artist_id)
-      # print('event_data:', event_data)
+      # event_data = None
       
       if event_data is not None:
         # a) stats

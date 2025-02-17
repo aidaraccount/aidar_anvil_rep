@@ -14,12 +14,71 @@ components:
       align: center
       role: header-6
       spacing:
-        margin: [0, null, null, null]
+        margin: [0, null, 10, null]
       text: Early Access
     type: Label
   - layout_properties: {grid_position: 'PWWMOL,HVHYZT'}
     name: spacer_2
     properties: {height: 16}
+    type: Spacer
+  - layout_properties: {grid_position: 'MRIQRW,QVOGKC ZIVPMJ,KUKJJM'}
+    name: wl_selection
+    properties: {align: center, role: header-6, spacing_above: none, spacing_below: none, text: 'Watchlist selection:    '}
+    type: Label
+  - components: []
+    layout_properties: {grid_position: 'MRIQRW,QVOGKC UEPSKA,AMYWGI'}
+    name: flow_panel_watchlists
+    properties:
+      align: center
+      spacing:
+        margin: [null, null, 20, null]
+      spacing_above: none
+      spacing_below: none
+    type: FlowPanel
+  - components:
+    - layout_properties: {grid_position: 'FFHUXB,SNYWAS'}
+      name: no_watchlists_header
+      properties: {align: center, bold: false, role: sub_title, text: No watchlists selected / present}
+      type: Label
+    - layout_properties: {grid_position: 'XVSVDO,ELBDZT'}
+      name: no_watchlists_text
+      properties: {align: center, bold: false, role: description, text: Please select a watchlist above or create a new watchlist if you do not have any.}
+      type: Label
+    layout_properties: {grid_position: 'MRIQRW,QVOGKC EPUTWF,NXBVIT'}
+    name: no_watchlists
+    properties:
+      spacing:
+        margin: ['50', null, null, null]
+    type: ColumnPanel
+  - components:
+    - layout_properties: {grid_position: 'FFHUXB,SNYWAS'}
+      name: no_shorts_header
+      properties: {align: center, bold: false, role: sub_title, text: No Shorts available for the selected watchlists}
+      type: Label
+    - layout_properties: {grid_position: 'XVSVDO,ELBDZT'}
+      name: no_shorts_text
+      properties: {align: center, bold: false, role: description, text: 'Sorry, there are no shorts available for all artists on your selected watchlists. Add further artists to your watchlists.'}
+      type: Label
+    layout_properties: {grid_position: 'MRIQRW,QVOGKC JETFJJ,RDDSTC'}
+    name: no_shorts
+    properties:
+      spacing:
+        margin: ['50', null, null, null]
+    type: ColumnPanel
+  - layout_properties: {grid_position: 'MRIQRW,QVOGKC NSUREX,HDQBIO'}
+    name: flow_panel_shorts
+    properties: {align: center, gap: tiny}
+    type: FlowPanel
+  - event_bindings: {click: add_shorts}
+    layout_properties: {grid_position: 'MRIQRW,QVOGKC XFZZDL,EQOLGW'}
+    name: reload
+    properties:
+      role: [call-to-action-button, header-7]
+      text: load further shorts
+    type: Button
+  - layout_properties: {grid_position: 'MRIQRW,QVOGKC ICYOFY,SVDXSS'}
+    name: spacer_1
+    properties: {height: 79, visible: false}
     type: Spacer
   - components:
     - components:
@@ -61,18 +120,9 @@ components:
       name: xy_panel_funnel
       properties: {height: '570', role: null}
       type: XYPanel
-    - components:
-      - layout_properties: {width: 484, x: 29.5, y: 80}
-        name: label_3
-        properties: {align: center, role: description, text: Please add artists to your Watchlist to use the Funnel}
-        type: Label
-      layout_properties: {grid_position: 'RCBTWN,IBMUSP'}
-      name: xy_panel_funnel_empty
-      properties: {height: '570', visible: false}
-      type: XYPanel
-    layout_properties: {grid_position: 'MRIQRW,QVOGKC'}
+    layout_properties: {grid_position: 'MRIQRW,QVOGKC OMQCUB,LQDUPM'}
     name: column_panel_1
-    properties: {role: tile-background-left, spacing_above: none, spacing_below: none}
+    properties: {role: tile-background-left, spacing_above: none, spacing_below: none, visible: false}
     type: ColumnPanel
   - components:
     - event_bindings: {click: link_discover_click}
@@ -115,9 +165,41 @@ components:
       name: xy_panel_3
       properties: {height: 182, spacing_above: none, spacing_below: none}
       type: XYPanel
-    layout_properties: {grid_position: 'MRIQRW,EQZHSN NTXMQM,VLOQPL'}
+    layout_properties: {grid_position: 'MRIQRW,EQZHSN PQBSMQ,CTZOPS'}
     name: column_panel_3
     properties: {role: grid-main, spacing_above: none, spacing_below: none}
+    type: ColumnPanel
+  - components:
+    - layout_properties: {grid_position: 'QVMUXU,YLIXLM'}
+      name: label_2
+      properties: {align: center, role: artist_name, text: News}
+      type: Label
+    - components:
+      - data_bindings:
+        - {code: '[''width-100'']', property: role, writeback: false}
+        layout_properties: {width: 350, x: 0, y: 0}
+        name: repeating_panel_news
+        properties: {item_template: Home.NewsTemplate, spacing_above: none}
+        type: RepeatingPanel
+      data_bindings: []
+      layout_properties: {grid_position: 'XNMQVL,IVUSFC'}
+      name: xy_panel_news
+      properties:
+        height: '338'
+        margin: [null, 5, null, 5]
+      type: XYPanel
+    - components:
+      - layout_properties: {width: 306.08190625, x: 0, y: 0}
+        name: label_4
+        properties: {align: center, role: description, text: No News present}
+        type: Label
+      layout_properties: {grid_position: 'CHRITB,MZHEYA'}
+      name: xy_panel_news_empty
+      properties: {height: '338', visible: false}
+      type: XYPanel
+    layout_properties: {grid_position: 'MRIQRW,EQZHSN IGVGCK,NLTTFT'}
+    name: column_panel_5
+    properties: {role: grid-main}
     type: ColumnPanel
   - components:
     - layout_properties: {grid_position: 'WKPYND,DNKUEW'}
@@ -127,7 +209,7 @@ components:
     - components:
       - layout_properties: {width: 65, x: 0, y: 0}
         name: label_won_no
-        properties: {font_size: 40, role: investigate_value, text: '2'}
+        properties: {font_size: 40, icon: '', role: investigate_value, text: '2'}
         type: Label
       - layout_properties: {width: 85, x: 80, y: 0}
         name: label_wl_no
@@ -181,58 +263,13 @@ components:
       name: xy_panel_4
       properties: {height: '186'}
       type: XYPanel
-    layout_properties: {grid_position: 'MRIQRW,EQZHSN NTXMQM,YXDPNR'}
+    layout_properties: {grid_position: 'MRIQRW,EQZHSN QJMHOC,KXUQZV'}
     name: column_panel_4
     properties: {role: grid-main, spacing_above: none, spacing_below: none}
     type: ColumnPanel
-  - components:
-    - layout_properties: {grid_position: 'QVMUXU,YLIXLM'}
-      name: label_2
-      properties: {align: center, role: artist_name, text: News}
-      type: Label
-    - components:
-      - data_bindings:
-        - {code: '[''width-100'']', property: role, writeback: false}
-        layout_properties: {width: 350, x: 0, y: 0}
-        name: repeating_panel_news
-        properties: {item_template: Home.NewsTemplate, spacing_above: none}
-        type: RepeatingPanel
-      data_bindings: []
-      layout_properties: {grid_position: 'XNMQVL,IVUSFC'}
-      name: xy_panel_news
-      properties:
-        height: '338'
-        margin: [null, 5, null, 5]
-      type: XYPanel
-    - components:
-      - layout_properties: {width: 306.08190625, x: 0, y: 0}
-        name: label_4
-        properties: {align: center, role: description, text: No News present}
-        type: Label
-      layout_properties: {grid_position: 'CHRITB,MZHEYA'}
-      name: xy_panel_news_empty
-      properties: {height: '338', visible: false}
-      type: XYPanel
-    layout_properties: {grid_position: 'MRIQRW,EQZHSN PXHEAF,MAMJJC'}
-    name: column_panel_5
-    properties: {role: grid-main}
-    type: ColumnPanel
-  - components: []
-    layout_properties: {grid_position: 'XELTJA,MQQCSE'}
-    name: column_panel_2
-    properties: {role: null}
-    type: ColumnPanel
-  - components: []
-    layout_properties: {grid_position: 'MCJJQJ,QCTEKK'}
-    name: grid_panel_1
-    properties:
-      role: [equal-height-container, home-page]
-      spacing_above: none
-      spacing_below: none
-    type: GridPanel
   layout_properties: {grid_position: 'VHEAUQ,QULOXH'}
   name: content_panel
-  properties: {col_widths: '{"QVOGKC":35,"EQZHSN":25}', role: null}
+  properties: {col_widths: '{"QVOGKC":45,"EQZHSN":15}', role: null}
   type: ColumnPanel
 container:
   properties: {col_widths: '{}', role: null}

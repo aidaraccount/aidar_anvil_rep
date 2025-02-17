@@ -18,6 +18,7 @@ color_scheme:
   - {color: 'rgb(235, 235, 235)', name: Text_WhiteDiscreet}
   - {color: 'rgb(88,32,57)', name: Sangria}
   - {color: 'rgb(31, 11, 59)', name: Purple}
+  - {color: 'rgb(40, 30, 60)', name: Background_Purple}
   preset_groups:
   - name: Accent
     options:

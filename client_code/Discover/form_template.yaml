@@ -471,6 +471,15 @@ components:
     name: grid_panel_1
     properties: {role: equal-height-container}
     type: GridPanel
+  - components:
+    - layout_properties: {grid_position: 'BQYEKI,QHYPJE'}
+      name: repeating_panel_shorts
+      properties: {item_template: null}
+      type: RepeatingPanel
+    layout_properties: {grid_position: 'IIPJIN,XXQTXZ'}
+    name: column_panel_shorts
+    properties: {}
+    type: ColumnPanel
   - layout_properties: {grid_position: 'UTITLB,JDUPJF'}
     name: spacer_8
     properties: {height: '26'}

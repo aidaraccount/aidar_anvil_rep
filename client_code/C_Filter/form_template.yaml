@@ -34,8 +34,7 @@ components:
       name: label_4
       properties: {align: left, background: '', bold: false, border: '', font: '', font_size: null, foreground: '', icon: '', icon_align: left, italic: false, role: feature, spacing_above: small, spacing_below: small, text: '   Popularity', tooltip: Level of popularity on Spotify. Ranges from 0 to 100., underline: false, visible: true}
       type: Label
-    - data_bindings: []
-      event_bindings: {pressed_enter: apply_filters_click}
+    - event_bindings: {pressed_enter: apply_filters_click}
       layout_properties: {col_xs: 3, row: OSZLNL, width: 194, width_xs: 3}
       name: artist_popularity_lat_min
       properties: {align: left, background: '', bold: false, border: '', enabled: true, font: '', font_size: null, foreground: '', hide_text: false, italic: false, placeholder: '0', role: text_box_small, spacing_above: small, spacing_below: small, text: '', tooltip: '', type: number, underline: false, visible: true}
@@ -224,8 +223,7 @@ components:
       name: label_4_copy_4
       properties: {align: left, background: '', bold: false, border: '', font: '', font_size: null, foreground: '', icon: '', icon_align: left, italic: false, role: feature, spacing_above: small, spacing_below: small, text: '   Avg. Key [C to B]', tooltip: 'The estimated overall average key of all songs of an artist: "C", "C#/Db", "D", "D#/Eb", "E", "F", "F#/Gb", "G", "G#/Ab", "A", "A#/Bb", "B"', underline: false, visible: true}
       type: Label
-    - data_bindings: []
-      layout_properties: {col_xs: 4, row: OSZLNL, width_xs: 3}
+    - layout_properties: {col_xs: 4, row: OSZLNL, width_xs: 3}
       name: avg_key_min
       properties:
         include_placeholder: false
@@ -237,8 +235,7 @@ components:
       name: label_5_copy_4
       properties: {align: center, background: '', bold: false, border: '', font: '', font_size: null, foreground: '', icon: '', icon_align: left, italic: false, role: description, spacing_above: small, spacing_below: small, text: to, tooltip: '', underline: false, visible: true}
       type: Label
-    - data_bindings: []
-      layout_properties: {col_xs: 9, row: OSZLNL, width_xs: 3}
+    - layout_properties: {col_xs: 9, row: OSZLNL, width_xs: 3}
       name: avg_key_max
       properties:
         include_placeholder: false
@@ -475,8 +472,7 @@ components:
     name: label_no_genre_filters
     properties: {align: center, text: No Genre Filters added..}
     type: Label
-  - data_bindings: []
-    layout_properties: {grid_position: 'NHFLOF,IORVNQ'}
+  - layout_properties: {grid_position: 'NHFLOF,IORVNQ'}
     name: repeating_panel_genre
     properties: {item_template: C_Filter.ColumnTemplate}
     type: RepeatingPanel
@@ -489,8 +485,7 @@ components:
       name: spacer_3
       properties: {height: 32}
       type: Spacer
-    - data_bindings: []
-      layout_properties: {grid_position: 'EQSMLB,VMICQX'}
+    - layout_properties: {grid_position: 'EQSMLB,VMICQX'}
       name: drop_down_add_genre
       properties:
         items: [african, alternative, american, asian, australian, blues, children's music, 'classical, ensemble & opera', comedy & spoken word, country, electronic, european, folk & traditional, hip-hop & rap, holiday, instrumental, jazz & standards, latin, metal, middle eastern, others, pop, punk, 'r&b, funk & soul', reggae, rock, 'soundtrack, stage & screen', spirituals, sports]
@@ -539,8 +534,7 @@ components:
     name: label_no_origin_filters
     properties: {align: center, text: No Origin Filters added..}
     type: Label
-  - data_bindings: []
-    layout_properties: {grid_position: 'PDZQIQ,OFNUDM'}
+  - layout_properties: {grid_position: 'PDZQIQ,OFNUDM'}
     name: repeating_panel_origin
     properties: {item_template: C_Filter.ColumnTemplate}
     type: RepeatingPanel
@@ -549,8 +543,7 @@ components:
       name: spacer_3_copy
       properties: {height: 32}
       type: Spacer
-    - data_bindings: []
-      layout_properties: {grid_position: 'EQSMLB,VMICQX'}
+    - layout_properties: {grid_position: 'EQSMLB,VMICQX'}
       name: drop_down_add_origin
       properties:
         items: [AD - Andorra, AE - United Arab Emirates, AF - Afghanistan, AG - Antigua and Barbuda, AI - Anguilla, AL - Albania, AM - Armenia, AO - Angola, AQ - Antarctica, AR - Argentina, AS - American Samoa, AT - Austria, AU - Australia, AW - Aruba, AX - Åland Islands, AZ - Azerbaijan, BA - Bosnia and Herzegovina, BB - Barbados, BD - Bangladesh, BE - Belgium, BF - Burkina Faso, BG - Bulgaria, BH - Bahrain, BI - Burundi, BJ - Benin, BL - Saint Barthélemy, BM - Bermuda, BN - Brunei Darussalam, BO - Bolivia, BQ - Bonaire, BR - Brazil, BS - Bahamas, BT - Bhutan, BV - Bouvet Island, BW - Botswana, BY - Belarus, BZ - Belize, CA - Canada, CC - Cocos (Keeling) Islands, CD - Congo, CF - Central African Republic, CG - Congo, CH - Switzerland, CI - Côte d'Ivoire, CK - Cook Islands, CL - Chile, CM - Cameroon, CN - China, CO - Colombia, CR - Costa Rica, CU - Cuba, CV - Cabo Verde, CW - Curaçao, CX - Christmas Island, CY - Cyprus, CZ - Czechia, DE - Germany, DJ - Djibouti, DK - Denmark, DM - Dominica, DO - Dominican Republic, DZ - Algeria, EC - Ecuador, EE - Estonia, EG - Egypt, EH - Western Sahara, ER - Eritrea, ES - Spain, ET - Ethiopia, FI - Finland, FJ - Fiji, FK - Falkland Islands (Malvinas), FM - Micronesia, FO - Faroe Islands, FR - France, GA - Gabon, GB - United Kingdom of Great Britain and Northern Ireland, GD - Grenada, GE - Georgia, GF - French Guiana, GG - Guernsey, GH - Ghana, GI - Gibraltar, GL - Greenland, GM - Gambia, GN - Guinea, GP - Guadeloupe, GQ - Equatorial Guinea, GR - Greece, GS - South Georgia and the South Sandwich Islands, GT - Guatemala, GU - Guam, GW - Guinea-Bissau, GY - Guyana, HK - Hong Kong, HM - Heard Island and McDonald Islands, HN - Honduras, HR - Croatia, HT - Haiti, HU - Hungary, ID - Indonesia, IE - Ireland, IL - Israel, IM - Isle of Man, IN - India, IO - British Indian Ocean Territory, IQ - Iraq, IR - Iran, IS - Iceland, IT - Italy, JE - Jersey, JM - Jamaica, JO - Jordan, JP - Japan, KE - Kenya, KG - Kyrgyzstan, KH - Cambodia, KI - Kiribati, KM - Comoros, KN - Saint Kitts and Nevis, KP - Korea, KR - Korea, KW - Kuwait, KY - Cayman Islands, KZ - Kazakhstan, LA - Lao People's Democratic Republic, LB - Lebanon, LC - Saint Lucia, LI - Liechtenstein, LK - Sri Lanka, LR - Liberia, LS - Lesotho, LT - Lithuania, LU - Luxembourg, LV - Latvia, LY - Libya, MA - Morocco, MC - Monaco, MD - Moldova, ME - Montenegro, MF - Saint Martin (French part), MG - Madagascar, MH - Marshall Islands, MK - North Macedonia, ML - Mali, MM - Myanmar, MN - Mongolia, MO - Macao, MP - Northern Mariana Islands, MQ - Martinique, MR - Mauritania, MS - Montserrat, MT - Malta, MU - Mauritius, MV - Maldives, MW - Malawi, MX - Mexico, MY - Malaysia, MZ - Mozambique, NA - Namibia, NC - New Caledonia, NE - Niger, NF - Norfolk Island, NG - Nigeria, NI - Nicaragua, NL - Netherlands, NO - Norway, NP - Nepal, NR - Nauru, NU - Niue, NZ - New Zealand, OM - Oman, PA - Panama, PE - Peru, PF - French Polynesia, PG - Papua New Guinea, PH - Philippines, PK - Pakistan, PL - Poland, PM - Saint Pierre and Miquelon, PN - Pitcairn, PR - Puerto Rico, PS - Palestine, PT - Portugal, PW - Palau, PY - Paraguay, QA - Qatar, RE - Réunion, RO - Romania, RS - Serbia, RU - Russian Federation, RW - Rwanda, SA - Saudi Arabia, SB - Solomon Islands, SC - Seychelles, SD - Sudan, SE - Sweden, SG - Singapore, SH - Saint Helena, SI - Slovenia, SJ - Svalbard and Jan Mayen, SK - Slovakia, SL - Sierra Leone, SM - San Marino, SN - Senegal, SO - Somalia, SR - Suriname, SS - South Sudan, ST - Sao Tome and Principe, SV - El Salvador, SX - Sint Maarten (Dutch part), SY - Syrian Arab Republic, SZ - Eswatini, TC - Turks and Caicos Islands, TD - Chad, TF - French Southern Territories, TG - Togo, TH - Thailand, TJ - Tajikistan, TK - Tokelau, TL - Timor-Leste, TM - Turkmenistan, TN - Tunisia, TO - Tonga, TR - Türkiye, TT - Trinidad and Tobago, TV - Tuvalu, TW - Taiwan, TZ - Tanzania, UA - Ukraine, UG - Uganda, UM - United States Minor Outlying Islands, US - United States of America, UY - Uruguay, UZ - Uzbekistan, VA - Holy See, VC - Saint Vincent and the Grenadines, VE - Venezuela, VG - Virgin Islands (British), VI - Virgin Islands (U.S.), VN - Viet Nam, VU - Vanuatu, WF - Wallis and Futuna, WS - Samoa, XK - Kosovo, YE - Yemen, YT - Mayotte, ZA - South Africa, ZM - Zambia, ZW - Zimbabwe]

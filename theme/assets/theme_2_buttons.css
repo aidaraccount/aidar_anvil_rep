@@ -93,7 +93,7 @@ Area 3: Buttons
 .anvil-role-icon-button-disabled-small > button:focus,
 .anvil-role-icon-button-disabled-small > button:active {
   background: transparent !important;
-  color: var(--Accent_1) !important;
+  color: var(--Orange) !important;
 }
 
 
