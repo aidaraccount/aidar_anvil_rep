@@ -2,4 +2,5 @@ components: []
 container:
   properties: {html: ''}
   type: HtmlTemplate
+custom_component: false
 is_package: true

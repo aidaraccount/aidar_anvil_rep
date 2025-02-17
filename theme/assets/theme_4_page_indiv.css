@@ -9,6 +9,36 @@ Area 5: Page individual classes
 }
 
 /* Socials */
+.masonry-item-test {
+  iframe {
+    width: 100%;
+    height: 100vh; /* Full viewport height */
+  }
+  
+  .EmbedVideo {
+    position: relative;
+    width: 100%;
+    height: 100vh; /* Full height */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .aand {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+  }
+  
+  .aakh {
+    width: 100%;
+    height: 100%;
+  }
+
+}
+
+
+
 .masonry-item {
   padding: 7px 7px 0px 7px;
   margin-bottom: 10px;
@@ -64,7 +94,7 @@ Area 5: Page individual classes
     top: -65px; /* to hide top */
     min-width: 200px !important;
     max-width: 300px !important;
-    height: 428px;
+    max-height: 428px;
     margin: 0 !important;
   }
   .social-stats {
