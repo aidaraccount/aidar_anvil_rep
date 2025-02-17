@@ -29,18 +29,22 @@ Area 5: Page individual classes
     background: var(--Background_Purple); /* to hide top */
     padding-bottom: 1px; /* to hide top */
     padding-top: 1px; /* to hide top */
+    height: 40px;
     a {
+      position: relative;
+      top: -38px;
       font-family: GS-regular;
       font-size: 20px;
       line-height: 1;
       text-align: center !important;
     }
-  }
-  .social-wl-button {
-    z-index: 3;
-    position: relative;
-    top: -40px;
-    left: 270px;
+    .social-wl-button {
+      z-index: 3;
+      position: relative;
+      top: -5px;
+      left: 260px;
+      width: 30px;
+    }
   }
   .social-date {
     font-size: 14px;
