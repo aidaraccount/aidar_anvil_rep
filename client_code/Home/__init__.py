@@ -12,7 +12,6 @@ import datetime
 from anvil_extras import routing
 from ..nav import click_link, click_button, click_box, logout, login_check, load_var, save_var
 
-from ..C_Short_simple import C_Short_simple
 from ..C_Short import C_Short
 from ..C_Shorts import C_Shorts
 
@@ -181,7 +180,7 @@ class Home(HomeTemplate):
 
         self.num_shorts = len(shorts)
         for i in range(0, len(shorts)):
-          self.flow_panel_shorts.add_component(C_Short_simple(data=shorts[i]))
+          self.flow_panel_shorts.add_component(C_Short(data=shorts[i]))
 
         if len(shorts) < 12:
           self.reload.visible = False
@@ -212,7 +211,7 @@ class Home(HomeTemplate):
         shorts = json.loads(shorts)
         
         for i in range(0, len(shorts)):
-          self.flow_panel_shorts.add_component(C_Short_simple(data=shorts[i]))
+          self.flow_panel_shorts.add_component(C_Short(data=shorts[i]))
         
         self.num_shorts = self.num_shorts + len(shorts)
         
@@ -248,5 +247,4 @@ class Home(HomeTemplate):
       ):  # Only active models
         wl_ids.append(component.tag)
 
-    print('wl_ids:', wl_ids)
     self.get_shorts()

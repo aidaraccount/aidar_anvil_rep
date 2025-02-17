@@ -6,42 +6,49 @@ import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
 
-from ..nav import click_link, click_button, logout, login_check, save_var, load_var
+from ..nav import click_link
 
 
 class C_Short(C_ShortTemplate):
-  def __init__(self, i, artist_id, created_date, external_url, name, **properties):
+  def __init__(self, data, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
 
+    print(data)
+    
+    views = '-' if data["views"] is None else f'{data["views"]:,}'
+    likes = '-' if data["likes"] is None else f'{data["likes"]:,}'
+    comments = '-' if data["comments"] is None else f'{data["comments"]:,}'
+    
     # Any code you write here will run before the form opens.
-    # adding the shorts to the html base
-    self.html += f"""
-    <div class="masonry-container">
-      <div class="masonry-item">
-        <div anvil-slot="name-slot-{i}">
-          <div anvil-if-slot-empty="name-slot-{i}">{name}</div>
-        </div>
-        <div anvil-role="feature">
-          <p class="label-text">{created_date}</p>
-        </div>
-        <iframe src="{external_url}/embed/?omitscript=true&hidecaption=true"
-          width="400" height="480"
-          frameborder="0" scrolling="no"
-          allowtransparency="true" allowfullscreen="true">
-        </iframe>
+    self.html = f"""
+    <div class="masonry-item">
+      <div anvil-role="social-name" class="social-name" anvil-slot="wl-slot">
+        <div anvil-if-slot-empty="wl-slot">{data["name"]}</div>
       </div>
-    """
-
-    link = Link(text=name)
-    link.set_event_handler(
-      "click", self.create_link_click_handler(artist_id, link)
-    )
-    self.add_component(link, slot=f"name-slot-{i}")
-
-    self.html += """
+      <div anvil-role="wl-button" class="wl-button" anvil-slot="name-slot">
+        <div anvil-if-slot-empty="name-slot">{data["name"]}</div>
+      </div>
+      <p anvil-role="social-date" class="label-text social-date">{data["created_date"]}</p>
+      <iframe src="{data["external_url"]}/embed/?omitscript=true&hidecaption=true"
+        width="400" height="480"
+        frameborder="0" scrolling="no"
+        allowtransparency="true" allowfullscreen="true">
+      </iframe>
+      <div anvil-role="social-stats" class="social-stats">
+        <p class="label-text"><i class="fas fa-bullhorn"></i> {views}</p>
+        <p class="label-text"><i class="fas fa-heart"></i> {likes}</p>
+        <p class="label-text"><i class="fas fa-comment"></i> {comments}</p>
+      </div>
+      <p anvil-role="social-desc" class="label-text social-desc">{data["description"]}</p>
     </div>
     """
+
+    link = Link(text=data["name"])
+    link.set_event_handler(
+      "click", self.create_link_click_handler(data["artist_id"], link)
+    )
+    self.add_component(link, slot="name-slot")
 
   
   def create_link_click_handler(self, artist_id, link):
