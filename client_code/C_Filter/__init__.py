@@ -220,7 +220,7 @@ class C_Filter(C_FilterTemplate):
         ]
       )
     else:
-      routing.set_url_hash(f'artists?artist_id={temp_artist_id}', load_from_cache=False)
+      Notification("", title="Filter changes saved!", style="success").show()
 
   
   def clear_filters_button_click(self, **event_args):    
@@ -228,8 +228,8 @@ class C_Filter(C_FilterTemplate):
                       self.model_id,
                       filters_json = None
                      )
-    temp_artist_id = anvil.server.call('get_next_artist_id', load_var('model_id'))
-    click_button(f'artists?artist_id={temp_artist_id}', event_args)
+    click_button(f'model_profile?model_id={load_var("model_id")}&section=Filter', event_args)
+    Notification("", title="All filter are reset!", style="success").show()
 
 
   def button_add_genre_click(self, **event_args):
