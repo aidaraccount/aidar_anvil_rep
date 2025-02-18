@@ -336,6 +336,9 @@ class Discover(DiscoverTemplate):
       if sug["NoTracks"] == 'None': self.no_tracks.text = '-'
       else: self.no_tracks.text = f'{int(sug["NoTracks"]):,}'
       
+      if sug["NoTracks365"] == 'None': self.no_tracks_365.text = '-'
+      else: self.no_tracks_365.text = f'{int(sug["NoTracks365"]):,}'
+      
       if sug["FirstReleaseDate"] == 'None': self.first_release_date.text = '-'
       else: self.first_release_date.text = sug["FirstReleaseDate"]
       
@@ -2009,7 +2012,10 @@ class Discover(DiscoverTemplate):
   def info_no_tracks_click(self, **event_args):
     alert(title='No. Tracks',
     content="Number of tracks from the presented Artist in our database. Not all tracks of this Artist have to be in the database.")
-
+  def info_no_tracks_365_click(self, **event_args):
+    alert(title='No. Releases in last 365 Days',
+    content="Number of tracks released from the presented Artist in the last 365 days. Not all tracks of this Artist have to be in our database.")
+  
   def info_min_distance_click(self, **event_args):
     alert(title='Min. musical Distance',
     content="If you subscribed to the Inspect or Dissect subscription, the minimal musical distance is the smallest Euclidean Distance between one of the artist's songs and your personal reference tracks.\n\nIf you have not yet added your reference tracks or are subscribed to the Explore subscription, this value is empty.")
