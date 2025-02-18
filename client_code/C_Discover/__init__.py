@@ -362,41 +362,30 @@ class C_Discover(C_DiscoverTemplate):
       # -------------------------------
       # I. RELEASES
       # a) stats
-      if sug["NoTracks"] == "None":
-        self.no_tracks.text = "-"
-      else:
-        self.no_tracks.text = f'{int(sug["NoTracks"]):,}'
+      if sug["NoTracks"] == "None": self.no_tracks.text = "-"
+      else: self.no_tracks.text = f'{int(sug["NoTracks"]):,}'
 
-      if sug["FirstReleaseDate"] == "None":
-        self.first_release_date.text = "-"
-      else:
-        self.first_release_date.text = sug["FirstReleaseDate"]
+      if sug["NoTracks365"] == 'None': self.no_tracks_365.text = '-'
+      else: self.no_tracks_365.text = f'{int(sug["NoTracks365"]):,}'
+            
+      if sug["FirstReleaseDate"] == "None": self.first_release_date.text = "-"
+      else: self.first_release_date.text = sug["FirstReleaseDate"]
 
-      if sug["LastReleaseDate"] == "None":
-        self.last_release_date.text = "-"
-      else:
-        self.last_release_date.text = sug["LastReleaseDate"]
+      if sug["LastReleaseDate"] == "None": self.last_release_date.text = "-"
+      else: self.last_release_date.text = sug["LastReleaseDate"]
 
-      if sug["LatestLabel"] == "None":
-        ll = "N/A"
-      else:
-        ll = sug["LatestLabel"]
+      if sug["LatestLabel"] == "None": ll = "N/A"
+      else: ll = sug["LatestLabel"]
       self.latest_label.text = ll
 
-      if sug["MajorCoop"] == "1":
-        mc = "yes"
-      elif sug["MajorCoop"] == "0":
-        mc = "no"
-      else:
-        mc = "-"
+      if sug["MajorCoop"] == "1": mc = "yes"
+      elif sug["MajorCoop"] == "0": mc = "no"
+      else: mc = "-"
       self.major_coop.text = mc
 
-      if sug["SubMajorCoop"] == "1":
-        smc = "yes"
-      elif sug["SubMajorCoop"] == "0":
-        smc = "no"
-      else:
-        smc = "-"
+      if sug["SubMajorCoop"] == "1": smc = "yes"
+      elif sug["SubMajorCoop"] == "0": smc = "no"
+      else: smc = "-"
       self.sub_major_coop.text = smc
 
       co_artists = json.loads(anvil.server.call("get_co_artists", artist_id))
@@ -2276,10 +2265,12 @@ class C_Discover(C_DiscoverTemplate):
     alert(title="Follower", content="Number of followers on Spotify")
 
   def info_no_tracks_click(self, **event_args):
-    alert(
-      title="No. Tracks",
-      content="Number of tracks from the presented Artist in our database. Not all tracks of this Artist have to be in the database.",
-    )
+    alert(title="No. Tracks",
+    content="Number of tracks from the presented Artist in our database. Not all tracks of this Artist have to be in the database.")
+  
+  def info_no_tracks_365_click(self, **event_args):
+    alert(title='No. Releases in last 365 Days',
+    content="Number of tracks released from the presented Artist in the last 365 days. Not all tracks of this Artist have to be in our database.")
 
   def info_min_distance_click(self, **event_args):
     alert(
