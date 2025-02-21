@@ -246,8 +246,23 @@ class C_NotificationSettings(C_NotificationSettingsTemplate):
 
   def activate_notification(self, **event_args):
     if self.activate.visible is True:
-      self.activate.visible = False
-      self.deactivate.visible = True
+      # check if not_radar settings are active - if not, go to settings
+      not_data = json.loads(anvil.server.call('get_settings_notifications', user["user_id"]))[0]
+      if not_data["not_radars"] == 'active':      
+        self.activate.visible = False
+        self.deactivate.visible = True
+      else:
+        res = alert(
+          title='Artist Radar notifications are deactivated',
+          content="Go to the Notification Settings and activate your personal Artist Radar Notifications. Afterwards you can activate this Radar.",
+          buttons=[
+            ("Cancel", "NO"),
+            ("Go to Settings", "YES")
+          ]
+        )
+        if res == 'YES':
+          click_link(self.activate, 'settings', event_args)
+        
     else:
       self.activate.visible = True
       self.deactivate.visible = False

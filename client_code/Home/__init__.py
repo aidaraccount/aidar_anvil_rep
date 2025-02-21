@@ -87,10 +87,8 @@ class Home(HomeTemplate):
       print(f"{datetime.datetime.now()}: Home - __init__ - 2", flush=True)
           
       # STATS
-      data = anvil.server.call('app_home', user["user_id"])
-      
+      data = anvil.server.call('app_home', user["user_id"])      
       stats = data['stats']
-      print(type(stats))
 
       if stats != []:
         for stat in stats:

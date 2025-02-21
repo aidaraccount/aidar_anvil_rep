@@ -91,28 +91,30 @@ class Settings(SettingsTemplate):
     self.sec_user.visible = False
 
     # reset save button
-    self.not_save.role = ['header-6', 'call-to-action-button-disabled']
+    self.not_gen_save.role = ['header-6', 'call-to-action-button-disabled']
+    self.not_pers_save.role = ['header-6', 'call-to-action-button-disabled']
     
     # load data
     not_data = json.loads(anvil.server.call('get_settings_notifications', user["user_id"]))[0]
     # print(not_data)
 
-    # a) Notifications
-    # text
+    # a) General Notifications
     self.not_general.text = not_data["not_general"]
     self.not_reminder.text = not_data["not_reminder"]
-    self.not_radars.text = not_data["not_radars"]
-    self.not_highlights.text = not_data["not_highlights"]
     self.not_newsletter.text = not_data["not_newsletter"]
 
-    # role
     self.not_general.role = ['header-7', 'call-to-action-button'] if self.not_general.text == 'active' else ['header-7', 'call-to-action-button-disabled']
     self.not_reminder.role = ['header-7', 'call-to-action-button'] if self.not_reminder.text == 'active' else ['header-7', 'call-to-action-button-disabled']
-    self.not_radars.role = ['header-7', 'call-to-action-button'] if self.not_radars.text == 'active' else ['header-7', 'call-to-action-button-disabled']
-    self.not_highlights.role = ['header-7', 'call-to-action-button'] if self.not_highlights.text == 'active' else ['header-7', 'call-to-action-button-disabled']
     self.not_newsletter.role = ['header-7', 'call-to-action-button'] if self.not_newsletter.text == 'active' else ['header-7', 'call-to-action-button-disabled']
     
+    # b) Personal Notifications
+    self.not_radars.text = not_data["not_radars"]
+    self.not_highlights.text = not_data["not_highlights"]
   
+    self.not_radars.role = ['header-7', 'call-to-action-button'] if self.not_radars.text == 'active' else ['header-7', 'call-to-action-button-disabled']
+    self.not_highlights.role = ['header-7', 'call-to-action-button'] if self.not_highlights.text == 'active' else ['header-7', 'call-to-action-button-disabled']
+    
+
   # -----------------------
   # 3. NAVIGATION USER MANAGEMENT
   def get_data(self, **event_args):
@@ -161,8 +163,8 @@ class Settings(SettingsTemplate):
     self.key.text = inv_data['license_key']
     self.link.text = f"app.aidar.ai/#register?license_key={inv_data['license_key']}"
 
-    
-  # -----------------------
+  
+  # ---------------------------------------------------------------------
   # 1. ACCOUNT SETTINGS
   # a) Profile Management
   def text_box_first_name_change(self, **event_args):
@@ -187,7 +189,6 @@ class Settings(SettingsTemplate):
       else:
         Notification("", title="Error! Sorry, something went wrong..", style="warning").show()
     
-  
   # b) Subscription Status
   # no actions available
   
@@ -215,8 +216,8 @@ class Settings(SettingsTemplate):
   
   # -----------------------
   # 2. NOTIFICATIONS
-  # a) Notifications  
-  def button_active_click(self, **event_args):
+  # a) General Notifications  
+  def button_active_gen_click(self, **event_args):
     # change button text    
     if event_args['sender'].text == 'active':
       event_args['sender'].text = 'deactivated'
@@ -230,24 +231,97 @@ class Settings(SettingsTemplate):
       event_args['sender'].role = ['header-7', 'call-to-action-button']
 
     # change save button role
-    self.not_save.role = ['header-6', 'call-to-action-button']
-  
-  def not_save_click(self, **event_args):
-    if self.not_save.role == ['header-6', 'call-to-action-button']:
-      status = anvil.server.call('update_settings_notifications',
+    self.not_gen_save.role = ['header-6', 'call-to-action-button']
+
+  def not_gen_save_click(self, **event_args):
+    if self.not_gen_save.role == ['header-6', 'call-to-action-button']:
+      status = anvil.server.call('update_settings_notifications_gen',
                                 user["user_id"],
                                 self.not_general.text,
                                 self.not_reminder.text,
-                                self.not_radars.text,
-                                self.not_highlights.text,
                                 self.not_newsletter.text
                                 )
       
       if status == 'success':
         Notification("", title="Changes saved!", style="success").show()
-        self.not_save.role = ['header-6', 'call-to-action-button-disabled']
+        self.not_gen_save.role = ['header-6', 'call-to-action-button-disabled']
       else:
         Notification("", title="Error! Sorry, something went wrong..", style="warning").show()
+
+  # b) Personal Notifications  
+  def button_active_pers_click(self, element=None, **event_args):
+    # copy the event_args['sender'] if added specifically
+    if element is not None:
+      event_args['sender'] = element
+    
+    # change button text    
+    if event_args['sender'].text == 'active':
+      event_args['sender'].text = 'deactivated'
+    else:
+      event_args['sender'].text = 'active'
+    
+    # change button roles
+    if event_args['sender'].role == ['header-7', 'call-to-action-button']:
+      event_args['sender'].role = ['header-7', 'call-to-action-button-disabled']
+    else:
+      event_args['sender'].role = ['header-7', 'call-to-action-button']
+
+    # change save button role
+    self.not_pers_save.role = ['header-6', 'call-to-action-button']
+  
+  # specific function for not_radars, to ensure users really want to deactivate all personal artist radars 
+  def button_active_pers_click_radar(self, **event_args):
+    nots = json.loads(anvil.server.call("get_notifications", user["user_id"], 'mail'))
+    
+    if self.not_radars.text == 'deactivated' or len(nots) == 0:
+      self.button_active_pers_click(element=event_args['sender'])
+    else:
+      result = alert(
+        title="All personal Artist Radars will be deactivated",
+        content="Are you sure to deactivate all your personal Artist Radars?\n\nYou will no longer get individual notifications based on your personal AI-Agent directly into your inbox.",
+        buttons=[("Cancel", "No"), ("Yes, deactivate", "Yes")],
+      )
+      if result == "Yes":
+        for noti in nots:
+          anvil.server.call(
+            "update_notification",
+            notification_id=noti["notification_id"],
+            type=noti["type"],
+            name=noti["name"],
+            active=False,
+            freq_1=noti["freq_1"],
+            freq_2=noti["freq_2"],
+            freq_3=noti["freq_3"],
+            metric=noti["metric"],
+            no_artists=noti["no_artists"],
+            repetition_1=noti["repetition_1"],
+            repetition_2=noti["repetition_2"],
+            rated=noti["rated"],
+            watchlist=noti["watchlist"],
+            release_days=noti["release_days"],
+            min_grow_fit=noti["min_grow_fit"],
+            model_ids=noti["model_ids"],
+            song_selection_1=noti["song_selection_1"],
+            song_selection_2=noti["song_selection_2"],
+          )
+        self.button_active_pers_click(element=event_args['sender'])
+        Notification("", title="All Artist Radars deactivated!", style="success").show()
+        self.not_pers_save_click()  
+  
+  def not_pers_save_click(self, **event_args):
+    if self.not_pers_save.role == ['header-6', 'call-to-action-button']:
+      status = anvil.server.call('update_settings_notifications_pers',
+                                user["user_id"],
+                                self.not_radars.text,
+                                self.not_highlights.text
+                                )
+      
+      if status == 'success':
+        Notification("", title="Changes saved!", style="success").show()
+        self.not_pers_save.role = ['header-6', 'call-to-action-button-disabled']
+      else:
+        Notification("", title="Error! Sorry, something went wrong..", style="warning").show()
+
   
   # -----------------------
   # 3. USER MANAGEMENT
