@@ -90,11 +90,19 @@ class Home(HomeTemplate):
       data = anvil.server.call('app_home', user["user_id"])
       
       stats = data['stats']
-      for stat in stats:
-        if stat['stat'] == 'Success': won_cnt = stat['cnt']
-        if stat['stat'] == 'Watchlist': wl_cnt = stat['cnt']
-        if stat['stat'] == 'HighRated': hp_cnt = stat['cnt']
-        if stat['stat'] == 'RatedTotal': tot_cnt = stat['cnt']
+      print(type(stats))
+
+      if stats != []:
+        for stat in stats:
+          if stat['stat'] == 'Success': won_cnt = stat['cnt']
+          if stat['stat'] == 'Watchlist': wl_cnt = stat['cnt']
+          if stat['stat'] == 'HighRated': hp_cnt = stat['cnt']
+          if stat['stat'] == 'RatedTotal': tot_cnt = stat['cnt']
+      else:
+        won_cnt = 0
+        wl_cnt = 0
+        hp_cnt = 0
+        tot_cnt = 0
       
       self.label_won_no.text = won_cnt
       self.label_wl_no.text = wl_cnt
