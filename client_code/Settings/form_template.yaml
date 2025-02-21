@@ -16,7 +16,17 @@ components:
         spacing_below: none
         text: Account Settings
       type: Link
-    - event_bindings: {click: nav_user_click}
+    - event_bindings: {click: nav_not_click}
+      layout_properties: {}
+      name: nav_not
+      properties:
+        role: [section_buttons]
+        spacing_above: none
+        spacing_below: none
+        text: Notifications
+      type: Link
+    - components: []
+      event_bindings: {click: nav_user_click}
       layout_properties: {}
       name: nav_user
       properties:
@@ -200,6 +210,129 @@ components:
       type: ColumnPanel
     layout_properties: {grid_position: 'WMSIRL,VVYQPX'}
     name: sec_account
+    properties:
+      spacing:
+        margin: ['5', '25', '25', '25']
+      spacing_above: medium
+    type: ColumnPanel
+  - components:
+    - components:
+      - layout_properties: {grid_position: 'XMKZJJ,YJDVPX'}
+        name: label_1_copy_4
+        properties:
+          role: header-5
+          spacing:
+            margin: [null, null, '10', null]
+          spacing_above: none
+          spacing_below: none
+          text: Notifications
+        type: Label
+      - layout_properties: {grid_position: 'LQRANB,IMSUXV'}
+        name: label_2_copy_2
+        properties:
+          role: header-6
+          spacing:
+            margin: [null, null, null, '15']
+          text: General system notifications
+        type: Label
+      - data_bindings: []
+        event_bindings: {click: button_active_click}
+        layout_properties: {grid_position: 'LQRANB,FINKLW'}
+        name: not_general
+        properties:
+          align: left
+          role: [call-to-action-button-disabled, header-7]
+          text: ''
+        type: Button
+      - layout_properties: {grid_position: 'XLRXWF,ROBXKQ'}
+        name: label_4_copy
+        properties:
+          role: header-6
+          spacing:
+            margin: [null, null, null, '15']
+          text: Weekly reminder
+        type: Label
+      - data_bindings: []
+        event_bindings: {click: button_active_click}
+        layout_properties: {grid_position: 'XLRXWF,XSAHJF'}
+        name: not_reminder
+        properties:
+          align: left
+          role: [call-to-action-button-disabled, header-7]
+          text: ''
+        type: Button
+      - layout_properties: {grid_position: ',undefined'}
+        name: label_5_copy
+        properties:
+          align: left
+          role: header-6
+          spacing:
+            margin: [null, null, null, '15']
+          text: Personal Artist Radars
+        type: Label
+      - data_bindings: []
+        event_bindings: {click: button_active_click}
+        layout_properties: {grid_position: ',PUGUJA'}
+        name: not_radars
+        properties:
+          align: left
+          role: [call-to-action-button-disabled, header-7]
+          text: ''
+        type: Button
+      - layout_properties: {grid_position: 'LAMMIM,VVYVCZ'}
+        name: label_5_copy_copy
+        properties:
+          align: left
+          role: header-6
+          spacing:
+            margin: [null, null, null, '15']
+          text: Personal highlights (monthly)
+        type: Label
+      - data_bindings: []
+        event_bindings: {click: button_active_click}
+        layout_properties: {grid_position: 'LAMMIM,KYBRJP'}
+        name: not_highlights
+        properties:
+          align: left
+          role: [call-to-action-button-disabled, header-7]
+          text: ''
+        type: Button
+      - layout_properties: {grid_position: 'BEWOCD,JBPOZH'}
+        name: label_5_copy_copy_copy
+        properties:
+          align: left
+          role: header-6
+          spacing:
+            margin: [null, null, null, '15']
+          text: User newsletter (monthly)
+        type: Label
+      - data_bindings: []
+        event_bindings: {click: button_active_click}
+        layout_properties: {grid_position: 'BEWOCD,IKFNAI'}
+        name: not_newsletter
+        properties:
+          align: left
+          role: [call-to-action-button-disabled, header-7]
+          text: ''
+        type: Button
+      - event_bindings: {click: profile_save_click}
+        layout_properties: {grid_position: 'ZVKKWY,CGXTIF'}
+        name: not_save
+        properties:
+          align: right
+          role: [header-6, call-to-action-button-disabled]
+          text: save
+        type: Button
+      layout_properties: {grid_position: 'TWZKDQ,XNRLJR'}
+      name: notifications
+      properties:
+        col_spacing: tiny
+        col_widths: '{"IMSUXV":20,"ROBXKQ":20,"undefined":20,"VVYVCZ":20,"JBPOZH":20,"FINKLW":40,"XSAHJF":40,"PUGUJA":40,"KYBRJP":40,"IKFNAI":40}'
+        spacing:
+          margin: ['25', null, null, '0']
+      type: ColumnPanel
+    layout_properties: {grid_position: 'PPMFRF,JKLHKT'}
+    name: sec_not
     properties:
       spacing:
         margin: ['5', '25', '25', '25']

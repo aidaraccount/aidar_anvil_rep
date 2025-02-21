@@ -34,8 +34,10 @@ class Settings(SettingsTemplate):
   # 1. NAVIGATION ACCOUNT SETTINGS
   def nav_account_click(self, **event_args):
     self.nav_account.role = 'section_buttons_focused'
+    self.nav_not.role = 'section_buttons'
     self.nav_user.role = 'section_buttons'
     self.sec_account.visible = True
+    self.sec_not.visible = False
     self.sec_user.visible = False
 
     # reset save button
@@ -79,14 +81,37 @@ class Settings(SettingsTemplate):
 
   
   # -----------------------
-  # 2. NAVIGATION USER MANAGEMENT
+  # 2. NAVIGATION NOTIFICATIONS
+  def nav_not_click(self, **event_args):
+    self.nav_account.role = 'section_buttons'
+    self.nav_not.role = 'section_buttons_focused'
+    self.nav_user.role = 'section_buttons'
+    self.sec_account.visible = False
+    self.sec_not.visible = True
+    self.sec_user.visible = False
+
+    # reset save button
+    self.not_save.role = ['header-6', 'call-to-action-button-disabled']
+    
+    # load data
+    # not_data = json.loads(anvil.server.call('get_settings_notifications', user["user_id"]))[0]
+    # print(not_data)
+
+    # a) Notifications
+    # self.not_general.text = 
+
+  
+  # -----------------------
+  # 3. NAVIGATION USER MANAGEMENT
   def get_data(self, **event_args):
     return anvil.server.call('get_settings_subscription', user["user_id"])
   
   def nav_user_click(self, **event_args):
     self.nav_account.role = 'section_buttons'
+    self.nav_not.role = 'section_buttons'
     self.nav_user.role = 'section_buttons_focused'
     self.sec_account.visible = False
+    self.sec_not.visible = False
     self.sec_user.visible = True
  
     # load data
@@ -177,7 +202,43 @@ class Settings(SettingsTemplate):
 
   
   # -----------------------
-  # 2. USER MANAGEMENT
+  # 2. NOTIFICATIONS
+  # a) Notifications  
+  def button_active_click(self, **event_args):
+    # change button text    
+    if event_args['sender'].text == 'active':
+      event_args['sender'].text = 'deactivated'
+    else:
+      event_args['sender'].text = 'active'
+    
+    # change button roles
+    if event_args['sender'].role == ['header-7', 'call-to-action-button']:
+      event_args['sender'].role = ['header-7', 'call-to-action-button-disabled']
+    else:
+      event_args['sender'].role = ['header-7', 'call-to-action-button']
+
+    # change save button role
+    self.not_save.role = ['header-6', 'call-to-action-button']
+  
+  def not_save_click(self, **event_args):
+    if self.not_save.role == ['header-6', 'call-to-action-button']:
+      status = anvil.server.call('update_settings_notifications',
+                                user["user_id"],
+                                self.not_general.text,
+                                self.not_reminder.text,
+                                self.not_radars.text,
+                                self.not_highlights.text,
+                                self.not_newsletter.text
+                                )
+  
+      if status == 'success':
+        Notification("", title="Changes saved!", style="success").show()
+        self.not_save.role = ['header-6', 'call-to-action-button-disabled']
+      else:
+        Notification("", title="Error! Sorry, something went wrong..", style="warning").show()
+    
+  # -----------------------
+  # 3. USER MANAGEMENT
   # a) User Roles & Permissions
   def search_user_click(self, **event_args):
     sub_data = self.get_data()    
@@ -260,3 +321,5 @@ class Settings(SettingsTemplate):
       self.mail_enters.text = ''
       self.sent_invite.role = ['pos-abs-bottom', 'header-6', 'call-to-action-button-disabled']
       self.nav_user_click()
+
+
