@@ -98,8 +98,20 @@ class Settings(SettingsTemplate):
     print(not_data)
 
     # a) Notifications
-    # self.not_general.text = 
+    # text
+    self.not_general.text = not_data["not_general"]
+    self.not_reminder.text = not_data["not_reminder"]
+    self.not_radars.text = not_data["not_radars"]
+    self.not_highlights.text = not_data["not_highlights"]
+    self.not_newsletter.text = not_data["not_newsletter"]
 
+    # role
+    self.not_general.role = ['header-7', 'call-to-action-button'] if self.not_general.text == 'active' else ['header-7', 'call-to-action-button-disabled']
+    self.not_reminder.role = ['header-7', 'call-to-action-button'] if self.not_reminder.text == 'active' else ['header-7', 'call-to-action-button-disabled']
+    self.not_radars.role = ['header-7', 'call-to-action-button'] if self.not_radars.text == 'active' else ['header-7', 'call-to-action-button-disabled']
+    self.not_highlights.role = ['header-7', 'call-to-action-button'] if self.not_highlights.text == 'active' else ['header-7', 'call-to-action-button-disabled']
+    self.not_newsletter.role = ['header-7', 'call-to-action-button'] if self.not_newsletter.text == 'active' else ['header-7', 'call-to-action-button-disabled']
+    
   
   # -----------------------
   # 3. NAVIGATION USER MANAGEMENT
@@ -230,13 +242,13 @@ class Settings(SettingsTemplate):
                                 self.not_highlights.text,
                                 self.not_newsletter.text
                                 )
-  
+      print(status)
       if status == 'success':
         Notification("", title="Changes saved!", style="success").show()
         self.not_save.role = ['header-6', 'call-to-action-button-disabled']
       else:
         Notification("", title="Error! Sorry, something went wrong..", style="warning").show()
-    
+  
   # -----------------------
   # 3. USER MANAGEMENT
   # a) User Roles & Permissions
