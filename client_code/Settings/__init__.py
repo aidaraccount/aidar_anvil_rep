@@ -94,8 +94,8 @@ class Settings(SettingsTemplate):
     self.not_save.role = ['header-6', 'call-to-action-button-disabled']
     
     # load data
-    # not_data = json.loads(anvil.server.call('get_settings_notifications', user["user_id"]))[0]
-    # print(not_data)
+    not_data = json.loads(anvil.server.call('get_settings_notifications', user["user_id"]))[0]
+    print(not_data)
 
     # a) Notifications
     # self.not_general.text = 
