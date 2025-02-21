@@ -95,7 +95,7 @@ class Settings(SettingsTemplate):
     
     # load data
     not_data = json.loads(anvil.server.call('get_settings_notifications', user["user_id"]))[0]
-    print(not_data)
+    # print(not_data)
 
     # a) Notifications
     # text
@@ -242,7 +242,7 @@ class Settings(SettingsTemplate):
                                 self.not_highlights.text,
                                 self.not_newsletter.text
                                 )
-      print(status)
+      
       if status == 'success':
         Notification("", title="Changes saved!", style="success").show()
         self.not_save.role = ['header-6', 'call-to-action-button-disabled']
