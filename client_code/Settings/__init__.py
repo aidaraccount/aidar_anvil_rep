@@ -9,6 +9,7 @@ import random
 import string
 from anvil.js.window import navigator
 import json
+import datetime
 import re
 
 from anvil_extras import routing
@@ -23,11 +24,19 @@ class Settings(SettingsTemplate):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
 
-    # Any code you write here will run before the form opens.
     global user
     user = anvil.users.get_user()
 
-    self.nav_account_click()
+    # Any code you write here will run before the form opens.
+    if user is None or user == 'None':
+      self.visible = False
+      
+    elif user['expiration_date'] is not None and (datetime.today().date() - user['expiration_date']).days > 0:
+      routing.set_url_hash('no_subs', load_from_cache=False)
+      get_open_form().SearchBar.visible = False
+      
+    else:
+      self.nav_account_click()
     
 
   # -----------------------
