@@ -118,13 +118,12 @@ class Observe_Radar(Observe_RadarTemplate):
     self.notification_settings.add_component(C_NotificationSettings(items, notification_id))
     self.notification_settings.visible = True
     
-    self.get_observed()
+    self.get_observed(notification_id)
     
   # GET PLAYLIST DETAILS
-  def get_observed(self):
-  # async def get_observed(self, notification_id, **event_args):
-    # # get data
-    # notification = [item for item in self.notifications if item["notification_id"] == notification_id][0]
+  def get_observed(self, notification_id):
+    # get data
+    notification = [item for item in self.notifications if item["notification_id"] == notification_id][0]
     
     # observed = json.loads(anvil.server.call('get_observed', 
     #                                         user["user_id"],
@@ -136,6 +135,11 @@ class Observe_Radar(Observe_RadarTemplate):
     #                                         notification["release_days"],
     #                                         notification["no_artists"]
     #                                         ))
+
+    """Calls the server asynchronously without blocking the UI."""
+    async_call = call_async("anvil_get_observed", user["user_id"], notification)
+    async_call.on_result(self.handle_result)
+    async_call.on_error(self.handle_error) 
     
     # # add numbering & metric
     # for i, artist in enumerate(observed, start=1):
@@ -154,30 +158,33 @@ class Observe_Radar(Observe_RadarTemplate):
     # # pushover
     # anvil.server.call('sent_push_over',  'Observe_Radar', f'User {user["user_id"]}: using Artist Radar')
 
-    # # Take 2
-    # print('get_observed start')
-    # status = anvil.server.call_s('anvil_get_observed')
-    # print(status)
-    # print('get_observed end')
-
-    # # Take 3
-    self.update_database()
-
-  def handle_result(self, res):
+  def handle_result(self, result):
     """Handles successful server response."""
-    print(res)  # Show result in console
+    observed, notification = result
+    
+    # add numbering & metric
+    for i, artist in enumerate(observed, start=1):
+      artist['Number'] = i
+      artist['Metric'] = notification["metric"]
+    
+    # hand-over the data
+    if len(observed) > 0:
+      self.no_artists.visible = False
+      self.repeating_panel_table.items = observed
+      self.data_grid.visible = True
+    else:
+      self.data_grid.visible = False
+      self.no_artists.visible = True
+    
+    # pushover
+    anvil.server.call('sent_push_over',  'Observe_Radar', f'User {user["user_id"]}: using Artist Radar')    
     Notification("Successfully saved!", style="success").show()
 
-  def handle_error(self, err):
+  def handle_error(self, result):
     """Handles errors from the server."""
     print(err)
     Notification("There was a problem", style="danger").show()
 
-  def update_database(self, **event_args):
-    """Calls the server asynchronously without blocking the UI."""
-    async_call = call_async("update")
-    async_call.on_result(self.handle_result)
-    async_call.on_error(self.handle_error)  
 
 
 
