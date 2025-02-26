@@ -62,6 +62,9 @@ dependencies:
 - dep_id: dep_h86ijk4pnzr0f
   resolution_hints: {app_id: C6ZZPAPN4YYF5NVJ, name: Anvil Extras, package_name: anvil_extras}
   version: {dev: false}
+- dep_id: dep_n1ox24gr4jiha
+  resolution_hints: {app_id: 5YU7BBT6T5O7ZNOX, name: Anvil Labs, package_name: anvil_labs}
+  version: {branch: master}
 metadata: {description: 'AIDAR, aidar ai, aidar-ai, AI driven A&R, music, label, data, ml, ai, A&R', logo_img: 'asset:pics/Favicon_orange.JPG', title: AIDAR - AI driven A&R}
 name: AIDAR
 native_deps:

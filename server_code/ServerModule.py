@@ -3,7 +3,9 @@ import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
 import anvil.server
+import asyncio
 import numpy as np
+
 
 
 # This is a server module. It runs on the Anvil server,
@@ -61,3 +63,43 @@ def update_slider_start(value):
 def update_slider_end(value):
   print(f"Slider end value: {value}")
   # Update your logic based on this value
+
+# # Take 1
+# @anvil.server.callable
+# def launch_anvil_get_observed():
+#   task = anvil.server.launch_background_task('anvil_get_observed')
+#   return task
+  
+# @anvil.server.background_task
+# def anvil_get_observed():
+#   import time
+#   time.sleep(10)
+#   print('waited enough!')
+
+# # Take 2
+# @anvil.server.callable
+# def anvil_get_observed():
+#     return asyncio.run(async_anvil_get_observed())
+
+# async def async_anvil_get_observed():
+#     print('Hello ...')
+#     # asyncio.sleep(10)
+#     asyncio.run('test_pause')
+#     print('... World!')
+#     return 42
+
+# def test_pause():
+#   import time
+#   time.sleep(10)
+#   print('... yes?!')
+
+@anvil.server.callable
+def update():
+  """
+  Simulates a long-running server function.
+  This function updates a database (or does something else) and returns a result.
+  """
+  import time
+  time.sleep(7)  # Simulate a delay (e.g., database update)
+  return "Database Updated!"
+  
