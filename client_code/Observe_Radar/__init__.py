@@ -39,7 +39,11 @@ class Observe_Radar(Observe_RadarTemplate):
       model_id = load_var("model_id")
       self.model_id = model_id
       print(f"Notifications model_id: {model_id}")
-  
+
+      self.no_trained_model.visible = False
+      self.no_notifications.visible = False
+      self.no_artists.visible = False
+      
       url_notification_id = self.url_dict['notification_id']
       self.url_notification_id = url_notification_id
       
@@ -69,7 +73,7 @@ class Observe_Radar(Observe_RadarTemplate):
       self.flow_panel.add_component(notification_link)
 
     # load and activate defined/first notification
-    if len(self.notifications) > 0:      
+    if len(self.notifications) > 0:
       self.no_notifications.visible = False
       self.no_trained_model.visible = False
   
@@ -122,43 +126,18 @@ class Observe_Radar(Observe_RadarTemplate):
     
   # GET PLAYLIST DETAILS
   def get_observed(self, notification_id):
+    print('1. get_observed start')
+    
     # get data
     notification = [item for item in self.notifications if item["notification_id"] == notification_id][0]
-    
-    # observed = json.loads(anvil.server.call('get_observed', 
-    #                                         user["user_id"],
-    #                                         notification["model_ids"],
-    #                                         notification["metric"],
-    #                                         notification["rated"],
-    #                                         notification["watchlist"],
-    #                                         notification["min_grow_fit"],
-    #                                         notification["release_days"],
-    #                                         notification["no_artists"]
-    #                                         ))
 
+    print('2. get_observed hand over')
     """Calls the server asynchronously without blocking the UI."""
     async_call = call_async("anvil_get_observed", user["user_id"], notification)
-    async_call.on_result(self.handle_result)
-    async_call.on_error(self.handle_error) 
+    async_call.on_result(self.get_observed_follow_up)
     
-    # # add numbering & metric
-    # for i, artist in enumerate(observed, start=1):
-    #   artist['Number'] = i
-    #   artist['Metric'] = notification["metric"]
-    
-    # # hand-over the data
-    # if len(observed) > 0:
-    #   self.no_artists.visible = False
-    #   self.repeating_panel_table.items = observed
-    #   self.data_grid.visible = True
-    # else:
-    #   self.data_grid.visible = False
-    #   self.no_artists.visible = True
-    
-    # # pushover
-    # anvil.server.call('sent_push_over',  'Observe_Radar', f'User {user["user_id"]}: using Artist Radar')
-
-  def handle_result(self, result):
+  def get_observed_follow_up(self, result):
+    print('3. get_observed start follow up')
     """Handles successful server response."""
     observed, notification = result
     
@@ -177,19 +156,9 @@ class Observe_Radar(Observe_RadarTemplate):
       self.no_artists.visible = True
     
     # pushover
-    anvil.server.call('sent_push_over',  'Observe_Radar', f'User {user["user_id"]}: using Artist Radar')    
-    Notification("Successfully saved!", style="success").show()
-
-  def handle_error(self, result):
-    """Handles errors from the server."""
-    print(err)
-    Notification("There was a problem", style="danger").show()
-
-
-
-
+    anvil.server.call('sent_push_over',  'Observe_Radar', f'User {user["user_id"]}: using Artist Radar')
+    print('4. get_observed end')
     
-  
   # CREATE A NEW OBSERBATION
   def add_observation_click(self, **event_args):
     # get a trained model to activate it at the beginning

@@ -114,9 +114,10 @@ body, html {
 #loadingSpinner {
   border-radius: 0;
   border-radius: 0;
-  box-shadow: none;/*0px 0px 10px 10px #fcfcfc;*/
+  box-shadow: none;
   background-color: transparent;
   background-image: url(_/theme/pics/LoadingSpinner_circle.svg) !important;
+  /* margin-left: 125px; */
 }
 
 /* underlining the activated model and watchlist in the navigation */

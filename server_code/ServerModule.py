@@ -59,7 +59,6 @@ def update_slider_start(value):
   print(f"Slider start value: {value}")
   # You can update the graph, filter data, etc., based on this value
 
-
 @anvil.server.callable
 def update_slider_end(value):
   print(f"Slider end value: {value}")
@@ -69,7 +68,7 @@ def update_slider_end(value):
 # Observe_Radar:
 @anvil.server.callable
 def anvil_get_observed(user_id, notification):
-
+  
   observed = json.loads(anvil.server.call('get_observed', 
                                           user_id,
                                           notification["model_ids"],

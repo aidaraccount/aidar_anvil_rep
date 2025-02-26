@@ -9,7 +9,7 @@ from anvil.tables import app_tables
 import anvil.users
 import json
 from datetime import datetime
-from anvil.js.window import location
+from anvil.js.window import location, updateLoadingSpinnerMargin
 from ..C_SearchPopupTable import C_SearchPopupTable
 
 from anvil_extras import routing
@@ -52,7 +52,7 @@ class MainIn(MainInTemplate):
       self.visible = False
       print("MainIn user_id: None")
     
-    else:
+    else:      
       print(f"MainIn user_id: {user['user_id']}")
       
       self.role = 'POST_LOGIN_PAGE'
@@ -104,6 +104,7 @@ class MainIn(MainInTemplate):
       routing.set_url_hash(location.hash, load_from_cache=False)
       
       self.reset_nav_backgrounds()
+      self.call_js('updateLoadingSpinnerMargin', '125px')
 
 
   # WATCHLIST ROUTING
@@ -457,6 +458,7 @@ class MainIn(MainInTemplate):
   # Top Right Buttons
   def logout_click(self, **event_args):
     logout()
+    self.call_js('updateLoadingSpinnerMargin', '0px')
     
   def feedback_click(self, **event_args):
     popup_table = alert(

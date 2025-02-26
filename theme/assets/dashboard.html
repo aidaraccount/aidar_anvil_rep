@@ -212,7 +212,6 @@
     var contentNav = document.querySelector('.main-content-move-nav')
 
     var currentHash = window.location.hash;
-    // console.log("current hash", currentHash);
 
     if (currentHash === '#no_subs' || currentHash === '#no_model') {
         s.style.display = 'none';
@@ -228,10 +227,7 @@
   } 
   document.addEventListener('DOMContentLoaded', navbar_noModel_noSubs())
 
-
-  ///////////////////////////////////////////////////
-  // This ChatGPT version of the jQuery function
-  ///////////////////////////////////////////////////
+  
   function toggleSidebar() {
     // Get the sidebar, button, and content element
     var s = document.querySelector('.sidebar');
@@ -250,6 +246,7 @@
       content.style.marginLeft = '0px'; // Reset content margin
       contentNav.style.marginLeft = '0px'; // Reset content margin
       document.querySelector('.sidebar-click-guard').style.display = 'none'; // Hide click guard
+      updateLoadingSpinnerMargin("0px"); // move loadingSpinner
     } else {
       // Sidebar is closed, so open it
       s.style.left = '0px';  // Slide sidebar in
@@ -257,9 +254,10 @@
       content.style.marginLeft = `${s.offsetWidth}px`;  // Shift content
       contentNav.style.marginLeft = `${s.offsetWidth}px`;  // Shift content
       document.querySelector('.sidebar-click-guard').style.display = 'none'; // Hide click guard
+      updateLoadingSpinnerMargin("125px"); // move loadingSpinner
     }
-  }     
-  // })
+  }
+  
   // Initialize event listeners on DOM content load
   document.addEventListener('DOMContentLoaded', function() {
     var button = document.getElementById('nav-button')
@@ -282,27 +280,4 @@
     cotentNav.style.marginLeft = `${sidebar.offsetWidth}px` // Adjust nav content margin
   });
   
-  ///////////////////////////////////////////////////
-  // This is the original JQuery function used to hide and show the old Sidebar
-  ///////////////////////////////////////////////////
-  // function toggleSidebar() {
-  //     var s = $('.sidebar open');
-  //     if (!s.is(':hidden')) {
-  //         $('.sidebar-click-guard').hide();
-  //         s.addClass('floating').animate({left: -s.width()}, {complete: function() { s.hide(); }});
-  //     } else {
-  //         $('.sidebar-click-guard').show();
-  //         s.show().addClass('floating').css('left', '-100%').css('left', -s.width())
-  //             .animate({left: 0}, {complete: function() { s.removeClass('floating'); }});
-  //     }
-  // }
-    
-  // $(function() {
-  //     $('.sidebaropen').on("click", function() {
-  //         if (window.innerWidth <= 767) {
-  //             toggleSidebar();
-  //         }
-  //     });
-  //     $('.sidebar-click-guard').on("click", toggleSidebar);
-  // })
 </script>
