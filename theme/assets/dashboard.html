@@ -250,6 +250,7 @@
       content.style.marginLeft = '0px'; // Reset content margin
       contentNav.style.marginLeft = '0px'; // Reset content margin
       document.querySelector('.sidebar-click-guard').style.display = 'none'; // Hide click guard
+      updateLoadingSpinnerMargin("0px"); // move loadingSpinner
     } else {
       // Sidebar is closed, so open it
       s.style.left = '0px';  // Slide sidebar in
@@ -257,6 +258,7 @@
       content.style.marginLeft = `${s.offsetWidth}px`;  // Shift content
       contentNav.style.marginLeft = `${s.offsetWidth}px`;  // Shift content
       document.querySelector('.sidebar-click-guard').style.display = 'none'; // Hide click guard
+      updateLoadingSpinnerMargin("125px"); // move loadingSpinner
     }
   }     
   // })
