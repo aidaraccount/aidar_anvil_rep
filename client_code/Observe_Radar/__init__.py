@@ -120,18 +120,8 @@ class Observe_Radar(Observe_RadarTemplate):
   # GET PLAYLIST DETAILS
   def get_observed(self, notification_id, **event_args):
     # get data
-    notification = [item for item in self.notifications if item["notification_id"] == notification_id][0]
-    
-    observed = json.loads(anvil.server.call('get_observed', 
-                                            user["user_id"],
-                                            notification["model_ids"],
-                                            notification["metric"],
-                                            notification["rated"],
-                                            notification["watchlist"],
-                                            notification["min_grow_fit"],
-                                            notification["release_days"],
-                                            notification["no_artists"]
-                                            ))
+    notification = [item for item in self.notifications if item["notification_id"] == notification_id][0]    
+    observed = json.loads(anvil.server.call('get_observed', notification["notification_id"]))
     
     # add numbering & metric
     for i, artist in enumerate(observed, start=1):

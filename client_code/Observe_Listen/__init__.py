@@ -154,22 +154,9 @@ class Observe_Listen(Observe_ListenTemplate):
     
   # GET PLAYLIST DETAILS
   def get_observe_tracks(self, notification_id, **event_args):  
-    print('calling get_observe_tracks')
+    # get data
     notification = [item for item in self.notifications if item["notification_id"] == notification_id][0]
-    
-    observed_tracks = anvil.server.call('get_observed_tracks', 
-                                        user["user_id"],
-                                        notification["model_ids"],
-                                        notification["metric"],
-                                        notification["rated"],
-                                        notification["watchlist"],
-                                        notification["min_grow_fit"],
-                                        notification["release_days"],
-                                        notification["no_artists"],
-                                        notification["song_selection_2"]
-                                        )
-
-    # print(observed_tracks)
+    observed_tracks = anvil.server.call('get_observed_tracks', notification["notification_id"])
     
     # hand-over the data
     if len(observed_tracks) > 0:
