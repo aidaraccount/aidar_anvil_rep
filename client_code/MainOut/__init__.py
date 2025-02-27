@@ -47,6 +47,7 @@ class MainOut(MainOutTemplate):
           save_var("model_id", anvil.server.call('get_model_id',  user["user_id"]))
 
         # Navigate to main page after successful login
+        anvil.server.call('login_updates',  user["user_id"])
         open_form("MainIn")
       
         if location.hash == '':
