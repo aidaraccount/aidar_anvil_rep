@@ -69,16 +69,7 @@ def update_slider_end(value):
 @anvil.server.callable
 def anvil_get_observed(user_id, notification):
   
-  observed = json.loads(anvil.server.call('get_observed', 
-                                          user_id,
-                                          notification["model_ids"],
-                                          notification["metric"],
-                                          notification["rated"],
-                                          notification["watchlist"],
-                                          notification["min_grow_fit"],
-                                          notification["release_days"],
-                                          notification["no_artists"]
-                                          ))
+  observed = json.loads(anvil.server.call('get_observed', notification["notification_id"]))
   
   return observed, notification
   
