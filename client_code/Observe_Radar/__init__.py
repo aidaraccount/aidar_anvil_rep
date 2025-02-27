@@ -133,7 +133,7 @@ class Observe_Radar(Observe_RadarTemplate):
 
     print('2. get_observed hand over')
     """Calls the server asynchronously without blocking the UI."""
-    async_call = call_async("anvil_get_observed", user["user_id"], notification)
+    async_call = call_async("anvil_get_observed", user["user_id"], notification, timeout = 600)
     async_call.on_result(self.get_observed_follow_up)
     
   def get_observed_follow_up(self, result):
