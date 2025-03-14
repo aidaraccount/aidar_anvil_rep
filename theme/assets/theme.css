@@ -35,7 +35,6 @@ Area 4: Page Individual
   --Background_Purple: %color:Background_Purple%;
 }
 
-rgba(123, 123, 123, 0.2)
 /*
 ----------------------------------------------------------------------------------------
 Classes to be captured by js
@@ -142,7 +141,6 @@ body, html {
   background-size: cover;
   height: calc(100vh - 54px);
   max-height: 1200px;
-  #margin: 0;
 }
 .anvil-role-landingpage_noartists_background {
   background-image: url('_/theme/pics/Fans2.jpg');
