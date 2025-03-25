@@ -310,7 +310,7 @@ function playNextSong(formElement, trackOrArtist, spotifyTrackIDsList, spotifyAr
     
     if (nextSpotifyArtistID && (currentArtistID !== nextSpotifyArtistID || sessionStorage.getItem("has_played") === 'False')) {
       // read name
-      speakText(`...Presenting, ${nextSpotifyArtistName}!`)
+      speakText(`Presenting, ${nextSpotifyArtistName}!`)
       
       // scroll in view
       const scroll_element = document.querySelector(`.anvil-role-${nextSpotifyArtistID}`);
