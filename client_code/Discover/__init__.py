@@ -1194,6 +1194,7 @@ class Discover(DiscoverTemplate):
   # COUNTRY AND CITY GRAPHS WITH FILTER
   def sort_dropdown_countries_change(self, **event_args):
     save_var('sort_dropdown_countries', self.sort_dropdown_countries.selected_value)
+    print(self.sort_dropdown_countries.selected_value)
     self.create_monthly_listeners_by_country_bar_chart()
     self.create_monthly_listeners_by_city_bar_chart()
     self.create_events_by_country_bar_chart()
