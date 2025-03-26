@@ -2651,12 +2651,15 @@ class C_Discover(C_DiscoverTemplate):
     save_var("autoPlayStatus", self.autoplay_button.icon)
 
   def show_milestone_alert(self, milestone):
-    # Show a congratulatory alert when a user reaches a milestone.
-    alert(
-      content=C_ProgressMessage(self.model_id, milestone),
-      buttons=[],
-      role=["progress-message", "remove-focus"],
-    )
+    # Show a congratulatory alert when a user reaches a milestone and it wasn't displayed before.
+    displayed_before = anvil.server.call('get_progress_msg_status', self.model_id, milestone)
+    if displayed_before is False:
+      anvil.server.call('update_progress_msg_status', self.model_id, milestone)
+      alert(
+        content=C_ProgressMessage(self.model_id, milestone),
+        buttons=[],
+        role=["progress-message","remove-focus"]
+      )
 
   def set_watchlist_icons(self):
     if self.watchlist_id is None:

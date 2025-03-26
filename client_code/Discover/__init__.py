@@ -1194,7 +1194,6 @@ class Discover(DiscoverTemplate):
   # COUNTRY AND CITY GRAPHS WITH FILTER
   def sort_dropdown_countries_change(self, **event_args):
     save_var('sort_dropdown_countries', self.sort_dropdown_countries.selected_value)
-    print(self.sort_dropdown_countries.selected_value)
     self.create_monthly_listeners_by_country_bar_chart()
     self.create_monthly_listeners_by_city_bar_chart()
     self.create_events_by_country_bar_chart()
@@ -2308,7 +2307,7 @@ class Discover(DiscoverTemplate):
     if displayed_before is False:
       anvil.server.call('update_progress_msg_status', self.model_id, milestone)
       alert(
-          content=C_ProgressMessage(self.model_id, milestone),
-          buttons=[],
-          role=["progress-message","remove-focus"]
+        content=C_ProgressMessage(self.model_id, milestone),
+        buttons=[],
+        role=["progress-message","remove-focus"]
       )
