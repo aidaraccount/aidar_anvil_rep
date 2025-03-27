@@ -232,6 +232,9 @@ class C_Filter(C_FilterTemplate):
     Notification("", title="All filter are reset!", style="success").show()
 
 
+  def button_search_label_click(self, **event_args):
+    anvil.server.call('change_filters', self.model_id, filters_json = None)
+    
   def button_add_genre_click(self, **event_args):
     new_entry = {"ModelID":self.model_id, "Type":"genre", 'Column':self.drop_down_add_genre.selected_value, "Operator":"is", 'Value':self.drop_down_add_value.selected_value}
     genre_data = self.repeating_panel_genre.items
