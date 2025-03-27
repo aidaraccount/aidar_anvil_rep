@@ -233,7 +233,25 @@ class C_Filter(C_FilterTemplate):
 
 
   def button_search_label_click(self, **event_args):
-    anvil.server.call('change_filters', self.model_id, filters_json = None)
+    search_data = json.loads(anvil.server.call('search_label', user["user_id"], self.SearchBar.text.strip()))
+    self.SearchBar.focus()
+    
+    if not search_data:
+      alert(title="Artist is not found or missing",
+        content="If you can't find the artist you're looking for, just enter their Spotify ID in the search bar, and we'll add them to our catalog.",
+        buttons=[("OK", "OK")],
+        role=["alert-notification","remove-focus"]
+      )
+            
+    else:
+      alert(
+        content=C_SearchPopupTable(self.model_id, self.SearchBar.text),
+        large=True,
+        buttons=[]
+      )
+
+    self.SearchBar.text = ''
+    
     
   def button_add_genre_click(self, **event_args):
     new_entry = {"ModelID":self.model_id, "Type":"genre", 'Column':self.drop_down_add_genre.selected_value, "Operator":"is", 'Value':self.drop_down_add_value.selected_value}
