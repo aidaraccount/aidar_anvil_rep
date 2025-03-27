@@ -75,7 +75,7 @@ class C_Discover(C_DiscoverTemplate):
     self.flow_panel_genre_tile.clear()
     self.flow_panel_social_media_tile.clear()
     # self.spotify_player_spot.clear()
-    # self.column_panel_5.clear()
+    # self.column_panel_circle.clear()
 
     # model_id
     model_id = load_var("model_id")
@@ -305,8 +305,7 @@ class C_Discover(C_DiscoverTemplate):
       # --------
       # prediction
       if (str(sug["Prediction"]) == "nan") or (str(sug["Prediction"]) == "None"):
-        self.column_panel_5.visible = False
-        self.linear_panel_2.visible = True
+        self.column_panel_circle.visible = False
         self.no_prediction.visible = True
         self.pred = None
       else:
@@ -316,7 +315,6 @@ class C_Discover(C_DiscoverTemplate):
           self.pred = "0%"
         else:
           self.pred = "{:.2f}".format(round(float(sug["Prediction"]) / 7 * 100, 0))
-        self.linear_panel_2.visible = False
         self.no_prediction.visible = False
       self.custom_HTML_prediction()
       # self.spotify_HTML_player()
@@ -1146,7 +1144,7 @@ class C_Discover(C_DiscoverTemplate):
       </li>
       """
       html_panel = HtmlPanel(html=custom_html)
-      self.column_panel_5.add_component(html_panel)
+      self.column_panel_circle.add_component(html_panel)
     else:
       print("NO SELF PRED?")
 
