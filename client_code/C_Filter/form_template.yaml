@@ -150,7 +150,8 @@ components:
       name: spacer_3_copy_2
       properties: {height: 32}
       type: Spacer
-    - layout_properties: {grid_position: 'EQSMLB,CWQCHL'}
+    - event_bindings: {pressed_enter: button_search_label_click}
+      layout_properties: {grid_position: 'EQSMLB,CWQCHL'}
       name: text_box_label
       properties: {}
       type: TextBox
@@ -163,6 +164,31 @@ components:
     name: column_panel_1_copy_2
     properties: {col_widths: '{"RNMGTJ":37,"ODXFCN":5}'}
     type: ColumnPanel
+  - layout_properties: {grid_position: 'XRIXPO,TRJPJH'}
+    name: spacer_3_copy_2_copy
+    properties: {height: 32}
+    type: Spacer
+  - components:
+    - name: rep_pan_label_selection
+      properties: {item_template: C_Filter.RowTemplate_Labels_Selection}
+      type: RepeatingPanel
+    layout_properties: {grid_position: 'XRIXPO,UJTDWM'}
+    name: data_grid_label_selection
+    properties:
+      auto_header: true
+      columns:
+      - {data_key: label_name, expand: true, id: JKSDUP, title: Label}
+      - {data_key: column_2, id: VJQQOR, title: Exclude}
+      rows_per_page: 5
+    type: DataGrid
+  - layout_properties: {grid_position: 'BMHXIC,GTJMSS'}
+    name: label_no_label_filters
+    properties: {align: center, text: No specific Label Filters added..}
+    type: Label
+  - layout_properties: {grid_position: 'EPXWRY,JLFOQL'}
+    name: rep_pan_label
+    properties: {item_template: C_Filter.ColumnTemplate_Labels}
+    type: RepeatingPanel
   - layout_properties: {grid_position: 'HLSKVO,AUMRJP'}
     name: spacer_2_copy_4
     properties: {height: 42}
@@ -504,7 +530,7 @@ components:
     type: Label
   - layout_properties: {grid_position: 'NHFLOF,IORVNQ'}
     name: repeating_panel_genre
-    properties: {item_template: C_Filter.ColumnTemplate}
+    properties: {item_template: C_Filter.ColumnTemplate_Genre_Origin}
     type: RepeatingPanel
   - layout_properties: {grid_position: 'GAODZG,NCPCVF'}
     name: label_10
@@ -566,7 +592,7 @@ components:
     type: Label
   - layout_properties: {grid_position: 'PDZQIQ,OFNUDM'}
     name: repeating_panel_origin
-    properties: {item_template: C_Filter.ColumnTemplate}
+    properties: {item_template: C_Filter.ColumnTemplate_Genre_Origin}
     type: RepeatingPanel
   - components:
     - layout_properties: {grid_position: 'EQSMLB,ODXFCN'}
@@ -683,7 +709,7 @@ components:
     type: Button
   layout_properties: {grid_position: 'SBBYFF,IVDIIF'}
   name: content_panel
-  properties: {col_widths: '{"AAQIBM":45,"PQWGXD":15}'}
+  properties: {col_widths: '{"AAQIBM":45,"PQWGXD":15,"TRJPJH":5,"UJTDWM":55}'}
   type: ColumnPanel
 container:
   properties: {col_widths: '{}'}

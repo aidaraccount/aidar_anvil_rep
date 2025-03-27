@@ -1,0 +1,10 @@
+components:
+- data_bindings:
+  - {code: 'self.item['''']', property: tag, writeback: false}
+  event_bindings: {click: button_exclude_click}
+  layout_properties: {column: VJQQOR}
+  name: button_exclude
+  properties: {text: exclude label}
+  type: Button
+container: {type: DataRowPanel}
+is_package: true

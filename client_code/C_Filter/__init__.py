@@ -24,6 +24,9 @@ class C_Filter(C_FilterTemplate):
     global user
     user = anvil.users.get_user()
     self.model_id=model_id
+
+    self.data_grid_label_selection.visible = False
+    
     #print(f"{datetime.datetime.now()}: C_Filter - __init__ - 2", flush=True)
 
     # ------------------------------------------------- !!! ATTENTION !!!
@@ -233,24 +236,31 @@ class C_Filter(C_FilterTemplate):
 
 
   def button_search_label_click(self, **event_args):
-    search_data = json.loads(anvil.server.call('search_label', user["user_id"], self.SearchBar.text.strip()))
-    self.SearchBar.focus()
+    self.data_grid_label_selection.visible = True
     
-    if not search_data:
-      alert(title="Artist is not found or missing",
-        content="If you can't find the artist you're looking for, just enter their Spotify ID in the search bar, and we'll add them to our catalog.",
-        buttons=[("OK", "OK")],
-        role=["alert-notification","remove-focus"]
-      )
-            
-    else:
-      alert(
-        content=C_SearchPopupTable(self.model_id, self.SearchBar.text),
-        large=True,
-        buttons=[]
-      )
+    search_data = json.loads(anvil.server.call('search_label', self.text_box_label.text.strip()))
+    print(len(search_data))
+    print(search_data)
 
-    self.SearchBar.text = ''
+    self.rep_pan_label_selection.items = search_data
+    
+    # self.SearchBar.focus()
+    
+    # if not search_data:
+    #   alert(title="Artist is not found or missing",
+    #     content="If you can't find the artist you're looking for, just enter their Spotify ID in the search bar, and we'll add them to our catalog.",
+    #     buttons=[("OK", "OK")],
+    #     role=["alert-notification","remove-focus"]
+    #   )
+            
+    # else:
+    #   alert(
+    #     content=C_SearchPopupTable(self.model_id, self.SearchBar.text),
+    #     large=True,
+    #     buttons=[]
+    #   )
+
+    # self.SearchBar.text = ''
     
     
   def button_add_genre_click(self, **event_args):
