@@ -14,21 +14,36 @@ This file contains styling for Anvil Repeating Panel components to match the Dat
 /* 2. Panel rows - Individual content rows */
 .repeating-panel .hide-while-paginating > div {
   transition: all 0.1s ease;
-  padding: 0;
+  padding: 8px;
   line-height: 1 !important;
   background-color: transparent !important;
   border-bottom: none !important;
+  border-radius: 4px;
+  position: relative;
 }
 
-/* Hover state for rows - Visual feedback on hover */
+/* Hover state for rows - Visual feedback on hover 
+   Using ::before to create a background that respects the padding */
+.repeating-panel .hide-while-paginating > div:hover::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(255, 255, 255, 0.05);
+  border-radius: 4px;
+  z-index: -1;
+}
+
 .repeating-panel .hide-while-paginating > div:hover {
-  background-color: rgba(255, 255, 255, 0.05) !important;
   transform: translateY(-2px);
 }
 
 /* 3. Panel row content - Content within the rows */
 .repeating-panel .hide-while-paginating > div .anvil-panel-section-container {
   background-color: transparent !important;
+  border-radius: 4px;
 }
 
 /* 4. Panel section elements - Sections within panels */
@@ -45,7 +60,7 @@ This file contains styling for Anvil Repeating Panel components to match the Dat
   line-height: 1 !important;
 }
 
-/* 6. Headers within panels - Titles and headings */
+/* 6. Headers within panels - For header-specific styling when needed */
 .repeating-panel .anvil-label[class*="header"],
 .repeating-panel .anvil-label.anvil-role-header {
   background-color: transparent !important;
@@ -63,21 +78,16 @@ This file contains styling for Anvil Repeating Panel components to match the Dat
 .repeating-panel .column-panel {
   background-color: transparent !important;
   padding: 0 !important;
+  border-radius: 4px;
 }
 
-/* 9. Special styling for first panels to match table headers */
-.repeating-panel .hide-while-paginating > div:first-child {
-  background-color: transparent !important;
-  border-bottom: 2px solid rgba(224, 224, 224, 0.3) !important;
-}
-
-/* 10. Buttons inside panels */
+/* 9. Buttons inside panels */
 .repeating-panel .anvil-button button {
   line-height: 1 !important;
   padding: 3px 10px !important;
 }
 
-/* 11. Text alignment helpers for inline styles */
+/* 10. Text alignment helpers for inline styles */
 .repeating-panel [style*="text-align: left"] {
   text-align: left !important;
 }
@@ -86,7 +96,7 @@ This file contains styling for Anvil Repeating Panel components to match the Dat
   text-align: center !important;
 }
 
-/* 12. Responsive behavior for smaller screens */
+/* 11. Responsive behavior for smaller screens */
 @media only screen and (max-width: 768px) {
   .repeating-panel .anvil-label,
   .repeating-panel .anvil-button button {
@@ -95,13 +105,13 @@ This file contains styling for Anvil Repeating Panel components to match the Dat
   }
 }
 
-/* 13. Data Grid components inside Repeating Panels - maintain styling consistency */
+/* 12. Data Grid components inside Repeating Panels - maintain styling consistency */
 .repeating-panel .anvil-data-grid {
   background-color: transparent !important;
   margin: 0 !important;
 }
 
-/* 14. Spacing adjustments */
+/* 13. Spacing adjustments */
 .repeating-panel .anvil-spacing-above-small {
   margin-top: 3px !important;
 }
