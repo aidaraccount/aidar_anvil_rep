@@ -26,6 +26,7 @@ class C_Filter(C_FilterTemplate):
     self.model_id=model_id
 
     self.data_grid_label_selection.visible = False
+    self.link_close.visible = False
     
     #print(f"{datetime.datetime.now()}: C_Filter - __init__ - 2", flush=True)
 

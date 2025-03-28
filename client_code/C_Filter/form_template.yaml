@@ -171,7 +171,14 @@ components:
   - event_bindings: {click: link_close_click}
     layout_properties: {grid_position: 'XRIXPO,UJTDWM CTIWON,UGBFNV'}
     name: link_close
-    properties: {align: right, text: close}
+    properties:
+      align: right
+      role: [header-6, orange]
+      spacing:
+        margin: [null, null, 0, null]
+      spacing_above: none
+      spacing_below: none
+      text: close
     type: Link
   - components:
     - name: rep_pan_label_selection

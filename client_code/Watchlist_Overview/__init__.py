@@ -37,7 +37,11 @@ class Watchlist_Overview(Watchlist_OverviewTemplate):
       if data != 'no_data':
         # standard sorting
         self.repeating_panel_data.items = sorted(data, key=lambda x: x.get('Name', float('inf')), reverse=True)
-        self.link_artist.icon = 'fa:angle-down'  
+
+        # print(data[0])
+        # self.repeating_panel_1.items = sorted(data, key=lambda x: x.get('Name', float('inf')), reverse=True)
+        
+        self.link_artist.icon = 'fa:angle-down'
 
   
   def get_data(self, **event_args):
