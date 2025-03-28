@@ -27,7 +27,7 @@ This file contains styling for Anvil DataGrid components and related elements.
 
 /* Individual header cells - Each column title */
 .anvil-data-grid .data-grid-child-panel .auto-grid-header .data-row-col {
-  padding: 6px 15px !important;
+  padding: 3px 15px !important;
   text-align: left !important;
   font-family: GS-medium !important;
   font-size: 15px !important;
@@ -36,9 +36,9 @@ This file contains styling for Anvil DataGrid components and related elements.
 
 /* 4. Data rows - Each content row in the grid */
 .anvil-data-grid .data-grid-child-panel .anvil-data-row-panel:not(.auto-grid-header) {
-  transition: all 0.3s ease;
-  padding: 1px 0;
-  line-height: 1.2 !important;
+  transition: all 0.1s ease;
+  padding: 0;
+  line-height: 1 !important;
   background-color: transparent !important;
   border-bottom: none !important;
 }
@@ -51,18 +51,18 @@ This file contains styling for Anvil DataGrid components and related elements.
 
 /* Individual data cells - Each content cell in a row */
 .anvil-data-grid .data-grid-child-panel .anvil-data-row-panel:not(.auto-grid-header) .data-row-col {
-  padding: 6px 15px !important;
+  padding: 3px 15px !important;
   font-family: GS-regular !important;
   font-size: 15px !important;
   color: #ffffff !important;
-  line-height: 1.2 !important;
+  line-height: 1 !important;
   border-bottom: none !important;
 }
 
 /* 5. Fix for Anvil's alternating row behavior - ensures all rows are transparent */
-.anvil-data-grid .data-grid-child-panel .anvil-data-row-panel {
+/* .anvil-data-grid .data-grid-child-panel .anvil-data-row-panel {
   background-color: transparent !important;
-}
+} */
 
 /* 6. Empty state message - Displayed when the DataGrid has no content */
 .anvil-data-grid-empty {
