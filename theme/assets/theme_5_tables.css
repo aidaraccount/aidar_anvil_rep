@@ -8,7 +8,7 @@ This file contains styling for Anvil DataGrid components and related elements.
 .anvil-data-grid {
   border-radius: 4px;
   overflow: hidden;
-  box-shadow: 0 1px 3px %color:Text_WhiteDiscreet%;
+  box-shadow: 0 1px 3px rgba(150, 150, 150, 0.3);
   margin-bottom: 20px;
 }
 
@@ -19,74 +19,88 @@ This file contains styling for Anvil DataGrid components and related elements.
 
 /* 3. Header row - The first row containing column titles */
 .anvil-data-grid .data-grid-child-panel .auto-grid-header {
-  background-color: %color:Grid_Black% !important;
+  background-color: #1e1e1e !important;
   font-weight: bold !important;
-  border-bottom: 2px solid %color:Text_WhiteDiscreet% !important;
+  border-bottom: 2px solid #575757 !important;
+  line-height: 1.2 !important;
 }
 
 /* Individual header cells - Each column title */
 .anvil-data-grid .data-grid-child-panel .auto-grid-header .data-row-col {
-  padding: 12px 15px;
-  text-align: left;
-  font-family: GS-medium;
-  font-size: 16px;
-  color: %color:Text_White%;
+  padding: 8px 15px !important;
+  text-align: left !important;
+  font-family: GS-medium !important;
+  font-size: 16px !important;
+  color: #ffffff !important;
 }
 
 /* 4. Data rows - Each content row in the grid */
 .anvil-data-grid .data-grid-child-panel .anvil-data-row-panel:not(.auto-grid-header) {
   transition: all 0.3s ease;
-  padding: 2px 0;
+  padding: 1px 0;
+  line-height: 1.2 !important;
 }
 
 /* Hover state for data rows - Visual feedback when user hovers over a row */
 .anvil-data-grid .data-grid-child-panel .anvil-data-row-panel:not(.auto-grid-header):hover {
   background-color: rgba(255, 255, 255, 0.15) !important;
   transform: translateY(-2px);
-  box-shadow: 0 3px 5px %color:Text_WhiteDiscreet%;
+  box-shadow: 0 3px 5px rgba(150, 150, 150, 0.3);
 }
 
 /* Individual data cells - Each content cell in a row */
 .anvil-data-grid .data-grid-child-panel .anvil-data-row-panel:not(.auto-grid-header) .data-row-col {
-  padding: 10px 15px;
-  font-family: GS-regular;
-  font-size: 16px;
-  color: %color:Text_WhiteDiscreet%;
+  padding: 6px 15px !important;
+  font-family: GS-regular !important;
+  font-size: 16px !important;
+  color: #dddddd !important;
+  line-height: 1.2 !important;
 }
 
 /* 5. Alternating row colors - Even-numbered rows for better readability */
 .anvil-data-grid .data-grid-child-panel .anvil-data-row-panel:not(.auto-grid-header):nth-child(even) {
-  background-color: %color:Grid_Black%;
+  background-color: #1e1e1e !important;
 }
 
 /* 6. Empty state message - Displayed when the DataGrid has no content */
 .anvil-data-grid-empty {
   padding: 20px;
   text-align: center;
-  color: %color:Text_WhiteDiscreet%;
+  color: #dddddd !important;
   font-style: italic;
 }
 
 /* 7. Pagination controls - Navigation buttons at the bottom of paginated tables */
 .anvil-data-grid .data-grid-footer-panel {
-  padding: 10px 5px;
-  border-top: 1px solid %color:Text_WhiteDiscreet%;
+  padding: 5px !important;
+  border-top: 1px solid #575757;
+  line-height: 1 !important;
 }
 
 .anvil-data-grid .pagination-buttons a {
   margin: 0 5px;
-  color: %color:Text_WhiteDiscreet%;
+  color: #dddddd !important;
+  line-height: 1 !important;
 }
 
 .anvil-data-grid .pagination-buttons a:hover:not(.disabled) {
-  color: %color:Text_White%;
+  color: #ffffff !important;
+}
+
+/* Target the inline style containers directly */
+.anvil-data-grid [style*="text-align: left"] {
+  text-align: left !important;
+}
+
+.anvil-data-grid [style*="text-align: center"] {
+  text-align: center !important;
 }
 
 /* 8. Responsive behavior for smaller screens */
 @media only screen and (max-width: 768px) {
   .anvil-data-grid .data-grid-child-panel .auto-grid-header .data-row-col,
   .anvil-data-grid .data-grid-child-panel .anvil-data-row-panel:not(.auto-grid-header) .data-row-col {
-    padding: 8px 10px;
-    font-size: 14px;
+    padding: 6px 10px !important;
+    font-size: 14px !important;
   }
 }
