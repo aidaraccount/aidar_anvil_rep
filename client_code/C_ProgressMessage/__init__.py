@@ -25,18 +25,26 @@ class C_ProgressMessage(C_ProgressMessageTemplate):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
     self.html = '@theme:Modelpage_html_JS.html'
-        
+
+    self.button_radar.visible = False
+    self.button_pl.visible = False
+    self.congrats_message_buttom.visible = False
+    
     if milestone == 10:
       self.Message_title.text = "Great start!"
       self.congrats_message.content = "Keep going, so that your personal AI scouting agent learns even better what you're into."
       self.custom_HTML_prediction_inactive(milestone*2)
     elif milestone == 25:
       self.Message_title.text = "You are half-way there!"
-      self.congrats_message.content = "Your personal AI Scouting Agent is starting to understand your preferences.\n\nKeep rating some more artists, until your personal agent is fully trained. Only then, it can keep searching for you - nonstop."
+      self.congrats_message.content = "Your personal AI Scouting Agent is starting to understand your preferences.\n\n\nKeep rating some more artists, until your personal agent is fully trained. Only then, it can keep searching for you - nonstop."
       self.custom_HTML_prediction_inactive(milestone*2)
     elif milestone == 50:
+      self.button_radar.visible = True
+      self.button_pl.visible = True
+      self.congrats_message_buttom.visible = True
       self.Message_title.text = "Congratulations - You did it!"
-      self.congrats_message.content = "Your agent is trained and is now able to continue searching for talent for you. Go to 'Observe' and setup your notifications.\n\nConsider: Although your agent is now trained, it is still - keep rating more artists to grow it's accuracy."
+      self.congrats_message.content = "Your agent has completed initial training and can now discover new talent for you. Visit the 'Observe' section to set up email artist radars or your personalized Spotify playlist."
+      self.congrats_message_buttom.content = "Note: Continued artist ratings will significantly enhance your agent's accuracy and effectiveness."
       self.custom_HTML_prediction(milestone*2)
     
 
@@ -92,4 +100,12 @@ class C_ProgressMessage(C_ProgressMessageTemplate):
 
   def Ok_button_click(self, **event_args):
     self.raise_event("x-close-alert")
+
+  def button_radar_click(self, **event_args):
+    self.raise_event("x-close-alert")
+    click_button('radar?notification_id=None', event_args)
+
+  def button_pl_click(self, **event_args):
+    self.raise_event("x-close-alert")
+    click_button('listen?notification_id=None', event_args)
     

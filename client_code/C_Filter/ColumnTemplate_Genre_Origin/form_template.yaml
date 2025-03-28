@@ -22,7 +22,11 @@ components:
 - event_bindings: {click: button_del_click}
   layout_properties: {grid_position: 'HAQZAT,VDNJLM'}
   name: button_del
-  properties: {align: left, icon: 'fa:trash-o', role: feature, text: ''}
+  properties:
+    align: left
+    icon: fa:trash-o
+    role: [icon-button-disabled-small]
+    text: ''
   type: Button
 container:
   properties: {col_widths: '{"OMYRVW":5,"IJOSBJ":10,"XSSVUP":5,"GSKCTF":10,"VDNJLM":30}'}

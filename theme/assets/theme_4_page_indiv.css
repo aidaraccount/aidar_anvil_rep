@@ -110,3 +110,13 @@ Live: past & future table: center second column vertically */
 .anvil-role-listen-right-element {
   height: calc(95vh - 85px);
 }
+
+
+/* ----------------------------
+5.3. C_ProgressMessage individual classes */
+/* vertically centers the cycle */
+.anvil-role-progress_message .anvil-panel-section .anvil-panel-section-container .anvil-panel-section-gutter .anvil-panel-row .anvil-panel-col {
+  display: flex;
+  align-items: center; /* vertically centers */
+  justify-content: center; /* optional: horizontal center */
+}

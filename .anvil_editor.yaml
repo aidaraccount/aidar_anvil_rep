@@ -82,6 +82,8 @@ unique_ids:
     theme_2_buttons.css: '1736343747107488947983837.69977'
     theme_3_textboxes.css: '1736343870406326387612649.2732'
     theme_4_page_indiv.css: '1736343951015931283406245.2797'
+    theme_5_tables.css: IXTPYWBPY7DOMJKD6QNHYBZOJVMOUHG3
+    theme_6_rep_panels.css: 77JRK3IGZSUP7DUMWSSADVEJELWF3Z2X
   forms:
     C_AddRefArtists: '1692023838041972994859486.7328'
     C_AddRefArtists.SearchRefRows: '1693221122312762808699610.5933'
@@ -93,7 +95,9 @@ unique_ids:
     C_EditRefArtists.ReferenceTemplate: '1701600548184913830065617.1239'
     C_FeedbackForm: '1733395698002805425041471.9213'
     C_Filter: '1672237957758620783891688.7391'
-    C_Filter.ColumnTemplate: '1706860463206219402205966.455'
+    C_Filter.ColumnTemplate_Genre_Origin: '1706860463206219402205966.455'
+    C_Filter.ColumnTemplate_Labels: '1743105305108931786090276.7227'
+    C_Filter.RowTemplate_Labels_Selection: '1743104795855259263676754.59726'
     C_ForgotPasswordPopup: '1728375167464433670809881.74365'
     C_LevelOfPopularity: '1726749426217267379001986.2181'
     C_NotificationSettings: '1734034477861236589080317.06006'
@@ -153,6 +157,7 @@ unique_ids:
     Watchlist_Funnel.ItemTemplate2: '1703089383207767394072737.0022'
     Watchlist_Overview: '1702414897669514023485774.57837'
     Watchlist_Overview.ItemTemplate4: '1720186823294902076852375.2874'
+    Watchlist_Overview.RowTemplate1: '1743166304290731158932947.4369'
     Watchlist_Overview.RowTemplate3: '1702415094334155837814500.5823'
     Watchlist_Overview.RowTemplate5: '1720186518001691398332817.4547'
     Watchlist_Overview.RowTemplate6: '1720186617293569659336364.9696'

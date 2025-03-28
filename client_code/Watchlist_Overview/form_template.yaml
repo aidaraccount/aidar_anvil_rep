@@ -140,6 +140,19 @@ components:
   name: content_panel
   properties: {col_widths: '{"XBVCRE":15,"GZSLQT":10,"EJNOAI":35}'}
   type: ColumnPanel
+- components:
+  - name: repeating_panel_1
+    properties: {item_template: Watchlist_Overview.RowTemplate1}
+    type: RepeatingPanel
+  layout_properties: {grid_position: 'PJXBIW,ATKRGW'}
+  name: data_grid_2
+  properties:
+    columns:
+    - {data_key: Name, id: JKSDUP, title: Artist}
+    - {data_key: LastReleaseDate, id: VJQQOR, title: Last Rel.}
+    - {data_key: PopularityLat, id: OJLQEN, title: Pop. Lat.}
+    visible: false
+  type: DataGrid
 container: {type: ColumnPanel}
 custom_component: false
 is_package: true

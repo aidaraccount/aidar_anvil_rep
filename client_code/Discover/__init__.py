@@ -279,8 +279,7 @@ class Discover(DiscoverTemplate):
       # --------
       # prediction
       if (str(sug["Prediction"]) == 'nan') or (str(sug["Prediction"]) == 'None'):
-        self.column_panel_5.visible= False
-        self.linear_panel_2.visible= True
+        self.column_panel_circle.visible= False
         self.no_prediction.visible = True
         self.pred = None
       else:
@@ -290,7 +289,6 @@ class Discover(DiscoverTemplate):
           self.pred = '0%'
         else: 
           self.pred = "{:.2f}".format(round(float(sug["Prediction"])/7*100,0))
-        self.linear_panel_2.visible= False
         self.no_prediction.visible = False
       self.custom_HTML_prediction()
       self.spotify_HTML_player()
@@ -993,7 +991,7 @@ class Discover(DiscoverTemplate):
       </li>
       '''
       html_panel = HtmlPanel(html=custom_html)
-      self.column_panel_5.add_component(html_panel)
+      self.column_panel_circle.add_component(html_panel)
     else:
       print("NO SELF PRED?")
   
@@ -2302,9 +2300,12 @@ class Discover(DiscoverTemplate):
     save_var('autoPlayStatus', self.autoplay_button.icon)
     
   def show_milestone_alert(self, milestone):
-    # Show a congratulatory alert when a user reaches a milestone.
-    alert(
+    # Show a congratulatory alert when a user reaches a milestone and it wasn't displayed before.
+    displayed_before = anvil.server.call('get_progress_msg_status', self.model_id, milestone)
+    if displayed_before is False:
+      anvil.server.call('update_progress_msg_status', self.model_id, milestone)
+      alert(
         content=C_ProgressMessage(self.model_id, milestone),
         buttons=[],
         role=["progress-message","remove-focus"]
-    )
+      )

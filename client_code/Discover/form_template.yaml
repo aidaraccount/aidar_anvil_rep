@@ -390,13 +390,18 @@ components:
         properties: {height: 32}
         type: Spacer
       - layout_properties: {grid_position: 'LNTFQP,OFGQGL'}
-        name: column_panel_5
+        name: column_panel_circle
         properties: {}
         type: ColumnPanel
       - components:
         - layout_properties: {}
           name: no_prediction
-          properties: {align: center, role: artist_name_shadow, text: Agent in Ramp-up}
+          properties:
+            align: center
+            role: artist_name_shadow
+            text: |-
+              No prediction
+              available
           type: Label
         layout_properties: {full_width_row: false, grid_position: 'XBWMVA,RCCOIP'}
         name: linear_panel_2

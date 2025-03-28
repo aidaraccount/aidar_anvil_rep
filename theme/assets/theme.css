@@ -5,12 +5,16 @@ Area 1: Base
 Area 2: Buttons
 Area 3: Text Boxes
 Area 4: Page Individual
+Area 5: Tables
+Area 6: Repeating Panels
 */
 
 @import url('_/theme/theme_1_base.css');
 @import url('_/theme/theme_2_buttons.css');
 @import url('_/theme/theme_3_textboxes.css');
 @import url('_/theme/theme_4_page_indiv.css');
+@import url('_/theme/theme_5_tables.css');
+@import url('_/theme/theme_6_rep_panels.css');
 
 :root {
   --Orange: %color:Orange%;
@@ -169,6 +173,8 @@ body, html {
 .anvil-role-bottom_line {
   border-bottom: 1px solid %color:Text_WhiteDiscreet%;
 }
+
+
 .anvil-role-talent-dev-custom-class {
   font-family: Gs-medium;
   font-size: 16px;
@@ -430,22 +436,6 @@ body, html {
 }
 
 
-/* Discover Page Buttons for the Release, Success, Fandom, and Music Sections */
-.anvil-data-grid>.data-grid-footer-panel>.pagination-buttons>a {
-  font-size: 18px;
-}
-
-/* CSS for the Navigation Buttons at the bottom of a table STARTS here*/
-.anvil-data-grid>.data-grid-footer-panel>.footer-slot {
-  flex: 0 0 auto !important;
-}
-
-.anvil-data-grid>.data-grid-footer-panel {
-  justify-content: center;
-}
-/* CSS for the Navigation Buttons at the bottom of a table ENDS here*/
-
-/* CSS for formatting tables ENDS here*/
 
 /* CSS for the Rate Artist Button STARTS here*/
 .anvil-role-rate-artist-button {
@@ -1182,7 +1172,7 @@ div.row {
 }
 
 .anvil-role-progress-message {
-  width: 550px;
+  width: 625px;
 }
 .anvil-role-progress-message .modal-body{
   padding: 0px;

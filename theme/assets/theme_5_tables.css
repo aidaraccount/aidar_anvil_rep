@@ -1,0 +1,111 @@
+/*
+CSS Content for Tables
+
+This file contains styling for Anvil DataGrid components and related elements.
+*/
+
+/* 1. DataGrid container - The outer wrapper for the entire DataGrid component */
+.anvil-data-grid {
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 20px;
+  background-color: transparent !important;
+}
+
+/* 2. Data Grid inner content panel - Contains all rows including headers */
+.anvil-data-grid .data-grid-child-panel {
+  width: 100%;
+}
+
+/* 3. Header row - The first row containing column titles */
+.anvil-data-grid .data-grid-child-panel .auto-grid-header {
+  background-color: transparent !important;
+  font-weight: bold !important;
+  border-bottom: 2px solid rgba(224, 224, 224, 0.3) !important;
+  line-height: 1 !important;
+}
+
+/* Individual header cells - Each column title */
+.anvil-data-grid .data-grid-child-panel .auto-grid-header .data-row-col {
+  padding: 3px 15px !important;
+  text-align: left !important;
+  font-family: GS-medium !important;
+  font-size: 15px !important;
+  color: rgba(255, 255, 255, 0.8) !important;
+}
+
+/* 4. Data rows - Each content row in the grid */
+.anvil-data-grid .data-grid-child-panel .anvil-data-row-panel:not(.auto-grid-header) {
+  transition: all 0.1s ease;
+  padding: 0;
+  line-height: 1 !important;
+  background-color: transparent !important;
+  border-bottom: none !important;
+}
+
+/* Hover state for data rows - Visual feedback when user hovers over a row */
+.anvil-data-grid .data-grid-child-panel .anvil-data-row-panel:not(.auto-grid-header):hover {
+  background-color: rgba(255, 255, 255, 0.05) !important;
+  transform: translateY(-2px);
+}
+
+/* Individual data cells - Each content cell in a row */
+.anvil-data-grid .data-grid-child-panel .anvil-data-row-panel:not(.auto-grid-header) .data-row-col {
+  padding: 3px 15px !important;
+  font-family: GS-regular !important;
+  font-size: 15px !important;
+  color: #ffffff !important;
+  line-height: 1 !important;
+  border-bottom: none !important;
+}
+
+/* 5. Fix for Anvil's alternating row behavior - ensures all rows are transparent */
+/* .anvil-data-grid .data-grid-child-panel .anvil-data-row-panel {
+  background-color: transparent !important;
+} */
+
+/* 6. Empty state message - Displayed when the DataGrid has no content */
+.anvil-data-grid-empty {
+  padding: 20px;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.6) !important;
+  font-style: italic;
+}
+
+/* 7. Pagination controls - Navigation buttons at the bottom of paginated tables */
+.anvil-data-grid .data-grid-footer-panel {
+  padding: 5px !important;
+  border-top: none !important;
+  line-height: 1 !important;
+  justify-content: center !important;
+}
+
+/* Pagination buttons - Using default colors for active/inactive states */
+.anvil-data-grid .pagination-buttons a {
+  margin: 0 5px;
+  line-height: 1 !important;
+  font-size: 18px !important;
+}
+
+/* Footer slot positioning */
+.anvil-data-grid .data-grid-footer-panel .footer-slot {
+  flex: 0 0 auto !important;
+}
+
+/* 8. Text alignment helpers for inline styles */
+.anvil-data-grid [style*="text-align: left"] {
+  text-align: left !important;
+}
+
+.anvil-data-grid [style*="text-align: center"] {
+  text-align: center !important;
+}
+
+/* 9. Responsive behavior for smaller screens */
+@media only screen and (max-width: 768px) {
+  .anvil-data-grid .data-grid-child-panel .auto-grid-header .data-row-col,
+  .anvil-data-grid .data-grid-child-panel .anvil-data-row-panel:not(.auto-grid-header) .data-row-col {
+    padding: 6px 10px !important;
+    font-size: 14px !important;
+  }
+}

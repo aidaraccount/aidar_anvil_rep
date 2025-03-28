@@ -1,0 +1,20 @@
+components:
+- data_bindings:
+  - {code: 'self.item[''label_name'']', property: text, writeback: false}
+  layout_properties: {grid_position: 'LURHFV,EOKJYS'}
+  name: label_1
+  properties: {}
+  type: Label
+- event_bindings: {click: button_remove_label_filter_click}
+  layout_properties: {grid_position: 'LURHFV,GBYUOF'}
+  name: button_remove_label_filter
+  properties:
+    align: center
+    icon: fa:trash-o
+    role: [icon-button-disabled-small]
+    text: ''
+  type: Button
+container:
+  properties: {col_widths: '{"EOKJYS":45,"GBYUOF":15}'}
+  type: ColumnPanel
+is_package: true

@@ -5,27 +5,53 @@ components:
     properties: {align: center, role: header-3, text: ''}
     type: Label
   - components:
-    - data_bindings: []
-      layout_properties: {grid_position: 'FKMPTE,DGYSXR'}
+    - components: []
+      data_bindings: []
+      layout_properties: {grid_position: 'IWIKIC,ADOYIY'}
       name: congrats_message
       properties: {align: center, content: '', role: header-6}
       type: RichText
-    - layout_properties: {grid_position: 'FKMPTE,GWPMZP'}
-      name: circle_slot_spot
-      properties: {}
-      type: ColumnPanel
-    layout_properties: {grid_position: 'IQJMHS,DHVWGA'}
-    name: Message_body
-    properties:
-      role: [section-background-flex, section-background-justify]
+    - event_bindings: {click: button_radar_click}
+      layout_properties: {grid_position: 'EVAPCH,MPQJLK'}
+      name: button_radar
+      properties:
+        role: [call-to-action-button, header-7]
+        text: |-
+          add
+          Artist Radar
+      type: Button
+    - event_bindings: {click: button_pl_click}
+      layout_properties: {grid_position: 'EVAPCH,KAZUCZ'}
+      name: button_pl
+      properties:
+        role: [call-to-action-button, header-7]
+        text: |-
+          add
+          Playlist
+      type: Button
+    - data_bindings: []
+      layout_properties: {grid_position: 'FIKXKU,DCMESH'}
+      name: congrats_message_buttom
+      properties: {align: center, content: '', role: header-6}
+      type: RichText
+    layout_properties: {grid_position: 'IQJMHS,RVABHR'}
+    name: column_panel_1
+    properties: {col_spacing: tiny}
+    type: ColumnPanel
+  - data_bindings: []
+    layout_properties: {grid_position: 'IQJMHS,XXWLGE'}
+    name: circle_slot_spot
+    properties: {}
     type: ColumnPanel
   - event_bindings: {click: Ok_button_click}
     layout_properties: {grid_position: 'XLESHC,WTVRDJ'}
     name: Ok_button
     properties:
-      role: [call-to-action-button, header-6]
+      role: [header-6, call-to-action-button-disabled]
       text: OK
     type: Button
+  data_bindings:
+  - {code: '[''progress_message'', ''section-background-flex-column'', ''background-alerts'']', property: role, writeback: false}
   layout_properties: {slot: default}
   name: ProgressMessage
   properties:
@@ -34,8 +60,7 @@ components:
     spacing_below: none
   type: ColumnPanel
 container:
-  properties:
-    html: "<!-- <!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <title>Login Page</title>\n  <style>\n    * {\n      margin: 0;\n      padding: 0;\n      box-sizing: border-box;\n    }\n    body, html {\n      height: 100%;\n      overflow: hidden;\n      /* font-family: GB-regular; */\n      background-image: url(_/theme/Stock%20Images/Backgrounds/header-background.png);\n    }\n    .alert-form-container {\n      /* position: absolute; */\n      top: 50%;\n      left: 50%;\n      transform: translate(-50%, -50%);\n      display: flex;\n      justify-content: center;\n      align-items: center;\n      /* background-color: white; */\n      box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);\n      border-radius: 8px;\n      padding: 50px;\n      width: 550px;\n      z-index: 1;\n    }\n    .alert-form {\n      /* background-color: white;\n      padding: 20px;\n      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);\n      border-radius: 8px;\n      max-width: 320px; */\n      width: 100%;\n    }\n    .alert-form h2 {\n      margin-bottom: 20px;\n      text-align: center;\n      font-size: 24px;\n      color: white;\n    }\n    .alert-message {\n      display: flex;\n      align-items: center;\n      justify-content: center;\n      color: white\n    }\n    .message-slot {\n      color: white;\n      text-align: left;\n      font-size: 16px\n    }\n    .circle-slot {}\n  </style>\n</head>\n<body>\n    \n</body>\n  <div class=\"alert-form-container\">\n    <div class=\"alert-form\">\n      <h2>Congratulations!</h2>\n      <div class=\"alert-message\">\n        <div class=\"message-slot\">\n          You have reached 10 ratings!\n          Keep up the great work!\n        </div>\n        <div class=\"circle-slot\" anvil-slot=\"circle-slot\">\n          <div anvil-if-slot-empty=\"circle-slot\">Circle Slot</div>\n        </div>\n\n      </div>\n      <div anvil-slot=\"ok-button\">\n        <div anvil-if-slot-empty=\"ok-button\">Login-button</div>\n      </div>\n    </div>\n  </div>\n -->\n<!-- \n <center style=\"font-style:italic; color:#888; margin: 3em;\">\n  (Insert your custom HTML here)\n</center>\n<div anvil-slot=\"default\"></div> -->"
+  properties: {html: ''}
   type: HtmlTemplate
 custom_component: true
 is_package: true
