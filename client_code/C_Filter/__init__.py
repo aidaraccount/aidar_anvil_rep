@@ -141,8 +141,7 @@ class C_Filter(C_FilterTemplate):
     label_data = self.rep_pan_label.items
     if label_data is not None:
       for element in label_data:
-        filters_json += f'{{"ModelID":"{self.model_id}","Type":"label","Column":"{element["Column"].lower()}","Operator":"is","Value":"{element["Value"]}"}},'
-    
+        filters_json += f'{{"ModelID":"{self.model_id}","Type":"label","Column":"latest_label_id","Operator":"!=","Value":"{element["label_id"]}"}},'    
     
     # 3. Musical Features
     if self.avg_duration_min.text is not None: filters_json += f'{{"ModelID":"{self.model_id}","Type":"general","Column":"avg_duration","Operator":">=","Value":"{self.avg_duration_min.text}"}},'
@@ -214,7 +213,7 @@ class C_Filter(C_FilterTemplate):
 
     # check for filter presence
     if filters_json == '[]': filters_json = None
-    
+    print(filters_json)
     # change filters
     anvil.server.call('change_filters',
                       self.model_id,
