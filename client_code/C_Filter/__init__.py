@@ -106,6 +106,13 @@ class C_Filter(C_FilterTemplate):
         elif filter["Column"] in ("(CURRENT_DATE - first_release_date) / 365"):
           element.text = "{:.1f}".format(float(filter["Value"]) + 1)
 
+    # Label Filters
+    filter_label = [item for item in fil if item['Type'] == 'label']
+    print(filter_label)
+    if len(filter_label) > 0:
+      self.rep_pan_label.items = filter_label
+      self.label_no_label_filters.visible = False
+      
     # Genre Filters
     filter_genre = [item for item in fil if item['Type'] == 'genre']
     if len(filter_genre) > 0:
@@ -119,8 +126,7 @@ class C_Filter(C_FilterTemplate):
       self.label_no_origin_filters.visible = False
 
   
-  def apply_filters_click(self, **event_args):
-    
+  def apply_filters_click(self, **event_args):    
     filters_json = '['
     
     # 1. General
@@ -141,7 +147,7 @@ class C_Filter(C_FilterTemplate):
     label_data = self.rep_pan_label.items
     if label_data is not None:
       for element in label_data:
-        filters_json += f'{{"ModelID":"{self.model_id}","Type":"label","Column":"latest_label_id","Operator":"!=","Value":"{element["label_id"]}"}},'    
+        filters_json += f'{{"ModelID":"{self.model_id}","Type":"label","Column":"latest_label","Operator":"!=","Value":"{element["label_name"]}"}},'    
     
     # 3. Musical Features
     if self.avg_duration_min.text is not None: filters_json += f'{{"ModelID":"{self.model_id}","Type":"general","Column":"avg_duration","Operator":">=","Value":"{self.avg_duration_min.text}"}},'
