@@ -4,66 +4,74 @@ CSS Content for Tables
 This file contains styling for Anvil DataGrid components and related elements.
 */
 
-/* 1. DataGrid container */
+/* 1. DataGrid container - The outer wrapper for the entire DataGrid component */
 .anvil-data-grid {
   border-radius: 4px;
   overflow: hidden;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  box-shadow: 0 1px 3px %color:Text_WhiteDiscreet%;
   margin-bottom: 20px;
 }
 
-/* 2. Data Grid inner content panel */
+/* 2. Data Grid inner content panel - Contains all rows including headers */
 .data-grid-child-panel {
   width: 100%;
 }
 
-/* 3. Header styling */
+/* 3. Header styling - The row containing column titles */
 .anvil-data-grid-headers {
-  background-color: #f5f5f5;
+  background-color: %color:Grid_Black%;
   font-weight: bold;
-  border-bottom: 2px solid #ddd;
+  border-bottom: 2px solid %color:Text_WhiteDiscreet%;
 }
 
+/* Individual header cells - Each column title */
 .anvil-data-grid-headers .data-row-col {
   padding: 12px 15px;
   text-align: left;
   font-family: GS-medium;
-  color: #333;
+  font-size: 16px;
+  color: %color:Text_White%;
 }
 
-/* 4. Data rows */
+/* 4. Data rows - Each content row in the grid */
 .anvil-data-row-panel {
-  border-bottom: 1px solid #eee;
-  transition: background-color 0.2s ease;
+  transition: all 0.3s ease;
+  padding: 2px 0;
 }
 
+/* Hover state for data rows - Visual feedback when user hovers over a row */
 .anvil-data-row-panel:hover {
-  background-color: rgba(0,0,0,0.02);
+  background-color: %color:Accent_1%;
+  transform: translateY(-1px);
+  box-shadow: 0 1px 3px %color:Text_WhiteDiscreet%;
 }
 
+/* Individual data cells - Each content cell in a row */
 .anvil-data-row-panel .data-row-col {
   padding: 10px 15px;
   font-family: GS-regular;
+  font-size: 16px;
+  color: %color:Text_WhiteDiscreet%;
 }
 
-/* 5. Alternating row colors */
+/* 5. Alternating row colors - Even-numbered rows for better readability */
 .anvil-data-row-panel:nth-child(even) {
-  background-color: rgba(0,0,0,0.01);
+  background-color: %color:Grid_Black%;
 }
 
-/* 6. Empty state message */
+/* 6. Empty state message - Displayed when the DataGrid has no content */
 .anvil-data-grid-empty {
   padding: 20px;
   text-align: center;
-  color: #888;
+  color: %color:Text_WhiteDiscreet%;
   font-style: italic;
 }
 
-/* 7. Responsive behavior for smaller screens */
+/* 7. Responsive behavior for smaller screens - Adjusts sizing for mobile devices */
 @media only screen and (max-width: 768px) {
   .anvil-data-grid-headers .data-row-col,
   .anvil-data-row-panel .data-row-col {
     padding: 8px 10px;
-    font-size: 0.9em;
+    font-size: 14px;
   }
 }
