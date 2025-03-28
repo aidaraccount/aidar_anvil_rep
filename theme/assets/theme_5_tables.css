@@ -46,7 +46,7 @@ This file contains styling for Anvil DataGrid components and related elements.
 /* Hover state for data rows - Visual feedback when user hovers over a row */
 .anvil-data-grid .data-grid-child-panel .anvil-data-row-panel:not(.auto-grid-header):hover {
   background-color: rgba(255, 255, 255, 0.05) !important;
-  transform: translateY(-2px);
+  transform: translateY(-1px);
 }
 
 /* Individual data cells - Each content cell in a row */

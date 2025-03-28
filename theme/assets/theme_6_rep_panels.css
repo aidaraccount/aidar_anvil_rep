@@ -37,7 +37,7 @@ This file contains styling for Anvil Repeating Panel components to match the Dat
 }
 
 .repeating-panel .hide-while-paginating > div:hover {
-  transform: translateY(-2px);
+  transform: translateY(-1px);
 }
 
 /* 3. Panel row content - Content within the rows */
