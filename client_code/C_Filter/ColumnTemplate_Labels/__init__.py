@@ -15,4 +15,4 @@ class ColumnTemplate_Labels(ColumnTemplate_LabelsTemplate):
     # Any code you write here will run before the form opens.
 
   def button_remove_label_filter_click(self, **event_args):
-    self.parent.items = [entry for entry in self.parent.items if entry['label_id'] != self.item['label_id']]
+    self.parent.items = [entry for entry in self.parent.items if entry['label_name'] != self.item['label_name']]
