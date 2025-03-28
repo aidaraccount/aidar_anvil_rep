@@ -15,6 +15,9 @@ class RowTemplate_Labels_Selection(RowTemplate_Labels_SelectionTemplate):
     # Any code you write here will run before the form opens.
 
   def button_exclude_click(self, **event_args):
+    self.parent.parent.parent.parent.data_grid_label_selection.visible = False
+    self.parent.parent.parent.parent.link_close.visible = False
+    
     new_entry = {'label_id':self.item['label_id'], 'label_name':self.item['label_name']}
     print(new_entry)
     

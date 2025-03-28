@@ -129,15 +129,22 @@ class C_Filter(C_FilterTemplate):
     if self.artist_follower_lat_min.text is not None: filters_json += f'{{"ModelID":"{self.model_id}","Type":"general","Column":"artist_follower_lat","Operator":">=","Value":"{self.artist_follower_lat_min.text}"}},'
     if self.artist_follower_lat_max.text is not None: filters_json += f'{{"ModelID":"{self.model_id}","Type":"general","Column":"artist_follower_lat","Operator":"<=","Value":"{self.artist_follower_lat_max.text}"}},'
 
+    if self.years_since_first_release.text is not None: filters_json += f'{{"ModelID":"{self.model_id}","Type":"date","Column":"(CURRENT_DATE - first_release_date) / 365","Operator":"<=","Value":"{self.years_since_first_release.text - 1}"}},'
+    if self.days_since_last_release.text is not None: filters_json += f'{{"ModelID":"{self.model_id}","Type":"date","Column":"CURRENT_DATE - last_release_date","Operator":"<=","Value":"{self.days_since_last_release.text}"}},'
+
+    # 2. Label cooperation
     if self.drop_down_major.selected_value == 'Yes': filters_json += f'{{"ModelID":"{self.model_id}","Type":"general","Column":"major_coop","Operator":"=","Value":"1"}},'
     if self.drop_down_major.selected_value == 'No': filters_json += f'{{"ModelID":"{self.model_id}","Type":"general","Column":"major_coop","Operator":"=","Value":"0"}},'
     if self.drop_down_submajor.selected_value == 'Yes': filters_json += f'{{"ModelID":"{self.model_id}","Type":"general","Column":"sub_major_coop","Operator":"=","Value":"1"}},'
     if self.drop_down_submajor.selected_value == 'No': filters_json += f'{{"ModelID":"{self.model_id}","Type":"general","Column":"sub_major_coop","Operator":"=","Value":"0"}},'
 
-    if self.years_since_first_release.text is not None: filters_json += f'{{"ModelID":"{self.model_id}","Type":"date","Column":"(CURRENT_DATE - first_release_date) / 365","Operator":"<=","Value":"{self.years_since_first_release.text - 1}"}},'
-    if self.days_since_last_release.text is not None: filters_json += f'{{"ModelID":"{self.model_id}","Type":"date","Column":"CURRENT_DATE - last_release_date","Operator":"<=","Value":"{self.days_since_last_release.text}"}},'
-
-    # 2. Musical Features
+    label_data = self.rep_pan_label.items
+    if label_data is not None:
+      for element in label_data:
+        filters_json += f'{{"ModelID":"{self.model_id}","Type":"label","Column":"{element["Column"].lower()}","Operator":"is","Value":"{element["Value"]}"}},'
+    
+    
+    # 3. Musical Features
     if self.avg_duration_min.text is not None: filters_json += f'{{"ModelID":"{self.model_id}","Type":"general","Column":"avg_duration","Operator":">=","Value":"{self.avg_duration_min.text}"}},'
     if self.avg_duration_max.text is not None: filters_json += f'{{"ModelID":"{self.model_id}","Type":"general","Column":"avg_duration","Operator":"<=","Value":"{self.avg_duration_max.text}"}},'
     
@@ -175,13 +182,13 @@ class C_Filter(C_FilterTemplate):
     if self.avg_tempo_min.text is not None: filters_json += f'{{"ModelID":"{self.model_id}","Type":"general","Column":"avg_tempo","Operator":">=","Value":"{self.avg_tempo_min.text}"}},'
     if self.avg_tempo_max.text is not None: filters_json += f'{{"ModelID":"{self.model_id}","Type":"general","Column":"avg_tempo","Operator":"<=","Value":"{self.avg_tempo_max.text}"}},'
 
-    # 3. Genres
+    # 4. Genres
     genre_data = self.repeating_panel_genre.items
     if genre_data is not None:
       for element in genre_data:
         filters_json += f'{{"ModelID":"{self.model_id}","Type":"genre","Column":"{element["Column"].lower()}","Operator":"is","Value":"{element["Value"]}"}},'
     
-    # 4. Origins
+    # 5. Origins
     origin_data = self.repeating_panel_origin.items
     if origin_data is not None:
       for element in origin_data:
@@ -191,13 +198,13 @@ class C_Filter(C_FilterTemplate):
           operator = 'is not'
         filters_json += f'{{"ModelID":"{self.model_id}","Type":"origin","Column":"country_code","Operator":"{operator}","Value":"{element["Column"][:2]}"}},'
     
-    # 5. Gender
+    # 6. Gender
     if self.drop_down_gender.selected_value == 'Female': filters_json += f'{{"ModelID":"{self.model_id}","Type":"gender","Column":"gender","Operator":"=","Value":"female"}},'
     if self.drop_down_gender.selected_value == 'Male': filters_json += f'{{"ModelID":"{self.model_id}","Type":"gender","Column":"gender","Operator":"=","Value":"male"}},'
     if self.drop_down_gender.selected_value == 'Mixed': filters_json += f'{{"ModelID":"{self.model_id}","Type":"gender","Column":"gender","Operator":"=","Value":"mixed"}},'
     if self.drop_down_gender.selected_value == 'Other': filters_json += f'{{"ModelID":"{self.model_id}","Type":"gender","Column":"gender","Operator":"=","Value":"other"}},'
 
-    # 6. German Audience
+    # 7. German Audience
     if self.drop_down_has_top5_de.selected_value == 'True': filters_json += f'{{"ModelID":"{self.model_id}","Type":"has_top5_de","Column":"has_top5_de","Operator":"=","Value":"True"}},'
     if self.drop_down_has_top5_de.selected_value == 'False': filters_json += f'{{"ModelID":"{self.model_id}","Type":"has_top5_de","Column":"has_top5_de","Operator":"=","Value":"False"}},'
     
@@ -235,34 +242,18 @@ class C_Filter(C_FilterTemplate):
     Notification("", title="All filter are reset!", style="success").show()
 
 
-  def button_search_label_click(self, **event_args):
-    self.data_grid_label_selection.visible = True
-    
+  def button_search_label_click(self, **event_args):    
     search_data = json.loads(anvil.server.call('search_label', self.text_box_label.text.strip()))
-    print(len(search_data))
-    print(search_data)
-
     self.rep_pan_label_selection.items = search_data
     
-    # self.SearchBar.focus()
-    
-    # if not search_data:
-    #   alert(title="Artist is not found or missing",
-    #     content="If you can't find the artist you're looking for, just enter their Spotify ID in the search bar, and we'll add them to our catalog.",
-    #     buttons=[("OK", "OK")],
-    #     role=["alert-notification","remove-focus"]
-    #   )
-            
-    # else:
-    #   alert(
-    #     content=C_SearchPopupTable(self.model_id, self.SearchBar.text),
-    #     large=True,
-    #     buttons=[]
-    #   )
+    self.data_grid_label_selection.visible = True
+    self.link_close.visible = True
+        
+  def link_close_click(self, **event_args):
+    self.data_grid_label_selection.visible = False
+    self.link_close.visible = False
 
-    # self.SearchBar.text = ''
-    
-    
+  
   def button_add_genre_click(self, **event_args):
     new_entry = {"ModelID":self.model_id, "Type":"genre", 'Column':self.drop_down_add_genre.selected_value, "Operator":"is", 'Value':self.drop_down_add_value.selected_value}
     genre_data = self.repeating_panel_genre.items
@@ -282,3 +273,4 @@ class C_Filter(C_FilterTemplate):
       origin_data.append(new_entry)    
     self.repeating_panel_origin.items = origin_data
     self.label_no_origin_filters.visible = False
+
