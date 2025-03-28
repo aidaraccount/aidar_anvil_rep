@@ -8,7 +8,6 @@ This file contains styling for Anvil DataGrid components and related elements.
 .anvil-data-grid {
   border-radius: 4px;
   overflow: hidden;
-  box-shadow: 0 1px 3px rgba(150, 150, 150, 0.3);
   margin-bottom: 20px;
   background-color: transparent !important;
 }
@@ -20,7 +19,7 @@ This file contains styling for Anvil DataGrid components and related elements.
 
 /* 3. Header row - The first row containing column titles */
 .anvil-data-grid .data-grid-child-panel .auto-grid-header {
-  background-color: rgba(247, 247, 247, 0.1) !important;
+  background-color: transparent !important;
   font-weight: bold !important;
   border-bottom: 2px solid rgba(224, 224, 224, 0.3) !important;
   line-height: 1 !important;
@@ -61,8 +60,8 @@ This file contains styling for Anvil DataGrid components and related elements.
   border-bottom: none !important;
 }
 
-/* 5. Alternating row colors - Disabled as requested */
-.anvil-data-grid .data-grid-child-panel .anvil-data-row-panel:not(.auto-grid-header):nth-child(even) {
+/* 5. Fix for Anvil's alternating row behavior - ensures all rows are transparent */
+.anvil-data-grid .data-grid-child-panel .anvil-data-row-panel {
   background-color: transparent !important;
 }
 
@@ -81,17 +80,13 @@ This file contains styling for Anvil DataGrid components and related elements.
   line-height: 1 !important;
 }
 
+/* Pagination buttons - Using default colors for active/inactive states */
 .anvil-data-grid .pagination-buttons a {
   margin: 0 5px;
-  color: rgba(255, 255, 255, 0.7) !important;
   line-height: 1 !important;
 }
 
-.anvil-data-grid .pagination-buttons a:hover:not(.disabled) {
-  color: #ffffff !important;
-}
-
-/* Target the inline style containers directly */
+/* 8. Text alignment helpers for inline styles */
 .anvil-data-grid [style*="text-align: left"] {
   text-align: left !important;
 }
@@ -100,7 +95,7 @@ This file contains styling for Anvil DataGrid components and related elements.
   text-align: center !important;
 }
 
-/* 8. Responsive behavior for smaller screens */
+/* 9. Responsive behavior for smaller screens */
 @media only screen and (max-width: 768px) {
   .anvil-data-grid .data-grid-child-panel .auto-grid-header .data-row-col,
   .anvil-data-grid .data-grid-child-panel .anvil-data-row-panel:not(.auto-grid-header) .data-row-col {
