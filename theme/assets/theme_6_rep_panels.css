@@ -1,0 +1,111 @@
+/*
+CSS Content for Repeating Panels
+
+This file contains styling for Anvil Repeating Panel components to match the DataGrid styling.
+*/
+
+/* 1. Repeating Panel container - The outer wrapper */
+.repeating-panel {
+  border-radius: 4px;
+  overflow: hidden;
+  background-color: transparent !important;
+}
+
+/* 2. Panel rows - Individual content rows */
+.repeating-panel .hide-while-paginating > div {
+  transition: all 0.1s ease;
+  padding: 0;
+  line-height: 1 !important;
+  background-color: transparent !important;
+  border-bottom: none !important;
+}
+
+/* Hover state for rows - Visual feedback on hover */
+.repeating-panel .hide-while-paginating > div:hover {
+  background-color: rgba(255, 255, 255, 0.05) !important;
+  transform: translateY(-2px);
+}
+
+/* 3. Panel row content - Content within the rows */
+.repeating-panel .hide-while-paginating > div .anvil-panel-section-container {
+  background-color: transparent !important;
+}
+
+/* 4. Panel section elements - Sections within panels */
+.repeating-panel .anvil-panel-section {
+  background-color: transparent !important;
+}
+
+/* 5. Labels within panels - Text content */
+.repeating-panel .anvil-label {
+  padding: 3px 15px !important;
+  font-family: GS-regular !important;
+  font-size: 15px !important;
+  color: #ffffff !important;
+  line-height: 1 !important;
+}
+
+/* 6. Headers within panels - Titles and headings */
+.repeating-panel .anvil-label[class*="header"],
+.repeating-panel .anvil-label.anvil-role-header {
+  background-color: transparent !important;
+  font-weight: bold !important;
+  font-family: GS-medium !important;
+  color: rgba(255, 255, 255, 0.8) !important;
+}
+
+/* 7. Horizontal dividers - Subtle separation */
+.repeating-panel .anvil-panel-section:not(:last-child) {
+  border-bottom: none !important;
+}
+
+/* 8. Column panels within repeating panels */
+.repeating-panel .column-panel {
+  background-color: transparent !important;
+  padding: 0 !important;
+}
+
+/* 9. Special styling for first panels to match table headers */
+.repeating-panel .hide-while-paginating > div:first-child {
+  background-color: transparent !important;
+  border-bottom: 2px solid rgba(224, 224, 224, 0.3) !important;
+}
+
+/* 10. Buttons inside panels */
+.repeating-panel .anvil-button button {
+  line-height: 1 !important;
+  padding: 3px 10px !important;
+}
+
+/* 11. Text alignment helpers for inline styles */
+.repeating-panel [style*="text-align: left"] {
+  text-align: left !important;
+}
+
+.repeating-panel [style*="text-align: center"] {
+  text-align: center !important;
+}
+
+/* 12. Responsive behavior for smaller screens */
+@media only screen and (max-width: 768px) {
+  .repeating-panel .anvil-label,
+  .repeating-panel .anvil-button button {
+    padding: 6px 10px !important;
+    font-size: 14px !important;
+  }
+}
+
+/* 13. Data Grid components inside Repeating Panels - maintain styling consistency */
+.repeating-panel .anvil-data-grid {
+  background-color: transparent !important;
+  margin: 0 !important;
+}
+
+/* 14. Spacing adjustments */
+.repeating-panel .anvil-spacing-above-small {
+  margin-top: 3px !important;
+}
+
+.repeating-panel .anvil-spacing-below-small {
+  margin-bottom: 3px !important;
+}

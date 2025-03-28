@@ -6,6 +6,7 @@ Area 2: Buttons
 Area 3: Text Boxes
 Area 4: Page Individual
 Area 5: Tables
+Area 6: Repeating Panels
 */
 
 @import url('_/theme/theme_1_base.css');
@@ -13,6 +14,7 @@ Area 5: Tables
 @import url('_/theme/theme_3_textboxes.css');
 @import url('_/theme/theme_4_page_indiv.css');
 @import url('_/theme/theme_5_tables.css');
+@import url('_/theme/theme_6_rep_panels.css');
 
 :root {
   --Orange: %color:Orange%;
@@ -1088,6 +1090,14 @@ a>.link-text {
   padding: 0 !important;
 }
 
+.anvil-role-feature-login  .btn.btn-default.to-disable{
+  font-family: GS-regular;
+}
+.data-row-col:has(> .anvil-role-feature-talent-dev) {
+  width: auto !important;
+  flex-grow: 1 !important;
+}
+
 .anvil-role-feature {
   font-family: Gs-regular;
   font-size: 14px;
@@ -1919,25 +1929,10 @@ footer a, .footer .anvil-component {
 .anvil-panel-row-QGPYCT .anvil-panel-col-BNNRLU .anvil-role-header-7 {
   margin: 0 45px; 
 }
-.anvil-role-level-of-pop-page .user-select-none.svg-container .cartesianlayer .zerolinelayer {
-  display: none
+.anvil-role-level-of-pop-page .anvil-panel-section .user-select-none.svg-container {
+  margin: 0 0 0 -0.1px;
+  transition: width 0.01s ease-in;
 }
-@media only screen and (min-width: 1919px) {
-  .anvil-role-level-of-pop-page .user-select-none.svg-container {
-    max-width:1330px;
-  }
-}  
-@media only screen and (max-width: 1050px) {
-  .anvil-role-level-of-pop-page .user-select-none.svg-container {
-    max-width:830px;
-  }
-}  
-@media only screen and (max-width: 1540px) {
-  .anvil-role-level-of-pop-page .user-select-none.svg-container {
-    max-width:1000px;
-  }
-}  
-
 .anvil-role-slider .noUi-horizontal {
   height: 8px;
 }
@@ -1987,6 +1982,7 @@ footer a, .footer .anvil-component {
   .anvil-role-slider {
     -webkit-appearance: none;
     width: 98.5%;
+    opacity: 0.7;
     -webkit-transition: .2s;
     transition: opacity .2s;
     padding: 20px 80px !important;
@@ -2001,6 +1997,7 @@ footer a, .footer .anvil-component {
   .anvil-role-slider {
     -webkit-appearance: none;
     width: 98.5%;
+    opacity: 0.7;
     -webkit-transition: .2s;
     transition: opacity .2s;
     padding: 20px 80px !important;
@@ -2015,6 +2012,7 @@ footer a, .footer .anvil-component {
   .anvil-role-slider {
     -webkit-appearance: none;
     width: 98.5%;
+    opacity: 0.7;
     -webkit-transition: .2s;
     transition: opacity .2s;
     padding: 20px 80px !important;
@@ -2029,6 +2027,7 @@ footer a, .footer .anvil-component {
   .anvil-role-slider {
     -webkit-appearance: none;
     width: 98.5%;
+    opacity: 0.7;
     -webkit-transition: .2s;
     transition: opacity .2s;
     padding: 20px 80px !important;
@@ -2043,6 +2042,7 @@ footer a, .footer .anvil-component {
   .anvil-role-slider {
     -webkit-appearance: none;
     width: 98.5%;
+    opacity: 0.7;
     -webkit-transition: .2s;
     transition: opacity .2s;
     padding: 20px 80px !important;
@@ -2057,6 +2057,7 @@ footer a, .footer .anvil-component {
   .anvil-role-slider {
     -webkit-appearance: none;
     width: 98.5%;
+    opacity: 0.7;
     -webkit-transition: .2s;
     transition: opacity .2s;
     padding: 20px 80px !important;
@@ -2071,6 +2072,7 @@ footer a, .footer .anvil-component {
   .anvil-role-slider {
     -webkit-appearance: none;
     width: 98.5%;
+    opacity: 0.7;
     -webkit-transition: .2s;
     transition: opacity .2s;
     padding: 20px 80px !important;
@@ -2085,6 +2087,7 @@ footer a, .footer .anvil-component {
   .anvil-role-slider {
     -webkit-appearance: none;
     width: 98.5%;
+    opacity: 0.7;
     -webkit-transition: .2s;
     transition: opacity .2s;
     padding: 20px 80px !important;
@@ -2099,6 +2102,7 @@ footer a, .footer .anvil-component {
   .anvil-role-slider {
     -webkit-appearance: none;
     width: 98.5%;
+    opacity: 0.7;
     -webkit-transition: .2s;
     transition: opacity .2s;
     padding: 20px 80px !important;
