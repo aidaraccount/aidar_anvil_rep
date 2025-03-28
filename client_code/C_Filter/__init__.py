@@ -108,9 +108,10 @@ class C_Filter(C_FilterTemplate):
 
     # Label Filters
     filter_label = [item for item in fil if item['Type'] == 'label']
-    print(filter_label)
     if len(filter_label) > 0:
-      self.rep_pan_label.items = filter_label
+      # Transform the structure to match what rep_pan_label expects
+      transformed_label_data = [{'label_name': item['Value']} for item in filter_label]
+      self.rep_pan_label.items = transformed_label_data
       self.label_no_label_filters.visible = False
       
     # Genre Filters
@@ -278,4 +279,3 @@ class C_Filter(C_FilterTemplate):
       origin_data.append(new_entry)    
     self.repeating_panel_origin.items = origin_data
     self.label_no_origin_filters.visible = False
-
