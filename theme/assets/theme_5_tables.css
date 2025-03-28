@@ -47,7 +47,6 @@ This file contains styling for Anvil DataGrid components and related elements.
 .anvil-data-grid .data-grid-child-panel .anvil-data-row-panel:not(.auto-grid-header):hover {
   background-color: rgba(255, 255, 255, 0.05) !important;
   transform: translateY(-2px);
-  box-shadow: 0 3px 5px rgba(150, 150, 150, 0.3);
 }
 
 /* Individual data cells - Each content cell in a row */
@@ -78,12 +77,19 @@ This file contains styling for Anvil DataGrid components and related elements.
   padding: 5px !important;
   border-top: none !important;
   line-height: 1 !important;
+  justify-content: center !important;
 }
 
 /* Pagination buttons - Using default colors for active/inactive states */
 .anvil-data-grid .pagination-buttons a {
   margin: 0 5px;
   line-height: 1 !important;
+  font-size: 18px !important;
+}
+
+/* Footer slot positioning */
+.anvil-data-grid .data-grid-footer-panel .footer-slot {
+  flex: 0 0 auto !important;
 }
 
 /* 8. Text alignment helpers for inline styles */
