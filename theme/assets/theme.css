@@ -5,12 +5,14 @@ Area 1: Base
 Area 2: Buttons
 Area 3: Text Boxes
 Area 4: Page Individual
+Area 5: Tables
 */
 
 @import url('_/theme/theme_1_base.css');
 @import url('_/theme/theme_2_buttons.css');
 @import url('_/theme/theme_3_textboxes.css');
 @import url('_/theme/theme_4_page_indiv.css');
+@import url('_/theme/theme_5_tables.css');
 
 :root {
   --Orange: %color:Orange%;

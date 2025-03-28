@@ -1,0 +1,70 @@
+/*
+CSS Content for Tables
+
+This file contains styling for Anvil DataGrid components and related elements.
+*/
+
+/* DataGrid container */
+.anvil-data-grid-container {
+  border-radius: 4px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  margin-bottom: 20px;
+}
+
+/* Main table */
+.anvil-data-grid {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+/* Header row */
+.anvil-data-grid-header {
+  background-color: #f5f5f5;
+  font-weight: bold;
+}
+
+.anvil-data-grid-header th {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 2px solid #ddd;
+  font-family: GS-medium;
+  color: #333;
+}
+
+/* Data rows */
+.anvil-data-row {
+  border-bottom: 1px solid #eee;
+}
+
+.anvil-data-row:hover {
+  background-color: rgba(0,0,0,0.02);
+  transition: background-color 0.2s ease;
+}
+
+.anvil-data-row td {
+  padding: 10px 15px;
+  font-family: GS-regular;
+}
+
+/* Alternating row colors */
+.anvil-data-row:nth-child(even) {
+  background-color: rgba(0,0,0,0.01);
+}
+
+/* Empty state message */
+.anvil-data-grid-empty {
+  padding: 20px;
+  text-align: center;
+  color: #888;
+  font-style: italic;
+}
+
+/* Responsive behavior for smaller screens */
+@media only screen and (max-width: 768px) {
+  .anvil-data-grid-header th,
+  .anvil-data-row td {
+    padding: 8px 10px;
+    font-size: 0.9em;
+  }
+}
