@@ -4,7 +4,7 @@ components:
   event_bindings: {click: button_exclude_click}
   layout_properties: {column: VJQQOR}
   name: button_exclude
-  properties: {align: left, text: exclude label}
+  properties: {align: center, text: exclude label}
   type: Button
 container: {type: DataRowPanel}
 is_package: true
