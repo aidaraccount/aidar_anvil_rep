@@ -25,7 +25,7 @@ class RowTemplate_Labels_Selection(RowTemplate_Labels_SelectionTemplate):
     if label_data is None:
       label_data = [new_entry]
     else:
-      if not any(entry['label_id'] == new_entry['label_id'] for entry in label_data):
+      if not any(entry['label_name'] == new_entry['label_name'] for entry in label_data):
         label_data.append(new_entry)
     
     self.parent.parent.parent.parent.rep_pan_label.items = label_data
