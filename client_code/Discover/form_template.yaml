@@ -185,7 +185,7 @@ components:
   name: priority_dropdown
   properties:
     items: [very low, low, mid, high, very high]
-    role: target-dropdown
+    role: [txt_white_discreet]
     spacing_above: none
     spacing_below: none
   type: DropDown
@@ -194,7 +194,7 @@ components:
   name: status_dropdown
   properties:
     items: [Action required, Requires revision, Waiting for decision, Build connection, Awaiting response, Exploring opportunities, Positive response, In negotiations, Contract in progress, Reconnect later, Not interested, Success]
-    role: target-dropdown
+    role: [txt_white_discreet]
     spacing_above: none
     spacing_below: none
   type: DropDown
@@ -202,7 +202,12 @@ components:
   - event_bindings: {pressed_enter: contacts_button_click}
     layout_properties: {width: 219.390625, x: null, y: null}
     name: Text_Box_for_Artist_Phone
-    properties: {placeholder: Phone number of contact, role: target-dropdown, spacing_above: none, spacing_below: none, visible: false}
+    properties:
+      placeholder: Phone number of contact
+      role: [txt_white_discreet]
+      spacing_above: none
+      spacing_below: none
+      visible: false
     type: TextBox
   - layout_properties: {width: 219.390625, x: null, y: null}
     name: label_phone
@@ -218,7 +223,12 @@ components:
   - event_bindings: {pressed_enter: contacts_button_click}
     layout_properties: {width: 219.390625, x: null, y: null}
     name: Text_Box_for_Artist_Email
-    properties: {placeholder: Email of contact, role: target-dropdown, spacing_above: none, spacing_below: none, visible: false}
+    properties:
+      placeholder: Email of contact
+      role: [txt_white_discreet]
+      spacing_above: none
+      spacing_below: none
+      visible: false
     type: TextBox
   - layout_properties: {width: 219.390625, x: null, y: null}
     name: label_mail
@@ -232,7 +242,12 @@ components:
   - event_bindings: {pressed_enter: contacts_button_click}
     layout_properties: {width: 219.390625, x: null, y: null}
     name: Text_Box_for_Artist_Name
-    properties: {placeholder: Name of contact, role: target-dropdown, spacing_above: none, spacing_below: none, visible: false}
+    properties:
+      placeholder: Name of contact
+      role: [txt_white_discreet]
+      spacing_above: none
+      spacing_below: none
+      visible: false
     type: TextBox
   - layout_properties: {width: 219.383, x: null, y: null}
     name: label_contact

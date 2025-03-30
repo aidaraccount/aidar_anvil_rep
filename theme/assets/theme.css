@@ -1548,8 +1548,8 @@ footer a, .footer .anvil-component {
   color: rgb(250,250,250);
   position: fixed;
   /* comment "right: 0px" to have the sidebar visible at all times  */
-  /* right: -400px; */
-  right: 0px;
+  right: -400px;
+  /* right: 0px; */
   top: 0;
   width: 400px;
   height: 100%;
@@ -1646,13 +1646,6 @@ footer a, .footer .anvil-component {
     z-index: 9000; 
   }
 }
-/* .nav-button.closed {
-  position: absolute;
-  top: 62px;
-  bottom: 0px;
-  left: 0px;
-  z-index: 2;
-} */
 .main-content-move {
   margin-left: 250px;
   transition: margin-left 0.3s ease;
