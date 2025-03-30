@@ -102,7 +102,7 @@ Area 3: Buttons
   font-family: Gs-regular;
   font-size: 16px;
   color: var(--Orange);
-  background: var(--Text_WhiteDiscreet);
+  background: var(--WhiteDiscreet);
   border: 0px;
   box-shadow: none;
   text-shadow: none;
@@ -110,12 +110,12 @@ Area 3: Buttons
   margin: 10px 0 0 0;
 }
 .anvil-role-save-button-sidebar > button:hover {
-  background: linear-gradient(to top left, rgba(232, 232, 232, 0.8) 50%, var(--Text_WhiteDiscreet));  /* no clean color! */
+  background: linear-gradient(to top left, rgba(232, 232, 232, 0.8) 50%, var(--WhiteDiscreet));  /* no clean color! */
   color: var(--OrangeDiscreet);
 }
 .anvil-role-save-button-sidebar > button:focus,
 .anvil-role-save-button-sidebar > button:active {
-  background: var(--Text_WhiteDiscreet);
+  background: var(--WhiteDDiscreet);
   color: var(--Orange);
 }
 
@@ -173,7 +173,7 @@ Area 3: Buttons
 3.5. Call 2 Action Button */
 .anvil-role-call-to-action-button button {
   font-family: Gs-regular;
-  color: var(--Text_WhiteDiscreet);
+  color: var(--WhiteDiscreet);
   background: var(--Orange);
   border: 0px;
   box-shadow: none;
@@ -186,15 +186,15 @@ Area 3: Buttons
 .anvil-role-call-to-action-button > button:hover,
 .anvil-role-call-to-action-button > button:focus,
 .anvil-role-call-to-action-button > button:active {
-  background: var(--OrangeDiscreet);
-  color: var(--Text_WhiteDiscreet);
+  background: var(--Discreet);
+  color: var(--Discreet);
 }
 
 /* ----------------------------
 3.6. Call 2 Action Button Longer */
 .anvil-role-call-to-action-button-longer button {
   font-family: Gs-regular;
-  color: var(--Text_WhiteDiscreet);
+  color: var(--WhiteDiscreet);
   background: var(--Orange);
   border: 0px;
   box-shadow: none;
@@ -208,14 +208,14 @@ Area 3: Buttons
 .anvil-role-call-to-action-button-longer > button:focus,
 .anvil-role-call-to-action-button-longer > button:active {
   background: var(--OrangeDiscreet);
-  color: var(--Text_WhiteDiscreet);
+  color: var(--WhiteDiscreet);
 }
 
 /* ----------------------------
 3.7. Call 2 Action Button Disabled */
 .anvil-role-call-to-action-button-disabled button {
   font-family: Gs-regular;
-  color: var(--Text_WhiteDiscreet);
+  color: var(--WhiteDiscreet);
   background: var(--Accent_2);
   border: 0px;
   box-shadow: none;
@@ -227,7 +227,7 @@ Area 3: Buttons
 }
 .anvil-role-call-to-action-button-disabled > button:hover {
   background: var(--Accent_2);
-  color: var(--Text_WhiteDiscreet);
+  color: var(--WhiteDiscreet);
 }
 .anvil-role-call-to-action-button-disabled > button:focus,
 .anvil-role-call-to-action-button-disabled > button:active {

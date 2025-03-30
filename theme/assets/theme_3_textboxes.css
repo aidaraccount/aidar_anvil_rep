@@ -2,35 +2,33 @@
 ----------------------------------------------------------------------------------------
 Area 4: Text Boxes
 ----------------------------------------------------------------------------------------
-4.1. Classical text box & smaller version */
-.anvil-role-text_box {
-  font-family: GS-regular;
-  font-size: 20px;
-  font-weight: normal;
-  color: white;
-  
-  background: var(--Accent_1);
-  
-  padding-top: 4px;
-  padding-bottom: 4px;
-  
-  border-radius: 7px;
-}
-.anvil-role-text_box_small {
+
+4.1. Base design for Textbox, Dropdowns, DatePicker,.. */
+.form-control {
   font-family: GS-regular;
   font-size: 16px;
   font-weight: normal;
-  color: var(--Text_WhiteDiscreet);
-  
-  padding-top: 4px;
-  padding-bottom: 4px;
+  color: var(--BlackDiscreet);
 
+  pading: 0;
+  
   border-color: var(--Accent_2);
   border-radius: 7px;
   
-  background: var(--Background_20);
+  background-color: var(--Background_20);
 }
 
+/* ----------------------------
+4.2. Classical text box & smaller version */
+.anvil-role-text_box_small {  
+  padding-top: 4px;
+  padding-bottom: 4px;  
+}
+
+
+/* ----------------------------
+4.3. Individuall Designs:
+a) Ramp-up */
 .anvil-role-rampup-text-field {
   font-family: GS-regular;
   width: 100%;
@@ -40,13 +38,13 @@ Area 4: Text Boxes
   text-align: left;
 }
 
-/* ----------------------------
-4.2. Textbox for Notification Settings (currently page individual !!! !!!) */
+/* 
+b) Textbox for Notification Settings */
 .anvil-role-notification-settings-textbox {
   font-size: 14px;
   font-weight: normal;
   margin: 8px 5px 0 4px;
-  color: var(--Text_WhiteDiscreet);
+  color: var(--WhiteDiscreet);
   background: transparent; 
   padding-bottom: 3px;
   width: 65px;
@@ -54,30 +52,4 @@ Area 4: Text Boxes
   border-radius: 0px; 
   border: none;
   border-bottom: 1px solid;
-}
-
-/* ----------------------------
-4.3. Dropdowns */
-.form-control {
-  font-family: GS-regular;
-  font-size: 16px;
-  font-weight: normal;
-  color: var(--Text_WhiteDiscreet);
-
-  pading: 0;
-  
-  border-color: var(--Accent_2);
-  border-radius: 7px;
-  
-  background-color: var(--Background_20);
-}
-.form-control > * {
-  font-family: GS-regular;
-  font-size: 16px;
-  font-weight: normal;
-  color: var(--Text_LightBlack);
-  /* color: var(--Text_WhiteDiscreet); */
-  
-  background-color: var(--Background_20);
-  /* is working, but the refering background is near white, making the transparent background hardly visible*/
 }

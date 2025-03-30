@@ -37,7 +37,26 @@ components:
     - event_bindings: {pressed_enter: apply_filters_click}
       layout_properties: {col_xs: 3, row: OSZLNL, width: 194, width_xs: 3}
       name: artist_popularity_lat_min
-      properties: {align: left, background: '', bold: false, border: '', enabled: true, font: '', font_size: null, foreground: '', hide_text: false, italic: false, placeholder: '0', role: text_box_small, spacing_above: small, spacing_below: small, text: '', tooltip: '', type: number, underline: false, visible: true}
+      properties:
+        align: left
+        background: ''
+        bold: false
+        border: ''
+        enabled: true
+        font: ''
+        font_size: null
+        foreground: ''
+        hide_text: false
+        italic: false
+        placeholder: '0'
+        role: [txt_white_discreet]
+        spacing_above: small
+        spacing_below: small
+        text: ''
+        tooltip: ''
+        type: number
+        underline: false
+        visible: true
       type: TextBox
     - layout_properties: {col_xs: 7, row: OSZLNL, width: 136.667, width_xs: 2}
       name: label_5
@@ -46,7 +65,26 @@ components:
     - event_bindings: {pressed_enter: apply_filters_click}
       layout_properties: {col_xs: 9, row: OSZLNL, width: 194, width_xs: 3}
       name: artist_popularity_lat_max
-      properties: {align: left, background: '', bold: false, border: '', enabled: true, font: '', font_size: null, foreground: '', hide_text: false, italic: false, placeholder: '100', role: text_box_small, spacing_above: small, spacing_below: small, text: '', tooltip: '', type: number, underline: false, visible: true}
+      properties:
+        align: left
+        background: ''
+        bold: false
+        border: ''
+        enabled: true
+        font: ''
+        font_size: null
+        foreground: ''
+        hide_text: false
+        italic: false
+        placeholder: '100'
+        role: [txt_white_discreet]
+        spacing_above: small
+        spacing_below: small
+        text: ''
+        tooltip: ''
+        type: number
+        underline: false
+        visible: true
       type: TextBox
     layout_properties: {grid_position: 'JQKHPY,COFPND'}
     name: grid_panel_1
@@ -60,7 +98,26 @@ components:
     - event_bindings: {pressed_enter: apply_filters_click}
       layout_properties: {col_xs: 4, row: VLPSXL, width: 194, width_xs: 3}
       name: artist_follower_lat_min
-      properties: {align: left, background: '', bold: false, border: '', enabled: true, font: '', font_size: null, foreground: '', hide_text: false, italic: false, placeholder: '0', role: text_box_small, spacing_above: small, spacing_below: small, text: '', tooltip: '', type: number, underline: false, visible: true}
+      properties:
+        align: left
+        background: ''
+        bold: false
+        border: ''
+        enabled: true
+        font: ''
+        font_size: null
+        foreground: ''
+        hide_text: false
+        italic: false
+        placeholder: '0'
+        role: [txt_white_discreet]
+        spacing_above: small
+        spacing_below: small
+        text: ''
+        tooltip: ''
+        type: number
+        underline: false
+        visible: true
       type: TextBox
     - layout_properties: {col_xs: 7, row: VLPSXL, width: 136.667, width_xs: 2}
       name: label_7
@@ -69,7 +126,26 @@ components:
     - event_bindings: {pressed_enter: apply_filters_click}
       layout_properties: {col_xs: 9, row: VLPSXL, width: 194, width_xs: 3}
       name: artist_follower_lat_max
-      properties: {align: left, background: '', bold: false, border: '', enabled: true, font: '', font_size: null, foreground: '', hide_text: false, italic: false, placeholder: '1000000', role: text_box_small, spacing_above: small, spacing_below: small, text: '', tooltip: '', type: number, underline: false, visible: true}
+      properties:
+        align: left
+        background: ''
+        bold: false
+        border: ''
+        enabled: true
+        font: ''
+        font_size: null
+        foreground: ''
+        hide_text: false
+        italic: false
+        placeholder: '1000000'
+        role: [txt_white_discreet]
+        spacing_above: small
+        spacing_below: small
+        text: ''
+        tooltip: ''
+        type: number
+        underline: false
+        visible: true
       type: TextBox
     layout_properties: {grid_position: 'APDFNT,SWTAXL'}
     name: grid_panel_2
@@ -83,7 +159,10 @@ components:
     - event_bindings: {pressed_enter: apply_filters_click}
       layout_properties: {col_xs: 4, row: VLPSXL, width_xs: 3}
       name: years_since_first_release
-      properties: {placeholder: '5', role: text_box_small, type: number}
+      properties:
+        placeholder: '5'
+        role: [txt_white_discreet]
+        type: number
       type: TextBox
     layout_properties: {grid_position: 'WKYGJX,MIUNSB'}
     name: grid_panel_2_copy_copy_copy_2_copy
@@ -97,7 +176,10 @@ components:
     - event_bindings: {pressed_enter: apply_filters_click}
       layout_properties: {col_xs: 4, row: VLPSXL, width_xs: 3}
       name: days_since_last_release
-      properties: {placeholder: '21', role: text_box_small, type: number}
+      properties:
+        placeholder: '21'
+        role: [txt_white_discreet]
+        type: number
       type: TextBox
     layout_properties: {grid_position: 'HJLYPF,NDTRRQ'}
     name: grid_panel_2_copy_copy_copy_2
@@ -120,7 +202,7 @@ components:
       name: drop_down_major
       properties:
         items: ['-', 'Yes', 'No']
-        role: null
+        role: [txt_white_discreet]
       type: DropDown
     layout_properties: {grid_position: 'OKWLBB,LQWXSB'}
     name: grid_panel_2_copy
@@ -135,7 +217,7 @@ components:
       name: drop_down_submajor
       properties:
         items: ['-', 'Yes', 'No']
-        role: null
+        role: [txt_white_discreet]
       type: DropDown
     layout_properties: {grid_position: 'BKWLVF,IABJZS'}
     name: grid_panel_2_copy_copy
@@ -157,7 +239,8 @@ components:
     - event_bindings: {pressed_enter: button_search_label_click}
       layout_properties: {grid_position: 'EQSMLB,CWQCHL'}
       name: text_box_label
-      properties: {}
+      properties:
+        role: [txt_white_discreet]
       type: TextBox
     - event_bindings: {click: button_search_label_click}
       layout_properties: {grid_position: 'EQSMLB,RNMGTJ'}
@@ -224,7 +307,26 @@ components:
     - event_bindings: {pressed_enter: apply_filters_click}
       layout_properties: {col_xs: 3, row: OSZLNL, width: 194, width_xs: 3}
       name: avg_duration_min
-      properties: {align: left, background: '', bold: false, border: '', enabled: true, font: '', font_size: null, foreground: '', hide_text: false, italic: false, placeholder: '0', role: text_box_small, spacing_above: small, spacing_below: small, text: '', tooltip: '', type: number, underline: false, visible: true}
+      properties:
+        align: left
+        background: ''
+        bold: false
+        border: ''
+        enabled: true
+        font: ''
+        font_size: null
+        foreground: ''
+        hide_text: false
+        italic: false
+        placeholder: '0'
+        role: [txt_white_discreet]
+        spacing_above: small
+        spacing_below: small
+        text: ''
+        tooltip: ''
+        type: number
+        underline: false
+        visible: true
       type: TextBox
     - layout_properties: {col_xs: 7, row: OSZLNL, width: 136.667, width_xs: 2}
       name: label_5_copy
@@ -233,7 +335,26 @@ components:
     - event_bindings: {pressed_enter: apply_filters_click}
       layout_properties: {col_xs: 9, row: OSZLNL, width: 194, width_xs: 3}
       name: avg_duration_max
-      properties: {align: left, background: '', bold: false, border: '', enabled: true, font: '', font_size: null, foreground: '', hide_text: false, italic: false, placeholder: '240', role: text_box_small, spacing_above: small, spacing_below: small, text: '', tooltip: '', type: number, underline: false, visible: true}
+      properties:
+        align: left
+        background: ''
+        bold: false
+        border: ''
+        enabled: true
+        font: ''
+        font_size: null
+        foreground: ''
+        hide_text: false
+        italic: false
+        placeholder: '240'
+        role: [txt_white_discreet]
+        spacing_above: small
+        spacing_below: small
+        text: ''
+        tooltip: ''
+        type: number
+        underline: false
+        visible: true
       type: TextBox
     layout_properties:
       col_widths: {}
@@ -249,7 +370,26 @@ components:
     - event_bindings: {pressed_enter: apply_filters_click}
       layout_properties: {col_xs: 3, row: OSZLNL, width: 194, width_xs: 3}
       name: avg_danceability_min
-      properties: {align: left, background: '', bold: false, border: '', enabled: true, font: '', font_size: null, foreground: '', hide_text: false, italic: false, placeholder: '0', role: text_box_small, spacing_above: small, spacing_below: small, text: '', tooltip: '', type: number, underline: false, visible: true}
+      properties:
+        align: left
+        background: ''
+        bold: false
+        border: ''
+        enabled: true
+        font: ''
+        font_size: null
+        foreground: ''
+        hide_text: false
+        italic: false
+        placeholder: '0'
+        role: [txt_white_discreet]
+        spacing_above: small
+        spacing_below: small
+        text: ''
+        tooltip: ''
+        type: number
+        underline: false
+        visible: true
       type: TextBox
     - layout_properties: {col_xs: 7, row: OSZLNL, width: 136.667, width_xs: 2}
       name: label_5_copy_2
@@ -258,7 +398,26 @@ components:
     - event_bindings: {pressed_enter: apply_filters_click}
       layout_properties: {col_xs: 9, row: OSZLNL, width_xs: 3}
       name: avg_danceability_max
-      properties: {align: left, background: '', bold: false, border: '', enabled: true, font: '', font_size: null, foreground: '', hide_text: false, italic: false, placeholder: '100', role: text_box_small, spacing_above: small, spacing_below: small, text: '', tooltip: '', type: number, underline: false, visible: true}
+      properties:
+        align: left
+        background: ''
+        bold: false
+        border: ''
+        enabled: true
+        font: ''
+        font_size: null
+        foreground: ''
+        hide_text: false
+        italic: false
+        placeholder: '100'
+        role: [txt_white_discreet]
+        spacing_above: small
+        spacing_below: small
+        text: ''
+        tooltip: ''
+        type: number
+        underline: false
+        visible: true
       type: TextBox
     layout_properties:
       col_widths: {}
@@ -274,7 +433,26 @@ components:
     - event_bindings: {pressed_enter: apply_filters_click}
       layout_properties: {col_xs: 3, row: OSZLNL, width: 194, width_xs: 3}
       name: avg_energy_min
-      properties: {align: left, background: '', bold: false, border: '', enabled: true, font: '', font_size: null, foreground: '', hide_text: false, italic: false, placeholder: '0', role: text_box_small, spacing_above: small, spacing_below: small, text: '', tooltip: '', type: number, underline: false, visible: true}
+      properties:
+        align: left
+        background: ''
+        bold: false
+        border: ''
+        enabled: true
+        font: ''
+        font_size: null
+        foreground: ''
+        hide_text: false
+        italic: false
+        placeholder: '0'
+        role: [txt_white_discreet]
+        spacing_above: small
+        spacing_below: small
+        text: ''
+        tooltip: ''
+        type: number
+        underline: false
+        visible: true
       type: TextBox
     - layout_properties: {col_xs: 7, row: OSZLNL, width: 136.667, width_xs: 2}
       name: label_5_copy_3
@@ -283,7 +461,26 @@ components:
     - event_bindings: {pressed_enter: apply_filters_click}
       layout_properties: {col_xs: 9, row: OSZLNL, width: 194, width_xs: 3}
       name: avg_energy_max
-      properties: {align: left, background: '', bold: false, border: '', enabled: true, font: '', font_size: null, foreground: '', hide_text: false, italic: false, placeholder: '100', role: text_box_small, spacing_above: small, spacing_below: small, text: '', tooltip: '', type: number, underline: false, visible: true}
+      properties:
+        align: left
+        background: ''
+        bold: false
+        border: ''
+        enabled: true
+        font: ''
+        font_size: null
+        foreground: ''
+        hide_text: false
+        italic: false
+        placeholder: '100'
+        role: [txt_white_discreet]
+        spacing_above: small
+        spacing_below: small
+        text: ''
+        tooltip: ''
+        type: number
+        underline: false
+        visible: true
       type: TextBox
     layout_properties:
       col_widths: {}
@@ -302,7 +499,7 @@ components:
         include_placeholder: false
         items: ['', C, C#/Db, D, D#/Eb, E, F, F#/Gb, G, G#/Ab, A, A#/Bb, B]
         placeholder: C
-        role: null
+        role: [txt_white_discreet]
       type: DropDown
     - layout_properties: {col_xs: 7, row: OSZLNL, width: 136.667, width_xs: 2}
       name: label_5_copy_4
@@ -314,7 +511,7 @@ components:
         include_placeholder: false
         items: ['', C, C#/Db, D, D#/Eb, E, F, F#/Gb, G, G#/Ab, A, A#/Bb, B]
         placeholder: B
-        role: null
+        role: [txt_white_discreet]
       type: DropDown
     layout_properties:
       col_widths: {}
@@ -330,7 +527,26 @@ components:
     - event_bindings: {pressed_enter: apply_filters_click}
       layout_properties: {col_xs: 3, row: OSZLNL, width: 194, width_xs: 3}
       name: avg_loudness_min
-      properties: {align: left, background: '', bold: false, border: '', enabled: true, font: '', font_size: null, foreground: '', hide_text: false, italic: false, placeholder: '-10', role: text_box_small, spacing_above: small, spacing_below: small, text: '', tooltip: '', type: number, underline: false, visible: true}
+      properties:
+        align: left
+        background: ''
+        bold: false
+        border: ''
+        enabled: true
+        font: ''
+        font_size: null
+        foreground: ''
+        hide_text: false
+        italic: false
+        placeholder: '-10'
+        role: [txt_white_discreet]
+        spacing_above: small
+        spacing_below: small
+        text: ''
+        tooltip: ''
+        type: number
+        underline: false
+        visible: true
       type: TextBox
     - layout_properties: {col_xs: 7, row: OSZLNL, width: 136.667, width_xs: 2}
       name: label_5_copy_5
@@ -339,7 +555,26 @@ components:
     - event_bindings: {pressed_enter: apply_filters_click}
       layout_properties: {col_xs: 9, row: OSZLNL, width: 194, width_xs: 3}
       name: avg_loudness_max
-      properties: {align: left, background: '', bold: false, border: '', enabled: true, font: '', font_size: null, foreground: '', hide_text: false, italic: false, placeholder: '5', role: text_box_small, spacing_above: small, spacing_below: small, text: '', tooltip: '', type: number, underline: false, visible: true}
+      properties:
+        align: left
+        background: ''
+        bold: false
+        border: ''
+        enabled: true
+        font: ''
+        font_size: null
+        foreground: ''
+        hide_text: false
+        italic: false
+        placeholder: '5'
+        role: [txt_white_discreet]
+        spacing_above: small
+        spacing_below: small
+        text: ''
+        tooltip: ''
+        type: number
+        underline: false
+        visible: true
       type: TextBox
     layout_properties:
       col_widths: {}
@@ -355,7 +590,26 @@ components:
     - event_bindings: {pressed_enter: apply_filters_click}
       layout_properties: {col_xs: 3, row: OSZLNL, width: 194, width_xs: 3}
       name: avg_mode_min
-      properties: {align: left, background: '', bold: false, border: '', enabled: true, font: '', font_size: null, foreground: '', hide_text: false, italic: false, placeholder: '0', role: text_box_small, spacing_above: small, spacing_below: small, text: '', tooltip: '', type: number, underline: false, visible: true}
+      properties:
+        align: left
+        background: ''
+        bold: false
+        border: ''
+        enabled: true
+        font: ''
+        font_size: null
+        foreground: ''
+        hide_text: false
+        italic: false
+        placeholder: '0'
+        role: [txt_white_discreet]
+        spacing_above: small
+        spacing_below: small
+        text: ''
+        tooltip: ''
+        type: number
+        underline: false
+        visible: true
       type: TextBox
     - layout_properties: {col_xs: 7, row: OSZLNL, width: 136.667, width_xs: 2}
       name: label_5_copy_6
@@ -364,7 +618,26 @@ components:
     - event_bindings: {pressed_enter: apply_filters_click}
       layout_properties: {col_xs: 9, row: OSZLNL, width: 194, width_xs: 3}
       name: avg_mode_max
-      properties: {align: left, background: '', bold: false, border: '', enabled: true, font: '', font_size: null, foreground: '', hide_text: false, italic: false, placeholder: '100', role: text_box_small, spacing_above: small, spacing_below: small, text: '', tooltip: '', type: number, underline: false, visible: true}
+      properties:
+        align: left
+        background: ''
+        bold: false
+        border: ''
+        enabled: true
+        font: ''
+        font_size: null
+        foreground: ''
+        hide_text: false
+        italic: false
+        placeholder: '100'
+        role: [txt_white_discreet]
+        spacing_above: small
+        spacing_below: small
+        text: ''
+        tooltip: ''
+        type: number
+        underline: false
+        visible: true
       type: TextBox
     layout_properties:
       col_widths: {}
@@ -380,7 +653,26 @@ components:
     - event_bindings: {pressed_enter: apply_filters_click}
       layout_properties: {col_xs: 3, row: OSZLNL, width: 194, width_xs: 3}
       name: avg_speechiness_min
-      properties: {align: left, background: '', bold: false, border: '', enabled: true, font: '', font_size: null, foreground: '', hide_text: false, italic: false, placeholder: '0', role: text_box_small, spacing_above: small, spacing_below: small, text: '', tooltip: '', type: number, underline: false, visible: true}
+      properties:
+        align: left
+        background: ''
+        bold: false
+        border: ''
+        enabled: true
+        font: ''
+        font_size: null
+        foreground: ''
+        hide_text: false
+        italic: false
+        placeholder: '0'
+        role: [txt_white_discreet]
+        spacing_above: small
+        spacing_below: small
+        text: ''
+        tooltip: ''
+        type: number
+        underline: false
+        visible: true
       type: TextBox
     - layout_properties: {col_xs: 7, row: OSZLNL, width: 136.667, width_xs: 2}
       name: label_5_copy_7
@@ -389,7 +681,26 @@ components:
     - event_bindings: {pressed_enter: apply_filters_click}
       layout_properties: {col_xs: 9, row: OSZLNL, width: 194, width_xs: 3}
       name: avg_speechiness_max
-      properties: {align: left, background: '', bold: false, border: '', enabled: true, font: '', font_size: null, foreground: '', hide_text: false, italic: false, placeholder: '100', role: text_box_small, spacing_above: small, spacing_below: small, text: '', tooltip: '', type: number, underline: false, visible: true}
+      properties:
+        align: left
+        background: ''
+        bold: false
+        border: ''
+        enabled: true
+        font: ''
+        font_size: null
+        foreground: ''
+        hide_text: false
+        italic: false
+        placeholder: '100'
+        role: [txt_white_discreet]
+        spacing_above: small
+        spacing_below: small
+        text: ''
+        tooltip: ''
+        type: number
+        underline: false
+        visible: true
       type: TextBox
     layout_properties:
       col_widths: {}
@@ -405,7 +716,26 @@ components:
     - event_bindings: {pressed_enter: apply_filters_click}
       layout_properties: {col_xs: 3, row: OSZLNL, width: 194, width_xs: 3}
       name: avg_acousticness_min
-      properties: {align: left, background: '', bold: false, border: '', enabled: true, font: '', font_size: null, foreground: '', hide_text: false, italic: false, placeholder: '0', role: text_box_small, spacing_above: small, spacing_below: small, text: '', tooltip: '', type: number, underline: false, visible: true}
+      properties:
+        align: left
+        background: ''
+        bold: false
+        border: ''
+        enabled: true
+        font: ''
+        font_size: null
+        foreground: ''
+        hide_text: false
+        italic: false
+        placeholder: '0'
+        role: [txt_white_discreet]
+        spacing_above: small
+        spacing_below: small
+        text: ''
+        tooltip: ''
+        type: number
+        underline: false
+        visible: true
       type: TextBox
     - layout_properties: {col_xs: 7, row: OSZLNL, width: 136.667, width_xs: 2}
       name: label_5_copy_8
@@ -414,7 +744,26 @@ components:
     - event_bindings: {pressed_enter: apply_filters_click}
       layout_properties: {col_xs: 9, row: OSZLNL, width: 194, width_xs: 3}
       name: avg_acousticness_max
-      properties: {align: left, background: '', bold: false, border: '', enabled: true, font: '', font_size: null, foreground: '', hide_text: false, italic: false, placeholder: '100', role: text_box_small, spacing_above: small, spacing_below: small, text: '', tooltip: '', type: number, underline: false, visible: true}
+      properties:
+        align: left
+        background: ''
+        bold: false
+        border: ''
+        enabled: true
+        font: ''
+        font_size: null
+        foreground: ''
+        hide_text: false
+        italic: false
+        placeholder: '100'
+        role: [txt_white_discreet]
+        spacing_above: small
+        spacing_below: small
+        text: ''
+        tooltip: ''
+        type: number
+        underline: false
+        visible: true
       type: TextBox
     layout_properties:
       col_widths: {}
@@ -430,7 +779,26 @@ components:
     - event_bindings: {pressed_enter: apply_filters_click}
       layout_properties: {col_xs: 4, row: OSZLNL, width: 194, width_xs: 3}
       name: avg_instrumentalness_min
-      properties: {align: left, background: '', bold: false, border: '', enabled: true, font: '', font_size: null, foreground: '', hide_text: false, italic: false, placeholder: '0', role: text_box_small, spacing_above: small, spacing_below: small, text: '', tooltip: '', type: number, underline: false, visible: true}
+      properties:
+        align: left
+        background: ''
+        bold: false
+        border: ''
+        enabled: true
+        font: ''
+        font_size: null
+        foreground: ''
+        hide_text: false
+        italic: false
+        placeholder: '0'
+        role: [txt_white_discreet]
+        spacing_above: small
+        spacing_below: small
+        text: ''
+        tooltip: ''
+        type: number
+        underline: false
+        visible: true
       type: TextBox
     - layout_properties: {col_xs: 7, row: OSZLNL, width: 136.667, width_xs: 2}
       name: label_5_copy_9
@@ -439,7 +807,26 @@ components:
     - event_bindings: {pressed_enter: apply_filters_click}
       layout_properties: {col_xs: 9, row: OSZLNL, width: 194, width_xs: 3}
       name: avg_instrumentalness_max
-      properties: {align: left, background: '', bold: false, border: '', enabled: true, font: '', font_size: null, foreground: '', hide_text: false, italic: false, placeholder: '100', role: text_box_small, spacing_above: small, spacing_below: small, text: '', tooltip: '', type: number, underline: false, visible: true}
+      properties:
+        align: left
+        background: ''
+        bold: false
+        border: ''
+        enabled: true
+        font: ''
+        font_size: null
+        foreground: ''
+        hide_text: false
+        italic: false
+        placeholder: '100'
+        role: [txt_white_discreet]
+        spacing_above: small
+        spacing_below: small
+        text: ''
+        tooltip: ''
+        type: number
+        underline: false
+        visible: true
       type: TextBox
     layout_properties:
       col_widths: {}
@@ -455,7 +842,26 @@ components:
     - event_bindings: {pressed_enter: apply_filters_click}
       layout_properties: {col_xs: 3, row: OSZLNL, width: 194, width_xs: 3}
       name: avg_liveness_min
-      properties: {align: left, background: '', bold: false, border: '', enabled: true, font: '', font_size: null, foreground: '', hide_text: false, italic: false, placeholder: '0', role: text_box_small, spacing_above: small, spacing_below: small, text: '', tooltip: '', type: number, underline: false, visible: true}
+      properties:
+        align: left
+        background: ''
+        bold: false
+        border: ''
+        enabled: true
+        font: ''
+        font_size: null
+        foreground: ''
+        hide_text: false
+        italic: false
+        placeholder: '0'
+        role: [txt_white_discreet]
+        spacing_above: small
+        spacing_below: small
+        text: ''
+        tooltip: ''
+        type: number
+        underline: false
+        visible: true
       type: TextBox
     - layout_properties: {col_xs: 7, row: OSZLNL, width: 136.667, width_xs: 2}
       name: label_5_copy_10
@@ -464,7 +870,26 @@ components:
     - event_bindings: {pressed_enter: apply_filters_click}
       layout_properties: {col_xs: 9, row: OSZLNL, width: 194, width_xs: 3}
       name: avg_liveness_max
-      properties: {align: left, background: '', bold: false, border: '', enabled: true, font: '', font_size: null, foreground: '', hide_text: false, italic: false, placeholder: '100', role: text_box_small, spacing_above: small, spacing_below: small, text: '', tooltip: '', type: number, underline: false, visible: true}
+      properties:
+        align: left
+        background: ''
+        bold: false
+        border: ''
+        enabled: true
+        font: ''
+        font_size: null
+        foreground: ''
+        hide_text: false
+        italic: false
+        placeholder: '100'
+        role: [txt_white_discreet]
+        spacing_above: small
+        spacing_below: small
+        text: ''
+        tooltip: ''
+        type: number
+        underline: false
+        visible: true
       type: TextBox
     layout_properties:
       col_widths: {}
@@ -480,7 +905,26 @@ components:
     - event_bindings: {pressed_enter: apply_filters_click}
       layout_properties: {col_xs: 3, row: OSZLNL, width: 194, width_xs: 3}
       name: avg_valence_min
-      properties: {align: left, background: '', bold: false, border: '', enabled: true, font: '', font_size: null, foreground: '', hide_text: false, italic: false, placeholder: '0', role: text_box_small, spacing_above: small, spacing_below: small, text: '', tooltip: '', type: number, underline: false, visible: true}
+      properties:
+        align: left
+        background: ''
+        bold: false
+        border: ''
+        enabled: true
+        font: ''
+        font_size: null
+        foreground: ''
+        hide_text: false
+        italic: false
+        placeholder: '0'
+        role: [txt_white_discreet]
+        spacing_above: small
+        spacing_below: small
+        text: ''
+        tooltip: ''
+        type: number
+        underline: false
+        visible: true
       type: TextBox
     - layout_properties: {col_xs: 7, row: OSZLNL, width: 136.667, width_xs: 2}
       name: label_5_copy_11
@@ -489,7 +933,26 @@ components:
     - event_bindings: {pressed_enter: apply_filters_click}
       layout_properties: {col_xs: 9, row: OSZLNL, width: 194, width_xs: 3}
       name: avg_valence_max
-      properties: {align: left, background: '', bold: false, border: '', enabled: true, font: '', font_size: null, foreground: '', hide_text: false, italic: false, placeholder: '100', role: text_box_small, spacing_above: small, spacing_below: small, text: '', tooltip: '', type: number, underline: false, visible: true}
+      properties:
+        align: left
+        background: ''
+        bold: false
+        border: ''
+        enabled: true
+        font: ''
+        font_size: null
+        foreground: ''
+        hide_text: false
+        italic: false
+        placeholder: '100'
+        role: [txt_white_discreet]
+        spacing_above: small
+        spacing_below: small
+        text: ''
+        tooltip: ''
+        type: number
+        underline: false
+        visible: true
       type: TextBox
     layout_properties:
       col_widths: {}
@@ -505,7 +968,26 @@ components:
     - event_bindings: {pressed_enter: apply_filters_click}
       layout_properties: {col_xs: 3, row: OSZLNL, width: 194, width_xs: 3}
       name: avg_tempo_min
-      properties: {align: left, background: '', bold: false, border: '', enabled: true, font: '', font_size: null, foreground: '', hide_text: false, italic: false, placeholder: '70', role: text_box_small, spacing_above: small, spacing_below: small, text: '', tooltip: '', type: number, underline: false, visible: true}
+      properties:
+        align: left
+        background: ''
+        bold: false
+        border: ''
+        enabled: true
+        font: ''
+        font_size: null
+        foreground: ''
+        hide_text: false
+        italic: false
+        placeholder: '70'
+        role: [txt_white_discreet]
+        spacing_above: small
+        spacing_below: small
+        text: ''
+        tooltip: ''
+        type: number
+        underline: false
+        visible: true
       type: TextBox
     - layout_properties: {col_xs: 7, row: OSZLNL, width: 136.667, width_xs: 2}
       name: label_5_copy_12
@@ -514,7 +996,26 @@ components:
     - event_bindings: {pressed_enter: apply_filters_click}
       layout_properties: {col_xs: 9, row: OSZLNL, width: 194, width_xs: 3}
       name: avg_tempo_max
-      properties: {align: left, background: '', bold: false, border: '', enabled: true, font: '', font_size: null, foreground: '', hide_text: false, italic: false, placeholder: '200', role: text_box_small, spacing_above: small, spacing_below: small, text: '', tooltip: '', type: number, underline: false, visible: true}
+      properties:
+        align: left
+        background: ''
+        bold: false
+        border: ''
+        enabled: true
+        font: ''
+        font_size: null
+        foreground: ''
+        hide_text: false
+        italic: false
+        placeholder: '200'
+        role: [txt_white_discreet]
+        spacing_above: small
+        spacing_below: small
+        text: ''
+        tooltip: ''
+        type: number
+        underline: false
+        visible: true
       type: TextBox
     layout_properties:
       col_widths: {}
@@ -555,7 +1056,7 @@ components:
       properties:
         items: [african, alternative, american, asian, australian, blues, children's music, 'classical, ensemble & opera', comedy & spoken word, country, electronic, european, folk & traditional, hip-hop & rap, holiday, instrumental, jazz & standards, latin, metal, middle eastern, others, pop, punk, 'r&b, funk & soul', reggae, rock, 'soundtrack, stage & screen', spirituals, sports]
         placeholder: Add Genre..
-        role: null
+        role: [txt_white_discreet]
       type: DropDown
     - layout_properties: {grid_position: 'EQSMLB,JSTKDX'}
       name: label_8
@@ -565,7 +1066,7 @@ components:
       name: drop_down_add_value
       properties:
         items: ['True', 'False']
-        role: null
+        role: [txt_white_discreet]
       type: DropDown
     - event_bindings: {click: button_add_genre_click}
       layout_properties: {grid_position: 'EQSMLB,RNMGTJ'}
@@ -620,7 +1121,7 @@ components:
       properties:
         items: [AD - Andorra, AE - United Arab Emirates, AF - Afghanistan, AG - Antigua and Barbuda, AI - Anguilla, AL - Albania, AM - Armenia, AO - Angola, AQ - Antarctica, AR - Argentina, AS - American Samoa, AT - Austria, AU - Australia, AW - Aruba, AX - Åland Islands, AZ - Azerbaijan, BA - Bosnia and Herzegovina, BB - Barbados, BD - Bangladesh, BE - Belgium, BF - Burkina Faso, BG - Bulgaria, BH - Bahrain, BI - Burundi, BJ - Benin, BL - Saint Barthélemy, BM - Bermuda, BN - Brunei Darussalam, BO - Bolivia, BQ - Bonaire, BR - Brazil, BS - Bahamas, BT - Bhutan, BV - Bouvet Island, BW - Botswana, BY - Belarus, BZ - Belize, CA - Canada, CC - Cocos (Keeling) Islands, CD - Congo, CF - Central African Republic, CG - Congo, CH - Switzerland, CI - Côte d'Ivoire, CK - Cook Islands, CL - Chile, CM - Cameroon, CN - China, CO - Colombia, CR - Costa Rica, CU - Cuba, CV - Cabo Verde, CW - Curaçao, CX - Christmas Island, CY - Cyprus, CZ - Czechia, DE - Germany, DJ - Djibouti, DK - Denmark, DM - Dominica, DO - Dominican Republic, DZ - Algeria, EC - Ecuador, EE - Estonia, EG - Egypt, EH - Western Sahara, ER - Eritrea, ES - Spain, ET - Ethiopia, FI - Finland, FJ - Fiji, FK - Falkland Islands (Malvinas), FM - Micronesia, FO - Faroe Islands, FR - France, GA - Gabon, GB - United Kingdom of Great Britain and Northern Ireland, GD - Grenada, GE - Georgia, GF - French Guiana, GG - Guernsey, GH - Ghana, GI - Gibraltar, GL - Greenland, GM - Gambia, GN - Guinea, GP - Guadeloupe, GQ - Equatorial Guinea, GR - Greece, GS - South Georgia and the South Sandwich Islands, GT - Guatemala, GU - Guam, GW - Guinea-Bissau, GY - Guyana, HK - Hong Kong, HM - Heard Island and McDonald Islands, HN - Honduras, HR - Croatia, HT - Haiti, HU - Hungary, ID - Indonesia, IE - Ireland, IL - Israel, IM - Isle of Man, IN - India, IO - British Indian Ocean Territory, IQ - Iraq, IR - Iran, IS - Iceland, IT - Italy, JE - Jersey, JM - Jamaica, JO - Jordan, JP - Japan, KE - Kenya, KG - Kyrgyzstan, KH - Cambodia, KI - Kiribati, KM - Comoros, KN - Saint Kitts and Nevis, KP - Korea, KR - Korea, KW - Kuwait, KY - Cayman Islands, KZ - Kazakhstan, LA - Lao People's Democratic Republic, LB - Lebanon, LC - Saint Lucia, LI - Liechtenstein, LK - Sri Lanka, LR - Liberia, LS - Lesotho, LT - Lithuania, LU - Luxembourg, LV - Latvia, LY - Libya, MA - Morocco, MC - Monaco, MD - Moldova, ME - Montenegro, MF - Saint Martin (French part), MG - Madagascar, MH - Marshall Islands, MK - North Macedonia, ML - Mali, MM - Myanmar, MN - Mongolia, MO - Macao, MP - Northern Mariana Islands, MQ - Martinique, MR - Mauritania, MS - Montserrat, MT - Malta, MU - Mauritius, MV - Maldives, MW - Malawi, MX - Mexico, MY - Malaysia, MZ - Mozambique, NA - Namibia, NC - New Caledonia, NE - Niger, NF - Norfolk Island, NG - Nigeria, NI - Nicaragua, NL - Netherlands, NO - Norway, NP - Nepal, NR - Nauru, NU - Niue, NZ - New Zealand, OM - Oman, PA - Panama, PE - Peru, PF - French Polynesia, PG - Papua New Guinea, PH - Philippines, PK - Pakistan, PL - Poland, PM - Saint Pierre and Miquelon, PN - Pitcairn, PR - Puerto Rico, PS - Palestine, PT - Portugal, PW - Palau, PY - Paraguay, QA - Qatar, RE - Réunion, RO - Romania, RS - Serbia, RU - Russian Federation, RW - Rwanda, SA - Saudi Arabia, SB - Solomon Islands, SC - Seychelles, SD - Sudan, SE - Sweden, SG - Singapore, SH - Saint Helena, SI - Slovenia, SJ - Svalbard and Jan Mayen, SK - Slovakia, SL - Sierra Leone, SM - San Marino, SN - Senegal, SO - Somalia, SR - Suriname, SS - South Sudan, ST - Sao Tome and Principe, SV - El Salvador, SX - Sint Maarten (Dutch part), SY - Syrian Arab Republic, SZ - Eswatini, TC - Turks and Caicos Islands, TD - Chad, TF - French Southern Territories, TG - Togo, TH - Thailand, TJ - Tajikistan, TK - Tokelau, TL - Timor-Leste, TM - Turkmenistan, TN - Tunisia, TO - Tonga, TR - Türkiye, TT - Trinidad and Tobago, TV - Tuvalu, TW - Taiwan, TZ - Tanzania, UA - Ukraine, UG - Uganda, UM - United States Minor Outlying Islands, US - United States of America, UY - Uruguay, UZ - Uzbekistan, VA - Holy See, VC - Saint Vincent and the Grenadines, VE - Venezuela, VG - Virgin Islands (British), VI - Virgin Islands (U.S.), VN - Viet Nam, VU - Vanuatu, WF - Wallis and Futuna, WS - Samoa, XK - Kosovo, YE - Yemen, YT - Mayotte, ZA - South Africa, ZM - Zambia, ZW - Zimbabwe]
         placeholder: Add Origin..
-        role: null
+        role: [txt_white_discreet]
       type: DropDown
     - layout_properties: {grid_position: 'EQSMLB,JSTKDX'}
       name: label_8_copy
@@ -630,7 +1131,7 @@ components:
       name: drop_down_add_value2
       properties:
         items: ['True', 'False']
-        role: null
+        role: [txt_white_discreet]
       type: DropDown
     - event_bindings: {click: button_add_origin_click}
       layout_properties: {grid_position: 'EQSMLB,RNMGTJ'}
@@ -676,7 +1177,7 @@ components:
       name: drop_down_gender
       properties:
         items: ['-', Female, Male, Mixed, Other]
-        role: null
+        role: [txt_white_discreet]
       type: DropDown
     layout_properties: {grid_position: 'MJFDYF,IEUKOY'}
     name: grid_panel_2_copy_copy_copy
@@ -699,7 +1200,7 @@ components:
       name: drop_down_has_top5_de
       properties:
         items: ['-', 'True', 'False']
-        role: null
+        role: [txt_white_discreet]
       type: DropDown
     layout_properties: {grid_position: 'RZSEHM,NWBFBK'}
     name: de_content

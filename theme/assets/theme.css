@@ -16,19 +16,23 @@ Area 6: Repeating Panels
 @import url('_/theme/theme_5_tables.css');
 @import url('_/theme/theme_6_rep_panels.css');
 
+/* ----------------------------
+1.1. Text Colors */
 :root {
   --Orange: %color:Orange%;
   --OrangeDiscreet: %color:OrangeDiscreet%;
 
+  --White: %color:White%;
+  --WhiteDiscreet: %color:WhiteDiscreet%;
+  
+  --Black: %color:Black%;
+  --BlackDiscreet: %color:BlackDiscreet%;
+  
   --Purple: %color:Purple%;
+  --PurpleDiscreet: %color:PurpleDiscreet%;
+  
   --Sangria: %color:Sangria%;
   --Brown: %color:Brown%;
-
-  --Text_White: %color:Text_White%;
-  --Text_WhiteDiscreet: %color:Text_WhiteDiscreet%;
-  --Text_LightBlack: %color:Text_LightBlack%;
-
-  --Grid_Black: %color:Grid_Black%;
 
   --Accent_1: %color:Accent_1%;
   --Accent_2: %color:Accent_2%;
@@ -36,8 +40,25 @@ Area 6: Repeating Panels
   --Background: %color:Background%;
   --Background_10: rgba(215, 215, 215, 0.10);
   --Background_20: rgba(215, 215, 215, 0.20);
-  --Background_Purple: %color:Background_Purple%;
 }
+
+.anvil-role-txt_orange {color: var(--Orange) !important;}
+.anvil-role-txt_orange_discreet {color: var(--OrangeDiscreet) !important;}
+
+.anvil-role-txt_white {color: var(--White) !important;}
+.anvil-role-txt_white_discreet,
+.anvil-role-txt_white_discreet select,
+.anvil-role-txt_white_discreet input {color: var(--WhiteDiscreet) !important;}
+
+.anvil-role-txt_black {color: var(--Black) !important;}
+.anvil-role-txt_black_discreet {color: var(--BlackDiscreet) !important;}
+
+.anvil-role-txt_purple {color: var(--Purple) !important;}
+.anvil-role-txt_purple_discreet {color: var(--PurpleDiscreet) !important;}
+
+.anvil-role-txt_sangria {color: var(--Sangria) !important;}
+.anvil-role-txt_brown {color: var(--Brown) !important;}
+
 
 /*
 ----------------------------------------------------------------------------------------
@@ -117,7 +138,7 @@ body, html {
 #loadingSpinner {
   border-radius: 0;
   border-radius: 0;
-  box-shadow: none;/*0px 0px 10px 10px #fcfcfc;*/
+  box-shadow: none;
   background-color: transparent;
   background-image: url(_/theme/pics/LoadingSpinner_circle.svg) !important;
 }
@@ -156,12 +177,12 @@ body, html {
 .anvil-role-nav_main {
   font-size: 14px;
   font-weight: bold;
-  color: %color:Text_WhiteDiscreet%;
+  color: %color:WhiteDiscreet%;
   padding-left: 5px !important;
 }
 .anvil-role-nav_sub {
   font-size: 12px;
-  color: %color:Text_WhiteDiscreet%;
+  color: %color:WhiteDiscreet%;
   padding-left: 15px !important;
 }
 
@@ -171,7 +192,7 @@ body, html {
 
 /* CSS for formatting tables STARTS here*/
 .anvil-role-bottom_line {
-  border-bottom: 1px solid %color:Text_WhiteDiscreet%;
+  border-bottom: 1px solid %color:WhiteDiscreet%;
 }
 
 
@@ -189,7 +210,7 @@ body, html {
 .anvil-role-table_content_talent_dev {
   font-family: GS-regular;
   font-size: 18px;
-  color: %color:Text_WhiteDiscreet%;
+  color: %color:WhiteDiscreet%;
   position: relative !important;
 }
 /* Customize width of HEADER 1 in Watchlist Overview Table */
@@ -224,7 +245,7 @@ body, html {
 .anvil-role-table_content_small {
   font-family: GS-regular;
   font-size: 16px;
-  color: %color:Text_WhiteDiscreet%;
+  color: %color:WhiteDiscreet%;
   font-weight: normal;
 }
 
@@ -320,7 +341,7 @@ body, html {
 .anvil-role-table_content {
   font-family: GS-regular;
   font-size: 18px;
-  color: %color:Text_WhiteDiscreet%;
+  color: %color:WhiteDiscreet%;
   position: relative !important;
   width: auto !important;
 }
@@ -335,7 +356,7 @@ body, html {
 .anvil-role-table_content_popup {
   font-family: GS-regular;
   font-size: 18px;
-  color: %color:Text_WhiteDiscreet%;
+  color: %color:WhiteDiscreet%;
   position: relative !important;
   width: auto !important;
 }
@@ -508,20 +529,20 @@ body, html {
 .anvil-role-sub_title {
   font-family: GS-semibold;
   font-size: 22px;
-  color: %color:Text_Grey%;
+  color: %color:Grey%;
   padding-left: 10px;
 }
 
 .anvil-role-sub_title-regular {
   font-family: GS-medium;
   font-size: 18px;
-  color: %color:Text_White%;
+  color: %color:White%;
   padding-left: 5px;
 }
 .anvil-role-sub_title-regular-tile {
   font-family: GS-regular;
   font-size: 14px;
-  color: %color:Text_Grey%;
+  color: %color:Grey%;
   padding-left: 10px;
 }
 .anvil-role-music-genre-tile {
@@ -558,13 +579,13 @@ body, html {
 .anvil-role-description-tile {
   font-family: GS-regular;
   font-size: 14px;
-  color: %color:Text_Grey% !important;
+  color: %color:Grey% !important;
   width: auto !important;
 }
 .anvil-role-description-tile-bio-text {
   font-family: GS-regular;
   font-size: 13px;
-  color: %color:Text_WhiteDiscreet% !important;
+  color: %color:WhiteDiscreet% !important;
   width: auto !important;
   padding: 0px
   .label-text {
@@ -757,7 +778,7 @@ body, html {
   font-family: Gs-medium;
   letter-spacing: 1px;
   font-size: 22px;
-  color: %color:Text_White%;
+  color: %color:White%;
   .label-text {
     padding-bottom: 0px !important;
   }
@@ -896,7 +917,7 @@ body, html {
 .anvil-role-value-regular-tile {
   font-family: GS-regular;
   font-size: 24px;
-  color: %color:Text_White%;
+  color: %color:White%;
   padding-left: 10px;
 }
 
@@ -969,7 +990,7 @@ body, html {
 .anvil-role-description-login {
   font-family: GS-regular;
   font-size: 14px;
-  color: %color:Text_Grey% !important;
+  color: %color:Grey% !important;
   width: 40%;
   margin: 0 0 0;
 }
@@ -977,7 +998,7 @@ body, html {
 .anvil-role-description {
   font-family: GS-regular;
   font-size: 14px;
-  color: %color:Text_Grey% !important;
+  color: %color:Grey% !important;
   width: 40%;
   margin: 0 30% 0;
   padding: 0 0 20px !important; 
@@ -985,7 +1006,7 @@ body, html {
 .anvil-role-description-bio {
   font-family: GS-regular;
   font-size: 14px;
-  color: %color:Text_WhiteDiscreet% !important;
+  color: %color:WhiteDiscreet% !important;
   font-weight: normal;
   /* width: 40%;
   margin: 0 30% 0;
@@ -1008,7 +1029,7 @@ body, html {
 
 .anvil-role-note {
   font-size: 14px;
-  color: %color:Text_WhiteDiscreet% !important;
+  color: %color:WhiteDiscreet% !important;
   padding-left: 7px;
   font-weight: normal;
 }
@@ -1029,20 +1050,20 @@ a>.link-text {
 .anvil-role-Discover_artist_name {
   font-family: GS-medium;
   font-size: 20px;
-  color: %color:Text_White%;
+  color: %color:White%;
   margin: 10px 0 0 5px;
   height: 100%;
 }
 .anvil-role-artist_name {
   font-family: GS-medium;
   font-size: 18px;
-  color: %color:Text_White%;
+  color: %color:White%;
   margin: 5px 0 0 5px;
 }
 .anvil-role-artist_name_shadow {
   font-size: 22px;
   font-weight: bold;
-  color: %color:Text_White%;
+  color: %color:White%;
   text-shadow: 2px 2px 7px rgba(0, 0, 0, 0.9);
 }
 .anvil-role-artist_name_shadow_arrows_left{
@@ -1059,13 +1080,13 @@ a>.link-text {
 }
 .anvil-role-little_note {
   font-size: 12px;
-  color: %color:Text_Grey%;
+  color: %color:Grey%;
   text-shadow: 2px 2px 7px rgba(0, 0, 0, 0.9);
 }
 .anvil-role-value {
   font-size: 24px;
   font-weight: bold;
-  color: %color:Text_White%;
+  color: %color:White%;
   margin: 0;
   padding: 0 !important;
 }
@@ -1086,7 +1107,7 @@ a>.link-text {
 .anvil-role-feature-login {
   font-size: 14px;
   font-weight: bold;
-  color: %color:Text_Grey%;
+  color: %color:Grey%;
   padding: 0 !important;
 }
 
@@ -1101,7 +1122,7 @@ a>.link-text {
 .anvil-role-feature {
   font-family: Gs-regular;
   font-size: 14px;
-  color: %color:Text_Grey%;
+  color: %color:Grey%;
   padding: 0 !important;
 }
 
@@ -1113,7 +1134,7 @@ a>.link-text {
 .anvil-role-investigate_value {
   font-size: 20px;
   font-weight: bold;
-  color: %color:Text_White%;
+  color: %color:White%;
   margin-top: 0 !important;
   padding-top: 0 !important;
   padding-bottom: 0 !important;
@@ -1127,7 +1148,7 @@ a>.link-text {
 .anvil-role-investigate_feature {
   font-size: 14px;
   font-weight: normal;
-  color: %color:Text_Grey%;
+  color: %color:Grey%;
   margin: 0, 0, 3px, 0 !important;
   padding-left: 15px !important;
   padding-right: 25px !important;
@@ -1137,7 +1158,7 @@ a>.link-text {
   }
 }
 a.anvil-role-investigate_feature:hover, a.anvil-role-investigate_feature:active, a.anvil-role-investigate_feature:focus {
-  color: %color:Text_White%;
+  color: %color:White%;
 }
 
 div.row {
@@ -1148,7 +1169,7 @@ div.row {
 .ribbon {
   width: 100%;
   height: 40vh;
-  background-color: %Main_Black%;
+  background-color: %Black%;
 }
 
 .anvil-role-related-artist-layout {
@@ -1280,7 +1301,7 @@ anvil-role-test {
 }
 
 .nav > .menu-btn {
-  color: %color:Sidebar Background%;
+  color: %color:BlackDiscreet%;
   cursor: pointer;
   width: 32px;
   height: 32px;
@@ -1526,9 +1547,9 @@ footer a, .footer .anvil-component {
   font-family: Gs-regular;
   color: rgb(250,250,250);
   position: fixed;
-  /* comment right: 0px to have the sidebar visible at all times  */
-  right: -400px;
-  /* right: 0px; */
+  /* comment "right: 0px" to have the sidebar visible at all times  */
+  /* right: -400px; */
+  right: 0px;
   top: 0;
   width: 400px;
   height: 100%;
@@ -1769,16 +1790,6 @@ footer a, .footer .anvil-component {
   width: 90%;
 }
 
-.sidebar-dropdowns {
-  font-family: Gs-regular;
-  font-size: 14px;
-}
-
-.anvil-role-target-dropdown>.form-inline select { 
-  color: white;
-  background: transparent; 
-}
-
 .anvil-role-date-picker {
   width: 115px;
   font-size: 14px;
@@ -1803,15 +1814,6 @@ footer a, .footer .anvil-component {
   border: none;
   border-bottom: 0.2px solid;
   border-radius: 0px;
-}
-
-.contact-table-details .anvil-role-target-dropdown {
-  font-family: Gs-regular;
-  background: transparent;
-  color: white;
-}
-
-.anvil-role-target-textarea {
 }
 
 .anvil-role-sidebar-notes{
@@ -1863,13 +1865,6 @@ footer a, .footer .anvil-component {
   stroke-opacity: 0.3;
   stroke-linecap: round;
 }
-.note-display:nth-child(1) .circle__progress {
-  /* stroke: transparent;  */
-}
-/* .note-display:nth-child(2) .circle__progress { stroke: #FF00AA; }
-.note-display:nth-child(3) .circle__progress { stroke: #AA00FF; }
-.note-display:nth-child(4) .circle__progress { stroke: #00AAFF; } */
-
 .circle {
   position: relative;
 }

@@ -4,21 +4,18 @@ color_scheme:
   - {color: '#616161', name: Accent_2}
   - {color: 'rgb(215, 215, 215)', name: Background}
   - {color: '#333333', name: Header Background}
-  - {color: 'rgb(51, 51, 51)', name: Sidebar Background}
-  - {color: 'rgb(25, 28, 26)', name: Main_Black}
-  - {color: 'rgb(40, 40, 40)', name: Grid_Black}
+  - {color: 'rgb(25, 28, 26)', name: Black}
   - {color: 'rgb(253, 101, 45)', name: Orange}
-  - {color: 'rgb(255, 255, 255)', name: Text_White}
-  - {color: 'rgb(200, 200, 200)', name: Text_Grey}
-  - {color: 'rgb(175, 175, 175)', name: Text_DarkGrey}
-  - {color: 'rgb(40, 40, 40)', name: Text_LightBlack}
+  - {color: 'rgb(255, 255, 255)', name: White}
+  - {color: 'rgb(175, 175, 175)', name: Grey}
+  - {color: 'rgb(40, 40, 40)', name: BlackDiscreet}
   - {color: 'rgba(253, 101, 45, 0.2)', name: Brown}
   - {color: 'rgb(31,31,31)', name: SpotifyPlayer}
   - {color: '#BA7305', name: OrangeDiscreet}
-  - {color: 'rgb(235, 235, 235)', name: Text_WhiteDiscreet}
+  - {color: 'rgb(235, 235, 235)', name: WhiteDiscreet}
   - {color: 'rgb(88,32,57)', name: Sangria}
   - {color: 'rgb(31, 11, 59)', name: Purple}
-  - {color: 'rgb(40, 30, 60)', name: Background_Purple}
+  - {color: 'rgb(40, 30, 60)', name: PurpleDiscreet}
   preset_groups:
   - name: Accent
     options:
@@ -110,8 +107,6 @@ roles:
   name: sub_title
 - components: [RepeatingPanel, Link, Label]
   name: table_content
-- components: [TextBox]
-  name: text_box
 - components: [Button]
   name: call_to_action_button
 - components: [ColumnPanel]
@@ -130,8 +125,6 @@ roles:
   name: investigate_value
 - components: [Label, Link]
   name: investigate_feature
-- components: [TextBox, DropDown, TextArea, DatePicker]
-  name: text_box_small
 - components: [Label, Link, RichText]
   name: artist_name_shadow
 - components: [Label]
@@ -206,8 +199,6 @@ roles:
   name: description-bio-link
 - components: [FlowPanel]
   name: section-background
-- components: [DropDown, DatePicker, TextBox]
-  name: target-dropdown
 - components: [TextArea]
   name: target-textarea
 - components: [RepeatingPanel]
@@ -352,8 +343,6 @@ roles:
   name: background-alerts
 - components: [ColumnPanel, HTMLTemplate]
   name: progress-message
-- components: [Label, RichText, Link]
-  name: orange
 - components: [TextBox]
   name: notification-settings-textbox
 - components: [DatePicker]
@@ -394,3 +383,13 @@ roles:
   name: icon-button-disabled-small
 - components: [ColumnPanel, LinearPanel]
   name: grid-light
+- {name: txt_orange}
+- {name: txt_orange_discreet}
+- {name: txt_white}
+- {name: txt_white_discreet}
+- {name: txt_black}
+- {name: txt_black_discreet}
+- {name: txt_purple}
+- {name: txt_purple_discreet}
+- {name: txt_sangria}
+- {name: txt_brown}

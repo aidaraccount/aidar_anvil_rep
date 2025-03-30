@@ -110,7 +110,7 @@ components:
           background: ''
           font_size: 14
           items: [Notification, Status, Priority]
-          role: null
+          role: [txt_white_discreet]
           spacing_above: none
         type: DropDown
       layout_properties: {width: 132, x: 13, y: 5}
@@ -234,7 +234,7 @@ components:
           include_placeholder: false
           items: [Action required, Requires revision, Waiting for decision, Build connection, Awaiting response, Exploring opportunities, Positive response, In negotiations, Contract in progress, Reconnect later, Not interested, Success]
           placeholder: ''
-          role: null
+          role: [txt_white_discreet]
           spacing_above: none
         type: DropDown
       layout_properties: {width: 166.783}
@@ -255,7 +255,7 @@ components:
           include_placeholder: false
           items: [very low, low, mid, high, very high]
           placeholder: ''
-          role: null
+          role: [txt_white_discreet]
           spacing_above: none
         type: DropDown
       layout_properties: {width: 112.733}
@@ -270,7 +270,12 @@ components:
       - event_bindings: {change: update_watchlist_details}
         layout_properties: {full_width_row: false, grid_position: 'DCXDMG,GTUPJT'}
         name: date_picker_reminder
-        properties: {background: '', font_size: 14, placeholder: '', role: null, spacing_above: none}
+        properties:
+          background: ''
+          font_size: 14
+          placeholder: ''
+          role: [txt_white_discreet]
+          spacing_above: none
         type: DatePicker
       layout_properties: {width: 155}
       name: column_panel_3
@@ -301,7 +306,11 @@ components:
             - event_bindings: {change: text_area_note_change}
               layout_properties: {grid_position: 'HOAKDL,TOMDSC'}
               name: text_area_note
-              properties: {align: left, height: '35', placeholder: Add a note, role: text_box_small}
+              properties:
+                align: left
+                height: '35'
+                placeholder: Add a note
+                role: [txt_white_discreet]
               type: TextArea
             - event_bindings: {click: button_note_click}
               layout_properties: {grid_position: 'HOAKDL,XINGOR'}

@@ -6,8 +6,28 @@ components:
     type: Label
   - components:
     - event_bindings: {change: text_box_search_change, pressed_enter: text_box_search_pressed_enter}
+      layout_properties: {}
       name: text_box_search
-      properties: {align: left, background: '', bold: false, border: '', enabled: true, font: '', font_size: null, foreground: '', hide_text: false, italic: false, placeholder: '', role: text_box_small, spacing_above: small, spacing_below: small, text: '', tooltip: '', type: text, underline: false, visible: true}
+      properties:
+        align: left
+        background: ''
+        bold: false
+        border: ''
+        enabled: true
+        font: ''
+        font_size: null
+        foreground: ''
+        hide_text: false
+        italic: false
+        placeholder: ''
+        role: [txt_white_discreet]
+        spacing_above: small
+        spacing_below: small
+        text: ''
+        tooltip: ''
+        type: text
+        underline: false
+        visible: true
       type: TextBox
     - event_bindings: {click: text_box_search_pressed_enter}
       name: search_button

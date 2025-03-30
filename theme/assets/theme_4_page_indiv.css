@@ -12,7 +12,7 @@ Area 5: Page individual classes
 .masonry-item {
   padding: 7px 7px 0px 7px;
   margin-bottom: 10px;
-  background: var(--Background_Purple);
+  background: var(--PurpleDiscreet);
   border-radius: 12px;
   width: 314px;
   overflow: hidden; /* to hide top */
@@ -26,7 +26,7 @@ Area 5: Page individual classes
   .social-name {
     z-index: 2; /* to hide top */
     position: relative; /* to hide top */
-    background: var(--Background_Purple); /* to hide top */
+    background: var(--PurpleDiscreet); /* to hide top */
     padding-bottom: 1px; /* to hide top */
     padding-top: 1px; /* to hide top */
     height: 40px;
@@ -50,7 +50,7 @@ Area 5: Page individual classes
     font-size: 14px;
     z-index: 1; /* to hide top */
     position: relative; /* to hide top */
-    background: var(--Background_Purple); /* to hide top */
+    background: var(--PurpleDiscreet); /* to hide top */
     padding-bottom: 15px; /* to hide top */
   }
   blockquote {
