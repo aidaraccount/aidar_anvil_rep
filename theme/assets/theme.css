@@ -1783,16 +1783,7 @@ footer a, .footer .anvil-component {
   width: 90%;
 }
 
-.anvil-role-date-picker {
-  width: 115px;
-  font-size: 14px;
-  margin: 0px 0 0 5px;
-  padding: 5px 0px 0 0px;
-  border-radius: 10px;
-}
-.anvil-role-date-picker>.form-inline select {
-  border-radius: 10px;
-}
+
 .anvil-role-top-border {
   border-top: 0.2px rgb(175, 175, 175) solid;
   border-bottom: none;

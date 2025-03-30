@@ -19,10 +19,16 @@ Area 4: Text Boxes
 }
 
 /* ----------------------------
-4.2. Classical text box & smaller version */
-.anvil-role-text_box_small {  
-  padding-top: 4px;
-  padding-bottom: 4px;  
+4.2. Date Picker */
+.anvil-role-date-picker {
+  width: 115px;
+  font-size: 14px;
+  margin: 0px 0 0 5px;
+  padding: 5px 0px 0 0px;
+  border-radius: 10px;
+}
+.anvil-role-date-picker>.form-inline select {
+  border-radius: 10px;
 }
 
 
