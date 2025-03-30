@@ -36,10 +36,6 @@ This file contains styling for Anvil Repeating Panel components to match the Dat
   z-index: -1;
 }
 
-.repeating-panel .hide-while-paginating > div:hover {
-  transform: translateY(-1px);
-}
-
 /* 3. Panel row content - Content within the rows */
 .repeating-panel .hide-while-paginating > div .anvil-panel-section-container {
   background-color: transparent !important;
@@ -109,13 +105,4 @@ This file contains styling for Anvil Repeating Panel components to match the Dat
 .repeating-panel .anvil-data-grid {
   background-color: transparent !important;
   margin: 0 !important;
-}
-
-/* 13. Spacing adjustments */
-.repeating-panel .anvil-spacing-above-small {
-  margin-top: 3px !important;
-}
-
-.repeating-panel .anvil-spacing-below-small {
-  margin-bottom: 3px !important;
 }
