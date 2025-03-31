@@ -70,7 +70,6 @@ class C_Short(C_ShortTemplate):
     {js_code}
     </script>
     """
-    # <p anvil-role="social-desc" class="label-text social-desc">{data["description"]}</p>
 
     link = Link(text=data["name"])
     link.set_event_handler(
@@ -106,7 +105,7 @@ class C_Short(C_ShortTemplate):
     import uuid
     text_id = str(uuid.uuid4())
     
-    if len(text) <= 200:
+    if len(text) <= 225:
       # Short text, no need for show more/less
       return f'<p class="text-content">{text}</p>'
     else:
@@ -119,4 +118,4 @@ class C_Short(C_ShortTemplate):
              f'<span id="full-{text_id}" style="display:none">{text}</span>' \
              f'<a href="javascript:void(0)" id="toggle-{text_id}" ' \
              f'onclick="toggleText(\'{text_id}\')" class="text-toggle">' \
-             f'show more</a></p>'
+             f' show more</a></p>'
