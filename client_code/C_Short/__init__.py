@@ -19,6 +19,8 @@ class C_Short(C_ShortTemplate):
     views = '-' if data["views"] is None else f'{data["views"]:,}'
     likes = '-' if data["likes"] is None else f'{data["likes"]:,}'
     comments = '-' if data["comments"] is None else f'{data["comments"]:,}'
+
+    # prepare comments
     
     # Any code you write here will run before the form opens.
     self.html = f"""
