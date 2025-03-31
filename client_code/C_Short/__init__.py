@@ -19,8 +19,30 @@ class C_Short(C_ShortTemplate):
     views = '-' if data["views"] is None else f'{data["views"]:,}'
     likes = '-' if data["likes"] is None else f'{data["likes"]:,}'
     comments = '-' if data["comments"] is None else f'{data["comments"]:,}'
+
+    # Prepare description with expand/collapse functionality
+    description_html = self.format_text(data.get("description", ""))
     
     # Any code you write here will run before the form opens.
+    js_code = """
+      // JavaScript to handle the expand/collapse functionality
+      function toggleText(id) {
+        const shortText = document.getElementById('short-' + id);
+        const fullText = document.getElementById('full-' + id);
+        const link = document.getElementById('toggle-' + id);
+        
+        if (shortText.style.display === 'none') {
+          shortText.style.display = 'inline';
+          fullText.style.display = 'none';
+          link.textContent = 'show more';
+        } else {
+          shortText.style.display = 'none';
+          fullText.style.display = 'inline';
+          link.textContent = 'show less';
+        }
+      }
+    """
+    
     self.html = f"""
     <div class="masonry-item">
       <div anvil-role="social-name" class="social-name" anvil-slot="name-slot">
@@ -40,8 +62,13 @@ class C_Short(C_ShortTemplate):
         <p class="label-text"><i class="fas fa-heart"></i> {likes}</p>
         <p class="label-text"><i class="fas fa-comment"></i> {comments}</p>
       </div>
-      <p anvil-role="social-desc" class="label-text social-desc">{data["description"]}</p>
+      <div anvil-role="social-desc" class="social-desc">
+        {description_html}
+      </div>
     </div>
+    <script>
+    {js_code}
+    </script>
     """
 
     link = Link(text=data["name"])
@@ -66,3 +93,29 @@ class C_Short(C_ShortTemplate):
     def handler(**event_args):
       click_button(f'watchlist_details?watchlist_id={watchlist_id}&artist_id={artist_id}', event_args)
     return handler
+  
+  def format_text(self, text):
+    """
+    Format text with show more/less functionality if it exceeds 200 characters.
+    """
+    if not text:
+      return ""
+      
+    # Generate unique ID for this text instance
+    import uuid
+    text_id = str(uuid.uuid4())
+    
+    if len(text) <= 225:
+      # Short text, no need for show more/less
+      return f'<p class="text-content">{text}</p>'
+    else:
+      # Long text, needs truncation and toggle
+      short_text = text[:200] + '... '
+      
+      # Use proper f-string syntax for multi-line strings
+      return f'<p class="text-content">' \
+             f'<span id="short-{text_id}">{short_text}</span>' \
+             f'<span id="full-{text_id}" style="display:none">{text} </span>' \
+             f'<a href="javascript:void(0)" id="toggle-{text_id}" ' \
+             f'onclick="toggleText(\'{text_id}\')" class="text-toggle">' \
+             f'show more</a></p>'
