@@ -80,6 +80,37 @@ class Home(HomeTemplate):
         self.no_shorts.visible = False
         self.reload.visible = False
       
+      # Configure masonry layout for shorts
+      # Add CSS for masonry layout to the flow panel
+      masonry_css = """
+      <style>
+        .masonry-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+          grid-gap: 15px;
+          grid-auto-flow: dense;
+          margin: 0 auto;
+          width: 100%;
+        }
+        
+        @media (min-width: 768px) {
+          .masonry-grid {
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+          }
+        }
+        
+        @media (min-width: 1200px) {
+          .masonry-grid {
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+          }
+        }
+      </style>
+      """
+      
+      # Apply the masonry layout to the flow panel
+      self.flow_panel_shorts.add_html(masonry_css)
+      self.flow_panel_shorts.role = "masonry-grid"
+      
       # get data
       self.get_shorts()
       

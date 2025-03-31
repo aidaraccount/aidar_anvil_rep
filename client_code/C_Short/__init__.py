@@ -43,27 +43,52 @@ class C_Short(C_ShortTemplate):
       }
     """
     
+    # Add CSS for masonry layout
+    css_code = """
+      .masonry-container {
+        break-inside: avoid;
+        margin-bottom: 10px;
+        width: 100%;
+      }
+      
+      .masonry-item {
+        display: block;
+        background-color: white;
+        border-radius: 8px;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+        overflow: hidden;
+        margin-bottom: 10px;
+        padding: 16px;
+        width: 100%;
+      }
+    """
+    
     self.html = f"""
-    <div class="masonry-item">
-      <div anvil-role="social-name" class="social-name" anvil-slot="name-slot">
-        <div anvil-if-slot-empty="name-slot">{data["name"]}</div>
-        <div anvil-role="social-wl-button" class="social-wl-button" anvil-slot="wl-button-slot">
-          <div anvil-if-slot-empty="wl-button-slot">{data["watchlist_id"]}</div>
+    <style>
+    {css_code}
+    </style>
+    <div class="masonry-container">
+      <div class="masonry-item">
+        <div anvil-role="social-name" class="social-name" anvil-slot="name-slot">
+          <div anvil-if-slot-empty="name-slot">{data["name"]}</div>
+          <div anvil-role="social-wl-button" class="social-wl-button" anvil-slot="wl-button-slot">
+            <div anvil-if-slot-empty="wl-button-slot">{data["watchlist_id"]}</div>
+          </div>
         </div>
-      </div>
-      <p anvil-role="social-date" class="label-text social-date">{data["created_datetime"]}</p>
-      <iframe src="{data["external_url"]}/embed/?omitscript=true&hidecaption=true"
-        width="400"
-        frameborder="0" scrolling="no"
-        allowtransparency="true" allowfullscreen="true">
-      </iframe>
-      <div anvil-role="social-stats" class="social-stats">
-        <p class="label-text"><i class="fas fa-bullhorn"></i> {views}</p>
-        <p class="label-text"><i class="fas fa-heart"></i> {likes}</p>
-        <p class="label-text"><i class="fas fa-comment"></i> {comments}</p>
-      </div>
-      <div anvil-role="social-desc" class="social-desc">
-        {description_html}
+        <p anvil-role="social-date" class="label-text social-date">{data["created_datetime"]}</p>
+        <iframe src="{data["external_url"]}/embed/?omitscript=true&hidecaption=true"
+          width="100%"
+          frameborder="0" scrolling="no"
+          allowtransparency="true" allowfullscreen="true">
+        </iframe>
+        <div anvil-role="social-stats" class="social-stats">
+          <p class="label-text"><i class="fas fa-bullhorn"></i> {views}</p>
+          <p class="label-text"><i class="fas fa-heart"></i> {likes}</p>
+          <p class="label-text"><i class="fas fa-comment"></i> {comments}</p>
+        </div>
+        <div anvil-role="social-desc" class="social-desc">
+          {description_html}
+        </div>
       </div>
     </div>
     <script>
