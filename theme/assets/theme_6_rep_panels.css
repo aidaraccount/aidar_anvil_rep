@@ -80,7 +80,7 @@ This file contains styling for Anvil Repeating Panel components to match the Dat
 /* 9. Buttons inside panels */
 .repeating-panel .anvil-button button {
   line-height: 1 !important;
-  padding: 3px 10px !important;
+  padding: 3px 8px !important;
 }
 
 /* 10. Text alignment helpers for inline styles */

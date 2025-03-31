@@ -12,6 +12,8 @@ components:
     align: center
     icon: fa:trash-o
     role: [icon-button-disabled-small]
+    spacing:
+      padding: [null, '6', null, '6']
     text: ''
   type: Button
 container:

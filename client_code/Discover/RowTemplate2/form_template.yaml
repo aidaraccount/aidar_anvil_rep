@@ -26,7 +26,7 @@ components:
     type: Link
   layout_properties: {column: JKSDUP}
   name: column_panel_1
-  properties: {col_widths: '{"POBPFZ":20,"ZUUXYF":40}', spacing_above: none, spacing_below: none}
+  properties: {col_widths: '{"POBPFZ":50,"ZUUXYF":50}', spacing_above: none, spacing_below: none}
   type: ColumnPanel
 container:
   properties: {role: rows_discover_page}

@@ -13,7 +13,6 @@ from anvil_extras import routing
 from ..nav import click_link, click_button, click_box, logout, login_check, load_var, save_var
 
 from ..C_Short import C_Short
-from ..C_Shorts import C_Shorts
 
 
 @routing.route('',     title='Login')
