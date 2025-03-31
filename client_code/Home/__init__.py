@@ -51,24 +51,15 @@ class Home(HomeTemplate):
       # SHORTS      
       # get watchlists
       watchlists = json.loads(anvil.server.call("get_watchlist_ids", user["user_id"]))
-      # print(watchlists)
-      # active_watchlists = items["watchlist_id"]
 
       if watchlists is not None and len(watchlists) > 0:
         self.no_watchlists.visible = False
         self.reload.visible = False
         
         for i in range(0, len(watchlists)):
-          # if watchlists[i]["watchlist_id"] in active_watchlists:
           wl_link = Link(
             text=watchlists[i]["watchlist_name"], tag=watchlists[i]["watchlist_id"], role="genre-box"
           )
-          # else:
-          #   wl_link = Link(
-          #     text=watchlists[i]["watchlist_name"],
-          #     tag=watchlists[i]["watchlist_id"],
-          #     role="genre-box-deselect",
-          #   )
     
           wl_link.set_event_handler(
             "click", self.create_activate_watchlist_handler(watchlists[i]["watchlist_id"])
