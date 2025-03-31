@@ -110,12 +110,12 @@ class C_Short(C_ShortTemplate):
       return f'<p class="text-content">{text}</p>'
     else:
       # Long text, needs truncation and toggle
-      short_text = text[:200] + '...'
+      short_text = text[:200] + '... '
       
       # Use proper f-string syntax for multi-line strings
       return f'<p class="text-content">' \
              f'<span id="short-{text_id}">{short_text}</span>' \
-             f'<span id="full-{text_id}" style="display:none">{text}</span>' \
+             f'<span id="full-{text_id}" style="display:none">{text} </span>' \
              f'<a href="javascript:void(0)" id="toggle-{text_id}" ' \
              f'onclick="toggleText(\'{text_id}\')" class="text-toggle">' \
-             f' show more</a></p>'
+             f'show more</a></p>'
