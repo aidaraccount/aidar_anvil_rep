@@ -34,11 +34,11 @@ class C_Short(C_ShortTemplate):
         if (shortText.style.display === 'none') {
           shortText.style.display = 'inline';
           fullText.style.display = 'none';
-          link.textContent = 'Show more';
+          link.textContent = 'show more';
         } else {
           shortText.style.display = 'none';
           fullText.style.display = 'inline';
-          link.textContent = 'Show less';
+          link.textContent = 'show less';
         }
       }
     """
@@ -119,4 +119,4 @@ class C_Short(C_ShortTemplate):
              f'<span id="full-{text_id}" style="display:none">{text}</span>' \
              f'<a href="javascript:void(0)" id="toggle-{text_id}" ' \
              f'onclick="toggleText(\'{text_id}\')" class="text-toggle">' \
-             f'Show more</a></p>'
+             f'show more</a></p>'
