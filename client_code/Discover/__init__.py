@@ -1952,6 +1952,21 @@ class Discover(DiscoverTemplate):
     self.sec_musical.visible = False
     self.sec_live.visible = True
     
+  def nav_shorts_click(self, **event_args):
+    self.nav_releases.role = "section_buttons"
+    self.nav_success.role = "section_buttons"
+    self.nav_fandom.role = "section_buttons"
+    self.nav_musical.role = "section_buttons"
+    self.nav_live.role = "section_buttons"
+    self.nav_shorts.role = "section_buttons_focused"
+    self.sec_releases.visible = False
+    self.sec_success.visible = False
+    self.sec_success.visible = False
+    self.sec_fandom.visible = False
+    self.sec_musical.visible = False
+    self.sec_live.visible = False
+    self.sec_shorts.visible = True
+    
   # -------------------------------
   # RATING BUTTONS
   def button_1_click(self, **event_args):

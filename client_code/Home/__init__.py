@@ -181,7 +181,7 @@ class Home(HomeTemplate):
     # add new shorts
     if wl_ids != []:      
       # get data
-      shorts = anvil.server.call('get_shorts', wl_ids, self.num_shorts, 9)  # user["user_id"]
+      shorts = anvil.server.call('get_shorts', wl_ids, self.num_shorts, 9)
       
       # present shorts
       if shorts is not None and len(shorts) > 0:
