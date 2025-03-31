@@ -1901,64 +1901,64 @@ class Discover(DiscoverTemplate):
     if not sender:
         return
     
-    # Map button text to section name
-    button_text_to_section = {
-        'Releases': 'releases',
-        'Success': 'success',
-        'Fandom': 'fandom',
-        'Musical': 'musical',
-        'Live': 'live',
-        'Shorts': 'shorts'
+    # Create a single dictionary with all section information
+    sections_data = {
+        'releases': {
+            'button': self.nav_releases,
+            'container': self.sec_releases,
+            'button_text': 'Releases'
+        },
+        'success': {
+            'button': self.nav_success,
+            'container': self.sec_success,
+            'button_text': 'Success'
+        },
+        'fandom': {
+            'button': self.nav_fandom,
+            'container': self.sec_fandom,
+            'button_text': 'Fandom'
+        },
+        'musical': {
+            'button': self.nav_musical,
+            'container': self.sec_musical,
+            'button_text': 'Musical'
+        },
+        'live': {
+            'button': self.nav_live,
+            'container': self.sec_live,
+            'button_text': 'Live'
+        },
+        'shorts': {
+            'button': self.nav_shorts,
+            'container': self.sec_shorts,
+            'button_text': 'Shorts'
+        }
     }
     
-    # Get section name from button text
-    section_name = button_text_to_section.get(sender.text)
-    if not section_name:
-        # Try to get it from the component name if text isn't available or mapped
-        component_name = sender.name
-        if component_name.startswith('nav_'):
-            section_name = component_name[4:]  # Remove 'nav_' prefix
+    # Create reverse mapping from button text to section name
+    text_to_section = {data['button_text']: section_name for section_name, data in sections_data.items()}
     
-    if not section_name:
+    # Determine section name from the sender
+    section_name = None
+    if sender.text in text_to_section:
+        section_name = text_to_section[sender.text]
+    elif sender.name.startswith('nav_'):
+        section_name = sender.name[4:]  # Remove 'nav_' prefix
+    
+    if not section_name or section_name not in sections_data:
         return
     
-    # 1. Reset all navigation buttons to default
-    nav_buttons = [self.nav_releases, self.nav_success, self.nav_fandom, 
-                  self.nav_musical, self.nav_live, self.nav_shorts]
-    for button in nav_buttons:
-        button.role = 'section_buttons'
+    # 1. Reset all buttons to default role
+    for section_info in sections_data.values():
+        section_info['button'].role = 'section_buttons'
     
     # 2. Hide all sections
-    sections = [self.sec_releases, self.sec_success, self.sec_fandom, 
-               self.sec_musical, self.sec_live, self.sec_shorts]
-    for section in sections:
-        section.visible = False
+    for section_info in sections_data.values():
+        section_info['container'].visible = False
     
-    # 3. Set active button and section based on the button clicked
-    # Create mapping between section names and their corresponding UI elements
-    section_to_nav_button = {
-        'releases': self.nav_releases,
-        'success': self.nav_success,
-        'fandom': self.nav_fandom,
-        'musical': self.nav_musical,
-        'live': self.nav_live,
-        'shorts': self.nav_shorts
-    }
-    
-    section_to_container = {
-        'releases': self.sec_releases,
-        'success': self.sec_success,
-        'fandom': self.sec_fandom,
-        'musical': self.sec_musical,
-        'live': self.sec_live,
-        'shorts': self.sec_shorts
-    }
-    
-    # Set the active button and show the corresponding section
-    if section_name in section_to_nav_button:
-        section_to_nav_button[section_name].role = 'section_buttons_focused'
-        section_to_container[section_name].visible = True
-  
+    # 3. Set active button and section
+    sections_data[section_name]['button'].role = 'section_buttons_focused'
+    sections_data[section_name]['container'].visible = True
     
   # -------------------------------
   # RATING BUTTONS
