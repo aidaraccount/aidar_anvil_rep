@@ -125,6 +125,7 @@ class Discover(DiscoverTemplate):
       self.sec_fandom.visible = False
       self.sec_musical.visible = False
       self.sec_live.visible = False
+      self.sec_shorts.visible = False
 
       artist_id = int(sug["ArtistID"])
       self.artist_id = artist_id
@@ -1958,24 +1959,6 @@ class Discover(DiscoverTemplate):
         section_to_nav_button[section_name].role = 'section_buttons_focused'
         section_to_container[section_name].visible = True
   
-  # Use the same handler for all navigation buttons
-  def nav_releases_click(self, **event_args):
-    self.nav_button_click(**event_args)
-  
-  def nav_success_click(self, **event_args):
-    self.nav_button_click(**event_args)
-
-  def nav_fandom_click(self, **event_args):
-    self.nav_button_click(**event_args)
-    
-  def nav_musical_click(self, **event_args):
-    self.nav_button_click(**event_args)
-
-  def nav_live_click(self, **event_args):
-    self.nav_button_click(**event_args)
-    
-  def nav_shorts_click(self, **event_args):
-    self.nav_button_click(**event_args)
     
   # -------------------------------
   # RATING BUTTONS

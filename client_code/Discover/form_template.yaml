@@ -526,32 +526,32 @@ components:
     properties: {height: '26'}
     type: Spacer
   - components:
-    - event_bindings: {click: nav_releases_click}
+    - event_bindings: {click: nav_button_click}
       layout_properties: {}
       name: nav_releases
       properties: {col_spacing: medium, role: section_buttons, spacing_above: none, spacing_below: none, text: Releases}
       type: Link
-    - event_bindings: {click: nav_success_click}
+    - event_bindings: {click: nav_button_click}
       layout_properties: {}
       name: nav_success
       properties: {role: section_buttons, spacing_above: none, spacing_below: none, text: Success}
       type: Link
-    - event_bindings: {click: nav_fandom_click}
+    - event_bindings: {click: nav_button_click}
       layout_properties: {}
       name: nav_fandom
       properties: {role: section_buttons, spacing_above: none, spacing_below: none, text: Fandom, visible: true}
       type: Link
-    - event_bindings: {click: nav_musical_click}
+    - event_bindings: {click: nav_button_click}
       layout_properties: {}
       name: nav_musical
       properties: {role: section_buttons, spacing_above: none, spacing_below: none, text: Musical}
       type: Link
     - components: []
-      event_bindings: {click: nav_live_click}
+      event_bindings: {click: nav_button_click}
       name: nav_live
       properties: {role: section_buttons, spacing_above: none, spacing_below: none, text: Live}
       type: Link
-    - event_bindings: {click: nav_shorts_click}
+    - event_bindings: {click: nav_button_click}
       layout_properties: {}
       name: nav_shorts
       properties: {role: section_buttons, spacing_above: none, spacing_below: none, text: Shorts}
@@ -2107,7 +2107,7 @@ components:
       properties: {align: center, gap: tiny}
       type: FlowPanel
     layout_properties: {grid_position: 'RCYYVQ,OBTVTT'}
-    name: sec_live_copy
+    name: sec_shorts
     properties: {spacing_above: medium}
     type: ColumnPanel
   - layout_properties: {grid_position: 'MNSGLO,DTALNU'}
