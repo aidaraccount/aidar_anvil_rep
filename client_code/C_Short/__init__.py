@@ -43,23 +43,58 @@ class C_Short(C_ShortTemplate):
       }
     """
     
-    # Add CSS for masonry layout
+    # CSS for masonry layout and card styling
     css_code = """
-      .masonry-container {
-        break-inside: avoid;
-        margin-bottom: 10px;
-        width: 100%;
-      }
-      
+      /* 1. Masonry item container */
       .masonry-item {
-        display: block;
+        break-inside: avoid;
         background-color: white;
         border-radius: 8px;
         box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
-        overflow: hidden;
-        margin-bottom: 10px;
+        margin-bottom: 16px;
         padding: 16px;
         width: 100%;
+        transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+      }
+      
+      /* 2. Content styling */
+      .social-name {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 8px;
+      }
+      
+      .social-date {
+        font-size: 12px;
+        color: #777;
+        margin-bottom: 12px;
+      }
+      
+      .media-container {
+        width: 100%;
+        margin-bottom: 12px;
+      }
+      
+      .social-stats {
+        display: flex;
+        justify-content: space-between;
+        margin: 12px 0;
+      }
+      
+      .social-desc {
+        margin-top: 12px;
+      }
+      
+      .text-content {
+        margin: 0;
+        line-height: 1.4;
+      }
+      
+      .text-toggle {
+        color: #3498db;
+        text-decoration: none;
+        font-weight: 500;
       }
     """
     
@@ -67,28 +102,29 @@ class C_Short(C_ShortTemplate):
     <style>
     {css_code}
     </style>
-    <div class="masonry-container">
-      <div class="masonry-item">
-        <div anvil-role="social-name" class="social-name" anvil-slot="name-slot">
-          <div anvil-if-slot-empty="name-slot">{data["name"]}</div>
-          <div anvil-role="social-wl-button" class="social-wl-button" anvil-slot="wl-button-slot">
-            <div anvil-if-slot-empty="wl-button-slot">{data["watchlist_id"]}</div>
-          </div>
+    <div class="masonry-item">
+      <div anvil-role="social-name" class="social-name" anvil-slot="name-slot">
+        <div anvil-if-slot-empty="name-slot">{data["name"]}</div>
+        <div anvil-role="social-wl-button" class="social-wl-button" anvil-slot="wl-button-slot">
+          <div anvil-if-slot-empty="wl-button-slot">{data["watchlist_id"]}</div>
         </div>
-        <p anvil-role="social-date" class="label-text social-date">{data["created_datetime"]}</p>
+      </div>
+      <p anvil-role="social-date" class="label-text social-date">{data["created_datetime"]}</p>
+      <div class="media-container">
         <iframe src="{data["external_url"]}/embed/?omitscript=true&hidecaption=true"
           width="100%"
+          height="400"
           frameborder="0" scrolling="no"
           allowtransparency="true" allowfullscreen="true">
         </iframe>
-        <div anvil-role="social-stats" class="social-stats">
-          <p class="label-text"><i class="fas fa-bullhorn"></i> {views}</p>
-          <p class="label-text"><i class="fas fa-heart"></i> {likes}</p>
-          <p class="label-text"><i class="fas fa-comment"></i> {comments}</p>
-        </div>
-        <div anvil-role="social-desc" class="social-desc">
-          {description_html}
-        </div>
+      </div>
+      <div anvil-role="social-stats" class="social-stats">
+        <p class="label-text"><i class="fas fa-bullhorn"></i> {views}</p>
+        <p class="label-text"><i class="fas fa-heart"></i> {likes}</p>
+        <p class="label-text"><i class="fas fa-comment"></i> {comments}</p>
+      </div>
+      <div anvil-role="social-desc" class="social-desc">
+        {description_html}
       </div>
     </div>
     <script>

@@ -80,36 +80,13 @@ class Home(HomeTemplate):
         self.no_shorts.visible = False
         self.reload.visible = False
       
-      # Configure masonry layout for shorts
-      # Add CSS for masonry layout to the flow panel
-      masonry_css = """
-      <style>
-        .masonry-grid {
-          display: grid;
-          grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-          grid-gap: 15px;
-          grid-auto-flow: dense;
-          margin: 0 auto;
-          width: 100%;
-        }
-        
-        @media (min-width: 768px) {
-          .masonry-grid {
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-          }
-        }
-        
-        @media (min-width: 1200px) {
-          .masonry-grid {
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-          }
-        }
-      </style>
-      """
+      # 1. Configure masonry layout for shorts
+      self.flow_panel_shorts.spacing_above = "large"
+      self.flow_panel_shorts.spacing_below = "large"
+      self.flow_panel_shorts.align = "center"
       
-      # Apply the masonry layout to the flow panel
-      self.flow_panel_shorts.add_html(masonry_css)
-      self.flow_panel_shorts.role = "masonry-grid"
+      # 2. Set appropriate gap between items
+      self.flow_panel_shorts.gap = "medium"
       
       # get data
       self.get_shorts()
@@ -255,14 +232,11 @@ class Home(HomeTemplate):
             component.role = "genre-box-deselect"
           else:
             component.role = "genre-box"
-
-    # Check if any watchlists are selected
-    # a) collect selected watchlist IDs
+        
+    # refresh shorts
     wl_ids = []
     for component in self.flow_panel_watchlists.get_components():
-      if (
-        isinstance(component, Link) and component.role == "genre-box"
-      ):  # Only active models
+      if (isinstance(component, Link) and component.role == "genre-box"):  # Only active models
         wl_ids.append(component.tag)
 
     self.get_shorts()
