@@ -766,9 +766,18 @@ class Discover(DiscoverTemplate):
   
       # add initial shorts
       # get data
-      shorts = anvil.server.call('get_shorts_artist', artist_id, 0, 0)
-      print(shorts)
+      shorts_data = anvil.server.call('get_shorts_artist', artist_id, 0, 0)
+      print(shorts_data)
+      
+      # stats
+      self.avg_views.text = shorts_data['header']['avg_views'] if shorts_data['header']['avg_views'] is not None else '-'
+      self.avg_likes.text = shorts_data['header']['avg_likes'] if shorts_data['header']['avg_likes'] is not None else '-'
+      self.avg_comments.text = shorts_data['header']['avg_comments'] if shorts_data['header']['avg_comments'] is not None else '-'
+      self.shorts_per_month.text = shorts_data['header']['shorts_per_month'] if shorts_data['header']['shorts_per_month'] is not None else '-'
+      self.avg_engagement_rate.text = shorts_data['header']['avg_engagement_rate'] if shorts_data['header']['avg_engagement_rate'] is not None else '-'      
+      
       # present shorts
+      shorts = shorts_data['shorts']
       if shorts is not None and len(shorts) > 0:
         self.no_shorts.visible = False
         # self.reload.visible = True
