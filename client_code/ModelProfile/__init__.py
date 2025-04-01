@@ -83,7 +83,7 @@ class ModelProfile(ModelProfileTemplate):
         self.usage_date_value.text = infos["usage_date"]
     
         # activate button
-        if int(self.model_id_view) == int(model_id_active_new):
+        if model_id_active_new is not None and int(self.model_id_view) == int(model_id_active_new):
           self.activated.visible = True
           self.activate.visible = False
         else:
