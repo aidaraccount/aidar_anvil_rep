@@ -10,8 +10,6 @@ from datetime import datetime, timedelta
 import plotly.graph_objects as go
 from collections import defaultdict
 import itertools
-from ..C_ArtistBio import C_ArtistBio
-from ..C_ProgressMessage import C_ProgressMessage
 from anvil import js
 import anvil.js
 import anvil.js.window
@@ -20,6 +18,10 @@ from anvil.js.window import document, playSpotify, autoPlaySpotify
 from anvil_extras import routing
 from ..nav import click_link, click_button, logout, login_check, load_var, save_var
 import time
+
+from ..C_ArtistBio import C_ArtistBio
+from ..C_ProgressMessage import C_ProgressMessage
+from ..C_Short import C_Short
 
 
 class C_Discover(C_DiscoverTemplate):
@@ -869,8 +871,37 @@ class C_Discover(C_DiscoverTemplate):
         self.soundcloud_follower.text = "-"
         self.no_social_media.visible = True
 
+      
+      # -------------------------------
+      # IV. SHORTS
+      # clean present shorts
+      # self.flow_panel_shorts.clear()
+  
+      # get data
+      shorts_data = anvil.server.call('get_shorts_artist', artist_id, 0, 0)
+      
+      # stats
+      # if shorts_data['header'] is not None and len(shorts_data['header']) > 0:
+      self.avg_views.text = shorts_data['header']['avg_views'] if shorts_data is not None and shorts_data['header']['avg_views'] is not None else '-'
+      self.avg_likes.text = shorts_data['header']['avg_likes'] if shorts_data is not None and shorts_data['header']['avg_likes'] is not None else '-'
+      self.avg_comments.text = shorts_data['header']['avg_comments'] if shorts_data is not None and shorts_data['header']['avg_comments'] is not None else '-'
+      self.shorts_per_month.text = shorts_data['header']['shorts_per_month'] if shorts_data is not None and shorts_data['header']['shorts_per_month'] is not None else '-'
+      self.avg_engagement_rate.text = shorts_data['header']['avg_engagement_rate'] if shorts_data is not None and shorts_data['header']['avg_engagement_rate'] is not None else '-'      
+        
+      # present shorts        
+      if shorts_data is not None:
+        shorts = shorts_data['shorts']
+        if shorts is not None and len(shorts) > 0:
+          self.no_shorts.visible = False
+          shorts = json.loads(shorts)
+        
+          self.num_shorts = len(shorts)
+          for i in range(0, len(shorts)):
+            self.flow_panel_shorts.add_component(C_Short(data=shorts[i]))
+
+      
       # # -------------------------------
-      # # IV. MUSICAL
+      # # V. MUSICAL
       # a) musical features
       if sug["AvgDuration"] == "None":
         f1 = "-"
@@ -950,7 +981,7 @@ class C_Discover(C_DiscoverTemplate):
       self.feature_12.text = f12 + " bpm"
 
       # -------------------------------
-      # V. Live
+      # VI. Live
       # get data
       event_data = anvil.server.call('get_songkick_events',  artist_id)
       # print('event_data:', event_data)
@@ -2074,66 +2105,51 @@ class C_Discover(C_DiscoverTemplate):
 
   # -------------------------------
   # SECTION NAVIGATION
-  def nav_releases_click(self, **event_args):
-    self.nav_releases.role = "section_buttons_focused"
-    self.nav_success.role = "section_buttons"
-    self.nav_fandom.role = "section_buttons"
-    self.nav_musical.role = "section_buttons"
-    self.nav_live.role = "section_buttons"
-    self.sec_releases.visible = True
-    self.sec_success.visible = False
-    self.sec_fandom.visible = False
-    self.sec_musical.visible = False
-    self.sec_live.visible = False
-
-  def nav_success_click(self, **event_args):
-    self.nav_releases.role = "section_buttons"
-    self.nav_success.role = "section_buttons_focused"
-    self.nav_fandom.role = "section_buttons"
-    self.nav_musical.role = "section_buttons"
-    self.nav_live.role = "section_buttons"
-    self.sec_releases.visible = False
-    self.sec_success.visible = True
-    self.sec_fandom.visible = False
-    self.sec_musical.visible = False
-    self.sec_live.visible = False
-
-  def nav_fandom_click(self, **event_args):
-    self.nav_releases.role = "section_buttons"
-    self.nav_success.role = "section_buttons"
-    self.nav_fandom.role = "section_buttons_focused"
-    self.nav_musical.role = "section_buttons"
-    self.nav_live.role = "section_buttons"
-    self.sec_releases.visible = False
-    self.sec_success.visible = False
-    self.sec_fandom.visible = True
-    self.sec_musical.visible = False
-    self.sec_live.visible = False
-
-  def nav_musical_click(self, **event_args):
-    self.nav_releases.role = "section_buttons"
-    self.nav_success.role = "section_buttons"
-    self.nav_fandom.role = "section_buttons"
-    self.nav_musical.role = "section_buttons_focused"
-    self.nav_live.role = "section_buttons"
-    self.sec_releases.visible = False
-    self.sec_success.visible = False
-    self.sec_fandom.visible = False
-    self.sec_musical.visible = True
-    self.sec_live.visible = False
+  def nav_button_click(self, **event_args):
+    """
+    Universal click handler for all navigation buttons.
+    Gets the text from the button that was clicked and navigates to the appropriate section.
+    """
+    # Get the button that was clicked
+    sender = event_args.get('sender')
+    if not sender:
+        return
     
-  def nav_live_click(self, **event_args):
-    self.nav_releases.role = "section_buttons"
-    self.nav_success.role = "section_buttons"
-    self.nav_fandom.role = "section_buttons"
-    self.nav_musical.role = "section_buttons"
-    self.nav_live.role = "section_buttons_focused"
-    self.sec_releases.visible = False
-    self.sec_success.visible = False
-    self.sec_success.visible = False
-    self.sec_fandom.visible = False
-    self.sec_musical.visible = False
-    self.sec_live.visible = True
+    # Create a single dictionary with all section information
+    sections_data = {
+      'releases': {'button': self.nav_releases, 'container': self.sec_releases, 'button_text': 'Releases'},
+      'success': {'button': self.nav_success, 'container': self.sec_success, 'button_text': 'Success'},
+      'fandom': {'button': self.nav_fandom, 'container': self.sec_fandom, 'button_text': 'Fandom'},
+      'musical': {'button': self.nav_musical, 'container': self.sec_musical, 'button_text': 'Musical'},
+      'live': {'button': self.nav_live, 'container': self.sec_live, 'button_text': 'Live'},
+      'shorts': {'button': self.nav_shorts, 'container': self.sec_shorts, 'button_text': 'Shorts'}
+    }
+    
+    # Create reverse mapping from button text to section name
+    text_to_section = {data['button_text']: section_name for section_name, data in sections_data.items()}
+    
+    # Determine section name from the sender
+    section_name = None
+    if sender.text in text_to_section:
+        section_name = text_to_section[sender.text]
+    elif sender.name.startswith('nav_'):
+        section_name = sender.name[4:]  # Remove 'nav_' prefix
+    
+    if not section_name or section_name not in sections_data:
+        return
+    
+    # 1. Reset all buttons to default role
+    for section_info in sections_data.values():
+        section_info['button'].role = 'section_buttons'
+    
+    # 2. Hide all sections
+    for section_info in sections_data.values():
+        section_info['container'].visible = False
+    
+    # 3. Set active button and section
+    sections_data[section_name]['button'].role = 'section_buttons_focused'
+    sections_data[section_name]['container'].visible = True
+  
 
   # -------------------------------
   # RATING BUTTONS
@@ -2426,7 +2442,23 @@ class C_Discover(C_DiscoverTemplate):
     alert(
       title="Soundcloud Follower lat.", content="Latest number of Soundcloud Follower."
     )
-
+  
+  def info_avg_views(self, **event_args):
+      alert(title='Avg. Views',
+      content="Avg. number of views of Instagram Shorts.")
+  def info_avg_likes(self, **event_args):
+      alert(title='Avg. Likes',
+      content="Avg. number of likes of Instagram Shorts.")
+  def info_avg_comments(self, **event_args):
+      alert(title='Avg. Comments',
+      content="Avg. number of comments of Instagram Shorts.")
+  def info_shorts_per_month(self, **event_args):
+      alert(title='Avg. number Shorts per Month',
+      content="Avg. number of Instagram Shorts published per month")
+  def info_avg_engagement_rate(self, **event_args):
+      alert(title='Avg. Engagement Rate',
+      content="Avg. Engagement Rate = (Likes + Comments) / Views")
+    
   def button_set_filters_click(self, **event_args):
     click_button(f"model_profile?model_id={self.model_id}&section=Filter", event_args)
 

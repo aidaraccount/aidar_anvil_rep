@@ -5,7 +5,6 @@ import anvil.users
 import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
-# from anvil.js.window import location
 import json
 import datetime
 
@@ -139,10 +138,10 @@ class Home(HomeTemplate):
     # clean present shorts
     self.flow_panel_shorts.clear()
 
-    # add new shorts
+    # add initial shorts
     if wl_ids != []:  
       # get data
-      shorts = anvil.server.call('get_shorts', wl_ids, 0, 12)  # user["user_id"]
+      shorts = anvil.server.call('get_shorts', wl_ids, 0, 12)
       
       # present shorts
       if shorts is not None and len(shorts) > 0:
@@ -181,7 +180,7 @@ class Home(HomeTemplate):
     # add new shorts
     if wl_ids != []:      
       # get data
-      shorts = anvil.server.call('get_shorts', wl_ids, self.num_shorts, 9)  # user["user_id"]
+      shorts = anvil.server.call('get_shorts', wl_ids, self.num_shorts, 9)
       
       # present shorts
       if shorts is not None and len(shorts) > 0:
