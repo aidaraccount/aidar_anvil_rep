@@ -764,66 +764,29 @@ class Discover(DiscoverTemplate):
       # clean present shorts
       # self.flow_panel_shorts.clear()
   
-      # add initial shorts
       # get data
-      shorts_data = anvil.server.call('get_shorts_artist', artist_id, 0, 0)
-      print(shorts_data)
+      shorts_data = anvil.server.call('get_shorts_artist', artist_id)
       
-      # stats
-      self.avg_views.text = shorts_data['header']['avg_views'] if shorts_data['header']['avg_views'] is not None else '-'
-      self.avg_likes.text = shorts_data['header']['avg_likes'] if shorts_data['header']['avg_likes'] is not None else '-'
-      self.avg_comments.text = shorts_data['header']['avg_comments'] if shorts_data['header']['avg_comments'] is not None else '-'
-      self.shorts_per_month.text = shorts_data['header']['shorts_per_month'] if shorts_data['header']['shorts_per_month'] is not None else '-'
-      self.avg_engagement_rate.text = shorts_data['header']['avg_engagement_rate'] if shorts_data['header']['avg_engagement_rate'] is not None else '-'      
-      
-      # present shorts
-      shorts = shorts_data['shorts']
-      if shorts is not None and len(shorts) > 0:
-        self.no_shorts.visible = False
-        # self.reload.visible = True
-        print('-------------------')
-        shorts = json.loads(shorts)
-        print(shorts)
-      
-        self.num_shorts = len(shorts)
-        for i in range(0, len(shorts)):
-          self.flow_panel_shorts.add_component(C_Short(data=shorts[i]))
-
-        # if len(shorts) < 12:
-        #   self.reload.visible = False
-      
-      # else:
-      #   if self.no_watchlists.visible is False:
-      #     self.no_shorts.visible = True
-      #   else:
-      #     self.no_shorts.visible = False
-      #   self.reload.visible = False
-            
-      def add_shorts(self, **event_args):
-        # get active watchlist ids
-        wl_ids = []
-        for component in self.flow_panel_watchlists.get_components():
-          if (isinstance(component, Link) and component.role == "genre-box"):  # Only active models
-            wl_ids.append(component.tag)
+      if shorts_data is not None:
+        # stats
+        if shorts_data['header'] is not None and len(shorts_data['header']) > 0:
+          self.avg_views.text = shorts_data['header']['avg_views'] if shorts_data['header']['avg_views'] is not None else '-'
+          self.avg_likes.text = shorts_data['header']['avg_likes'] if shorts_data['header']['avg_likes'] is not None else '-'
+          self.avg_comments.text = shorts_data['header']['avg_comments'] if shorts_data['header']['avg_comments'] is not None else '-'
+          self.shorts_per_month.text = shorts_data['header']['shorts_per_month'] if shorts_data['header']['shorts_per_month'] is not None else '-'
+          self.avg_engagement_rate.text = shorts_data['header']['avg_engagement_rate'] if shorts_data['header']['avg_engagement_rate'] is not None else '-'      
         
-        # add new shorts
-        if wl_ids != []:      
-          # get data
-          shorts = anvil.server.call('get_shorts', wl_ids, self.num_shorts, 9)
-          
-          # present shorts
-          if shorts is not None and len(shorts) > 0:
-            self.reload.visible = True
-            shorts = json.loads(shorts)
+        # present shorts
+        shorts = shorts_data['shorts']
+        if shorts is not None and len(shorts) > 0:
+          self.no_shorts.visible = False
+          shorts = json.loads(shorts)
+        
+          self.num_shorts = len(shorts)
+          for i in range(0, len(shorts)):
+            self.flow_panel_shorts.add_component(C_Short(data=shorts[i]))
+  
             
-            for i in range(0, len(shorts)):
-              self.flow_panel_shorts.add_component(C_Short(data=shorts[i]))
-            
-            self.num_shorts = self.num_shorts + len(shorts)
-            
-          else:
-            self.reload.visible = False
-      
       # # -------------------------------
       # # V. MUSICAL
       # a) musical features
