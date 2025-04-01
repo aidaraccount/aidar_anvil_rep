@@ -765,18 +765,18 @@ class Discover(DiscoverTemplate):
       # self.flow_panel_shorts.clear()
   
       # get data
-      shorts_data = anvil.server.call('get_shorts_artist', artist_id)
+      shorts_data = anvil.server.call('get_shorts_artist', artist_id, 0, 0)
       
-      if shorts_data is not None:
-        # stats
-        if shorts_data['header'] is not None and len(shorts_data['header']) > 0:
-          self.avg_views.text = shorts_data['header']['avg_views'] if shorts_data['header']['avg_views'] is not None else '-'
-          self.avg_likes.text = shorts_data['header']['avg_likes'] if shorts_data['header']['avg_likes'] is not None else '-'
-          self.avg_comments.text = shorts_data['header']['avg_comments'] if shorts_data['header']['avg_comments'] is not None else '-'
-          self.shorts_per_month.text = shorts_data['header']['shorts_per_month'] if shorts_data['header']['shorts_per_month'] is not None else '-'
-          self.avg_engagement_rate.text = shorts_data['header']['avg_engagement_rate'] if shorts_data['header']['avg_engagement_rate'] is not None else '-'      
+      # stats
+      # if shorts_data['header'] is not None and len(shorts_data['header']) > 0:
+      self.avg_views.text = shorts_data['header']['avg_views'] if shorts_data is not None and shorts_data['header']['avg_views'] is not None else '-'
+      self.avg_likes.text = shorts_data['header']['avg_likes'] if shorts_data is not None and shorts_data['header']['avg_likes'] is not None else '-'
+      self.avg_comments.text = shorts_data['header']['avg_comments'] if shorts_data is not None and shorts_data['header']['avg_comments'] is not None else '-'
+      self.shorts_per_month.text = shorts_data['header']['shorts_per_month'] if shorts_data is not None and shorts_data['header']['shorts_per_month'] is not None else '-'
+      self.avg_engagement_rate.text = shorts_data['header']['avg_engagement_rate'] if shorts_data is not None and shorts_data['header']['avg_engagement_rate'] is not None else '-'      
         
-        # present shorts
+      # present shorts        
+      if shorts_data is not None:
         shorts = shorts_data['shorts']
         if shorts is not None and len(shorts) > 0:
           self.no_shorts.visible = False
@@ -2118,6 +2118,22 @@ class Discover(DiscoverTemplate):
   def info_soundcloud_fol(self, **event_args):
       alert(title='Soundcloud Follower lat.',
       content="Latest number of Soundcloud Follower.")
+    
+  def info_avg_views(self, **event_args):
+      alert(title='Avg. Views',
+      content="Avg. number of views of Instagram Shorts.")
+  def info_avg_likes(self, **event_args):
+      alert(title='Avg. Likes',
+      content="Avg. number of likes of Instagram Shorts.")
+  def info_avg_comments(self, **event_args):
+      alert(title='Avg. Comments',
+      content="Avg. number of comments of Instagram Shorts.")
+  def info_shorts_per_month(self, **event_args):
+      alert(title='Avg. number Shorts per Month',
+      content="Avg. number of Instagram Shorts published per month")
+  def info_avg_engagement_rate(self, **event_args):
+      alert(title='Avg. Engagement Rate',
+      content="Avg. Engagement Rate = (Likes + Comments) / Views")
     
   def button_set_filters_click(self, **event_args):
     click_button(f'model_profile?model_id={self.model_id}&section=Filter', event_args)
