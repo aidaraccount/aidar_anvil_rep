@@ -2074,66 +2074,51 @@ class C_Discover(C_DiscoverTemplate):
 
   # -------------------------------
   # SECTION NAVIGATION
-  def nav_releases_click(self, **event_args):
-    self.nav_releases.role = "section_buttons_focused"
-    self.nav_success.role = "section_buttons"
-    self.nav_fandom.role = "section_buttons"
-    self.nav_musical.role = "section_buttons"
-    self.nav_live.role = "section_buttons"
-    self.sec_releases.visible = True
-    self.sec_success.visible = False
-    self.sec_fandom.visible = False
-    self.sec_musical.visible = False
-    self.sec_live.visible = False
-
-  def nav_success_click(self, **event_args):
-    self.nav_releases.role = "section_buttons"
-    self.nav_success.role = "section_buttons_focused"
-    self.nav_fandom.role = "section_buttons"
-    self.nav_musical.role = "section_buttons"
-    self.nav_live.role = "section_buttons"
-    self.sec_releases.visible = False
-    self.sec_success.visible = True
-    self.sec_fandom.visible = False
-    self.sec_musical.visible = False
-    self.sec_live.visible = False
-
-  def nav_fandom_click(self, **event_args):
-    self.nav_releases.role = "section_buttons"
-    self.nav_success.role = "section_buttons"
-    self.nav_fandom.role = "section_buttons_focused"
-    self.nav_musical.role = "section_buttons"
-    self.nav_live.role = "section_buttons"
-    self.sec_releases.visible = False
-    self.sec_success.visible = False
-    self.sec_fandom.visible = True
-    self.sec_musical.visible = False
-    self.sec_live.visible = False
-
-  def nav_musical_click(self, **event_args):
-    self.nav_releases.role = "section_buttons"
-    self.nav_success.role = "section_buttons"
-    self.nav_fandom.role = "section_buttons"
-    self.nav_musical.role = "section_buttons_focused"
-    self.nav_live.role = "section_buttons"
-    self.sec_releases.visible = False
-    self.sec_success.visible = False
-    self.sec_fandom.visible = False
-    self.sec_musical.visible = True
-    self.sec_live.visible = False
+  def nav_button_click(self, **event_args):
+    """
+    Universal click handler for all navigation buttons.
+    Gets the text from the button that was clicked and navigates to the appropriate section.
+    """
+    # Get the button that was clicked
+    sender = event_args.get('sender')
+    if not sender:
+        return
     
-  def nav_live_click(self, **event_args):
-    self.nav_releases.role = "section_buttons"
-    self.nav_success.role = "section_buttons"
-    self.nav_fandom.role = "section_buttons"
-    self.nav_musical.role = "section_buttons"
-    self.nav_live.role = "section_buttons_focused"
-    self.sec_releases.visible = False
-    self.sec_success.visible = False
-    self.sec_success.visible = False
-    self.sec_fandom.visible = False
-    self.sec_musical.visible = False
-    self.sec_live.visible = True
+    # Create a single dictionary with all section information
+    sections_data = {
+      'releases': {'button': self.nav_releases, 'container': self.sec_releases, 'button_text': 'Releases'},
+      'success': {'button': self.nav_success, 'container': self.sec_success, 'button_text': 'Success'},
+      'fandom': {'button': self.nav_fandom, 'container': self.sec_fandom, 'button_text': 'Fandom'},
+      'musical': {'button': self.nav_musical, 'container': self.sec_musical, 'button_text': 'Musical'},
+      'live': {'button': self.nav_live, 'container': self.sec_live, 'button_text': 'Live'},
+      'shorts': {'button': self.nav_shorts, 'container': self.sec_shorts, 'button_text': 'Shorts'}
+    }
+    
+    # Create reverse mapping from button text to section name
+    text_to_section = {data['button_text']: section_name for section_name, data in sections_data.items()}
+    
+    # Determine section name from the sender
+    section_name = None
+    if sender.text in text_to_section:
+        section_name = text_to_section[sender.text]
+    elif sender.name.startswith('nav_'):
+        section_name = sender.name[4:]  # Remove 'nav_' prefix
+    
+    if not section_name or section_name not in sections_data:
+        return
+    
+    # 1. Reset all buttons to default role
+    for section_info in sections_data.values():
+        section_info['button'].role = 'section_buttons'
+    
+    # 2. Hide all sections
+    for section_info in sections_data.values():
+        section_info['container'].visible = False
+    
+    # 3. Set active button and section
+    sections_data[section_name]['button'].role = 'section_buttons_focused'
+    sections_data[section_name]['container'].visible = True
+  
 
   # -------------------------------
   # RATING BUTTONS

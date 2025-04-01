@@ -542,6 +542,10 @@ components:
       properties: {role: section_buttons, spacing_above: none, spacing_below: none, text: Fandom, visible: true}
       type: Link
     - event_bindings: {click: nav_button_click}
+      name: nav_shorts
+      properties: {role: section_buttons, spacing_above: none, spacing_below: none, text: Shorts}
+      type: Link
+    - event_bindings: {click: nav_button_click}
       layout_properties: {}
       name: nav_musical
       properties: {role: section_buttons, spacing_above: none, spacing_below: none, text: Musical}
@@ -550,11 +554,6 @@ components:
       event_bindings: {click: nav_button_click}
       name: nav_live
       properties: {role: section_buttons, spacing_above: none, spacing_below: none, text: Live}
-      type: Link
-    - event_bindings: {click: nav_button_click}
-      layout_properties: {}
-      name: nav_shorts
-      properties: {role: section_buttons, spacing_above: none, spacing_below: none, text: Shorts}
       type: Link
     layout_properties: {grid_position: 'CKLNBG,MMQKXA'}
     name: flow_panel_sections

@@ -139,10 +139,10 @@ class Home(HomeTemplate):
     # clean present shorts
     self.flow_panel_shorts.clear()
 
-    # add new shorts
+    # add initial shorts
     if wl_ids != []:  
       # get data
-      shorts = anvil.server.call('get_shorts', wl_ids, 0, 12)  # user["user_id"]
+      shorts = anvil.server.call('get_shorts', wl_ids, 0, 12)
       
       # present shorts
       if shorts is not None and len(shorts) > 0:

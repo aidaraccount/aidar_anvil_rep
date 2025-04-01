@@ -757,9 +757,62 @@ class Discover(DiscoverTemplate):
         self.soundcloud_follower.text = '-'
         self.no_social_media.visible = True
       
+      # -------------------------------
+      # IV. SHORTS
+      # clean present shorts
+      # self.flow_panel_shorts.clear()
+  
+      # add initial shorts
+      # get data
+      shorts = anvil.server.call('get_shorts', wl_ids, 0, 12)
+      
+      # present shorts
+      if shorts is not None and len(shorts) > 0:
+        self.no_shorts.visible = False
+        self.reload.visible = True
+        shorts = json.loads(shorts)
+
+        self.num_shorts = len(shorts)
+        for i in range(0, len(shorts)):
+          self.flow_panel_shorts.add_component(C_Short(data=shorts[i]))
+
+        if len(shorts) < 12:
+          self.reload.visible = False
+      
+      else:
+        if self.no_watchlists.visible is False:
+          self.no_shorts.visible = True
+        else:
+          self.no_shorts.visible = False
+        self.reload.visible = False
+            
+      def add_shorts(self, **event_args):
+        # get active watchlist ids
+        wl_ids = []
+        for component in self.flow_panel_watchlists.get_components():
+          if (isinstance(component, Link) and component.role == "genre-box"):  # Only active models
+            wl_ids.append(component.tag)
+        
+        # add new shorts
+        if wl_ids != []:      
+          # get data
+          shorts = anvil.server.call('get_shorts', wl_ids, self.num_shorts, 9)
+          
+          # present shorts
+          if shorts is not None and len(shorts) > 0:
+            self.reload.visible = True
+            shorts = json.loads(shorts)
+            
+            for i in range(0, len(shorts)):
+              self.flow_panel_shorts.add_component(C_Short(data=shorts[i]))
+            
+            self.num_shorts = self.num_shorts + len(shorts)
+            
+          else:
+            self.reload.visible = False
       
       # # -------------------------------
-      # # IV. MUSICAL
+      # # V. MUSICAL
       # a) musical features
       if sug["AvgDuration"] == 'None': f1 = '-'
       else: f1 = "{:.0f}".format(round(float(sug["AvgDuration"]),0))
@@ -802,7 +855,7 @@ class Discover(DiscoverTemplate):
       self.feature_12.text = f12 + ' bpm'
       
       # -------------------------------
-      # V. Live
+      # VI. Live
       # get data
       event_data = anvil.server.call('get_songkick_events',  artist_id)
       # event_data = None
@@ -1903,36 +1956,12 @@ class Discover(DiscoverTemplate):
     
     # Create a single dictionary with all section information
     sections_data = {
-        'releases': {
-            'button': self.nav_releases,
-            'container': self.sec_releases,
-            'button_text': 'Releases'
-        },
-        'success': {
-            'button': self.nav_success,
-            'container': self.sec_success,
-            'button_text': 'Success'
-        },
-        'fandom': {
-            'button': self.nav_fandom,
-            'container': self.sec_fandom,
-            'button_text': 'Fandom'
-        },
-        'musical': {
-            'button': self.nav_musical,
-            'container': self.sec_musical,
-            'button_text': 'Musical'
-        },
-        'live': {
-            'button': self.nav_live,
-            'container': self.sec_live,
-            'button_text': 'Live'
-        },
-        'shorts': {
-            'button': self.nav_shorts,
-            'container': self.sec_shorts,
-            'button_text': 'Shorts'
-        }
+      'releases': {'button': self.nav_releases, 'container': self.sec_releases, 'button_text': 'Releases'},
+      'success': {'button': self.nav_success, 'container': self.sec_success, 'button_text': 'Success'},
+      'fandom': {'button': self.nav_fandom, 'container': self.sec_fandom, 'button_text': 'Fandom'},
+      'musical': {'button': self.nav_musical, 'container': self.sec_musical, 'button_text': 'Musical'},
+      'live': {'button': self.nav_live, 'container': self.sec_live, 'button_text': 'Live'},
+      'shorts': {'button': self.nav_shorts, 'container': self.sec_shorts, 'button_text': 'Shorts'}
     }
     
     # Create reverse mapping from button text to section name
