@@ -10,8 +10,6 @@ from datetime import datetime, timedelta
 import plotly.graph_objects as go
 from collections import defaultdict
 import itertools
-from ..C_ArtistBio import C_ArtistBio
-from ..C_ProgressMessage import C_ProgressMessage
 from anvil import js
 import anvil.js
 import anvil.js.window
@@ -20,6 +18,10 @@ from anvil.js.window import document, playSpotify, autoPlaySpotify
 from anvil_extras import routing
 from ..nav import click_link, click_button, logout, login_check, load_var, save_var
 import time
+
+from ..C_ArtistBio import C_ArtistBio
+from ..C_ProgressMessage import C_ProgressMessage
+from ..C_Short import C_Short
 
 
 @routing.route('artists', url_keys=['artist_id'], title='Artists')
@@ -764,27 +766,29 @@ class Discover(DiscoverTemplate):
   
       # add initial shorts
       # get data
-      shorts = anvil.server.call('get_shorts', wl_ids, 0, 12)
-      
+      shorts = anvil.server.call('get_shorts_artist', artist_id, 0, 0)
+      print(shorts)
       # present shorts
       if shorts is not None and len(shorts) > 0:
         self.no_shorts.visible = False
-        self.reload.visible = True
+        # self.reload.visible = True
+        print('-------------------')
         shorts = json.loads(shorts)
-
+        print(shorts)
+      
         self.num_shorts = len(shorts)
         for i in range(0, len(shorts)):
           self.flow_panel_shorts.add_component(C_Short(data=shorts[i]))
 
-        if len(shorts) < 12:
-          self.reload.visible = False
+        # if len(shorts) < 12:
+        #   self.reload.visible = False
       
-      else:
-        if self.no_watchlists.visible is False:
-          self.no_shorts.visible = True
-        else:
-          self.no_shorts.visible = False
-        self.reload.visible = False
+      # else:
+      #   if self.no_watchlists.visible is False:
+      #     self.no_shorts.visible = True
+      #   else:
+      #     self.no_shorts.visible = False
+      #   self.reload.visible = False
             
       def add_shorts(self, **event_args):
         # get active watchlist ids
