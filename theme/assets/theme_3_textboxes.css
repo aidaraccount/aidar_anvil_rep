@@ -70,159 +70,54 @@ select.form-control:focus {
   color: var(--WhiteDiscreet);
 }
 
-/* For direct targeting of Bootstrap datepicker */
-.datepicker.datepicker-dropdown {
+/* Bootstrap datepicker override - base container */
+div.datepicker-dropdown {
   background-color: var(--PurpleDiscreet) !important;
-  border: 1px solid var(--Accent_2) !important;
+  border-color: var(--Accent_2) !important;
 }
 
-/* Styling all elements in datepicker */
-.datepicker.datepicker-dropdown * {
-  background-color: var(--PurpleDiscreet) !important;
-  color: var(--WhiteDiscreet) !important;
-}
-
-/* Table cells */
-.datepicker.datepicker-dropdown table tr td,
-.datepicker.datepicker-dropdown table tr th {
+/* Datepicker table */
+div.datepicker-dropdown table,
+div.datepicker-dropdown table tr,
+div.datepicker-dropdown table th,
+div.datepicker-dropdown table td {
   background-color: var(--PurpleDiscreet) !important;
   color: var(--WhiteDiscreet) !important;
 }
 
 /* Day cells */
-.datepicker.datepicker-dropdown table tr td.day {
-  background-color: var(--PurpleDiscreet) !important;
+div.datepicker-dropdown table tr td.day {
   color: var(--WhiteDiscreet) !important;
+  background-color: var(--PurpleDiscreet) !important;
 }
 
-/* Hover states */
-.datepicker.datepicker-dropdown table tr td.day:hover,
-.datepicker.datepicker-dropdown .datepicker-months span:hover,
-.datepicker.datepicker-dropdown .datepicker-years span:hover,
-.datepicker.datepicker-dropdown .prev:hover,
-.datepicker.datepicker-dropdown .next:hover,
-.datepicker.datepicker-dropdown .datepicker-switch:hover {
+/* Day cells hover */
+div.datepicker-dropdown table tr td.day:hover {
   background-color: var(--Accent_2) !important;
   color: var(--White) !important;
 }
 
 /* Selected day */
-.datepicker.datepicker-dropdown table tr td.active,
-.datepicker.datepicker-dropdown table tr td.active:hover,
-.datepicker.datepicker-dropdown table tr td.active.disabled,
-.datepicker.datepicker-dropdown table tr td.active.disabled:hover {
+div.datepicker-dropdown table tr td.active,
+div.datepicker-dropdown table tr td.active:hover {
   background-color: orange !important;
   background-image: none !important;
   color: var(--White) !important;
 }
 
-/* Today highlight */
-.datepicker.datepicker-dropdown table tr td.today,
-.datepicker.datepicker-dropdown table tr td.today:hover,
-.datepicker.datepicker-dropdown table tr td.today.disabled,
-.datepicker.datepicker-dropdown table tr td.today.disabled:hover {
+/* Navigation elements */
+div.datepicker-dropdown .datepicker-switch,
+div.datepicker-dropdown .prev,
+div.datepicker-dropdown .next {
+  color: var(--WhiteDiscreet) !important;
+  background-color: var(--PurpleDiscreet) !important;
+}
+
+/* Navigation hover */
+div.datepicker-dropdown .datepicker-switch:hover,
+div.datepicker-dropdown .prev:hover,
+div.datepicker-dropdown .next:hover {
   background-color: var(--Accent_2) !important;
-  background-image: none !important;
-  color: var(--White) !important;
-}
-
-/* Month and year selectors */
-.datepicker.datepicker-dropdown .datepicker-switch,
-.datepicker.datepicker-dropdown .prev,
-.datepicker.datepicker-dropdown .next,
-.datepicker.datepicker-dropdown .datepicker-months,
-.datepicker.datepicker-dropdown .datepicker-years {
-  background-color: var(--PurpleDiscreet) !important;
-  color: var(--WhiteDiscreet) !important;
-}
-
-/* Anvil-specific override */
-.anvil-datepicker-container .datepicker-dropdown,
-.modal-content .datepicker-dropdown {
-  background-color: var(--PurpleDiscreet) !important;
-}
-
-/* Direct style injection for Bootstrap datepicker */
-/* This will be loaded in the document head to style the popup */
-:root {
-  --datepicker-bg: var(--PurpleDiscreet);
-  --datepicker-text: var(--WhiteDiscreet);
-  --datepicker-selected: orange;
-  --datepicker-hover: var(--Accent_2);
-}
-
-/* Add custom styling script to head */
-body::before {
-  content: "";
-  display: none;
-}
-
-/* Bootstrap datepicker container override */
-body .datepicker.dropdown-menu {
-  background-color: var(--PurpleDiscreet) !important;
-  border-color: var(--Accent_2) !important;
-}
-
-/* All datepicker elements */
-body .datepicker * {
-  background-color: var(--PurpleDiscreet) !important;
-  color: var(--WhiteDiscreet) !important;
-}
-
-/* Table background and cells */
-body .datepicker table,
-body .datepicker th,
-body .datepicker td,
-body .datepicker tr {
-  background-color: var(--PurpleDiscreet) !important;
-  color: var(--WhiteDiscreet) !important;
-}
-
-/* Day cells */
-body .datepicker table tr td.day {
-  background-color: var(--PurpleDiscreet) !important;
-  color: var(--WhiteDiscreet) !important;
-}
-
-/* Hover states */
-body .datepicker table tr td.day:hover,
-body .datepicker .datepicker-months span:hover,
-body .datepicker .datepicker-years span:hover,
-body .datepicker .prev:hover,
-body .datepicker .next:hover,
-body .datepicker .datepicker-switch:hover {
-  background-color: var(--Accent_2) !important;
-  color: var(--White) !important;
-}
-
-/* Active/selected state */
-body .datepicker table tr td.active,
-body .datepicker table tr td.active:hover,
-body .datepicker table tr td.active.disabled,
-body .datepicker table tr td.active.disabled:hover {
-  background-color: orange !important;
-  background-image: none !important;
-  color: var(--White) !important;
-}
-
-/* Today highlight */
-body .datepicker table tr td.today,
-body .datepicker table tr td.today:hover,
-body .datepicker table tr td.today.disabled,
-body .datepicker table tr td.today.disabled:hover {
-  background-color: var(--Accent_2) !important;
-  background-image: none !important;
-  color: var(--White) !important;
-}
-
-/* Month and year selectors */
-body .datepicker .datepicker-switch,
-body .datepicker .prev,
-body .datepicker .next,
-body .datepicker .datepicker-months,
-body .datepicker .datepicker-years {
-  background-color: var(--PurpleDiscreet) !important;
-  color: var(--WhiteDiscreet) !important;
 }
 
 /* ----------------------------
