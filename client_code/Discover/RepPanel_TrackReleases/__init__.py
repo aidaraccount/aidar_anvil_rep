@@ -23,28 +23,55 @@ class RepPanel_TrackReleases(RepPanel_TrackReleasesTemplate):
 
   
   def button_play_track_click(self, **event_args):
+    # 1. Get track information
     all_rows = self.parent.items
     track_ids = [entry["SpotifyTrackID"] for entry in all_rows]
-
-    if load_var("lastplayed") != self.item["SpotifyTrackID"]:
-      self.parent.parent.parent.parent.parent.parent.spotify_player_spot.clear()
-      self.parent.parent.parent.parent.parent.parent.spotify_HTML_player()
-      self.parent.parent.parent.parent.parent.parent.call_js('createOrUpdateSpotifyPlayer', anvil.js.get_dom_node(self), 'track', self.item["SpotifyTrackID"], track_ids)
-      anvil.js.call_js('playSpotify')
+    current_track_id = self.item["SpotifyTrackID"]
+    
+    # 2. Check if we're playing a different track than before
+    if load_var("lastplayed") != current_track_id:
+      # 2.1 Instead of reinitializing the player, just update it to play the selected track
+      # This prevents loading the artist's top tracks and only focuses on the selected track
+      embed_iframe_element = document.getElementById('embed-iframe')
+      if embed_iframe_element:
+        # Player exists, just update it to play the selected track
+        self.parent.parent.parent.parent.parent.parent.call_js(
+          'createOrUpdateSpotifyPlayer', 
+          anvil.js.get_dom_node(self), 
+          'track', 
+          current_track_id, 
+          track_ids
+        )
+      else:
+        # Player doesn't exist yet, create it first
+        self.parent.parent.parent.parent.parent.parent.spotify_player_spot.clear()
+        self.parent.parent.parent.parent.parent.parent.spotify_HTML_player()
+        self.parent.parent.parent.parent.parent.parent.call_js(
+          'createOrUpdateSpotifyPlayer', 
+          anvil.js.get_dom_node(self), 
+          'track', 
+          current_track_id, 
+          track_ids
+        )
       
+      # 2.2 Start playing
+      anvil.js.call_js('playSpotify')
     else:
+      # 2.3 Same track - just toggle play/pause
       anvil.js.call_js('playSpotify')
     
-    self.lastplayed = self.item["SpotifyTrackID"]
-    save_var('lastplayed', self.item["SpotifyTrackID"])
+    # 3. Update state
+    self.lastplayed = current_track_id
+    save_var('lastplayed', current_track_id)
     
+    # 4. Update UI
     if self.button_play_track.icon == 'fa:play-circle':
-      # reset all other:
+      # Reset all other buttons
       self.parent.parent.parent.parent.parent.parent.reset_track_play_buttons()
-      # set specific one
+      # Set this button to pause
       self.button_play_track.icon = 'fa:pause-circle'
     else:
       self.button_play_track.icon = 'fa:play-circle'
     
+    # 5. Update artist button
     self.parent.parent.parent.parent.parent.parent.spotify_artist_button.icon = 'fa:play-circle'
-    
