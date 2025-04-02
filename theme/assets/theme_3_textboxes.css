@@ -16,6 +16,13 @@ Area 4: Text Boxes
   background-color: var(--Background_20);
 }
 
+/* Text input focus state */
+input.form-control:focus {
+  border-color: var(--Accent_2);
+  box-shadow: 0 0 8px var(--PurpleDiscreet);
+  outline: none;
+}
+
 /* ----------------------------
 4.2. Dropdown Selects (unselected box) */
 select.form-control {
