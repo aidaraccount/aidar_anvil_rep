@@ -42,6 +42,7 @@ select.form-control {
 
 /* Dropdown focus state (selected box) */
 select.form-control:focus {
+  border-color: var(--Accent_2); /* border color when the dropdown is opened */
   box-shadow: 0 0 8px var(--PurpleDiscreet);
   outline: none;
 }
@@ -49,7 +50,6 @@ select.form-control:focus {
 /* Dropdown options styling (unselected options) */
 .form-control option {
   color: var(--WhiteDiscreet);
-  /* background-color: var(--Background_20); */
 }
 
 
