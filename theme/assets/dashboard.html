@@ -211,6 +211,14 @@
     position: absolute;
     right: 35px;
   }
+  
+  /* Hide sidebar immediately for no_model and no_subs pages on initial load */
+  html[data-initial-hash="#no_model"] #left-sidebar,
+  html[data-initial-hash="#no_subs"] #left-sidebar,
+  html[data-initial-hash="#no_model"] .nav-button,
+  html[data-initial-hash="#no_subs"] .nav-button {
+    display: none !important;
+  }
 </style>
 
 
@@ -362,8 +370,24 @@
   });
 </script>
 
+<script>
+  /* Set initial hash as data attribute for immediate CSS hiding */
+  document.documentElement.setAttribute('data-initial-hash', window.location.hash);
+</script>
+
 <!-- Clean, production-ready script for toggle functionality -->
 <script>
+  // Check URL hash IMMEDIATELY on page load and set initial state
+  if (window.location.hash === '#no_subs' || window.location.hash === '#no_model') {
+    // Try to find sidebar and hide it immediately, no waiting
+    var sidebar = document.getElementById('left-sidebar');
+    var button = document.getElementById('nav-button');
+    if (sidebar) {
+      sidebar.style.display = 'none';
+      if (button) button.style.display = 'none';
+    }
+  }
+
   // Expose the navbar show/hide function globally for Anvil to call
   // Immediately make the function available without waiting for timeout
   window.navbar_noModel_noSubs = function(visible) {
