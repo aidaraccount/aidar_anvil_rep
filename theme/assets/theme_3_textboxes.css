@@ -10,7 +10,7 @@ Area 4: Text Boxes
   font-weight: normal;
   color: var(--BlackDiscreet);
 
-  pading: 0;
+  padding: 0;
   
   border-color: var(--Accent_2);
   border-radius: 7px;
@@ -20,20 +20,36 @@ Area 4: Text Boxes
 
 /* ----------------------------
 4.2. Date Picker */
-.anvil-role-date-picker {
+.anvil-datepicker {
   width: 115px;
   font-size: 14px;
   margin: 0px 0 0 5px;
   padding: 5px 0px 0 0px;
   border-radius: 10px;
+  color: var(--WhiteDiscreet);
+  background-color: var(--Background_20);
 }
-.anvil-role-date-picker>.form-inline select {
+.anvil-datepicker .form-control {
   border-radius: 10px;
+  color: var(--WhiteDiscreet);
+  background-color: var(--Background_20);
 }
-
 
 /* ----------------------------
-4.3. Individuall Designs:
+4.3. Dropdown Selects */
+select.form-control {
+  color: var(--WhiteDiscreet);
+  background-color: var(--Background_20);
+}
+
+/* Ensure date picker and dropdown options have the correct styling */
+.form-control option {
+  color: var(--WhiteDiscreet);
+  background-color: var(--Background_20);
+}
+
+/* 
+4.4. Individuall Designs:
 a) Textbox for Notification Settings */
 .anvil-role-notification-settings-textbox {
   font-size: 14px;
