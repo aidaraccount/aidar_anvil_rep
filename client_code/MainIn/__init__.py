@@ -62,11 +62,11 @@ class MainIn(MainInTemplate):
       status = True
       
       if user['expiration_date'] is not None and (datetime.today().date() - user['expiration_date']).days > 0:
-        routing.set_url_hash('no_subs', load_from_cache=False)
-        self.SearchBar.visible = False
-
         # hide navigation sidebar
         anvil.js.call_js("navbar_noModel_noSubs", False)
+        self.SearchBar.visible = False
+
+        routing.set_url_hash('no_subs', load_from_cache=False)
         
       #begin = datetime.datetime.now()
       #print(f"{datetime.datetime.now()}: MainIn - link_login_click - 2", flush=True)
@@ -88,12 +88,12 @@ class MainIn(MainInTemplate):
       #print(f"{datetime.datetime.now()}: MainIn - link_login_click - 3", flush=True)  # 20s, 17s - 4s
             
       if self.model_id is None:
-        routing.set_url_hash('no_model', load_from_cache=False)
-        self.SearchBar.visible = True
-        
         # hide navigation sidebar
         anvil.js.call_js("navbar_noModel_noSubs", False)
-
+        self.SearchBar.visible = True
+        
+        routing.set_url_hash('no_model', load_from_cache=False)
+        
       #print(f"{datetime.datetime.now()}: MainIn - link_login_click - 4", flush=True)
       self.update_no_notifications()
       
