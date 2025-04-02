@@ -450,7 +450,7 @@ class MainIn(MainInTemplate):
     self.call_js('updateLoadingSpinnerMargin', '0px')
     
   def feedback_click(self, **event_args):
-    popup_table = alert(
+    alert(
       content=C_FeedbackForm(),
       large=True,
       buttons=[]

@@ -22,6 +22,7 @@ import time
 from ..C_ArtistBio import C_ArtistBio
 from ..C_ProgressMessage import C_ProgressMessage
 from ..C_Short import C_Short
+from ..C_FeedbackForm import C_FeedbackForm
 
 
 @routing.route('artists', url_keys=['artist_id'], title='Artists')
@@ -968,8 +969,12 @@ class Discover(DiscoverTemplate):
       total_ratings = sug['total_ratings']
       if total_ratings == "10":
         self.show_milestone_alert(10)
+      elif total_ratings == "15":
+        self.ask_for_feedback()
       elif total_ratings == "25":
         self.show_milestone_alert(25)
+      elif total_ratings == "35":
+        self.ask_for_feedback()
       elif total_ratings == "50":
         self.show_milestone_alert(50)
   
@@ -2338,3 +2343,10 @@ class Discover(DiscoverTemplate):
         buttons=[],
         role=["progress-message","remove-focus"]
       )
+
+  def ask_for_feedback(self, **event_args):
+    alert(
+      content=C_FeedbackForm(),
+      large=True,
+      buttons=[]
+    )

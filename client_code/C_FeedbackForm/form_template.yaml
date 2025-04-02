@@ -1,7 +1,10 @@
 components:
 - layout_properties: {slot: text-area-slot}
   name: feedback_comment
-  properties: {height: '100', placeholder: 'Share your thoughts, ideas, or any issues you’ve encountered...'}
+  properties:
+    height: '100'
+    placeholder: Share your thoughts, ideas, or any issues you’ve encountered...
+    role: [txt_white_discreet]
   type: TextArea
 - event_bindings: {click: submit_feedback_click}
   layout_properties: {slot: submit-button}
