@@ -224,7 +224,7 @@
 
   <div class="body" anvil-drop-default anvil-drop-container=">.cards .anvil-container" anvil-drop-redirect=">.cards > .placeholder">
     <!-- Move the button outside the sidebar so it stays visible -->
-    <button class="nav-button" id="nav-button">
+    <button class="nav-button" id="nav-button" onclick="toggleSidebar();">
       <i class="fa fa-bars"></i>
     </button>
     
@@ -257,14 +257,7 @@
 </div>    
 
 <script>
-  // ===================================================
-  // 1. UTILITY FUNCTIONS
-  // ===================================================
-  
-  /**
-   * Toggles the sidebar visibility.
-   * Uses direct style manipulation for reliable behavior across devices.
-   */
+  // Define toggle function in global scope to ensure it's accessible
   function toggleSidebar() {
     var sidebar = document.getElementById('left-sidebar');
     var clickGuard = document.querySelector('.sidebar-click-guard');
@@ -272,13 +265,8 @@
     var contentNav = document.querySelector('.main-content-move-nav');
     var button = document.getElementById('nav-button');
     
-    // Check sidebar current position
-    var sidebarStyle = window.getComputedStyle(sidebar);
-    var currentLeft = sidebarStyle.getPropertyValue('left');
-    var isSidebarOpen = !(currentLeft === '-250px' || currentLeft === '-200px' || currentLeft === '');
-    
-    if (!isSidebarOpen) {
-      // Open the sidebar
+    // Try direct style manipulation instead of class toggling
+    if (sidebar.style.left === '-250px' || sidebar.style.left === '-200px' || sidebar.style.left === '') {
       sidebar.style.left = '0px';
       // Move button to right edge of sidebar
       if (window.innerWidth > 767) {
@@ -292,7 +280,6 @@
         clickGuard.style.display = 'block';
       }
     } else {
-      // Close the sidebar
       if (window.innerWidth > 767) {
         sidebar.style.left = '-250px';
       } else {
@@ -328,67 +315,140 @@
     }
   }
   
-  // ===================================================
-  // 2. INITIALIZATION
-  // ===================================================
-  
   /**
-   * Sets up initial sidebar state and event handlers.
+   * Initializes navigation functionality.
+   * Sets up event listeners and initial state.
    */
-  function setupSidebar() {
-    var sidebar = document.getElementById('left-sidebar');
+  function initializeNavigation() {
     var button = document.getElementById('nav-button');
     var clickGuard = document.querySelector('.sidebar-click-guard');
+    var sidebar = document.getElementById('left-sidebar');
     var content = document.querySelector('.main-content-move');
     var contentNav = document.querySelector('.main-content-move-nav');
     
-    // Remove any existing event handlers to prevent duplicates
-    button.removeAttribute('onclick');
-    
-    // Set up click handlers with proper event capturing
+    // Add event listeners
     button.addEventListener('click', function(e) {
-      toggleSidebar();
-      e.stopPropagation();
-      e.preventDefault();
-    }, true);
-    
-    clickGuard.addEventListener('click', function() {
       toggleSidebar();
     });
     
-    // Initial state - start with sidebar hidden on mobile
+    clickGuard.addEventListener('click', function(e) {
+      toggleSidebar();
+    });
+    
+    // Initial state - start with sidebar visible on desktop, hidden on mobile
     if (window.innerWidth <= 767) {
       sidebar.style.left = '-200px';
       content.style.marginLeft = '0px';
       contentNav.style.marginLeft = '0px';
-      button.style.left = '0px';
-    } else {
-      // Desktop initial state
-      button.style.left = '250px';
     }
     
-    // Apply special states based on hash
+    // Initialize special nav states
     handleSpecialNavStates();
     
-    // Set up resize handler
+    // Listen for hash changes
+    window.addEventListener('hashchange', handleSpecialNavStates);
+    
+    // Handle resize events
     window.addEventListener('resize', function() {
       if (window.innerWidth > 767) {
         clickGuard.style.display = 'none';
       }
     });
-    
-    // Listen for hash changes
-    window.addEventListener('hashchange', handleSpecialNavStates);
   }
-  
-  // ===================================================
-  // 3. EXECUTION
-  // ===================================================
-  
-  // Initialize when DOM is ready, but delay to ensure Anvil components are loaded
+
+  // Initialize when DOM is ready
   document.addEventListener('DOMContentLoaded', function() {
-    // Allow short delay for Anvil to initialize components
-    setTimeout(setupSidebar, 500);
+    initializeNavigation();
   });
+</script>
+
+<!-- Clean, production-ready script for toggle functionality -->
+<script>
+  // Expose the navbar show/hide function globally for Anvil to call
+  function navbar_noModel_noSubs(visible) {
+    var sidebar = document.getElementById('left-sidebar');
+    var button = document.getElementById('nav-button');
+    var content = document.querySelector('.main-content-move');
+    var contentNav = document.querySelector('.main-content-move-nav');
+    
+    if (sidebar) {
+      sidebar.style.display = visible ? "block" : "none";
+      button.style.display = visible ? "block" : "none";
+      
+      // If showing the sidebar, also handle position
+      if (visible) {
+        if (window.innerWidth <= 767) {
+          sidebar.style.left = '-200px';
+          button.style.left = '0px';
+          content.style.marginLeft = '0px';
+          contentNav.style.marginLeft = '0px';
+        } else {
+          sidebar.style.left = '0px';
+          button.style.left = '250px';
+          content.style.marginLeft = '250px';
+          contentNav.style.marginLeft = '250px';
+        }
+      }
+    }
+  }
+
+  // Wait for page load to ensure all Anvil components are fully initialized
+  setTimeout(function() {
+    // Get the button directly
+    var navButton = document.getElementById('nav-button');
+    if (navButton) {
+      // Add direct event handler in vanilla JS
+      navButton.addEventListener('click', function(e) {
+        // Get sidebar and other elements
+        var sidebar = document.getElementById('left-sidebar');
+        var content = document.querySelector('.main-content-move');
+        var contentNav = document.querySelector('.main-content-move-nav');
+        var clickGuard = document.querySelector('.sidebar-click-guard');
+        
+        if (!sidebar) {
+          return;
+        }
+        
+        // Direct style manipulation approach
+        var sidebarStyle = window.getComputedStyle(sidebar);
+        var currentLeft = sidebarStyle.getPropertyValue('left');
+        
+        if (currentLeft === '0px' || currentLeft === 'auto' || currentLeft === '') {
+          // Close the sidebar
+          sidebar.style.left = '-250px';
+          content.style.marginLeft = '0px';
+          contentNav.style.marginLeft = '0px';
+          // Move button to left edge of screen
+          navButton.style.left = '0px';
+          if (clickGuard) clickGuard.style.display = 'none';
+        } else {
+          // Open the sidebar
+          sidebar.style.left = '0px';
+          if (window.innerWidth > 767) {
+            content.style.marginLeft = '250px';
+            contentNav.style.marginLeft = '250px';
+            // Move button to right edge of sidebar on desktop
+            navButton.style.left = '250px';
+          } else {
+            // Move button to right edge of sidebar on mobile
+            navButton.style.left = '200px';
+          }
+          if (clickGuard && window.innerWidth <= 767) {
+            clickGuard.style.display = 'block';
+          }
+        }
+        
+        // Prevent event from bubbling up to potential Anvil handlers
+        e.stopPropagation();
+        e.preventDefault();
+      }, true); // Use capturing to get the event first
+    }
+    
+    // Check URL hash on page load and set initial state
+    var currentHash = window.location.hash;
+    if (currentHash === '#no_subs' || currentHash === '#no_model') {
+      navbar_noModel_noSubs(false);
+    }
+  }, 1000);
 </script>
 </body>
