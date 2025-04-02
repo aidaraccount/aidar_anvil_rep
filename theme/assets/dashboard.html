@@ -224,7 +224,7 @@
 
   <div class="body" anvil-drop-default anvil-drop-container=">.cards .anvil-container" anvil-drop-redirect=">.cards > .placeholder">
     <!-- Move the button outside the sidebar so it stays visible -->
-    <button class="nav-button" id="nav-button" onclick="toggleSidebar(); console.log('DEBUGGING: Direct onclick event fired');">
+    <button class="nav-button" id="nav-button">
       <i class="fa fa-bars"></i>
     </button>
     
@@ -257,39 +257,42 @@
 </div>    
 
 <script>
-  // Immediately executed code to verify scripts are running
-  console.log("DEBUGGING: Script section reached");
-  
-  // Define toggle function in global scope to ensure it's accessible
+  /**
+   * Handles hiding navbar for special hash states.
+   * Controls visibility of sidebar based on URL hash.
+   */
+  function handleSpecialNavStates() {
+    var sidebar = document.getElementById('left-sidebar');
+    var button = document.getElementById('nav-button');
+    var content = document.querySelector('.main-content-move');
+    var contentNav = document.querySelector('.main-content-move-nav');
+    var currentHash = window.location.hash;
+
+    if (currentHash === '#no_subs' || currentHash === '#no_model') {
+        sidebar.style.display = 'none';
+        button.style.display = 'none';
+        content.classList.remove('shifted');
+        contentNav.classList.remove('shifted');
+    } else {
+        sidebar.style.display = 'block';
+        button.style.display = 'block';
+    }
+  }
+
+  /**
+   * Toggles the sidebar visibility.
+   * Uses direct style manipulation for better cross-browser compatibility.
+   */
   function toggleSidebar() {
-    console.log("DEBUGGING: toggleSidebar function called");
-    
-    // Add a visible indicator to confirm function execution
-    var debugIndicator = document.createElement('div');
-    debugIndicator.style.position = 'fixed';
-    debugIndicator.style.top = '10px';
-    debugIndicator.style.right = '10px';
-    debugIndicator.style.backgroundColor = 'red';
-    debugIndicator.style.color = 'white';
-    debugIndicator.style.padding = '5px';
-    debugIndicator.style.zIndex = '9999';
-    debugIndicator.innerHTML = 'Toggle function executed at ' + new Date().toLocaleTimeString();
-    document.body.appendChild(debugIndicator);
-    setTimeout(function() {
-      document.body.removeChild(debugIndicator);
-    }, 3000);
-    
     var sidebar = document.getElementById('left-sidebar');
     var clickGuard = document.querySelector('.sidebar-click-guard');
     var content = document.querySelector('.main-content-move');
     var contentNav = document.querySelector('.main-content-move-nav');
     var button = document.getElementById('nav-button');
     
-    console.log("DEBUGGING: Before toggle - sidebar:", sidebar);
-    
     // Try direct style manipulation instead of class toggling
     if (sidebar.style.left === '-250px' || sidebar.style.left === '-200px' || sidebar.style.left === '') {
-      console.log("DEBUGGING: Opening sidebar");
+      // Opening sidebar
       sidebar.style.left = '0px';
       
       // Move button to the right edge of sidebar
@@ -305,7 +308,7 @@
         clickGuard.style.display = 'block';
       }
     } else {
-      console.log("DEBUGGING: Closing sidebar");
+      // Closing sidebar
       if (window.innerWidth > 767) {
         sidebar.style.left = '-250px';
       } else {
@@ -319,75 +322,52 @@
       clickGuard.style.display = 'none';
     }
     
-    console.log("DEBUGGING: After toggle - sidebar style:", sidebar.style.left);
+    // Optional: Adjust loading spinner if the function exists
+    try {
+      if (typeof updateLoadingSpinnerMargin === 'function') {
+        if (sidebar.style.left === '-250px' || sidebar.style.left === '-200px') {
+          updateLoadingSpinnerMargin("0px");
+        } else {
+          updateLoadingSpinnerMargin("125px");
+        }
+      }
+    } catch (e) {}
   }
   
-  /**
-   * Handles hiding navbar for special hash states.
-   * Controls visibility of sidebar based on URL hash.
-   */
-  function handleSpecialNavStates() {
-    var sidebar = document.getElementById('left-sidebar');
-    var button = document.getElementById('nav-button');
-    var content = document.querySelector('.main-content-move');
-    var contentNav = document.querySelector('.main-content-move-nav');
-    var currentHash = window.location.hash;
-
-    console.log("DEBUGGING: handleSpecialNavStates called with hash:", currentHash);
-    console.log("DEBUGGING: sidebar element:", sidebar);
-    console.log("DEBUGGING: button element:", button);
-
-    if (currentHash === '#no_subs' || currentHash === '#no_model') {
-        sidebar.style.display = 'none';
-        button.style.display = 'none';
-        content.classList.remove('shifted');
-        contentNav.classList.remove('shifted');
-    } else {
-        sidebar.style.display = 'block';
-        button.style.display = 'block';
-    }
-  }
-
   /**
    * Initializes navigation functionality.
    * Sets up event listeners and initial state.
    */
   function initializeNavigation() {
-    console.log("DEBUGGING: initializeNavigation function called");
-    
     var button = document.getElementById('nav-button');
     var clickGuard = document.querySelector('.sidebar-click-guard');
     var sidebar = document.getElementById('left-sidebar');
     var content = document.querySelector('.main-content-move');
     var contentNav = document.querySelector('.main-content-move-nav');
     
-    console.log("DEBUGGING: Navigation elements:", { 
-      button: button, 
-      clickGuard: clickGuard, 
-      sidebar: sidebar,
-      content: content,
-      contentNav: contentNav
-    });
+    // Clear any previous inline onclick to avoid conflicts
+    button.removeAttribute('onclick');
     
     // Add event listeners
     button.addEventListener('click', function(e) {
-      console.log("DEBUGGING: Button clicked", e);
       toggleSidebar();
+      e.stopPropagation(); // Prevent event bubbling
     });
     
-    clickGuard.addEventListener('click', function(e) {
-      console.log("DEBUGGING: Click guard clicked", e);
+    clickGuard.addEventListener('click', function() {
       toggleSidebar();
     });
     
     // Initial state - start with sidebar visible on desktop, hidden on mobile
     if (window.innerWidth <= 767) {
-      console.log("DEBUGGING: Mobile view detected, setting initial state to closed");
       sidebar.style.left = '-200px';
+      button.style.left = '0px';
       content.style.marginLeft = '0px';
       contentNav.style.marginLeft = '0px';
     } else {
-      console.log("DEBUGGING: Desktop view detected, sidebar visible by default");
+      // Initialize desktop view with sidebar visible and button at right edge
+      sidebar.style.left = '0px';
+      button.style.left = '250px';
     }
     
     // Initialize special nav states
@@ -398,7 +378,6 @@
     
     // Handle resize events
     window.addEventListener('resize', function() {
-      console.log("DEBUGGING: Window resized to width:", window.innerWidth);
       if (window.innerWidth > 767) {
         clickGuard.style.display = 'none';
       }
@@ -407,97 +386,6 @@
 
   // Initialize when DOM is ready
   document.addEventListener('DOMContentLoaded', function() {
-    console.log("DEBUGGING: DOM fully loaded, initializing navigation");
     initializeNavigation();
   });
 </script>
-
-<!-- Add direct script tag at end of body to guarantee execution after all elements are loaded -->
-<script>
-  // Wait 1 second after page load to ensure all Anvil components are fully initialized
-  setTimeout(function() {
-    console.log("DEBUGGING: Delayed initialization starting");
-    
-    // Get the button directly
-    var navButton = document.getElementById('nav-button');
-    if (navButton) {
-      console.log("DEBUGGING: Found nav button:", navButton);
-      
-      // Remove existing onclick to avoid potential conflicts
-      navButton.removeAttribute('onclick');
-      
-      // Add direct event handler in vanilla JS
-      navButton.addEventListener('click', function(e) {
-        console.log("DEBUGGING: Button click detected via direct event listener");
-        
-        // Visual indicator that click was detected
-        var indicator = document.createElement('div');
-        indicator.innerText = "Button clicked at " + new Date().toLocaleTimeString();
-        indicator.style.position = 'fixed';
-        indicator.style.top = '40px';
-        indicator.style.right = '10px';
-        indicator.style.background = 'blue';
-        indicator.style.color = 'white';
-        indicator.style.padding = '5px';
-        indicator.style.zIndex = '9999';
-        document.body.appendChild(indicator);
-        setTimeout(function() { 
-          try { document.body.removeChild(indicator); } catch(e) {} 
-        }, 3000);
-        
-        // Get sidebar and other elements
-        var sidebar = document.getElementById('left-sidebar');
-        var content = document.querySelector('.main-content-move');
-        var contentNav = document.querySelector('.main-content-move-nav');
-        var clickGuard = document.querySelector('.sidebar-click-guard');
-        
-        if (!sidebar) {
-          console.error("DEBUGGING: Sidebar element not found!");
-          return;
-        }
-        
-        // Direct style manipulation approach
-        var sidebarStyle = window.getComputedStyle(sidebar);
-        var currentLeft = sidebarStyle.getPropertyValue('left');
-        console.log("DEBUGGING: Current sidebar left value:", currentLeft);
-        
-        if (currentLeft === '0px' || currentLeft === 'auto' || currentLeft === '') {
-          // Close the sidebar
-          sidebar.style.left = '-250px';
-          content.style.marginLeft = '0px';
-          contentNav.style.marginLeft = '0px';
-          if (clickGuard) clickGuard.style.display = 'none';
-          console.log("DEBUGGING: Closing sidebar");
-        } else {
-          // Open the sidebar
-          sidebar.style.left = '0px';
-          if (window.innerWidth > 767) {
-            content.style.marginLeft = '250px';
-            contentNav.style.marginLeft = '250px';
-          }
-          if (clickGuard && window.innerWidth <= 767) {
-            clickGuard.style.display = 'block';
-          }
-          console.log("DEBUGGING: Opening sidebar");
-        }
-        
-        // Prevent event from bubbling up to potential Anvil handlers
-        e.stopPropagation();
-        e.preventDefault();
-      }, true); // Use capturing to get the event first
-      
-      console.log("DEBUGGING: Direct event listener attached");
-    } else {
-      console.error("DEBUGGING: Button not found by ID!");
-      
-      // Try to find it by class as a fallback
-      var buttonsByClass = document.getElementsByClassName('nav-button');
-      console.log("DEBUGGING: Found buttons by class:", buttonsByClass.length);
-      
-      if (buttonsByClass.length > 0) {
-        console.log("DEBUGGING: First button by class:", buttonsByClass[0]);
-      }
-    }
-  }, 1000);
-</script>
-</body>
