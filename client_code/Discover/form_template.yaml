@@ -512,6 +512,10 @@ components:
     name: grid_panel_1
     properties: {role: equal-height-container}
     type: GridPanel
+  - layout_properties: {grid_position: 'KBGMCZ,JCYSDC'}
+    name: spotify_test_widget_1
+    properties: {}
+    type: form:SpotifyTestWidget
   - components:
     - layout_properties: {grid_position: 'BQYEKI,QHYPJE'}
       name: repeating_panel_shorts

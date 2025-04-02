@@ -59,7 +59,7 @@ function createOrUpdateSpotifyPlayer(formElement, trackOrArtist, currentSpotifyI
   const options = {
     theme: 'dark',
     width: '100%',
-    height: '80',
+    height: '152',
     uri: `spotify:${trackOrArtist}:${currentSpotifyID}`,
   };
 
