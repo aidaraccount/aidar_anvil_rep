@@ -17,9 +17,15 @@ Area 4: Text Boxes
 }
 
 /* Text input focus state */
+.form-control:focus {
+  border-color: var(--Accent_1);
+  /* box-shadow: 0 0 7px var(--PurpleFocus); */
+  outline: none;
+}
+
 input.form-control:focus {
-  border-color: var(--Accent_2);
-  box-shadow: 0 0 8px var(--PurpleDiscreet);
+  border-color: var(--Accent_1);
+  /* box-shadow: 0 0 7px var(--PurpleFocus); */
   outline: none;
 }
 
@@ -32,8 +38,8 @@ select.form-control {
 
 /* Dropdown focus state (selected box) */
 select.form-control:focus {
-  border-color: var(--Accent_2); /* border color when the dropdown is opened */
-  box-shadow: 0 0 8px var(--PurpleDiscreet);
+  border-color: var(--Accent_1);
+  /* box-shadow: 0 0 7px var(--PurpleFocus); */
   outline: none;
 }
 
@@ -51,8 +57,8 @@ select.form-control:focus {
 
 /* Date picker focus state */
 .anvil-datepicker .form-control:focus {
-  border-color: var(--Accent_2); /* border color when the datepicker selection is opened */
-  box-shadow: 0 0 8px var(--PurpleDiscreet);
+  border-color: var(--Accent_1);
+  /* box-shadow: 0 0 7px var(--PurpleFocus); */
   outline: none;
 }
 
