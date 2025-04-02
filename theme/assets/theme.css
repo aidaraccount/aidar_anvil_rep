@@ -1633,7 +1633,7 @@ footer a, .footer .anvil-component {
   border: none;
   padding: 10px 10px 10px 6px;
   cursor: pointer;
-  z-index: 1100;
+  z-index: 9999;
   transition: left 0.3s ease;
   border-top-right-radius: 15px;
   border-bottom-right-radius: 15px;
@@ -1642,7 +1642,7 @@ footer a, .footer .anvil-component {
   .nav-button {
     left: 200px;
     position: fixed;
-    z-index: 9000; 
+    z-index: 9999; 
   }
 }
 .main-content-move {
