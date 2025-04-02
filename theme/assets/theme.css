@@ -1621,6 +1621,7 @@ footer a, .footer .anvil-component {
     width: 200px;
   }
 }
+
 .nav-button {
   font-family: Gs-regular;
   font-size: 18px;
@@ -1645,6 +1646,7 @@ footer a, .footer .anvil-component {
     z-index: 9999; 
   }
 }
+
 .main-content-move {
   margin-left: 250px;
   transition: margin-left 0.3s ease;
