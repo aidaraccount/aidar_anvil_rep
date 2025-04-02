@@ -977,6 +977,12 @@ class Discover(DiscoverTemplate):
         self.ask_for_feedback()
       elif total_ratings == "50":
         self.show_milestone_alert(50)
+      elif total_ratings == "60":
+        self.ask_for_feedback()
+      elif total_ratings == "100":
+        self.ask_for_feedback()
+      elif total_ratings == "150":
+        self.ask_for_feedback()
   
     self.header.scroll_into_view(smooth=True)
 
