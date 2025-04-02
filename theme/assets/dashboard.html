@@ -283,18 +283,24 @@
     var clickGuard = document.querySelector('.sidebar-click-guard');
     var content = document.querySelector('.main-content-move');
     var contentNav = document.querySelector('.main-content-move-nav');
+    var button = document.getElementById('nav-button');
     
     console.log("DEBUGGING: Before toggle - sidebar:", sidebar);
-    console.log("DEBUGGING: Before toggle - sidebar.classList:", sidebar.classList);
     
     // Try direct style manipulation instead of class toggling
     if (sidebar.style.left === '-250px' || sidebar.style.left === '-200px' || sidebar.style.left === '') {
       console.log("DEBUGGING: Opening sidebar");
       sidebar.style.left = '0px';
+      
+      // Move button to the right edge of sidebar
       if (window.innerWidth > 767) {
+        button.style.left = '250px';
         content.style.marginLeft = '250px';
         contentNav.style.marginLeft = '250px';
+      } else {
+        button.style.left = '200px';
       }
+      
       if (window.innerWidth <= 767) {
         clickGuard.style.display = 'block';
       }
@@ -305,6 +311,9 @@
       } else {
         sidebar.style.left = '-200px';
       }
+      
+      // Move button to the left edge of screen
+      button.style.left = '0px';
       content.style.marginLeft = '0px';
       contentNav.style.marginLeft = '0px';
       clickGuard.style.display = 'none';
