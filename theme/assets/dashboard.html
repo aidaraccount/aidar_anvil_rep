@@ -226,7 +226,7 @@
         contentNav.style.marginLeft = `${s.offsetWidth}px`;  // Shift content
     }
   } 
-  document.addEventListener('DOMContentLoaded', navbar_noModel_noSubs())
+  // document.addEventListener('DOMContentLoaded', navbar_noModel_noSubs())
 
 
   ///////////////////////////////////////////////////
@@ -278,10 +278,13 @@
     sidebar.style.left = `0px`;
     button.style.left = `${sidebar.offsetWidth}px`; // Set button position when sidebar is open
 
-    var content = querySelector('.main-content-move');
-    var contentNav = querySelector('.main-content-move-nav');
-    content.style.marginLeft = `${sidebar.offsetWidth}px` // Adjust content margin when sidebar is open
-    cotentNav.style.marginLeft = `${sidebar.offsetWidth}px` // Adjust nav content margin
+    var content = document.querySelector('.main-content-move');
+    var contentNav = document.querySelector('.main-content-move-nav');
+    content.style.marginLeft = `${sidebar.offsetWidth}px`; // Adjust content margin when sidebar is open
+    contentNav.style.marginLeft = `${sidebar.offsetWidth}px`; // Adjust nav content margin
+    
+    // Run the hash check after properly setting up the UI
+    navbar_noModel_noSubs();
   });
   
   ///////////////////////////////////////////////////
