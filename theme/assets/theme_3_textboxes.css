@@ -17,24 +17,7 @@ Area 4: Text Boxes
 }
 
 /* ----------------------------
-4.2. Date Picker */
-.anvil-datepicker {
-  width: 115px;
-  font-size: 14px;
-  margin: 0px 0 0 5px;
-  padding: 5px 0px 0 0px;
-  border-radius: 10px;
-  color: var(--WhiteDiscreet);
-  background-color: var(--Background_20);
-}
-.anvil-datepicker .form-control {
-  border-radius: 10px;
-  color: var(--WhiteDiscreet);
-  background-color: var(--Background_20);
-}
-
-/* ----------------------------
-4.3. Dropdown Selects (unselected box) */
+4.2. Dropdown Selects (unselected box) */
 select.form-control {
   color: var(--WhiteDiscreet);
   background-color: var(--PurpleDiscreet); /* background, applies also to the dropdown options background */
@@ -52,6 +35,68 @@ select.form-control:focus {
   color: var(--WhiteDiscreet);
 }
 
+/* ----------------------------
+4.3. Date Picker */
+.anvil-datepicker {
+  width: 115px;
+  font-size: 14px;
+  margin: 0px 0 0 5px;
+  padding: 5px 0px 0 0px;
+  border-radius: 10px;
+  color: var(--WhiteDiscreet);
+  background-color: var(--PurpleDiscreet);
+}
+
+/* Date picker input field */
+.anvil-datepicker .form-control {
+  border-radius: 10px;
+  color: var(--WhiteDiscreet);
+  background-color: var(--PurpleDiscreet);
+}
+
+/* Date picker focus state */
+.anvil-datepicker .form-control:focus {
+  border-color: var(--Accent_2);
+  box-shadow: 0 0 8px var(--PurpleDiscreet);
+  outline: none;
+}
+
+/* Calendar container styling */
+.datepicker-dropdown {
+  background-color: var(--PurpleDiscreet);
+  border-color: var(--Accent_2);
+}
+
+/* Day cells in calendar */
+.datepicker .day {
+  color: var(--WhiteDiscreet);
+}
+
+/* Hover state for day cells */
+.datepicker .day:hover {
+  background-color: var(--Accent_2);
+  color: var(--White);
+}
+
+/* Selected date in calendar */
+.datepicker .day.active,
+.datepicker .day.active:hover {
+  background-color: orange;
+  color: var(--White);
+}
+
+/* Month and year selectors */
+.datepicker .datepicker-switch,
+.datepicker .prev,
+.datepicker .next {
+  color: var(--WhiteDiscreet);
+}
+
+.datepicker .datepicker-switch:hover,
+.datepicker .prev:hover,
+.datepicker .next:hover {
+  background-color: var(--Accent_2);
+}
 
 /* 
 4.4. Individuall Designs:
