@@ -52,11 +52,19 @@
       transition: left 0.3s ease;
   }
   
+  .sidebar.closed {
+      left: -250px;
+  }
+  
   /* 2.2. Mobile-specific sidebar styling */
   @media(max-width:767px) {
       .sidebar {
           position: fixed;
           width: 200px;
+      }
+      
+      .sidebar.closed {
+          left: -200px;
       }
       
       .sidebar-click-guard {
@@ -68,6 +76,10 @@
           right: 0;
           background: rgba(0, 0, 0, 0.5);
           z-index: 90;
+      }
+      
+      .sidebar-click-guard.visible {
+          display: block;
       }
   }
   
@@ -178,6 +190,11 @@
       transition: margin-left 0.3s ease;
   }
   
+  .main-content-move.shifted,
+  .main-content-move-nav.shifted {
+      margin-left: 0;
+  }
+  
   @media(max-width:767px) {
       .main-content-move, .main-content-move-nav {
           margin-left: 0;
@@ -252,82 +269,46 @@
     if (currentHash === '#no_subs' || currentHash === '#no_model') {
         sidebar.style.display = 'none';
         button.style.display = 'none';
-        content.style.marginLeft = '0px';
-        contentNav.style.marginLeft = '0px';
+        content.classList.remove('shifted');
+        contentNav.classList.remove('shifted');
     } else {
         sidebar.style.display = 'block';
         button.style.display = 'block';
-        
-        // Set initial positions
-        if (window.innerWidth > 767) {
-            content.style.marginLeft = '250px';
-            contentNav.style.marginLeft = '250px';
-        } else {
-            content.style.marginLeft = '0px';
-            contentNav.style.marginLeft = '0px';
-        }
     }
   }
 
   /**
    * Toggles the sidebar visibility.
-   * Controls sidebar display state and related UI elements.
+   * Uses a simpler class toggle approach like in Discover.html.
    */
   function toggleSidebar() {
     var sidebar = document.getElementById('left-sidebar');
-    var button = document.getElementById('nav-button');
+    var clickGuard = document.querySelector('.sidebar-click-guard');
     var content = document.querySelector('.main-content-move');
     var contentNav = document.querySelector('.main-content-move-nav');
-    var clickGuard = document.querySelector('.sidebar-click-guard');
     
-    // Get the computed left position of the sidebar
-    var sidebarLeft = window.getComputedStyle(sidebar).left;
+    // Toggle sidebar open/closed
+    sidebar.classList.toggle('closed');
     
-    // Check if the sidebar is currently open or closed
-    if (sidebarLeft === '0px') {
-      // Sidebar is open, so close it
-      sidebar.style.left = `-${sidebar.offsetWidth}px`;  // Move sidebar off-screen
-      button.style.left = '0px'; // Keep the button on the left
-      content.style.marginLeft = '0px'; // Reset content margin
-      contentNav.style.marginLeft = '0px'; // Reset content margin
-      
-      // Handle click guard on mobile
-      if (window.innerWidth <= 767) {
-        clickGuard.style.display = 'none'; // Hide click guard
-      }
-      
-      try {
-        // Optional: if function exists
-        if (typeof updateLoadingSpinnerMargin === 'function') {
-          updateLoadingSpinnerMargin("0px"); // move loadingSpinner
-        }
-      } catch (e) {}
-    } else {
-      // Sidebar is closed, so open it
-      sidebar.style.left = '0px';  // Slide sidebar in
-      
-      // Position button differently based on screen size
-      if (window.innerWidth > 767) {
-        button.style.left = '250px';  // Desktop position
-        content.style.marginLeft = '250px';  // Shift content
-        contentNav.style.marginLeft = '250px';  // Shift content
-      } else {
-        button.style.left = '200px';  // Mobile position (smaller sidebar)
-        // On mobile, don't shift content
-      }
-      
-      // Handle click guard on mobile
-      if (window.innerWidth <= 767) {
-        clickGuard.style.display = 'block'; // Show click guard
-      }
-      
-      try {
-        // Optional: if function exists
-        if (typeof updateLoadingSpinnerMargin === 'function') {
-          updateLoadingSpinnerMargin("125px"); // move loadingSpinner
-        }
-      } catch (e) {}
+    // Toggle content margin
+    content.classList.toggle('shifted');
+    contentNav.classList.toggle('shifted');
+    
+    // Toggle click guard visibility on mobile
+    if (window.innerWidth <= 767) {
+      clickGuard.classList.toggle('visible');
     }
+    
+    // Optional: Adjust loading spinner if the function exists
+    try {
+      if (typeof updateLoadingSpinnerMargin === 'function') {
+        if (sidebar.classList.contains('closed')) {
+          updateLoadingSpinnerMargin("0px");
+        } else {
+          updateLoadingSpinnerMargin("125px");
+        }
+      }
+    } catch (e) {}
   }
   
   /**
@@ -338,22 +319,26 @@
     var button = document.getElementById('nav-button');
     var clickGuard = document.querySelector('.sidebar-click-guard');
     var sidebar = document.getElementById('left-sidebar');
+    var content = document.querySelector('.main-content-move');
+    var contentNav = document.querySelector('.main-content-move-nav');
     
     // Add event listeners
-    button.addEventListener('click', toggleSidebar);
-    clickGuard.addEventListener('click', toggleSidebar);
+    button.addEventListener('click', function() {
+      toggleSidebar();
+    });
     
-    // Set initial positions
-    sidebar.style.left = '0px'; // Start with sidebar visible
+    clickGuard.addEventListener('click', function() {
+      toggleSidebar();
+    });
     
-    if (window.innerWidth > 767) {
-      button.style.left = '250px'; // Desktop position
-    } else {
-      button.style.left = '200px'; // Mobile position
-      sidebar.style.left = '-200px'; // Start hidden on mobile
+    // Initial state - start with sidebar visible on desktop, hidden on mobile
+    if (window.innerWidth <= 767) {
+      sidebar.classList.add('closed');
+      content.classList.add('shifted');
+      contentNav.classList.add('shifted');
     }
     
-    // Initialize special nav states after setting up basic positions
+    // Initialize special nav states
     handleSpecialNavStates();
     
     // Listen for hash changes
@@ -361,19 +346,8 @@
     
     // Handle resize events
     window.addEventListener('resize', function() {
-      // Reposition elements based on screen size
-      if (window.getComputedStyle(sidebar).left === '0px') {
-        // If sidebar is open, adjust button position
-        if (window.innerWidth > 767) {
-          button.style.left = '250px';
-        } else {
-          button.style.left = '200px';
-        }
-      }
-      
-      // Hide click guard on desktop
       if (window.innerWidth > 767) {
-        clickGuard.style.display = 'none';
+        clickGuard.classList.remove('visible');
       }
     });
   }
