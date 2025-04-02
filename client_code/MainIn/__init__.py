@@ -66,7 +66,7 @@ class MainIn(MainInTemplate):
         self.SearchBar.visible = False
 
         # hide navigation sidebar
-        # !!!
+        anvil.js.call_js("navbar_noModel_noSubs", False)
         
       #begin = datetime.datetime.now()
       #print(f"{datetime.datetime.now()}: MainIn - link_login_click - 2", flush=True)
@@ -92,7 +92,7 @@ class MainIn(MainInTemplate):
         self.SearchBar.visible = True
         
         # hide navigation sidebar
-        # !!!
+        anvil.js.call_js("navbar_noModel_noSubs", False)
 
       #print(f"{datetime.datetime.now()}: MainIn - link_login_click - 4", flush=True)
       self.update_no_notifications()

@@ -24,5 +24,5 @@ class NoModel(NoModelTemplate):
   def button_create_model_click(self, **event_args):
     click_button('model_setup?model_id=None&section=Basics', event_args)
     
-    # this function is called from hideNavBar.js
-    anvil.js.call_js("navbar_noModel_noSubs")
+    # view navigation sidebar
+    anvil.js.call_js("navbar_noModel_noSubs", True)
