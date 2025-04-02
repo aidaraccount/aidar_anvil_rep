@@ -266,6 +266,10 @@
     var contentNav = document.querySelector('.main-content-move-nav');
     var currentHash = window.location.hash;
 
+    console.log("DEBUGGING: handleSpecialNavStates called with hash:", currentHash);
+    console.log("DEBUGGING: sidebar element:", sidebar);
+    console.log("DEBUGGING: button element:", button);
+
     if (currentHash === '#no_subs' || currentHash === '#no_model') {
         sidebar.style.display = 'none';
         button.style.display = 'none';
@@ -282,10 +286,16 @@
    * Uses a simpler class toggle approach like in Discover.html.
    */
   function toggleSidebar() {
+    console.log("DEBUGGING: toggleSidebar function called");
+    
     var sidebar = document.getElementById('left-sidebar');
     var clickGuard = document.querySelector('.sidebar-click-guard');
     var content = document.querySelector('.main-content-move');
     var contentNav = document.querySelector('.main-content-move-nav');
+    
+    console.log("DEBUGGING: Before toggle - sidebar:", sidebar);
+    console.log("DEBUGGING: Before toggle - sidebar.classList:", sidebar.classList);
+    console.log("DEBUGGING: Before toggle - content.classList:", content.classList);
     
     // Toggle sidebar open/closed
     sidebar.classList.toggle('closed');
@@ -294,9 +304,13 @@
     content.classList.toggle('shifted');
     contentNav.classList.toggle('shifted');
     
+    console.log("DEBUGGING: After toggle - sidebar.classList:", sidebar.classList);
+    console.log("DEBUGGING: After toggle - content.classList:", content.classList);
+    
     // Toggle click guard visibility on mobile
     if (window.innerWidth <= 767) {
       clickGuard.classList.toggle('visible');
+      console.log("DEBUGGING: Mobile device detected, clickGuard visibility toggled");
     }
     
     // Optional: Adjust loading spinner if the function exists
@@ -307,8 +321,11 @@
         } else {
           updateLoadingSpinnerMargin("125px");
         }
+        console.log("DEBUGGING: updateLoadingSpinnerMargin function called");
       }
-    } catch (e) {}
+    } catch (e) {
+      console.error("DEBUGGING: Error calling updateLoadingSpinnerMargin:", e);
+    }
   }
   
   /**
@@ -316,26 +333,41 @@
    * Sets up event listeners and initial state.
    */
   function initializeNavigation() {
+    console.log("DEBUGGING: initializeNavigation function called");
+    
     var button = document.getElementById('nav-button');
     var clickGuard = document.querySelector('.sidebar-click-guard');
     var sidebar = document.getElementById('left-sidebar');
     var content = document.querySelector('.main-content-move');
     var contentNav = document.querySelector('.main-content-move-nav');
     
+    console.log("DEBUGGING: Navigation elements:", { 
+      button: button, 
+      clickGuard: clickGuard, 
+      sidebar: sidebar,
+      content: content,
+      contentNav: contentNav
+    });
+    
     // Add event listeners
-    button.addEventListener('click', function() {
+    button.addEventListener('click', function(e) {
+      console.log("DEBUGGING: Button clicked", e);
       toggleSidebar();
     });
     
-    clickGuard.addEventListener('click', function() {
+    clickGuard.addEventListener('click', function(e) {
+      console.log("DEBUGGING: Click guard clicked", e);
       toggleSidebar();
     });
     
     // Initial state - start with sidebar visible on desktop, hidden on mobile
     if (window.innerWidth <= 767) {
+      console.log("DEBUGGING: Mobile view detected, setting initial state to closed");
       sidebar.classList.add('closed');
       content.classList.add('shifted');
       contentNav.classList.add('shifted');
+    } else {
+      console.log("DEBUGGING: Desktop view detected, sidebar visible by default");
     }
     
     // Initialize special nav states
@@ -346,6 +378,7 @@
     
     // Handle resize events
     window.addEventListener('resize', function() {
+      console.log("DEBUGGING: Window resized to width:", window.innerWidth);
       if (window.innerWidth > 767) {
         clickGuard.classList.remove('visible');
       }
@@ -353,5 +386,8 @@
   }
 
   // Initialize when DOM is ready
-  document.addEventListener('DOMContentLoaded', initializeNavigation);
+  document.addEventListener('DOMContentLoaded', function() {
+    console.log("DEBUGGING: DOM fully loaded, initializing navigation");
+    initializeNavigation();
+  });
 </script>
