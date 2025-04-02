@@ -365,8 +365,7 @@
 <!-- Clean, production-ready script for toggle functionality -->
 <script>
   // Expose the navbar show/hide function globally for Anvil to call
-  // Immediately make the function available without waiting for timeout
-  window.navbar_noModel_noSubs = function(visible) {
+  function navbar_noModel_noSubs(visible) {
     var sidebar = document.getElementById('left-sidebar');
     var button = document.getElementById('nav-button');
     var content = document.querySelector('.main-content-move');
@@ -391,10 +390,9 @@
         }
       }
     }
-  };
+  }
 
   // Wait for page load to ensure all Anvil components are fully initialized
-  // Reduced timeout to 100ms instead of 1000ms for faster initialization
   setTimeout(function() {
     // Get the button directly
     var navButton = document.getElementById('nav-button');
@@ -451,6 +449,6 @@
     if (currentHash === '#no_subs' || currentHash === '#no_model') {
       navbar_noModel_noSubs(false);
     }
-  }, 10);  // Reduced delay from 1000ms to 100ms
+  }, 1000);
 </script>
 </body>
