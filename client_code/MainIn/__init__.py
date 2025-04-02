@@ -64,7 +64,10 @@ class MainIn(MainInTemplate):
       if user['expiration_date'] is not None and (datetime.today().date() - user['expiration_date']).days > 0:
         routing.set_url_hash('no_subs', load_from_cache=False)
         self.SearchBar.visible = False
-      
+
+        # hide navigation sidebar
+        anvil.js.call_js("navbar_noModel_noSubs", False)
+        
       #begin = datetime.datetime.now()
       #print(f"{datetime.datetime.now()}: MainIn - link_login_click - 2", flush=True)
 
@@ -86,8 +89,10 @@ class MainIn(MainInTemplate):
             
       if self.model_id is None:
         routing.set_url_hash('no_model', load_from_cache=False)
-        self.change_nav_visibility(status=True)
         self.SearchBar.visible = True
+        
+        # hide navigation sidebar
+        anvil.js.call_js("navbar_noModel_noSubs", False)
 
       #print(f"{datetime.datetime.now()}: MainIn - link_login_click - 4", flush=True)
       self.update_no_notifications()
@@ -272,22 +277,6 @@ class MainIn(MainInTemplate):
             if int(component.tag) == int(model_id):
               component.background = "theme:Brown"
   
-  def change_nav_visibility(self, status, **event_args):
-    self.image_1.visible = status
-    self.link_home.visible = status
-    self.linear_panel_discover.visible = status
-    self.link_discover.visible = status
-    # self.link_discover_ai.visible = status
-    # self.link_discover_rel.visible = status
-    self.link_observe.visible = status
-    self.nav_watchlists.visible = status
-    self.column_panel_nav_wl.visible = status
-    self.linear_panel_monitor.visible = status
-    # self.link_monitor_funnel.visible = status
-    # self.link_monitor_dev.visible = status
-    self.column_panel_nav.visible = status
-
-    # self.link_models.visible = True
   #----------------------------------------------------------------------------------------------
   # HOME
   def link_home_click(self, **event_args):

@@ -21,7 +21,10 @@ components:
     type: Label
   - layout_properties: {grid_position: 'BKOAUM,PVSQDK EQCUCU,PULXYL'}
     name: wl_name_text
-    properties: {role: text_box_small, spacing_above: small, spacing_below: small}
+    properties:
+      role: [txt_white_discreet]
+      spacing_above: small
+      spacing_below: small
     type: TextBox
   - layout_properties: {grid_position: 'BKOAUM,PVSQDK OACVVY,PNPPFH'}
     name: wl_description
@@ -29,7 +32,11 @@ components:
     type: Label
   - layout_properties: {grid_position: 'BKOAUM,PVSQDK YREHNG,CXUGOE'}
     name: wl_description_text
-    properties: {height: '', role: text_box_small, spacing_above: small, spacing_below: small}
+    properties:
+      height: ''
+      role: [txt_white_discreet]
+      spacing_above: small
+      spacing_below: small
     type: TextArea
   - layout_properties: {grid_position: 'BKOAUM,PVSQDK ETDDCN,UVVXFV'}
     name: spacer_copy

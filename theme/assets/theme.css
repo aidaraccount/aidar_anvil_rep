@@ -1110,14 +1110,6 @@ a>.link-text {
   padding: 0 !important;
 }
 
-.anvil-role-feature-login  .btn.btn-default.to-disable{
-  font-family: GS-regular;
-}
-.data-row-col:has(> .anvil-role-feature-talent-dev) {
-  width: auto !important;
-  flex-grow: 1 !important;
-}
-
 .anvil-role-feature {
   font-family: Gs-regular;
   font-size: 14px;
@@ -1570,6 +1562,37 @@ footer a, .footer .anvil-component {
 #right-sidebar.open {
   right: 0px;
 }
+.nav-toggle-btn {
+  font-family: Gs-regular;
+  font-size: 18px;
+  position: fixed;
+  top: 20%;
+  left: 10px;
+  background-color: rgb(233, 95, 48);
+  color: white;
+  border: none;
+  padding: 10px 10px 10px 6px;
+  cursor: pointer;
+  z-index: 9999;
+  transition: left 0.3s ease, transform 0.3s ease;
+  border-radius: 4px;
+}
+
+@media only screen and (min-width: 768px) {
+  .nav-toggle-btn {
+    left: 260px;
+  }
+  
+  body.sidebar-closed .nav-toggle-btn {
+    left: 10px;
+  }
+}
+
+@media only screen and (max-width: 767px) {
+  .nav-toggle-btn {
+    top: 70px;
+  }
+}
 .sidebar-button {
   font-family: Gs-regular;
   font-size: 15px;
@@ -1621,13 +1644,13 @@ footer a, .footer .anvil-component {
     width: 200px;
   }
 }
+
 .nav-button {
   font-family: Gs-regular;
   font-size: 18px;
   position: fixed;
   top: 20%;
   left: 250px;
-  /* left: 0; */
   background-color: rgb(233,95,48);
   color: white;
   border: none;
@@ -1638,6 +1661,7 @@ footer a, .footer .anvil-component {
   border-top-right-radius: 15px;
   border-bottom-right-radius: 15px;
 }
+
 @media only screen and (max-width: 431px) {
   .nav-button {
     left: 200px;
@@ -1645,11 +1669,12 @@ footer a, .footer .anvil-component {
     z-index: 9999; 
   }
 }
+
 .main-content-move {
   margin-left: 250px;
   transition: margin-left 0.3s ease;
 }
-..main-content-move-nav {
+.main-content-move-nav {
   margin-left: 250px;
   transition: margin-left 0.3s ease;
 }
@@ -1960,7 +1985,6 @@ footer a, .footer .anvil-component {
   .anvil-role-slider {
     -webkit-appearance: none;
     width: 98.5%;
-    opacity: 0.7;
     -webkit-transition: .2s;
     transition: opacity .2s;
     padding: 20px 80px !important;
@@ -1975,7 +1999,6 @@ footer a, .footer .anvil-component {
   .anvil-role-slider {
     -webkit-appearance: none;
     width: 98.5%;
-    opacity: 0.7;
     -webkit-transition: .2s;
     transition: opacity .2s;
     padding: 20px 80px !important;
@@ -1990,7 +2013,6 @@ footer a, .footer .anvil-component {
   .anvil-role-slider {
     -webkit-appearance: none;
     width: 98.5%;
-    opacity: 0.7;
     -webkit-transition: .2s;
     transition: opacity .2s;
     padding: 20px 80px !important;
@@ -2005,7 +2027,6 @@ footer a, .footer .anvil-component {
   .anvil-role-slider {
     -webkit-appearance: none;
     width: 98.5%;
-    opacity: 0.7;
     -webkit-transition: .2s;
     transition: opacity .2s;
     padding: 20px 80px !important;
@@ -2020,7 +2041,6 @@ footer a, .footer .anvil-component {
   .anvil-role-slider {
     -webkit-appearance: none;
     width: 98.5%;
-    opacity: 0.7;
     -webkit-transition: .2s;
     transition: opacity .2s;
     padding: 20px 80px !important;
@@ -2035,7 +2055,6 @@ footer a, .footer .anvil-component {
   .anvil-role-slider {
     -webkit-appearance: none;
     width: 98.5%;
-    opacity: 0.7;
     -webkit-transition: .2s;
     transition: opacity .2s;
     padding: 20px 80px !important;
@@ -2050,7 +2069,6 @@ footer a, .footer .anvil-component {
   .anvil-role-slider {
     -webkit-appearance: none;
     width: 98.5%;
-    opacity: 0.7;
     -webkit-transition: .2s;
     transition: opacity .2s;
     padding: 20px 80px !important;
@@ -2065,7 +2083,6 @@ footer a, .footer .anvil-component {
   .anvil-role-slider {
     -webkit-appearance: none;
     width: 98.5%;
-    opacity: 0.7;
     -webkit-transition: .2s;
     transition: opacity .2s;
     padding: 20px 80px !important;
@@ -2080,7 +2097,6 @@ footer a, .footer .anvil-component {
   .anvil-role-slider {
     -webkit-appearance: none;
     width: 98.5%;
-    opacity: 0.7;
     -webkit-transition: .2s;
     transition: opacity .2s;
     padding: 20px 80px !important;
@@ -2306,27 +2322,6 @@ footer a, .footer .anvil-component {
   background:white;
 }
 
-.anvil-role-slider-inputbox {  /* individual class for C_LevelOfPopularity input box */
-  background: transparent;
-  border: 0px;
-  border-bottom: 1px solid;
-  width: 70px;
-  border-radius: 0px;
-  border-color: rgb(233, 95, 48);
-}
-.anvil-role-slider-refresh button {  /* individual class for C_LevelOfPopularity reset button */
-  background: transparent;
-  border: 0px solid;
-  border-radius: 10px;
-}
-.anvil-role-slider-refresh-growth button {
-  background: transparent;
-  border: 0px solid;
-  width: 50px !important;
-  border-radius: 10px;
-  margin: 10px 0 0 0;
-}
-/* user-select-none svg-container */
 
 /* -------------------- */
 /* alert for forgot password and register */
@@ -2415,4 +2410,43 @@ footer a, .footer .anvil-component {
 .btn-default[disabled]:active {
   background-color: transparent;
   color: rgba(125, 125, 125, 0.5);
+}
+
+.nav-button {
+  font-family: Gs-regular;
+  font-size: 18px;
+  position: fixed;
+  top: 20%;
+  left: 250px;
+  background-color: rgb(233,95,48);
+  color: white;
+  border: none;
+  padding: 10px 10px 10px 6px;
+  cursor: pointer;
+  z-index: 9999;
+  transition: left 0.3s ease;
+  border-top-right-radius: 15px;
+  border-bottom-right-radius: 15px;
+}
+
+/* When the sidebar is closed, move the button to the starting position */
+#left-sidebar.closed + .sidebar-click-guard + .main-content-move .nav-button,
+#left-sidebar[style*="left: -250px"] + .sidebar-click-guard + .main-content-move .nav-button,
+#left-sidebar[style*="left: -200px"] + .sidebar-click-guard + .main-content-move .nav-button {
+  left: 0px !important;
+}
+
+@media only screen and (max-width: 431px) {
+  .nav-button {
+    left: 200px;
+    position: fixed;
+    z-index: 9999; 
+  }
+  
+  /* Ensure button is visible at the edge when sidebar is closed on mobile */
+  #left-sidebar.closed + .sidebar-click-guard + .main-content-move .nav-button,
+  #left-sidebar[style*="left: -250px"] + .sidebar-click-guard + .main-content-move .nav-button,
+  #left-sidebar[style*="left: -200px"] + .sidebar-click-guard + .main-content-move .nav-button {
+    left: 0px !important;
+  }
 }

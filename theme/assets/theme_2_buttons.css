@@ -243,3 +243,19 @@ Area 3: Buttons
 .anvil-role-back-button button {
   background: var(--Sangria);
 }
+
+/* ----------------------------
+4. Individuall Designs:
+a) Individual class for C_LevelOfPopularity reset button */
+.anvil-role-slider-refresh button {
+  background: transparent;
+  border: 0px solid;
+  border-radius: 10px;
+}
+.anvil-role-slider-refresh-growth button {
+  background: transparent;
+  border: 0px solid;
+  width: 50px !important;
+  border-radius: 10px;
+  margin: 10px 0 0 0;
+}

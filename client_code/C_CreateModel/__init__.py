@@ -51,7 +51,9 @@ class C_CreateModel(C_CreateModelTemplate):
     
         # refresh models components
         get_open_form().refresh_models_components()
-        get_open_form().change_nav_visibility(status=True)
+
+        # view navigation sidebar
+        anvil.js.call_js("navbar_noModel_noSubs", True)
         
       else:
         alert(title='Error..', content=status)

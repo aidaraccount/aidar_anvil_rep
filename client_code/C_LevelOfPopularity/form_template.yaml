@@ -29,7 +29,7 @@ components:
         align: center
         font: ''
         font_size: null
-        role: [header-5, slider-inputbox]
+        role: [slider-inputbox, txt_white_discreet]
         spacing_above: none
         spacing_below: none
       type: TextBox
@@ -68,7 +68,7 @@ components:
         align: center
         font: ''
         font_size: null
-        role: [header-5, slider-inputbox]
+        role: [slider-inputbox, txt_white_discreet]
         spacing_above: none
         spacing_below: none
       type: TextBox

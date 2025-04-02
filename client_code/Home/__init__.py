@@ -6,7 +6,7 @@ import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
 import json
-import datetime
+from datetime import datetime
 
 from anvil_extras import routing
 from ..nav import click_link, click_button, click_box, logout, login_check, load_var, save_var
@@ -43,7 +43,7 @@ class Home(HomeTemplate):
       if user["first_name"] is not None:
         self.label_welcome.text = f'Welcome {user["first_name"]}'        
       
-      print(f"{datetime.datetime.now()}: Home - __init__ - 1", flush=True)
+      print(f"{datetime.now()}: Home - __init__ - 1", flush=True)
 
 
       # -------------
@@ -73,7 +73,7 @@ class Home(HomeTemplate):
       # get data
       self.get_shorts()
       
-      print(f"{datetime.datetime.now()}: Home - __init__ - 2", flush=True)
+      print(f"{datetime.now()}: Home - __init__ - 2", flush=True)
           
       # STATS
       data = anvil.server.call('app_home', user["user_id"])      
@@ -105,7 +105,7 @@ class Home(HomeTemplate):
       if tot_cnt == 1: self.label_tot_txt.text = 'total\nrating'
       else: self.label_tot_txt.text = 'total\nratings'
         
-      print(f"{datetime.datetime.now()}: Home - __init__ - 3", flush=True)
+      print(f"{datetime.now()}: Home - __init__ - 3", flush=True)
   
       # NEWS
       news = data['news']
@@ -114,7 +114,7 @@ class Home(HomeTemplate):
         self.xy_panel_news_empty.visible = True
       else:
         self.repeating_panel_news.items = news
-      print(f"{datetime.datetime.now()}: Home - __init__ - 4", flush=True)
+      print(f"{datetime.now()}: Home - __init__ - 4", flush=True)
           
     
   def link_discover_click(self, **event_args):

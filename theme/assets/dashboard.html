@@ -1,4 +1,6 @@
 <style>
+  /* 1. SIDEBAR STYLING */
+  /* 1.1. Basic sidebar elements */
   .sidebar .placeholder {
       text-align: center;
   }
@@ -16,9 +18,11 @@
       right: 0;
       height: 5px;
   }
+  
+  /* 1.2. Sidebar content styling */
   .sidebar-elt>.content a {
     font-size: 16px;
-    color:white;
+    color: white;
     text-transform: uppercase;
   }
   .sidebar-elt>.content a:hover {
@@ -34,45 +38,60 @@
   .sidebar-elt a:hover, .sidebar-elt a:active {
       color: orange
   }
-  /* Responsive bits: Make the menu overlay the screen
-      (and hidden by default) rather than displacing it
-      on small screens
-  */
-  .sidebar.floating {
-      position: absolute;
+  
+  /* 2. RESPONSIVE SIDEBAR */
+  /* 2.1. Sidebar positioning for different screen sizes */
+  .sidebar {
+      position: fixed;
       top: 62px;
-      bottom: 0px;
-      left: 0px;
-      z-index: 2;
+      bottom: 0;
+      left: 0;
+      width: 250px;
+      z-index: 100;
+      background: linear-gradient(to bottom right, rgb(31, 11, 59), rgba(250, 250, 250, 0.15));
+      transition: left 0.3s ease;
   }
+  
+  .sidebar.closed {
+      left: -250px;
+  }
+  
+  /* 2.2. Mobile-specific sidebar styling */
   @media(max-width:767px) {
-      .runner .sidebar {
-          display: block;
-          position: absolute;
-          top: 62px;
-          bottom: 0px;
-          left: 0px;
-          z-index: 12;
+      .sidebar {
+          position: fixed;
+          width: 200px;
       }
-      .runner .sidebar-click-guard {
+      
+      .sidebar.closed {
+          left: -200px;
+      }
+      
+      .sidebar-click-guard {
           display: none;
-          position: absolute;
+          position: fixed;
           top: 62px;
-          bottom: 0px;
+          bottom: 0;
           left: 0;
           right: 0;
-          background: linear-gradient(to bottom right, rgb(31, 11, 59), rgba(250, 250, 250, 0.15));
-          opacity: 0.5;
-          z-index: 10;
+          background: rgba(0, 0, 0, 0.5);
+          z-index: 90;
       }
+      
+      .sidebar-click-guard.visible {
+          display: block;
+      }
+  }
+  
+  /* 2.3. Sidebar floating behavior for desktop */
+  @media(min-width:768px) {
       .designer .sidebar {
           max-width: 30%;
       }
-      .sidebar.floating {
-          top: 62px;
-          z-index: 12;
-      }
   }
+  
+  /* 3. PAGE STRUCTURE */
+  /* 3.1. Main layout container */
   .structure {
       position: relative;
       width: 100%;
@@ -81,6 +100,8 @@
       align-items: stretch;
       min-height: 100vh;
   }
+  
+  /* 3.2. Navigation elements */
   .nav .title, .nav .menu-btn {
       display: inline-block;
       vertical-align: top;
@@ -93,6 +114,8 @@
   .nav > .menu-btn:hover {
       background: linear-gradient(to bottom right, rgb(31, 11, 59), rgba(250, 250, 250, 0.05));
   }
+  
+  /* 3.4. Navigation positioning elements */
   .nav-elt {
     display: inline-block;
     vertical-align: top;
@@ -143,6 +166,9 @@
   body.anvil-highlight .nav-elt_2.placeholder {
       visibility: visible;
   } 
+  
+  /* 4. MAIN CONTENT AREA */
+  /* 4.1. Content cards styling */
   .cards {
       flex-grow: 1;
       font-weight: bold;
@@ -151,12 +177,36 @@
       padding: 24px 16px;
       max-width: 100%;
       overflow-x: hidden;
-  }  
+      transition: margin-left 0.3s ease;
+  }
+  
+  .main-content-move {
+      margin-left: 250px;
+      transition: margin-left 0.3s ease;
+  }
+  
+  .main-content-move-nav {
+      margin-left: 250px;
+      transition: margin-left 0.3s ease;
+  }
+  
+  .main-content-move.shifted,
+  .main-content-move-nav.shifted {
+      margin-left: 0;
+  }
+  
+  @media(max-width:767px) {
+      .main-content-move, .main-content-move-nav {
+          margin-left: 0;
+      }
+  }
+  
   .designer .anvil-highlight .cards .anvil-container .anvil-container .anvil-container {
       outline: 1px dashed rgba(0,0,0,0.3)
   }
   
-  /* positioning of top right buttons */
+  /* 5. UTILITY CLASSES */
+  /* 5.1. Top right elements positioning */
   .top_right {
     position: absolute;
     right: 35px;
@@ -173,10 +223,12 @@
   </div>
 
   <div class="body" anvil-drop-default anvil-drop-container=">.cards .anvil-container" anvil-drop-redirect=">.cards > .placeholder">
+    <!-- Move the button outside the sidebar so it stays visible -->
+    <button class="nav-button" id="nav-button" onclick="toggleSidebar();">
+      <i class="fa fa-bars"></i>
+    </button>
+    
     <div id="left-sidebar" class="sidebar" anvil-drop-redirect=">.drop-here">
-      <button class="nav-button" id="nav-button" onclick="toggleSidebar();">
-        <i class="fa fa-bars"></i>
-      </button>
       <div anvil-if-slot-empty="logo" anvil-drop-slot="logo" class="logo placeholder anvil-designer-only">
         Drop Logo Here
       </div>
@@ -205,106 +257,224 @@
 </div>    
 
 <script>
-  function navbar_noModel_noSubs() {
-    var s = document.querySelector('.sidebar');
-    var b = document.querySelector('.nav-button');
-    var content = document.querySelector('.main-content-move')
-    var contentNav = document.querySelector('.main-content-move-nav')
-
+  // Define toggle function in global scope to ensure it's accessible
+  function toggleSidebar() {
+    var sidebar = document.getElementById('left-sidebar');
+    var clickGuard = document.querySelector('.sidebar-click-guard');
+    var content = document.querySelector('.main-content-move');
+    var contentNav = document.querySelector('.main-content-move-nav');
+    var button = document.getElementById('nav-button');
+    
+    // Try direct style manipulation instead of class toggling
+    if (sidebar.style.left === '-250px' || sidebar.style.left === '-200px' || sidebar.style.left === '') {
+      sidebar.style.left = '0px';
+      // Move button to right edge of sidebar
+      if (window.innerWidth > 767) {
+        content.style.marginLeft = '250px';
+        contentNav.style.marginLeft = '250px';
+        button.style.left = '250px';
+      } else {
+        button.style.left = '200px';
+      }
+      if (window.innerWidth <= 767) {
+        clickGuard.style.display = 'block';
+      }
+    } else {
+      if (window.innerWidth > 767) {
+        sidebar.style.left = '-250px';
+      } else {
+        sidebar.style.left = '-200px';
+      }
+      content.style.marginLeft = '0px';
+      contentNav.style.marginLeft = '0px';
+      // Move button to left edge of screen
+      button.style.left = '0px';
+      clickGuard.style.display = 'none';
+    }
+  }
+  
+  /**
+   * Handles hiding navbar for special hash states.
+   * Controls visibility of sidebar based on URL hash.
+   */
+  function handleSpecialNavStates() {
+    var sidebar = document.getElementById('left-sidebar');
+    var button = document.getElementById('nav-button');
+    var content = document.querySelector('.main-content-move');
+    var contentNav = document.querySelector('.main-content-move-nav');
     var currentHash = window.location.hash;
-    // console.log("current hash", currentHash);
 
     if (currentHash === '#no_subs' || currentHash === '#no_model') {
-        s.style.display = 'none';
-        b.style.display = 'none';
-        content.style.marginLeft = '0px';
-        contentNav.style.marginLeft = '0px';
+        sidebar.style.display = 'none';
+        button.style.display = 'none';
+        content.classList.remove('shifted');
+        contentNav.classList.remove('shifted');
     } else {
-        s.style.display = 'block';
-        b.style.display = 'block';
-        content.style.marginLeft = `${s.offsetWidth}px`;  // Shift content
-        contentNav.style.marginLeft = `${s.offsetWidth}px`;  // Shift content
+        sidebar.style.display = 'block';
+        button.style.display = 'block';
     }
-  } 
-  document.addEventListener('DOMContentLoaded', navbar_noModel_noSubs())
-
-
-  ///////////////////////////////////////////////////
-  // This ChatGPT version of the jQuery function
-  ///////////////////////////////////////////////////
-  function toggleSidebar() {
-    // Get the sidebar, button, and content element
-    var s = document.querySelector('.sidebar');
-    var b = document.querySelector('.nav-button');
-    var content = document.querySelector('.main-content-move')
-    var contentNav = document.querySelector('.main-content-move-nav')
-    
-    // Get the computed left position of the sidebar
-    var sidebarLeft = window.getComputedStyle(s).left;
-    
-    // Check if the sidebar is currently open or closed
-    if (sidebarLeft === '0px' || sidebarLeft === '250px') {
-      // Sidebar is open, so close it
-      s.style.left = `-${s.offsetWidth}px`;  // Move sidebar off-screen
-      b.style.left = '0px'; // Keep the button on the left
-      content.style.marginLeft = '0px'; // Reset content margin
-      contentNav.style.marginLeft = '0px'; // Reset content margin
-      document.querySelector('.sidebar-click-guard').style.display = 'none'; // Hide click guard
-      updateLoadingSpinnerMargin("0px"); // move loadingSpinner
-    } else {
-      // Sidebar is closed, so open it
-      s.style.left = '0px';  // Slide sidebar in
-      b.style.left = `${s.offsetWidth}px`;  // Move button with the sidebar
-      content.style.marginLeft = `${s.offsetWidth}px`;  // Shift content
-      contentNav.style.marginLeft = `${s.offsetWidth}px`;  // Shift content
-      document.querySelector('.sidebar-click-guard').style.display = 'none'; // Hide click guard
-      updateLoadingSpinnerMargin("125px"); // move loadingSpinner
-    }
-  }     
-  // })
-  // Initialize event listeners on DOM content load
-  document.addEventListener('DOMContentLoaded', function() {
-    var button = document.getElementById('nav-button')
-    var clickGuard = document.querySelector('.sidebar-click-guard');
-
-    // Add event listener to the button to toggle sidebar
-    button.addEventListener('click', toggleSidebar);
-
-    // Add event listener to the click-guard to close sidebar when clicked
-    clickGuard.addEventListener('click', toggleSidebar);
-
-    // Set the sidebar on-screen initially so it's ready for toggling
-    var sidebar = document.querySelector('.sidebar');
-    sidebar.style.left = `0px`;
-    button.style.left = `${sidebar.offsetWidth}px`; // Set button position when sidebar is open
-
-    var content = querySelector('.main-content-move');
-    var contentNav = querySelector('.main-content-move-nav');
-    content.style.marginLeft = `${sidebar.offsetWidth}px` // Adjust content margin when sidebar is open
-    cotentNav.style.marginLeft = `${sidebar.offsetWidth}px` // Adjust nav content margin
-  });
+  }
   
-  ///////////////////////////////////////////////////
-  // This is the original JQuery function used to hide and show the old Sidebar
-  ///////////////////////////////////////////////////
-  // function toggleSidebar() {
-  //     var s = $('.sidebar open');
-  //     if (!s.is(':hidden')) {
-  //         $('.sidebar-click-guard').hide();
-  //         s.addClass('floating').animate({left: -s.width()}, {complete: function() { s.hide(); }});
-  //     } else {
-  //         $('.sidebar-click-guard').show();
-  //         s.show().addClass('floating').css('left', '-100%').css('left', -s.width())
-  //             .animate({left: 0}, {complete: function() { s.removeClass('floating'); }});
-  //     }
-  // }
+  /**
+   * Initializes navigation functionality.
+   * Sets up event listeners and initial state.
+   */
+  function initializeNavigation() {
+    var button = document.getElementById('nav-button');
+    var clickGuard = document.querySelector('.sidebar-click-guard');
+    var sidebar = document.getElementById('left-sidebar');
+    var content = document.querySelector('.main-content-move');
+    var contentNav = document.querySelector('.main-content-move-nav');
     
-  // $(function() {
-  //     $('.sidebaropen').on("click", function() {
-  //         if (window.innerWidth <= 767) {
-  //             toggleSidebar();
-  //         }
-  //     });
-  //     $('.sidebar-click-guard').on("click", toggleSidebar);
-  // })
+    // Add event listeners
+    button.addEventListener('click', function(e) {
+      toggleSidebar();
+    });
+    
+    clickGuard.addEventListener('click', function(e) {
+      toggleSidebar();
+    });
+    
+    // Initial state - start with sidebar visible on desktop, hidden on mobile
+    if (window.innerWidth <= 767) {
+      sidebar.style.left = '-200px';
+      content.style.marginLeft = '0px';
+      contentNav.style.marginLeft = '0px';
+    }
+    
+    // Initialize special nav states
+    handleSpecialNavStates();
+    
+    // Listen for hash changes
+    window.addEventListener('hashchange', handleSpecialNavStates);
+    
+    // Handle resize events
+    window.addEventListener('resize', function() {
+      if (window.innerWidth > 767) {
+        clickGuard.style.display = 'none';
+      }
+    });
+  }
+
+  // Initialize when DOM is ready
+  document.addEventListener('DOMContentLoaded', function() {
+    initializeNavigation();
+  });
 </script>
+
+<!-- Clean, production-ready script for toggle functionality -->
+<script>
+  // Expose the navbar show/hide function globally for Anvil to call
+  function navbar_noModel_noSubs(visible) {
+    var sidebar = document.getElementById('left-sidebar');
+    var button = document.getElementById('nav-button');
+    var content = document.querySelector('.main-content-move');
+    var contentNav = document.querySelector('.main-content-move-nav');
+    
+    if (sidebar) {
+      sidebar.style.display = visible ? "block" : "none";
+      button.style.display = visible ? "block" : "none";
+      
+      // If showing the sidebar, also handle position
+      if (visible) {
+        if (window.innerWidth <= 767) {
+          sidebar.style.left = '-200px';
+          button.style.left = '0px';
+          content.style.marginLeft = '0px';
+          contentNav.style.marginLeft = '0px';
+        } else {
+          sidebar.style.left = '0px';
+          button.style.left = '250px';
+          content.style.marginLeft = '250px';
+          contentNav.style.marginLeft = '250px';
+        }
+      }
+    }
+  }
+
+  // Wait for page load to ensure all Anvil components are fully initialized
+  setTimeout(function() {
+    // Get the button directly
+    var navButton = document.getElementById('nav-button');
+    if (navButton) {
+      // Add direct event handler in vanilla JS
+      navButton.addEventListener('click', function(e) {
+        // Get sidebar and other elements
+        var sidebar = document.getElementById('left-sidebar');
+        var content = document.querySelector('.main-content-move');
+        var contentNav = document.querySelector('.main-content-move-nav');
+        var clickGuard = document.querySelector('.sidebar-click-guard');
+        
+        if (!sidebar) {
+          return;
+        }
+        
+        // Direct style manipulation approach
+        var sidebarStyle = window.getComputedStyle(sidebar);
+        var currentLeft = sidebarStyle.getPropertyValue('left');
+        
+        if (currentLeft === '0px' || currentLeft === 'auto' || currentLeft === '') {
+          // Close the sidebar
+          sidebar.style.left = '-250px';
+          content.style.marginLeft = '0px';
+          contentNav.style.marginLeft = '0px';
+          // Move button to left edge of screen
+          navButton.style.left = '0px';
+          if (clickGuard) clickGuard.style.display = 'none';
+        } else {
+          // Open the sidebar
+          sidebar.style.left = '0px';
+          if (window.innerWidth > 767) {
+            content.style.marginLeft = '250px';
+            contentNav.style.marginLeft = '250px';
+            // Move button to right edge of sidebar on desktop
+            navButton.style.left = '250px';
+          } else {
+            // Move button to right edge of sidebar on mobile
+            navButton.style.left = '200px';
+          }
+          if (clickGuard && window.innerWidth <= 767) {
+            clickGuard.style.display = 'block';
+          }
+        }
+        
+        // Prevent event from bubbling up to potential Anvil handlers
+        e.stopPropagation();
+        e.preventDefault();
+      }, true); // Use capturing to get the event first
+    }
+    
+    // Check URL hash on page load and set initial state
+    var currentHash = window.location.hash;
+    if (currentHash === '#no_subs' || currentHash === '#no_model') {
+      navbar_noModel_noSubs(false);
+    }
+    
+    // Add event listeners to all links inside the sidebar to auto-close on mobile
+    if (window.innerWidth <= 767) {
+      var sidebarLinks = document.querySelectorAll('#left-sidebar a');
+      sidebarLinks.forEach(function(link) {
+        link.addEventListener('click', function() {
+          // Get sidebar elements
+          var sidebar = document.getElementById('left-sidebar');
+          var navButton = document.getElementById('nav-button');
+          var content = document.querySelector('.main-content-move');
+          var contentNav = document.querySelector('.main-content-move-nav');
+          var clickGuard = document.querySelector('.sidebar-click-guard');
+          
+          // Auto-close the sidebar on mobile when clicking a link
+          if (window.innerWidth <= 767) {
+            // Close the sidebar
+            sidebar.style.left = '-200px';
+            content.style.marginLeft = '0px';
+            contentNav.style.marginLeft = '0px';
+            navButton.style.left = '0px';
+            if (clickGuard) clickGuard.style.display = 'none';
+          }
+        });
+      });
+    }
+  }, 0);
+</script>
+
+</body>
