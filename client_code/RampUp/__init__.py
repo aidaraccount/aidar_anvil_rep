@@ -134,8 +134,8 @@ class RampUp(RampUpTemplate):
         get_open_form().refresh_watchlists_components()
         get_open_form().refresh_watchlists_underline()
 
-        # refresh visibility
-        get_open_form().change_nav_visibility(status=True)
+        # view navigation sidebar
+        # !!!
             
         # check & routing
         if status == 'Congratulations, your Agent was successfully created!':

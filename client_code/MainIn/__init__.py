@@ -64,7 +64,10 @@ class MainIn(MainInTemplate):
       if user['expiration_date'] is not None and (datetime.today().date() - user['expiration_date']).days > 0:
         routing.set_url_hash('no_subs', load_from_cache=False)
         self.SearchBar.visible = False
-      
+
+        # hide navigation sidebar
+        # !!!
+        
       #begin = datetime.datetime.now()
       #print(f"{datetime.datetime.now()}: MainIn - link_login_click - 2", flush=True)
 
@@ -87,6 +90,9 @@ class MainIn(MainInTemplate):
       if self.model_id is None:
         routing.set_url_hash('no_model', load_from_cache=False)
         self.SearchBar.visible = True
+        
+        # hide navigation sidebar
+        # !!!
 
       #print(f"{datetime.datetime.now()}: MainIn - link_login_click - 4", flush=True)
       self.update_no_notifications()
