@@ -965,7 +965,7 @@ class Discover(DiscoverTemplate):
         self.drop_down_model.items = model_names
       
       # -------------------------------
-      # MILESTONE ALERT
+      # MILESTONE ALERTS & FEEDBACK
       total_ratings = sug['total_ratings']
       if total_ratings == "10":
         self.show_milestone_alert(10)
