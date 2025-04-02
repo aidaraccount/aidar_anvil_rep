@@ -38,12 +38,10 @@ Area 4: Text Boxes
 select.form-control {
   color: var(--WhiteDiscreet);
   background-color: var(--PurpleDiscreet); /* background, applies also to the dropdown options background */
-  border: 1px solid var(--PurpleDiscreet);
 }
 
 /* Dropdown focus state (selected box) */
 select.form-control:focus {
-  border-color: var(--PurpleDiscreet);
   box-shadow: 0 0 8px var(--PurpleDiscreet);
   outline: none;
 }
@@ -51,7 +49,7 @@ select.form-control:focus {
 /* Dropdown options styling (unselected options) */
 .form-control option {
   color: var(--WhiteDiscreet);
-  background-color: var(--Background_20);
+  /* background-color: var(--Background_20); */
 }
 
 
