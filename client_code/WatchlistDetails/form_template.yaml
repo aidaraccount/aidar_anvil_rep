@@ -279,7 +279,7 @@ components:
         name: date_picker_reminder
         properties:
           background: ''
-          font_size: 14
+          font_size: null
           placeholder: ''
           role: [txt_white_discreet]
           spacing_above: none

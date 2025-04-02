@@ -6,11 +6,9 @@ Area 4: Text Boxes
 4.1. Base design for Textbox, Dropdowns, DatePicker,.. */
 .form-control {
   font-family: GS-regular;
-  font-size: 16px;
+  font-size: 15px;
   font-weight: normal;
   color: var(--BlackDiscreet);
-
-  pading: 0;
   
   border-color: var(--Accent_2);
   border-radius: 7px;
@@ -18,22 +16,61 @@ Area 4: Text Boxes
   background-color: var(--Background_20);
 }
 
-/* ----------------------------
-4.2. Date Picker */
-.anvil-role-date-picker {
-  width: 115px;
-  font-size: 14px;
-  margin: 0px 0 0 5px;
-  padding: 5px 0px 0 0px;
-  border-radius: 10px;
-}
-.anvil-role-date-picker>.form-inline select {
-  border-radius: 10px;
+/* Text input focus state */
+.form-control:focus {
+  border-color: var(--Accent_1);
+  /* box-shadow: 0 0 7px var(--PurpleFocus); */
+  outline: none;
 }
 
+input.form-control:focus {
+  border-color: var(--Accent_1);
+  /* box-shadow: 0 0 7px var(--PurpleFocus); */
+  outline: none;
+}
 
 /* ----------------------------
-4.3. Individuall Designs:
+4.2. Dropdown Selects (unselected box) */
+select.form-control {
+  color: var(--WhiteDiscreet);
+  background-color: var(--PurpleDiscreet); /* background, applies also to the dropdown options background */
+}
+
+/* Dropdown focus state (selected box) */
+select.form-control:focus {
+  border-color: var(--Accent_1);
+  /* box-shadow: 0 0 7px var(--PurpleFocus); */
+  outline: none;
+}
+
+/* Dropdown options styling (unselected options) */
+.form-control option {
+  color: var(--WhiteDiscreet);
+}
+
+/* ----------------------------
+4.3. Date Picker */
+/* Date picker input field */
+.anvil-datepicker .form-control {
+  background-color: var(--PurpleDiscreet);
+}
+
+/* Date picker focus state */
+.anvil-datepicker .form-control:focus {
+  border-color: var(--Accent_1);
+  /* box-shadow: 0 0 7px var(--PurpleFocus); */
+  outline: none;
+}
+
+/* Calendar icon */
+.anvil-datepicker .fa-calendar {
+  color: var(--WhiteDiscreet);
+  bottom: 10px;
+  font-size: 15px;
+}
+
+/* ----------------------------
+4.4. Individuall Designs:
 a) Textbox for Notification Settings */
 .anvil-role-notification-settings-textbox {
   font-size: 14px;
