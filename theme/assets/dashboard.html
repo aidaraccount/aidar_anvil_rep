@@ -377,16 +377,20 @@
 
 <!-- Clean, production-ready script for toggle functionality -->
 <script>
-  // Check URL hash IMMEDIATELY on page load and set initial state
-  if (window.location.hash === '#no_subs' || window.location.hash === '#no_model') {
-    // Try to find sidebar and hide it immediately, no waiting
-    var sidebar = document.getElementById('left-sidebar');
-    var button = document.getElementById('nav-button');
-    if (sidebar) {
-      sidebar.style.display = 'none';
-      if (button) button.style.display = 'none';
+  // Safer approach to check URL hash - will run after DOM is loaded
+  document.addEventListener('DOMContentLoaded', function() {
+    if (window.location.hash === '#no_subs' || window.location.hash === '#no_model') {
+      // Try to find sidebar and hide it immediately after DOM is loaded
+      var sidebar = document.getElementById('left-sidebar');
+      var button = document.getElementById('nav-button');
+      if (sidebar) {
+        sidebar.style.display = 'none';
+      }
+      if (button) {
+        button.style.display = 'none';
+      }
     }
-  }
+  });
 
   // Expose the navbar show/hide function globally for Anvil to call
   // Immediately make the function available without waiting for timeout
