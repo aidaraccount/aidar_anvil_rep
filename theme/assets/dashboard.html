@@ -174,7 +174,7 @@
 
   <div class="body" anvil-drop-default anvil-drop-container=">.cards .anvil-container" anvil-drop-redirect=">.cards > .placeholder">
     <div id="left-sidebar" class="sidebar" anvil-drop-redirect=">.drop-here">
-      <button class="nav-button" id="nav-button" onclick="toggleSidebar();">
+      <button class="nav-button" id="nav-button">
         <i class="fa fa-bars"></i>
       </button>
       <div anvil-if-slot-empty="logo" anvil-drop-slot="logo" class="logo placeholder anvil-designer-only">
@@ -206,17 +206,25 @@
 
 <script>
   function navbar_noModel_noSubs() {
-    var s = document.querySelector('.sidebar');
+    var s = document.querySelector('#left-sidebar');
     var b = document.querySelector('.nav-button');
     var content = document.querySelector('.main-content-move')
     var contentNav = document.querySelector('.main-content-move-nav')
 
     var currentHash = window.location.hash;
     // console.log("current hash", currentHash);
+    
+    // On mobile, always ensure the button is visible regardless of hash
+    var isMobile = window.innerWidth <= 431;
 
     if (currentHash === '#no_subs' || currentHash === '#no_model') {
         s.style.display = 'none';
-        b.style.display = 'none';
+        // Always keep the button visible on mobile
+        if (isMobile) {
+            b.style.display = 'block';
+        } else {
+            b.style.display = 'none';
+        }
         content.style.marginLeft = '0px';
         contentNav.style.marginLeft = '0px';
     } else {
@@ -234,7 +242,7 @@
   ///////////////////////////////////////////////////
   function toggleSidebar() {
     // Get the sidebar, button, and content element
-    var s = document.querySelector('.sidebar');
+    var s = document.querySelector('#left-sidebar');
     var b = document.querySelector('.nav-button');
     var content = document.querySelector('.main-content-move')
     var contentNav = document.querySelector('.main-content-move-nav')
@@ -264,17 +272,29 @@
   // })
   // Initialize event listeners on DOM content load
   document.addEventListener('DOMContentLoaded', function() {
-    var button = document.getElementById('nav-button')
+    var button = document.querySelector('#nav-button');
     var clickGuard = document.querySelector('.sidebar-click-guard');
 
-    // Add event listener to the button to toggle sidebar
-    button.addEventListener('click', toggleSidebar);
+    // Handle both click and touch events for maximum compatibility
+    function addMultipleEventListeners(element, events, handler) {
+      events.forEach(function(event) {
+        element.addEventListener(event, handler);
+      });
+    }
 
-    // Add event listener to the click-guard to close sidebar when clicked
-    clickGuard.addEventListener('click', toggleSidebar);
+    // Add both click and touch events to button and click guard
+    addMultipleEventListeners(button, ['click', 'touchstart'], function(e) {
+      e.preventDefault(); // Prevent double-firing on iOS
+      toggleSidebar();
+    });
+
+    addMultipleEventListeners(clickGuard, ['click', 'touchstart'], function(e) {
+      e.preventDefault(); // Prevent double-firing on iOS
+      toggleSidebar();
+    });
 
     // Set the sidebar on-screen initially so it's ready for toggling
-    var sidebar = document.querySelector('.sidebar');
+    var sidebar = document.querySelector('#left-sidebar');
     sidebar.style.left = `0px`;
     button.style.left = `${sidebar.offsetWidth}px`; // Set button position when sidebar is open
 
@@ -283,31 +303,24 @@
     content.style.marginLeft = `${sidebar.offsetWidth}px`; // Adjust content margin when sidebar is open
     contentNav.style.marginLeft = `${sidebar.offsetWidth}px`; // Adjust nav content margin
     
+    // Force button to be visible on mobile
+    if (window.innerWidth <= 431) {
+      button.style.display = 'block';
+      button.style.opacity = '1';
+      button.style.visibility = 'visible';
+    }
+    
     // Run the hash check after properly setting up the UI
     navbar_noModel_noSubs();
+    
+    // Handle resize events to ensure button remains visible on mobile
+    window.addEventListener('resize', function() {
+      if (window.innerWidth <= 431) {
+        button.style.display = 'block';
+        button.style.opacity = '1';
+        button.style.visibility = 'visible';
+      }
+    });
   });
   
-  ///////////////////////////////////////////////////
-  // This is the original JQuery function used to hide and show the old Sidebar
-  ///////////////////////////////////////////////////
-  // function toggleSidebar() {
-  //     var s = $('.sidebar open');
-  //     if (!s.is(':hidden')) {
-  //         $('.sidebar-click-guard').hide();
-  //         s.addClass('floating').animate({left: -s.width()}, {complete: function() { s.hide(); }});
-  //     } else {
-  //         $('.sidebar-click-guard').show();
-  //         s.show().addClass('floating').css('left', '-100%').css('left', -s.width())
-  //             .animate({left: 0}, {complete: function() { s.removeClass('floating'); }});
-  //     }
-  // }
-    
-  // $(function() {
-  //     $('.sidebaropen').on("click", function() {
-  //         if (window.innerWidth <= 767) {
-  //             toggleSidebar();
-  //         }
-  //     });
-  //     $('.sidebar-click-guard').on("click", toggleSidebar);
-  // })
 </script>
