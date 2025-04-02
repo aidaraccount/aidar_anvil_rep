@@ -6,7 +6,7 @@ Area 4: Text Boxes
 4.1. Base design for Textbox, Dropdowns, DatePicker,.. */
 .form-control {
   font-family: GS-regular;
-  font-size: 16px;
+  font-size: 15px;
   font-weight: normal;
   color: var(--BlackDiscreet);
   
@@ -37,30 +37,15 @@ select.form-control:focus {
 
 /* ----------------------------
 4.3. Date Picker */
-.anvil-datepicker {
-  width: 115px;
-  font-size: 14px;
-  margin: 0px 0 0 5px;
-  padding: 5px 0px 0 0px;
-  border-radius: 10px;
-  color: var(--WhiteDiscreet);
-  background-color: var(--PurpleDiscreet);
-}
 
 /* Date picker input field */
 .anvil-datepicker .form-control {
-  border-radius: 10px;
-  color: var(--WhiteDiscreet);
   background-color: var(--PurpleDiscreet);
-  border: 1px solid var(--Accent_2);
-  box-sizing: border-box;
-  height: auto;
-  padding: 4px 8px;
 }
 
 /* Date picker focus state */
 .anvil-datepicker .form-control:focus {
-  border-color: var(--Accent_2);
+  border-color: var(--Accent_2); /* border color when the datepicker selection is opened */
   box-shadow: 0 0 8px var(--PurpleDiscreet);
   outline: none;
 }
@@ -68,57 +53,10 @@ select.form-control:focus {
 /* Calendar icon */
 .anvil-datepicker .fa-calendar {
   color: var(--WhiteDiscreet);
+  bottom: 10px;
+  font-size: 
 }
 
-/* Bootstrap datepicker override - base container */
-div.datepicker-dropdown {
-  background-color: var(--PurpleDiscreet) !important;
-  border-color: var(--Accent_2) !important;
-}
-
-/* Datepicker table */
-div.datepicker-dropdown table,
-div.datepicker-dropdown table tr,
-div.datepicker-dropdown table th,
-div.datepicker-dropdown table td {
-  background-color: var(--PurpleDiscreet) !important;
-  color: var(--WhiteDiscreet) !important;
-}
-
-/* Day cells */
-div.datepicker-dropdown table tr td.day {
-  color: var(--WhiteDiscreet) !important;
-  background-color: var(--PurpleDiscreet) !important;
-}
-
-/* Day cells hover */
-div.datepicker-dropdown table tr td.day:hover {
-  background-color: var(--Accent_2) !important;
-  color: var(--White) !important;
-}
-
-/* Selected day */
-div.datepicker-dropdown table tr td.active,
-div.datepicker-dropdown table tr td.active:hover {
-  background-color: orange !important;
-  background-image: none !important;
-  color: var(--White) !important;
-}
-
-/* Navigation elements */
-div.datepicker-dropdown .datepicker-switch,
-div.datepicker-dropdown .prev,
-div.datepicker-dropdown .next {
-  color: var(--WhiteDiscreet) !important;
-  background-color: var(--PurpleDiscreet) !important;
-}
-
-/* Navigation hover */
-div.datepicker-dropdown .datepicker-switch:hover,
-div.datepicker-dropdown .prev:hover,
-div.datepicker-dropdown .next:hover {
-  background-color: var(--Accent_2) !important;
-}
 
 /* ----------------------------
 4.4. Individuall Designs:
