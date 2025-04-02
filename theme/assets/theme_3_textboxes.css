@@ -34,18 +34,7 @@ Area 4: Text Boxes
 
 /* ----------------------------
 4.3. Individuall Designs:
-a) Ramp-up */
-.anvil-role-rampup-text-field {
-  font-family: GS-regular;
-  width: 100%;
-  border-radius: 7px;
-  background-repeat: no-repeat;
-  background-position: 10px center;
-  text-align: left;
-}
-
-/* 
-b) Textbox for Notification Settings */
+a) Textbox for Notification Settings */
 .anvil-role-notification-settings-textbox {
   font-size: 14px;
   font-weight: normal;
@@ -58,4 +47,15 @@ b) Textbox for Notification Settings */
   border-radius: 0px; 
   border: none;
   border-bottom: 1px solid;
+}
+
+/* 
+b) individual class for C_LevelOfPopularity input box */
+.anvil-role-slider-inputbox {
+  background: transparent;
+  border: 0px;
+  border-bottom: 1px solid;
+  width: 70px;
+  border-radius: 0px;
+  border-color: rgb(233, 95, 48);
 }

@@ -112,7 +112,7 @@ components:
         hide_text: false
         italic: false
         placeholder: Name of the Model
-        role: [text_box_small, rampup-text-field]
+        role: [txt_white_discreet]
         spacing_above: small
         spacing_below: small
         text: ''
@@ -140,7 +140,7 @@ components:
         hide_text: false
         italic: false
         placeholder: Description of the Model
-        role: [text_box_small, rampup-text-field]
+        role: [txt_white_discreet]
         spacing_above: small
         spacing_below: medium
         text: ''

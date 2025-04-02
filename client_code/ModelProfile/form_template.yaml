@@ -17,7 +17,10 @@ components:
       - event_bindings: {pressed_enter: edit_icon_click}
         layout_properties: {grid_position: 'BKOAUM,PVSQDK EQCUCU,PULXYL'}
         name: model_name_text
-        properties: {role: text_box_small, spacing_above: small, spacing_below: small}
+        properties:
+          role: [txt_white_discreet]
+          spacing_above: small
+          spacing_below: small
         type: TextBox
       - layout_properties: {grid_position: 'BKOAUM,PVSQDK OACVVY,PNPPFH'}
         name: model_description
@@ -25,7 +28,11 @@ components:
         type: Label
       - layout_properties: {grid_position: 'BKOAUM,PVSQDK YREHNG,CXUGOE'}
         name: model_description_text
-        properties: {height: '', role: text_box_small, spacing_above: small, spacing_below: small}
+        properties:
+          height: ''
+          role: [txt_white_discreet]
+          spacing_above: small
+          spacing_below: small
         type: TextArea
       - layout_properties: {grid_position: 'BKOAUM,PVSQDK WVWLVR,WFBZSY'}
         name: spacer_1

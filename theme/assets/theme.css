@@ -2322,27 +2322,6 @@ footer a, .footer .anvil-component {
   background:white;
 }
 
-.anvil-role-slider-inputbox {  /* individual class for C_LevelOfPopularity input box */
-  background: transparent;
-  border: 0px;
-  border-bottom: 1px solid;
-  width: 70px;
-  border-radius: 0px;
-  border-color: rgb(233, 95, 48);
-}
-.anvil-role-slider-refresh button {  /* individual class for C_LevelOfPopularity reset button */
-  background: transparent;
-  border: 0px solid;
-  border-radius: 10px;
-}
-.anvil-role-slider-refresh-growth button {
-  background: transparent;
-  border: 0px solid;
-  width: 50px !important;
-  border-radius: 10px;
-  margin: 10px 0 0 0;
-}
-/* user-select-none svg-container */
 
 /* -------------------- */
 /* alert for forgot password and register */
