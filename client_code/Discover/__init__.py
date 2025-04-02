@@ -999,41 +999,47 @@ class Discover(DiscoverTemplate):
       print("Embed iframe element not found. Will not initialize Spotify player.")
     
   def spotify_HTML_player(self):
+    """
+    Creates the HTML container for the Spotify player and initializes it.
+    This ensures the player is only created and initialized once.
+    """
+    # 2.1. Create HTML container for Spotify widget
     c_web_player_html = '''
       <div id="embed-iframe"></div>
+      <script>
+        // Focus handler to improve player responsiveness
+        function focusSpotifyPlayer() {
+          // Wait a short moment for iframe to be fully injected by Spotify SDK
+          setTimeout(function() {
+            // Find the Spotify iframe that's created by the SDK
+            var spotifyIframe = document.querySelector('#embed-iframe iframe');
+            if (spotifyIframe) {
+              spotifyIframe.focus();
+              console.log("Spotify player focused");
+            }
+          }, 500);
+        }
+        
+        // Set up observer to detect when iframe is added
+        var observer = new MutationObserver(function(mutations) {
+          mutations.forEach(function(mutation) {
+            if (mutation.addedNodes.length) {
+              focusSpotifyPlayer();
+            }
+          });
+        });
+        
+        // Start observing the embed-iframe container for changes
+        observer.observe(document.getElementById('embed-iframe'), { childList: true, subtree: true });
+      </script>
       '''
     html_webplayer_panel = HtmlPanel(html=c_web_player_html)
     self.spotify_player_spot.add_component(html_webplayer_panel)
-
-  def custom_HTML_prediction(self):
-    if self.pred:
-      custom_html = f'''
-      <li class="note-display" data-note="{self.pred}">
-        <div class="circle">
-          <svg width="140" height="140" class="circle__svg">
-            <defs>
-              <linearGradient id="grad1" x1="100%" y1="100%" x2="0%" y2="0%">
-                <stop offset="0%" style="stop-color:#812675;stop-opacity:1" />
-                <stop offset="100%" style="stop-color:#E95F30;stop-opacity:1" />
-              </linearGradient>
-            </defs>
-            <circle cx="70" cy="70" r="65" class="circle__progress circle__progress--path"></circle>
-            <circle cx="70" cy="70" r="65" class="circle__progress circle__progress--fill" stroke="url(#grad1)"></circle>
-          </svg>
-
-          <div class="percent">
-            <span class="percent__int">0.</span>
-            <!-- <span class="percent__dec">00</span> -->
-            <span class="label" style="font-size: 13px;">Fit Likelihood</span>
-          </div>
-        </div>
-
-      </li>
-      '''
-      html_panel = HtmlPanel(html=custom_html)
-      self.column_panel_circle.add_component(html_panel)
-    else:
-      print("NO SELF PRED?")
+    
+    # 2.2. Initialize the Spotify player with the artist ID
+    if hasattr(self, 'sug') and self.sug and 'SpotifyArtistID' in self.sug:
+      self.call_js('createOrUpdateSpotifyPlayer', anvil.js.get_dom_node(self), 'artist', self.sug["SpotifyArtistID"])
+      print("Spotify player initialized")
   
   def truncate_label(self, label):
     return label if len(label) <= 10 else label[:10] + '...'
@@ -1801,7 +1807,7 @@ class Discover(DiscoverTemplate):
           textposition='outside',
           hoverinfo='none',
           hovertext=data['dates'],
-          # hovertemplate=f'{platform.capitalize()} Followers: %{text}<br>Date: %{hovertext} <extra></extra>'
+          # hovertemplate=f'{platform.capitalize()} Followers: %{text}<br>Date: %{x}<extra></extra>'
         )
         traces.append(trace)
 
@@ -1934,7 +1940,7 @@ class Discover(DiscoverTemplate):
   def nav_button_click(self, **event_args):
     """
     Universal click handler for all navigation buttons.
-    Gets the text from the button that was clicked and navigates to the appropriate section.
+    Gets the button that was clicked and navigates to the appropriate section.
     """
     # Get the button that was clicked
     sender = event_args.get('sender')
@@ -2356,3 +2362,33 @@ class Discover(DiscoverTemplate):
       large=True,
       buttons=[]
     )
+
+  def custom_HTML_prediction(self):
+    if self.pred:
+      custom_html = f'''
+      <li class="note-display" data-note="{self.pred}">
+        <div class="circle">
+          <svg width="140" height="140" class="circle__svg">
+            <defs>
+              <linearGradient id="grad1" x1="100%" y1="100%" x2="0%" y2="0%">
+                <stop offset="0%" style="stop-color:#812675;stop-opacity:1" />
+                <stop offset="100%" style="stop-color:#E95F30;stop-opacity:1" />
+              </linearGradient>
+            </defs>
+            <circle cx="70" cy="70" r="65" class="circle__progress circle__progress--path"></circle>
+            <circle cx="70" cy="70" r="65" class="circle__progress circle__progress--fill" stroke="url(#grad1)"></circle>
+          </svg>
+
+          <div class="percent">
+            <span class="percent__int">0.</span>
+            <!-- <span class="percent__dec">00</span> -->
+            <span class="label" style="font-size: 13px;">Fit Likelihood</span>
+          </div>
+        </div>
+
+      </li>
+      '''
+      html_panel = HtmlPanel(html=custom_html)
+      self.column_panel_circle.add_component(html_panel)
+    else:
+      print("NO SELF PRED?")
