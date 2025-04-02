@@ -36,39 +36,40 @@ Area 4: Text Boxes
 /* ----------------------------
 4.3. Dropdown Selects */
 select.form-control {
-  color: var(--WhiteDiscreet);
-  background-color: var(--Background_20);
+  color: #FFFF00; /* Bright yellow text */
+  background-color: #0000FF; /* Blue background */
+  border: 2px solid #FF00FF; /* Magenta border */
 }
 
 /* Dropdown focus state */
 select.form-control:focus {
-  border-color: var(--Accent_1);
-  box-shadow: 0 0 3px var(--Accent_1);
+  border-color: #FF0000; /* Red border */
+  box-shadow: 0 0 8px #FF0000; /* Red glow */
   outline: none;
 }
 
 /* Dropdown options styling */
 .form-control option {
-  color: var(--WhiteDiscreet);
-  background-color: var(--Background_20);
+  color: #00FFFF; /* Cyan text */
+  background-color: #800080; /* Purple background */
 }
 
 /* Option hover/focus states */
 .form-control option:hover,
 .form-control option:focus {
-  background-color: var(--Accent_2);
-  color: var(--White);
+  background-color: #FF8000; /* Orange background */
+  color: #000000; /* Black text */
 }
 
 /* Selected option */
 .form-control option:checked {
-  background-color: var(--Accent_1);
-  color: var(--White);
+  background-color: #00FF00; /* Green background */
+  color: #FF0000; /* Red text */
 }
 
 /* Dropdown popup container background */
 select.form-control optgroup {
-  background-color: var(--Background_40);
+  background-color: #FFC0CB; /* Pink background */
 }
 
 /* 
