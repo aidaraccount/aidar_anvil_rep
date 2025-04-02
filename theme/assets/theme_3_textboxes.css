@@ -42,10 +42,35 @@ select.form-control {
   background-color: var(--Background_20);
 }
 
-/* Ensure date picker and dropdown options have the correct styling */
+/* Dropdown focus state */
+select.form-control:focus {
+  border-color: var(--Accent_1);
+  box-shadow: 0 0 3px var(--Accent_1);
+  outline: none;
+}
+
+/* Dropdown options styling */
 .form-control option {
   color: var(--WhiteDiscreet);
   background-color: var(--Background_20);
+}
+
+/* Option hover/focus states */
+.form-control option:hover,
+.form-control option:focus {
+  background-color: var(--Accent_2);
+  color: var(--White);
+}
+
+/* Selected option */
+.form-control option:checked {
+  background-color: var(--Accent_1);
+  color: var(--White);
+}
+
+/* Dropdown popup container background */
+select.form-control optgroup {
+  background-color: var(--Background_40);
 }
 
 /* 
