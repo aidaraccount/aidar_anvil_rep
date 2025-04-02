@@ -1651,7 +1651,6 @@ footer a, .footer .anvil-component {
   position: fixed;
   top: 20%;
   left: 250px;
-  /* left: 0; */
   background-color: rgb(233,95,48);
   color: white;
   border: none;
@@ -1662,6 +1661,7 @@ footer a, .footer .anvil-component {
   border-top-right-radius: 15px;
   border-bottom-right-radius: 15px;
 }
+
 @media only screen and (max-width: 431px) {
   .nav-button {
     left: 200px;

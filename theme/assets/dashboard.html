@@ -48,18 +48,15 @@
       left: 0;
       width: 250px;
       z-index: 100;
-      transition: transform 0.3s ease;
       background: linear-gradient(to bottom right, rgb(31, 11, 59), rgba(250, 250, 250, 0.15));
+      transition: left 0.3s ease;
   }
   
   /* 2.2. Mobile-specific sidebar styling */
   @media(max-width:767px) {
       .sidebar {
-          transform: translateX(-100%);
-      }
-      
-      .sidebar.open {
-          transform: translateX(0);
+          position: fixed;
+          width: 200px;
       }
       
       .sidebar-click-guard {
@@ -71,10 +68,6 @@
           right: 0;
           background: rgba(0, 0, 0, 0.5);
           z-index: 90;
-      }
-      
-      .sidebar-click-guard.visible {
-          display: block;
       }
   }
   
@@ -108,32 +101,6 @@
   }
   .nav > .menu-btn:hover {
       background: linear-gradient(to bottom right, rgb(31, 11, 59), rgba(250, 250, 250, 0.05));
-  }
-  
-  /* 3.3. Hamburger menu button styling */
-  .nav-toggle-btn {
-      position: fixed;
-      top: 70px;
-      left: 10px;
-      background-color: rgb(233, 95, 48);
-      color: white;
-      border: none;
-      border-radius: 4px;
-      padding: 8px 12px;
-      font-size: 16px;
-      cursor: pointer;
-      z-index: 110;
-      transition: left 0.3s ease;
-  }
-  
-  @media(min-width:768px) {
-      .nav-toggle-btn {
-          left: 260px;
-      }
-      
-      body.sidebar-closed .nav-toggle-btn {
-          left: 10px;
-      }
   }
   
   /* 3.4. Navigation positioning elements */
@@ -201,18 +168,18 @@
       transition: margin-left 0.3s ease;
   }
   
-  @media(min-width:768px) {
-      .cards {
-          margin-left: 250px;
-      }
-      
-      body.sidebar-closed .cards {
-          margin-left: 0;
-      }
+  .main-content-move {
+      margin-left: 250px;
+      transition: margin-left 0.3s ease;
+  }
+  
+  .main-content-move-nav {
+      margin-left: 250px;
+      transition: margin-left 0.3s ease;
   }
   
   @media(max-width:767px) {
-      .cards {
+      .main-content-move, .main-content-move-nav {
           margin-left: 0;
       }
   }
@@ -234,16 +201,15 @@
 <div class="structure">
   
   <div class="nav" anvil-drop-redirect=".title.placeholder, .nav-elt.placeholder, .nav-elt .drop-here">
-    <div anvil-slot="search_box" class="search_box"></div>
+    <div anvil-slot="search_box" class="search_box main-content-move-nav"></div>
     <div anvil-slot="top_right" class="top_right"></div>
   </div>
 
   <div class="body" anvil-drop-default anvil-drop-container=">.cards .anvil-container" anvil-drop-redirect=">.cards > .placeholder">
-    <button class="nav-toggle-btn" id="nav-toggle-btn" aria-label="Toggle navigation">
-      <i class="fa fa-bars"></i>
-    </button>
-    
-    <div id="left-sidebar" class="sidebar">
+    <div id="left-sidebar" class="sidebar" anvil-drop-redirect=">.drop-here">
+      <button class="nav-button" id="nav-button">
+        <i class="fa fa-bars"></i>
+      </button>
       <div anvil-if-slot-empty="logo" anvil-drop-slot="logo" class="logo placeholder anvil-designer-only">
         Drop Logo Here
       </div>
@@ -257,7 +223,7 @@
       </div>
     </div>
     <div class="sidebar-click-guard"></div>
-    <div class="cards">
+    <div class="cards anvil-measure-content main-content-move">
       <div anvil-if-slot-empty="default" anvil-drop-slot="default" class="placeholder">
         Drop a ColumnPanel here to add content
       </div>
@@ -278,15 +244,28 @@
    */
   function handleSpecialNavStates() {
     var sidebar = document.getElementById('left-sidebar');
-    var toggleBtn = document.getElementById('nav-toggle-btn');
+    var button = document.getElementById('nav-button');
+    var content = document.querySelector('.main-content-move');
+    var contentNav = document.querySelector('.main-content-move-nav');
     var currentHash = window.location.hash;
 
     if (currentHash === '#no_subs' || currentHash === '#no_model') {
         sidebar.style.display = 'none';
-        toggleBtn.style.display = 'none';
+        button.style.display = 'none';
+        content.style.marginLeft = '0px';
+        contentNav.style.marginLeft = '0px';
     } else {
         sidebar.style.display = 'block';
-        toggleBtn.style.display = 'block';
+        button.style.display = 'block';
+        
+        // Set initial positions
+        if (window.innerWidth > 767) {
+            content.style.marginLeft = '250px';
+            contentNav.style.marginLeft = '250px';
+        } else {
+            content.style.marginLeft = '0px';
+            contentNav.style.marginLeft = '0px';
+        }
     }
   }
 
@@ -296,16 +275,58 @@
    */
   function toggleSidebar() {
     var sidebar = document.getElementById('left-sidebar');
+    var button = document.getElementById('nav-button');
+    var content = document.querySelector('.main-content-move');
+    var contentNav = document.querySelector('.main-content-move-nav');
     var clickGuard = document.querySelector('.sidebar-click-guard');
-    var body = document.body;
     
-    // Toggle sidebar open/closed state
-    sidebar.classList.toggle('open');
-    body.classList.toggle('sidebar-closed');
+    // Get the computed left position of the sidebar
+    var sidebarLeft = window.getComputedStyle(sidebar).left;
     
-    // Show/hide click guard on mobile
-    if (window.innerWidth <= 767) {
-      clickGuard.classList.toggle('visible');
+    // Check if the sidebar is currently open or closed
+    if (sidebarLeft === '0px') {
+      // Sidebar is open, so close it
+      sidebar.style.left = `-${sidebar.offsetWidth}px`;  // Move sidebar off-screen
+      button.style.left = '0px'; // Keep the button on the left
+      content.style.marginLeft = '0px'; // Reset content margin
+      contentNav.style.marginLeft = '0px'; // Reset content margin
+      
+      // Handle click guard on mobile
+      if (window.innerWidth <= 767) {
+        clickGuard.style.display = 'none'; // Hide click guard
+      }
+      
+      try {
+        // Optional: if function exists
+        if (typeof updateLoadingSpinnerMargin === 'function') {
+          updateLoadingSpinnerMargin("0px"); // move loadingSpinner
+        }
+      } catch (e) {}
+    } else {
+      // Sidebar is closed, so open it
+      sidebar.style.left = '0px';  // Slide sidebar in
+      
+      // Position button differently based on screen size
+      if (window.innerWidth > 767) {
+        button.style.left = '250px';  // Desktop position
+        content.style.marginLeft = '250px';  // Shift content
+        contentNav.style.marginLeft = '250px';  // Shift content
+      } else {
+        button.style.left = '200px';  // Mobile position (smaller sidebar)
+        // On mobile, don't shift content
+      }
+      
+      // Handle click guard on mobile
+      if (window.innerWidth <= 767) {
+        clickGuard.style.display = 'block'; // Show click guard
+      }
+      
+      try {
+        // Optional: if function exists
+        if (typeof updateLoadingSpinnerMargin === 'function') {
+          updateLoadingSpinnerMargin("125px"); // move loadingSpinner
+        }
+      } catch (e) {}
     }
   }
   
@@ -314,24 +335,47 @@
    * Sets up event listeners and initial state.
    */
   function initializeNavigation() {
-    var toggleBtn = document.getElementById('nav-toggle-btn');
+    var button = document.getElementById('nav-button');
     var clickGuard = document.querySelector('.sidebar-click-guard');
+    var sidebar = document.getElementById('left-sidebar');
     
     // Add event listeners
-    toggleBtn.addEventListener('click', toggleSidebar);
+    button.addEventListener('click', toggleSidebar);
     clickGuard.addEventListener('click', toggleSidebar);
-    window.addEventListener('resize', function() {
-      // Hide click guard on desktop if visible
-      if (window.innerWidth > 767) {
-        clickGuard.classList.remove('visible');
-      }
-    });
     
-    // Initialize special nav states
+    // Set initial positions
+    sidebar.style.left = '0px'; // Start with sidebar visible
+    
+    if (window.innerWidth > 767) {
+      button.style.left = '250px'; // Desktop position
+    } else {
+      button.style.left = '200px'; // Mobile position
+      sidebar.style.left = '-200px'; // Start hidden on mobile
+    }
+    
+    // Initialize special nav states after setting up basic positions
     handleSpecialNavStates();
     
     // Listen for hash changes
     window.addEventListener('hashchange', handleSpecialNavStates);
+    
+    // Handle resize events
+    window.addEventListener('resize', function() {
+      // Reposition elements based on screen size
+      if (window.getComputedStyle(sidebar).left === '0px') {
+        // If sidebar is open, adjust button position
+        if (window.innerWidth > 767) {
+          button.style.left = '250px';
+        } else {
+          button.style.left = '200px';
+        }
+      }
+      
+      // Hide click guard on desktop
+      if (window.innerWidth > 767) {
+        clickGuard.style.display = 'none';
+      }
+    });
   }
 
   // Initialize when DOM is ready
