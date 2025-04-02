@@ -2432,3 +2432,42 @@ footer a, .footer .anvil-component {
   background-color: transparent;
   color: rgba(125, 125, 125, 0.5);
 }
+
+.nav-button {
+  font-family: Gs-regular;
+  font-size: 18px;
+  position: fixed;
+  top: 20%;
+  left: 250px;
+  background-color: rgb(233,95,48);
+  color: white;
+  border: none;
+  padding: 10px 10px 10px 6px;
+  cursor: pointer;
+  z-index: 9999;
+  transition: left 0.3s ease;
+  border-top-right-radius: 15px;
+  border-bottom-right-radius: 15px;
+}
+
+/* When the sidebar is closed, move the button to the starting position */
+#left-sidebar.closed + .sidebar-click-guard + .main-content-move .nav-button,
+#left-sidebar[style*="left: -250px"] + .sidebar-click-guard + .main-content-move .nav-button,
+#left-sidebar[style*="left: -200px"] + .sidebar-click-guard + .main-content-move .nav-button {
+  left: 0px !important;
+}
+
+@media only screen and (max-width: 431px) {
+  .nav-button {
+    left: 200px;
+    position: fixed;
+    z-index: 9999; 
+  }
+  
+  /* Ensure button is visible at the edge when sidebar is closed on mobile */
+  #left-sidebar.closed + .sidebar-click-guard + .main-content-move .nav-button,
+  #left-sidebar[style*="left: -250px"] + .sidebar-click-guard + .main-content-move .nav-button,
+  #left-sidebar[style*="left: -200px"] + .sidebar-click-guard + .main-content-move .nav-button {
+    left: 0px !important;
+  }
+}

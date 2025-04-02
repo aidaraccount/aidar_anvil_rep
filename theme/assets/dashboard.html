@@ -223,10 +223,12 @@
   </div>
 
   <div class="body" anvil-drop-default anvil-drop-container=">.cards .anvil-container" anvil-drop-redirect=">.cards > .placeholder">
+    <!-- Move the button outside the sidebar so it stays visible -->
+    <button class="nav-button" id="nav-button" onclick="toggleSidebar(); console.log('DEBUGGING: Direct onclick event fired');">
+      <i class="fa fa-bars"></i>
+    </button>
+    
     <div id="left-sidebar" class="sidebar" anvil-drop-redirect=">.drop-here">
-      <button class="nav-button" id="nav-button" onclick="toggleSidebar(); console.log('DEBUGGING: Direct onclick event fired');">
-        <i class="fa fa-bars"></i>
-      </button>
       <div anvil-if-slot-empty="logo" anvil-drop-slot="logo" class="logo placeholder anvil-designer-only">
         Drop Logo Here
       </div>
