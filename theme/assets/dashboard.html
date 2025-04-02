@@ -175,7 +175,7 @@
   <div class="body" anvil-drop-default anvil-drop-container=">.cards .anvil-container" anvil-drop-redirect=">.cards > .placeholder">
     <div id="left-sidebar" class="sidebar" anvil-drop-redirect=">.drop-here">
       <button class="nav-button" id="nav-button" onclick="toggleSidebar();">
-        <i class="fa fa-bars"></i>
+        <i class="fa fa-bars" style="font-size: 24px; color: white;"></i>
       </button>
       <div anvil-if-slot-empty="logo" anvil-drop-slot="logo" class="logo placeholder anvil-designer-only">
         Drop Logo Here
@@ -254,7 +254,14 @@
     } else {
       // Sidebar is closed, so open it
       s.style.left = '0px';  // Slide sidebar in
-      b.style.left = `${s.offsetWidth}px`;  // Move button with the sidebar
+      
+      // Set button position based on viewport width
+      if (window.innerWidth <= 431) {
+        b.style.left = '200px'; // Mobile width from media query
+      } else {
+        b.style.left = '250px'; // Desktop width
+      }
+      
       content.style.marginLeft = `${s.offsetWidth}px`;  // Shift content
       contentNav.style.marginLeft = `${s.offsetWidth}px`;  // Shift content
       document.querySelector('.sidebar-click-guard').style.display = 'none'; // Hide click guard
@@ -276,7 +283,15 @@
     // Set the sidebar on-screen initially so it's ready for toggling
     var sidebar = document.querySelector('.sidebar');
     sidebar.style.left = `0px`;
-    button.style.left = `${sidebar.offsetWidth}px`; // Set button position when sidebar is open
+    
+    // Determine correct button position based on viewport width
+    var buttonPosition;
+    if (window.innerWidth <= 431) {
+      buttonPosition = '200px'; // Mobile width from media query
+    } else {
+      buttonPosition = '250px'; // Desktop width
+    }
+    button.style.left = buttonPosition;
 
     var content = document.querySelector('.main-content-move');
     var contentNav = document.querySelector('.main-content-move-nav');
@@ -285,29 +300,17 @@
     
     // Run the hash check after properly setting up the UI
     navbar_noModel_noSubs();
-  });
-  
-  ///////////////////////////////////////////////////
-  // This is the original JQuery function used to hide and show the old Sidebar
-  ///////////////////////////////////////////////////
-  // function toggleSidebar() {
-  //     var s = $('.sidebar open');
-  //     if (!s.is(':hidden')) {
-  //         $('.sidebar-click-guard').hide();
-  //         s.addClass('floating').animate({left: -s.width()}, {complete: function() { s.hide(); }});
-  //     } else {
-  //         $('.sidebar-click-guard').show();
-  //         s.show().addClass('floating').css('left', '-100%').css('left', -s.width())
-  //             .animate({left: 0}, {complete: function() { s.removeClass('floating'); }});
-  //     }
-  // }
     
-  // $(function() {
-  //     $('.sidebaropen').on("click", function() {
-  //         if (window.innerWidth <= 767) {
-  //             toggleSidebar();
-  //         }
-  //     });
-  //     $('.sidebar-click-guard').on("click", toggleSidebar);
-  // })
+    // Add resize event listener to update button position when window is resized
+    window.addEventListener('resize', function() {
+      if (sidebar.style.left === '0px') { // Only update if sidebar is open
+        if (window.innerWidth <= 431) {
+          button.style.left = '200px';
+        } else {
+          button.style.left = '250px';
+        }
+      }
+    });
+  });
+
 </script>

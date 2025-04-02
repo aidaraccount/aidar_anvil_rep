@@ -1570,30 +1570,36 @@ footer a, .footer .anvil-component {
 #right-sidebar.open {
   right: 0px;
 }
-.sidebar-button {
+.nav-button {
   font-family: Gs-regular;
-  font-size: 15px;
+  font-size: 18px;
   position: fixed;
-  right: 0px;
-  /* right: -400px; */
-  /* right: 400px; */
   top: 20%;
+  left: 250px;
+  /* left: 0; */
   background-color: rgb(233,95,48);
   color: white;
   border: none;
-  padding: 10px;
+  padding: 10px 10px 10px 6px;
   cursor: pointer;
-  z-index: 1000;
-  transition: right 0.2s;
-  border-top-left-radius: 15px;
-  border-bottom-left-radius: 15px;
-}
-.sidebar-button.open {
-  right: 400px;
+  z-index: 9999;
+  transition: left 0.3s ease;
+  border-top-right-radius: 15px;
+  border-bottom-right-radius: 15px;
+  display: block; /* Ensure button is visible */
+  min-width: 30px; /* Ensure button has minimum width */
+  min-height: 30px; /* Ensure button has minimum height */
+  opacity: 1 !important; /* Force full opacity */
+  color: white; /* Reinforcing text color */
 }
 @media only screen and (max-width: 431px) {
-  .sidebar-button.open {
-    right: 300px;
+  .nav-button {
+    left: 200px;
+    position: fixed;
+    z-index: 9999; 
+    background-color: rgb(233,95,48); /* Reinforcing background color */
+    display: block !important; /* Force display */
+    pointer-events: auto !important; /* Ensure clickability */
   }
 }
 
@@ -1622,39 +1628,6 @@ footer a, .footer .anvil-component {
   }
 }
 
-.nav-button {
-  font-family: Gs-regular;
-  font-size: 18px;
-  position: fixed;
-  top: 20%;
-  left: 250px;
-  /* left: 0; */
-  background-color: rgb(233,95,48);
-  color: white;
-  border: none;
-  padding: 10px 10px 10px 6px;
-  cursor: pointer;
-  z-index: 9999;
-  transition: left 0.3s ease;
-  border-top-right-radius: 15px;
-  border-bottom-right-radius: 15px;
-}
-@media only screen and (max-width: 431px) {
-  .nav-button {
-    left: 200px;
-    position: fixed;
-    z-index: 9999; 
-  }
-}
-
-.main-content-move {
-  margin-left: 250px;
-  transition: margin-left 0.3s ease;
-}
-.main-content-move-nav {
-  margin-left: 250px;
-  transition: margin-left 0.3s ease;
-}
 /* Sidebar click guard to close sidebar */
 .sidebar-click-guard {
   /* Hidden by default */
@@ -1962,7 +1935,6 @@ footer a, .footer .anvil-component {
   .anvil-role-slider {
     -webkit-appearance: none;
     width: 98.5%;
-    opacity: 0.7;
     -webkit-transition: .2s;
     transition: opacity .2s;
     padding: 20px 80px !important;
@@ -1977,7 +1949,6 @@ footer a, .footer .anvil-component {
   .anvil-role-slider {
     -webkit-appearance: none;
     width: 98.5%;
-    opacity: 0.7;
     -webkit-transition: .2s;
     transition: opacity .2s;
     padding: 20px 80px !important;
@@ -1992,7 +1963,6 @@ footer a, .footer .anvil-component {
   .anvil-role-slider {
     -webkit-appearance: none;
     width: 98.5%;
-    opacity: 0.7;
     -webkit-transition: .2s;
     transition: opacity .2s;
     padding: 20px 80px !important;
@@ -2007,7 +1977,6 @@ footer a, .footer .anvil-component {
   .anvil-role-slider {
     -webkit-appearance: none;
     width: 98.5%;
-    opacity: 0.7;
     -webkit-transition: .2s;
     transition: opacity .2s;
     padding: 20px 80px !important;
@@ -2022,7 +1991,6 @@ footer a, .footer .anvil-component {
   .anvil-role-slider {
     -webkit-appearance: none;
     width: 98.5%;
-    opacity: 0.7;
     -webkit-transition: .2s;
     transition: opacity .2s;
     padding: 20px 80px !important;
@@ -2037,7 +2005,6 @@ footer a, .footer .anvil-component {
   .anvil-role-slider {
     -webkit-appearance: none;
     width: 98.5%;
-    opacity: 0.7;
     -webkit-transition: .2s;
     transition: opacity .2s;
     padding: 20px 80px !important;
@@ -2052,7 +2019,6 @@ footer a, .footer .anvil-component {
   .anvil-role-slider {
     -webkit-appearance: none;
     width: 98.5%;
-    opacity: 0.7;
     -webkit-transition: .2s;
     transition: opacity .2s;
     padding: 20px 80px !important;
@@ -2067,7 +2033,6 @@ footer a, .footer .anvil-component {
   .anvil-role-slider {
     -webkit-appearance: none;
     width: 98.5%;
-    opacity: 0.7;
     -webkit-transition: .2s;
     transition: opacity .2s;
     padding: 20px 80px !important;
@@ -2082,7 +2047,6 @@ footer a, .footer .anvil-component {
   .anvil-role-slider {
     -webkit-appearance: none;
     width: 98.5%;
-    opacity: 0.7;
     -webkit-transition: .2s;
     transition: opacity .2s;
     padding: 20px 80px !important;
@@ -2093,6 +2057,8 @@ footer a, .footer .anvil-component {
     opacity: 1;
   }
 }
+
+
 .anvil-role-slider-growth .noUi-horizontal {
   height: 8px;
 }
