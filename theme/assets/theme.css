@@ -1110,14 +1110,6 @@ a>.link-text {
   padding: 0 !important;
 }
 
-.anvil-role-feature-login  .btn.btn-default.to-disable{
-  font-family: GS-regular;
-}
-.data-row-col:has(> .anvil-role-feature-talent-dev) {
-  width: auto !important;
-  flex-grow: 1 !important;
-}
-
 .anvil-role-feature {
   font-family: Gs-regular;
   font-size: 14px;
@@ -1570,36 +1562,61 @@ footer a, .footer .anvil-component {
 #right-sidebar.open {
   right: 0px;
 }
-.nav-button {
+.nav-toggle-btn {
   font-family: Gs-regular;
   font-size: 18px;
   position: fixed;
   top: 20%;
-  left: 250px;
-  /* left: 0; */
-  background-color: rgb(233,95,48);
+  left: 10px;
+  background-color: rgb(233, 95, 48);
   color: white;
   border: none;
   padding: 10px 10px 10px 6px;
   cursor: pointer;
   z-index: 9999;
-  transition: left 0.3s ease;
-  border-top-right-radius: 15px;
-  border-bottom-right-radius: 15px;
-  display: block; /* Ensure button is visible */
-  min-width: 30px; /* Ensure button has minimum width */
-  min-height: 30px; /* Ensure button has minimum height */
-  opacity: 1 !important; /* Force full opacity */
-  color: white; /* Reinforcing text color */
+  transition: left 0.3s ease, transform 0.3s ease;
+  border-radius: 4px;
+}
+
+@media only screen and (min-width: 768px) {
+  .nav-toggle-btn {
+    left: 260px;
+  }
+  
+  body.sidebar-closed .nav-toggle-btn {
+    left: 10px;
+  }
+}
+
+@media only screen and (max-width: 767px) {
+  .nav-toggle-btn {
+    top: 70px;
+  }
+}
+.sidebar-button {
+  font-family: Gs-regular;
+  font-size: 15px;
+  position: fixed;
+  right: 0px;
+  /* right: -400px; */
+  /* right: 400px; */
+  top: 20%;
+  background-color: rgb(233,95,48);
+  color: white;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  z-index: 1000;
+  transition: right 0.2s;
+  border-top-left-radius: 15px;
+  border-bottom-left-radius: 15px;
+}
+.sidebar-button.open {
+  right: 400px;
 }
 @media only screen and (max-width: 431px) {
-  .nav-button {
-    left: 200px;
-    position: fixed;
-    z-index: 9999; 
-    background-color: rgb(233,95,48); /* Reinforcing background color */
-    display: block !important; /* Force display */
-    pointer-events: auto !important; /* Ensure clickability */
+  .sidebar-button.open {
+    right: 300px;
   }
 }
 
@@ -1628,6 +1645,39 @@ footer a, .footer .anvil-component {
   }
 }
 
+.nav-button {
+  font-family: Gs-regular;
+  font-size: 18px;
+  position: fixed;
+  top: 20%;
+  left: 250px;
+  /* left: 0; */
+  background-color: rgb(233,95,48);
+  color: white;
+  border: none;
+  padding: 10px 10px 10px 6px;
+  cursor: pointer;
+  z-index: 9999;
+  transition: left 0.3s ease;
+  border-top-right-radius: 15px;
+  border-bottom-right-radius: 15px;
+}
+@media only screen and (max-width: 431px) {
+  .nav-button {
+    left: 200px;
+    position: fixed;
+    z-index: 9999; 
+  }
+}
+
+.main-content-move {
+  margin-left: 250px;
+  transition: margin-left 0.3s ease;
+}
+.main-content-move-nav {
+  margin-left: 250px;
+  transition: margin-left 0.3s ease;
+}
 /* Sidebar click guard to close sidebar */
 .sidebar-click-guard {
   /* Hidden by default */
@@ -2057,8 +2107,6 @@ footer a, .footer .anvil-component {
     opacity: 1;
   }
 }
-
-
 .anvil-role-slider-growth .noUi-horizontal {
   height: 8px;
 }
