@@ -211,14 +211,6 @@
     position: absolute;
     right: 35px;
   }
-  
-  /* Hide sidebar immediately for no_model and no_subs pages on initial load */
-  html[data-initial-hash="#no_model"] #left-sidebar,
-  html[data-initial-hash="#no_subs"] #left-sidebar,
-  html[data-initial-hash="#no_model"] .nav-button,
-  html[data-initial-hash="#no_subs"] .nav-button {
-    display: none !important;
-  }
 </style>
 
 
@@ -370,28 +362,8 @@
   });
 </script>
 
-<script>
-  /* Set initial hash as data attribute for immediate CSS hiding */
-  document.documentElement.setAttribute('data-initial-hash', window.location.hash);
-</script>
-
 <!-- Clean, production-ready script for toggle functionality -->
 <script>
-  // Safer approach to check URL hash - will run after DOM is loaded
-  document.addEventListener('DOMContentLoaded', function() {
-    if (window.location.hash === '#no_subs' || window.location.hash === '#no_model') {
-      // Try to find sidebar and hide it immediately after DOM is loaded
-      var sidebar = document.getElementById('left-sidebar');
-      var button = document.getElementById('nav-button');
-      if (sidebar) {
-        sidebar.style.display = 'none';
-      }
-      if (button) {
-        button.style.display = 'none';
-      }
-    }
-  });
-
   // Expose the navbar show/hide function globally for Anvil to call
   // Immediately make the function available without waiting for timeout
   window.navbar_noModel_noSubs = function(visible) {
@@ -421,64 +393,61 @@
     }
   };
 
-  // Wait for page load to ensure all Anvil components are fully initialized
-  // Reduced timeout to 100ms instead of 1000ms for faster initialization
-  setTimeout(function() {
-    // Get the button directly
-    var navButton = document.getElementById('nav-button');
-    if (navButton) {
-      // Add direct event handler in vanilla JS
-      navButton.addEventListener('click', function(e) {
-        // Get sidebar and other elements
-        var sidebar = document.getElementById('left-sidebar');
-        var content = document.querySelector('.main-content-move');
-        var contentNav = document.querySelector('.main-content-move-nav');
-        var clickGuard = document.querySelector('.sidebar-click-guard');
-        
-        if (!sidebar) {
-          return;
-        }
-        
-        // Direct style manipulation approach
-        var sidebarStyle = window.getComputedStyle(sidebar);
-        var currentLeft = sidebarStyle.getPropertyValue('left');
-        
-        if (currentLeft === '0px' || currentLeft === 'auto' || currentLeft === '') {
-          // Close the sidebar
-          sidebar.style.left = '-250px';
-          content.style.marginLeft = '0px';
-          contentNav.style.marginLeft = '0px';
-          // Move button to left edge of screen
-          navButton.style.left = '0px';
-          if (clickGuard) clickGuard.style.display = 'none';
+  // Execute immediately since script is at end of body and DOM elements are already loaded
+  // Get the button directly
+  var navButton = document.getElementById('nav-button');
+  if (navButton) {
+    // Add direct event handler in vanilla JS
+    navButton.addEventListener('click', function(e) {
+      // Get sidebar and other elements
+      var sidebar = document.getElementById('left-sidebar');
+      var content = document.querySelector('.main-content-move');
+      var contentNav = document.querySelector('.main-content-move-nav');
+      var clickGuard = document.querySelector('.sidebar-click-guard');
+      
+      if (!sidebar) {
+        return;
+      }
+      
+      // Direct style manipulation approach
+      var sidebarStyle = window.getComputedStyle(sidebar);
+      var currentLeft = sidebarStyle.getPropertyValue('left');
+      
+      if (currentLeft === '0px' || currentLeft === 'auto' || currentLeft === '') {
+        // Close the sidebar
+        sidebar.style.left = '-250px';
+        content.style.marginLeft = '0px';
+        contentNav.style.marginLeft = '0px';
+        // Move button to left edge of screen
+        navButton.style.left = '0px';
+        if (clickGuard) clickGuard.style.display = 'none';
+      } else {
+        // Open the sidebar
+        sidebar.style.left = '0px';
+        if (window.innerWidth > 767) {
+          content.style.marginLeft = '250px';
+          contentNav.style.marginLeft = '250px';
+          // Move button to right edge of sidebar on desktop
+          navButton.style.left = '250px';
         } else {
-          // Open the sidebar
-          sidebar.style.left = '0px';
-          if (window.innerWidth > 767) {
-            content.style.marginLeft = '250px';
-            contentNav.style.marginLeft = '250px';
-            // Move button to right edge of sidebar on desktop
-            navButton.style.left = '250px';
-          } else {
-            // Move button to right edge of sidebar on mobile
-            navButton.style.left = '200px';
-          }
-          if (clickGuard && window.innerWidth <= 767) {
-            clickGuard.style.display = 'block';
-          }
+          // Move button to right edge of sidebar on mobile
+          navButton.style.left = '200px';
         }
-        
-        // Prevent event from bubbling up to potential Anvil handlers
-        e.stopPropagation();
-        e.preventDefault();
-      }, true); // Use capturing to get the event first
-    }
-    
-    // Check URL hash on page load and set initial state
-    var currentHash = window.location.hash;
-    if (currentHash === '#no_subs' || currentHash === '#no_model') {
-      navbar_noModel_noSubs(false);
-    }
-  }, 100);  // Reduced delay from 1000ms to 100ms
+        if (clickGuard && window.innerWidth <= 767) {
+          clickGuard.style.display = 'block';
+        }
+      }
+      
+      // Prevent event from bubbling up to potential Anvil handlers
+      e.stopPropagation();
+      e.preventDefault();
+    }, true); // Use capturing to get the event first
+  }
+  
+  // Check URL hash on page load and set initial state
+  var currentHash = window.location.hash;
+  if (currentHash === '#no_subs' || currentHash === '#no_model') {
+    navbar_noModel_noSubs(false);
+  }
 </script>
 </body>
