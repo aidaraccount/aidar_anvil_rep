@@ -993,8 +993,20 @@ class Discover(DiscoverTemplate):
   # 1. Form display handlers
   # ----------------------------------------------
   def form_show(self, **event_args):
-    # No Spotify initialization here as it's handled in spotify_HTML_player
-    pass
+    # Initialize Spotify player when the form is shown
+    # This ensures the player is loaded on initial page load
+    try:
+      embed_iframe_element = document.getElementById('embed-iframe')
+      if hasattr(self, 'sug') and self.sug and 'SpotifyArtistID' in self.sug:
+        if not embed_iframe_element:
+          # If element doesn't exist, create it and initialize the player
+          self.spotify_HTML_player()
+        else:
+          # If element exists but player needs to be initialized
+          self.call_js('createOrUpdateSpotifyPlayer', anvil.js.get_dom_node(self), 'artist', self.sug["SpotifyArtistID"])
+          print("Spotify player initialized in form_show")
+    except Exception as e:
+      print(f"Error initializing Spotify player in form_show: {e}")
     
   # 2. Spotify player integration
   # ----------------------------------------------
@@ -1003,16 +1015,17 @@ class Discover(DiscoverTemplate):
     Creates the HTML container for the Spotify player and initializes it.
     This ensures the player is only created and initialized once.
     """
-    # Create HTML container for Spotify widget
+    # 2.1. Create HTML container for Spotify widget
     c_web_player_html = '''
       <div id="embed-iframe"></div>
       '''
     html_webplayer_panel = HtmlPanel(html=c_web_player_html)
     self.spotify_player_spot.add_component(html_webplayer_panel)
     
-    # Initialize the Spotify player with the artist ID
-    self.call_js('createOrUpdateSpotifyPlayer', anvil.js.get_dom_node(self), 'artist', self.sug["SpotifyArtistID"])
-    print("Spotify player initialized")
+    # 2.2. Initialize the Spotify player with the artist ID
+    if hasattr(self, 'sug') and self.sug and 'SpotifyArtistID' in self.sug:
+      self.call_js('createOrUpdateSpotifyPlayer', anvil.js.get_dom_node(self), 'artist', self.sug["SpotifyArtistID"])
+      print("Spotify player initialized")
   
   def custom_HTML_prediction(self):
     if self.pred:
@@ -1810,7 +1823,7 @@ class Discover(DiscoverTemplate):
           textposition='outside',
           hoverinfo='none',
           hovertext=data['dates'],
-          # hovertemplate=f'{platform.capitalize()} Followers: %{text}<br>Date: %{hovertext} <extra></extra>'
+          # hovertemplate=f'{platform.capitalize()} Followers: %{text}<br>Date: %{x}<extra></extra>'
         )
         traces.append(trace)
 
