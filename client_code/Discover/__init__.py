@@ -990,21 +990,30 @@ class Discover(DiscoverTemplate):
 
   
   # ----------------------------------------------
+  # 1. Form display handlers
+  # ----------------------------------------------
   def form_show(self, **event_args):
-    embed_iframe_element = document.getElementById('embed-iframe')
-    if embed_iframe_element:
-      self.call_js('createOrUpdateSpotifyPlayer', anvil.js.get_dom_node(self), 'artist', self.sug["SpotifyArtistID"])
-      print("Embed iframe element found. Initialize Spotify player!")
-    else:
-      print("Embed iframe element not found. Will not initialize Spotify player.")
+    # No Spotify initialization here as it's handled in spotify_HTML_player
+    pass
     
+  # 2. Spotify player integration
+  # ----------------------------------------------
   def spotify_HTML_player(self):
+    """
+    Creates the HTML container for the Spotify player and initializes it.
+    This ensures the player is only created and initialized once.
+    """
+    # Create HTML container for Spotify widget
     c_web_player_html = '''
       <div id="embed-iframe"></div>
       '''
     html_webplayer_panel = HtmlPanel(html=c_web_player_html)
     self.spotify_player_spot.add_component(html_webplayer_panel)
-
+    
+    # Initialize the Spotify player with the artist ID
+    self.call_js('createOrUpdateSpotifyPlayer', anvil.js.get_dom_node(self), 'artist', self.sug["SpotifyArtistID"])
+    print("Spotify player initialized")
+  
   def custom_HTML_prediction(self):
     if self.pred:
       custom_html = f'''
@@ -1934,7 +1943,7 @@ class Discover(DiscoverTemplate):
   def nav_button_click(self, **event_args):
     """
     Universal click handler for all navigation buttons.
-    Gets the text from the button that was clicked and navigates to the appropriate section.
+    Gets the button that was clicked and navigates to the appropriate section.
     """
     # Get the button that was clicked
     sender = event_args.get('sender')
