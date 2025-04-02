@@ -37,7 +37,6 @@ select.form-control:focus {
 
 /* ----------------------------
 4.3. Date Picker */
-
 /* Date picker input field */
 .anvil-datepicker .form-control {
   background-color: var(--PurpleDiscreet);
@@ -54,9 +53,8 @@ select.form-control:focus {
 .anvil-datepicker .fa-calendar {
   color: var(--WhiteDiscreet);
   bottom: 10px;
-  font-size: 
+  font-size: 15px;
 }
-
 
 /* ----------------------------
 4.4. Individuall Designs:
