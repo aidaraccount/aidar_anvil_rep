@@ -217,6 +217,7 @@ class Home(HomeTemplate):
       self.reload.visible = False
       
       for i in range(0, len(watchlists)):
+        # All watchlists start as active (genre-box)
         wl_link = Link(
           text=watchlists[i]["watchlist_name"], tag=watchlists[i]["watchlist_id"], role="genre-box"
         )
@@ -225,6 +226,10 @@ class Home(HomeTemplate):
           "click", self.create_activate_watchlist_handler(watchlists[i]["watchlist_id"])
         )
         self.flow_panel_watchlists.add_component(wl_link)
+      
+      # Get all initial watchlist IDs for loading shorts
+      initial_wl_ids = [wl["watchlist_id"] for wl in watchlists]
+      print(f"HOME INIT [{self.instance_id}] - Initial active watchlist IDs: {initial_wl_ids}", flush=True)
     else:
       # No watchlists found - show message
       self.no_watchlists.visible = True
@@ -326,29 +331,27 @@ class Home(HomeTemplate):
 
     return handler
   
-  # change active status of MODEL BUTTONS
+  # change active status of WATCHLIST BUTTONS
   def activate_watchlist(self, watchlist_id):
+    # Toggle the clicked watchlist's activation state
     for component in self.flow_panel_watchlists.get_components():
       if isinstance(component, Link):
-        # change activation
         if int(component.tag) == watchlist_id:
+          # Toggle the role - if active make inactive, and vice versa
           if component.role == "genre-box":
             component.role = "genre-box-deselect"
           else:
             component.role = "genre-box"
 
-    # Check if any watchlists are selected
-    # collect selected watchlist IDs
-    wl_ids = []
+    # Collect all currently active watchlist IDs (role = "genre-box")
+    active_wl_ids = []
     for component in self.flow_panel_watchlists.get_components():
-      if (
-        isinstance(component, Link) and component.role == "genre-box"
-      ):  # Only active watchlists
-        wl_ids.append(component.tag)
+      if isinstance(component, Link) and component.role == "genre-box":
+        active_wl_ids.append(component.tag)
 
     # Reset start time for reloading shorts
     self.shorts_start_time = time.time()
-    print(f"HOME ASYNC [{self.instance_id}] - Shorts reloading after watchlist change with selected IDs: {wl_ids}", flush=True)
+    print(f"HOME ASYNC [{self.instance_id}] - Shorts reloading with active watchlist IDs: {active_wl_ids}", flush=True)
     
-    # Pass the selected watchlist IDs to override the default behavior
-    self.load_shorts_async(selected_wl_ids=wl_ids)
+    # Load shorts with only the active watchlist IDs
+    self.load_shorts_async(selected_wl_ids=active_wl_ids)
