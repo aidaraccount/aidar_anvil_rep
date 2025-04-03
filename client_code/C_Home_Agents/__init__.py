@@ -34,14 +34,21 @@ class C_Home_Agents(C_Home_AgentsTemplate):
       
     # Store models data for access by JavaScript callbacks
     self.models_data = data if isinstance(data, list) else []
+    
+    # Register JavaScript callback for the discover button - MUST be before setup_slider
+    print("MODEL_ACTIVATION: Registering JavaScript callback in __init__")
+    try:
+      anvil.js.window.pyDiscoverClicked = self.handle_discover_click
+      print("MODEL_ACTIVATION: JavaScript callback registered successfully as window.pyDiscoverClicked")
+    except Exception as e:
+      print(f"MODEL_ACTIVATION: ERROR registering callback: {str(e)}")
+      
+    # Set up the slider after registering callbacks
     self.setup_slider(data)
   
   def form_show(self, **event_args):
     """This method is called when the HTML panel is shown on the screen"""
-    print("MODEL_ACTIVATION: form_show called, registering JavaScript callback")
-    # Register JavaScript callback for the discover button
-    anvil.js.window.pyDiscoverClicked = self.handle_discover_click
-    print("MODEL_ACTIVATION: JavaScript callback registered as window.pyDiscoverClicked")
+    print("MODEL_ACTIVATION: form_show called")
     # Log initial state
     user = anvil.users.get_user()
     print(f"MODEL_ACTIVATION: Current user: {user['user_id'] if user else 'None'}")
