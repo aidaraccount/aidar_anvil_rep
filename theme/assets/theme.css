@@ -1392,8 +1392,6 @@ body.anvil-highlight .nav-elt.placeholder {
 }
 
 /* Other Fonts  */
-/* From https://fonts.googleapis.com/css?family=Roboto */
-/* cyrillic-ext */
 @font-face {
   font-family: 'Roboto';
   font-style: normal;
