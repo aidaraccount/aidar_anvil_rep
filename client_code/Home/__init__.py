@@ -20,28 +20,29 @@ from ..C_Short import C_Short
 @routing.route('', title='Home')
 @routing.route('home', title='Home')
 class Home(HomeTemplate):
-  # Class variables to track initialization and share data
-  _initialized = False
-  _instance_count = 0
-  _active_instance = None
-  _watchlists_data = None
-  _shorts_data = None
-  _stats_data = None
+  # Class variables to prevent rapid duplicate initialization
+  _last_init_time = 0
+  _min_time_between_inits = 0.5  # seconds
   
   def __init__(self, **properties):
     # Generate a unique instance ID
     self.instance_id = str(uuid.uuid4())[:8]
     
-    # Track instance count
-    Home._instance_count += 1
-    current_count = Home._instance_count
-    
-    # Set this as the active instance
-    Home._active_instance = self
-    
     # Print detailed diagnostics
     route_hash = anvil.js.window.location.hash
-    print(f"HOME INIT [{self.instance_id}] - Route: '{route_hash}' - Count: {current_count} - Time: {datetime.now()}", flush=True)
+    current_time = time.time()
+    print(f"HOME INIT [{self.instance_id}] - Route: '{route_hash}' - Time: {datetime.now()}", flush=True)
+    
+    # Check if this is a duplicate initialization within the threshold period
+    time_since_last_init = current_time - Home._last_init_time
+    
+    if time_since_last_init < Home._min_time_between_inits:
+      print(f"HOME INIT [{self.instance_id}] - Skipping duplicate init ({time_since_last_init:.3f}s since last init)", flush=True)
+      self.init_components(**properties)
+      return
+    
+    # Update the last initialization time
+    Home._last_init_time = current_time
     
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
@@ -69,44 +70,27 @@ class Home(HomeTemplate):
       if user["first_name"] is not None:
         self.label_welcome.text = f'Welcome {user["first_name"]}'        
       
-      print(f"HOME INIT [{self.instance_id}] - __init__ start - {datetime.now()}", flush=True)
+      print(f"HOME INIT [{self.instance_id}] - Loading fresh data - {datetime.now()}", flush=True)
       
       # Initialize variables
       self.num_shorts = 0
-      
-      # Check if this is a duplicate initialization or if we already have data
-      if Home._initialized:
-        print(f"HOME INIT [{self.instance_id}] - Using existing data", flush=True)
-        # Use existing data if available
-        if Home._watchlists_data and Home._shorts_data:
-          print(f"HOME INIT [{self.instance_id}] - Displaying existing shorts data", flush=True)
-          self.setup_watchlists(Home._watchlists_data)
-          self.process_shorts(Home._shorts_data)
-        
-        if Home._stats_data:
-          print(f"HOME INIT [{self.instance_id}] - Displaying existing stats data", flush=True)
-          self.process_stats_data(Home._stats_data)
-      else:
-        # First initialization
-        Home._initialized = True
-        print(f"HOME INIT [{self.instance_id}] - First initialization - Starting async loading", flush=True)
 
-        # -------------
-        # 1. INITIALIZE ASYNCHRONOUS LOADING
-        
-        # 1.1 Track start time for Shorts
-        self.shorts_start_time = time.time()
-        print(f"HOME INIT [{self.instance_id}] - Shorts loading initialized - {datetime.now()}", flush=True)
-        
-        # 1.2 Initialize loading of shorts asynchronously
-        self.load_shorts_async()
-        
-        # 1.3 Track start time for Stats
-        self.stats_start_time = time.time()
-        print(f"HOME INIT [{self.instance_id}] - Stats loading initialized - {datetime.now()}", flush=True)
-        
-        # 1.4 Initialize loading of stats asynchronously
-        self.load_stats_async()
+      # -------------
+      # 1. INITIALIZE ASYNCHRONOUS LOADING
+      
+      # 1.1 Track start time for Shorts
+      self.shorts_start_time = time.time()
+      print(f"HOME INIT [{self.instance_id}] - Shorts loading initialized - {datetime.now()}", flush=True)
+      
+      # 1.2 Initialize loading of shorts asynchronously
+      self.load_shorts_async()
+      
+      # 1.3 Track start time for Stats
+      self.stats_start_time = time.time()
+      print(f"HOME INIT [{self.instance_id}] - Stats loading initialized - {datetime.now()}", flush=True)
+      
+      # 1.4 Initialize loading of stats asynchronously
+      self.load_stats_async()
           
   # 2. ASYNC METHODS
   # 2.1 SHORTS METHODS
@@ -123,21 +107,13 @@ class Home(HomeTemplate):
     load_time = time.time() - self.shorts_start_time
     print(f"HOME ASYNC [{self.instance_id}] - Shorts loaded (took {load_time:.2f} seconds)", flush=True)
     
-    # Store results in class variables for sharing between instances
-    Home._watchlists_data = result["watchlists"]
-    Home._shorts_data = result["shorts"]
-    
     # Process watchlists
-    self.setup_watchlists(Home._watchlists_data)
+    watchlists = result["watchlists"]
+    self.setup_watchlists(watchlists)
     
     # Process shorts
-    self.process_shorts(Home._shorts_data)
-    
-    # Update all instances if needed
-    if Home._active_instance != self:
-      print(f"HOME ASYNC [{self.instance_id}] - Updating active instance [{Home._active_instance.instance_id}]", flush=True)
-      Home._active_instance.setup_watchlists(Home._watchlists_data)
-      Home._active_instance.process_shorts(Home._shorts_data)
+    shorts = result["shorts"]
+    self.process_shorts(shorts)
   
   def setup_watchlists(self, watchlists):
     """Set up watchlist UI components"""
@@ -201,19 +177,6 @@ class Home(HomeTemplate):
     load_time = time.time() - self.stats_start_time
     print(f"HOME ASYNC [{self.instance_id}] - Stats loaded (took {load_time:.2f} seconds)", flush=True)
     
-    # Store the stats data for sharing between instances
-    Home._stats_data = data
-    
-    # Process the data
-    self.process_stats_data(data)
-    
-    # Update all instances if needed
-    if Home._active_instance != self:
-      print(f"HOME ASYNC [{self.instance_id}] - Updating active instance [{Home._active_instance.instance_id}]", flush=True)
-      Home._active_instance.process_stats_data(data)
-    
-  def process_stats_data(self, data):
-    """Process and display stats data"""
     # Process stats data
     stats = data['stats']
 
