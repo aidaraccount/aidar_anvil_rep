@@ -15,6 +15,7 @@ from anvil_extras import routing
 from ..nav import click_link, click_button, click_box, logout, login_check, load_var, save_var
 
 from ..C_Short import C_Short
+from ..C_Home_Agents import C_Home_Agents
 
 
 @routing.route('', title='Home')
@@ -56,7 +57,7 @@ class Home(HomeTemplate):
       user = anvil.users.get_user()
       name = user["first_name"].upper() if user["first_name"] is not None else ''
       self.welcome.content = f"""
-      <span style="font-family: 'General Sans', sans-serif; font-weight: 700; font-size: 55px; color: white;">
+      <span style="font-family: 'General Sans', sans-serif; font-weight: 600; font-size: 55px; color: white;">
         <span style="color: #FF4C2B;">.</span>WELCOME <span style="color: #FF4C2B;">{name}</span>
       </span>
       """
@@ -97,7 +98,7 @@ class Home(HomeTemplate):
       # 1.2 welcome name
       name = user["first_name"].upper() if user["first_name"] is not None else ''
       self.welcome.content = f"""
-      <span style="font-family: 'General Sans', sans-serif; font-weight: 700; font-size: 55px; color: white;">
+      <span style="font-family: 'General Sans', sans-serif; font-weight: 600; font-size: 55px; color: white;">
         <span style="color: rgb(253, 101, 45);">.</span>WELCOME <span style="color: rgb(253, 101, 45);">{name}</span>
       </span>
       """
@@ -148,7 +149,7 @@ class Home(HomeTemplate):
   def process_agents_data(self, data):
     """Process and display agents data"""
     # Process agents data
-    print(data)
+    self.sec_agents.add_component(C_Home_Agents(data=data))
 
     
   # 2.2 STATS METHODS
