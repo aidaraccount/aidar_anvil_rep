@@ -8,6 +8,7 @@ from anvil.tables import app_tables
 import json
 from datetime import datetime
 from anvil_labs.non_blocking import call_async
+import time
 
 from anvil_extras import routing
 from ..nav import click_link, click_button, click_box, logout, login_check, load_var, save_var
@@ -44,7 +45,7 @@ class Home(HomeTemplate):
       if user["first_name"] is not None:
         self.label_welcome.text = f'Welcome {user["first_name"]}'        
       
-      print(f"{datetime.now()}: Home - __init__ - 1", flush=True)
+      print(f"{datetime.now()}: Home - __init__ start", flush=True)
 
       # -------------
       # 1. SHORTS      
@@ -73,17 +74,21 @@ class Home(HomeTemplate):
       # Initialize asynchronous loading
       self.num_shorts = 0
       
+      # Track start time for performance measurement
+      self.shorts_start_time = time.time()
+      print(f"{datetime.now()}: Home - Shorts loading initialized", flush=True)
+      
       # Initialize loading of shorts asynchronously
       self.load_shorts_async()
       
-      print(f"{datetime.now()}: Home - __init__ - 2", flush=True)
-      
       # -------------
       # 2. STATS
+      # Track start time for performance measurement
+      self.stats_start_time = time.time()
+      print(f"{datetime.now()}: Home - Stats loading initialized", flush=True)
+      
       # Initialize loading of stats asynchronously
       self.load_stats_async()
-      
-      print(f"{datetime.now()}: Home - __init__ - 3", flush=True)
           
   # 1. ASYNC METHODS
   def load_shorts_async(self):
@@ -107,6 +112,10 @@ class Home(HomeTemplate):
   
   def shorts_loaded(self, shorts):
     """Handles successful server response for shorts."""
+    # Calculate loading time
+    load_time = time.time() - self.shorts_start_time
+    print(f"{datetime.now()}: Home - Shorts loaded (took {load_time:.2f} seconds)", flush=True)
+    
     # present shorts
     if shorts is not None and len(shorts) > 0:
       self.no_shorts.visible = False
@@ -135,6 +144,10 @@ class Home(HomeTemplate):
   
   def stats_loaded(self, data):
     """Handles successful server response for stats."""
+    # Calculate loading time
+    load_time = time.time() - self.stats_start_time
+    print(f"{datetime.now()}: Home - Stats loaded (took {load_time:.2f} seconds)", flush=True)
+    
     # Process stats data
     stats = data['stats']
 
@@ -203,6 +216,9 @@ class Home(HomeTemplate):
   
   def additional_shorts_loaded(self, shorts):
     """Handles successful server response for additional shorts."""
+    # Record the time when additional shorts are loaded
+    print(f"{datetime.now()}: Home - Additional shorts loaded", flush=True)
+    
     # present shorts
     if shorts is not None and len(shorts) > 0:
       self.reload.visible = True
@@ -246,4 +262,8 @@ class Home(HomeTemplate):
       ):  # Only active models
         wl_ids.append(component.tag)
 
+    # Reset start time for reloading shorts
+    self.shorts_start_time = time.time()
+    print(f"{datetime.now()}: Home - Shorts reloading after watchlist change", flush=True)
+    
     self.load_shorts_async()
