@@ -60,6 +60,30 @@ class C_Home_Agents(C_Home_AgentsTemplate):
           no_stars = model.get('no_stars', 0)
           next_artist_id = model.get('next_artist_id', '')
           next_artist_pic_url = model.get('next_artist_pic_url', '')
+          no_ratings = model.get('no_ratings', 0)
+          no_missing_ratings = model.get('no_missing_ratings', 0)
+          
+          # Calculate progress percentage
+          total_ratings = no_ratings + no_missing_ratings
+          progress_percent = (no_ratings / total_ratings * 100) if total_ratings > 0 else 0
+          
+          # Determine next level and ratings to go
+          next_level_text = ""
+          is_senior = False
+          progress_bar_class = ""
+          
+          if model_level == "Senior":
+            next_level_text = "You're a pro"
+            is_senior = True
+            progress_bar_class = "progress-bar-senior"
+          elif model_level == "Junior":
+            next_level_text = f"{no_missing_ratings} ratings to Senior"
+          elif model_level == "Rockie" or model_level == "Rookie":
+            next_level_text = f"{no_missing_ratings} ratings to Junior"
+          elif model_level == "Trainee":
+            next_level_text = f"{no_missing_ratings} ratings to Rookie"
+          else:
+            next_level_text = f"{no_missing_ratings} ratings to go"
           
           # Generate the stars HTML - always 3 stars, with 'no_stars' colored orange
           stars_html = ""
@@ -84,6 +108,12 @@ class C_Home_Agents(C_Home_AgentsTemplate):
                   <button class="discover-button" onclick="window.artistDiscoverClick(event, {next_artist_id})">Discover</button>
                 </div>
               </div>
+              <div class="model-progress-container">
+                <div class="model-progress-text">{next_level_text}</div>
+                <div class="model-progress-bar-container">
+                  <div class="model-progress-bar {progress_bar_class}" style="width: {progress_percent}%;"></div>
+                </div>
+              </div>
             </div>
           """
         else:
@@ -99,6 +129,12 @@ class C_Home_Agents(C_Home_AgentsTemplate):
                 <div class="artist-image-container">
                   <img src="" class="artist-image" alt="Artist" />
                   <button class="discover-button">Discover</button>
+                </div>
+              </div>
+              <div class="model-progress-container">
+                <div class="model-progress-text">0 ratings to go</div>
+                <div class="model-progress-bar-container">
+                  <div class="model-progress-bar" style="width: 0%;"></div>
                 </div>
               </div>
             </div>
@@ -118,6 +154,12 @@ class C_Home_Agents(C_Home_AgentsTemplate):
               <div class="artist-image-container">
                 <img src="" class="artist-image" alt="Artist" />
                 <button class="discover-button">Discover</button>
+              </div>
+            </div>
+            <div class="model-progress-container">
+              <div class="model-progress-text">0 ratings to go</div>
+              <div class="model-progress-bar-container">
+                <div class="model-progress-bar" style="width: 0%;"></div>
               </div>
             </div>
           </div>
