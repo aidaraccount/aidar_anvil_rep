@@ -114,7 +114,7 @@ Area 5: Page individual classes
   background-color: #2D2D3A;
   border-radius: 12px;
   padding: 15px;
-  color: white;
+  color: var(--WhiteDiscreet);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -159,7 +159,7 @@ Area 5: Page individual classes
   left: 50%;
   transform: translateX(-50%);
   background-color: var(--Orange);
-  color: white;
+  color: var(--WhiteDiscreet);
   border: none;
   border-radius: 5px;
   padding: 4px 8px;
