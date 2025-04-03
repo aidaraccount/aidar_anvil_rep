@@ -9,6 +9,10 @@ components:
     name: spacer_1
     properties: {height: 32}
     type: Spacer
+  - layout_properties: {grid_position: 'MRIQRW,QVOGKC OMXHYK,MGKDDT'}
+    name: sec_agents
+    properties: {}
+    type: ColumnPanel
   - components:
     - layout_properties: {grid_position: 'VDDSXC,QYZTHE'}
       name: wl_selection

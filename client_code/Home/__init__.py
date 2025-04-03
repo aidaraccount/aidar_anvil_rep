@@ -101,20 +101,57 @@ class Home(HomeTemplate):
         <span style="color: rgb(253, 101, 45);">.</span>WELCOME <span style="color: rgb(253, 101, 45);">{name}</span>
       </span>
       """
-        
-      # 1.3 Initialize loading of stats asynchronously
+
+      # 1.3 Initialize loading of agents asynchronously
+      self.agents_start_time = time.time()
+      print(f"HOME INIT [{self.instance_id}] - Agents loading initialized - {datetime.now()}", flush=True)
+      self.load_agents_async()
+      
+      # 1.4 Initialize loading of stats asynchronously
       self.stats_start_time = time.time()
       print(f"HOME INIT [{self.instance_id}] - Stats loading initialized - {datetime.now()}", flush=True)
       self.load_stats_async()
   
-      # 1.4 Initialize loading of shorts asynchronously
+      # 1.5 Initialize loading of shorts asynchronously
       self.shorts_start_time = time.time()
       print(f"HOME INIT [{self.instance_id}] - Shorts loading initialized - {datetime.now()}", flush=True)
       self.load_shorts_async()
   
   
   # 2. ASYNC METHODS
-  # 2.1 STATS METHODS
+  # 2.1 AGENTS METHODS
+  def load_agents_async(self):
+    """Starts asynchronous loading of agents data"""
+    # Call asynchronously
+    async_call = call_async("get_home_agents", user["user_id"])
+    async_call.on_result(self.agents_loaded)
+    print(f"HOME ASYNC [{self.instance_id}] - Agents async call dispatched", flush=True)
+    
+  def agents_loaded(self, data):
+    """Handles successful server response for agents."""
+    # Calculate loading time
+    load_time = time.time() - self.agents_start_time
+    print(f"HOME ASYNC [{self.instance_id}] - Agents loaded (took {load_time:.2f} seconds)", flush=True)
+    
+    # Get the active instance - this is the one currently visible to the user
+    active_instance = Home._active_instance
+    
+    # Check if we should update the current instance or the active instance
+    if active_instance and active_instance.instance_id != self.instance_id:
+      print(f"HOME ASYNC [{self.instance_id}] - Updating active instance [{active_instance.instance_id}] with agents", flush=True)
+      # Process agents in the active instance
+      active_instance.process_agents_data(data)
+    else:
+      # Process stats in this instance
+      self.process_agents_data(data)
+    
+  def process_agents_data(self, data):
+    """Process and display agents data"""
+    # Process agents data
+    print(data)
+
+    
+  # 2.2 STATS METHODS
   def load_stats_async(self):
     """Starts asynchronous loading of stats data"""
     # Call asynchronously
@@ -182,7 +219,7 @@ class Home(HomeTemplate):
     else:
       self.repeating_panel_news.items = news
         
-  # 2.2 SHORTS METHODS
+  # 2.3 SHORTS METHODS
   def load_shorts_async(self, selected_wl_ids=None):
     """
     Starts asynchronous loading of shorts data
