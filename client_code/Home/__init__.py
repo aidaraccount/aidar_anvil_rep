@@ -96,7 +96,7 @@ class Home(HomeTemplate):
     
     if wl_ids:
       # Call asynchronously
-      async_call = call_async("SM_Home.get_home_shorts", wl_ids, 0, 12)
+      async_call = call_async("get_home_shorts", wl_ids, 0, 12)
       async_call.on_result(self.shorts_loaded)
     else:
       if self.no_watchlists.visible is False:
@@ -130,7 +130,7 @@ class Home(HomeTemplate):
   def load_stats_async(self):
     """Starts asynchronous loading of stats data"""
     # Call asynchronously
-    async_call = call_async("SM_Home.get_home_stats", user["user_id"])
+    async_call = call_async("get_home_stats", user["user_id"])
     async_call.on_result(self.stats_loaded)
   
   def stats_loaded(self, data):
@@ -198,7 +198,7 @@ class Home(HomeTemplate):
     # add new shorts
     if wl_ids != []:
       # Call asynchronously
-      async_call = call_async("SM_Home.get_home_shorts", wl_ids, self.num_shorts, 9)
+      async_call = call_async("get_home_shorts", wl_ids, self.num_shorts, 9)
       async_call.on_result(self.additional_shorts_loaded)
   
   def additional_shorts_loaded(self, shorts):
