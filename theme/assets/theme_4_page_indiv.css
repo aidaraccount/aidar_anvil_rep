@@ -135,7 +135,7 @@ Area 5: Page individual classes
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: flex-start;
+  align-items: center;
 }
 
 .artist-image-container {
@@ -214,6 +214,7 @@ Area 5: Page individual classes
   font-size: 18px;
   font-weight: bold;
   text-align: left;
+  align-self: flex-start;
 }
 
 .model-stars {

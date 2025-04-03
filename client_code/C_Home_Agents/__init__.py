@@ -6,6 +6,7 @@ import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
 import json
+import anvil.js
 from ..nav import click_button
 
 
@@ -105,7 +106,7 @@ class C_Home_Agents(C_Home_AgentsTemplate):
                 </div>
                 <div class="artist-image-container">
                   <img src="{next_artist_pic_url}" class="artist-image" alt="Artist" />
-                  <button class="discover-button" onclick="window.artistDiscoverClick(event, {next_artist_id})">Discover</button>
+                  <button class="discover-button" onclick="window.artistDiscoverClick(event, '{next_artist_id}')">Discover</button>
                 </div>
               </div>
               <div class="model-progress-container">
@@ -176,8 +177,18 @@ class C_Home_Agents(C_Home_AgentsTemplate):
         event.stopPropagation();
         console.log('Discover clicked for artist ID:', artistId);
         
-        // Call the Anvil routing function to navigate to the artist page
-        anvil.call('click_button', 'artists?artist_id=' + artistId, {keys: {ctrl: event.ctrlKey}});
+        // Get the current URL and app origin
+        const appOrigin = window.location.origin;
+        const currentHash = window.location.hash;
+        
+        // Determine if ctrl key was pressed for opening in new tab
+        if (event.ctrlKey) {
+          // Open in new tab
+          window.open(appOrigin + '/#artists?artist_id=' + artistId, '_blank');
+        } else {
+          // Navigate in current tab
+          window.location.hash = 'artists?artist_id=' + artistId;
+        }
       };
       
       // Add a small delay to make sure DOM is fully processed
