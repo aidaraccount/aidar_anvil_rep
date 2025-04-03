@@ -217,6 +217,16 @@ Area 5: Page individual classes
   align-self: flex-start;
 }
 
+.model-name-link {
+  color: var(--WhiteDiscreet);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.model-name-link:hover {
+  color: var(--Orange);
+}
+
 .model-stars {
   font-size: 45px;
   line-height: 1;
