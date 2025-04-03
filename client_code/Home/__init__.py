@@ -83,6 +83,10 @@ class Home(HomeTemplate):
       # -------------
       # 1. INITIALIZE ASYNCHRONOUS LOADING
       
+      # Hide "no data" messages during loading
+      self.no_watchlists.visible = False
+      self.no_shorts.visible = False
+      
       # 1.1 Track start time for Shorts
       self.shorts_start_time = time.time()
       print(f"HOME INIT [{self.instance_id}] - Shorts loading initialized - {datetime.now()}", flush=True)
@@ -110,6 +114,11 @@ class Home(HomeTemplate):
         
       # Load model ID
       self.model_id = load_var("model_id")
+      
+      # Hide "no data" messages during loading
+      self.no_watchlists.visible = False
+      self.no_shorts.visible = False
+      
       print(f"HOME INIT [{self.instance_id}] - Minimal UI setup for skipped initialization", flush=True)
           
   # 2. ASYNC METHODS
@@ -148,7 +157,11 @@ class Home(HomeTemplate):
     # Clear existing components
     self.flow_panel_watchlists.clear()
     
+    # Hide "no data" indicators until we know the status
+    self.no_watchlists.visible = False
+    
     if watchlists is not None and len(watchlists) > 0:
+      # We have data - no need to show "no watchlists" message
       self.no_watchlists.visible = False
       self.reload.visible = False
       
@@ -162,6 +175,7 @@ class Home(HomeTemplate):
         )
         self.flow_panel_watchlists.add_component(wl_link)
     else:
+      # No watchlists found - show message
       self.no_watchlists.visible = True
       self.no_shorts.visible = False
       self.reload.visible = False
@@ -171,8 +185,12 @@ class Home(HomeTemplate):
     # Clear existing shorts
     self.flow_panel_shorts.clear()
     
+    # Hide "no data" indicators until we know the status
+    self.no_shorts.visible = False
+    
     # present shorts
     if shorts is not None and len(shorts) > 0:
+      # We have shorts - hide "no shorts" message
       self.no_shorts.visible = False
       self.reload.visible = True
       shorts = json.loads(shorts)
@@ -183,8 +201,8 @@ class Home(HomeTemplate):
 
       if len(shorts) < 12:
         self.reload.visible = False
-    
     else:
+      # No shorts found - show message if appropriate
       if self.no_watchlists.visible is False:
         self.no_shorts.visible = True
       else:
