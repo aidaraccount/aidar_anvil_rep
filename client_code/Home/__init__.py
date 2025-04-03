@@ -39,7 +39,7 @@ class Home(HomeTemplate):
       model_id = load_var("model_id")
       print(f"Home model_id: {model_id}")
       
-      self.model_id=model_id
+      self.model_id = model_id
 
       # welcome name
       if user["first_name"] is not None:
@@ -47,75 +47,70 @@ class Home(HomeTemplate):
       
       print(f"{datetime.now()}: Home - __init__ start", flush=True)
 
-      # -------------
-      # 1. SHORTS      
-      # get watchlists
-      watchlists = json.loads(anvil.server.call("get_watchlist_ids", user["user_id"]))
-
-      if watchlists is not None and len(watchlists) > 0:
-        self.no_watchlists.visible = False
-        self.reload.visible = False
-        
-        for i in range(0, len(watchlists)):
-          wl_link = Link(
-            text=watchlists[i]["watchlist_name"], tag=watchlists[i]["watchlist_id"], role="genre-box"
-          )
-    
-          wl_link.set_event_handler(
-            "click", self.create_activate_watchlist_handler(watchlists[i]["watchlist_id"])
-          )
-          self.flow_panel_watchlists.add_component(wl_link)
-
-      else:
-        self.no_watchlists.visible = True
-        self.no_shorts.visible = False
-        self.reload.visible = False
-      
-      # Initialize asynchronous loading
+      # Initialize variables
       self.num_shorts = 0
+
+      # -------------
+      # 1. INITIALIZE ASYNCHRONOUS LOADING
       
-      # Track start time for performance measurement
+      # 1.1 Track start time for Shorts
       self.shorts_start_time = time.time()
       print(f"{datetime.now()}: Home - Shorts loading initialized", flush=True)
       
-      # Initialize loading of shorts asynchronously
+      # 1.2 Initialize loading of shorts asynchronously
       self.load_shorts_async()
       
-      # -------------
-      # 2. STATS
-      # Track start time for performance measurement
+      # 1.3 Track start time for Stats
       self.stats_start_time = time.time()
       print(f"{datetime.now()}: Home - Stats loading initialized", flush=True)
       
-      # Initialize loading of stats asynchronously
+      # 1.4 Initialize loading of stats asynchronously
       self.load_stats_async()
           
-  # 1. ASYNC METHODS
+  # 2. ASYNC METHODS
+  # 2.1 SHORTS METHODS
   def load_shorts_async(self):
     """Starts asynchronous loading of shorts data"""
-    # get active watchlist ids
-    wl_ids = []
-    for component in self.flow_panel_watchlists.get_components():
-      if (isinstance(component, Link) and component.role == "genre-box"):  # Only active models
-        wl_ids.append(component.tag)
-    
-    if wl_ids:
-      # Call asynchronously
-      async_call = call_async("get_home_shorts", wl_ids, 0, 12)
-      async_call.on_result(self.shorts_loaded)
-    else:
-      if self.no_watchlists.visible is False:
-        self.no_shorts.visible = True
-      else:
-        self.no_shorts.visible = False
-      self.reload.visible = False
+    # Call asynchronously
+    async_call = call_async("get_home_shorts", user["user_id"])
+    async_call.on_result(self.shorts_loaded)
   
-  def shorts_loaded(self, shorts):
+  def shorts_loaded(self, result):
     """Handles successful server response for shorts."""
     # Calculate loading time
     load_time = time.time() - self.shorts_start_time
     print(f"{datetime.now()}: Home - Shorts loaded (took {load_time:.2f} seconds)", flush=True)
     
+    # Process watchlists
+    watchlists = result["watchlists"]
+    self.setup_watchlists(watchlists)
+    
+    # Process shorts
+    shorts = result["shorts"]
+    self.process_shorts(shorts)
+  
+  def setup_watchlists(self, watchlists):
+    """Set up watchlist UI components"""
+    if watchlists is not None and len(watchlists) > 0:
+      self.no_watchlists.visible = False
+      self.reload.visible = False
+      
+      for i in range(0, len(watchlists)):
+        wl_link = Link(
+          text=watchlists[i]["watchlist_name"], tag=watchlists[i]["watchlist_id"], role="genre-box"
+        )
+  
+        wl_link.set_event_handler(
+          "click", self.create_activate_watchlist_handler(watchlists[i]["watchlist_id"])
+        )
+        self.flow_panel_watchlists.add_component(wl_link)
+    else:
+      self.no_watchlists.visible = True
+      self.no_shorts.visible = False
+      self.reload.visible = False
+  
+  def process_shorts(self, shorts):
+    """Process and display shorts data"""
     # present shorts
     if shorts is not None and len(shorts) > 0:
       self.no_shorts.visible = False
@@ -136,6 +131,7 @@ class Home(HomeTemplate):
         self.no_shorts.visible = False
       self.reload.visible = False
   
+  # 2.2 STATS METHODS
   def load_stats_async(self):
     """Starts asynchronous loading of stats data"""
     # Call asynchronously
@@ -188,8 +184,8 @@ class Home(HomeTemplate):
     else:
       self.repeating_panel_news.items = news
     
-    print(f"{datetime.now()}: Home - stats loaded", flush=True)
-
+  # 3. USER INTERACTION METHODS
+  # 3.1 NAVIGATION
   def link_discover_click(self, **event_args):
     temp_artist_id = anvil.server.call('get_next_artist_id', load_var('model_id'))
     click_link(self.artist_link, f'artists?artist_id={temp_artist_id}', event_args)
@@ -201,6 +197,7 @@ class Home(HomeTemplate):
   def link_funnel_click(self, **event_args):
     click_link(self.link_funnel, 'watchlist_funnel', event_args)
 
+  # 3.2 SHORTS MANAGEMENT
   def add_shorts(self, **event_args):
     # get active watchlist ids
     wl_ids = []
@@ -209,9 +206,9 @@ class Home(HomeTemplate):
         wl_ids.append(component.tag)
     
     # add new shorts
-    if wl_ids != []:
+    if wl_ids:
       # Call asynchronously
-      async_call = call_async("get_home_shorts", wl_ids, self.num_shorts, 9)
+      async_call = call_async("get_additional_shorts", user["user_id"], wl_ids, self.num_shorts, 9)
       async_call.on_result(self.additional_shorts_loaded)
   
   def additional_shorts_loaded(self, shorts):
@@ -234,8 +231,7 @@ class Home(HomeTemplate):
     else:
       self.reload.visible = False
 
-  # ------------------
-  # WATCHLIST BUTTONS
+  # 3.3 WATCHLIST BUTTONS
   def create_activate_watchlist_handler(self, watchlist_id):
     def handler(**event_args):
       self.activate_watchlist(watchlist_id)

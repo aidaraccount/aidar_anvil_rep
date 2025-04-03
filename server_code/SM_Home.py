@@ -24,11 +24,37 @@ import json
 
 # 1.1 SHORTS FUNCTIONS
 @anvil.server.callable
-def get_home_shorts(wl_ids, offset, limit):
+def get_home_shorts(user_id):
     """
-    Get shorts data for the home page.
+    Get watchlists and shorts data for the home page.
     
     Args:
+        user_id: User ID
+        
+    Returns:
+        Dict containing watchlists and shorts data
+    """
+    # Get watchlists
+    watchlists = json.loads(anvil.server.call("get_watchlist_ids", user_id))
+    
+    # Get shorts if watchlists exist
+    shorts = None
+    if watchlists is not None and len(watchlists) > 0:
+        wl_ids = [wl["watchlist_id"] for wl in watchlists]
+        shorts = anvil.server.call('get_shorts', wl_ids, 0, 12)
+    
+    return {
+        "watchlists": watchlists,
+        "shorts": shorts
+    }
+
+@anvil.server.callable
+def get_additional_shorts(user_id, wl_ids, offset, limit):
+    """
+    Get additional shorts data for the home page.
+    
+    Args:
+        user_id: User ID
         wl_ids: List of watchlist IDs
         offset: Offset for pagination
         limit: Limit for pagination
