@@ -104,14 +104,14 @@ class MainIn(MainInTemplate):
       self.refresh_watchlists_components()
       self.refresh_models_components()
 
-      # open spezific hash if available
-      print('MainIn location.hash:', location.hash)
+      # open specific hash if available
+      print(f'ROUTING: MainIn processing location.hash: "{location.hash}" - {datetime.now()}', flush=True)
       
-      # If no specific route, redirect to home
-      if not location.hash:
-        routing.set_url_hash('home', load_from_cache=False)
-      else:
-        routing.set_url_hash(location.hash, load_from_cache=False)
+      # For Anvil Extras routing, we need to set the hash as is
+      # Empty hash will automatically route to the '' route (Home)
+      print(f'ROUTING: MainIn calling set_url_hash with: "{location.hash}" - {datetime.now()}', flush=True)
+      routing.set_url_hash(location.hash, load_from_cache=False)
+      print(f'ROUTING: MainIn finished set_url_hash - {datetime.now()}', flush=True)
       
       self.reset_nav_backgrounds()
       self.call_js('updateLoadingSpinnerMargin', '125px')

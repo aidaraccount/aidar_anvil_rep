@@ -9,6 +9,7 @@ import json
 from datetime import datetime
 from anvil_labs.non_blocking import call_async
 import time
+import uuid
 
 from anvil_extras import routing
 from ..nav import click_link, click_button, click_box, logout, login_check, load_var, save_var
@@ -16,9 +17,19 @@ from ..nav import click_link, click_button, click_box, logout, login_check, load
 from ..C_Short import C_Short
 
 
+@routing.route('', title='Home')
 @routing.route('home', title='Home')
 class Home(HomeTemplate):
+  # Add a class variable to track initialization status
+  _initialized = False
+  
   def __init__(self, **properties):
+    # Generate a unique instance ID
+    self.instance_id = str(uuid.uuid4())[:8]
+    
+    # Print detailed diagnostics
+    route_hash = anvil.js.window.location.hash
+    print(f"HOME INIT [{self.instance_id}] - Route: '{route_hash}' - Time: {datetime.now()}", flush=True)
     
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
@@ -29,14 +40,16 @@ class Home(HomeTemplate):
     # Any code you write here will run before the form opens.
     if user is None or user == 'None':
       self.visible = False
+      print(f"HOME INIT [{self.instance_id}] - No user, hiding form", flush=True)
       
     elif user['expiration_date'] is not None and (datetime.today().date() - user['expiration_date']).days > 0:
       routing.set_url_hash('no_subs', load_from_cache=False)
       get_open_form().SearchBar.visible = False
+      print(f"HOME INIT [{self.instance_id}] - Subscription expired, redirecting", flush=True)
       
     else:
       model_id = load_var("model_id")
-      print(f"Home model_id: {model_id}")
+      print(f"HOME INIT [{self.instance_id}] - model_id: {model_id}", flush=True)
       
       self.model_id = model_id
 
@@ -44,7 +57,14 @@ class Home(HomeTemplate):
       if user["first_name"] is not None:
         self.label_welcome.text = f'Welcome {user["first_name"]}'        
       
-      print(f"{datetime.now()}: Home - __init__ start", flush=True)
+      print(f"HOME INIT [{self.instance_id}] - __init__ start - {datetime.now()}", flush=True)
+      
+      # Check if this is a redundant initialization
+      if Home._initialized:
+        print(f"HOME INIT [{self.instance_id}] - DUPLICATE INIT DETECTED!", flush=True)
+      else:
+        Home._initialized = True
+        print(f"HOME INIT [{self.instance_id}] - First initialization", flush=True)
 
       # Initialize variables
       self.num_shorts = 0
@@ -54,14 +74,14 @@ class Home(HomeTemplate):
       
       # 1.1 Track start time for Shorts
       self.shorts_start_time = time.time()
-      print(f"{datetime.now()}: Home - Shorts loading initialized", flush=True)
+      print(f"HOME INIT [{self.instance_id}] - Shorts loading initialized - {datetime.now()}", flush=True)
       
       # 1.2 Initialize loading of shorts asynchronously
       self.load_shorts_async()
       
       # 1.3 Track start time for Stats
       self.stats_start_time = time.time()
-      print(f"{datetime.now()}: Home - Stats loading initialized", flush=True)
+      print(f"HOME INIT [{self.instance_id}] - Stats loading initialized - {datetime.now()}", flush=True)
       
       # 1.4 Initialize loading of stats asynchronously
       self.load_stats_async()
@@ -73,12 +93,13 @@ class Home(HomeTemplate):
     # Call asynchronously
     async_call = call_async("get_home_shorts", user["user_id"])
     async_call.on_result(self.shorts_loaded)
+    print(f"HOME ASYNC [{self.instance_id}] - Shorts async call dispatched", flush=True)
   
   def shorts_loaded(self, result):
     """Handles successful server response for shorts."""
     # Calculate loading time
     load_time = time.time() - self.shorts_start_time
-    print(f"{datetime.now()}: Home - Shorts loaded (took {load_time:.2f} seconds)", flush=True)
+    print(f"HOME ASYNC [{self.instance_id}] - Shorts loaded (took {load_time:.2f} seconds)", flush=True)
     
     # Process watchlists
     watchlists = result["watchlists"]
@@ -136,12 +157,13 @@ class Home(HomeTemplate):
     # Call asynchronously
     async_call = call_async("get_home_stats", user["user_id"])
     async_call.on_result(self.stats_loaded)
+    print(f"HOME ASYNC [{self.instance_id}] - Stats async call dispatched", flush=True)
   
   def stats_loaded(self, data):
     """Handles successful server response for stats."""
     # Calculate loading time
     load_time = time.time() - self.stats_start_time
-    print(f"{datetime.now()}: Home - Stats loaded (took {load_time:.2f} seconds)", flush=True)
+    print(f"HOME ASYNC [{self.instance_id}] - Stats loaded (took {load_time:.2f} seconds)", flush=True)
     
     # Process stats data
     stats = data['stats']
@@ -182,7 +204,7 @@ class Home(HomeTemplate):
       self.xy_panel_news_empty.visible = True
     else:
       self.repeating_panel_news.items = news
-    
+  
   # 3. USER INTERACTION METHODS
   # 3.1 NAVIGATION
   def link_discover_click(self, **event_args):
@@ -213,7 +235,7 @@ class Home(HomeTemplate):
   def additional_shorts_loaded(self, shorts):
     """Handles successful server response for additional shorts."""
     # Record the time when additional shorts are loaded
-    print(f"{datetime.now()}: Home - Additional shorts loaded", flush=True)
+    print(f"HOME ASYNC [{self.instance_id}] - Additional shorts loaded", flush=True)
     
     # present shorts
     if shorts is not None and len(shorts) > 0:
@@ -259,6 +281,6 @@ class Home(HomeTemplate):
 
     # Reset start time for reloading shorts
     self.shorts_start_time = time.time()
-    print(f"{datetime.now()}: Home - Shorts reloading after watchlist change", flush=True)
+    print(f"HOME INIT [{self.instance_id}] - Shorts reloading after watchlist change", flush=True)
     
     self.load_shorts_async()
