@@ -16,7 +16,7 @@ color_scheme:
   - {color: 'rgb(88,32,57)', name: Sangria}
   - {color: 'rgb(31, 11, 59)', name: Purple}
   - {color: 'rgb(40, 30, 60)', name: PurpleDiscreet}
-  - {color: '#8A00C4', name: PurpleFocus}
+  - {color: 'rgb(130, 39, 118)', name: PurpleFocus}
   preset_groups:
   - name: Accent
     options:
