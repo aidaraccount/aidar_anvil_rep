@@ -185,9 +185,9 @@ class Settings(SettingsTemplate):
   def profile_save_click(self, **event_args):
     if self.profile_save.role == ['header-6', 'call-to-action-button']:
       # update Anvil Users
-      anvil.users.update_user(user["user_id"],
-                              first_name=self.text_box_first_name.text,
-                              last_name=self.text_box_last_name.text)
+      user = anvil.users.get_user()
+      user['first_name'] = self.text_box_first_name.text
+      user['last_name'] = self.text_box_last_name.text
       
       # update db
       status = anvil.server.call('update_settings_account',
@@ -422,5 +422,3 @@ class Settings(SettingsTemplate):
       self.mail_enters.text = ''
       self.sent_invite.role = ['pos-abs-bottom', 'header-6', 'call-to-action-button-disabled']
       self.nav_user_click()
-
-
