@@ -40,6 +40,9 @@ class Home(HomeTemplate):
     # Check if this is a duplicate initialization within the threshold period
     time_since_last_init = current_time - Home._last_init_time
     
+    global user
+    user = anvil.users.get_user()
+    
     if time_since_last_init < Home._min_time_between_inits:
       print(f"HOME INIT [{self.instance_id}] - Skipping initialization ({time_since_last_init:.3f}s since last init)", flush=True)
       self.init_components(**properties)
@@ -49,6 +52,15 @@ class Home(HomeTemplate):
       self.no_watchlists.visible = False
       self.no_shorts.visible = False
       self.reload.visible = False
+
+      user = anvil.users.get_user()
+      name = user["first_name"].upper() if user["first_name"] is not None else ''
+      self.welcome.content = f"""
+      <span style="font-family: 'General Sans', sans-serif; font-weight: 700; font-size: 55px; color: white;">
+        <span style="color: #FF4C2B;">.</span>WELCOME <span style="color: #FF4C2B;">{name}</span>
+      </span>
+      """
+        
       return
     
     # Update the last initialization time
@@ -56,9 +68,6 @@ class Home(HomeTemplate):
     
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
-
-    global user
-    user = anvil.users.get_user()
     
     # Any code you write here will run before the form opens.
     if user is None or user == 'None':
@@ -86,8 +95,12 @@ class Home(HomeTemplate):
       self.reload.visible = False
       
       # 1.2 welcome name
-      if user["first_name"] is not None:
-        self.label_welcome.text = f'Welcome {user["first_name"]}'    
+      name = user["first_name"].upper() if user["first_name"] is not None else ''
+      self.welcome.content = f"""
+      <span style="font-family: 'General Sans', sans-serif; font-weight: 700; font-size: 55px; color: white;">
+        <span style="color: rgb(253, 101, 45);">.</span>WELCOME <span style="color: rgb(253, 101, 45);">{name}</span>
+      </span>
+      """
         
       # 1.3 Initialize loading of stats asynchronously
       self.stats_start_time = time.time()
