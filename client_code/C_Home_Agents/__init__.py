@@ -6,6 +6,7 @@ import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
 import json
+from ..nav import click_button
 
 
 class C_Home_Agents(C_Home_AgentsTemplate):
@@ -57,6 +58,8 @@ class C_Home_Agents(C_Home_AgentsTemplate):
           model_name = model.get('model_name', 'Unknown Model')
           model_level = model.get('model_level', 'Unknown')
           no_stars = model.get('no_stars', 0)
+          next_artist_id = model.get('next_artist_id', '')
+          next_artist_pic_url = model.get('next_artist_pic_url', '')
           
           # Generate the stars HTML - always 3 stars, with 'no_stars' colored orange
           stars_html = ""
@@ -70,18 +73,34 @@ class C_Home_Agents(C_Home_AgentsTemplate):
               
           model_boxes_html += f"""
             <div class="model-box" data-model-id="{model_id}">
-              <div class="model-name">{model_name}</div>
-              <div class="model-stars">{stars_html}</div>
-              <div class="model-level">{model_level}</div>
+              <div class="model-content">
+                <div class="model-name">{model_name}</div>
+                <div class="model-stars">{stars_html}</div>
+                <div class="model-level">{model_level}</div>
+              </div>
+              <div class="model-artist">
+                <div class="artist-image-container">
+                  <img src="{next_artist_pic_url}" class="artist-image" alt="Artist" />
+                  <button class="discover-button" onclick="window.artistDiscoverClick(event, {next_artist_id})">Discover</button>
+                </div>
+              </div>
             </div>
           """
         else:
           # Handle string or other non-dict items if needed
           model_boxes_html += f"""
             <div class="model-box">
-              <div class="model-name">{str(model)}</div>
-              <div class="model-stars">★★★</div>
-              <div class="model-level">Unknown</div>
+              <div class="model-content">
+                <div class="model-name">{str(model)}</div>
+                <div class="model-stars">★★★</div>
+                <div class="model-level">Unknown</div>
+              </div>
+              <div class="model-artist">
+                <div class="artist-image-container">
+                  <img src="" class="artist-image" alt="Artist" />
+                  <button class="discover-button">Discover</button>
+                </div>
+              </div>
             </div>
           """
     else:
@@ -90,9 +109,17 @@ class C_Home_Agents(C_Home_AgentsTemplate):
         # If it's still a string at this point, show it as a single box
         model_boxes_html = f"""
           <div class="model-box">
-            <div class="model-name">Error: Could not parse data</div>
-            <div class="model-stars">★★★</div>
-            <div class="model-level">Unknown</div>
+            <div class="model-content">
+              <div class="model-name">Error: Could not parse data</div>
+              <div class="model-stars">★★★</div>
+              <div class="model-level">Unknown</div>
+            </div>
+            <div class="model-artist">
+              <div class="artist-image-container">
+                <img src="" class="artist-image" alt="Artist" />
+                <button class="discover-button">Discover</button>
+              </div>
+            </div>
           </div>
         """
     
@@ -101,6 +128,15 @@ class C_Home_Agents(C_Home_AgentsTemplate):
     # JavaScript for the slider functionality
     js_code = """
       console.log('SLIDER_DEBUG: JavaScript loaded');
+      
+      // Function to handle the discover button click
+      window.artistDiscoverClick = function(event, artistId) {
+        event.stopPropagation();
+        console.log('Discover clicked for artist ID:', artistId);
+        
+        // Call the Anvil routing function to navigate to the artist page
+        anvil.call('click_button', 'artists?artist_id=' + artistId, {keys: {ctrl: event.ctrlKey}});
+      };
       
       // Add a small delay to make sure DOM is fully processed
       setTimeout(function() {
