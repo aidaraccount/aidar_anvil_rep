@@ -195,18 +195,25 @@ class Home(HomeTemplate):
     # Check if we should update the current instance or the active instance
     if active_instance and active_instance.instance_id != self.instance_id:
       print(f"HOME ASYNC [{self.instance_id}] - Updating active instance [{active_instance.instance_id}]", flush=True)
-      # Process watchlists in the active instance
-      active_instance.setup_watchlists(result["watchlists"])
+      # Process watchlists in the active instance, preserving selection state
+      active_wl_ids = active_instance.setup_watchlists(result["watchlists"])
       # Process shorts in the active instance
       active_instance.process_shorts(result["shorts"])
     else:
-      # Process watchlists in this instance
-      self.setup_watchlists(result["watchlists"])
+      # Process watchlists in this instance, preserving selection state
+      active_wl_ids = self.setup_watchlists(result["watchlists"])
       # Process shorts in this instance
       self.process_shorts(result["shorts"])
   
   def setup_watchlists(self, watchlists):
     """Set up watchlist UI components"""
+    # Save current selection state before clearing the panel
+    current_states = {}
+    for component in self.flow_panel_watchlists.get_components():
+      if isinstance(component, Link):
+        # Save the active/inactive state of each watchlist
+        current_states[str(component.tag)] = component.role
+    
     # Clear existing components
     self.flow_panel_watchlists.clear()
         
@@ -216,25 +223,41 @@ class Home(HomeTemplate):
       self.no_watchlists.visible = False
       self.reload.visible = False
       
+      # Track active watchlist IDs for initial load
+      active_wl_ids = []
+      
       for i in range(0, len(watchlists)):
-        # All watchlists start as active (genre-box)
+        wl_id = watchlists[i]["watchlist_id"]
+        wl_id_str = str(wl_id)
+        
+        # Determine role based on previous state
+        # Default to active (genre-box) for first load
+        role = current_states.get(wl_id_str, "genre-box")
+        
+        # Create the link with the appropriate role
         wl_link = Link(
-          text=watchlists[i]["watchlist_name"], tag=watchlists[i]["watchlist_id"], role="genre-box"
+          text=watchlists[i]["watchlist_name"], tag=wl_id, role=role
         )
   
         wl_link.set_event_handler(
-          "click", self.create_activate_watchlist_handler(watchlists[i]["watchlist_id"])
+          "click", self.create_activate_watchlist_handler(wl_id)
         )
         self.flow_panel_watchlists.add_component(wl_link)
+        
+        # Add to active list if it's active
+        if role == "genre-box":
+          active_wl_ids.append(wl_id)
       
-      # Get all initial watchlist IDs for loading shorts
-      initial_wl_ids = [wl["watchlist_id"] for wl in watchlists]
-      print(f"HOME INIT [{self.instance_id}] - Initial active watchlist IDs: {initial_wl_ids}", flush=True)
+      # Only log initial state if this is first setup (no previous states saved)
+      if not current_states:
+        print(f"HOME INIT [{self.instance_id}] - Initial active watchlist IDs: {active_wl_ids}", flush=True)
     else:
       # No watchlists found - show message
       self.no_watchlists.visible = True
       self.no_shorts.visible = False
       self.reload.visible = False
+    
+    return active_wl_ids
   
   def process_shorts(self, shorts):
     """Process and display shorts data"""
