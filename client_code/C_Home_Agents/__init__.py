@@ -9,6 +9,7 @@ import json
 import anvil.js
 from anvil import get_open_form
 from ..nav import click_button, save_var
+import time
 
 
 class C_Home_Agents(C_Home_AgentsTemplate):
@@ -37,8 +38,15 @@ class C_Home_Agents(C_Home_AgentsTemplate):
   
   def form_show(self, **event_args):
     """This method is called when the HTML panel is shown on the screen"""
+    print("DEBUG: form_show called, registering JavaScript callback")
     # Register JavaScript callback for the discover button
     anvil.js.window.pyDiscoverClicked = self.handle_discover_click
+    print("DEBUG: JavaScript callback registered as window.pyDiscoverClicked")
+    # Log initial state
+    user = anvil.users.get_user()
+    print(f"DEBUG: Current user: {user['user_id'] if user else 'None'}")
+    current_model = get_open_form().get_model_id() if hasattr(get_open_form(), 'get_model_id') else 'unknown'
+    print(f"DEBUG: Current model_id (before any clicks): {current_model}")
 
   def activate_model(self, model_id, **event_args):
     """
@@ -47,37 +55,143 @@ class C_Home_Agents(C_Home_AgentsTemplate):
     Args:
         model_id: The ID of the model to activate
     """
-    print(f"Activating model: {model_id}")
+    print(f"DEBUG ACTIVATE MODEL: Starting activation for model_id: {model_id}, type: {type(model_id)}")
     # Store model_id for reference
     self.model_id_view = model_id
     
     user = anvil.users.get_user()
+    print(f"DEBUG ACTIVATE MODEL: Current user: {user}")
     
     if user and model_id:
       # Log each step for debugging
-      print(f"Step 1: Updating model usage for user {user['user_id']} and model {model_id}")
-      # Update model usage on server
-      anvil.server.call('update_model_usage', user["user_id"], model_id)
-      print("Step 1 complete: Server call finished")
+      print(f"DEBUG ACTIVATE MODEL: Step 1: Updating model usage for user {user['user_id']} and model {model_id}")
+      try:
+        # Update model usage on server
+        result = anvil.server.call('update_model_usage', user["user_id"], model_id)
+        print(f"DEBUG ACTIVATE MODEL: Step 1 complete: Server call result: {result}")
+      except Exception as e:
+        print(f"DEBUG ACTIVATE MODEL: ERROR in server call: {str(e)}")
       
-      print(f"Step 2: Saving model_id {model_id} to client storage")
-      # Save model ID in client storage
-      save_var('model_id', model_id)
-      print("Step 2 complete: Variable saved")
+      print(f"DEBUG ACTIVATE MODEL: Step 2: Saving model_id {model_id} to client storage")
+      try:
+        # Save model ID in client storage
+        save_var('model_id', model_id)
+        # Verify it was saved
+        saved_model = anvil.js.window.localStorage.getItem('model_id')
+        print(f"DEBUG ACTIVATE MODEL: Step 2 complete: Variable saved, localStorage value: {saved_model}")
+      except Exception as e:
+        print(f"DEBUG ACTIVATE MODEL: ERROR saving variable: {str(e)}")
       
-      print("Step 3: Refreshing models underline")
-      # Refresh models underline in MainIn form
-      main_form = get_open_form()
-      if hasattr(main_form, 'refresh_models_underline'):
-        main_form.refresh_models_underline()
-        print("Step 3 complete: Models underline refreshed")
-      else:
-        print("Warning: Main form does not have refresh_models_underline method")
+      print("DEBUG ACTIVATE MODEL: Step 3: Getting main form and refreshing models underline")
+      try:
+        # Refresh models underline in MainIn form
+        main_form = get_open_form()
+        print(f"DEBUG ACTIVATE MODEL: Main form type: {type(main_form).__name__}")
+        if hasattr(main_form, 'refresh_models_underline'):
+          print("DEBUG ACTIVATE MODEL: Main form has refresh_models_underline method")
+          main_form.refresh_models_underline()
+          print("DEBUG ACTIVATE MODEL: Step 3 complete: Models underline refreshed")
+        else:
+          print(f"DEBUG ACTIVATE MODEL: WARNING: Main form does not have refresh_models_underline method. Available methods: {[m for m in dir(main_form) if not m.startswith('_') and callable(getattr(main_form, m))]}")
+      except Exception as e:
+        print(f"DEBUG ACTIVATE MODEL: ERROR refreshing models: {str(e)}")
     else:
-      print(f"Cannot activate model: user={user is not None}, model_id={model_id}")
+      print(f"DEBUG ACTIVATE MODEL: Cannot activate model: user present={user is not None}, model_id={model_id}")
     
+    print("DEBUG ACTIVATE MODEL: Activation function completed")
     return True
     
+  def handle_discover_click(self, artist_id, model_id, ctrl_key=False):
+    """
+    JavaScript callback for when the discover button is clicked.
+    
+    Args:
+        artist_id: The ID of the artist to navigate to
+        model_id: The ID of the model to activate
+        ctrl_key: Whether the ctrl key was pressed (to open in new tab)
+    """
+    timestamp = time.time()
+    print(f"DEBUG HANDLE CLICK [{timestamp}]: Starting handler with artist={artist_id}, model={model_id}, ctrl={ctrl_key}")
+    print(f"DEBUG HANDLE CLICK [{timestamp}]: model_id type: {type(model_id)}")
+    
+    try:
+      # Make sure model_id is passed correctly
+      if not model_id:
+        print(f"DEBUG HANDLE CLICK [{timestamp}]: WARNING: No model_id provided in discover click")
+        return {"success": False, "error": "No model_id provided"}
+        
+      # Convert model_id to string if needed
+      model_id_str = str(model_id).strip()
+      print(f"DEBUG HANDLE CLICK [{timestamp}]: Converted model_id to string: {model_id_str}")
+      
+      # Activate the model - call the required functions directly here to ensure they run
+      user = anvil.users.get_user()
+      if user:
+        print(f"DEBUG HANDLE CLICK [{timestamp}]: Got user: {user['user_id']}")
+        # Store model_id for reference
+        self.model_id_view = model_id_str
+        print(f"DEBUG HANDLE CLICK [{timestamp}]: Stored model_id_view: {self.model_id_view}")
+        
+        # 1. Update model usage on server
+        print(f"DEBUG HANDLE CLICK [{timestamp}]: Calling update_model_usage for user {user['user_id']} and model {model_id_str}")
+        try:
+          result = anvil.server.call('update_model_usage', user["user_id"], model_id_str)
+          print(f"DEBUG HANDLE CLICK [{timestamp}]: Server call completed with result: {result}")
+        except Exception as e:
+          print(f"DEBUG HANDLE CLICK [{timestamp}]: ERROR in server call: {str(e)}")
+        
+        # 2. Save model ID in client storage
+        print(f"DEBUG HANDLE CLICK [{timestamp}]: Saving model_id {model_id_str} to client storage")
+        try:
+          save_var('model_id', model_id_str)
+          # Verify it was saved correctly
+          saved_value = anvil.js.window.localStorage.getItem('model_id')
+          print(f"DEBUG HANDLE CLICK [{timestamp}]: Storage value after save: {saved_value}")
+        except Exception as e:
+          print(f"DEBUG HANDLE CLICK [{timestamp}]: ERROR saving to storage: {str(e)}")
+        
+        # 3. Refresh models underline in MainIn form
+        print(f"DEBUG HANDLE CLICK [{timestamp}]: Getting main form to refresh models underline")
+        try:
+          main_form = get_open_form()
+          print(f"DEBUG HANDLE CLICK [{timestamp}]: Main form type: {type(main_form).__name__}")
+          
+          if hasattr(main_form, 'refresh_models_underline'):
+            print(f"DEBUG HANDLE CLICK [{timestamp}]: Found refresh_models_underline method, calling it")
+            main_form.refresh_models_underline()
+            print(f"DEBUG HANDLE CLICK [{timestamp}]: Successfully called refresh_models_underline")
+          else:
+            print(f"DEBUG HANDLE CLICK [{timestamp}]: WARNING: Main form does not have refresh_models_underline method")
+            # Try to find what methods are available
+            methods = [m for m in dir(main_form) if not m.startswith('_') and callable(getattr(main_form, m))]
+            print(f"DEBUG HANDLE CLICK [{timestamp}]: Available methods on main_form: {methods}")
+            
+            # Check if main_form is what we expect
+            print(f"DEBUG HANDLE CLICK [{timestamp}]: Main form has attribute 'content': {hasattr(main_form, 'content')}")
+            if hasattr(main_form, 'content'):
+              content_type = type(main_form.content).__name__
+              print(f"DEBUG HANDLE CLICK [{timestamp}]: Main form content type: {content_type}")
+        except Exception as e:
+          print(f"DEBUG HANDLE CLICK [{timestamp}]: ERROR refreshing models: {str(e)}")
+      else:
+        print(f"DEBUG HANDLE CLICK [{timestamp}]: No user found, cannot activate model")
+    
+      # Log final status
+      print(f"DEBUG HANDLE CLICK [{timestamp}]: Handler completed successfully")
+      
+      # Return navigation info to JavaScript
+      return {
+        "success": True,
+        "artist_id": artist_id,
+        "model_id": model_id_str,
+        "ctrl_key": ctrl_key
+      }
+    except Exception as e:
+      print(f"DEBUG HANDLE CLICK [{timestamp}]: ERROR in handler: {str(e)}")
+      import traceback
+      print(f"DEBUG HANDLE CLICK [{timestamp}]: Traceback: {traceback.format_exc()}")
+      return {"success": False, "error": str(e)}
+
   def setup_slider(self, data):
     """
     Sets up the slider component with model boxes.
@@ -483,59 +597,3 @@ class C_Home_Agents(C_Home_AgentsTemplate):
     """
     
     print("SLIDER_DEBUG: Slider HTML assigned to component")
-
-  def handle_discover_click(self, artist_id, model_id, ctrl_key=False):
-    """
-    JavaScript callback for when the discover button is clicked.
-    
-    Args:
-        artist_id: The ID of the artist to navigate to
-        model_id: The ID of the model to activate
-        ctrl_key: Whether the ctrl key was pressed (to open in new tab)
-    """
-    print(f"Python handling discover click: artist={artist_id}, model={model_id}, ctrl={ctrl_key}")
-    
-    try:
-      # Make sure model_id is passed correctly
-      if not model_id:
-        print("Warning: No model_id provided in discover click")
-        return {"success": False, "error": "No model_id provided"}
-        
-      # Convert model_id to string if needed
-      model_id_str = str(model_id).strip()
-      
-      # Activate the model - call the required functions directly here to ensure they run
-      user = anvil.users.get_user()
-      if user:
-        # Store model_id for reference
-        self.model_id_view = model_id_str
-        
-        # 1. Update model usage on server
-        print(f"Directly calling update_model_usage for user {user['user_id']} and model {model_id_str}")
-        anvil.server.call('update_model_usage', user["user_id"], model_id_str)
-        
-        # 2. Save model ID in client storage
-        print(f"Directly saving model_id {model_id_str} to client storage")
-        save_var('model_id', model_id_str)
-        
-        # 3. Refresh models underline in MainIn form
-        print("Directly refreshing models underline")
-        main_form = get_open_form()
-        if hasattr(main_form, 'refresh_models_underline'):
-          main_form.refresh_models_underline()
-          print("Models underline refreshed successfully")
-        else:
-          print("Warning: Main form does not have refresh_models_underline method")
-      else:
-        print("No user found, cannot activate model")
-    
-      # Return navigation info to JavaScript
-      return {
-        "success": True,
-        "artist_id": artist_id,
-        "model_id": model_id_str,
-        "ctrl_key": ctrl_key
-      }
-    except Exception as e:
-      print(f"Error in handle_discover_click: {str(e)}")
-      return {"success": False, "error": str(e)}
