@@ -77,130 +77,61 @@ class C_Home_Agents(C_Home_AgentsTemplate):
           </div>
         """
     
-    # CSS for styling the slider and model boxes
-    css = """
-      /* 
-      1. SLIDER CONTAINER STYLES
-      */
-      .slider-container {
-        position: relative;
-        overflow: hidden;
-        padding: 10px 50px;
-        width: 100%;
-      }
-      
-      /* 
-      2. SLIDER TRACK STYLES
-      */
-      .slider-track {
-        display: flex;
-        transition: transform 0.5s ease;
-      }
-      
-      /* 
-      3. MODEL BOX STYLES
-      */
-      .model-box {
-        flex: 0 0 auto;
-        min-width: 200px;
-        height: 150px;
-        margin-right: 15px;
-        background-color: #2D2D3A;
-        border-radius: 12px;
-        padding: 15px;
-        color: white;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-      }
-      
-      .model-name {
-        font-size: 18px;
-        font-weight: bold;
-        text-align: center;
-      }
-      
-      /* 
-      4. NAVIGATION ARROW STYLES
-      */
-      .slider-arrow {
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-        width: 40px;
-        height: 40px;
-        background-color: rgba(255, 76, 43, 0.8);
-        border-radius: 50%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        color: white;
-        font-size: 20px;
-        cursor: pointer;
-        z-index: 10;
-      }
-      
-      .slider-arrow.left {
-        left: 10px;
-      }
-      
-      .slider-arrow.right {
-        right: 10px;
-      }
-      
-      .slider-arrow:hover {
-        background-color: rgba(255, 76, 43, 1);
-      }
-    """
-    
     # JavaScript for the slider functionality
     js_code = """
-      // Track slider position
-      let position = 0;
-      const track = document.querySelector('.slider-track');
-      const boxes = document.querySelectorAll('.model-box');
-      
-      // Calculate how many items can fit in the view
-      function calculateVisibleBoxes() {
-        const container = document.querySelector('.slider-container');
-        if (boxes.length === 0) return 0;
-        const boxWidth = boxes[0].offsetWidth + parseInt(getComputedStyle(boxes[0]).marginRight);
-        return Math.floor(container.offsetWidth / boxWidth);
-      }
-      
-      // Handle left arrow click
-      function slideLeft() {
-        if (position > 0) {
-          position--;
-          updateSliderPosition();
+      document.addEventListener('DOMContentLoaded', function() {
+        // Track slider position
+        let position = 0;
+        const track = document.querySelector('.slider-track');
+        const boxes = document.querySelectorAll('.model-box');
+        const leftArrow = document.querySelector('.slider-arrow.left');
+        const rightArrow = document.querySelector('.slider-arrow.right');
+        
+        if (!track || !boxes.length || !leftArrow || !rightArrow) {
+          console.error('Slider elements not found');
+          return;
         }
-      }
-      
-      // Handle right arrow click
-      function slideRight() {
-        const visibleBoxes = calculateVisibleBoxes();
-        if (position + visibleBoxes < boxes.length) {
-          position++;
-          updateSliderPosition();
+        
+        console.log('Slider initialized with ' + boxes.length + ' boxes');
+        
+        // Calculate how many items can fit in the view
+        function calculateVisibleBoxes() {
+          const container = document.querySelector('.slider-container');
+          if (!container || boxes.length === 0) return 0;
+          const boxWidth = boxes[0].offsetWidth + parseInt(getComputedStyle(boxes[0]).marginRight);
+          return Math.floor(container.offsetWidth / boxWidth);
         }
-      }
-      
-      // Update the track position
-      function updateSliderPosition() {
-        if (boxes.length === 0) return;
-        const boxWidth = boxes[0].offsetWidth + parseInt(getComputedStyle(boxes[0]).marginRight);
-        track.style.transform = `translateX(-${position * boxWidth}px)`;
-      }
-      
-      // Initialize slider
-      function initSlider() {
-        if (boxes.length === 0) return;
+        
+        // Handle left arrow click
+        function slideLeft() {
+          console.log('Slide left clicked, current position: ' + position);
+          if (position > 0) {
+            position--;
+            updateSliderPosition();
+          }
+        }
+        
+        // Handle right arrow click
+        function slideRight() {
+          console.log('Slide right clicked, current position: ' + position);
+          const visibleBoxes = calculateVisibleBoxes();
+          if (position + visibleBoxes < boxes.length) {
+            position++;
+            updateSliderPosition();
+          }
+        }
+        
+        // Update the track position
+        function updateSliderPosition() {
+          if (boxes.length === 0) return;
+          const boxWidth = boxes[0].offsetWidth + parseInt(getComputedStyle(boxes[0]).marginRight);
+          track.style.transform = `translateX(-${position * boxWidth}px)`;
+          console.log('Updated slider position to: ' + position);
+        }
         
         // Add event listeners to arrows
-        document.querySelector('.slider-arrow.left').addEventListener('click', slideLeft);
-        document.querySelector('.slider-arrow.right').addEventListener('click', slideRight);
+        leftArrow.addEventListener('click', slideLeft);
+        rightArrow.addEventListener('click', slideRight);
         
         // Initial positioning
         updateSliderPosition();
@@ -214,17 +145,12 @@ class C_Home_Agents(C_Home_AgentsTemplate):
             updateSliderPosition();
           }
         });
-      }
-      
-      // Initialize when page loads
-      window.addEventListener('load', initSlider);
+      });
     """
     
     # Combine everything into the final HTML
     self.html = f"""
     <div class="agents-slider">
-      <style>{css}</style>
-      
       <div class="slider-container">
         <div class="slider-arrow left">&#10094;</div>
         <div class="slider-track">

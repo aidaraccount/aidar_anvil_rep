@@ -88,18 +88,85 @@ Area 5: Page individual classes
   }
 }
 
+/* ----------------------------
+5.2. C_Home_Agents individual classes */
+.agents-slider {
+  width: 100%;
+}
+
+.slider-container {
+  position: relative;
+  overflow: hidden;
+  padding: 10px 50px;
+  width: 100%;
+}
+
+.slider-track {
+  display: flex;
+  transition: transform 0.5s ease;
+}
+
+.model-box {
+  flex: 0 0 auto;
+  min-width: 200px;
+  height: 150px;
+  margin-right: 15px;
+  background-color: #2D2D3A;
+  border-radius: 12px;
+  padding: 15px;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.model-name {
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.slider-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 40px;
+  height: 40px;
+  background-color: rgba(255, 76, 43, 0.8);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+  z-index: 10;
+}
+
+.slider-arrow.left {
+  left: 10px;
+}
+
+.slider-arrow.right {
+  right: 10px;
+}
+
+.slider-arrow:hover {
+  background-color: rgba(255, 76, 43, 1);
+}
 
 /* ----------------------------
-5.2. DISCOVER & C_DISCOVER individual classes
+5.3. DISCOVER & C_DISCOVER individual classes
 Live: past & future table: center second column vertically */
 .anvil-role-pos-center-vertical .data-row-col:nth-child(2) {
   display: flex;
   align-items: center;
 }
 
-
 /* ----------------------------
-5.3. OBSERVE_LISTEN individual classes */
+5.4. OBSERVE_LISTEN individual classes */
 .anvil-role-listen-complete-element {
   height: calc(100vh + 260px);
   overflow-y: auto;
@@ -111,9 +178,8 @@ Live: past & future table: center second column vertically */
   height: calc(95vh - 85px);
 }
 
-
 /* ----------------------------
-5.3. C_ProgressMessage individual classes */
+5.5. C_ProgressMessage individual classes */
 /* vertically centers the cycle */
 .anvil-role-progress_message .anvil-panel-section .anvil-panel-section-container .anvil-panel-section-gutter .anvil-panel-row .anvil-panel-col {
   display: flex;
