@@ -61,3 +61,32 @@ def update_slider_start(value):
 def update_slider_end(value):
   print(f"Slider end value: {value}")
   # Update your logic based on this value
+
+
+@anvil.server.callable
+def update_anvil_user(user_id, first_name, last_name):
+  """
+  Updates a user's first_name and last_name in the Anvil Users table.
+  
+  Args:
+      user_id: The user ID to update
+      first_name: The new first name
+      last_name: The new last name
+      
+  Returns:
+      'success' if the update was successful, 'error' otherwise
+  """
+  try:
+    # Get the user row from the Users table
+    user_row = app_tables.users.get(user_id=user_id)
+    
+    if user_row:
+      # Update the user's information
+      user_row['first_name'] = first_name
+      user_row['last_name'] = last_name
+      return 'success'
+    else:
+      return 'error'
+  except Exception as e:
+    print(f"Error updating Anvil user: {e}")
+    return 'error'

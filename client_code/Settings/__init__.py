@@ -184,26 +184,27 @@ class Settings(SettingsTemplate):
 
   def profile_save_click(self, **event_args):
     if self.profile_save.role == ['header-6', 'call-to-action-button']:
-      # update Anvil Users
-      user = anvil.users.get_user()
-      user['first_name'] = self.text_box_first_name.text
-      user['last_name'] = self.text_box_last_name.text
       
-      # update db
-      status = anvil.server.call('update_settings_account',
-                                user["user_id"],
-                                self.text_box_first_name.text,
-                                self.text_box_last_name.text
-                                )
+      # 1. Update user in Anvil Users table
+      anvil_status = anvil.server.call('update_anvil_user',
+                                      user["user_id"],
+                                      self.text_box_first_name.text,
+                                      self.text_box_last_name.text)
+      
+      # 2. Update user in backend database
+      backend_status = anvil.server.call('update_settings_account',
+                                        user["user_id"],
+                                        self.text_box_first_name.text,
+                                        self.text_box_last_name.text)
   
-      if status == 'success':
+      if anvil_status == 'success' and backend_status == 'success':
         Notification("", title="Changes saved!", style="success").show()
         anvil.js.get_dom_node(self.text_box_last_name).blur()
         anvil.js.get_dom_node(self.text_box_first_name).blur()
         self.profile_save.role = ['header-6', 'call-to-action-button-disabled']
       else:
         Notification("", title="Error! Sorry, something went wrong..", style="warning").show()
-    
+
   # b) Subscription Status
   # no actions available
   
