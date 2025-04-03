@@ -227,6 +227,16 @@ Area 5: Page individual classes
   color: var(--Orange);
 }
 
+.model-box .model-box-top-row .model-info .model-name a {
+  color: var(--WhiteDiscreet);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.model-box .model-box-top-row .model-info .model-name a:hover {
+  color: var(--Orange);
+}
+
 .model-stars {
   font-size: 45px;
   line-height: 1;
