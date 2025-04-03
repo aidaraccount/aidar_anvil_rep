@@ -5,6 +5,7 @@ import anvil.users
 import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
+import json
 
 
 class C_Home_Agents(C_Home_AgentsTemplate):
@@ -15,8 +16,18 @@ class C_Home_Agents(C_Home_AgentsTemplate):
     # Any code you write here will run before the form opens.
     # Print data type for debugging
     print(f"Data type: {type(data)}")
-    if data:
+    
+    # Convert string data to list of dictionaries if needed
+    if isinstance(data, str):
+      try:
+        data = json.loads(data)
+        print("Successfully parsed data as JSON")
+      except json.JSONDecodeError:
+        print("Failed to parse data as JSON")
+    
+    if data and isinstance(data, list):
       print(f"First item type: {type(data[0])}")
+      
     self.setup_slider(data)
     
   def setup_slider(self, data):
@@ -24,13 +35,21 @@ class C_Home_Agents(C_Home_AgentsTemplate):
     Sets up the slider component with model boxes.
     
     Args:
-        data: List of model data to display in the slider.
+        data: List of model data to display in the slider. Can be a list of dictionaries
+             or a JSON string representation of such a list.
     """
     # Generate HTML for each model box
     model_boxes_html = ""
     
     # Ensure data is properly formatted
+    if isinstance(data, str):
+      try:
+        data = json.loads(data)
+      except json.JSONDecodeError:
+        print("Could not parse data as JSON in setup_slider")
+    
     if isinstance(data, list):
+      print(f"Processing {len(data)} models for slider")
       for model in data:
         if isinstance(model, dict):
           model_id = model.get('model_id', '')
@@ -48,6 +67,15 @@ class C_Home_Agents(C_Home_AgentsTemplate):
               <div class="model-name">{str(model)}</div>
             </div>
           """
+    else:
+      print(f"Data is not a list, type: {type(data)}")
+      if isinstance(data, str):
+        # If it's still a string at this point, show it as a single box
+        model_boxes_html = f"""
+          <div class="model-box">
+            <div class="model-name">Error: Could not parse data</div>
+          </div>
+        """
     
     # CSS for styling the slider and model boxes
     css = """
