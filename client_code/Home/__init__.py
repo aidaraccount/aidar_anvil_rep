@@ -261,32 +261,29 @@ class Home(HomeTemplate):
   
   def process_shorts(self, shorts):
     """Process and display shorts data"""
-    # Clear existing shorts
+    # Reset the shorts container first
     self.flow_panel_shorts.clear()
+    self.num_shorts = 0
     
-    # Hide "no data" indicators until we know the status
+    # Show no shorts message if there are no shorts or no active watchlists
+    if shorts is None or len(shorts) == 0:
+      self.no_shorts.visible = True
+      self.reload.visible = False
+      print(f"HOME INIT [{self.instance_id}] - No shorts to display", flush=True)
+      return
+    
+    # We have shorts to display
     self.no_shorts.visible = False
     
-    # present shorts
-    if shorts is not None and len(shorts) > 0:
-      # We have shorts - hide "no shorts" message
-      self.no_shorts.visible = False
-      self.reload.visible = True
-      shorts = json.loads(shorts)
-
-      self.num_shorts = len(shorts)
-      for i in range(0, len(shorts)):
-        self.flow_panel_shorts.add_component(C_Short(data=shorts[i]))
-
-      if len(shorts) < 12:
-        self.reload.visible = False
-    else:
-      # No shorts found - show message if appropriate
-      if self.no_watchlists.visible is False:
-        self.no_shorts.visible = True
-      else:
-        self.no_shorts.visible = False
-      self.reload.visible = False
+    # Parse and add shorts components
+    shorts = json.loads(shorts)
+    for i in range(0, len(shorts)):
+      self.flow_panel_shorts.add_component(C_Short(data=shorts[i]))
+    
+    self.num_shorts = len(shorts)
+    
+    # Show reload button if we have enough shorts
+    self.reload.visible = len(shorts) >= 9
   
   # 3. USER INTERACTION METHODS
   # 3.1 NAVIGATION
@@ -375,6 +372,10 @@ class Home(HomeTemplate):
     # Reset start time for reloading shorts
     self.shorts_start_time = time.time()
     print(f"HOME ASYNC [{self.instance_id}] - Shorts reloading with active watchlist IDs: {active_wl_ids}", flush=True)
+    
+    # Clear existing shorts
+    self.flow_panel_shorts.clear()
+    self.no_shorts.visible = False
     
     # Load shorts with only the active watchlist IDs
     self.load_shorts_async(selected_wl_ids=active_wl_ids)

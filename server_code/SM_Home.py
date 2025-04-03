@@ -41,10 +41,15 @@ def get_home_shorts(user_id, selected_wl_ids=None):
     # Get shorts if watchlists exist
     shorts = None
     
-    if selected_wl_ids is not None and len(selected_wl_ids) > 0:
-        # Use the selected watchlist IDs provided by the client
-        print(f"Using specifically selected watchlist IDs: {selected_wl_ids}")
-        shorts = anvil.server.call('get_shorts', selected_wl_ids, 0, 12)
+    if selected_wl_ids is not None:
+        if len(selected_wl_ids) > 0:
+            # Use the selected watchlist IDs provided by the client
+            print(f"Using specifically selected watchlist IDs: {selected_wl_ids}")
+            shorts = anvil.server.call('get_shorts', selected_wl_ids, 0, 12)
+        else:
+            # Empty selected_wl_ids list provided - user has deselected all watchlists
+            print(f"All watchlists deselected - returning no shorts")
+            shorts = None
     elif watchlists is not None and len(watchlists) > 0:
         # No specific selection, use all available watchlists
         wl_ids = [wl["watchlist_id"] for wl in watchlists]
