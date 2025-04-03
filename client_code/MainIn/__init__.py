@@ -106,7 +106,12 @@ class MainIn(MainInTemplate):
 
       # open spezific hash if available
       print('MainIn location.hash:', location.hash)
-      routing.set_url_hash(location.hash, load_from_cache=False)
+      
+      # If no specific route, redirect to home
+      if not location.hash:
+        routing.set_url_hash('home', load_from_cache=False)
+      else:
+        routing.set_url_hash(location.hash, load_from_cache=False)
       
       self.reset_nav_backgrounds()
       self.call_js('updateLoadingSpinnerMargin', '125px')
@@ -459,4 +464,3 @@ class MainIn(MainInTemplate):
   def settings_click(self, **event_args):
     click_link(self.settings, 'settings', event_args)
     self.reset_nav_backgrounds()
-    

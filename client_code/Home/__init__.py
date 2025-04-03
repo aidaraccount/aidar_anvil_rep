@@ -16,7 +16,6 @@ from ..nav import click_link, click_button, click_box, logout, login_check, load
 from ..C_Short import C_Short
 
 
-@routing.route('',     title='Login')
 @routing.route('home', title='Home')
 class Home(HomeTemplate):
   def __init__(self, **properties):
