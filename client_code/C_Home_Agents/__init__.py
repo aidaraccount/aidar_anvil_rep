@@ -19,18 +19,18 @@ class C_Home_Agents(C_Home_AgentsTemplate):
 
     # Any code you write here will run before the form opens.
     # Print data type for debugging
-    print(f"SLIDER_DEBUG: Data type: {type(data)}")
+    print(f"MODEL_ACTIVATION: SLIDER_DEBUG: Data type: {type(data)}")
     
     # Convert string data to list of dictionaries if needed
     if isinstance(data, str):
       try:
         data = json.loads(data)
-        print("SLIDER_DEBUG: Successfully parsed data as JSON")
+        print("MODEL_ACTIVATION: SLIDER_DEBUG: Successfully parsed data as JSON")
       except json.JSONDecodeError:
-        print("SLIDER_DEBUG: Failed to parse data as JSON")
+        print("MODEL_ACTIVATION: SLIDER_DEBUG: Failed to parse data as JSON")
     
     if data and isinstance(data, list):
-      print(f"SLIDER_DEBUG: First item type: {type(data[0])}")
+      print(f"MODEL_ACTIVATION: SLIDER_DEBUG: First item type: {type(data[0])}")
       
     # Store models data for access by JavaScript callbacks
     self.models_data = data if isinstance(data, list) else []
@@ -38,15 +38,15 @@ class C_Home_Agents(C_Home_AgentsTemplate):
   
   def form_show(self, **event_args):
     """This method is called when the HTML panel is shown on the screen"""
-    print("DEBUG: form_show called, registering JavaScript callback")
+    print("MODEL_ACTIVATION: form_show called, registering JavaScript callback")
     # Register JavaScript callback for the discover button
     anvil.js.window.pyDiscoverClicked = self.handle_discover_click
-    print("DEBUG: JavaScript callback registered as window.pyDiscoverClicked")
+    print("MODEL_ACTIVATION: JavaScript callback registered as window.pyDiscoverClicked")
     # Log initial state
     user = anvil.users.get_user()
-    print(f"DEBUG: Current user: {user['user_id'] if user else 'None'}")
+    print(f"MODEL_ACTIVATION: Current user: {user['user_id'] if user else 'None'}")
     current_model = get_open_form().get_model_id() if hasattr(get_open_form(), 'get_model_id') else 'unknown'
-    print(f"DEBUG: Current model_id (before any clicks): {current_model}")
+    print(f"MODEL_ACTIVATION: Current model_id (before any clicks): {current_model}")
 
   def activate_model(self, model_id, **event_args):
     """
@@ -55,50 +55,50 @@ class C_Home_Agents(C_Home_AgentsTemplate):
     Args:
         model_id: The ID of the model to activate
     """
-    print(f"DEBUG ACTIVATE MODEL: Starting activation for model_id: {model_id}, type: {type(model_id)}")
+    print(f"MODEL_ACTIVATION: Starting activation for model_id: {model_id}, type: {type(model_id)}")
     # Store model_id for reference
     self.model_id_view = model_id
     
     user = anvil.users.get_user()
-    print(f"DEBUG ACTIVATE MODEL: Current user: {user}")
+    print(f"MODEL_ACTIVATION: Current user: {user}")
     
     if user and model_id:
       # Log each step for debugging
-      print(f"DEBUG ACTIVATE MODEL: Step 1: Updating model usage for user {user['user_id']} and model {model_id}")
+      print(f"MODEL_ACTIVATION: Step 1: Updating model usage for user {user['user_id']} and model {model_id}")
       try:
         # Update model usage on server
         result = anvil.server.call('update_model_usage', user["user_id"], model_id)
-        print(f"DEBUG ACTIVATE MODEL: Step 1 complete: Server call result: {result}")
+        print(f"MODEL_ACTIVATION: Step 1 complete: Server call result: {result}")
       except Exception as e:
-        print(f"DEBUG ACTIVATE MODEL: ERROR in server call: {str(e)}")
+        print(f"MODEL_ACTIVATION: ERROR in server call: {str(e)}")
       
-      print(f"DEBUG ACTIVATE MODEL: Step 2: Saving model_id {model_id} to client storage")
+      print(f"MODEL_ACTIVATION: Step 2: Saving model_id {model_id} to client storage")
       try:
         # Save model ID in client storage
         save_var('model_id', model_id)
         # Verify it was saved
         saved_model = anvil.js.window.localStorage.getItem('model_id')
-        print(f"DEBUG ACTIVATE MODEL: Step 2 complete: Variable saved, localStorage value: {saved_model}")
+        print(f"MODEL_ACTIVATION: Step 2 complete: Variable saved, localStorage value: {saved_model}")
       except Exception as e:
-        print(f"DEBUG ACTIVATE MODEL: ERROR saving variable: {str(e)}")
+        print(f"MODEL_ACTIVATION: ERROR saving variable: {str(e)}")
       
-      print("DEBUG ACTIVATE MODEL: Step 3: Getting main form and refreshing models underline")
+      print("MODEL_ACTIVATION: Step 3: Getting main form and refreshing models underline")
       try:
         # Refresh models underline in MainIn form
         main_form = get_open_form()
-        print(f"DEBUG ACTIVATE MODEL: Main form type: {type(main_form).__name__}")
+        print(f"MODEL_ACTIVATION: Main form type: {type(main_form).__name__}")
         if hasattr(main_form, 'refresh_models_underline'):
-          print("DEBUG ACTIVATE MODEL: Main form has refresh_models_underline method")
+          print("MODEL_ACTIVATION: Main form has refresh_models_underline method")
           main_form.refresh_models_underline()
-          print("DEBUG ACTIVATE MODEL: Step 3 complete: Models underline refreshed")
+          print("MODEL_ACTIVATION: Step 3 complete: Models underline refreshed")
         else:
-          print(f"DEBUG ACTIVATE MODEL: WARNING: Main form does not have refresh_models_underline method. Available methods: {[m for m in dir(main_form) if not m.startswith('_') and callable(getattr(main_form, m))]}")
+          print(f"MODEL_ACTIVATION: WARNING: Main form does not have refresh_models_underline method. Available methods: {[m for m in dir(main_form) if not m.startswith('_') and callable(getattr(main_form, m))]}")
       except Exception as e:
-        print(f"DEBUG ACTIVATE MODEL: ERROR refreshing models: {str(e)}")
+        print(f"MODEL_ACTIVATION: ERROR refreshing models: {str(e)}")
     else:
-      print(f"DEBUG ACTIVATE MODEL: Cannot activate model: user present={user is not None}, model_id={model_id}")
+      print(f"MODEL_ACTIVATION: Cannot activate model: user present={user is not None}, model_id={model_id}")
     
-    print("DEBUG ACTIVATE MODEL: Activation function completed")
+    print("MODEL_ACTIVATION: Activation function completed")
     return True
     
   def handle_discover_click(self, artist_id, model_id, ctrl_key=False):
@@ -111,73 +111,121 @@ class C_Home_Agents(C_Home_AgentsTemplate):
         ctrl_key: Whether the ctrl key was pressed (to open in new tab)
     """
     timestamp = time.time()
-    print(f"DEBUG HANDLE CLICK [{timestamp}]: Starting handler with artist={artist_id}, model={model_id}, ctrl={ctrl_key}")
-    print(f"DEBUG HANDLE CLICK [{timestamp}]: model_id type: {type(model_id)}")
+    print(f"MODEL_ACTIVATION [{timestamp}]: Starting handler with artist={artist_id}, model={model_id}, ctrl={ctrl_key}")
+    print(f"MODEL_ACTIVATION [{timestamp}]: model_id type: {type(model_id)}")
     
     try:
       # Make sure model_id is passed correctly
       if not model_id:
-        print(f"DEBUG HANDLE CLICK [{timestamp}]: WARNING: No model_id provided in discover click")
+        print(f"MODEL_ACTIVATION [{timestamp}]: WARNING: No model_id provided in discover click")
         return {"success": False, "error": "No model_id provided"}
         
       # Convert model_id to string if needed
       model_id_str = str(model_id).strip()
-      print(f"DEBUG HANDLE CLICK [{timestamp}]: Converted model_id to string: {model_id_str}")
+      print(f"MODEL_ACTIVATION [{timestamp}]: Converted model_id to string: {model_id_str}")
       
       # Activate the model - call the required functions directly here to ensure they run
       user = anvil.users.get_user()
       if user:
-        print(f"DEBUG HANDLE CLICK [{timestamp}]: Got user: {user['user_id']}")
+        print(f"MODEL_ACTIVATION [{timestamp}]: Got user: {user['user_id']}")
         # Store model_id for reference
         self.model_id_view = model_id_str
-        print(f"DEBUG HANDLE CLICK [{timestamp}]: Stored model_id_view: {self.model_id_view}")
+        print(f"MODEL_ACTIVATION [{timestamp}]: Stored model_id_view: {self.model_id_view}")
         
-        # 1. Update model usage on server
-        print(f"DEBUG HANDLE CLICK [{timestamp}]: Calling update_model_usage for user {user['user_id']} and model {model_id_str}")
+        # 1. Update model usage on server - DIRECTLY CALL WITH EXACT PARAMETERS AS IN LOGS
+        print(f"MODEL_ACTIVATION [{timestamp}]: Calling update_model_usage for user {user['user_id']} and model {model_id_str}")
         try:
+          # Call with the exact parameter format seen in logs
           result = anvil.server.call('update_model_usage', user["user_id"], model_id_str)
-          print(f"DEBUG HANDLE CLICK [{timestamp}]: Server call completed with result: {result}")
+          print(f"MODEL_ACTIVATION [{timestamp}]: Server call completed with result: {result}")
         except Exception as e:
-          print(f"DEBUG HANDLE CLICK [{timestamp}]: ERROR in server call: {str(e)}")
+          print(f"MODEL_ACTIVATION [{timestamp}]: ERROR in server call: {str(e)}")
         
         # 2. Save model ID in client storage
-        print(f"DEBUG HANDLE CLICK [{timestamp}]: Saving model_id {model_id_str} to client storage")
+        print(f"MODEL_ACTIVATION [{timestamp}]: Saving model_id {model_id_str} to client storage")
         try:
           save_var('model_id', model_id_str)
           # Verify it was saved correctly
           saved_value = anvil.js.window.localStorage.getItem('model_id')
-          print(f"DEBUG HANDLE CLICK [{timestamp}]: Storage value after save: {saved_value}")
+          print(f"MODEL_ACTIVATION [{timestamp}]: Storage value after save: {saved_value}")
         except Exception as e:
-          print(f"DEBUG HANDLE CLICK [{timestamp}]: ERROR saving to storage: {str(e)}")
+          print(f"MODEL_ACTIVATION [{timestamp}]: ERROR saving to storage: {str(e)}")
         
-        # 3. Refresh models underline in MainIn form
-        print(f"DEBUG HANDLE CLICK [{timestamp}]: Getting main form to refresh models underline")
+        # 3. Try MULTIPLE approaches to refresh models underline
+        print(f"MODEL_ACTIVATION [{timestamp}]: Trying multiple approaches to refresh models underline")
+        
+        # Approach 1: Try get_open_form() directly
         try:
           main_form = get_open_form()
-          print(f"DEBUG HANDLE CLICK [{timestamp}]: Main form type: {type(main_form).__name__}")
+          print(f"MODEL_ACTIVATION [{timestamp}]: Main form type: {type(main_form).__name__}")
           
           if hasattr(main_form, 'refresh_models_underline'):
-            print(f"DEBUG HANDLE CLICK [{timestamp}]: Found refresh_models_underline method, calling it")
+            print(f"MODEL_ACTIVATION [{timestamp}]: Found refresh_models_underline method on main_form, calling it")
             main_form.refresh_models_underline()
-            print(f"DEBUG HANDLE CLICK [{timestamp}]: Successfully called refresh_models_underline")
           else:
-            print(f"DEBUG HANDLE CLICK [{timestamp}]: WARNING: Main form does not have refresh_models_underline method")
-            # Try to find what methods are available
-            methods = [m for m in dir(main_form) if not m.startswith('_') and callable(getattr(main_form, m))]
-            print(f"DEBUG HANDLE CLICK [{timestamp}]: Available methods on main_form: {methods}")
-            
-            # Check if main_form is what we expect
-            print(f"DEBUG HANDLE CLICK [{timestamp}]: Main form has attribute 'content': {hasattr(main_form, 'content')}")
-            if hasattr(main_form, 'content'):
-              content_type = type(main_form.content).__name__
-              print(f"DEBUG HANDLE CLICK [{timestamp}]: Main form content type: {content_type}")
+            print(f"MODEL_ACTIVATION [{timestamp}]: Main form doesn't have refresh_models_underline")
         except Exception as e:
-          print(f"DEBUG HANDLE CLICK [{timestamp}]: ERROR refreshing models: {str(e)}")
+          print(f"MODEL_ACTIVATION [{timestamp}]: Error with approach 1: {str(e)}")
+        
+        # Approach 2: Try to find parent form
+        try:
+          current_form = self
+          parent = getattr(current_form, 'parent', None)
+          print(f"MODEL_ACTIVATION [{timestamp}]: Parent form type: {type(parent).__name__ if parent else 'None'}")
+          
+          if parent and hasattr(parent, 'refresh_models_underline'):
+            print(f"MODEL_ACTIVATION [{timestamp}]: Found refresh_models_underline on parent, calling it")
+            parent.refresh_models_underline()
+          elif parent:
+            print(f"MODEL_ACTIVATION [{timestamp}]: Parent exists but no refresh_models_underline method")
+            # Try to go up one more level
+            grandparent = getattr(parent, 'parent', None)
+            if grandparent and hasattr(grandparent, 'refresh_models_underline'):
+              print(f"MODEL_ACTIVATION [{timestamp}]: Found refresh_models_underline on grandparent, calling it")
+              grandparent.refresh_models_underline()
+        except Exception as e:
+          print(f"MODEL_ACTIVATION [{timestamp}]: Error with approach 2: {str(e)}")
+        
+        # Approach 3: Try to use app module directly
+        try:
+          if hasattr(anvil.app, 'refresh_models_underline'):
+            print(f"MODEL_ACTIVATION [{timestamp}]: Found refresh_models_underline on anvil.app, calling it")
+            anvil.app.refresh_models_underline()
+          else:
+            print(f"MODEL_ACTIVATION [{timestamp}]: anvil.app doesn't have refresh_models_underline")
+            # List available app methods
+            app_methods = [m for m in dir(anvil.app) if not m.startswith('_') and callable(getattr(anvil.app, m))]
+            print(f"MODEL_ACTIVATION [{timestamp}]: Available app methods: {app_methods}")
+        except Exception as e:
+          print(f"MODEL_ACTIVATION [{timestamp}]: Error with approach 3: {str(e)}")
+        
+        # Approach 4: Try to use a global function if defined
+        try:
+          if 'refresh_models_underline' in globals():
+            print(f"MODEL_ACTIVATION [{timestamp}]: Found global refresh_models_underline, calling it")
+            globals()['refresh_models_underline']()
+          elif 'refresh_models_underline' in locals():
+            print(f"MODEL_ACTIVATION [{timestamp}]: Found local refresh_models_underline, calling it")
+            locals()['refresh_models_underline']()
+        except Exception as e:
+          print(f"MODEL_ACTIVATION [{timestamp}]: Error with approach 4: {str(e)}")
+          
+        # Approach 5: Try direct access to MainIn form if registered somewhere
+        try:
+          if hasattr(anvil, 'MainIn') and hasattr(anvil.MainIn, 'refresh_models_underline'):
+            print(f"MODEL_ACTIVATION [{timestamp}]: Found MainIn on anvil, calling refresh_models_underline")
+            anvil.MainIn.refresh_models_underline()
+            
+          if hasattr(anvil.app, 'MainIn') and hasattr(anvil.app.MainIn, 'refresh_models_underline'):
+            print(f"MODEL_ACTIVATION [{timestamp}]: Found MainIn on anvil.app, calling refresh_models_underline")
+            anvil.app.MainIn.refresh_models_underline()
+        except Exception as e:
+          print(f"MODEL_ACTIVATION [{timestamp}]: Error with approach 5: {str(e)}")
       else:
-        print(f"DEBUG HANDLE CLICK [{timestamp}]: No user found, cannot activate model")
+        print(f"MODEL_ACTIVATION [{timestamp}]: No user found, cannot activate model")
     
       # Log final status
-      print(f"DEBUG HANDLE CLICK [{timestamp}]: Handler completed successfully")
+      print(f"MODEL_ACTIVATION [{timestamp}]: Handler completed successfully")
       
       # Return navigation info to JavaScript
       return {
@@ -187,9 +235,9 @@ class C_Home_Agents(C_Home_AgentsTemplate):
         "ctrl_key": ctrl_key
       }
     except Exception as e:
-      print(f"DEBUG HANDLE CLICK [{timestamp}]: ERROR in handler: {str(e)}")
+      print(f"MODEL_ACTIVATION [{timestamp}]: ERROR in handler: {str(e)}")
       import traceback
-      print(f"DEBUG HANDLE CLICK [{timestamp}]: Traceback: {traceback.format_exc()}")
+      print(f"MODEL_ACTIVATION [{timestamp}]: Traceback: {traceback.format_exc()}")
       return {"success": False, "error": str(e)}
 
   def setup_slider(self, data):
@@ -207,12 +255,12 @@ class C_Home_Agents(C_Home_AgentsTemplate):
     if isinstance(data, str):
       try:
         data = json.loads(data)
-        print("SLIDER_DEBUG: Parsed string data in setup_slider")
+        print("MODEL_ACTIVATION: SLIDER_DEBUG: Parsed string data in setup_slider")
       except json.JSONDecodeError:
-        print("SLIDER_DEBUG: Could not parse data as JSON in setup_slider")
+        print("MODEL_ACTIVATION: SLIDER_DEBUG: Could not parse data as JSON in setup_slider")
     
     if isinstance(data, list):
-      print(f"SLIDER_DEBUG: Processing {len(data)} models for slider")
+      print(f"MODEL_ACTIVATION: SLIDER_DEBUG: Processing {len(data)} models for slider")
       for model in data:
         if isinstance(model, dict):
           model_id = model.get('model_id', '')
@@ -301,7 +349,7 @@ class C_Home_Agents(C_Home_AgentsTemplate):
             </div>
           """
     else:
-      print(f"SLIDER_DEBUG: Data is not a list, type: {type(data)}")
+      print(f"MODEL_ACTIVATION: SLIDER_DEBUG: Data is not a list, type: {type(data)}")
       if isinstance(data, str):
         # If it's still a string at this point, show it as a single box
         model_boxes_html = f"""
@@ -326,16 +374,16 @@ class C_Home_Agents(C_Home_AgentsTemplate):
           </div>
         """
     
-    print("SLIDER_DEBUG: Generated HTML for slider boxes")
+    print("MODEL_ACTIVATION: SLIDER_DEBUG: Generated HTML for slider boxes")
     
     # JavaScript for the slider functionality
     js_code = """
-      console.log('SLIDER_DEBUG: JavaScript loaded');
+      console.log('MODEL_ACTIVATION_JS: JavaScript loaded');
       
       // Function to handle the discover button click
       window.artistDiscoverClick = function(event, artistId, modelId) {
         event.stopPropagation();
-        console.log('Discover clicked for artist ID:', artistId, 'model ID:', modelId);
+        console.log('MODEL_ACTIVATION_JS: Discover clicked for artist ID:', artistId, 'model ID:', modelId);
         
         // Get the current URL and app origin
         const appOrigin = window.location.origin;
@@ -344,19 +392,21 @@ class C_Home_Agents(C_Home_AgentsTemplate):
         // Check if our Python callback is available
         if (typeof window.pyDiscoverClicked === 'function') {
           try {
-            console.log('Calling Python callback function');
+            console.log('MODEL_ACTIVATION_JS: Calling Python callback function');
             // Call the Python callback and then navigate
             window.pyDiscoverClicked(artistId, modelId, ctrlKeyPressed).then(function(result) {
-              console.log('Python callback completed:', result);
+              console.log('MODEL_ACTIVATION_JS: Python callback completed:', result);
               
               // Navigate based on ctrl key state
               if (ctrlKeyPressed) {
+                console.log('MODEL_ACTIVATION_JS: Opening new tab');
                 window.open(appOrigin + '/#artists?artist_id=' + artistId, '_blank');
               } else {
+                console.log('MODEL_ACTIVATION_JS: Navigating in current tab');
                 window.location.hash = 'artists?artist_id=' + artistId;
               }
             }).catch(function(error) {
-              console.error('Error in Python callback:', error);
+              console.error('MODEL_ACTIVATION_JS: Error in Python callback:', error);
               // Navigate anyway if there was an error
               if (ctrlKeyPressed) {
                 window.open(appOrigin + '/#artists?artist_id=' + artistId, '_blank');
@@ -365,7 +415,7 @@ class C_Home_Agents(C_Home_AgentsTemplate):
               }
             });
           } catch (err) {
-            console.error('Error calling Python function:', err);
+            console.error('MODEL_ACTIVATION_JS: Error calling Python function:', err);
             // Fallback - just navigate directly
             if (ctrlKeyPressed) {
               window.open(appOrigin + '/#artists?artist_id=' + artistId, '_blank');
@@ -374,7 +424,7 @@ class C_Home_Agents(C_Home_AgentsTemplate):
             }
           }
         } else {
-          console.warn('Python callback not available, navigating directly');
+          console.warn('MODEL_ACTIVATION_JS: Python callback not available, navigating directly');
           // Fallback - just navigate directly
           if (ctrlKeyPressed) {
             window.open(appOrigin + '/#artists?artist_id=' + artistId, '_blank');
@@ -386,35 +436,35 @@ class C_Home_Agents(C_Home_AgentsTemplate):
       
       // Add a small delay to make sure DOM is fully processed
       setTimeout(function() {
-        console.log('SLIDER_DEBUG: Starting slider initialization');
+        console.log('MODEL_ACTIVATION_JS: SLIDER_DEBUG: Starting slider initialization');
         
         // Track slider position
         let position = 0;
         const track = document.querySelector('.slider-track');
-        console.log('SLIDER_DEBUG: track element found?', !!track);
+        console.log('MODEL_ACTIVATION_JS: SLIDER_DEBUG: track element found?', !!track);
         
         const boxes = document.querySelectorAll('.model-box');
-        console.log('SLIDER_DEBUG: Found ' + boxes.length + ' model boxes');
+        console.log('MODEL_ACTIVATION_JS: SLIDER_DEBUG: Found ' + boxes.length + ' model boxes');
         
         const leftArrow = document.querySelector('.slider-arrow.left');
-        console.log('SLIDER_DEBUG: leftArrow element found?', !!leftArrow);
+        console.log('MODEL_ACTIVATION_JS: SLIDER_DEBUG: leftArrow element found?', !!leftArrow);
         
         const rightArrow = document.querySelector('.slider-arrow.right');
-        console.log('SLIDER_DEBUG: rightArrow element found?', !!rightArrow);
+        console.log('MODEL_ACTIVATION_JS: SLIDER_DEBUG: rightArrow element found?', !!rightArrow);
         
         const container = document.querySelector('.slider-container');
         
         if (!track || !boxes.length || !leftArrow || !rightArrow || !container) {
-          console.error('SLIDER_DEBUG: Some slider elements not found');
+          console.error('MODEL_ACTIVATION_JS: SLIDER_DEBUG: Some slider elements not found');
           return;
         }
         
-        console.log('SLIDER_DEBUG: All elements found, setting up event handlers');
+        console.log('MODEL_ACTIVATION_JS: SLIDER_DEBUG: All elements found, setting up event handlers');
         
         // Calculate how many items can fit in the view
         function calculateVisibleBoxes() {
           if (!container || boxes.length === 0) {
-            console.log('SLIDER_DEBUG: Cannot calculate visible boxes - missing elements');
+            console.log('MODEL_ACTIVATION_JS: SLIDER_DEBUG: Cannot calculate visible boxes - missing elements');
             return 0;
           }
           
@@ -428,50 +478,50 @@ class C_Home_Agents(C_Home_AgentsTemplate):
           const boxWidth = boxes[0].offsetWidth + parseInt(getComputedStyle(boxes[0]).marginRight);
           const result = Math.floor(containerWidth / boxWidth);
           
-          console.log('SLIDER_DEBUG: Calculated visible boxes: ' + result + ' (container width: ' + containerWidth + 'px, box width: ' + boxWidth + 'px)');
+          console.log('MODEL_ACTIVATION_JS: SLIDER_DEBUG: Calculated visible boxes: ' + result + ' (container width: ' + containerWidth + 'px, box width: ' + boxWidth + 'px)');
           return result;
         }
         
         // Handle left arrow click
         function slideLeft() {
-          console.log('SLIDER_DEBUG: Slide left clicked, current position: ' + position);
+          console.log('MODEL_ACTIVATION_JS: SLIDER_DEBUG: Slide left clicked, current position: ' + position);
           if (position > 0) {
             position--;
             updateSliderPosition();
           } else {
-            console.log('SLIDER_DEBUG: Already at leftmost position');
+            console.log('MODEL_ACTIVATION_JS: SLIDER_DEBUG: Already at leftmost position');
           }
         }
         
         // Handle right arrow click
         function slideRight() {
-          console.log('SLIDER_DEBUG: Slide right clicked, current position: ' + position);
+          console.log('MODEL_ACTIVATION_JS: SLIDER_DEBUG: Slide right clicked, current position: ' + position);
           const visibleBoxes = calculateVisibleBoxes();
           if (position + visibleBoxes < boxes.length) {
             position++;
             updateSliderPosition();
           } else {
-            console.log('SLIDER_DEBUG: Already at rightmost position');
+            console.log('MODEL_ACTIVATION_JS: SLIDER_DEBUG: Already at rightmost position');
           }
         }
         
         // Update the track position
         function updateSliderPosition() {
           if (boxes.length === 0) {
-            console.log('SLIDER_DEBUG: No boxes to position');
+            console.log('MODEL_ACTIVATION_JS: SLIDER_DEBUG: No boxes to position');
             return;
           }
           
           const boxWidth = boxes[0].offsetWidth + parseInt(getComputedStyle(boxes[0]).marginRight);
           track.style.transform = `translateX(-${position * boxWidth}px)`;
-          console.log('SLIDER_DEBUG: Updated slider position to: ' + position + ' transform: ' + track.style.transform);
+          console.log('MODEL_ACTIVATION_JS: SLIDER_DEBUG: Updated slider position to: ' + position + ' transform: ' + track.style.transform);
         }
         
         // Center boxes when possible
         function centerBoxesIfNeeded() {
           const visibleBoxes = calculateVisibleBoxes();
           
-          console.log('SLIDER_DEBUG: Centering check - visible boxes: ' + visibleBoxes + ', total boxes: ' + boxes.length);
+          console.log('MODEL_ACTIVATION_JS: SLIDER_DEBUG: Centering check - visible boxes: ' + visibleBoxes + ', total boxes: ' + boxes.length);
           
           // Get the container dimensions
           const containerStyle = getComputedStyle(container);
@@ -501,7 +551,7 @@ class C_Home_Agents(C_Home_AgentsTemplate):
               // Center the boxes
               const leftOffset = Math.floor(emptySpace / 2);
               track.style.marginLeft = leftOffset + 'px';
-              console.log('SLIDER_DEBUG: Centering boxes with margin-left: ' + leftOffset + 'px (container: ' + containerWidth + 'px, boxes: ' + totalBoxesWidth + 'px)');
+              console.log('MODEL_ACTIVATION_JS: SLIDER_DEBUG: Centering boxes with margin-left: ' + leftOffset + 'px (container: ' + containerWidth + 'px, boxes: ' + totalBoxesWidth + 'px)');
             } else {
               track.style.marginLeft = '0px';
             }
@@ -526,7 +576,7 @@ class C_Home_Agents(C_Home_AgentsTemplate):
         
         // Explicitly log the click events on arrows
         leftArrow.onclick = function() {
-          console.log('SLIDER_DEBUG: Left arrow clicked directly');
+          console.log('MODEL_ACTIVATION_JS: SLIDER_DEBUG: Left arrow clicked directly');
           slideLeft();
           // Update arrow states after sliding
           const visibleBoxes = calculateVisibleBoxes();
@@ -535,7 +585,7 @@ class C_Home_Agents(C_Home_AgentsTemplate):
         };
         
         rightArrow.onclick = function() {
-          console.log('SLIDER_DEBUG: Right arrow clicked directly');
+          console.log('MODEL_ACTIVATION_JS: SLIDER_DEBUG: Right arrow clicked directly');
           slideRight();
           // Update arrow states after sliding
           const visibleBoxes = calculateVisibleBoxes();
@@ -545,23 +595,23 @@ class C_Home_Agents(C_Home_AgentsTemplate):
         
         // Also add event listeners as a fallback
         leftArrow.addEventListener('click', function() {
-          console.log('SLIDER_DEBUG: Left arrow click from event listener');
+          console.log('MODEL_ACTIVATION_JS: SLIDER_DEBUG: Left arrow click from event listener');
           slideLeft();
         });
         
         rightArrow.addEventListener('click', function() {
-          console.log('SLIDER_DEBUG: Right arrow click from event listener');
+          console.log('MODEL_ACTIVATION_JS: SLIDER_DEBUG: Right arrow click from event listener');
           slideRight();
         });
         
         // Initial positioning
-        console.log('SLIDER_DEBUG: Setting initial position');
+        console.log('MODEL_ACTIVATION_JS: SLIDER_DEBUG: Setting initial position');
         updateSliderPosition();
         centerBoxesIfNeeded();
         
         // Handle window resize
         window.addEventListener('resize', function() {
-          console.log('SLIDER_DEBUG: Window resized');
+          console.log('MODEL_ACTIVATION_JS: SLIDER_DEBUG: Window resized');
           
           // Reset position if we've moved too far to the right
           const visibleBoxes = calculateVisibleBoxes();
@@ -574,26 +624,26 @@ class C_Home_Agents(C_Home_AgentsTemplate):
           centerBoxesIfNeeded();
         });
         
-        console.log('SLIDER_DEBUG: Slider fully initialized');
+        console.log('MODEL_ACTIVATION_JS: SLIDER_DEBUG: Slider fully initialized');
       }, 500);
     """
     
     # Add HTML debugging to check structure
-    print("SLIDER_DEBUG: Creating final HTML structure")
+    print("MODEL_ACTIVATION: SLIDER_DEBUG: Creating final HTML structure")
     
     # Combine everything into the final HTML
     self.html = f"""
     <div class="agents-slider">
       <div class="slider-container">
-        <div class="slider-arrow left" onclick="console.log('SLIDER_DEBUG: Left arrow HTML onclick triggered');">&#10094;</div>
+        <div class="slider-arrow left" onclick="console.log('MODEL_ACTIVATION_JS: SLIDER_DEBUG: Left arrow HTML onclick triggered');">&#10094;</div>
         <div class="slider-track">
           {model_boxes_html}
         </div>
-        <div class="slider-arrow right" onclick="console.log('SLIDER_DEBUG: Right arrow HTML onclick triggered');">&#10095;</div>
+        <div class="slider-arrow right" onclick="console.log('MODEL_ACTIVATION_JS: SLIDER_DEBUG: Right arrow HTML onclick triggered');">&#10095;</div>
       </div>
       
       <script>{js_code}</script>
     </div>
     """
     
-    print("SLIDER_DEBUG: Slider HTML assigned to component")
+    print("MODEL_ACTIVATION: SLIDER_DEBUG: Slider HTML assigned to component")
