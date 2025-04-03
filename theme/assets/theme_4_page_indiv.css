@@ -175,32 +175,39 @@ Area 5: Page individual classes
 
 .model-progress-container {
   width: 100%;
+  position: relative;
 }
 
 .model-progress-text {
-  text-align: left;
-  font-size: 14px;
+  text-align: right;
+  font-size: 12px;
   color: white;
-  margin-bottom: 5px;
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1;
+  padding: 0 5px;
 }
 
 .model-progress-bar-container {
   width: 100%;
-  height: 10px;
+  height: 18px;
   background-color: rgba(0, 0, 0, 0.3);
-  border-radius: 5px;
+  border-radius: 9px;
   overflow: hidden;
+  position: relative;
 }
 
 .model-progress-bar {
   height: 100%;
-  background-color: var(--Purple);
-  border-radius: 5px;
+  background-color: var(--PurpleFocus);
+  border-radius: 9px;
   transition: width 0.3s ease;
 }
 
 .model-progress-bar.progress-bar-senior {
-  background-color: var(--Purple);
+  background-color: var(--PurpleFocus);
 }
 
 .model-name {
@@ -211,10 +218,11 @@ Area 5: Page individual classes
 }
 
 .model-stars {
-  font-size: 32px;
+  font-size: 36px;
   line-height: 1;
   margin-bottom: 5px;
   letter-spacing: 2px;
+  text-align: center;
 }
 
 .model-star {
@@ -228,7 +236,7 @@ Area 5: Page individual classes
 .model-level {
   font-size: 16px;
   color: rgba(255, 255, 255, 0.9);
-  text-align: left;
+  text-align: center;
 }
 
 .slider-arrow {
