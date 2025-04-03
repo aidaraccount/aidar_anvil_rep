@@ -55,10 +55,24 @@ class C_Home_Agents(C_Home_AgentsTemplate):
         if isinstance(model, dict):
           model_id = model.get('model_id', '')
           model_name = model.get('model_name', 'Unknown Model')
+          model_level = model.get('model_level', 'Unknown')
+          no_stars = model.get('no_stars', 0)
           
+          # Generate the stars HTML - always 3 stars, with 'no_stars' colored orange
+          stars_html = ""
+          for i in range(3):
+            if i < no_stars:
+              # Orange star
+              stars_html += '<span class="model-star active">★</span>'
+            else:
+              # Gray star
+              stars_html += '<span class="model-star">★</span>'
+              
           model_boxes_html += f"""
             <div class="model-box" data-model-id="{model_id}">
               <div class="model-name">{model_name}</div>
+              <div class="model-stars">{stars_html}</div>
+              <div class="model-level">{model_level}</div>
             </div>
           """
         else:
@@ -66,6 +80,8 @@ class C_Home_Agents(C_Home_AgentsTemplate):
           model_boxes_html += f"""
             <div class="model-box">
               <div class="model-name">{str(model)}</div>
+              <div class="model-stars">★★★</div>
+              <div class="model-level">Unknown</div>
             </div>
           """
     else:
@@ -75,6 +91,8 @@ class C_Home_Agents(C_Home_AgentsTemplate):
         model_boxes_html = f"""
           <div class="model-box">
             <div class="model-name">Error: Could not parse data</div>
+            <div class="model-stars">★★★</div>
+            <div class="model-level">Unknown</div>
           </div>
         """
     
