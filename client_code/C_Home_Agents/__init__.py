@@ -264,6 +264,34 @@ class C_Home_Agents(C_Home_AgentsTemplate):
           console.log('SLIDER_DEBUG: Updated slider position to: ' + position + ' transform: ' + track.style.transform);
         }
         
+        // Center boxes if there are fewer than can fill the container
+        function centerBoxesIfNeeded() {
+          const container = document.querySelector('.slider-container');
+          const visibleBoxes = calculateVisibleBoxes();
+          
+          console.log('SLIDER_DEBUG: Centering check - visible boxes: ' + visibleBoxes + ', total boxes: ' + boxes.length);
+          
+          // If we have more viewable space than boxes, center them
+          if (visibleBoxes > boxes.length) {
+            const boxWidth = boxes[0].offsetWidth + parseInt(getComputedStyle(boxes[0]).marginRight);
+            const totalBoxesWidth = boxWidth * boxes.length;
+            const containerWidth = container.offsetWidth;
+            const emptySpace = containerWidth - totalBoxesWidth;
+            
+            // Only center if we have empty space
+            if (emptySpace > 0) {
+              const leftOffset = emptySpace / 2;
+              track.style.marginLeft = leftOffset + 'px';
+              console.log('SLIDER_DEBUG: Centering boxes with margin-left: ' + leftOffset + 'px');
+            } else {
+              track.style.marginLeft = '0px';
+            }
+          } else {
+            // More boxes than can fit, ensure no margin is applied
+            track.style.marginLeft = '0px';
+          }
+        }
+        
         // Explicitly log the click events on arrows
         leftArrow.onclick = function() {
           console.log('SLIDER_DEBUG: Left arrow clicked directly');
@@ -289,16 +317,21 @@ class C_Home_Agents(C_Home_AgentsTemplate):
         // Initial positioning
         console.log('SLIDER_DEBUG: Setting initial position');
         updateSliderPosition();
+        centerBoxesIfNeeded();
         
         // Handle window resize
         window.addEventListener('resize', function() {
           console.log('SLIDER_DEBUG: Window resized');
+          
           // Reset position if we've moved too far to the right
           const visibleBoxes = calculateVisibleBoxes();
           if (position + visibleBoxes > boxes.length) {
             position = Math.max(0, boxes.length - visibleBoxes);
             updateSliderPosition();
           }
+          
+          // Recenter boxes if needed
+          centerBoxesIfNeeded();
         });
         
         console.log('SLIDER_DEBUG: Slider fully initialized');
