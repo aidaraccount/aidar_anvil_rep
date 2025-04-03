@@ -84,8 +84,10 @@ class Home(HomeTemplate):
       # 1. INITIALIZE ASYNCHRONOUS LOADING
       
       # Hide "no data" messages during loading
+      self.colpan_wl_selection.visible = False
       self.no_watchlists.visible = False
       self.no_shorts.visible = False
+      self.reload.visible = False
       
       # 1.1 Track start time for Shorts
       self.shorts_start_time = time.time()
@@ -116,8 +118,10 @@ class Home(HomeTemplate):
       self.model_id = load_var("model_id")
       
       # Hide "no data" messages during loading
+      self.colpan_wl_selection.visible = False
       self.no_watchlists.visible = False
       self.no_shorts.visible = False
+      self.reload.visible = False
       
       print(f"HOME INIT [{self.instance_id}] - Minimal UI setup for skipped initialization", flush=True)
           
@@ -156,12 +160,10 @@ class Home(HomeTemplate):
     """Set up watchlist UI components"""
     # Clear existing components
     self.flow_panel_watchlists.clear()
-    
-    # Hide "no data" indicators until we know the status
-    self.no_watchlists.visible = False
-    
+        
     if watchlists is not None and len(watchlists) > 0:
       # We have data - no need to show "no watchlists" message
+      self.colpan_wl_selection.visible = True
       self.no_watchlists.visible = False
       self.reload.visible = False
       
