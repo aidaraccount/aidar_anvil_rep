@@ -170,10 +170,16 @@ class Home(HomeTemplate):
       self.repeating_panel_news.items = news
         
   # 2.2 SHORTS METHODS
-  def load_shorts_async(self):
-    """Starts asynchronous loading of shorts data"""
+  def load_shorts_async(self, selected_wl_ids=None):
+    """
+    Starts asynchronous loading of shorts data
+    
+    Args:
+        selected_wl_ids: Optional list of selected watchlist IDs. If provided, 
+                        only these watchlists will be used.
+    """
     # Call asynchronously
-    async_call = call_async("get_home_shorts", user["user_id"])
+    async_call = call_async("get_home_shorts", user["user_id"], selected_wl_ids)
     async_call.on_result(self.shorts_loaded)
     print(f"HOME ASYNC [{self.instance_id}] - Shorts async call dispatched", flush=True)
   
@@ -337,11 +343,12 @@ class Home(HomeTemplate):
     for component in self.flow_panel_watchlists.get_components():
       if (
         isinstance(component, Link) and component.role == "genre-box"
-      ):  # Only active models
+      ):  # Only active watchlists
         wl_ids.append(component.tag)
 
     # Reset start time for reloading shorts
     self.shorts_start_time = time.time()
-    print(f"HOME ASYNC [{self.instance_id}] - Shorts reloading after watchlist change", flush=True)
+    print(f"HOME ASYNC [{self.instance_id}] - Shorts reloading after watchlist change with selected IDs: {wl_ids}", flush=True)
     
-    self.load_shorts_async()
+    # Pass the selected watchlist IDs to override the default behavior
+    self.load_shorts_async(selected_wl_ids=wl_ids)

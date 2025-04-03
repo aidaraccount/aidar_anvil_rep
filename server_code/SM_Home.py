@@ -24,12 +24,13 @@ import json
 
 # 1.1 SHORTS FUNCTIONS
 @anvil.server.callable
-def get_home_shorts(user_id):
+def get_home_shorts(user_id, selected_wl_ids=None):
     """
     Get watchlists and shorts data for the home page.
     
     Args:
         user_id: User ID
+        selected_wl_ids: Optional list of specifically selected watchlist IDs
         
     Returns:
         Dict containing watchlists and shorts data
@@ -39,7 +40,13 @@ def get_home_shorts(user_id):
     
     # Get shorts if watchlists exist
     shorts = None
-    if watchlists is not None and len(watchlists) > 0:
+    
+    if selected_wl_ids is not None and len(selected_wl_ids) > 0:
+        # Use the selected watchlist IDs provided by the client
+        print(f"Using specifically selected watchlist IDs: {selected_wl_ids}")
+        shorts = anvil.server.call('get_shorts', selected_wl_ids, 0, 12)
+    elif watchlists is not None and len(watchlists) > 0:
+        # No specific selection, use all available watchlists
         wl_ids = [wl["watchlist_id"] for wl in watchlists]
         shorts = anvil.server.call('get_shorts', wl_ids, 0, 12)
     
