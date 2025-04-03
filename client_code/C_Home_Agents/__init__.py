@@ -48,21 +48,33 @@ class C_Home_Agents(C_Home_AgentsTemplate):
         model_id: The ID of the model to activate
     """
     print(f"Activating model: {model_id}")
+    # Store model_id for reference
+    self.model_id_view = model_id
+    
     user = anvil.users.get_user()
     
     if user and model_id:
+      # Log each step for debugging
+      print(f"Step 1: Updating model usage for user {user['user_id']} and model {model_id}")
       # Update model usage on server
       anvil.server.call('update_model_usage', user["user_id"], model_id)
+      print("Step 1 complete: Server call finished")
       
+      print(f"Step 2: Saving model_id {model_id} to client storage")
       # Save model ID in client storage
       save_var('model_id', model_id)
+      print("Step 2 complete: Variable saved")
       
+      print("Step 3: Refreshing models underline")
       # Refresh models underline in MainIn form
       main_form = get_open_form()
       if hasattr(main_form, 'refresh_models_underline'):
         main_form.refresh_models_underline()
+        print("Step 3 complete: Models underline refreshed")
       else:
         print("Warning: Main form does not have refresh_models_underline method")
+    else:
+      print(f"Cannot activate model: user={user is not None}, model_id={model_id}")
     
     return True
     
@@ -483,12 +495,47 @@ class C_Home_Agents(C_Home_AgentsTemplate):
     """
     print(f"Python handling discover click: artist={artist_id}, model={model_id}, ctrl={ctrl_key}")
     
-    # Activate the model
-    self.activate_model(model_id)
+    try:
+      # Make sure model_id is passed correctly
+      if not model_id:
+        print("Warning: No model_id provided in discover click")
+        return {"success": False, "error": "No model_id provided"}
+        
+      # Convert model_id to string if needed
+      model_id_str = str(model_id).strip()
+      
+      # Activate the model - call the required functions directly here to ensure they run
+      user = anvil.users.get_user()
+      if user:
+        # Store model_id for reference
+        self.model_id_view = model_id_str
+        
+        # 1. Update model usage on server
+        print(f"Directly calling update_model_usage for user {user['user_id']} and model {model_id_str}")
+        anvil.server.call('update_model_usage', user["user_id"], model_id_str)
+        
+        # 2. Save model ID in client storage
+        print(f"Directly saving model_id {model_id_str} to client storage")
+        save_var('model_id', model_id_str)
+        
+        # 3. Refresh models underline in MainIn form
+        print("Directly refreshing models underline")
+        main_form = get_open_form()
+        if hasattr(main_form, 'refresh_models_underline'):
+          main_form.refresh_models_underline()
+          print("Models underline refreshed successfully")
+        else:
+          print("Warning: Main form does not have refresh_models_underline method")
+      else:
+        print("No user found, cannot activate model")
     
-    # Return navigation info to JavaScript
-    return {
-      "success": True,
-      "artist_id": artist_id,
-      "ctrl_key": ctrl_key
-    }
+      # Return navigation info to JavaScript
+      return {
+        "success": True,
+        "artist_id": artist_id,
+        "model_id": model_id_str,
+        "ctrl_key": ctrl_key
+      }
+    except Exception as e:
+      print(f"Error in handle_discover_click: {str(e)}")
+      return {"success": False, "error": str(e)}
