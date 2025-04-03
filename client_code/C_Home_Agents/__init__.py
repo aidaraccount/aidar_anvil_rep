@@ -209,7 +209,9 @@ class C_Home_Agents(C_Home_AgentsTemplate):
         const rightArrow = document.querySelector('.slider-arrow.right');
         console.log('SLIDER_DEBUG: rightArrow element found?', !!rightArrow);
         
-        if (!track || !boxes.length || !leftArrow || !rightArrow) {
+        const container = document.querySelector('.slider-container');
+        
+        if (!track || !boxes.length || !leftArrow || !rightArrow || !container) {
           console.error('SLIDER_DEBUG: Some slider elements not found');
           return;
         }
@@ -218,14 +220,22 @@ class C_Home_Agents(C_Home_AgentsTemplate):
         
         // Calculate how many items can fit in the view
         function calculateVisibleBoxes() {
-          const container = document.querySelector('.slider-container');
           if (!container || boxes.length === 0) {
             console.log('SLIDER_DEBUG: Cannot calculate visible boxes - missing elements');
             return 0;
           }
+          
+          // Account for container padding
+          const containerStyle = getComputedStyle(container);
+          const paddingLeft = parseInt(containerStyle.paddingLeft) || 0;
+          const paddingRight = parseInt(containerStyle.paddingRight) || 0;
+          const containerWidth = container.offsetWidth - paddingLeft - paddingRight;
+          
+          // Calculate box width including margin
           const boxWidth = boxes[0].offsetWidth + parseInt(getComputedStyle(boxes[0]).marginRight);
-          const result = Math.floor(container.offsetWidth / boxWidth);
-          console.log('SLIDER_DEBUG: Calculated visible boxes: ' + result);
+          const result = Math.floor(containerWidth / boxWidth);
+          
+          console.log('SLIDER_DEBUG: Calculated visible boxes: ' + result + ' (container width: ' + containerWidth + 'px, box width: ' + boxWidth + 'px)');
           return result;
         }
         
@@ -264,31 +274,60 @@ class C_Home_Agents(C_Home_AgentsTemplate):
           console.log('SLIDER_DEBUG: Updated slider position to: ' + position + ' transform: ' + track.style.transform);
         }
         
-        // Center boxes if there are fewer than can fill the container
+        // Center boxes when possible
         function centerBoxesIfNeeded() {
-          const container = document.querySelector('.slider-container');
           const visibleBoxes = calculateVisibleBoxes();
           
           console.log('SLIDER_DEBUG: Centering check - visible boxes: ' + visibleBoxes + ', total boxes: ' + boxes.length);
           
-          // If we have more viewable space than boxes, center them
-          if (visibleBoxes > boxes.length) {
-            const boxWidth = boxes[0].offsetWidth + parseInt(getComputedStyle(boxes[0]).marginRight);
-            const totalBoxesWidth = boxWidth * boxes.length;
-            const containerWidth = container.offsetWidth;
+          // Get the container dimensions
+          const containerStyle = getComputedStyle(container);
+          const paddingLeft = parseInt(containerStyle.paddingLeft) || 0;
+          const paddingRight = parseInt(containerStyle.paddingRight) || 0;
+          const containerWidth = container.offsetWidth - paddingLeft - paddingRight;
+          
+          // Calculate box width including margin
+          const boxStyle = getComputedStyle(boxes[0]);
+          const marginRight = parseInt(boxStyle.marginRight) || 0;
+          const boxWidth = boxes[0].offsetWidth + marginRight;
+          
+          // Calculate total width of all boxes
+          const totalBoxesWidth = boxWidth * boxes.length;
+          
+          // Determine if boxes fit within container
+          const allBoxesFit = totalBoxesWidth <= containerWidth;
+          
+          // Show or hide arrows based on whether all boxes fit
+          leftArrow.style.display = allBoxesFit ? 'none' : 'flex';
+          rightArrow.style.display = allBoxesFit ? 'none' : 'flex';
+          
+          // Only center if boxes fit
+          if (allBoxesFit) {
             const emptySpace = containerWidth - totalBoxesWidth;
-            
-            // Only center if we have empty space
             if (emptySpace > 0) {
-              const leftOffset = emptySpace / 2;
+              // Center the boxes
+              const leftOffset = Math.floor(emptySpace / 2);
               track.style.marginLeft = leftOffset + 'px';
-              console.log('SLIDER_DEBUG: Centering boxes with margin-left: ' + leftOffset + 'px');
+              console.log('SLIDER_DEBUG: Centering boxes with margin-left: ' + leftOffset + 'px (container: ' + containerWidth + 'px, boxes: ' + totalBoxesWidth + 'px)');
             } else {
               track.style.marginLeft = '0px';
             }
+            // Reset position to 0 when all boxes fit
+            position = 0;
+            updateSliderPosition();
           } else {
-            // More boxes than can fit, ensure no margin is applied
+            // If boxes don't fit, reset margin and apply normal slider behavior
             track.style.marginLeft = '0px';
+            // Make sure arrows are visible
+            leftArrow.style.display = 'flex';
+            rightArrow.style.display = 'flex';
+            
+            // Disable left arrow if at beginning
+            leftArrow.style.opacity = position === 0 ? '0.5' : '1';
+            
+            // Disable right arrow if at end
+            const lastVisibleBox = position + visibleBoxes;
+            rightArrow.style.opacity = lastVisibleBox >= boxes.length ? '0.5' : '1';
           }
         }
         
@@ -296,11 +335,19 @@ class C_Home_Agents(C_Home_AgentsTemplate):
         leftArrow.onclick = function() {
           console.log('SLIDER_DEBUG: Left arrow clicked directly');
           slideLeft();
+          // Update arrow states after sliding
+          const visibleBoxes = calculateVisibleBoxes();
+          leftArrow.style.opacity = position === 0 ? '0.5' : '1';
+          rightArrow.style.opacity = position + visibleBoxes >= boxes.length ? '0.5' : '1';
         };
         
         rightArrow.onclick = function() {
           console.log('SLIDER_DEBUG: Right arrow clicked directly');
           slideRight();
+          // Update arrow states after sliding
+          const visibleBoxes = calculateVisibleBoxes();
+          leftArrow.style.opacity = position === 0 ? '0.5' : '1';
+          rightArrow.style.opacity = position + visibleBoxes >= boxes.length ? '0.5' : '1';
         };
         
         // Also add event listeners as a fallback
