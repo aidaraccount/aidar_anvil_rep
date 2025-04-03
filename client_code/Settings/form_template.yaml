@@ -74,7 +74,7 @@ components:
           text: First name
         type: Label
       - data_bindings:
-        - {code: '[''text_box_small'', ''width-200px'']', property: role, writeback: false}
+        - {code: '[''txt_white_discreet'', ''width-200px'']', property: role, writeback: false}
         event_bindings: {change: text_box_first_name_change, pressed_enter: profile_save_click}
         layout_properties: {grid_position: 'XLRXWF,SQVWMY'}
         name: text_box_first_name
@@ -90,7 +90,7 @@ components:
           text: Last name
         type: Label
       - data_bindings:
-        - {code: '[''text_box_small'', ''width-200px'']', property: role, writeback: false}
+        - {code: '[''txt_white_discreet'', ''width-200px'']', property: role, writeback: false}
         event_bindings: {change: text_box_last_name_change, pressed_enter: profile_save_click}
         layout_properties: {grid_position: ',MOSLGE'}
         name: text_box_last_name
@@ -390,7 +390,7 @@ components:
         type: Label
       - components:
         - data_bindings:
-          - {code: '[''text_box_small'', ''width-200px'']', property: role, writeback: false}
+          - {code: '[''txt_white_discreet'', ''width-200px'']', property: role, writeback: false}
           event_bindings: {change: search_user_click, pressed_enter: search_user_click}
           layout_properties: {}
           name: search_user_box
@@ -546,19 +546,7 @@ components:
             text: Sent invite
           type: Label
         - data_bindings:
-          - {code: '[''text_box_small'', ''width-200px'']', property: role, writeback: false}
-          event_bindings: {pressed_enter: sent_invite_click}
-          layout_properties: {}
-          name: mail_enter
-          properties:
-            margin: [null, '10', null, null]
-            placeholder: enter mail address
-            role: text_box_small
-            spacing_above: small
-            visible: false
-          type: TextBox
-        - data_bindings:
-          - {code: '[''text_box_small'', ''width-250px'']', property: role, writeback: false}
+          - {code: '[''txt_white_discreet'', ''width-250px'']', property: role, writeback: false}
           event_bindings: {change: mail_enters_change}
           layout_properties: {}
           name: mail_enters
