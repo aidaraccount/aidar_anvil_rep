@@ -315,12 +315,16 @@ class C_Home_Agents(C_Home_AgentsTemplate):
             <div class="model-box" data-model-id="{model_id}">
               <div class="model-box-top-row">
                 <div class="model-info">
-                  <div class="model-name">{model_name}</div>
+                  <div class="model-name">
+                    <a href="#" onclick="window.modelNameClick(event, '{model_id}'); return false;" class="model-name-link">{model_name}</a>
+                  </div>
                   <div class="model-stars">{stars_html}</div>
                   <div class="model-level">{model_level}</div>
                 </div>
                 <div class="artist-image-container">
-                  <img src="{next_artist_pic_url}" class="artist-image" alt="Artist" />
+                  <a href="#" onclick="window.artistDiscoverClick(event, '{next_artist_id}', '{model_id}'); return false;" class="artist-image-link">
+                    <img src="{next_artist_pic_url}" class="artist-image" alt="Artist" />
+                  </a>
                   <button class="discover-button" onclick="window.artistDiscoverClick(event, '{next_artist_id}', '{model_id}')">Discover</button>
                 </div>
               </div>
@@ -387,7 +391,7 @@ class C_Home_Agents(C_Home_AgentsTemplate):
     js_code = """
       console.log('MODEL_ACTIVATION_JS: JavaScript loaded');
       
-      // Function to handle the discover button click
+      // Function to handle the discover button click (artist page navigation)
       window.artistDiscoverClick = function(event, artistId, modelId) {
         event.stopPropagation();
         console.log('MODEL_ACTIVATION_JS: Discover clicked for artist ID:', artistId, 'model ID:', modelId);
@@ -438,6 +442,28 @@ class C_Home_Agents(C_Home_AgentsTemplate):
           } else {
             window.location.hash = 'artists?artist_id=' + artistId;
           }
+        }
+      };
+      
+      // Function to handle model name click (model profile navigation)
+      window.modelNameClick = function(event, modelId) {
+        event.stopPropagation();
+        console.log('MODEL_ACTIVATION_JS: Model name clicked for model ID:', modelId);
+        
+        // Get the current URL and app origin
+        const appOrigin = window.location.origin;
+        const ctrlKeyPressed = event.ctrlKey;
+        
+        // Create the model profile URL
+        const modelProfileUrl = 'model_profile?model_id=' + modelId + '&section=Main';
+        
+        // Navigate based on ctrl key state
+        if (ctrlKeyPressed) {
+          console.log('MODEL_ACTIVATION_JS: Opening model profile in new tab');
+          window.open(appOrigin + '/#' + modelProfileUrl, '_blank');
+        } else {
+          console.log('MODEL_ACTIVATION_JS: Navigating to model profile in current tab');
+          window.location.hash = modelProfileUrl;
         }
       };
       
