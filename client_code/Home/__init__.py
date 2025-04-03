@@ -22,14 +22,25 @@ from ..C_Short import C_Short
 class Home(HomeTemplate):
   # Add a class variable to track initialization status
   _initialized = False
+  _instance_count = 0
   
   def __init__(self, **properties):
     # Generate a unique instance ID
     self.instance_id = str(uuid.uuid4())[:8]
     
+    # Track instance count
+    Home._instance_count += 1
+    current_count = Home._instance_count
+    
     # Print detailed diagnostics
     route_hash = anvil.js.window.location.hash
-    print(f"HOME INIT [{self.instance_id}] - Route: '{route_hash}' - Time: {datetime.now()}", flush=True)
+    print(f"HOME INIT [{self.instance_id}] - Route: '{route_hash}' - Count: {current_count} - Time: {datetime.now()}", flush=True)
+    
+    # Skip initialization if this is a duplicate instance
+    if Home._initialized and current_count > 1:
+        print(f"HOME INIT [{self.instance_id}] - SKIPPING DUPLICATE INITIALIZATION", flush=True)
+        self.init_components(**properties)
+        return
     
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
@@ -59,12 +70,9 @@ class Home(HomeTemplate):
       
       print(f"HOME INIT [{self.instance_id}] - __init__ start - {datetime.now()}", flush=True)
       
-      # Check if this is a redundant initialization
-      if Home._initialized:
-        print(f"HOME INIT [{self.instance_id}] - DUPLICATE INIT DETECTED!", flush=True)
-      else:
-        Home._initialized = True
-        print(f"HOME INIT [{self.instance_id}] - First initialization", flush=True)
+      # Mark as initialized
+      Home._initialized = True
+      print(f"HOME INIT [{self.instance_id}] - Initialization complete", flush=True)
 
       # Initialize variables
       self.num_shorts = 0
