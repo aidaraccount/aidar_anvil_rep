@@ -20,7 +20,8 @@ from ..C_Short import C_Short
 @routing.route('', title='Home')
 @routing.route('home', title='Home')
 class Home(HomeTemplate):
-  # Class variables to prevent rapid duplicate initialization
+  # Class variable to track the current active instance
+  _active_instance = None
   _last_init_time = 0
   _min_time_between_inits = 0.5  # seconds
   
@@ -33,12 +34,16 @@ class Home(HomeTemplate):
     current_time = time.time()
     print(f"HOME INIT [{self.instance_id}] - Route: '{route_hash}' - Time: {datetime.now()}", flush=True)
     
+    # Always set this as the active instance so callbacks update the correct UI
+    Home._active_instance = self
+    
     # Check if this is a duplicate initialization within the threshold period
     time_since_last_init = current_time - Home._last_init_time
-    
     if time_since_last_init < Home._min_time_between_inits:
-      print(f"HOME INIT [{self.instance_id}] - Skipping duplicate init ({time_since_last_init:.3f}s since last init)", flush=True)
+      print(f"HOME INIT [{self.instance_id}] - Skipping initialization ({time_since_last_init:.3f}s since last init)", flush=True)
       self.init_components(**properties)
+      # Still need to handle possible UI setup for this instance
+      self.prepare_ui_only()
       return
     
     # Update the last initialization time
@@ -91,6 +96,21 @@ class Home(HomeTemplate):
       
       # 1.4 Initialize loading of stats asynchronously
       self.load_stats_async()
+
+  def prepare_ui_only(self):
+    """Set up minimal UI for instances that skip full initialization"""
+    # Make sure the user is defined
+    global user
+    user = anvil.users.get_user()
+    
+    if user and user != 'None':
+      # Set the welcome name
+      if user["first_name"] is not None:
+        self.label_welcome.text = f'Welcome {user["first_name"]}'
+        
+      # Load model ID
+      self.model_id = load_var("model_id")
+      print(f"HOME INIT [{self.instance_id}] - Minimal UI setup for skipped initialization", flush=True)
           
   # 2. ASYNC METHODS
   # 2.1 SHORTS METHODS
@@ -107,13 +127,21 @@ class Home(HomeTemplate):
     load_time = time.time() - self.shorts_start_time
     print(f"HOME ASYNC [{self.instance_id}] - Shorts loaded (took {load_time:.2f} seconds)", flush=True)
     
-    # Process watchlists
-    watchlists = result["watchlists"]
-    self.setup_watchlists(watchlists)
+    # Get the active instance - this is the one currently visible to the user
+    active_instance = Home._active_instance
     
-    # Process shorts
-    shorts = result["shorts"]
-    self.process_shorts(shorts)
+    # Check if we should update the current instance or the active instance
+    if active_instance and active_instance.instance_id != self.instance_id:
+      print(f"HOME ASYNC [{self.instance_id}] - Updating active instance [{active_instance.instance_id}]", flush=True)
+      # Process watchlists in the active instance
+      active_instance.setup_watchlists(result["watchlists"])
+      # Process shorts in the active instance
+      active_instance.process_shorts(result["shorts"])
+    else:
+      # Process watchlists in this instance
+      self.setup_watchlists(result["watchlists"])
+      # Process shorts in this instance
+      self.process_shorts(result["shorts"])
   
   def setup_watchlists(self, watchlists):
     """Set up watchlist UI components"""
@@ -177,6 +205,20 @@ class Home(HomeTemplate):
     load_time = time.time() - self.stats_start_time
     print(f"HOME ASYNC [{self.instance_id}] - Stats loaded (took {load_time:.2f} seconds)", flush=True)
     
+    # Get the active instance - this is the one currently visible to the user
+    active_instance = Home._active_instance
+    
+    # Check if we should update the current instance or the active instance
+    if active_instance and active_instance.instance_id != self.instance_id:
+      print(f"HOME ASYNC [{self.instance_id}] - Updating active instance [{active_instance.instance_id}] with stats", flush=True)
+      # Process stats in the active instance
+      active_instance.process_stats_data(data)
+    else:
+      # Process stats in this instance
+      self.process_stats_data(data)
+    
+  def process_stats_data(self, data):
+    """Process and display stats data"""
     # Process stats data
     stats = data['stats']
 
@@ -249,6 +291,18 @@ class Home(HomeTemplate):
     # Record the time when additional shorts are loaded
     print(f"HOME ASYNC [{self.instance_id}] - Additional shorts loaded", flush=True)
     
+    # Get the active instance - this is the one currently visible to the user
+    active_instance = Home._active_instance
+    
+    # Check if we should update the current instance or the active instance
+    if active_instance and active_instance.instance_id != self.instance_id:
+      print(f"HOME ASYNC [{self.instance_id}] - Updating active instance [{active_instance.instance_id}] with additional shorts", flush=True)
+      active_instance.append_additional_shorts(shorts)
+    else:
+      self.append_additional_shorts(shorts)
+
+  def append_additional_shorts(self, shorts):
+    """Append additional shorts to the existing list"""
     # present shorts
     if shorts is not None and len(shorts) > 0:
       self.reload.visible = True
@@ -263,7 +317,7 @@ class Home(HomeTemplate):
         self.reload.visible = False
     else:
       self.reload.visible = False
-
+        
   # 3.3 WATCHLIST BUTTONS
   def create_activate_watchlist_handler(self, watchlist_id):
     def handler(**event_args):
