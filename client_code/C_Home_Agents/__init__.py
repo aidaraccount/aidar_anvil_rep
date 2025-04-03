@@ -31,8 +31,15 @@ class C_Home_Agents(C_Home_AgentsTemplate):
     if data and isinstance(data, list):
       print(f"SLIDER_DEBUG: First item type: {type(data[0])}")
       
+    # Store models data for access by JavaScript callbacks
+    self.models_data = data if isinstance(data, list) else []
     self.setup_slider(data)
-    
+  
+  def form_show(self, **event_args):
+    """This method is called when the HTML panel is shown on the screen"""
+    # Register JavaScript callback for the discover button
+    anvil.js.window.pyDiscoverClicked = self.handle_discover_click
+
   def activate_model(self, model_id, **event_args):
     """
     Activates the model before navigating to artist page.
@@ -204,31 +211,51 @@ class C_Home_Agents(C_Home_AgentsTemplate):
         event.stopPropagation();
         console.log('Discover clicked for artist ID:', artistId, 'model ID:', modelId);
         
-        // Call the Python method to activate the model
-        const component = anvil.Components.getPythonComponent();
-        component.call('activate_model', modelId).then(function(success) {
-          console.log('Model activation result:', success);
-          
-          // Get the current URL and app origin
-          const appOrigin = window.location.origin;
-          
-          // Determine if ctrl key was pressed for opening in new tab
-          if (event.ctrlKey) {
-            // Open in new tab
+        // Get the current URL and app origin
+        const appOrigin = window.location.origin;
+        const ctrlKeyPressed = event.ctrlKey;
+        
+        // Check if our Python callback is available
+        if (typeof window.pyDiscoverClicked === 'function') {
+          try {
+            console.log('Calling Python callback function');
+            // Call the Python callback and then navigate
+            window.pyDiscoverClicked(artistId, modelId, ctrlKeyPressed).then(function(result) {
+              console.log('Python callback completed:', result);
+              
+              // Navigate based on ctrl key state
+              if (ctrlKeyPressed) {
+                window.open(appOrigin + '/#artists?artist_id=' + artistId, '_blank');
+              } else {
+                window.location.hash = 'artists?artist_id=' + artistId;
+              }
+            }).catch(function(error) {
+              console.error('Error in Python callback:', error);
+              // Navigate anyway if there was an error
+              if (ctrlKeyPressed) {
+                window.open(appOrigin + '/#artists?artist_id=' + artistId, '_blank');
+              } else {
+                window.location.hash = 'artists?artist_id=' + artistId;
+              }
+            });
+          } catch (err) {
+            console.error('Error calling Python function:', err);
+            // Fallback - just navigate directly
+            if (ctrlKeyPressed) {
+              window.open(appOrigin + '/#artists?artist_id=' + artistId, '_blank');
+            } else {
+              window.location.hash = 'artists?artist_id=' + artistId;
+            }
+          }
+        } else {
+          console.warn('Python callback not available, navigating directly');
+          // Fallback - just navigate directly
+          if (ctrlKeyPressed) {
             window.open(appOrigin + '/#artists?artist_id=' + artistId, '_blank');
           } else {
-            // Navigate in current tab
             window.location.hash = 'artists?artist_id=' + artistId;
           }
-        }).catch(function(error) {
-          console.error('Error activating model:', error);
-          // Navigate anyway even if there was an error
-          if (event.ctrlKey) {
-            window.open(appOrigin + '/#artists?artist_id=' + artistId, '_blank');
-          } else {
-            window.location.hash = 'artists?artist_id=' + artistId;
-          }
-        });
+        }
       };
       
       // Add a small delay to make sure DOM is fully processed
@@ -444,3 +471,24 @@ class C_Home_Agents(C_Home_AgentsTemplate):
     """
     
     print("SLIDER_DEBUG: Slider HTML assigned to component")
+
+  def handle_discover_click(self, artist_id, model_id, ctrl_key=False):
+    """
+    JavaScript callback for when the discover button is clicked.
+    
+    Args:
+        artist_id: The ID of the artist to navigate to
+        model_id: The ID of the model to activate
+        ctrl_key: Whether the ctrl key was pressed (to open in new tab)
+    """
+    print(f"Python handling discover click: artist={artist_id}, model={model_id}, ctrl={ctrl_key}")
+    
+    # Activate the model
+    self.activate_model(model_id)
+    
+    # Return navigation info to JavaScript
+    return {
+      "success": True,
+      "artist_id": artist_id,
+      "ctrl_key": ctrl_key
+    }
