@@ -13,6 +13,10 @@ class C_Home_Agents(C_Home_AgentsTemplate):
     self.init_components(**properties)
 
     # Any code you write here will run before the form opens.
+    # Print data type for debugging
+    print(f"Data type: {type(data)}")
+    if data:
+      print(f"First item type: {type(data[0])}")
     self.setup_slider(data)
     
   def setup_slider(self, data):
@@ -24,12 +28,26 @@ class C_Home_Agents(C_Home_AgentsTemplate):
     """
     # Generate HTML for each model box
     model_boxes_html = ""
-    for model in data:
-      model_boxes_html += f"""
-        <div class="model-box" data-model-id="{model['model_id']}">
-          <div class="model-name">{model['model_name']}</div>
-        </div>
-      """
+    
+    # Ensure data is properly formatted
+    if isinstance(data, list):
+      for model in data:
+        if isinstance(model, dict):
+          model_id = model.get('model_id', '')
+          model_name = model.get('model_name', 'Unknown Model')
+          
+          model_boxes_html += f"""
+            <div class="model-box" data-model-id="{model_id}">
+              <div class="model-name">{model_name}</div>
+            </div>
+          """
+        else:
+          # Handle string or other non-dict items if needed
+          model_boxes_html += f"""
+            <div class="model-box">
+              <div class="model-name">{str(model)}</div>
+            </div>
+          """
     
     # CSS for styling the slider and model boxes
     css = """
@@ -119,6 +137,7 @@ class C_Home_Agents(C_Home_AgentsTemplate):
       // Calculate how many items can fit in the view
       function calculateVisibleBoxes() {
         const container = document.querySelector('.slider-container');
+        if (boxes.length === 0) return 0;
         const boxWidth = boxes[0].offsetWidth + parseInt(getComputedStyle(boxes[0]).marginRight);
         return Math.floor(container.offsetWidth / boxWidth);
       }
@@ -142,12 +161,15 @@ class C_Home_Agents(C_Home_AgentsTemplate):
       
       // Update the track position
       function updateSliderPosition() {
+        if (boxes.length === 0) return;
         const boxWidth = boxes[0].offsetWidth + parseInt(getComputedStyle(boxes[0]).marginRight);
         track.style.transform = `translateX(-${position * boxWidth}px)`;
       }
       
       // Initialize slider
       function initSlider() {
+        if (boxes.length === 0) return;
+        
         // Add event listeners to arrows
         document.querySelector('.slider-arrow.left').addEventListener('click', slideLeft);
         document.querySelector('.slider-arrow.right').addEventListener('click', slideRight);
