@@ -45,9 +45,8 @@ class Home(HomeTemplate):
       
       print(f"{datetime.now()}: Home - __init__ - 1", flush=True)
 
-
       # -------------
-      # SHORTS      
+      # 1. SHORTS      
       # get watchlists
       watchlists = json.loads(anvil.server.call("get_watchlist_ids", user["user_id"]))
 
@@ -74,8 +73,9 @@ class Home(HomeTemplate):
       self.get_shorts()
       
       print(f"{datetime.now()}: Home - __init__ - 2", flush=True)
-          
-      # STATS
+      
+      # -------------
+      # 2. STATS
       data = anvil.server.call('app_home', user["user_id"])      
       stats = data['stats']
 
@@ -107,13 +107,15 @@ class Home(HomeTemplate):
         
       print(f"{datetime.now()}: Home - __init__ - 3", flush=True)
   
-      # NEWS
+      # -------------
+      # 3. NEWS
       news = data['news']
       if len(news) == 0:
         self.xy_panel_news.visible = False
         self.xy_panel_news_empty.visible = True
       else:
         self.repeating_panel_news.items = news
+        
       print(f"{datetime.now()}: Home - __init__ - 4", flush=True)
           
     
