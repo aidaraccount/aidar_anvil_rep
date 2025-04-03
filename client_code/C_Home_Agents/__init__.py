@@ -7,7 +7,8 @@ import anvil.tables.query as q
 from anvil.tables import app_tables
 import json
 import anvil.js
-from ..nav import click_button
+from anvil import get_open_form
+from ..nav import click_button, save_var
 
 
 class C_Home_Agents(C_Home_AgentsTemplate):
@@ -31,6 +32,32 @@ class C_Home_Agents(C_Home_AgentsTemplate):
       print(f"SLIDER_DEBUG: First item type: {type(data[0])}")
       
     self.setup_slider(data)
+    
+  def activate_model(self, model_id, **event_args):
+    """
+    Activates the model before navigating to artist page.
+    
+    Args:
+        model_id: The ID of the model to activate
+    """
+    print(f"Activating model: {model_id}")
+    user = anvil.users.get_user()
+    
+    if user and model_id:
+      # Update model usage on server
+      anvil.server.call('update_model_usage', user["user_id"], model_id)
+      
+      # Save model ID in client storage
+      save_var('model_id', model_id)
+      
+      # Refresh models underline in MainIn form
+      main_form = get_open_form()
+      if hasattr(main_form, 'refresh_models_underline'):
+        main_form.refresh_models_underline()
+      else:
+        print("Warning: Main form does not have refresh_models_underline method")
+    
+    return True
     
   def setup_slider(self, data):
     """
@@ -106,7 +133,7 @@ class C_Home_Agents(C_Home_AgentsTemplate):
                 </div>
                 <div class="artist-image-container">
                   <img src="{next_artist_pic_url}" class="artist-image" alt="Artist" />
-                  <button class="discover-button" onclick="window.artistDiscoverClick(event, '{next_artist_id}')">Discover</button>
+                  <button class="discover-button" onclick="window.artistDiscoverClick(event, '{next_artist_id}', '{model_id}')">Discover</button>
                 </div>
               </div>
               <div class="model-progress-container">
@@ -173,22 +200,35 @@ class C_Home_Agents(C_Home_AgentsTemplate):
       console.log('SLIDER_DEBUG: JavaScript loaded');
       
       // Function to handle the discover button click
-      window.artistDiscoverClick = function(event, artistId) {
+      window.artistDiscoverClick = function(event, artistId, modelId) {
         event.stopPropagation();
-        console.log('Discover clicked for artist ID:', artistId);
+        console.log('Discover clicked for artist ID:', artistId, 'model ID:', modelId);
         
-        // Get the current URL and app origin
-        const appOrigin = window.location.origin;
-        const currentHash = window.location.hash;
-        
-        // Determine if ctrl key was pressed for opening in new tab
-        if (event.ctrlKey) {
-          // Open in new tab
-          window.open(appOrigin + '/#artists?artist_id=' + artistId, '_blank');
-        } else {
-          // Navigate in current tab
-          window.location.hash = 'artists?artist_id=' + artistId;
-        }
+        // Call the Python method to activate the model
+        const component = anvil.Components.getPythonComponent();
+        component.call('activate_model', modelId).then(function(success) {
+          console.log('Model activation result:', success);
+          
+          // Get the current URL and app origin
+          const appOrigin = window.location.origin;
+          
+          // Determine if ctrl key was pressed for opening in new tab
+          if (event.ctrlKey) {
+            // Open in new tab
+            window.open(appOrigin + '/#artists?artist_id=' + artistId, '_blank');
+          } else {
+            // Navigate in current tab
+            window.location.hash = 'artists?artist_id=' + artistId;
+          }
+        }).catch(function(error) {
+          console.error('Error activating model:', error);
+          // Navigate anyway even if there was an error
+          if (event.ctrlKey) {
+            window.open(appOrigin + '/#artists?artist_id=' + artistId, '_blank');
+          } else {
+            window.location.hash = 'artists?artist_id=' + artistId;
+          }
+        });
       };
       
       // Add a small delay to make sure DOM is fully processed
