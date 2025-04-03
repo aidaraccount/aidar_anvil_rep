@@ -7,6 +7,7 @@ import anvil.tables.query as q
 from anvil.tables import app_tables
 import json
 from datetime import datetime
+from anvil_labs.non_blocking import call_async
 
 from anvil_extras import routing
 from ..nav import click_link, click_button, click_box, logout, login_check, load_var, save_var
@@ -69,56 +70,113 @@ class Home(HomeTemplate):
         self.no_shorts.visible = False
         self.reload.visible = False
       
-      # get data
-      self.get_shorts()
+      # Initialize asynchronous loading
+      self.num_shorts = 0
+      
+      # Initialize loading of shorts asynchronously
+      self.load_shorts_async()
       
       print(f"{datetime.now()}: Home - __init__ - 2", flush=True)
       
       # -------------
       # 2. STATS
-      data = anvil.server.call('app_home', user["user_id"])      
-      stats = data['stats']
-
-      if stats != []:
-        for stat in stats:
-          if stat['stat'] == 'Success': won_cnt = stat['cnt']
-          if stat['stat'] == 'Watchlist': wl_cnt = stat['cnt']
-          if stat['stat'] == 'HighRated': hp_cnt = stat['cnt']
-          if stat['stat'] == 'RatedTotal': tot_cnt = stat['cnt']
-      else:
-        won_cnt = 0
-        wl_cnt = 0
-        hp_cnt = 0
-        tot_cnt = 0
+      # Initialize loading of stats asynchronously
+      self.load_stats_async()
       
-      self.label_won_no.text = won_cnt
-      self.label_wl_no.text = wl_cnt
-      self.label_hp_no.text = hp_cnt
-      self.label_tot_no.text = tot_cnt
-      
-      if won_cnt == 1: self.label_won_txt.text = 'artist\nwon'
-      else: self.label_won_txt.text = 'artists\nwon'
-      if wl_cnt == 1: self.label_wl_txt.text =  'artist on\nwatchlist'
-      else: self.label_wl_txt.text =  'artists on\nwatchlist'
-      if hp_cnt == 1: self.label_hp_txt.text =  'high\npotential'
-      else: self.label_hp_txt.text =  'high\npotentials'
-      if tot_cnt == 1: self.label_tot_txt.text = 'total\nrating'
-      else: self.label_tot_txt.text = 'total\nratings'
-        
       print(f"{datetime.now()}: Home - __init__ - 3", flush=True)
-  
-      # -------------
-      # 3. NEWS
-      news = data['news']
-      if len(news) == 0:
-        self.xy_panel_news.visible = False
-        self.xy_panel_news_empty.visible = True
-      else:
-        self.repeating_panel_news.items = news
-        
-      print(f"{datetime.now()}: Home - __init__ - 4", flush=True)
           
+  # 1. ASYNC METHODS
+  def load_shorts_async(self):
+    """Starts asynchronous loading of shorts data"""
+    # get active watchlist ids
+    wl_ids = []
+    for component in self.flow_panel_watchlists.get_components():
+      if (isinstance(component, Link) and component.role == "genre-box"):  # Only active models
+        wl_ids.append(component.tag)
     
+    if wl_ids:
+      # Call asynchronously
+      async_call = call_async("SM_Home.get_home_shorts", wl_ids, 0, 12)
+      async_call.on_result(self.shorts_loaded)
+    else:
+      if self.no_watchlists.visible is False:
+        self.no_shorts.visible = True
+      else:
+        self.no_shorts.visible = False
+      self.reload.visible = False
+  
+  def shorts_loaded(self, shorts):
+    """Handles successful server response for shorts."""
+    # present shorts
+    if shorts is not None and len(shorts) > 0:
+      self.no_shorts.visible = False
+      self.reload.visible = True
+      shorts = json.loads(shorts)
+
+      self.num_shorts = len(shorts)
+      for i in range(0, len(shorts)):
+        self.flow_panel_shorts.add_component(C_Short(data=shorts[i]))
+
+      if len(shorts) < 12:
+        self.reload.visible = False
+    
+    else:
+      if self.no_watchlists.visible is False:
+        self.no_shorts.visible = True
+      else:
+        self.no_shorts.visible = False
+      self.reload.visible = False
+  
+  def load_stats_async(self):
+    """Starts asynchronous loading of stats data"""
+    # Call asynchronously
+    async_call = call_async("SM_Home.get_home_stats", user["user_id"])
+    async_call.on_result(self.stats_loaded)
+  
+  def stats_loaded(self, data):
+    """Handles successful server response for stats."""
+    # Process stats data
+    stats = data['stats']
+
+    # Initialize counters
+    won_cnt = 0
+    wl_cnt = 0
+    hp_cnt = 0
+    tot_cnt = 0
+
+    if stats:
+      for stat in stats:
+        if stat['stat'] == 'Success': won_cnt = stat['cnt']
+        if stat['stat'] == 'Watchlist': wl_cnt = stat['cnt']
+        if stat['stat'] == 'HighRated': hp_cnt = stat['cnt']
+        if stat['stat'] == 'RatedTotal': tot_cnt = stat['cnt']
+    
+    # Update UI elements
+    self.label_won_no.text = won_cnt
+    self.label_wl_no.text = wl_cnt
+    self.label_hp_no.text = hp_cnt
+    self.label_tot_no.text = tot_cnt
+    
+    # Update text labels based on counts
+    if won_cnt == 1: self.label_won_txt.text = 'artist\nwon'
+    else: self.label_won_txt.text = 'artists\nwon'
+    if wl_cnt == 1: self.label_wl_txt.text =  'artist on\nwatchlist'
+    else: self.label_wl_txt.text =  'artists on\nwatchlist'
+    if hp_cnt == 1: self.label_hp_txt.text =  'high\npotential'
+    else: self.label_hp_txt.text =  'high\npotentials'
+    if tot_cnt == 1: self.label_tot_txt.text = 'total\nrating'
+    else: self.label_tot_txt.text = 'total\nratings'
+    
+    # Process news data
+    news = data['news']
+    if len(news) == 0:
+      self.xy_panel_news.visible = False
+      self.xy_panel_news_empty.visible = True
+    else:
+      self.repeating_panel_news.items = news
+    
+    print(f"{datetime.now()}: Home - stats loaded", flush=True)
+
   def link_discover_click(self, **event_args):
     temp_artist_id = anvil.server.call('get_next_artist_id', load_var('model_id'))
     click_link(self.artist_link, f'artists?artist_id={temp_artist_id}', event_args)
@@ -130,48 +188,6 @@ class Home(HomeTemplate):
   def link_funnel_click(self, **event_args):
     click_link(self.link_funnel, 'watchlist_funnel', event_args)
 
-  def get_shorts(self, **event_args):
-    # get active watchlist ids
-    wl_ids = []
-    for component in self.flow_panel_watchlists.get_components():
-      if (isinstance(component, Link) and component.role == "genre-box"):  # Only active models
-        wl_ids.append(component.tag)
-      
-    # clean present shorts
-    self.flow_panel_shorts.clear()
-
-    # add initial shorts
-    if wl_ids != []:  
-      # get data
-      shorts = anvil.server.call('get_shorts', wl_ids, 0, 12)
-      
-      # present shorts
-      if shorts is not None and len(shorts) > 0:
-        self.no_shorts.visible = False
-        self.reload.visible = True
-        shorts = json.loads(shorts)
-
-        self.num_shorts = len(shorts)
-        for i in range(0, len(shorts)):
-          self.flow_panel_shorts.add_component(C_Short(data=shorts[i]))
-
-        if len(shorts) < 12:
-          self.reload.visible = False
-      
-      else:
-        if self.no_watchlists.visible is False:
-          self.no_shorts.visible = True
-        else:
-          self.no_shorts.visible = False
-        self.reload.visible = False
-        
-    else:
-      if self.no_watchlists.visible is False:
-        self.no_shorts.visible = True
-      else:
-        self.no_shorts.visible = False
-      self.reload.visible = False
-
   def add_shorts(self, **event_args):
     # get active watchlist ids
     wl_ids = []
@@ -180,24 +196,28 @@ class Home(HomeTemplate):
         wl_ids.append(component.tag)
     
     # add new shorts
-    if wl_ids != []:      
-      # get data
-      shorts = anvil.server.call('get_shorts', wl_ids, self.num_shorts, 9)
-      
-      # present shorts
-      if shorts is not None and len(shorts) > 0:
-        self.reload.visible = True
-        shorts = json.loads(shorts)
-        
-        for i in range(0, len(shorts)):
-          self.flow_panel_shorts.add_component(C_Short(data=shorts[i]))
-        
-        self.num_shorts = self.num_shorts + len(shorts)
-        
-      else:
-        self.reload.visible = False
-              
+    if wl_ids != []:
+      # Call asynchronously
+      async_call = call_async("SM_Home.get_home_shorts", wl_ids, self.num_shorts, 9)
+      async_call.on_result(self.additional_shorts_loaded)
   
+  def additional_shorts_loaded(self, shorts):
+    """Handles successful server response for additional shorts."""
+    # present shorts
+    if shorts is not None and len(shorts) > 0:
+      self.reload.visible = True
+      shorts = json.loads(shorts)
+      
+      for i in range(0, len(shorts)):
+        self.flow_panel_shorts.add_component(C_Short(data=shorts[i]))
+      
+      self.num_shorts = self.num_shorts + len(shorts)
+      
+      if len(shorts) < 9:
+        self.reload.visible = False
+    else:
+      self.reload.visible = False
+
   # ------------------
   # WATCHLIST BUTTONS
   def create_activate_watchlist_handler(self, watchlist_id):
@@ -226,4 +246,4 @@ class Home(HomeTemplate):
       ):  # Only active models
         wl_ids.append(component.tag)
 
-    self.get_shorts()
+    self.load_shorts_async()
