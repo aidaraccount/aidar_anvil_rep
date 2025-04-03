@@ -184,10 +184,6 @@ class Settings(SettingsTemplate):
 
   def profile_save_click(self, **event_args):
     if self.profile_save.role == ['header-6', 'call-to-action-button']:
-      # update Anvil Users
-      
-      
-      # update db
       status = anvil.server.call('update_settings_account',
                                 user["user_id"],
                                 self.text_box_first_name.text,
