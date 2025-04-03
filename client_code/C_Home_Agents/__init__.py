@@ -97,12 +97,12 @@ class C_Home_Agents(C_Home_AgentsTemplate):
               
           model_boxes_html += f"""
             <div class="model-box" data-model-id="{model_id}">
-              <div class="model-content">
-                <div class="model-name">{model_name}</div>
-                <div class="model-stars">{stars_html}</div>
-                <div class="model-level">{model_level}</div>
-              </div>
-              <div class="model-artist">
+              <div class="model-box-top-row">
+                <div class="model-info">
+                  <div class="model-name">{model_name}</div>
+                  <div class="model-stars">{stars_html}</div>
+                  <div class="model-level">{model_level}</div>
+                </div>
                 <div class="artist-image-container">
                   <img src="{next_artist_pic_url}" class="artist-image" alt="Artist" />
                   <button class="discover-button" onclick="window.artistDiscoverClick(event, {next_artist_id})">Discover</button>
@@ -120,12 +120,12 @@ class C_Home_Agents(C_Home_AgentsTemplate):
           # Handle string or other non-dict items if needed
           model_boxes_html += f"""
             <div class="model-box">
-              <div class="model-content">
-                <div class="model-name">{str(model)}</div>
-                <div class="model-stars">★★★</div>
-                <div class="model-level">Unknown</div>
-              </div>
-              <div class="model-artist">
+              <div class="model-box-top-row">
+                <div class="model-info">
+                  <div class="model-name">{str(model)}</div>
+                  <div class="model-stars">★★★</div>
+                  <div class="model-level">Unknown</div>
+                </div>
                 <div class="artist-image-container">
                   <img src="" class="artist-image" alt="Artist" />
                   <button class="discover-button">Discover</button>
@@ -145,12 +145,12 @@ class C_Home_Agents(C_Home_AgentsTemplate):
         # If it's still a string at this point, show it as a single box
         model_boxes_html = f"""
           <div class="model-box">
-            <div class="model-content">
-              <div class="model-name">Error: Could not parse data</div>
-              <div class="model-stars">★★★</div>
-              <div class="model-level">Unknown</div>
-            </div>
-            <div class="model-artist">
+            <div class="model-box-top-row">
+              <div class="model-info">
+                <div class="model-name">Error: Could not parse data</div>
+                <div class="model-stars">★★★</div>
+                <div class="model-level">Unknown</div>
+              </div>
               <div class="artist-image-container">
                 <img src="" class="artist-image" alt="Artist" />
                 <button class="discover-button">Discover</button>
