@@ -166,11 +166,11 @@ components:
     - components:
       - layout_properties: {width: 65, x: 0, y: 0}
         name: label_won_no
-        properties: {font_size: 40, icon: '', role: investigate_value, text: '2'}
+        properties: {font_size: 40, icon: '', role: investigate_value, text: ''}
         type: Label
       - layout_properties: {width: 85, x: 80, y: 0}
         name: label_wl_no
-        properties: {font_size: 40, role: investigate_value, text: '22'}
+        properties: {font_size: 40, role: investigate_value, text: ''}
         type: Label
       - layout_properties: {width: 65, x: 8, y: 50}
         name: label_won_txt
@@ -192,11 +192,11 @@ components:
         type: Label
       - layout_properties: {width: 77.99993896484366, x: 0, y: 100}
         name: label_hp_no
-        properties: {font_size: 32, role: investigate_value, text: '12'}
+        properties: {font_size: 32, role: investigate_value, text: ''}
         type: Label
       - layout_properties: {width: 92.333, x: 80, y: 100}
         name: label_tot_no
-        properties: {font_size: 32, role: investigate_value, text: '1234'}
+        properties: {font_size: 32, role: investigate_value, text: ''}
         type: Label
       - layout_properties: {width: 78.333, x: 8, y: 143}
         name: label_hp_txt

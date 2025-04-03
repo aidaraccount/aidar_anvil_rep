@@ -39,11 +39,16 @@ class Home(HomeTemplate):
     
     # Check if this is a duplicate initialization within the threshold period
     time_since_last_init = current_time - Home._last_init_time
+    
     if time_since_last_init < Home._min_time_between_inits:
       print(f"HOME INIT [{self.instance_id}] - Skipping initialization ({time_since_last_init:.3f}s since last init)", flush=True)
       self.init_components(**properties)
+      
       # Still need to handle possible UI setup for this instance
-      self.prepare_ui_only()
+      self.colpan_wl_selection.visible = False
+      self.no_watchlists.visible = False
+      self.no_shorts.visible = False
+      self.reload.visible = False
       return
     
     # Update the last initialization time
@@ -67,66 +72,104 @@ class Home(HomeTemplate):
       
     else:
       model_id = load_var("model_id")
-      print(f"HOME INIT [{self.instance_id}] - model_id: {model_id}", flush=True)
-      
       self.model_id = model_id
-
-      # welcome name
-      if user["first_name"] is not None:
-        self.label_welcome.text = f'Welcome {user["first_name"]}'        
-      
-      print(f"HOME INIT [{self.instance_id}] - Loading fresh data - {datetime.now()}", flush=True)
-      
-      # Initialize variables
+      print(f"HOME INIT [{self.instance_id}] - model_id: {model_id}", flush=True)
+            
       self.num_shorts = 0
 
       # -------------
-      # 1. INITIALIZE ASYNCHRONOUS LOADING
-      
-      # Hide "no data" messages during loading
+      # 1. INITIALIZE ASYNCHRONOUS LOADING        
+      # 1.1 Hide "no data" messages during loading
       self.colpan_wl_selection.visible = False
       self.no_watchlists.visible = False
       self.no_shorts.visible = False
       self.reload.visible = False
       
-      # 1.1 Track start time for Shorts
-      self.shorts_start_time = time.time()
-      print(f"HOME INIT [{self.instance_id}] - Shorts loading initialized - {datetime.now()}", flush=True)
-      
-      # 1.2 Initialize loading of shorts asynchronously
-      self.load_shorts_async()
-      
-      # 1.3 Track start time for Stats
+      # 1.2 welcome name
+      if user["first_name"] is not None:
+        self.label_welcome.text = f'Welcome {user["first_name"]}'    
+        
+      # 1.3 Initialize loading of stats asynchronously
       self.stats_start_time = time.time()
       print(f"HOME INIT [{self.instance_id}] - Stats loading initialized - {datetime.now()}", flush=True)
-      
-      # 1.4 Initialize loading of stats asynchronously
       self.load_stats_async()
-
-  def prepare_ui_only(self):
-    """Set up minimal UI for instances that skip full initialization"""
-    # Make sure the user is defined
-    global user
-    user = anvil.users.get_user()
-    
-    if user and user != 'None':
-      # Set the welcome name
-      if user["first_name"] is not None:
-        self.label_welcome.text = f'Welcome {user["first_name"]}'
-        
-      # Load model ID
-      self.model_id = load_var("model_id")
-      
-      # Hide "no data" messages during loading
-      self.colpan_wl_selection.visible = False
-      self.no_watchlists.visible = False
-      self.no_shorts.visible = False
-      self.reload.visible = False
-      
-      print(f"HOME INIT [{self.instance_id}] - Minimal UI setup for skipped initialization", flush=True)
-          
+  
+      # 1.4 Initialize loading of shorts asynchronously
+      self.shorts_start_time = time.time()
+      print(f"HOME INIT [{self.instance_id}] - Shorts loading initialized - {datetime.now()}", flush=True)
+      self.load_shorts_async()
+  
+  
   # 2. ASYNC METHODS
-  # 2.1 SHORTS METHODS
+  # 2.1 STATS METHODS
+  def load_stats_async(self):
+    """Starts asynchronous loading of stats data"""
+    # Call asynchronously
+    async_call = call_async("get_home_stats", user["user_id"])
+    async_call.on_result(self.stats_loaded)
+    print(f"HOME ASYNC [{self.instance_id}] - Stats async call dispatched", flush=True)
+  
+  def stats_loaded(self, data):
+    """Handles successful server response for stats."""
+    # Calculate loading time
+    load_time = time.time() - self.stats_start_time
+    print(f"HOME ASYNC [{self.instance_id}] - Stats loaded (took {load_time:.2f} seconds)", flush=True)
+    
+    # Get the active instance - this is the one currently visible to the user
+    active_instance = Home._active_instance
+    
+    # Check if we should update the current instance or the active instance
+    if active_instance and active_instance.instance_id != self.instance_id:
+      print(f"HOME ASYNC [{self.instance_id}] - Updating active instance [{active_instance.instance_id}] with stats", flush=True)
+      # Process stats in the active instance
+      active_instance.process_stats_data(data)
+    else:
+      # Process stats in this instance
+      self.process_stats_data(data)
+    
+  def process_stats_data(self, data):
+    """Process and display stats data"""
+    # Process stats data
+    stats = data['stats']
+
+    # Initialize counters
+    won_cnt = 0
+    wl_cnt = 0
+    hp_cnt = 0
+    tot_cnt = 0
+
+    if stats:
+      for stat in stats:
+        if stat['stat'] == 'Success': won_cnt = stat['cnt']
+        if stat['stat'] == 'Watchlist': wl_cnt = stat['cnt']
+        if stat['stat'] == 'HighRated': hp_cnt = stat['cnt']
+        if stat['stat'] == 'RatedTotal': tot_cnt = stat['cnt']
+    
+    # Update UI elements
+    self.label_won_no.text = won_cnt
+    self.label_wl_no.text = wl_cnt
+    self.label_hp_no.text = hp_cnt
+    self.label_tot_no.text = tot_cnt
+    
+    # Update text labels based on counts
+    if won_cnt == 1: self.label_won_txt.text = 'artist\nwon'
+    else: self.label_won_txt.text = 'artists\nwon'
+    if wl_cnt == 1: self.label_wl_txt.text =  'artist on\nwatchlist'
+    else: self.label_wl_txt.text =  'artists on\nwatchlist'
+    if hp_cnt == 1: self.label_hp_txt.text =  'high\npotential'
+    else: self.label_hp_txt.text =  'high\npotentials'
+    if tot_cnt == 1: self.label_tot_txt.text = 'total\nrating'
+    else: self.label_tot_txt.text = 'total\nratings'
+    
+    # Process news data
+    news = data['news']
+    if len(news) == 0:
+      self.xy_panel_news.visible = False
+      self.xy_panel_news_empty.visible = True
+    else:
+      self.repeating_panel_news.items = news
+        
+  # 2.2 SHORTS METHODS
   def load_shorts_async(self):
     """Starts asynchronous loading of shorts data"""
     # Call asynchronously
@@ -211,74 +254,6 @@ class Home(HomeTemplate):
         self.no_shorts.visible = False
       self.reload.visible = False
   
-  # 2.2 STATS METHODS
-  def load_stats_async(self):
-    """Starts asynchronous loading of stats data"""
-    # Call asynchronously
-    async_call = call_async("get_home_stats", user["user_id"])
-    async_call.on_result(self.stats_loaded)
-    print(f"HOME ASYNC [{self.instance_id}] - Stats async call dispatched", flush=True)
-  
-  def stats_loaded(self, data):
-    """Handles successful server response for stats."""
-    # Calculate loading time
-    load_time = time.time() - self.stats_start_time
-    print(f"HOME ASYNC [{self.instance_id}] - Stats loaded (took {load_time:.2f} seconds)", flush=True)
-    
-    # Get the active instance - this is the one currently visible to the user
-    active_instance = Home._active_instance
-    
-    # Check if we should update the current instance or the active instance
-    if active_instance and active_instance.instance_id != self.instance_id:
-      print(f"HOME ASYNC [{self.instance_id}] - Updating active instance [{active_instance.instance_id}] with stats", flush=True)
-      # Process stats in the active instance
-      active_instance.process_stats_data(data)
-    else:
-      # Process stats in this instance
-      self.process_stats_data(data)
-    
-  def process_stats_data(self, data):
-    """Process and display stats data"""
-    # Process stats data
-    stats = data['stats']
-
-    # Initialize counters
-    won_cnt = 0
-    wl_cnt = 0
-    hp_cnt = 0
-    tot_cnt = 0
-
-    if stats:
-      for stat in stats:
-        if stat['stat'] == 'Success': won_cnt = stat['cnt']
-        if stat['stat'] == 'Watchlist': wl_cnt = stat['cnt']
-        if stat['stat'] == 'HighRated': hp_cnt = stat['cnt']
-        if stat['stat'] == 'RatedTotal': tot_cnt = stat['cnt']
-    
-    # Update UI elements
-    self.label_won_no.text = won_cnt
-    self.label_wl_no.text = wl_cnt
-    self.label_hp_no.text = hp_cnt
-    self.label_tot_no.text = tot_cnt
-    
-    # Update text labels based on counts
-    if won_cnt == 1: self.label_won_txt.text = 'artist\nwon'
-    else: self.label_won_txt.text = 'artists\nwon'
-    if wl_cnt == 1: self.label_wl_txt.text =  'artist on\nwatchlist'
-    else: self.label_wl_txt.text =  'artists on\nwatchlist'
-    if hp_cnt == 1: self.label_hp_txt.text =  'high\npotential'
-    else: self.label_hp_txt.text =  'high\npotentials'
-    if tot_cnt == 1: self.label_tot_txt.text = 'total\nrating'
-    else: self.label_tot_txt.text = 'total\nratings'
-    
-    # Process news data
-    news = data['news']
-    if len(news) == 0:
-      self.xy_panel_news.visible = False
-      self.xy_panel_news_empty.visible = True
-    else:
-      self.repeating_panel_news.items = news
-  
   # 3. USER INTERACTION METHODS
   # 3.1 NAVIGATION
   def link_discover_click(self, **event_args):
@@ -357,7 +332,7 @@ class Home(HomeTemplate):
             component.role = "genre-box"
 
     # Check if any watchlists are selected
-    # a) collect selected watchlist IDs
+    # collect selected watchlist IDs
     wl_ids = []
     for component in self.flow_panel_watchlists.get_components():
       if (
