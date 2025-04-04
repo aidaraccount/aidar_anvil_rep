@@ -203,7 +203,7 @@
   position: absolute;
   top: 0;
   height: 100%;
-  width: 60px;
+  width: 70px;
   z-index: 5;
   pointer-events: none; /* Allow clicks to pass through */
   opacity: 0;
