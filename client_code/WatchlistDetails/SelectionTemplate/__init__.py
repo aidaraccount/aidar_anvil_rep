@@ -48,7 +48,7 @@ class SelectionTemplate(SelectionTemplateTemplate):
     self.update_watchlist_notification(True, False)
   
   def link_notification_click(self, **event_args):
-    if self.radio_button_notification.selected == True:
+    if self.radio_button_notification.selected is True:
       self.radio_button_notification.selected = False
       self.update_watchlist_notification(True, False)
     else:
