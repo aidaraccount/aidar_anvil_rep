@@ -287,6 +287,16 @@ Area 5: Page individual classes
   background-color: rgba(255, 76, 43, 1);
 }
 
+.center-slider-content {
+  display: flex;
+  justify-content: center;
+}
+
+.center-slider-content .slider-track {
+  transform: none !important;
+  width: auto;
+}
+
 /* ----------------------------
 5.3. DISCOVER & C_DISCOVER individual classes
 Live: past & future table: center second column vertically */

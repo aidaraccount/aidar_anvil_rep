@@ -531,42 +531,16 @@ class C_Home_Agents(C_Home_AgentsTemplate):
                      
           // Center the content if all boxes can fit with room to spare
           if (boxes.length <= visibleBoxes) {
-            centerContent();
+            // Add a CSS class instead of directly manipulating style
+            track.parentElement.classList.add('center-slider-content');
+            track.style.transform = 'none'; // Remove transform so CSS centering can work
+          } else {
+            // Remove centering class if we need to scroll
+            track.parentElement.classList.remove('center-slider-content');
           }
           
           // Update arrow visibility based on position
           updateArrowVisibility();
-        }
-        
-        // Function to center content
-        function centerContent() {
-          // 1. Get the container width
-          const container = track.parentElement;
-          const containerWidth = container.offsetWidth;
-          
-          // 2. Simplest centering calculation
-          // For each box we use 295px which includes its width and right margin
-          const boxWidth = 295;
-          
-          // Total width of all boxes (minus right margin of last box)
-          const rightMargin = 20;
-          const totalWidth = (boxes.length * boxWidth) - rightMargin;
-          
-          // Calculate empty space on each side
-          const emptySpace = containerWidth - totalWidth;
-          
-          // Center the content with a small leftward adjustment (-15px)
-          // This adjustment helps account for any layout inconsistencies
-          const leftAdjustment = 15;
-          const centerPosition = (emptySpace / 2) - leftAdjustment;
-          
-          // Apply transform (ensure we don't go negative)
-          const finalPosition = Math.max(0, centerPosition);
-          track.style.transform = 'translateX(' + finalPosition + 'px)';
-          
-          console.log('MODEL_ACTIVATION_JS: SLIDER_DEBUG: Simple centering - ' +
-                     'container: ' + containerWidth + 'px, content: ' + totalWidth + 'px, ' +
-                     'position: ' + finalPosition + 'px (with adjustment: -' + leftAdjustment + 'px)');
         }
         
         // Function to update arrow visibility
@@ -604,8 +578,9 @@ class C_Home_Agents(C_Home_AgentsTemplate):
         const allContentFits = boxes.length <= visibleBoxes;
         
         if (allContentFits) {
-          // Use the more accurate centering method for initial positioning
-          centerContent();
+          // Add a CSS class to center content instead of using JS positioning
+          track.parentElement.classList.add('center-slider-content');
+          track.style.transform = 'none'; // Remove transform so CSS centering can work
           
           // Hide arrows since all content fits
           leftArrow.style.display = 'none';
