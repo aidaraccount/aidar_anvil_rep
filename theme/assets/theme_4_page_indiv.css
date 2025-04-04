@@ -88,18 +88,225 @@ Area 5: Page individual classes
   }
 }
 
+/* ----------------------------
+5.2. C_Home_Agents individual classes */
+.agents-slider {
+  width: 100%;
+}
+
+.slider-container {
+  position: relative;
+  overflow: hidden;
+  padding: 10px 50px;
+  width: 100%;
+}
+
+.slider-track {
+  display: flex;
+  transition: transform 0.5s ease;
+}
+
+.model-box {
+  flex: 0 0 auto;
+  min-width: 280px;
+  height: auto;
+  margin-right: 15px;
+  background-color: #2D2D3A;
+  border-radius: 12px;
+  padding: 15px;
+  color: var(--WhiteDiscreet);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: stretch;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.model-box-top-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.model-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.artist-image-container {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  overflow: hidden;
+  margin-left: 15px;
+}
+
+.artist-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.discover-button {
+  position: absolute;
+  bottom: 5px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: var(--Orange);
+  color: var(--WhiteDiscreet);
+  border: none;
+  border-radius: 5px;
+  padding: 4px 8px;
+  font-size: 12px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.discover-button:hover {
+  background-color: #FF6E4E;
+}
+
+.model-progress-container {
+  width: 100%;
+  position: relative;
+}
+
+.model-progress-text {
+  text-align: right;
+  font-size: 12px;
+  color: white;
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1;
+  padding: 0 5px;
+}
+
+.model-progress-bar-container {
+  width: 100%;
+  height: 18px;
+  background-color: rgba(0, 0, 0, 0.35);
+  border-radius: 6px;
+  overflow: hidden;
+  position: relative;
+}
+
+.model-progress-bar {
+  height: 100%;
+  background-color: var(--PurpleFocus);
+  border-radius: 3px;
+  transition: width 0.3s ease;
+}
+
+.model-progress-bar.progress-bar-senior {
+  background-color: var(--PurpleFocus);
+}
+
+.model-name {
+  font-size: 18px;
+  font-weight: bold;
+  text-align: left;
+  align-self: flex-start;
+}
+
+.model-name-link {
+  color: var(--WhiteDiscreet);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.model-name-link:hover {
+  color: var(--Orange);
+}
+
+.model-box .model-box-top-row .model-info .model-name a {
+  color: var(--WhiteDiscreet);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.model-box .model-box-top-row .model-info .model-name a:hover {
+  color: var(--Orange);
+}
+
+.model-stars {
+  font-size: 45px;
+  line-height: 1;
+  letter-spacing: 2px;
+  text-align: center;
+}
+
+.model-star {
+  color: #5e5d5d;
+}
+
+.model-star.active {
+  color: var(--Orange);
+}
+
+.model-level {
+  font-size: 15px;
+  color: rgba(255, 255, 255, 0.9);
+  text-align: center;
+}
+
+.slider-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 40px;
+  height: 40px;
+  background-color: rgba(255, 76, 43, 0.8);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+  z-index: 10;
+}
+
+.slider-arrow.left {
+  left: 10px;
+}
+
+.slider-arrow.right {
+  right: 10px;
+}
+
+.slider-arrow:hover {
+  background-color: rgba(255, 76, 43, 1);
+}
+
+.center-slider-content {
+  display: flex;
+  justify-content: center;
+}
+
+.center-slider-content .slider-track {
+  transform: none !important;
+  width: auto;
+}
 
 /* ----------------------------
-5.2. DISCOVER & C_DISCOVER individual classes
+5.3. DISCOVER & C_DISCOVER individual classes
 Live: past & future table: center second column vertically */
 .anvil-role-pos-center-vertical .data-row-col:nth-child(2) {
   display: flex;
   align-items: center;
 }
 
-
 /* ----------------------------
-5.3. OBSERVE_LISTEN individual classes */
+5.4. OBSERVE_LISTEN individual classes */
 .anvil-role-listen-complete-element {
   height: calc(100vh + 260px);
   overflow-y: auto;
@@ -111,9 +318,8 @@ Live: past & future table: center second column vertically */
   height: calc(95vh - 85px);
 }
 
-
 /* ----------------------------
-5.3. C_ProgressMessage individual classes */
+5.5. C_ProgressMessage individual classes */
 /* vertically centers the cycle */
 .anvil-role-progress_message .anvil-panel-section .anvil-panel-section-container .anvil-panel-section-gutter .anvil-panel-row .anvil-panel-col {
   display: flex;

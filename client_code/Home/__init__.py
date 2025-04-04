@@ -15,6 +15,7 @@ from anvil_extras import routing
 from ..nav import click_link, click_button, click_box, logout, login_check, load_var, save_var
 
 from ..C_Short import C_Short
+from ..C_Home_Agents import C_Home_Agents
 
 
 @routing.route('', title='Home')
@@ -56,7 +57,7 @@ class Home(HomeTemplate):
       user = anvil.users.get_user()
       name = user["first_name"].upper() if user["first_name"] is not None else ''
       self.welcome.content = f"""
-      <span style="font-family: 'General Sans', sans-serif; font-weight: 700; font-size: 55px; color: white;">
+      <span style="font-family: 'General Sans', sans-serif; font-weight: 600; font-size: 55px; color: white;">
         <span style="color: #FF4C2B;">.</span>WELCOME <span style="color: #FF4C2B;">{name}</span>
       </span>
       """
@@ -97,30 +98,65 @@ class Home(HomeTemplate):
       # 1.2 welcome name
       name = user["first_name"].upper() if user["first_name"] is not None else ''
       self.welcome.content = f"""
-      <span style="font-family: 'General Sans', sans-serif; font-weight: 700; font-size: 55px; color: white;">
+      <span style="font-family: 'General Sans', sans-serif; font-weight: 600; font-size: 55px; color: white;">
         <span style="color: rgb(253, 101, 45);">.</span>WELCOME <span style="color: rgb(253, 101, 45);">{name}</span>
       </span>
       """
-        
-      # 1.3 Initialize loading of stats asynchronously
+
+      # 1.3 Initialize loading of agents asynchronously
+      self.agents_start_time = time.time()
+      print(f"HOME INIT [{self.instance_id}] - Agents loading initialized - {datetime.now()}", flush=True)
+      self.load_agents_async()
+      
+      # 1.4 Initialize loading of stats asynchronously
       self.stats_start_time = time.time()
       print(f"HOME INIT [{self.instance_id}] - Stats loading initialized - {datetime.now()}", flush=True)
       self.load_stats_async()
   
-      # 1.4 Initialize loading of shorts asynchronously
+      # 1.5 Initialize loading of shorts asynchronously
       self.shorts_start_time = time.time()
       print(f"HOME INIT [{self.instance_id}] - Shorts loading initialized - {datetime.now()}", flush=True)
       self.load_shorts_async()
   
   
   # 2. ASYNC METHODS
-  # 2.1 STATS METHODS
+  # 2.1 AGENTS METHODS
+  def load_agents_async(self):
+    """Starts asynchronous loading of agents data"""
+    # Call asynchronously
+    async_call = call_async("get_home_agents", user["user_id"])
+    async_call.on_result(self.agents_loaded)
+    
+  def agents_loaded(self, data):
+    """Handles successful server response for agents."""
+    # Calculate loading time
+    load_time = time.time() - self.agents_start_time
+    print(f"HOME ASYNC [{self.instance_id}] - Agents loaded (took {load_time:.2f} seconds)", flush=True)
+    
+    # Get the active instance - this is the one currently visible to the user
+    active_instance = Home._active_instance
+    
+    # Check if we should update the current instance or the active instance
+    if active_instance and active_instance.instance_id != self.instance_id:
+      print(f"HOME ASYNC [{self.instance_id}] - Updating active instance [{active_instance.instance_id}] with agents", flush=True)
+      # Process agents in the active instance
+      active_instance.process_agents_data(data)
+    else:
+      # Process stats in this instance
+      self.process_agents_data(data)
+    
+  def process_agents_data(self, data):
+    """Process and display agents data"""
+    # Process agents data
+    self.sec_agents.add_component(C_Home_Agents(data=data))
+
+    
+  # 2.2 STATS METHODS
   def load_stats_async(self):
     """Starts asynchronous loading of stats data"""
     # Call asynchronously
     async_call = call_async("get_home_stats", user["user_id"])
     async_call.on_result(self.stats_loaded)
-    print(f"HOME ASYNC [{self.instance_id}] - Stats async call dispatched", flush=True)
   
   def stats_loaded(self, data):
     """Handles successful server response for stats."""
@@ -182,7 +218,7 @@ class Home(HomeTemplate):
     else:
       self.repeating_panel_news.items = news
         
-  # 2.2 SHORTS METHODS
+  # 2.3 SHORTS METHODS
   def load_shorts_async(self, selected_wl_ids=None):
     """
     Starts asynchronous loading of shorts data
@@ -194,7 +230,6 @@ class Home(HomeTemplate):
     # Call asynchronously
     async_call = call_async("get_home_shorts", user["user_id"], selected_wl_ids)
     async_call.on_result(self.shorts_loaded)
-    print(f"HOME ASYNC [{self.instance_id}] - Shorts async call dispatched", flush=True)
   
   def shorts_loaded(self, result):
     """Handles successful server response for shorts."""
@@ -232,7 +267,6 @@ class Home(HomeTemplate):
         
     if watchlists is not None and len(watchlists) > 0:
       # We have data - no need to show "no watchlists" message
-      self.colpan_wl_selection.visible = True
       self.no_watchlists.visible = False
       self.reload.visible = False
       
@@ -392,3 +426,9 @@ class Home(HomeTemplate):
     
     # Load shorts with only the active watchlist IDs
     self.load_shorts_async(selected_wl_ids=active_wl_ids)
+
+  def button_news_selection_click(self, **event_args):
+    if self.colpan_wl_selection.visible is True:
+      self.colpan_wl_selection.visible = False
+    else:
+      self.colpan_wl_selection.visible = True

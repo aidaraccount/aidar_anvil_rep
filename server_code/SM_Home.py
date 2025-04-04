@@ -22,7 +22,34 @@ import json
 # 1. SERVER MODULE FOR THE HOME PAGE
 # -----------------------------------------
 
-# 1.1 SHORTS FUNCTIONS
+# 1.1 STATS FUNCTIONS
+@anvil.server.callable
+def get_home_agents(user_id):
+    """
+    Get agents data for the home page.
+    
+    Args:
+        user_id: User ID
+    """
+    data = anvil.server.call('get_home_agents', user_id)
+    return data
+
+# 1.2 STATS FUNCTIONS
+@anvil.server.callable
+def get_home_stats(user_id):
+    """
+    Get stats data for the home page.
+    
+    Args:
+        user_id: User ID
+        
+    Returns:
+        Dict containing stats and news data
+    """
+    data = anvil.server.call('app_home', user_id)
+    return data
+
+# 1.3 SHORTS FUNCTIONS
 @anvil.server.callable
 def get_home_shorts(user_id, selected_wl_ids=None):
     """
@@ -76,18 +103,3 @@ def get_additional_shorts(user_id, wl_ids, offset, limit):
     """
     shorts = anvil.server.call('get_shorts', wl_ids, offset, limit)
     return shorts
-
-# 1.2 STATS FUNCTIONS
-@anvil.server.callable
-def get_home_stats(user_id):
-    """
-    Get stats data for the home page.
-    
-    Args:
-        user_id: User ID
-        
-    Returns:
-        Dict containing stats and news data
-    """
-    data = anvil.server.call('app_home', user_id)
-    return data
