@@ -983,6 +983,8 @@ class Discover(DiscoverTemplate):
         self.ask_for_feedback()
       elif total_ratings == "150":
         self.ask_for_feedback()
+      elif total_ratings == "199":
+        self.ask_for_feedback()
   
     self.header.scroll_into_view(smooth=True)
 
