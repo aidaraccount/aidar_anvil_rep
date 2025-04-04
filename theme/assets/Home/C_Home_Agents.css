@@ -5,7 +5,8 @@
 .slider-container {
   position: relative;
   overflow: hidden;
-  padding: 10px 50px;
+  padding: 0px 50px;
+  margin: 10px 0px;
   width: 100%;
 }
   
