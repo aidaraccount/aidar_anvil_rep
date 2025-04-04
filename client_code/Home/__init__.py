@@ -270,7 +270,6 @@ class Home(HomeTemplate):
         
     if watchlists is not None and len(watchlists) > 0:
       # We have data - no need to show "no watchlists" message
-      # self.colpan_wl_selection.visible = True
       self.no_watchlists.visible = False
       self.reload.visible = False
       
