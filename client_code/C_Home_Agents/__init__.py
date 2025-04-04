@@ -18,34 +18,28 @@ class C_Home_Agents(C_Home_AgentsTemplate):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
 
-    # Any code you write here will run before the form opens.
-    # Print data type for debugging
-    print(f"MODEL_ACTIVATION: SLIDER_DEBUG: Data type: {type(data)}")
-    
+    # Any code you write here will run before the form opens.    
     # Convert string data to list of dictionaries if needed
     if isinstance(data, str):
       try:
         data = json.loads(data)
-        print("MODEL_ACTIVATION: SLIDER_DEBUG: Successfully parsed data as JSON")
       except json.JSONDecodeError:
-        print("MODEL_ACTIVATION: SLIDER_DEBUG: Failed to parse data as JSON")
-    
-    if data and isinstance(data, list):
-      print(f"MODEL_ACTIVATION: SLIDER_DEBUG: First item type: {type(data[0])}")
-      
+        print("SLIDER_DEBUG: Failed to parse data as JSON")
+          
     # Store models data for access by JavaScript callbacks
     self.models_data = data if isinstance(data, list) else []
     
     # Register JavaScript callback for the discover button - MUST be before setup_slider
-    print("MODEL_ACTIVATION: Registering JavaScript callback in __init__")
+    print("Registering JavaScript callback in __init__")
     try:
       anvil.js.window.pyDiscoverClicked = self.handle_discover_click
-      print("MODEL_ACTIVATION: JavaScript callback registered successfully as window.pyDiscoverClicked")
+      print("JavaScript callback registered successfully as window.pyDiscoverClicked")
     except Exception as e:
-      print(f"MODEL_ACTIVATION: ERROR registering callback: {str(e)}")
+      print(f"ERROR registering callback: {str(e)}")
       
     # Set up the slider after registering callbacks
     self.setup_slider(data)
+
   
   def form_show(self, **event_args):
     """This method is called when the HTML panel is shown on the screen"""
@@ -63,128 +57,34 @@ class C_Home_Agents(C_Home_AgentsTemplate):
         ctrl_key: Whether the ctrl key was pressed (to open in new tab)
     """
     timestamp = time.time()
-    print(f"MODEL_ACTIVATION [{timestamp}]: Starting handler with artist={artist_id}, model={model_id}, ctrl={ctrl_key}")
-    print(f"MODEL_ACTIVATION [{timestamp}]: model_id type: {type(model_id)}")
     
     try:
       # Make sure model_id is passed correctly
       if not model_id:
-        print(f"MODEL_ACTIVATION [{timestamp}]: WARNING: No model_id provided in discover click")
+        print(f"DISCOVER_CLICK [{timestamp}]: WARNING: No model_id provided in discover click")
         return {"success": False, "error": "No model_id provided"}
         
       # Convert model_id to string if needed
       model_id_str = str(model_id).strip()
-      print(f"MODEL_ACTIVATION [{timestamp}]: Converted model_id to string: {model_id_str}")
+      print(f"DISCOVER_CLICK [{timestamp}]: Converted model_id to string: {model_id_str}")
       
       # Activate the model - call the required functions directly here to ensure they run
       user = anvil.users.get_user()
       if user:
-        print(f"MODEL_ACTIVATION [{timestamp}]: Got user: {user['user_id']}")
         # Store model_id for reference
         self.model_id_view = model_id_str
-        print(f"MODEL_ACTIVATION [{timestamp}]: Stored model_id_view: {self.model_id_view}")
+        save_var('model_id', model_id_str)
         
-        # 1. Update model usage on server - DIRECTLY CALL WITH EXACT PARAMETERS AS IN LOGS
-        print(f"MODEL_ACTIVATION [{timestamp}]: Calling update_model_usage for user {user['user_id']} and model {model_id_str}")
-        try:
-          # Call with the exact parameter format seen in logs
-          result = anvil.server.call('update_model_usage', user["user_id"], model_id_str)
-          print(f"MODEL_ACTIVATION [{timestamp}]: Server call completed with result: {result}")
-        except Exception as e:
-          print(f"MODEL_ACTIVATION [{timestamp}]: ERROR in server call: {str(e)}")
+        # Update model usage on server
+        anvil.server.call('update_model_usage', user["user_id"], model_id_str)
+        get_open_form().refresh_models_underline()
+        get_open_form().reset_nav_backgrounds()
         
-        # 2. Save model ID in client storage
-        print(f"MODEL_ACTIVATION [{timestamp}]: Saving model_id {model_id_str} to client storage")
-        try:
-          save_var('model_id', model_id_str)
-          # Verify it was saved correctly
-          saved_value = anvil.js.window.localStorage.getItem('model_id')
-          print(f"MODEL_ACTIVATION [{timestamp}]: Storage value after save: {saved_value}")
-        except Exception as e:
-          print(f"MODEL_ACTIVATION [{timestamp}]: ERROR saving to storage: {str(e)}")
-        
-        # 3. Try MULTIPLE approaches to refresh models underline
-        print(f"MODEL_ACTIVATION [{timestamp}]: Trying multiple approaches to refresh models underline")
-        
-        # Approach 1: Try get_open_form() directly
-        try:
-          main_form = get_open_form()
-          print(f"MODEL_ACTIVATION [{timestamp}]: Main form type: {type(main_form).__name__}")
-          
-          if hasattr(main_form, 'refresh_models_underline'):
-            print(f"MODEL_ACTIVATION [{timestamp}]: Found refresh_models_underline method on main_form, calling it")
-            print(f'MODEL_ACTIVATION: {location.hash}')
-            main_form.refresh_models_underline()
-            main_form.reset_nav_backgrounds()
-          else:
-            print(f"MODEL_ACTIVATION [{timestamp}]: Main form doesn't have refresh_models_underline")
-        except Exception as e:
-          print(f"MODEL_ACTIVATION [{timestamp}]: Error with approach 1: {str(e)}")
-        
-        # Approach 2: Try to find parent form
-        try:
-          current_form = self
-          parent = getattr(current_form, 'parent', None)
-          print(f"MODEL_ACTIVATION [{timestamp}]: Parent form type: {type(parent).__name__ if parent else 'None'}")
-          
-          if parent and hasattr(parent, 'refresh_models_underline'):
-            print(f"MODEL_ACTIVATION [{timestamp}]: Found refresh_models_underline on parent, calling it")
-            parent.refresh_models_underline()
-            parent.reset_nav_backgrounds()
-          elif parent:
-            print(f"MODEL_ACTIVATION [{timestamp}]: Parent exists but no refresh_models_underline method")
-            # Try to go up one more level
-            grandparent = getattr(parent, 'parent', None)
-            if grandparent and hasattr(grandparent, 'refresh_models_underline'):
-              print(f"MODEL_ACTIVATION [{timestamp}]: Found refresh_models_underline on grandparent, calling it")
-              grandparent.refresh_models_underline()
-              grandparent.reset_nav_backgrounds()
-        except Exception as e:
-          print(f"MODEL_ACTIVATION [{timestamp}]: Error with approach 2: {str(e)}")
-        
-        # Approach 3: Try to use app module directly
-        try:
-          if hasattr(anvil.app, 'refresh_models_underline'):
-            print(f"MODEL_ACTIVATION [{timestamp}]: Found refresh_models_underline on anvil.app, calling it")
-            anvil.app.refresh_models_underline()
-            anvil.app.reset_nav_backgrounds()
-          else:
-            print(f"MODEL_ACTIVATION [{timestamp}]: anvil.app doesn't have refresh_models_underline")
-            # List available app methods
-            app_methods = [m for m in dir(anvil.app) if not m.startswith('_') and callable(getattr(anvil.app, m))]
-            print(f"MODEL_ACTIVATION [{timestamp}]: Available app methods: {app_methods}")
-        except Exception as e:
-          print(f"MODEL_ACTIVATION [{timestamp}]: Error with approach 3: {str(e)}")
-        
-        # Approach 4: Try to use a global function if defined
-        try:
-          if 'refresh_models_underline' in globals():
-            print(f"MODEL_ACTIVATION [{timestamp}]: Found global refresh_models_underline, calling it")
-            globals()['refresh_models_underline']()
-          elif 'refresh_models_underline' in locals():
-            print(f"MODEL_ACTIVATION [{timestamp}]: Found local refresh_models_underline, calling it")
-            locals()['refresh_models_underline']()
-        except Exception as e:
-          print(f"MODEL_ACTIVATION [{timestamp}]: Error with approach 4: {str(e)}")
-          
-        # Approach 5: Try direct access to MainIn form if registered somewhere
-        try:
-          if hasattr(anvil, 'MainIn') and hasattr(anvil.MainIn, 'refresh_models_underline'):
-            print(f"MODEL_ACTIVATION [{timestamp}]: Found MainIn on anvil, calling refresh_models_underline")
-            anvil.MainIn.refresh_models_underline()
-            anvil.MainIn.reset_nav_backgrounds()
-            
-          if hasattr(anvil.app, 'MainIn') and hasattr(anvil.app.MainIn, 'refresh_models_underline'):
-            print(f"MODEL_ACTIVATION [{timestamp}]: Found MainIn on anvil.app, calling refresh_models_underline")
-            anvil.app.MainIn.refresh_models_underline()
-            anvil.app.MainIn.reset_nav_backgrounds()
-        except Exception as e:
-          print(f"MODEL_ACTIVATION [{timestamp}]: Error with approach 5: {str(e)}")
       else:
-        print(f"MODEL_ACTIVATION [{timestamp}]: No user found, cannot activate model")
+        print(f"DISCOVER_CLICK [{timestamp}]: No user found, cannot activate model")
     
       # Log final status
-      print(f"MODEL_ACTIVATION [{timestamp}]: Handler completed successfully")
+      print(f"DISCOVER_CLICK [{timestamp}]: Handler completed successfully")
       
       # Return navigation info to JavaScript
       return {
@@ -214,12 +114,12 @@ class C_Home_Agents(C_Home_AgentsTemplate):
     if isinstance(data, str):
       try:
         data = json.loads(data)
-        print("MODEL_ACTIVATION: SLIDER_DEBUG: Parsed string data in setup_slider")
+        print("SLIDER_DEBUG: Parsed string data in setup_slider")
       except json.JSONDecodeError:
-        print("MODEL_ACTIVATION: SLIDER_DEBUG: Could not parse data as JSON in setup_slider")
+        print("SLIDER_DEBUG: Could not parse data as JSON in setup_slider")
     
     if isinstance(data, list):
-      print(f"MODEL_ACTIVATION: SLIDER_DEBUG: Processing {len(data)} models for slider")
+      print(f"SLIDER_DEBUG: Processing {len(data)} models for slider")
       for model in data:
         if isinstance(model, dict):
           model_id = model.get('model_id', '')
@@ -312,7 +212,7 @@ class C_Home_Agents(C_Home_AgentsTemplate):
             </div>
           """
     else:
-      print(f"MODEL_ACTIVATION: SLIDER_DEBUG: Data is not a list, type: {type(data)}")
+      print(f"SLIDER_DEBUG: Data is not a list, type: {type(data)}")
       if isinstance(data, str):
         # If it's still a string at this point, show it as a single box
         model_boxes_html = f"""
@@ -337,7 +237,7 @@ class C_Home_Agents(C_Home_AgentsTemplate):
           </div>
         """
     
-    print("MODEL_ACTIVATION: SLIDER_DEBUG: Generated HTML for slider boxes")
+    print("SLIDER_DEBUG: Generated HTML for slider boxes")
     
     # JavaScript for the slider functionality
     js_code = """
@@ -587,7 +487,7 @@ class C_Home_Agents(C_Home_AgentsTemplate):
     """
     
     # Add HTML debugging to check structure
-    print("MODEL_ACTIVATION: SLIDER_DEBUG: Creating final HTML structure")
+    print("SLIDER_DEBUG: Creating final HTML structure")
     
     # Combine everything into the final HTML
     self.html = f"""
@@ -604,4 +504,4 @@ class C_Home_Agents(C_Home_AgentsTemplate):
     </div>
     """
     
-    print("MODEL_ACTIVATION: SLIDER_DEBUG: Slider HTML assigned to component")
+    print("SLIDER_DEBUG: Slider HTML assigned to component")

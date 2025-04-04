@@ -126,7 +126,6 @@ class Home(HomeTemplate):
     # Call asynchronously
     async_call = call_async("get_home_agents", user["user_id"])
     async_call.on_result(self.agents_loaded)
-    print(f"HOME ASYNC [{self.instance_id}] - Agents async call dispatched", flush=True)
     
   def agents_loaded(self, data):
     """Handles successful server response for agents."""
@@ -158,7 +157,6 @@ class Home(HomeTemplate):
     # Call asynchronously
     async_call = call_async("get_home_stats", user["user_id"])
     async_call.on_result(self.stats_loaded)
-    print(f"HOME ASYNC [{self.instance_id}] - Stats async call dispatched", flush=True)
   
   def stats_loaded(self, data):
     """Handles successful server response for stats."""
@@ -232,7 +230,6 @@ class Home(HomeTemplate):
     # Call asynchronously
     async_call = call_async("get_home_shorts", user["user_id"], selected_wl_ids)
     async_call.on_result(self.shorts_loaded)
-    print(f"HOME ASYNC [{self.instance_id}] - Shorts async call dispatched", flush=True)
   
   def shorts_loaded(self, result):
     """Handles successful server response for shorts."""
