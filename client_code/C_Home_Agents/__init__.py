@@ -495,18 +495,24 @@ class C_Home_Agents(C_Home_AgentsTemplate):
         
         console.log('MODEL_ACTIVATION_JS: SLIDER_DEBUG: All elements found, setting up event handlers');
         
+        // Configuration
+        const config = {
+          boxWidth: 295,           // Width of each model box including margin
+          boxMargin: 20,           // Right margin of each box
+          centeringOffset: -50,    // Additional offset to apply when centering (negative = more left)
+          initDelayMs: 50          // Delay before initialization
+        };
+        
         // Initialize state
         let currentPosition = 0;
-        const boxWidth = 295; // Width of each model box including margin
-        const boxMargin = 20; // Right margin of each box
         
         // Function to calculate how many boxes are visible
         function calculateVisibleBoxes() {
           const container = track.parentElement;
           const containerWidth = container.offsetWidth;
-          const visibleBoxes = Math.floor(containerWidth / boxWidth);
+          const visibleBoxes = Math.floor(containerWidth / config.boxWidth);
           console.log('MODEL_ACTIVATION_JS: SLIDER_DEBUG: Calculated visible boxes: ' + visibleBoxes + 
-                     ' (container width: ' + containerWidth + 'px, box width: ' + boxWidth + 'px)');
+                     ' (container width: ' + containerWidth + 'px, box width: ' + config.boxWidth + 'px)');
           return visibleBoxes;
         }
         
@@ -515,7 +521,7 @@ class C_Home_Agents(C_Home_AgentsTemplate):
           currentPosition = position;
           
           // Clamp position so we can't scroll past the first or last item
-          const maxPosition = (boxes.length - calculateVisibleBoxes()) * boxWidth;
+          const maxPosition = (boxes.length - calculateVisibleBoxes()) * config.boxWidth;
           if (currentPosition < 0) currentPosition = 0;
           if (currentPosition > maxPosition) currentPosition = maxPosition;
           
@@ -561,9 +567,11 @@ class C_Home_Agents(C_Home_AgentsTemplate):
           
           // Calculate centering offset
           const extraSpace = containerWidth - totalBoxesWidth;
-          let centerOffset = Math.floor(extraSpace / 2);
           
-          // Ensure we don't have negative offset
+          // Apply dynamic centering with config offset for fine-tuning
+          let centerOffset = Math.floor(extraSpace / 2) + config.centeringOffset;
+          
+          // Ensure we don't have negative offset (would push content off-screen)
           centerOffset = Math.max(0, centerOffset);
           
           // Apply transform for centering
@@ -571,12 +579,12 @@ class C_Home_Agents(C_Home_AgentsTemplate):
           
           console.log('MODEL_ACTIVATION_JS: SLIDER_DEBUG: Centering with measured widths - ' +
                      'container: ' + containerWidth + 'px, content: ' + totalBoxesWidth + 'px, ' +
-                     'offset: ' + centerOffset + 'px');
+                     'offset: ' + centerOffset + 'px (with correction: ' + config.centeringOffset + 'px)');
         }
         
         // Function to update arrow visibility
         function updateArrowVisibility() {
-          const maxPosition = (boxes.length - calculateVisibleBoxes()) * boxWidth;
+          const maxPosition = (boxes.length - calculateVisibleBoxes()) * config.boxWidth;
           
           // If all boxes fit, hide both arrows
           if (maxPosition <= 0) {
@@ -593,11 +601,11 @@ class C_Home_Agents(C_Home_AgentsTemplate):
         
         // Set up click handlers for arrows
         leftArrow.addEventListener('click', function() {
-          updateSliderPosition(currentPosition - boxWidth);
+          updateSliderPosition(currentPosition - config.boxWidth);
         });
         
         rightArrow.addEventListener('click', function() {
-          updateSliderPosition(currentPosition + boxWidth);
+          updateSliderPosition(currentPosition + config.boxWidth);
         });
         
         // Set initial position and arrow visibility
@@ -621,7 +629,7 @@ class C_Home_Agents(C_Home_AgentsTemplate):
         }
         
         console.log('MODEL_ACTIVATION_JS: SLIDER_DEBUG: Slider fully initialized');
-      }, 50);
+      }, config.initDelayMs);
     """
     
     # Add HTML debugging to check structure
