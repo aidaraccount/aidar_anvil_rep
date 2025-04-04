@@ -23,7 +23,7 @@ class C_Home_NextUp(C_Home_NextUpTemplate):
     
     # 1. Register JavaScript callbacks
     anvil.js.window.pyArtistClicked = self.handle_artist_click
-    anvil.js.window.pyToggleClicked = self.handle_toggle_click
+    anvil.js.window.pyRadioClicked = self.handle_radio_click
     
     # 2. Create NextUp table
     self.create_nextup_table()
@@ -43,19 +43,23 @@ class C_Home_NextUp(C_Home_NextUpTemplate):
     click_button('artist_view', {'artist_id': artist_id})
     return {"success": True, "artist_id": artist_id}
     
-  def handle_toggle_click(self, artist_id, watchlist_id, is_checked):
+  def handle_radio_click(self, artist_id, watchlist_id, row_id):
     """
-    JavaScript callback for when a toggle switch is clicked.
+    JavaScript callback for when a radio button is clicked.
+    The row will be removed from the table.
     
     Args:
         artist_id: The ID of the artist
         watchlist_id: The ID of the watchlist entry
-        is_checked: Boolean indicating if the toggle is checked
+        row_id: The HTML ID of the row to remove
     """
-    print(f"Toggle clicked for artist {artist_id}, watchlist {watchlist_id}, state: {is_checked}")
+    # Print information about the clicked radio button
+    print(f"Radio clicked for artist {artist_id}, watchlist {watchlist_id}")
+    
     # Here you would typically update a database or perform an action
-    # anvil.server.call('update_artist_status', artist_id, watchlist_id, is_checked)
-    return {"success": True, "artist_id": artist_id, "watchlist_id": watchlist_id, "is_checked": is_checked}
+    # anvil.server.call('update_artist_status', artist_id, watchlist_id)
+    
+    return {"success": True, "artist_id": artist_id, "watchlist_id": watchlist_id, "row_id": row_id}
 
   def create_nextup_table(self):
     """
@@ -85,7 +89,7 @@ class C_Home_NextUp(C_Home_NextUpTemplate):
     """
     
     # 3. Generate table rows for each artist
-    for item in self.data:
+    for i, item in enumerate(self.data):
       artist_id = item.get('artist_id', '')
       artist_name = item.get('name', 'Unknown')
       artist_pic_url = item.get('artist_picture_url', '')
@@ -99,17 +103,16 @@ class C_Home_NextUp(C_Home_NextUpTemplate):
       # Format priority with first letter capitalized
       priority_display = priority.capitalize() if priority else ''
       
-      # Default toggle state based on priority (example logic)
-      is_checked = 'checked' if priority == 'high' or priority == 'very high' else ''
+      # Create unique row ID
+      row_id = f"nextup-row-{i}"
       
       # Add the row for this artist
       html_content += f"""
-        <tr class="nextup-row" onclick="window.artistClicked(event, '{artist_id}')">
-          <td class="nextup-toggle-cell">
-            <label class="toggle-switch">
-              <input type="checkbox" {is_checked} onclick="window.toggleClicked(event, '{artist_id}', '{watchlist_id}', this.checked)">
-              <span class="toggle-slider"></span>
-            </label>
+        <tr id="{row_id}" class="nextup-row" onclick="window.artistClicked(event, '{artist_id}')">
+          <td class="nextup-radio-cell">
+            <div class="radio-button" onclick="window.radioClicked(event, '{artist_id}', '{watchlist_id}', '{row_id}')">
+              <div class="radio-dot"></div>
+            </div>
           </td>
           <td class="nextup-pic-cell">
             <img src="{artist_pic_url}" class="nextup-artist-pic" alt="{artist_name}">
@@ -141,11 +144,12 @@ class C_Home_NextUp(C_Home_NextUpTemplate):
       event.stopPropagation();
       console.log('Artist clicked, ID:', artistId);
       
-      // Ignore clicks on the button or toggle
+      // Ignore clicks on the button or radio
       if (event.target.closest('.icon-button-disabled-small') || 
           event.target.closest('i.fa') ||
-          event.target.closest('.toggle-switch')) {
-        console.log('Button or toggle clicked, stopping propagation');
+          event.target.closest('.radio-button') ||
+          event.target.closest('.radio-dot')) {
+        console.log('Button or radio clicked, stopping propagation');
         return;
       }
       
@@ -165,28 +169,46 @@ class C_Home_NextUp(C_Home_NextUpTemplate):
       }
     };
     
-    // Function to handle toggle switch clicks
-    window.toggleClicked = function(event, artistId, watchlistId, isChecked) {
+    // Function to handle radio button clicks
+    window.radioClicked = function(event, artistId, watchlistId, rowId) {
       event.stopPropagation();
-      console.log('Toggle clicked for artist:', artistId, 'watchlist:', watchlistId, 'state:', isChecked);
+      console.log('Radio clicked for artist:', artistId, 'watchlist:', watchlistId);
       
-      // Add shimmering effect animation
-      const toggleSlider = event.target.nextElementSibling;
-      toggleSlider.style.transition = '.5s';
+      // Add clicked class to show animation
+      const radioDot = event.target.closest('.radio-dot') || event.target;
+      radioDot.classList.add('clicked');
       
       // Call the Python callback
-      if (typeof window.pyToggleClicked === 'function') {
+      if (typeof window.pyRadioClicked === 'function') {
         try {
-          window.pyToggleClicked(artistId, watchlistId, isChecked).then(function(result) {
-            console.log('Python toggle callback completed:', result);
+          window.pyRadioClicked(artistId, watchlistId, rowId).then(function(result) {
+            console.log('Python radio callback completed:', result);
+            
+            // Remove the row after a short delay for the animation
+            setTimeout(function() {
+              const row = document.getElementById(rowId);
+              if (row) {
+                // Add fade-out animation
+                row.style.transition = 'opacity 0.3s ease, height 0.3s ease';
+                row.style.opacity = '0';
+                row.style.height = '0';
+                
+                // Actually remove the row after animation completes
+                setTimeout(function() {
+                  if (row.parentNode) {
+                    row.parentNode.removeChild(row);
+                  }
+                }, 300);
+              }
+            }, 200);
           }).catch(function(error) {
-            console.error('Error in Python toggle callback:', error);
+            console.error('Error in Python radio callback:', error);
           });
         } catch (err) {
-          console.error('Error calling Python toggle function:', err);
+          console.error('Error calling Python radio function:', err);
         }
       } else {
-        console.warn('Python toggle callback not available');
+        console.warn('Python radio callback not available');
       }
     };
     """
