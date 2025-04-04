@@ -528,8 +528,20 @@ class C_Home_Agents(C_Home_AgentsTemplate):
             }
           });
           
-          // Return center position
-          return (containerWidth - totalContentWidth) / 2;
+          // Calculate center position
+          let centerPos = (containerWidth - totalContentWidth) / 2;
+          
+          // Add a small adjustment to compensate for any measurement inaccuracies
+          // This helps ensure perfect visual centering
+          centerPos += 35; // Adjust by 35px to the left
+          
+          console.log('MODEL_ACTIVATION_JS: SLIDER_DEBUG: Center calculation - container width: ' + 
+                    containerWidth + ', content width: ' + totalContentWidth + 
+                    ', raw center: ' + ((containerWidth - totalContentWidth) / 2) + 
+                    ', adjusted center: ' + centerPos);
+          
+          // Return the calculated and adjusted center position
+          return centerPos;
         }
         
         // Function to update slider position
