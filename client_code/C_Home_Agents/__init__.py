@@ -510,6 +510,28 @@ class C_Home_Agents(C_Home_AgentsTemplate):
           return visibleBoxes;
         }
         
+        // Function to calculate the center position
+        function calculateCenterPosition() {
+          const container = track.parentElement;
+          const containerWidth = container.offsetWidth;
+          
+          // Calculate total content width
+          let totalContentWidth = 0;
+          boxes.forEach(function(box, index) {
+            // Add width of current box
+            totalContentWidth += box.offsetWidth;
+            
+            // Add margin except for last box
+            if (index < boxes.length - 1) {
+              const style = window.getComputedStyle(box);
+              totalContentWidth += parseInt(style.marginRight || 0);
+            }
+          });
+          
+          // Return center position
+          return (containerWidth - totalContentWidth) / 2;
+        }
+        
         // Function to update slider position
         function updateSliderPosition(position) {
           currentPosition = position;
@@ -531,9 +553,7 @@ class C_Home_Agents(C_Home_AgentsTemplate):
                      
           // Center the content if all boxes can fit with room to spare
           if (boxes.length <= visibleBoxes) {
-            // Add a CSS class instead of directly manipulating style
-            track.parentElement.classList.add('center-slider-content');
-            track.style.transform = 'none'; // Remove transform so CSS centering can work
+            centerContent();
           } else {
             // Remove centering class if we need to scroll
             track.parentElement.classList.remove('center-slider-content');
@@ -560,6 +580,12 @@ class C_Home_Agents(C_Home_AgentsTemplate):
           rightArrow.style.display = currentPosition >= maxPosition ? 'none' : 'flex';
         }
         
+        // Function to center content with animation
+        function centerContent() {
+          const centerPos = calculateCenterPosition();
+          track.style.transform = 'translateX(' + centerPos + 'px)';
+        }
+        
         // Set up click handlers for arrows
         leftArrow.addEventListener('click', function() {
           updateSliderPosition(currentPosition - boxWidth);
@@ -578,24 +604,29 @@ class C_Home_Agents(C_Home_AgentsTemplate):
         const allContentFits = boxes.length <= visibleBoxes;
         
         if (allContentFits) {
-          // Start with no centering
-          track.style.transform = 'translateX(0)';
-          
           // Hide arrows since all content fits
           leftArrow.style.display = 'none';
           rightArrow.style.display = 'none';
           
-          // Add a slight delay then transition to centered position
+          // Two-step animation process:
+          // 1. Ensure there's no transition initially and set to left position
+          track.style.transition = 'none';
+          track.style.transform = 'translateX(0px)';
+          
+          // Get dimensions before animation starts
+          const centerPos = calculateCenterPosition();
+          console.log('MODEL_ACTIVATION_JS: SLIDER_DEBUG: Will animate to: ' + centerPos + 'px');
+          
+          // 2. After a brief delay, set up the transition and move to center
+          // This delay ensures the browser has rendered the initial position
           setTimeout(function() {
-            // First add transition before changing class for smooth animation
-            track.style.transition = 'all 0.8s ease-in-out';
+            // Add transition
+            track.style.transition = 'transform 0.8s cubic-bezier(0.215, 0.61, 0.355, 1)';
             
-            // Then add the centering class which will animate thanks to the transition
-            track.parentElement.classList.add('center-slider-content');
-            track.style.transform = 'none'; // Remove transform so CSS centering can work
-            
-            console.log('MODEL_ACTIVATION_JS: SLIDER_DEBUG: Animating to centered position');
-          }, 100);
+            // Apply the centered position with animation
+            track.style.transform = 'translateX(' + centerPos + 'px)';
+            console.log('MODEL_ACTIVATION_JS: SLIDER_DEBUG: Animation started');
+          }, 300);
         } else {
           // Regular initialization at left edge
           updateSliderPosition(0);
