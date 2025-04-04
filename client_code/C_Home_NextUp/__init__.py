@@ -24,6 +24,7 @@ class C_Home_NextUp(C_Home_NextUpTemplate):
     # 1. Register JavaScript callbacks
     anvil.js.window.pyArtistClicked = self.handle_artist_click
     anvil.js.window.pyRadioClicked = self.handle_radio_click
+    anvil.js.window.pyWatchlistClicked = self.handle_watchlist_click
     
     # 2. Create NextUp table
     self.create_nextup_table()
@@ -60,6 +61,21 @@ class C_Home_NextUp(C_Home_NextUpTemplate):
     # anvil.server.call('update_artist_status', artist_id, watchlist_id)
     
     return {"success": True, "artist_id": artist_id, "watchlist_id": watchlist_id, "row_id": row_id}
+    
+  def handle_watchlist_click(self, artist_id, watchlist_id):
+    """
+    JavaScript callback for when the watchlist icon button is clicked.
+    Redirects to the watchlist details page.
+    
+    Args:
+        artist_id: The ID of the artist
+        watchlist_id: The ID of the watchlist entry
+    """
+    print(f"Watchlist button clicked for artist {artist_id}, watchlist {watchlist_id}")
+    
+    # Navigate to the watchlist details page
+    click_button('watchlist_details', {'watchlist_id': watchlist_id, 'artist_id': artist_id})
+    return {"success": True, "artist_id": artist_id, "watchlist_id": watchlist_id}
 
   def create_nextup_table(self):
     """
@@ -121,7 +137,10 @@ class C_Home_NextUp(C_Home_NextUpTemplate):
           <td class="nextup-status-cell">{status_display}</td>
           <td class="nextup-priority-cell">{priority_display}</td>
           <td class="nextup-button-cell">
-            <button class="icon-button-disabled-small" data-watchlist-id="{watchlist_id}">
+            <button class="icon-button-disabled-small" 
+                    data-watchlist-id="{watchlist_id}" 
+                    data-artist-id="{artist_id}" 
+                    onclick="window.watchlistClicked(event, '{artist_id}', '{watchlist_id}')">
               <i class="fa fa-vcard-o"></i>
             </button>
           </td>
@@ -174,33 +193,28 @@ class C_Home_NextUp(C_Home_NextUpTemplate):
       event.stopPropagation();
       console.log('Radio clicked for artist:', artistId, 'watchlist:', watchlistId);
       
-      // Add clicked class to show animation
-      const radioDot = event.target.closest('.radio-dot') || event.target;
-      radioDot.classList.add('clicked');
-      
       // Call the Python callback
       if (typeof window.pyRadioClicked === 'function') {
         try {
           window.pyRadioClicked(artistId, watchlistId, rowId).then(function(result) {
             console.log('Python radio callback completed:', result);
             
-            // Remove the row after a short delay for the animation
-            setTimeout(function() {
-              const row = document.getElementById(rowId);
-              if (row) {
-                // Add fade-out animation
-                row.style.transition = 'opacity 0.3s ease, height 0.3s ease';
-                row.style.opacity = '0';
-                row.style.height = '0';
-                
-                // Actually remove the row after animation completes
-                setTimeout(function() {
-                  if (row.parentNode) {
-                    row.parentNode.removeChild(row);
-                  }
-                }, 300);
-              }
-            }, 200);
+            // Remove the row immediately after callback completes
+            const row = document.getElementById(rowId);
+            if (row) {
+              // Add fade-out animation
+              row.style.transition = 'opacity 0.3s ease';
+              row.style.opacity = '0';
+              
+              // Actually remove the row after animation completes
+              setTimeout(function() {
+                if (row.parentNode) {
+                  row.parentNode.removeChild(row);
+                }
+              }, 300);
+            } else {
+              console.warn('Row not found:', rowId);
+            }
           }).catch(function(error) {
             console.error('Error in Python radio callback:', error);
           });
@@ -209,6 +223,27 @@ class C_Home_NextUp(C_Home_NextUpTemplate):
         }
       } else {
         console.warn('Python radio callback not available');
+      }
+    };
+    
+    // Function to handle watchlist icon button clicks
+    window.watchlistClicked = function(event, artistId, watchlistId) {
+      event.stopPropagation();
+      console.log('Watchlist button clicked for artist:', artistId, 'watchlist:', watchlistId);
+      
+      // Call the Python callback
+      if (typeof window.pyWatchlistClicked === 'function') {
+        try {
+          window.pyWatchlistClicked(artistId, watchlistId).then(function(result) {
+            console.log('Python watchlist callback completed:', result);
+          }).catch(function(error) {
+            console.error('Error in Python watchlist callback:', error);
+          });
+        } catch (err) {
+          console.error('Error calling Python watchlist function:', err);
+        }
+      } else {
+        console.warn('Python watchlist callback not available');
       }
     };
     """
