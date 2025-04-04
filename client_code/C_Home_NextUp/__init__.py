@@ -21,101 +21,99 @@ class C_Home_NextUp(C_Home_NextUpTemplate):
     # Any code you write here will run before the form opens.
     self.data = data
     
-    # 1. Create custom HTML table to display next up items
+    # 1. Register JavaScript callback for the artist click
+    anvil.js.window.pyArtistClicked = self.handle_artist_click
+    
+    # 2. Create NextUp table
     self.create_nextup_table()
     
+  def form_show(self, **event_args):
+    """This method is called when the HTML panel is shown on the screen"""
+    pass
+    
+  def handle_artist_click(self, artist_id):
+    """
+    JavaScript callback for when an artist row is clicked.
+    
+    Args:
+        artist_id: The ID of the artist to navigate to
+    """
+    # Navigate to the artist's page using the nav.click_button function
+    click_button('artist_view', {'artist_id': artist_id})
+    return {"success": True, "artist_id": artist_id}
+
   def create_nextup_table(self):
     """
-    Creates a custom HTML table to display the next up artists with their pictures and names.
+    Creates the NextUp table with artist data
     """
-    # 1.1 Clear any existing content
-    self.nextup_panel.clear()
-    
-    # 1.2 Create the HTML component with the table
-    html_template = """
+    # 1. Create the main container HTML
+    html_content = """
     <div class="nextup-container">
       <table class="nextup-table">
         <tbody id="nextup-table-body">
+    """
+    
+    # 2. Generate table rows for each artist
+    for item in self.data:
+      artist_id = item.get('artist_id', '')
+      artist_name = item.get('name', 'Unknown')
+      artist_pic_url = item.get('artist_picture_url', '')
+      status = item.get('status', '')
+      priority = item.get('priority', '')
+      watchlist_id = item.get('watchlist_id', '')
+      
+      # Status mapping based on the image
+      status_display = 'Expl. op.' if status == 'Action required' else 'Build con.' if status == 'Awaiting response' else 'Contact'
+      
+      # Format priority with first letter capitalized
+      priority_display = priority.capitalize() if priority else ''
+      
+      # Add the row for this artist
+      html_content += f"""
+        <tr class="nextup-row" onclick="window.artistClicked(event, '{artist_id}')">
+          <td class="nextup-pic-cell">
+            <img src="{artist_pic_url}" class="nextup-artist-pic" alt="{artist_name}">
+          </td>
+          <td class="nextup-name-cell">{artist_name}</td>
+          <td class="nextup-status-cell">{status_display}</td>
+          <td class="nextup-priority-cell">{priority_display}</td>
+          <td class="nextup-id-cell">{watchlist_id}</td>
+        </tr>
+      """
+    
+    # 3. Complete the HTML
+    html_content += """
         </tbody>
       </table>
     </div>
     """
     
-    # 1.3 Add the HTML component to the panel
-    html_component = HTML(html=html_template)
-    self.nextup_panel.add_component(html_component)
-    
-    # 1.4 Create JavaScript to populate the table
+    # 4. JavaScript for handling clicks
     js_code = """
-    function populateNextUpTable(data) {
-      const tableBody = document.getElementById('nextup-table-body');
+    console.log('NextUp table JavaScript loaded');
+    
+    // Function to handle artist row clicks
+    window.artistClicked = function(event, artistId) {
+      event.stopPropagation();
+      console.log('Artist clicked, ID:', artistId);
       
-      // Clear existing content
-      tableBody.innerHTML = '';
-      
-      // Add rows for each artist
-      data.forEach(item => {
-        const row = document.createElement('tr');
-        row.className = 'nextup-row';
-        row.setAttribute('data-artist-id', item.artist_id);
-        
-        // Artist picture cell
-        const picCell = document.createElement('td');
-        picCell.className = 'nextup-pic-cell';
-        const img = document.createElement('img');
-        img.src = item.artist_picture_url;
-        img.alt = item.name;
-        img.className = 'nextup-artist-pic';
-        picCell.appendChild(img);
-        
-        // Artist name cell
-        const nameCell = document.createElement('td');
-        nameCell.className = 'nextup-name-cell';
-        nameCell.textContent = item.name;
-        
-        // Status cell
-        const statusCell = document.createElement('td');
-        statusCell.className = 'nextup-status-cell';
-        statusCell.textContent = item.status === 'Action required' ? 'Expl. op.' : 
-                               (item.status === 'Awaiting response' ? 'Build con.' : 'Contact');
-        
-        // Priority cell
-        const priorityCell = document.createElement('td');
-        priorityCell.className = 'nextup-priority-cell';
-        priorityCell.textContent = item.priority.charAt(0).toUpperCase() + item.priority.slice(1);
-        
-        // ID cell
-        const idCell = document.createElement('td');
-        idCell.className = 'nextup-id-cell';
-        idCell.textContent = item.watchlist_id;
-        
-        // Add cells to row
-        row.appendChild(picCell);
-        row.appendChild(nameCell);
-        row.appendChild(statusCell);
-        row.appendChild(priorityCell);
-        row.appendChild(idCell);
-        
-        // Add click handler
-        row.addEventListener('click', function() {
-          console.log('Clicked on artist:', item.name, 'ID:', item.artist_id);
-          // Call Python click handler
-          _anvil.call('nextup_row_click', item);
-        });
-        
-        // Add row to table
-        tableBody.appendChild(row);
-      });
-    }
+      // Call the Python callback
+      if (typeof window.pyArtistClicked === 'function') {
+        try {
+          window.pyArtistClicked(artistId).then(function(result) {
+            console.log('Python callback completed:', result);
+          }).catch(function(error) {
+            console.error('Error in Python callback:', error);
+          });
+        } catch (err) {
+          console.error('Error calling Python function:', err);
+        }
+      } else {
+        console.warn('Python callback not available');
+      }
+    };
     """
     
-    # 1.5 Execute the JavaScript and populate the table
+    # 5. Set the HTML content and evaluate the JavaScript
+    self.html = html_content
     anvil.js.call_js('eval', js_code)
-    anvil.js.call_js('populateNextUpTable', self.data)
-    
-  def nextup_row_click(self, item, **event_args):
-    """
-    Handle clicks on the table rows
-    """
-    # Navigate to the artist's page using the nav.click_button function
-    click_button('artist_view', {'artist_id': item['artist_id']})

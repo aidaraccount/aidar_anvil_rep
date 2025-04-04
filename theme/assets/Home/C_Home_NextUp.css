@@ -1,0 +1,72 @@
+/* 1. NextUp container and table */
+.nextup-container {
+    padding: 8px 0;
+    margin: 0;
+}
+
+.nextup-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: var(--Dark-blue);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+/* 2. NextUp table rows */
+.nextup-row {
+    cursor: pointer;
+    height: 36px;
+    transition: background-color 0.2s ease;
+}
+
+.nextup-row:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+/* 3. NextUp table cells */
+.nextup-pic-cell {
+    width: 24px;
+    padding: 0 4px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.nextup-artist-pic {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.nextup-name-cell {
+    padding: 0 8px;
+    color: var(--Orange);
+    font-weight: 500;
+    font-size: 14px;
+    vertical-align: middle;
+}
+
+.nextup-status-cell {
+    padding: 0 8px;
+    color: white;
+    font-size: 12px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.nextup-priority-cell {
+    padding: 0 8px;
+    color: white;
+    font-size: 12px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.nextup-id-cell {
+    padding: 0 8px;
+    color: white;
+    font-size: 12px;
+    text-align: center;
+    vertical-align: middle;
+    width: 20px;
+}
