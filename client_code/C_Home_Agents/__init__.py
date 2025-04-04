@@ -12,13 +12,19 @@ from ..nav import click_button, save_var
 import time
 from anvil.js.window import location
 
+# Global user variable
+user = None
+
 
 class C_Home_Agents(C_Home_AgentsTemplate):
   def __init__(self, data, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
 
-    # Any code you write here will run before the form opens.    
+    # Any code you write here will run before the form opens.
+    global user
+    user = anvil.users.get_user()
+
     # Convert string data to list of dictionaries if needed
     if isinstance(data, str):
       try:
@@ -44,7 +50,6 @@ class C_Home_Agents(C_Home_AgentsTemplate):
   def form_show(self, **event_args):
     """This method is called when the HTML panel is shown on the screen"""
     # Log initial state
-    user = anvil.users.get_user()
     current_model = get_open_form().get_model_id() if hasattr(get_open_form(), 'get_model_id') else 'unknown'
     
   def handle_discover_click(self, artist_id, model_id, ctrl_key=False):
@@ -59,30 +64,14 @@ class C_Home_Agents(C_Home_AgentsTemplate):
     timestamp = time.time()
     
     try:
-      # Make sure model_id is passed correctly
-      if not model_id:
-        print(f"DISCOVER_CLICK [{timestamp}]: WARNING: No model_id provided in discover click")
-        return {"success": False, "error": "No model_id provided"}
-        
-      # Convert model_id to string if needed
-      model_id_str = str(model_id).strip()
-      print(f"DISCOVER_CLICK [{timestamp}]: Converted model_id to string: {model_id_str}")
+      # Store model_id for Discover page
+      save_var('model_id', model_id)
       
-      # Activate the model - call the required functions directly here to ensure they run
-      user = anvil.users.get_user()
-      if user:
-        # Store model_id for reference
-        self.model_id_view = model_id_str
-        save_var('model_id', model_id_str)
-        
-        # Update model usage on server
-        anvil.server.call('update_model_usage', user["user_id"], model_id_str)
-        get_open_form().refresh_models_underline()
-        get_open_form().reset_nav_backgrounds()
-        
-      else:
-        print(f"DISCOVER_CLICK [{timestamp}]: No user found, cannot activate model")
-    
+      # Update model usage on server
+      anvil.server.call('update_model_usage', user["user_id"], model_id)
+      get_open_form().refresh_models_underline()
+      get_open_form().reset_nav_backgrounds()
+      
       # Log final status
       print(f"DISCOVER_CLICK [{timestamp}]: Handler completed successfully")
       
@@ -90,7 +79,7 @@ class C_Home_Agents(C_Home_AgentsTemplate):
       return {
         "success": True,
         "artist_id": artist_id,
-        "model_id": model_id_str,
+        "model_id": model_id,
         "ctrl_key": ctrl_key
       }
     except Exception as e:
@@ -139,17 +128,15 @@ class C_Home_Agents(C_Home_AgentsTemplate):
           next_level_text = ""
           progress_bar_class = ""
           
-          if model_level == "Pro":
-            next_level_text = "You're a Pro"
-            progress_bar_class = "progress-bar-pro"
+          if model_level == "Rookie":
+            next_level_text = f"{no_missing_ratings} ratings to Junior"
+          elif model_level == "Junior":
+            next_level_text = f"{no_missing_ratings} ratings to Senior"
           elif model_level == "Senior":
             next_level_text = f"{no_missing_ratings} ratings to Pro"
-          elif model_level == "Junior" or model_level == "Rookie":
-            next_level_text = f"{no_missing_ratings} ratings to Senior"
-          elif model_level == "Rookie":
-            next_level_text = f"{no_missing_ratings} ratings to Junior"
-          else:
-            next_level_text = f"{no_missing_ratings} ratings to go"
+          elif model_level == "Pro":
+            next_level_text = "You're a Pro"
+            progress_bar_class = "progress-bar-pro"
           
           # Generate the stars HTML - always 3 stars, with 'no_stars' colored orange
           stars_html = ""
