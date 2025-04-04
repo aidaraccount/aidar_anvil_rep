@@ -531,22 +531,47 @@ class C_Home_Agents(C_Home_AgentsTemplate):
                      
           // Center the content if all boxes can fit with room to spare
           if (boxes.length <= visibleBoxes) {
-            const container = track.parentElement;
-            const containerWidth = container.offsetWidth;
-            const totalContentWidth = boxes.length * boxWidth;
-            
-            // Calculate extra space and center position
-            const extraSpace = containerWidth - totalContentWidth;
-            const centerPosition = Math.max(0, extraSpace / 2);
-            
-            // Apply centering with transform
-            track.style.transform = 'translateX(' + centerPosition + 'px)';
-            console.log('MODEL_ACTIVATION_JS: SLIDER_DEBUG: Centering content - extra space: ' + 
-                       extraSpace + 'px, centerPosition: ' + centerPosition + 'px');
+            centerContent();
           }
           
           // Update arrow visibility based on position
           updateArrowVisibility();
+        }
+        
+        // Function to center content
+        function centerContent() {
+          const container = track.parentElement;
+          const containerWidth = container.offsetWidth;
+          
+          // Calculate actual width of all boxes (based on actual DOM measurements)
+          let totalBoxesWidth = 0;
+          for (let i = 0; i < boxes.length; i++) {
+            const box = boxes[i];
+            const style = window.getComputedStyle(box);
+            const width = box.offsetWidth;
+            const marginRight = parseInt(style.marginRight) || 0;
+            
+            // Add width and margin (except for last box)
+            if (i < boxes.length - 1) {
+              totalBoxesWidth += width + marginRight;
+            } else {
+              totalBoxesWidth += width; // Last box doesn't need margin
+            }
+          }
+          
+          // Calculate centering offset
+          const extraSpace = containerWidth - totalBoxesWidth;
+          let centerOffset = Math.floor(extraSpace / 2);
+          
+          // Ensure we don't have negative offset
+          centerOffset = Math.max(0, centerOffset);
+          
+          // Apply transform for centering
+          track.style.transform = 'translateX(' + centerOffset + 'px)';
+          
+          console.log('MODEL_ACTIVATION_JS: SLIDER_DEBUG: Centering with measured widths - ' +
+                     'container: ' + containerWidth + 'px, content: ' + totalBoxesWidth + 'px, ' +
+                     'offset: ' + centerOffset + 'px');
         }
         
         // Function to update arrow visibility
@@ -584,16 +609,9 @@ class C_Home_Agents(C_Home_AgentsTemplate):
         const allContentFits = boxes.length <= visibleBoxes;
         
         if (allContentFits) {
-          const container = track.parentElement;
-          const containerWidth = container.offsetWidth;
-          const totalContentWidth = boxes.length * boxWidth;
-          const extraSpace = containerWidth - totalContentWidth;
-          const centerPosition = Math.max(0, extraSpace / 2);
+          // Use the more accurate centering method for initial positioning
+          centerContent();
           
-          track.style.transform = 'translateX(' + centerPosition + 'px)';
-          console.log('MODEL_ACTIVATION_JS: SLIDER_DEBUG: Initial centering - extra space: ' + 
-                    extraSpace + 'px, centerPosition: ' + centerPosition + 'px');
-                    
           // Hide arrows since all content fits
           leftArrow.style.display = 'none';
           rightArrow.style.display = 'none';
