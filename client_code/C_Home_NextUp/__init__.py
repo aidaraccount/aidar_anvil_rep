@@ -21,8 +21,9 @@ class C_Home_NextUp(C_Home_NextUpTemplate):
     # Any code you write here will run before the form opens.
     self.data = data
     
-    # 1. Register JavaScript callback for the artist click
+    # 1. Register JavaScript callbacks
     anvil.js.window.pyArtistClicked = self.handle_artist_click
+    anvil.js.window.pyToggleClicked = self.handle_toggle_click
     
     # 2. Create NextUp table
     self.create_nextup_table()
@@ -41,6 +42,20 @@ class C_Home_NextUp(C_Home_NextUpTemplate):
     # Navigate to the artist's page using the nav.click_button function
     click_button('artist_view', {'artist_id': artist_id})
     return {"success": True, "artist_id": artist_id}
+    
+  def handle_toggle_click(self, artist_id, watchlist_id, is_checked):
+    """
+    JavaScript callback for when a toggle switch is clicked.
+    
+    Args:
+        artist_id: The ID of the artist
+        watchlist_id: The ID of the watchlist entry
+        is_checked: Boolean indicating if the toggle is checked
+    """
+    print(f"Toggle clicked for artist {artist_id}, watchlist {watchlist_id}, state: {is_checked}")
+    # Here you would typically update a database or perform an action
+    # anvil.server.call('update_artist_status', artist_id, watchlist_id, is_checked)
+    return {"success": True, "artist_id": artist_id, "watchlist_id": watchlist_id, "is_checked": is_checked}
 
   def create_nextup_table(self):
     """
@@ -84,9 +99,18 @@ class C_Home_NextUp(C_Home_NextUpTemplate):
       # Format priority with first letter capitalized
       priority_display = priority.capitalize() if priority else ''
       
+      # Default toggle state based on priority (example logic)
+      is_checked = 'checked' if priority == 'high' or priority == 'very high' else ''
+      
       # Add the row for this artist
       html_content += f"""
         <tr class="nextup-row" onclick="window.artistClicked(event, '{artist_id}')">
+          <td class="nextup-toggle-cell">
+            <label class="toggle-switch">
+              <input type="checkbox" {is_checked} onclick="window.toggleClicked(event, '{artist_id}', '{watchlist_id}', this.checked)">
+              <span class="toggle-slider"></span>
+            </label>
+          </td>
           <td class="nextup-pic-cell">
             <img src="{artist_pic_url}" class="nextup-artist-pic" alt="{artist_name}">
           </td>
@@ -117,10 +141,11 @@ class C_Home_NextUp(C_Home_NextUpTemplate):
       event.stopPropagation();
       console.log('Artist clicked, ID:', artistId);
       
-      // Ignore clicks on the button
+      // Ignore clicks on the button or toggle
       if (event.target.closest('.icon-button-disabled-small') || 
-          event.target.closest('i.fa')) {
-        console.log('Button clicked, stopping propagation');
+          event.target.closest('i.fa') ||
+          event.target.closest('.toggle-switch')) {
+        console.log('Button or toggle clicked, stopping propagation');
         return;
       }
       
@@ -137,6 +162,31 @@ class C_Home_NextUp(C_Home_NextUpTemplate):
         }
       } else {
         console.warn('Python callback not available');
+      }
+    };
+    
+    // Function to handle toggle switch clicks
+    window.toggleClicked = function(event, artistId, watchlistId, isChecked) {
+      event.stopPropagation();
+      console.log('Toggle clicked for artist:', artistId, 'watchlist:', watchlistId, 'state:', isChecked);
+      
+      // Add shimmering effect animation
+      const toggleSlider = event.target.nextElementSibling;
+      toggleSlider.style.transition = '.5s';
+      
+      // Call the Python callback
+      if (typeof window.pyToggleClicked === 'function') {
+        try {
+          window.pyToggleClicked(artistId, watchlistId, isChecked).then(function(result) {
+            console.log('Python toggle callback completed:', result);
+          }).catch(function(error) {
+            console.error('Error in Python toggle callback:', error);
+          });
+        } catch (err) {
+          console.error('Error calling Python toggle function:', err);
+        }
+      } else {
+        console.warn('Python toggle callback not available');
       }
     };
     """
