@@ -16,6 +16,7 @@ from ..nav import click_link, click_button, click_box, logout, login_check, load
 
 from ..C_Short import C_Short
 from ..C_Home_Agents import C_Home_Agents
+from ..C_Home_NextUp import C_Home_NextUp
 
 
 @routing.route('', title='Home')
@@ -124,7 +125,6 @@ class Home(HomeTemplate):
   # 2.1 AGENTS METHODS
   def load_agents_async(self):
     """Starts asynchronous loading of agents data"""
-    # Call asynchronously
     async_call = call_async("get_home_agents", user["user_id"])
     async_call.on_result(self.agents_loaded)
     
@@ -140,15 +140,12 @@ class Home(HomeTemplate):
     # Check if we should update the current instance or the active instance
     if active_instance and active_instance.instance_id != self.instance_id:
       print(f"HOME ASYNC [{self.instance_id}] - Updating active instance [{active_instance.instance_id}] with agents", flush=True)
-      # Process agents in the active instance
       active_instance.process_agents_data(data)
     else:
-      # Process stats in this instance
       self.process_agents_data(data)
     
   def process_agents_data(self, data):
     """Process and display agents data"""
-    # Process agents data
     self.sec_agents.add_component(C_Home_Agents(data=data))
 
     
@@ -156,7 +153,6 @@ class Home(HomeTemplate):
   # 2.2 NEXT METHODS
   def load_next_async(self):
     """Starts asynchronous loading of next data"""
-    # Call asynchronously
     async_call = call_async("get_home_next", user["user_id"])
     async_call.on_result(self.next_loaded)
   
@@ -172,19 +168,14 @@ class Home(HomeTemplate):
     # Check if we should update the current instance or the active instance
     if active_instance and active_instance.instance_id != self.instance_id:
       print(f"HOME ASYNC [{self.instance_id}] - Updating active instance [{active_instance.instance_id}] with next", flush=True)
-      # Process next in the active instance
       active_instance.process_next_data(data)
     else:
-      # Process stats in this instance
       self.process_next_data(data)
     
   def process_next_data(self, data):
     """Process and display next data"""
-    # Process next data
     data = json.loads(data)
-    print(data)
-    self.rep_pan_next.items = data
-
+    self.sec_next.add_component(C_Home_NextUp(data=data))
 
   
   # ------
@@ -192,10 +183,6 @@ class Home(HomeTemplate):
   def load_shorts_async(self, selected_wl_ids=None):
     """
     Starts asynchronous loading of shorts data
-    
-    Args:
-        selected_wl_ids: Optional list of selected watchlist IDs. If provided, 
-                        only these watchlists will be used.
     """
     # Call asynchronously
     async_call = call_async("get_home_shorts", user["user_id"], selected_wl_ids)
@@ -213,14 +200,10 @@ class Home(HomeTemplate):
     # Check if we should update the current instance or the active instance
     if active_instance and active_instance.instance_id != self.instance_id:
       print(f"HOME ASYNC [{self.instance_id}] - Updating active instance [{active_instance.instance_id}]", flush=True)
-      # Process watchlists in the active instance, preserving selection state
       active_wl_ids = active_instance.setup_watchlists(result["watchlists"])
-      # Process shorts in the active instance
       active_instance.process_shorts(result["shorts"])
     else:
-      # Process watchlists in this instance, preserving selection state
       active_wl_ids = self.setup_watchlists(result["watchlists"])
-      # Process shorts in this instance
       self.process_shorts(result["shorts"])
   
   def setup_watchlists(self, watchlists):
@@ -236,11 +219,9 @@ class Home(HomeTemplate):
     self.flow_panel_watchlists.clear()
         
     if watchlists is not None and len(watchlists) > 0:
-      # We have data - no need to show "no watchlists" message
       self.no_watchlists.visible = False
       self.reload.visible = False
       
-      # Track active watchlist IDs for initial load
       active_wl_ids = []
       
       for i in range(0, len(watchlists)):
@@ -248,7 +229,6 @@ class Home(HomeTemplate):
         wl_id_str = str(wl_id)
         
         # Determine role based on previous state
-        # Default to active (genre-box) for first load
         role = current_states.get(wl_id_str, "genre-box")
         
         # Create the link with the appropriate role
@@ -278,7 +258,6 @@ class Home(HomeTemplate):
   
   def process_shorts(self, shorts):
     """Process and display shorts data"""
-    # Reset the shorts container first
     self.flow_panel_shorts.clear()
     self.num_shorts = 0
     
@@ -289,7 +268,6 @@ class Home(HomeTemplate):
       print(f"HOME INIT [{self.instance_id}] - No shorts to display", flush=True)
       return
     
-    # We have shorts to display
     self.no_shorts.visible = False
     
     # Parse and add shorts components
