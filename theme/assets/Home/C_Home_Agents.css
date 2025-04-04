@@ -195,40 +195,28 @@
   background-color: rgba(255, 76, 43, 1);
 }
 
-/* Gradient overlays for agents behind navigation buttons */
+/* Edge transparency for model boxes */
+.model-box.edge-left {
+  mask-image: linear-gradient(to right, transparent 0%, rgba(0, 0, 0, 1) 100%);
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, rgba(0, 0, 0, 1) 100%);
+}
+
+.model-box.edge-right {
+  mask-image: linear-gradient(to left, transparent 0%, rgba(0, 0, 0, 1) 100%);
+  -webkit-mask-image: linear-gradient(to left, transparent 0%, rgba(0, 0, 0, 1) 100%);
+}
+
+/* Remove the previous gradient overlays */
 .slider-container::before,
 .slider-container::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  height: 100%;
-  width: 60px;
-  z-index: 5;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-.slider-container::before {
-  left: 0;
-  background: linear-gradient(to right, rgba(45, 45, 58, 1) 0%, rgba(45, 45, 58, 0) 100%);
-}
-
-.slider-container::after {
-  right: 0;
-  background: linear-gradient(to left, rgba(45, 45, 58, 1) 0%, rgba(45, 45, 58, 0) 100%);
-}
-
-/* Show gradients only when arrows are visible */
-.slider-container.show-arrows::before,
-.slider-container.show-arrows::after {
-  opacity: 1;
+  content: none;
 }
 
 .center-slider-content {
   display: flex;
   justify-content: center;
 }
-  
+
 .center-slider-content .slider-track {
   transform: none !important;
   width: auto;

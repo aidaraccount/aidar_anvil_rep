@@ -382,7 +382,7 @@ class C_Home_Agents(C_Home_AgentsTemplate):
           return centerPos;
         }
         
-        // Function to update arrow visibility
+        // Function to update arrow visibility and apply edge transparency
         function updateArrows() {
           // Calculate maxPosition based on how many boxes can be fully visible
           const visibleBoxes = calculateVisibleBoxes();
@@ -390,22 +390,35 @@ class C_Home_Agents(C_Home_AgentsTemplate):
           
           console.log('MODEL_ACTIVATION_JS: SLIDER_DEBUG: Updating arrows. Current position: ' + 
                      currentPosition + ', Max position: ' + maxPosition);
-                     
+          
+          // Remove all edge classes first
+          boxes.forEach(box => {
+            box.classList.remove('edge-left', 'edge-right');
+          });
+          
+          // Only apply edge effects if arrows are visible
+          const leftArrowVisible = currentPosition > 0;
+          const rightArrowVisible = currentPosition < maxPosition;
+          
           if (boxes.length <= visibleBoxes) {
             // If all boxes fit, hide both arrows
             leftArrow.style.display = 'none';
             rightArrow.style.display = 'none';
-            track.parentElement.classList.remove('show-arrows');
           } else {
             // Show/hide arrows based on position
-            leftArrow.style.display = currentPosition > 0 ? 'flex' : 'none';
-            rightArrow.style.display = currentPosition < maxPosition ? 'flex' : 'none';
+            leftArrow.style.display = leftArrowVisible ? 'flex' : 'none';
+            rightArrow.style.display = rightArrowVisible ? 'flex' : 'none';
             
-            // Add show-arrows class if any arrow is visible
-            if (currentPosition > 0 || currentPosition < maxPosition) {
-              track.parentElement.classList.add('show-arrows');
-            } else {
-              track.parentElement.classList.remove('show-arrows');
+            // Apply edge effects to the boxes at the edges of the visible area
+            if (leftArrowVisible && boxes[currentPosition]) {
+              boxes[currentPosition].classList.add('edge-left');
+            }
+            
+            if (rightArrowVisible) {
+              const lastVisibleIndex = Math.min(currentPosition + visibleBoxes - 1, boxes.length - 1);
+              if (boxes[lastVisibleIndex]) {
+                boxes[lastVisibleIndex].classList.add('edge-right');
+              }
             }
           }
         }
@@ -463,7 +476,6 @@ class C_Home_Agents(C_Home_AgentsTemplate):
           // Hide arrows since all content fits
           leftArrow.style.display = 'none';
           rightArrow.style.display = 'none';
-          track.parentElement.classList.remove('show-arrows');
           
           // Two-step animation process:
           // 1. Ensure there's no transition initially and set to left position
