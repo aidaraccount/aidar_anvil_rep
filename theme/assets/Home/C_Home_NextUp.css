@@ -97,11 +97,12 @@
     color: white;
     opacity: 0.7;
     cursor: pointer;
-    transition: opacity 0.2s ease;
+    transition: opacity 0.2s ease, color 0.2s ease;
 }
 
 .nextup-button-cell .icon-button-disabled-small:hover {
     opacity: 1;
+    color: var(--Orange);
 }
 
 .nextup-button-cell .fa {
@@ -149,7 +150,7 @@
 /* 6. Show more/less link styling */
 .nextup-toggle-container {
     text-align: right;
-    padding: 5px 10px;
+    padding: 0px 10px;
 }
 
 .nextup-toggle-link {
