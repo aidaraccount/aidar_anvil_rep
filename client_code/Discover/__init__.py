@@ -79,11 +79,10 @@ class Discover(DiscoverTemplate):
     
     # model_id
     model_id = load_var("model_id")
-    print(f"Discover model_id loaded: {model_id}")
     if model_id is None:
       save_var("model_id", anvil.server.call('get_model_id',  self.user_id))
     self.model_id = model_id
-    print(f"Discover model_id end: {model_id}")
+    print(f"Discover model_id: {model_id}")
 
     # watchlist_id
     watchlist_id = load_var("watchlist_id")

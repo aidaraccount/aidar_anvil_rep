@@ -128,17 +128,15 @@ class C_Home_Agents(C_Home_AgentsTemplate):
           next_level_text = ""
           progress_bar_class = ""
           
-          if model_level == "Pro":
-            next_level_text = "You're a Pro"
-            progress_bar_class = "progress-bar-pro"
+          if model_level == "Rookie":
+            next_level_text = f"{no_missing_ratings} ratings to Junior"
+          elif model_level == "Junior":
+            next_level_text = f"{no_missing_ratings} ratings to Senior"
           elif model_level == "Senior":
             next_level_text = f"{no_missing_ratings} ratings to Pro"
-          elif model_level == "Junior" or model_level == "Rookie":
-            next_level_text = f"{no_missing_ratings} ratings to Senior"
-          elif model_level == "Rookie":
-            next_level_text = f"{no_missing_ratings} ratings to Junior"
-          else:
-            next_level_text = f"{no_missing_ratings} ratings to go"
+          elif model_level == "Pro":
+            next_level_text = "You're a Pro"
+            progress_bar_class = "progress-bar-pro"
           
           # Generate the stars HTML - always 3 stars, with 'no_stars' colored orange
           stars_html = ""
