@@ -382,26 +382,50 @@ class C_Home_Agents(C_Home_AgentsTemplate):
           return centerPos;
         }
         
+        // Function to update arrow visibility
+        function updateArrows() {
+          // Calculate maxPosition based on how many boxes can be fully visible
+          const visibleBoxes = calculateVisibleBoxes();
+          const maxPosition = Math.max(0, boxes.length - visibleBoxes);
+          
+          console.log('MODEL_ACTIVATION_JS: SLIDER_DEBUG: Updating arrows. Current position: ' + 
+                     currentPosition + ', Max position: ' + maxPosition);
+                     
+          if (boxes.length <= visibleBoxes) {
+            // If all boxes fit, hide both arrows
+            leftArrow.style.display = 'none';
+            rightArrow.style.display = 'none';
+            track.parentElement.classList.remove('show-arrows');
+          } else {
+            // Show/hide arrows based on position
+            leftArrow.style.display = currentPosition > 0 ? 'flex' : 'none';
+            rightArrow.style.display = currentPosition < maxPosition ? 'flex' : 'none';
+            
+            // Add show-arrows class if any arrow is visible
+            if (currentPosition > 0 || currentPosition < maxPosition) {
+              track.parentElement.classList.add('show-arrows');
+            } else {
+              track.parentElement.classList.remove('show-arrows');
+            }
+          }
+        }
+        
         // Function to update slider position
-        function updateSliderPosition(position) {
+        function updatePosition(position) {
+          console.log('MODEL_ACTIVATION_JS: SLIDER_DEBUG: Updating position to: ' + position);
           currentPosition = position;
           
           // Clamp position so we can't scroll past the first or last item
-          const maxPosition = (boxes.length - calculateVisibleBoxes()) * boxWidth;
+          const visibleBoxes = calculateVisibleBoxes();
+          const maxPosition = Math.max(0, boxes.length - visibleBoxes);
+          
           if (currentPosition < 0) currentPosition = 0;
           if (currentPosition > maxPosition) currentPosition = maxPosition;
           
-          const transform = 'translateX(' + (-currentPosition) + 'px)';
-          track.style.transform = transform;
-          console.log('MODEL_ACTIVATION_JS: SLIDER_DEBUG: Updated slider position to: ' + 
-                     currentPosition + ' transform: ' + transform);
+          const newPosition = -currentPosition * boxWidth;
+          track.style.transform = 'translateX(' + newPosition + 'px)';
           
           // Check if we should center the slider content when there are few items
-          const visibleBoxes = calculateVisibleBoxes();
-          console.log('MODEL_ACTIVATION_JS: SLIDER_DEBUG: Centering check - visible boxes: ' + 
-                     visibleBoxes + ', total boxes: ' + boxes.length);
-                     
-          // Center the content if all boxes can fit with room to spare
           if (boxes.length <= visibleBoxes) {
             centerContent();
           } else {
@@ -409,25 +433,7 @@ class C_Home_Agents(C_Home_AgentsTemplate):
             track.parentElement.classList.remove('center-slider-content');
           }
           
-          // Update arrow visibility based on position
-          updateArrowVisibility();
-        }
-        
-        // Function to update arrow visibility
-        function updateArrowVisibility() {
-          const maxPosition = (boxes.length - calculateVisibleBoxes()) * boxWidth;
-          
-          // If all boxes fit, hide both arrows
-          if (maxPosition <= 0) {
-            leftArrow.style.display = 'none';
-            rightArrow.style.display = 'none';
-            console.log('MODEL_ACTIVATION_JS: SLIDER_DEBUG: Hiding arrows - all content fits');
-            return;
-          }
-          
-          // Otherwise show/hide based on position
-          leftArrow.style.display = currentPosition <= 0 ? 'none' : 'flex';
-          rightArrow.style.display = currentPosition >= maxPosition ? 'none' : 'flex';
+          updateArrows();
         }
         
         // Function to center content with animation
@@ -438,11 +444,11 @@ class C_Home_Agents(C_Home_AgentsTemplate):
         
         // Set up click handlers for arrows
         leftArrow.addEventListener('click', function() {
-          updateSliderPosition(currentPosition - boxWidth);
+          updatePosition(currentPosition - 1);
         });
         
         rightArrow.addEventListener('click', function() {
-          updateSliderPosition(currentPosition + boxWidth);
+          updatePosition(currentPosition + 1);
         });
         
         // Set initial position and arrow visibility
@@ -457,6 +463,7 @@ class C_Home_Agents(C_Home_AgentsTemplate):
           // Hide arrows since all content fits
           leftArrow.style.display = 'none';
           rightArrow.style.display = 'none';
+          track.parentElement.classList.remove('show-arrows');
           
           // Two-step animation process:
           // 1. Ensure there's no transition initially and set to left position
@@ -479,10 +486,20 @@ class C_Home_Agents(C_Home_AgentsTemplate):
           }, 300);
         } else {
           // Regular initialization at left edge
-          updateSliderPosition(0);
+          updatePosition(0);
         }
         
         console.log('MODEL_ACTIVATION_JS: SLIDER_DEBUG: Slider fully initialized');
+
+        // Listen for window resize to adjust visible boxes
+        window.addEventListener('resize', function() {
+          console.log('MODEL_ACTIVATION_JS: SLIDER_DEBUG: Window resized');
+          // Update arrow visibility on window resize
+          updateArrows();
+        });
+        
+        // Initial update
+        updateArrows();
       }, 50);
     """
     
