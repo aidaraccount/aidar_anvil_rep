@@ -531,12 +531,27 @@ class C_Home_Agents(C_Home_AgentsTemplate):
                      
           // Center the content if all boxes can fit with room to spare
           if (boxes.length <= visibleBoxes) {
-            // Add a CSS class instead of directly manipulating style
+            // First position at left edge to animate from
+            track.style.transition = 'none'; // Temporarily disable transition
+            track.style.transform = 'translateX(0)'; // Start from left edge
+            
+            // Force browser to recognize the initial position
+            void track.offsetWidth; // Trigger reflow
+            
+            // Now re-enable transition for smooth animation
+            track.style.transition = 'transform 0.8s ease-out';
+            
+            // Add centering class which will trigger the animation
             track.parentElement.classList.add('center-slider-content');
-            track.style.transform = 'none'; // Remove transform so CSS centering can work
+            
+            // Hide arrows since all content fits
+            leftArrow.style.display = 'none';
+            rightArrow.style.display = 'none';
+            
+            console.log('MODEL_ACTIVATION_JS: SLIDER_DEBUG: Animating to center position');
           } else {
-            // Remove centering class if we need to scroll
-            track.parentElement.classList.remove('center-slider-content');
+            // Regular initialization at left edge
+            updateSliderPosition(0);
           }
           
           // Update arrow visibility based on position
@@ -578,13 +593,24 @@ class C_Home_Agents(C_Home_AgentsTemplate):
         const allContentFits = boxes.length <= visibleBoxes;
         
         if (allContentFits) {
-          // Add a CSS class to center content instead of using JS positioning
+          // First position at left edge to animate from
+          track.style.transition = 'none'; // Temporarily disable transition
+          track.style.transform = 'translateX(0)'; // Start from left edge
+          
+          // Force browser to recognize the initial position
+          void track.offsetWidth; // Trigger reflow
+          
+          // Now re-enable transition for smooth animation
+          track.style.transition = 'transform 0.8s ease-out';
+          
+          // Add centering class which will trigger the animation
           track.parentElement.classList.add('center-slider-content');
-          track.style.transform = 'none'; // Remove transform so CSS centering can work
           
           // Hide arrows since all content fits
           leftArrow.style.display = 'none';
           rightArrow.style.display = 'none';
+          
+          console.log('MODEL_ACTIVATION_JS: SLIDER_DEBUG: Animating to center position');
         } else {
           // Regular initialization at left edge
           updateSliderPosition(0);

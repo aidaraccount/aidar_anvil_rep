@@ -293,8 +293,7 @@ Area 5: Page individual classes
 }
 
 .center-slider-content .slider-track {
-  transform: none !important;
-  width: auto;
+  margin: 0 auto;
 }
 
 /* ----------------------------
