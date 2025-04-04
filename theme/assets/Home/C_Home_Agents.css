@@ -197,13 +197,13 @@
 
 /* Edge transparency for model boxes */
 .model-box.edge-left {
-  mask-image: linear-gradient(to right, transparent 0%, rgba(0, 0, 0, 1) 100%);
-  -webkit-mask-image: linear-gradient(to right, transparent 0%, rgba(0, 0, 0, 1) 100%);
+  mask-image: linear-gradient(to right, transparent 0%, rgba(0, 0, 0, 0.5) 30%, rgba(0, 0, 0, 1) 60%, rgba(0, 0, 0, 1) 100%);
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, rgba(0, 0, 0, 0.5) 30%, rgba(0, 0, 0, 1) 60%, rgba(0, 0, 0, 1) 100%);
 }
 
 .model-box.edge-right {
-  mask-image: linear-gradient(to left, transparent 0%, rgba(0, 0, 0, 1) 100%);
-  -webkit-mask-image: linear-gradient(to left, transparent 0%, rgba(0, 0, 0, 1) 100%);
+  mask-image: linear-gradient(to left, transparent 0%, rgba(0, 0, 0, 0.5) 30%, rgba(0, 0, 0, 1) 60%, rgba(0, 0, 0, 1) 100%);
+  -webkit-mask-image: linear-gradient(to left, transparent 0%, rgba(0, 0, 0, 0.5) 30%, rgba(0, 0, 0, 1) 60%, rgba(0, 0, 0, 1) 100%);
 }
 
 /* Remove the previous gradient overlays */
