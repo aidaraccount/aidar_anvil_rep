@@ -46,14 +46,30 @@ class C_Home_NextUp(C_Home_NextUpTemplate):
     """
     Creates the NextUp table with artist data
     """
-    # 1. Create the main container HTML
+    # 1. Dictionary of status abbreviations
+    status_abbr = {
+      'Action required': 'Act. req.',
+      'Requires revision': 'Rev. req.',
+      'Waiting for decision': 'Wait. dec.',
+      'Build connection': 'Build con.',
+      'Awaiting response': 'Await. resp.',
+      'Exploring opportunities': 'Expl. op.',
+      'Positive response': 'Pos. resp.',
+      'In negotiations': 'In neg.',
+      'Contract in progress': 'Contr. prog.',
+      'Reconnect later': 'Recon. later',
+      'Not interested': 'Not int.',
+      'Success': 'Success'
+    }
+    
+    # 2. Create the main container HTML
     html_content = """
     <div class="nextup-container">
       <table class="nextup-table">
         <tbody id="nextup-table-body">
     """
     
-    # 2. Generate table rows for each artist
+    # 3. Generate table rows for each artist
     for item in self.data:
       artist_id = item.get('artist_id', '')
       artist_name = item.get('name', 'Unknown')
@@ -62,8 +78,8 @@ class C_Home_NextUp(C_Home_NextUpTemplate):
       priority = item.get('priority', '')
       watchlist_id = item.get('watchlist_id', '')
       
-      # Status mapping based on the image
-      status_display = 'Expl. op.' if status == 'Action required' else 'Build con.' if status == 'Awaiting response' else 'Contact'
+      # Get status abbreviation from dictionary
+      status_display = status_abbr.get(status, status)
       
       # Format priority with first letter capitalized
       priority_display = priority.capitalize() if priority else ''
@@ -77,18 +93,22 @@ class C_Home_NextUp(C_Home_NextUpTemplate):
           <td class="nextup-name-cell">{artist_name}</td>
           <td class="nextup-status-cell">{status_display}</td>
           <td class="nextup-priority-cell">{priority_display}</td>
-          <td class="nextup-id-cell">{watchlist_id}</td>
+          <td class="nextup-button-cell">
+            <button class="icon-button-disabled-small" data-watchlist-id="{watchlist_id}">
+              <i class="fa fa-vcard-o"></i>
+            </button>
+          </td>
         </tr>
       """
     
-    # 3. Complete the HTML
+    # 4. Complete the HTML
     html_content += """
         </tbody>
       </table>
     </div>
     """
     
-    # 4. JavaScript for handling clicks
+    # 5. JavaScript for handling clicks
     js_code = """
     console.log('NextUp table JavaScript loaded');
     
@@ -96,6 +116,13 @@ class C_Home_NextUp(C_Home_NextUpTemplate):
     window.artistClicked = function(event, artistId) {
       event.stopPropagation();
       console.log('Artist clicked, ID:', artistId);
+      
+      // Ignore clicks on the button
+      if (event.target.closest('.icon-button-disabled-small') || 
+          event.target.closest('i.fa')) {
+        console.log('Button clicked, stopping propagation');
+        return;
+      }
       
       // Call the Python callback
       if (typeof window.pyArtistClicked === 'function') {
@@ -114,6 +141,6 @@ class C_Home_NextUp(C_Home_NextUpTemplate):
     };
     """
     
-    # 5. Set the HTML content and evaluate the JavaScript
+    # 6. Set the HTML content and evaluate the JavaScript
     self.html = html_content
     anvil.js.call_js('eval', js_code)
