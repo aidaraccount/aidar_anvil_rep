@@ -471,12 +471,15 @@ class C_Home_Agents(C_Home_AgentsTemplate):
       setTimeout(function() {
         console.log('MODEL_ACTIVATION_JS: SLIDER_DEBUG: Starting slider initialization');
         
-        // Track slider position
-        let position = 0;
+        // Get DOM elements
         const track = document.querySelector('.slider-track');
+        if (!track) {
+          console.log('MODEL_ACTIVATION_JS: SLIDER_DEBUG: Track element not found');
+          return;
+        }
         console.log('MODEL_ACTIVATION_JS: SLIDER_DEBUG: track element found?', !!track);
         
-        const boxes = document.querySelectorAll('.model-box');
+        const boxes = track.querySelectorAll('.model-box');
         console.log('MODEL_ACTIVATION_JS: SLIDER_DEBUG: Found ' + boxes.length + ' model boxes');
         
         const leftArrow = document.querySelector('.slider-arrow.left');
@@ -485,180 +488,122 @@ class C_Home_Agents(C_Home_AgentsTemplate):
         const rightArrow = document.querySelector('.slider-arrow.right');
         console.log('MODEL_ACTIVATION_JS: SLIDER_DEBUG: rightArrow element found?', !!rightArrow);
         
-        const container = document.querySelector('.slider-container');
-        
-        if (!track || !boxes.length || !leftArrow || !rightArrow || !container) {
-          console.error('MODEL_ACTIVATION_JS: SLIDER_DEBUG: Some slider elements not found');
+        if (!track || !boxes.length || !leftArrow || !rightArrow) {
+          console.log('MODEL_ACTIVATION_JS: SLIDER_DEBUG: Missing required elements');
           return;
         }
         
         console.log('MODEL_ACTIVATION_JS: SLIDER_DEBUG: All elements found, setting up event handlers');
         
-        // Calculate how many items can fit in the view
+        // Initialize state
+        let currentPosition = 0;
+        const boxWidth = 295; // Width of each model box including margin
+        const boxMargin = 20; // Right margin of each box
+        
+        // Function to calculate how many boxes are visible
         function calculateVisibleBoxes() {
-          if (!container || boxes.length === 0) {
-            console.log('MODEL_ACTIVATION_JS: SLIDER_DEBUG: Cannot calculate visible boxes - missing elements');
-            return 0;
-          }
-          
-          // Account for container padding
-          const containerStyle = getComputedStyle(container);
-          const paddingLeft = parseInt(containerStyle.paddingLeft) || 0;
-          const paddingRight = parseInt(containerStyle.paddingRight) || 0;
-          const containerWidth = container.offsetWidth - paddingLeft - paddingRight;
-          
-          // Calculate box width including margin
-          const boxWidth = boxes[0].offsetWidth + parseInt(getComputedStyle(boxes[0]).marginRight);
-          const result = Math.floor(containerWidth / boxWidth);
-          
-          console.log('MODEL_ACTIVATION_JS: SLIDER_DEBUG: Calculated visible boxes: ' + result + ' (container width: ' + containerWidth + 'px, box width: ' + boxWidth + 'px)');
-          return result;
+          const container = track.parentElement;
+          const containerWidth = container.offsetWidth;
+          const visibleBoxes = Math.floor(containerWidth / boxWidth);
+          console.log('MODEL_ACTIVATION_JS: SLIDER_DEBUG: Calculated visible boxes: ' + visibleBoxes + 
+                     ' (container width: ' + containerWidth + 'px, box width: ' + boxWidth + 'px)');
+          return visibleBoxes;
         }
         
-        // Handle left arrow click
-        function slideLeft() {
-          console.log('MODEL_ACTIVATION_JS: SLIDER_DEBUG: Slide left clicked, current position: ' + position);
-          if (position > 0) {
-            position--;
-            updateSliderPosition();
-          } else {
-            console.log('MODEL_ACTIVATION_JS: SLIDER_DEBUG: Already at leftmost position');
-          }
-        }
-        
-        // Handle right arrow click
-        function slideRight() {
-          console.log('MODEL_ACTIVATION_JS: SLIDER_DEBUG: Slide right clicked, current position: ' + position);
+        // Function to update slider position
+        function updateSliderPosition(position) {
+          currentPosition = position;
+          
+          // Clamp position so we can't scroll past the first or last item
+          const maxPosition = (boxes.length - calculateVisibleBoxes()) * boxWidth;
+          if (currentPosition < 0) currentPosition = 0;
+          if (currentPosition > maxPosition) currentPosition = maxPosition;
+          
+          const transform = 'translateX(' + (-currentPosition) + 'px)';
+          track.style.transform = transform;
+          console.log('MODEL_ACTIVATION_JS: SLIDER_DEBUG: Updated slider position to: ' + 
+                     currentPosition + ' transform: ' + transform);
+          
+          // Check if we should center the slider content when there are few items
           const visibleBoxes = calculateVisibleBoxes();
-          if (position + visibleBoxes < boxes.length) {
-            position++;
-            updateSliderPosition();
-          } else {
-            console.log('MODEL_ACTIVATION_JS: SLIDER_DEBUG: Already at rightmost position');
+          console.log('MODEL_ACTIVATION_JS: SLIDER_DEBUG: Centering check - visible boxes: ' + 
+                     visibleBoxes + ', total boxes: ' + boxes.length);
+                     
+          // Center the content if all boxes can fit with room to spare
+          if (boxes.length <= visibleBoxes) {
+            const container = track.parentElement;
+            const containerWidth = container.offsetWidth;
+            const totalContentWidth = boxes.length * boxWidth;
+            
+            // Calculate extra space and center position
+            const extraSpace = containerWidth - totalContentWidth;
+            const centerPosition = Math.max(0, extraSpace / 2);
+            
+            // Apply centering with transform
+            track.style.transform = 'translateX(' + centerPosition + 'px)';
+            console.log('MODEL_ACTIVATION_JS: SLIDER_DEBUG: Centering content - extra space: ' + 
+                       extraSpace + 'px, centerPosition: ' + centerPosition + 'px');
           }
+          
+          // Update arrow visibility based on position
+          updateArrowVisibility();
         }
         
-        // Update the track position
-        function updateSliderPosition() {
-          if (boxes.length === 0) {
-            console.log('MODEL_ACTIVATION_JS: SLIDER_DEBUG: No boxes to position');
+        // Function to update arrow visibility
+        function updateArrowVisibility() {
+          const maxPosition = (boxes.length - calculateVisibleBoxes()) * boxWidth;
+          
+          // If all boxes fit, hide both arrows
+          if (maxPosition <= 0) {
+            leftArrow.style.display = 'none';
+            rightArrow.style.display = 'none';
+            console.log('MODEL_ACTIVATION_JS: SLIDER_DEBUG: Hiding arrows - all content fits');
             return;
           }
           
-          const boxWidth = boxes[0].offsetWidth + parseInt(getComputedStyle(boxes[0]).marginRight);
-          track.style.transform = `translateX(-${position * boxWidth}px)`;
-          console.log('MODEL_ACTIVATION_JS: SLIDER_DEBUG: Updated slider position to: ' + position + ' transform: ' + track.style.transform);
+          // Otherwise show/hide based on position
+          leftArrow.style.display = currentPosition <= 0 ? 'none' : 'flex';
+          rightArrow.style.display = currentPosition >= maxPosition ? 'none' : 'flex';
         }
         
-        // Center boxes when possible
-        function centerBoxesIfNeeded() {
-          const visibleBoxes = calculateVisibleBoxes();
-          
-          console.log('MODEL_ACTIVATION_JS: SLIDER_DEBUG: Centering check - visible boxes: ' + visibleBoxes + ', total boxes: ' + boxes.length);
-          
-          // Get the container dimensions
-          const containerStyle = getComputedStyle(container);
-          const paddingLeft = parseInt(containerStyle.paddingLeft) || 0;
-          const paddingRight = parseInt(containerStyle.paddingRight) || 0;
-          const containerWidth = container.offsetWidth - paddingLeft - paddingRight;
-          
-          // Calculate box width including margin
-          const boxStyle = getComputedStyle(boxes[0]);
-          const marginRight = parseInt(boxStyle.marginRight) || 0;
-          const boxWidth = boxes[0].offsetWidth + marginRight;
-          
-          // Calculate total width of all boxes
-          const totalBoxesWidth = boxWidth * boxes.length;
-          
-          // Determine if boxes fit within container
-          const allBoxesFit = totalBoxesWidth <= containerWidth;
-          
-          // Show or hide arrows based on whether all boxes fit
-          leftArrow.style.display = allBoxesFit ? 'none' : 'flex';
-          rightArrow.style.display = allBoxesFit ? 'none' : 'flex';
-          
-          // Only center if boxes fit
-          if (allBoxesFit) {
-            const emptySpace = containerWidth - totalBoxesWidth;
-            if (emptySpace > 0) {
-              // Center the boxes
-              const leftOffset = Math.floor(emptySpace / 2);
-              track.style.marginLeft = leftOffset + 'px';
-              console.log('MODEL_ACTIVATION_JS: SLIDER_DEBUG: Centering boxes with margin-left: ' + leftOffset + 'px (container: ' + containerWidth + 'px, boxes: ' + totalBoxesWidth + 'px)');
-            } else {
-              track.style.marginLeft = '0px';
-            }
-            // Reset position to 0 when all boxes fit
-            position = 0;
-            updateSliderPosition();
-          } else {
-            // If boxes don't fit, reset margin and apply normal slider behavior
-            track.style.marginLeft = '0px';
-            // Make sure arrows are visible
-            leftArrow.style.display = 'flex';
-            rightArrow.style.display = 'flex';
-            
-            // Disable left arrow if at beginning
-            leftArrow.style.opacity = position === 0 ? '0.5' : '1';
-            
-            // Disable right arrow if at end
-            const lastVisibleBox = position + visibleBoxes;
-            rightArrow.style.opacity = lastVisibleBox >= boxes.length ? '0.5' : '1';
-          }
-        }
-        
-        // Explicitly log the click events on arrows
-        leftArrow.onclick = function() {
-          console.log('MODEL_ACTIVATION_JS: SLIDER_DEBUG: Left arrow clicked directly');
-          slideLeft();
-          // Update arrow states after sliding
-          const visibleBoxes = calculateVisibleBoxes();
-          leftArrow.style.opacity = position === 0 ? '0.5' : '1';
-          rightArrow.style.opacity = position + visibleBoxes >= boxes.length ? '0.5' : '1';
-        };
-        
-        rightArrow.onclick = function() {
-          console.log('MODEL_ACTIVATION_JS: SLIDER_DEBUG: Right arrow clicked directly');
-          slideRight();
-          // Update arrow states after sliding
-          const visibleBoxes = calculateVisibleBoxes();
-          leftArrow.style.opacity = position === 0 ? '0.5' : '1';
-          rightArrow.style.opacity = position + visibleBoxes >= boxes.length ? '0.5' : '1';
-        };
-        
-        // Also add event listeners as a fallback
+        // Set up click handlers for arrows
         leftArrow.addEventListener('click', function() {
-          console.log('MODEL_ACTIVATION_JS: SLIDER_DEBUG: Left arrow click from event listener');
-          slideLeft();
+          updateSliderPosition(currentPosition - boxWidth);
         });
         
         rightArrow.addEventListener('click', function() {
-          console.log('MODEL_ACTIVATION_JS: SLIDER_DEBUG: Right arrow click from event listener');
-          slideRight();
+          updateSliderPosition(currentPosition + boxWidth);
         });
         
-        // Initial positioning
+        // Set initial position and arrow visibility
         console.log('MODEL_ACTIVATION_JS: SLIDER_DEBUG: Setting initial position');
-        updateSliderPosition();
-        centerBoxesIfNeeded();
         
-        // Handle window resize
-        window.addEventListener('resize', function() {
-          console.log('MODEL_ACTIVATION_JS: SLIDER_DEBUG: Window resized');
+        // IMPORTANT: Initialize immediately with proper centering if needed
+        // Check if all content fits and center it immediately
+        const visibleBoxes = calculateVisibleBoxes();
+        const allContentFits = boxes.length <= visibleBoxes;
+        
+        if (allContentFits) {
+          const container = track.parentElement;
+          const containerWidth = container.offsetWidth;
+          const totalContentWidth = boxes.length * boxWidth;
+          const extraSpace = containerWidth - totalContentWidth;
+          const centerPosition = Math.max(0, extraSpace / 2);
           
-          // Reset position if we've moved too far to the right
-          const visibleBoxes = calculateVisibleBoxes();
-          if (position + visibleBoxes > boxes.length) {
-            position = Math.max(0, boxes.length - visibleBoxes);
-            updateSliderPosition();
-          }
-          
-          // Recenter boxes if needed
-          centerBoxesIfNeeded();
-        });
+          track.style.transform = 'translateX(' + centerPosition + 'px)';
+          console.log('MODEL_ACTIVATION_JS: SLIDER_DEBUG: Initial centering - extra space: ' + 
+                    extraSpace + 'px, centerPosition: ' + centerPosition + 'px');
+                    
+          // Hide arrows since all content fits
+          leftArrow.style.display = 'none';
+          rightArrow.style.display = 'none';
+        } else {
+          // Regular initialization at left edge
+          updateSliderPosition(0);
+        }
         
         console.log('MODEL_ACTIVATION_JS: SLIDER_DEBUG: Slider fully initialized');
-      }, 500);
+      }, 50);
     """
     
     # Add HTML debugging to check structure
