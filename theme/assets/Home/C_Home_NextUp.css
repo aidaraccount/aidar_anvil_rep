@@ -17,7 +17,7 @@
 .nextup-row {
     cursor: pointer;
     height: 36px;
-    transition: background-color 0.2s ease;
+    transition: background-color 0.2s ease, opacity 0.3s ease;
 }
 
 .nextup-row:hover {
@@ -30,6 +30,7 @@
     padding: 0 4px;
     text-align: center;
     vertical-align: middle;
+    cursor: pointer;
 }
 
 .nextup-pic-cell {
@@ -52,6 +53,11 @@
     font-weight: 500;
     font-size: 14px;
     vertical-align: middle;
+    cursor: pointer;
+}
+
+.nextup-name-cell:hover {
+    text-decoration: underline;
 }
 
 .nextup-status-cell {
