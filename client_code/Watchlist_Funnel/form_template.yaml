@@ -36,11 +36,11 @@ components:
 - components:
   - layout_properties: {width: 186, x: 0, y: 30}
     name: repeating_panel_1
-    properties: {background: '', item_template: Watchlist_Funnel.ItemTemplate2}
+    properties: {background: '', item_template: Watchlist_Funnel.Watchlist_Funnel_Template}
     type: RepeatingPanel
   - layout_properties: {width: 186, x: 196, y: 30}
     name: repeating_panel_2
-    properties: {background: '', item_template: Watchlist_Funnel.ItemTemplate2}
+    properties: {background: '', item_template: Watchlist_Funnel.Watchlist_Funnel_Template}
     type: RepeatingPanel
   - data_bindings: []
     layout_properties: {width: 186, x: 0, y: 0}
@@ -61,11 +61,11 @@ components:
     type: Label
   - layout_properties: {width: 186, x: 392, y: 30}
     name: repeating_panel_3
-    properties: {background: '', item_template: Watchlist_Funnel.ItemTemplate2}
+    properties: {background: '', item_template: Watchlist_Funnel.Watchlist_Funnel_Template}
     type: RepeatingPanel
   - layout_properties: {width: 186, x: 588, y: 30}
     name: repeating_panel_4
-    properties: {background: '', item_template: Watchlist_Funnel.ItemTemplate2}
+    properties: {background: '', item_template: Watchlist_Funnel.Watchlist_Funnel_Template}
     type: RepeatingPanel
   - layout_properties: {width: 186, x: 784, y: 0}
     name: label_3_copy_copy_copy_copy
@@ -73,7 +73,7 @@ components:
     type: Label
   - layout_properties: {width: 186, x: 784, y: 30}
     name: repeating_panel_5
-    properties: {background: '', item_template: Watchlist_Funnel.ItemTemplate2}
+    properties: {background: '', item_template: Watchlist_Funnel.Watchlist_Funnel_Template}
     type: RepeatingPanel
   layout_properties: {grid_position: 'RCBJQO,PAYXVB'}
   name: xy_panel_funnel

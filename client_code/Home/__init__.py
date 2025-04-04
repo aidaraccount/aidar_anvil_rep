@@ -109,7 +109,7 @@ class Home(HomeTemplate):
       self.load_agents_async()
       
       # 1.4 Initialize loading of next asynchronously
-      self.stats_start_time = time.time()
+      self.next_start_time = time.time()
       print(f"HOME INIT [{self.instance_id}] - Next loading initialized - {datetime.now()}", flush=True)
       self.load_next_async()
   
@@ -181,9 +181,12 @@ class Home(HomeTemplate):
   def process_next_data(self, data):
     """Process and display next data"""
     # Process next data
+    data = json.loads(data)
     print(data)
+    self.rep_pan_next.items = data
 
 
+  
   # ------
   # 2.3 SHORTS METHODS
   def load_shorts_async(self, selected_wl_ids=None):

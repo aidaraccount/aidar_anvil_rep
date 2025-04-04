@@ -121,13 +121,17 @@ components:
         role: [txt_white_discreet, header-4]
         text: Next Up
       type: Label
+    - layout_properties: {grid_position: 'RWHVKI,KZCUVO'}
+      name: rep_pan_next
+      properties: {item_template: Home.RepPan_Next_Template}
+      type: RepeatingPanel
     layout_properties: {grid_position: 'MRIQRW,EQZHSN'}
     name: sec_next
     properties: {}
     type: ColumnPanel
   layout_properties: {grid_position: 'VHEAUQ,QULOXH'}
   name: content_panel
-  properties: {col_spacing: small, col_widths: '{"QVOGKC":45,"EQZHSN":15,"DXHNXO":45,"AKJIUD":15}', role: null}
+  properties: {col_spacing: small, col_widths: '{"QVOGKC":40,"EQZHSN":20,"DXHNXO":40,"AKJIUD":20}', role: null}
   type: ColumnPanel
 container:
   properties: {col_widths: '{}', role: null}
