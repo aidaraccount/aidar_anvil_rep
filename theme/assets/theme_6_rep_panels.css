@@ -24,7 +24,10 @@ This file contains styling for Anvil Repeating Panel components to match the Dat
 
 /* Hover state for rows - Visual feedback on hover 
    Using ::before to create a background that respects the padding */
-.repeating-panel .hide-while-paginating > div:hover::before {
+.repeating-panel .hide-while-paginating > div:hover::before,
+.repeating-panel .hide-while-paginating > div.column-panel:hover::before,
+.repeating-panel .hide-while-paginating > .column-panel:hover::before,
+.repeating-panel .hide-while-paginating > div.anvil-component:hover::before {
   content: "";
   position: absolute;
   top: 0;
@@ -34,6 +37,13 @@ This file contains styling for Anvil Repeating Panel components to match the Dat
   background-color: rgba(255, 255, 255, 0.05);
   border-radius: 4px;
   z-index: -1;
+}
+
+/* Additional selector for nested structure */
+.repeating-panel .hide-while-paginating > div.column-panel,
+.repeating-panel .hide-while-paginating > .column-panel,
+.repeating-panel .hide-while-paginating > div.anvil-component {
+  position: relative;
 }
 
 /* 3. Panel row content - Content within the rows */

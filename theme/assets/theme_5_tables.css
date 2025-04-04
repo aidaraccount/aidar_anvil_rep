@@ -58,12 +58,7 @@ This file contains styling for Anvil DataGrid components and related elements.
   border-bottom: none !important;
 }
 
-/* 5. Fix for Anvil's alternating row behavior - ensures all rows are transparent */
-/* .anvil-data-grid .data-grid-child-panel .anvil-data-row-panel {
-  background-color: transparent !important;
-} */
-
-/* 6. Empty state message - Displayed when the DataGrid has no content */
+/* 5. Empty state message - Displayed when the DataGrid has no content */
 .anvil-data-grid-empty {
   padding: 20px;
   text-align: center;
@@ -71,7 +66,7 @@ This file contains styling for Anvil DataGrid components and related elements.
   font-style: italic;
 }
 
-/* 7. Pagination controls - Navigation buttons at the bottom of paginated tables */
+/* 6. Pagination controls - Navigation buttons at the bottom of paginated tables */
 .anvil-data-grid .data-grid-footer-panel {
   padding: 5px !important;
   border-top: none !important;
@@ -91,7 +86,7 @@ This file contains styling for Anvil DataGrid components and related elements.
   flex: 0 0 auto !important;
 }
 
-/* 8. Text alignment helpers for inline styles */
+/* 7. Text alignment helpers for inline styles */
 .anvil-data-grid [style*="text-align: left"] {
   text-align: left !important;
 }
@@ -100,7 +95,7 @@ This file contains styling for Anvil DataGrid components and related elements.
   text-align: center !important;
 }
 
-/* 9. Responsive behavior for smaller screens */
+/* 8. Responsive behavior for smaller screens */
 @media only screen and (max-width: 768px) {
   .anvil-data-grid .data-grid-child-panel .auto-grid-header .data-row-col,
   .anvil-data-grid .data-grid-child-panel .anvil-data-row-panel:not(.auto-grid-header) .data-row-col {
