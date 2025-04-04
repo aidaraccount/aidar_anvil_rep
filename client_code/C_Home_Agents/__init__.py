@@ -137,19 +137,17 @@ class C_Home_Agents(C_Home_AgentsTemplate):
           
           # Determine next level and ratings to go
           next_level_text = ""
-          is_senior = False
           progress_bar_class = ""
           
-          if model_level == "Senior":
+          if model_level == "Pro":
             next_level_text = "You're a Pro"
-            is_senior = True
-            progress_bar_class = "progress-bar-senior"
-          elif model_level == "Junior":
+            progress_bar_class = "progress-bar-pro"
+          elif model_level == "Senior":
+            next_level_text = f"{no_missing_ratings} ratings to Pro"
+          elif model_level == "Junior" or model_level == "Rookie":
             next_level_text = f"{no_missing_ratings} ratings to Senior"
-          elif model_level == "Rockie" or model_level == "Rookie":
+          elif model_level == "Rookie":
             next_level_text = f"{no_missing_ratings} ratings to Junior"
-          elif model_level == "Trainee":
-            next_level_text = f"{no_missing_ratings} ratings to Rookie"
           else:
             next_level_text = f"{no_missing_ratings} ratings to go"
           
