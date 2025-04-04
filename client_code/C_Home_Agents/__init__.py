@@ -533,7 +533,7 @@ class C_Home_Agents(C_Home_AgentsTemplate):
           
           // Add a small adjustment to compensate for any measurement inaccuracies
           // This helps ensure perfect visual centering
-          centerPos += 35; // Adjust by 35px to the left
+          centerPos += -50; // Adjust by -50px to the left
           
           console.log('MODEL_ACTIVATION_JS: SLIDER_DEBUG: Center calculation - container width: ' + 
                     containerWidth + ', content width: ' + totalContentWidth + 
