@@ -1,7 +1,7 @@
 components:
 - layout_properties: {grid_position: 'UJOFTR,ZXEZUI'}
   name: radio_button
-  properties: {selected: false, text: ''}
+  properties: {group_name: '', selected: false, text: ''}
   type: RadioButton
 - data_bindings: []
   layout_properties: {grid_position: 'UJOFTR,XNZBSJ'}

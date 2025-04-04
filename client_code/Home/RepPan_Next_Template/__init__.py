@@ -14,6 +14,7 @@ class RepPan_Next_Template(RepPan_Next_TemplateTemplate):
 
     # Any code you write here will run before the form opens.
     self.radio_button.selected = True
+    self.radio_button.group_name
     
     self.artist_pic.source = self.item['artist_picture_url']
     self.artist_pic.height = 40
