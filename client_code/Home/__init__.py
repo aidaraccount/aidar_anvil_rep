@@ -108,10 +108,10 @@ class Home(HomeTemplate):
       print(f"HOME INIT [{self.instance_id}] - Agents loading initialized - {datetime.now()}", flush=True)
       self.load_agents_async()
       
-      # 1.4 Initialize loading of stats asynchronously
+      # 1.4 Initialize loading of next asynchronously
       self.stats_start_time = time.time()
-      print(f"HOME INIT [{self.instance_id}] - Stats loading initialized - {datetime.now()}", flush=True)
-      self.load_stats_async()
+      print(f"HOME INIT [{self.instance_id}] - Next loading initialized - {datetime.now()}", flush=True)
+      self.load_next_async()
   
       # 1.5 Initialize loading of shorts asynchronously
       self.shorts_start_time = time.time()
@@ -119,6 +119,7 @@ class Home(HomeTemplate):
       self.load_shorts_async()
   
   
+  # ------
   # 2. ASYNC METHODS
   # 2.1 AGENTS METHODS
   def load_agents_async(self):
@@ -151,73 +152,39 @@ class Home(HomeTemplate):
     self.sec_agents.add_component(C_Home_Agents(data=data))
 
     
-  # 2.2 STATS METHODS
-  def load_stats_async(self):
-    """Starts asynchronous loading of stats data"""
+  # ------
+  # 2.2 NEXT METHODS
+  def load_next_async(self):
+    """Starts asynchronous loading of next data"""
     # Call asynchronously
-    async_call = call_async("get_home_stats", user["user_id"])
-    async_call.on_result(self.stats_loaded)
+    async_call = call_async("get_home_next", user["user_id"])
+    async_call.on_result(self.next_loaded)
   
-  def stats_loaded(self, data):
-    """Handles successful server response for stats."""
+  def next_loaded(self, data):
+    """Handles successful server response for next."""
     # Calculate loading time
-    load_time = time.time() - self.stats_start_time
-    print(f"HOME ASYNC [{self.instance_id}] - Stats loaded (took {load_time:.2f} seconds)", flush=True)
+    load_time = time.time() - self.next_start_time
+    print(f"HOME ASYNC [{self.instance_id}] - Next loaded (took {load_time:.2f} seconds)", flush=True)
     
     # Get the active instance - this is the one currently visible to the user
     active_instance = Home._active_instance
     
     # Check if we should update the current instance or the active instance
     if active_instance and active_instance.instance_id != self.instance_id:
-      print(f"HOME ASYNC [{self.instance_id}] - Updating active instance [{active_instance.instance_id}] with stats", flush=True)
-      # Process stats in the active instance
-      active_instance.process_stats_data(data)
+      print(f"HOME ASYNC [{self.instance_id}] - Updating active instance [{active_instance.instance_id}] with next", flush=True)
+      # Process next in the active instance
+      active_instance.process_next_data(data)
     else:
       # Process stats in this instance
-      self.process_stats_data(data)
+      self.process_next_data(data)
     
-  def process_stats_data(self, data):
-    """Process and display stats data"""
-    # Process stats data
-    stats = data['stats']
+  def process_next_data(self, data):
+    """Process and display next data"""
+    # Process next data
+    print(data)
 
-    # Initialize counters
-    won_cnt = 0
-    wl_cnt = 0
-    hp_cnt = 0
-    tot_cnt = 0
 
-    if stats:
-      for stat in stats:
-        if stat['stat'] == 'Success': won_cnt = stat['cnt']
-        if stat['stat'] == 'Watchlist': wl_cnt = stat['cnt']
-        if stat['stat'] == 'HighRated': hp_cnt = stat['cnt']
-        if stat['stat'] == 'RatedTotal': tot_cnt = stat['cnt']
-    
-    # Update UI elements
-    self.label_won_no.text = won_cnt
-    self.label_wl_no.text = wl_cnt
-    self.label_hp_no.text = hp_cnt
-    self.label_tot_no.text = tot_cnt
-    
-    # Update text labels based on counts
-    if won_cnt == 1: self.label_won_txt.text = 'artist\nwon'
-    else: self.label_won_txt.text = 'artists\nwon'
-    if wl_cnt == 1: self.label_wl_txt.text =  'artist on\nwatchlist'
-    else: self.label_wl_txt.text =  'artists on\nwatchlist'
-    if hp_cnt == 1: self.label_hp_txt.text =  'high\npotential'
-    else: self.label_hp_txt.text =  'high\npotentials'
-    if tot_cnt == 1: self.label_tot_txt.text = 'total\nrating'
-    else: self.label_tot_txt.text = 'total\nratings'
-    
-    # Process news data
-    news = data['news']
-    if len(news) == 0:
-      self.xy_panel_news.visible = False
-      self.xy_panel_news_empty.visible = True
-    else:
-      self.repeating_panel_news.items = news
-        
+  # ------
   # 2.3 SHORTS METHODS
   def load_shorts_async(self, selected_wl_ids=None):
     """
@@ -331,7 +298,9 @@ class Home(HomeTemplate):
     
     # Show reload button if we have enough shorts
     self.reload.visible = len(shorts) >= 9
-  
+
+
+  # ------
   # 3. USER INTERACTION METHODS
   # 3.1 NAVIGATION
   def link_discover_click(self, **event_args):
