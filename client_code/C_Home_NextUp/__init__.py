@@ -25,7 +25,14 @@ class C_Home_NextUp(C_Home_NextUpTemplate):
     anvil.js.call_js('eval', """
       window.pyArtistClicked = function(artistId) {
         console.log('[DEBUG] Calling Python artist click handler with ID:', artistId);
-        return window._anvilJSCallableObjects.pyArtistClicked.call(artistId);
+        
+        // Navigate directly to artist page
+        console.log('[DEBUG] Navigating to artist page:', artistId);
+        window.location.hash = 'artists?artist_id=' + artistId;
+        
+        // Also call Python handler for any server-side logic
+        window._anvilJSCallableObjects.pyArtistClicked.call(artistId);
+        return true;
       }
       
       window.pyRadioClicked = function(artistId, watchlistId, rowId) {
@@ -35,14 +42,32 @@ class C_Home_NextUp(C_Home_NextUpTemplate):
         // Handle row removal directly in JS for reliability
         console.log('[DEBUG] Removing row with ID:', rowId);
         var row = document.getElementById(rowId);
+        console.log('[DEBUG] Found row element:', row);
+        
         if (row) {
-          row.style.opacity = '0';
-          setTimeout(function() {
-            if (row.parentNode) {
-              row.parentNode.removeChild(row);
-              console.log('[DEBUG] Row removed successfully');
-            }
-          }, 300);
+          // Set display property directly after a short delay
+          try {
+            // Apply transition and opacity first
+            row.style.transition = 'opacity 0.3s ease';
+            row.style.opacity = '0';
+            console.log('[DEBUG] Set opacity to 0');
+            
+            // Then remove after transition completes
+            setTimeout(function() {
+              try {
+                if (row && row.parentNode) {
+                  row.parentNode.removeChild(row);
+                  console.log('[DEBUG] Row removed successfully');
+                } else {
+                  console.log('[DEBUG] Row or parent not found in setTimeout');
+                }
+              } catch (err) {
+                console.error('[DEBUG] Error removing row in setTimeout:', err);
+              }
+            }, 300);
+          } catch (err) {
+            console.error('[DEBUG] Error handling row removal:', err);
+          }
         } else {
           console.error('[DEBUG] Row not found with ID:', rowId);
         }
@@ -52,7 +77,8 @@ class C_Home_NextUp(C_Home_NextUpTemplate):
       
       window.pyWatchlistClicked = function(artistId, watchlistId) {
         console.log('[DEBUG] Calling Python watchlist click handler with ID:', artistId, 'watchlist:', watchlistId);
-        return window._anvilJSCallableObjects.pyWatchlistClicked.call(artistId, watchlistId);
+        window._anvilJSCallableObjects.pyWatchlistClicked.call(artistId, watchlistId);
+        return true;
       }
     """)
     
@@ -70,20 +96,14 @@ class C_Home_NextUp(C_Home_NextUpTemplate):
     
   def handle_artist_click(self, artist_id):
     """
-    JavaScript callback for when an artist row is clicked.
+    JavaScript callback for when an artist name is clicked.
     
     Args:
         artist_id: The ID of the artist to navigate to
     """
-    print("[DEBUG] Artist clicked:", artist_id)
+    print(f"[DEBUG] Artist clicked: {artist_id}")
     
-    try:
-      # Navigate to the artist's page using the nav.click_button function
-      click_button('artist_view', {'artist_id': artist_id})
-      print("[DEBUG] Successfully navigated to artist view")
-    except Exception as e:
-      print(f"[DEBUG] Error navigating to artist view: {str(e)}")
-    
+    # Navigation is now handled directly in JavaScript with hash routing
     return True
     
   def handle_radio_click(self, artist_id, watchlist_id, row_id):
@@ -115,20 +135,7 @@ class C_Home_NextUp(C_Home_NextUpTemplate):
     """
     print(f"[DEBUG] Watchlist button clicked for artist {artist_id}, watchlist {watchlist_id}")
     
-    try:
-      # Use hash routing to navigate to watchlist details
-      # First check if the function exists
-      page_name = 'watchlist_details'
-      params = {'watchlist_id': watchlist_id, 'artist_id': artist_id}
-      
-      print(f"[DEBUG] Attempting to navigate to {page_name} with params: {params}")
-      
-      # Try a simpler approach using direct hash routing
-      location.hash = f"#watchlist_details?watchlist_id={watchlist_id}&artist_id={artist_id}"
-      print(f"[DEBUG] Set location hash to: {location.hash}")
-    except Exception as e:
-      print(f"[DEBUG] Error in watchlist navigation: {str(e)}")
-    
+    # Navigation is now handled directly in JavaScript with hash routing
     return True
 
   def create_nextup_table(self):
@@ -176,9 +183,9 @@ class C_Home_NextUp(C_Home_NextUpTemplate):
       # Create unique row ID
       row_id = f"nextup-row-{i}"
       
-      # Add the row for this artist
+      # Add the row for this artist - removed the onclick from the row
       html_content += f"""
-        <tr id="{row_id}" class="nextup-row" onclick="window.artistClicked(event, '{artist_id}')">
+        <tr id="{row_id}" class="nextup-row" style="transition: opacity 0.3s ease;">
           <td class="nextup-radio-cell">
             <div class="radio-button" onclick="window.radioClicked(event, '{artist_id}', '{watchlist_id}', '{row_id}')">
               <div class="radio-dot"></div>
@@ -187,9 +194,15 @@ class C_Home_NextUp(C_Home_NextUpTemplate):
           <td class="nextup-pic-cell">
             <img src="{artist_pic_url}" class="nextup-artist-pic" alt="{artist_name}">
           </td>
-          <td class="nextup-name-cell">{artist_name}</td>
-          <td class="nextup-status-cell">{status_display}</td>
-          <td class="nextup-priority-cell">{priority_display}</td>
+          <td class="nextup-name-cell" onclick="window.artistClicked(event, '{artist_id}')">
+            {artist_name}
+          </td>
+          <td class="nextup-status-cell">
+            {status_display}
+          </td>
+          <td class="nextup-priority-cell">
+            {priority_display}
+          </td>
           <td class="nextup-button-cell">
             <button class="icon-button-disabled-small" 
                     data-watchlist-id="{watchlist_id}" 
@@ -212,19 +225,10 @@ class C_Home_NextUp(C_Home_NextUpTemplate):
     js_code = """
     console.log('[DEBUG] NextUp table JavaScript loaded');
     
-    // Function to handle artist row clicks
+    // Function to handle artist name cell clicks
     window.artistClicked = function(event, artistId) {
       event.stopPropagation();
-      console.log('[DEBUG] Artist clicked, ID:', artistId);
-      
-      // Ignore clicks on the button or radio
-      if (event.target.closest('.icon-button-disabled-small') || 
-          event.target.closest('i.fa') ||
-          event.target.closest('.radio-button') ||
-          event.target.closest('.radio-dot')) {
-        console.log('[DEBUG] Button or radio clicked, stopping propagation');
-        return;
-      }
+      console.log('[DEBUG] Artist name clicked, ID:', artistId);
       
       // Simple direct call instead of promise
       try {
