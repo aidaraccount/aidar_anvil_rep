@@ -352,49 +352,35 @@ class C_Home_Agents(C_Home_AgentsTemplate):
         const appOrigin = window.location.origin;
         const ctrlKeyPressed = event.ctrlKey;
         
-        // Check if our Python callback is available
-        if (typeof window.pyDiscoverClicked === 'function') {
-          try {
-            console.log('MODEL_ACTIVATION_JS: Calling Python callback function');
-            // Call the Python callback and then navigate
-            window.pyDiscoverClicked(artistId, modelId, ctrlKeyPressed).then(function(result) {
-              console.log('MODEL_ACTIVATION_JS: Python callback completed:', result);
-              
-              // Navigate based on ctrl key state
-              if (ctrlKeyPressed) {
-                console.log('MODEL_ACTIVATION_JS: Opening new tab');
-                window.open(appOrigin + '/#artists?artist_id=' + artistId, '_blank');
-              } else {
-                console.log('MODEL_ACTIVATION_JS: Navigating in current tab');
-                window.location.hash = 'artists?artist_id=' + artistId;
-              }
-            }).catch(function(error) {
-              console.error('MODEL_ACTIVATION_JS: Error in Python callback:', error);
-              // Navigate anyway if there was an error
-              if (ctrlKeyPressed) {
-                window.open(appOrigin + '/#artists?artist_id=' + artistId, '_blank');
-              } else {
-                window.location.hash = 'artists?artist_id=' + artistId;
-              }
-            });
-          } catch (err) {
-            console.error('MODEL_ACTIVATION_JS: Error calling Python function:', err);
-            // Fallback - just navigate directly
-            if (ctrlKeyPressed) {
-              window.open(appOrigin + '/#artists?artist_id=' + artistId, '_blank');
-            } else {
-              window.location.hash = 'artists?artist_id=' + artistId;
-            }
-          }
+        // First, navigate to the artist page based on ctrl key state
+        if (ctrlKeyPressed) {
+          console.log('MODEL_ACTIVATION_JS: Opening new tab');
+          window.open(appOrigin + '/#artists?artist_id=' + artistId, '_blank');
         } else {
-          console.warn('MODEL_ACTIVATION_JS: Python callback not available, navigating directly');
-          // Fallback - just navigate directly
-          if (ctrlKeyPressed) {
-            window.open(appOrigin + '/#artists?artist_id=' + artistId, '_blank');
-          } else {
-            window.location.hash = 'artists?artist_id=' + artistId;
-          }
+          console.log('MODEL_ACTIVATION_JS: Navigating in current tab');
+          window.location.hash = 'artists?artist_id=' + artistId;
         }
+        
+        // Small delay to ensure URL change completes
+        setTimeout(function() {
+          // Check if our Python callback is available
+          if (typeof window.pyDiscoverClicked === 'function') {
+            try {
+              console.log('MODEL_ACTIVATION_JS: Calling Python callback function');
+              // Call the Python callback after navigation
+              window.pyDiscoverClicked(artistId, modelId, ctrlKeyPressed).then(function(result) {
+                console.log('MODEL_ACTIVATION_JS: Python callback completed:', result);
+              }).catch(function(error) {
+                console.error('MODEL_ACTIVATION_JS: Error in Python callback:', error);
+              });
+            } catch (err) {
+              console.error('MODEL_ACTIVATION_JS: Error calling Python function:', err);
+              console.log('MODEL_ACTIVATION_JS: URL has already been changed, so navigation is complete');
+            }
+          } else {
+            console.warn('MODEL_ACTIVATION_JS: Python callback not available');
+          }
+        }, 100); // 100ms delay to ensure URL change is processed
       };
       
       // Function to handle model name click (model profile navigation)
