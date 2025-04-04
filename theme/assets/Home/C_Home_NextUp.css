@@ -15,9 +15,8 @@
 
 /* 2. NextUp table rows */
 .nextup-row {
-    cursor: pointer;
     height: 36px;
-    transition: background-color 0.2s ease, opacity 0.3s ease;
+    transition: opacity 0.3s ease;
 }
 
 .nextup-row:hover {
@@ -53,10 +52,15 @@
     font-weight: 500;
     font-size: 14px;
     vertical-align: middle;
+}
+
+.nextup-name-cell a {
+    color: var(--Orange);
+    text-decoration: none;
     cursor: pointer;
 }
 
-.nextup-name-cell:hover {
+.nextup-name-cell a:hover {
     text-decoration: underline;
 }
 
@@ -108,8 +112,8 @@
 .radio-button {
     position: relative;
     display: inline-block;
-    width: 16px;
-    height: 16px;
+    width: 14px;
+    height: 14px;
     cursor: pointer;
 }
 
@@ -117,8 +121,8 @@
     position: absolute;
     top: 0;
     left: 0;
-    width: 16px;
-    height: 16px;
+    width: 14px;
+    height: 14px;
     background-color: rgba(255, 255, 255, 0.2);
     border-radius: 50%;
     cursor: pointer;
@@ -128,10 +132,10 @@
 .radio-dot:before {
     content: "";
     position: absolute;
-    top: 3px;
-    left: 3px;
-    width: 10px;
-    height: 10px;
+    top: 2.5px;
+    left: 2.5px;
+    width: 9px;
+    height: 9px;
     background-color: var(--Orange);
     border-radius: 50%;
     opacity: 1;
@@ -140,4 +144,29 @@
 
 .radio-dot:hover {
     box-shadow: 0 0 5px rgba(255, 110, 78, 0.5);
+}
+
+/* 6. Show more/less link styling */
+.nextup-toggle-container {
+    text-align: right;
+    padding: 5px 10px;
+}
+
+.nextup-toggle-link {
+    color: var(--Orange);
+    font-size: 13px;
+    cursor: pointer;
+    text-decoration: none;
+    font-weight: 500;
+    transition: opacity 0.2s ease;
+}
+
+.nextup-toggle-link:hover {
+    opacity: 0.8;
+    text-decoration: underline;
+}
+
+/* 7. Hidden row styling */
+.nextup-row.hidden {
+    display: none;
 }

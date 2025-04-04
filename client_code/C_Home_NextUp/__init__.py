@@ -20,6 +20,8 @@ class C_Home_NextUp(C_Home_NextUpTemplate):
 
     # Any code you write here will run before the form opens.
     self.data = data
+    self.max_visible_rows = 3
+    self.expanded = False
     
     # 1. Register JavaScript callbacks for direct call (not promises)
     anvil.js.call_js('eval', """
@@ -42,10 +44,33 @@ class C_Home_NextUp(C_Home_NextUpTemplate):
         location.hash = 'watchlist_details?watchlist_id=' + watchlistId + '&artist_id=' + artistId;
         return true;
       }
+      
+      window.pyToggleRowsClicked = function() {
+        console.log('[DEBUG] Toggle rows visibility clicked');
+        window._anvilJSCallableObjects.pyToggleRowsClicked.call();
+        return true;
+      }
+      
+      // Function to toggle the visibility of rows
+      window.toggleRowsVisibility = function(expanded) {
+        console.log('[DEBUG] Toggling rows visibility, expanded:', expanded);
+        
+        var rows = document.querySelectorAll('.nextup-row');
+        var toggleLink = document.getElementById('nextup-toggle-link');
+        
+        for (var i = 3; i < rows.length; i++) {
+          rows[i].classList.toggle('hidden', !expanded);
+        }
+        
+        if (toggleLink) {
+          toggleLink.textContent = expanded ? 'show less' : 'show all';
+        }
+      }
     """)
     
     # Register the Python functions
     anvil.js.window.pyRadioClicked = self.handle_radio_click
+    anvil.js.window.pyToggleRowsClicked = self.handle_toggle_rows_click
     
     # 2. Create NextUp table
     self.create_nextup_table()
@@ -53,6 +78,24 @@ class C_Home_NextUp(C_Home_NextUpTemplate):
   def form_show(self, **event_args):
     """This method is called when the HTML panel is shown on the screen"""
     pass
+  
+  def handle_toggle_rows_click(self):
+    """
+    JavaScript callback for when the show all/show less link is clicked.
+    Toggles the visibility of rows beyond the first three.
+    
+    Returns:
+        bool: True indicating successful completion
+    """
+    print(f"[DEBUG] Toggle rows visibility clicked, current state: {self.expanded}")
+    
+    # Toggle expanded state
+    self.expanded = not self.expanded
+    
+    # Call JavaScript function to toggle row visibility
+    anvil.js.call_js('window.toggleRowsVisibility', self.expanded)
+    
+    return True
     
   def handle_radio_click(self, artist_id, watchlist_id, row_index):
     """
@@ -63,6 +106,9 @@ class C_Home_NextUp(C_Home_NextUpTemplate):
         artist_id: The ID of the artist
         watchlist_id: The ID of the watchlist entry
         row_index: The index of the row in the data array
+    
+    Returns:
+        bool: True indicating successful completion
     """
     print(f"[DEBUG] Radio clicked for artist {artist_id}, watchlist {watchlist_id}, index {row_index}")
     
@@ -133,9 +179,12 @@ class C_Home_NextUp(C_Home_NextUpTemplate):
       # Create unique row ID
       row_id = f"nextup-row-{i}"
       
-      # Add the row for this artist - removing the onclick from the tr element
+      # Add 'hidden' class for rows beyond the max_visible_rows if not expanded
+      hidden_class = "" if i < self.max_visible_rows or self.expanded else " hidden"
+      
+      # Add the row for this artist
       html_content += f"""
-        <tr id="{row_id}" class="nextup-row">
+        <tr id="{row_id}" class="nextup-row{hidden_class}">
           <td class="nextup-radio-cell">
             <div class="radio-button" onclick="window.pyRadioClicked('{artist_id}', '{watchlist_id}', '{i}')">
               <div class="radio-dot"></div>
@@ -158,18 +207,36 @@ class C_Home_NextUp(C_Home_NextUpTemplate):
         </tr>
       """
     
-    # 4. Complete the HTML
+    # 4. Complete the HTML for the table
     html_content += """
         </tbody>
       </table>
+    """
+    
+    # 5. Add the toggle link if there are more than max_visible_rows entries
+    if len(self.data) > self.max_visible_rows:
+      toggle_text = "show less" if self.expanded else "show all"
+      html_content += f"""
+      <div class="nextup-toggle-container">
+        <a href="javascript:void(0)" id="nextup-toggle-link" class="nextup-toggle-link" onclick="window.pyToggleRowsClicked()">{toggle_text}</a>
+      </div>
+      """
+    
+    # 6. Complete the container HTML
+    html_content += """
     </div>
     """
     
-    # 5. JavaScript for handling clicks - simplified with direct DOM manipulation
+    # 7. JavaScript for handling clicks
     js_code = """
     console.log('[DEBUG] NextUp table JavaScript loaded');
+    
+    // Initialize row visibility
+    if (window.toggleRowsVisibility) {
+      window.toggleRowsVisibility(""" + str(self.expanded).lower() + """);
+    }
     """
     
-    # 6. Set the HTML content and evaluate the JavaScript
+    # 8. Set the HTML content and evaluate the JavaScript
     self.html = html_content
     anvil.js.call_js('eval', js_code)
