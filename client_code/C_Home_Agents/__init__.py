@@ -495,24 +495,18 @@ class C_Home_Agents(C_Home_AgentsTemplate):
         
         console.log('MODEL_ACTIVATION_JS: SLIDER_DEBUG: All elements found, setting up event handlers');
         
-        // Configuration
-        const config = {
-          boxWidth: 295,           // Width of each model box including margin
-          boxMargin: 20,           // Right margin of each box
-          centeringOffset: -50,    // Additional offset to apply when centering (negative = more left)
-          initDelayMs: 50          // Delay before initialization
-        };
-        
         // Initialize state
         let currentPosition = 0;
+        const boxWidth = 295; // Width of each model box including margin
+        const boxMargin = 20; // Right margin of each box
         
         // Function to calculate how many boxes are visible
         function calculateVisibleBoxes() {
           const container = track.parentElement;
           const containerWidth = container.offsetWidth;
-          const visibleBoxes = Math.floor(containerWidth / config.boxWidth);
+          const visibleBoxes = Math.floor(containerWidth / boxWidth);
           console.log('MODEL_ACTIVATION_JS: SLIDER_DEBUG: Calculated visible boxes: ' + visibleBoxes + 
-                     ' (container width: ' + containerWidth + 'px, box width: ' + config.boxWidth + 'px)');
+                     ' (container width: ' + containerWidth + 'px, box width: ' + boxWidth + 'px)');
           return visibleBoxes;
         }
         
@@ -521,7 +515,7 @@ class C_Home_Agents(C_Home_AgentsTemplate):
           currentPosition = position;
           
           // Clamp position so we can't scroll past the first or last item
-          const maxPosition = (boxes.length - calculateVisibleBoxes()) * config.boxWidth;
+          const maxPosition = (boxes.length - calculateVisibleBoxes()) * boxWidth;
           if (currentPosition < 0) currentPosition = 0;
           if (currentPosition > maxPosition) currentPosition = maxPosition;
           
@@ -546,45 +540,38 @@ class C_Home_Agents(C_Home_AgentsTemplate):
         
         // Function to center content
         function centerContent() {
+          // 1. Get the container width
           const container = track.parentElement;
           const containerWidth = container.offsetWidth;
           
-          // Calculate actual width of all boxes (based on actual DOM measurements)
-          let totalBoxesWidth = 0;
-          for (let i = 0; i < boxes.length; i++) {
-            const box = boxes[i];
-            const style = window.getComputedStyle(box);
-            const width = box.offsetWidth;
-            const marginRight = parseInt(style.marginRight) || 0;
-            
-            // Add width and margin (except for last box)
-            if (i < boxes.length - 1) {
-              totalBoxesWidth += width + marginRight;
-            } else {
-              totalBoxesWidth += width; // Last box doesn't need margin
-            }
-          }
+          // 2. Simplest centering calculation
+          // For each box we use 295px which includes its width and right margin
+          const boxWidth = 295;
           
-          // Calculate centering offset
-          const extraSpace = containerWidth - totalBoxesWidth;
+          // Total width of all boxes (minus right margin of last box)
+          const rightMargin = 20;
+          const totalWidth = (boxes.length * boxWidth) - rightMargin;
           
-          // Apply dynamic centering with config offset for fine-tuning
-          let centerOffset = Math.floor(extraSpace / 2) + config.centeringOffset;
+          // Calculate empty space on each side
+          const emptySpace = containerWidth - totalWidth;
           
-          // Ensure we don't have negative offset (would push content off-screen)
-          centerOffset = Math.max(0, centerOffset);
+          // Center the content with a small leftward adjustment (-15px)
+          // This adjustment helps account for any layout inconsistencies
+          const leftAdjustment = 15;
+          const centerPosition = (emptySpace / 2) - leftAdjustment;
           
-          // Apply transform for centering
-          track.style.transform = 'translateX(' + centerOffset + 'px)';
+          // Apply transform (ensure we don't go negative)
+          const finalPosition = Math.max(0, centerPosition);
+          track.style.transform = 'translateX(' + finalPosition + 'px)';
           
-          console.log('MODEL_ACTIVATION_JS: SLIDER_DEBUG: Centering with measured widths - ' +
-                     'container: ' + containerWidth + 'px, content: ' + totalBoxesWidth + 'px, ' +
-                     'offset: ' + centerOffset + 'px (with correction: ' + config.centeringOffset + 'px)');
+          console.log('MODEL_ACTIVATION_JS: SLIDER_DEBUG: Simple centering - ' +
+                     'container: ' + containerWidth + 'px, content: ' + totalWidth + 'px, ' +
+                     'position: ' + finalPosition + 'px (with adjustment: -' + leftAdjustment + 'px)');
         }
         
         // Function to update arrow visibility
         function updateArrowVisibility() {
-          const maxPosition = (boxes.length - calculateVisibleBoxes()) * config.boxWidth;
+          const maxPosition = (boxes.length - calculateVisibleBoxes()) * boxWidth;
           
           // If all boxes fit, hide both arrows
           if (maxPosition <= 0) {
@@ -601,11 +588,11 @@ class C_Home_Agents(C_Home_AgentsTemplate):
         
         // Set up click handlers for arrows
         leftArrow.addEventListener('click', function() {
-          updateSliderPosition(currentPosition - config.boxWidth);
+          updateSliderPosition(currentPosition - boxWidth);
         });
         
         rightArrow.addEventListener('click', function() {
-          updateSliderPosition(currentPosition + config.boxWidth);
+          updateSliderPosition(currentPosition + boxWidth);
         });
         
         // Set initial position and arrow visibility
@@ -629,7 +616,7 @@ class C_Home_Agents(C_Home_AgentsTemplate):
         }
         
         console.log('MODEL_ACTIVATION_JS: SLIDER_DEBUG: Slider fully initialized');
-      }, config.initDelayMs);
+      }, 50);
     """
     
     # Add HTML debugging to check structure
