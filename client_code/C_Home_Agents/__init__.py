@@ -10,6 +10,7 @@ import anvil.js
 from anvil import get_open_form
 from ..nav import click_button, save_var
 import time
+from anvil.js.window import location
 
 
 class C_Home_Agents(C_Home_AgentsTemplate):
@@ -48,65 +49,9 @@ class C_Home_Agents(C_Home_AgentsTemplate):
   
   def form_show(self, **event_args):
     """This method is called when the HTML panel is shown on the screen"""
-    print("MODEL_ACTIVATION: form_show called")
     # Log initial state
     user = anvil.users.get_user()
-    print(f"MODEL_ACTIVATION: Current user: {user['user_id'] if user else 'None'}")
     current_model = get_open_form().get_model_id() if hasattr(get_open_form(), 'get_model_id') else 'unknown'
-    print(f"MODEL_ACTIVATION: Current model_id (before any clicks): {current_model}")
-
-  def activate_model(self, model_id, **event_args):
-    """
-    Activates the model before navigating to artist page.
-    
-    Args:
-        model_id: The ID of the model to activate
-    """
-    print(f"MODEL_ACTIVATION: Starting activation for model_id: {model_id}, type: {type(model_id)}")
-    # Store model_id for reference
-    self.model_id_view = model_id
-    
-    user = anvil.users.get_user()
-    print(f"MODEL_ACTIVATION: Current user: {user}")
-    
-    if user and model_id:
-      # Log each step for debugging
-      print(f"MODEL_ACTIVATION: Step 1: Updating model usage for user {user['user_id']} and model {model_id}")
-      try:
-        # Update model usage on server
-        result = anvil.server.call('update_model_usage', user["user_id"], model_id)
-        print(f"MODEL_ACTIVATION: Step 1 complete: Server call result: {result}")
-      except Exception as e:
-        print(f"MODEL_ACTIVATION: ERROR in server call: {str(e)}")
-      
-      print(f"MODEL_ACTIVATION: Step 2: Saving model_id {model_id} to client storage")
-      try:
-        # Save model ID in client storage
-        save_var('model_id', model_id)
-        # Verify it was saved
-        saved_model = anvil.js.window.localStorage.getItem('model_id')
-        print(f"MODEL_ACTIVATION: Step 2 complete: Variable saved, localStorage value: {saved_model}")
-      except Exception as e:
-        print(f"MODEL_ACTIVATION: ERROR saving variable: {str(e)}")
-      
-      print("MODEL_ACTIVATION: Step 3: Getting main form and refreshing models underline")
-      try:
-        # Refresh models underline in MainIn form
-        main_form = get_open_form()
-        print(f"MODEL_ACTIVATION: Main form type: {type(main_form).__name__}")
-        if hasattr(main_form, 'refresh_models_underline'):
-          print("MODEL_ACTIVATION: Main form has refresh_models_underline method")
-          main_form.refresh_models_underline()
-          print("MODEL_ACTIVATION: Step 3 complete: Models underline refreshed")
-        else:
-          print(f"MODEL_ACTIVATION: WARNING: Main form does not have refresh_models_underline method. Available methods: {[m for m in dir(main_form) if not m.startswith('_') and callable(getattr(main_form, m))]}")
-      except Exception as e:
-        print(f"MODEL_ACTIVATION: ERROR refreshing models: {str(e)}")
-    else:
-      print(f"MODEL_ACTIVATION: Cannot activate model: user present={user is not None}, model_id={model_id}")
-    
-    print("MODEL_ACTIVATION: Activation function completed")
-    return True
     
   def handle_discover_click(self, artist_id, model_id, ctrl_key=False):
     """
@@ -168,7 +113,9 @@ class C_Home_Agents(C_Home_AgentsTemplate):
           
           if hasattr(main_form, 'refresh_models_underline'):
             print(f"MODEL_ACTIVATION [{timestamp}]: Found refresh_models_underline method on main_form, calling it")
+            print(f'MODEL_ACTIVATION: {location.hash}')
             main_form.refresh_models_underline()
+            main_form.reset_nav_backgrounds()
           else:
             print(f"MODEL_ACTIVATION [{timestamp}]: Main form doesn't have refresh_models_underline")
         except Exception as e:
@@ -183,6 +130,7 @@ class C_Home_Agents(C_Home_AgentsTemplate):
           if parent and hasattr(parent, 'refresh_models_underline'):
             print(f"MODEL_ACTIVATION [{timestamp}]: Found refresh_models_underline on parent, calling it")
             parent.refresh_models_underline()
+            parent.reset_nav_backgrounds()
           elif parent:
             print(f"MODEL_ACTIVATION [{timestamp}]: Parent exists but no refresh_models_underline method")
             # Try to go up one more level
@@ -190,6 +138,7 @@ class C_Home_Agents(C_Home_AgentsTemplate):
             if grandparent and hasattr(grandparent, 'refresh_models_underline'):
               print(f"MODEL_ACTIVATION [{timestamp}]: Found refresh_models_underline on grandparent, calling it")
               grandparent.refresh_models_underline()
+              grandparent.reset_nav_backgrounds()
         except Exception as e:
           print(f"MODEL_ACTIVATION [{timestamp}]: Error with approach 2: {str(e)}")
         
@@ -198,6 +147,7 @@ class C_Home_Agents(C_Home_AgentsTemplate):
           if hasattr(anvil.app, 'refresh_models_underline'):
             print(f"MODEL_ACTIVATION [{timestamp}]: Found refresh_models_underline on anvil.app, calling it")
             anvil.app.refresh_models_underline()
+            anvil.app.reset_nav_backgrounds()
           else:
             print(f"MODEL_ACTIVATION [{timestamp}]: anvil.app doesn't have refresh_models_underline")
             # List available app methods
@@ -222,10 +172,12 @@ class C_Home_Agents(C_Home_AgentsTemplate):
           if hasattr(anvil, 'MainIn') and hasattr(anvil.MainIn, 'refresh_models_underline'):
             print(f"MODEL_ACTIVATION [{timestamp}]: Found MainIn on anvil, calling refresh_models_underline")
             anvil.MainIn.refresh_models_underline()
+            anvil.MainIn.reset_nav_backgrounds()
             
           if hasattr(anvil.app, 'MainIn') and hasattr(anvil.app.MainIn, 'refresh_models_underline'):
             print(f"MODEL_ACTIVATION [{timestamp}]: Found MainIn on anvil.app, calling refresh_models_underline")
             anvil.app.MainIn.refresh_models_underline()
+            anvil.app.MainIn.reset_nav_backgrounds()
         except Exception as e:
           print(f"MODEL_ACTIVATION [{timestamp}]: Error with approach 5: {str(e)}")
       else:
@@ -289,7 +241,7 @@ class C_Home_Agents(C_Home_AgentsTemplate):
           progress_bar_class = ""
           
           if model_level == "Senior":
-            next_level_text = "You're a pro"
+            next_level_text = "You're a Pro"
             is_senior = True
             progress_bar_class = "progress-bar-senior"
           elif model_level == "Junior":
