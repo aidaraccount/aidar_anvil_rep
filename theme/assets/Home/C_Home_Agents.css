@@ -195,21 +195,44 @@
   background-color: rgba(255, 76, 43, 1);
 }
 
-/* Edge transparency for model boxes */
-.model-box.edge-left {
-  mask-image: linear-gradient(to right, transparent 0%, rgba(0, 0, 0, 0.5) 30%, rgba(0, 0, 0, 1) 60%, rgba(0, 0, 0, 1) 100%);
-  -webkit-mask-image: linear-gradient(to right, transparent 0%, rgba(0, 0, 0, 0.5) 30%, rgba(0, 0, 0, 1) 60%, rgba(0, 0, 0, 1) 100%);
-}
-
-.model-box.edge-right {
-  mask-image: linear-gradient(to left, transparent 0%, rgba(0, 0, 0, 0.5) 30%, rgba(0, 0, 0, 1) 60%, rgba(0, 0, 0, 1) 100%);
-  -webkit-mask-image: linear-gradient(to left, transparent 0%, rgba(0, 0, 0, 0.5) 30%, rgba(0, 0, 0, 1) 60%, rgba(0, 0, 0, 1) 100%);
-}
-
-/* Remove the previous gradient overlays */
+/* Create overlay gradients on the container instead of on the boxes */
 .slider-container::before,
 .slider-container::after {
-  content: none;
+  content: "";
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: 60px;
+  z-index: 5;
+  pointer-events: none; /* Allow clicks to pass through */
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.slider-container::before {
+  left: 0;
+  background: linear-gradient(to right, rgba(23, 15, 45, 1) 0%, rgba(23, 15, 45, 0) 100%);
+}
+
+.slider-container::after {
+  right: 0;
+  background: linear-gradient(to left, rgba(23, 15, 45, 1) 0%, rgba(23, 15, 45, 0) 100%);
+}
+
+/* Show the gradient overlays only when arrows are visible */
+.slider-container.show-left-overlay::before {
+  opacity: 1;
+}
+
+.slider-container.show-right-overlay::after {
+  opacity: 1;
+}
+
+/* Remove the previous box-specific mask approach */
+.model-box.edge-left,
+.model-box.edge-right {
+  mask-image: none;
+  -webkit-mask-image: none;
 }
 
 .center-slider-content {

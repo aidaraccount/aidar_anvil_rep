@@ -391,10 +391,8 @@ class C_Home_Agents(C_Home_AgentsTemplate):
           console.log('MODEL_ACTIVATION_JS: SLIDER_DEBUG: Updating arrows. Current position: ' + 
                      currentPosition + ', Max position: ' + maxPosition);
           
-          // Remove all edge classes first
-          boxes.forEach(box => {
-            box.classList.remove('edge-left', 'edge-right');
-          });
+          // Clear previous edge effects
+          track.parentElement.classList.remove('show-left-overlay', 'show-right-overlay');
           
           // Only apply edge effects if arrows are visible
           const leftArrowVisible = currentPosition > 0;
@@ -409,44 +407,13 @@ class C_Home_Agents(C_Home_AgentsTemplate):
             leftArrow.style.display = leftArrowVisible ? 'flex' : 'none';
             rightArrow.style.display = rightArrowVisible ? 'flex' : 'none';
             
-            // Get container dimensions to determine which boxes are behind arrows
-            const container = track.parentElement;
-            const containerRect = container.getBoundingClientRect();
-            const leftArrowWidth = 60; // Approximate width affected by the left arrow including padding
-            const rightArrowWidth = 60; // Approximate width affected by the right arrow including padding
-            
-            // Only apply transparency to boxes that would be partially covered by arrows
+            // Apply overlay effects only where arrows are visible
             if (leftArrowVisible) {
-              // Find boxes that overlap with the left arrow zone
-              boxes.forEach((box, index) => {
-                const boxRect = box.getBoundingClientRect();
-                const boxLeft = boxRect.left - containerRect.left;
-                const boxRight = boxRect.right - containerRect.left;
-                
-                // If the box overlaps with the left arrow zone
-                if (boxLeft < leftArrowWidth && boxRight > 0) {
-                  box.classList.add('edge-left');
-                  console.log('MODEL_ACTIVATION_JS: SLIDER_DEBUG: Added left edge effect to box', index);
-                }
-              });
+              track.parentElement.classList.add('show-left-overlay');
             }
             
             if (rightArrowVisible) {
-              // Find boxes that overlap with the right arrow zone
-              const containerWidth = containerRect.width;
-              const rightArrowZone = containerWidth - rightArrowWidth;
-              
-              boxes.forEach((box, index) => {
-                const boxRect = box.getBoundingClientRect();
-                const boxLeft = boxRect.left - containerRect.left;
-                const boxRight = boxRect.right - containerRect.left;
-                
-                // If the box overlaps with the right arrow zone
-                if (boxRight > rightArrowZone && boxLeft < containerWidth) {
-                  box.classList.add('edge-right');
-                  console.log('MODEL_ACTIVATION_JS: SLIDER_DEBUG: Added right edge effect to box', index);
-                }
-              });
+              track.parentElement.classList.add('show-right-overlay');
             }
           }
         }
