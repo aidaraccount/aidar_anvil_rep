@@ -256,6 +256,7 @@ components:
     name: column_panel_4
     properties: {role: grid-main, spacing_above: none, spacing_below: none}
     type: ColumnPanel
+  data_bindings: []
   layout_properties: {grid_position: 'VHEAUQ,QULOXH'}
   name: content_panel
   properties: {col_widths: '{"QVOGKC":45,"EQZHSN":15,"DXHNXO":45,"AKJIUD":15}', role: null}
