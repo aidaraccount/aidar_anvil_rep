@@ -1,173 +1,174 @@
 /* 1. NextUp container and table */
 .nextup-container {
-    padding: 8px 0;
-    margin: 0;
+  padding: 8px 0;
+  margin: 0;
 }
 
 .nextup-table {
-    width: 100%;
-    border-collapse: collapse;
-    background-color: #2D2D3A;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #2D2D3A;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 /* 2. NextUp table rows */
 .nextup-row {
-    height: 36px;
-    transition: opacity 0.3s ease;
+  height: 36px;
+  transition: opacity 0.3s ease;
 }
 
 .nextup-row:hover {
-    background-color: rgba(255, 255, 255, 0.05);
+  background-color: rgba(255, 255, 255, 0.05);
 }
 
 /* 3. NextUp table cells */
 .nextup-radio-cell {
-    width: 28px;
-    padding: 0 4px;
-    text-align: center;
-    vertical-align: middle;
-    cursor: pointer;
+  width: 28px;
+  padding: 0 4px;
+  text-align: center;
+  vertical-align: middle;
+  cursor: pointer;
 }
 
 .nextup-pic-cell {
-    width: 24px;
-    padding: 0 4px;
-    text-align: center;
-    vertical-align: middle;
+  width: 24px;
+  padding: 0 4px;
+  text-align: center;
+  vertical-align: middle;
 }
 
 .nextup-artist-pic {
-    width: 24px;
-    height: 24px;
-    border-radius: 50%;
-    object-fit: cover;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  object-fit: cover;
 }
 
 .nextup-name-cell {
-    padding: 0 8px;
-    color: var(--Orange);
-    font-weight: 500;
-    font-size: 14px;
-    vertical-align: middle;
+  padding: 0 8px;
+  color: var(--Orange);
+  font-weight: 500;
+  font-size: 14px;
+  vertical-align: middle;
 }
 
 .nextup-name-cell a {
-    color: var(--Orange);
-    text-decoration: none;
-    cursor: pointer;
+  color: var(--Orange);
+  text-decoration: none;
+  cursor: pointer;
 }
 
 .nextup-name-cell a:hover {
-    text-decoration: underline;
+  text-decoration: underline;
 }
 
 .nextup-status-cell {
-    padding: 0 8px;
-    color: white;
-    font-size: 12px;
-    text-align: center;
-    vertical-align: middle;
+  padding: 0 8px;
+  color: white;
+  font-size: 12px;
+  text-align: center;
+  vertical-align: middle;
 }
 
 .nextup-priority-cell {
-    padding: 0 8px;
-    color: white;
-    font-size: 12px;
-    text-align: center;
-    vertical-align: middle;
+  padding: 0 8px;
+  color: white;
+  font-size: 12px;
+  text-align: center;
+  vertical-align: middle;
 }
 
 .nextup-button-cell {
-    padding: 0 8px;
-    text-align: center;
-    vertical-align: middle;
-    width: 30px;
+  padding: 0 8px;
+  text-align: center;
+  vertical-align: middle;
+  width: 30px;
 }
 
 /* 4. Button styling */
 .nextup-button-cell .icon-button-disabled-small {
-    width: 24px;
-    height: 24px;
-    padding: 0;
-    background: transparent;
-    border: none;
-    color: white;
-    opacity: 0.7;
-    cursor: pointer;
-    transition: opacity 0.2s ease, color 0.2s ease;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  background: transparent;
+  border: none;
+  color: white;
+  opacity: 0.7;
+  cursor: pointer;
+  transition: opacity 0.2s ease, color 0.2s ease;
 }
 
 .nextup-button-cell .icon-button-disabled-small:hover {
-    opacity: 1;
-    color: var(--Orange);
+  opacity: 1;
+  color: var(--Orange);
 }
 
 .nextup-button-cell .fa {
-    font-size: 14px;
+  font-size: 14px;
 }
 
 /* 5. Radio button styling */
 .radio-button {
-    position: relative;
-    display: inline-block;
-    width: 14px;
-    height: 14px;
-    cursor: pointer;
+  position: relative;
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  cursor: pointer;
 }
 
 .radio-dot {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 14px;
-    height: 14px;
-    background-color: rgba(255, 255, 255, 0.2);
-    border-radius: 50%;
-    cursor: pointer;
-    transition: all 0.2s ease;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 14px;
+  height: 14px;
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.2s ease;
 }
 
 .radio-dot:before {
-    content: "";
-    position: absolute;
-    top: 2.5px;
-    left: 2.5px;
-    width: 9px;
-    height: 9px;
-    background-color: var(--Orange);
-    border-radius: 50%;
-    opacity: 1;
-    transition: all 0.2s ease;
+  content: "";
+  position: absolute;
+  top: 2.5px;
+  left: 2.5px;
+  width: 9px;
+  height: 9px;
+  background-color: var(--Orange);
+  border-radius: 50%;
+  opacity: 1;
+  transition: all 0.2s ease;
 }
 
 .radio-dot:hover {
-    box-shadow: 0 0 5px rgba(255, 110, 78, 0.5);
+  box-shadow: 0 0 5px rgba(255, 110, 78, 0.5);
 }
 
 /* 6. Show more/less link styling */
 .nextup-toggle-container {
-    text-align: right;
-    padding: 0px 10px;
+  text-align: right;
+  padding: 0px 10px;
+  font-size: 16px;
 }
 
 .nextup-toggle-link {
-    color: var(--Orange);
-    font-size: 13px;
-    cursor: pointer;
-    text-decoration: none;
-    font-weight: 500;
-    transition: opacity 0.2s ease;
+  color: var(--Orange);
+  font-size: 13px;
+  cursor: pointer;
+  text-decoration: none;
+  font-weight: 500;
+  transition: opacity 0.2s ease;
 }
 
 .nextup-toggle-link:hover {
-    opacity: 0.8;
-    text-decoration: underline;
+  opacity: 0.8;
+  text-decoration: underline;
 }
 
 /* 7. Hidden row styling */
 .nextup-row.hidden {
-    display: none;
+  display: none;
 }

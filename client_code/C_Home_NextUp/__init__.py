@@ -20,7 +20,7 @@ class C_Home_NextUp(C_Home_NextUpTemplate):
 
     # Any code you write here will run before the form opens.
     self.data = data
-    self.max_visible_rows = 3
+    self.max_visible_rows = 7
     self.expanded = False
     
     # 1. Register JavaScript callbacks for direct call (not promises)
@@ -58,7 +58,7 @@ class C_Home_NextUp(C_Home_NextUpTemplate):
         var rows = document.querySelectorAll('.nextup-row');
         var toggleLink = document.getElementById('nextup-toggle-link');
         
-        for (var i = 3; i < rows.length; i++) {
+        for (var i = 7; i < rows.length; i++) {
           rows[i].classList.toggle('hidden', !expanded);
         }
         
