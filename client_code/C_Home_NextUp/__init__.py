@@ -23,25 +23,6 @@ class C_Home_NextUp(C_Home_NextUpTemplate):
     
     # 1. Register JavaScript callbacks for direct call (not promises)
     anvil.js.call_js('eval', """
-      // Handle row removal with pure DOM manipulation to ensure reliability
-      window.removeTableRow = function(rowId) {
-        console.log('[DEBUG] Pure DOM: Removing row with ID:', rowId);
-        var row = document.getElementById(rowId);
-        if (row) {
-          row.style.transition = 'opacity 0.3s ease';
-          row.style.opacity = '0';
-          
-          setTimeout(function() {
-            if (row && row.parentNode) {
-              row.parentNode.removeChild(row);
-              console.log('[DEBUG] Pure DOM: Row removed successfully');
-            }
-          }, 300);
-        } else {
-          console.error('[DEBUG] Pure DOM: Row element not found with ID:', rowId);
-        }
-      };
-    
       window.pyArtistNameClicked = function(artistId) {
         console.log('[DEBUG] Artist name clicked with ID:', artistId);
         location.hash = 'artists?artist_id=' + artistId;
@@ -49,11 +30,10 @@ class C_Home_NextUp(C_Home_NextUpTemplate):
       }
       
       window.pyRadioClicked = function(artistId, watchlistId, rowId) {
-        console.log('[DEBUG] Calling Python radio click handler with ID:', artistId, 'watchlist:', watchlistId);
-        window._anvilJSCallableObjects.pyRadioClicked.call(artistId, watchlistId, rowId);
-        
-        // Directly trigger row removal through pure DOM manipulation
-        window.removeTableRow(rowId);
+        console.log('[DEBUG] Calling Python radio click handler for removal with ID:', artistId, 'watchlist:', watchlistId);
+        // Extract the row index from the ID
+        var rowIndex = rowId.split('-').pop();
+        window._anvilJSCallableObjects.pyRadioClicked.call(artistId, watchlistId, rowIndex);
         return true;
       }
       
@@ -65,7 +45,6 @@ class C_Home_NextUp(C_Home_NextUpTemplate):
     """)
     
     # Register the Python functions
-    anvil.js.window.pyArtistNameClicked = self.handle_artist_name_click
     anvil.js.window.pyRadioClicked = self.handle_radio_click
     
     # 2. Create NextUp table
@@ -75,35 +54,38 @@ class C_Home_NextUp(C_Home_NextUpTemplate):
     """This method is called when the HTML panel is shown on the screen"""
     pass
     
-  def handle_artist_name_click(self, artist_id):
-    """
-    JavaScript callback for when an artist name is clicked.
-    Navigates to the artist detail page.
-    
-    Args:
-        artist_id: The ID of the artist to navigate to
-    """
-    print(f"[DEBUG] Artist name clicked: {artist_id}")
-    
-    # Navigation is handled in JavaScript by setting location.hash
-    return True
-    
-  def handle_radio_click(self, artist_id, watchlist_id, row_id):
+  def handle_radio_click(self, artist_id, watchlist_id, row_index):
     """
     JavaScript callback for when a radio button is clicked.
-    The row will be removed from the table.
+    The row will be removed from the data and the table will be refreshed.
     
     Args:
         artist_id: The ID of the artist
         watchlist_id: The ID of the watchlist entry
-        row_id: The HTML ID of the row to remove
+        row_index: The index of the row in the data array
     """
-    print(f"[DEBUG] Radio clicked for artist {artist_id}, watchlist {watchlist_id}, row {row_id}")
+    print(f"[DEBUG] Radio clicked for artist {artist_id}, watchlist {watchlist_id}, index {row_index}")
     
-    # Here you would typically update a database or perform an action
-    # anvil.server.call('update_artist_status', artist_id, watchlist_id)
+    try:
+      # Convert row_index to integer
+      index = int(row_index)
+      
+      # Remove the item from the data array if index is valid
+      if 0 <= index < len(self.data):
+        removed_item = self.data.pop(index)
+        print(f"[DEBUG] Removed item from data: {removed_item}")
+        
+        # Here you would typically update a database or perform a server action
+        # anvil.server.call('update_artist_status', artist_id, watchlist_id)
+        
+        # Regenerate the table with the updated data
+        self.create_nextup_table()
+        print(f"[DEBUG] Table refreshed with {len(self.data)} items remaining")
+      else:
+        print(f"[DEBUG] Invalid row index: {index}, data length: {len(self.data)}")
+    except Exception as e:
+      print(f"[DEBUG] Error removing item: {str(e)}")
     
-    # Row removal is now handled directly in JavaScript
     return True
 
   def create_nextup_table(self):
@@ -155,14 +137,14 @@ class C_Home_NextUp(C_Home_NextUpTemplate):
       html_content += f"""
         <tr id="{row_id}" class="nextup-row">
           <td class="nextup-radio-cell">
-            <div class="radio-button" onclick="window.pyRadioClicked('{artist_id}', '{watchlist_id}', '{row_id}')">
+            <div class="radio-button" onclick="window.pyRadioClicked('{artist_id}', '{watchlist_id}', '{i}')">
               <div class="radio-dot"></div>
             </div>
           </td>
           <td class="nextup-pic-cell">
             <img src="{artist_pic_url}" class="nextup-artist-pic" alt="{artist_name}">
           </td>
-          <td class="nextup-name-cell" onclick="window.pyArtistNameClicked('{artist_id}')">{artist_name}</td>
+          <td class="nextup-name-cell"><a href="javascript:void(0)" onclick="window.pyArtistNameClicked('{artist_id}')">{artist_name}</a></td>
           <td class="nextup-status-cell">{status_display}</td>
           <td class="nextup-priority-cell">{priority_display}</td>
           <td class="nextup-button-cell">
