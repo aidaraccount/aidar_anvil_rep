@@ -11,7 +11,6 @@ from anvil import get_open_form
 from ..nav import click_button, save_var
 import time
 from anvil.js.window import location
-import traceback
 
 
 class C_Home_NextUp(C_Home_NextUpTemplate):
@@ -22,15 +21,45 @@ class C_Home_NextUp(C_Home_NextUpTemplate):
     # Any code you write here will run before the form opens.
     self.data = data
     
-    # 1. Register JavaScript callbacks
-    print("NEXTUP_DEBUG: Registering JavaScript callbacks")
-    try:
-      anvil.js.window.pyArtistClicked = self.handle_artist_click
-      anvil.js.window.pyRadioClicked = self.handle_radio_click
-      anvil.js.window.pyWatchlistClicked = self.handle_watchlist_click
-      print("NEXTUP_DEBUG: Callbacks registered successfully")
-    except Exception as e:
-      print(f"NEXTUP_ERROR: Failed to register callbacks: {str(e)}")
+    # 1. Register JavaScript callbacks for direct call (not promises)
+    anvil.js.call_js('eval', """
+      window.pyArtistClicked = function(artistId) {
+        console.log('[DEBUG] Calling Python artist click handler with ID:', artistId);
+        return window._anvilJSCallableObjects.pyArtistClicked.call(artistId);
+      }
+      
+      window.pyRadioClicked = function(artistId, watchlistId, rowId) {
+        console.log('[DEBUG] Calling Python radio click handler with ID:', artistId, 'watchlist:', watchlistId);
+        window._anvilJSCallableObjects.pyRadioClicked.call(artistId, watchlistId, rowId);
+        
+        // Handle row removal directly in JS for reliability
+        console.log('[DEBUG] Removing row with ID:', rowId);
+        var row = document.getElementById(rowId);
+        if (row) {
+          row.style.opacity = '0';
+          setTimeout(function() {
+            if (row.parentNode) {
+              row.parentNode.removeChild(row);
+              console.log('[DEBUG] Row removed successfully');
+            }
+          }, 300);
+        } else {
+          console.error('[DEBUG] Row not found with ID:', rowId);
+        }
+        
+        return true;
+      }
+      
+      window.pyWatchlistClicked = function(artistId, watchlistId) {
+        console.log('[DEBUG] Calling Python watchlist click handler with ID:', artistId, 'watchlist:', watchlistId);
+        return window._anvilJSCallableObjects.pyWatchlistClicked.call(artistId, watchlistId);
+      }
+    """)
+    
+    # Register the Python functions
+    anvil.js.window.pyArtistClicked = self.handle_artist_click
+    anvil.js.window.pyRadioClicked = self.handle_radio_click
+    anvil.js.window.pyWatchlistClicked = self.handle_watchlist_click
     
     # 2. Create NextUp table
     self.create_nextup_table()
@@ -39,24 +68,25 @@ class C_Home_NextUp(C_Home_NextUpTemplate):
     """This method is called when the HTML panel is shown on the screen"""
     pass
     
-  def handle_artist_click(self, artist_id, **kwargs):
+  def handle_artist_click(self, artist_id):
     """
     JavaScript callback for when an artist row is clicked.
     
     Args:
         artist_id: The ID of the artist to navigate to
     """
-    print(f"NEXTUP_DEBUG: Artist clicked, ID: {artist_id}")
+    print("[DEBUG] Artist clicked:", artist_id)
+    
     try:
       # Navigate to the artist's page using the nav.click_button function
       click_button('artist_view', {'artist_id': artist_id})
-      return {"success": True, "artist_id": artist_id}
+      print("[DEBUG] Successfully navigated to artist view")
     except Exception as e:
-      print(f"NEXTUP_ERROR: Error in artist click handler: {str(e)}")
-      print(f"NEXTUP_ERROR: {traceback.format_exc()}")
-      return {"success": False, "error": str(e)}
+      print(f"[DEBUG] Error navigating to artist view: {str(e)}")
     
-  def handle_radio_click(self, artist_id, watchlist_id, row_id, **kwargs):
+    return True
+    
+  def handle_radio_click(self, artist_id, watchlist_id, row_id):
     """
     JavaScript callback for when a radio button is clicked.
     The row will be removed from the table.
@@ -66,44 +96,15 @@ class C_Home_NextUp(C_Home_NextUpTemplate):
         watchlist_id: The ID of the watchlist entry
         row_id: The HTML ID of the row to remove
     """
-    try:
-      # Print information about the clicked radio button
-      print(f"NEXTUP_DEBUG: Radio clicked for artist {artist_id}, watchlist {watchlist_id}, row {row_id}")
-      
-      # Here you would typically update a database or perform an action
-      # anvil.server.call('update_artist_status', artist_id, watchlist_id)
-      
-      # Use anvil.js.call to execute JavaScript to remove the row
-      print(f"NEXTUP_DEBUG: Removing row {row_id} from DOM")
-      js_code = f"""
-      (function() {{
-        const row = document.getElementById('{row_id}');
-        if (row) {{
-          row.style.transition = 'opacity 0.3s ease';
-          row.style.opacity = '0';
-          setTimeout(function() {{
-            if (row.parentNode) {{
-              row.parentNode.removeChild(row);
-              console.log('NEXTUP_DEBUG: Row {row_id} removed');
-            }}
-          }}, 300);
-          return true;
-        }} else {{
-          console.warn('NEXTUP_DEBUG: Row {row_id} not found');
-          return false;
-        }}
-      }})();
-      """
-      result = anvil.js.call_js('eval', js_code)
-      print(f"NEXTUP_DEBUG: Row removal result: {result}")
-      
-      return {"success": True, "artist_id": artist_id, "watchlist_id": watchlist_id, "row_id": row_id}
-    except Exception as e:
-      print(f"NEXTUP_ERROR: Error in radio click handler: {str(e)}")
-      print(f"NEXTUP_ERROR: {traceback.format_exc()}")
-      return {"success": False, "error": str(e)}
+    print(f"[DEBUG] Radio clicked for artist {artist_id}, watchlist {watchlist_id}, row {row_id}")
     
-  def handle_watchlist_click(self, artist_id, watchlist_id, **kwargs):
+    # Here you would typically update a database or perform an action
+    # anvil.server.call('update_artist_status', artist_id, watchlist_id)
+    
+    # Row removal is now handled directly in JavaScript
+    return True
+    
+  def handle_watchlist_click(self, artist_id, watchlist_id):
     """
     JavaScript callback for when the watchlist icon button is clicked.
     Redirects to the watchlist details page.
@@ -112,16 +113,23 @@ class C_Home_NextUp(C_Home_NextUpTemplate):
         artist_id: The ID of the artist
         watchlist_id: The ID of the watchlist entry
     """
+    print(f"[DEBUG] Watchlist button clicked for artist {artist_id}, watchlist {watchlist_id}")
+    
     try:
-      print(f"NEXTUP_DEBUG: Watchlist button clicked for artist {artist_id}, watchlist {watchlist_id}")
+      # Use hash routing to navigate to watchlist details
+      # First check if the function exists
+      page_name = 'watchlist_details'
+      params = {'watchlist_id': watchlist_id, 'artist_id': artist_id}
       
-      # Navigate to the watchlist details page
-      click_button('watchlist_details', {'watchlist_id': watchlist_id, 'artist_id': artist_id})
-      return {"success": True, "artist_id": artist_id, "watchlist_id": watchlist_id}
+      print(f"[DEBUG] Attempting to navigate to {page_name} with params: {params}")
+      
+      # Try a simpler approach using direct hash routing
+      location.hash = f"#watchlist_details?watchlist_id={watchlist_id}&artist_id={artist_id}"
+      print(f"[DEBUG] Set location hash to: {location.hash}")
     except Exception as e:
-      print(f"NEXTUP_ERROR: Error in watchlist click handler: {str(e)}")
-      print(f"NEXTUP_ERROR: {traceback.format_exc()}")
-      return {"success": False, "error": str(e)}
+      print(f"[DEBUG] Error in watchlist navigation: {str(e)}")
+    
+    return True
 
   def create_nextup_table(self):
     """
@@ -202,74 +210,53 @@ class C_Home_NextUp(C_Home_NextUpTemplate):
     
     # 5. JavaScript for handling clicks
     js_code = """
-    console.log('NEXTUP_DEBUG: NextUp table JavaScript loaded');
+    console.log('[DEBUG] NextUp table JavaScript loaded');
     
     // Function to handle artist row clicks
     window.artistClicked = function(event, artistId) {
       event.stopPropagation();
-      console.log('NEXTUP_DEBUG: Artist clicked, ID:', artistId);
+      console.log('[DEBUG] Artist clicked, ID:', artistId);
       
       // Ignore clicks on the button or radio
       if (event.target.closest('.icon-button-disabled-small') || 
           event.target.closest('i.fa') ||
           event.target.closest('.radio-button') ||
           event.target.closest('.radio-dot')) {
-        console.log('NEXTUP_DEBUG: Button or radio clicked, stopping propagation');
+        console.log('[DEBUG] Button or radio clicked, stopping propagation');
         return;
       }
       
-      // Call the Python callback
-      if (typeof window.pyArtistClicked === 'function') {
-        try {
-          // Call without promises
-          console.log('NEXTUP_DEBUG: Calling Python artist callback');
-          var result = window.pyArtistClicked(artistId);
-          console.log('NEXTUP_DEBUG: Python callback completed:', result);
-        } catch (err) {
-          console.error('NEXTUP_ERROR: Error calling Python function:', err);
-        }
-      } else {
-        console.warn('NEXTUP_DEBUG: Python artist callback not available');
+      // Simple direct call instead of promise
+      try {
+        window.pyArtistClicked(artistId);
+      } catch (err) {
+        console.error('[DEBUG] Error calling Python artist function:', err);
       }
     };
     
     // Function to handle radio button clicks
     window.radioClicked = function(event, artistId, watchlistId, rowId) {
       event.stopPropagation();
-      console.log('NEXTUP_DEBUG: Radio clicked for artist:', artistId, 'watchlist:', watchlistId);
+      console.log('[DEBUG] Radio clicked for artist:', artistId, 'watchlist:', watchlistId);
       
-      // Call the Python callback
-      if (typeof window.pyRadioClicked === 'function') {
-        try {
-          // Call without promises
-          console.log('NEXTUP_DEBUG: Calling Python radio callback');
-          var result = window.pyRadioClicked(artistId, watchlistId, rowId);
-          console.log('NEXTUP_DEBUG: Python radio callback completed:', result);
-        } catch (err) {
-          console.error('NEXTUP_ERROR: Error calling Python radio function:', err);
-        }
-      } else {
-        console.warn('NEXTUP_DEBUG: Python radio callback not available');
+      // Simple direct call instead of promise
+      try {
+        window.pyRadioClicked(artistId, watchlistId, rowId);
+      } catch (err) {
+        console.error('[DEBUG] Error calling Python radio function:', err);
       }
     };
     
     // Function to handle watchlist icon button clicks
     window.watchlistClicked = function(event, artistId, watchlistId) {
       event.stopPropagation();
-      console.log('NEXTUP_DEBUG: Watchlist button clicked for artist:', artistId, 'watchlist:', watchlistId);
+      console.log('[DEBUG] Watchlist button clicked for artist:', artistId, 'watchlist:', watchlistId);
       
-      // Call the Python callback
-      if (typeof window.pyWatchlistClicked === 'function') {
-        try {
-          // Call without promises
-          console.log('NEXTUP_DEBUG: Calling Python watchlist callback');
-          var result = window.pyWatchlistClicked(artistId, watchlistId);
-          console.log('NEXTUP_DEBUG: Python watchlist callback completed:', result);
-        } catch (err) {
-          console.error('NEXTUP_ERROR: Error calling Python watchlist function:', err);
-        }
-      } else {
-        console.warn('NEXTUP_DEBUG: Python watchlist callback not available');
+      // Simple direct call instead of promise
+      try {
+        window.pyWatchlistClicked(artistId, watchlistId);
+      } catch (err) {
+        console.error('[DEBUG] Error calling Python watchlist function:', err);
       }
     };
     """
