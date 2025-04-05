@@ -2080,7 +2080,7 @@ class C_Discover(C_DiscoverTemplate):
     if self.link_watchlist_name.icon == 'fa:star':
       # remove artist from wl
       self.link_watchlist_name.icon = 'fa:star-o'
-      self.link_watchlist_name2.icon = 'fa:star-o'
+      self.parent.parent.parent.parent.link_watchlist_name2.icon = 'fa:star-o'
       
       anvil.server.call('update_watchlist_details',
                         user_id=user["user_id"],
@@ -2098,7 +2098,7 @@ class C_Discover(C_DiscoverTemplate):
     else:
       # add artist to watchlist
       self.link_watchlist_name.icon = 'fa:star'
-      self.link_watchlist_name2.icon = 'fa:star'
+      self.parent.parent.parent.parent.link_watchlist_name2.icon = 'fa:star'
       
       anvil.server.call('update_watchlist_details',
                         user_id=user["user_id"],
