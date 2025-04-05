@@ -24,6 +24,7 @@ class C_Home_Hot(C_Home_HotTemplate):
     
     self.data = data
     self.max_visible_rows = 7
+    self.max_expanded_rows = 18  # Maximum number of rows when expanded
     self.expanded = False
     
     # 1. Register JavaScript callbacks for direct call (not promises)
@@ -52,12 +53,16 @@ class C_Home_Hot(C_Home_HotTemplate):
           var rows = hotContainer.querySelectorAll('.hot-row');
           var toggleLink = hotContainer.querySelector('.hot-toggle-link');
           
+          // Show rows 7-18 when expanded, hide when collapsed
           for (var i = 7; i < rows.length; i++) {
-            rows[i].classList.toggle('hidden', !expanded);
+            // If expanded, show rows up to max_expanded_rows (18)
+            // If collapsed, hide all rows beyond max_visible_rows (7)
+            var shouldHide = !expanded || (i >= 18);
+            rows[i].classList.toggle('hidden', shouldHide);
           }
           
           if (toggleLink) {
-            toggleLink.textContent = expanded ? 'show less' : 'show all';
+            toggleLink.textContent = expanded ? 'show less' : 'show more';
           }
         }
       }
@@ -76,8 +81,8 @@ class C_Home_Hot(C_Home_HotTemplate):
   
   def handle_toggle_rows_click(self):
     """
-    JavaScript callback for when the show all/show less link is clicked.
-    Toggles the visibility of rows beyond the maximum visible rows.
+    JavaScript callback for when the show more/show less link is clicked.
+    Toggles the visibility of rows beyond the maximum visible rows, up to max_expanded_rows.
     
     Returns:
         bool: True indicating successful completion
@@ -124,8 +129,12 @@ class C_Home_Hot(C_Home_HotTemplate):
       # Create unique row ID
       row_id = f"hot-row-{i}"
       
-      # Add 'hidden' class for rows beyond the max_visible_rows if not expanded
-      hidden_class = "" if i < self.max_visible_rows or self.expanded else " hidden"
+      # Add 'hidden' class for rows beyond the max_visible_rows
+      # If i is greater than max_visible_rows (7) and either
+      # 1. We are not expanded OR
+      # 2. It's beyond max_expanded_rows (18)
+      hidden_class = " hidden" if (i >= self.max_visible_rows and 
+                                   (not self.expanded or i >= self.max_expanded_rows)) else ""
       
       # Add the row for this artist
       html_content += f"""
@@ -152,7 +161,7 @@ class C_Home_Hot(C_Home_HotTemplate):
     
     # 4. Add the toggle link if there are more than max_visible_rows entries
     if len(self.data) > self.max_visible_rows:
-      toggle_text = "show less" if self.expanded else "show all"
+      toggle_text = "show less" if self.expanded else "show more"
       html_content += f"""
       <div class="hot-toggle-container">
         <a href="javascript:void(0)" id="hot-toggle-link" class="hot-toggle-link" onclick="window.pyHotToggleRowsClicked()">{toggle_text}</a>

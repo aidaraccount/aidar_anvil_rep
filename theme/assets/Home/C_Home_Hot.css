@@ -99,7 +99,7 @@
   text-align: center;
   height: 20px;
   line-height: 1;
-  transform: translateY(-1px); /* Slight adjustment to center vertically */
+  transform: translateY(-5px); /* Slight adjustment to center vertically */
 }
 
 .hot-release-label {
