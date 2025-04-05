@@ -21,27 +21,162 @@ class C_Home_Hot(C_Home_HotTemplate):
     # Any code you write here will run before the form opens.
     global user
     user = anvil.users.get_user()
-
+    
+    self.data = data
+    self.max_visible_rows = 7
+    self.expanded = False
+    
     # 1. Register JavaScript callbacks for direct call (not promises)
     anvil.js.call_js(
       "eval",
       """
+      window.pyArtistNameClicked = function(artistId) {
+        console.log('[DEBUG] Artist name clicked with ID:', artistId);
+        location.hash = 'artists?artist_id=' + artistId;
+        return true;
+      }
       
+      window.pyWatchlistClicked = function(watchlistId) {
+        console.log('[DEBUG] Watchlist clicked with ID:', watchlistId);
+        location.hash = 'watchlist_details?watchlist_id=' + watchlistId;
+        return true;
+      }
+      
+      window.pyToggleRowsClicked = function() {
+        console.log('[DEBUG] Toggle rows visibility clicked');
+        window._anvilJSCallableObjects.pyToggleRowsClicked.call();
+        return true;
+      }
+      
+      // Function to toggle the visibility of rows
+      window.toggleRowsVisibility = function(expanded) {
+        console.log('[DEBUG] Toggling rows visibility, expanded:', expanded);
+        
+        var rows = document.querySelectorAll('.hot-row');
+        var toggleLink = document.getElementById('hot-toggle-link');
+        
+        for (var i = 7; i < rows.length; i++) {
+          rows[i].classList.toggle('hidden', !expanded);
+        }
+        
+        if (toggleLink) {
+          toggleLink.textContent = expanded ? 'show less' : 'show all';
+        }
+      }
       """,
     )
 
     # Register the Python functions
-    # ...
+    anvil.js.window.pyToggleRowsClicked = self.handle_toggle_rows_click
     
-    # 2. Create NextUp table
-    self.create_nextup_table()
+    # 2. Create Hot table
+    self.create_hot_table()
 
   def form_show(self, **event_args):
     """This method is called when the HTML panel is shown on the screen"""
     pass
-
-  def create_hot_tables(self):
+  
+  def handle_toggle_rows_click(self):
     """
-    Creates the Hot tables with artist data
+    JavaScript callback for when the show all/show less link is clicked.
+    Toggles the visibility of rows beyond the maximum visible rows.
+    
+    Returns:
+        bool: True indicating successful completion
+    """
+    print(f"[DEBUG] Toggle rows visibility clicked, current state: {self.expanded}")
+    
+    # Toggle expanded state
+    self.expanded = not self.expanded
+    
+    # Call JavaScript function to toggle row visibility
+    anvil.js.call_js('window.toggleRowsVisibility', self.expanded)
+    
+    return True
+
+  def create_hot_table(self):
+    """
+    Creates the Hot table with artist data
+    """
+    # 1. Create the main container HTML with the header
+    html_content = """
+    <div class="hot-container">
+      <div class="hot-header">
+        <h3>Hot Artists</h3>
+      </div>
+      <table class="hot-table">
+        <tbody id="hot-table-body">
     """
     
+    # 2. Generate table rows for each artist
+    for i, item in enumerate(self.data):
+      artist_id = item.get('artist_id', '')
+      artist_name = item.get('name', 'Unknown')
+      artist_pic_url = item.get('artist_picture_url', '')
+      watchlist_id = item.get('watchlist_id', '')
+      watchlist_name = item.get('watchlist_name', 'Unknown')
+      days_since_last_release = item.get('days_since_last_release', 0)
+      
+      # Format the release time display
+      if days_since_last_release < 7:
+        release_display = f"{days_since_last_release}D"
+      else:
+        weeks = days_since_last_release // 7
+        release_display = f"{weeks}W"
+      
+      # Create unique row ID
+      row_id = f"hot-row-{i}"
+      
+      # Add 'hidden' class for rows beyond the max_visible_rows if not expanded
+      hidden_class = "" if i < self.max_visible_rows or self.expanded else " hidden"
+      
+      # Add the row for this artist
+      html_content += f"""
+        <tr id="{row_id}" class="hot-row{hidden_class}">
+          <td class="hot-pic-cell">
+            <img src="{artist_pic_url}" class="hot-artist-pic" alt="{artist_name}">
+          </td>
+          <td class="hot-name-cell"><a href="javascript:void(0)" onclick="window.pyArtistNameClicked('{artist_id}')">{artist_name}</a></td>
+          <td class="hot-watchlist-cell"><a href="javascript:void(0)" onclick="window.pyWatchlistClicked('{watchlist_id}')">{watchlist_name}</a></td>
+          <td class="hot-release-cell">
+            <div class="hot-release-box">
+              <span class="hot-release-label">Release</span>
+              <span class="hot-release-time">{release_display}</span>
+            </div>
+          </td>
+        </tr>
+      """
+    
+    # 3. Complete the HTML for the table
+    html_content += """
+        </tbody>
+      </table>
+    """
+    
+    # 4. Add the toggle link if there are more than max_visible_rows entries
+    if len(self.data) > self.max_visible_rows:
+      toggle_text = "show less" if self.expanded else "show all"
+      html_content += f"""
+      <div class="hot-toggle-container">
+        <a href="javascript:void(0)" id="hot-toggle-link" class="hot-toggle-link" onclick="window.pyToggleRowsClicked()">{toggle_text}</a>
+      </div>
+      """
+    
+    # 5. Complete the container HTML
+    html_content += """
+    </div>
+    """
+    
+    # 6. JavaScript for handling clicks and visibility
+    js_code = """
+    console.log('[DEBUG] Hot table JavaScript loaded');
+    
+    // Initialize row visibility
+    if (window.toggleRowsVisibility) {
+      window.toggleRowsVisibility(""" + str(self.expanded).lower() + """);
+    }
+    """
+    
+    # 7. Set the HTML content and evaluate the JavaScript
+    self.html = html_content
+    anvil.js.call_js('eval', js_code)

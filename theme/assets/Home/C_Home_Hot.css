@@ -1,0 +1,141 @@
+/* 1. Hot container, header and table */
+.hot-container {
+  padding: 8px 0;
+  margin: 0;
+}
+
+.hot-header {
+  margin-bottom: 10px;
+}
+
+.hot-header h3 {
+  color: white;
+  font-size: 18px;
+  margin: 0;
+  padding: 0;
+}
+
+.hot-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #2D2D3A;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* 2. Hot table rows */
+.hot-row {
+  height: 36px;
+  transition: opacity 0.3s ease;
+}
+
+.hot-row:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+/* 3. Hot table cells */
+.hot-pic-cell {
+  width: 30px;
+  padding: 0 4px;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.hot-artist-pic {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.hot-name-cell {
+  padding: 0 8px;
+  color: var(--Orange);
+  font-weight: 500;
+  font-size: 14px;
+  vertical-align: middle;
+  width: 30%;
+}
+
+.hot-name-cell a {
+  color: var(--Orange);
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.hot-name-cell a:hover {
+  text-decoration: underline;
+}
+
+.hot-watchlist-cell {
+  padding: 0 8px;
+  color: white;
+  font-size: 14px;
+  vertical-align: middle;
+  width: 30%;
+}
+
+.hot-watchlist-cell a {
+  color: white;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.hot-watchlist-cell a:hover {
+  color: var(--Orange);
+}
+
+.hot-release-cell {
+  padding: 0 8px;
+  text-align: right;
+  vertical-align: middle;
+  width: 25%;
+}
+
+/* 4. Release box styling */
+.hot-release-box {
+  display: inline-block;
+  background-color: var(--Purple);
+  color: white;
+  border-radius: 6px;
+  padding: 2px 8px;
+  text-align: center;
+}
+
+.hot-release-label {
+  font-size: 12px;
+  margin-right: 4px;
+  font-weight: 500;
+}
+
+.hot-release-time {
+  font-size: 12px;
+  font-weight: 700;
+}
+
+/* 5. Show more/less link styling */
+.hot-toggle-container {
+  text-align: right;
+  padding: 0px 10px;
+  font-size: 16px;
+}
+
+.hot-toggle-link {
+  color: var(--Orange);
+  font-size: 13px;
+  cursor: pointer;
+  text-decoration: none;
+  font-weight: 500;
+  transition: opacity 0.2s ease;
+}
+
+.hot-toggle-link:hover {
+  opacity: 0.8;
+  text-decoration: underline;
+}
+
+/* 6. Hidden row styling */
+.hot-row.hidden {
+  display: none;
+}

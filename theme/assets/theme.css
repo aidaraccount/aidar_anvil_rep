@@ -18,6 +18,7 @@ Area 6: Repeating Panels
 
 @import url('_/theme/Home/C_Home_Agents.css');
 @import url('_/theme/Home/C_Home_NextUp.css');
+@import url('_/theme/Home/C_Home_Hot.css');
 
 /* ----------------------------
 1.1. Text Colors */
@@ -2102,6 +2103,8 @@ footer a, .footer .anvil-component {
     opacity: 1;
   }
 }
+
+
 .anvil-role-slider-growth .noUi-horizontal {
   height: 8px;
 }
