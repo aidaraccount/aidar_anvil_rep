@@ -47,14 +47,11 @@ class ItemTemplate2(ItemTemplate2Template):
     elif self.item["Status"] in ['Success']: #SUCCESS
       status_left_new = 'In negotiations'
       
-    anvil.server.call('update_watchlist_lead',
-                      user["user_id"],
-                      None,
-                      self.item["ArtistID"],
-                      True,
-                      status_left_new,
-                      self.item["Notification"]
-                      )
+    anvil.server.call('update_watchlist_details',
+      user_id=user["user_id"],
+      ai_artist_id=self.item["ArtistID"],
+      status=status_left_new
+    )
     click_link(self.link_left, 'watchlist_funnel', event_args)
     
   def link_right_click(self, **event_args):
@@ -67,12 +64,10 @@ class ItemTemplate2(ItemTemplate2Template):
     elif self.item["Status"] in ['In negotiations', 'Contract in progress']: #NEGOTIATION
       status_right_new = 'Success'
     
-    anvil.server.call('update_watchlist_lead',
-                      user["user_id"],
-                      None,
-                      self.item["ArtistID"],
-                      True,
-                      status_right_new,
-                      self.item["Notification"]
-                      )
+    anvil.server.call('update_watchlist_details',
+      user_id=user["user_id"],
+      ai_artist_id=self.item["ArtistID"],
+      status=status_right_new
+    )
+    
     click_link(self.link_right, 'watchlist_funnel', event_args)

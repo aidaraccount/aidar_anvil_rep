@@ -46,14 +46,12 @@ class RelatedRows(RelatedRowsTemplate):
     if self.item["active"] == 1:
       c = confirm("Do you wish to delete this artist from your watchlist?")
       if c is True:
-        anvil.server.call(
-          "update_watchlist_lead",
-          self.item["UserID"],
-          self.item["watchlist_id"],
-          self.item["ArtistID"],
-          False,
-          None,
-          False,
+        anvil.server.call('update_watchlist_details',
+          user_id=self.item["UserID"],
+          ai_artist_id=self.item["ArtistID"],
+          watchlist_id=self.item["watchlist_id"],
+          active=False,
+          notification=False
         )
         get_open_form().update_no_notifications()
         self.item["active"] = 0
@@ -72,14 +70,14 @@ class RelatedRows(RelatedRowsTemplate):
       # add to Watchlist (incl. change Button) and show delete Button
       self.item["watchlist_id"] = anvil.server.call("get_watchlist_id", user["user_id"])
       
-      anvil.server.call(
-        "update_watchlist_lead",
-        self.item["UserID"],
-        self.item["watchlist_id"],
-        self.item["ArtistID"],
-        True,
-        "Action required",
-        True,
+      anvil.server.call('update_watchlist_details',
+        user_id=self.item["UserID"],
+        ai_artist_id=self.item["ArtistID"],
+        watchlist_id=self.item["watchlist_id"],
+        active=True,
+        notification=True,
+        status='Action required',
+        priority='mid',
       )
       get_open_form().update_no_notifications()
       self.item["active"] = 1

@@ -2073,34 +2073,48 @@ class C_Discover(C_DiscoverTemplate):
 
   # -------------------------------
   # WATCHLIST
-  def link_watchlist_name_click(self, **event_args):    
+  def link_watchlist_name_click(self, **event_args):
     name = self.Artist_Name_Details.get_components()
     name = name[0].text
-    if self.link_watchlist_name.icon == "fa:star":
-      self.link_watchlist_name.icon = "fa:star-o"
-      # self.link_watchlist_name2.icon = "fa:star-o"
-      self.parent.parent.parent.parent.link_watchlist_name2.icon = "fa:star-o"
-      self.update_watchlist_lead(self.artist_id, False, None, False)
-      Notification("", title=f"{name} removed from the watchlist!", style="success").show()
-    else:
-      self.link_watchlist_name.icon = "fa:star"
-      # self.link_watchlist_name2.icon = "fa:star"
-      self.parent.parent.parent.parent.link_watchlist_name2.icon = "fa:star"
-      self.update_watchlist_lead(self.artist_id, True, "Action required", True)
-      Notification("", title=f"{name} added to the watchlist!", style="success").show()
-
-  def update_watchlist_lead(self, artist_id, watchlist, status, notification, **event_args):
-    anvil.server.call(
-      "update_watchlist_lead",
-      user["user_id"],
-      self.watchlist_id,
-      artist_id,
-      watchlist,
-      status,
-      notification,
-    )
     
-    get_open_form().update_no_notifications()
+    if self.link_watchlist_name.icon == 'fa:star':
+      # remove artist from wl
+      self.link_watchlist_name.icon = 'fa:star-o'
+      self.link_watchlist_name2.icon = 'fa:star-o'
+      
+      anvil.server.call('update_watchlist_details',
+                        user_id=user["user_id"],
+                        ai_artist_id=self.artist_id,
+                        watchlist_id=self.watchlist_id,
+                        active=False,
+                        notification=False
+                        )
+      get_open_form().update_no_notifications()
+      
+      Notification("",
+        title=f"{name} removed from the watchlist!",
+        style="success").show()
+      
+    else:
+      # add artist to watchlist
+      self.link_watchlist_name.icon = 'fa:star'
+      self.link_watchlist_name2.icon = 'fa:star'
+      
+      anvil.server.call('update_watchlist_details',
+                        user_id=user["user_id"],
+                        ai_artist_id=self.artist_id,
+                        watchlist_id=self.watchlist_id,
+                        active=True,
+                        notification=True,
+                        status='Action required',
+                        priority='mid',
+                        )
+      get_open_form().update_no_notifications()
+      
+      Notification("",
+        title=f"{name} added to the watchlist!",
+        style="success").show()
+
 
   # -------------------------------
   # SECTION NAVIGATION

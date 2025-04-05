@@ -354,12 +354,14 @@ class WatchlistDetails(WatchlistDetailsTemplate):
   def button_delete_click(self, **event_args):
     c = confirm("Do you wish to delete this artist from your watchlist?")
     if c is True:
-      anvil.server.call('update_watchlist_lead',
-                        user["user_id"],
-                        self.wl_id_view,
-                        cur_ai_artist_id,
-                        False,
-                        self.drop_down_status.selected_value, False)
+      
+      anvil.server.call('update_watchlist_details',
+        user_id=user["user_id"],
+        ai_artist_id=cur_ai_artist_id,
+        watchlist_id=self.wl_id_view,
+        active=False,
+        notification=False
+      )
       self.get_watchlist_selection(temp_artist_id = None)
       get_open_form().update_no_notifications()
 

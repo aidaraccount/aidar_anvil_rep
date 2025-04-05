@@ -19,10 +19,6 @@ class SelectionTemplate(SelectionTemplateTemplate):
     # Any code you write here will run before the form opens.
     global user
     user = anvil.users.get_user()
-    global model_id
-    model_id = anvil.server.call('get_model_id',  user["user_id"])
-    wl_id_view = load_var("watchlist_id")
-    self.wl_id_view = wl_id_view
 
     if len(self.item['Name']) > 12:
       self.link_selection.text = self.item['Name'][0:12] + '..'
@@ -44,29 +40,28 @@ class SelectionTemplate(SelectionTemplateTemplate):
     self.image_1.border = '1px solid #fd652d' # orange
 
     # update notification status
-    self.radio_button_notification.selected = False
-    self.update_watchlist_notification(True, False)
+    self.button_notification.icon = 'fa:circle-o'
+    self.update_watchlist_notification(False)
   
-  def link_notification_click(self, **event_args):
-    if self.radio_button_notification.selected == True:
-      self.radio_button_notification.selected = False
-      self.update_watchlist_notification(True, False)
+  def button_notification_click(self, **event_args):
+    print('clicking radio button')
+    if self.button_notification.icon == 'fa:circle-o':
+      self.button_notification.icon = 'fa:circle'
+      self.update_watchlist_notification(True)
     else:
-      self.radio_button_notification.selected = True
-      self.update_watchlist_notification(True, True)
+      self.button_notification.icon = 'fa:circle-o'
+      self.update_watchlist_notification(False)
 
   def set_notification_true(self, **event_args):
-    self.radio_button_notification.selected = True
+    self.button_notification.icon = 'fa:circle'
   
-  def update_watchlist_notification(self, watchlist, notification, **event_args):
+  def update_watchlist_notification(self, notification, **event_args):
     cur_ai_artist_id = self.link_selection.url
-    details = json.loads(anvil.server.call('get_watchlist_details', self.wl_id_view, cur_ai_artist_id))
-    anvil.server.call('update_watchlist_lead',
-                      user["user_id"],
-                      self.wl_id_view,
-                      cur_ai_artist_id,
-                      watchlist,
-                      details[0]["Status"],
-                      notification
-                      )
+    
+    anvil.server.call('update_watchlist_details',
+      user_id=user["user_id"],
+      ai_artist_id=cur_ai_artist_id,
+      notification=notification
+    )
     get_open_form().update_no_notifications()
+

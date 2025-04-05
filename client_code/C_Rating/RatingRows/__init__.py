@@ -50,13 +50,13 @@ class RatingRows(RatingRowsTemplate):
       
       c = confirm("Do you wish to delete this artist from your watchlist?")
       if c is True:
-        anvil.server.call('update_watchlist_lead',
-                          user["user_id"],
-                          self.wl_id_view,
-                          self.item["ArtistID"],
-                          False,
-                          None,
-                          False)
+        anvil.server.call('update_watchlist_details',
+          user_id=user["user_id"],
+          ai_artist_id=self.item["ArtistID"],
+          watchlist_id=self.wl_id_view,
+          active=False,
+          notification=False
+        )
         get_open_form().update_no_notifications()
         self.item["active"] = 0
         
@@ -71,14 +71,16 @@ class RatingRows(RatingRowsTemplate):
           style="success").show()   
       
     else:
-      # add to Watchlist (incl. change Button) and show delete Button
-      anvil.server.call('update_watchlist_lead',
-                        user["user_id"],
-                        self.wl_id_view,
-                        self.item["ArtistID"],
-                        True,
-                        'Action required',
-                        True)
+      # add to Watchlist (incl. change Button) and show delete Button      
+      anvil.server.call('update_watchlist_details',
+        user_id=user["user_id"],
+        ai_artist_id=self.item["ArtistID"],
+        watchlist_id=self.wl_id_view,
+        active=True,
+        notification=True,
+        status='Action required',
+        priority='mid',
+      )
       get_open_form().update_no_notifications()
       self.item["active"] = 1
       

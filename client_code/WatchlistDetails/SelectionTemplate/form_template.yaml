@@ -13,16 +13,14 @@ components:
     name: link_selection
     properties: {font_size: 17, role: artist_name_shadow}
     type: Link
-  - event_bindings: {}
-    layout_properties: {width: 25, x: 110, y: -15}
-    name: radio_button_notification
-    properties: {group_name: '', selected: false, spacing_above: none, spacing_below: none, text: ''}
-    type: RadioButton
-  - event_bindings: {click: link_notification_click}
-    layout_properties: {width: 40, x: 97, y: -20}
-    name: link_notification
-    properties: {text: '             '}
-    type: Link
+  - event_bindings: {click: button_notification_click}
+    layout_properties: {width: 40, x: 90, y: 0}
+    name: button_notification
+    properties:
+      icon: fa:circle-o
+      role: [icon-button-disabled-small]
+      text: ''
+    type: Button
   layout_properties: {grid_position: 'NHPVXS,VAIIKE'}
   name: xy_panel_1
   properties: {height: 100}

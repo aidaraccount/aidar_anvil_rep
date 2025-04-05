@@ -1913,6 +1913,7 @@ class Discover(DiscoverTemplate):
       anvil.server.call('update_watchlist_details',
                         user_id=user["user_id"],
                         ai_artist_id=self.artist_id,
+                        watchlist_id=self.watchlist_id,
                         active=False,
                         notification=False
                         )
@@ -1927,7 +1928,6 @@ class Discover(DiscoverTemplate):
       self.link_watchlist_name.icon = 'fa:star'
       self.link_watchlist_name2.icon = 'fa:star'
       
-      self.update_watchlist_lead(self.artist_id, True, 'Action required', True)
       anvil.server.call('update_watchlist_details',
                         user_id=user["user_id"],
                         ai_artist_id=self.artist_id,
@@ -1935,7 +1935,7 @@ class Discover(DiscoverTemplate):
                         active=True,
                         notification=True,
                         status='Action required',
-                        priority='Mid',
+                        priority='mid',
                         )
       get_open_form().update_no_notifications()
       
