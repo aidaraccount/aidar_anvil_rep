@@ -185,32 +185,32 @@ class Home(HomeTemplate):
 
 
   # ------
-  # 2.2 NEXT METHODS
-  def load_next_async(self):
-    """Starts asynchronous loading of next data"""
-    async_call = call_async("get_home_next", user["user_id"])
-    async_call.on_result(self.next_loaded)
+  # 2.3 HOT METHODS
+  def load_hot_async(self):
+    """Starts asynchronous loading of hot data"""
+    async_call = call_async("get_home_hot", user["user_id"])
+    async_call.on_result(self.hot_loaded)
   
-  def next_loaded(self, data):
-    """Handles successful server response for next."""
+  def hot_loaded(self, data):
+    """Handles successful server response for hot."""
     # Calculate loading time
-    load_time = time.time() - self.next_start_time
-    print(f"HOME ASYNC [{self.instance_id}] - Next loaded (took {load_time:.2f} seconds)", flush=True)
+    load_time = time.time() - self.hot_start_time
+    print(f"HOME ASYNC [{self.instance_id}] - Hot loaded (took {load_time:.2f} seconds)", flush=True)
     
     # Get the active instance - this is the one currently visible to the user
     active_instance = Home._active_instance
     
     # Check if we should update the current instance or the active instance
     if active_instance and active_instance.instance_id != self.instance_id:
-      print(f"HOME ASYNC [{self.instance_id}] - Updating active instance [{active_instance.instance_id}] with next", flush=True)
-      active_instance.process_next_data(data)
+      print(f"HOME ASYNC [{self.instance_id}] - Updating active instance [{active_instance.instance_id}] with hot", flush=True)
+      active_instance.process_hot_data(data)
     else:
-      self.process_next_data(data)
+      self.process_hot_data(data)
     
-  def process_next_data(self, data):
-    """Process and display next data"""
+  def process_hot_data(self, data):
+    """Process and display hot data"""
     data = json.loads(data)
-    self.sec_next.add_component(C_Home_NextUp(data=data))
+    self.sec_hot.add_component(C_Home_Hot(data=data))
 
   
   # ------
