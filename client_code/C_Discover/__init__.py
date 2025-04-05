@@ -2101,7 +2101,6 @@ class C_Discover(C_DiscoverTemplate):
     )
     
     get_open_form().update_no_notifications()
-    get_open_form().update_no_notifications()
 
   # -------------------------------
   # SECTION NAVIGATION

@@ -153,7 +153,12 @@ components:
     type: XYPanel
   - layout_properties: {grid_position: 'HDFDKN,FADFZU NKKNOL,JXMIGM'}
     name: label_name
-    properties: {role: sub_title, spacing_above: none, spacing_below: none}
+    properties:
+      role: [header-4, txt_white]
+      spacing:
+        margin: [5, null, null, null]
+      spacing_above: none
+      spacing_below: none
     type: Label
   - layout_properties: {grid_position: 'HDFDKN,FADFZU MPUOEM,AQPEBC'}
     name: flow_panel_social_media_tile
@@ -186,7 +191,7 @@ components:
     - layout_properties: {grid_position: 'ZONTYK,ZOCBKP'}
       name: text_description
       properties:
-        role: [txt_white_discreet]
+        role: [txt_white_discreet, header-6]
       type: Label
     - layout_properties: {grid_position: 'MEFKAI,REHOVC'}
       name: text_area_description
@@ -201,7 +206,9 @@ components:
       type: Spacer
     - layout_properties: {grid_position: 'RJZJQI,PDTOAV'}
       name: label_contact
-      properties: {icon: 'fa:male', role: description-bio}
+      properties:
+        icon: fa:male
+        role: [txt_white_discreet, header-6]
       type: Label
     - event_bindings: {pressed_enter: button_edit_click}
       layout_properties: {grid_position: 'HPRXZK,FUFDLC'}
@@ -216,7 +223,9 @@ components:
       type: TextBox
     - layout_properties: {grid_position: 'WJKFBL,EIJQYP'}
       name: label_mail
-      properties: {icon: 'fa:envelope-o', role: description-bio}
+      properties:
+        icon: fa:envelope-o
+        role: [txt_white_discreet, header-6]
       type: Label
     - event_bindings: {pressed_enter: button_edit_click}
       layout_properties: {grid_position: 'BXOOWQ,JFLJAX'}
@@ -231,7 +240,9 @@ components:
       type: TextBox
     - layout_properties: {grid_position: 'DGBYTP,VXYGOD'}
       name: label_phone
-      properties: {icon: 'fa:phone', role: description-bio}
+      properties:
+        icon: fa:phone
+        role: [txt_white_discreet, header-6]
       type: Label
     - event_bindings: {pressed_enter: button_edit_click}
       layout_properties: {grid_position: 'HFRFMF,DZBCMP'}
