@@ -331,23 +331,21 @@ class WatchlistDetails(WatchlistDetailsTemplate):
       # save text boxes
       self.update_watchlist_details()
   
-  def update_watchlist_details(self, **event_args):
-    details = json.loads(anvil.server.call('get_watchlist_details', self.wl_id_view, cur_ai_artist_id))
+  def update_watchlist_details(self, **event_args):    
     anvil.server.call('update_watchlist_details',
-                      user["user_id"],
-                      self.wl_id_view,
-                      cur_ai_artist_id,
-                      True,
-                      self.drop_down_status.selected_value,
-                      self.drop_down_priority.selected_value,
-                      self.date_picker_reminder.date,
-                      details[0]["Notification"],
-                      self.text_box_contact.text,
-                      self.text_box_mail.text,
-                      self.text_box_phone.text,
-                      self.text_area_description.text
-                      )
-    
+                  user_id=user["user_id"],
+                  ai_artist_id=cur_ai_artist_id,
+                  watchlist_id=self.wl_id_view,
+                  active=True,
+                  status=self.drop_down_status.selected_value,
+                  priority=self.drop_down_priority.selected_value,
+                  reminder=self.date_picker_reminder.date,
+                  name=self.text_box_contact.text,
+                  mail=self.text_box_mail.text,
+                  phone=self.text_box_phone.text,
+                  description=self.text_area_description.text
+                  )
+        
     self.get_watchlist_details(cur_ai_artist_id)
   
   def button_investigate_click(self, **event_args):

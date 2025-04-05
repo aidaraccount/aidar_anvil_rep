@@ -185,11 +185,15 @@ components:
   - components:
     - layout_properties: {grid_position: 'ZONTYK,ZOCBKP'}
       name: text_description
-      properties: {role: feature}
+      properties:
+        role: [txt_white_discreet]
       type: Label
     - layout_properties: {grid_position: 'MEFKAI,REHOVC'}
       name: text_area_description
-      properties: {role: text_box_small, visible: false}
+      properties:
+        placeholder: Description
+        role: [txt_white_discreet]
+        visible: false
       type: TextArea
     - layout_properties: {grid_position: 'QHOGUG,TSFJGI'}
       name: spacer_2
@@ -202,7 +206,13 @@ components:
     - event_bindings: {pressed_enter: button_edit_click}
       layout_properties: {grid_position: 'HPRXZK,FUFDLC'}
       name: text_box_contact
-      properties: {background: 'theme:Sidebar Background', font_size: 14, foreground: 'theme:Text_DecentWhite', role: text_box_small, visible: false}
+      properties:
+        background: ''
+        font_size: null
+        foreground: ''
+        placeholder: Name
+        role: [txt_white_discreet]
+        visible: false
       type: TextBox
     - layout_properties: {grid_position: 'WJKFBL,EIJQYP'}
       name: label_mail
@@ -211,7 +221,13 @@ components:
     - event_bindings: {pressed_enter: button_edit_click}
       layout_properties: {grid_position: 'BXOOWQ,JFLJAX'}
       name: text_box_mail
-      properties: {background: 'theme:Sidebar Background', font_size: 14, foreground: 'theme:Text_DecentWhite', role: text_box_small, visible: false}
+      properties:
+        background: ''
+        font_size: 14
+        foreground: ''
+        placeholder: Mail
+        role: [txt_white_discreet]
+        visible: false
       type: TextBox
     - layout_properties: {grid_position: 'DGBYTP,VXYGOD'}
       name: label_phone
@@ -220,7 +236,13 @@ components:
     - event_bindings: {pressed_enter: button_edit_click}
       layout_properties: {grid_position: 'HFRFMF,DZBCMP'}
       name: text_box_phone
-      properties: {background: 'theme:Sidebar Background', font_size: 14, foreground: 'theme:Text_DecentWhite', role: text_box_small, visible: false}
+      properties:
+        background: ''
+        font_size: 14
+        foreground: ''
+        placeholder: Phone
+        role: [txt_white_discreet]
+        visible: false
       type: TextBox
     layout_properties: {grid_position: 'HDFDKN,FADFZU YXWHBQ,NHGVWN'}
     name: column_panel_8

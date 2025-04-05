@@ -2231,21 +2231,19 @@ class Discover(DiscoverTemplate):
 
   def update_details_on_sidebar(self, **event_args):
     """This method is called when an item is selected"""
-    details = json.loads(anvil.server.call('get_watchlist_details', self.watchlist_id, self.artist_id))
     anvil.server.call('update_watchlist_details',
-                      user["user_id"],
-                      self.watchlist_id,
-                      self.artist_id,
-                      True,
-                      self.status_dropdown.selected_value,
-                      self.priority_dropdown.selected_value,
-                      self.date_picker_1.date,
-                      details[0]["Notification"],
-                      self.Text_Box_for_Artist_Name.text,
-                      self.Text_Box_for_Artist_Email.text,
-                      self.Text_Box_for_Artist_Phone.text,
-                      self.text_area_description.text
-                      )
+                  user_id=user["user_id"],
+                  ai_artist_id=self.artist_id,
+                  watchlist_id=self.watchlist_id,
+                  active=True,
+                  status=self.status_dropdown.selected_value,
+                  priority=self.priority_dropdown.selected_value,
+                  reminder=self.date_picker_1.date,
+                  name=self.Text_Box_for_Artist_Name.text,
+                  mail=self.Text_Box_for_Artist_Email.text,
+                  phone=self.Text_Box_for_Artist_Phone.text,
+                  description=self.text_area_description.text
+                  )
 
     if self.link_watchlist_name.icon == 'fa:star-o':
       self.link_watchlist_name.icon = 'fa:star'
