@@ -91,12 +91,15 @@
 .hot-release-box {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   background-color: var(--PurpleFocus);
   color: white;
   border-radius: 6px;
   padding: 2px 8px;
   text-align: center;
   height: 20px;
+  line-height: 1;
+  transform: translateY(-1px); /* Slight adjustment to center vertically */
 }
 
 .hot-release-label {

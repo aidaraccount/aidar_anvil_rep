@@ -36,32 +36,36 @@ class C_Home_Hot(C_Home_HotTemplate):
         return true;
       }
       
-      window.pyToggleRowsClicked = function() {
-        console.log('[DEBUG] Toggle rows visibility clicked');
-        window._anvilJSCallableObjects.pyToggleRowsClicked.call();
+      window.pyHotToggleRowsClicked = function() {
+        console.log('[DEBUG] Hot toggle rows visibility clicked');
+        window._anvilJSCallableObjects.pyHotToggleRowsClicked.call();
         return true;
       }
       
-      // Function to toggle the visibility of rows
-      window.toggleRowsVisibility = function(expanded) {
-        console.log('[DEBUG] Toggling rows visibility, expanded:', expanded);
+      // Function to toggle the visibility of rows in Hot table
+      window.toggleHotRowsVisibility = function(expanded) {
+        console.log('[DEBUG] Toggling Hot rows visibility, expanded:', expanded);
         
-        var rows = document.querySelectorAll('.hot-row');
-        var toggleLink = document.getElementById('hot-toggle-link');
-        
-        for (var i = 7; i < rows.length; i++) {
-          rows[i].classList.toggle('hidden', !expanded);
-        }
-        
-        if (toggleLink) {
-          toggleLink.textContent = expanded ? 'show less' : 'show all';
+        // Specifically target rows within the hot-container
+        var hotContainer = document.querySelector('.hot-container');
+        if (hotContainer) {
+          var rows = hotContainer.querySelectorAll('.hot-row');
+          var toggleLink = hotContainer.querySelector('.hot-toggle-link');
+          
+          for (var i = 7; i < rows.length; i++) {
+            rows[i].classList.toggle('hidden', !expanded);
+          }
+          
+          if (toggleLink) {
+            toggleLink.textContent = expanded ? 'show less' : 'show all';
+          }
         }
       }
       """,
     )
 
     # Register the Python functions
-    anvil.js.window.pyToggleRowsClicked = self.handle_toggle_rows_click
+    anvil.js.window.pyHotToggleRowsClicked = self.handle_toggle_rows_click
     
     # 2. Create Hot table
     self.create_hot_table()
@@ -78,13 +82,13 @@ class C_Home_Hot(C_Home_HotTemplate):
     Returns:
         bool: True indicating successful completion
     """
-    print(f"[DEBUG] Toggle rows visibility clicked, current state: {self.expanded}")
+    print(f"[DEBUG] Hot toggle rows visibility clicked, current state: {self.expanded}")
     
     # Toggle expanded state
     self.expanded = not self.expanded
     
     # Call JavaScript function to toggle row visibility
-    anvil.js.call_js('window.toggleRowsVisibility', self.expanded)
+    anvil.js.call_js('window.toggleHotRowsVisibility', self.expanded)
     
     return True
 
@@ -151,7 +155,7 @@ class C_Home_Hot(C_Home_HotTemplate):
       toggle_text = "show less" if self.expanded else "show all"
       html_content += f"""
       <div class="hot-toggle-container">
-        <a href="javascript:void(0)" id="hot-toggle-link" class="hot-toggle-link" onclick="window.pyToggleRowsClicked()">{toggle_text}</a>
+        <a href="javascript:void(0)" id="hot-toggle-link" class="hot-toggle-link" onclick="window.pyHotToggleRowsClicked()">{toggle_text}</a>
       </div>
       """
     
@@ -165,8 +169,8 @@ class C_Home_Hot(C_Home_HotTemplate):
     console.log('[DEBUG] Hot table JavaScript loaded');
     
     // Initialize row visibility
-    if (window.toggleRowsVisibility) {
-      window.toggleRowsVisibility(""" + str(self.expanded).lower() + """);
+    if (window.toggleHotRowsVisibility) {
+      window.toggleHotRowsVisibility(""" + str(self.expanded).lower() + """);
     }
     """
     
