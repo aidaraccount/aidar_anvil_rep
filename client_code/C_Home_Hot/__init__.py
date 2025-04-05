@@ -36,12 +36,6 @@ class C_Home_Hot(C_Home_HotTemplate):
         return true;
       }
       
-      window.pyWatchlistClicked = function(watchlistId) {
-        console.log('[DEBUG] Watchlist clicked with ID:', watchlistId);
-        location.hash = 'watchlist_details?watchlist_id=' + watchlistId;
-        return true;
-      }
-      
       window.pyToggleRowsClicked = function() {
         console.log('[DEBUG] Toggle rows visibility clicked');
         window._anvilJSCallableObjects.pyToggleRowsClicked.call();
@@ -102,7 +96,7 @@ class C_Home_Hot(C_Home_HotTemplate):
     html_content = """
     <div class="hot-container">
       <div class="hot-header">
-        <h3>Hot Artists</h3>
+        <h3>My Watchlists</h3>
       </div>
       <table class="hot-table">
         <tbody id="hot-table-body">
@@ -113,7 +107,6 @@ class C_Home_Hot(C_Home_HotTemplate):
       artist_id = item.get('artist_id', '')
       artist_name = item.get('name', 'Unknown')
       artist_pic_url = item.get('artist_picture_url', '')
-      watchlist_id = item.get('watchlist_id', '')
       watchlist_name = item.get('watchlist_name', 'Unknown')
       days_since_last_release = item.get('days_since_last_release', 0)
       
@@ -137,7 +130,7 @@ class C_Home_Hot(C_Home_HotTemplate):
             <img src="{artist_pic_url}" class="hot-artist-pic" alt="{artist_name}">
           </td>
           <td class="hot-name-cell"><a href="javascript:void(0)" onclick="window.pyArtistNameClicked('{artist_id}')">{artist_name}</a></td>
-          <td class="hot-watchlist-cell"><a href="javascript:void(0)" onclick="window.pyWatchlistClicked('{watchlist_id}')">{watchlist_name}</a></td>
+          <td class="hot-watchlist-cell">on {watchlist_name}</td>
           <td class="hot-release-cell">
             <div class="hot-release-box">
               <span class="hot-release-label">Release</span>

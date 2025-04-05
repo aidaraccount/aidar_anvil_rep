@@ -5,7 +5,10 @@
 }
 
 .hot-header {
-  margin-bottom: 10px;
+  margin-bottom: 0;
+  padding: 10px 12px 5px;
+  background-color: #2D2D3A;
+  border-radius: 8px 8px 0 0;
 }
 
 .hot-header h3 {
@@ -19,7 +22,7 @@
   width: 100%;
   border-collapse: collapse;
   background-color: #2D2D3A;
-  border-radius: 8px;
+  border-radius: 0 0 8px 8px;
   overflow: hidden;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
@@ -71,19 +74,10 @@
 .hot-watchlist-cell {
   padding: 0 8px;
   color: white;
-  font-size: 14px;
+  font-size: 12px;
+  text-align: center;
   vertical-align: middle;
   width: 30%;
-}
-
-.hot-watchlist-cell a {
-  color: white;
-  text-decoration: none;
-  cursor: pointer;
-}
-
-.hot-watchlist-cell a:hover {
-  color: var(--Orange);
 }
 
 .hot-release-cell {
@@ -95,12 +89,14 @@
 
 /* 4. Release box styling */
 .hot-release-box {
-  display: inline-block;
-  background-color: var(--Purple);
+  display: inline-flex;
+  align-items: center;
+  background-color: var(--PurpleFocus);
   color: white;
   border-radius: 6px;
   padding: 2px 8px;
   text-align: center;
+  height: 20px;
 }
 
 .hot-release-label {
