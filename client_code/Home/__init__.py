@@ -14,9 +14,10 @@ import uuid
 from anvil_extras import routing
 from ..nav import click_link, click_button, click_box, logout, login_check, load_var, save_var
 
-from ..C_Short import C_Short
 from ..C_Home_Agents import C_Home_Agents
 from ..C_Home_NextUp import C_Home_NextUp
+from ..C_Home_Hot import C_Home_Hot
+from ..C_Short import C_Short
 
 
 @routing.route('', title='Home')
@@ -114,7 +115,12 @@ class Home(HomeTemplate):
       print(f"HOME INIT [{self.instance_id}] - Next loading initialized - {datetime.now()}", flush=True)
       self.load_next_async()
   
-      # 1.5 Initialize loading of shorts asynchronously
+      # 1.5 Initialize loading of hot asynchronously
+      self.hot_start_time = time.time()
+      print(f"HOME INIT [{self.instance_id}] - Hot loading initialized - {datetime.now()}", flush=True)
+      self.load_hot_async()
+      
+      # 1.6 Initialize loading of shorts asynchronously
       self.shorts_start_time = time.time()
       print(f"HOME INIT [{self.instance_id}] - Shorts loading initialized - {datetime.now()}", flush=True)
       self.load_shorts_async()
@@ -148,7 +154,36 @@ class Home(HomeTemplate):
     """Process and display agents data"""
     self.sec_agents.add_component(C_Home_Agents(data=data))
 
+  
+  # ------
+  # 2.2 NEXT METHODS
+  def load_next_async(self):
+    """Starts asynchronous loading of next data"""
+    async_call = call_async("get_home_next", user["user_id"])
+    async_call.on_result(self.next_loaded)
+  
+  def next_loaded(self, data):
+    """Handles successful server response for next."""
+    # Calculate loading time
+    load_time = time.time() - self.next_start_time
+    print(f"HOME ASYNC [{self.instance_id}] - Next loaded (took {load_time:.2f} seconds)", flush=True)
     
+    # Get the active instance - this is the one currently visible to the user
+    active_instance = Home._active_instance
+    
+    # Check if we should update the current instance or the active instance
+    if active_instance and active_instance.instance_id != self.instance_id:
+      print(f"HOME ASYNC [{self.instance_id}] - Updating active instance [{active_instance.instance_id}] with next", flush=True)
+      active_instance.process_next_data(data)
+    else:
+      self.process_next_data(data)
+    
+  def process_next_data(self, data):
+    """Process and display next data"""
+    data = json.loads(data)
+    self.sec_next.add_component(C_Home_NextUp(data=data))
+
+
   # ------
   # 2.2 NEXT METHODS
   def load_next_async(self):
@@ -179,7 +214,7 @@ class Home(HomeTemplate):
 
   
   # ------
-  # 2.3 SHORTS METHODS
+  # 2.4 SHORTS METHODS
   def load_shorts_async(self, selected_wl_ids=None):
     """
     Starts asynchronous loading of shorts data
