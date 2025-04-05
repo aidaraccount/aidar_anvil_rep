@@ -461,7 +461,7 @@ class ModelProfile(ModelProfileTemplate):
       if res == 'success':
         get_open_form().refresh_models_components()
         Notification("",
-          title="Model updated!",
+          title="Agent updated!",
           style="success").show()
   
     
@@ -568,7 +568,7 @@ class ModelProfile(ModelProfileTemplate):
                       int(load_var('musical_fit')) / 100
                      )
     Notification("",
-      title= f"""Submodel contributions updated to:        
+      title= f"""Sub-Agent contributions updated to:        
       - {load_var('artist_career_fit')}% Similarity,
       - {load_var('musical_fit')}% Musical, and
       - {load_var('growth_imp_fit')}% Growth!""",      
@@ -585,7 +585,7 @@ class ModelProfile(ModelProfileTemplate):
       res = anvil.server.call('delete_model', self.model_id_view)
       if res == 'success':
         Notification("",
-          title="Model deleted!",
+          title="Agent deleted!",
           style="success").show()
         click_button('home', event_args)
         get_open_form().refresh_models_components()

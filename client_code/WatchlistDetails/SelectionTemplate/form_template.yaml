@@ -17,8 +17,10 @@ components:
     layout_properties: {width: 40, x: 90, y: 0}
     name: button_notification
     properties:
+      background: ''
+      foreground: theme:Orange
       icon: fa:circle-o
-      role: [icon-button-disabled-small]
+      role: [icon-button-disabled-small, txt_orange]
       text: ''
     type: Button
   layout_properties: {grid_position: 'NHPVXS,VAIIKE'}

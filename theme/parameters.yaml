@@ -129,7 +129,7 @@ roles:
 - components: [Label, Link, RichText]
   name: artist_name_shadow
 - components: [Label]
-  name: note
+  name: table
 - components: [XYPanel]
   name: bottom_line
 - components: [Link]

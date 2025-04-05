@@ -25,7 +25,7 @@ import anvil.js
 import anvil.js.window
 
 
-@routing.route("model_setup", url_keys=['model_id', 'section'], title="Model Setup")
+@routing.route("model_setup", url_keys=['model_id', 'section'], title="Agent Setup")
 class RampUp(RampUpTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
@@ -95,7 +95,7 @@ class RampUp(RampUpTemplate):
     # Basics
     if self.section == "Basics":
       if self.text_box_model_name.text == '':        
-        alert(title='Model Name required', content="Please add a name for the model!")  
+        alert(title='Agent Name required', content="Please add a name for the model!")  
       else:
         # save changes        
         if self.model_id_view != 'None':
@@ -284,7 +284,7 @@ class RampUp(RampUpTemplate):
       res = anvil.server.call('delete_model', self.model_id_view)
       if res == 'success':
         Notification("",
-          title="Model deleted!",
+          title="Agent deleted!",
           style="success").show()
         click_button('home', event_args)
         get_open_form().refresh_models_components()

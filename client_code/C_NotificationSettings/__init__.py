@@ -466,7 +466,7 @@ class C_NotificationSettings(C_NotificationSettingsTemplate):
           if component.role == "genre-box-deactive":
             Notification(
               "",
-              title="Model not fully trained yet - you need at least 50 ratings!",
+              title="Agent not fully trained yet - you need at least 50 ratings!",
               style="info",
             ).show()
           else:
@@ -476,7 +476,7 @@ class C_NotificationSettings(C_NotificationSettingsTemplate):
               component.role = "genre-box"
 
     # Check if any models are selected
-    # a) ccollect selected model IDs
+    # a) collect selected model IDs
     model_ids = []
     for component in self.flow_panel_models.get_components():
       if (

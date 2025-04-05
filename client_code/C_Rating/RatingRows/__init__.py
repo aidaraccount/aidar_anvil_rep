@@ -82,7 +82,9 @@ class RatingRows(RatingRowsTemplate):
         priority='mid',
       )
       get_open_form().update_no_notifications()
+      
       self.item["active"] = 1
+      self.item["watchlist_id"] = self.wl_id_view
       
       self.button_watchlist.background = '#fd652d' # orange
       self.button_watchlist.foreground = '#f5f4f1' # white
@@ -96,6 +98,9 @@ class RatingRows(RatingRowsTemplate):
       
   def button_watchlist_visit_click(self, **event_args):
     # route to Watchlist Details
+    print(self.item["watchlist_id"])
+    print(self.item["ArtistID"])
+    print(self.item)
     click_button(f'watchlist_details?watchlist_id={self.item["watchlist_id"]}&artist_id={self.item["ArtistID"]}', event_args)
        
   def button_discover_click(self, **event_args):

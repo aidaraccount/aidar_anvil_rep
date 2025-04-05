@@ -2386,23 +2386,6 @@ footer a, .footer .anvil-component {
         min-width: 0%;
     }
 }
-/* Disabeled button options  */
-.btn-default[disabled] {
-  background-color: transparent;
-  color: rgba(125, 125, 125, 0.5);
-}
-.btn-default[disabled]:hover {
-  background-color: transparent;
-  color: rgba(125, 125, 125, 0.5);
-}
-.btn-default[disabled]:focus {
-  background-color: transparent;
-  color: rgba(125, 125, 125, 0.5);
-}
-.btn-default[disabled]:active {
-  background-color: transparent;
-  color: rgba(125, 125, 125, 0.5);
-}
 
 .nav-button {
   font-family: Gs-regular;

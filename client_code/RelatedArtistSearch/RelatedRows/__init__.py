@@ -80,6 +80,7 @@ class RelatedRows(RelatedRowsTemplate):
         priority='mid',
       )
       get_open_form().update_no_notifications()
+      
       self.item["active"] = 1
 
       self.button_watchlist.background = "#fd652d"  # orange

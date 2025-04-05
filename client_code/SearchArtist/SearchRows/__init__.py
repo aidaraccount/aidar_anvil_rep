@@ -63,6 +63,7 @@ class SearchRows(SearchRowsTemplate):
       )
       get_open_form().update_no_notifications()
       self.item["active"] = 1
+      self.item["watchlist_id"] = self.wl_id_view
       
       self.button_watchlist.background = '#fd652d' # orange
       self.button_watchlist.foreground = '#f5f4f1' # white
