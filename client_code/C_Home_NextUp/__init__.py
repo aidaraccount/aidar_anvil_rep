@@ -19,6 +19,9 @@ class C_Home_NextUp(C_Home_NextUpTemplate):
     self.init_components(**properties)
 
     # Any code you write here will run before the form opens.
+    global user
+    user = anvil.users.get_user()
+    
     self.data = data
     self.max_visible_rows = 7
     self.expanded = False
@@ -101,6 +104,7 @@ class C_Home_NextUp(C_Home_NextUpTemplate):
     """
     JavaScript callback for when a radio button is clicked.
     The row will be removed from the data and the table will be refreshed.
+    Also updates the database in the backend by calling the server function.
     
     Args:
         artist_id: The ID of the artist
@@ -121,8 +125,12 @@ class C_Home_NextUp(C_Home_NextUpTemplate):
         removed_item = self.data.pop(index)
         print(f"[DEBUG] Removed item from data: {removed_item}")
         
-        # Here you would typically update a database or perform a server action
-        # anvil.server.call('update_artist_status', artist_id, watchlist_id)
+        # Update the database by calling the server function
+        anvil.server.call('update_watchlist_details',
+          user_id=user["user_id"],
+          ai_artist_id=artist_id,
+          notification=False
+        )
         
         # Regenerate the table with the updated data
         self.create_nextup_table()
