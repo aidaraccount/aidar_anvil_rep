@@ -1,14 +1,9 @@
 components:
 - components:
-  - data_bindings: []
-    layout_properties: {grid_position: 'KKZIWP,DXHNXO'}
+  - layout_properties: {grid_position: 'KKZIWP,DXHNXO'}
     name: welcome
-    properties: {align: center, content: '', format: restricted_html}
+    properties: {align: center, content: '', format: restricted_html, spacing_above: none, spacing_below: medium}
     type: RichText
-  - layout_properties: {grid_position: 'KKZIWP,AKJIUD'}
-    name: spacer_1
-    properties: {height: 32}
-    type: Spacer
   - components:
     - layout_properties: {grid_position: 'XVTKKM,QKUIVZ'}
       name: label_3
@@ -54,8 +49,7 @@ components:
         name: wl_selection
         properties: {align: center, role: header-6, spacing_above: none, spacing_below: none, text: 'Watchlist selection:    '}
         type: Label
-      - components: []
-        layout_properties: {grid_position: 'ECXNYR,IMMYHA'}
+      - layout_properties: {grid_position: 'ECXNYR,IMMYHA'}
         name: flow_panel_watchlists
         properties:
           align: center
@@ -114,152 +108,20 @@ components:
     properties: {}
     type: ColumnPanel
   - components:
-    - event_bindings: {click: link_discover_click}
-      layout_properties: {grid_position: 'ZCMPFD,LYHAJU'}
-      name: link_discover
-      properties: {align: center, role: artist_name, spacing_below: none, text: Keep discovering}
-      type: Link
-    - components:
-      - components:
-        - data_bindings:
-          - {code: '[''width-100'']', property: role, writeback: false}
-          layout_properties: {grid_position: 'XISFUA,MXKFIP'}
-          name: artist_image
-          properties: {background: '', border: '', border_radius: '', display_mode: zoom_to_fill, foreground: '', height: '183', horizontal_align: center, role: null, source: _/theme/pics/Artist2.png, spacing_above: none, spacing_below: none, tooltip: '', vertical_align: center, visible: true}
-          type: Image
-        data_bindings:
-        - {code: '[''width-100'']', property: role, writeback: false}
-        event_bindings: {click: link_discover_click}
-        layout_properties: {width: null, x: null, y: 0}
-        name: artist_link
-        properties:
-          col_widths: '{}'
-          spacing:
-            margin: [null, 5, 5, 5]
-        type: Link
-      - data_bindings:
-        - {code: '[''home-discover-button'', ''call-to-action-button'', ''header-6'']', property: role, writeback: false}
-        event_bindings: {click: button_discover_click}
-        layout_properties: {width: 98, x: null, y: 140}
-        name: button_discover
-        properties:
-          background: ''
-          foreground: ''
-          role: [call-to-action-button, header-6]
-          spacing:
-            padding: [null, '15', null, '15']
-          text: Discover
-        type: Button
-      layout_properties: {grid_position: 'CTMTJF,CSGOXM'}
-      name: xy_panel_3
-      properties: {height: 182, spacing_above: none, spacing_below: none}
-      type: XYPanel
-    layout_properties: {grid_position: 'MRIQRW,EQZHSN PQBSMQ,CTZOPS'}
-    name: column_panel_3
-    properties: {role: grid-main, spacing_above: none, spacing_below: none}
-    type: ColumnPanel
-  - components:
-    - layout_properties: {grid_position: 'QVMUXU,YLIXLM'}
-      name: label_2
-      properties: {align: center, role: artist_name, text: News}
-      type: Label
-    - components:
-      - data_bindings:
-        - {code: '[''width-100'']', property: role, writeback: false}
-        layout_properties: {width: 350, x: 0, y: 0}
-        name: repeating_panel_news
-        properties: {item_template: Home.NewsTemplate, spacing_above: none}
-        type: RepeatingPanel
-      data_bindings: []
-      layout_properties: {grid_position: 'XNMQVL,IVUSFC'}
-      name: xy_panel_news
+    - layout_properties: {grid_position: 'XVTKKM,QKUIVZ'}
+      name: label_3_copy_2
       properties:
-        height: '338'
-        margin: [null, 5, null, 5]
-      type: XYPanel
-    - components:
-      - layout_properties: {width: 306.08190625, x: 0, y: 0}
-        name: label_4
-        properties: {align: center, role: description, text: No News present}
-        type: Label
-      layout_properties: {grid_position: 'CHRITB,MZHEYA'}
-      name: xy_panel_news_empty
-      properties: {height: '338', visible: false}
-      type: XYPanel
-    layout_properties: {grid_position: 'MRIQRW,EQZHSN IGVGCK,NLTTFT'}
-    name: column_panel_5
-    properties: {role: grid-main}
-    type: ColumnPanel
-  - components:
-    - layout_properties: {grid_position: 'WKPYND,DNKUEW'}
-      name: label_1
-      properties: {align: center, role: artist_name, spacing_below: none, text: Stats}
+        align: center
+        role: [txt_white_discreet, header-4]
+        text: Next Up
       type: Label
-    - components:
-      - layout_properties: {width: 65, x: 0, y: 0}
-        name: label_won_no
-        properties: {font_size: 40, icon: '', role: investigate_value, text: ''}
-        type: Label
-      - layout_properties: {width: 85, x: 80, y: 0}
-        name: label_wl_no
-        properties: {font_size: 40, role: investigate_value, text: ''}
-        type: Label
-      - layout_properties: {width: 65, x: 8, y: 50}
-        name: label_won_txt
-        properties:
-          font_size: 12
-          role: note
-          text: |-
-            artists
-            won
-        type: Label
-      - layout_properties: {width: 72.99999999999991, x: 88, y: 50}
-        name: label_wl_txt
-        properties:
-          font_size: 12
-          role: note
-          text: |-
-            artists on
-            watchlist
-        type: Label
-      - layout_properties: {width: 77.99993896484366, x: 0, y: 100}
-        name: label_hp_no
-        properties: {font_size: 32, role: investigate_value, text: ''}
-        type: Label
-      - layout_properties: {width: 92.333, x: 80, y: 100}
-        name: label_tot_no
-        properties: {font_size: 32, role: investigate_value, text: ''}
-        type: Label
-      - layout_properties: {width: 78.333, x: 8, y: 143}
-        name: label_hp_txt
-        properties:
-          font_size: 12
-          role: note
-          text: |-
-            high
-            potentials
-        type: Label
-      - layout_properties: {width: 84.33329999999992, x: 88, y: 143}
-        name: label_tot_txt
-        properties:
-          font_size: 12
-          role: note
-          text: |-
-            total
-            ratings
-        type: Label
-      layout_properties: {grid_position: 'HTRGNT,SBYXUT'}
-      name: xy_panel_4
-      properties: {height: '186'}
-      type: XYPanel
-    layout_properties: {grid_position: 'MRIQRW,EQZHSN QJMHOC,KXUQZV'}
-    name: column_panel_4
-    properties: {role: grid-main, spacing_above: none, spacing_below: none}
+    layout_properties: {grid_position: 'MRIQRW,EQZHSN'}
+    name: sec_next
+    properties: {}
     type: ColumnPanel
-  data_bindings: []
   layout_properties: {grid_position: 'VHEAUQ,QULOXH'}
   name: content_panel
-  properties: {col_widths: '{"QVOGKC":45,"EQZHSN":15,"DXHNXO":45,"AKJIUD":15}', role: null}
+  properties: {col_spacing: medium, col_widths: '{"QVOGKC":40,"EQZHSN":20,"DXHNXO":40}', role: null}
   type: ColumnPanel
 container:
   properties: {col_widths: '{}', role: null}

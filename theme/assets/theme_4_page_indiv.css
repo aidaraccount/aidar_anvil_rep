@@ -298,7 +298,7 @@ Area 5: Page individual classes
 }
 
 /* ----------------------------
-5.3. DISCOVER & C_DISCOVER individual classes
+5.4. DISCOVER & C_DISCOVER individual classes
 Live: past & future table: center second column vertically */
 .anvil-role-pos-center-vertical .data-row-col:nth-child(2) {
   display: flex;
@@ -306,7 +306,7 @@ Live: past & future table: center second column vertically */
 }
 
 /* ----------------------------
-5.4. OBSERVE_LISTEN individual classes */
+5.5. OBSERVE_LISTEN individual classes */
 .anvil-role-listen-complete-element {
   height: calc(100vh + 260px);
   overflow-y: auto;
@@ -319,7 +319,7 @@ Live: past & future table: center second column vertically */
 }
 
 /* ----------------------------
-5.5. C_ProgressMessage individual classes */
+5.6. C_ProgressMessage individual classes */
 /* vertically centers the cycle */
 .anvil-role-progress_message .anvil-panel-section .anvil-panel-section-container .anvil-panel-section-gutter .anvil-panel-row .anvil-panel-col {
   display: flex;

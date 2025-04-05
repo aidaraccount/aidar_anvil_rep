@@ -16,6 +16,9 @@ Area 6: Repeating Panels
 @import url('_/theme/theme_5_tables.css');
 @import url('_/theme/theme_6_rep_panels.css');
 
+@import url('_/theme/Home/C_Home_Agents.css');
+@import url('_/theme/Home/C_Home_NextUp.css');
+
 /* ----------------------------
 1.1. Text Colors */
 :root {
