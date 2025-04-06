@@ -87,7 +87,7 @@
   width: 25%;
 }
 
-/* 4. Release box styling */
+/* 4. Tag box styling */
 .hot-release-box {
   display: inline-flex;
   align-items: center;
@@ -99,13 +99,7 @@
   text-align: center;
   height: 20px;
   line-height: 1;
-  transform: translateY(-5px); /* Slight adjustment to center vertically */
-}
-
-.hot-release-label {
-  font-size: 12px;
-  margin-right: 4px;
-  font-weight: 500;
+  transform: translateY(-5px); /* Adjustment to center vertically */
 }
 
 .hot-release-time {

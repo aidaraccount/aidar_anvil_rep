@@ -117,14 +117,7 @@ class C_Home_Hot(C_Home_HotTemplate):
       artist_name = item.get('name', 'Unknown')
       artist_pic_url = item.get('artist_picture_url', '')
       watchlist_name = item.get('watchlist_name', 'Unknown')
-      days_since_last_release = item.get('days_since_last_release', 0)
-      
-      # Format the release time display
-      if days_since_last_release < 7:
-        release_display = f"{days_since_last_release}D"
-      else:
-        weeks = days_since_last_release // 7
-        release_display = f"{weeks}W"
+      tag = item.get('tag', '')  # New field containing metric information
       
       # Create unique row ID
       row_id = f"hot-row-{i}"
@@ -146,8 +139,7 @@ class C_Home_Hot(C_Home_HotTemplate):
           <td class="hot-watchlist-cell">on {watchlist_name}</td>
           <td class="hot-release-cell">
             <div class="hot-release-box">
-              <span class="hot-release-label">Release</span>
-              <span class="hot-release-time">{release_display}</span>
+              <span class="hot-release-time">{tag}</span>
             </div>
           </td>
         </tr>
