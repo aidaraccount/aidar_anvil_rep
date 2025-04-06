@@ -25,6 +25,7 @@
   border-radius: 0 0 8px 8px;
   overflow: hidden;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  table-layout: auto;
 }
 
 /* 2. Hot table rows */
@@ -39,7 +40,8 @@
 
 /* 3. Hot table cells */
 .hot-pic-cell {
-  width: 30px;
+  width: 36px; /* Fixed width for the picture cell */
+  min-width: 36px;
   padding: 0 4px;
   text-align: center;
   vertical-align: middle;
@@ -58,7 +60,9 @@
   font-weight: 500;
   font-size: 14px;
   vertical-align: middle;
-  width: 30%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .hot-name-cell a {
@@ -77,14 +81,17 @@
   font-size: 12px;
   text-align: center;
   vertical-align: middle;
-  width: 30%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .hot-release-cell {
   padding: 0 8px;
   text-align: right;
   vertical-align: middle;
-  width: 25%;
+  white-space: nowrap;
+  width: 1%; /* Takes minimum space needed for content */
 }
 
 /* 4. Tag box styling */
@@ -105,6 +112,7 @@
 .hot-release-time {
   font-size: 12px;
   font-weight: 700;
+  white-space: nowrap;
 }
 
 /* 5. Show more/less link styling */
