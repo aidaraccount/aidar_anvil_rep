@@ -31,7 +31,8 @@
 
 /* 2. Hot table rows */
 .hot-row {
-  height: 36px;
+  height: auto;
+  min-height: 36px;
   transition: opacity 0.3s ease;
 }
 
@@ -63,9 +64,10 @@
   font-size: 14px;
   vertical-align: middle;
   width: 40%; /* Allocate proportionally more space */
+  white-space: normal; /* Allow text to wrap */
   overflow: hidden;
   text-overflow: ellipsis;
-  white-space: nowrap; /* Try to keep on one line first */
+  line-height: 1.2;
 }
 
 .hot-name-cell a {
@@ -85,9 +87,10 @@
   text-align: center;
   vertical-align: middle;
   width: 30%; /* Allocate proportional space */
+  white-space: normal; /* Allow text to wrap */
   overflow: hidden;
   text-overflow: ellipsis;
-  white-space: nowrap; /* Try to keep on one line first */
+  line-height: 1.2;
 }
 
 .hot-release-cell {
@@ -117,7 +120,7 @@
 .hot-release-time {
   font-size: 12px;
   font-weight: 700;
-  white-space: nowrap; /* Try to keep on one line first */
+  white-space: nowrap; /* Keep tags on one line */
 }
 
 /* 5. Show more/less link styling */
@@ -148,15 +151,11 @@
 
 /* 7. Media queries for responsive behavior */
 @media screen and (max-width: 600px) {
-  .hot-name-cell,
-  .hot-watchlist-cell,
   .hot-release-time {
-    white-space: normal; /* Allow text to wrap on small screens */
+    white-space: normal; /* Allow tag text to wrap on very small screens */
   }
   
   .hot-release-box {
-    height: auto;
-    min-height: 20px;
     padding: 3px 8px;
   }
 }
