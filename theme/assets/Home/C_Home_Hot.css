@@ -2,6 +2,7 @@
 .hot-container {
   padding: 8px 0;
   margin: 0;
+  max-width: 100%;
 }
 
 .hot-header {
@@ -42,6 +43,7 @@
 .hot-pic-cell {
   width: 36px; /* Fixed width for the picture cell */
   min-width: 36px;
+  max-width: 36px;
   padding: 0 4px;
   text-align: center;
   vertical-align: middle;
@@ -60,9 +62,10 @@
   font-weight: 500;
   font-size: 14px;
   vertical-align: middle;
-  white-space: nowrap;
+  width: 40%; /* Allocate proportionally more space */
   overflow: hidden;
   text-overflow: ellipsis;
+  white-space: nowrap; /* Try to keep on one line first */
 }
 
 .hot-name-cell a {
@@ -81,17 +84,18 @@
   font-size: 12px;
   text-align: center;
   vertical-align: middle;
-  white-space: nowrap;
+  width: 30%; /* Allocate proportional space */
   overflow: hidden;
   text-overflow: ellipsis;
+  white-space: nowrap; /* Try to keep on one line first */
 }
 
 .hot-release-cell {
   padding: 0 8px;
   text-align: right;
   vertical-align: middle;
-  white-space: nowrap;
-  width: 1%; /* Takes minimum space needed for content */
+  width: auto; /* Let it take what it needs */
+  min-width: 100px; /* Ensure minimum width for tag content */
 }
 
 /* 4. Tag box styling */
@@ -104,15 +108,16 @@
   border-radius: 6px;
   padding: 2px 8px;
   text-align: center;
-  height: 20px;
-  line-height: 1;
+  height: auto; /* Allow height to adjust */
+  min-height: 20px; /* Minimum height */
+  line-height: 1.2;
   transform: translateY(-5px); /* Adjustment to center vertically */
 }
 
 .hot-release-time {
   font-size: 12px;
   font-weight: 700;
-  white-space: nowrap;
+  white-space: nowrap; /* Try to keep on one line first */
 }
 
 /* 5. Show more/less link styling */
@@ -139,4 +144,19 @@
 /* 6. Hidden row styling */
 .hot-row.hidden {
   display: none;
+}
+
+/* 7. Media queries for responsive behavior */
+@media screen and (max-width: 600px) {
+  .hot-name-cell,
+  .hot-watchlist-cell,
+  .hot-release-time {
+    white-space: normal; /* Allow text to wrap on small screens */
+  }
+  
+  .hot-release-box {
+    height: auto;
+    min-height: 20px;
+    padding: 3px 8px;
+  }
 }
