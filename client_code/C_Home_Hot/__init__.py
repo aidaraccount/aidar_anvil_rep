@@ -26,7 +26,11 @@ class C_Home_Hot(C_Home_HotTemplate):
     self.max_visible_rows = 7
     self.max_expanded_rows = 18  # Maximum number of rows when expanded
     self.expanded_watchlist = False
-    self.expanded_observations = False
+    self.expanded_notifications = False
+    
+    # Filter data by source
+    self.watchlist_data = [item for item in self.data if item.get('source', '') == 'watchlist']
+    self.notification_data = [item for item in self.data if item.get('source', '') == 'notification']
     
     # 1. Register JavaScript callbacks for direct call (not promises)
     anvil.js.call_js(
@@ -38,15 +42,15 @@ class C_Home_Hot(C_Home_HotTemplate):
         return true;
       }
       
-      window.pyWatchlistToggleRowsClicked = function() {
+      window.pyWatchlistToggleClicked = function() {
         console.log('[DEBUG] Watchlist toggle rows visibility clicked');
-        window._anvilJSCallableObjects.pyWatchlistToggleRowsClicked.call();
+        window._anvilJSCallableObjects.pyWatchlistToggleClicked.call();
         return true;
       }
       
-      window.pyObservationsToggleRowsClicked = function() {
-        console.log('[DEBUG] Observations toggle rows visibility clicked');
-        window._anvilJSCallableObjects.pyObservationsToggleRowsClicked.call();
+      window.pyNotificationsToggleClicked = function() {
+        console.log('[DEBUG] Notifications toggle rows visibility clicked');
+        window._anvilJSCallableObjects.pyNotificationsToggleClicked.call();
         return true;
       }
       
@@ -74,12 +78,12 @@ class C_Home_Hot(C_Home_HotTemplate):
         }
       }
       
-      // Function to toggle the visibility of rows in Observations table
-      window.toggleObservationsRowsVisibility = function(expanded) {
-        console.log('[DEBUG] Toggling Observations rows visibility, expanded:', expanded);
+      // Function to toggle the visibility of rows in Notifications table
+      window.toggleNotificationsRowsVisibility = function(expanded) {
+        console.log('[DEBUG] Toggling Notifications rows visibility, expanded:', expanded);
         
-        // Specifically target rows within the observations-container
-        var container = document.querySelector('.observations-container');
+        // Specifically target rows within the notifications-container
+        var container = document.querySelector('.notifications-container');
         if (container) {
           var rows = container.querySelectorAll('.hot-row');
           var toggleLink = container.querySelector('.hot-toggle-link');
@@ -101,8 +105,8 @@ class C_Home_Hot(C_Home_HotTemplate):
     )
 
     # Register the Python functions
-    anvil.js.window.pyWatchlistToggleRowsClicked = self.handle_watchlist_toggle_rows_click
-    anvil.js.window.pyObservationsToggleRowsClicked = self.handle_observations_toggle_rows_click
+    anvil.js.window.pyWatchlistToggleClicked = self.handle_watchlist_toggle_click
+    anvil.js.window.pyNotificationsToggleClicked = self.handle_notifications_toggle_click
     
     # 2. Create tables
     self.create_hot_tables()
@@ -111,9 +115,9 @@ class C_Home_Hot(C_Home_HotTemplate):
     """This method is called when the HTML panel is shown on the screen"""
     pass
   
-  def handle_watchlist_toggle_rows_click(self):
+  def handle_watchlist_toggle_click(self):
     """
-    JavaScript callback for when the show more/show less link is clicked in the watchlist section.
+    JavaScript callback for when the watchlist show more/show less link is clicked.
     Toggles the visibility of rows beyond the maximum visible rows, up to max_expanded_rows.
     
     Returns:
@@ -128,76 +132,95 @@ class C_Home_Hot(C_Home_HotTemplate):
     anvil.js.call_js('window.toggleWatchlistRowsVisibility', self.expanded_watchlist)
     
     return True
-
-  def handle_observations_toggle_rows_click(self):
+  
+  def handle_notifications_toggle_click(self):
     """
-    JavaScript callback for when the show more/show less link is clicked in the observations section.
+    JavaScript callback for when the notifications show more/show less link is clicked.
     Toggles the visibility of rows beyond the maximum visible rows, up to max_expanded_rows.
     
     Returns:
         bool: True indicating successful completion
     """
-    print(f"[DEBUG] Observations toggle rows visibility clicked, current state: {self.expanded_observations}")
+    print(f"[DEBUG] Notifications toggle rows visibility clicked, current state: {self.expanded_notifications}")
     
     # Toggle expanded state
-    self.expanded_observations = not self.expanded_observations
+    self.expanded_notifications = not self.expanded_notifications
     
     # Call JavaScript function to toggle row visibility
-    anvil.js.call_js('window.toggleObservationsRowsVisibility', self.expanded_observations)
+    anvil.js.call_js('window.toggleNotificationsRowsVisibility', self.expanded_notifications)
     
     return True
 
   def create_hot_tables(self):
     """
-    Creates the Hot tables with artist data for Watchlists and Observations
+    Creates both hot tables: watchlist and notifications
     """
-    # Filter data by source
-    watchlist_data = [item for item in self.data if item.get('source', '') == 'watchlist']
-    observations_data = [item for item in self.data if item.get('source', '') == 'notification']
+    watchlist_html = self.generate_table_html(
+      self.watchlist_data, 
+      'watchlist-container', 
+      'My Watchlists', 
+      self.expanded_watchlist,
+      'pyWatchlistToggleClicked',
+      'toggleWatchlistRowsVisibility'
+    )
     
-    # Create HTML content for both tables
-    html_content = self.create_watchlist_table(watchlist_data)
-    html_content += self.create_observations_table(observations_data)
+    notifications_html = self.generate_table_html(
+      self.notification_data, 
+      'notifications-container', 
+      'My Observations', 
+      self.expanded_notifications,
+      'pyNotificationsToggleClicked',
+      'toggleNotificationsRowsVisibility'
+    )
     
-    # Set the HTML content
-    self.html = html_content
+    # Combined HTML for both tables with spacing between
+    html_content = f"""
+    {watchlist_html}
+    <div style="height: 20px;"></div>
+    {notifications_html}
+    """
     
-    # Initialize row visibility
+    # Initialize JavaScript for handling clicks and visibility
     js_code = """
     console.log('[DEBUG] Hot tables JavaScript loaded');
     
-    // Initialize row visibility for Watchlist
+    // Initialize row visibility for both tables
     if (window.toggleWatchlistRowsVisibility) {
       window.toggleWatchlistRowsVisibility(""" + str(self.expanded_watchlist).lower() + """);
     }
     
-    // Initialize row visibility for Observations
-    if (window.toggleObservationsRowsVisibility) {
-      window.toggleObservationsRowsVisibility(""" + str(self.expanded_observations).lower() + """);
+    if (window.toggleNotificationsRowsVisibility) {
+      window.toggleNotificationsRowsVisibility(""" + str(self.expanded_notifications).lower() + """);
     }
     """
     
-    # Evaluate the JavaScript
+    # Set the HTML content and evaluate the JavaScript
+    self.html = html_content
     anvil.js.call_js('eval', js_code)
-
-  def create_watchlist_table(self, data):
+  
+  def generate_table_html(self, data, container_class, header_text, expanded, toggle_function, visibility_function):
     """
-    Creates the Watchlist table HTML
+    Generates HTML for a table with the given parameters
     
-    Args:
-        data: List of artist data from watchlists
+    Parameters:
+        data (list): List of artist data to display
+        container_class (str): CSS class for the container
+        header_text (str): Text to display in the header
+        expanded (bool): Whether the table is expanded
+        toggle_function (str): JavaScript function name for toggle clicks
+        visibility_function (str): JavaScript function name for visibility toggle
         
     Returns:
-        str: HTML content for the watchlist table
+        str: HTML content for the table
     """
     # 1. Create the main container HTML with the header
-    html_content = """
-    <div class="hot-container watchlist-container">
+    html_content = f"""
+    <div class="hot-container {container_class}">
       <div class="hot-header">
-        <h3>My Watchlists</h3>
+        <h3>{header_text}</h3>
       </div>
       <table class="hot-table">
-        <tbody id="watchlist-table-body">
+        <tbody>
     """
     
     # 2. Generate table rows for each artist
@@ -209,11 +232,14 @@ class C_Home_Hot(C_Home_HotTemplate):
       tag = item.get('tag', '')  # Metric information
       
       # Create unique row ID
-      row_id = f"watchlist-row-{i}"
+      row_id = f"hot-row-{container_class}-{i}"
       
       # Add 'hidden' class for rows beyond the max_visible_rows
+      # If i is greater than max_visible_rows (7) and either
+      # 1. We are not expanded OR
+      # 2. It's beyond max_expanded_rows (18)
       hidden_class = " hidden" if (i >= self.max_visible_rows and 
-                                   (not self.expanded_watchlist or i >= self.max_expanded_rows)) else ""
+                                  (not expanded or i >= self.max_expanded_rows)) else ""
       
       # Add the row for this artist
       html_content += f"""
@@ -239,83 +265,10 @@ class C_Home_Hot(C_Home_HotTemplate):
     
     # 4. Add the toggle link if there are more than max_visible_rows entries
     if len(data) > self.max_visible_rows:
-      toggle_text = "show less" if self.expanded_watchlist else "show more"
+      toggle_text = "show less" if expanded else "show more"
       html_content += f"""
       <div class="hot-toggle-container">
-        <a href="javascript:void(0)" id="watchlist-toggle-link" class="hot-toggle-link" onclick="window.pyWatchlistToggleRowsClicked()">{toggle_text}</a>
-      </div>
-      """
-    
-    # 5. Complete the container HTML
-    html_content += """
-    </div>
-    """
-    
-    return html_content
-
-  def create_observations_table(self, data):
-    """
-    Creates the Observations table HTML
-    
-    Args:
-        data: List of artist data from notifications
-        
-    Returns:
-        str: HTML content for the observations table
-    """
-    # 1. Create the main container HTML with the header
-    html_content = """
-    <div class="hot-container observations-container">
-      <div class="hot-header">
-        <h3>My Observations</h3>
-      </div>
-      <table class="hot-table">
-        <tbody id="observations-table-body">
-    """
-    
-    # 2. Generate table rows for each artist
-    for i, item in enumerate(data):
-      artist_id = item.get('artist_id', '')
-      artist_name = item.get('name', 'Unknown')
-      artist_pic_url = item.get('artist_picture_url', '')
-      list_name = item.get('list_name', 'Unknown')
-      tag = item.get('tag', '')  # Metric information
-      
-      # Create unique row ID
-      row_id = f"observations-row-{i}"
-      
-      # Add 'hidden' class for rows beyond the max_visible_rows
-      hidden_class = " hidden" if (i >= self.max_visible_rows and 
-                                   (not self.expanded_observations or i >= self.max_expanded_rows)) else ""
-      
-      # Add the row for this artist
-      html_content += f"""
-        <tr id="{row_id}" class="hot-row{hidden_class}">
-          <td class="hot-pic-cell">
-            <img src="{artist_pic_url}" class="hot-artist-pic" alt="{artist_name}">
-          </td>
-          <td class="hot-name-cell"><a href="javascript:void(0)" onclick="window.pyArtistNameClicked('{artist_id}')">{artist_name}</a></td>
-          <td class="hot-watchlist-cell">on {list_name}</td>
-          <td class="hot-release-cell">
-            <div class="hot-release-box">
-              <span class="hot-release-time">{tag}</span>
-            </div>
-          </td>
-        </tr>
-      """
-    
-    # 3. Complete the HTML for the table
-    html_content += """
-        </tbody>
-      </table>
-    """
-    
-    # 4. Add the toggle link if there are more than max_visible_rows entries
-    if len(data) > self.max_visible_rows:
-      toggle_text = "show less" if self.expanded_observations else "show more"
-      html_content += f"""
-      <div class="hot-toggle-container">
-        <a href="javascript:void(0)" id="observations-toggle-link" class="hot-toggle-link" onclick="window.pyObservationsToggleRowsClicked()">{toggle_text}</a>
+        <a href="javascript:void(0)" class="hot-toggle-link" onclick="window.{toggle_function}()">{toggle_text}</a>
       </div>
       """
     
