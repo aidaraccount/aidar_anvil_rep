@@ -1,61 +1,60 @@
-/* 1. Main containers */
-.hot-container, .watchlist-container, .observes-container {
-  margin-bottom: 15px;
-  padding: 8px 0;
-  margin: 0;
+/* 1. Main container styles */
+.hot-container {
+  width: 100%;
   max-width: 100%;
-  background-color: #2D2D3A;
+  margin-bottom: 20px; /* Add spacing between containers */
   border-radius: 8px;
+  background-color: var(--color-white);
+  box-shadow: var(--box-shadow);
+  overflow: hidden;
 }
 
-/* 2. Header styling */
+/* 2. Header styles */
 .hot-header {
-  margin-bottom: 0;
-  padding: 10px 12px 5px;
-  background-color: #2D2D3A;
-  border-radius: 8px 8px 0 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+  border-bottom: 1px solid var(--color-border-light);
 }
 
 .hot-header h3 {
-  color: white;
-  font-size: 18px;
   margin: 0;
-  padding: 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--color-text-dark);
 }
 
-/* 3. Table styling */
+/* 3. Table styles */
 .hot-table {
   width: 100%;
-  border-collapse: collapse;
-  background-color: #2D2D3A;
-  border-radius: 0 0 8px 8px;
-  overflow: hidden;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  max-width: 100%;
   table-layout: auto;
+  border-collapse: collapse;
 }
 
-.hot-table tr {
-  height: auto;
+.hot-row {
+  border-bottom: 1px solid var(--color-border-light);
   min-height: 36px;
-  transition: opacity 0.3s ease;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  height: auto;
 }
 
-.hot-table tr:last-child {
+.hot-row:last-child {
   border-bottom: none;
 }
 
-.hot-table tr:hover {
-  background-color: rgba(255, 255, 255, 0.05);
+.hot-row:hover {
+  background-color: var(--color-hover-light);
 }
 
-/* 4. Table cells */
+.hot-row.hidden {
+  display: none;
+}
+
+/* 4. Cell styles */
 .hot-pic-cell {
-  width: 36px; /* Fixed width for the picture cell */
-  min-width: 36px;
-  max-width: 36px;
-  padding: 0 4px;
-  text-align: center;
+  width: 36px;
+  padding: 0 10px;
   vertical-align: middle;
 }
 
@@ -67,22 +66,17 @@
 }
 
 .hot-name-cell {
-  padding: 0 8px;
-  color: var(--Orange);
-  font-weight: 500;
-  font-size: 14px;
+  width: 40%;
+  padding: 8px 10px;
   vertical-align: middle;
-  width: 40%; /* Allocate proportionally more space */
-  white-space: normal; /* Allow text to wrap */
-  overflow: hidden;
-  text-overflow: ellipsis;
+  white-space: normal;
   line-height: 1.2;
 }
 
 .hot-name-cell a {
-  color: var(--Orange);
+  color: var(--color-text-dark);
+  font-weight: 500;
   text-decoration: none;
-  cursor: pointer;
 }
 
 .hot-name-cell a:hover {
@@ -90,90 +84,73 @@
 }
 
 .hot-watchlist-cell {
-  padding: 0 8px;
-  color: white;
-  font-size: 12px;
-  text-align: center;
+  width: 30%;
+  padding: 8px 10px;
   vertical-align: middle;
-  width: 30%; /* Allocate proportional space */
-  white-space: normal; /* Allow text to wrap */
-  overflow: hidden;
-  text-overflow: ellipsis;
+  color: var(--color-text-muted);
+  font-size: 14px;
+  white-space: normal;
   line-height: 1.2;
 }
 
 .hot-release-cell {
-  padding: 0 8px;
-  text-align: right;
+  padding: 8px 10px;
   vertical-align: middle;
-  width: auto; /* Let it take what it needs */
-  min-width: 100px; /* Ensure minimum width for tag content */
+  text-align: right;
 }
 
-/* 5. Release box styling */
+/* 5. Release box styles */
 .hot-release-box {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background-color: var(--PurpleFocus);
-  color: white;
-  border-radius: 6px;
-  padding: 2px 8px;
-  text-align: center;
-  height: auto; /* Allow height to adjust */
-  min-height: 20px; /* Minimum height */
-  line-height: 1.2;
-  transform: translateY(-5px); /* Adjustment to center vertically */
+  padding: 4px 8px;
+  border-radius: 4px;
+  background-color: var(--color-primary-lightest);
+  white-space: nowrap;
 }
 
 .hot-release-time {
-  font-size: 12px;
-  font-weight: 700;
-  white-space: nowrap; /* Keep tags on one line */
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-primary);
 }
 
-/* 6. Show more/less link styling */
+/* 6. Toggle link styles */
 .hot-toggle-container {
-  text-align: right;
-  padding: 0px 10px;
-  font-size: 16px;
+  display: flex;
+  justify-content: center;
+  padding: 10px 0;
+  border-top: 1px solid var(--color-border-light);
 }
 
 .hot-toggle-link {
-  color: var(--Orange);
-  font-size: 13px;
-  cursor: pointer;
-  text-decoration: none;
+  color: var(--color-primary);
+  font-size: 14px;
   font-weight: 500;
-  transition: opacity 0.2s ease;
+  text-decoration: none;
 }
 
 .hot-toggle-link:hover {
-  opacity: 0.8;
   text-decoration: underline;
 }
 
-/* 7. Hidden row styling */
-.hidden {
-  display: none;
-}
-
-/* 8. Media queries for responsive behavior */
-@media screen and (max-width: 600px) {
-  .hot-release-time {
-    white-space: normal; /* Allow tag text to wrap on very small screens */
+/* 7. Responsive styles */
+@media (max-width: 600px) {
+  .hot-name-cell {
+    width: 35%;
+  }
+  
+  .hot-watchlist-cell {
+    width: 25%;
   }
   
   .hot-release-box {
-    padding: 3px 8px;
-  }
-  
-  .hot-name-cell, .hot-watchlist-cell {
-    font-size: 13px;
+    white-space: normal;
   }
 }
 
-/* 9. Container spacing */
-.watchlist-container, .observes-container {
-  margin-bottom: 15px;
+/* 8. Specific container styles */
+.watchlist-container {
+  margin-bottom: 25px; /* Add more spacing between containers */
 }
