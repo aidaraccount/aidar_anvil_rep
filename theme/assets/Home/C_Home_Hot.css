@@ -1,186 +1,179 @@
 /* 1. Main containers */
 .hot-container, .watchlist-container, .observes-container {
-    margin-bottom: 15px;
-    max-width: 100%;
-    border-radius: 8px;
-    background-color: white;
-    padding: 15px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  margin-bottom: 15px;
+  padding: 8px 0;
+  margin: 0;
+  max-width: 100%;
+  background-color: #2D2D3A;
+  border-radius: 8px;
 }
 
 /* 2. Header styling */
 .hot-header {
-    margin-bottom: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+  margin-bottom: 0;
+  padding: 10px 12px 5px;
+  background-color: #2D2D3A;
+  border-radius: 8px 8px 0 0;
 }
 
 .hot-header h3 {
-    margin: 0;
-    font-size: 18px;
-    color: var(--Orange);
-    font-weight: 600;
+  color: white;
+  font-size: 18px;
+  margin: 0;
+  padding: 0;
 }
 
 /* 3. Table styling */
 .hot-table {
-    width: 100%;
-    table-layout: auto;
-    border-collapse: collapse;
-    max-width: 100%;
-    background-color: #2D2D3A;
-    border-radius: 0 0 8px 8px;
-    overflow: hidden;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #2D2D3A;
+  border-radius: 0 0 8px 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  table-layout: auto;
 }
 
 .hot-table tr {
-    border-bottom: 1px solid #eaeaea;
-    min-height: 36px;
-    height: auto;
-    transition: opacity 0.3s ease;
+  height: auto;
+  min-height: 36px;
+  transition: opacity 0.3s ease;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .hot-table tr:last-child {
-    border-bottom: none;
+  border-bottom: none;
 }
 
 .hot-table tr:hover {
-    background-color: rgba(255, 255, 255, 0.05);
+  background-color: rgba(255, 255, 255, 0.05);
 }
 
 /* 4. Table cells */
-.hot-table td {
-    padding: 8px 5px;
-    vertical-align: middle;
+.hot-pic-cell {
+  width: 36px; /* Fixed width for the picture cell */
+  min-width: 36px;
+  max-width: 36px;
+  padding: 0 4px;
+  text-align: center;
+  vertical-align: middle;
 }
 
-.hot-pic-cell {
-    width: 36px;
-    min-width: 36px;
-    max-width: 36px;
-    padding: 0 4px;
-    text-align: center;
-    vertical-align: middle;
+.hot-artist-pic {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  object-fit: cover;
 }
 
 .hot-name-cell {
-    width: 40%;
-    max-width: 40%;
-    padding: 0 8px;
-    color: var(--Orange);
-    font-weight: 500;
-    font-size: 14px;
-    vertical-align: middle;
-    white-space: normal;
-    line-height: 1.2;
-    overflow: hidden;
-    text-overflow: ellipsis;
+  padding: 0 8px;
+  color: var(--Orange);
+  font-weight: 500;
+  font-size: 14px;
+  vertical-align: middle;
+  width: 40%; /* Allocate proportionally more space */
+  white-space: normal; /* Allow text to wrap */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.2;
 }
 
-.hot-watchlist-cell {
-    width: 30%;
-    max-width: 30%;
-    padding: 0 8px;
-    color: white;
-    font-size: 12px;
-    text-align: center;
-    vertical-align: middle;
-    white-space: normal;
-    line-height: 1.2;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-.hot-release-cell {
-    text-align: right;
-    width: auto;
-    min-width: 100px;
-    padding: 0 8px;
-    vertical-align: middle;
-}
-
-/* 5. Artist image */
-.hot-artist-pic {
-    width: 24px;
-    height: 24px;
-    border-radius: 50%;
-    object-fit: cover;
-}
-
-/* 6. Links */
 .hot-name-cell a {
-    color: var(--Orange);
-    text-decoration: none;
-    font-weight: 500;
+  color: var(--Orange);
+  text-decoration: none;
+  cursor: pointer;
 }
 
 .hot-name-cell a:hover {
-    text-decoration: underline;
+  text-decoration: underline;
 }
 
-/* 7. Release box */
+.hot-watchlist-cell {
+  padding: 0 8px;
+  color: white;
+  font-size: 12px;
+  text-align: center;
+  vertical-align: middle;
+  width: 30%; /* Allocate proportional space */
+  white-space: normal; /* Allow text to wrap */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.2;
+}
+
+.hot-release-cell {
+  padding: 0 8px;
+  text-align: right;
+  vertical-align: middle;
+  width: auto; /* Let it take what it needs */
+  min-width: 100px; /* Ensure minimum width for tag content */
+}
+
+/* 5. Release box styling */
 .hot-release-box {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    background-color: var(--PurpleFocus);
-    color: white;
-    border-radius: 6px;
-    padding: 2px 8px;
-    text-align: center;
-    height: auto;
-    min-height: 20px;
-    line-height: 1.2;
-    transform: translateY(-5px);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--PurpleFocus);
+  color: white;
+  border-radius: 6px;
+  padding: 2px 8px;
+  text-align: center;
+  height: auto; /* Allow height to adjust */
+  min-height: 20px; /* Minimum height */
+  line-height: 1.2;
+  transform: translateY(-5px); /* Adjustment to center vertically */
 }
 
 .hot-release-time {
-    font-size: 12px;
-    font-weight: 700;
-    white-space: nowrap;
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap; /* Keep tags on one line */
 }
 
-/* 8. Toggle container */
+/* 6. Show more/less link styling */
 .hot-toggle-container {
-    text-align: right;
-    padding: 0px 10px;
-    font-size: 16px;
+  text-align: right;
+  padding: 0px 10px;
+  font-size: 16px;
 }
 
 .hot-toggle-link {
-    color: var(--Orange);
-    font-size: 13px;
-    cursor: pointer;
-    text-decoration: none;
-    font-weight: 500;
-    transition: opacity 0.2s ease;
+  color: var(--Orange);
+  font-size: 13px;
+  cursor: pointer;
+  text-decoration: none;
+  font-weight: 500;
+  transition: opacity 0.2s ease;
 }
 
 .hot-toggle-link:hover {
-    opacity: 0.8;
-    text-decoration: underline;
+  opacity: 0.8;
+  text-decoration: underline;
 }
 
-/* 9. Hide rows when collapsed */
+/* 7. Hidden row styling */
 .hidden {
-    display: none;
+  display: none;
 }
 
-/* 10. Media queries for smaller screens */
-@media (max-width: 600px) {
-    .hot-name-cell, .hot-watchlist-cell {
-        font-size: 13px;
-    }
-    
-    .hot-release-box {
-        white-space: normal;
-        font-size: 11px;
-        padding: 3px 6px;
-    }
-    
-    .hot-release-time {
-        white-space: normal;
-    }
+/* 8. Media queries for responsive behavior */
+@media screen and (max-width: 600px) {
+  .hot-release-time {
+    white-space: normal; /* Allow tag text to wrap on very small screens */
+  }
+  
+  .hot-release-box {
+    padding: 3px 8px;
+  }
+  
+  .hot-name-cell, .hot-watchlist-cell {
+    font-size: 13px;
+  }
+}
+
+/* 9. Container spacing */
+.watchlist-container, .observes-container {
+  margin-bottom: 15px;
 }

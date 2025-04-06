@@ -172,7 +172,7 @@ class C_Home_Hot(C_Home_HotTemplate):
     if self.notification_data:
       observes_html = self.create_table_html(
         self.notification_data, 
-        "My Observes", 
+        "My Observations", 
         "observes", 
         self.notification_expanded,
         "pyObservesToggleRowsClicked"
