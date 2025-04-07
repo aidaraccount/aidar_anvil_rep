@@ -1,59 +1,61 @@
 /* 1. Default layout styles */
-.anvil-role-responsive-home-layout {
-    display: flex;
-    flex-wrap: wrap;
-    width: 100%;
-  }
-  
-  /* 2. Section containers with default desktop layout */
+/* Make sure all containers use border-box sizing */
+* {
+  box-sizing: border-box;
+}
+
+/* Target the main container and column panels */
+.anvil-container {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+/* Adjust column widths for desktop layout */
+.anvil-container[anvil-container-name="sec_agents"] {
+  width: 67%;
+  padding-right: 15px;
+  float: left;
+}
+
+.anvil-container[anvil-container-name="sec_shorts"] {
+  width: 67%;
+  padding-right: 15px;
+  clear: left;
+  float: left;
+}
+
+.anvil-container[anvil-container-name="sec_next"] {
+  width: 33%;
+  padding-left: 15px;
+  float: right;
+}
+
+.anvil-container[anvil-container-name="sec_hot"] {
+  width: 33%;
+  padding-left: 15px;
+  clear: right;
+  float: right;
+}
+
+/* Clear floats */
+.anvil-container[anvil-container-name="content_panel"]::after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* 2. Mobile layout (stacked columns) */
+@media screen and (max-width: 768px) {
+  /* Reset floats and make full width for mobile */
   .anvil-container[anvil-container-name="sec_agents"],
-  .anvil-container[anvil-container-name="sec_shorts"] {
-    width: 60%;
-    padding-right: 15px;
-    box-sizing: border-box;
-  }
-  
+  .anvil-container[anvil-container-name="sec_shorts"],
   .anvil-container[anvil-container-name="sec_next"],
   .anvil-container[anvil-container-name="sec_hot"] {
-    width: 40%;
-    padding-left: 15px;
-    box-sizing: border-box;
+    width: 100% !important;
+    float: none !important;
+    clear: both !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    margin-bottom: 20px !important;
   }
-  
-  /* 3. Mobile layout (stacked columns) */
-  @media screen and (max-width: 768px) {
-    /* Make all sections full width and stack vertically */
-    .anvil-container[anvil-container-name="sec_agents"],
-    .anvil-container[anvil-container-name="sec_shorts"],
-    .anvil-container[anvil-container-name="sec_next"],
-    .anvil-container[anvil-container-name="sec_hot"] {
-      width: 100%;
-      padding-left: 0;
-      padding-right: 0;
-      margin-bottom: 20px;
-    }
-    
-    /* Define the order of sections */
-    .anvil-container[anvil-container-name="sec_agents"] {
-      order: 1;
-    }
-    
-    .anvil-container[anvil-container-name="sec_next"] {
-      order: 2;
-    }
-    
-    .anvil-container[anvil-container-name="sec_shorts"] {
-      order: 3;
-    }
-    
-    .anvil-container[anvil-container-name="sec_hot"] {
-      order: 4;
-    }
-    
-    /* Ensure the content panel allows ordering */
-    .anvil-role-responsive-home-layout {
-      display: flex;
-      flex-direction: column;
-    }
-  }
-  
+}
