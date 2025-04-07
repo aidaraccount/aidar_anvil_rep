@@ -63,6 +63,9 @@ class Home(HomeTemplate):
         <span style="color: #FF4C2B;">.</span>WELCOME <span style="color: #FF4C2B;">{name}</span>
       </span>
       """
+      
+      # Add mobile reordering javascript
+      self.add_mobile_reordering_js()
         
       return
     
@@ -133,6 +136,9 @@ class Home(HomeTemplate):
       self.shorts_start_time = time.time()
       print(f"HOME INIT [{self.instance_id}] - Shorts loading initialized - {datetime.now()}", flush=True)
       self.load_shorts_async()
+      
+      # 1.7 Add mobile reordering javascript
+      self.add_mobile_reordering_js()
   
   
   # ------
@@ -464,3 +470,77 @@ class Home(HomeTemplate):
       self.colpan_wl_selection.visible = False
     else:
       self.colpan_wl_selection.visible = True
+
+  def add_mobile_reordering_js(self):
+    """Adds JavaScript to reorder sections on mobile devices"""
+    # Add JavaScript to reorder sections on mobile
+    reorder_js = """
+    (function() {
+      // Function to check if device is mobile
+      function isMobile() {
+        return window.innerWidth <= 768;
+      }
+      
+      // Function to reorder sections
+      function reorderSections() {
+        if (!isMobile()) return;
+        
+        // Get the parent container
+        const contentPanel = document.querySelector('.anvil-container[anvil-container-name="content_panel"]');
+        if (!contentPanel) return;
+        
+        // Get all sections
+        const agentsSection = document.querySelector('.anvil-container[anvil-container-name="sec_agents"]');
+        const nextSection = document.querySelector('.anvil-container[anvil-container-name="sec_next"]');
+        const hotSection = document.querySelector('.anvil-container[anvil-container-name="sec_hot"]');
+        const shortsSection = document.querySelector('.anvil-container[anvil-container-name="sec_shorts"]');
+        
+        // Check if all sections exist
+        if (!agentsSection || !nextSection || !hotSection || !shortsSection) return;
+        
+        // Create a temporary container for our ordered sections
+        const container = document.createElement('div');
+        container.id = "mobile-ordered-sections";
+        container.style.width = "100%";
+        container.style.display = "flex";
+        container.style.flexDirection = "column";
+        
+        // Set styles on sections
+        [agentsSection, nextSection, hotSection, shortsSection].forEach(section => {
+          section.style.width = "100%";
+          section.style.margin = "0 0 20px 0";
+        });
+        
+        // Append sections in the desired order
+        container.appendChild(agentsSection);
+        container.appendChild(nextSection);
+        container.appendChild(hotSection);
+        container.appendChild(shortsSection);
+        
+        // Insert our container at the beginning of the content panel
+        contentPanel.insertBefore(container, contentPanel.firstChild);
+      }
+      
+      // Apply the reordering when the page loads
+      if (document.readyState === "complete" || document.readyState === "interactive") {
+        setTimeout(reorderSections, 100);
+      } else {
+        document.addEventListener("DOMContentLoaded", () => setTimeout(reorderSections, 100));
+      }
+      
+      // Also reorder when window is resized
+      window.addEventListener("resize", reorderSections);
+      
+      // Check periodically to make sure our reordering is applied
+      let checkInterval = setInterval(function() {
+        if (document.querySelector('#mobile-ordered-sections')) {
+          clearInterval(checkInterval);
+        } else {
+          reorderSections();
+        }
+      }, 1000);
+    })();
+    """
+    
+    # Inject JavaScript into the page
+    anvil.js.call_js('eval', reorder_js)

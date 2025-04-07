@@ -1,85 +1,107 @@
 /* Mobile-specific overrides for Home layout */
 
-/* This file contains direct absolute positioning overrides for mobile layouts */
-
 @media screen and (max-width: 768px) {
-  /* 1. Set the content panel as a positioning reference */
-  .anvil-container[anvil-container-name="content_panel"] {
+  /* 1. Target the direct wrapper for our sections */
+  .anvil-container-overflow {
     position: relative !important;
-    height: auto !important;
-    min-height: 1200px !important; /* Ensure enough space for all sections */
-    padding-bottom: 20px !important;
   }
   
-  /* 2. Hard override for all the sections */
-  .anvil-container[anvil-container-name="sec_agents"],
-  .anvil-container[anvil-container-name="sec_shorts"],
-  .anvil-container[anvil-container-name="sec_next"],
-  .anvil-container[anvil-container-name="sec_hot"] {
-    position: absolute !important;
-    width: 95% !important;
-    left: 2.5% !important;
-    right: 2.5% !important;
-    margin: 0 !important;
-    padding: 10px !important;
-    height: auto !important;
-    float: none !important;
-    clear: none !important;
-  }
-  
-  /* 3. Position each section explicitly */
-  /* First: Agents */
+  /* 2. Force each section to be stacked blocks with explicit display order */
+  /* AGENTS - first position */
   .anvil-container[anvil-container-name="sec_agents"] {
+    position: relative !important;
     top: 0 !important;
-    z-index: 40 !important;
+    left: 0 !important;
+    width: 100% !important;
+    z-index: 4 !important;
+    margin-bottom: 20px !important;
   }
   
-  /* Second: Next */
+  /* NEXT - second position */
   .anvil-container[anvil-container-name="sec_next"] {
-    top: 300px !important; /* Adjust based on expected height of sec_agents */
-    z-index: 30 !important;
+    position: relative !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    z-index: 3 !important;
+    margin-bottom: 20px !important;
   }
   
-  /* Third: Hot */
+  /* HOT - third position */
   .anvil-container[anvil-container-name="sec_hot"] {
-    top: 600px !important; /* Adjust based on expected height of sec_next + sec_agents */
-    z-index: 20 !important;
+    position: relative !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    z-index: 2 !important;
+    margin-bottom: 20px !important;
   }
   
-  /* Fourth: Shorts */
+  /* SHORTS - fourth position */
   .anvil-container[anvil-container-name="sec_shorts"] {
-    top: 900px !important; /* Adjust based on expected height of sec_hot + sec_next + sec_agents */
-    z-index: 10 !important;
+    position: relative !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    z-index: 1 !important;
+    margin-bottom: 20px !important;
   }
   
-  /* 4. Make sure all sections are visible */
-  .anvil-container[anvil-container-name="sec_agents"] *,
-  .anvil-container[anvil-container-name="sec_shorts"] *,
-  .anvil-container[anvil-container-name="sec_next"] *,
-  .anvil-container[anvil-container-name="sec_hot"] * {
-    opacity: 1 !important;
-    visibility: visible !important;
+  /* 3. Parent container fix - make sure all sections are in their own stacking context */
+  .anvil-panel-section, 
+  .anvil-panel-section-container {
+    overflow: visible !important;
+    position: static !important;
+    width: 100% !important;
+    display: block !important;
   }
   
-  /* 5. Fix for specific problem columns */
-  .anvil-panel-col-QVOGKC,
-  .anvil-panel-col-EQZHSN {
+  /* 4. Force all row and column elements to full width blocks */
+  .anvil-panel-row,
+  .anvil-panel-col,
+  .wrap-mobile,
+  div[class*="anvil-panel-col-"] {
+    display: block !important;
     width: 100% !important;
     float: none !important;
     position: static !important;
   }
   
-  /* 6. Ensure all panels display properly */
-  .anvil-panel-section,
-  .anvil-panel-row {
-    display: block !important;
+  /* 5. Try a !important transform approach to force browser reflow */
+  .anvil-container[anvil-container-name="sec_agents"] {
+    transform: translateY(0px) !important;
+  }
+  
+  .anvil-container[anvil-container-name="sec_next"] {
+    transform: translateY(0px) !important;
+  }
+  
+  .anvil-container[anvil-container-name="sec_hot"] {
+    transform: translateY(0px) !important;
+  }
+  
+  .anvil-container[anvil-container-name="sec_shorts"] {
+    transform: translateY(0px) !important;
+  }
+  
+  /* 6. Force any flex containers to column orientation */
+  div[style*="display: flex"],
+  div[style*="display:flex"] {
+    flex-direction: column !important;
+  }
+  
+  /* 7. Reset any fixed height/width constraints */
+  .anvil-panel-section-container[style*="height"],
+  .anvil-panel-section-container[style*="width"] {
+    height: auto !important;
     width: 100% !important;
   }
   
-  /* 7. Fix for wrap-mobile elements */
-  .wrap-mobile {
-    display: block !important;
+  /* 8. Target the row with the parent of the side-by-side panels */
+  body .row > div:has(> .anvil-container[anvil-container-name="sec_agents"]),
+  body .row > div:has(> .anvil-container[anvil-container-name="sec_shorts"]) {
     width: 100% !important;
     float: none !important;
+    display: block !important;
   }
 }
