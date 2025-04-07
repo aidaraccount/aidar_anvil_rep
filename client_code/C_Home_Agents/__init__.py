@@ -161,15 +161,39 @@ class C_Home_Agents(C_Home_AgentsTemplate):
       print(f"SLIDER_DEBUG: Data is a list of length {len(data)}")
       for i, model in enumerate(data):
         if isinstance(model, dict):
-          # Extract model info
+          # Extract model info - support both naming conventions
           model_id = model.get('model_id', '')
-          model_name = model.get('name', 'Unknown Model')
-          model_level = model.get('level', 'Trainee')
+          model_name = model.get('model_name', model.get('name', 'Unknown Model'))
+          model_level = model.get('model_level', model.get('level', 'Trainee'))
           next_artist_id = model.get('next_artist_id', '')
           next_artist_pic_url = model.get('next_artist_pic_url', '')
-          stars = model.get('stars', 0)
-          next_level_text = model.get('next_level_text', '0 ratings to go')
+          stars = model.get('no_stars', model.get('stars', 0))
+          
+          # Calculate progress information
           progress_percent = model.get('progress_percent', 0)
+          next_level_text = model.get('next_level_text', '')
+          
+          # If next_level_text isn't provided, try to calculate it from no_ratings and no_missing_ratings
+          if not next_level_text and 'no_ratings' in model and 'no_missing_ratings' in model:
+            no_ratings = model.get('no_ratings', 0)
+            no_missing_ratings = model.get('no_missing_ratings', 0)
+            
+            if model_level == "Rookie":
+              next_level_text = f"{no_missing_ratings} ratings to Junior"
+            elif model_level == "Junior":
+              next_level_text = f"{no_missing_ratings} ratings to Senior"
+            elif model_level == "Senior":
+              next_level_text = f"{no_missing_ratings} ratings to Pro"
+            elif model_level == "Pro":
+              next_level_text = "You're a Pro"
+          
+          # If progress_percent isn't provided, calculate it
+          if progress_percent == 0 and 'no_ratings' in model and 'no_missing_ratings' in model:
+            no_ratings = model.get('no_ratings', 0)
+            no_missing_ratings = model.get('no_missing_ratings', 0)
+            total_ratings = no_ratings + no_missing_ratings
+            progress_percent = (no_ratings / total_ratings * 100) if total_ratings > 0 else 0
+          
           progress_bar_class = "purple-progress" if model_level == "Senior" else ""
           
           # Generate the stars HTML - always 3 stars, with 'no_stars' colored orange

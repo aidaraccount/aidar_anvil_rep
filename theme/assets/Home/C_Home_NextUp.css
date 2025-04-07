@@ -15,7 +15,8 @@
 
 /* 2. NextUp table rows */
 .nextup-row {
-  height: 36px;
+  height: auto;
+  min-height: 36px;
   transition: opacity 0.3s ease;
 }
 
