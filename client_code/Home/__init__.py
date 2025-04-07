@@ -211,17 +211,22 @@ class Home(HomeTemplate):
       self.process_hot_data(data)
     
   def process_hot_data(self, data):
-    """Process and display hot data"""
+    """
+    Process and display hot data
+    
+    Parameters:
+        data (str): JSON string containing hot data
+    """
     data = json.loads(data)
     
     # Check if we already have a hot component to update
     if hasattr(self, 'hot_component') and self.hot_component:
-      # Replace the existing component with new data
-      self.sec_hot.clear()
-      self.sec_hot.add_component(C_Home_Hot(data=data))
+      # Update the existing component with new data
+      self.hot_component.update_data(data)
     else:
       # Fallback if component doesn't exist yet
-      self.sec_hot.add_component(C_Home_Hot(data=data))
+      self.hot_component = C_Home_Hot(data=data)
+      self.sec_hot.add_component(self.hot_component)
 
   
   # ------

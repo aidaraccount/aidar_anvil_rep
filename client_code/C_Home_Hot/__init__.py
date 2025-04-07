@@ -205,6 +205,25 @@ class C_Home_Hot(C_Home_HotTemplate):
     self.html = html_content
     anvil.js.call_js('eval', js_code)
   
+  def update_data(self, new_data):
+    """
+    Updates the component with new data and refreshes the display
+    
+    Parameters:
+        new_data (list): The new data to display
+    """
+    self.data = new_data
+    self.is_loading = False
+    
+    # Filter data by source
+    self.watchlist_data = [item for item in self.data if item.get('source', '') == 'watchlist']
+    self.notification_data = [item for item in self.data if item.get('source', '') == 'notification']
+    
+    # Recreate the tables with the new data
+    self.create_hot_tables()
+    
+    return True
+  
   def generate_table_html(self, data, container_class, header_text, expanded, toggle_function, visibility_function):
     """
     Generates HTML for a table with the given parameters
