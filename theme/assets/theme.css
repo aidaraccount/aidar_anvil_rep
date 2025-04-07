@@ -227,7 +227,7 @@ body, html {
   flex-grow: 1;
 }
 /* Customize width of COLUMN 1 in Watchlist Overview Table */
-.data-row-col:has(> .anvil-role-col-artist){
+.data-row-col[data-grid-col-id="RAPPVC"]{ 
   width: auto !important;
   flex-grow: 1 !important;
 }
@@ -2103,23 +2103,8 @@ footer a, .footer .anvil-component {
     min-width: 570px;
     opacity: 1;
   }
-}
 
-.anvil-role-slider-growth .noUi-horizontal {
-  height: 8px;
-}
-.anvil-role-slider-growth .noUi-connect {
-  background: rgb(233, 95, 48);
-  height: 8px;
-}
-.anvil-role-slider-growth .noUi-handle.noUi-handle-lower, 
-.anvil-role-slider-growth .noUi-handle.noUi-handle-upper {
-  width: 10px;
-  height: 30px;
-  right: -5px;
-  top: -10px;
-  border-radius: 4px;
-}
+
 .anvil-role-slider-growth {
   -webkit-appearance: none;
   width: 98.5%;
@@ -2312,11 +2297,11 @@ footer a, .footer .anvil-component {
   font-family: Gs-regular;
 }
 /* Large Ticks CSS */
-..anvil-role-slider-growth .noUi-pips.noUi-pips-horizontal .noUi-marker-large {
+.anvil-role-slider-growth .noUi-pips.noUi-pips-horizontal .noUi-marker-large {
   background:white;
 }
 /* Small Ticks CSS */
-..anvil-role-slider-growth .noUi-pips.noUi-pips-horizontal .noUi-marker {
+.anvil-role-slider-growth .noUi-pips.noUi-pips-horizontal .noUi-marker {
   background:white;
 }
 

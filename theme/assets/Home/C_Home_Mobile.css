@@ -1,0 +1,45 @@
+/* Mobile-specific overrides for Home layout */
+
+/* This file contains more aggressive and specific overrides for mobile layouts */
+
+@media screen and (max-width: 768px) {
+  /* 1. Target the specific panel columns causing issues */
+  div.anvil-panel-col-QVOGKC.belongs-to-YNRWIG.wrap-mobile,
+  div.anvil-panel-col-EQZHSN.belongs-to-YNRWIG.wrap-mobile {
+    display: block !important;
+    width: 100% !important;
+    float: none !important;
+    margin: 0 0 10px 0 !important;
+    position: static !important;
+  }
+  
+  /* 2. Target the parent row of these columns */
+  div.anvil-panel-row:has(.belongs-to-YNRWIG) {
+    display: block !important;
+    flex-direction: column !important;
+    width: 100% !important;
+  }
+  
+  /* 3. Ensure all panels in the flow stack correctly */
+  .anvil-container .anvil-panel-row {
+    display: block !important;
+    flex-direction: column !important;
+  }
+  
+  /* 4. Force inline styles to be overridden */
+  .anvil-panel-col[style*="flex-basis"] {
+    flex-basis: 100% !important;
+    width: 100% !important;
+  }
+  
+  /* 5. Reset any possible flex layouts that might interfere */
+  .anvil-panel-section,
+  .anvil-panel-row {
+    display: block !important;
+  }
+  
+  /* 6. Override any grid-template styles */
+  [style*="grid-template-columns"] {
+    grid-template-columns: 1fr !important;
+  }
+}

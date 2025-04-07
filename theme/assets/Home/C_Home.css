@@ -58,4 +58,64 @@
     padding-right: 0 !important;
     margin-bottom: 20px !important;
   }
+  
+  /* Global fixes for mobile columns */
+  .anvil-panel-row {
+    display: block !important;
+  }
+  
+  /* Add !important inline style override for problematic columns */
+  .anvil-panel-col-QVOGKC,
+  .anvil-panel-col-EQZHSN {
+    display: block !important;
+    width: 100% !important;
+    float: none !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+  
+  /* Class attribute override for mobile */
+  [class*="belongs-to-YNRWIG"] {
+    display: block !important;
+    width: 100% !important;
+    float: none !important;
+  }
+  
+  /* Mobile layout fix for any wrap-mobile elements */
+  .wrap-mobile {
+    display: block !important;
+    width: 100% !important;
+    float: none !important;
+    margin-bottom: 10px !important;
+  }
+  
+  /* Apply global column fixes */
+  .anvil-panel-col {
+    width: 100% !important;
+    margin: 0 0 10px 0 !important;
+  }
+  
+  /* Fix container layouts that might use flexbox */
+  .anvil-container {
+    display: block !important;
+  }
+}
+
+/* 3. Extra fixes for specific layouts */
+@media screen and (max-width: 768px) {
+  /* Direct descendant columns of panel rows */
+  .anvil-panel-row > .anvil-panel-col {
+    display: block !important;
+    width: 100% !important;
+  }
+  
+  /* Force all items in a flow panel to stack */
+  .anvil-panel-row:has(.belongs-to-YNRWIG) {
+    flex-direction: column !important;
+  }
+  
+  /* Ensure all panels allow vertical flow on mobile */
+  .anvil-panel-section {
+    flex-direction: column !important;
+  }
 }
