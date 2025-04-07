@@ -25,6 +25,7 @@ class C_Home_NextUp(C_Home_NextUpTemplate):
     self.data = data
     self.max_visible_rows = 7
     self.expanded = False
+    self.is_loading = data is None  # Track loading state
     
     # 1. Register JavaScript callbacks for direct call (not promises)
     anvil.js.call_js('eval', """
@@ -142,6 +143,21 @@ class C_Home_NextUp(C_Home_NextUpTemplate):
     
     return True
 
+  def update_data(self, new_data):
+    """
+    Updates the component with new data and refreshes the display
+    
+    Parameters:
+        new_data (list): The new data to display
+    """
+    self.data = new_data
+    self.is_loading = False
+    
+    # Recreate the table with the new data
+    self.create_nextup_table()
+    
+    return True
+
   def create_nextup_table(self):
     """
     Creates the NextUp table with artist data
@@ -169,60 +185,80 @@ class C_Home_NextUp(C_Home_NextUpTemplate):
         <tbody id="nextup-table-body">
     """
     
-    # 3. Generate table rows for each artist
-    for i, item in enumerate(self.data):
-      artist_id = item.get('artist_id', '')
-      artist_name = item.get('name', 'Unknown')
-      artist_pic_url = item.get('artist_picture_url', '')
-      status = item.get('status', '')
-      priority = item.get('priority', '')
-      watchlist_id = item.get('watchlist_id', '')
-      
-      # Get status abbreviation from dictionary
-      status_display = status_abbr.get(status, status)
-      
-      # Format priority with first letter capitalized
-      priority_display = priority.capitalize() if priority else ''
-      
-      # Create unique row ID
-      row_id = f"nextup-row-{i}"
-      
-      # Add 'hidden' class for rows beyond the max_visible_rows if not expanded
-      hidden_class = "" if i < self.max_visible_rows or self.expanded else " hidden"
-      
-      # Add the row for this artist
-      html_content += f"""
-        <tr id="{row_id}" class="nextup-row{hidden_class}">
-          <td class="nextup-radio-cell">
-            <div class="radio-button" onclick="window.pyRadioClicked('{artist_id}', '{watchlist_id}', '{i}')">
-              <div class="radio-dot"></div>
-            </div>
-          </td>
-          <td class="nextup-pic-cell">
-            <img src="{artist_pic_url}" class="nextup-artist-pic" alt="{artist_name}">
-          </td>
-          <td class="nextup-name-cell"><a href="javascript:void(0)" onclick="window.pyArtistNameClicked('{artist_id}')">{artist_name}</a></td>
-          <td class="nextup-status-cell">{status_display}</td>
-          <td class="nextup-priority-cell">{priority_display}</td>
-          <td class="nextup-button-cell">
-            <button class="icon-button-disabled-small" 
-                    data-watchlist-id="{watchlist_id}" 
-                    data-artist-id="{artist_id}" 
-                    onclick="window.pyWatchlistClicked('{artist_id}', '{watchlist_id}')">
-              <i class="fa fa-vcard-o"></i>
-            </button>
+    # 3. Check if data is loading or empty
+    if self.is_loading:
+      # Loading state message
+      html_content += """
+        <tr class="nextup-row nextup-status-row">
+          <td colspan="6" class="nextup-status-cell">
+            <div class="nextup-status-message nextup-loading-message">Loading tasks...</div>
           </td>
         </tr>
       """
+    elif not self.data:
+      # No data message
+      html_content += """
+        <tr class="nextup-row nextup-status-row">
+          <td colspan="6" class="nextup-status-cell">
+            <div class="nextup-status-message nextup-empty-message">Nothing to do!</div>
+          </td>
+        </tr>
+      """
+    else:
+      # 4. Generate table rows for each artist
+      for i, item in enumerate(self.data):
+        artist_id = item.get('artist_id', '')
+        artist_name = item.get('name', 'Unknown')
+        artist_pic_url = item.get('artist_picture_url', '')
+        status = item.get('status', '')
+        priority = item.get('priority', '')
+        watchlist_id = item.get('watchlist_id', '')
+        
+        # Get status abbreviation from dictionary
+        status_display = status_abbr.get(status, status)
+        
+        # Format priority with first letter capitalized
+        priority_display = priority.capitalize() if priority else ''
+        
+        # Create unique row ID
+        row_id = f"nextup-row-{i}"
+        
+        # Add 'hidden' class for rows beyond the max_visible_rows if not expanded
+        hidden_class = "" if i < self.max_visible_rows or self.expanded else " hidden"
+        
+        # Add the row for this artist
+        html_content += f"""
+          <tr id="{row_id}" class="nextup-row{hidden_class}">
+            <td class="nextup-radio-cell">
+              <div class="radio-button" onclick="window.pyRadioClicked('{artist_id}', '{watchlist_id}', '{i}')">
+                <div class="radio-dot"></div>
+              </div>
+            </td>
+            <td class="nextup-pic-cell">
+              <img src="{artist_pic_url}" class="nextup-artist-pic" alt="{artist_name}">
+            </td>
+            <td class="nextup-name-cell"><a href="javascript:void(0)" onclick="window.pyArtistNameClicked('{artist_id}')">{artist_name}</a></td>
+            <td class="nextup-status-cell">{status_display}</td>
+            <td class="nextup-priority-cell">{priority_display}</td>
+            <td class="nextup-button-cell">
+              <button class="icon-button-disabled-small" 
+                      data-watchlist-id="{watchlist_id}" 
+                      data-artist-id="{artist_id}" 
+                      onclick="window.pyWatchlistClicked('{artist_id}', '{watchlist_id}')">
+                <i class="fa fa-vcard-o"></i>
+              </button>
+            </td>
+          </tr>
+        """
     
-    # 4. Complete the HTML for the table
+    # 5. Complete the HTML for the table
     html_content += """
         </tbody>
       </table>
     """
     
-    # 5. Add the toggle link if there are more than max_visible_rows entries
-    if len(self.data) > self.max_visible_rows:
+    # 6. Add the toggle link if there are more than max_visible_rows entries and not loading/empty
+    if not self.is_loading and self.data and len(self.data) > self.max_visible_rows:
       toggle_text = "show less" if self.expanded else "show all"
       html_content += f"""
       <div class="nextup-toggle-container">
@@ -230,12 +266,12 @@ class C_Home_NextUp(C_Home_NextUpTemplate):
       </div>
       """
     
-    # 6. Complete the container HTML
+    # 7. Complete the container HTML
     html_content += """
     </div>
     """
     
-    # 7. JavaScript for handling clicks
+    # 8. JavaScript for handling clicks
     js_code = """
     console.log('[DEBUG] NextUp table JavaScript loaded');
     
@@ -245,6 +281,6 @@ class C_Home_NextUp(C_Home_NextUpTemplate):
     }
     """
     
-    # 8. Set the HTML content and evaluate the JavaScript
+    # 9. Set the HTML content and evaluate the JavaScript
     self.html = html_content
     anvil.js.call_js('eval', js_code)

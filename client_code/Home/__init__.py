@@ -108,11 +108,17 @@ class Home(HomeTemplate):
       # 1.3 Initialize loading of agents asynchronously
       self.agents_start_time = time.time()
       print(f"HOME INIT [{self.instance_id}] - Agents loading initialized - {datetime.now()}", flush=True)
+      # Initialize the Agents component with no data to show loading state immediately
+      self.agents_component = C_Home_Agents(data=None)
+      self.sec_agents.add_component(self.agents_component)
       self.load_agents_async()
       
       # 1.4 Initialize loading of next asynchronously
       self.next_start_time = time.time()
       print(f"HOME INIT [{self.instance_id}] - Next loading initialized - {datetime.now()}", flush=True)
+      # Initialize the Next component with no data to show loading state immediately
+      self.next_component = C_Home_NextUp(data=None)
+      self.sec_next.add_component(self.next_component)
       self.load_next_async()
   
       # 1.5 Initialize loading of hot asynchronously
@@ -154,9 +160,22 @@ class Home(HomeTemplate):
       self.process_agents_data(data)
     
   def process_agents_data(self, data):
-    """Process and display agents data"""
-    self.sec_agents.add_component(C_Home_Agents(data=data))
-
+    """
+    Process and display agents data
+    
+    Parameters:
+        data (str): JSON string containing agents data
+    """
+    data = json.loads(data)
+    
+    # Check if we already have an agents component to update
+    if hasattr(self, 'agents_component') and self.agents_component:
+      # Update the existing component with new data
+      self.agents_component.update_data(data)
+    else:
+      # Fallback if component doesn't exist yet
+      self.agents_component = C_Home_Agents(data=data)
+      self.sec_agents.add_component(self.agents_component)
   
   # ------
   # 2.2 NEXT METHODS
@@ -182,11 +201,23 @@ class Home(HomeTemplate):
       self.process_next_data(data)
     
   def process_next_data(self, data):
-    """Process and display next data"""
+    """
+    Process and display next data
+    
+    Parameters:
+        data (str): JSON string containing next data
+    """
     data = json.loads(data)
-    self.sec_next.add_component(C_Home_NextUp(data=data))
-
-
+    
+    # Check if we already have a next component to update
+    if hasattr(self, 'next_component') and self.next_component:
+      # Update the existing component with new data
+      self.next_component.update_data(data)
+    else:
+      # Fallback if component doesn't exist yet
+      self.next_component = C_Home_NextUp(data=data)
+      self.sec_next.add_component(self.next_component)
+  
   # ------
   # 2.3 HOT METHODS
   def load_hot_async(self):
