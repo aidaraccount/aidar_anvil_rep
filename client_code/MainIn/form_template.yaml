@@ -156,7 +156,7 @@ components:
   name: SearchBar
   properties:
     placeholder: Search Artist by Name, Spotify ID or UUID
-    role: [text_box_small, search-bar-related-artists]
+    role: [search-bar-related-artists]
   type: TextBox
 container:
   properties: {background: '', html: '@theme:dashboard.html', role: null}
