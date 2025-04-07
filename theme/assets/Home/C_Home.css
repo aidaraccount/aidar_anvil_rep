@@ -59,89 +59,82 @@
     margin-bottom: 20px !important;
   }
   
+  /* Prepare content panel for custom ordering */
+  .anvil-container[anvil-container-name="content_panel"] {
+    display: flex !important;
+    flex-direction: column !important;
+  }
+  
   /* Global fixes for mobile columns */
   .anvil-panel-row {
     display: block !important;
   }
   
-  /* Add !important inline style override for problematic columns */
+  /* Apply custom ordering to individual sections */
+  /* 1. Agents First */
+  .anvil-container[anvil-container-name="sec_agents"] {
+    position: relative !important;
+    order: 1 !important;
+  }
+  
+  /* 2. Next Second */
+  .anvil-container[anvil-container-name="sec_next"] {
+    position: relative !important;
+    order: 2 !important;
+  }
+  
+  /* 3. Hot Third */
+  .anvil-container[anvil-container-name="sec_hot"] {
+    position: relative !important;
+    order: 3 !important;
+  }
+  
+  /* 4. Shorts Last */
+  .anvil-container[anvil-container-name="sec_shorts"] {
+    position: relative !important;
+    order: 4 !important;
+  }
+  
+  /* Custom selector to target the specific columns */
   .anvil-panel-col-QVOGKC,
   .anvil-panel-col-EQZHSN {
-    display: block !important;
     width: 100% !important;
-    float: none !important;
-    margin-left: 0 !important;
-    margin-right: 0 !important;
+    display: contents !important; /* This allows children to be positioned by flex order */
   }
   
-  /* Class attribute override for mobile */
-  [class*="belongs-to-YNRWIG"] {
-    display: block !important;
-    width: 100% !important;
-    float: none !important;
+  /* Force direct positioning of all section containers */
+  .anvil-container[anvil-container-name="sec_agents"],
+  .anvil-container[anvil-container-name="sec_shorts"],
+  .anvil-container[anvil-container-name="sec_next"],
+  .anvil-container[anvil-container-name="sec_hot"] {
+    position: relative !important;
   }
   
-  /* Mobile layout fix for any wrap-mobile elements */
+  /* Reset any flex/float layout that might interfere */
+  .anvil-panel-col {
+    width: 100% !important;
+    margin: 0 !important;
+  }
+  
+  /* Mobile layout fix for wrap-mobile elements */
   .wrap-mobile {
     display: block !important;
     width: 100% !important;
     float: none !important;
     margin-bottom: 10px !important;
   }
-  
-  /* Apply global column fixes */
-  .anvil-panel-col {
-    width: 100% !important;
-    margin: 0 0 10px 0 !important;
-  }
-  
-  /* Fix container layouts that might use flexbox */
-  .anvil-container {
-    display: block !important;
-  }
-  
-  /* Set the reordering for mobile display */
-  .anvil-container[anvil-container-name="content_panel"] {
-    display: flex !important;
-    flex-direction: column !important;
-  }
-  
-  /* Set the order for mobile - agents first */
-  .anvil-container[anvil-container-name="sec_agents"] {
-    order: 1 !important;
-  }
-  
-  /* Next up second */
-  .anvil-container[anvil-container-name="sec_next"] {
-    order: 2 !important;
-  }
-  
-  /* Hot third */
-  .anvil-container[anvil-container-name="sec_hot"] {
-    order: 3 !important;
-  }
-  
-  /* Shorts last */
-  .anvil-container[anvil-container-name="sec_shorts"] {
-    order: 4 !important;
-  }
 }
 
 /* 3. Extra fixes for specific layouts */
 @media screen and (max-width: 768px) {
-  /* Direct descendant columns of panel rows */
+  /* Make sure all panel columns display as blocks */
+  .anvil-panel-col {
+    display: block !important;
+  }
+  
+  /* Fix for nested columns */
   .anvil-panel-row > .anvil-panel-col {
     display: block !important;
     width: 100% !important;
-  }
-  
-  /* Force all items in a flow panel to stack */
-  .anvil-panel-row:has(.belongs-to-YNRWIG) {
-    flex-direction: column !important;
-  }
-  
-  /* Ensure all panels allow vertical flow on mobile */
-  .anvil-panel-section {
-    flex-direction: column !important;
   }
 }
