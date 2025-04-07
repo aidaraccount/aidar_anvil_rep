@@ -27,10 +27,18 @@ class C_Home_Hot(C_Home_HotTemplate):
     self.max_expanded_rows = 18  # Maximum number of rows when expanded
     self.expanded_watchlist = False
     self.expanded_notifications = False
+    self.is_loading = data is None  # Track loading state
+    
+    # Filter data by source or use empty lists if data is still loading
+    self.watchlist_data = []
+    self.notification_data = []
+    if not self.is_loading and data:
+      self.watchlist_data = [item for item in self.data if item.get('source', '') == 'watchlist']
+      self.notification_data = [item for item in self.data if item.get('source', '') == 'notification']
     
     # Filter data by source
-    self.watchlist_data = [item for item in self.data if item.get('source', '') == 'watchlist']
-    self.notification_data = [item for item in self.data if item.get('source', '') == 'notification']
+    # self.watchlist_data = [item for item in self.data if item.get('source', '') == 'watchlist']
+    # self.notification_data = [item for item in self.data if item.get('source', '') == 'notification']
     
     # 1. Register JavaScript callbacks for direct call (not promises)
     anvil.js.call_js(
@@ -223,48 +231,68 @@ class C_Home_Hot(C_Home_HotTemplate):
         <tbody>
     """
     
-    # 2. Generate table rows for each artist
-    for i, item in enumerate(data):
-      artist_id = item.get('artist_id', '')
-      artist_name = item.get('name', 'Unknown')
-      artist_pic_url = item.get('artist_picture_url', '')
-      list_name = item.get('list_name', 'Unknown')
-      tag = item.get('tag', '')  # Metric information
-      
-      # Create unique row ID
-      row_id = f"hot-row-{container_class}-{i}"
-      
-      # Add 'hidden' class for rows beyond the max_visible_rows
-      # If i is greater than max_visible_rows (7) and either
-      # 1. We are not expanded OR
-      # 2. It's beyond max_expanded_rows (18)
-      hidden_class = " hidden" if (i >= self.max_visible_rows and 
-                                  (not expanded or i >= self.max_expanded_rows)) else ""
-      
-      # Add the row for this artist
+    # 2. Check if data is loading or empty and display appropriate message
+    if self.is_loading:
+      # Loading state message
       html_content += f"""
-        <tr id="{row_id}" class="hot-row{hidden_class}">
-          <td class="hot-pic-cell">
-            <img src="{artist_pic_url}" class="hot-artist-pic" alt="{artist_name}">
-          </td>
-          <td class="hot-name-cell"><a href="javascript:void(0)" onclick="window.pyArtistNameClicked('{artist_id}')">{artist_name}</a></td>
-          <td class="hot-watchlist-cell">on {list_name}</td>
-          <td class="hot-release-cell">
-            <div class="hot-release-box">
-              <span class="hot-release-time">{tag}</span>
-            </div>
+        <tr class="hot-row hot-status-row">
+          <td colspan="4" class="hot-status-cell">
+            <div class="hot-status-message hot-loading-message">Loading artists...</div>
           </td>
         </tr>
       """
+    elif not data:
+      # No data message
+      html_content += f"""
+        <tr class="hot-row hot-status-row">
+          <td colspan="4" class="hot-status-cell">
+            <div class="hot-status-message hot-empty-message">No artists available at the moment</div>
+          </td>
+        </tr>
+      """
+    else:
+      # 3. Generate table rows for each artist
+      for i, item in enumerate(data):
+        artist_id = item.get('artist_id', '')
+        artist_name = item.get('name', 'Unknown')
+        artist_pic_url = item.get('artist_picture_url', '')
+        list_name = item.get('list_name', 'Unknown')
+        tag = item.get('tag', '')  # Metric information
+        
+        # Create unique row ID
+        row_id = f"hot-row-{container_class}-{i}"
+        
+        # Add 'hidden' class for rows beyond the max_visible_rows
+        # If i is greater than max_visible_rows (7) and either
+        # 1. We are not expanded OR
+        # 2. It's beyond max_expanded_rows (18)
+        hidden_class = " hidden" if (i >= self.max_visible_rows and 
+                                    (not expanded or i >= self.max_expanded_rows)) else ""
+        
+        # Add the row for this artist
+        html_content += f"""
+          <tr id="{row_id}" class="hot-row{hidden_class}">
+            <td class="hot-pic-cell">
+              <img src="{artist_pic_url}" class="hot-artist-pic" alt="{artist_name}">
+            </td>
+            <td class="hot-name-cell"><a href="javascript:void(0)" onclick="window.pyArtistNameClicked('{artist_id}')">{artist_name}</a></td>
+            <td class="hot-watchlist-cell">on {list_name}</td>
+            <td class="hot-release-cell">
+              <div class="hot-release-box">
+                <span class="hot-release-time">{tag}</span>
+              </div>
+            </td>
+          </tr>
+        """
     
-    # 3. Complete the HTML for the table
+    # 4. Complete the HTML for the table
     html_content += """
         </tbody>
       </table>
     """
     
-    # 4. Add the toggle link if there are more than max_visible_rows entries
-    if len(data) > self.max_visible_rows:
+    # 5. Add the toggle link if there are more than max_visible_rows entries and not loading/empty
+    if not self.is_loading and data and len(data) > self.max_visible_rows:
       toggle_text = "show less" if expanded else "show more"
       html_content += f"""
       <div class="hot-toggle-container">
@@ -272,7 +300,7 @@ class C_Home_Hot(C_Home_HotTemplate):
       </div>
       """
     
-    # 5. Complete the container HTML
+    # 6. Complete the container HTML
     html_content += """
     </div>
     """

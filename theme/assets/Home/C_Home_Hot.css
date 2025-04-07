@@ -149,7 +149,40 @@
   display: none;
 }
 
-/* 7. Media queries for responsive behavior */
+/* 7. Status message styling */
+.hot-status-row {
+  height: 60px;
+}
+
+.hot-status-cell {
+  text-align: center;
+  padding: 15px 0;
+}
+
+.hot-status-message {
+  color: #ffffff;
+  font-size: 14px;
+  opacity: 0.7;
+  font-weight: 400;
+}
+
+.hot-loading-message {
+  /* Subtle loading animation */
+  animation: pulse 1.5s infinite ease-in-out;
+}
+
+@keyframes pulse {
+  0% { opacity: 0.4; }
+  50% { opacity: 0.8; }
+  100% { opacity: 0.4; }
+}
+
+.hot-empty-message {
+  /* Static message for empty state */
+  opacity: 0.6;
+}
+
+/* 8. Media queries for responsive behavior */
 @media screen and (max-width: 600px) {
   .hot-release-time {
     white-space: normal; /* Allow tag text to wrap on very small screens */
