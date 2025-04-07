@@ -23,7 +23,7 @@ class C_Home_Hot(C_Home_HotTemplate):
     user = anvil.users.get_user()
     
     self.data = data
-    self.max_visible_rows = 7
+    self.max_visible_rows = 4
     self.max_expanded_rows = 18  # Maximum number of rows when expanded
     self.expanded_watchlist = False
     self.expanded_notifications = False
