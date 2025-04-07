@@ -23,7 +23,7 @@ class C_Home_NextUp(C_Home_NextUpTemplate):
     user = anvil.users.get_user()
     
     self.data = data
-    self.max_visible_rows = 4
+    self.max_visible_rows = 5
     self.expanded = False
     self.is_loading = data is None  # Track loading state
     
