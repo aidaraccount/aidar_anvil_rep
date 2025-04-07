@@ -184,7 +184,6 @@ class C_Home_Hot(C_Home_HotTemplate):
     # Combined HTML for both tables with spacing between
     html_content = f"""
     {watchlist_html}
-    <div style="height: 20px;"></div>
     {notifications_html}
     """
     
