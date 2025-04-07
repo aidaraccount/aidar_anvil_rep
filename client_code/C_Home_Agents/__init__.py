@@ -34,6 +34,7 @@ class C_Home_Agents(C_Home_AgentsTemplate):
           
     # Store models data for access by JavaScript callbacks
     self.models_data = data if isinstance(data, list) else []
+    self.is_loading = data is None  # Track loading state
     
     # Register JavaScript callback for the discover button - MUST be before setup_slider
     print("Registering JavaScript callback in __init__")
@@ -88,6 +89,30 @@ class C_Home_Agents(C_Home_AgentsTemplate):
       print(f"MODEL_ACTIVATION [{timestamp}]: Traceback: {traceback.format_exc()}")
       return {"success": False, "error": str(e)}
 
+  def update_data(self, new_data):
+    """
+    Updates the component with new data and refreshes the display
+    
+    Parameters:
+        new_data (list): The new data to display
+        
+    Returns:
+        bool: True indicating successful completion
+    """
+    if isinstance(new_data, str):
+      try:
+        new_data = json.loads(new_data)
+      except json.JSONDecodeError:
+        print("SLIDER_DEBUG: Failed to parse new_data as JSON")
+    
+    self.models_data = new_data if isinstance(new_data, list) else []
+    self.is_loading = False
+    
+    # Recreate the slider with the new data
+    self.setup_slider(self.models_data)
+    
+    return True
+
   def setup_slider(self, data):
     """
     Sets up the slider component with model boxes.
@@ -96,52 +121,85 @@ class C_Home_Agents(C_Home_AgentsTemplate):
         data: List of model data to display in the slider. Can be a list of dictionaries
              or a JSON string representation of such a list.
     """
-    # Generate HTML for each model box
-    model_boxes_html = ""
+    # Start timer for performance measurement
+    start_time = time.time()
     
-    # Ensure data is properly formatted
+    # Create the outer container for the slider
+    html_content = """
+    <div class="model-slider-wrapper">
+      <div class="model-slider" id="model-slider">
+    """
+    
+    # Convert string data to list of dictionaries if needed
     if isinstance(data, str):
       try:
         data = json.loads(data)
-        print("SLIDER_DEBUG: Parsed string data in setup_slider")
+        print(f"SLIDER_DEBUG: Parsed data is {type(data)}")
       except json.JSONDecodeError:
-        print("SLIDER_DEBUG: Could not parse data as JSON in setup_slider")
+        print("SLIDER_DEBUG: Failed to parse data as JSON")
+        data = None
     
-    if isinstance(data, list):
-      print(f"SLIDER_DEBUG: Processing {len(data)} models for slider")
-      for model in data:
+    # Generate model boxes HTML
+    model_boxes_html = ""
+    
+    # Check if data is loading or empty
+    if self.is_loading:
+      # Loading state message
+      model_boxes_html = """
+        <div class="model-status-container">
+          <div class="model-status-message model-loading-message">Loading agents...</div>
+        </div>
+      """
+    elif not data or not isinstance(data, list) or len(data) == 0:
+      # No data message
+      model_boxes_html = """
+        <div class="model-status-container">
+          <div class="model-status-message model-empty-message">No agent created yet!</div>
+        </div>
+      """
+    elif isinstance(data, list):
+      print(f"SLIDER_DEBUG: Data is a list of length {len(data)}")
+      for i, model in enumerate(data):
         if isinstance(model, dict):
+          # Extract model info - support both naming conventions
           model_id = model.get('model_id', '')
-          model_name = model.get('model_name', 'Unknown Model')
-          model_level = model.get('model_level', 'Unknown')
-          no_stars = model.get('no_stars', 0)
+          model_name = model.get('model_name', model.get('name', 'Unknown Model'))
+          model_level = model.get('model_level', model.get('level', 'Trainee'))
           next_artist_id = model.get('next_artist_id', '')
           next_artist_pic_url = model.get('next_artist_pic_url', '')
-          no_ratings = model.get('no_ratings', 0)
-          no_missing_ratings = model.get('no_missing_ratings', 0)
+          stars = model.get('no_stars', model.get('stars', 0))
           
-          # Calculate progress percentage
-          total_ratings = no_ratings + no_missing_ratings
-          progress_percent = (no_ratings / total_ratings * 100) if total_ratings > 0 else 0
+          # Calculate progress information
+          progress_percent = model.get('progress_percent', 0)
+          next_level_text = model.get('next_level_text', '')
           
-          # Determine next level and ratings to go
-          next_level_text = ""
-          progress_bar_class = ""
+          # If next_level_text isn't provided, try to calculate it from no_ratings and no_missing_ratings
+          if not next_level_text and 'no_ratings' in model and 'no_missing_ratings' in model:
+            no_ratings = model.get('no_ratings', 0)
+            no_missing_ratings = model.get('no_missing_ratings', 0)
+            
+            if model_level == "Rookie":
+              next_level_text = f"{no_missing_ratings} ratings to Junior"
+            elif model_level == "Junior":
+              next_level_text = f"{no_missing_ratings} ratings to Senior"
+            elif model_level == "Senior":
+              next_level_text = f"{no_missing_ratings} ratings to Pro"
+            elif model_level == "Pro":
+              next_level_text = "You're a Pro"
           
-          if model_level == "Rookie":
-            next_level_text = f"{no_missing_ratings} ratings to Junior"
-          elif model_level == "Junior":
-            next_level_text = f"{no_missing_ratings} ratings to Senior"
-          elif model_level == "Senior":
-            next_level_text = f"{no_missing_ratings} ratings to Pro"
-          elif model_level == "Pro":
-            next_level_text = "You're a Pro"
-            progress_bar_class = "progress-bar-pro"
+          # If progress_percent isn't provided, calculate it
+          if progress_percent == 0 and 'no_ratings' in model and 'no_missing_ratings' in model:
+            no_ratings = model.get('no_ratings', 0)
+            no_missing_ratings = model.get('no_missing_ratings', 0)
+            total_ratings = no_ratings + no_missing_ratings
+            progress_percent = (no_ratings / total_ratings * 100) if total_ratings > 0 else 0
+          
+          progress_bar_class = "purple-progress" if model_level == "Senior" else ""
           
           # Generate the stars HTML - always 3 stars, with 'no_stars' colored orange
           stars_html = ""
           for i in range(3):
-            if i < no_stars:
+            if i < stars:
               # Orange star
               stars_html += '<span class="model-star active">★</span>'
             else:

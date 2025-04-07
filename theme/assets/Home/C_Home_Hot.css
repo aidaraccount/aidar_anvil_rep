@@ -1,0 +1,194 @@
+/* 1. Hot container, header and table */
+.hot-container {
+  padding: 8px 0;
+  margin: 0;
+  max-width: 100%;
+}
+
+.hot-header {
+  margin-bottom: 0;
+  padding: 10px 12px 5px;
+  background-color: #2D2D3A;
+  border-radius: 8px 8px 0 0;
+}
+
+.hot-header h3 {
+  color: white;
+  font-size: 18px;
+  margin: 0;
+  padding: 0;
+}
+
+.hot-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #2D2D3A;
+  border-radius: 0 0 8px 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  table-layout: auto;
+}
+
+/* 2. Hot table rows */
+.hot-row {
+  height: auto;
+  min-height: 36px;
+  transition: opacity 0.3s ease;
+}
+
+.hot-row:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+/* 3. Hot table cells */
+.hot-pic-cell {
+  width: 36px; /* Fixed width for the picture cell */
+  min-width: 36px;
+  max-width: 36px;
+  padding: 0 4px;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.hot-artist-pic {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.hot-name-cell {
+  padding: 0 8px;
+  color: var(--Orange);
+  font-weight: 500;
+  font-size: 14px;
+  vertical-align: middle;
+  width: 40%; /* Allocate proportionally more space */
+  white-space: normal; /* Allow text to wrap */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.2;
+}
+
+.hot-name-cell a {
+  color: var(--Orange);
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.hot-name-cell a:hover {
+  text-decoration: underline;
+}
+
+.hot-watchlist-cell {
+  padding: 0 8px;
+  color: white;
+  font-size: 12px;
+  text-align: center;
+  vertical-align: middle;
+  width: 30%; /* Allocate proportional space */
+  white-space: normal; /* Allow text to wrap */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.2;
+}
+
+.hot-release-cell {
+  padding: 0 8px;
+  text-align: right;
+  vertical-align: middle;
+  width: auto; /* Let it take what it needs */
+  min-width: 100px; /* Ensure minimum width for tag content */
+}
+
+/* 4. Tag box styling */
+.hot-release-box {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--PurpleFocus);
+  color: white;
+  border-radius: 6px;
+  padding: 2px 8px;
+  text-align: center;
+  height: auto; /* Allow height to adjust */
+  min-height: 20px; /* Minimum height */
+  line-height: 1.2;
+  transform: translateY(-5px); /* Adjustment to center vertically */
+}
+
+.hot-release-time {
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap; /* Keep tags on one line */
+}
+
+/* 5. Show more/less link styling */
+.hot-toggle-container {
+  text-align: right;
+  padding: 0px 10px;
+  font-size: 16px;
+}
+
+.hot-toggle-link {
+  color: var(--Orange);
+  font-size: 13px;
+  cursor: pointer;
+  text-decoration: none;
+  font-weight: 500;
+  transition: opacity 0.2s ease;
+}
+
+.hot-toggle-link:hover {
+  opacity: 0.8;
+  text-decoration: underline;
+}
+
+/* 6. Hidden row styling */
+.hot-row.hidden {
+  display: none;
+}
+
+/* 7. Status message styling */
+.hot-status-row {
+  height: 60px;
+}
+
+.hot-status-cell {
+  text-align: center;
+  padding: 15px 0;
+}
+
+.hot-status-message {
+  color: #ffffff;
+  font-size: 14px;
+  opacity: 0.7;
+  font-weight: 400;
+}
+
+.hot-loading-message {
+  /* Subtle loading animation */
+  animation: pulse 1.5s infinite ease-in-out;
+}
+
+@keyframes pulse {
+  0% { opacity: 0.4; }
+  50% { opacity: 0.8; }
+  100% { opacity: 0.4; }
+}
+
+.hot-empty-message {
+  /* Static message for empty state */
+  opacity: 0.6;
+}
+
+/* 8. Media queries for responsive behavior */
+@media screen and (max-width: 600px) {
+  .hot-release-time {
+    white-space: normal; /* Allow tag text to wrap on very small screens */
+  }
+  
+  .hot-release-box {
+    padding: 3px 8px;
+  }
+}

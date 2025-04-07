@@ -14,9 +14,10 @@ import uuid
 from anvil_extras import routing
 from ..nav import click_link, click_button, click_box, logout, login_check, load_var, save_var
 
-from ..C_Short import C_Short
 from ..C_Home_Agents import C_Home_Agents
 from ..C_Home_NextUp import C_Home_NextUp
+from ..C_Home_Hot import C_Home_Hot
+from ..C_Short import C_Short
 
 
 @routing.route('', title='Home')
@@ -107,14 +108,28 @@ class Home(HomeTemplate):
       # 1.3 Initialize loading of agents asynchronously
       self.agents_start_time = time.time()
       print(f"HOME INIT [{self.instance_id}] - Agents loading initialized - {datetime.now()}", flush=True)
+      # Initialize the Agents component with no data to show loading state immediately
+      self.agents_component = C_Home_Agents(data=None)
+      self.sec_agents.add_component(self.agents_component)
       self.load_agents_async()
       
       # 1.4 Initialize loading of next asynchronously
       self.next_start_time = time.time()
       print(f"HOME INIT [{self.instance_id}] - Next loading initialized - {datetime.now()}", flush=True)
+      # Initialize the Next component with no data to show loading state immediately
+      self.next_component = C_Home_NextUp(data=None)
+      self.sec_next.add_component(self.next_component)
       self.load_next_async()
   
-      # 1.5 Initialize loading of shorts asynchronously
+      # 1.5 Initialize loading of hot asynchronously
+      self.hot_start_time = time.time()
+      print(f"HOME INIT [{self.instance_id}] - Hot loading initialized - {datetime.now()}", flush=True)
+      # Initialize the Hot component with no data to show loading state immediately
+      self.hot_component = C_Home_Hot(data=None)
+      self.sec_hot.add_component(self.hot_component)
+      self.load_hot_async()
+      
+      # 1.6 Initialize loading of shorts asynchronously
       self.shorts_start_time = time.time()
       print(f"HOME INIT [{self.instance_id}] - Shorts loading initialized - {datetime.now()}", flush=True)
       self.load_shorts_async()
@@ -145,10 +160,23 @@ class Home(HomeTemplate):
       self.process_agents_data(data)
     
   def process_agents_data(self, data):
-    """Process and display agents data"""
-    self.sec_agents.add_component(C_Home_Agents(data=data))
-
+    """
+    Process and display agents data
     
+    Parameters:
+        data (str): JSON string containing agents data
+    """
+    data = json.loads(data)
+    
+    # Check if we already have an agents component to update
+    if hasattr(self, 'agents_component') and self.agents_component:
+      # Update the existing component with new data
+      self.agents_component.update_data(data)
+    else:
+      # Fallback if component doesn't exist yet
+      self.agents_component = C_Home_Agents(data=data)
+      self.sec_agents.add_component(self.agents_component)
+  
   # ------
   # 2.2 NEXT METHODS
   def load_next_async(self):
@@ -173,13 +201,67 @@ class Home(HomeTemplate):
       self.process_next_data(data)
     
   def process_next_data(self, data):
-    """Process and display next data"""
+    """
+    Process and display next data
+    
+    Parameters:
+        data (str): JSON string containing next data
+    """
     data = json.loads(data)
-    self.sec_next.add_component(C_Home_NextUp(data=data))
+    
+    # Check if we already have a next component to update
+    if hasattr(self, 'next_component') and self.next_component:
+      # Update the existing component with new data
+      self.next_component.update_data(data)
+    else:
+      # Fallback if component doesn't exist yet
+      self.next_component = C_Home_NextUp(data=data)
+      self.sec_next.add_component(self.next_component)
+  
+  # ------
+  # 2.3 HOT METHODS
+  def load_hot_async(self):
+    """Starts asynchronous loading of hot data"""
+    async_call = call_async("get_home_hot", user["user_id"])
+    async_call.on_result(self.hot_loaded)
+  
+  def hot_loaded(self, data):
+    """Handles successful server response for hot."""
+    # Calculate loading time
+    load_time = time.time() - self.hot_start_time
+    print(f"HOME ASYNC [{self.instance_id}] - Hot loaded (took {load_time:.2f} seconds)", flush=True)
+    
+    # Get the active instance - this is the one currently visible to the user
+    active_instance = Home._active_instance
+    
+    # Check if we should update the current instance or the active instance
+    if active_instance and active_instance.instance_id != self.instance_id:
+      print(f"HOME ASYNC [{self.instance_id}] - Updating active instance [{active_instance.instance_id}] with hot", flush=True)
+      active_instance.process_hot_data(data)
+    else:
+      self.process_hot_data(data)
+    
+  def process_hot_data(self, data):
+    """
+    Process and display hot data
+    
+    Parameters:
+        data (str): JSON string containing hot data
+    """
+    data = json.loads(data)
+    
+    # Check if we already have a hot component to update
+    if hasattr(self, 'hot_component') and self.hot_component:
+      # Update the existing component with new data
+      self.hot_component.update_data(data)
+    else:
+      # Fallback if component doesn't exist yet
+      self.hot_component = C_Home_Hot(data=data)
+      self.sec_hot.add_component(self.hot_component)
 
   
   # ------
-  # 2.3 SHORTS METHODS
+  # 2.4 SHORTS METHODS
   def load_shorts_async(self, selected_wl_ids=None):
     """
     Starts asynchronous loading of shorts data
