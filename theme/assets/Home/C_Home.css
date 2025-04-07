@@ -1,0 +1,59 @@
+/* 1. Default layout styles */
+.anvil-role-responsive-home-layout {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+  }
+  
+  /* 2. Section containers with default desktop layout */
+  .anvil-container[anvil-container-name="sec_agents"],
+  .anvil-container[anvil-container-name="sec_shorts"] {
+    width: 60%;
+    padding-right: 15px;
+    box-sizing: border-box;
+  }
+  
+  .anvil-container[anvil-container-name="sec_next"],
+  .anvil-container[anvil-container-name="sec_hot"] {
+    width: 40%;
+    padding-left: 15px;
+    box-sizing: border-box;
+  }
+  
+  /* 3. Mobile layout (stacked columns) */
+  @media screen and (max-width: 768px) {
+    /* Make all sections full width and stack vertically */
+    .anvil-container[anvil-container-name="sec_agents"],
+    .anvil-container[anvil-container-name="sec_shorts"],
+    .anvil-container[anvil-container-name="sec_next"],
+    .anvil-container[anvil-container-name="sec_hot"] {
+      width: 100%;
+      padding-left: 0;
+      padding-right: 0;
+      margin-bottom: 20px;
+    }
+    
+    /* Define the order of sections */
+    .anvil-container[anvil-container-name="sec_agents"] {
+      order: 1;
+    }
+    
+    .anvil-container[anvil-container-name="sec_next"] {
+      order: 2;
+    }
+    
+    .anvil-container[anvil-container-name="sec_shorts"] {
+      order: 3;
+    }
+    
+    .anvil-container[anvil-container-name="sec_hot"] {
+      order: 4;
+    }
+    
+    /* Ensure the content panel allows ordering */
+    .anvil-role-responsive-home-layout {
+      display: flex;
+      flex-direction: column;
+    }
+  }
+  
