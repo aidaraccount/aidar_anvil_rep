@@ -245,7 +245,7 @@ class C_Home_Hot(C_Home_HotTemplate):
       html_content += f"""
         <tr class="hot-row hot-status-row">
           <td colspan="4" class="hot-status-cell">
-            <div class="hot-status-message hot-empty-message">No artists available at the moment</div>
+            <div class="hot-status-message hot-empty-message">No artists available</div>
           </td>
         </tr>
       """

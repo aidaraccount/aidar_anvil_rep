@@ -118,6 +118,9 @@ class Home(HomeTemplate):
       # 1.5 Initialize loading of hot asynchronously
       self.hot_start_time = time.time()
       print(f"HOME INIT [{self.instance_id}] - Hot loading initialized - {datetime.now()}", flush=True)
+      # Initialize the Hot component with no data to show loading state immediately
+      self.hot_component = C_Home_Hot(data=None)
+      self.sec_hot.add_component(self.hot_component)
       self.load_hot_async()
       
       # 1.6 Initialize loading of shorts asynchronously
@@ -210,7 +213,15 @@ class Home(HomeTemplate):
   def process_hot_data(self, data):
     """Process and display hot data"""
     data = json.loads(data)
-    self.sec_hot.add_component(C_Home_Hot(data=data))
+    
+    # Check if we already have a hot component to update
+    if hasattr(self, 'hot_component') and self.hot_component:
+      # Replace the existing component with new data
+      self.sec_hot.clear()
+      self.sec_hot.add_component(C_Home_Hot(data=data))
+    else:
+      # Fallback if component doesn't exist yet
+      self.sec_hot.add_component(C_Home_Hot(data=data))
 
   
   # ------
