@@ -505,6 +505,21 @@ body, html {
   color: white;
 }
 
+/* Mobile-specific search bar positioning */
+@media only screen and (max-width: 767px) {
+  .search_box {
+    margin-top: 15px;
+    order: 2; /* Ensures it appears after nav_right */
+  }
+  .top_right {
+    order: 1; /* Ensures it appears before search_box */
+  }
+  .nav {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
 /* CSS for the Search Bar ENDS here*/
 .anvil-role-eval_button {
   font-family: GS-regular;
