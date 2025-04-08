@@ -25,7 +25,6 @@ from ..NoModel import NoModel
 from ..NoSubscription import NoSubscription
 from ..SearchArtist import SearchArtist
 from ..RelatedArtistSearch import RelatedArtistSearch
-from ..C_CreateModel import C_CreateModel
 from ..CreateWatchlist import CreateWatchlist
 from ..Observe_Radar import Observe_Radar
 from ..Observe_Listen import Observe_Listen
