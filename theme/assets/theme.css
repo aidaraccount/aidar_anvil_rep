@@ -2431,3 +2431,29 @@ footer a, .footer .anvil-component {
     left: 0px !important;
   }
 }
+
+/* 7. SCROLLBAR STYLING */
+/* 7.1. Custom scrollbar styling for the sidebar */
+.sidebar {
+  /* Prevent horizontal overflow */
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+/* 7.2. WebKit scrollbar customization (Safari) */
+.sidebar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.sidebar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+  background: rgba(136, 136, 136, 0.5);
+  border-radius: 3px;
+}
+
+.sidebar::-webkit-scrollbar-thumb:hover {
+  background: rgba(136, 136, 136, 0.7);
+}
