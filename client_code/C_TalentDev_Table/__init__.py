@@ -436,18 +436,18 @@ class C_TalentDev_Table(C_TalentDev_TableTemplate):
         soundcloud_followers = item.get('soundcloud_followers', 0)
         soundcloud_dev_30d = item.get('soundcloud_dev_30d', None)
         
-        # Create unique row ID
-        row_id = f"talentdev-row-{i}"
+        # Format new tracks last 365 days
+        if new_tracks_last_365_days:
+          new_tracks_display = f"+{new_tracks_last_365_days} new"
+        else:
+          new_tracks_display = "No new tracks"
         
-        # Format new tracks
-        new_tracks_display = f"+{new_tracks_last_365_days} last 365 d"
-        
-        # Add the row for this artist
+        # Create row HTML for this artist
         html_content += f"""
-          <tr id="{row_id}" class="talentdev-row">
+          <tr class="talentdev-row">
             <td class="talentdev-artist-cell">
               <div class="talentdev-artist-container">
-                <img src="{artist_pic_url}" class="talentdev-artist-pic" alt="{artist_name}">
+                <img src="{artist_pic_url}" class="talentdev-artist-pic" onerror="this.src='https://via.placeholder.com/40'">
                 <a href="javascript:void(0)" onclick="window.pyArtistNameClicked('{artist_id}')" class="talentdev-artist-name">{artist_name}</a>
               </div>
             </td>
@@ -461,23 +461,23 @@ class C_TalentDev_Table(C_TalentDev_TableTemplate):
             </td>
             <td class="talentdev-spotify-cell">
               <div class="talentdev-primary-value">{self.format_number(spotify_mtl_listeners)}</div>
-              <div class="talentdev-secondary-value {self.get_growth_class(spotify_mtl_dev_30d)}">{self.format_growth(spotify_mtl_dev_30d)}</div>
+              <div class="talentdev-secondary-value {self.get_growth_class(spotify_mtl_dev_30d) if spotify_mtl_listeners != None and spotify_mtl_listeners != 0 else ''}">{self.format_growth(spotify_mtl_dev_30d) if spotify_mtl_listeners != None and spotify_mtl_listeners != 0 else '&nbsp;'}</div>
             </td>
             <td class="talentdev-instagram-cell">
               <div class="talentdev-primary-value">{self.format_number(instagram_followers)}</div>
-              <div class="talentdev-secondary-value {self.get_growth_class(instagram_dev_30d)}">{self.format_growth(instagram_dev_30d)}</div>
+              <div class="talentdev-secondary-value {self.get_growth_class(instagram_dev_30d) if instagram_followers != None and instagram_followers != 0 else ''}">{self.format_growth(instagram_dev_30d) if instagram_followers != None and instagram_followers != 0 else '&nbsp;'}</div>
             </td>
             <td class="talentdev-tiktok-cell">
               <div class="talentdev-primary-value">{self.format_number(tiktok_followers)}</div>
-              <div class="talentdev-secondary-value {self.get_growth_class(tiktok_dev_30d)}">{self.format_growth(tiktok_dev_30d)}</div>
+              <div class="talentdev-secondary-value {self.get_growth_class(tiktok_dev_30d) if tiktok_followers != None and tiktok_followers != 0 else ''}">{self.format_growth(tiktok_dev_30d) if tiktok_followers != None and tiktok_followers != 0 else '&nbsp;'}</div>
             </td>
             <td class="talentdev-youtube-cell">
               <div class="talentdev-primary-value">{self.format_number(youtube_followers)}</div>
-              <div class="talentdev-secondary-value {self.get_growth_class(youtube_dev_30d)}">{self.format_growth(youtube_dev_30d)}</div>
+              <div class="talentdev-secondary-value {self.get_growth_class(youtube_dev_30d) if youtube_followers != None and youtube_followers != 0 else ''}">{self.format_growth(youtube_dev_30d) if youtube_followers != None and youtube_followers != 0 else '&nbsp;'}</div>
             </td>
             <td class="talentdev-soundcloud-cell">
               <div class="talentdev-primary-value">{self.format_number(soundcloud_followers)}</div>
-              <div class="talentdev-secondary-value {self.get_growth_class(soundcloud_dev_30d)}">{self.format_growth(soundcloud_dev_30d)}</div>
+              <div class="talentdev-secondary-value {self.get_growth_class(soundcloud_dev_30d) if soundcloud_followers != None and soundcloud_followers != 0 else ''}">{self.format_growth(soundcloud_dev_30d) if soundcloud_followers != None and soundcloud_followers != 0 else '&nbsp;'}</div>
             </td>
           </tr>
         """
