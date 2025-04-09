@@ -69,11 +69,26 @@ class Monitor_TalentDev(Monitor_TalentDevTemplate):
   def create_activate_watchlist_handler(self, watchlist_id):
     def handler(**event_args):
       self.activate_watchlist(watchlist_id)
-
     return handler
 
-  def activate_watchlist
-      
+  def activate_watchlist(self, watchlist_id):
+    print('activate_watchlist', watchlist_id)
+          # Toggle the clicked watchlist's activation state
+    for component in self.flow_panel_watchlists.get_components():
+      if isinstance(component, Link):
+        if int(component.tag) == watchlist_id:
+          # Toggle the role - if active make inactive, and vice versa
+          if component.role == "genre-box":
+            component.role = "genre-box-deselect"
+          else:
+            component.role = "genre-box"
+
+    # Collect all currently active watchlist IDs (role = "genre-box")
+    active_wl_ids = []
+    for component in self.flow_panel_watchlists.get_components():
+      if isinstance(component, Link) and component.role == "genre-box":
+        active_wl_ids.append(component.tag)
+
   
   def _setup_toggle_callbacks(self):
     """
