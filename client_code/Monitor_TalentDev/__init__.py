@@ -32,69 +32,47 @@ class Monitor_TalentDev(Monitor_TalentDevTemplate):
       print(f"Monitor_TalentDev model_id: {model_id}")
       self.model_id = model_id
     
-      # Set up toggle callback
-      self.c_talent_dev_toggle_1.set_toggle_callback(self.handle_period_toggle)
+      # Set up toggle callbacks
+      self.period_toggle.set_toggle_callback(self.handle_toggle_change)
+      self.format_toggle.set_toggle_callback(self.handle_toggle_change)
+      self.sort_by_toggle.set_toggle_callback(self.handle_toggle_change)
       
 
   # HANDLE TOGGLE PERIOD CHANGE
-  def handle_period_toggle(self, period):
+  def handle_toggle_change(self, toggle_type, value):
     """
-    Handle period toggle change from C_TalentDev_Toggle and update C_TalentDev_Table
-
-    Parameters:
-        period: The new period selected (7-Day or 30-Day)
-    """
-    print(f"MONITOR-LOG: Period toggle changed to {period}")
+    Handle toggle changes from any toggle component and update C_TalentDev_Table
     
-    # Update the table component with the new period
-    self.c_talent_dev_table_1.active_period = period
+    Parameters:
+        toggle_type: The type of toggle being changed (period, format, sort_by)
+        value: The new value selected
+    """
+    print(f"MONITOR-LOG: Toggle {toggle_type} changed to {value}")
+    
+    # Update the table component with the new settings
+    if toggle_type == 'period':
+      self.c_talent_dev_table_1.active_period = value
+    elif toggle_type == 'format':
+      self.c_talent_dev_table_1.active_format = value
+    elif toggle_type == 'sort_by':
+      self.c_talent_dev_table_1.active_sort_by = value
+      
+    # Refresh the table with new settings
     self.c_talent_dev_table_1.create_table()
-
+    
     return True
 
 
   # SEARCH
   def button_search_click(self, **event_args):
     # get data
-    data = [entry for entry in self.get_data() if str(entry["Name"]).lower().find(str(self.text_box_search.text).lower()) != -1]
-
-    # sort as defined before
-    if self.link_artist.icon == 'fa:angle-down':
-      self.repeating_panel_data.items = sorted(data, key=lambda x: x.get('Name', float('inf')), reverse=True)
-    elif self.link_artist.icon == 'fa:angle-up':
-      self.repeating_panel_data.items = sorted(data, key=lambda x: x.get('Name', float('inf')), reverse=False)
-      
-    elif self.link_release.icon == 'fa:angle-down':
-      self.repeating_panel_data.items = sorted(data, key=lambda x: x.get('LastReleaseDate', float('inf')), reverse=True)
-    elif self.link_release.icon == 'fa:angle-up':
-      self.repeating_panel_data.items = sorted(data, key=lambda x: x.get('LastReleaseDate', float('inf')), reverse=False)
-      
-    elif self.link_poplat.icon == 'fa:angle-down':
-      self.repeating_panel_data.items = sorted(data, key=lambda x: x.get('PopularityLat', float('inf')), reverse=True)
-    elif self.link_poplat.icon == 'fa:angle-up':
-      self.repeating_panel_data.items = sorted(data, key=lambda x: x.get('PopularityLat', float('inf')), reverse=False)
-      
-    elif self.link_popdif.icon == 'fa:angle-down':
-      self.repeating_panel_data.items = sorted(data, key=lambda x: x.get('PopularityDif', float('inf')), reverse=True)
-    elif self.link_popdif.icon == 'fa:angle-up':
-      self.repeating_panel_data.items = sorted(data, key=lambda x: x.get('PopularityDif', float('inf')), reverse=False)
-      
-    elif self.link_popdev.icon == 'fa:angle-down':
-      self.repeating_panel_data.items = sorted(data, key=lambda x: x.get('PopularityDev', float('inf')), reverse=True)
-    elif self.link_popdev.icon == 'fa:angle-up':
-      self.repeating_panel_data.items = sorted(data, key=lambda x: x.get('PopularityDev', float('inf')), reverse=False)
-    
-    elif self.link_follat.icon == 'fa:angle-down':
-      self.repeating_panel_data.items = sorted(data, key=lambda x: x.get('FollowerLat', float('inf')), reverse=True)
-    elif self.link_follat.icon == 'fa:angle-up':
-      self.repeating_panel_data.items = sorted(data, key=lambda x: x.get('FollowerLat', float('inf')), reverse=False)
-      
-    elif self.link_foldif.icon == 'fa:angle-down':
-      self.repeating_panel_data.items = sorted(data, key=lambda x: x.get('FollowerDif', float('inf')), reverse=True)
-    elif self.link_foldif.icon == 'fa:angle-up':
-      self.repeating_panel_data.items = sorted(data, key=lambda x: x.get('FollowerDif', float('inf')), reverse=False)
-      
-    elif self.link_foldev.icon == 'fa:angle-down':
-      self.repeating_panel_data.items = sorted(data, key=lambda x: x.get('FollowerDev', float('inf')), reverse=True)
-    elif self.link_foldev.icon == 'fa:angle-up':
-      self.repeating_panel_data.items = sorted(data, key=lambda x: x.get('FollowerDev', float('inf')), reverse=False)
+    if self.text_box_search.text:
+      artist_id = anvil.server.call('get_artist_id_by_name', user["user_id"], self.text_box_search.text)
+      if artist_id == 'no_id':
+        n = Notification('This artist is not in your watchlist!')
+        n.show()
+      else: 
+        routing.set_url_hash(f'artists?artist_id={artist_id}')
+    else:
+      n = Notification('Please enter an artist name!')
+      n.show()

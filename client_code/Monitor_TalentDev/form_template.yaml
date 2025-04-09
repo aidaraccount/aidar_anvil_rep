@@ -33,10 +33,28 @@ components:
     name: spacer_2
     properties: {height: 32}
     type: Spacer
-  - layout_properties: {grid_position: 'AEBCFS,NLCLWN'}
-    name: c_talent_dev_toggle_1
-    properties: {}
-    type: form:C_TalentDev_Toggle
+  - components:
+    - layout_properties: {grid_position: 'KZUSLQ,MJGRHE'}
+      name: period_toggle
+      properties: {toggle_type: period}
+      type: form:C_TalentDev_Toggle
+    - layout_properties: {grid_position: 'KZUSLQ,FTKGQP'}
+      name: format_toggle
+      properties: {toggle_type: format}
+      type: form:C_TalentDev_Toggle
+    layout_properties: {grid_position: 'VPULQI,YVCMBD'}
+    name: top_toggles_container
+    properties: {align: right, col_widths: '{}'}
+    type: ColumnPanel
+  - components:
+    - layout_properties: {grid_position: 'UPVNWM,MWVTDK'}
+      name: sort_by_toggle
+      properties: {toggle_type: sort_by}
+      type: form:C_TalentDev_Toggle
+    layout_properties: {grid_position: 'MLCWXY,HFRPKQ'}
+    name: bottom_toggles_container
+    properties: {align: right, col_widths: '{}'}
+    type: ColumnPanel
   - layout_properties: {grid_position: 'KRZBSZ,BMMMJC'}
     name: c_talent_dev_table_1
     properties: {}

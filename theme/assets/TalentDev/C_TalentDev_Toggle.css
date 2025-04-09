@@ -29,7 +29,7 @@
   color: rgba(255, 255, 255, 0.7);
   background-color: transparent;
   text-align: center;
-  min-width: 80px;
+  min-width: 40px;
 }
 
 .talentdev-toggle-option:hover {
@@ -41,20 +41,25 @@
   background-color: rgba(255, 255, 255, 0.1);
   color: white;
   font-weight: 500;
-  position: relative;
 }
 
-.talentdev-toggle-option.active:before {
-  content: "✓";
-  position: absolute;
-  left: 8px;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 12px;
-  opacity: 0.8;
+/* 6. Toggle Group */
+.talentdev-toggle-group {
+  display: flex;
+  align-items: center;
+  margin-right: 15px;
 }
 
-/* 6. Toggle Option Text */
-.talentdev-toggle-text {
-  margin-left: 8px;
+/* 7. Toggle Container Wrapper */
+.talentdev-toggles-wrapper {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 15px;
+}
+
+/* 8. Toggle Row */
+.talentdev-toggle-row {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 10px;
 }

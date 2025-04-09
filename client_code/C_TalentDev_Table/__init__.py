@@ -33,7 +33,9 @@ class C_TalentDev_Table(C_TalentDev_TableTemplate):
     self.is_loading = True
     self.sort_column = "last_release"  # Default sort column
     self.sort_direction = "desc"  # Default sort direction (descending)
-    self.active_period = "30-Day"  # Default period for stats display
+    self.active_period = "30d"  # Default period for stats display (7d, 30d)
+    self.active_format = "pct"  # Default format for stats display (pct, abs)
+    self.active_sort_by = "current"  # Default sort by (current, change)
     
     # 3. Register JavaScript callbacks and make this component's client_sort_column callable
     self.client_sort_column_js = self.client_sort_column  # Create a reference
@@ -188,20 +190,27 @@ class C_TalentDev_Table(C_TalentDev_TableTemplate):
       
   def format_growth(self, value):
     """
-    Format growth percentage values
+    Format growth percentage or absolute values
     
     Parameters:
-        value: Growth percentage value
+        value: Growth value (percentage or absolute)
         
     Returns:
         str: Formatted growth string with sign
     """
     if value is None:
-      return ""
+      return "-"
     
-    sign = "+" if value > 0 else ""
-    return f"{sign}{value:.1f}%"
-  
+    # Determine if we're showing percentage or absolute value
+    if self.active_format == "pct":
+      # Format as percentage
+      sign = "+" if value > 0 else ""
+      return f"{sign}{value:.1f}%"
+    else:
+      # Format as absolute value
+      sign = "+" if value > 0 else ""
+      return f"{sign}{self.format_number(value)}"
+
   def _preprocess_dates_for_sort(self):
     """
     Preprocess date strings in the data to avoid suspension during sorting.
@@ -243,67 +252,50 @@ class C_TalentDev_Table(C_TalentDev_TableTemplate):
     Returns:
         None
     """
-    print(f"TALENTDEV-LOG: Sorting data by {self.sort_column} ({self.sort_direction})")
-    if not self.data:
-      print("TALENTDEV-LOG: No data to sort")
-      return
+    print(f"TALENTDEV-LOG: Sorting by {self.sort_column} ({self.sort_direction})")
     
-    reverse_sort = (self.sort_direction == "desc")
+    reverse_sort = self.sort_direction == "desc"
     
-    # Sort the data based on the selected column
     if self.sort_column == "last_release":
-      # Use the preprocessed sort_date field for sorting
-      print("TALENTDEV-LOG: Sorting by last_release date using preprocessed sort_date field")
-      self.data = sorted(
-        self.data, 
-        key=lambda x: x.get('sort_date', '0001-01-01'), 
-        reverse=reverse_sort
-      )
-      print(f"TALENTDEV-LOG: First item after sort: {self.data[0].get('name', 'Unknown')} - {self.data[0].get('sort_date', 'None')}")
+      # Always sort by the release date
+      self.data = sorted(self.data, key=lambda x: x.get('sort_date', '0001-01-01'), reverse=reverse_sort)
     elif self.sort_column == "total_releases":
-      print("TALENTDEV-LOG: Sorting by total_tracks")
-      self.data = sorted(
-        self.data, 
-        key=lambda x: x.get('total_tracks', 0) or 0,  # Handle None values
-        reverse=reverse_sort
-      )
-    elif self.sort_column == "spotify":
-      print("TALENTDEV-LOG: Sorting by spotify_mtl_listeners")
-      self.data = sorted(
-        self.data, 
-        key=lambda x: x.get('spotify_mtl_listeners', 0) or 0,  # Handle None values
-        reverse=reverse_sort
-      )
-    elif self.sort_column == "instagram":
-      print("TALENTDEV-LOG: Sorting by instagram_followers")
-      self.data = sorted(
-        self.data, 
-        key=lambda x: x.get('instagram_followers', 0) or 0,  # Handle None values
-        reverse=reverse_sort
-      )
-    elif self.sort_column == "tiktok":
-      print("TALENTDEV-LOG: Sorting by tiktok_followers")
-      self.data = sorted(
-        self.data, 
-        key=lambda x: x.get('tiktok_followers', 0) or 0,  # Handle None values
-        reverse=reverse_sort
-      )
-    elif self.sort_column == "youtube":
-      print("TALENTDEV-LOG: Sorting by youtube_followers")
-      self.data = sorted(
-        self.data, 
-        key=lambda x: x.get('youtube_followers', 0) or 0,  # Handle None values
-        reverse=reverse_sort
-      )
-    elif self.sort_column == "soundcloud":
-      print("TALENTDEV-LOG: Sorting by soundcloud_followers")
-      self.data = sorted(
-        self.data, 
-        key=lambda x: x.get('soundcloud_followers', 0) or 0,  # Handle None values
-        reverse=reverse_sort
-      )
-    
-    print("TALENTDEV-LOG: Sorting complete")
+      # Always sort by total tracks
+      self.data = sorted(self.data, key=lambda x: x.get('total_tracks', 0), reverse=reverse_sort)
+    else:
+      # For other columns, sort based on current value or change value
+      if self.active_sort_by == "current":
+        # Sort by current values
+        if self.sort_column == "spotify":
+          self.data = sorted(self.data, key=lambda x: x.get('spotify_mtl_listeners', 0) or 0, reverse=reverse_sort)
+        elif self.sort_column == "instagram":
+          self.data = sorted(self.data, key=lambda x: x.get('instagram_followers', 0) or 0, reverse=reverse_sort)
+        elif self.sort_column == "tiktok":
+          self.data = sorted(self.data, key=lambda x: x.get('tiktok_followers', 0) or 0, reverse=reverse_sort)
+        elif self.sort_column == "youtube":
+          self.data = sorted(self.data, key=lambda x: x.get('youtube_followers', 0) or 0, reverse=reverse_sort)
+        elif self.sort_column == "soundcloud":
+          self.data = sorted(self.data, key=lambda x: x.get('soundcloud_followers', 0) or 0, reverse=reverse_sort)
+      else:
+        # Sort by change values (growth)
+        change_period = "30d" if self.active_period == "30d" else "7d"
+        change_type = "pct" if self.active_format == "pct" else "abs"
+        
+        if self.sort_column == "spotify":
+          change_key = f"spotify_mtl_{change_type}_change_{change_period}"
+          self.data = sorted(self.data, key=lambda x: x.get(change_key, 0) or 0, reverse=reverse_sort)
+        elif self.sort_column == "instagram":
+          change_key = f"instagram_{change_type}_change_{change_period}"
+          self.data = sorted(self.data, key=lambda x: x.get(change_key, 0) or 0, reverse=reverse_sort)
+        elif self.sort_column == "tiktok":
+          change_key = f"tiktok_{change_type}_change_{change_period}"
+          self.data = sorted(self.data, key=lambda x: x.get(change_key, 0) or 0, reverse=reverse_sort)
+        elif self.sort_column == "youtube":
+          change_key = f"youtube_{change_type}_change_{change_period}"
+          self.data = sorted(self.data, key=lambda x: x.get(change_key, 0) or 0, reverse=reverse_sort)
+        elif self.sort_column == "soundcloud":
+          change_key = f"soundcloud_{change_type}_change_{change_period}"
+          self.data = sorted(self.data, key=lambda x: x.get(change_key, 0) or 0, reverse=reverse_sort)
   
   def client_sort_column(self, column_name):
     """
@@ -420,33 +412,73 @@ class C_TalentDev_Table(C_TalentDev_TableTemplate):
         
         # Spotify data
         spotify_mtl_listeners = item.get('spotify_mtl_listeners', 0)
-        spotify_mtl_dev_30d = item.get('spotify_mtl_dev_30d', None)
-        spotify_mtl_dev_7d = item.get('spotify_mtl_dev_7d', None)
-        spotify_growth = spotify_mtl_dev_7d if self.active_period == "7-Day" else spotify_mtl_dev_30d
+        spotify_mtl_abs_change_7d = item.get('spotify_mtl_abs_change_7d', None)
+        spotify_mtl_pct_change_7d = item.get('spotify_mtl_pct_change_7d', None)
+        spotify_mtl_abs_change_30d = item.get('spotify_mtl_abs_change_30d', None)
+        spotify_mtl_pct_change_30d = item.get('spotify_mtl_pct_change_30d', None)
+        
+        # Determine which spotify change value to display based on active toggles
+        spotify_change = None
+        if self.active_period == "7d":
+            spotify_change = spotify_mtl_abs_change_7d if self.active_format == "abs" else spotify_mtl_pct_change_7d
+        else:  # 30d
+            spotify_change = spotify_mtl_abs_change_30d if self.active_format == "abs" else spotify_mtl_pct_change_30d
         
         # Instagram data
         instagram_followers = item.get('instagram_followers', 0)
-        instagram_dev_30d = item.get('instagram_dev_30d', None)
-        instagram_dev_7d = item.get('instagram_dev_7d', None)
-        instagram_growth = instagram_dev_7d if self.active_period == "7-Day" else instagram_dev_30d
+        instagram_abs_change_7d = item.get('instagram_abs_change_7d', None)
+        instagram_pct_change_7d = item.get('instagram_pct_change_7d', None)
+        instagram_abs_change_30d = item.get('instagram_abs_change_30d', None)
+        instagram_pct_change_30d = item.get('instagram_pct_change_30d', None)
+        
+        # Determine which instagram change value to display based on active toggles
+        instagram_change = None
+        if self.active_period == "7d":
+            instagram_change = instagram_abs_change_7d if self.active_format == "abs" else instagram_pct_change_7d
+        else:  # 30d
+            instagram_change = instagram_abs_change_30d if self.active_format == "abs" else instagram_pct_change_30d
         
         # TikTok data
         tiktok_followers = item.get('tiktok_followers', 0)
-        tiktok_dev_30d = item.get('tiktok_dev_30d', None)
-        tiktok_dev_7d = item.get('tiktok_dev_7d', None)
-        tiktok_growth = tiktok_dev_7d if self.active_period == "7-Day" else tiktok_dev_30d
+        tiktok_abs_change_7d = item.get('tiktok_abs_change_7d', None)
+        tiktok_pct_change_7d = item.get('tiktok_pct_change_7d', None)
+        tiktok_abs_change_30d = item.get('tiktok_abs_change_30d', None)
+        tiktok_pct_change_30d = item.get('tiktok_pct_change_30d', None)
+        
+        # Determine which tiktok change value to display based on active toggles
+        tiktok_change = None
+        if self.active_period == "7d":
+            tiktok_change = tiktok_abs_change_7d if self.active_format == "abs" else tiktok_pct_change_7d
+        else:  # 30d
+            tiktok_change = tiktok_abs_change_30d if self.active_format == "abs" else tiktok_pct_change_30d
         
         # YouTube data
         youtube_followers = item.get('youtube_followers', 0)
-        youtube_dev_30d = item.get('youtube_dev_30d', None)
-        youtube_dev_7d = item.get('youtube_dev_7d', None)
-        youtube_growth = youtube_dev_7d if self.active_period == "7-Day" else youtube_dev_30d
+        youtube_abs_change_7d = item.get('youtube_abs_change_7d', None)
+        youtube_pct_change_7d = item.get('youtube_pct_change_7d', None)
+        youtube_abs_change_30d = item.get('youtube_abs_change_30d', None)
+        youtube_pct_change_30d = item.get('youtube_pct_change_30d', None)
+        
+        # Determine which youtube change value to display based on active toggles
+        youtube_change = None
+        if self.active_period == "7d":
+            youtube_change = youtube_abs_change_7d if self.active_format == "abs" else youtube_pct_change_7d
+        else:  # 30d
+            youtube_change = youtube_abs_change_30d if self.active_format == "abs" else youtube_pct_change_30d
         
         # SoundCloud data
         soundcloud_followers = item.get('soundcloud_followers', 0)
-        soundcloud_dev_30d = item.get('soundcloud_dev_30d', None)
-        soundcloud_dev_7d = item.get('soundcloud_dev_7d', None)
-        soundcloud_growth = soundcloud_dev_7d if self.active_period == "7-Day" else soundcloud_dev_30d
+        soundcloud_abs_change_7d = item.get('soundcloud_abs_change_7d', None)
+        soundcloud_pct_change_7d = item.get('soundcloud_pct_change_7d', None)
+        soundcloud_abs_change_30d = item.get('soundcloud_abs_change_30d', None)
+        soundcloud_pct_change_30d = item.get('soundcloud_pct_change_30d', None)
+        
+        # Determine which soundcloud change value to display based on active toggles
+        soundcloud_change = None
+        if self.active_period == "7d":
+            soundcloud_change = soundcloud_abs_change_7d if self.active_format == "abs" else soundcloud_pct_change_7d
+        else:  # 30d
+            soundcloud_change = soundcloud_abs_change_30d if self.active_format == "abs" else soundcloud_pct_change_30d
         
         # Format new tracks last 365 days
         if new_tracks_last_365_days:
@@ -473,23 +505,23 @@ class C_TalentDev_Table(C_TalentDev_TableTemplate):
             </td>
             <td class="talentdev-spotify-cell">
               <div class="talentdev-primary-value">{self.format_number(spotify_mtl_listeners)}</div>
-              <div class="talentdev-secondary-value {self.get_growth_class(spotify_growth) if spotify_mtl_listeners != None and spotify_mtl_listeners != 0 else ''}">{self.format_growth(spotify_growth) if spotify_mtl_listeners != None and spotify_mtl_listeners != 0 else '&nbsp;'}</div>
+              <div class="talentdev-secondary-value {self.get_growth_class(spotify_change) if spotify_mtl_listeners != None and spotify_mtl_listeners != 0 else ''}">{self.format_growth(spotify_change) if spotify_mtl_listeners != None and spotify_mtl_listeners != 0 else '&nbsp;'}</div>
             </td>
             <td class="talentdev-instagram-cell">
               <div class="talentdev-primary-value">{self.format_number(instagram_followers)}</div>
-              <div class="talentdev-secondary-value {self.get_growth_class(instagram_growth) if instagram_followers != None and instagram_followers != 0 else ''}">{self.format_growth(instagram_growth) if instagram_followers != None and instagram_followers != 0 else '&nbsp;'}</div>
+              <div class="talentdev-secondary-value {self.get_growth_class(instagram_change) if instagram_followers != None and instagram_followers != 0 else ''}">{self.format_growth(instagram_change) if instagram_followers != None and instagram_followers != 0 else '&nbsp;'}</div>
             </td>
             <td class="talentdev-tiktok-cell">
               <div class="talentdev-primary-value">{self.format_number(tiktok_followers)}</div>
-              <div class="talentdev-secondary-value {self.get_growth_class(tiktok_growth) if tiktok_followers != None and tiktok_followers != 0 else ''}">{self.format_growth(tiktok_growth) if tiktok_followers != None and tiktok_followers != 0 else '&nbsp;'}</div>
+              <div class="talentdev-secondary-value {self.get_growth_class(tiktok_change) if tiktok_followers != None and tiktok_followers != 0 else ''}">{self.format_growth(tiktok_change) if tiktok_followers != None and tiktok_followers != 0 else '&nbsp;'}</div>
             </td>
             <td class="talentdev-youtube-cell">
               <div class="talentdev-primary-value">{self.format_number(youtube_followers)}</div>
-              <div class="talentdev-secondary-value {self.get_growth_class(youtube_growth) if youtube_followers != None and youtube_followers != 0 else ''}">{self.format_growth(youtube_growth) if youtube_followers != None and youtube_followers != 0 else '&nbsp;'}</div>
+              <div class="talentdev-secondary-value {self.get_growth_class(youtube_change) if youtube_followers != None and youtube_followers != 0 else ''}">{self.format_growth(youtube_change) if youtube_followers != None and youtube_followers != 0 else '&nbsp;'}</div>
             </td>
             <td class="talentdev-soundcloud-cell">
               <div class="talentdev-primary-value">{self.format_number(soundcloud_followers)}</div>
-              <div class="talentdev-secondary-value {self.get_growth_class(soundcloud_growth) if soundcloud_followers != None and soundcloud_followers != 0 else ''}">{self.format_growth(soundcloud_growth) if soundcloud_followers != None and soundcloud_followers != 0 else '&nbsp;'}</div>
+              <div class="talentdev-secondary-value {self.get_growth_class(soundcloud_change) if soundcloud_followers != None and soundcloud_followers != 0 else ''}">{self.format_growth(soundcloud_change) if soundcloud_followers != None and soundcloud_followers != 0 else '&nbsp;'}</div>
             </td>
           </tr>
         """

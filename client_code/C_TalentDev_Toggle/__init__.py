@@ -19,27 +19,63 @@ class C_TalentDev_Toggle(C_TalentDev_ToggleTemplate):
     self.init_components(**properties)
     
     # 1. Initialize component variables
-    self.active_period = "30-Day"  # Default to 30-day stats
+    self.toggle_type = properties.get('toggle_type', 'period')  # period, format, or sort_by
+    self.options = properties.get('options', [])
+    self.labels = properties.get('labels', [])
+    self.toggle_label = properties.get('toggle_label', '')
+    self.active_value = ''
     self.on_toggle_change = None  # Callback when toggle changes
+    
+    # Set default active value based on toggle type
+    if self.toggle_type == 'period':
+      self.active_value = "30d"
+      if not self.options:
+        self.options = ["7d", "30d"]
+      if not self.labels:
+        self.labels = ["7-Day", "30-Day"]
+      if not self.toggle_label:
+        self.toggle_label = "Show growth:"
+    elif self.toggle_type == 'format':
+      self.active_value = "pct"
+      if not self.options:
+        self.options = ["pct", "abs"]
+      if not self.labels:
+        self.labels = ["%", "#"]
+      if not self.toggle_label:
+        self.toggle_label = "Display:"
+    elif self.toggle_type == 'sort_by':
+      self.active_value = "current"
+      if not self.options:
+        self.options = ["current", "change"]
+      if not self.labels:
+        self.labels = ["Current", "Growth"]
+      if not self.toggle_label:
+        self.toggle_label = "Sort by:"
     
     # 2. Create HTML for the toggle
     self.create_toggle()
   
   def create_toggle(self):
     """
-    Creates the toggle UI with 7-day and 30-day options
+    Creates the toggle UI with the configured options
     """
+    # Create options HTML
+    options_html = ""
+    for i, option in enumerate(self.options):
+      label = self.labels[i] if i < len(self.labels) else option
+      options_html += f"""
+        <div class="talentdev-toggle-option {self._is_active(option)}" 
+             onclick="window.pyToggleOption('{self.toggle_type}', '{option}')">
+          {label}
+        </div>
+      """
+    
     # Create the HTML for the toggle
     self.html = f"""
     <div class="talentdev-toggle-container">
-      <div class="talentdev-toggle-label">Show growth:</div>
+      <div class="talentdev-toggle-label">{self.toggle_label}</div>
       <div class="talentdev-toggle-options">
-        <div class="talentdev-toggle-option {self._is_active('7-Day')}" onclick="window.pyTogglePeriod('7-Day')">
-          <span class="talentdev-toggle-text">7-Day</span>
-        </div>
-        <div class="talentdev-toggle-option {self._is_active('30-Day')}" onclick="window.pyTogglePeriod('30-Day')">
-          <span class="talentdev-toggle-text">30-Day</span>
-        </div>
+        {options_html}
       </div>
     </div>
     """
@@ -47,51 +83,56 @@ class C_TalentDev_Toggle(C_TalentDev_ToggleTemplate):
     # Register JavaScript callbacks
     self._register_callbacks()
   
-  def _is_active(self, period):
+  def _is_active(self, option):
     """
-    Helper method to determine if a period is active
+    Helper method to determine if an option is active
     
     Parameters:
-        period: The period to check (7-Day or 30-Day)
+        option: The option to check
         
     Returns:
         str: CSS class for active status
     """
-    return "active" if period == self.active_period else ""
+    return "active" if option == self.active_value else ""
   
   def _register_callbacks(self):
     """
     Register JavaScript callbacks for the toggle functionality
     """
-    # Define the toggle_period method to be called from JavaScript
-    self.toggle_period_js = self.toggle_period
+    # Define the toggle_option method to be called from JavaScript
+    self.toggle_option_js = self.toggle_option
     
     # Export the method to JavaScript
-    anvil.js.window.pyTogglePeriod = self.toggle_period_js
+    anvil.js.window.pyToggleOption = self.toggle_option_js
     
     # Log registration
-    print("TOGGLE-LOG: JavaScript callbacks registered")
+    print(f"TOGGLE-LOG: JavaScript callbacks registered for {self.toggle_type}")
   
-  def toggle_period(self, period):
+  def toggle_option(self, toggle_type, option):
     """
-    Toggle the active period between 7-Day and 30-Day
+    Toggle the active option when clicked
     
     Parameters:
-        period: The period to activate (7-Day or 30-Day)
+        toggle_type: The type of toggle being changed
+        option: The option to activate
         
     Returns:
         bool: True indicating successful handling of toggle request
     """
-    if period != self.active_period:
-      print(f"TOGGLE-LOG: Toggling period from {self.active_period} to {period}")
-      self.active_period = period
+    # Only process if this is the correct toggle type
+    if toggle_type != self.toggle_type:
+      return True
+      
+    if option != self.active_value:
+      print(f"TOGGLE-LOG: Toggling {self.toggle_type} from {self.active_value} to {option}")
+      self.active_value = option
       
       # Update the UI
       self.create_toggle()
       
       # Call the callback if it exists
       if self.on_toggle_change:
-        self.on_toggle_change(period)
+        self.on_toggle_change(toggle_type, option)
     
     return True
   
@@ -103,3 +144,12 @@ class C_TalentDev_Toggle(C_TalentDev_ToggleTemplate):
         callback: The function to call when toggle changes
     """
     self.on_toggle_change = callback
+    
+  def get_active_value(self):
+    """
+    Get the currently active toggle value
+    
+    Returns:
+        str: The active toggle value
+    """
+    return self.active_value
