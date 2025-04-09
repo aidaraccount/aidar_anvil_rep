@@ -329,6 +329,11 @@ class C_TalentDev_Table(C_TalentDev_TableTemplate):
     # Sort the data - this must not call any server functions
     self._sort_data()
     
+    # Apply fixed layout to prevent column width changes during sorting
+    anvil.js.call_js('eval', """
+      document.querySelector('.talentdev-table').style.tableLayout = 'fixed';
+    """)
+    
     # Create the table without any server calls
     self.create_table()
     

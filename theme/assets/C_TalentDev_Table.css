@@ -2,42 +2,39 @@
 .talentdev-container {
   width: 100%;
   overflow-x: auto;
-  padding: 0;
-  margin: 20px 0;
+  padding: 8px 0;
+  margin: 0;
 }
 
 .talentdev-table {
   width: 100%;
   border-collapse: collapse;
-  table-layout: fixed;
-  font-size: 14px;
   background-color: transparent;
   border-radius: 8px;
   overflow: hidden;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 /* 2. Table header */
 .talentdev-header-row {
+  background-color: #252532;
+  color: white;
   text-align: left;
-  border-bottom: 1px solid #ddd;
+  font-weight: 500;
+  font-size: 14px;
+  height: 36px;
+  border-bottom: 2px solid #3D3D52;
 }
 
 .talentdev-header-row th {
-  padding: 12px 8px;
-  font-weight: 600;
-  white-space: nowrap;
   cursor: pointer;
-  background-color: transparent;
   position: relative;
 }
 
 .talentdev-header-row th:hover {
-  background-color: rgba(0,0,0,0.02);
+  background-color: rgba(255,255,255,0.05);
 }
 
 .talentdev-artist-header {
-  width: 20%;
   padding: 0 8px;
   font-weight: 500;
 }
@@ -49,91 +46,46 @@
 .talentdev-tiktok-header,
 .talentdev-youtube-header,
 .talentdev-soundcloud-header {
-  width: 12%;
   padding: 0 8px;
   font-weight: 500;
   text-align: right;
-  cursor: pointer;
-}
-
-.talentdev-last-release-header {
-  width: 12%;
-}
-
-.talentdev-total-releases-header {
-  width: 10%;
-}
-
-.talentdev-spotify-header {
-  width: 12%;
-}
-
-.talentdev-instagram-header {
-  width: 10%;
-}
-
-.talentdev-tiktok-header {
-  width: 12%;
-}
-
-.talentdev-youtube-header {
-  width: 12%;
-}
-
-.talentdev-soundcloud-header {
-  width: 12%;
 }
 
 .talentdev-header-icon {
-  width: 16px;
-  height: 16px;
-  margin-right: 6px;
+  height: 13px;
+  width: auto;
   vertical-align: middle;
-  position: relative;
-  top: -1px;
+  margin-right: 4px;
+  margin-bottom: 3px;
 }
 
 .talentdev-sort-indicator {
-  position: relative;
   display: inline-block;
-  width: 12px;
-  height: 12px;
+  width: 8px;
+  height: 8px;
   margin-left: 4px;
-  vertical-align: middle;
+  opacity: 0.7;
 }
 
-.talentdev-sort-indicator::after {
-  content: "";
-  position: absolute;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 0;
-  height: 0;
-  opacity: 0.4;
+.talentdev-sort-asc:after {
+  content: "▲";
+  font-size: 8px;
 }
 
-.talentdev-sort-asc::after {
-  border-left: 4px solid transparent;
-  border-right: 4px solid transparent;
-  border-bottom: 6px solid #333;
-  opacity: 0.8;
+.talentdev-sort-desc:after {
+  content: "▼";
+  font-size: 8px;
 }
 
-.talentdev-sort-desc::after {
-  border-left: 4px solid transparent;
-  border-right: 4px solid transparent;
-  border-top: 6px solid #333;
-  opacity: 0.8;
-}
-
-/* 3. Table rows */
 .talentdev-row {
-  border-bottom: 1px solid rgba(0,0,0,0.05);
+  height: auto;
+  min-height: 40px;
+  transition: opacity 0.3s ease;
+  border-bottom: 1px solid rgba(150, 150, 170, 0.1);
 }
 
 .talentdev-row:hover {
-  background-color: rgba(0,0,0,0.02);
+  background-color: rgba(255, 255, 255, 0.05);
 }
 
 .talentdev-row td {
@@ -141,9 +93,7 @@
   vertical-align: middle;
 }
 
-/* 4. Artist column styling */
 .talentdev-artist-cell {
-  min-width: 180px;
   padding: 4px 8px;
   vertical-align: middle;
 }
@@ -151,21 +101,21 @@
 .talentdev-artist-container {
   display: flex;
   align-items: center;
+  gap: 8px;
 }
 
 .talentdev-artist-pic {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  margin-right: 12px;
+  width: 35px;
+  height: 35px;
+  border-radius: 4px;
   object-fit: cover;
 }
 
 .talentdev-artist-name {
   color: var(--Orange);
-  font-weight: 500;
   text-decoration: none;
   cursor: pointer;
+  font-weight: 500;
   font-size: 14px;
 }
 
@@ -173,67 +123,46 @@
   text-decoration: underline;
 }
 
-/* 5. Data columns styling */
-.talentdev-last-release-cell,
-.talentdev-total-releases-cell,
-.talentdev-spotify-cell,
-.talentdev-instagram-cell,
-.talentdev-tiktok-cell,
-.talentdev-youtube-cell,
-.talentdev-soundcloud-cell {
-  padding: 4px 8px;
-  vertical-align: middle;
-  text-align: right;
-}
-
 .talentdev-primary-value {
+  color: white;
+  font-size: 14px;
   font-weight: 500;
-  color: #333;
 }
 
 .talentdev-secondary-value {
+  color: #BBBBBB;
   font-size: 12px;
-  color: #777;
-  margin-top: 4px;
 }
 
 .talentdev-secondary-value.positive-growth {
-  color: #28a745;
+  color: #66BB6A;
 }
 
 .talentdev-secondary-value.negative-growth {
-  color: #dc3545;
+  color: #EF5350;
 }
 
 .talentdev-secondary-value.neutral-growth {
-  color: #6c757d;
-}
-
-/* 6. Status message styling */
-.talentdev-status-row {
-  height: 60px;
+  color: #BBBBBB;
 }
 
 .talentdev-status-cell {
   text-align: center;
-  padding: 30px 0;
 }
 
 .talentdev-status-message {
-  font-size: 16px;
-  color: #777;
+  color: #ffffff;
+  font-size: 14px;
+  opacity: 0.7;
+  font-weight: 400;
 }
 
-.talentdev-loading-message::before {
-  content: "•••";
-  display: block;
-  margin-bottom: 10px;
-  font-size: 24px;
-  animation: dots 1.5s infinite;
+.talentdev-loading-message {
+  animation: pulse 1.5s infinite ease-in-out;
 }
 
-@keyframes dots {
-  0%, 20% { content: "•··"; }
-  40% { content: "••·"; }
-  60%, 100% { content: "•••"; }
+@keyframes pulse {
+  0% { opacity: 0.4; }
+  50% { opacity: 0.8; }
+  100% { opacity: 0.4; }
 }
