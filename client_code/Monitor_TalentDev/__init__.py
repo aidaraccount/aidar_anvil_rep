@@ -31,7 +31,7 @@ class Monitor_TalentDev(Monitor_TalentDevTemplate):
       model_id = load_var("model_id")
       print(f"Monitor_TalentDev model_id: {model_id}")
       self.model_id = model_id
-    
+      
       data = self.get_data()
   
       if data != 'no_data':

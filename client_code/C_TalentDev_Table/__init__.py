@@ -35,14 +35,7 @@ class C_TalentDev_Table(C_TalentDev_TableTemplate):
     self.sort_direction = "desc"  # Default sort direction (descending)
     self.active_period = "30-Day"  # Default period for stats display
     
-    # 3. Initialize toggle component
-    self.period_toggle = C_TalentDev_Toggle()
-    self.period_toggle.set_toggle_callback(self.handle_period_toggle)
-    
-    # Add the toggle to the container
-    self.toggle_container.add_component(self.period_toggle)
-    
-    # 4. Register JavaScript callbacks and make this component's client_sort_column callable
+    # 3. Register JavaScript callbacks and make this component's client_sort_column callable
     self.client_sort_column_js = self.client_sort_column  # Create a reference
     anvil.js.window.pyClientSortColumn = self.client_sort_column_js  # Expose to JS window
     
