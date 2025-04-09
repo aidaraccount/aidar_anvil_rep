@@ -1,0 +1,71 @@
+/* 1. Toggle Container */
+.talentdev-toggle-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  font-size: 14px;
+  justify-content: flex-end;
+}
+
+/* 2. Toggle Label */
+.talentdev-toggle-label {
+  margin-right: 10px;
+  color: white;
+  font-weight: 500;
+}
+
+/* 3. Toggle Options Container */
+.talentdev-toggle-options {
+  display: flex;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+/* 4. Toggle Option */
+.talentdev-toggle-option {
+  padding: 6px 12px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  color: rgba(255, 255, 255, 0.7);
+  background-color: transparent;
+  text-align: center;
+  min-width: 40px;
+}
+
+.talentdev-toggle-option:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+/* 5. Active Option */
+.talentdev-toggle-option.active {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: white;
+  font-weight: 500;
+}
+
+/* 6. Toggle Group */
+.talentdev-toggle-group {
+  display: flex;
+  align-items: center;
+  margin-right: 15px;
+}
+
+/* 7. Toggle Container Wrapper */
+.talentdev-toggles-wrapper {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 15px;
+}
+
+/* 8. Toggle Row */
+.talentdev-toggle-row {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 10px;
+}
+
+/* 9. Format Toggle Margin */
+[anvil-component-name="format_toggle"] {
+  margin-left: 8px;
+}

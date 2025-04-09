@@ -1,4 +1,4 @@
-from ._anvil_designer import Watchlist_Funnel_TemplateTemplate
+from ._anvil_designer import Monitor_Funnel_TemplateTemplate
 from anvil import *
 import anvil.server
 import anvil.users
@@ -10,7 +10,7 @@ from anvil_extras import routing
 from ...nav import click_link, click_button, logout, login_check, load_var, save_var
 
 
-class Watchlist_Funnel_Template(Watchlist_Funnel_TemplateTemplate):
+class Monitor_Funnel_Template(Monitor_Funnel_TemplateTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)

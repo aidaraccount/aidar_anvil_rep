@@ -375,7 +375,7 @@ class Home(HomeTemplate):
     click_button(f'artists?artist_id={temp_artist_id}', event_args)
     
   def link_funnel_click(self, **event_args):
-    click_link(self.link_funnel, 'watchlist_funnel', event_args)
+    click_link(self.link_funnel, 'funnel', event_args)
 
   # 3.2 SHORTS MANAGEMENT
   def add_shorts(self, **event_args):
