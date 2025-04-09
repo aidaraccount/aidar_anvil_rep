@@ -33,7 +33,11 @@ class C_TalentDev_Table(C_TalentDev_TableTemplate):
     self.sort_column = "last_release"  # Default sort column
     self.sort_direction = "desc"  # Default sort direction (descending)
     
-    # 3. Register JavaScript callbacks
+    # 3. Register JavaScript callbacks and make this component's client_sort_column callable
+    self.client_sort_column_js = self.client_sort_column  # Create a reference
+    anvil.js.window.pyClientSortColumn = self.client_sort_column_js  # Expose to JS window
+    
+    # Create JavaScript code that uses the exposed Python function
     anvil.js.call_js('eval', """
       window.pyArtistNameClicked = function(artistId) {
         console.log('TALENTDEV-LOG: Artist name clicked with ID:', artistId);
@@ -44,25 +48,22 @@ class C_TalentDev_Table(C_TalentDev_TableTemplate):
       window.pySortColumn = function(columnName) {
         console.log('TALENTDEV-LOG: Sort requested for column:', columnName);
         try {
-          console.log('TALENTDEV-LOG: Attempting to call COMPONENT.client_sort_column with', columnName);
-          if (typeof COMPONENT === 'undefined') {
-            console.error('TALENTDEV-ERROR: COMPONENT is undefined');
+          console.log('TALENTDEV-LOG: Calling pyClientSortColumn with', columnName);
+          if (typeof window.pyClientSortColumn !== 'function') {
+            console.error('TALENTDEV-ERROR: pyClientSortColumn is not a function');
             return false;
           }
-          if (typeof COMPONENT.client_sort_column !== 'function') {
-            console.error('TALENTDEV-ERROR: COMPONENT.client_sort_column is not a function');
-            console.log('TALENTDEV-LOG: COMPONENT keys:', Object.keys(COMPONENT));
-            return false;
-          }
-          const result = COMPONENT.client_sort_column(columnName);
-          console.log('TALENTDEV-LOG: Sort callback result:', result);
+          const result = window.pyClientSortColumn(columnName);
+          console.log('TALENTDEV-LOG: Sort result:', result);
           return result;
         } catch (error) {
-          console.error('TALENTDEV-ERROR: Failed to call client_sort_column:', error);
+          console.error('TALENTDEV-ERROR: Failed to call sort function:', error);
           return false;
         }
       }
     """)
+    
+    print("TALENTDEV-LOG: JavaScript callbacks registered")
     
     # 4. Load data and create table
     try:
@@ -84,16 +85,7 @@ class C_TalentDev_Table(C_TalentDev_TableTemplate):
       self.data = []
       self.is_loading = False
     
-    # 5. Make component accessible from JS as COMPONENT (not pyComponent)
-    # Explicitly set method as callable from JavaScript
-    anvil.js.window.COMPONENT = self
-    self._js_methods = ['client_sort_column']
-    for method_name in self._js_methods:
-      if hasattr(self, method_name):
-        setattr(anvil.js.window.COMPONENT, method_name, getattr(self, method_name))
-        print(f"TALENTDEV-LOG: Registered method {method_name} for JavaScript access")
-    
-    # 6. Initial sort by last release
+    # 5. Initial sort by last release
     if self.data:
       print("TALENTDEV-LOG: About to perform initial sort")
       # Preprocess last_release dates for initial sort
@@ -101,7 +93,7 @@ class C_TalentDev_Table(C_TalentDev_TableTemplate):
       self._sort_data()
       print(f"TALENTDEV-LOG: Initial data sorted by {self.sort_column} ({self.sort_direction})")
     
-    # 7. Create the table with the loaded data
+    # 6. Create the table with the loaded data
     self.create_table()
     
   def form_show(self, **event_args):
@@ -375,7 +367,7 @@ class C_TalentDev_Table(C_TalentDev_TableTemplate):
             <th class="talentdev-instagram-header" onclick="window.pySortColumn('instagram')"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Instagram_icon.png/600px-Instagram_icon.png" class="talentdev-header-icon" alt="Instagram">Followers <span class="{self._get_sort_indicator('instagram')}"></span></th>
             <th class="talentdev-tiktok-header" onclick="window.pySortColumn('tiktok')"><img src="https://sf-tb-sg.ibytedtos.com/obj/eden-sg/uhtyvueh7nulogpogiyf/tiktok-icon2.png" class="talentdev-header-icon" alt="TikTok">Followers <span class="{self._get_sort_indicator('tiktok')}"></span></th>
             <th class="talentdev-youtube-header" onclick="window.pySortColumn('youtube')"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/09/YouTube_full-color_icon_%282017%29.svg/800px-YouTube_full-color_icon_%282017%29.svg.png" class="talentdev-header-icon" alt="YouTube">Followers <span class="{self._get_sort_indicator('youtube')}"></span></th>
-            <th class="talentdev-soundcloud-header" onclick="window.pySortColumn('soundcloud')">SoundCloud <span class="{self._get_sort_indicator('soundcloud')}"></span></th>
+            <th class="talentdev-soundcloud-header" onclick="window.pySortColumn('soundcloud')">SoundCloud Followers <span class="{self._get_sort_indicator('soundcloud')}"></span></th>
           </tr>
         </thead>
         <tbody id="talentdev-table-body">
