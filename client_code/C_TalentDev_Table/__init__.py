@@ -10,6 +10,7 @@ import anvil.js
 from anvil import get_open_form
 import time
 from anvil.js.window import location
+import datetime
 
 
 class C_TalentDev_Table(C_TalentDev_TableTemplate):
@@ -43,7 +44,19 @@ class C_TalentDev_Table(C_TalentDev_TableTemplate):
       window.pySortColumn = function(columnName) {
         console.log('[DEBUG] Sort requested for column:', columnName);
         try {
-          return COMPONENT.sort_column_callback(columnName);
+          console.log('[DEBUG] Attempting to call COMPONENT.sort_column_callback with', columnName);
+          if (typeof COMPONENT === 'undefined') {
+            console.error('[ERROR] COMPONENT is undefined');
+            return false;
+          }
+          if (typeof COMPONENT.sort_column_callback !== 'function') {
+            console.error('[ERROR] COMPONENT.sort_column_callback is not a function');
+            console.log('[DEBUG] COMPONENT keys:', Object.keys(COMPONENT));
+            return false;
+          }
+          const result = COMPONENT.sort_column_callback(columnName);
+          console.log('[DEBUG] Sort callback result:', result);
+          return result;
         } catch (error) {
           console.error('[ERROR] Failed to call sort_column_callback:', error);
           return false;
@@ -71,11 +84,18 @@ class C_TalentDev_Table(C_TalentDev_TableTemplate):
       self.is_loading = False
     
     # 5. Make component accessible from JS as COMPONENT (not pyComponent)
+    # Explicitly set method as callable from JavaScript
     anvil.js.window.COMPONENT = self
+    self._js_methods = ['sort_column_callback']
+    for method_name in self._js_methods:
+      if hasattr(self, method_name):
+        setattr(anvil.js.window.COMPONENT, method_name, getattr(self, method_name))
+        print(f"[DEBUG] Registered method {method_name} for JavaScript access")
     
     # 6. Initial sort by last release
     if self.data:
-      self.data = sorted(self.data, key=lambda x: x.get('last_release_date', ''), reverse=True)
+      self._sort_data()
+      print(f"[DEBUG] Initial data sorted by {self.sort_column} ({self.sort_direction})")
     
     # 7. Create the table with the loaded data
     self.create_table()
@@ -180,6 +200,31 @@ class C_TalentDev_Table(C_TalentDev_TableTemplate):
     sign = "+" if value > 0 else ""
     return f"{sign}{value:.1f}%"
   
+  def _convert_date_for_sorting(self, date_str):
+    """
+    Convert date string to a sortable format
+    
+    Parameters:
+        date_str: Date string to convert
+        
+    Returns:
+        datetime: Datetime object or minimum date if conversion fails
+    """
+    if not date_str:
+      # Return a minimum date for empty values
+      return datetime.datetime.min
+    
+    try:
+      # Try to parse as YYYY-MM-DD
+      return datetime.datetime.strptime(date_str, "%Y-%m-%d")
+    except (ValueError, TypeError):
+      try:
+        # Try to parse as MM/DD/YYYY
+        return datetime.datetime.strptime(date_str, "%m/%d/%Y")
+      except (ValueError, TypeError):
+        print(f"[ERROR] Could not parse date: {date_str}")
+        return datetime.datetime.min
+  
   def _sort_data(self):
     """
     Helper method to sort data based on current sort column and direction
@@ -187,21 +232,65 @@ class C_TalentDev_Table(C_TalentDev_TableTemplate):
     Returns:
         None
     """
+    print(f"[DEBUG] Sorting data by {self.sort_column} ({self.sort_direction})")
+    if not self.data:
+      print("[DEBUG] No data to sort")
+      return
+    
+    reverse_sort = (self.sort_direction == "desc")
+    
     # Sort the data based on the selected column
     if self.sort_column == "last_release":
-      self.data = sorted(self.data, key=lambda x: x.get('last_release_date', ''), reverse=(self.sort_direction == "desc"))
+      # Use the last_release field for sorting (proper date) instead of last_release_date (display string)
+      print("[DEBUG] Sorting by last_release date")
+      self.data = sorted(
+        self.data, 
+        key=lambda x: self._convert_date_for_sorting(x.get('last_release', '')), 
+        reverse=reverse_sort
+      )
+      print(f"[DEBUG] First item after sort: {self.data[0].get('last_release', '')}")
     elif self.sort_column == "total_releases":
-      self.data = sorted(self.data, key=lambda x: x.get('total_tracks', 0), reverse=(self.sort_direction == "desc"))
+      print("[DEBUG] Sorting by total_tracks")
+      self.data = sorted(
+        self.data, 
+        key=lambda x: x.get('total_tracks', 0), 
+        reverse=reverse_sort
+      )
     elif self.sort_column == "spotify":
-      self.data = sorted(self.data, key=lambda x: x.get('spotify_mtl_listeners', 0), reverse=(self.sort_direction == "desc"))
+      print("[DEBUG] Sorting by spotify_mtl_listeners")
+      self.data = sorted(
+        self.data, 
+        key=lambda x: x.get('spotify_mtl_listeners', 0), 
+        reverse=reverse_sort
+      )
     elif self.sort_column == "instagram":
-      self.data = sorted(self.data, key=lambda x: x.get('instagram_followers', 0), reverse=(self.sort_direction == "desc"))
+      print("[DEBUG] Sorting by instagram_followers")
+      self.data = sorted(
+        self.data, 
+        key=lambda x: x.get('instagram_followers', 0), 
+        reverse=reverse_sort
+      )
     elif self.sort_column == "tiktok":
-      self.data = sorted(self.data, key=lambda x: x.get('tiktok_followers', 0), reverse=(self.sort_direction == "desc"))
+      print("[DEBUG] Sorting by tiktok_followers")
+      self.data = sorted(
+        self.data, 
+        key=lambda x: x.get('tiktok_followers', 0), 
+        reverse=reverse_sort
+      )
     elif self.sort_column == "youtube":
-      self.data = sorted(self.data, key=lambda x: x.get('youtube_followers', 0), reverse=(self.sort_direction == "desc"))
+      print("[DEBUG] Sorting by youtube_followers")
+      self.data = sorted(
+        self.data, 
+        key=lambda x: x.get('youtube_followers', 0), 
+        reverse=reverse_sort
+      )
     elif self.sort_column == "soundcloud":
-      self.data = sorted(self.data, key=lambda x: x.get('soundcloud_followers', 0), reverse=(self.sort_direction == "desc"))
+      print("[DEBUG] Sorting by soundcloud_followers")
+      self.data = sorted(
+        self.data, 
+        key=lambda x: x.get('soundcloud_followers', 0), 
+        reverse=reverse_sort
+      )
   
   def sort_column_callback(self, column_name):
     """
@@ -218,9 +307,11 @@ class C_TalentDev_Table(C_TalentDev_TableTemplate):
     # Toggle sort direction if the same column is clicked again
     if self.sort_column == column_name:
       self.sort_direction = "asc" if self.sort_direction == "desc" else "desc"
+      print(f"[DEBUG] Toggled sort direction to {self.sort_direction}")
     else:
       self.sort_column = column_name
       self.sort_direction = "desc"  # Default sort direction for new column
+      print(f"[DEBUG] Changed sort column to {self.sort_column}")
     
     # Sort the data
     self._sort_data()
@@ -228,6 +319,7 @@ class C_TalentDev_Table(C_TalentDev_TableTemplate):
     # Recreate the table with sorted data
     self.create_table()
     
+    print("[DEBUG] Sort completed and table recreated")
     return True
 
   def _get_sort_indicator(self, column_name):
@@ -261,7 +353,7 @@ class C_TalentDev_Table(C_TalentDev_TableTemplate):
             <th class="talentdev-instagram-header" onclick="window.pySortColumn('instagram')"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Instagram_icon.png/600px-Instagram_icon.png" class="talentdev-header-icon" alt="Instagram">Followers <span class="{self._get_sort_indicator('instagram')}"></span></th>
             <th class="talentdev-tiktok-header" onclick="window.pySortColumn('tiktok')"><img src="https://sf-tb-sg.ibytedtos.com/obj/eden-sg/uhtyvueh7nulogpogiyf/tiktok-icon2.png" class="talentdev-header-icon" alt="TikTok">Followers <span class="{self._get_sort_indicator('tiktok')}"></span></th>
             <th class="talentdev-youtube-header" onclick="window.pySortColumn('youtube')"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/09/YouTube_full-color_icon_%282017%29.svg/800px-YouTube_full-color_icon_%282017%29.svg.png" class="talentdev-header-icon" alt="YouTube">Followers <span class="{self._get_sort_indicator('youtube')}"></span></th>
-            <th class="talentdev-soundcloud-header" onclick="window.pySortColumn('soundcloud')"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/SoundCloud_logo.svg/1200px-SoundCloud_logo.svg.png" class="talentdev-header-icon" alt="SoundCloud">Followers <span class="{self._get_sort_indicator('soundcloud')}"></span></th>
+            <th class="talentdev-soundcloud-header" onclick="window.pySortColumn('soundcloud')">SoundCloud <span class="{self._get_sort_indicator('soundcloud')}"></span></th>
           </tr>
         </thead>
         <tbody id="talentdev-table-body">
