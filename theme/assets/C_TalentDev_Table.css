@@ -38,13 +38,33 @@
   padding: 0 8px;
   font-weight: 500;
   text-align: right;
+  cursor: pointer;
 }
 
 .talentdev-header-icon {
-  height: 16px;
-  width: 16px;
+  height: 13px;
+  width: auto;
   vertical-align: middle;
   margin-right: 4px;
+  margin-bottom: 2px;
+}
+
+.talentdev-sort-indicator {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  margin-left: 4px;
+  opacity: 0.7;
+}
+
+.talentdev-sort-asc:after {
+  content: "▲";
+  font-size: 8px;
+}
+
+.talentdev-sort-desc:after {
+  content: "▼";
+  font-size: 8px;
 }
 
 /* 3. Table rows */
