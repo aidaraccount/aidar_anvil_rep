@@ -4,6 +4,7 @@
   align-items: center;
   margin-bottom: 10px;
   font-size: 14px;
+  justify-content: flex-end;
 }
 
 /* 2. Toggle Label */
