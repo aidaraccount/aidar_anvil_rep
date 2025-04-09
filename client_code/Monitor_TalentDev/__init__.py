@@ -37,10 +37,39 @@ class Monitor_TalentDev(Monitor_TalentDevTemplate):
       model_id = load_var("model_id")
       print(f"Monitor_TalentDev model_id: {model_id}")
       self.model_id = model_id
+
+      # load_watchlists
+      self.load_watchlists()
       
       # Wait for all components to fully initialize before setting up callbacks
       anvil.js.call_js('setTimeout', self._setup_toggle_callbacks, 100)
 
+  
+  def load_watchlists(self):
+    watchlists = json.loads(anvil.server.call("get_watchlist_ids", user['user_id']))
+    print('watchlists:', watchlists)
+
+    if watchlists is not None and len(watchlists) > 0:      
+      active_wl_ids = []
+      
+      for i in range(0, len(watchlists)):
+        wl_id = watchlists[i]["watchlist_id"]
+        wl_id_str = str(wl_id)
+                
+        # Create the link with the appropriate role
+        wl_link = Link(
+          text=watchlists[i]["watchlist_name"], tag=wl_id, role="genre-box"
+        )
+  
+        wl_link.set_event_handler(
+          "click", self.create_activate_watchlist_handler(wl_id)
+        )
+        self.flow_panel_watchlists.add_component(wl_link)
+        
+
+
+      
+  
   def _setup_toggle_callbacks(self):
     """
     Set up toggle callbacks after ensuring components are fully initialized
@@ -96,7 +125,6 @@ class Monitor_TalentDev(Monitor_TalentDevTemplate):
     self.c_talent_dev_table_1.create_table()
     
     return True
-
 
   # SEARCH
   def text_box_search_change(self, **event_args):
