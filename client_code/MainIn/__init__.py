@@ -19,7 +19,7 @@ from ..MainOut import MainOut
 from ..Home import Home
 from ..Discover import Discover
 from ..WatchlistDetails import WatchlistDetails
-from ..Watchlist_Funnel import Watchlist_Funnel
+from ..Monitor_Funnel import Monitor_Funnel
 from ..Monitor_TalentDev import Monitor_TalentDev
 from ..NoModel import NoModel
 from ..NoSubscription import NoSubscription
@@ -266,7 +266,7 @@ class MainIn(MainInTemplate):
             if int(component.tag) == int(watchlist_id):
               component.background = "theme:Brown"          
     
-    elif location.hash[:17] == '#watchlist_funnel':
+    elif location.hash[:7] == '#funnel':
       self.link_monitor_funnel.background = "theme:Brown"
     elif location.hash[:11] == '#talent_dev':
       self.link_monitor_dev.background = "theme:Brown"
@@ -366,7 +366,7 @@ class MainIn(MainInTemplate):
       self.link_monitor_dev.visible = False
     
   def link_monitor_funnel_click(self, **event_args):
-    click_link(self.link_monitor_funnel, 'watchlist_funnel', event_args)
+    click_link(self.link_monitor_funnel, 'funnel', event_args)
     self.reset_nav_backgrounds()
     self.link_monitor_funnel.background = "theme:Brown"
 

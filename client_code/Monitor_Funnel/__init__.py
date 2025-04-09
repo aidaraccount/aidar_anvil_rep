@@ -1,4 +1,4 @@
-from ._anvil_designer import Watchlist_FunnelTemplate
+from ._anvil_designer import Monitor_FunnelTemplate
 from anvil import *
 import anvil.server
 import anvil.users
@@ -12,8 +12,8 @@ from anvil_extras import routing
 from ..nav import click_link, click_button, logout, login_check, load_var
 
 
-@routing.route('watchlist_funnel', title='Funnel')
-class Watchlist_Funnel(Watchlist_FunnelTemplate):
+@routing.route('funnel', title='Funnel')
+class Monitor_Funnel(Monitor_FunnelTemplate):
   def __init__(self, **properties):
     
     # Set Form properties and Data Bindings.
@@ -30,7 +30,7 @@ class Watchlist_Funnel(Watchlist_FunnelTemplate):
     else:
       model_id = load_var("model_id")
       self.model_id = model_id
-      print(f"Watchlist_Funnel model_id: {model_id}")
+      print(f"Monitor_Funnel model_id: {model_id}")
       
       # FUNNEL DATA
       data = json.loads(anvil.server.call('get_watchlist_selection', user["user_id"], None))
