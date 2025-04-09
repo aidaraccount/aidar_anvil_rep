@@ -422,16 +422,11 @@ class C_TalentDev_Table(C_TalentDev_TableTemplate):
     # Check if we have data to show
     if not self.data:
       # Show empty watchlist message if no data or no active watchlists
-      if self.active_watchlist_ids:
-        # Has active watchlists but no matching artists
-        empty_message = "No artists found matching your current filters."
-      else:
-        # No active watchlists selected
-        empty_message = "Please select at least one watchlist to see artists."
+      empty_message = "No artists found matching your current filters."
         
       html_content += f"""
         <tr>
-          <td colspan="7" class="talentdev-empty-message-container">
+          <td colspan="8" class="talentdev-empty-message-container">
             <div class="talentdev-empty-message">{empty_message}</div>
           </td>
         </tr>
