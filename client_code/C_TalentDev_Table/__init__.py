@@ -88,7 +88,7 @@ class C_TalentDev_Table(C_TalentDev_TableTemplate):
     # 5. Initial sort by last release
     if self.data:
       print("TALENTDEV-LOG: About to perform initial sort")
-      # Preprocess last_release dates for initial sort
+      # Preprocess dates for initial sort
       self._preprocess_dates_for_sort()
       self._sort_data()
       print(f"TALENTDEV-LOG: Initial data sorted by {self.sort_column} ({self.sort_direction})")
@@ -262,42 +262,42 @@ class C_TalentDev_Table(C_TalentDev_TableTemplate):
       print("TALENTDEV-LOG: Sorting by total_tracks")
       self.data = sorted(
         self.data, 
-        key=lambda x: x.get('total_tracks', 0), 
+        key=lambda x: x.get('total_tracks', 0) or 0,  # Handle None values
         reverse=reverse_sort
       )
     elif self.sort_column == "spotify":
       print("TALENTDEV-LOG: Sorting by spotify_mtl_listeners")
       self.data = sorted(
         self.data, 
-        key=lambda x: x.get('spotify_mtl_listeners', 0), 
+        key=lambda x: x.get('spotify_mtl_listeners', 0) or 0,  # Handle None values
         reverse=reverse_sort
       )
     elif self.sort_column == "instagram":
       print("TALENTDEV-LOG: Sorting by instagram_followers")
       self.data = sorted(
         self.data, 
-        key=lambda x: x.get('instagram_followers', 0), 
+        key=lambda x: x.get('instagram_followers', 0) or 0,  # Handle None values
         reverse=reverse_sort
       )
     elif self.sort_column == "tiktok":
       print("TALENTDEV-LOG: Sorting by tiktok_followers")
       self.data = sorted(
         self.data, 
-        key=lambda x: x.get('tiktok_followers', 0), 
+        key=lambda x: x.get('tiktok_followers', 0) or 0,  # Handle None values
         reverse=reverse_sort
       )
     elif self.sort_column == "youtube":
       print("TALENTDEV-LOG: Sorting by youtube_followers")
       self.data = sorted(
         self.data, 
-        key=lambda x: x.get('youtube_followers', 0), 
+        key=lambda x: x.get('youtube_followers', 0) or 0,  # Handle None values
         reverse=reverse_sort
       )
     elif self.sort_column == "soundcloud":
       print("TALENTDEV-LOG: Sorting by soundcloud_followers")
       self.data = sorted(
         self.data, 
-        key=lambda x: x.get('soundcloud_followers', 0), 
+        key=lambda x: x.get('soundcloud_followers', 0) or 0,  # Handle None values
         reverse=reverse_sort
       )
     
@@ -354,9 +354,34 @@ class C_TalentDev_Table(C_TalentDev_TableTemplate):
     Creates the Talent Development table with artist data
     """
     print("TALENTDEV-LOG: Creating table")
-    # 1. Create the main container HTML
+    # 1. Create the main container HTML with table-layout:fixed to maintain column widths
     html_content = f"""
     <div class="talentdev-container">
+      <style>
+        /* Fixed table layout to maintain column widths after sorting */
+        .talentdev-table {{
+          table-layout: fixed;
+          width: 100%;
+          border-collapse: collapse;
+        }}
+        
+        /* Remove header background color and add a subtle bottom border */
+        .talentdev-header-row th {{
+          background-color: transparent;
+          border-bottom: 1px solid #ddd;
+          padding: 8px 4px;
+        }}
+        
+        /* Set fixed column widths */
+        .talentdev-artist-header {{ width: 20%; }}
+        .talentdev-last-release-header {{ width: 12%; }}
+        .talentdev-total-releases-header {{ width: 10%; }}
+        .talentdev-spotify-header {{ width: 12%; }}
+        .talentdev-instagram-header {{ width: 10%; }}
+        .talentdev-tiktok-header {{ width: 12%; }}
+        .talentdev-youtube-header {{ width: 12%; }}
+        .talentdev-soundcloud-header {{ width: 12%; }}
+      </style>
       <table class="talentdev-table">
         <thead>
           <tr class="talentdev-header-row">
