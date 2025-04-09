@@ -2431,3 +2431,11 @@ footer a, .footer .anvil-component {
     left: 0px !important;
   }
 }
+
+/* 7. SCROLLBAR STYLING */
+/* 7.1. Custom scrollbar styling for the sidebar */
+.sidebar {
+  /* Prevent horizontal overflow */
+  overflow-x: hidden;
+  overflow-y: auto;
+}
