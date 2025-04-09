@@ -11,6 +11,7 @@ from anvil import get_open_form
 import time
 from anvil.js.window import location
 import datetime
+from ..C_TalentDev_Toggle import C_TalentDev_Toggle
 
 
 class C_TalentDev_Table(C_TalentDev_TableTemplate):
@@ -32,8 +33,16 @@ class C_TalentDev_Table(C_TalentDev_TableTemplate):
     self.is_loading = True
     self.sort_column = "last_release"  # Default sort column
     self.sort_direction = "desc"  # Default sort direction (descending)
+    self.active_period = "30-Day"  # Default period for stats display
     
-    # 3. Register JavaScript callbacks and make this component's client_sort_column callable
+    # 3. Initialize toggle component
+    self.period_toggle = C_TalentDev_Toggle()
+    self.period_toggle.set_toggle_callback(self.handle_period_toggle)
+    
+    # Add the toggle to the container
+    self.toggle_container.add_component(self.period_toggle)
+    
+    # 4. Register JavaScript callbacks and make this component's client_sort_column callable
     self.client_sort_column_js = self.client_sort_column  # Create a reference
     anvil.js.window.pyClientSortColumn = self.client_sort_column_js  # Expose to JS window
     
@@ -65,7 +74,7 @@ class C_TalentDev_Table(C_TalentDev_TableTemplate):
     
     print("TALENTDEV-LOG: JavaScript callbacks registered")
     
-    # 4. Load data and create table
+    # 5. Load data and create table
     try:
       # Call server function to get talent development data directly in init
       print("TALENTDEV-LOG: Fetching initial data from server")
@@ -85,7 +94,7 @@ class C_TalentDev_Table(C_TalentDev_TableTemplate):
       self.data = []
       self.is_loading = False
     
-    # 5. Initial sort by last release
+    # 6. Initial sort by last release
     if self.data:
       print("TALENTDEV-LOG: About to perform initial sort")
       # Preprocess dates for initial sort
@@ -93,7 +102,7 @@ class C_TalentDev_Table(C_TalentDev_TableTemplate):
       self._sort_data()
       print(f"TALENTDEV-LOG: Initial data sorted by {self.sort_column} ({self.sort_direction})")
     
-    # 6. Create the table with the loaded data
+    # 7. Create the table with the loaded data
     self.create_table()
     
   def form_show(self, **event_args):
@@ -419,22 +428,32 @@ class C_TalentDev_Table(C_TalentDev_TableTemplate):
         # Spotify data
         spotify_mtl_listeners = item.get('spotify_mtl_listeners', 0)
         spotify_mtl_dev_30d = item.get('spotify_mtl_dev_30d', None)
+        spotify_mtl_dev_7d = item.get('spotify_mtl_dev_7d', None)
+        spotify_growth = spotify_mtl_dev_7d if self.active_period == "7-Day" else spotify_mtl_dev_30d
         
         # Instagram data
         instagram_followers = item.get('instagram_followers', 0)
         instagram_dev_30d = item.get('instagram_dev_30d', None)
+        instagram_dev_7d = item.get('instagram_dev_7d', None)
+        instagram_growth = instagram_dev_7d if self.active_period == "7-Day" else instagram_dev_30d
         
         # TikTok data
         tiktok_followers = item.get('tiktok_followers', 0)
         tiktok_dev_30d = item.get('tiktok_dev_30d', None)
+        tiktok_dev_7d = item.get('tiktok_dev_7d', None)
+        tiktok_growth = tiktok_dev_7d if self.active_period == "7-Day" else tiktok_dev_30d
         
         # YouTube data
         youtube_followers = item.get('youtube_followers', 0)
         youtube_dev_30d = item.get('youtube_dev_30d', None)
+        youtube_dev_7d = item.get('youtube_dev_7d', None)
+        youtube_growth = youtube_dev_7d if self.active_period == "7-Day" else youtube_dev_30d
         
         # SoundCloud data
         soundcloud_followers = item.get('soundcloud_followers', 0)
         soundcloud_dev_30d = item.get('soundcloud_dev_30d', None)
+        soundcloud_dev_7d = item.get('soundcloud_dev_7d', None)
+        soundcloud_growth = soundcloud_dev_7d if self.active_period == "7-Day" else soundcloud_dev_30d
         
         # Format new tracks last 365 days
         if new_tracks_last_365_days:
@@ -461,23 +480,23 @@ class C_TalentDev_Table(C_TalentDev_TableTemplate):
             </td>
             <td class="talentdev-spotify-cell">
               <div class="talentdev-primary-value">{self.format_number(spotify_mtl_listeners)}</div>
-              <div class="talentdev-secondary-value {self.get_growth_class(spotify_mtl_dev_30d) if spotify_mtl_listeners != None and spotify_mtl_listeners != 0 else ''}">{self.format_growth(spotify_mtl_dev_30d) if spotify_mtl_listeners != None and spotify_mtl_listeners != 0 else '&nbsp;'}</div>
+              <div class="talentdev-secondary-value {self.get_growth_class(spotify_growth) if spotify_mtl_listeners != None and spotify_mtl_listeners != 0 else ''}">{self.format_growth(spotify_growth) if spotify_mtl_listeners != None and spotify_mtl_listeners != 0 else '&nbsp;'}</div>
             </td>
             <td class="talentdev-instagram-cell">
               <div class="talentdev-primary-value">{self.format_number(instagram_followers)}</div>
-              <div class="talentdev-secondary-value {self.get_growth_class(instagram_dev_30d) if instagram_followers != None and instagram_followers != 0 else ''}">{self.format_growth(instagram_dev_30d) if instagram_followers != None and instagram_followers != 0 else '&nbsp;'}</div>
+              <div class="talentdev-secondary-value {self.get_growth_class(instagram_growth) if instagram_followers != None and instagram_followers != 0 else ''}">{self.format_growth(instagram_growth) if instagram_followers != None and instagram_followers != 0 else '&nbsp;'}</div>
             </td>
             <td class="talentdev-tiktok-cell">
               <div class="talentdev-primary-value">{self.format_number(tiktok_followers)}</div>
-              <div class="talentdev-secondary-value {self.get_growth_class(tiktok_dev_30d) if tiktok_followers != None and tiktok_followers != 0 else ''}">{self.format_growth(tiktok_dev_30d) if tiktok_followers != None and tiktok_followers != 0 else '&nbsp;'}</div>
+              <div class="talentdev-secondary-value {self.get_growth_class(tiktok_growth) if tiktok_followers != None and tiktok_followers != 0 else ''}">{self.format_growth(tiktok_growth) if tiktok_followers != None and tiktok_followers != 0 else '&nbsp;'}</div>
             </td>
             <td class="talentdev-youtube-cell">
               <div class="talentdev-primary-value">{self.format_number(youtube_followers)}</div>
-              <div class="talentdev-secondary-value {self.get_growth_class(youtube_dev_30d) if youtube_followers != None and youtube_followers != 0 else ''}">{self.format_growth(youtube_dev_30d) if youtube_followers != None and youtube_followers != 0 else '&nbsp;'}</div>
+              <div class="talentdev-secondary-value {self.get_growth_class(youtube_growth) if youtube_followers != None and youtube_followers != 0 else ''}">{self.format_growth(youtube_growth) if youtube_followers != None and youtube_followers != 0 else '&nbsp;'}</div>
             </td>
             <td class="talentdev-soundcloud-cell">
               <div class="talentdev-primary-value">{self.format_number(soundcloud_followers)}</div>
-              <div class="talentdev-secondary-value {self.get_growth_class(soundcloud_dev_30d) if soundcloud_followers != None and soundcloud_followers != 0 else ''}">{self.format_growth(soundcloud_dev_30d) if soundcloud_followers != None and soundcloud_followers != 0 else '&nbsp;'}</div>
+              <div class="talentdev-secondary-value {self.get_growth_class(soundcloud_growth) if soundcloud_followers != None and soundcloud_followers != 0 else ''}">{self.format_growth(soundcloud_growth) if soundcloud_followers != None and soundcloud_followers != 0 else '&nbsp;'}</div>
             </td>
           </tr>
         """
@@ -492,3 +511,21 @@ class C_TalentDev_Table(C_TalentDev_TableTemplate):
     # 5. Set the HTML content
     self.html = html_content
     print("TALENTDEV-LOG: Table created and rendered")
+
+  def handle_period_toggle(self, period):
+    """
+    Callback for when the period toggle changes
+    
+    Parameters:
+        period: The new period selected (7-Day or 30-Day)
+        
+    Returns:
+        bool: True indicating successful handling of toggle request
+    """
+    print(f"TALENTDEV-LOG: Handling period toggle to {period}")
+    self.active_period = period
+    
+    # Update the table with the new period
+    self.create_table()
+    
+    return True
