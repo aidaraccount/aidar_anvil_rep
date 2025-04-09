@@ -380,52 +380,42 @@ class C_TalentDev_Table(C_TalentDev_TableTemplate):
 
   def create_table(self):
     """
-    Creates the Talent Development table with artist data
+    Create the HTML for the table based on current data and state
+    
+    Returns:
+        None
     """
-    print("TALENTDEV-LOG: Creating table")
-    # 1. Create the main container HTML with table-layout:fixed to maintain column widths
+    # Initialize table HTML
     html_content = f"""
-    <div class="talentdev-container">
-      <table class="talentdev-table">
-        <thead>
-          <tr class="talentdev-header-row">
-            <th class="talentdev-artist-header">Artist</th>
-            <th class="talentdev-last-release-header" onclick="window.pySortColumn('last_release')">Last Release <span class="{self._get_sort_indicator('last_release')}"></span></th>
-            <th class="talentdev-total-releases-header" onclick="window.pySortColumn('total_releases')">Total Releases <span class="{self._get_sort_indicator('total_releases')}"></span></th>
-            <th class="talentdev-spotify-header" onclick="window.pySortColumn('spotify')"><i class="fa-brands fa-spotify talentdev-header-icon"></i>Mtl. Listeners <span class="{self._get_sort_indicator('spotify')}"></span></th>
-            <th class="talentdev-instagram-header" onclick="window.pySortColumn('instagram')"><i class="fa-brands fa-instagram talentdev-header-icon"></i>Followers <span class="{self._get_sort_indicator('instagram')}"></span></th>
-            <th class="talentdev-tiktok-header" onclick="window.pySortColumn('tiktok')"><i class="fa-brands fa-tiktok talentdev-header-icon"></i>Followers <span class="{self._get_sort_indicator('tiktok')}"></span></th>
-            <th class="talentdev-youtube-header" onclick="window.pySortColumn('youtube')"><i class="fa-brands fa-youtube talentdev-header-icon"></i>Followers <span class="{self._get_sort_indicator('youtube')}"></span></th>
-            <th class="talentdev-soundcloud-header" onclick="window.pySortColumn('soundcloud')"><i class="fa-brands fa-soundcloud talentdev-header-icon"></i>Followers <span class="{self._get_sort_indicator('soundcloud')}"></span></th>
-          </tr>
-        </thead>
-        <tbody id="talentdev-table-body">
+      <div class="talentdev-container">
+        <table class="talentdev-table">
     """
     
-    # 2. Check if data is loading or empty
-    if self.is_loading:
-      # Loading state message
-      html_content += """
-        <tr class="talentdev-row talentdev-status-row">
-          <td colspan="8" class="talentdev-status-cell">
-            <div class="talentdev-status-message talentdev-loading-message">Loading data...</div>
-          </td>
-        </tr>
-      """
-    elif not self.data:
-      # No data message
-      html_content += """
-        <tr class="talentdev-row talentdev-status-row">
-          <td colspan="8" class="talentdev-status-cell">
-            <div class="talentdev-status-message talentdev-empty-message">No artists found</div>
+    # Create table headers
+    html_content += self._create_table_headers()
+    
+    # Create table body
+    html_content += "<tbody>"
+    
+    # Check if we have data to show
+    if not self.data:
+      # Show empty watchlist message if no data or no active watchlists
+      if self.active_watchlist_ids:
+        # Has active watchlists but no matching artists
+        empty_message = "No artists found matching your current filters."
+      else:
+        # No active watchlists selected
+        empty_message = "Please select at least one watchlist to see artists."
+        
+      html_content += f"""
+        <tr>
+          <td colspan="7" class="talentdev-empty-message-container">
+            <div class="talentdev-empty-message">{empty_message}</div>
           </td>
         </tr>
       """
     else:
-      # Print total number of rows for debugging
-      print(f"TALENTDEV-LOG: Creating table with {len(self.data)} rows")
-      
-      # 3. Generate table rows for each artist
+      # We have data, create normal table rows
       for i, item in enumerate(self.data):
         # Basic artist information
         artist_id = item.get('artist_id', '')
@@ -621,7 +611,7 @@ class C_TalentDev_Table(C_TalentDev_TableTemplate):
         if self.search_filter.lower() in artist.get('name', '').lower()
       ]
     
-    # If there are active watchlists, filter by them
+    # Apply watchlist filtering
     if active_watchlist_ids:
       # Filter artists that are in any of the active watchlists
       self.data = [
@@ -632,11 +622,11 @@ class C_TalentDev_Table(C_TalentDev_TableTemplate):
         )
       ]
     else:
-      # If no active watchlists, show all artists (only filtered by search if applicable)
-      self.data = filtered_data
+      # If no active watchlists, don't show any artists
+      self.data = []
       
-    # Re-sort the filtered data if a sort is active
-    if hasattr(self, 'sort_column') and self.sort_column:
+    # Re-sort the filtered data if a sort is active and data exists
+    if self.data and hasattr(self, 'sort_column') and self.sort_column:
       self._sort_data()
       
     # Recreate the table with filtered data

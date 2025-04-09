@@ -20,7 +20,7 @@
   color: white;
   text-align: left;
   font-weight: 500;
-  font-size: 14px;
+  font-size: 15px;
   height: 36px;
   border-bottom: 2px solid #3D3D52;
   background-color: transparent;
@@ -162,7 +162,22 @@
   text-decoration: underline;
 }
 
-/* 7. Generic Cell Value Styling */
+/* 7. Empty Watchlist Message */
+.talentdev-empty-message-container {
+  width: 100%;
+  text-align: center;
+  padding: 40px 20px;
+  background-color: transparent;
+}
+
+.talentdev-empty-message {
+  color: #ffffff;
+  font-size: 14px;
+  opacity: 0.7;
+  font-weight: 400;
+}
+
+/* 8. Generic Cell Value Styling */
 .talentdev-primary-value {
   color: white;
   font-size: 14px;
@@ -186,7 +201,7 @@
   color: #BBBBBB;
 }
 
-/* 8. Status Messages */
+/* 9. Status Messages */
 .talentdev-status-cell {
   text-align: center;
 }
