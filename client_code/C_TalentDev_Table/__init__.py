@@ -362,42 +362,17 @@ class C_TalentDev_Table(C_TalentDev_TableTemplate):
     # 1. Create the main container HTML with table-layout:fixed to maintain column widths
     html_content = f"""
     <div class="talentdev-container">
-      <style>
-        /* Fixed table layout to maintain column widths after sorting */
-        .talentdev-table {{
-          table-layout: fixed;
-          width: 100%;
-          border-collapse: collapse;
-        }}
-        
-        /* Remove header background color and add a subtle bottom border */
-        .talentdev-header-row th {{
-          background-color: transparent;
-          border-bottom: 1px solid #ddd;
-          padding: 8px 4px;
-        }}
-        
-        /* Set fixed column widths */
-        .talentdev-artist-header {{ width: 20%; }}
-        .talentdev-last-release-header {{ width: 12%; }}
-        .talentdev-total-releases-header {{ width: 10%; }}
-        .talentdev-spotify-header {{ width: 12%; }}
-        .talentdev-instagram-header {{ width: 10%; }}
-        .talentdev-tiktok-header {{ width: 12%; }}
-        .talentdev-youtube-header {{ width: 12%; }}
-        .talentdev-soundcloud-header {{ width: 12%; }}
-      </style>
       <table class="talentdev-table">
         <thead>
           <tr class="talentdev-header-row">
             <th class="talentdev-artist-header">Artist</th>
             <th class="talentdev-last-release-header" onclick="window.pySortColumn('last_release')">Last Release <span class="{self._get_sort_indicator('last_release')}"></span></th>
             <th class="talentdev-total-releases-header" onclick="window.pySortColumn('total_releases')">Total Releases <span class="{self._get_sort_indicator('total_releases')}"></span></th>
-            <th class="talentdev-spotify-header" onclick="window.pySortColumn('spotify')"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/Spotify_logo_without_text.svg/168px-Spotify_logo_without_text.svg.png" class="talentdev-header-icon" alt="Spotify">Monthly Listeners <span class="{self._get_sort_indicator('spotify')}"></span></th>
-            <th class="talentdev-instagram-header" onclick="window.pySortColumn('instagram')"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Instagram_icon.png/600px-Instagram_icon.png" class="talentdev-header-icon" alt="Instagram">Followers <span class="{self._get_sort_indicator('instagram')}"></span></th>
-            <th class="talentdev-tiktok-header" onclick="window.pySortColumn('tiktok')"><img src="https://sf-tb-sg.ibytedtos.com/obj/eden-sg/uhtyvueh7nulogpogiyf/tiktok-icon2.png" class="talentdev-header-icon" alt="TikTok">Followers <span class="{self._get_sort_indicator('tiktok')}"></span></th>
-            <th class="talentdev-youtube-header" onclick="window.pySortColumn('youtube')"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/09/YouTube_full-color_icon_%282017%29.svg/800px-YouTube_full-color_icon_%282017%29.svg.png" class="talentdev-header-icon" alt="YouTube">Followers <span class="{self._get_sort_indicator('youtube')}"></span></th>
-            <th class="talentdev-soundcloud-header" onclick="window.pySortColumn('soundcloud')">SoundCloud Followers <span class="{self._get_sort_indicator('soundcloud')}"></span></th>
+            <th class="talentdev-spotify-header" onclick="window.pySortColumn('spotify')"><i class="fa-brands fa-spotify talentdev-header-icon"></i>Mtl. Listeners <span class="{self._get_sort_indicator('spotify')}"></span></th>
+            <th class="talentdev-instagram-header" onclick="window.pySortColumn('instagram')"><i class="fa-brands fa-instagram talentdev-header-icon"></i>Followers <span class="{self._get_sort_indicator('instagram')}"></span></th>
+            <th class="talentdev-tiktok-header" onclick="window.pySortColumn('tiktok')"><i class="fa-brands fa-tiktok talentdev-header-icon"></i>Followers <span class="{self._get_sort_indicator('tiktok')}"></span></th>
+            <th class="talentdev-youtube-header" onclick="window.pySortColumn('youtube')"><i class="fa-brands fa-youtube talentdev-header-icon"></i>Followers <span class="{self._get_sort_indicator('youtube')}"></span></th>
+            <th class="talentdev-soundcloud-header" onclick="window.pySortColumn('soundcloud')"><i class="fa-brands fa-soundcloud talentdev-header-icon"></i>Followers <span class="{self._get_sort_indicator('soundcloud')}"></span></th>
           </tr>
         </thead>
         <tbody id="talentdev-table-body">
