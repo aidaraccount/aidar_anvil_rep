@@ -143,7 +143,7 @@ class C_TalentDev_Table(C_TalentDev_TableTemplate):
         new_tracks_last_365_days = item.get('new_tracks_last_365_days', '0')
         
         # Spotify listeners data
-        spotify_mtl_listeners = item.get('spotify_mtl_listeners', '0')
+        spotify_mtl_listeners = item.get('spotify_mtl_listeners', 0)  
         spotify_mtl_dev_30d = item.get('spotify_mtl_dev_30d', None)
         
         # Create unique row ID
@@ -161,6 +161,12 @@ class C_TalentDev_Table(C_TalentDev_TableTemplate):
         
         # Format total tracks with + sign for new tracks
         new_tracks_display = f"+{new_tracks_last_365_days} last 365 d"
+        
+        # Format Spotify listeners with comma separators if not None
+        if spotify_mtl_listeners is not None:
+            spotify_listeners_display = f"{spotify_mtl_listeners:,}"
+        else:
+            spotify_listeners_display = "0"
         
         # Add the row for this artist
         html_content += f"""
@@ -180,7 +186,7 @@ class C_TalentDev_Table(C_TalentDev_TableTemplate):
               <div class="talentdev-secondary-value">{new_tracks_display}</div>
             </td>
             <td class="talentdev-spotify-cell">
-              <div class="talentdev-primary-value">{spotify_mtl_listeners:,}</div>
+              <div class="talentdev-primary-value">{spotify_listeners_display}</div>
               <div class="talentdev-secondary-value {spotify_dev_class}">{spotify_dev_display}</div>
             </td>
           </tr>
