@@ -23,19 +23,17 @@
   height: 36px;
 }
 
-.talentdev-pic-header {
-  width: 40px;
-  padding: 0 4px;
-}
-
-.talentdev-name-header {
+.talentdev-artist-header {
   padding: 0 8px;
   font-weight: 500;
 }
 
-.talentdev-date-header {
+.talentdev-last-release-header,
+.talentdev-total-releases-header,
+.talentdev-spotify-header {
   padding: 0 8px;
   font-weight: 500;
+  text-align: center;
 }
 
 /* 3. Table rows */
@@ -49,47 +47,66 @@
   background-color: rgba(255, 255, 255, 0.05);
 }
 
-/* 4. Table cells */
-.talentdev-pic-cell {
-  width: 40px;
-  padding: 4px;
-  text-align: center;
+/* 4. Artist column styling */
+.talentdev-artist-cell {
+  padding: 4px 8px;
   vertical-align: middle;
 }
 
+.talentdev-artist-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
 .talentdev-artist-pic {
-  width: 32px;
-  height: 32px;
+  width: 24px;
+  height: 24px;
   border-radius: 4px;
   object-fit: cover;
 }
 
-.talentdev-name-cell {
-  padding: 0 8px;
-  color: var(--Orange);
-  font-weight: 500;
-  font-size: 14px;
-  vertical-align: middle;
-}
-
-.talentdev-name-cell a {
+.talentdev-artist-name {
   color: var(--Orange);
   text-decoration: none;
   cursor: pointer;
+  font-weight: 500;
+  font-size: 14px;
 }
 
-.talentdev-name-cell a:hover {
+.talentdev-artist-name:hover {
   text-decoration: underline;
 }
 
-.talentdev-date-cell {
-  padding: 0 8px;
-  color: white;
-  font-size: 13px;
+/* 5. Data columns styling */
+.talentdev-last-release-cell,
+.talentdev-total-releases-cell,
+.talentdev-spotify-cell {
+  padding: 4px 8px;
   vertical-align: middle;
+  text-align: center;
 }
 
-/* 5. Status message styling */
+.talentdev-primary-value {
+  color: white;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.talentdev-secondary-value {
+  color: #BBBBBB;
+  font-size: 12px;
+}
+
+.talentdev-secondary-value.positive-growth {
+  color: #66BB6A;
+}
+
+.talentdev-secondary-value.negative-growth {
+  color: #EF5350;
+}
+
+/* 6. Status message styling */
 .talentdev-status-row {
   height: 60px;
 }
