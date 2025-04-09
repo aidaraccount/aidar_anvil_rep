@@ -1,0 +1,60 @@
+/* 1. Toggle Container */
+.talentdev-toggle-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+
+/* 2. Toggle Label */
+.talentdev-toggle-label {
+  margin-right: 10px;
+  color: white;
+  font-weight: 500;
+}
+
+/* 3. Toggle Options Container */
+.talentdev-toggle-options {
+  display: flex;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+/* 4. Toggle Option */
+.talentdev-toggle-option {
+  padding: 6px 12px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  color: rgba(255, 255, 255, 0.7);
+  background-color: transparent;
+  text-align: center;
+  min-width: 80px;
+}
+
+.talentdev-toggle-option:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+/* 5. Active Option */
+.talentdev-toggle-option.active {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: white;
+  font-weight: 500;
+  position: relative;
+}
+
+.talentdev-toggle-option.active:before {
+  content: "✓";
+  position: absolute;
+  left: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 12px;
+  opacity: 0.8;
+}
+
+/* 6. Toggle Option Text */
+.talentdev-toggle-text {
+  margin-left: 8px;
+}
