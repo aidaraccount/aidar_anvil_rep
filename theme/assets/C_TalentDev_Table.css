@@ -1,4 +1,4 @@
-/* 1. Talent Development container and table */
+/* 1. Main Container Styles */
 .talentdev-container {
   width: 100%;
   overflow-x: auto;
@@ -6,6 +6,7 @@
   margin: 0;
 }
 
+/* 2. Table Styles */
 .talentdev-table {
   width: 100%;
   border-collapse: collapse;
@@ -14,15 +15,15 @@
   overflow: hidden;
 }
 
-/* 2. Table header */
+/* 3. Table Header Styles */
 .talentdev-header-row {
-  background-color: #252532;
   color: white;
   text-align: left;
   font-weight: 500;
   font-size: 14px;
   height: 36px;
   border-bottom: 2px solid #3D3D52;
+  background-color: transparent;
 }
 
 .talentdev-header-row th {
@@ -37,10 +38,24 @@
 .talentdev-artist-header {
   padding: 0 8px;
   font-weight: 500;
+  text-align: left;
+  width: 180px;
 }
 
-.talentdev-last-release-header,
-.talentdev-total-releases-header,
+.talentdev-last-release-header {
+  padding: 0 8px;
+  font-weight: 500;
+  text-align: right;
+  width: 110px;
+}
+
+.talentdev-total-releases-header {
+  padding: 0 8px;
+  font-weight: 500;
+  text-align: right;
+  width: 80px;
+}
+
 .talentdev-spotify-header,
 .talentdev-instagram-header,
 .talentdev-tiktok-header,
@@ -49,6 +64,7 @@
   padding: 0 8px;
   font-weight: 500;
   text-align: right;
+  width: 100px;
 }
 
 .talentdev-header-icon {
@@ -59,6 +75,7 @@
   margin-bottom: 3px;
 }
 
+/* 4. Sort Indicators */
 .talentdev-sort-indicator {
   display: inline-block;
   width: 8px;
@@ -77,6 +94,7 @@
   font-size: 8px;
 }
 
+/* 5. Table Row Styles */
 .talentdev-row {
   height: auto;
   min-height: 40px;
@@ -93,9 +111,23 @@
   vertical-align: middle;
 }
 
+/* 6. Artist Cell Styles */
 .talentdev-artist-cell {
   padding: 4px 8px;
   vertical-align: middle;
+  text-align: left;
+}
+
+.talentdev-last-release-cell,
+.talentdev-total-releases-cell,
+.talentdev-spotify-cell,
+.talentdev-instagram-cell,
+.talentdev-tiktok-cell,
+.talentdev-youtube-cell,
+.talentdev-soundcloud-cell {
+  padding: 4px 8px;
+  vertical-align: middle;
+  text-align: right;
 }
 
 .talentdev-artist-container {
@@ -105,8 +137,8 @@
 }
 
 .talentdev-artist-pic {
-  width: 35px;
-  height: 35px;
+  width: 37px;
+  height: 37px;
   border-radius: 4px;
   object-fit: cover;
 }
@@ -123,6 +155,7 @@
   text-decoration: underline;
 }
 
+/* 7. Generic Cell Value Styling */
 .talentdev-primary-value {
   color: white;
   font-size: 14px;
@@ -146,6 +179,7 @@
   color: #BBBBBB;
 }
 
+/* 8. Status Messages */
 .talentdev-status-cell {
   text-align: center;
 }
