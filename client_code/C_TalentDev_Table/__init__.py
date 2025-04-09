@@ -44,21 +44,21 @@ class C_TalentDev_Table(C_TalentDev_TableTemplate):
       window.pySortColumn = function(columnName) {
         console.log('[DEBUG] Sort requested for column:', columnName);
         try {
-          console.log('[DEBUG] Attempting to call COMPONENT.sort_column_callback with', columnName);
+          console.log('[DEBUG] Attempting to call COMPONENT.client_sort_column with', columnName);
           if (typeof COMPONENT === 'undefined') {
             console.error('[ERROR] COMPONENT is undefined');
             return false;
           }
-          if (typeof COMPONENT.sort_column_callback !== 'function') {
-            console.error('[ERROR] COMPONENT.sort_column_callback is not a function');
+          if (typeof COMPONENT.client_sort_column !== 'function') {
+            console.error('[ERROR] COMPONENT.client_sort_column is not a function');
             console.log('[DEBUG] COMPONENT keys:', Object.keys(COMPONENT));
             return false;
           }
-          const result = COMPONENT.sort_column_callback(columnName);
+          const result = COMPONENT.client_sort_column(columnName);
           console.log('[DEBUG] Sort callback result:', result);
           return result;
         } catch (error) {
-          console.error('[ERROR] Failed to call sort_column_callback:', error);
+          console.error('[ERROR] Failed to call client_sort_column:', error);
           return false;
         }
       }
@@ -86,7 +86,7 @@ class C_TalentDev_Table(C_TalentDev_TableTemplate):
     # 5. Make component accessible from JS as COMPONENT (not pyComponent)
     # Explicitly set method as callable from JavaScript
     anvil.js.window.COMPONENT = self
-    self._js_methods = ['sort_column_callback']
+    self._js_methods = ['client_sort_column']
     for method_name in self._js_methods:
       if hasattr(self, method_name):
         setattr(anvil.js.window.COMPONENT, method_name, getattr(self, method_name))
@@ -292,17 +292,19 @@ class C_TalentDev_Table(C_TalentDev_TableTemplate):
         reverse=reverse_sort
       )
   
-  def sort_column_callback(self, column_name):
+  def client_sort_column(self, column_name):
     """
-    Callback function for column sorting
+    Client-side callback function for column sorting.
+    This method is designed to be called from JavaScript
+    and avoids any operations that would block or suspend.
     
     Parameters:
         column_name: The name of the column to sort by
         
     Returns:
-        bool: True indicating successful sort
+        bool: True indicating successful handling of sort request
     """
-    print(f"[DEBUG] Sort callback triggered for column: {column_name}")
+    print(f"[DEBUG] Client sort callback triggered for column: {column_name}")
     
     # Toggle sort direction if the same column is clicked again
     if self.sort_column == column_name:
@@ -313,13 +315,13 @@ class C_TalentDev_Table(C_TalentDev_TableTemplate):
       self.sort_direction = "desc"  # Default sort direction for new column
       print(f"[DEBUG] Changed sort column to {self.sort_column}")
     
-    # Sort the data
+    # Sort the data - this must not call any server functions
     self._sort_data()
     
-    # Recreate the table with sorted data
+    # Create the table without any server calls
     self.create_table()
     
-    print("[DEBUG] Sort completed and table recreated")
+    print("[DEBUG] Client sort completed")
     return True
 
   def _get_sort_indicator(self, column_name):
