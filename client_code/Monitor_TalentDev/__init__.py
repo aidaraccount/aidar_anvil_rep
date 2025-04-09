@@ -71,9 +71,8 @@ class Monitor_TalentDev(Monitor_TalentDevTemplate):
       self.activate_watchlist(watchlist_id)
     return handler
 
-  def activate_watchlist(self, watchlist_id):
-    print('activate_watchlist', watchlist_id)
-          # Toggle the clicked watchlist's activation state
+  def activate_watchlist(self, watchlist_id):    
+    # Toggle the clicked watchlist's activation state
     for component in self.flow_panel_watchlists.get_components():
       if isinstance(component, Link):
         if int(component.tag) == watchlist_id:
@@ -88,6 +87,9 @@ class Monitor_TalentDev(Monitor_TalentDevTemplate):
     for component in self.flow_panel_watchlists.get_components():
       if isinstance(component, Link) and component.role == "genre-box":
         active_wl_ids.append(component.tag)
+
+    # filter table for active watchlists
+    print('active_wl_ids', active_wl_ids)
 
   
   def _setup_toggle_callbacks(self):
