@@ -7,7 +7,7 @@
 .talentdev-table {
   width: 100%;
   border-collapse: collapse;
-  background-color: #2D2D3A;
+  background-color: transparent;
   border-radius: 8px;
   overflow: hidden;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -21,6 +21,7 @@
   font-weight: 500;
   font-size: 14px;
   height: 36px;
+  border-bottom: 2px solid #3D3D52;
 }
 
 .talentdev-artist-header {
@@ -72,6 +73,7 @@
   height: auto;
   min-height: 40px;
   transition: opacity 0.3s ease;
+  border-bottom: 1px solid rgba(150, 150, 170, 0.1);
 }
 
 .talentdev-row:hover {

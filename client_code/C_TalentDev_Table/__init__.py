@@ -29,7 +29,7 @@ class C_TalentDev_Table(C_TalentDev_TableTemplate):
     
     # 2. Initialize component variables
     self.is_loading = True
-    self.sort_column = None
+    self.sort_column = "last_release"  # Default sort column
     self.sort_direction = "desc"  # Default sort direction (descending)
     
     # 3. Register JavaScript callbacks
@@ -42,7 +42,12 @@ class C_TalentDev_Table(C_TalentDev_TableTemplate):
       
       window.pySortColumn = function(columnName) {
         console.log('[DEBUG] Sort requested for column:', columnName);
-        return window.pyComponent.sort_column_callback(columnName);
+        try {
+          return COMPONENT.sort_column_callback(columnName);
+        } catch (error) {
+          console.error('[ERROR] Failed to call sort_column_callback:', error);
+          return false;
+        }
       }
     """)
     
@@ -65,10 +70,14 @@ class C_TalentDev_Table(C_TalentDev_TableTemplate):
       self.data = []
       self.is_loading = False
     
-    # 5. Make component accessible from JS
-    anvil.js.window.pyComponent = self
+    # 5. Make component accessible from JS as COMPONENT (not pyComponent)
+    anvil.js.window.COMPONENT = self
     
-    # 6. Create the table with the loaded data
+    # 6. Initial sort by last release
+    if self.data:
+      self.data = sorted(self.data, key=lambda x: x.get('last_release_date', ''), reverse=True)
+    
+    # 7. Create the table with the loaded data
     self.create_table()
     
   def form_show(self, **event_args):
@@ -103,6 +112,10 @@ class C_TalentDev_Table(C_TalentDev_TableTemplate):
       self.data = []
       self.is_loading = False
     
+    # Sort data as currently selected
+    if self.data and self.sort_column:
+      self._sort_data()
+      
     # Create the table with the data
     self.create_table()
     
@@ -122,7 +135,7 @@ class C_TalentDev_Table(C_TalentDev_TableTemplate):
       return "-"
     
     if number < 1000:
-      return str(int(number)) if number.is_integer() else str(number)
+      return str(int(number)) if number == int(number) else str(number)
     elif number < 1000000:
       return f"{number/1000:.1f}K".replace('.0K', 'K')
     elif number < 1000000000:
@@ -167,6 +180,29 @@ class C_TalentDev_Table(C_TalentDev_TableTemplate):
     sign = "+" if value > 0 else ""
     return f"{sign}{value:.1f}%"
   
+  def _sort_data(self):
+    """
+    Helper method to sort data based on current sort column and direction
+    
+    Returns:
+        None
+    """
+    # Sort the data based on the selected column
+    if self.sort_column == "last_release":
+      self.data = sorted(self.data, key=lambda x: x.get('last_release_date', ''), reverse=(self.sort_direction == "desc"))
+    elif self.sort_column == "total_releases":
+      self.data = sorted(self.data, key=lambda x: x.get('total_tracks', 0), reverse=(self.sort_direction == "desc"))
+    elif self.sort_column == "spotify":
+      self.data = sorted(self.data, key=lambda x: x.get('spotify_mtl_listeners', 0), reverse=(self.sort_direction == "desc"))
+    elif self.sort_column == "instagram":
+      self.data = sorted(self.data, key=lambda x: x.get('instagram_followers', 0), reverse=(self.sort_direction == "desc"))
+    elif self.sort_column == "tiktok":
+      self.data = sorted(self.data, key=lambda x: x.get('tiktok_followers', 0), reverse=(self.sort_direction == "desc"))
+    elif self.sort_column == "youtube":
+      self.data = sorted(self.data, key=lambda x: x.get('youtube_followers', 0), reverse=(self.sort_direction == "desc"))
+    elif self.sort_column == "soundcloud":
+      self.data = sorted(self.data, key=lambda x: x.get('soundcloud_followers', 0), reverse=(self.sort_direction == "desc"))
+  
   def sort_column_callback(self, column_name):
     """
     Callback function for column sorting
@@ -186,45 +222,46 @@ class C_TalentDev_Table(C_TalentDev_TableTemplate):
       self.sort_column = column_name
       self.sort_direction = "desc"  # Default sort direction for new column
     
-    # Sort the data based on the selected column
-    if self.sort_column == "last_release":
-      self.data = sorted(self.data, key=lambda x: x.get('last_release_date', ''), reverse=(self.sort_direction == "desc"))
-    elif self.sort_column == "total_releases":
-      self.data = sorted(self.data, key=lambda x: x.get('total_tracks', 0), reverse=(self.sort_direction == "desc"))
-    elif self.sort_column == "spotify":
-      self.data = sorted(self.data, key=lambda x: x.get('spotify_mtl_listeners', 0), reverse=(self.sort_direction == "desc"))
-    elif self.sort_column == "instagram":
-      self.data = sorted(self.data, key=lambda x: x.get('instagram_followers', 0), reverse=(self.sort_direction == "desc"))
-    elif self.sort_column == "tiktok":
-      self.data = sorted(self.data, key=lambda x: x.get('tiktok_followers', 0), reverse=(self.sort_direction == "desc"))
-    elif self.sort_column == "youtube":
-      self.data = sorted(self.data, key=lambda x: x.get('youtube_followers', 0), reverse=(self.sort_direction == "desc"))
-    elif self.sort_column == "soundcloud":
-      self.data = sorted(self.data, key=lambda x: x.get('soundcloud_followers', 0), reverse=(self.sort_direction == "desc"))
+    # Sort the data
+    self._sort_data()
     
     # Recreate the table with sorted data
     self.create_table()
     
     return True
 
+  def _get_sort_indicator(self, column_name):
+    """
+    Helper method to get the appropriate sort indicator class
+    
+    Parameters:
+        column_name: The name of the column
+        
+    Returns:
+        str: CSS class for sort indicator
+    """
+    if self.sort_column == column_name:
+      return f"talentdev-sort-indicator talentdev-sort-{self.sort_direction}"
+    return "talentdev-sort-indicator"
+
   def create_table(self):
     """
     Creates the Talent Development table with artist data
     """
     # 1. Create the main container HTML
-    html_content = """
+    html_content = f"""
     <div class="talentdev-container">
       <table class="talentdev-table">
         <thead>
           <tr class="talentdev-header-row">
             <th class="talentdev-artist-header">Artist</th>
-            <th class="talentdev-last-release-header" onclick="window.pySortColumn('last_release')">Last Release <span class="talentdev-sort-indicator talentdev-sort-desc"></span></th>
-            <th class="talentdev-total-releases-header" onclick="window.pySortColumn('total_releases')">Total Releases <span class="talentdev-sort-indicator talentdev-sort-desc"></span></th>
-            <th class="talentdev-spotify-header" onclick="window.pySortColumn('spotify')"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/Spotify_logo_without_text.svg/168px-Spotify_logo_without_text.svg.png" class="talentdev-header-icon" alt="Spotify">Monthly Listeners <span class="talentdev-sort-indicator talentdev-sort-desc"></span></th>
-            <th class="talentdev-instagram-header" onclick="window.pySortColumn('instagram')"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Instagram_icon.png/600px-Instagram_icon.png" class="talentdev-header-icon" alt="Instagram">Followers <span class="talentdev-sort-indicator talentdev-sort-desc"></span></th>
-            <th class="talentdev-tiktok-header" onclick="window.pySortColumn('tiktok')"><img src="https://sf-tb-sg.ibytedtos.com/obj/eden-sg/uhtyvueh7nulogpogiyf/tiktok-icon2.png" class="talentdev-header-icon" alt="TikTok">Followers <span class="talentdev-sort-indicator talentdev-sort-desc"></span></th>
-            <th class="talentdev-youtube-header" onclick="window.pySortColumn('youtube')"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/09/YouTube_full-color_icon_%282017%29.svg/800px-YouTube_full-color_icon_%282017%29.svg.png" class="talentdev-header-icon" alt="YouTube">Followers <span class="talentdev-sort-indicator talentdev-sort-desc"></span></th>
-            <th class="talentdev-soundcloud-header" onclick="window.pySortColumn('soundcloud')"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/SoundCloud_logo.svg/1200px-SoundCloud_logo.svg.png" class="talentdev-header-icon" alt="SoundCloud">Followers <span class="talentdev-sort-indicator talentdev-sort-desc"></span></th>
+            <th class="talentdev-last-release-header" onclick="window.pySortColumn('last_release')">Last Release <span class="{self._get_sort_indicator('last_release')}"></span></th>
+            <th class="talentdev-total-releases-header" onclick="window.pySortColumn('total_releases')">Total Releases <span class="{self._get_sort_indicator('total_releases')}"></span></th>
+            <th class="talentdev-spotify-header" onclick="window.pySortColumn('spotify')"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/Spotify_logo_without_text.svg/168px-Spotify_logo_without_text.svg.png" class="talentdev-header-icon" alt="Spotify">Monthly Listeners <span class="{self._get_sort_indicator('spotify')}"></span></th>
+            <th class="talentdev-instagram-header" onclick="window.pySortColumn('instagram')"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Instagram_icon.png/600px-Instagram_icon.png" class="talentdev-header-icon" alt="Instagram">Followers <span class="{self._get_sort_indicator('instagram')}"></span></th>
+            <th class="talentdev-tiktok-header" onclick="window.pySortColumn('tiktok')"><img src="https://sf-tb-sg.ibytedtos.com/obj/eden-sg/uhtyvueh7nulogpogiyf/tiktok-icon2.png" class="talentdev-header-icon" alt="TikTok">Followers <span class="{self._get_sort_indicator('tiktok')}"></span></th>
+            <th class="talentdev-youtube-header" onclick="window.pySortColumn('youtube')"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/09/YouTube_full-color_icon_%282017%29.svg/800px-YouTube_full-color_icon_%282017%29.svg.png" class="talentdev-header-icon" alt="YouTube">Followers <span class="{self._get_sort_indicator('youtube')}"></span></th>
+            <th class="talentdev-soundcloud-header" onclick="window.pySortColumn('soundcloud')"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/SoundCloud_logo.svg/1200px-SoundCloud_logo.svg.png" class="talentdev-header-icon" alt="SoundCloud">Followers <span class="{self._get_sort_indicator('soundcloud')}"></span></th>
           </tr>
         </thead>
         <tbody id="talentdev-table-body">
