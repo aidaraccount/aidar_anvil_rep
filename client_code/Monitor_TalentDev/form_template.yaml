@@ -53,7 +53,7 @@ components:
       type: form:C_TalentDev_Toggle
     layout_properties: {grid_position: 'VPULQI,YVCMBD'}
     name: toggles_container
-    properties: {align: right, col_widths: '{}', content_alignment: right}
+    properties: {align: right, col_widths: '{}', justify-content: flex-end}
     type: ColumnPanel
   - layout_properties: {grid_position: 'KRZBSZ,BMMMJC'}
     name: c_talent_dev_table_1
