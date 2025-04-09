@@ -66,8 +66,13 @@ class Monitor_TalentDev(Monitor_TalentDevTemplate):
         )
         self.flow_panel_watchlists.add_component(wl_link)
         
+  def create_activate_watchlist_handler(self, watchlist_id):
+    def handler(**event_args):
+      self.activate_watchlist(watchlist_id)
 
+    return handler
 
+  def activate_watchlist
       
   
   def _setup_toggle_callbacks(self):
