@@ -83,6 +83,15 @@ class Monitor_TalentDev(Monitor_TalentDevTemplate):
     elif toggle_type == 'sort_by':
       self.c_talent_dev_table_1.active_sort_by = value
       
+    # Check if sorting is currently active and reapply it with new toggle settings
+    if hasattr(self.c_talent_dev_table_1, 'sort_column') and self.c_talent_dev_table_1.sort_column:
+      # Store current sort settings
+      current_sort_column = self.c_talent_dev_table_1.sort_column
+      current_sort_direction = self.c_talent_dev_table_1.sort_direction
+      
+      # Resort the data with the new toggle settings
+      self.c_talent_dev_table_1._sort_data()
+    
     # Refresh the table with new settings
     self.c_talent_dev_table_1.create_table()
     
