@@ -34,23 +34,23 @@ class C_TalentDev_Toggle(C_TalentDev_ToggleTemplate):
       if not self.labels:
         self.labels = ["7-Day", "30-Day"]
       if not self.toggle_label:
-        self.toggle_label = "Show growth:"
+        self.toggle_label = "display"
     elif self.toggle_type == 'format':
-      self.active_value = "pct"
+      self.active_value = "abs"
       if not self.options:
-        self.options = ["pct", "abs"]
+        self.options = ["abs", "pct"]
       if not self.labels:
-        self.labels = ["%", "#"]
+        self.labels = ["#", "%"]
       if not self.toggle_label:
-        self.toggle_label = "Display:"
+        self.toggle_label = "display"
     elif self.toggle_type == 'sort_by':
-      self.active_value = "current"
+      self.active_value = "growth"
       if not self.options:
-        self.options = ["current", "change"]
+        self.options = ["current", "growth"]
       if not self.labels:
         self.labels = ["Current", "Growth"]
       if not self.toggle_label:
-        self.toggle_label = "Sort by:"
+        self.toggle_label = "sort by"
     
     # 2. Create HTML for the toggle
     self.create_toggle()
@@ -65,7 +65,7 @@ class C_TalentDev_Toggle(C_TalentDev_ToggleTemplate):
       label = self.labels[i] if i < len(self.labels) else option
       options_html += f"""
         <div class="talentdev-toggle-option {self._is_active(option)}" 
-             onclick="window.pyToggleOption('{self.toggle_type}', '{option}')">
+             onclick="window.{self.js_function_name}('{self.toggle_type}', '{option}')">
           {label}
         </div>
       """
@@ -102,11 +102,17 @@ class C_TalentDev_Toggle(C_TalentDev_ToggleTemplate):
     # Define the toggle_option method to be called from JavaScript
     self.toggle_option_js = self.toggle_option
     
-    # Export the method to JavaScript
-    anvil.js.window.pyToggleOption = self.toggle_option_js
+    # Get a unique function name for this toggle instance
+    self.js_function_name = f"pyToggleOption_{self.toggle_type}"
+    
+    # Export the method to JavaScript with the unique name
+    anvil.js.window[self.js_function_name] = self.toggle_option_js
+    
+    # Update the HTML to use the unique function name
+    self.create_toggle()
     
     # Log registration
-    print(f"TOGGLE-LOG: JavaScript callbacks registered for {self.toggle_type}")
+    print(f"TOGGLE-LOG: JavaScript callbacks registered for {self.toggle_type} as {self.js_function_name}")
   
   def toggle_option(self, toggle_type, option):
     """
