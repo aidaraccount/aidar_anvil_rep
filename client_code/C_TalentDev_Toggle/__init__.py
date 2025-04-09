@@ -43,7 +43,7 @@ class C_TalentDev_Toggle(C_TalentDev_ToggleTemplate):
       if not self.labels:
         self.labels = ["#", "%"]
       if not self.toggle_label:
-        self.toggle_label = "display"
+        self.toggle_label = ""  # No label for format toggle
     elif self.toggle_type == 'sort_by':
       self.active_value = "growth"
       if not self.options:

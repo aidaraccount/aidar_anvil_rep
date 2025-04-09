@@ -63,3 +63,8 @@
   justify-content: flex-end;
   margin-bottom: 10px;
 }
+
+/* 9. Format Toggle Margin */
+[anvil-component-name="format_toggle"] {
+  margin-left: 8px;
+}

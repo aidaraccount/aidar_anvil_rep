@@ -412,79 +412,80 @@ class C_TalentDev_Table(C_TalentDev_TableTemplate):
         
         # Spotify data
         spotify_mtl_listeners = item.get('spotify_mtl_listeners', 0)
-        spotify_mtl_abs_growth_7d = item.get('spotify_mtl_abs_growth_7d', None)
-        spotify_mtl_pct_growth_7d = item.get('spotify_mtl_pct_growth_7d', None)
-        spotify_mtl_abs_growth_30d = item.get('spotify_mtl_abs_growth_30d', None)
-        spotify_mtl_pct_growth_30d = item.get('spotify_mtl_pct_growth_30d', None)
         
-        # Determine which spotify growth value to display based on active toggles
+        # Try both growth and change fields to ensure backward compatibility
         spotify_growth = None
         if self.active_period == "7d":
-            spotify_growth = item.get('spotify_mtl_abs_growth_7d', None) if self.active_format == "abs" else item.get('spotify_mtl_pct_growth_7d', None)
+            # Try growth field first, then fall back to change field
+            growth_field = f"spotify_mtl_{self.active_format}_growth_7d"
+            change_field = f"spotify_mtl_{self.active_format}_change_7d"
+            spotify_growth = item.get(growth_field) if item.get(growth_field) is not None else item.get(change_field)
         else:  # 30d
-            spotify_growth = item.get('spotify_mtl_abs_growth_30d', None) if self.active_format == "abs" else item.get('spotify_mtl_pct_growth_30d', None)
+            growth_field = f"spotify_mtl_{self.active_format}_growth_30d"
+            change_field = f"spotify_mtl_{self.active_format}_change_30d"
+            spotify_growth = item.get(growth_field) if item.get(growth_field) is not None else item.get(change_field)
         
         # Instagram data
         instagram_followers = item.get('instagram_followers', 0)
-        instagram_abs_growth_7d = item.get('instagram_abs_growth_7d', None)
-        instagram_pct_growth_7d = item.get('instagram_pct_growth_7d', None)
-        instagram_abs_growth_30d = item.get('instagram_abs_growth_30d', None)
-        instagram_pct_growth_30d = item.get('instagram_pct_growth_30d', None)
         
-        # Determine which instagram growth value to display based on active toggles
+        # Try both growth and change fields
         instagram_growth = None
         if self.active_period == "7d":
-            instagram_growth = item.get('instagram_abs_growth_7d', None) if self.active_format == "abs" else item.get('instagram_pct_growth_7d', None)
+            growth_field = f"instagram_{self.active_format}_growth_7d"
+            change_field = f"instagram_{self.active_format}_change_7d"
+            instagram_growth = item.get(growth_field) if item.get(growth_field) is not None else item.get(change_field)
         else:  # 30d
-            instagram_growth = item.get('instagram_abs_growth_30d', None) if self.active_format == "abs" else item.get('instagram_pct_growth_30d', None)
+            growth_field = f"instagram_{self.active_format}_growth_30d"
+            change_field = f"instagram_{self.active_format}_change_30d"
+            instagram_growth = item.get(growth_field) if item.get(growth_field) is not None else item.get(change_field)
         
         # TikTok data
         tiktok_followers = item.get('tiktok_followers', 0)
-        tiktok_abs_growth_7d = item.get('tiktok_abs_growth_7d', None)
-        tiktok_pct_growth_7d = item.get('tiktok_pct_growth_7d', None)
-        tiktok_abs_growth_30d = item.get('tiktok_abs_growth_30d', None)
-        tiktok_pct_growth_30d = item.get('tiktok_pct_growth_30d', None)
         
-        # Determine which tiktok growth value to display based on active toggles
+        # Try both growth and change fields
         tiktok_growth = None
         if self.active_period == "7d":
-            tiktok_growth = item.get('tiktok_abs_growth_7d', None) if self.active_format == "abs" else item.get('tiktok_pct_growth_7d', None)
+            growth_field = f"tiktok_{self.active_format}_growth_7d"
+            change_field = f"tiktok_{self.active_format}_change_7d"
+            tiktok_growth = item.get(growth_field) if item.get(growth_field) is not None else item.get(change_field)
         else:  # 30d
-            tiktok_growth = item.get('tiktok_abs_growth_30d', None) if self.active_format == "abs" else item.get('tiktok_pct_growth_30d', None)
+            growth_field = f"tiktok_{self.active_format}_growth_30d"
+            change_field = f"tiktok_{self.active_format}_change_30d"
+            tiktok_growth = item.get(growth_field) if item.get(growth_field) is not None else item.get(change_field)
         
         # YouTube data
         youtube_followers = item.get('youtube_followers', 0)
-        youtube_abs_growth_7d = item.get('youtube_abs_growth_7d', None)
-        youtube_pct_growth_7d = item.get('youtube_pct_growth_7d', None)
-        youtube_abs_growth_30d = item.get('youtube_abs_growth_30d', None)
-        youtube_pct_growth_30d = item.get('youtube_pct_growth_30d', None)
         
-        # Determine which youtube growth value to display based on active toggles
+        # Try both growth and change fields
         youtube_growth = None
         if self.active_period == "7d":
-            youtube_growth = item.get('youtube_abs_growth_7d', None) if self.active_format == "abs" else item.get('youtube_pct_growth_7d', None)
+            growth_field = f"youtube_{self.active_format}_growth_7d"
+            change_field = f"youtube_{self.active_format}_change_7d"
+            youtube_growth = item.get(growth_field) if item.get(growth_field) is not None else item.get(change_field)
         else:  # 30d
-            youtube_growth = item.get('youtube_abs_growth_30d', None) if self.active_format == "abs" else item.get('youtube_pct_growth_30d', None)
+            growth_field = f"youtube_{self.active_format}_growth_30d"
+            change_field = f"youtube_{self.active_format}_change_30d"
+            youtube_growth = item.get(growth_field) if item.get(growth_field) is not None else item.get(change_field)
         
         # SoundCloud data
         soundcloud_followers = item.get('soundcloud_followers', 0)
-        soundcloud_abs_growth_7d = item.get('soundcloud_abs_growth_7d', None)
-        soundcloud_pct_growth_7d = item.get('soundcloud_pct_growth_7d', None)
-        soundcloud_abs_growth_30d = item.get('soundcloud_abs_growth_30d', None)
-        soundcloud_pct_growth_30d = item.get('soundcloud_pct_growth_30d', None)
         
-        # Determine which soundcloud growth value to display based on active toggles
+        # Try both growth and change fields
         soundcloud_growth = None
         if self.active_period == "7d":
-            soundcloud_growth = item.get('soundcloud_abs_growth_7d', None) if self.active_format == "abs" else item.get('soundcloud_pct_growth_7d', None)
+            growth_field = f"soundcloud_{self.active_format}_growth_7d"
+            change_field = f"soundcloud_{self.active_format}_change_7d"
+            soundcloud_growth = item.get(growth_field) if item.get(growth_field) is not None else item.get(change_field)
         else:  # 30d
-            soundcloud_growth = item.get('soundcloud_abs_growth_30d', None) if self.active_format == "abs" else item.get('soundcloud_pct_growth_30d', None)
+            growth_field = f"soundcloud_{self.active_format}_growth_30d"
+            change_field = f"soundcloud_{self.active_format}_change_30d"
+            soundcloud_growth = item.get(growth_field) if item.get(growth_field) is not None else item.get(change_field)
         
         # Format new tracks last 365 days
         if new_tracks_last_365_days:
-          new_tracks_display = f"+{new_tracks_last_365_days} new"
+          formatted_new_tracks = f"{new_tracks_last_365_days} last 365 d"
         else:
-          new_tracks_display = "No new tracks"
+          formatted_new_tracks = "0 last 365 d"
         
         # Create row HTML for this artist
         html_content += f"""
@@ -501,7 +502,7 @@ class C_TalentDev_Table(C_TalentDev_TableTemplate):
             </td>
             <td class="talentdev-total-releases-cell">
               <div class="talentdev-primary-value">{total_tracks}</div>
-              <div class="talentdev-secondary-value">{new_tracks_display}</div>
+              <div class="talentdev-secondary-value">{formatted_new_tracks}</div>
             </td>
             <td class="talentdev-spotify-cell">
               <div class="talentdev-primary-value">{self.format_number(spotify_mtl_listeners)}</div>

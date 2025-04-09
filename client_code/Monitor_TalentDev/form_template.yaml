@@ -34,15 +34,20 @@ components:
     properties: {height: 32}
     type: Spacer
   - components:
-    - layout_properties: {grid_position: 'KZUSLQ,MJGRHE'}
-      name: period_toggle
-      properties: {toggle_type: period}
-      type: form:C_TalentDev_Toggle
-    - layout_properties: {grid_position: 'KZUSLQ,FTKGQP'}
-      name: format_toggle
-      properties: {toggle_type: format}
-      type: form:C_TalentDev_Toggle
-    - layout_properties: {grid_position: 'KZUSLQ,NMPAEV'}
+    - components:
+      - layout_properties: {grid_position: 'KZUSLQ,MJGRHE'}
+        name: period_toggle
+        properties: {toggle_type: period}
+        type: form:C_TalentDev_Toggle
+      - layout_properties: {grid_position: 'KZUSLQ,FTKGQP'}
+        name: format_toggle
+        properties: {toggle_type: format}
+        type: form:C_TalentDev_Toggle
+      layout_properties: {grid_position: 'DFTKLI,FDJKLI'}
+      name: top_row_toggles
+      properties: {align: right, col_widths: '{}'}
+      type: FlowPanel
+    - layout_properties: {grid_position: 'IHTYDP,JKLUIP'}
       name: sort_by_toggle
       properties: {toggle_type: sort_by}
       type: form:C_TalentDev_Toggle
