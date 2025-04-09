@@ -38,6 +38,7 @@ class C_TalentDev_Table(C_TalentDev_TableTemplate):
     self.active_sort_by = "growth"  # Default sort by (growth, current)
     self.search_filter = ""  # Initialize empty search filter
     self.original_data = []  # Store original data for filtering
+    self.active_watchlist_ids = []  # Store active watchlist IDs for filtering
     
     # 3. Register JavaScript callbacks and make this component's client_sort_column callable
     self.client_sort_column_js = self.client_sort_column  # Create a reference
@@ -597,6 +598,49 @@ class C_TalentDev_Table(C_TalentDev_TableTemplate):
       
       # Recreate the table with filtered data
       self.create_table()
+  
+  def filter_by_watchlists(self, active_watchlist_ids):
+    """
+    Filter the table data by watchlist IDs
+    
+    Parameters:
+        active_watchlist_ids: List of active watchlist IDs to filter by
+    """
+    print(f"TALENTDEV-LOG: Filtering by watchlist IDs: {active_watchlist_ids}")
+    
+    # Store active watchlist IDs
+    self.active_watchlist_ids = [int(wl_id) for wl_id in active_watchlist_ids]
+    
+    # Start with the original data (may be already filtered by search)
+    filtered_data = self.original_data.copy()
+    
+    # Apply search filter if it exists
+    if self.search_filter:
+      filtered_data = [
+        artist for artist in filtered_data 
+        if self.search_filter.lower() in artist.get('name', '').lower()
+      ]
+    
+    # If there are active watchlists, filter by them
+    if active_watchlist_ids:
+      # Filter artists that are in any of the active watchlists
+      self.data = [
+        artist for artist in filtered_data 
+        if any(
+          int(wl_id) in artist.get('watchlist_ids', []) 
+          for wl_id in active_watchlist_ids
+        )
+      ]
+    else:
+      # If no active watchlists, show all artists (only filtered by search if applicable)
+      self.data = filtered_data
+      
+    # Re-sort the filtered data if a sort is active
+    if hasattr(self, 'sort_column') and self.sort_column:
+      self._sort_data()
+      
+    # Recreate the table with filtered data
+    self.create_table()
   
   def handle_period_toggle(self, period):
     """

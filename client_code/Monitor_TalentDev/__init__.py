@@ -88,8 +88,12 @@ class Monitor_TalentDev(Monitor_TalentDevTemplate):
       if isinstance(component, Link) and component.role == "genre-box":
         active_wl_ids.append(component.tag)
 
-    # filter table for active watchlists
+    # Filter table for active watchlists
     print('active_wl_ids', active_wl_ids)
+    
+    # Pass the active watchlist IDs to the table component for filtering
+    if hasattr(self, 'c_talent_dev_table_1') and self.c_talent_dev_table_1 is not None:
+      self.c_talent_dev_table_1.filter_by_watchlists(active_wl_ids)
 
   
   def _setup_toggle_callbacks(self):
