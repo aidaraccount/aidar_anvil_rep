@@ -45,12 +45,23 @@ components:
         type: form:C_TalentDev_Toggle
       layout_properties: {grid_position: 'DFTKLI,FDJKLI'}
       name: top_row_toggles
-      properties: {align: right, col_widths: '{}'}
+      properties:
+        align: right
+        col_widths: '{}'
+        spacing:
+          margin: [0, null, 0, null]
       type: FlowPanel
-    - layout_properties: {grid_position: 'IHTYDP,JKLUIP'}
-      name: sort_by_toggle
-      properties: {align: right, toggle_type: sort_by}
-      type: form:C_TalentDev_Toggle
+    - components:
+      - name: sort_by_toggle
+        properties: {align: right, toggle_type: sort_by}
+        type: form:C_TalentDev_Toggle
+      layout_properties: {grid_position: 'COZKQA,CFPZXF'}
+      name: flow_panel_1
+      properties:
+        align: right
+        spacing:
+          margin: [0, null, 0, null]
+      type: FlowPanel
     layout_properties: {grid_position: 'VPULQI,YVCMBD'}
     name: toggles_container
     properties: {align: right, col_widths: '{}'}
