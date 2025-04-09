@@ -420,9 +420,9 @@ class C_TalentDev_Table(C_TalentDev_TableTemplate):
         # Determine which spotify growth value to display based on active toggles
         spotify_growth = None
         if self.active_period == "7d":
-            spotify_growth = spotify_mtl_abs_growth_7d if self.active_format == "abs" else spotify_mtl_pct_growth_7d
+            spotify_growth = item.get('spotify_mtl_abs_growth_7d', None) if self.active_format == "abs" else item.get('spotify_mtl_pct_growth_7d', None)
         else:  # 30d
-            spotify_growth = spotify_mtl_abs_growth_30d if self.active_format == "abs" else spotify_mtl_pct_growth_30d
+            spotify_growth = item.get('spotify_mtl_abs_growth_30d', None) if self.active_format == "abs" else item.get('spotify_mtl_pct_growth_30d', None)
         
         # Instagram data
         instagram_followers = item.get('instagram_followers', 0)
@@ -434,9 +434,9 @@ class C_TalentDev_Table(C_TalentDev_TableTemplate):
         # Determine which instagram growth value to display based on active toggles
         instagram_growth = None
         if self.active_period == "7d":
-            instagram_growth = instagram_abs_growth_7d if self.active_format == "abs" else instagram_pct_growth_7d
+            instagram_growth = item.get('instagram_abs_growth_7d', None) if self.active_format == "abs" else item.get('instagram_pct_growth_7d', None)
         else:  # 30d
-            instagram_growth = instagram_abs_growth_30d if self.active_format == "abs" else instagram_pct_growth_30d
+            instagram_growth = item.get('instagram_abs_growth_30d', None) if self.active_format == "abs" else item.get('instagram_pct_growth_30d', None)
         
         # TikTok data
         tiktok_followers = item.get('tiktok_followers', 0)
@@ -448,9 +448,9 @@ class C_TalentDev_Table(C_TalentDev_TableTemplate):
         # Determine which tiktok growth value to display based on active toggles
         tiktok_growth = None
         if self.active_period == "7d":
-            tiktok_growth = tiktok_abs_growth_7d if self.active_format == "abs" else tiktok_pct_growth_7d
+            tiktok_growth = item.get('tiktok_abs_growth_7d', None) if self.active_format == "abs" else item.get('tiktok_pct_growth_7d', None)
         else:  # 30d
-            tiktok_growth = tiktok_abs_growth_30d if self.active_format == "abs" else tiktok_pct_growth_30d
+            tiktok_growth = item.get('tiktok_abs_growth_30d', None) if self.active_format == "abs" else item.get('tiktok_pct_growth_30d', None)
         
         # YouTube data
         youtube_followers = item.get('youtube_followers', 0)
@@ -462,9 +462,9 @@ class C_TalentDev_Table(C_TalentDev_TableTemplate):
         # Determine which youtube growth value to display based on active toggles
         youtube_growth = None
         if self.active_period == "7d":
-            youtube_growth = youtube_abs_growth_7d if self.active_format == "abs" else youtube_pct_growth_7d
+            youtube_growth = item.get('youtube_abs_growth_7d', None) if self.active_format == "abs" else item.get('youtube_pct_growth_7d', None)
         else:  # 30d
-            youtube_growth = youtube_abs_growth_30d if self.active_format == "abs" else youtube_pct_growth_30d
+            youtube_growth = item.get('youtube_abs_growth_30d', None) if self.active_format == "abs" else item.get('youtube_pct_growth_30d', None)
         
         # SoundCloud data
         soundcloud_followers = item.get('soundcloud_followers', 0)
@@ -476,9 +476,9 @@ class C_TalentDev_Table(C_TalentDev_TableTemplate):
         # Determine which soundcloud growth value to display based on active toggles
         soundcloud_growth = None
         if self.active_period == "7d":
-            soundcloud_growth = soundcloud_abs_growth_7d if self.active_format == "abs" else soundcloud_pct_growth_7d
+            soundcloud_growth = item.get('soundcloud_abs_growth_7d', None) if self.active_format == "abs" else item.get('soundcloud_pct_growth_7d', None)
         else:  # 30d
-            soundcloud_growth = soundcloud_abs_growth_30d if self.active_format == "abs" else soundcloud_pct_growth_30d
+            soundcloud_growth = item.get('soundcloud_abs_growth_30d', None) if self.active_format == "abs" else item.get('soundcloud_pct_growth_30d', None)
         
         # Format new tracks last 365 days
         if new_tracks_last_365_days:

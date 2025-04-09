@@ -25,6 +25,7 @@ class C_TalentDev_Toggle(C_TalentDev_ToggleTemplate):
     self.toggle_label = properties.get('toggle_label', '')
     self.active_value = ''
     self.on_toggle_change = None  # Callback when toggle changes
+    self.js_function_name = f"pyToggleOption_{self.toggle_type}"  # Create unique JS function name
     
     # Set default active value based on toggle type
     if self.toggle_type == 'period':
@@ -52,7 +53,8 @@ class C_TalentDev_Toggle(C_TalentDev_ToggleTemplate):
       if not self.toggle_label:
         self.toggle_label = "sort by"
     
-    # 2. Create HTML for the toggle
+    # 2. Register JavaScript callbacks and create toggle
+    self._register_callbacks()
     self.create_toggle()
   
   def create_toggle(self):
@@ -79,9 +81,6 @@ class C_TalentDev_Toggle(C_TalentDev_ToggleTemplate):
       </div>
     </div>
     """
-    
-    # Register JavaScript callbacks
-    self._register_callbacks()
   
   def _is_active(self, option):
     """
@@ -102,14 +101,8 @@ class C_TalentDev_Toggle(C_TalentDev_ToggleTemplate):
     # Define the toggle_option method to be called from JavaScript
     self.toggle_option_js = self.toggle_option
     
-    # Get a unique function name for this toggle instance
-    self.js_function_name = f"pyToggleOption_{self.toggle_type}"
-    
     # Export the method to JavaScript with the unique name
     anvil.js.window[self.js_function_name] = self.toggle_option_js
-    
-    # Update the HTML to use the unique function name
-    self.create_toggle()
     
     # Log registration
     print(f"TOGGLE-LOG: JavaScript callbacks registered for {self.toggle_type} as {self.js_function_name}")
