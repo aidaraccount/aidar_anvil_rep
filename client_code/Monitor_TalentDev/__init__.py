@@ -1,4 +1,4 @@
-from ._anvil_designer import Watchlist_OverviewTemplate
+from ._anvil_designer import Monitor_TalentDevTemplate
 from anvil import *
 import anvil.server
 import anvil.users
@@ -12,8 +12,8 @@ from anvil_extras import routing
 from ..nav import click_link, click_button, logout, login_check, load_var
 
 
-@routing.route('watchlist_overview', title='Development')
-class Watchlist_Overview(Watchlist_OverviewTemplate):
+@routing.route('talent_dev', title='Development')
+class Monitor_TalentDev(Monitor_TalentDevTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
@@ -29,7 +29,7 @@ class Watchlist_Overview(Watchlist_OverviewTemplate):
       
     else:
       model_id = load_var("model_id")
-      print(f"Watchlist_Overview model_id: {model_id}")
+      print(f"Monitor_TalentDev model_id: {model_id}")
       self.model_id = model_id
     
       data = self.get_data()
