@@ -1,0 +1,142 @@
+/* 1. Talent Development container and table */
+.talentdev-container {
+  padding: 8px 0;
+  margin: 0;
+}
+
+.talentdev-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #2D2D3A;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* 2. Table header */
+.talentdev-header-row {
+  background-color: #252532;
+  color: white;
+  text-align: left;
+  font-weight: 500;
+  font-size: 14px;
+  height: 36px;
+}
+
+.talentdev-pic-header {
+  width: 40px;
+  padding: 0 4px;
+}
+
+.talentdev-name-header {
+  padding: 0 8px;
+  font-weight: 500;
+}
+
+.talentdev-date-header {
+  padding: 0 8px;
+  font-weight: 500;
+}
+
+/* 3. Table rows */
+.talentdev-row {
+  height: auto;
+  min-height: 40px;
+  transition: opacity 0.3s ease;
+}
+
+.talentdev-row:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+/* 4. Table cells */
+.talentdev-pic-cell {
+  width: 40px;
+  padding: 4px;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.talentdev-artist-pic {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.talentdev-name-cell {
+  padding: 0 8px;
+  color: var(--Orange);
+  font-weight: 500;
+  font-size: 14px;
+  vertical-align: middle;
+}
+
+.talentdev-name-cell a {
+  color: var(--Orange);
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.talentdev-name-cell a:hover {
+  text-decoration: underline;
+}
+
+.talentdev-date-cell {
+  padding: 0 8px;
+  color: white;
+  font-size: 13px;
+  vertical-align: middle;
+}
+
+/* 5. Show more/less link styling */
+.talentdev-toggle-container {
+  text-align: right;
+  padding: 4px 10px;
+  font-size: 16px;
+}
+
+.talentdev-toggle-link {
+  color: var(--Orange);
+  font-size: 13px;
+  cursor: pointer;
+  text-decoration: none;
+  font-weight: 500;
+  transition: opacity 0.2s ease;
+}
+
+.talentdev-toggle-link:hover {
+  opacity: 0.8;
+  text-decoration: underline;
+}
+
+/* 6. Hidden row styling */
+.talentdev-row.hidden {
+  display: none;
+}
+
+/* 7. Status message styling */
+.talentdev-status-row {
+  height: 60px;
+}
+
+.talentdev-status-cell {
+  text-align: center;
+}
+
+.talentdev-status-message {
+  color: #ffffff;
+  font-size: 14px;
+  opacity: 0.7;
+  font-weight: 400;
+}
+
+.talentdev-loading-message {
+  animation: pulse 1.5s infinite ease-in-out;
+}
+
+@keyframes pulse {
+  0% { opacity: 0.4; }
+  50% { opacity: 0.8; }
+  100% { opacity: 0.4; }
+}
