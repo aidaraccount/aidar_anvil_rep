@@ -36,29 +36,29 @@ class C_TalentDev_Table(C_TalentDev_TableTemplate):
     # 3. Register JavaScript callbacks
     anvil.js.call_js('eval', """
       window.pyArtistNameClicked = function(artistId) {
-        console.log('[DEBUG] Artist name clicked with ID:', artistId);
+        console.log('TALENTDEV-LOG: Artist name clicked with ID:', artistId);
         location.hash = 'artists?artist_id=' + artistId;
         return true;
       }
       
       window.pySortColumn = function(columnName) {
-        console.log('[DEBUG] Sort requested for column:', columnName);
+        console.log('TALENTDEV-LOG: Sort requested for column:', columnName);
         try {
-          console.log('[DEBUG] Attempting to call COMPONENT.client_sort_column with', columnName);
+          console.log('TALENTDEV-LOG: Attempting to call COMPONENT.client_sort_column with', columnName);
           if (typeof COMPONENT === 'undefined') {
-            console.error('[ERROR] COMPONENT is undefined');
+            console.error('TALENTDEV-ERROR: COMPONENT is undefined');
             return false;
           }
           if (typeof COMPONENT.client_sort_column !== 'function') {
-            console.error('[ERROR] COMPONENT.client_sort_column is not a function');
-            console.log('[DEBUG] COMPONENT keys:', Object.keys(COMPONENT));
+            console.error('TALENTDEV-ERROR: COMPONENT.client_sort_column is not a function');
+            console.log('TALENTDEV-LOG: COMPONENT keys:', Object.keys(COMPONENT));
             return false;
           }
           const result = COMPONENT.client_sort_column(columnName);
-          console.log('[DEBUG] Sort callback result:', result);
+          console.log('TALENTDEV-LOG: Sort callback result:', result);
           return result;
         } catch (error) {
-          console.error('[ERROR] Failed to call client_sort_column:', error);
+          console.error('TALENTDEV-ERROR: Failed to call client_sort_column:', error);
           return false;
         }
       }
@@ -67,19 +67,20 @@ class C_TalentDev_Table(C_TalentDev_TableTemplate):
     # 4. Load data and create table
     try:
       # Call server function to get talent development data directly in init
+      print("TALENTDEV-LOG: Fetching initial data from server")
       self.data = json.loads(anvil.server.call('get_talent_dev', user['user_id']))
       
       # Debug: Print the first two data entries if available
       if self.data and len(self.data) > 0:
-        print(f"[DEBUG] First data entry: {self.data[0]}")
+        print(f"TALENTDEV-LOG: First data entry: {self.data[0].get('name', 'Unknown')}")
         if len(self.data) > 1:
-          print(f"[DEBUG] Second data entry: {self.data[1]}")
+          print(f"TALENTDEV-LOG: Second data entry: {self.data[1].get('name', 'Unknown')}")
       else:
-        print(f"[DEBUG] No data received or empty data list: {self.data}")
+        print(f"TALENTDEV-LOG: No data received or empty data list")
         
       self.is_loading = False
     except Exception as e:
-      print(f"[ERROR] Failed to load talent development data: {str(e)}")
+      print(f"TALENTDEV-ERROR: Failed to load talent development data: {str(e)}")
       self.data = []
       self.is_loading = False
     
@@ -90,12 +91,15 @@ class C_TalentDev_Table(C_TalentDev_TableTemplate):
     for method_name in self._js_methods:
       if hasattr(self, method_name):
         setattr(anvil.js.window.COMPONENT, method_name, getattr(self, method_name))
-        print(f"[DEBUG] Registered method {method_name} for JavaScript access")
+        print(f"TALENTDEV-LOG: Registered method {method_name} for JavaScript access")
     
     # 6. Initial sort by last release
     if self.data:
+      print("TALENTDEV-LOG: About to perform initial sort")
+      # Preprocess last_release dates for initial sort
+      self._preprocess_dates_for_sort()
       self._sort_data()
-      print(f"[DEBUG] Initial data sorted by {self.sort_column} ({self.sort_direction})")
+      print(f"TALENTDEV-LOG: Initial data sorted by {self.sort_column} ({self.sort_direction})")
     
     # 7. Create the table with the loaded data
     self.create_table()
@@ -118,19 +122,23 @@ class C_TalentDev_Table(C_TalentDev_TableTemplate):
     """
     try:
       # Call server function to get talent development data
+      print("TALENTDEV-LOG: Updating data from server")
       self.data = json.loads(anvil.server.call('get_talent_dev', user['user_id']))
       
       # Debug: Print the first data entry if available
       if self.data and len(self.data) > 0:
-        print(f"[DEBUG] (update_data) First data entry: {self.data[0]}")
+        print(f"TALENTDEV-LOG: (update_data) First data entry: {self.data[0].get('name', 'Unknown')}")
       else:
-        print(f"[DEBUG] (update_data) No data received or empty data list: {self.data}")
+        print(f"TALENTDEV-LOG: (update_data) No data received or empty data list")
         
       self.is_loading = False
     except Exception as e:
-      print(f"[ERROR] (update_data) Failed to load talent development data: {str(e)}")
+      print(f"TALENTDEV-ERROR: (update_data) Failed to load talent development data: {str(e)}")
       self.data = []
       self.is_loading = False
+    
+    # Preprocess dates before sorting
+    self._preprocess_dates_for_sort()
     
     # Sort data as currently selected
     if self.data and self.sort_column:
@@ -200,30 +208,39 @@ class C_TalentDev_Table(C_TalentDev_TableTemplate):
     sign = "+" if value > 0 else ""
     return f"{sign}{value:.1f}%"
   
-  def _convert_date_for_sorting(self, date_str):
+  def _preprocess_dates_for_sort(self):
     """
-    Convert date string to a sortable format
-    
-    Parameters:
-        date_str: Date string to convert
+    Preprocess date strings in the data to avoid suspension during sorting.
+    Adds a sort_date field to each item in the data.
+    """
+    print("TALENTDEV-LOG: Preprocessing dates for sorting")
+    for item in self.data:
+      date_str = item.get('last_release', '')
+      
+      # Store a sort value that avoids datetime conversion during sort
+      if not date_str:
+        item['sort_date'] = '0001-01-01'  # Minimum date for empty values
+        continue
         
-    Returns:
-        datetime: Datetime object or minimum date if conversion fails
-    """
-    if not date_str:
-      # Return a minimum date for empty values
-      return datetime.datetime.min
-    
-    try:
-      # Try to parse as YYYY-MM-DD
-      return datetime.datetime.strptime(date_str, "%Y-%m-%d")
-    except (ValueError, TypeError):
       try:
-        # Try to parse as MM/DD/YYYY
-        return datetime.datetime.strptime(date_str, "%m/%d/%Y")
-      except (ValueError, TypeError):
-        print(f"[ERROR] Could not parse date: {date_str}")
-        return datetime.datetime.min
+        # Simple string operations to ensure YYYY-MM-DD format for easy string sorting
+        if '-' in date_str:  # Already in YYYY-MM-DD format
+          item['sort_date'] = date_str
+        elif '/' in date_str:  # MM/DD/YYYY format
+          parts = date_str.split('/')
+          if len(parts) == 3:
+            # Convert MM/DD/YYYY to YYYY-MM-DD for string sorting
+            item['sort_date'] = f"{parts[2]}-{parts[0].zfill(2)}-{parts[1].zfill(2)}"
+          else:
+            item['sort_date'] = '0001-01-01'
+        else:
+          print(f"TALENTDEV-ERROR: Unknown date format: {date_str}")
+          item['sort_date'] = '0001-01-01'
+      except Exception as e:
+        print(f"TALENTDEV-ERROR: Date preprocessing error for {date_str}: {str(e)}")
+        item['sort_date'] = '0001-01-01'
+    
+    print("TALENTDEV-LOG: Date preprocessing complete")
   
   def _sort_data(self):
     """
@@ -232,65 +249,67 @@ class C_TalentDev_Table(C_TalentDev_TableTemplate):
     Returns:
         None
     """
-    print(f"[DEBUG] Sorting data by {self.sort_column} ({self.sort_direction})")
+    print(f"TALENTDEV-LOG: Sorting data by {self.sort_column} ({self.sort_direction})")
     if not self.data:
-      print("[DEBUG] No data to sort")
+      print("TALENTDEV-LOG: No data to sort")
       return
     
     reverse_sort = (self.sort_direction == "desc")
     
     # Sort the data based on the selected column
     if self.sort_column == "last_release":
-      # Use the last_release field for sorting (proper date) instead of last_release_date (display string)
-      print("[DEBUG] Sorting by last_release date")
+      # Use the preprocessed sort_date field for sorting
+      print("TALENTDEV-LOG: Sorting by last_release date using preprocessed sort_date field")
       self.data = sorted(
         self.data, 
-        key=lambda x: self._convert_date_for_sorting(x.get('last_release', '')), 
+        key=lambda x: x.get('sort_date', '0001-01-01'), 
         reverse=reverse_sort
       )
-      print(f"[DEBUG] First item after sort: {self.data[0].get('last_release', '')}")
+      print(f"TALENTDEV-LOG: First item after sort: {self.data[0].get('name', 'Unknown')} - {self.data[0].get('sort_date', 'None')}")
     elif self.sort_column == "total_releases":
-      print("[DEBUG] Sorting by total_tracks")
+      print("TALENTDEV-LOG: Sorting by total_tracks")
       self.data = sorted(
         self.data, 
         key=lambda x: x.get('total_tracks', 0), 
         reverse=reverse_sort
       )
     elif self.sort_column == "spotify":
-      print("[DEBUG] Sorting by spotify_mtl_listeners")
+      print("TALENTDEV-LOG: Sorting by spotify_mtl_listeners")
       self.data = sorted(
         self.data, 
         key=lambda x: x.get('spotify_mtl_listeners', 0), 
         reverse=reverse_sort
       )
     elif self.sort_column == "instagram":
-      print("[DEBUG] Sorting by instagram_followers")
+      print("TALENTDEV-LOG: Sorting by instagram_followers")
       self.data = sorted(
         self.data, 
         key=lambda x: x.get('instagram_followers', 0), 
         reverse=reverse_sort
       )
     elif self.sort_column == "tiktok":
-      print("[DEBUG] Sorting by tiktok_followers")
+      print("TALENTDEV-LOG: Sorting by tiktok_followers")
       self.data = sorted(
         self.data, 
         key=lambda x: x.get('tiktok_followers', 0), 
         reverse=reverse_sort
       )
     elif self.sort_column == "youtube":
-      print("[DEBUG] Sorting by youtube_followers")
+      print("TALENTDEV-LOG: Sorting by youtube_followers")
       self.data = sorted(
         self.data, 
         key=lambda x: x.get('youtube_followers', 0), 
         reverse=reverse_sort
       )
     elif self.sort_column == "soundcloud":
-      print("[DEBUG] Sorting by soundcloud_followers")
+      print("TALENTDEV-LOG: Sorting by soundcloud_followers")
       self.data = sorted(
         self.data, 
         key=lambda x: x.get('soundcloud_followers', 0), 
         reverse=reverse_sort
       )
+    
+    print("TALENTDEV-LOG: Sorting complete")
   
   def client_sort_column(self, column_name):
     """
@@ -304,16 +323,16 @@ class C_TalentDev_Table(C_TalentDev_TableTemplate):
     Returns:
         bool: True indicating successful handling of sort request
     """
-    print(f"[DEBUG] Client sort callback triggered for column: {column_name}")
+    print(f"TALENTDEV-LOG: Client sort callback triggered for column: {column_name}")
     
     # Toggle sort direction if the same column is clicked again
     if self.sort_column == column_name:
       self.sort_direction = "asc" if self.sort_direction == "desc" else "desc"
-      print(f"[DEBUG] Toggled sort direction to {self.sort_direction}")
+      print(f"TALENTDEV-LOG: Toggled sort direction to {self.sort_direction}")
     else:
       self.sort_column = column_name
       self.sort_direction = "desc"  # Default sort direction for new column
-      print(f"[DEBUG] Changed sort column to {self.sort_column}")
+      print(f"TALENTDEV-LOG: Changed sort column to {self.sort_column}")
     
     # Sort the data - this must not call any server functions
     self._sort_data()
@@ -321,7 +340,7 @@ class C_TalentDev_Table(C_TalentDev_TableTemplate):
     # Create the table without any server calls
     self.create_table()
     
-    print("[DEBUG] Client sort completed")
+    print("TALENTDEV-LOG: Client sort completed")
     return True
 
   def _get_sort_indicator(self, column_name):
@@ -342,6 +361,7 @@ class C_TalentDev_Table(C_TalentDev_TableTemplate):
     """
     Creates the Talent Development table with artist data
     """
+    print("TALENTDEV-LOG: Creating table")
     # 1. Create the main container HTML
     html_content = f"""
     <div class="talentdev-container">
@@ -382,7 +402,7 @@ class C_TalentDev_Table(C_TalentDev_TableTemplate):
       """
     else:
       # Print total number of rows for debugging
-      print(f"[DEBUG] Creating table with {len(self.data)} rows")
+      print(f"TALENTDEV-LOG: Creating table with {len(self.data)} rows")
       
       # 3. Generate table rows for each artist
       for i, item in enumerate(self.data):
@@ -474,3 +494,4 @@ class C_TalentDev_Table(C_TalentDev_TableTemplate):
     
     # 5. Set the HTML content
     self.html = html_content
+    print("TALENTDEV-LOG: Table created and rendered")
