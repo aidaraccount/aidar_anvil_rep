@@ -99,21 +99,8 @@ class Monitor_TalentDev(Monitor_TalentDevTemplate):
 
 
   # SEARCH
-  def button_search_click(self, **event_args):
+  def text_box_search_change(self, **event_args):
     """
-    Handle search button click
-    
-    Parameters:
-        event_args: Event arguments
+    Handle search box changes
     """
-    # Get data
-    if self.text_box_search.text:
-      artist_id = anvil.server.call('get_artist_id_by_name', user["user_id"], self.text_box_search.text)
-      if artist_id == 'no_id':
-        n = Notification('This artist is not in your watchlist!')
-        n.show()
-      else: 
-        routing.set_url_hash(f'artists?artist_id={artist_id}')
-    else:
-      n = Notification('Please enter an artist name!')
-      n.show()
+    pass
