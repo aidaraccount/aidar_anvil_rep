@@ -378,6 +378,28 @@ class C_TalentDev_Table(C_TalentDev_TableTemplate):
       return f"talentdev-sort-indicator talentdev-sort-{self.sort_direction}"
     return "talentdev-sort-indicator"
 
+  def _create_table_headers(self):
+    """
+    Create the HTML for the table headers
+    
+    Returns:
+        str: HTML for the table headers
+    """
+    return f"""
+      <thead>
+        <tr class="talentdev-header-row">
+          <th class="talentdev-artist-header">Artist</th>
+          <th class="talentdev-last-release-header" onclick="window.pySortColumn('last_release')">Last Release <span class="{self._get_sort_indicator('last_release')}"></span></th>
+          <th class="talentdev-total-releases-header" onclick="window.pySortColumn('total_releases')">Total Releases <span class="{self._get_sort_indicator('total_releases')}"></span></th>
+          <th class="talentdev-spotify-header" onclick="window.pySortColumn('spotify')"><i class="fa-brands fa-spotify talentdev-header-icon"></i>Mtl. Listeners <span class="{self._get_sort_indicator('spotify')}"></span></th>
+          <th class="talentdev-instagram-header" onclick="window.pySortColumn('instagram')"><i class="fa-brands fa-instagram talentdev-header-icon"></i>Followers <span class="{self._get_sort_indicator('instagram')}"></span></th>
+          <th class="talentdev-tiktok-header" onclick="window.pySortColumn('tiktok')"><i class="fa-brands fa-tiktok talentdev-header-icon"></i>Followers <span class="{self._get_sort_indicator('tiktok')}"></span></th>
+          <th class="talentdev-youtube-header" onclick="window.pySortColumn('youtube')"><i class="fa-brands fa-youtube talentdev-header-icon"></i>Followers <span class="{self._get_sort_indicator('youtube')}"></span></th>
+          <th class="talentdev-soundcloud-header" onclick="window.pySortColumn('soundcloud')"><i class="fa-brands fa-soundcloud talentdev-header-icon"></i>Followers <span class="{self._get_sort_indicator('soundcloud')}"></span></th>
+        </tr>
+      </thead>
+    """
+
   def create_table(self):
     """
     Create the HTML for the table based on current data and state
