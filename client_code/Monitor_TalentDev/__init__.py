@@ -102,5 +102,13 @@ class Monitor_TalentDev(Monitor_TalentDevTemplate):
   def text_box_search_change(self, **event_args):
     """
     Handle search box changes
+    
+    Parameters:
+        event_args: Event arguments
     """
-    pass
+    # Pass the search term to the table for filtering
+    search_term = self.text_box_search.text.strip() if self.text_box_search.text else ""
+    
+    # Update the filter in the table component
+    if hasattr(self, 'c_talent_dev_table_1') and self.c_talent_dev_table_1 is not None:
+      self.c_talent_dev_table_1.filter_by_artist_name(search_term)

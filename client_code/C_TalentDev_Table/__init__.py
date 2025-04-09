@@ -36,6 +36,8 @@ class C_TalentDev_Table(C_TalentDev_TableTemplate):
     self.active_period = "30d"  # Default period for stats display (7d, 30d)
     self.active_format = "abs"  # Default format for stats display (abs, pct)
     self.active_sort_by = "growth"  # Default sort by (growth, current)
+    self.search_filter = ""  # Initialize empty search filter
+    self.original_data = []  # Store original data for filtering
     
     # 3. Register JavaScript callbacks and make this component's client_sort_column callable
     self.client_sort_column_js = self.client_sort_column  # Create a reference
@@ -74,6 +76,9 @@ class C_TalentDev_Table(C_TalentDev_TableTemplate):
       # Call server function to get talent development data directly in init
       print("TALENTDEV-LOG: Fetching initial data from server")
       self.data = json.loads(anvil.server.call('get_talent_dev', user['user_id']))
+      
+      # Store original data for filtering
+      self.original_data = self.data.copy()
       
       # Debug: Print the first two data entries if available
       if self.data and len(self.data) > 0:
@@ -120,6 +125,9 @@ class C_TalentDev_Table(C_TalentDev_TableTemplate):
       # Call server function to get talent development data
       print("TALENTDEV-LOG: Updating data from server")
       self.data = json.loads(anvil.server.call('get_talent_dev', user['user_id']))
+      
+      # Store original data for filtering
+      self.original_data = self.data.copy()
       
       # Debug: Print the first data entry if available
       if self.data and len(self.data) > 0:
@@ -559,6 +567,37 @@ class C_TalentDev_Table(C_TalentDev_TableTemplate):
     self.html = html_content
     print("TALENTDEV-LOG: Table created and rendered")
 
+  def filter_by_artist_name(self, search_term):
+    """
+    Filter the table data by artist name
+    
+    Parameters:
+        search_term: The search term to filter by (case-insensitive partial match)
+    """
+    print(f"TALENTDEV-LOG: Filtering by artist name: '{search_term}'")
+    
+    # Store search filter
+    self.search_filter = search_term.lower()
+    
+    # If we have original data and a search term
+    if hasattr(self, 'original_data') and self.original_data:
+      if search_term:
+        # Filter the data by artist name (case insensitive)
+        self.data = [
+          artist for artist in self.original_data 
+          if search_term.lower() in artist.get('name', '').lower()
+        ]
+      else:
+        # If no search term, restore original data
+        self.data = self.original_data.copy()
+      
+      # Re-sort the filtered data if a sort is active
+      if hasattr(self, 'sort_column') and self.sort_column:
+        self._sort_data()
+      
+      # Recreate the table with filtered data
+      self.create_table()
+  
   def handle_period_toggle(self, period):
     """
     Callback for when the period toggle changes
@@ -576,3 +615,26 @@ class C_TalentDev_Table(C_TalentDev_TableTemplate):
     self.create_table()
     
     return True
+
+  def fetch_data(self):
+    """
+    Fetch data from the server and prepare for display
+    
+    Returns:
+        None
+    """
+    try:
+      # 1. Fetch artists
+      print(f"TALENTDEV-LOG: Fetching data from server...")
+      artists = anvil.server.call('get_user_artists', user["user_id"])
+      self.data = artists
+      
+      # 2. Store original data for filtering
+      self.original_data = artists.copy()
+      
+      # 3. Sort data by default
+      self._sort_data()
+    except Exception as e:
+      print(f"TALENTDEV-ERROR: Failed to load talent development data: {str(e)}")
+      self.data = []
+      self.is_loading = False
