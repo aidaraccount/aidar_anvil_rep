@@ -32,159 +32,27 @@ class Monitor_TalentDev(Monitor_TalentDevTemplate):
       print(f"Monitor_TalentDev model_id: {model_id}")
       self.model_id = model_id
     
-      data = self.get_data()
-  
-      if data != 'no_data':
-        # standard sorting
-        self.repeating_panel_data.items = sorted(data, key=lambda x: x.get('Name', float('inf')), reverse=True)
-
-        # print(data[0])
-        # self.repeating_panel_1.items = sorted(data, key=lambda x: x.get('Name', float('inf')), reverse=True)
-        
-        self.link_artist.icon = 'fa:angle-down'
-
-  
-  def get_data(self, **event_args):
-    # get raw data
-    data = anvil.server.call('get_watchlist_overview', user["user_id"])
-    
-    if data != 'no_data':
-      data = json.loads(data)
-
-      # fill Nones and turn to strings
-      for item in data:
-          for key, value in item.items():
-              if value is None:
-                  if key == "LatestReleaseDate":
-                    item[key] = '-'
-                  else: item[key] = '0'
-          item['FollowerDev'] = "{:.1f}".format(round(float(item['FollowerDev']),1))
-          item['PopularityDev'] = "{:.1f}".format(round(float(item['PopularityDev']),1))
+      # Set up toggle callback
+      self.c_talent_dev_toggle_1.set_toggle_callback(self.handle_period_toggle)
       
-      # add 1.000er seperators
-      data = self.change_format(data=data, column='FollowerLat', direction='add')
-      data = self.change_format(data=data, column='FollowerDif', direction='add')
-    
-    return data
-
-  # FORMAT DATA
-  def change_format (self, data, column, direction, **event_args):
-    if direction == 'add':
-      for item in data:
-        for key, value in item.items():
-          if key == column: item[key] = f'{int(item[key]):,}'
-    elif direction == 'remove':
-      for item in data:
-        for key, value in item.items():
-          if key == column: item[key] = int(item[key].replace(',', ''))
-    
-    return data
-
-  # RESET ICONS
-  def reset_icons (self, **event_args):
-    self.link_artist.icon = ''
-    self.link_release.icon = ''
-    self.link_poplat.icon = ''
-    self.link_popdif.icon = ''
-    self.link_popdev.icon = ''
-    self.link_follat.icon = ''
-    self.link_foldif.icon = ''
-    self.link_foldev.icon = ''
-    
-  # SORT BUTTONS
-  def link_artist_click(self, **event_args):
-    if self.link_artist.icon == '' or self.link_artist.icon == 'fa:angle-up':
-      self.reset_icons()
-      self.link_artist.icon = 'fa:angle-down'
-      self.repeating_panel_data.items = sorted(self.repeating_panel_data.items, key=lambda x: x['Name'], reverse=True)
-    elif self.link_artist.icon == 'fa:angle-down':
-      self.reset_icons()
-      self.link_artist.icon = 'fa:angle-up'
-      self.repeating_panel_data.items = sorted(self.repeating_panel_data.items, key=lambda x: x['Name'], reverse=False)
-
-  def link_release_click(self, **event_args):
-    if self.link_release.icon == '' or self.link_release.icon == 'fa:angle-up':
-      self.reset_icons()
-      self.link_release.icon = 'fa:angle-down'
-      self.repeating_panel_data.items = sorted(self.repeating_panel_data.items, key=lambda x: x['LastReleaseDate'], reverse=True)
-    elif self.link_release.icon == 'fa:angle-down':
-      self.reset_icons()
-      self.link_release.icon = 'fa:angle-up'
-      self.repeating_panel_data.items = sorted(self.repeating_panel_data.items, key=lambda x: x['LastReleaseDate'], reverse=False)
-
-  def link_poplat_click(self, **event_args):
-    if self.link_poplat.icon == '' or self.link_poplat.icon == 'fa:angle-up':
-      self.reset_icons()
-      self.link_poplat.icon = 'fa:angle-down'
-      self.repeating_panel_data.items = sorted(self.repeating_panel_data.items, key=lambda x: int(x['PopularityLat']), reverse=True)
-    elif self.link_poplat.icon == 'fa:angle-down':
-      self.reset_icons()
-      self.link_poplat.icon = 'fa:angle-up'
-      self.repeating_panel_data.items = sorted(self.repeating_panel_data.items, key=lambda x: int(x['PopularityLat']), reverse=False)
-
-  def link_popdif_click(self, **event_args):
-    if self.link_popdif.icon == '' or self.link_popdif.icon == 'fa:angle-up':
-      self.reset_icons()
-      self.link_popdif.icon = 'fa:angle-down'
-      self.repeating_panel_data.items = sorted(self.repeating_panel_data.items, key=lambda x: int(x['PopularityDif']), reverse=True)
-    elif self.link_popdif.icon == 'fa:angle-down':
-      self.reset_icons()
-      self.link_popdif.icon = 'fa:angle-up'
-      self.repeating_panel_data.items = sorted(self.repeating_panel_data.items, key=lambda x: int(x['PopularityDif']), reverse=False)
-
-  def link_popdev_click(self, **event_args):
-    if self.link_popdev.icon == '' or self.link_popdev.icon == 'fa:angle-up':
-      self.reset_icons()
-      self.link_popdev.icon = 'fa:angle-down'
-      self.repeating_panel_data.items = sorted(self.repeating_panel_data.items, key=lambda x: float(x['PopularityDev']), reverse=True)
-    elif self.link_popdev.icon == 'fa:angle-down':
-      self.reset_icons()
-      self.link_popdev.icon = 'fa:angle-up'
-      self.repeating_panel_data.items = sorted(self.repeating_panel_data.items, key=lambda x: float(x['PopularityDev']), reverse=False)
-
-  def link_follat_click(self, **event_args):
-    if self.link_follat.icon == '' or self.link_follat.icon == 'fa:angle-up':
-      self.reset_icons()
-      self.link_follat.icon = 'fa:angle-down'
-      data = self.change_format(data=self.repeating_panel_data.items, column='FollowerLat', direction='remove')
-      data = sorted(data, key=lambda x: x.get('FollowerLat', float('inf')), reverse=True)
-      data = self.change_format(data=data, column='FollowerLat', direction='add')
-      self.repeating_panel_data.items = data
-    elif self.link_follat.icon == 'fa:angle-down':
-      self.reset_icons()
-      self.link_follat.icon = 'fa:angle-up'
-      data = self.change_format(data=self.repeating_panel_data.items, column='FollowerLat', direction='remove')
-      data = sorted(data, key=lambda x: x.get('FollowerLat', float('inf')), reverse=False)
-      data = self.change_format(data=data, column='FollowerLat', direction='add')
-      self.repeating_panel_data.items = data
-
-  def link_foldif_click(self, **event_args):
-    if self.link_foldif.icon == '' or self.link_foldif.icon == 'fa:angle-up':
-      self.reset_icons()
-      self.link_foldif.icon = 'fa:angle-down'
-      data = self.change_format(data=self.repeating_panel_data.items, column='FollowerDif', direction='remove')
-      data = sorted(data, key=lambda x: x.get('FollowerDif', float('inf')), reverse=True)
-      data = self.change_format(data=data, column='FollowerDif', direction='add')
-      self.repeating_panel_data.items = data
-    elif self.link_foldif.icon == 'fa:angle-down':
-      self.reset_icons()
-      self.link_foldif.icon = 'fa:angle-up'
-      data = self.change_format(data=self.repeating_panel_data.items, column='FollowerDif', direction='remove')
-      data = sorted(data, key=lambda x: x.get('FollowerDif', float('inf')), reverse=False)
-      data = self.change_format(data=data, column='FollowerDif', direction='add')
-      self.repeating_panel_data.items = data
-
-  def link_foldev_click(self, **event_args):
-    if self.link_foldev.icon == '' or self.link_foldev.icon == 'fa:angle-up':
-      self.reset_icons()
-      self.link_foldev.icon = 'fa:angle-down'
-      self.repeating_panel_data.items = sorted(self.repeating_panel_data.items, key=lambda x: float(x['FollowerDev']), reverse=True)
-    elif self.link_foldev.icon == 'fa:angle-down':
-      self.reset_icons()
-      self.link_foldev.icon = 'fa:angle-up'
-      self.repeating_panel_data.items = sorted(self.repeating_panel_data.items, key=lambda x: float(x['FollowerDev']), reverse=False)
-
   
+  # HANDLE TOGGLE PERIOD CHANGE
+  def handle_period_toggle(self, period):
+    """
+    Handle period toggle change from C_TalentDev_Toggle and update C_TalentDev_Table
+    
+    Parameters:
+        period: The new period selected (7-Day or 30-Day)
+    """
+    print(f"MONITOR-LOG: Period toggle changed to {period}")
+    
+    # Update the table component with the new period
+    self.c_talent_dev_table_1.active_period = period
+    self.c_talent_dev_table_1.create_table()
+    
+    return True
+
+    
   # SEARCH
   def button_search_click(self, **event_args):
     # get data
