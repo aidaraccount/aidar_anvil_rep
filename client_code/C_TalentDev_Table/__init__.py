@@ -252,20 +252,33 @@ class C_TalentDev_Table(C_TalentDev_TableTemplate):
     Returns:
         None
     """
-    print(f"TALENTDEV-LOG: Sorting by {self.sort_column} ({self.sort_direction})")
+    print(f"TALENTDEV-LOG: Sorting by {self.sort_column} ({self.sort_direction}) - sort_by: {self.active_sort_by}")
     
     reverse_sort = self.sort_direction == "desc"
     
-    if self.sort_column == "last_release":
+    # 1. For non-toggleable columns, sort normally regardless of toggle state
+    if self.sort_column == "artist_name":
+      # Sort by artist name
+      self.data = sorted(self.data, key=lambda x: x.get('name', '').lower(), reverse=reverse_sort)
+      return
+    elif self.sort_column == "last_release":
       # Always sort by the release date
       self.data = sorted(self.data, key=lambda x: x.get('sort_date', '0001-01-01'), reverse=reverse_sort)
-    elif self.sort_column == "total_releases":
-      # Always sort by total tracks
-      self.data = sorted(self.data, key=lambda x: x.get('total_tracks', 0), reverse=reverse_sort)
-    else:
-      # For other columns, sort based on current value or growth value
+      return
+      
+    # 2. For toggleable columns, apply different sort logic based on active_sort_by
+    if self.sort_column == "total_releases":
+      # Sort by either total tracks or new tracks based on active_sort_by
       if self.active_sort_by == "current":
-        # Sort by current values
+        # Sort by total tracks (first line)
+        self.data = sorted(self.data, key=lambda x: x.get('total_tracks', 0) or 0, reverse=reverse_sort)
+      else:  # active_sort_by == "growth"
+        # Sort by new tracks in last 365 days (second line)
+        self.data = sorted(self.data, key=lambda x: x.get('new_tracks_last_365_days', 0) or 0, reverse=reverse_sort)
+    else:
+      # 3. For follower/listener columns, use both active_sort_by and active_format toggles
+      if self.active_sort_by == "current":
+        # Sort by current values (first line)
         if self.sort_column == "spotify":
           self.data = sorted(self.data, key=lambda x: x.get('spotify_mtl_listeners', 0) or 0, reverse=reverse_sort)
         elif self.sort_column == "instagram":
@@ -277,25 +290,33 @@ class C_TalentDev_Table(C_TalentDev_TableTemplate):
         elif self.sort_column == "soundcloud":
           self.data = sorted(self.data, key=lambda x: x.get('soundcloud_followers', 0) or 0, reverse=reverse_sort)
       else:  # active_sort_by == "growth"
-        # Sort by growth values
-        change_period = "30d" if self.active_period == "30d" else "7d"
-        change_type = "pct" if self.active_format == "pct" else "abs"
+        # Sort by growth values (second line)
+        # Both active_period and active_format affect the key selection
+        change_period = self.active_period
+        change_type = self.active_format
         
+        # Build the correct key based on all relevant toggle states
         if self.sort_column == "spotify":
-          change_key = f"spotify_mtl_{change_type}_growth_{change_period}"
-          self.data = sorted(self.data, key=lambda x: x.get(change_key, 0) or 0, reverse=reverse_sort)
+          # Try both naming schemes (growth/change) for compatibility
+          growth_key = f"spotify_mtl_{change_type}_growth_{change_period}"
+          change_key = f"spotify_mtl_{change_type}_change_{change_period}"
+          self.data = sorted(self.data, key=lambda x: x.get(growth_key, x.get(change_key, 0)) or 0, reverse=reverse_sort)
         elif self.sort_column == "instagram":
-          change_key = f"instagram_{change_type}_growth_{change_period}"
-          self.data = sorted(self.data, key=lambda x: x.get(change_key, 0) or 0, reverse=reverse_sort)
+          growth_key = f"instagram_{change_type}_growth_{change_period}"
+          change_key = f"instagram_{change_type}_change_{change_period}"
+          self.data = sorted(self.data, key=lambda x: x.get(growth_key, x.get(change_key, 0)) or 0, reverse=reverse_sort)
         elif self.sort_column == "tiktok":
-          change_key = f"tiktok_{change_type}_growth_{change_period}"
-          self.data = sorted(self.data, key=lambda x: x.get(change_key, 0) or 0, reverse=reverse_sort)
+          growth_key = f"tiktok_{change_type}_growth_{change_period}"
+          change_key = f"tiktok_{change_type}_change_{change_period}"
+          self.data = sorted(self.data, key=lambda x: x.get(growth_key, x.get(change_key, 0)) or 0, reverse=reverse_sort)
         elif self.sort_column == "youtube":
-          change_key = f"youtube_{change_type}_growth_{change_period}"
-          self.data = sorted(self.data, key=lambda x: x.get(change_key, 0) or 0, reverse=reverse_sort)
+          growth_key = f"youtube_{change_type}_growth_{change_period}"
+          change_key = f"youtube_{change_type}_change_{change_period}"
+          self.data = sorted(self.data, key=lambda x: x.get(growth_key, x.get(change_key, 0)) or 0, reverse=reverse_sort)
         elif self.sort_column == "soundcloud":
-          change_key = f"soundcloud_{change_type}_growth_{change_period}"
-          self.data = sorted(self.data, key=lambda x: x.get(change_key, 0) or 0, reverse=reverse_sort)
+          growth_key = f"soundcloud_{change_type}_growth_{change_period}"
+          change_key = f"soundcloud_{change_type}_change_{change_period}"
+          self.data = sorted(self.data, key=lambda x: x.get(growth_key, x.get(change_key, 0)) or 0, reverse=reverse_sort)
   
   def client_sort_column(self, column_name):
     """
