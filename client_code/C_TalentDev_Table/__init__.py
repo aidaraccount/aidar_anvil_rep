@@ -13,87 +13,58 @@ from anvil.js.window import location
 
 
 class C_TalentDev_Table(C_TalentDev_TableTemplate):
-  def __init__(self, data=None, **properties):
+  def __init__(self, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
 
-    # 1. Initialize component variables
-    self.data = data
-    self.is_loading = data is None  # Track loading state
-    self.expanded = False
-    self.max_visible_rows = 10
+    # 1. Initialize user and fetch data
+    global user
+    user = anvil.users.get_user()
     
-    # 2. Register JavaScript callbacks
+    # 2. Initialize component variables
+    self.is_loading = True
+    
+    # 3. Register JavaScript callbacks
     anvil.js.call_js('eval', """
       window.pyArtistNameClicked = function(artistId) {
         console.log('[DEBUG] Artist name clicked with ID:', artistId);
         location.hash = 'artists?artist_id=' + artistId;
         return true;
       }
-      
-      // Function to toggle the visibility of rows
-      window.toggleRowsVisibility = function(expanded) {
-        console.log('[DEBUG] Toggling rows visibility, expanded:', expanded);
-        
-        var rows = document.querySelectorAll('.talentdev-row');
-        var toggleLink = document.getElementById('talentdev-toggle-link');
-        
-        for (var i = 10; i < rows.length; i++) {
-          rows[i].classList.toggle('hidden', !expanded);
-        }
-        
-        if (toggleLink) {
-          toggleLink.textContent = expanded ? 'show less' : 'show all';
-        }
-      }
-      
-      window.pyToggleRowsClicked = function() {
-        console.log('[DEBUG] Toggle rows visibility clicked');
-        window._anvilJSCallableObjects.pyToggleRowsClicked.call();
-        return true;
-      }
     """)
     
-    # Register the Python functions
-    anvil.js.window.pyToggleRowsClicked = self.handle_toggle_rows_click
-    
-    # 3. Create Talent Development table
-    self.create_table()
+    # 4. Load data and create table
+    self.load_data()
     
   def form_show(self, **event_args):
     """This method is called when the HTML panel is shown on the screen"""
     pass
-    
-  def handle_toggle_rows_click(self):
+
+  def load_data(self):
     """
-    JavaScript callback for when the show all/show less link is clicked.
-    Toggles the visibility of rows beyond the maximum visible rows.
-    
-    Returns:
-        bool: True indicating successful completion
+    Loads data from the server and refreshes the display
     """
-    print(f"[DEBUG] Toggle rows visibility clicked, current state: {self.expanded}")
+    try:
+      # Call server function to get talent development data
+      self.data = json.loads(anvil.server.call('get_talent_dev', user['user_id']))
+      self.is_loading = False
+    except Exception as e:
+      print(f"[ERROR] Failed to load talent development data: {str(e)}")
+      self.data = []
+      self.is_loading = False
     
-    # Toggle expanded state
-    self.expanded = not self.expanded
-    
-    # Call JavaScript function to toggle row visibility
-    anvil.js.call_js('window.toggleRowsVisibility', self.expanded)
+    # Create the table with the data
+    self.create_table()
     
     return True
 
-  def update_data(self, new_data):
+  def update_data(self):
     """
-    Updates the component with new data and refreshes the display
-    
-    Parameters:
-        new_data (list): The new data to display
+    Refreshes the data from the server and updates the display
     """
-    self.data = new_data
-    self.is_loading = False
-    
-    # Recreate the table with the new data
-    self.create_table()
+    self.is_loading = True
+    self.create_table()  # Show loading state
+    self.load_data()
     
     return True
 
@@ -145,12 +116,9 @@ class C_TalentDev_Table(C_TalentDev_TableTemplate):
         # Create unique row ID
         row_id = f"talentdev-row-{i}"
         
-        # Add 'hidden' class for rows beyond the max_visible_rows if not expanded
-        hidden_class = "" if i < self.max_visible_rows or self.expanded else " hidden"
-        
         # Add the row for this artist
         html_content += f"""
-          <tr id="{row_id}" class="talentdev-row{hidden_class}">
+          <tr id="{row_id}" class="talentdev-row">
             <td class="talentdev-pic-cell">
               <img src="{artist_pic_url}" class="talentdev-artist-pic" alt="{artist_name}">
             </td>
@@ -165,32 +133,8 @@ class C_TalentDev_Table(C_TalentDev_TableTemplate):
     html_content += """
         </tbody>
       </table>
-    """
-    
-    # 5. Add the toggle link if there are more than max_visible_rows entries and not loading/empty
-    if not self.is_loading and self.data and len(self.data) > self.max_visible_rows:
-      toggle_text = "show less" if self.expanded else "show all"
-      html_content += f"""
-      <div class="talentdev-toggle-container">
-        <a href="javascript:void(0)" id="talentdev-toggle-link" class="talentdev-toggle-link" onclick="window.pyToggleRowsClicked()">{toggle_text}</a>
-      </div>
-      """
-    
-    # 6. Complete the container HTML
-    html_content += """
     </div>
     """
     
-    # 7. JavaScript for handling clicks
-    js_code = """
-    console.log('[DEBUG] Talent Development table JavaScript loaded');
-    
-    // Initialize row visibility
-    if (window.toggleRowsVisibility) {
-      window.toggleRowsVisibility(""" + str(self.expanded).lower() + """);
-    }
-    """
-    
-    # 8. Set the HTML content and evaluate the JavaScript
+    # 5. Set the HTML content
     self.html = html_content
-    anvil.js.call_js('eval', js_code)
