@@ -14,6 +14,12 @@ from anvil.js.window import location
 
 class C_TalentDev_Table(C_TalentDev_TableTemplate):
   def __init__(self, **properties):
+    """
+    Initialize the Talent Development Table component
+    
+    Parameters:
+        properties: Additional properties to pass to the parent class
+    """
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
 
@@ -56,14 +62,20 @@ class C_TalentDev_Table(C_TalentDev_TableTemplate):
     self.create_table()
     
   def form_show(self, **event_args):
-    """This method is called when the HTML panel is shown on the screen"""
+    """
+    This method is called when the HTML panel is shown on the screen
+    
+    Parameters:
+        event_args: Event arguments
+    """
     pass
 
   def update_data(self):
     """
-    Refreshes the data from the server and updates the display.
-    This method is kept for potential future use when you need to refresh data
-    without reconstructing the entire component.
+    Refreshes the data from the server and updates the display
+    
+    Returns:
+        bool: True indicating successful completion
     """
     try:
       # Call server function to get talent development data
@@ -86,6 +98,65 @@ class C_TalentDev_Table(C_TalentDev_TableTemplate):
     
     return True
 
+  def format_number(self, number):
+    """
+    Format a number with K, M, B abbreviations
+    
+    Parameters:
+        number: The number to format
+        
+    Returns:
+        str: Formatted number string
+    """
+    if number is None:
+      return "0"
+    
+    if number < 1000:
+      return str(number)
+    elif number < 1000000:
+      return f"{number/1000:.1f}K".replace('.0K', 'K')
+    elif number < 1000000000:
+      return f"{number/1000000:.1f}M".replace('.0M', 'M')
+    else:
+      return f"{number/1000000000:.1f}B".replace('.0B', 'B')
+
+  def get_growth_class(self, value):
+    """
+    Determine CSS class for growth values
+    
+    Parameters:
+        value: Growth percentage value
+        
+    Returns:
+        str: CSS class name for styling
+    """
+    if value is None:
+      return ""
+    
+    # Use neutral color for values close to zero (-0.5% to +0.5%)
+    if -0.5 <= value <= 0.5:
+      return "neutral-growth"
+    elif value > 0:
+      return "positive-growth"
+    else:
+      return "negative-growth"
+      
+  def format_growth(self, value):
+    """
+    Format growth percentage values
+    
+    Parameters:
+        value: Growth percentage value
+        
+    Returns:
+        str: Formatted growth string with sign
+    """
+    if value is None:
+      return ""
+    
+    sign = "+" if value > 0 else ""
+    return f"{sign}{value:.1f}%"
+
   def create_table(self):
     """
     Creates the Talent Development table with artist data
@@ -99,7 +170,11 @@ class C_TalentDev_Table(C_TalentDev_TableTemplate):
             <th class="talentdev-artist-header">Artist</th>
             <th class="talentdev-last-release-header">Last Release</th>
             <th class="talentdev-total-releases-header">Total Releases</th>
-            <th class="talentdev-spotify-header">Monthly Listeners</th>
+            <th class="talentdev-spotify-header"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/Spotify_logo_without_text.svg/168px-Spotify_logo_without_text.svg.png" class="talentdev-header-icon" alt="Spotify">Monthly Listeners</th>
+            <th class="talentdev-instagram-header"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Instagram_icon.png/600px-Instagram_icon.png" class="talentdev-header-icon" alt="Instagram">Followers</th>
+            <th class="talentdev-tiktok-header"><img src="https://sf-tb-sg.ibytedtos.com/obj/eden-sg/uhtyvueh7nulogpogiyf/tiktok-icon2.png" class="talentdev-header-icon" alt="TikTok">Followers</th>
+            <th class="talentdev-youtube-header"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/09/YouTube_full-color_icon_%282017%29.svg/800px-YouTube_full-color_icon_%282017%29.svg.png" class="talentdev-header-icon" alt="YouTube">Followers</th>
+            <th class="talentdev-soundcloud-header"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/SoundCloud_logo.svg/1200px-SoundCloud_logo.svg.png" class="talentdev-header-icon" alt="SoundCloud">Followers</th>
           </tr>
         </thead>
         <tbody id="talentdev-table-body">
@@ -110,7 +185,7 @@ class C_TalentDev_Table(C_TalentDev_TableTemplate):
       # Loading state message
       html_content += """
         <tr class="talentdev-row talentdev-status-row">
-          <td colspan="4" class="talentdev-status-cell">
+          <td colspan="8" class="talentdev-status-cell">
             <div class="talentdev-status-message talentdev-loading-message">Loading data...</div>
           </td>
         </tr>
@@ -119,7 +194,7 @@ class C_TalentDev_Table(C_TalentDev_TableTemplate):
       # No data message
       html_content += """
         <tr class="talentdev-row talentdev-status-row">
-          <td colspan="4" class="talentdev-status-cell">
+          <td colspan="8" class="talentdev-status-cell">
             <div class="talentdev-status-message talentdev-empty-message">No artists found</div>
           </td>
         </tr>
@@ -130,6 +205,7 @@ class C_TalentDev_Table(C_TalentDev_TableTemplate):
       
       # 3. Generate table rows for each artist
       for i, item in enumerate(self.data):
+        # Basic artist information
         artist_id = item.get('artist_id', '')
         artist_name = item.get('name', 'Unknown')
         artist_pic_url = item.get('artist_picture_url', '')
@@ -139,34 +215,34 @@ class C_TalentDev_Table(C_TalentDev_TableTemplate):
         last_release_date = item.get('last_release_date', '')
         
         # Total releases data
-        total_tracks = item.get('total_tracks', '0')
-        new_tracks_last_365_days = item.get('new_tracks_last_365_days', '0')
+        total_tracks = item.get('total_tracks', 0)
+        new_tracks_last_365_days = item.get('new_tracks_last_365_days', 0)
         
-        # Spotify listeners data
-        spotify_mtl_listeners = item.get('spotify_mtl_listeners', 0)  
+        # Spotify data
+        spotify_mtl_listeners = item.get('spotify_mtl_listeners', 0)
         spotify_mtl_dev_30d = item.get('spotify_mtl_dev_30d', None)
+        
+        # Instagram data
+        instagram_followers = item.get('instagram_followers', 0)
+        instagram_dev_30d = item.get('instagram_dev_30d', None)
+        
+        # TikTok data
+        tiktok_followers = item.get('tiktok_followers', 0)
+        tiktok_dev_30d = item.get('tiktok_dev_30d', None)
+        
+        # YouTube data
+        youtube_followers = item.get('youtube_followers', 0)
+        youtube_dev_30d = item.get('youtube_dev_30d', None)
+        
+        # SoundCloud data
+        soundcloud_followers = item.get('soundcloud_followers', 0)
+        soundcloud_dev_30d = item.get('soundcloud_dev_30d', None)
         
         # Create unique row ID
         row_id = f"talentdev-row-{i}"
         
-        # Format Spotify development with + sign if positive
-        spotify_dev_display = ""
-        if spotify_mtl_dev_30d is not None:
-            sign = "+" if spotify_mtl_dev_30d > 0 else ""
-            spotify_dev_display = f"{sign}{spotify_mtl_dev_30d:.1f}%"
-            # Add CSS class for growth coloring
-            spotify_dev_class = "positive-growth" if spotify_mtl_dev_30d >= 0 else "negative-growth"
-        else:
-            spotify_dev_class = ""
-        
-        # Format total tracks with + sign for new tracks
+        # Format new tracks
         new_tracks_display = f"+{new_tracks_last_365_days} last 365 d"
-        
-        # Format Spotify listeners with comma separators if not None
-        if spotify_mtl_listeners is not None:
-            spotify_listeners_display = f"{spotify_mtl_listeners:,}"
-        else:
-            spotify_listeners_display = "0"
         
         # Add the row for this artist
         html_content += f"""
@@ -186,8 +262,24 @@ class C_TalentDev_Table(C_TalentDev_TableTemplate):
               <div class="talentdev-secondary-value">{new_tracks_display}</div>
             </td>
             <td class="talentdev-spotify-cell">
-              <div class="talentdev-primary-value">{spotify_listeners_display}</div>
-              <div class="talentdev-secondary-value {spotify_dev_class}">{spotify_dev_display}</div>
+              <div class="talentdev-primary-value">{self.format_number(spotify_mtl_listeners)}</div>
+              <div class="talentdev-secondary-value {self.get_growth_class(spotify_mtl_dev_30d)}">{self.format_growth(spotify_mtl_dev_30d)}</div>
+            </td>
+            <td class="talentdev-instagram-cell">
+              <div class="talentdev-primary-value">{self.format_number(instagram_followers)}</div>
+              <div class="talentdev-secondary-value {self.get_growth_class(instagram_dev_30d)}">{self.format_growth(instagram_dev_30d)}</div>
+            </td>
+            <td class="talentdev-tiktok-cell">
+              <div class="talentdev-primary-value">{self.format_number(tiktok_followers)}</div>
+              <div class="talentdev-secondary-value {self.get_growth_class(tiktok_dev_30d)}">{self.format_growth(tiktok_dev_30d)}</div>
+            </td>
+            <td class="talentdev-youtube-cell">
+              <div class="talentdev-primary-value">{self.format_number(youtube_followers)}</div>
+              <div class="talentdev-secondary-value {self.get_growth_class(youtube_dev_30d)}">{self.format_growth(youtube_dev_30d)}</div>
+            </td>
+            <td class="talentdev-soundcloud-cell">
+              <div class="talentdev-primary-value">{self.format_number(soundcloud_followers)}</div>
+              <div class="talentdev-secondary-value {self.get_growth_class(soundcloud_dev_30d)}">{self.format_growth(soundcloud_dev_30d)}</div>
             </td>
           </tr>
         """

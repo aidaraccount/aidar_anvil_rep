@@ -30,10 +30,21 @@
 
 .talentdev-last-release-header,
 .talentdev-total-releases-header,
-.talentdev-spotify-header {
+.talentdev-spotify-header,
+.talentdev-instagram-header,
+.talentdev-tiktok-header,
+.talentdev-youtube-header,
+.talentdev-soundcloud-header {
   padding: 0 8px;
   font-weight: 500;
-  text-align: center;
+  text-align: right;
+}
+
+.talentdev-header-icon {
+  height: 16px;
+  width: 16px;
+  vertical-align: middle;
+  margin-right: 4px;
 }
 
 /* 3. Table rows */
@@ -60,8 +71,8 @@
 }
 
 .talentdev-artist-pic {
-  width: 24px;
-  height: 24px;
+  width: 35px;
+  height: 35px;
   border-radius: 4px;
   object-fit: cover;
 }
@@ -81,10 +92,14 @@
 /* 5. Data columns styling */
 .talentdev-last-release-cell,
 .talentdev-total-releases-cell,
-.talentdev-spotify-cell {
+.talentdev-spotify-cell,
+.talentdev-instagram-cell,
+.talentdev-tiktok-cell,
+.talentdev-youtube-cell,
+.talentdev-soundcloud-cell {
   padding: 4px 8px;
   vertical-align: middle;
-  text-align: center;
+  text-align: right;
 }
 
 .talentdev-primary-value {
@@ -104,6 +119,10 @@
 
 .talentdev-secondary-value.negative-growth {
   color: #EF5350;
+}
+
+.talentdev-secondary-value.neutral-growth {
+  color: #BBBBBB;
 }
 
 /* 6. Status message styling */
