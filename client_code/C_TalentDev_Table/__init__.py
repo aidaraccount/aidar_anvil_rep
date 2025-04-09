@@ -34,37 +34,57 @@ class C_TalentDev_Table(C_TalentDev_TableTemplate):
     """)
     
     # 4. Load data and create table
-    self.load_data()
-    
-  def form_show(self, **event_args):
-    """This method is called when the HTML panel is shown on the screen"""
-    pass
-
-  def load_data(self):
-    """
-    Loads data from the server and refreshes the display
-    """
     try:
-      # Call server function to get talent development data
+      # Call server function to get talent development data directly in init
       self.data = json.loads(anvil.server.call('get_talent_dev', user['user_id']))
+      
+      # Debug: Print the first two data entries if available
+      if self.data and len(self.data) > 0:
+        print(f"[DEBUG] First data entry: {self.data[0]}")
+        if len(self.data) > 1:
+          print(f"[DEBUG] Second data entry: {self.data[1]}")
+      else:
+        print(f"[DEBUG] No data received or empty data list: {self.data}")
+        
       self.is_loading = False
     except Exception as e:
       print(f"[ERROR] Failed to load talent development data: {str(e)}")
       self.data = []
       self.is_loading = False
     
-    # Create the table with the data
+    # 5. Create the table with the loaded data
     self.create_table()
     
-    return True
+  def form_show(self, **event_args):
+    """This method is called when the HTML panel is shown on the screen"""
+    pass
 
   def update_data(self):
     """
-    Refreshes the data from the server and updates the display
+    Refreshes the data from the server and updates the display.
+    This method is kept for potential future use when you need to refresh data
+    without reconstructing the entire component.
     """
-    self.is_loading = True
-    self.create_table()  # Show loading state
-    self.load_data()
+    try:
+      # Call server function to get talent development data
+      self.data = json.loads(anvil.server.call('get_talent_dev', user['user_id']))
+      
+      # Debug: Print the first two data entries if available
+      if self.data and len(self.data) > 0:
+        print(f"[DEBUG] (update_data) First data entry: {self.data[0]}")
+        if len(self.data) > 1:
+          print(f"[DEBUG] (update_data) Second data entry: {self.data[1]}")
+      else:
+        print(f"[DEBUG] (update_data) No data received or empty data list: {self.data}")
+        
+      self.is_loading = False
+    except Exception as e:
+      print(f"[ERROR] (update_data) Failed to load talent development data: {str(e)}")
+      self.data = []
+      self.is_loading = False
+    
+    # Create the table with the data
+    self.create_table()
     
     return True
 
@@ -106,6 +126,9 @@ class C_TalentDev_Table(C_TalentDev_TableTemplate):
         </tr>
       """
     else:
+      # Print total number of rows for debugging
+      print(f"[DEBUG] Creating table with {len(self.data)} rows")
+      
       # 3. Generate table rows for each artist
       for i, item in enumerate(self.data):
         artist_id = item.get('artist_id', '')
