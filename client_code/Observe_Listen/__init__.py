@@ -294,7 +294,7 @@ class Observe_Listen(Observe_ListenTemplate):
         self.column_panel_discover.clear()
         error_label = Label(
           text=f"Could not load artist details. Try playing a track.", 
-          spacing_above="small", 
+          spacing_above="medium", 
           spacing_below="small",
           align="center",
           italic=True,
@@ -328,20 +328,9 @@ class Observe_Listen(Observe_ListenTemplate):
     self.drop_down_model.selected_value = [item['model_name'] for item in model_data if item['is_last_used']][0]
     self.drop_down_model.items = [item['model_name'] for item in model_data]
     
-    # Now ensure the heavy component loads after a very short delay
-    # Use Anvil's built-in client-side timer for a one-time delayed call
-    def delayed_load(**event_args):
-      print("[TIMING] Delayed loading of C_Discover is starting now")
-      # Make sure timer is removed from DOM to avoid memory leaks
-      self.remove_component(timer)
-      # Load the component
-      load_discover_component()
-    
-    # Create a one-time timer to trigger the loading
-    timer = Timer(interval=0.5)  # Increased to 0.5 seconds to ensure UI is fully rendered
-    timer.tick = delayed_load
-    # Add the timer to a container so it will work
-    self.add_component(timer)
+    # Now directly load the component - timers may be unreliable
+    print("[TIMING] Direct loading of C_Discover starting")
+    load_discover_component()
     
     print(f"[TIMING] initial_load_discover TOTAL: {time.time() - start_time:.3f}s")
 
