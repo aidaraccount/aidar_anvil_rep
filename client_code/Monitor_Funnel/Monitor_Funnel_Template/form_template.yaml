@@ -13,7 +13,7 @@ components:
     properties: {col_widths: '{}'}
     type: Link
   - data_bindings: []
-    event_bindings: {click: link_1_click}
+    event_bindings: {click: link_name_click}
     layout_properties: {width: 176, x: 10, y: 100}
     name: link_name
     properties: {role: artist_name_shadow, spacing_above: none, spacing_below: none}

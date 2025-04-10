@@ -4,6 +4,10 @@ components:
     name: label_1
     properties: {align: left, background: '', bold: false, border: '', font: '', font_size: null, foreground: '', icon: '', icon_align: left, italic: false, role: header-1, spacing_above: small, spacing_below: small, text: Artist Funnel, tooltip: '', underline: false, visible: true}
     type: Label
+  - layout_properties: {grid_position: 'UMBFQL,PAGQRN'}
+    name: spacer_2
+    properties: {height: '25'}
+    type: Spacer
   - data_bindings:
     - {code: '', property: text, writeback: false}
     - {code: '[''txt_white_discreet'', ''width-250px'']', property: role, writeback: false}
@@ -26,10 +30,6 @@ components:
   - layout_properties: {grid_position: 'QNIKBO,YPEWDU'}
     name: spacer_1
     properties: {height: '10'}
-    type: Spacer
-  - layout_properties: {grid_position: 'ZNJFBY,XOUPVU'}
-    name: spacer_2
-    properties: {height: '25'}
     type: Spacer
   layout_properties: {grid_position: 'HINVKU,JGCJXX'}
   name: content_panel
