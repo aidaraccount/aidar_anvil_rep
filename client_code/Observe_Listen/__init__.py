@@ -218,6 +218,9 @@ class Observe_Listen(Observe_ListenTemplate):
       self.all_ai_artist_ids = [track['artist_id'] for artist in observed_tracks for track in artist['tracks']]
       self.all_artist_names = [track['name'] for artist in observed_tracks for track in artist['tracks']]
       
+      # Store the first_artist_id for lazy loading
+      self.first_artist_id = observed_tracks[0]["artist_id"]
+      
       panel_start = time.time()
       self.repeating_panel_artists.items = observed_tracks
       print(f"[TIMING] setting repeating_panel_artists.items: {time.time() - panel_start:.3f}s")
@@ -240,26 +243,35 @@ class Observe_Listen(Observe_ListenTemplate):
     start_time = time.time()
     print(f"[TIMING] initial_load_discover START")
     print('calling initial_load_discover')
-    # b) fill C_Discover
-    first_artist_id = self.repeating_panel_artists.items[0]["artist_id"]
+    
+    # Clear the discover panel
     self.column_panel_discover.clear()
     
-    discover_component_start = time.time()
-    self.column_panel_discover.add_component(C_Discover(first_artist_id))
-    print(f"[TIMING] adding C_Discover component: {time.time() - discover_component_start:.3f}s")
-
-    # -----------
-    # FOOTER
-    # a) set ratings status
-    rating_start = time.time()
-    self.column_panel_discover.get_components()[0].set_rating_highlight()
-    print(f"[TIMING] set_rating_highlight: {time.time() - rating_start:.3f}s")
+    # First add a loading placeholder
+    loading_label = Label(text="Loading artist details...", spacing_above="small", spacing_below="small")
+    self.column_panel_discover.add_component(loading_label)
     
-    # b) set watchlist status
-    watchlist_start = time.time()
-    self.column_panel_discover.get_components()[0].set_watchlist_icons()
-    print(f"[TIMING] set_watchlist_icons: {time.time() - watchlist_start:.3f}s")
-          
+    # Schedule the actual component loading for later to make UI responsive first
+    def load_discover_component():
+      discover_component_start = time.time()
+      # Remove loading placeholder
+      self.column_panel_discover.clear()
+      # Add the actual component using the stored first_artist_id
+      self.column_panel_discover.add_component(C_Discover(self.first_artist_id))
+      print(f"[TIMING] adding C_Discover component: {time.time() - discover_component_start:.3f}s")
+      
+      # FOOTER
+      # a) set ratings status
+      rating_start = time.time()
+      self.column_panel_discover.get_components()[0].set_rating_highlight()
+      print(f"[TIMING] set_rating_highlight: {time.time() - rating_start:.3f}s")
+      
+      # b) set watchlist status
+      watchlist_start = time.time()
+      self.column_panel_discover.get_components()[0].set_watchlist_icons()
+      print(f"[TIMING] set_watchlist_icons: {time.time() - watchlist_start:.3f}s")
+    
+    # Immediately continue with the rest of the UI setup
     # c) Instantiate Spotify Player
     self.footer_left.clear()
     spotify_start = time.time()
@@ -283,6 +295,10 @@ class Observe_Listen(Observe_ListenTemplate):
     print(f"[TIMING] server call get_model_ids: {time.time() - model_ids_start:.3f}s")
     self.drop_down_model.selected_value = [item['model_name'] for item in model_data if item['is_last_used']][0]
     self.drop_down_model.items = [item['model_name'] for item in model_data]
+    
+    # Now schedule the loading of the heavy component after the UI is available
+    timer = Timer(interval=0.1, function=load_discover_component)
+    timer.schedule_single_shot()
     
     print(f"[TIMING] initial_load_discover TOTAL: {time.time() - start_time:.3f}s")
 
