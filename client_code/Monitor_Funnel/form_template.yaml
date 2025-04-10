@@ -4,34 +4,36 @@ components:
     name: label_1
     properties: {align: left, background: '', bold: false, border: '', font: '', font_size: null, foreground: '', icon: '', icon_align: left, italic: false, role: header-1, spacing_above: small, spacing_below: small, text: Artist Funnel, tooltip: '', underline: false, visible: true}
     type: Label
-  - layout_properties: {grid_position: 'EZORSW,VNYUUN'}
-    name: label_2
-    properties: {align: left, background: '', bold: false, border: '', font: '', font_size: null, foreground: '', icon: '', icon_align: left, italic: true, role: description-bio, spacing_above: small, spacing_below: small, text: This funnel summarizes the current state of all your discovered artists., tooltip: '', underline: false, visible: true}
-    type: Label
-  - event_bindings: {change: button_search_click, pressed_enter: button_search_click}
+  - data_bindings:
+    - {code: '', property: text, writeback: false}
+    - {code: '[''txt_white_discreet'', ''width-250px'']', property: role, writeback: false}
+    event_bindings: {change: text_box_search_change, pressed_enter: text_box_search_change}
     layout_properties: {grid_position: 'AMIUZR,PFXCUC'}
     name: text_box_search
     properties:
+      placeholder: Search Artist
       role: [txt_white_discreet]
     type: TextBox
-  - event_bindings: {click: button_search_click}
-    layout_properties: {grid_position: 'AMIUZR,OHKNNE'}
-    name: button_search
+  - layout_properties: {grid_position: 'QNIKBO,HXVHNB'}
+    name: flow_panel_watchlists
     properties:
-      role: [call-to-action-button-disabled, header-6]
-      text: Search Artist
-    type: Button
-  - layout_properties: {grid_position: 'AMIUZR,UEQSYQ'}
+      align: left
+      spacing:
+        margin: [null, null, 20, null]
+      spacing_above: none
+      spacing_below: none
+    type: FlowPanel
+  - layout_properties: {grid_position: 'QNIKBO,YPEWDU'}
     name: spacer_1
-    properties: {height: 32}
+    properties: {height: '10'}
     type: Spacer
   - layout_properties: {grid_position: 'ZNJFBY,XOUPVU'}
     name: spacer_2
-    properties: {height: 32}
+    properties: {height: '25'}
     type: Spacer
   layout_properties: {grid_position: 'HINVKU,JGCJXX'}
   name: content_panel
-  properties: {col_widths: '{"PFXCUC":15,"OHKNNE":10,"UEQSYQ":35}'}
+  properties: {col_widths: '{"PFXCUC":15}'}
   type: ColumnPanel
 - components:
   - layout_properties: {width: 186, x: 0, y: 30}
