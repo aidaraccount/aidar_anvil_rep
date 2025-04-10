@@ -304,7 +304,8 @@ class Observe_Listen(Observe_ListenTemplate):
       # No need to explicitly stop as we set repeat=False
     
     # Create a timer that will call timer_tick after 0.1 seconds
-    self.discover_timer = Timer(timer_tick, interval=0.1, repeat=False)
+    self.discover_timer = Timer(interval=0.1, repeat=False)
+    self.discover_timer.tick = timer_tick
     
     print(f"[TIMING] initial_load_discover TOTAL: {time.time() - start_time:.3f}s")
 
