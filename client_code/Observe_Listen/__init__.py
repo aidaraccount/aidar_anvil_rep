@@ -22,6 +22,7 @@ from ..C_Discover import C_Discover
 @routing.route("listen", url_keys=['notification_id'], title="Observe - Listen-In")
 class Observe_Listen(Observe_ListenTemplate):
   def __init__(self, **properties):
+    print(f"[TIMING] __init__ START: {time.time()}")
     
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
@@ -30,6 +31,7 @@ class Observe_Listen(Observe_ListenTemplate):
     # Any code you write here will run before the form opens.
     global user
     user = anvil.users.get_user()
+    print(f"[TIMING] After get_user: {time.time()}")
     
     if user['expiration_date'] is not None and (datetime.today().date() - user['expiration_date']).days > 0:
       routing.set_url_hash('no_subs', load_from_cache=False)
@@ -51,29 +53,42 @@ class Observe_Listen(Observe_ListenTemplate):
       # -----------      
       # GENERAL
       # a) get notification/ playlist data
+      print(f"[TIMING] Before get_all_notifications: {time.time()}")
       self.get_all_notifications(url_notification_id)
+      print(f"[TIMING] After get_all_notifications complete: {time.time()}")
+    
+    print(f"[TIMING] __init__ END: {time.time()}")
 
 
   def form_show(self, **event_args):
+    print(f"[TIMING] form_show START: {time.time()}")
     embed_iframe_element = document.getElementById('embed-iframe')
     if embed_iframe_element:
+      print(f"[TIMING] Before createOrUpdateSpotifyPlayer: {time.time()}")
       self.call_js('createOrUpdateSpotifyPlayer', anvil.js.get_dom_node(self), 'track', self.initial_track_id, self.all_track_ids, self.all_artist_ids, self.all_artist_names)
+      print(f"[TIMING] After createOrUpdateSpotifyPlayer: {time.time()}")
       print("Embed iframe element found. Initialize Spotify player!")
     else:
       print("Embed iframe element not found. Will not initialize Spotify player.")
+    print(f"[TIMING] form_show END: {time.time()}")
 
   def spotify_HTML_player(self):
+    print(f"[TIMING] spotify_HTML_player START: {time.time()}")
     c_web_player_html = '''
       <div id="embed-iframe"></div>
       '''
     html_webplayer_panel = HtmlPanel(html=c_web_player_html)
     self.footer_left.add_component(html_webplayer_panel)
     print('self.footer_left.add_component(html_webplayer_panel)')
+    print(f"[TIMING] spotify_HTML_player END: {time.time()}")
   
   # GET ALL NOTIFICATIONS
   def get_all_notifications(self, notification_id, **event_args):
+    print(f"[TIMING] get_all_notifications START: {time.time()}")
     print('calling get_all_notifications')
+    print(f"[TIMING] Before server call get_notifications: {time.time()}")
     self.notifications = json.loads(anvil.server.call("get_notifications", user["user_id"], 'playlist'))
+    print(f"[TIMING] After server call get_notifications: {time.time()}")
      
     # clear all navigation components
     self.flow_panel.clear()
@@ -82,6 +97,7 @@ class Observe_Listen(Observe_ListenTemplate):
     self.flow_panel.visible = True
     self.flow_panel_create.visible = True
     
+    print(f"[TIMING] Before adding notification links: {time.time()}")
     for notification in self.notifications:
       notification_link = Link(
         text=notification["name"],
@@ -90,6 +106,7 @@ class Observe_Listen(Observe_ListenTemplate):
       )
       notification_link.set_event_handler('click', self.create_click_notification_handler(notification["notification_id"], notification_link))
       self.flow_panel.add_component(notification_link)
+    print(f"[TIMING] After adding notification links: {time.time()}")
 
     # check notification presence & trained model presence
     if len(self.notifications) > 0:
@@ -105,7 +122,9 @@ class Observe_Listen(Observe_ListenTemplate):
       else:
         notification_id = int(notification_id)
       
+      print(f"[TIMING] Before activate_notification: {time.time()}")
       self.activate_notification(notification_id)
+      print(f"[TIMING] After activate_notification: {time.time()}")
       
     else:
       self.html = ''
@@ -116,7 +135,10 @@ class Observe_Listen(Observe_ListenTemplate):
       self.notification_settings.visible = False
       self.column_panel_content.visible = False
   
+      print(f"[TIMING] Before server call get_model_ids: {time.time()}")
       models = json.loads(anvil.server.call('get_model_ids',  user["user_id"]))    
+      print(f"[TIMING] After server call get_model_ids: {time.time()}")
+      
       if not any(item.get('fully_trained', True) for item in models):
         # if no trained model
         self.no_trained_model.visible = True
@@ -128,35 +150,49 @@ class Observe_Listen(Observe_ListenTemplate):
         self.no_trained_model.visible = False
         self.no_notifications.visible = True
         self.no_artists.visible = False
-        
+    
+    print(f"[TIMING] get_all_notifications END: {time.time()}")
   
   # ACTIVATE NOTIFICATION
   def activate_notification(self, notification_id):
+    print(f"[TIMING] activate_notification START: {time.time()}")
     print('calling activate_notification')
     for component in self.flow_panel.get_components():
       if isinstance(component, Link):          
         if int(component.tag) == notification_id:
           component.role = 'section_buttons_focused'
+          print(f"[TIMING] Before get_notification_settings: {time.time()}")
           self.get_notification_settings(notification_id)
+          print(f"[TIMING] After get_notification_settings: {time.time()}")
         else:
           component.role = 'section_buttons'
+    print(f"[TIMING] activate_notification END: {time.time()}")
   
   # GET NOTIFICATION SETTINGS
   def get_notification_settings(self, notification_id, **event_args):
+    print(f"[TIMING] get_notification_settings START: {time.time()}")
     print('calling get_notification_settings')
     items = [item for item in self.notifications if item["notification_id"] == notification_id]
     
     self.notification_settings.clear()
+    print(f"[TIMING] Before adding C_NotificationSettings: {time.time()}")
     self.notification_settings.add_component(C_NotificationSettings(items, notification_id))
+    print(f"[TIMING] After adding C_NotificationSettings: {time.time()}")
     self.notification_settings.visible = True
     
+    print(f"[TIMING] Before get_observe_tracks: {time.time()}")
     self.get_observe_tracks(notification_id)
+    print(f"[TIMING] After get_observe_tracks: {time.time()}")
+    print(f"[TIMING] get_notification_settings END: {time.time()}")
     
   # GET PLAYLIST DETAILS
   def get_observe_tracks(self, notification_id, **event_args):  
+    print(f"[TIMING] get_observe_tracks START: {time.time()}")
     # get data
     notification = [item for item in self.notifications if item["notification_id"] == notification_id][0]
+    print(f"[TIMING] Before server call get_observed_tracks: {time.time()}")
     observed_tracks = anvil.server.call('get_observed_tracks', notification["notification_id"])
+    print(f"[TIMING] After server call get_observed_tracks: {time.time()}")
     
     # hand-over the data
     if len(observed_tracks) > 0:
@@ -173,47 +209,72 @@ class Observe_Listen(Observe_ListenTemplate):
       self.all_ai_artist_ids = [track['artist_id'] for artist in observed_tracks for track in artist['tracks']]
       self.all_artist_names = [track['name'] for artist in observed_tracks for track in artist['tracks']]
       
+      print(f"[TIMING] Before setting repeating_panel_artists.items: {time.time()}")
       self.repeating_panel_artists.items = observed_tracks
+      print(f"[TIMING] After setting repeating_panel_artists.items: {time.time()}")
+      
+      print(f"[TIMING] Before initial_load_discover: {time.time()}")
       self.initial_load_discover()
+      print(f"[TIMING] After initial_load_discover: {time.time()}")
       
       self.column_panel_content.visible = True
       
     else:
       self.column_panel_content.visible = False
       self.no_artists.visible = True
+    
+    print(f"[TIMING] get_observe_tracks END: {time.time()}")
 
 
   # GET DISCOVER DETAILS
   def initial_load_discover(self, **event_args):
+    print(f"[TIMING] initial_load_discover START: {time.time()}")
     print('calling initial_load_discover')
     # b) fill C_Discover
     first_artist_id = self.repeating_panel_artists.items[0]["artist_id"]
     self.column_panel_discover.clear()
+    
+    print(f"[TIMING] Before adding C_Discover component: {time.time()}")
     self.column_panel_discover.add_component(C_Discover(first_artist_id))
+    print(f"[TIMING] After adding C_Discover component: {time.time()}")
 
     # -----------
     # FOOTER
     # a) set ratings status
+    print(f"[TIMING] Before set_rating_highlight: {time.time()}")
     self.column_panel_discover.get_components()[0].set_rating_highlight()
+    print(f"[TIMING] After set_rating_highlight: {time.time()}")
     
     # b) set watchlist status
+    print(f"[TIMING] Before set_watchlist_icons: {time.time()}")
     self.column_panel_discover.get_components()[0].set_watchlist_icons()
+    print(f"[TIMING] After set_watchlist_icons: {time.time()}")
           
     # c) Instantiate Spotify Player
     self.footer_left.clear()
+    print(f"[TIMING] Before spotify_HTML_player: {time.time()}")
     self.spotify_HTML_player()
+    print(f"[TIMING] After spotify_HTML_player: {time.time()}")
+    print(f"[TIMING] Before form_show from initial_load_discover: {time.time()}")
     self.form_show()
+    print(f"[TIMING] After form_show from initial_load_discover: {time.time()}")
     
     # d) Watchlist Drop-Down
+    print(f"[TIMING] Before server call get_watchlist_ids: {time.time()}")
     wl_data = json.loads(anvil.server.call('get_watchlist_ids',  user["user_id"]))
+    print(f"[TIMING] After server call get_watchlist_ids: {time.time()}")
     self.drop_down_wl.selected_value = [item['watchlist_name'] for item in wl_data if item['is_last_used']][0]
     self.drop_down_wl.items = [item['watchlist_name'] for item in wl_data]
 
     # e) Models Drop-Down
+    print(f"[TIMING] Before server call get_model_ids: {time.time()}")
     model_data = json.loads(anvil.server.call('get_model_ids',  user["user_id"]))
+    print(f"[TIMING] After server call get_model_ids: {time.time()}")
     self.drop_down_model.selected_value = [item['model_name'] for item in model_data if item['is_last_used']][0]
     self.drop_down_model.items = [item['model_name'] for item in model_data]
     
+    print(f"[TIMING] initial_load_discover END: {time.time()}")
+
   def reload_discover(self, nextSpotifyArtistID, **event_args):
     if self.discover_is_loading:
       return  # Ignore this call if another is already in progress
