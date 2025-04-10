@@ -34,7 +34,7 @@ class Monitor_Funnel_Template(Monitor_Funnel_TemplateTemplate):
       self.link_right.visible = False
 
   
-  def link_1_click(self, **event_args):
+  def link_name_click(self, **event_args):
     click_link(self.link_1, f'watchlist_details?watchlist_id={self.item["watchlist_id"]}&artist_id={self.item["ArtistID"]}', event_args)
 
   def link_left_click(self, **event_args):
@@ -55,7 +55,7 @@ class Monitor_Funnel_Template(Monitor_Funnel_TemplateTemplate):
                       status_left_new,
                       self.item["Notification"]
                       )
-    click_link(self.link_left, 'watchlist_funnel', event_args)
+    click_link(self.link_left, 'funnel', event_args)
     
   def link_right_click(self, **event_args):
     if self.item["Status"] in ['Reconnect later', 'Not interested', None]: #BACKLOG
@@ -75,4 +75,4 @@ class Monitor_Funnel_Template(Monitor_Funnel_TemplateTemplate):
                       status_right_new,
                       self.item["Notification"]
                       )
-    click_link(self.link_right, 'watchlist_funnel', event_args)
+    click_link(self.link_right, 'funnel', event_args)
