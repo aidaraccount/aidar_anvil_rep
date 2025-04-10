@@ -247,14 +247,30 @@ class Observe_Listen(Observe_ListenTemplate):
     # Clear the discover panel
     self.column_panel_discover.clear()
     
-    # First add a loading placeholder
-    loading_label = Label(text="Loading artist details...", spacing_above="small", spacing_below="small")
+    # First add a loading placeholder with proper styling to match C_Home_Next
+    loading_label = Label(
+      text="Loading artist details...", 
+      spacing_above="small", 
+      spacing_below="small",
+      align="center",
+      italic=True,
+      font_size=16,
+      foreground="#666666"
+    )
     self.column_panel_discover.add_component(loading_label)
     
     # Schedule the actual component loading for later to make UI responsive first
     def load_discover_component():
       try:
         discover_component_start = time.time()
+        # First check if we have the required artist ID
+        if not hasattr(self, 'first_artist_id') or not self.first_artist_id:
+          print("[ERROR] No first_artist_id available!")
+          # Try to get one from the current track if possible
+          if hasattr(self, 'all_ai_artist_ids') and hasattr(self, 'all_artist_ids') and len(self.all_artist_ids) > 0:
+            self.first_artist_id = self.all_ai_artist_ids[0]
+            print(f"[RECOVERY] Set first_artist_id to {self.first_artist_id}")
+        
         # Remove loading placeholder
         self.column_panel_discover.clear()
         # Add the actual component using the stored first_artist_id
@@ -274,6 +290,18 @@ class Observe_Listen(Observe_ListenTemplate):
         print(f"[TIMING] set_watchlist_icons: {time.time() - watchlist_start:.3f}s")
       except Exception as e:
         print(f"[ERROR] Failed to load C_Discover: {e}")
+        # Display error to user
+        self.column_panel_discover.clear()
+        error_label = Label(
+          text=f"Could not load artist details. Try playing a track.", 
+          spacing_above="small", 
+          spacing_below="small",
+          align="center",
+          italic=True,
+          font_size=16,
+          foreground="#FF5555"  # Error in red
+        )
+        self.column_panel_discover.add_component(error_label)
     
     # Immediately continue with the rest of the UI setup
     # c) Instantiate Spotify Player
@@ -304,10 +332,13 @@ class Observe_Listen(Observe_ListenTemplate):
     # Use Anvil's built-in client-side timer for a one-time delayed call
     def delayed_load(**event_args):
       print("[TIMING] Delayed loading of C_Discover is starting now")
+      # Make sure timer is removed from DOM to avoid memory leaks
+      self.remove_component(timer)
+      # Load the component
       load_discover_component()
     
     # Create a one-time timer to trigger the loading
-    timer = Timer(interval=0.1)
+    timer = Timer(interval=0.5)  # Increased to 0.5 seconds to ensure UI is fully rendered
     timer.tick = delayed_load
     # Add the timer to a container so it will work
     self.add_component(timer)
