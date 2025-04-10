@@ -103,8 +103,9 @@ class Monitor_Funnel(Monitor_FunnelTemplate):
   def filter_and_display_data(self):
     """
     Filter and display data based on active watchlists and search term
+    - Optimized for performance
     """
-    # Get active watchlist IDs
+    # Get active watchlist IDs (do this once)
     active_wl_ids = []
     for component in self.flow_panel_watchlists.get_components():
       if isinstance(component, Link) and component.role == "genre-box":
@@ -112,27 +113,53 @@ class Monitor_Funnel(Monitor_FunnelTemplate):
     
     print('active_wl_ids', active_wl_ids)
     
-    # Get search term
-    search_term = self.text_box_search.text.strip() if hasattr(self, 'text_box_search') and self.text_box_search.text else ""
+    # Get search term (do this once)
+    search_term = self.text_box_search.text.strip().lower() if hasattr(self, 'text_box_search') and self.text_box_search.text else ""
     
-    # Start with all data
-    filtered_data = self.all_artists_data.copy()
+    # Prepare category lists
+    backlog_items = []
+    evaluation_items = []
+    contacting_items = []
+    negotiation_items = []
+    success_items = []
     
-    # Filter by watchlists if any are active
-    if active_wl_ids:
-      filtered_data = [item for item in filtered_data if 'watchlist_id' in item and item['watchlist_id'] in active_wl_ids]
+    # Set up status category checks (avoid repeated string comparisons)
+    backlog_statuses = {'Reconnect later', 'Not interested', None}
+    evaluation_statuses = {'Action required', 'Requires revision', 'Waiting for decision'}
+    contacting_statuses = {'Build connection', 'Awaiting response', 'Exploring opportunities', 'Positive response'}
+    negotiation_statuses = {'In negotiations', 'Contract in progress'}
+    success_statuses = {'Success'}
     
-    # Apply search filter if there's a search term
-    if search_term:
-      filtered_data = [entry for entry in filtered_data if str(entry["Name"]).lower().find(search_term.lower()) != -1]
+    # Single-pass filtering - process each item only once
+    for item in self.all_artists_data:
+      # Apply watchlist filter
+      if active_wl_ids and ('watchlist_id' not in item or item['watchlist_id'] not in active_wl_ids):
+        continue
+        
+      # Apply search filter
+      if search_term and str(item.get("Name", "")).lower().find(search_term) == -1:
+        continue
+      
+      # Categorize the item (only once)
+      status = item.get('Status')
+      if status in backlog_statuses or (status is None and None in backlog_statuses):
+        backlog_items.append(item)
+      elif status in evaluation_statuses:
+        evaluation_items.append(item)
+      elif status in contacting_statuses:
+        contacting_items.append(item)
+      elif status in negotiation_statuses:
+        negotiation_items.append(item)
+      elif status in success_statuses:
+        success_items.append(item)
     
-    # Update repeating panels with filtered data
-    self.repeating_panel_1.items = [item for item in filtered_data if item['Status'] in ['Reconnect later', 'Not interested', None]] #BACKLOG
-    self.repeating_panel_2.items = [item for item in filtered_data if item['Status'] in ['Action required', 'Requires revision', 'Waiting for decision']] #EVALUATION
-    self.repeating_panel_3.items = [item for item in filtered_data if item['Status'] in ['Build connection', 'Awaiting response', 'Exploring opportunities', 'Positive response']] #CONTACTING
-    self.repeating_panel_4.items = [item for item in filtered_data if item['Status'] in ['In negotiations', 'Contract in progress']] #NEGOTIATION
-    self.repeating_panel_5.items = [item for item in filtered_data if item['Status'] in ['Success']] #SUCCESS
-  
+    # Update UI in batch (fewer UI updates)
+    self.repeating_panel_1.items = backlog_items
+    self.repeating_panel_2.items = evaluation_items
+    self.repeating_panel_3.items = contacting_items
+    self.repeating_panel_4.items = negotiation_items
+    self.repeating_panel_5.items = success_items
+
   def text_box_search_change(self, **event_args):
     """
     Handle search box changes and filter displayed data
