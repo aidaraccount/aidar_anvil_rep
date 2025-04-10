@@ -253,23 +253,27 @@ class Observe_Listen(Observe_ListenTemplate):
     
     # Schedule the actual component loading for later to make UI responsive first
     def load_discover_component():
-      discover_component_start = time.time()
-      # Remove loading placeholder
-      self.column_panel_discover.clear()
-      # Add the actual component using the stored first_artist_id
-      self.column_panel_discover.add_component(C_Discover(self.first_artist_id))
-      print(f"[TIMING] adding C_Discover component: {time.time() - discover_component_start:.3f}s")
-      
-      # FOOTER
-      # a) set ratings status
-      rating_start = time.time()
-      self.column_panel_discover.get_components()[0].set_rating_highlight()
-      print(f"[TIMING] set_rating_highlight: {time.time() - rating_start:.3f}s")
-      
-      # b) set watchlist status
-      watchlist_start = time.time()
-      self.column_panel_discover.get_components()[0].set_watchlist_icons()
-      print(f"[TIMING] set_watchlist_icons: {time.time() - watchlist_start:.3f}s")
+      try:
+        discover_component_start = time.time()
+        # Remove loading placeholder
+        self.column_panel_discover.clear()
+        # Add the actual component using the stored first_artist_id
+        print(f"[TIMING] About to add C_Discover with artist_id: {self.first_artist_id}")
+        self.column_panel_discover.add_component(C_Discover(self.first_artist_id))
+        print(f"[TIMING] adding C_Discover component: {time.time() - discover_component_start:.3f}s")
+        
+        # FOOTER
+        # a) set ratings status
+        rating_start = time.time()
+        self.column_panel_discover.get_components()[0].set_rating_highlight()
+        print(f"[TIMING] set_rating_highlight: {time.time() - rating_start:.3f}s")
+        
+        # b) set watchlist status
+        watchlist_start = time.time()
+        self.column_panel_discover.get_components()[0].set_watchlist_icons()
+        print(f"[TIMING] set_watchlist_icons: {time.time() - watchlist_start:.3f}s")
+      except Exception as e:
+        print(f"[ERROR] Failed to load C_Discover: {e}")
     
     # Immediately continue with the rest of the UI setup
     # c) Instantiate Spotify Player
@@ -296,18 +300,13 @@ class Observe_Listen(Observe_ListenTemplate):
     self.drop_down_model.selected_value = [item['model_name'] for item in model_data if item['is_last_used']][0]
     self.drop_down_model.items = [item['model_name'] for item in model_data]
     
-    # Now schedule the loading of the heavy component after the UI is available
-    # Using Anvil's Timer correctly - need to add it to a container
-    t = Timer(interval=0.1)
+    # Now ensure the heavy component loads after a very short delay
+    # Different approach using a background task
+    anvil.server.call_s('sleep', 0.1)  # Small delay to let UI render
     
-    # Set up one-time timer
-    def timer_tick(**event_args):
-      load_discover_component()
-      t.interval = 0  # Stop the timer after first tick
-    
-    # Set the tick handler and add to a container component
-    t.tick = timer_tick
-    self.column_panel_discover.add_component(t)
+    # After delay, load the component
+    print("[TIMING] Delayed loading of C_Discover is starting now")
+    load_discover_component()
     
     print(f"[TIMING] initial_load_discover TOTAL: {time.time() - start_time:.3f}s")
 
