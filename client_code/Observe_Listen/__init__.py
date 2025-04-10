@@ -23,6 +23,8 @@ from ..C_Discover import C_Discover
 class Observe_Listen(Observe_ListenTemplate):
   def __init__(self, **properties):
     
+    get_open_form().start_timer()
+    
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
     self.add_event_handler('show', self.form_show)
@@ -73,7 +75,9 @@ class Observe_Listen(Observe_ListenTemplate):
   # GET ALL NOTIFICATIONS
   def get_all_notifications(self, notification_id, **event_args):
     print('calling get_all_notifications')
+    get_open_form().step_timer("Step 1")
     self.notifications = json.loads(anvil.server.call("get_notifications", user["user_id"], 'playlist'))
+    get_open_form().step_timer("Step 2")
      
     # clear all navigation components
     self.flow_panel.clear()
@@ -90,7 +94,8 @@ class Observe_Listen(Observe_ListenTemplate):
       )
       notification_link.set_event_handler('click', self.create_click_notification_handler(notification["notification_id"], notification_link))
       self.flow_panel.add_component(notification_link)
-
+    get_open_form().step_timer("Step 3")
+    
     # check notification presence & trained model presence
     if len(self.notifications) > 0:
       self.html = "@theme:ObserveListen.html"
@@ -105,8 +110,10 @@ class Observe_Listen(Observe_ListenTemplate):
       else:
         notification_id = int(notification_id)
       
+      get_open_form().step_timer("Step 4")
       self.activate_notification(notification_id)
-      
+      get_open_form().step_timer("End")
+    
     else:
       self.html = ''
       self.footer.visible = False
@@ -132,6 +139,7 @@ class Observe_Listen(Observe_ListenTemplate):
   
   # ACTIVATE NOTIFICATION
   def activate_notification(self, notification_id):
+    get_open_form().step_timer("Step 6")
     print('calling activate_notification')
     for component in self.flow_panel.get_components():
       if isinstance(component, Link):          
@@ -143,40 +151,55 @@ class Observe_Listen(Observe_ListenTemplate):
   
   # GET NOTIFICATION SETTINGS
   def get_notification_settings(self, notification_id, **event_args):
+    get_open_form().step_timer("Step 7")
     print('calling get_notification_settings')
     items = [item for item in self.notifications if item["notification_id"] == notification_id]
     
     self.notification_settings.clear()
     self.notification_settings.add_component(C_NotificationSettings(items, notification_id))
     self.notification_settings.visible = True
-    
+
+    get_open_form().step_timer("Step 8")
     self.get_observe_tracks(notification_id)
     
   # GET PLAYLIST DETAILS
   def get_observe_tracks(self, notification_id, **event_args):  
     # get data
     notification = [item for item in self.notifications if item["notification_id"] == notification_id][0]
-    observed_tracks = anvil.server.call('get_observed_tracks', notification["notification_id"])
+    
+    observed_tracks = anvil.server.call('get_observed_tracks', notification["notification_id"]) # !!!!!! TIME INTENSE !!!!!!!
+    
+    get_open_form().step_timer("Step 9")
+    get_open_form().step_timer("Step 9a")
     
     # hand-over the data
     if len(observed_tracks) > 0:
       self.no_artists.visible = False
+      get_open_form().step_timer("Step 9b")
 
       self.initial_track_id = observed_tracks[0]['tracks'][0]['spotify_track_id']
       self.initial_artist_id = observed_tracks[0]['tracks'][0]['spotify_artist_id']
+      get_open_form().step_timer("Step 9c")
       
       save_var('lastplayedtrackid', self.initial_track_id)
       save_var('lastplayedartistid', self.initial_artist_id)
+      get_open_form().step_timer("Step 9d")
       
       self.all_track_ids = [track['spotify_track_id'] for artist in observed_tracks for track in artist['tracks']]
       self.all_artist_ids = [track['spotify_artist_id'] for artist in observed_tracks for track in artist['tracks']]
       self.all_ai_artist_ids = [track['artist_id'] for artist in observed_tracks for track in artist['tracks']]
       self.all_artist_names = [track['name'] for artist in observed_tracks for track in artist['tracks']]
+      get_open_form().step_timer("Step 9e")
       
-      self.repeating_panel_artists.items = observed_tracks
-      self.initial_load_discover()
-      
+      # Asyncron Path 1
+      self.repeating_panel_artists.items = observed_tracks # !!!!!! TIME INTENSE !!!!!!!
       self.column_panel_content.visible = True
+      
+      get_open_form().step_timer("Step 10")
+
+      # Asyncron Path 2
+      print(self.all_ai_artist_ids[0])
+      self.initial_load_discover(self.all_ai_artist_ids[0])
       
     else:
       self.column_panel_content.visible = False
@@ -184,35 +207,46 @@ class Observe_Listen(Observe_ListenTemplate):
 
 
   # GET DISCOVER DETAILS
-  def initial_load_discover(self, **event_args):
-    print('calling initial_load_discover')
+  def initial_load_discover(self, first_artist_id, **event_args):
+    get_open_form().step_timer("Step 11")
+    get_open_form().step_timer("Step 11a")
+    get_open_form().step_timer("Step 11a 1")
     # b) fill C_Discover
-    first_artist_id = self.repeating_panel_artists.items[0]["artist_id"]
+    get_open_form().step_timer("Step 11a 2")
     self.column_panel_discover.clear()
-    self.column_panel_discover.add_component(C_Discover(first_artist_id))
+    get_open_form().step_timer("Step 11a 3")
+    
+    self.column_panel_discover.add_component(C_Discover(first_artist_id))  # !!!!!! TIME INTENSE !!!!!!!
+    get_open_form().step_timer("Step 11b")
 
     # -----------
     # FOOTER
     # a) set ratings status
     self.column_panel_discover.get_components()[0].set_rating_highlight()
+    get_open_form().step_timer("Step 11c")
     
     # b) set watchlist status
     self.column_panel_discover.get_components()[0].set_watchlist_icons()
+    get_open_form().step_timer("Step 11d")
           
     # c) Instantiate Spotify Player
     self.footer_left.clear()
     self.spotify_HTML_player()
+    get_open_form().step_timer("Step 11e")
     self.form_show()
+    get_open_form().step_timer("Step 11f")
     
     # d) Watchlist Drop-Down
     wl_data = json.loads(anvil.server.call('get_watchlist_ids',  user["user_id"]))
     self.drop_down_wl.selected_value = [item['watchlist_name'] for item in wl_data if item['is_last_used']][0]
     self.drop_down_wl.items = [item['watchlist_name'] for item in wl_data]
+    get_open_form().step_timer("Step 11g")
 
     # e) Models Drop-Down
     model_data = json.loads(anvil.server.call('get_model_ids',  user["user_id"]))
     self.drop_down_model.selected_value = [item['model_name'] for item in model_data if item['is_last_used']][0]
     self.drop_down_model.items = [item['model_name'] for item in model_data]
+    get_open_form().step_timer("Step 12")
     
   def reload_discover(self, nextSpotifyArtistID, **event_args):
     if self.discover_is_loading:

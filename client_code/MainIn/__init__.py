@@ -43,6 +43,7 @@ class MainIn(MainInTemplate):
     
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
+    self.timer = None  # Will be an instance of StepTimer
     
     # Any code you write here will run before the form opens.    
     global user
@@ -158,6 +159,29 @@ class MainIn(MainInTemplate):
       self.call_js('updateLoadingSpinnerMargin', '125px')
 
 
+  # TIMER
+  class StepTimer:
+      def __init__(self):
+          self.start_time = time.time()
+          self.last_step = self.start_time
+          print("🕒 Timer started")
+
+      def step(self, label="Step"):
+          now = time.time()
+          delta = now - self.last_step
+          total = now - self.start_time
+          print(f"✅ {label}: {total:.2f}s (+{delta:.2f}s)")
+          self.last_step = now
+
+  def start_timer(self):
+      self.timer = self.StepTimer()
+
+  def step_timer(self, label="Step"):
+      if self.timer:
+          self.timer.step(label)
+      else:
+          print("❌ Timer not started")
+  
   # WATCHLIST ROUTING
   def refresh_watchlists_components(self):
     self.remove_watchlist_components()
