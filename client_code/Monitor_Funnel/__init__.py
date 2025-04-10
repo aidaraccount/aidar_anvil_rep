@@ -32,11 +32,15 @@ class Monitor_Funnel(Monitor_FunnelTemplate):
       self.model_id = model_id
       print(f"Monitor_Funnel model_id: {model_id}")
       
+      # Load all artists data once
+      self.all_artists_data = json.loads(anvil.server.call('get_watchlist_selection', user["user_id"], None))
+      print(f"Loaded {len(self.all_artists_data)} artists in total")
+      
       # Load watchlists
       self.load_watchlists()
       
-      # Load funnel data
-      self.load_funnel_data()
+      # Initial display of all data
+      self.filter_and_display_data()
 
   def load_watchlists(self):
     """
@@ -93,56 +97,49 @@ class Monitor_Funnel(Monitor_FunnelTemplate):
           else:
             component.role = "genre-box"
 
-    # Collect all currently active watchlist IDs (role = "genre-box")
-    active_wl_ids = []
-    for component in self.flow_panel_watchlists.get_components():
-      if isinstance(component, Link) and component.role == "genre-box":
-        active_wl_ids.append(component.tag)
-
-    # Filter funnel for active watchlists
-    print('active_wl_ids', active_wl_ids)
+    # After toggling, filter and display data
+    self.filter_and_display_data()
     
-    # Load data filtered by active watchlist IDs
-    self.load_funnel_data(active_wl_ids)
-    
-  def load_funnel_data(self, active_watchlist_ids=None):
+  def filter_and_display_data(self):
     """
-    Load and filter funnel data based on active watchlists and search term
-    
-    Parameters:
-        active_watchlist_ids: List of active watchlist IDs to filter by
-    """
-    search_term = self.text_box_search.text.strip() if hasattr(self, 'text_box_search') and self.text_box_search.text else ""
-    
-    # Call the server to get filtered data - pass watchlist IDs directly
-    data = json.loads(anvil.server.call('get_watchlist_selection', user["user_id"], active_watchlist_ids))
-    
-    # Apply search filter if there's a search term
-    if search_term:
-      data = [entry for entry in data if str(entry["Name"]).lower().find(search_term.lower()) != -1]
-    
-    # Update repeating panels with filtered data
-    self.repeating_panel_1.items = [item for item in data if item['Status'] in ['Reconnect later', 'Not interested', None]] #BACKLOG
-    self.repeating_panel_2.items = [item for item in data if item['Status'] in ['Action required', 'Requires revision', 'Waiting for decision']] #EVALUATION
-    self.repeating_panel_3.items = [item for item in data if item['Status'] in ['Build connection', 'Awaiting response', 'Exploring opportunities', 'Positive response']] #CONTACTING
-    self.repeating_panel_4.items = [item for item in data if item['Status'] in ['In negotiations', 'Contract in progress']] #NEGOTIATION
-    self.repeating_panel_5.items = [item for item in data if item['Status'] in ['Success']] #SUCCESS
-  
-  def text_box_search_change(self, **event_args):
-    """
-    Handle search box changes and update funnel data
-    
-    Parameters:
-        event_args: Event arguments
+    Filter and display data based on active watchlists and search term
     """
     # Get active watchlist IDs
     active_wl_ids = []
     for component in self.flow_panel_watchlists.get_components():
       if isinstance(component, Link) and component.role == "genre-box":
-        active_wl_ids.append(component.tag)
+        active_wl_ids.append(int(component.tag))
     
-    # Only pass watchlist IDs if there are active ones
-    watchlist_ids = active_wl_ids if active_wl_ids else None
+    print('active_wl_ids', active_wl_ids)
     
-    # Reload data with current filters
-    self.load_funnel_data(watchlist_ids)
+    # Get search term
+    search_term = self.text_box_search.text.strip() if hasattr(self, 'text_box_search') and self.text_box_search.text else ""
+    
+    # Start with all data
+    filtered_data = self.all_artists_data.copy()
+    
+    # Filter by watchlists if any are active
+    if active_wl_ids:
+      filtered_data = [item for item in filtered_data if 'watchlist_id' in item and item['watchlist_id'] in active_wl_ids]
+    
+    # Apply search filter if there's a search term
+    if search_term:
+      filtered_data = [entry for entry in filtered_data if str(entry["Name"]).lower().find(search_term.lower()) != -1]
+    
+    # Update repeating panels with filtered data
+    self.repeating_panel_1.items = [item for item in filtered_data if item['Status'] in ['Reconnect later', 'Not interested', None]] #BACKLOG
+    self.repeating_panel_2.items = [item for item in filtered_data if item['Status'] in ['Action required', 'Requires revision', 'Waiting for decision']] #EVALUATION
+    self.repeating_panel_3.items = [item for item in filtered_data if item['Status'] in ['Build connection', 'Awaiting response', 'Exploring opportunities', 'Positive response']] #CONTACTING
+    self.repeating_panel_4.items = [item for item in filtered_data if item['Status'] in ['In negotiations', 'Contract in progress']] #NEGOTIATION
+    self.repeating_panel_5.items = [item for item in filtered_data if item['Status'] in ['Success']] #SUCCESS
+  
+  def text_box_search_change(self, **event_args):
+    """
+    Handle search box changes and filter displayed data
+    
+    Parameters:
+        event_args: Event arguments
+    """
+    # Simply call filter_and_display_data which will handle both
+    # active watchlists and search term filtering
+    self.filter_and_display_data()
