@@ -35,7 +35,7 @@ class C_TalentDev_Table(C_TalentDev_TableTemplate):
     self.sort_direction = "desc"  # Default sort direction (descending)
     self.active_period = "30d"  # Default period for stats display (7d, 30d)
     self.active_format = "abs"  # Default format for stats display (abs, pct)
-    self.active_sort_by = "growth"  # Default sort by (growth, current)
+    self.active_sort_by = "current"  # Default sort by (current, growth)
     self.search_filter = ""  # Initialize empty search filter
     self.original_data = []  # Store original data for filtering
     self.active_watchlist_ids = []  # Store active watchlist IDs for filtering
@@ -167,14 +167,22 @@ class C_TalentDev_Table(C_TalentDev_TableTemplate):
     if number is None or number == 0:
       return "-"
     
-    if number < 1000:
-      return str(int(number)) if number == int(number) else str(number)
-    elif number < 1000000:
-      return f"{number/1000:.1f}K".replace('.0K', 'K')
-    elif number < 1000000000:
-      return f"{number/1000000:.1f}M".replace('.0M', 'M')
+    # Store sign for later and work with absolute value
+    is_negative = number < 0
+    abs_number = abs(number)
+    
+    # Format the absolute value
+    if abs_number < 1000:
+      formatted = str(int(abs_number)) if abs_number == int(abs_number) else str(abs_number)
+    elif abs_number < 1000000:
+      formatted = f"{abs_number/1000:.1f}K".replace('.0K', 'K')
+    elif abs_number < 1000000000:
+      formatted = f"{abs_number/1000000:.1f}M".replace('.0M', 'M')
     else:
-      return f"{number/1000000000:.1f}B".replace('.0B', 'B')
+      formatted = f"{abs_number/1000000000:.1f}B".replace('.0B', 'B')
+    
+    # Add negative sign if needed
+    return f"-{formatted}" if is_negative else formatted
 
   def get_growth_class(self, value):
     """
