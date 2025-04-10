@@ -114,11 +114,8 @@ class Monitor_Funnel(Monitor_FunnelTemplate):
     """
     search_term = self.text_box_search.text.strip() if hasattr(self, 'text_box_search') and self.text_box_search.text else ""
     
-    # Convert list of watchlist IDs to JSON if not None
-    watchlist_ids_json = json.dumps(active_watchlist_ids) if active_watchlist_ids is not None else None
-    
-    # Call the server to get filtered data
-    data = json.loads(anvil.server.call('get_watchlist_selection', user["user_id"], watchlist_ids_json))
+    # Call the server to get filtered data - pass watchlist IDs directly
+    data = json.loads(anvil.server.call('get_watchlist_selection', user["user_id"], active_watchlist_ids))
     
     # Apply search filter if there's a search term
     if search_term:
