@@ -219,17 +219,145 @@ class Monitor_Funnel(Monitor_FunnelTemplate):
     print(f"TIMING: Items skipped by search filter: {search_skip_count}")
     print(f"TIMING: Items in categories - Backlog: {len(backlog_items)}, Evaluation: {len(evaluation_items)}, Contacting: {len(contacting_items)}, Negotiation: {len(negotiation_items)}, Success: {len(success_items)}")
     
-    # Update UI in batch (fewer UI updates)
+    # Update UI in batch (fewer UI updates) with pagination
     ui_start = time.time()
-    self.repeating_panel_1.items = backlog_items
-    self.repeating_panel_2.items = evaluation_items
-    self.repeating_panel_3.items = contacting_items
-    self.repeating_panel_4.items = negotiation_items
-    self.repeating_panel_5.items = success_items
-    ui_time = time.time() - ui_start
     
+    # OPTIMIZATION: Apply a limit to the number of items in each panel
+    # This significantly improves UI rendering performance
+    max_items_per_panel = 10
+    
+    # Apply pagination to each category
+    self.repeating_panel_1.items = backlog_items[:max_items_per_panel]
+    self.repeating_panel_2.items = evaluation_items[:max_items_per_panel]
+    self.repeating_panel_3.items = contacting_items[:max_items_per_panel]
+    self.repeating_panel_4.items = negotiation_items[:max_items_per_panel]
+    self.repeating_panel_5.items = success_items[:max_items_per_panel]
+    
+    # Store the full lists for later access
+    self._full_backlog_items = backlog_items
+    self._full_evaluation_items = evaluation_items
+    self._full_contacting_items = contacting_items
+    self._full_negotiation_items = negotiation_items
+    self._full_success_items = success_items
+    
+    # Set label counts to show total items
+    if hasattr(self, 'label_backlog_count'):
+      self.label_backlog_count.text = f"{len(backlog_items)}"
+    if hasattr(self, 'label_evaluation_count'):
+      self.label_evaluation_count.text = f"{len(evaluation_items)}"
+    if hasattr(self, 'label_contacting_count'):
+      self.label_contacting_count.text = f"{len(contacting_items)}"
+    if hasattr(self, 'label_negotiation_count'):
+      self.label_negotiation_count.text = f"{len(negotiation_items)}"
+    if hasattr(self, 'label_success_count'):
+      self.label_success_count.text = f"{len(success_items)}"
+    
+    # Add load more buttons if needed
+    self._setup_load_more_buttons(backlog_items, evaluation_items, contacting_items, 
+                                  negotiation_items, success_items, max_items_per_panel)
+    
+    ui_time = time.time() - ui_start
     print(f"TIMING: Updating UI panels took {ui_time:.4f} seconds")
     print(f"TIMING: Total filter_and_display took {time.time() - overall_start:.4f} seconds")
+
+  def _setup_load_more_buttons(self, backlog_items, evaluation_items, contacting_items,
+                              negotiation_items, success_items, limit):
+    """
+    Set up 'Load More' buttons for each panel that has more items than the display limit
+    
+    Parameters:
+        *_items: Lists of items for each category
+        limit: Maximum number of items to display at once
+    """
+    # Add or update load more buttons for each panel as needed
+    for panel_idx, items in [
+        (1, backlog_items), 
+        (2, evaluation_items), 
+        (3, contacting_items),
+        (4, negotiation_items),
+        (5, success_items)
+    ]:
+      # Get the corresponding repeating panel
+      panel = getattr(self, f"repeating_panel_{panel_idx}")
+      
+      # Get the parent container
+      parent_container = panel.parent
+      
+      # Check if we need a load more button
+      if len(items) > limit:
+        # Look for an existing load more button
+        load_more_btn = None
+        for component in parent_container.get_components():
+          if isinstance(component, Button) and component.tag == f"load_more_{panel_idx}":
+            load_more_btn = component
+            break
+        
+        # Create a new button if needed
+        if not load_more_btn:
+          load_more_btn = Button(
+            text="Load More", 
+            tag=f"load_more_{panel_idx}",
+            role="primary-color"
+          )
+          load_more_btn.set_event_handler("click", self._create_load_more_handler(panel_idx))
+          parent_container.add_component(load_more_btn, index=parent_container.get_components().index(panel) + 1)
+        
+        # Update button text to show remaining count
+        load_more_btn.text = f"Load More ({len(items) - limit})"
+        load_more_btn.visible = True
+        
+      else:
+        # Remove or hide the load more button if it exists
+        for component in parent_container.get_components():
+          if isinstance(component, Button) and component.tag == f"load_more_{panel_idx}":
+            component.visible = False
+            break
+
+  def _create_load_more_handler(self, panel_idx):
+    """
+    Create a handler for the 'Load More' button
+    
+    Parameters:
+        panel_idx: Index of the panel (1-5)
+        
+    Returns:
+        handler: Event handler function
+    """
+    def handler(**event_args):
+      # Get the repeating panel
+      panel = getattr(self, f"repeating_panel_{panel_idx}")
+      
+      # Get the corresponding full item list
+      if panel_idx == 1:
+        full_items = self._full_backlog_items
+      elif panel_idx == 2:
+        full_items = self._full_evaluation_items
+      elif panel_idx == 3:
+        full_items = self._full_contacting_items
+      elif panel_idx == 4:
+        full_items = self._full_negotiation_items
+      elif panel_idx == 5:
+        full_items = self._full_success_items
+      
+      # Get current and target counts
+      current_count = len(panel.items)
+      batch_size = 10  # Load 10 more items
+      target_count = min(current_count + batch_size, len(full_items))
+      
+      # Update the panel with more items
+      start_time = time.time()
+      panel.items = full_items[:target_count]
+      print(f"TIMING: Loading more items for panel {panel_idx} took {time.time() - start_time:.4f} seconds")
+      
+      # Update the button
+      btn = event_args['sender']
+      remaining = len(full_items) - target_count
+      if remaining > 0:
+        btn.text = f"Load More ({remaining})"
+      else:
+        btn.visible = False
+      
+    return handler
 
   def text_box_search_change(self, **event_args):
     """
