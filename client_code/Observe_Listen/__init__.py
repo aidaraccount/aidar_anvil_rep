@@ -180,6 +180,7 @@ class Observe_Listen(Observe_ListenTemplate):
     self.tracks_start_time = time.time()
     self.discover_start_time = time.time()
     print(f"OBSERVE_LISTEN [{self.instance_id}] - Starting async loading - {datetime.now()}")
+    get_open_form().step_timer("Step 9 - Starting asynchronous loading")
     
     # Initialize with all_ai_artist_ids as None until we get data
     self.all_ai_artist_ids = None
@@ -190,6 +191,7 @@ class Observe_Listen(Observe_ListenTemplate):
     
     # 1. Start asynchronous loading of tracks
     self.load_tracks_async(notification_id)
+    get_open_form().step_timer("Step 9.1 - Tracks loading initialized")
     
     # 2. We'll start loading discover after tracks are loaded since we need the artist ID
     
@@ -205,6 +207,7 @@ class Observe_Listen(Observe_ListenTemplate):
     # Calculate loading time
     load_time = time.time() - self.tracks_start_time
     print(f"OBSERVE_LISTEN ASYNC [{self.instance_id}] - Tracks loaded (took {load_time:.2f} seconds)")
+    get_open_form().step_timer("Step 9.2 - Tracks data received")
     
     # Get the active instance - this is the one currently visible to the user
     active_instance = Observe_Listen._active_instance
@@ -218,6 +221,8 @@ class Observe_Listen(Observe_ListenTemplate):
   
   def process_tracks_data(self, observed_tracks):
     """Process and display tracks data"""
+    get_open_form().step_timer("Step 9.3 - Processing tracks data")
+    
     if observed_tracks is not None and len(observed_tracks) > 0:
       # Extract track information
       self.initial_track_id = observed_tracks[0]['tracks'][0]['spotify_track_id']
@@ -225,18 +230,29 @@ class Observe_Listen(Observe_ListenTemplate):
       
       save_var('lastplayedtrackid', self.initial_track_id)
       save_var('lastplayedartistid', self.initial_artist_id)
-      get_open_form().step_timer("Step 9d")
+      get_open_form().step_timer("Step 9.4 - Saved track and artist IDs")
       
       self.all_track_ids = [track['spotify_track_id'] for artist in observed_tracks for track in artist['tracks']]
       self.all_artist_ids = [track['spotify_artist_id'] for artist in observed_tracks for track in artist['tracks']]
       self.all_ai_artist_ids = [track['artist_id'] for artist in observed_tracks for track in artist['tracks']]
       self.all_artist_names = [track['name'] for artist in observed_tracks for track in artist['tracks']]
+      get_open_form().step_timer("Step 9.5 - Extracted all track and artist data")
       
       # Update UI with tracks data
       self.repeating_panel_artists.items = observed_tracks
       self.column_panel_content.visible = True
+      get_open_form().step_timer("Step 9.6 - Updated UI with tracks data")
       
-      get_open_form().step_timer("Step 10")
+      # Load Spotify Player as early as possible - don't wait for discover
+      self.footer_left.clear()
+      self.spotify_HTML_player()
+      get_open_form().step_timer("Step 9.7 - Spotify Player initialized")
+      
+      # Load dropdown data early
+      self.load_dropdowns()
+      get_open_form().step_timer("Step 9.8 - Dropdowns loaded")
+      
+      get_open_form().step_timer("Step 10 - Starting discover loading")
       
       # Now that we have the artist IDs, start loading the discover component
       if self.all_ai_artist_ids and len(self.all_ai_artist_ids) > 0:
@@ -245,10 +261,28 @@ class Observe_Listen(Observe_ListenTemplate):
     else:
       self.column_panel_content.visible = False
       self.no_artists.visible = True
+      get_open_form().step_timer("Step 9.9 - No artists found")
+
+  # Load dropdown data as a separate function so it can be called earlier
+  def load_dropdowns(self):
+    """Load watchlist and model dropdown data"""
+    try:
+      # Load watchlist dropdown
+      wl_data = json.loads(anvil.server.call('get_watchlist_ids', user["user_id"]))
+      self.drop_down_wl.selected_value = [item['watchlist_name'] for item in wl_data if item['is_last_used']][0]
+      self.drop_down_wl.items = [item['watchlist_name'] for item in wl_data]
+      
+      # Load model dropdown
+      model_data = json.loads(anvil.server.call('get_model_ids', user["user_id"]))
+      self.drop_down_model.selected_value = [item['model_name'] for item in model_data if item['is_last_used']][0]
+      self.drop_down_model.items = [item['model_name'] for item in model_data]
+    except Exception as e:
+      print(f"Error loading dropdowns: {e}")
 
   # ASYNC METHODS FOR DISCOVER
   def load_discover_async(self, artist_id):
     """Starts asynchronous loading of discover data"""
+    get_open_form().step_timer("Step 10.1 - Starting discover async load")
     async_call = call_async("get_artist_discover_data", artist_id)
     async_call.on_result(self.discover_loaded)
   
@@ -257,6 +291,7 @@ class Observe_Listen(Observe_ListenTemplate):
     # Calculate loading time
     load_time = time.time() - self.discover_start_time
     print(f"OBSERVE_LISTEN ASYNC [{self.instance_id}] - Discover data loaded (took {load_time:.2f} seconds)")
+    get_open_form().step_timer("Step 10.2 - Discover data received")
     
     # Get the active instance - this is the one currently visible to the user
     active_instance = Observe_Listen._active_instance
@@ -270,43 +305,30 @@ class Observe_Listen(Observe_ListenTemplate):
   
   def process_discover_data(self, artist_id):
     """Process and display discover data"""
-    get_open_form().step_timer("Step 11a")
+    get_open_form().step_timer("Step 11 - Processing discover data")
     
     # Clear and add the C_Discover component
     self.column_panel_discover.clear()
     self.column_panel_discover.add_component(C_Discover(artist_id))
+    get_open_form().step_timer("Step 11.1 - Added discover component")
     
-    get_open_form().step_timer("Step 11b")
-    
-    # -----------
-    # FOOTER
     # a) set ratings status
     self.column_panel_discover.get_components()[0].set_rating_highlight()
-    get_open_form().step_timer("Step 11c")
+    get_open_form().step_timer("Step 11.2 - Set rating highlights")
     
     # b) set watchlist status
     self.column_panel_discover.get_components()[0].set_watchlist_icons()
-    get_open_form().step_timer("Step 11d")
-          
-    # c) Instantiate Spotify Player
-    self.footer_left.clear()
-    self.spotify_HTML_player()
-    get_open_form().step_timer("Step 11e")
-    self.form_show()
-    get_open_form().step_timer("Step 11f")
+    get_open_form().step_timer("Step 11.3 - Set watchlist icons")
     
-    # d) Watchlist Drop-Down
-    wl_data = json.loads(anvil.server.call('get_watchlist_ids',  user["user_id"]))
-    self.drop_down_wl.selected_value = [item['watchlist_name'] for item in wl_data if item['is_last_used']][0]
-    self.drop_down_wl.items = [item['watchlist_name'] for item in wl_data]
-    get_open_form().step_timer("Step 11g")
-
-    # e) Models Drop-Down
-    model_data = json.loads(anvil.server.call('get_model_ids',  user["user_id"]))
-    self.drop_down_model.selected_value = [item['model_name'] for item in model_data if item['is_last_used']][0]
-    self.drop_down_model.items = [item['model_name'] for item in model_data]
-    get_open_form().step_timer("Step 12")
-
+    # Update the form UI if needed
+    self.form_show()
+    get_open_form().step_timer("Step 11.4 - Form UI updated")
+    
+    # Spotify player is already loaded at this point
+    # Dropdown data is already loaded at this point
+    
+    get_open_form().step_timer("Step 12 - Discover loading complete")
+  
   # GET DISCOVER DETAILS - This will be replaced by the async version above
   def initial_load_discover(self, first_artist_id, **event_args):
     # This method is being replaced by asynchronous loading
