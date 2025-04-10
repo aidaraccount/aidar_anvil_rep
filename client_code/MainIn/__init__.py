@@ -8,6 +8,7 @@ import anvil.tables.query as q
 from anvil.tables import app_tables
 import anvil.users
 import json
+import time
 from datetime import datetime
 from anvil.js.window import location, updateLoadingSpinnerMargin
 from ..C_SearchPopupTable import C_SearchPopupTable
@@ -60,13 +61,45 @@ class MainIn(MainInTemplate):
       global status
       status = True
       
+      # 1. Helper function to safely call JavaScript
+      def ensure_js_function_available(function_name):
+        """Ensures JavaScript function is available before calling it"""
+        try:
+          # First check if the function is already defined
+          is_defined = anvil.js.call_js('eval', f'typeof {function_name} === "function"')
+          if not is_defined:
+            print(f"[NAVBAR_DEBUG] Function {function_name} not found, attempting to load hideNavBar.js")
+            # Try to load the script
+            anvil.js.call_js('eval', 
+                           '''
+                           var script = document.createElement("script");
+                           script.src = "assets/hideNavBar.js";
+                           script.onload = function() { 
+                             console.log("[NAVBAR_DEBUG] hideNavBar.js loaded dynamically"); 
+                           };
+                           document.head.appendChild(script);
+                           ''')
+            # Give it a moment to load
+            time.sleep(0.1)
+          return True
+        except Exception as e:
+          print(f"[NAVBAR_DEBUG] Error ensuring JavaScript function: {str(e)}")
+          return False
+
       if user['expiration_date'] is not None and (datetime.today().date() - user['expiration_date']).days > 0:
         routing.set_url_hash('no_subs', load_from_cache=False)
         self.SearchBar.visible = False
 
-        # hide navigation sidebar
-        anvil.js.call_js("navbar_noModel_noSubs", False)
-        
+        # 2. Hide navigation sidebar with JavaScript safety check
+        try:
+          print(f"[NAVBAR_DEBUG] Attempting to call navbar_noModel_noSubs with False")
+          # Ensure the function is available
+          if ensure_js_function_available('navbar_noModel_noSubs'):
+            anvil.js.call_js("navbar_noModel_noSubs", False)
+            print(f"[NAVBAR_DEBUG] Successfully called navbar_noModel_noSubs")
+        except Exception as e:
+          print(f"[NAVBAR_DEBUG] Error calling navbar_noModel_noSubs: {str(e)}")
+          
       #begin = datetime.datetime.now()
       #print(f"{datetime.datetime.now()}: MainIn - link_login_click - 2", flush=True)
 
@@ -90,8 +123,17 @@ class MainIn(MainInTemplate):
         routing.set_url_hash('no_model', load_from_cache=False)
         self.SearchBar.visible = True
         
-        # hide navigation sidebar
-        anvil.js.call_js("navbar_noModel_noSubs", False)
+        # 3. Hide navigation sidebar with JavaScript safety check
+        try:
+          print(f"[NAVBAR_DEBUG] Attempting to call navbar_noModel_noSubs with False")
+          # Ensure the function is available
+          if ensure_js_function_available('navbar_noModel_noSubs'):
+            anvil.js.call_js("navbar_noModel_noSubs", False)
+            print(f"[NAVBAR_DEBUG] Successfully called navbar_noModel_noSubs")
+        except Exception as e:
+          print(f"[NAVBAR_DEBUG] Error calling navbar_noModel_noSubs: {str(e)}")
+          # Try to ensure the script is loaded first
+          anvil.js.call_js("console.log", "[NAVBAR_DEBUG] Fallback: checking if hideNavBar.js is loaded")
 
       #print(f"{datetime.datetime.now()}: MainIn - link_login_click - 4", flush=True)
       self.update_no_notifications()
