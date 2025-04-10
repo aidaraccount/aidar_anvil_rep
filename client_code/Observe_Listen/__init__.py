@@ -35,7 +35,7 @@ class Observe_Listen(Observe_ListenTemplate):
       routing.set_url_hash('no_subs', load_from_cache=False)
       get_open_form().SearchBar.visible = False
       
-    else:      
+    else:
       model_id = load_var("model_id")
       self.model_id = model_id
       print(f"Notifications model_id: {model_id}")
