@@ -297,17 +297,14 @@ class Observe_Listen(Observe_ListenTemplate):
     self.drop_down_model.items = [item['model_name'] for item in model_data]
     
     # Now schedule the loading of the heavy component after the UI is available
-    # Using Anvil's correct Timer implementation
-    self.discover_timer = Timer()
-    self.discover_timer.interval = 0.1
-    
-    # Set up the timer to call our function and run once
-    def timer_tick():
+    # Using correct Anvil Timer approach with a timer_tick callback
+    def timer_tick(**event_args):
+      # Function to be called when the timer fires
       load_discover_component()
-      self.discover_timer.stop()
+      # No need to explicitly stop as we set repeat=False
     
-    self.discover_timer.tick += timer_tick
-    self.discover_timer.start()
+    # Create a timer that will call timer_tick after 0.1 seconds
+    self.discover_timer = Timer(timer_tick, interval=0.1, repeat=False)
     
     print(f"[TIMING] initial_load_discover TOTAL: {time.time() - start_time:.3f}s")
 
