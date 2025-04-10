@@ -9,7 +9,8 @@ import json
 from anvil.js.window import document, playSpotify, setPlayButtonIcons
 import anvil.js
 import time
-
+from anvil_labs.non_blocking import call_async
+import uuid
 
 from datetime import date, datetime
 from anvil_extras import routing
@@ -21,7 +22,15 @@ from ..C_Discover import C_Discover
 
 @routing.route("listen", url_keys=['notification_id'], title="Observe - Listen-In")
 class Observe_Listen(Observe_ListenTemplate):
+  # Class variable to track the current active instance
+  _active_instance = None
+
   def __init__(self, **properties):
+    # Generate a unique instance ID for tracking callbacks
+    self.instance_id = str(uuid.uuid4())[:8]
+    
+    # Set this as the active instance
+    Observe_Listen._active_instance = self
     
     get_open_form().start_timer()
     
@@ -167,19 +176,52 @@ class Observe_Listen(Observe_ListenTemplate):
     # get data
     notification = [item for item in self.notifications if item["notification_id"] == notification_id][0]
     
-    observed_tracks = anvil.server.call('get_observed_tracks', notification["notification_id"]) # !!!!!! TIME INTENSE !!!!!!!
+    # Initialize loading variables and timing
+    self.tracks_start_time = time.time()
+    self.discover_start_time = time.time()
+    print(f"OBSERVE_LISTEN [{self.instance_id}] - Starting async loading - {datetime.now()}")
     
-    get_open_form().step_timer("Step 9")
-    get_open_form().step_timer("Step 9a")
+    # Initialize with all_ai_artist_ids as None until we get data
+    self.all_ai_artist_ids = None
     
-    # hand-over the data
-    if len(observed_tracks) > 0:
-      self.no_artists.visible = False
-      get_open_form().step_timer("Step 9b")
-
+    # Hide content until data is loaded
+    self.column_panel_content.visible = False
+    self.no_artists.visible = False
+    
+    # 1. Start asynchronous loading of tracks
+    self.load_tracks_async(notification_id)
+    
+    # 2. We'll start loading discover after tracks are loaded since we need the artist ID
+    
+  # ------
+  # ASYNC METHODS FOR TRACKS
+  def load_tracks_async(self, notification_id):
+    """Starts asynchronous loading of track data"""
+    async_call = call_async("get_observe_tracks_data", notification_id)
+    async_call.on_result(self.tracks_loaded)
+    
+  def tracks_loaded(self, observed_tracks):
+    """Handles successful server response for tracks data"""
+    # Calculate loading time
+    load_time = time.time() - self.tracks_start_time
+    print(f"OBSERVE_LISTEN ASYNC [{self.instance_id}] - Tracks loaded (took {load_time:.2f} seconds)")
+    
+    # Get the active instance - this is the one currently visible to the user
+    active_instance = Observe_Listen._active_instance
+    
+    # Check if we should update the current instance or the active instance
+    if active_instance and active_instance.instance_id != self.instance_id:
+      print(f"OBSERVE_LISTEN ASYNC [{self.instance_id}] - Updating active instance [{active_instance.instance_id}] with tracks")
+      active_instance.process_tracks_data(observed_tracks)
+    else:
+      self.process_tracks_data(observed_tracks)
+  
+  def process_tracks_data(self, observed_tracks):
+    """Process and display tracks data"""
+    if observed_tracks is not None and len(observed_tracks) > 0:
+      # Extract track information
       self.initial_track_id = observed_tracks[0]['tracks'][0]['spotify_track_id']
       self.initial_artist_id = observed_tracks[0]['tracks'][0]['spotify_artist_id']
-      get_open_form().step_timer("Step 9c")
       
       save_var('lastplayedtrackid', self.initial_track_id)
       save_var('lastplayedartistid', self.initial_artist_id)
@@ -189,36 +231,53 @@ class Observe_Listen(Observe_ListenTemplate):
       self.all_artist_ids = [track['spotify_artist_id'] for artist in observed_tracks for track in artist['tracks']]
       self.all_ai_artist_ids = [track['artist_id'] for artist in observed_tracks for track in artist['tracks']]
       self.all_artist_names = [track['name'] for artist in observed_tracks for track in artist['tracks']]
-      get_open_form().step_timer("Step 9e")
       
-      # Asyncron Path 1
-      self.repeating_panel_artists.items = observed_tracks # !!!!!! TIME INTENSE !!!!!!!
+      # Update UI with tracks data
+      self.repeating_panel_artists.items = observed_tracks
       self.column_panel_content.visible = True
       
       get_open_form().step_timer("Step 10")
-
-      # Asyncron Path 2
-      print(self.all_ai_artist_ids[0])
-      self.initial_load_discover(self.all_ai_artist_ids[0])
       
+      # Now that we have the artist IDs, start loading the discover component
+      if self.all_ai_artist_ids and len(self.all_ai_artist_ids) > 0:
+        print(f"Starting discover load with artist ID: {self.all_ai_artist_ids[0]}")
+        self.load_discover_async(self.all_ai_artist_ids[0])
     else:
       self.column_panel_content.visible = False
       self.no_artists.visible = True
 
-
-  # GET DISCOVER DETAILS
-  def initial_load_discover(self, first_artist_id, **event_args):
-    get_open_form().step_timer("Step 11")
-    get_open_form().step_timer("Step 11a")
-    get_open_form().step_timer("Step 11a 1")
-    # b) fill C_Discover
-    get_open_form().step_timer("Step 11a 2")
-    self.column_panel_discover.clear()
-    get_open_form().step_timer("Step 11a 3")
+  # ASYNC METHODS FOR DISCOVER
+  def load_discover_async(self, artist_id):
+    """Starts asynchronous loading of discover data"""
+    async_call = call_async("get_artist_discover_data", artist_id)
+    async_call.on_result(self.discover_loaded)
+  
+  def discover_loaded(self, artist_id):
+    """Handles successful server response for discover data"""
+    # Calculate loading time
+    load_time = time.time() - self.discover_start_time
+    print(f"OBSERVE_LISTEN ASYNC [{self.instance_id}] - Discover data loaded (took {load_time:.2f} seconds)")
     
-    self.column_panel_discover.add_component(C_Discover(first_artist_id))  # !!!!!! TIME INTENSE !!!!!!!
+    # Get the active instance - this is the one currently visible to the user
+    active_instance = Observe_Listen._active_instance
+    
+    # Check if we should update the current instance or the active instance
+    if active_instance and active_instance.instance_id != self.instance_id:
+      print(f"OBSERVE_LISTEN ASYNC [{self.instance_id}] - Updating active instance [{active_instance.instance_id}] with discover")
+      active_instance.process_discover_data(artist_id)
+    else:
+      self.process_discover_data(artist_id)
+  
+  def process_discover_data(self, artist_id):
+    """Process and display discover data"""
+    get_open_form().step_timer("Step 11a")
+    
+    # Clear and add the C_Discover component
+    self.column_panel_discover.clear()
+    self.column_panel_discover.add_component(C_Discover(artist_id))
+    
     get_open_form().step_timer("Step 11b")
-
+    
     # -----------
     # FOOTER
     # a) set ratings status
@@ -247,6 +306,12 @@ class Observe_Listen(Observe_ListenTemplate):
     self.drop_down_model.selected_value = [item['model_name'] for item in model_data if item['is_last_used']][0]
     self.drop_down_model.items = [item['model_name'] for item in model_data]
     get_open_form().step_timer("Step 12")
+
+  # GET DISCOVER DETAILS - This will be replaced by the async version above
+  def initial_load_discover(self, first_artist_id, **event_args):
+    # This method is being replaced by asynchronous loading
+    # Keep this method for backward compatibility, but use async loading internally
+    self.load_discover_async(first_artist_id)
     
   def reload_discover(self, nextSpotifyArtistID, **event_args):
     if self.discover_is_loading:
@@ -254,19 +319,15 @@ class Observe_Listen(Observe_ListenTemplate):
 
     self.discover_is_loading = True  # Lock the function
     try:
-      # load C_Discover
+      # Get the AI artist ID from the Spotify artist ID
       new_artist_id = self.all_ai_artist_ids[self.all_artist_ids.index(nextSpotifyArtistID)]
-      self.column_panel_discover.clear()
-      self.column_panel_discover.add_component(C_Discover(new_artist_id))
-      # set ratings status
-      self.column_panel_discover.get_components()[0].set_rating_highlight()    
-      # set watchlist status
-      self.column_panel_discover.get_components()[0].set_watchlist_icons()
-      # refresh play buttons
-      anvil.js.call_js('setPlayButtonIcons', 'track')
+      
+      # Use the async loading pattern
+      self.discover_start_time = time.time()
+      self.load_discover_async(new_artist_id)
     
     finally:
-      self.discover_is_loading = False  # Unlock the function    
+      self.discover_is_loading = False  # Unlock the function
 
   # CREATE A NEW PLAYLIST
   def add_spotify_playlist_click(self, **event_args):
