@@ -34,7 +34,7 @@ class Monitor_Funnel(Monitor_FunnelTemplate):
       
       # FUNNEL DATA
       data = json.loads(anvil.server.call('get_watchlist_selection', user["user_id"], None))
-      print(data)
+      
       self.repeating_panel_1.items = [item for item in data if item['Status'] in ['Reconnect later', 'Not interested', None]] #BACKLOG
       self.repeating_panel_2.items = [item for item in data if item['Status'] in ['Action required', 'Requires revision', 'Waiting for decision']] #EVALUATION
       self.repeating_panel_3.items = [item for item in data if item['Status'] in ['Build connection', 'Awaiting response', 'Exploring opportunities', 'Positive response']] #CONTACTING
