@@ -33,13 +33,15 @@ function navbar_noModel_noSubs(visible) {
     
     var content = document.querySelector('.main-content-move');
     var contentNav = document.querySelector('.main-content-move-nav');
+    var spotifyFooter = document.querySelector('.anvil-role-cap-spotify-footer');
     
     // Log detailed element information
     console.log("[NAVBAR_DEBUG] Elements found:", {
       sidebar: sidebar ? "Found" : "Not found",
       button: button ? "Found" : "Not found",
       content: content ? "Found" : "Not found",
-      contentNav: contentNav ? "Found" : "Not found"
+      contentNav: contentNav ? "Found" : "Not found",
+      spotifyFooter: spotifyFooter ? "Found" : "Not found"
     });
     
     // Handle sidebar visibility
@@ -58,7 +60,7 @@ function navbar_noModel_noSubs(visible) {
     
     // Handle content margin adjustments regardless of sidebar existence
     if (content) {
-      content.style.display = visible ? "block" : "none";
+      // Don't hide content completely when sidebar is hidden, just adjust margins
       if (visible && sidebar) {
         content.style.marginLeft = window.innerWidth <= 767 ? '0px' : '250px';
       } else {
@@ -67,7 +69,7 @@ function navbar_noModel_noSubs(visible) {
     }
     
     if (contentNav) {
-      contentNav.style.display = visible ? "block" : "none";
+      // Don't hide contentNav completely when sidebar is hidden, just adjust margins
       if (visible && sidebar) {
         contentNav.style.marginLeft = window.innerWidth <= 767 ? '0px' : '250px';
       } else {
@@ -86,6 +88,12 @@ function navbar_noModel_noSubs(visible) {
         sidebar.style.left = '0px';
         if (button) button.style.left = '250px';
       }
+    }
+    
+    // Ensure Spotify player remains visible
+    if (spotifyFooter) {
+      console.log("[NAVBAR_DEBUG] Ensuring Spotify footer remains visible");
+      spotifyFooter.style.display = "block";
     }
   } catch (error) {
     console.error("[NAVBAR_DEBUG] Error in navbar_noModel_noSubs:", error);
