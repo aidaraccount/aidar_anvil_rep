@@ -301,12 +301,16 @@ class Observe_Listen(Observe_ListenTemplate):
     self.drop_down_model.items = [item['model_name'] for item in model_data]
     
     # Now ensure the heavy component loads after a very short delay
-    # Different approach using a background task
-    anvil.server.call_s('sleep', 0.1)  # Small delay to let UI render
+    # Use Anvil's built-in client-side timer for a one-time delayed call
+    def delayed_load(**event_args):
+      print("[TIMING] Delayed loading of C_Discover is starting now")
+      load_discover_component()
     
-    # After delay, load the component
-    print("[TIMING] Delayed loading of C_Discover is starting now")
-    load_discover_component()
+    # Create a one-time timer to trigger the loading
+    timer = Timer(interval=0.1)
+    timer.tick = delayed_load
+    # Add the timer to a container so it will work
+    self.add_component(timer)
     
     print(f"[TIMING] initial_load_discover TOTAL: {time.time() - start_time:.3f}s")
 
