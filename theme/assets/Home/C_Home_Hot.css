@@ -106,7 +106,7 @@
 
 .hot-release-cell {
   padding: 0 12px 0 0;
-  text-align: right;
+  text-align: center; /* Center align the content */
   vertical-align: middle;
   width: auto;
   min-width: 85px; /* Ensure minimum width for box content with value and name */
@@ -114,7 +114,7 @@
 
 /* 4. Tag box styling */
 .hot-release-box {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
   background-color: var(--PurpleFocus);
@@ -124,6 +124,7 @@
   text-align: center;
   height: auto;
   min-height: 24px;
+  width: auto;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
 }
 
