@@ -32,22 +32,29 @@
 /* 2. Hot table rows */
 .hot-row {
   height: auto;
-  min-height: 36px;
-  transition: opacity 0.3s ease;
+  min-height: 40px; /* Slightly increase row height for better spacing */
+  transition: opacity 0.3s ease, background-color 0.2s ease;
 }
 
 .hot-row:hover {
   background-color: rgba(255, 255, 255, 0.05);
 }
 
-/* 3. Hot table cells */
+/* 3. Hot table cells - ensure all cells are vertically centered */
+.hot-pic-cell,
+.hot-name-cell,
+.hot-watchlist-cell,
+.hot-release-cell,
+.hot-metric-name-cell {
+  vertical-align: middle;
+}
+
 .hot-pic-cell {
   width: 36px; /* Fixed width for the picture cell */
   min-width: 36px;
   max-width: 36px;
   padding: 0 4px;
   text-align: center;
-  vertical-align: middle;
 }
 
 .hot-artist-pic {
@@ -86,19 +93,23 @@
   font-size: 12px;
   text-align: center;
   vertical-align: middle;
-  width: 30%; /* Allocate proportional space */
+  width: 20%; /* Reduce width to accommodate the new column */
   white-space: normal; /* Allow text to wrap */
   overflow: hidden;
   text-overflow: ellipsis;
   line-height: 1.2;
 }
 
+.hot-metric-name-cell {
+  display: none;
+}
+
 .hot-release-cell {
-  padding: 0 8px;
-  text-align: right;
+  padding: 0 12px 0 0;
+  text-align: center; /* Center align the content */
   vertical-align: middle;
-  width: auto; /* Let it take what it needs */
-  min-width: 100px; /* Ensure minimum width for tag content */
+  width: auto;
+  min-width: 85px; /* Ensure minimum width for box content with value and name */
 }
 
 /* 4. Tag box styling */
@@ -108,19 +119,29 @@
   justify-content: center;
   background-color: var(--PurpleFocus);
   color: white;
-  border-radius: 6px;
+  border-radius: 4px;
   padding: 2px 8px;
   text-align: center;
-  height: auto; /* Allow height to adjust */
-  min-height: 20px; /* Minimum height */
-  line-height: 1.2;
-  transform: translateY(-5px); /* Adjustment to center vertically */
+  height: auto;
+  min-height: 24px;
+  width: auto;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
+  transform: translateY(-4px);
 }
 
-.hot-release-time {
-  font-size: 12px;
+.hot-release-value {
+  font-size: 14px;
   font-weight: 700;
-  white-space: nowrap; /* Keep tags on one line */
+  white-space: nowrap;
+  letter-spacing: 0.2px;
+  margin-right: 4px;
+}
+
+.hot-metric-name {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.75);
+  white-space: nowrap;
+  font-weight: 400;
 }
 
 /* 5. Show more/less link styling */

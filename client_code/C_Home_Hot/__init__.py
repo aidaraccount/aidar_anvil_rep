@@ -275,7 +275,8 @@ class C_Home_Hot(C_Home_HotTemplate):
         artist_name = item.get('name', 'Unknown')
         artist_pic_url = item.get('artist_picture_url', '')
         list_name = item.get('list_name', 'Unknown')
-        tag = item.get('tag', '')  # Metric information
+        metric_value = item.get('metric_value', '')  # New metric value
+        metric_name = item.get('metric_name', '')    # New metric name
         
         # Create unique row ID
         row_id = f"hot-row-{container_class}-{i}"
@@ -297,7 +298,8 @@ class C_Home_Hot(C_Home_HotTemplate):
             <td class="hot-watchlist-cell">on {list_name}</td>
             <td class="hot-release-cell">
               <div class="hot-release-box">
-                <span class="hot-release-time">{tag}</span>
+                <span class="hot-release-value">{metric_value}</span>
+                <span class="hot-metric-name">{metric_name}</span>
               </div>
             </td>
           </tr>
