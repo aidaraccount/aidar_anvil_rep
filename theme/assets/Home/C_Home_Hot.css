@@ -114,13 +114,27 @@
   height: auto; /* Allow height to adjust */
   min-height: 20px; /* Minimum height */
   line-height: 1.2;
-  transform: translateY(-5px); /* Adjustment to center vertically */
+  margin-right: 4px; /* Add space between the box and metric name */
 }
 
 .hot-release-time {
   font-size: 12px;
   font-weight: 700;
   white-space: nowrap; /* Keep tags on one line */
+}
+
+/* 4.1 Metric container and name styling */
+.hot-metric-container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.hot-metric-name {
+  font-size: 12px;
+  color: white;
+  opacity: 0.85;
+  white-space: nowrap;
 }
 
 /* 5. Show more/less link styling */
