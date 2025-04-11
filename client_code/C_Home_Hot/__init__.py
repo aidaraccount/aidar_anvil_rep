@@ -254,7 +254,7 @@ class C_Home_Hot(C_Home_HotTemplate):
       # Loading state message
       html_content += f"""
         <tr class="hot-row hot-status-row">
-          <td colspan="4" class="hot-status-cell">
+          <td colspan="5" class="hot-status-cell">
             <div class="hot-status-message hot-loading-message">Loading artists...</div>
           </td>
         </tr>
@@ -263,7 +263,7 @@ class C_Home_Hot(C_Home_HotTemplate):
       # No data message
       html_content += f"""
         <tr class="hot-row hot-status-row">
-          <td colspan="4" class="hot-status-cell">
+          <td colspan="5" class="hot-status-cell">
             <div class="hot-status-message hot-empty-message">No artists available</div>
           </td>
         </tr>
@@ -296,12 +296,10 @@ class C_Home_Hot(C_Home_HotTemplate):
             </td>
             <td class="hot-name-cell"><a href="javascript:void(0)" onclick="window.pyArtistNameClicked('{artist_id}')">{artist_name}</a></td>
             <td class="hot-watchlist-cell">on {list_name}</td>
+            <td class="hot-metric-name-cell">{metric_name}</td>
             <td class="hot-release-cell">
-              <div class="hot-metric-container">
-                <div class="hot-release-box">
-                  <span class="hot-release-time">{metric_value}</span>
-                </div>
-                <span class="hot-metric-name">{metric_name}</span>
+              <div class="hot-release-box">
+                <span class="hot-release-time">{metric_value}</span>
               </div>
             </td>
           </tr>

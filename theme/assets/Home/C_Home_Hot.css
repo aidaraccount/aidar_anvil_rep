@@ -32,8 +32,8 @@
 /* 2. Hot table rows */
 .hot-row {
   height: auto;
-  min-height: 36px;
-  transition: opacity 0.3s ease;
+  min-height: 40px; /* Slightly increase row height for better spacing */
+  transition: opacity 0.3s ease, background-color 0.2s ease;
 }
 
 .hot-row:hover {
@@ -86,19 +86,33 @@
   font-size: 12px;
   text-align: center;
   vertical-align: middle;
-  width: 30%; /* Allocate proportional space */
+  width: 20%; /* Reduce width to accommodate the new column */
   white-space: normal; /* Allow text to wrap */
   overflow: hidden;
   text-overflow: ellipsis;
   line-height: 1.2;
 }
 
+.hot-metric-name-cell {
+  padding: 0 4px 0 12px;
+  color: #e0e0e0; /* Slightly lighter white */
+  font-size: 12px;
+  text-align: left;
+  vertical-align: middle;
+  width: 25%; /* Allocate more space */
+  white-space: nowrap; /* Keep on one line */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.2;
+  font-weight: 500; /* Medium weight for better readability */
+}
+
 .hot-release-cell {
-  padding: 0 8px;
+  padding: 0 12px 0 0;
   text-align: right;
   vertical-align: middle;
   width: auto; /* Let it take what it needs */
-  min-width: 100px; /* Ensure minimum width for tag content */
+  min-width: 65px; /* Ensure minimum width for box content */
 }
 
 /* 4. Tag box styling */
@@ -108,33 +122,20 @@
   justify-content: center;
   background-color: var(--PurpleFocus);
   color: white;
-  border-radius: 6px;
-  padding: 2px 8px;
+  border-radius: 4px;
+  padding: 3px 10px;
   text-align: center;
   height: auto; /* Allow height to adjust */
-  min-height: 20px; /* Minimum height */
+  min-height: 24px; /* Minimum height */
   line-height: 1.2;
-  margin-right: 4px; /* Add space between the box and metric name */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25); /* Add shadow for depth */
 }
 
 .hot-release-time {
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 700;
   white-space: nowrap; /* Keep tags on one line */
-}
-
-/* 4.1 Metric container and name styling */
-.hot-metric-container {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-}
-
-.hot-metric-name {
-  font-size: 12px;
-  color: white;
-  opacity: 0.85;
-  white-space: nowrap;
+  letter-spacing: 0.2px; /* Slight letter spacing for modern look */
 }
 
 /* 5. Show more/less link styling */
