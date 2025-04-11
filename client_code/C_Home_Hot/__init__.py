@@ -296,12 +296,12 @@ class C_Home_Hot(C_Home_HotTemplate):
             </td>
             <td class="hot-name-cell"><a href="javascript:void(0)" onclick="window.pyArtistNameClicked('{artist_id}')">{artist_name}</a></td>
             <td class="hot-watchlist-cell">on {list_name}</td>
-            <td class="hot-metric-name-cell">{metric_name}</td>
             <td class="hot-release-cell">
               <div class="hot-release-box">
                 <span class="hot-release-time">{metric_value}</span>
               </div>
             </td>
+            <td class="hot-metric-name-cell">{metric_name}</td>
           </tr>
         """
     

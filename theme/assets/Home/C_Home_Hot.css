@@ -40,14 +40,21 @@
   background-color: rgba(255, 255, 255, 0.05);
 }
 
-/* 3. Hot table cells */
+/* 3. Hot table cells - ensure all cells are vertically centered */
+.hot-pic-cell,
+.hot-name-cell,
+.hot-watchlist-cell,
+.hot-release-cell,
+.hot-metric-name-cell {
+  vertical-align: middle;
+}
+
 .hot-pic-cell {
   width: 36px; /* Fixed width for the picture cell */
   min-width: 36px;
   max-width: 36px;
   padding: 0 4px;
   text-align: center;
-  vertical-align: middle;
 }
 
 .hot-artist-pic {
@@ -94,12 +101,12 @@
 }
 
 .hot-metric-name-cell {
-  padding: 0 4px 0 12px;
+  padding: 0 12px 0 6px;
   color: #e0e0e0; /* Slightly lighter white */
   font-size: 12px;
   text-align: left;
   vertical-align: middle;
-  width: 25%; /* Allocate more space */
+  width: 20%; /* Allocate space */
   white-space: nowrap; /* Keep on one line */
   overflow: hidden;
   text-overflow: ellipsis;
@@ -108,7 +115,7 @@
 }
 
 .hot-release-cell {
-  padding: 0 12px 0 0;
+  padding: 0 8px;
   text-align: right;
   vertical-align: middle;
   width: auto; /* Let it take what it needs */
@@ -125,9 +132,8 @@
   border-radius: 4px;
   padding: 3px 10px;
   text-align: center;
-  height: auto; /* Allow height to adjust */
-  min-height: 24px; /* Minimum height */
-  line-height: 1.2;
+  height: 24px; /* Fixed height for consistency */
+  line-height: 1;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25); /* Add shadow for depth */
 }
 
