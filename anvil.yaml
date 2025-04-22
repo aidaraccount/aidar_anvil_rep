@@ -48,6 +48,9 @@ db_schema:
     - admin_ui: {order: 1.625, width: 200}
       name: welcome_email_sent
       type: bool
+    - admin_ui: {order: -0.25, width: 200}
+      name: customer_name
+      type: string
     server: full
     title: Users
   waiters:
