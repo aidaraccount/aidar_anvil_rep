@@ -24,13 +24,20 @@ class MainOut_Register(MainOut_RegisterTemplate):
     # Any code you write here will run before the form opens.      
     # check for key in url
     if anvil.js.window.location.hash.lstrip('#').split('?')[1][12:] != 'None':
-      self.license_key.text = anvil.js.window.location.hash.lstrip('#').split('?')[1][12:]
+      # save license_key for later usage
+      self.license_key = anvil.js.window.location.hash.lstrip('#').split('?')[1][12:]
+      
+      # add the subscribing company name to the header
+      pass
+
+    # add link to Privacy Policy
+    self.label_privacy.content = 'I have read and agree to the <a href="https://www.aidar.ai/privacy.html" target="_blank">Privacy Policy</a>.'
     
   
   def button_register_click(self, **event_args):
     email_regex = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
 
-    customer_id = anvil.server.call('check_customer_license_key', self.license_key.text)
+    customer_id = anvil.server.call('check_customer_license_key', self.license_key)
     print('MainOut_Register customer_id:', customer_id)
     
     if customer_id is None:
@@ -119,24 +126,13 @@ class MainOut_Register(MainOut_RegisterTemplate):
     self.login_email.focus()
 
   def login_email_pressed_enter(self, **event_args):
-    self.login_pw.focus()
+    self.login_company.focus()
 
+  def login_company_pressed_enter(self, **event_args):
+    self.login_pw.focus()
+  
   def login_pw_pressed_enter(self, **event_args):
     self.login_pw_conf.focus()
 
   def login_pw_conf_pressed_enter(self, **event_args):
-    self.license_key.focus()
-
-  # LICENSE KEY
-  def license_key_change(self, **event_args):
-    # add - after 3 and 7 characters
-    if len(self.license_key.text) in (3, 7):
-      self.license_key.text = f'{self.license_key.text}-'
-
-    # do not allow --
-    if len(self.license_key.text) > 3:
-      if self.license_key.text[len(self.license_key.text)-2:len(self.license_key.text)] == '--':
-        self.license_key.text = self.license_key.text[:len(self.license_key.text)-1]
-    
-    # Limit to 11 characters
-    self.license_key.text = self.license_key.text[:11]
+    self.confirm_privacy.focus()
