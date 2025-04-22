@@ -21,34 +21,38 @@ class MainOut_Register(MainOut_RegisterTemplate):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
 
-    # Any code you write here will run before the form opens.      
+    # Any code you write here will run before the form opens.
+    # diasble the register button
+    # self.register_button.enabled = False
+    
     # check for key in url
     if anvil.js.window.location.hash.lstrip('#').split('?')[1][12:] != 'None':
       # save license_key for later usage
       self.license_key = anvil.js.window.location.hash.lstrip('#').split('?')[1][12:]
       
-      # add the subscribing company name to the header
-      pass
-
+      # add the subscribing company name to the header      
+      self.customer = json.loads(anvil.server.call('check_customer_license_key', self.license_key))
+      if self.customer is not None:
+        self.customer_id = self.customer['customer_id']
+        self.company_pre_label.visible = True
+        self.company_label.visible = True
+        self.company_label.text = f"{self.customer['name']}"
+      else:
+        self.customer_id = None
+    
+    else:
+      self.customer_id = None
+      self.company_pre_label.visible = False
+      self.company_label.visible = False
+    
     # add link to Privacy Policy
     self.label_privacy.content = 'I have read and agree to the <a href="https://www.aidar.ai/privacy.html" target="_blank">Privacy Policy</a>.'
     
   
   def button_register_click(self, **event_args):
     email_regex = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
-
-    customer_id = anvil.server.call('check_customer_license_key', self.license_key)
-    print('MainOut_Register customer_id:', customer_id)
     
-    if customer_id is None:
-      anvil.server.call('sent_push_over',  'User Registration Failed', f'Wrong Customer License Key: {self.login_email.text}')
-      alert(
-        title="Wrong Customer License Key!",
-        content="Please check your Customer License Key - if the problem remains, get in touch with your admin.",
-        buttons=[("Go Back", True)],
-        role=["forgot-password-success", "remove-focus"],
-      )
-    elif self.first_name.text == '':
+    if self.first_name.text == '':
       alert(
         title="Missing Data!",
         content="Please add your first name.",
@@ -87,7 +91,7 @@ class MainOut_Register(MainOut_RegisterTemplate):
       # create user and sent mail confirmation mail
       # function is placed in the ServerModule
       res = anvil.server.call('sign_up_with_extra_data',
-                              customer_id,
+                              self.customer_id,
                               self.login_email.text,
                               self.login_pw.text,
                               self.first_name.text,
@@ -95,7 +99,7 @@ class MainOut_Register(MainOut_RegisterTemplate):
       
       # alerts & redirect
       if res == 'success':
-        anvil.server.call('sent_push_over',  'User Registration', f'{self.login_email.text} registered for Customer {customer_id}')
+        anvil.server.call('sent_push_over',  'User Registration', f'{self.login_email.text} registered')
         alert(
           title="Registration successful!",
           content="Please confirm your email by clicking the link we just sent you.",
@@ -136,3 +140,12 @@ class MainOut_Register(MainOut_RegisterTemplate):
 
   def login_pw_conf_pressed_enter(self, **event_args):
     self.confirm_privacy.focus()
+
+  def confirm_privacy_change(self, **event_args):
+    if self.confirm_privacy.checked is True:
+      # self.register_button.enabled = True
+      self.register_button.role = 'call-to-action-button'
+    else:
+      # self.register_button.enabled = False
+      self.register_button.role = 'call-to-action-button-disabled'
+      

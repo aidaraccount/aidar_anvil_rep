@@ -186,8 +186,8 @@ Area 3: Buttons
 .anvil-role-call-to-action-button > button:hover,
 .anvil-role-call-to-action-button > button:focus,
 .anvil-role-call-to-action-button > button:active {
-  background: var(--Discreet);
-  color: var(--Discreet);
+  background: var(--OrangeDiscreet);
+  color: var(--White);
 }
 
 /* ----------------------------
