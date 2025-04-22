@@ -4,6 +4,7 @@ import anvil.tables.query as q
 from anvil.tables import app_tables
 import anvil.server
 import numpy as np
+import datetime
 
 
 # This is a server module. It runs on the Anvil server,
@@ -21,11 +22,14 @@ def sign_up_with_extra_data(customer_id, customer_name, email, password, first_n
     # Add extra data
     user['first_name'] = first_name
     user['last_name'] = last_name
-    
+    user['customer_name'] = customer_name
+
     if customer_id is not None:
       user['customer_id'] = customer_id
-      user['customer_name'] = customer_name
-        
+    else:
+      print(datetime.datetime.now(datetime.timezone.utc) + datetime.timedelta(days=14))
+      user['expiration_date'] = datetime.datetime.now(datetime.timezone.utc) + datetime.timedelta(days=14)
+    
     return 'success'
     
   except anvil.users.UserExists:

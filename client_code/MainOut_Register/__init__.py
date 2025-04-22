@@ -37,12 +37,14 @@ class MainOut_Register(MainOut_RegisterTemplate):
         self.customer_name = self.customer['name']
         self.company_pre_label.visible = True
         self.company_label.visible = True
+        self.login_company.visible = False
         self.company_label.text = f"{self.customer_name}"
       else:
         self.customer_id = None
         self.customer_name = None
     
     else:
+      self.customer_id = None
       self.customer_name = None
       self.company_pre_label.visible = False
       self.company_label.visible = False
@@ -53,6 +55,8 @@ class MainOut_Register(MainOut_RegisterTemplate):
   
   def button_register_click(self, **event_args):
     email_regex = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
+    if self.customer_id is None:
+      self.customer_name = self.login_company.text
     
     if self.first_name.text == '':
       alert(
