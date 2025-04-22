@@ -34,14 +34,16 @@ class MainOut_Register(MainOut_RegisterTemplate):
       self.customer = json.loads(anvil.server.call('check_customer_license_key', self.license_key))
       if self.customer is not None:
         self.customer_id = self.customer['customer_id']
+        self.customer_name = self.customer['name']
         self.company_pre_label.visible = True
         self.company_label.visible = True
-        self.company_label.text = f"{self.customer['name']}"
+        self.company_label.text = f"{self.customer_name}"
       else:
         self.customer_id = None
+        self.customer_name = None
     
     else:
-      self.customer_id = None
+      self.customer_name = None
       self.company_pre_label.visible = False
       self.company_label.visible = False
     
@@ -92,6 +94,7 @@ class MainOut_Register(MainOut_RegisterTemplate):
       # function is placed in the ServerModule
       res = anvil.server.call('sign_up_with_extra_data',
                               self.customer_id,
+                              self.customer_name,
                               self.login_email.text,
                               self.login_pw.text,
                               self.first_name.text,
@@ -99,7 +102,7 @@ class MainOut_Register(MainOut_RegisterTemplate):
       
       # alerts & redirect
       if res == 'success':
-        anvil.server.call('sent_push_over',  'User Registration', f'{self.login_email.text} registered')
+        anvil.server.call('sent_push_over',  'User Registration', f'{self.login_email.text} registered for Customer {self.customer_name}')
         alert(
           title="Registration successful!",
           content="Please confirm your email by clicking the link we just sent you.",
