@@ -27,8 +27,7 @@ def sign_up_with_extra_data(customer_id, customer_name, email, password, first_n
     if customer_id is not None:
       user['customer_id'] = customer_id
     else:
-      print(datetime.datetime.now(datetime.timezone.utc) + datetime.timedelta(days=14))
-      user['expiration_date'] = datetime.datetime.now(datetime.timezone.utc) + datetime.timedelta(days=14)
+      user['expiration_date'] = (datetime.datetime.now(datetime.timezone.utc) + datetime.timedelta(days=14)).date()
     
     return 'success'
     
