@@ -97,3 +97,16 @@ def update_anvil_user(user_id, first_name, last_name):
   except Exception as e:
     print(f"Error updating Anvil user: {e}")
     return 'error'
+
+@anvil.server.callable
+def create_stripe_customer(token, email):
+  # create stripe customer
+  stripe_customer = anvil.stripe.new_customer(email, token)
+  print(stripe_customer)
+  print(stripe_customer['id'])
+  
+  # get stripe customer
+  # customer = anvil.stripe.get_customer(user['stripe_id'])
+
+  # stripe_customer.charge(amount=999, currency="USD")
+  
