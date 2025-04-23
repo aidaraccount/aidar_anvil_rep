@@ -10,10 +10,10 @@ import random
 import string
 from anvil.js.window import navigator
 import json
-import datetime
+from datetime import datetime, date
 import re
-import stripe.checkout
-import anvil.stripe
+# import stripe.checkout
+# import anvil.stripe
 
 from anvil_extras import routing
 from ..nav import click_link, click_button, save_var, load_var
@@ -131,8 +131,46 @@ class Settings(SettingsTemplate):
     print(sub_data)
     
     # a) Subscription Status
-    if sub_data is not None:
-      # subscribed customer:
+    if user["expiration_date"] is not None and user["expiration_date"] < date.today():
+      # I. no subscription
+      print("User has no subscription!")
+      if sub_data is not None:
+        print("But had a former subscription!")
+
+      else:
+        print("And never had a subscription!")
+
+    
+    elif sub_data is None and (user["expiration_date"] is None or user["expiration_date"] >= date.today()) and user["extended_trial"] is not True:
+      # II. active test user:
+      print("User is testing!")
+
+      # a) subscription
+      self.type.text = 'Free Trial'
+      if user["expiration_date"] is None:
+        self.end.text = 'unlimited'
+      else:
+        days = (user["expiration_date"] - date.today()).days
+        days_left = f"{days} day left" if days == 1 else f"{days} days left"
+        self.end.text = f"{user['expiration_date'].strftime('%b %d, %Y')} ({days_left})"
+        
+      self.orga.text = ''
+      self.user.text = ''
+      self.admin.text = ''
+
+      # b) plan
+      self.plan_header.text = 'Activate Subscription Plan'
+      self.plan_desc.text = 'Subscribe now and your subscription will start after your free trial ends.'
+
+    
+    elif sub_data is None and (user["expiration_date"] is None or user["expiration_date"] >= date.today()) and user["extended_trial"] is True:
+      # III. active extended test user:
+      print("User is extended testing!")
+
+    
+    elif sub_data is not None and (user["expiration_date"] is None or user["expiration_date"] >= date.today()):
+      # IV. subscribed customer:
+      print("User is a subscribed customer!")
       sub_data = json.loads(sub_data)[0]
       
       self.orga.text = sub_data['name']
@@ -145,31 +183,30 @@ class Settings(SettingsTemplate):
       else:
           self.admin.text = 'no'
 
-    else:
-      # test user:
-      self.orga.text = 'ADIAR Test Account'
-      self.user.text = 'limited access'
-      self.admin.text = 'no'
-
+      
     # b) Payment
-    # 1st Try
+    # MANUAL STRIPE INTEGRATION
+    
+    
+    # # ANVIL STRIPE INTEGRATION
+    # # 1st Try
         
-    # c = stripe.checkout.charge(
-    #   amount=99,  # in cents
-    #   currency="EUR",
-    #   title="Direct Payment",  # of the popup
-    #   description="First test")  # of the popup
-    # print(c)
+    # # c = stripe.checkout.charge(
+    # #   amount=99,  # in cents
+    # #   currency="EUR",
+    # #   title="Direct Payment",  # of the popup
+    # #   description="First test")  # of the popup
+    # # print(c)
 
     
-    # 2nd Try
-    # store token/ credit card information
-    token, info = stripe.checkout.get_token(amount=100, currency="EUR")
-    print(token)
-    print(info)
-    print(info['email'])
+    # # 2nd Try
+    # # store token/ credit card information
+    # token, info = stripe.checkout.get_token(amount=100, currency="EUR")
+    # print(token)
+    # print(info)
+    # print(info['email'])
 
-    anvil.server.call('create_stripe_customer', token, info['email'])
+    # anvil.server.call('create_stripe_customer', token, info['email'])
 
     
   
@@ -255,11 +292,8 @@ class Settings(SettingsTemplate):
         self.profile_save.role = ['header-6', 'call-to-action-button-disabled']
       else:
         Notification("", title="Error! Sorry, something went wrong..", style="warning").show()
-
-  # b) Subscription Status
-  # no actions available
   
-  # c) Password
+  # b) Password
   def reset_pw_click(self, **event_args):
     res = alert(
       title='Do you want to reset your password?',
@@ -389,9 +423,15 @@ class Settings(SettingsTemplate):
       else:
         Notification("", title="Error! Sorry, something went wrong..", style="warning").show()
 
+
+  # -----------------------
+  # 3. SUBSCRIPTION
+  # a) Subscription Status
+  # no actions available
+
   
   # -----------------------
-  # 3. USER MANAGEMENT
+  # 4. USER MANAGEMENT
   # a) User Roles & Permissions
   def search_user_click(self, **event_args):
     sub_data = self.get_data()    

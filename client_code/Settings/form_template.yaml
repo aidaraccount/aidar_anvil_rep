@@ -319,6 +319,30 @@ components:
           spacing_below: none
           text: Subscription Status
         type: Label
+      - layout_properties: {grid_position: 'KVHRNY,YGNTFV'}
+        name: label_2_copy_copy_2
+        properties:
+          role: header-6
+          spacing:
+            margin: [null, null, null, '15']
+          text: Type
+        type: Label
+      - layout_properties: {grid_position: 'KVHRNY,ANJJOL'}
+        name: type
+        properties: {role: header-6}
+        type: Label
+      - layout_properties: {grid_position: 'NRMDJH,QZJCQT'}
+        name: label_2_copy_copy_2_copy
+        properties:
+          role: header-6
+          spacing:
+            margin: [null, null, null, '15']
+          text: End
+        type: Label
+      - layout_properties: {grid_position: 'NRMDJH,MFSWTE'}
+        name: end
+        properties: {role: header-6}
+        type: Label
       - layout_properties: {grid_position: 'LQRANB,IMSUXV'}
         name: label_2_copy
         properties:
@@ -372,12 +396,30 @@ components:
       name: subscription
       properties:
         col_spacing: tiny
-        col_widths: '{"IMSUXV":10,"EOLZZQ":50,"DLAEPU":10,"ANTSNG":50,"XYWRPX":10,"WKRSRH":50,"LUZQKK":10,"UHXHMD":50}'
+        col_widths: '{"IMSUXV":10,"EOLZZQ":50,"DLAEPU":10,"ANTSNG":50,"XYWRPX":10,"WKRSRH":50,"LUZQKK":10,"UHXHMD":50,"ANJJOL":50,"YGNTFV":10,"QZJCQT":10,"MFSWTE":50}'
         spacing:
           margin: ['25', null, null, '0']
       type: ColumnPanel
-    - layout_properties: {grid_position: 'RZDITL,VUHXXH'}
-      name: payment
+    - components:
+      - layout_properties: {grid_position: 'WVFQHK,QFUMZA'}
+        name: plan_header
+        properties:
+          role: header-5
+          spacing:
+            margin: [null, null, '10', null]
+          spacing_above: none
+          spacing_below: none
+          text: Subscription Plan
+        type: Label
+      - layout_properties: {grid_position: 'WPCGGU,LPABNH'}
+        name: plan_desc
+        properties:
+          role: header-6
+          spacing:
+            margin: [null, null, null, 20]
+        type: Label
+      layout_properties: {grid_position: 'RZDITL,VUHXXH'}
+      name: plan
       properties: {}
       type: ColumnPanel
     layout_properties: {grid_position: 'PDJZYL,KXSJUA'}
