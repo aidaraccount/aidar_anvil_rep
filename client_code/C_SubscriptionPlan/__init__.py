@@ -69,8 +69,8 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
             <div class='user-count-selector'>
                 <button type='button' class='user-count-btn' id='user-minus'>−</button>
                 <span id='user-count' class='user-count-value'>1</span>
-                <button type='button' class='user-count-btn' id='user-plus'>+</button>
                 <span class='user-count-label'>User<span id='user-count-plural' style='display:none;'>s</span></span>
+                <button type='button' class='user-count-btn' id='user-plus'>+</button>
             </div>
             <a href='https://app.aidar.ai/#register?license_key=None' class='cta-button cta-primary center'>Start 14-day Free Trial</a>
         </div>
