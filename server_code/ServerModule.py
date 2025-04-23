@@ -115,6 +115,7 @@ def create_stripe_customer(token, email):
   # print(c)
 
   # create subscription
-  subscription = stripe_customer.new_subscription("prod_S8mZYWP65HZzk5")
+  subscription = stripe_customer.new_subscription("price_1RH2eaKpYockGiqNOasQNTNj")
   print(subscription)
+  print(subscription[0])
   
