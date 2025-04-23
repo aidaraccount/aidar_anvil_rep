@@ -154,6 +154,9 @@
 .price-period {
     color: var(--Black);
     font-size: 1.5rem;
+    max-width: 90px;
+    display: inline-block;
+    margin-left: 5px;
 }
 
 .plan-features {
