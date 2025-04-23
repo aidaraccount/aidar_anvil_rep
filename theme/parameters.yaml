@@ -17,6 +17,8 @@ color_scheme:
   - {color: 'rgb(31, 11, 59)', name: Purple}
   - {color: 'rgb(40, 30, 60)', name: PurpleDiscreet}
   - {color: 'rgb(130, 39, 118)', name: PurpleFocus}
+  - {color: '#5baa6e', name: Green}
+  - {color: '#e6e6e6', name: Accent_0}
   preset_groups:
   - name: Accent
     options:

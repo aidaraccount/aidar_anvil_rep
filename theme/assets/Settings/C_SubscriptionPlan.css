@@ -26,7 +26,7 @@
 }
 
 .pricing-toggle-btn.selected {
-    background: var(--Gray);
+    background: var(--Accent_1);
     color: var(--White);
 }
 
@@ -61,7 +61,7 @@
 }
 
 .pricing-plan.left {
-    background: var(--LightGray);
+    background: var(--Accent_0);
     max-height: 498px;
     max-width: 370px;
     flex: 0 0 370px;
