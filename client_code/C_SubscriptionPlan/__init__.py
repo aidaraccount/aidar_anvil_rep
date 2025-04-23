@@ -86,9 +86,7 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
         document.querySelector('.pricing-plan.left .original-price').innerHTML = '<span class="euro-symbol">€</span><span class="price-number">39</span>';
         document.querySelector('.pricing-plan.left .plan-price').innerHTML = '<span class="euro-symbol">€</span>29';
         document.querySelector('.pricing-plan.left .price-period').textContent = '/month';
-        document.querySelector('.pricing-plan.recommended .original-price').innerHTML = '<span class="euro-symbol">€</span><span class="price-number">59</span>';
-        document.querySelector('.pricing-plan.recommended .plan-price').innerHTML = '<span class="euro-symbol">€</span>44';
-        document.querySelector('.pricing-plan.recommended .price-period').textContent = '/user & month';
+        setProfessionalPrice();
     }
     function setYearly() {
         document.getElementById('pricing-toggle-monthly').classList.remove('selected');
@@ -96,18 +94,36 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
         document.querySelector('.pricing-plan.left .original-price').innerHTML = '<span class="euro-symbol">€</span><span class="price-number">35</span>';
         document.querySelector('.pricing-plan.left .plan-price').innerHTML = '<span class="euro-symbol">€</span>26';
         document.querySelector('.pricing-plan.left .price-period').textContent = '/month';
-        document.querySelector('.pricing-plan.recommended .original-price').innerHTML = '<span class="euro-symbol">€</span><span class="price-number">53</span>';
-        document.querySelector('.pricing-plan.recommended .plan-price').innerHTML = '<span class="euro-symbol">€</span>39';
-        document.querySelector('.pricing-plan.recommended .price-period').textContent = '/user & month';
+        setProfessionalPrice();
     }
-    document.getElementById('pricing-toggle-monthly').addEventListener('click', setMonthly);
-    document.getElementById('pricing-toggle-yearly').addEventListener('click', setYearly);
-    setMonthly();
 
-    // User count selector logic
+    // --- Professional Plan Pricing Logic ---
     var userCount = 1;
     var userCountSpan = document.getElementById('user-count');
     var userCountPlural = document.getElementById('user-count-plural');
+    var profOriginalPrice = document.querySelector('.pricing-plan.recommended .original-price .price-number');
+    var profPlanPrice = document.querySelector('.pricing-plan.recommended .plan-price');
+    var profPricePeriod = document.querySelector('.pricing-plan.recommended .price-period');
+
+    // Monthly and yearly price per user
+    var monthlyOriginalPerUser = 59;
+    var monthlyDiscountedPerUser = 44;
+    var yearlyOriginalPerUser = 53;
+    var yearlyDiscountedPerUser = 39;
+
+    function setProfessionalPrice() {
+        var isMonthly = document.getElementById('pricing-toggle-monthly').classList.contains('selected');
+        var orig = isMonthly ? monthlyOriginalPerUser : yearlyOriginalPerUser;
+        var disc = isMonthly ? monthlyDiscountedPerUser : yearlyDiscountedPerUser;
+        profOriginalPrice.textContent = orig * userCount;
+        profPlanPrice.innerHTML = '<span class="euro-symbol">€</span>' + (disc * userCount);
+        if (userCount === 1) {
+            profPricePeriod.textContent = '/user & month';
+        } else {
+            profPricePeriod.textContent = 'for ' + userCount + ' users / month';
+        }
+    }
+
     document.getElementById('user-minus').addEventListener('click', function() {
         if (userCount > 1) {
             userCount--;
@@ -115,6 +131,7 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
             if (userCount === 1) {
                 userCountPlural.style.display = 'none';
             }
+            setProfessionalPrice();
         }
     });
     document.getElementById('user-plus').addEventListener('click', function() {
@@ -124,7 +141,11 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
             if (userCount > 1) {
                 userCountPlural.style.display = '';
             }
+            setProfessionalPrice();
         }
     });
+    document.getElementById('pricing-toggle-monthly').addEventListener('click', setMonthly);
+    document.getElementById('pricing-toggle-yearly').addEventListener('click', setYearly);
+    setMonthly();
     </script>
     """
