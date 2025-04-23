@@ -276,6 +276,26 @@
     color: var(--Black);
 }
 
+.user-count-value-input {
+    width: 48px;
+    border: none;
+    border-bottom: 1.5px solid var(--BlackDiscreet);
+    background: transparent;
+    color: var(--Black);
+    font-size: 2.3rem;
+    font-family: 'GeneralSans-Bold', Arial, sans-serif;
+    text-align: center;
+    outline: none;
+    margin-right: 2px;
+    margin-left: 2px;
+    padding: 0 2px;
+    transition: border-bottom 0.2s;
+}
+
+.user-count-value-input:focus {
+    border-bottom: 2px solid var(--Accent_1);
+}
+
 .user-count-label {
     font-size: 1.7rem;
     color: var(--BlackDiscreet);

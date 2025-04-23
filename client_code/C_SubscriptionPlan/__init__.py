@@ -69,7 +69,7 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
             <div class='user-count-selector'>
                 <button type='button' class='user-count-btn' id='user-minus'>−</button>
                 <span class='user-count-label'>
-                    <span id='user-count' class='user-count-value'>1</span>
+                    <input id='user-count' class='user-count-value-input' type='text' value='1' maxlength='3' />
                     <span> User<span id='user-count-plural' style='display:none;'>s</span></span>
                 </span>
                 <button type='button' class='user-count-btn' id='user-plus'>+</button>
@@ -99,7 +99,7 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
 
     // --- Professional Plan Pricing Logic ---
     var userCount = 1;
-    var userCountSpan = document.getElementById('user-count');
+    var userCountInput = document.getElementById('user-count');
     var userCountPlural = document.getElementById('user-count-plural');
     var profOriginalPrice = document.querySelector('.pricing-plan.recommended .original-price .price-number');
     var profPlanPrice = document.querySelector('.pricing-plan.recommended .plan-price');
@@ -124,10 +124,31 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
         }
     }
 
+    userCountInput.addEventListener('input', function() {
+        var val = parseInt(userCountInput.value.replace(/\D/g, ''));
+        if (isNaN(val) || val < 1) val = 1;
+        if (val > 100) val = 100;
+        userCount = val;
+        userCountInput.value = userCount;
+        if (userCount === 1) {
+            userCountPlural.style.display = 'none';
+        } else {
+            userCountPlural.style.display = '';
+        }
+        setProfessionalPrice();
+    });
+    userCountInput.addEventListener('blur', function() {
+        if (!userCountInput.value || parseInt(userCountInput.value) < 1) {
+            userCount = 1;
+            userCountInput.value = 1;
+            userCountPlural.style.display = 'none';
+            setProfessionalPrice();
+        }
+    });
     document.getElementById('user-minus').addEventListener('click', function() {
         if (userCount > 1) {
             userCount--;
-            userCountSpan.textContent = userCount;
+            userCountInput.value = userCount;
             if (userCount === 1) {
                 userCountPlural.style.display = 'none';
             }
@@ -137,7 +158,7 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
     document.getElementById('user-plus').addEventListener('click', function() {
         if (userCount < 100) {
             userCount++;
-            userCountSpan.textContent = userCount;
+            userCountInput.value = userCount;
             if (userCount > 1) {
                 userCountPlural.style.display = '';
             }
