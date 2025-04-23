@@ -116,7 +116,12 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
         var orig = isMonthly ? monthlyOriginalPerUser : yearlyOriginalPerUser;
         var disc = isMonthly ? monthlyDiscountedPerUser : yearlyDiscountedPerUser;
         profOriginalPrice.textContent = orig * userCount;
-        profPlanPrice.innerHTML = '<span class="euro-symbol">€</span>' + (disc * userCount) + '<span class="price-period-label">' + ((userCount === 1) ? '/user & month' : ('for ' + userCount + ' users / month')) + '</span>';
+        profPlanPrice.innerHTML = '<span class="euro-symbol">€</span>' + (disc * userCount);
+        if (userCount === 1) {
+            profPricePeriod.textContent = '/user & month';
+        } else {
+            profPricePeriod.textContent = 'for ' + userCount + ' users / month';
+        }
     }
 
     // Update user count from input
