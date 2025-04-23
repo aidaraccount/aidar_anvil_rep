@@ -12,6 +12,7 @@ from anvil.js.window import navigator
 import json
 import datetime
 import re
+import stripe.checkout
 
 from anvil_extras import routing
 from ..nav import click_link, click_button, save_var, load_var
@@ -149,6 +150,14 @@ class Settings(SettingsTemplate):
       self.user.text = 'limited access'
       self.admin.text = 'no'
 
+    # b) Payment
+    c = stripe.checkout.charge(
+      amount=99,  # in cents
+      currency="EUR",
+      title="Direct Payment",  # of the popup
+      description="First test")  # of the popup
+    print(c)
+    
 
       
   
