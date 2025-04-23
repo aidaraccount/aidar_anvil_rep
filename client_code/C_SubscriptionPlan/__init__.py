@@ -19,11 +19,6 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
 
 
     self.html = """
-    <!-- 1. Pricing Header -->
-    <div class='pricing-header'>
-        <span class='orange-dot'></span>
-        <span>Pricing</span>
-    </div>
     <!-- 2. Pricing Toggle -->
     <div class='pricing-toggle-container'>
         <div class='pricing-toggle'>
@@ -71,13 +66,6 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
                 <li>Premium Support</li>
             </ul>
             <a href='https://app.aidar.ai/#register?license_key=None' class='cta-button cta-primary center'>Start 14-day Free Trial</a>
-        </div>
-    </div>
-    <!-- 4. Call to Action -->
-    <div class='pricing-cta'>
-        <div class='demo-text'>Curious how AIDAR fits your process? Let's chat.</div>
-        <div>
-            <a href='/book-demo.html' class='cta-button cta-secondary'>Book a demo</a>
         </div>
     </div>
     <!-- 5. Pricing Toggle JS -->
