@@ -45,7 +45,7 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
                 <li>1 Watchlist</li>
                 <li>E-Mail Support</li>
             </ul>
-            <a href='https://app.aidar.ai/#register?license_key=None' class='cta-button cta-primary center'>Start 14-day Free Trial</a>
+            <a href='https://app.aidar.ai/#register?license_key=None' class='cta-button cta-primary center'>Choose Plan</a>
         </div>
         <!-- Professional Plan -->
         <div class='pricing-plan recommended'>
@@ -68,11 +68,13 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
             <!-- User selector -->
             <div class='user-count-selector'>
                 <button type='button' class='user-count-btn' id='user-minus'>−</button>
-                <span id='user-count' class='user-count-value'>1</span>
-                <span class='user-count-label'>User<span id='user-count-plural' style='display:none;'>s</span></span>
+                <span class='user-count-label'>
+                    <span id='user-count' class='user-count-value'>1</span>
+                    <span> User<span id='user-count-plural' style='display:none;'>s</span></span>
+                </span>
                 <button type='button' class='user-count-btn' id='user-plus'>+</button>
             </div>
-            <a href='https://app.aidar.ai/#register?license_key=None' class='cta-button cta-primary center'>Start 14-day Free Trial</a>
+            <a href='https://app.aidar.ai/#register?license_key=None' class='cta-button cta-primary center'>Choose Plan</a>
         </div>
     </div>
     <!-- 5. Pricing Toggle JS -->
