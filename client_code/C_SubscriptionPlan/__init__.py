@@ -54,8 +54,8 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
             <p class='plan-description'>For individuals or teams who want to unlock full AI-powered scouting.</p>
             <div class='plan-price-container'>
                 <div class='discount-badge'>25%<br>Launch Disc.</div>
-                <span class='original-price'><span class='euro-symbol'>€</span><span class='price-number'>58</span></span>
                 <div class='plan-price-group'>
+                    <span class='plan-price-base'><span class='euro-symbol'>€</span><span class='price-number'>58</span></span>
                     <span class='plan-price'><span class='euro-symbol'>€</span>41</span>
                     <span class='price-period'>/user & month</span>
                 </div>
@@ -116,9 +116,8 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
         var isMonthly = document.getElementById('pricing-toggle-monthly').classList.contains('selected');
         var orig = isMonthly ? monthlyOriginalPerUser : yearlyOriginalPerUser;
         var disc = isMonthly ? monthlyDiscountedPerUser : yearlyDiscountedPerUser;
-        profOriginalPrice.textContent = orig * userCount;
-        // Update inside .plan-price-group
         var planPriceGroup = document.querySelector('.pricing-plan.recommended .plan-price-group');
+        planPriceGroup.querySelector('.plan-price-base .price-number').textContent = orig * userCount;
         planPriceGroup.querySelector('.plan-price').innerHTML = '<span class="euro-symbol">€</span>' + (disc * userCount);
         if (userCount === 1) {
             planPriceGroup.querySelector('.price-period').textContent = '/user & month';
