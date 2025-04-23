@@ -55,8 +55,10 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
             <div class='plan-price-container'>
                 <div class='discount-badge'>25%<br>Launch Disc.</div>
                 <span class='original-price'><span class='euro-symbol'>€</span><span class='price-number'>58</span></span>
-                <span class='plan-price'><span class='euro-symbol'>€</span>41</span>
-                <span class='price-period'>/user & month</span>
+                <div class='plan-price-group'>
+                    <span class='plan-price'><span class='euro-symbol'>€</span>41</span>
+                    <span class='price-period'>/user & month</span>
+                </div>
             </div>
             <ul class='plan-features'>
                 <li>Collaborate in teams. Pay per the number of users in your team.</li>
@@ -102,7 +104,6 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
     var userCountSpan = document.getElementById('user-count');
     var userCountPlural = document.getElementById('user-count-plural');
     var profOriginalPrice = document.querySelector('.pricing-plan.recommended .original-price .price-number');
-    var profPlanPrice = document.querySelector('.pricing-plan.recommended .plan-price');
     var profPricePeriod = document.querySelector('.pricing-plan.recommended .price-period');
 
     // Monthly and yearly price per user
@@ -116,11 +117,13 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
         var orig = isMonthly ? monthlyOriginalPerUser : yearlyOriginalPerUser;
         var disc = isMonthly ? monthlyDiscountedPerUser : yearlyDiscountedPerUser;
         profOriginalPrice.textContent = orig * userCount;
-        profPlanPrice.innerHTML = '<span class="euro-symbol">€</span>' + (disc * userCount);
+        // Update inside .plan-price-group
+        var planPriceGroup = document.querySelector('.pricing-plan.recommended .plan-price-group');
+        planPriceGroup.querySelector('.plan-price').innerHTML = '<span class="euro-symbol">€</span>' + (disc * userCount);
         if (userCount === 1) {
-            profPricePeriod.textContent = '/user & month';
+            planPriceGroup.querySelector('.price-period').textContent = '/user & month';
         } else {
-            profPricePeriod.textContent = 'for ' + userCount + ' users / month';
+            planPriceGroup.querySelector('.price-period').textContent = 'for ' + userCount + ' users / month';
         }
     }
 
