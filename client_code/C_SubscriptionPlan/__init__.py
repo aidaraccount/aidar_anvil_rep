@@ -65,6 +65,13 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
                 <li>Unlimited Watchlists</li>
                 <li>Premium Support</li>
             </ul>
+            <!-- User selector -->
+            <div class='user-count-selector'>
+                <button type='button' class='user-count-btn' id='user-minus'>−</button>
+                <span id='user-count' class='user-count-value'>1</span>
+                <button type='button' class='user-count-btn' id='user-plus'>+</button>
+                <span class='user-count-label'>User<span id='user-count-plural' style='display:none;'>s</span></span>
+            </div>
             <a href='https://app.aidar.ai/#register?license_key=None' class='cta-button cta-primary center'>Start 14-day Free Trial</a>
         </div>
     </div>
@@ -94,5 +101,28 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
     document.getElementById('pricing-toggle-monthly').addEventListener('click', setMonthly);
     document.getElementById('pricing-toggle-yearly').addEventListener('click', setYearly);
     setMonthly();
+
+    // User count selector logic
+    var userCount = 1;
+    var userCountSpan = document.getElementById('user-count');
+    var userCountPlural = document.getElementById('user-count-plural');
+    document.getElementById('user-minus').addEventListener('click', function() {
+        if (userCount > 1) {
+            userCount--;
+            userCountSpan.textContent = userCount;
+            if (userCount === 1) {
+                userCountPlural.style.display = 'none';
+            }
+        }
+    });
+    document.getElementById('user-plus').addEventListener('click', function() {
+        if (userCount < 100) {
+            userCount++;
+            userCountSpan.textContent = userCount;
+            if (userCount > 1) {
+                userCountPlural.style.display = '';
+            }
+        }
+    });
     </script>
     """

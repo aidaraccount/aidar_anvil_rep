@@ -197,3 +197,83 @@
     position: relative;
     top: 0.32em;
 }
+
+/* 1.2. Plan Action Buttons */
+.cta-button {
+    display: block;
+    width: 100%;
+    margin: 24px auto 0 auto;
+    padding: 12px 0;
+    border-radius: 30px;
+    font-family: 'GeneralSans-Medium', Arial, sans-serif;
+    font-size: 1.1rem;
+    background: var(--Orange);
+    color: var(--White);
+    border: none;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+
+.cta-button.cta-primary {
+    background: var(--Orange);
+    color: var(--White);
+}
+
+.cta-button.cta-primary:hover {
+    background: var(--Accent_1);
+    color: var(--White);
+}
+
+.cta-button.center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* 1.3. User Count Selector */
+.user-count-selector {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin: 20px 0 0 0;
+    font-size: 1.1rem;
+}
+
+.user-count-btn {
+    background: var(--Accent_1);
+    color: var(--White);
+    border: none;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    font-size: 1.5rem;
+    font-family: 'GeneralSans-Bold', Arial, sans-serif;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s, color 0.2s;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+}
+
+.user-count-btn:hover {
+    background: var(--Orange);
+}
+
+.user-count-value {
+    min-width: 32px;
+    text-align: center;
+    font-size: 1.2rem;
+    font-family: 'GeneralSans-Bold', Arial, sans-serif;
+    color: var(--Black);
+}
+
+.user-count-label {
+    margin-left: 6px;
+    font-size: 1.1rem;
+    color: var(--BlackDiscreet);
+}
