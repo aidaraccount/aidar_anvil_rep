@@ -1,5 +1,6 @@
 from ._anvil_designer import SettingsTemplate
 from anvil import *
+import stripe.checkout
 import anvil.server
 import anvil.users
 import anvil.tables as tables
@@ -44,9 +45,11 @@ class Settings(SettingsTemplate):
   def nav_account_click(self, **event_args):
     self.nav_account.role = 'section_buttons_focused'
     self.nav_not.role = 'section_buttons'
+    self.nav_sub.role = 'section_buttons'
     self.nav_user.role = 'section_buttons'
     self.sec_account.visible = True
     self.sec_not.visible = False
+    self.sec_sub.visible = False
     self.sec_user.visible = False
 
     # reset save button
@@ -71,32 +74,17 @@ class Settings(SettingsTemplate):
     else:      
       self.text_box_last_name.text = '-'
     
-    # b) Subscription Status
-    if acc_data['name'] is not None:
-      self.orga.text = acc_data['name']
-    else:      
-      self.orga.text = 'ADIAR Test Account'
-    if acc_data['active'] is not None:
-      if acc_data['active'] is True:
-        self.user.text = 'active'
-      else:
-        self.user.text = 'inactive'
-    else:
-      self.user.text = 'limited access'
-    if acc_data['admin'] is not None and acc_data['admin'] is True:
-      self.admin.text = 'yes'
-    else:
-        self.admin.text = 'no'
-
   
   # -----------------------
   # 2. NAVIGATION NOTIFICATIONS
   def nav_not_click(self, **event_args):
     self.nav_account.role = 'section_buttons'
     self.nav_not.role = 'section_buttons_focused'
+    self.nav_sub.role = 'section_buttons'
     self.nav_user.role = 'section_buttons'
     self.sec_account.visible = False
     self.sec_not.visible = True
+    self.sec_sub.visible = False
     self.sec_user.visible = False
 
     # reset save button
@@ -126,15 +114,57 @@ class Settings(SettingsTemplate):
 
   # -----------------------
   # 3. NAVIGATION USER MANAGEMENT
+  def nav_sub_click(self, **event_args):
+    self.nav_account.role = 'section_buttons'
+    self.nav_not.role = 'section_buttons'
+    self.nav_sub.role = 'section_buttons_focused'
+    self.nav_user.role = 'section_buttons'
+    self.sec_account.visible = False
+    self.sec_not.visible = False
+    self.sec_sub.visible = True
+    self.sec_user.visible = False
+    
+    # load data
+    sub_data = anvil.server.call('get_settings_subscription', user["user_id"])
+    print(sub_data)
+    
+    # a) Subscription Status
+    if sub_data is not None:
+      # subscribed customer:
+      sub_data = json.loads(sub_data)[0]
+      
+      self.orga.text = sub_data['name']
+      if sub_data['active'] is True:
+        self.user.text = 'active'
+      else:
+        self.user.text = 'inactive'
+      if sub_data['admin'] is not None and sub_data['admin'] is True:
+        self.admin.text = 'yes'
+      else:
+          self.admin.text = 'no'
+
+    else:
+      # test user:
+      self.orga.text = 'ADIAR Test Account'
+      self.user.text = 'limited access'
+      self.admin.text = 'no'
+
+
+      
+  
+  # -----------------------
+  # 4. NAVIGATION USER MANAGEMENT
   def get_data(self, **event_args):
-    return anvil.server.call('get_settings_subscription', user["user_id"])
+    return anvil.server.call('get_settings_user_mgmt', user["user_id"])
   
   def nav_user_click(self, **event_args):
     self.nav_account.role = 'section_buttons'
     self.nav_not.role = 'section_buttons'
+    self.nav_sub.role = 'section_buttons'
     self.nav_user.role = 'section_buttons_focused'
     self.sec_account.visible = False
     self.sec_not.visible = False
+    self.sec_sub.visible = False
     self.sec_user.visible = True
  
     # load data

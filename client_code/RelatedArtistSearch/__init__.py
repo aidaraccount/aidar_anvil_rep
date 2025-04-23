@@ -2,6 +2,7 @@ from ._anvil_designer import RelatedArtistSearchTemplate
 from ..C_RelatedPopupTable import C_RelatedPopupTable
 
 from anvil import *
+import stripe.checkout
 import anvil.server
 import anvil.users
 import anvil.tables as tables

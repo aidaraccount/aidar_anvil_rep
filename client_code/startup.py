@@ -1,3 +1,4 @@
+import stripe.checkout
 import anvil.server
 import anvil.users
 from anvil import open_form

@@ -96,5 +96,8 @@ services:
     email_from_address: team@aidar.ai
     user_table: users
   source: /runtime/services/anvil/users.yml
+- client_config: {}
+  server_config: {refresh_token: rt_SBN7AuqcGNBHRcEjJgbeq9TJpfYnxcqm59AhOfSWInrBoyRm, stripe_user_id: acct_1RDoXAKpYockGiqN}
+  source: /runtime/services/stripe.yml
 startup: {module: startup, type: module}
 startup_form: null

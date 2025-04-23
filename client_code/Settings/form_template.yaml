@@ -16,7 +16,8 @@ components:
         spacing_below: none
         text: Account Settings
       type: Link
-    - event_bindings: {click: nav_not_click}
+    - components: []
+      event_bindings: {click: nav_not_click}
       layout_properties: {}
       name: nav_not
       properties:
@@ -24,6 +25,15 @@ components:
         spacing_above: none
         spacing_below: none
         text: Notifications
+      type: Link
+    - event_bindings: {click: nav_sub_click}
+      layout_properties: {}
+      name: nav_sub
+      properties:
+        role: [section_buttons]
+        spacing_above: none
+        spacing_below: none
+        text: Subscription
       type: Link
     - components: []
       event_bindings: {click: nav_user_click}
@@ -109,74 +119,6 @@ components:
       properties:
         col_spacing: tiny
         col_widths: '{"IMSUXV":10,"EOLZZQ":50,"ROBXKQ":10,"SQVWMY":50,"undefined":10,"MOSLGE":50}'
-        spacing:
-          margin: ['25', null, null, '0']
-      type: ColumnPanel
-    - components:
-      - layout_properties: {grid_position: 'XMKZJJ,YJDVPX'}
-        name: label_1_copy
-        properties:
-          role: header-5
-          spacing:
-            margin: [null, null, '10', null]
-          spacing_above: none
-          spacing_below: none
-          text: Subscription Status
-        type: Label
-      - layout_properties: {grid_position: 'LQRANB,IMSUXV'}
-        name: label_2_copy
-        properties:
-          role: header-6
-          spacing:
-            margin: [null, null, null, '15']
-          text: Organisation
-        type: Label
-      - layout_properties: {grid_position: 'LQRANB,EOLZZQ'}
-        name: orga
-        properties: {role: header-6}
-        type: Label
-      - layout_properties: {grid_position: 'PMRBGG,DLAEPU'}
-        name: label_2_copy_copy
-        properties:
-          role: header-6
-          spacing:
-            margin: [null, null, null, '15']
-          text: User status
-        type: Label
-      - layout_properties: {grid_position: 'PMRBGG,ANTSNG'}
-        name: user
-        properties: {role: header-6}
-        type: Label
-      - layout_properties: {grid_position: 'NSVSYP,XYWRPX'}
-        name: label_2_copy_copy_copy
-        properties:
-          role: header-6
-          spacing:
-            margin: [null, null, null, '15']
-          text: Admin status
-        type: Label
-      - layout_properties: {grid_position: 'NSVSYP,WKRSRH'}
-        name: admin
-        properties: {role: header-6}
-        type: Label
-      - layout_properties: {grid_position: 'VDJRBN,LUZQKK'}
-        name: label_2_copy_copy_copy_copy
-        properties:
-          role: header-6
-          spacing:
-            margin: [null, null, null, '15']
-          text: All admins
-          visible: false
-        type: Label
-      - layout_properties: {grid_position: 'VDJRBN,UHXHMD'}
-        name: admins
-        properties: {role: header-6, visible: false}
-        type: Label
-      layout_properties: {grid_position: 'KTREQY,XTJAUJ'}
-      name: subscription
-      properties:
-        col_spacing: tiny
-        col_widths: '{"IMSUXV":10,"EOLZZQ":50,"DLAEPU":10,"ANTSNG":50,"XYWRPX":10,"WKRSRH":50,"LUZQKK":10,"UHXHMD":50}'
         spacing:
           margin: ['25', null, null, '0']
       type: ColumnPanel
@@ -360,6 +302,82 @@ components:
       type: ColumnPanel
     layout_properties: {grid_position: 'PPMFRF,JKLHKT'}
     name: sec_not
+    properties:
+      spacing:
+        margin: ['5', '25', '25', '25']
+      spacing_above: medium
+    type: ColumnPanel
+  - components:
+    - components:
+      - layout_properties: {grid_position: 'XMKZJJ,YJDVPX'}
+        name: label_1_copy
+        properties:
+          role: header-5
+          spacing:
+            margin: [null, null, '10', null]
+          spacing_above: none
+          spacing_below: none
+          text: Subscription Status
+        type: Label
+      - layout_properties: {grid_position: 'LQRANB,IMSUXV'}
+        name: label_2_copy
+        properties:
+          role: header-6
+          spacing:
+            margin: [null, null, null, '15']
+          text: Organisation
+        type: Label
+      - layout_properties: {grid_position: 'LQRANB,EOLZZQ'}
+        name: orga
+        properties: {role: header-6}
+        type: Label
+      - layout_properties: {grid_position: 'PMRBGG,DLAEPU'}
+        name: label_2_copy_copy
+        properties:
+          role: header-6
+          spacing:
+            margin: [null, null, null, '15']
+          text: User status
+        type: Label
+      - layout_properties: {grid_position: 'PMRBGG,ANTSNG'}
+        name: user
+        properties: {role: header-6}
+        type: Label
+      - layout_properties: {grid_position: 'NSVSYP,XYWRPX'}
+        name: label_2_copy_copy_copy
+        properties:
+          role: header-6
+          spacing:
+            margin: [null, null, null, '15']
+          text: Admin status
+        type: Label
+      - layout_properties: {grid_position: 'NSVSYP,WKRSRH'}
+        name: admin
+        properties: {role: header-6}
+        type: Label
+      - layout_properties: {grid_position: 'VDJRBN,LUZQKK'}
+        name: label_2_copy_copy_copy_copy
+        properties:
+          role: header-6
+          spacing:
+            margin: [null, null, null, '15']
+          text: All admins
+          visible: false
+        type: Label
+      - layout_properties: {grid_position: 'VDJRBN,UHXHMD'}
+        name: admins
+        properties: {role: header-6, visible: false}
+        type: Label
+      layout_properties: {grid_position: 'QNZWKH,UFVLSX'}
+      name: subscription
+      properties:
+        col_spacing: tiny
+        col_widths: '{"IMSUXV":10,"EOLZZQ":50,"DLAEPU":10,"ANTSNG":50,"XYWRPX":10,"WKRSRH":50,"LUZQKK":10,"UHXHMD":50}'
+        spacing:
+          margin: ['25', null, null, '0']
+      type: ColumnPanel
+    layout_properties: {grid_position: 'PDJZYL,KXSJUA'}
+    name: sec_sub
     properties:
       spacing:
         margin: ['5', '25', '25', '25']

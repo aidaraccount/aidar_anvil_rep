@@ -1,6 +1,7 @@
 from ._anvil_designer import C_RefArtistsSettingsTemplate
 from ..C_RefPopupTable import C_RefPopupTable
 from anvil import *
+import stripe.checkout
 import anvil.server
 import anvil.users
 import anvil.tables as tables
