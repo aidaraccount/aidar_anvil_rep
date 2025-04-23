@@ -105,8 +105,16 @@ def create_stripe_customer(token, email):
   print(stripe_customer)
   print(stripe_customer['id'])
   
-  # get stripe customer
-  # customer = anvil.stripe.get_customer(user['stripe_id'])
+  # # get stripe customer
+  # customer = anvil.stripe.get_customer(stripe_customer['id'])
+  # print(customer)
+  # print(customer['id'])
 
-  # stripe_customer.charge(amount=999, currency="USD")
+  # # charge customer
+  # c = customer.charge(amount=999, currency="EUR")
+  # print(c)
+
+  # create subscription
+  subscription = stripe_customer.new_subscription("prod_S8mZYWP65HZzk5")
+  print(subscription)
   
