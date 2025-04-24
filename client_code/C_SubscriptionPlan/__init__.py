@@ -193,8 +193,8 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
       user_count: int = 1
       if plan_type == "Professional":
           # Get user count from the input box in the HTML
-          import js
-          user_count_raw = js.document.getElementById('user-count').value
+          import anvil.js
+          user_count_raw = anvil.js.window.document.getElementById('user-count').value
           try:
               user_count = int(user_count_raw)
           except Exception:
