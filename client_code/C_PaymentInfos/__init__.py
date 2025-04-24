@@ -122,11 +122,11 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
     var stripe = Stripe('pk_test_51RDoXJQTBcqmUQgt9CqdDXQjtHKkEkEBuXSs7EqVjwkzqcWP66EgCu8jjYArvbioeYpzvS5wSvbrUsKUtjXi0gGq00M9CzHJTa');
     
     // Create a Stripe client side instance
-    var elements = stripe.elements({{
+    var elements = stripe.elements({
         clientSecret: window.stripe_setup_intent_client_secret,
-        appearance: {{
+        appearance: {
             theme: 'flat',
-            variables: {{
+            variables: {
                 colorPrimary: '#FF7A00',
                 colorBackground: '#181818',
                 colorText: '#ffffff',
@@ -134,32 +134,14 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
                 fontFamily: 'Inter, "Segoe UI", sans-serif',
                 borderRadius: '8px',
                 colorTextPlaceholder: '#aaaaaa'
-            }}
-        }}
-    }});
+            }
+        }
+    });
 
-    // Create card Element and mount it
-    var cardElement = elements.create('card', {{
-        style: {{
-            base: {{
-                color: '#ffffff',
-                fontFamily: 'Inter, "Segoe UI", sans-serif',
-                fontSize: '16px',
-                iconColor: '#ffffff',
-                '::placeholder': {{
-                    color: '#aaaaaa'
-                }}
-            }},
-            invalid: {{
-                color: '#FF5A36',
-                iconColor: '#FF5A36'
-            }}
-        }},
-        hidePostalCode: true
-    }});
-    cardElement.mount('#card-element');
+    // Create Payment Element and mount it
+    var paymentElement = elements.create('payment');
+    paymentElement.mount('#card-element');
 
-    // Handle form submission
     var form = document.getElementById('payment-form');
     var nameInput = document.getElementById('name-on-card');
     var businessCheckbox = document.getElementById('business-checkbox');
@@ -173,12 +155,12 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
     var cityInput = document.getElementById('city');
     var postalCodeInput = document.getElementById('postal-code');
     var stateInput = document.getElementById('state');
-    
+
     // Form validation
-    function validateForm() {{
-        // Required card field validation is handled by Stripe
-        var cardComplete = elements._complete;
-        
+    function validateForm() {
+        // Required payment element validation is handled by Stripe
+        var paymentComplete = paymentElement._complete || false;
+
         // Required form fields validation
         var nameComplete = nameInput.value.trim().length > 0;
         var addressComplete = (
@@ -187,116 +169,113 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
             postalCodeInput.value.trim().length > 0 &&
             stateInput.value.trim().length > 0
         );
-        
-        // Business validation (only if checkbox is checked)
-        var businessComplete = !businessCheckbox.checked || (
-            taxIdInput.value.trim().length > 3 && 
-            taxCountryInput.value.length === 2
-        );
-        
+
+        // Business details must always be filled and checkbox ticked
+        var businessChecked = businessCheckbox.checked;
+        var taxIdValid = taxIdInput.value.trim().length > 3;
+        var taxCountryValid = taxCountryInput.value.length === 2;
+        var businessComplete = businessChecked && taxIdValid && taxCountryValid;
+
         // Enable button only if all required fields are complete
-        var formValid = cardComplete && nameComplete && addressComplete && businessComplete;
+        var formValid = paymentComplete && nameComplete && addressComplete && businessComplete;
         submitBtn.disabled = !formValid;
-        
-        if (formValid) {{
+
+        if (formValid) {
             submitBtn.style.backgroundColor = 'var(--Orange, #FF7A00)';
             submitBtn.style.opacity = '1';
-        }} else {{
+        } else {
             submitBtn.style.backgroundColor = '#ccc';
             submitBtn.style.opacity = '0.7';
-        }}
-        
+        }
         return formValid;
-    }}
-    
+    }
+
     // Attach validation to all input fields
-    [nameInput, addressLine1Input, cityInput, postalCodeInput, stateInput, taxIdInput, taxCountryInput].forEach(function(input) {{
+    [nameInput, addressLine1Input, cityInput, postalCodeInput, stateInput, taxIdInput, taxCountryInput].forEach(function(input) {
         input.addEventListener('input', validateForm);
-    }});
-    
-    // Add validation to card element
-    cardElement.on('change', function(event) {{
-        if (event.error) {{
+    });
+
+    // Add validation to payment element
+    paymentElement.on('change', function(event) {
+        if (event.error) {
             document.getElementById('card-errors').textContent = event.error.message;
-        }} else {{
+        } else {
             document.getElementById('card-errors').textContent = '';
-        }}
-        elements._complete = event.complete;
+        }
+        paymentElement._complete = event.complete;
         validateForm();
-    }});
-    
+    });
+
     // Checkbox changes
     businessCheckbox.addEventListener('change', validateForm);
-    
+
     // Initial validation
-    elements._complete = false;
+    paymentElement._complete = false;
     validateForm();
-    
+
     // Handle form submission
-    form.addEventListener('submit', function(event) {{
+    form.addEventListener('submit', function(event) {
         event.preventDefault();
-        
+
         var nameValue = nameInput.value;
         var business = businessCheckbox.checked;
         var taxId = taxIdInput.value.trim();
         var taxCountry = taxCountryInput.value;
-        
-        if (business && !(taxId.length > 3 && taxCountry.length === 2)) {{
-            document.getElementById('card-errors').textContent = 'Please enter a valid VAT/Tax ID and country.';
+
+        if (!(business && taxId.length > 3 && taxCountry.length === 2)) {
+            document.getElementById('card-errors').textContent = 'Please enter a valid VAT/Tax ID and country, and tick the business checkbox.';
             return;
-        }}
-        
+        }
+
         document.getElementById('card-errors').textContent = '';
         submitBtn.disabled = true;
-        
+
         // Collect billing address data
-        var billingDetails = {{
+        var billingDetails = {
             name: nameValue,
-            address: {{
+            address: {
                 country: countryInput.value,
                 line1: addressLine1Input.value,
                 line2: document.getElementById('address-line-2').value,
                 city: cityInput.value,
                 postal_code: postalCodeInput.value,
                 state: stateInput.value
-            }}
-        }};
-        
+            }
+        };
+
         // Business data as metadata
-        var metadata = business ? {{
+        var metadata = {
             business: 'yes',
             tax_id: taxId,
             tax_country: taxCountry
-        }} : {{
-            business: 'no'
-        }};
-        
-        // Create a Payment Method and confirm setup
-        stripe.confirmSetup({{
+        };
+
+        // Confirm setup with Payment Element
+        stripe.confirmSetup({
             elements,
-            confirmParams: {{
+            confirmParams: {
                 return_url: window.location.href,
-                payment_method_data: {{
+                payment_method_data: {
                     billing_details: billingDetails,
                     metadata: metadata
-                }}
-            }},
+                }
+            },
             redirect: 'if_required'
-        }})
-        .then(function(result) {{
-            if (result.error) {{
+        })
+        .then(function(result) {
+            if (result.error) {
                 document.getElementById('card-errors').textContent = result.error.message;
                 submitBtn.disabled = false;
-            }} else {{
+            } else {
                 // The setup has succeeded. Display a success message to your customer.
                 alert('Payment method saved successfully with id: ' + result.setupIntent.payment_method);
                 // Here you would typically send the payment method ID to your server
                 // anvil.server.call('save_payment_method', result.setupIntent.payment_method);
-            }}
-        }});
-    }});
-    
+            }
+        });
+    });
+
     // Cancel button
-    document.getElementById('cancel-btn').onclick = function() {{ anvil.call('close_alert'); }};
+    document.getElementById('cancel-btn').onclick = function() { anvil.js.window.close_alert(); };
     </script>
     """
