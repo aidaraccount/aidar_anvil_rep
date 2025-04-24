@@ -76,7 +76,10 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
         appearance: {{ theme: 'flat' }},
         clientSecret: window.stripe_setup_intent_client_secret
     }});
-    var paymentElement = elements.create('payment');
+    var paymentElement = elements.create('payment', {{ 
+      currency: 'eur',
+      fields: {{ billingDetails: {{ address: 'auto' }} }}
+    }});
     paymentElement.mount('#payment-element');
 
     // Business logic for VAT/Tax ID fields
