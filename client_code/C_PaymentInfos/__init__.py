@@ -21,7 +21,7 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
     client_secret = anvil.server.call('create_setup_intent')
     self.html = f"""
     <script>
-    window.stripe_setup_intent_client_secret = \"{client_secret}\";
+    window.stripe_setup_intent_client_secret = '{client_secret}';
     </script>
     <!-- 1. Stripe.js script -->
     <script src=\"https://js.stripe.com/v3/\"></script>
@@ -122,11 +122,11 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
     var stripe = Stripe('pk_test_51RDoXJQTBcqmUQgt9CqdDXQjtHKkEkEBuXSs7EqVjwkzqcWP66EgCu8jjYArvbioeYpzvS5wSvbrUsKUtjXi0gGq00M9CzHJTa');
     
     // Create a Stripe client side instance
-    var elements = stripe.elements({
+    var elements = stripe.elements({{
         clientSecret: window.stripe_setup_intent_client_secret,
-        appearance: {
+        appearance: {{
             theme: 'flat',
-            variables: {
+            variables: {{
                 colorPrimary: '#FF7A00',
                 colorBackground: '#181818',
                 colorText: '#ffffff',
@@ -134,10 +134,9 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
                 fontFamily: 'Inter, "Segoe UI", sans-serif',
                 borderRadius: '8px',
                 colorTextPlaceholder: '#aaaaaa'
-            }
-        }
-    });
-
+            }}
+        }}
+    }});
     // Create Payment Element and mount it
     var paymentElement = elements.create('payment');
     paymentElement.mount('#card-element');
@@ -157,7 +156,7 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
     var stateInput = document.getElementById('state');
 
     // Form validation
-    function validateForm() {
+    function validateForm() {{
         // Required payment element validation is handled by Stripe
         var paymentComplete = paymentElement._complete || false;
 
@@ -180,31 +179,31 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
         var formValid = paymentComplete && nameComplete && addressComplete && businessComplete;
         submitBtn.disabled = !formValid;
 
-        if (formValid) {
+        if (formValid) {{
             submitBtn.style.backgroundColor = 'var(--Orange, #FF7A00)';
             submitBtn.style.opacity = '1';
-        } else {
+        }} else {{
             submitBtn.style.backgroundColor = '#ccc';
             submitBtn.style.opacity = '0.7';
-        }
+        }}
         return formValid;
-    }
+    }}
 
     // Attach validation to all input fields
-    [nameInput, addressLine1Input, cityInput, postalCodeInput, stateInput, taxIdInput, taxCountryInput].forEach(function(input) {
+    [nameInput, addressLine1Input, cityInput, postalCodeInput, stateInput, taxIdInput, taxCountryInput].forEach(function(input) {{
         input.addEventListener('input', validateForm);
-    });
+    }});
 
     // Add validation to payment element
-    paymentElement.on('change', function(event) {
-        if (event.error) {
+    paymentElement.on('change', function(event) {{
+        if (event.error) {{
             document.getElementById('card-errors').textContent = event.error.message;
-        } else {
+        }} else {{
             document.getElementById('card-errors').textContent = '';
-        }
+        }}
         paymentElement._complete = event.complete;
         validateForm();
-    });
+    }});
 
     // Checkbox changes
     businessCheckbox.addEventListener('change', validateForm);
@@ -214,7 +213,7 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
     validateForm();
 
     // Handle form submission
-    form.addEventListener('submit', function(event) {
+    form.addEventListener('submit', function(event) {{
         event.preventDefault();
 
         var nameValue = nameInput.value;
@@ -222,60 +221,60 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
         var taxId = taxIdInput.value.trim();
         var taxCountry = taxCountryInput.value;
 
-        if (!(business && taxId.length > 3 && taxCountry.length === 2)) {
+        if (!(business && taxId.length > 3 && taxCountry.length === 2)) {{
             document.getElementById('card-errors').textContent = 'Please enter a valid VAT/Tax ID and country, and tick the business checkbox.';
             return;
-        }
+        }}
 
         document.getElementById('card-errors').textContent = '';
         submitBtn.disabled = true;
 
         // Collect billing address data
-        var billingDetails = {
+        var billingDetails = {{
             name: nameValue,
-            address: {
+            address: {{
                 country: countryInput.value,
                 line1: addressLine1Input.value,
                 line2: document.getElementById('address-line-2').value,
                 city: cityInput.value,
                 postal_code: postalCodeInput.value,
                 state: stateInput.value
-            }
-        };
+            }}
+        }};
 
         // Business data as metadata
-        var metadata = {
+        var metadata = {{
             business: 'yes',
             tax_id: taxId,
             tax_country: taxCountry
-        };
+        }};
 
         // Confirm setup with Payment Element
-        stripe.confirmSetup({
+        stripe.confirmSetup({{
             elements,
-            confirmParams: {
+            confirmParams: {{
                 return_url: window.location.href,
-                payment_method_data: {
+                payment_method_data: {{
                     billing_details: billingDetails,
                     metadata: metadata
-                }
-            },
+                }}
+            }},
             redirect: 'if_required'
-        })
-        .then(function(result) {
-            if (result.error) {
+        }})
+        .then(function(result) {{
+            if (result.error) {{
                 document.getElementById('card-errors').textContent = result.error.message;
                 submitBtn.disabled = false;
-            } else {
+            }} else {{
                 // The setup has succeeded. Display a success message to your customer.
                 alert('Payment method saved successfully with id: ' + result.setupIntent.payment_method);
                 // Here you would typically send the payment method ID to your server
                 // anvil.server.call('save_payment_method', result.setupIntent.payment_method);
-            }
-        });
-    });
+            }}
+        }});
+    }});
 
     // Cancel button
-    document.getElementById('cancel-btn').onclick = function() { anvil.js.window.close_alert(); };
+    document.getElementById('cancel-btn').onclick = function() {{ anvil.js.window.close_alert(); }};
     </script>
     """
