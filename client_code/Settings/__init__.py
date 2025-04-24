@@ -50,6 +50,8 @@ class Settings(SettingsTemplate):
         self.nav_sub_click()
       elif section == 'UserManagement':
         self.nav_user_click()
+      elif section == 'Payment':
+        self.nav_pay_click()
 
       
   # -----------------------
@@ -59,10 +61,12 @@ class Settings(SettingsTemplate):
     self.nav_not.role = 'section_buttons'
     self.nav_sub.role = 'section_buttons'
     self.nav_user.role = 'section_buttons'
+    self.nav_pay.role = 'section_buttons'
     self.sec_account.visible = True
     self.sec_not.visible = False
     self.sec_sub.visible = False
     self.sec_user.visible = False
+    self.sec_pay.visible = False
 
     # reset save button
     self.profile_save.role = ['header-6', 'call-to-action-button-disabled']
@@ -94,10 +98,12 @@ class Settings(SettingsTemplate):
     self.nav_not.role = 'section_buttons_focused'
     self.nav_sub.role = 'section_buttons'
     self.nav_user.role = 'section_buttons'
+    self.nav_pay.role = 'section_buttons'
     self.sec_account.visible = False
     self.sec_not.visible = True
     self.sec_sub.visible = False
     self.sec_user.visible = False
+    self.sec_pay.visible = False
 
     # reset save button
     self.not_gen_save.role = ['header-6', 'call-to-action-button-disabled']
@@ -131,10 +137,12 @@ class Settings(SettingsTemplate):
     self.nav_not.role = 'section_buttons'
     self.nav_sub.role = 'section_buttons_focused'
     self.nav_user.role = 'section_buttons'
+    self.nav_pay.role = 'section_buttons'
     self.sec_account.visible = False
     self.sec_not.visible = False
     self.sec_sub.visible = True
     self.sec_user.visible = False
+    self.sec_pay.visible = False
     
     # load data
     sub_data = anvil.server.call('get_settings_subscription', user["user_id"])
@@ -196,7 +204,7 @@ class Settings(SettingsTemplate):
       
     # b) Payment
     # MANUAL STRIPE INTEGRATION
-    
+    pass
     
     # # ANVIL STRIPE INTEGRATION
     # # 1st Try
@@ -230,10 +238,12 @@ class Settings(SettingsTemplate):
     self.nav_not.role = 'section_buttons'
     self.nav_sub.role = 'section_buttons'
     self.nav_user.role = 'section_buttons_focused'
+    self.nav_pay.role = 'section_buttons'
     self.sec_account.visible = False
     self.sec_not.visible = False
     self.sec_sub.visible = False
     self.sec_user.visible = True
+    self.sec_pay.visible = False
  
     # load data
     sub_data = self.get_data()
@@ -270,6 +280,31 @@ class Settings(SettingsTemplate):
     self.key.text = inv_data['license_key']
     self.link.text = f"app.aidar.ai/#register?license_key={inv_data['license_key']}"
 
+  # -----------------------
+  # 5. PAYMENT
+  def nav_pay_click(self, **event_args):
+    self.nav_account.role = 'section_buttons'
+    self.nav_not.role = 'section_buttons'
+    self.nav_sub.role = 'section_buttons'
+    self.nav_user.role = 'section_buttons'
+    self.nav_pay.role = 'section_buttons_focused'
+    self.sec_account.visible = False
+    self.sec_not.visible = False
+    self.sec_sub.visible = False
+    self.sec_user.visible = False
+    self.sec_pay.visible = True
+ 
+    # load data
+    pass
+
+    # show content
+    if True:
+      self.no_payment.visible = True
+      self.yes_payment.visible = False
+    else:
+      self.no_payment.visible = False
+      self.yes_payment.visible = True
+    
   
   # ---------------------------------------------------------------------
   # 1. ACCOUNT SETTINGS
@@ -524,3 +559,13 @@ class Settings(SettingsTemplate):
       self.mail_enters.text = ''
       self.sent_invite.role = ['pos-abs-bottom', 'header-6', 'call-to-action-button-disabled']
       self.nav_user_click()
+
+  # -----------------------
+  # 5. PAYMENT
+  # a) Payment Details
+  def add_payment_details_click(self, **event_args):
+    pass
+
+  def change_payment_details_click(self, **event_args):
+    pass
+  
