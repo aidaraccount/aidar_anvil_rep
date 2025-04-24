@@ -1,6 +1,6 @@
 /* 1. Base container and form styling */
 #payment-form-container {
-    background: #ffffff;
+    background: var(--Accent_2);
     border-radius: 16px;
     box-shadow: 0 1px 8px rgba(0,0,0,0.1);
     padding: 24px;
@@ -67,17 +67,19 @@
     display: block;
     margin-bottom: 4px;
     font-size: 14px;
-    color: #555;
+    color: var(--WhiteDiscreet);
 }
 
 #payment-form input[type="text"],
 #payment-form select {
     padding: 10px 12px;
-    border: 1px solid #ddd;
+    border: 1px solid var(--WhiteDiscreet);
     border-radius: 4px;
     font-size: 14px;
     width: 100%;
     box-sizing: border-box;
+    background-color: var(--Accent_2);
+    color: var(--WhiteDiscreet);
 }
 
 #payment-form input[type="text"]:focus,
@@ -100,7 +102,7 @@
 /* 5. Card element styling */
 #card-element {
     padding: 12px;
-    border: 1px solid #ddd;
+    border: 1px solid var(--WhiteDiscreet);
     border-radius: 4px;
     background: #fff;
 }
@@ -111,13 +113,13 @@
 }
 
 .StripeElement--invalid {
-    border-color: #ff5a5a;
+    border-color: var(--PurpleFocus);
 }
 
 /* 6. Buttons */
 .button-row {
     display: flex;
-    justify-content: flex-start;
+    justify-content: flex-end;
     gap: 12px;
     margin-top: 24px;
 }
@@ -140,8 +142,8 @@
 
 #cancel-btn {
     background: transparent;
-    border: 1px solid #ddd;
-    color: #555;
+    border: 1px solid var(--WhiteDiscreet);
+    color: var(--WhiteDiscreet);
     padding: 10px 16px;
     font-size: 14px;
     font-weight: 500;
@@ -150,12 +152,12 @@
 }
 
 #cancel-btn:hover {
-    background: #f5f5f5;
+    background: var(--WhiteDiscreet);
 }
 
 /* 7. Error messages */
 #card-errors {
-    color: #ff5a5a;
+    color: var(--Red);
     font-size: 14px;
     margin: 8px 0;
     min-height: 20px;

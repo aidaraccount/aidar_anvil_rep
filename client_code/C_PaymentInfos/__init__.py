@@ -40,16 +40,15 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
             
             <!-- Name on card -->
             <div class=\"form-section\">
-                <label for=\"name-on-card\">Name on card</label>
-                <input id=\"name-on-card\" name=\"name-on-card\" type=\"text\" autocomplete=\"cc-name\" required>
+                <h3>Name on card</h3>
+                <input id=\"name-on-card\" name=\"name-on-card\" type=\"text\" autocomplete=\"cc-name\" required placeholder=\"Name on card\">
             </div>
             
             <!-- Billing address section -->
             <div class=\"form-section\">
                 <h3>Billing address</h3>
                 <div class=\"field-row\">
-                    <label for=\"country\">Country</label>
-                    <select id=\"country\" name=\"country\">
+                    <select id=\"country\" name=\"country\" placeholder=\"Country\">
                         <option value=\"DE\">Germany</option>
                         <option value=\"FR\">France</option>
                         <option value=\"IT\">Italy</option>
@@ -63,46 +62,33 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
                 </div>
                 
                 <div class=\"field-row\">
-                    <label for=\"address-line-1\">Address line 1</label>
-                    <input id=\"address-line-1\" name=\"address-line-1\" type=\"text\">
+                    <input id=\"address-line-1\" name=\"address-line-1\" type=\"text\" placeholder=\"Address line 1\">
                 </div>
                 
                 <div class=\"field-row\">
-                    <label for=\"address-line-2\">Address line 2</label>
-                    <input id=\"address-line-2\" name=\"address-line-2\" type=\"text\">
+                    <input id=\"address-line-2\" name=\"address-line-2\" type=\"text\" placeholder=\"Address line 2\">
                 </div>
                 
                 <div class=\"two-column\">
                     <div class=\"field-row\">
-                        <label for=\"city\">City</label>
-                        <input id=\"city\" name=\"city\" type=\"text\">
+                        <input id=\"city\" name=\"city\" type=\"text\" placeholder=\"City\">
                     </div>
                     <div class=\"field-row\">
-                        <label for=\"postal-code\">Postal code</label>
-                        <input id=\"postal-code\" name=\"postal-code\" type=\"text\">
+                        <input id=\"postal-code\" name=\"postal-code\" type=\"text\" placeholder=\"Postal code\">
                     </div>
                 </div>
                 
                 <div class=\"field-row\">
-                    <label for=\"state\">State, county, province, or region</label>
-                    <input id=\"state\" name=\"state\" type=\"text\">
+                    <input id=\"state\" name=\"state\" type=\"text\" placeholder=\"State, county, province, or region\">
                 </div>
             </div>
             
-            <!-- Business checkbox -->
+            <!-- Business details section -->
             <div class=\"form-section\">
-                <div class=\"checkbox-container\">
-                    <input type=\"checkbox\" id=\"business-checkbox\" name=\"business-checkbox\">
-                    <label for=\"business-checkbox\">Purchasing as a business</label>
-                </div>
-            </div>
-            
-            <!-- VAT/Business Tax ID row (hidden unless business) -->
-            <div id=\"tax-id-row\" style=\"display:none;\">
+                <h3>Business details</h3>
                 <div class=\"field-row inline-fields\">
-                    <label for=\"tax-country\">Country</label>
-                    <select id=\"tax-country\" name=\"tax-country\">
-                        <option value=\"\">Select</option>
+                    <select id=\"tax-country\" name=\"tax-country\" placeholder=\"Country\">
+                        <option value=\"\">Select country</option>
                         <option value=\"DE\">Germany</option>
                         <option value=\"FR\">France</option>
                         <option value=\"IT\">Italy</option>
@@ -114,8 +100,12 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
                         <option value=\"SE\">Sweden</option>
                         <option value=\"CH\">Switzerland</option>
                     </select>
-                    <label for=\"tax-id\">VAT/Tax ID</label>
-                    <input id=\"tax-id\" name=\"tax-id\" type=\"text\" maxlength=\"32\" autocomplete=\"off\">
+                    <input id=\"tax-id\" name=\"tax-id\" type=\"text\" maxlength=\"32\" autocomplete=\"off\" placeholder=\"VAT/Tax ID\">
+                </div>
+                
+                <div class=\"checkbox-container\">
+                    <input type=\"checkbox\" id=\"business-checkbox\" name=\"business-checkbox\">
+                    <label for=\"business-checkbox\">I confirm to purchase as a business</label>
                 </div>
             </div>
             
@@ -173,23 +163,15 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
     var form = document.getElementById('payment-form');
     var name = document.getElementById('name-on-card');
     var businessCheckbox = document.getElementById('business-checkbox');
-    var taxIdRow = document.getElementById('tax-id-row');
-    var submitBtn = document.getElementById('submit-payment');
     var taxIdInput = document.getElementById('tax-id');
     var taxCountryInput = document.getElementById('tax-country');
+    var submitBtn = document.getElementById('submit-payment');
     
     // Show/hide tax ID fields based on business checkbox
     function validateBusinessFields() {{
-        if (!businessCheckbox.checked) {{
-            taxIdRow.style.display = 'none';
-            submitBtn.disabled = false;
-            return true;
-        }}
-        
-        taxIdRow.style.display = 'block';
         var taxId = taxIdInput.value.trim();
         var taxCountry = taxCountryInput.value;
-        var valid = taxId.length > 3 && taxCountry.length === 2;
+        var valid = !businessCheckbox.checked || (taxId.length > 3 && taxCountry.length === 2);
         submitBtn.disabled = !valid;
         return valid;
     }}
