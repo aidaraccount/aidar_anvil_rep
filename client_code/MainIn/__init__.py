@@ -501,5 +501,5 @@ class MainIn(MainInTemplate):
     )
 
   def settings_click(self, **event_args):
-    click_link(self.settings, 'settings?section=Filter', event_args)
+    click_link(self.settings, 'settings?section=Account', event_args)
     self.reset_nav_backgrounds()
