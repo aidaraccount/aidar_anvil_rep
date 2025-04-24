@@ -73,12 +73,18 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
     var stripe = Stripe('pk_test_51RDoXJQTBcqmUQgt9CqdDXQjtHKkEkEBuXSs7EqVjwkzqcWP66EgCu8jjYArvbioeYpzvS5wSvbrUsKUtjXi0gGq00M9CzHJTa');
     var elements = stripe.elements({{
         mode: 'setup',
+        currency: 'eur',
         appearance: {{ theme: 'flat' }},
         clientSecret: window.stripe_setup_intent_client_secret
     }});
     var paymentElement = elements.create('payment', {{ 
-      currency: 'eur',
-      fields: {{ billingDetails: {{ address: 'auto' }} }}
+      defaultValues: {{
+        billingDetails: {{
+          address: {{
+            country: 'DE',
+          }}
+        }}
+      }}
     }});
     paymentElement.mount('#payment-element');
 
