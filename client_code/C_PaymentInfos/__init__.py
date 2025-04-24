@@ -71,11 +71,11 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
     <script>
     // 4. Initialize Stripe
     var stripe = Stripe('pk_test_51RDoXJQTBcqmUQgt9CqdDXQjtHKkEkEBuXSs7EqVjwkzqcWP66EgCu8jjYArvbioeYpzvS5wSvbrUsKUtjXi0gGq00M9CzHJTa');
-    var elements = stripe.elements({
+    var elements = stripe.elements({{
         mode: 'setup',
-        appearance: { theme: 'flat' },
+        appearance: {{ theme: 'flat' }},
         clientSecret: window.stripe_setup_intent_client_secret
-    });
+    }});
     var paymentElement = elements.create('payment');
     paymentElement.mount('#payment-element');
 
@@ -86,19 +86,19 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
     var taxIdInput = document.getElementById('tax-id');
     var taxCountryInput = document.getElementById('tax-country');
 
-    function validateBusinessFields() {
-        if (!businessCheckbox.checked) {
+    function validateBusinessFields() {{
+        if (!businessCheckbox.checked) {{
             taxIdRow.style.display = 'none';
             submitBtn.disabled = false;
             return true;
-        }
+        }}
         taxIdRow.style.display = 'flex';
         var taxId = taxIdInput.value.trim();
         var taxCountry = taxCountryInput.value;
         var valid = taxId.length > 3 && taxCountry.length === 2;
         submitBtn.disabled = !valid;
         return valid;
-    }
+    }}
     businessCheckbox.addEventListener('change', validateBusinessFields);
     taxIdInput.addEventListener('input', validateBusinessFields);
     taxCountryInput.addEventListener('change', validateBusinessFields);
@@ -107,47 +107,47 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
 
     // 5. Handle form submission
     var form = document.getElementById('payment-form');
-    form.addEventListener('submit', function(event) {
+    form.addEventListener('submit', function(event) {{
         event.preventDefault();
         var name = document.getElementById('name-on-card').value;
         var business = businessCheckbox.checked;
         var taxId = taxIdInput.value.trim();
         var taxCountry = taxCountryInput.value;
-        if (business) {
-            if (!(taxId.length > 3 && taxCountry.length === 2)) {
+        if (business) {{
+            if (!(taxId.length > 3 && taxCountry.length === 2)) {{
                 document.getElementById('card-errors').textContent = 'Please enter a valid VAT/Tax ID and country.';
                 return;
-            }
-        }
-        stripe.confirmSetup({
+            }}
+        }}
+        stripe.confirmSetup({{
             elements: elements,
-            confirmParams: {
-                payment_method_data: {
-                    billing_details: {
+            confirmParams: {{
+                payment_method_data: {{
+                    billing_details: {{
                         name: name,
-                    },
-                    metadata: Object.assign({},
-                        business ? {
+                    }},
+                    metadata: Object.assign({{}},
+                        business ? {{
                             business: 'yes',
                             tax_id: taxId,
                             tax_country: taxCountry
-                        } : {}
+                        }} : {{}}
                     )
-                }
-            },
+                }}
+            }},
             redirect: 'if_required'
-        }).then(function(result) {
+        }}).then(function(result) {{
             var errorDiv = document.getElementById('card-errors');
-            if (result.error) {
+            if (result.error) {{
                 errorDiv.textContent = result.error.message;
-            } else {
+            }} else {{
                 errorDiv.textContent = '';
                 // TODO: Send result.setupIntent.payment_method to server via anvil.call() or anvil.server.call()
                 alert('Payment method saved with id: ' + result.setupIntent.payment_method);
-            }
-        });
-    });
+            }}
+        }});
+    }});
     // Optional: Cancel button closes the popup
-    document.getElementById('cancel-btn').onclick = function() { anvil.call('close_alert'); };
+    document.getElementById('cancel-btn').onclick = function() {{ anvil.call('close_alert'); }};
     </script>
     """
