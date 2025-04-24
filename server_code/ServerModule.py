@@ -98,6 +98,20 @@ def update_anvil_user(user_id, first_name, last_name):
     print(f"Error updating Anvil user: {e}")
     return 'error'
 
+
+@anvil.server.callable
+def create_setup_intent():
+  import stripe
+  import anvil.secrets
+  
+  stripe.api_key = anvil.secrets.get_secret("STRIPE_API_KEY")
+  intent = stripe.SetupIntent.create(
+      usage="off_session"
+  )
+  
+  return intent.client_secret
+
+
 # @anvil.server.callable
 # def create_stripe_customer(token, email):
 #   # create stripe customer

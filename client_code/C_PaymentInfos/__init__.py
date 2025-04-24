@@ -17,7 +17,12 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
     global user
     user = anvil.users.get_user()
     
-    self.html = """
+    # Get the Stripe SetupIntent client_secret from the server
+    client_secret = anvil.server.call('create_setup_intent')
+    self.html = f"""
+    <script>
+    window.stripe_setup_intent_client_secret = \"{client_secret}\";
+    </script>
     <!-- 1. Stripe.js script -->
     <script src=\"https://js.stripe.com/v3/\"></script>
     <div id=\"payment-form-container\">
@@ -69,8 +74,7 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
     var elements = stripe.elements({
         mode: 'setup',
         appearance: { theme: 'flat' },
-        // You will need to create a SetupIntent server-side and pass its client_secret here
-        clientSecret: window.stripe_setup_intent_client_secret || ''
+        clientSecret: window.stripe_setup_intent_client_secret
     });
     var paymentElement = elements.create('payment');
     paymentElement.mount('#payment-element');
