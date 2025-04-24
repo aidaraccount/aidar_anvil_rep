@@ -72,7 +72,7 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
     // 4. Initialize Stripe
     var stripe = Stripe('pk_test_51RDoXJQTBcqmUQgt9CqdDXQjtHKkEkEBuXSs7EqVjwkzqcWP66EgCu8jjYArvbioeYpzvS5wSvbrUsKUtjXi0gGq00M9CzHJTa');
     var elements = stripe.elements({{
-        mode: 'setup',
+        // When using clientSecret, do not specify mode (it's inferred from the clientSecret)
         currency: 'eur',
         appearance: {{ theme: 'flat' }},
         clientSecret: window.stripe_setup_intent_client_secret
