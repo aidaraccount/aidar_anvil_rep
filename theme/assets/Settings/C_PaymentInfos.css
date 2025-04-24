@@ -1,118 +1,183 @@
-/* 1. Container styling */
+/* 1. Base container and form styling */
 #payment-form-container {
     background: #232323;
     border-radius: 16px;
     box-shadow: 0 2px 16px rgba(0,0,0,0.25);
-    padding: 32px 32px 24px 32px;
+    padding: 32px 24px;
     max-width: 480px;
     margin: 0 auto;
     color: #fff;
     font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
 }
 
-/* 2. Title and info text */
+#payment-form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* 2. Section headers and info text */
 #payment-form-container h2 {
     font-size: 1.5rem;
-    margin-bottom: 8px;
+    margin: 0 0 12px 0;
     font-weight: 700;
     color: #fff;
 }
+
+#payment-form-container h3 {
+    font-size: 1.2rem;
+    margin: 16px 0 8px 0;
+    font-weight: 600;
+    color: #fff;
+}
+
 .payment-info-text {
     background: rgba(255,255,255,0.04);
     border-radius: 8px;
-    padding: 10px 14px;
-    margin-bottom: 24px;
+    padding: 12px 14px;
+    margin-bottom: 16px;
     font-size: 1rem;
     color: #fff;
 }
 
-/* 3. Form fields */
+/* 3. Form sections and spacing */
+.form-section {
+    margin-bottom: 16px;
+}
+
+.two-column {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+/* 4. Form controls and inputs */
 #payment-form label {
     display: block;
     margin-bottom: 4px;
     font-weight: 500;
     color: #fff;
+    font-size: 0.95rem;
 }
+
 #payment-form input[type="text"],
 #payment-form select {
     background: #181818;
     border: 1.5px solid #383838;
     border-radius: 8px;
     color: #fff;
-    padding: 8px 12px;
-    margin-bottom: 14px;
+    padding: 12px;
+    margin-bottom: 12px;
     font-size: 1rem;
     width: 100%;
     box-sizing: border-box;
     transition: border-color 0.2s;
 }
+
 #payment-form input[type="text"]:focus,
 #payment-form select:focus {
     border-color: var(--Orange, #FF7A00);
     outline: none;
 }
-#tax-id-row {
+
+.checkbox-container {
     display: flex;
-    gap: 8px;
     align-items: center;
+    margin: 8px 0;
 }
+
 #payment-form input[type="checkbox"] {
     accent-color: var(--Orange, #FF7A00);
-    margin-right: 6px;
+    margin-right: 8px;
+    width: 18px;
+    height: 18px;
 }
 
-/* 4. Stripe PaymentElement custom styling */
+/* 5. Stripe Elements styling */
 .StripeElement,
 #payment-element {
-    background: #181818;
-    border-radius: 8px;
-    border: 1.5px solid #383838;
-    padding: 12px 10px;
-    margin-bottom: 18px;
-    color: #fff;
+    background: #181818 !important;
+    padding: 12px !important;
+    border-radius: 8px !important;
+    border: 1.5px solid #383838 !important;
+    margin-bottom: 12px;
 }
 
-/* 5. Error message */
-#card-errors {
-    color: #FF5A36;
-    margin-bottom: 8px;
-    font-size: 0.98rem;
-    min-height: 18px;
+/* 6. Button row and buttons */
+.button-row {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 20px;
 }
 
-/* 6. Buttons */
 #payment-form button {
     border: none;
     border-radius: 8px;
-    padding: 10px 28px;
+    padding: 12px 28px;
     font-size: 1rem;
     font-weight: 600;
     cursor: pointer;
-    transition: background 0.18s, color 0.18s, opacity 0.18s;
+    transition: background 0.2s, opacity 0.2s;
 }
+
 #submit-payment {
     background: var(--Orange, #FF7A00);
     color: #fff;
-    box-shadow: 0 2px 8px rgba(255,122,0,0.09);
 }
+
 #submit-payment:disabled {
     background: #383838;
     color: #bbb;
     cursor: not-allowed;
     opacity: 0.7;
 }
+
 #cancel-btn {
     background: transparent;
     color: #fff;
     border: 1.5px solid #383838;
 }
+
 #cancel-btn:hover {
     background: #383838;
 }
 
-/* 7. Responsive */
-@media (max-width: 520px) {
+/* 7. Error and notification text */
+#card-errors {
+    color: #FF5A36;
+    min-height: 20px;
+    margin: 5px 0;
+    font-size: 0.95rem;
+}
+
+/* 8. Tax ID row */
+#tax-id-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+}
+
+/* 9. Responsive adjustments */
+@media (max-width: 500px) {
     #payment-form-container {
-        padding: 18px 6px 18px 6px;
+        padding: 24px 16px;
+    }
+    
+    .two-column {
+        grid-template-columns: 1fr;
+    }
+    
+    #tax-id-row {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    #tax-id-row select,
+    #tax-id-row input {
+        width: 100%;
     }
 }

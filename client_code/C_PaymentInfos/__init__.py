@@ -31,18 +31,65 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
         <div class=\"payment-info-text\">Add your credit card details below. This card will be saved to your account and can be removed at any time.</div>
         <!-- 3. Stripe Payment Element form -->
         <form id=\"payment-form\">
-            <!-- Name on card -->
-            <label for=\"name-on-card\">Name on card</label>
-            <input id=\"name-on-card\" name=\"name-on-card\" type=\"text\" autocomplete=\"cc-name\" required style=\"width:100%;margin-bottom:10px\">
-            <!-- PaymentElement (handles card + billing address) -->
-            <div id=\"payment-element\"></div>
-            <!-- Business checkbox -->
-            <div style=\"margin:10px 0\">
-                <input type=\"checkbox\" id=\"business-checkbox\" name=\"business-checkbox\">
-                <label for=\"business-checkbox\">I confirm to purchase as a business</label>
+            <!-- Card information section -->
+            <div class=\"form-section\">
+                <h3>Card information</h3>
+                <div id=\"payment-element\"></div>
             </div>
+            
+            <!-- Name on card -->
+            <div class=\"form-section\">
+                <label for=\"name-on-card\">Name on card</label>
+                <input id=\"name-on-card\" name=\"name-on-card\" type=\"text\" autocomplete=\"cc-name\" required>
+            </div>
+            
+            <!-- Billing address section -->
+            <div class=\"form-section\">
+                <h3>Billing address</h3>
+                <label for=\"country\">Country</label>
+                <select id=\"country\" name=\"country\">
+                    <option value=\"DE\">Germany</option>
+                    <option value=\"FR\">France</option>
+                    <option value=\"IT\">Italy</option>
+                    <option value=\"ES\">Spain</option>
+                    <option value=\"GB\">United Kingdom</option>
+                    <option value=\"US\">United States</option>
+                    <option value=\"NL\">Netherlands</option>
+                    <option value=\"PL\">Poland</option>
+                    <option value=\"CH\">Switzerland</option>
+                </select>
+                
+                <label for=\"address-line-1\">Address line 1</label>
+                <input id=\"address-line-1\" name=\"address-line-1\" type=\"text\">
+                
+                <label for=\"address-line-2\">Address line 2</label>
+                <input id=\"address-line-2\" name=\"address-line-2\" type=\"text\">
+                
+                <div class=\"two-column\">
+                    <div>
+                        <label for=\"city\">City</label>
+                        <input id=\"city\" name=\"city\" type=\"text\">
+                    </div>
+                    <div>
+                        <label for=\"postal-code\">Postal code</label>
+                        <input id=\"postal-code\" name=\"postal-code\" type=\"text\">
+                    </div>
+                </div>
+                
+                <label for=\"state\">State, county, province, or region</label>
+                <input id=\"state\" name=\"state\" type=\"text\">
+            </div>
+            
+            <!-- Business checkbox -->
+            <div class=\"form-section\">
+                <div class=\"checkbox-container\">
+                    <input type=\"checkbox\" id=\"business-checkbox\" name=\"business-checkbox\">
+                    <label for=\"business-checkbox\">Purchasing as a business</label>
+                </div>
+            </div>
+            
             <!-- VAT/Business Tax ID row (hidden unless business) -->
-            <div id=\"tax-id-row\" style=\"display:none; margin-bottom:10px; align-items:center; gap:8px;\">
+            <div id=\"tax-id-row\" style=\"display:none;\">
                 <label for=\"tax-country\" style=\"margin-right:5px;\">Country</label>
                 <select id=\"tax-country\" name=\"tax-country\" style=\"margin-right:10px;\">
                     <option value=\"\">Select</option>
@@ -56,15 +103,15 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
                     <option value=\"PL\">Poland</option>
                     <option value=\"SE\">Sweden</option>
                     <option value=\"CH\">Switzerland</option>
-                    <!-- Add more as needed -->
                 </select>
                 <label for=\"tax-id\" style=\"margin-right:5px;\">VAT/Tax ID</label>
-                <input id=\"tax-id\" name=\"tax-id\" type=\"text\" style=\"width:180px\" maxlength=\"32\" autocomplete=\"off\">
+                <input id=\"tax-id\" name=\"tax-id\" type=\"text\" maxlength=\"32\" autocomplete=\"off\">
             </div>
+            
             <div id=\"card-errors\" role=\"alert\"></div>
-            <div style=\"display:flex;justify-content:flex-end;gap:10px;margin-top:20px\">
+            <div class=\"button-row\">
                 <button type=\"button\" id=\"cancel-btn\">Cancel</button>
-                <button id=\"submit-payment\" type=\"submit\">Save Payment Method</button>
+                <button id=\"submit-payment\" type=\"submit\">Continue</button>
             </div>
         </form>
     </div>
@@ -77,14 +124,25 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
         appearance: {{ theme: 'flat' }},
         clientSecret: window.stripe_setup_intent_client_secret
     }});
+    
+    // Create just the card element without other payment methods
     var paymentElement = elements.create('payment', {{ 
-      defaultValues: {{
-        billingDetails: {{
-          address: {{
-            country: 'DE',
-          }}
-        }}
-      }}
+        defaultValues: {{
+            billingDetails: {{
+                address: {{
+                    country: 'DE',
+                }}
+            }}
+        }},
+        fields: {{
+            billingDetails: 'never'  // We'll collect billing details with our custom form
+        }},
+        wallets: {{
+            applePay: 'never',
+            googlePay: 'never'
+        }},
+        paymentMethodOrder: ['card'], // Only show card
+        paymentMethodTypes: ['card']  // Only use card payment method
     }});
     paymentElement.mount('#payment-element');
 
@@ -134,6 +192,14 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
                 payment_method_data: {{
                     billing_details: {{
                         name: name,
+                        address: {{
+                            country: document.getElementById('country').value,
+                            line1: document.getElementById('address-line-1').value,
+                            line2: document.getElementById('address-line-2').value,
+                            city: document.getElementById('city').value,
+                            postal_code: document.getElementById('postal-code').value,
+                            state: document.getElementById('state').value
+                        }}
                     }},
                     metadata: Object.assign({{}},
                         business ? {{
