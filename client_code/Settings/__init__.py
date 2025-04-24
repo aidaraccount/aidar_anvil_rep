@@ -567,8 +567,10 @@ class Settings(SettingsTemplate):
   def add_payment_details_click(self, **event_args):
     details = alert(
       content=C_PaymentInfos(),
-      large=True,
-      buttons=[]
+      large=False,
+      width=500,
+      buttons=[],
+      dismissible=False
     )
     print(details)
     

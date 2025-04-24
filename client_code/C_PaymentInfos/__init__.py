@@ -161,32 +161,82 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
 
     // Handle form submission
     var form = document.getElementById('payment-form');
-    var name = document.getElementById('name-on-card');
+    var nameInput = document.getElementById('name-on-card');
     var businessCheckbox = document.getElementById('business-checkbox');
     var taxIdInput = document.getElementById('tax-id');
     var taxCountryInput = document.getElementById('tax-country');
     var submitBtn = document.getElementById('submit-payment');
     
-    // Show/hide tax ID fields based on business checkbox
-    function validateBusinessFields() {{
-        var taxId = taxIdInput.value.trim();
-        var taxCountry = taxCountryInput.value;
-        var valid = !businessCheckbox.checked || (taxId.length > 3 && taxCountry.length === 2);
-        submitBtn.disabled = !valid;
-        return valid;
+    // Required field references
+    var countryInput = document.getElementById('country');
+    var addressLine1Input = document.getElementById('address-line-1');
+    var cityInput = document.getElementById('city');
+    var postalCodeInput = document.getElementById('postal-code');
+    var stateInput = document.getElementById('state');
+    
+    // Form validation
+    function validateForm() {{
+        // Required card field validation is handled by Stripe
+        var cardComplete = elements._complete;
+        
+        // Required form fields validation
+        var nameComplete = nameInput.value.trim().length > 0;
+        var addressComplete = (
+            addressLine1Input.value.trim().length > 0 &&
+            cityInput.value.trim().length > 0 &&
+            postalCodeInput.value.trim().length > 0 &&
+            stateInput.value.trim().length > 0
+        );
+        
+        // Business validation (only if checkbox is checked)
+        var businessComplete = !businessCheckbox.checked || (
+            taxIdInput.value.trim().length > 3 && 
+            taxCountryInput.value.length === 2
+        );
+        
+        // Enable button only if all required fields are complete
+        var formValid = cardComplete && nameComplete && addressComplete && businessComplete;
+        submitBtn.disabled = !formValid;
+        
+        if (formValid) {{
+            submitBtn.style.backgroundColor = 'var(--Orange, #FF7A00)';
+            submitBtn.style.opacity = '1';
+        }} else {{
+            submitBtn.style.backgroundColor = '#ccc';
+            submitBtn.style.opacity = '0.7';
+        }}
+        
+        return formValid;
     }}
     
-    // Attach event listeners
-    businessCheckbox.addEventListener('change', validateBusinessFields);
-    taxIdInput.addEventListener('input', validateBusinessFields);
-    taxCountryInput.addEventListener('change', validateBusinessFields);
-    validateBusinessFields();
+    // Attach validation to all input fields
+    [nameInput, addressLine1Input, cityInput, postalCodeInput, stateInput, taxIdInput, taxCountryInput].forEach(function(input) {{
+        input.addEventListener('input', validateForm);
+    }});
+    
+    // Add validation to card element
+    cardElement.on('change', function(event) {{
+        if (event.error) {{
+            document.getElementById('card-errors').textContent = event.error.message;
+        }} else {{
+            document.getElementById('card-errors').textContent = '';
+        }}
+        elements._complete = event.complete;
+        validateForm();
+    }});
+    
+    // Checkbox changes
+    businessCheckbox.addEventListener('change', validateForm);
+    
+    // Initial validation
+    elements._complete = false;
+    validateForm();
     
     // Handle form submission
     form.addEventListener('submit', function(event) {{
         event.preventDefault();
         
-        var nameValue = name.value;
+        var nameValue = nameInput.value;
         var business = businessCheckbox.checked;
         var taxId = taxIdInput.value.trim();
         var taxCountry = taxCountryInput.value;
@@ -204,12 +254,12 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
         var billingDetails = {{
             name: nameValue,
             address: {{
-                country: document.getElementById('country').value,
-                line1: document.getElementById('address-line-1').value,
+                country: countryInput.value,
+                line1: addressLine1Input.value,
                 line2: document.getElementById('address-line-2').value,
-                city: document.getElementById('city').value,
-                postal_code: document.getElementById('postal-code').value,
-                state: document.getElementById('state').value
+                city: cityInput.value,
+                postal_code: postalCodeInput.value,
+                state: stateInput.value
             }}
         }};
         
