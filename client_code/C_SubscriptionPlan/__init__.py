@@ -7,6 +7,7 @@ import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
 from anvil.js import window
+import anvil.js
 
 class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
   def __init__(self, **properties):
@@ -184,7 +185,7 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
     </script>
     """
 
-  @anvil.js.callable('open_checkout')
+  @anvil.js.callable
   def open_checkout(self, plan_type: str, user_count: int) -> None:
     """
     1. Opens the C_PaymentCheckout alert with the selected plan and user count.
