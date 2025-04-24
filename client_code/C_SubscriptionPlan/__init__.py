@@ -6,8 +6,8 @@ import anvil.users
 import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
-from anvil.js import window
 import anvil.js
+from anvil.js import window
 
 class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
   def __init__(self, **properties):
