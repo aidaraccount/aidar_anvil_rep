@@ -30,15 +30,15 @@
 
 /* 2. Typography and headings */
 #payment-form-container h2 {
-    font-size: 24px;
+    font-size: 21px;
     margin: 0 0 8px 0;
     font-weight: 600;
     color: var(--WhiteDiscreet);
 }
 
 #payment-form-container h3 {
-    font-size: 18px;
-    margin: 20px 0 8px 0;
+    font-size: 15px;
+    margin: 0 0 8px 0;
     font-weight: 500;
     color: var(--WhiteDiscreet);
 }
@@ -51,7 +51,7 @@
 
 /* 3. Form sections and fields */
 .form-section {
-    margin-bottom: 16px;
+    margin-bottom: 10px;
 }
 
 .field-row {
@@ -85,7 +85,7 @@
 
 #payment-form input[type="text"],
 #payment-form select {
-    padding: 10px 12px;
+    padding: 6px 10px;
     border: 1px solid var(--WhiteDiscreet);
     border-radius: 4px;
     font-size: 14px;
@@ -110,11 +110,12 @@
 
 #payment-form input[type="checkbox"] {
     margin-right: 8px;
+    margin-top: -2px;
 }
 
 /* 5. Card element styling */
 #card-element {
-    padding: 12px;
+    padding: 6px 10px;
     border: 1px solid var(--WhiteDiscreet);
     border-radius: 4px;
     background: var(--Accent_2);
@@ -134,7 +135,6 @@
     display: flex;
     justify-content: flex-end;
     gap: 12px;
-    margin-top: 24px;
 }
 
 #submit-payment {
@@ -157,7 +157,7 @@
     background: transparent;
     border: 1px solid var(--WhiteDiscreet);
     color: var(--WhiteDiscreet);
-    padding: 10px 16px;
+    padding: 0 16px;
     font-size: 14px;
     font-weight: 500;
     border-radius: 4px;
@@ -172,7 +172,7 @@
 #card-errors {
     color: var(--Red);
     font-size: 14px;
-    margin: 8px 0;
+    margin: 0;
 }
 
 /* 8. Responsive adjustments */

@@ -88,7 +88,7 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
                 <h3>Business details</h3>
                 <div class=\"field-row inline-fields\">
                     <select id=\"tax-country\" name=\"tax-country\" placeholder=\"Country\">
-                        <option value=\"\">Select country</option>
+                        <option value=\"\">VAT country</option>
                         <option value=\"DE\">Germany</option>
                         <option value=\"FR\">France</option>
                         <option value=\"IT\">Italy</option>
@@ -113,7 +113,7 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
             
             <div class=\"button-row\">
                 <button type=\"button\" id=\"cancel-btn\">Cancel</button>
-                <button id=\"submit-payment\" type=\"submit\">Continue</button>
+                <button id=\"submit-payment\" type=\"submit\">Save payment details</button>
             </div>
         </form>
     </div>
@@ -248,7 +248,6 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
         
         document.getElementById('card-errors').textContent = '';
         submitBtn.disabled = true;
-        submitBtn.textContent = 'Processing...';
         
         // Collect billing address data
         var billingDetails = {{
@@ -288,7 +287,6 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
             if (result.error) {{
                 document.getElementById('card-errors').textContent = result.error.message;
                 submitBtn.disabled = false;
-                submitBtn.textContent = 'Continue';
             }} else {{
                 // The setup has succeeded. Display a success message to your customer.
                 alert('Payment method saved successfully with id: ' + result.setupIntent.payment_method);
