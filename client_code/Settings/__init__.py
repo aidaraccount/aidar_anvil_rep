@@ -19,6 +19,7 @@ from anvil_extras import routing
 from ..nav import click_link, click_button, save_var, load_var
 
 from ..C_ForgotPasswordPopup import C_ForgotPasswordPopup
+from ..C_PaymentInfos import C_PaymentInfos
 
 
 @routing.route("settings", url_keys=['section'], title="Settings")
@@ -564,7 +565,13 @@ class Settings(SettingsTemplate):
   # 5. PAYMENT
   # a) Payment Details
   def add_payment_details_click(self, **event_args):
-    pass
+    details = alert(
+      content=C_PaymentInfos(),
+      large=True,
+      buttons=[]
+    )
+    print(details)
+    
 
   def change_payment_details_click(self, **event_args):
     pass
