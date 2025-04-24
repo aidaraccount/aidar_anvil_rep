@@ -19,6 +19,7 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
     user = anvil.users.get_user()
 
 
+    # 1. Pricing Toggle and Plans (HTML, minus Choose Plan buttons)
     self.html = """
     <!-- 2. Pricing Toggle -->
     <div class='pricing-toggle-container'>
@@ -30,7 +31,7 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
     <!-- 3. Pricing Plans -->
     <div class='pricing-plans'>
         <!-- Explore Plan -->
-        <div class='pricing-plan left'>
+        <div class='pricing-plan left' id='explore-plan'>
             <h2 class='plan-name'>Explore</h2>
             <p class='plan-description'>Best for solo scouts exploring AI-powered artist discovery.</p>
             <div class='plan-price-container'>
@@ -46,10 +47,10 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
                 <li>1 Watchlist</li>
                 <li>E-Mail Support</li>
             </ul>
-            <a href='#' class='cta-button cta-primary center' data-plan='Explore'>Choose Plan</a>
+            <div anvil-slot="explore-plan-button"></div>
         </div>
         <!-- Professional Plan -->
-        <div class='pricing-plan recommended'>
+        <div class='pricing-plan recommended' id='professional-plan'>
             <div class='recommended-tag'>Recommended</div>
             <h2 class='plan-name'>Professional</h2>
             <p class='plan-description'>For individuals or teams who want to unlock full AI-powered scouting.</p>
@@ -75,7 +76,7 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
                 </span>
                 <button type='button' class='user-count-btn' id='user-plus'>+</button>
             </div>
-            <a href='#' class='cta-button cta-primary center' data-plan='Professional'>Choose Plan</a>
+            <div anvil-slot="professional-plan-button"></div>
         </div>
     </div>
     <!-- 5. Pricing Toggle JS -->
@@ -170,33 +171,48 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
     document.getElementById('pricing-toggle-yearly').addEventListener('click', setYearly);
     setMonthly();
 
-    // Add event listeners for Choose Plan buttons
-    document.querySelectorAll('.cta-button.cta-primary').forEach(function(btn) {
-        btn.addEventListener('click', function(e) {
-            e.preventDefault();
-            var planType = btn.getAttribute('data-plan');
-            var userCount = 1;
-            if (planType === 'Professional') {
-                userCount = parseInt(document.getElementById('user-count').value || '1');
-            }
-            anvil.call('open_checkout', planType, userCount);
-        });
-    });
     </script>
     """
 
-  @anvil.js.callable
+    # 2. Add Anvil Buttons for plan selection
+    from anvil import Button
+    self.explore_btn = Button(text="Choose Plan", role="cta-button cta-primary center", tag={"plan_type": "Explore"})
+    self.professional_btn = Button(text="Choose Plan", role="cta-button cta-primary center", tag={"plan_type": "Professional"})
+    self.explore_btn.set_event_handler('click', self.choose_plan_click)
+    self.professional_btn.set_event_handler('click', self.choose_plan_click)
+    self.add_component(self.explore_btn, slot="explore-plan-button")
+    self.add_component(self.professional_btn, slot="professional-plan-button")
+
+  # 3. Handle Anvil Button clicks
+  def choose_plan_click(self, sender, **event_args):
+      """
+      1. Handles clicks on the Explore and Professional plan buttons.
+      2. Determines plan type and user count, then opens checkout.
+      """
+      plan_type: str = sender.tag.get("plan_type", "Explore")
+      user_count: int = 1
+      if plan_type == "Professional":
+          # Get user count from the input box in the HTML
+          import js
+          user_count_raw = js.document.getElementById('user-count').value
+          try:
+              user_count = int(user_count_raw)
+          except Exception:
+              user_count = 1
+      self.open_checkout(plan_type, user_count)
+
+  # 4. Open the checkout modal
   def open_checkout(self, plan_type: str, user_count: int) -> None:
-    """
-    1. Opens the C_PaymentCheckout alert with the selected plan and user count.
-    2. plan_type: 'Explore' or 'Professional'.
-    3. user_count: Number of users for Professional plan (ignored for Explore).
-    """
-    from ..C_PaymentCheckout import C_PaymentCheckout
-    details = alert(
-        content=C_PaymentCheckout(plan_type=plan_type, user_count=user_count),
-        large=False,
-        width=500,
-        buttons=[],
-        dismissible=True
-    )
+      """
+      1. Opens the C_PaymentCheckout alert with the selected plan and user count.
+      2. plan_type: 'Explore' or 'Professional'.
+      3. user_count: Number of users for Professional plan (ignored for Explore).
+      """
+      from ..C_PaymentCheckout import C_PaymentCheckout
+      alert(
+          content=C_PaymentCheckout(plan_type=plan_type, user_count=user_count),
+          large=False,
+          width=500,
+          buttons=[],
+          dismissible=True
+      )
