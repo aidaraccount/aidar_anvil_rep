@@ -436,10 +436,7 @@ class MainIn(MainInTemplate):
     self.reset_nav_backgrounds()
 
   #----------------------------------------------------------------------------------------------
-  # SETTINGS
-  def link_settings_click(self, **event_args):
-    pass
-
+  # OTHER
   def SearchBar_pressed_enter(self, **event_args):
     search_data = json.loads(anvil.server.call('search_artist', user["user_id"], self.SearchBar.text.strip()))
     self.SearchBar.focus()
@@ -504,5 +501,5 @@ class MainIn(MainInTemplate):
     )
 
   def settings_click(self, **event_args):
-    click_link(self.settings, 'settings', event_args)
+    click_link(self.settings, 'settings?section=Filter', event_args)
     self.reset_nav_backgrounds()

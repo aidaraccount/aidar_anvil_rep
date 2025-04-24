@@ -21,7 +21,7 @@ from ..nav import click_link, click_button, save_var, load_var
 from ..C_ForgotPasswordPopup import C_ForgotPasswordPopup
 
 
-@routing.route("settings", title="Settings")
+@routing.route("settings", url_keys=['section'], title="Settings")
 class Settings(SettingsTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
@@ -39,9 +39,19 @@ class Settings(SettingsTemplate):
       get_open_form().SearchBar.visible = False
       
     else:
-      self.nav_account_click()
-    
+      # section routing
+      section = self.url_dict['section']
+      
+      if section == 'Account':
+        self.nav_account_click()
+      elif section == 'Notifications':
+        self.nav_not_click()
+      elif section == 'Subscription':
+        self.nav_sub_click()
+      elif section == 'UserManagement':
+        self.nav_user_click()
 
+      
   # -----------------------
   # 1. NAVIGATION ACCOUNT SETTINGS
   def nav_account_click(self, **event_args):

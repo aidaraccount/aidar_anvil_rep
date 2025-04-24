@@ -119,7 +119,7 @@ class ModelProfile(ModelProfileTemplate):
             
       # ---------------
       # SECCTIONS      
-      # secction routing
+      # section routing
       if section == 'Main':
         self.nav_model_click()
       elif section == 'PrevRated':
