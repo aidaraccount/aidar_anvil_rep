@@ -570,7 +570,7 @@ class Settings(SettingsTemplate):
       large=False,
       width=500,
       buttons=[],
-      dismissible=False
+      dismissible=True
     )
     print(details)
     
