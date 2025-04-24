@@ -6,7 +6,7 @@ import anvil.users
 import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
-
+from anvil.js import window
 
 class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
   def __init__(self, **properties):
@@ -45,7 +45,7 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
                 <li>1 Watchlist</li>
                 <li>E-Mail Support</li>
             </ul>
-            <a href='https://app.aidar.ai/#register?license_key=None' class='cta-button cta-primary center'>Choose Plan</a>
+            <a href='#' class='cta-button cta-primary center' data-plan='Explore'>Choose Plan</a>
         </div>
         <!-- Professional Plan -->
         <div class='pricing-plan recommended'>
@@ -74,7 +74,7 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
                 </span>
                 <button type='button' class='user-count-btn' id='user-plus'>+</button>
             </div>
-            <a href='https://app.aidar.ai/#register?license_key=None' class='cta-button cta-primary center'>Choose Plan</a>
+            <a href='#' class='cta-button cta-primary center' data-plan='Professional'>Choose Plan</a>
         </div>
     </div>
     <!-- 5. Pricing Toggle JS -->
@@ -168,5 +168,34 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
     document.getElementById('pricing-toggle-monthly').addEventListener('click', setMonthly);
     document.getElementById('pricing-toggle-yearly').addEventListener('click', setYearly);
     setMonthly();
+
+    // Add event listeners for Choose Plan buttons
+    document.querySelectorAll('.cta-button.cta-primary').forEach(function(btn) {
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            var planType = btn.getAttribute('data-plan');
+            var userCount = 1;
+            if (planType === 'Professional') {
+                userCount = parseInt(document.getElementById('user-count').value || '1');
+            }
+            anvil.call('open_checkout', planType, userCount);
+        });
+    });
     </script>
     """
+
+  @anvil.js.callable('open_checkout')
+  def open_checkout(self, plan_type: str, user_count: int) -> None:
+    """
+    1. Opens the C_PaymentCheckout alert with the selected plan and user count.
+    2. plan_type: 'Explore' or 'Professional'.
+    3. user_count: Number of users for Professional plan (ignored for Explore).
+    """
+    from ..C_PaymentCheckout import C_PaymentCheckout
+    details = alert(
+        content=C_PaymentCheckout(plan_type=plan_type, user_count=user_count),
+        large=False,
+        width=500,
+        buttons=[],
+        dismissible=True
+    )
