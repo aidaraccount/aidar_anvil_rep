@@ -85,6 +85,10 @@ runtime_options:
   server_spec_disabled: {base: python310-standard, requirements: ''}
   server_version: python3-full
   version: 2
+secrets:
+  stripe_secret_key:
+    type: secret
+    value: {VBNUUYXQ55WVDCOZ: NC/7gbQyqXRVcuPlH4rcwazrEgDTaRQMf4pa/ZtNo8C7xIAHPOjMaim0XHIoNHl2I8ObApvVhs5kIQC+y823cTQQ6gRGcnlkPaupMP4nMkNt3SBfCRqkua60U9RT8jNPGUEzJK6ikUtDuk2QjK4p4FHnv0XGiWNQp4JOiI7UUpgVYb9DKMBMfuiaEDuoMt1216z2JIltwiPDqDepVsTCpe80XDS+2HjWC4e/PlnlbreYEMfWHITuyJsJMp1XyRDwqTXsSbi3bILDlQ==}
 services:
 - client_config: {}
   server_config: {}
@@ -102,5 +106,8 @@ services:
 - client_config: {}
   server_config: {refresh_token: rt_SBN7AuqcGNBHRcEjJgbeq9TJpfYnxcqm59AhOfSWInrBoyRm, stripe_user_id: acct_1RDoXAKpYockGiqN}
   source: /runtime/services/stripe.yml
+- client_config: {}
+  server_config: {}
+  source: /runtime/services/anvil/secrets.yml
 startup: {module: startup, type: module}
 startup_form: null

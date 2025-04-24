@@ -104,7 +104,7 @@ def create_setup_intent():
   import stripe
   import anvil.secrets
   
-  stripe.api_key = anvil.secrets.get_secret("STRIPE_API_KEY")
+  stripe.api_key = anvil.secrets.get_secret("stripe_secret_key")
   intent = stripe.SetupIntent.create(
       usage="off_session"
   )
