@@ -50,6 +50,23 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
             <div class=\"form-section\">
                 <h3>Billing address</h3>
                 <div class=\"field-row\">
+                    <input id=\"address-line-1\" name=\"address-line-1\" type=\"text\" placeholder=\"Address line 1\">
+                </div>
+                <div class=\"field-row\">
+                    <input id=\"address-line-2\" name=\"address-line-2\" type=\"text\" placeholder=\"Address line 2\">
+                </div>
+                <div class=\"two-column\">
+                    <div class=\"field-row\">
+                        <input id=\"city\" name=\"city\" type=\"text\" placeholder=\"City\">
+                    </div>
+                    <div class=\"field-row\">
+                        <input id=\"state\" name=\"state\" type=\"text\" placeholder=\"State, county, province, or region\">
+                    </div>
+                    <div class=\"field-row\">
+                        <input id=\"postal-code\" name=\"postal-code\" type=\"text\" placeholder=\"Postal code\">
+                    </div>
+                </div>
+                <div class=\"field-row\">
                     <select id=\"country\" name=\"country\" placeholder=\"Country\">
                         <option value=\"DE\">Germany</option>
                         <option value=\"FR\">France</option>
@@ -61,23 +78,6 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
                         <option value=\"PL\">Poland</option>
                         <option value=\"CH\">Switzerland</option>
                     </select>
-                </div>
-                <div class=\"field-row\">
-                    <input id=\"address-line-1\" name=\"address-line-1\" type=\"text\" placeholder=\"Address line 1\">
-                </div>
-                <div class=\"field-row\">
-                    <input id=\"address-line-2\" name=\"address-line-2\" type=\"text\" placeholder=\"Address line 2\">
-                </div>
-                <div class=\"two-column\">
-                    <div class=\"field-row\">
-                        <input id=\"city\" name=\"city\" type=\"text\" placeholder=\"City\">
-                    </div>
-                    <div class=\"field-row\">
-                        <input id=\"postal-code\" name=\"postal-code\" type=\"text\" placeholder=\"Postal code\">
-                    </div>
-                </div>
-                <div class=\"field-row\">
-                    <input id=\"state\" name=\"state\" type=\"text\" placeholder=\"State, county, province, or region\">
                 </div>
             </div>
             <!-- Business details section -->
@@ -268,12 +268,12 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
         import anvil.js
         name = anvil.js.window.document.getElementById('name-on-card').value
         address = {
-            'line1': anvil.js.window.document.getElementById('address-line-1').value if anvil.js.window.document.getElementById('address-line-1') else '',
-            'line2': anvil.js.window.document.getElementById('address-line-2').value if anvil.js.window.document.getElementById('address-line-2') else '',
-            'city': anvil.js.window.document.getElementById('city').value if anvil.js.window.document.getElementById('city') else '',
-            'state': anvil.js.window.document.getElementById('state').value if anvil.js.window.document.getElementById('state') else '',
-            'postal_code': anvil.js.window.document.getElementById('postal-code').value if anvil.js.window.document.getElementById('postal-code') else '',
-            'country': anvil.js.window.document.getElementById('country').value if anvil.js.window.document.getElementById('country') else ''
+            'line1': anvil.js.window.document.getElementById('address-line-1').value,
+            'line2': anvil.js.window.document.getElementById('address-line-2').value,
+            'city': anvil.js.window.document.getElementById('city').value,
+            'state': anvil.js.window.document.getElementById('state').value,
+            'postal_code': anvil.js.window.document.getElementById('postal-code').value,
+            'country': anvil.js.window.document.getElementById('country').value
         }
 
         # 2. lookup customer
@@ -286,23 +286,8 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
             # b) if not -> create new customer
             print(f"[STRIPE] Python: No customer found, creating new for email={email}")
             customer = anvil.server.call('create_stripe_customer', email, name, address)
-        
-        # 3. create payment method
-        card_details = {
-            'card': {
-                'number': anvil.js.window.document.getElementById('card-number').value,
-                'exp_month': int(anvil.js.window.document.getElementById('card-exp-month').value),
-                'exp_year': int(anvil.js.window.document.getElementById('card-exp-year').value),
-                'cvc': anvil.js.window.document.getElementById('card-cvc').value
-            }
-        }
-        billing_details = {
-            'name': name,
-            'email': email,
-            'address': address
-        }
-        payment_method_id = anvil.server.call('create_stripe_payment_method', card_details, billing_details)
-        # 4. attach payment method to customer
+
+        # 3. attach payment method to customer
         updated_customer = anvil.server.call('attach_payment_method_to_customer', customer['id'], payment_method_id)
         print(f"[STRIPE] Python: Payment method attached. Updated customer: {updated_customer}")
         alert('Payment method saved and attached to customer!')
