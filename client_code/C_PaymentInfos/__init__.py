@@ -68,15 +68,50 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
                 </div>
                 <div class=\"field-row\">
                     <select id=\"country\" name=\"country\" placeholder=\"Country\">
-                        <option value=\"DE\">Germany</option>
+                        <option value=\"AU\">Australia</option>
+                        <option value=\"AT\">Austria</option>
+                        <option value=\"BE\">Belgium</option>
+                        <option value=\"BR\">Brazil</option>
+                        <option value=\"BG\">Bulgaria</option>
+                        <option value=\"CA\">Canada</option>
+                        <option value=\"CN\">China</option>
+                        <option value=\"HR\">Croatia</option>
+                        <option value=\"CY\">Cyprus</option>
+                        <option value=\"CZ\">Czech Republic</option>
+                        <option value=\"DK\">Denmark</option>
+                        <option value=\"EE\">Estonia</option>
+                        <option value=\"FI\">Finland</option>
                         <option value=\"FR\">France</option>
+                        <option value=\"DE\">Germany</option>
+                        <option value=\"GR\">Greece</option>
+                        <option value=\"HK\">Hong Kong</option>
+                        <option value=\"HU\">Hungary</option>
+                        <option value=\"IS\">Iceland</option>
+                        <option value=\"IN\">India</option>
+                        <option value=\"IE\">Ireland</option>
                         <option value=\"IT\">Italy</option>
+                        <option value=\"JP\">Japan</option>
+                        <option value=\"LI\">Liechtenstein</option>
+                        <option value=\"LT\">Lithuania</option>
+                        <option value=\"LU\">Luxembourg</option>
+                        <option value=\"LV\">Latvia</option>
+                        <option value=\"MT\">Malta</option>
+                        <option value=\"MX\">Mexico</option>
+                        <option value=\"NL\">Netherlands</option>
+                        <option value=\"NZ\">New Zealand</option>
+                        <option value=\"NO\">Norway</option>
+                        <option value=\"PL\">Poland</option>
+                        <option value=\"PT\">Portugal</option>
+                        <option value=\"RO\">Romania</option>
+                        <option value=\"SG\">Singapore</option>
+                        <option value=\"SK\">Slovakia</option>
+                        <option value=\"SI\">Slovenia</option>
+                        <option value=\"ZA\">South Africa</option>
                         <option value=\"ES\">Spain</option>
+                        <option value=\"SE\">Sweden</option>
+                        <option value=\"CH\">Switzerland</option>
                         <option value=\"GB\">United Kingdom</option>
                         <option value=\"US\">United States</option>
-                        <option value=\"NL\">Netherlands</option>
-                        <option value=\"PL\">Poland</option>
-                        <option value=\"CH\">Switzerland</option>
                     </select>
                 </div>
             </div>
@@ -86,50 +121,50 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
                 <div class=\"field-row inline-fields\">
                     <select id=\"tax-country\" name=\"tax-country\" placeholder=\"Country\">
                         <option value=\"\">VAT country</option>
+                        <option value=\"AU\">Australia</option>
                         <option value=\"AT\">Austria</option>
                         <option value=\"BE\">Belgium</option>
+                        <option value=\"BR\">Brazil</option>
                         <option value=\"BG\">Bulgaria</option>
+                        <option value=\"CA\">Canada</option>
+                        <option value=\"CN\">China</option>
+                        <option value=\"HR\">Croatia</option>
                         <option value=\"CY\">Cyprus</option>
                         <option value=\"CZ\">Czech Republic</option>
-                        <option value=\"DE\">Germany</option>
                         <option value=\"DK\">Denmark</option>
                         <option value=\"EE\">Estonia</option>
-                        <option value=\"ES\">Spain</option>
                         <option value=\"FI\">Finland</option>
                         <option value=\"FR\">France</option>
+                        <option value=\"DE\">Germany</option>
                         <option value=\"GR\">Greece</option>
-                        <option value=\"HR\">Croatia</option>
+                        <option value=\"HK\">Hong Kong</option>
                         <option value=\"HU\">Hungary</option>
+                        <option value=\"IS\">Iceland</option>
+                        <option value=\"IN\">India</option>
                         <option value=\"IE\">Ireland</option>
                         <option value=\"IT\">Italy</option>
+                        <option value=\"JP\">Japan</option>
+                        <option value=\"LI\">Liechtenstein</option>
                         <option value=\"LT\">Lithuania</option>
                         <option value=\"LU\">Luxembourg</option>
                         <option value=\"LV\">Latvia</option>
                         <option value=\"MT\">Malta</option>
+                        <option value=\"MX\">Mexico</option>
                         <option value=\"NL\">Netherlands</option>
+                        <option value=\"NZ\">New Zealand</option>
+                        <option value=\"NO\">Norway</option>
                         <option value=\"PL\">Poland</option>
                         <option value=\"PT\">Portugal</option>
                         <option value=\"RO\">Romania</option>
-                        <option value=\"SE\">Sweden</option>
-                        <option value=\"SI\">Slovenia</option>
+                        <option value=\"SG\">Singapore</option>
                         <option value=\"SK\">Slovakia</option>
+                        <option value=\"SI\">Slovenia</option>
+                        <option value=\"ZA\">South Africa</option>
+                        <option value=\"ES\">Spain</option>
+                        <option value=\"SE\">Sweden</option>
+                        <option value=\"CH\">Switzerland</option>
                         <option value=\"GB\">United Kingdom</option>
                         <option value=\"US\">United States</option>
-                        <option value=\"CA\">Canada</option>
-                        <option value=\"AU\">Australia</option>
-                        <option value=\"CH\">Switzerland</option>
-                        <option value=\"NO\">Norway</option>
-                        <option value=\"IS\">Iceland</option>
-                        <option value=\"LI\">Liechtenstein</option>
-                        <option value=\"IN\">India</option>
-                        <option value=\"JP\">Japan</option>
-                        <option value=\"CN\">China</option>
-                        <option value=\"BR\">Brazil</option>
-                        <option value=\"MX\">Mexico</option>
-                        <option value=\"SG\">Singapore</option>
-                        <option value=\"HK\">Hong Kong</option>
-                        <option value=\"NZ\">New Zealand</option>
-                        <option value=\"ZA\">South Africa</option>
                     </select>
                     <input id=\"tax-id\" name=\"tax-id\" type=\"text\" maxlength=\"32\" autocomplete=\"off\" placeholder=\"VAT/Tax ID\">
                 </div>
@@ -320,6 +355,41 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
             # b) if not -> create new customer
             print(f"[STRIPE] Python: No customer found, creating new for email={email}")
             customer = anvil.server.call('create_stripe_customer', email, name, address)
+            
+            # c) add customer tax id
+            tax_id = anvil.js.window.document.getElementById('tax-id').value
+            tax_country = anvil.js.window.document.getElementById('tax-country').value
+            if tax_id and tax_country:
+                # Map country code to Stripe tax ID type
+                tax_id_type_map = {
+                    'AT': 'eu_vat', 'BE': 'eu_vat', 'BG': 'eu_vat', 'CY': 'eu_vat', 'CZ': 'eu_vat',
+                    'DE': 'eu_vat', 'DK': 'eu_vat', 'EE': 'eu_vat', 'ES': 'eu_vat', 'FI': 'eu_vat', 'FR': 'eu_vat',
+                    'GR': 'eu_vat', 'HR': 'eu_vat', 'HU': 'eu_vat', 'IE': 'eu_vat', 'IT': 'eu_vat', 'LT': 'eu_vat',
+                    'LU': 'eu_vat', 'LV': 'eu_vat', 'MT': 'eu_vat', 'NL': 'eu_vat', 'PL': 'eu_vat', 'PT': 'eu_vat',
+                    'RO': 'eu_vat', 'SE': 'eu_vat', 'SI': 'eu_vat', 'SK': 'eu_vat',
+                    'GB': 'gb_vat',
+                    'US': 'us_ein',
+                    'CA': 'ca_bn',
+                    'AU': 'au_abn',
+                    'CH': 'ch_vat',
+                    'NO': 'no_vat',
+                    'IS': 'is_vat',
+                    'LI': 'li_uid',
+                    'IN': 'in_gst',
+                    'JP': 'jp_cn',
+                    'CN': 'cn_tin',
+                    'BR': 'br_cnpj',
+                    'MX': 'mx_rfc',
+                    'SG': 'sg_gst',
+                    'HK': 'hk_br',
+                    'NZ': 'nz_gst',
+                    'ZA': 'za_vat',
+                }
+                tax_id_type = tax_id_type_map.get(tax_country, 'unknown')
+                if tax_id_type != 'unknown':
+                    anvil.server.call('add_stripe_customer_tax_id', customer['id'], tax_id, tax_id_type)
+                else:
+                    print(f"[STRIPE] WARNING: No Stripe tax_id_type for country {tax_country}. Not adding tax ID.")
 
         # 3. attach payment method to customer
         updated_customer = anvil.server.call('attach_payment_method_to_customer', customer['id'], payment_method_id)

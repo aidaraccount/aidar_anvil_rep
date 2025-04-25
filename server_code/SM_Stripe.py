@@ -127,6 +127,25 @@ def create_stripe_subscription(customer_id: str, price_id: str, user_count: int 
     print(f"[Stripe] Created subscription: id={subscription.id}, customer={subscription.customer}, status={subscription.status}, tax_rates={subscription.default_tax_rates}")
     return dict(subscription)
 
+@anvil.server.callable
+def add_stripe_customer_tax_id(customer_id: str, tax_id: str, tax_id_type: str = 'eu_vat') -> dict:
+    """
+    Add a tax ID (e.g., VAT) to a Stripe customer.
+    :param customer_id: The Stripe customer ID
+    :param tax_id: The customer's tax ID (e.g., VAT number)
+    :param tax_id_type: The type of tax ID (default 'eu_vat')
+    :return: The created tax ID object as a dict
+    """
+    import stripe
+    stripe.api_key = anvil.secrets.get_secret("stripe_secret_key")
+    tax_id_obj = stripe.Customer.create_tax_id(
+        customer_id,
+        type=tax_id_type,
+        value=tax_id
+    )
+    print(f"[Stripe] Added tax ID: {tax_id_obj.id} for customer {customer_id}, type={tax_id_type}, value={tax_id}")
+    return dict(tax_id_obj)
+
 
 
 #   # # charge customer
