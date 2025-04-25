@@ -39,24 +39,19 @@ def create_stripe_customer(email: str) -> dict:
     return dict(customer)
 
 @anvil.server.callable
-def get_or_create_stripe_customer(email: str) -> dict:
+def get_stripe_customer(email: str) -> dict:
     """
-    1. Look for an existing Stripe customer with the provided email.
-    2. If found, return the customer object.
-    3. If not found, create a new customer and return it.
+    Look for an existing Stripe customer with the provided email. If found, return the customer object as dict. If not found, return empty dict.
     """
     import stripe
     stripe.api_key = anvil.secrets.get_secret("stripe_secret_key")
-    # Search for customer by email
     customers = stripe.Customer.list(email=email, limit=1)
     if customers.data:
         customer = customers.data[0]
         print(f"[Stripe] Found existing customer: id={customer.id}, email={customer.email}")
         return dict(customer)
-    # Not found, create new
-    customer = stripe.Customer.create(email=email)
-    print(f"[Stripe] Created new customer: id={customer.id}, email={customer.email}")
-    return dict(customer)
+    print(f"[Stripe] No customer found for email={email}")
+    return {}
 
 @anvil.server.callable
 def attach_payment_method_to_customer(customer_id: str, payment_method_id: str) -> dict:

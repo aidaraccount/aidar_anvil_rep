@@ -214,6 +214,7 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
         submitBtn.disabled = true;
         var billingDetails = {{
             name: nameValue,
+            email: email,
             address: {{
                 country: countryInput.value,
                 line1: addressLine1Input.value,
@@ -263,12 +264,17 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
   def _payment_method_ready(self, payment_method_id: str, email: str):
     """Called from JS after successful Stripe setup. Handles server calls from Python."""
     try:
-        print(f"[STRIPE] Python: Get or create Stripe customer for email={email}")
-        customer = anvil.server.call('get_or_create_stripe_customer', email)
-        print(f"[STRIPE] Python: Attaching payment method {payment_method_id} to customer {customer['id']}")
+        print(f"[STRIPE] Python: Looking up Stripe customer for email={email}")
+        customer = anvil.server.call('get_stripe_customer', email)
+        if customer and customer.get('id'):
+            print(f"[STRIPE] Python: Found customer {customer['id']}, attaching payment method.")
+        else:
+            print(f"[STRIPE] Python: No customer found, creating new for email={email}")
+            customer = anvil.server.call('create_stripe_customer', email)
         updated_customer = anvil.server.call('attach_payment_method_to_customer', customer['id'], payment_method_id)
         print(f"[STRIPE] Python: Payment method attached. Updated customer: {updated_customer}")
         alert('Payment method saved and attached to customer!')
+        
     except Exception as err:
         print(f"[STRIPE] Python ERROR: {err}")
         alert(f'[STRIPE] Error: {err}')
