@@ -42,7 +42,7 @@ class C_PaymentCheckout(C_PaymentCheckoutTemplate):
             </button>
             <div id="payment-message" class="hidden"></div>
         </form>
-        <script src="https://js.stripe.com/v3/"></script>
+        <script src="https://js.stripe.com/basil/stripe.js"></script>
         <script>
         const stripe = Stripe("pk_test_51RDoXJQTBcqmUQgt9CqdDXQjtHKkEkEBuXSs7EqVjwkzqcWP66EgCu8jjYArvbioeYpzvS5wSvbrUsKUtjXi0gGq00M9CzHJTa");
         let checkout;
