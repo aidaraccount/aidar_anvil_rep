@@ -98,7 +98,7 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
       alert('No Stripe price selected. Please select a valid plan.', title='Error')
       return
     try:
-      subscription = anvil.server.call('create_stripe_subscription', self.customer_id, self.price_id)
+      subscription = anvil.server.call('create_stripe_subscription', self.customer_id, self.price_id, self.user_count)
       alert(f"Subscription created! Status: {subscription.get('status')}", title="Success")
     except Exception as e:
       alert(f"Failed to create subscription: {e}", title="Error")
