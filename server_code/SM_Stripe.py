@@ -85,12 +85,22 @@ def attach_payment_method_to_customer(customer_id: str, payment_method_id: str) 
     print(f"[Stripe] Updated customer default payment method: customer_id={customer.id}, default_payment_method={customer.invoice_settings.default_payment_method}")
     return dict(customer)
   
+@anvil.server.callable
+def create_stripe_subscription(customer_id: str, price_id: str) -> dict:
+    """
+    1. Create a new subscription for a customer.
+    2. Print and return the subscription object (as dict).
+    """
+    import stripe
+    stripe.api_key = anvil.secrets.get_secret("stripe_secret_key")
+    subscription = stripe.Subscription.create(
+        customer=customer_id,
+        items={"price": price_id}
+    )
+    print(f"[Stripe] Created subscription: id={subscription.id}, customer={subscription.customer}, status={subscription.status}")
+    return dict(subscription)
 
 
-#   # # get stripe customer
-#   # customer = anvil.stripe.get_customer(stripe_customer['id'])
-#   # print(customer)
-#   # print(customer['id'])
 
 #   # # charge customer
 #   # c = customer.charge(amount=999, currency="EUR")
