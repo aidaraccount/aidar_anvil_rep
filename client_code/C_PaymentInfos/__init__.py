@@ -261,4 +261,4 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
 
   def _close_alert(self):
     """Close the alert dialog from JS."""
-    alert.close_alert()
+    self.raise_event('x-close-alert')
