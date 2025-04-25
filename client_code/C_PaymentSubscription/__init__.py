@@ -32,9 +32,14 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
         self.price_id = "price_1REVwmQTBcqmUQgtiBBLNZaD"
     elif self.plan_type == "Professional" and self.billing_period == "yearly":
         self.price_id = "price_1REVzZQTBcqmUQgtpyBz8Gky"
-
+    print('price_id:', self.price_id)
+    
     # 1. Get Stripe customer by email
-    self.customer = anvil.server.call('get_stripe_customer', user['email']) if user and getattr(user, 'get', None) else None
+    self.customer = anvil.server.call('get_stripe_customer', user['email'])
+    print('customer:', self.customer)
+    self.customer_id = self.customer['id']
+    print('customer_id:', self.customer_id)
+    
     # Convert LiveObjectProxy to dict if needed
     if hasattr(self.customer, 'items'):
         self.customer = dict(self.customer)
