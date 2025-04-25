@@ -47,7 +47,7 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
                 <li>1 Watchlist</li>
                 <li>E-Mail Support</li>
             </ul>
-            <div id='basic_plan_panel'></div>
+            <div anvil-slot="explore-plan-button"></div>
         </div>
         <!-- Professional Plan -->
         <div class='pricing-plan recommended'>
@@ -76,7 +76,7 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
                 </span>
                 <button type='button' class='user-count-btn' id='user-plus'>+</button>
             </div>
-            <div id='prof_plan_panel'></div>
+            <div anvil-slot="professional-plan-button"></div>
         </div>
     </div>
     <!-- 5. Pricing Toggle JS -->
@@ -173,29 +173,66 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
     </script>
     """
 
-  def replace_choose_plan_buttons(self):
-    # Find the container for the plans (assuming they are in self.content_panel or similar)
-    # You may need to adapt this selector to your form structure
-    # For demo, assume two containers: self.basic_plan_panel and self.prof_plan_panel
-    # Remove HTML links if present and add Anvil buttons
-    if hasattr(self, 'basic_plan_panel'):
-      self.basic_plan_panel.clear()
-      btn_basic = Button(text="Choose Plan", role="cta-button cta-primary center")
-      btn_basic.set_event_handler('click', self.create_choose_plan_handler())
-      self.basic_plan_panel.add_component(btn_basic)
-    if hasattr(self, 'prof_plan_panel'):
-      self.prof_plan_panel.clear()
-      btn_prof = Button(text="Choose Plan", role="cta-button cta-primary center")
-      btn_prof.set_event_handler('click', self.create_choose_plan_handler())
-      self.prof_plan_panel.add_component(btn_prof)
 
-  def create_choose_plan_handler(self):
-    def handler(**event_args):
-      details = alert(
-        content=C_PaymentSubscription(),
-        large=False,
-        width=500,
-        buttons=[],
-        dismissible=True
+    # 2. Add Anvil Buttons for plan selection
+    from anvil import Button
+    self.explore_btn = Button(text="Choose Plan", role="cta-button cta-primary center", tag={"plan_type": "Explore"})
+    self.professional_btn = Button(text="Choose Plan", role="cta-button cta-primary center", tag={"plan_type": "Professional"})
+    self.explore_btn.set_event_handler('click', self.choose_plan_click)
+    self.professional_btn.set_event_handler('click', self.choose_plan_click)
+    self.add_component(self.explore_btn, slot="explore-plan-button")
+    self.add_component(self.professional_btn, slot="professional-plan-button")
+
+  # 3. Handle Anvil Button clicks
+  def choose_plan_click(self, sender, **event_args):
+      """
+      1. Handles clicks on the Explore and Professional plan buttons.
+      2. Determines plan type and user count, then opens checkout.
+      """
+      plan_type: str = sender.tag.get("plan_type", "Explore")
+      user_count: int = 1
+      if plan_type == "Professional":
+          # Get user count from the input box in the HTML
+          import anvil.js
+          user_count_raw = anvil.js.window.document.getElementById('user-count').value
+          try:
+              user_count = int(user_count_raw)
+          except Exception:
+              user_count = 1
+      self.open_subscription(plan_type, user_count)
+
+  # 4. Handle the full checkout process
+  def open_subscription(self, plan_type: str, user_count: int) -> None:
+      """
+      1. Initiates the full checkout process in a clear, step-by-step manner.
+      2. Collects payment info, creates a Stripe customer, and opens the subscription checkout.
+      3. plan_type: 'Explore' or 'Professional'.
+      4. user_count: Number of users for Professional plan (ignored for Explore).
+      """
+      from ..C_PaymentSubscription import C_PaymentSubscription
+      import anvil.server
+      billing_period = self.get_billing_period()
+
+      # 1. Open the subscription checkout modal
+      alert(
+          content=C_PaymentSubscription(
+              plan_type=plan_type,
+              user_count=user_count,
+              billing_period=billing_period
+          ),
+          large=False,
+          width=500,
+          buttons=[],
+          dismissible=True
       )
-    return handler
+
+
+  # 5. Determine the billing period
+  def get_billing_period(self) -> str:
+      """
+      Returns the current billing period selected by the user ('monthly' or 'yearly').
+      """
+      import anvil.js
+      # Detect which pricing toggle is selected in the HTML
+      is_monthly = anvil.js.window.document.getElementById('pricing-toggle-monthly').classList.contains('selected')
+      return 'monthly' if is_monthly else 'yearly'
