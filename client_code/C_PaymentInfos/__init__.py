@@ -26,26 +26,25 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
     <script>
     window.stripe_setup_intent_client_secret = '{client_secret}';
     </script>
-    <!-- 1. Customer Email Section -->
-    <h2>Customer email</h2>
-    <input id='customer-email' type='email' value='{self.customer_email}' style='width:100%;margin-bottom:16px;'>
-    <!-- 2. Stripe.js script -->
     <script src=\"https://js.stripe.com/v3/\"></script>
     <div id=\"payment-form-container\">
-        <!-- 3. Title and instructions -->
         <h2>Add payment details</h2>
         <div class=\"payment-info-text\">Add your credit card details below. This card will be saved to your account and can be removed at any time.</div>
-        <!-- 4. Custom payment form -->
         <form id=\"payment-form\">
-            <!-- Card information section -->
+            <!-- Customer email -->
             <div class=\"form-section\">
-                <h3>Card information</h3>
-                <div id=\"card-element\"></div>
+                <h3>Customer email</h3>
+                <input id=\"customer-email\" type=\"email\" value=\"{self.customer_email}\">
             </div>
             <!-- Name on card -->
             <div class=\"form-section\">
                 <h3>Name on card</h3>
                 <input id=\"name-on-card\" name=\"name-on-card\" type=\"text\" autocomplete=\"cc-name\" required placeholder=\"Name on card\">
+            </div>
+            <!-- Card information section -->
+            <div class=\"form-section\">
+                <h3>Card information</h3>
+                <div id=\"card-element\"></div>
             </div>
             <!-- Billing address section -->
             <div class=\"form-section\">
@@ -85,12 +84,12 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
     </div>
     <div id=\"payment-message\"></div>
     <script>
-    // 1. Initialize Stripe and Elements
+    // Initialize Stripe and Elements
     var stripe = Stripe('pk_test_51RDoXJQTBcqmUQgt9CqdDXQjtHKkEkEBuXSs7EqVjwkzqcWP66EgCu8jjYArvbioeYpzvS5wSvbrUsKUtjXi0gGq00M9CzHJTa');
     var elements = stripe.elements();
     var cardElement = elements.create('card');
     cardElement.mount('#card-element');
-    // 2. Save payment details handler
+    // Save payment details handler
     document.getElementById('save-payment-btn').onclick = async function() {{
         var email = document.getElementById('customer-email').value;
         var name = document.getElementById('name-on-card').value;
@@ -124,9 +123,9 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
 
   def _anvilPaymentInfosTokenCallback(self, token: str, email: str):
     """
-    1. Called from JS when token and email are ready.
-    2. Calls the server to create the Stripe customer and prints all info.
-    3. Fires the custom event for the parent form.
+    Called from JS when token and email are ready.
+    Calls the server to create the Stripe customer and prints all info.
+    Fires the custom event for the parent form.
     """
     print(f"Received token: {token}")
     print(f"Received email: {email}")
