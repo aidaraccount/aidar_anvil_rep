@@ -61,11 +61,13 @@ class Settings(SettingsTemplate):
     self.nav_sub.role = 'section_buttons'
     self.nav_user.role = 'section_buttons'
     self.nav_pay.role = 'section_buttons'
+    self.nav_comp.role = 'section_buttons'
     self.sec_account.visible = True
     self.sec_not.visible = False
     self.sec_sub.visible = False
     self.sec_user.visible = False
     self.sec_pay.visible = False
+    self.sec_comp.visible = False
 
     # reset save button
     self.profile_save.role = ['header-6', 'call-to-action-button-disabled']
@@ -98,11 +100,13 @@ class Settings(SettingsTemplate):
     self.nav_sub.role = 'section_buttons'
     self.nav_user.role = 'section_buttons'
     self.nav_pay.role = 'section_buttons'
+    self.nav_comp.role = 'section_buttons'
     self.sec_account.visible = False
     self.sec_not.visible = True
     self.sec_sub.visible = False
     self.sec_user.visible = False
     self.sec_pay.visible = False
+    self.sec_comp.visible = False
 
     # reset save button
     self.not_gen_save.role = ['header-6', 'call-to-action-button-disabled']
@@ -137,11 +141,13 @@ class Settings(SettingsTemplate):
     self.nav_sub.role = 'section_buttons_focused'
     self.nav_user.role = 'section_buttons'
     self.nav_pay.role = 'section_buttons'
+    self.nav_comp.role = 'section_buttons'
     self.sec_account.visible = False
     self.sec_not.visible = False
     self.sec_sub.visible = True
     self.sec_user.visible = False
     self.sec_pay.visible = False
+    self.sec_comp.visible = False
     
     # load data
     sub_data = anvil.server.call('get_settings_subscription', user["user_id"])
@@ -238,11 +244,13 @@ class Settings(SettingsTemplate):
     self.nav_sub.role = 'section_buttons'
     self.nav_user.role = 'section_buttons_focused'
     self.nav_pay.role = 'section_buttons'
+    self.nav_comp.role = 'section_buttons'
     self.sec_account.visible = False
     self.sec_not.visible = False
     self.sec_sub.visible = False
     self.sec_user.visible = True
     self.sec_pay.visible = False
+    self.sec_comp.visible = False
  
     # load data
     sub_data = self.get_data()
@@ -287,11 +295,13 @@ class Settings(SettingsTemplate):
     self.nav_sub.role = 'section_buttons'
     self.nav_user.role = 'section_buttons'
     self.nav_pay.role = 'section_buttons_focused'
+    self.nav_comp.role = 'section_buttons'
     self.sec_account.visible = False
     self.sec_not.visible = False
     self.sec_sub.visible = False
     self.sec_user.visible = False
     self.sec_pay.visible = True
+    self.sec_comp.visible = False
  
     # load data
     # Example: get current user's email (adapt if needed)
@@ -319,15 +329,18 @@ class Settings(SettingsTemplate):
     self.nav_not.role = 'section_buttons'
     self.nav_sub.role = 'section_buttons'
     self.nav_user.role = 'section_buttons'
-    self.nav_pay.role = 'section_buttons_focused'
+    self.nav_pay.role = 'section_buttons'
+    self.nav_comp.role = 'section_buttons_focused'
     self.sec_account.visible = False
     self.sec_not.visible = False
     self.sec_sub.visible = False
     self.sec_user.visible = False
-    self.sec_pay.visible = True
+    self.sec_pay.visible = False
+    self.sec_comp.visible = True
  
     # load data
-    self.password
+    pass
+    
     # show content
     pass
   

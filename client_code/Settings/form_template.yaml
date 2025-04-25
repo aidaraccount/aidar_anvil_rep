@@ -26,7 +26,7 @@ components:
         spacing_below: none
         text: Notifications
       type: Link
-    - event_bindings: {click: nav_cus_click}
+    - event_bindings: {click: nav_comp_click}
       layout_properties: {}
       name: nav_comp
       properties:
