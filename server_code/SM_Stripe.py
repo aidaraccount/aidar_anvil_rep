@@ -95,7 +95,7 @@ def create_stripe_subscription(customer_id: str, price_id: str) -> dict:
     stripe.api_key = anvil.secrets.get_secret("stripe_secret_key")
     subscription = stripe.Subscription.create(
         customer=customer_id,
-        items={"price": price_id}
+        items=[{"price": price_id}]
     )
     print(f"[Stripe] Created subscription: id={subscription.id}, customer={subscription.customer}, status={subscription.status}")
     return dict(subscription)
