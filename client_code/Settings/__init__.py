@@ -12,8 +12,6 @@ from anvil.js.window import navigator
 import json
 from datetime import datetime, date
 import re
-# import stripe.checkout
-# import anvil.stripe
 
 from anvil_extras import routing
 from ..nav import click_link, click_button, save_var, load_var
@@ -313,6 +311,25 @@ class Settings(SettingsTemplate):
     else:
       self.no_payment.visible = False
       self.yes_payment.visible = True
+  
+  # -----------------------
+  # 6. COMPANY DETAILS
+  def nav_comp_click(self, **event_args):
+    self.nav_account.role = 'section_buttons'
+    self.nav_not.role = 'section_buttons'
+    self.nav_sub.role = 'section_buttons'
+    self.nav_user.role = 'section_buttons'
+    self.nav_pay.role = 'section_buttons_focused'
+    self.sec_account.visible = False
+    self.sec_not.visible = False
+    self.sec_sub.visible = False
+    self.sec_user.visible = False
+    self.sec_pay.visible = True
+ 
+    # load data
+    self.password
+    # show content
+    pass
   
 
   # ---------------------------------------------------------------------

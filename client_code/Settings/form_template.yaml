@@ -26,6 +26,24 @@ components:
         spacing_below: none
         text: Notifications
       type: Link
+    - event_bindings: {click: nav_cus_click}
+      layout_properties: {}
+      name: nav_comp
+      properties:
+        role: [section_buttons]
+        spacing_above: none
+        spacing_below: none
+        text: Company Details
+      type: Link
+    - components: []
+      event_bindings: {click: nav_pay_click}
+      name: nav_pay
+      properties:
+        role: [section_buttons]
+        spacing_above: none
+        spacing_below: none
+        text: Payment
+      type: Link
     - event_bindings: {click: nav_sub_click}
       layout_properties: {}
       name: nav_sub
@@ -44,15 +62,6 @@ components:
         spacing_above: none
         spacing_below: none
         text: User Management
-      type: Link
-    - event_bindings: {click: nav_pay_click}
-      layout_properties: {}
-      name: nav_pay
-      properties:
-        role: [section_buttons]
-        spacing_above: none
-        spacing_below: none
-        text: Payment
       type: Link
     layout_properties: {grid_position: 'YQKRNJ,MTAXIJ'}
     name: flow_panel_sections
@@ -662,8 +671,56 @@ components:
         spacing:
           margin: ['25', null, null, '0']
       type: ColumnPanel
-    layout_properties: {grid_position: 'CSZYSA,APYBBP'}
+    layout_properties: {grid_position: 'JSXEDQ,MDAUVY'}
     name: sec_user
+    properties:
+      spacing:
+        margin: ['5', '25', '25', '25']
+      spacing_above: medium
+    type: ColumnPanel
+  - components:
+    - components:
+      - layout_properties: {grid_position: 'XMKZJJ,YJDVPX'}
+        name: label_1_copy_copy_copy
+        properties:
+          role: header-5
+          spacing:
+            margin: [null, null, '10', null]
+          spacing_above: none
+          spacing_below: none
+          text: Company Details
+        type: Label
+      - components:
+        - layout_properties: {grid_position: 'UGKVRN,ABHYAW'}
+          name: plan_desc_copy_copy
+          properties:
+            role: header-6
+            spacing:
+              margin: [null, null, 25, 20]
+            text: No payment details stored yet.
+          type: Label
+        - event_bindings: {click: add_payment_details_click}
+          layout_properties: {grid_position: 'YKNUJY,EWNYMA'}
+          name: add_payment_details_copy_2
+          properties:
+            align: center
+            role: [header-6, call-to-action-button]
+            text: add payment details
+          type: Button
+        layout_properties: {grid_position: 'FGOYVA,FYYDYS'}
+        name: no_payment_copy
+        properties: {}
+        type: ColumnPanel
+      layout_properties: {grid_position: 'QNZWKH,LEIHEI'}
+      name: payment_details_copy
+      properties:
+        col_spacing: tiny
+        col_widths: '{}'
+        spacing:
+          margin: ['25', null, null, '0']
+      type: ColumnPanel
+    layout_properties: {grid_position: 'UGBCGR,HQOKIG'}
+    name: sec_comp
     properties:
       spacing:
         margin: ['5', '25', '25', '25']
