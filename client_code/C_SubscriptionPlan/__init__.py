@@ -18,17 +18,16 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
     global user
     user = anvil.users.get_user()
 
-    self.replace_choose_plan_buttons()
-
+    # 1. HTML content
     self.html = """
-    <!-- 2. Pricing Toggle -->
+    <!-- 1. Pricing Toggle -->
     <div class='pricing-toggle-container'>
         <div class='pricing-toggle'>
             <button id='pricing-toggle-monthly' class='pricing-toggle-btn selected' type='button'>Monthly</button>
             <button id='pricing-toggle-yearly' class='pricing-toggle-btn' type='button'>Yearly <span class='discount'>-10%</span></button>
         </div>
     </div>
-    <!-- 3. Pricing Plans -->
+    <!-- 2. Pricing Plans -->
     <div class='pricing-plans'>
         <!-- Explore Plan -->
         <div class='pricing-plan left'>
@@ -79,7 +78,7 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
             <div anvil-slot="professional-plan-button"></div>
         </div>
     </div>
-    <!-- 5. Pricing Toggle JS -->
+    <!-- 3. Pricing Toggle JS -->
     <script>
     // Pricing toggle JS
     function setMonthly() {
