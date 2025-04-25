@@ -50,6 +50,38 @@ def create_setup_intent():
 
 
 @anvil.server.callable
+def create_stripe_customer(token, email):
+  # create stripe customer
+  stripe_customer = anvil.stripe.new_customer(email, token)
+  print(stripe_customer)
+  print(stripe_customer['id'])
+
+@anvil.server.callable
+def get_stripe_customer(stripe_customer_id):
+  # get stripe customer
+  customer = anvil.stripe.get_customer(stripe_customer_id)
+  print(customer)
+  print(customer['id'])
+
+@anvil.server.callable
+def charge_customer(stripe_customer_id, amount, currency):
+    # charge customer
+    customer = anvil.stripe.get_customer(stripe_customer_id)
+    print(customer)
+    print(customer['id'])
+    c = customer.charge(amount=amount, currency=currency)
+    print(c)
+
+@anvil.server.callable
+def create_subscription(stripe_customer, price_id):
+  # create subscription
+  subscription = stripe_customer.new_subscription(price_id)
+  print(subscription)
+  print(subscription[0])
+
+
+
+@anvil.server.callable
 def create_checkout_session(price_id: str, quantity: int) -> dict:
     """
     1. Creates a Stripe Checkout Session for the given price_id and quantity.

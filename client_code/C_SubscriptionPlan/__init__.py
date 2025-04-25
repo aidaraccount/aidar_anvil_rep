@@ -201,23 +201,55 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
               user_count = 1
       self.open_checkout(plan_type, user_count)
 
-  # 4. Open the checkout modal
+  # 4. Handle the full checkout process
   def open_checkout(self, plan_type: str, user_count: int) -> None:
       """
-      1. Opens the C_PaymentCheckout alert with the selected plan and user count.
-      2. plan_type: 'Explore' or 'Professional'.
-      3. user_count: Number of users for Professional plan (ignored for Explore).
+      1. Initiates the full checkout process in a clear, step-by-step manner.
+      2. Collects payment info, creates a Stripe customer, and opens the subscription checkout.
+      3. plan_type: 'Explore' or 'Professional'.
+      4. user_count: Number of users for Professional plan (ignored for Explore).
       """
+      from ..C_PaymentInfos import C_PaymentInfos
       from ..C_PaymentCheckout import C_PaymentCheckout
+      import anvil.server
       billing_period = self.get_billing_period()
+
+      # 1. Define a callback to handle the result from payment info collection
+      def handle_payment_info(token: str, email: str) -> None:
+          """
+          1. Receives the Stripe token and email from C_PaymentInfos.
+          2. Creates a Stripe customer on the server.
+          3. Opens the C_PaymentCheckout modal for subscription.
+          """
+          if not token or not email:
+              return  # User cancelled or incomplete
+          # 2. Create Stripe customer
+          stripe_customer = anvil.server.call('create_stripe_customer', token, email)
+          # 3. Open the subscription checkout modal
+          alert(
+              content=C_PaymentCheckout(
+                  plan_type=plan_type,
+                  user_count=user_count,
+                  billing_period=billing_period
+              ),
+              large=False,
+              width=500,
+              buttons=[],
+              dismissible=True
+          )
+
+      # 2. Show C_PaymentInfos to collect payment info, passing the callback
+      payment_infos_form = C_PaymentInfos()
+      payment_infos_form.set_event_handler('payment_info_submitted', handle_payment_info)
       alert(
-          content=C_PaymentCheckout(plan_type=plan_type, user_count=user_count, billing_period=billing_period),
+          content=payment_infos_form,
           large=False,
           width=500,
           buttons=[],
           dismissible=True
       )
 
+  # 5. Determine the billing period
   def get_billing_period(self) -> str:
       """
       Returns the current billing period selected by the user ('monthly' or 'yearly').
