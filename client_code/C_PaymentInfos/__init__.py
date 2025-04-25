@@ -228,6 +228,7 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
             tax_id: taxId,
             tax_country: taxCountry
         }};
+        console.log('[STRIPE] About to call stripe.confirmCardSetup');
         stripe.confirmCardSetup(window.stripe_setup_intent_client_secret, {{
             payment_method: {{
                 card: cardElement,
@@ -235,18 +236,26 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
                 metadata: metadata
             }}
         }}).then(function(result) {{
+            console.log('[STRIPE] confirmCardSetup result:', result);
             if (result.error) {{
                 document.getElementById('card-errors').textContent = result.error.message;
                 submitBtn.disabled = false;
             }} else {{
                 // 1. Create customer by email
                 var emailValue = document.getElementById('email').value;
+                console.log('[STRIPE] About to call anvil.server.call(create_stripe_customer)');
+                if (typeof anvil === 'undefined' || typeof anvil.server === 'undefined') {{
+                    console.log('[STRIPE] ERROR: anvil.server is undefined');
+                }}
                 anvil.server.call('create_stripe_customer', emailValue).then(function(customer) {{
+                    console.log('[STRIPE] create_stripe_customer returned:', customer);
                     // 2. Attach payment method to customer
+                    console.log('[STRIPE] About to call anvil.server.call(attach_payment_method_to_customer)');
                     return anvil.server.call('attach_payment_method_to_customer', customer.id, result.setupIntent.payment_method);
                 }}).then(function(updated_customer) {{
-                    console.log('Payment method saved and attached to customer! ' + JSON.stringify(updated_customer));
+                    console.log('[STRIPE] Payment method saved and attached to customer! ' + JSON.stringify(updated_customer));
                 }}).catch(function(err) {{
+                    console.log('[STRIPE] ERROR:', err);
                     document.getElementById('card-errors').textContent = 'Error: ' + err;
                     submitBtn.disabled = false;
                 }});
