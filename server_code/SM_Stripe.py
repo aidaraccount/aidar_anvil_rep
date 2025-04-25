@@ -40,6 +40,19 @@ def create_stripe_customer(email: str, name: str = None, address: dict = None) -
     if address:
         customer_data["address"] = address
     customer = stripe.Customer.create(**customer_data)
+    # Set invoice footer for EU customers
+    EU_COUNTRIES = {
+        "AT", "BE", "BG", "CY", "CZ", "DE", "DK", "EE", "ES", "FI", "FR", "GR",
+        "HR", "HU", "IE", "IT", "LT", "LU", "LV", "MT", "NL", "PL", "PT", "RO", "SE", "SI", "SK"
+    }
+    country = customer.address.country if customer.address and hasattr(customer.address, 'country') else None
+    if country in EU_COUNTRIES:
+        stripe.Customer.modify(
+            customer.id,
+            invoice_settings={
+                "footer": "Reverse charge: VAT to be accounted for by the recipient according to EU Directive 2006/112/EC."
+            }
+        )
     print(f"[Stripe] Created customer: id={customer.id}, email={customer.email}, name={customer.name}, address={customer.address}")
     return dict(customer)
 
