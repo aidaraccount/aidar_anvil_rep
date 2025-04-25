@@ -6,7 +6,8 @@ import anvil.users
 import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
-
+from ..C_PaymentSubscription import C_PaymentSubscription
+from anvil import Button, alert
 
 class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
   def __init__(self, **properties):
@@ -17,6 +18,7 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
     global user
     user = anvil.users.get_user()
 
+    self.replace_choose_plan_buttons()
 
     self.html = """
     <!-- 2. Pricing Toggle -->
@@ -45,7 +47,7 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
                 <li>1 Watchlist</li>
                 <li>E-Mail Support</li>
             </ul>
-            <a href='https://app.aidar.ai/#register?license_key=None' class='cta-button cta-primary center'>Choose Plan</a>
+            <div id='basic_plan_panel'></div>
         </div>
         <!-- Professional Plan -->
         <div class='pricing-plan recommended'>
@@ -74,7 +76,7 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
                 </span>
                 <button type='button' class='user-count-btn' id='user-plus'>+</button>
             </div>
-            <a href='https://app.aidar.ai/#register?license_key=None' class='cta-button cta-primary center'>Choose Plan</a>
+            <div id='prof_plan_panel'></div>
         </div>
     </div>
     <!-- 5. Pricing Toggle JS -->
@@ -170,3 +172,30 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
     setMonthly();
     </script>
     """
+
+  def replace_choose_plan_buttons(self):
+    # Find the container for the plans (assuming they are in self.content_panel or similar)
+    # You may need to adapt this selector to your form structure
+    # For demo, assume two containers: self.basic_plan_panel and self.prof_plan_panel
+    # Remove HTML links if present and add Anvil buttons
+    if hasattr(self, 'basic_plan_panel'):
+      self.basic_plan_panel.clear()
+      btn_basic = Button(text="Choose Plan", role="cta-button cta-primary center")
+      btn_basic.set_event_handler('click', self.create_choose_plan_handler())
+      self.basic_plan_panel.add_component(btn_basic)
+    if hasattr(self, 'prof_plan_panel'):
+      self.prof_plan_panel.clear()
+      btn_prof = Button(text="Choose Plan", role="cta-button cta-primary center")
+      btn_prof.set_event_handler('click', self.create_choose_plan_handler())
+      self.prof_plan_panel.add_component(btn_prof)
+
+  def create_choose_plan_handler(self):
+    def handler(**event_args):
+      details = alert(
+        content=C_PaymentSubscription(),
+        large=False,
+        width=500,
+        buttons=[],
+        dismissible=True
+      )
+    return handler
