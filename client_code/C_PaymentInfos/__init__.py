@@ -238,17 +238,22 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
                 document.getElementById('card-errors').textContent = result.error.message;
                 submitBtn.disabled = false;
             }} else {{
-                alert('Payment method saved successfully with id: ' + result.setupIntent.payment_method);
                 var emailValue = document.getElementById('email').value;
-                anvil.call('create_stripe_customer', result.setupIntent.payment_method, emailValue).then(function(customer_result) {{
-                    alert('Payment method saved and customer created!');
-                }}).catch(function(err) {{
-                    document.getElementById('card-errors').textContent = 'Error creating customer: ' + err;
-                    submitBtn.disabled = false;
-                }});
+                alert('Payment method saved successfully with id: ' + result.setupIntent.payment_method + ' and email: ' + emailValue);
+                anvil.call('payment_method_ready', result.setupIntent.payment_method, emailValue);
             }}
         }});
     }});
     document.getElementById('cancel-btn').onclick = function() {{ anvil.call('close_alert'); }};
     </script>
     """
+    # Register the event handler for payment_method_ready
+    self.set_event_handler('payment_method_ready', self._on_payment_method_ready)
+
+  def _on_payment_method_ready(self, token: str, email: str, **event_args) -> None:
+    """Handle payment method ready event from JS and call server to create customer."""
+    try:
+      customer_result = anvil.server.call('create_stripe_customer', token, email)
+      alert('Payment method saved and customer created!')
+    except Exception as err:
+      alert(f'Error creating customer: {err}')
