@@ -14,10 +14,10 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
     self.init_components(**properties)
 
     # 2. Get current user and pre-fill email
-    import anvil.users
-    self.user = anvil.users.get_user()
-    self.customer_email = self.user["email"] if self.user and "email" in self.user else ""
-    print(f"User email: {self.customer_email}")
+    global user
+    user = anvil.users.get_user()
+    self.customer_email = user["email"] if user else ""
+    print(f"C_PaymentInfos user email: {self.customer_email}")
 
     # 3. Get the Stripe SetupIntent client_secret from the server
     client_secret = anvil.server.call('create_setup_intent')
@@ -31,22 +31,22 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
         <h2>Add payment details</h2>
         <div class=\"payment-info-text\">Add your credit card details below. This card will be saved to your account and can be removed at any time.</div>
         <form id=\"payment-form\">
-            <!-- Customer email -->
+            <!-- 1. Customer email -->
             <div class=\"form-section\">
                 <h3>Customer email</h3>
-                <input id=\"customer-email\" type=\"email\" value=\"{self.customer_email}\">
+                <input id=\"customer-email\" type=\"email\" value=\"{self.customer_email}\" class=\"payment-input\">
             </div>
-            <!-- Name on card -->
+            <!-- 2. Name on card -->
             <div class=\"form-section\">
                 <h3>Name on card</h3>
                 <input id=\"name-on-card\" name=\"name-on-card\" type=\"text\" autocomplete=\"cc-name\" required placeholder=\"Name on card\">
             </div>
-            <!-- Card information section -->
+            <!-- 3. Card information -->
             <div class=\"form-section\">
                 <h3>Card information</h3>
                 <div id=\"card-element\"></div>
             </div>
-            <!-- Billing address section -->
+            <!-- 4. Billing address -->
             <div class=\"form-section\">
                 <h3>Billing address</h3>
                 <div class=\"field-row\">
