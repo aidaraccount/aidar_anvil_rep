@@ -53,7 +53,8 @@ def create_setup_intent():
 def create_checkout_session(price_id: str, quantity: int) -> dict:
     """
     1. Creates a Stripe Checkout Session for the given price_id and quantity.
-    2. Returns the session ID and client secret for use in the client-side payment flow.
+    2. Uses 'subscription' mode for recurring prices.
+    3. Returns the session ID and client secret for use in the client-side payment flow.
     """
     stripe.api_key = anvil.secrets.get_secret("stripe_secret_key")
     session = stripe.checkout.Session.create(
@@ -62,7 +63,7 @@ def create_checkout_session(price_id: str, quantity: int) -> dict:
             'price': price_id,
             'quantity': quantity,
         }],
-        mode='payment',
+        mode='subscription',  # Use subscription mode for recurring prices
         return_url='https://aidar.anvil.app/_/theme/return.html?session_id={CHECKOUT_SESSION_ID}',
         automatic_tax={'enabled': True},
     )
