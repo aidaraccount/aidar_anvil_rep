@@ -240,15 +240,15 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
             }} else {{
                 var emailValue = document.getElementById('email').value;
                 alert('Payment method saved successfully with id: ' + result.setupIntent.payment_method + ' and email: ' + emailValue);
-                anvil.call('payment_method_ready', result.setupIntent.payment_method, emailValue);
+                anvil.call('x-payment_method_ready', result.setupIntent.payment_method, emailValue);
             }}
         }});
     }});
     document.getElementById('cancel-btn').onclick = function() {{ anvil.call('close_alert'); }};
     </script>
     """
-    # Register the event handler for payment_method_ready
-    self.set_event_handler('payment_method_ready', self._on_payment_method_ready)
+    # Register the event handler for x-payment_method_ready
+    self.set_event_handler('x-payment_method_ready', self._on_payment_method_ready)
 
   def _on_payment_method_ready(self, token: str, email: str, **event_args) -> None:
     """Handle payment method ready event from JS and call server to create customer."""
