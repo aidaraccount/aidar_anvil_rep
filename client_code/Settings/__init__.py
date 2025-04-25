@@ -296,7 +296,15 @@ class Settings(SettingsTemplate):
     self.sec_pay.visible = True
  
     # load data
-    pass
+    # Example: get current user's email (adapt if needed)
+    customer = anvil.server.call('get_stripe_customer', user['email'])
+    if customer and customer.get('id'):
+        payment_methods = anvil.server.call('get_stripe_payment_methods', customer['id'])
+        print(f"[STRIPE] Found {len(payment_methods)} payment methods for customer {customer['id']}")
+        for pm in payment_methods:
+            print(f"[STRIPE] Payment method: id={pm.get('id')}, type={pm.get('type')}, brand={pm.get('card', {}).get('brand')}, last4={pm.get('card', {}).get('last4')}")
+    else:
+        print(f"[STRIPE] No Stripe customer found for email={user['email']}")
 
     # show content
     if True:
@@ -305,8 +313,8 @@ class Settings(SettingsTemplate):
     else:
       self.no_payment.visible = False
       self.yes_payment.visible = True
-    
   
+
   # ---------------------------------------------------------------------
   # 1. ACCOUNT SETTINGS
   # a) Profile Management

@@ -54,6 +54,18 @@ def get_stripe_customer(email: str) -> dict:
     return {}
 
 @anvil.server.callable
+def get_stripe_payment_methods(customer_id: str) -> list:
+    """
+    1. Get all PaymentMethods associated with a customer.
+    2. Print and return the list of PaymentMethods (as list of dicts).
+    """
+    import stripe
+    stripe.api_key = anvil.secrets.get_secret("stripe_secret_key")
+    payment_methods = stripe.PaymentMethod.list(customer=customer_id)
+    print(f"[Stripe] Found {len(payment_methods.data)} payment methods for customer_id={customer_id}")
+    return [dict(payment_method) for payment_method in payment_methods.data]
+
+@anvil.server.callable
 def attach_payment_method_to_customer(customer_id: str, payment_method_id: str) -> dict:
     """
     1. Attach a PaymentMethod to a Stripe customer.
