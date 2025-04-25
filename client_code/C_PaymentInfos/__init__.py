@@ -240,15 +240,17 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
             }} else {{
                 var emailValue = document.getElementById('email').value;
                 alert('Payment method saved successfully with id: ' + result.setupIntent.payment_method + ' and email: ' + emailValue);
-                anvil.call('x-payment_method_ready', result.setupIntent.payment_method, emailValue);
+                window.payment_method_ready(result.setupIntent.payment_method, emailValue);
             }}
         }});
     }});
-    document.getElementById('cancel-btn').onclick = function() {{ anvil.call('close_alert'); }};
+    document.getElementById('cancel-btn').onclick = function() {{ window.close_alert(); }};
     </script>
     """
-    # Register the event handler for x-payment_method_ready
-    self.set_event_handler('x-payment_method_ready', self._on_payment_method_ready)
+    # Register the payment_method_ready and close_alert functions on window for JS to call
+    import anvil.js
+    anvil.js.window.payment_method_ready = self._on_payment_method_ready
+    anvil.js.window.close_alert = self._close_alert
 
   def _on_payment_method_ready(self, token: str, email: str, **event_args) -> None:
     """Handle payment method ready event from JS and call server to create customer."""
@@ -257,3 +259,7 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
       alert('Payment method saved and customer created!')
     except Exception as err:
       alert(f'Error creating customer: {err}')
+
+  def _close_alert(self):
+    """Close the alert dialog from JS."""
+    alert.close_alert()

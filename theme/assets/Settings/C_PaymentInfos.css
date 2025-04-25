@@ -78,8 +78,8 @@
 }
 
 #payment-form input[type="text"],
-#payment-form select,
-#payment-form email {
+#payment-form input[type="email"],
+#payment-form select {
     padding: 6px 10px;
     border: 1px solid var(--WhiteDiscreet);
     border-radius: 4px;
@@ -91,8 +91,8 @@
 }
 
 #payment-form input[type="text"]:focus,
-#payment-form select:focus,
-#payment-form email:focus {
+#payment-form input[type="email"]:focus,
+#payment-form select:focus {
     border-color: var(--Orange, #FF7A00);
     outline: none;
     box-shadow: 0 0 0 1px var(--Orange, #FF7A00);
