@@ -26,6 +26,15 @@ components:
         spacing_below: none
         text: Notifications
       type: Link
+    - event_bindings: {click: nav_pay_click}
+      layout_properties: {}
+      name: nav_pay
+      properties:
+        role: [section_buttons]
+        spacing_above: none
+        spacing_below: none
+        text: Billing
+      type: Link
     - event_bindings: {click: nav_sub_click}
       layout_properties: {}
       name: nav_sub
@@ -44,15 +53,6 @@ components:
         spacing_above: none
         spacing_below: none
         text: User Management
-      type: Link
-    - event_bindings: {click: nav_pay_click}
-      layout_properties: {}
-      name: nav_pay
-      properties:
-        role: [section_buttons]
-        spacing_above: none
-        spacing_below: none
-        text: Payment
       type: Link
     layout_properties: {grid_position: 'YQKRNJ,MTAXIJ'}
     name: flow_panel_sections
@@ -672,6 +672,98 @@ components:
   - components:
     - components:
       - layout_properties: {grid_position: 'XMKZJJ,YJDVPX'}
+        name: label_1_copy_copy_copy
+        properties:
+          role: header-5
+          spacing:
+            margin: [null, null, '10', null]
+          spacing_above: none
+          spacing_below: none
+          text: Company Details
+        type: Label
+      - components:
+        - layout_properties: {grid_position: 'ELUVMH,RVDRHT'}
+          name: label_2_copy_copy_2_copy_2_copy
+          properties:
+            role: header-6
+            spacing:
+              margin: [null, null, null, '15']
+            text: Company email
+          type: Label
+        - layout_properties: {grid_position: 'ELUVMH,JZBWVS'}
+          name: pay_contact_copy
+          properties: {role: header-6}
+          type: Label
+        - layout_properties: {grid_position: 'IJGZKD,EBLLHJ'}
+          name: label_2_copy_copy_2_copy_copy_copy
+          properties:
+            role: header-6
+            spacing:
+              margin: [null, null, null, '15']
+            text: Company name
+          type: Label
+        - layout_properties: {grid_position: 'IJGZKD,QKIAWO'}
+          name: pay_card_copy
+          properties: {role: header-6}
+          type: Label
+        - layout_properties: {grid_position: 'FXEDUG,RIONKR'}
+          name: label_2_copy_copy_2_copy_copy_copy_copy
+          properties:
+            role: header-6
+            spacing:
+              margin: [null, null, null, '15']
+            text: Address
+          type: Label
+        - layout_properties: {grid_position: 'FXEDUG,NBPSRE'}
+          name: pay_card_copy_copy
+          properties: {role: header-6}
+          type: Label
+        - layout_properties: {grid_position: 'VEAUDQ,VGLJJG'}
+          name: label_2_copy_copy_2_copy_copy_copy_copy_2
+          properties:
+            role: header-6
+            spacing:
+              margin: [null, null, null, '15']
+            text: Tax Country
+          type: Label
+        - layout_properties: {grid_position: 'VEAUDQ,VIUNAH'}
+          name: pay_card_copy_copy_2
+          properties: {role: header-6}
+          type: Label
+        - layout_properties: {grid_position: 'OWFQHJ,SYDXFK'}
+          name: label_2_copy_copy_2_copy_copy_copy_copy_3
+          properties:
+            role: header-6
+            spacing:
+              margin: [null, null, null, '15']
+            text: Tax ID
+          type: Label
+        - layout_properties: {grid_position: 'OWFQHJ,YGAXAS'}
+          name: pay_card_copy_copy_3
+          properties: {role: header-6}
+          type: Label
+        - event_bindings: {click: change_payment_details_click}
+          layout_properties: {grid_position: 'YGVEEF,PMIKUX'}
+          name: add_payment_details_copy_copy
+          properties:
+            align: right
+            role: [header-6, call-to-action-button-disabled]
+            text: edit
+          type: Button
+        layout_properties: {grid_position: 'PYKCGB,KELLYV'}
+        name: yes_payment_copy
+        properties: {col_spacing: tiny, col_widths: '{"RVDRHT":10,"JZBWVS":50,"EBLLHJ":10,"QKIAWO":50,"RIONKR":10,"NBPSRE":50,"VGLJJG":10,"VIUNAH":50,"SYDXFK":10,"YGAXAS":50}'}
+        type: ColumnPanel
+      layout_properties: {grid_position: 'VXBZQG,MFZEIN'}
+      name: company_details
+      properties:
+        col_spacing: tiny
+        col_widths: '{}'
+        spacing:
+          margin: ['25', null, null, '0']
+      type: ColumnPanel
+    - components:
+      - layout_properties: {grid_position: 'XMKZJJ,YJDVPX'}
         name: label_1_copy_copy
         properties:
           role: header-5
@@ -743,7 +835,39 @@ components:
       name: payment_details
       properties:
         col_spacing: tiny
-        col_widths: '{"UHXHMD":50}'
+        col_widths: '{}'
+        spacing:
+          margin: ['25', null, null, '0']
+      type: ColumnPanel
+    - components:
+      - layout_properties: {grid_position: 'XMKZJJ,YJDVPX'}
+        name: label_1_copy_copy_copy_2
+        properties:
+          role: header-5
+          spacing:
+            margin: [null, null, '10', null]
+          spacing_above: none
+          spacing_below: none
+          text: Invoice
+        type: Label
+      - components:
+        - layout_properties: {grid_position: 'UGKVRN,ABHYAW'}
+          name: plan_desc_copy_copy
+          properties:
+            role: header-6
+            spacing:
+              margin: [null, null, 25, 20]
+            text: No invoice available yet.
+          type: Label
+        layout_properties: {grid_position: 'FGOYVA,FYYDYS'}
+        name: no_payment_copy
+        properties: {}
+        type: ColumnPanel
+      layout_properties: {grid_position: 'PUDMQH,VUCQCR'}
+      name: payment_details_copy
+      properties:
+        col_spacing: tiny
+        col_widths: '{}'
         spacing:
           margin: ['25', null, null, '0']
       type: ColumnPanel
