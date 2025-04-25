@@ -40,7 +40,7 @@ def create_stripe_customer(email: str, name: str = None, address: dict = None) -
     if address:
         customer_data["address"] = address
     customer = stripe.Customer.create(**customer_data)
-    print(f"[Stripe] Created customer: id={customer.id}, email={customer.email}, created={customer.created}, status={customer.deleted if hasattr(customer, 'deleted') else 'active'}")
+    print(f"[Stripe] Created customer: id={customer.id}, email={customer.email}, name={customer.name}, address={customer.address}")
     return dict(customer)
 
 @anvil.server.callable
