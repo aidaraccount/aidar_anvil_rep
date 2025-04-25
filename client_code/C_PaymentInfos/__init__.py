@@ -76,10 +76,39 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
                         <input id=\"postal-code\" name=\"postal-code\" type=\"text\" placeholder=\"Postal code\">
                     </div>
                 </div>
+                <div class=\"field-row\">
+                    <input id=\"state\" name=\"state\" type=\"text\" placeholder=\"State, county, province, or region\">
+                </div>
             </div>
-            <!-- Save button -->
-            <button type=\"button\" id=\"save-payment-btn\">Save payment details</button>
-            <div id=\"card-errors\" style=\"color:red;\"></div>
+            <!-- Business details section -->
+            <div class=\"form-section\">
+                <h3>Business details</h3>
+                <div class=\"field-row inline-fields\">
+                    <select id=\"tax-country\" name=\"tax-country\" placeholder=\"Country\">
+                        <option value=\"\">VAT country</option>
+                        <option value=\"DE\">Germany</option>
+                        <option value=\"FR\">France</option>
+                        <option value=\"IT\">Italy</option>
+                        <option value=\"ES\">Spain</option>
+                        <option value=\"GB\">United Kingdom</option>
+                        <option value=\"US\">United States</option>
+                        <option value=\"NL\">Netherlands</option>
+                        <option value=\"PL\">Poland</option>
+                        <option value=\"SE\">Sweden</option>
+                        <option value=\"CH\">Switzerland</option>
+                    </select>
+                    <input id=\"tax-id\" name=\"tax-id\" type=\"text\" maxlength=\"32\" autocomplete=\"off\" placeholder=\"VAT/Tax ID\">
+                </div>
+                <div class=\"checkbox-container\">
+                    <input type=\"checkbox\" id=\"business-checkbox\" name=\"business-checkbox\">
+                    <label for=\"business-checkbox\">I confirm to purchase as a business</label>
+                </div>
+            </div>
+            <div id=\"card-errors\" role=\"alert\"></div>
+            <div class=\"button-row\">
+                <button type=\"button\" id=\"cancel-btn\">Cancel</button>
+                <button id=\"submit-payment\" type=\"submit\">Save payment details</button>
+            </div>
         </form>
     </div>
     <div id=\"payment-message\"></div>
@@ -90,7 +119,7 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
     var cardElement = elements.create('card');
     cardElement.mount('#card-element');
     // Save payment details handler
-    document.getElementById('save-payment-btn').onclick = async function() {{
+    document.getElementById('submit-payment').onclick = async function() {{
         var email = document.getElementById('customer-email').value;
         var name = document.getElementById('name-on-card').value;
         var country = document.getElementById('country').value;
@@ -98,6 +127,10 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
         var address2 = document.getElementById('address-line-2').value;
         var city = document.getElementById('city').value;
         var postal = document.getElementById('postal-code').value;
+        var state = document.getElementById('state').value;
+        var taxCountry = document.getElementById('tax-country').value;
+        var taxId = document.getElementById('tax-id').value;
+        var businessCheckbox = document.getElementById('business-checkbox').checked;
         console.log('Collected email:', email);
         console.log('Collected name:', name);
         console.log('Collected country:', country);
