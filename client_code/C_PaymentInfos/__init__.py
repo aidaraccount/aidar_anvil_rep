@@ -264,20 +264,49 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
   def _payment_method_ready(self, payment_method_id: str, email: str):
     """Called from JS after successful Stripe setup. Handles server calls from Python."""
     try:
+        # 1. Get form data
+        import anvil.js
+        name = anvil.js.window.document.getElementById('name-on-card').value
+        address = {
+            'line1': anvil.js.window.document.getElementById('address-line-1').value if anvil.js.window.document.getElementById('address-line-1') else '',
+            'line2': anvil.js.window.document.getElementById('address-line-2').value if anvil.js.window.document.getElementById('address-line-2') else '',
+            'city': anvil.js.window.document.getElementById('city').value if anvil.js.window.document.getElementById('city') else '',
+            'state': anvil.js.window.document.getElementById('state').value if anvil.js.window.document.getElementById('state') else '',
+            'postal_code': anvil.js.window.document.getElementById('postal-code').value if anvil.js.window.document.getElementById('postal-code') else '',
+            'country': anvil.js.window.document.getElementById('country').value if anvil.js.window.document.getElementById('country') else ''
+        }
+
+        # 2. lookup customer
+        # a) check if customer exists
         print(f"[STRIPE] Python: Looking up Stripe customer for email={email}")
         customer = anvil.server.call('get_stripe_customer', email)
         if customer and customer.get('id'):
             print(f"[STRIPE] Python: Found customer {customer['id']}, attaching payment method.")
         else:
+            # b) if not -> create new customer
             print(f"[STRIPE] Python: No customer found, creating new for email={email}")
-            # Gather name and address from form fields
-            name = self.get_name_from_form() if hasattr(self, 'get_name_from_form') else None
-            address = self.get_address_from_form() if hasattr(self, 'get_address_from_form') else None
             customer = anvil.server.call('create_stripe_customer', email, name, address)
+        
+        # 3. create payment method
+        card_details = {
+            'card': {
+                'number': anvil.js.window.document.getElementById('card-number').value,
+                'exp_month': int(anvil.js.window.document.getElementById('card-exp-month').value),
+                'exp_year': int(anvil.js.window.document.getElementById('card-exp-year').value),
+                'cvc': anvil.js.window.document.getElementById('card-cvc').value
+            }
+        }
+        billing_details = {
+            'name': name,
+            'email': email,
+            'address': address
+        }
+        payment_method_id = anvil.server.call('create_stripe_payment_method', card_details, billing_details)
+        # 4. attach payment method to customer
         updated_customer = anvil.server.call('attach_payment_method_to_customer', customer['id'], payment_method_id)
         print(f"[STRIPE] Python: Payment method attached. Updated customer: {updated_customer}")
         alert('Payment method saved and attached to customer!')
-        
+
     except Exception as err:
         print(f"[STRIPE] Python ERROR: {err}")
         alert(f'[STRIPE] Error: {err}')
