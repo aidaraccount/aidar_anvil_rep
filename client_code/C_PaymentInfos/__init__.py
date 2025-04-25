@@ -91,7 +91,7 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
     var cardElement = elements.create('card');
     cardElement.mount('#card-element');
     // 2. Save payment details handler
-    document.getElementById('save-payment-btn').onclick = async function() {
+    document.getElementById('save-payment-btn').onclick = async function() {{
         var email = document.getElementById('customer-email').value;
         var name = document.getElementById('name-on-card').value;
         var country = document.getElementById('country').value;
@@ -103,7 +103,7 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
         console.log('Collected name:', name);
         console.log('Collected country:', country);
         console.log('Collected address:', address1, address2, city, postal);
-        var result = await stripe.createToken(cardElement, {
+        var result = await stripe.createToken(cardElement, {{
             name: name,
             address_line1: address1,
             address_line2: address2,
@@ -111,14 +111,14 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
             address_zip: postal,
             address_country: country,
             email: email
-        });
-        if (result.error) {
+        }});
+        if (result.error) {{
             document.getElementById('card-errors').innerText = result.error.message;
             return;
-        }
+        }}
         console.log('Stripe token:', result.token.id);
         window.anvil.call('_anvilPaymentInfosTokenCallback', result.token.id, email);
-    };
+    }};
     </script>
     """
 
