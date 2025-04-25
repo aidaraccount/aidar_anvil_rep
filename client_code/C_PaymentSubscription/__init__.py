@@ -24,12 +24,22 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
     
     # Display the selected plan details for debugging/demo
     self.html = f"""
-    <div>
-      <h3>Subscription Summary</h3>
-      <ul>
-        <li><b>Plan:</b> {self.plan_type}</li>
-        <li><b>User count:</b> {self.user_count}</li>
-        <li><b>Billing period:</b> {self.billing_period}</li>
-      </ul>
+    <div id='payment-form-container'>
+      <h2>Subscription Details</h2>
+      <div class='payment-info-text'>Please review your subscription details before proceeding.</div>
+      <form id='subscription-summary-form'>
+        <div class='form-section'>
+          <h3>Plan</h3>
+          <div class='field-row'>{self.plan_type}</div>
+        </div>
+        <div class='form-section'>
+          <h3>User count</h3>
+          <div class='field-row'>{self.user_count}</div>
+        </div>
+        <div class='form-section'>
+          <h3>Billing period</h3>
+          <div class='field-row'>{self.billing_period}</div>
+        </div>
+      </form>
     </div>
     """
