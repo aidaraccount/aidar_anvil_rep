@@ -34,7 +34,10 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
         self.price_id = "price_1REVzZQTBcqmUQgtpyBz8Gky"
 
     # 1. Get Stripe customer by email
-    self.customer = anvil.server.call('get_stripe_customer', user['email']) if user and user.get('email') else None
+    self.customer = anvil.server.call('get_stripe_customer', user['email']) if user and getattr(user, 'get', None) else None
+    # Convert LiveObjectProxy to dict if needed
+    if hasattr(self.customer, 'items'):
+        self.customer = dict(self.customer)
     self.customer_id = self.customer.get('id') if self.customer else None
 
     # 2. Get default payment method summary (if any)
