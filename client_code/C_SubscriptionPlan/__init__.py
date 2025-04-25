@@ -209,10 +209,20 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
       3. user_count: Number of users for Professional plan (ignored for Explore).
       """
       from ..C_PaymentCheckout import C_PaymentCheckout
+      billing_period = self.get_billing_period()
       alert(
-          content=C_PaymentCheckout(plan_type=plan_type, user_count=user_count),
+          content=C_PaymentCheckout(plan_type=plan_type, user_count=user_count, billing_period=billing_period),
           large=False,
           width=500,
           buttons=[],
           dismissible=True
       )
+
+  def get_billing_period(self) -> str:
+      """
+      Returns the current billing period selected by the user ('monthly' or 'yearly').
+      """
+      import anvil.js
+      # Detect which pricing toggle is selected in the HTML
+      is_monthly = anvil.js.window.document.getElementById('pricing-toggle-monthly').classList.contains('selected')
+      return 'monthly' if is_monthly else 'yearly'
