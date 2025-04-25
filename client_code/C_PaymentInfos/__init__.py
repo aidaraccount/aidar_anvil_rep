@@ -77,179 +77,22 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
                         <input id=\"postal-code\" name=\"postal-code\" type=\"text\" placeholder=\"Postal code\">
                     </div>
                 </div>
-                <div class=\"field-row\">
-                    <input id=\"state\" name=\"state\" type=\"text\" placeholder=\"State, county, province, or region\">
-                </div>
             </div>
-            <!-- Business details section -->
-            <div class=\"form-section\">
-                <h3>Business details</h3>
-                <div class=\"field-row inline-fields\">
-                    <select id=\"tax-country\" name=\"tax-country\" placeholder=\"Country\">
-                        <option value=\"\">VAT country</option>
-                        <option value=\"DE\">Germany</option>
-                        <option value=\"FR\">France</option>
-                        <option value=\"IT\">Italy</option>
-                        <option value=\"ES\">Spain</option>
-                        <option value=\"GB\">United Kingdom</option>
-                        <option value=\"US\">United States</option>
-                        <option value=\"NL\">Netherlands</option>
-                        <option value=\"PL\">Poland</option>
-                        <option value=\"SE\">Sweden</option>
-                        <option value=\"CH\">Switzerland</option>
-                    </select>
-                    <input id=\"tax-id\" name=\"tax-id\" type=\"text\" maxlength=\"32\" autocomplete=\"off\" placeholder=\"VAT/Tax ID\">
-                </div>
-                <div class=\"checkbox-container\">
-                    <input type=\"checkbox\" id=\"business-checkbox\" name=\"business-checkbox\">
-                    <label for=\"business-checkbox\">I confirm to purchase as a business</label>
-                </div>
-            </div>
-            <div id=\"card-errors\" role=\"alert\"></div>
-            <div class=\"button-row\">
-                <button type=\"button\" id=\"cancel-btn\">Cancel</button>
-                <button id=\"submit-payment\" type=\"submit\">Save payment details</button>
-            </div>
+            <!-- Save button -->
+            <button type=\"button\" id=\"save-payment-btn\">Save payment details</button>
+            <div id=\"card-errors\" style=\"color:red;\"></div>
         </form>
     </div>
+    <div id=\"payment-message\"></div>
     <script>
-    // Initialize Stripe
+    // 1. Initialize Stripe and Elements
     var stripe = Stripe('pk_test_51RDoXJQTBcqmUQgt9CqdDXQjtHKkEkEBuXSs7EqVjwkzqcWP66EgCu8jjYArvbioeYpzvS5wSvbrUsKUtjXi0gGq00M9CzHJTa');
-    // Create a Stripe client side instance
-    var elements = stripe.elements({{
-        appearance: {{
-            theme: 'flat',
-            variables: {{
-                colorPrimary: '#FF7A00',
-                colorBackground: '#181818',
-                colorText: '#ffffff',
-                colorDanger: '#FF5A36',
-                fontFamily: 'Inter, "Segoe UI", sans-serif',
-                borderRadius: '8px',
-                colorTextPlaceholder: '#aaaaaa'
-            }}
-        }}
-    }});
-    // Create Card Element and mount it
-    var cardElement = elements.create('card', {{
-        style: {{
-            base: {{
-                color: '#ffffff',
-                fontFamily: 'Inter, "Segoe UI", sans-serif',
-                fontSize: '16px',
-                iconColor: '#ffffff',
-                '::placeholder': {{ color: '#aaaaaa' }}
-            }},
-            invalid: {{
-                color: '#FF5A36',
-                iconColor: '#FF5A36'
-            }}
-        }},
-        hidePostalCode: true
-    }});
+    var elements = stripe.elements();
+    var cardElement = elements.create('card');
     cardElement.mount('#card-element');
-    var form = document.getElementById('payment-form');
-    var nameInput = document.getElementById('name-on-card');
-    var businessCheckbox = document.getElementById('business-checkbox');
-    var taxIdInput = document.getElementById('tax-id');
-    var taxCountryInput = document.getElementById('tax-country');
-    var submitBtn = document.getElementById('submit-payment');
-    // Required field references
-    var countryInput = document.getElementById('country');
-    var addressLine1Input = document.getElementById('address-line-1');
-    var cityInput = document.getElementById('city');
-    var postalCodeInput = document.getElementById('postal-code');
-    var stateInput = document.getElementById('state');
-    // Form validation
-    function validateForm() {{
-        var nameComplete = nameInput.value.trim().length > 0;
-        var addressComplete = (
-            addressLine1Input.value.trim().length > 0 &&
-            cityInput.value.trim().length > 0 &&
-            postalCodeInput.value.trim().length > 0 &&
-            stateInput.value.trim().length > 0
-        );
-        var businessChecked = businessCheckbox.checked;
-        var taxIdValid = taxIdInput.value.trim().length > 3;
-        var taxCountryValid = taxCountryInput.value.length === 2;
-        var businessComplete = businessChecked && taxIdValid && taxCountryValid;
-        var cardComplete = cardElement._complete || false;
-        var formValid = cardComplete && nameComplete && addressComplete && businessComplete;
-        submitBtn.disabled = !formValid;
-        if (formValid) {{
-            submitBtn.style.backgroundColor = 'var(--Orange, #FF7A00)';
-            submitBtn.style.opacity = '1';
-        }} else {{
-            submitBtn.style.backgroundColor = '#ccc';
-            submitBtn.style.opacity = '0.7';
-        }}
-        return formValid;
-    }}
-    [nameInput, addressLine1Input, cityInput, postalCodeInput, stateInput, taxIdInput, taxCountryInput].forEach(function(input) {{
-        input.addEventListener('input', validateForm);
-    }});
-    cardElement.on('change', function(event) {{
-        if (event.error) {{
-            document.getElementById('card-errors').textContent = event.error.message;
-        }} else {{
-            document.getElementById('card-errors').textContent = '';
-        }}
-        cardElement._complete = event.complete;
-        validateForm();
-    }});
-    businessCheckbox.addEventListener('change', validateForm);
-    cardElement._complete = false;
-    validateForm();
-    form.addEventListener('submit', function(event) {{
-        event.preventDefault();
-        var nameValue = nameInput.value;
-        var business = businessCheckbox.checked;
-        var taxId = taxIdInput.value.trim();
-        var taxCountry = taxCountryInput.value;
-        if (!(business && taxId.length > 3 && taxCountry.length === 2)) {{
-            document.getElementById('card-errors').textContent = 'Please enter a valid VAT/Tax ID and country, and tick the business checkbox.';
-            return;
-        }}
-        document.getElementById('card-errors').textContent = '';
-        submitBtn.disabled = true;
-        var billingDetails = {{
-            name: nameValue,
-            address: {{
-                country: countryInput.value,
-                line1: addressLine1Input.value,
-                line2: document.getElementById('address-line-2').value,
-                city: cityInput.value,
-                postal_code: postalCodeInput.value,
-                state: stateInput.value
-            }}
-        }};
-        var metadata = {{
-            business: 'yes',
-            tax_id: taxId,
-            tax_country: taxCountry
-        }};
-        stripe.confirmCardSetup(window.stripe_setup_intent_client_secret, {{
-            payment_method: {{
-                card: cardElement,
-                billing_details: billingDetails,
-                metadata: metadata
-            }}
-        }}).then(function(result) {{
-            if (result.error) {{
-                document.getElementById('card-errors').textContent = result.error.message;
-                submitBtn.disabled = false;
-            }} else {{
-                alert('Payment method saved successfully with id: ' + result.setupIntent.payment_method);
-                // anvil.server.call('save_payment_method', result.setupIntent.payment_method);
-            }}
-        }});
-    }});
-    document.getElementById('cancel-btn').onclick = function() {{ anvil.call('close_alert'); }};
-    </script>
-    <script>
-    var emailInput = document.getElementById('customer-email');
-    document.getElementById('submit-payment').onclick = async function() {
-        var email = emailInput.value;
+    // 2. Save payment details handler
+    document.getElementById('save-payment-btn').onclick = async function() {
+        var email = document.getElementById('customer-email').value;
         var name = document.getElementById('name-on-card').value;
         var country = document.getElementById('country').value;
         var address1 = document.getElementById('address-line-1').value;
@@ -260,7 +103,7 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
         console.log('Collected name:', name);
         console.log('Collected country:', country);
         console.log('Collected address:', address1, address2, city, postal);
-        var {token, error} = await stripe.createToken(cardElement, {
+        var result = await stripe.createToken(cardElement, {
             name: name,
             address_line1: address1,
             address_line2: address2,
@@ -269,12 +112,12 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
             address_country: country,
             email: email
         });
-        if (error) {
-            document.getElementById('card-errors').innerText = error.message;
+        if (result.error) {
+            document.getElementById('card-errors').innerText = result.error.message;
             return;
         }
-        console.log('Stripe token:', token.id);
-        window.anvil.call("_anvilPaymentInfosTokenCallback", token.id, email);
+        console.log('Stripe token:', result.token.id);
+        window.anvil.call('_anvilPaymentInfosTokenCallback', result.token.id, email);
     };
     </script>
     """
