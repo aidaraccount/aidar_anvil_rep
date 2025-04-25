@@ -31,15 +31,20 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
         <div class=\"payment-info-text\">Add your credit card details below. This card will be saved to your account and can be removed at any time.</div>
         <!-- 3. Custom payment form -->
         <form id=\"payment-form\">
-            <!-- Card information section -->
+            <!-- Customer email -->
             <div class=\"form-section\">
-                <h3>Card information</h3>
-                <div id=\"card-element\"></div>
+                <h3>Customer email</h3>
+                <input id=\"email\" name=\"email\" type=\"email\" autocomplete=\"email\" required placeholder=\"Email\" value=\"{user['email']}\">
             </div>
             <!-- Name on card -->
             <div class=\"form-section\">
                 <h3>Name on card</h3>
                 <input id=\"name-on-card\" name=\"name-on-card\" type=\"text\" autocomplete=\"cc-name\" required placeholder=\"Name on card\">
+            </div>
+            <!-- Card information section -->
+            <div class=\"form-section\">
+                <h3>Card information</h3>
+                <div id=\"card-element\"></div>
             </div>
             <!-- Billing address section -->
             <div class=\"form-section\">
@@ -234,7 +239,13 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
                 submitBtn.disabled = false;
             }} else {{
                 alert('Payment method saved successfully with id: ' + result.setupIntent.payment_method);
-                // anvil.server.call('save_payment_method', result.setupIntent.payment_method);
+                var emailValue = document.getElementById('email').value;
+                anvil.call('create_stripe_customer', result.setupIntent.payment_method, emailValue).then(function(customer_result) {{
+                    alert('Payment method saved and customer created!');
+                }}).catch(function(err) {{
+                    document.getElementById('card-errors').textContent = 'Error creating customer: ' + err;
+                    submitBtn.disabled = false;
+                }});
             }}
         }});
     }});
