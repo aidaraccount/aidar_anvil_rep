@@ -203,6 +203,7 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
         event.preventDefault();
         var nameValue = nameInput.value;
         var business = businessCheckbox.checked;
+        var email = document.getElementById('email').value;
         var taxId = taxIdInput.value.trim();
         var taxCountry = taxCountryInput.value;
         if (!(business && taxId.length > 3 && taxCountry.length === 2)) {{
@@ -240,24 +241,25 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
             }} else {{
                 var emailValue = document.getElementById('email').value;
                 alert('Payment method saved successfully with id: ' + result.setupIntent.payment_method + ' and email: ' + emailValue);
-                window.payment_method_ready(result.setupIntent.payment_method, emailValue);
+                // 1. Create customer by email, then attach payment method
+                anvil.server.call('create_stripe_customer', emailValue).then(function(customer) {{
+                    return anvil.server.call('attach_payment_method_to_customer', customer.id, result.setupIntent.payment_method);
+                }}).then(function(updated_customer) {{
+                    alert('Payment method saved and attached to customer!');
+                }}).catch(function(err) {{
+                    document.getElementById('card-errors').textContent = 'Error: ' + err;
+                    submitBtn.disabled = false;
+                }});
             }}
         }});
     }});
     document.getElementById('cancel-btn').onclick = function() {{ window.close_alert(); }};
     </script>
     """
-    # Register the payment_method_ready and close_alert functions on window for JS to call
-    anvil.js.window.payment_method_ready = self._on_payment_method_ready
+
+    # Register the close_alert function on window for JS to call
     anvil.js.window.close_alert = self._close_alert
 
-  def _on_payment_method_ready(self, token: str, email: str, **event_args) -> None:
-    """Handle payment method ready event from JS and call server to create customer."""
-    try:
-      customer_result = anvil.server.call('create_stripe_customer', token, email)
-      alert('Payment method saved and customer created!')
-    except Exception as err:
-      alert(f'Error creating customer: {err}')
 
   def _close_alert(self):
     """Close the alert dialog from JS."""
