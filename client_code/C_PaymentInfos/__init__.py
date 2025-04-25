@@ -241,24 +241,14 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
                 document.getElementById('card-errors').textContent = result.error.message;
                 submitBtn.disabled = false;
             }} else {{
-                // 1. Create customer by email
+                // 1. Create customer by email (call Python via window.payment_method_ready)
                 var emailValue = document.getElementById('email').value;
-                console.log('[STRIPE] About to call anvil.server.call(create_stripe_customer)');
-                if (typeof anvil === 'undefined' || typeof anvil.server === 'undefined') {{
-                    console.log('[STRIPE] ERROR: anvil.server is undefined');
+                if (typeof window.payment_method_ready === 'function') {{
+                    console.log('[STRIPE] Calling window.payment_method_ready with', result.setupIntent.payment_method, emailValue);
+                    window.payment_method_ready(result.setupIntent.payment_method, emailValue);
+                }} else {{
+                    console.log('[STRIPE] ERROR: window.payment_method_ready is not defined');
                 }}
-                anvil.server.call('create_stripe_customer', emailValue).then(function(customer) {{
-                    console.log('[STRIPE] create_stripe_customer returned:', customer);
-                    // 2. Attach payment method to customer
-                    console.log('[STRIPE] About to call anvil.server.call(attach_payment_method_to_customer)');
-                    return anvil.server.call('attach_payment_method_to_customer', customer.id, result.setupIntent.payment_method);
-                }}).then(function(updated_customer) {{
-                    console.log('[STRIPE] Payment method saved and attached to customer! ' + JSON.stringify(updated_customer));
-                }}).catch(function(err) {{
-                    console.log('[STRIPE] ERROR:', err);
-                    document.getElementById('card-errors').textContent = 'Error: ' + err;
-                    submitBtn.disabled = false;
-                }});
             }}
         }});
     }});
@@ -266,9 +256,22 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
     </script>
     """
 
-    # Register the close_alert function on window for JS to call
+    # Register the payment_method_ready and close_alert functions on window for JS to call
+    anvil.js.window.payment_method_ready = self._payment_method_ready
     anvil.js.window.close_alert = self._close_alert
 
+  def _payment_method_ready(self, payment_method_id: str, email: str):
+    """Called from JS after successful Stripe setup. Handles server calls from Python."""
+    try:
+        print(f"[STRIPE] Python: Creating Stripe customer for email={email}")
+        customer = anvil.server.call('create_stripe_customer', email)
+        print(f"[STRIPE] Python: Attaching payment method {payment_method_id} to customer {customer['id']}")
+        updated_customer = anvil.server.call('attach_payment_method_to_customer', customer['id'], payment_method_id)
+        print(f"[STRIPE] Python: Payment method attached. Updated customer: {updated_customer}")
+        alert('Payment method saved and attached to customer!')
+    except Exception as err:
+        print(f"[STRIPE] Python ERROR: {err}")
+        alert(f'[STRIPE] Error: {err}')
 
   def _close_alert(self):
     """Close the alert dialog from JS."""
