@@ -93,17 +93,25 @@ def attach_payment_method_to_customer(customer_id: str, payment_method_id: str) 
 @anvil.server.callable
 def create_stripe_subscription(customer_id: str, price_id: str, user_count: int = 1) -> dict:
     """
-    1. Create a new subscription for a customer.
+    1. Create a new subscription for a customer, applying a fixed tax rate for German customers.
     2. Print and return the subscription object (as dict).
     """
     import stripe
     stripe.api_key = anvil.secrets.get_secret("stripe_secret_key")
-    subscription = stripe.Subscription.create(
-        customer=customer_id,
-        items=[{"price": price_id, "quantity": user_count}],
-        discounts=[{"coupon": "I1ivrR97"}]
-    )
-    print(f"[Stripe] Created subscription: id={subscription.id}, customer={subscription.customer}, status={subscription.status}")
+    # Fetch customer to get country
+    customer = stripe.Customer.retrieve(customer_id)
+    country = customer.address.country if customer.address and hasattr(customer.address, 'country') else None
+    # Only apply the fixed tax rate for German customers
+    items = [{"price": price_id, "quantity": user_count}]
+    subscription_args = {
+        "customer": customer_id,
+        "items": items,
+        "discounts": [{"coupon": "I1ivrR97"}]
+    }
+    if country == "DE":
+        subscription_args["default_tax_rates"] = ["txr_1RHo7sQTBcqmUQgtajAz0voj"]
+    subscription = stripe.Subscription.create(**subscription_args)
+    print(f"[Stripe] Created subscription: id={subscription.id}, customer={subscription.customer}, status={subscription.status}, tax_rates={subscription.default_tax_rates}")
     return dict(subscription)
 
 
