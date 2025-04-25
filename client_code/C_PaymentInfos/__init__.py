@@ -239,13 +239,13 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
                 document.getElementById('card-errors').textContent = result.error.message;
                 submitBtn.disabled = false;
             }} else {{
+                // 1. Create customer by email
                 var emailValue = document.getElementById('email').value;
-                alert('Payment method saved successfully with id: ' + result.setupIntent.payment_method + ' and email: ' + emailValue);
-                // 1. Create customer by email, then attach payment method
                 anvil.server.call('create_stripe_customer', emailValue).then(function(customer) {{
+                    // 2. Attach payment method to customer
                     return anvil.server.call('attach_payment_method_to_customer', customer.id, result.setupIntent.payment_method);
                 }}).then(function(updated_customer) {{
-                    alert('Payment method saved and attached to customer!');
+                    console.log('Payment method saved and attached to customer! ' + JSON.stringify(updated_customer));
                 }}).catch(function(err) {{
                     document.getElementById('card-errors').textContent = 'Error: ' + err;
                     submitBtn.disabled = false;
