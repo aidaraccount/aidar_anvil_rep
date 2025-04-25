@@ -270,7 +270,10 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
             print(f"[STRIPE] Python: Found customer {customer['id']}, attaching payment method.")
         else:
             print(f"[STRIPE] Python: No customer found, creating new for email={email}")
-            customer = anvil.server.call('create_stripe_customer', email)
+            # Gather name and address from form fields
+            name = self.get_name_from_form() if hasattr(self, 'get_name_from_form') else None
+            address = self.get_address_from_form() if hasattr(self, 'get_address_from_form') else None
+            customer = anvil.server.call('create_stripe_customer', email, name, address)
         updated_customer = anvil.server.call('attach_payment_method_to_customer', customer['id'], payment_method_id)
         print(f"[STRIPE] Python: Payment method attached. Updated customer: {updated_customer}")
         alert('Payment method saved and attached to customer!')

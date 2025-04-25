@@ -27,14 +27,19 @@ def create_setup_intent():
 
 
 @anvil.server.callable
-def create_stripe_customer(email: str) -> dict:
+def create_stripe_customer(email: str, name: str = None, address: dict = None) -> dict:
     """
-    1. Create a new Stripe customer using the provided email.
+    1. Create a new Stripe customer using the provided email, name, and address.
     2. Print and return the customer object (as dict).
     """
     import stripe
     stripe.api_key = anvil.secrets.get_secret("stripe_secret_key")
-    customer = stripe.Customer.create(email=email)
+    customer_data = {"email": email}
+    if name:
+        customer_data["name"] = name
+    if address:
+        customer_data["address"] = address
+    customer = stripe.Customer.create(**customer_data)
     print(f"[Stripe] Created customer: id={customer.id}, email={customer.email}, created={customer.created}, status={customer.deleted if hasattr(customer, 'deleted') else 'active'}")
     return dict(customer)
 
