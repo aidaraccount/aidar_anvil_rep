@@ -97,4 +97,3 @@ def update_anvil_user(user_id, first_name, last_name):
   except Exception as e:
     print(f"Error updating Anvil user: {e}")
     return 'error'
-

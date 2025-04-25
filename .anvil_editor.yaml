@@ -182,4 +182,5 @@ unique_ids:
   scripts: {}
   server_modules:
     SM_Home: '1743660060920187431020612.21872'
+    SM_Stripe: DN6N5XV37NTRNY7L4EVML2MAMVJALLU3
     ServerModule: '1673000496961952494883454.5172'
