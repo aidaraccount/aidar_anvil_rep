@@ -10,26 +10,32 @@ from anvil.tables import app_tables
 
 class C_PaymentInfos(C_PaymentInfosTemplate):
   def __init__(self, **properties):
-    # Set Form properties and Data Bindings.
+    # 1. Set Form properties and Data Bindings.
     self.init_components(**properties)
 
-    # Any code you write here will run before the form opens.
-    global user
-    user = anvil.users.get_user()
-    
-    # Get the Stripe SetupIntent client_secret from the server
+    # 2. Get current user and pre-fill email
+    import anvil.users
+    self.user = anvil.users.get_user()
+    self.customer_email = self.user["email"] if self.user and "email" in self.user else ""
+    print(f"User email: {self.customer_email}")
+
+    # 3. Get the Stripe SetupIntent client_secret from the server
     client_secret = anvil.server.call('create_setup_intent')
+    print(f"SetupIntent client_secret: {client_secret}")
     self.html = f"""
     <script>
     window.stripe_setup_intent_client_secret = '{client_secret}';
     </script>
-    <!-- 1. Stripe.js script -->
+    <!-- 1. Customer Email Section -->
+    <h2>Customer email</h2>
+    <input id='customer-email' type='email' value='{self.customer_email}' style='width:100%;margin-bottom:16px;'>
+    <!-- 2. Stripe.js script -->
     <script src=\"https://js.stripe.com/v3/\"></script>
     <div id=\"payment-form-container\">
-        <!-- 2. Title and instructions -->
+        <!-- 3. Title and instructions -->
         <h2>Add payment details</h2>
         <div class=\"payment-info-text\">Add your credit card details below. This card will be saved to your account and can be removed at any time.</div>
-        <!-- 3. Custom payment form -->
+        <!-- 4. Custom payment form -->
         <form id=\"payment-form\">
             <!-- Card information section -->
             <div class=\"form-section\">
@@ -240,4 +246,48 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
     }});
     document.getElementById('cancel-btn').onclick = function() {{ anvil.call('close_alert'); }};
     </script>
+    <script>
+    var emailInput = document.getElementById('customer-email');
+    document.getElementById('submit-payment').onclick = async function() {
+        var email = emailInput.value;
+        var name = document.getElementById('name-on-card').value;
+        var country = document.getElementById('country').value;
+        var address1 = document.getElementById('address-line-1').value;
+        var address2 = document.getElementById('address-line-2').value;
+        var city = document.getElementById('city').value;
+        var postal = document.getElementById('postal-code').value;
+        console.log('Collected email:', email);
+        console.log('Collected name:', name);
+        console.log('Collected country:', country);
+        console.log('Collected address:', address1, address2, city, postal);
+        var {token, error} = await stripe.createToken(cardElement, {
+            name: name,
+            address_line1: address1,
+            address_line2: address2,
+            address_city: city,
+            address_zip: postal,
+            address_country: country,
+            email: email
+        });
+        if (error) {
+            document.getElementById('card-errors').innerText = error.message;
+            return;
+        }
+        console.log('Stripe token:', token.id);
+        window.anvil.call("_anvilPaymentInfosTokenCallback", token.id, email);
+    };
+    </script>
     """
+
+  def _anvilPaymentInfosTokenCallback(self, token: str, email: str):
+    """
+    1. Called from JS when token and email are ready.
+    2. Calls the server to create the Stripe customer and prints all info.
+    3. Fires the custom event for the parent form.
+    """
+    print(f"Received token: {token}")
+    print(f"Received email: {email}")
+    import anvil.server
+    stripe_customer = anvil.server.call('create_stripe_customer', token, email)
+    print(f"Stripe customer object: {stripe_customer}")
+    self.raise_event('x-payment_info_submitted', token=token, email=email)

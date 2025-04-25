@@ -240,7 +240,7 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
 
       # 2. Show C_PaymentInfos to collect payment info, passing the callback
       payment_infos_form = C_PaymentInfos()
-      payment_infos_form.set_event_handler('payment_info_submitted', handle_payment_info)
+      payment_infos_form.set_event_handler('x-payment_info_submitted', handle_payment_info)
       alert(
           content=payment_infos_form,
           large=False,
