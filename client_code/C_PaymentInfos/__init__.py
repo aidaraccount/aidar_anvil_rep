@@ -263,8 +263,8 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
   def _payment_method_ready(self, payment_method_id: str, email: str):
     """Called from JS after successful Stripe setup. Handles server calls from Python."""
     try:
-        print(f"[STRIPE] Python: Creating Stripe customer for email={email}")
-        customer = anvil.server.call('create_stripe_customer', email)
+        print(f"[STRIPE] Python: Get or create Stripe customer for email={email}")
+        customer = anvil.server.call('get_or_create_stripe_customer', email)
         print(f"[STRIPE] Python: Attaching payment method {payment_method_id} to customer {customer['id']}")
         updated_customer = anvil.server.call('attach_payment_method_to_customer', customer['id'], payment_method_id)
         print(f"[STRIPE] Python: Payment method attached. Updated customer: {updated_customer}")
