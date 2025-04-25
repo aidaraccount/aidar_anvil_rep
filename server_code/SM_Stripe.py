@@ -96,7 +96,7 @@ def create_stripe_subscription(customer_id: str, price_id: str, user_count: int 
     subscription = stripe.Subscription.create(
         customer=customer_id,
         items=[{"price": price_id, "quantity": user_count}],
-        coupon="I1ivrR97"
+        discounts=[{"coupon": "I1ivrR97"}]
     )
     print(f"[Stripe] Created subscription: id={subscription.id}, customer={subscription.customer}, status={subscription.status}")
     return dict(subscription)
