@@ -198,7 +198,7 @@ class C_PaymentCustomer(C_PaymentCustomerTemplate):
         # c) add customer tax id
         try:
             anvil.server.call('add_customer_tax_id', customer['id'], tax_id, tax_country)
-        except anvil.server.CallError as e:
+        except Exception as e:
             if 'Invalid value for eu_vat' in str(e):
                 # Set the VAT error label in the UI via JS, including the expected format for the country
                 expected_formats = {
