@@ -99,7 +99,7 @@ class C_PaymentCustomer(C_PaymentCustomerTemplate):
     var businessCheckbox = document.getElementById('business-checkbox');
     var submitBtn = document.getElementById('submit-customer');
     // 2. Form validation
-    function validateForm() {
+    function validateForm() {{
         var companyNameComplete = companyNameInput.value.trim().length > 0;
         var emailComplete = emailInput.value.trim().length > 0;
         var addressComplete = (
@@ -114,49 +114,49 @@ class C_PaymentCustomer(C_PaymentCustomerTemplate):
         var businessComplete = businessChecked && taxIdValid && taxCountryValid;
         var formValid = companyNameComplete && emailComplete && addressComplete && businessComplete;
         submitBtn.disabled = !formValid;
-        if (formValid) {
+        if (formValid) {{
             submitBtn.style.backgroundColor = 'var(--Orange, #FF7A00)';
             submitBtn.style.opacity = '1';
-        } else {
+        }} else {{
             submitBtn.style.backgroundColor = '#ccc';
             submitBtn.style.opacity = '0.7';
-        }
+        }}
         return formValid;
-    }
-    [companyNameInput, emailInput, addressLine1Input, cityInput, postalCodeInput, stateInput, taxIdInput, taxCountryInput].forEach(function(input) {
+    }}
+    [companyNameInput, emailInput, addressLine1Input, cityInput, postalCodeInput, stateInput, taxIdInput, taxCountryInput].forEach(function(input) {{
         input.addEventListener('input', validateForm);
-    });
+    }});
     businessCheckbox.addEventListener('change', validateForm);
     validateForm();
-    document.getElementById('payment-form').addEventListener('submit', function(event) {
+    document.getElementById('payment-form').addEventListener('submit', function(event) {{
         event.preventDefault();
         var companyName = companyNameInput.value;
         var email = emailInput.value;
-        var address = {
+        var address = {{
             line1: addressLine1Input.value,
             line2: addressLine2Input.value,
             city: cityInput.value,
             state: stateInput.value,
             postal_code: postalCodeInput.value,
             country: countryInput.value
-        };
+        }};
         var taxId = taxIdInput.value.trim();
         var taxCountry = taxCountryInput.value;
         var business = businessCheckbox.checked;
-        if (!(business && taxId.length > 3 && taxCountry.length === 2)) {
+        if (!(business && taxId.length > 3 && taxCountry.length === 2)) {{
             document.getElementById('form-errors').textContent = 'Please enter a valid VAT/Tax ID and country, and tick the business checkbox.';
             return;
-        }
+        }}
         document.getElementById('form-errors').textContent = '';
         submitBtn.disabled = true;
         // Call Python handler
-        if (typeof window.customer_ready === 'function') {
+        if (typeof window.customer_ready === 'function') {{
             window.customer_ready(companyName, email, address, taxId, taxCountry);
-        } else {
+        }} else {{
             document.getElementById('form-errors').textContent = 'Internal error: callback not found.';
-        }
-    });
-    document.getElementById('cancel-btn').onclick = function() { window.close_alert(); };
+        }}
+    }});
+    document.getElementById('cancel-btn').onclick = function() {{ window.close_alert(); }};
     </script>
     """
 
