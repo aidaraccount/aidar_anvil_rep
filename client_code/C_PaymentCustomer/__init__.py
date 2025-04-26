@@ -1,7 +1,6 @@
 from ._anvil_designer import C_PaymentCustomerTemplate
 from anvil import *
 import anvil.server
-import stripe.checkout
 import anvil.users
 import anvil.tables as tables
 import anvil.tables.query as q
@@ -17,352 +16,45 @@ class C_PaymentCustomer(C_PaymentCustomerTemplate):
     global user
     user = anvil.users.get_user()
 
-    # Get the Stripe SetupIntent client_secret from the server
-    client_secret = anvil.server.call('create_setup_intent')
-
     # create html
     self.html = f"""
-    <script>
-    window.stripe_setup_intent_client_secret = '{client_secret}';
-    </script>
-    <!-- 1. Stripe.js script -->
-    <script src=\"https://js.stripe.com/v3/\"></script>
-    <div id=\"payment-form-container\">
+    <div id=\"payment-form-container\">    
+        
         <!-- 2. Title and instructions -->
-        <h2>Add payment details</h2>
-        <div class=\"payment-info-text\">Add your credit card details below. This card will be saved to your account and can be removed at any time.</div>
+        <h2>Create company profile</h2>
+        <div class=\"payment-info-text\">The provided email is also used as the billing email address.</div>
+        
         <!-- 3. Custom payment form -->
-        <form id=\"payment-form\">
+        <form id=\"payment-form\">            
+            
             <!-- Customer email -->
-            <div class=\"form-section\">
-                <h3>Customer email</h3>
-                <input id=\"email\" name=\"email\" type=\"email\" autocomplete=\"email\" required placeholder=\"Email\" value=\"{user['email']}\">
-            </div>
-            <!-- Name on card -->
-            <div class=\"form-section\">
-                <h3>Name on card</h3>
-                <input id=\"name-on-card\" name=\"name-on-card\" type=\"text\" autocomplete=\"cc-name\" required placeholder=\"Name on card\">
-            </div>
-            <!-- Card information section -->
-            <div class=\"form-section\">
-                <h3>Card information</h3>
-                <div id=\"card-element\"></div>
-            </div>
-            <!-- Billing address section -->
-            <div class=\"form-section\">
-                <h3>Billing address</h3>
-                <div class=\"field-row\">
-                    <input id=\"address-line-1\" name=\"address-line-1\" type=\"text\" placeholder=\"Address line 1\">
-                </div>
-                <div class=\"field-row\">
-                    <input id=\"address-line-2\" name=\"address-line-2\" type=\"text\" placeholder=\"Address line 2\">
-                </div>
-                <div class=\"two-column\">
-                    <div class=\"field-row\">
-                        <input id=\"city\" name=\"city\" type=\"text\" placeholder=\"City\">
-                    </div>
-                    <div class=\"field-row\">
-                        <input id=\"state\" name=\"state\" type=\"text\" placeholder=\"State, county, province, or region\">
-                    </div>
-                    <div class=\"field-row\">
-                        <input id=\"postal-code\" name=\"postal-code\" type=\"text\" placeholder=\"Postal code\">
-                    </div>
-                </div>
-                <div class=\"field-row\">
-                    <select id=\"country\" name=\"country\" placeholder=\"Country\">
-                        <option value=\"AU\">Australia</option>
-                        <option value=\"AT\">Austria</option>
-                        <option value=\"BE\">Belgium</option>
-                        <option value=\"BR\">Brazil</option>
-                        <option value=\"BG\">Bulgaria</option>
-                        <option value=\"CA\">Canada</option>
-                        <option value=\"CN\">China</option>
-                        <option value=\"HR\">Croatia</option>
-                        <option value=\"CY\">Cyprus</option>
-                        <option value=\"CZ\">Czech Republic</option>
-                        <option value=\"DK\">Denmark</option>
-                        <option value=\"EE\">Estonia</option>
-                        <option value=\"FI\">Finland</option>
-                        <option value=\"FR\">France</option>
-                        <option value=\"DE\">Germany</option>
-                        <option value=\"GR\">Greece</option>
-                        <option value=\"HK\">Hong Kong</option>
-                        <option value=\"HU\">Hungary</option>
-                        <option value=\"IS\">Iceland</option>
-                        <option value=\"IN\">India</option>
-                        <option value=\"IE\">Ireland</option>
-                        <option value=\"IT\">Italy</option>
-                        <option value=\"JP\">Japan</option>
-                        <option value=\"LI\">Liechtenstein</option>
-                        <option value=\"LT\">Lithuania</option>
-                        <option value=\"LU\">Luxembourg</option>
-                        <option value=\"LV\">Latvia</option>
-                        <option value=\"MT\">Malta</option>
-                        <option value=\"MX\">Mexico</option>
-                        <option value=\"NL\">Netherlands</option>
-                        <option value=\"NZ\">New Zealand</option>
-                        <option value=\"NO\">Norway</option>
-                        <option value=\"PL\">Poland</option>
-                        <option value=\"PT\">Portugal</option>
-                        <option value=\"RO\">Romania</option>
-                        <option value=\"SG\">Singapore</option>
-                        <option value=\"SK\">Slovakia</option>
-                        <option value=\"SI\">Slovenia</option>
-                        <option value=\"ZA\">South Africa</option>
-                        <option value=\"ES\">Spain</option>
-                        <option value=\"SE\">Sweden</option>
-                        <option value=\"CH\">Switzerland</option>
-                        <option value=\"GB\">United Kingdom</option>
-                        <option value=\"US\">United States</option>
-                    </select>
-                </div>
-            </div>
-            <!-- Business details section -->
-            <div class=\"form-section\">
-                <h3>Business details</h3>
-                <div class=\"field-row inline-fields\">
-                    <select id=\"tax-country\" name=\"tax-country\" placeholder=\"Country\">
-                        <option value=\"\">VAT country</option>
-                        <option value=\"AU\">Australia</option>
-                        <option value=\"AT\">Austria</option>
-                        <option value=\"BE\">Belgium</option>
-                        <option value=\"BR\">Brazil</option>
-                        <option value=\"BG\">Bulgaria</option>
-                        <option value=\"CA\">Canada</option>
-                        <option value=\"CN\">China</option>
-                        <option value=\"HR\">Croatia</option>
-                        <option value=\"CY\">Cyprus</option>
-                        <option value=\"CZ\">Czech Republic</option>
-                        <option value=\"DK\">Denmark</option>
-                        <option value=\"EE\">Estonia</option>
-                        <option value=\"FI\">Finland</option>
-                        <option value=\"FR\">France</option>
-                        <option value=\"DE\">Germany</option>
-                        <option value=\"GR\">Greece</option>
-                        <option value=\"HK\">Hong Kong</option>
-                        <option value=\"HU\">Hungary</option>
-                        <option value=\"IS\">Iceland</option>
-                        <option value=\"IN\">India</option>
-                        <option value=\"IE\">Ireland</option>
-                        <option value=\"IT\">Italy</option>
-                        <option value=\"JP\">Japan</option>
-                        <option value=\"LI\">Liechtenstein</option>
-                        <option value=\"LT\">Lithuania</option>
-                        <option value=\"LU\">Luxembourg</option>
-                        <option value=\"LV\">Latvia</option>
-                        <option value=\"MT\">Malta</option>
-                        <option value=\"MX\">Mexico</option>
-                        <option value=\"NL\">Netherlands</option>
-                        <option value=\"NZ\">New Zealand</option>
-                        <option value=\"NO\">Norway</option>
-                        <option value=\"PL\">Poland</option>
-                        <option value=\"PT\">Portugal</option>
-                        <option value=\"RO\">Romania</option>
-                        <option value=\"SG\">Singapore</option>
-                        <option value=\"SK\">Slovakia</option>
-                        <option value=\"SI\">Slovenia</option>
-                        <option value=\"ZA\">South Africa</option>
-                        <option value=\"ES\">Spain</option>
-                        <option value=\"SE\">Sweden</option>
-                        <option value=\"CH\">Switzerland</option>
-                        <option value=\"GB\">United Kingdom</option>
-                        <option value=\"US\">United States</option>
-                    </select>
-                    <input id=\"tax-id\" name=\"tax-id\" type=\"text\" maxlength=\"32\" autocomplete=\"off\" placeholder=\"VAT/Tax ID\">
-                </div>
-                <div class=\"checkbox-container\">
-                    <input type=\"checkbox\" id=\"business-checkbox\" name=\"business-checkbox\">
-                    <label for=\"business-checkbox\">I confirm to purchase as a business</label>
-                </div>
-            </div>
-            <div id=\"card-errors\" role=\"alert\"></div>
-            <div class=\"button-row\">
-                <button type=\"button\" id=\"cancel-btn\">Cancel</button>
-                <button id=\"submit-payment\" type=\"submit\">Save payment details</button>
-            </div>
-        </form>
-    </div>
-    <script>
-    // Initialize Stripe
-    var stripe = Stripe('pk_test_51RDoXJQTBcqmUQgt9CqdDXQjtHKkEkEBuXSs7EqVjwkzqcWP66EgCu8jjYArvbioeYpzvS5wSvbrUsKUtjXi0gGq00M9CzHJTa');
-    // Create a Stripe client side instance
-    var elements = stripe.elements({{
-        appearance: {{
-            theme: 'flat',
-            variables: {{
-                colorPrimary: '#FF7A00',
-                colorBackground: '#181818',
-                colorText: '#ffffff',
-                colorDanger: '#FF5A36',
-                fontFamily: 'Inter, "Segoe UI", sans-serif',
-                borderRadius: '8px',
-                colorTextPlaceholder: '#aaaaaa'
-            }}
-        }}
-    }});
-    // Create Card Element and mount it
-    var cardElement = elements.create('card', {{
-        style: {{
-            base: {{
-                color: '#ffffff',
-                fontFamily: 'Inter, "Segoe UI", sans-serif',
-                fontSize: '16px',
-                iconColor: '#ffffff',
-                '::placeholder': {{ color: '#aaaaaa' }}
-            }},
-            invalid: {{
-                color: '#FF5A36',
-                iconColor: '#FF5A36'
-            }}
-        }},
-        hidePostalCode: true
-    }});
-    cardElement.mount('#card-element');
-    var form = document.getElementById('payment-form');
-    var nameInput = document.getElementById('name-on-card');
-    var businessCheckbox = document.getElementById('business-checkbox');
-    var taxIdInput = document.getElementById('tax-id');
-    var taxCountryInput = document.getElementById('tax-country');
-    var submitBtn = document.getElementById('submit-payment');
-    // Required field references
-    var countryInput = document.getElementById('country');
-    var addressLine1Input = document.getElementById('address-line-1');
-    var cityInput = document.getElementById('city');
-    var postalCodeInput = document.getElementById('postal-code');
-    var stateInput = document.getElementById('state');
-    // Form validation
-    function validateForm() {{
-        var nameComplete = nameInput.value.trim().length > 0;
-        var addressComplete = (
-            addressLine1Input.value.trim().length > 0 &&
-            cityInput.value.trim().length > 0 &&
-            postalCodeInput.value.trim().length > 0 &&
-            stateInput.value.trim().length > 0
-        );
-        var businessChecked = businessCheckbox.checked;
-        var taxIdValid = taxIdInput.value.trim().length > 3;
-        var taxCountryValid = taxCountryInput.value.length === 2;
-        var businessComplete = businessChecked && taxIdValid && taxCountryValid;
-        var cardComplete = cardElement._complete || false;
-        var formValid = cardComplete && nameComplete && addressComplete && businessComplete;
-        submitBtn.disabled = !formValid;
-        if (formValid) {{
-            submitBtn.style.backgroundColor = 'var(--Orange, #FF7A00)';
-            submitBtn.style.opacity = '1';
-        }} else {{
-            submitBtn.style.backgroundColor = '#ccc';
-            submitBtn.style.opacity = '0.7';
-        }}
-        return formValid;
-    }}
-    [nameInput, addressLine1Input, cityInput, postalCodeInput, stateInput, taxIdInput, taxCountryInput].forEach(function(input) {{
-        input.addEventListener('input', validateForm);
-    }});
-    cardElement.on('change', function(event) {{
-        if (event.error) {{
-            document.getElementById('card-errors').textContent = event.error.message;
-        }} else {{
-            document.getElementById('card-errors').textContent = '';
-        }}
-        cardElement._complete = event.complete;
-        validateForm();
-    }});
-    businessCheckbox.addEventListener('change', validateForm);
-    cardElement._complete = false;
-    validateForm();
-    form.addEventListener('submit', function(event) {{
-        event.preventDefault();
-        var nameValue = nameInput.value;
-        var business = businessCheckbox.checked;
-        var email = document.getElementById('email').value;
-        var taxId = taxIdInput.value.trim();
-        var taxCountry = taxCountryInput.value;
-        if (!(business && taxId.length > 3 && taxCountry.length === 2)) {{
-            document.getElementById('card-errors').textContent = 'Please enter a valid VAT/Tax ID and country, and tick the business checkbox.';
-            return;
-        }}
-        document.getElementById('card-errors').textContent = '';
-        submitBtn.disabled = true;
-        var billingDetails = {{
-            name: nameValue,
-            email: email,
-            address: {{
-                country: countryInput.value,
-                line1: addressLine1Input.value,
-                line2: document.getElementById('address-line-2').value,
-                city: cityInput.value,
-                postal_code: postalCodeInput.value,
-                state: stateInput.value
-            }}
-        }};
-        var metadata = {{
-            business: 'yes',
-            tax_id: taxId,
-            tax_country: taxCountry
-        }};
-        console.log('[STRIPE] About to call stripe.confirmCardSetup');
-        stripe.confirmCardSetup(window.stripe_setup_intent_client_secret, {{
-            payment_method: {{
-                card: cardElement,
-                billing_details: billingDetails,
-                metadata: metadata
-            }}
-        }}).then(function(result) {{
-            console.log('[STRIPE] confirmCardSetup result:', result);
-            if (result.error) {{
-                document.getElementById('card-errors').textContent = result.error.message;
-                submitBtn.disabled = false;
-            }} else {{
-                // 1. Create customer by email (call Python via window.payment_method_ready)
-                var emailValue = document.getElementById('email').value;
-                if (typeof window.payment_method_ready === 'function') {{
-                    console.log('[STRIPE] Calling window.payment_method_ready with', result.setupIntent.payment_method, emailValue);
-                    window.payment_method_ready(result.setupIntent.payment_method, emailValue);
-                }} else {{
-                    console.log('[STRIPE] ERROR: window.payment_method_ready is not defined');
-                }}
-            }}
-        }});
-    }});
-    document.getElementById('cancel-btn').onclick = function() {{ window.close_alert(); }};
-    </script>
-    """
+            <div class=\"form-section\">                <h3>Customer email</h3>
+                <input id=\"email\" name=\"email\" type=\"email\" autocomplete=\"email\" required placeholder=\"Email\" value=\"{user['email']}\">            </div>
+            <!-- Company Name -->
+            <div class=\"form-section\">                <h3>Company name</h3>
+                <input id=\"company-name\" name=\"company-name\" type=\"text\" required placeholder=\"Company name\">            </div>
+            <!-- Company & Billing address section -->
+            <div class=\"form-section\">                <h3>Company & Billing address</h3>
+                <div class=\"field-row\">                    <input id=\"address-line-1\" name=\"address-line-1\" type=\"text\" placeholder=\"Address line 1\">                </div>
+                <div class=\"field-row\">                    <input id=\"address-line-2\" name=\"address-line-2\" type=\"text\" placeholder=\"Address line 2\">                </div>
+                <div class=\"two-column\">                    <div class=\"field-row\">                        <input id=\"city\" name=\"city\" type=\"text\" placeholder=\"City\">                    </div>                    <div class=\"field-row\">                        <input id=\"state\" name=\"state\" type=\"text\" placeholder=\"State, county, province, or region\">                    </div>                    <div class=\"field-row\">                        <input id=\"postal-code\" name=\"postal-code\" type=\"text\" placeholder=\"Postal code\">                    </div>                </div>                <div class=\"field-row\">                    <select id=\"country\" name=\"country\" placeholder=\"Country\">                        <option value=\"AU\">Australia</option>                        <option value=\"AT\">Austria</option>                        <option value=\"BE\">Belgium</option>                        <option value=\"BR\">Brazil</option>                        <option value=\"BG\">Bulgaria</option>                        <option value=\"CA\">Canada</option>                        <option value=\"CN\">China</option>                        <option value=\"HR\">Croatia</option>                        <option value=\"CY\">Cyprus</option>                        <option value=\"CZ\">Czech Republic</option>                        <option value=\"DK\">Denmark</option>                        <option value=\"EE\">Estonia</option>                        <option value=\"FI\">Finland</option>                        <option value=\"FR\">France</option>                        <option value=\"DE\">Germany</option>                        <option value=\"GR\">Greece</option>                        <option value=\"HK\">Hong Kong</option>                        <option value=\"HU\">Hungary</option>                        <option value=\"IS\">Iceland</option>                        <option value=\"IN\">India</option>                        <option value=\"IE\">Ireland</option>                        <option value=\"IT\">Italy</option>                        <option value=\"JP\">Japan</option>                        <option value=\"LI\">Liechtenstein</option>                        <option value=\"LT\">Lithuania</option>                        <option value=\"LU\">Luxembourg</option>                        <option value=\"LV\">Latvia</option>                        <option value=\"MT\">Malta</option>                        <option value=\"MX\">Mexico</option>                        <option value=\"NL\">Netherlands</option>                        <option value=\"NZ\">New Zealand</option>                        <option value=\"NO\">Norway</option>                        <option value=\"PL\">Poland</option>                        <option value=\"PT\">Portugal</option>                        <option value=\"RO\">Romania</option>                        <option value=\"SG\">Singapore</option>                        <option value=\"SK\">Slovakia</option>                        <option value=\"SI\">Slovenia</option>                        <option value=\"ZA\">South Africa</option>                        <option value=\"ES\">Spain</option>                        <option value=\"SE\">Sweden</option>                        <option value=\"CH\">Switzerland</option>                        <option value=\"GB\">United Kingdom</option>                        <option value=\"US\">United States</option>                    </select>                </div>            </div>            <!-- Business details section -->            <div class=\"form-section\">                <h3>Business details</h3>                <div class=\"field-row inline-fields\">                    <select id=\"tax-country\" name=\"tax-country\" placeholder=\"Country\">                        <option value=\"\">VAT country</option>                        <option value=\"AU\">Australia</option>                        <option value=\"AT\">Austria</option>                        <option value=\"BE\">Belgium</option>                        <option value=\"BR\">Brazil</option>                        <option value=\"BG\">Bulgaria</option>                        <option value=\"CA\">Canada</option>                        <option value=\"CN\">China</option>                        <option value=\"HR\">Croatia</option>                        <option value=\"CY\">Cyprus</option>                        <option value=\"CZ\">Czech Republic</option>                        <option value=\"DK\">Denmark</option>                        <option value=\"EE\">Estonia</option>                        <option value=\"FI\">Finland</option>                        <option value=\"FR\">France</option>                        <option value=\"DE\">Germany</option>                        <option value=\"GR\">Greece</option>                        <option value=\"HK\">Hong Kong</option>                        <option value=\"HU\">Hungary</option>                        <option value=\"IS\">Iceland</option>                        <option value=\"IN\">India</option>                        <option value=\"IE\">Ireland</option>                        <option value=\"IT\">Italy</option>                        <option value=\"JP\">Japan</option>                        <option value=\"LI\">Liechtenstein</option>                        <option value=\"LT\">Lithuania</option>                        <option value=\"LU\">Luxembourg</option>                        <option value=\"LV\">Latvia</option>                        <option value=\"MT\">Malta</option>                        <option value=\"MX\">Mexico</option>                        <option value=\"NL\">Netherlands</option>                        <option value=\"NZ\">New Zealand</option>                        <option value=\"NO\">Norway</option>                        <option value=\"PL\">Poland</option>                        <option value=\"PT\">Portugal</option>                        <option value=\"RO\">Romania</option>                        <option value=\"SG\">Singapore</option>                        <option value=\"SK\">Slovakia</option>                        <option value=\"SI\">Slovenia</option>                        <option value=\"ZA\">South Africa</option>                        <option value=\"ES\">Spain</option>                        <option value=\"SE\">Sweden</option>                        <option value=\"CH\">Switzerland</option>                        <option value=\"GB\">United Kingdom</option>                        <option value=\"US\">United States</option>                    </select>                    <input id=\"tax-id\" name=\"tax-id\" type=\"text\" maxlength=\"32\" autocomplete=\"off\" placeholder=\"VAT/Tax ID\">                </div>                <div class=\"checkbox-container\">                    <input type=\"checkbox\" id=\"business-checkbox\" name=\"business-checkbox\">                    <label for=\"business-checkbox\">I confirm to purchase as a business</label>                </div>            </div>            <div id=\"form-errors\" role=\"alert\"></div>            <div class=\"button-row\">                <button type=\"button\" id=\"cancel-btn\">Cancel</button>                <button id=\"submit-customer\" type=\"submit\">Save company profile</button>            </div>        </form>    </div>    <script>    // 1. Setup input references    var companyNameInput = document.getElementById('company-name');    var emailInput = document.getElementById('email');    var addressLine1Input = document.getElementById('address-line-1');    var addressLine2Input = document.getElementById('address-line-2');    var cityInput = document.getElementById('city');    var stateInput = document.getElementById('state');    var postalCodeInput = document.getElementById('postal-code');    var countryInput = document.getElementById('country');    var taxIdInput = document.getElementById('tax-id');    var taxCountryInput = document.getElementById('tax-country');    var businessCheckbox = document.getElementById('business-checkbox');    var submitBtn = document.getElementById('submit-customer');    // 2. Form validation    function validateForm() {        var companyNameComplete = companyNameInput.value.trim().length > 0;        var emailComplete = emailInput.value.trim().length > 0;        var addressComplete = (            addressLine1Input.value.trim().length > 0 &&            cityInput.value.trim().length > 0 &&            postalCodeInput.value.trim().length > 0        );        var businessChecked = businessCheckbox.checked;        var taxIdValid = taxIdInput.value.trim().length > 3;        var taxCountryValid = taxCountryInput.value.length === 2;        var businessComplete = businessChecked && taxIdValid && taxCountryValid;        var formValid = companyNameComplete && emailComplete && addressComplete && businessComplete;        submitBtn.disabled = !formValid;        if (formValid) {            submitBtn.style.backgroundColor = 'var(--Orange, #FF7A00)';            submitBtn.style.opacity = '1';        } else {            submitBtn.style.backgroundColor = '#ccc';            submitBtn.style.opacity = '0.7';        }        return formValid;    }    [companyNameInput, emailInput, addressLine1Input, cityInput, postalCodeInput, stateInput, taxIdInput, taxCountryInput].forEach(function(input) {        input.addEventListener('input', validateForm);    });    businessCheckbox.addEventListener('change', validateForm);    validateForm();    document.getElementById('payment-form').addEventListener('submit', function(event) {        event.preventDefault();        var companyName = companyNameInput.value;        var email = emailInput.value;        var address = {            line1: addressLine1Input.value,            line2: addressLine2Input.value,            city: cityInput.value,            state: stateInput.value,            postal_code: postalCodeInput.value,            country: countryInput.value        };        var taxId = taxIdInput.value.trim();        var taxCountry = taxCountryInput.value;        var business = businessCheckbox.checked;        if (!(business && taxId.length > 3 && taxCountry.length === 2)) {            document.getElementById('form-errors').textContent = 'Please enter a valid VAT/Tax ID and country, and tick the business checkbox.';            return;        }        document.getElementById('form-errors').textContent = '';        submitBtn.disabled = true;        // Call Python handler        if (typeof window.customer_ready === 'function') {            window.customer_ready(companyName, email, address, taxId, taxCountry);        } else {            document.getElementById('form-errors').textContent = 'Internal error: callback not found.';        }    });    document.getElementById('cancel-btn').onclick = function() { window.close_alert(); };    </script>"""
 
-    # Register the payment_method_ready and close_alert functions on window for JS to call
-    anvil.js.window.payment_method_ready = self._payment_method_ready
+    # Register the customer_ready and close_alert functions on window for JS to call
+    anvil.js.window.customer_ready = self._customer_ready
     anvil.js.window.close_alert = self._close_alert
 
-  def _payment_method_ready(self, payment_method_id: str, email: str):
-    """Called from JS after successful Stripe setup. Handles server calls from Python."""
+  def _customer_ready(self, company_name: str, email: str, address: dict, tax_id: str, tax_country: str):
+    """Called from JS after successful form submit. Handles server calls from Python."""
     try:
-        # 1. Get form data
-        import anvil.js
-        name = anvil.js.window.document.getElementById('name-on-card').value
-        address = {
-            'line1': anvil.js.window.document.getElementById('address-line-1').value,
-            'line2': anvil.js.window.document.getElementById('address-line-2').value,
-            'city': anvil.js.window.document.getElementById('city').value,
-            'state': anvil.js.window.document.getElementById('state').value,
-            'postal_code': anvil.js.window.document.getElementById('postal-code').value,
-            'country': anvil.js.window.document.getElementById('country').value
-        }
-
-        # 2. lookup customer
-        # a) check if customer exists
         print(f"[STRIPE] Python: Looking up Stripe customer for email={email}")
         customer = anvil.server.call('get_stripe_customer', email)
         if customer and customer.get('id'):
-            print(f"[STRIPE] Python: Found customer {customer['id']}, attaching payment method.")
+            print(f"[STRIPE] Python: Found customer {customer['id']}, not creating new.")
         else:
-            # b) if not -> create new customer
             print(f"[STRIPE] Python: No customer found, creating new for email={email}")
-            customer = anvil.server.call('create_stripe_customer', email, name, address)
-            
+            customer = anvil.server.call('create_stripe_customer', email, company_name, address)
             # c) add customer tax id
-            tax_id = anvil.js.window.document.getElementById('tax-id').value
-            tax_country = anvil.js.window.document.getElementById('tax-country').value
             if tax_id and tax_country:
-                # Map country code to Stripe tax ID type
                 tax_id_type_map = {
                     'AT': 'eu_vat', 'BE': 'eu_vat', 'BG': 'eu_vat', 'CY': 'eu_vat', 'CZ': 'eu_vat',
                     'DE': 'eu_vat', 'DK': 'eu_vat', 'EE': 'eu_vat', 'ES': 'eu_vat', 'FI': 'eu_vat', 'FR': 'eu_vat',
@@ -393,11 +85,6 @@ class C_PaymentCustomer(C_PaymentCustomerTemplate):
                 else:
                     print(f"[STRIPE] WARNING: No Stripe tax_id_type for country {tax_country}. Not adding tax ID.")
 
-        # 3. attach payment method to customer
-        updated_customer = anvil.server.call('attach_payment_method_to_customer', customer['id'], payment_method_id)
-        print(f"[STRIPE] Python: Payment method attached. Updated customer: {updated_customer}")
-        alert('Payment method saved and attached to customer!')
-
     except Exception as err:
         print(f"[STRIPE] Python ERROR: {err}")
         alert(f'[STRIPE] Error: {err}')
@@ -405,4 +92,3 @@ class C_PaymentCustomer(C_PaymentCustomerTemplate):
   def _close_alert(self):
     """Close the alert dialog from JS."""
     self.raise_event('x-close-alert')
-    
