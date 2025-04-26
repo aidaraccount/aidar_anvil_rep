@@ -202,29 +202,68 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
 
   # 4. Handle the full checkout process
   def open_subscription(self, plan_type: str, user_count: int) -> None:
-      """
-      1. Initiates the full checkout process in a clear, step-by-step manner.
-      2. Collects payment info, creates a Stripe customer, and opens the subscription checkout.
-      3. plan_type: 'Explore' or 'Professional'.
-      4. user_count: Number of users for Professional plan (ignored for Explore).
-      """
-      from ..C_PaymentSubscription import C_PaymentSubscription
-      from ..C_PaymentCustomer import C_PaymentCustomer
-      import anvil.server
-      billing_period = self.get_billing_period()
+        """
+        1. Initiates the full checkout process in a clear, step-by-step manner.
+        2. Collects payment info, creates a Stripe customer, and opens the subscription checkout.
+        3. plan_type: 'Explore' or 'Professional'.
+        4. user_count: Number of users for Professional plan (ignored for Explore).
+        """
+        # 1 Import required modules and components
+        from ..C_PaymentCustomer import C_PaymentCustomer
+        from ..C_PaymentInfos import C_PaymentInfos
+        from ..C_PaymentSubscription import C_PaymentSubscription
+        import anvil.server
 
-      # 1. Open the subscription checkout modal
-      alert(
-          content=C_PaymentSubscription(
-              plan_type=plan_type,
-              user_count=user_count,
-              billing_period=billing_period
-          ),
-          large=False,
-          width=500,
-          buttons=[],
-          dismissible=True
-      )
+        # 2. CUSTOMER: Ensure a Stripe customer exists
+        customer = anvil.server.call('get_stripe_customer', user['email'])
+        customer_id: str = customer['id'] if customer and customer.get('id') else None
+        if not customer_id:
+            # 2.1 Open customer info modal if customer does not exist
+            result = alert(
+                content=C_PaymentCustomer(),
+                large=False,
+                width=500,
+                buttons=[],
+                dismissible=True
+            )
+            # 2.2 Re-fetch customer after modal closes
+            customer = anvil.server.call('get_stripe_customer', user['email'])
+            customer_id = customer['id'] if customer and customer.get('id') else None
+            if not customer_id:
+                print("[STRIPE] ERROR: Customer creation was not completed. Aborting checkout flow.")
+                return
+
+        # 3. PAYMENT: Ensure a payment method exists
+        payment_methods = anvil.server.call('get_stripe_payment_methods', customer_id)
+        if not payment_methods:
+            # 3.1 Open payment info modal if no payment method exists
+            result = alert(
+                content=C_PaymentInfos(),
+                large=False,
+                width=500,
+                buttons=[],
+                dismissible=True
+            )
+            # 3.2 Re-fetch payment methods after modal closes
+            payment_methods = anvil.server.call('get_stripe_payment_methods', customer_id)
+            if not payment_methods:
+                print("[STRIPE] ERROR: Payment method was not added. Aborting checkout flow.")
+                return
+
+        # 4. SUBSCRIPTION: Open the subscription checkout modal
+        billing_period = self.get_billing_period()
+
+        alert(
+            content=C_PaymentSubscription(
+                plan_type=plan_type,
+                user_count=user_count,
+                billing_period=billing_period
+            ),
+            large=False,
+            width=500,
+            buttons=[],
+            dismissible=True
+        )
 
 
   # 5. Determine the billing period
