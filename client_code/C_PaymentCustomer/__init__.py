@@ -184,6 +184,8 @@ class C_PaymentCustomer(C_PaymentCustomerTemplate):
     # Register the customer_ready and close_alert functions on window for JS to call
     anvil.js.window.customer_ready = self._customer_ready
     anvil.js.window.close_alert = self._close_alert
+    
+    self._close_on_success = True
 
   def _customer_ready(self, company_name: str, email: str, address: dict, tax_id: str, tax_country: str):
     """Called from JS after successful form submit. Handles server calls from Python."""
@@ -227,6 +229,17 @@ class C_PaymentCustomer(C_PaymentCustomerTemplate):
             anvil.server.call('add_stripe_customer_tax_id', customer['id'], tax_id, tax_id_type)
         else:
             print(f"[STRIPE] WARNING: No Stripe tax_id_type for country {tax_country}. Not adding tax ID.")
+        # Success: clear any previous error
+        js_clear = """
+        var vatError = document.getElementById('vat-error');
+        if (vatError) {{
+            vatError.textContent = '';
+        }}
+        """
+        anvil.js.call_js('eval', js_clear)
+        # Close the modal (if inside an alert)
+        import anvil
+        anvil.js.call_js('eval', 'anvil.call("close_alert")')
     except Exception as e:
         if 'Invalid value for eu_vat' in str(e):
             # Set the VAT error label in the UI via JS, including the expected format for the country
