@@ -158,7 +158,7 @@ class C_PaymentCustomer(C_PaymentCustomerTemplate):
             city: cityInput.value,
             state: stateInput.value,
             postal_code: postalCodeInput.value,
-            country: countryInput.value
+            country: (countryInput.value && countryInput.value !== 'Country') ? countryInput.value : ''
         }};
         var taxId = taxIdInput.value.trim();
         var taxCountry = taxCountryInput.value;
@@ -195,41 +195,33 @@ class C_PaymentCustomer(C_PaymentCustomerTemplate):
         else:
             print(f"[STRIPE] Python: No customer found, creating new for email={email}")
             customer = anvil.server.call('create_stripe_customer', email, company_name, address)
-            # c) add customer tax id
-            if tax_id and tax_country:
-                tax_id_type_map = {
-                    'AT': 'eu_vat', 'BE': 'eu_vat', 'BG': 'eu_vat', 'CY': 'eu_vat', 'CZ': 'eu_vat',
-                    'DE': 'eu_vat', 'DK': 'eu_vat', 'EE': 'eu_vat', 'ES': 'eu_vat', 'FI': 'eu_vat', 'FR': 'eu_vat',
-                    'GR': 'eu_vat', 'HR': 'eu_vat', 'HU': 'eu_vat', 'IE': 'eu_vat', 'IT': 'eu_vat', 'LT': 'eu_vat',
-                    'LU': 'eu_vat', 'LV': 'eu_vat', 'MT': 'eu_vat', 'NL': 'eu_vat', 'PL': 'eu_vat', 'PT': 'eu_vat',
-                    'RO': 'eu_vat', 'SE': 'eu_vat', 'SI': 'eu_vat', 'SK': 'eu_vat',
-                    'GB': 'gb_vat',
-                    'US': 'us_ein',
-                    'CA': 'ca_bn',
-                    'AU': 'au_abn',
-                    'CH': 'ch_vat',
-                    'NO': 'no_vat',
-                    'IS': 'is_vat',
-                    'LI': 'li_uid',
-                    'IN': 'in_gst',
-                    'JP': 'jp_cn',
-                    'CN': 'cn_tin',
-                    'BR': 'br_cnpj',
-                    'MX': 'mx_rfc',
-                    'SG': 'sg_gst',
-                    'HK': 'hk_br',
-                    'NZ': 'nz_gst',
-                    'ZA': 'za_vat',
-                }
-                tax_id_type = tax_id_type_map.get(tax_country, 'unknown')
-                if tax_id_type != 'unknown':
-                    anvil.server.call('add_stripe_customer_tax_id', customer['id'], tax_id, tax_id_type)
-                else:
-                    print(f"[STRIPE] WARNING: No Stripe tax_id_type for country {tax_country}. Not adding tax ID.")
-
-    except Exception as err:
-        print(f"[STRIPE] Python ERROR: {err}")
-        alert(f'[STRIPE] Error: {err}')
+        # c) add customer tax id
+        try:
+            anvil.server.call('add_customer_tax_id', customer['id'], tax_id, tax_country)
+        except anvil.server.CallError as e:
+            if 'Invalid value for eu_vat' in str(e):
+                # Set the VAT error label in the UI via JS
+                js = """
+                var vatError = document.getElementById('vat-error');
+                if (vatError) {{
+                    vatError.textContent = 'Invalid VAT for an EU country.';
+                }}
+                """
+                anvil.js.call_js('eval', js)
+                return
+            else:
+                raise
+        # Success: clear any previous error
+        js_clear = """
+        var vatError = document.getElementById('vat-error');
+        if (vatError) {{
+            vatError.textContent = '';
+        }}
+        """
+        anvil.js.call_js('eval', js_clear)
+    except Exception as e:
+        # Optionally handle/log other errors
+        print(f"[STRIPE] Unexpected error: {e}")
 
   def _close_alert(self):
     """Close the alert dialog from JS."""
