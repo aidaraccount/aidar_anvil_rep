@@ -82,10 +82,13 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
           <div class='field-row'>{self.payment_method_summary}</div>
         </div>
       </form>
-      <button id='confirm-subscription-btn' class='cta-button cta-primary' style='width:100%;margin-top:16px;'>Confirm Subscription</button>
+      <div class="button-row">
+        <button type="button" id="cancel-btn">Cancel</button>
+        <button id="submit" type="submit">Save payment details</button>
+      </div>
     </div>
     <script>
-      document.getElementById('confirm-subscription-btn').onclick = function() {{ anvil.call(this, 'confirm_subscription_click'); }};
+      document.getElementById('submit').onclick = function() {{ anvil.call(this, 'confirm_subscription_click'); }};
     </script>
     """
 

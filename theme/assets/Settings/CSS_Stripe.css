@@ -133,7 +133,7 @@
     gap: 12px;
 }
 
-#submit-payment {
+#submit {
     background: var(--Orange, #FF7A00);
     color: white;
     border: none;
@@ -144,7 +144,7 @@
     cursor: pointer;
 }
 
-#submit-payment:disabled {
+#submit:disabled {
     background: #ccc;
     cursor: not-allowed;
 }

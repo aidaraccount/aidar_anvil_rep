@@ -178,7 +178,7 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
             <div id=\"card-errors\" role=\"alert\"></div>
             <div class=\"button-row\">
                 <button type=\"button\" id=\"cancel-btn\">Cancel</button>
-                <button id=\"submit-payment\" type=\"submit\">Save payment details</button>
+                <button id=\"submit\" type=\"submit\">Save payment details</button>
             </div>
         </form>
     </div>
@@ -223,7 +223,7 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
     var businessCheckbox = document.getElementById('business-checkbox');
     var taxIdInput = document.getElementById('tax-id');
     var taxCountryInput = document.getElementById('tax-country');
-    var submitBtn = document.getElementById('submit-payment');
+    var submitBtn = document.getElementById('submit');
     // Required field references
     var countryInput = document.getElementById('country');
     var addressLine1Input = document.getElementById('address-line-1');

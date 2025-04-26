@@ -62,9 +62,9 @@ class C_PaymentCustomer(C_PaymentCustomerTemplate):
                     </select>
                 </div>
             </div>
-            <!-- Business details section -->
+            <!-- Tax details section -->
             <div class="form-section">
-                <h3>Business details</h3>
+                <h3>Tax details</h3>
                 <div class="field-row inline-fields">
                     <select id="tax-country" name="tax-country" placeholder="Country">
                         <option value="">VAT country</option>
@@ -80,7 +80,7 @@ class C_PaymentCustomer(C_PaymentCustomerTemplate):
             <div id="form-errors" role="alert"></div>
             <div class="button-row">
                 <button type="button" id="cancel-btn">Cancel</button>
-                <button id="submit-customer" type="submit">Save company profile</button>
+                <button id="submit" type="submit">Save company profile</button>
             </div>
         </form>
     </div>
@@ -97,7 +97,7 @@ class C_PaymentCustomer(C_PaymentCustomerTemplate):
     var taxIdInput = document.getElementById('tax-id');
     var taxCountryInput = document.getElementById('tax-country');
     var businessCheckbox = document.getElementById('business-checkbox');
-    var submitBtn = document.getElementById('submit-customer');
+    var submitBtn = document.getElementById('submit');
     // 2. Form validation
     function validateForm() {{
         var companyNameComplete = companyNameInput.value.trim().length > 0;
@@ -105,8 +105,7 @@ class C_PaymentCustomer(C_PaymentCustomerTemplate):
         var addressComplete = (
             addressLine1Input.value.trim().length > 0 &&
             cityInput.value.trim().length > 0 &&
-            postalCodeInput.value.trim().length > 0 &&
-            stateInput.value.trim().length > 0
+            postalCodeInput.value.trim().length > 0
         );
         var businessChecked = businessCheckbox.checked;
         var taxIdValid = taxIdInput.value.trim().length > 3;
