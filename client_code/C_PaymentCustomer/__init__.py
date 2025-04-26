@@ -67,11 +67,12 @@ class C_PaymentCustomer(C_PaymentCustomerTemplate):
                 <h3>Tax details</h3>
                 <div class="field-row inline-fields">
                     <select id="tax-country" name="tax-country" placeholder="Country">
-                        <option value="">VAT country</option>
+                        <option value="">Tax/VAT country</option>
                         <option value="AU">Australia</option><option value="AT">Austria</option><option value="BE">Belgium</option><option value="BR">Brazil</option><option value="BG">Bulgaria</option><option value="CA">Canada</option><option value="CN">China</option><option value="HR">Croatia</option><option value="CY">Cyprus</option><option value="CZ">Czech Republic</option><option value="DK">Denmark</option><option value="EE">Estonia</option><option value="FI">Finland</option><option value="FR">France</option><option value="DE">Germany</option><option value="GR">Greece</option><option value="HK">Hong Kong</option><option value="HU">Hungary</option><option value="IS">Iceland</option><option value="IN">India</option><option value="IE">Ireland</option><option value="IT">Italy</option><option value="JP">Japan</option><option value="LI">Liechtenstein</option><option value="LT">Lithuania</option><option value="LU">Luxembourg</option><option value="LV">Latvia</option><option value="MT">Malta</option><option value="MX">Mexico</option><option value="NL">Netherlands</option><option value="NZ">New Zealand</option><option value="NO">Norway</option><option value="PL">Poland</option><option value="PT">Portugal</option><option value="RO">Romania</option><option value="SG">Singapore</option><option value="SK">Slovakia</option><option value="SI">Slovenia</option><option value="ZA">South Africa</option><option value="ES">Spain</option><option value="SE">Sweden</option><option value="CH">Switzerland</option><option value="GB">United Kingdom</option><option value="US">United States</option>
                     </select>
-                    <input id="tax-id" name="tax-id" type="text" maxlength="32" autocomplete="off" placeholder="VAT/Tax ID">
+                    <input id="tax-id" name="tax-id" type="text" maxlength="32" autocomplete="off" placeholder="Tax/VAT ID">
                 </div>
+                <div id="vat-error" class="error-message" style="color:#FF5A36;margin-top:4px;"></div>
                 <div class="checkbox-container">
                     <input type="checkbox" id="business-checkbox" name="business-checkbox">
                     <label for="business-checkbox">I confirm to purchase as a business</label>
@@ -98,7 +99,27 @@ class C_PaymentCustomer(C_PaymentCustomerTemplate):
     var taxCountryInput = document.getElementById('tax-country');
     var businessCheckbox = document.getElementById('business-checkbox');
     var submitBtn = document.getElementById('submit');
-    // 2. Form validation
+    var vatError = document.getElementById('vat-error');
+    // 2. VAT prefix mapping
+    var vatPrefixes = {{
+        'AT': 'ATU', 'BE': 'BE', 'BG': 'BG', 'CY': 'CY', 'CZ': 'CZ', 'DE': 'DE', 'DK': 'DK', 'EE': 'EE',
+        'EL': 'EL', 'ES': 'ES', 'FI': 'FI', 'FR': 'FR', 'GB': 'GB', 'GR': 'EL', 'HR': 'HR', 'HU': 'HU',
+        'IE': 'IE', 'IT': 'IT', 'LT': 'LT', 'LU': 'LU', 'LV': 'LV', 'MT': 'MT', 'NL': 'NL', 'PL': 'PL',
+        'PT': 'PT', 'RO': 'RO', 'SE': 'SE', 'SI': 'SI', 'SK': 'SK', 'EE': 'EE', 'HR': 'HR', 'LV': 'LV',
+        'LT': 'LT', 'LU': 'LU', 'MT': 'MT', 'NL': 'NL', 'PL': 'PL', 'PT': 'PT', 'RO': 'RO', 'SE': 'SE',
+        'SI': 'SI', 'SK': 'SK', 'XI': 'XI'
+    }};
+    // 3. Auto-prefix VAT ID on country change
+    taxCountryInput.addEventListener('change', function() {{
+        var country = taxCountryInput.value;
+        var prefix = vatPrefixes[country];
+        if (prefix) {{
+            if (!taxIdInput.value.startsWith(prefix + '-')) {{
+                taxIdInput.value = prefix + '-';
+            }}
+        }}
+    }});
+    // 4. Form validation
     function validateForm() {{
         var companyNameComplete = companyNameInput.value.trim().length > 0;
         var emailComplete = emailInput.value.trim().length > 0;
@@ -142,8 +163,9 @@ class C_PaymentCustomer(C_PaymentCustomerTemplate):
         var taxId = taxIdInput.value.trim();
         var taxCountry = taxCountryInput.value;
         var business = businessCheckbox.checked;
+        vatError.textContent = '';
         if (!(business && taxId.length > 3 && taxCountry.length === 2)) {{
-            document.getElementById('form-errors').textContent = 'Please enter a valid VAT/Tax ID and country, and tick the business checkbox.';
+            vatError.textContent = 'Please enter a valid VAT/Tax ID and country, and tick the business checkbox.';
             return;
         }}
         document.getElementById('form-errors').textContent = '';
