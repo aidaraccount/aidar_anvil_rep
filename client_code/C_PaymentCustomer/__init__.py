@@ -17,6 +17,10 @@ class C_PaymentCustomer(C_PaymentCustomerTemplate):
     global user
     user = anvil.users.get_user()
 
+    # Get the Stripe SetupIntent client_secret from the server
+    client_secret = anvil.server.call('create_setup_intent')
+
+    # create html
     self.html = f"""
     <script>
     window.stripe_setup_intent_client_secret = '{client_secret}';
