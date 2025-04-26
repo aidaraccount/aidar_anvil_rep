@@ -114,8 +114,8 @@ class C_PaymentCustomer(C_PaymentCustomerTemplate):
         var country = taxCountryInput.value;
         var prefix = vatPrefixes[country];
         if (prefix) {{
-            if (!taxIdInput.value.startsWith(prefix + '-')) {{
-                taxIdInput.value = prefix + '-';
+            if (!taxIdInput.value.startsWith(prefix)) {{
+                taxIdInput.value = prefix;
             }}
         }}
     }});
@@ -200,11 +200,41 @@ class C_PaymentCustomer(C_PaymentCustomerTemplate):
             anvil.server.call('add_customer_tax_id', customer['id'], tax_id, tax_country)
         except anvil.server.CallError as e:
             if 'Invalid value for eu_vat' in str(e):
-                # Set the VAT error label in the UI via JS
-                js = """
+                # Set the VAT error label in the UI via JS, including the expected format for the country
+                expected_formats = {
+                    'DE': 'Format: DE123456789',
+                    'AT': 'Format: ATU12345678',
+                    'BE': 'Format: BE0123456789',
+                    'FR': 'Format: FRXX123456789',
+                    'IT': 'Format: IT12345678901',
+                    'ES': 'Format: ESX1234567X',
+                    'NL': 'Format: NL123456789B01',
+                    'PL': 'Format: PL1234567890',
+                    'SE': 'Format: SE123456789012',
+                    'DK': 'Format: DK12345678',
+                    'FI': 'Format: FI12345678',
+                    'IE': 'Format: IE1234567X',
+                    'PT': 'Format: PT123456789',
+                    'GR': 'Format: EL123456789',
+                    'LU': 'Format: LU12345678',
+                    'LT': 'Format: LT123456789',
+                    'LV': 'Format: LV12345678901',
+                    'CZ': 'Format: CZ12345678',
+                    'SK': 'Format: SK1234567890',
+                    'HU': 'Format: HU12345678',
+                    'SI': 'Format: SI12345678',
+                    'EE': 'Format: EE123456789',
+                    'HR': 'Format: HR12345678901',
+                    'BG': 'Format: BG123456789',
+                    'RO': 'Format: RO1234567890',
+                    'CY': 'Format: CY12345678X',
+                    'MT': 'Format: MT12345678',
+                }
+                fmt = expected_formats.get(tax_country, '')
+                js = f"""
                 var vatError = document.getElementById('vat-error');
                 if (vatError) {{
-                    vatError.textContent = 'Invalid VAT for an EU country.';
+                    vatError.textContent = 'Invalid VAT for an EU country.' + (" {fmt}" || '');
                 }}
                 """
                 anvil.js.call_js('eval', js)
