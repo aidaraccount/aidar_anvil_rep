@@ -238,7 +238,7 @@ class C_PaymentCustomer(C_PaymentCustomerTemplate):
         """
         anvil.js.call_js('eval', js_clear)
         # Close the modal (if inside an alert)
-        anvil.js.call_js('eval', 'anvil.call("close_alert")')
+        anvil.js.call_js('eval', 'window.close_alert()')
     except Exception as e:
         if 'Invalid value for eu_vat' in str(e):
             # Set the VAT error label in the UI via JS, including the expected format for the country
