@@ -196,62 +196,88 @@ class C_PaymentCustomer(C_PaymentCustomerTemplate):
             print(f"[STRIPE] Python: No customer found, creating new for email={email}")
             customer = anvil.server.call('create_stripe_customer', email, company_name, address)
         # c) add customer tax id
-        try:
-            anvil.server.call('add_stripe_customer_tax_id', customer['id'], tax_id, tax_country)
-        except Exception as e:
-            if 'Invalid value for eu_vat' in str(e):
-                # Set the VAT error label in the UI via JS, including the expected format for the country
-                expected_formats = {
-                    'DE': 'Format: DE123456789',
-                    'AT': 'Format: ATU12345678',
-                    'BE': 'Format: BE0123456789',
-                    'FR': 'Format: FRXX123456789',
-                    'IT': 'Format: IT12345678901',
-                    'ES': 'Format: ESX1234567X',
-                    'NL': 'Format: NL123456789B01',
-                    'PL': 'Format: PL1234567890',
-                    'SE': 'Format: SE123456789012',
-                    'DK': 'Format: DK12345678',
-                    'FI': 'Format: FI12345678',
-                    'IE': 'Format: IE1234567X',
-                    'PT': 'Format: PT123456789',
-                    'GR': 'Format: EL123456789',
-                    'LU': 'Format: LU12345678',
-                    'LT': 'Format: LT123456789',
-                    'LV': 'Format: LV12345678901',
-                    'CZ': 'Format: CZ12345678',
-                    'SK': 'Format: SK1234567890',
-                    'HU': 'Format: HU12345678',
-                    'SI': 'Format: SI12345678',
-                    'EE': 'Format: EE123456789',
-                    'HR': 'Format: HR12345678901',
-                    'BG': 'Format: BG123456789',
-                    'RO': 'Format: RO1234567890',
-                    'CY': 'Format: CY12345678X',
-                    'MT': 'Format: MT12345678',
-                }
-                fmt = expected_formats.get(tax_country, '')
-                js = f"""
-                var vatError = document.getElementById('vat-error');
-                if (vatError) {{
-                    vatError.textContent = 'Invalid VAT for an EU country.' + (" {fmt}" || '');
-                }}
-                """
-                anvil.js.call_js('eval', js)
-                return
-            else:
-                raise
-        # Success: clear any previous error
-        js_clear = """
-        var vatError = document.getElementById('vat-error');
-        if (vatError) {{
-            vatError.textContent = '';
-        }}
-        """
-        anvil.js.call_js('eval', js_clear)
+        eu_countries = [
+            'AT', 'BE', 'BG', 'CY', 'CZ', 'DE', 'DK', 'EE', 'ES', 'FI', 'FR', 'GR', 'HR', 'HU', 'IE',
+            'IT', 'LT', 'LU', 'LV', 'MT', 'NL', 'PL', 'PT', 'RO', 'SE', 'SI', 'SK'
+        ]
+        tax_id_type_map = {
+            'GB': 'gb_vat',
+            'US': 'us_ein',
+            'CA': 'ca_bn',
+            'AU': 'au_abn',
+            'CH': 'ch_vat',
+            'NO': 'no_vat',
+            'IS': 'is_vat',
+            'LI': 'li_uid',
+            'IN': 'in_gst',
+            'JP': 'jp_cn',
+            'CN': 'cn_tin',
+            'BR': 'br_cnpj',
+            'MX': 'mx_rfc',
+            'SG': 'sg_gst',
+            'HK': 'hk_br',
+            'NZ': 'nz_gst',
+            'ZA': 'za_vat',
+        }
+        if tax_country in eu_countries:
+            tax_id_type = 'eu_vat'
+        else:
+            tax_id_type = tax_id_type_map.get(tax_country, None)
+        if tax_id_type:
+            anvil.server.call('add_stripe_customer_tax_id', customer['id'], tax_id, tax_id_type)
+        else:
+            print(f"[STRIPE] WARNING: No Stripe tax_id_type for country {tax_country}. Not adding tax ID.")
     except Exception as e:
-        # Optionally handle/log other errors
-        print(f"[STRIPE] Unexpected error: {e}")
+        if 'Invalid value for eu_vat' in str(e):
+            # Set the VAT error label in the UI via JS, including the expected format for the country
+            expected_formats = {
+                'DE': 'Format: DE123456789',
+                'AT': 'Format: ATU12345678',
+                'BE': 'Format: BE0123456789',
+                'FR': 'Format: FRXX123456789',
+                'IT': 'Format: IT12345678901',
+                'ES': 'Format: ESX1234567X',
+                'NL': 'Format: NL123456789B01',
+                'PL': 'Format: PL1234567890',
+                'SE': 'Format: SE123456789012',
+                'DK': 'Format: DK12345678',
+                'FI': 'Format: FI12345678',
+                'IE': 'Format: IE1234567X',
+                'PT': 'Format: PT123456789',
+                'GR': 'Format: EL123456789',
+                'LU': 'Format: LU12345678',
+                'LT': 'Format: LT123456789',
+                'LV': 'Format: LV12345678901',
+                'CZ': 'Format: CZ12345678',
+                'SK': 'Format: SK1234567890',
+                'HU': 'Format: HU12345678',
+                'SI': 'Format: SI12345678',
+                'EE': 'Format: EE123456789',
+                'HR': 'Format: HR12345678901',
+                'BG': 'Format: BG123456789',
+                'RO': 'Format: RO1234567890',
+                'CY': 'Format: CY12345678X',
+                'MT': 'Format: MT12345678',
+            }
+            fmt = expected_formats.get(tax_country, '')
+            js = f"""
+            var vatError = document.getElementById('vat-error');
+            if (vatError) {{
+                vatError.textContent = 'Invalid VAT for an EU country.' + (" {fmt}" || '');
+            }}
+            """
+            anvil.js.call_js('eval', js)
+            return
+        else:
+            raise
+    # Success: clear any previous error
+    js_clear = """
+    var vatError = document.getElementById('vat-error');
+    if (vatError) {{
+        vatError.textContent = '';
+    }}
+    """
+    anvil.js.call_js('eval', js_clear)
 
   def _close_alert(self):
     """Close the alert dialog from JS."""
