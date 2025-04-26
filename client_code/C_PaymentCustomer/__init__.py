@@ -25,9 +25,9 @@ class C_PaymentCustomer(C_PaymentCustomerTemplate):
         <div class="payment-info-text">The provided email is also used as the billing email address.</div>
         <!-- 1.2 Custom company profile form -->
         <form id="payment-form">
-            <!-- Customer email -->
+            <!-- Company email -->
             <div class="form-section">
-                <h3>Customer email</h3>
+                <h3>Company email</h3>
                 <input id="email" name="email" type="email" autocomplete="email" required placeholder="Email" value="{user['email']}">
             </div>
             <!-- Company Name -->
@@ -49,12 +49,12 @@ class C_PaymentCustomer(C_PaymentCustomerTemplate):
                         <input id="city" name="city" type="text" placeholder="City">
                     </div>
                     <div class="field-row">
-                        <input id="state" name="state" type="text" placeholder="State, county, province, or region">
-                    </div>
-                    <div class="field-row">
                         <input id="postal-code" name="postal-code" type="text" placeholder="Postal code">
                     </div>
                 </div>
+                <div class="field-row">
+                    <input id="state" name="state" type="text" placeholder="State, county, province, or region">
+                </div>    
                 <div class="field-row">
                     <select id="country" name="country" placeholder="Country">
                         <option value="">Country</option>
