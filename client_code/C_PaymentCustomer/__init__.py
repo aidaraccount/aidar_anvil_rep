@@ -18,26 +18,26 @@ class C_PaymentCustomer(C_PaymentCustomerTemplate):
 
     # create html
     # 1. Company Profile Form Modal
-    self.html = f'''
+    self.html = f"""
     <div id="payment-form-container">
         <!-- 1.1 Title and instructions -->
         <h2>Create company profile</h2>
         <div class="payment-info-text">The provided email is also used as the billing email address.</div>
-        <!-- 1.2 Custom payment form -->
+        <!-- 1.2 Custom company profile form -->
         <form id="payment-form">
-            <!-- 1.2.1 Customer email -->
+            <!-- Customer email -->
             <div class="form-section">
                 <h3>Customer email</h3>
                 <input id="email" name="email" type="email" autocomplete="email" required placeholder="Email" value="{user['email']}">
             </div>
-            <!-- 1.2.2 Company Name -->
+            <!-- Company Name -->
             <div class="form-section">
                 <h3>Company name</h3>
                 <input id="company-name" name="company-name" type="text" required placeholder="Company name">
             </div>
-            <!-- 1.2.3 Company & Billing address section -->
+            <!-- Billing address section -->
             <div class="form-section">
-                <h3>Company & Billing address</h3>
+                <h3>Billing address</h3>
                 <div class="field-row">
                     <input id="address-line-1" name="address-line-1" type="text" placeholder="Address line 1">
                 </div>
@@ -62,7 +62,7 @@ class C_PaymentCustomer(C_PaymentCustomerTemplate):
                     </select>
                 </div>
             </div>
-            <!-- 1.2.4 Business details section -->
+            <!-- Business details section -->
             <div class="form-section">
                 <h3>Business details</h3>
                 <div class="field-row inline-fields">
@@ -77,7 +77,6 @@ class C_PaymentCustomer(C_PaymentCustomerTemplate):
                     <label for="business-checkbox">I confirm to purchase as a business</label>
                 </div>
             </div>
-            <!-- 1.2.5 Error and button row -->
             <div id="form-errors" role="alert"></div>
             <div class="button-row">
                 <button type="button" id="cancel-btn">Cancel</button>
@@ -86,8 +85,7 @@ class C_PaymentCustomer(C_PaymentCustomerTemplate):
         </form>
     </div>
     <script>
-    // 2. Form JS logic
-    // 2.1 Setup input references
+    // 1. Setup input references
     var companyNameInput = document.getElementById('company-name');
     var emailInput = document.getElementById('email');
     var addressLine1Input = document.getElementById('address-line-1');
@@ -100,14 +98,15 @@ class C_PaymentCustomer(C_PaymentCustomerTemplate):
     var taxCountryInput = document.getElementById('tax-country');
     var businessCheckbox = document.getElementById('business-checkbox');
     var submitBtn = document.getElementById('submit-customer');
-    // 2.2 Form validation
+    // 2. Form validation
     function validateForm() {
         var companyNameComplete = companyNameInput.value.trim().length > 0;
         var emailComplete = emailInput.value.trim().length > 0;
         var addressComplete = (
             addressLine1Input.value.trim().length > 0 &&
             cityInput.value.trim().length > 0 &&
-            postalCodeInput.value.trim().length > 0
+            postalCodeInput.value.trim().length > 0 &&
+            stateInput.value.trim().length > 0
         );
         var businessChecked = businessCheckbox.checked;
         var taxIdValid = taxIdInput.value.trim().length > 3;
@@ -129,7 +128,6 @@ class C_PaymentCustomer(C_PaymentCustomerTemplate):
     });
     businessCheckbox.addEventListener('change', validateForm);
     validateForm();
-    // 2.3 Submit handler
     document.getElementById('payment-form').addEventListener('submit', function(event) {
         event.preventDefault();
         var companyName = companyNameInput.value;
@@ -158,10 +156,9 @@ class C_PaymentCustomer(C_PaymentCustomerTemplate):
             document.getElementById('form-errors').textContent = 'Internal error: callback not found.';
         }
     });
-    // 2.4 Cancel button handler
     document.getElementById('cancel-btn').onclick = function() { window.close_alert(); };
-    <\/script>
-    '''
+    </script>
+    """
 
     # Register the customer_ready and close_alert functions on window for JS to call
     anvil.js.window.customer_ready = self._customer_ready
