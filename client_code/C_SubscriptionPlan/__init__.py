@@ -209,6 +209,7 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
       4. user_count: Number of users for Professional plan (ignored for Explore).
       """
       from ..C_PaymentSubscription import C_PaymentSubscription
+      from ..C_PaymentCustomer import C_PaymentCustomer
       import anvil.server
       billing_period = self.get_billing_period()
 

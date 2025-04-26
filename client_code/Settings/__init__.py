@@ -12,8 +12,6 @@ from anvil.js.window import navigator
 import json
 from datetime import datetime, date
 import re
-# import stripe.checkout
-# import anvil.stripe
 
 from anvil_extras import routing
 from ..nav import click_link, click_button, save_var, load_var
