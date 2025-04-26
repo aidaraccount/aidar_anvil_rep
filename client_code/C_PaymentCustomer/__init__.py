@@ -238,7 +238,6 @@ class C_PaymentCustomer(C_PaymentCustomerTemplate):
         """
         anvil.js.call_js('eval', js_clear)
         # Close the modal (if inside an alert)
-        import anvil
         anvil.js.call_js('eval', 'anvil.call("close_alert")')
     except Exception as e:
         if 'Invalid value for eu_vat' in str(e):
