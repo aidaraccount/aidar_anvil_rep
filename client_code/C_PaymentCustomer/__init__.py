@@ -160,7 +160,7 @@ class C_PaymentCustomer(C_PaymentCustomerTemplate):
     });
     // 2.4 Cancel button handler
     document.getElementById('cancel-btn').onclick = function() { window.close_alert(); };
-    </script>
+    <\/script>
     '''
 
     # Register the customer_ready and close_alert functions on window for JS to call
