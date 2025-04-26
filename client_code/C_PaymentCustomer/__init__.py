@@ -197,7 +197,7 @@ class C_PaymentCustomer(C_PaymentCustomerTemplate):
             customer = anvil.server.call('create_stripe_customer', email, company_name, address)
         # c) add customer tax id
         try:
-            anvil.server.call('add_customer_tax_id', customer['id'], tax_id, tax_country)
+            anvil.server.call('add_stripe_customer_tax_id', customer['id'], tax_id, tax_country)
         except Exception as e:
             if 'Invalid value for eu_vat' in str(e):
                 # Set the VAT error label in the UI via JS, including the expected format for the country
