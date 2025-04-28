@@ -193,7 +193,6 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
     if result == 'success':
         # Collect updated values from the form
         updated_name = form.company_name_box.text
-        # Always use the user's email for updates (never allow change)
         import anvil.users
         updated_email = anvil.users.get_user()['email']
         updated_address = {
@@ -207,7 +206,6 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
         updated_tax_id = form.tax_id_box.text
         updated_tax_country = form.tax_country_box.selected_value
         b2b_checked = form.business_checkbox.checked
-        # Determine tax_id_type
         tax_id_type_map = {
             'GB': 'gb_vat',
             'US': 'us_ein',
@@ -235,7 +233,6 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
             tax_id_type = 'eu_vat'
         else:
             tax_id_type = tax_id_type_map.get(updated_tax_country, None)
-        # Call server function to update customer and tax info
         anvil.server.call(
             'update_stripe_customer_and_tax',
             self.customer_id,
@@ -247,4 +244,17 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
         )
         # Re-fetch customer data and rerender summary
         self.customer = anvil.server.call('get_stripe_customer', updated_email)
+        # Always re-initialize payment method summary after editing
+        self.payment_method_summary = "No payment method on file."
+        self.default_payment_method = None
+        if self.customer_id:
+            payment_methods = anvil.server.call('get_stripe_payment_methods', self.customer_id)
+            if payment_methods:
+                pm = payment_methods[0]
+                brand = pm.get('card', {}).get('brand', '')
+                last4 = pm.get('card', {}).get('last4', '')
+                exp_month = pm.get('card', {}).get('exp_month', '')
+                exp_year = pm.get('card', {}).get('exp_year', '')
+                self.default_payment_method = pm.get('id')
+                self.payment_method_summary = f"{brand.title()} **** **** **** {last4} (exp {exp_month}/{exp_year})"
         self.__init__(plan_type=self.plan_type, user_count=self.user_count, billing_period=self.billing_period)
