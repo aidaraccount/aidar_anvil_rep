@@ -113,17 +113,20 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
     // 6. Form validation logic
     function validateForm() {{
         var nameComplete = nameInput.value.trim().length > 0;
-        // Use Stripe's cardElement.complete property for reliable detection
-        var cardComplete = (typeof cardElement._complete !== 'undefined') ? cardElement._complete : (cardElement._implementation && cardElement._implementation._complete);
-        if (typeof cardElement._complete === 'undefined' && cardElement._implementation && typeof cardElement._implementation._complete !== 'undefined') {{
-            cardElement._complete = cardElement._implementation._complete;
+        // Use Stripe's cardElement.complete property directly
+        var cardComplete = false;
+        if (cardElement && typeof cardElement._complete !== 'undefined') {{
+            cardComplete = cardElement._complete;
+        }} else if (cardElement && typeof cardElement._implementation !== 'undefined' && typeof cardElement._implementation._complete !== 'undefined') {{
+            cardComplete = cardElement._implementation._complete;
         }}
         var formValid = cardComplete && nameComplete;
-        submitBtn.disabled = !formValid;
         if (formValid) {{
+            submitBtn.removeAttribute('disabled');
             submitBtn.style.backgroundColor = '#FF7A00';
             submitBtn.style.opacity = '1';
         }} else {{
+            submitBtn.setAttribute('disabled', 'disabled');
             submitBtn.style.backgroundColor = '#ccc';
             submitBtn.style.opacity = '0.7';
         }}

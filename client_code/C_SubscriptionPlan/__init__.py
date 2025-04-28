@@ -175,8 +175,8 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
 
     # 2. Add Anvil Buttons for plan selection
     from anvil import Button
-    self.explore_btn = Button(text="Choose Plan", role="cta-button cta-primary center", tag={"plan_type": "Explore"})
-    self.professional_btn = Button(text="Choose Plan", role="cta-button cta-primary center", tag={"plan_type": "Professional"})
+    self.explore_btn = Button(text="Choose Plan", role="cta-button", classes=["cta-primary", "center"], tag={"plan_type": "Explore"})
+    self.professional_btn = Button(text="Choose Plan", role="cta-button", classes=["cta-primary", "center"], tag={"plan_type": "Professional"})
     self.explore_btn.set_event_handler('click', self.choose_plan_click)
     self.professional_btn.set_event_handler('click', self.choose_plan_click)
     self.add_component(self.explore_btn, slot="explore-plan-button")
