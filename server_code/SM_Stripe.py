@@ -77,33 +77,25 @@ def update_stripe_customer(customer_id: str, name: str = None, email: str = None
 
 
 @anvil.server.callable
-def update_stripe_customer_and_tax(customer_id: str, name: str = None, email: str = None, address: dict = None, tax_id: str = None, tax_id_type: str = None) -> dict:
+def update_stripe_customer_tax_id(customer_id: str, tax_id: str, tax_id_type: str) -> dict:
     """
-    Update an existing Stripe customer with new name, email, address, and tax info. Handles duplicate tax ID errors gracefully.
+    Add or update a tax ID for a Stripe customer. Handles duplicate tax ID errors gracefully.
     """
     import stripe
     stripe.api_key = anvil.secrets.get_secret("stripe_secret_key")
-    update_data = {}
-    if name:
-        update_data['name'] = name
-    if email:
-        update_data['email'] = email
-    if address:
-        update_data['address'] = address
-    customer = stripe.Customer.modify(customer_id, **update_data)
-    # Handle tax ID update
-    if tax_id and tax_id_type:
-        # Check for existing tax IDs
-        existing_tax_ids = stripe.Customer.list_tax_ids(customer_id)
-        already_exists = any((tid['type'] == tax_id_type and tid['value'] == tax_id) for tid in existing_tax_ids['data'])
-        if not already_exists:
-            try:
-                stripe.Customer.create_tax_id(customer_id, type=tax_id_type, value=tax_id)
-            except stripe.error.InvalidRequestError as e:
-                if 'already exists' not in str(e):
-                    raise
-    print(f"[Stripe] Updated customer (with tax): id={customer.id}, email={customer.email}, name={customer.name}, address={customer.address}")
-    return dict(customer)
+    # Check for existing tax IDs
+    existing_tax_ids = stripe.Customer.list_tax_ids(customer_id)
+    already_exists = any((tid['type'] == tax_id_type and tid['value'] == tax_id) for tid in existing_tax_ids['data'])
+    if not already_exists:
+        try:
+            tax_id_obj = stripe.Customer.create_tax_id(customer_id, type=tax_id_type, value=tax_id)
+        except stripe.error.InvalidRequestError as e:
+            if 'already exists' not in str(e):
+                raise
+    else:
+        tax_id_obj = [tid for tid in existing_tax_ids['data'] if tid['type'] == tax_id_type and tid['value'] == tax_id][0]
+    print(f"[Stripe] Updated/added tax ID for customer {customer_id}: {tax_id_type} {tax_id}")
+    return dict(tax_id_obj)
 
 
 @anvil.server.callable

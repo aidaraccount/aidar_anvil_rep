@@ -144,6 +144,13 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
     </div>
     """
 
+    # --- Section 5: Anvil event bindings ---
+    # Ensure all event handlers are bound to the instance
+    # This is critical for Anvil to expose methods to JS (for use in self.html script)
+    self.edit_company_click = self.edit_company_click.__get__(self)
+    self.cancel_btn_click = self.cancel_btn_click.__get__(self)
+    self.confirm_subscription_click = self.confirm_subscription_click.__get__(self)
+
     # 4. Button handler for subscription confirmation
     def confirm_subscription_click(self, **event_args):
       if not self.customer_id:
@@ -234,18 +241,24 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
             tax_id_type = 'eu_vat'
         else:
             tax_id_type = tax_id_type_map.get(updated_tax_country, None)
+        # Update customer info
         anvil.server.call(
-            'update_stripe_customer_and_tax',
+            'update_stripe_customer',
             self.customer_id,
             updated_name,
             updated_email,
-            updated_address,
-            updated_tax_id,
-            tax_id_type
+            updated_address
         )
+        # Update tax info if provided
+        if updated_tax_id and tax_id_type:
+            anvil.server.call(
+                'update_stripe_customer_tax_id',
+                self.customer_id,
+                updated_tax_id,
+                tax_id_type
+            )
         # Re-fetch customer data and rerender summary
         self.customer = anvil.server.call('get_stripe_customer', updated_email)
-        # Always re-initialize payment method summary after editing
         self.payment_method_summary = "No payment method on file."
         self.default_payment_method = None
         if self.customer_id:
