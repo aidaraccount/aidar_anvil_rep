@@ -49,6 +49,13 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
     company_name = self.customer.get('name', '')
     email = self.customer.get('email', '')
     address = self.customer.get('address', {})
+    tax_ids = self.customer.get('tax_ids', [])
+    tax_id = ''
+    tax_country = ''
+    if tax_ids:
+        tax_id_obj = tax_ids[0] # Use the first tax ID for summary
+        tax_id = tax_id_obj.get('value', '')
+        tax_country = tax_id_obj.get('country', '')
     address_lines = []
     if address:
         line1 = address.get('line1', '')
@@ -70,25 +77,13 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
     self.company_name = company_name
     self.company_email = email
     self.company_address = address_str
-
-    # 2. Get default payment method summary (if any)
-    self.payment_method_summary = "No payment method on file."
-    self.default_payment_method = None
-    if self.customer_id:
-        payment_methods = anvil.server.call('get_stripe_payment_methods', self.customer_id)
-        if payment_methods:
-            pm = payment_methods[0]  # Assume first is default for simplicity
-            brand = pm.get('card', {}).get('brand', '')
-            last4 = pm.get('card', {}).get('last4', '')
-            exp_month = pm.get('card', {}).get('exp_month', '')
-            exp_year = pm.get('card', {}).get('exp_year', '')
-            self.default_payment_method = pm.get('id')
-            self.payment_method_summary = f"{brand.title()} **** **** **** {last4} (exp {exp_month}/{exp_year})"
+    self.tax_id = tax_id
+    self.tax_country = tax_country
 
     # Render summary with edit icon
     self.html = f"""
     <div id='payment-form-container'>
-      <h2>Subscription Details</h2>
+      <h2>Confirm Subscription</h2>
       <div class='payment-info-text'>Please review your subscription details before confirming.</div>
       <form id='subscription-summary-form'>
         
@@ -99,6 +94,7 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
           <div class='field-row'><b>Email:</b> {self.company_email}</div>
           <div class='field-row'><b>Name:</b> {self.company_name}</div>
           <div class='field-row'><b>Address:</b> {self.company_address}</div>
+          <div class='field-row'><b>Tax:</b> {self.tax_country} {self.tax_id}</div>
         </div>
         
         <!-- Payment Method Summary -->
@@ -123,7 +119,7 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
       </form>
       <div class="button-row">
         <button type="button" id="cancel-btn">Cancel</button>
-        <button id="submit" type="submit">Confirm Subscription</button>
+        <button id="submit" type="submit">Book Subscription now</button>
       </div>
       <script>
         document.getElementById('edit-company').onclick = function() {{ anvil.call(this, 'edit_company_click'); }};
@@ -132,6 +128,20 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
       </script>
     </div>
     """
+
+    # 2. Get default payment method summary (if any)
+    self.payment_method_summary = "No payment method on file."
+    self.default_payment_method = None
+    if self.customer_id:
+        payment_methods = anvil.server.call('get_stripe_payment_methods', self.customer_id)
+        if payment_methods:
+            pm = payment_methods[0]  # Assume first is default for simplicity
+            brand = pm.get('card', {}).get('brand', '')
+            last4 = pm.get('card', {}).get('last4', '')
+            exp_month = pm.get('card', {}).get('exp_month', '')
+            exp_year = pm.get('card', {}).get('exp_year', '')
+            self.default_payment_method = pm.get('id')
+            self.payment_method_summary = f"{brand.title()} **** **** **** {last4} (exp {exp_month}/{exp_year})"
 
   # 4. Button handler for subscription confirmation
   def confirm_subscription_click(self, **event_args):
@@ -164,11 +174,14 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
     """
     from ..C_PaymentCustomer import C_PaymentCustomer
     import anvil.server
-    # Pass current customer data to the form for pre-filling
+    # Pass current customer data (including tax info) to the form for pre-filling
     form = C_PaymentCustomer(
         prefill_email=self.company_email,
         prefill_company_name=self.company_name,
-        prefill_address=self.customer.get('address', {})
+        prefill_address=self.customer.get('address', {}),
+        prefill_tax_id=self.tax_id,
+        prefill_tax_country=self.tax_country,
+        prefill_b2b=True if self.tax_id else False
     )
     result = alert(
         content=form,
@@ -178,6 +191,60 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
         dismissible=True
     )
     if result == 'success':
+        # Collect updated values from the form
+        updated_name = form.company_name_box.text
+        # Always use the user's email for updates (never allow change)
+        import anvil.users
+        updated_email = anvil.users.get_user()['email']
+        updated_address = {
+            'line1': form.address_line1_box.text,
+            'line2': form.address_line2_box.text,
+            'city': form.city_box.text,
+            'state': form.state_box.text,
+            'postal_code': form.postal_code_box.text,
+            'country': form.country_box.selected_value
+        }
+        updated_tax_id = form.tax_id_box.text
+        updated_tax_country = form.tax_country_box.selected_value
+        b2b_checked = form.business_checkbox.checked
+        # Determine tax_id_type
+        tax_id_type_map = {
+            'GB': 'gb_vat',
+            'US': 'us_ein',
+            'CA': 'ca_bn',
+            'AU': 'au_abn',
+            'CH': 'ch_vat',
+            'NO': 'no_vat',
+            'IS': 'is_vat',
+            'LI': 'li_uid',
+            'IN': 'in_gst',
+            'JP': 'jp_cn',
+            'CN': 'cn_tin',
+            'BR': 'br_cnpj',
+            'MX': 'mx_rfc',
+            'SG': 'sg_gst',
+            'HK': 'hk_br',
+            'NZ': 'nz_gst',
+            'ZA': 'za_vat',
+        }
+        eu_countries = [
+            'AT', 'BE', 'BG', 'CY', 'CZ', 'DE', 'DK', 'EE', 'ES', 'FI', 'FR', 'GR', 'HR', 'HU', 'IE',
+            'IT', 'LT', 'LU', 'LV', 'MT', 'NL', 'PL', 'PT', 'RO', 'SE', 'SI', 'SK'
+        ]
+        if updated_tax_country in eu_countries:
+            tax_id_type = 'eu_vat'
+        else:
+            tax_id_type = tax_id_type_map.get(updated_tax_country, None)
+        # Call server function to update customer and tax info
+        anvil.server.call(
+            'update_stripe_customer_and_tax',
+            self.customer_id,
+            updated_name,
+            updated_email,
+            updated_address,
+            updated_tax_id,
+            tax_id_type
+        )
         # Re-fetch customer data and rerender summary
-        self.customer = anvil.server.call('get_stripe_customer', self.company_email)
+        self.customer = anvil.server.call('get_stripe_customer', updated_email)
         self.__init__(plan_type=self.plan_type, user_count=self.user_count, billing_period=self.billing_period)

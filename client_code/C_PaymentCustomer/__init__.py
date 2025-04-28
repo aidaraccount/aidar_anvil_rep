@@ -8,7 +8,7 @@ from anvil.tables import app_tables
 
 
 class C_PaymentCustomer(C_PaymentCustomerTemplate):
-  def __init__(self, prefill_email=None, prefill_company_name=None, prefill_address=None, **properties):
+  def __init__(self, prefill_email=None, prefill_company_name=None, prefill_address=None, prefill_tax_id=None, prefill_tax_country=None, prefill_b2b=None, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
 
@@ -66,15 +66,15 @@ class C_PaymentCustomer(C_PaymentCustomerTemplate):
             <div class="form-section">
                 <h3>Tax details</h3>
                 <div class="field-row inline-fields">
-                    <select id="tax-country" name="tax-country" placeholder="Country">
+                    <select id="tax-country" name="tax-country" placeholder="Country" value="{prefill_tax_country if prefill_tax_country else ''}">
                         <option value="">Tax/VAT country</option>
                         <option value="AU">Australia</option><option value="AT">Austria</option><option value="BE">Belgium</option><option value="BR">Brazil</option><option value="BG">Bulgaria</option><option value="CA">Canada</option><option value="CN">China</option><option value="HR">Croatia</option><option value="CY">Cyprus</option><option value="CZ">Czech Republic</option><option value="DK">Denmark</option><option value="EE">Estonia</option><option value="FI">Finland</option><option value="FR">France</option><option value="DE">Germany</option><option value="GR">Greece</option><option value="HK">Hong Kong</option><option value="HU">Hungary</option><option value="IS">Iceland</option><option value="IN">India</option><option value="IE">Ireland</option><option value="IT">Italy</option><option value="JP">Japan</option><option value="LI">Liechtenstein</option><option value="LT">Lithuania</option><option value="LU">Luxembourg</option><option value="LV">Latvia</option><option value="MT">Malta</option><option value="MX">Mexico</option><option value="NL">Netherlands</option><option value="NZ">New Zealand</option><option value="NO">Norway</option><option value="PL">Poland</option><option value="PT">Portugal</option><option value="RO">Romania</option><option value="SG">Singapore</option><option value="SK">Slovakia</option><option value="SI">Slovenia</option><option value="ZA">South Africa</option><option value="ES">Spain</option><option value="SE">Sweden</option><option value="CH">Switzerland</option><option value="GB">United Kingdom</option><option value="US">United States</option>
                     </select>
-                    <input id="tax-id" name="tax-id" type="text" maxlength="32" autocomplete="off" placeholder="Tax/VAT ID">
+                    <input id="tax-id" name="tax-id" type="text" maxlength="32" autocomplete="off" placeholder="Tax/VAT ID" value="{prefill_tax_id if prefill_tax_id else ''}">
                 </div>
                 <div id="vat-error" class="error-message" style="color:#FF5A36;margin-top:4px;"></div>
                 <div class="checkbox-container">
-                    <input type="checkbox" id="business-checkbox" name="business-checkbox">
+                    <input type="checkbox" id="business-checkbox" name="business-checkbox" {'checked' if prefill_b2b else ''}>
                     <label for="business-checkbox">I confirm to purchase as a business</label>
                 </div>
             </div>

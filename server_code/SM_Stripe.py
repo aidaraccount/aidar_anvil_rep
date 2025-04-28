@@ -77,6 +77,36 @@ def update_stripe_customer(customer_id: str, name: str = None, email: str = None
 
 
 @anvil.server.callable
+def update_stripe_customer_and_tax(customer_id: str, name: str = None, email: str = None, address: dict = None, tax_id: str = None, tax_id_type: str = None) -> dict:
+    """
+    Update an existing Stripe customer with new name, email, address, and tax info. Handles duplicate tax ID errors gracefully.
+    """
+    import stripe
+    stripe.api_key = anvil.secrets.get_secret("stripe_secret_key")
+    update_data = {}
+    if name:
+        update_data['name'] = name
+    if email:
+        update_data['email'] = email
+    if address:
+        update_data['address'] = address
+    customer = stripe.Customer.modify(customer_id, **update_data)
+    # Handle tax ID update
+    if tax_id and tax_id_type:
+        # Check for existing tax IDs
+        existing_tax_ids = stripe.Customer.list_tax_ids(customer_id)
+        already_exists = any((tid['type'] == tax_id_type and tid['value'] == tax_id) for tid in existing_tax_ids['data'])
+        if not already_exists:
+            try:
+                stripe.Customer.create_tax_id(customer_id, type=tax_id_type, value=tax_id)
+            except stripe.error.InvalidRequestError as e:
+                if 'already exists' not in str(e):
+                    raise
+    print(f"[Stripe] Updated customer (with tax): id={customer.id}, email={customer.email}, name={customer.name}, address={customer.address}")
+    return dict(customer)
+
+
+@anvil.server.callable
 def get_stripe_customer(email: str) -> dict:
     """
     Look for an existing Stripe customer with the provided email. If found, return the customer object as dict. If not found, return empty dict.
@@ -91,6 +121,7 @@ def get_stripe_customer(email: str) -> dict:
     print(f"[Stripe] No customer found for email={email}")
     return {}
 
+
 @anvil.server.callable
 def get_stripe_payment_methods(customer_id: str) -> list:
     """
@@ -102,6 +133,7 @@ def get_stripe_payment_methods(customer_id: str) -> list:
     payment_methods = stripe.PaymentMethod.list(customer=customer_id)
     print(f"[Stripe] Found {len(payment_methods.data)} payment methods for customer_id={customer_id}")
     return [dict(payment_method) for payment_method in payment_methods.data]
+
 
 @anvil.server.callable
 def attach_payment_method_to_customer(customer_id: str, payment_method_id: str) -> dict:
@@ -122,6 +154,7 @@ def attach_payment_method_to_customer(customer_id: str, payment_method_id: str) 
     )
     print(f"[Stripe] Updated customer default payment method: customer_id={customer.id}, default_payment_method={customer.invoice_settings.default_payment_method}")
     return dict(customer)
+
 
 @anvil.server.callable
 def create_stripe_subscription(customer_id: str, price_id: str, user_count: int = 1) -> dict:
@@ -146,6 +179,7 @@ def create_stripe_subscription(customer_id: str, price_id: str, user_count: int 
     subscription = stripe.Subscription.create(**subscription_args)
     print(f"[Stripe] Created subscription: id={subscription.id}, customer={subscription.customer}, status={subscription.status}, tax_rates={subscription.default_tax_rates}")
     return dict(subscription)
+
 
 @anvil.server.callable
 def add_stripe_customer_tax_id(customer_id: str, tax_id: str, tax_id_type: str = 'eu_vat') -> dict:
