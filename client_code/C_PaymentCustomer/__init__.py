@@ -209,12 +209,8 @@ class C_PaymentCustomer(C_PaymentCustomerTemplate):
             print(f"[STRIPE] Python: Found customer {customer['id']}, not creating new.")
         else:
             print(f"[STRIPE] Python: No customer found, creating new for email={email}")
-            customer = anvil.server.call('create_stripe_customer', {
-                'email': email,
-                'name': company_name,
-                'address': address,
-                'invoice_settings': {'email': invoice_email}
-            })
+            # Ensure parameters are passed as native Python dict, not as a string or Ruby-style hash
+            customer = anvil.server.call('create_stripe_customer', email, company_name, address, {'email': invoice_email})
         # If customer already exists, update invoice_settings if needed
         if customer and customer.get('id'):
             anvil.server.call('update_stripe_customer_invoice_settings', customer['id'], invoice_email)

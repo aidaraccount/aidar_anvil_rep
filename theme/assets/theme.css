@@ -1215,6 +1215,8 @@ div.row {
   border-radius: 15px;
   background-color: transparent;
   border-style: none;
+  -webkit-box-shadow: none;
+  box-shadow: none;
 }
 
 .modal-body:has(> .anvil-role-background-gradient-alerts) {
