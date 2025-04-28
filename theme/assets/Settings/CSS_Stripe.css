@@ -13,10 +13,6 @@
 }
 
 /* Add styling to center the form in Anvil's alert modal */
-.modal-body {
-    padding: 0;
-}
-
 #payment-form {
     display: flex;
     flex-direction: column;

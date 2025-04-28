@@ -213,6 +213,7 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
         # 3. attach payment method to customer
         updated_customer = anvil.server.call('attach_payment_method_to_customer', customer['id'], payment_method_id)
         print(f"[STRIPE] Python: Payment method attached. Updated customer: {updated_customer}")
+        self.raise_event("x-close-alert", value="success")
 
     except Exception as err:
         print(f"[STRIPE] Python ERROR: {err}")

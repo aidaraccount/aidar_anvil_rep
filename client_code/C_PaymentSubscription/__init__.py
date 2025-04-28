@@ -88,6 +88,7 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
       </div>
     </div>
     <script>
+      document.getElementById('cancel-btn').onclick = function() {{ anvil.call(this, 'cancel_btn_click'); }};
       document.getElementById('submit').onclick = function() {{ anvil.call(this, 'confirm_subscription_click'); }};
     </script>
     """
@@ -103,5 +104,15 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
     try:
       subscription = anvil.server.call('create_stripe_subscription', self.customer_id, self.price_id, self.user_count)
       alert(f"Subscription created! Status: {subscription.get('status')}", title="Success")
+      import anvil.js
+      anvil.js.window.location.replace("/#settings?section=Subscription")
+      self.raise_event("x-close-alert", value="success")
     except Exception as e:
       alert(f"Failed to create subscription: {e}", title="Error")
+
+  def cancel_btn_click(self, **event_args):
+    """
+    1. Handles the Cancel button click.
+    2. Closes the modal popup.
+    """
+    self.raise_event("x-close-alert")

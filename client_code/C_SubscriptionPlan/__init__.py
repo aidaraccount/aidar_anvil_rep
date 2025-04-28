@@ -225,6 +225,8 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
                 buttons=[],
                 dismissible=True
             )
+            if result != "success":
+                return
             # Re-fetch customer after modal closes
             customer = anvil.server.call('get_stripe_customer', user['email'])
             customer_id = customer['id'] if customer and customer.get('id') else None
@@ -243,6 +245,8 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
                 buttons=[],
                 dismissible=True
             )
+            if result != "success":
+                return
             # Re-fetch payment methods after modal closes
             payment_methods = anvil.server.call('get_stripe_payment_methods', customer_id)
             if not payment_methods:
