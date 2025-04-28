@@ -145,37 +145,8 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
     </div>
     """
 
-    # --- Section 5: JS <-> Python event bridge ---
-    # Register the JS-callable functions on window, just like in PaymentCustomer and PaymentInfos
-    anvil.js.window.edit_company_click = self.edit_company_click
-    anvil.js.window.cancel_btn_click = self.cancel_btn_click
-    anvil.js.window.confirm_subscription_click = self.confirm_subscription_click
-
-    # 4. Button handler for subscription confirmation
-    def confirm_subscription_click(self, **event_args):
-      if not self.customer_id:
-        alert('No Stripe customer found. Please add a payment method first.', title='Error')
-        return
-      if not self.price_id:
-        alert('No Stripe price selected. Please select a valid plan.', title='Error')
-        return
-      try:
-        subscription = anvil.server.call('create_stripe_subscription', self.customer_id, self.price_id, self.user_count)
-        alert(f"Subscription created! Status: {subscription.get('status')}", title="Success")
-        import anvil.js
-        anvil.js.window.location.replace("/#settings?section=Subscription")
-        self.raise_event("x-close-alert", value="success")
-      except Exception as e:
-        alert(f"Failed to create subscription: {e}", title="Error")
-
-    def cancel_btn_click(self, **event_args):
-      """
-      1. Handles the Cancel button click.
-      2. Closes the modal popup.
-      """
-      self.raise_event("x-close-alert")
-
-    def edit_company_click(self, **event_args):
+    # --- Section 5: Button handlers ---
+    def _edit_company_click(self):
       """
       1. Opens the C_PaymentCustomer pop-up with all customer fields pre-filled for editing.
       2. On save, updates the Stripe customer and reloads the subscription summary.
@@ -272,3 +243,41 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
                 self.default_payment_method = pm.get('id')
                 self.payment_method_summary = f"{brand.title()} **** **** **** {last4} (exp {exp_month}/{exp_year})"
         self.__init__(plan_type=self.plan_type, user_count=self.user_count, billing_period=self.billing_period)
+
+    def _cancel_btn_click(self):
+      """
+      1. Handles the Cancel button click.
+      2. Closes the modal popup.
+      """
+      self.raise_event("x-close-alert")
+
+    def _confirm_subscription_click(self):
+      """
+      1. Creates a Stripe subscription with the selected plan, price, and customer.
+      2. Redirects to the settings page on success.
+      """
+      if not self.customer_id:
+        alert('No Stripe customer found. Please add a payment method first.', title='Error')
+        return
+      if not self.price_id:
+        alert('No Stripe price selected. Please select a valid plan.', title='Error')
+        return
+      try:
+        subscription = anvil.server.call('create_stripe_subscription', self.customer_id, self.price_id, self.user_count)
+        alert(f"Subscription created! Status: {subscription.get('status')}", title="Success")
+        import anvil.js
+        anvil.js.window.location.replace("/#settings?section=Subscription")
+        self.raise_event("x-close-alert", value="success")
+      except Exception as e:
+        alert(f"Failed to create subscription: {e}", title="Error")
+
+    # --- Section 5: JS <-> Python event bridge ---
+    # Register the JS-callable functions on window, just like in PaymentCustomer and PaymentInfos
+    anvil.js.window.edit_company_click = self._edit_company_click.__get__(self, C_PaymentSubscription)
+    anvil.js.window.cancel_btn_click = self._cancel_btn_click.__get__(self, C_PaymentSubscription)
+    anvil.js.window.confirm_subscription_click = self._confirm_subscription_click.__get__(self, C_PaymentSubscription)
+
+    # Expose these methods as instance methods (for module compatibility)
+    self.edit_company_click = self._edit_company_click
+    self.cancel_btn_click = self._cancel_btn_click
+    self.confirm_subscription_click = self._confirm_subscription_click
