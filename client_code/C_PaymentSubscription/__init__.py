@@ -6,7 +6,8 @@ import anvil.users
 import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
-
+import anvil.js
+    
 
 class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
   def __init__(self, plan_type: str = None, user_count: int = None, billing_period: str = None, **properties):
@@ -146,8 +147,6 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
 
     # --- Section 5: JS <-> Python event bridge ---
     # Register the JS-callable functions on window, just like in PaymentCustomer and PaymentInfos
-    import anvil.js
-    import anvil  # Ensure 'anvil' is always imported at the top-level for use here
     anvil.js.window.edit_company_click = self.edit_company_click
     anvil.js.window.cancel_btn_click = self.cancel_btn_click
     anvil.js.window.confirm_subscription_click = self.confirm_subscription_click
