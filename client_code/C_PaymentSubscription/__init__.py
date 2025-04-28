@@ -99,6 +99,59 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
     if not hasattr(self, 'payment_method_summary'):
         self.payment_method_summary = "No payment method on file."
 
+    # Define JS-callable methods immediately
+    def _edit_company_click():
+      """Opens the C_PaymentCustomer pop-up with prefilled data."""
+      from ..C_PaymentCustomer import C_PaymentCustomer
+      form = C_PaymentCustomer(
+          prefill_email=self.company_email,
+          prefill_company_name=self.company_name,
+          prefill_address=self.customer.get('address', {}),
+          prefill_tax_id=self.tax_id,
+          prefill_tax_country=self.tax_country,
+          prefill_b2b=True if self.tax_id else False
+      )
+      result = alert(
+          content=form,
+          large=False,
+          width=500,
+          buttons=[],
+          dismissible=True
+      )
+      if result == 'success':
+          # Handle form result
+          self._handle_customer_form_result(form)
+    
+    def _cancel_btn_click():
+      """Closes the modal popup."""
+      self.raise_event("x-close-alert")
+    
+    def _confirm_subscription_click():
+      """Creates the subscription and redirects."""
+      if not self.customer_id:
+        alert('No Stripe customer found. Please add a payment method first.', title='Error')
+        return
+      if not self.price_id:
+        alert('No Stripe price selected. Please select a valid plan.', title='Error')
+        return
+      try:
+        subscription = anvil.server.call('create_stripe_subscription', self.customer_id, self.price_id, self.user_count)
+        alert(f"Subscription created! Status: {subscription.get('status')}", title="Success")
+        anvil.js.window.location.replace("/#settings?section=Subscription")
+        self.raise_event("x-close-alert", value="success")
+      except Exception as e:
+        alert(f"Failed to create subscription: {e}", title="Error")
+    
+    # Register JS-callable methods
+    anvil.js.window.edit_company_click = _edit_company_click
+    anvil.js.window.cancel_btn_click = _cancel_btn_click
+    anvil.js.window.confirm_subscription_click = _confirm_subscription_click
+    
+    # Instance methods for Python compatibility
+    self.edit_company_click = _edit_company_click
+    self.cancel_btn_click = _cancel_btn_click
+    self.confirm_subscription_click = _confirm_subscription_click
+
     # Render summary with edit icon
     self.html = f"""
     <div id='payment-form-container'>
@@ -145,139 +198,77 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
     </div>
     """
 
-    # --- Section 5: Button handlers ---
-    def _edit_company_click(self):
-      """
-      1. Opens the C_PaymentCustomer pop-up with all customer fields pre-filled for editing.
-      2. On save, updates the Stripe customer and reloads the subscription summary.
-      """
-      from ..C_PaymentCustomer import C_PaymentCustomer
-      import anvil.server
-      # Pass current customer data (including tax info) to the form for pre-filling
-      form = C_PaymentCustomer(
-          prefill_email=self.company_email,
-          prefill_company_name=self.company_name,
-          prefill_address=self.customer.get('address', {}),
-          prefill_tax_id=self.tax_id,
-          prefill_tax_country=self.tax_country,
-          prefill_b2b=True if self.tax_id else False
-      )
-      result = alert(
-          content=form,
-          large=False,
-          width=500,
-          buttons=[],
-          dismissible=True
-      )
-      if result == 'success':
-        # Collect updated values from the form
-        updated_name = form.company_name_box.text
-        import anvil.users
-        updated_email = anvil.users.get_user()['email']
-        updated_address = {
-            'line1': form.address_line1_box.text,
-            'line2': form.address_line2_box.text,
-            'city': form.city_box.text,
-            'state': form.state_box.text,
-            'postal_code': form.postal_code_box.text,
-            'country': form.country_box.selected_value
-        }
-        updated_tax_id = form.tax_id_box.text
-        updated_tax_country = form.tax_country_box.selected_value
-        b2b_checked = form.business_checkbox.checked
-        tax_id_type_map = {
-            'GB': 'gb_vat',
-            'US': 'us_ein',
-            'CA': 'ca_bn',
-            'AU': 'au_abn',
-            'CH': 'ch_vat',
-            'NO': 'no_vat',
-            'IS': 'is_vat',
-            'LI': 'li_uid',
-            'IN': 'in_gst',
-            'JP': 'jp_cn',
-            'CN': 'cn_tin',
-            'BR': 'br_cnpj',
-            'MX': 'mx_rfc',
-            'SG': 'sg_gst',
-            'HK': 'hk_br',
-            'NZ': 'nz_gst',
-            'ZA': 'za_vat',
-        }
-        eu_countries = [
-            'AT', 'BE', 'BG', 'CY', 'CZ', 'DE', 'DK', 'EE', 'ES', 'FI', 'FR', 'GR', 'HR', 'HU', 'IE',
-            'IT', 'LT', 'LU', 'LV', 'MT', 'NL', 'PL', 'PT', 'RO', 'SE', 'SI', 'SK'
-        ]
-        if updated_tax_country in eu_countries:
-            tax_id_type = 'eu_vat'
-        else:
-            tax_id_type = tax_id_type_map.get(updated_tax_country, None)
-        # Update customer info
+  def _handle_customer_form_result(self, form):
+    # Collect updated values from the form
+    updated_name = form.company_name_box.text
+    import anvil.users
+    updated_email = anvil.users.get_user()['email']
+    updated_address = {
+        'line1': form.address_line1_box.text,
+        'line2': form.address_line2_box.text,
+        'city': form.city_box.text,
+        'state': form.state_box.text,
+        'postal_code': form.postal_code_box.text,
+        'country': form.country_box.selected_value
+    }
+    updated_tax_id = form.tax_id_box.text
+    updated_tax_country = form.tax_country_box.selected_value
+    b2b_checked = form.business_checkbox.checked
+    tax_id_type_map = {
+        'GB': 'gb_vat',
+        'US': 'us_ein',
+        'CA': 'ca_bn',
+        'AU': 'au_abn',
+        'CH': 'ch_vat',
+        'NO': 'no_vat',
+        'IS': 'is_vat',
+        'LI': 'li_uid',
+        'IN': 'in_gst',
+        'JP': 'jp_cn',
+        'CN': 'cn_tin',
+        'BR': 'br_cnpj',
+        'MX': 'mx_rfc',
+        'SG': 'sg_gst',
+        'HK': 'hk_br',
+        'NZ': 'nz_gst',
+        'ZA': 'za_vat',
+    }
+    eu_countries = [
+        'AT', 'BE', 'BG', 'CY', 'CZ', 'DE', 'DK', 'EE', 'ES', 'FI', 'FR', 'GR', 'HR', 'HU', 'IE',
+        'IT', 'LT', 'LU', 'LV', 'MT', 'NL', 'PL', 'PT', 'RO', 'SE', 'SI', 'SK'
+    ]
+    if updated_tax_country in eu_countries:
+        tax_id_type = 'eu_vat'
+    else:
+        tax_id_type = tax_id_type_map.get(updated_tax_country, None)
+    # Update customer info
+    anvil.server.call(
+        'update_stripe_customer',
+        self.customer_id,
+        updated_name,
+        updated_email,
+        updated_address
+    )
+    # Update tax info if provided
+    if updated_tax_id and tax_id_type:
         anvil.server.call(
-            'update_stripe_customer',
+            'update_stripe_customer_tax_id',
             self.customer_id,
-            updated_name,
-            updated_email,
-            updated_address
+            updated_tax_id,
+            tax_id_type
         )
-        # Update tax info if provided
-        if updated_tax_id and tax_id_type:
-            anvil.server.call(
-                'update_stripe_customer_tax_id',
-                self.customer_id,
-                updated_tax_id,
-                tax_id_type
-            )
-        # Re-fetch customer data and rerender summary
-        self.customer = anvil.server.call('get_stripe_customer', updated_email)
-        self.payment_method_summary = "No payment method on file."
-        self.default_payment_method = None
-        if self.customer_id:
-            payment_methods = anvil.server.call('get_stripe_payment_methods', self.customer_id)
-            if payment_methods:
-                pm = payment_methods[0]
-                brand = pm.get('card', {}).get('brand', '')
-                last4 = pm.get('card', {}).get('last4', '')
-                exp_month = pm.get('card', {}).get('exp_month', '')
-                exp_year = pm.get('card', {}).get('exp_year', '')
-                self.default_payment_method = pm.get('id')
-                self.payment_method_summary = f"{brand.title()} **** **** **** {last4} (exp {exp_month}/{exp_year})"
-        self.__init__(plan_type=self.plan_type, user_count=self.user_count, billing_period=self.billing_period)
-
-    def _cancel_btn_click(self):
-      """
-      1. Handles the Cancel button click.
-      2. Closes the modal popup.
-      """
-      self.raise_event("x-close-alert")
-
-    def _confirm_subscription_click(self):
-      """
-      1. Creates a Stripe subscription with the selected plan, price, and customer.
-      2. Redirects to the settings page on success.
-      """
-      if not self.customer_id:
-        alert('No Stripe customer found. Please add a payment method first.', title='Error')
-        return
-      if not self.price_id:
-        alert('No Stripe price selected. Please select a valid plan.', title='Error')
-        return
-      try:
-        subscription = anvil.server.call('create_stripe_subscription', self.customer_id, self.price_id, self.user_count)
-        alert(f"Subscription created! Status: {subscription.get('status')}", title="Success")
-        import anvil.js
-        anvil.js.window.location.replace("/#settings?section=Subscription")
-        self.raise_event("x-close-alert", value="success")
-      except Exception as e:
-        alert(f"Failed to create subscription: {e}", title="Error")
-
-    # --- Section 5: JS <-> Python event bridge ---
-    # Register the JS-callable functions on window, just like in PaymentCustomer and PaymentInfos
-    anvil.js.window.edit_company_click = self._edit_company_click.__get__(self, C_PaymentSubscription)
-    anvil.js.window.cancel_btn_click = self._cancel_btn_click.__get__(self, C_PaymentSubscription)
-    anvil.js.window.confirm_subscription_click = self._confirm_subscription_click.__get__(self, C_PaymentSubscription)
-
-    # Expose these methods as instance methods (for module compatibility)
-    self.edit_company_click = self._edit_company_click
-    self.cancel_btn_click = self._cancel_btn_click
-    self.confirm_subscription_click = self._confirm_subscription_click
+    # Re-fetch customer data and rerender summary
+    self.customer = anvil.server.call('get_stripe_customer', updated_email)
+    self.payment_method_summary = "No payment method on file."
+    self.default_payment_method = None
+    if self.customer_id:
+        payment_methods = anvil.server.call('get_stripe_payment_methods', self.customer_id)
+        if payment_methods:
+            pm = payment_methods[0]
+            brand = pm.get('card', {}).get('brand', '')
+            last4 = pm.get('card', {}).get('last4', '')
+            exp_month = pm.get('card', {}).get('exp_month', '')
+            exp_year = pm.get('card', {}).get('exp_year', '')
+            self.default_payment_method = pm.get('id')
+            self.payment_method_summary = f"{brand.title()} **** **** **** {last4} (exp {exp_month}/{exp_year})"
+    self.__init__(plan_type=self.plan_type, user_count=self.user_count, billing_period=self.billing_period)
