@@ -47,16 +47,16 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
         <div class=\"payment-info-text\">Add your credit card details below. This card will be saved to your account and can be removed at any time.</div>
         <!-- 2.2 Custom payment form -->
         <form id=\"payment-form\">            
-            <!-- 2.2.1 Name on card field -->
-            <div class=\"form-section\">                
-                <h3>Name on card</h3>
-                <input id=\"name-on-card\" name=\"name-on-card\" type=\"text\" autocomplete=\"cc-name\" required placeholder=\"Name on card\" value=\"{customer_name}\">
-            </div>
-
-            <!-- 2.2.2 Card information section -->
+            <!-- 2.2.1 Card information section -->
             <div class=\"form-section\">                
                 <h3>Card information</h3>
                 <div id=\"card-element\"></div>
+            </div>
+
+            <!-- 2.2.2 Name on card field -->
+            <div class=\"form-section\">                
+                <h3>Name on card</h3>
+                <input id=\"name-on-card\" name=\"name-on-card\" type=\"text\" autocomplete=\"cc-name\" required placeholder=\"Name on card\" value=\"{customer_name}\">
             </div>
 
             <!-- 2.2.3 Error display and buttons -->
