@@ -8,7 +8,7 @@ from anvil.tables import app_tables
 
 
 class C_PaymentCustomer(C_PaymentCustomerTemplate):
-  def __init__(self, **properties):
+  def __init__(self, prefill_email=None, prefill_company_name=None, prefill_address=None, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
 
@@ -28,35 +28,35 @@ class C_PaymentCustomer(C_PaymentCustomerTemplate):
             <!-- Subscription email -->
             <div class="form-section">
                 <h3>Subscription email</h3>
-                <input id="email" name="email" type="email" autocomplete="email" required placeholder="Email" value="{user['email']}" readonly>
+                <input id="email" name="email" type="email" autocomplete="email" required placeholder="Email" value="{user['email'] if user['email'] else (prefill_email if prefill_email else '')}" readonly>
             </div>
             <!-- Company Name -->
             <div class="form-section">
                 <h3>Company name</h3>
-                <input id="company-name" name="company-name" type="text" required placeholder="Company name">
+                <input id="company-name" name="company-name" type="text" required placeholder="Company name" value="{prefill_company_name if prefill_company_name else ''}">
             </div>
             <!-- Billing address section -->
             <div class="form-section">
                 <h3>Billing address</h3>
                 <div class="field-row">
-                    <input id="address-line-1" name="address-line-1" type="text" placeholder="Address line 1">
+                    <input id="address-line-1" name="address-line-1" type="text" placeholder="Address line 1" value="{prefill_address.get('line1', '') if prefill_address else ''}">
                 </div>
                 <div class="field-row">
-                    <input id="address-line-2" name="address-line-2" type="text" placeholder="Address line 2">
+                    <input id="address-line-2" name="address-line-2" type="text" placeholder="Address line 2" value="{prefill_address.get('line2', '') if prefill_address else ''}">
                 </div>
                 <div class="two-column">
                     <div class="field-row">
-                        <input id="city" name="city" type="text" placeholder="City">
+                        <input id="city" name="city" type="text" placeholder="City" value="{prefill_address.get('city', '') if prefill_address else ''}">
                     </div>
                     <div class="field-row">
-                        <input id="postal-code" name="postal-code" type="text" placeholder="Postal code">
+                        <input id="postal-code" name="postal-code" type="text" placeholder="Postal code" value="{prefill_address.get('postal_code', '') if prefill_address else ''}">
                     </div>
                 </div>
                 <div class="field-row">
-                    <input id="state" name="state" type="text" placeholder="State, county, province, or region">
+                    <input id="state" name="state" type="text" placeholder="State, county, province, or region" value="{prefill_address.get('state', '') if prefill_address else ''}">
                 </div>    
                 <div class="field-row">
-                    <select id="country" name="country" placeholder="Country">
+                    <select id="country" name="country" placeholder="Country" value="{prefill_address.get('country', '') if prefill_address else ''}">
                         <option value="">Country</option>
                         <option value="AU">Australia</option><option value="AT">Austria</option><option value="BE">Belgium</option><option value="BR">Brazil</option><option value="BG">Bulgaria</option><option value="CA">Canada</option><option value="CN">China</option><option value="HR">Croatia</option><option value="CY">Cyprus</option><option value="CZ">Czech Republic</option><option value="DK">Denmark</option><option value="EE">Estonia</option><option value="FI">Finland</option><option value="FR">France</option><option value="DE">Germany</option><option value="GR">Greece</option><option value="HK">Hong Kong</option><option value="HU">Hungary</option><option value="IS">Iceland</option><option value="IN">India</option><option value="IE">Ireland</option><option value="IT">Italy</option><option value="JP">Japan</option><option value="LI">Liechtenstein</option><option value="LT">Lithuania</option><option value="LU">Luxembourg</option><option value="LV">Latvia</option><option value="MT">Malta</option><option value="MX">Mexico</option><option value="NL">Netherlands</option><option value="NZ">New Zealand</option><option value="NO">Norway</option><option value="PL">Poland</option><option value="PT">Portugal</option><option value="RO">Romania</option><option value="SG">Singapore</option><option value="SK">Slovakia</option><option value="SI">Slovenia</option><option value="ZA">South Africa</option><option value="ES">Spain</option><option value="SE">Sweden</option><option value="CH">Switzerland</option><option value="GB">United Kingdom</option><option value="US">United States</option>
                     </select>

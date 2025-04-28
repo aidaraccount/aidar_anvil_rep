@@ -56,6 +56,26 @@ def create_stripe_customer(email: str, name: str = None, address: dict = None) -
     print(f"[Stripe] Created customer: id={customer.id}, email={customer.email}, name={customer.name}, address={customer.address}")
     return dict(customer)
 
+
+@anvil.server.callable
+def update_stripe_customer(customer_id: str, name: str = None, email: str = None, address: dict = None) -> dict:
+    """
+    Update an existing Stripe customer with new name, email, and/or address.
+    """
+    import stripe
+    stripe.api_key = anvil.secrets.get_secret("stripe_secret_key")
+    update_data = {}
+    if name:
+        update_data['name'] = name
+    if email:
+        update_data['email'] = email
+    if address:
+        update_data['address'] = address
+    customer = stripe.Customer.modify(customer_id, **update_data)
+    print(f"[Stripe] Updated customer: id={customer.id}, email={customer.email}, name={customer.name}, address={customer.address}")
+    return dict(customer)
+
+
 @anvil.server.callable
 def get_stripe_customer(email: str) -> dict:
     """

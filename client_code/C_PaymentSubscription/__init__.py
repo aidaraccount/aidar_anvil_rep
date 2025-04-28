@@ -45,6 +45,32 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
         self.customer = dict(self.customer)
     self.customer_id = self.customer.get('id') if self.customer else None
 
+    # Fetch and structure company/customer details for summary
+    company_name = self.customer.get('name', '')
+    email = self.customer.get('email', '')
+    address = self.customer.get('address', {})
+    address_lines = []
+    if address:
+        line1 = address.get('line1', '')
+        line2 = address.get('line2', '')
+        city = address.get('city', '')
+        state = address.get('state', '')
+        postal_code = address.get('postal_code', '')
+        country = address.get('country', '')
+        if line1:
+            address_lines.append(line1)
+        if line2:
+            address_lines.append(line2)
+        address_lines.append(f"{postal_code} {city}")
+        if state:
+            address_lines.append(state)
+        if country:
+            address_lines.append(country)
+    address_str = ", ".join([x for x in address_lines if x and x.strip()])
+    self.company_name = company_name
+    self.company_email = email
+    self.company_address = address_str
+
     # 2. Get default payment method summary (if any)
     self.payment_method_summary = "No payment method on file."
     self.default_payment_method = None
@@ -59,12 +85,29 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
             self.default_payment_method = pm.get('id')
             self.payment_method_summary = f"{brand.title()} **** **** **** {last4} (exp {exp_month}/{exp_year})"
 
-    # 3. Display the selected plan and payment details
+    # Render summary with edit icon
     self.html = f"""
     <div id='payment-form-container'>
       <h2>Subscription Details</h2>
-      <div class='payment-info-text'>Please review your subscription details before proceeding.</div>
+      <div class='payment-info-text'>Please review your subscription details before confirming.</div>
       <form id='subscription-summary-form'>
+        
+        <!-- Company Profile Summary -->
+        <div class='form-section'>
+          <h3 style='display:inline;'>Company Details</h3>
+          <span id='edit-company' style='cursor:pointer;margin-left:8px;' title='Edit'>✏️</span>
+          <div class='field-row'><b>Email:</b> {self.company_email}</div>
+          <div class='field-row'><b>Name:</b> {self.company_name}</div>
+          <div class='field-row'><b>Address:</b> {self.company_address}</div>
+        </div>
+        
+        <!-- Payment Method Summary -->
+        <div class='form-section'>
+          <h3>Payment Method</h3>
+          <div class='field-row'>{self.payment_method_summary}</div>
+        </div>
+        
+        <!-- Plan Summary -->
         <div class='form-section'>
           <h3>Plan</h3>
           <div class='field-row'>{self.plan_type}</div>
@@ -77,20 +120,17 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
           <h3>Billing period</h3>
           <div class='field-row'>{self.billing_period}</div>
         </div>
-        <div class='form-section'>
-          <h3>Default payment method</h3>
-          <div class='field-row'>{self.payment_method_summary}</div>
-        </div>
       </form>
       <div class="button-row">
         <button type="button" id="cancel-btn">Cancel</button>
         <button id="submit" type="submit">Confirm Subscription</button>
       </div>
+      <script>
+        document.getElementById('edit-company').onclick = function() {{ anvil.call(this, 'edit_company_click'); }};
+        document.getElementById('cancel-btn').onclick = function() {{ anvil.call(this, 'cancel_btn_click'); }};
+        document.getElementById('submit').onclick = function() {{ anvil.call(this, 'confirm_subscription_click'); }};
+      </script>
     </div>
-    <script>
-      document.getElementById('cancel-btn').onclick = function() {{ anvil.call(this, 'cancel_btn_click'); }};
-      document.getElementById('submit').onclick = function() {{ anvil.call(this, 'confirm_subscription_click'); }};
-    </script>
     """
 
   # 4. Button handler for subscription confirmation
@@ -116,3 +156,28 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
     2. Closes the modal popup.
     """
     self.raise_event("x-close-alert")
+
+  def edit_company_click(self, **event_args):
+    """
+    1. Opens the C_PaymentCustomer pop-up with all customer fields pre-filled for editing.
+    2. On save, updates the Stripe customer and reloads the subscription summary.
+    """
+    from ..C_PaymentCustomer import C_PaymentCustomer
+    import anvil.server
+    # Pass current customer data to the form for pre-filling
+    form = C_PaymentCustomer(
+        prefill_email=self.company_email,
+        prefill_company_name=self.company_name,
+        prefill_address=self.customer.get('address', {})
+    )
+    result = alert(
+        content=form,
+        large=False,
+        width=500,
+        buttons=[],
+        dismissible=True
+    )
+    if result == 'success':
+        # Re-fetch customer data and rerender summary
+        self.customer = anvil.server.call('get_stripe_customer', self.company_email)
+        self.__init__(plan_type=self.plan_type, user_count=self.user_count, billing_period=self.billing_period)
