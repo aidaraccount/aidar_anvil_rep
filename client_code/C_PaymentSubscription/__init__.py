@@ -144,12 +144,12 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
     </div>
     """
 
-    # --- Section 5: Anvil event bindings ---
-    # Ensure all event handlers are bound to the instance
-    # This is critical for Anvil to expose methods to JS (for use in self.html script)
-    self.edit_company_click = self.edit_company_click.__get__(self)
-    self.cancel_btn_click = self.cancel_btn_click.__get__(self)
-    self.confirm_subscription_click = self.confirm_subscription_click.__get__(self)
+    # --- Section 5: JS <-> Python event bridge ---
+    # Register the JS-callable functions on window, just like in PaymentCustomer and PaymentInfos
+    import anvil.js
+    anvil.js.window.edit_company_click = self.edit_company_click
+    anvil.js.window.cancel_btn_click = self.cancel_btn_click
+    anvil.js.window.confirm_subscription_click = self.confirm_subscription_click
 
     # 4. Button handler for subscription confirmation
     def confirm_subscription_click(self, **event_args):
