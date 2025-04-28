@@ -202,6 +202,35 @@
 }
 
 /* 1.2. Plan Action Buttons */
+.anvil-role-cta-button .btn {
+    background: var(--Orange);
+    color: var(--White);
+    border-radius: 30px;
+    font-family: 'GeneralSans-Medium', Arial, sans-serif;
+    font-size: 1.7rem;
+    width: 100%;
+    margin: 24px auto 0 auto;
+    padding: 12px 0;
+    border: none;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+
+.anvil-role-cta-button .btn:hover {
+    background: var(--Accent_1);
+    color: var(--White);
+}
+
+.anvil-role-cta-button .btn:disabled {
+    background: #ccc;
+    color: #fff;
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
 .cta-button {
     display: block;
     width: 100%;
