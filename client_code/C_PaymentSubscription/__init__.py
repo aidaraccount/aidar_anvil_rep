@@ -138,9 +138,9 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
         <button id="submit" type="submit">Book Subscription now</button>
       </div>
       <script>
-        document.getElementById('edit-company').onclick = function() {{ anvil.call(this, 'edit_company_click'); }};
-        document.getElementById('cancel-btn').onclick = function() {{ anvil.call(this, 'cancel_btn_click'); }};
-        document.getElementById('submit').onclick = function() {{ anvil.call(this, 'confirm_subscription_click'); }};
+        document.getElementById('edit-company').onclick = function() {{ window.edit_company_click(); }};
+        document.getElementById('cancel-btn').onclick = function() {{ window.cancel_btn_click(); }};
+        document.getElementById('submit').onclick = function() {{ window.confirm_subscription_click(); }};
       </script>
     </div>
     """
