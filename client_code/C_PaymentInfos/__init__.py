@@ -113,7 +113,6 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
     // 6. Form validation logic
     function validateForm() {{
         var nameComplete = nameInput.value.trim().length > 0;
-        // Use Stripe's cardElement.complete property directly
         var cardComplete = false;
         if (cardElement && typeof cardElement._complete !== 'undefined') {{
             cardComplete = cardElement._complete;
@@ -143,6 +142,7 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
         validateForm();
     }});
     cardElement._complete = false;
+    form.addEventListener('input', validateForm);
     validateForm();
 
     // 7. Form submission handler
@@ -209,7 +209,6 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
         # 3. attach payment method to customer
         updated_customer = anvil.server.call('attach_payment_method_to_customer', customer['id'], payment_method_id)
         print(f"[STRIPE] Python: Payment method attached. Updated customer: {updated_customer}")
-        alert('Payment method saved and attached to customer!')
 
     except Exception as err:
         print(f"[STRIPE] Python ERROR: {err}")
