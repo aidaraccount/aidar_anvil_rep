@@ -80,13 +80,30 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
     self.tax_id = tax_id
     self.tax_country = tax_country
 
+    # 2. Get default payment method summary (if any)
+    self.payment_method_summary = "No payment method on file."
+    self.default_payment_method = None
+    if self.customer_id:
+        payment_methods = anvil.server.call('get_stripe_payment_methods', self.customer_id)
+        if payment_methods:
+            pm = payment_methods[0]  # Assume first is default for simplicity
+            brand = pm.get('card', {}).get('brand', '')
+            last4 = pm.get('card', {}).get('last4', '')
+            exp_month = pm.get('card', {}).get('exp_month', '')
+            exp_year = pm.get('card', {}).get('exp_year', '')
+            self.default_payment_method = pm.get('id')
+            self.payment_method_summary = f"{brand.title()} **** **** **** {last4} (exp {exp_month}/{exp_year})"
+
+    # Ensure payment_method_summary is always set before HTML rendering
+    if not hasattr(self, 'payment_method_summary'):
+        self.payment_method_summary = "No payment method on file."
+
     # Render summary with edit icon
     self.html = f"""
     <div id='payment-form-container'>
       <h2>Confirm Subscription</h2>
       <div class='payment-info-text'>Please review your subscription details before confirming.</div>
       <form id='subscription-summary-form'>
-        
         <!-- Company Profile Summary -->
         <div class='form-section'>
           <h3 style='display:inline;'>Company Details</h3>
@@ -96,13 +113,11 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
           <div class='field-row'><b>Address:</b> {self.company_address}</div>
           <div class='field-row'><b>Tax:</b> {self.tax_country} {self.tax_id}</div>
         </div>
-        
         <!-- Payment Method Summary -->
         <div class='form-section'>
           <h3>Payment Method</h3>
           <div class='field-row'>{self.payment_method_summary}</div>
         </div>
-        
         <!-- Plan Summary -->
         <div class='form-section'>
           <h3>Plan</h3>
@@ -129,68 +144,54 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
     </div>
     """
 
-    # 2. Get default payment method summary (if any)
-    self.payment_method_summary = "No payment method on file."
-    self.default_payment_method = None
-    if self.customer_id:
-        payment_methods = anvil.server.call('get_stripe_payment_methods', self.customer_id)
-        if payment_methods:
-            pm = payment_methods[0]  # Assume first is default for simplicity
-            brand = pm.get('card', {}).get('brand', '')
-            last4 = pm.get('card', {}).get('last4', '')
-            exp_month = pm.get('card', {}).get('exp_month', '')
-            exp_year = pm.get('card', {}).get('exp_year', '')
-            self.default_payment_method = pm.get('id')
-            self.payment_method_summary = f"{brand.title()} **** **** **** {last4} (exp {exp_month}/{exp_year})"
+    # 4. Button handler for subscription confirmation
+    def confirm_subscription_click(self, **event_args):
+      if not self.customer_id:
+        alert('No Stripe customer found. Please add a payment method first.', title='Error')
+        return
+      if not self.price_id:
+        alert('No Stripe price selected. Please select a valid plan.', title='Error')
+        return
+      try:
+        subscription = anvil.server.call('create_stripe_subscription', self.customer_id, self.price_id, self.user_count)
+        alert(f"Subscription created! Status: {subscription.get('status')}", title="Success")
+        import anvil.js
+        anvil.js.window.location.replace("/#settings?section=Subscription")
+        self.raise_event("x-close-alert", value="success")
+      except Exception as e:
+        alert(f"Failed to create subscription: {e}", title="Error")
 
-  # 4. Button handler for subscription confirmation
-  def confirm_subscription_click(self, **event_args):
-    if not self.customer_id:
-      alert('No Stripe customer found. Please add a payment method first.', title='Error')
-      return
-    if not self.price_id:
-      alert('No Stripe price selected. Please select a valid plan.', title='Error')
-      return
-    try:
-      subscription = anvil.server.call('create_stripe_subscription', self.customer_id, self.price_id, self.user_count)
-      alert(f"Subscription created! Status: {subscription.get('status')}", title="Success")
-      import anvil.js
-      anvil.js.window.location.replace("/#settings?section=Subscription")
-      self.raise_event("x-close-alert", value="success")
-    except Exception as e:
-      alert(f"Failed to create subscription: {e}", title="Error")
+    def cancel_btn_click(self, **event_args):
+      """
+      1. Handles the Cancel button click.
+      2. Closes the modal popup.
+      """
+      self.raise_event("x-close-alert")
 
-  def cancel_btn_click(self, **event_args):
-    """
-    1. Handles the Cancel button click.
-    2. Closes the modal popup.
-    """
-    self.raise_event("x-close-alert")
-
-  def edit_company_click(self, **event_args):
-    """
-    1. Opens the C_PaymentCustomer pop-up with all customer fields pre-filled for editing.
-    2. On save, updates the Stripe customer and reloads the subscription summary.
-    """
-    from ..C_PaymentCustomer import C_PaymentCustomer
-    import anvil.server
-    # Pass current customer data (including tax info) to the form for pre-filling
-    form = C_PaymentCustomer(
-        prefill_email=self.company_email,
-        prefill_company_name=self.company_name,
-        prefill_address=self.customer.get('address', {}),
-        prefill_tax_id=self.tax_id,
-        prefill_tax_country=self.tax_country,
-        prefill_b2b=True if self.tax_id else False
-    )
-    result = alert(
-        content=form,
-        large=False,
-        width=500,
-        buttons=[],
-        dismissible=True
-    )
-    if result == 'success':
+    def edit_company_click(self, **event_args):
+      """
+      1. Opens the C_PaymentCustomer pop-up with all customer fields pre-filled for editing.
+      2. On save, updates the Stripe customer and reloads the subscription summary.
+      """
+      from ..C_PaymentCustomer import C_PaymentCustomer
+      import anvil.server
+      # Pass current customer data (including tax info) to the form for pre-filling
+      form = C_PaymentCustomer(
+          prefill_email=self.company_email,
+          prefill_company_name=self.company_name,
+          prefill_address=self.customer.get('address', {}),
+          prefill_tax_id=self.tax_id,
+          prefill_tax_country=self.tax_country,
+          prefill_b2b=True if self.tax_id else False
+      )
+      result = alert(
+          content=form,
+          large=False,
+          width=500,
+          buttons=[],
+          dismissible=True
+      )
+      if result == 'success':
         # Collect updated values from the form
         updated_name = form.company_name_box.text
         import anvil.users
