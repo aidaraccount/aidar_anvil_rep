@@ -84,7 +84,7 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
       </form>
       <div class="button-row">
         <button type="button" id="cancel-btn">Cancel</button>
-        <button id="submit" type="submit">Save payment details</button>
+        <button id="submit" type="submit">Confirm Subscription</button>
       </div>
     </div>
     <script>

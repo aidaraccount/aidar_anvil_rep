@@ -1213,6 +1213,8 @@ div.row {
 
 .modal-content {
   border-radius: 15px;
+  background-color: transparent;
+  border-style: none;
 }
 
 .modal-body:has(> .anvil-role-background-gradient-alerts) {
