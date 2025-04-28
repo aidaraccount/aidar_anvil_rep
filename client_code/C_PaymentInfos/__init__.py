@@ -141,6 +141,10 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
         cardElement._complete = event.complete;
         validateForm();
     }});
+    // Ensure validation after leaving card field (e.g. after CVC entry)
+    cardElement.on('blur', function(event) {{
+        validateForm();
+    }});
     cardElement._complete = false;
     form.addEventListener('input', validateForm);
     validateForm();
