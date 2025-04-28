@@ -62,11 +62,6 @@ class C_PaymentCustomer(C_PaymentCustomerTemplate):
                     </select>
                 </div>
             </div>
-            <!-- Invoice Email -->
-            <div class="form-section">
-                <h3>Invoice email</h3>
-                <input id="invoice-email" name="invoice-email" type="email" autocomplete="email" required placeholder="Invoice email" value="{user['email']}">
-            </div>
             <!-- Tax details section -->
             <div class="form-section">
                 <h3>Tax details</h3>
@@ -101,7 +96,6 @@ class C_PaymentCustomer(C_PaymentCustomerTemplate):
     var stateInput = document.getElementById('state');
     var postalCodeInput = document.getElementById('postal-code');
     var countryInput = document.getElementById('country');
-    var invoiceEmailInput = document.getElementById('invoice-email');
     var taxIdInput = document.getElementById('tax-id');
     var taxCountryInput = document.getElementById('tax-country');
     var businessCheckbox = document.getElementById('business-checkbox');
@@ -173,7 +167,6 @@ class C_PaymentCustomer(C_PaymentCustomerTemplate):
         var taxId = taxIdInput.value.trim();
         var taxCountry = taxCountryInput.value;
         var business = businessCheckbox.checked;
-        var invoiceEmail = invoiceEmailInput.value;
         vatError.textContent = '';
         if (!(business && taxId.length > 3 && taxCountry.length === 2)) {{
             vatError.textContent = 'Please enter a valid VAT/Tax ID and country, and tick the business checkbox.';
@@ -183,7 +176,7 @@ class C_PaymentCustomer(C_PaymentCustomerTemplate):
         submitBtn.disabled = true;
         // Call Python handler
         if (typeof window.customer_ready === 'function') {{
-            window.customer_ready(companyName, email, address, taxId, taxCountry, invoiceEmail);
+            window.customer_ready(companyName, email, address, taxId, taxCountry);
         }} else {{
             document.getElementById('form-errors').textContent = 'Internal error: callback not found.';
         }}
@@ -198,7 +191,7 @@ class C_PaymentCustomer(C_PaymentCustomerTemplate):
     
     self._close_on_success = True
 
-  def _customer_ready(self, company_name: str, email: str, address: dict, tax_id: str, tax_country: str, invoice_email: str):
+  def _customer_ready(self, company_name: str, email: str, address: dict, tax_id: str, tax_country: str):
     """
     Called from JS after successful form submit. Handles server calls from Python.
     """
@@ -209,11 +202,7 @@ class C_PaymentCustomer(C_PaymentCustomerTemplate):
             print(f"[STRIPE] Python: Found customer {customer['id']}, not creating new.")
         else:
             print(f"[STRIPE] Python: No customer found, creating new for email={email}")
-            # Ensure parameters are passed as native Python dict, not as a string or Ruby-style hash
-            customer = anvil.server.call('create_stripe_customer', email, company_name, address, {'email': invoice_email})
-        # If customer already exists, update invoice_settings if needed
-        if customer and customer.get('id'):
-            anvil.server.call('update_stripe_customer_invoice_settings', customer['id'], invoice_email)
+            customer = anvil.server.call('create_stripe_customer', email, company_name, address)
         # c) add customer tax id
         eu_countries = [
             'AT', 'BE', 'BG', 'CY', 'CZ', 'DE', 'DK', 'EE', 'ES', 'FI', 'FR', 'GR', 'HR', 'HU', 'IE',
