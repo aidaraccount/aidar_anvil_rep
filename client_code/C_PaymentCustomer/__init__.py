@@ -25,10 +25,10 @@ class C_PaymentCustomer(C_PaymentCustomerTemplate):
         <div class="payment-info-text">The provided email is also used as the billing email address.</div>
         <!-- 1.2 Custom company profile form -->
         <form id="payment-form">
-            <!-- Company email -->
+            <!-- Subscription email -->
             <div class="form-section">
-                <h3>Company email</h3>
-                <input id="email" name="email" type="email" autocomplete="email" required placeholder="Email" value="{user['email']}">
+                <h3>Subscription email</h3>
+                <input id="email" name="email" type="email" autocomplete="email" required placeholder="Email" value="{user['email']}" readonly>
             </div>
             <!-- Company Name -->
             <div class="form-section">
@@ -62,6 +62,11 @@ class C_PaymentCustomer(C_PaymentCustomerTemplate):
                     </select>
                 </div>
             </div>
+            <!-- Invoice Email -->
+            <div class="form-section">
+                <h3>Invoice email</h3>
+                <input id="invoice-email" name="invoice-email" type="email" autocomplete="email" required placeholder="Invoice email" value="{user['email']}">
+            </div>
             <!-- Tax details section -->
             <div class="form-section">
                 <h3>Tax details</h3>
@@ -86,6 +91,7 @@ class C_PaymentCustomer(C_PaymentCustomerTemplate):
         </form>
     </div>
     <script>
+    
     // 1. Setup input references
     var companyNameInput = document.getElementById('company-name');
     var emailInput = document.getElementById('email');
@@ -95,11 +101,13 @@ class C_PaymentCustomer(C_PaymentCustomerTemplate):
     var stateInput = document.getElementById('state');
     var postalCodeInput = document.getElementById('postal-code');
     var countryInput = document.getElementById('country');
+    var invoiceEmailInput = document.getElementById('invoice-email');
     var taxIdInput = document.getElementById('tax-id');
     var taxCountryInput = document.getElementById('tax-country');
     var businessCheckbox = document.getElementById('business-checkbox');
     var submitBtn = document.getElementById('submit');
     var vatError = document.getElementById('vat-error');
+    
     // 2. VAT prefix mapping
     var vatPrefixes = {{
         'AT': 'ATU', 'BE': 'BE', 'BG': 'BG', 'CY': 'CY', 'CZ': 'CZ', 'DE': 'DE', 'DK': 'DK', 'EE': 'EE',
@@ -109,6 +117,7 @@ class C_PaymentCustomer(C_PaymentCustomerTemplate):
         'LT': 'LT', 'LU': 'LU', 'MT': 'MT', 'NL': 'NL', 'PL': 'PL', 'PT': 'PT', 'RO': 'RO', 'SE': 'SE',
         'SI': 'SI', 'SK': 'SK', 'XI': 'XI'
     }};
+    
     // 3. Auto-prefix VAT ID on country change
     taxCountryInput.addEventListener('change', function() {{
         var country = taxCountryInput.value;
@@ -119,6 +128,7 @@ class C_PaymentCustomer(C_PaymentCustomerTemplate):
             }}
         }}
     }});
+    
     // 4. Form validation
     function validateForm() {{
         var companyNameComplete = companyNameInput.value.trim().length > 0;
@@ -163,6 +173,7 @@ class C_PaymentCustomer(C_PaymentCustomerTemplate):
         var taxId = taxIdInput.value.trim();
         var taxCountry = taxCountryInput.value;
         var business = businessCheckbox.checked;
+        var invoiceEmail = invoiceEmailInput.value;
         vatError.textContent = '';
         if (!(business && taxId.length > 3 && taxCountry.length === 2)) {{
             vatError.textContent = 'Please enter a valid VAT/Tax ID and country, and tick the business checkbox.';
@@ -172,7 +183,7 @@ class C_PaymentCustomer(C_PaymentCustomerTemplate):
         submitBtn.disabled = true;
         // Call Python handler
         if (typeof window.customer_ready === 'function') {{
-            window.customer_ready(companyName, email, address, taxId, taxCountry);
+            window.customer_ready(companyName, email, address, taxId, taxCountry, invoiceEmail);
         }} else {{
             document.getElementById('form-errors').textContent = 'Internal error: callback not found.';
         }}
@@ -187,8 +198,10 @@ class C_PaymentCustomer(C_PaymentCustomerTemplate):
     
     self._close_on_success = True
 
-  def _customer_ready(self, company_name: str, email: str, address: dict, tax_id: str, tax_country: str):
-    """Called from JS after successful form submit. Handles server calls from Python."""
+  def _customer_ready(self, company_name: str, email: str, address: dict, tax_id: str, tax_country: str, invoice_email: str):
+    """
+    Called from JS after successful form submit. Handles server calls from Python.
+    """
     try:
         print(f"[STRIPE] Python: Looking up Stripe customer for email={email}")
         customer = anvil.server.call('get_stripe_customer', email)
@@ -196,7 +209,15 @@ class C_PaymentCustomer(C_PaymentCustomerTemplate):
             print(f"[STRIPE] Python: Found customer {customer['id']}, not creating new.")
         else:
             print(f"[STRIPE] Python: No customer found, creating new for email={email}")
-            customer = anvil.server.call('create_stripe_customer', email, company_name, address)
+            customer = anvil.server.call('create_stripe_customer', {
+                'email': email,
+                'name': company_name,
+                'address': address,
+                'invoice_settings': {'email': invoice_email}
+            })
+        # If customer already exists, update invoice_settings if needed
+        if customer and customer.get('id'):
+            anvil.server.call('update_stripe_customer_invoice_settings', customer['id'], invoice_email)
         # c) add customer tax id
         eu_countries = [
             'AT', 'BE', 'BG', 'CY', 'CZ', 'DE', 'DK', 'EE', 'ES', 'FI', 'FR', 'GR', 'HR', 'HU', 'IE',

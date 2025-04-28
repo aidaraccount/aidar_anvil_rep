@@ -27,9 +27,9 @@ def create_setup_intent():
 
 
 @anvil.server.callable
-def create_stripe_customer(email: str, name: str = None, address: dict = None) -> dict:
+def create_stripe_customer(email: str, name: str = None, address: dict = None, invoice_settings: dict = None) -> dict:
     """
-    1. Create a new Stripe customer using the provided email, name, and address.
+    1. Create a new Stripe customer using the provided email, name, address, and invoice_settings.
     2. Print and return the customer object (as dict).
     """
     import stripe
@@ -39,6 +39,8 @@ def create_stripe_customer(email: str, name: str = None, address: dict = None) -
         customer_data["name"] = name
     if address:
         customer_data["address"] = address
+    if invoice_settings:
+        customer_data["invoice_settings"] = invoice_settings
     customer = stripe.Customer.create(**customer_data)
     # Set invoice footer for EU customers
     EU_COUNTRIES = {
@@ -53,7 +55,7 @@ def create_stripe_customer(email: str, name: str = None, address: dict = None) -
                 "footer": "Reverse charge: VAT to be accounted for by the recipient according to EU Directive 2006/112/EC."
             }
         )
-    print(f"[Stripe] Created customer: id={customer.id}, email={customer.email}, name={customer.name}, address={customer.address}")
+    print(f"[Stripe] Created customer: id={customer.id}, email={customer.email}, name={customer.name}, address={customer.address}, invoice_settings={customer.invoice_settings}")
     return dict(customer)
 
 @anvil.server.callable
