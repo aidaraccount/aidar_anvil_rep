@@ -32,7 +32,20 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
     state = customer_address.get('state', '')
     country = customer_address.get('country', '')
 
-    # create html
+    # Add Cancel button handler for alert dialog
+    def _cancel_btn_click():
+        self.raise_event('x-close-alert')
+    self.cancel_btn_click = _cancel_btn_click
+
+    # Attach JS handler for Cancel button if present
+    js = '''
+    <script>
+    var cancelBtn = document.getElementById('cancel-btn');
+    if (cancelBtn) {
+      cancelBtn.onclick = function() { window.cancel_btn_click && window.cancel_btn_click(); };
+    }
+    </script>
+    '''
     self.html = f"""
     <script>
     window.stripe_setup_intent_client_secret = '{client_secret}';
@@ -188,23 +201,7 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
     // 8. Cancel button closes the modal
     document.getElementById('cancel-btn').onclick = function() {{ window.close_alert(); }};
     </script>
-    """
-
-    # Add Cancel button handler for alert dialog
-    def _cancel_btn_click():
-        self.raise_event('x-close-alert')
-    self.cancel_btn_click = _cancel_btn_click
-
-    # Attach JS handler for Cancel button if present
-    js = '''
-    <script>
-    var cancelBtn = document.getElementById('cancel-btn');
-    if (cancelBtn) {
-      cancelBtn.onclick = function() { window.cancel_btn_click && window.cancel_btn_click(); };
-    }
-    </script>
-    '''
-    self.html += js
+    """ + js
 
     # Register the payment_method_ready and close_alert functions on window for JS to call
     import anvil.js

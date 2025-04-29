@@ -1,3 +1,4 @@
+import anvil
 from ._anvil_designer import C_PaymentSubscriptionTemplate
 from anvil import *
 import anvil.server
@@ -31,6 +32,9 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
     self.tax_country = customer_info.get('tax_country', '')
     self.tax_id = customer_info.get('tax_id', '')
     self.tax_id_type = customer_info.get('tax_id_type', '')
+    self.company_email = customer_info.get('email', user['email'])
+    self.company_name = customer_info.get('name', '')
+    self.company_address = self._format_address(customer_info.get('address', {}))
 
     # Get the Stripe Price ID based on plan type and billing period
     self.price_id = None
@@ -236,7 +240,7 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
           <div class='field-row'><b>Plan:</b> {self.plan_type}</div>
           <div class='field-row'><b>User count:</b> {self.user_count}</div>
           <div class='field-row'><b>Billing period:</b> {self.billing_period}</div>
-          <div class='field-row'><b>Price:</b> €{self.price} per user and month</div>
+          <div class='field-row'><b>Price:</b> {self.price}</div>
         </div>
       </form>
       
@@ -245,10 +249,10 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
         <button id="submit" type="submit">Book Subscription now ({self.price})</button>
       </div>
       <script>
-        document.getElementById('edit-company').onclick = function() {{ window.edit_company_click(); }};
-        document.getElementById('edit-payment').onclick = function() {{ window.edit_payment_click(); }};
+        document.getElementById('edit-company').onclick = function() {{ window.edit_company_click && window.edit_company_click(); }};
+        document.getElementById('edit-payment').onclick = function() {{ window.edit_payment_click && window.edit_payment_click(); }};
         document.getElementById('cancel-btn').onclick = function() {{ window.cancel_btn_click && window.cancel_btn_click(); }};
-        document.getElementById('submit').onclick = function() {{ window.confirm_subscription_click(); }};
+        document.getElementById('submit').onclick = function() {{ window.confirm_subscription_click && window.confirm_subscription_click(); }};
       </script>
     </div>
     """
@@ -293,3 +297,17 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
         )
     # Re-fetch customer data and rerender summary by reinitializing
     self.__init__(plan_type=self.plan_type, user_count=self.user_count, billing_period=self.billing_period)
+
+  def _format_address(self, address: dict) -> str:
+    """Format address dict as string for display."""
+    if not address:
+        return ""
+    parts = [
+        address.get('line1', ''),
+        address.get('line2', ''),
+        address.get('city', ''),
+        address.get('state', ''),
+        address.get('postal_code', ''),
+        get_country_name(address.get('country', ''))
+    ]
+    return ', '.join([p for p in parts if p])
