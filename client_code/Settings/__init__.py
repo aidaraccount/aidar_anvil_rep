@@ -18,6 +18,7 @@ from ..nav import click_link, click_button, save_var, load_var
 
 from ..C_ForgotPasswordPopup import C_ForgotPasswordPopup
 from ..C_PaymentInfos import C_PaymentInfos
+from ..C_PaymentCustomer import C_PaymentCustomer
 
 
 @routing.route("settings", url_keys=['section'], title="Settings")
@@ -638,4 +639,4 @@ class Settings(SettingsTemplate):
     
     if result == 'success':
         # Refresh the payment profile section
-        self._show_subscription_settings()
+        self.nav_pay_click()
