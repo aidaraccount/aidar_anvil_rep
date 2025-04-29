@@ -336,7 +336,7 @@ class Settings(SettingsTemplate):
         pm = payment_methods[0]
         print(pm)
         # Set contact info (email) and card info
-        self.pay_contact.text = pm.get('name', '')
+        self.pay_contact.text = pm.get('billing_details', {}).get('name', '')
         brand = pm.get('card', {}).get('brand', '')
         last4 = pm.get('card', {}).get('last4', '')
         exp_month = pm.get('card', {}).get('exp_month', '')
