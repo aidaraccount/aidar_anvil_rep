@@ -26,6 +26,12 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
     global user
     user = anvil.users.get_user()
     
+    # Always fetch latest tax info from Stripe
+    customer_info = anvil.server.call('get_stripe_customer_with_tax_info', user['email'])
+    self.tax_country = customer_info.get('tax_country', '')
+    self.tax_id = customer_info.get('tax_id', '')
+    self.tax_id_type = customer_info.get('tax_id_type', '')
+
     # Get the Stripe Price ID based on plan type and billing period
     self.price_id = None
     if self.plan_type == "Explore" and self.billing_period == "monthly":
@@ -38,6 +44,15 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
         self.price_id = "price_1REVzZQTBcqmUQgtpyBz8Gky"
     print('price_id:', self.price_id)
     
+    # Compute price string (example, replace with actual logic as needed)
+    self.price = ''
+    if hasattr(self, 'plan_type') and hasattr(self, 'billing_period'):
+        if self.plan_type == 'Explore' and self.billing_period == 'monthly':
+            self.price = '€49.00/mo'
+        elif self.plan_type == 'Explore' and self.billing_period == 'yearly':
+            self.price = '€499.00/yr'
+        # Add more plan/period logic as needed
+
     # 0. Country code to name mapping
     COUNTRY_CODES = {
         'AU': 'Australia', 'AT': 'Austria', 'BE': 'Belgium', 'BR': 'Brazil', 'BG': 'Bulgaria', 'CA': 'Canada',
@@ -205,7 +220,7 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
           <div class='field-row'><b>Email:</b> {self.company_email}</div>
           <div class='field-row'><b>Name:</b> {self.company_name}</div>
           <div class='field-row'><b>Address:</b> {self.company_address}</div>
-          <div class='field-row'><b>Tax ID:</b> {self.tax_country} - {self.tax_id}</div>
+          <div class='field-row'><b>Tax ID:</b> {get_country_name(self.tax_country)} - {self.tax_id}</div>
         </div>
         
         <!-- Payment Method Summary -->
@@ -221,12 +236,13 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
           <div class='field-row'><b>Plan:</b> {self.plan_type}</div>
           <div class='field-row'><b>User count:</b> {self.user_count}</div>
           <div class='field-row'><b>Billing period:</b> {self.billing_period}</div>
+          <div class='field-row'><b>Price:</b> €{self.price} per user and month</div>
         </div>
       </form>
       
       <div class="button-row">
         <button type="button" id="cancel-btn">Cancel</button>
-        <button id="submit" type="submit">Book Subscription now</button>
+        <button id="submit" type="submit">Book Subscription now ({self.price})</button>
       </div>
       <script>
         document.getElementById('edit-company').onclick = function() {{ window.edit_company_click(); }};
