@@ -56,15 +56,32 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
     try:
         customer_info = anvil.server.call('get_stripe_customer_with_tax_info', user['email'] if user else None)
         print("[AIDAR_SUBSCRIPTION_LOG] customer_info from get_stripe_customer_with_tax_info:", customer_info)
+        
+        # Direct assignment from response dictionary - captures tax info directly
+        self.tax_country = customer_info.get('tax_country', '')
+        self.tax_id = customer_info.get('tax_id', '')
+        self.tax_id_type = customer_info.get('tax_id_type', '')
+        
+        # Fallback for tax data in tax_ids array if direct keys are empty
+        if not self.tax_country or not self.tax_id:
+            tax_ids = customer_info.get('tax_ids', {}).get('data', [])
+            print("[AIDAR_SUBSCRIPTION_LOG] Fallback to tax_ids array:", tax_ids)
+            if tax_ids and len(tax_ids) > 0:
+                first_tax = tax_ids[0]
+                if not self.tax_country:
+                    self.tax_country = first_tax.get('country', '')
+                if not self.tax_id:
+                    self.tax_id = first_tax.get('value', '')
+                if not self.tax_id_type:
+                    self.tax_id_type = first_tax.get('type', '')
+        
+        print("[AIDAR_SUBSCRIPTION_LOG] After fallback - self.tax_country:", self.tax_country)
+        print("[AIDAR_SUBSCRIPTION_LOG] After fallback - self.tax_id:", self.tax_id)
+        print("[AIDAR_SUBSCRIPTION_LOG] After fallback - self.tax_id_type:", self.tax_id_type)
+        
     except Exception as e:
         print("[AIDAR_SUBSCRIPTION_LOG] ERROR calling get_stripe_customer_with_tax_info:", e)
         customer_info = {}
-    self.tax_country = customer_info.get('tax_country', '')
-    print("[AIDAR_SUBSCRIPTION_LOG] self.tax_country:", self.tax_country)
-    self.tax_id = customer_info.get('tax_id', '')
-    print("[AIDAR_SUBSCRIPTION_LOG] self.tax_id:", self.tax_id)
-    self.tax_id_type = customer_info.get('tax_id_type', '')
-    print("[AIDAR_SUBSCRIPTION_LOG] self.tax_id_type:", self.tax_id_type)
     self.company_email = customer_info.get('email', user['email'] if user else '')
     self.company_name = customer_info.get('name', '')
     self.company_address = self._format_address(customer_info.get('address', {}))
@@ -232,10 +249,18 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
       </div>
       <script>
         console.log('[AIDAR_SUBSCRIPTION_LOG] Setting up cancel button JS handler');
+        
+        // Direct method to properly close the modal from JS
         window.cancel_btn_click = function() {{
             console.log('[AIDAR_SUBSCRIPTION_LOG] JS window.cancel_btn_click fired');
-            anvil.call(self._cancel_btn_click);
+            try {{
+                console.log('[AIDAR_SUBSCRIPTION_LOG] Directly raising x-close-alert event');
+                anvil.closeModal();
+            }} catch(e) {{
+                console.log('[AIDAR_SUBSCRIPTION_LOG] Error closing modal:', e);
+            }}
         }};
+        
         document.getElementById('edit-company').onclick = function() {{ window.edit_company_click && window.edit_company_click(); }};
         document.getElementById('edit-payment').onclick = function() {{ window.edit_payment_click && window.edit_payment_click(); }};
         document.getElementById('cancel-btn').onclick = function() {{
