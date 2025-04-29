@@ -241,12 +241,13 @@ class Settings(SettingsTemplate):
  
     # load data
     sub_data = self.get_data()
-    # print(sub_data)
+    print(sub_data)
     
     # Summary
-    sum_data = json.loads(sub_data['summary'])[0]
-    admin_text = 'admin' if sum_data['admin_count'] == 1 else 'admins'
-    self.summary.text = f"{sum_data['active_count']}/{sum_data['no_licenses']} accounts in use - {sum_data['admin_count']} {admin_text}"
+    if sub_data:
+      sum_data = json.loads(sub_data['summary'])[0]
+      admin_text = 'admin' if sum_data['admin_count'] == 1 else 'admins'
+      self.summary.text = f"{sum_data['active_count']}/{sum_data['no_licenses']} accounts in use - {sum_data['admin_count']} {admin_text}"
     
     # a) User Roles & Permissions
     # center table header
