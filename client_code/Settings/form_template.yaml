@@ -776,7 +776,7 @@ components:
           properties:
             align: center
             role: [header-6, call-to-action-button]
-            text: add payment details
+            text: add payment method
           type: Button
         layout_properties: {grid_position: 'FGOYVA,FYYDYS'}
         name: no_payment
@@ -789,7 +789,7 @@ components:
             role: header-6
             spacing:
               margin: [null, null, null, '15']
-            text: Contact
+            text: Name on card
           type: Label
         - layout_properties: {grid_position: 'ELUVMH,JZBWVS'}
           name: pay_contact
@@ -801,7 +801,7 @@ components:
             role: header-6
             spacing:
               margin: [null, null, null, '15']
-            text: Payment Card
+            text: Card Information
           type: Label
         - layout_properties: {grid_position: 'IJGZKD,QKIAWO'}
           name: pay_card
@@ -809,11 +809,11 @@ components:
           type: Label
         - event_bindings: {click: change_payment_details_click}
           layout_properties: {grid_position: 'YGVEEF,PMIKUX'}
-          name: add_payment_details_copy
+          name: change_payment_details
           properties:
             align: center
             role: [header-6, call-to-action-button-disabled]
-            text: change payment details
+            text: replace payment method
           type: Button
         layout_properties: {grid_position: 'PYKCGB,KELLYV'}
         name: yes_payment

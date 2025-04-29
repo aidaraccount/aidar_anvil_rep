@@ -9,6 +9,7 @@ import anvil.tables.query as q
 from anvil.tables import app_tables
 import anvil.js
 
+
 class C_PaymentInfos(C_PaymentInfosTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
@@ -204,7 +205,6 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
     """ + js
 
     # Register the payment_method_ready and close_alert functions on window for JS to call
-    import anvil.js
     anvil.js.window.payment_method_ready = self._payment_method_ready
     anvil.js.window.close_alert = self._close_alert
 

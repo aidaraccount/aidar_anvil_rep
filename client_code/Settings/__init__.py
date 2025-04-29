@@ -116,7 +116,7 @@ class Settings(SettingsTemplate):
       self.sec_pay.visible = True
 
   # -----------------------
-  # 1. NAVIGATION ACCOUNT SETTINGS
+  # 1. INIT - NAVIGATION ACCOUNT SETTINGS
   def nav_account_click(self, **event_args):
     self._set_nav_section('account')
     
@@ -140,7 +140,7 @@ class Settings(SettingsTemplate):
     
   
   # -----------------------
-  # 2. NAVIGATION NOTIFICATIONS
+  # 2. INIT - NAVIGATION NOTIFICATIONS
   def nav_not_click(self, **event_args):
     self._set_nav_section('not')
 
@@ -170,13 +170,13 @@ class Settings(SettingsTemplate):
     
 
   # -----------------------
-  # 3. NAVIGATION USER MANAGEMENT
+  # 3. INIT - NAVIGATION USER MANAGEMENT
   def nav_sub_click(self, **event_args):
     self._set_nav_section('sub')
     
     # load data
     sub_data = anvil.server.call('get_settings_subscription', user["user_id"])
-    print(sub_data)
+    # print(sub_data)
     
     # a) Subscription Status
     if user["expiration_date"] is not None and user["expiration_date"] < date.today():
@@ -229,38 +229,10 @@ class Settings(SettingsTemplate):
       if sub_data['admin'] is not None and sub_data['admin'] is True:
         self.admin.text = 'yes'
       else:
-          self.admin.text = 'no'
-
-      
-    # b) Payment
-    if self.customer_info and self.customer_info.get('id'):
-      payment_methods = anvil.server.call('get_stripe_payment_methods', self.customer_info['id'])
-      if payment_methods and len(payment_methods) > 0:
-        # Show payment info
-        self.no_payment.visible = False
-        self.yes_payment.visible = True
-        pm = payment_methods[0]
-        # Set contact info (email) and card info
-        self.pay_contact.text = self.customer_info.get('email', '')
-        brand = pm.get('card', {}).get('brand', '')
-        last4 = pm.get('card', {}).get('last4', '')
-        exp_month = pm.get('card', {}).get('exp_month', '')
-        exp_year = pm.get('card', {}).get('exp_year', '')
-        self.pay_card.text = f"{brand.title()} **** **** **** {last4} (exp {exp_month}/{exp_year})"
-      else:
-        # No payment method on file
-        self.no_payment.visible = True
-        self.yes_payment.visible = False
-        self.pay_contact.text = ''
-        self.pay_card.text = ''
-    else:
-      self.no_payment.visible = True
-      self.yes_payment.visible = False
-      self.pay_contact.text = ''
-      self.pay_card.text = ''
-  
+          self.admin.text = 'no'   
+    
   # -----------------------
-  # 4. NAVIGATION USER MANAGEMENT
+  # 4. INIT - NAVIGATION USER MANAGEMENT
   def get_data(self, **event_args):
     return anvil.server.call('get_settings_user_mgmt', user["user_id"])
   
@@ -301,40 +273,13 @@ class Settings(SettingsTemplate):
     inv_data = json.loads(sub_data['invite'])[0]
     self.key.text = inv_data['license_key']
     self.link.text = f"app.aidar.ai/#register?license_key={inv_data['license_key']}"
-
-    # b) Payment
-    if self.customer_info and self.customer_info.get('id'):
-      payment_methods = anvil.server.call('get_stripe_payment_methods', self.customer_info['id'])
-      if payment_methods and len(payment_methods) > 0:
-        # Show payment info
-        self.no_payment.visible = False
-        self.yes_payment.visible = True
-        pm = payment_methods[0]
-        # Set contact info (email) and card info
-        self.pay_contact.text = self.customer_info.get('email', '')
-        brand = pm.get('card', {}).get('brand', '')
-        last4 = pm.get('card', {}).get('last4', '')
-        exp_month = pm.get('card', {}).get('exp_month', '')
-        exp_year = pm.get('card', {}).get('exp_year', '')
-        self.pay_card.text = f"{brand.title()} **** **** **** {last4} (exp {exp_month}/{exp_year})"
-      else:
-        # No payment method on file
-        self.no_payment.visible = True
-        self.yes_payment.visible = False
-        self.pay_contact.text = ''
-        self.pay_card.text = ''
-    else:
-      self.no_payment.visible = True
-      self.yes_payment.visible = False
-      self.pay_contact.text = ''
-      self.pay_card.text = ''
   
   # -----------------------
-  # 5. PAYMENT
+  # 5. INIT - PAYMENT
   def nav_pay_click(self, **event_args):
     self._set_nav_section('pay')
     
-    # load data
+    # a) Company Profile
     if self.customer_info and self.customer_info.get('id'):
         # Display customer information
         self.pay_profile_email.text = self.customer_info.get('email', '')
@@ -380,10 +325,38 @@ class Settings(SettingsTemplate):
         self.pay_profile_name.text = "No customer information"
         self.pay_profile_address.text = "No address information"
         self.pay_profile_tax.text = "No tax information"
+
+    # b) Payment Details
+    if self.customer_info and self.customer_info.get('id'):
+      payment_methods = anvil.server.call('get_stripe_payment_methods', self.customer_info['id'])
+      if payment_methods and len(payment_methods) > 0:
+        # Show payment info
+        self.no_payment.visible = False
+        self.yes_payment.visible = True
+        pm = payment_methods[0]
+        print(pm)
+        # Set contact info (email) and card info
+        self.pay_contact.text = pm.get('name', '')
+        brand = pm.get('card', {}).get('brand', '')
+        last4 = pm.get('card', {}).get('last4', '')
+        exp_month = pm.get('card', {}).get('exp_month', '')
+        exp_year = pm.get('card', {}).get('exp_year', '')
+        self.pay_card.text = f"{brand.title()} **** **** **** {last4} (exp {exp_month}/{exp_year})"
+      else:
+        # No payment method on file
+        self.no_payment.visible = True
+        self.yes_payment.visible = False
+        self.pay_contact.text = ''
+        self.pay_card.text = ''
+    else:
+      self.no_payment.visible = True
+      self.yes_payment.visible = False
+      self.pay_contact.text = ''
+      self.pay_card.text = ''
   
 
   # ---------------------------------------------------------------------
-  # 1. ACCOUNT SETTINGS
+  # 1. ACTIONS - ACCOUNT SETTINGS
   # a) Profile Management
   def text_box_first_name_change(self, **event_args):
     self.profile_save.role = ['header-6', 'call-to-action-button']
@@ -437,7 +410,7 @@ class Settings(SettingsTemplate):
 
   
   # -----------------------
-  # 2. NOTIFICATIONS
+  # 2. ACTIONS - NOTIFICATIONS
   # a) General Notifications  
   def button_active_gen_click(self, **event_args):
     # change button text    
@@ -546,13 +519,13 @@ class Settings(SettingsTemplate):
 
 
   # -----------------------
-  # 3. SUBSCRIPTION
+  # 3. ACTIONS - SUBSCRIPTION
   # a) Subscription Status
   # no actions available
 
   
   # -----------------------
-  # 4. USER MANAGEMENT
+  # 4. ACTIONS - USER MANAGEMENT
   # a) User Roles & Permissions
   def search_user_click(self, **event_args):
     sub_data = self.get_data()    
@@ -637,7 +610,7 @@ class Settings(SettingsTemplate):
       self.nav_user_click()
 
   # -----------------------
-  # 5. PAYMENT
+  # 5. ACTIONS - PAYMENT
   # a) Payment Details
   def add_payment_details_click(self, **event_args):
     details = alert(
@@ -647,9 +620,26 @@ class Settings(SettingsTemplate):
       buttons=[],
       dismissible=True
     )
-    print(details)
-    
+    self.nav_pay_click()
 
+  def change_payment_details_click(self, **event_args):
+    # add new payment method
+    result = alert(
+      content=C_PaymentInfos(),
+      large=False,
+      width=500,
+      buttons=[],
+      dismissible=True
+    )
+
+    # on success delete old payment methods
+    if result == 'success':
+      pass
+
+    # reload page
+    self.nav_pay_click()
+
+  
   def change_pay_profile_click(self, **event_args):
     """
     Opens the C_PaymentCustomer pop-up to edit customer profile information.
