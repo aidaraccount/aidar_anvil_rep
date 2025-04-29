@@ -83,18 +83,28 @@ def update_stripe_customer_tax_id(customer_id: str, tax_id: str, tax_id_type: st
     """
     import stripe
     stripe.api_key = anvil.secrets.get_secret("stripe_secret_key")
+    
     # Check for existing tax IDs
     existing_tax_ids = stripe.Customer.list_tax_ids(customer_id)
-    already_exists = any((tid['type'] == tax_id_type and tid['value'] == tax_id) for tid in existing_tax_ids['data'])
-    if not already_exists:
-        try:
-            tax_id_obj = stripe.Customer.create_tax_id(customer_id, type=tax_id_type, value=tax_id)
-        except stripe.error.InvalidRequestError as e:
-            if 'already exists' not in str(e):
-                raise
-    else:
-        tax_id_obj = [tid for tid in existing_tax_ids['data'] if tid['type'] == tax_id_type and tid['value'] == tax_id][0]
-    print(f"[Stripe] Updated/added tax ID for customer {customer_id}: {tax_id_type} {tax_id}")
+    
+    # First, delete existing tax IDs of the same type (to update instead of just adding)
+    for tid in existing_tax_ids['data']:
+        if tid['type'] == tax_id_type:
+            print(f"[Stripe] Deleting existing tax ID {tid['id']} of type {tax_id_type} for customer {customer_id}")
+            stripe.Customer.delete_tax_id(customer_id, tid['id'])
+    
+    # Now create the new tax ID
+    try:
+        tax_id_obj = stripe.Customer.create_tax_id(customer_id, type=tax_id_type, value=tax_id)
+        print(f"[Stripe] Created new tax ID for customer {customer_id}: {tax_id_type} {tax_id}")
+    except stripe.error.InvalidRequestError as e:
+        if 'already exists' not in str(e):
+            raise
+        # If we somehow still have a duplicate (race condition), get the existing one
+        refreshed_tax_ids = stripe.Customer.list_tax_ids(customer_id)
+        tax_id_obj = [tid for tid in refreshed_tax_ids['data'] if tid['type'] == tax_id_type and tid['value'] == tax_id][0]
+        print(f"[Stripe] Using existing tax ID for customer {customer_id}: {tax_id_type} {tax_id}")
+    
     return dict(tax_id_obj)
 
 

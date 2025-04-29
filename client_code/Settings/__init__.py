@@ -53,21 +53,69 @@ class Settings(SettingsTemplate):
       elif section == 'Payment':
         self.nav_pay_click()
 
+      # Initialize customer_info as a class attribute
+      self.customer_info = anvil.server.call('get_stripe_customer_with_tax_info', user['email'])
+
+    
       
   # -----------------------
-  # 1. NAVIGATION ACCOUNT SETTINGS
-  def nav_account_click(self, **event_args):
-    self.nav_account.role = 'section_buttons_focused'
+  # 0. UTILITY FUNCTIONS
+  def _set_nav_section(self, section: str):
+    """
+    Sets navigation button styles and section visibility based on the selected section.
+    Handles redirection to Account section if Payment or UserManagement are selected but no customer exists.
+    
+    Args:
+        section: One of 'account', 'not', 'sub', 'user', 'pay'
+    """
+    # Check if customer exists for sections that require it
+    if (section in ['pay', 'user']) and (not hasattr(self, 'customer_info') or not self.customer_info or not self.customer_info.get('id')):
+      print(f"[SETTINGS] No customer info found, redirecting from {section} to account")
+      section = 'account'
+    
+    # Reset all navigation buttons to default style
+    self.nav_account.role = 'section_buttons'
     self.nav_not.role = 'section_buttons'
     self.nav_sub.role = 'section_buttons'
     self.nav_user.role = 'section_buttons'
     self.nav_pay.role = 'section_buttons'
-    self.sec_account.visible = True
+    
+    # Set the selected button to focused
+    if section == 'account':
+      self.nav_account.role = 'section_buttons_focused'
+    elif section == 'not':
+      self.nav_not.role = 'section_buttons_focused'
+    elif section == 'sub':
+      self.nav_sub.role = 'section_buttons_focused'
+    elif section == 'user':
+      self.nav_user.role = 'section_buttons_focused'
+    elif section == 'pay':
+      self.nav_pay.role = 'section_buttons_focused'
+    
+    # Hide all sections first
+    self.sec_account.visible = False
     self.sec_not.visible = False
     self.sec_sub.visible = False
     self.sec_user.visible = False
     self.sec_pay.visible = False
+    
+    # Show only the selected section
+    if section == 'account':
+      self.sec_account.visible = True
+    elif section == 'not':
+      self.sec_not.visible = True
+    elif section == 'sub':
+      self.sec_sub.visible = True
+    elif section == 'user':
+      self.sec_user.visible = True
+    elif section == 'pay':
+      self.sec_pay.visible = True
 
+  # -----------------------
+  # 1. NAVIGATION ACCOUNT SETTINGS
+  def nav_account_click(self, **event_args):
+    self._set_nav_section('account')
+    
     # reset save button
     self.profile_save.role = ['header-6', 'call-to-action-button-disabled']
     
@@ -94,16 +142,7 @@ class Settings(SettingsTemplate):
   # -----------------------
   # 2. NAVIGATION NOTIFICATIONS
   def nav_not_click(self, **event_args):
-    self.nav_account.role = 'section_buttons'
-    self.nav_not.role = 'section_buttons_focused'
-    self.nav_sub.role = 'section_buttons'
-    self.nav_user.role = 'section_buttons'
-    self.nav_pay.role = 'section_buttons'
-    self.sec_account.visible = False
-    self.sec_not.visible = True
-    self.sec_sub.visible = False
-    self.sec_user.visible = False
-    self.sec_pay.visible = False
+    self._set_nav_section('not')
 
     # reset save button
     self.not_gen_save.role = ['header-6', 'call-to-action-button-disabled']
@@ -133,16 +172,7 @@ class Settings(SettingsTemplate):
   # -----------------------
   # 3. NAVIGATION USER MANAGEMENT
   def nav_sub_click(self, **event_args):
-    self.nav_account.role = 'section_buttons'
-    self.nav_not.role = 'section_buttons'
-    self.nav_sub.role = 'section_buttons_focused'
-    self.nav_user.role = 'section_buttons'
-    self.nav_pay.role = 'section_buttons'
-    self.sec_account.visible = False
-    self.sec_not.visible = False
-    self.sec_sub.visible = True
-    self.sec_user.visible = False
-    self.sec_pay.visible = False
+    self._set_nav_section('sub')
     
     # load data
     sub_data = anvil.server.call('get_settings_subscription', user["user_id"])
@@ -234,16 +264,7 @@ class Settings(SettingsTemplate):
     return anvil.server.call('get_settings_user_mgmt', user["user_id"])
   
   def nav_user_click(self, **event_args):
-    self.nav_account.role = 'section_buttons'
-    self.nav_not.role = 'section_buttons'
-    self.nav_sub.role = 'section_buttons'
-    self.nav_user.role = 'section_buttons_focused'
-    self.nav_pay.role = 'section_buttons'
-    self.sec_account.visible = False
-    self.sec_not.visible = False
-    self.sec_sub.visible = False
-    self.sec_user.visible = True
-    self.sec_pay.visible = False
+    self._set_nav_section('user')
  
     # load data
     sub_data = self.get_data()
@@ -283,27 +304,16 @@ class Settings(SettingsTemplate):
   # -----------------------
   # 5. PAYMENT
   def nav_pay_click(self, **event_args):
-    self.nav_account.role = 'section_buttons'
-    self.nav_not.role = 'section_buttons'
-    self.nav_sub.role = 'section_buttons'
-    self.nav_user.role = 'section_buttons'
-    self.nav_pay.role = 'section_buttons_focused'
-    self.sec_account.visible = False
-    self.sec_not.visible = False
-    self.sec_sub.visible = False
-    self.sec_user.visible = False
-    self.sec_pay.visible = True
- 
+    self._set_nav_section('pay')
+    
     # load data
-    # Example: get current user's email (adapt if needed)
-    customer_info = anvil.server.call('get_stripe_customer_with_tax_info', user['email'])
-    if customer_info and customer_info.get('id'):
+    if self.customer_info and self.customer_info.get('id'):
         # Display customer information
-        self.pay_profile_email.text = customer_info.get('email', '')
-        self.pay_profile_name.text = customer_info.get('name', '')
+        self.pay_profile_email.text = self.customer_info.get('email', '')
+        self.pay_profile_name.text = self.customer_info.get('name', '')
         
         # Format address
-        address = customer_info.get('address', {})
+        address = self.customer_info.get('address', {})
         address_parts = []
         if address.get('line1'):
             address_parts.append(address.get('line1', ''))
@@ -322,9 +332,9 @@ class Settings(SettingsTemplate):
         self.pay_profile_address.text = ', '.join(filter(None, address_parts))
         
         # Display tax information
-        tax_id = customer_info.get('tax_id', '')
-        tax_country = customer_info.get('tax_country', '')
-        tax_id_type = customer_info.get('tax_id_type', '')
+        tax_id = self.customer_info.get('tax_id', '')
+        tax_country = self.customer_info.get('tax_country', '')
+        tax_id_type = self.customer_info.get('tax_id_type', '')
         
         if tax_id and tax_country:
             self.pay_profile_tax.text = f"{tax_country} - {tax_id} ({tax_id_type})"
@@ -332,8 +342,8 @@ class Settings(SettingsTemplate):
             self.pay_profile_tax.text = "No tax information"
             
         # Get and display payment methods
-        payment_methods = anvil.server.call('get_stripe_payment_methods', customer_info['id'])
-        print(f"[STRIPE] Found {len(payment_methods)} payment methods for customer {customer_info['id']}")
+        payment_methods = anvil.server.call('get_stripe_payment_methods', self.customer_info['id'])
+        print(f"[STRIPE] Found {len(payment_methods)} payment methods for customer {self.customer_info['id']}")
         for pm in payment_methods:
             print(f"[STRIPE] Payment method: id={pm.get('id')}, type={pm.get('type')}, brand={pm.get('card', {}).get('brand')}, last4={pm.get('card', {}).get('last4')}")
     else:
@@ -617,15 +627,13 @@ class Settings(SettingsTemplate):
     Opens the C_PaymentCustomer pop-up to edit customer profile information.
     Saves new payment method if successful and removes old ones.
     """
-    # Get current customer info to pre-fill the form
-    customer_info = anvil.server.call('get_stripe_customer_with_tax_info', user['email'])
-    
+    # Use the centrally stored customer_info instead of making a new call
     form = C_PaymentCustomer(
-        prefill_email=customer_info.get('email', user['email']),
-        prefill_company_name=customer_info.get('name', ''),
-        prefill_address=customer_info.get('address', {}),
-        prefill_tax_id=customer_info.get('tax_id', ''),
-        prefill_tax_country=customer_info.get('tax_country', ''),
+        prefill_email=self.customer_info.get('email', user['email']),
+        prefill_company_name=self.customer_info.get('name', ''),
+        prefill_address=self.customer_info.get('address', {}),
+        prefill_tax_id=self.customer_info.get('tax_id', ''),
+        prefill_tax_country=self.customer_info.get('tax_country', ''),
         prefill_b2b=True
     )
     
