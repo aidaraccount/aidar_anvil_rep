@@ -192,18 +192,12 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
     self.confirm_subscription_click = _confirm_subscription_click
 
     # Render summary with edit icons for both company and payment
-    tax_info_html = ''
-    if self.tax_id:
-        tax_info_html += f'<div><strong>Tax ID:</strong> {self.tax_id}</div>'
-    if self.tax_country:
-        tax_info_html += f'<div><strong>Tax Country:</strong> {get_country_name(self.tax_country)}</div>'
-    if getattr(self, 'tax_id_type', None):
-        tax_info_html += f'<div><strong>Tax ID Type:</strong> {self.tax_id_type}</div>'
     self.html = f"""
     <div id='payment-form-container'>
       <h2>Confirm Subscription</h2>
       <div class='payment-info-text'>Please review your subscription details before confirming.</div>
       <form id='subscription-summary-form'>
+        
         <!-- Company Profile Summary -->
         <div class='form-section'>
           <h3 style='display:inline;'>Company Details</h3>
@@ -211,18 +205,16 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
           <div class='field-row'><b>Email:</b> {self.company_email}</div>
           <div class='field-row'><b>Name:</b> {self.company_name}</div>
           <div class='field-row'><b>Address:</b> {self.company_address}</div>
+          <div class='field-row'><b>Tax ID:</b> {self.tax_country} - {self.tax_id}</div>
         </div>
-        <!-- Tax Information -->
-        <div class='form-section'>
-          <h3>Tax Information</h3>
-          {tax_info_html}
-        </div>
+        
         <!-- Payment Method Summary -->
         <div class='form-section'>
           <h3 style='display:inline;'>Payment Method</h3>
           <span id='edit-payment' style='cursor:pointer;margin-left:8px;' title='Edit Payment Method'>✏️</span>
           <div class='field-row'>{self.payment_method_summary}</div>
         </div>
+        
         <!-- Plan Summary -->
         <div class='form-section'>
           <h3>Subscription Plan</h3>
@@ -231,6 +223,7 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
           <div class='field-row'><b>Billing period:</b> {self.billing_period}</div>
         </div>
       </form>
+      
       <div class="button-row">
         <button type="button" id="cancel-btn">Cancel</button>
         <button id="submit" type="submit">Book Subscription now</button>
