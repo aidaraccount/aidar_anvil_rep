@@ -177,6 +177,13 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
     self.confirm_subscription_click = _confirm_subscription_click
 
     # Render summary with edit icons for both company and payment
+    tax_info_html = ''
+    if self.tax_id:
+        tax_info_html += f'<div><strong>Tax ID:</strong> {self.tax_id}</div>'
+    if self.tax_country:
+        tax_info_html += f'<div><strong>Tax Country:</strong> {self.tax_country}</div>'
+    if getattr(self, 'tax_id_type', None):
+        tax_info_html += f'<div><strong>Tax ID Type:</strong> {self.tax_id_type}</div>'
     self.html = f"""
     <div id='payment-form-container'>
       <h2>Confirm Subscription</h2>
@@ -189,7 +196,7 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
           <div class='field-row'><b>Email:</b> {self.company_email}</div>
           <div class='field-row'><b>Name:</b> {self.company_name}</div>
           <div class='field-row'><b>Address:</b> {self.company_address}</div>
-          <div class='field-row'><b>Tax:</b> {self.tax_country} {self.tax_id}</div>
+          {tax_info_html}
         </div>
         <!-- Payment Method Summary -->
         <div class='form-section'>

@@ -39,25 +39,26 @@ class C_PaymentCustomer(C_PaymentCustomerTemplate):
             <div class="form-section">
                 <h3>Billing address</h3>
                 <div class="field-row">
-                    <input id="address-line-1" name="address-line-1" type="text" placeholder="Address line 1" value="{prefill_address.get('line1', '') if prefill_address else ''}">
+                    <input id="address-line-1" name="address-line-1" type="text" required placeholder="Street and number" value="{prefill_address.get('line1', '') if prefill_address else ''}">
                 </div>
                 <div class="field-row">
-                    <input id="address-line-2" name="address-line-2" type="text" placeholder="Address line 2" value="{prefill_address.get('line2', '') if prefill_address else ''}">
+                    <input id="address-line-2" name="address-line-2" type="text" placeholder="Apartment, suite, etc." value="{prefill_address.get('line2', '') if prefill_address else ''}">
                 </div>
                 <div class="two-column">
                     <div class="field-row">
-                        <input id="city" name="city" type="text" placeholder="City" value="{prefill_address.get('city', '') if prefill_address else ''}">
+                        <input id="city" name="city" type="text" required placeholder="City" value="{prefill_address.get('city', '') if prefill_address else ''}">
                     </div>
                     <div class="field-row">
-                        <input id="postal-code" name="postal-code" type="text" placeholder="Postal code" value="{prefill_address.get('postal_code', '') if prefill_address else ''}">
+                        <input id="postal-code" name="postal-code" type="text" required placeholder="Postal code" value="{prefill_address.get('postal_code', '') if prefill_address else ''}">
                     </div>
                 </div>
                 <div class="field-row">
-                    <input id="state" name="state" type="text" placeholder="State, county, province, or region" value="{prefill_address.get('state', '') if prefill_address else ''}">
+                    <input id="state" name="state" type="text" placeholder="State/Province" value="{prefill_address.get('state', '') if prefill_address else ''}">
                 </div>    
                 <div class="field-row">
-                    <select id="country" name="country" placeholder="Country" value="{prefill_address.get('country', '') if prefill_address else ''}">
+                    <select id="country" name="country" required>
                         <option value="">Country</option>
+                        {f'<option value="{prefill_address["country"]}" selected>{prefill_address["country"]}</option>' if prefill_address and prefill_address.get('country') else ''}
                         <option value="AU">Australia</option><option value="AT">Austria</option><option value="BE">Belgium</option><option value="BR">Brazil</option><option value="BG">Bulgaria</option><option value="CA">Canada</option><option value="CN">China</option><option value="HR">Croatia</option><option value="CY">Cyprus</option><option value="CZ">Czech Republic</option><option value="DK">Denmark</option><option value="EE">Estonia</option><option value="FI">Finland</option><option value="FR">France</option><option value="DE">Germany</option><option value="GR">Greece</option><option value="HK">Hong Kong</option><option value="HU">Hungary</option><option value="IS">Iceland</option><option value="IN">India</option><option value="IE">Ireland</option><option value="IT">Italy</option><option value="JP">Japan</option><option value="LI">Liechtenstein</option><option value="LT">Lithuania</option><option value="LU">Luxembourg</option><option value="LV">Latvia</option><option value="MT">Malta</option><option value="MX">Mexico</option><option value="NL">Netherlands</option><option value="NZ">New Zealand</option><option value="NO">Norway</option><option value="PL">Poland</option><option value="PT">Portugal</option><option value="RO">Romania</option><option value="SG">Singapore</option><option value="SK">Slovakia</option><option value="SI">Slovenia</option><option value="ZA">South Africa</option><option value="ES">Spain</option><option value="SE">Sweden</option><option value="CH">Switzerland</option><option value="GB">United Kingdom</option><option value="US">United States</option>
                     </select>
                 </div>
@@ -68,6 +69,7 @@ class C_PaymentCustomer(C_PaymentCustomerTemplate):
                 <div class="field-row inline-fields">
                     <select id="tax-country" name="tax-country" placeholder="Country" value="{prefill_tax_country if prefill_tax_country else ''}">
                         <option value="">Tax/VAT country</option>
+                        {f'<option value="{prefill_tax_country}" selected>{prefill_tax_country}</option>' if prefill_tax_country else ''}
                         <option value="AU">Australia</option><option value="AT">Austria</option><option value="BE">Belgium</option><option value="BR">Brazil</option><option value="BG">Bulgaria</option><option value="CA">Canada</option><option value="CN">China</option><option value="HR">Croatia</option><option value="CY">Cyprus</option><option value="CZ">Czech Republic</option><option value="DK">Denmark</option><option value="EE">Estonia</option><option value="FI">Finland</option><option value="FR">France</option><option value="DE">Germany</option><option value="GR">Greece</option><option value="HK">Hong Kong</option><option value="HU">Hungary</option><option value="IS">Iceland</option><option value="IN">India</option><option value="IE">Ireland</option><option value="IT">Italy</option><option value="JP">Japan</option><option value="LI">Liechtenstein</option><option value="LT">Lithuania</option><option value="LU">Luxembourg</option><option value="LV">Latvia</option><option value="MT">Malta</option><option value="MX">Mexico</option><option value="NL">Netherlands</option><option value="NZ">New Zealand</option><option value="NO">Norway</option><option value="PL">Poland</option><option value="PT">Portugal</option><option value="RO">Romania</option><option value="SG">Singapore</option><option value="SK">Slovakia</option><option value="SI">Slovenia</option><option value="ZA">South Africa</option><option value="ES">Spain</option><option value="SE">Sweden</option><option value="CH">Switzerland</option><option value="GB">United Kingdom</option><option value="US">United States</option>
                     </select>
                     <input id="tax-id" name="tax-id" type="text" maxlength="32" autocomplete="off" placeholder="Tax/VAT ID" value="{prefill_tax_id if prefill_tax_id else ''}">

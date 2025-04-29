@@ -1,3 +1,4 @@
+import anvil
 from ._anvil_designer import C_PaymentInfosTemplate
 from anvil import *
 import anvil.server
