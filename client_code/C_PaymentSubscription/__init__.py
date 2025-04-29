@@ -107,14 +107,17 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
 
     # Define JS-callable methods immediately
     def _edit_company_click():
-      """Opens the C_PaymentCustomer pop-up with prefilled data for editing."""
+      """Opens the C_PaymentCustomer pop-up with prefilled data for editing, including country and tax info."""
+      # Fetch latest customer info including country and tax from server
+      customer_info = anvil.server.call('get_stripe_customer_with_tax_info', self.company_email)
       form = C_PaymentCustomer(
-          prefill_email=self.company_email,
+          prefill_email=customer_info.get('email', self.company_email),
           prefill_company_name=self.company_name,
-          prefill_address=self.customer.get('address', {}),
-          prefill_tax_id=self.tax_id,
-          prefill_tax_country=self.tax_country,
-          prefill_b2b=True if self.tax_id else False
+          prefill_address=customer_info.get('address', self.customer.get('address', {})),
+          prefill_tax_id=customer_info.get('tax_id', self.tax_id),
+          prefill_tax_country=customer_info.get('tax_country', self.tax_country),
+          prefill_tax_id_type=customer_info.get('tax_id_type', None),
+          prefill_b2b=True if customer_info.get('tax_id') else False
       )
       result = alert(
           content=form,

@@ -190,8 +190,13 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
     """
 
     # Register the payment_method_ready and close_alert functions on window for JS to call
+    import anvil.js
     anvil.js.window.payment_method_ready = self._payment_method_ready
     anvil.js.window.close_alert = self._close_alert
+
+  def _close_alert(self):
+    """Close the alert dialog from JS."""
+    self.raise_event('x-close-alert')
 
   def _payment_method_ready(self, payment_method_id: str):
     """Called from JS after successful Stripe setup. Handles server calls from Python."""
@@ -218,7 +223,3 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
     except Exception as err:
         print(f"[STRIPE] Python ERROR: {err}")
         anvil.js.call_js('eval', f"alert('[STRIPE] Error: {str(err)}')")
-
-  def _close_alert(self):
-    """Close the alert dialog from JS."""
-    self.raise_event('x-close-alert')

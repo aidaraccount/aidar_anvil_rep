@@ -191,6 +191,10 @@ class C_PaymentCustomer(C_PaymentCustomerTemplate):
     
     self._close_on_success = True
 
+  def _close_alert(self):
+    """Close the alert dialog from JS."""
+    self.raise_event('x-close-alert')
+
   def _validate_eu_vat(self, tax_id: str, tax_country: str) -> bool:
     """
     1. Validates an EU VAT number based on format requirements
@@ -346,7 +350,3 @@ class C_PaymentCustomer(C_PaymentCustomerTemplate):
     except Exception as e:
         print(f"[STRIPE] Python ERROR: {e}")
         anvil.js.call_js('eval', f'alert("[STRIPE] Error: {str(e)}")')
-
-  def _close_alert(self):
-    """Close the alert dialog from JS."""
-    self.raise_event('x-close-alert')

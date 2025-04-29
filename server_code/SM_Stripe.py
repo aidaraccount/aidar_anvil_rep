@@ -115,6 +115,39 @@ def get_stripe_customer(email: str) -> dict:
 
 
 @anvil.server.callable
+def get_stripe_customer_with_tax_info(email: str) -> dict:
+    """
+    Look up a Stripe customer by email and return their address country and tax ID info (if available).
+    Returns a dict with keys: id, email, address, tax_country, tax_id, tax_id_type
+    """
+    import stripe
+    stripe.api_key = anvil.secrets.get_secret("stripe_secret_key")
+    customers = stripe.Customer.list(email=email, limit=1)
+    if customers.data:
+        customer = customers.data[0]
+        result = dict(customer)
+        # Get country from address
+        address = getattr(customer, 'address', None)
+        tax_country = address.country if address and hasattr(address, 'country') else None
+        # Get tax id info
+        tax_id = None
+        tax_id_type = None
+        try:
+            tax_ids = stripe.Customer.list_tax_ids(customer.id)
+            if tax_ids.data:
+                tax_id_obj = tax_ids.data[0]
+                tax_id = tax_id_obj['value']
+                tax_id_type = tax_id_obj['type']
+        except Exception as e:
+            print(f"[Stripe] Could not fetch tax IDs: {e}")
+        result['tax_country'] = tax_country
+        result['tax_id'] = tax_id
+        result['tax_id_type'] = tax_id_type
+        return result
+    return {}
+
+
+@anvil.server.callable
 def get_stripe_payment_methods(customer_id: str) -> list:
     """
     1. Get all PaymentMethods associated with a customer.
