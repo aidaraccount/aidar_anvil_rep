@@ -12,7 +12,7 @@ from anvil.js.window import document
 
 from ..C_PaymentSubscription import C_PaymentSubscription
 from ..C_PaymentCustomer import C_PaymentCustomer
-from ..C_PaymentInfos import C_PaymentInfos#
+from ..C_PaymentInfos import C_PaymentInfos
 
 
 class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
