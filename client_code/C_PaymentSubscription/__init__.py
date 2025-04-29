@@ -186,7 +186,8 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
     anvil.js.window.cancel_btn_click = self._cancel_btn_click
     print("[AIDAR_SUBSCRIPTION_LOG] Registered JS cancel_btn_click handler:", anvil.js.window.cancel_btn_click)
 
-    # Render summary with edit icons for both company and payment
+    # --- TAX INFO LOG: Show in summary HTML ---
+    print("[AIDAR_SUBSCRIPTION_LOG] Rendering tax info in HTML. self.tax_country=", self.tax_country, "self.tax_id=", self.tax_id, "self.tax_id_type=", self.tax_id_type)
     self.html = f"""
     <div id='payment-form-container'>
       <h2>Confirm Subscription</h2>
@@ -200,7 +201,7 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
           <div class='field-row'><b>Email:</b> {self.company_email}</div>
           <div class='field-row'><b>Name:</b> {self.company_name}</div>
           <div class='field-row'><b>Address:</b> {self.company_address}</div>
-          <div class='field-row'><b>Tax ID:</b> {self.get_country_name(self.tax_country)} - {self.tax_id}</div>
+          <div class='field-row'><b>Tax ID:</b> {self.get_country_name(self.tax_country)} - {self.tax_id} ({self.tax_id_type})</div>
         </div>
         
         <!-- Payment Method Summary -->
@@ -225,14 +226,22 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
         <button id="submit" type="submit">Book Subscription now ({self.price})</button>
       </div>
       <script>
-        window.cancel_btn_click = function() {{ anvil.call(self._cancel_btn_click); }};
+        console.log('[AIDAR_SUBSCRIPTION_LOG] Setting up cancel button JS handler');
+        window.cancel_btn_click = function() {{
+            console.log('[AIDAR_SUBSCRIPTION_LOG] JS window.cancel_btn_click fired');
+            anvil.call(self._cancel_btn_click);
+        }};
         document.getElementById('edit-company').onclick = function() {{ window.edit_company_click && window.edit_company_click(); }};
         document.getElementById('edit-payment').onclick = function() {{ window.edit_payment_click && window.edit_payment_click(); }};
-        document.getElementById('cancel-btn').onclick = function() {{ window.cancel_btn_click && window.cancel_btn_click(); }};
+        document.getElementById('cancel-btn').onclick = function() {{
+            console.log('[AIDAR_SUBSCRIPTION_LOG] Cancel button clicked');
+            window.cancel_btn_click && window.cancel_btn_click();
+        }};
         document.getElementById('submit').onclick = function() {{ window.confirm_subscription_click && window.confirm_subscription_click(); }};
       </script>
     </div>
     """
+    print("[AIDAR_SUBSCRIPTION_LOG] HTML rendered. Tax info should be visible in summary.")
 
     # Robust Cancel button system: always set cancel handler on window and in JS after each dialog open
     anvil.js.window.cancel_btn_click = self._cancel_btn_click
