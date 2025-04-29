@@ -7,7 +7,10 @@ import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
 import anvil.js
-    
+
+from ..C_PaymentCustomer import C_PaymentCustomer
+from ..C_PaymentInfos import C_PaymentInfos
+
 
 class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
   def __init__(self, plan_type: str = None, user_count: int = None, billing_period: str = None, **properties):
@@ -105,7 +108,6 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
     # Define JS-callable methods immediately
     def _edit_company_click():
       """Opens the C_PaymentCustomer pop-up with prefilled data for editing."""
-      from ..C_PaymentCustomer import C_PaymentCustomer
       form = C_PaymentCustomer(
           prefill_email=self.company_email,
           prefill_company_name=self.company_name,
@@ -127,7 +129,6 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
     
     def _edit_payment_click():
       """Opens the C_PaymentInfos pop-up to update payment method."""
-      from ..C_PaymentInfos import C_PaymentInfos
       form = C_PaymentInfos()
       result = alert(
           content=form,
@@ -228,7 +229,6 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
     """
     # Collect updated values from the form
     updated_name = form.company_name_box.text
-    import anvil.users
     updated_email = anvil.users.get_user()['email']
     updated_address = {
         'line1': form.address_line1_box.text,

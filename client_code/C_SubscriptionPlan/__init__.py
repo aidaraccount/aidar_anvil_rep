@@ -6,8 +6,14 @@ import anvil.users
 import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
-from ..C_PaymentSubscription import C_PaymentSubscription
 from anvil import Button, alert
+import anvil.js
+from anvil.js.window import document
+
+from ..C_PaymentSubscription import C_PaymentSubscription
+from ..C_PaymentCustomer import C_PaymentCustomer
+from ..C_PaymentInfos import C_PaymentInfos#
+
 
 class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
   def __init__(self, **properties):
@@ -174,7 +180,6 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
 
 
     # 2. Add Anvil Buttons for plan selection
-    from anvil import Button
     self.explore_btn = Button(text="Choose Plan", role="cta-button", tag={"plan_type": "Explore"})
     self.professional_btn = Button(text="Choose Plan", role="cta-button", tag={"plan_type": "Professional"})
     self.explore_btn.set_event_handler('click', self.choose_plan_click)
@@ -190,7 +195,6 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
       """
       plan_type = sender.tag.get("plan_type")
       # Get user count from JS input field
-      from anvil.js.window import document
       user_count_input = document.getElementById('user-count')
       user_count = 1
       if user_count_input is not None:
@@ -224,7 +228,6 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
       customer_exists = bool(customer and customer.get('id'))
       # 3. If no customer data, start with C_PaymentCustomer
       if not customer_exists:
-          from ..C_PaymentCustomer import C_PaymentCustomer
           customer_form = C_PaymentCustomer()
           customer_result = alert(
               content=customer_form,
@@ -244,7 +247,6 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
           payment_methods = anvil.server.call('get_stripe_payment_methods', customer['id'])
       # 5. If no payment method, open C_PaymentInfos
       if not payment_methods:
-          from ..C_PaymentInfos import C_PaymentInfos
           payment_form = C_PaymentInfos()
           payment_result = alert(
               content=payment_form,
@@ -260,7 +262,6 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
           if customer and customer.get('id'):
               payment_methods = anvil.server.call('get_stripe_payment_methods', customer['id'])
       # 6. Finally, open subscription confirmation
-      from ..C_PaymentSubscription import C_PaymentSubscription
       subscription_form = C_PaymentSubscription(
           plan_type=plan_type,
           user_count=user_count,
@@ -275,5 +276,4 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
       )
       # 7. If subscription was created successfully, refresh the page
       if subscription_result == 'success':
-          import anvil.js
           anvil.js.window.location.reload()
