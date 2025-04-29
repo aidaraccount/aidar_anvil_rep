@@ -142,71 +142,18 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
     if not hasattr(self, 'payment_method_summary'):
         self.payment_method_summary = "No payment method on file."
 
-    # Define JS-callable methods immediately
-    def _edit_company_click(self):
-      """Opens the C_PaymentCustomer pop-up with prefilled data for editing, including country and tax info."""
-      # Fetch latest customer info including country and tax from server
-      customer_info = anvil.server.call('get_stripe_customer_with_tax_info', self.company_email)
-      form = C_PaymentCustomer(
-          prefill_email=customer_info.get('email', self.company_email),
-          prefill_company_name=self.company_name,
-          prefill_address=customer_info.get('address', self.customer.get('address', {})),
-          prefill_tax_id=customer_info.get('tax_id', self.tax_id),
-          prefill_tax_country=customer_info.get('tax_country', self.tax_country),
-          prefill_tax_id_type=customer_info.get('tax_id_type', None),
-          prefill_b2b=True if customer_info.get('tax_id') else False
-      )
-      result = alert(
-          content=form,
-          large=False,
-          width=500,
-          buttons=[],
-          dismissible=True
-      )
-      if result == 'success':
-          # Handle form result
-          self._handle_customer_form_result(form)
-    
-    def _edit_payment_click(self):
-      """Opens the C_PaymentInfos pop-up to update payment method."""
-      form = C_PaymentInfos()
-      result = alert(
-          content=form,
-          large=False,
-          width=500,
-          buttons=[],
-          dismissible=True
-      )
-      if result == 'success':
-          # Refresh payment method data and redisplay
-          self.__init__(plan_type=self.plan_type, user_count=self.user_count, billing_period=self.billing_period)
-    
-    def _cancel_btn_click(self, **event_args):
-      """Closes the modal popup when the Cancel button is clicked."""
-      self.raise_event("x-close-alert")
-    
-    def _confirm_subscription_click(self):
-      """Creates the subscription and redirects."""
-      if not self.customer_id:
-        alert('No Stripe customer found. Please add a payment method first.', title='Error')
-        return
-      if not self.price_id:
-        alert('No Stripe price selected. Please select a valid plan.', title='Error')
-        return
-      try:
-        subscription = anvil.server.call('create_stripe_subscription', self.customer_id, self.price_id, self.user_count)
-        alert(f"Subscription created! Status: {subscription.get('status')}", title="Success")
-        anvil.js.window.location.replace("/#settings?section=Subscription")
-        self.raise_event("x-close-alert", value="success")
-      except Exception as e:
-        alert(f"Failed to create subscription: {e}", title="Error")
-    
+    # Define instance methods
+    self._edit_company_click = self.__class__._edit_company_click.__get__(self)
+    self._edit_payment_click = self.__class__._edit_payment_click.__get__(self)
+    self._cancel_btn_click = self.__class__._cancel_btn_click.__get__(self)
+    self._confirm_subscription_click = self.__class__._confirm_subscription_click.__get__(self)
+
     # Register JS-callable methods
     anvil.js.window.edit_company_click = self._edit_company_click
     anvil.js.window.edit_payment_click = self._edit_payment_click
     anvil.js.window.cancel_btn_click = self._cancel_btn_click
     anvil.js.window.confirm_subscription_click = self._confirm_subscription_click
-    
+
     # Instance methods for Python compatibility
     self.edit_company_click = self._edit_company_click
     self.edit_payment_click = self._edit_payment_click
@@ -263,6 +210,60 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
 
     # Robust Cancel button system: always set cancel handler on window and in JS after each dialog open
     anvil.js.window.cancel_btn_click = self._cancel_btn_click
+
+  def _edit_company_click(self, **event_args):
+      """Opens the C_PaymentCustomer pop-up with prefilled data for editing, including country and tax info."""
+      customer_info = anvil.server.call('get_stripe_customer_with_tax_info', self.company_email)
+      form = C_PaymentCustomer(
+          prefill_email=customer_info.get('email', self.company_email),
+          prefill_company_name=customer_info.get('name', self.company_name),
+          prefill_address=customer_info.get('address', {}),
+          prefill_tax_id=customer_info.get('tax_id', self.tax_id),
+          prefill_tax_country=customer_info.get('tax_country', self.tax_country),
+          prefill_b2b=customer_info.get('b2b', None)
+      )
+      result = alert(
+          content=form,
+          large=False,
+          width=500,
+          buttons=[],
+          dismissible=True
+      )
+      if result == 'success':
+          self._handle_customer_form_result(form)
+
+  def _edit_payment_click(self, **event_args):
+      """Opens the C_PaymentInfos pop-up to update payment method."""
+      form = C_PaymentInfos()
+      result = alert(
+          content=form,
+          large=False,
+          width=500,
+          buttons=[],
+          dismissible=True
+      )
+      if result == 'success':
+          self.__init__(plan_type=self.plan_type, user_count=self.user_count, billing_period=self.billing_period)
+
+  def _cancel_btn_click(self, **event_args):
+      """Closes the modal popup when the Cancel button is clicked."""
+      self.raise_event("x-close-alert")
+
+  def _confirm_subscription_click(self, **event_args):
+      """Creates the subscription and redirects."""
+      if not self.customer_id:
+        alert('No Stripe customer found. Please add a payment method first.', title='Error')
+        return
+      if not self.price_id:
+        alert('No Stripe price selected. Please select a valid plan.', title='Error')
+        return
+      try:
+        subscription = anvil.server.call('create_stripe_subscription', self.customer_id, self.price_id, self.user_count)
+        alert(f"Subscription created! Status: {subscription.get('status')}", title="Success")
+        anvil.js.window.location.replace("/#settings?section=Subscription")
+        self.raise_event("x-close-alert", value="success")
+      except Exception as e:
+        alert(f"Failed to create subscription: {e}", title="Error")
 
   def _handle_customer_form_result(self, form):
     """
