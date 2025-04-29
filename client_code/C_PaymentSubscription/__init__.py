@@ -143,7 +143,7 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
         self.payment_method_summary = "No payment method on file."
 
     # Define JS-callable methods immediately
-    def _edit_company_click():
+    def _edit_company_click(self):
       """Opens the C_PaymentCustomer pop-up with prefilled data for editing, including country and tax info."""
       # Fetch latest customer info including country and tax from server
       customer_info = anvil.server.call('get_stripe_customer_with_tax_info', self.company_email)
@@ -167,7 +167,7 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
           # Handle form result
           self._handle_customer_form_result(form)
     
-    def _edit_payment_click():
+    def _edit_payment_click(self):
       """Opens the C_PaymentInfos pop-up to update payment method."""
       form = C_PaymentInfos()
       result = alert(
@@ -185,7 +185,7 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
       """Closes the modal popup when the Cancel button is clicked."""
       self.raise_event("x-close-alert")
     
-    def _confirm_subscription_click():
+    def _confirm_subscription_click(self):
       """Creates the subscription and redirects."""
       if not self.customer_id:
         alert('No Stripe customer found. Please add a payment method first.', title='Error')
@@ -202,16 +202,16 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
         alert(f"Failed to create subscription: {e}", title="Error")
     
     # Register JS-callable methods
-    anvil.js.window.edit_company_click = _edit_company_click
-    anvil.js.window.edit_payment_click = _edit_payment_click
-    anvil.js.window.cancel_btn_click = _cancel_btn_click
-    anvil.js.window.confirm_subscription_click = _confirm_subscription_click
+    anvil.js.window.edit_company_click = self._edit_company_click
+    anvil.js.window.edit_payment_click = self._edit_payment_click
+    anvil.js.window.cancel_btn_click = self._cancel_btn_click
+    anvil.js.window.confirm_subscription_click = self._confirm_subscription_click
     
     # Instance methods for Python compatibility
-    self.edit_company_click = _edit_company_click
-    self.edit_payment_click = _edit_payment_click
-    self.cancel_btn_click = _cancel_btn_click
-    self.confirm_subscription_click = _confirm_subscription_click
+    self.edit_company_click = self._edit_company_click
+    self.edit_payment_click = self._edit_payment_click
+    self.cancel_btn_click = self._cancel_btn_click
+    self.confirm_subscription_click = self._confirm_subscription_click
 
     # Render summary with edit icons for both company and payment
     self.html = f"""
