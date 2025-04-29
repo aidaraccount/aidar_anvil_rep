@@ -163,6 +163,13 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
     if not hasattr(self, 'payment_method_summary'):
         self.payment_method_summary = "No payment method on file."
 
+    # [AIDAR_SUBSCRIPTION_LOG] --- DEBUG: Print all key variables before rendering HTML ---
+    print("[AIDAR_SUBSCRIPTION_LOG] DEBUG: self.tax_country=", repr(self.tax_country), "self.tax_id=", repr(self.tax_id), "self.tax_id_type=", repr(self.tax_id_type))
+    print("[AIDAR_SUBSCRIPTION_LOG] DEBUG: customer_info=", repr(customer_info))
+    print("[AIDAR_SUBSCRIPTION_LOG] DEBUG: user=", repr(user))
+    print("[AIDAR_SUBSCRIPTION_LOG] DEBUG: self.company_email=", repr(self.company_email), "self.company_name=", repr(self.company_name), "self.company_address=", repr(self.company_address))
+    print("[AIDAR_SUBSCRIPTION_LOG] DEBUG: About to render HTML with above values.")
+
     # Define instance methods
     self._edit_company_click = self.__class__._edit_company_click.__get__(self)
     self._edit_payment_click = self.__class__._edit_payment_click.__get__(self)
@@ -193,7 +200,6 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
       <h2>Confirm Subscription</h2>
       <div class='payment-info-text'>Please review your subscription details before confirming.</div>
       <form id='subscription-summary-form'>
-        
         <!-- Company Profile Summary -->
         <div class='form-section'>
           <h3 style='display:inline;'>Company Details</h3>
@@ -201,16 +207,16 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
           <div class='field-row'><b>Email:</b> {self.company_email}</div>
           <div class='field-row'><b>Name:</b> {self.company_name}</div>
           <div class='field-row'><b>Address:</b> {self.company_address}</div>
-          <div class='field-row'><b>Tax ID:</b> {self.get_country_name(self.tax_country)} - {self.tax_id} ({self.tax_id_type})</div>
+          <div class='field-row'><b>Tax Country:</b> {self.get_country_name(self.tax_country)}</div>
+          <div class='field-row'><b>Tax ID:</b> {self.tax_id}</div>
+          <div class='field-row'><b>Tax ID Type:</b> {self.tax_id_type}</div>
         </div>
-        
         <!-- Payment Method Summary -->
         <div class='form-section'>
           <h3 style='display:inline;'>Payment Method</h3>
           <span id='edit-payment' style='cursor:pointer;margin-left:8px;' title='Edit Payment Method'>✏️</span>
           <div class='field-row'>{self.payment_method_summary}</div>
         </div>
-        
         <!-- Plan Summary -->
         <div class='form-section'>
           <h3>Subscription Plan</h3>
@@ -220,7 +226,6 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
           <div class='field-row'><b>Price:</b> {self.price}</div>
         </div>
       </form>
-      
       <div class="button-row">
         <button type="button" id="cancel-btn">Cancel</button>
         <button id="submit" type="submit">Book Subscription now ({self.price})</button>
@@ -283,6 +288,8 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
   def _cancel_btn_click(self, **event_args):
       """Closes the modal popup when the Cancel button is clicked."""
       print("[AIDAR_SUBSCRIPTION_LOG] _cancel_btn_click called. Closing modal.")
+      import traceback
+      print("[AIDAR_SUBSCRIPTION_LOG] _cancel_btn_click STACKTRACE:\n" + traceback.format_exc())
       self.raise_event("x-close-alert")
 
   def _confirm_subscription_click(self, **event_args):
