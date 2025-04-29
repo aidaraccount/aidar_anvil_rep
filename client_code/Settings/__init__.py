@@ -233,30 +233,31 @@ class Settings(SettingsTemplate):
 
       
     # b) Payment
-    # MANUAL STRIPE INTEGRATION
-    pass
-    
-    # # ANVIL STRIPE INTEGRATION
-    # # 1st Try
-        
-    # # c = stripe.checkout.charge(
-    # #   amount=99,  # in cents
-    # #   currency="EUR",
-    # #   title="Direct Payment",  # of the popup
-    # #   description="First test")  # of the popup
-    # # print(c)
-
-    
-    # # 2nd Try
-    # # store token/ credit card information
-    # token, info = stripe.checkout.get_token(amount=100, currency="EUR")
-    # print(token)
-    # print(info)
-    # print(info['email'])
-
-    # anvil.server.call('create_stripe_customer', token, info['email'])
-
-    
+    if self.customer_info and self.customer_info.get('id'):
+      payment_methods = anvil.server.call('get_stripe_payment_methods', self.customer_info['id'])
+      if payment_methods and len(payment_methods) > 0:
+        # Show payment info
+        self.no_payment.visible = False
+        self.yes_payment.visible = True
+        pm = payment_methods[0]
+        # Set contact info (email) and card info
+        self.pay_contact.text = self.customer_info.get('email', '')
+        brand = pm.get('card', {}).get('brand', '')
+        last4 = pm.get('card', {}).get('last4', '')
+        exp_month = pm.get('card', {}).get('exp_month', '')
+        exp_year = pm.get('card', {}).get('exp_year', '')
+        self.pay_card.text = f"{brand.title()} **** **** **** {last4} (exp {exp_month}/{exp_year})"
+      else:
+        # No payment method on file
+        self.no_payment.visible = True
+        self.yes_payment.visible = False
+        self.pay_contact.text = ''
+        self.pay_card.text = ''
+    else:
+      self.no_payment.visible = True
+      self.yes_payment.visible = False
+      self.pay_contact.text = ''
+      self.pay_card.text = ''
   
   # -----------------------
   # 4. NAVIGATION USER MANAGEMENT
@@ -301,6 +302,33 @@ class Settings(SettingsTemplate):
     self.key.text = inv_data['license_key']
     self.link.text = f"app.aidar.ai/#register?license_key={inv_data['license_key']}"
 
+    # b) Payment
+    if self.customer_info and self.customer_info.get('id'):
+      payment_methods = anvil.server.call('get_stripe_payment_methods', self.customer_info['id'])
+      if payment_methods and len(payment_methods) > 0:
+        # Show payment info
+        self.no_payment.visible = False
+        self.yes_payment.visible = True
+        pm = payment_methods[0]
+        # Set contact info (email) and card info
+        self.pay_contact.text = self.customer_info.get('email', '')
+        brand = pm.get('card', {}).get('brand', '')
+        last4 = pm.get('card', {}).get('last4', '')
+        exp_month = pm.get('card', {}).get('exp_month', '')
+        exp_year = pm.get('card', {}).get('exp_year', '')
+        self.pay_card.text = f"{brand.title()} **** **** **** {last4} (exp {exp_month}/{exp_year})"
+      else:
+        # No payment method on file
+        self.no_payment.visible = True
+        self.yes_payment.visible = False
+        self.pay_contact.text = ''
+        self.pay_card.text = ''
+    else:
+      self.no_payment.visible = True
+      self.yes_payment.visible = False
+      self.pay_contact.text = ''
+      self.pay_card.text = ''
+  
   # -----------------------
   # 5. PAYMENT
   def nav_pay_click(self, **event_args):
