@@ -14,6 +14,20 @@ from ..C_PaymentInfos import C_PaymentInfos
 
 
 class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
+  # 0. Country code to name mapping and helper
+  COUNTRY_CODES = {
+      'AU': 'Australia', 'AT': 'Austria', 'BE': 'Belgium', 'BR': 'Brazil', 'BG': 'Bulgaria', 'CA': 'Canada',
+      'CN': 'China', 'HR': 'Croatia', 'CY': 'Cyprus', 'CZ': 'Czech Republic', 'DK': 'Denmark', 'EE': 'Estonia',
+      'FI': 'Finland', 'FR': 'France', 'DE': 'Germany', 'GR': 'Greece', 'HK': 'Hong Kong', 'HU': 'Hungary',
+      'IS': 'Iceland', 'IN': 'India', 'IE': 'Ireland', 'IT': 'Italy', 'JP': 'Japan', 'LI': 'Liechtenstein',
+      'LT': 'Lithuania', 'LU': 'Luxembourg', 'LV': 'Latvia', 'MT': 'Malta', 'MX': 'Mexico', 'NL': 'Netherlands',
+      'NZ': 'New Zealand', 'NO': 'Norway', 'PL': 'Poland', 'PT': 'Portugal', 'RO': 'Romania', 'SG': 'Singapore',
+      'SK': 'Slovakia', 'SI': 'Slovenia', 'ZA': 'South Africa', 'ES': 'Spain', 'SE': 'Sweden', 'CH': 'Switzerland',
+      'GB': 'United Kingdom', 'US': 'United States'
+  }
+  def get_country_name(code: str) -> str:
+      return self.COUNTRY_CODES.get(code, code or "")
+
   def __init__(self, plan_type: str = None, user_count: int = None, billing_period: str = None, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
@@ -48,29 +62,17 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
         self.price_id = "price_1REVzZQTBcqmUQgtpyBz8Gky"
     print('price_id:', self.price_id)
     
-    # Compute price string (example, replace with actual logic as needed)
+    # Compute price string based on plan and user count
     self.price = ''
-    if hasattr(self, 'plan_type') and hasattr(self, 'billing_period'):
+    if self.plan_type and self.billing_period:
         if self.plan_type == 'Explore' and self.billing_period == 'monthly':
-            self.price = '€49.00/mo'
+            self.price = f'€29.00/mo'
         elif self.plan_type == 'Explore' and self.billing_period == 'yearly':
-            self.price = '€499.00/yr'
-        # Add more plan/period logic as needed
-
-    # 0. Country code to name mapping
-    COUNTRY_CODES = {
-        'AU': 'Australia', 'AT': 'Austria', 'BE': 'Belgium', 'BR': 'Brazil', 'BG': 'Bulgaria', 'CA': 'Canada',
-        'CN': 'China', 'HR': 'Croatia', 'CY': 'Cyprus', 'CZ': 'Czech Republic', 'DK': 'Denmark', 'EE': 'Estonia',
-        'FI': 'Finland', 'FR': 'France', 'DE': 'Germany', 'GR': 'Greece', 'HK': 'Hong Kong', 'HU': 'Hungary',
-        'IS': 'Iceland', 'IN': 'India', 'IE': 'Ireland', 'IT': 'Italy', 'JP': 'Japan', 'LI': 'Liechtenstein',
-        'LT': 'Lithuania', 'LU': 'Luxembourg', 'LV': 'Latvia', 'MT': 'Malta', 'MX': 'Mexico', 'NL': 'Netherlands',
-        'NZ': 'New Zealand', 'NO': 'Norway', 'PL': 'Poland', 'PT': 'Portugal', 'RO': 'Romania', 'SG': 'Singapore',
-        'SK': 'Slovakia', 'SI': 'Slovenia', 'ZA': 'South Africa', 'ES': 'Spain', 'SE': 'Sweden', 'CH': 'Switzerland',
-        'GB': 'United Kingdom', 'US': 'United States'
-    }
-
-    def get_country_name(code: str) -> str:
-        return COUNTRY_CODES.get(code, code or "")
+            self.price = f'€348.00/yr'
+        elif self.plan_type == 'Professional' and self.billing_period == 'monthly':
+            self.price = f'€{44 * (self.user_count or 1):.2f}/mo'
+        elif self.plan_type == 'Professional' and self.billing_period == 'yearly':
+            self.price = f'€{44 * 12 * (self.user_count or 1):.2f}/yr'
 
     # 1. Get Stripe customer by email
     self.customer = anvil.server.call('get_stripe_customer', user['email'])
@@ -224,7 +226,7 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
           <div class='field-row'><b>Email:</b> {self.company_email}</div>
           <div class='field-row'><b>Name:</b> {self.company_name}</div>
           <div class='field-row'><b>Address:</b> {self.company_address}</div>
-          <div class='field-row'><b>Tax ID:</b> {get_country_name(self.tax_country)} - {self.tax_id}</div>
+          <div class='field-row'><b>Tax ID:</b> {self.get_country_name(self.tax_country)} - {self.tax_id}</div>
         </div>
         
         <!-- Payment Method Summary -->
@@ -308,6 +310,6 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
         address.get('city', ''),
         address.get('state', ''),
         address.get('postal_code', ''),
-        get_country_name(address.get('country', ''))
+        self.get_country_name(address.get('country', ''))
     ]
     return ', '.join([p for p in parts if p])
