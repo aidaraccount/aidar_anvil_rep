@@ -30,6 +30,9 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
       return cls.COUNTRY_CODES.get(code, code or "")
 
   def __init__(self, plan_type: str = None, user_count: int = None, billing_period: str = None, **properties):
+    # [AIDAR_SUBSCRIPTION_LOG] --- Start Subscription Form Init ---
+    print("[AIDAR_SUBSCRIPTION_LOG] __init__ called. plan_type=", plan_type, "user_count=", user_count, "billing_period=", billing_period)
+    
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
 
@@ -40,16 +43,34 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
 
     # Any code you write here will run before the form opens.
     global user
-    user = anvil.users.get_user()
-    
+    try:
+        user = anvil.users.get_user()
+        print("[AIDAR_SUBSCRIPTION_LOG] user:", user)
+    except Exception as e:
+        print("[AIDAR_SUBSCRIPTION_LOG] ERROR getting user:", e)
+        user = None
+
     # Always fetch latest tax info from Stripe
-    customer_info = anvil.server.call('get_stripe_customer_with_tax_info', user['email'])
+    # --- TAX INFO GATHERING LOGS ---
+    print("[AIDAR_SUBSCRIPTION_LOG] Fetching tax info for email:", user['email'] if user else None)
+    try:
+        customer_info = anvil.server.call('get_stripe_customer_with_tax_info', user['email'] if user else None)
+        print("[AIDAR_SUBSCRIPTION_LOG] customer_info from get_stripe_customer_with_tax_info:", customer_info)
+    except Exception as e:
+        print("[AIDAR_SUBSCRIPTION_LOG] ERROR calling get_stripe_customer_with_tax_info:", e)
+        customer_info = {}
     self.tax_country = customer_info.get('tax_country', '')
+    print("[AIDAR_SUBSCRIPTION_LOG] self.tax_country:", self.tax_country)
     self.tax_id = customer_info.get('tax_id', '')
+    print("[AIDAR_SUBSCRIPTION_LOG] self.tax_id:", self.tax_id)
     self.tax_id_type = customer_info.get('tax_id_type', '')
-    self.company_email = customer_info.get('email', user['email'])
+    print("[AIDAR_SUBSCRIPTION_LOG] self.tax_id_type:", self.tax_id_type)
+    self.company_email = customer_info.get('email', user['email'] if user else '')
     self.company_name = customer_info.get('name', '')
     self.company_address = self._format_address(customer_info.get('address', {}))
+    print("[AIDAR_SUBSCRIPTION_LOG] self.company_email:", self.company_email)
+    print("[AIDAR_SUBSCRIPTION_LOG] self.company_name:", self.company_name)
+    print("[AIDAR_SUBSCRIPTION_LOG] self.company_address:", self.company_address)
 
     # Get the Stripe Price ID based on plan type and billing period
     self.price_id = None
@@ -160,6 +181,11 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
     self.cancel_btn_click = self._cancel_btn_click
     self.confirm_subscription_click = self._confirm_subscription_click
 
+    # --- CANCEL BUTTON LOGS ---
+    print("[AIDAR_SUBSCRIPTION_LOG] Registering JS cancel_btn_click handler...")
+    anvil.js.window.cancel_btn_click = self._cancel_btn_click
+    print("[AIDAR_SUBSCRIPTION_LOG] Registered JS cancel_btn_click handler:", anvil.js.window.cancel_btn_click)
+
     # Render summary with edit icons for both company and payment
     self.html = f"""
     <div id='payment-form-container'>
@@ -247,6 +273,7 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
 
   def _cancel_btn_click(self, **event_args):
       """Closes the modal popup when the Cancel button is clicked."""
+      print("[AIDAR_SUBSCRIPTION_LOG] _cancel_btn_click called. Closing modal.")
       self.raise_event("x-close-alert")
 
   def _confirm_subscription_click(self, **event_args):
