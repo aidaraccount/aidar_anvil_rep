@@ -71,22 +71,22 @@ class Settings(SettingsTemplate):
     else:      
       self.text_box_last_name.text = '-'
     
-    # b) Subscription Status
-    if acc_data['name'] is not None:
-      self.orga.text = acc_data['name']
-    else:      
-      self.orga.text = 'ADIAR Test Account'
-    if acc_data['active'] is not None:
-      if acc_data['active'] is True:
-        self.user.text = 'active'
-      else:
-        self.user.text = 'inactive'
-    else:
-      self.user.text = 'limited access'
-    if acc_data['admin'] is not None and acc_data['admin'] is True:
-      self.admin.text = 'yes'
-    else:
-        self.admin.text = 'no'
+    # # b) Subscription Status
+    # if acc_data['name'] is not None:
+    #   self.orga.text = acc_data['name']
+    # else:      
+    #   self.orga.text = 'ADIAR Test Account'
+    # if acc_data['active'] is not None:
+    #   if acc_data['active'] is True:
+    #     self.user.text = 'active'
+    #   else:
+    #     self.user.text = 'inactive'
+    # else:
+    #   self.user.text = 'limited access'
+    # if acc_data['admin'] is not None and acc_data['admin'] is True:
+    #   self.admin.text = 'yes'
+    # else:
+    #     self.admin.text = 'no'
 
   
   # -----------------------
@@ -127,7 +127,7 @@ class Settings(SettingsTemplate):
   # -----------------------
   # 3. NAVIGATION USER MANAGEMENT
   def get_data(self, **event_args):
-    return anvil.server.call('get_settings_subscription', user["user_id"])
+    return anvil.server.call('get_settings_user_mgmt', user["user_id"])
   
   def nav_user_click(self, **event_args):
     self.nav_account.role = 'section_buttons'
@@ -143,6 +143,7 @@ class Settings(SettingsTemplate):
     
     # Summary
     sum_data = json.loads(sub_data['summary'])[0]
+    # print(sum_data)
     admin_text = 'admin' if sum_data['admin_count'] == 1 else 'admins'
     self.summary.text = f"{sum_data['active_count']}/{sum_data['no_licenses']} accounts in use - {sum_data['admin_count']} {admin_text}"
     
