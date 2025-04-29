@@ -69,11 +69,11 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
         if self.plan_type == 'Explore' and self.billing_period == 'monthly':
             self.price = f'€29.00/mo'
         elif self.plan_type == 'Explore' and self.billing_period == 'yearly':
-            self.price = f'€348.00/yr'
+            self.price = f'€{26 * 12:.2f}/yr ({26:.2f}/mo)'
         elif self.plan_type == 'Professional' and self.billing_period == 'monthly':
             self.price = f'€{44 * (self.user_count or 1):.2f}/mo'
         elif self.plan_type == 'Professional' and self.billing_period == 'yearly':
-            self.price = f'€{44 * 12 * (self.user_count or 1):.2f}/yr'
+            self.price = f'€{39 * 12 * (self.user_count or 1):.2f}/yr ({39 * (self.user_count or 1):.2f}/mo/user)'
 
     # 1. Get Stripe customer by email
     self.customer = anvil.server.call('get_stripe_customer', user['email'])
@@ -204,7 +204,7 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
     # Register JS-callable methods
     anvil.js.window.edit_company_click = _edit_company_click
     anvil.js.window.edit_payment_click = _edit_payment_click
-    anvil.js.window.cancel_btn_click = _cancel_btn_click
+    anvil.js.window.cancel_btn_click = self._cancel_btn_click
     anvil.js.window.confirm_subscription_click = _confirm_subscription_click
     
     # Instance methods for Python compatibility
@@ -252,6 +252,7 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
         <button id="submit" type="submit">Book Subscription now ({self.price})</button>
       </div>
       <script>
+        window.cancel_btn_click = function() {{ anvil.call(self._cancel_btn_click); }};
         document.getElementById('edit-company').onclick = function() {{ window.edit_company_click && window.edit_company_click(); }};
         document.getElementById('edit-payment').onclick = function() {{ window.edit_payment_click && window.edit_payment_click(); }};
         document.getElementById('cancel-btn').onclick = function() {{ window.cancel_btn_click && window.cancel_btn_click(); }};
@@ -259,6 +260,9 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
       </script>
     </div>
     """
+
+    # Robust Cancel button system: always set cancel handler on window and in JS after each dialog open
+    anvil.js.window.cancel_btn_click = self._cancel_btn_click
 
   def _handle_customer_form_result(self, form):
     """
