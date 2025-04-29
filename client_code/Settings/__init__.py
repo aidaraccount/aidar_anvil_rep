@@ -39,6 +39,9 @@ class Settings(SettingsTemplate):
       get_open_form().SearchBar.visible = False
       
     else:
+      # Initialize customer_info as a class attribute
+      self.customer_info = anvil.server.call('get_stripe_customer_with_tax_info', user['email'])
+      
       # section routing
       section = self.url_dict['section']
       
@@ -52,10 +55,6 @@ class Settings(SettingsTemplate):
         self.nav_user_click()
       elif section == 'Payment':
         self.nav_pay_click()
-
-      # Initialize customer_info as a class attribute
-      self.customer_info = anvil.server.call('get_stripe_customer_with_tax_info', user['email'])
-
     
       
   # -----------------------
@@ -73,6 +72,11 @@ class Settings(SettingsTemplate):
       print(f"[SETTINGS] No customer info found, redirecting from {section} to account")
       section = 'account'
     
+    # Hide Billing and User Management when there is no Customer yet
+    if (not hasattr(self, 'customer_info') or not self.customer_info or not self.customer_info.get('id')):  
+      self.nav_user.visible = False
+      self.nav_pay.visible = False
+
     # Reset all navigation buttons to default style
     self.nav_account.role = 'section_buttons'
     self.nav_not.role = 'section_buttons'
@@ -122,10 +126,6 @@ class Settings(SettingsTemplate):
     # load data
     acc_data = json.loads(anvil.server.call('get_settings_account', user["user_id"]))[0]
     # print(acc_data)
-
-    # hide admin nav
-    if acc_data['admin'] is None or acc_data['admin'] is False:
-      self.nav_user.visible = False
     
     # a) Profile Management
     self.mail.text = acc_data['mail']
