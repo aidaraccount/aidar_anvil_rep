@@ -50,14 +50,13 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
         print("[AIDAR_SUBSCRIPTION_LOG] ERROR getting user:", e)
         user = None
 
-    # Always fetch latest tax info from Stripe
     # --- TAX INFO GATHERING LOGS ---
     print("[AIDAR_SUBSCRIPTION_LOG] Fetching tax info for email:", user['email'] if user else None)
     try:
         customer_info = anvil.server.call('get_stripe_customer_with_tax_info', user['email'] if user else None)
         print("[AIDAR_SUBSCRIPTION_LOG] customer_info from get_stripe_customer_with_tax_info:", customer_info)
         
-        # Direct assignment from response dictionary - captures tax info directly
+        # Direct assignment from response dictionary - SAVE TAX INFO early
         self.tax_country = customer_info.get('tax_country', '')
         self.tax_id = customer_info.get('tax_id', '')
         self.tax_id_type = customer_info.get('tax_id_type', '')
@@ -82,13 +81,23 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
     except Exception as e:
         print("[AIDAR_SUBSCRIPTION_LOG] ERROR calling get_stripe_customer_with_tax_info:", e)
         customer_info = {}
-    self.company_email = customer_info.get('email', user['email'] if user else '')
-    self.company_name = customer_info.get('name', '')
-    self.company_address = self._format_address(customer_info.get('address', {}))
-    print("[AIDAR_SUBSCRIPTION_LOG] self.company_email:", self.company_email)
-    print("[AIDAR_SUBSCRIPTION_LOG] self.company_name:", self.company_name)
-    print("[AIDAR_SUBSCRIPTION_LOG] self.company_address:", self.company_address)
-
+    
+    # IMPORTANT: Use direct assignments from customer_info, not reset
+    if not hasattr(self, 'tax_country') or not self.tax_country:
+        self.tax_country = customer_info.get('tax_country', '')
+    if not hasattr(self, 'tax_id') or not self.tax_id:
+        self.tax_id = customer_info.get('tax_id', '')
+    if not hasattr(self, 'tax_id_type') or not self.tax_id_type:
+        self.tax_id_type = customer_info.get('tax_id_type', '')
+        
+    # CRITICAL: Force from customer_info data - as fallback method
+    if 'tax_country' in customer_info and not self.tax_country:
+        self.tax_country = customer_info['tax_country']
+    if 'tax_id' in customer_info and not self.tax_id:
+        self.tax_id = customer_info['tax_id']
+        
+    print("[AIDAR_SUBSCRIPTION_LOG] FINAL TAX DATA: country=", self.tax_country, "id=", self.tax_id, "type=", self.tax_id_type)
+    
     # Get the Stripe Price ID based on plan type and billing period
     self.price_id = None
     if self.plan_type == "Explore" and self.billing_period == "monthly":
@@ -124,9 +133,13 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
         self.customer = dict(self.customer)
 
     # Fetch and structure company/customer details for summary
-    company_name = self.customer.get('name', '')
-    email = self.customer.get('email', '')
-    address = self.customer.get('address', {})
+    self.company_email = customer_info.get('email', user['email'] if user else '')
+    self.company_name = customer_info.get('name', '')
+    self.company_address = self._format_address(customer_info.get('address', {}))
+    print("[AIDAR_SUBSCRIPTION_LOG] self.company_email:", self.company_email)
+    print("[AIDAR_SUBSCRIPTION_LOG] self.company_name:", self.company_name)
+    print("[AIDAR_SUBSCRIPTION_LOG] self.company_address:", self.company_address)
+    
     tax_ids = self.customer.get('tax_ids', [])
     tax_id = ''
     tax_country = ''
@@ -135,13 +148,13 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
         tax_id = tax_id_obj.get('value', '')
         tax_country = tax_id_obj.get('country', '')
     address_lines = []
-    if address:
-        line1 = address.get('line1', '')
-        line2 = address.get('line2', '')
-        city = address.get('city', '')
-        state = address.get('state', '')
-        postal_code = address.get('postal_code', '')
-        country = address.get('country', '')
+    if self.customer.get('address', {}):
+        line1 = self.customer.get('address', {}).get('line1', '')
+        line2 = self.customer.get('address', {}).get('line2', '')
+        city = self.customer.get('address', {}).get('city', '')
+        state = self.customer.get('address', {}).get('state', '')
+        postal_code = self.customer.get('address', {}).get('postal_code', '')
+        country = self.customer.get('address', {}).get('country', '')
         if line1:
             address_lines.append(line1)
         if line2:
@@ -156,9 +169,6 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
             address_lines.append(country)
     address_formatted = ", ".join([line for line in address_lines if line])
     
-    self.company_name = company_name
-    self.company_email = email
-    self.company_address = address_formatted
     self.tax_id = tax_id
     self.tax_country = tax_country
 
@@ -254,10 +264,17 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
         window.cancel_btn_click = function() {{
             console.log('[AIDAR_SUBSCRIPTION_LOG] JS window.cancel_btn_click fired');
             try {{
-                console.log('[AIDAR_SUBSCRIPTION_LOG] Directly raising x-close-alert event');
-                anvil.closeModal();
+                console.log('[AIDAR_SUBSCRIPTION_LOG] Trying to close dialog');
+                // This works in Anvil to close an alert - call the x-close-alert event directly
+                document.dispatchEvent(new CustomEvent('x-close-alert'));
             }} catch(e) {{
                 console.log('[AIDAR_SUBSCRIPTION_LOG] Error closing modal:', e);
+                // Try several other methods
+                try {{ 
+                    document.querySelector('.anvil-alert-dismiss-btn').click();
+                }} catch(e) {{
+                    console.log('No dismiss button found:', e);
+                }}
             }}
         }};
         
