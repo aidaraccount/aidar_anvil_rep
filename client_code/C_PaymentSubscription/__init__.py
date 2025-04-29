@@ -25,8 +25,9 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
       'SK': 'Slovakia', 'SI': 'Slovenia', 'ZA': 'South Africa', 'ES': 'Spain', 'SE': 'Sweden', 'CH': 'Switzerland',
       'GB': 'United Kingdom', 'US': 'United States'
   }
-  def get_country_name(code: str) -> str:
-      return self.COUNTRY_CODES.get(code, code or "")
+  @classmethod
+  def get_country_name(cls, code: str) -> str:
+      return cls.COUNTRY_CODES.get(code, code or "")
 
   def __init__(self, plan_type: str = None, user_count: int = None, billing_period: str = None, **properties):
     # Set Form properties and Data Bindings.
