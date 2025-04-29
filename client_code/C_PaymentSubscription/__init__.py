@@ -211,6 +211,10 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
           <div class='field-row'><b>Email:</b> {self.company_email}</div>
           <div class='field-row'><b>Name:</b> {self.company_name}</div>
           <div class='field-row'><b>Address:</b> {self.company_address}</div>
+        </div>
+        <!-- Tax Information -->
+        <div class='form-section'>
+          <h3>Tax Information</h3>
           {tax_info_html}
         </div>
         <!-- Payment Method Summary -->
@@ -221,16 +225,10 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
         </div>
         <!-- Plan Summary -->
         <div class='form-section'>
-          <h3>Plan</h3>
-          <div class='field-row'>{self.plan_type}</div>
-        </div>
-        <div class='form-section'>
-          <h3>User count</h3>
-          <div class='field-row'>{self.user_count}</div>
-        </div>
-        <div class='form-section'>
-          <h3>Billing period</h3>
-          <div class='field-row'>{self.billing_period}</div>
+          <h3>Subscription Plan</h3>
+          <div class='field-row'><b>Plan:</b> {self.plan_type}</div>
+          <div class='field-row'><b>User count:</b> {self.user_count}</div>
+          <div class='field-row'><b>Billing period:</b> {self.billing_period}</div>
         </div>
       </form>
       <div class="button-row">
@@ -240,7 +238,7 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
       <script>
         document.getElementById('edit-company').onclick = function() {{ window.edit_company_click(); }};
         document.getElementById('edit-payment').onclick = function() {{ window.edit_payment_click(); }};
-        document.getElementById('cancel-btn').onclick = function() {{ window.cancel_btn_click(); }};
+        document.getElementById('cancel-btn').onclick = function() {{ window.cancel_btn_click && window.cancel_btn_click(); }};
         document.getElementById('submit').onclick = function() {{ window.confirm_subscription_click(); }};
       </script>
     </div>
