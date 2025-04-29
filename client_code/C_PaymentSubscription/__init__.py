@@ -140,13 +140,6 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
     print("[AIDAR_SUBSCRIPTION_LOG] self.company_name:", self.company_name)
     print("[AIDAR_SUBSCRIPTION_LOG] self.company_address:", self.company_address)
     
-    tax_ids = self.customer.get('tax_ids', [])
-    tax_id = ''
-    tax_country = ''
-    if tax_ids:
-        tax_id_obj = tax_ids[0] # Use the first tax ID for summary
-        tax_id = tax_id_obj.get('value', '')
-        tax_country = tax_id_obj.get('country', '')
     address_lines = []
     if self.customer.get('address', {}):
         line1 = self.customer.get('address', {}).get('line1', '')
@@ -168,9 +161,6 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
         if country:
             address_lines.append(country)
     address_formatted = ", ".join([line for line in address_lines if line])
-    
-    self.tax_id = tax_id
-    self.tax_country = tax_country
 
     # Get default payment method summary (if any)
     self.payment_method_summary = "No payment method on file."
