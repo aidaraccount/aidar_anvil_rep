@@ -196,28 +196,28 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
   def _payment_method_ready(self, payment_method_id: str):
     """Called from JS after successful Stripe setup. Handles server calls from Python."""
     try:
-        # 1. Get form data
-        import anvil.js
-        name = anvil.js.window.document.getElementById('name-on-card').value
-        # 2. lookup customer
-        # a) check if customer exists
+        # 1. Get customer info
         print(f"[STRIPE] Python: Looking up Stripe customer for email={user['email']}")
         customer = anvil.server.call('get_stripe_customer', user['email'])
         if customer and customer.get('id'):
             print(f"[STRIPE] Python: Found customer {customer['id']}, attaching payment method.")
-        else:
-            # b) if not -> error
-            print(f"[STRIPE] Python: No customer found, cannot attach payment method.")
-            return
             
-        # 3. attach payment method to customer
-        updated_customer = anvil.server.call('attach_payment_method_to_customer', customer['id'], payment_method_id)
-        print(f"[STRIPE] Python: Payment method attached. Updated customer: {updated_customer}")
-        self.raise_event("x-close-alert", value="success")
-
+            # 2. Attach payment method to customer
+            updated_customer = anvil.server.call('attach_payment_method_to_customer', 
+                                                customer['id'], 
+                                                payment_method_id)
+            print(f"[STRIPE] Python: Payment method attached. Updated customer: {updated_customer}")
+            
+            # 3. Return success to close the form
+            self.raise_event("x-close-alert", value="success")
+        else:
+            # If no customer found, show error
+            print(f"[STRIPE] Python: No customer found, cannot attach payment method.")
+            anvil.js.call_js('eval', "alert('Error: No customer account found. Please create a customer profile first.')")
+            return
     except Exception as err:
         print(f"[STRIPE] Python ERROR: {err}")
-        alert(f'[STRIPE] Error: {err}')
+        anvil.js.call_js('eval', f"alert('[STRIPE] Error: {str(err)}')")
 
   def _close_alert(self):
     """Close the alert dialog from JS."""

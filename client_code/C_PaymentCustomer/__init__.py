@@ -191,6 +191,77 @@ class C_PaymentCustomer(C_PaymentCustomerTemplate):
     
     self._close_on_success = True
 
+  def _validate_eu_vat(self, tax_id: str, tax_country: str) -> bool:
+    """
+    1. Validates an EU VAT number based on format requirements
+    2. Returns True if valid, False otherwise
+    3. Displays appropriate error messages in the UI
+    """
+    # Dictionary of expected formats for EU countries
+    expected_formats = {
+        'DE': 'Format: DE123456789',
+        'AT': 'Format: ATU12345678',
+        'BE': 'Format: BE0123456789',
+        'FR': 'Format: FRXX123456789',
+        'IT': 'Format: IT12345678901',
+        'ES': 'Format: ESX1234567X',
+        'NL': 'Format: NL123456789B01',
+        'PL': 'Format: PL1234567890',
+        'SE': 'Format: SE123456789012',
+        'DK': 'Format: DK12345678',
+        'FI': 'Format: FI12345678',
+        'IE': 'Format: IE1234567X',
+        'PT': 'Format: PT123456789',
+        'GR': 'Format: EL123456789',
+        'LU': 'Format: LU12345678',
+        'LT': 'Format: LT123456789',
+        'LV': 'Format: LV12345678901',
+        'CZ': 'Format: CZ12345678',
+        'SK': 'Format: SK1234567890',
+        'HU': 'Format: HU12345678',
+        'SI': 'Format: SI12345678',
+        'EE': 'Format: EE123456789',
+        'HR': 'Format: HR12345678901',
+        'BG': 'Format: BG123456789',
+        'RO': 'Format: RO1234567890',
+        'CY': 'Format: CY12345678X',
+        'MT': 'Format: MT12345678',
+    }
+    
+    # Basic format validation
+    valid = True
+    if tax_country in expected_formats:
+      # Check if tax_id starts with country code (or EL for GR)
+      expected_prefix = 'EL' if tax_country == 'GR' else tax_country
+      if not tax_id.upper().startswith(expected_prefix):
+        valid = False
+      
+      # Check minimum length (country code + at least 7 chars)
+      if len(tax_id) < 9:
+        valid = False
+    
+    if not valid:
+      # Display error message with expected format
+      format_hint = expected_formats.get(tax_country, '')
+      error_msg = f"""
+      var vatError = document.getElementById('vat-error');
+      if (vatError) {{
+          vatError.textContent = 'Invalid VAT format for {tax_country}. {format_hint}';
+      }}
+      """
+      anvil.js.call_js('eval', error_msg)
+      return False
+    
+    # If validation passes, clear any errors
+    clear_msg = """
+    var vatError = document.getElementById('vat-error');
+    if (vatError) {
+        vatError.textContent = '';
+    }
+    """
+    anvil.js.call_js('eval', clear_msg)
+    return True
+
   def _customer_ready(self, company_name: str, email: str, address: dict, tax_id: str, tax_country: str):
     """
     Called from JS after successful form submit. Handles server calls from Python.
@@ -198,104 +269,83 @@ class C_PaymentCustomer(C_PaymentCustomerTemplate):
     try:
         print(f"[STRIPE] Python: Looking up Stripe customer for email={email}")
         customer = anvil.server.call('get_stripe_customer', email)
+        
+        # 1. Check if customer exists already
         if customer and customer.get('id'):
-            print(f"[STRIPE] Python: Found customer {customer['id']}, not creating new.")
+            print(f"[STRIPE] Python: Found customer {customer['id']}, updating...")
+            
+            # 2. Update customer data
+            updated_customer = anvil.server.call('update_stripe_customer', 
+                                                customer['id'], 
+                                                company_name, 
+                                                email, 
+                                                address)
         else:
+            # 3. Create new customer if needed
             print(f"[STRIPE] Python: No customer found, creating new for email={email}")
             customer = anvil.server.call('create_stripe_customer', email, company_name, address)
-        # c) add customer tax id
-        eu_countries = [
-            'AT', 'BE', 'BG', 'CY', 'CZ', 'DE', 'DK', 'EE', 'ES', 'FI', 'FR', 'GR', 'HR', 'HU', 'IE',
-            'IT', 'LT', 'LU', 'LV', 'MT', 'NL', 'PL', 'PT', 'RO', 'SE', 'SI', 'SK'
-        ]
-        tax_id_type_map = {
-            'GB': 'gb_vat',
-            'US': 'us_ein',
-            'CA': 'ca_bn',
-            'AU': 'au_abn',
-            'CH': 'ch_vat',
-            'NO': 'no_vat',
-            'IS': 'is_vat',
-            'LI': 'li_uid',
-            'IN': 'in_gst',
-            'JP': 'jp_cn',
-            'CN': 'cn_tin',
-            'BR': 'br_cnpj',
-            'MX': 'mx_rfc',
-            'SG': 'sg_gst',
-            'HK': 'hk_br',
-            'NZ': 'nz_gst',
-            'ZA': 'za_vat',
-        }
-        if tax_country in eu_countries:
-            tax_id_type = 'eu_vat'
-        else:
-            tax_id_type = tax_id_type_map.get(tax_country, None)
-        if tax_id_type:
-            anvil.server.call('add_stripe_customer_tax_id', customer['id'], tax_id, tax_id_type)
-        else:
-            print(f"[STRIPE] WARNING: No Stripe tax_id_type for country {tax_country}. Not adding tax ID.")
-        # Success: clear any previous error
-        js_clear = """
-        var vatError = document.getElementById('vat-error');
-        if (vatError) {{
-            vatError.textContent = '';
-        }}
-        """
-        anvil.js.call_js('eval', js_clear)
-        # Close the modal (if inside an alert)
-        anvil.js.call_js('eval', 'window.close_alert()')
-    except Exception as e:
-        if 'Invalid value for eu_vat' in str(e):
-            # Set the VAT error label in the UI via JS, including the expected format for the country
-            expected_formats = {
-                'DE': 'Format: DE123456789',
-                'AT': 'Format: ATU12345678',
-                'BE': 'Format: BE0123456789',
-                'FR': 'Format: FRXX123456789',
-                'IT': 'Format: IT12345678901',
-                'ES': 'Format: ESX1234567X',
-                'NL': 'Format: NL123456789B01',
-                'PL': 'Format: PL1234567890',
-                'SE': 'Format: SE123456789012',
-                'DK': 'Format: DK12345678',
-                'FI': 'Format: FI12345678',
-                'IE': 'Format: IE1234567X',
-                'PT': 'Format: PT123456789',
-                'GR': 'Format: EL123456789',
-                'LU': 'Format: LU12345678',
-                'LT': 'Format: LT123456789',
-                'LV': 'Format: LV12345678901',
-                'CZ': 'Format: CZ12345678',
-                'SK': 'Format: SK1234567890',
-                'HU': 'Format: HU12345678',
-                'SI': 'Format: SI12345678',
-                'EE': 'Format: EE123456789',
-                'HR': 'Format: HR12345678901',
-                'BG': 'Format: BG123456789',
-                'RO': 'Format: RO1234567890',
-                'CY': 'Format: CY12345678X',
-                'MT': 'Format: MT12345678',
+        
+        # 4. Get updated customer ID for tax operations
+        customer_id = customer.get('id') if customer else None
+        if not customer_id:
+            raise Exception("Failed to create or update customer")
+        
+        # 5. Handle tax ID if provided
+        if tax_id and tax_country:
+            # Determine tax ID type based on country
+            eu_countries = [
+                'AT', 'BE', 'BG', 'CY', 'CZ', 'DE', 'DK', 'EE', 'ES', 'FI', 'FR', 'GR', 'HR', 'HU', 'IE',
+                'IT', 'LT', 'LU', 'LV', 'MT', 'NL', 'PL', 'PT', 'RO', 'SE', 'SI', 'SK'
+            ]
+            tax_id_type_map = {
+                'GB': 'gb_vat',
+                'US': 'us_ein',
+                'CA': 'ca_bn',
+                'AU': 'au_abn',
+                'CH': 'ch_vat',
+                'NO': 'no_vat',
+                'IS': 'is_vat',
+                'LI': 'li_uid',
+                'IN': 'in_gst',
+                'JP': 'jp_cn',
+                'CN': 'cn_tin',
+                'BR': 'br_cnpj',
+                'MX': 'mx_rfc',
+                'SG': 'sg_gst',
+                'HK': 'hk_br',
+                'NZ': 'nz_gst',
+                'ZA': 'za_vat',
             }
-            fmt = expected_formats.get(tax_country, '')
-            js = f"""
-            var vatError = document.getElementById('vat-error');
-            if (vatError) {{
-                vatError.textContent = 'Invalid VAT for an EU country.' + (" {fmt}" || '');
-            }}
-            """
-            anvil.js.call_js('eval', js)
-            return
-        else:
-            raise
-    # Success: clear any previous error
-    js_clear = """
-    var vatError = document.getElementById('vat-error');
-    if (vatError) {{
-        vatError.textContent = '';
-    }}
-    """
-    anvil.js.call_js('eval', js_clear)
+            
+            # Set tax ID type based on country
+            if tax_country in eu_countries:
+                tax_id_type = 'eu_vat'
+            else:
+                tax_id_type = tax_id_type_map.get(tax_country)
+                
+            # EU VAT validation
+            if tax_id_type == 'eu_vat':
+                if not self._validate_eu_vat(tax_id, tax_country):
+                    return
+            
+            # Update/create tax ID
+            if tax_id_type:
+                try:
+                    anvil.server.call('update_stripe_customer_tax_id',
+                                    customer_id,
+                                    tax_id,
+                                    tax_id_type)
+                except Exception as e:
+                    print(f"[STRIPE] Error setting tax ID: {e}")
+                    # Continue anyway - we don't want to block the flow for tax ID errors
+        
+        # 6. Close the form and return success
+        print("[STRIPE] Python: Customer data saved successfully")
+        self.raise_event("x-close-alert", value="success")
+        
+    except Exception as e:
+        print(f"[STRIPE] Python ERROR: {e}")
+        anvil.js.call_js('eval', f'alert("[STRIPE] Error: {str(e)}")')
 
   def _close_alert(self):
     """Close the alert dialog from JS."""

@@ -198,87 +198,88 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
               user_count = int(user_count_raw)
           except Exception:
               user_count = 1
-      self.open_subscription(plan_type, user_count)
+      self.open_subscription(plan_type=plan_type, user_count=user_count)
 
   # 4. Handle the full checkout process
-  def open_subscription(self, plan_type: str, user_count: int) -> None:
-        """
-        1. Initiates the full checkout process in a clear, step-by-step manner.
-        2. Collects payment info, creates a Stripe customer, and opens the subscription checkout.
-        3. plan_type: 'Explore' or 'Professional'.
-        4. user_count: Number of users for Professional plan (ignored for Explore).
-        """
-        from ..C_PaymentCustomer import C_PaymentCustomer
-        from ..C_PaymentInfos import C_PaymentInfos
-        from ..C_PaymentSubscription import C_PaymentSubscription
-        import anvil.server
-
-        # 1. CUSTOMER: Ensure a Stripe customer exists
-        customer = anvil.server.call('get_stripe_customer', user['email'])
-        customer_id: str = customer['id'] if customer and customer.get('id') else None
-        if not customer_id:
-            # Open customer info modal if customer does not exist
-            result = alert(
-                content=C_PaymentCustomer(),
-                large=False,
-                width=500,
-                buttons=[],
-                dismissible=True
-            )
-            if result != "success":
-                return
-            # Re-fetch customer after modal closes
-            customer = anvil.server.call('get_stripe_customer', user['email'])
-            customer_id = customer['id'] if customer and customer.get('id') else None
-            if not customer_id:
-                print("[STRIPE] ERROR: Customer creation was not completed. Aborting checkout flow.")
-                return
-
-        # 2. PAYMENT: Ensure a payment method exists
-        payment_methods = anvil.server.call('get_stripe_payment_methods', customer_id)
-        if not payment_methods:
-            # Open payment info modal if no payment method exists
-            result = alert(
-                content=C_PaymentInfos(),
-                large=False,
-                width=500,
-                buttons=[],
-                dismissible=True
-            )
-            if result != "success":
-                return
-            # Re-fetch payment methods after modal closes
-            payment_methods = anvil.server.call('get_stripe_payment_methods', customer_id)
-            if not payment_methods:
-                print("[STRIPE] ERROR: Payment method was not added. Aborting checkout flow.")
-                return
-
-        # 3. SUBSCRIPTION: Open the subscription checkout modal, passing all info
-        billing_period = self.get_billing_period()
-        # Always fetch latest customer and payment info for summary
-        customer = anvil.server.call('get_stripe_customer', user['email'])
-        payment_methods = anvil.server.call('get_stripe_payment_methods', customer_id)
-        alert(
-            content=C_PaymentSubscription(
-                plan_type=plan_type,
-                user_count=user_count,
-                billing_period=billing_period,
-                customer=customer,
-                payment_method=payment_methods[0] if payment_methods else None
-            ),
-            large=False,
-            width=500,
-            buttons=[],
-            dismissible=True
-        )
-
-
-  # 5. Determine the billing period
-  def get_billing_period(self) -> str:
-      """
-      Returns the current billing period selected by the user ('monthly' or 'yearly').
-      """
+  def open_subscription(self, **event_args):
+    """
+    1. Opens the subscription workflow
+    2. Handles navigation between components based on data availability
+    3. Only proceeds to next step if previous data is available
+    """
+    # 1. Get the current subscription plan and billing period
+    plan_type = event_args.get('plan_type')
+    user_count = event_args.get('user_count')
+    billing_period = "monthly" if self.monthly_billing_radio.selected else "yearly"
+    
+    if not plan_type or not user_count:
+      alert("Please select a plan and specify the number of users.", title="Missing Information")
+      return
+    
+    # 2. Check if customer data exists
+    customer = anvil.server.call('get_stripe_customer', anvil.users.get_user()['email'])
+    customer_exists = bool(customer and customer.get('id'))
+    
+    # 3. If no customer data, start with C_PaymentCustomer
+    if not customer_exists:
+      from ..C_PaymentCustomer import C_PaymentCustomer
+      customer_form = C_PaymentCustomer()
+      customer_result = alert(
+        content=customer_form,
+        large=False,
+        width=500,
+        buttons=[],
+        dismissible=True
+      )
+      
+      # Only continue if customer data was successfully submitted
+      if customer_result != 'success':
+        return
+      
+      # Refresh customer data
+      customer = anvil.server.call('get_stripe_customer', anvil.users.get_user()['email'])
+    
+    # 4. Check if payment method exists
+    payment_methods = []
+    if customer and customer.get('id'):
+      payment_methods = anvil.server.call('get_stripe_payment_methods', customer['id'])
+    
+    # 5. If no payment method, open C_PaymentInfos
+    if not payment_methods:
+      from ..C_PaymentInfos import C_PaymentInfos
+      payment_form = C_PaymentInfos()
+      payment_result = alert(
+        content=payment_form,
+        large=False,
+        width=500,
+        buttons=[],
+        dismissible=True
+      )
+      
+      # Only continue if payment method was successfully added
+      if payment_result != 'success':
+        return
+      
+      # Refresh payment methods
+      if customer and customer.get('id'):
+        payment_methods = anvil.server.call('get_stripe_payment_methods', customer['id'])
+    
+    # 6. Finally, open subscription confirmation
+    from ..C_PaymentSubscription import C_PaymentSubscription
+    subscription_form = C_PaymentSubscription(
+      plan_type=plan_type,
+      user_count=user_count,
+      billing_period=billing_period
+    )
+    subscription_result = alert(
+      content=subscription_form,
+      large=False,
+      width=600,
+      buttons=[],
+      dismissible=True
+    )
+    
+    # 7. If subscription was created successfully, refresh the page
+    if subscription_result == 'success':
       import anvil.js
-      # Detect which pricing toggle is selected in the HTML
-      is_monthly = anvil.js.window.document.getElementById('pricing-toggle-monthly').classList.contains('selected')
-      return 'monthly' if is_monthly else 'yearly'
+      anvil.js.window.location.reload()

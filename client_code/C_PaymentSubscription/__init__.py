@@ -38,13 +38,12 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
     # 1. Get Stripe customer by email
     self.customer = anvil.server.call('get_stripe_customer', user['email'])
     print('customer:', self.customer)
-    self.customer_id = self.customer['id']
+    self.customer_id = self.customer.get('id') if self.customer else None
     print('customer_id:', self.customer_id)
     
     # Convert LiveObjectProxy to dict if needed
     if hasattr(self.customer, 'items'):
         self.customer = dict(self.customer)
-    self.customer_id = self.customer.get('id') if self.customer else None
 
     # Fetch and structure company/customer details for summary
     company_name = self.customer.get('name', '')
@@ -69,19 +68,23 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
             address_lines.append(line1)
         if line2:
             address_lines.append(line2)
-        address_lines.append(f"{postal_code} {city}")
+        if city and postal_code:
+            address_lines.append(f"{city}, {postal_code}")
+        elif city:
+            address_lines.append(city)
         if state:
             address_lines.append(state)
         if country:
             address_lines.append(country)
-    address_str = ", ".join([x for x in address_lines if x and x.strip()])
+    address_formatted = ", ".join([line for line in address_lines if line])
+    
     self.company_name = company_name
     self.company_email = email
-    self.company_address = address_str
+    self.company_address = address_formatted
     self.tax_id = tax_id
     self.tax_country = tax_country
 
-    # 2. Get default payment method summary (if any)
+    # Get default payment method summary (if any)
     self.payment_method_summary = "No payment method on file."
     self.default_payment_method = None
     if self.customer_id:
@@ -101,7 +104,7 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
 
     # Define JS-callable methods immediately
     def _edit_company_click():
-      """Opens the C_PaymentCustomer pop-up with prefilled data."""
+      """Opens the C_PaymentCustomer pop-up with prefilled data for editing."""
       from ..C_PaymentCustomer import C_PaymentCustomer
       form = C_PaymentCustomer(
           prefill_email=self.company_email,
@@ -121,6 +124,21 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
       if result == 'success':
           # Handle form result
           self._handle_customer_form_result(form)
+    
+    def _edit_payment_click():
+      """Opens the C_PaymentInfos pop-up to update payment method."""
+      from ..C_PaymentInfos import C_PaymentInfos
+      form = C_PaymentInfos()
+      result = alert(
+          content=form,
+          large=False,
+          width=500,
+          buttons=[],
+          dismissible=True
+      )
+      if result == 'success':
+          # Refresh payment method data and redisplay
+          self.__init__(plan_type=self.plan_type, user_count=self.user_count, billing_period=self.billing_period)
     
     def _cancel_btn_click():
       """Closes the modal popup."""
@@ -144,15 +162,17 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
     
     # Register JS-callable methods
     anvil.js.window.edit_company_click = _edit_company_click
+    anvil.js.window.edit_payment_click = _edit_payment_click
     anvil.js.window.cancel_btn_click = _cancel_btn_click
     anvil.js.window.confirm_subscription_click = _confirm_subscription_click
     
     # Instance methods for Python compatibility
     self.edit_company_click = _edit_company_click
+    self.edit_payment_click = _edit_payment_click
     self.cancel_btn_click = _cancel_btn_click
     self.confirm_subscription_click = _confirm_subscription_click
 
-    # Render summary with edit icon
+    # Render summary with edit icons for both company and payment
     self.html = f"""
     <div id='payment-form-container'>
       <h2>Confirm Subscription</h2>
@@ -161,7 +181,7 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
         <!-- Company Profile Summary -->
         <div class='form-section'>
           <h3 style='display:inline;'>Company Details</h3>
-          <span id='edit-company' style='cursor:pointer;margin-left:8px;' title='Edit'>✏️</span>
+          <span id='edit-company' style='cursor:pointer;margin-left:8px;' title='Edit Company Details'>✏️</span>
           <div class='field-row'><b>Email:</b> {self.company_email}</div>
           <div class='field-row'><b>Name:</b> {self.company_name}</div>
           <div class='field-row'><b>Address:</b> {self.company_address}</div>
@@ -169,7 +189,8 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
         </div>
         <!-- Payment Method Summary -->
         <div class='form-section'>
-          <h3>Payment Method</h3>
+          <h3 style='display:inline;'>Payment Method</h3>
+          <span id='edit-payment' style='cursor:pointer;margin-left:8px;' title='Edit Payment Method'>✏️</span>
           <div class='field-row'>{self.payment_method_summary}</div>
         </div>
         <!-- Plan Summary -->
@@ -192,6 +213,7 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
       </div>
       <script>
         document.getElementById('edit-company').onclick = function() {{ window.edit_company_click(); }};
+        document.getElementById('edit-payment').onclick = function() {{ window.edit_payment_click(); }};
         document.getElementById('cancel-btn').onclick = function() {{ window.cancel_btn_click(); }};
         document.getElementById('submit').onclick = function() {{ window.confirm_subscription_click(); }};
       </script>
@@ -199,6 +221,11 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
     """
 
   def _handle_customer_form_result(self, form):
+    """
+    1. Process the result from the customer form
+    2. Update Stripe customer data
+    3. Refresh display with new information
+    """
     # Collect updated values from the form
     updated_name = form.company_name_box.text
     import anvil.users
@@ -214,6 +241,8 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
     updated_tax_id = form.tax_id_box.text
     updated_tax_country = form.tax_country_box.selected_value
     b2b_checked = form.business_checkbox.checked
+    
+    # Determine tax_id_type
     tax_id_type_map = {
         'GB': 'gb_vat',
         'US': 'us_ein',
@@ -237,11 +266,14 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
         'AT', 'BE', 'BG', 'CY', 'CZ', 'DE', 'DK', 'EE', 'ES', 'FI', 'FR', 'GR', 'HR', 'HU', 'IE',
         'IT', 'LT', 'LU', 'LV', 'MT', 'NL', 'PL', 'PT', 'RO', 'SE', 'SI', 'SK'
     ]
+    
+    # Get tax ID type based on country
     if updated_tax_country in eu_countries:
         tax_id_type = 'eu_vat'
     else:
         tax_id_type = tax_id_type_map.get(updated_tax_country, None)
-    # Update customer info
+    
+    # Update customer info in Stripe
     anvil.server.call(
         'update_stripe_customer',
         self.customer_id,
@@ -249,6 +281,7 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
         updated_email,
         updated_address
     )
+    
     # Update tax info if provided
     if updated_tax_id and tax_id_type:
         anvil.server.call(
@@ -257,18 +290,6 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
             updated_tax_id,
             tax_id_type
         )
-    # Re-fetch customer data and rerender summary
-    self.customer = anvil.server.call('get_stripe_customer', updated_email)
-    self.payment_method_summary = "No payment method on file."
-    self.default_payment_method = None
-    if self.customer_id:
-        payment_methods = anvil.server.call('get_stripe_payment_methods', self.customer_id)
-        if payment_methods:
-            pm = payment_methods[0]
-            brand = pm.get('card', {}).get('brand', '')
-            last4 = pm.get('card', {}).get('last4', '')
-            exp_month = pm.get('card', {}).get('exp_month', '')
-            exp_year = pm.get('card', {}).get('exp_year', '')
-            self.default_payment_method = pm.get('id')
-            self.payment_method_summary = f"{brand.title()} **** **** **** {last4} (exp {exp_month}/{exp_year})"
+    
+    # Re-fetch customer data and rerender summary by reinitializing
     self.__init__(plan_type=self.plan_type, user_count=self.user_count, billing_period=self.billing_period)
