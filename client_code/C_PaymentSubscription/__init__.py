@@ -181,8 +181,8 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
           # Refresh payment method data and redisplay
           self.__init__(plan_type=self.plan_type, user_count=self.user_count, billing_period=self.billing_period)
     
-    def _cancel_btn_click():
-      """Closes the modal popup."""
+    def _cancel_btn_click(self, **event_args):
+      """Closes the modal popup when the Cancel button is clicked."""
       self.raise_event("x-close-alert")
     
     def _confirm_subscription_click():
@@ -204,7 +204,7 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
     # Register JS-callable methods
     anvil.js.window.edit_company_click = _edit_company_click
     anvil.js.window.edit_payment_click = _edit_payment_click
-    anvil.js.window.cancel_btn_click = self._cancel_btn_click
+    anvil.js.window.cancel_btn_click = _cancel_btn_click
     anvil.js.window.confirm_subscription_click = _confirm_subscription_click
     
     # Instance methods for Python compatibility
