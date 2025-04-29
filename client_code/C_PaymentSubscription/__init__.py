@@ -227,52 +227,22 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
     2. Update Stripe customer data
     3. Refresh display with new information
     """
-    # Collect updated values from the form
-    updated_name = form.company_name_box.text
-    updated_email = anvil.users.get_user()['email']
-    updated_address = {
-        'line1': form.address_line1_box.text,
-        'line2': form.address_line2_box.text,
-        'city': form.city_box.text,
-        'state': form.state_box.text,
-        'postal_code': form.postal_code_box.text,
-        'country': form.country_box.selected_value
-    }
-    updated_tax_id = form.tax_id_box.text
-    updated_tax_country = form.tax_country_box.selected_value
-    b2b_checked = form.business_checkbox.checked
-    
-    # Determine tax_id_type
-    tax_id_type_map = {
-        'GB': 'gb_vat',
-        'US': 'us_ein',
-        'CA': 'ca_bn',
-        'AU': 'au_abn',
-        'CH': 'ch_vat',
-        'NO': 'no_vat',
-        'IS': 'is_vat',
-        'LI': 'li_uid',
-        'IN': 'in_gst',
-        'JP': 'jp_cn',
-        'CN': 'cn_tin',
-        'BR': 'br_cnpj',
-        'MX': 'mx_rfc',
-        'SG': 'sg_gst',
-        'HK': 'hk_br',
-        'NZ': 'nz_gst',
-        'ZA': 'za_vat',
-    }
-    eu_countries = [
-        'AT', 'BE', 'BG', 'CY', 'CZ', 'DE', 'DK', 'EE', 'ES', 'FI', 'FR', 'GR', 'HR', 'HU', 'IE',
-        'IT', 'LT', 'LU', 'LV', 'MT', 'NL', 'PL', 'PT', 'RO', 'SE', 'SI', 'SK'
-    ]
-    
-    # Get tax ID type based on country
-    if updated_tax_country in eu_countries:
-        tax_id_type = 'eu_vat'
+    # Get updated values from the form using a method or attribute that returns the data
+    # Assume form.get_customer_data() returns a dict with the fields: name, email, address, tax_id, tax_id_type
+    if hasattr(form, 'get_customer_data'):
+        data = form.get_customer_data()
+        updated_name = data.get('name')
+        updated_email = data.get('email')
+        updated_address = data.get('address')
+        updated_tax_id = data.get('tax_id')
+        tax_id_type = data.get('tax_id_type')
     else:
-        tax_id_type = tax_id_type_map.get(updated_tax_country, None)
-    
+        # fallback: try to get from public attributes if get_customer_data is not implemented
+        updated_name = getattr(form, 'company_name', None)
+        updated_email = getattr(form, 'company_email', anvil.users.get_user()['email'])
+        updated_address = getattr(form, 'address', {})
+        updated_tax_id = getattr(form, 'tax_id', None)
+        tax_id_type = getattr(form, 'tax_id_type', None)
     # Update customer info in Stripe
     anvil.server.call(
         'update_stripe_customer',
@@ -281,7 +251,6 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
         updated_email,
         updated_address
     )
-    
     # Update tax info if provided
     if updated_tax_id and tax_id_type:
         anvil.server.call(
@@ -290,6 +259,5 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
             updated_tax_id,
             tax_id_type
         )
-    
     # Re-fetch customer data and rerender summary by reinitializing
     self.__init__(plan_type=self.plan_type, user_count=self.user_count, billing_period=self.billing_period)
