@@ -306,7 +306,10 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
 
   def _edit_payment_click(self, **event_args):
       """Opens the C_PaymentInfos pop-up to update payment method."""
-      form = C_PaymentInfos()
+      # Set B2B to True if tax ID exists
+      b2b = bool(self.tax_id and self.tax_country)
+      print("[AIDAR_SUBSCRIPTION_LOG] Opening payment form with B2B:", b2b)
+      form = C_PaymentInfos(prefill_b2b=True if self.tax_id and self.tax_country else False)
       result = alert(
           content=form,
           large=False,
