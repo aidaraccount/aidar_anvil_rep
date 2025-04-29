@@ -38,6 +38,21 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
         self.price_id = "price_1REVzZQTBcqmUQgtpyBz8Gky"
     print('price_id:', self.price_id)
     
+    # 0. Country code to name mapping
+    COUNTRY_CODES = {
+        'AU': 'Australia', 'AT': 'Austria', 'BE': 'Belgium', 'BR': 'Brazil', 'BG': 'Bulgaria', 'CA': 'Canada',
+        'CN': 'China', 'HR': 'Croatia', 'CY': 'Cyprus', 'CZ': 'Czech Republic', 'DK': 'Denmark', 'EE': 'Estonia',
+        'FI': 'Finland', 'FR': 'France', 'DE': 'Germany', 'GR': 'Greece', 'HK': 'Hong Kong', 'HU': 'Hungary',
+        'IS': 'Iceland', 'IN': 'India', 'IE': 'Ireland', 'IT': 'Italy', 'JP': 'Japan', 'LI': 'Liechtenstein',
+        'LT': 'Lithuania', 'LU': 'Luxembourg', 'LV': 'Latvia', 'MT': 'Malta', 'MX': 'Mexico', 'NL': 'Netherlands',
+        'NZ': 'New Zealand', 'NO': 'Norway', 'PL': 'Poland', 'PT': 'Portugal', 'RO': 'Romania', 'SG': 'Singapore',
+        'SK': 'Slovakia', 'SI': 'Slovenia', 'ZA': 'South Africa', 'ES': 'Spain', 'SE': 'Sweden', 'CH': 'Switzerland',
+        'GB': 'United Kingdom', 'US': 'United States'
+    }
+
+    def get_country_name(code: str) -> str:
+        return COUNTRY_CODES.get(code, code or "")
+
     # 1. Get Stripe customer by email
     self.customer = anvil.server.call('get_stripe_customer', user['email'])
     print('customer:', self.customer)
@@ -181,7 +196,7 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
     if self.tax_id:
         tax_info_html += f'<div><strong>Tax ID:</strong> {self.tax_id}</div>'
     if self.tax_country:
-        tax_info_html += f'<div><strong>Tax Country:</strong> {self.tax_country}</div>'
+        tax_info_html += f'<div><strong>Tax Country:</strong> {get_country_name(self.tax_country)}</div>'
     if getattr(self, 'tax_id_type', None):
         tax_info_html += f'<div><strong>Tax ID Type:</strong> {self.tax_id_type}</div>'
     self.html = f"""
