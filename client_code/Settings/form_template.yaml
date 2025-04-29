@@ -679,7 +679,7 @@ components:
             margin: [null, null, '10', null]
           spacing_above: none
           spacing_below: none
-          text: Company Details
+          text: Company Profile
         type: Label
       - components:
         - layout_properties: {grid_position: 'ELUVMH,RVDRHT'}
@@ -688,10 +688,10 @@ components:
             role: header-6
             spacing:
               margin: [null, null, null, '15']
-            text: Company email
+            text: Subscription email
           type: Label
         - layout_properties: {grid_position: 'ELUVMH,JZBWVS'}
-          name: pay_contact_copy
+          name: pay_profile_email
           properties: {role: header-6}
           type: Label
         - layout_properties: {grid_position: 'IJGZKD,EBLLHJ'}
@@ -703,7 +703,7 @@ components:
             text: Company name
           type: Label
         - layout_properties: {grid_position: 'IJGZKD,QKIAWO'}
-          name: pay_card_copy
+          name: pay_profile_name
           properties: {role: header-6}
           type: Label
         - layout_properties: {grid_position: 'FXEDUG,RIONKR'}
@@ -712,10 +712,10 @@ components:
             role: header-6
             spacing:
               margin: [null, null, null, '15']
-            text: Address
+            text: Billing Address
           type: Label
         - layout_properties: {grid_position: 'FXEDUG,NBPSRE'}
-          name: pay_card_copy_copy
+          name: pay_profile_address
           properties: {role: header-6}
           type: Label
         - layout_properties: {grid_position: 'VEAUDQ,VGLJJG'}
@@ -724,35 +724,23 @@ components:
             role: header-6
             spacing:
               margin: [null, null, null, '15']
-            text: Tax Country
+            text: Tax Details
           type: Label
         - layout_properties: {grid_position: 'VEAUDQ,VIUNAH'}
-          name: pay_card_copy_copy_2
+          name: pay_profile_tax
           properties: {role: header-6}
           type: Label
-        - layout_properties: {grid_position: 'OWFQHJ,SYDXFK'}
-          name: label_2_copy_copy_2_copy_copy_copy_copy_3
-          properties:
-            role: header-6
-            spacing:
-              margin: [null, null, null, '15']
-            text: Tax ID
-          type: Label
-        - layout_properties: {grid_position: 'OWFQHJ,YGAXAS'}
-          name: pay_card_copy_copy_3
-          properties: {role: header-6}
-          type: Label
-        - event_bindings: {click: change_payment_details_click}
+        - event_bindings: {click: change_pay_profile_click}
           layout_properties: {grid_position: 'YGVEEF,PMIKUX'}
-          name: add_payment_details_copy_copy
+          name: change_pay_profile
           properties:
             align: right
             role: [header-6, call-to-action-button-disabled]
             text: edit
           type: Button
         layout_properties: {grid_position: 'PYKCGB,KELLYV'}
-        name: yes_payment_copy
-        properties: {col_spacing: tiny, col_widths: '{"RVDRHT":10,"JZBWVS":50,"EBLLHJ":10,"QKIAWO":50,"RIONKR":10,"NBPSRE":50,"VGLJJG":10,"VIUNAH":50,"SYDXFK":10,"YGAXAS":50}'}
+        name: pay_profile
+        properties: {col_spacing: tiny, col_widths: '{"RVDRHT":10,"JZBWVS":50,"EBLLHJ":10,"QKIAWO":50,"RIONKR":10,"NBPSRE":50,"VGLJJG":10,"VIUNAH":50}'}
         type: ColumnPanel
       layout_properties: {grid_position: 'VXBZQG,MFZEIN'}
       name: company_details

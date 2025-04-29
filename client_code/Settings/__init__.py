@@ -305,12 +305,10 @@ class Settings(SettingsTemplate):
         print(f"[STRIPE] No Stripe customer found for email={user['email']}")
 
     # show content
-    if True:
-      self.no_payment.visible = True
-      self.yes_payment.visible = False
-    else:
-      self.no_payment.visible = False
-      self.yes_payment.visible = True
+    self.pay_profile_email.text = ''
+    self.pay_profile_name.text = ''
+    self.pay_profile_address.text = ''
+    self.pay_profile_tax.text = ''
   
 
   # ---------------------------------------------------------------------
@@ -581,6 +579,7 @@ class Settings(SettingsTemplate):
     print(details)
     
 
-  def change_payment_details_click(self, **event_args):
+  def change_pay_profile_click(self, **event_args):
+    # open the customer pop-up
     pass
   
