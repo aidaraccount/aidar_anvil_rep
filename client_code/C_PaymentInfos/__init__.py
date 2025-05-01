@@ -71,7 +71,7 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
             <!-- 2.2.2 Name on card field -->
             <div class=\"form-section\">                
                 <h3>Name on card</h3>
-                <input id=\"name-on-card\" name=\"name-on-card\" type=\"text\" autocomplete=\"cc-name\" required placeholder=\"Name on card\" value=\"{customer_name}\">
+                <input id=\"name-on-card\" name=\"name-on-card\" type=\"text\" autocomplete=\"cc-name\" required placeholder=\"Name on card\">
             </div>
 
             <!-- 2.2.3 Error display and buttons -->
