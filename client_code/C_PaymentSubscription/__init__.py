@@ -122,6 +122,11 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
         elif self.plan_type == 'Professional' and self.billing_period == 'yearly':
             self.price = f'€{39 * 12 * (self.user_count or 1):.2f}/yr ({39 * (self.user_count or 1):.2f}/mo/user)'
 
+    if self.billing_period == 'yearly':
+        self.price_submit = self.price.split(' (')[0]
+    else:
+        self.price_submit = self.price
+
     # 1. Get Stripe customer by email
     self.customer = anvil.server.call('get_stripe_customer', user['email'])
     print('customer:', self.customer)
@@ -243,7 +248,7 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
       </form>
       <div class="button-row">
         <button type="button" id="cancel-btn">Cancel</button>
-        <button id="submit" type="submit">Book Subscription now ({self.price})</button>
+        <button id="submit" type="submit">Book Subscription now ({self.price_submit})</button>
       </div>
       <script>
         console.log('[AIDAR_SUBSCRIPTION_LOG] Setting up cancel button JS handler');
