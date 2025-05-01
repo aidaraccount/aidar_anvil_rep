@@ -224,9 +224,7 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
           <div class='stripe-text'><b>Email:</b> {self.company_email}</div>
           <div class='stripe-text'><b>Name:</b> {self.company_name}</div>
           <div class='stripe-text'><b>Address:</b> {self.company_address}</div>
-          <div class='stripe-text'><b>Tax Country:</b> {self.get_country_name(self.tax_country)}</div>
-          <div class='stripe-text'><b>Tax ID:</b> {self.tax_id}</div>
-          <div class='stripe-text'><b>Tax ID Type:</b> {self.tax_id_type}</div>
+          <div class='stripe-text'><b>Tax:</b> {self.get_country_name(self.tax_country)} - {self.tax_id}</div>
         </div>
         <!-- Payment Method Summary -->
         <div class='form-section'>
@@ -239,8 +237,8 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
           <h3>Subscription Plan</h3>
           <div class='stripe-text'><b>Plan:</b> {self.plan_type}</div>
           <div class='stripe-text'><b>User count:</b> {self.user_count}</div>
-          <div class='field-row'><b>Billing period:</b> {self.billing_period}</div>
-          <div class='field-row'><b>Price:</b> {self.price}</div>
+          <div class='stripe-text'><b>Billing period:</b> {self.billing_period}</div>
+          <div class='stripe-text'><b>Price:</b> {self.price}</div>
         </div>
       </form>
       <div class="button-row">
