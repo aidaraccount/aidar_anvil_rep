@@ -54,6 +54,12 @@ db_schema:
     - admin_ui: {width: 200}
       name: extended_trial
       type: bool
+    - admin_ui: {order: 1.0625, width: 200}
+      name: active
+      type: bool
+    - admin_ui: {order: 1.09375, width: 200}
+      name: admin
+      type: bool
     server: full
     title: Users
   waiters:
