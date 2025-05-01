@@ -59,7 +59,7 @@ def create_stripe_customer(email: str, name: str = None, address: dict = None) -
 
     # set user['admin'] = True after successful creation
     if customer.id:
-        global user
+        user = anvil.users.get_user()
         user['admin'] = True
 
     print(f"[Stripe] Created customer: id={customer.id}, email={customer.email}, name={customer.name}, address={customer.address}")
@@ -228,7 +228,7 @@ def create_stripe_subscription(customer_id: str, price_id: str, plan_type: str, 
     
     # Set user['active'] = True and user['plan'] = plan after successful subscription creation
     if subscription.id:
-        global user
+        user = anvil.users.get_user()
         user['active'] = True
         user['plan'] = plan_type
     
@@ -254,15 +254,3 @@ def add_stripe_customer_tax_id(customer_id: str, tax_id: str, tax_id_type: str =
     )
     print(f"[Stripe] Added tax ID: {tax_id_obj.id} for customer {customer_id}, type={tax_id_type}, value={tax_id}")
     return dict(tax_id_obj)
-
-
-
-#   # # charge customer
-#   # c = customer.charge(amount=999, currency="EUR")
-#   # print(c)
-
-#   # create subscription
-#   subscription = stripe_customer.new_subscription("price_1RH2eaKpYockGiqNOasQNTNj")
-#   print(subscription)
-#   print(subscription[0])
-  
