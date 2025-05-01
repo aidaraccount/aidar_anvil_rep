@@ -129,9 +129,7 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
 
     # 1. Get Stripe customer by email
     self.customer = anvil.server.call('get_stripe_customer', user['email'])
-    print('customer:', self.customer)
     self.customer_id = self.customer.get('id') if self.customer else None
-    print('customer_id:', self.customer_id)
     
     # Convert LiveObjectProxy to dict if needed
     if hasattr(self.customer, 'items'):
@@ -141,9 +139,6 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
     self.company_email = customer_info.get('email', user['email'] if user else '')
     self.company_name = customer_info.get('name', '')
     self.company_address = self._format_address(customer_info.get('address', {}))
-    print("[AIDAR_SUBSCRIPTION_LOG] self.company_email:", self.company_email)
-    print("[AIDAR_SUBSCRIPTION_LOG] self.company_name:", self.company_name)
-    print("[AIDAR_SUBSCRIPTION_LOG] self.company_address:", self.company_address)
     
     address_lines = []
     if self.customer.get('address', {}):
@@ -165,7 +160,6 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
             address_lines.append(state)
         if country:
             address_lines.append(country)
-    address_formatted = ", ".join([line for line in address_lines if line])
 
     # Get default payment method summary (if any)
     self.payment_method_summary = "No payment method on file."
@@ -211,12 +205,9 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
     self.confirm_subscription_click = self._confirm_subscription_click
 
     # --- CANCEL BUTTON LOGS ---
-    print("[AIDAR_SUBSCRIPTION_LOG] Registering JS cancel_btn_click handler...")
     anvil.js.window.cancel_btn_click = self._cancel_btn_click
-    print("[AIDAR_SUBSCRIPTION_LOG] Registered JS cancel_btn_click handler:", anvil.js.window.cancel_btn_click)
-
+    
     # --- TAX INFO LOG: Show in summary HTML ---
-    print("[AIDAR_SUBSCRIPTION_LOG] Rendering tax info in HTML. self.tax_country=", self.tax_country, "self.tax_id=", self.tax_id, "self.tax_id_type=", self.tax_id_type)
     self.html = f"""
     <div id='payment-form-container'>
       <h2>Confirm Subscription</h2>
@@ -251,7 +242,6 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
         <button id="submit" type="submit">Book Subscription now ({self.price_submit})</button>
       </div>
       <script>
-        console.log('[AIDAR_SUBSCRIPTION_LOG] Setting up cancel button JS handler');
         
         // Direct method to properly close the modal from JS
         window.cancel_btn_click = function() {{
@@ -281,7 +271,6 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
       </script>
     </div>
     """
-    print("[AIDAR_SUBSCRIPTION_LOG] HTML rendered. Tax info should be visible in summary.")
 
     # Robust Cancel button system: always set cancel handler on window and in JS after each dialog open
     anvil.js.window.cancel_btn_click = self._cancel_btn_click
@@ -337,9 +326,20 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
         return
       try:
         subscription = anvil.server.call('create_stripe_subscription', self.customer_id, self.price_id, self.plan_type, self.user_count)
-        alert(f"Subscription created! Status: {subscription.get('status')}", title="Success")
-        anvil.js.window.location.replace("/#settings?section=Subscription")
         self.raise_event("x-close-alert", value="success")
+
+        # success alert
+        alert_res = alert("You're now able to create your first agent - have fun discovering",
+              title="Congratulations!",
+              buttons=[("OK", False), ("CREATE AGENT", True)]
+        )
+        if alert_res is True:
+          # navigate to ctreate agent page !!!!!!!!!!!!!!!
+          pass
+        else:
+          # refresh page to see new subscription !!!!!!!!!!!!!!!
+          pass
+        
       except Exception as e:
         alert(f"Failed to create subscription: {e}", title="Error")
 

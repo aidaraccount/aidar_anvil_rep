@@ -303,7 +303,11 @@ class C_PaymentCustomer(C_PaymentCustomerTemplate):
             # 3. Create new customer if needed
             print(f"[STRIPE] Python: No customer found, creating new for email={user['email']}")
             customer = anvil.server.call('create_stripe_customer', user['email'], company_name, address)
-            
+            if customer:
+                Notification("", title="Company profile created!", style="success").show()
+            else:
+                Notification("", title="Error: Could not create the company profile!", style="error").show()
+          
         # 4. Get updated customer ID for tax operations
         customer_id = customer.get('id') if customer else None
         if not customer_id:
@@ -355,8 +359,8 @@ class C_PaymentCustomer(C_PaymentCustomerTemplate):
                                     tax_id,
                                     tax_id_type)
                 except Exception as e:
+                    Notification("", title="Error: Could not add the tax ID!", style="error").show()
                     print(f"[STRIPE] Error setting tax ID: {e}")
-                    # Continue anyway - we don't want to block the flow for tax ID errors
         
         # 6. Close the form and return success
         print("[STRIPE] Python: Customer data saved successfully")
@@ -364,4 +368,3 @@ class C_PaymentCustomer(C_PaymentCustomerTemplate):
         
     except Exception as e:
         print(f"[STRIPE] Python ERROR: {e}")
-        anvil.js.call_js('eval', f'alert("[STRIPE] Error: {str(e)}")')

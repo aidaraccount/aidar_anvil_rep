@@ -316,6 +316,7 @@ class C_PaymentContainer(C_PaymentContainerTemplate):
                                             self.user['email'],
                                             customer_data['name'],
                                             customer_data['address'])
+                Notification("", title="Company profile created!", style="success").show()
                 self.data['customer_id'] = customer['id']
             
             # Handle tax ID if provided
@@ -334,7 +335,8 @@ class C_PaymentContainer(C_PaymentContainerTemplate):
             self.show_view("payment")
             
         except Exception as e:
-            anvil.js.call_js('eval', f'alert("Error: {str(e)}")')
+            Notification("", title="Error: Could not create the company profile!", style="error").show()
+            print(f'Error: {str(e)}')
     
     def _submit_payment_form(self) -> None:
         """

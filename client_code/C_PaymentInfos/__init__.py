@@ -21,6 +21,7 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
     
     # Get the Stripe SetupIntent client_secret from the server
     client_secret = anvil.server.call('create_setup_intent')
+    
     # Get customer info for billing_details
     customer = anvil.server.call('get_stripe_customer', user['email'])
     customer_email = customer.get('email', '')
@@ -226,14 +227,17 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
                                                 customer['id'], 
                                                 payment_method_id)
             print(f"[STRIPE] Python: Payment method attached. Updated customer: {updated_customer}")
-            
+            Notification("", title="Payment method created!", style="success").show()
+          
             # 3. Return success to close the form
             self.raise_event("x-close-alert", value="success")
+          
         else:
             # If no customer found, show error
-            print(f"[STRIPE] Python: No customer found, cannot attach payment method.")
-            anvil.js.call_js('eval', "alert('Error: No customer account found. Please create a customer profile first.')")
+            print("[STRIPE] Python: No customer found, cannot attach payment method.")
+            Notification("", title="Could not add payment method!", style="error").show()
             return
+          
     except Exception as err:
         print(f"[STRIPE] Python ERROR: {err}")
-        anvil.js.call_js('eval', f"alert('[STRIPE] Error: {str(err)}')")
+        Notification("", title="Could not add payment method!", style="error").show()
