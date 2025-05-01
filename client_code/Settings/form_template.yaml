@@ -780,7 +780,7 @@ components:
           type: Button
         layout_properties: {grid_position: 'FGOYVA,FYYDYS'}
         name: no_payment
-        properties: {}
+        properties: {visible: false}
         type: ColumnPanel
       - components:
         - layout_properties: {grid_position: 'ELUVMH,RVDRHT'}
@@ -817,7 +817,7 @@ components:
           type: Button
         layout_properties: {grid_position: 'PYKCGB,KELLYV'}
         name: yes_payment
-        properties: {col_spacing: tiny, col_widths: '{"RVDRHT":10,"JZBWVS":50,"EBLLHJ":10,"QKIAWO":50}'}
+        properties: {col_spacing: tiny, col_widths: '{"RVDRHT":10,"JZBWVS":50,"EBLLHJ":10,"QKIAWO":50}', visible: false}
         type: ColumnPanel
       layout_properties: {grid_position: 'QNZWKH,LEIHEI'}
       name: payment_details

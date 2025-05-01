@@ -42,7 +42,7 @@ class C_PaymentCustomer(C_PaymentCustomerTemplate):
             <!-- Subscription email -->
             <div class="form-section">
                 <h3>Subscription email</h3>
-                <div class="subscription-email">
+                <div class="stripe-text">
                     {user['email']}
                 </div>
             </div>

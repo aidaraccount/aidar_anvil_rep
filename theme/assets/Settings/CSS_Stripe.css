@@ -168,13 +168,10 @@
     margin: 0;
 }
 
-.subscription-email {
-    padding: 8px 12px;
-    background: #f7f7f7;
-    border-radius: 4px;
-    border: 1px solid #e0e0e0;
-    color: #444;
-    font-size: 16px;
+.stripe-text {
+    color: var(--Grey);
+    font-size: 14px;
+    padding-left: 7px;
 }
 
 /* 8. Responsive adjustments */

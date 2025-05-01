@@ -221,24 +221,24 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
         <div class='form-section'>
           <h3 style='display:inline;'>Company Details</h3>
           <span id='edit-company' style='cursor:pointer;margin-left:8px;' title='Edit Company Details'>✏️</span>
-          <div class='field-row'><b>Email:</b> {self.company_email}</div>
-          <div class='field-row'><b>Name:</b> {self.company_name}</div>
-          <div class='field-row'><b>Address:</b> {self.company_address}</div>
-          <div class='field-row'><b>Tax Country:</b> {self.get_country_name(self.tax_country)}</div>
-          <div class='field-row'><b>Tax ID:</b> {self.tax_id}</div>
-          <div class='field-row'><b>Tax ID Type:</b> {self.tax_id_type}</div>
+          <div class='stripe-text'><b>Email:</b> {self.company_email}</div>
+          <div class='stripe-text'><b>Name:</b> {self.company_name}</div>
+          <div class='stripe-text'><b>Address:</b> {self.company_address}</div>
+          <div class='stripe-text'><b>Tax Country:</b> {self.get_country_name(self.tax_country)}</div>
+          <div class='stripe-text'><b>Tax ID:</b> {self.tax_id}</div>
+          <div class='stripe-text'><b>Tax ID Type:</b> {self.tax_id_type}</div>
         </div>
         <!-- Payment Method Summary -->
         <div class='form-section'>
           <h3 style='display:inline;'>Payment Method</h3>
           <span id='edit-payment' style='cursor:pointer;margin-left:8px;' title='Edit Payment Method'>✏️</span>
-          <div class='field-row'>{self.payment_method_summary}</div>
+          <div class='stripe-text'>{self.payment_method_summary}</div>
         </div>
         <!-- Plan Summary -->
         <div class='form-section'>
           <h3>Subscription Plan</h3>
-          <div class='field-row'><b>Plan:</b> {self.plan_type}</div>
-          <div class='field-row'><b>User count:</b> {self.user_count}</div>
+          <div class='stripe-text'><b>Plan:</b> {self.plan_type}</div>
+          <div class='stripe-text'><b>User count:</b> {self.user_count}</div>
           <div class='field-row'><b>Billing period:</b> {self.billing_period}</div>
           <div class='field-row'><b>Price:</b> {self.price}</div>
         </div>
