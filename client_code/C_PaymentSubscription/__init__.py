@@ -333,7 +333,7 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
         alert('No Stripe price selected. Please select a valid plan.', title='Error')
         return
       try:
-        subscription = anvil.server.call('create_stripe_subscription', self.customer_id, self.price_id, self.user_count)
+        subscription = anvil.server.call('create_stripe_subscription', self.customer_id, self.price_id, self.plan_type, self.user_count)
         alert(f"Subscription created! Status: {subscription.get('status')}", title="Success")
         anvil.js.window.location.replace("/#settings?section=Subscription")
         self.raise_event("x-close-alert", value="success")

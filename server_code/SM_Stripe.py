@@ -34,12 +34,15 @@ def create_stripe_customer(email: str, name: str = None, address: dict = None) -
     """
     import stripe
     stripe.api_key = anvil.secrets.get_secret("stripe_secret_key")
+    
+    # Add customer to Stripe
     customer_data = {"email": email}
     if name:
         customer_data["name"] = name
     if address:
         customer_data["address"] = address
     customer = stripe.Customer.create(**customer_data)
+    
     # Set invoice footer for EU customers
     EU_COUNTRIES = {
         "AT", "BE", "BG", "CY", "CZ", "DE", "DK", "EE", "ES", "FI", "FR", "GR",
@@ -53,6 +56,12 @@ def create_stripe_customer(email: str, name: str = None, address: dict = None) -
                 "footer": "Reverse charge: VAT to be accounted for by the recipient according to EU Directive 2006/112/EC."
             }
         )
+
+    # set user['admin'] = True after successful creation
+    if customer.id:
+        global user
+        user['admin'] = True
+
     print(f"[Stripe] Created customer: id={customer.id}, email={customer.email}, name={customer.name}, address={customer.address}")
     return dict(customer)
 
@@ -192,16 +201,18 @@ def attach_payment_method_to_customer(customer_id: str, payment_method_id: str) 
 
 
 @anvil.server.callable
-def create_stripe_subscription(customer_id: str, price_id: str, user_count: int = 1) -> dict:
+def create_stripe_subscription(customer_id: str, price_id: str, plan_type: str, user_count: int = 1) -> dict:
     """
     1. Create a new subscription for a customer, applying a fixed tax rate for German customers.
     2. Print and return the subscription object (as dict).
     """
     import stripe
     stripe.api_key = anvil.secrets.get_secret("stripe_secret_key")
+    
     # Fetch customer to get country
     customer = stripe.Customer.retrieve(customer_id)
     country = customer.address.country if customer.address and hasattr(customer.address, 'country') else None
+    
     # Only apply the fixed tax rate for German customers
     items = [{"price": price_id, "quantity": user_count}]
     subscription_args = {
@@ -211,7 +222,16 @@ def create_stripe_subscription(customer_id: str, price_id: str, user_count: int 
     }
     if country == "DE":
         subscription_args["default_tax_rates"] = ["txr_1RHo7sQTBcqmUQgtajAz0voj"]
+    
+    # Create subscription
     subscription = stripe.Subscription.create(**subscription_args)
+    
+    # Set user['active'] = True and user['plan'] = plan after successful subscription creation
+    if subscription.id:
+        global user
+        user['active'] = True
+        user['plan'] = plan_type
+    
     print(f"[Stripe] Created subscription: id={subscription.id}, customer={subscription.customer}, status={subscription.status}, tax_rates={subscription.default_tax_rates}")
     return dict(subscription)
 

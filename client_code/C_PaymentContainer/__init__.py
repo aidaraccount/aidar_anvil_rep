@@ -385,6 +385,7 @@ class C_PaymentContainer(C_PaymentContainerTemplate):
             subscription = anvil.server.call('create_stripe_subscription',
                                            self.data['customer_id'],
                                            self.data['price_id'],
+                                           self.data['plan']['type'],
                                            self.data['plan']['user_count'])
             
             # Show success message

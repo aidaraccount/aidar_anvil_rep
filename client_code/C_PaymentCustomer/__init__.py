@@ -304,7 +304,7 @@ class C_PaymentCustomer(C_PaymentCustomerTemplate):
             # 3. Create new customer if needed
             print(f"[STRIPE] Python: No customer found, creating new for email={email}")
             customer = anvil.server.call('create_stripe_customer', email, company_name, address)
-        
+            
         # 4. Get updated customer ID for tax operations
         customer_id = customer.get('id') if customer else None
         if not customer_id:
