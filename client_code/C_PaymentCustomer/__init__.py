@@ -42,7 +42,9 @@ class C_PaymentCustomer(C_PaymentCustomerTemplate):
             <!-- Subscription email -->
             <div class="form-section">
                 <h3>Subscription email</h3>
-                <input id="email" name="email" type="email" autocomplete="email" required placeholder="Email" value="{user['email'] if user['email'] else (prefill_email if prefill_email else '')}" readonly>
+                <div class="subscription-email">
+                    {user['email']}
+                </div>
             </div>
             <!-- Company Name -->
             <div class="form-section">
@@ -105,7 +107,6 @@ class C_PaymentCustomer(C_PaymentCustomerTemplate):
     
     // 1. Setup input references
     var companyNameInput = document.getElementById('company-name');
-    var emailInput = document.getElementById('email');
     var addressLine1Input = document.getElementById('address-line-1');
     var addressLine2Input = document.getElementById('address-line-2');
     var cityInput = document.getElementById('city');
@@ -142,7 +143,6 @@ class C_PaymentCustomer(C_PaymentCustomerTemplate):
     // 4. Form validation
     function validateForm() {{
         var companyNameComplete = companyNameInput.value.trim().length > 0;
-        var emailComplete = emailInput.value.trim().length > 0;
         var addressComplete = (
             addressLine1Input.value.trim().length > 0 &&
             cityInput.value.trim().length > 0 &&
@@ -152,7 +152,7 @@ class C_PaymentCustomer(C_PaymentCustomerTemplate):
         var taxIdValid = taxIdInput.value.trim().length > 3;
         var taxCountryValid = taxCountryInput.value.length === 2;
         var businessComplete = businessChecked && taxIdValid && taxCountryValid;
-        var formValid = companyNameComplete && emailComplete && addressComplete && businessComplete;
+        var formValid = companyNameComplete && addressComplete && businessComplete;
         submitBtn.disabled = !formValid;
         if (formValid) {{
             submitBtn.style.backgroundColor = 'var(--Orange, #FF7A00)';
@@ -163,7 +163,7 @@ class C_PaymentCustomer(C_PaymentCustomerTemplate):
         }}
         return formValid;
     }}
-    [companyNameInput, emailInput, addressLine1Input, cityInput, postalCodeInput, stateInput, taxIdInput, taxCountryInput].forEach(function(input) {{
+    [companyNameInput, addressLine1Input, cityInput, postalCodeInput, stateInput, taxIdInput, taxCountryInput].forEach(function(input) {{
         input.addEventListener('input', validateForm);
     }});
     businessCheckbox.addEventListener('change', validateForm);
@@ -171,7 +171,6 @@ class C_PaymentCustomer(C_PaymentCustomerTemplate):
     document.getElementById('payment-form').addEventListener('submit', function(event) {{
         event.preventDefault();
         var companyName = companyNameInput.value;
-        var email = emailInput.value;
         var address = {{
             line1: addressLine1Input.value,
             line2: addressLine2Input.value,
@@ -192,7 +191,7 @@ class C_PaymentCustomer(C_PaymentCustomerTemplate):
         submitBtn.disabled = true;
         // Call Python handler
         if (typeof window.customer_ready === 'function') {{
-            window.customer_ready(companyName, email, address, taxId, taxCountry);
+            window.customer_ready(companyName, address, taxId, taxCountry);
         }} else {{
             document.getElementById('form-errors').textContent = 'Internal error: callback not found.';
         }}
@@ -282,13 +281,13 @@ class C_PaymentCustomer(C_PaymentCustomerTemplate):
     anvil.js.call_js('eval', clear_msg)
     return True
 
-  def _customer_ready(self, company_name: str, email: str, address: dict, tax_id: str, tax_country: str):
+  def _customer_ready(self, company_name: str, address: dict, tax_id: str, tax_country: str):
     """
     Called from JS after successful form submit. Handles server calls from Python.
     """
     try:
-        print(f"[STRIPE] Python: Looking up Stripe customer for email={email}")
-        customer = anvil.server.call('get_stripe_customer', email)
+        print(f"[STRIPE] Python: Looking up Stripe customer for email={user['email']}")
+        customer = anvil.server.call('get_stripe_customer', user['email'])
         
         # 1. Check if customer exists already
         if customer and customer.get('id'):
@@ -298,12 +297,12 @@ class C_PaymentCustomer(C_PaymentCustomerTemplate):
             updated_customer = anvil.server.call('update_stripe_customer', 
                                                 customer['id'], 
                                                 company_name, 
-                                                email, 
+                                                user['email'], 
                                                 address)
         else:
             # 3. Create new customer if needed
-            print(f"[STRIPE] Python: No customer found, creating new for email={email}")
-            customer = anvil.server.call('create_stripe_customer', email, company_name, address)
+            print(f"[STRIPE] Python: No customer found, creating new for email={user['email']}")
+            customer = anvil.server.call('create_stripe_customer', user['email'], company_name, address)
             
         # 4. Get updated customer ID for tax operations
         customer_id = customer.get('id') if customer else None
