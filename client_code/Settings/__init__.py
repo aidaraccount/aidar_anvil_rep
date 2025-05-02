@@ -73,9 +73,12 @@ class Settings(SettingsTemplate):
       section = 'account'
     
     # Hide Billing and User Management when there is no Customer yet or its not an admin
-    if (not hasattr(self, 'customer_info') or not self.customer_info or not self.customer_info.get('id')) or user['admin'] is not True:  
-      self.nav_user.visible = False
+    if user['plan'] is None or user['admin'] is not True:  
       self.nav_pay.visible = False
+
+    # Hide User Management when there is no prof subsc or its not an admin
+    if user['plan'] != 'Professional' or user['admin'] is not True:  
+      self.nav_user.visible = False
 
     # Reset all navigation buttons to default style
     self.nav_account.role = 'section_buttons'
