@@ -391,10 +391,10 @@ class C_PaymentContainer(C_PaymentContainerTemplate):
                                            self.data['plan']['user_count'])
             
             # Show success message
-            anvil.js.call_js('eval', f'alert("Subscription created successfully!")')
+            anvil.js.call_js('eval', 'alert("Subscription created successfully!")')
             
-            # Redirect to settings page
-            anvil.js.window.location.replace("/#settings?section=Subscription")
+            # # Redirect to settings page
+            # anvil.js.window.location.replace("/#settings?section=Subscription")
             
             # Close the container
             self.raise_event("x-close-alert", value="success")

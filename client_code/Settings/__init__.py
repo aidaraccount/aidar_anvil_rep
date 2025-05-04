@@ -73,7 +73,7 @@ class Settings(SettingsTemplate):
       section = 'account'
     
     # Hide Billing and User Management when there is no Customer yet or its not an admin
-    if user['plan'] is None or user['admin'] is not True:  
+    if user['admin'] is not True:  
       self.nav_pay.visible = False
 
     # Hide User Management when there is no prof subsc or its not an admin
@@ -173,66 +173,82 @@ class Settings(SettingsTemplate):
     
 
   # -----------------------
-  # 3. INIT - NAVIGATION USER MANAGEMENT
+  # 3. INIT - NAVIGATION SUBSCRIPTION
   def nav_sub_click(self, **event_args):
     self._set_nav_section('sub')
     
     # load data
-    sub_data = anvil.server.call('get_settings_subscription', user["user_id"])
-    # print(sub_data)
+    # not needed as its part of Users
     
     # a) Subscription Status
     if user["expiration_date"] is not None and user["expiration_date"] < date.today():
       # I. no subscription
-      print("User has no subscription!")
-      if sub_data is not None:
-        print("But had a former subscription!")
+      print("I. no subscription!")
+      
+      # a) subscription
+      self.type.text = 'No valid subscription'
+      
+      self.label_end.visible = False
+      self.end.visible = False
+      self.label_orga.visible = False
+      self.orga.visible = False
+      self.label_user.visible = False
+      self.user.visible = False
+      self.label_admin.visible = False
+      self.admin.visible = False
 
-      else:
-        print("And never had a subscription!")
+      # b) plan
+      self.plan_header.text = 'Activate Subscription Plan'
+      self.plan_desc.text = 'Subscribe now and start discovering right away!'
 
     
-    elif sub_data is None and (user["expiration_date"] is None or user["expiration_date"] >= date.today()) and user["extended_trial"] is not True:
+    elif user["plan"] in ['Trial', 'Extended Trial'] and (user["expiration_date"] is None or user["expiration_date"] >= date.today()):
       # II. active test user:
-      print("User is testing!")
+      print(f"II. active test user - {user['plan']}!")
 
       # a) subscription
-      self.type.text = 'Free Trial'
+      if user["plan"] == 'Extended Trial':
+        self.type.text = 'Extended Free Trial'
+      else:
+        self.type.text = 'Free Trial'
       if user["expiration_date"] is None:
         self.end.text = 'unlimited'
       else:
         days = (user["expiration_date"] - date.today()).days
         days_left = f"{days} day left" if days == 1 else f"{days} days left"
         self.end.text = f"{user['expiration_date'].strftime('%b %d, %Y')} ({days_left})"
-        
-      self.orga.text = ''
-      self.user.text = ''
-      self.admin.text = ''
+
+      self.label_orga.visible = False
+      self.orga.visible = False
+      self.label_user.visible = False
+      self.user.visible = False
+      self.label_admin.visible = False
+      self.admin.visible = False
 
       # b) plan
       self.plan_header.text = 'Activate Subscription Plan'
       self.plan_desc.text = 'Subscribe now and your subscription will start after your free trial ends.'
 
     
-    elif sub_data is None and (user["expiration_date"] is None or user["expiration_date"] >= date.today()) and user["extended_trial"] is True:
-      # III. active extended test user:
-      print("User is extended testing!")
+    elif user["plan"] in ['Explore', 'Professional'] and (user["expiration_date"] is None or user["expiration_date"] >= date.today()):
+      # III. subscribed customer:
+      print(f"III. subscribed customer! - {user['plan']}")
 
-    
-    elif sub_data is not None and (user["expiration_date"] is None or user["expiration_date"] >= date.today()):
-      # IV. subscribed customer:
-      print("User is a subscribed customer!")
-      sub_data = json.loads(sub_data)[0]
+      # a) subscription
+      self.type.text = 'Paid Subscription'
+      self.label_end.visible = False
+      self.end.visible = False
       
-      self.orga.text = sub_data['name']
-      if sub_data['active'] is True:
+      self.orga.text = user['customer_name']
+      if user['active'] is True:
         self.user.text = 'active'
       else:
         self.user.text = 'inactive'
-      if sub_data['admin'] is not None and sub_data['admin'] is True:
+      if user['admin'] is not None and user['admin'] is True:
         self.admin.text = 'yes'
       else:
-          self.admin.text = 'no'   
+        self.admin.text = 'no'   
+
     
   # -----------------------
   # 4. INIT - NAVIGATION USER MANAGEMENT
