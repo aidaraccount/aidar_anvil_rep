@@ -291,8 +291,6 @@ class C_PaymentCustomer(C_PaymentCustomerTemplate):
         
         # 1. Check if customer exists already
         if customer and customer.get('id'):
-            print(f"[STRIPE] Python: Found customer {customer['id']}, updating...")
-            
             # 2. Update customer data
             updated_customer = anvil.server.call('update_stripe_customer', 
                                                 customer['id'], 
@@ -301,7 +299,6 @@ class C_PaymentCustomer(C_PaymentCustomerTemplate):
                                                 address)
         else:
             # 3. Create new customer if needed
-            print(f"[STRIPE] Python: No customer found, creating new for email={user['email']}")
             customer = anvil.server.call('create_stripe_customer', user['email'], company_name, address)
             if customer:
                 Notification("", title="Company profile created!", style="success").show()

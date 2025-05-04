@@ -62,6 +62,10 @@ def create_stripe_customer(email: str, name: str = None, address: dict = None) -
         user = anvil.users.get_user()
         user['admin'] = True
 
+        # create customer in backend db
+        user = anvil.users.get_user()
+        anvil.server.call('create_customer', user['user_id'], name, user['email'])
+  
     print(f"[Stripe] Created customer: id={customer.id}, email={customer.email}, name={customer.name}, address={customer.address}")
     return dict(customer)
 
@@ -81,6 +85,11 @@ def update_stripe_customer(customer_id: str, name: str = None, email: str = None
     if address:
         update_data['address'] = address
     customer = stripe.Customer.modify(customer_id, **update_data)
+
+    # update customer in backend db
+    user = anvil.users.get_user()
+    anvil.server.call('create_customer', user['user_id'], name, email)
+
     print(f"[Stripe] Updated customer: id={customer.id}, email={customer.email}, name={customer.name}, address={customer.address}")
     return dict(customer)
 
