@@ -33,7 +33,7 @@ db_schema:
     - admin_ui: {order: 9, width: 200}
       name: remembered_logins
       type: simpleObject
-    - admin_ui: {order: 1.25, width: 137}
+    - admin_ui: {order: -0.15625, width: 137}
       name: expiration_date
       type: date
     - admin_ui: {order: 0.5, width: 112}
@@ -45,15 +45,12 @@ db_schema:
     - admin_ui: {order: -0.5, width: 112}
       name: customer_id
       type: number
-    - admin_ui: {order: 1.15625, width: 200}
+    - admin_ui: {order: 1.1484375, width: 200}
       name: welcome_email_sent
       type: bool
     - admin_ui: {order: -0.25, width: 200}
       name: customer_name
       type: string
-    - admin_ui: {order: 1.4375, width: 200}
-      name: extended_trial
-      type: bool
     - admin_ui: {order: 1.0625, width: 200}
       name: active
       type: bool

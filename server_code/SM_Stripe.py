@@ -57,14 +57,15 @@ def create_stripe_customer(email: str, name: str = None, address: dict = None) -
             }
         )
 
-    # set user['admin'] = True after successful creation
+    # if Stripe Customer successfully created
     if customer.id:
-        user = anvil.users.get_user()
-        user['admin'] = True
-
-        # create customer in backend db
-        user = anvil.users.get_user()
-        anvil.server.call('create_customer', user['user_id'], name, user['email'])
+      user = anvil.users.get_user()
+      user['active'] = True
+      user['admin'] = True
+      user['compnay_name'] = name
+      
+      # create customer in backend db
+      anvil.server.call('create_customer', user['user_id'], name, user['email'])
   
     print(f"[Stripe] Created customer: id={customer.id}, email={customer.email}, name={customer.name}, address={customer.address}")
     return dict(customer)
@@ -225,21 +226,22 @@ def create_stripe_subscription(customer_id: str, price_id: str, plan_type: str, 
     # Only apply the fixed tax rate for German customers
     items = [{"price": price_id, "quantity": user_count}]
     subscription_args = {
-        "customer": customer_id,
-        "items": items,
-        "discounts": [{"coupon": "I1ivrR97"}]
+      "customer": customer_id,
+      "items": items,
+      "discounts": [{"coupon": "I1ivrR97"}]
     }
     if country == "DE":
-        subscription_args["default_tax_rates"] = ["txr_1RHo7sQTBcqmUQgtajAz0voj"]
+      subscription_args["default_tax_rates"] = ["txr_1RHo7sQTBcqmUQgtajAz0voj"]
     
     # Create subscription
     subscription = stripe.Subscription.create(**subscription_args)
     
     # Set user['active'] = True and user['plan'] = plan after successful subscription creation
     if subscription.id:
-        user = anvil.users.get_user()
-        user['active'] = True
-        user['plan'] = plan_type
+      user = anvil.users.get_user()
+      user['active'] = True
+      user['admin'] = True
+      user['plan'] = plan_type
     
     print(f"[Stripe] Created subscription: id={subscription.id}, customer={subscription.customer}, status={subscription.status}, tax_rates={subscription.default_tax_rates}")
     return dict(subscription)
@@ -257,9 +259,9 @@ def add_stripe_customer_tax_id(customer_id: str, tax_id: str, tax_id_type: str =
     import stripe
     stripe.api_key = anvil.secrets.get_secret("stripe_secret_key")
     tax_id_obj = stripe.Customer.create_tax_id(
-        customer_id,
-        type=tax_id_type,
-        value=tax_id
+      customer_id,
+      type=tax_id_type,
+      value=tax_id
     )
     print(f"[Stripe] Added tax ID: {tax_id_obj.id} for customer {customer_id}, type={tax_id_type}, value={tax_id}")
     return dict(tax_id_obj)
