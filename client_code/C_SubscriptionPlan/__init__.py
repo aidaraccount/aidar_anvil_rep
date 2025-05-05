@@ -107,57 +107,81 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
     <script>
     // Pricing toggle JS
     function setMonthly() {{
-        document.getElementById('pricing-toggle-monthly').classList.add('selected');
-        document.getElementById('pricing-toggle-yearly').classList.remove('selected');
-        document.querySelector('.pricing-plan.left .original-price').innerHTML = '<span class="euro-symbol">€</span><span class="price-number">39</span>';
-        document.querySelector('.pricing-plan.left .plan-price').innerHTML = '<span class="euro-symbol">€</span>29';
-        document.querySelector('.pricing-plan.left .price-period').textContent = '/month';
+        var origPrice = document.querySelector('.pricing-plan.left .original-price');
+        if (origPrice) origPrice.innerHTML = '<span class="euro-symbol">€</span><span class="price-number">39</span>';
+        var planPrice = document.querySelector('.pricing-plan.left .plan-price');
+        if (planPrice) planPrice.innerHTML = '<span class="euro-symbol">€</span>29';
+        var pricePeriod = document.querySelector('.pricing-plan.left .price-period');
+        if (pricePeriod) pricePeriod.textContent = '/month';
+        var monthlyBtn = document.getElementById('pricing-toggle-monthly');
+        var yearlyBtn = document.getElementById('pricing-toggle-yearly');
+        if (monthlyBtn) monthlyBtn.classList.add('selected');
+        if (yearlyBtn) yearlyBtn.classList.remove('selected');
         setProfessionalPrice();
     }}
     function setYearly() {{
-        document.getElementById('pricing-toggle-monthly').classList.remove('selected');
-        document.getElementById('pricing-toggle-yearly').classList.add('selected');
-        document.querySelector('.pricing-plan.left .original-price').innerHTML = '<span class="euro-symbol">€</span><span class="price-number">35</span>';
-        document.querySelector('.pricing-plan.left .plan-price').innerHTML = '<span class="euro-symbol">€</span>25';
-        document.querySelector('.pricing-plan.left .price-period').textContent = '/month (billed yearly)';
+        var origPrice = document.querySelector('.pricing-plan.left .original-price');
+        if (origPrice) origPrice.innerHTML = '<span class="euro-symbol">€</span><span class="price-number">35</span>';
+        var planPrice = document.querySelector('.pricing-plan.left .plan-price');
+        if (planPrice) planPrice.innerHTML = '<span class="euro-symbol">€</span>25';
+        var pricePeriod = document.querySelector('.pricing-plan.left .price-period');
+        if (pricePeriod) pricePeriod.textContent = '/month (billed yearly)';
+        var monthlyBtn = document.getElementById('pricing-toggle-monthly');
+        var yearlyBtn = document.getElementById('pricing-toggle-yearly');
+        if (monthlyBtn) monthlyBtn.classList.remove('selected');
+        if (yearlyBtn) yearlyBtn.classList.add('selected');
         setProfessionalPrice();
     }}
     function setProfessionalPrice() {{
-        var isYearly = document.getElementById('pricing-toggle-yearly').classList.contains('selected');
+        var isYearly = false;
+        var yearlyBtn = document.getElementById('pricing-toggle-yearly');
+        if (yearlyBtn) isYearly = yearlyBtn.classList.contains('selected');
+        var origPrice = document.querySelector('.pricing-plan.recommended .original-price');
+        var planPrice = document.querySelector('.pricing-plan.recommended .plan-price');
+        var pricePeriod = document.querySelector('.pricing-plan.recommended .price-period');
         if (isYearly) {{
-            document.querySelector('.pricing-plan.recommended .original-price').innerHTML = '<span class="euro-symbol">€</span><span class="price-number">52</span>';
-            document.querySelector('.pricing-plan.recommended .plan-price').innerHTML = '<span class="euro-symbol">€</span>37';
-            document.querySelector('.pricing-plan.recommended .price-period').textContent = '/user & month (billed yearly)';
+            if (origPrice) origPrice.innerHTML = '<span class="euro-symbol">€</span><span class="price-number">52</span>';
+            if (planPrice) planPrice.innerHTML = '<span class="euro-symbol">€</span>37';
+            if (pricePeriod) pricePeriod.textContent = '/user & month (billed yearly)';
         }} else {{
-            document.querySelector('.pricing-plan.recommended .original-price').innerHTML = '<span class="euro-symbol">€</span><span class="price-number">58</span>';
-            document.querySelector('.pricing-plan.recommended .plan-price').innerHTML = '<span class="euro-symbol">€</span>41';
-            document.querySelector('.pricing-plan.recommended .price-period').textContent = '/user & month';
+            if (origPrice) origPrice.innerHTML = '<span class="euro-symbol">€</span><span class="price-number">58</span>';
+            if (planPrice) planPrice.innerHTML = '<span class="euro-symbol">€</span>41';
+            if (pricePeriod) pricePeriod.textContent = '/user & month';
         }}
     }}
-    document.getElementById('pricing-toggle-monthly').addEventListener('click', setMonthly);
-    document.getElementById('pricing-toggle-yearly').addEventListener('click', setYearly);
-    setMonthly();
-    // User count selector logic
-    var userCountInput = document.getElementById('user-count');
-    document.getElementById('user-minus').addEventListener('click', function() {{
-        var val = parseInt(userCountInput.value.replace(/\D/g, ''));
-        if (isNaN(val) || val <= 1) val = 2;
-        userCountInput.value = val - 1;
-        userCountInput.dispatchEvent(new Event('input'));
+    document.addEventListener('DOMContentLoaded', function() {{
+        var monthlyBtn = document.getElementById('pricing-toggle-monthly');
+        var yearlyBtn = document.getElementById('pricing-toggle-yearly');
+        if (monthlyBtn) monthlyBtn.addEventListener('click', setMonthly);
+        if (yearlyBtn) yearlyBtn.addEventListener('click', setYearly);
+        setMonthly();
+        // User count selector logic
+        var userCountInput = document.getElementById('user-count');
+        var minusBtn = document.getElementById('user-minus');
+        var plusBtn = document.getElementById('user-plus');
+        var pluralSpan = document.getElementById('user-count-plural');
+        if (minusBtn) minusBtn.addEventListener('click', function() {{
+            if (!userCountInput) return;
+            var val = parseInt(userCountInput.value.replace(/\D/g, ''));
+            if (isNaN(val) || val <= 1) val = 2;
+            userCountInput.value = val - 1;
+            userCountInput.dispatchEvent(new Event('input'));
+        }});
+        if (plusBtn) plusBtn.addEventListener('click', function() {{
+            if (!userCountInput) return;
+            var val = parseInt(userCountInput.value.replace(/\D/g, ''));
+            if (isNaN(val)) val = 1;
+            userCountInput.value = val + 1;
+            userCountInput.dispatchEvent(new Event('input'));
+        }});
+        if (userCountInput) userCountInput.addEventListener('input', function() {{
+            var val = parseInt(userCountInput.value.replace(/\D/g, ''));
+            if (isNaN(val) || val < 1) val = 1;
+            userCountInput.value = val;
+            if (pluralSpan) pluralSpan.style.display = (val > 1) ? '' : 'none';
+        }});
+        if (userCountInput) userCountInput.dispatchEvent(new Event('input'));
     }});
-    document.getElementById('user-plus').addEventListener('click', function() {{
-        var val = parseInt(userCountInput.value.replace(/\D/g, ''));
-        if (isNaN(val)) val = 1;
-        userCountInput.value = val + 1;
-        userCountInput.dispatchEvent(new Event('input'));
-    }});
-    userCountInput.addEventListener('input', function() {{
-        var val = parseInt(userCountInput.value.replace(/\D/g, ''));
-        if (isNaN(val) || val < 1) val = 1;
-        userCountInput.value = val;
-        document.getElementById('user-count-plural').style.display = (val > 1) ? '' : 'none';
-    }});
-    userCountInput.dispatchEvent(new Event('input'));
     </script>
     """
 
