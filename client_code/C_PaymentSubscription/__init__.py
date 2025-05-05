@@ -74,10 +74,6 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
                 if not self.tax_id_type:
                     self.tax_id_type = first_tax.get('type', '')
         
-        print("[AIDAR_SUBSCRIPTION_LOG] After fallback - self.tax_country:", self.tax_country)
-        print("[AIDAR_SUBSCRIPTION_LOG] After fallback - self.tax_id:", self.tax_id)
-        print("[AIDAR_SUBSCRIPTION_LOG] After fallback - self.tax_id_type:", self.tax_id_type)
-        
     except Exception as e:
         print("[AIDAR_SUBSCRIPTION_LOG] ERROR calling get_stripe_customer_with_tax_info:", e)
         customer_info = {}
@@ -96,8 +92,6 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
     if 'tax_id' in customer_info and not self.tax_id:
         self.tax_id = customer_info['tax_id']
         
-    print("[AIDAR_SUBSCRIPTION_LOG] FINAL TAX DATA: country=", self.tax_country, "id=", self.tax_id, "type=", self.tax_id_type)
-    
     # Get the Stripe Price ID based on plan type and billing period
     self.price_id = None
     if self.plan_type == "Explore" and self.billing_period == "monthly":
@@ -178,13 +172,6 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
     # Ensure payment_method_summary is always set before HTML rendering
     if not hasattr(self, 'payment_method_summary'):
         self.payment_method_summary = "No payment method on file."
-
-    # [AIDAR_SUBSCRIPTION_LOG] --- DEBUG: Print all key variables before rendering HTML ---
-    print("[AIDAR_SUBSCRIPTION_LOG] DEBUG: self.tax_country=", repr(self.tax_country), "self.tax_id=", repr(self.tax_id), "self.tax_id_type=", repr(self.tax_id_type))
-    print("[AIDAR_SUBSCRIPTION_LOG] DEBUG: customer_info=", repr(customer_info))
-    print("[AIDAR_SUBSCRIPTION_LOG] DEBUG: user=", repr(user))
-    print("[AIDAR_SUBSCRIPTION_LOG] DEBUG: self.company_email=", repr(self.company_email), "self.company_name=", repr(self.company_name), "self.company_address=", repr(self.company_address))
-    print("[AIDAR_SUBSCRIPTION_LOG] DEBUG: About to render HTML with above values.")
 
     # Define instance methods
     self._edit_company_click = self.__class__._edit_company_click.__get__(self)
