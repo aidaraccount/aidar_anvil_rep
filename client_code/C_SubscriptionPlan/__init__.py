@@ -523,28 +523,28 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
       # Only continue if customer data was successfully submitted
       if customer_result != 'success':
         return
-        # Refresh customer data
-        customer = anvil.server.call('get_stripe_customer', anvil.users.get_user()['email'])
-      # 4. Check if payment method exists
-      payment_methods = []
+      # Refresh customer data
+      customer = anvil.server.call('get_stripe_customer', anvil.users.get_user()['email'])
+    # 4. Check if payment method exists
+    payment_methods = []
     if customer and customer.get('id'):
       payment_methods = anvil.server.call('get_stripe_payment_methods', customer['id'])
-      # 5. If no payment method, open C_PaymentInfos
-      if not payment_methods:
-        payment_form = C_PaymentInfos()
-        payment_result = alert(
-          content=payment_form,
-          large=False,
-          width=500,
-          buttons=[],
-          dismissible=True
-        )
-        # Only continue if payment method was successfully added
-        if payment_result != 'success':
-          return
-          # Refresh payment methods
-          if customer and customer.get('id'):
-            payment_methods = anvil.server.call('get_stripe_payment_methods', customer['id'])
+    # 5. If no payment method, open C_PaymentInfos
+    if not payment_methods:
+      payment_form = C_PaymentInfos()
+      payment_result = alert(
+        content=payment_form,
+        large=False,
+        width=500,
+        buttons=[],
+        dismissible=True
+      )
+      # Only continue if payment method was successfully added
+      if payment_result != 'success':
+        return
+      # Refresh payment methods
+      if customer and customer.get('id'):
+        payment_methods = anvil.server.call('get_stripe_payment_methods', customer['id'])
     # 6. Finally, open subscription confirmation
     subscription_form = C_PaymentSubscription(
       plan_type=plan_type,
