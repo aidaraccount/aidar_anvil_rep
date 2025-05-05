@@ -280,8 +280,8 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
     self.add_component(self.explore_btn, slot="explore-plan-button")
     self.add_component(self.professional_btn, slot="professional-plan-button")
     
-    # Set up JS listeners for billing toggle and user count changes
-    anvil.js.window.setTimeout("""
+    # Set up JS listeners for billing toggle and user count changes using proper Anvil self reference
+    self.call_js("""
       try {
         // Direct event handling for toggle buttons
         var monthlyBtn = document.getElementById('pricing-toggle-monthly');
@@ -290,14 +290,14 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
         if (monthlyBtn) {
           monthlyBtn.onclick = function() {
             console.log("Monthly toggle clicked");
-            anvil.call(window.pyComponent, "js_update_button_state");
+            self.js_update_button_state();
           };
         }
         
         if (yearlyBtn) {
           yearlyBtn.onclick = function() {
             console.log("Yearly toggle clicked");
-            anvil.call(window.pyComponent, "js_update_button_state");
+            self.js_update_button_state();
           };
         }
         
@@ -306,7 +306,7 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
         if (userCountInput) {
           userCountInput.oninput = function() {
             console.log("User count changed");
-            anvil.call(window.pyComponent, "js_update_button_state");
+            self.js_update_button_state();
           };
           
           var minusBtn = document.getElementById('user-minus');
@@ -315,9 +315,8 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
           if (minusBtn) {
             minusBtn.onclick = function() {
               console.log("Minus button clicked");
-              // Need to wait for JS to update the count before calling Python
               setTimeout(function() {
-                anvil.call(window.pyComponent, "js_update_button_state");
+                self.js_update_button_state();
               }, 100);
             };
           }
@@ -325,22 +324,18 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
           if (plusBtn) {
             plusBtn.onclick = function() {
               console.log("Plus button clicked");
-              // Need to wait for JS to update the count before calling Python
               setTimeout(function() {
-                anvil.call(window.pyComponent, "js_update_button_state");
+                self.js_update_button_state();
               }, 100);
             };
           }
         }
         
-        // Store a reference to the Python component
-        window.pyComponent = _this;
-        
         console.log("Event handlers attached successfully");
       } catch(e) {
         console.error("Error setting up event handlers:", e);
       }
-    """, 1000)  # Increase timeout to 1000ms
+    """)
 
   # 1. Create a reliable JS-to-Python call method
   def js_update_button_state(self, **event_args):
