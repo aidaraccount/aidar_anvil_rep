@@ -26,9 +26,19 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
 
     print('plan:', plan)
     print('no_licenses:', no_licenses)
-    
+
+    # Determine which plan to highlight
+    self.active_plan = None
+    self.active_licenses = None
+    if plan not in ("Trial", "Extended Trial"):
+        if plan == "Explore":
+            self.active_plan = "explore"
+        elif plan == "Professional":
+            self.active_plan = "professional"
+            self.active_licenses = no_licenses
+
     # 1. HTML content
-    self.html = """
+    self.html = f"""
     <!-- 1. Pricing Toggle -->
     <div class='pricing-toggle-container'>
         <div class='pricing-toggle'>
@@ -39,7 +49,7 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
     <!-- 2. Pricing Plans -->
     <div class='pricing-plans'>
         <!-- Explore Plan -->
-        <div class='pricing-plan left'>
+        <div class='pricing-plan left{{ ' active' if self.active_plan == 'explore' else '' }}'>
             <h2 class='plan-name'>Explore</h2>
             <p class='plan-description'>Best for solo scouts exploring AI-powered artist discovery.</p>
             <div class='plan-price-container'>
@@ -55,10 +65,13 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
                 <li>1 Watchlist</li>
                 <li>E-Mail Support</li>
             </ul>
+            <button class="plan-action-btn {{ 'cancel' if self.active_plan == 'explore' else 'switch' }}">
+                {{ 'Cancel Plan' if self.active_plan == 'explore' else 'Switch Plan' }}
+            </button>
             <div anvil-slot="explore-plan-button"></div>
         </div>
         <!-- Professional Plan -->
-        <div class='pricing-plan recommended'>
+        <div class='pricing-plan recommended{{ ' active' if self.active_plan == 'professional' else '' }}'>
             <div class='recommended-tag'>Recommended</div>
             <h2 class='plan-name'>Professional</h2>
             <p class='plan-description'>For individuals or teams who want to unlock full AI-powered scouting.</p>
@@ -79,108 +92,74 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
             <div class='user-count-selector'>
                 <button type='button' class='user-count-btn' id='user-minus'>−</button>
                 <span class='user-count-label'>
-                    <input id='user-count' class='user-count-value-input' type='text' value='1' maxlength='3' />
+                    <input id='user-count' class='user-count-value-input' type='text' value='{{ self.active_licenses if self.active_plan == 'professional' and self.active_licenses else 1 }}' maxlength='3' />
                     <span> User<span id='user-count-plural' style='display:none;'>s</span></span>
                 </span>
                 <button type='button' class='user-count-btn' id='user-plus'>+</button>
             </div>
+            <button class="plan-action-btn {{ 'cancel' if self.active_plan == 'professional' else 'switch' }}">
+                {{ 'Cancel Plan' if self.active_plan == 'professional' else 'Switch Plan' }}
+            </button>
             <div anvil-slot="professional-plan-button"></div>
         </div>
     </div>
     <!-- 3. Pricing Toggle JS -->
     <script>
     // Pricing toggle JS
-    function setMonthly() {
+    function setMonthly() {{
         document.getElementById('pricing-toggle-monthly').classList.add('selected');
         document.getElementById('pricing-toggle-yearly').classList.remove('selected');
         document.querySelector('.pricing-plan.left .original-price').innerHTML = '<span class="euro-symbol">€</span><span class="price-number">39</span>';
         document.querySelector('.pricing-plan.left .plan-price').innerHTML = '<span class="euro-symbol">€</span>29';
         document.querySelector('.pricing-plan.left .price-period').textContent = '/month';
         setProfessionalPrice();
-    }
-    function setYearly() {
+    }}
+    function setYearly() {{
         document.getElementById('pricing-toggle-monthly').classList.remove('selected');
         document.getElementById('pricing-toggle-yearly').classList.add('selected');
         document.querySelector('.pricing-plan.left .original-price').innerHTML = '<span class="euro-symbol">€</span><span class="price-number">35</span>';
-        document.querySelector('.pricing-plan.left .plan-price').innerHTML = '<span class="euro-symbol">€</span>26';
-        document.querySelector('.pricing-plan.left .price-period').textContent = '/month';
+        document.querySelector('.pricing-plan.left .plan-price').innerHTML = '<span class="euro-symbol">€</span>25';
+        document.querySelector('.pricing-plan.left .price-period').textContent = '/month (billed yearly)';
         setProfessionalPrice();
-    }
-
-    // --- Professional Plan Pricing Logic ---
-    var userCount = 1;
-    var userCountInput = document.getElementById('user-count');
-    var userCountPlural = document.getElementById('user-count-plural');
-    var profOriginalPrice = document.querySelector('.pricing-plan.recommended .original-price .price-number');
-    var profPlanPrice = document.querySelector('.pricing-plan.recommended .plan-price');
-    var profPricePeriod = document.querySelector('.pricing-plan.recommended .price-period');
-
-    // Monthly and yearly price per user
-    var monthlyOriginalPerUser = 59;
-    var monthlyDiscountedPerUser = 44;
-    var yearlyOriginalPerUser = 53;
-    var yearlyDiscountedPerUser = 39;
-
-    function setProfessionalPrice() {
-        var isMonthly = document.getElementById('pricing-toggle-monthly').classList.contains('selected');
-        var orig = isMonthly ? monthlyOriginalPerUser : yearlyOriginalPerUser;
-        var disc = isMonthly ? monthlyDiscountedPerUser : yearlyDiscountedPerUser;
-        profOriginalPrice.textContent = orig * userCount;
-        profPlanPrice.innerHTML = '<span class="euro-symbol">€</span>' + (disc * userCount);
-        if (userCount === 1) {
-            profPricePeriod.textContent = '/user & month';
-        } else {
-            profPricePeriod.textContent = 'for ' + userCount + ' users / month';
-        }
-    }
-
-    userCountInput.addEventListener('input', function() {
-        var val = parseInt(userCountInput.value.replace(/\D/g, ''));
-        if (isNaN(val) || val < 1) val = 1;
-        if (val > 100) val = 100;
-        userCount = val;
-        userCountInput.value = userCount;
-        if (userCount === 1) {
-            userCountPlural.style.display = 'none';
-        } else {
-            userCountPlural.style.display = '';
-        }
-        setProfessionalPrice();
-    });
-    userCountInput.addEventListener('blur', function() {
-        if (!userCountInput.value || parseInt(userCountInput.value) < 1) {
-            userCount = 1;
-            userCountInput.value = 1;
-            userCountPlural.style.display = 'none';
-            setProfessionalPrice();
-        }
-    });
-    document.getElementById('user-minus').addEventListener('click', function() {
-        if (userCount > 1) {
-            userCount--;
-            userCountInput.value = userCount;
-            if (userCount === 1) {
-                userCountPlural.style.display = 'none';
-            }
-            setProfessionalPrice();
-        }
-    });
-    document.getElementById('user-plus').addEventListener('click', function() {
-        if (userCount < 100) {
-            userCount++;
-            userCountInput.value = userCount;
-            if (userCount > 1) {
-                userCountPlural.style.display = '';
-            }
-            setProfessionalPrice();
-        }
-    });
+    }}
+    function setProfessionalPrice() {{
+        var isYearly = document.getElementById('pricing-toggle-yearly').classList.contains('selected');
+        if (isYearly) {{
+            document.querySelector('.pricing-plan.recommended .original-price').innerHTML = '<span class="euro-symbol">€</span><span class="price-number">52</span>';
+            document.querySelector('.pricing-plan.recommended .plan-price').innerHTML = '<span class="euro-symbol">€</span>37';
+            document.querySelector('.pricing-plan.recommended .price-period').textContent = '/user & month (billed yearly)';
+        }} else {{
+            document.querySelector('.pricing-plan.recommended .original-price').innerHTML = '<span class="euro-symbol">€</span><span class="price-number">58</span>';
+            document.querySelector('.pricing-plan.recommended .plan-price').innerHTML = '<span class="euro-symbol">€</span>41';
+            document.querySelector('.pricing-plan.recommended .price-period').textContent = '/user & month';
+        }}
+    }}
     document.getElementById('pricing-toggle-monthly').addEventListener('click', setMonthly);
     document.getElementById('pricing-toggle-yearly').addEventListener('click', setYearly);
     setMonthly();
+    // User count selector logic
+    var userCountInput = document.getElementById('user-count');
+    document.getElementById('user-minus').addEventListener('click', function() {{
+        var val = parseInt(userCountInput.value.replace(/\D/g, ''));
+        if (isNaN(val) || val <= 1) val = 2;
+        userCountInput.value = val - 1;
+        userCountInput.dispatchEvent(new Event('input'));
+    }});
+    document.getElementById('user-plus').addEventListener('click', function() {{
+        var val = parseInt(userCountInput.value.replace(/\D/g, ''));
+        if (isNaN(val)) val = 1;
+        userCountInput.value = val + 1;
+        userCountInput.dispatchEvent(new Event('input'));
+    }});
+    userCountInput.addEventListener('input', function() {{
+        var val = parseInt(userCountInput.value.replace(/\D/g, ''));
+        if (isNaN(val) || val < 1) val = 1;
+        userCountInput.value = val;
+        document.getElementById('user-count-plural').style.display = (val > 1) ? '' : 'none';
+    }});
+    userCountInput.dispatchEvent(new Event('input'));
     </script>
     """
-
 
     # 2. Add Anvil Buttons for plan selection
     self.explore_btn = Button(text="Choose Plan", role="cta-button", tag={"plan_type": "Explore"})
