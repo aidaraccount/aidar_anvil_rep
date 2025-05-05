@@ -369,14 +369,19 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
         self.professional_btn.set_event_handler('click', self.choose_plan_click)
     elif active_plan == "Professional":
         # For Professional: Check for changes
-        if user_count == active_licenses and self.billing_period == getattr(self, 'current_billing_period', self.billing_period):
+        print(f"DEBUG - Comparison: user_count={user_count}, active_licenses={active_licenses}, billing={self.billing_period}, current_billing={self.current_billing_period}")
+        
+        # Check if selected options match current subscription
+        is_same_subscription = (user_count == active_licenses and self.billing_period == self.current_billing_period)
+        
+        if is_same_subscription:
             # No change: Grey "Cancel Plan"
             self.professional_btn.text = "Cancel Plan"
             self.professional_btn.role = "secondary-button"
             self.professional_btn.set_event_handler('click', self.cancel_subscription)
         else:
             # Is this an upgrade or downgrade?
-            is_upgrade = (user_count > active_licenses) or (getattr(self, 'current_billing_period', 'monthly') == 'monthly' and self.billing_period == 'yearly')
+            is_upgrade = (user_count > active_licenses) or (self.current_billing_period == 'monthly' and self.billing_period == 'yearly')
             
             if is_upgrade:
                 # Orange "Upgrade Plan"
