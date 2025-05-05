@@ -19,6 +19,7 @@ from ..nav import click_link, click_button, save_var, load_var
 from ..C_ForgotPasswordPopup import C_ForgotPasswordPopup
 from ..C_PaymentInfos import C_PaymentInfos
 from ..C_PaymentCustomer import C_PaymentCustomer
+from ..C_SubscriptionPlan import C_SubscriptionPlan
 
 
 @routing.route("settings", url_keys=['section'], title="Settings")
@@ -200,6 +201,7 @@ class Settings(SettingsTemplate):
       # b) plan
       self.plan_header.text = 'Activate Subscription Plan'
       self.plan_desc.text = 'Subscribe now and start discovering right away!'
+      self.plan.add_component(C_SubscriptionPlan(plan=None, no_licenses=None))
 
     
     elif user["plan"] in ['Trial', 'Extended Trial'] and (user["expiration_date"] is None or user["expiration_date"] >= date.today()):
@@ -228,6 +230,7 @@ class Settings(SettingsTemplate):
       # b) plan
       self.plan_header.text = 'Activate Subscription Plan'
       self.plan_desc.text = 'Subscribe now and your subscription will start after your free trial ends.'
+      self.plan.add_component(C_SubscriptionPlan(plan=user["plan"], no_licenses=None))
 
     
     elif user["plan"] in ['Explore', 'Professional'] and (user["expiration_date"] is None or user["expiration_date"] >= date.today()):
@@ -247,7 +250,10 @@ class Settings(SettingsTemplate):
       if user['admin'] is not None and user['admin'] is True:
         self.admin.text = 'yes'
       else:
-        self.admin.text = 'no'   
+        self.admin.text = 'no'
+
+      # plan
+      self.plan.add_component(C_SubscriptionPlan(plan=user["plan"], no_licenses=4))
 
     
   # -----------------------

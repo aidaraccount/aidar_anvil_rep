@@ -16,7 +16,7 @@ from ..C_PaymentInfos import C_PaymentInfos
 
 
 class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
-  def __init__(self, **properties):
+  def __init__(self, plan, no_licenses, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
 
@@ -24,6 +24,9 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
     global user
     user = anvil.users.get_user()
 
+    print('plan:', plan)
+    print('no_licenses:', no_licenses)
+    
     # 1. HTML content
     self.html = """
     <!-- 1. Pricing Toggle -->
