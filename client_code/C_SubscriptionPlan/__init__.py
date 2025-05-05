@@ -193,6 +193,72 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
     self.add_component(self.explore_btn, slot="explore-plan-button")
     self.add_component(self.professional_btn, slot="professional-plan-button")
 
+    self.update_plan_buttons()
+
+  def update_plan_buttons(self) -> None:
+    """
+    1. Updates the text and visibility of plan buttons based on active plan and user count
+    2. Ensures only one action button per plan is visible at a time
+    """
+    # Explore Plan
+    if self.active_plan == "explore":
+        self.explore_btn.text = "Cancel Subscription"
+        self.explore_btn.role = "plan-action-btn cancel"
+        self.explore_btn.visible = True
+        self.explore_btn.set_event_handler('click', self.cancel_subscription)
+    else:
+        self.explore_btn.text = "Choose Plan"
+        self.explore_btn.role = "plan-action-btn switch"
+        self.explore_btn.visible = True
+        self.explore_btn.set_event_handler('click', self.choose_plan_click)
+    # Professional Plan
+    target_count = self.active_licenses if self.active_licenses else 1
+    current_input = self.professional_btn.tag.get('user_count', target_count)
+    # If active and user count matches, show cancel; if active and user count changed, show update; else choose
+    if self.active_plan == "professional":
+        user_count_input = self.get_user_count_input()
+        try:
+            input_count = int(user_count_input.value) if user_count_input else target_count
+        except Exception:
+            input_count = target_count
+        if input_count != target_count:
+            self.professional_btn.text = "Update Subscription"
+            self.professional_btn.role = "plan-action-btn switch"
+            self.professional_btn.visible = True
+            self.professional_btn.set_event_handler('click', self.update_subscription)
+        else:
+            self.professional_btn.text = "Cancel Subscription"
+            self.professional_btn.role = "plan-action-btn cancel"
+            self.professional_btn.visible = True
+            self.professional_btn.set_event_handler('click', self.cancel_subscription)
+    else:
+        self.professional_btn.text = "Choose Plan"
+        self.professional_btn.role = "plan-action-btn switch"
+        self.professional_btn.visible = True
+        self.professional_btn.set_event_handler('click', self.choose_plan_click)
+
+  def get_user_count_input(self):
+    """
+    1. Returns the user count input element from the DOM
+    """
+    try:
+        from anvil.js.window import document
+        return document.getElementById('user-count')
+    except Exception:
+        return None
+
+  def cancel_subscription(self, sender=None, **event_args) -> None:
+    """
+    1. Placeholder for cancel subscription logic (to be implemented in SM_Stripe.py)
+    """
+    pass
+
+  def update_subscription(self, sender=None, **event_args) -> None:
+    """
+    1. Placeholder for update subscription logic (to be implemented in SM_Stripe.py)
+    """
+    pass
+
   # 3. Handle Anvil Button clicks
   def choose_plan_click(self, sender, **event_args):
       """

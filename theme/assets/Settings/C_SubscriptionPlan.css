@@ -334,7 +334,7 @@
 /* 9. Highlighted (active) plan */
 .pricing-plan.active,
 .pricing-plan.left.active {
-  background: rgba(255, 122, 0, 0.10); /* very transparent --Orange */
+  background: rgb(255, 192, 134);
   border-color: var(--Orange);
 }
 
