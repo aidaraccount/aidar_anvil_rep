@@ -176,7 +176,7 @@
 }
 
 .plan-features li::before {
-  content: """;
+  content: "";
   position: absolute;
   left: 10px;
   top: -5px;
