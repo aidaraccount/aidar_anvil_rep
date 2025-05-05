@@ -1,188 +1,193 @@
 /* 1. Base container and form styling */
 #payment-form-container,
-.payment-form-container {
-    background: var(--Accent_2);
-    border-radius: 16px;
-    box-shadow: 0 1px 8px rgba(0,0,0,0.1);
-    padding: 24px;
-    max-width: 480px;
-    min-width: 420px;
-    width: 100%;
-    margin: 0 auto;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
-    margin-bottom: 130px;
+.anvil-role-payment-form-container .modal-content {
+  background: var(--Accent_2);
+  border-radius: 16px;
+  box-shadow: 0 1px 8px rgba(0,0,0,0.1);
+  padding: 24px;
+  max-width: 480px;
+  min-width: 420px;
+  width: 100%;
+  margin: 0 auto;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+  margin-bottom: 130px;
 }
 
 /* Add styling to center the form in Anvil's alert modal */
 #payment-form {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
 /* 2. Typography and headings */
 #payment-form-container h2 {
-    font-size: 21px;
-    margin: 0 0 8px 0;
-    font-weight: 600;
-    color: var(--WhiteDiscreet);
+  font-size: 21px;
+  margin: 0 0 8px 0;
+  font-weight: 600;
+  color: var(--WhiteDiscreet);
 }
 
 #payment-form-container h3 {
-    font-size: 15px;
-    margin: 0 0 8px 0;
-    font-weight: 500;
-    color: var(--WhiteDiscreet);
+  font-size: 15px;
+  margin: 0 0 8px 0;
+  font-weight: 500;
+  color: var(--WhiteDiscreet);
 }
 
 .payment-info-text {
-    font-size: 14px;
-    color: var(--WhiteDiscreet);
-    margin-bottom: 20px;
+  font-size: 14px;
+  color: var(--WhiteDiscreet);
+  margin-bottom: 20px;
 }
 
 /* 3. Form sections and fields */
 .form-section {
-    margin-bottom: 10px;
+  margin-bottom: 10px;
 }
 
 .field-row {
-    margin-bottom: 12px;
+  margin-bottom: 12px;
 }
 
 .two-column {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
 }
 
 .inline-fields {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 8px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
 }
 
 .inline-fields label {
-    margin-right: 4px;
+  margin-right: 4px;
 }
 
 /* 4. Form controls */
 #payment-form label {
-    display: block;
-    margin-bottom: 4px;
-    font-size: 14px;
-    color: var(--WhiteDiscreet);
+  display: block;
+  margin-bottom: 4px;
+  font-size: 14px;
+  color: var(--WhiteDiscreet);
 }
 
 #payment-form input[type="text"],
 #payment-form input[type="email"],
 #payment-form select {
-    padding: 6px 10px;
-    border: 1px solid var(--WhiteDiscreet);
-    border-radius: 4px;
-    font-size: 14px;
-    width: 100%;
-    box-sizing: border-box;
-    background-color: var(--Accent_2);
-    color: var(--WhiteDiscreet);
+  padding: 6px 10px;
+  border: 1px solid var(--WhiteDiscreet);
+  border-radius: 4px;
+  font-size: 14px;
+  width: 100%;
+  box-sizing: border-box;
+  background-color: var(--Accent_2);
+  color: var(--WhiteDiscreet);
 }
 
 #payment-form input[type="text"]:focus,
 #payment-form input[type="email"]:focus,
 #payment-form select:focus {
-    border-color: var(--Orange, #FF7A00);
-    outline: none;
-    box-shadow: 0 0 0 1px var(--Orange, #FF7A00);
+  border-color: var(--Orange, #FF7A00);
+  outline: none;
+  box-shadow: 0 0 0 1px var(--Orange, #FF7A00);
 }
 
 .checkbox-container {
-    display: flex;
-    align-items: center;
-    margin: 12px 0;
+  display: flex;
+  align-items: center;
+  margin: 12px 0;
 }
 
 #payment-form input[type="checkbox"] {
-    margin-right: 8px;
-    margin-top: -2px;
+  margin-right: 8px;
+  margin-top: -2px;
 }
 
 /* 5. Card element styling */
 #card-element {
-    padding: 6px 10px;
-    border: 1px solid var(--WhiteDiscreet);
-    border-radius: 4px;
-    background: var(--Accent_2);
+  padding: 6px 10px;
+  border: 1px solid var(--WhiteDiscreet);
+  border-radius: 4px;
+  background: var(--Accent_2);
 }
 
 .StripeElement--focus {
-    box-shadow: 0 0 0 1px var(--Orange, #FF7A00);
-    border-color: var(--Orange, #FF7A00);
+  box-shadow: 0 0 0 1px var(--Orange, #FF7A00);
+  border-color: var(--Orange, #FF7A00);
 }
 
 .StripeElement--invalid {
-    border-color: var(--PurpleFocus);
+  border-color: var(--PurpleFocus);
 }
 
 /* 6. Buttons */
 .button-row {
-    display: flex;
-    justify-content: flex-end;
-    gap: 12px;
-    margin-top: 20px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 20px;
 }
 
 #submit {
-    background: var(--Orange, #FF7A00);
-    color: white;
-    border: none;
-    padding: 10px 16px;
-    font-size: 14px;
-    font-weight: 500;
-    border-radius: 4px;
-    cursor: pointer;
+  background: var(--Orange, #FF7A00);
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  border-radius: 4px;
+  cursor: pointer;
 }
 
 #submit:disabled {
-    background: #ccc;
-    cursor: not-allowed;
+  background: #ccc;
+  cursor: not-allowed;
 }
 
 #cancel-btn {
-    background: transparent;
-    border: 1px solid var(--WhiteDiscreet);
-    color: var(--WhiteDiscreet);
-    padding: 0 16px;
-    font-size: 14px;
-    font-weight: 500;
-    border-radius: 4px;
-    cursor: pointer;
+  background: transparent;
+  border: 1px solid var(--WhiteDiscreet);
+  color: var(--WhiteDiscreet);
+  padding: 0 16px;
+  font-size: 14px;
+  font-weight: 500;
+  border-radius: 4px;
+  cursor: pointer;
 }
 
 #cancel-btn:hover {
-    background: var(--WhiteDiscreet);
+  background: var(--WhiteDiscreet);
 }
 
 /* 7. Error messages */
 #card-errors {
-    color: var(--Red);
-    font-size: 14px;
-    margin: 0;
+  color: var(--Red);
+  font-size: 14px;
+  margin: 0;
 }
 
 .stripe-text {
-    color: var(--Grey);
-    font-size: 14px;
-    padding-left: 7px;
+  color: var(--Grey);
+  font-size: 14px;
+  padding-left: 7px;
 }
 
 /* 8. Responsive adjustments */
 @media (max-width: 480px) {
-    #payment-form-container {
-        padding: 16px;
-    }
-    
-    .two-column {
-        grid-template-columns: 1fr;
-    }
+  #payment-form-container {
+    padding: 16px;
+  }
+  
+  .two-column {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Success Pop-up */
+.anvil-role-payment-form-container .modal-content {
+  color: var(--WhiteDiscreet);
 }
