@@ -192,15 +192,15 @@
   color: var(--WhiteDiscreet);
 }
 
-/* --- 9. Success Alert Modal Buttons --- */
-.anvil-role-payment-form-container .modal-content .anvil-alert-buttons {
+/* --- 9. Success Alert Modal Buttons (HTML structure aware) --- */
+.anvil-role-payment-form-container .modal-footer {
   display: flex;
   justify-content: flex-end;
   gap: 12px;
   margin-top: 20px;
 }
 
-.anvil-role-payment-form-container .modal-content .anvil-alert-buttons button {
+.anvil-role-payment-form-container .modal-footer button {
   font-size: 14px;
   font-weight: 500;
   border-radius: 4px;
@@ -209,24 +209,24 @@
   min-width: 100px;
 }
 
-.anvil-role-payment-form-container .modal-content .anvil-alert-buttons button:nth-child(1) {
+.anvil-role-payment-form-container .modal-footer .anvil-button:first-child button {
   /* OK button styled as cancel */
   background: transparent;
   border: 1px solid var(--WhiteDiscreet);
   color: var(--WhiteDiscreet);
 }
-.anvil-role-payment-form-container .modal-content .anvil-alert-buttons button:nth-child(1):hover {
+.anvil-role-payment-form-container .modal-footer .anvil-button:first-child button:hover {
   background: var(--WhiteDiscreet);
   color: var(--Accent_2);
 }
 
-.anvil-role-payment-form-container .modal-content .anvil-alert-buttons button:nth-child(2) {
+.anvil-role-payment-form-container .modal-footer .anvil-button:last-child button {
   /* CREATE AGENT button styled as submit */
   background: var(--Orange, #FF7A00);
   color: white;
   border: none;
 }
-.anvil-role-payment-form-container .modal-content .anvil-alert-buttons button:nth-child(2):disabled {
+.anvil-role-payment-form-container .modal-footer .anvil-button:last-child button:disabled {
   background: #ccc;
   cursor: not-allowed;
 }
