@@ -334,7 +334,7 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
               buttons=[("OK", False), ("CREATE AGENT", True)]
         )
         if alert_res is True:
-          # navigate to ctreate agent page !!!!!!!!!!!!!!!
+          # navigate to create agent page !!!!!!!!!!!!!!!
           pass
         else:
           # refresh page to see new subscription !!!!!!!!!!!!!!!

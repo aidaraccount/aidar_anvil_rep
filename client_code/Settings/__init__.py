@@ -73,7 +73,7 @@ class Settings(SettingsTemplate):
       section = 'account'
     
     # Hide Billing and User Management when there is no Customer yet or its not an admin
-    if user['admin'] is not True:  
+    if user['admin'] is not True and user['customer_id'] is not None:
       self.nav_pay.visible = False
 
     # Hide User Management when there is no prof subsc or its not an admin

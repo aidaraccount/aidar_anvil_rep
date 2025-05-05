@@ -62,7 +62,7 @@ def create_stripe_customer(email: str, name: str = None, address: dict = None) -
       user = anvil.users.get_user()
       user['active'] = True
       user['admin'] = True
-      user['compnay_name'] = name
+      user['customer_name'] = name
       
       # create customer in backend db
       anvil.server.call('create_customer', user['user_id'], name, user['email'])
@@ -77,20 +77,25 @@ def update_stripe_customer(customer_id: str, name: str = None, email: str = None
     Update an existing Stripe customer with new name, email, and/or address.
     """
     import stripe
+
+    # update Stripe customer
     stripe.api_key = anvil.secrets.get_secret("stripe_secret_key")
     update_data = {}
-    if name:
-        update_data['name'] = name
     if email:
-        update_data['email'] = email
+      update_data['email'] = email
+    if name:
+      update_data['name'] = name
     if address:
-        update_data['address'] = address
+      update_data['address'] = address
     customer = stripe.Customer.modify(customer_id, **update_data)
 
     # update customer in backend db
     user = anvil.users.get_user()
     anvil.server.call('create_customer', user['user_id'], name, email)
 
+    # update Anvil
+    pass
+  
     print(f"[Stripe] Updated customer: id={customer.id}, email={customer.email}, name={customer.name}, address={customer.address}")
     return dict(customer)
 
