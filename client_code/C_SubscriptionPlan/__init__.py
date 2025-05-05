@@ -280,11 +280,72 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
     self.add_component(self.explore_btn, slot="explore-plan-button")
     self.add_component(self.professional_btn, slot="professional-plan-button")
     
-    # Ensure querySelectorAll is available (done via JavaScript, not Python)
+    # Register this form to make it callable from JavaScript
+    anvil.js.window.pythonComponent = self
+    
+    # Use the simplest, most reliable approach to add event listeners
     anvil.js.call('eval', """
-    if (!document.querySelectorAll) {
-        document.querySelectorAll = function() { return []; };
+    function setupEvents() {
+      console.log("Setting up event listeners");
+      
+      // 1. Set up billing toggle listeners
+      var monthlyBtn = document.getElementById('pricing-toggle-monthly');
+      if (monthlyBtn) {
+        monthlyBtn.onclick = function() {
+          console.log("Monthly clicked");
+          // Direct window method call
+          window.pythonComponent.js_update_button_state();
+        };
+      }
+      
+      var yearlyBtn = document.getElementById('pricing-toggle-yearly');
+      if (yearlyBtn) {
+        yearlyBtn.onclick = function() {
+          console.log("Yearly clicked");
+          // Direct window method call
+          window.pythonComponent.js_update_button_state();
+        };
+      }
+      
+      // 2. Set up user count listeners
+      var userInput = document.getElementById('user-count');
+      if (userInput) {
+        userInput.oninput = function() {
+          console.log("User input changed");
+          // Direct window method call
+          window.pythonComponent.js_update_button_state();
+        };
+      }
+      
+      // 3. Set up plus/minus buttons
+      var minusBtn = document.getElementById('user-minus');
+      if (minusBtn) {
+        minusBtn.onclick = function() {
+          console.log("Minus clicked");
+          setTimeout(function() {
+            // Direct window method call
+            window.pythonComponent.js_update_button_state();
+          }, 100);
+        };
+      }
+      
+      var plusBtn = document.getElementById('user-plus');
+      if (plusBtn) {
+        plusBtn.onclick = function() {
+          console.log("Plus clicked");
+          setTimeout(function() {
+            // Direct window method call
+            window.pythonComponent.js_update_button_state();
+          }, 100);
+        };
+      }
     }
+    
+    // Run setup now
+    setupEvents();
+    
+    // Also run after a short delay to ensure DOM is loaded
+    setTimeout(setupEvents, 500);
     """)
 
   def form_show(self, **event_args):
