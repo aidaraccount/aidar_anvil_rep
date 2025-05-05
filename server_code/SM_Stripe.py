@@ -123,6 +123,7 @@ def update_stripe_customer_tax_id(customer_id: str, tax_id: str, tax_id_type: st
       stripe.Customer.delete_tax_id(customer_id, tid['id'])
 
     # Now create the new tax ID
+    stripe_tax_id_obj = None
     try:
       stripe_tax_id_obj = stripe.Customer.create_tax_id(customer_id, type=tax_id_type, value=tax_id)
       print(f"[Stripe] Created new tax ID for customer {customer_id}: {tax_id_type} {tax_id}")
@@ -131,10 +132,13 @@ def update_stripe_customer_tax_id(customer_id: str, tax_id: str, tax_id_type: st
         raise
         # If we somehow still have a duplicate (race condition), get the existing one
         refreshed_tax_ids = stripe.Customer.list_tax_ids(customer_id)
-      stripe_tax_id_obj = [tid for tid in refreshed_tax_ids['data'] if tid['type'] == tax_id_type and tid['value'] == tax_id][0]
-      print(f"[Stripe] Using existing tax ID for customer {customer_id}: {tax_id_type} {tax_id}")
-
-  return dict(stripe_tax_id_obj)
+      matches = [tid for tid in refreshed_tax_ids['data'] if tid['type'] == tax_id_type and tid['value'] == tax_id]
+      if matches:
+        stripe_tax_id_obj = matches[0]
+        print(f"[Stripe] Using existing tax ID for customer {customer_id}: {tax_id_type} {tax_id}")
+    if not stripe_tax_id_obj:
+      raise Exception("Could not create or retrieve the Stripe tax ID object.")
+    return dict(stripe_tax_id_obj)
 
 
 @anvil.server.callable
