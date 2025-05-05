@@ -1,332 +1,354 @@
 /* 1. Pricing Page Styles */
 
 .pricing-toggle-container {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 40px;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 40px;
 }
 
 .pricing-toggle {
-    display: flex;
-    background: var(--WhiteDiscreet);
-    border-radius: 24px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.03);
-    overflow: hidden;
+  display: flex;
+  background: var(--WhiteDiscreet);
+  border-radius: 24px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+  overflow: hidden;
 }
 
 .pricing-toggle-btn {
-    font-family: 'GeneralSans-Medium', Arial, sans-serif;
-    font-size: 1.6rem;
-    padding: 5px 50px;
-    border: none;
-    background: none;
-    color: var(--Black);
-    cursor: pointer;
-    transition: background 0.2s, color 0.2s;
+  font-family: 'GeneralSans-Medium', Arial, sans-serif;
+  font-size: 1.6rem;
+  padding: 5px 50px;
+  border: none;
+  background: none;
+  color: var(--Black);
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
 }
 
 .pricing-toggle-btn.selected {
-    background: var(--Accent_1);
-    color: var(--White);
+  background: var(--Accent_1);
+  color: var(--White);
 }
 
 .pricing-toggle-btn .discount {
-    font-size: 1.4rem;
-    color: var(--Orange);
-    margin-left: 4px;
+  font-size: 1.4rem;
+  color: var(--Orange);
+  margin-left: 4px;
 }
 
 /* Pricing Plans */
 .pricing-plans {
-    display: flex;
-    gap: 30px;
-    margin: 50px 0;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: stretch;
+  display: flex;
+  gap: 30px;
+  margin: 50px 0;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: stretch;
 }
 
 .pricing-plan {
-    background: var(--WhiteDiscreet);
-    border-radius: 15px;
-    padding: 35px 27px;
-    flex: 1;
-    min-width: 300px;
-    max-width: 400px;
-    position: relative;
-    border: 2px solid transparent;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
+  background: var(--WhiteDiscreet);
+  border-radius: 15px;
+  padding: 35px 27px;
+  flex: 1;
+  min-width: 300px;
+  max-width: 400px;
+  position: relative;
+  border: 2px solid transparent;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
 }
 
 .pricing-plan.left {
-    background: var(--Accent_0);
-    max-height: 498px;
-    max-width: 370px;
-    flex: 0 0 370px;
-    margin: 35px 0px;
-    padding-bottom: 15px;
+  background: var(--Accent_0);
+  max-height: 498px;
+  max-width: 370px;
+  flex: 0 0 370px;
+  margin: 35px 0px;
+  padding-bottom: 15px;
 }
 
 .pricing-plan.recommended {
-    border-color: var(--Orange);
-    max-width: 400px;
-    flex: 1 1 400px;
-    padding: 40px 27px 15px;
+  border-color: var(--Orange);
+  max-width: 400px;
+  flex: 1 1 400px;
+  padding: 40px 27px 15px;
 }
 
 .recommended-tag {
-    position: absolute;
-    top: 6px;
-    right: 15px;
-    background: var(--Green);
-    color: var(--White);
-    font-size: 1.4rem;
-    padding: 3px 30px;
-    border-radius: 30px;
-    font-family: 'GeneralSans-Medium', Arial, sans-serif;
+  position: absolute;
+  top: 6px;
+  right: 15px;
+  background: var(--Green);
+  color: var(--White);
+  font-size: 1.4rem;
+  padding: 3px 30px;
+  border-radius: 30px;
+  font-family: 'GeneralSans-Medium', Arial, sans-serif;
 }
 
 .plan-name {
-    color: var(--Black);
-    font-size: 3.5rem;
-    font-family: 'GeneralSans-Bold', Arial, sans-serif;
-    margin-bottom: 15px;
-    flex-shrink: 0;
+  color: var(--Black);
+  font-size: 3.5rem;
+  font-family: 'GeneralSans-Bold', Arial, sans-serif;
+  margin-bottom: 15px;
+  flex-shrink: 0;
 }
 
 .plan-description {
-    font-size: 1.6rem;
-    color: var(--Black);
-    margin-bottom: 0;
-    line-height: 1.4;
-    min-height: 60px;
-    flex-shrink: 0;
+  font-size: 1.6rem;
+  color: var(--Black);
+  margin-bottom: 0;
+  line-height: 1.4;
+  min-height: 60px;
+  flex-shrink: 0;
 }
 
 .plan-price-container {
-    position: relative;
-    background: var(--White);
-    border-radius: 15px;
-    border: 2px solid var(--Orange);
-    padding: 7px 20px;
-    margin: 20px 5px;
-    overflow: hidden;
-    flex-shrink: 0;
+  position: relative;
+  background: var(--White);
+  border-radius: 15px;
+  border: 2px solid var(--Orange);
+  padding: 7px 20px;
+  margin: 20px 5px;
+  overflow: hidden;
+  flex-shrink: 0;
 }
 
 .discount-badge {
-    position: absolute;
-    right: 11%;
-    transform: translateX(50%) rotate(45deg);
-    top: 9px;
-    background: var(--Orange);
-    color: var(--White);
-    padding: 8px 50px;
-    font-size: 1.3rem;
-    font-family: 'GeneralSans-Bold', Arial, sans-serif;
-    text-align: center;
-    line-height: 1.1;
+  position: absolute;
+  right: 11%;
+  transform: translateX(50%) rotate(45deg);
+  top: 9px;
+  background: var(--Orange);
+  color: var(--White);
+  padding: 8px 50px;
+  font-size: 1.3rem;
+  font-family: 'GeneralSans-Bold', Arial, sans-serif;
+  text-align: center;
+  line-height: 1.1;
 }
 
 .original-price {
-    font-size: 2rem;
-    color: var(--BlackDiscreet);
-    margin-right: 10px;
+  font-size: 2rem;
+  color: var(--BlackDiscreet);
+  margin-right: 10px;
 }
 
 .original-price .price-number {
-    text-decoration: line-through;
+  text-decoration: line-through;
 }
 
 .original-price .euro-symbol {
-    text-decoration: none;
+  text-decoration: none;
 }
 
 .plan-price {
-    font-size: 5rem;
-    font-family: 'GeneralSans-Bold', Arial, sans-serif;
-    color: var(--Orange);
-    margin-right: -5px;
+  font-size: 5rem;
+  font-family: 'GeneralSans-Bold', Arial, sans-serif;
+  color: var(--Orange);
+  margin-right: -5px;
 }
 
 .price-period {
-    color: var(--Black);
-    font-size: 1.5rem;
-    max-width: 90px;
-    display: inline-block;
-    margin-left: 5px;
+  color: var(--Black);
+  font-size: 1.5rem;
+  max-width: 90px;
+  display: inline-block;
+  margin-left: 5px;
 }
 
 .plan-features {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    flex-grow: 1;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  flex-grow: 1;
 }
 
 .plan-features li {
-    font-family: 'GeneralSans-Regular', Arial, sans-serif;
-    font-size: 1.4rem;
-    position: relative;
-    padding-left: 24px;
-    color: var(--Black);
-    line-height: 1.3;
+  font-family: 'GeneralSans-Regular', Arial, sans-serif;
+  font-size: 1.4rem;
+  position: relative;
+  padding-left: 24px;
+  color: var(--Black);
+  line-height: 1.3;
 }
 
 .plan-features li::before {
-    content: "•";
-    position: absolute;
-    left: 10px;
-    top: -5px;
-    color: var(--Orange);
-    font-size: 1.5rem;
+  content: """;
+  position: absolute;
+  left: 10px;
+  top: -5px;
+  color: var(--Orange);
+  font-size: 1.5rem;
 }
 
 .euro-symbol {
-    font-size: 1.5rem;
-    vertical-align: text-top;
-    line-height: 1;
-    margin-right: 2px;
-    position: relative;
-    top: 0.25em;
+  font-size: 1.5rem;
+  vertical-align: text-top;
+  line-height: 1;
+  margin-right: 2px;
+  position: relative;
+  top: 0.25em;
 }
 
 .plan-price .euro-symbol {
-    font-size: 2.3rem;
-    vertical-align: text-top;
-    margin-right: 2px;
-    position: relative;
-    top: 0.32em;
+  font-size: 2.3rem;
+  vertical-align: text-top;
+  margin-right: 2px;
+  position: relative;
+  top: 0.32em;
 }
 
 /* 1.2. Plan Action Buttons */
 .anvil-role-cta-button .btn {
-    background: var(--Orange);
-    color: var(--White);
-    border-radius: 30px;
-    font-family: 'GeneralSans-Medium', Arial, sans-serif;
-    font-size: 1.7rem;
-    width: 100%;
-    margin: 24px auto 0 auto;
-    padding: 12px 0;
-    border: none;
-    text-align: center;
-    text-decoration: none;
-    cursor: pointer;
-    transition: background 0.2s, color 0.2s;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  background: var(--Orange);
+  color: var(--White);
+  border-radius: 30px;
+  font-family: 'GeneralSans-Medium', Arial, sans-serif;
+  font-size: 1.7rem;
+  width: 100%;
+  margin: 24px auto 0 auto;
+  padding: 12px 0;
+  border: none;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
 }
 
 .anvil-role-cta-button .btn:hover {
-    background: var(--Accent_1);
-    color: var(--White);
+  background: var(--Accent_1);
+  color: var(--White);
 }
 
 .anvil-role-cta-button .btn:disabled {
-    background: #ccc;
-    color: #fff;
-    cursor: not-allowed;
-    opacity: 0.7;
+  background: #ccc;
+  color: #fff;
+  cursor: not-allowed;
+  opacity: 0.7;
 }
 
 .cta-button {
-    display: block;
-    width: 100%;
-    margin: 24px auto 0 auto;
-    padding: 12px 0;
-    border-radius: 30px;
-    font-family: 'GeneralSans-Medium', Arial, sans-serif;
-    font-size: 1.7rem;
-    background: var(--Orange);
-    color: var(--White);
-    border: none;
-    text-align: center;
-    text-decoration: none;
-    cursor: pointer;
-    transition: background 0.2s, color 0.2s;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  display: block;
+  width: 100%;
+  margin: 24px auto 0 auto;
+  padding: 12px 0;
+  border-radius: 30px;
+  font-family: 'GeneralSans-Medium', Arial, sans-serif;
+  font-size: 1.7rem;
+  background: var(--Orange);
+  color: var(--White);
+  border: none;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
 }
 
 .cta-button.cta-primary {
-    background: var(--Orange);
-    color: var(--White);
+  background: var(--Orange);
+  color: var(--White);
 }
 
 .cta-button.cta-primary:hover {
-    background: var(--Accent_1);
-    color: var(--White);
-    text-decoration: None;
+  background: var(--Accent_1);
+  color: var(--White);
+  text-decoration: None;
 }
 
 .cta-button.center {
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    width: 90%;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 90%;
+}
+
+/* Secondary button style for cancel/downgrade */
+.anvil-role-secondary-button .btn {
+  background: transparent;
+  color: var(--BlackDiscreet);
+  border: 1px solid var(--BlackDiscreet);
+  border-radius: 30px;
+  font-family: 'GeneralSans-Medium', Arial, sans-serif;
+  font-size: 1.7rem;
+  width: 100%;
+  margin: 24px auto 0 auto;
+  padding: 12px 0;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.anvil-role-secondary-button .btn:hover {
+  background: var(--WhiteDiscreet);
+  color: var(--Accent_2);
 }
 
 /* 1.3. User Count Selector */
 .user-count-selector {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
-    margin: 20px 0 0 0;
-    font-size: 1.4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin: 20px 0 0 0;
+  font-size: 1.4rem;
 }
 
 .user-count-btn {
-    background: var(--Accent_1);
-    color: var(--White);
-    border: none;
-    border-radius: 50%;
-    width: 32px;
-    height: 32px;
-    font-size: 1.5rem;
-    font-family: 'GeneralSans-Bold', Arial, sans-serif;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: background 0.2s, color 0.2s;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+  background: var(--Accent_1);
+  color: var(--White);
+  border: none;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  font-size: 1.5rem;
+  font-family: 'GeneralSans-Bold', Arial, sans-serif;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s, color 0.2s;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.05);
 }
 
 .user-count-btn:hover {
-    background: var(--Orange);
+  background: var(--Orange);
 }
 
 .user-count-value {
-    min-width: 32px;
-    text-align: center;
-    font-size: 2.3rem;
-    font-family: 'GeneralSans-Bold', Arial, sans-serif;
-    color: var(--Black);
+  min-width: 32px;
+  text-align: center;
+  font-size: 2.3rem;
+  font-family: 'GeneralSans-Bold', Arial, sans-serif;
+  color: var(--Black);
 }
 
 .user-count-value-input {
-    width: 48px;
-    border: none;
-    border-bottom: 1.5px solid var(--BlackDiscreet);
-    background: transparent;
-    color: var(--Black);
-    font-size: 2.3rem;
-    font-family: 'GeneralSans-Bold', Arial, sans-serif;
-    text-align: center;
-    outline: none;
-    margin-right: 2px;
-    margin-left: 2px;
-    padding: 0 2px;
-    transition: border-bottom 0.2s;
+  width: 48px;
+  border: none;
+  border-bottom: 1.5px solid var(--BlackDiscreet);
+  background: transparent;
+  color: var(--Black);
+  font-size: 2.3rem;
+  font-family: 'GeneralSans-Bold', Arial, sans-serif;
+  text-align: center;
+  outline: none;
+  margin-right: 2px;
+  margin-left: 2px;
+  padding: 0 2px;
+  transition: border-bottom 0.2s;
 }
 
 .user-count-value-input:focus {
-    border-bottom: 2px solid var(--Accent_1);
+  border-bottom: 2px solid var(--Accent_1);
 }
 
 .user-count-label {
-    font-size: 1.7rem;
-    color: var(--BlackDiscreet);
+  font-size: 1.7rem;
+  color: var(--BlackDiscreet);
 }
