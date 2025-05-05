@@ -97,6 +97,7 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
             <div anvil-slot="professional-plan-button"></div>
         </div>
     </div>
+    
     <!-- 3. Pricing Toggle JS -->
     <script>
     // Pricing toggle JS
@@ -111,7 +112,7 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
         var yearlyBtn = document.getElementById('pricing-toggle-yearly');
         if (monthlyBtn) monthlyBtn.classList.add('selected');
         if (yearlyBtn) yearlyBtn.classList.remove('selected');
-        setProfessionalPrice();
+        updateProfessionalPrice();
     }}
     function setYearly() {{
         var origPrice = document.querySelector('.pricing-plan.left .original-price');
@@ -124,95 +125,162 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
         var yearlyBtn = document.getElementById('pricing-toggle-yearly');
         if (monthlyBtn) monthlyBtn.classList.remove('selected');
         if (yearlyBtn) yearlyBtn.classList.add('selected');
-        setProfessionalPrice();
+        updateProfessionalPrice();
     }}
-    function setProfessionalPrice() {{
-        var isYearly = false;
-        var yearlyBtn = document.getElementById('pricing-toggle-yearly');
-        if (yearlyBtn) isYearly = yearlyBtn.classList.contains('selected');
-        var origPrice = document.querySelector('.pricing-plan.recommended .original-price');
-        var planPrice = document.querySelector('.pricing-plan.recommended .plan-price');
-        var pricePeriod = document.querySelector('.pricing-plan.recommended .price-period');
-        if (isYearly) {{
-            if (origPrice) origPrice.innerHTML = '<span class=\"euro-symbol\">€</span><span class=\"price-number\">52</span>';
-            if (planPrice) planPrice.innerHTML = '<span class=\"euro-symbol\">€</span>37';
-            if (pricePeriod) pricePeriod.textContent = '/user & month (billed yearly)';
-        }} else {{
-            if (origPrice) origPrice.innerHTML = '<span class=\"euro-symbol\">€</span><span class=\"price-number\">58</span>';
-            if (planPrice) planPrice.innerHTML = '<span class=\"euro-symbol\">€</span>41';
-            if (pricePeriod) pricePeriod.textContent = '/user & month';
-        }}
-    }}
-    document.addEventListener('DOMContentLoaded', function() {{
-        var monthlyBtn = document.getElementById('pricing-toggle-monthly');
-        var yearlyBtn = document.getElementById('pricing-toggle-yearly');
-        if (monthlyBtn) monthlyBtn.addEventListener('click', setMonthly);
-        if (yearlyBtn) yearlyBtn.addEventListener('click', setYearly);
-        setMonthly();
         
-        // User count selector logic
-        var userCountInput = document.getElementById('user-count');
-        var minusBtn = document.getElementById('user-minus');
-        var plusBtn = document.getElementById('user-plus');
-        var pluralSpan = document.getElementById('user-count-plural');
-        
-        function handleUserCountChange() {{
-            if (!userCountInput) return;
-            var val = parseInt(userCountInput.value.replace(/\\D/g, ''));
-            if (isNaN(val) || val < 1) val = 1;
-            userCountInput.value = val;
-            if (pluralSpan) pluralSpan.style.display = (val > 1) ? '' : 'none';
-            
-            // Notify Python that the user count has changed
+        // Updated Professional pricing function
+        function updateProfessionalPrice() {{
             try {{
-                var pyComponent = window.pyComponent;
-                if (pyComponent && pyComponent.user_count_changed) {{
-                    pyComponent.user_count_changed(val);
+                var userCountInput = document.getElementById('user-count');
+                if (!userCountInput) return;
+                
+                var userCount = parseInt(userCountInput.value);
+                if (isNaN(userCount) || userCount < 1) userCount = 1;
+                
+                var isYearly = false;
+                var yearlyBtn = document.getElementById('pricing-toggle-yearly');
+                if (yearlyBtn) isYearly = yearlyBtn.classList.contains('selected');
+                
+                var origPrice = document.querySelector('.pricing-plan.recommended .original-price');
+                var planPrice = document.querySelector('.pricing-plan.recommended .plan-price');
+                var pricePeriod = document.querySelector('.pricing-plan.recommended .price-period');
+                
+                // Pricing per user
+                var origPricePerUser = isYearly ? 52 : 58;
+                var discountPricePerUser = isYearly ? 37 : 41;
+                
+                // Update prices based on user count
+                if (origPrice) {{
+                    origPrice.innerHTML = '<span class=\"euro-symbol\">€</span><span class=\"price-number\">' + (origPricePerUser * userCount) + '</span>';
+                }}
+                
+                if (planPrice) {{
+                    planPrice.innerHTML = '<span class=\"euro-symbol\">€</span>' + (discountPricePerUser * userCount);
+                }}
+                
+                if (pricePeriod) {{
+                    if (isYearly) {{
+                        pricePeriod.textContent = userCount > 1 ? 
+                            'for ' + userCount + ' users/month (billed yearly)' : 
+                            '/user & month (billed yearly)';
+                    }} else {{
+                        pricePeriod.textContent = userCount > 1 ? 
+                            'for ' + userCount + ' users/month' : 
+                            '/user & month';
+                    }}
+                }}
+                
+                // Update the plural display on the user count
+                var pluralSpan = document.getElementById('user-count-plural');
+                if (pluralSpan) {{
+                    pluralSpan.style.display = (userCount > 1) ? '' : 'none';
                 }}
             }} catch(e) {{
-                console.log('Error notifying Python:', e);
+                console.error("Error updating professional price:", e);
             }}
         }}
         
-        if (minusBtn) minusBtn.addEventListener('click', function() {{
-            if (!userCountInput) return;
-            var val = parseInt(userCountInput.value.replace(/\\D/g, ''));
-            if (isNaN(val) || val <= 1) val = 2;
-            userCountInput.value = val - 1;
-            handleUserCountChange();
+        document.addEventListener('DOMContentLoaded', function() {{
+            var monthlyBtn = document.getElementById('pricing-toggle-monthly');
+            var yearlyBtn = document.getElementById('pricing-toggle-yearly');
+            if (monthlyBtn) monthlyBtn.addEventListener('click', setMonthly);
+            if (yearlyBtn) yearlyBtn.addEventListener('click', setYearly);
+            
+            // User count selector logic
+            var userCountInput = document.getElementById('user-count');
+            var minusBtn = document.getElementById('user-minus');
+            var plusBtn = document.getElementById('user-plus');
+            
+            function handleUserCountChange() {{
+                try {{
+                    if (!userCountInput) return;
+                    
+                    var val = parseInt(userCountInput.value.replace(/\\D/g, ''));
+                    if (isNaN(val) || val < 1) val = 1;
+                    userCountInput.value = val;
+                    
+                    // Update pricing based on user count
+                    updateProfessionalPrice();
+                    
+                    // Notify Python that the user count has changed
+                    try {{
+                        var pyComponent = window.pyComponent;
+                        if (pyComponent && pyComponent.user_count_changed) {{
+                            pyComponent.user_count_changed(val);
+                        }}
+                    }} catch(e) {{
+                        console.log('Error notifying Python:', e);
+                    }}
+                }} catch(e) {{
+                    console.error("Error in handleUserCountChange:", e);
+                }}
+            }}
+            
+            // Directly attach click events with proper functionality
+            if (minusBtn) {{
+                minusBtn.addEventListener('click', function() {{
+                    try {{
+                        if (!userCountInput) return;
+                        
+                        var val = parseInt(userCountInput.value.replace(/\\D/g, ''));
+                        if (isNaN(val) || val <= 1) val = 2;
+                        userCountInput.value = val - 1;
+                        
+                        handleUserCountChange();
+                    }} catch(e) {{
+                        console.error("Error in minus button click:", e);
+                    }}
+                }});
+            }}
+            
+            if (plusBtn) {{
+                plusBtn.addEventListener('click', function() {{
+                    try {{
+                        if (!userCountInput) return;
+                        
+                        var val = parseInt(userCountInput.value.replace(/\\D/g, ''));
+                        if (isNaN(val)) val = 0;
+                        userCountInput.value = val + 1;
+                        
+                        handleUserCountChange();
+                    }} catch(e) {{
+                        console.error("Error in plus button click:", e);
+                    }}
+                }});
+            }}
+            
+            if (userCountInput) {{
+                userCountInput.addEventListener('input', handleUserCountChange);
+                userCountInput.addEventListener('change', handleUserCountChange);
+                
+                // Initialize
+                handleUserCountChange();
+            }}
+            
+            // Set initial prices
+            setMonthly();
+            
+            // Store reference to the Python component for callbacks
+            window.pyComponent = null;
+            try {{
+                // This will be set by Python after the HTML is rendered
+                window.setPyComponent = function(component) {{
+                    window.pyComponent = component;
+                    console.log("Python component reference set");
+                }};
+            }} catch(e) {{
+                console.log('Error setting up Python bridge:', e);
+            }}
         }});
-        
-        if (plusBtn) plusBtn.addEventListener('click', function() {{
-            if (!userCountInput) return;
-            var val = parseInt(userCountInput.value.replace(/\\D/g, ''));
-            if (isNaN(val)) val = 0;
-            userCountInput.value = val + 1;
-            handleUserCountChange();
-        }});
-        
-        if (userCountInput) userCountInput.addEventListener('input', handleUserCountChange);
-        if (userCountInput) userCountInput.dispatchEvent(new Event('input'));
-        
-        // Store reference to the Python component for callbacks
-        window.pyComponent = null;
-        try {{
-            // This will be set by Python after the HTML is rendered
-            window.setPyComponent = function(component) {{
-                window.pyComponent = component;
-            }};
-        }} catch(e) {{
-            console.log('Error setting up Python bridge:', e);
-        }}
-    }});
-    </script>
+{{ ... }}
     """
 
     # 2. Set up JavaScript-Python bridge for user count changes
     from anvil.js.window import document
     
     # 2.1 Configure button appearance and behaviors
-    self.explore_btn = Button(text="Choose Plan", role="plan-action-btn switch", tag={"plan_type": "Explore"})
-    self.professional_btn = Button(text="Choose Plan", role="plan-action-btn switch", tag={"plan_type": "Professional"})
+    self.explore_btn = Button(text="Choose Plan", role="cta-button", tag={"plan_type": "Explore"})
+    self.professional_btn = Button(text="Choose Plan", role="cta-button", tag={"plan_type": "Professional"})
     
     # 2.2 Set up event handlers
     self.explore_btn.set_event_handler('click', self.choose_plan_click)
@@ -243,13 +311,13 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
     if self.active_plan == "professional" and self.active_licenses and new_count != self.active_licenses:
         # User count changed for active Professional plan - show Update button
         self.professional_btn.text = "Update Subscription"
-        self.professional_btn.role = "plan-action-btn switch"
+        self.professional_btn.role = "cta-button"
         self.professional_btn.tag["user_count"] = new_count
         self.professional_btn.set_event_handler('click', self.update_subscription)
     elif self.active_plan == "professional" and self.active_licenses and new_count == self.active_licenses:
         # User count matches current subscription - show Cancel button
         self.professional_btn.text = "Cancel Subscription"
-        self.professional_btn.role = "plan-action-btn cancel"
+        self.professional_btn.role = "cta-button"
         self.professional_btn.tag["user_count"] = new_count
         self.professional_btn.set_event_handler('click', self.cancel_subscription)
 
@@ -261,11 +329,11 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
     # 1. Explore Plan button logic
     if self.active_plan == "explore":
         self.explore_btn.text = "Cancel Subscription"
-        self.explore_btn.role = "plan-action-btn cancel"
+        self.explore_btn.role = "cta-button"
         self.explore_btn.set_event_handler('click', self.cancel_subscription)
     else:
         self.explore_btn.text = "Choose Plan"
-        self.explore_btn.role = "plan-action-btn switch"
+        self.explore_btn.role = "cta-button"
         self.explore_btn.set_event_handler('click', self.choose_plan_click)
     
     # 2. Professional Plan button logic
@@ -285,17 +353,17 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
         # Set button state based on whether count matches licenses
         if current_count != current_licenses:
             self.professional_btn.text = "Update Subscription"
-            self.professional_btn.role = "plan-action-btn switch"
+            self.professional_btn.role = "cta-button"
             self.professional_btn.tag["user_count"] = current_count
             self.professional_btn.set_event_handler('click', self.update_subscription)
         else:
             self.professional_btn.text = "Cancel Subscription"
-            self.professional_btn.role = "plan-action-btn cancel" 
+            self.professional_btn.role = "cta-button" 
             self.professional_btn.tag["user_count"] = current_count
             self.professional_btn.set_event_handler('click', self.cancel_subscription)
     else:
         self.professional_btn.text = "Choose Plan"
-        self.professional_btn.role = "plan-action-btn switch"
+        self.professional_btn.role = "cta-button"
         self.professional_btn.tag["user_count"] = 1
         self.professional_btn.set_event_handler('click', self.choose_plan_click)
 
