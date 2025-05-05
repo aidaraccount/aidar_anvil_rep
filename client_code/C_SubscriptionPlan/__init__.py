@@ -16,7 +16,7 @@ from ..C_PaymentInfos import C_PaymentInfos
 
 
 class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
-  def __init__(self, plan, no_licenses, **properties):
+  def __init__(self, plan, no_licenses, plan_type, **properties):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
 
@@ -26,20 +26,20 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
 
     print('plan:', plan)
     print('no_licenses:', no_licenses)
+    print('plan_type:', plan_type)
 
     # Store the current plan and licenses
     self.active_plan = plan
     self.active_licenses = no_licenses if no_licenses else 1
-    # Default billing period is monthly, can be updated through JS
-    self.billing_period = "monthly"
+    self.billing_period = plan_type
 
     # 1. HTML content
     self.html = """
     <!-- 1. Pricing Toggle -->
     <div class='pricing-toggle-container'>
         <div class='pricing-toggle'>
-            <button id='pricing-toggle-monthly' class='pricing-toggle-btn selected' type='button'>Monthly</button>
-            <button id='pricing-toggle-yearly' class='pricing-toggle-btn' type='button'>Yearly <span class='discount'>-10%</span></button>
+            <button id='pricing-toggle-monthly' class='pricing-toggle-btn """ + ('selected' if self.billing_period == "monthly" else '') + """' type='button'>Monthly</button>
+            <button id='pricing-toggle-yearly' class='pricing-toggle-btn """ + ('selected' if self.billing_period == "yearly" else '') + """' type='button'>Yearly <span class='discount'>-10%</span></button>
         </div>
     </div>
     <!-- 2. Pricing Plans -->
@@ -212,15 +212,31 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
         }
     });
     
-    // Initialize with the correct state
-    if (""" + ("true" if self.billing_period == "yearly" else "false") + """) {
-        setYearly();
+    // Initialize JS with the current billing period
+    if ('""" + self.billing_period + """' === 'yearly') {
+      setYearly();
     } else {
-        setMonthly();
+      setMonthly();
     }
     </script>
     """
 
+    # Initialize JS with the current billing period
+    self.current_billing_period = self.billing_period
+    
+    # Initialize with the correct pricing based on billing period
+    anvil.js.window.setTimeout("""
+      try {
+        // Set initial pricing toggle based on current billing period
+        if ('""" + self.billing_period + """' === 'yearly') {
+          setYearly();
+        } else {
+          setMonthly();
+        }
+      } catch(e) {
+        console.error("Error setting initial pricing:", e);
+      }
+    """, 100)
 
     # 2. Add Anvil Buttons for plan selection
     self.explore_btn = Button(text="Choose Plan", role="cta-button", tag={"plan_type": "Explore"})
@@ -304,7 +320,7 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
     """
     1. Updates button appearance and event handlers based on the active subscription plan
     2. Configures text, styling, and click behavior for both the Explore and Professional buttons
-    3. Considers billing period (monthly/yearly) preference when determining upgrade/downgrade/cancel status
+    3. Considers billing period (monthly/yearly) preference when determining upgrade/downgrade status
     """
     # Get user count from JS input field
     user_count_input = document.getElementById('user-count')
@@ -314,33 +330,97 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
             user_count = int(user_count_input.value)
         except Exception:
             user_count = 1
-    billing_period = self.billing_period
+                
+    # Determine active billing period from JS toggle state
+    monthly_btn = document.getElementById('pricing-toggle-monthly')
+    yearly_btn = document.getElementById('pricing-toggle-yearly')
+    
+    if monthly_btn and yearly_btn:
+        is_yearly = yearly_btn.classList.contains('selected')
+        self.billing_period = "yearly" if is_yearly else "monthly"
+        
     active_plan = self.active_plan
     active_licenses = self.active_licenses
-
-    # Professional Plan Button Logic
-    if active_plan == 'Professional':
-        # Compare selected with current
-        if user_count == active_licenses and billing_period == getattr(self, 'active_billing_period', 'monthly'):
-            # No change: Cancel only
+        
+    # 1. EXPLORE BUTTON LOGIC
+    if active_plan in ["Trial", "Extended Trial", None]:
+        # For Trial/Extended Trial: Orange "Choose Plan"
+        self.explore_btn.text = "Choose Plan"
+        self.explore_btn.role = "cta-button"
+        self.explore_btn.set_event_handler('click', self.choose_plan_click)
+    elif active_plan == "Explore":
+        # For Explore: Grey "Cancel Plan"
+        self.explore_btn.text = "Cancel Plan"
+        self.explore_btn.role = "secondary-button"
+        self.explore_btn.set_event_handler('click', self.cancel_subscription)
+    elif active_plan == "Professional":
+        # For Professional: Grey "Downgrade Plan"
+        self.explore_btn.text = "Downgrade Plan"
+        self.explore_btn.role = "secondary-button"
+        self.explore_btn.set_event_handler('click', self.update_subscription)
+        self.explore_btn.tag["target_plan"] = "Explore"
+        self.explore_btn.tag["user_count"] = 1  # Explore always has 1 user
+            
+    # 2. PROFESSIONAL BUTTON LOGIC
+    if active_plan in ["Trial", "Extended Trial", None]:
+        # For Trial/Extended Trial: Orange "Choose Plan"
+        self.professional_btn.text = "Choose Plan"
+        self.professional_btn.role = "cta-button"
+        self.professional_btn.set_event_handler('click', self.choose_plan_click)
+    elif active_plan == "Professional":
+        # For Professional: Check for changes
+        if user_count == active_licenses and self.billing_period == getattr(self, 'current_billing_period', self.billing_period):
+            # No change: Grey "Cancel Plan"
             self.professional_btn.text = "Cancel Plan"
             self.professional_btn.role = "secondary-button"
             self.professional_btn.set_event_handler('click', self.cancel_subscription)
-        elif user_count > active_licenses or (getattr(self, 'active_billing_period', 'monthly') == 'monthly' and billing_period == 'yearly'):
-            # Upgrade
-            self.professional_btn.text = "Upgrade Plan"
-            self.professional_btn.role = "cta-button"
-            self.professional_btn.set_event_handler('click', self.update_subscription)
         else:
-            # Downgrade
-            self.professional_btn.text = "Downgrade Plan"
-            self.professional_btn.role = "secondary-button"
+            # Is this an upgrade or downgrade?
+            is_upgrade = (user_count > active_licenses) or (getattr(self, 'current_billing_period', 'monthly') == 'monthly' and self.billing_period == 'yearly')
+            
+            if is_upgrade:
+                # Orange "Upgrade Plan"
+                self.professional_btn.text = "Upgrade Plan"
+                self.professional_btn.role = "cta-button"
+            else:
+                # Grey "Downgrade Plan"
+                self.professional_btn.text = "Downgrade Plan" 
+                self.professional_btn.role = "secondary-button"
+            
             self.professional_btn.set_event_handler('click', self.update_subscription)
-        self.professional_btn.tag["billing_period"] = billing_period
-    # Other plan logic remains unchanged
-    # ...
-    # Always store user count in tag for Professional plan
+    elif active_plan == "Explore":
+        # For Explore: Orange "Upgrade Plan"
+        self.professional_btn.text = "Upgrade Plan"
+        self.professional_btn.role = "cta-button"
+        self.professional_btn.set_event_handler('click', self.choose_plan_click)
+            
+    # 3. HANDLE BILLING PERIOD CHANGES EXPLICITLY
+    if active_plan not in ["Trial", "Extended Trial", None]:
+        # Only for paid plans, check for billing period changes
+        current_billing = getattr(self, 'current_billing_period', self.billing_period)
+        
+        if current_billing != self.billing_period:
+            if self.billing_period == "yearly" and current_billing == "monthly":
+                # Upgrading to yearly - orange
+                self.professional_btn.text = "Upgrade to Yearly"
+                self.professional_btn.role = "cta-button"
+                self.professional_btn.set_event_handler('click', self.update_subscription)
+            elif self.billing_period == "monthly" and current_billing == "yearly":
+                # Downgrading to monthly - grey
+                self.professional_btn.text = "Downgrade to Monthly"
+                self.professional_btn.role = "secondary-button"
+                self.professional_btn.set_event_handler('click', self.update_subscription)
+            
+    # 4. STORE TAG DATA FOR BOTH BUTTONS
+    # For professional button, always store user count and billing period
     self.professional_btn.tag["user_count"] = user_count
+    self.professional_btn.tag["billing_period"] = self.billing_period
+    self.professional_btn.tag["plan_type"] = "Professional"
+        
+    # For explore button, always store relevant data
+    self.explore_btn.tag["user_count"] = 1  # Explore always has 1 user
+    self.explore_btn.tag["billing_period"] = self.billing_period
+    self.explore_btn.tag["plan_type"] = "Explore"
 
   # 3. Handle Anvil Button clicks
   def choose_plan_click(self, sender, **event_args):
