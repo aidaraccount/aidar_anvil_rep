@@ -14,84 +14,90 @@ from ..C_PaymentInfos import C_PaymentInfos
 
 
 class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
-  # 0. Country code to name mapping and helper
-  COUNTRY_CODES = {
-      'AU': 'Australia', 'AT': 'Austria', 'BE': 'Belgium', 'BR': 'Brazil', 'BG': 'Bulgaria', 'CA': 'Canada',
-      'CN': 'China', 'HR': 'Croatia', 'CY': 'Cyprus', 'CZ': 'Czech Republic', 'DK': 'Denmark', 'EE': 'Estonia',
-      'FI': 'Finland', 'FR': 'France', 'DE': 'Germany', 'GR': 'Greece', 'HK': 'Hong Kong', 'HU': 'Hungary',
-      'IS': 'Iceland', 'IN': 'India', 'IE': 'Ireland', 'IT': 'Italy', 'JP': 'Japan', 'LI': 'Liechtenstein',
-      'LT': 'Lithuania', 'LU': 'Luxembourg', 'LV': 'Latvia', 'MT': 'Malta', 'MX': 'Mexico', 'NL': 'Netherlands',
-      'NZ': 'New Zealand', 'NO': 'Norway', 'PL': 'Poland', 'PT': 'Portugal', 'RO': 'Romania', 'SG': 'Singapore',
-      'SK': 'Slovakia', 'SI': 'Slovenia', 'ZA': 'South Africa', 'ES': 'Spain', 'SE': 'Sweden', 'CH': 'Switzerland',
-      'GB': 'United Kingdom', 'US': 'United States'
-  }
-  @classmethod
-  def get_country_name(cls, code: str) -> str:
-      return cls.COUNTRY_CODES.get(code, code or "")
-
   def __init__(self, plan_type: str = None, user_count: int = None, billing_period: str = None, **properties):
-    # [AIDAR_SUBSCRIPTION_LOG] --- Start Subscription Form Init ---
-    print("[AIDAR_SUBSCRIPTION_LOG] __init__ called. plan_type=", plan_type, "user_count=", user_count, "billing_period=", billing_period)
     
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
 
-    # Store passed arguments for use in the form
+    # Any code you write here will run before the form opens.
+    global user
+    user = anvil.users.get_user()
+
     self.plan_type: str = plan_type
     self.user_count: int = user_count
     self.billing_period: str = billing_period
 
-    # Any code you write here will run before the form opens.
-    global user
-    try:
-        user = anvil.users.get_user()
-        print("[AIDAR_SUBSCRIPTION_LOG] user:", user)
-    except Exception as e:
-        print("[AIDAR_SUBSCRIPTION_LOG] ERROR getting user:", e)
-        user = None
 
-    # --- TAX INFO GATHERING LOGS ---
-    print("[AIDAR_SUBSCRIPTION_LOG] Fetching tax info for email:", user['email'] if user else None)
+    # --- 1. GET CUSTOMER INFO ---
     try:
-        customer_info = anvil.server.call('get_stripe_customer_with_tax_info', user['email'] if user else None)
-        print("[AIDAR_SUBSCRIPTION_LOG] customer_info from get_stripe_customer_with_tax_info:", customer_info)
-        
-        # Direct assignment from response dictionary - SAVE TAX INFO early
-        self.tax_country = customer_info.get('tax_country', '')
-        self.tax_id = customer_info.get('tax_id', '')
-        self.tax_id_type = customer_info.get('tax_id_type', '')
-        
-        # Fallback for tax data in tax_ids array if direct keys are empty
-        if not self.tax_country or not self.tax_id:
-            tax_ids = customer_info.get('tax_ids', {}).get('data', [])
-            print("[AIDAR_SUBSCRIPTION_LOG] Fallback to tax_ids array:", tax_ids)
-            if tax_ids and len(tax_ids) > 0:
-                first_tax = tax_ids[0]
-                if not self.tax_country:
-                    self.tax_country = first_tax.get('country', '')
-                if not self.tax_id:
-                    self.tax_id = first_tax.get('value', '')
-                if not self.tax_id_type:
-                    self.tax_id_type = first_tax.get('type', '')
-        
+        self.stripe_customer = anvil.server.call('get_stripe_customer_with_tax_info', user['email'] if user else None)
     except Exception as e:
         print("[AIDAR_SUBSCRIPTION_LOG] ERROR calling get_stripe_customer_with_tax_info:", e)
-        customer_info = {}
+        self.stripe_customer = {}
+
+    self.stripe_customer_id = self.stripe_customer.get('id') if self.stripe_customer else None
+
+    # Fetch and structure company/customer details for summary
+    self.company_email = self.stripe_customer.get('email', user['email'] if user else '')
+    self.company_name = self.stripe_customer.get('name', '')
+    self.company_address = self._format_address(self.stripe_customer.get('address', {}))
     
-    # IMPORTANT: Use direct assignments from customer_info, not reset
-    if not hasattr(self, 'tax_country') or not self.tax_country:
-        self.tax_country = customer_info.get('tax_country', '')
-    if not hasattr(self, 'tax_id') or not self.tax_id:
-        self.tax_id = customer_info.get('tax_id', '')
-    if not hasattr(self, 'tax_id_type') or not self.tax_id_type:
-        self.tax_id_type = customer_info.get('tax_id_type', '')
+    address_lines = []
+    if self.stripe_customer.get('address', {}):
+        line1 = self.stripe_customer.get('address', {}).get('line1', '')
+        line2 = self.stripe_customer.get('address', {}).get('line2', '')
+        city = self.stripe_customer.get('address', {}).get('city', '')
+        state = self.stripe_customer.get('address', {}).get('state', '')
+        postal_code = self.stripe_customer.get('address', {}).get('postal_code', '')
+        country = self.stripe_customer.get('address', {}).get('country', '')
+        if line1:
+            address_lines.append(line1)
+        if line2:
+            address_lines.append(line2)
+        if city and postal_code:
+            address_lines.append(f"{city}, {postal_code}")
+        elif city:
+            address_lines.append(city)
+        if state:
+            address_lines.append(state)
+        if country:
+            address_lines.append(country)
+
+
+    # --- 2. GET TAX INFO ---        
+    # Direct assignment from response dictionary - SAVE TAX INFO early
+    self.tax_country = self.stripe_customer.get('tax_country', '')
+    self.tax_id = self.stripe_customer.get('tax_id', '')
+    self.tax_id_type = self.stripe_customer.get('tax_id_type', '')
+    
+    # # Fallback for tax data in tax_ids array if direct keys are empty
+    # if not self.tax_country or not self.tax_id:
+    #     tax_ids = self.stripe_customer.get('tax_ids', {}).get('data', [])
+    #     if tax_ids and len(tax_ids) > 0:
+    #         first_tax = tax_ids[0]
+    #         if not self.tax_country:
+    #             self.tax_country = first_tax.get('country', '')
+    #         if not self.tax_id:
+    #             self.tax_id = first_tax.get('value', '')
+    #         if not self.tax_id_type:
+    #             self.tax_id_type = first_tax.get('type', '')
+    
+    # # IMPORTANT: Use direct assignments from customer_info, not reset
+    # if not hasattr(self, 'tax_country') or not self.tax_country:
+    #     self.tax_country = self.stripe_customer.get('tax_country', '')
+    # if not hasattr(self, 'tax_id') or not self.tax_id:
+    #     self.tax_id = self.stripe_customer.get('tax_id', '')
+    # if not hasattr(self, 'tax_id_type') or not self.tax_id_type:
+    #     self.tax_id_type = self.stripe_customer.get('tax_id_type', '')
         
-    # CRITICAL: Force from customer_info data - as fallback method
-    if 'tax_country' in customer_info and not self.tax_country:
-        self.tax_country = customer_info['tax_country']
-    if 'tax_id' in customer_info and not self.tax_id:
-        self.tax_id = customer_info['tax_id']
-        
+    # # CRITICAL: Force from customer_info data - as fallback method
+    # if 'tax_country' in self.stripe_customer and not self.tax_country:
+    #     self.tax_country = self.stripe_customer['tax_country']
+    # if 'tax_id' in self.stripe_customer and not self.tax_id:
+    #     self.tax_id = self.stripe_customer['tax_id']
+    
+
+    # --- 3. GET PRICE INFO ---
     # Get the Stripe Price ID based on plan type and billing period
     self.price_id = None
     if self.plan_type == "Explore" and self.billing_period == "monthly":
@@ -121,45 +127,11 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
     else:
         self.price_submit = self.price
 
-    # 1. Get Stripe customer by email
-    self.customer = anvil.server.call('get_stripe_customer', user['email'])
-    self.customer_id = self.customer.get('id') if self.customer else None
-    
-    # Convert LiveObjectProxy to dict if needed
-    if hasattr(self.customer, 'items'):
-        self.customer = dict(self.customer)
-
-    # Fetch and structure company/customer details for summary
-    self.company_email = customer_info.get('email', user['email'] if user else '')
-    self.company_name = customer_info.get('name', '')
-    self.company_address = self._format_address(customer_info.get('address', {}))
-    
-    address_lines = []
-    if self.customer.get('address', {}):
-        line1 = self.customer.get('address', {}).get('line1', '')
-        line2 = self.customer.get('address', {}).get('line2', '')
-        city = self.customer.get('address', {}).get('city', '')
-        state = self.customer.get('address', {}).get('state', '')
-        postal_code = self.customer.get('address', {}).get('postal_code', '')
-        country = self.customer.get('address', {}).get('country', '')
-        if line1:
-            address_lines.append(line1)
-        if line2:
-            address_lines.append(line2)
-        if city and postal_code:
-            address_lines.append(f"{city}, {postal_code}")
-        elif city:
-            address_lines.append(city)
-        if state:
-            address_lines.append(state)
-        if country:
-            address_lines.append(country)
-
     # Get default payment method summary (if any)
     self.payment_method_summary = "No payment method on file."
     self.default_payment_method = None
-    if self.customer_id:
-        payment_methods = anvil.server.call('get_stripe_payment_methods', self.customer_id)
+    if self.stripe_customer_id:
+        payment_methods = anvil.server.call('get_stripe_payment_methods', self.stripe_customer_id)
         if payment_methods:
             pm = payment_methods[0]  # Assume first is default for simplicity
             brand = pm.get('card', {}).get('brand', '')
@@ -173,28 +145,27 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
     if not hasattr(self, 'payment_method_summary'):
         self.payment_method_summary = "No payment method on file."
 
-    # Define instance methods
-    self._edit_company_click = self.__class__._edit_company_click.__get__(self)
-    self._edit_payment_click = self.__class__._edit_payment_click.__get__(self)
-    self._cancel_btn_click = self.__class__._cancel_btn_click.__get__(self)
-    self._confirm_subscription_click = self.__class__._confirm_subscription_click.__get__(self)
 
-    # Register JS-callable methods
+    # --- 4. BASE ---
+    # # Define instance methods
+    # self._edit_company_click = self.__class__._edit_company_click.__get__(self)
+    # self._edit_payment_click = self.__class__._edit_payment_click.__get__(self)
+    # self._confirm_subscription_click = self.__class__._confirm_subscription_click.__get__(self)
+    # self._cancel_btn_click = self.__class__._cancel_btn_click.__get__(self)
+    
+    # Register JS-callable methods directly to instance methods
     anvil.js.window.edit_company_click = self._edit_company_click
     anvil.js.window.edit_payment_click = self._edit_payment_click
-    anvil.js.window.cancel_btn_click = self._cancel_btn_click
     anvil.js.window.confirm_subscription_click = self._confirm_subscription_click
+    anvil.js.window.cancel_btn_click = self._cancel_btn_click
 
-    # Instance methods for Python compatibility
+    # Instance methods for Python compatibility (optional, but clearer for code completion)
     self.edit_company_click = self._edit_company_click
     self.edit_payment_click = self._edit_payment_click
-    self.cancel_btn_click = self._cancel_btn_click
     self.confirm_subscription_click = self._confirm_subscription_click
-
-    # --- CANCEL BUTTON LOGS ---
-    anvil.js.window.cancel_btn_click = self._cancel_btn_click
+    self.cancel_btn_click = self._cancel_btn_click
     
-    # --- TAX INFO LOG: Show in summary HTML ---
+    # --- HTML ---
     self.html = f"""
     <div id='payment-form-container'>
       <h2>Confirm Subscription</h2>
@@ -259,8 +230,6 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
     </div>
     """
 
-    # Robust Cancel button system: always set cancel handler on window and in JS after each dialog open
-    anvil.js.window.cancel_btn_click = self._cancel_btn_click
 
   def _edit_company_click(self, **event_args):
       """Opens the C_PaymentCustomer pop-up with prefilled data for editing, including country and tax info."""
@@ -283,6 +252,7 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
       if result == 'success':
           self._handle_customer_form_result(form)
 
+
   def _edit_payment_click(self, **event_args):
       """Opens the C_PaymentInfos pop-up to update payment method."""
       form = C_PaymentInfos()
@@ -296,23 +266,17 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
       if result == 'success':
           self.__init__(plan_type=self.plan_type, user_count=self.user_count, billing_period=self.billing_period)
 
-  def _cancel_btn_click(self, **event_args):
-      """Closes the modal popup when the Cancel button is clicked."""
-      print("[AIDAR_SUBSCRIPTION_LOG] _cancel_btn_click called. Closing modal.")
-      import traceback
-      print("[AIDAR_SUBSCRIPTION_LOG] _cancel_btn_click STACKTRACE:\n" + traceback.format_exc())
-      self.raise_event("x-close-alert")
 
   def _confirm_subscription_click(self, **event_args):
       """Creates the subscription and redirects."""
-      if not self.customer_id:
+      if not self.stripe_customer_id:
         alert('No Stripe customer found. Please add a payment method first.', title='Error')
         return
       if not self.price_id:
         alert('No Stripe price selected. Please select a valid plan.', title='Error')
         return
       try:
-        subscription = anvil.server.call('create_stripe_subscription', self.customer_id, self.price_id, self.plan_type, self.user_count)
+        subscription = anvil.server.call('create_stripe_subscription', self.stripe_customer_id, self.price_id, self.plan_type, self.user_count)
         self.raise_event("x-close-alert", value="success")
 
         # success alert
@@ -329,6 +293,15 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
         
       except Exception as e:
         alert(f"Failed to create subscription: {e}", title="Error")
+
+
+  def _cancel_btn_click(self, **event_args):
+      """Closes the modal popup when the Cancel button is clicked."""
+      print("[AIDAR_SUBSCRIPTION_LOG] _cancel_btn_click called. Closing modal.")
+      import traceback
+      print("[AIDAR_SUBSCRIPTION_LOG] _cancel_btn_click STACKTRACE:\n" + traceback.format_exc())
+      self.raise_event("x-close-alert")
+
 
   def _handle_customer_form_result(self, form):
     """
@@ -355,7 +328,7 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
     # Update customer info in Stripe
     anvil.server.call(
         'update_stripe_customer',
-        self.customer_id,
+        self.stripe_customer_id,
         updated_name,
         updated_email,
         updated_address
@@ -364,12 +337,28 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
     if updated_tax_id and tax_id_type:
         anvil.server.call(
             'update_stripe_customer_tax_id',
-            self.customer_id,
+            self.stripe_customer_id,
             updated_tax_id,
             tax_id_type
         )
     # Re-fetch customer data and rerender summary by reinitializing
     self.__init__(plan_type=self.plan_type, user_count=self.user_count, billing_period=self.billing_period)
+
+
+  def get_country_name(code: str) -> str:
+    COUNTRY_CODES = {
+    'AU': 'Australia', 'AT': 'Austria', 'BE': 'Belgium', 'BR': 'Brazil', 'BG': 'Bulgaria', 'CA': 'Canada',
+    'CN': 'China', 'HR': 'Croatia', 'CY': 'Cyprus', 'CZ': 'Czech Republic', 'DK': 'Denmark', 'EE': 'Estonia',
+    'FI': 'Finland', 'FR': 'France', 'DE': 'Germany', 'GR': 'Greece', 'HK': 'Hong Kong', 'HU': 'Hungary',
+    'IS': 'Iceland', 'IN': 'India', 'IE': 'Ireland', 'IT': 'Italy', 'JP': 'Japan', 'LI': 'Liechtenstein',
+    'LT': 'Lithuania', 'LU': 'Luxembourg', 'LV': 'Latvia', 'MT': 'Malta', 'MX': 'Mexico', 'NL': 'Netherlands',
+    'NZ': 'New Zealand', 'NO': 'Norway', 'PL': 'Poland', 'PT': 'Portugal', 'RO': 'Romania', 'SG': 'Singapore',
+    'SK': 'Slovakia', 'SI': 'Slovenia', 'ZA': 'South Africa', 'ES': 'Spain', 'SE': 'Sweden', 'CH': 'Switzerland',
+    'GB': 'United Kingdom', 'US': 'United States'
+    }
+
+    return COUNTRY_CODES.get(code, code or "")
+
 
   def _format_address(self, address: dict) -> str:
     """Format address dict as string for display."""
