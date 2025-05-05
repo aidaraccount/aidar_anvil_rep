@@ -364,18 +364,16 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
     self.professional_btn.tag["user_count"] = user_count
 
   # 3. Handle Anvil Button clicks
-  def choose_plan_click(self, **event_args):
+  def choose_plan_click(self, sender, **event_args):
     """
     1. Handles clicks on the Explore and Professional plan buttons.
     2. Determines plan type, user count, and billing period, then opens checkout.
     
     Parameters:
+        sender: The button that was clicked
         event_args (dict): Event arguments from the button click
     """
-    # Get the sender button
-    sender = self.sender
     plan_type = sender.tag.get("plan_type", "")
-    
     # Get user count from JS input field
     user_count_input = document.getElementById('user-count')
     user_count = 1
@@ -391,6 +389,109 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
     
     # Open subscription checkout flow with the collected info
     self.open_subscription(plan_type=plan_type, user_count=user_count, billing_period=billing_period)
+
+  def cancel_subscription(self, sender, **event_args) -> None:
+    """
+    1. Handles the cancellation of a subscription
+    2. Calls the server function to cancel the subscription in Stripe
+    
+    Parameters:
+        sender: The button that was clicked
+        event_args (dict): Event arguments from the button click
+    """
+    plan_type: str = sender.tag.get("plan_type", "")
+    # Get confirmation from user
+    confirmation = alert(
+      f"Are you sure you want to cancel your {self.active_plan} subscription?",
+      title="Cancel Subscription",
+      buttons=["Yes, Cancel", "No, Keep Subscription"],
+      large=False
+    )
+
+    if confirmation == "Yes, Cancel":
+      # Call server function to cancel subscription
+      try:
+        result = anvil.server.call('cancel_subscription')
+        if result and result.get('success'):
+          alert("Your subscription has been successfully cancelled.", title="Success")
+          # Refresh the page to reflect the changes
+          anvil.js.window.location.reload()
+        else:
+          alert("There was a problem cancelling your subscription. Please try again or contact support.", title="Error")
+      except Exception as e:
+        print(f"Error in cancel_subscription: {e}")
+        alert("There was a problem processing your request. Please try again later.", title="Error")
+
+  def update_subscription(self, sender, **event_args) -> None:
+    """
+    1. Handles updating a subscription (upgrading, downgrading, or changing user count)
+    2. Calls the server function to update the subscription in Stripe
+    
+    Parameters:
+        sender: The button that was clicked
+        event_args (dict): Event arguments from the button click
+    """
+    current_plan: str = self.active_plan
+    target_plan: str = sender.tag.get("target_plan", current_plan)
+    
+    # Get the user count for Professional plan
+    user_count: int = sender.tag.get("user_count", 1)
+    if not user_count:
+        user_count_input = document.getElementById('user-count')
+        if user_count_input is not None:
+            try:
+                user_count = int(user_count_input.value)
+            except Exception:
+                user_count = 1
+    
+    # Get billing period info
+    billing_period: str = sender.tag.get("billing_period", self.billing_period)
+    
+    # Determine update type
+    if target_plan != current_plan:
+        operation_type = "downgrade" if current_plan == "Professional" else "upgrade"
+        confirmation_message = f"Are you sure you want to {operation_type} from {current_plan} to {target_plan}?"
+    elif billing_period != getattr(self, 'current_billing_period', self.billing_period):
+        if billing_period == "yearly":
+            operation_type = "upgrade"
+            confirmation_message = f"Are you sure you want to upgrade from monthly to yearly billing?"
+        else:
+            operation_type = "downgrade"
+            confirmation_message = f"Are you sure you want to change from yearly to monthly billing?"
+    else:
+        if user_count > self.active_licenses:
+            operation_type = "upgrade"
+            confirmation_message = f"Are you sure you want to increase your user count from {self.active_licenses} to {user_count}?"
+        else:
+            operation_type = "downgrade"
+            confirmation_message = f"Are you sure you want to decrease your user count from {self.active_licenses} to {user_count}?"
+
+    # Get confirmation from user
+    confirmation = alert(
+      confirmation_message,
+      title=f"{operation_type.capitalize()} Subscription",
+      buttons=[f"Yes, {operation_type.capitalize()}", "No, Cancel"],
+      large=False
+    )
+
+    if confirmation.startswith("Yes"):
+      # Call server function to update subscription
+      try:
+        result = anvil.server.call(
+          'update_subscription', 
+          target_plan=target_plan, 
+          user_count=user_count, 
+          billing_period=billing_period
+        )
+        if result and result.get('success'):
+          alert(f"Your subscription has been successfully updated.", title="Success")
+          # Refresh the page to reflect the changes
+          anvil.js.window.location.reload()
+        else:
+          alert("There was a problem updating your subscription. Please try again or contact support.", title="Error")
+      except Exception as e:
+        print(f"Error in update_subscription: {e}")
+        alert("There was a problem processing your request. Please try again later.", title="Error")
 
   # 4. Handle the full checkout process
   def open_subscription(self, **event_args):
@@ -460,105 +561,3 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
     #   # 7. If subscription was created successfully, refresh the page
     #   if subscription_result == 'success':
     #       anvil.js.window.location.reload()
-
-  def cancel_subscription(self, **event_args) -> None:
-    """
-    1. Handles the cancellation of a subscription
-    2. Calls the server function to cancel the subscription in Stripe
-    
-    Parameters:
-        event_args (dict): Event arguments from the button click
-    """
-    plan_type: str = self.sender.tag.get("plan_type", "")
-    # Get confirmation from user
-    confirmation = alert(
-      f"Are you sure you want to cancel your {self.active_plan} subscription?",
-      title="Cancel Subscription",
-      buttons=["Yes, Cancel", "No, Keep Subscription"],
-      large=False
-    )
-
-    if confirmation == "Yes, Cancel":
-      # Call server function to cancel subscription
-      try:
-        result = anvil.server.call('cancel_subscription')
-        if result and result.get('success'):
-          alert("Your subscription has been successfully cancelled.", title="Success")
-          # Refresh the page to reflect the changes
-          anvil.js.window.location.reload()
-        else:
-          alert("There was a problem cancelling your subscription. Please try again or contact support.", title="Error")
-      except Exception as e:
-        print(f"Error in cancel_subscription: {e}")
-        alert("There was a problem processing your request. Please try again later.", title="Error")
-
-  def update_subscription(self, **event_args) -> None:
-    """
-    1. Handles updating a subscription (upgrading, downgrading, or changing user count)
-    2. Calls the server function to update the subscription in Stripe
-    
-    Parameters:
-        event_args (dict): Event arguments from the button click
-    """
-    sender = self.sender
-    current_plan: str = self.active_plan
-    target_plan: str = sender.tag.get("target_plan", current_plan)
-    
-    # Get the user count for Professional plan
-    user_count: int = sender.tag.get("user_count", 1)
-    if not user_count:
-        user_count_input = document.getElementById('user-count')
-        if user_count_input is not None:
-            try:
-                user_count = int(user_count_input.value)
-            except Exception:
-                user_count = 1
-    
-    # Get billing period info
-    billing_period: str = sender.tag.get("billing_period", self.billing_period)
-    
-    # Determine update type
-    if target_plan != current_plan:
-        operation_type = "downgrade" if current_plan == "Professional" else "upgrade"
-        confirmation_message = f"Are you sure you want to {operation_type} from {current_plan} to {target_plan}?"
-    elif billing_period != getattr(self, 'current_billing_period', self.billing_period):
-        if billing_period == "yearly":
-            operation_type = "upgrade"
-            confirmation_message = f"Are you sure you want to upgrade from monthly to yearly billing?"
-        else:
-            operation_type = "downgrade"
-            confirmation_message = f"Are you sure you want to change from yearly to monthly billing?"
-    else:
-        if user_count > self.active_licenses:
-            operation_type = "upgrade"
-            confirmation_message = f"Are you sure you want to increase your user count from {self.active_licenses} to {user_count}?"
-        else:
-            operation_type = "downgrade"
-            confirmation_message = f"Are you sure you want to decrease your user count from {self.active_licenses} to {user_count}?"
-
-    # Get confirmation from user
-    confirmation = alert(
-      confirmation_message,
-      title=f"{operation_type.capitalize()} Subscription",
-      buttons=[f"Yes, {operation_type.capitalize()}", "No, Cancel"],
-      large=False
-    )
-
-    if confirmation.startswith("Yes"):
-      # Call server function to update subscription
-      try:
-        result = anvil.server.call(
-          'update_subscription', 
-          target_plan=target_plan, 
-          user_count=user_count, 
-          billing_period=billing_period
-        )
-        if result and result.get('success'):
-          alert(f"Your subscription has been successfully updated.", title="Success")
-          # Refresh the page to reflect the changes
-          anvil.js.window.location.reload()
-        else:
-          alert("There was a problem updating your subscription. Please try again or contact support.", title="Error")
-      except Exception as e:
-        print(f"Error in update_subscription: {e}")
-        alert("There was a problem processing your request. Please try again later.", title="Error")
