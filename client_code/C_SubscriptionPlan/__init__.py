@@ -270,6 +270,7 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
         
         if (monthlyBtn) {
           monthlyBtn.addEventListener('click', function() {
+            console.log("Monthly button clicked - calling Python update_button_state");
             if (window.pyComponent && window.pyComponent.update_button_state) {
               window.pyComponent.update_button_state();
             }
@@ -278,6 +279,7 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
         
         if (yearlyBtn) {
           yearlyBtn.addEventListener('click', function() {
+            console.log("Yearly button clicked - calling Python update_button_state");
             if (window.pyComponent && window.pyComponent.update_button_state) {
               window.pyComponent.update_button_state();
             }
@@ -288,6 +290,7 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
         var userCountInput = document.getElementById('user-count');
         if (userCountInput) {
           userCountInput.addEventListener('input', function() {
+            console.log("User count changed - calling Python update_button_state");
             var val = parseInt(userCountInput.value);
             if (isNaN(val) || val < 1) val = 1;
             
@@ -302,20 +305,18 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
           
           if (minusBtn) {
             minusBtn.addEventListener('click', function() {
+              console.log("Minus button clicked - calling Python update_button_state");
               if (window.pyComponent && window.pyComponent.update_button_state) {
-                setTimeout(function() {
-                  window.pyComponent.update_button_state();
-                }, 50);
+                window.pyComponent.update_button_state();
               }
             });
           }
           
           if (plusBtn) {
             plusBtn.addEventListener('click', function() {
+              console.log("Plus button clicked - calling Python update_button_state");
               if (window.pyComponent && window.pyComponent.update_button_state) {
-                setTimeout(function() {
-                  window.pyComponent.update_button_state();
-                }, 50);
+                window.pyComponent.update_button_state();
               }
             });
           }
@@ -331,6 +332,10 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
     2. Configures text, styling, and click behavior for both the Explore and Professional buttons
     3. Considers billing period (monthly/yearly) preference when determining upgrade/downgrade status
     """
+    # Add a timestamp and message to confirm method is being called
+    import datetime
+    print(f"UPDATE_BUTTON_STATE CALLED at {datetime.datetime.now()}")
+    
     # Get user count from JS input field - Update self.selected_licenses
     user_count_input = document.getElementById('user-count')
     if user_count_input is not None:
@@ -348,7 +353,7 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
         self.selected_billing = "yearly" if is_yearly else "monthly"
         
     print(f"DEBUG - Comparison: subscribed_plan={self.subscribed_plan}, subscribed_licenses={self.subscribed_licenses}, subscribed_billing={self.subscribed_billing}")
-    print(f"DEBUG - Comparison:   selected_plan={self.selected_plan},     selected_licenses={self.selected_licenses},     selected_billing={self.selected_billing}")
+    print(f"DEBUG - Comparison:   selected_plan={self.selected_plan},   selected_licenses={self.selected_licenses},   selected_billing={self.selected_billing}")
         
     # 1. EXPLORE BUTTON LOGIC
     if self.subscribed_plan in ["Trial", "Extended Trial", None]:
