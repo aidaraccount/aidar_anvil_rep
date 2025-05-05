@@ -233,42 +233,6 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
     # Initialize JS with the current billing period
     self.current_billing_period = self.subscribed_billing
     
-    # We'll move the JS initialization code to after the script is loaded
-    # This ensures the functions are defined before we try to call them
-    anvil.js.window.setTimeout("""
-      try {
-        // First set the correct pricing toggle
-        if ('""" + self.subscribed_billing + """' === 'yearly') {
-          // Check if function exists before calling
-          if (typeof setYearly === 'function') {
-            setYearly();
-          } else {
-            console.log("setYearly function not found yet");
-            // Manually set the toggle classes
-            if (document.getElementById('pricing-toggle-yearly')) {
-              document.getElementById('pricing-toggle-yearly').classList.add('selected');
-              document.getElementById('pricing-toggle-monthly').classList.remove('selected');
-            }
-          }
-        } else {
-          // Check if function exists before calling
-          if (typeof setMonthly === 'function') {
-            setMonthly();
-          } else {
-            console.log("setMonthly function not found yet");
-            // Manually set the toggle classes
-            if (document.getElementById('pricing-toggle-monthly')) {
-              document.getElementById('pricing-toggle-monthly').classList.add('selected');
-              document.getElementById('pricing-toggle-yearly').classList.remove('selected');
-            }
-          }
-        }
-        console.log("[SUBSCRIPTION_DEBUG] Initial pricing setup completed");
-      } catch(e) {
-        console.error("[SUBSCRIPTION_DEBUG] Error setting initial pricing:", e);
-      }
-    """, 200)
-
     # 2. Add Anvil Buttons for plan selection
     self.explore_btn = Button(text="Choose Plan", role="cta-button", tag={"plan_type": "Explore"})
     self.professional_btn = Button(text="Choose Plan", role="cta-button", tag={"plan_type": "Professional"})
@@ -280,86 +244,27 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
     self.add_component(self.explore_btn, slot="explore-plan-button")
     self.add_component(self.professional_btn, slot="professional-plan-button")
     
-    # 3. Add a JavaScript event handler to connect UI actions with update_button_state
-    # Use a direct method with no Anvil-specific API dependencies
+    # 3. Update existing event handlers
+    # Make our update_button_state method available to the existing JS event handlers
     anvil.js.window.update_subscription_buttons = self.update_button_state
     
-    # Set up the event handlers with pure JavaScript
     anvil.js.call('eval', """
-    (function() {
-      console.log("[SUBSCRIPTION_DEBUG] Setting up ultra-simple event listeners");
-      
-      function callPythonUpdate() {
-        console.log("[SUBSCRIPTION_DEBUG] Calling Python update_button_state");
-        try {
-          if (window.update_subscription_buttons) {
-            window.update_subscription_buttons();
-            console.log("[SUBSCRIPTION_DEBUG] Successfully called update_button_state");
-          } else {
-            console.error("[SUBSCRIPTION_DEBUG] window.update_subscription_buttons is not defined");
-          }
-        } catch (e) {
-          console.error("[SUBSCRIPTION_DEBUG] Error calling Python:", e);
+    // Make the Python update_button_state method available for existing event handlers
+    console.log("[SUBSCRIPTION_DEBUG] Setting up window.pyComponent for existing event handlers");
+    window.pyComponent = {};
+    window.pyComponent.update_button_state = function() {
+      console.log("[SUBSCRIPTION_DEBUG] Called update_button_state from existing JS event handlers");
+      try {
+        if (window.update_subscription_buttons) {
+          window.update_subscription_buttons();
+          console.log("[SUBSCRIPTION_DEBUG] Successfully called Python update_button_state");
+        } else {
+          console.error("[SUBSCRIPTION_DEBUG] window.update_subscription_buttons is not defined");
         }
+      } catch (e) {
+        console.error("[SUBSCRIPTION_DEBUG] Error calling Python:", e);
       }
-      
-      // Monthly toggle
-      var monthlyBtn = document.getElementById('pricing-toggle-monthly');
-      if (monthlyBtn) {
-        monthlyBtn.addEventListener('click', function() {
-          console.log("[SUBSCRIPTION_DEBUG] Monthly toggle clicked");
-          callPythonUpdate();
-        });
-      } else {
-        console.error("[SUBSCRIPTION_DEBUG] Monthly button not found");
-      }
-      
-      // Yearly toggle
-      var yearlyBtn = document.getElementById('pricing-toggle-yearly');
-      if (yearlyBtn) {
-        yearlyBtn.addEventListener('click', function() {
-          console.log("[SUBSCRIPTION_DEBUG] Yearly toggle clicked");
-          callPythonUpdate();
-        });
-      } else {
-        console.error("[SUBSCRIPTION_DEBUG] Yearly button not found");
-      }
-      
-      // User count input
-      var userInput = document.getElementById('user-count');
-      if (userInput) {
-        userInput.addEventListener('input', function() {
-          console.log("[SUBSCRIPTION_DEBUG] User count changed");
-          callPythonUpdate();
-        });
-      } else {
-        console.error("[SUBSCRIPTION_DEBUG] User count input not found");
-      }
-      
-      // Minus button
-      var minusBtn = document.getElementById('user-minus');
-      if (minusBtn) {
-        minusBtn.addEventListener('click', function() {
-          console.log("[SUBSCRIPTION_DEBUG] Minus button clicked");
-          setTimeout(callPythonUpdate, 100);
-        });
-      } else {
-        console.error("[SUBSCRIPTION_DEBUG] Minus button not found");
-      }
-      
-      // Plus button
-      var plusBtn = document.getElementById('user-plus');
-      if (plusBtn) {
-        plusBtn.addEventListener('click', function() {
-          console.log("[SUBSCRIPTION_DEBUG] Plus button clicked");
-          setTimeout(callPythonUpdate, 100);
-        });
-      } else {
-        console.error("[SUBSCRIPTION_DEBUG] Plus button not found");
-      }
-      
-      console.log("[SUBSCRIPTION_DEBUG] Event handlers setup complete");
-    })();
+    };
     """)
 
   def form_show(self, **event_args):
