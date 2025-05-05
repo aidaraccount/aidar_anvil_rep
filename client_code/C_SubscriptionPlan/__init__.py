@@ -507,8 +507,8 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
     if not plan_type or not user_count:
       alert("Please select a plan and specify the number of users.", title="Missing Information")
       return
-      # 2. Check if customer data exists
-      customer = anvil.server.call('get_stripe_customer', anvil.users.get_user()['email'])
+    # 2. Check if customer data exists
+    customer = anvil.server.call('get_stripe_customer', anvil.users.get_user()['email'])
     customer_exists = bool(customer and customer.get('id'))
     # 3. If no customer data, start with C_PaymentCustomer
     if not customer_exists:
