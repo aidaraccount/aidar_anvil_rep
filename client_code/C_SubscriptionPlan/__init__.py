@@ -259,72 +259,83 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
     self.add_component(self.professional_btn, slot="professional-plan-button")
     
     # Set up JS listeners for billing toggle and user count changes
-    anvil.js.window.setTimeout("""
+    anvil.js.window.call("eval", """
       try {
-        // Store a reference to the Python component
-        window.pyComponent = _this;
-        
-        // Set up billing toggle listeners
+        // Direct event handling for toggle buttons
         var monthlyBtn = document.getElementById('pricing-toggle-monthly');
         var yearlyBtn = document.getElementById('pricing-toggle-yearly');
         
         if (monthlyBtn) {
-          monthlyBtn.addEventListener('click', function() {
-            console.log("Monthly button clicked - calling Python update_button_state");
-            if (window.pyComponent && window.pyComponent.update_button_state) {
-              window.pyComponent.update_button_state();
-            }
-          });
+          monthlyBtn.onclick = function() {
+            console.log("Monthly toggle clicked");
+            Anvil.call("js_update_button_state");
+          };
         }
         
         if (yearlyBtn) {
-          yearlyBtn.addEventListener('click', function() {
-            console.log("Yearly button clicked - calling Python update_button_state");
-            if (window.pyComponent && window.pyComponent.update_button_state) {
-              window.pyComponent.update_button_state();
-            }
-          });
+          yearlyBtn.onclick = function() {
+            console.log("Yearly toggle clicked");
+            Anvil.call("js_update_button_state");
+          };
         }
         
-        // Set up user count change listener
+        // Direct event handling for user count changes
         var userCountInput = document.getElementById('user-count');
         if (userCountInput) {
-          userCountInput.addEventListener('input', function() {
-            console.log("User count changed - calling Python update_button_state");
-            var val = parseInt(userCountInput.value);
-            if (isNaN(val) || val < 1) val = 1;
-            
-            if (window.pyComponent && window.pyComponent.update_button_state) {
-              window.pyComponent.update_button_state();
-            }
-          });
+          userCountInput.oninput = function() {
+            console.log("User count changed");
+            Anvil.call("js_update_button_state");
+          };
           
-          // Also listen for +/- button clicks
           var minusBtn = document.getElementById('user-minus');
           var plusBtn = document.getElementById('user-plus');
           
           if (minusBtn) {
-            minusBtn.addEventListener('click', function() {
-              console.log("Minus button clicked - calling Python update_button_state");
-              if (window.pyComponent && window.pyComponent.update_button_state) {
-                window.pyComponent.update_button_state();
-              }
-            });
+            minusBtn.onclick = function() {
+              console.log("Minus button clicked");
+              // Need to wait for JS to update the count before calling Python
+              setTimeout(function() {
+                Anvil.call("js_update_button_state");
+              }, 100);
+            };
           }
           
           if (plusBtn) {
-            plusBtn.addEventListener('click', function() {
-              console.log("Plus button clicked - calling Python update_button_state");
-              if (window.pyComponent && window.pyComponent.update_button_state) {
-                window.pyComponent.update_button_state();
-              }
-            });
+            plusBtn.onclick = function() {
+              console.log("Plus button clicked");
+              // Need to wait for JS to update the count before calling Python
+              setTimeout(function() {
+                Anvil.call("js_update_button_state");
+              }, 100);
+            };
           }
         }
+        
+        console.log("Event handlers attached successfully");
       } catch(e) {
-        console.error("Error setting up Python-JS bridge:", e);
+        console.error("Error setting up event handlers:", e);
       }
-    """, 500)
+    """)
+
+  # 1. Create a reliable JS-to-Python call method
+  def js_update_button_state(self, **event_args):
+    """
+    1. Called reliably from JavaScript through Anvil's built-in event system
+    2. Acts as a bridge between JavaScript UI events and Python button state updates
+    3. Ensures changes to user inputs are reflected in button appearance
+    """
+    # Force a direct call to update_button_state to refresh UI state
+    anvil.js.report_callback_exception = self.handle_callback_error  # Add error handling
+    self.update_button_state()
+    
+  def handle_callback_error(self, exception, stacktrace):
+    """
+    1. Handles errors in JavaScript callbacks
+    2. Reports errors to console for troubleshooting
+    """
+    print(f"ERROR in JavaScript callback: {exception}")
+    print(f"Stack trace: {stacktrace}")
+    # This helps diagnose JS-Python communication issues
 
   def update_button_state(self):
     """
