@@ -65,9 +65,6 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
                 <li>1 Watchlist</li>
                 <li>E-Mail Support</li>
             </ul>
-            <button class="plan-action-btn {'cancel' if self.active_plan == 'explore' else 'switch'}">
-                {'Cancel Plan' if self.active_plan == 'explore' else 'Switch Plan'}
-            </button>
             <div anvil-slot="explore-plan-button"></div>
         </div>
         <!-- Professional Plan -->
@@ -92,14 +89,11 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
             <div class='user-count-selector'>
                 <button type='button' class='user-count-btn' id='user-minus'>−</button>
                 <span class='user-count-label'>
-                    <input id='user-count' class='user-count-value-input' type='text' value='{self.active_licenses if self.active_plan == 'professional' and self.active_licenses else 1}' maxlength='3' />
+                    <input id='user-count' class='user-count-value-input' type='text' value='{self.active_licenses if self.active_licenses else 1}' maxlength='3' />
                     <span> User<span id='user-count-plural' style='display:none;'>s</span></span>
                 </span>
                 <button type='button' class='user-count-btn' id='user-plus'>+</button>
             </div>
-            <button class="plan-action-btn {'cancel' if self.active_plan == 'professional' else 'switch'}">
-                {'Cancel Plan' if self.active_plan == 'professional' else 'Switch Plan'}
-            </button>
             <div anvil-slot="professional-plan-button"></div>
         </div>
     </div>
@@ -155,91 +149,162 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
         if (monthlyBtn) monthlyBtn.addEventListener('click', setMonthly);
         if (yearlyBtn) yearlyBtn.addEventListener('click', setYearly);
         setMonthly();
+        
         // User count selector logic
         var userCountInput = document.getElementById('user-count');
         var minusBtn = document.getElementById('user-minus');
         var plusBtn = document.getElementById('user-plus');
         var pluralSpan = document.getElementById('user-count-plural');
+        
+        function handleUserCountChange() {{
+            if (!userCountInput) return;
+            var val = parseInt(userCountInput.value.replace(/\\D/g, ''));
+            if (isNaN(val) || val < 1) val = 1;
+            userCountInput.value = val;
+            if (pluralSpan) pluralSpan.style.display = (val > 1) ? '' : 'none';
+            
+            // Notify Python that the user count has changed
+            try {{
+                var pyComponent = window.pyComponent;
+                if (pyComponent && pyComponent.user_count_changed) {{
+                    pyComponent.user_count_changed(val);
+                }}
+            }} catch(e) {{
+                console.log('Error notifying Python:', e);
+            }}
+        }}
+        
         if (minusBtn) minusBtn.addEventListener('click', function() {{
             if (!userCountInput) return;
             var val = parseInt(userCountInput.value.replace(/\\D/g, ''));
             if (isNaN(val) || val <= 1) val = 2;
             userCountInput.value = val - 1;
-            userCountInput.dispatchEvent(new Event('input'));
+            handleUserCountChange();
         }});
+        
         if (plusBtn) plusBtn.addEventListener('click', function() {{
             if (!userCountInput) return;
             var val = parseInt(userCountInput.value.replace(/\\D/g, ''));
-            if (isNaN(val)) val = 1;
+            if (isNaN(val)) val = 0;
             userCountInput.value = val + 1;
-            userCountInput.dispatchEvent(new Event('input'));
+            handleUserCountChange();
         }});
-        if (userCountInput) userCountInput.addEventListener('input', function() {{
-            var val = parseInt(userCountInput.value.replace(/\\D/g, ''));
-            if (isNaN(val) || val < 1) val = 1;
-            userCountInput.value = val;
-            if (pluralSpan) pluralSpan.style.display = (val > 1) ? '' : 'none';
-        }});
+        
+        if (userCountInput) userCountInput.addEventListener('input', handleUserCountChange);
         if (userCountInput) userCountInput.dispatchEvent(new Event('input'));
+        
+        // Store reference to the Python component for callbacks
+        window.pyComponent = null;
+        try {{
+            // This will be set by Python after the HTML is rendered
+            window.setPyComponent = function(component) {{
+                window.pyComponent = component;
+            }};
+        }} catch(e) {{
+            console.log('Error setting up Python bridge:', e);
+        }}
     }});
     </script>
     """
 
-    # 2. Add Anvil Buttons for plan selection
-    self.explore_btn = Button(text="Choose Plan", role="cta-button", tag={"plan_type": "Explore"})
-    self.professional_btn = Button(text="Choose Plan", role="cta-button", tag={"plan_type": "Professional"})
+    # 2. Set up JavaScript-Python bridge for user count changes
+    from anvil.js.window import document
+    
+    # 2.1 Configure button appearance and behaviors
+    self.explore_btn = Button(text="Choose Plan", role="plan-action-btn switch", tag={"plan_type": "Explore"})
+    self.professional_btn = Button(text="Choose Plan", role="plan-action-btn switch", tag={"plan_type": "Professional"})
+    
+    # 2.2 Set up event handlers
     self.explore_btn.set_event_handler('click', self.choose_plan_click)
     self.professional_btn.set_event_handler('click', self.choose_plan_click)
+    
+    # 2.3 Add buttons to appropriate slots
     self.add_component(self.explore_btn, slot="explore-plan-button")
     self.add_component(self.professional_btn, slot="professional-plan-button")
-
+    
+    # 2.4 Register this component with JavaScript for callbacks
+    try:
+        from anvil.js.window import setPyComponent
+        setPyComponent(self)
+    except Exception as e:
+        print("Error setting up Python-JS bridge:", e)
+    
+    # 2.5 Initialize button states based on current plan
     self.update_plan_buttons()
+
+  def user_count_changed(self, new_count: int) -> None:
+    """
+    1. Called by JavaScript when the user count input changes
+    2. Updates the professional plan button state accordingly
+    
+    Args:
+        new_count (int): The new number of users selected
+    """
+    if self.active_plan == "professional" and self.active_licenses and new_count != self.active_licenses:
+        # User count changed for active Professional plan - show Update button
+        self.professional_btn.text = "Update Subscription"
+        self.professional_btn.role = "plan-action-btn switch"
+        self.professional_btn.tag["user_count"] = new_count
+        self.professional_btn.set_event_handler('click', self.update_subscription)
+    elif self.active_plan == "professional" and self.active_licenses and new_count == self.active_licenses:
+        # User count matches current subscription - show Cancel button
+        self.professional_btn.text = "Cancel Subscription"
+        self.professional_btn.role = "plan-action-btn cancel"
+        self.professional_btn.tag["user_count"] = new_count
+        self.professional_btn.set_event_handler('click', self.cancel_subscription)
 
   def update_plan_buttons(self) -> None:
     """
-    1. Updates the text and visibility of plan buttons based on active plan and user count
-    2. Ensures only one action button per plan is visible at a time
+    1. Updates the text, role, and handlers for both plan buttons based on active plan
+    2. Sets the appropriate button state: Choose, Cancel, or Update
     """
-    # Explore Plan
+    # 1. Explore Plan button logic
     if self.active_plan == "explore":
         self.explore_btn.text = "Cancel Subscription"
         self.explore_btn.role = "plan-action-btn cancel"
-        self.explore_btn.visible = True
         self.explore_btn.set_event_handler('click', self.cancel_subscription)
     else:
         self.explore_btn.text = "Choose Plan"
         self.explore_btn.role = "plan-action-btn switch"
-        self.explore_btn.visible = True
         self.explore_btn.set_event_handler('click', self.choose_plan_click)
-    # Professional Plan
-    target_count = self.active_licenses if self.active_licenses else 1
-    current_input = self.professional_btn.tag.get('user_count', target_count)
-    # If active and user count matches, show cancel; if active and user count changed, show update; else choose
+    
+    # 2. Professional Plan button logic
+    current_licenses = self.active_licenses if self.active_licenses else 1
+    
     if self.active_plan == "professional":
+        # Check if user count matches current licenses
         user_count_input = self.get_user_count_input()
+        current_count = current_licenses
+        
         try:
-            input_count = int(user_count_input.value) if user_count_input else target_count
+            if user_count_input:
+                current_count = int(user_count_input.value)
         except Exception:
-            input_count = target_count
-        if input_count != target_count:
+            current_count = current_licenses
+            
+        # Set button state based on whether count matches licenses
+        if current_count != current_licenses:
             self.professional_btn.text = "Update Subscription"
             self.professional_btn.role = "plan-action-btn switch"
-            self.professional_btn.visible = True
+            self.professional_btn.tag["user_count"] = current_count
             self.professional_btn.set_event_handler('click', self.update_subscription)
         else:
             self.professional_btn.text = "Cancel Subscription"
-            self.professional_btn.role = "plan-action-btn cancel"
-            self.professional_btn.visible = True
+            self.professional_btn.role = "plan-action-btn cancel" 
+            self.professional_btn.tag["user_count"] = current_count
             self.professional_btn.set_event_handler('click', self.cancel_subscription)
     else:
         self.professional_btn.text = "Choose Plan"
         self.professional_btn.role = "plan-action-btn switch"
-        self.professional_btn.visible = True
+        self.professional_btn.tag["user_count"] = 1
         self.professional_btn.set_event_handler('click', self.choose_plan_click)
 
   def get_user_count_input(self):
     """
-    1. Returns the user count input element from the DOM
+    1. Returns the user count input element from the DOM if available
+    
+    Returns:
+        DOM element or None: The user count input element or None if not found
     """
     try:
         from anvil.js.window import document
@@ -249,14 +314,19 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
 
   def cancel_subscription(self, sender=None, **event_args) -> None:
     """
-    1. Placeholder for cancel subscription logic (to be implemented in SM_Stripe.py)
+    1. Handles cancellation of an active subscription
+    2. This is a placeholder to be implemented in SM_Stripe.py
     """
+    print("Cancel subscription clicked")
     pass
 
   def update_subscription(self, sender=None, **event_args) -> None:
     """
-    1. Placeholder for update subscription logic (to be implemented in SM_Stripe.py)
+    1. Handles updating an existing subscription (e.g., changing user count)
+    2. This is a placeholder to be implemented in SM_Stripe.py
     """
+    print("Update subscription clicked")
+    user_count = sender.tag.get("user_count", 1)
     pass
 
   # 3. Handle Anvil Button clicks
