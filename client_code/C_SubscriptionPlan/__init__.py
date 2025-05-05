@@ -347,7 +347,9 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
         is_yearly = yearly_btn.classList.contains('selected')
         self.selected_billing = "yearly" if is_yearly else "monthly"
         
-    # Use subscribed_* variables consistently throughout the code    
+    print(f"DEBUG - Comparison: subscribed_plan={self.subscribed_plan}, subscribed_licenses={self.subscribed_licenses}, subscribed_billing={self.subscribed_billing}")
+    print(f"DEBUG - Comparison:   selected_plan={self.selected_plan},     selected_licenses={self.selected_licenses},     selected_billing={self.selected_billing}")
+        
     # 1. EXPLORE BUTTON LOGIC
     if self.subscribed_plan in ["Trial", "Extended Trial", None]:
         # For Trial/Extended Trial: Orange "Choose Plan"
@@ -373,12 +375,14 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
         self.professional_btn.text = "Choose Plan"
         self.professional_btn.role = "cta-button"
         self.professional_btn.set_event_handler('click', self.choose_plan_click)
+    elif self.subscribed_plan == "Explore":
+        # For Explore: Orange "Upgrade Plan"
+        self.professional_btn.text = "Upgrade Plan"
+        self.professional_btn.role = "cta-button"
+        self.professional_btn.set_event_handler('click', self.choose_plan_click)
     elif self.subscribed_plan == "Professional":
-        # For Professional: Check for changes
-        print(f"DEBUG - Comparison: subscribed_plan={self.subscribed_plan}, subscribed_licenses={self.subscribed_licenses}, subscribed_billing={self.subscribed_billing}, selected_plan={self.selected_plan}, selected_licenses={self.selected_licenses}, selected_billing={self.selected_billing}")
-        
         # Check if selected options match current subscription
-        is_same_subscription = (self.selected_licenses == self.subscribed_licenses and self.selected_billing == self.subscribed_billing)
+        is_same_subscription = (self.selected_licenses == self.subscribed_licenses and self.selected_billing == self.subscribed_billing and self.subscribed_plan == "Professional")
         
         if is_same_subscription:
             # No change: Grey "Cancel Plan"
@@ -399,11 +403,6 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
                 self.professional_btn.role = "secondary-button"
             
             self.professional_btn.set_event_handler('click', self.update_subscription)
-    elif self.subscribed_plan == "Explore":
-        # For Explore: Orange "Upgrade Plan"
-        self.professional_btn.text = "Upgrade Plan"
-        self.professional_btn.role = "cta-button"
-        self.professional_btn.set_event_handler('click', self.choose_plan_click)
             
     # 3. HANDLE BILLING PERIOD CHANGES EXPLICITLY
     if self.subscribed_plan not in ["Trial", "Extended Trial", None]:
