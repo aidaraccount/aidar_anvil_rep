@@ -280,84 +280,62 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
     self.add_component(self.explore_btn, slot="explore-plan-button")
     self.add_component(self.professional_btn, slot="professional-plan-button")
     
-    # Register this form and its method for JavaScript access
-    # This is the crucial part - expose the full function via anvil.call
-    anvil.js.window.pyComponent = self
-    
-    # Add a method that can be called directly from JS
-    anvil.js.expose(self.update_button_state, "update_button_state")
-    
-    # Use the simplest approach to update buttons via direct JS calls
+    # 3. Add a JavaScript event handler to connect UI actions with update_button_state
+    # Use the simple anvil.call approach for direct communication
     anvil.js.call('eval', """
-    // Simple JS function that updates the Python component
-    function updateButtonState() {
-      console.log("Calling Python update_button_state() directly");
-      try {
-        // Use the anvil.call approach - most reliable
-        if (typeof anvil !== 'undefined') {
-          console.log("Using anvil.call('update_button_state')");
-          anvil.call('update_button_state');
-        } else {
-          console.error("Anvil object not available");
-        }
-      } catch (e) {
-        console.error("Error calling update_button_state:", e);
-      }
-    }
-    
-    // Set up event handlers
-    function setupEvents() {
-      console.log("Setting up event listeners with direct anvil.call approach");
+    // 3.1 Set up JavaScript event listeners using standard JS
+    (function setupListeners() {
+      console.log("Setting up event listeners for subscription component");
       
-      // 1. Set up billing toggle listeners
+      // 3.2 Monthly toggle button
       var monthlyBtn = document.getElementById('pricing-toggle-monthly');
       if (monthlyBtn) {
-        monthlyBtn.onclick = function() {
-          console.log("Monthly clicked");
-          updateButtonState();
-        };
+        monthlyBtn.addEventListener('click', function() {
+          console.log("Monthly toggle clicked");
+          anvil.call("update_buttons_from_js");
+        });
       }
       
+      // 3.3 Yearly toggle button
       var yearlyBtn = document.getElementById('pricing-toggle-yearly');
       if (yearlyBtn) {
-        yearlyBtn.onclick = function() {
-          console.log("Yearly clicked");
-          updateButtonState();
-        };
+        yearlyBtn.addEventListener('click', function() {
+          console.log("Yearly toggle clicked");
+          anvil.call("update_buttons_from_js");
+        });
       }
       
-      // 2. Set up user count listeners
+      // 3.4 User count input field
       var userInput = document.getElementById('user-count');
       if (userInput) {
-        userInput.oninput = function() {
-          console.log("User input changed");
-          updateButtonState();
-        };
+        userInput.addEventListener('input', function() {
+          console.log("User count changed");
+          anvil.call("update_buttons_from_js");
+        });
       }
       
-      // 3. Set up plus/minus buttons
+      // 3.5 Minus button
       var minusBtn = document.getElementById('user-minus');
       if (minusBtn) {
-        minusBtn.onclick = function() {
-          console.log("Minus clicked");
-          setTimeout(updateButtonState, 100);
-        };
+        minusBtn.addEventListener('click', function() {
+          console.log("Minus button clicked");
+          setTimeout(function() {
+            anvil.call("update_buttons_from_js");
+          }, 100);
+        });
       }
       
+      // 3.6 Plus button
       var plusBtn = document.getElementById('user-plus');
       if (plusBtn) {
-        plusBtn.onclick = function() {
-          console.log("Plus clicked");
-          setTimeout(updateButtonState, 100);
-        };
+        plusBtn.addEventListener('click', function() {
+          console.log("Plus button clicked");
+          setTimeout(function() {
+            anvil.call("update_buttons_from_js");
+          }, 100);
+        });
       }
-    }
-    
-    // Run setup immediately
-    setupEvents();
-    
-    // Also run after a delay for redundancy
-    setTimeout(setupEvents, 500);
+    })();
     """)
 
   def form_show(self, **event_args):
@@ -447,6 +425,18 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
     print(f"ERROR in JavaScript callback: {exception}")
     print(f"Stack trace: {stacktrace}")
     # This helps diagnose JS-Python communication issues
+
+  # 4. This method is called from JavaScript when UI elements change
+  @anvil.server.callable
+  def update_buttons_from_js(self, **event_args):
+    """
+    1. Called by JavaScript when UI elements are updated
+    2. Acts as a bridge between the JavaScript UI and Python button state
+    3. Updates the button appearance based on current selections
+    """
+    print("Called update_buttons_from_js from JavaScript")
+    # Simply call our existing update_button_state method
+    self.update_button_state()
 
   def update_button_state(self):
     """
