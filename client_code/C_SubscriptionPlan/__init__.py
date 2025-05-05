@@ -49,7 +49,7 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
     <!-- 2. Pricing Plans -->
     <div class='pricing-plans'>
         <!-- Explore Plan -->
-        <div class='pricing-plan left{{ ' active' if self.active_plan == 'explore' else '' }}'>
+        <div class='pricing-plan left{' active' if self.active_plan == 'explore' else ''}'>
             <h2 class='plan-name'>Explore</h2>
             <p class='plan-description'>Best for solo scouts exploring AI-powered artist discovery.</p>
             <div class='plan-price-container'>
@@ -65,13 +65,13 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
                 <li>1 Watchlist</li>
                 <li>E-Mail Support</li>
             </ul>
-            <button class="plan-action-btn {{ 'cancel' if self.active_plan == 'explore' else 'switch' }}">
-                {{ 'Cancel Plan' if self.active_plan == 'explore' else 'Switch Plan' }}
+            <button class="plan-action-btn {'cancel' if self.active_plan == 'explore' else 'switch'}">
+                {'Cancel Plan' if self.active_plan == 'explore' else 'Switch Plan'}
             </button>
             <div anvil-slot="explore-plan-button"></div>
         </div>
         <!-- Professional Plan -->
-        <div class='pricing-plan recommended{{ ' active' if self.active_plan == 'professional' else '' }}'>
+        <div class='pricing-plan recommended{' active' if self.active_plan == 'professional' else ''}'>
             <div class='recommended-tag'>Recommended</div>
             <h2 class='plan-name'>Professional</h2>
             <p class='plan-description'>For individuals or teams who want to unlock full AI-powered scouting.</p>
@@ -92,13 +92,13 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
             <div class='user-count-selector'>
                 <button type='button' class='user-count-btn' id='user-minus'>−</button>
                 <span class='user-count-label'>
-                    <input id='user-count' class='user-count-value-input' type='text' value='{{ self.active_licenses if self.active_plan == 'professional' and self.active_licenses else 1 }}' maxlength='3' />
+                    <input id='user-count' class='user-count-value-input' type='text' value='{self.active_licenses if self.active_plan == 'professional' and self.active_licenses else 1}' maxlength='3' />
                     <span> User<span id='user-count-plural' style='display:none;'>s</span></span>
                 </span>
                 <button type='button' class='user-count-btn' id='user-plus'>+</button>
             </div>
-            <button class="plan-action-btn {{ 'cancel' if self.active_plan == 'professional' else 'switch' }}">
-                {{ 'Cancel Plan' if self.active_plan == 'professional' else 'Switch Plan' }}
+            <button class="plan-action-btn {'cancel' if self.active_plan == 'professional' else 'switch'}">
+                {'Cancel Plan' if self.active_plan == 'professional' else 'Switch Plan'}
             </button>
             <div anvil-slot="professional-plan-button"></div>
         </div>
@@ -108,9 +108,9 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
     // Pricing toggle JS
     function setMonthly() {{
         var origPrice = document.querySelector('.pricing-plan.left .original-price');
-        if (origPrice) origPrice.innerHTML = '<span class="euro-symbol">€</span><span class="price-number">39</span>';
+        if (origPrice) origPrice.innerHTML = '<span class=\"euro-symbol\">€</span><span class=\"price-number\">39</span>';
         var planPrice = document.querySelector('.pricing-plan.left .plan-price');
-        if (planPrice) planPrice.innerHTML = '<span class="euro-symbol">€</span>29';
+        if (planPrice) planPrice.innerHTML = '<span class=\"euro-symbol\">€</span>29';
         var pricePeriod = document.querySelector('.pricing-plan.left .price-period');
         if (pricePeriod) pricePeriod.textContent = '/month';
         var monthlyBtn = document.getElementById('pricing-toggle-monthly');
@@ -121,9 +121,9 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
     }}
     function setYearly() {{
         var origPrice = document.querySelector('.pricing-plan.left .original-price');
-        if (origPrice) origPrice.innerHTML = '<span class="euro-symbol">€</span><span class="price-number">35</span>';
+        if (origPrice) origPrice.innerHTML = '<span class=\"euro-symbol\">€</span><span class=\"price-number\">35</span>';
         var planPrice = document.querySelector('.pricing-plan.left .plan-price');
-        if (planPrice) planPrice.innerHTML = '<span class="euro-symbol">€</span>25';
+        if (planPrice) planPrice.innerHTML = '<span class=\"euro-symbol\">€</span>25';
         var pricePeriod = document.querySelector('.pricing-plan.left .price-period');
         if (pricePeriod) pricePeriod.textContent = '/month (billed yearly)';
         var monthlyBtn = document.getElementById('pricing-toggle-monthly');
@@ -140,12 +140,12 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
         var planPrice = document.querySelector('.pricing-plan.recommended .plan-price');
         var pricePeriod = document.querySelector('.pricing-plan.recommended .price-period');
         if (isYearly) {{
-            if (origPrice) origPrice.innerHTML = '<span class="euro-symbol">€</span><span class="price-number">52</span>';
-            if (planPrice) planPrice.innerHTML = '<span class="euro-symbol">€</span>37';
+            if (origPrice) origPrice.innerHTML = '<span class=\"euro-symbol\">€</span><span class=\"price-number\">52</span>';
+            if (planPrice) planPrice.innerHTML = '<span class=\"euro-symbol\">€</span>37';
             if (pricePeriod) pricePeriod.textContent = '/user & month (billed yearly)';
         }} else {{
-            if (origPrice) origPrice.innerHTML = '<span class="euro-symbol">€</span><span class="price-number">58</span>';
-            if (planPrice) planPrice.innerHTML = '<span class="euro-symbol">€</span>41';
+            if (origPrice) origPrice.innerHTML = '<span class=\"euro-symbol\">€</span><span class=\"price-number\">58</span>';
+            if (planPrice) planPrice.innerHTML = '<span class=\"euro-symbol\">€</span>41';
             if (pricePeriod) pricePeriod.textContent = '/user & month';
         }}
     }}
@@ -162,20 +162,20 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
         var pluralSpan = document.getElementById('user-count-plural');
         if (minusBtn) minusBtn.addEventListener('click', function() {{
             if (!userCountInput) return;
-            var val = parseInt(userCountInput.value.replace(/\D/g, ''));
+            var val = parseInt(userCountInput.value.replace(/\\D/g, ''));
             if (isNaN(val) || val <= 1) val = 2;
             userCountInput.value = val - 1;
             userCountInput.dispatchEvent(new Event('input'));
         }});
         if (plusBtn) plusBtn.addEventListener('click', function() {{
             if (!userCountInput) return;
-            var val = parseInt(userCountInput.value.replace(/\D/g, ''));
+            var val = parseInt(userCountInput.value.replace(/\\D/g, ''));
             if (isNaN(val)) val = 1;
             userCountInput.value = val + 1;
             userCountInput.dispatchEvent(new Event('input'));
         }});
         if (userCountInput) userCountInput.addEventListener('input', function() {{
-            var val = parseInt(userCountInput.value.replace(/\D/g, ''));
+            var val = parseInt(userCountInput.value.replace(/\\D/g, ''));
             if (isNaN(val) || val < 1) val = 1;
             userCountInput.value = val;
             if (pluralSpan) pluralSpan.style.display = (val > 1) ? '' : 'none';
