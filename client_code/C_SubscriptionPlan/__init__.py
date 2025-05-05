@@ -280,23 +280,25 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
     self.add_component(self.explore_btn, slot="explore-plan-button")
     self.add_component(self.professional_btn, slot="professional-plan-button")
     
-    # Register this form to make it callable from JavaScript
+    # Register this form and its method for JavaScript access
+    # This is the crucial part - expose the full function via anvil.call
     anvil.js.window.pyComponent = self
+    
+    # Add a method that can be called directly from JS
+    anvil.js.expose(self.update_button_state, "update_button_state")
     
     # Use the simplest approach to update buttons via direct JS calls
     anvil.js.call('eval', """
     // Simple JS function that updates the Python component
     function updateButtonState() {
       console.log("Calling Python update_button_state() directly");
-      // Get the window.pyComponent and call directly - fallback to old method if needed
       try {
-        if (window.pyComponent) {
-          console.log("Found pyComponent - calling update_button_state directly");
-          // Direct call of the Python method
-          window.pyComponent.call_method("update_button_state");
+        // Use the anvil.call approach - most reliable
+        if (typeof anvil !== 'undefined') {
+          console.log("Using anvil.call('update_button_state')");
+          anvil.call('update_button_state');
         } else {
-          console.log("No pyComponent found - trying anvil.call");
-          anvil.call("update_button_state");
+          console.error("Anvil object not available");
         }
       } catch (e) {
         console.error("Error calling update_button_state:", e);
@@ -305,7 +307,7 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
     
     // Set up event handlers
     function setupEvents() {
-      console.log("Setting up event listeners with call_method approach");
+      console.log("Setting up event listeners with direct anvil.call approach");
       
       // 1. Set up billing toggle listeners
       var monthlyBtn = document.getElementById('pricing-toggle-monthly');
@@ -351,7 +353,7 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
       }
     }
     
-    // Run setup now
+    // Run setup immediately
     setupEvents();
     
     // Also run after a delay for redundancy
