@@ -281,83 +281,84 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
     self.add_component(self.professional_btn, slot="professional-plan-button")
     
     # 3. Add a JavaScript event handler to connect UI actions with update_button_state
-    # Use the simple anvil.call approach for direct communication
-    anvil.js.call('eval', """
-    // Store a reference to the Anvil component for direct calls
-    var _jsComponent = anvil.Components.getPythonComponent(document.currentScript);
+    # Use a direct method with no Anvil-specific API dependencies
+    anvil.js.window.update_subscription_buttons = self.update_button_state
     
-    // 3.1 Set up JavaScript event listeners using standard JS
-    (function setupListeners() {
-      console.log("[SUBSCRIPTION_DEBUG] Setting up event listeners for subscription component");
+    # Set up the event handlers with pure JavaScript
+    anvil.js.call('eval', """
+    (function() {
+      console.log("[SUBSCRIPTION_DEBUG] Setting up ultra-simple event listeners");
       
-      // 3.2 Monthly toggle button
+      function callPythonUpdate() {
+        console.log("[SUBSCRIPTION_DEBUG] Calling Python update_button_state");
+        try {
+          if (window.update_subscription_buttons) {
+            window.update_subscription_buttons();
+            console.log("[SUBSCRIPTION_DEBUG] Successfully called update_button_state");
+          } else {
+            console.error("[SUBSCRIPTION_DEBUG] window.update_subscription_buttons is not defined");
+          }
+        } catch (e) {
+          console.error("[SUBSCRIPTION_DEBUG] Error calling Python:", e);
+        }
+      }
+      
+      // Monthly toggle
       var monthlyBtn = document.getElementById('pricing-toggle-monthly');
       if (monthlyBtn) {
         monthlyBtn.addEventListener('click', function() {
           console.log("[SUBSCRIPTION_DEBUG] Monthly toggle clicked");
-          if (_jsComponent) {
-            _jsComponent.update_buttons_from_js();
-          } else {
-            console.error("[SUBSCRIPTION_DEBUG] Cannot call Python: component not found");
-          }
+          callPythonUpdate();
         });
+      } else {
+        console.error("[SUBSCRIPTION_DEBUG] Monthly button not found");
       }
       
-      // 3.3 Yearly toggle button
+      // Yearly toggle
       var yearlyBtn = document.getElementById('pricing-toggle-yearly');
       if (yearlyBtn) {
         yearlyBtn.addEventListener('click', function() {
           console.log("[SUBSCRIPTION_DEBUG] Yearly toggle clicked");
-          if (_jsComponent) {
-            _jsComponent.update_buttons_from_js();
-          } else {
-            console.error("[SUBSCRIPTION_DEBUG] Cannot call Python: component not found");
-          }
+          callPythonUpdate();
         });
+      } else {
+        console.error("[SUBSCRIPTION_DEBUG] Yearly button not found");
       }
       
-      // 3.4 User count input field
+      // User count input
       var userInput = document.getElementById('user-count');
       if (userInput) {
         userInput.addEventListener('input', function() {
           console.log("[SUBSCRIPTION_DEBUG] User count changed");
-          if (_jsComponent) {
-            _jsComponent.update_buttons_from_js();
-          } else {
-            console.error("[SUBSCRIPTION_DEBUG] Cannot call Python: component not found");
-          }
+          callPythonUpdate();
         });
+      } else {
+        console.error("[SUBSCRIPTION_DEBUG] User count input not found");
       }
       
-      // 3.5 Minus button
+      // Minus button
       var minusBtn = document.getElementById('user-minus');
       if (minusBtn) {
         minusBtn.addEventListener('click', function() {
           console.log("[SUBSCRIPTION_DEBUG] Minus button clicked");
-          setTimeout(function() {
-            if (_jsComponent) {
-              _jsComponent.update_buttons_from_js();
-            } else {
-              console.error("[SUBSCRIPTION_DEBUG] Cannot call Python: component not found");
-            }
-          }, 100);
+          setTimeout(callPythonUpdate, 100);
         });
+      } else {
+        console.error("[SUBSCRIPTION_DEBUG] Minus button not found");
       }
       
-      // 3.6 Plus button
+      // Plus button
       var plusBtn = document.getElementById('user-plus');
       if (plusBtn) {
         plusBtn.addEventListener('click', function() {
           console.log("[SUBSCRIPTION_DEBUG] Plus button clicked");
-          setTimeout(function() {
-            if (_jsComponent) {
-              _jsComponent.update_buttons_from_js();
-            } else {
-              console.error("[SUBSCRIPTION_DEBUG] Cannot call Python: component not found");
-            }
-          }, 100);
+          setTimeout(callPythonUpdate, 100);
         });
+      } else {
+        console.error("[SUBSCRIPTION_DEBUG] Plus button not found");
       }
+      
+      console.log("[SUBSCRIPTION_DEBUG] Event handlers setup complete");
     })();
     """)
 
@@ -455,6 +456,7 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
     1. Called by JavaScript when UI elements are updated
     2. Acts as a bridge between the JavaScript UI and Python button state
     3. Updates the button appearance based on current selections
+    4. THIS METHOD IS NO LONGER USED - kept for reference
     """
     print("[SUBSCRIPTION_DEBUG] Called update_buttons_from_js from JavaScript")
     # Simply call our existing update_button_state method
