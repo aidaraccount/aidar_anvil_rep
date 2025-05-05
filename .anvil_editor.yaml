@@ -176,11 +176,6 @@ unique_ids:
     WatchlistDetails.DetailTemplate: X3BX6TQNHTP2HYDZ6MMF5IPZTH75EQXX
     WatchlistDetails.SelectionTemplate: GIFCSC7DYT7KXEIT22ACT6DKHFJSKFVU
   modules:
-    C_PaymentContainer: HK444ODO5H3E4LCAHZJUIIAQP76G5DOA
-    C_PaymentContainer._anvil_designer: LNNPECMYMCGRRM5SPU3JRO7OQTRQBMMP
-    C_PaymentContainer.views.CustomerView: PKIWOETNWJPUQCDCCEQPOZCF2PWU2ZNZ
-    C_PaymentContainer.views.PaymentView: 3UGZLLFBMT4E4NEGUSFW4T5GM6575WN5
-    C_PaymentContainer.views.SubscriptionView: OABV5OS462N4JNT32JTWLZCRF5G6L35X
     Monitor_Funnel.ItemTemplate2: NCOI2UYXZXZ54XQHNTV56VI3RTQT32WL
     nav: '1721800946882781398016603.5973'
     startup: '1721800902381277953433354.0393'

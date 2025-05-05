@@ -345,7 +345,7 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
     self.__init__(plan_type=self.plan_type, user_count=self.user_count, billing_period=self.billing_period)
 
 
-  def get_country_name(code: str) -> str:
+  def get_country_name(self, code: str) -> str:
     COUNTRY_CODES = {
     'AU': 'Australia', 'AT': 'Austria', 'BE': 'Belgium', 'BR': 'Brazil', 'BG': 'Bulgaria', 'CA': 'Canada',
     'CN': 'China', 'HR': 'Croatia', 'CY': 'Cyprus', 'CZ': 'Czech Republic', 'DK': 'Denmark', 'EE': 'Estonia',
