@@ -1,5 +1,6 @@
 /* 1. Base container and form styling */
-#payment-form-container {
+#payment-form-container,
+.payment-form-container {
     background: var(--Accent_2);
     border-radius: 16px;
     box-shadow: 0 1px 8px rgba(0,0,0,0.1);

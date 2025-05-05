@@ -243,9 +243,11 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
         self.raise_event("x-close-alert", value="success")
 
         # success alert
-        alert_res = alert("You're now able to create your first agent - have fun discovering",
-              title="Congratulations!",
-              buttons=[("OK", False), ("CREATE AGENT", True)]
+        alert_res = alert(
+          "You're now able to create your first agent - have fun discovering",
+          title="Congratulations!",
+          buttons=[("OK", False), ("CREATE AGENT", True)],
+          role=["payment-form-container"]
         )
         if alert_res is True:
           # navigate to create agent page !!!!!!!!!!!!!!!
