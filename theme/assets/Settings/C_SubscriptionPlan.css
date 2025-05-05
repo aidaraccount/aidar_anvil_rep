@@ -166,6 +166,20 @@
   flex-grow: 1;
 }
 
+.plan-features-orange {
+    list-style: disc inside;
+}
+
+.plan-features-orange li {
+    color: var(--Text);
+    position: relative;
+}
+
+.plan-features-orange li::marker {
+    color: var(--Orange);
+    font-size: 1.2em;
+}
+
 .plan-features li {
   font-family: 'GeneralSans-Regular', Arial, sans-serif;
   font-size: 1.4rem;
