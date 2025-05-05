@@ -479,4 +479,3 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
             self.professional_btn.text = "Cancel Plan"
             self.professional_btn.role = "secondary-button"
             self.professional_btn.set_event_handler('click', self.cancel_subscription)
-{{ ... }}
