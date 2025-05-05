@@ -281,20 +281,38 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
     self.add_component(self.professional_btn, slot="professional-plan-button")
     
     # Register this form to make it callable from JavaScript
-    anvil.js.window.pythonComponent = self
+    anvil.js.window.pyComponent = self
     
-    # Use the simplest, most reliable approach to add event listeners
+    # Use the simplest approach to update buttons via direct JS calls
     anvil.js.call('eval', """
+    // Simple JS function that updates the Python component
+    function updateButtonState() {
+      console.log("Calling Python update_button_state() directly");
+      // Get the window.pyComponent and call directly - fallback to old method if needed
+      try {
+        if (window.pyComponent) {
+          console.log("Found pyComponent - calling update_button_state directly");
+          // Direct call of the Python method
+          window.pyComponent.call_method("update_button_state");
+        } else {
+          console.log("No pyComponent found - trying anvil.call");
+          anvil.call("update_button_state");
+        }
+      } catch (e) {
+        console.error("Error calling update_button_state:", e);
+      }
+    }
+    
+    // Set up event handlers
     function setupEvents() {
-      console.log("Setting up event listeners");
+      console.log("Setting up event listeners with call_method approach");
       
       // 1. Set up billing toggle listeners
       var monthlyBtn = document.getElementById('pricing-toggle-monthly');
       if (monthlyBtn) {
         monthlyBtn.onclick = function() {
           console.log("Monthly clicked");
-          // Direct window method call
-          window.pythonComponent.js_update_button_state();
+          updateButtonState();
         };
       }
       
@@ -302,8 +320,7 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
       if (yearlyBtn) {
         yearlyBtn.onclick = function() {
           console.log("Yearly clicked");
-          // Direct window method call
-          window.pythonComponent.js_update_button_state();
+          updateButtonState();
         };
       }
       
@@ -312,8 +329,7 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
       if (userInput) {
         userInput.oninput = function() {
           console.log("User input changed");
-          // Direct window method call
-          window.pythonComponent.js_update_button_state();
+          updateButtonState();
         };
       }
       
@@ -322,10 +338,7 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
       if (minusBtn) {
         minusBtn.onclick = function() {
           console.log("Minus clicked");
-          setTimeout(function() {
-            // Direct window method call
-            window.pythonComponent.js_update_button_state();
-          }, 100);
+          setTimeout(updateButtonState, 100);
         };
       }
       
@@ -333,10 +346,7 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
       if (plusBtn) {
         plusBtn.onclick = function() {
           console.log("Plus clicked");
-          setTimeout(function() {
-            // Direct window method call
-            window.pythonComponent.js_update_button_state();
-          }, 100);
+          setTimeout(updateButtonState, 100);
         };
       }
     }
@@ -344,7 +354,7 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
     // Run setup now
     setupEvents();
     
-    // Also run after a short delay to ensure DOM is loaded
+    // Also run after a delay for redundancy
     setTimeout(setupEvents, 500);
     """)
 
