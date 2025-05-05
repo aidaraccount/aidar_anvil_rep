@@ -70,32 +70,6 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
     self.tax_id = self.stripe_customer.get('tax_id', '')
     self.tax_id_type = self.stripe_customer.get('tax_id_type', '')
     
-    # # Fallback for tax data in tax_ids array if direct keys are empty
-    # if not self.tax_country or not self.tax_id:
-    #     tax_ids = self.stripe_customer.get('tax_ids', {}).get('data', [])
-    #     if tax_ids and len(tax_ids) > 0:
-    #         first_tax = tax_ids[0]
-    #         if not self.tax_country:
-    #             self.tax_country = first_tax.get('country', '')
-    #         if not self.tax_id:
-    #             self.tax_id = first_tax.get('value', '')
-    #         if not self.tax_id_type:
-    #             self.tax_id_type = first_tax.get('type', '')
-    
-    # # IMPORTANT: Use direct assignments from customer_info, not reset
-    # if not hasattr(self, 'tax_country') or not self.tax_country:
-    #     self.tax_country = self.stripe_customer.get('tax_country', '')
-    # if not hasattr(self, 'tax_id') or not self.tax_id:
-    #     self.tax_id = self.stripe_customer.get('tax_id', '')
-    # if not hasattr(self, 'tax_id_type') or not self.tax_id_type:
-    #     self.tax_id_type = self.stripe_customer.get('tax_id_type', '')
-        
-    # # CRITICAL: Force from customer_info data - as fallback method
-    # if 'tax_country' in self.stripe_customer and not self.tax_country:
-    #     self.tax_country = self.stripe_customer['tax_country']
-    # if 'tax_id' in self.stripe_customer and not self.tax_id:
-    #     self.tax_id = self.stripe_customer['tax_id']
-    
 
     # --- 3. GET PRICE INFO ---
     # Get the Stripe Price ID based on plan type and billing period
@@ -146,13 +120,7 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
         self.payment_method_summary = "No payment method on file."
 
 
-    # --- 4. BASE ---
-    # # Define instance methods
-    # self._edit_company_click = self.__class__._edit_company_click.__get__(self)
-    # self._edit_payment_click = self.__class__._edit_payment_click.__get__(self)
-    # self._confirm_subscription_click = self.__class__._confirm_subscription_click.__get__(self)
-    # self._cancel_btn_click = self.__class__._cancel_btn_click.__get__(self)
-    
+    # --- 4. BASE ---    
     # Register JS-callable methods directly to instance methods
     anvil.js.window.edit_company_click = self._edit_company_click
     anvil.js.window.edit_payment_click = self._edit_payment_click
@@ -203,13 +171,9 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
         
         // Direct method to properly close the modal from JS
         window.cancel_btn_click = function() {{
-            console.log('[AIDAR_SUBSCRIPTION_LOG] JS window.cancel_btn_click fired');
             try {{
-                console.log('[AIDAR_SUBSCRIPTION_LOG] Trying to close dialog');
-                // This works in Anvil to close an alert - call the x-close-alert event directly
                 document.dispatchEvent(new CustomEvent('x-close-alert'));
             }} catch(e) {{
-                console.log('[AIDAR_SUBSCRIPTION_LOG] Error closing modal:', e);
                 // Try several other methods
                 try {{ 
                     document.querySelector('.anvil-alert-dismiss-btn').click();
@@ -222,7 +186,6 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
         document.getElementById('edit-company').onclick = function() {{ window.edit_company_click && window.edit_company_click(); }};
         document.getElementById('edit-payment').onclick = function() {{ window.edit_payment_click && window.edit_payment_click(); }};
         document.getElementById('cancel-btn').onclick = function() {{
-            console.log('[AIDAR_SUBSCRIPTION_LOG] Cancel button clicked');
             window.cancel_btn_click && window.cancel_btn_click();
         }};
         document.getElementById('submit').onclick = function() {{ window.confirm_subscription_click && window.confirm_subscription_click(); }};
@@ -288,8 +251,8 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
           # navigate to create agent page !!!!!!!!!!!!!!!
           pass
         else:
-          # refresh page to see new subscription !!!!!!!!!!!!!!!
-          pass
+          # refresh page to see new subscription
+          anvil.js.window.location.replace("/#settings?section=Subscription")
         
       except Exception as e:
         alert(f"Failed to create subscription: {e}", title="Error")

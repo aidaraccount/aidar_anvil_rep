@@ -274,6 +274,6 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
           buttons=[],
           dismissible=True
       )
-      # 7. If subscription was created successfully, refresh the page
-      if subscription_result == 'success':
-          anvil.js.window.location.reload()
+    #   # 7. If subscription was created successfully, refresh the page
+    #   if subscription_result == 'success':
+    #       anvil.js.window.location.reload()
