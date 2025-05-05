@@ -290,7 +290,7 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
     self.add_component(self.professional_btn, slot="professional-plan-button")
     
     # 2.4 Set up JavaScript-Python communication for user count changes
-    self.js.call_js('setTimeout', """
+    anvil.js.call_js('setTimeout', """
     function() {
       try {
         // Get user count input element
@@ -328,8 +328,7 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
               var val = parseInt(userCountInput.value);
               if (isNaN(val)) val = 0;
               userCountInput.value = val + 1;
-              
-              // Trigger change event
+                            // Trigger change event
               userCountInput.dispatchEvent(new Event('input'));
             });
           }
@@ -374,7 +373,7 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
         self.update_plan_buttons()
         
         # Update the price display in JavaScript
-        self.js.call_js("""
+        anvil.js.call_js("""
         function() {
           try {
             var userCount = arguments[0];
