@@ -331,16 +331,15 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
     2. Configures text, styling, and click behavior for both the Explore and Professional buttons
     3. Considers billing period (monthly/yearly) preference when determining upgrade/downgrade status
     """
-    # Get user count from JS input field
+    # Get user count from JS input field - Update self.selected_licenses
     user_count_input = document.getElementById('user-count')
-    selected_user_count = 1
     if user_count_input is not None:
         try:
-            selected_user_count = int(user_count_input.value)
+            self.selected_licenses = int(user_count_input.value)
         except Exception:
-            selected_user_count = 1
+            pass  # Keep existing value if there's an error
                 
-    # Determine active billing period from JS toggle state
+    # Determine active billing period from JS toggle state - Update self.selected_billing
     monthly_btn = document.getElementById('pricing-toggle-monthly')
     yearly_btn = document.getElementById('pricing-toggle-yearly')
     
@@ -376,10 +375,10 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
         self.professional_btn.set_event_handler('click', self.choose_plan_click)
     elif self.subscribed_plan == "Professional":
         # For Professional: Check for changes
-        print(f"DEBUG - Comparison: selected_user_count={selected_user_count}, subscribed_licenses={self.subscribed_licenses}, selected_billing={self.selected_billing}, subscribed_billing={self.subscribed_billing}")
+        print(f"DEBUG - Comparison: subscribed_plan={self.subscribed_plan}, subscribed_licenses={self.subscribed_licenses}, subscribed_billing={self.subscribed_billing}, selected_plan={self.selected_plan}, selected_licenses={self.selected_licenses}, selected_billing={self.selected_billing}")
         
         # Check if selected options match current subscription
-        is_same_subscription = (selected_user_count == self.subscribed_licenses and self.selected_billing == self.subscribed_billing)
+        is_same_subscription = (self.selected_licenses == self.subscribed_licenses and self.selected_billing == self.subscribed_billing)
         
         if is_same_subscription:
             # No change: Grey "Cancel Plan"
@@ -388,7 +387,7 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
             self.professional_btn.set_event_handler('click', self.cancel_subscription)
         else:
             # Is this an upgrade or downgrade?
-            is_upgrade = (selected_user_count > self.subscribed_licenses) or (self.subscribed_billing == 'monthly' and self.selected_billing == 'yearly')
+            is_upgrade = (self.selected_licenses > self.subscribed_licenses) or (self.subscribed_billing == 'monthly' and self.selected_billing == 'yearly')
             
             if is_upgrade:
                 # Orange "Upgrade Plan"
@@ -423,7 +422,7 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
             
     # 4. STORE TAG DATA FOR BOTH BUTTONS
     # For professional button, always store user count and billing period
-    self.professional_btn.tag["user_count"] = selected_user_count
+    self.professional_btn.tag["user_count"] = self.selected_licenses
     self.professional_btn.tag["billing_period"] = self.selected_billing
     self.professional_btn.tag["plan_type"] = "Professional"
         
