@@ -222,7 +222,7 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
                     try {{
                         if (!userCountInput) return;
                         
-                        var val = parseInt(userCountInput.value.replace(/\\D/g, ''));
+                        var val = parseInt(userCountInput.value);
                         if (isNaN(val) || val <= 1) val = 2;
                         userCountInput.value = val - 1;
                         
@@ -238,7 +238,7 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
                     try {{
                         if (!userCountInput) return;
                         
-                        var val = parseInt(userCountInput.value.replace(/\\D/g, ''));
+                        var val = parseInt(userCountInput.value);
                         if (isNaN(val)) val = 0;
                         userCountInput.value = val + 1;
                         
@@ -290,12 +290,56 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
     self.add_component(self.explore_btn, slot="explore-plan-button")
     self.add_component(self.professional_btn, slot="professional-plan-button")
     
-    # 2.4 Register this component with JavaScript for callbacks
-    try:
-        from anvil.js.window import setPyComponent
-        setPyComponent(self)
-    except Exception as e:
-        print("Error setting up Python-JS bridge:", e)
+    # 2.4 Set up JavaScript-Python communication for user count changes
+    self.js.call_js('setTimeout', """
+    function() {
+      try {
+        // Get user count input element
+        var userCountInput = document.getElementById('user-count');
+        
+        // Add JS event listener that will call our Python method
+        if (userCountInput) {
+          userCountInput.addEventListener('input', function() {
+            var val = parseInt(userCountInput.value);
+            if (isNaN(val) || val < 1) val = 1;
+            
+            // This directly calls the Python method
+            _this.user_count_changed(val);
+          });
+          
+          // Setup plus/minus buttons
+          var minusBtn = document.getElementById('user-minus');
+          var plusBtn = document.getElementById('user-plus');
+          
+          if (minusBtn) {
+            minusBtn.addEventListener('click', function() {
+              if (!userCountInput) return;
+              var val = parseInt(userCountInput.value);
+              if (isNaN(val) || val <= 1) val = 2;
+              userCountInput.value = val - 1;
+              
+              // Trigger change event
+              userCountInput.dispatchEvent(new Event('input'));
+            });
+          }
+          
+          if (plusBtn) {
+            plusBtn.addEventListener('click', function() {
+              if (!userCountInput) return;
+              var val = parseInt(userCountInput.value);
+              if (isNaN(val)) val = 0;
+              userCountInput.value = val + 1;
+              
+              // Trigger change event
+              userCountInput.dispatchEvent(new Event('input'));
+            });
+          }
+        }
+      } catch(e) {
+        console.error("Error setting up Python-JS bridge:", e);
+      }
+    }
+    """, 500)  # 500ms delay to ensure DOM is ready
     
     # 2.5 Initialize button states based on current plan
     self.update_plan_buttons()
@@ -308,182 +352,131 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
     Args:
         new_count (int): The new number of users selected
     """
-    if self.active_plan == "professional" and self.active_licenses and new_count != self.active_licenses:
-        # User count changed for active Professional plan - show Update button
-        self.professional_btn.text = "Update Subscription"
-        self.professional_btn.role = "cta-button"
+    try:
+        current_licenses = self.active_licenses if self.active_licenses else 1
+        
+        # Save the current count for future reference
         self.professional_btn.tag["user_count"] = new_count
-        self.professional_btn.set_event_handler('click', self.update_subscription)
-    elif self.active_plan == "professional" and self.active_licenses and new_count == self.active_licenses:
-        # User count matches current subscription - show Cancel button
-        self.professional_btn.text = "Cancel Subscription"
-        self.professional_btn.role = "cta-button"
-        self.professional_btn.tag["user_count"] = new_count
-        self.professional_btn.set_event_handler('click', self.cancel_subscription)
+        
+        # Update the button text and role based on the plan and count
+        self.update_plan_buttons()
+        
+        # Update the price display in JavaScript
+        self.js.call_js("""
+        function() {
+          try {
+            var userCount = arguments[0];
+            if (userCount < 1) userCount = 1;
+            
+            var isYearly = document.getElementById('pricing-toggle-yearly') &&
+                          document.getElementById('pricing-toggle-yearly').classList.contains('selected');
+            
+            var origPrice = document.querySelector('.pricing-plan.recommended .original-price');
+            var planPrice = document.querySelector('.pricing-plan.recommended .plan-price');
+            var pricePeriod = document.querySelector('.pricing-plan.recommended .price-period');
+            
+            // Pricing per user
+            var origPricePerUser = isYearly ? 52 : 58;
+            var discountPricePerUser = isYearly ? 37 : 41;
+            
+            // Update prices based on user count
+            if (origPrice) {
+                origPrice.innerHTML = '<span class="euro-symbol">€</span><span class="price-number">' + 
+                                    (origPricePerUser * userCount) + '</span>';
+            }
+            
+            if (planPrice) {
+                planPrice.innerHTML = '<span class="euro-symbol">€</span>' + (discountPricePerUser * userCount);
+            }
+            
+            if (pricePeriod) {
+                if (isYearly) {
+                    pricePeriod.textContent = userCount > 1 ? 
+                        'for ' + userCount + ' users/month (billed yearly)' : 
+                        '/user & month (billed yearly)';
+                } else {
+                    pricePeriod.textContent = userCount > 1 ? 
+                        'for ' + userCount + ' users/month' : 
+                        '/user & month';
+                }
+            }
+            
+            // Update the plural display on the user count
+            var pluralSpan = document.getElementById('user-count-plural');
+            if (pluralSpan) {
+                pluralSpan.style.display = (userCount > 1) ? '' : 'none';
+            }
+          } catch(e) {
+            console.error("Error updating professional price:", e);
+          }
+        }
+        """, new_count)
+        
+    except Exception as e:
+        print("Error in user_count_changed:", e)
 
   def update_plan_buttons(self) -> None:
     """
     1. Updates the text, role, and handlers for both plan buttons based on active plan
     2. Sets the appropriate button state: Choose, Cancel, or Update
     """
-    # 1. Explore Plan button logic
-    if self.active_plan == "explore":
-        self.explore_btn.text = "Cancel Subscription"
-        self.explore_btn.role = "cta-button"
-        self.explore_btn.set_event_handler('click', self.cancel_subscription)
-    else:
+    # Get current user count if available
+    user_count = 1
+    try:
+        user_count_input = self.get_user_count_input()
+        if user_count_input:
+            user_count = int(user_count_input.value)
+    except:
+        pass
+    
+    current_licenses = self.active_licenses if self.active_licenses else 1
+    self.professional_btn.tag["user_count"] = user_count
+    
+    # For Trial or Extended Trial: both "Choose Plan" buttons should be orange
+    if self.active_plan in ["Trial", "Extended Trial", None]:
+        # Configure Explore button
         self.explore_btn.text = "Choose Plan"
         self.explore_btn.role = "cta-button"
         self.explore_btn.set_event_handler('click', self.choose_plan_click)
-    
-    # 2. Professional Plan button logic
-    current_licenses = self.active_licenses if self.active_licenses else 1
-    
-    if self.active_plan == "professional":
-        # Check if user count matches current licenses
-        user_count_input = self.get_user_count_input()
-        current_count = current_licenses
         
-        try:
-            if user_count_input:
-                current_count = int(user_count_input.value)
-        except Exception:
-            current_count = current_licenses
-            
-        # Set button state based on whether count matches licenses
-        if current_count != current_licenses:
-            self.professional_btn.text = "Update Subscription"
-            self.professional_btn.role = "cta-button"
-            self.professional_btn.tag["user_count"] = current_count
-            self.professional_btn.set_event_handler('click', self.update_subscription)
-        else:
-            self.professional_btn.text = "Cancel Subscription"
-            self.professional_btn.role = "cta-button" 
-            self.professional_btn.tag["user_count"] = current_count
-            self.professional_btn.set_event_handler('click', self.cancel_subscription)
-    else:
+        # Configure Professional button
         self.professional_btn.text = "Choose Plan"
         self.professional_btn.role = "cta-button"
-        self.professional_btn.tag["user_count"] = 1
         self.professional_btn.set_event_handler('click', self.choose_plan_click)
-
-  def get_user_count_input(self):
-    """
-    1. Returns the user count input element from the DOM if available
     
-    Returns:
-        DOM element or None: The user count input element or None if not found
-    """
-    try:
-        from anvil.js.window import document
-        return document.getElementById('user-count')
-    except Exception:
-        return None
-
-  def cancel_subscription(self, sender=None, **event_args) -> None:
-    """
-    1. Handles cancellation of an active subscription
-    2. This is a placeholder to be implemented in SM_Stripe.py
-    """
-    print("Cancel subscription clicked")
-    pass
-
-  def update_subscription(self, sender=None, **event_args) -> None:
-    """
-    1. Handles updating an existing subscription (e.g., changing user count)
-    2. This is a placeholder to be implemented in SM_Stripe.py
-    """
-    print("Update subscription clicked")
-    user_count = sender.tag.get("user_count", 1)
-    pass
-
-  # 3. Handle Anvil Button clicks
-  def choose_plan_click(self, sender, **event_args):
-      """
-      1. Handles clicks on the Explore and Professional plan buttons.
-      2. Determines plan type, user count, and billing period, then opens checkout.
-      """
-      plan_type = sender.tag.get("plan_type")
-      # Get user count from JS input field
-      user_count_input = document.getElementById('user-count')
-      user_count = 1
-      if user_count_input is not None:
-          try:
-              user_count = int(user_count_input.value)
-          except Exception:
-              user_count = 1
-      # Determine billing period from JS button state
-      monthly_btn = document.getElementById('pricing-toggle-monthly')
-      billing_period = "monthly"
-      if monthly_btn and not monthly_btn.classList.contains('selected'):
-          billing_period = "yearly"
-      self.open_subscription(plan_type=plan_type, user_count=user_count, billing_period=billing_period)
-
-  # 4. Handle the full checkout process
-  def open_subscription(self, **event_args):
-      """
-      1. Opens the subscription workflow
-      2. Handles navigation between components based on data availability
-      3. Only proceeds to next step if previous data is available
-      """
-      # 1. Get the current subscription plan and billing period
-      plan_type = event_args.get('plan_type')
-      user_count = event_args.get('user_count')
-      billing_period = event_args.get('billing_period', 'monthly')
-      if not plan_type or not user_count:
-          alert("Please select a plan and specify the number of users.", title="Missing Information")
-          return
-      # 2. Check if customer data exists
-      customer = anvil.server.call('get_stripe_customer', anvil.users.get_user()['email'])
-      customer_exists = bool(customer and customer.get('id'))
-      # 3. If no customer data, start with C_PaymentCustomer
-      if not customer_exists:
-          customer_form = C_PaymentCustomer()
-          customer_result = alert(
-              content=customer_form,
-              large=False,
-              width=500,
-              buttons=[],
-              dismissible=True
-          )
-          # Only continue if customer data was successfully submitted
-          if customer_result != 'success':
-              return
-          # Refresh customer data
-          customer = anvil.server.call('get_stripe_customer', anvil.users.get_user()['email'])
-      # 4. Check if payment method exists
-      payment_methods = []
-      if customer and customer.get('id'):
-          payment_methods = anvil.server.call('get_stripe_payment_methods', customer['id'])
-      # 5. If no payment method, open C_PaymentInfos
-      if not payment_methods:
-          payment_form = C_PaymentInfos()
-          payment_result = alert(
-              content=payment_form,
-              large=False,
-              width=500,
-              buttons=[],
-              dismissible=True
-          )
-          # Only continue if payment method was successfully added
-          if payment_result != 'success':
-              return
-          # Refresh payment methods
-          if customer and customer.get('id'):
-              payment_methods = anvil.server.call('get_stripe_payment_methods', customer['id'])
-      # 6. Finally, open subscription confirmation
-      subscription_form = C_PaymentSubscription(
-          plan_type=plan_type,
-          user_count=user_count,
-          billing_period=billing_period
-      )
-      subscription_result = alert(
-          content=subscription_form,
-          large=False,
-          width=600,
-          buttons=[],
-          dismissible=True
-      )
-    #   # 7. If subscription was created successfully, refresh the page
-    #   if subscription_result == 'success':
-    #       anvil.js.window.location.reload()
+    # For Explore plan
+    elif self.active_plan == "explore":
+        # Configure Explore button - Cancel (grey)
+        self.explore_btn.text = "Cancel Plan"
+        self.explore_btn.role = "secondary-button"
+        self.explore_btn.set_event_handler('click', self.cancel_subscription)
+        
+        # Configure Professional button - Upgrade (orange)
+        self.professional_btn.text = "Upgrade Plan"
+        self.professional_btn.role = "cta-button"
+        self.professional_btn.set_event_handler('click', self.choose_plan_click)
+    
+    # For Professional plan
+    elif self.active_plan == "professional":
+        # Configure Explore button - Downgrade (grey)
+        self.explore_btn.text = "Downgrade Plan"
+        self.explore_btn.role = "secondary-button"
+        self.explore_btn.set_event_handler('click', self.choose_plan_click)
+        
+        # Configure Professional button based on user count vs. current licenses
+        if user_count > current_licenses:
+            # Upgrade (orange)
+            self.professional_btn.text = "Upgrade Subscription"
+            self.professional_btn.role = "cta-button"
+            self.professional_btn.set_event_handler('click', self.update_subscription)
+        elif user_count < current_licenses:
+            # Downgrade (grey)
+            self.professional_btn.text = "Downgrade Subscription"
+            self.professional_btn.role = "secondary-button"
+            self.professional_btn.set_event_handler('click', self.update_subscription)
+        else:
+            # Cancel (grey)
+            self.professional_btn.text = "Cancel Plan"
+            self.professional_btn.role = "secondary-button"
+            self.professional_btn.set_event_handler('click', self.cancel_subscription)
+{{ ... }}

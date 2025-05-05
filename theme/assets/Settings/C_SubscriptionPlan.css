@@ -239,14 +239,16 @@
     border-radius: 30px;
     font-family: 'GeneralSans-Medium', Arial, sans-serif;
     font-size: 1.7rem;
-    background: var(--Orange);
-    color: var(--White);
+    background-color: var(--Orange, #FF7A00);
+    color: white;
     border: none;
-    text-align: center;
-    text-decoration: none;
     cursor: pointer;
-    transition: background 0.2s, color 0.2s;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    text-align: center;
+    transition: background-color 0.2s, opacity 0.2s;
+}
+
+.cta-button:hover {
+    background-color: #e86e00;
 }
 
 .cta-button.cta-primary {
@@ -265,6 +267,27 @@
     margin-left: auto;
     margin-right: auto;
     width: 90%;
+}
+
+.secondary-button {
+    display: block;
+    width: 100%;
+    margin: 24px auto 0 auto;
+    padding: 12px 0;
+    border-radius: 30px;
+    font-family: 'GeneralSans-Medium', Arial, sans-serif;
+    font-size: 1.7rem;
+    background-color: transparent;
+    color: var(--WhiteDiscreet);
+    border: 1px solid var(--WhiteDiscreet);
+    cursor: pointer;
+    text-align: center;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.secondary-button:hover {
+    background-color: var(--WhiteDiscreet);
+    color: var(--Accent_2);
 }
 
 /* 1.3. User Count Selector */
