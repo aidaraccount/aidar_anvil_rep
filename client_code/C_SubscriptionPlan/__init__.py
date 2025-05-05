@@ -241,8 +241,8 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
                         var val = parseInt(userCountInput.value);
                         if (isNaN(val)) val = 0;
                         userCountInput.value = val + 1;
-                        
-                        handleUserCountChange();
+                        // Trigger change event
+                        userCountInput.dispatchEvent(new Event('input'));
                     }} catch(e) {{
                         console.error("Error in plus button click:", e);
                     }}
@@ -354,6 +354,18 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
     user_count: int = self.professional_btn.tag.get("user_count", 1)
     # TODO: Implement subscription logic for each plan type
     alert(f"Plan chosen: {plan_type}, Users: {user_count}")
+
+  def cancel_subscription(self, **event_args) -> None:
+    """
+    1. Handles the click event for the 'Cancel Plan' or 'Downgrade Plan' button.
+    2. Initiates the cancellation or downgrade process for the subscription.
+    
+    Parameters:
+        event_args (dict): Event arguments from the button click
+    """
+    plan_type: str = self.sender.tag.get("plan_type", "")
+    # TODO: Implement cancellation logic for each plan type
+    alert(f"Cancel/Downgrade requested for plan: {plan_type}")
 
   def user_count_changed(self, new_count: int) -> None:
     """
