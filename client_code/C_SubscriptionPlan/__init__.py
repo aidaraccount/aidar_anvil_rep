@@ -272,7 +272,6 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
                 console.log('Error setting up Python bridge:', e);
             }}
         }});
-{{ ... }}
     """
 
     # 2. Set up JavaScript-Python bridge for user count changes
@@ -343,6 +342,19 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
     
     # 2.5 Initialize button states based on current plan
     self.update_plan_buttons()
+
+  def choose_plan_click(self, **event_args) -> None:
+    """
+    1. Handles the click event for the 'Choose Plan' button.
+    2. Initiates the subscription process for the selected plan.
+    
+    Parameters:
+        event_args (dict): Event arguments from the button click
+    """
+    plan_type: str = self.sender.tag.get("plan_type", "")
+    user_count: int = self.professional_btn.tag.get("user_count", 1)
+    # TODO: Implement subscription logic for each plan type
+    alert(f"Plan chosen: {plan_type}, Users: {user_count}")
 
   def user_count_changed(self, new_count: int) -> None:
     """
