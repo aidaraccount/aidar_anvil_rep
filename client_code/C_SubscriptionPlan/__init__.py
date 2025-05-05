@@ -30,7 +30,7 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
     # Determine which plan to highlight
     self.active_plan = None
     self.active_licenses = None
-    if plan not in ("Trial", "Extended Trial"):
+    if plan not in ["Trial", "Extended Trial"]:
         if plan == "Explore":
             self.active_plan = "explore"
         elif plan == "Professional":
