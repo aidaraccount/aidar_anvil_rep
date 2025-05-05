@@ -260,7 +260,8 @@ class Settings(SettingsTemplate):
  
     # load data
     sub_data = self.get_data()
-    print(sub_data)
+    # print(sub_data)
+    print('anvil.users:', anvil.users)
     
     # Summary
     if sub_data:
