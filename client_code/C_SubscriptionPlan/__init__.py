@@ -241,7 +241,7 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
                         var val = parseInt(userCountInput.value);
                         if (isNaN(val)) val = 0;
                         userCountInput.value = val + 1;
-                        // Trigger change event
+                            // Trigger change event
                         userCountInput.dispatchEvent(new Event('input'));
                     }} catch(e) {{
                         console.error("Error in plus button click:", e);
@@ -290,8 +290,7 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
     self.add_component(self.professional_btn, slot="professional-plan-button")
     
     # 2.4 Set up JavaScript-Python communication for user count changes
-    anvil.js.call_js('setTimeout', """
-    function() {
+    anvil.js.window.setTimeout("""
       try {
         // Get user count input element
         var userCountInput = document.getElementById('user-count');
@@ -321,14 +320,13 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
               userCountInput.dispatchEvent(new Event('input'));
             });
           }
-          
-          if (plusBtn) {
+                    if (plusBtn) {
             plusBtn.addEventListener('click', function() {
               if (!userCountInput) return;
               var val = parseInt(userCountInput.value);
               if (isNaN(val)) val = 0;
               userCountInput.value = val + 1;
-                            // Trigger change event
+              // Trigger change event
               userCountInput.dispatchEvent(new Event('input'));
             });
           }
@@ -336,8 +334,7 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
       } catch(e) {
         console.error("Error setting up Python-JS bridge:", e);
       }
-    }
-    """, 500)  # 500ms delay to ensure DOM is ready
+    """, 500)
     
     # 2.5 Initialize button states based on current plan
     self.update_plan_buttons()
