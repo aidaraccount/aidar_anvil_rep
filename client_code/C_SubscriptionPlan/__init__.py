@@ -39,8 +39,8 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
     self.selected_licenses = self.subscribed_licenses  # Initially same as subscription
     self.selected_billing = plan_type  # Initially same as subscription
     
-    print(f"INIT DETAILS - Subscribed: Plan={self.subscribed_plan}, Licenses={self.subscribed_licenses}, Billing={self.subscribed_billing}")
-    print(f"INIT DETAILS - Selected: Plan={self.selected_plan}, Licenses={self.selected_licenses}, Billing={self.selected_billing}")
+    print(f"[SUBSCRIPTION_DEBUG] INIT DETAILS - Subscribed: Plan={self.subscribed_plan}, Licenses={self.subscribed_licenses}, Billing={self.subscribed_billing}")
+    print(f"[SUBSCRIPTION_DEBUG] INIT DETAILS - Selected: Plan={self.selected_plan}, Licenses={self.selected_licenses}, Billing={self.selected_billing}")
 
     # 1. HTML content
     self.html = """
@@ -263,9 +263,9 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
             }
           }
         }
-        console.log("Initial pricing setup completed");
+        console.log("[SUBSCRIPTION_DEBUG] Initial pricing setup completed");
       } catch(e) {
-        console.error("Error setting initial pricing:", e);
+        console.error("[SUBSCRIPTION_DEBUG] Error setting initial pricing:", e);
       }
     """, 200)
 
@@ -283,16 +283,23 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
     # 3. Add a JavaScript event handler to connect UI actions with update_button_state
     # Use the simple anvil.call approach for direct communication
     anvil.js.call('eval', """
+    // Store a reference to the Anvil component for direct calls
+    var _jsComponent = anvil.Components.getPythonComponent(document.currentScript);
+    
     // 3.1 Set up JavaScript event listeners using standard JS
     (function setupListeners() {
-      console.log("Setting up event listeners for subscription component");
+      console.log("[SUBSCRIPTION_DEBUG] Setting up event listeners for subscription component");
       
       // 3.2 Monthly toggle button
       var monthlyBtn = document.getElementById('pricing-toggle-monthly');
       if (monthlyBtn) {
         monthlyBtn.addEventListener('click', function() {
-          console.log("Monthly toggle clicked");
-          anvil.call("update_buttons_from_js");
+          console.log("[SUBSCRIPTION_DEBUG] Monthly toggle clicked");
+          if (_jsComponent) {
+            _jsComponent.update_buttons_from_js();
+          } else {
+            console.error("[SUBSCRIPTION_DEBUG] Cannot call Python: component not found");
+          }
         });
       }
       
@@ -300,8 +307,12 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
       var yearlyBtn = document.getElementById('pricing-toggle-yearly');
       if (yearlyBtn) {
         yearlyBtn.addEventListener('click', function() {
-          console.log("Yearly toggle clicked");
-          anvil.call("update_buttons_from_js");
+          console.log("[SUBSCRIPTION_DEBUG] Yearly toggle clicked");
+          if (_jsComponent) {
+            _jsComponent.update_buttons_from_js();
+          } else {
+            console.error("[SUBSCRIPTION_DEBUG] Cannot call Python: component not found");
+          }
         });
       }
       
@@ -309,8 +320,12 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
       var userInput = document.getElementById('user-count');
       if (userInput) {
         userInput.addEventListener('input', function() {
-          console.log("User count changed");
-          anvil.call("update_buttons_from_js");
+          console.log("[SUBSCRIPTION_DEBUG] User count changed");
+          if (_jsComponent) {
+            _jsComponent.update_buttons_from_js();
+          } else {
+            console.error("[SUBSCRIPTION_DEBUG] Cannot call Python: component not found");
+          }
         });
       }
       
@@ -318,9 +333,13 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
       var minusBtn = document.getElementById('user-minus');
       if (minusBtn) {
         minusBtn.addEventListener('click', function() {
-          console.log("Minus button clicked");
+          console.log("[SUBSCRIPTION_DEBUG] Minus button clicked");
           setTimeout(function() {
-            anvil.call("update_buttons_from_js");
+            if (_jsComponent) {
+              _jsComponent.update_buttons_from_js();
+            } else {
+              console.error("[SUBSCRIPTION_DEBUG] Cannot call Python: component not found");
+            }
           }, 100);
         });
       }
@@ -329,9 +348,13 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
       var plusBtn = document.getElementById('user-plus');
       if (plusBtn) {
         plusBtn.addEventListener('click', function() {
-          console.log("Plus button clicked");
+          console.log("[SUBSCRIPTION_DEBUG] Plus button clicked");
           setTimeout(function() {
-            anvil.call("update_buttons_from_js");
+            if (_jsComponent) {
+              _jsComponent.update_buttons_from_js();
+            } else {
+              console.error("[SUBSCRIPTION_DEBUG] Cannot call Python: component not found");
+            }
           }, 100);
         });
       }
@@ -422,19 +445,18 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
     1. Handles errors in JavaScript callbacks
     2. Reports errors to console for troubleshooting
     """
-    print(f"ERROR in JavaScript callback: {exception}")
-    print(f"Stack trace: {stacktrace}")
+    print(f"[SUBSCRIPTION_DEBUG] ERROR in JavaScript callback: {exception}")
+    print(f"[SUBSCRIPTION_DEBUG] Stack trace: {stacktrace}")
     # This helps diagnose JS-Python communication issues
 
   # 4. This method is called from JavaScript when UI elements change
-  @anvil.server.callable
   def update_buttons_from_js(self, **event_args):
     """
     1. Called by JavaScript when UI elements are updated
     2. Acts as a bridge between the JavaScript UI and Python button state
     3. Updates the button appearance based on current selections
     """
-    print("Called update_buttons_from_js from JavaScript")
+    print("[SUBSCRIPTION_DEBUG] Called update_buttons_from_js from JavaScript")
     # Simply call our existing update_button_state method
     self.update_button_state()
 
@@ -446,7 +468,7 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
     """
     # Add a timestamp and message to confirm method is being called
     import datetime
-    print(f"UPDATE_BUTTON_STATE CALLED at {datetime.datetime.now()}")
+    print(f"[SUBSCRIPTION_DEBUG] UPDATE_BUTTON_STATE CALLED at {datetime.datetime.now()}")
     
     # Get user count from JS input field - Update self.selected_licenses
     user_count_input = document.getElementById('user-count')
@@ -464,8 +486,8 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
         is_yearly = yearly_btn.classList.contains('selected')
         self.selected_billing = "yearly" if is_yearly else "monthly"
         
-    print(f"DEBUG - Comparison: subscribed_plan={self.subscribed_plan}, subscribed_licenses={self.subscribed_licenses}, subscribed_billing={self.subscribed_billing}")
-    print(f"DEBUG - Comparison:   selected_plan={self.selected_plan},   selected_licenses={self.selected_licenses},   selected_billing={self.selected_billing}")
+    print(f"[SUBSCRIPTION_DEBUG] DEBUG - Comparison: subscribed_plan={self.subscribed_plan}, subscribed_licenses={self.subscribed_licenses}, subscribed_billing={self.subscribed_billing}")
+    print(f"[SUBSCRIPTION_DEBUG] DEBUG - Comparison:   selected_plan={self.selected_plan},   selected_licenses={self.selected_licenses},   selected_billing={self.selected_billing}")
         
     # 1. EXPLORE BUTTON LOGIC
     if self.subscribed_plan in ["Trial", "Extended Trial", None]:
@@ -603,7 +625,7 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
         else:
           alert("There was a problem cancelling your subscription. Please try again or contact support.", title="Error")
       except Exception as e:
-        print(f"Error in cancel_subscription: {e}")
+        print(f"[SUBSCRIPTION_DEBUG] Error in cancel_subscription: {e}")
         alert("There was a problem processing your request. Please try again later.", title="Error")
 
   def update_subscription(self, sender, **event_args) -> None:
@@ -675,7 +697,7 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
         else:
           alert("There was a problem updating your subscription. Please try again or contact support.", title="Error")
       except Exception as e:
-        print(f"Error in update_subscription: {e}")
+        print(f"[SUBSCRIPTION_DEBUG] Error in update_subscription: {e}")
         alert("There was a problem processing your request. Please try again later.", title="Error")
 
   # 4. Handle the full checkout process
