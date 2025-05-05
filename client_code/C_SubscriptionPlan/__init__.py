@@ -233,19 +233,41 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
     # Initialize JS with the current billing period
     self.current_billing_period = self.subscribed_billing
     
-    # Initialize with the correct pricing based on billing period
+    # We'll move the JS initialization code to after the script is loaded
+    # This ensures the functions are defined before we try to call them
     anvil.js.window.setTimeout("""
       try {
-        // Set initial pricing toggle based on current billing period
+        // First set the correct pricing toggle
         if ('""" + self.subscribed_billing + """' === 'yearly') {
-          setYearly();
+          // Check if function exists before calling
+          if (typeof setYearly === 'function') {
+            setYearly();
+          } else {
+            console.log("setYearly function not found yet");
+            // Manually set the toggle classes
+            if (document.getElementById('pricing-toggle-yearly')) {
+              document.getElementById('pricing-toggle-yearly').classList.add('selected');
+              document.getElementById('pricing-toggle-monthly').classList.remove('selected');
+            }
+          }
         } else {
-          setMonthly();
+          // Check if function exists before calling
+          if (typeof setMonthly === 'function') {
+            setMonthly();
+          } else {
+            console.log("setMonthly function not found yet");
+            // Manually set the toggle classes
+            if (document.getElementById('pricing-toggle-monthly')) {
+              document.getElementById('pricing-toggle-monthly').classList.add('selected');
+              document.getElementById('pricing-toggle-yearly').classList.remove('selected');
+            }
+          }
         }
+        console.log("Initial pricing setup completed");
       } catch(e) {
         console.error("Error setting initial pricing:", e);
       }
-    """, 100)
+    """, 200)
 
     # 2. Add Anvil Buttons for plan selection
     self.explore_btn = Button(text="Choose Plan", role="cta-button", tag={"plan_type": "Explore"})
@@ -259,7 +281,7 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
     self.add_component(self.professional_btn, slot="professional-plan-button")
     
     # Set up JS listeners for billing toggle and user count changes
-    anvil.js.window.call("eval", """
+    anvil.js.window.setTimeout("""
       try {
         // Direct event handling for toggle buttons
         var monthlyBtn = document.getElementById('pricing-toggle-monthly');
@@ -268,14 +290,14 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
         if (monthlyBtn) {
           monthlyBtn.onclick = function() {
             console.log("Monthly toggle clicked");
-            Anvil.call("js_update_button_state");
+            anvil.call(window.pyComponent, "js_update_button_state");
           };
         }
         
         if (yearlyBtn) {
           yearlyBtn.onclick = function() {
             console.log("Yearly toggle clicked");
-            Anvil.call("js_update_button_state");
+            anvil.call(window.pyComponent, "js_update_button_state");
           };
         }
         
@@ -284,7 +306,7 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
         if (userCountInput) {
           userCountInput.oninput = function() {
             console.log("User count changed");
-            Anvil.call("js_update_button_state");
+            anvil.call(window.pyComponent, "js_update_button_state");
           };
           
           var minusBtn = document.getElementById('user-minus');
@@ -295,7 +317,7 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
               console.log("Minus button clicked");
               // Need to wait for JS to update the count before calling Python
               setTimeout(function() {
-                Anvil.call("js_update_button_state");
+                anvil.call(window.pyComponent, "js_update_button_state");
               }, 100);
             };
           }
@@ -305,17 +327,20 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
               console.log("Plus button clicked");
               // Need to wait for JS to update the count before calling Python
               setTimeout(function() {
-                Anvil.call("js_update_button_state");
+                anvil.call(window.pyComponent, "js_update_button_state");
               }, 100);
             };
           }
         }
         
+        // Store a reference to the Python component
+        window.pyComponent = _this;
+        
         console.log("Event handlers attached successfully");
       } catch(e) {
         console.error("Error setting up event handlers:", e);
       }
-    """)
+    """, 1000)  # Increase timeout to 1000ms
 
   # 1. Create a reliable JS-to-Python call method
   def js_update_button_state(self, **event_args):
