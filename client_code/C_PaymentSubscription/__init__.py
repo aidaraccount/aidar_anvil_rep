@@ -250,8 +250,8 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
           role=["payment-form-container"]
         )
         if alert_res is True:
-          # navigate to create agent page !!!!!!!!!!!!!!!
-          pass
+          # navigate to create agent page
+          anvil.js.window.location.replace("/#model_setup?model_id=None&section=Basics")
         else:
           # refresh page to see new subscription
           anvil.js.window.location.replace("/#settings?section=Subscription")

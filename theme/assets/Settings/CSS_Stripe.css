@@ -191,3 +191,42 @@
 .anvil-role-payment-form-container .modal-content {
   color: var(--WhiteDiscreet);
 }
+
+/* --- 9. Success Alert Modal Buttons --- */
+.anvil-role-payment-form-container .modal-content .anvil-alert-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.anvil-role-payment-form-container .modal-content .anvil-alert-buttons button {
+  font-size: 14px;
+  font-weight: 500;
+  border-radius: 4px;
+  padding: 10px 16px;
+  cursor: pointer;
+  min-width: 100px;
+}
+
+.anvil-role-payment-form-container .modal-content .anvil-alert-buttons button:nth-child(1) {
+  /* OK button styled as cancel */
+  background: transparent;
+  border: 1px solid var(--WhiteDiscreet);
+  color: var(--WhiteDiscreet);
+}
+.anvil-role-payment-form-container .modal-content .anvil-alert-buttons button:nth-child(1):hover {
+  background: var(--WhiteDiscreet);
+  color: var(--Accent_2);
+}
+
+.anvil-role-payment-form-container .modal-content .anvil-alert-buttons button:nth-child(2) {
+  /* CREATE AGENT button styled as submit */
+  background: var(--Orange, #FF7A00);
+  color: white;
+  border: none;
+}
+.anvil-role-payment-form-container .modal-content .anvil-alert-buttons button:nth-child(2):disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
