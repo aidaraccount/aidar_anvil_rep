@@ -85,8 +85,8 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
             <div class='user-count-selector'>
                 <button type='button' class='user-count-btn' id='user-minus'>−</button>
                 <span class='user-count-label'>
-                    <input id='user-count' class='user-count-value-input' type='text' value='1' maxlength='3' />
-                    <span> User<span id='user-count-plural' style='display:none;'>s</span></span>
+                    <input id='user-count' class='user-count-value-input' type='text' value='""" + str(self.active_licenses) + """' maxlength='3' />
+                    <span> User<span id='user-count-plural' style='display:""" + ('none' if self.active_licenses == 1 else '') + """;'>s</span></span>
                 </span>
                 <button type='button' class='user-count-btn' id='user-plus'>+</button>
             </div>
@@ -114,7 +114,7 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
     }
 
     // --- Professional Plan Pricing Logic ---
-    var userCount = 1;
+    var userCount = """ + str(self.active_licenses) + """;
     var userCountInput = document.getElementById('user-count');
     var userCountPlural = document.getElementById('user-count-plural');
     var profOriginalPrice = document.querySelector('.pricing-plan.recommended .original-price .price-number');
@@ -141,7 +141,7 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
     }
 
     userCountInput.addEventListener('input', function() {
-        var val = parseInt(userCountInput.value.replace(/\D/g, ''));
+        var val = parseInt(userCountInput.value.replace(/\\D/g, ''));
         if (isNaN(val) || val < 1) val = 1;
         if (val > 100) val = 100;
         userCount = val;
@@ -152,6 +152,10 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
             userCountPlural.style.display = '';
         }
         setProfessionalPrice();
+        // Update button state
+        if (window.pyComponent && window.pyComponent.update_button_state) {
+            window.pyComponent.update_button_state();
+        }
     });
     userCountInput.addEventListener('blur', function() {
         if (!userCountInput.value || parseInt(userCountInput.value) < 1) {
@@ -159,6 +163,10 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
             userCountInput.value = 1;
             userCountPlural.style.display = 'none';
             setProfessionalPrice();
+            // Update button state
+            if (window.pyComponent && window.pyComponent.update_button_state) {
+                window.pyComponent.update_button_state();
+            }
         }
     });
     document.getElementById('user-minus').addEventListener('click', function() {
@@ -169,6 +177,10 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
                 userCountPlural.style.display = 'none';
             }
             setProfessionalPrice();
+            // Update button state
+            if (window.pyComponent && window.pyComponent.update_button_state) {
+                window.pyComponent.update_button_state();
+            }
         }
     });
     document.getElementById('user-plus').addEventListener('click', function() {
@@ -179,11 +191,33 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
                 userCountPlural.style.display = '';
             }
             setProfessionalPrice();
+            // Update button state
+            if (window.pyComponent && window.pyComponent.update_button_state) {
+                window.pyComponent.update_button_state();
+            }
         }
     });
-    document.getElementById('pricing-toggle-monthly').addEventListener('click', setMonthly);
-    document.getElementById('pricing-toggle-yearly').addEventListener('click', setYearly);
-    setMonthly();
+    document.getElementById('pricing-toggle-monthly').addEventListener('click', function() {
+        setMonthly();
+        // Update button state
+        if (window.pyComponent && window.pyComponent.update_button_state) {
+            window.pyComponent.update_button_state();
+        }
+    });
+    document.getElementById('pricing-toggle-yearly').addEventListener('click', function() {
+        setYearly();
+        // Update button state
+        if (window.pyComponent && window.pyComponent.update_button_state) {
+            window.pyComponent.update_button_state();
+        }
+    });
+    
+    // Initialize with the correct state
+    if (""" + ("true" if self.billing_period == "yearly" else "false") + """) {
+        setYearly();
+    } else {
+        setMonthly();
+    }
     </script>
     """
 
