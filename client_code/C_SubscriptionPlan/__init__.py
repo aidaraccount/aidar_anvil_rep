@@ -280,61 +280,79 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
     self.add_component(self.explore_btn, slot="explore-plan-button")
     self.add_component(self.professional_btn, slot="professional-plan-button")
     
-    # Set up JS listeners for billing toggle and user count changes using proper Anvil self reference
-    self.call_js("""
-      try {
-        // Direct event handling for toggle buttons
-        var monthlyBtn = document.getElementById('pricing-toggle-monthly');
-        var yearlyBtn = document.getElementById('pricing-toggle-yearly');
-        
-        if (monthlyBtn) {
-          monthlyBtn.onclick = function() {
-            console.log("Monthly toggle clicked");
-            self.js_update_button_state();
-          };
-        }
-        
-        if (yearlyBtn) {
-          yearlyBtn.onclick = function() {
-            console.log("Yearly toggle clicked");
-            self.js_update_button_state();
-          };
-        }
-        
-        // Direct event handling for user count changes
-        var userCountInput = document.getElementById('user-count');
-        if (userCountInput) {
-          userCountInput.oninput = function() {
-            console.log("User count changed");
-            self.js_update_button_state();
-          };
-          
-          var minusBtn = document.getElementById('user-minus');
-          var plusBtn = document.getElementById('user-plus');
-          
-          if (minusBtn) {
-            minusBtn.onclick = function() {
-              console.log("Minus button clicked");
-              setTimeout(function() {
-                self.js_update_button_state();
-              }, 100);
-            };
+    # Ensure querySelectorAll is available (done via JavaScript, not Python)
+    anvil.js.call('eval', """
+    if (!document.querySelectorAll) {
+        document.querySelectorAll = function() { return []; };
+    }
+    """)
+
+  def form_show(self, **event_args):
+    """Called when the form becomes visible - perfect time to set up JS handlers"""
+    # 1. Set up JS event handlers once the DOM is fully loaded
+    anvil.js.call('eval', """
+    (function() {
+      // 1.1 Setup monthly toggle
+      var monthlyBtn = document.getElementById('pricing-toggle-monthly');
+      if (monthlyBtn) {
+        monthlyBtn.addEventListener('click', function() {
+          console.log('Monthly clicked');
+          if (typeof anvil !== 'undefined') {
+            anvil.call('js_update_button_state');
           }
-          
-          if (plusBtn) {
-            plusBtn.onclick = function() {
-              console.log("Plus button clicked");
-              setTimeout(function() {
-                self.js_update_button_state();
-              }, 100);
-            };
-          }
-        }
-        
-        console.log("Event handlers attached successfully");
-      } catch(e) {
-        console.error("Error setting up event handlers:", e);
+        });
       }
+      
+      // 1.2 Setup yearly toggle
+      var yearlyBtn = document.getElementById('pricing-toggle-yearly');
+      if (yearlyBtn) {
+        yearlyBtn.addEventListener('click', function() {
+          console.log('Yearly clicked');
+          if (typeof anvil !== 'undefined') {
+            anvil.call('js_update_button_state');
+          }
+        });
+      }
+      
+      // 1.3 Setup user count input
+      var userInput = document.getElementById('user-count');
+      if (userInput) {
+        userInput.addEventListener('input', function() {
+          console.log('User count changed');
+          if (typeof anvil !== 'undefined') {
+            anvil.call('js_update_button_state');
+          }
+        });
+      }
+      
+      // 1.4 Setup plus and minus buttons
+      var plusBtn = document.getElementById('user-plus');
+      var minusBtn = document.getElementById('user-minus');
+      
+      if (plusBtn) {
+        plusBtn.addEventListener('click', function() {
+          console.log('Plus clicked');
+          setTimeout(function() {
+            if (typeof anvil !== 'undefined') {
+              anvil.call('js_update_button_state');
+            }
+          }, 100);
+        });
+      }
+      
+      if (minusBtn) {
+        minusBtn.addEventListener('click', function() {
+          console.log('Minus clicked');
+          setTimeout(function() {
+            if (typeof anvil !== 'undefined') {
+              anvil.call('js_update_button_state');
+            }
+          }, 100);
+        });
+      }
+      
+      console.log('Event handlers setup complete');
+    })();
     """)
 
   # 1. Create a reliable JS-to-Python call method
