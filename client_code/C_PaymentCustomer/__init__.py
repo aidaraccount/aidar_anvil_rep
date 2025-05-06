@@ -196,6 +196,7 @@ class C_PaymentCustomer(C_PaymentCustomerTemplate):
             document.getElementById('form-errors').textContent = 'Internal error: callback not found.';
         }}
     }});
+    
     document.getElementById('cancel-btn').onclick = function() {{ window.close_alert(); }};
     </script>
     """
