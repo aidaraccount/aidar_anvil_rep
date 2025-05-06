@@ -281,6 +281,17 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
     setTimeout(function() {
       try {
         console.log("[SUBSCRIPTION_DEBUG] Running delayed initial plan highlighting");
+        console.log("[SUBSCRIPTION_DEBUG] Current plan value:", '""" + str(self.subscribed_plan) + """');
+        console.log("[SUBSCRIPTION_DEBUG] Is plan 'Professional'?", '""" + str(self.subscribed_plan) + """' === 'Professional');
+        console.log("[SUBSCRIPTION_DEBUG] Document body children:", document.body.children.length);
+        
+        // Inspect all pricing-plan elements in the document
+        var allPricingPlans = document.querySelectorAll('.pricing-plan');
+        console.log("[SUBSCRIPTION_DEBUG] All pricing plans found:", allPricingPlans.length);
+        for (var i = 0; i < allPricingPlans.length; i++) {
+          console.log("[SUBSCRIPTION_DEBUG] Plan", i, "classes:", allPricingPlans[i].className);
+          console.log("[SUBSCRIPTION_DEBUG] Plan", i, "innerHTML first 100 chars:", allPricingPlans[i].innerHTML.substring(0, 100));
+        }
         
         // Try different selectors to find the plan boxes
         var explorePlanBox = document.getElementById('explore-plan-box');
@@ -304,9 +315,13 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
                    !!explorePlanBox, "Professional:", !!professionalPlanBox);
         
         if (explorePlanBox) {
+          console.log("[SUBSCRIPTION_DEBUG] BEFORE - Explore box classList:", [...explorePlanBox.classList]);
           explorePlanBox.classList.remove('highlight-explore');
+          console.log("[SUBSCRIPTION_DEBUG] AFTER REMOVE - Explore box classList:", [...explorePlanBox.classList]);
+          
           if ('""" + str(self.subscribed_plan) + """' === 'Explore') {
             explorePlanBox.classList.add('highlight-explore');
+            console.log("[SUBSCRIPTION_DEBUG] AFTER ADD - Explore box classList:", [...explorePlanBox.classList]);
             console.log("[SUBSCRIPTION_DEBUG] Dynamic highlight added to Explore plan");
           }
         } else {
@@ -314,7 +329,10 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
         }
         
         if (professionalPlanBox) {
+          console.log("[SUBSCRIPTION_DEBUG] BEFORE - Professional box classList:", [...professionalPlanBox.classList]);
           professionalPlanBox.classList.remove('highlight-professional');
+          console.log("[SUBSCRIPTION_DEBUG] AFTER REMOVE - Professional box classList:", [...professionalPlanBox.classList]);
+          
           var sameProfessionalPlan = ('""" + str(self.subscribed_plan) + """' === 'Professional');
           
           console.log("[SUBSCRIPTION_DEBUG] Professional plan check:", 
@@ -322,13 +340,22 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
                               
           if (sameProfessionalPlan) {
             professionalPlanBox.classList.add('highlight-professional');
+            console.log("[SUBSCRIPTION_DEBUG] AFTER ADD - Professional box classList:", [...professionalPlanBox.classList]);
             console.log("[SUBSCRIPTION_DEBUG] Dynamic highlight added to Professional plan");
           }
         } else {
           console.error("[SUBSCRIPTION_DEBUG] Could not find Professional plan box");
         }
+        
+        // Try another approach to update styles directly
+        if (sameProfessionalPlan && professionalPlanBox) {
+          console.log("[SUBSCRIPTION_DEBUG] Trying direct style application"); 
+          professionalPlanBox.style.boxShadow = "0 0 20px rgba(0, 0, 0, 0.25)";
+        }
+        
       } catch (e) {
         console.error("[SUBSCRIPTION_DEBUG] Error applying initial plan highlighting:", e);
+        console.error("[SUBSCRIPTION_DEBUG] Error details:", e.message, e.stack);
       }
     }, 1000); // Delay of 1 second to ensure DOM is ready
     
