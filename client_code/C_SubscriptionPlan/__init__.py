@@ -337,128 +337,105 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
   def apply_plan_highlighting(self):
     """
     1. Applies highlighting to the appropriate plan box based on subscription plan
-    2. Uses multiple visual techniques to ensure visibility
+    2. Uses subtle box-shadow and indicator label for current plan
     """
     print(f"[SUBSCRIPTION_DEBUG] Applying plan highlighting for plan: {self.subscribed_plan}")
     
-    # Create the JavaScript to apply highlighting through direct DOM manipulation
-    anvil.js.call('eval', """
-    try {
-      console.log("[SUBSCRIPTION_DEBUG] Applying direct highlight techniques for: '""" + self.subscribed_plan + """'");
+    # Check if all parameters match current subscription
+    should_highlight = False
+    if self.subscribed_plan == "Explore" and self.selected_plan == "Explore":
+        # For Explore, only check billing period
+        should_highlight = (self.subscribed_billing == self.selected_billing)
+        print(f"[SUBSCRIPTION_DEBUG] Explore highlight check: billing={self.subscribed_billing == self.selected_billing}")
+    elif self.subscribed_plan == "Professional" and self.selected_plan == "Professional":
+        # For Professional, check licenses and billing period
+        should_highlight = (self.subscribed_licenses == self.selected_licenses and 
+                            self.subscribed_billing == self.selected_billing)
+        print(f"[SUBSCRIPTION_DEBUG] Professional highlight check: licenses={self.subscribed_licenses == self.selected_licenses}, billing={self.subscribed_billing == self.selected_billing}")
+    
+    # Create the JavaScript to apply highlighting 
+    anvil.js.call('eval', f"""
+    try {{
+      console.log("[SUBSCRIPTION_DEBUG] Applying discreet highlight ({self.subscribed_plan}) - should highlight: {should_highlight}");
       
-      // 1. First attempt: Add colored marker elements at the top of each plan
-      function addColoredMarker() {
-        // Remove any existing markers first
-        document.querySelectorAll('.plan-highlight-marker').forEach(function(el) {
+      // 1. Clean up any existing highlights first
+      function removeAllHighlights() {{
+        // Remove existing markers and labels
+        document.querySelectorAll('.plan-highlight-marker, .current-plan-label').forEach(function(el) {{
           el.remove();
-        });
+        }});
+        
+        // Reset any box-shadows
+        document.querySelectorAll('.pricing-plan.left, .pricing-plan.recommended').forEach(function(box) {{
+          box.style.boxShadow = '';
+          box.style.border = '';
+        }});
+      }}
+      
+      // 2. Function to apply the highlighting
+      function applyHighlight() {{
+        removeAllHighlights();
+        
+        // Only highlight if parameters match
+        if (!{str(should_highlight).lower()}) {{
+          console.log('[SUBSCRIPTION_DEBUG] Not highlighting - parameter mismatch');
+          return;
+        }}
         
         // Determine which plan box to highlight
-        var targetSelector = '""" + self.subscribed_plan + """' === 'Explore' ? 
+        var targetSelector = '{self.subscribed_plan}' === 'Explore' ? 
                           '.pricing-plan.left' : 
                           '.pricing-plan.recommended';
                           
-        var boxColor = '""" + self.subscribed_plan + """' === 'Explore' ? 
-                     'rgb(0, 120, 255)' : 
-                     'rgb(255, 100, 0)';
+        var boxColor = '{self.subscribed_plan}' === 'Explore' ? 
+                     'var(--Blue, #0078FF)' : 
+                     'var(--Orange, #FF6400)';
         
         // Find all matching boxes
         var boxes = document.querySelectorAll(targetSelector);
-        console.log('[SUBSCRIPTION_DEBUG] Found ' + boxes.length + ' plan boxes for highlight markers');
+        console.log('[SUBSCRIPTION_DEBUG] Found ' + boxes.length + ' plan boxes to highlight');
         
-        // Add a marker to each box
-        boxes.forEach(function(box) {
-          // Create a colored marker bar
-          var marker = document.createElement('div');
-          marker.className = 'plan-highlight-marker';
-          marker.style.width = '100%';
-          marker.style.height = '10px';
-          marker.style.backgroundColor = boxColor;
-          marker.style.position = 'absolute';
-          marker.style.top = '0';
-          marker.style.left = '0';
-          marker.style.zIndex = '999';
-          marker.style.borderTopLeftRadius = '8px';
-          marker.style.borderTopRightRadius = '8px';
+        // Apply subtle highlight to each box
+        boxes.forEach(function(box) {{
+          // Apply box-shadow only
+          box.style.boxShadow = '8px 8px 10px ' + boxColor;
+          console.log('[SUBSCRIPTION_DEBUG] Applied box-shadow to plan');
           
-          // Make sure the box is positioned for absolute elements
-          if (window.getComputedStyle(box).position === 'static') {
+          // Add the "CURRENT PLAN" label in the upper right
+          var label = document.createElement('div');
+          label.className = 'current-plan-label';
+          label.textContent = 'CURRENT PLAN';
+          label.style.backgroundColor = boxColor;
+          label.style.color = 'white';
+          label.style.fontWeight = 'bold';
+          label.style.padding = '4px 8px';
+          label.style.position = 'absolute';
+          label.style.top = '10px';
+          label.style.right = '10px';
+          label.style.zIndex = '999';
+          label.style.borderRadius = '4px';
+          label.style.fontSize = '11px';
+          
+          // Make sure the box has relative positioning for the absolute label
+          if (window.getComputedStyle(box).position === 'static') {{
             box.style.position = 'relative';
-          }
+          }}
           
-          // Add marker to the box
-          box.insertBefore(marker, box.firstChild);
-          console.log('[SUBSCRIPTION_DEBUG] Added highlight marker to box');
-          
-          // Attempt 2: Add a visible border
-          box.style.border = '3px solid ' + boxColor;
-          box.style.borderRadius = '8px';
-        });
-      }
+          box.appendChild(label);
+          console.log('[SUBSCRIPTION_DEBUG] Added "CURRENT PLAN" label');
+        }});
+      }}
       
-      // 2. Second attempt: Replace the plan box background
-      function replaceBackground() {
-        var targetSelector = '""" + self.subscribed_plan + """' === 'Explore' ? 
-                          '.pricing-plan.left' : 
-                          '.pricing-plan.recommended';
-                          
-        var bgColor = '""" + self.subscribed_plan + """' === 'Explore' ? 
-                    'rgba(0, 120, 255, 0.05)' : 
-                    'rgba(255, 100, 0, 0.05)';
-        
-        var boxes = document.querySelectorAll(targetSelector);
-        boxes.forEach(function(box) {
-          box.style.backgroundColor = bgColor;
-          
-          // Add a "CURRENT PLAN" label
-          var existingLabel = box.querySelector('.current-plan-label');
-          if (!existingLabel) {
-            var label = document.createElement('div');
-            label.className = 'current-plan-label';
-            label.textContent = 'CURRENT PLAN';
-            label.style.backgroundColor = '""" + self.subscribed_plan + """' === 'Explore' ? 
-                                        'rgb(0, 120, 255)' : 
-                                        'rgb(255, 100, 0)';
-            label.style.color = 'white';
-            label.style.fontWeight = 'bold';
-            label.style.padding = '4px 8px';
-            label.style.position = 'absolute';
-            label.style.top = '10px';
-            label.style.right = '10px';
-            label.style.zIndex = '999';
-            label.style.borderRadius = '4px';
-            label.style.fontSize = '11px';
-            
-            if (window.getComputedStyle(box).position === 'static') {
-              box.style.position = 'relative';
-            }
-            
-            box.appendChild(label);
-            console.log('[SUBSCRIPTION_DEBUG] Added "CURRENT PLAN" label');
-          }
-        });
-      }
+      // 3. Apply immediately and with short delay
+      applyHighlight();
+      setTimeout(applyHighlight, 500);
       
-      // 3. Function to apply all highlighting techniques
-      function applyAllHighlights() {
-        addColoredMarker();
-        replaceBackground();
-        console.log('[SUBSCRIPTION_DEBUG] Applied all highlighting techniques');
-      }
-      
-      // 4. Apply immediately and at intervals
-      applyAllHighlights();
-      [100, 500, 1000, 2000, 3000].forEach(function(delay) {
-        setTimeout(applyAllHighlights, delay);
-      });
-      
-      // 5. Set up MutationObserver to reapply on DOM changes
-      var observer = new MutationObserver(function(mutations) {
-        for(var mutation of mutations) {
-          if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
-            // Look for interesting additions
-            for(var node of mutation.addedNodes) {
-              if (node.nodeType === 1) { // Element node
+      // 4. Set up MutationObserver for dynamic changes
+      var observer = new MutationObserver(function(mutations) {{
+        for(var mutation of mutations) {{
+          if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {{
+            for(var node of mutation.addedNodes) {{
+              if (node.nodeType === 1) {{ // Element node
                 if ((node.classList && 
                     (node.classList.contains('pricing-plan') || 
                      node.classList.contains('recommended') ||
@@ -466,33 +443,32 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
                     (node.querySelector && 
                      (node.querySelector('.pricing-plan') ||
                       node.querySelector('.recommended') ||
-                      node.querySelector('.left')))) {
+                      node.querySelector('.left')))) {{
                   console.log('[SUBSCRIPTION_DEBUG] Detected pricing plan changes, reapplying highlights');
-                  setTimeout(applyAllHighlights, 50);
+                  setTimeout(applyHighlight, 50);
                   break;
-                }
-              }
-            }
-          }
-        }
-      });
+                }}
+              }}
+            }}
+          }}
+        }}
+      }});
       
-      observer.observe(document.body, { childList: true, subtree: true });
-      console.log('[SUBSCRIPTION_DEBUG] Set up MutationObserver to watch for DOM changes');
+      observer.observe(document.body, {{ childList: true, subtree: true }});
       
-      // 6. Apply when toggle buttons are clicked
+      // 5. Apply when toggle buttons are clicked
       var toggles = document.querySelectorAll('#pricing-toggle-monthly, #pricing-toggle-yearly');
-      toggles.forEach(function(toggle) {
-        toggle.addEventListener('click', function() {
+      toggles.forEach(function(toggle) {{
+        toggle.addEventListener('click', function() {{
           console.log('[SUBSCRIPTION_DEBUG] Pricing toggle clicked, reapplying highlights');
-          setTimeout(applyAllHighlights, 200);
-        });
-      });
+          setTimeout(applyHighlight, 200);
+        }});
+      }});
       
-    } catch (e) {
+    }} catch (e) {{
       console.error("[SUBSCRIPTION_DEBUG] Error applying plan highlighting:", e);
       console.error("[SUBSCRIPTION_DEBUG] Error details:", e.message, e.stack);
-    }
+    }}
     """)
 
   def js_update_button_state(self, **event_args):
