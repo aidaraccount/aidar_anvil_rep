@@ -33,13 +33,13 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
     self.subscribed_plan = plan  # Current plan user is subscribed to (Explore/Professional)
     self.subscribed_licenses = no_licenses if no_licenses else 1  # Current number of licenses
     self.subscribed_billing = plan_type  # Current billing period (monthly/yearly)
-    
+
     # Store the SELECTED values (what the user is currently selecting in the UI)
     # These will be updated as user interacts with the component
     self.selected_plan = plan  # Initially same as subscription
     self.selected_licenses = self.subscribed_licenses  # Initially same as subscription
     self.selected_billing = plan_type  # Initially same as subscription
-    
+
     print(f"[SUBSCRIPTION_DEBUG] INIT DETAILS - Subscribed: Plan={self.subscribed_plan}, Licenses={self.subscribed_licenses}, Billing={self.subscribed_billing}")
     print(f"[SUBSCRIPTION_DEBUG] INIT DETAILS - Selected: Plan={self.selected_plan}, Licenses={self.selected_licenses}, Billing={self.selected_billing}")
 
@@ -55,7 +55,7 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
     <!-- 2. Pricing Plans -->
     <div class='pricing-plans'>
         <!-- Explore Plan -->
-        <div class='pricing-plan left'>
+        <div id='explore-plan-box' class='pricing-plan left'>
             <h2 class='plan-name'>Explore</h2>
             <p class='plan-description'>Best for solo scouts exploring AI-powered artist discovery.</p>
             <div class='plan-price-container'>
@@ -74,7 +74,7 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
             <div anvil-slot="explore-plan-button"></div>
         </div>
         <!-- Professional Plan -->
-        <div class='pricing-plan recommended'>
+        <div id='professional-plan-box' class='pricing-plan recommended'>
             <div class='recommended-tag'>Recommended</div>
             <h2 class='plan-name'>Professional</h2>
             <p class='plan-description'>For individuals or teams who want to unlock full AI-powered scouting.</p>
@@ -282,34 +282,57 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
       try {
         console.log("[SUBSCRIPTION_DEBUG] Running delayed initial plan highlighting");
         
-        // Simple highlighting logic based on current subscription plan only
-        var explorePlanBox = document.querySelector('.pricing-plan.left');
-        var professionalPlanBox = document.querySelector('.pricing-plan.recommended');
-        
-        // First, clear any existing highlights
-        if (explorePlanBox) explorePlanBox.classList.remove('highlight-explore');
-        if (professionalPlanBox) professionalPlanBox.classList.remove('highlight-professional');
-        
-        // Apply highlight based only on the current subscription plan
-        var currentPlan = '""" + str(self.subscribed_plan) + """';
-        console.log("[SUBSCRIPTION_DEBUG] Applying initial highlight for plan:", currentPlan);
-        
-        if (currentPlan === 'Explore' && explorePlanBox) {
-          explorePlanBox.classList.add('highlight-explore');
-          console.log("[SUBSCRIPTION_DEBUG] Added highlight to Explore plan box");
-        } 
-        else if (currentPlan === 'Professional' && professionalPlanBox) {
-          professionalPlanBox.classList.add('highlight-professional');
-          console.log("[SUBSCRIPTION_DEBUG] Added highlight to Professional plan box");
+        // Try different selectors to find the plan boxes
+        var explorePlanBox = document.getElementById('explore-plan-box');
+        if (!explorePlanBox) {
+          explorePlanBox = document.querySelector('.pricing-plan.left');
+          console.log("[SUBSCRIPTION_DEBUG] Fallback to class selector for Explore plan:", !!explorePlanBox);
         }
-        else {
-          console.log("[SUBSCRIPTION_DEBUG] No highlighting applied (Trial/Extended Trial or null plan)");
+        
+        var professionalPlanBox = document.getElementById('professional-plan-box');
+        if (!professionalPlanBox) {
+          professionalPlanBox = document.querySelector('.pricing-plan.recommended');
+          console.log("[SUBSCRIPTION_DEBUG] Fallback to class selector for Professional plan:", !!professionalPlanBox);
+        }
+        
+        // Document debugging
+        console.log("[SUBSCRIPTION_DEBUG] Document ready state:", document.readyState);
+        console.log("[SUBSCRIPTION_DEBUG] All plan boxes found:", document.querySelectorAll('.pricing-plan').length);
+        console.log("[SUBSCRIPTION_DEBUG] All divs found:", document.querySelectorAll('div').length);
+        
+        console.log("[SUBSCRIPTION_DEBUG] Plan elements found? Explore:", 
+                   !!explorePlanBox, "Professional:", !!professionalPlanBox);
+        
+        if (explorePlanBox) {
+          explorePlanBox.classList.remove('highlight-explore');
+          if ('""" + str(self.subscribed_plan) + """' === 'Explore') {
+            explorePlanBox.classList.add('highlight-explore');
+            console.log("[SUBSCRIPTION_DEBUG] Dynamic highlight added to Explore plan");
+          }
+        } else {
+          console.error("[SUBSCRIPTION_DEBUG] Could not find Explore plan box");
+        }
+        
+        if (professionalPlanBox) {
+          professionalPlanBox.classList.remove('highlight-professional');
+          var sameProfessionalPlan = ('""" + str(self.subscribed_plan) + """' === 'Professional');
+          
+          console.log("[SUBSCRIPTION_DEBUG] Professional plan check:", 
+                     "plan=", '""" + str(self.subscribed_plan) + """' === 'Professional');
+                              
+          if (sameProfessionalPlan) {
+            professionalPlanBox.classList.add('highlight-professional');
+            console.log("[SUBSCRIPTION_DEBUG] Dynamic highlight added to Professional plan");
+          }
+        } else {
+          console.error("[SUBSCRIPTION_DEBUG] Could not find Professional plan box");
         }
       } catch (e) {
         console.error("[SUBSCRIPTION_DEBUG] Error applying initial plan highlighting:", e);
       }
     }, 1000); // Delay of 1 second to ensure DOM is ready
     
+    // Set up event handlers for UI controls
     (function() {
       // 1.1 Setup monthly toggle
       var monthlyBtn = document.getElementById('pricing-toggle-monthly');
@@ -340,7 +363,7 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
       console.log('[SUBSCRIPTION_DEBUG] Event handlers setup complete');
     })();
     """)
-    
+
   # 1. Create a reliable JS-to-Python call method
   def js_update_button_state(self, **event_args):
     """
@@ -516,7 +539,7 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
       console.error("[SUBSCRIPTION_DEBUG] Error in dynamic plan highlighting:", e);
     }
     """)
-    
+
   # 3. Handle Anvil Button clicks
   def choose_plan_click(self, sender, **event_args):
     """
