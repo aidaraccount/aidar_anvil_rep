@@ -504,10 +504,10 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
           # Refresh the page to reflect the changes
           anvil.js.window.location.reload()
         else:
-          alert("There was a problem cancelling your subscription. Please try again or contact support.", title="Error")
+          alert("There was a problem cancelling your subscription. Please try again or contact support at team@aidar.ai.", title="Error")
       except Exception as e:
         print(f"[SUBSCRIPTION_DEBUG] Error in cancel_subscription: {e}")
-        alert("There was a problem processing your request. Please try again later.", title="Error")
+        alert("There was a problem processing your request. Please try again or contact support at team@aidar.ai.", title="Error")
 
 
   def update_button_state(self):

@@ -293,65 +293,6 @@ def add_stripe_customer_tax_id(customer_id: str, tax_id: str, tax_id_type: str =
 
 
 @anvil.server.callable
-def cancel_subscription() -> dict:
-    """
-    1. Cancel the current subscription for the authenticated user
-    2. Returns a dict with success status and relevant information
-    
-    Returns:
-        dict: Result with keys:
-            - success (bool): Whether the cancellation was successful
-            - message (str): Descriptive message about the result
-    """
-    import stripe
-    stripe.api_key = anvil.secrets.get_secret("stripe_secret_key")
-
-    # Get the current user
-    user = anvil.users.get_user()
-    if not user:
-        return {"success": False, "message": "User not authenticated"}
-
-    try:
-        # Get user's email
-        email = user.get('email')
-        if not email:
-            return {"success": False, "message": "User email not available"}
-
-        # Find customer in Stripe
-        customer = get_stripe_customer(email)
-        if not customer or not customer.get('id'):
-            return {"success": False, "message": "No Stripe customer found for this user"}
-
-        # Find active subscriptions for this customer
-        subscriptions = stripe.Subscription.list(
-            customer=customer['id'],
-            status='active',
-            limit=1
-        )
-
-        if not subscriptions or not subscriptions.data:
-            return {"success": False, "message": "No active subscription found"}
-
-        # Cancel the subscription at period end (won't renew)
-        subscription = stripe.Subscription.modify(
-            subscriptions.data[0].id,
-            cancel_at_period_end=True
-        )
-
-        print(f"Subscription {subscription.id} will be cancelled at period end")
-        return {
-            "success": True,
-            "message": "Subscription will be cancelled at the end of the current billing period",
-            "subscription_id": subscription.id,
-            "current_period_end": subscription.current_period_end
-        }
-
-    except Exception as e:
-        print(f"Error cancelling subscription: {e}")
-        return {"success": False, "message": f"Error: {str(e)}"}
-
-
-@anvil.server.callable
 def update_subscription(target_plan: str, user_count: int, billing_period: str) -> dict:
     """
     1. Update an existing subscription with new plan, user count, or billing period
@@ -430,3 +371,76 @@ def update_subscription(target_plan: str, user_count: int, billing_period: str) 
     except Exception as e:
         print(f"Error updating subscription: {e}")
         return {"success": False, "message": f"Error: {str(e)}"}
+
+
+@anvil.server.callable
+def cancel_subscription() -> dict:
+    """
+    1. Cancel the current subscription for the authenticated user
+    2. Returns a dict with success status and relevant information
+    
+    Returns:
+        dict: Result with keys:
+            - success (bool): Whether the cancellation was successful
+            - message (str): Descriptive message about the result
+    """
+    import stripe
+    stripe.api_key = anvil.secrets.get_secret("stripe_secret_key")
+
+    # Get the current user
+    user = anvil.users.get_user()
+
+    try:
+        # Get company email
+        company = anvil.server.call('get_settings_subscription2', user['email'])
+        email = company.get('mail')
+        if not email:
+            return {"success": False, "message": "Company email not available"}
+
+        # Find customer in Stripe
+        customer = get_stripe_customer(email)
+        if not customer or not customer.get('id'):
+            return {"success": False, "message": "No Stripe customer found for this company"}
+
+        # Find active subscriptions for this customer
+        subscriptions = stripe.Subscription.list(
+            customer=customer['id'],
+            status='active',
+            limit=1
+        )
+
+        if not subscriptions or not subscriptions.data:
+            return {"success": False, "message": "No active subscription found"}
+
+        # Cancel the subscription at period end (won't renew)
+        subscription = stripe.Subscription.modify(
+            subscriptions.data[0].id,
+            cancel_at_period_end=True
+        )
+
+        print(subscription)
+        print(subscription.current_period_end)
+        print(type(subscription.current_period_end))
+
+        # Update user['expiration_date'] of all users with the same customer_id
+        users = anvil.users.get_users()
+        for any_user in users:
+            if any_user['customer_id'] == user['customer_id']:
+                any_user['expiration_date'] = subscription.current_period_end
+
+        # Update company['expiration_date']
+        company = anvil.server.call('cancel_subscription', user['customer_id'], subscription.current_period_end)
+
+        # return success
+        print(f"Subscription {subscription.id} will be cancelled at period end")
+        return {
+            "success": True,
+            "message": "Subscription will be cancelled at the end of the current billing period",
+            "subscription_id": subscription.id,
+            "current_period_end": subscription.current_period_end
+        }
+
+    except Exception as e:
+        print(f"Error cancelling subscription: {e}")
+        return {"success": False, "message": f"Error: {str(e)}"}
+

@@ -168,12 +168,6 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
     # anvil.js.window.edit_payment_click = self._edit_payment_click
     anvil.js.window.confirm_subscription_click = self._confirm_subscription_click
     anvil.js.window.close_alert = self._close_alert
-
-    # # Instance methods for Python compatibility (optional, but clearer for code completion)
-    # # self.edit_company_click = self._edit_company_click
-    # # self.edit_payment_click = self._edit_payment_click
-    # self.confirm_subscription_click = self._confirm_subscription_click
-    # self.close_alert = self._close_alert
     
 
   def _close_alert(self):
