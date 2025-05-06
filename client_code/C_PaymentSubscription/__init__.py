@@ -268,46 +268,46 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
       self.raise_event("x-close-alert")
 
 
-  def _handle_customer_form_result(self, form):
-    """
-    1. Process the result from the customer form
-    2. Update Stripe customer data
-    3. Refresh display with new information
-    """
-    # Get updated values from the form using a method or attribute that returns the data
-    # Assume form.get_customer_data() returns a dict with the fields: name, email, address, tax_id, tax_id_type
-    if hasattr(form, 'get_customer_data'):
-        data = form.get_customer_data()
-        updated_name = data.get('name')
-        updated_email = data.get('email')
-        updated_address = data.get('address')
-        updated_tax_id = data.get('tax_id')
-        tax_id_type = data.get('tax_id_type')
-    else:
-        # fallback: try to get from public attributes if get_customer_data is not implemented
-        updated_name = getattr(form, 'company_name', None)
-        updated_email = getattr(form, 'company_email', anvil.users.get_user()['email'])
-        updated_address = getattr(form, 'address', {})
-        updated_tax_id = getattr(form, 'tax_id', None)
-        tax_id_type = getattr(form, 'tax_id_type', None)
-    # Update customer info in Stripe
-    anvil.server.call(
-        'update_stripe_customer',
-        self.stripe_customer_id,
-        updated_name,
-        updated_email,
-        updated_address
-    )
-    # Update tax info if provided
-    if updated_tax_id and tax_id_type:
-        anvil.server.call(
-            'update_stripe_customer_tax_id',
-            self.stripe_customer_id,
-            updated_tax_id,
-            tax_id_type
-        )
-    # Re-fetch customer data and rerender summary by reinitializing
-    self.__init__(plan_type=self.plan_type, user_count=self.user_count, billing_period=self.billing_period)
+#   def _handle_customer_form_result(self, form):
+#     """
+#     1. Process the result from the customer form
+#     2. Update Stripe customer data
+#     3. Refresh display with new information
+#     """
+#     # Get updated values from the form using a method or attribute that returns the data
+#     # Assume form.get_customer_data() returns a dict with the fields: name, email, address, tax_id, tax_id_type
+#     if hasattr(form, 'get_customer_data'):
+#         data = form.get_customer_data()
+#         updated_name = data.get('name')
+#         updated_email = data.get('email')
+#         updated_address = data.get('address')
+#         updated_tax_id = data.get('tax_id')
+#         tax_id_type = data.get('tax_id_type')
+#     else:
+#         # fallback: try to get from public attributes if get_customer_data is not implemented
+#         updated_name = getattr(form, 'company_name', None)
+#         updated_email = getattr(form, 'company_email', anvil.users.get_user()['email'])
+#         updated_address = getattr(form, 'address', {})
+#         updated_tax_id = getattr(form, 'tax_id', None)
+#         tax_id_type = getattr(form, 'tax_id_type', None)
+#     # Update customer info in Stripe
+#     anvil.server.call(
+#         'update_stripe_customer',
+#         self.stripe_customer_id,
+#         updated_name,
+#         updated_email,
+#         updated_address
+#     )
+#     # Update tax info if provided
+#     if updated_tax_id and tax_id_type:
+#         anvil.server.call(
+#             'update_stripe_customer_tax_id',
+#             self.stripe_customer_id,
+#             updated_tax_id,
+#             tax_id_type
+#         )
+#     # Re-fetch customer data and rerender summary by reinitializing
+#     self.__init__(plan_type=self.plan_type, user_count=self.user_count, billing_period=self.billing_period)
 
 
   def get_country_name(self, code: str) -> str:

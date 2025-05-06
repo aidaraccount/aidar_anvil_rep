@@ -110,6 +110,9 @@ def update_stripe_customer_tax_id(customer_id: str, tax_id: str, tax_id_type: st
   """
     Add or update a tax ID for a Stripe customer. Handles duplicate tax ID errors gracefully.
     """
+
+  print(f"[Stripe] Updating Stripe Customer tax ID {tax_id} of type {tax_id_type} for customer {customer_id}")
+  
   import stripe
   stripe.api_key = anvil.secrets.get_secret("stripe_secret_key")
 
