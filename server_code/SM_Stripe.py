@@ -392,7 +392,7 @@ def cancel_subscription() -> dict:
 
     try:
         # Get company email
-        company = anvil.server.call('get_settings_subscription2', user['email'])
+        company = anvil.server.call('get_settings_subscription2', user['user_id'])
         email = company.get('mail')
         print('email: ', email)
         if not email:
