@@ -282,44 +282,28 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
       try {
         console.log("[SUBSCRIPTION_DEBUG] Running delayed initial plan highlighting");
         
-        // Log all plan boxes to help debug selector issues
-        var allPlans = document.querySelectorAll('.pricing-plan');
-        console.log("[SUBSCRIPTION_DEBUG] Found " + allPlans.length + " pricing plan elements");
-        
+        // Simple highlighting logic based on current subscription plan only
         var explorePlanBox = document.querySelector('.pricing-plan.left');
         var professionalPlanBox = document.querySelector('.pricing-plan.recommended');
         
-        console.log("[SUBSCRIPTION_DEBUG] Plan elements found? Explore:", !!explorePlanBox, "Professional:", !!professionalPlanBox);
+        // First, clear any existing highlights
+        if (explorePlanBox) explorePlanBox.classList.remove('highlight-explore');
+        if (professionalPlanBox) professionalPlanBox.classList.remove('highlight-professional');
         
-        if (explorePlanBox) {
-          explorePlanBox.classList.remove('highlight-explore');
-          if ('""" + str(self.subscribed_plan) + """' === 'Explore') {
-            explorePlanBox.classList.add('highlight-explore');
-            console.log("[SUBSCRIPTION_DEBUG] Initial highlighting applied to Explore plan");
-          }
-        } else {
-          console.error("[SUBSCRIPTION_DEBUG] Could not find Explore plan element");
+        // Apply highlight based only on the current subscription plan
+        var currentPlan = '""" + str(self.subscribed_plan) + """';
+        console.log("[SUBSCRIPTION_DEBUG] Applying initial highlight for plan:", currentPlan);
+        
+        if (currentPlan === 'Explore' && explorePlanBox) {
+          explorePlanBox.classList.add('highlight-explore');
+          console.log("[SUBSCRIPTION_DEBUG] Added highlight to Explore plan box");
+        } 
+        else if (currentPlan === 'Professional' && professionalPlanBox) {
+          professionalPlanBox.classList.add('highlight-professional');
+          console.log("[SUBSCRIPTION_DEBUG] Added highlight to Professional plan box");
         }
-        
-        if (professionalPlanBox) {
-          professionalPlanBox.classList.remove('highlight-professional');
-          var sameProfessionalPlan = ('""" + str(self.subscribed_plan) + """' === 'Professional' && 
-                                  '""" + str(self.subscribed_licenses) + """' === '""" + str(self.selected_licenses) + """' &&
-                                  '""" + str(self.subscribed_billing) + """' === '""" + str(self.selected_billing) + """');
-          
-          console.log("[SUBSCRIPTION_DEBUG] Professional plan check:", 
-                     "plan=", '""" + str(self.subscribed_plan) + """' === 'Professional',
-                     "licenses=", '""" + str(self.subscribed_licenses) + """' === '""" + str(self.selected_licenses) + """',
-                     "billing=", '""" + str(self.subscribed_billing) + """' === '""" + str(self.selected_billing) + """');
-          
-          if (sameProfessionalPlan) {
-            professionalPlanBox.classList.add('highlight-professional');
-            console.log("[SUBSCRIPTION_DEBUG] Initial highlighting applied to Professional plan");
-          } else {
-            console.log("[SUBSCRIPTION_DEBUG] Professional plan conditions not met for highlighting");
-          }
-        } else {
-          console.error("[SUBSCRIPTION_DEBUG] Could not find Professional plan element");
+        else {
+          console.log("[SUBSCRIPTION_DEBUG] No highlighting applied (Trial/Extended Trial or null plan)");
         }
       } catch (e) {
         console.error("[SUBSCRIPTION_DEBUG] Error applying initial plan highlighting:", e);
@@ -506,9 +490,9 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
       if (explorePlanBox) {
         explorePlanBox.classList.remove('highlight-explore');
         if ('""" + str(self.subscribed_plan) + """' === 'Explore') {
-          explorePlanBox.classList.add('highlight-explore');
+        explorePlanBox.classList.add('highlight-explore');
           console.log("[SUBSCRIPTION_DEBUG] Dynamic highlight added to Explore plan");
-        }
+      } 
       }
       
       if (professionalPlanBox) {
