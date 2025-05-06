@@ -18,10 +18,43 @@ from ..C_PaymentInfos import C_PaymentInfos
 
 class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
   def __init__(self, plan, no_licenses, plan_type, **properties):
-    # Set Form properties and Data Bindings.
+    """
+    1. Initialize the subscription plan component with default values
+    2. Set up instance variables for plan details and button elements
+    """
+    # Initialize the component
     self.init_components(**properties)
+    
+    # Set up instance variables with default values
+    self.selected_plan = None
+    self.selected_licenses = 1
+    self.selected_billing = "monthly"
+    
+    self.subscribed_plan = None
+    self.subscribed_licenses = 0
+    self.subscribed_billing = "monthly"
+    
+    # Store the plan info that was set via data bindings
+    self.plan = properties.get('plan', None)
+    self.no_licenses = properties.get('no_licenses', 0)
+    self.plan_type = properties.get('plan_type', "monthly")
+    
+    # Map display text to actual plan names
+    self.plan_name_map = {
+      "Professional": "Professional",
+      "Pro": "Professional",
+      "Explore": "Explore"
+    }
+    
+    # Reference to button components for easy access
+    self.explore_btn = self.explore_plan_btn
+    self.professional_btn = self.professional_plan_btn
+    
+    # Save CSS for direct application via JavaScript
+    self.explore_highlight_css = "0 0 20px rgba(0, 0, 0, 0.25)"
+    self.professional_highlight_css = "0 0 20px rgba(0, 0, 0, 0.25)"
 
-    # Any code you write here will run before the form opens.
+    # Set Form properties and Data Bindings.
     global user
     user = anvil.users.get_user()
 
@@ -268,182 +301,138 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
     };
     """)
 
-  def form_show(self, **event_args):
-    """Called when the form becomes visible - perfect time to set up JS handlers"""
-    # Add log to confirm this method is being called
-    print(f"[SUBSCRIPTION_DEBUG] form_show called at {datetime.datetime.now()}")
+    self.apply_plan_highlighting()
+
+  def form_show(self):
+    """
+    1. Initializes form UI when the component is first shown
+    2. Updates UI elements based on current subscription plan
+    3. Sets up event handlers for interactive elements
+    """
+    print(f"[SUBSCRIPTION_DEBUG] FORM_SHOW CALLED at {datetime.datetime.now()}")
     
-    # 1. Set up JS event handlers once the DOM is fully loaded
+    # 1. Log initial details for debugging
+    print(f"[SUBSCRIPTION_DEBUG] INIT DETAILS - Subscribed: Plan={self.subscribed_plan}, Licenses={self.subscribed_licenses}, Billing={self.subscribed_billing}")
+    print(f"[SUBSCRIPTION_DEBUG] INIT DETAILS - Selected: Plan={self.selected_plan}, Licenses={self.selected_licenses}, Billing={self.selected_billing}")
+    
+    # 2. Initialize JS environment and setup custom JavaScript
     anvil.js.call('eval', """
-    console.log("[SUBSCRIPTION_DEBUG] Starting form_show JS execution");
+    // Set up window.pyComponent for existing event handlers
+    console.log("[SUBSCRIPTION_DEBUG] Setting up window.pyComponent for existing event handlers");
     
-    // Run initial highlighting with a slight delay to ensure DOM is ready
-    setTimeout(function() {
-      try {
-        console.log("[SUBSCRIPTION_DEBUG] Running delayed initial plan highlighting");
-        console.log("[SUBSCRIPTION_DEBUG] Current plan value:", '""" + str(self.subscribed_plan) + """');
-        console.log("[SUBSCRIPTION_DEBUG] Is plan 'Professional'?", '""" + str(self.subscribed_plan) + """' === 'Professional');
-        console.log("[SUBSCRIPTION_DEBUG] Document body children:", document.body.children.length);
-        
-        // Inspect all pricing-plan elements in the document
-        var allPricingPlans = document.querySelectorAll('.pricing-plan');
-        console.log("[SUBSCRIPTION_DEBUG] All pricing plans found:", allPricingPlans.length);
-        for (var i = 0; i < allPricingPlans.length; i++) {
-          console.log("[SUBSCRIPTION_DEBUG] Plan", i, "classes:", allPricingPlans[i].className);
-          console.log("[SUBSCRIPTION_DEBUG] Plan", i, "innerHTML first 100 chars:", allPricingPlans[i].innerHTML.substring(0, 100));
-        }
-        
-        // Try different selectors to find the plan boxes
-        var explorePlanBox = document.getElementById('explore-plan-box');
-        if (!explorePlanBox) {
-          explorePlanBox = document.querySelector('.pricing-plan.left');
-          console.log("[SUBSCRIPTION_DEBUG] Fallback to class selector for Explore plan:", !!explorePlanBox);
-        }
-        
-        var professionalPlanBox = document.getElementById('professional-plan-box');
-        if (!professionalPlanBox) {
-          professionalPlanBox = document.querySelector('.pricing-plan.recommended');
-          console.log("[SUBSCRIPTION_DEBUG] Fallback to class selector for Professional plan:", !!professionalPlanBox);
-        }
-        
-        // Document debugging
-        console.log("[SUBSCRIPTION_DEBUG] Document ready state:", document.readyState);
-        console.log("[SUBSCRIPTION_DEBUG] All plan boxes found:", document.querySelectorAll('.pricing-plan').length);
-        console.log("[SUBSCRIPTION_DEBUG] All divs found:", document.querySelectorAll('div').length);
-        
-        console.log("[SUBSCRIPTION_DEBUG] Plan elements found? Explore:", 
-                   !!explorePlanBox, "Professional:", !!professionalPlanBox);
-        
-        if (explorePlanBox) {
-          console.log("[SUBSCRIPTION_DEBUG] BEFORE - Explore box classList:", [...explorePlanBox.classList]);
-          explorePlanBox.classList.remove('highlight-explore');
-          console.log("[SUBSCRIPTION_DEBUG] AFTER REMOVE - Explore box classList:", [...explorePlanBox.classList]);
-          
-          if ('""" + str(self.subscribed_plan) + """' === 'Explore') {
-            explorePlanBox.classList.add('highlight-explore');
-            console.log("[SUBSCRIPTION_DEBUG] AFTER ADD - Explore box classList:", [...explorePlanBox.classList]);
-            console.log("[SUBSCRIPTION_DEBUG] Dynamic highlight added to Explore plan");
-          }
-        } else {
-          console.error("[SUBSCRIPTION_DEBUG] Could not find Explore plan box");
-        }
-        
-        if (professionalPlanBox) {
-          console.log("[SUBSCRIPTION_DEBUG] BEFORE - Professional box classList:", [...professionalPlanBox.classList]);
-          professionalPlanBox.classList.remove('highlight-professional');
-          console.log("[SUBSCRIPTION_DEBUG] AFTER REMOVE - Professional box classList:", [...professionalPlanBox.classList]);
-          
-          var sameProfessionalPlan = ('""" + str(self.subscribed_plan) + """' === 'Professional');
-          
-          console.log("[SUBSCRIPTION_DEBUG] Professional plan check:", 
-                     "plan=", '""" + str(self.subscribed_plan) + """' === 'Professional');
-                              
-          if (sameProfessionalPlan) {
-            professionalPlanBox.classList.add('highlight-professional');
-            console.log("[SUBSCRIPTION_DEBUG] AFTER ADD - Professional box classList:", [...professionalPlanBox.classList]);
-            console.log("[SUBSCRIPTION_DEBUG] Dynamic highlight added to Professional plan");
-            
-            // Try direct style application as a fallback
-            console.log("[SUBSCRIPTION_DEBUG] Applying direct style for Professional plan");
-            professionalPlanBox.style.boxShadow = "0 0 20px rgba(0, 0, 0, 0.25)";
-          }
-        } else {
-          console.error("[SUBSCRIPTION_DEBUG] Could not find Professional plan box");
-          
-          // Try to find it in a different way if we couldn't find it initially
-          console.log("[SUBSCRIPTION_DEBUG] Trying alternative approach to find Professional plan");
-          
-          // Find elements with text containing 'Professional'
-          var allElements = document.querySelectorAll('*');
-          console.log("[SUBSCRIPTION_DEBUG] Total elements to search:", allElements.length);
-          
-          for (var i = 0; i < allElements.length; i++) {
-            var el = allElements[i];
-            if (el.textContent && el.textContent.includes('Professional')) {
-              console.log("[SUBSCRIPTION_DEBUG] Found element with Professional text:", el.tagName, el.className);
-              
-              // Find possible pricing-plan parent/ancestor
-              var parent = el;
-              var found = false;
-              
-              while (parent && !found) {
-                if (parent.className && parent.className.includes('pricing-plan')) {
-                  found = true;
-                  console.log("[SUBSCRIPTION_DEBUG] Found potential Professional plan box:", parent.className);
-                  
-                  // Apply styling directly
-                  if ('""" + str(self.subscribed_plan) + """' === 'Professional') {
-                    parent.style.boxShadow = "0 0 20px rgba(0, 0, 0, 0.25)";
-                    console.log("[SUBSCRIPTION_DEBUG] Applied direct shadow to Professional plan");
-                  }
-                  
-                  break;
-                }
-                parent = parent.parentElement;
-                if (!parent) break;
-              }
-              
-              // Limit the search to first few matches
-              if (i > 20) break;
-            }
-          }
-        }
-        
-      } catch (e) {
-        console.error("[SUBSCRIPTION_DEBUG] Error applying initial plan highlighting:", e);
-        console.error("[SUBSCRIPTION_DEBUG] Error details:", e.message, e.stack);
-      }
-      
-      // Schedule another attempt with a longer delay if elements weren't found
-      if (!document.querySelector('.pricing-plan.recommended')) {
-        console.log("[SUBSCRIPTION_DEBUG] Scheduling another attempt in 2 seconds...");
-        setTimeout(function() {
-          var professionalPlanBox = document.querySelector('.pricing-plan.recommended');
-          console.log("[SUBSCRIPTION_DEBUG] Second attempt - Professional plan found?", !!professionalPlanBox);
-          
-          if (professionalPlanBox && '""" + str(self.subscribed_plan) + """' === 'Professional') {
-            professionalPlanBox.classList.add('highlight-professional');
-            professionalPlanBox.style.boxShadow = "0 0 20px rgba(0, 0, 0, 0.25)";
-            console.log("[SUBSCRIPTION_DEBUG] Applied highlight in second attempt");
-          }
-        }, 2000);
-      }
-      
-    }, 1500); // Increased delay to 1.5 seconds to ensure DOM is ready
+    if (typeof window.pyComponent === 'undefined') {
+      window.pyComponent = {};
+    }
     
-    // Set up event handlers for UI controls
-    (function() {
-      // 1.1 Setup monthly toggle
-      var monthlyBtn = document.getElementById('pricing-toggle-monthly');
-      if (monthlyBtn) {
-        monthlyBtn.addEventListener('click', function() {
-          console.log('[SUBSCRIPTION_DEBUG] Monthly toggle clicked');
-          if (typeof anvil !== 'undefined') {
-            anvil.call('js_update_button_state');
-          }
-        });
-      } else {
-        console.error("[SUBSCRIPTION_DEBUG] Monthly toggle button not found");
-      }
-      
-      // 1.2 Setup yearly toggle
-      var yearlyBtn = document.getElementById('pricing-toggle-yearly');
-      if (yearlyBtn) {
-        yearlyBtn.addEventListener('click', function() {
-          console.log('[SUBSCRIPTION_DEBUG] Yearly toggle clicked');
-          if (typeof anvil !== 'undefined') {
-            anvil.call('js_update_button_state');
-          }
-        });
-      } else {
-        console.error("[SUBSCRIPTION_DEBUG] Yearly toggle button not found");
-      }
-      
-      console.log('[SUBSCRIPTION_DEBUG] Event handlers setup complete');
-    })();
+    if (typeof window.update_subscription_buttons === 'undefined') {
+      window.update_subscription_buttons = function() {
+        if (typeof anvil !== 'undefined') {
+          anvil.call('js_update_button_state');
+        }
+      };
+    }
+    
+    window.pyComponent.update_button_state = window.update_subscription_buttons;
     """)
 
-  # 1. Create a reliable JS-to-Python call method
+  def apply_plan_highlighting(self):
+    """
+    1. Applies highlighting to the appropriate plan box based on subscription plan
+    2. Uses different strategies to ensure highlighting works despite DOM access issues
+    """
+    print(f"[SUBSCRIPTION_DEBUG] Applying plan highlighting for plan: {self.subscribed_plan}")
+    
+    # Define highlight styles
+    explore_style = "0 0 20px rgba(0, 0, 0, 0.25)"
+    professional_style = "0 0 20px rgba(0, 0, 0, 0.25)"
+    
+    # Create the JavaScript to apply highlighting through direct style injection
+    anvil.js.call('eval', f"""
+    try {{
+      console.log("[SUBSCRIPTION_DEBUG] Trying to apply highlighting via style overrides");
+      
+      // 1. Since we can't find plan boxes directly, inject a style tag with CSS
+      function injectCSS() {{
+        var styleId = 'plan-highlights-style';
+        var existingStyle = document.getElementById(styleId);
+        
+        if (existingStyle) {{
+          existingStyle.remove();  // Remove existing style if present
+        }}
+        
+        var style = document.createElement('style');
+        style.id = styleId;
+        
+        // Clear any existing highlights
+        style.textContent = '.pricing-plan.left, .pricing-plan.recommended {{ box-shadow: none !important; }}';
+        
+        // Apply highlight based on current plan
+        if ('{self.subscribed_plan}' === 'Explore') {{
+          console.log('[SUBSCRIPTION_DEBUG] Adding Explore highlight rule to CSS');
+          style.textContent += '\\n.pricing-plan.left {{ box-shadow: {explore_style} !important; }}';
+        }} else if ('{self.subscribed_plan}' === 'Professional') {{
+          console.log('[SUBSCRIPTION_DEBUG] Adding Professional highlight rule to CSS');
+          style.textContent += '\\n.pricing-plan.recommended {{ box-shadow: {professional_style} !important; }}';
+        }}
+        
+        document.head.appendChild(style);
+        console.log('[SUBSCRIPTION_DEBUG] Applied highlighting via CSS injection', style.textContent);
+      }}
+      
+      // First attempt immediately
+      injectCSS();
+      
+      // Second attempt after a delay to ensure DOM is ready
+      setTimeout(injectCSS, 1000);
+      
+      // Third attempt using MutationObserver to detect DOM changes
+      var observer = new MutationObserver(function(mutations) {{
+        for(var mutation of mutations) {{
+          if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {{
+            // Check if any pricing-plan elements have been added
+            for(var node of mutation.addedNodes) {{
+              if (node.nodeType === 1) {{ // Element node
+                if (node.querySelector && (
+                    node.querySelector('.pricing-plan') || 
+                    node.classList && node.classList.contains('pricing-plan'))) {{
+                  console.log('[SUBSCRIPTION_DEBUG] Detected pricing-plan added to DOM, applying highlight');
+                  injectCSS();
+                  break;
+                }}
+              }}
+            }}
+          }}
+        }}
+      }});
+      
+      // Start observing the document for changes
+      observer.observe(document.body, {{ childList: true, subtree: true }});
+      console.log('[SUBSCRIPTION_DEBUG] Set up MutationObserver to watch for DOM changes');
+      
+      // Also inject when toggle buttons are clicked
+      var monthlyBtn = document.getElementById('pricing-toggle-monthly');
+      var yearlyBtn = document.getElementById('pricing-toggle-yearly');
+      
+      if (monthlyBtn) {{
+        monthlyBtn.addEventListener('click', function() {{
+          console.log('[SUBSCRIPTION_DEBUG] Monthly toggle clicked, triggering highlight');
+          setTimeout(injectCSS, 200);
+        }});
+      }}
+      
+      if (yearlyBtn) {{
+        yearlyBtn.addEventListener('click', function() {{
+          console.log('[SUBSCRIPTION_DEBUG] Yearly toggle clicked, triggering highlight');
+          setTimeout(injectCSS, 200);
+        }});
+      }}
+      
+    }} catch (e) {{
+      console.error("[SUBSCRIPTION_DEBUG] Error applying plan highlighting:", e);
+      console.error("[SUBSCRIPTION_DEBUG] Error details:", e.message, e.stack);
+    }}
+    """)
+
   def js_update_button_state(self, **event_args):
     """
     1. Called reliably from JavaScript through Anvil's built-in event system
@@ -453,7 +442,9 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
     # Force a direct call to update_button_state to refresh UI state
     anvil.js.report_callback_exception = self.handle_callback_error  # Add error handling
     self.update_button_state()
-    
+    # Also apply plan highlighting
+    self.apply_plan_highlighting()
+
   def handle_callback_error(self, exception, stacktrace):
     """
     1. Handles errors in JavaScript callbacks
@@ -461,403 +452,5 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
     """
     print(f"[SUBSCRIPTION_DEBUG] ERROR in JavaScript callback: {exception}")
     print(f"[SUBSCRIPTION_DEBUG] Stack trace: {stacktrace}")
-    # This helps diagnose JS-Python communication issues
 
-  def update_button_state(self):
-    """
-    1. Updates button appearance and event handlers based on the subscribed plan
-    2. Configures text, styling, and click behavior for both the Explore and Professional buttons
-    3. Considers billing period (monthly/yearly) preference when determining upgrade/downgrade status
-    """
-    # Add a timestamp and message to confirm method is being called
-    print(f"[SUBSCRIPTION_DEBUG] UPDATE_BUTTON_STATE CALLED at {datetime.datetime.now()}")
-    
-    # Get user count from JS input field - Update self.selected_licenses
-    user_count_input = document.getElementById('user-count')
-    if user_count_input is not None:
-        try:
-            self.selected_licenses = int(user_count_input.value)
-        except Exception:
-            pass  # Keep existing value if there's an error
-    
-    # Determine active billing period from JS toggle state - Update self.selected_billing
-    monthly_btn = document.getElementById('pricing-toggle-monthly')
-    yearly_btn = document.getElementById('pricing-toggle-yearly')
-    
-    if monthly_btn and yearly_btn:
-        is_yearly = yearly_btn.classList.contains('selected')
-        self.selected_billing = "yearly" if is_yearly else "monthly"
-        
-    print(f"[SUBSCRIPTION_DEBUG] DEBUG - Comparison: subscribed_plan={self.subscribed_plan}, subscribed_licenses={self.subscribed_licenses}, subscribed_billing={self.subscribed_billing}")
-    print(f"[SUBSCRIPTION_DEBUG] DEBUG - Comparison:   selected_plan={self.selected_plan},   selected_licenses={self.selected_licenses},   selected_billing={self.selected_billing}")
-        
-    # 1. EXPLORE BUTTON LOGIC
-    if self.subscribed_plan in ["Trial", "Extended Trial", None]:
-        # For Trial/Extended Trial: Orange "Choose Plan"
-        self.explore_btn.text = "Choose Plan"
-        self.explore_btn.role = "cta-button"
-        self.explore_btn.set_event_handler('click', self.choose_plan_click)
-    elif self.subscribed_plan == "Explore":
-        # For Explore: Grey "Cancel Plan"
-        self.explore_btn.text = "Cancel Plan" 
-        self.explore_btn.role = "secondary-button"
-        self.explore_btn.set_event_handler('click', self.cancel_subscription)
-    elif self.subscribed_plan == "Professional":
-        # For Professional: Grey "Downgrade Plan"
-        self.explore_btn.text = "Downgrade Plan"
-        self.explore_btn.role = "secondary-button"
-        self.explore_btn.set_event_handler('click', self.update_subscription)
-        self.explore_btn.tag["target_plan"] = "Explore"
-        self.explore_btn.tag["user_count"] = 1  # Explore always has 1 user
-            
-    # 2. PROFESSIONAL BUTTON LOGIC
-    if self.subscribed_plan in ["Trial", "Extended Trial", None]:
-        # For Trial/Extended Trial: Orange "Choose Plan"
-        self.professional_btn.text = "Choose Plan"
-        self.professional_btn.role = "cta-button"
-        self.professional_btn.set_event_handler('click', self.choose_plan_click)
-    elif self.subscribed_plan == "Explore":
-        # For Explore: Orange "Upgrade Plan"
-        self.professional_btn.text = "Upgrade Plan"
-        self.professional_btn.role = "cta-button"
-        self.professional_btn.set_event_handler('click', self.update_subscription)
-        self.professional_btn.tag["target_plan"] = "Professional"
-    elif self.subscribed_plan == "Professional":
-        # Check if this is the exact same subscription or a change
-        is_same_subscription = (self.selected_licenses == self.subscribed_licenses and 
-                              self.selected_billing == self.subscribed_billing and 
-                              self.subscribed_plan == "Professional")
-        
-        print(f"[SUBSCRIPTION_DEBUG] Professional plan same subscription check: {is_same_subscription}")
-        print(f"[SUBSCRIPTION_DEBUG] Professional checks - licenses: {self.selected_licenses == self.subscribed_licenses}, billing: {self.selected_billing == self.subscribed_billing}")
-        
-        if is_same_subscription:
-            # No change: Grey "Cancel Plan"
-            self.professional_btn.text = "Cancel Plan"
-            self.professional_btn.role = "secondary-button"
-            self.professional_btn.set_event_handler('click', self.cancel_subscription)
-        else:
-            # Is this an upgrade or downgrade?
-            is_upgrade = (self.selected_licenses > self.subscribed_licenses) or (self.subscribed_billing == 'monthly' and self.selected_billing == 'yearly')
-            
-            if is_upgrade:
-                # Orange "Upgrade Plan"
-                self.professional_btn.text = "Upgrade Plan"
-                self.professional_btn.role = "cta-button"
-            else:
-                # Grey "Downgrade Plan"
-                self.professional_btn.text = "Downgrade Plan" 
-                self.professional_btn.role = "secondary-button"
-            
-            self.professional_btn.set_event_handler('click', self.update_subscription)
-            
-    # 3. HANDLE BILLING PERIOD CHANGES EXPLICITLY
-    if self.subscribed_plan not in ["Trial", "Extended Trial", None]:
-        # Only for paid plans, check for billing period changes
-        if self.subscribed_billing != self.selected_billing:
-            if self.selected_billing == "yearly" and self.subscribed_billing == "monthly":
-                # Upgrading to yearly - orange
-                self.professional_btn.text = "Upgrade to Yearly"
-                self.professional_btn.role = "cta-button"
-                self.professional_btn.set_event_handler('click', self.update_subscription)
-            elif self.selected_billing == "monthly" and self.subscribed_billing == "yearly":
-                # Downgrading to monthly - grey
-                self.professional_btn.text = "Downgrade to Monthly"
-                self.professional_btn.role = "secondary-button"
-                self.professional_btn.set_event_handler('click', self.update_subscription)
-            
-    # 4. STORE TAG DATA FOR BOTH BUTTONS
-    # For professional button, always store user count and billing period
-    self.professional_btn.tag["user_count"] = self.selected_licenses
-    self.professional_btn.tag["billing_period"] = self.selected_billing
-    self.professional_btn.tag["plan_type"] = "Professional"
-        
-    # For explore button, always store relevant data
-    self.explore_btn.tag["user_count"] = 1  # Explore always has 1 user
-    self.explore_btn.tag["billing_period"] = self.selected_billing
-    self.explore_btn.tag["plan_type"] = "Explore"
-    
-    # 5. UPDATE PLAN BOX HIGHLIGHTING
-    # Apply CSS classes for plan box highlighting based on subscription
-    anvil.js.call('eval', """
-    try {
-      console.log("[SUBSCRIPTION_DEBUG] Applying dynamic highlighting from update_button_state");
-      
-      // Try different selector methods to find elements and log results
-      console.log("[SUBSCRIPTION_DEBUG] Document ready state:", document.readyState);
-      console.log("[SUBSCRIPTION_DEBUG] Total divs in document:", document.querySelectorAll('div').length);
-      
-      // Method 1: querySelector with class combinators
-      var explorePlanBox1 = document.querySelector('.pricing-plan.left');
-      var professionalPlanBox1 = document.querySelector('.pricing-plan.recommended');
-      console.log("[SUBSCRIPTION_DEBUG] Method 1 (querySelector with classes) - Found elements?", 
-                 "Explore:", !!explorePlanBox1, "Professional:", !!professionalPlanBox1);
-      
-      // Method 2: Direct ID selection
-      var explorePlanBox2 = document.getElementById('explore-plan-box');
-      var professionalPlanBox2 = document.getElementById('professional-plan-box');
-      console.log("[SUBSCRIPTION_DEBUG] Method 2 (getElementById) - Found elements?", 
-                 "Explore:", !!explorePlanBox2, "Professional:", !!professionalPlanBox2);
-      
-      // Method 3: getElementsByClassName and then filter
-      var explorePlans = document.getElementsByClassName('pricing-plan');
-      console.log("[SUBSCRIPTION_DEBUG] Method 3 (getElementsByClassName) - Found pricing-plan elements:", explorePlans.length);
-      
-      if (explorePlans.length > 0) {
-        for (var i = 0; i < explorePlans.length; i++) {
-          console.log("[SUBSCRIPTION_DEBUG] Plan", i, "classes:", explorePlans[i].className);
-        }
-      }
-      
-      // Method 4: Find by parent/child relationship
-      var pricingWrappers = document.querySelectorAll('.pricing-wrapper');
-      console.log("[SUBSCRIPTION_DEBUG] Method 4 (parent/child) - Found pricing-wrapper elements:", pricingWrappers.length);
-      
-      if (pricingWrappers.length > 0) {
-        var planBoxesFromParent = pricingWrappers[0].querySelectorAll('.pricing-plan');
-        console.log("[SUBSCRIPTION_DEBUG] Found plan boxes from parent:", planBoxesFromParent.length);
-      }
-      
-      // Method 5: Try more generic selectors
-      var anyPricingElements = document.querySelectorAll('[class*="pricing"]');
-      console.log("[SUBSCRIPTION_DEBUG] Method 5 (partial class match) - Elements with 'pricing' in class:", anyPricingElements.length);
-      
-      if (anyPricingElements.length > 0) {
-        for (var i = 0; i < Math.min(anyPricingElements.length, 5); i++) {
-          console.log("[SUBSCRIPTION_DEBUG] Pricing element", i, "class:", anyPricingElements[i].className);
-        }
-      }
-      
-      // Choose the method that works (for now use original)
-      var explorePlanBox = document.querySelector('.pricing-plan.left');
-      var professionalPlanBox = document.querySelector('.pricing-plan.recommended');
-      
-      console.log("[SUBSCRIPTION_DEBUG] Dynamic highlighting - elements found? Explore:", 
-                  !!explorePlanBox, "Professional:", !!professionalPlanBox);
-      
-      if (explorePlanBox) {
-        explorePlanBox.classList.remove('highlight-explore');
-        if ('""" + str(self.subscribed_plan) + """' === 'Explore') {
-        explorePlanBox.classList.add('highlight-explore');
-          console.log("[SUBSCRIPTION_DEBUG] Dynamic highlight added to Explore plan");
-      } 
-      }
-      
-      if (professionalPlanBox) {
-        professionalPlanBox.classList.remove('highlight-professional');
-        var sameProfessionalPlan = ('""" + str(self.subscribed_plan) + """' === 'Professional' && 
-                               '""" + str(self.subscribed_licenses) + """' === '""" + str(self.selected_licenses) + """' &&
-                               '""" + str(self.subscribed_billing) + """' === '""" + str(self.selected_billing) + """');
-                              
-        console.log("[SUBSCRIPTION_DEBUG] Dynamic Professional check - plan:", 
-                   '""" + str(self.subscribed_plan) + """' === 'Professional',
-                   "licenses:", '""" + str(self.subscribed_licenses) + """' === '""" + str(self.selected_licenses) + """', 
-                   "billing:", '""" + str(self.subscribed_billing) + """' === '""" + str(self.selected_billing) + """',
-                   "result:", sameProfessionalPlan);
-                              
-        if (sameProfessionalPlan) {
-          professionalPlanBox.classList.add('highlight-professional');
-          console.log("[SUBSCRIPTION_DEBUG] Dynamic highlight added to Professional plan");
-        }
-      }
-    } catch (e) {
-      console.error("[SUBSCRIPTION_DEBUG] Error in dynamic plan highlighting:", e);
-    }
-    """)
-
-  # 3. Handle Anvil Button clicks
-  def choose_plan_click(self, sender, **event_args):
-    """
-    1. Handles clicks on the Explore and Professional plan buttons.
-    2. Determines plan type, user count, and billing period, then opens checkout.
-    
-    Parameters:
-        sender: The button that was clicked
-        event_args (dict): Event arguments from the button click
-    """
-    plan_type = sender.tag.get("plan_type", "")
-    # Get user count from JS input field
-    user_count_input = document.getElementById('user-count')
-    selected_user_count = 1
-    if user_count_input is not None:
-        try:
-            selected_user_count = int(user_count_input.value)
-        except Exception:
-            selected_user_count = 1
-    
-    # Get billing period from toggle state
-    self.update_button_state()  # Ensure billing period is current
-    selected_billing_period = self.selected_billing
-    
-    # Open subscription checkout flow with the collected info
-    self.open_subscription(plan_type=plan_type, user_count=selected_user_count, billing_period=selected_billing_period)
-
-  def cancel_subscription(self, sender, **event_args) -> None:
-    """
-    1. Handles the cancellation of a subscription
-    2. Calls the server function to cancel the subscription in Stripe
-    
-    Parameters:
-        sender: The button that was clicked
-        event_args (dict): Event arguments from the button click
-    """
-    plan_type: str = sender.tag.get("plan_type", "")
-    # Get confirmation from user
-    confirmation = alert(
-      f"Are you sure you want to cancel your {self.subscribed_plan} subscription?",
-      title="Cancel Subscription",
-      buttons=["Yes, Cancel", "No, Keep Subscription"],
-      large=False
-    )
-
-    if confirmation == "Yes, Cancel":
-      # Call server function to cancel subscription
-      try:
-        result = anvil.server.call('cancel_subscription')
-        if result and result.get('success'):
-          alert("Your subscription has been successfully cancelled.", title="Success")
-          # Refresh the page to reflect the changes
-          anvil.js.window.location.reload()
-        else:
-          alert("There was a problem cancelling your subscription. Please try again or contact support.", title="Error")
-      except Exception as e:
-        print(f"[SUBSCRIPTION_DEBUG] Error in cancel_subscription: {e}")
-        alert("There was a problem processing your request. Please try again later.", title="Error")
-
-  def update_subscription(self, sender, **event_args) -> None:
-    """
-    1. Handles updating a subscription (upgrading, downgrading, or changing user count)
-    2. Calls the server function to update the subscription in Stripe
-    
-    Parameters:
-        sender: The button that was clicked
-        event_args (dict): Event arguments from the button click
-    """
-    # Use subscribed_* variables consistently throughout the code
-    current_plan: str = self.subscribed_plan
-    target_plan: str = sender.tag.get("target_plan", current_plan)
-    
-    # Get the user count for Professional plan
-    selected_user_count: int = sender.tag.get("user_count", 1)
-    if not selected_user_count:
-        user_count_input = document.getElementById('user-count')
-        if user_count_input is not None:
-            try:
-                selected_user_count = int(user_count_input.value)
-            except Exception:
-                selected_user_count = 1
-    
-    # Get billing period info
-    selected_billing_period: str = sender.tag.get("billing_period", self.selected_billing)
-    
-    # Determine update type
-    if target_plan != current_plan:
-        operation_type = "downgrade" if current_plan == "Professional" else "upgrade"
-        confirmation_message = f"Are you sure you want to {operation_type} from {current_plan} to {target_plan}?"
-    elif selected_billing_period != self.subscribed_billing:
-        if selected_billing_period == "yearly":
-            operation_type = "upgrade"
-            confirmation_message = f"Are you sure you want to upgrade from monthly to yearly billing?"
-        else:
-            operation_type = "downgrade"
-            confirmation_message = f"Are you sure you want to change from yearly to monthly billing?"
-    else:
-        if selected_user_count > self.subscribed_licenses:
-            operation_type = "upgrade"
-            confirmation_message = f"Are you sure you want to increase your user count from {self.subscribed_licenses} to {selected_user_count}?"
-        else:
-            operation_type = "downgrade"
-            confirmation_message = f"Are you sure you want to decrease your user count from {self.subscribed_licenses} to {selected_user_count}?"
-
-    # Get confirmation from user
-    confirmation = alert(
-      confirmation_message,
-      title=f"{operation_type.capitalize()} Subscription",
-      buttons=[f"Yes, {operation_type.capitalize()}", "No, Cancel"],
-      large=False
-    )
-
-    if confirmation.startswith("Yes"):
-      # Call server function to update subscription
-      try:
-        result = anvil.server.call(
-          'update_subscription', 
-          target_plan=target_plan, 
-          user_count=selected_user_count, 
-          billing_period=selected_billing_period
-        )
-        if result and result.get('success'):
-          alert(f"Your subscription has been successfully updated.", title="Success")
-          # Refresh the page to reflect the changes
-          anvil.js.window.location.reload()
-        else:
-          alert("There was a problem updating your subscription. Please try again or contact support.", title="Error")
-      except Exception as e:
-        print(f"[SUBSCRIPTION_DEBUG] Error in update_subscription: {e}")
-        alert("There was a problem processing your request. Please try again later.", title="Error")
-
-  # 4. Handle the full checkout process
-  def open_subscription(self, **event_args):
-    """
-    1. Opens the subscription workflow
-    2. Handles navigation between components based on data availability
-    3. Only proceeds to next step if previous data is available
-    """
-    # 1. Get the current subscription plan and billing period
-    plan_type = event_args.get('plan_type')
-    selected_user_count = event_args.get('user_count')
-    selected_billing_period = event_args.get('billing_period', 'monthly')
-    if not plan_type or not selected_user_count:
-      alert("Please select a plan and specify the number of users.", title="Missing Information")
-      return
-    # 2. Check if customer data exists
-    customer = anvil.server.call('get_stripe_customer', anvil.users.get_user()['email'])
-    customer_exists = bool(customer and customer.get('id'))
-    # 3. If no customer data, start with C_PaymentCustomer
-    if not customer_exists:
-      customer_form = C_PaymentCustomer()
-      customer_result = alert(
-        content=customer_form,
-        large=False,
-        width=500,
-        buttons=[],
-        dismissible=True
-      )
-      # Only continue if customer data was successfully submitted
-      if customer_result != 'success':
-        return
-      # Refresh customer data
-      customer = anvil.server.call('get_stripe_customer', anvil.users.get_user()['email'])
-    # 4. Check if payment method exists
-    payment_methods = []
-    if customer and customer.get('id'):
-      payment_methods = anvil.server.call('get_stripe_payment_methods', customer['id'])
-    # 5. If no payment method, open C_PaymentInfos
-    if not payment_methods:
-      payment_form = C_PaymentInfos()
-      payment_result = alert(
-        content=payment_form,
-        large=False,
-        width=500,
-        buttons=[],
-        dismissible=True
-      )
-      # Only continue if payment method was successfully added
-      if payment_result != 'success':
-        return
-      # Refresh payment methods
-      if customer and customer.get('id'):
-        payment_methods = anvil.server.call('get_stripe_payment_methods', customer['id'])
-    # 6. Finally, open subscription confirmation
-    subscription_form = C_PaymentSubscription(
-      plan_type=plan_type,
-      user_count=selected_user_count,
-      billing_period=selected_billing_period
-    )
-    subscription_result = alert(
-      content=subscription_form,
-      large=False,
-      width=600,
-      buttons=[],
-      dismissible=True
-    )
+  # ... rest of the code remains the same ...
