@@ -119,21 +119,7 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
     if not hasattr(self, 'payment_method_summary'):
         self.payment_method_summary = "No payment method on file."
 
-
-    # --- 4. BASE ---    
-    # Register JS-callable methods directly to instance methods
-    # anvil.js.window.edit_company_click = self._edit_company_click
-    # anvil.js.window.edit_payment_click = self._edit_payment_click
-    anvil.js.window.confirm_subscription_click = self._confirm_subscription_click
-    anvil.js.window.cancel_btn_click = self._cancel_btn_click
-
-    # Instance methods for Python compatibility (optional, but clearer for code completion)
-    # self.edit_company_click = self._edit_company_click
-    # self.edit_payment_click = self._edit_payment_click
-    self.confirm_subscription_click = self._confirm_subscription_click
-    self.cancel_btn_click = self._cancel_btn_click
-    
-    # --- HTML ---
+    # --- 4. HTML ---
     self.html = f"""
     <div id='payment-form-container'>
       <h2>Confirm Subscription</h2>
@@ -167,31 +153,32 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
         <button type="button" id="cancel-btn">Cancel</button>
         <button id="submit" type="submit">Book Subscription now ({self.price_submit})</button>
       </div>
-      <script>
-        
-        // Direct method to properly close the modal from JS
-        window.cancel_btn_click = function() {{
-            try {{
-                document.dispatchEvent(new CustomEvent('x-close-alert'));
-            }} catch(e) {{
-                // Try several other methods
-                try {{ 
-                    document.querySelector('.anvil-alert-dismiss-btn').click();
-                }} catch(e) {{
-                    console.log('No dismiss button found:', e);
-                }}
-            }}
-        }};
-        
+      <script>        
         <!--document.getElementById('edit-company').onclick = function() {{ window.edit_company_click && window.edit_company_click(); }};-->
         <!--document.getElementById('edit-payment').onclick = function() {{ window.edit_payment_click && window.edit_payment_click(); }};-->
-        document.getElementById('cancel-btn').onclick = function() {{
-            window.cancel_btn_click && window.cancel_btn_click();
-        }};
+        document.getElementById('cancel-btn').onclick = function() {{ window.close_alert(); }};
         document.getElementById('submit').onclick = function() {{ window.confirm_subscription_click && window.confirm_subscription_click(); }};
       </script>
     </div>
     """
+
+
+    # --- 5. REGISTER JS-CALLABLE METHODS ---
+    # anvil.js.window.edit_company_click = self._edit_company_click
+    # anvil.js.window.edit_payment_click = self._edit_payment_click
+    anvil.js.window.confirm_subscription_click = self._confirm_subscription_click
+    anvil.js.window.close_alert = self._close_alert
+
+    # # Instance methods for Python compatibility (optional, but clearer for code completion)
+    # # self.edit_company_click = self._edit_company_click
+    # # self.edit_payment_click = self._edit_payment_click
+    # self.confirm_subscription_click = self._confirm_subscription_click
+    # self.close_alert = self._close_alert
+    
+
+  def _close_alert(self):
+    """Close the alert dialog from JS."""
+    self.raise_event('x-close-alert')
 
 
 #   def _edit_company_click(self, **event_args):
@@ -258,14 +245,6 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
         
       except Exception as e:
         alert(f"Failed to create subscription: {e}", title="Error")
-
-
-  def _cancel_btn_click(self, **event_args):
-      """Closes the modal popup when the Cancel button is clicked."""
-      print("[AIDAR_SUBSCRIPTION_LOG] _cancel_btn_click called. Closing modal.")
-      import traceback
-      print("[AIDAR_SUBSCRIPTION_LOG] _cancel_btn_click STACKTRACE:\n" + traceback.format_exc())
-      self.raise_event("x-close-alert")
 
 
 #   def _handle_customer_form_result(self, form):

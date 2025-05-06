@@ -196,7 +196,7 @@ class C_PaymentCustomer(C_PaymentCustomerTemplate):
             document.getElementById('form-errors').textContent = 'Internal error: callback not found.';
         }}
     }});
-    
+
     document.getElementById('cancel-btn').onclick = function() {{ window.close_alert(); }};
     </script>
     """
@@ -205,7 +205,6 @@ class C_PaymentCustomer(C_PaymentCustomerTemplate):
     anvil.js.window.customer_ready = self._customer_ready
     anvil.js.window.close_alert = self._close_alert
     
-    self._close_on_success = True
 
   def _close_alert(self):
     """Close the alert dialog from JS."""
