@@ -531,6 +531,52 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
     try {
       console.log("[SUBSCRIPTION_DEBUG] Applying dynamic highlighting from update_button_state");
       
+      // Try different selector methods to find elements and log results
+      console.log("[SUBSCRIPTION_DEBUG] Document ready state:", document.readyState);
+      console.log("[SUBSCRIPTION_DEBUG] Total divs in document:", document.querySelectorAll('div').length);
+      
+      // Method 1: querySelector with class combinators
+      var explorePlanBox1 = document.querySelector('.pricing-plan.left');
+      var professionalPlanBox1 = document.querySelector('.pricing-plan.recommended');
+      console.log("[SUBSCRIPTION_DEBUG] Method 1 (querySelector with classes) - Found elements?", 
+                 "Explore:", !!explorePlanBox1, "Professional:", !!professionalPlanBox1);
+      
+      // Method 2: Direct ID selection
+      var explorePlanBox2 = document.getElementById('explore-plan-box');
+      var professionalPlanBox2 = document.getElementById('professional-plan-box');
+      console.log("[SUBSCRIPTION_DEBUG] Method 2 (getElementById) - Found elements?", 
+                 "Explore:", !!explorePlanBox2, "Professional:", !!professionalPlanBox2);
+      
+      // Method 3: getElementsByClassName and then filter
+      var explorePlans = document.getElementsByClassName('pricing-plan');
+      console.log("[SUBSCRIPTION_DEBUG] Method 3 (getElementsByClassName) - Found pricing-plan elements:", explorePlans.length);
+      
+      if (explorePlans.length > 0) {
+        for (var i = 0; i < explorePlans.length; i++) {
+          console.log("[SUBSCRIPTION_DEBUG] Plan", i, "classes:", explorePlans[i].className);
+        }
+      }
+      
+      // Method 4: Find by parent/child relationship
+      var pricingWrappers = document.querySelectorAll('.pricing-wrapper');
+      console.log("[SUBSCRIPTION_DEBUG] Method 4 (parent/child) - Found pricing-wrapper elements:", pricingWrappers.length);
+      
+      if (pricingWrappers.length > 0) {
+        var planBoxesFromParent = pricingWrappers[0].querySelectorAll('.pricing-plan');
+        console.log("[SUBSCRIPTION_DEBUG] Found plan boxes from parent:", planBoxesFromParent.length);
+      }
+      
+      // Method 5: Try more generic selectors
+      var anyPricingElements = document.querySelectorAll('[class*="pricing"]');
+      console.log("[SUBSCRIPTION_DEBUG] Method 5 (partial class match) - Elements with 'pricing' in class:", anyPricingElements.length);
+      
+      if (anyPricingElements.length > 0) {
+        for (var i = 0; i < Math.min(anyPricingElements.length, 5); i++) {
+          console.log("[SUBSCRIPTION_DEBUG] Pricing element", i, "class:", anyPricingElements[i].className);
+        }
+      }
+      
+      // Choose the method that works (for now use original)
       var explorePlanBox = document.querySelector('.pricing-plan.left');
       var professionalPlanBox = document.querySelector('.pricing-plan.recommended');
       
