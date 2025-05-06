@@ -50,7 +50,7 @@ class Discover(DiscoverTemplate):
         self.refresh_sug()
         
     elif user['expiration_date'] is not None and (datetime.today().date() - user['expiration_date']).days > 0:
-      routing.set_url_hash('no_subs', load_from_cache=False)
+      routing.set_url_hash('settings?section=Subscription', load_from_cache=False)
       get_open_form().SearchBar.visible = False
       
     else:
