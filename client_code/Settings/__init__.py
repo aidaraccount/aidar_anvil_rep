@@ -123,6 +123,7 @@ class Settings(SettingsTemplate):
     elif section == 'pay':
       self.sec_pay.visible = True
 
+
   # -----------------------
   # 1. INIT - NAVIGATION ACCOUNT SETTINGS
   def nav_account_click(self, **event_args):
@@ -182,13 +183,6 @@ class Settings(SettingsTemplate):
   def nav_sub_click(self, **event_args):
     self._set_nav_section('sub')
     
-    # load data
-    sub_data = json.loads(anvil.server.call('get_settings_subscription2', user["user_id"]))[0]
-    print(sub_data)
-
-    frequency = sub_data['frequency'] if 'frequency' in sub_data else None
-    no_licenses = sub_data['no_licenses'] if 'no_licenses' in sub_data else None
-    
     # a) Subscription Status
     if user["expiration_date"] is not None and user["expiration_date"] < date.today():
       # I. no subscription
@@ -240,7 +234,7 @@ class Settings(SettingsTemplate):
       self.plan_header.text = 'Activate Subscription Plan'
       self.plan_desc.text = 'Subscribe now and your subscription will start after your free trial ends.'
       self.sub_plan.clear()
-      self.sub_plan.add_component(C_SubscriptionPlan(plan=user["plan"], no_licenses=None, frequency=frequency))
+      self.sub_plan.add_component(C_SubscriptionPlan(plan=user["plan"], no_licenses=None, frequency=None))
 
     
     elif user["plan"] in ['Explore', 'Professional'] and (user["expiration_date"] is None or user["expiration_date"] >= date.today()):
@@ -262,7 +256,13 @@ class Settings(SettingsTemplate):
       else:
         self.admin.text = 'no'
 
-      # plan
+      # b) plan
+      # load data
+      sub_data = json.loads(anvil.server.call('get_settings_subscription2', user["user_id"]))[0]
+      no_licenses = sub_data['no_licenses'] if 'no_licenses' in sub_data else None
+      frequency = sub_data['frequency'] if 'frequency' in sub_data else None
+
+      # add component
       self.sub_plan.clear()
       self.sub_plan.add_component(C_SubscriptionPlan(plan=user["plan"], no_licenses=no_licenses, frequency=frequency))
 
@@ -276,12 +276,12 @@ class Settings(SettingsTemplate):
     self._set_nav_section('user')
  
     # load data
-    sub_data = self.get_data()
-    # print(sub_data)
+    user_data = self.get_data()
+    # print(user_data)
     
     # Summary
-    if sub_data:
-      sum_data = json.loads(sub_data['summary'])[0]
+    if user_data:
+      sum_data = json.loads(user_data['summary'])[0]
       admin_text = 'admin' if sum_data['admin_count'] == 1 else 'admins'
       self.summary.text = f"{sum_data['active_count']}/{sum_data['no_licenses']} accounts in use - {sum_data['admin_count']} {admin_text}"
     
@@ -292,7 +292,7 @@ class Settings(SettingsTemplate):
         component.role = ['table_header_center']
 
     # add data to table
-    table_data = json.loads(sub_data['table'])
+    table_data = json.loads(user_data['table'])
     table_data = [
       {
         **entry, 
@@ -307,10 +307,11 @@ class Settings(SettingsTemplate):
     self.users_data.items = [{'data': item, 'settings_page': self} for item in table_data]
     
     # b) User Invite
-    inv_data = json.loads(sub_data['invite'])[0]
+    inv_data = json.loads(user_data['invite'])[0]
     self.key.text = inv_data['license_key']
     self.link.text = f"app.aidar.ai/#register?license_key={inv_data['license_key']}"
   
+
   # -----------------------
   # 5. INIT - PAYMENT
   def nav_pay_click(self, **event_args):
@@ -565,8 +566,8 @@ class Settings(SettingsTemplate):
   # 4. ACTIONS - USER MANAGEMENT
   # a) User Roles & Permissions
   def search_user_click(self, **event_args):
-    sub_data = self.get_data()    
-    table_data = json.loads(sub_data['table'])
+    user_data = self.get_data()    
+    table_data = json.loads(user_data['table'])
     table_data = [
       {
         **entry, 
@@ -645,6 +646,7 @@ class Settings(SettingsTemplate):
       self.mail_enters.text = ''
       self.sent_invite.role = ['pos-abs-bottom', 'header-6', 'call-to-action-button-disabled']
       self.nav_user_click()
+
 
   # -----------------------
   # 5. ACTIONS - PAYMENT
