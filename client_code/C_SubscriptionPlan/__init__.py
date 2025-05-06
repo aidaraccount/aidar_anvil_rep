@@ -9,6 +9,7 @@ from anvil.tables import app_tables
 from anvil import Button, alert
 import anvil.js
 from anvil.js.window import document
+import datetime
 
 from ..C_PaymentSubscription import C_PaymentSubscription
 from ..C_PaymentCustomer import C_PaymentCustomer
@@ -269,73 +270,26 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
 
   def form_show(self, **event_args):
     """Called when the form becomes visible - perfect time to set up JS handlers"""
+    # Add log to confirm this method is being called
+    print(f"[SUBSCRIPTION_DEBUG] form_show called at {datetime.datetime.now()}")
+    
     # 1. Set up JS event handlers once the DOM is fully loaded
     anvil.js.call('eval', """
-    (function() {
-      // 1.1 Setup monthly toggle
-      var monthlyBtn = document.getElementById('pricing-toggle-monthly');
-      if (monthlyBtn) {
-        monthlyBtn.addEventListener('click', function() {
-          console.log('Monthly clicked');
-          if (typeof anvil !== 'undefined') {
-            anvil.call('js_update_button_state');
-          }
-        });
-      }
-      
-      // 1.2 Setup yearly toggle
-      var yearlyBtn = document.getElementById('pricing-toggle-yearly');
-      if (yearlyBtn) {
-        yearlyBtn.addEventListener('click', function() {
-          console.log('Yearly clicked');
-          if (typeof anvil !== 'undefined') {
-            anvil.call('js_update_button_state');
-          }
-        });
-      }
-      
-      // 1.3 Setup user count input
-      var userInput = document.getElementById('user-count');
-      if (userInput) {
-        userInput.addEventListener('input', function() {
-          console.log('User count changed');
-          if (typeof anvil !== 'undefined') {
-            anvil.call('js_update_button_state');
-          }
-        });
-      }
-      
-      // 1.4 Setup plus and minus buttons
-      var plusBtn = document.getElementById('user-plus');
-      var minusBtn = document.getElementById('user-minus');
-      
-      if (plusBtn) {
-        plusBtn.addEventListener('click', function() {
-          console.log('Plus clicked');
-          setTimeout(function() {
-            if (typeof anvil !== 'undefined') {
-              anvil.call('js_update_button_state');
-            }
-          }, 100);
-        });
-      }
-      
-      if (minusBtn) {
-        minusBtn.addEventListener('click', function() {
-          console.log('Minus clicked');
-          setTimeout(function() {
-            if (typeof anvil !== 'undefined') {
-              anvil.call('js_update_button_state');
-            }
-          }, 100);
-        });
-      }
-      
-      // 1.5 Initial plan highlighting when the page first loads
+    console.log("[SUBSCRIPTION_DEBUG] Starting form_show JS execution");
+    
+    // Run initial highlighting with a slight delay to ensure DOM is ready
+    setTimeout(function() {
       try {
-        console.log("[SUBSCRIPTION_DEBUG] Running initial plan highlighting");
+        console.log("[SUBSCRIPTION_DEBUG] Running delayed initial plan highlighting");
+        
+        // Log all plan boxes to help debug selector issues
+        var allPlans = document.querySelectorAll('.pricing-plan');
+        console.log("[SUBSCRIPTION_DEBUG] Found " + allPlans.length + " pricing plan elements");
+        
         var explorePlanBox = document.querySelector('.pricing-plan.left');
         var professionalPlanBox = document.querySelector('.pricing-plan.recommended');
+        
+        console.log("[SUBSCRIPTION_DEBUG] Plan elements found? Explore:", !!explorePlanBox, "Professional:", !!professionalPlanBox);
         
         if (explorePlanBox) {
           explorePlanBox.classList.remove('highlight-explore');
@@ -343,6 +297,8 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
             explorePlanBox.classList.add('highlight-explore');
             console.log("[SUBSCRIPTION_DEBUG] Initial highlighting applied to Explore plan");
           }
+        } else {
+          console.error("[SUBSCRIPTION_DEBUG] Could not find Explore plan element");
         }
         
         if (professionalPlanBox) {
@@ -350,19 +306,57 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
           var sameProfessionalPlan = ('""" + str(self.subscribed_plan) + """' === 'Professional' && 
                                   '""" + str(self.subscribed_licenses) + """' === '""" + str(self.selected_licenses) + """' &&
                                   '""" + str(self.subscribed_billing) + """' === '""" + str(self.selected_billing) + """');
+          
+          console.log("[SUBSCRIPTION_DEBUG] Professional plan check:", 
+                     "plan=", '""" + str(self.subscribed_plan) + """' === 'Professional',
+                     "licenses=", '""" + str(self.subscribed_licenses) + """' === '""" + str(self.selected_licenses) + """',
+                     "billing=", '""" + str(self.subscribed_billing) + """' === '""" + str(self.selected_billing) + """');
+          
           if (sameProfessionalPlan) {
             professionalPlanBox.classList.add('highlight-professional');
             console.log("[SUBSCRIPTION_DEBUG] Initial highlighting applied to Professional plan");
+          } else {
+            console.log("[SUBSCRIPTION_DEBUG] Professional plan conditions not met for highlighting");
           }
+        } else {
+          console.error("[SUBSCRIPTION_DEBUG] Could not find Professional plan element");
         }
       } catch (e) {
         console.error("[SUBSCRIPTION_DEBUG] Error applying initial plan highlighting:", e);
       }
+    }, 1000); // Delay of 1 second to ensure DOM is ready
+    
+    (function() {
+      // 1.1 Setup monthly toggle
+      var monthlyBtn = document.getElementById('pricing-toggle-monthly');
+      if (monthlyBtn) {
+        monthlyBtn.addEventListener('click', function() {
+          console.log('[SUBSCRIPTION_DEBUG] Monthly toggle clicked');
+          if (typeof anvil !== 'undefined') {
+            anvil.call('js_update_button_state');
+          }
+        });
+      } else {
+        console.error("[SUBSCRIPTION_DEBUG] Monthly toggle button not found");
+      }
       
-      console.log('Event handlers setup complete');
+      // 1.2 Setup yearly toggle
+      var yearlyBtn = document.getElementById('pricing-toggle-yearly');
+      if (yearlyBtn) {
+        yearlyBtn.addEventListener('click', function() {
+          console.log('[SUBSCRIPTION_DEBUG] Yearly toggle clicked');
+          if (typeof anvil !== 'undefined') {
+            anvil.call('js_update_button_state');
+          }
+        });
+      } else {
+        console.error("[SUBSCRIPTION_DEBUG] Yearly toggle button not found");
+      }
+      
+      console.log('[SUBSCRIPTION_DEBUG] Event handlers setup complete');
     })();
     """)
-
+    
   # 1. Create a reliable JS-to-Python call method
   def js_update_button_state(self, **event_args):
     """
@@ -390,7 +384,6 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
     3. Considers billing period (monthly/yearly) preference when determining upgrade/downgrade status
     """
     # Add a timestamp and message to confirm method is being called
-    import datetime
     print(f"[SUBSCRIPTION_DEBUG] UPDATE_BUTTON_STATE CALLED at {datetime.datetime.now()}")
     
     # Get user count from JS input field - Update self.selected_licenses
@@ -414,38 +407,43 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
         
     # 1. EXPLORE BUTTON LOGIC
     if self.subscribed_plan in ["Trial", "Extended Trial", None]:
-        # Orange "Choose Plan" button to get started
+        # For Trial/Extended Trial: Orange "Choose Plan"
         self.explore_btn.text = "Choose Plan"
         self.explore_btn.role = "cta-button"
         self.explore_btn.set_event_handler('click', self.choose_plan_click)
     elif self.subscribed_plan == "Explore":
-        # Grey "Cancel Plan" if currently on Explore
+        # For Explore: Grey "Cancel Plan"
         self.explore_btn.text = "Cancel Plan" 
         self.explore_btn.role = "secondary-button"
         self.explore_btn.set_event_handler('click', self.cancel_subscription)
     elif self.subscribed_plan == "Professional":
-        # Grey "Downgrade Plan" if on Professional
+        # For Professional: Grey "Downgrade Plan"
         self.explore_btn.text = "Downgrade Plan"
         self.explore_btn.role = "secondary-button"
         self.explore_btn.set_event_handler('click', self.update_subscription)
         self.explore_btn.tag["target_plan"] = "Explore"
         self.explore_btn.tag["user_count"] = 1  # Explore always has 1 user
-        
+            
     # 2. PROFESSIONAL BUTTON LOGIC
     if self.subscribed_plan in ["Trial", "Extended Trial", None]:
-        # Orange "Choose Plan" button to get started
+        # For Trial/Extended Trial: Orange "Choose Plan"
         self.professional_btn.text = "Choose Plan"
         self.professional_btn.role = "cta-button"
         self.professional_btn.set_event_handler('click', self.choose_plan_click)
     elif self.subscribed_plan == "Explore":
-        # Orange "Upgrade Plan" when coming from Explore
+        # For Explore: Orange "Upgrade Plan"
         self.professional_btn.text = "Upgrade Plan"
         self.professional_btn.role = "cta-button"
         self.professional_btn.set_event_handler('click', self.update_subscription)
         self.professional_btn.tag["target_plan"] = "Professional"
     elif self.subscribed_plan == "Professional":
         # Check if this is the exact same subscription or a change
-        is_same_subscription = (self.selected_licenses == self.subscribed_licenses and self.selected_billing == self.subscribed_billing and self.subscribed_plan == "Professional")
+        is_same_subscription = (self.selected_licenses == self.subscribed_licenses and 
+                              self.selected_billing == self.subscribed_billing and 
+                              self.subscribed_plan == "Professional")
+        
+        print(f"[SUBSCRIPTION_DEBUG] Professional plan same subscription check: {is_same_subscription}")
+        print(f"[SUBSCRIPTION_DEBUG] Professional checks - licenses: {self.selected_licenses == self.subscribed_licenses}, billing: {self.selected_billing == self.subscribed_billing}")
         
         if is_same_subscription:
             # No change: Grey "Cancel Plan"
@@ -497,30 +495,44 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
     # Apply CSS classes for plan box highlighting based on subscription
     anvil.js.call('eval', """
     try {
+      console.log("[SUBSCRIPTION_DEBUG] Applying dynamic highlighting from update_button_state");
+      
       var explorePlanBox = document.querySelector('.pricing-plan.left');
       var professionalPlanBox = document.querySelector('.pricing-plan.recommended');
+      
+      console.log("[SUBSCRIPTION_DEBUG] Dynamic highlighting - elements found? Explore:", 
+                  !!explorePlanBox, "Professional:", !!professionalPlanBox);
       
       if (explorePlanBox) {
         explorePlanBox.classList.remove('highlight-explore');
         if ('""" + str(self.subscribed_plan) + """' === 'Explore') {
           explorePlanBox.classList.add('highlight-explore');
+          console.log("[SUBSCRIPTION_DEBUG] Dynamic highlight added to Explore plan");
         }
       }
       
       if (professionalPlanBox) {
         professionalPlanBox.classList.remove('highlight-professional');
         var sameProfessionalPlan = ('""" + str(self.subscribed_plan) + """' === 'Professional' && 
-                                '""" + str(self.subscribed_licenses) + """' === '""" + str(self.selected_licenses) + """' &&
-                                '""" + str(self.subscribed_billing) + """' === '""" + str(self.selected_billing) + """');
+                               '""" + str(self.subscribed_licenses) + """' === '""" + str(self.selected_licenses) + """' &&
+                               '""" + str(self.subscribed_billing) + """' === '""" + str(self.selected_billing) + """');
+                              
+        console.log("[SUBSCRIPTION_DEBUG] Dynamic Professional check - plan:", 
+                   '""" + str(self.subscribed_plan) + """' === 'Professional',
+                   "licenses:", '""" + str(self.subscribed_licenses) + """' === '""" + str(self.selected_licenses) + """', 
+                   "billing:", '""" + str(self.subscribed_billing) + """' === '""" + str(self.selected_billing) + """',
+                   "result:", sameProfessionalPlan);
+                              
         if (sameProfessionalPlan) {
           professionalPlanBox.classList.add('highlight-professional');
+          console.log("[SUBSCRIPTION_DEBUG] Dynamic highlight added to Professional plan");
         }
       }
     } catch (e) {
-      console.error("[SUBSCRIPTION_DEBUG] Error updating plan highlighting:", e);
+      console.error("[SUBSCRIPTION_DEBUG] Error in dynamic plan highlighting:", e);
     }
     """)
-
+    
   # 3. Handle Anvil Button clicks
   def choose_plan_click(self, sender, **event_args):
     """
