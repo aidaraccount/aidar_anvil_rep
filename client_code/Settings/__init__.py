@@ -183,7 +183,11 @@ class Settings(SettingsTemplate):
     self._set_nav_section('sub')
     
     # load data
-    # not needed as its part of Users
+    sub_data = json.loads(anvil.server.call('get_settings_subscription2', user["user_id"]))[0]
+    print(sub_data)
+
+    plan_type = sub_data['plan_type'] if 'plan_type' in sub_data else None
+    no_licenses = sub_data['no_licenses'] if 'no_licenses' in sub_data else None
     
     # a) Subscription Status
     if user["expiration_date"] is not None and user["expiration_date"] < date.today():
@@ -236,7 +240,7 @@ class Settings(SettingsTemplate):
       self.plan_header.text = 'Activate Subscription Plan'
       self.plan_desc.text = 'Subscribe now and your subscription will start after your free trial ends.'
       self.sub_plan.clear()
-      self.sub_plan.add_component(C_SubscriptionPlan(plan=user["plan"], no_licenses=None, plan_type='yearly'))
+      self.sub_plan.add_component(C_SubscriptionPlan(plan=user["plan"], no_licenses=None, plan_type=plan_type))
 
     
     elif user["plan"] in ['Explore', 'Professional'] and (user["expiration_date"] is None or user["expiration_date"] >= date.today()):
@@ -260,7 +264,7 @@ class Settings(SettingsTemplate):
 
       # plan
       self.sub_plan.clear()
-      self.sub_plan.add_component(C_SubscriptionPlan(plan=user["plan"], no_licenses=3, plan_type='yearly'))
+      self.sub_plan.add_component(C_SubscriptionPlan(plan=user["plan"], no_licenses=no_licenses, plan_type=plan_type))
 
     
   # -----------------------
