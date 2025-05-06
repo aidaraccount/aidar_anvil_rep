@@ -341,9 +341,9 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
     """
     print(f"[SUBSCRIPTION_DEBUG] Applying plan highlighting for plan: {self.subscribed_plan}")
     
-    # Define highlight styles
-    explore_style = "0 0 20px rgba(0, 0, 0, 0.25)"
-    professional_style = "0 0 20px rgba(0, 0, 0, 0.25)"
+    # Define highlight styles - more pronounced to ensure visibility
+    explore_style = "0 0 25px 5px rgba(0, 100, 255, 0.35)"
+    professional_style = "0 0 25px 5px rgba(255, 100, 0, 0.35)"
     
     # Create the JavaScript to apply highlighting through direct style injection
     anvil.js.call('eval', f"""
@@ -361,31 +361,53 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
         
         var style = document.createElement('style');
         style.id = styleId;
-        
-        // Clear any existing highlights
-        style.textContent = '.pricing-plan.left, .pricing-plan.recommended {{ box-shadow: none !important; }}';
-        
-        // Apply highlight based on current plan
-        if ('{self.subscribed_plan}' === 'Explore') {{
-          console.log('[SUBSCRIPTION_DEBUG] Adding Explore highlight rule to CSS');
-          style.textContent += '\\n.pricing-plan.left {{ box-shadow: {explore_style} !important; }}';
-        }} else if ('{self.subscribed_plan}' === 'Professional') {{
-          console.log('[SUBSCRIPTION_DEBUG] Adding Professional highlight rule to CSS');
-          style.textContent += '\\n.pricing-plan.recommended {{ box-shadow: {professional_style} !important; }}';
-        }}
+        style.innerHTML = `
+          /* Reset all plan boxes to no highlight */
+          html body .pricing-plan.left, 
+          html body .pricing-plan.recommended {{
+            box-shadow: none !important;
+            transition: box-shadow 0.3s ease-in-out !important;
+          }}
+          
+          /* Apply specific highlight styles based on plan */
+          ${'html body .pricing-plan.left { box-shadow: ' + explore_style + ' !important; }' 
+             if self.subscribed_plan == "Explore" else ''}
+          
+          ${'html body .pricing-plan.recommended { box-shadow: ' + professional_style + ' !important; }' 
+             if self.subscribed_plan == "Professional" else ''}
+          
+          /* Add border to make the highlight more visible */
+          ${'html body .pricing-plan.left { border: 2px solid rgba(0, 100, 255, 0.5) !important; }' 
+             if self.subscribed_plan == "Explore" else ''}
+          
+          ${'html body .pricing-plan.recommended { border: 2px solid rgba(255, 100, 0, 0.5) !important; }' 
+             if self.subscribed_plan == "Professional" else ''}
+        `;
         
         document.head.appendChild(style);
-        console.log('[SUBSCRIPTION_DEBUG] Applied highlighting via CSS injection', style.textContent);
+        console.log('[SUBSCRIPTION_DEBUG] Applied highlighting via CSS injection', style.innerHTML);
       }}
       
       // First attempt immediately
       injectCSS();
       
       // Second attempt after a delay to ensure DOM is ready
-      setTimeout(injectCSS, 1000);
+      setTimeout(injectCSS, 500);
+      
+      // Third attempt after a longer delay
+      setTimeout(injectCSS, 2000);
+      
+      // Fourth attempt after an even longer delay
+      setTimeout(injectCSS, 5000);
+      
+      // Fifth attempt after a very long delay for slow-loading pages
+      setTimeout(injectCSS, 10000);
       
       // Third attempt using MutationObserver to detect DOM changes
       var observer = new MutationObserver(function(mutations) {{
+        // Look for interesting DOM changes indicating our pricing plans might be ready
+        let shouldInject = false;
+        
         for(var mutation of mutations) {{
           if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {{
             // Check if any pricing-plan elements have been added
@@ -393,19 +415,30 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
               if (node.nodeType === 1) {{ // Element node
                 if (node.querySelector && (
                     node.querySelector('.pricing-plan') || 
-                    node.classList && node.classList.contains('pricing-plan'))) {{
-                  console.log('[SUBSCRIPTION_DEBUG] Detected pricing-plan added to DOM, applying highlight');
-                  injectCSS();
+                    node.classList && (
+                      node.classList.contains('pricing-plan') ||
+                      node.classList.contains('recommended') ||
+                      node.classList.contains('left')
+                    )
+                )) {{
+                  shouldInject = true;
                   break;
                 }}
               }}
             }}
           }}
+          
+          if (shouldInject) break;
+        }}
+        
+        if (shouldInject) {{
+          console.log('[SUBSCRIPTION_DEBUG] Detected pricing-plan added to DOM, applying highlight');
+          injectCSS();
         }}
       }});
       
       // Start observing the document for changes
-      observer.observe(document.body, {{ childList: true, subtree: true }});
+      observer.observe(document.body, {{ childList: true, subtree: true, attributes: true }});
       console.log('[SUBSCRIPTION_DEBUG] Set up MutationObserver to watch for DOM changes');
       
       // Also inject when toggle buttons are clicked
