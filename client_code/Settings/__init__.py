@@ -35,10 +35,6 @@ class Settings(SettingsTemplate):
     if user is None or user == 'None':
       self.visible = False
       
-    elif user['expiration_date'] is not None and (datetime.today().date() - user['expiration_date']).days > 0:
-      routing.set_url_hash('settings?section=Subscription', load_from_cache=False)
-      get_open_form().SearchBar.visible = False
-      
     else:
       # Initialize customer_info as a class attribute
       self.customer_info = anvil.server.call('get_stripe_customer_with_tax_info', user['email'])
