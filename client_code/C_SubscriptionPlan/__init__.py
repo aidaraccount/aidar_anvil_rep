@@ -480,29 +480,29 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
     # 5. UPDATE PLAN BOX HIGHLIGHTING
     # Apply CSS classes for plan box highlighting based on subscription
     anvil.js.call('eval', """
-    // Clear existing highlight classes
-    document.querySelector('.pricing-plan.left').classList.remove('highlight-explore');
-    document.querySelector('.pricing-plan.recommended').classList.remove('highlight-professional');
-    
-    // Apply highlight for Explore plan if subscribed to Explore
-    if ('""" + str(self.subscribed_plan) + """' === 'Explore') {
-      console.log("[SUBSCRIPTION_DEBUG] Adding highlight to Explore plan box");
-      document.querySelector('.pricing-plan.left').classList.add('highlight-explore');
+    try {
+      var explorePlanBox = document.querySelector('.pricing-plan.left');
+      var professionalPlanBox = document.querySelector('.pricing-plan.recommended');
+      
+      if (explorePlanBox) {
+        explorePlanBox.classList.remove('highlight-explore');
+        if ('""" + str(self.subscribed_plan) + """' === 'Explore') {
+          explorePlanBox.classList.add('highlight-explore');
+        }
+      }
+      
+      if (professionalPlanBox) {
+        professionalPlanBox.classList.remove('highlight-professional');
+        var sameProfessionalPlan = ('""" + str(self.subscribed_plan) + """' === 'Professional' && 
+                                '""" + str(self.subscribed_licenses) + """' === '""" + str(self.selected_licenses) + """' &&
+                                '""" + str(self.subscribed_billing) + """' === '""" + str(self.selected_billing) + """');
+        if (sameProfessionalPlan) {
+          professionalPlanBox.classList.add('highlight-professional');
+        }
+      }
+    } catch (e) {
+      console.error("[SUBSCRIPTION_DEBUG] Error updating plan highlighting:", e);
     }
-    
-    // Apply highlight for Professional plan if subscribed to Professional with same options
-    var sameProfessionalPlan = ('""" + str(self.subscribed_plan) + """' === 'Professional' && 
-                              '""" + str(self.subscribed_licenses) + """' === '""" + str(self.selected_licenses) + """' &&
-                              '""" + str(self.subscribed_billing) + """' === '""" + str(self.selected_billing) + """');
-    
-    if (sameProfessionalPlan) {
-      console.log("[SUBSCRIPTION_DEBUG] Adding highlight to Professional plan box");
-      document.querySelector('.pricing-plan.recommended').classList.add('highlight-professional');
-    }
-    
-    console.log("[SUBSCRIPTION_DEBUG] Plan highlighting updated - Explore: " + 
-                ('""" + str(self.subscribed_plan) + """' === 'Explore') + 
-                ", Professional: " + sameProfessionalPlan);
     """)
 
   # 3. Handle Anvil Button clicks
