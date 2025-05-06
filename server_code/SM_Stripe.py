@@ -394,11 +394,13 @@ def cancel_subscription() -> dict:
         # Get company email
         company = anvil.server.call('get_settings_subscription2', user['email'])
         email = company.get('mail')
+        print('email: ', email)
         if not email:
             return {"success": False, "message": "Company email not available"}
 
         # Find customer in Stripe
         customer = get_stripe_customer(email)
+        print('customer: ', customer)
         if not customer or not customer.get('id'):
             return {"success": False, "message": "No Stripe customer found for this company"}
 
@@ -408,6 +410,8 @@ def cancel_subscription() -> dict:
             status='active',
             limit=1
         )
+        print('subscriptions: ', subscriptions)
+        print('subscriptions.data: ', subscriptions.data)
 
         if not subscriptions or not subscriptions.data:
             return {"success": False, "message": "No active subscription found"}
