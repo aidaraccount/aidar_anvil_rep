@@ -201,7 +201,8 @@ class Settings(SettingsTemplate):
       # b) plan
       self.plan_header.text = 'Activate Subscription Plan'
       self.plan_desc.text = 'Subscribe now and start discovering right away!'
-      self.plan.add_component(C_SubscriptionPlan(plan=None, no_licenses=None))
+      self.sub_plan.clear()
+      self.sub_plan.add_component(C_SubscriptionPlan(plan=None, no_licenses=None))
 
     
     elif user["plan"] in ['Trial', 'Extended Trial'] and (user["expiration_date"] is None or user["expiration_date"] >= date.today()):
@@ -230,7 +231,8 @@ class Settings(SettingsTemplate):
       # b) plan
       self.plan_header.text = 'Activate Subscription Plan'
       self.plan_desc.text = 'Subscribe now and your subscription will start after your free trial ends.'
-      self.plan.add_component(C_SubscriptionPlan(plan=user["plan"], no_licenses=None, plan_type='yearly'))
+      self.sub_plan.clear()
+      self.sub_plan.add_component(C_SubscriptionPlan(plan=user["plan"], no_licenses=None, plan_type='yearly'))
 
     
     elif user["plan"] in ['Explore', 'Professional'] and (user["expiration_date"] is None or user["expiration_date"] >= date.today()):
@@ -253,7 +255,8 @@ class Settings(SettingsTemplate):
         self.admin.text = 'no'
 
       # plan
-      self.plan.add_component(C_SubscriptionPlan(plan=user["plan"], no_licenses=3, plan_type='yearly'))
+      self.sub_plan.clear()
+      self.sub_plan.add_component(C_SubscriptionPlan(plan=user["plan"], no_licenses=3, plan_type='yearly'))
 
     
   # -----------------------

@@ -283,7 +283,7 @@
 
 /* Secondary button style for cancel/downgrade */
 .anvil-role-secondary-button .btn {
-  background: transparent;
+  background: var(--Grey);
   color: var(--BlackDiscreet);
   border: 1px solid var(--BlackDiscreet);
   border-radius: 30px;

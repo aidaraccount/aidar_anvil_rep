@@ -427,6 +427,10 @@ components:
           spacing:
             margin: [null, null, 25, 20]
         type: Label
+      - layout_properties: {grid_position: 'MNQMXP,TWGOQZ'}
+        name: sub_plan
+        properties: {}
+        type: ColumnPanel
       layout_properties: {grid_position: 'RZDITL,VUHXXH'}
       name: plan
       properties:
