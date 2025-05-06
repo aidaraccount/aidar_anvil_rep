@@ -342,22 +342,74 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
             professionalPlanBox.classList.add('highlight-professional');
             console.log("[SUBSCRIPTION_DEBUG] AFTER ADD - Professional box classList:", [...professionalPlanBox.classList]);
             console.log("[SUBSCRIPTION_DEBUG] Dynamic highlight added to Professional plan");
+            
+            // Try direct style application as a fallback
+            console.log("[SUBSCRIPTION_DEBUG] Applying direct style for Professional plan");
+            professionalPlanBox.style.boxShadow = "0 0 20px rgba(0, 0, 0, 0.25)";
           }
         } else {
           console.error("[SUBSCRIPTION_DEBUG] Could not find Professional plan box");
-        }
-        
-        // Try another approach to update styles directly
-        if (sameProfessionalPlan && professionalPlanBox) {
-          console.log("[SUBSCRIPTION_DEBUG] Trying direct style application"); 
-          professionalPlanBox.style.boxShadow = "0 0 20px rgba(0, 0, 0, 0.25)";
+          
+          // Try to find it in a different way if we couldn't find it initially
+          console.log("[SUBSCRIPTION_DEBUG] Trying alternative approach to find Professional plan");
+          
+          // Find elements with text containing 'Professional'
+          var allElements = document.querySelectorAll('*');
+          console.log("[SUBSCRIPTION_DEBUG] Total elements to search:", allElements.length);
+          
+          for (var i = 0; i < allElements.length; i++) {
+            var el = allElements[i];
+            if (el.textContent && el.textContent.includes('Professional')) {
+              console.log("[SUBSCRIPTION_DEBUG] Found element with Professional text:", el.tagName, el.className);
+              
+              // Find possible pricing-plan parent/ancestor
+              var parent = el;
+              var found = false;
+              
+              while (parent && !found) {
+                if (parent.className && parent.className.includes('pricing-plan')) {
+                  found = true;
+                  console.log("[SUBSCRIPTION_DEBUG] Found potential Professional plan box:", parent.className);
+                  
+                  // Apply styling directly
+                  if ('""" + str(self.subscribed_plan) + """' === 'Professional') {
+                    parent.style.boxShadow = "0 0 20px rgba(0, 0, 0, 0.25)";
+                    console.log("[SUBSCRIPTION_DEBUG] Applied direct shadow to Professional plan");
+                  }
+                  
+                  break;
+                }
+                parent = parent.parentElement;
+                if (!parent) break;
+              }
+              
+              // Limit the search to first few matches
+              if (i > 20) break;
+            }
+          }
         }
         
       } catch (e) {
         console.error("[SUBSCRIPTION_DEBUG] Error applying initial plan highlighting:", e);
         console.error("[SUBSCRIPTION_DEBUG] Error details:", e.message, e.stack);
       }
-    }, 1000); // Delay of 1 second to ensure DOM is ready
+      
+      // Schedule another attempt with a longer delay if elements weren't found
+      if (!document.querySelector('.pricing-plan.recommended')) {
+        console.log("[SUBSCRIPTION_DEBUG] Scheduling another attempt in 2 seconds...");
+        setTimeout(function() {
+          var professionalPlanBox = document.querySelector('.pricing-plan.recommended');
+          console.log("[SUBSCRIPTION_DEBUG] Second attempt - Professional plan found?", !!professionalPlanBox);
+          
+          if (professionalPlanBox && '""" + str(self.subscribed_plan) + """' === 'Professional') {
+            professionalPlanBox.classList.add('highlight-professional');
+            professionalPlanBox.style.boxShadow = "0 0 20px rgba(0, 0, 0, 0.25)";
+            console.log("[SUBSCRIPTION_DEBUG] Applied highlight in second attempt");
+          }
+        }, 2000);
+      }
+      
+    }, 1500); // Increased delay to 1.5 seconds to ensure DOM is ready
     
     // Set up event handlers for UI controls
     (function() {
