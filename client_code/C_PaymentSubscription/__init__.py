@@ -14,7 +14,7 @@ from ..C_PaymentInfos import C_PaymentInfos
 
 
 class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
-  def __init__(self, plan_type: str = None, user_count: int = None, billing_period: str = None, **properties):
+  def __init__(self, plan: str = None, no_licenses: int = None, frequency: str = None, **properties):
     
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
@@ -23,9 +23,9 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
     global user
     user = anvil.users.get_user()
 
-    self.plan_type: str = plan_type
-    self.user_count: int = user_count
-    self.billing_period: str = billing_period
+    self.plan: str = plan
+    self.no_licenses: int = no_licenses
+    self.frequency: str = frequency
 
 
     # --- 1. GET CUSTOMER INFO ---
@@ -72,31 +72,31 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
     
 
     # --- 3. GET PRICE INFO ---
-    # Get the Stripe Price ID based on plan type and billing period
+    # Get the Stripe Price ID based on plan type and frequency
     self.price_id = None
-    if self.plan_type == "Explore" and self.billing_period == "monthly":
+    if self.plan == "Explore" and self.frequency == "monthly":
         self.price_id = "price_1RE3tSQTBcqmUQgtoNyD0LgB"
-    elif self.plan_type == "Explore" and self.billing_period == "yearly":
+    elif self.plan == "Explore" and self.frequency == "yearly":
         self.price_id = "price_1REVjKQTBcqmUQgt4Z47P00s"
-    elif self.plan_type == "Professional" and self.billing_period == "monthly":
+    elif self.plan == "Professional" and self.frequency == "monthly":
         self.price_id = "price_1REVwmQTBcqmUQgtiBBLNZaD"
-    elif self.plan_type == "Professional" and self.billing_period == "yearly":
+    elif self.plan == "Professional" and self.frequency == "yearly":
         self.price_id = "price_1REVzZQTBcqmUQgtpyBz8Gky"
     print('price_id:', self.price_id)
     
     # Compute price string based on plan and user count
     self.price = ''
-    if self.plan_type and self.billing_period:
-        if self.plan_type == 'Explore' and self.billing_period == 'monthly':
+    if self.plan and self.frequency:
+        if self.plan == 'Explore' and self.frequency == 'monthly':
             self.price = f'€29.00/mo'
-        elif self.plan_type == 'Explore' and self.billing_period == 'yearly':
+        elif self.plan == 'Explore' and self.frequency == 'yearly':
             self.price = f'€{26 * 12:.2f}/yr ({26:.2f}/mo)'
-        elif self.plan_type == 'Professional' and self.billing_period == 'monthly':
-            self.price = f'€{44 * (self.user_count or 1):.2f}/mo'
-        elif self.plan_type == 'Professional' and self.billing_period == 'yearly':
-            self.price = f'€{39 * 12 * (self.user_count or 1):.2f}/yr ({39 * (self.user_count or 1):.2f}/mo/user)'
+        elif self.plan == 'Professional' and self.frequency == 'monthly':
+            self.price = f'€{44 * (self.no_licenses or 1):.2f}/mo'
+        elif self.plan == 'Professional' and self.frequency == 'yearly':
+            self.price = f'€{39 * 12 * (self.no_licenses or 1):.2f}/yr ({39 * (self.no_licenses or 1):.2f}/mo/user)'
 
-    if self.billing_period == 'yearly':
+    if self.frequency == 'yearly':
         self.price_submit = self.price.split(' (')[0]
     else:
         self.price_submit = self.price
@@ -157,9 +157,9 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
         <!-- Plan Summary -->
         <div class='form-section'>
           <h3>Subscription Plan</h3>
-          <div class='stripe-text'><b>Plan:</b> {self.plan_type}</div>
-          <div class='stripe-text'><b>User count:</b> {self.user_count}</div>
-          <div class='stripe-text'><b>Billing period:</b> {self.billing_period}</div>
+          <div class='stripe-text'><b>Plan:</b> {self.plan}</div>
+          <div class='stripe-text'><b>User count:</b> {self.no_licenses}</div>
+          <div class='stripe-text'><b>Billing period:</b> {self.frequency}</div>
           <div class='stripe-text'><b>Price:</b> {self.price}</div>
         </div>
       </form>
@@ -227,7 +227,7 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
 #           dismissible=True
 #       )
 #       if result == 'success':
-#           self.__init__(plan_type=self.plan_type, user_count=self.user_count, billing_period=self.billing_period)
+#           self.__init__(plan=self.plan, no_licenses=self.no_licenses, frequency=self.frequency)
 
 
   def _confirm_subscription_click(self, **event_args):
@@ -239,7 +239,7 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
         alert('No Stripe price selected. Please select a valid plan.', title='Error')
         return
       try:
-        subscription = anvil.server.call('create_stripe_subscription', self.stripe_customer_id, self.price_id, self.plan_type, self.user_count)
+        subscription = anvil.server.call('create_stripe_subscription', self.stripe_customer_id, self.price_id, self.plan, self.no_licenses)
         self.raise_event("x-close-alert", value="success")
 
         # success alert
@@ -307,7 +307,7 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
 #             tax_id_type
 #         )
 #     # Re-fetch customer data and rerender summary by reinitializing
-#     self.__init__(plan_type=self.plan_type, user_count=self.user_count, billing_period=self.billing_period)
+#     self.__init__(plan=self.plan, no_licenses=self.no_licenses, frequency=self.frequency)
 
 
   def get_country_name(self, code: str) -> str:
