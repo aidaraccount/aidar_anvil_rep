@@ -122,14 +122,14 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
 
     # --- 4. BASE ---    
     # Register JS-callable methods directly to instance methods
-    anvil.js.window.edit_company_click = self._edit_company_click
-    anvil.js.window.edit_payment_click = self._edit_payment_click
+    # anvil.js.window.edit_company_click = self._edit_company_click
+    # anvil.js.window.edit_payment_click = self._edit_payment_click
     anvil.js.window.confirm_subscription_click = self._confirm_subscription_click
     anvil.js.window.cancel_btn_click = self._cancel_btn_click
 
     # Instance methods for Python compatibility (optional, but clearer for code completion)
-    self.edit_company_click = self._edit_company_click
-    self.edit_payment_click = self._edit_payment_click
+    # self.edit_company_click = self._edit_company_click
+    # self.edit_payment_click = self._edit_payment_click
     self.confirm_subscription_click = self._confirm_subscription_click
     self.cancel_btn_click = self._cancel_btn_click
     
