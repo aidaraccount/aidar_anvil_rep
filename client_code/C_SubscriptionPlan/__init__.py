@@ -376,14 +376,20 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
           box.style.boxShadow = '';
         }});
         
-        // Show recommended banner for Professional plan if not highlighted
-        if ('{self.subscribed_plan}' === 'Professional' || !{str(should_highlight).lower()}) {{
+        // Always show recommended tag for non-Professional subscribers
+        if ('{self.subscribed_plan}' !== 'Professional') {{
           // Find all recommended boxes and make sure the ribbon is visible
           document.querySelectorAll('.pricing-plan.recommended').forEach(function(box) {{
             // Find and show the ribbon element if it exists
             var ribbons = box.querySelectorAll('.ribbon');
             ribbons.forEach(function(ribbon) {{
               ribbon.style.display = 'block';
+            }});
+            
+            // Find and show the recommended tag
+            var recommendedTags = box.querySelectorAll('.recommended-tag');
+            recommendedTags.forEach(function(tag) {{
+              tag.style.display = 'block';
             }});
           }});
         }}
@@ -406,7 +412,7 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
                           '.pricing-plan.recommended';
                           
         var boxColor = '{self.subscribed_plan}' === 'Explore' ? 
-                     'var(--Blue, #0078FF)' : 
+                     'var(--PurpleFocus, rgb(130, 39, 118))' : 
                      'var(--Orange, #FF6400)';
         
         // Find all matching boxes
@@ -419,11 +425,18 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
           box.style.boxShadow = '8px 8px 10px ' + boxColor;
           console.log('[SUBSCRIPTION_DEBUG] Applied box-shadow to plan');
           
-          // Hide recommended ribbon if this is the Professional plan
+          // Hide recommended ribbon and tag if this is the Professional plan
           if ('{self.subscribed_plan}' === 'Professional') {{
+            // Hide ribbon elements
             var ribbons = box.querySelectorAll('.ribbon');
             ribbons.forEach(function(ribbon) {{
               ribbon.style.display = 'none';
+            }});
+            
+            // Hide recommended tag
+            var recommendedTags = box.querySelectorAll('.recommended-tag');
+            recommendedTags.forEach(function(tag) {{
+              tag.style.display = 'none';
             }});
           }}
           
