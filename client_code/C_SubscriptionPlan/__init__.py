@@ -25,6 +25,9 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
     # Initialize the component
     self.init_components(**properties)
     
+    global user
+    user = anvil.users.get_user()
+
     # Set up instance variables with default values
     self.selected_plan = None
     self.selected_licenses = 1
@@ -46,20 +49,9 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
       "Explore": "Explore"
     }
     
-    # Reference to button components for easy access - fixed button references
-    # Don't assign these in init as they might not be available yet
-    
     # Save CSS for direct application via JavaScript
     self.explore_highlight_css = "0 0 20px rgba(0, 0, 0, 0.25)"
     self.professional_highlight_css = "0 0 20px rgba(0, 0, 0, 0.25)"
-
-    # Set Form properties and Data Bindings.
-    global user
-    user = anvil.users.get_user()
-
-    print('plan:', plan)
-    print('no_licenses:', no_licenses)
-    print('plan_type:', plan_type)
 
     # Store the current SUBSCRIPTION details (what the user is currently subscribed to)
     self.subscribed_plan = plan  # Current plan user is subscribed to (Explore/Professional)
@@ -71,9 +63,6 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
     self.selected_plan = plan  # Initially same as subscription
     self.selected_licenses = self.subscribed_licenses  # Initially same as subscription
     self.selected_billing = plan_type  # Initially same as subscription
-
-    print(f"[SUBSCRIPTION_DEBUG] INIT DETAILS - Subscribed: Plan={self.subscribed_plan}, Licenses={self.subscribed_licenses}, Billing={self.subscribed_billing}")
-    print(f"[SUBSCRIPTION_DEBUG] INIT DETAILS - Selected: Plan={self.selected_plan}, Licenses={self.selected_licenses}, Billing={self.selected_billing}")
 
     # 1. HTML content
     self.html = """
@@ -302,19 +291,15 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
 
     self.apply_plan_highlighting()
 
+
   def form_show(self):
     """
     1. Initializes form UI when the component is first shown
     2. Updates UI elements based on current subscription plan
     3. Sets up event handlers for interactive elements
     """
-    print(f"[SUBSCRIPTION_DEBUG] FORM_SHOW CALLED at {datetime.datetime.now()}")
     
-    # 1. Log initial details for debugging
-    print(f"[SUBSCRIPTION_DEBUG] INIT DETAILS - Subscribed: Plan={self.subscribed_plan}, Licenses={self.subscribed_licenses}, Billing={self.subscribed_billing}")
-    print(f"[SUBSCRIPTION_DEBUG] INIT DETAILS - Selected: Plan={self.selected_plan}, Licenses={self.selected_licenses}, Billing={self.selected_billing}")
-    
-    # 2. Initialize JS environment and setup custom JavaScript
+    # Initialize JS environment and setup custom JavaScript
     anvil.js.call('eval', """
     // Set up window.pyComponent for existing event handlers
     console.log("[SUBSCRIPTION_DEBUG] Setting up window.pyComponent for existing event handlers");
@@ -333,6 +318,351 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
     
     window.pyComponent.update_button_state = window.update_subscription_buttons;
     """)
+
+
+  def js_update_button_state(self, **event_args):
+    """
+    1. Called reliably from JavaScript through Anvil's built-in event system
+    2. Acts as a bridge between JavaScript UI events and Python button state updates
+    3. Ensures changes to user inputs are reflected in button appearance
+    """
+    # Force a direct call to update_button_state to refresh UI state
+    anvil.js.report_callback_exception = self.handle_callback_error  # Add error handling
+    self.update_button_state()
+    # Also apply plan highlighting
+    self.apply_plan_highlighting()
+
+
+  def handle_callback_error(self, exception, stacktrace):
+    """
+    1. Handles errors in JavaScript callbacks
+    2. Reports errors to console for troubleshooting
+    """
+    print(f"[SUBSCRIPTION_DEBUG] ERROR in JavaScript callback: {exception}")
+    print(f"[SUBSCRIPTION_DEBUG] Stack trace: {stacktrace}")
+
+
+  def choose_plan_click(self, sender, **event_args):
+    """
+    1. Handles clicks on the Explore and Professional plan buttons
+    2. Determines plan type, user count, and billing period, then opens checkout
+    
+    Parameters:
+        sender: The button that was clicked
+        event_args (dict): Event arguments from the button click
+    """
+    plan_type = sender.tag.get("plan_type", "")
+    # Get user count from JS input field
+    user_count_input = document.getElementById('user-count')
+    selected_user_count = 1
+    if user_count_input is not None:
+        try:
+            selected_user_count = int(user_count_input.value)
+        except Exception:
+            selected_user_count = 1
+    
+    # Get billing period from toggle state
+    self.update_button_state()  # Ensure billing period is current
+    selected_billing_period = self.selected_billing
+    
+    # Open subscription checkout flow with the collected info
+    self.open_subscription(plan_type=plan_type, user_count=selected_user_count, billing_period=selected_billing_period)
+
+
+  def open_subscription(self, **event_args):
+    """
+    1. Opens the subscription workflow
+    2. Handles navigation between components based on data availability
+    3. Only proceeds to next step if previous data is available
+    """
+    # 1. Get the current subscription plan and billing period
+    plan_type = event_args.get('plan_type')
+    selected_user_count = event_args.get('user_count')
+    selected_billing_period = event_args.get('billing_period', 'monthly')
+    if not plan_type or not selected_user_count:
+      alert("Please select a plan and specify the number of users.", title="Missing Information")
+      return
+    
+    # 2. Check if customer data exists
+    customer = anvil.server.call('get_stripe_customer', anvil.users.get_user()['email'])
+    customer_exists = bool(customer and customer.get('id'))
+    
+    # 3. If no customer data, start with C_PaymentCustomer
+    if not customer_exists:
+      customer_form = C_PaymentCustomer()
+      customer_result = alert(
+        content=customer_form,
+        large=False,
+        width=500,
+        buttons=[],
+        dismissible=True
+      )
+      # Only continue if customer data was successfully submitted
+      if customer_result != 'success':
+        return
+      # Refresh customer data
+      customer = anvil.server.call('get_stripe_customer', anvil.users.get_user()['email'])
+    
+    # 4. Check if payment method exists
+    payment_methods = []
+    if customer and customer.get('id'):
+      payment_methods = anvil.server.call('get_stripe_payment_methods', customer['id'])
+    
+    # 5. If no payment method, open C_PaymentInfos
+    if not payment_methods:
+      payment_form = C_PaymentInfos()
+      payment_result = alert(
+        content=payment_form,
+        large=False,
+        width=500,
+        buttons=[],
+        dismissible=True
+      )
+      # Only continue if payment method was successfully added
+      if payment_result != 'success':
+        return
+      # Refresh payment methods
+      if customer and customer.get('id'):
+        payment_methods = anvil.server.call('get_stripe_payment_methods', customer['id'])
+    
+    # 6. Finally, open subscription confirmation
+    subscription_form = C_PaymentSubscription(
+      plan_type=plan_type,
+      user_count=selected_user_count,
+      billing_period=selected_billing_period
+    )
+    subscription_result = alert(
+      content=subscription_form,
+      large=False,
+      width=600,
+      buttons=[],
+      dismissible=True
+    )
+
+
+  def update_subscription(self, sender, **event_args) -> None:
+    """
+    1. Handles updating a subscription (upgrading, downgrading, or changing user count)
+    2. Calls the server function to update the subscription in Stripe
+    
+    Parameters:
+        sender: The button that was clicked
+        event_args (dict): Event arguments from the button click
+    """
+    # Use subscribed_* variables consistently throughout the code
+    current_plan: str = self.subscribed_plan
+    target_plan: str = sender.tag.get("target_plan", current_plan)
+    
+    # Get the user count for Professional plan
+    selected_user_count: int = sender.tag.get("user_count", 1)
+    if not selected_user_count:
+        user_count_input = document.getElementById('user-count')
+        if user_count_input is not None:
+            try:
+                selected_user_count = int(user_count_input.value)
+            except Exception:
+                selected_user_count = 1
+    
+    # Get billing period info
+    selected_billing_period: str = sender.tag.get("billing_period", self.selected_billing)
+    
+    # Determine update type
+    if target_plan != current_plan:
+        operation_type = "downgrade" if current_plan == "Professional" else "upgrade"
+        confirmation_message = f"Are you sure you want to {operation_type} from {current_plan} to {target_plan}?"
+    elif selected_billing_period != self.subscribed_billing:
+        if selected_billing_period == "yearly":
+            operation_type = "upgrade"
+            confirmation_message = f"Are you sure you want to upgrade from monthly to yearly billing?"
+        else:
+            operation_type = "downgrade"
+            confirmation_message = f"Are you sure you want to change from yearly to monthly billing?"
+    else:
+        if selected_user_count > self.subscribed_licenses:
+            operation_type = "upgrade"
+            confirmation_message = f"Are you sure you want to increase your user count from {self.subscribed_licenses} to {selected_user_count}?"
+        else:
+            operation_type = "downgrade"
+            confirmation_message = f"Are you sure you want to decrease your user count from {self.subscribed_licenses} to {selected_user_count}?"
+
+    # Get confirmation from user
+    confirmation = alert(
+      confirmation_message,
+      title=f"{operation_type.capitalize()} Subscription",
+      buttons=[f"Yes, {operation_type.capitalize()}", "No, Cancel"],
+      large=False
+    )
+
+    if confirmation.startswith("Yes"):
+      # Call server function to update subscription
+      try:
+        result = anvil.server.call(
+          'update_subscription', 
+          target_plan=target_plan, 
+          user_count=selected_user_count, 
+          billing_period=selected_billing_period
+        )
+        if result and result.get('success'):
+          alert(f"Your subscription has been successfully updated.", title="Success")
+          # Refresh the page to reflect the changes
+          anvil.js.window.location.reload()
+        else:
+          alert("There was a problem updating your subscription. Please try again or contact support.", title="Error")
+      except Exception as e:
+        print(f"[SUBSCRIPTION_DEBUG] Error in update_subscription: {e}")
+        alert("There was a problem processing your request. Please try again later.", title="Error")
+
+
+  def cancel_subscription(self, sender, **event_args) -> None:
+    """
+    1. Handles the cancellation of a subscription
+    2. Calls the server function to cancel the subscription in Stripe
+    
+    Parameters:
+        sender: The button that was clicked
+        event_args (dict): Event arguments from the button click
+    """
+    plan_type: str = sender.tag.get("plan_type", "")
+    # Get confirmation from user
+    confirmation = alert(
+      f"Are you sure you want to cancel your {self.subscribed_plan} subscription?",
+      title="Cancel Subscription",
+      buttons=["Yes, Cancel", "No, Keep Subscription"],
+      large=False
+    )
+
+    if confirmation == "Yes, Cancel":
+      # Call server function to cancel subscription
+      try:
+        result = anvil.server.call('cancel_subscription')
+        if result and result.get('success'):
+          alert("Your subscription has been successfully cancelled.", title="Success")
+          # Refresh the page to reflect the changes
+          anvil.js.window.location.reload()
+        else:
+          alert("There was a problem cancelling your subscription. Please try again or contact support.", title="Error")
+      except Exception as e:
+        print(f"[SUBSCRIPTION_DEBUG] Error in cancel_subscription: {e}")
+        alert("There was a problem processing your request. Please try again later.", title="Error")
+
+
+  def update_button_state(self):
+    """
+    1. Updates button appearance and event handlers based on the subscribed plan
+    2. Configures text, styling, and click behavior for both the Explore and Professional buttons
+    3. Considers billing period (monthly/yearly) preference when determining upgrade/downgrade status
+    """
+    # Add a timestamp and message to confirm method is being called
+    print(f"[SUBSCRIPTION_DEBUG] UPDATE_BUTTON_STATE CALLED at {datetime.datetime.now()}")
+    
+    # Get user count from JS input field - Update self.selected_licenses
+    user_count_input = document.getElementById('user-count')
+    if user_count_input is not None:
+        try:
+            self.selected_licenses = int(user_count_input.value)
+        except Exception:
+            pass  # Keep existing value if there's an error
+    
+    # Determine active billing period from JS toggle state - Update self.selected_billing
+    monthly_btn = document.getElementById('pricing-toggle-monthly')
+    yearly_btn = document.getElementById('pricing-toggle-yearly')
+    
+    if monthly_btn and yearly_btn:
+        is_yearly = yearly_btn.classList.contains('selected')
+        self.selected_billing = "yearly" if is_yearly else "monthly"
+        
+    # 1. EXPLORE BUTTON LOGIC
+    if self.subscribed_plan in ["Trial", "Extended Trial", None]:
+        # For Trial/Extended Trial: Orange "Choose Plan"
+        self.explore_plan_btn.text = "Choose Plan"
+        self.explore_plan_btn.role = "cta-button"
+        self.explore_plan_btn.set_event_handler('click', self.choose_plan_click)
+    elif self.subscribed_plan == "Explore":
+        # For Explore: Grey "Cancel Plan"
+        self.explore_plan_btn.text = "Cancel Plan" 
+        self.explore_plan_btn.role = "secondary-button"
+        self.explore_plan_btn.set_event_handler('click', self.cancel_subscription)
+    elif self.subscribed_plan == "Professional":
+        # For Professional: Grey "Downgrade Plan"
+        self.explore_plan_btn.text = "Downgrade Plan"
+        self.explore_plan_btn.role = "secondary-button"
+        self.explore_plan_btn.set_event_handler('click', self.update_subscription)
+        self.explore_plan_btn.tag["target_plan"] = "Explore"
+        self.explore_plan_btn.tag["user_count"] = 1  # Explore always has 1 user
+            
+    # 2. PROFESSIONAL BUTTON LOGIC
+    if self.subscribed_plan in ["Trial", "Extended Trial", None]:
+        # For Trial/Extended Trial: Orange "Choose Plan"
+        self.professional_plan_btn.text = "Choose Plan"
+        self.professional_plan_btn.role = "cta-button"
+        self.professional_plan_btn.set_event_handler('click', self.choose_plan_click)
+    elif self.subscribed_plan == "Explore":
+        # For Explore: Orange "Upgrade Plan"
+        self.professional_plan_btn.text = "Upgrade Plan"
+        self.professional_plan_btn.role = "cta-button"
+        self.professional_plan_btn.set_event_handler('click', self.update_subscription)
+        self.professional_plan_btn.tag["target_plan"] = "Professional"
+    elif self.subscribed_plan == "Professional":
+        # Check if this is the exact same subscription or a change
+        is_same_subscription = (self.selected_licenses == self.subscribed_licenses and 
+                              self.selected_billing == self.subscribed_billing and 
+                              self.subscribed_plan == "Professional")
+        
+        if is_same_subscription:
+            # No change: Grey "Cancel Plan"
+            self.professional_plan_btn.text = "Cancel Plan"
+            self.professional_plan_btn.role = "secondary-button"
+            self.professional_plan_btn.set_event_handler('click', self.cancel_subscription)
+        else:
+            # Is this an upgrade or downgrade?
+            is_upgrade = (self.selected_licenses > self.subscribed_licenses) or (self.subscribed_billing == 'monthly' and self.selected_billing == 'yearly')
+            
+            if is_upgrade:
+                # Orange "Upgrade Plan"
+                self.professional_plan_btn.text = "Upgrade Plan"
+                self.professional_plan_btn.role = "cta-button"
+            else:
+                # Grey "Downgrade Plan"
+                self.professional_plan_btn.text = "Downgrade Plan" 
+                self.professional_plan_btn.role = "secondary-button"
+            
+            self.professional_plan_btn.set_event_handler('click', self.update_subscription)
+            
+    # 3. HANDLE BILLING PERIOD CHANGES EXPLICITLY
+    if self.subscribed_plan not in ["Trial", "Extended Trial", None]:
+        # Only for paid plans, check for billing period changes
+        if self.subscribed_billing != self.selected_billing:
+            if self.selected_billing == "yearly" and self.subscribed_billing == "monthly":
+                # Upgrading to yearly - orange
+                self.explore_plan_btn.text = "Upgrade to Yearly"
+                self.explore_plan_btn.role = "cta-button"
+                self.explore_plan_btn.set_event_handler('click', self.update_subscription)
+                self.professional_plan_btn.text = "Upgrade to Yearly"
+                self.professional_plan_btn.role = "cta-button"
+                self.professional_plan_btn.set_event_handler('click', self.update_subscription)
+            elif self.selected_billing == "monthly" and self.subscribed_billing == "yearly":
+                # Downgrading to monthly - grey
+                self.explore_plan_btn.text = "Downgrade to Monthly"
+                self.explore_plan_btn.role = "secondary-button"
+                self.explore_plan_btn.set_event_handler('click', self.update_subscription)
+                self.professional_plan_btn.text = "Downgrade to Monthly"
+                self.professional_plan_btn.role = "secondary-button"
+                self.professional_plan_btn.set_event_handler('click', self.update_subscription)
+            
+    # 4. STORE TAG DATA FOR BOTH BUTTONS
+    # For professional button, always store user count and billing period
+    self.professional_plan_btn.tag["user_count"] = self.selected_licenses
+    self.professional_plan_btn.tag["billing_period"] = self.selected_billing
+    self.professional_plan_btn.tag["plan_type"] = "Professional"
+        
+    # For explore button, always store relevant data
+    self.explore_plan_btn.tag["user_count"] = 1  # Explore always has 1 user
+    self.explore_plan_btn.tag["billing_period"] = self.selected_billing
+    self.explore_plan_btn.tag["plan_type"] = "Explore"
+    
+    # Apply highlighting
+    self.apply_plan_highlighting()
+
 
   def apply_plan_highlighting(self):
     """
@@ -530,342 +860,3 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
       console.error("[SUBSCRIPTION_DEBUG] Error details:", e.message, e.stack);
     }}
     """)
-
-  def js_update_button_state(self, **event_args):
-    """
-    1. Called reliably from JavaScript through Anvil's built-in event system
-    2. Acts as a bridge between JavaScript UI events and Python button state updates
-    3. Ensures changes to user inputs are reflected in button appearance
-    """
-    # Force a direct call to update_button_state to refresh UI state
-    anvil.js.report_callback_exception = self.handle_callback_error  # Add error handling
-    self.update_button_state()
-    # Also apply plan highlighting
-    self.apply_plan_highlighting()
-
-  def handle_callback_error(self, exception, stacktrace):
-    """
-    1. Handles errors in JavaScript callbacks
-    2. Reports errors to console for troubleshooting
-    """
-    print(f"[SUBSCRIPTION_DEBUG] ERROR in JavaScript callback: {exception}")
-    print(f"[SUBSCRIPTION_DEBUG] Stack trace: {stacktrace}")
-
-  def update_subscription(self, sender, **event_args) -> None:
-    """
-    1. Handles updating a subscription (upgrading, downgrading, or changing user count)
-    2. Calls the server function to update the subscription in Stripe
-    
-    Parameters:
-        sender: The button that was clicked
-        event_args (dict): Event arguments from the button click
-    """
-    # Use subscribed_* variables consistently throughout the code
-    current_plan: str = self.subscribed_plan
-    target_plan: str = sender.tag.get("target_plan", current_plan)
-    
-    # Get the user count for Professional plan
-    selected_user_count: int = sender.tag.get("user_count", 1)
-    if not selected_user_count:
-        user_count_input = document.getElementById('user-count')
-        if user_count_input is not None:
-            try:
-                selected_user_count = int(user_count_input.value)
-            except Exception:
-                selected_user_count = 1
-    
-    # Get billing period info
-    selected_billing_period: str = sender.tag.get("billing_period", self.selected_billing)
-    
-    # Determine update type
-    if target_plan != current_plan:
-        operation_type = "downgrade" if current_plan == "Professional" else "upgrade"
-        confirmation_message = f"Are you sure you want to {operation_type} from {current_plan} to {target_plan}?"
-    elif selected_billing_period != self.subscribed_billing:
-        if selected_billing_period == "yearly":
-            operation_type = "upgrade"
-            confirmation_message = f"Are you sure you want to upgrade from monthly to yearly billing?"
-        else:
-            operation_type = "downgrade"
-            confirmation_message = f"Are you sure you want to change from yearly to monthly billing?"
-    else:
-        if selected_user_count > self.subscribed_licenses:
-            operation_type = "upgrade"
-            confirmation_message = f"Are you sure you want to increase your user count from {self.subscribed_licenses} to {selected_user_count}?"
-        else:
-            operation_type = "downgrade"
-            confirmation_message = f"Are you sure you want to decrease your user count from {self.subscribed_licenses} to {selected_user_count}?"
-
-    # Get confirmation from user
-    confirmation = alert(
-      confirmation_message,
-      title=f"{operation_type.capitalize()} Subscription",
-      buttons=[f"Yes, {operation_type.capitalize()}", "No, Cancel"],
-      large=False
-    )
-
-    if confirmation.startswith("Yes"):
-      # Call server function to update subscription
-      try:
-        result = anvil.server.call(
-          'update_subscription', 
-          target_plan=target_plan, 
-          user_count=selected_user_count, 
-          billing_period=selected_billing_period
-        )
-        if result and result.get('success'):
-          alert(f"Your subscription has been successfully updated.", title="Success")
-          # Refresh the page to reflect the changes
-          anvil.js.window.location.reload()
-        else:
-          alert("There was a problem updating your subscription. Please try again or contact support.", title="Error")
-      except Exception as e:
-        print(f"[SUBSCRIPTION_DEBUG] Error in update_subscription: {e}")
-        alert("There was a problem processing your request. Please try again later.", title="Error")
-
-  def cancel_subscription(self, sender, **event_args) -> None:
-    """
-    1. Handles the cancellation of a subscription
-    2. Calls the server function to cancel the subscription in Stripe
-    
-    Parameters:
-        sender: The button that was clicked
-        event_args (dict): Event arguments from the button click
-    """
-    plan_type: str = sender.tag.get("plan_type", "")
-    # Get confirmation from user
-    confirmation = alert(
-      f"Are you sure you want to cancel your {self.subscribed_plan} subscription?",
-      title="Cancel Subscription",
-      buttons=["Yes, Cancel", "No, Keep Subscription"],
-      large=False
-    )
-
-    if confirmation == "Yes, Cancel":
-      # Call server function to cancel subscription
-      try:
-        result = anvil.server.call('cancel_subscription')
-        if result and result.get('success'):
-          alert("Your subscription has been successfully cancelled.", title="Success")
-          # Refresh the page to reflect the changes
-          anvil.js.window.location.reload()
-        else:
-          alert("There was a problem cancelling your subscription. Please try again or contact support.", title="Error")
-      except Exception as e:
-        print(f"[SUBSCRIPTION_DEBUG] Error in cancel_subscription: {e}")
-        alert("There was a problem processing your request. Please try again later.", title="Error")
-
-  def update_button_state(self):
-    """
-    1. Updates button appearance and event handlers based on the subscribed plan
-    2. Configures text, styling, and click behavior for both the Explore and Professional buttons
-    3. Considers billing period (monthly/yearly) preference when determining upgrade/downgrade status
-    """
-    # Add a timestamp and message to confirm method is being called
-    print(f"[SUBSCRIPTION_DEBUG] UPDATE_BUTTON_STATE CALLED at {datetime.datetime.now()}")
-    
-    # Get user count from JS input field - Update self.selected_licenses
-    user_count_input = document.getElementById('user-count')
-    if user_count_input is not None:
-        try:
-            self.selected_licenses = int(user_count_input.value)
-        except Exception:
-            pass  # Keep existing value if there's an error
-    
-    # Determine active billing period from JS toggle state - Update self.selected_billing
-    monthly_btn = document.getElementById('pricing-toggle-monthly')
-    yearly_btn = document.getElementById('pricing-toggle-yearly')
-    
-    if monthly_btn and yearly_btn:
-        is_yearly = yearly_btn.classList.contains('selected')
-        self.selected_billing = "yearly" if is_yearly else "monthly"
-        
-    print(f"[SUBSCRIPTION_DEBUG] DEBUG - Comparison: subscribed_plan={self.subscribed_plan}, subscribed_licenses={self.subscribed_licenses}, subscribed_billing={self.subscribed_billing}")
-    print(f"[SUBSCRIPTION_DEBUG] DEBUG - Comparison:   selected_plan={self.selected_plan},   selected_licenses={self.selected_licenses},   selected_billing={self.selected_billing}")
-        
-    # 1. EXPLORE BUTTON LOGIC
-    if self.subscribed_plan in ["Trial", "Extended Trial", None]:
-        # For Trial/Extended Trial: Orange "Choose Plan"
-        self.explore_plan_btn.text = "Choose Plan"
-        self.explore_plan_btn.role = "cta-button"
-        self.explore_plan_btn.set_event_handler('click', self.choose_plan_click)
-    elif self.subscribed_plan == "Explore":
-        # For Explore: Grey "Cancel Plan"
-        self.explore_plan_btn.text = "Cancel Plan" 
-        self.explore_plan_btn.role = "secondary-button"
-        self.explore_plan_btn.set_event_handler('click', self.cancel_subscription)
-    elif self.subscribed_plan == "Professional":
-        # For Professional: Grey "Downgrade Plan"
-        self.explore_plan_btn.text = "Downgrade Plan"
-        self.explore_plan_btn.role = "secondary-button"
-        self.explore_plan_btn.set_event_handler('click', self.update_subscription)
-        self.explore_plan_btn.tag["target_plan"] = "Explore"
-        self.explore_plan_btn.tag["user_count"] = 1  # Explore always has 1 user
-            
-    # 2. PROFESSIONAL BUTTON LOGIC
-    if self.subscribed_plan in ["Trial", "Extended Trial", None]:
-        # For Trial/Extended Trial: Orange "Choose Plan"
-        self.professional_plan_btn.text = "Choose Plan"
-        self.professional_plan_btn.role = "cta-button"
-        self.professional_plan_btn.set_event_handler('click', self.choose_plan_click)
-    elif self.subscribed_plan == "Explore":
-        # For Explore: Orange "Upgrade Plan"
-        self.professional_plan_btn.text = "Upgrade Plan"
-        self.professional_plan_btn.role = "cta-button"
-        self.professional_plan_btn.set_event_handler('click', self.update_subscription)
-        self.professional_plan_btn.tag["target_plan"] = "Professional"
-    elif self.subscribed_plan == "Professional":
-        # Check if this is the exact same subscription or a change
-        is_same_subscription = (self.selected_licenses == self.subscribed_licenses and 
-                              self.selected_billing == self.subscribed_billing and 
-                              self.subscribed_plan == "Professional")
-        
-        print(f"[SUBSCRIPTION_DEBUG] Professional plan same subscription check: {is_same_subscription}")
-        print(f"[SUBSCRIPTION_DEBUG] Professional checks - licenses: {self.selected_licenses == self.subscribed_licenses}, billing: {self.selected_billing == self.subscribed_billing}")
-        
-        if is_same_subscription:
-            # No change: Grey "Cancel Plan"
-            self.professional_plan_btn.text = "Cancel Plan"
-            self.professional_plan_btn.role = "secondary-button"
-            self.professional_plan_btn.set_event_handler('click', self.cancel_subscription)
-        else:
-            # Is this an upgrade or downgrade?
-            is_upgrade = (self.selected_licenses > self.subscribed_licenses) or (self.subscribed_billing == 'monthly' and self.selected_billing == 'yearly')
-            
-            if is_upgrade:
-                # Orange "Upgrade Plan"
-                self.professional_plan_btn.text = "Upgrade Plan"
-                self.professional_plan_btn.role = "cta-button"
-            else:
-                # Grey "Downgrade Plan"
-                self.professional_plan_btn.text = "Downgrade Plan" 
-                self.professional_plan_btn.role = "secondary-button"
-            
-            self.professional_plan_btn.set_event_handler('click', self.update_subscription)
-            
-    # 3. HANDLE BILLING PERIOD CHANGES EXPLICITLY
-    if self.subscribed_plan not in ["Trial", "Extended Trial", None]:
-        # Only for paid plans, check for billing period changes
-        if self.subscribed_billing != self.selected_billing:
-            if self.selected_billing == "yearly" and self.subscribed_billing == "monthly":
-                # Upgrading to yearly - orange
-                self.professional_plan_btn.text = "Upgrade to Yearly"
-                self.professional_plan_btn.role = "cta-button"
-                self.professional_plan_btn.set_event_handler('click', self.update_subscription)
-            elif self.selected_billing == "monthly" and self.subscribed_billing == "yearly":
-                # Downgrading to monthly - grey
-                self.professional_plan_btn.text = "Downgrade to Monthly"
-                self.professional_plan_btn.role = "secondary-button"
-                self.professional_plan_btn.set_event_handler('click', self.update_subscription)
-            
-    # 4. STORE TAG DATA FOR BOTH BUTTONS
-    # For professional button, always store user count and billing period
-    self.professional_plan_btn.tag["user_count"] = self.selected_licenses
-    self.professional_plan_btn.tag["billing_period"] = self.selected_billing
-    self.professional_plan_btn.tag["plan_type"] = "Professional"
-        
-    # For explore button, always store relevant data
-    self.explore_plan_btn.tag["user_count"] = 1  # Explore always has 1 user
-    self.explore_plan_btn.tag["billing_period"] = self.selected_billing
-    self.explore_plan_btn.tag["plan_type"] = "Explore"
-    
-    # Apply highlighting via our more robust method
-    self.apply_plan_highlighting()
-
-  def choose_plan_click(self, sender, **event_args):
-    """
-    1. Handles clicks on the Explore and Professional plan buttons
-    2. Determines plan type, user count, and billing period, then opens checkout
-    
-    Parameters:
-        sender: The button that was clicked
-        event_args (dict): Event arguments from the button click
-    """
-    plan_type = sender.tag.get("plan_type", "")
-    # Get user count from JS input field
-    user_count_input = document.getElementById('user-count')
-    selected_user_count = 1
-    if user_count_input is not None:
-        try:
-            selected_user_count = int(user_count_input.value)
-        except Exception:
-            selected_user_count = 1
-    
-    # Get billing period from toggle state
-    self.update_button_state()  # Ensure billing period is current
-    selected_billing_period = self.selected_billing
-    
-    # Open subscription checkout flow with the collected info
-    self.open_subscription(plan_type=plan_type, user_count=selected_user_count, billing_period=selected_billing_period)
-
-  def open_subscription(self, **event_args):
-    """
-    1. Opens the subscription workflow
-    2. Handles navigation between components based on data availability
-    3. Only proceeds to next step if previous data is available
-    """
-    # 1. Get the current subscription plan and billing period
-    plan_type = event_args.get('plan_type')
-    selected_user_count = event_args.get('user_count')
-    selected_billing_period = event_args.get('billing_period', 'monthly')
-    if not plan_type or not selected_user_count:
-      alert("Please select a plan and specify the number of users.", title="Missing Information")
-      return
-    
-    # 2. Check if customer data exists
-    customer = anvil.server.call('get_stripe_customer', anvil.users.get_user()['email'])
-    customer_exists = bool(customer and customer.get('id'))
-    
-    # 3. If no customer data, start with C_PaymentCustomer
-    if not customer_exists:
-      customer_form = C_PaymentCustomer()
-      customer_result = alert(
-        content=customer_form,
-        large=False,
-        width=500,
-        buttons=[],
-        dismissible=True
-      )
-      # Only continue if customer data was successfully submitted
-      if customer_result != 'success':
-        return
-      # Refresh customer data
-      customer = anvil.server.call('get_stripe_customer', anvil.users.get_user()['email'])
-    
-    # 4. Check if payment method exists
-    payment_methods = []
-    if customer and customer.get('id'):
-      payment_methods = anvil.server.call('get_stripe_payment_methods', customer['id'])
-    
-    # 5. If no payment method, open C_PaymentInfos
-    if not payment_methods:
-      payment_form = C_PaymentInfos()
-      payment_result = alert(
-        content=payment_form,
-        large=False,
-        width=500,
-        buttons=[],
-        dismissible=True
-      )
-      # Only continue if payment method was successfully added
-      if payment_result != 'success':
-        return
-      # Refresh payment methods
-      if customer and customer.get('id'):
-        payment_methods = anvil.server.call('get_stripe_payment_methods', customer['id'])
-    
-    # 6. Finally, open subscription confirmation
-    subscription_form = C_PaymentSubscription(
-      plan_type=plan_type,
-      user_count=selected_user_count,
-      billing_period=selected_billing_period
-    )
-    subscription_result = alert(
-      content=subscription_form,
-      large=False,
-      width=600,
-      buttons=[],
-      dismissible=True
-    )
-
-  # ... rest of the code remains the same ...
