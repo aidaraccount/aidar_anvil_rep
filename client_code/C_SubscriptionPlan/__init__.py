@@ -331,6 +331,34 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
         });
       }
       
+      // 1.5 Initial plan highlighting when the page first loads
+      try {
+        console.log("[SUBSCRIPTION_DEBUG] Running initial plan highlighting");
+        var explorePlanBox = document.querySelector('.pricing-plan.left');
+        var professionalPlanBox = document.querySelector('.pricing-plan.recommended');
+        
+        if (explorePlanBox) {
+          explorePlanBox.classList.remove('highlight-explore');
+          if ('""" + str(self.subscribed_plan) + """' === 'Explore') {
+            explorePlanBox.classList.add('highlight-explore');
+            console.log("[SUBSCRIPTION_DEBUG] Initial highlighting applied to Explore plan");
+          }
+        }
+        
+        if (professionalPlanBox) {
+          professionalPlanBox.classList.remove('highlight-professional');
+          var sameProfessionalPlan = ('""" + str(self.subscribed_plan) + """' === 'Professional' && 
+                                  '""" + str(self.subscribed_licenses) + """' === '""" + str(self.selected_licenses) + """' &&
+                                  '""" + str(self.subscribed_billing) + """' === '""" + str(self.selected_billing) + """');
+          if (sameProfessionalPlan) {
+            professionalPlanBox.classList.add('highlight-professional');
+            console.log("[SUBSCRIPTION_DEBUG] Initial highlighting applied to Professional plan");
+          }
+        }
+      } catch (e) {
+        console.error("[SUBSCRIPTION_DEBUG] Error applying initial plan highlighting:", e);
+      }
+      
       console.log('Event handlers setup complete');
     })();
     """)
@@ -354,18 +382,6 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
     print(f"[SUBSCRIPTION_DEBUG] ERROR in JavaScript callback: {exception}")
     print(f"[SUBSCRIPTION_DEBUG] Stack trace: {stacktrace}")
     # This helps diagnose JS-Python communication issues
-
-  # 4. This method is called from JavaScript when UI elements change
-  def update_buttons_from_js(self, **event_args):
-    """
-    1. Called by JavaScript when UI elements are updated
-    2. Acts as a bridge between the JavaScript UI and Python button state
-    3. Updates the button appearance based on current selections
-    4. THIS METHOD IS NO LONGER USED - kept for reference
-    """
-    print("[SUBSCRIPTION_DEBUG] Called update_buttons_from_js from JavaScript")
-    # Simply call our existing update_button_state method
-    self.update_button_state()
 
   def update_button_state(self):
     """
