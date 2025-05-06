@@ -384,7 +384,7 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
             self.selected_licenses = int(user_count_input.value)
         except Exception:
             pass  # Keep existing value if there's an error
-                
+    
     # Determine active billing period from JS toggle state - Update self.selected_billing
     monthly_btn = document.getElementById('pricing-toggle-monthly')
     yearly_btn = document.getElementById('pricing-toggle-yearly')
@@ -398,36 +398,37 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
         
     # 1. EXPLORE BUTTON LOGIC
     if self.subscribed_plan in ["Trial", "Extended Trial", None]:
-        # For Trial/Extended Trial: Orange "Choose Plan"
+        # Orange "Choose Plan" button to get started
         self.explore_btn.text = "Choose Plan"
         self.explore_btn.role = "cta-button"
         self.explore_btn.set_event_handler('click', self.choose_plan_click)
     elif self.subscribed_plan == "Explore":
-        # For Explore: Grey "Cancel Plan"
-        self.explore_btn.text = "Cancel Plan"
+        # Grey "Cancel Plan" if currently on Explore
+        self.explore_btn.text = "Cancel Plan" 
         self.explore_btn.role = "secondary-button"
         self.explore_btn.set_event_handler('click', self.cancel_subscription)
     elif self.subscribed_plan == "Professional":
-        # For Professional: Grey "Downgrade Plan"
+        # Grey "Downgrade Plan" if on Professional
         self.explore_btn.text = "Downgrade Plan"
         self.explore_btn.role = "secondary-button"
         self.explore_btn.set_event_handler('click', self.update_subscription)
         self.explore_btn.tag["target_plan"] = "Explore"
         self.explore_btn.tag["user_count"] = 1  # Explore always has 1 user
-            
+        
     # 2. PROFESSIONAL BUTTON LOGIC
     if self.subscribed_plan in ["Trial", "Extended Trial", None]:
-        # For Trial/Extended Trial: Orange "Choose Plan"
+        # Orange "Choose Plan" button to get started
         self.professional_btn.text = "Choose Plan"
         self.professional_btn.role = "cta-button"
         self.professional_btn.set_event_handler('click', self.choose_plan_click)
     elif self.subscribed_plan == "Explore":
-        # For Explore: Orange "Upgrade Plan"
+        # Orange "Upgrade Plan" when coming from Explore
         self.professional_btn.text = "Upgrade Plan"
         self.professional_btn.role = "cta-button"
-        self.professional_btn.set_event_handler('click', self.choose_plan_click)
+        self.professional_btn.set_event_handler('click', self.update_subscription)
+        self.professional_btn.tag["target_plan"] = "Professional"
     elif self.subscribed_plan == "Professional":
-        # Check if selected options match current subscription
+        # Check if this is the exact same subscription or a change
         is_same_subscription = (self.selected_licenses == self.subscribed_licenses and self.selected_billing == self.subscribed_billing and self.subscribed_plan == "Professional")
         
         if is_same_subscription:
@@ -475,6 +476,34 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
     self.explore_btn.tag["user_count"] = 1  # Explore always has 1 user
     self.explore_btn.tag["billing_period"] = self.selected_billing
     self.explore_btn.tag["plan_type"] = "Explore"
+    
+    # 5. UPDATE PLAN BOX HIGHLIGHTING
+    # Apply CSS classes for plan box highlighting based on subscription
+    anvil.js.call('eval', """
+    // Clear existing highlight classes
+    document.querySelector('.pricing-plan.left').classList.remove('highlight-explore');
+    document.querySelector('.pricing-plan.recommended').classList.remove('highlight-professional');
+    
+    // Apply highlight for Explore plan if subscribed to Explore
+    if ('""" + str(self.subscribed_plan) + """' === 'Explore') {
+      console.log("[SUBSCRIPTION_DEBUG] Adding highlight to Explore plan box");
+      document.querySelector('.pricing-plan.left').classList.add('highlight-explore');
+    }
+    
+    // Apply highlight for Professional plan if subscribed to Professional with same options
+    var sameProfessionalPlan = ('""" + str(self.subscribed_plan) + """' === 'Professional' && 
+                              '""" + str(self.subscribed_licenses) + """' === '""" + str(self.selected_licenses) + """' &&
+                              '""" + str(self.subscribed_billing) + """' === '""" + str(self.selected_billing) + """');
+    
+    if (sameProfessionalPlan) {
+      console.log("[SUBSCRIPTION_DEBUG] Adding highlight to Professional plan box");
+      document.querySelector('.pricing-plan.recommended').classList.add('highlight-professional');
+    }
+    
+    console.log("[SUBSCRIPTION_DEBUG] Plan highlighting updated - Explore: " + 
+                ('""" + str(self.subscribed_plan) + """' === 'Explore') + 
+                ", Professional: " + sameProfessionalPlan);
+    """)
 
   # 3. Handle Anvil Button clicks
   def choose_plan_click(self, sender, **event_args):

@@ -215,6 +215,15 @@
   top: 0.32em;
 }
 
+/* Highlight states for plans */
+.pricing-plan.highlight-explore {
+  box-shadow: 8px 6px 10px var(--Orange);
+}
+
+.pricing-plan.highlight-professional {
+  box-shadow: 8px 6px 10px var(--Orange);
+}
+
 /* 1.2. Plan Action Buttons */
 .anvil-role-cta-button .btn {
   background: var(--Orange);
@@ -283,7 +292,7 @@
 
 /* Secondary button style for cancel/downgrade */
 .anvil-role-secondary-button .btn {
-  background: var(--Grey);
+  background: transparent;
   color: var(--BlackDiscreet);
   border: 1px solid var(--BlackDiscreet);
   border-radius: 30px;
