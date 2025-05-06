@@ -142,7 +142,7 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
         <!-- Company Profile Summary -->
         <div class='form-section'>
           <h3 style='display:inline;'>Company Details</h3>
-          <span id='edit-company' style='cursor:pointer;margin-left:8px;' title='Edit Company Details'>✏️</span>
+          <!--<span id='edit-company' style='cursor:pointer;margin-left:8px;' title='Edit Company Details'>✏️</span>-->
           <div class='stripe-text'><b>Email:</b> {self.company_email}</div>
           <div class='stripe-text'><b>Name:</b> {self.company_name}</div>
           <div class='stripe-text'><b>Address:</b> {self.company_address}</div>
@@ -151,7 +151,7 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
         <!-- Payment Method Summary -->
         <div class='form-section'>
           <h3 style='display:inline;'>Payment Method</h3>
-          <span id='edit-payment' style='cursor:pointer;margin-left:8px;' title='Edit Payment Method'>✏️</span>
+          <!--<span id='edit-payment' style='cursor:pointer;margin-left:8px;' title='Edit Payment Method'>✏️</span>-->
           <div class='stripe-text'>{self.payment_method_summary}</div>
         </div>
         <!-- Plan Summary -->
@@ -183,8 +183,8 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
             }}
         }};
         
-        document.getElementById('edit-company').onclick = function() {{ window.edit_company_click && window.edit_company_click(); }};
-        document.getElementById('edit-payment').onclick = function() {{ window.edit_payment_click && window.edit_payment_click(); }};
+        <!--document.getElementById('edit-company').onclick = function() {{ window.edit_company_click && window.edit_company_click(); }};-->
+        <!--document.getElementById('edit-payment').onclick = function() {{ window.edit_payment_click && window.edit_payment_click(); }};-->
         document.getElementById('cancel-btn').onclick = function() {{
             window.cancel_btn_click && window.cancel_btn_click();
         }};
@@ -194,40 +194,40 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
     """
 
 
-  def _edit_company_click(self, **event_args):
-      """Opens the C_PaymentCustomer pop-up with prefilled data for editing, including country and tax info."""
-      customer_info = anvil.server.call('get_stripe_customer_with_tax_info', self.company_email)
-      form = C_PaymentCustomer(
-          prefill_email=customer_info.get('email', self.company_email),
-          prefill_company_name=customer_info.get('name', self.company_name),
-          prefill_address=customer_info.get('address', {}),
-          prefill_tax_id=customer_info.get('tax_id', self.tax_id),
-          prefill_tax_country=customer_info.get('tax_country', self.tax_country),
-          prefill_b2b=True
-      )
-      result = alert(
-          content=form,
-          large=False,
-          width=500,
-          buttons=[],
-          dismissible=True
-      )
-      if result == 'success':
-          self._handle_customer_form_result(form)
+#   def _edit_company_click(self, **event_args):
+#       """Opens the C_PaymentCustomer pop-up with prefilled data for editing, including country and tax info."""
+#       customer_info = anvil.server.call('get_stripe_customer_with_tax_info', self.company_email)
+#       form = C_PaymentCustomer(
+#           prefill_email=customer_info.get('email', self.company_email),
+#           prefill_company_name=customer_info.get('name', self.company_name),
+#           prefill_address=customer_info.get('address', {}),
+#           prefill_tax_id=customer_info.get('tax_id', self.tax_id),
+#           prefill_tax_country=customer_info.get('tax_country', self.tax_country),
+#           prefill_b2b=True
+#       )
+#       result = alert(
+#           content=form,
+#           large=False,
+#           width=500,
+#           buttons=[],
+#           dismissible=True
+#       )
+#       if result == 'success':
+#           self._handle_customer_form_result(form)
 
 
-  def _edit_payment_click(self, **event_args):
-      """Opens the C_PaymentInfos pop-up to update payment method."""
-      form = C_PaymentInfos()
-      result = alert(
-          content=form,
-          large=False,
-          width=500,
-          buttons=[],
-          dismissible=True
-      )
-      if result == 'success':
-          self.__init__(plan_type=self.plan_type, user_count=self.user_count, billing_period=self.billing_period)
+#   def _edit_payment_click(self, **event_args):
+#       """Opens the C_PaymentInfos pop-up to update payment method."""
+#       form = C_PaymentInfos()
+#       result = alert(
+#           content=form,
+#           large=False,
+#           width=500,
+#           buttons=[],
+#           dismissible=True
+#       )
+#       if result == 'success':
+#           self.__init__(plan_type=self.plan_type, user_count=self.user_count, billing_period=self.billing_period)
 
 
   def _confirm_subscription_click(self, **event_args):

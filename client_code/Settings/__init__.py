@@ -73,6 +73,10 @@ class Settings(SettingsTemplate):
       print(f"[SETTINGS] No customer info/ admin found, redirecting from {section} to account")
       section = 'account'
     
+    # Hide Subscription when not beeing an admin
+    if user['admin'] is not True:
+      self.nav_sub.visible = False
+
     # Hide Billing and User Management when there is no Customer yet or its not an admin
     if user['admin'] is not True and user['customer_id'] is not None:
       self.nav_pay.visible = False
