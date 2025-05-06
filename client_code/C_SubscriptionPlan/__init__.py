@@ -9,7 +9,7 @@ from anvil.tables import app_tables
 from anvil import Button, alert
 import anvil.js
 from anvil.js.window import document
-import datetime
+from datetime import datetime
 
 from ..C_PaymentSubscription import C_PaymentSubscription
 from ..C_PaymentCustomer import C_PaymentCustomer
@@ -500,7 +500,7 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
       try:
         result = anvil.server.call('cancel_subscription')
         if result and result.get('success'):
-          alert(f"Your subscription has been cancelled and will end on {datetime.fromtimestamp(result.get('current_period_end')).strftime('%B %d, %Y')}.", title="Subscription Cancelled")
+          alert(f"Your subscription has been cancelled and will end on {result.get('expiration_date')}.", title="Subscription Cancelled")
           # Refresh the page to reflect the changes
           anvil.js.window.location.reload()
         else:

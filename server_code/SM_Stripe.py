@@ -6,6 +6,7 @@ import anvil.tables.query as q
 from anvil.tables import app_tables
 import anvil.server
 import json
+from datetime import datetime
 
 
 # -----------------------------------------
@@ -391,60 +392,59 @@ def cancel_subscription() -> dict:
     user = anvil.users.get_user()
 
     try:
-        # Get company email
-        company = json.loads(anvil.server.call('get_settings_subscription2', user['user_id']))
-        email = company['mail']
-        print('email: ', email)
-        if not email:
-            return {"success": False, "message": "Company email not available"}
+      # Get company email
+      company = json.loads(anvil.server.call('get_settings_subscription2', user['user_id']))
+      email = company[0]['mail']
+      if not email:
+        return {"success": False, "message": "Company email not available"}
 
-        # Find customer in Stripe
-        customer = get_stripe_customer(email)
-        print('customer: ', customer)
-        if not customer or not customer.get('id'):
-            return {"success": False, "message": "No Stripe customer found for this company"}
+      # Find customer in Stripe
+      customer = get_stripe_customer(email)
+      if not customer or not customer.get('id'):
+        return {"success": False, "message": "No Stripe customer found for this company"}
 
-        # Find active subscriptions for this customer
-        subscriptions = stripe.Subscription.list(
-            customer=customer['id'],
-            status='active',
-            limit=1
-        )
-        print('subscriptions: ', subscriptions)
-        print('subscriptions.data: ', subscriptions.data)
+      # Find active subscriptions for this customer
+      subscriptions = stripe.Subscription.list(
+        customer=customer['id'],
+        status='active',
+        limit=1
+      )
 
-        if not subscriptions or not subscriptions.data:
-            return {"success": False, "message": "No active subscription found"}
+      if not subscriptions or not subscriptions.data:
+        return {"success": False, "message": "No active subscription found"}
 
-        # Cancel the subscription at period end (won't renew)
-        subscription = stripe.Subscription.modify(
-            subscriptions.data[0].id,
-            cancel_at_period_end=True
-        )
+      print('subscriptions.data[0].id:', subscriptions.data[0].id)
+    
+      # Cancel the subscription at period end (won't renew)
+      subscription = stripe.Subscription.modify(
+        subscriptions.data[0].id,
+        cancel_at_period_end=True
+      )
 
-        print(subscription)
-        print(subscription.current_period_end)
-        print(type(subscription.current_period_end))
+      expiration_date = subscription["items"]["data"][0]["current_period_end"]
+      expiration_date = datetime.fromtimestamp(expiration_date).date()
 
-        # Update user['expiration_date'] of all users with the same customer_id
-        users = anvil.users.get_users()
-        for any_user in users:
-            if any_user['customer_id'] == user['customer_id']:
-                any_user['expiration_date'] = subscription.current_period_end
+      print(expiration_date)
+      print(type(expiration_date))
 
-        # Update company['expiration_date']
-        company = anvil.server.call('cancel_subscription', user['customer_id'], subscription.current_period_end)
+      # Update user['expiration_date'] of all users with the same customer_id
+      users_with_same_customer_id = app_tables.users.search(customer_id=user['customer_id'])
+      for u in users_with_same_customer_id:
+        u['expiration_date'] = expiration_date
 
-        # return success
-        print(f"Subscription {subscription.id} will be cancelled at period end")
-        return {
-            "success": True,
-            "message": "Subscription will be cancelled at the end of the current billing period",
-            "subscription_id": subscription.id,
-            "current_period_end": subscription.current_period_end
-        }
+      # Update company['expiration_date']
+      # company = anvil.server.call('cancel_subscription', user['customer_id'], expiration_date)
+
+      # return success
+      print(f"Subscription {subscription.id} will be cancelled on {expiration_date}")
+      return {
+        "success": True,
+        "message": "Subscription will be cancelled at the end of the current billing period",
+        "subscription_id": subscription.id,
+        "expiration_date": expiration_date
+      }
 
     except Exception as e:
-        print(f"Error cancelling subscription: {e}")
-        return {"success": False, "message": f"Error: {str(e)}"}
+      print(f"Error cancelling subscription: {e}")
+      return {"success": False, "message": f"Error: {str(e)}"}
 
