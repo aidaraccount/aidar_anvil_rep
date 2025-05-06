@@ -392,8 +392,8 @@ def cancel_subscription() -> dict:
 
     try:
         # Get company email
-        company = anvil.server.call('get_settings_subscription2', user['user_id'])
-        email = company.get('mail')
+        company = json.loads(anvil.server.call('get_settings_subscription2', user['user_id']))
+        email = company['mail']
         print('email: ', email)
         if not email:
             return {"success": False, "message": "Company email not available"}
