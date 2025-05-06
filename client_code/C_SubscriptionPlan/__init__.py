@@ -358,22 +358,40 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
     try {{
       console.log("[SUBSCRIPTION_DEBUG] Applying discreet highlight ({self.subscribed_plan}) - should highlight: {should_highlight}");
       
+      // Clear any existing interval to prevent multiple calls
+      if (window.highlightInterval) {{
+          clearInterval(window.highlightInterval);
+          window.highlightInterval = null;
+      }}
+      
       // 1. Clean up any existing highlights first
       function removeAllHighlights() {{
         // Remove existing markers and labels
-        document.querySelectorAll('.plan-highlight-marker, .current-plan-label').forEach(function(el) {{
-          el.remove();
+        document.querySelectorAll('.current-plan-label').forEach(function(el) {{
+          el.parentNode.removeChild(el);
         }});
         
         // Reset any box-shadows
         document.querySelectorAll('.pricing-plan.left, .pricing-plan.recommended').forEach(function(box) {{
           box.style.boxShadow = '';
-          box.style.border = '';
         }});
+        
+        // Show recommended banner for Professional plan if not highlighted
+        if ('{self.subscribed_plan}' === 'Professional' || !{str(should_highlight).lower()}) {{
+          // Find all recommended boxes and make sure the ribbon is visible
+          document.querySelectorAll('.pricing-plan.recommended').forEach(function(box) {{
+            // Find and show the ribbon element if it exists
+            var ribbons = box.querySelectorAll('.ribbon');
+            ribbons.forEach(function(ribbon) {{
+              ribbon.style.display = 'block';
+            }});
+          }});
+        }}
       }}
       
       // 2. Function to apply the highlighting
       function applyHighlight() {{
+        // First clean up any existing highlights
         removeAllHighlights();
         
         // Only highlight if parameters match
@@ -401,6 +419,14 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
           box.style.boxShadow = '8px 8px 10px ' + boxColor;
           console.log('[SUBSCRIPTION_DEBUG] Applied box-shadow to plan');
           
+          // Hide recommended ribbon if this is the Professional plan
+          if ('{self.subscribed_plan}' === 'Professional') {{
+            var ribbons = box.querySelectorAll('.ribbon');
+            ribbons.forEach(function(ribbon) {{
+              ribbon.style.display = 'none';
+            }});
+          }}
+          
           // Add the "CURRENT PLAN" label in the upper right
           var label = document.createElement('div');
           label.className = 'current-plan-label';
@@ -426,12 +452,13 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
         }});
       }}
       
-      // 3. Apply immediately and with short delay
+      // 3. Apply only once initially
       applyHighlight();
-      setTimeout(applyHighlight, 500);
       
       // 4. Set up MutationObserver for dynamic changes
       var observer = new MutationObserver(function(mutations) {{
+        var shouldCheck = false;
+        
         for(var mutation of mutations) {{
           if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {{
             for(var node of mutation.addedNodes) {{
@@ -444,25 +471,45 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
                      (node.querySelector('.pricing-plan') ||
                       node.querySelector('.recommended') ||
                       node.querySelector('.left')))) {{
-                  console.log('[SUBSCRIPTION_DEBUG] Detected pricing plan changes, reapplying highlights');
-                  setTimeout(applyHighlight, 50);
+                  shouldCheck = true;
                   break;
                 }}
               }}
             }}
           }}
+          
+          if (shouldCheck) break;
+        }}
+        
+        // Use debounce pattern to prevent multiple rapid calls
+        if (shouldCheck) {{
+          console.log('[SUBSCRIPTION_DEBUG] Detected pricing plan changes, scheduling highlight update');
+          if (window.highlightTimeout) {{
+            clearTimeout(window.highlightTimeout);
+          }}
+          window.highlightTimeout = setTimeout(applyHighlight, 100);
         }}
       }});
       
       observer.observe(document.body, {{ childList: true, subtree: true }});
+      console.log('[SUBSCRIPTION_DEBUG] Set up MutationObserver to watch for DOM changes');
       
-      // 5. Apply when toggle buttons are clicked
+      // 5. Apply when toggle buttons are clicked - with debounce
       var toggles = document.querySelectorAll('#pricing-toggle-monthly, #pricing-toggle-yearly');
       toggles.forEach(function(toggle) {{
-        toggle.addEventListener('click', function() {{
-          console.log('[SUBSCRIPTION_DEBUG] Pricing toggle clicked, reapplying highlights');
-          setTimeout(applyHighlight, 200);
-        }});
+        // Remove any existing listeners first
+        toggle.removeEventListener('click', toggle.highlightListener);
+        
+        // Add new listener with debounce
+        toggle.highlightListener = function() {{
+          console.log('[SUBSCRIPTION_DEBUG] Pricing toggle clicked, scheduling highlight update');
+          if (window.highlightTimeout) {{
+            clearTimeout(window.highlightTimeout);
+          }}
+          window.highlightTimeout = setTimeout(applyHighlight, 200);
+        }};
+        
+        toggle.addEventListener('click', toggle.highlightListener);
       }});
       
     }} catch (e) {{
