@@ -33,7 +33,9 @@ def sign_up_with_extra_data(customer_id, customer_name, email, password, first_n
       
       user['customer_id'] = customer_id
       user['customer_name'] = name
-      user['expiration_date'] = expiration_date
+      print(expiration_date)
+      user['expiration_date'] = expiration_date.strftime("%Y-%m-%d")
+      print(user['expiration_date'])
       user['plan'] = 'Professional'
       user['active'] = True
       user['admin'] = False
