@@ -152,5 +152,11 @@ def get_anvil_users(customer_id):
 def update_user_role(change_list):
   for change in change_list:
     user_row = app_tables.users.get(user_id=change['user_id'])
-    user_row['admin'] = change['admin']
-    user_row['active'] = change['active']
+    active = True if change['active'] == 'active' else False
+    admin = True if change['admin'] == 'yes' else False
+    user_row['active'] = active
+    user_row['admin'] = admin
+
+@anvil.server.callable
+def remove_user_from_ccustomer(user_id):
+  user = app_tables.users.get(user_id=user_id)
