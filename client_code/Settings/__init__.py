@@ -305,7 +305,7 @@ class Settings(SettingsTemplate):
     # 5. Format user data for the table
     table_data = [
       {
-        **{k: v for k, v in u.items()}, 
+        **u, 
         'active': 'active' if u['active'] else 'inactive',
         'admin': 'yes' if u['admin'] else 'no'
       }
@@ -579,7 +579,7 @@ class Settings(SettingsTemplate):
     # 2. Format user data for the table
     table_data = [
       {
-        **{k: v for k, v in u.items()}, 
+        **u, 
         'active': 'active' if u['active'] else 'inactive',
         'admin': 'yes' if u['admin'] else 'no'
       }
