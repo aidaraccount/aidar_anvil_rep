@@ -288,13 +288,8 @@ class Settings(SettingsTemplate):
     # 2. Get user data from the Users table
     user_data = anvil.server.call('get_anvil_users', user['customer_id'])
     
-    # Debug information
-    print("User data type:", type(user_data))
-    print("User data length:", len(user_data) if isinstance(user_data, list) else "Not a list")
-    if user_data and len(user_data) > 0:
-        print("First user type:", type(user_data[0]))
-        print("First user dir:", dir(user_data[0]))
-        print("First user repr:", repr(user_data[0]))
+    # Initial check of user data structure
+    print(f"User data received: {len(user_data) if isinstance(user_data, list) else 'Not a list'} users")
     
     # 3. Summary - calculate user statistics
     if user_data:
@@ -312,48 +307,30 @@ class Settings(SettingsTemplate):
 
     # 5. Format user data for the table
     table_data = []
-    for idx, u in enumerate(user_data):
-      # Debug information for each user
-      print(f"Processing user {idx}:")
-      print(f"  Type: {type(u)}")
+    # Access specific attributes directly instead of iterating
+    for u in user_data:
       try:
-          # Check if it's a Row object with get_table method
-          if hasattr(u, 'get_table'):
-              print(f"  Table: {u.get_table()}")
-              print(f"  Column names: {[col.name for col in u.get_table().list_columns()]}")
-      except:
-          print(f"  Failed to get table info")
-      
-      # Create a new dictionary with properties from the LiveObjectProxy
-      user_dict = {}
-      # Try iterating safely
-      try:
-          if hasattr(u, '_json'):
-              # It might be a JSON object
-              print(f"  JSON data: {u._json}")
-              user_dict = u._json
-          elif hasattr(u, 'items') and callable(u.items):
-              # It might support items() method
-              for key, value in u.items():
-                  print(f"  Key: {key}, Value: {value}, Type: {type(value)}")
-                  user_dict[key] = value
-          else:
-              # Try the approach that caused the error, but with more debugging
-              print(f"  Available attributes: {dir(u)}")
-              for key in u:
-                  print(f"    Accessing key: {key}")
-                  value = u[key]
-                  print(f"    Value: {value}, Type: {type(value)}")
-                  user_dict[key] = value
+          # Create a dictionary with the specific fields we need
+          user_dict = {
+              'user_id': u['user_id'],
+              'name': u['name'],
+              'email': u['email'],
+              'customer_id': u['customer_id'],
+              # Format for display
+              'active': 'active' if u['active'] else 'inactive',
+              'admin': 'yes' if u['admin'] else 'no'
+          }
+          table_data.append(user_dict)
       except Exception as e:
-          print(f"  Error while processing user: {e}")
-          # Use a fallback approach
-          user_dict = {'name': 'Error processing user', 'email': f'Error: {str(e)}'}
-      
-      # Add formatted properties
-      user_dict['active'] = 'active' if u['active'] else 'inactive'
-      user_dict['admin'] = 'yes' if u['admin'] else 'no'
-      table_data.append(user_dict)
+          print(f"Error processing user: {e}")
+          # Add a placeholder for errors
+          user_dict = {
+              'name': 'Error processing user data',
+              'email': str(e),
+              'active': 'inactive',
+              'admin': 'no'
+          }
+          table_data.append(user_dict)
 
     self.users_data.items = [{'data': item, 'settings_page': self} for item in table_data]
     
@@ -621,16 +598,30 @@ class Settings(SettingsTemplate):
     
     # 2. Format user data for the table
     table_data = []
+    # Access specific attributes directly instead of iterating
     for u in user_data:
-      # Create a new dictionary with properties from the LiveObjectProxy
-      user_dict = {}
-      for key in u:
-        user_dict[key] = u[key]
-      
-      # Add formatted properties
-      user_dict['active'] = 'active' if u['active'] else 'inactive'
-      user_dict['admin'] = 'yes' if u['admin'] else 'no'
-      table_data.append(user_dict)
+      try:
+          # Create a dictionary with the specific fields we need
+          user_dict = {
+              'user_id': u['user_id'],
+              'name': u['name'],
+              'email': u['email'],
+              'customer_id': u['customer_id'],
+              # Format for display
+              'active': 'active' if u['active'] else 'inactive',
+              'admin': 'yes' if u['admin'] else 'no'
+          }
+          table_data.append(user_dict)
+      except Exception as e:
+          print(f"Error in search_user_click: {e}")
+          # Add a placeholder for errors
+          user_dict = {
+              'name': 'Error processing user data',
+              'email': str(e),
+              'active': 'inactive',
+              'admin': 'no'
+          }
+          table_data.append(user_dict)
     
     # 3. Filter by search term and update table
     self.users_data.items = [
