@@ -25,8 +25,9 @@ def sign_up_with_extra_data(customer_id, customer_name, email, password, first_n
     user['first_name'] = first_name
     user['last_name'] = last_name
     user['customer_name'] = customer_name
-
+    print('here 1')
     if customer_id is not None:
+      print('here 2')
       base_data = json.loads(anvil.server.call('get_settings_subscription2', user["user_id"]))[0]
       expiration_date = base_data['expiration_date'] if 'expiration_date' in base_data else None
       name = base_data['name'] if 'name' in base_data else None
@@ -41,6 +42,7 @@ def sign_up_with_extra_data(customer_id, customer_name, email, password, first_n
       user['admin'] = False
       
     else:
+      print('here 3')
       user['expiration_date'] = (datetime.datetime.now(datetime.timezone.utc) + datetime.timedelta(days=14)).date()
       user['plan'] = 'Trial'
       user['active'] = True
