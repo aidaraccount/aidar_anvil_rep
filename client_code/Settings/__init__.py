@@ -239,8 +239,13 @@ class Settings(SettingsTemplate):
 
       # a) subscription
       self.type.text = 'Paid Subscription'
-      self.label_end.visible = False
-      self.end.visible = False
+      if user["expiration_date"] is None:
+        self.label_end.visible = False
+        self.end.visible = False
+      else:
+        days = (user["expiration_date"] - date.today()).days
+        days_left = f"{days} day left" if days == 1 else f"{days} days left"
+        self.end.text = f"{user['expiration_date'].strftime('%b %d, %Y')} ({days_left})"
       
       self.orga.text = user['customer_name']
       if user['active'] is True:
