@@ -596,10 +596,7 @@ class Settings(SettingsTemplate):
       print('change_list:', change_list)
       
       # update user roles
-      for change in change_list:
-        user_row = app_tables.users.get(user_id=change['user_id'])
-        user_row['admin'] = change['admin']
-        user_row['active'] = change['active']
+      anvil.server.call('update_user_role', change_list)
 
       # reload
       if self.search_user_box.text == '':

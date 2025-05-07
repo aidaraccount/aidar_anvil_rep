@@ -146,3 +146,11 @@ def get_anvil_users(customer_id):
     formatted_users.append(user_dict)
     
   return formatted_users
+
+
+@anvil.server.callable
+def update_user_role(change_list):
+  for change in change_list:
+    user_row = app_tables.users.get(user_id=change['user_id'])
+    user_row['admin'] = change['admin']
+    user_row['active'] = change['active']
