@@ -6,6 +6,7 @@ from anvil.tables import app_tables
 import anvil.server
 import numpy as np
 import datetime
+import json
 
 
 # This is a server module. It runs on the Anvil server,
@@ -26,11 +27,22 @@ def sign_up_with_extra_data(customer_id, customer_name, email, password, first_n
     user['customer_name'] = customer_name
 
     if customer_id is not None:
+      base_data = json.loads(anvil.server.call('get_settings_subscription2', user["user_id"]))[0]
+      expiration_date = base_data['expiration_date'] if 'expiration_date' in base_data else None
+      name = base_data['name'] if 'name' in base_data else None
+      
       user['customer_id'] = customer_id
+      user['customer_name'] = name
+      user['expiration_date'] = expiration_date
       user['plan'] = 'Professional'
+      user['active'] = True
+      user['admin'] = False
+      
     else:
       user['expiration_date'] = (datetime.datetime.now(datetime.timezone.utc) + datetime.timedelta(days=14)).date()
       user['plan'] = 'Trial'
+      user['active'] = True
+      user['admin'] = True
     
     return 'success'
     
