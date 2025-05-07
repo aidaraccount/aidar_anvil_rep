@@ -281,12 +281,12 @@ class Settings(SettingsTemplate):
     self._set_nav_section('user')
  
     # 1. Load server data
-    summary_data = anvil.server.call('get_settings_user_mgmt2', user["customer_id"])
+    summary_data = json.loads(anvil.server.call('get_settings_user_mgmt2', user["customer_id"]))[0]
     license_key = summary_data['license_key'] if 'license_key' in summary_data else None
     no_licenses = summary_data['no_licenses'] if 'no_licenses' in summary_data else None
-
+    
     # 2. Get user data from the Users table
-    user_data = list(app_tables.users.search(customer_id=user['customer_id']))
+    user_data = anvil.server.call('get_anvil_users', user['customer_id'])
     
     # 3. Summary - calculate user statistics
     if user_data:
@@ -294,6 +294,7 @@ class Settings(SettingsTemplate):
       admin_count = sum(1 for u in user_data if u['admin'])
       admin_text = 'admin' if admin_count == 1 else 'admins'
       self.summary.text = f"{active_users}/{no_licenses} accounts in use - {admin_count} {admin_text}"
+      print(f"{active_users}/{no_licenses} accounts in use - {admin_count} {admin_text}")
     
     # 4. User Roles & Permissions
     # Center table header
@@ -573,7 +574,7 @@ class Settings(SettingsTemplate):
   # a) User Roles & Permissions
   def search_user_click(self, **event_args):
     # 1. Get user data from the Users table
-    user_data = list(app_tables.users.search(customer_id=user['customer_id']))
+    user_data = anvil.server.call('get_anvil_users', user['customer_id'])
     
     # 2. Format user data for the table
     table_data = [

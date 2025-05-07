@@ -111,3 +111,8 @@ def update_anvil_user(user_id, first_name, last_name):
   except Exception as e:
     print(f"Error updating Anvil user: {e}")
     return 'error'
+
+
+@anvil.server.callable
+def get_anvil_users(customer_id):
+  return list(app_tables.users.search(customer_id=customer_id))
