@@ -25,7 +25,6 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
     # Get customer info for billing_details
     customer = anvil.server.call('get_stripe_customer', user['email'])
     customer_email = customer.get('email', '')
-    customer_name = customer.get('name', '')
     customer_address = customer.get('address', {})
     address_line1 = customer_address.get('line1', '')
     address_line2 = customer_address.get('line2', '')
@@ -201,9 +200,11 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
     anvil.js.window.payment_method_ready = self._payment_method_ready
     anvil.js.window.close_alert = self._close_alert
 
+
   def _close_alert(self):
     """Close the alert dialog from JS."""
     self.raise_event('x-close-alert')
+
 
   def _payment_method_ready(self, payment_method_id: str):
     """Called from JS after successful Stripe setup. Handles server calls from Python."""

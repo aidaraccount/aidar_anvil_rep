@@ -234,10 +234,20 @@ def attach_payment_method_to_customer(customer_id: str, payment_method_id: str) 
 
 
 @anvil.server.callable
-def create_stripe_subscription(customer_id: str, price_id: str, plan_type: str, user_count: int = 1) -> dict:
+def create_stripe_subscription(customer_id: str, price_id: str, plan_type: str, frequency: str, user_count: int = 1) -> dict:
     """
     1. Create a new subscription for a customer, applying a fixed tax rate for German customers.
     2. Print and return the subscription object (as dict).
+    
+    Args:
+        customer_id (str): Stripe customer ID
+        price_id (str): Stripe price ID
+        plan_type (str): Plan type ('Explore' or 'Professional')
+        frequency (str): Billing frequency ('monthly' or 'yearly')
+        user_count (int, optional): Number of users/licenses. Defaults to 1.
+        
+    Returns:
+        dict: The created Stripe subscription object
     """
     import stripe
     stripe.api_key = anvil.secrets.get_secret("stripe_secret_key")
@@ -261,11 +271,15 @@ def create_stripe_subscription(customer_id: str, price_id: str, plan_type: str, 
     # Create subscription
     stripe_subscription = stripe.Subscription.create(**subscription_args)
 
-    # Set user['active'] = True and user['plan'] = plan after successful subscription creation
+    # Update parameters of all users with the same customer_id
     if stripe_subscription.id:
-        user['active'] = True
-        user['admin'] = True
-        user['plan'] = plan_type
+        users_with_same_customer_id = app_tables.users.search(customer_id=user['customer_id'])
+        for u in users_with_same_customer_id:
+          u['plan'] = plan_type
+          u['expiration_date'] = None
+
+        # Update the subscription
+        anvil.server.call('update_subscription', plan_type, user_count, frequency, None)
 
         print(f"[Stripe] Created subscription: id={stripe_subscription.id}, customer={stripe_subscription.customer}, status={stripe_subscription.status}, tax_rates={stripe_subscription.default_tax_rates}")
     return dict(stripe_subscription)
@@ -428,17 +442,20 @@ def cancel_subscription() -> dict:
         u['expiration_date'] = expiration_date
 
       # Update company['expiration_date']
-      # company = anvil.server.call('cancel_subscription', user['customer_id'], expiration_date)
+      result = anvil.server.call('cancel_subscription', user['customer_id'], expiration_date)
 
       # return success
-      print(f"Subscription {subscription.id} will be cancelled on {expiration_date}")
-      return {
-        "success": True,
-        "message": "Subscription will be cancelled at the end of the current billing period",
-        "subscription_id": subscription.id,
-        "expiration_date": expiration_date
-      }
-
+      if result == 'Subscription cancelled successfully':
+        print(f"Subscription {subscription.id} will be cancelled on {expiration_date}")
+        return {
+          "success": True,
+          "message": "Subscription will be cancelled at the end of the current billing period",
+          "subscription_id": subscription.id,
+          "expiration_date": expiration_date
+        }
+      else:
+        print(f"Error cancelling subscription: {result}")
+        return {"success": False, "message": "Error cancelling subscription"}
     except Exception as e:
       print(f"Error cancelling subscription: {e}")
       return {"success": False, "message": f"Error: {str(e)}"}

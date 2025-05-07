@@ -37,7 +37,15 @@ class Settings(SettingsTemplate):
       
     else:
       # Initialize customer_info as a class attribute
-      self.customer_info = anvil.server.call('get_stripe_customer_with_tax_info', user['email'])
+      base_data = json.loads(anvil.server.call('get_settings_subscription2', user["user_id"]))[0]
+      self.sub_email = base_data['mail'] if 'mail' in base_data else None
+      print(self.sub_email)
+      print(user['email'])
+
+      if self.sub_email is not None:
+        self.customer_info = anvil.server.call('get_stripe_customer_with_tax_info', self.sub_email)
+      else:
+        self.customer_info = None
       
       # section routing
       section = self.url_dict['section']
@@ -360,8 +368,8 @@ class Settings(SettingsTemplate):
         for pm in payment_methods:
             print(f"[STRIPE] Payment method: id={pm.get('id')}, type={pm.get('type')}, brand={pm.get('card', {}).get('brand')}, last4={pm.get('card', {}).get('last4')}")
     else:
-        print(f"[STRIPE] No Stripe customer found for email={user['email']}")
-        self.pay_profile_email.text = user['email']
+        print(f"[STRIPE] No Stripe customer found for email={self.sub_email}")
+        self.pay_profile_email.text = self.sub_email
         self.pay_profile_name.text = "No customer information"
         self.pay_profile_address.text = "No address information"
         self.pay_profile_tax.text = "No tax information"
@@ -688,7 +696,7 @@ class Settings(SettingsTemplate):
     """
     # Use the centrally stored customer_info instead of making a new call
     form = C_PaymentCustomer(
-        prefill_email=self.customer_info.get('email', user['email']),
+        prefill_email=self.customer_info.get('email', ''),
         prefill_company_name=self.customer_info.get('name', ''),
         prefill_address=self.customer_info.get('address', {}),
         prefill_tax_id=self.customer_info.get('tax_id', ''),
