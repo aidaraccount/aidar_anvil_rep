@@ -412,8 +412,6 @@ def cancel_subscription() -> dict:
 
       if not subscriptions or not subscriptions.data:
         return {"success": False, "message": "No active subscription found"}
-
-      print('subscriptions.data[0].id:', subscriptions.data[0].id)
     
       # Cancel the subscription at period end (won't renew)
       subscription = stripe.Subscription.modify(
@@ -423,9 +421,6 @@ def cancel_subscription() -> dict:
 
       expiration_date = subscription["items"]["data"][0]["current_period_end"]
       expiration_date = datetime.fromtimestamp(expiration_date).date()
-
-      print(expiration_date)
-      print(type(expiration_date))
 
       # Update user['expiration_date'] of all users with the same customer_id
       users_with_same_customer_id = app_tables.users.search(customer_id=user['customer_id'])

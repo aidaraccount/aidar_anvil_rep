@@ -200,7 +200,7 @@ class Settings(SettingsTemplate):
       self.plan_header.text = 'Activate Subscription Plan'
       self.plan_desc.text = 'Subscribe now and start discovering right away!'
       self.sub_plan.clear()
-      self.sub_plan.add_component(C_SubscriptionPlan(plan=None, no_licenses=None, frequency=None))
+      self.sub_plan.add_component(C_SubscriptionPlan(plan=None, no_licenses=None, frequency=None, expiration_date=user["expiration_date"]))
 
     
     elif user["plan"] in ['Trial', 'Extended Trial'] and (user["expiration_date"] is None or user["expiration_date"] >= date.today()):
@@ -230,7 +230,7 @@ class Settings(SettingsTemplate):
       self.plan_header.text = 'Activate Subscription Plan'
       self.plan_desc.text = 'Subscribe now and your subscription will start after your free trial ends.'
       self.sub_plan.clear()
-      self.sub_plan.add_component(C_SubscriptionPlan(plan=user["plan"], no_licenses=None, frequency=None))
+      self.sub_plan.add_component(C_SubscriptionPlan(plan=user["plan"], no_licenses=None, frequency=None, expiration_date=user["expiration_date"]))
 
     
     elif user["plan"] in ['Explore', 'Professional'] and (user["expiration_date"] is None or user["expiration_date"] >= date.today()):
@@ -262,10 +262,11 @@ class Settings(SettingsTemplate):
       sub_data = json.loads(anvil.server.call('get_settings_subscription2', user["user_id"]))[0]
       no_licenses = sub_data['no_licenses'] if 'no_licenses' in sub_data else None
       frequency = sub_data['frequency'] if 'frequency' in sub_data else None
+      expiration_date = sub_data['expiration_date'] if 'expiration_date' in sub_data else None
 
       # add component
       self.sub_plan.clear()
-      self.sub_plan.add_component(C_SubscriptionPlan(plan=user["plan"], no_licenses=no_licenses, frequency=frequency))
+      self.sub_plan.add_component(C_SubscriptionPlan(plan=user["plan"], no_licenses=no_licenses, frequency=frequency, expiration_date=expiration_date))
 
     
   # -----------------------

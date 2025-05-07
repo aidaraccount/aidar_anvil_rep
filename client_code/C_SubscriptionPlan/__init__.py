@@ -17,7 +17,7 @@ from ..C_PaymentInfos import C_PaymentInfos
 
 
 class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
-  def __init__(self, plan, no_licenses, frequency, **properties):
+  def __init__(self, plan, no_licenses, frequency, expiration_date, **properties):
     """
     1. Initialize the subscription plan component with default values
     2. Set up instance variables for plan details and button elements
@@ -26,6 +26,7 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
         plan: The plan type (Trial, Extended Trial, Explore, Professional)
         no_licenses: The number of licenses (for Professional plan)
         frequency: The billing frequency (monthly/yearly)
+        expiration_date: The expiration date of the subscription
     """
     # Initialize the component
     self.init_components(**properties)
@@ -37,12 +38,14 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
     self.subscribed_plan = "Trial" if plan is None else plan  # Current plan type (Explore/Professional)
     self.subscribed_licenses = 1 if no_licenses is None else no_licenses  # Current number of licenses
     self.subscribed_frequency = "monthly" if frequency is None else frequency  # Billing period (monthly/yearly)
+    self.subscribed_expiration_date = expiration_date  # Expiration date of the subscription
     
     # Initialize the selected values (what the user is currently selecting in the UI)
     # Initially these are the same as the subscription values
     self.selected_plan = self.subscribed_plan
     self.selected_licenses = self.subscribed_licenses
     self.selected_frequency = self.subscribed_frequency
+    self.selected_expiration_date = self.subscribed_expiration_date
     
     # Save CSS for direct application via JavaScript
     self.explore_highlight_css = "0 0 20px rgba(0, 0, 0, 0.25)"
@@ -532,7 +535,7 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
         is_yearly = yearly_btn.classList.contains('selected')
         self.selected_frequency = "yearly" if is_yearly else "monthly"
         
-    # 1. EXPLORE BUTTON LOGIC
+    # 1. LEFT EXPLORE BUTTON LOGIC
     if self.subscribed_plan in ["Trial", "Extended Trial", None]:
         # If not subscribed yet, just show basic "Choose Plan" button
         self.explore_plan_btn.text = "Choose Plan"
@@ -542,10 +545,16 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
     elif self.subscribed_plan == "Explore":
         # If already on Explore plan, check frequency
         if self.selected_frequency == self.subscribed_frequency:
-            # Same plan, same frequency - show Current Plan button (disabled)
-            self.explore_plan_btn.text = "Current Plan"
-            self.explore_plan_btn.role = "secondary-button"
-            self.explore_plan_btn.set_event_handler('click', None)  # Disable click
+            if self.subscribed_expiration_date is None:
+              # Same plan, same frequency - show Cancel Subscription button
+              self.explore_plan_btn.text = "Cancel Subscription"
+              self.explore_plan_btn.role = "secondary-button"
+              self.explore_plan_btn.set_event_handler('click', self.cancel_subscription)
+            else:
+              # Same plan, same frequency - show Renew Subscription button
+              self.explore_plan_btn.text = "Renew Subscription"
+              self.explore_plan_btn.role = "cta-button"
+              self.explore_plan_btn.set_event_handler('click', self.update_subscription)
         else:
             # Same plan but different frequency - allow change
             if self.selected_frequency == "yearly":
@@ -564,7 +573,7 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
         self.explore_plan_btn.role = "secondary-button"
         self.explore_plan_btn.set_event_handler('click', self.update_subscription)
     
-    # 2. PROFESSIONAL BUTTON LOGIC
+    # 2. RIGHT PROFESSIONAL BUTTON LOGIC
     if self.subscribed_plan in ["Trial", "Extended Trial", None]:
         # If not subscribed yet, just show basic "Choose Plan" button
         self.professional_plan_btn.text = "Choose Plan"
@@ -584,10 +593,16 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
                               self.subscribed_plan == "Professional")
         
         if is_same_subscription:
+          if self.subscribed_expiration_date is None:
             # Exact same plan - show Current Plan + Cancel option
             self.professional_plan_btn.text = "Cancel Subscription"
             self.professional_plan_btn.role = "secondary-button"
             self.professional_plan_btn.set_event_handler('click', self.cancel_subscription)
+          else:
+            # Exact same plan - show Current Plan + Cancel option
+            self.professional_plan_btn.text = "Renew Subscription"
+            self.professional_plan_btn.role = "cta-button"
+            self.professional_plan_btn.set_event_handler('click', self.update_subscription)
         else:
             # Is this an upgrade or downgrade?
             is_upgrade = (self.selected_licenses > self.subscribed_licenses) or (self.subscribed_frequency == 'monthly' and self.selected_frequency == 'yearly')
