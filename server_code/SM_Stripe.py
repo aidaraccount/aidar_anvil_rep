@@ -106,181 +106,181 @@ def update_stripe_customer(customer_id: str, name: str = None, address: dict = N
 
 @anvil.server.callable
 def update_stripe_customer_tax_id(customer_id: str, tax_id: str, tax_id_type: str) -> dict:
-    """
-    Add or update a tax ID for a Stripe customer. Handles duplicate tax ID errors gracefully.
-    """
+  """
+  Add or update a tax ID for a Stripe customer. Handles duplicate tax ID errors gracefully.
+  """
 
-    print(f"[Stripe] Updating Stripe Customer tax ID {tax_id} of type {tax_id_type} for customer {customer_id}")
+  print(f"[Stripe] Updating Stripe Customer tax ID {tax_id} of type {tax_id_type} for customer {customer_id}")
 
-    import stripe
-    stripe.api_key = anvil.secrets.get_secret("stripe_secret_key")
+  import stripe
+  stripe.api_key = anvil.secrets.get_secret("stripe_secret_key")
 
-    # Check for existing tax IDs
-    existing_tax_ids = stripe.Customer.list_tax_ids(customer_id)
+  # Check for existing tax IDs
+  existing_tax_ids = stripe.Customer.list_tax_ids(customer_id)
 
-    # First, delete existing tax IDs of the same type (to update instead of just adding)
-    for tid in existing_tax_ids['data']:
-        if tid['type'] == tax_id_type:
-            print(f"[Stripe] Deleting existing tax ID {tid['id']} of type {tax_id_type} for customer {customer_id}")
-            stripe.Customer.delete_tax_id(customer_id, tid['id'])
+  # First, delete existing tax IDs of the same type (to update instead of just adding)
+  for tid in existing_tax_ids['data']:
+    if tid['type'] == tax_id_type:
+      print(f"[Stripe] Deleting existing tax ID {tid['id']} of type {tax_id_type} for customer {customer_id}")
+      stripe.Customer.delete_tax_id(customer_id, tid['id'])
 
-    # Now create the new tax ID
-    stripe_tax_id_obj = None
-    try:
-        stripe_tax_id_obj = stripe.Customer.create_tax_id(customer_id, type=tax_id_type, value=tax_id)
-        print(f"[Stripe] Created new tax ID for customer {customer_id}: {tax_id_type} {tax_id}")
-    except stripe.error.InvalidRequestError as e:
-        if 'already exists' not in str(e):
-            raise
-        # If we somehow still have a duplicate (race condition), get the existing one
-        refreshed_tax_ids = stripe.Customer.list_tax_ids(customer_id)
-        matches = [tid for tid in refreshed_tax_ids['data'] if tid['type'] == tax_id_type and tid['value'] == tax_id]
-        if matches:
-            stripe_tax_id_obj = matches[0]
-            print(f"[Stripe] Using existing tax ID for customer {customer_id}: {tax_id_type} {tax_id}")
-    if not stripe_tax_id_obj:
-        raise Exception("Could not create or retrieve the Stripe tax ID object.")
-    return dict(stripe_tax_id_obj)
+  # Now create the new tax ID
+  stripe_tax_id_obj = None
+  try:
+    stripe_tax_id_obj = stripe.Customer.create_tax_id(customer_id, type=tax_id_type, value=tax_id)
+    print(f"[Stripe] Created new tax ID for customer {customer_id}: {tax_id_type} {tax_id}")
+  except stripe.error.InvalidRequestError as e:
+    if 'already exists' not in str(e):
+      raise
+    # If we somehow still have a duplicate (race condition), get the existing one
+    refreshed_tax_ids = stripe.Customer.list_tax_ids(customer_id)
+    matches = [tid for tid in refreshed_tax_ids['data'] if tid['type'] == tax_id_type and tid['value'] == tax_id]
+    if matches:
+      stripe_tax_id_obj = matches[0]
+      print(f"[Stripe] Using existing tax ID for customer {customer_id}: {tax_id_type} {tax_id}")
+  if not stripe_tax_id_obj:
+    raise Exception("Could not create or retrieve the Stripe tax ID object.")
+  return dict(stripe_tax_id_obj)
 
 
 @anvil.server.callable
 def get_stripe_customer(email: str) -> dict:
-    """
-    Look for an existing Stripe customer with the provided email. If found, return the customer object as dict. If not found, return empty dict.
-    """
-    import stripe
-    stripe.api_key = anvil.secrets.get_secret("stripe_secret_key")
+  """
+  Look for an existing Stripe customer with the provided email. If found, return the customer object as dict. If not found, return empty dict.
+  """
+  import stripe
+  stripe.api_key = anvil.secrets.get_secret("stripe_secret_key")
 
-    stripe_customers = stripe.Customer.list(email=email, limit=1)
-    if stripe_customers.data:
-        stripe_customer = stripe_customers.data[0]
-        print(f"[Stripe] Found existing customer: id={stripe_customer.id}, email={stripe_customer.email}")
-        return dict(stripe_customer)
-    else:
-        print(f"[Stripe] No customer found for email={email}")
-        return {}
-
-
-@anvil.server.callable
-def get_stripe_customer_with_tax_info(email: str) -> dict:
-    """
-    Look up a Stripe customer by email and return their address country and tax ID info (if available).
-    Returns a dict with keys: id, email, address, tax_country, tax_id, tax_id_type
-    """
-    import stripe
-    stripe.api_key = anvil.secrets.get_secret("stripe_secret_key")
-
-    stripe_customers = stripe.Customer.list(email=email, limit=1)
-    if stripe_customers.data:
-        stripe_customer = stripe_customers.data[0]
-        result = dict(stripe_customer)
-        # Get country from address
-        address = getattr(stripe_customer, 'address', None)
-        tax_country = address.country if address and hasattr(address, 'country') else None
-        # Get tax id info
-        tax_id = None
-        tax_id_type = None
-        try:
-            tax_ids = stripe.Customer.list_tax_ids(stripe_customer.id)
-            if tax_ids.data:
-                stripe_tax_id_obj = tax_ids.data[0]
-                tax_id = stripe_tax_id_obj['value']
-                tax_id_type = stripe_tax_id_obj['type']
-        except Exception as e:
-            print(f"[Stripe] Could not fetch tax IDs: {e}")
-        result['tax_country'] = tax_country
-        result['tax_id'] = tax_id
-        result['tax_id_type'] = tax_id_type
-        return result
+  stripe_customers = stripe.Customer.list(email=email, limit=1)
+  if stripe_customers.data:
+    stripe_customer = stripe_customers.data[0]
+    print(f"[Stripe] Found existing customer: id={stripe_customer.id}, email={stripe_customer.email}")
+    return dict(stripe_customer)
+  else:
+    print(f"[Stripe] No customer found for email={email}")
     return {}
 
 
 @anvil.server.callable
-def get_stripe_payment_methods(customer_id: str) -> list:
-    """
-    1. Get all PaymentMethods associated with a customer.
-    2. Print and return the list of PaymentMethods (as list of dicts).
-    """
-    import stripe
-    stripe.api_key = anvil.secrets.get_secret("stripe_secret_key")
+def get_stripe_customer_with_tax_info(email: str) -> dict:
+  """
+  Look up a Stripe customer by email and return their address country and tax ID info (if available).
+  Returns a dict with keys: id, email, address, tax_country, tax_id, tax_id_type
+  """
+  import stripe
+  stripe.api_key = anvil.secrets.get_secret("stripe_secret_key")
 
-    stripe_payment_methods = stripe.PaymentMethod.list(customer=customer_id)
-    print(f"[Stripe] Found {len(stripe_payment_methods.data)} payment methods for customer_id={customer_id}")
-    return [dict(stripe_payment_method) for stripe_payment_method in stripe_payment_methods.data]
+  stripe_customers = stripe.Customer.list(email=email, limit=1)
+  if stripe_customers.data:
+    stripe_customer = stripe_customers.data[0]
+    result = dict(stripe_customer)
+    # Get country from address
+    address = getattr(stripe_customer, 'address', None)
+    tax_country = address.country if address and hasattr(address, 'country') else None
+    # Get tax id info
+    tax_id = None
+    tax_id_type = None
+    try:
+      tax_ids = stripe.Customer.list_tax_ids(stripe_customer.id)
+      if tax_ids.data:
+        stripe_tax_id_obj = tax_ids.data[0]
+        tax_id = stripe_tax_id_obj['value']
+        tax_id_type = stripe_tax_id_obj['type']
+    except Exception as e:
+      print(f"[Stripe] Could not fetch tax IDs: {e}")
+    result['tax_country'] = tax_country
+    result['tax_id'] = tax_id
+    result['tax_id_type'] = tax_id_type
+    return result
+  return {}
+
+
+@anvil.server.callable
+def get_stripe_payment_methods(customer_id: str) -> list:
+  """
+  1. Get all PaymentMethods associated with a customer.
+  2. Print and return the list of PaymentMethods (as list of dicts).
+  """
+  import stripe
+  stripe.api_key = anvil.secrets.get_secret("stripe_secret_key")
+
+  stripe_payment_methods = stripe.PaymentMethod.list(customer=customer_id)
+  print(f"[Stripe] Found {len(stripe_payment_methods.data)} payment methods for customer_id={customer_id}")
+  return [dict(stripe_payment_method) for stripe_payment_method in stripe_payment_methods.data]
 
 
 @anvil.server.callable
 def attach_payment_method_to_customer(customer_id: str, payment_method_id: str) -> dict:
-    """
-    1. Attach a PaymentMethod to a Stripe customer.
-    2. Set as default payment method for invoices.
-    3. Print and return the updated customer object (as dict).
-    """
-    import stripe
-    stripe.api_key = anvil.secrets.get_secret("stripe_secret_key")
+  """
+  1. Attach a PaymentMethod to a Stripe customer.
+  2. Set as default payment method for invoices.
+  3. Print and return the updated customer object (as dict).
+  """
+  import stripe
+  stripe.api_key = anvil.secrets.get_secret("stripe_secret_key")
 
-    # Attach payment method
-    stripe_payment_method = stripe.PaymentMethod.attach(payment_method_id, customer=customer_id)
-    print(f"[Stripe] Attached PaymentMethod: id={stripe_payment_method.id}, type={stripe_payment_method.type}, customer={stripe_payment_method.customer}, status={stripe_payment_method['card']['brand'] if stripe_payment_method.type == 'card' else ''}")
-    # Set as default
-    stripe_customer = stripe.Customer.modify(
-        customer_id,
-        invoice_settings={"default_payment_method": payment_method_id}
-    )
-    print(f"[Stripe] Updated customer default payment method: customer_id={stripe_customer.id}, default_payment_method={stripe_customer.invoice_settings.default_payment_method}")
-    return dict(stripe_customer)
+  # Attach payment method
+  stripe_payment_method = stripe.PaymentMethod.attach(payment_method_id, customer=customer_id)
+  print(f"[Stripe] Attached PaymentMethod: id={stripe_payment_method.id}, type={stripe_payment_method.type}, customer={stripe_payment_method.customer}, status={stripe_payment_method['card']['brand'] if stripe_payment_method.type == 'card' else ''}")
+  # Set as default
+  stripe_customer = stripe.Customer.modify(
+    customer_id,
+    invoice_settings={"default_payment_method": payment_method_id}
+  )
+  print(f"[Stripe] Updated customer default payment method: customer_id={stripe_customer.id}, default_payment_method={stripe_customer.invoice_settings.default_payment_method}")
+  return dict(stripe_customer)
 
 
 @anvil.server.callable
 def create_stripe_subscription(customer_id: str, price_id: str, plan_type: str, frequency: str, user_count: int = 1) -> dict:
-    """
-    1. Create a new subscription for a customer, applying a fixed tax rate for German customers.
-    2. Print and return the subscription object (as dict).
-    
-    Args:
-        customer_id (str): Stripe customer ID
-        price_id (str): Stripe price ID
-        plan_type (str): Plan type ('Explore' or 'Professional')
-        frequency (str): Billing frequency ('monthly' or 'yearly')
-        user_count (int, optional): Number of users/licenses. Defaults to 1.
-        
-    Returns:
-        dict: The created Stripe subscription object
-    """
-    import stripe
-    stripe.api_key = anvil.secrets.get_secret("stripe_secret_key")
+  """
+  1. Create a new subscription for a customer, applying a fixed tax rate for German customers.
+  2. Print and return the subscription object (as dict).
+  
+  Args:
+    customer_id (str): Stripe customer ID
+    price_id (str): Stripe price ID
+    plan_type (str): Plan type ('Explore' or 'Professional')
+    frequency (str): Billing frequency ('monthly' or 'yearly')
+    user_count (int, optional): Number of users/licenses. Defaults to 1.
+      
+  Returns:
+    dict: The created Stripe subscription object
+  """
+  import stripe
+  stripe.api_key = anvil.secrets.get_secret("stripe_secret_key")
 
-    user = anvil.users.get_user()
+  user = anvil.users.get_user()
 
-    # Fetch customer to get country
-    stripe_customer = stripe.Customer.retrieve(customer_id)
-    country = stripe_customer.address.country if stripe_customer.address and hasattr(stripe_customer.address, 'country') else None
+  # Fetch customer to get country
+  stripe_customer = stripe.Customer.retrieve(customer_id)
+  country = stripe_customer.address.country if stripe_customer.address and hasattr(stripe_customer.address, 'country') else None
 
-    # Only apply the fixed tax rate for German customers
-    items = [{"price": price_id, "quantity": user_count}]
-    subscription_args = {
-        "customer": customer_id,
-        "items": items,
-        "discounts": [{"coupon": "I1ivrR97"}]
-    }
-    if country == "DE":
-        subscription_args["default_tax_rates"] = ["txr_1RHo7sQTBcqmUQgtajAz0voj"]
+  # Only apply the fixed tax rate for German customers
+  items = [{"price": price_id, "quantity": user_count}]
+  subscription_args = {
+    "customer": customer_id,
+    "items": items,
+    "discounts": [{"coupon": "I1ivrR97"}]
+  }
+  if country == "DE":
+    subscription_args["default_tax_rates"] = ["txr_1RHo7sQTBcqmUQgtajAz0voj"]
 
-    # Create subscription
-    stripe_subscription = stripe.Subscription.create(**subscription_args)
+  # Create subscription
+  stripe_subscription = stripe.Subscription.create(**subscription_args)
 
-    # Update parameters of all users with the same customer_id
-    if stripe_subscription.id:
-        users_with_same_customer_id = app_tables.users.search(customer_id=user['customer_id'])
-        for u in users_with_same_customer_id:
-          u['plan'] = plan_type
-          u['expiration_date'] = None
+  # Update parameters of all users with the same customer_id
+  if stripe_subscription.id:
+    users_with_same_customer_id = app_tables.users.search(customer_id=user['customer_id'])
+    for u in users_with_same_customer_id:
+      u['plan'] = plan_type
+      u['expiration_date'] = None
 
-        # Update the subscription
-        anvil.server.call('update_subscription', plan_type, user_count, frequency, None)
+    # Update the subscription
+    anvil.server.call('update_subscription', plan_type, user_count, frequency, None)
 
-        print(f"[Stripe] Created subscription: id={stripe_subscription.id}, customer={stripe_subscription.customer}, status={stripe_subscription.status}, tax_rates={stripe_subscription.default_tax_rates}")
-    return dict(stripe_subscription)
+    print(f"[Stripe] Created subscription: id={stripe_subscription.id}, customer={stripe_subscription.customer}, status={stripe_subscription.status}, tax_rates={stripe_subscription.default_tax_rates}")
+  return dict(stripe_subscription)
 
 
 @anvil.server.callable
