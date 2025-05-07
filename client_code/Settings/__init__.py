@@ -303,14 +303,17 @@ class Settings(SettingsTemplate):
         component.role = ['table_header_center']
 
     # 5. Format user data for the table
-    table_data = [
-      {
-        **u, 
-        'active': 'active' if u['active'] else 'inactive',
-        'admin': 'yes' if u['admin'] else 'no'
-      }
-      for u in user_data
-    ]
+    table_data = []
+    for u in user_data:
+      # Create a new dictionary with properties from the LiveObjectProxy
+      user_dict = {}
+      for key in u:
+        user_dict[key] = u[key]
+      
+      # Add formatted properties
+      user_dict['active'] = 'active' if u['active'] else 'inactive'
+      user_dict['admin'] = 'yes' if u['admin'] else 'no'
+      table_data.append(user_dict)
 
     self.users_data.items = [{'data': item, 'settings_page': self} for item in table_data]
     
@@ -577,14 +580,17 @@ class Settings(SettingsTemplate):
     user_data = anvil.server.call('get_anvil_users', user['customer_id'])
     
     # 2. Format user data for the table
-    table_data = [
-      {
-        **u, 
-        'active': 'active' if u['active'] else 'inactive',
-        'admin': 'yes' if u['admin'] else 'no'
-      }
-      for u in user_data
-    ]
+    table_data = []
+    for u in user_data:
+      # Create a new dictionary with properties from the LiveObjectProxy
+      user_dict = {}
+      for key in u:
+        user_dict[key] = u[key]
+      
+      # Add formatted properties
+      user_dict['active'] = 'active' if u['active'] else 'inactive'
+      user_dict['admin'] = 'yes' if u['admin'] else 'no'
+      table_data.append(user_dict)
     
     # 3. Filter by search term and update table
     self.users_data.items = [
