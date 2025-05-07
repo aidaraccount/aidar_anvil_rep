@@ -19,11 +19,15 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
     global user
     user = anvil.users.get_user()
     
+    # Get subscription email
+    base_data = json.loads(anvil.server.call('get_settings_subscription2', user["user_id"]))[0]
+    self.sub_email = base_data['mail'] if 'mail' in base_data else None
+    
     # Get the Stripe SetupIntent client_secret from the server
     client_secret = anvil.server.call('create_setup_intent')
     
     # Get customer info for billing_details
-    customer = anvil.server.call('get_stripe_customer', user['email'])
+    customer = anvil.server.call('get_stripe_customer', self.sub_email)
     customer_email = customer.get('email', '')
     customer_address = customer.get('address', {})
     address_line1 = customer_address.get('line1', '')
@@ -210,8 +214,8 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
     """Called from JS after successful Stripe setup. Handles server calls from Python."""
     try:
         # 1. Get customer info
-        print(f"[STRIPE] Python: Looking up Stripe customer for email={user['email']}")
-        customer = anvil.server.call('get_stripe_customer', user['email'])
+        print(f"[STRIPE] Python: Looking up Stripe customer for email={self.sub_email}")
+        customer = anvil.server.call('get_stripe_customer', self.sub_email)
         if customer and customer.get('id'):
             print(f"[STRIPE] Python: Found customer {customer['id']}, attaching payment method.")
             

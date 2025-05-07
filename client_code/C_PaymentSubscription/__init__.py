@@ -23,6 +23,10 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
     global user
     user = anvil.users.get_user()
 
+    # Get subscription email
+    base_data = json.loads(anvil.server.call('get_settings_subscription2', user["user_id"]))[0]
+    self.sub_email = base_data['mail'] if 'mail' in base_data else None
+
     self.plan: str = plan
     self.no_licenses: int = no_licenses
     self.frequency: str = frequency
@@ -30,7 +34,7 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
 
     # --- 1. GET CUSTOMER INFO ---
     try:
-        self.stripe_customer = anvil.server.call('get_stripe_customer_with_tax_info', user['email'] if user else None)
+        self.stripe_customer = anvil.server.call('get_stripe_customer_with_tax_info', self.sub_email)
     except Exception as e:
         print("[AIDAR_SUBSCRIPTION_LOG] ERROR calling get_stripe_customer_with_tax_info:", e)
         self.stripe_customer = {}
@@ -38,7 +42,7 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
     self.stripe_customer_id = self.stripe_customer.get('id') if self.stripe_customer else None
 
     # Fetch and structure company/customer details for summary
-    self.company_email = self.stripe_customer.get('email', user['email'] if user else '')
+    self.company_email = self.stripe_customer.get('email', self.sub_email)
     self.company_name = self.stripe_customer.get('name', '')
     self.company_address = self._format_address(self.stripe_customer.get('address', {}))
     

@@ -39,8 +39,6 @@ class Settings(SettingsTemplate):
       # Initialize customer_info as a class attribute
       base_data = json.loads(anvil.server.call('get_settings_subscription2', user["user_id"]))[0]
       self.sub_email = base_data['mail'] if 'mail' in base_data else None
-      print(self.sub_email)
-      print(user['email'])
 
       if self.sub_email is not None:
         self.customer_info = anvil.server.call('get_stripe_customer_with_tax_info', self.sub_email)
