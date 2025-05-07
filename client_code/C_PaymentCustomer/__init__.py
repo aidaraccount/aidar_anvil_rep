@@ -17,6 +17,8 @@ class C_PaymentCustomer(C_PaymentCustomerTemplate):
     global user
     user = anvil.users.get_user()
 
+    self.prefill_email = prefill_email
+    
     COUNTRY_CODES = {
         'AU': 'Australia', 'AT': 'Austria', 'BE': 'Belgium', 'BR': 'Brazil', 'BG': 'Bulgaria', 'CA': 'Canada',
         'CN': 'China', 'HR': 'Croatia', 'CY': 'Cyprus', 'CZ': 'Czech Republic', 'DK': 'Denmark', 'EE': 'Estonia',
@@ -287,20 +289,19 @@ class C_PaymentCustomer(C_PaymentCustomerTemplate):
     Called from JS after successful form submit. Handles server calls from Python.
     """
     try:
-        print(f"[STRIPE] Python: Looking up Stripe customer for email={prefill_email}")
-        customer = anvil.server.call('get_stripe_customer', prefill_email)
+        print(f"[STRIPE] Python: Looking up Stripe customer for email={self.prefill_email}")
+        customer = anvil.server.call('get_stripe_customer', self.prefill_email)
         
         # 1. Check if customer exists already
         if customer and customer.get('id'):
             # 2. Update customer data
-            updated_customer = anvil.server.call('update_stripe_customer', 
-                                                customer['id'], 
-                                                company_name, 
-                                                prefill_email, 
-                                                address)
+            anvil.server.call('update_stripe_customer', 
+                              customer['id'], 
+                              company_name,
+                              address)
         else:
             # 3. Create new customer if needed
-            customer = anvil.server.call('create_stripe_customer', prefill_email, company_name, address)
+            customer = anvil.server.call('create_stripe_customer', self.prefill_email, company_name, address)
             if customer:
                 Notification("", title="Company profile created!", style="success").show()
             else:

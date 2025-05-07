@@ -273,7 +273,6 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
 #         'update_stripe_customer',
 #         self.stripe_customer_id,
 #         updated_name,
-#         updated_email,
 #         updated_address
 #     )
 #     # Update tax info if provided

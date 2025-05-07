@@ -16,94 +16,92 @@ from datetime import datetime
 
 @anvil.server.callable
 def create_setup_intent():
-    import stripe
-    import anvil.secrets
+  import stripe
+  import anvil.secrets
 
-    stripe.api_key = anvil.secrets.get_secret("stripe_secret_key")
-    intent = stripe.SetupIntent.create(
-        usage="off_session"
-    )
+  stripe.api_key = anvil.secrets.get_secret("stripe_secret_key")
+  intent = stripe.SetupIntent.create(
+    usage="off_session"
+  )
 
-    return intent.client_secret
+  return intent.client_secret
 
 
 @anvil.server.callable
 def create_stripe_customer(email: str, name: str = None, address: dict = None) -> dict:
-    """
-    1. Create a new Stripe stripe_customer using the provided email, name, and address.
-    2. Print and return the stripe_customer object (as dict).
-    """
-    import stripe
-    stripe.api_key = anvil.secrets.get_secret("stripe_secret_key")
+  """
+  1. Create a new Stripe stripe_customer using the provided email, name, and address.
+  2. Print and return the stripe_customer object (as dict).
+  """
+  import stripe
+  stripe.api_key = anvil.secrets.get_secret("stripe_secret_key")
 
-    user = anvil.users.get_user()
+  user = anvil.users.get_user()
 
-    # Add customer to Stripe
-    customer_data = {"email": email}
-    if name:
-        customer_data["name"] = name
-    if address:
-        customer_data["address"] = address
-    stripe_customer = stripe.Customer.create(**customer_data)
+  # Add customer to Stripe
+  customer_data = {"email": email}
+  if name:
+    customer_data["name"] = name
+  if address:
+    customer_data["address"] = address
+  stripe_customer = stripe.Customer.create(**customer_data)
 
-    # Set invoice footer for EU customers
-    EU_COUNTRIES = {
-        "AT", "BE", "BG", "CY", "CZ", "DE", "DK", "EE", "ES", "FI", "FR", "GR",
-        "HR", "HU", "IE", "IT", "LT", "LU", "LV", "MT", "NL", "PL", "PT", "RO", "SE", "SI", "SK"
-    }
-    country = stripe_customer.address.country if stripe_customer.address and hasattr(stripe_customer.address, 'country') else None
-    if country in EU_COUNTRIES:
-        stripe.Customer.modify(
-            stripe_customer.id,
-            invoice_settings={
-                "footer": "Reverse charge: VAT to be accounted for by the recipient according to EU Directive 2006/112/EC."
-            }
-        )
+  # Set invoice footer for EU customers
+  EU_COUNTRIES = {
+    "AT", "BE", "BG", "CY", "CZ", "DE", "DK", "EE", "ES", "FI", "FR", "GR",
+    "HR", "HU", "IE", "IT", "LT", "LU", "LV", "MT", "NL", "PL", "PT", "RO", "SE", "SI", "SK"
+  }
+  country = stripe_customer.address.country if stripe_customer.address and hasattr(stripe_customer.address, 'country') else None
+  if country in EU_COUNTRIES:
+    stripe.Customer.modify(
+      stripe_customer.id,
+      invoice_settings={
+        "footer": "Reverse charge: VAT to be accounted for by the recipient according to EU Directive 2006/112/EC."
+      }
+    )
 
-    # if Stripe Customer successfully created
-    if stripe_customer.id:
-        # 2.1 Get current user and their customer_id
-        user['active'] = True
-        user['admin'] = True
-        user['customer_name'] = name
+  # if Stripe Customer successfully created
+  if stripe_customer.id:
+    # create customer in backend db
+    customer_id = anvil.server.call('create_customer', user['user_id'], name, user['email'])
 
-        # create customer in backend db
-        anvil.server.call('create_customer', user['user_id'], name, user['email'])
-
-    print(f"[Stripe] Created customer: id={stripe_customer.id}, email={stripe_customer.email}, name={stripe_customer.name}, address={stripe_customer.address}")
-    return dict(stripe_customer)
+    # fill Anvil Users
+    user['customer_id'] = customer_id
+    user['customer_name'] = name
+    user['admin'] = True
+    
+  print(f"[Stripe] Created customer: id={customer_id}, email={user['email']}, name={name}, address={stripe_customer.address}")
+  return dict(stripe_customer)
 
 
 @anvil.server.callable
-def update_stripe_customer(customer_id: str, name: str = None, email: str = None, address: dict = None) -> dict:
-    """
-    Update an existing Stripe customer with new name, email, and/or address.
-    """
-    import stripe
-    stripe.api_key = anvil.secrets.get_secret("stripe_secret_key")
+def update_stripe_customer(customer_id: str, name: str = None, address: dict = None) -> dict:
+  """
+  Update an existing Stripe customer with new name, and/or address.
+  """
+  import stripe
+  stripe.api_key = anvil.secrets.get_secret("stripe_secret_key")
 
-    user = anvil.users.get_user()
+  user = anvil.users.get_user()
 
-    # update Stripe customer
-    update_data = {}
-    if email:
-        update_data['email'] = email
-    if name:
-        update_data['name'] = name
-    if address:
-        update_data['address'] = address
-    stripe_customer = stripe.Customer.modify(customer_id, **update_data)
+  # update Stripe customer
+  update_data = {}
+  if name:
+    update_data['name'] = name
+  if address:
+    update_data['address'] = address
+  stripe_customer = stripe.Customer.modify(customer_id, **update_data)
 
-    # update customer in backend db
-    anvil.server.call('create_customer', user['user_id'], name, email)
+  # update customer in backend db
+  anvil.server.call('update_customer', user['customer_id'], name)
 
-    # update Anvil
-    users_with_same_customer_id = app_tables.users.search(customer_id=user['customer_id'])
-    for u in users_with_same_customer_id:
-        u['customer_name'] = name
+  # update Anvil
+  users_with_same_customer_id = app_tables.users.search(customer_id=user['customer_id'])
+  for u in users_with_same_customer_id:
+    u['customer_name'] = name
 
-    print(f"[Stripe] Updated customer: id={stripe_customer.id}, email={stripe_customer.email}, name={stripe_customer.name}, address={stripe_customer.address}")
-    return dict(stripe_customer)
+  print(f"[Stripe] Updated customer: id={user['customer_id']}, name={name}, address={address}")
+  return dict(stripe_customer)
 
 
 @anvil.server.callable
@@ -195,28 +193,6 @@ def get_stripe_customer_with_tax_info(email: str) -> dict:
         result['tax_id_type'] = tax_id_type
         return result
     return {}
-
-
-@anvil.server.callable
-def add_stripe_customer_tax_id(customer_id: str, tax_id: str, tax_id_type: str = 'eu_vat') -> dict:
-    """
-    Add a tax ID (e.g., VAT) to a Stripe customer.
-    :param customer_id: The Stripe customer ID
-    :param tax_id: The customer's tax ID (e.g., VAT number)
-    :param tax_id_type: The type of tax ID (default 'eu_vat')
-    :return: The created tax ID object as a dict
-    """
-    import stripe
-    stripe.api_key = anvil.secrets.get_secret("stripe_secret_key")
-
-    stripe_tax_id_obj = stripe.Customer.create_tax_id(
-        customer_id,
-        type=tax_id_type,
-        value=tax_id
-    )
-
-    print(f"[Stripe] Added tax ID: {stripe_tax_id_obj.id} for customer {customer_id}, type={tax_id_type}, value={tax_id}")
-    return dict(stripe_tax_id_obj)
 
 
 @anvil.server.callable
