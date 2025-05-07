@@ -115,4 +115,34 @@ def update_anvil_user(user_id, first_name, last_name):
 
 @anvil.server.callable
 def get_anvil_users(customer_id):
-  return list(app_tables.users.search(customer_id=customer_id))
+  """
+  1. Get all users for a given customer_id
+  2. Transform the data to a format ready for client-side display
+  
+  Args:
+      customer_id (str): The customer ID to filter users by
+      
+  Returns:
+      list: List of dictionaries with user data formatted for display
+  """
+  users = list(app_tables.users.search(customer_id=customer_id))
+  formatted_users = []
+  
+  for u in users:
+    # Create a user dictionary with proper naming
+    user_dict = {
+      'user_id': u['user_id'],
+      'first_name': u['first_name'],
+      'last_name': u['last_name'],
+      'name': f"{u['first_name']} {u['last_name']}".strip(),
+      'email': u['email'],
+      'customer_id': u['customer_id'],
+      'customer_name': u['customer_name'],
+      'plan': u['plan'],
+      'expiration_date': u['expiration_date'],
+      'active': u['active'],
+      'admin': u['admin']
+    }
+    formatted_users.append(user_dict)
+    
+  return formatted_users

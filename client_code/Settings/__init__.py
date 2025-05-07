@@ -305,32 +305,14 @@ class Settings(SettingsTemplate):
       if component.text in ['Status', 'Admin', 'Delete']:
         component.role = ['table_header_center']
 
-    # 5. Format user data for the table
+    # 5. Format user data for the table - simplified as server now returns pre-formatted data
     table_data = []
-    # Access specific attributes directly instead of iterating
     for u in user_data:
-      try:
-          # Create a dictionary with the specific fields we need
-          user_dict = {
-              'user_id': u['user_id'],
-              'name': u['name'],
-              'email': u['email'],
-              'customer_id': u['customer_id'],
-              # Format for display
-              'active': 'active' if u['active'] else 'inactive',
-              'admin': 'yes' if u['admin'] else 'no'
-          }
-          table_data.append(user_dict)
-      except Exception as e:
-          print(f"Error processing user: {e}")
-          # Add a placeholder for errors
-          user_dict = {
-              'name': 'Error processing user data',
-              'email': str(e),
-              'active': 'inactive',
-              'admin': 'no'
-          }
-          table_data.append(user_dict)
+      # Just format the display values that need to be shown as text
+      user_dict = dict(u)  # Make a copy of the user data
+      user_dict['active'] = 'active' if u['active'] else 'inactive'
+      user_dict['admin'] = 'yes' if u['admin'] else 'no'
+      table_data.append(user_dict)
 
     self.users_data.items = [{'data': item, 'settings_page': self} for item in table_data]
     
@@ -596,32 +578,14 @@ class Settings(SettingsTemplate):
     # 1. Get user data from the Users table
     user_data = anvil.server.call('get_anvil_users', user['customer_id'])
     
-    # 2. Format user data for the table
+    # 2. Format user data for the table - simplified as server now returns pre-formatted data
     table_data = []
-    # Access specific attributes directly instead of iterating
     for u in user_data:
-      try:
-          # Create a dictionary with the specific fields we need
-          user_dict = {
-              'user_id': u['user_id'],
-              'name': u['name'],
-              'email': u['email'],
-              'customer_id': u['customer_id'],
-              # Format for display
-              'active': 'active' if u['active'] else 'inactive',
-              'admin': 'yes' if u['admin'] else 'no'
-          }
-          table_data.append(user_dict)
-      except Exception as e:
-          print(f"Error in search_user_click: {e}")
-          # Add a placeholder for errors
-          user_dict = {
-              'name': 'Error processing user data',
-              'email': str(e),
-              'active': 'inactive',
-              'admin': 'no'
-          }
-          table_data.append(user_dict)
+      # Just format the display values that need to be shown as text
+      user_dict = dict(u)  # Make a copy of the user data
+      user_dict['active'] = 'active' if u['active'] else 'inactive'
+      user_dict['admin'] = 'yes' if u['admin'] else 'no'
+      table_data.append(user_dict)
     
     # 3. Filter by search term and update table
     self.users_data.items = [
