@@ -158,5 +158,11 @@ def update_user_role(change_list):
     user_row['admin'] = admin
 
 @anvil.server.callable
-def remove_user_from_ccustomer(user_id):
+def remove_user_from_customer(user_id):
   user = app_tables.users.get(user_id=user_id)
+  user['customer_id'] = None
+  user['customer_name'] = None
+  user['plan'] = None
+  user['expiration_date'] = (datetime.datetime.now(datetime.timezone.utc) - datetime.timedelta(days=1)).date()
+  user['admin'] = True
+  user['active'] = True

@@ -37,13 +37,16 @@ class Settings(SettingsTemplate):
       
     else:
       # Initialize customer_info as a class attribute
-      base_data = json.loads(anvil.server.call('get_settings_subscription2', user["user_id"]))[0]
-      self.sub_email = base_data['mail'] if 'mail' in base_data else None
-
-      if self.sub_email is not None:
-        self.customer_info = anvil.server.call('get_stripe_customer_with_tax_info', self.sub_email)
-      else:
-        self.customer_info = None
+      base_data = anvil.server.call('get_settings_subscription2', user["user_id"])
+      if base_data is not None:
+        base_data = json.loads(base_data)[0]
+      
+        self.sub_email = base_data['mail'] if 'mail' in base_data else None
+  
+        if self.sub_email is not None:
+          self.customer_info = anvil.server.call('get_stripe_customer_with_tax_info', self.sub_email)
+        else:
+          self.customer_info = None
       
       # section routing
       section = self.url_dict['section']
@@ -80,7 +83,7 @@ class Settings(SettingsTemplate):
       self.nav_sub.visible = False
 
     # Hide Billing and User Management when there is no Customer yet or its not an admin
-    if user['admin'] is not True and user['customer_id'] is not None:
+    if user['admin'] is not True or user['customer_id'] is None:
       self.nav_pay.visible = False
 
     # Hide User Management when there is no prof subsc or its not an admin

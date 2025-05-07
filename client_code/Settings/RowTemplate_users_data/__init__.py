@@ -113,9 +113,9 @@ class RowTemplate_users_data(RowTemplate_users_dataTemplate):
       # remove user from users_customers
       anvil.server.call('update_settings_delete_user', self.item["user_id"], self.item["customer_id"])
       # disable in Anvil Users
-      
+      anvil.server.call('remove_user_from_customer', self.item["user_id"])
       Notification("", title="User removed!", style="success").show()
-      anvil.server.call('remove_user_from_ccustomer', self.item["user_id"])
+      
       # remove row from table      
       for component in self.parent.get_components():
         if component.item['user_id'] == self.item['user_id']:
