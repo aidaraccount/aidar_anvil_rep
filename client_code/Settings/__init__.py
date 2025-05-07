@@ -594,8 +594,14 @@ class Settings(SettingsTemplate):
     if self.roles_save.role == ['header-6', 'call-to-action-button']:
       change_list = json.loads(load_var('change_list').replace("'", '"'))
       print('change_list:', change_list)
-      anvil.server.call('update_settings_user_role', change_list)
       
+      # update user roles
+      for change in change_list:
+        user_row = app_tables.users.get(user_id=change['user_id'])
+        user_row['admin'] = change['admin']
+        user_row['active'] = change['active']
+
+      # reload
       if self.search_user_box.text == '':
         self.nav_user_click()
       else:
