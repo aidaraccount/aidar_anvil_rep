@@ -269,14 +269,15 @@ def create_stripe_subscription(customer_id: str, price_id: str, plan_type: str, 
   # Create subscription
   stripe_subscription = stripe.Subscription.create(**subscription_args)
 
-  # Update parameters of all users with the same customer_id
+  # Updates
   if stripe_subscription.id:
+    # Anvil Users Update: parameters of all users with the same customer_id
     users_with_same_customer_id = app_tables.users.search(customer_id=user['customer_id'])
     for u in users_with_same_customer_id:
       u['plan'] = plan_type
       u['expiration_date'] = None
 
-    # Update the subscription
+    # Update the subscription in db
     anvil.server.call('update_subscription', plan_type, user_count, frequency, None)
 
     print(f"[Stripe] Created subscription: id={stripe_subscription.id}, customer={stripe_subscription.customer}, status={stripe_subscription.status}, tax_rates={stripe_subscription.default_tax_rates}")
@@ -285,154 +286,154 @@ def create_stripe_subscription(customer_id: str, price_id: str, plan_type: str, 
 
 @anvil.server.callable
 def update_subscription(target_plan: str, user_count: int, billing_period: str) -> dict:
-    """
-    1. Update an existing subscription with new plan, user count, or billing period
-    2. Returns a dict with success status and relevant information
-    
-    Args:
-        target_plan (str): The plan to switch to ('Explore' or 'Professional')
-        user_count (int): Number of users/licenses for Professional plan
-        billing_period (str): 'monthly' or 'yearly'
-    
-    Returns:
-        dict: Result with keys:
-            - success (bool): Whether the update was successful
-            - message (str): Descriptive message about the result
-    """
-    import stripe
-    stripe.api_key = anvil.secrets.get_secret("stripe_secret_key")
+  """
+  1. Update an existing subscription with new plan, user count, or billing period
+  2. Returns a dict with success status and relevant information
+  
+  Args:
+    target_plan (str): The plan to switch to ('Explore' or 'Professional')
+    user_count (int): Number of users/licenses for Professional plan
+    billing_period (str): 'monthly' or 'yearly'
+  
+  Returns:
+    dict: Result with keys:
+      - success (bool): Whether the update was successful
+      - message (str): Descriptive message about the result
+  """
+  import stripe
+  stripe.api_key = anvil.secrets.get_secret("stripe_secret_key")
 
-    # Get the current user
-    user = anvil.users.get_user()
-    if not user:
-        return {"success": False, "message": "User not authenticated"}
+  # Get the current user
+  user = anvil.users.get_user()
+  if not user:
+    return {"success": False, "message": "User not authenticated"}
 
-    try:
-        # Get user's email
-        email = user.get('email')
-        if not email:
-            return {"success": False, "message": "User email not available"}
+  try:
+    # Get user's email
+    email = user.get('email')
+    if not email:
+      return {"success": False, "message": "User email not available"}
 
-        # Find customer in Stripe
-        customer = get_stripe_customer(email)
-        if not customer or not customer.get('id'):
-            return {"success": False, "message": "No Stripe customer found for this user"}
+    # Find customer in Stripe
+    customer = get_stripe_customer(email)
+    if not customer or not customer.get('id'):
+      return {"success": False, "message": "No Stripe customer found for this user"}
 
-        # Find active subscriptions for this customer
-        subscriptions = stripe.Subscription.list(
-            customer=customer['id'],
-            status='active',
-            limit=1
-        )
+    # Find active subscriptions for this customer
+    subscriptions = stripe.Subscription.list(
+      customer=customer['id'],
+      status='active',
+      limit=1
+    )
 
-        if not subscriptions or not subscriptions.data:
-            return {"success": False, "message": "No active subscription found"}
+    if not subscriptions or not subscriptions.data:
+      return {"success": False, "message": "No active subscription found"}
 
-        # Determine price ID based on plan and billing period
-        price_id = None
-        if target_plan == "Explore":
-            price_id = anvil.secrets.get_secret(f"stripe_explore_{billing_period}_price")
-        elif target_plan == "Professional":
-            price_id = anvil.secrets.get_secret(f"stripe_professional_{billing_period}_price")
-        else:
-            return {"success": False, "message": f"Unknown plan: {target_plan}"}
+    # Determine price ID based on plan and billing period
+    price_id = None
+    if target_plan == "Explore":
+      price_id = anvil.secrets.get_secret(f"stripe_explore_{billing_period}_price")
+    elif target_plan == "Professional":
+      price_id = anvil.secrets.get_secret(f"stripe_professional_{billing_period}_price")
+    else:
+      return {"success": False, "message": f"Unknown plan: {target_plan}"}
 
-        # Get current subscription to modify
-        subscription_id = subscriptions.data[0].id
+    # Get current subscription to modify
+    subscription_id = subscriptions.data[0].id
 
-        # Create new subscription item with updated price
-        subscription = stripe.Subscription.modify(
-            subscription_id,
-            cancel_at_period_end=False,
-            proration_behavior='create_prorations',
-            items=[{
-                'id': subscriptions.data[0]['items']['data'][0].id,
-                'price': price_id,
-                'quantity': user_count if target_plan == "Professional" else 1
-            }]
-        )
+    # Create new subscription item with updated price
+    subscription = stripe.Subscription.modify(
+      subscription_id,
+      cancel_at_period_end=False,
+      proration_behavior='create_prorations',
+      items=[{
+        'id': subscriptions.data[0]['items']['data'][0].id,
+        'price': price_id,
+        'quantity': user_count if target_plan == "Professional" else 1
+      }]
+    )
 
-        print(f"Subscription {subscription.id} updated to {target_plan} plan with {user_count} users")
-        return {
-            "success": True,
-            "message": f"Subscription updated to {target_plan} plan",
-            "subscription_id": subscription.id
-        }
+    print(f"Subscription {subscription.id} updated to {target_plan} plan with {user_count} users")
+    return {
+      "success": True,
+      "message": f"Subscription updated to {target_plan} plan",
+      "subscription_id": subscription.id
+    }
 
-    except Exception as e:
-        print(f"Error updating subscription: {e}")
-        return {"success": False, "message": f"Error: {str(e)}"}
+  except Exception as e:
+    print(f"Error updating subscription: {e}")
+    return {"success": False, "message": f"Error: {str(e)}"}
 
 
 @anvil.server.callable
 def cancel_subscription() -> dict:
-    """
-    1. Cancel the current subscription for the authenticated user
-    2. Returns a dict with success status and relevant information
-    
-    Returns:
-        dict: Result with keys:
-            - success (bool): Whether the cancellation was successful
-            - message (str): Descriptive message about the result
-    """
-    import stripe
-    stripe.api_key = anvil.secrets.get_secret("stripe_secret_key")
+  """
+  1. Cancel the current subscription for the authenticated user
+  2. Returns a dict with success status and relevant information
+  
+  Returns:
+    dict: Result with keys:
+      - success (bool): Whether the cancellation was successful
+      - message (str): Descriptive message about the result
+  """
+  import stripe
+  stripe.api_key = anvil.secrets.get_secret("stripe_secret_key")
 
-    # Get the current user
-    user = anvil.users.get_user()
+  # Get the current user
+  user = anvil.users.get_user()
 
-    try:
-      # Get company email
-      company = json.loads(anvil.server.call('get_settings_subscription2', user['user_id']))
-      email = company[0]['mail']
-      if not email:
-        return {"success": False, "message": "Company email not available"}
+  try:
+    # Get company email
+    company = json.loads(anvil.server.call('get_settings_subscription2', user['user_id']))
+    email = company[0]['mail']
+    if not email:
+      return {"success": False, "message": "Company email not available"}
 
-      # Find customer in Stripe
-      customer = get_stripe_customer(email)
-      if not customer or not customer.get('id'):
-        return {"success": False, "message": "No Stripe customer found for this company"}
+    # Find customer in Stripe
+    customer = get_stripe_customer(email)
+    if not customer or not customer.get('id'):
+      return {"success": False, "message": "No Stripe customer found for this company"}
 
-      # Find active subscriptions for this customer
-      subscriptions = stripe.Subscription.list(
-        customer=customer['id'],
-        status='active',
-        limit=1
-      )
+    # Find active subscriptions for this customer
+    subscriptions = stripe.Subscription.list(
+      customer=customer['id'],
+      status='active',
+      limit=1
+    )
 
-      if not subscriptions or not subscriptions.data:
-        return {"success": False, "message": "No active subscription found"}
-    
-      # Cancel the subscription at period end (won't renew)
-      subscription = stripe.Subscription.modify(
-        subscriptions.data[0].id,
-        cancel_at_period_end=True
-      )
+    if not subscriptions or not subscriptions.data:
+      return {"success": False, "message": "No active subscription found"}
+  
+    # Cancel the subscription at period end (won't renew)
+    subscription = stripe.Subscription.modify(
+      subscriptions.data[0].id,
+      cancel_at_period_end=True
+    )
 
-      expiration_date = subscription["items"]["data"][0]["current_period_end"]
-      expiration_date = datetime.fromtimestamp(expiration_date).date()
+    expiration_date = subscription["items"]["data"][0]["current_period_end"]
+    expiration_date = datetime.fromtimestamp(expiration_date).date()
 
-      # Update user['expiration_date'] of all users with the same customer_id
-      users_with_same_customer_id = app_tables.users.search(customer_id=user['customer_id'])
-      for u in users_with_same_customer_id:
-        u['expiration_date'] = expiration_date
+    # Anvil Users Update: user['expiration_date'] of all users with the same customer_id
+    users_with_same_customer_id = app_tables.users.search(customer_id=user['customer_id'])
+    for u in users_with_same_customer_id:
+      u['expiration_date'] = expiration_date
 
-      # Update company['expiration_date']
-      result = anvil.server.call('cancel_subscription', user['customer_id'], expiration_date)
+    # DB Update: company['expiration_date']
+    result = anvil.server.call('cancel_subscription', user['customer_id'], expiration_date)
 
-      # return success
-      if result == 'Subscription cancelled successfully':
-        print(f"Subscription {subscription.id} will be cancelled on {expiration_date}")
-        return {
-          "success": True,
-          "message": "Subscription will be cancelled at the end of the current billing period",
-          "subscription_id": subscription.id,
-          "expiration_date": expiration_date
-        }
-      else:
-        print(f"Error cancelling subscription: {result}")
-        return {"success": False, "message": "Error cancelling subscription"}
-    except Exception as e:
-      print(f"Error cancelling subscription: {e}")
-      return {"success": False, "message": f"Error: {str(e)}"}
+    # return success
+    if result == 'Subscription cancelled successfully':
+      print(f"Subscription {subscription.id} will be cancelled on {expiration_date}")
+      return {
+        "success": True,
+        "message": "Subscription will be cancelled at the end of the current billing period",
+        "subscription_id": subscription.id,
+        "expiration_date": expiration_date
+      }
+    else:
+      print(f"Error cancelling subscription: {result}")
+      return {"success": False, "message": "Error cancelling subscription"}
+  except Exception as e:
+    print(f"Error cancelling subscription: {e}")
+    return {"success": False, "message": f"Error: {str(e)}"}
 
