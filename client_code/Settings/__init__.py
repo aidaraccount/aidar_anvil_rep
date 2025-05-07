@@ -288,17 +288,13 @@ class Settings(SettingsTemplate):
     # 2. Get user data from the Users table
     user_data = anvil.server.call('get_anvil_users', user['customer_id'])
     
-    # Initial check of user data structure
-    print(f"User data received: {len(user_data) if isinstance(user_data, list) else 'Not a list'} users")
-    
     # 3. Summary - calculate user statistics
     if user_data:
       active_users = sum(1 for u in user_data if u['active'])
       admin_count = sum(1 for u in user_data if u['admin'])
       admin_text = 'admin' if admin_count == 1 else 'admins'
       self.summary.text = f"{active_users}/{no_licenses} accounts in use - {admin_count} {admin_text}"
-      print(f"{active_users}/{no_licenses} accounts in use - {admin_count} {admin_text}")
-    
+      
     # 4. User Roles & Permissions
     # Center table header
     for component in self.users.get_components()[0].get_components():
@@ -313,7 +309,7 @@ class Settings(SettingsTemplate):
       user_dict['active'] = 'active' if u['active'] else 'inactive'
       user_dict['admin'] = 'yes' if u['admin'] else 'no'
       table_data.append(user_dict)
-
+    
     self.users_data.items = [{'data': item, 'settings_page': self} for item in table_data]
     
     # 6. User Invite
@@ -597,6 +593,7 @@ class Settings(SettingsTemplate):
   def roles_save_click(self, **event_args):
     if self.roles_save.role == ['header-6', 'call-to-action-button']:
       change_list = json.loads(load_var('change_list').replace("'", '"'))
+      print('change_list:', change_list)
       anvil.server.call('update_settings_user_role', change_list)
       
       if self.search_user_box.text == '':

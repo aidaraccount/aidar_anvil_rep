@@ -506,7 +506,7 @@ components:
         properties:
           columns:
           - {data_key: name, expand: false, id: JKSDUP, title: Name}
-          - {data_key: mail, expand: false, id: VJQQOR, title: Mail}
+          - {data_key: email, expand: false, id: VJQQOR, title: Mail}
           - {data_key: active, expand: false, id: OJLQEN, title: Status, width: '150'}
           - {data_key: admin, expand: false, id: SHAFXF, title: Admin, width: '150'}
           - {data_key: '', expand: false, id: UFBDCV, title: Delete, width: 150}
