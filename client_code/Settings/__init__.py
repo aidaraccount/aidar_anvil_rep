@@ -277,47 +277,45 @@ class Settings(SettingsTemplate):
     
   # -----------------------
   # 4. INIT - NAVIGATION USER MANAGEMENT
-  def get_data(self, **event_args):
-    return anvil.server.call('get_settings_user_mgmt', user["user_id"])
-  
   def nav_user_click(self, **event_args):
     self._set_nav_section('user')
  
-    # load data
-    user_data = self.get_data()
-    # print(user_data)
+    # 1. Load server data
+    summary_data = anvil.server.call('get_settings_user_mgmt2', user["customer_id"])
+    license_key = summary_data['license_key'] if 'license_key' in summary_data else None
+    no_licenses = summary_data['no_licenses'] if 'no_licenses' in summary_data else None
+
+    # 2. Get user data from the Users table
+    user_data = list(app_tables.users.search(customer_id=user['customer_id']))
     
-    # Summary
+    # 3. Summary - calculate user statistics
     if user_data:
-      sum_data = json.loads(user_data['summary'])[0]
-      admin_text = 'admin' if sum_data['admin_count'] == 1 else 'admins'
-      self.summary.text = f"{sum_data['active_count']}/{sum_data['no_licenses']} accounts in use - {sum_data['admin_count']} {admin_text}"
+      active_users = sum(1 for u in user_data if u['active'])
+      admin_count = sum(1 for u in user_data if u['admin'])
+      admin_text = 'admin' if admin_count == 1 else 'admins'
+      self.summary.text = f"{active_users}/{no_licenses} accounts in use - {admin_count} {admin_text}"
     
-    # a) User Roles & Permissions
-    # center table header
+    # 4. User Roles & Permissions
+    # Center table header
     for component in self.users.get_components()[0].get_components():
       if component.text in ['Status', 'Admin', 'Delete']:
         component.role = ['table_header_center']
 
-    # add data to table
-    table_data = json.loads(user_data['table'])
+    # 5. Format user data for the table
     table_data = [
       {
-        **entry, 
-        'active': 'active' if entry['active'] else 'inactive',
-        'admin': 'yes' if entry['admin'] else 'no'
+        **{k: v for k, v in u.items()}, 
+        'active': 'active' if u['active'] else 'inactive',
+        'admin': 'yes' if u['admin'] else 'no'
       }
-      for entry in table_data
+      for u in user_data
     ]
-    # print(table_data)
 
-    # self.users_data.items = table_data
     self.users_data.items = [{'data': item, 'settings_page': self} for item in table_data]
     
-    # b) User Invite
-    inv_data = json.loads(user_data['invite'])[0]
-    self.key.text = inv_data['license_key']
-    self.link.text = f"app.aidar.ai/#register?license_key={inv_data['license_key']}"
+    # 6. User Invite
+    self.key.text = license_key
+    self.link.text = f"app.aidar.ai/#register?license_key={license_key}"
   
 
   # -----------------------
@@ -574,17 +572,20 @@ class Settings(SettingsTemplate):
   # 4. ACTIONS - USER MANAGEMENT
   # a) User Roles & Permissions
   def search_user_click(self, **event_args):
-    user_data = self.get_data()    
-    table_data = json.loads(user_data['table'])
+    # 1. Get user data from the Users table
+    user_data = list(app_tables.users.search(customer_id=user['customer_id']))
+    
+    # 2. Format user data for the table
     table_data = [
       {
-        **entry, 
-        'active': 'active' if entry['active'] else 'inactive',
-        'admin': 'yes' if entry['admin'] else 'no'
+        **{k: v for k, v in u.items()}, 
+        'active': 'active' if u['active'] else 'inactive',
+        'admin': 'yes' if u['admin'] else 'no'
       }
-      for entry in table_data
-    ]    
-    # self.users_data.items = [entry for entry in table_data if str(entry["name"]).lower().find(str(self.search_user_box.text).lower()) != -1]
+      for u in user_data
+    ]
+    
+    # 3. Filter by search term and update table
     self.users_data.items = [
       {'data': entry, 'settings_page': self}
       for entry in table_data
