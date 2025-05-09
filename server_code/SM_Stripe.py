@@ -18,12 +18,26 @@ from datetime import datetime
 def create_setup_intent():
   import stripe
   import anvil.secrets
+  from datetime import datetime
 
+  print(f"[STRIPE_DEBUG_SERVER] {datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')} - create_setup_intent started")
+  
+  # Get API key
+  print(f"[STRIPE_DEBUG_SERVER] {datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')} - Getting Stripe API key")
   stripe.api_key = anvil.secrets.get_secret("stripe_secret_key")
-  intent = stripe.SetupIntent.create(
-    usage="off_session"
-  )
+  
+  # Create intent
+  print(f"[STRIPE_DEBUG_SERVER] {datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')} - Creating Stripe SetupIntent")
+  try:
+    intent = stripe.SetupIntent.create(
+      usage="off_session"
+    )
+    print(f"[STRIPE_DEBUG_SERVER] {datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')} - SetupIntent created successfully: {intent.id}")
+  except Exception as e:
+    print(f"[STRIPE_DEBUG_SERVER] {datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')} - Error creating SetupIntent: {str(e)}")
+    raise
 
+  print(f"[STRIPE_DEBUG_SERVER] {datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')} - Returning client_secret: {intent.client_secret[:10]}...")
   return intent.client_secret
 
 
@@ -149,16 +163,34 @@ def get_stripe_customer(email: str) -> dict:
   Look for an existing Stripe customer with the provided email. If found, return the customer object as dict. If not found, return empty dict.
   """
   import stripe
+  from datetime import datetime
+
+  print(f"[STRIPE_DEBUG_SERVER] {datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')} - get_stripe_customer started with email={email}")
+  
+  # Get API key
+  print(f"[STRIPE_DEBUG_SERVER] {datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')} - Getting Stripe API key")
   stripe.api_key = anvil.secrets.get_secret("stripe_secret_key")
 
-  stripe_customers = stripe.Customer.list(email=email, limit=1)
-  if stripe_customers.data:
-    stripe_customer = stripe_customers.data[0]
-    print(f"[Stripe] Found existing customer: id={stripe_customer.id}, email={stripe_customer.email}")
-    return dict(stripe_customer)
-  else:
-    print(f"[Stripe] No customer found for email={email}")
-    return {}
+  try:
+    # Search for customer
+    print(f"[STRIPE_DEBUG_SERVER] {datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')} - Searching for customer with email={email}")
+    start_time = datetime.now()
+    stripe_customers = stripe.Customer.list(email=email, limit=1)
+    duration = (datetime.now() - start_time).total_seconds()
+    print(f"[STRIPE_DEBUG_SERVER] {datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')} - Stripe API call took {duration:.2f} seconds")
+    
+    # Process results
+    if stripe_customers.data:
+      stripe_customer = stripe_customers.data[0]
+      print(f"[STRIPE_DEBUG_SERVER] {datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')} - Found existing customer: id={stripe_customer.id}, email={stripe_customer.email}")
+      print(f"[STRIPE_DEBUG_SERVER] {datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')} - Customer data size: {len(str(stripe_customer))} characters")
+      return dict(stripe_customer)
+    else:
+      print(f"[STRIPE_DEBUG_SERVER] {datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')} - No customer found for email={email}")
+      return {}
+  except Exception as e:
+    print(f"[STRIPE_DEBUG_SERVER] {datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')} - Error in get_stripe_customer: {str(e)}")
+    raise
 
 
 @anvil.server.callable
