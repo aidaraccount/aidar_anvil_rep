@@ -359,9 +359,13 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
       return
     
     # 2. Get subscription email
-    base_data = json.loads(anvil.server.call('get_settings_subscription2', user["user_id"]))[0]
-    sub_email = base_data['mail'] if 'mail' in base_data else None
-
+    base_data = anvil.server.call('get_settings_subscription2', user["user_id"])
+    if base_data is not None:
+      base_data = json.loads(base_data)[0]
+      sub_email = base_data['mail'] if 'mail' in base_data else None
+    else:
+      sub_email = user['email']      
+    
     # 3. Check if customer data exists
     customer = anvil.server.call('get_stripe_customer', sub_email)
     customer_exists = bool(customer and customer.get('id'))

@@ -21,8 +21,12 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
     user = anvil.users.get_user()
     
     # Get subscription email
-    base_data = json.loads(anvil.server.call('get_settings_subscription2', user["user_id"]))[0]
-    self.sub_email = base_data['mail'] if 'mail' in base_data else None
+    base_data = anvil.server.call('get_settings_subscription2', user["user_id"])
+    if base_data is not None:
+      base_data = json.loads(base_data)[0]
+      self.sub_email = base_data['mail'] if 'mail' in base_data else None
+    else:
+      self.sub_email = user['email']
     
     # Get the Stripe SetupIntent client_secret from the server
     client_secret = anvil.server.call('create_setup_intent')
