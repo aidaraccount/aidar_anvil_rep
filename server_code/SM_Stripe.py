@@ -278,7 +278,7 @@ def create_stripe_subscription(customer_id: str, price_id: str, plan_type: str, 
       u['expiration_date'] = None
 
     # Update the subscription in db
-    anvil.server.call('update_subscription', plan_type, user_count, frequency, None)
+    anvil.server.call('update_subscription_db', user['customer_id'], plan_type, user_count, frequency, None)
 
     print(f"[Stripe] Created subscription: id={stripe_subscription.id}, customer={stripe_subscription.customer}, status={stripe_subscription.status}, tax_rates={stripe_subscription.default_tax_rates}")
   return dict(stripe_subscription)

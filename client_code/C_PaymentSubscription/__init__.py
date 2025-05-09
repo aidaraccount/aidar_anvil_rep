@@ -234,7 +234,7 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
 
         # success alert
         alert_res = alert(
-          "You're now able to create your first agent - have fun discovering",
+          "We're happy to have you on board - have fun discovering!",
           title="Congratulations!",
           buttons=[("OK", False), ("CREATE AGENT", True)],
           role=["payment-form-container"]
