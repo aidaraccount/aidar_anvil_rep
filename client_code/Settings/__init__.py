@@ -82,11 +82,11 @@ class Settings(SettingsTemplate):
     if user['admin'] is not True:
       self.nav_sub.visible = False
 
-    # Hide Billing and User Management when there is no Customer yet or its not an admin
-    if user['admin'] is not True or user['customer_id'] is None:
+    # Hide Billing when there is no Customer yet OR its not an admin OR plan is Contract
+    if user['customer_id'] is None or user['admin'] is not True or user['plan'] == 'Contract':
       self.nav_pay.visible = False
 
-    # Hide User Management when there is no prof subsc or its not an admin
+    # Hide User Management when there is no Professional subsc OR its not an admin
     if user['plan'] != 'Professional' or user['admin'] is not True:  
       self.nav_user.visible = False
 
@@ -275,6 +275,34 @@ class Settings(SettingsTemplate):
       # add component
       self.sub_plan.clear()
       self.sub_plan.add_component(C_SubscriptionPlan(plan=user["plan"], no_licenses=no_licenses, frequency=frequency, expiration_date=expiration_date))
+
+
+    elif user["plan"] in ['Contract'] and (user["expiration_date"] is None or user["expiration_date"] >= date.today()):
+      # III. subscribed customer:
+      print(f"IV. contract customer! - {user['plan']}")
+
+      # a) subscription
+      self.type.text = 'Indiv. Contract'
+      if user["expiration_date"] is None:
+        self.label_end.visible = False
+        self.end.visible = False
+      else:
+        days = (user["expiration_date"] - date.today()).days
+        days_left = f"{days} day left" if days == 1 else f"{days} days left"
+        self.end.text = f"{user['expiration_date'].strftime('%b %d, %Y')} ({days_left})"
+
+      self.orga.text = user['customer_name']
+      if user['active'] is True:
+        self.user.text = 'active'
+      else:
+        self.user.text = 'inactive'
+      if user['admin'] is not None and user['admin'] is True:
+        self.admin.text = 'yes'
+      else:
+        self.admin.text = 'no'
+
+      # b) plan
+      self.plan_desc.text = 'To manage your individual contract, pleace get in touch with us directly or send an email to team@aidar.ai'
 
     
   # -----------------------
