@@ -711,12 +711,9 @@ class Settings(SettingsTemplate):
       dismissible=True
     )
 
-    # on success delete old payment methods
+    # on success reload payment details
     if result == 'success':
-      pass
-
-    # reload page
-    self.nav_pay_click()
+      self.nav_pay_click()
 
   
   def change_pay_profile_click(self, **event_args):
