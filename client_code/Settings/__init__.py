@@ -138,17 +138,16 @@ class Settings(SettingsTemplate):
     self.profile_save.role = ['header-6', 'call-to-action-button-disabled']
     
     # load data
-    acc_data = json.loads(anvil.server.call('get_settings_account', user["user_id"]))[0]
-    # print(acc_data)
+    # present in user
     
     # a) Profile Management
-    self.mail.text = acc_data['mail']
-    if acc_data['first_name'] is not None:
-      self.text_box_first_name.text = acc_data['first_name']
+    self.mail.text = user['email']
+    if user['first_name'] is not None:
+      self.text_box_first_name.text = user['first_name']
     else:      
       self.text_box_first_name.text = '-'
-    if acc_data['last_name'] is not None:
-      self.text_box_last_name.text = acc_data['last_name']
+    if user['last_name'] is not None:
+      self.text_box_last_name.text = user['last_name']
     else:      
       self.text_box_last_name.text = '-'
     
