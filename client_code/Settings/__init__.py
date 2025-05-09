@@ -354,60 +354,59 @@ class Settings(SettingsTemplate):
     
     # a) Company Profile
     if self.customer_info and self.customer_info.get('id'):
-        # Display customer information
-        self.pay_profile_email.text = self.customer_info.get('email', '')
-        self.pay_profile_name.text = self.customer_info.get('name', '')
-        
-        # Format address
-        address = self.customer_info.get('address', {})
-        address_parts = []
-        if address.get('line1'):
-            address_parts.append(address.get('line1', ''))
-        if address.get('line2'):
-            address_parts.append(address.get('line2', ''))
-        if address.get('city'):
-            address_parts.append(address.get('city', ''))
-        if address.get('postal_code'):
-            address_parts.append(address.get('postal_code', ''))
-        if address.get('country'):
-            country_code = address.get('country', '')
-            country_name = country_code  # Default to code if no mapping exists
-            # If you have country code mapping in this class, use it here
-            address_parts.append(country_name)
-            
-        self.pay_profile_address.text = ', '.join(filter(None, address_parts))
-        
-        # Display tax information
-        tax_id = self.customer_info.get('tax_id', '')
-        tax_country = self.customer_info.get('tax_country', '')
-        tax_id_type = self.customer_info.get('tax_id_type', '')
-        
-        if tax_id and tax_country:
-            self.pay_profile_tax.text = f"{tax_country} - {tax_id} ({tax_id_type})"
-        else:
-            self.pay_profile_tax.text = "No tax information"
-            
-        # Get and display payment methods
-        payment_methods = anvil.server.call('get_stripe_payment_methods', self.customer_info['id'])
-        print(f"[STRIPE] Found {len(payment_methods)} payment methods for customer {self.customer_info['id']}")
-        for pm in payment_methods:
-            print(f"[STRIPE] Payment method: id={pm.get('id')}, type={pm.get('type')}, brand={pm.get('card', {}).get('brand')}, last4={pm.get('card', {}).get('last4')}")
-    else:
-        print(f"[STRIPE] No Stripe customer found for email={self.sub_email}")
-        self.pay_profile_email.text = self.sub_email
-        self.pay_profile_name.text = "No customer information"
-        self.pay_profile_address.text = "No address information"
+      # Display customer information
+      self.pay_profile_email.text = self.customer_info.get('email', '')
+      self.pay_profile_name.text = self.customer_info.get('name', '')
+      
+      # Format address
+      address = self.customer_info.get('address', {})
+      address_parts = []
+      if address.get('line1'):
+        address_parts.append(address.get('line1', ''))
+      if address.get('line2'):
+        address_parts.append(address.get('line2', ''))
+      if address.get('city'):
+        address_parts.append(address.get('city', ''))
+      if address.get('postal_code'):
+        address_parts.append(address.get('postal_code', ''))
+      if address.get('country'):
+        country_code = address.get('country', '')
+        country_name = country_code  # Default to code if no mapping exists
+        # If you have country code mapping in this class, use it here
+        address_parts.append(country_name)
+          
+      self.pay_profile_address.text = ', '.join(filter(None, address_parts))
+      
+      # Display tax information
+      tax_id = self.customer_info.get('tax_id', '')
+      tax_country = self.customer_info.get('tax_country', '')
+      tax_id_type = self.customer_info.get('tax_id_type', '')
+      
+      if tax_id and tax_country:
+        self.pay_profile_tax.text = f"{tax_country} - {tax_id} ({tax_id_type})"
+      else:
         self.pay_profile_tax.text = "No tax information"
+    
+    else:
+      print(f"[STRIPE] No Stripe customer found for email={self.sub_email}")
+      self.pay_profile_email.text = self.sub_email
+      self.pay_profile_name.text = "No customer information"
+      self.pay_profile_address.text = "No address information"
+      self.pay_profile_tax.text = "No tax information"
 
     # b) Payment Details
     if self.customer_info and self.customer_info.get('id'):
       payment_methods = anvil.server.call('get_stripe_payment_methods', self.customer_info['id'])
+      
       if payment_methods and len(payment_methods) > 0:
         # Show payment info
         self.no_payment.visible = False
         self.yes_payment.visible = True
+
+        # Get first payment method
         pm = payment_methods[0]
-        print(pm)
+        print(f"[STRIPE] Payment method: id={pm.get('id')}, type={pm.get('type')}, brand={pm.get('card', {}).get('brand')}, last4={pm.get('card', {}).get('last4')}")
+    
         # Set contact info (email) and card info
         self.pay_contact.text = pm.get('billing_details', {}).get('name', '')
         brand = pm.get('card', {}).get('brand', '')
