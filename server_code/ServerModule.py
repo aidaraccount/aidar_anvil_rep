@@ -5,7 +5,7 @@ import anvil.tables.query as q
 from anvil.tables import app_tables
 import anvil.server
 import numpy as np
-import datetime
+from datetime import datetime, timedelta, timezone
 import json
 
 
@@ -18,6 +18,8 @@ import json
 @anvil.server.callable
 def sign_up_with_extra_data(customer_id, customer_name, email, password, first_name, last_name):
   try:
+    print('customer_id:', customer_id)
+    
     # Sign up the user
     user = anvil.users.signup_with_email(email, password)
     
@@ -25,17 +27,21 @@ def sign_up_with_extra_data(customer_id, customer_name, email, password, first_n
     user['first_name'] = first_name
     user['last_name'] = last_name
     user['customer_name'] = customer_name
-    print('here 1')
+    
     if customer_id is not None:
-      print('here 2')
-      base_data = json.loads(anvil.server.call('get_settings_subscription2', user["user_id"]))[0]
+      base_data = json.loads(anvil.server.call('get_customer', customer_id))[0]
+      print('here 2', base_data)
       expiration_date = base_data['expiration_date'] if 'expiration_date' in base_data else None
+      print('here 2', expiration_date)
       name = base_data['name'] if 'name' in base_data else None
+      print('here 2', name)
       
       user['customer_id'] = customer_id
+      print('here 2', customer_id)
       user['customer_name'] = name
+      print('here 2', name)
       print(expiration_date)
-      user['expiration_date'] = expiration_date.strftime("%Y-%m-%d")
+      user['expiration_date'] = datetime.strptime(expiration_date, "%Y-%m-%d").date()
       print(user['expiration_date'])
       user['plan'] = 'Professional'
       user['active'] = True
@@ -43,7 +49,7 @@ def sign_up_with_extra_data(customer_id, customer_name, email, password, first_n
       
     else:
       print('here 3')
-      user['expiration_date'] = (datetime.datetime.now(datetime.timezone.utc) + datetime.timedelta(days=14)).date()
+      user['expiration_date'] = (datetime.now(timezone.utc) + timedelta(days=14)).date()
       user['plan'] = 'Trial'
       user['active'] = True
       user['admin'] = True
@@ -53,7 +59,8 @@ def sign_up_with_extra_data(customer_id, customer_name, email, password, first_n
   except anvil.users.UserExists:
     return 'user exists'
 
-  except Exception:
+  except Exception as e:
+    print(e)
     return 'other'
 
 
@@ -167,6 +174,6 @@ def remove_user_from_customer(user_id):
   user['customer_id'] = None
   user['customer_name'] = None
   user['plan'] = None
-  user['expiration_date'] = (datetime.datetime.now(datetime.timezone.utc) - datetime.timedelta(days=1)).date()
+  user['expiration_date'] = (datetime.now(timezone.utc) - timedelta(days=1)).date()
   user['admin'] = True
   user['active'] = True
