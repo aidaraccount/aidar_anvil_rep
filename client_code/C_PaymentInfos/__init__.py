@@ -53,16 +53,26 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
     window.ANVIL_STRIPE_PUBLISHABLE_KEY = '{stripe_publishable_key}';
     </script>
 
-    <!-- 1. Stripe.js script: Load Stripe library -->
-    <script src=\"https://js.stripe.com/v3/\"></script>
+    <!-- 1. Stripe.js script: Load Stripe library with guard against duplicate loading -->
     <script>
-    // Store error and success messages for localization and central management
-    const MESSAGES = {{
-      cardError: 'There was an error processing your card. Please check your card details and try again.',
-      success: 'Your card has been saved successfully!',
-      processing: 'Processing your card...',
-      serverError: 'There was a server error. Please try again later.'
-    }};
+    // Only load Stripe.js once
+    if (typeof window.Stripe === 'undefined') {{
+      // Create script element programmatically
+      var stripeScript = document.createElement('script');
+      stripeScript.src = 'https://js.stripe.com/v3/';
+      stripeScript.async = true;
+      document.head.appendChild(stripeScript);
+    }}
+    
+    // Define messages only if not already defined
+    if (typeof window.STRIPE_MESSAGES === 'undefined') {{
+      window.STRIPE_MESSAGES = {{
+        cardError: 'There was an error processing your card. Please check your card details and try again.',
+        success: 'Your card has been saved successfully!',
+        processing: 'Processing your card...',
+        serverError: 'There was a server error. Please try again later.'
+      }};
+    }}
     </script>
 
     <!-- 2. Payment Form Container -->
@@ -197,7 +207,7 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
             }}
         }};
         // Display processing message
-        document.getElementById('card-errors').textContent = MESSAGES.processing;
+        document.getElementById('card-errors').textContent = window.STRIPE_MESSAGES.processing;
         document.getElementById('card-errors').style.color = '#FF7A00';
         
         stripe.confirmCardSetup(window.stripe_setup_intent_client_secret, {{
@@ -208,7 +218,7 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
         }}).then(function(result) {{
             if (result.error) {{
                 // Show error in card-errors div
-                document.getElementById('card-errors').textContent = result.error.message || MESSAGES.cardError;
+                document.getElementById('card-errors').textContent = result.error.message || window.STRIPE_MESSAGES.cardError;
                 document.getElementById('card-errors').style.color = '#FF5A36';
                 submitBtn.disabled = false;
             }} else {{
@@ -220,7 +230,7 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
                   .then(function(response) {{
                     if (response.success) {{
                       // Show success message
-                      document.getElementById('card-errors').textContent = MESSAGES.success;
+                      document.getElementById('card-errors').textContent = window.STRIPE_MESSAGES.success;
                       document.getElementById('card-errors').style.color = '#00C853';
                       
                       // Call the callback if it exists
@@ -236,14 +246,14 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
                       }}, 1500);
                     }} else {{
                       // Show server error
-                      document.getElementById('card-errors').textContent = response.message || MESSAGES.serverError;
+                      document.getElementById('card-errors').textContent = response.message || window.STRIPE_MESSAGES.serverError;
                       document.getElementById('card-errors').style.color = '#FF5A36';
                       submitBtn.disabled = false;
                     }}
                   }})
                   .catch(function(err) {{
                     // Handle any server call errors
-                    document.getElementById('card-errors').textContent = MESSAGES.serverError;
+                    document.getElementById('card-errors').textContent = window.STRIPE_MESSAGES.serverError;
                     document.getElementById('card-errors').style.color = '#FF5A36';
                     submitBtn.disabled = false;
                     console.error('Server error:', err);
