@@ -28,8 +28,12 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
     else:
       self.sub_email = user['email']
     
+    # Get the Stripe publishable key from the server
+    stripe_publishable_key = anvil.server.call('get_stripe_publishable_key')
+    
     # Get the Stripe SetupIntent client_secret from the server
-    client_secret = anvil.server.call('create_setup_intent')
+    # Pass the user's email to associate with the customer
+    client_secret = anvil.server.call('create_setup_intent', self.sub_email)
     
     # Get customer info for billing_details
     customer = anvil.server.call('get_stripe_customer', self.sub_email)
@@ -46,10 +50,20 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
     self.html = f"""
     <script>
     window.stripe_setup_intent_client_secret = '{client_secret}';
+    window.ANVIL_STRIPE_PUBLISHABLE_KEY = '{stripe_publishable_key}';
     </script>
 
     <!-- 1. Stripe.js script: Load Stripe library -->
     <script src=\"https://js.stripe.com/v3/\"></script>
+    <script>
+    // Store error and success messages for localization and central management
+    const MESSAGES = {
+      cardError: 'There was an error processing your card. Please check your card details and try again.',
+      success: 'Your card has been saved successfully!',
+      processing: 'Processing your card...',
+      serverError: 'There was a server error. Please try again later.'
+    };
+    </script>
 
     <!-- 2. Payment Form Container -->
     <div id=\"payment-form-container\">    
@@ -81,7 +95,9 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
 
     <script>
     // 3. Initialize Stripe and Elements
-    var stripe = Stripe('pk_test_51RDoXJQTBcqmUQgt9CqdDXQjtHKkEkEBuXSs7EqVjwkzqcWP66EgCu8jjYArvbioeYpzvS5wSvbrUsKUtjXi0gGq00M9CzHJTa');
+    // Get publishable key from a server function instead of hardcoding it
+    const stripePublishableKey = window.ANVIL_STRIPE_PUBLISHABLE_KEY || 'pk_test_51RDoXJQTBcqmUQgt9CqdDXQjtHKkEkEBuXSs7EqVjwkzqcWP66EgCu8jjYArvbioeYpzvS5wSvbrUsKUtjXi0gGq00M9CzHJTa';
+    var stripe = Stripe(stripePublishableKey);
     var elements = stripe.elements({{
         appearance: {{
             theme: 'flat',
@@ -180,6 +196,10 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
                 country: '{country}'
             }}
         }};
+        // Display processing message
+        document.getElementById('card-errors').textContent = MESSAGES.processing;
+        document.getElementById('card-errors').style.color = '#FF7A00';
+        
         stripe.confirmCardSetup(window.stripe_setup_intent_client_secret, {{
             payment_method: {{
                 card: cardElement,
@@ -187,12 +207,47 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
             }}
         }}).then(function(result) {{
             if (result.error) {{
-                document.getElementById('card-errors').textContent = result.error.message;
+                // Show error in card-errors div
+                document.getElementById('card-errors').textContent = result.error.message || MESSAGES.cardError;
+                document.getElementById('card-errors').style.color = '#FF5A36';
                 submitBtn.disabled = false;
             }} else {{
-                if (typeof window.payment_method_ready === 'function') {{
-                    window.payment_method_ready(result.setupIntent.payment_method);
-                }}
+                // Call our server-side function to handle the successful setup
+                // and properly attach the payment method to the customer
+                anvil.server.call('handle_setup_intent_success', 
+                                 result.setupIntent.id,
+                                 result.setupIntent.payment_method)
+                  .then(function(response) {{
+                    if (response.success) {{
+                      // Show success message
+                      document.getElementById('card-errors').textContent = MESSAGES.success;
+                      document.getElementById('card-errors').style.color = '#00C853';
+                      
+                      // Call the callback if it exists
+                      if (typeof window.payment_method_ready === 'function') {{
+                          window.payment_method_ready(result.setupIntent.payment_method);
+                      }}
+                      
+                      // Add a small delay before potentially closing the form
+                      setTimeout(function() {{
+                        if (typeof window.close_alert === 'function') {{
+                          window.close_alert();
+                        }}
+                      }}, 1500);
+                    }} else {{
+                      // Show server error
+                      document.getElementById('card-errors').textContent = response.message || MESSAGES.serverError;
+                      document.getElementById('card-errors').style.color = '#FF5A36';
+                      submitBtn.disabled = false;
+                    }}
+                  }})
+                  .catch(function(err) {{
+                    // Handle any server call errors
+                    document.getElementById('card-errors').textContent = MESSAGES.serverError;
+                    document.getElementById('card-errors').style.color = '#FF5A36';
+                    submitBtn.disabled = false;
+                    console.error('Server error:', err);
+                  }});
             }}
         }});
     }});

@@ -9,21 +9,59 @@ import json
 from datetime import datetime
 
 
+@anvil.server.callable
+def get_stripe_publishable_key():
+    """
+    1. Return the Stripe publishable key from secrets
+    2. This is safer than hardcoding it in client-side code
+    
+    Returns:
+        str: The Stripe publishable key
+    """
+    return anvil.secrets.get_secret("stripe_publishable_key")
+
+
 # -----------------------------------------
 # 1. SERVER MODULE FOR STRIPE
 # -----------------------------------------
 
 
 @anvil.server.callable
-def create_setup_intent():
+def create_setup_intent(email=None):
+  """
+  1. Create a SetupIntent, associating it with a customer if email is provided
+  2. Returns the client_secret for initializing the Stripe Elements
+
+  Args:
+    email (str, optional): Customer email to associate with this SetupIntent. If not provided,
+                          SetupIntent will be created without a customer.
+
+  Returns:
+    str: The client_secret for the created SetupIntent
+  """
   import stripe
   import anvil.secrets
 
   stripe.api_key = anvil.secrets.get_secret("stripe_secret_key")
-  intent = stripe.SetupIntent.create(
-    usage="off_session"
-  )
-
+  
+  # Setup parameters
+  setup_params = {
+    "usage": "off_session"
+  }
+  
+  # If email is provided, associate with the customer
+  if email:
+    # Look for an existing customer
+    stripe_customers = stripe.Customer.list(email=email, limit=1)
+    if stripe_customers.data:
+      customer_id = stripe_customers.data[0].id
+      setup_params["customer"] = customer_id
+      print(f"[Stripe] Creating SetupIntent for existing customer: {customer_id}")
+    
+  # Create the SetupIntent
+  intent = stripe.SetupIntent.create(**setup_params)
+  print(f"[Stripe] Created SetupIntent: {intent.id}")
+  
   return intent.client_secret
 
 
@@ -193,6 +231,69 @@ def get_stripe_customer_with_tax_info(email: str) -> dict:
     result['tax_id_type'] = tax_id_type
     return result
   return {}
+
+
+@anvil.server.callable
+def handle_setup_intent_success(setup_intent_id=None, payment_method_id=None):
+  """
+  1. Handle successful SetupIntent completion
+  2. Associate payment method with the customer (if it isn't already)
+  3. Optionally set as default payment method
+  
+  Args:
+    setup_intent_id (str): ID of the completed SetupIntent
+    payment_method_id (str): ID of the payment method
+    
+  Returns:
+    dict: Result with status and message
+  """
+  import stripe
+  import anvil.secrets
+  
+  stripe.api_key = anvil.secrets.get_secret("stripe_secret_key")
+  
+  try:
+    # If we have a setup_intent_id, retrieve it to get the payment_method
+    if setup_intent_id and not payment_method_id:
+      setup_intent = stripe.SetupIntent.retrieve(setup_intent_id)
+      payment_method_id = setup_intent.payment_method
+      
+    if not payment_method_id:
+      return {"success": False, "message": "No payment method ID provided"}
+      
+    # Get current user info
+    user = anvil.users.get_user()
+    
+    # Look up customer by email
+    customer = get_stripe_customer(user['email'])
+    
+    if not customer:
+      return {"success": False, "message": "No customer found"}
+    
+    # Attach payment method to customer if not already attached
+    try:
+      stripe.PaymentMethod.attach(payment_method_id, customer=customer['id'])
+      print(f"[Stripe] Attached payment method {payment_method_id} to customer {customer['id']}")
+    except stripe.error.InvalidRequestError as e:
+      # If already attached, this is fine
+      if "already been attached" not in str(e):
+        raise
+    
+    # Set as default payment method
+    stripe.Customer.modify(
+      customer['id'],
+      invoice_settings={"default_payment_method": payment_method_id}
+    )
+    
+    return {
+      "success": True,
+      "message": "Payment method saved successfully",
+      "payment_method_id": payment_method_id
+    }
+    
+  except Exception as e:
+    print(f"[Stripe] Error handling setup intent success: {e}")
+    return {"success": False, "message": str(e)}
 
 
 @anvil.server.callable
