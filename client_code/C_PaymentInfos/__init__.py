@@ -206,12 +206,25 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
     </div>
 
     <script>
-    // 1. Initialize payment form when DOM is ready
-    document.addEventListener('DOMContentLoaded', function() {{
-      // 2. Define variables in the function scope
-      var stripe, elements, cardElement, form, nameInput, submitBtn;
+    // 1. Define variables in global scope
+    var stripe, elements, cardElement, form, nameInput, submitBtn;
+    
+    // 2. Check if DOM is already loaded or wait for it
+    function domReady(callback) {{
+      if (document.readyState === 'complete' || document.readyState === 'interactive') {{
+        console.log("[STRIPE_INIT] " + new Date().toISOString() + " - DOM already ready");
+        setTimeout(callback, 1);
+      }} else {{
+        console.log("[STRIPE_INIT] " + new Date().toISOString() + " - Waiting for DOM to be ready");
+        document.addEventListener('DOMContentLoaded', callback);
+      }}
+    }}
+    
+    // 3. Main initialization function
+    domReady(function() {{
+      console.log("[STRIPE_INIT] " + new Date().toISOString() + " - DOM ready, checking for Stripe");
       
-      // 3. Wait for Stripe to be available before initializing
+      // 4. Wait for Stripe to be available before initializing
       (function checkStripeAndInitialize() {{
         if (typeof Stripe === 'undefined') {{
           console.log("[STRIPE_INIT] " + new Date().toISOString() + " - Waiting for Stripe to load...");
@@ -222,8 +235,11 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
         console.log("[STRIPE_INIT] " + new Date().toISOString() + " - Stripe loaded, initializing Elements");
         
         try {{
-          // 4. Initialize Stripe and Elements with the public key
+          // 5. Initialize Stripe with public key
           stripe = Stripe('{stripe_pk}');
+          console.log("[STRIPE_INIT] " + new Date().toISOString() + " - Stripe object created");
+          
+          // 6. Create Stripe Elements instance
           elements = stripe.elements({{
             appearance: {{
               theme: 'flat',
@@ -238,8 +254,29 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
               }}
             }}
           }});
+          console.log("[STRIPE_INIT] " + new Date().toISOString() + " - Elements created");
           
-          // 5. Create and mount Card Element
+          // 7. Verify DOM elements before proceeding
+          var cardElementContainer = document.getElementById('card-element');
+          var formElement = document.getElementById('payment-form');
+          var nameInputElement = document.getElementById('name-on-card');
+          var submitBtnElement = document.getElementById('submit');
+          
+          if (!cardElementContainer) {{
+            console.error("[STRIPE_INIT] " + new Date().toISOString() + " - Card element container not found");
+            // Try again later
+            setTimeout(checkStripeAndInitialize, 100);
+            return;
+          }}
+          
+          if (!formElement || !nameInputElement || !submitBtnElement) {{
+            console.error("[STRIPE_INIT] " + new Date().toISOString() + " - Form elements not found");
+            // Try again later
+            setTimeout(checkStripeAndInitialize, 100);
+            return;
+          }}
+          
+          // 8. Create and mount card element
           cardElement = elements.create('card', {{
             style: {{
               base: {{
@@ -257,24 +294,14 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
             hidePostalCode: true
           }});
           
-          // 6. Mount the card element once we're sure the DOM element exists
-          var cardElementContainer = document.getElementById('card-element');
-          if (cardElementContainer) {{
-            cardElement.mount('#card-element');
-            console.log("[STRIPE_INIT] " + new Date().toISOString() + " - Card element mounted");
-          }} else {{
-            console.error("[STRIPE_INIT] " + new Date().toISOString() + " - Card element container not found");
-            return;
-          }}
+          console.log("[STRIPE_INIT] " + new Date().toISOString() + " - Card element created, mounting to #card-element");
+          cardElement.mount('#card-element');
+          console.log("[STRIPE_INIT] " + new Date().toISOString() + " - Card element mounted");
           
-          // 7. Get form and field references
-          form = document.getElementById('payment-form');
-          nameInput = document.getElementById('name-on-card');
-          submitBtn = document.getElementById('submit');
-          if (!form || !nameInput || !submitBtn) {{
-            console.error("[STRIPE_INIT] " + new Date().toISOString() + " - Form elements not found");
-            return;
-          }}
+          // 9. Assign form elements to variables
+          form = formElement;
+          nameInput = nameInputElement;
+          submitBtn = submitBtnElement;
           
           // 8. Form validation function
           function validateForm() {{
