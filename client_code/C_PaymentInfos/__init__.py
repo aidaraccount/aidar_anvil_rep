@@ -57,12 +57,12 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
     <script src=\"https://js.stripe.com/v3/\"></script>
     <script>
     // Store error and success messages for localization and central management
-    const MESSAGES = {
+    const MESSAGES = {{
       cardError: 'There was an error processing your card. Please check your card details and try again.',
       success: 'Your card has been saved successfully!',
       processing: 'Processing your card...',
       serverError: 'There was a server error. Please try again later.'
-    };
+    }};
     </script>
 
     <!-- 2. Payment Form Container -->
