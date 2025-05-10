@@ -121,10 +121,27 @@ def ensure_stripe_js_loaded():
   return pk_key
 
 
-class C_PaymentInfos(C_PaymentInfosTemplate):
+class C_PaymentInfos(anvil.Component):
   def __init__(self, **properties):
-    # Set Form properties and Data Bindings.
-    self.init_components(**properties)
+    # Initialize as a basic component with direct HTML rendering
+    self.html = ""
+    self.html_panel = anvil.HtmlPanel()
+    
+    # Set up component properties for proper display
+    properties['text'] = properties.get('text', 'Payment Information')
+    properties['spacing_above'] = properties.get('spacing_above', 'none')
+    properties['spacing_below'] = properties.get('spacing_below', 'none')
+    properties['background'] = properties.get('background', '#FFFFFF')
+    
+    anvil.Component.__init__(self, **properties)
+    
+    # Add HTML panel as the main content with proper styling
+    self.html_panel.width = "100%"
+    self.html_panel.height = 400  # Fixed height to ensure visibility
+    self.add_component(self.html_panel, full_width=True)
+    
+    # Register event handlers
+    self.add_event_handler('show', self._on_show)
 
     # Any code you write here will run before the form opens.
     print(f"[STRIPE_DEBUG] {datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')} - C_PaymentInfos.__init__ started")
@@ -200,13 +217,14 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
     1. Updates the payment form with loaded data 
     2. Shows the form and hides the loading indicator
     3. Updates the client secret for the Stripe form
-    
-    This method is called when async data loading is complete.
     """
     print(f"[STRIPE_DEBUG] {datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')} - Updating form with loaded data")
     
     # Rebuild the HTML with the loaded data
     self.build_payment_form()
+    
+    # Update the HTML panel directly
+    self.html_panel.html = self.html
     
     # Use JavaScript to update the form state
     if self.client_secret:
@@ -240,6 +258,10 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
     
     # Create initial HTML with loading state
     self.build_payment_form()
+    
+    # Set HTML directly to the panel for immediate display
+    print(f"[STRIPE_DEBUG] {datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')} - Updating HTML panel content")
+    self.html_panel.html = self.html
     
     # Register the payment_method_ready and close_alert functions on window for JS to call
     print(f"[STRIPE_DEBUG] {datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')} - Registering JS callback functions")
@@ -683,6 +705,28 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
     self.raise_event('x-close-alert')
 
 
+  def _on_show(self, **event_args):
+    """
+    Handle the show event for the component
+    
+    This ensures proper initialization and display when shown in an alert
+    """
+    print(f"[STRIPE_DEBUG] {datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')} - Component show event triggered")
+    # Update HTML if needed when component is shown
+    if hasattr(self, 'html_panel') and hasattr(self, 'html'):
+      self.html_panel.html = self.html
+
+  def _on_html_panel_show(self, **event_args):
+    """
+    Handle the show event for the HTML panel
+    
+    This ensures Stripe.js is properly initialized when the HTML is rendered
+    """
+    print(f"[STRIPE_DEBUG] {datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')} - HTML panel show event triggered")
+    # Force HTML update if needed
+    if hasattr(self, 'html'):
+      self.html_panel.html = self.html
+  
   def _payment_method_ready(self, payment_method_id: str):
     """Called from JS after successful Stripe setup. Handles server calls from Python."""
     print(f"[STRIPE_DEBUG] {datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')} - _payment_method_ready called with payment_method_id: {payment_method_id[:5]}...")
