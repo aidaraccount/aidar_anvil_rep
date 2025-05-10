@@ -121,23 +121,25 @@ def ensure_stripe_js_loaded():
   return pk_key
 
 
-class C_PaymentInfos(anvil.Component):
+class C_PaymentInfos(anvil.Container):
   def __init__(self, **properties):
-    # Initialize as a basic component with direct HTML rendering
-    self.html = ""
-    self.html_panel = anvil.HtmlPanel()
-    
-    # Set up component properties for proper display
-    properties['text'] = properties.get('text', 'Payment Information')
+    # Initialize as a container component first
     properties['spacing_above'] = properties.get('spacing_above', 'none')
     properties['spacing_below'] = properties.get('spacing_below', 'none')
     properties['background'] = properties.get('background', '#FFFFFF')
     
-    anvil.Component.__init__(self, **properties)
+    # Call parent class init properly
+    super(C_PaymentInfos, self).__init__(**properties)
     
-    # Add HTML panel as the main content with proper styling
+    # Initialize variables for HTML rendering
+    self.html = ""
+    
+    # Create HTML panel for content
+    self.html_panel = anvil.HtmlPanel()
     self.html_panel.width = "100%"
     self.html_panel.height = 400  # Fixed height to ensure visibility
+    
+    # Add panel to this container
     self.add_component(self.html_panel, full_width=True)
     
     # Register event handlers
