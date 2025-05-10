@@ -12,125 +12,236 @@ import json
 
 
 class C_PaymentInfos(C_PaymentInfosTemplate):
-  def __init__(self, **properties):
-    # Set Form properties and Data Bindings.
-    self.init_components(**properties)
+    def __init__(self, **properties):
+        # Set Form properties and Data Bindings.
+        self.init_components(**properties)
 
-    # Any code you write here will run before the form opens.
-    global user
-    user = anvil.users.get_user()
-    
-    # Get subscription email
-    base_data = anvil.server.call('get_settings_subscription2', user["user_id"])
-    if base_data is not None:
-      base_data = json.loads(base_data)[0]
-      self.sub_email = base_data['mail'] if 'mail' in base_data else None
-    else:
-      self.sub_email = user['email']
-    
-    # Get the Stripe publishable key from the server
-    stripe_publishable_key = anvil.server.call('get_stripe_publishable_key')
-    
-    # Get the Stripe SetupIntent client_secret from the server
-    # Pass the user's email to associate with the customer
-    client_secret = anvil.server.call('create_setup_intent', self.sub_email)
-    
-    # Get customer info for billing_details
-    customer = anvil.server.call('get_stripe_customer', self.sub_email)
-    customer_email = customer.get('email', '')
-    customer_address = customer.get('address', {})
-    address_line1 = customer_address.get('line1', '')
-    address_line2 = customer_address.get('line2', '')
-    city = customer_address.get('city', '')
-    postal_code = customer_address.get('postal_code', '')
-    state = customer_address.get('state', '')
-    country = customer_address.get('country', '')
-
-    # html
-    self.html = f"""
+        # Any code you write here will run before the form opens.
+        global user
+        user = anvil.users.get_user()
+        
+        # 1. Get user data and setup Stripe
+        # 1.1 Get subscription email
+        base_data = anvil.server.call('get_settings_subscription2', user["user_id"])
+        if base_data is not None:
+            base_data = json.loads(base_data)[0]
+            self.sub_email = base_data['mail'] if 'mail' in base_data else None
+        else:
+            self.sub_email = user['email']
+        
+        # 1.2 Get the Stripe publishable key from the server
+        stripe_publishable_key = anvil.server.call('get_stripe_publishable_key')
+        
+        # 1.3 Get the Stripe SetupIntent client_secret
+        client_secret = anvil.server.call('create_setup_intent', self.sub_email)
+        
+        # 1.4 Get customer info for billing_details
+        customer = anvil.server.call('get_stripe_customer', self.sub_email)
+        customer_email = customer.get('email', '')
+        customer_address = customer.get('address', {})
+        address_line1 = customer_address.get('line1', '')
+        address_line2 = customer_address.get('line2', '')
+        city = customer_address.get('city', '')
+        postal_code = customer_address.get('postal_code', '')
+        state = customer_address.get('state', '')
+        country = customer_address.get('country', '')
+        
+        # 2. Register JS callbacks
+        anvil.js.window.payment_method_ready = self._payment_method_ready
+        anvil.js.window.close_alert = self._close_alert
+        
+        # 3. Create HTML template for optimized Stripe integration with proper escaping
+        html_template = f"""
+<!DOCTYPE html>
+<html>
     <script>
-    window.stripe_setup_intent_client_secret = '{client_secret}';
-    window.ANVIL_STRIPE_PUBLISHABLE_KEY = '{stripe_publishable_key}';
+      // Store configuration securely
+      const STRIPE_CONFIG = {{
+        clientSecret: '{client_secret}',
+        publishableKey: '{stripe_publishable_key}',
+        customerEmail: '{customer_email}',
+        address: {{
+          line1: '{address_line1}',
+          line2: '{address_line2}',
+          city: '{city}',
+          postal_code: '{postal_code}',
+          state: '{state}',
+          country: '{country}'
+        }}
+      }};
     </script>
 
-    <!-- 1. Performance optimization: DNS Preconnect for Stripe domains -->
+    <!-- 1. DNS optimization -->
     <link rel="preconnect" href="https://js.stripe.com" crossorigin>
     <link rel="preconnect" href="https://api.stripe.com" crossorigin>
-    <link rel="preconnect" href="https://m.stripe.network" crossorigin>
-    <link rel="preconnect" href="https://b.stripecdn.com" crossorigin>
     
-    <!-- 2. CSS for loading state -->
+    <!-- 2. CSS styles -->
     <style>
-      #stripe-loading-overlay {{
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(24, 24, 24, 0.8);
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        z-index: 1000;
-        color: white;
+      /* 2.1 Payment form container */
+      #payment-form-container {{
+        position: relative;
+        font-family: Inter, "Segoe UI", sans-serif;
+        color: #ffffff;
+        padding: 10px 0;
       }}
       
-      .stripe-spinner {{
+      /* 2.2 Loading spinner */
+      #loading-container {{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100px;
+        margin: 20px 0;
+      }}
+      
+      .spinner {{
         width: 40px;
         height: 40px;
         border: 4px solid rgba(255, 122, 0, 0.3);
         border-radius: 50%;
         border-top-color: #FF7A00;
-        animation: stripe-spin 1s linear infinite;
-        margin-bottom: 15px;
+        animation: spin 1s linear infinite;
       }}
       
-      @keyframes stripe-spin {{
+      @keyframes spin {{
         0% {{ transform: rotate(0deg); }}
         100% {{ transform: rotate(360deg); }}
       }}
       
-      #payment-form-container {{
-        position: relative;
-        min-height: 300px;
+      /* 2.3 Form elements */
+      #payment-form {{
+        margin-top: 20px;
+      }}
+      
+      .form-section {{
+        margin-bottom: 20px;
+      }}
+      
+      .form-section h3 {{
+        margin-bottom: 8px;
+        font-size: 16px;
+        font-weight: 500;
       }}
       
       #card-element {{
-        background-color: #333;
+        background-color: #292929;
         padding: 16px;
         border-radius: 8px;
-        margin-bottom: 10px;
+        margin-bottom: 16px;
+      }}
+      
+      #name-on-card {{
+        width: 100%;
+        padding: 12px;
+        background-color: #292929;
+        border: none;
+        border-radius: 8px;
+        color: #ffffff;
+        font-size: 16px;
+        font-family: inherit;
+      }}
+      
+      /* 2.4 Feedback and controls */
+      #card-errors {{
+        color: #FF5A36;
+        margin-bottom: 16px;
+        min-height: 20px;
+      }}
+      
+      .button-row {{
+        display: flex;
+        justify-content: space-between;
+        margin-top: 20px;
+      }}
+      
+      button {{
+        padding: 12px 24px;
+        border: none;
+        border-radius: 8px;
+        font-size: 16px;
+        font-weight: 500;
+        cursor: pointer;
+      }}
+      
+      #cancel-btn {{
+        background-color: transparent;
+        color: #ffffff;
+        border: 1px solid #555555;
+      }}
+      
+      #submit {{
+        background-color: #FF7A00;
+        color: #ffffff;
+      }}
+      
+      #submit:disabled {{
+        background-color: #cccccc;
+        opacity: 0.7;
+        cursor: not-allowed;
+      }}
+      
+      .success-message {{
+        color: #00C853;
       }}
     </style>
     
-    <!-- 3. Stripe.js script with optimized loading strategy -->
-    <script>
-    // Define messages - always define it to avoid reference errors
-    window.STRIPE_MESSAGES = {{
-      cardError: 'There was an error processing your card. Please check your card details and try again.',
-      success: 'Your card has been saved successfully!',
-      processing: 'Processing your card...',
-      serverError: 'There was a server error. Please try again later.',
-      loading: 'Loading payment form...'
-    }};
+    <!-- 3. Payment form structure -->
+    <div id="payment-form-container">
+      <!-- 3.1 Loading state -->
+      <div id="loading-container">
+        <div class="spinner"></div>
+      </div>
+      
+      <!-- 3.2 Form content (hidden until loaded) -->
+      <div id="form-content" style="display: none;">
+        <h2>Add payment details</h2>
+        <div class="payment-info-text">Add your credit card details below. This card will be saved to your account and can be removed at any time.</div>
+        
+        <form id="payment-form">
+          <!-- Card element section -->
+          <div class="form-section">
+            <h3>Card information</h3>
+            <div id="card-element"></div>
+          </div>
+          
+          <!-- Name field section -->
+          <div class="form-section">
+            <h3>Name on card</h3>
+            <input id="name-on-card" name="name-on-card" type="text" autocomplete="cc-name" required placeholder="Name on card">
+          </div>
+          
+          <!-- Feedback and controls -->
+          <div id="card-errors" role="alert"></div>
+          <div class="button-row">
+            <button type="button" id="cancel-btn">Cancel</button>
+            <button id="submit" type="submit" disabled>Save payment details</button>
+          </div>
+        </form>
+      </div>
+    </div>
     
-    // Debug utilities for tracking UI performance and blocking
-    // Always recreate to avoid reference issues
-    window.STRIPE_DEBUG = {{
-        // Flag to enable periodic interval checking (for Anvil/Stripe specific issues)
-        enablePeriodicCheck: true,
-        // Track frame rate and main thread blocking
+    <!-- 4. Stripe integration script -->
+    <script src="https://js.stripe.com/v3/"></script>
+    
+    <!-- 5. Payment processing logic -->
+    <script>
+      // 5.1 Performance monitoring utilities
+      const STRIPE_DEBUG = {
+        // Configuration
+        enabled: true,
+        blockThreshold: 100, // ms threshold to consider UI blocked
+        
+        // State tracking
         frameTimeLog: [],
         lastFrameTime: performance.now(),
         inputEventCount: 0,
         blockingEvents: [],
         isMonitoring: false,
         longTaskObserver: null,
-        blockThreshold: 100, // ms threshold to consider UI blocked
+        mutationObserver: null,
         
         // Start monitoring performance
-        startMonitoring: function() {{
+        startMonitoring: function() {
           if (this.isMonitoring) return;
           
           // Store 'this' reference for closures
@@ -178,151 +289,133 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
                     }});
                     
                     console.log('[Stripe Debug] Started monitoring iframe style changes');
-                  }}
-                }} catch (e) {{
-                  console.warn('[Stripe Debug] Error setting up iframe monitoring:', e);
-                }}
-              }}
-            }}, 250);
-          }}
-          
-          // Set up frame rate monitoring
-          this.frameId = requestAnimationFrame(function frameLogger() {{
-            const now = performance.now();
-            const frameDelta = now - self.lastFrameTime;
             
-            // Log frames that took too long (potential blocking)
-            if (frameDelta > self.blockThreshold) {{
-              self.blockingEvents.push({{
-                timestamp: now,
-                duration: frameDelta,
-                type: 'frame-drop',
-                stack: new Error().stack
-              }});
-              console.warn(`[Stripe Debug] UI blocked for ${{frameDelta.toFixed(2)}}ms`);
-            }}
+            // Log significant frame time (potential stutter)
+            if (frameTime > self.blockThreshold) {
+              self.blockingEvents.push({
+                type: 'frame_drop',
+                duration: frameTime,
+                timestamp: timestamp
+              });
+              console.warn(`Stripe UI: Frame drop detected - ${frameTime.toFixed(2)}ms`);
+            }
             
-            self.frameTimeLog.push(frameDelta);
-            if (self.frameTimeLog.length > 100) self.frameTimeLog.shift();
-            self.lastFrameTime = now;
+            self.frameTimeLog.push(frameTime);
+            // Keep log size reasonable
+            if (self.frameTimeLog.length > 300) {
+              self.frameTimeLog.shift();
+            }
+            
+            self.lastFrameTime = timestamp;
             
             // Continue monitoring
-            if (self.isMonitoring) {{
-              self.frameId = requestAnimationFrame(frameLogger);
-            }}
-          }});
+            if (self.isMonitoring) {
+              requestAnimationFrame(frameRateCheck);
+            }
+          }
           
-          // Monitor long tasks using the Long Tasks API if available
-          if (window.PerformanceObserver && window.PerformanceLongTaskTiming) {{
-            try {{
-              this.longTaskObserver = new PerformanceObserver((entries) => {{
-                entries.getEntries().forEach((entry) => {{
-                  self.blockingEvents.push({{
-                    timestamp: performance.now(),
-                    duration: entry.duration,
-                    type: 'long-task',
-                    attribution: entry.attribution,
-                    detail: entry
-                  }});
-                  console.warn(`[Stripe Debug] Long task detected: ${{entry.duration.toFixed(2)}}ms`, entry);
-                }});
-              }});
-              this.longTaskObserver.observe({{ entryTypes: ['longtask'] }});
-            }} catch (e) {{
-              console.warn('[Stripe Debug] Long Tasks API not supported', e);
-            }}
-          }}
-          
-          // Track input events to detect responsiveness
-          this.inputHandler = function(e) {{
-            self.inputEventCount++;
-            // Check if input is in the card element iframe
-            if (e.target && e.target.tagName === 'IFRAME' && e.target.closest('#card-element')) {{
-              // Record the input time to analyze if blocking occurs after input
-              self.blockingEvents.push({{
-                timestamp: performance.now(),
-                type: 'input-event',
-                target: e.target.id || 'iframe'
-              }});
-            }}
-          }}
-          
-          document.addEventListener('keydown', this.inputHandler, true);
-          document.addEventListener('mousedown', this.inputHandler, true);
-          
-          // Monitor network activity
-          if (window.performance && window.performance.getEntriesByType) {{
-            setInterval(() => {{
-              const resources = window.performance.getEntriesByType('resource');
-              const stripeResources = resources.filter(r => 
-                r.name.includes('stripe.com') || 
-                r.name.includes('stripecdn.com') || 
-                r.name.includes('stripe.network')
-              );
+          // 2. Track long tasks with PerformanceObserver
+          if (window.PerformanceObserver && PerformanceObserver.supportedEntryTypes && 
+              PerformanceObserver.supportedEntryTypes.includes('longtask')) {
               
-              // Log slow resources
-              stripeResources.forEach(r => {{
-                if (r.duration > 500) {{
-                  console.warn(`[Stripe Debug] Slow resource: ${{r.name}} (${{r.duration.toFixed(2)}}ms)`);
-                  self.blockingEvents.push({{
-                    timestamp: performance.now(),
-                    duration: r.duration,
-                    type: 'network',
-                    resource: r.name
-                  }});
-                }}
-              }});
-            }}, 2000);
-          }}
-        }},
+            this.longTaskObserver = new PerformanceObserver((entryList) => {
+              for (const entry of entryList.getEntries()) {
+                self.blockingEvents.push({
+                  type: 'long_task',
+                  duration: entry.duration,
+                  timestamp: performance.now(),
+                  attribution: entry.attribution && entry.attribution[0] ? 
+                               entry.attribution[0].name : 'unknown'
+                });
+                console.warn(`Stripe UI: Long task detected - ${entry.duration.toFixed(2)}ms`);
+              }
+            });
+            
+            try {
+              this.longTaskObserver.observe({ entryTypes: ['longtask'] });
+            } catch (e) {
+              console.error('Error setting up longtask observer:', e);
+            }
+          }
+          
+          // 3. Track user input events
+          const cardElement = document.getElementById('card-element');
+          if (cardElement) {
+            const inputHandler = function(event) {
+              self.inputEventCount++;
+              // Track when last input was received
+              self.lastInputTime = performance.now();
+            };
+            
+            const inputEvents = ['keydown', 'keyup', 'input', 'change', 'focus', 'blur'];
+            
+            inputEvents.forEach(eventType => {
+              cardElement.addEventListener(eventType, inputHandler);
+            });
+            
+            // Track Stripe iframe style changes which might indicate blocking
+            const stripeIframes = document.querySelectorAll('#card-element iframe');
+            if (stripeIframes.length > 0 && window.MutationObserver) {
+              this.mutationObserver = new MutationObserver((mutations) => {
+                for (const mutation of mutations) {
+                  if (mutation.type === 'attributes' && mutation.attributeName === 'style') {
+                    self.blockingEvents.push({
+                      type: 'iframe_style_change',
+                      timestamp: performance.now(),
+                      element: mutation.target.outerHTML.substring(0, 100) + '...'
+                    });
+                    console.log('Stripe iframe style changed:', mutation);
+                  }
+                }
+              });
+              
+              stripeIframes.forEach(iframe => {
+                try {
+                  this.mutationObserver.observe(iframe, {
+                    attributes: true,
+                    attributeFilter: ['style']
+                  });
+                } catch (e) {
+                  console.error('Error setting up mutation observer:', e);
+                }
+              });
+            }
+          }
+          
+          // Mark as monitoring
+          this.isMonitoring = true;
+          requestAnimationFrame(frameRateCheck);
+          console.log('Stripe UI monitoring started');
+        },
         
-        // Stop monitoring
-        stopMonitoring: function() {{
-          if (!this.isMonitoring) return;
-          
+        // Stop monitoring performance
+        stopMonitoring: function() {
           this.isMonitoring = false;
-          cancelAnimationFrame(this.frameId);
           
-          if (this.longTaskObserver) {{
+          if (this.longTaskObserver) {
             this.longTaskObserver.disconnect();
-          }}
+          }
           
-          if (this.mutationObserver) {{
+          if (this.mutationObserver) {
             this.mutationObserver.disconnect();
-          }}
+          }
           
-          if (this.periodicCheckInterval) {{
-            clearInterval(this.periodicCheckInterval);
-          }}
-          
-          document.removeEventListener('keydown', this.inputHandler, true);
-          document.removeEventListener('mousedown', this.inputHandler, true);
-          
-          console.log('[Stripe Debug] Stopped monitoring');
-        }},
+          console.log('Stripe UI monitoring stopped');
+        },
         
         // Get a summary of blocking events
-        getBlockingSummary: function() {{
-          if (this.blockingEvents.length === 0) {{
-            return 'No blocking events detected';
-          }}
+        getBlockingSummary: function() {
+          const frameTimes = this.frameTimeLog.filter(time => time > this.blockThreshold);
+          const avgBlockingFrameTime = frameTimes.length ? 
+                frameTimes.reduce((sum, time) => sum + time, 0) / frameTimes.length : 0;
           
-          const typeCount = this.blockingEvents.reduce((acc, event) => {{
-            acc[event.type] = (acc[event.type] || 0) + 1;
-            return acc;
-          }}, {{}});
-          
-          const avgDuration = this.blockingEvents
-            .filter(e => e.duration)
-            .reduce((sum, e) => sum + e.duration, 0) / 
-            this.blockingEvents.filter(e => e.duration).length;
-          
-          return `Detected ${{this.blockingEvents.length}} blocking events: ` + 
-                 Object.entries(typeCount).map(([type, count]) => 
-                   `${{type}}: ${{count}}`
-                 ).join(', ') + 
-                 `. Average duration: ${{avgDuration ? avgDuration.toFixed(2) : 0}}ms`;
-        }}
+          return {
+            totalBlockingEvents: this.blockingEvents.length,
+            avgBlockingFrameTime: avgBlockingFrameTime.toFixed(2),
+            blockingFramesCount: frameTimes.length,
+            inputEventCount: this.inputEventCount,
+            events: this.blockingEvents
+          };
       }};
     }}
     
@@ -362,46 +455,37 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
           if (checkStripeLoaded()) {{
             clearInterval(checkInterval);
           }}
-        }}, 100);
-      }});
-    }}
-    </script>
 
-    <!-- 4. Payment Form Container -->
-    <div id="payment-form-container">    
-        <!-- 4.1 Loading overlay -->
-        <div id="stripe-loading-overlay">
-            <div class="stripe-spinner"></div>
-            <div id="loading-message">Loading payment form...</div>
-        </div>
-        
-        <!-- 4.2 Title and instructions -->
-        <h2>Add payment details</h2>
-        <div class="payment-info-text">Add your credit card details below. This card will be saved to your account and can be removed at any time.</div>
-        <!-- 2.2 Custom payment form -->
-        <form id=\"payment-form\">            
-            <!-- 2.2.1 Card information section -->
-            <div class=\"form-section\">                
-                <h3>Card information</h3>
-                <div id=\"card-element\"></div>
-            </div>
+  // Load Stripe.js
+  function loadStripeJS() {
+    return new Promise(function(resolve) {
+      function checkStripeLoaded() {
+        if (typeof window.Stripe !== 'undefined') {
+          resolve(window.Stripe);
+          return true;
+        }
+        return false;
+      }
 
-            <!-- 2.2.2 Name on card field -->
-            <div class=\"form-section\">                
-                <h3>Name on card</h3>
-                <input id=\"name-on-card\" name=\"name-on-card\" type=\"text\" autocomplete=\"cc-name\" required placeholder=\"Name on card\">
-            </div>
+      // Check if already loaded
+      if (checkStripeLoaded()) return;
 
-            <!-- 2.2.3 Error display and buttons -->
-            <div id=\"card-errors\" role=\"alert\"></div>
-            <div class=\"button-row\">                
-                <button type=\"button\" id=\"cancel-btn\">Cancel</button>
-                <button id=\"submit\" type=\"submit\">Save payment details</button>
-            </div>
-        </form>
-    </div>
+      // Create script element with high priority loading
+      var stripeScript = document.createElement('script');
+      stripeScript.src = 'https://js.stripe.com/v3/';
+      stripeScript.setAttribute('importance', 'high');
+      stripeScript.async = true;
+      stripeScript.onload = function() {
+        // Check again after the script loads
+        checkStripeLoaded();
+      };
 
-    <script>
+      // Insert at the beginning of head for higher priority
+      if (document.head.firstChild) {
+        document.head.insertBefore(stripeScript, document.head.firstChild);
+      } else {
+        document.head.appendChild(stripeScript);
+      }
     // 3. Initialize Stripe and Elements
     // Wait for Stripe to load first, then initialize
     const stripePublishableKey = window.ANVIL_STRIPE_PUBLISHABLE_KEY || 'pk_test_51RDoXJQTBcqmUQgt9CqdDXQjtHKkEkEBuXSs7EqVjwkzqcWP66EgCu8jjYArvbioeYpzvS5wSvbrUsKUtjXi0gGq00M9CzHJTa';
@@ -413,235 +497,379 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
     // Set up initialization in a safe way with a small delay
     setTimeout(function() {{
       try {{
-        // Show loading state if element exists
-        if (document.getElementById('loading-message')) {{
-          document.getElementById('loading-message').textContent = window.STRIPE_MESSAGES.loading;
-        }}
+        // Show loading state
+        if (STRIPE_DEBUG.enabled) {
+          STRIPE_DEBUG.startMonitoring();
+        }
         
-        // Safely start performance monitoring
-        if (window.STRIPE_DEBUG && typeof window.STRIPE_DEBUG.startMonitoring === 'function') {{
-          window.STRIPE_DEBUG.startMonitoring();
-          console.log('[Stripe Debug] You can check the performance data with window.STRIPE_DEBUG.getBlockingSummary() in browser console');
-          console.log('[Stripe Debug] To see all collected blocking events: console.table(window.STRIPE_DEBUG.blockingEvents);');
-        }}
+        // Mount card element and handle UI
+        cardElement.mount('#card-element');
+        
+        // Handle ready state
+        cardElement.on('ready', function() {
+          // Hide loading state, show form
+          loadingContainer.style.display = 'none';
+          formContent.style.display = 'block';
+          
+          // Enable submit button when input is complete
+          submitButton.disabled = false;
+        });
+        
+        // Handle card validation errors
+        cardElement.on('change', function(event) {
+          if (event.error) {
+            cardErrors.textContent = event.error.message;
+          } else {
+            cardErrors.textContent = '';
+          }
+        });
+        
+        // Handle form submission
+        form.addEventListener('submit', function(event) {
+          event.preventDefault();
+          
+          // Disable submit button during processing
+          submitButton.disabled = true;
+          submitButton.textContent = MESSAGES.processing;
+          
+          // Get name input value
+          const nameInput = document.getElementById('name-on-card');
+          const cardholderName = nameInput.value;
+          
+          // Get billing details from config
+          const billingDetails = {
+            name: cardholderName,
+            email: STRIPE_CONFIG.customerEmail,
+            address: STRIPE_CONFIG.address
+          };
+          
+          // Confirm card setup
+          stripe.confirmCardSetup(STRIPE_CONFIG.clientSecret, {
+            payment_method: {
+              card: cardElement,
+              billing_details: billingDetails
+            }
+          }).then(function(result) {
+            if (result.error) {
+              // Show error message
+              cardErrors.textContent = result.error.message || MESSAGES.cardError;
+              submitButton.disabled = false;
+              submitButton.textContent = 'Save payment details';
+            } else {
+              // Success - card setup complete
+              cardErrors.textContent = MESSAGES.success;
+              cardErrors.className = 'success-message';
+              submitButton.textContent = 'Saved';
+              
+              // Notify Anvil that setup was successful
+              if (typeof anvil !== 'undefined') {
+                anvil.call('stripe_setup_complete', result.setupIntent.payment_method);
+              }
+              
+              // Close form after short delay
+              setTimeout(function() {
+                if (typeof anvil !== 'undefined') {
+                  anvil.closeForm();
+                }
+              }, 1500);
+            }
+          });
+        });
+        
+        // Handle cancel button
+        document.getElementById('cancel-btn').addEventListener('click', function() {
+          if (typeof anvil !== 'undefined') {
+            anvil.closeForm();
+          }
+        });
       }} catch (err) {{
         console.error('[Stripe Debug] Error during initialization:', err);
       }}
-    }}, 100);
-    
-    // Initialize the form only after Stripe.js is fully loaded
-    loadStripeJS().then(function(StripeJS) {{
-      // Small delay to ensure browser resources are available
-      setTimeout(function() {{
-        try {{
-          stripe = StripeJS(stripePublishableKey);
-          elements = stripe.elements({{
-        appearance: {{
-            theme: 'flat',
-            variables: {{
-                colorPrimary: '#FF7A00',
-                colorBackground: '#181818',
-                colorText: '#ffffff',
-                colorDanger: '#FF5A36',
-                fontFamily: 'Inter, "Segoe UI", sans-serif',
-                borderRadius: '8px',
-                colorTextPlaceholder: '#aaaaaa'
-            }}
-        }}
-    }});
-
-    // 4. Create and mount Card Element
-      cardElement = elements.create('card', {{
-        style: {{
-            base: {{
-                color: '#ffffff',
-                fontFamily: 'Inter, "Segoe UI", sans-serif',
-                fontSize: '16px',
-                iconColor: '#ffffff',
-                '::placeholder': {{ color: '#aaaaaa' }}
-            }},
-            invalid: {{
-                color: '#FF5A36',
-                iconColor: '#FF5A36'
-            }}
-        }},
-        hidePostalCode: true
-    }});
-          cardElement.mount('#card-element');
-          
-          // Hide loading overlay once the card element is ready
-          cardElement.on('ready', function() {{
-            document.getElementById('stripe-loading-overlay').style.display = 'none';
-          }});
-
-          // 5. Form and field references
-          var form = document.getElementById('payment-form');
-          var nameInput = document.getElementById('name-on-card');
-          var submitBtn = document.getElementById('submit');
-
-          // 6. Form validation logic
-          function validateForm() {{
-        var nameComplete = nameInput.value.trim().length > 0;
-        var cardComplete = false;
-        if (cardElement && typeof cardElement._complete !== 'undefined') {{
-            cardComplete = cardElement._complete;
-        }} else if (cardElement && typeof cardElement._implementation !== 'undefined' && typeof cardElement._implementation._complete !== 'undefined') {{
-            cardComplete = cardElement._implementation._complete;
-        }}
-        var formValid = cardComplete && nameComplete;
-        if (formValid) {{
-            submitBtn.removeAttribute('disabled');
-            submitBtn.style.backgroundColor = '#FF7A00';
-            submitBtn.style.opacity = '1';
-        }} else {{
-            submitBtn.setAttribute('disabled', 'disabled');
-            submitBtn.style.backgroundColor = '#ccc';
-            submitBtn.style.opacity = '0.7';
-        }}
-        return formValid;
-    }}
-
-          nameInput.addEventListener('input', validateForm);
-          cardElement.on('change', function(event) {{
-        if (event.error) {{
-            document.getElementById('card-errors').textContent = event.error.message;
-        }} else {{
-            document.getElementById('card-errors').textContent = '';
-        }}
-        cardElement._complete = event.complete;
-        validateForm();
-    }});
-
-          // Ensure validation after leaving card field (e.g. after CVC entry)
+{{ ... }}
           cardElement.on('blur', function(event) {{
         validateForm();
     }});
           cardElement._complete = false;
           form.addEventListener('input', validateForm);
-          validateForm();
-
-          // 7. Form submission handler
-          form.addEventListener('submit', function(event) {{
-        event.preventDefault();
-        var nameValue = nameInput.value;
-        document.getElementById('card-errors').textContent = '';
-        submitBtn.disabled = true;
-        var billingDetails = {{
-            name: nameValue,
-            email: '{customer_email}',
-            address: {{
-                line1: '{address_line1}',
-                line2: '{address_line2}',
-                city: '{city}',
-                postal_code: '{postal_code}',
-                state: '{state}',
-                country: '{country}'
-            }}
-        }};
-        // Display processing message
-        document.getElementById('card-errors').textContent = window.STRIPE_MESSAGES.processing;
-        document.getElementById('card-errors').style.color = '#FF7A00';
+          validateForm()
+      
+      // 5.2 User messages
+      const MESSAGES = {
+        cardError: 'There was an error processing your card. Please check your card details and try again.',
+        success: 'Your card has been saved successfully!',
+        processing: 'Processing your card...',
+        serverError: 'There was a server error. Please try again later.',
+        loading: 'Loading payment form...'
+      };
+      
+      // 5.3 Main initialization function
+      document.addEventListener('DOMContentLoaded', function() {
+        // References to DOM elements
+        const loadingContainer = document.getElementById('loading-container');
+        const formContent = document.getElementById('form-content');
+        const form = document.getElementById('payment-form');
+        const submitButton = document.getElementById('submit');
+        const cardErrors = document.getElementById('card-errors');
         
-        stripe.confirmCardSetup(window.stripe_setup_intent_client_secret, {{
-            payment_method: {{
-                card: cardElement,
-                billing_details: billingDetails
-            }}
-        }}).then(function(result) {{
-            if (result.error) {{
-                // Show error in card-errors div
-                document.getElementById('card-errors').textContent = result.error.message || window.STRIPE_MESSAGES.cardError;
-                document.getElementById('card-errors').style.color = '#FF5A36';
-                submitBtn.disabled = false;
-            }} else {{
-                // Call our server-side function to handle the successful setup
-                // and properly attach the payment method to the customer
-                anvil.server.call('handle_setup_intent_success', 
-                                 result.setupIntent.id,
-                                 result.setupIntent.payment_method)
-                  .then(function(response) {{
-                    if (response.success) {{
-                      // Show success message
-                      document.getElementById('card-errors').textContent = window.STRIPE_MESSAGES.success;
-                      document.getElementById('card-errors').style.color = '#00C853';
-                      
-                      // Call the callback if it exists
-                      if (typeof window.payment_method_ready === 'function') {{
-                          window.payment_method_ready(result.setupIntent.payment_method);
-                      }}
-                      
-                      // Add a small delay before potentially closing the form
-                      setTimeout(function() {{
-                        if (typeof window.close_alert === 'function') {{
-                          window.close_alert();
-                        }}
-                      }}, 1500);
-                    }} else {{
-                      // Show server error
-                      document.getElementById('card-errors').textContent = response.message || window.STRIPE_MESSAGES.serverError;
-                      document.getElementById('card-errors').style.color = '#FF5A36';
-                      submitBtn.disabled = false;
-                    }}
-                  }})
-                  .catch(function(err) {{
-                    // Handle any server call errors
-                    document.getElementById('card-errors').textContent = window.STRIPE_MESSAGES.serverError;
-                    document.getElementById('card-errors').style.color = '#FF5A36';
-                    submitBtn.disabled = false;
-                    console.error('Server error:', err);
-                  }});
-            }}
-        }});
-    }});
+        // Initialize Stripe with publishable key
+        const stripe = Stripe(STRIPE_CONFIG.publishableKey);
+        const elements = stripe.elements();
 
-          // 8. Cancel button closes the modal
-          document.getElementById('cancel-btn').onclick = function() {{ window.close_alert(); }};
-        }} catch(e) {{
-          console.error('Error initializing Stripe:', e);
-          document.getElementById('loading-message').textContent = 'Error loading payment form';
-        }}
-      }}, 100); // Small delay for browser to settle
+        // Create card element
+        const cardElement = elements.create('card', {
+          style: {
+            base: {
+              color: '#ffffff',
+              fontFamily: 'Inter, "Segoe UI", sans-serif',
+              fontSmoothing: 'antialiased',
+              fontSize: '16px',
+              '::placeholder': {
+                color: '#aab7c4'
+              }
+            },
+  
+  // 5.2 User messages
+  const MESSAGES = {
+    cardError: 'There was an error processing your card. Please check your card details and try again.',
+        }
+      });
+    });
+
+    // Handle cancel button
+    document.getElementById('cancel-btn').addEventListener('click', function() {
+      if (typeof anvil !== 'undefined') {
+        anvil.closeForm();
+      }
+    });
+  } catch (err) {
+    console.error('[Stripe Debug] Error during initialization:', err);
+  }
+});
+
+// 5.2 User messages
+const MESSAGES = {
+  cardError: 'There was an error processing your card. Please check your card details and try again.',
+  success: 'Your card has been saved successfully!',
+  processing: 'Processing your card...',
+  serverError: 'There was a server error. Please try again later.',
+  loading: 'Loading payment form...'
+};
+
+// 5.3 Main initialization function
+document.addEventListener('DOMContentLoaded', function() {
+  // References to DOM elements
+  const loadingContainer = document.getElementById('loading-container');
+  const formContent = document.getElementById('form-content');
+  const form = document.getElementById('payment-form');
+  const submitButton = document.getElementById('submit');
+  const cardErrors = document.getElementById('card-errors');
+
+  // Initialize Stripe with publishable key
+  const stripe = Stripe(STRIPE_CONFIG.publishableKey);
+  const elements = stripe.elements();
+
+  // Create card element
+  const cardElement = elements.create('card', {
+    style: {
+      base: {
+        color: '#ffffff',
+        fontFamily: 'Inter, "Segoe UI", sans-serif',
+        fontSmoothing: 'antialiased',
+        fontSize: '16px',
+        '::placeholder': {
+          color: '#aab7c4'
+        }
+      },
+      invalid: {
+        color: '#FF5A36',
+        iconColor: '#FF5A36'
+      }
+    }
+  });
+
+  cardElement.on('blur', function(event) {
+    validateForm();
+  });
+  cardElement._complete = false;
+  form.addEventListener('input', validateForm);
+  validateForm();
+
+def _close_alert(self):
+  """Close the alert dialog from JS."""
+  self.raise_event('x-close-alert')
+
+def _payment_method_ready(self, payment_method_id: str):
+  """Called from JS after successful Stripe setup. Handles server calls from Python."""
+  try:
+    # 1. Get customer info
+    customer = anvil.server.call('get_stripe_customer', self.sub_email)
+    if customer and customer.get('id'):
+      print(f"[STRIPE] Python: Found customer {customer['id']}, attaching payment method.")
+      
+      # 2. Attach payment method to customer and save to database
+      anvil.server.call('save_payment_method', self.sub_email, payment_method_id)
+      
+      # 3. Close the form
+      self.raise_event('x-close-alert')
+    else:
+      print("[STRIPE] Error: No customer found")
+      Notification("No customer found", title="Could not add payment method!", style="error").show()
+  except Exception as e:
+    print(f"[STRIPE] Error in payment_method_ready: {str(e)}")
+    Notification(str(e), title="Error processing payment method", style="error").show()
+
+self.html = """
+<!-- DNS optimization for improved loading performance -->
+<link rel="preconnect" href="https://js.stripe.com" crossorigin>
+<link rel="preconnect" href="https://api.stripe.com" crossorigin>
+
+<!-- CSS styles with numbered sections for organization -->
+<style>
+  /* 1. Container styles */
+  #payment-form-container {
+    position: relative;
+    font-family: Inter, "Segoe UI", sans-serif;
+    color: #ffffff;
+    padding: 10px 0;
+  }
+  
+  /* 2. Loading indicator */
+  #loading-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100px;
+    margin: 20px 0;
+  }
+  
+  .spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid rgba(255, 122, 0, 0.3);
+    border-radius: 50%;
+    border-top-color: #FF7A00;
+    animation: spin 1s linear infinite;
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  
+  /* 3. Form elements */
+  #payment-form {
+    margin-top: 20px;
+  }
+  
+  .form-section {
+    margin-bottom: 20px;
+  }
+  
+  .form-section h3 {
+    margin-bottom: 8px;
+    font-size: 16px;
+    font-weight: 500;
+  }
+  
+  #card-element {
+    background-color: #292929;
+    padding: 16px;
+    border-radius: 8px;
+    margin-bottom: 16px;
+  }
+  
+  #name-on-card {
+    width: 100%;
+    padding: 12px;
+    background-color: #292929;
+    border: none;
+    border-radius: 8px;
+    color: #ffffff;
+    font-size: 16px;
+    font-family: inherit;
+  }
+  
+  /* 4. Feedback and controls */
+  #card-errors {
+    color: #FF5A36;
+    margin-bottom: 16px;
+    min-height: 20px;
+  }
+  
+  .button-row {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+  }
+  
+  button {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+  }
+  
+  #cancel-btn {
+    background-color: transparent;
+    color: #ffffff;
+    border: 1px solid #555555;
+  }
+  
+  #submit {
+    background-color: #FF7A00;
+    color: #ffffff;
+  }
+  
+  #submit:disabled {
+    background-color: #cccccc;
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
+  
+  .success-message {
+    color: #00C853;
+  }
+</style>
+
+<!-- Payment form HTML structure -->
+<div id="payment-form-container">
+  <!-- Loading state -->
+  <div id="loading-container">
+    <div class="spinner"></div>
+  </div>
+  
+  <!-- Form content (hidden until loaded) -->
+  <div id="form-content" style="display: none;">
+    <h2>Add payment details</h2>
+    <div class="payment-info-text">Add your credit card details below. This card will be saved to your account and can be removed at any time.</div>
     
-    }}).catch(function(error) {{
-      console.error('Failed to load Stripe.js:', error);
-      document.getElementById('card-errors').textContent = window.STRIPE_MESSAGES.serverError;
-      document.getElementById('card-errors').style.color = '#FF5A36';
-    }});
-    </script>
-    """
+    <form id="payment-form">
+      <!-- Card element section -->
+      <div class="form-section">
+        <h3>Card information</h3>
+        <div id="card-element"></div>
+      </div>
+      
+      <!-- Name field section -->
+      <div class="form-section">
+        <h3>Name on card</h3>
+        <input id="name-on-card" name="name-on-card" type="text" autocomplete="cc-name" required placeholder="Name on card">
+      </div>
+      
+      <!-- Feedback and controls -->
+      <div id="card-errors" role="alert"></div>
+      <div class="button-row">
+        <button type="button" id="cancel-btn">Cancel</button>
+        <button id="submit" type="submit" disabled>Save payment details</button>
+      </div>
+    </form>
+  </div>
+</div>
 
-    # Register the payment_method_ready and close_alert functions on window for JS to call
-    anvil.js.window.payment_method_ready = self._payment_method_ready
-    anvil.js.window.close_alert = self._close_alert
-
-
-  def _close_alert(self):
-    """Close the alert dialog from JS."""
-    self.raise_event('x-close-alert')
-
-
-  def _payment_method_ready(self, payment_method_id: str):
-    """Called from JS after successful Stripe setup. Handles server calls from Python."""
-    try:
-        # 1. Get customer info
-        print(f"[STRIPE] Python: Looking up Stripe customer for email={self.sub_email}")
-        customer = anvil.server.call('get_stripe_customer', self.sub_email)
-        if customer and customer.get('id'):
-            print(f"[STRIPE] Python: Found customer {customer['id']}, attaching payment method.")
-            
-            # 2. Attach payment method to customer
-            updated_customer = anvil.server.call('attach_payment_method_to_customer', 
-                                                customer['id'], 
-                                                payment_method_id)
-            print(f"[STRIPE] Python: Payment method attached. Updated customer: {updated_customer}")
-            Notification("", title="Payment method created!", style="success").show()
-          
-            # 3. Return success to close the form
-            self.raise_event("x-close-alert", value="success")
-          
-        else:
-            # If no customer found, show error
-            print("[STRIPE] Python: No customer found, cannot attach payment method.")
+<!-- Load Stripe.js with optimal performance -->
+<script src="https://js.stripe.com/v3/"></script>
             Notification("", title="Could not add payment method!", style="error").show()
             return
           
