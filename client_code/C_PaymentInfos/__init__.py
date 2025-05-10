@@ -117,6 +117,216 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
       }};
     }}
     
+    // Debug utilities for tracking UI performance and blocking
+    if (typeof window.STRIPE_DEBUG === 'undefined') {{
+      window.STRIPE_DEBUG = {{
+        // Flag to enable periodic interval checking (for Anvil/Stripe specific issues)
+        enablePeriodicCheck: true,
+        // Track frame rate and main thread blocking
+        frameTimeLog: [],
+        lastFrameTime: performance.now(),
+        inputEventCount: 0,
+        blockingEvents: [],
+        isMonitoring: false,
+        longTaskObserver: null,
+        blockThreshold: 100, // ms threshold to consider UI blocked
+        
+        // Start monitoring performance
+        startMonitoring: function() {{
+          const debug = this;
+          
+          // Special Anvil-specific check for periodic blocking
+          if (this.enablePeriodicCheck) {{
+            // Check for periodic blocking patterns every 250ms
+            this.periodicCheckInterval = setInterval(function() {{
+              const now = performance.now();
+              const inputField = document.querySelector('#card-element iframe');
+              
+              if (inputField) {{
+                // Test if input field is responding
+                try {{
+                  // Create a MutationObserver to watch for iframe style changes
+                  // which might indicate blocking
+                  if (!debug.mutationObserver) {{
+                    debug.mutationObserver = new MutationObserver(function(mutations) {{
+                      mutations.forEach(function(mutation) {{
+                        if (mutation.type === 'attributes' && mutation.attributeName === 'style') {{
+                          debug.blockingEvents.push({{
+                            timestamp: performance.now(),
+                            type: 'iframe-style-change',
+                            target: mutation.target.id || 'stripe-iframe',
+                            oldValue: mutation.oldValue,
+                            newValue: mutation.target.style.cssText
+                          }});
+                          console.warn('[Stripe Debug] Iframe style changed', mutation);
+                        }}
+                      }});
+                    }});
+                    
+                    // Observe all style attribute changes on the iframe
+                    debug.mutationObserver.observe(inputField, {{
+                      attributes: true,
+                      attributeFilter: ['style'],
+                      attributeOldValue: true
+                    }});
+                    
+                    console.log('[Stripe Debug] Started monitoring iframe style changes');
+                  }}
+                }} catch (e) {{
+                  console.warn('[Stripe Debug] Error setting up iframe monitoring:', e);
+                }}
+              }}
+            }}, 250);
+          }}
+          if (this.isMonitoring) return;
+          
+          console.log('[Stripe Debug] Starting performance monitoring');
+          this.isMonitoring = true;
+          this.frameTimeLog = [];
+          this.blockingEvents = [];
+          this.lastFrameTime = performance.now();
+          
+          // Set up frame rate monitoring
+          const debug = this;
+          this.frameId = requestAnimationFrame(function frameLogger() {{
+            const now = performance.now();
+            const frameDelta = now - debug.lastFrameTime;
+            
+            // Log frames that took too long (potential blocking)
+            if (frameDelta > debug.blockThreshold) {{
+              debug.blockingEvents.push({{
+                timestamp: now,
+                duration: frameDelta,
+                type: 'frame-drop',
+                stack: new Error().stack
+              }});
+              console.warn(`[Stripe Debug] UI blocked for ${{frameDelta.toFixed(2)}}ms`);
+            }}
+            
+            debug.frameTimeLog.push(frameDelta);
+            if (debug.frameTimeLog.length > 100) debug.frameTimeLog.shift();
+            debug.lastFrameTime = now;
+            
+            // Continue monitoring
+            if (debug.isMonitoring) {{
+              debug.frameId = requestAnimationFrame(frameLogger);
+            }}
+          }});
+          
+          // Monitor long tasks using the Long Tasks API if available
+          if (window.PerformanceObserver && window.PerformanceLongTaskTiming) {{
+            try {{
+              this.longTaskObserver = new PerformanceObserver((entries) => {{
+                entries.getEntries().forEach((entry) => {{
+                  debug.blockingEvents.push({{
+                    timestamp: performance.now(),
+                    duration: entry.duration,
+                    type: 'long-task',
+                    attribution: entry.attribution,
+                    detail: entry
+                  }});
+                  console.warn(`[Stripe Debug] Long task detected: ${{entry.duration.toFixed(2)}}ms`, entry);
+                }});
+              }});
+              this.longTaskObserver.observe({{ entryTypes: ['longtask'] }});
+            }} catch (e) {{
+              console.warn('[Stripe Debug] Long Tasks API not supported', e);
+            }}
+          }}
+          
+          // Track input events to detect responsiveness
+          this.inputHandler = function(e) {{
+            debug.inputEventCount++;
+            // Check if input is in the card element iframe
+            if (e.target && e.target.tagName === 'IFRAME' && e.target.closest('#card-element')) {{
+              // Record the input time to analyze if blocking occurs after input
+              debug.blockingEvents.push({{
+                timestamp: performance.now(),
+                type: 'input-event',
+                target: e.target.id || 'iframe'
+              }});
+            }}
+          }}
+          
+          document.addEventListener('keydown', this.inputHandler, true);
+          document.addEventListener('mousedown', this.inputHandler, true);
+          
+          // Monitor network activity
+          if (window.performance && window.performance.getEntriesByType) {{
+            setInterval(() => {{
+              const resources = window.performance.getEntriesByType('resource');
+              const stripeResources = resources.filter(r => 
+                r.name.includes('stripe.com') || 
+                r.name.includes('stripecdn.com') || 
+                r.name.includes('stripe.network')
+              );
+              
+              // Log slow resources
+              stripeResources.forEach(r => {{
+                if (r.duration > 500) {{
+                  console.warn(`[Stripe Debug] Slow resource: ${{r.name}} (${{r.duration.toFixed(2)}}ms)`);
+                  debug.blockingEvents.push({{
+                    timestamp: performance.now(),
+                    duration: r.duration,
+                    type: 'network',
+                    resource: r.name
+                  }});
+                }}
+              }});
+            }}, 2000);
+          }}
+        }},
+        
+        // Stop monitoring
+        stopMonitoring: function() {{
+          if (!this.isMonitoring) return;
+          
+          this.isMonitoring = false;
+          cancelAnimationFrame(this.frameId);
+          
+          if (this.longTaskObserver) {{
+            this.longTaskObserver.disconnect();
+          }}
+          
+          if (this.mutationObserver) {{
+            this.mutationObserver.disconnect();
+          }}
+          
+          if (this.periodicCheckInterval) {{
+            clearInterval(this.periodicCheckInterval);
+          }}
+          
+          document.removeEventListener('keydown', this.inputHandler, true);
+          document.removeEventListener('mousedown', this.inputHandler, true);
+          
+          console.log('[Stripe Debug] Stopped monitoring');
+        }},
+        
+        // Get a summary of blocking events
+        getBlockingSummary: function() {{
+          if (this.blockingEvents.length === 0) {{
+            return 'No blocking events detected';
+          }}
+          
+          const typeCount = this.blockingEvents.reduce((acc, event) => {{
+            acc[event.type] = (acc[event.type] || 0) + 1;
+            return acc;
+          }}, {{}});
+          
+          const avgDuration = this.blockingEvents
+            .filter(e => e.duration)
+            .reduce((sum, e) => sum + e.duration, 0) / 
+            this.blockingEvents.filter(e => e.duration).length;
+          
+          return `Detected ${{this.blockingEvents.length}} blocking events: ` + 
+                 Object.entries(typeCount).map(([type, count]) => 
+                   `${{type}}: ${{count}}`
+                 ).join(', ') + 
+                 `. Average duration: ${{avgDuration ? avgDuration.toFixed(2) : 0}}ms`;
+        }}
+      }};
+    }}
+    
     // Initialize Stripe loading with improved loading strategy
     function loadStripeJS() {{
       return new Promise(function(resolve) {{
@@ -200,6 +410,11 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
     
     // Show loading state
     document.getElementById('loading-message').textContent = window.STRIPE_MESSAGES.loading;
+    
+    // Automatically start performance monitoring
+    window.STRIPE_DEBUG.startMonitoring();
+    console.log('[Stripe Debug] You can check the performance data with window.STRIPE_DEBUG.getBlockingSummary() in browser console');
+    console.log('[Stripe Debug] To see all collected blocking events: console.table(window.STRIPE_DEBUG.blockingEvents);');
     
     // Initialize the form only after Stripe.js is fully loaded
     loadStripeJS().then(function(StripeJS) {{
