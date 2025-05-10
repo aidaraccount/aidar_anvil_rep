@@ -12,6 +12,115 @@ import json
 import datetime
 
 
+def ensure_stripe_js_loaded():
+  """
+  1. Ensures Stripe.js is loaded only once in the client
+  2. Provides detailed logging of the loading process
+  3. Returns the Stripe public key
+  
+  This function manages the single loading of Stripe.js
+  across the application to prevent duplicate loading issues.
+  
+  Returns:
+    str: The Stripe public key to use for initialization
+  """
+  # Stripe public key
+  pk_key = 'pk_test_51RDoXJQTBcqmUQgt9CqdDXQjtHKkEkEBuXSs7EqVjwkzqcWP66EgCu8jjYArvbioeYpzvS5wSvbrUsKUtjXi0gGq00M9CzHJTa'
+  
+  # Check if Stripe.js is already loaded or loading
+  stripe_status = anvil.js.call('eval', """
+    (function() {
+      if (window._stripeLoadStatus === 'loaded') {
+        console.log("[STRIPE_LOADER] " + new Date().toISOString() + " - Stripe already loaded");
+        return 'loaded';
+      } else if (window._stripeLoadStatus === 'loading') {
+        console.log("[STRIPE_LOADER] " + new Date().toISOString() + " - Stripe is currently loading");
+        return 'loading';
+      }
+      return 'not_loaded';
+    })();
+  """)
+  
+  # If already loaded or loading, return
+  if stripe_status in ['loaded', 'loading']:
+    return pk_key
+    
+  # Set status to loading
+  anvil.js.call('eval', "window._stripeLoadStatus = 'loading';")
+  
+  # Load Stripe.js
+  anvil.js.call('eval', f"""
+    (function() {{
+      console.log("[STRIPE_LOADER] " + new Date().toISOString() + " - Starting to load Stripe.js");
+      
+      // Record start time
+      window._stripeLoadStart = new Date();
+      
+      // Create the script element
+      var script = document.createElement('script');
+      script.src = 'https://js.stripe.com/v3/';
+      script.async = true;
+      
+      // Set up onload handler
+      script.onload = function() {{
+        var loadTime = new Date() - window._stripeLoadStart;
+        console.log("[STRIPE_LOADER] " + new Date().toISOString() + " - Stripe.js loaded in " + loadTime + "ms");
+        window._stripeLoadStatus = 'loaded';
+        window._stripeLoadTime = loadTime;
+        
+        // Track when Stripe is actually ready to use
+        var checkStartTime = new Date();
+        var stripeReadyInterval = setInterval(function() {{
+          try {{
+            if (typeof Stripe === 'function') {{
+              var test = Stripe('{pk_key}');
+              if (test) {{
+                var readyTime = new Date() - checkStartTime;
+                console.log("[STRIPE_LOADER] " + new Date().toISOString() + " - Stripe function initialized after " + readyTime + "ms");
+                window._stripeReadyTime = readyTime;
+                clearInterval(stripeReadyInterval);
+                
+                // Monitor when card elements are fully ready
+                try {{
+                  var elementsCheckStart = new Date();
+                  var elements = test.elements();
+                  var card = elements.create('card', {{}});
+                  if (card) {{
+                    var elementsTime = new Date() - elementsCheckStart;
+                    console.log("[STRIPE_LOADER] " + new Date().toISOString() + " - Stripe Elements initialization took " + elementsTime + "ms");
+                    window._stripeElementsTime = elementsTime;
+                  }}
+                }} catch (elemErr) {{
+                  console.log("[STRIPE_LOADER] " + new Date().toISOString() + " - Could not initialize Elements: " + elemErr.message);
+                }}
+              }}
+            }}
+          }} catch (e) {{
+            // Ignore errors during testing
+          }}
+        }}, 100);
+        
+        // Timeout after 15 seconds
+        setTimeout(function() {{
+          clearInterval(stripeReadyInterval);
+          console.log("[STRIPE_LOADER] " + new Date().toISOString() + " - Timed out waiting for Stripe initialization");
+        }}, 15000);
+      }};
+      
+      // Set up error handler
+      script.onerror = function() {{
+        console.error("[STRIPE_LOADER] " + new Date().toISOString() + " - Failed to load Stripe.js");
+        window._stripeLoadStatus = 'error';
+      }};
+      
+      // Append to document head
+      document.head.appendChild(script);
+    }})();
+  """)
+  
+  return pk_key
+
+
 class C_PaymentInfos(C_PaymentInfosTemplate):
   def __init__(self, **properties):
     # Set Form properties and Data Bindings.
@@ -54,9 +163,9 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
     country = customer_address.get('country', '')
     print(f"[STRIPE_DEBUG] {datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')} - Parsed customer details: email={customer_email}, country={country}")
 
-    # Get Stripe public key using the centralized loader
-    print(f"[STRIPE_DEBUG] {datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')} - Calling ensure_stripe_js_loaded")
-    stripe_pk = anvil.server.call('ensure_stripe_js_loaded')
+    # Get Stripe public key using the local loader
+    print(f"[STRIPE_DEBUG] {datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')} - Calling local ensure_stripe_js_loaded")
+    stripe_pk = ensure_stripe_js_loaded()
     print(f"[STRIPE_DEBUG] {datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')} - Got stripe_pk: {stripe_pk[:10]}...")
     
     # html
