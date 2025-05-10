@@ -471,7 +471,6 @@ def cancel_subscription() -> dict:
 
 
 @anvil.server.callable
-@anvil.server.expose_client_side
 def ensure_stripe_js_loaded():
   """
   1. Ensures Stripe.js is loaded only once in the client
