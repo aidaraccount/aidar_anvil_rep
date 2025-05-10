@@ -54,6 +54,11 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
     country = customer_address.get('country', '')
     print(f"[STRIPE_DEBUG] {datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')} - Parsed customer details: email={customer_email}, country={country}")
 
+    # Get Stripe public key using the centralized loader
+    print(f"[STRIPE_DEBUG] {datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')} - Calling ensure_stripe_js_loaded")
+    stripe_pk = anvil.server.call('ensure_stripe_js_loaded')
+    print(f"[STRIPE_DEBUG] {datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')} - Got stripe_pk: {stripe_pk[:10]}...")
+    
     # html
     print(f"[STRIPE_DEBUG] {datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')} - Starting to build HTML template")
     self.html = f"""
@@ -61,8 +66,7 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
     window.stripe_setup_intent_client_secret = '{client_secret}';
     </script>
 
-    <!-- 1. Stripe.js script: Load Stripe library -->
-    <script src=\"https://js.stripe.com/v3/\"></script>
+    <!-- 1. Note: Stripe.js is now loaded by the centralized system -->
 
     <!-- 2. Payment Form Container -->
     <div id=\"payment-form-container\">    
@@ -93,8 +97,9 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
     </div>
 
     <script>
-    // 3. Initialize Stripe and Elements
-    var stripe = Stripe('pk_test_51RDoXJQTBcqmUQgt9CqdDXQjtHKkEkEBuXSs7EqVjwkzqcWP66EgCu8jjYArvbioeYpzvS5wSvbrUsKUtjXi0gGq00M9CzHJTa');
+    
+    // 3. Initialize Stripe and Elements (using the public key from the centralized loader)
+    var stripe = Stripe('{stripe_pk}');
     var elements = stripe.elements({{
         appearance: {{
             theme: 'flat',
