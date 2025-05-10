@@ -53,7 +53,58 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
     window.ANVIL_STRIPE_PUBLISHABLE_KEY = '{stripe_publishable_key}';
     </script>
 
-    <!-- 1. Stripe.js script: Load Stripe library with guard against duplicate loading -->
+    <!-- 1. Performance optimization: DNS Preconnect for Stripe domains -->
+    <link rel="preconnect" href="https://js.stripe.com" crossorigin>
+    <link rel="preconnect" href="https://api.stripe.com" crossorigin>
+    <link rel="preconnect" href="https://m.stripe.network" crossorigin>
+    <link rel="preconnect" href="https://b.stripecdn.com" crossorigin>
+    
+    <!-- 2. CSS for loading state -->
+    <style>
+      #stripe-loading-overlay {{
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(24, 24, 24, 0.8);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+        color: white;
+      }}
+      
+      .stripe-spinner {{
+        width: 40px;
+        height: 40px;
+        border: 4px solid rgba(255, 122, 0, 0.3);
+        border-radius: 50%;
+        border-top-color: #FF7A00;
+        animation: stripe-spin 1s linear infinite;
+        margin-bottom: 15px;
+      }}
+      
+      @keyframes stripe-spin {{
+        0% {{ transform: rotate(0deg); }}
+        100% {{ transform: rotate(360deg); }}
+      }}
+      
+      #payment-form-container {{
+        position: relative;
+        min-height: 300px;
+      }}
+      
+      #card-element {{
+        background-color: #333;
+        padding: 16px;
+        border-radius: 8px;
+        margin-bottom: 10px;
+      }}
+    </style>
+    
+    <!-- 3. Stripe.js script with optimized loading strategy -->
     <script>
     // Define messages only if not already defined
     if (typeof window.STRIPE_MESSAGES === 'undefined') {{
@@ -61,34 +112,63 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
         cardError: 'There was an error processing your card. Please check your card details and try again.',
         success: 'Your card has been saved successfully!',
         processing: 'Processing your card...',
-        serverError: 'There was a server error. Please try again later.'
+        serverError: 'There was a server error. Please try again later.',
+        loading: 'Loading payment form...'
       }};
     }}
     
-    // Initialize Stripe loading
+    // Initialize Stripe loading with improved loading strategy
     function loadStripeJS() {{
       return new Promise(function(resolve) {{
-        if (typeof window.Stripe !== 'undefined') {{
-          // Stripe is already loaded
-          resolve(window.Stripe);
-        }} else {{
-          // Create script element programmatically
-          var stripeScript = document.createElement('script');
-          stripeScript.src = 'https://js.stripe.com/v3/';
-          stripeScript.onload = function() {{
+        function checkStripeLoaded() {{
+          if (typeof window.Stripe !== 'undefined') {{
             resolve(window.Stripe);
-          }};
+            return true;
+          }}
+          return false;
+        }}
+        
+        // Check if already loaded
+        if (checkStripeLoaded()) return;
+        
+        // Create script element with high priority loading
+        var stripeScript = document.createElement('script');
+        stripeScript.src = 'https://js.stripe.com/v3/';
+        stripeScript.setAttribute('importance', 'high');
+        stripeScript.async = true;
+        stripeScript.onload = function() {{
+          // Check again after the script loads
+          checkStripeLoaded();
+        }};
+        
+        // Insert at the beginning of head for higher priority
+        if (document.head.firstChild) {{
+          document.head.insertBefore(stripeScript, document.head.firstChild);
+        }} else {{
           document.head.appendChild(stripeScript);
         }}
+        
+        // Fallback check in case the onload event doesn't fire
+        var checkInterval = setInterval(function() {{
+          if (checkStripeLoaded()) {{
+            clearInterval(checkInterval);
+          }}
+        }}, 100);
       }});
     }}
     </script>
 
-    <!-- 2. Payment Form Container -->
-    <div id=\"payment-form-container\">    
-        <!-- 2.1 Title and instructions -->
+    <!-- 4. Payment Form Container -->
+    <div id="payment-form-container">    
+        <!-- 4.1 Loading overlay -->
+        <div id="stripe-loading-overlay">
+            <div class="stripe-spinner"></div>
+            <div id="loading-message">Loading payment form...</div>
+        </div>
+        
+        <!-- 4.2 Title and instructions -->
         <h2>Add payment details</h2>
-        <div class=\"payment-info-text\">Add your credit card details below. This card will be saved to your account and can be removed at any time.</div>
+        <div class="payment-info-text">Add your credit card details below. This card will be saved to your account and can be removed at any time.</div>
         <!-- 2.2 Custom payment form -->
         <form id=\"payment-form\">            
             <!-- 2.2.1 Card information section -->
@@ -118,10 +198,16 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
     const stripePublishableKey = window.ANVIL_STRIPE_PUBLISHABLE_KEY || 'pk_test_51RDoXJQTBcqmUQgt9CqdDXQjtHKkEkEBuXSs7EqVjwkzqcWP66EgCu8jjYArvbioeYpzvS5wSvbrUsKUtjXi0gGq00M9CzHJTa';
     var stripe, elements, cardElement;
     
+    // Show loading state
+    document.getElementById('loading-message').textContent = window.STRIPE_MESSAGES.loading;
+    
     // Initialize the form only after Stripe.js is fully loaded
     loadStripeJS().then(function(StripeJS) {{
-      stripe = StripeJS(stripePublishableKey);
-      elements = stripe.elements({{
+      // Small delay to ensure browser resources are available
+      setTimeout(function() {{
+        try {{
+          stripe = StripeJS(stripePublishableKey);
+          elements = stripe.elements({{
         appearance: {{
             theme: 'flat',
             variables: {{
@@ -153,15 +239,20 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
         }},
         hidePostalCode: true
     }});
-    cardElement.mount('#card-element');
+          cardElement.mount('#card-element');
+          
+          // Hide loading overlay once the card element is ready
+          cardElement.on('ready', function() {{
+            document.getElementById('stripe-loading-overlay').style.display = 'none';
+          }});
 
-    // 5. Form and field references
-    var form = document.getElementById('payment-form');
-    var nameInput = document.getElementById('name-on-card');
-    var submitBtn = document.getElementById('submit');
+          // 5. Form and field references
+          var form = document.getElementById('payment-form');
+          var nameInput = document.getElementById('name-on-card');
+          var submitBtn = document.getElementById('submit');
 
-    // 6. Form validation logic
-    function validateForm() {{
+          // 6. Form validation logic
+          function validateForm() {{
         var nameComplete = nameInput.value.trim().length > 0;
         var cardComplete = false;
         if (cardElement && typeof cardElement._complete !== 'undefined') {{
@@ -182,8 +273,8 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
         return formValid;
     }}
 
-    nameInput.addEventListener('input', validateForm);
-    cardElement.on('change', function(event) {{
+          nameInput.addEventListener('input', validateForm);
+          cardElement.on('change', function(event) {{
         if (event.error) {{
             document.getElementById('card-errors').textContent = event.error.message;
         }} else {{
@@ -193,16 +284,16 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
         validateForm();
     }});
 
-    // Ensure validation after leaving card field (e.g. after CVC entry)
-    cardElement.on('blur', function(event) {{
+          // Ensure validation after leaving card field (e.g. after CVC entry)
+          cardElement.on('blur', function(event) {{
         validateForm();
     }});
-    cardElement._complete = false;
-    form.addEventListener('input', validateForm);
-    validateForm();
+          cardElement._complete = false;
+          form.addEventListener('input', validateForm);
+          validateForm();
 
-    // 7. Form submission handler
-    form.addEventListener('submit', function(event) {{
+          // 7. Form submission handler
+          form.addEventListener('submit', function(event) {{
         event.preventDefault();
         var nameValue = nameInput.value;
         document.getElementById('card-errors').textContent = '';
@@ -275,8 +366,13 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
         }});
     }});
 
-    // 8. Cancel button closes the modal
-    document.getElementById('cancel-btn').onclick = function() {{ window.close_alert(); }};
+          // 8. Cancel button closes the modal
+          document.getElementById('cancel-btn').onclick = function() {{ window.close_alert(); }};
+        }} catch(e) {{
+          console.error('Error initializing Stripe:', e);
+          document.getElementById('loading-message').textContent = 'Error loading payment form';
+        }}
+      }}, 100); // Small delay for browser to settle
     
     }}).catch(function(error) {{
       console.error('Failed to load Stripe.js:', error);
