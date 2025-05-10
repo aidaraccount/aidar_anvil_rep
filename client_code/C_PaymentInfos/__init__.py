@@ -106,20 +106,18 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
     
     <!-- 3. Stripe.js script with optimized loading strategy -->
     <script>
-    // Define messages only if not already defined
-    if (typeof window.STRIPE_MESSAGES === 'undefined') {{
-      window.STRIPE_MESSAGES = {{
-        cardError: 'There was an error processing your card. Please check your card details and try again.',
-        success: 'Your card has been saved successfully!',
-        processing: 'Processing your card...',
-        serverError: 'There was a server error. Please try again later.',
-        loading: 'Loading payment form...'
-      }};
-    }}
+    // Define messages - always define it to avoid reference errors
+    window.STRIPE_MESSAGES = {{
+      cardError: 'There was an error processing your card. Please check your card details and try again.',
+      success: 'Your card has been saved successfully!',
+      processing: 'Processing your card...',
+      serverError: 'There was a server error. Please try again later.',
+      loading: 'Loading payment form...'
+    }};
     
     // Debug utilities for tracking UI performance and blocking
-    if (typeof window.STRIPE_DEBUG === 'undefined') {{
-      window.STRIPE_DEBUG = {{
+    // Always recreate to avoid reference issues
+    window.STRIPE_DEBUG = {{
         // Flag to enable periodic interval checking (for Anvil/Stripe specific issues)
         enablePeriodicCheck: true,
         // Track frame rate and main thread blocking
@@ -133,7 +131,16 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
         
         // Start monitoring performance
         startMonitoring: function() {{
-          const debug = this;
+          if (this.isMonitoring) return;
+          
+          // Store 'this' reference for closures
+          const self = this;
+          
+          console.log('[Stripe Debug] Starting performance monitoring');
+          this.isMonitoring = true;
+          this.frameTimeLog = [];
+          this.blockingEvents = [];
+          this.lastFrameTime = performance.now();
           
           // Special Anvil-specific check for periodic blocking
           if (this.enablePeriodicCheck) {{
@@ -147,11 +154,11 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
                 try {{
                   // Create a MutationObserver to watch for iframe style changes
                   // which might indicate blocking
-                  if (!debug.mutationObserver) {{
-                    debug.mutationObserver = new MutationObserver(function(mutations) {{
+                  if (!self.mutationObserver) {{
+                    self.mutationObserver = new MutationObserver(function(mutations) {{
                       mutations.forEach(function(mutation) {{
                         if (mutation.type === 'attributes' && mutation.attributeName === 'style') {{
-                          debug.blockingEvents.push({{
+                          self.blockingEvents.push({{
                             timestamp: performance.now(),
                             type: 'iframe-style-change',
                             target: mutation.target.id || 'stripe-iframe',
@@ -164,7 +171,7 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
                     }});
                     
                     // Observe all style attribute changes on the iframe
-                    debug.mutationObserver.observe(inputField, {{
+                    self.mutationObserver.observe(inputField, {{
                       attributes: true,
                       attributeFilter: ['style'],
                       attributeOldValue: true
@@ -178,23 +185,15 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
               }}
             }}, 250);
           }}
-          if (this.isMonitoring) return;
-          
-          console.log('[Stripe Debug] Starting performance monitoring');
-          this.isMonitoring = true;
-          this.frameTimeLog = [];
-          this.blockingEvents = [];
-          this.lastFrameTime = performance.now();
           
           // Set up frame rate monitoring
-          const debug = this;
           this.frameId = requestAnimationFrame(function frameLogger() {{
             const now = performance.now();
-            const frameDelta = now - debug.lastFrameTime;
+            const frameDelta = now - self.lastFrameTime;
             
             // Log frames that took too long (potential blocking)
-            if (frameDelta > debug.blockThreshold) {{
-              debug.blockingEvents.push({{
+            if (frameDelta > self.blockThreshold) {{
+              self.blockingEvents.push({{
                 timestamp: now,
                 duration: frameDelta,
                 type: 'frame-drop',
@@ -203,13 +202,13 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
               console.warn(`[Stripe Debug] UI blocked for ${{frameDelta.toFixed(2)}}ms`);
             }}
             
-            debug.frameTimeLog.push(frameDelta);
-            if (debug.frameTimeLog.length > 100) debug.frameTimeLog.shift();
-            debug.lastFrameTime = now;
+            self.frameTimeLog.push(frameDelta);
+            if (self.frameTimeLog.length > 100) self.frameTimeLog.shift();
+            self.lastFrameTime = now;
             
             // Continue monitoring
-            if (debug.isMonitoring) {{
-              debug.frameId = requestAnimationFrame(frameLogger);
+            if (self.isMonitoring) {{
+              self.frameId = requestAnimationFrame(frameLogger);
             }}
           }});
           
@@ -218,7 +217,7 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
             try {{
               this.longTaskObserver = new PerformanceObserver((entries) => {{
                 entries.getEntries().forEach((entry) => {{
-                  debug.blockingEvents.push({{
+                  self.blockingEvents.push({{
                     timestamp: performance.now(),
                     duration: entry.duration,
                     type: 'long-task',
@@ -236,11 +235,11 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
           
           // Track input events to detect responsiveness
           this.inputHandler = function(e) {{
-            debug.inputEventCount++;
+            self.inputEventCount++;
             // Check if input is in the card element iframe
             if (e.target && e.target.tagName === 'IFRAME' && e.target.closest('#card-element')) {{
               // Record the input time to analyze if blocking occurs after input
-              debug.blockingEvents.push({{
+              self.blockingEvents.push({{
                 timestamp: performance.now(),
                 type: 'input-event',
                 target: e.target.id || 'iframe'
@@ -265,7 +264,7 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
               stripeResources.forEach(r => {{
                 if (r.duration > 500) {{
                   console.warn(`[Stripe Debug] Slow resource: ${{r.name}} (${{r.duration.toFixed(2)}}ms)`);
-                  debug.blockingEvents.push({{
+                  self.blockingEvents.push({{
                     timestamp: performance.now(),
                     duration: r.duration,
                     type: 'network',
@@ -411,10 +410,24 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
     // Show loading state
     document.getElementById('loading-message').textContent = window.STRIPE_MESSAGES.loading;
     
-    // Automatically start performance monitoring
-    window.STRIPE_DEBUG.startMonitoring();
-    console.log('[Stripe Debug] You can check the performance data with window.STRIPE_DEBUG.getBlockingSummary() in browser console');
-    console.log('[Stripe Debug] To see all collected blocking events: console.table(window.STRIPE_DEBUG.blockingEvents);');
+    // Set up initialization in a safe way with a small delay
+    setTimeout(function() {{
+      try {{
+        // Show loading state if element exists
+        if (document.getElementById('loading-message')) {{
+          document.getElementById('loading-message').textContent = window.STRIPE_MESSAGES.loading;
+        }}
+        
+        // Safely start performance monitoring
+        if (window.STRIPE_DEBUG && typeof window.STRIPE_DEBUG.startMonitoring === 'function') {{
+          window.STRIPE_DEBUG.startMonitoring();
+          console.log('[Stripe Debug] You can check the performance data with window.STRIPE_DEBUG.getBlockingSummary() in browser console');
+          console.log('[Stripe Debug] To see all collected blocking events: console.table(window.STRIPE_DEBUG.blockingEvents);');
+        }}
+      }} catch (err) {{
+        console.error('[Stripe Debug] Error during initialization:', err);
+      }}
+    }}, 100);
     
     // Initialize the form only after Stripe.js is fully loaded
     loadStripeJS().then(function(StripeJS) {{
