@@ -92,6 +92,9 @@ runtime_options:
   server_version: python3-full
   version: 2
 secrets:
+  stripe_publishable_key:
+    type: secret
+    value: {VBNUUYXQ55WVDCOZ: lYdtMT0sgUDPnN+Xw1OvrSaKBVfdzG8qo62kZLsoVLaeLcyAaBpdmPA3NA23Hf7CKlICcyqy0h+krx9jqrNZDxfNtXEvqloW8vzFnOkDsGTwUa9bF0tVf4nPrNUSMPU7SXKljzzfA1Q7PoH1BeD0ie5cVi/82AXfgCI8YlzuHI5UVTDJkoNZ2oKpndaReZRElNJiGfZvHD183ObAiOOGIPHDyWxNcuPcPvBKFoKrqVVk0LRpJMGXo9XFXhN44G9V4XDndgJUxdRIHA==}
   stripe_secret_key:
     type: secret
     value: {VBNUUYXQ55WVDCOZ: NC/7gbQyqXRVcuPlH4rcwazrEgDTaRQMf4pa/ZtNo8C7xIAHPOjMaim0XHIoNHl2I8ObApvVhs5kIQC+y823cTQQ6gRGcnlkPaupMP4nMkNt3SBfCRqkua60U9RT8jNPGUEzJK6ikUtDuk2QjK4p4FHnv0XGiWNQp4JOiI7UUpgVYb9DKMBMfuiaEDuoMt1216z2JIltwiPDqDepVsTCpe80XDS+2HjWC4e/PlnlbreYEMfWHITuyJsJMp1XyRDwqTXsSbi3bILDlQ==}
