@@ -55,15 +55,6 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
 
     <!-- 1. Stripe.js script: Load Stripe library with guard against duplicate loading -->
     <script>
-    // Only load Stripe.js once
-    if (typeof window.Stripe === 'undefined') {{
-      // Create script element programmatically
-      var stripeScript = document.createElement('script');
-      stripeScript.src = 'https://js.stripe.com/v3/';
-      stripeScript.async = true;
-      document.head.appendChild(stripeScript);
-    }}
-    
     // Define messages only if not already defined
     if (typeof window.STRIPE_MESSAGES === 'undefined') {{
       window.STRIPE_MESSAGES = {{
@@ -72,6 +63,24 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
         processing: 'Processing your card...',
         serverError: 'There was a server error. Please try again later.'
       }};
+    }}
+    
+    // Initialize Stripe loading
+    function loadStripeJS() {{
+      return new Promise(function(resolve) {{
+        if (typeof window.Stripe !== 'undefined') {{
+          // Stripe is already loaded
+          resolve(window.Stripe);
+        }} else {{
+          // Create script element programmatically
+          var stripeScript = document.createElement('script');
+          stripeScript.src = 'https://js.stripe.com/v3/';
+          stripeScript.onload = function() {{
+            resolve(window.Stripe);
+          }};
+          document.head.appendChild(stripeScript);
+        }}
+      }});
     }}
     </script>
 
@@ -105,10 +114,14 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
 
     <script>
     // 3. Initialize Stripe and Elements
-    // Get publishable key from a server function instead of hardcoding it
+    // Wait for Stripe to load first, then initialize
     const stripePublishableKey = window.ANVIL_STRIPE_PUBLISHABLE_KEY || 'pk_test_51RDoXJQTBcqmUQgt9CqdDXQjtHKkEkEBuXSs7EqVjwkzqcWP66EgCu8jjYArvbioeYpzvS5wSvbrUsKUtjXi0gGq00M9CzHJTa';
-    var stripe = Stripe(stripePublishableKey);
-    var elements = stripe.elements({{
+    var stripe, elements, cardElement;
+    
+    // Initialize the form only after Stripe.js is fully loaded
+    loadStripeJS().then(function(StripeJS) {{
+      stripe = StripeJS(stripePublishableKey);
+      elements = stripe.elements({{
         appearance: {{
             theme: 'flat',
             variables: {{
@@ -124,7 +137,7 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
     }});
 
     // 4. Create and mount Card Element
-    var cardElement = elements.create('card', {{
+      cardElement = elements.create('card', {{
         style: {{
             base: {{
                 color: '#ffffff',
@@ -264,6 +277,12 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
 
     // 8. Cancel button closes the modal
     document.getElementById('cancel-btn').onclick = function() {{ window.close_alert(); }};
+    
+    }}).catch(function(error) {{
+      console.error('Failed to load Stripe.js:', error);
+      document.getElementById('card-errors').textContent = window.STRIPE_MESSAGES.serverError;
+      document.getElementById('card-errors').style.color = '#FF5A36';
+    }});
     </script>
     """
 
