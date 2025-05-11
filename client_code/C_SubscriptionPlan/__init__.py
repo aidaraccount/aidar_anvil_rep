@@ -9,7 +9,7 @@ from anvil.tables import app_tables
 from anvil import Button, alert
 import anvil.js
 from anvil.js.window import document
-from datetime import datetime
+from datetime import date, datetime
 import json
 
 from ..C_PaymentSubscription import C_PaymentSubscription
@@ -40,12 +40,15 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
     self.subscribed_licenses = 1 if no_licenses is None else no_licenses  # Current number of licenses
     self.subscribed_frequency = "monthly" if frequency is None else frequency  # Billing period (monthly/yearly)
     self.subscribed_expiration_date = expiration_date  # Expiration date of the subscription
+
+    print('C_SubscriptionPlan subscribed_expiration_date:', self.subscribed_expiration_date)
     
-    if self.subscribed_expiration_date is not None and self.subscribed_expiration_date < date.today():
+    if self.subscribed_expiration_date is not None and self.subscribed_expiration_date > date.today():
       self.trial_end = (self.subscribed_expiration_date - date.today()).days
     else:
       self.trial_end = 0
-
+    print('C_SubscriptionPlan trial_end:', self.trial_end)
+    
     # Initialize the selected values (what the user is currently selecting in the UI)
     # Initially these are the same as the subscription values
     self.selected_plan = self.subscribed_plan

@@ -35,6 +35,7 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
     self.plan: str = plan
     self.no_licenses: int = no_licenses
     self.frequency: str = frequency
+    print('C_PaymentSubscription trial_end:', trial_end)
     self.trial_end: int = trial_end
 
     # --- 1. GET CUSTOMER INFO ---
