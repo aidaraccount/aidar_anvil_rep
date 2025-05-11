@@ -232,7 +232,7 @@ def attach_payment_method_to_customer(customer_id: str, payment_method_id: str) 
 
 
 @anvil.server.callable
-def create_stripe_subscription(customer_id: str, price_id: str, plan_type: str, frequency: str, user_count: int = 1) -> dict:
+def create_stripe_subscription(customer_id: str, price_id: str, plan_type: str, frequency: str, user_count: int = 1, trial_end: int = 0) -> dict:
   """
   1. Create a new subscription for a customer, applying a fixed tax rate for German customers.
   2. Print and return the subscription object (as dict).
@@ -243,6 +243,7 @@ def create_stripe_subscription(customer_id: str, price_id: str, plan_type: str, 
     plan_type (str): Plan type ('Explore' or 'Professional')
     frequency (str): Billing frequency ('monthly' or 'yearly')
     user_count (int, optional): Number of users/licenses. Defaults to 1.
+    trial_end (int, optional): Timestamp when the subscription should start. Defaults to 0 (immediate start).
       
   Returns:
     dict: The created Stripe subscription object
@@ -266,6 +267,18 @@ def create_stripe_subscription(customer_id: str, price_id: str, plan_type: str, 
   if country == "DE":
     subscription_args["default_tax_rates"] = ["txr_1RHo7sQTBcqmUQgtajAz0voj"]
 
+  # Set future start date if requested
+  if trial_end > 0:
+    import time
+    from datetime import datetime, timedelta
+    
+    # Calculate future timestamp (current time + start_days)
+    future_date = datetime.now() + timedelta(days=trial_end)
+    future_timestamp = int(future_date.timestamp())
+    
+    # Use trial_end to delay the first billing until the future date
+    subscription_args["trial_end"] = future_timestamp
+  
   # Create subscription
   stripe_subscription = stripe.Subscription.create(**subscription_args)
 

@@ -41,6 +41,11 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
     self.subscribed_frequency = "monthly" if frequency is None else frequency  # Billing period (monthly/yearly)
     self.subscribed_expiration_date = expiration_date  # Expiration date of the subscription
     
+    if self.subscribed_expiration_date is not None and self.subscribed_expiration_date < date.today():
+      self.trial_end = (self.subscribed_expiration_date - date.today()).days
+    else:
+      self.trial_end = 0
+
     # Initialize the selected values (what the user is currently selecting in the UI)
     # Initially these are the same as the subscription values
     self.selected_plan = self.subscribed_plan
@@ -338,11 +343,12 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
     self.open_subscription(
         selected_plan=self.selected_plan, 
         selected_licenses=self.selected_licenses, 
-        selected_frequency=self.selected_frequency
+        selected_frequency=self.selected_frequency,
+        trial_end=self.trial_end
     )
 
 
-  def open_subscription(self, selected_plan: str, selected_licenses: int, selected_frequency: str):
+  def open_subscription(self, selected_plan: str, selected_licenses: int, selected_frequency: str, trial_end: int):
     """
     1. Opens the subscription workflow
     2. Handles navigation between components based on data availability
@@ -352,6 +358,7 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
         selected_plan: The subscription plan (Explore/Professional)
         selected_licenses: Number of user licenses 
         selected_frequency: Billing frequency (monthly/yearly)
+        trial_end: The trial end date of the subscription
     """
     # 1. Get the current subscription plan and billing period
     if not selected_plan or not selected_licenses:
@@ -416,7 +423,8 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
     subscription_form = C_PaymentSubscription(
       plan=selected_plan,
       no_licenses=selected_licenses,
-      frequency=selected_frequency
+      frequency=selected_frequency,
+      trial_end=trial_end
     )
     subscription_result = alert(
       content=subscription_form,

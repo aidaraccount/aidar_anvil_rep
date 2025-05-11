@@ -15,7 +15,7 @@ from ..C_PaymentInfos import C_PaymentInfos
 
 
 class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
-  def __init__(self, plan: str = None, no_licenses: int = None, frequency: str = None, **properties):
+  def __init__(self, plan: str = None, no_licenses: int = None, frequency: str = None, trial_end: int = 0, **properties):
     
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
@@ -35,7 +35,7 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
     self.plan: str = plan
     self.no_licenses: int = no_licenses
     self.frequency: str = frequency
-
+    self.trial_end: int = trial_end
 
     # --- 1. GET CUSTOMER INFO ---
     try:
@@ -160,7 +160,7 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
       </form>
       <div class="button-row">
         <button type="button" id="cancel-btn">Cancel</button>
-        <button id="submit" type="submit">Book Subscription now ({self.price_submit})</button>
+        <button id="submit" type="submit">{"Start Subscription now" if self.trial_end == 0 else f"Start Subscription in {self.trial_end} days"} ({self.price_submit})</button>
       </div>
       <script>        
         <!--document.getElementById('edit-company').onclick = function() {{ window.edit_company_click && window.edit_company_click(); }};-->
@@ -229,7 +229,13 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
         alert('No Stripe price selected. Please select a valid plan.', title='Error')
         return
       try:
-        subscription = anvil.server.call('create_stripe_subscription', self.stripe_customer_id, self.price_id, self.plan, self.frequency, self.no_licenses)
+        subscription = anvil.server.call('create_stripe_subscription',
+          customer_id=self.stripe_customer_id,
+          price_id=self.price_id,
+          plan_type=self.plan,
+          frequency=self.frequency,
+          user_count=self.no_licenses,
+          trial_end=self.trial_end)
         self.raise_event("x-close-alert", value="success")
 
         # success alert
