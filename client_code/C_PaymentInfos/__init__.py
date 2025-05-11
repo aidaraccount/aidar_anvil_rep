@@ -42,11 +42,6 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
     state = customer_address.get('state', '')
     country = customer_address.get('country', '')
 
-    # # Add Cancel button handler for alert dialog
-    # def _cancel_btn_click():
-    #     self.raise_event('x-close-alert')
-    # self.cancel_btn_click = _cancel_btn_click
-
     # html
     self.html = f"""
     <script>
