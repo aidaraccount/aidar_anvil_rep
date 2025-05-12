@@ -548,20 +548,34 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
 
   def reactivate_stripe_subscription(self, **event_args) -> None:
     """
+    # --- 1. REACTIVATES SUBSCRIPTION ---
     1. Reactivates a cancelled subscription in Stripe
     2. Calls the server function to reactivate the subscription
     """
+    print(f"[SUBSCRIPTION_DEBUG] Attempting to reactivate subscription: plan={self.subscribed_plan}, frequency={self.subscribed_frequency}")
     try:
+      # Call server function and log the attempt
+      print(f"[SUBSCRIPTION_DEBUG] Calling reactivate_stripe_subscription server function")
       result = anvil.server.call('reactivate_stripe_subscription')
+      
+      # Log the result details
+      print(f"[SUBSCRIPTION_DEBUG] Reactivation result: {result}")
+      
       if result and result.get('success'):
+        subscription_id = result.get('subscription_id', 'Unknown')
+        print(f"[SUBSCRIPTION_DEBUG] Successfully reactivated subscription: {subscription_id}")
         alert("Your subscription has been reactivated.", title="Subscription Reactivated")
         # Refresh the page to reflect the changes
         anvil.js.window.location.reload()
       else:
-        alert("There was a problem reactivating your subscription. Please try again or contact support at team@aidar.ai.", title="Error")
+        error_msg = result.get('message', 'Unknown error') if result else 'No result returned'
+        print(f"[SUBSCRIPTION_DEBUG] Failed to reactivate subscription: {error_msg}")
+        alert(f"There was a problem reactivating your subscription: {error_msg}\n\nPlease try again or contact support at team@aidar.ai.", title="Error")
     except Exception as e:
-      print(f"[SUBSCRIPTION_DEBUG] Error in reactivate_stripe_subscription: {e}")
-      alert("There was a problem processing your request. Please try again or contact support at team@aidar.ai.", title="Error")
+      print(f"[SUBSCRIPTION_DEBUG] Exception in reactivate_stripe_subscription: {e}")
+      print(f"[SUBSCRIPTION_DEBUG] Exception type: {type(e).__name__}")
+      print(f"[SUBSCRIPTION_DEBUG] Exception args: {e.args}")
+      alert(f"There was a problem processing your request: {str(e)}\n\nPlease try again or contact support at team@aidar.ai.", title="Error")
 
 
   def update_button_state(self):
