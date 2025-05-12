@@ -441,7 +441,7 @@ def update_subscription(target_plan: str, target_user_count: int, target_frequen
       message = "Subscription successfully updated"
     
     # Update user records in Anvil database
-    users_with_same_customer_id = app_tables.users.search(customer_id=customer['id'])
+    users_with_same_customer_id = app_tables.users.search(customer_id=user['customer_id'])
     for u in users_with_same_customer_id:
       u['plan'] = target_plan
       if trial_end > 0:
