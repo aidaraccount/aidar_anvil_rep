@@ -437,7 +437,7 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
     )
 
 
-  def update_subscription(self, **event_args) -> None:
+  def update_subscription(self, **event_args):
     """
     1. Handles updating a subscription (upgrading, downgrading, or changing user count)
     2. Calls the server function to update the subscription in Stripe
@@ -447,6 +447,13 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
     """
     
     # --- 1. DETECT SUBSCRIPTION CHANGES ---
+    # First, determine the selected plan based on which button was clicked
+    sender = event_args.get('sender', None)
+    if sender == self.professional_plan_btn and self.subscribed_plan != "Professional":
+      self.selected_plan = "Professional"
+    elif sender == self.explore_plan_btn and self.subscribed_plan != "Explore":
+      self.selected_plan = "Explore"
+    
     # Collect all changes that are being made to the subscription
     changes = []
     any_changes = False
@@ -481,8 +488,8 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
       
     # --- 1.4 CHECK REACTIVATION ---
     is_reactivation = False
-    if self.subscribed_expiration_date is not None and not any_changes:
-      # Only treat as reactivation if this is the only change
+    if self.subscribed_expiration_date is not None:
+      # Add reactivation to changes list if subscription is scheduled to cancel
       changes.append("reactivate your subscription")
       is_reactivation = True
       any_changes = True
