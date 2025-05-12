@@ -337,13 +337,18 @@ def reactivate_stripe_subscription() -> dict:
     # --- 2.2 GET STRIPE CUSTOMER ---
     # Find customer in Stripe
     customer = get_stripe_customer(email)
+    print(f"[STRIPE_DEBUG] Stripe customer found: {customer is not None}, ID: {customer.get('id') if customer else None}")
+    
     if not customer or not customer.get('id'):
       return {"success": False, "message": "No Stripe customer found for this company"}
 
     # --- 2.3 FIND SUBSCRIPTION ---
     # Find active subscriptions for this customer
+    # When cancel_at_period_end=true, the subscription remains ACTIVE until the end of the billing period
+    customer_id = customer.get('id')
+    print(f"[STRIPE_DEBUG] Finding active subscriptions for customer ID: {customer_id}")
     subscriptions = stripe.Subscription.list(
-      customer=customer['id'],
+      customer=customer_id,
       status='active',
       limit=1
     )
@@ -359,10 +364,16 @@ def reactivate_stripe_subscription() -> dict:
     
     # --- 4. REACTIVATE SUBSCRIPTION ---
     # Update the subscription to not cancel at period end
-    updated_subscription = stripe.Subscription.modify(
-      subscription.id,
-      cancel_at_period_end=False
-    )
+    print(f"[STRIPE_DEBUG] Attempting to reactivate subscription: {subscription.id}")
+    try:
+      updated_subscription = stripe.Subscription.modify(
+        subscription.id,
+        cancel_at_period_end=False
+      )
+      print(f"[STRIPE_DEBUG] Successfully reactivated subscription: {updated_subscription.id}")
+    except Exception as e:
+      print(f"[STRIPE_DEBUG] Error modifying subscription: {e}")
+      return {"success": False, "message": f"Error modifying subscription: {str(e)}"}
     
     # --- 5. UPDATE USER RECORDS ---
     # Remove expiration_date from user records
@@ -371,7 +382,7 @@ def reactivate_stripe_subscription() -> dict:
       u['expiration_date'] = None
     
     # --- 6. RETURN SUCCESS ---
-    print(f"[Stripe] Reactivated subscription {updated_subscription.id}")
+    print(f"[STRIPE_DEBUG] Reactivation complete for subscription {updated_subscription.id}")
     return {
       "success": True,
       "message": "Your subscription has been successfully reactivated.",
