@@ -60,6 +60,34 @@ def get_price_id(plan: str, frequency: str) -> str:
     
     return None
 
+
+def get_price_from_id(price_id: str) -> dict:
+    """
+    # --- 2.3 LOOKUP PRICE DETAILS FROM ID ---
+    Get the plan and frequency for a given Stripe price ID.
+    
+    Parameters:
+    -----------
+    price_id : str
+        The Stripe price ID to look up
+        
+    Returns:
+    --------
+    dict
+        Dictionary containing 'plan' and 'frequency' keys
+    """
+    # Create a reverse mapping of price_id to plan/frequency
+    for plan, frequencies in PricingConfig.stripe_price_ids.items():
+        for frequency, pid in frequencies.items():
+            if pid == price_id:
+                return {
+                    'plan': plan.capitalize(),  # Return with first letter capitalized
+                    'frequency': frequency
+                }
+    
+    # Return empty dict if not found
+    return {}
+
 # --- 3. CLIENT ACCESS TO CONFIGURATION ---
 @anvil.server.callable
 def get_pricing_config():
