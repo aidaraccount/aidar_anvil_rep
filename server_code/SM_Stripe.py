@@ -366,18 +366,20 @@ def update_subscription(target_plan: str, target_user_count: int, target_frequen
       # Use the active subscription
       subscription = active_subscriptions.data[0]
     
-    # Determine price ID based on plan and billing period
-    price_id = None
-    if target_plan == "Explore":
-      price_id = anvil.secrets.get_secret(f"stripe_explore_{target_frequency}_price")
-    elif target_plan == "Professional":
-      price_id = anvil.secrets.get_secret(f"stripe_professional_{target_frequency}_price")
-    else:
-      return {"success": False, "message": f"Unknown plan: {target_plan}"}
+    # --- 3.1 DETERMINE PRICE ID ---
+    # Get price ID from the central configuration module
+    from . import config
+    price_id = config.get_price_id(target_plan, target_frequency)
+    
+    # Check if the plan is valid
+    if not price_id:
+      return {"success": False, "message": f"Unknown plan or frequency: {target_plan} - {target_frequency}"}
+    print(f"[Stripe] Using price ID: {price_id}") 
     
     # Set the quantity based on the plan (Professional plans can have multiple users)
     quantity = target_user_count if target_plan == "Professional" else 1
-    
+    print(f"[Stripe] Using quantity: {quantity}")
+
     # Prepare operation description for logging and user messaging
     operation_details = []
     if current_plan and current_plan != target_plan:
@@ -388,6 +390,7 @@ def update_subscription(target_plan: str, target_user_count: int, target_frequen
       operation_details.append("Subscription reactivation")
     if target_user_count > 1 and target_plan == "Professional":
       operation_details.append(f"User count set to {target_user_count}")
+    print(f"[Stripe] Using operation details: {operation_details}")
     
     # Different handling for reactivation vs update
     if is_reactivation:
