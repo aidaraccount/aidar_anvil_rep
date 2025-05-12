@@ -471,7 +471,7 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
       else:
         operation_type = "decrease"
         confirmation_message = f"Are you sure you want to reduce your license count from {self.subscribed_licenses} to {self.selected_licenses}?"
-    elif self.subscribed_expiration_date is None:
+    elif self.subscribed_expiration_date is not None:
       # reactivate subscription
       operation_type = "reactivate"
       confirmation_message = "Are you sure you want to reactivate your subscription?"

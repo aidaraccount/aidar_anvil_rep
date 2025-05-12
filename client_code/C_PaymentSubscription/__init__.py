@@ -92,7 +92,6 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
         self.price_id = "price_1REVwmQTBcqmUQgtiBBLNZaD"
     elif self.plan == "Professional" and self.frequency == "yearly":
         self.price_id = "price_1REVzZQTBcqmUQgtpyBz8Gky"
-    print('price_id:', self.price_id)
     
     # Compute price string based on plan and user count
     self.price = ''
