@@ -452,9 +452,11 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
     
     # Determine update type
     if self.selected_plan != self.subscribed_plan:
+      # Plan change
       operation_type = "upgrade" if self.selected_plan == "Professional" else "downgrade"
       confirmation_message = f"Are you sure you want to {operation_type} from {self.subscribed_plan} to {self.selected_plan}?"
     elif self.selected_frequency != self.subscribed_frequency:
+      # Billing period change
       if self.selected_frequency == "yearly":
         operation_type = "upgrade"
         confirmation_message = f"Are you sure you want to upgrade from monthly to yearly billing?"
@@ -462,16 +464,21 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
         operation_type = "downgrade"
         confirmation_message = f"Are you sure you want to downgrade from yearly to monthly billing?"
     elif self.selected_licenses != self.subscribed_licenses:
+      # User count change
       if self.selected_licenses > self.subscribed_licenses:
         operation_type = "increase"
         confirmation_message = f"Are you sure you want to increase your license count from {self.subscribed_licenses} to {self.selected_licenses}?"
       else:
         operation_type = "decrease"
         confirmation_message = f"Are you sure you want to reduce your license count from {self.subscribed_licenses} to {self.selected_licenses}?"
+    elif self.subscribed_expiration_date is None:
+      # reactivate subscription
+      operation_type = "reactivate"
+      confirmation_message = "Are you sure you want to reactivate your subscription?"
     else:
-        # No change detected
-        alert("No changes to your subscription were detected.", buttons=["OK"], dismissible=False)
-        return
+      # No change detected
+      alert("No changes to your subscription were detected.", buttons=["OK"], dismissible=False)
+      return
     
     # Confirm with user
     confirmation = alert(
