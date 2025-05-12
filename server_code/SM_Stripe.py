@@ -342,20 +342,41 @@ def reactivate_stripe_subscription() -> dict:
     if not customer or not customer.get('id'):
       return {"success": False, "message": "No Stripe customer found for this company"}
 
-    # --- 2.3 FIND SUBSCRIPTION ---
-    # Find active subscriptions for this customer
-    # When cancel_at_period_end=true, the subscription remains ACTIVE until the end of the billing period
+    # --- 2.3 FIND SUBSCRIPTION (ACTIVE OR TRIALING) ---
+    # Find subscriptions that can be reactivated
+    # When cancel_at_period_end=true, the subscription remains in its current status until the end of the billing period
     customer_id = customer.get('id')
-    print(f"[STRIPE_DEBUG] Finding active subscriptions for customer ID: {customer_id}")
-    subscriptions = stripe.Subscription.list(
+    print(f"[STRIPE_DEBUG] Finding active or trialing subscriptions for customer ID: {customer_id}")
+    
+    # First check for active subscriptions
+    active_subscriptions = stripe.Subscription.list(
       customer=customer_id,
       status='active',
       limit=1
     )
-
-    if not subscriptions or not subscriptions.data:
-      return {"success": False, "message": "No active subscription found"}
+    print(f"[STRIPE_DEBUG] Active subscription result: {len(active_subscriptions.data) if active_subscriptions and hasattr(active_subscriptions, 'data') else 0} found")
     
+    # If no active subscriptions, check for trialing subscriptions
+    if not active_subscriptions or not active_subscriptions.data:
+      print(f"[STRIPE_DEBUG] No active subscriptions found, checking for trialing subscriptions")
+      trialing_subscriptions = stripe.Subscription.list(
+        customer=customer_id,
+        status='trialing',
+        limit=1
+      )
+      print(f"[STRIPE_DEBUG] Trialing subscription result: {len(trialing_subscriptions.data) if trialing_subscriptions and hasattr(trialing_subscriptions, 'data') else 0} found")
+      
+      # Use trialing subscriptions if found
+      if trialing_subscriptions and trialing_subscriptions.data:
+        subscriptions = trialing_subscriptions
+      else:
+        print(f"[STRIPE_DEBUG] Error: No active or trialing subscription found for customer ID {customer_id}")
+        return {"success": False, "message": "No active or trialing subscription found"}
+    else:
+      # Use active subscriptions if found
+      subscriptions = active_subscriptions
+      
+    print(f"[STRIPE_DEBUG] Using subscription with status: {subscriptions.data[0].status}")
     subscription = subscriptions.data[0]
     
     # --- 3. CHECK IF SUBSCRIPTION IS SCHEDULED TO CANCEL ---
