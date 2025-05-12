@@ -142,7 +142,7 @@ components:
   name: nav_models
   properties: {}
   type: LinearPanel
-- event_bindings: {click: link_settings_click}
+- event_bindings: {click: settings_click}
   layout_properties: {slot: sidebar}
   name: link_settings
   properties: {align: left, background: '', bold: false, border: '', col_spacing: medium, col_widths: '', font: '', font_size: null, foreground: '', icon: 'fa:angle-right', icon_align: left, italic: false, role: nav_main, spacing_above: small, spacing_below: small, text: SETTINGS, tooltip: '', underline: false, url: '', visible: false, wrap_on: mobile}

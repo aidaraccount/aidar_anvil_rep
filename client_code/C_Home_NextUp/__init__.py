@@ -92,7 +92,6 @@ class C_Home_NextUp(C_Home_NextUpTemplate):
     Returns:
         bool: True indicating successful completion
     """
-    print(f"[DEBUG] Toggle rows visibility clicked, current state: {self.expanded}")
     
     # Toggle expanded state
     self.expanded = not self.expanded
@@ -116,7 +115,6 @@ class C_Home_NextUp(C_Home_NextUpTemplate):
     Returns:
         bool: True indicating successful completion
     """
-    print(f"[DEBUG] Radio clicked for artist {artist_id}, watchlist {watchlist_id}, index {row_index}")
     
     try:
       # Convert row_index to integer
@@ -125,7 +123,6 @@ class C_Home_NextUp(C_Home_NextUpTemplate):
       # Remove the item from the data array if index is valid
       if 0 <= index < len(self.data):
         removed_item = self.data.pop(index)
-        print(f"[DEBUG] Removed item from data: {removed_item}")
         
         # Update the database by calling the server function
         anvil.server.call('update_watchlist_details',
@@ -136,11 +133,10 @@ class C_Home_NextUp(C_Home_NextUpTemplate):
         
         # Regenerate the table with the updated data
         self.create_nextup_table()
-        print(f"[DEBUG] Table refreshed with {len(self.data)} items remaining")
       else:
-        print(f"[DEBUG] Invalid row index: {index}, data length: {len(self.data)}")
+        print(f"C_Home_NextUp: Invalid row index {index}, data length {len(self.data)}")
     except Exception as e:
-      print(f"[DEBUG] Error removing item: {str(e)}")
+      print(f"C_Home_NextUp: Error removing item - {str(e)}")
     
     return True
 

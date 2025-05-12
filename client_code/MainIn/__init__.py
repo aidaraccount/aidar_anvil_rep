@@ -51,8 +51,7 @@ class MainIn(MainInTemplate):
     
     if user is None:
       self.visible = False
-      print("MainIn user_id: None -> routing to login")
-      routing.set_url_hash('login', load_from_cache=False)
+      print("MainIn user_id: None")
     
     else:
       print(f"MainIn user_id: {user['user_id']}")

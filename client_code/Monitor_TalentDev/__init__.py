@@ -50,8 +50,7 @@ class Monitor_TalentDev(Monitor_TalentDevTemplate):
   
   def load_watchlists(self):
     watchlists = json.loads(anvil.server.call("get_watchlist_ids", user['user_id']))
-    print('watchlists:', watchlists)
-
+    
     if watchlists is not None and len(watchlists) > 0:      
       active_wl_ids = []
       
@@ -91,9 +90,6 @@ class Monitor_TalentDev(Monitor_TalentDevTemplate):
       if isinstance(component, Link) and component.role == "genre-box":
         active_wl_ids.append(component.tag)
 
-    # Filter table for active watchlists
-    print('active_wl_ids', active_wl_ids)
-    
     # Pass the active watchlist IDs to the table component for filtering
     if hasattr(self, 'c_talent_dev_table_1') and self.c_talent_dev_table_1 is not None:
       self.c_talent_dev_table_1.filter_by_watchlists(active_wl_ids)
@@ -105,22 +101,17 @@ class Monitor_TalentDev(Monitor_TalentDevTemplate):
     """
     try:
       # Set up toggle callbacks
-      print("Setting up toggle callbacks...")
       if hasattr(self, 'period_toggle') and self.period_toggle is not None:
         self.period_toggle.set_toggle_callback(self.handle_toggle_change)
-        print("Period toggle callback set")
         
       if hasattr(self, 'format_toggle') and self.format_toggle is not None:
         self.format_toggle.set_toggle_callback(self.handle_toggle_change)
-        print("Format toggle callback set")
         
       if hasattr(self, 'sort_by_toggle') and self.sort_by_toggle is not None:
         self.sort_by_toggle.set_toggle_callback(self.handle_toggle_change)
-        print("Sort by toggle callback set")
         
-      print("All toggle callbacks set up successfully")
     except Exception as e:
-      print(f"Error setting up toggle callbacks: {e}")
+      print(f"Monitor_TalentDev: Error setting up toggle callbacks: {e}")
 
   # HANDLE TOGGLE CHANGE
   def handle_toggle_change(self, toggle_type, value):
@@ -131,7 +122,6 @@ class Monitor_TalentDev(Monitor_TalentDevTemplate):
         toggle_type: The type of toggle being changed (period, format, sort_by)
         value: The new value selected
     """
-    print(f"MONITOR-LOG: Toggle {toggle_type} changed to {value}")
     
     # Update the table component with the new settings
     if toggle_type == 'period':
