@@ -270,15 +270,18 @@ class Settings(SettingsTemplate):
       sub_data = json.loads(anvil.server.call('get_settings_subscription2', user["user_id"]))[0]
       no_licenses = sub_data['no_licenses'] if 'no_licenses' in sub_data else None
       frequency = sub_data['frequency'] if 'frequency' in sub_data else None
-      expiration_date = sub_data['expiration_date'] if 'expiration_date' in sub_data else None
-
+      if 'expiration_date' in sub_data and sub_data['expiration_date'] is not None:
+        expiration_date = date.fromtimestamp(sub_data['expiration_date']/1000)
+      else:
+        expiration_date = None
+      
       # add component
       self.sub_plan.clear()
       self.sub_plan.add_component(C_SubscriptionPlan(plan=user["plan"], no_licenses=no_licenses, frequency=frequency, expiration_date=expiration_date))
 
 
     elif user["plan"] in ['Contract'] and (user["expiration_date"] is None or user["expiration_date"] >= date.today()):
-      # III. subscribed customer:
+      # IV. ccontract customer:
       print(f"IV. contract customer! - {user['plan']}")
 
       # a) subscription

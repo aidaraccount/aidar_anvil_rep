@@ -54,7 +54,6 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
     self.selected_plan = self.subscribed_plan
     self.selected_licenses = self.subscribed_licenses
     self.selected_frequency = self.subscribed_frequency
-    self.selected_expiration_date = self.subscribed_expiration_date
     
     # Save CSS for direct application via JavaScript
     self.explore_highlight_css = "0 0 20px rgba(0, 0, 0, 0.25)"
