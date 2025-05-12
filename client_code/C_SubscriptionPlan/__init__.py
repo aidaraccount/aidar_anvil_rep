@@ -546,7 +546,7 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
         alert("There was a problem processing your request. Please try again or contact support at team@aidar.ai.", title="Error")
 
 
-  def reactivate_stripe_subscription(self):
+  def reactivate_stripe_subscription(self, **event_args) -> None:
     """
     1. Reactivates a cancelled subscription in Stripe
     2. Calls the server function to reactivate the subscription
