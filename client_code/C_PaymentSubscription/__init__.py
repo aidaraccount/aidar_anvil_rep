@@ -12,7 +12,7 @@ import json
 
 from ..C_PaymentCustomer import C_PaymentCustomer
 from ..C_PaymentInfos import C_PaymentInfos
-from ..config import PricingConfig
+from ..config import calculate_price
 
 
 class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
@@ -85,34 +85,15 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
     
 
     # --- 3. GET PRICE INFO ---
-    # Get the Stripe Price ID based on plan type and frequency from config
+    # Get the Stripe Price ID based on plan type and frequency
+    # This will be set by the server during subscription creation/update
     self.price_id = None
-    if self.plan and self.frequency:
-        plan_key = self.plan.lower()
-        freq_key = self.frequency.lower() if self.frequency != 'yearly' else 'yearly'
-        
-        # Get price ID from config
-        if plan_key in PricingConfig.stripe_price_ids:
-            self.price_id = PricingConfig.stripe_price_ids[plan_key].get(freq_key)
     
-    # Compute price string based on plan and user count from config
+    # Compute price string based on plan, frequency and user count using the config module
     self.price = ''
     if self.plan and self.frequency:
-        plan_key = self.plan.lower()
-        
-        if plan_key in PricingConfig.price_values:
-            if self.frequency == 'monthly':
-                monthly_price = PricingConfig.price_values[plan_key]['monthly']
-                if plan_key == 'professional':
-                    self.price = f'€{monthly_price * self.no_licenses:.2f}/mo'
-                else:
-                    self.price = f'€{monthly_price:.2f}/mo'
-            elif self.frequency == 'yearly':
-                yearly_per_month = PricingConfig.price_values[plan_key]['yearly_per_month']
-                if plan_key == 'professional':
-                    self.price = f'€{yearly_per_month * 12 * self.no_licenses:.2f}/yr ({yearly_per_month * self.no_licenses:.2f}/mo/user)'
-                else:
-                    self.price = f'€{yearly_per_month * 12:.2f}/yr ({yearly_per_month:.2f}/mo)'
+        # Use the calculate_price helper from the config module
+        self.price, _ = calculate_price(self.plan, self.frequency, self.no_licenses)
 
     if self.frequency == 'yearly':
         self.price_submit = self.price.split(' (')[0]

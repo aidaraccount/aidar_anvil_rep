@@ -4,6 +4,8 @@
 # This module can be imported in server-side functions.
 """
 
+import anvil.server
+
 # --- 2. SUBSCRIPTION PRICING ---
 class PricingConfig:
     """Configuration for subscription pricing and Stripe integration."""
@@ -57,3 +59,19 @@ def get_price_id(plan: str, frequency: str) -> str:
         return PricingConfig.stripe_price_ids[plan_key][freq_key]
     
     return None
+
+# --- 3. CLIENT ACCESS TO CONFIGURATION ---
+@anvil.server.callable
+def get_pricing_config():
+    """
+    # --- 3.1 SHARE CONFIG WITH CLIENT ---
+    Returns safe pricing configuration data for client-side use
+    
+    Returns:
+    --------
+    dict
+        Dictionary containing price values for client display
+    """
+    return {
+        'price_values': PricingConfig.price_values
+    }
