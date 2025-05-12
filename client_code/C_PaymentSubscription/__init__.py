@@ -104,13 +104,13 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
             if self.frequency == 'monthly':
                 monthly_price = PricingConfig.price_values[plan_key]['monthly']
                 if plan_key == 'professional':
-                    self.price = f'€{monthly_price * (self.no_licenses or 1):.2f}/mo'
+                    self.price = f'€{monthly_price * self.no_licenses:.2f}/mo'
                 else:
                     self.price = f'€{monthly_price:.2f}/mo'
             elif self.frequency == 'yearly':
                 yearly_per_month = PricingConfig.price_values[plan_key]['yearly_per_month']
                 if plan_key == 'professional':
-                    self.price = f'€{yearly_per_month * 12 * (self.no_licenses or 1):.2f}/yr ({yearly_per_month * (self.no_licenses or 1):.2f}/mo/user)'
+                    self.price = f'€{yearly_per_month * 12 * self.no_licenses:.2f}/yr ({yearly_per_month * self.no_licenses:.2f}/mo/user)'
                 else:
                     self.price = f'€{yearly_per_month * 12:.2f}/yr ({yearly_per_month:.2f}/mo)'
 
