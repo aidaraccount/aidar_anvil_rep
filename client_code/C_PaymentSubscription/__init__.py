@@ -9,6 +9,8 @@ import anvil.tables.query as q
 from anvil.tables import app_tables
 import anvil.js
 import json
+import yaml
+import os
 
 from ..C_PaymentCustomer import C_PaymentCustomer
 from ..C_PaymentInfos import C_PaymentInfos
@@ -16,6 +18,10 @@ from ..C_PaymentInfos import C_PaymentInfos
 
 class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
   def __init__(self, plan: str = None, no_licenses: int = None, frequency: str = None, trial_end: int = 0, **properties):
+    # --- 1. LOAD CONFIG ---
+    # Load pricing configuration from config.yaml file
+    with open(os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), 'config.yaml'), 'r') as config_file:
+        self.config = yaml.safe_load(config_file)
     
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
@@ -82,28 +88,34 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
     
 
     # --- 3. GET PRICE INFO ---
-    # Get the Stripe Price ID based on plan type and frequency
+    # Get the Stripe Price ID based on plan type and frequency from config
     self.price_id = None
-    if self.plan == "Explore" and self.frequency == "monthly":
-        self.price_id = "price_1RE3tSQTBcqmUQgtoNyD0LgB"
-    elif self.plan == "Explore" and self.frequency == "yearly":
-        self.price_id = "price_1REVjKQTBcqmUQgt4Z47P00s"
-    elif self.plan == "Professional" and self.frequency == "monthly":
-        self.price_id = "price_1REVwmQTBcqmUQgtiBBLNZaD"
-    elif self.plan == "Professional" and self.frequency == "yearly":
-        self.price_id = "price_1REVzZQTBcqmUQgtpyBz8Gky"
+    if self.plan and self.frequency:
+        plan_key = self.plan.lower()
+        freq_key = self.frequency.lower() if self.frequency != 'yearly' else 'yearly'
+        
+        # Get price ID from config
+        if plan_key in self.config['pricing']['stripe_price_ids']:
+            self.price_id = self.config['pricing']['stripe_price_ids'][plan_key].get(freq_key)
     
-    # Compute price string based on plan and user count
+    # Compute price string based on plan and user count from config
     self.price = ''
     if self.plan and self.frequency:
-        if self.plan == 'Explore' and self.frequency == 'monthly':
-            self.price = f'€29.00/mo'
-        elif self.plan == 'Explore' and self.frequency == 'yearly':
-            self.price = f'€{26 * 12:.2f}/yr ({26:.2f}/mo)'
-        elif self.plan == 'Professional' and self.frequency == 'monthly':
-            self.price = f'€{44 * (self.no_licenses or 1):.2f}/mo'
-        elif self.plan == 'Professional' and self.frequency == 'yearly':
-            self.price = f'€{39 * 12 * (self.no_licenses or 1):.2f}/yr ({39 * (self.no_licenses or 1):.2f}/mo/user)'
+        plan_key = self.plan.lower()
+        
+        if plan_key in self.config['pricing']['price_values']:
+            if self.frequency == 'monthly':
+                monthly_price = self.config['pricing']['price_values'][plan_key]['monthly']
+                if plan_key == 'professional':
+                    self.price = f'€{monthly_price * (self.no_licenses or 1):.2f}/mo'
+                else:
+                    self.price = f'€{monthly_price:.2f}/mo'
+            elif self.frequency == 'yearly':
+                yearly_per_month = self.config['pricing']['price_values'][plan_key]['yearly_per_month']
+                if plan_key == 'professional':
+                    self.price = f'€{yearly_per_month * 12 * (self.no_licenses or 1):.2f}/yr ({yearly_per_month * (self.no_licenses or 1):.2f}/mo/user)'
+                else:
+                    self.price = f'€{yearly_per_month * 12:.2f}/yr ({yearly_per_month:.2f}/mo)'
 
     if self.frequency == 'yearly':
         self.price_submit = self.price.split(' (')[0]
