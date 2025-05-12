@@ -580,7 +580,7 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
           # Same plan, same frequency - show Renew Subscription button
           self.explore_plan_btn.text = "Renew Subscription"
           self.explore_plan_btn.role = "cta-button"
-          self.explore_plan_btn.set_event_handler('click', self.choose_plan_click)
+          self.explore_plan_btn.set_event_handler('click', self.update_subscription)
       else:
         # Same plan but different frequency - allow change
         if self.selected_frequency == "yearly":
@@ -628,7 +628,7 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
           # Exact same plan - show Current Plan + Cancel option
           self.professional_plan_btn.text = "Renew Subscription"
           self.professional_plan_btn.role = "cta-button"
-          self.professional_plan_btn.set_event_handler('click', self.choose_plan_click)
+          self.professional_plan_btn.set_event_handler('click', self.update_subscription)
       else:
         # Is this an upgrade or downgrade?
         is_upgrade = (self.selected_licenses > self.subscribed_licenses) or (self.subscribed_frequency == 'monthly' and self.selected_frequency == 'yearly')
