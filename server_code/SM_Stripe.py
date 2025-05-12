@@ -298,20 +298,25 @@ def create_stripe_subscription(customer_id: str, price_id: str, plan_type: str, 
 
 
 @anvil.server.callable
-def update_subscription(target_plan: str, user_count: int, billing_period: str) -> dict:
+def update_subscription(target_plan: str, target_user_count: int, target_frequency: str, trial_end: int = 0,
+                        current_plan: str = None, current_frequency: str = None) -> dict:
   """
-  1. Update an existing subscription with new plan, user count, or billing period
+  1. Update an existing subscription with new plan, user count, billing period, or reactivate a canceled subscription
   2. Returns a dict with success status and relevant information
   
   Args:
     target_plan (str): The plan to switch to ('Explore' or 'Professional')
-    user_count (int): Number of users/licenses for Professional plan
-    billing_period (str): 'monthly' or 'yearly'
+    target_user_count (int): Number of users/licenses for Professional plan
+    target_frequency (str): 'monthly' or 'yearly'
+    trial_end (int, optional): Days to delay subscription activation. Defaults to 0 (immediate).
+    current_plan (str, optional): The current plan type. Useful for comparison. Defaults to None.
+    current_frequency (str, optional): The current billing frequency. Useful for comparison. Defaults to None.
   
   Returns:
     dict: Result with keys:
       - success (bool): Whether the update was successful
       - message (str): Descriptive message about the result
+      - subscription_id (str): The updated or new subscription ID
   """
   import stripe
   stripe.api_key = anvil.secrets.get_secret("stripe_secret_key")
@@ -331,43 +336,125 @@ def update_subscription(target_plan: str, user_count: int, billing_period: str) 
       return {"success": False, "message": "No Stripe customer found for this company"}
 
     # Find active subscriptions for this customer
-    subscriptions = stripe.Subscription.list(
+    active_subscriptions = stripe.Subscription.list(
       customer=customer['id'],
       status='active',
       limit=1
     )
-
-    if not subscriptions or not subscriptions.data:
-      return {"success": False, "message": "No active subscription found"}
-
+    
+    # Determine if we need to reactivate a canceled subscription
+    is_reactivation = False
+    
+    # Check if we have an active subscription
+    if not active_subscriptions or not active_subscriptions.data:
+      # Look for canceled subscriptions that could be reactivated
+      canceled_subscriptions = stripe.Subscription.list(
+        customer=customer['id'],
+        status='canceled',
+        limit=1
+      )
+      
+      if not canceled_subscriptions or not canceled_subscriptions.data:
+        # No subscriptions found at all
+        return {"success": False, "message": "No active or canceled subscription found"}
+      
+      # Found a canceled subscription to reactivate
+      is_reactivation = True
+      subscription = canceled_subscriptions.data[0]
+      print(f"[Stripe] Found canceled subscription {subscription.id} for reactivation")
+    else:
+      # Use the active subscription
+      subscription = active_subscriptions.data[0]
+    
     # Determine price ID based on plan and billing period
     price_id = None
     if target_plan == "Explore":
-      price_id = anvil.secrets.get_secret(f"stripe_explore_{billing_period}_price")
+      price_id = anvil.secrets.get_secret(f"stripe_explore_{target_frequency}_price")
     elif target_plan == "Professional":
-      price_id = anvil.secrets.get_secret(f"stripe_professional_{billing_period}_price")
+      price_id = anvil.secrets.get_secret(f"stripe_professional_{target_frequency}_price")
     else:
       return {"success": False, "message": f"Unknown plan: {target_plan}"}
-
-    # Get current subscription to modify
-    subscription_id = subscriptions.data[0].id
-
-    # Create new subscription item with updated price
-    subscription = stripe.Subscription.modify(
-      subscription_id,
-      cancel_at_period_end=False,
-      proration_behavior='create_prorations',
-      items=[{
-        'id': subscriptions.data[0]['items']['data'][0].id,
-        'price': price_id,
-        'quantity': user_count if target_plan == "Professional" else 1
-      }]
-    )
-
-    print(f"Subscription {subscription.id} updated to {target_plan} plan with {user_count} users")
+    
+    # Set the quantity based on the plan (Professional plans can have multiple users)
+    quantity = target_user_count if target_plan == "Professional" else 1
+    
+    # Prepare operation description for logging and user messaging
+    operation_details = []
+    if current_plan and current_plan != target_plan:
+      operation_details.append(f"Plan change from {current_plan} to {target_plan}")
+    if current_frequency and current_frequency != target_frequency:
+      operation_details.append(f"Frequency change from {current_frequency} to {target_frequency}")
+    if is_reactivation:
+      operation_details.append("Subscription reactivation")
+    if target_user_count > 1 and target_plan == "Professional":
+      operation_details.append(f"User count set to {target_user_count}")
+    
+    # Different handling for reactivation vs update
+    if is_reactivation:
+      # Create a new subscription instead of updating the canceled one
+      subscription_args = {
+        "customer": customer['id'],
+        "items": [{"price": price_id, "quantity": quantity}],
+        "proration_behavior": 'create_prorations'
+      }
+      
+      # Add trial_end if specified (future start date)
+      if trial_end > 0:
+        import time
+        from datetime import datetime, timedelta
+        future_date = datetime.now() + timedelta(days=trial_end)
+        future_timestamp = int(future_date.timestamp())
+        subscription_args["trial_end"] = future_timestamp
+      
+      # Create the new subscription
+      subscription = stripe.Subscription.create(**subscription_args)
+      message = "Subscription successfully reactivated"
+      
+    else:
+      # Update existing subscription
+      subscription_id = subscription.id
+      
+      # Prepare update parameters
+      update_params = {
+        "cancel_at_period_end": False,
+        "proration_behavior": 'create_prorations',
+        "items": [{
+          'id': subscription['items']['data'][0].id,
+          'price': price_id,
+          'quantity': quantity
+        }]
+      }
+      
+      # Add trial_end if specified (future restart date)
+      if trial_end > 0:
+        import time
+        from datetime import datetime, timedelta
+        future_date = datetime.now() + timedelta(days=trial_end)
+        future_timestamp = int(future_date.timestamp())
+        update_params["trial_end"] = future_timestamp
+        
+      # Modify the subscription
+      subscription = stripe.Subscription.modify(subscription_id, **update_params)
+      message = "Subscription successfully updated"
+    
+    # Update user records in Anvil database
+    users_with_same_customer_id = app_tables.users.search(customer_id=customer['id'])
+    for u in users_with_same_customer_id:
+      u['plan'] = target_plan
+      if trial_end > 0:
+        from datetime import datetime, timedelta
+        future_date = datetime.now() + timedelta(days=trial_end)
+        u['expiration_date'] = future_date.date()
+      else:
+        u['expiration_date'] = None
+    
+    # Log the operation details
+    operation_summary = ", ".join(operation_details) if operation_details else "Subscription update"
+    print(f"[Stripe] {operation_summary}: id={subscription.id}, customer={subscription.customer}, status={subscription.status}")
+    
     return {
       "success": True,
-      "message": f"Subscription updated to {target_plan} plan",
+      "message": f"{message}: {operation_summary}",
       "subscription_id": subscription.id
     }
 

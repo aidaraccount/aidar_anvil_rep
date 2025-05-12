@@ -487,7 +487,10 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
           'update_subscription',
           self.selected_plan,
           self.selected_licenses,
-          self.selected_frequency
+          self.selected_frequency,
+          self.trial_end,
+          self.subscribed_plan,
+          self.subscribed_frequency
         )
         
         if result["success"]:
