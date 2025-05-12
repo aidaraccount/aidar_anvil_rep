@@ -764,10 +764,11 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
     """
     1. Refreshes the page to show updated subscription information
     2. Called after subscription changes to ensure all data is up-to-date
+    3. Navigates back to the Subscription section in Settings
     """
-    # Simply reload the page to ensure all data is refreshed from the server
-    print(f"[SUBSCRIPTION_DEBUG] Refreshing page to show updated subscription information")
-    anvil.js.window.location.reload()
+    # Reload the page with the URL hash that will navigate to the Subscription section
+    print(f"[SUBSCRIPTION_DEBUG] Refreshing page and navigating to Subscription section")
+    anvil.js.window.location.href = "/#settings?section=Subscription"
   
   
   def apply_plan_highlighting(self):
