@@ -381,7 +381,30 @@ def reactivate_stripe_subscription() -> dict:
     for u in users_with_same_customer_id:
       u['expiration_date'] = None
     
-    # --- 6. RETURN SUCCESS ---
+    # --- 6. UPDATE SUBSCRIPTION IN DB ---
+    # Extract subscription data for db update
+    subscription_item = updated_subscription['items']['data'][0]
+    price_id = subscription_item['price']['id']
+    
+    # Get plan type and frequency from price_id
+    from . import config
+    price_data = config.get_price_from_id(price_id)
+    plan_type = price_data.get('plan', user['plan'])  # Default to current plan if not found
+    frequency = price_data.get('frequency', 'monthly')  # Default to monthly if not found
+    
+    # Get user count from subscription quantity
+    user_count = subscription_item.get('quantity', 1)
+    
+    # Update subscription in database
+    print(f"[STRIPE_DEBUG] Updating subscription in DB: plan={plan_type}, user_count={user_count}, frequency={frequency}")
+    anvil.server.call('update_subscription_db', 
+                      user['customer_id'], 
+                      plan_type, 
+                      user_count, 
+                      frequency, 
+                      None)  # No expiration date since we're reactivating
+    
+    # --- 7. RETURN SUCCESS ---
     print(f"[STRIPE_DEBUG] Reactivation complete for subscription {updated_subscription.id}")
     return {
       "success": True,
@@ -575,6 +598,14 @@ def update_stripe_subscription(target_plan: str, target_user_count: int, target_
       else:
         u['expiration_date'] = None
     
+    # Update subscription in database
+    print(f"[STRIPE_DEBUG] Updating subscription in DB: plan={plan_type}, user_count={user_count}, frequency={frequency}")
+    anvil.server.call('update_subscription_db', 
+                      user['customer_id'], 
+                      target_plan, 
+                      target_user_count, 
+                      target_frequency, 
+                      None)
     # Log the operation details
     operation_summary = ", ".join(operation_details) if operation_details else "Subscription update"
     print(f"[Stripe] {operation_summary}: id={subscription.id}, customer={subscription.customer}, status={subscription.status}")

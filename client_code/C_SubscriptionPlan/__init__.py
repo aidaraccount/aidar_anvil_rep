@@ -555,8 +555,8 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
           # Subscription updated, show success message
           alert(f"Your subscription has been updated! {result.get('message', '')}", buttons=["OK"])
           
-          # # Update UI to reflect changes (could redirect to another page or reload this component)
-          # self.raise_event("x-subscription-updated")
+          # Refresh the subscription section in Settings
+          self._refresh_settings_page()
         else:
           # Error occurred
           alert(f"Failed to update subscription: {result.get('message', 'An unknown error occurred.')}", buttons=["OK"])
@@ -589,7 +589,7 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
         if result and result.get('success'):
           alert(f"Your subscription has been cancelled and will end on {result.get('expiration_date')}.", title="Subscription Cancelled")
           # Refresh the page to reflect the changes
-          anvil.js.window.location.reload()
+          self._refresh_settings_page()
         else:
           alert("There was a problem cancelling your subscription. Please try again or contact support at team@aidar.ai.", title="Error")
       except Exception as e:
@@ -616,8 +616,9 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
         subscription_id = result.get('subscription_id', 'Unknown')
         print(f"[SUBSCRIPTION_DEBUG] Successfully reactivated subscription: {subscription_id}")
         alert("Your subscription has been reactivated.", title="Subscription Reactivated")
-        # Refresh the page to reflect the changes
-        anvil.js.window.location.reload()
+        
+        # Refresh the subscription section in Settings
+        self._refresh_settings_page()
       else:
         error_msg = result.get('message', 'Unknown error') if result else 'No result returned'
         print(f"[SUBSCRIPTION_DEBUG] Failed to reactivate subscription: {error_msg}")
@@ -759,6 +760,39 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
     self.apply_plan_highlighting()
 
 
+  def _refresh_settings_page(self):
+    """
+    1. Finds the parent Settings component and refreshes the subscription view
+    2. Called after subscription changes to update the UI without a full page reload
+    """
+    try:
+      # Try to find the parent Settings component
+      from ..Settings import Settings
+      
+      # Look for the Settings instance in the component hierarchy
+      parent = self.parent
+      settings_found = False
+      
+      # Navigate up the component tree to find the Settings parent
+      while parent is not None:
+        if isinstance(parent, Settings):
+          print(f"[SUBSCRIPTION_DEBUG] Found Settings parent, refreshing subscription view")
+          # Call the nav_sub_click method to refresh the subscription view
+          parent.nav_sub_click()
+          settings_found = True
+          break
+        parent = getattr(parent, 'parent', None)
+      
+      # If we didn't find the Settings parent, fall back to a page reload
+      if not settings_found:
+        print(f"[SUBSCRIPTION_DEBUG] Settings parent not found, falling back to page reload")
+        anvil.js.window.location.reload()
+    except Exception as e:
+      # If any error occurs, fall back to a page reload
+      print(f"[SUBSCRIPTION_DEBUG] Error refreshing Settings page: {e}")
+      anvil.js.window.location.reload()
+  
+  
   def apply_plan_highlighting(self):
     """
     1. Applies highlighting to the appropriate plan box based on subscription plan
