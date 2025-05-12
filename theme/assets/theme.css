@@ -1218,6 +1218,17 @@ div.row {
   border-style: none;
   -webkit-box-shadow: none;
   box-shadow: none;
+  .modal-body {
+    padding: 0;
+    background-color: var(--WhiteDiscreet);
+    border-top-left-radius: 18px;
+    border-top-right-radius: 18px;
+  }
+  .modal-footer {
+    background-color: var(--WhiteDiscreet);
+    border-bottom-left-radius: 18px;
+    border-bottom-right-radius: 18px;
+  }
 }
 
 .modal-body:has(> .anvil-role-background-gradient-alerts) {

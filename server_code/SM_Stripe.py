@@ -318,19 +318,17 @@ def update_subscription(target_plan: str, user_count: int, billing_period: str) 
 
   # Get the current user
   user = anvil.users.get_user()
-  if not user:
-    return {"success": False, "message": "User not authenticated"}
 
   try:
-    # Get user's email
-    email = user.get('email')
+    company = json.loads(anvil.server.call('get_settings_subscription2', user['user_id']))
+    email = company[0]['mail']
     if not email:
-      return {"success": False, "message": "User email not available"}
-
+      return {"success": False, "message": "Company email not available"}
+    
     # Find customer in Stripe
     customer = get_stripe_customer(email)
     if not customer or not customer.get('id'):
-      return {"success": False, "message": "No Stripe customer found for this user"}
+      return {"success": False, "message": "No Stripe customer found for this company"}
 
     # Find active subscriptions for this customer
     subscriptions = stripe.Subscription.list(

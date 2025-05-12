@@ -452,22 +452,22 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
     
     # Determine update type
     if self.selected_plan != self.subscribed_plan:
-        operation_type = "upgrade" if self.selected_plan == "Professional" else "downgrade"
-        confirmation_message = f"Are you sure you want to {operation_type} from {self.subscribed_plan} to {self.selected_plan}?"
+      operation_type = "upgrade" if self.selected_plan == "Professional" else "downgrade"
+      confirmation_message = f"Are you sure you want to {operation_type} from {self.subscribed_plan} to {self.selected_plan}?"
     elif self.selected_frequency != self.subscribed_frequency:
-        if self.selected_frequency == "yearly":
-            operation_type = "upgrade"
-            confirmation_message = f"Are you sure you want to upgrade from monthly to yearly billing?"
-        else:
-            operation_type = "downgrade"
-            confirmation_message = f"Are you sure you want to downgrade from yearly to monthly billing?"
+      if self.selected_frequency == "yearly":
+        operation_type = "upgrade"
+        confirmation_message = f"Are you sure you want to upgrade from monthly to yearly billing?"
+      else:
+        operation_type = "downgrade"
+        confirmation_message = f"Are you sure you want to downgrade from yearly to monthly billing?"
     elif self.selected_licenses != self.subscribed_licenses:
-        if self.selected_licenses > self.subscribed_licenses:
-            operation_type = "increase"
-            confirmation_message = f"Are you sure you want to increase your license count from {self.subscribed_licenses} to {self.selected_licenses}?"
-        else:
-            operation_type = "decrease"
-            confirmation_message = f"Are you sure you want to reduce your license count from {self.subscribed_licenses} to {self.selected_licenses}?"
+      if self.selected_licenses > self.subscribed_licenses:
+        operation_type = "increase"
+        confirmation_message = f"Are you sure you want to increase your license count from {self.subscribed_licenses} to {self.selected_licenses}?"
+      else:
+        operation_type = "decrease"
+        confirmation_message = f"Are you sure you want to reduce your license count from {self.subscribed_licenses} to {self.selected_licenses}?"
     else:
         # No change detected
         alert("No changes to your subscription were detected.", buttons=["OK"], dismissible=False)
@@ -475,34 +475,34 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
     
     # Confirm with user
     confirmation = alert(
-        confirmation_message,
-        buttons=["Yes", "No"],
-        dismissible=True
+      confirmation_message,
+      buttons=["Yes", "No"],
+      dismissible=True
     )
     
     # If confirmed, make the API call to update subscription
     if confirmation == "Yes":
-        try:
-            result = anvil.server.call(
-                'update_subscription',
-                self.selected_plan,
-                self.selected_licenses,
-                self.selected_frequency
-            )
-            
-            if result["success"]:
-                # Subscription updated, show success message
-                alert(f"Your subscription has been updated! {result.get('message', '')}", buttons=["OK"])
-                
-                # Update UI to reflect changes (could redirect to another page or reload this component)
-                self.raise_event("x-subscription-updated")
-            else:
-                # Error occurred
-                alert(f"Failed to update subscription: {result.get('message', 'An unknown error occurred.')}", buttons=["OK"])
-        except Exception as e:
-            # Handle any other errors
-            alert(f"An error occurred: {str(e)}", buttons=["OK"])
-            print(f"[SUBSCRIPTION_DEBUG] Error updating subscription: {e}")
+      try:
+        result = anvil.server.call(
+          'update_subscription',
+          self.selected_plan,
+          self.selected_licenses,
+          self.selected_frequency
+        )
+        
+        if result["success"]:
+          # Subscription updated, show success message
+          alert(f"Your subscription has been updated! {result.get('message', '')}", buttons=["OK"])
+          
+          # # Update UI to reflect changes (could redirect to another page or reload this component)
+          # self.raise_event("x-subscription-updated")
+        else:
+          # Error occurred
+          alert(f"Failed to update subscription: {result.get('message', 'An unknown error occurred.')}", buttons=["OK"])
+      except Exception as e:
+        # Handle any other errors
+        alert(f"An error occurred: {str(e)}", buttons=["OK"])
+        print(f"[SUBSCRIPTION_DEBUG] Error updating subscription: {e}")
 
 
   def cancel_subscription(self, **event_args) -> None:
@@ -545,122 +545,122 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
     # First get the selected user count from the DOM - we need this for proper button behavior
     user_count_input = document.getElementById('user-count')
     if user_count_input is not None:
-        try:
-            self.selected_licenses = int(user_count_input.value)
-        except Exception:
-            pass  # Keep existing value if there's an error
+      try:
+        self.selected_licenses = int(user_count_input.value)
+      except Exception:
+        pass  # Keep existing value if there's an error
     
     # Determine active billing period from JS toggle state - Update self.selected_frequency
     monthly_btn = document.getElementById('pricing-toggle-monthly')
     yearly_btn = document.getElementById('pricing-toggle-yearly')
     
     if monthly_btn and yearly_btn:
-        is_yearly = yearly_btn.classList.contains('selected')
-        self.selected_frequency = "yearly" if is_yearly else "monthly"
+      is_yearly = yearly_btn.classList.contains('selected')
+      self.selected_frequency = "yearly" if is_yearly else "monthly"
         
     # 1. LEFT EXPLORE BUTTON LOGIC
     if self.subscribed_plan in ["Trial", "Extended Trial", None]:
-        # If not subscribed yet, just show basic "Choose Plan" button
-        self.explore_plan_btn.text = "Choose Plan"
-        self.explore_plan_btn.role = "cta-button"
-        self.explore_plan_btn.set_event_handler('click', self.choose_plan_click)
+      # If not subscribed yet, just show basic "Choose Plan" button
+      self.explore_plan_btn.text = "Choose Plan"
+      self.explore_plan_btn.role = "cta-button"
+      self.explore_plan_btn.set_event_handler('click', self.choose_plan_click)
     
     elif self.subscribed_plan == "Explore":
-        # If already on Explore plan, check frequency
-        if self.selected_frequency == self.subscribed_frequency:
-            if self.subscribed_expiration_date is None:
-              # Same plan, same frequency - show Cancel Subscription button
-              self.explore_plan_btn.text = "Cancel Subscription"
-              self.explore_plan_btn.role = "secondary-button"
-              self.explore_plan_btn.set_event_handler('click', self.cancel_subscription)
-            else:
-              # Same plan, same frequency - show Renew Subscription button
-              self.explore_plan_btn.text = "Renew Subscription"
-              self.explore_plan_btn.role = "cta-button"
-              self.explore_plan_btn.set_event_handler('click', self.update_subscription)
+      # If already on Explore plan, check frequency
+      if self.selected_frequency == self.subscribed_frequency:
+        if self.subscribed_expiration_date is None:
+          # Same plan, same frequency - show Cancel Subscription button
+          self.explore_plan_btn.text = "Cancel Subscription"
+          self.explore_plan_btn.role = "secondary-button"
+          self.explore_plan_btn.set_event_handler('click', self.cancel_subscription)
         else:
-            # Same plan but different frequency - allow change
-            if self.selected_frequency == "yearly":
-                # Monthly to Yearly is upgrade
-                self.explore_plan_btn.text = "Upgrade to Yearly"
-                self.explore_plan_btn.role = "cta-button"
-            else:
-                # Yearly to Monthly is downgrade
-                self.explore_plan_btn.text = "Downgrade to Monthly"
-                self.explore_plan_btn.role = "secondary-button"
-            self.explore_plan_btn.set_event_handler('click', self.update_subscription)
+          # Same plan, same frequency - show Renew Subscription button
+          self.explore_plan_btn.text = "Renew Subscription"
+          self.explore_plan_btn.role = "cta-button"
+          self.explore_plan_btn.set_event_handler('click', self.choose_plan_click)
+      else:
+        # Same plan but different frequency - allow change
+        if self.selected_frequency == "yearly":
+          # Monthly to Yearly is upgrade
+          self.explore_plan_btn.text = "Upgrade to Yearly"
+          self.explore_plan_btn.role = "cta-button"
+        else:
+          # Yearly to Monthly is downgrade
+          self.explore_plan_btn.text = "Downgrade to Monthly"
+          self.explore_plan_btn.role = "secondary-button"
+        self.explore_plan_btn.set_event_handler('click', self.update_subscription)
     
     elif self.subscribed_plan == "Professional":
-        # If on Professional plan, allow downgrade
-        self.explore_plan_btn.text = "Downgrade to Explore"
-        self.explore_plan_btn.role = "secondary-button"
-        self.explore_plan_btn.set_event_handler('click', self.update_subscription)
+      # If on Professional plan, allow downgrade
+      self.explore_plan_btn.text = "Downgrade to Explore"
+      self.explore_plan_btn.role = "secondary-button"
+      self.explore_plan_btn.set_event_handler('click', self.update_subscription)
     
     # 2. RIGHT PROFESSIONAL BUTTON LOGIC
     if self.subscribed_plan in ["Trial", "Extended Trial", None]:
-        # If not subscribed yet, just show basic "Choose Plan" button
-        self.professional_plan_btn.text = "Choose Plan"
-        self.professional_plan_btn.role = "cta-button"
-        self.professional_plan_btn.set_event_handler('click', self.choose_plan_click)
+      # If not subscribed yet, just show basic "Choose Plan" button
+      self.professional_plan_btn.text = "Choose Plan"
+      self.professional_plan_btn.role = "cta-button"
+      self.professional_plan_btn.set_event_handler('click', self.choose_plan_click)
         
     elif self.subscribed_plan == "Explore":
-        # If on Explore plan, allow upgrade to Professional
-        self.professional_plan_btn.text = "Upgrade to Professional"
-        self.professional_plan_btn.role = "cta-button"
-        self.professional_plan_btn.set_event_handler('click', self.update_subscription)
+      # If on Explore plan, allow upgrade to Professional
+      self.professional_plan_btn.text = "Upgrade to Professional"
+      self.professional_plan_btn.role = "cta-button"
+      self.professional_plan_btn.set_event_handler('click', self.update_subscription)
         
     elif self.subscribed_plan == "Professional":
-        # Check if this is the exact same subscription or a change
-        is_same_subscription = (self.selected_licenses == self.subscribed_licenses and 
-                              self.selected_frequency == self.subscribed_frequency and 
-                              self.subscribed_plan == "Professional")
-        
-        if is_same_subscription:
-          if self.subscribed_expiration_date is None:
-            # Exact same plan - show Current Plan + Cancel option
-            self.professional_plan_btn.text = "Cancel Subscription"
-            self.professional_plan_btn.role = "secondary-button"
-            self.professional_plan_btn.set_event_handler('click', self.cancel_subscription)
-          else:
-            # Exact same plan - show Current Plan + Cancel option
-            self.professional_plan_btn.text = "Renew Subscription"
-            self.professional_plan_btn.role = "cta-button"
-            self.professional_plan_btn.set_event_handler('click', self.update_subscription)
+      # Check if this is the exact same subscription or a change
+      is_same_subscription = (self.selected_licenses == self.subscribed_licenses and 
+                            self.selected_frequency == self.subscribed_frequency and 
+                            self.subscribed_plan == "Professional")
+      
+      if is_same_subscription:
+        if self.subscribed_expiration_date is None:
+          # Exact same plan - show Current Plan + Cancel option
+          self.professional_plan_btn.text = "Cancel Subscription"
+          self.professional_plan_btn.role = "secondary-button"
+          self.professional_plan_btn.set_event_handler('click', self.cancel_subscription)
         else:
-            # Is this an upgrade or downgrade?
-            is_upgrade = (self.selected_licenses > self.subscribed_licenses) or (self.subscribed_frequency == 'monthly' and self.selected_frequency == 'yearly')
+          # Exact same plan - show Current Plan + Cancel option
+          self.professional_plan_btn.text = "Renew Subscription"
+          self.professional_plan_btn.role = "cta-button"
+          self.professional_plan_btn.set_event_handler('click', self.choose_plan_click)
+      else:
+        # Is this an upgrade or downgrade?
+        is_upgrade = (self.selected_licenses > self.subscribed_licenses) or (self.subscribed_frequency == 'monthly' and self.selected_frequency == 'yearly')
+        
+        if is_upgrade:
+          # Orange "Upgrade Plan"
+          self.professional_plan_btn.text = "Upgrade Plan"
+          self.professional_plan_btn.role = "cta-button"
+        else:
+          # Grey "Downgrade Plan"
+          self.professional_plan_btn.text = "Downgrade Plan"
+          self.professional_plan_btn.role = "secondary-button"
             
-            if is_upgrade:
-                # Orange "Upgrade Plan"
-                self.professional_plan_btn.text = "Upgrade Plan"
-                self.professional_plan_btn.role = "cta-button"
-            else:
-                # Grey "Downgrade Plan"
-                self.professional_plan_btn.text = "Downgrade Plan"
-                self.professional_plan_btn.role = "secondary-button"
-                
-            self.professional_plan_btn.set_event_handler('click', self.update_subscription)
+        self.professional_plan_btn.set_event_handler('click', self.update_subscription)
     
     # 3. HANDLE BILLING PERIOD CHANGES EXPLICITLY
     if self.subscribed_plan not in ["Trial", "Extended Trial", None]:
-        # Only for paid plans, check for billing period changes
-        if self.subscribed_frequency != self.selected_frequency:
-            if self.selected_frequency == "yearly" and self.subscribed_frequency == "monthly":
-                # Upgrading to yearly - orange
-                self.explore_plan_btn.text = "Upgrade to Yearly"
-                self.explore_plan_btn.role = "cta-button"
-                self.explore_plan_btn.set_event_handler('click', self.update_subscription)
-                self.professional_plan_btn.text = "Upgrade to Yearly"
-                self.professional_plan_btn.role = "cta-button"
-                self.professional_plan_btn.set_event_handler('click', self.update_subscription)
-            elif self.selected_frequency == "monthly" and self.subscribed_frequency == "yearly":
-                # Downgrading to monthly - grey
-                self.explore_plan_btn.text = "Downgrade to Monthly"
-                self.explore_plan_btn.role = "secondary-button"
-                self.explore_plan_btn.set_event_handler('click', self.update_subscription)
-                self.professional_plan_btn.text = "Downgrade to Monthly"
-                self.professional_plan_btn.role = "secondary-button"
-                self.professional_plan_btn.set_event_handler('click', self.update_subscription)
+      # Only for paid plans, check for billing period changes
+      if self.subscribed_frequency != self.selected_frequency:
+        if self.selected_frequency == "yearly" and self.subscribed_frequency == "monthly":
+          # Upgrading to yearly - orange
+          self.explore_plan_btn.text = "Upgrade to Yearly"
+          self.explore_plan_btn.role = "cta-button"
+          self.explore_plan_btn.set_event_handler('click', self.update_subscription)
+          self.professional_plan_btn.text = "Upgrade to Yearly"
+          self.professional_plan_btn.role = "cta-button"
+          self.professional_plan_btn.set_event_handler('click', self.update_subscription)
+        elif self.selected_frequency == "monthly" and self.subscribed_frequency == "yearly":
+          # Downgrading to monthly - grey
+          self.explore_plan_btn.text = "Downgrade to Monthly"
+          self.explore_plan_btn.role = "secondary-button"
+          self.explore_plan_btn.set_event_handler('click', self.update_subscription)
+          self.professional_plan_btn.text = "Downgrade to Monthly"
+          self.professional_plan_btn.role = "secondary-button"
+          self.professional_plan_btn.set_event_handler('click', self.update_subscription)
     
     # Apply highlighting
     self.apply_plan_highlighting()
