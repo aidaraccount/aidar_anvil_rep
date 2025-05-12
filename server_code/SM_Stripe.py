@@ -662,18 +662,38 @@ def cancel_stripe_subscription() -> dict:
       print(f"[STRIPE_DEBUG] Error: No Stripe customer found for email {email}")
       return {"success": False, "message": "No Stripe customer found for this company"}
 
-    # --- 2. FIND ACTIVE SUBSCRIPTIONS ---
-    print(f"[STRIPE_DEBUG] Searching for active subscriptions for customer ID: {customer['id']}")
-    subscriptions = stripe.Subscription.list(
+    # --- 2. FIND SUBSCRIPTIONS (ACTIVE OR TRIALING) ---
+    print(f"[STRIPE_DEBUG] Searching for active or trialing subscriptions for customer ID: {customer['id']}")
+    
+    # First check for active subscriptions
+    active_subscriptions = stripe.Subscription.list(
       customer=customer['id'],
       status='active',
       limit=1
     )
-    print(f"[STRIPE_DEBUG] Subscription search result: {len(subscriptions.data) if subscriptions and hasattr(subscriptions, 'data') else 0} subscriptions found")
-
-    if not subscriptions or not subscriptions.data:
-      print(f"[STRIPE_DEBUG] Error: No active subscription found for customer ID {customer['id']}")
-      return {"success": False, "message": "No active subscription found"}
+    print(f"[STRIPE_DEBUG] Active subscription result: {len(active_subscriptions.data) if active_subscriptions and hasattr(active_subscriptions, 'data') else 0} found")
+    
+    # If no active subscriptions, check for trialing subscriptions
+    if not active_subscriptions or not active_subscriptions.data:
+      print(f"[STRIPE_DEBUG] No active subscriptions found, checking for trialing subscriptions")
+      trialing_subscriptions = stripe.Subscription.list(
+        customer=customer['id'],
+        status='trialing',
+        limit=1
+      )
+      print(f"[STRIPE_DEBUG] Trialing subscription result: {len(trialing_subscriptions.data) if trialing_subscriptions and hasattr(trialing_subscriptions, 'data') else 0} found")
+      
+      # Use trialing subscriptions if found
+      if trialing_subscriptions and trialing_subscriptions.data:
+        subscriptions = trialing_subscriptions
+      else:
+        print(f"[STRIPE_DEBUG] Error: No active or trialing subscription found for customer ID {customer['id']}")
+        return {"success": False, "message": "No active or trialing subscription found"}
+    else:
+      # Use active subscriptions if found
+      subscriptions = active_subscriptions
+      
+    print(f"[STRIPE_DEBUG] Using subscription with status: {subscriptions.data[0].status}")
   
     # --- 3. CANCEL SUBSCRIPTION ---
     subscription_id = subscriptions.data[0].id
