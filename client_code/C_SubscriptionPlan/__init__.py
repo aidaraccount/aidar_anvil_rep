@@ -762,35 +762,12 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
 
   def _refresh_settings_page(self):
     """
-    1. Finds the parent Settings component and refreshes the subscription view
-    2. Called after subscription changes to update the UI without a full page reload
+    1. Refreshes the page to show updated subscription information
+    2. Called after subscription changes to ensure all data is up-to-date
     """
-    try:
-      # Try to find the parent Settings component
-      from ..Settings import Settings
-      
-      # Look for the Settings instance in the component hierarchy
-      parent = self.parent
-      settings_found = False
-      
-      # Navigate up the component tree to find the Settings parent
-      while parent is not None:
-        if isinstance(parent, Settings):
-          print(f"[SUBSCRIPTION_DEBUG] Found Settings parent, refreshing subscription view")
-          # Call the nav_sub_click method to refresh the subscription view
-          parent.nav_sub_click()
-          settings_found = True
-          break
-        parent = getattr(parent, 'parent', None)
-      
-      # If we didn't find the Settings parent, fall back to a page reload
-      if not settings_found:
-        print(f"[SUBSCRIPTION_DEBUG] Settings parent not found, falling back to page reload")
-        anvil.js.window.location.reload()
-    except Exception as e:
-      # If any error occurs, fall back to a page reload
-      print(f"[SUBSCRIPTION_DEBUG] Error refreshing Settings page: {e}")
-      anvil.js.window.location.reload()
+    # Simply reload the page to ensure all data is refreshed from the server
+    print(f"[SUBSCRIPTION_DEBUG] Refreshing page to show updated subscription information")
+    anvil.js.window.location.reload()
   
   
   def apply_plan_highlighting(self):
