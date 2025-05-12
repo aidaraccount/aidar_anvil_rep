@@ -546,6 +546,24 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
         alert("There was a problem processing your request. Please try again or contact support at team@aidar.ai.", title="Error")
 
 
+  def reactivate_stripe_subscription(self):
+    """
+    1. Reactivates a cancelled subscription in Stripe
+    2. Calls the server function to reactivate the subscription
+    """
+    try:
+      result = anvil.server.call('reactivate_stripe_subscription')
+      if result and result.get('success'):
+        alert("Your subscription has been reactivated.", title="Subscription Reactivated")
+        # Refresh the page to reflect the changes
+        anvil.js.window.location.reload()
+      else:
+        alert("There was a problem reactivating your subscription. Please try again or contact support at team@aidar.ai.", title="Error")
+    except Exception as e:
+      print(f"[SUBSCRIPTION_DEBUG] Error in reactivate_stripe_subscription: {e}")
+      alert("There was a problem processing your request. Please try again or contact support at team@aidar.ai.", title="Error")
+
+
   def update_button_state(self):
     """
     1. Updates button appearance and event handlers based on the subscribed plan
@@ -587,7 +605,7 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
           # Same plan, same frequency - show Renew Subscription button
           self.explore_plan_btn.text = "Renew Subscription"
           self.explore_plan_btn.role = "cta-button"
-          self.explore_plan_btn.set_event_handler('click', self.update_subscription)
+          self.explore_plan_btn.set_event_handler('click', self.reactivate_stripe_subscription)
       else:
         # Same plan but different frequency - allow change
         if self.selected_frequency == "yearly":
@@ -635,7 +653,7 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
           # Exact same plan - show Current Plan + Cancel option
           self.professional_plan_btn.text = "Renew Subscription"
           self.professional_plan_btn.role = "cta-button"
-          self.professional_plan_btn.set_event_handler('click', self.update_subscription)
+          self.professional_plan_btn.set_event_handler('click', self.reactivate_stripe_subscription)
       else:
         # Is this an upgrade or downgrade?
         is_upgrade = (self.selected_licenses > self.subscribed_licenses) or (self.subscribed_frequency == 'monthly' and self.selected_frequency == 'yearly')
