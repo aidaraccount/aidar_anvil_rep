@@ -491,7 +491,7 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
     if confirmation == "Yes":
       try:
         result = anvil.server.call(
-          'update_subscription',
+          'update_stripe_subscription',
           self.selected_plan,
           self.selected_licenses,
           self.selected_frequency,

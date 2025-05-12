@@ -298,7 +298,7 @@ def create_stripe_subscription(customer_id: str, price_id: str, plan_type: str, 
 
 
 @anvil.server.callable
-def update_subscription(target_plan: str, target_user_count: int, target_frequency: str, trial_end: int = 0,
+def update_stripe_subscription(target_plan: str, target_user_count: int, target_frequency: str, trial_end: int = 0,
                         current_plan: str = None, current_frequency: str = None) -> dict:
   """
   1. Update an existing subscription with new plan, user count, billing period, or reactivate a canceled subscription
