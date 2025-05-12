@@ -639,47 +639,86 @@ def cancel_stripe_subscription() -> dict:
   user = anvil.users.get_user()
 
   try:
+    print(f"[STRIPE_DEBUG] Starting subscription cancellation for user_id: {user['user_id']}")
+    
     # Get company email
+    print(f"[STRIPE_DEBUG] Fetching company information")
     company = json.loads(anvil.server.call('get_settings_subscription2', user['user_id']))
-    email = company[0]['mail']
+    print(f"[STRIPE_DEBUG] Company data received: {company}")
+    
+    email = company[0]['mail'] if company and len(company) > 0 and 'mail' in company[0] else None
+    print(f"[STRIPE_DEBUG] Company email: {email}")
+    
     if not email:
+      print(f"[STRIPE_DEBUG] Error: Company email not available")
       return {"success": False, "message": "Company email not available"}
 
-    # Find customer in Stripe
+    # --- 1. FIND CUSTOMER IN STRIPE ---
+    print(f"[STRIPE_DEBUG] Looking up Stripe customer for email: {email}")
     customer = get_stripe_customer(email)
+    print(f"[STRIPE_DEBUG] Stripe customer lookup result: {customer is not None}, ID: {customer.get('id') if customer else None}")
+    
     if not customer or not customer.get('id'):
+      print(f"[STRIPE_DEBUG] Error: No Stripe customer found for email {email}")
       return {"success": False, "message": "No Stripe customer found for this company"}
 
-    # Find active subscriptions for this customer
+    # --- 2. FIND ACTIVE SUBSCRIPTIONS ---
+    print(f"[STRIPE_DEBUG] Searching for active subscriptions for customer ID: {customer['id']}")
     subscriptions = stripe.Subscription.list(
       customer=customer['id'],
       status='active',
       limit=1
     )
+    print(f"[STRIPE_DEBUG] Subscription search result: {len(subscriptions.data) if subscriptions and hasattr(subscriptions, 'data') else 0} subscriptions found")
 
     if not subscriptions or not subscriptions.data:
+      print(f"[STRIPE_DEBUG] Error: No active subscription found for customer ID {customer['id']}")
       return {"success": False, "message": "No active subscription found"}
   
-    # Cancel the subscription at period end (won't renew)
-    subscription = stripe.Subscription.modify(
-      subscriptions.data[0].id,
-      cancel_at_period_end=True
-    )
+    # --- 3. CANCEL SUBSCRIPTION ---
+    subscription_id = subscriptions.data[0].id
+    print(f"[STRIPE_DEBUG] Attempting to cancel subscription: {subscription_id}")
+    try:
+      subscription = stripe.Subscription.modify(
+        subscription_id,
+        cancel_at_period_end=True
+      )
+      print(f"[STRIPE_DEBUG] Successfully set subscription {subscription_id} to cancel at period end")
+    except Exception as e:
+      print(f"[STRIPE_DEBUG] Error modifying subscription: {e}")
+      return {"success": False, "message": f"Error modifying subscription: {str(e)}"}
 
+    # --- 4. DETERMINE EXPIRATION DATE ---
     expiration_date = subscription["items"]["data"][0]["current_period_end"]
     expiration_date = datetime.fromtimestamp(expiration_date).date()
+    print(f"[STRIPE_DEBUG] Subscription expiration date: {expiration_date}")
 
-    # Anvil Users Update: user['expiration_date'] of all users with the same customer_id
+    # --- 5. UPDATE USER RECORDS ---
+    print(f"[STRIPE_DEBUG] Updating expiration_date for users with customer_id: {user['customer_id']}")
     users_with_same_customer_id = app_tables.users.search(customer_id=user['customer_id'])
-    for u in users_with_same_customer_id:
-      u['expiration_date'] = expiration_date
+    user_count = len(users_with_same_customer_id)
+    print(f"[STRIPE_DEBUG] Found {user_count} users to update")
+    
+    try:
+      for u in users_with_same_customer_id:
+        u['expiration_date'] = expiration_date
+      print(f"[STRIPE_DEBUG] Successfully updated expiration_date for all {user_count} users")
+    except Exception as e:
+      print(f"[STRIPE_DEBUG] Error updating user records: {e}")
+      return {"success": False, "message": f"Error updating user records: {str(e)}"}
 
-    # DB Update: company['expiration_date']
-    result = anvil.server.call('cancel_subscription', user['customer_id'], expiration_date)
+    # --- 6. UPDATE SUBSCRIPTION IN DATABASE ---
+    print(f"[STRIPE_DEBUG] Calling cancel_subscription in database for customer_id: {user['customer_id']}")
+    try:
+      result = anvil.server.call('cancel_subscription', user['customer_id'], expiration_date)
+      print(f"[STRIPE_DEBUG] Database update result: {result}")
+    except Exception as e:
+      print(f"[STRIPE_DEBUG] Error calling cancel_subscription database function: {e}")
+      return {"success": False, "message": f"Error updating subscription in database: {str(e)}"}
 
-    # return success
+    # --- 7. RETURN RESULT ---
     if result == 'Subscription cancelled successfully':
-      print(f"Subscription {subscription.id} will be cancelled on {expiration_date}")
+      print(f"[STRIPE_DEBUG] Subscription {subscription.id} will be cancelled on {expiration_date}")
       return {
         "success": True,
         "message": "Subscription will be cancelled at the end of the current billing period",
@@ -687,9 +726,14 @@ def cancel_stripe_subscription() -> dict:
         "expiration_date": expiration_date
       }
     else:
-      print(f"Error cancelling subscription: {result}")
-      return {"success": False, "message": "Error cancelling subscription"}
+      print(f"[STRIPE_DEBUG] Error in database update: {result}")
+      return {"success": False, "message": f"Error in database: {result}"}
   except Exception as e:
-    print(f"Error cancelling subscription: {e}")
+    print(f"[STRIPE_DEBUG] Global exception in cancel_stripe_subscription: {e}")
+    print(f"[STRIPE_DEBUG] Exception type: {type(e).__name__}")
+    print(f"[STRIPE_DEBUG] Exception args: {e.args}")
+    # Include traceback for easier debugging
+    import traceback
+    print(f"[STRIPE_DEBUG] Traceback: {traceback.format_exc()}")
     return {"success": False, "message": f"Error: {str(e)}"}
 
