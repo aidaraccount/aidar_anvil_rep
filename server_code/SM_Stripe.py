@@ -599,7 +599,7 @@ def update_stripe_subscription(target_plan: str, target_user_count: int, target_
         u['expiration_date'] = None
     
     # Update subscription in database
-    print(f"[STRIPE_DEBUG] Updating subscription in DB: plan={plan_type}, user_count={user_count}, frequency={frequency}")
+    print(f"[STRIPE_DEBUG] Updating subscription in DB: plan={target_plan}, user_count={target_user_count}, frequency={target_frequency}")
     anvil.server.call('update_subscription_db', 
                       user['customer_id'], 
                       target_plan, 
