@@ -33,8 +33,10 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
     else:
       self.sub_email = user['email']
 
+    # --- 1.1 INITIALIZE SUBSCRIPTION PARAMETERS ---
     self.plan: str = plan
-    self.no_licenses: int = no_licenses
+    # Enforce license count rule: Always 1 for Explore plan, user-defined for Professional
+    self.no_licenses: int = 1 if plan == 'Explore' else (no_licenses or 1)
     self.frequency: str = frequency
     print('C_PaymentSubscription trial_end:', trial_end)
     self.trial_end: int = trial_end
