@@ -534,7 +534,7 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
     if confirmation.startswith("Yes"):
       # Call server function to cancel subscription
       try:
-        result = anvil.server.call('cancel_subscription')
+        result = anvil.server.call('cancel_stripe_subscription')
         if result and result.get('success'):
           alert(f"Your subscription has been cancelled and will end on {result.get('expiration_date')}.", title="Subscription Cancelled")
           # Refresh the page to reflect the changes
@@ -542,7 +542,7 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
         else:
           alert("There was a problem cancelling your subscription. Please try again or contact support at team@aidar.ai.", title="Error")
       except Exception as e:
-        print(f"[SUBSCRIPTION_DEBUG] Error in cancel_subscription: {e}")
+        print(f"[SUBSCRIPTION_DEBUG] Error in cancel_stripe_subscription: {e}")
         alert("There was a problem processing your request. Please try again or contact support at team@aidar.ai.", title="Error")
 
 

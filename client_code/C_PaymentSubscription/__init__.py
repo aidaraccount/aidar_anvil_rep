@@ -251,8 +251,7 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
         alert_res = alert(
           "We're happy to have you on board - have fun discovering!",
           title="Congratulations!",
-          buttons=[("OK", False), ("CREATE AGENT", True)],
-          role=["payment-form-container"]
+          buttons=[("OK", False), ("CREATE AGENT", True)]
         )
         if alert_res is True:
           # navigate to create agent page

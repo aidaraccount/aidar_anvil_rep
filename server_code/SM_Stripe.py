@@ -467,7 +467,7 @@ def update_subscription(target_plan: str, target_user_count: int, target_frequen
 
 
 @anvil.server.callable
-def cancel_subscription() -> dict:
+def cancel_stripe_subscription() -> dict:
   """
   1. Cancel the current subscription for the authenticated user
   2. Returns a dict with success status and relevant information
