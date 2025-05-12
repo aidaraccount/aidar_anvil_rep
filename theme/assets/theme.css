@@ -1236,6 +1236,7 @@ div.row {
   /* width: 450px; */
   min-width: 420px;
   height: auto;
+  color: var(--White)
 }
 
 .modal-body:has(> .anvil-role-background-gradient-alerts) {
