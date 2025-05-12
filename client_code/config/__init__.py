@@ -11,33 +11,83 @@ import anvil.server
 _config_cache = {}
 
 # --- 3. PRICING CONFIGURATION ---
+def _fetch_server_config():
+    """
+    # --- 3.1 FETCH SERVER CONFIG ---
+    Internal function to fetch configuration from server
+    and update the cache with all configuration elements.
+    
+    Returns:
+    --------
+    bool
+        True if fetch was successful, False otherwise
+    """
+    try:
+        # Fetch pricing config from server
+        server_config = anvil.server.call('get_pricing_config')
+        if server_config:
+            # Store each config element in cache
+            if 'price_values' in server_config:
+                _config_cache['price_values'] = server_config['price_values']
+            if 'price_ids' in server_config:
+                _config_cache['price_ids'] = server_config['price_ids']
+            return True
+        else:
+            print("[CONFIG_ERROR] Invalid configuration returned from server")
+            return False
+    except Exception as e:
+        print(f"[CONFIG_ERROR] Error fetching configuration: {e}")
+        return False
+
 def get_price_values():
     """
-    # --- 3.1 GET PRICING VALUES ---
+    # --- 3.2 GET PRICING VALUES ---
     Fetches pricing configuration from the server.
     Uses cached values if available.
-
+    
     Returns:
     --------
     dict
         Dictionary containing price values for all plans and frequencies
     """
     if 'price_values' not in _config_cache:
-        try:
-            # Fetch pricing config from server
-            server_config = anvil.server.call('get_pricing_config')
-            if server_config and 'price_values' in server_config:
-                _config_cache['price_values'] = server_config['price_values']
-            else:
-                print("[CONFIG_ERROR] Invalid pricing configuration returned from server")
-                # Return empty dict as fallback
-                return {}
-        except Exception as e:
-            print(f"[CONFIG_ERROR] Error fetching pricing configuration: {e}")
-            # Return empty dict as fallback
+        if not _fetch_server_config():
             return {}
     
     return _config_cache['price_values']
+
+def get_price_id(plan, frequency):
+    """
+    # --- 3.3 GET PRICE ID ---
+    Gets the Stripe price ID for a given plan and frequency.
+    
+    Parameters:
+    -----------
+    plan : str
+        The plan type ('explore' or 'professional')
+    frequency : str
+        The billing frequency ('monthly' or 'yearly')
+        
+    Returns:
+    --------
+    str
+        Stripe price ID for the given plan and frequency
+    """
+    plan = plan.lower() if plan else ""
+    frequency = frequency.lower() if frequency else ""
+    
+    # Ensure we have price ID data
+    if 'price_ids' not in _config_cache:
+        if not _fetch_server_config():
+            return None
+    
+    price_ids = _config_cache.get('price_ids', {})
+    
+    # Return the price ID if available
+    if plan in price_ids and frequency in price_ids.get(plan, {}):
+        return price_ids[plan][frequency]
+    
+    return None
 
 # --- 4. CONVENIENCE FUNCTIONS ---
 def calculate_price(plan, frequency, user_count=1):

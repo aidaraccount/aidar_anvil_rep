@@ -12,7 +12,7 @@ import json
 
 from ..C_PaymentCustomer import C_PaymentCustomer
 from ..C_PaymentInfos import C_PaymentInfos
-from ..config import calculate_price
+from ..config import calculate_price, get_price_id
 
 
 class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
@@ -85,10 +85,13 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
     
 
     # --- 3. GET PRICE INFO ---
-    # Get the Stripe Price ID based on plan type and frequency
-    # This will be set by the server during subscription creation/update
+    # --- 3.1 GET PRICE ID ---
+    # Get the Stripe Price ID based on plan type and frequency from the config module
     self.price_id = None
+    if self.plan and self.frequency:
+        self.price_id = get_price_id(self.plan, self.frequency)
     
+    # --- 3.2 CALCULATE PRICE STRING ---
     # Compute price string based on plan, frequency and user count using the config module
     self.price = ''
     if self.plan and self.frequency:

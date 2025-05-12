@@ -70,8 +70,9 @@ def get_pricing_config():
     Returns:
     --------
     dict
-        Dictionary containing price values for client display
+        Dictionary containing price values and price IDs for client use
     """
     return {
-        'price_values': PricingConfig.price_values
+        'price_values': PricingConfig.price_values,
+        'price_ids': PricingConfig.stripe_price_ids
     }
