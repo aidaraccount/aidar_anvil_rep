@@ -446,39 +446,83 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
         event_args (dict): Event arguments from the button click
     """
     
-    # Define operation type for user-friendly message
-    operation_type = "update"
-    confirmation_message = ""
+    # --- 1. DETECT SUBSCRIPTION CHANGES ---
+    # Collect all changes that are being made to the subscription
+    changes = []
+    any_changes = False
     
-    # Determine update type
+    # --- 1.1 CHECK PLAN CHANGE ---
+    plan_change = None
     if self.selected_plan != self.subscribed_plan:
-      # Plan change
-      operation_type = "upgrade" if self.selected_plan == "Professional" else "downgrade"
-      confirmation_message = f"Are you sure you want to {operation_type} from {self.subscribed_plan} to {self.selected_plan}?"
-    elif self.selected_frequency != self.subscribed_frequency:
-      # Billing period change
+      plan_op = "upgrade" if self.selected_plan == "Professional" else "downgrade"
+      plan_change = f"{plan_op} from {self.subscribed_plan} to {self.selected_plan}"
+      changes.append(plan_change)
+      any_changes = True
+      
+    # --- 1.2 CHECK BILLING FREQUENCY CHANGE ---
+    frequency_change = None
+    if self.selected_frequency != self.subscribed_frequency:
       if self.selected_frequency == "yearly":
-        operation_type = "upgrade"
-        confirmation_message = f"Are you sure you want to upgrade from monthly to yearly billing?"
+        frequency_change = "change from monthly to yearly billing"
       else:
-        operation_type = "downgrade"
-        confirmation_message = f"Are you sure you want to downgrade from yearly to monthly billing?"
-    elif self.selected_licenses != self.subscribed_licenses:
-      # User count change
+        frequency_change = "change from yearly to monthly billing"
+      changes.append(frequency_change)
+      any_changes = True
+    
+    # --- 1.3 CHECK LICENSE COUNT CHANGE ---
+    license_change = None
+    if self.selected_licenses != self.subscribed_licenses:
       if self.selected_licenses > self.subscribed_licenses:
-        operation_type = "increase"
-        confirmation_message = f"Are you sure you want to increase your license count from {self.subscribed_licenses} to {self.selected_licenses}?"
+        license_change = f"increase license count from {self.subscribed_licenses} to {self.selected_licenses}"
       else:
-        operation_type = "decrease"
-        confirmation_message = f"Are you sure you want to reduce your license count from {self.subscribed_licenses} to {self.selected_licenses}?"
-    elif self.subscribed_expiration_date is not None:
-      # reactivate subscription
-      operation_type = "reactivate"
-      confirmation_message = "Are you sure you want to reactivate your subscription?"
-    else:
+        license_change = f"decrease license count from {self.subscribed_licenses} to {self.selected_licenses}"
+      changes.append(license_change)
+      any_changes = True
+      
+    # --- 1.4 CHECK REACTIVATION ---
+    is_reactivation = False
+    if self.subscribed_expiration_date is not None and not any_changes:
+      # Only treat as reactivation if this is the only change
+      changes.append("reactivate your subscription")
+      is_reactivation = True
+      any_changes = True
+      
+    # --- 1.5 VALIDATE CHANGES ---
+    if not any_changes:
       # No change detected
       alert("No changes to your subscription were detected.", buttons=["OK"], dismissible=False)
       return
+      
+    # --- 2. BUILD CONFIRMATION MESSAGE ---
+    # Format the confirmation message based on number of changes
+    if len(changes) == 1:
+      # Single change - simple message
+      confirmation_message = f"Are you sure you want to {changes[0]}?"
+    else:
+      # Multiple changes - list format
+      confirmation_message = "Are you sure you want to make the following changes?\n\n"
+      for i, change in enumerate(changes):
+        confirmation_message += f"• {change.capitalize()}\n"
+        
+    # Set operation type for later use
+    if is_reactivation:
+      operation_type = "reactivate"
+    elif len(changes) > 1:
+      operation_type = "update"
+    elif plan_change and "upgrade" in plan_change:
+      operation_type = "upgrade"
+    elif plan_change and "downgrade" in plan_change:
+      operation_type = "downgrade"
+    elif frequency_change and "yearly" in frequency_change:
+      operation_type = "upgrade"
+    elif frequency_change and "monthly" in frequency_change:
+      operation_type = "downgrade"
+    elif license_change and "increase" in license_change:
+      operation_type = "increase"
+    elif license_change and "decrease" in license_change:
+      operation_type = "decrease"
+    else:
+      operation_type = "update"
     
     # Confirm with user
     confirmation = alert(

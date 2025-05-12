@@ -432,21 +432,69 @@ def update_stripe_subscription(target_plan: str, target_user_count: int, target_
     if not customer or not customer.get('id'):
       return {"success": False, "message": "No Stripe customer found for this company"}
 
-    # --- 2. FIND ACTIVE SUBSCRIPTION ---
-    # Find active subscriptions for this customer
+    # --- 2. FIND SUBSCRIPTION TO UPDATE ---
+    # --- 2.1 GET ALL POSSIBLE SUBSCRIPTIONS ---
+    print(f"[Stripe] Finding subscription to update for customer: {customer['id']}")
+    
+    # Get subscriptions in different states
     active_subscriptions = stripe.Subscription.list(
       customer=customer['id'],
       status='active',
-      limit=1
+      limit=10  # Get more to have options to choose from
     )
     
-    # Check if we have an active subscription
-    if not active_subscriptions or not active_subscriptions.data:
-      # No active subscription found
-      return {"success": False, "message": "No active subscription found. To reactivate a canceled subscription, use the reactivate button."}
+    trialing_subscriptions = stripe.Subscription.list(
+      customer=customer['id'],
+      status='trialing',
+      limit=5
+    )
     
-    # Use the active subscription
-    subscription = active_subscriptions.data[0]
+    # --- 2.2 DETERMINE WHICH SUBSCRIPTION TO UPDATE ---
+    subscription_to_update = None
+    subscription_status = ""
+    
+    # Check active subscriptions first
+    if active_subscriptions and active_subscriptions.data:
+        # Look for subscriptions that are scheduled to cancel (cancel_at_period_end=True)
+        scheduled_to_cancel = [sub for sub in active_subscriptions.data 
+                              if sub.get('cancel_at_period_end', False)]
+        
+        # Look for subscriptions that are not scheduled to cancel
+        normal_active = [sub for sub in active_subscriptions.data 
+                        if not sub.get('cancel_at_period_end', False)]
+        
+        if normal_active:
+            # Prefer active subscriptions that are not scheduled to cancel
+            subscription_to_update = normal_active[0]
+            subscription_status = "active"
+            print(f"[Stripe] Found active subscription: {subscription_to_update.id}")
+        elif scheduled_to_cancel:
+            # Use a subscription that's scheduled to be canceled if no normal active found
+            subscription_to_update = scheduled_to_cancel[0]
+            subscription_status = "scheduled_to_cancel"
+            print(f"[Stripe] Found subscription scheduled for cancellation: {subscription_to_update.id}")
+    
+    # If no active found, check trialing subscriptions
+    if not subscription_to_update and trialing_subscriptions and trialing_subscriptions.data:
+        subscription_to_update = trialing_subscriptions.data[0]
+        subscription_status = "trialing"
+        print(f"[Stripe] Found subscription in trial: {subscription_to_update.id}")
+    
+    # --- 2.3 HANDLE NO SUBSCRIPTION CASE ---
+    if not subscription_to_update:
+        # No subscription found in any of the expected states
+        print(f"[Stripe] No active or trialing subscription found for customer: {customer['id']}")
+        return {"success": False, "message": "No active, trialing, or scheduled-for-cancellation subscription found."}
+    
+    # Use the found subscription
+    subscription = subscription_to_update
+    print(f"[Stripe] Selected subscription to update: {subscription.id} (Status: {subscription_status})")
+    
+    # Add status to operation details for later
+    subscription_data = {
+        "id": subscription.id,
+        "status": subscription_status
+    }
     
     # --- 3.1 DETERMINE PRICE ID ---
     # Get price ID from the central configuration module
@@ -463,14 +511,30 @@ def update_stripe_subscription(target_plan: str, target_user_count: int, target_
     print(f"[Stripe] Using quantity: {quantity}")
 
     # --- 3. PREPARE OPERATION DETAILS ---
+    # --- 3.2 COLLECT OPERATION DETAILS ---
     # Prepare operation description for logging and user messaging
     operation_details = []
+    
+    # Add subscription status information
+    if subscription_status == "active":
+      operation_details.append("Updating active subscription")
+    elif subscription_status == "scheduled_to_cancel":
+      operation_details.append("Updating subscription that was scheduled for cancellation")
+    elif subscription_status == "trialing":
+      operation_details.append("Updating subscription in trial period")
+    
+    # Add plan change information
     if current_plan and current_plan != target_plan:
       operation_details.append(f"Plan change from {current_plan} to {target_plan}")
+    
+    # Add frequency change information
     if current_frequency and current_frequency != target_frequency:
       operation_details.append(f"Frequency change from {current_frequency} to {target_frequency}")
+    
+    # Add user count information for Professional plans
     if target_user_count > 1 and target_plan == "Professional":
       operation_details.append(f"User count set to {target_user_count}")
+    
     print(f"[Stripe] Using operation details: {operation_details}")
     
     # --- 4. UPDATE SUBSCRIPTION ---
