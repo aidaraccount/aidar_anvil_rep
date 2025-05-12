@@ -42,7 +42,10 @@ class ModelProfile(ModelProfileTemplate):
     user = anvil.users.get_user()
     
     # Any code you write here will run before the form opens.
-    if user['expiration_date'] is not None and (datetime.today().date() - user['expiration_date']).days > 0:
+    if user is None:
+      pass
+
+    elif user['expiration_date'] is not None and (datetime.today().date() - user['expiration_date']).days > 0:
       routing.set_url_hash('settings?section=Subscription', load_from_cache=False)
       get_open_form().SearchBar.visible = False
       

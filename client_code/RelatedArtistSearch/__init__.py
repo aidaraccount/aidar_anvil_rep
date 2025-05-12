@@ -24,11 +24,12 @@ class RelatedArtistSearch(RelatedArtistSearchTemplate):
     # Any code you write here will run before the form opens.
     global user
     user = anvil.users.get_user()
-    
-    if user['expiration_date'] is not None and (datetime.today().date() - user['expiration_date']).days > 0:
+
+    if user is None:
+      pass    
+    elif user['expiration_date'] is not None and (datetime.today().date() - user['expiration_date']).days > 0:
       routing.set_url_hash('settings?section=Subscription', load_from_cache=False)
-      get_open_form().SearchBar.visible = False
-      
+      get_open_form().SearchBar.visible = False      
     else:
       model_id = load_var("model_id")
       name = load_var("value")

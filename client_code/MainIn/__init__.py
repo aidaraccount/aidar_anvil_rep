@@ -51,7 +51,8 @@ class MainIn(MainInTemplate):
     
     if user is None:
       self.visible = False
-      print("MainIn user_id: None")
+      print("MainIn user_id: None -> routing to login")
+      routing.set_url_hash('login', load_from_cache=False)
     
     else:
       print(f"MainIn user_id: {user['user_id']}")
@@ -87,7 +88,9 @@ class MainIn(MainInTemplate):
           print(f"[NAVBAR_DEBUG] Error ensuring JavaScript function: {str(e)}")
           return False
 
-      if user['expiration_date'] is not None and (datetime.today().date() - user['expiration_date']).days > 0:
+      if user is None:
+        pass
+      elif user['expiration_date'] is not None and (datetime.today().date() - user['expiration_date']).days > 0:
         routing.set_url_hash('settings?section=Subscription', load_from_cache=False)
         self.SearchBar.visible = False
 

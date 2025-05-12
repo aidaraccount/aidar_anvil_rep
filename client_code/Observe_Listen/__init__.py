@@ -32,7 +32,10 @@ class Observe_Listen(Observe_ListenTemplate):
     global user
     user = anvil.users.get_user()
     
-    if user['expiration_date'] is not None and (datetime.today().date() - user['expiration_date']).days > 0:
+    if user is None:
+      pass
+
+    elif user['expiration_date'] is not None and (datetime.today().date() - user['expiration_date']).days > 0:
       routing.set_url_hash('settings?section=Subscription', load_from_cache=False)
       get_open_form().SearchBar.visible = False
       
