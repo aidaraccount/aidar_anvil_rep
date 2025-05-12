@@ -447,12 +447,13 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
     """
     
     # --- 1. DETECT SUBSCRIPTION CHANGES ---
-    # First, determine the selected plan based on which button was clicked
+    # --- 1.0 DETERMINE SELECTED PLAN BASED ON BUTTON CLICKED ---
     sender = event_args.get('sender', None)
     if sender == self.professional_plan_btn and self.subscribed_plan != "Professional":
       self.selected_plan = "Professional"
     elif sender == self.explore_plan_btn and self.subscribed_plan != "Explore":
       self.selected_plan = "Explore"
+      self.selected_licenses = 1
     
     # Collect all changes that are being made to the subscription
     changes = []
@@ -541,6 +542,13 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
     # If confirmed, make the API call to update subscription
     if confirmation == "Yes":
       try:
+        # Ensure correct license count for the plan type
+        if self.selected_plan == "Explore":
+          # Explore plan always has exactly 1 license
+          self.selected_licenses = 1
+        
+        print(f"[SUBSCRIPTION_DEBUG] Updating subscription: plan={self.selected_plan}, licenses={self.selected_licenses}, frequency={self.selected_frequency}")
+        
         result = anvil.server.call(
           'update_stripe_subscription',
           self.selected_plan,
