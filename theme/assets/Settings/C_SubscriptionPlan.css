@@ -25,7 +25,7 @@
   transition: background 0.2s, color 0.2s;
 }
 
-.pricing-toggle-btn.selected {
+.pricing-toggle-btn.deselected {
   background: var(--Accent_1);
   color: var(--White);
 }
@@ -160,19 +160,25 @@
 }
 
 .plan-features {
-  list-style: none;
+  list-style: disc outside;
   margin: 0;
-  padding: 0;
+  padding-left: 1.5em;
   flex-grow: 1;
 }
 
 .plan-features-orange {
-    list-style: disc inside;
+  list-style: disc outside;
+  padding-left: 1.5em;
 }
 
 .plan-features-orange li {
-    color: var(--Text);
-    position: relative;
+  color: var(--Text);
+  position: relative;
+  padding-left: 0;
+  text-indent: 0;
+  margin-bottom: 8px;
+  line-height: 1.5;
+  word-break: break-word;
 }
 
 .plan-features-orange li::marker {

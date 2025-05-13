@@ -126,9 +126,8 @@ def calculate_price(plan, frequency, user_count=1):
     elif frequency == 'yearly':
         yearly_per_month = price_values[plan]['yearly_per_month']
         if plan == 'professional':
-            monthly_amount = yearly_per_month * user_count
             yearly_amount = yearly_per_month * 12 * user_count
-            return (f'€{yearly_amount:.2f}/yr ({monthly_amount:.2f}/mo/user)', yearly_amount)
+            return (f'€{yearly_amount:.2f}/yr ({yearly_per_month:.2f}/mo/user)', yearly_amount)
         else:
             yearly_amount = yearly_per_month * 12
             return (f'€{yearly_amount:.2f}/yr ({yearly_per_month:.2f}/mo)', yearly_amount)

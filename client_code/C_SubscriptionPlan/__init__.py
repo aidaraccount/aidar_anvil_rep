@@ -64,8 +64,8 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
     <!-- 1. Pricing Toggle -->
     <div class='pricing-toggle-container'>
         <div class='pricing-toggle'>
-            <button id='pricing-toggle-monthly' class='pricing-toggle-btn """ + ('selected' if self.subscribed_frequency == "monthly" else '') + """' type='button'>Monthly</button>
-            <button id='pricing-toggle-yearly' class='pricing-toggle-btn """ + ('selected' if self.subscribed_frequency == "yearly" else '') + """' type='button'>Yearly <span class='discount'>-10%</span></button>
+            <button id='pricing-toggle-monthly' class='pricing-toggle-btn """ + ('deselected' if self.subscribed_frequency == "monthly" else '') + """' type='button'>Monthly</button>
+            <button id='pricing-toggle-yearly' class='pricing-toggle-btn """ + ('deselected' if self.subscribed_frequency == "yearly" else '') + """' type='button'>Yearly <span class='discount'>-10%</span></button>
         </div>
     </div>
     <!-- 2. Pricing Plans -->
