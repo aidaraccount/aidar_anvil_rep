@@ -703,7 +703,7 @@ class Settings(SettingsTemplate):
       dismissible=True
     )
     # refresh page to see new subscription
-    anvil.js.window.location.href("/#settings?section=Payment")
+    anvil.js.window.location.replace("/#settings?section=Payment")
 
 
   def change_payment_details_click(self, **event_args):
@@ -718,7 +718,7 @@ class Settings(SettingsTemplate):
 
     # on success reload payment details
     if result == 'success':
-      anvil.js.window.location.href("/#settings?section=Payment")
+      anvil.js.window.location.replace("/#settings?section=Payment")
 
   
   def change_customer_click(self, **event_args):
@@ -745,4 +745,4 @@ class Settings(SettingsTemplate):
     )
     
     if result == 'success':
-      anvil.js.window.location.href("/#settings?section=Payment")
+      anvil.js.window.location.replace("/#settings?section=Payment")

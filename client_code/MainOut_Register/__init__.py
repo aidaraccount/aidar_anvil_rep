@@ -109,11 +109,11 @@ class MainOut_Register(MainOut_RegisterTemplate):
           anvil.server.call('sent_push_over',  'User Registration', f'{self.login_email.text} registered for Customer {self.customer_name}')
           alert(
             title="Registration successful!",
-            content="Please confirm your email by clicking the link we just sent you.",
+            content="Please confirm your email by clicking the link we just sent you.",
             buttons=[("Close", True)],
             role=["forgot-password-success", "remove-focus"],
           )
-          anvil.js.window.location.href = "https://www.aidar.ai"        
+          anvil.js.window.location.replace("https://www.aidar.ai")        
         elif res == 'user exists':
           alert(
             title="Registration Failed!",

@@ -560,7 +560,7 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
           alert(f"Your subscription has been updated! {result.get('message', '')}", buttons=["OK"])
           
           # Refresh the subscription section in Settings
-          anvil.js.window.location.href = "/#settings?section=Subscription"
+          anvil.js.window.location.replace("/#settings?section=Subscription")
 
         else:
           # Error occurred
@@ -595,7 +595,7 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
           alert(f"Your subscription has been cancelled and will end on {result.get('expiration_date')}.", title="Subscription Cancelled")
           
           # Refresh the subscription section in Settings
-          anvil.js.window.location.href = "/#settings?section=Subscription"
+          anvil.js.window.location.replace("/#settings?section=Subscription")
 
         else:
           alert("There was a problem cancelling your subscription. Please try again or contact support at team@aidar.ai.", title="Error")
@@ -620,7 +620,7 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
         alert("Your subscription has been reactivated.", title="Subscription Reactivated")
         
         # Refresh the subscription section in Settings
-        anvil.js.window.location.href = "/#settings?section=Subscription"
+        anvil.js.window.location.replace("/#settings?section=Subscription")
 
       else:
         error_msg = result.get('message', 'Unknown error') if result else 'No result returned'
