@@ -132,18 +132,7 @@ class C_PaymentCustomer(C_PaymentCustomerTemplate):
         'SI': 'SI', 'SK': 'SK', 'XI': 'XI'
     }};
     
-    // 3. Auto-prefix VAT ID on country change
-    taxCountryInput.addEventListener('change', function() {{
-        var country = taxCountryInput.value;
-        var prefix = vatPrefixes[country];
-        if (prefix) {{
-            if (!taxIdInput.value.startsWith(prefix)) {{
-                taxIdInput.value = prefix;
-            }}
-        }}
-    }});
-    
-    // 4. Form validation
+    // 3. Form validation
     function validateForm() {{
         var companyNameComplete = companyNameInput.value.trim().length > 0;
         var addressComplete = (

@@ -554,12 +554,10 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
           self.subscribed_frequency
         )
         
-        print('result:', result)
         if result and result["success"] is True:
           # Subscription updated, show success message
-          print('result2:', result)
           alert(f"Your subscription has been updated! {result.get('message', '')}", buttons=["OK"])
-          print('result3:', result)
+          
           # Refresh the subscription section in Settings
           anvil.js.window.location.replace("/#settings?section=Subscription")
 
