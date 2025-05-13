@@ -199,12 +199,14 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
           title="Congratulations!",
           buttons=[("OK", False), ("CREATE AGENT", True)]
         )
+
         if alert_res is True:
           # navigate to create agent page
-          anvil.js.window.location.replace("/#model_setup?model_id=None&section=Basics")
+          anvil.js.window.location.href = "/#model_setup?model_id=None&section=Basics"
+        
         else:
-          # refresh page to see new subscription
-          anvil.js.window.location.replace("/#settings?section=Subscription")
+          # Refresh the subscription section in Settings
+          anvil.js.window.location.href = "/#settings?section=Subscription"
         
       except Exception as e:
         alert(f"Failed to create subscription: {e}", title="Error")

@@ -559,7 +559,8 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
           alert(f"Your subscription has been updated! {result.get('message', '')}", buttons=["OK"])
           
           # Refresh the subscription section in Settings
-          self._refresh_settings_page()
+          anvil.js.window.location.href = "/#settings?section=Subscription"
+
         else:
           # Error occurred
           alert(f"Failed to update subscription: {result.get('message', 'An unknown error occurred.')}", buttons=["OK"])
@@ -591,8 +592,10 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
         result = anvil.server.call('cancel_stripe_subscription')
         if result and result.get('success'):
           alert(f"Your subscription has been cancelled and will end on {result.get('expiration_date')}.", title="Subscription Cancelled")
-          # Refresh the page to reflect the changes
-          self._refresh_settings_page()
+          
+          # Refresh the subscription section in Settings
+          anvil.js.window.location.href = "/#settings?section=Subscription"
+
         else:
           alert("There was a problem cancelling your subscription. Please try again or contact support at team@aidar.ai.", title="Error")
       except Exception as e:
@@ -616,7 +619,8 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
         alert("Your subscription has been reactivated.", title="Subscription Reactivated")
         
         # Refresh the subscription section in Settings
-        self._refresh_settings_page()
+        anvil.js.window.location.href = "/#settings?section=Subscription"
+
       else:
         error_msg = result.get('message', 'Unknown error') if result else 'No result returned'
         print(f"[SUBSCRIPTION_DEBUG] Failed to reactivate subscription: {error_msg}")
@@ -767,17 +771,6 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
     
     # Apply highlighting
     self.apply_plan_highlighting()
-
-
-  def _refresh_settings_page(self):
-    """
-    1. Refreshes the page to show updated subscription information
-    2. Called after subscription changes to ensure all data is up-to-date
-    3. Navigates back to the Subscription section in Settings
-    """
-    # Reload the page with the URL hash that will navigate to the Subscription section
-    print(f"[SUBSCRIPTION_DEBUG] Refreshing page and navigating to Subscription section")
-    anvil.js.window.location.href = "/#settings?section=Subscription"
   
   
   def apply_plan_highlighting(self):
@@ -785,24 +778,20 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
     1. Applies highlighting to the appropriate plan box based on subscription plan
     2. Uses subtle box-shadow and indicator label for current plan
     """
-    print(f"[SUBSCRIPTION_DEBUG] Applying plan highlighting for plan: {self.subscribed_plan}")
     
     # Check if all parameters match current subscription
     should_highlight = False
     if self.subscribed_plan == "Explore" and self.selected_plan == "Explore":
         # For Explore, only check billing period
         should_highlight = (self.subscribed_frequency == self.selected_frequency)
-        print(f"[SUBSCRIPTION_DEBUG] Explore highlight check: frequency={self.subscribed_frequency == self.selected_frequency}")
     elif self.subscribed_plan == "Professional" and self.selected_plan == "Professional":
         # For Professional, check licenses and billing period
         should_highlight = (self.subscribed_licenses == self.selected_licenses and 
                             self.subscribed_frequency == self.selected_frequency)
-        print(f"[SUBSCRIPTION_DEBUG] Professional highlight check: licenses={self.subscribed_licenses == self.selected_licenses}, frequency={self.subscribed_frequency == self.selected_frequency}")
     
     # Create the JavaScript to apply highlighting 
     anvil.js.call('eval', f"""
     try {{
-      console.log("[SUBSCRIPTION_DEBUG] Applying discreet highlight ({self.subscribed_plan}) - should highlight: {should_highlight}");
       
       // Clear any existing interval to prevent multiple calls
       if (window.highlightInterval) {{
