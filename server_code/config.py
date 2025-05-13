@@ -46,6 +46,17 @@ class PricingConfig:
         }
     }
 
+@anvil.server.callable
+def get_plan_prices(plan: str) -> dict:
+    """
+    Return all price values for the specified plan for client-side use.
+    Args:
+        plan (str): The plan name (e.g., 'explore', 'professional')
+    Returns:
+        dict: Price values for the plan
+    """
+    return PricingConfig.price_values.get(plan, {})
+
 def get_stripe_public_key() -> str:
     """
     1.2 Get the Stripe public (publishable) key for client-side use.
