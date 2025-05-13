@@ -92,7 +92,7 @@ runtime_options:
   server_version: python3-full
   version: 2
 secrets:
-  stripe_secret_key:
+  STRIPE_SECRET_KEY:
     type: secret
     value: {VBNUUYXQ55WVDCOZ: NC/7gbQyqXRVcuPlH4rcwazrEgDTaRQMf4pa/ZtNo8C7xIAHPOjMaim0XHIoNHl2I8ObApvVhs5kIQC+y823cTQQ6gRGcnlkPaupMP4nMkNt3SBfCRqkua60U9RT8jNPGUEzJK6ikUtDuk2QjK4p4FHnv0XGiWNQp4JOiI7UUpgVYb9DKMBMfuiaEDuoMt1216z2JIltwiPDqDepVsTCpe80XDS+2HjWC4e/PlnlbreYEMfWHITuyJsJMp1XyRDwqTXsSbi3bILDlQ==}
 services:
