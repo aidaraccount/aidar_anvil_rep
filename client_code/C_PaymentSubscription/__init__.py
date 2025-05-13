@@ -26,7 +26,7 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
     user = anvil.users.get_user()
 
     # Get subscription email
-    base_data = anvil.server.call('get_settings_subscription2', user["user_id"])
+    base_data = anvil.server.call('get_settings_subscription', user["user_id"])
     if base_data is not None:
       base_data = json.loads(base_data)[0]
       self.sub_email = base_data['mail'] if 'mail' in base_data else None

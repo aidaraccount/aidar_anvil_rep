@@ -37,7 +37,7 @@ class Settings(SettingsTemplate):
       
     else:
       # Initialize customer_info as a class attribute
-      base_data = anvil.server.call('get_settings_subscription2', user["user_id"])
+      base_data = anvil.server.call('get_settings_subscription', user["user_id"])
       if base_data is not None:
         base_data = json.loads(base_data)[0]
       
@@ -267,7 +267,7 @@ class Settings(SettingsTemplate):
 
       # b) plan
       # load data
-      sub_data = json.loads(anvil.server.call('get_settings_subscription2', user["user_id"]))[0]
+      sub_data = json.loads(anvil.server.call('get_settings_subscription', user["user_id"]))[0]
       no_licenses = sub_data['no_licenses'] if 'no_licenses' in sub_data else None
       frequency = sub_data['frequency'] if 'frequency' in sub_data else None
       if 'expiration_date' in sub_data and sub_data['expiration_date'] is not None:

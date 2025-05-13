@@ -329,7 +329,7 @@ def reactivate_stripe_subscription() -> dict:
   try:
     # --- 2.1 GET COMPANY DATA ---
     # Get company email
-    company = json.loads(anvil.server.call('get_settings_subscription2', user['user_id']))
+    company = json.loads(anvil.server.call('get_settings_subscription', user['user_id']))
     email = company[0]['mail']
     if not email:
       return {"success": False, "message": "Company email not available"}
@@ -466,7 +466,7 @@ def update_stripe_subscription(target_plan: str, target_user_count: int, target_
   user = anvil.users.get_user()
 
   try:
-    company = json.loads(anvil.server.call('get_settings_subscription2', user['user_id']))
+    company = json.loads(anvil.server.call('get_settings_subscription', user['user_id']))
     email = company[0]['mail']
     if not email:
       return {"success": False, "message": "Company email not available"}
@@ -663,28 +663,19 @@ def cancel_stripe_subscription() -> dict:
     print(f"[STRIPE_DEBUG] Starting subscription cancellation for user_id: {user['user_id']}")
     
     # Get company email
-    print(f"[STRIPE_DEBUG] Fetching company information")
-    company = json.loads(anvil.server.call('get_settings_subscription2', user['user_id']))
-    print(f"[STRIPE_DEBUG] Company data received: {company}")
+    company = json.loads(anvil.server.call('get_settings_subscription', user['user_id']))
     
     email = company[0]['mail'] if company and len(company) > 0 and 'mail' in company[0] else None
-    print(f"[STRIPE_DEBUG] Company email: {email}")
     
     if not email:
-      print(f"[STRIPE_DEBUG] Error: Company email not available")
       return {"success": False, "message": "Company email not available"}
 
     # --- 1. FIND CUSTOMER IN STRIPE ---
-    print(f"[STRIPE_DEBUG] Looking up Stripe customer for email: {email}")
     customer = get_stripe_customer(email)
-    print(f"[STRIPE_DEBUG] Stripe customer lookup result: {customer is not None}, ID: {customer.get('id') if customer else None}")
     
     if not customer or not customer.get('id'):
       print(f"[STRIPE_DEBUG] Error: No Stripe customer found for email {email}")
       return {"success": False, "message": "No Stripe customer found for this company"}
-
-    # --- 2. FIND SUBSCRIPTIONS (ACTIVE OR TRIALING) ---
-    print(f"[STRIPE_DEBUG] Searching for active or trialing subscriptions for customer ID: {customer['id']}")
     
     # First check for active subscriptions
     active_subscriptions = stripe.Subscription.list(
@@ -692,17 +683,15 @@ def cancel_stripe_subscription() -> dict:
       status='active',
       limit=1
     )
-    print(f"[STRIPE_DEBUG] Active subscription result: {len(active_subscriptions.data) if active_subscriptions and hasattr(active_subscriptions, 'data') else 0} found")
     
     # If no active subscriptions, check for trialing subscriptions
     if not active_subscriptions or not active_subscriptions.data:
-      print(f"[STRIPE_DEBUG] No active subscriptions found, checking for trialing subscriptions")
+      print("[STRIPE_DEBUG] No active subscriptions found, checking for trialing subscriptions")
       trialing_subscriptions = stripe.Subscription.list(
         customer=customer['id'],
         status='trialing',
         limit=1
       )
-      print(f"[STRIPE_DEBUG] Trialing subscription result: {len(trialing_subscriptions.data) if trialing_subscriptions and hasattr(trialing_subscriptions, 'data') else 0} found")
       
       # Use trialing subscriptions if found
       if trialing_subscriptions and trialing_subscriptions.data:
@@ -713,12 +702,9 @@ def cancel_stripe_subscription() -> dict:
     else:
       # Use active subscriptions if found
       subscriptions = active_subscriptions
-      
-    print(f"[STRIPE_DEBUG] Using subscription with status: {subscriptions.data[0].status}")
   
     # --- 3. CANCEL SUBSCRIPTION ---
     subscription_id = subscriptions.data[0].id
-    print(f"[STRIPE_DEBUG] Attempting to cancel subscription: {subscription_id}")
     try:
       subscription = stripe.Subscription.modify(
         subscription_id,
@@ -732,27 +718,21 @@ def cancel_stripe_subscription() -> dict:
     # --- 4. DETERMINE EXPIRATION DATE ---
     expiration_date = subscription["items"]["data"][0]["current_period_end"]
     expiration_date = datetime.fromtimestamp(expiration_date).date()
-    print(f"[STRIPE_DEBUG] Subscription expiration date: {expiration_date}")
 
     # --- 5. UPDATE USER RECORDS ---
-    print(f"[STRIPE_DEBUG] Updating expiration_date for users with customer_id: {user['customer_id']}")
     users_with_same_customer_id = app_tables.users.search(customer_id=user['customer_id'])
     user_count = len(users_with_same_customer_id)
-    print(f"[STRIPE_DEBUG] Found {user_count} users to update")
     
     try:
       for u in users_with_same_customer_id:
         u['expiration_date'] = expiration_date
-      print(f"[STRIPE_DEBUG] Successfully updated expiration_date for all {user_count} users")
     except Exception as e:
       print(f"[STRIPE_DEBUG] Error updating user records: {e}")
       return {"success": False, "message": f"Error updating user records: {str(e)}"}
 
     # --- 6. UPDATE SUBSCRIPTION IN DATABASE ---
-    print(f"[STRIPE_DEBUG] Calling cancel_subscription in database for customer_id: {user['customer_id']}")
     try:
       result = anvil.server.call('cancel_subscription', user['customer_id'], expiration_date)
-      print(f"[STRIPE_DEBUG] Database update result: {result}")
     except Exception as e:
       print(f"[STRIPE_DEBUG] Error calling cancel_subscription database function: {e}")
       return {"success": False, "message": f"Error updating subscription in database: {str(e)}"}
