@@ -17,38 +17,46 @@ import json
 
 @anvil.server.callable
 def sign_up_with_extra_data(customer_id, customer_name, email, password, first_name, last_name):
-  try:
-    print('customer_id:', customer_id)
-    
+  try:    
     # Sign up the user
     user = anvil.users.signup_with_email(email, password)
     
-    # Add extra data
+    # Add user base data
     user['first_name'] = first_name
     user['last_name'] = last_name
     user['customer_name'] = customer_name
+    user['welcome_email_sent'] = False
     
     if customer_id is not None:
+      # get data
       base_data = json.loads(anvil.server.call('get_customer', customer_id))[0]
-      print('here 2', base_data)
-      expiration_date = base_data['expiration_date'] if 'expiration_date' in base_data else None
-      print('here 2', expiration_date)
-      name = base_data['name'] if 'name' in base_data else None
-      print('here 2', name)
-      
+
+      # customer_id
       user['customer_id'] = customer_id
-      print('here 2', customer_id)
+
+      # customer_name
+      name = base_data['name'] if 'name' in base_data else None
       user['customer_name'] = name
-      print('here 2', name)
-      print(expiration_date)
-      user['expiration_date'] = datetime.strptime(expiration_date, "%Y-%m-%d").date()
-      print(user['expiration_date'])
-      user['plan'] = 'Professional'
+
+      # plan
+      plan = base_data['plan'] if 'plan' in base_data else None
+      user['plan'] = plan
+      
+      # expiration_date
+      expiration_date = base_data['expiration_date'] if 'expiration_date' in base_data else None
+      if expiration_date and expiration_date is not None and expiration_date != 'None':
+        user['expiration_date'] = datetime.strptime(expiration_date, "%Y-%m-%d").date()
+      else:
+        user['expiration_date'] = None
+
+      # status
       user['active'] = True
       user['admin'] = False
+
+      print(f"sign_up_with_extra_data: customer_id={user['customer_id']}, customer_name={user['customer_name']}, plan={user['plan']}, expiration_date={user['expiration_date']}")
       
     else:
-      print('here 3')
+      # add Trial data
       user['expiration_date'] = (datetime.now(timezone.utc) + timedelta(days=14)).date()
       user['plan'] = 'Trial'
       user['active'] = True

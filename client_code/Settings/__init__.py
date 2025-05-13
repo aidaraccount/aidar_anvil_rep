@@ -87,7 +87,7 @@ class Settings(SettingsTemplate):
       self.nav_pay.visible = False
 
     # Hide User Management when there is no Professional subsc OR its not an admin
-    if user['plan'] != 'Professional' or user['admin'] is not True:  
+    if user['plan'] not in ['Professional', 'Contract'] or user['admin'] is not True:  
       self.nav_user.visible = False
 
     # Reset all navigation buttons to default style
