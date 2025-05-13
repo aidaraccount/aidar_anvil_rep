@@ -590,7 +590,7 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
       large=False
     )
 
-    if confirmation.startswith("Yes"):
+    if confirmation is not None and confirmation.startswith("Yes"):
       # Call server function to cancel subscription
       try:
         result = anvil.server.call('cancel_stripe_subscription')
