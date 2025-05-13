@@ -364,6 +364,8 @@ class C_PaymentCustomer(C_PaymentCustomerTemplate):
         # 6. Close the form and return success
         print("[STRIPE] Python: Customer data saved successfully")
         self.raise_event("x-close-alert", value="success")
+
+        return "success"
         
     except Exception as e:
         print(f"[STRIPE] Python ERROR: {e}")

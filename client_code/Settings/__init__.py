@@ -744,5 +744,6 @@ class Settings(SettingsTemplate):
         dismissible=True
     )
     
+    print(result)
     if result == 'success':
       anvil.js.window.location.replace("/#settings?section=Payment")
