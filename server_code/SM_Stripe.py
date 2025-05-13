@@ -18,7 +18,7 @@ def create_setup_intent():
   import stripe
   import anvil.secrets
 
-  stripe.api_key = anvil.secrets.get_secret("stripe_secret_key")
+  stripe.api_key = anvil.secrets.get_secret("STRIPE_SECRET_KEY")
   intent = stripe.SetupIntent.create(
     usage="off_session"
   )
@@ -36,7 +36,7 @@ def create_stripe_customer(email: str, name: str = None, address: dict = None) -
   2. Print and return the stripe_customer object (as dict).
   """
   import stripe
-  stripe.api_key = anvil.secrets.get_secret("stripe_secret_key")
+  stripe.api_key = anvil.secrets.get_secret("STRIPE_SECRET_KEY")
 
   user = anvil.users.get_user()
 
@@ -82,7 +82,7 @@ def update_stripe_customer(customer_id: str, name: str = None, address: dict = N
   Update an existing Stripe customer with new name, and/or address.
   """
   import stripe
-  stripe.api_key = anvil.secrets.get_secret("stripe_secret_key")
+  stripe.api_key = anvil.secrets.get_secret("STRIPE_SECRET_KEY")
 
   user = anvil.users.get_user()
 
@@ -115,7 +115,7 @@ def update_stripe_customer_tax_id(customer_id: str, tax_id: str, tax_id_type: st
   print(f"[Stripe] Updating Stripe Customer tax ID {tax_id} of type {tax_id_type} for customer {customer_id}")
 
   import stripe
-  stripe.api_key = anvil.secrets.get_secret("stripe_secret_key")
+  stripe.api_key = anvil.secrets.get_secret("STRIPE_SECRET_KEY")
 
   # Check for existing tax IDs
   existing_tax_ids = stripe.Customer.list_tax_ids(customer_id)
@@ -151,7 +151,7 @@ def get_stripe_customer(email: str) -> dict:
   Look for an existing Stripe customer with the provided email. If found, return the customer object as dict. If not found, return empty dict.
   """
   import stripe
-  stripe.api_key = anvil.secrets.get_secret("stripe_secret_key")
+  stripe.api_key = anvil.secrets.get_secret("STRIPE_SECRET_KEY")
 
   stripe_customers = stripe.Customer.list(email=email, limit=1)
   if stripe_customers.data:
@@ -170,7 +170,7 @@ def get_stripe_customer_with_tax_info(email: str) -> dict:
   Returns a dict with keys: id, email, address, tax_country, tax_id, tax_id_type
   """
   import stripe
-  stripe.api_key = anvil.secrets.get_secret("stripe_secret_key")
+  stripe.api_key = anvil.secrets.get_secret("STRIPE_SECRET_KEY")
 
   stripe_customers = stripe.Customer.list(email=email, limit=1)
   if stripe_customers.data:
@@ -207,7 +207,7 @@ def get_stripe_payment_methods(customer_id: str) -> list:
   2. Print and return the list of PaymentMethods (as list of dicts).
   """
   import stripe
-  stripe.api_key = anvil.secrets.get_secret("stripe_secret_key")
+  stripe.api_key = anvil.secrets.get_secret("STRIPE_SECRET_KEY")
 
   stripe_payment_methods = stripe.PaymentMethod.list(customer=customer_id)
   print(f"[Stripe] Found {len(stripe_payment_methods.data)} payment methods for customer_id={customer_id}")
@@ -222,7 +222,7 @@ def attach_payment_method_to_customer(customer_id: str, payment_method_id: str) 
   3. Print and return the updated customer object (as dict).
   """
   import stripe
-  stripe.api_key = anvil.secrets.get_secret("stripe_secret_key")
+  stripe.api_key = anvil.secrets.get_secret("STRIPE_SECRET_KEY")
 
   # Attach payment method
   stripe_payment_method = stripe.PaymentMethod.attach(payment_method_id, customer=customer_id)
@@ -257,7 +257,7 @@ def create_stripe_subscription(customer_id: str, price_id: str, plan_type: str, 
     dict: The created Stripe subscription object
   """
   import stripe
-  stripe.api_key = anvil.secrets.get_secret("stripe_secret_key")
+  stripe.api_key = anvil.secrets.get_secret("STRIPE_SECRET_KEY")
 
   user = anvil.users.get_user()
 
@@ -320,7 +320,7 @@ def reactivate_stripe_subscription() -> dict:
       - subscription_id (str): The Stripe subscription ID
   """
   import stripe
-  stripe.api_key = anvil.secrets.get_secret("stripe_secret_key")
+  stripe.api_key = anvil.secrets.get_secret("STRIPE_SECRET_KEY")
 
   # --- 2. GET USER DATA ---
   # Get the current user
@@ -460,7 +460,7 @@ def update_stripe_subscription(target_plan: str, target_user_count: int, target_
       - subscription_id (str): The updated or new subscription ID
   """
   import stripe
-  stripe.api_key = anvil.secrets.get_secret("stripe_secret_key")
+  stripe.api_key = anvil.secrets.get_secret("STRIPE_SECRET_KEY")
 
   # Get the current user
   user = anvil.users.get_user()
@@ -654,7 +654,7 @@ def cancel_stripe_subscription() -> dict:
       - message (str): Descriptive message about the result
   """
   import stripe
-  stripe.api_key = anvil.secrets.get_secret("stripe_secret_key")
+  stripe.api_key = anvil.secrets.get_secret("STRIPE_SECRET_KEY")
 
   # Get the current user
   user = anvil.users.get_user()

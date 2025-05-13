@@ -46,6 +46,7 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
     self.html = f"""
     <script>
     window.stripe_setup_intent_client_secret = '{client_secret}';
+    window.stripe_public_key = '{anvil.server.call('get_stripe_public_key')}';
     </script>
 
     <!-- 1. Stripe.js script: Load Stripe library -->
@@ -81,7 +82,7 @@ class C_PaymentInfos(C_PaymentInfosTemplate):
 
     <script>
     // 3. Initialize Stripe and Elements
-    var stripe = Stripe('pk_test_51RDoXJQTBcqmUQgt9CqdDXQjtHKkEkEBuXSs7EqVjwkzqcWP66EgCu8jjYArvbioeYpzvS5wSvbrUsKUtjXi0gGq00M9CzHJTa');
+    var stripe = Stripe(window.stripe_public_key);
     var elements = stripe.elements({{
         appearance: {{
             theme: 'flat',

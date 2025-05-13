@@ -125,16 +125,16 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
     function setMonthly() {
         document.getElementById('pricing-toggle-monthly').classList.add('deselected');
         document.getElementById('pricing-toggle-yearly').classList.remove('deselected');
-        document.querySelector('.pricing-plan.left .original-price').innerHTML = '<span class="euro-symbol">€</span><span class="price-number">39</span>';
-        document.querySelector('.pricing-plan.left .plan-price').innerHTML = '<span class="euro-symbol">€</span>29';
+        document.querySelector('.pricing-plan.left .original-price').innerHTML = '<span class="euro-symbol">€</span><span class="price-number">' + str(config.PricingConfig.price_values["explore"]["monthly_original"]) + '</span>';
+        document.querySelector('.pricing-plan.left .plan-price').innerHTML = '<span class="euro-symbol">€</span>' + str(config.PricingConfig.price_values["explore"]["monthly_discounted"]);
         document.querySelector('.pricing-plan.left .price-period').textContent = '/month';
         setProfessionalPrice();
     }
     function setYearly() {
         document.getElementById('pricing-toggle-monthly').classList.remove('deselected');
         document.getElementById('pricing-toggle-yearly').classList.add('deselected');
-        document.querySelector('.pricing-plan.left .original-price').innerHTML = '<span class="euro-symbol">€</span><span class="price-number">35</span>';
-        document.querySelector('.pricing-plan.left .plan-price').innerHTML = '<span class="euro-symbol">€</span>26';
+        document.querySelector('.pricing-plan.left .original-price').innerHTML = '<span class="euro-symbol">€</span><span class="price-number">' + str(config.PricingConfig.price_values["explore"]["yearly_original_per_month"]) + '</span>';
+        document.querySelector('.pricing-plan.left .plan-price').innerHTML = '<span class="euro-symbol">€</span>' + str(config.PricingConfig.price_values["explore"]["yearly_discounted_per_month"]);
         document.querySelector('.pricing-plan.left .price-period').textContent = '/month';
         setProfessionalPrice();
     }
@@ -148,10 +148,10 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
     var profPricePeriod = document.querySelector('.pricing-plan.recommended .price-period');
 
     // Monthly and yearly price per user
-    var monthlyOriginalPerUser = 59;
-    var monthlyDiscountedPerUser = 44;
-    var yearlyOriginalPerUser = 53;
-    var yearlyDiscountedPerUser = 39;
+    var monthlyOriginalPerUser = """ + str(config.PricingConfig.price_values["professional"]["monthly_original_per_user"]) + """;
+    var monthlyDiscountedPerUser = """ + str(config.PricingConfig.price_values["professional"]["monthly_discounted_per_user"]) + """;
+    var yearlyOriginalPerUser = """ + str(config.PricingConfig.price_values["professional"]["yearly_original_per_user"]) + """;
+    var yearlyDiscountedPerUser = """ + str(config.PricingConfig.price_values["professional"]["yearly_discounted_per_user"]) + """;
 
     function setProfessionalPrice() {
         var isMonthly = document.getElementById('pricing-toggle-monthly').classList.contains('deselected');
