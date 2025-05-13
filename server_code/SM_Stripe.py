@@ -54,7 +54,7 @@ def create_stripe_customer(email: str, name: str = None, address: dict = None) -
     "HR", "HU", "IE", "IT", "LT", "LU", "LV", "MT", "NL", "PL", "PT", "RO", "SE", "SI", "SK"
   }
   country = stripe_customer.address.country if stripe_customer.address and hasattr(stripe_customer.address, 'country') else None
-  if country in EU_COUNTRIES:
+  if country in EU_COUNTRIES and country != "DE":
     stripe.Customer.modify(
       stripe_customer.id,
       invoice_settings={
