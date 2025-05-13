@@ -554,7 +554,8 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
           self.subscribed_frequency
         )
         
-        if result["success"]:
+        print('result:', result)
+        if result and result["success"] is True:
           # Subscription updated, show success message
           alert(f"Your subscription has been updated! {result.get('message', '')}", buttons=["OK"])
           
