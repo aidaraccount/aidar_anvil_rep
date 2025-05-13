@@ -312,44 +312,6 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
     """)
 
 
-  def js_update_button_state(self, **event_args):
-    """
-    1. Called reliably from JavaScript through Anvil's built-in event system
-    2. Acts as a bridge between JavaScript UI events and Python button state updates
-    3. Ensures changes to user inputs are reflected in button appearance
-    """
-    # Force a direct call to update_button_state to refresh UI state
-    self.update_button_state()
-    self.apply_plan_highlighting()
-
-
-  def choose_plan_click(self, sender, **event_args):
-    """
-    1. Handles clicks on the Explore and Professional plan buttons
-    2. Determines plan type, user count, and billing period, then opens checkout
-    
-    Parameters:
-        sender: The button that was clicked
-        event_args (dict): Event arguments from the button click
-    """
-    # Update the selected plan based on which button was clicked
-    if sender == self.explore_plan_btn:
-        self.selected_plan = "Explore"
-    elif sender == self.professional_plan_btn:
-        self.selected_plan = "Professional"
-    
-    # Ensure state is up-to-date
-    self.update_button_state()
-    
-    # Open subscription checkout flow with the collected info
-    self.open_subscription(
-        selected_plan=self.selected_plan, 
-        selected_licenses=self.selected_licenses, 
-        selected_frequency=self.selected_frequency,
-        trial_end=self.trial_end
-    )
-
-
   def open_subscription(self, selected_plan: str, selected_licenses: int, selected_frequency: str, trial_end: int):
     """
     1. Opens the subscription workflow
@@ -437,6 +399,36 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
     )
 
 
+  def choose_plan_click(self, sender, **event_args):
+    """
+    1. Handles clicks on the Explore and Professional plan buttons
+    2. Determines plan type, user count, and billing period, then opens checkout
+    
+    Parameters:
+        sender: The button that was clicked
+        event_args (dict): Event arguments from the button click
+    """
+    # Update the selected plan based on which button was clicked
+    if sender == self.explore_plan_btn:
+        self.selected_plan = "Explore"
+    elif sender == self.professional_plan_btn:
+        self.selected_plan = "Professional"
+    
+    # Always fetch the latest user count from the input for reliability
+    self._get_current_user_count()
+
+    # Ensure state is up-to-date
+    self.update_button_state()
+    
+    # Open subscription checkout flow with the collected info
+    self.open_subscription(
+        selected_plan=self.selected_plan,
+        selected_licenses=self.selected_licenses, 
+        selected_frequency=self.selected_frequency,
+        trial_end=self.trial_end
+    )
+
+
   def update_subscription(self, **event_args):
     """
     1. Handles updating a subscription (upgrading, downgrading, or changing user count)
@@ -455,6 +447,9 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
       self.selected_plan = "Explore"
       self.selected_licenses = 1
     
+    # Always fetch the latest user count from the input for reliability
+    self._get_current_user_count()
+
     # Collect all changes that are being made to the subscription
     changes = []
     any_changes = False
@@ -574,7 +569,7 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
         print(f"[SUBSCRIPTION_DEBUG] Error updating subscription: {e}")
 
 
-  def cancel_subscription(self, **event_args) -> None:
+  def cancel_subscription(self, **event_args):
     """
     1. Handles the cancellation of a subscription
     2. Calls the server function to cancel the subscription in Stripe
@@ -605,20 +600,15 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
         alert("There was a problem processing your request. Please try again or contact support at team@aidar.ai.", title="Error")
 
 
-  def reactivate_stripe_subscription(self, **event_args) -> None:
+  def reactivate_stripe_subscription(self, **event_args):
     """
     # --- 1. REACTIVATES SUBSCRIPTION ---
     1. Reactivates a cancelled subscription in Stripe
     2. Calls the server function to reactivate the subscription
     """
-    print(f"[SUBSCRIPTION_DEBUG] Attempting to reactivate subscription: plan={self.subscribed_plan}, frequency={self.subscribed_frequency}")
     try:
       # Call server function and log the attempt
-      print(f"[SUBSCRIPTION_DEBUG] Calling reactivate_stripe_subscription server function")
       result = anvil.server.call('reactivate_stripe_subscription')
-      
-      # Log the result details
-      print(f"[SUBSCRIPTION_DEBUG] Reactivation result: {result}")
       
       if result and result.get('success'):
         subscription_id = result.get('subscription_id', 'Unknown')
@@ -636,6 +626,17 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
       print(f"[SUBSCRIPTION_DEBUG] Exception type: {type(e).__name__}")
       print(f"[SUBSCRIPTION_DEBUG] Exception args: {e.args}")
       alert(f"There was a problem processing your request: {str(e)}\n\nPlease try again or contact support at team@aidar.ai.", title="Error")
+
+
+  def js_update_button_state(self, **event_args):
+    """
+    1. Called reliably from JavaScript through Anvil's built-in event system
+    2. Acts as a bridge between JavaScript UI events and Python button state updates
+    3. Ensures changes to user inputs are reflected in button appearance
+    """
+    # Force a direct call to update_button_state to refresh UI state
+    self.update_button_state()
+    self.apply_plan_highlighting()
 
 
   def update_button_state(self):
@@ -975,3 +976,11 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
       console.error("[SUBSCRIPTION_DEBUG] Error details:", e.message, e.stack);
     }}
     """)
+
+
+  def _get_current_user_count(self):
+    """
+    1. Updates the selected_licenses attribute with the current value from the user count input field
+    """
+    user_count_input = document.getElementById('user-count')
+    self.selected_licenses = int(user_count_input.value)

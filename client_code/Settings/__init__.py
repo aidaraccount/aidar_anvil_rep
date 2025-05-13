@@ -702,7 +702,9 @@ class Settings(SettingsTemplate):
       buttons=[],
       dismissible=True
     )
-    self.nav_pay_click()
+    # refresh page to see new subscription
+    anvil.js.window.location.replace("/#settings?section=Payment")
+
 
   def change_payment_details_click(self, **event_args):
     # add new payment method
@@ -716,10 +718,10 @@ class Settings(SettingsTemplate):
 
     # on success reload payment details
     if result == 'success':
-      self.nav_pay_click()
+      anvil.js.window.location.replace("/#settings?section=Payment")
 
   
-  def change_pay_profile_click(self, **event_args):
+  def change_customer_click(self, **event_args):
     """
     Opens the C_PaymentCustomer pop-up to edit customer profile information.
     Saves new payment method if successful and removes old ones.
@@ -743,5 +745,4 @@ class Settings(SettingsTemplate):
     )
     
     if result == 'success':
-        # Refresh the payment profile section
-        self.nav_pay_click()
+      anvil.js.window.location.replace("/#settings?section=Payment")
