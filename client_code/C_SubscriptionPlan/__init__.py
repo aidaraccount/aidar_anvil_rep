@@ -123,16 +123,16 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
     <script>
     // Pricing toggle JS
     function setMonthly() {
-        document.getElementById('pricing-toggle-monthly').classList.add('selected');
-        document.getElementById('pricing-toggle-yearly').classList.remove('selected');
+        document.getElementById('pricing-toggle-monthly').classList.add('deselected');
+        document.getElementById('pricing-toggle-yearly').classList.remove('deselected');
         document.querySelector('.pricing-plan.left .original-price').innerHTML = '<span class="euro-symbol">€</span><span class="price-number">39</span>';
         document.querySelector('.pricing-plan.left .plan-price').innerHTML = '<span class="euro-symbol">€</span>29';
         document.querySelector('.pricing-plan.left .price-period').textContent = '/month';
         setProfessionalPrice();
     }
     function setYearly() {
-        document.getElementById('pricing-toggle-monthly').classList.remove('selected');
-        document.getElementById('pricing-toggle-yearly').classList.add('selected');
+        document.getElementById('pricing-toggle-monthly').classList.remove('deselected');
+        document.getElementById('pricing-toggle-yearly').classList.add('deselected');
         document.querySelector('.pricing-plan.left .original-price').innerHTML = '<span class="euro-symbol">€</span><span class="price-number">35</span>';
         document.querySelector('.pricing-plan.left .plan-price').innerHTML = '<span class="euro-symbol">€</span>26';
         document.querySelector('.pricing-plan.left .price-period').textContent = '/month';
@@ -154,7 +154,7 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
     var yearlyDiscountedPerUser = 39;
 
     function setProfessionalPrice() {
-        var isMonthly = document.getElementById('pricing-toggle-monthly').classList.contains('selected');
+        var isMonthly = document.getElementById('pricing-toggle-monthly').classList.contains('deselected');
         var orig = isMonthly ? monthlyOriginalPerUser : yearlyOriginalPerUser;
         var disc = isMonthly ? monthlyDiscountedPerUser : yearlyDiscountedPerUser;
         profOriginalPrice.textContent = orig * userCount;
@@ -662,7 +662,7 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
     yearly_btn = document.getElementById('pricing-toggle-yearly')
     
     if monthly_btn and yearly_btn:
-      is_yearly = yearly_btn.classList.contains('selected')
+      is_yearly = yearly_btn.classList.contains('deselected')
       self.selected_frequency = "yearly" if is_yearly else "monthly"
         
     # 1. LEFT EXPLORE BUTTON LOGIC

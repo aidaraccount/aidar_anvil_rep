@@ -176,7 +176,7 @@
   position: relative;
   padding-left: 0;
   text-indent: 0;
-  margin-bottom: 8px;
+  margin-bottom: 5px;
   line-height: 1.5;
   word-break: break-word;
 }
@@ -190,9 +190,8 @@
   font-family: 'GeneralSans-Regular', Arial, sans-serif;
   font-size: 1.4rem;
   position: relative;
-  padding-left: 24px;
   color: var(--Black);
-  line-height: 1.3;
+  line-height: 1.0;
 }
 
 .plan-features li::before {
@@ -238,7 +237,7 @@
   font-family: 'GeneralSans-Medium', Arial, sans-serif;
   font-size: 1.7rem;
   width: 100%;
-  margin: 24px auto 0 auto;
+  margin: 15px auto 0 auto;
   padding: 12px 0;
   border: none;
   text-align: center;
