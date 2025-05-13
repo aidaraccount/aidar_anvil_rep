@@ -59,6 +59,10 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
     self.explore_highlight_css = "0 0 20px rgba(0, 0, 0, 0.25)"
     self.professional_highlight_css = "0 0 20px rgba(0, 0, 0, 0.25)"
 
+    # Fetch plan prices BEFORE generating HTML/JS
+    self.professional_prices = anvil.server.call('get_plan_prices', 'professional')
+    self.explore_prices = anvil.server.call('get_plan_prices', 'explore')
+
     # 1. HTML content
     self.html = """
     <!-- 1. Pricing Toggle -->
