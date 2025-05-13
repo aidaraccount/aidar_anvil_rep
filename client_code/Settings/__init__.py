@@ -314,7 +314,7 @@ class Settings(SettingsTemplate):
     self._set_nav_section('user')
  
     # 1. Load server data
-    summary_data = json.loads(anvil.server.call('get_settings_user_mgmt2', user["customer_id"]))[0]
+    summary_data = json.loads(anvil.server.call('get_settings_user_mgmt', user["customer_id"]))[0]
     license_key = summary_data['license_key'] if 'license_key' in summary_data else None
     no_licenses = summary_data['no_licenses'] if 'no_licenses' in summary_data else None
     
