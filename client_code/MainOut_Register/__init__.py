@@ -156,4 +156,7 @@ class MainOut_Register(MainOut_RegisterTemplate):
       self.register_button.role = 'call-to-action-button'
     else:
       self.register_button.role = 'call-to-action-button-disabled'
-      
+
+  def link_login_click(self, **event_args):
+    routing.set_url_hash('login', load_from_cache=False)
+    open_form('MainOut')
