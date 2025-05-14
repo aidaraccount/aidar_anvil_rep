@@ -60,10 +60,12 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
     self.professional_highlight_css = "0 0 20px rgba(0, 0, 0, 0.25)"
 
     # test
-    print(anvil.server.call("get_price_value", "professional", "monthly", "original"))
-    print(anvil.server.call("get_price_value", "professional", "monthly", "discounted"))
-    print(anvil.server.call("get_price_value", "professional", "yearly", "original"))
-    print(anvil.server.call("get_price_value", "professional", "yearly", "discounted"))
+    prof_monthly_original = anvil.server.call("get_price_value", "professional", "monthly", "original")
+    prof_monthly_discounted = anvil.server.call("get_price_value", "professional", "monthly", "discounted")
+    prof_yearly_original = anvil.server.call("get_price_value", "professional", "yearly", "original")
+    prof_yearly_discounted = anvil.server.call("get_price_value", "professional", "yearly", "discounted")
+
+    print("prof_monthly_original:", prof_monthly_original)
 
     # 1. HTML content
     self.html = """
@@ -154,14 +156,10 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
     var profPricePeriod = document.querySelector('.pricing-plan.recommended .price-period');
 
     // Monthly and yearly price per user (Professional)
-    // var monthlyOriginalPerUser = {anvil.server.call("get_price_value", "professional", "monthly", "original")};
-    // var monthlyDiscountedPerUser = {anvil.server.call("get_price_value", "professional", "monthly", "discounted")};
-    // var yearlyOriginalPerUser = {anvil.server.call("get_price_value", "professional", "yearly", "original")};
-    // var yearlyDiscountedPerUser = {anvil.server.call("get_price_value", "professional", "yearly", "discounted")};
-    var monthlyOriginalPerUser = 44.00;
-    var monthlyDiscountedPerUser = 44.00;
-    var yearlyOriginalPerUser = 39.00;
-    var yearlyDiscountedPerUser = 39.00;
+    var monthlyOriginalPerUser = {prof_monthly_original:.2f};
+    var monthlyDiscountedPerUser = {prof_monthly_discounted:.2f};
+    var yearlyOriginalPerUser = {prof_yearly_original:.2f};
+    var yearlyDiscountedPerUser = {prof_yearly_discounted:.2f};
 
     function setProfessionalPrice() {
         var isMonthly = document.getElementById('pricing-toggle-monthly').classList.contains('deselected');
