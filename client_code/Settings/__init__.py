@@ -73,10 +73,10 @@ class Settings(SettingsTemplate):
     Args:
         section: One of 'account', 'not', 'sub', 'user', 'pay'
     """
-    # Check if customer exists for sections that require it
-    if (section in ['pay', 'user']) and ((not hasattr(self, 'customer_info') or not self.customer_info or not self.customer_info.get('id')) or user['admin'] is not True):
-      print(f"[SETTINGS] No customer info/ admin found, redirecting from {section} to account")
-      section = 'account'
+    # # Check if customer exists for sections that require it
+    # if (section in ['pay', 'user']) and ((not hasattr(self, 'customer_info') or not self.customer_info or not self.customer_info.get('id')) or user['admin'] is not True):
+    #   print(f"[SETTINGS] No customer info/ admin found, redirecting from {section} to account")
+    #   section = 'account'
     
     # Hide Subscription when not beeing an admin
     if user['admin'] is not True:
@@ -86,7 +86,7 @@ class Settings(SettingsTemplate):
     if user['customer_id'] is None or user['admin'] is not True or user['plan'] == 'Contract':
       self.nav_pay.visible = False
 
-    # Hide User Management when there is no Professional subsc OR its not an admin
+    # Hide User Management when there not Professional/Contract OR its not an admin
     if user['plan'] not in ['Professional', 'Contract'] or user['admin'] is not True:  
       self.nav_user.visible = False
 
@@ -314,7 +314,7 @@ class Settings(SettingsTemplate):
     self._set_nav_section('user')
  
     # 1. Load server data
-    summary_data = json.loads(anvil.server.call('get_settings_user_mgmt2', user["customer_id"]))[0]
+    summary_data = json.loads(anvil.server.call('get_settings_user_mgmt', user["customer_id"]))[0]
     license_key = summary_data['license_key'] if 'license_key' in summary_data else None
     no_licenses = summary_data['no_licenses'] if 'no_licenses' in summary_data else None
     
@@ -702,7 +702,9 @@ class Settings(SettingsTemplate):
       buttons=[],
       dismissible=True
     )
-    self.nav_pay_click()
+    # refresh page to see new subscription
+    anvil.js.window.location.replace("/#settings?section=Payment")
+
 
   def change_payment_details_click(self, **event_args):
     # add new payment method
@@ -716,10 +718,10 @@ class Settings(SettingsTemplate):
 
     # on success reload payment details
     if result == 'success':
-      self.nav_pay_click()
+      anvil.js.window.location.replace("/#settings?section=Payment")
 
   
-  def change_pay_profile_click(self, **event_args):
+  def change_customer_click(self, **event_args):
     """
     Opens the C_PaymentCustomer pop-up to edit customer profile information.
     Saves new payment method if successful and removes old ones.
@@ -743,5 +745,4 @@ class Settings(SettingsTemplate):
     )
     
     if result == 'success':
-        # Refresh the payment profile section
-        self.nav_pay_click()
+      anvil.js.window.location.replace("/#settings?section=Payment")

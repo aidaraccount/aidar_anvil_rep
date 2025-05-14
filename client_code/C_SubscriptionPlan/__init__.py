@@ -59,13 +59,30 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
     self.explore_highlight_css = "0 0 20px rgba(0, 0, 0, 0.25)"
     self.professional_highlight_css = "0 0 20px rgba(0, 0, 0, 0.25)"
 
+    # # test
+    # self.prof_monthly_original = float(anvil.server.call("get_price_value", "professional", "monthly", "original"))
+    # print("prof_monthly_original:", self.prof_monthly_original)
+    # print("type(prof_monthly_original):", type(self.prof_monthly_original))
+    # # prof_monthly_original = f"{prof_monthly_original}"
+    # # print("prof_monthly_original:", prof_monthly_original)
+    # # print("type(prof_monthly_original):", type(prof_monthly_original))
+    
+    # prof_monthly_discounted = 0
+    # prof_yearly_original = 0
+    # prof_yearly_discounted = 0
+
+    # print("prof_monthly_original:", self.prof_monthly_original)
+    # print("prof_monthly_discounted:", prof_monthly_discounted)
+    # print("prof_yearly_original:", prof_yearly_original)
+    # print("prof_yearly_discounted:", prof_yearly_discounted)
+    
     # 1. HTML content
     self.html = """
     <!-- 1. Pricing Toggle -->
     <div class='pricing-toggle-container'>
         <div class='pricing-toggle'>
-            <button id='pricing-toggle-monthly' class='pricing-toggle-btn """ + ('selected' if self.subscribed_frequency == "monthly" else '') + """' type='button'>Monthly</button>
-            <button id='pricing-toggle-yearly' class='pricing-toggle-btn """ + ('selected' if self.subscribed_frequency == "yearly" else '') + """' type='button'>Yearly <span class='discount'>-10%</span></button>
+            <button id='pricing-toggle-monthly' class='pricing-toggle-btn """ + ('deselected' if self.subscribed_frequency == "monthly" else '') + """' type='button'>Monthly</button>
+            <button id='pricing-toggle-yearly' class='pricing-toggle-btn """ + ('deselected' if self.subscribed_frequency == "yearly" else '') + """' type='button'>Yearly <span class='discount'>-10%</span></button>
         </div>
     </div>
     <!-- 2. Pricing Plans -->
@@ -76,8 +93,8 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
             <p class='plan-description'>Best for solo scouts exploring AI-powered artist discovery.</p>
             <div class='plan-price-container'>
                 <div class='discount-badge'>25%<br>Launch Disc.</div>
-                <span class='original-price'><span class='euro-symbol'>€</span><span class='price-number'>38</span></span>
-                <span class='plan-price'><span class='euro-symbol'>€</span>27</span>
+                <span class='original-price'><span class='euro-symbol'>€</span><span class='price-number'></span></span>
+                <span class='plan-price'><span class='euro-symbol'>€</span></span>
                 <span class='price-period'>/month</span>
             </div>
             <ul class='plan-features plan-features-orange'>
@@ -96,8 +113,8 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
             <p class='plan-description'>For individuals or teams who want to unlock full AI-powered scouting.</p>
             <div class='plan-price-container'>
                 <div class='discount-badge'>25%<br>Launch Disc.</div>
-                <span class='original-price'><span class='euro-symbol'>€</span><span class='price-number'>58</span></span>
-                <span class='plan-price'><span class='euro-symbol'>€</span>41</span>
+                <span class='original-price'><span class='euro-symbol'>€</span><span class='price-number'></span></span>
+                <span class='plan-price'><span class='euro-symbol'>€</span></span>
                 <span class='price-period'>/user & month</span>
             </div>
             <ul class='plan-features plan-features-orange'>
@@ -123,16 +140,16 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
     <script>
     // Pricing toggle JS
     function setMonthly() {
-        document.getElementById('pricing-toggle-monthly').classList.add('selected');
-        document.getElementById('pricing-toggle-yearly').classList.remove('selected');
+        document.getElementById('pricing-toggle-monthly').classList.add('deselected');
+        document.getElementById('pricing-toggle-yearly').classList.remove('deselected');
         document.querySelector('.pricing-plan.left .original-price').innerHTML = '<span class="euro-symbol">€</span><span class="price-number">39</span>';
         document.querySelector('.pricing-plan.left .plan-price').innerHTML = '<span class="euro-symbol">€</span>29';
         document.querySelector('.pricing-plan.left .price-period').textContent = '/month';
         setProfessionalPrice();
     }
     function setYearly() {
-        document.getElementById('pricing-toggle-monthly').classList.remove('selected');
-        document.getElementById('pricing-toggle-yearly').classList.add('selected');
+        document.getElementById('pricing-toggle-monthly').classList.remove('deselected');
+        document.getElementById('pricing-toggle-yearly').classList.add('deselected');
         document.querySelector('.pricing-plan.left .original-price').innerHTML = '<span class="euro-symbol">€</span><span class="price-number">35</span>';
         document.querySelector('.pricing-plan.left .plan-price').innerHTML = '<span class="euro-symbol">€</span>26';
         document.querySelector('.pricing-plan.left .price-period').textContent = '/month';
@@ -147,14 +164,14 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
     var profPlanPrice = document.querySelector('.pricing-plan.recommended .plan-price');
     var profPricePeriod = document.querySelector('.pricing-plan.recommended .price-period');
 
-    // Monthly and yearly price per user
-    var monthlyOriginalPerUser = 59;
-    var monthlyDiscountedPerUser = 44;
-    var yearlyOriginalPerUser = 53;
-    var yearlyDiscountedPerUser = 39;
+    // Monthly and yearly price per user (Professional)
+    var monthlyOriginalPerUser = 59.00;
+    var monthlyDiscountedPerUser = 44.00;
+    var yearlyOriginalPerUser = 53.00;
+    var yearlyDiscountedPerUser = 39.00;
 
     function setProfessionalPrice() {
-        var isMonthly = document.getElementById('pricing-toggle-monthly').classList.contains('selected');
+        var isMonthly = document.getElementById('pricing-toggle-monthly').classList.contains('deselected');
         var orig = isMonthly ? monthlyOriginalPerUser : yearlyOriginalPerUser;
         var disc = isMonthly ? monthlyDiscountedPerUser : yearlyDiscountedPerUser;
         profOriginalPrice.textContent = orig * userCount;
@@ -312,44 +329,6 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
     """)
 
 
-  def js_update_button_state(self, **event_args):
-    """
-    1. Called reliably from JavaScript through Anvil's built-in event system
-    2. Acts as a bridge between JavaScript UI events and Python button state updates
-    3. Ensures changes to user inputs are reflected in button appearance
-    """
-    # Force a direct call to update_button_state to refresh UI state
-    self.update_button_state()
-    self.apply_plan_highlighting()
-
-
-  def choose_plan_click(self, sender, **event_args):
-    """
-    1. Handles clicks on the Explore and Professional plan buttons
-    2. Determines plan type, user count, and billing period, then opens checkout
-    
-    Parameters:
-        sender: The button that was clicked
-        event_args (dict): Event arguments from the button click
-    """
-    # Update the selected plan based on which button was clicked
-    if sender == self.explore_plan_btn:
-        self.selected_plan = "Explore"
-    elif sender == self.professional_plan_btn:
-        self.selected_plan = "Professional"
-    
-    # Ensure state is up-to-date
-    self.update_button_state()
-    
-    # Open subscription checkout flow with the collected info
-    self.open_subscription(
-        selected_plan=self.selected_plan, 
-        selected_licenses=self.selected_licenses, 
-        selected_frequency=self.selected_frequency,
-        trial_end=self.trial_end
-    )
-
-
   def open_subscription(self, selected_plan: str, selected_licenses: int, selected_frequency: str, trial_end: int):
     """
     1. Opens the subscription workflow
@@ -437,6 +416,36 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
     )
 
 
+  def choose_plan_click(self, sender, **event_args):
+    """
+    1. Handles clicks on the Explore and Professional plan buttons
+    2. Determines plan type, user count, and billing period, then opens checkout
+    
+    Parameters:
+        sender: The button that was clicked
+        event_args (dict): Event arguments from the button click
+    """
+    # Update the selected plan based on which button was clicked
+    if sender == self.explore_plan_btn:
+        self.selected_plan = "Explore"
+    elif sender == self.professional_plan_btn:
+        self.selected_plan = "Professional"
+    
+    # Always fetch the latest user count from the input for reliability
+    self._get_current_user_count()
+
+    # Ensure state is up-to-date
+    self.update_button_state()
+    
+    # Open subscription checkout flow with the collected info
+    self.open_subscription(
+        selected_plan=self.selected_plan,
+        selected_licenses=self.selected_licenses, 
+        selected_frequency=self.selected_frequency,
+        trial_end=self.trial_end
+    )
+
+
   def update_subscription(self, **event_args):
     """
     1. Handles updating a subscription (upgrading, downgrading, or changing user count)
@@ -455,6 +464,9 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
       self.selected_plan = "Explore"
       self.selected_licenses = 1
     
+    # Always fetch the latest user count from the input for reliability
+    self._get_current_user_count()
+
     # Collect all changes that are being made to the subscription
     changes = []
     any_changes = False
@@ -559,12 +571,13 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
           self.subscribed_frequency
         )
         
-        if result["success"]:
+        if result and result["success"] is True:
           # Subscription updated, show success message
           alert(f"Your subscription has been updated! {result.get('message', '')}", buttons=["OK"])
           
           # Refresh the subscription section in Settings
-          self._refresh_settings_page()
+          anvil.js.window.location.replace("/#settings?section=Subscription")
+
         else:
           # Error occurred
           alert(f"Failed to update subscription: {result.get('message', 'An unknown error occurred.')}", buttons=["OK"])
@@ -574,7 +587,7 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
         print(f"[SUBSCRIPTION_DEBUG] Error updating subscription: {e}")
 
 
-  def cancel_subscription(self, **event_args) -> None:
+  def cancel_subscription(self, **event_args):
     """
     1. Handles the cancellation of a subscription
     2. Calls the server function to cancel the subscription in Stripe
@@ -590,14 +603,16 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
       large=False
     )
 
-    if confirmation.startswith("Yes"):
+    if confirmation is not None and confirmation.startswith("Yes"):
       # Call server function to cancel subscription
       try:
         result = anvil.server.call('cancel_stripe_subscription')
         if result and result.get('success'):
           alert(f"Your subscription has been cancelled and will end on {result.get('expiration_date')}.", title="Subscription Cancelled")
-          # Refresh the page to reflect the changes
-          self._refresh_settings_page()
+          
+          # Refresh the subscription section in Settings
+          anvil.js.window.location.replace("/#settings?section=Subscription")
+
         else:
           alert("There was a problem cancelling your subscription. Please try again or contact support at team@aidar.ai.", title="Error")
       except Exception as e:
@@ -605,20 +620,15 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
         alert("There was a problem processing your request. Please try again or contact support at team@aidar.ai.", title="Error")
 
 
-  def reactivate_stripe_subscription(self, **event_args) -> None:
+  def reactivate_stripe_subscription(self, **event_args):
     """
     # --- 1. REACTIVATES SUBSCRIPTION ---
     1. Reactivates a cancelled subscription in Stripe
     2. Calls the server function to reactivate the subscription
     """
-    print(f"[SUBSCRIPTION_DEBUG] Attempting to reactivate subscription: plan={self.subscribed_plan}, frequency={self.subscribed_frequency}")
     try:
       # Call server function and log the attempt
-      print(f"[SUBSCRIPTION_DEBUG] Calling reactivate_stripe_subscription server function")
       result = anvil.server.call('reactivate_stripe_subscription')
-      
-      # Log the result details
-      print(f"[SUBSCRIPTION_DEBUG] Reactivation result: {result}")
       
       if result and result.get('success'):
         subscription_id = result.get('subscription_id', 'Unknown')
@@ -626,7 +636,8 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
         alert("Your subscription has been reactivated.", title="Subscription Reactivated")
         
         # Refresh the subscription section in Settings
-        self._refresh_settings_page()
+        anvil.js.window.location.replace("/#settings?section=Subscription")
+
       else:
         error_msg = result.get('message', 'Unknown error') if result else 'No result returned'
         print(f"[SUBSCRIPTION_DEBUG] Failed to reactivate subscription: {error_msg}")
@@ -636,6 +647,17 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
       print(f"[SUBSCRIPTION_DEBUG] Exception type: {type(e).__name__}")
       print(f"[SUBSCRIPTION_DEBUG] Exception args: {e.args}")
       alert(f"There was a problem processing your request: {str(e)}\n\nPlease try again or contact support at team@aidar.ai.", title="Error")
+
+
+  def js_update_button_state(self, **event_args):
+    """
+    1. Called reliably from JavaScript through Anvil's built-in event system
+    2. Acts as a bridge between JavaScript UI events and Python button state updates
+    3. Ensures changes to user inputs are reflected in button appearance
+    """
+    # Force a direct call to update_button_state to refresh UI state
+    self.update_button_state()
+    self.apply_plan_highlighting()
 
 
   def update_button_state(self):
@@ -657,7 +679,7 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
     yearly_btn = document.getElementById('pricing-toggle-yearly')
     
     if monthly_btn and yearly_btn:
-      is_yearly = yearly_btn.classList.contains('selected')
+      is_yearly = yearly_btn.classList.contains('deselected')
       self.selected_frequency = "yearly" if is_yearly else "monthly"
         
     # 1. LEFT EXPLORE BUTTON LOGIC
@@ -766,17 +788,6 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
     
     # Apply highlighting
     self.apply_plan_highlighting()
-
-
-  def _refresh_settings_page(self):
-    """
-    1. Refreshes the page to show updated subscription information
-    2. Called after subscription changes to ensure all data is up-to-date
-    3. Navigates back to the Subscription section in Settings
-    """
-    # Reload the page with the URL hash that will navigate to the Subscription section
-    print(f"[SUBSCRIPTION_DEBUG] Refreshing page and navigating to Subscription section")
-    anvil.js.window.location.href = "/#settings?section=Subscription"
   
   
   def apply_plan_highlighting(self):
@@ -784,24 +795,20 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
     1. Applies highlighting to the appropriate plan box based on subscription plan
     2. Uses subtle box-shadow and indicator label for current plan
     """
-    print(f"[SUBSCRIPTION_DEBUG] Applying plan highlighting for plan: {self.subscribed_plan}")
     
     # Check if all parameters match current subscription
     should_highlight = False
     if self.subscribed_plan == "Explore" and self.selected_plan == "Explore":
         # For Explore, only check billing period
         should_highlight = (self.subscribed_frequency == self.selected_frequency)
-        print(f"[SUBSCRIPTION_DEBUG] Explore highlight check: frequency={self.subscribed_frequency == self.selected_frequency}")
     elif self.subscribed_plan == "Professional" and self.selected_plan == "Professional":
         # For Professional, check licenses and billing period
         should_highlight = (self.subscribed_licenses == self.selected_licenses and 
                             self.subscribed_frequency == self.selected_frequency)
-        print(f"[SUBSCRIPTION_DEBUG] Professional highlight check: licenses={self.subscribed_licenses == self.selected_licenses}, frequency={self.subscribed_frequency == self.selected_frequency}")
     
     # Create the JavaScript to apply highlighting 
     anvil.js.call('eval', f"""
     try {{
-      console.log("[SUBSCRIPTION_DEBUG] Applying discreet highlight ({self.subscribed_plan}) - should highlight: {should_highlight}");
       
       // Clear any existing interval to prevent multiple calls
       if (window.highlightInterval) {{
@@ -975,3 +982,11 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
       console.error("[SUBSCRIPTION_DEBUG] Error details:", e.message, e.stack);
     }}
     """)
+
+
+  def _get_current_user_count(self):
+    """
+    1. Updates the selected_licenses attribute with the current value from the user count input field
+    """
+    user_count_input = document.getElementById('user-count')
+    self.selected_licenses = int(user_count_input.value)

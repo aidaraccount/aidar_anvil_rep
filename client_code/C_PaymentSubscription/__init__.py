@@ -166,8 +166,6 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
 
 
     # --- 5. REGISTER JS-CALLABLE METHODS ---
-    # anvil.js.window.edit_company_click = self._edit_company_click
-    # anvil.js.window.edit_payment_click = self._edit_payment_click
     anvil.js.window.confirm_subscription_click = self._confirm_subscription_click
     anvil.js.window.close_alert = self._close_alert
     
@@ -175,42 +173,6 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
   def _close_alert(self):
     """Close the alert dialog from JS."""
     self.raise_event('x-close-alert')
-
-
-#   def _edit_company_click(self, **event_args):
-#       """Opens the C_PaymentCustomer pop-up with prefilled data for editing, including country and tax info."""
-#       customer_info = anvil.server.call('get_stripe_customer_with_tax_info', self.company_email)
-#       form = C_PaymentCustomer(
-#           prefill_email=customer_info.get('email', self.company_email),
-#           prefill_company_name=customer_info.get('name', self.company_name),
-#           prefill_address=customer_info.get('address', {}),
-#           prefill_tax_id=customer_info.get('tax_id', self.tax_id),
-#           prefill_tax_country=customer_info.get('tax_country', self.tax_country),
-#           prefill_b2b=True
-#       )
-#       result = alert(
-#           content=form,
-#           large=False,
-#           width=500,
-#           buttons=[],
-#           dismissible=True
-#       )
-#       if result == 'success':
-#           self._handle_customer_form_result(form)
-
-
-#   def _edit_payment_click(self, **event_args):
-#       """Opens the C_PaymentInfos pop-up to update payment method."""
-#       form = C_PaymentInfos()
-#       result = alert(
-#           content=form,
-#           large=False,
-#           width=500,
-#           buttons=[],
-#           dismissible=True
-#       )
-#       if result == 'success':
-#           self.__init__(plan=self.plan, no_licenses=self.no_licenses, frequency=self.frequency)
 
 
   def _confirm_subscription_click(self, **event_args):
@@ -237,56 +199,17 @@ class C_PaymentSubscription(C_PaymentSubscriptionTemplate):
           title="Congratulations!",
           buttons=[("OK", False), ("CREATE AGENT", True)]
         )
+
         if alert_res is True:
           # navigate to create agent page
           anvil.js.window.location.replace("/#model_setup?model_id=None&section=Basics")
+        
         else:
-          # refresh page to see new subscription
+          # Refresh the subscription section in Settings
           anvil.js.window.location.replace("/#settings?section=Subscription")
         
       except Exception as e:
         alert(f"Failed to create subscription: {e}", title="Error")
-
-
-#   def _handle_customer_form_result(self, form):
-#     """
-#     1. Process the result from the customer form
-#     2. Update Stripe customer data
-#     3. Refresh display with new information
-#     """
-#     # Get updated values from the form using a method or attribute that returns the data
-#     # Assume form.get_customer_data() returns a dict with the fields: name, email, address, tax_id, tax_id_type
-#     if hasattr(form, 'get_customer_data'):
-#         data = form.get_customer_data()
-#         updated_name = data.get('name')
-#         updated_email = data.get('email')
-#         updated_address = data.get('address')
-#         updated_tax_id = data.get('tax_id')
-#         tax_id_type = data.get('tax_id_type')
-#     else:
-#         # fallback: try to get from public attributes if get_customer_data is not implemented
-#         updated_name = getattr(form, 'company_name', None)
-#         updated_email = getattr(form, 'company_email', anvil.users.get_user()['email'])
-#         updated_address = getattr(form, 'address', {})
-#         updated_tax_id = getattr(form, 'tax_id', None)
-#         tax_id_type = getattr(form, 'tax_id_type', None)
-#     # Update customer info in Stripe
-#     anvil.server.call(
-#         'update_stripe_customer',
-#         self.stripe_customer_id,
-#         updated_name,
-#         updated_address
-#     )
-#     # Update tax info if provided
-#     if updated_tax_id and tax_id_type:
-#         anvil.server.call(
-#             'update_stripe_customer_tax_id',
-#             self.stripe_customer_id,
-#             updated_tax_id,
-#             tax_id_type
-#         )
-#     # Re-fetch customer data and rerender summary by reinitializing
-#     self.__init__(plan=self.plan, no_licenses=self.no_licenses, frequency=self.frequency)
 
 
   def get_country_name(self, code: str) -> str:

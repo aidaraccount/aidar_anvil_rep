@@ -132,18 +132,7 @@ class C_PaymentCustomer(C_PaymentCustomerTemplate):
         'SI': 'SI', 'SK': 'SK', 'XI': 'XI'
     }};
     
-    // 3. Auto-prefix VAT ID on country change
-    taxCountryInput.addEventListener('change', function() {{
-        var country = taxCountryInput.value;
-        var prefix = vatPrefixes[country];
-        if (prefix) {{
-            if (!taxIdInput.value.startsWith(prefix)) {{
-                taxIdInput.value = prefix;
-            }}
-        }}
-    }});
-    
-    // 4. Form validation
+    // 3. Form validation
     function validateForm() {{
         var companyNameComplete = companyNameInput.value.trim().length > 0;
         var addressComplete = (
@@ -364,6 +353,8 @@ class C_PaymentCustomer(C_PaymentCustomerTemplate):
         # 6. Close the form and return success
         print("[STRIPE] Python: Customer data saved successfully")
         self.raise_event("x-close-alert", value="success")
+
+        return "success"
         
     except Exception as e:
         print(f"[STRIPE] Python ERROR: {e}")
