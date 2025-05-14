@@ -36,7 +36,7 @@ class Settings(SettingsTemplate):
       self.visible = False
       
     else:
-      # Initialize customer_info as a class attribute
+      # 1. Initialize customer_info as a class attribute
       base_data = anvil.server.call('get_settings_subscription', user["user_id"])
       if base_data is not None:
         base_data = json.loads(base_data)[0]
@@ -48,10 +48,12 @@ class Settings(SettingsTemplate):
         else:
           self.customer_info = None
       
-      # Initialize search generation
+      # 1.2 Initialize search generation
       self._search_generation = 0
+      # 1.3 Initialize debounce timer for search
+      self._debounce_timer = None
 
-      # section routing
+      # 1.4 section routing
       section = self.url_dict['section']
       
       if section == 'Account':
@@ -605,6 +607,20 @@ class Settings(SettingsTemplate):
   # -----------------------
   # 4. ACTIONS - USER MANAGEMENT
   # a) User Roles & Permissions
+  # 4.1 Debounced handler for user search box
+  def search_user_box_change(self, **event_args):
+      """
+      4.1 Debounced handler for changes in the user search box.
+      Only triggers search after 300ms pause in typing.
+      """
+      import threading
+      # Cancel previous timer if it exists
+      if self._debounce_timer:
+          self._debounce_timer.cancel()
+      # Start a new timer for 300ms
+      self._debounce_timer = threading.Timer(0.3, self.search_user_click)
+      self._debounce_timer.start()
+
   def search_user_click(self, **event_args):
     # 1. Increment search generation
     self._search_generation += 1
