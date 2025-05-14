@@ -48,6 +48,9 @@ class Settings(SettingsTemplate):
         else:
           self.customer_info = None
       
+      # Initialize search generation
+      self._search_generation = 0
+
       # section routing
       section = self.url_dict['section']
       
@@ -603,19 +606,25 @@ class Settings(SettingsTemplate):
   # 4. ACTIONS - USER MANAGEMENT
   # a) User Roles & Permissions
   def search_user_click(self, **event_args):
-    # 1. Get user data from the Users table
+    # 1. Increment search generation
+    self._search_generation += 1
+    current_generation = self._search_generation
+
+    # 2. Get user data from the Users table
     user_data = anvil.server.call('get_anvil_users', user['customer_id'])
-    
-    # 2. Format user data for the table - simplified as server now returns pre-formatted data
+
+    # 3. Only proceed if this is the latest search
+    if current_generation != self._search_generation:
+      return  # Outdated search, do nothing
+
+    # 4. Format and filter as before
     table_data = []
     for u in user_data:
-      # Just format the display values that need to be shown as text
-      user_dict = dict(u)  # Make a copy of the user data
+      user_dict = dict(u)
       user_dict['active'] = 'active' if u['active'] else 'inactive'
       user_dict['admin'] = 'yes' if u['admin'] else 'no'
       table_data.append(user_dict)
-    
-    # 3. Filter by search term and update table
+
     self.users_data.items = [
       {'data': entry, 'settings_page': self}
       for entry in table_data
