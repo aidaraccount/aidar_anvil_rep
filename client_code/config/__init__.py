@@ -67,7 +67,6 @@ def get_price_id(plan, frequency):
         The plan type ('explore' or 'professional')
     frequency : str
         The billing frequency ('monthly' or 'yearly')
-        
     Returns:
     --------
     str
@@ -116,20 +115,21 @@ def calculate_price(plan, frequency, user_count=1):
     if not price_values or plan not in price_values:
         return ("", 0)
 
+    # Default to discounted prices for display
     if frequency == 'monthly':
-        monthly_price = price_values[plan]['monthly']
+        monthly_price = price_values[plan]['monthly']['discounted']
         if plan == 'professional':
             amount = monthly_price * user_count
             return (f'€{amount:.2f}/mo', amount)
         else:
             return (f'€{monthly_price:.2f}/mo', monthly_price)
     elif frequency == 'yearly':
-        yearly_per_month = price_values[plan]['yearly_per_month']
+        yearly_price = price_values[plan]['yearly']['discounted']
         if plan == 'professional':
-            yearly_amount = yearly_per_month * 12 * user_count
-            return (f'€{yearly_amount:.2f}/yr ({yearly_per_month:.2f}/mo/user)', yearly_amount)
+            yearly_amount = yearly_price * 12 * user_count
+            return (f'€{yearly_amount:.2f}/yr ({yearly_price:.2f}/mo/user)', yearly_amount)
         else:
-            yearly_amount = yearly_per_month * 12
-            return (f'€{yearly_amount:.2f}/yr ({yearly_per_month:.2f}/mo)', yearly_amount)
+            yearly_amount = yearly_price * 12
+            return (f'€{yearly_amount:.2f}/yr ({yearly_price:.2f}/mo)', yearly_amount)
 
     return ("", 0)

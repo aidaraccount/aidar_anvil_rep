@@ -34,20 +34,24 @@ class PricingConfig:
   # Price amounts in euros for each plan and frequency
   price_values = {
     "explore": {
-      "monthly": 29.00,
-      "yearly_per_month": 26.00,
-      # "monthly_original": 39.00,
-      # "monthly_discounted": 29.00,
-      # "yearly_original_per_month": 35.00,
-      # "yearly_discounted_per_month": 26.00,
+      "monthly": {
+        "original": 39.00,
+        "discounted": 29.00
+      },
+      "yearly": {
+        "original": 35.00,
+        "discounted": 26.00
+      }
     },
     "professional": {
-      "monthly": 44.00,
-      "yearly_per_month": 39.00,
-      # "monthly_original_per_user": 59.00,
-      # "monthly_discounted_per_user": 44.00,
-      # "yearly_original_per_user": 53.00,
-      # "yearly_discounted_per_user": 39.00,
+      "monthly": {
+        "original": 59.00,
+        "discounted": 44.00
+      },
+      "yearly": {
+        "original": 53.00,
+        "discounted": 39.00
+      }
     }
   }
 
@@ -88,7 +92,7 @@ def get_price_id(plan: str, frequency: str) -> str:
 def get_price_from_id(price_id: str) -> dict:
   """
   # --- 2.3 LOOKUP PRICE DETAILS FROM ID ---
-  Get the plan and frequency for a given Stripe price ID.
+  Get the plan, frequency, and price type for a given Stripe price ID.
   
   Parameters:
   -----------
@@ -98,17 +102,18 @@ def get_price_from_id(price_id: str) -> dict:
   Returns:
   --------
   dict
-    Dictionary containing 'plan' and 'frequency' keys
+    Dictionary containing 'plan', 'frequency', and 'price_type' keys
   """
   # Create a reverse mapping of price_id to plan/frequency
   for plan, frequencies in PricingConfig.stripe_price_ids.items():
-    for frequency, pid in frequencies.items():
-      if pid == price_id:
-        return {
-          'plan': plan.capitalize(),  # Return with first letter capitalized
-          'frequency': frequency
-        }
-  
+    for frequency, price_types in frequencies.items():
+      for price_type, pid in price_types.items():
+        if pid == price_id:
+          return {
+            'plan': plan.capitalize(),
+            'frequency': frequency,
+            'price_type': price_type
+          }
   # Return empty dict if not found
   return {}
 
