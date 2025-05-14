@@ -86,7 +86,7 @@ class Settings(SettingsTemplate):
     if user['customer_id'] is None or user['admin'] is not True or user['plan'] == 'Contract':
       self.nav_pay.visible = False
 
-    # Hide User Management when there is no Professional subsc OR its not an admin
+    # Hide User Management when there is not Professional/Contract OR its not an admin
     if user['plan'] not in ['Professional', 'Contract'] or user['admin'] is not True:  
       self.nav_user.visible = False
 
