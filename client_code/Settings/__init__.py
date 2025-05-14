@@ -73,10 +73,10 @@ class Settings(SettingsTemplate):
     Args:
         section: One of 'account', 'not', 'sub', 'user', 'pay'
     """
-    # Check if customer exists for sections that require it
-    if (section in ['pay', 'user']) and ((not hasattr(self, 'customer_info') or not self.customer_info or not self.customer_info.get('id')) or user['admin'] is not True):
-      print(f"[SETTINGS] No customer info/ admin found, redirecting from {section} to account")
-      section = 'account'
+    # # Check if customer exists for sections that require it
+    # if (section in ['pay', 'user']) and ((not hasattr(self, 'customer_info') or not self.customer_info or not self.customer_info.get('id')) or user['admin'] is not True):
+    #   print(f"[SETTINGS] No customer info/ admin found, redirecting from {section} to account")
+    #   section = 'account'
     
     # Hide Subscription when not beeing an admin
     if user['admin'] is not True:
@@ -86,7 +86,7 @@ class Settings(SettingsTemplate):
     if user['customer_id'] is None or user['admin'] is not True or user['plan'] == 'Contract':
       self.nav_pay.visible = False
 
-    # Hide User Management when there is no Professional subsc OR its not an admin
+    # Hide User Management when there not Professional/Contract OR its not an admin
     if user['plan'] not in ['Professional', 'Contract'] or user['admin'] is not True:  
       self.nav_user.visible = False
 
