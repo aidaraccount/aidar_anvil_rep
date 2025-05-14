@@ -68,7 +68,7 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
     print("prof_monthly_original:", prof_monthly_original)
 
     # 1. HTML content
-    self.html = """
+    self.html = f"""
     <!-- 1. Pricing Toggle -->
     <div class='pricing-toggle-container'>
         <div class='pricing-toggle'>
