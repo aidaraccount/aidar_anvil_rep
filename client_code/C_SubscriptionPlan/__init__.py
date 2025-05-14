@@ -59,6 +59,12 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
     self.explore_highlight_css = "0 0 20px rgba(0, 0, 0, 0.25)"
     self.professional_highlight_css = "0 0 20px rgba(0, 0, 0, 0.25)"
 
+    # test
+    print(anvil.server.call("get_price_value", "professional", "monthly", "original"))
+    print(anvil.server.call("get_price_value", "professional", "monthly", "discounted"))
+    print(anvil.server.call("get_price_value", "professional", "yearly", "original"))
+    print(anvil.server.call("get_price_value", "professional", "yearly", "discounted"))
+
     # 1. HTML content
     self.html = """
     <!-- 1. Pricing Toggle -->
