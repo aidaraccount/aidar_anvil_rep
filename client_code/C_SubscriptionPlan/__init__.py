@@ -63,9 +63,9 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
     prof_monthly_original = float(anvil.server.call("get_price_value", "professional", "monthly", "original"))
     print("prof_monthly_original:", prof_monthly_original)
     print("type(prof_monthly_original):", type(prof_monthly_original))
-    prof_monthly_original = f"{prof_monthly_original}"
-    print("prof_monthly_original:", prof_monthly_original)
-    print("type(prof_monthly_original):", type(prof_monthly_original))
+    # prof_monthly_original = f"{prof_monthly_original}"
+    # print("prof_monthly_original:", prof_monthly_original)
+    # print("type(prof_monthly_original):", type(prof_monthly_original))
     
     prof_monthly_discounted = 0
     prof_yearly_original = 0
@@ -77,7 +77,7 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
     print("prof_yearly_discounted:", prof_yearly_discounted)
     
     # 1. HTML content
-    self.html = """
+    self.html = f"""
     <!-- 1. Pricing Toggle -->
     <div class='pricing-toggle-container'>
         <div class='pricing-toggle'>
@@ -165,10 +165,10 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
     var profPricePeriod = document.querySelector('.pricing-plan.recommended .price-period');
 
     // Monthly and yearly price per user (Professional)
-    var monthlyOriginalPerUser = "" + prof_monthly_original + "";
-    var monthlyDiscountedPerUser = "" + prof_monthly_discounted + "";
-    var yearlyOriginalPerUser = "" + prof_yearly_original + "";
-    var yearlyDiscountedPerUser = "" + prof_yearly_discounted + "";
+    var monthlyOriginalPerUser = "" + {prof_monthly_original} + "";
+    var monthlyDiscountedPerUser = 1;
+    var yearlyOriginalPerUser = 2;
+    var yearlyDiscountedPerUser = 3;
 
     function setProfessionalPrice() {
         var isMonthly = document.getElementById('pricing-toggle-monthly').classList.contains('deselected');
