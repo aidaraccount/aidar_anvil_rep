@@ -76,8 +76,8 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
             <p class='plan-description'>Best for solo scouts exploring AI-powered artist discovery.</p>
             <div class='plan-price-container'>
                 <div class='discount-badge'>25%<br>Launch Disc.</div>
-                <span class='original-price'><span class='euro-symbol'>€</span><span class='price-number'>38</span></span>
-                <span class='plan-price'><span class='euro-symbol'>€</span>27</span>
+                <span class='original-price'><span class='euro-symbol'>€</span><span class='price-number'></span></span>
+                <span class='plan-price'><span class='euro-symbol'>€</span></span>
                 <span class='price-period'>/month</span>
             </div>
             <ul class='plan-features plan-features-orange'>
@@ -96,8 +96,8 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
             <p class='plan-description'>For individuals or teams who want to unlock full AI-powered scouting.</p>
             <div class='plan-price-container'>
                 <div class='discount-badge'>25%<br>Launch Disc.</div>
-                <span class='original-price'><span class='euro-symbol'>€</span><span class='price-number'>58</span></span>
-                <span class='plan-price'><span class='euro-symbol'>€</span>41</span>
+                <span class='original-price'><span class='euro-symbol'>€</span><span class='price-number'></span></span>
+                <span class='plan-price'><span class='euro-symbol'>€</span></span>
                 <span class='price-period'>/user & month</span>
             </div>
             <ul class='plan-features plan-features-orange'>
@@ -148,10 +148,10 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
     var profPricePeriod = document.querySelector('.pricing-plan.recommended .price-period');
 
     // Monthly and yearly price per user (Professional)
-    var monthlyOriginalPerUser = {self.price_values['professional']['monthly']['original']:.2f};
-    var monthlyDiscountedPerUser = {self.price_values['professional']['monthly']['discounted']:.2f};
-    var yearlyOriginalPerUser = {self.price_values['professional']['yearly']['original']:.2f};
-    var yearlyDiscountedPerUser = {self.price_values['professional']['yearly']['discounted']:.2f};
+    var monthlyOriginalPerUser = {anvil.server.call("get_price_value", "professional", "monthly", "original"):.2f};
+    var monthlyDiscountedPerUser = {anvil.server.call("get_price_value", "professional", "monthly", "discounted"):.2f};
+    var yearlyOriginalPerUser = {anvil.server.call("get_price_value", "professional", "yearly", "original"):.2f};
+    var yearlyDiscountedPerUser = {anvil.server.call("get_price_value", "professional", "yearly", "discounted"):.2f};
 
     function setProfessionalPrice() {
         var isMonthly = document.getElementById('pricing-toggle-monthly').classList.contains('deselected');

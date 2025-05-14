@@ -56,17 +56,27 @@ class PricingConfig:
   }
 
 
+def get_price_value(plan: str, frequency: str, price_type: str) -> float:
+  """
+  1. Get the price value for the given plan and frequency.
+  Returns:
+    float: Price value for the given plan and frequency
+  """
+  return PricingConfig.price_values[plan][frequency][price_type]
+
+
 def get_stripe_public_key() -> str:
   """
-  1.2 Get the Stripe public (publishable) key for client-side use.
+  1. Get the Stripe public (publishable) key for client-side use.
   Returns:
     str: Stripe publishable key
   """
   return PricingConfig.STRIPE_PUBLIC_KEY
 
+
 def get_price_id(plan: str, frequency: str) -> str:
   """
-  Get the Stripe price ID for the given plan and frequency.
+  1. Get the Stripe price ID for the given plan and frequency.
   
   Parameters:
   -----------
