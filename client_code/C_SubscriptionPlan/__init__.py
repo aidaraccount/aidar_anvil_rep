@@ -66,7 +66,8 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
     prof_yearly_discounted = anvil.server.call("get_price_value", "professional", "yearly", "discounted")
 
     print("prof_monthly_original:", prof_monthly_original)
-
+    print("prof_monthly_original:.2f:", f"{prof_monthly_original:.2f}")
+    
     # 1. HTML content
     self.html = f"""
     <!-- 1. Pricing Toggle -->
