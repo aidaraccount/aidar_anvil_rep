@@ -36,7 +36,6 @@ class Home(HomeTemplate):
     # Print detailed diagnostics
     route_hash = anvil.js.window.location.hash
     current_time = time.time()
-    print(f"HOME INIT [{self.instance_id}] - Route: '{route_hash}' - Time: {datetime.now()}", flush=True)
     
     # Always set this as the active instance so callbacks update the correct UI
     Home._active_instance = self
@@ -48,7 +47,6 @@ class Home(HomeTemplate):
     user = anvil.users.get_user()
     
     if time_since_last_init < Home._min_time_between_inits:
-      print(f"HOME INIT [{self.instance_id}] - Skipping initialization ({time_since_last_init:.3f}s since last init)", flush=True)
       self.init_components(**properties)
       
       # Still need to handle possible UI setup for this instance
@@ -76,17 +74,14 @@ class Home(HomeTemplate):
     # Any code you write here will run before the form opens.
     if user is None or user == 'None':
       self.visible = False
-      print(f"HOME INIT [{self.instance_id}] - No user, hiding form", flush=True)
       
     elif user['expiration_date'] is not None and (datetime.today().date() - user['expiration_date']).days > 0:
       routing.set_url_hash('settings?section=Subscription', load_from_cache=False)
       get_open_form().SearchBar.visible = False
-      print(f"HOME INIT [{self.instance_id}] - Subscription expired, redirecting", flush=True)
       
     else:
       model_id = load_var("model_id")
       self.model_id = model_id
-      print(f"HOME INIT [{self.instance_id}] - model_id: {model_id}", flush=True)
             
       self.num_shorts = 0
 
@@ -108,7 +103,6 @@ class Home(HomeTemplate):
 
       # 1.3 Initialize loading of agents asynchronously
       self.agents_start_time = time.time()
-      print(f"HOME INIT [{self.instance_id}] - Agents loading initialized - {datetime.now()}", flush=True)
       # Initialize the Agents component with no data to show loading state immediately
       self.agents_component = C_Home_Agents(data=None)
       self.sec_agents.add_component(self.agents_component)
@@ -116,7 +110,6 @@ class Home(HomeTemplate):
       
       # 1.4 Initialize loading of next asynchronously
       self.next_start_time = time.time()
-      print(f"HOME INIT [{self.instance_id}] - Next loading initialized - {datetime.now()}", flush=True)
       # Initialize the Next component with no data to show loading state immediately
       self.next_component = C_Home_NextUp(data=None)
       self.sec_next.add_component(self.next_component)
@@ -124,7 +117,6 @@ class Home(HomeTemplate):
   
       # 1.5 Initialize loading of hot asynchronously
       self.hot_start_time = time.time()
-      print(f"HOME INIT [{self.instance_id}] - Hot loading initialized - {datetime.now()}", flush=True)
       # Initialize the Hot component with no data to show loading state immediately
       self.hot_component = C_Home_Hot(data=None)
       self.sec_hot.add_component(self.hot_component)
@@ -132,7 +124,6 @@ class Home(HomeTemplate):
       
       # 1.6 Initialize loading of shorts asynchronously
       self.shorts_start_time = time.time()
-      print(f"HOME INIT [{self.instance_id}] - Shorts loading initialized - {datetime.now()}", flush=True)
       self.load_shorts_async()
   
   
@@ -148,14 +139,12 @@ class Home(HomeTemplate):
     """Handles successful server response for agents."""
     # Calculate loading time
     load_time = time.time() - self.agents_start_time
-    print(f"HOME ASYNC [{self.instance_id}] - Agents loaded (took {load_time:.2f} seconds)", flush=True)
     
     # Get the active instance - this is the one currently visible to the user
     active_instance = Home._active_instance
     
     # Check if we should update the current instance or the active instance
     if active_instance and active_instance.instance_id != self.instance_id:
-      print(f"HOME ASYNC [{self.instance_id}] - Updating active instance [{active_instance.instance_id}] with agents", flush=True)
       active_instance.process_agents_data(data)
     else:
       self.process_agents_data(data)
@@ -189,14 +178,12 @@ class Home(HomeTemplate):
     """Handles successful server response for next."""
     # Calculate loading time
     load_time = time.time() - self.next_start_time
-    print(f"HOME ASYNC [{self.instance_id}] - Next loaded (took {load_time:.2f} seconds)", flush=True)
     
     # Get the active instance - this is the one currently visible to the user
     active_instance = Home._active_instance
     
     # Check if we should update the current instance or the active instance
     if active_instance and active_instance.instance_id != self.instance_id:
-      print(f"HOME ASYNC [{self.instance_id}] - Updating active instance [{active_instance.instance_id}] with next", flush=True)
       active_instance.process_next_data(data)
     else:
       self.process_next_data(data)
@@ -227,17 +214,12 @@ class Home(HomeTemplate):
     async_call.on_result(self.hot_loaded)
   
   def hot_loaded(self, data):
-    """Handles successful server response for hot."""
-    # Calculate loading time
-    load_time = time.time() - self.hot_start_time
-    print(f"HOME ASYNC [{self.instance_id}] - Hot loaded (took {load_time:.2f} seconds)", flush=True)
-    
+    """Handles successful server response for hot."""    
     # Get the active instance - this is the one currently visible to the user
     active_instance = Home._active_instance
     
     # Check if we should update the current instance or the active instance
     if active_instance and active_instance.instance_id != self.instance_id:
-      print(f"HOME ASYNC [{self.instance_id}] - Updating active instance [{active_instance.instance_id}] with hot", flush=True)
       active_instance.process_hot_data(data)
     else:
       self.process_hot_data(data)
@@ -272,17 +254,12 @@ class Home(HomeTemplate):
     async_call.on_result(self.shorts_loaded)
   
   def shorts_loaded(self, result):
-    """Handles successful server response for shorts."""
-    # Calculate loading time
-    load_time = time.time() - self.shorts_start_time
-    print(f"HOME ASYNC [{self.instance_id}] - Shorts loaded (took {load_time:.2f} seconds)", flush=True)
-    
+    """Handles successful server response for shorts."""    
     # Get the active instance - this is the one currently visible to the user
     active_instance = Home._active_instance
     
     # Check if we should update the current instance or the active instance
     if active_instance and active_instance.instance_id != self.instance_id:
-      print(f"HOME ASYNC [{self.instance_id}] - Updating active instance [{active_instance.instance_id}]", flush=True)
       active_wl_ids = active_instance.setup_watchlists(result["watchlists"])
       active_instance.process_shorts(result["shorts"])
     else:
@@ -327,10 +304,7 @@ class Home(HomeTemplate):
         # Add to active list if it's active
         if role == "genre-box":
           active_wl_ids.append(wl_id)
-      
-      # Only log initial state if this is first setup (no previous states saved)
-      if not current_states:
-        print(f"HOME INIT [{self.instance_id}] - Initial active watchlist IDs: {active_wl_ids}", flush=True)
+          
     else:
       # No watchlists found - show message
       self.no_watchlists.visible = True
@@ -348,7 +322,6 @@ class Home(HomeTemplate):
     if shorts is None or len(shorts) == 0:
       self.no_shorts.visible = True
       self.reload.visible = False
-      print(f"HOME INIT [{self.instance_id}] - No shorts to display", flush=True)
       return
     
     self.no_shorts.visible = False
@@ -395,14 +368,11 @@ class Home(HomeTemplate):
   def additional_shorts_loaded(self, shorts):
     """Handles successful server response for additional shorts."""
     # Record the time when additional shorts are loaded
-    print(f"HOME ASYNC [{self.instance_id}] - Additional shorts loaded", flush=True)
-    
     # Get the active instance - this is the one currently visible to the user
     active_instance = Home._active_instance
     
     # Check if we should update the current instance or the active instance
     if active_instance and active_instance.instance_id != self.instance_id:
-      print(f"HOME ASYNC [{self.instance_id}] - Updating active instance [{active_instance.instance_id}] with additional shorts", flush=True)
       active_instance.append_additional_shorts(shorts)
     else:
       self.append_additional_shorts(shorts)

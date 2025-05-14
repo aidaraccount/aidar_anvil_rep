@@ -55,8 +55,14 @@ class PricingConfig:
     }
   }
 
+  # NOTE: There are still individual prices in C_SubscriptionPlan - see:
+  # // Monthly and yearly price per user (Professional)
+  # var monthlyOriginalPerUser = 59.00;
+  # var monthlyDiscountedPerUser = 44.00;
+  # var yearlyOriginalPerUser = 53.00;
+  # var yearlyDiscountedPerUser = 39.00;
 
-@anvil.server.callable
+
 def get_price_value(plan: str, frequency: str, price_type: str) -> float:
   """
   1. Get the price value for the given plan and frequency.
@@ -68,6 +74,7 @@ def get_price_value(plan: str, frequency: str, price_type: str) -> float:
   return PricingConfig.price_values[plan][frequency][price_type]
 
 
+@anvil.server.callable
 def get_stripe_public_key() -> str:
   """
   1. Get the Stripe public (publishable) key for client-side use.

@@ -59,25 +59,25 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
     self.explore_highlight_css = "0 0 20px rgba(0, 0, 0, 0.25)"
     self.professional_highlight_css = "0 0 20px rgba(0, 0, 0, 0.25)"
 
-    # test
-    self.prof_monthly_original = float(anvil.server.call("get_price_value", "professional", "monthly", "original"))
-    print("prof_monthly_original:", prof_monthly_original)
-    print("type(prof_monthly_original):", type(prof_monthly_original))
-    # prof_monthly_original = f"{prof_monthly_original}"
-    # print("prof_monthly_original:", prof_monthly_original)
-    # print("type(prof_monthly_original):", type(prof_monthly_original))
+    # # test
+    # self.prof_monthly_original = float(anvil.server.call("get_price_value", "professional", "monthly", "original"))
+    # print("prof_monthly_original:", self.prof_monthly_original)
+    # print("type(prof_monthly_original):", type(self.prof_monthly_original))
+    # # prof_monthly_original = f"{prof_monthly_original}"
+    # # print("prof_monthly_original:", prof_monthly_original)
+    # # print("type(prof_monthly_original):", type(prof_monthly_original))
     
-    prof_monthly_discounted = 0
-    prof_yearly_original = 0
-    prof_yearly_discounted = 0
+    # prof_monthly_discounted = 0
+    # prof_yearly_original = 0
+    # prof_yearly_discounted = 0
 
-    print("prof_monthly_original:", self.prof_monthly_original)
-    print("prof_monthly_discounted:", prof_monthly_discounted)
-    print("prof_yearly_original:", prof_yearly_original)
-    print("prof_yearly_discounted:", prof_yearly_discounted)
+    # print("prof_monthly_original:", self.prof_monthly_original)
+    # print("prof_monthly_discounted:", prof_monthly_discounted)
+    # print("prof_yearly_original:", prof_yearly_original)
+    # print("prof_yearly_discounted:", prof_yearly_discounted)
     
     # 1. HTML content
-    self.html = f"""
+    self.html = """
     <!-- 1. Pricing Toggle -->
     <div class='pricing-toggle-container'>
         <div class='pricing-toggle'>
@@ -165,10 +165,10 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
     var profPricePeriod = document.querySelector('.pricing-plan.recommended .price-period');
 
     // Monthly and yearly price per user (Professional)
-    var monthlyOriginalPerUser = "" + {self.prof_monthly_original} + "";
-    var monthlyDiscountedPerUser = 1;
-    var yearlyOriginalPerUser = 2;
-    var yearlyDiscountedPerUser = 3;
+    var monthlyOriginalPerUser = 59.00;
+    var monthlyDiscountedPerUser = 44.00;
+    var yearlyOriginalPerUser = 53.00;
+    var yearlyDiscountedPerUser = 39.00;
 
     function setProfessionalPrice() {
         var isMonthly = document.getElementById('pricing-toggle-monthly').classList.contains('deselected');
