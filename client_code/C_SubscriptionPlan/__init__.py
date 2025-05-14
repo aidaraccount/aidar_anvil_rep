@@ -148,10 +148,14 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
     var profPricePeriod = document.querySelector('.pricing-plan.recommended .price-period');
 
     // Monthly and yearly price per user (Professional)
-    var monthlyOriginalPerUser = {anvil.server.call("get_price_value", "professional", "monthly", "original")};
-    var monthlyDiscountedPerUser = {anvil.server.call("get_price_value", "professional", "monthly", "discounted")};
-    var yearlyOriginalPerUser = {anvil.server.call("get_price_value", "professional", "yearly", "original")};
-    var yearlyDiscountedPerUser = {anvil.server.call("get_price_value", "professional", "yearly", "discounted")};
+    // var monthlyOriginalPerUser = {anvil.server.call("get_price_value", "professional", "monthly", "original")};
+    // var monthlyDiscountedPerUser = {anvil.server.call("get_price_value", "professional", "monthly", "discounted")};
+    // var yearlyOriginalPerUser = {anvil.server.call("get_price_value", "professional", "yearly", "original")};
+    // var yearlyDiscountedPerUser = {anvil.server.call("get_price_value", "professional", "yearly", "discounted")};
+    var monthlyOriginalPerUser = 44.00;
+    var monthlyDiscountedPerUser = 44.00;
+    var yearlyOriginalPerUser = 39.00;
+    var yearlyDiscountedPerUser = 39.00;
 
     function setProfessionalPrice() {
         var isMonthly = document.getElementById('pricing-toggle-monthly').classList.contains('deselected');
