@@ -62,6 +62,8 @@ def get_price_value(plan: str, frequency: str, price_type: str) -> float:
   Returns:
     float: Price value for the given plan and frequency
   """
+  print(f"[DEBUG] Getting price value for plan: {plan}, frequency: {frequency}, price type: {price_type}")
+  print(f"[DEBUG] Price values: {PricingConfig.price_values[plan][frequency][price_type]}")
   return PricingConfig.price_values[plan][frequency][price_type]
 
 
