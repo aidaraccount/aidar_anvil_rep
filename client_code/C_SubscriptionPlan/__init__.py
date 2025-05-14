@@ -148,10 +148,10 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
     var profPricePeriod = document.querySelector('.pricing-plan.recommended .price-period');
 
     // Monthly and yearly price per user (Professional)
-    var monthlyOriginalPerUser = {self.price_values['professional']['monthly']['original']};
-    var monthlyDiscountedPerUser = {self.price_values['professional']['monthly']['discounted']};
-    var yearlyOriginalPerUser = {self.price_values['professional']['yearly']['original']};
-    var yearlyDiscountedPerUser = {self.price_values['professional']['yearly']['discounted']};
+    var monthlyOriginalPerUser = {self.price_values['professional']['monthly']['original']:.2f};
+    var monthlyDiscountedPerUser = {self.price_values['professional']['monthly']['discounted']:.2f};
+    var yearlyOriginalPerUser = {self.price_values['professional']['yearly']['original']:.2f};
+    var yearlyDiscountedPerUser = {self.price_values['professional']['yearly']['discounted']:.2f};
 
     function setProfessionalPrice() {
         var isMonthly = document.getElementById('pricing-toggle-monthly').classList.contains('deselected');
