@@ -60,16 +60,18 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
     self.professional_highlight_css = "0 0 20px rgba(0, 0, 0, 0.25)"
 
     # test
-    prof_monthly_original = anvil.server.call("get_price_value", "professional", "monthly", "original")
-    prof_monthly_discounted = anvil.server.call("get_price_value", "professional", "monthly", "discounted")
-    prof_yearly_original = anvil.server.call("get_price_value", "professional", "yearly", "original")
-    prof_yearly_discounted = anvil.server.call("get_price_value", "professional", "yearly", "discounted")
+    prof_monthly_original = f"{float(anvil.server.call("get_price_value", "professional", "monthly", "original")):.2f}"
+    prof_monthly_discounted = f"{float(anvil.server.call("get_price_value", "professional", "monthly", "discounted")):.2f}"
+    prof_yearly_original = f"{float(anvil.server.call("get_price_value", "professional", "yearly", "original")):.2f}"
+    prof_yearly_discounted = f"{float(anvil.server.call("get_price_value", "professional", "yearly", "discounted")):.2f}"
 
     print("prof_monthly_original:", prof_monthly_original)
-    print("prof_monthly_original:.2f:", f"{prof_monthly_original:.2f}")
+    print("prof_monthly_discounted:", prof_monthly_discounted)
+    print("prof_yearly_original:", prof_yearly_original)
+    print("prof_yearly_discounted:", prof_yearly_discounted)
     
     # 1. HTML content
-    self.html = f"""
+    self.html = """
     <!-- 1. Pricing Toggle -->
     <div class='pricing-toggle-container'>
         <div class='pricing-toggle'>
@@ -157,10 +159,10 @@ class C_SubscriptionPlan(C_SubscriptionPlanTemplate):
     var profPricePeriod = document.querySelector('.pricing-plan.recommended .price-period');
 
     // Monthly and yearly price per user (Professional)
-    var monthlyOriginalPerUser = {prof_monthly_original:.2f};
-    var monthlyDiscountedPerUser = {prof_monthly_discounted:.2f};
-    var yearlyOriginalPerUser = {prof_yearly_original:.2f};
-    var yearlyDiscountedPerUser = {prof_yearly_discounted:.2f};
+    var monthlyOriginalPerUser = "" + prof_monthly_original + "";
+    var monthlyDiscountedPerUser = "" + prof_monthly_discounted + "";
+    var yearlyOriginalPerUser = "" + prof_yearly_original + "";
+    var yearlyDiscountedPerUser = "" + prof_yearly_discounted + "";
 
     function setProfessionalPrice() {
         var isMonthly = document.getElementById('pricing-toggle-monthly').classList.contains('deselected');
