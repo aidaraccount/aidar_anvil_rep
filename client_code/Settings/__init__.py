@@ -609,17 +609,18 @@ class Settings(SettingsTemplate):
   # a) User Roles & Permissions
   # 4.1 Debounced handler for user search box
   def search_user_box_change(self, **event_args):
-      """
-      4.1 Debounced handler for changes in the user search box.
-      Only triggers search after 300ms pause in typing.
-      """
-      import threading
-      # Cancel previous timer if it exists
-      if self._debounce_timer:
-          self._debounce_timer.cancel()
-      # Start a new timer for 300ms
-      self._debounce_timer = threading.Timer(0.3, self.search_user_click)
-      self._debounce_timer.start()
+    """
+    4.1 Debounced handler for changes in the user search box.
+    Only triggers search after 300ms pause in typing.
+    """
+    import anvil.js
+    # Cancel previous timer if it exists
+    if self._debounce_timer is not None:
+      anvil.js.window.clearTimeout(self._debounce_timer)
+    # Start a new timer for 300ms
+    def run_search():
+      self.search_user_click()
+    self._debounce_timer = anvil.js.window.setTimeout(run_search, 300)
 
   def search_user_click(self, **event_args):
     # 1. Increment search generation

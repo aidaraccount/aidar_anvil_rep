@@ -470,7 +470,7 @@ components:
       - components:
         - data_bindings:
           - {code: '[''txt_white_discreet'', ''width-200px'']', property: role, writeback: false}
-          event_bindings: {change: search_user_click, pressed_enter: search_user_click}
+          event_bindings: {change: search_user_box_change, pressed_enter: search_user_click}
           layout_properties: {}
           name: search_user_box
           properties:
