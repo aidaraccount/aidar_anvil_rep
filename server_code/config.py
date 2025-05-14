@@ -56,6 +56,7 @@ class PricingConfig:
   }
 
 
+@anvil.server.callable
 def get_price_value(plan: str, frequency: str, price_type: str) -> float:
   """
   1. Get the price value for the given plan and frequency.
