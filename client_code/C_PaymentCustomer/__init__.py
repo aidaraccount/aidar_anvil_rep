@@ -98,6 +98,10 @@ class C_PaymentCustomer(C_PaymentCustomerTemplate):
                     <input type="checkbox" id="business-checkbox" name="business-checkbox" {'checked' if prefill_b2b else ''}>
                     <label for="business-checkbox">I confirm to purchase as a business</label>
                 </div>
+                <div class="checkbox-container">
+                    <input type="checkbox" id="tos-pp-checkbox" name="tos-pp-checkbox" {'checked' if prefill_b2b else ''}>
+                    <label for="tos-pp-checkbox">I have read and agree to the <a href="https://www.aidar.ai/terms.html" target="_blank">Terms of Service</a> and <a href="https://www.aidar.ai/privacy.html" target="_blank">Privacy Policy</a>.</label>
+                </div>
             </div>
             <div id="form-errors" role="alert"></div>
             <div class="button-row">
@@ -119,6 +123,7 @@ class C_PaymentCustomer(C_PaymentCustomerTemplate):
     var taxIdInput = document.getElementById('tax-id');
     var taxCountryInput = document.getElementById('tax-country');
     var businessCheckbox = document.getElementById('business-checkbox');
+    var tosPpCheckbox = document.getElementById('tos-pp-checkbox');
     var submitBtn = document.getElementById('submit');
     var vatError = document.getElementById('vat-error');
     
@@ -141,9 +146,10 @@ class C_PaymentCustomer(C_PaymentCustomerTemplate):
             postalCodeInput.value.trim().length > 0
         );
         var businessChecked = businessCheckbox.checked;
+        var tosPpChecked = tosPpCheckbox.checked;
         var taxIdValid = taxIdInput.value.trim().length > 3;
         var taxCountryValid = taxCountryInput.value.length === 2;
-        var businessComplete = businessChecked && taxIdValid && taxCountryValid;
+        var businessComplete = businessChecked && tosPpChecked && taxIdValid && taxCountryValid;
         var formValid = companyNameComplete && addressComplete && businessComplete;
         submitBtn.disabled = !formValid;
         if (formValid) {{
@@ -159,6 +165,7 @@ class C_PaymentCustomer(C_PaymentCustomerTemplate):
         input.addEventListener('input', validateForm);
     }});
     businessCheckbox.addEventListener('change', validateForm);
+    tosPpCheckbox.addEventListener('change', validateForm);
     validateForm();
     document.getElementById('payment-form').addEventListener('submit', function(event) {{
         event.preventDefault();
@@ -174,9 +181,10 @@ class C_PaymentCustomer(C_PaymentCustomerTemplate):
         var taxId = taxIdInput.value.trim();
         var taxCountry = taxCountryInput.value;
         var business = businessCheckbox.checked;
+        var tospp = tosPpCheckbox.checked;
         vatError.textContent = '';
-        if (!(business && taxId.length > 3 && taxCountry.length === 2)) {{
-            vatError.textContent = 'Please enter a valid VAT/Tax ID and country, and tick the business checkbox.';
+        if (!(business && tospp && taxId.length > 3 && taxCountry.length === 2)) {{
+            vatError.textContent = 'Please enter a valid VAT/Tax ID and country, and tick the checkboxes.';
             return;
         }}
         document.getElementById('form-errors').textContent = '';
