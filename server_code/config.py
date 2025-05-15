@@ -6,33 +6,53 @@
 
 import anvil.server
 
-# --- 2. SUBSCRIPTION PRICING ---
-class PricingConfig:
-  """Configuration for subscription pricing and Stripe integration."""
+class Config:
 
-  # --- 1 KEYS ---
-  # 1.1 Stripe publishable key (public key for client-side Stripe.js)
-  STRIPE_PUBLIC_KEY: str = "pk_test_51RDoXJQTBcqmUQgt9CqdDXQjtHKkEkEBuXSs7EqVjwkzqcWP66EgCu8jjYArvbioeYpzvS5wSvbrUsKUtjXi0gGq00M9CzHJTa"
+  # --- STRIPE ENVIRONMENT (sandbox or live) ---
+  STRIPE_ENVIRONMENT: str = "sandbox"
   
-  # 1.2 Stripe secret key (private key for server-side Stripe.js)
+  # --- 1. Stripe public keys (public keys for client-side Stripe.js) ---
+  STRIPE_PUBLIC_KEYS: dict = {
+    "sandbox": "pk_test_51RDoXJQTBcqmUQgt9CqdDXQjtHKkEkEBuXSs7EqVjwkzqcWP66EgCu8jjYArvbioeYpzvS5wSvbrUsKUtjXi0gGq00M9CzHJTa",
+    "live": "pk_live_51RDoXAKpYockGiqNWesxhdEaYp4LeKuY3h76XStenrsmf4JWVu5KeEQPwPSqAPv5eGrZTlNajaL3JPg8W1cnvRaZ00A2b0frOh"
+  }
+  STRIPE_PUBLIC_KEY: str = STRIPE_PUBLIC_KEYS[STRIPE_ENVIRONMENT]
+  
+  # --- 2. Stripe secret key name ---
   # STRIPE_SECRET_KEY is in Anvil secrets
-  
-  # --- 2.1 STRIPE PRICE IDS ---
-  # Price IDs from Stripe for each plan and frequency
-  stripe_price_ids = {
-    "explore": {
-      "monthly": "price_1RE3tSQTBcqmUQgtoNyD0LgB",
-      "yearly": "price_1REVjKQTBcqmUQgt4Z47P00s",
+  STRIPE_SECRET_KEY_NAMES: dict = {
+    "sandbox": "STRIPE_SECRET_KEY_SANDBOX",
+    "live": "STRIPE_SECRET_KEY_LIVE"
+  }
+  STRIPE_SECRET_KEY_NAME: str = STRIPE_SECRET_KEY_NAMES[STRIPE_ENVIRONMENT]
+
+  # --- 3. Stripe price IDs ---
+  stripe_price_ids_config: dict = {
+    "sandbox": {
+      "explore": {
+        "monthly": "price_1RE3tSQTBcqmUQgtoNyD0LgB",
+        "yearly": "price_1REVjKQTBcqmUQgt4Z47P00s",
+      },
+      "professional": {
+        "monthly": "price_1REVwmQTBcqmUQgtiBBLNZaD",
+        "yearly": "price_1REVzZQTBcqmUQgtpyBz8Gky",
+      }
     },
-    "professional": {
-      "monthly": "price_1REVwmQTBcqmUQgtiBBLNZaD",
-      "yearly": "price_1REVzZQTBcqmUQgtpyBz8Gky",
+    "live": {
+      "explore": {
+        "monthly": "price_1RP3zlKpYockGiqNzNiA4qcr",
+        "yearly": "price_1RP3zcKpYockGiqNbIKImcdu",
+      },
+      "professional": {
+        "monthly": "price_1RP3zhKpYockGiqNe3IY5qrF",
+        "yearly": "price_1RP3zWKpYockGiqNw0tAHgnO",
+      }
     }
   }
+  stripe_price_ids: dict = stripe_price_ids_config[STRIPE_ENVIRONMENT]
   
-  # --- 2.2 PRICE VALUES ---
-  # Price amounts in euros for each plan and frequency
-  price_values = {
+  # --- 4. Price values ---
+  price_values: dict = {
     "explore": {
       "monthly": {
         "original": 39.00,
@@ -62,18 +82,26 @@ class PricingConfig:
   # var yearlyOriginalPerUser = 53.00;
   # var yearlyDiscountedPerUser = 39.00;
 
+  # --- 5. Coupons ---
+  coupon_ids: dict = {
+    "sandbox": {
+      "public_launch_discount": "I1ivrR97"
+    },
+    "live": {
+      "public_launch_discount": "dGVrxoxw"
+    }
+  }
+  public_launch_coupon_id: str = coupon_ids[STRIPE_ENVIRONMENT]["public_launch_discount"]
 
-def get_price_value(plan: str, frequency: str, price_type: str) -> float:
-  """
-  1. Get the price value for the given plan and frequency.
-  Returns:
-    float: Price value for the given plan and frequency
-  """
-  print(f"[DEBUG] Getting price value for plan: {plan}, frequency: {frequency}, price type: {price_type}")
-  print(f"[DEBUG] Price values: {PricingConfig.price_values[plan][frequency][price_type]}")
-  return PricingConfig.price_values[plan][frequency][price_type]
+  # --- 6. Tax rates ---
+  tax_rates: dict = {
+    "sandbox": "txr_1RHo7sQTBcqmUQgtajAz0voj",
+    "live": "txr_1RP46rKpYockGiqN7IlyAWrK"
+  }
+  tax_rate: str = tax_rates[STRIPE_ENVIRONMENT]
 
 
+# --- 1. Stripe public keys (public keys for client-side Stripe.js) ---
 @anvil.server.callable
 def get_stripe_public_key() -> str:
   """
@@ -81,9 +109,21 @@ def get_stripe_public_key() -> str:
   Returns:
     str: Stripe publishable key
   """
-  return PricingConfig.STRIPE_PUBLIC_KEY
+  return Config.STRIPE_PUBLIC_KEY
 
 
+# --- 2. Stripe secret key name ---
+@anvil.server.callable
+def get_stripe_secret_key_name() -> str:
+  """
+  1. Get the Stripe secret key name.
+  Returns:
+    str: Stripe secret key name
+  """
+  return Config.STRIPE_SECRET_KEY_NAME
+
+
+# --- 3. Stripe price IDs ---
 def get_price_id(plan: str, frequency: str) -> str:
   """
   1. Get the Stripe price ID for the given plan and frequency.
@@ -103,10 +143,21 @@ def get_price_id(plan: str, frequency: str) -> str:
   plan_key = plan.lower() if plan else ""
   freq_key = frequency.lower() if frequency else ""
   
-  if plan_key in PricingConfig.stripe_price_ids and freq_key in PricingConfig.stripe_price_ids[plan_key]:
-    return PricingConfig.stripe_price_ids[plan_key][freq_key]
+  if plan_key in Config.stripe_price_ids and freq_key in Config.stripe_price_ids[plan_key]:
+    return Config.stripe_price_ids[plan_key][freq_key]
   
   return None
+
+
+def get_price_value(plan: str, frequency: str, price_type: str) -> float:
+  """
+  1. Get the price value for the given plan and frequency.
+  Returns:
+    float: Price value for the given plan and frequency
+  """
+  print(f"[DEBUG] Getting price value for plan: {plan}, frequency: {frequency}, price type: {price_type}")
+  print(f"[DEBUG] Price values: {Config.price_values[plan][frequency][price_type]}")
+  return Config.price_values[plan][frequency][price_type]
 
 
 def get_price_from_id(price_id: str) -> dict:
@@ -125,7 +176,7 @@ def get_price_from_id(price_id: str) -> dict:
     Dictionary containing 'plan', 'frequency', and 'price_type' keys
   """
   # Create a reverse mapping of price_id to plan/frequency
-  for plan, frequencies in PricingConfig.stripe_price_ids.items():
+  for plan, frequencies in Config.stripe_price_ids.items():
     for frequency, price_types in frequencies.items():
       for price_type, pid in price_types.items():
         if pid == price_id:
@@ -150,6 +201,28 @@ def get_pricing_config():
     Dictionary containing price values and price IDs for client use
   """
   return {
-    'price_values': PricingConfig.price_values,
-    'price_ids': PricingConfig.stripe_price_ids
+    'price_values': Config.price_values,
+    'price_ids': Config.stripe_price_ids
   }
+
+
+# --- 5. Coupons ---
+@anvil.server.callable
+def get_public_launch_coupon_id() -> str:
+  """
+  1. Get the public launch coupon ID.
+  Returns:
+    str: Public launch coupon ID
+  """
+  return Config.public_launch_coupon_id
+
+
+# --- 6. Tax rates ---
+@anvil.server.callable
+def get_tax_rate() -> str:
+  """
+  1. Get the tax rate.
+  Returns:
+    str: Tax rate
+  """
+  return Config.tax_rate
