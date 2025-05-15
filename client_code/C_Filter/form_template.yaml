@@ -88,12 +88,12 @@ components:
       type: TextBox
     layout_properties: {grid_position: 'JQKHPY,COFPND'}
     name: grid_panel_1
-    properties: {background: '', border: '', foreground: '', role: grid_panel, spacing_above: small, spacing_below: small, tooltip: '', visible: true}
+    properties: {background: '', border: '', foreground: '', role: grid_panel, spacing_above: small, spacing_below: small, tooltip: '', visible: false}
     type: GridPanel
   - components:
     - layout_properties: {col_xs: 0, row: VLPSXL, width: 100, width_xs: 4}
       name: label_6
-      properties: {align: left, background: '', bold: false, border: '', font: '', font_size: null, foreground: '', icon: '', icon_align: left, italic: false, role: feature, spacing_above: small, spacing_below: small, text: '   Follower', tooltip: Number of followers on Spotify, underline: false, visible: true}
+      properties: {align: left, background: '', bold: false, border: '', font: '', font_size: null, foreground: '', icon: '', icon_align: left, italic: false, role: feature, spacing_above: small, spacing_below: small, text: '   Spotify Follower', tooltip: Number of followers on Spotify, underline: false, visible: true}
       type: Label
     - event_bindings: {pressed_enter: apply_filters_click}
       layout_properties: {col_xs: 4, row: VLPSXL, width: 194, width_xs: 3}
