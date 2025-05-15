@@ -49,7 +49,7 @@ class MainOut_Register(MainOut_RegisterTemplate):
       self.company_label.visible = False
     
     # add link to Privacy Policy
-    self.label_privacy.content = 'I have read and agree to the <a href="https://www.aidar.ai/privacy.html" target="_blank">Privacy Policy</a>.'
+    self.label_privacy.content = 'I have read and agree to the <a href="https://www.aidar.ai/terms.html" target="_blank">Terms of Service</a> and <a href="https://www.aidar.ai/privacy.html" target="_blank">Privacy Policy</a>.'
     
   
   def button_register_click(self, **event_args):

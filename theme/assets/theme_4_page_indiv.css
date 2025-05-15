@@ -2,7 +2,12 @@
 ----------------------------------------------------------------------------------------
 Area 5: Page individual classes
 ----------------------------------------------------------------------------------------
-5.1. HOME individual classes */
+5.0. MainOut_Register */
+.anvil-role-tos_pp_agreement_text {
+  max-width: 330px !important;
+}
+
+/* 5.1. HOME individual classes */
 .anvil-role-home-discover-button {  /* neccessary for flexible positioning */
   left: auto !important;
   right: 1em;

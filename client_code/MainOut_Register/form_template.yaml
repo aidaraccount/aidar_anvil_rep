@@ -29,10 +29,11 @@ components:
         padding: [null, 0, null, null]
       text: ''
     type: CheckBox
-  - data_bindings: []
+  - data_bindings:
+    - {code: '[''tos_pp_agreement_text'']', property: role, writeback: false}
     layout_properties: {}
     name: label_privacy
-    properties: {content: I have read and agree to the Privacy Policy., format: restricted_html}
+    properties: {content: I have read and agree to ..., format: restricted_html}
     type: RichText
   layout_properties: {slot: login-button}
   name: flow_panel_2
