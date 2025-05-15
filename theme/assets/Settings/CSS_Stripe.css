@@ -74,6 +74,7 @@
   margin-bottom: 4px;
   font-size: 14px;
   color: var(--WhiteDiscreet);
+  font-weight: 500;
 }
 
 #payment-form input[type="text"],
@@ -100,7 +101,7 @@
 .checkbox-container {
   display: flex;
   align-items: center;
-  margin: 12px 0;
+  margin: 5px 0 0 0;
   align-items: flex-start;
 }
 
