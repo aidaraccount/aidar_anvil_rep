@@ -212,11 +212,16 @@ class MainIn(MainInTemplate):
 
   # MODEL ROUTING
   def refresh_models_components(self):
+    # 1. Remove existing model components
     self.remove_model_components()    
     model_ids = json.loads(anvil.server.call('get_model_ids',  user["user_id"]))
 
     if len(model_ids) > 0:
       for i in range(0, len(model_ids)):
+        # 2. Create a container for each model entry
+        model_container = anvil.Flow(spacing=5, align='right')
+        
+        # 3. Create the model link with navigation functionality
         if model_ids[i]["is_last_used"] is True:
           model_link = Link(
             icon='fa:angle-right',
@@ -232,22 +237,41 @@ class MainIn(MainInTemplate):
             tag=model_ids[i]["model_id"]
           )
         model_link.set_event_handler('click', self.create_model_click_handler(model_ids[i]["model_id"], model_link))
-        self.nav_models.add_component(model_link)
+        
+        # 4. Create settings icon link
+        settings_link = Link(
+          icon='fa:cog',
+          text="",  # Empty text for icon-only link
+          tag=model_ids[i]["model_id"]
+        )
+        settings_link.set_event_handler('click', self.create_settings_click_handler(model_ids[i]["model_id"]))
+        
+        # 5. Add both links to the container
+        model_container.add_component(model_link, expand=True)  # Expand to fill available space
+        model_container.add_component(settings_link)
+        
+        # 6. Add the container to nav_models
+        self.nav_models.add_component(model_container)
 
     self.reset_nav_backgrounds()
   
   def remove_model_components(self):
+    # Remove all components (now Flow containers) from nav_models
     for component in self.nav_models.get_components():
-      if isinstance(component, Link):
+      if isinstance(component, Flow):
         component.remove_from_parent()
     
   def refresh_models_underline(self):
-    for component in self.nav_models.get_components():
-      if isinstance(component, Link):
-        if int(component.tag) == int(load_var("model_id")):
-          component.role = 'underline-link'
-        else:
-          component.role = ''
+    # Find all model links inside Flow containers and update their roles
+    for container in self.nav_models.get_components():
+      if isinstance(container, anvil.Flow):
+        for component in container.get_components():
+          # Only apply underlines to the model links (not settings icons)
+          if isinstance(component, Link) and component.icon == 'fa:angle-right':
+            if int(component.tag) == int(load_var("model_id")):
+              component.role = 'underline-link'
+            else:
+              component.role = ''
   
   def create_model_click_handler(self, model_id, model_link):
     def handler(**event_args):
@@ -258,6 +282,24 @@ class MainIn(MainInTemplate):
     click_link(model_link, f'model_profile?model_id={link_model_id}&section=Main', event_args)
     self.reset_nav_backgrounds()
     model_link.background = "theme:Brown"
+    
+  def create_settings_click_handler(self, model_id):
+    def settings_click_handler(**event_args):
+      # Save the current model ID for reference
+      save_var("model_id", model_id)
+      # Navigate to model settings page
+      routing.set_url_hash(f'model_profile?model_id={model_id}&section=Main', load_from_cache=False)
+      self.reset_nav_backgrounds()
+      
+      # Find the container with this model_id and highlight it
+      for container in self.nav_models.get_components():
+        if isinstance(container, anvil.Flow):
+          for component in container.get_components():
+            if isinstance(component, Link) and component.tag == model_id:
+              container.background = "theme:Brown"
+              break
+      
+    return settings_click_handler
   # ------------
   
   def update_no_notifications(self, **event_args):
@@ -317,14 +359,18 @@ class MainIn(MainInTemplate):
       self.link_monitor_dev.background = "theme:Brown"
       
     elif location.hash[:15] == '#model_profile?' or location.hash[:13] == '#model_setup?':
-      for component in self.nav_models.get_components():
-        query_string = location.hash.split("?")[1]
-        params = dict(pair.split("=") for pair in query_string.split("&"))
-        model_id = params.get("model_id")
-        if model_id != 'None':
-          if isinstance(component, anvil.Link):
-            if int(component.tag) == int(model_id):
-              component.background = "theme:Brown"
+      query_string = location.hash.split("?")[1]
+      params = dict(pair.split("=") for pair in query_string.split("&"))
+      model_id = params.get("model_id")
+      if model_id != 'None':
+        # Find the container with this model_id and highlight it
+        for container in self.nav_models.get_components():
+          if isinstance(container, anvil.Flow):
+            # Check if any component in this container has the matching model_id
+            for component in container.get_components():
+              if isinstance(component, Link) and component.tag == model_id:
+                container.background = "theme:Brown"
+                break
   
   #----------------------------------------------------------------------------------------------
   # HOME
