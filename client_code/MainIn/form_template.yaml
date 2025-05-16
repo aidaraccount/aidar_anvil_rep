@@ -76,7 +76,7 @@ components:
   - event_bindings: {click: link_discover_ai_click}
     layout_properties: {}
     name: link_discover_ai
-    properties: {align: left, background: '', bold: false, border: '', col_spacing: medium, col_widths: '', font: '', font_size: null, foreground: '', icon: 'fa:angle-right', icon_align: left, italic: false, role: nav_sub, spacing_above: none, spacing_below: small, text: Artists by AI, tooltip: '', underline: false, url: '', visible: true, wrap_on: mobile}
+    properties: {align: left, background: '', bold: false, border: '', col_spacing: medium, col_widths: '', font: '', font_size: null, foreground: '', icon: 'fa:angle-right', icon_align: left, italic: false, role: nav_sub, spacing_above: none, spacing_below: small, text: Artists BY AI, tooltip: '', underline: false, url: '', visible: true, wrap_on: mobile}
     type: Link
   - data_bindings: []
     event_bindings: {click: link_discover_rel_click}
@@ -122,11 +122,11 @@ components:
       type: Link
     layout_properties: {}
     name: column_panel_nav_wl
-    properties: {col_spacing: none, col_widths: '{"XTMZXV":45,"GKGZJF":15}', visible: false}
+    properties: {col_spacing: none, col_widths: '{"XTMZXV":45,"GKGZJF":15}', visible: true}
     type: ColumnPanel
   layout_properties: {slot: sidebar}
   name: nav_watchlists
-  properties: {}
+  properties: {visible: false}
   type: LinearPanel
 - components:
   - components:
