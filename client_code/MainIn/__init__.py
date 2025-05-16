@@ -204,10 +204,9 @@ class MainIn(MainInTemplate):
     # 1. Remove existing model components
     self.remove_model_components()    
     model_ids = json.loads(anvil.server.call('get_model_ids',  user["user_id"]))
-    print('model_ids:', model_ids)
+    
     if len(model_ids) > 0:
       for i in range(0, len(model_ids)):
-        print('model_ids[i]["model_id"] tag:', model_ids[i]["model_id"])
         # 2. Create a container for each model entry
         model_container = anvil.FlowPanel(
           tag=model_ids[i]["model_id"],

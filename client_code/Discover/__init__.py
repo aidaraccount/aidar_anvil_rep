@@ -144,10 +144,10 @@ class Discover(DiscoverTemplate):
       self.events_country_data = None
       self.events_city_data = None
       
-      # -------------------------------
-      # NOTES
-      self.get_watchlist_notes(artist_id)
-      self.get_watchlist_details(artist_id)
+      # # -------------------------------
+      # # NOTES
+      # self.get_watchlist_notes(artist_id)
+      # self.get_watchlist_details(artist_id)
       
       # -------------------------------
       # ARTIST HEADER

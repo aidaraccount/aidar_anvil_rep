@@ -63,7 +63,7 @@ components:
     name: link_monitor_funnel
     properties: {align: left, background: '', bold: false, border: '', col_spacing: medium, col_widths: '', font: '', font_size: null, foreground: '', icon: 'fa:angle-right', icon_align: left, italic: false, role: nav_sub, spacing_above: none, spacing_below: small, text: FUNNEL, tooltip: '', underline: false, url: '', visible: true, wrap_on: mobile}
     type: Link
-  - event_bindings: {click: link_monitor_dev_old_click}
+  - event_bindings: {click: link_monitor_dev_click}
     name: link_monitor_dev_old
     properties: {align: left, background: '', bold: false, border: '', col_spacing: medium, col_widths: '', font: '', font_size: null, foreground: '', icon: 'fa:angle-right', icon_align: left, italic: false, role: nav_sub, spacing_above: none, spacing_below: small, text: TALENT DEV., tooltip: '', underline: false, url: '', visible: true, wrap_on: mobile}
     type: Link
