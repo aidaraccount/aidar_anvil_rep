@@ -39,12 +39,16 @@ components:
       margin: [null, 21, null, 21]
   type: ColumnPanel
 - components: []
+  data_bindings:
+  - {code: '[''nav_main'', ''nav_link'']', property: role, writeback: false}
   event_bindings: {click: link_home_click}
   layout_properties: {slot: sidebar}
   name: link_home
   properties: {align: left, background: '', bold: false, border: '', col_spacing: medium, col_widths: '', font: '', font_size: null, foreground: '', icon: 'fa:angle-right', icon_align: left, italic: false, role: nav_main, spacing_above: small, spacing_below: small, text: Home, tooltip: '', underline: false, url: '', visible: true, wrap_on: mobile}
   type: Link
-- event_bindings: {click: link_monitor_dev_click}
+- data_bindings:
+  - {code: '[''nav_main'', ''nav_link'']', property: role, writeback: false}
+  event_bindings: {click: link_monitor_dev_click}
   layout_properties: {slot: sidebar}
   name: link_monitor_dev
   properties: {align: left, background: '', bold: false, border: '', col_spacing: medium, col_widths: '', font: '', font_size: null, foreground: '', icon: 'fa:angle-right', icon_align: left, italic: false, role: nav_main, spacing_above: small, spacing_below: small, text: Watchlist, tooltip: '', underline: false, url: '', visible: true, wrap_on: mobile}
@@ -127,6 +131,8 @@ components:
           padding: [null, '2', null, null]
         visible: true
       type: Link
+    data_bindings:
+    - {code: '[''nav_link'']', property: role, writeback: false}
     layout_properties: {}
     name: column_panel_nav
     properties: {col_spacing: none, col_widths: '{"XTMZXV":45,"GKGZJF":15}'}
@@ -136,17 +142,23 @@ components:
   properties: {}
   type: LinearPanel
 - components:
-  - event_bindings: {click: change_observe_visibility}
+  - data_bindings:
+    - {code: '[''nav_main'', ''nav_link'']', property: role, writeback: false}
+    event_bindings: {click: change_observe_visibility}
     layout_properties: {}
     name: link_observe
     properties: {align: left, background: '', bold: false, border: '', col_spacing: medium, col_widths: '', font: '', font_size: null, foreground: '', icon: 'fa:angle-up', icon_align: left, italic: false, role: nav_main, spacing_above: small, spacing_below: small, text: Observe, tooltip: '', underline: false, url: '', visible: true, wrap_on: mobile}
     type: Link
-  - event_bindings: {click: link_observe_click}
+  - data_bindings:
+    - {code: '[''nav_sub'', ''nav_link'']', property: role, writeback: false}
+    event_bindings: {click: link_observe_click}
     layout_properties: {}
     name: link_radar
     properties: {align: left, background: '', bold: false, border: '', col_spacing: medium, col_widths: '', font: '', font_size: null, foreground: '', icon: 'fa:angle-right', icon_align: left, italic: false, role: nav_sub, spacing_above: none, spacing_below: small, text: Artist Radar, tooltip: '', underline: false, url: '', visible: true, wrap_on: mobile}
     type: Link
-  - event_bindings: {click: link_listen_click}
+  - data_bindings:
+    - {code: '[''nav_sub'', ''nav_link'']', property: role, writeback: false}
+    event_bindings: {click: link_listen_click}
     layout_properties: {}
     name: link_listen
     properties: {align: left, background: '', bold: false, border: '', col_spacing: medium, col_widths: '', font: '', font_size: null, foreground: '', icon: 'fa:angle-right', icon_align: left, italic: false, role: nav_sub, spacing_above: none, spacing_below: small, text: Listen-In, tooltip: '', underline: false, url: '', visible: true, wrap_on: mobile}

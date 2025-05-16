@@ -9,8 +9,15 @@ Area 5: Page individual classes
 
 /* 5.1. MainIn */
 /* Navigation */
+.anvil-role-nav_link:hover {
+  background: linear-gradient(to bottom right, rgb(31, 11, 59), rgba(250, 250, 250, 0.15));
+}
+
 .anvil-role-nav_flow_panel .flow-panel-gutter .flow-panel-item a {
   margin: 0;
+}
+.anvil-role-nav_flow_panel:hover {
+background: linear-gradient(to bottom right, rgb(31, 11, 59), rgba(250, 250, 250, 0.15));
 }
 
 .anvil-role-icon-link-discreet {

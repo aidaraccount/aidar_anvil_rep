@@ -258,6 +258,7 @@ components:
             margin: ['5', null, null, '5']
           spacing_above: none
           spacing_below: none
+          tooltip: add to Watchlist
         type: Link
       layout_properties: {grid_position: 'SWSPEX,OVHDMI'}
       name: flow_panel_1
@@ -358,7 +359,7 @@ components:
       - components:
         - layout_properties: {}
           name: label_4
-          properties: {align: right, role: sort-label, text: 'Watchlist:'}
+          properties: {align: right, role: sort-label, text: 'Watchlist:', visible: false}
           type: Label
         layout_properties: {grid_position: 'SPLPLH,GADAWF'}
         name: flow_panel_3
@@ -367,7 +368,7 @@ components:
       - event_bindings: {change: drop_down_wl_change}
         layout_properties: {grid_position: 'SPLPLH,OCJXMS'}
         name: drop_down_wl
-        properties: {align: left, role: dropdown, spacing_above: none, spacing_below: none}
+        properties: {align: left, role: dropdown, spacing_above: none, spacing_below: none, visible: false}
         type: DropDown
       - components:
         - layout_properties: {}

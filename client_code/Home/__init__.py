@@ -430,8 +430,8 @@ class Home(HomeTemplate):
     # Load shorts with only the active watchlist IDs
     self.load_shorts_async(selected_wl_ids=active_wl_ids)
 
-  def button_news_selection_click(self, **event_args):
-    if self.colpan_wl_selection.visible is True:
-      self.colpan_wl_selection.visible = False
-    else:
-      self.colpan_wl_selection.visible = True
+  # def button_news_selection_click(self, **event_args):
+  #   if self.colpan_wl_selection.visible is True:
+  #     self.colpan_wl_selection.visible = False
+  #   else:
+  #     self.colpan_wl_selection.visible = True

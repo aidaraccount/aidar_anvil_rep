@@ -164,8 +164,9 @@ components:
         type: Link
       - components:
         - event_bindings: {click: link_watchlist_name_click}
+          layout_properties: {}
           name: link_watchlist_name
-          properties: {icon_align: right, role: star-tile, spacing_above: none, spacing_below: none}
+          properties: {icon_align: right, role: star-tile, spacing_above: none, spacing_below: none, tooltip: add to Watchlist}
           type: Link
         layout_properties: {grid_position: 'KTIEJU,SKLDLY UOHVIF,XXOZRA'}
         name: flow_panel_1
@@ -2007,7 +2008,7 @@ components:
   - event_bindings: {click: link_watchlist_name_click}
     layout_properties: {grid_position: 'UQVSNC,XUSTNC OPLCOW,KXLRPY RSFAQY,VELSAP'}
     name: link_watchlist_name2
-    properties: {role: artist_name_shadow, spacing_above: none, spacing_below: none}
+    properties: {role: artist_name_shadow, spacing_above: none, spacing_below: none, tooltip: add to Watchlist}
     type: Link
   - components:
     - components:
@@ -2022,7 +2023,7 @@ components:
     - event_bindings: {change: drop_down_wl_change}
       layout_properties: {grid_position: 'SPLPLH,OCJXMS'}
       name: drop_down_wl
-      properties: {align: left, role: null, spacing_above: none, spacing_below: none}
+      properties: {align: left, role: null, spacing_above: none, spacing_below: none, visible: false}
       type: DropDown
     - components:
       - layout_properties: {}
