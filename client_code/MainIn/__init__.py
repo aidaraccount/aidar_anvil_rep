@@ -219,7 +219,7 @@ class MainIn(MainInTemplate):
     if len(model_ids) > 0:
       for i in range(0, len(model_ids)):
         # 2. Create a container for each model entry
-        model_container = anvil.Flow(spacing=5, align='right')
+        model_container = anvil.FlowPanel()
         
         # 3. Create the model link with navigation functionality
         if model_ids[i]["is_last_used"] is True:
@@ -258,13 +258,13 @@ class MainIn(MainInTemplate):
   def remove_model_components(self):
     # Remove all components (now Flow containers) from nav_models
     for component in self.nav_models.get_components():
-      if isinstance(component, anvil.Flow):
+      if isinstance(component, anvil.FlowPanel):
         component.remove_from_parent()
     
   def refresh_models_underline(self):
     # Find all model links inside Flow containers and update their roles
     for container in self.nav_models.get_components():
-      if isinstance(container, anvil.Flow):
+      if isinstance(container, anvil.FlowPanel):
         for component in container.get_components():
           # Only apply underlines to the model links (not settings icons)
           if isinstance(component, Link) and component.icon == 'fa:angle-right':
@@ -293,7 +293,7 @@ class MainIn(MainInTemplate):
       
       # Find the container with this model_id and highlight it
       for container in self.nav_models.get_components():
-        if isinstance(container, anvil.Flow):
+        if isinstance(container, anvil.FlowPanel):
           for component in container.get_components():
             if isinstance(component, Link) and component.tag == model_id:
               container.background = "theme:Brown"
@@ -365,7 +365,7 @@ class MainIn(MainInTemplate):
       if model_id != 'None':
         # Find the container with this model_id and highlight it
         for container in self.nav_models.get_components():
-          if isinstance(container, anvil.Flow):
+          if isinstance(container, anvil.FlowPanel):
             # Check if any component in this container has the matching model_id
             for component in container.get_components():
               if isinstance(component, Link) and component.tag == model_id:
