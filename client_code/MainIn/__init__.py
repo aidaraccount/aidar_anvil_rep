@@ -258,7 +258,7 @@ class MainIn(MainInTemplate):
   def remove_model_components(self):
     # Remove all components (now Flow containers) from nav_models
     for component in self.nav_models.get_components():
-      if isinstance(component, Flow):
+      if isinstance(component, anvil.Flow):
         component.remove_from_parent()
     
   def refresh_models_underline(self):
