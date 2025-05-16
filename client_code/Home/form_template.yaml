@@ -117,7 +117,7 @@ components:
       type: Label
     layout_properties: {grid_position: 'MRIQRW,EQZHSN APEQUX,MEWHGP'}
     name: sec_next
-    properties: {}
+    properties: {visible: false}
     type: ColumnPanel
   - components:
     - layout_properties: {grid_position: 'XVTKKM,QKUIVZ'}

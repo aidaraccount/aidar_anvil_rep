@@ -108,12 +108,12 @@ class Home(HomeTemplate):
       self.sec_agents.add_component(self.agents_component)
       self.load_agents_async()
       
-      # 1.4 Initialize loading of next asynchronously
-      self.next_start_time = time.time()
-      # Initialize the Next component with no data to show loading state immediately
-      self.next_component = C_Home_NextUp(data=None)
-      self.sec_next.add_component(self.next_component)
-      self.load_next_async()
+      # # 1.4 Initialize loading of next asynchronously
+      # self.next_start_time = time.time()
+      # # Initialize the Next component with no data to show loading state immediately
+      # self.next_component = C_Home_NextUp(data=None)
+      # self.sec_next.add_component(self.next_component)
+      # self.load_next_async()
   
       # 1.5 Initialize loading of hot asynchronously
       self.hot_start_time = time.time()
@@ -167,44 +167,44 @@ class Home(HomeTemplate):
       self.agents_component = C_Home_Agents(data=data)
       self.sec_agents.add_component(self.agents_component)
   
-  # ------
-  # 2.2 NEXT METHODS
-  def load_next_async(self):
-    """Starts asynchronous loading of next data"""
-    async_call = call_async("get_home_next", user["user_id"])
-    async_call.on_result(self.next_loaded)
+  # # ------
+  # # 2.2 NEXT METHODS
+  # def load_next_async(self):
+  #   """Starts asynchronous loading of next data"""
+  #   async_call = call_async("get_home_next", user["user_id"])
+  #   async_call.on_result(self.next_loaded)
   
-  def next_loaded(self, data):
-    """Handles successful server response for next."""
-    # Calculate loading time
-    load_time = time.time() - self.next_start_time
+  # def next_loaded(self, data):
+  #   """Handles successful server response for next."""
+  #   # Calculate loading time
+  #   load_time = time.time() - self.next_start_time
     
-    # Get the active instance - this is the one currently visible to the user
-    active_instance = Home._active_instance
+  #   # Get the active instance - this is the one currently visible to the user
+  #   active_instance = Home._active_instance
     
-    # Check if we should update the current instance or the active instance
-    if active_instance and active_instance.instance_id != self.instance_id:
-      active_instance.process_next_data(data)
-    else:
-      self.process_next_data(data)
+  #   # Check if we should update the current instance or the active instance
+  #   if active_instance and active_instance.instance_id != self.instance_id:
+  #     active_instance.process_next_data(data)
+  #   else:
+  #     self.process_next_data(data)
     
-  def process_next_data(self, data):
-    """
-    Process and display next data
+  # def process_next_data(self, data):
+  #   """
+  #   Process and display next data
     
-    Parameters:
-        data (str): JSON string containing next data
-    """
-    data = json.loads(data)
+  #   Parameters:
+  #       data (str): JSON string containing next data
+  #   """
+  #   data = json.loads(data)
     
-    # Check if we already have a next component to update
-    if hasattr(self, 'next_component') and self.next_component:
-      # Update the existing component with new data
-      self.next_component.update_data(data)
-    else:
-      # Fallback if component doesn't exist yet
-      self.next_component = C_Home_NextUp(data=data)
-      self.sec_next.add_component(self.next_component)
+  #   # Check if we already have a next component to update
+  #   if hasattr(self, 'next_component') and self.next_component:
+  #     # Update the existing component with new data
+  #     self.next_component.update_data(data)
+  #   else:
+  #     # Fallback if component doesn't exist yet
+  #     self.next_component = C_Home_NextUp(data=data)
+  #     self.sec_next.add_component(self.next_component)
   
   # ------
   # 2.3 HOT METHODS

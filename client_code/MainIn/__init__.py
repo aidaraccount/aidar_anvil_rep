@@ -163,26 +163,26 @@ class MainIn(MainInTemplate):
 
   # WATCHLIST ROUTING
   def refresh_watchlists_components(self):
-    self.remove_watchlist_components()
-    wl_ids = json.loads(anvil.server.call('get_watchlist_ids',  user["user_id"]))
+    # self.remove_watchlist_components()
+    # wl_ids = json.loads(anvil.server.call('get_watchlist_ids',  user["user_id"]))
     
-    if len(wl_ids) > 0:
-      for i in range(0, len(wl_ids)):
-        if wl_ids[i]["is_last_used"] is True:
-          wl_link = Link(
-            icon='fa:angle-right',
-            text=wl_ids[i]["watchlist_name"],
-            tag=wl_ids[i]["watchlist_id"],
-            role='underline-link'
-            )
-        else:
-          wl_link = Link(
-            icon='fa:angle-right',
-            text=wl_ids[i]["watchlist_name"],
-            tag=wl_ids[i]["watchlist_id"]
-            )
-        wl_link.set_event_handler('click', self.create_watchlist_click_handler(wl_ids[i]["watchlist_id"], wl_link))
-        self.nav_watchlists.add_component(wl_link)
+    # if len(wl_ids) > 0:
+    #   for i in range(0, len(wl_ids)):
+    #     if wl_ids[i]["is_last_used"] is True:
+    #       wl_link = Link(
+    #         icon='fa:angle-right',
+    #         text=wl_ids[i]["watchlist_name"],
+    #         tag=wl_ids[i]["watchlist_id"],
+    #         role='underline-link'
+    #         )
+    #     else:
+    #       wl_link = Link(
+    #         icon='fa:angle-right',
+    #         text=wl_ids[i]["watchlist_name"],
+    #         tag=wl_ids[i]["watchlist_id"]
+    #         )
+    #     wl_link.set_event_handler('click', self.create_watchlist_click_handler(wl_ids[i]["watchlist_id"], wl_link))
+    #     self.nav_watchlists.add_component(wl_link)
 
     self.reset_nav_backgrounds()
     
