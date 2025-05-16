@@ -7,6 +7,19 @@ Area 5: Page individual classes
   max-width: 330px !important;
 }
 
+/* 5.1. MainIn */
+/* Navigation */
+.anvil-role-nav_flow_panel .flow-panel-gutter .flow-panel-item a {
+  margin: 0;
+}
+
+.anvil-role-icon-link-discreet {
+  opacity: 0.4;
+}
+.anvil-role-icon-link-discreet:hover {
+  opacity: 1;
+}
+
 /* 5.1. HOME individual classes */
 .anvil-role-home-discover-button {  /* neccessary for flexible positioning */
   left: auto !important;

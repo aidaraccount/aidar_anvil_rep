@@ -219,7 +219,9 @@ class MainIn(MainInTemplate):
     if len(model_ids) > 0:
       for i in range(0, len(model_ids)):
         # 2. Create a container for each model entry
-        model_container = anvil.FlowPanel()
+        model_container = anvil.FlowPanel(
+          role='nav_flow_panel'
+        )
         
         # 3. Create the model link with navigation functionality
         if model_ids[i]["is_last_used"] is True:
@@ -240,9 +242,10 @@ class MainIn(MainInTemplate):
         
         # 4. Create settings icon link
         settings_link = Link(
-          icon='fa:cog',
+          icon='fa:sliders',
           text="",  # Empty text for icon-only link
-          tag=model_ids[i]["model_id"]
+          tag=model_ids[i]["model_id"],
+          role='icon-link-discreet'
         )
         settings_link.set_event_handler('click', self.create_settings_click_handler(model_ids[i]["model_id"]))
         
