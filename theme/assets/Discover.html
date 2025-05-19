@@ -149,7 +149,7 @@
       <div class="chat-input-container">
         <textarea id="chat-input" placeholder="Type your message here..." rows="3"></textarea>
         <button id="send-button" aria-label="Send message">
-          <i class="fas fa-paper-plane"></i>
+          <i class="far fa-paper-plane"></i>
         </button>
       </div>
     </div>
@@ -270,16 +270,25 @@
         }
       });
       
-      // Auto-scroll to bottom of chat
+      // Auto-scroll to bottom of chat with smooth animation
       function scrollToBottom() {
-        // Scroll to the bottom of the messages
-        chatMessages.scrollTop = chatMessages.scrollHeight;
+        chatMessages.scrollTo({
+          top: chatMessages.scrollHeight,
+          behavior: 'smooth'
+        });
       }
       
       // Scroll to bottom when content changes
+      let isScrolling = false;
       const scrollObserver = new MutationObserver(() => {
-        // Small delay to ensure DOM is updated
-        setTimeout(scrollToBottom, 0);
+        if (!isScrolling) {
+          isScrolling = true;
+          // Small delay to ensure DOM is updated
+          requestAnimationFrame(() => {
+            scrollToBottom();
+            isScrolling = false;
+          });
+        }
       });
       
       // Observe changes to the chat messages
