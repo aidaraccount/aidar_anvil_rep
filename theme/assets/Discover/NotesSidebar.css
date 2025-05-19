@@ -1,96 +1,62 @@
-
 /* ------------------------------------------------------ */
-/* CSS for the Sidebar on the Discover Page */
-
+/* 1. Main Layout */
 .container-panel {
     display: flex;
     width: 100%;
-}
-.main-content {
+  }
+  
+  .main-content {
     flex: 1;
-    /* padding: 20px; */
-}
-.anvil-role-left-discover-page{
-    margin-right: 0;
-    transition: margin-right 0.2s ease;
-}
-.anvil-role-left-discover-page.shifted{
-    margin-right: 400px;
-}
-.anvil-role-main-content-page {
-    margin-left: 250px;
-    transition: margin-left 0.2s;
-}
-.anvil-role-main-content-page.shifted {
-    margin-left: 0px;
-}
-
-#right-sidebar {
+  }
+  
+  /* 2. Sidebar Containers */
+  #right-sidebar {
     font-family: Gs-regular;
     color: rgb(250,250,250);
     position: fixed;
-    /* comment "right: 0px" to have the sidebar visible at all times  */
     right: -400px;
-    /* right: 0px; */
     top: 0;
     width: 400px;
     height: 100%;
     background-color: rgb(10,3,30);
     box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5);
-    transition: right 0.2s;
+    transition: right 0.3s ease;
     overflow-x: hidden;
-    padding: 0 0 100px 0;
+    padding-bottom: 100px;
     border-bottom-left-radius: 15px;
     border-top-left-radius: 15px;
     z-index: 999;
-}
-@media only screen and (max-width: 431px) {
-    #right-sidebar {
-        width: 300px;
-    }
-}
-
-#right-sidebar.open {
-    right: 0px;
-}
-.nav-toggle-btn {
+  }
+  
+  #left-sidebar {
     font-family: Gs-regular;
-    font-size: 18px;
+    color: rgb(250,250,250);
     position: fixed;
-    top: 20%;
-    left: 10px;
-    background-color: rgb(233, 95, 48);
-    color: white;
-    border: none;
-    padding: 10px 10px 10px 6px;
-    cursor: pointer;
-    z-index: 9999;
-    transition: left 0.3s ease, transform 0.3s ease;
-    border-radius: 4px;
-}
-
-@media only screen and (min-width: 768px) {
-    .nav-toggle-btn {
-        left: 260px;
-    }
-    
-    body.sidebar-closed .nav-toggle-btn {
-        left: 10px;
-    }
-}
-
-@media only screen and (max-width: 767px) {
-    .nav-toggle-btn {
-        top: 70px;
-    }
-}
-.sidebar-button {
+    top: 0;
+    left: 0;
+    width: 250px;
+    height: 100%;
+    background-color: rgb(10,3,30);
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5);
+    transition: left 0.3s ease;
+    overflow-y: auto;
+    padding: 10px 0 100px;
+    border-bottom-right-radius: 15px;
+    border-top-right-radius: 15px;
+    z-index: 999;
+  }
+  
+  /* 3. Sidebar States */
+  #right-sidebar.open {
+    right: 0;
+  }
+  
+  /* 4. Sidebar Buttons */
+  .sidebar-button {
     font-family: Gs-regular;
     font-size: 15px;
     position: fixed;
-    /* comment "right: -100px" to have the sidebar visible at all times  */
-    right: 0px;
-    /* right: -100px; */
+    right: 0;
     top: 20%;
     background-color: rgb(233,95,48);
     color: white;
@@ -98,44 +64,20 @@
     padding: 10px;
     cursor: pointer;
     z-index: 1000;
-    transition: right 0.2s;
+    transition: right 0.3s ease;
     border-top-left-radius: 15px;
     border-bottom-left-radius: 15px;
-}
-.sidebar-button.open {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+  }
+  
+  .sidebar-button.open {
     right: 400px;
-}
-@media only screen and (max-width: 431px) {
-    .sidebar-button.open {
-        right: 300px;
-    }
-}
-
-#left-sidebar {
-    font-family: Gs-regular;
-    color: rgb(250,250,250);
-    position: fixed;
-    top: 0;
-    left: 0px;
-    /* left: -250px; */
-    width: 250px;
-    height: 100%;
-    background-color: rgb(10,3,30);
-    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5);
-    transition: left 0.3s ease;
-    overflow-y: auto;
-    border-bottom-right-radius: 15px;
-    border-top-right-radius: 15px;
-    z-index: 999;
-    padding: 10px 0 100px 0;
-}
-@media only screen and (max-width: 431px) {
-    #left-sidebar {
-        width: 200px;
-    }
-}
-
-.nav-button {
+  }
+  
+  .nav-button {
     font-family: Gs-regular;
     font-size: 18px;
     position: fixed;
@@ -150,185 +92,102 @@
     transition: left 0.3s ease;
     border-top-right-radius: 15px;
     border-bottom-right-radius: 15px;
-}
-
-@media only screen and (max-width: 431px) {
-    .nav-button {
-        left: 200px;
-        position: fixed;
-        z-index: 9999; 
-    }
-}
-
-.main-content-move {
-    margin-left: 250px;
-    transition: margin-left 0.3s ease;
-}
-.main-content-move-nav {
-    margin-left: 250px;
-    transition: margin-left 0.3s ease;
-}
-/* Sidebar click guard to close sidebar */
-.sidebar-click-guard {
-    /* Hidden by default */
-    display: none;         
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent overlay */
-    z-index: 999;          /* Just below the sidebar */
-}
-
-.anvil-role-navbar-image {
-    margin: 10px 0 0 0;
-    padding: 10px 0 40px 0;
-    border-bottom: 1px solid #888;
-}
-.anvil-role-image-bottom-border {
-    border-top: 1px solid;
-    padding: 0 0 0 20px;
-}
+  }
   
-#right-sidebar .header-sidebar{
+  /* 5. Sidebar Content */
+  #right-sidebar .header-sidebar {
     padding: 20px;
     background: rgb(233,95,48);
     color: white;
     border-top-left-radius: 15px;
     display: flex;
     align-items: center;
-}
-.header-sidebar.open {
-    right: 0;
-}
-.note_svg{
+  }
+  
+  .note_svg, .note_svg_button {
     height: 20px;
-    padding: 0 10px 0 0;
-}
-.note_svg_button{
-    height: 20px;
-    padding: 0 0 0 0;
-}
-.right-sidebar .header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 20px;
-}
-.right-sidebar .header img {
-    width: 30px;
-    height: 30px;
-}
-.right-sidebar .header span {
-    font-size: 1.2em;
-    font-weight: bold;
-}
-#right-sidebar .buttons-sidebar {
-    display: flex;
-    justify-content: space-around;
-    padding: 40px 0px;
-    border-bottom: solid rgb(59, 59, 59);
-}
-#right-sidebar .buttons-sidebar button {
-    border-radius: 15px;
-    background: rgb(130,39,118);
-    border: 0;
-    font-size: 20px;
-    padding: 5px 20px;
-}
-
-#right-sidebar .social-media-sidebar {
-    padding: 20px 20px 100px;
-    border-bottom: solid rgb(59, 59, 59);
-}
-#right-sidebar h3 {
-    font-size: 20px;
-}
-#right-sidebar .social-media-sidebar h3 {
-    margin-top: 0;
-}
-#right-sidebar .social-media-sidebar p {
-    margin: 5px 0;
-}
-#right-sidebar .section-contact-sidebar {
+    margin-right: 10px;
+  }
+  
+  /* 6. Contact Section */
+  .section-contact-sidebar {
     padding: 20px;
-    border-bottom: solid rgb(59, 59, 59);
+    border-bottom: 1px solid rgb(59, 59, 59);
     font-size: 16px;
-}
-#right-sidebar .section-contact-sidebar p {
-    display: flex;
-}
-#right-sidebar .section-contact-sidebar table {
+  }
+  
+  .contact-table {
     width: 95%;
     border-collapse: collapse;
     margin: 10px 0;
-}
-#right-sidebar .section-contact-sidebar table th, #right-sidebar .section-contact-sidebar table td {
+  }
+  
+  .contact-table th,
+  .contact-table td {
     padding: 10px;
     text-align: left;
     vertical-align: bottom;
     color: white;
-}
-#right-sidebar .section-contact-sidebar table td{
-    width: 70%
-}
-
-#right-sidebar .description-section-sidebar,
-#right-sidebar .comments-section-sidebar {
-    border: none;
-    color: white;
+  }
+  
+  .contact-table th {
+    width: 30%;
+  }
+  
+  .contact-table td {
+    width: 70%;
+  }
+  
+  /* 7. Description & Comments */
+  .description-section-sidebar,
+  .comments-section-sidebar {
     padding: 20px;
-    width: 100%;
+    border-bottom: 1px solid rgb(59, 59, 59);
+    color: white;
     box-sizing: border-box;
-    border-bottom: solid rgb(59, 59, 59);
-}
-#right-sidebar .description-section-sidebar textarea,
-#right-sidebar .comments-section-sidebar textarea {
-    margin: 0 0px 0 15px;
-    width: 90%;
-}
+  }
   
-  
-.anvil-role-top-border {
-    border-top: 0.2px rgb(175, 175, 175) solid;
-    border-bottom: none;
-    border-radius: 0px;
-}
-.anvil-role-bottom-border {
-    border-top: none;
-    border-bottom: 0.2px rgb(175, 175, 175) solid;
-    border-radius: 0px;
-}
-.anvil-role-bottom-border>.form-control {
+  /* 8. Form Elements */
+  .anvil-role-bottom-border > .form-control {
     border: none;
-    border-bottom: 0.2px solid;
-    border-radius: 0px;
-}
+    border-bottom: 1px solid;
+    border-radius: 0;
+  }
   
-.anvil-role-sidebar-notes{
-    overflow-y: auto;
-    height: auto;
-    max-height: 400px;
-}
-  
-.anvil-role-timestamp-note-format {
-    font-size: 12px;
-    color: white;
-    padding-right: 7px;
-}
-.anvil-role-content-note-format {
-    font-size: 16px;
-    color: white;
-    padding-left: 7px;
-}
-  
-.contact-title-sidebar{
-    display:flex;
+  /* 9. Utility Classes */
+  .contact-title-sidebar {
+    display: flex;
     justify-content: space-between;
     align-items: center;
-}
-
-.anvil-role-contact-details-saved-values {
-    padding: 7px 13px;
-}
+    margin-bottom: 10px;
+  }
+  
+  .anvil-role-sidebar-notes {
+    overflow-y: auto;
+    max-height: 400px;
+  }
+  
+  /* 10. Responsive Design */
+  @media only screen and (max-width: 431px) {
+    #right-sidebar {
+      width: 300px;
+    }
+    
+    #left-sidebar {
+      width: 200px;
+    }
+    
+    .sidebar-button.open {
+      right: 300px;
+    }
+    
+    .nav-button {
+      left: 200px;
+    }
+  }
+  
+  @media only screen and (max-width: 767px) {
+    .sidebar-button {
+      top: 70px;
+    }
+  }
