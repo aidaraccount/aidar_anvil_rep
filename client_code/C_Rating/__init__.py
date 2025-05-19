@@ -7,7 +7,7 @@ import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
 import json
-import datetime
+from datetime import datetime
 
 from anvil_extras import routing
 from ..nav import click_link, click_button, logout, save_var, load_var
@@ -19,21 +19,21 @@ class C_Rating(C_RatingTemplate):
     self.init_components(**properties)
     
     # Any code you write here will run before the form opens.
-    #print(f"{datetime.datetime.now()}: C_Rating - __init__ - 1", flush=True)
+    #print(f"{datetime.now()}: C_Rating - __init__ - 1", flush=True)
     
     global user
     user = anvil.users.get_user()    
     self.model_id=model_id
-    #print(f"{datetime.datetime.now()}: C_Rating - __init__ - 2", flush=True)
+    #print(f"{datetime.now()}: C_Rating - __init__ - 2", flush=True)
 
     data = self.get_data()
-    #print(f"{datetime.datetime.now()}: C_Rating - __init__ - 3", flush=True)
+    #print(f"{datetime.now()}: C_Rating - __init__ - 3", flush=True)
 
     # standard sorting
     self.data_ratings_data.items = sorted(data, key=lambda x: x.get('DateTime', float('inf')), reverse=True)
     self.link_date.icon = 'fa:angle-down'
     
-    #print(f"{datetime.datetime.now()}: C_Rating - __init__ - 4", flush=True)
+    #print(f"{datetime.now()}: C_Rating - __init__ - 4", flush=True)
     
   
   def get_data(self, **event_args):

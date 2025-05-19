@@ -11,7 +11,7 @@ import anvil.js
 from anvil import get_open_form
 import time
 from anvil.js.window import location
-import datetime
+from datetime import datetime
 from ..C_TalentDev_Toggle import C_TalentDev_Toggle
 
 
