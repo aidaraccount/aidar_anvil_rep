@@ -1,13 +1,33 @@
 /* ------------------------------------------------------ */
 /* 1. Main Layout */
 .container-panel {
-    display: flex;
-    width: 100%;
-  }
-  
-  .main-content {
-    flex: 1;
-  }
+  display: flex;
+  width: 100%;
+  position: relative;
+  transition: margin-right 0.3s ease;
+}
+
+.main-content {
+  flex: 1;
+  transition: margin-right 0.3s ease;
+  min-width: 0; /* Prevents content from overflowing */
+}
+
+/* Adjust main content when right sidebar is open */
+#right-sidebar.open ~ .main-content {
+  margin-right: 400px;
+}
+
+/* Adjust main content when agent sidebar is open */
+#agent-sidebar.open ~ .main-content {
+  margin-right: 400px;
+}
+
+/* Adjust when both sidebars are open */
+#right-sidebar.open + #agent-sidebar.open ~ .main-content,
+#agent-sidebar.open + #right-sidebar.open ~ .main-content {
+  margin-right: 800px;
+}
   
   /* 2. Sidebar Containers */
   #right-sidebar {
@@ -20,12 +40,22 @@
     height: 100%;
     background-color: rgb(10,3,30);
     box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5);
-    transition: right 0.3s ease;
+    transition: right 0.3s ease, margin-right 0.3s ease;
     overflow-x: hidden;
     padding-bottom: 100px;
     border-bottom-left-radius: 15px;
     border-top-left-radius: 15px;
     z-index: 999;
+  }
+  
+  /* Adjust agent sidebar position when notes sidebar is open */
+  #right-sidebar.open + #agent-sidebar {
+    right: 400px;
+  }
+  
+  /* Adjust notes sidebar position when agent sidebar is open */
+  #agent-sidebar.open + #right-sidebar {
+    right: 400px;
   }
   
   #left-sidebar {

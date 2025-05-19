@@ -10,7 +10,7 @@
   height: 100%;
   background-color: rgb(10,3,30);
   box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5);
-  transition: right 0.3s ease;
+  transition: right 0.3s ease, margin-right 0.3s ease;
   overflow-x: hidden;
   padding-bottom: 96px;
   border-bottom-left-radius: 15px;
