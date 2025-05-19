@@ -5,6 +5,7 @@
     </div>
   </div>
 
+  <!-- Notes Sidebar -->
   <div id="right-sidebar" class="anvil-container" anvil-slot="sidebar">
     <div class="header-sidebar" anvil-slot="Artist_Name_Details_Sidebar">
         <img class="note_svg" src="_/theme/icons/Note.svg" alt="Notes Icon">
@@ -92,11 +93,30 @@
       </div>
     </div>
   </div>
+
+  <!-- Agent Sidebar -->
+  <div id="agent-sidebar" class="anvil-container" anvil-slot="agent-sidebar">
+    <div class="header-sidebar">
+      <i class="fas fa-robot" style="font-size: 20px; margin-right: 12px;"></i>
+      <span>AI Agent</span>
+    </div>
+    <!-- Content will be added here -->
+  </div>
+
 </div>
+
+<!-- Notes Button -->
 <button class="sidebar-button" id="sidebar-button">
   <img class="note_svg_button" src="_/theme/icons/Note.svg" alt="Notes Icon">
   <br>
   Notes
+</button>
+
+<!-- Agent Button -->
+<button class="agent-sidebar-button" id="agent-sidebar-button">
+  <i class="fas fa-robot"></i>
+  <br>
+  Agent
 </button>
 
 <!-- FOOTER -->
@@ -109,12 +129,11 @@
 
 <script>
   
-  // window.onload = function () {
+  // Notes Sidebar
   if(typeof sidebar === 'undefined') {
     const sidebar = document.getElementById('right-sidebar');
     const button = document.getElementById('sidebar-button');
     const mainContent = document.querySelector('.anvil-role-left-discover-page')
-    // console.log(mainContent)
   
     if (sidebar && button) {
       button.addEventListener('click', function () {
@@ -133,14 +152,12 @@
     
     displays.forEach(display => {
       let note = parseFloat(display.dataset.note);
-      // console.log("Discover - THIS IS THE NOTE VALUE: ", note)
       let [int, dec] = display.dataset.note.split('.');
       [int, dec] = [Number(int), Number(dec)];
       
       strokeTransition(display, note);
   
       increaseNumber(display, int, 'int');
-      // increaseNumber(display, dec, 'dec');
       });
   
     function increaseNumber(display, number, className) {
@@ -170,4 +187,17 @@
     }
   })();
 
+  // Agent Sidebar
+  if (typeof agentSidebar === 'undefined') {
+    const agentSidebar = document.getElementById('agent-sidebar');
+    const agentButton = document.getElementById('agent-sidebar-button');
+    
+    if (agentButton && agentSidebar) {
+      agentButton.addEventListener('click', function() {
+        agentSidebar.classList.toggle('open');
+        agentButton.classList.toggle('open');
+      });
+    }
+  }
+  
 </script>
