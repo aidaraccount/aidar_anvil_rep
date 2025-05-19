@@ -108,7 +108,11 @@
     height: 20px;
     margin-right: 10px;
   }
-  
+  .note_svg {
+    height: 20px;
+    margin-right: 0;
+  }
+
   /* 6. Contact Section */
   .section-contact-sidebar {
     padding: 20px;
