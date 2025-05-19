@@ -1628,8 +1628,8 @@ footer a, .footer .anvil-component {
   font-size: 15px;
   position: fixed;
   /* comment "right: -100px" to have the sidebar visible at all times  */
-  /* right: 0px; */
-  right: -100px;
+  right: 0px;
+  /* right: -100px; */
   top: 20%;
   background-color: rgb(233,95,48);
   color: white;
