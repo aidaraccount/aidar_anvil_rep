@@ -174,7 +174,14 @@ components:
   type: Link
 - layout_properties: {slot: logo}
   name: image_1
-  properties: {display_mode: original_size, height: '20', role: navbar-image, source: _/theme/pics/AIDAR_white_logo_small.png, spacing_above: none, spacing_below: none}
+  properties:
+    display_mode: original_size
+    height: '20'
+    margin: [25, null, 25, null]
+    role: navbar-image
+    source: _/theme/pics/AIDAR_white_logo_small.png
+    spacing_above: none
+    spacing_below: none
   type: Image
 - event_bindings: {pressed_enter: SearchBar_pressed_enter}
   layout_properties: {slot: search_box}
