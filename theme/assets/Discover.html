@@ -100,7 +100,38 @@
       <i class="fas fa-robot" style="font-size: 20px; margin-right: 12px;"></i>
       <span>AI Agent</span>
     </div>
-    <!-- Content will be added here -->
+    <div class="chat-container">
+      <div class="chat-messages" id="chat-messages">
+        <!-- Agent message -->
+        <div class="message agent">
+          <div class="message-time">11:45 AM</div>
+          <div class="message-content">
+            Hello! I'm your AI assistant. How can I help you today?
+          </div>
+        </div>
+        
+        <!-- User message -->
+        <div class="message user">
+          <div class="message-time">11:46 AM</div>
+          <div class="message-content">
+            Hi! I'm looking for information about the talent development program.
+          </div>
+        </div>
+        
+        <!-- Agent message -->
+        <div class="message agent">
+          <div class="message-time">11:46 AM</div>
+          <div class="message-content">
+            I'd be happy to help! Our talent development program focuses on skill enhancement and career growth. What specific information are you looking for?
+          </div>
+        </div>
+      </div>
+      
+      <div class="chat-input-container">
+        <textarea id="chat-input" placeholder="Type your message here..." rows="3"></textarea>
+        <button id="send-button">Send</button>
+      </div>
+    </div>
   </div>
 
 </div>
@@ -192,8 +223,11 @@
     const agentSidebar = document.getElementById('agent-sidebar');
     const agentButton = document.getElementById('agent-sidebar-button');
     const notesButton = document.getElementById('sidebar-button');
+    const chatInput = document.getElementById('chat-input');
+    const sendButton = document.getElementById('send-button');
+    const chatMessages = document.getElementById('chat-messages');
     
-    if (agentButton && agentSidebar && notesButton) {
+    if (agentButton && agentSidebar && notesButton && chatInput && sendButton && chatMessages) {
       // Position agent button below notes button
       function positionAgentButton() {
         const notesRect = notesButton.getBoundingClientRect();
@@ -210,7 +244,69 @@
       agentButton.addEventListener('click', function() {
         agentSidebar.classList.toggle('open');
         agentButton.classList.toggle('open');
+        if (agentSidebar.classList.contains('open')) {
+          scrollToBottom();
+        }
       });
+      
+      // Auto-scroll to bottom of chat
+      function scrollToBottom() {
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+      }
+      
+      // Format time
+      function getCurrentTime() {
+        const now = new Date();
+        return now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      }
+      
+      // Add a new message to the chat
+      function addMessage(content, isUser) {
+        const messageDiv = document.createElement('div');
+        messageDiv.className = `message ${isUser ? 'user' : 'agent'}`;
+        
+        const timeDiv = document.createElement('div');
+        timeDiv.className = 'message-time';
+        timeDiv.textContent = getCurrentTime();
+        
+        const contentDiv = document.createElement('div');
+        contentDiv.className = 'message-content';
+        contentDiv.textContent = content;
+        
+        messageDiv.appendChild(timeDiv);
+        messageDiv.appendChild(contentDiv);
+        chatMessages.appendChild(messageDiv);
+        
+        scrollToBottom();
+      }
+      
+      // Handle send message
+      function sendMessage() {
+        const message = chatInput.value.trim();
+        if (message) {
+          // Add user message
+          addMessage(message, true);
+          chatInput.value = '';
+          
+          // Simulate agent response after a short delay
+          setTimeout(() => {
+            addMessage("I'm your AI assistant. This is a simulated response.", false);
+          }, 1000);
+        }
+      }
+      
+      // Event listeners
+      sendButton.addEventListener('click', sendMessage);
+      
+      chatInput.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter' && !e.shiftKey) {
+          e.preventDefault();
+          sendMessage();
+        }
+      });
+      
+      // Initial scroll to bottom
+      scrollToBottom();
     }
   }
   
