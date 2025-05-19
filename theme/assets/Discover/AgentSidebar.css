@@ -115,18 +115,22 @@
 
 #chat-input {
   width: 100%;
-  padding: 12px 50px 12px 15px;
+  padding: 8px 40px 8px 10px;
   border: 1px solid rgb(255, 114, 67);
   border-radius: 10px;
   resize: none;
   font-family: inherit;
   font-size: 14px;
+  font-weight: normal;
+  line-height: 1.4;
   outline: none;
-  min-height: 50px;
-  max-height: 150px;
+  min-height: 40px;
+  height: 40px;
+  max-height: 80px;
   background-color: #313131;
   color: #fff;
   box-sizing: border-box;
+  overflow-y: auto;
 }
 
 #chat-input:focus {
@@ -141,11 +145,12 @@
   border: none;
   color: rgb(233, 95, 48);
   cursor: pointer;
-  padding: 8px;
+  padding: 5px;
   display: flex;
   align-items: center;
   justify-content: center;
   transition: color 0.2s;
+  font-size: 20px;
 }
 
 #send-button:hover {
