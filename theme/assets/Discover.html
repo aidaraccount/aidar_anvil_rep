@@ -106,14 +106,14 @@
 </div>
 
 <!-- Notes Button -->
-<button class="sidebar-button" id="sidebar-button">
+<button class="sidebar-button" id="sidebar-button" style="top: 20%;">
   <img class="note_svg_button" src="_/theme/icons/Note.svg" alt="Notes Icon">
   <br>
   Notes
 </button>
 
 <!-- Agent Button -->
-<button class="agent-sidebar-button" id="agent-sidebar-button">
+<button class="agent-sidebar-button" id="agent-sidebar-button" style="top: 30%;">
   <i class="fas fa-robot"></i>
   <br>
   Agent
@@ -191,8 +191,22 @@
   if (typeof agentSidebar === 'undefined') {
     const agentSidebar = document.getElementById('agent-sidebar');
     const agentButton = document.getElementById('agent-sidebar-button');
+    const notesButton = document.getElementById('sidebar-button');
     
-    if (agentButton && agentSidebar) {
+    if (agentButton && agentSidebar && notesButton) {
+      // Position agent button below notes button
+      function positionAgentButton() {
+        const notesRect = notesButton.getBoundingClientRect();
+        agentButton.style.top = `${notesRect.bottom + 20}px`;
+      }
+      
+      // Initial positioning
+      positionAgentButton();
+      
+      // Re-position on window resize
+      window.addEventListener('resize', positionAgentButton);
+      
+      // Toggle sidebar
       agentButton.addEventListener('click', function() {
         agentSidebar.classList.toggle('open');
         agentButton.classList.toggle('open');

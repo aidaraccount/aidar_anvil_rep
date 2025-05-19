@@ -1,76 +1,76 @@
 /* ------------------------------------------------------ */
 /* 1. Agent Sidebar Container */
 #agent-sidebar {
-    font-family: Gs-regular;
-    color: rgb(250,250,250);
-    position: fixed;
-    left: -400px; /* Start off-screen */
-    top: 0;
-    width: 400px;
-    height: 100%;
-    background-color: rgb(10,3,30);
-    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
-    transition: left 0.3s ease;
-    overflow-x: hidden;
-    padding-bottom: 100px;
-    border-bottom-right-radius: 15px;
-    border-top-right-radius: 15px;
-    z-index: 998; /* Slightly below notes sidebar */
-  }
-  
-  #agent-sidebar.open {
-    left: 0;
-  }
-  
-  /* 2. Agent Sidebar Button */
-  .agent-sidebar-button {
-    font-family: Gs-regular;
-    font-size: 15px;
-    position: fixed;
-    left: 0;
-    top: 30%; /* Positioned below the notes button */
-    background-color: rgb(65, 179, 217); /* Different color to distinguish */
-    color: white;
-    border: none;
-    padding: 10px;
-    cursor: pointer;
-    z-index: 997;
-    transition: left 0.3s ease;
-    border-top-right-radius: 15px;
-    border-bottom-right-radius: 15px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 5px;
+  font-family: Gs-regular;
+  color: rgb(250,250,250);
+  position: fixed;
+  right: -400px;
+  top: 0;
+  width: 400px;
+  height: 100%;
+  background-color: rgb(10,3,30);
+  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5);
+  transition: right 0.3s ease;
+  overflow-x: hidden;
+  padding-bottom: 100px;
+  border-bottom-left-radius: 15px;
+  border-top-left-radius: 15px;
+  z-index: 997;
+}
+
+#agent-sidebar.open {
+  right: 0;
+}
+
+/* 2. Agent Sidebar Button */
+.agent-sidebar-button {
+  font-family: Gs-regular;
+  font-size: 15px;
+  position: fixed;
+  right: 0;
+  top: 25%;
+  background-color: rgb(233, 95, 48);
+  color: white;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  z-index: 996;
+  transition: right 0.3s ease;
+  border-top-left-radius: 15px;
+  border-bottom-left-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+}
+
+.agent-sidebar-button.open {
+  right: 400px;
+}
+
+/* 3. Agent Sidebar Header */
+#agent-sidebar .header-sidebar {
+  padding: 20px;
+  background: rgb(233, 95, 48);
+  color: white;
+  border-top-left-radius: 15px;
+  display: flex;
+  align-items: center;
+}
+
+/* 4. Responsive Design */
+@media only screen and (max-width: 431px) {
+  #agent-sidebar {
+    width: 300px;
   }
   
   .agent-sidebar-button.open {
-    left: 400px;
+    right: 300px;
   }
-  
-  /* 3. Agent Sidebar Header */
-  #agent-sidebar .header-sidebar {
-    padding: 20px;
-    background: rgb(65, 179, 217);
-    color: white;
-    border-top-right-radius: 15px;
-    display: flex;
-    align-items: center;
+}
+
+@media only screen and (max-width: 767px) {
+  .agent-sidebar-button {
+    top: 120px;
   }
-  
-  /* 4. Responsive Design */
-  @media only screen and (max-width: 431px) {
-    #agent-sidebar {
-      width: 300px;
-    }
-    
-    .agent-sidebar-button.open {
-      left: 300px;
-    }
-  }
-  
-  @media only screen and (max-width: 767px) {
-    .agent-sidebar-button {
-      top: 120px; /* Adjusted for mobile */
-    }
-  }
+}
