@@ -7,7 +7,7 @@ import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
 import json
-import datetime
+from datetime import datetime
 
 from anvil_extras import routing
 from ..nav import click_link, click_button, logout, login_check, load_var, save_var
@@ -21,7 +21,7 @@ class C_Filter(C_FilterTemplate):
     self.init_components(**properties)
 
     # Any code you write here will run before the form opens.
-    #print(f"{datetime.datetime.now()}: C_Filter - __init__ - 1", flush=True)
+    #print(f"{datetime.now()}: C_Filter - __init__ - 1", flush=True)
     global user
     user = anvil.users.get_user()
     self.model_id=model_id
@@ -29,7 +29,7 @@ class C_Filter(C_FilterTemplate):
     self.data_grid_label_selection.visible = False
     self.link_close.visible = False
     
-    #print(f"{datetime.datetime.now()}: C_Filter - __init__ - 2", flush=True)
+    #print(f"{datetime.now()}: C_Filter - __init__ - 2", flush=True)
 
     # ------------------------------------------------- !!! ATTENTION !!!
     # SCORPIO EXTENSION - has_top5_de
@@ -42,7 +42,7 @@ class C_Filter(C_FilterTemplate):
     # ------------------------------------------------- !!! ATTENTION !!!
     
     self.load_filters()
-    #print(f"{datetime.datetime.now()}: C_Filter - __init__ - 3", flush=True)
+    #print(f"{datetime.now()}: C_Filter - __init__ - 3", flush=True)
 
   
   def load_filters(self, **event_args):

@@ -208,10 +208,10 @@ class Observe_Listen(Observe_ListenTemplate):
     self.spotify_HTML_player()
     self.form_show()
     
-    # d) Watchlist Drop-Down
-    wl_data = json.loads(anvil.server.call('get_watchlist_ids',  user["user_id"]))
-    self.drop_down_wl.selected_value = [item['watchlist_name'] for item in wl_data if item['is_last_used']][0]
-    self.drop_down_wl.items = [item['watchlist_name'] for item in wl_data]
+    # # d) Watchlist Drop-Down
+    # wl_data = json.loads(anvil.server.call('get_watchlist_ids',  user["user_id"]))
+    # self.drop_down_wl.selected_value = [item['watchlist_name'] for item in wl_data if item['is_last_used']][0]
+    # self.drop_down_wl.items = [item['watchlist_name'] for item in wl_data]
 
     # e) Models Drop-Down
     model_data = json.loads(anvil.server.call('get_model_ids',  user["user_id"]))
@@ -490,12 +490,12 @@ class Observe_Listen(Observe_ListenTemplate):
     get_open_form().refresh_models_underline()
     self.reload_discover(load_var('lastplayedartistid'))
 
-  # Watchlist dropdown
-  def drop_down_wl_change(self, **event_args):
-    wl_data = json.loads(anvil.server.call('get_watchlist_ids',  user["user_id"]))
-    wl_id_new = [item['watchlist_id'] for item in wl_data if item['watchlist_name'] == self.drop_down_wl.selected_value][0]
-    self.watchlist_id=wl_id_new
-    save_var('watchlist_id', wl_id_new)
-    anvil.server.call('update_watchlist_usage', user["user_id"], wl_id_new)
-    get_open_form().refresh_watchlists_underline()
-    self.reload_discover(load_var('lastplayedartistid'))
+  # # Watchlist dropdown
+  # def drop_down_wl_change(self, **event_args):
+  #   wl_data = json.loads(anvil.server.call('get_watchlist_ids',  user["user_id"]))
+  #   wl_id_new = [item['watchlist_id'] for item in wl_data if item['watchlist_name'] == self.drop_down_wl.selected_value][0]
+  #   self.watchlist_id=wl_id_new
+  #   save_var('watchlist_id', wl_id_new)
+  #   anvil.server.call('update_watchlist_usage', user["user_id"], wl_id_new)
+  #   get_open_form().refresh_watchlists_underline()
+  #   self.reload_discover(load_var('lastplayedartistid'))

@@ -27,6 +27,7 @@ components:
         margin: [null, null, 20, null]
       spacing_above: none
       spacing_below: none
+      visible: false
     type: FlowPanel
   - components:
     - components:

@@ -1088,19 +1088,19 @@ class C_Discover(C_DiscoverTemplate):
       else:
         self.button_remove_filters.visible = True
 
-      # --------
-      # c) Watchlist Drop-Down
-      if self.user_id is None:
-        self.drop_down_wl.visible = False
-      else:
-        self.drop_down_wl.visible = True
-        wl_data = json.loads(anvil.server.call("get_watchlist_ids", self.user_id))
-        wl_name_last_used = [
-          item["watchlist_name"] for item in wl_data if item["is_last_used"]
-        ][0]
-        self.drop_down_wl.selected_value = wl_name_last_used
-        watchlist_names = [item["watchlist_name"] for item in wl_data]
-        self.drop_down_wl.items = watchlist_names
+      # # --------
+      # # c) Watchlist Drop-Down
+      # if self.user_id is None:
+      #   self.drop_down_wl.visible = False
+      # else:
+      #   self.drop_down_wl.visible = True
+      #   wl_data = json.loads(anvil.server.call("get_watchlist_ids", self.user_id))
+      #   wl_name_last_used = [
+      #     item["watchlist_name"] for item in wl_data if item["is_last_used"]
+      #   ][0]
+      #   self.drop_down_wl.selected_value = wl_name_last_used
+      #   watchlist_names = [item["watchlist_name"] for item in wl_data]
+      #   self.drop_down_wl.items = watchlist_names
 
       # --------
       # d) Models Drop-Down
