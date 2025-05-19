@@ -50,22 +50,24 @@
 
 /* 3. Agent Sidebar Header */
 #agent-sidebar .header-sidebar {
-  padding: 20px;
+  padding: 15px 20px;
   background: rgb(233, 95, 48);
   color: white;
   border-top-left-radius: 15px;
   display: flex;
   align-items: center;
-  position: sticky;
-  top: 0;
+  position: relative;
   z-index: 1000;
+  flex-shrink: 0;
 }
 
 /* 4. Chat Container */
 .chat-container {
   display: flex;
   flex-direction: column;
-  height: calc(100% - 60px); /* Adjust based on header height */
+  height: 100%;
+  max-height: 100%;
+  overflow: hidden;
 }
 
 .chat-messages {
@@ -75,8 +77,16 @@
   display: flex;
   flex-direction: column;
   gap: 15px;
-  justify-content: flex-end;
   min-height: 0;
+  /* Allow scrolling to bottom when content overflows */
+  overflow-anchor: none;
+}
+
+/* Add some space at the bottom to ensure last message is not hidden by input */
+.chat-messages::after {
+  content: '';
+  height: 20px;
+  flex-shrink: 0;
 }
 
 .message {
@@ -125,8 +135,8 @@
   line-height: 1.4;
   outline: none;
   min-height: 40px;
-  height: 40px;
-  max-height: 80px;
+  height: 58px;
+  max-height: 58px;
   background-color: #313131;
   color: #fff;
   box-sizing: border-box;

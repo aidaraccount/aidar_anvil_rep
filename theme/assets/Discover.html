@@ -272,8 +272,18 @@
       
       // Auto-scroll to bottom of chat
       function scrollToBottom() {
-        chatMessages.scrollTop = chatMessages.scrollHeight;
+        // Use requestAnimationFrame for smooth scrolling
+        requestAnimationFrame(() => {
+          chatMessages.scrollTo({
+            top: chatMessages.scrollHeight,
+            behavior: 'smooth'
+          });
+        });
       }
+      
+      // Scroll to bottom initially and when messages change
+      const scrollObserver = new MutationObserver(scrollToBottom);
+      scrollObserver.observe(chatMessages, { childList: true, subtree: true });
       
       // Format time
       function getCurrentTime() {
@@ -326,8 +336,13 @@
         }
       });
       
-      // Initial scroll to bottom
-      scrollToBottom();
+      // Initial scroll to bottom with a small delay to ensure DOM is ready
+      setTimeout(scrollToBottom, 100);
+      
+      // Clean up observer when component is destroyed
+      window.addEventListener('beforeunload', () => {
+        scrollObserver.disconnect();
+      });
     }
   }
   
