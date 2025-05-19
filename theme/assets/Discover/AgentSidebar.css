@@ -85,6 +85,8 @@
   min-height: 0;
   overflow-anchor: auto;
   padding-bottom: 0;
+  justify-content: flex-end;
+  margin-top: auto;
 }
 
 /* Add space at the bottom of messages */
@@ -176,7 +178,8 @@
   transition: opacity 0.2s;
 }
 
-#send-button:hover .send-icon {
+#send-button:hover .send-icon,
+#send-button.has-text .send-icon {
   opacity: 1;
 }
 

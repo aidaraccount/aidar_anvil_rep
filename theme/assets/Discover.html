@@ -341,14 +341,27 @@
       // Event listeners
       sendButton.addEventListener('click', sendMessage);
       
+      // Handle input changes
+      function updateSendButtonState() {
+        const hasText = chatInput.value.trim() !== '';
+        sendButton.disabled = !hasText;
+        sendButton.classList.toggle('has-text', hasText);
+      }
+      
+      chatInput.addEventListener('input', updateSendButtonState);
+      
+      // Handle Enter key to send message
       chatInput.addEventListener('keypress', function(e) {
         if (e.key === 'Enter' && !e.shiftKey) {
           e.preventDefault();
-          sendMessage();
+          if (chatInput.value.trim() !== '') {
+            sendMessage();
+          }
         }
       });
       
-      // Initial scroll to bottom
+      // Initial states
+      updateSendButtonState();
       setTimeout(scrollToBottom, 0);
       
       // Handle window resize to maintain scroll position
