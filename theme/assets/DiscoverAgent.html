@@ -187,11 +187,21 @@
       this.socket = null;
       this.sessionId = 'user-' + Math.random().toString(36).substr(2, 9);
       
-      // Connect directly to the Uvicorn server on port 8000
+      // Use localhost for development since the WebSocket server is running locally
+      // In production, you would use the actual WebSocket server URL
+      const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
       const protocol = window.location.protocol === 'https:' ? 'wss://' : 'ws://';
-      const host = window.location.hostname; // Use hostname to avoid port conflicts
-      this.wsUrl = `${protocol}${host}:8000/ws/${this.sessionId}`;
-      console.log('WebSocket URL:', this.wsUrl);
+      
+      if (isLocalhost) {
+        // For local development
+        this.wsUrl = `ws://localhost:8000/ws/${this.sessionId}`;
+      } else {
+        // For production - you'll need to configure this to point to your WebSocket server
+        // This is just a placeholder - replace with your actual WebSocket server URL
+        this.wsUrl = `wss://your-websocket-server.com/ws/${this.sessionId}`;
+      }
+      
+      console.log('[WebSocketManager] WebSocket URL:', this.wsUrl);
       
       this.reconnectAttempts = 0;
       this.maxReconnectAttempts = 5;
@@ -214,9 +224,20 @@
     connect() {
       console.log(`[WebSocketManager] Attempting to connect to: ${this.wsUrl}`);
       
+      // Close existing connection if any
+      if (this.socket) {
+        try {
+          this.socket.close();
+        } catch (e) {
+          console.warn('[WebSocketManager] Error closing existing socket:', e);
+        }
+        this.socket = null;
+      }
+      
+      this.isConnected = false;
+      
       try {
         this.socket = new WebSocket(this.wsUrl);
-        this.isConnected = false;
         
         this.socket.onopen = () => {
           console.log('[WebSocketManager] WebSocket connection opened successfully');
@@ -225,6 +246,10 @@
           this.reconnectDelay = 1000;
           this.addSystemMessage('Connected to AIDAR agent');
           this.processMessageQueue();
+          
+          // Remove any reconnect buttons
+          const reconnectBtn = document.getElementById('ws-reconnect-btn');
+          if (reconnectBtn) reconnectBtn.remove();
         };
         
         this.socket.onmessage = (event) => {
@@ -474,44 +499,102 @@
     }
     
     // Initialize WebSocket manager and expose it globally
-    window.wsManager = new WebSocketManager();
-    console.log('[WebSocketManager] WebSocket manager initialized and exposed as window.wsManager');
-    
-    // Set up event listeners
-    const sendButton = document.getElementById('send-button');
-    const chatInput = document.getElementById('chat-input');
-    
-    if (!sendButton || !chatInput) {
-      console.error('[WebSocketManager] Critical Error: Could not find required DOM elements');
-      return window.wsManager;
-    }
-    
-    console.log('[WebSocketManager] Found required DOM elements');
-    
-    // Auto-resize textarea
-    chatInput.addEventListener('input', function() {
-      this.style.height = 'auto';
-      this.style.height = (this.scrollHeight) + 'px';
+    try {
+      window.wsManager = new WebSocketManager();
+      console.log('[WebSocketManager] WebSocket manager initialized and exposed as window.wsManager');
       
-      // Update send button state
-      const hasText = this.value.trim() !== '';
-      sendButton.disabled = !hasText;
-      console.log(`[WebSocketManager] Input changed, hasText: ${hasText}`);
-    });
-    
-    // Initial button state
-    sendButton.disabled = true;
-    
-    // Handle window unload
-    window.addEventListener('beforeunload', () => {
-      console.log('[WebSocketManager] Window unloading, cleaning up WebSocket');
-      if (window.wsManager && window.wsManager.socket) {
-        window.wsManager.socket.close();
+      // Set up event listeners
+      const sendButton = document.getElementById('send-button');
+      const chatInput = document.getElementById('chat-input');
+      
+      if (!sendButton || !chatInput) {
+        console.error('[WebSocketManager] Critical Error: Could not find required DOM elements');
+        return window.wsManager;
       }
-    });
-    
-    console.log('[WebSocketManager] WebSocket manager initialization complete');
-    return window.wsManager;
+      
+      console.log('[WebSocketManager] Found required DOM elements');
+      
+      // Auto-resize textarea
+      chatInput.addEventListener('input', function() {
+        this.style.height = 'auto';
+        this.style.height = (this.scrollHeight) + 'px';
+        
+        // Update send button state
+        const hasText = this.value.trim() !== '';
+        sendButton.disabled = !hasText;
+        console.log(`[WebSocketManager] Input changed, hasText: ${hasText}`);
+      });
+      
+      // Initial button state
+      sendButton.disabled = true;
+      
+      // Handle window unload
+      window.addEventListener('beforeunload', () => {
+        console.log('[WebSocketManager] Window unloading, cleaning up WebSocket');
+        if (window.wsManager && window.wsManager.socket) {
+          window.wsManager.socket.close(1000, 'Window closing');
+        }
+      });
+      
+      // Add a button to manually reconnect
+      const addReconnectButton = () => {
+        const existingBtn = document.getElementById('ws-reconnect-btn');
+        if (existingBtn) return;
+        
+        const btn = document.createElement('button');
+        btn.id = 'ws-reconnect-btn';
+        btn.textContent = 'Reconnect to AI Assistant';
+        btn.style.position = 'fixed';
+        btn.style.bottom = '20px';
+        btn.style.right = '20px';
+        btn.style.zIndex = '1000';
+        btn.style.padding = '10px 20px';
+        btn.style.backgroundColor = '#e95f30';
+        btn.style.color = 'white';
+        btn.style.border = 'none';
+        btn.style.borderRadius = '5px';
+        btn.style.cursor = 'pointer';
+        btn.onclick = () => {
+          console.log('[WebSocketManager] Manual reconnect requested');
+          if (window.wsManager) {
+            window.wsManager.connect();
+          } else {
+            window.wsManager = new WebSocketManager();
+          }
+          btn.remove();
+        };
+        document.body.appendChild(btn);
+      };
+      
+      // Show reconnect button on connection issues
+      const checkConnection = setInterval(() => {
+        if (window.wsManager && !window.wsManager.isConnected) {
+          console.log('[WebSocketManager] Connection check: Not connected, showing reconnect button');
+          addReconnectButton();
+          clearInterval(checkConnection);
+        }
+      }, 5000);
+      
+      console.log('[WebSocketManager] WebSocket manager initialization complete');
+      return window.wsManager;
+      
+    } catch (error) {
+      console.error('[WebSocketManager] Failed to initialize WebSocket manager:', error);
+      // Show error to user
+      const errorMsg = document.createElement('div');
+      errorMsg.style.position = 'fixed';
+      errorMsg.style.bottom = '20px';
+      errorMsg.style.right = '20px';
+      errorMsg.style.backgroundColor = '#ff4444';
+      errorMsg.style.color = 'white';
+      errorMsg.style.padding = '10px 20px';
+      errorMsg.style.borderRadius = '5px';
+      errorMsg.style.zIndex = '1000';
+      errorMsg.textContent = 'Failed to connect to AI Assistant. Please refresh the page.';
+      document.body.appendChild(errorMsg);
+      
+      return null;
+    }
   }
   
   // Initialize when DOM is loaded
