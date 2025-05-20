@@ -536,7 +536,7 @@
     }
     
     // Update or add a bot message (for streaming)
-    updateOrAddBotMessage(content) {
+    updateOrCreateBotMessage(content) {
       // Remove typing indicator if present
       this.removeTypingIndicator();
       
@@ -558,6 +558,11 @@
       this.scrollToBottom();
     }
     
+    // Alias for backward compatibility
+    updateOrAddBotMessage(content) {
+      this.updateOrCreateBotMessage(content);
+    }
+    
     // Mark the last bot message as complete
     markLastMessageComplete() {
       this.lastBotMessage = null;
@@ -569,18 +574,45 @@
       this.removeTypingIndicator();
       
       this.typingIndicator = document.createElement('div');
-      this.typingIndicator.className = 'message agent';
-      this.typingIndicator.innerHTML = `
-        <div class="message-time">${this.getCurrentTime()}</div>
-        <div class="message-content waiting-for-response">
-          <span class="waiting-for-response-text">AIDAR is thinking</span>
-          <span class="waiting-dot"></span>
-          <span class="waiting-dot"></span>
-          <span class="waiting-dot"></span>
-        </div>
-      `;
-      this.chatMessages.appendChild(this.typingIndicator);
-      this.scrollToBottom();
+      this.typingIndicator.className = 'waiting-indicator';
+      this.typingIndicator.textContent = 'AIDAR is thinking';
+      this.chatContainer.appendChild(this.typingIndicator);
+    }
+    
+    // Initialize WebSocket manager
+    constructor() {
+      this.socket = null;
+      this.sessionId = 'user-' + Math.random().toString(36).substr(2, 9);
+      this.chatContainer = document.querySelector('.chat-container');
+      this.chatMessages = document.getElementById('chat-messages');
+      this.lastBotMessage = null;
+      this.typingIndicator = null;
+      this.messageQueue = [];
+      this.isConnected = false;
+      this.reconnectAttempts = 0;
+      this.maxReconnectAttempts = 5;
+      this.reconnectDelay = 1000;
+      
+      // Debug information
+      console.log('[WebSocketManager] Constructor called');
+      console.log('[WebSocketManager] Hostname:', window.location.hostname);
+      console.log('[WebSocketManager] Protocol:', window.location.protocol);
+      
+      // For development - always use localhost:8000 for now
+      this.wsUrl = `ws://localhost:8000/ws/${this.sessionId}`;
+      
+      // Log the final WebSocket URL
+      console.log('[WebSocketManager] Using WebSocket URL:', this.wsUrl);
+      
+      // Check if the URL is valid
+      try {
+        new URL(this.wsUrl);
+      } catch (e) {
+        console.error('[WebSocketManager] Invalid WebSocket URL:', e);
+      }
+      
+      // Connect immediately
+      this.connect();
     }
     
     // Remove typing indicator
