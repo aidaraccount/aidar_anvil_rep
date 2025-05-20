@@ -185,35 +185,36 @@
   if(typeof sidebar === 'undefined') {
     const sidebar = document.getElementById('right-sidebar');
     const button = document.getElementById('sidebar-button');
-    const mainContent = document.querySelector('.anvil-role-left-discover-page');
+    const mainContent = document.querySelector('.main-content-move');
     const content = document.querySelector('.main-content');
   
-    if (sidebar && button && content) {
+    if (sidebar && button && content && mainContent) {
       button.addEventListener('click', function () {
         const isOpen = sidebar.classList.toggle('open');
         button.classList.toggle('open');
         
-        // Adjust main content margin when notes sidebar is toggled
+        // Get current right margin
+        let currentRightMargin = parseInt(mainContent.style.marginRight || '0');
+        
         if (isOpen) {
-          // Check if agent sidebar is also open
+          // If opening, add 400px to right margin
+          currentRightMargin += 400;
+          // Also check if agent sidebar is open
           const agentSidebar = document.getElementById('agent-sidebar');
           if (agentSidebar && agentSidebar.classList.contains('open')) {
-            content.style.marginRight = '800px';
-          } else {
-            content.style.marginRight = '400px';
+            currentRightMargin = 800; // Both sidebars open
           }
         } else {
-          // If closing, check if agent sidebar is open
-          const agentSidebar = document.getElementById('agent-sidebar');
-          if (agentSidebar && agentSidebar.classList.contains('open')) {
-            content.style.marginRight = '400px';
-          } else {
-            content.style.marginRight = '0';
-          }
+          // If closing, subtract 400px from right margin, but not less than 0
+          currentRightMargin = Math.max(0, currentRightMargin - 400);
         }
+        
+        // Apply the new margin
+        mainContent.style.marginRight = currentRightMargin + 'px';
+        content.style.marginRight = currentRightMargin + 'px';
       });
     } else {
-      console.error("Required elements not found..");
+      console.error("Required elements not found");
     }
   }
 
@@ -285,27 +286,31 @@
         const isOpen = agentSidebar.classList.toggle('open');
         agentButton.classList.toggle('open');
         
-        // Adjust main content margin when agent sidebar is toggled
-        const mainContent = document.querySelector('.main-content');
-        if (mainContent) {
+        // Get the main content elements
+        const mainContent = document.querySelector('.main-content-move');
+        const content = document.querySelector('.main-content');
+        
+        if (mainContent && content) {
+          // Get current right margin
+          let currentRightMargin = parseInt(mainContent.style.marginRight || '0');
+          
           if (isOpen) {
-            // Check if notes sidebar is also open
+            // If opening, add 400px to right margin
+            currentRightMargin += 400;
+            // Also check if notes sidebar is open
             const notesSidebar = document.getElementById('right-sidebar');
             if (notesSidebar && notesSidebar.classList.contains('open')) {
-              mainContent.style.marginRight = '800px';
-            } else {
-              mainContent.style.marginRight = '400px';
+              currentRightMargin = 800; // Both sidebars open
             }
             scrollToBottom();
           } else {
-            // If closing, check if notes sidebar is open
-            const notesSidebar = document.getElementById('right-sidebar');
-            if (notesSidebar && notesSidebar.classList.contains('open')) {
-              mainContent.style.marginRight = '400px';
-            } else {
-              mainContent.style.marginRight = '0';
-            }
+            // If closing, subtract 400px from right margin, but not less than 0
+            currentRightMargin = Math.max(0, currentRightMargin - 400);
           }
+          
+          // Apply the new margin
+          mainContent.style.marginRight = currentRightMargin + 'px';
+          content.style.marginRight = currentRightMargin + 'px';
         }
       });
       
