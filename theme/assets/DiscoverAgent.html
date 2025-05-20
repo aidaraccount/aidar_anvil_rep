@@ -467,8 +467,9 @@
   document.addEventListener('DOMContentLoaded', () => {
     console.log('[WebSocketManager] DOM fully loaded, initializing WebSocket manager');
     
-    // Initialize WebSocket manager
-    const wsManager = new WebSocketManager();
+    // Initialize WebSocket manager and expose it globally
+    window.wsManager = new WebSocketManager();
+    console.log('[WebSocketManager] WebSocket manager initialized and exposed as window.wsManager');
     
     // Set up event listeners
     const sendButton = document.getElementById('send-button');
@@ -757,23 +758,15 @@
         scrollToBottom();
       }
 
-      // Handle send message
-      function sendMessage() {
+      // Event listeners for the agent sidebar
+      sendButton.addEventListener('click', (e) => {
+        e.preventDefault();
         const message = chatInput.value.trim();
         if (message) {
-          // Add user message
-          addMessage(message, true);
-          chatInput.value = '';
-
-          // Simulate agent response after a short delay
-          setTimeout(() => {
-            addMessage("I'm your AI assistant. This is a simulated response.", false);
-          }, 1000);
+          console.log('[AgentSidebar] Sending message via WebSocket manager');
+          window.wsManager.sendMessage();
         }
-      }
-
-      // Event listeners
-      sendButton.addEventListener('click', sendMessage);
+      });
 
       // Handle input changes
       function updateSendButtonState() {
@@ -788,8 +781,10 @@
       chatInput.addEventListener('keypress', function(e) {
         if (e.key === 'Enter' && !e.shiftKey) {
           e.preventDefault();
-          if (chatInput.value.trim() !== '') {
-            sendMessage();
+          const message = chatInput.value.trim();
+          if (message) {
+            console.log('[AgentSidebar] Sending message via WebSocket manager (Enter key)');
+            window.wsManager.sendMessage();
           }
         }
       });
