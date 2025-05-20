@@ -47,10 +47,11 @@
   }
   
   /* Position buttons on the left edge of their respective sidebars */
+  /* ATTENTION: This is a workaround for the fact that the buttons are not visible when the right sidebar is open */
   .sidebar-button,
   .agent-sidebar-button {
     transition: right 0.3s ease-in-out, transform 0.3s ease-in-out;
-    right: 0;
+    right: 400px;
   }
   
   /* When either sidebar is open, position its button */
