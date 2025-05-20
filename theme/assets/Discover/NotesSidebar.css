@@ -1,3 +1,11 @@
+ 
+/* ATTENTION: This is a workaround to hide the Notes button */
+/* Hide notes button by default */
+.sidebar-button {
+  right: -100px;
+}
+
+
 /* ------------------------------------------------------ */
 /* 1. Main Layout */
 .container-panel {
@@ -47,11 +55,13 @@
   }
   
   /* Position buttons on the left edge of their respective sidebars */
-  /* ATTENTION: This is a workaround for the fact that the buttons are not visible when the right sidebar is open */
   .sidebar-button,
   .agent-sidebar-button {
     transition: right 0.3s ease-in-out, transform 0.3s ease-in-out;
-    right: 400px;
+  }
+
+  .agent-sidebar-button {
+    right: 0;
   }
   
   /* When either sidebar is open, position its button */
@@ -99,9 +109,8 @@
   }
   
   /* 3. Sidebar States */
-  /* ATTENTION: This is a workaround for the fact that the buttons are not visible when the right sidebar is open */
   #right-sidebar.open {
-    right: 400px;
+    right: 0;
   }
   
   /* 4. Sidebar Buttons */
