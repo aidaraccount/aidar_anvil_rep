@@ -212,12 +212,14 @@
     
     // Initialize WebSocket connection
     connect() {
+      console.log(`[WebSocketManager] Attempting to connect to: ${this.wsUrl}`);
+      
       try {
         this.socket = new WebSocket(this.wsUrl);
         this.isConnected = false;
         
         this.socket.onopen = () => {
-          console.log('Connected to WebSocket server');
+          console.log('[WebSocketManager] WebSocket connection opened successfully');
           this.isConnected = true;
           this.reconnectAttempts = 0;
           this.reconnectDelay = 1000;
@@ -225,22 +227,26 @@
           this.processMessageQueue();
         };
         
-        this.socket.onmessage = (event) => this.handleMessage(event);
+        this.socket.onmessage = (event) => {
+          console.log('[WebSocketManager] Received message:', event.data);
+          this.handleMessage(event);
+        };
         
-        this.socket.onclose = () => {
-          console.log('WebSocket connection closed');
+        this.socket.onclose = (event) => {
+          console.log(`[WebSocketManager] WebSocket connection closed. Code: ${event.code}, Reason: ${event.reason || 'No reason provided'}`);
           this.isConnected = false;
           this.handleReconnect();
         };
         
         this.socket.onerror = (error) => {
-          console.error('WebSocket error:', error);
+          console.error('[WebSocketManager] WebSocket error:', error);
           this.isConnected = false;
           this.addErrorMessage('Connection error occurred');
+          console.log('[WebSocketManager] WebSocket readyState:', this.socket ? this.socket.readyState : 'no socket');
         };
         
       } catch (error) {
-        console.error('Failed to establish WebSocket connection:', error);
+        console.error('[WebSocketManager] Failed to establish WebSocket connection:', error);
         this.addErrorMessage('Failed to connect to the server');
         this.handleReconnect();
       }
@@ -298,10 +304,15 @@
     
     // Send message to the server
     sendMessage() {
-      const message = this.chatInput.value.trim();
-      if (!message) return;
+      console.log('[WebSocketManager] sendMessage() called');
       
-      // Add user message to chat
+      const message = this.chatInput.value.trim();
+      if (!message) {
+        console.log('[WebSocketManager] Empty message, ignoring');
+        return;
+      }
+      
+      console.log('[WebSocketManager] Adding user message to chat');
       this.addUserMessage(message);
       this.chatInput.value = '';
       this.chatInput.style.height = 'auto'; // Reset textarea height
@@ -314,12 +325,18 @@
         timestamp: new Date().toISOString()
       };
       
-      console.log('Sending message:', messageData);
+      console.log('[WebSocketManager] Prepared message:', messageData);
+      
+      // Check WebSocket state
+      const socketReady = this.socket && this.socket.readyState === WebSocket.OPEN;
+      console.log(`[WebSocketManager] WebSocket state: ${this.socket ? this.socket.readyState : 'null'}, isConnected: ${this.isConnected}, socketReady: ${socketReady}`);
       
       // Send or queue the message
-      if (this.isConnected && this.socket && this.socket.readyState === WebSocket.OPEN) {
+      if (this.isConnected && socketReady) {
+        console.log('[WebSocketManager] Sending message via WebSocket');
         this.sendRawMessage(messageData);
       } else {
+        console.log('[WebSocketManager] Queueing message, attempting to reconnect');
         this.messageQueue.push(messageData);
         this.addSystemMessage('Message queued. Will send when connection is restored...');
         this.connect(); // Try to reconnect if not connected
@@ -448,6 +465,8 @@
 
   // Initialize WebSocket when the page loads
   document.addEventListener('DOMContentLoaded', () => {
+    console.log('[WebSocketManager] DOM fully loaded, initializing WebSocket manager');
+    
     // Initialize WebSocket manager
     const wsManager = new WebSocketManager();
     
@@ -455,29 +474,45 @@
     const sendButton = document.getElementById('send-button');
     const chatInput = document.getElementById('chat-input');
     
+    if (!sendButton || !chatInput) {
+      console.error('[WebSocketManager] Critical Error: Could not find required DOM elements');
+      return;
+    }
+    
+    console.log('[WebSocketManager] Found required DOM elements');
+    
     // Override default form submission
-    const form = document.querySelector('.chat-input-container').closest('form');
-    if (form) {
-      form.onsubmit = (e) => {
+    const chatForm = chatInput.closest('form') || document.querySelector('form');
+    if (chatForm) {
+      console.log('[WebSocketManager] Found form element, preventing default submission');
+      chatForm.onsubmit = (e) => {
+        console.log('[WebSocketManager] Form submission intercepted');
         e.preventDefault();
+        e.stopPropagation();
         wsManager.sendMessage();
         return false;
       };
+    } else {
+      console.log('[WebSocketManager] No form element found, using button/input handlers only');
     }
     
     // Handle send button click
     sendButton.addEventListener('click', (e) => {
+      console.log('[WebSocketManager] Send button clicked');
       e.preventDefault();
+      e.stopPropagation();
       wsManager.sendMessage();
-    });
+    }, true); // Use capture phase to ensure we catch the event first
     
     // Handle Enter key in chat input
     chatInput.addEventListener('keydown', (e) => {
       if (e.key === 'Enter' && !e.shiftKey) {
+        console.log('[WebSocketManager] Enter key pressed in chat input');
         e.preventDefault();
+        e.stopPropagation();
         wsManager.sendMessage();
       }
-    });
+    }, true); // Use capture phase
     
     // Auto-resize textarea
     chatInput.addEventListener('input', function() {
@@ -485,7 +520,9 @@
       this.style.height = (this.scrollHeight) + 'px';
       
       // Update send button state
-      sendButton.disabled = this.value.trim() === '';
+      const hasText = this.value.trim() !== '';
+      sendButton.disabled = !hasText;
+      console.log(`[WebSocketManager] Input changed, hasText: ${hasText}`);
     });
     
     // Initial button state
@@ -493,13 +530,31 @@
     
     // Handle window unload
     window.addEventListener('beforeunload', () => {
+      console.log('[WebSocketManager] Window unloading, cleaning up WebSocket');
       if (wsManager.socket) {
         wsManager.socket.close();
       }
     });
     
     // Debug logging
-    console.log('WebSocket manager initialized with URL:', wsManager.wsUrl);
+    console.log('[WebSocketManager] WebSocket manager initialization complete');
+    
+    // Check for any existing event listeners that might interfere
+    const checkForInterferingListeners = () => {
+      const clickListeners = getEventListeners(sendButton).click || [];
+      const keyListeners = getEventListeners(chatInput).keydown || [];
+      
+      console.log(`[WebSocketManager] Found ${clickListeners.length} click listeners on send button`);
+      console.log(`[WebSocketManager] Found ${keyListeners.length} keydown listeners on chat input`);
+      
+      // Log form submission handlers
+      if (chatForm) {
+        console.log('[WebSocketManager] Form onsubmit handler:', chatForm.onsubmit ? 'exists' : 'none');
+      }
+    };
+    
+    // Run the check after a short delay to catch any late-added listeners
+    setTimeout(checkForInterferingListeners, 1000);
   });
 
 
