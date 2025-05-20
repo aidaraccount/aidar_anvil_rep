@@ -187,6 +187,17 @@
     constructor() {
       this.socket = null;
       this.sessionId = 'user-' + Math.random().toString(36).substr(2, 9);
+      this.chatContainer = document.querySelector('.chat-container');
+      this.chatMessages = document.getElementById('chat-messages');
+      this.chatInput = document.getElementById('chat-input');
+      this.sendButton = document.getElementById('send-button');
+      this.lastBotMessage = null;
+      this.typingIndicator = null;
+      this.messageQueue = [];
+      this.isConnected = false;
+      this.reconnectAttempts = 0;
+      this.maxReconnectAttempts = 5;
+      this.reconnectDelay = 1000;
       
       // Debug information
       console.log('[WebSocketManager] Constructor called');
@@ -204,23 +215,7 @@
         new URL(this.wsUrl);
       } catch (e) {
         console.error('[WebSocketManager] Invalid WebSocket URL:', e);
-        this.addSystemMessage('Error: Invalid WebSocket configuration. Please check the console for details.');
       }
-      
-      console.log('[WebSocketManager] WebSocket URL:', this.wsUrl);
-      
-      this.reconnectAttempts = 0;
-      this.maxReconnectAttempts = 5;
-      this.reconnectDelay = 1000; // Start with 1 second
-      this.typingIndicator = null;
-      this.lastBotMessage = null;
-      this.isConnected = false;
-      this.messageQueue = [];
-      
-      // DOM elements
-      this.chatMessages = document.getElementById('chat-messages');
-      this.chatInput = document.getElementById('chat-input');
-      this.sendButton = document.getElementById('send-button');
       
       // Initialize connection
       this.connect();
@@ -579,41 +574,7 @@
       this.chatContainer.appendChild(this.typingIndicator);
     }
     
-    // Initialize WebSocket manager
-    constructor() {
-      this.socket = null;
-      this.sessionId = 'user-' + Math.random().toString(36).substr(2, 9);
-      this.chatContainer = document.querySelector('.chat-container');
-      this.chatMessages = document.getElementById('chat-messages');
-      this.lastBotMessage = null;
-      this.typingIndicator = null;
-      this.messageQueue = [];
-      this.isConnected = false;
-      this.reconnectAttempts = 0;
-      this.maxReconnectAttempts = 5;
-      this.reconnectDelay = 1000;
-      
-      // Debug information
-      console.log('[WebSocketManager] Constructor called');
-      console.log('[WebSocketManager] Hostname:', window.location.hostname);
-      console.log('[WebSocketManager] Protocol:', window.location.protocol);
-      
-      // For development - always use localhost:8000 for now
-      this.wsUrl = `ws://localhost:8000/ws/${this.sessionId}`;
-      
-      // Log the final WebSocket URL
-      console.log('[WebSocketManager] Using WebSocket URL:', this.wsUrl);
-      
-      // Check if the URL is valid
-      try {
-        new URL(this.wsUrl);
-      } catch (e) {
-        console.error('[WebSocketManager] Invalid WebSocket URL:', e);
-      }
-      
-      // Connect immediately
-      this.connect();
-    }
+    // Constructor is defined elsewhere in the file
     
     // Remove typing indicator
     removeTypingIndicator() {
