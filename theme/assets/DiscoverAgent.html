@@ -186,7 +186,13 @@
     constructor() {
       this.socket = null;
       this.sessionId = 'user-' + Math.random().toString(36).substr(2, 9);
-      this.wsUrl = 'ws://localhost:8000/ws/' + this.sessionId;
+      
+      // Connect directly to the Uvicorn server on port 8000
+      const protocol = window.location.protocol === 'https:' ? 'wss://' : 'ws://';
+      const host = window.location.hostname; // Use hostname to avoid port conflicts
+      this.wsUrl = `${protocol}${host}:8000/ws/${this.sessionId}`;
+      console.log('WebSocket URL:', this.wsUrl);
+      
       this.reconnectAttempts = 0;
       this.maxReconnectAttempts = 5;
       this.reconnectDelay = 1000; // Start with 1 second
@@ -298,6 +304,7 @@
       // Add user message to chat
       this.addUserMessage(message);
       this.chatInput.value = '';
+      this.chatInput.style.height = 'auto'; // Reset textarea height
       this.showTypingIndicator();
       
       // Prepare message
@@ -307,12 +314,15 @@
         timestamp: new Date().toISOString()
       };
       
+      console.log('Sending message:', messageData);
+      
       // Send or queue the message
       if (this.isConnected && this.socket && this.socket.readyState === WebSocket.OPEN) {
         this.sendRawMessage(messageData);
       } else {
         this.messageQueue.push(messageData);
         this.addSystemMessage('Message queued. Will send when connection is restored...');
+        this.connect(); // Try to reconnect if not connected
       }
     }
     
@@ -442,9 +452,27 @@
     const wsManager = new WebSocketManager();
     
     // Set up event listeners
-    wsManager.sendButton.addEventListener('click', () => wsManager.sendMessage());
+    const sendButton = document.getElementById('send-button');
+    const chatInput = document.getElementById('chat-input');
     
-    wsManager.chatInput.addEventListener('keypress', (e) => {
+    // Override default form submission
+    const form = document.querySelector('.chat-input-container').closest('form');
+    if (form) {
+      form.onsubmit = (e) => {
+        e.preventDefault();
+        wsManager.sendMessage();
+        return false;
+      };
+    }
+    
+    // Handle send button click
+    sendButton.addEventListener('click', (e) => {
+      e.preventDefault();
+      wsManager.sendMessage();
+    });
+    
+    // Handle Enter key in chat input
+    chatInput.addEventListener('keydown', (e) => {
       if (e.key === 'Enter' && !e.shiftKey) {
         e.preventDefault();
         wsManager.sendMessage();
@@ -452,13 +480,16 @@
     });
     
     // Auto-resize textarea
-    wsManager.chatInput.addEventListener('input', function() {
+    chatInput.addEventListener('input', function() {
       this.style.height = 'auto';
       this.style.height = (this.scrollHeight) + 'px';
       
-      // Enable/disable send button based on input
-      this.dispatchEvent(new Event('change'));
+      // Update send button state
+      sendButton.disabled = this.value.trim() === '';
     });
+    
+    // Initial button state
+    sendButton.disabled = true;
     
     // Handle window unload
     window.addEventListener('beforeunload', () => {
@@ -466,6 +497,9 @@
         wsManager.socket.close();
       }
     });
+    
+    // Debug logging
+    console.log('WebSocket manager initialized with URL:', wsManager.wsUrl);
   });
 
 
