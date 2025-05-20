@@ -102,16 +102,15 @@
     </div>
     <div class="chat-container">
       <div class="chat-messages" id="chat-messages">
-
-        <!-- Agent message -->
-        <div class="message agent">
-          <div class="message-time">11:45 AM</div>
-          <div class="message-content">
-            Hello! I'm your AI assistant. How can I help you today?
-          </div>
+      <!-- Initial welcome message -->
+      <div class="message agent">
+        <div class="message-time">Just now</div>
+        <div class="message-content">
+          Hello! I'm your AI assistant. How can I help you today?
         </div>
+      </div>
 
-        <!-- User message -->
+        <!-- User message 
         <div class="message user">
           <div class="message-time">11:46 AM</div>
           <div class="message-content">
@@ -119,7 +118,7 @@
           </div>
         </div>
 
-        <!-- Agent message -->
+        Agent message
         <div class="message agent">
           <div class="message-time">11:46 AM</div>
           <div class="message-content">
@@ -127,7 +126,7 @@
           </div>
         </div>
 
-        <!-- User message -->
+        User message
         <div class="message user">
           <div class="message-time">11:46 AM</div>
           <div class="message-content">
@@ -135,15 +134,15 @@
           </div>
         </div>
 
-        <!-- Agent message -->
+        Agent message
         <div class="message agent">
           <div class="message-time">11:46 AM</div>
           <div class="message-content">
             Sure, here are some artists that are less popular than the artist you clicked on.
           </div>
-        </div>
+        </div>-->
 
-      </div>
+    </div>
     </div>
 
     <div class="chat-input-container">
@@ -152,7 +151,9 @@
         <img src="_/theme/icons/paper-plane-horizontal.png" alt="Send" class="send-icon">
       </button>
     </div>
+
   </div>
+  
 </div>
 
 </div>
@@ -180,6 +181,294 @@
 
 
 <script>
+  // WebSocket connection manager
+  class WebSocketManager {
+    constructor() {
+      this.socket = null;
+      this.sessionId = 'user-' + Math.random().toString(36).substr(2, 9);
+      this.wsUrl = 'ws://localhost:8000/ws/' + this.sessionId;
+      this.reconnectAttempts = 0;
+      this.maxReconnectAttempts = 5;
+      this.reconnectDelay = 1000; // Start with 1 second
+      this.typingIndicator = null;
+      this.lastBotMessage = null;
+      this.isConnected = false;
+      this.messageQueue = [];
+      
+      // DOM elements
+      this.chatMessages = document.getElementById('chat-messages');
+      this.chatInput = document.getElementById('chat-input');
+      this.sendButton = document.getElementById('send-button');
+      
+      // Initialize connection
+      this.connect();
+    }
+    
+    // Initialize WebSocket connection
+    connect() {
+      try {
+        this.socket = new WebSocket(this.wsUrl);
+        this.isConnected = false;
+        
+        this.socket.onopen = () => {
+          console.log('Connected to WebSocket server');
+          this.isConnected = true;
+          this.reconnectAttempts = 0;
+          this.reconnectDelay = 1000;
+          this.addSystemMessage('Connected to AIDAR agent');
+          this.processMessageQueue();
+        };
+        
+        this.socket.onmessage = (event) => this.handleMessage(event);
+        
+        this.socket.onclose = () => {
+          console.log('WebSocket connection closed');
+          this.isConnected = false;
+          this.handleReconnect();
+        };
+        
+        this.socket.onerror = (error) => {
+          console.error('WebSocket error:', error);
+          this.isConnected = false;
+          this.addErrorMessage('Connection error occurred');
+        };
+        
+      } catch (error) {
+        console.error('Failed to establish WebSocket connection:', error);
+        this.addErrorMessage('Failed to connect to the server');
+        this.handleReconnect();
+      }
+    }
+    
+    // Handle incoming WebSocket messages
+    handleMessage(event) {
+      try {
+        const data = JSON.parse(event.data);
+        console.log('Message from server:', data);
+        
+        switch (data.type) {
+          case 'partial_response':
+            this.updateOrAddBotMessage(data.content);
+            break;
+          case 'complete':
+            this.markLastMessageComplete();
+            break;
+          case 'error':
+            this.addErrorMessage(data.content);
+            break;
+          default:
+            console.warn('Unknown message type:', data.type);
+        }
+      } catch (e) {
+        console.error('Error processing message:', e);
+      }
+    }
+    
+    // Handle reconnection with exponential backoff
+    handleReconnect() {
+      if (this.reconnectAttempts >= this.maxReconnectAttempts) {
+        this.addSystemMessage('Unable to reconnect. Please refresh the page to try again.');
+        return;
+      }
+      
+      this.reconnectAttempts++;
+      const delay = Math.min(this.reconnectDelay * Math.pow(2, this.reconnectAttempts), 30000); // Max 30s delay
+      
+      this.addSystemMessage(`Connection lost. Reconnecting in ${delay/1000} seconds...`);
+      
+      setTimeout(() => {
+        console.log(`Attempting to reconnect (${this.reconnectAttempts}/${this.maxReconnectAttempts})...`);
+        this.connect();
+      }, delay);
+    }
+    
+    // Process any queued messages
+    processMessageQueue() {
+      while (this.messageQueue.length > 0 && this.isConnected) {
+        const message = this.messageQueue.shift();
+        this.sendRawMessage(message);
+      }
+    }
+    
+    // Send message to the server
+    sendMessage() {
+      const message = this.chatInput.value.trim();
+      if (!message) return;
+      
+      // Add user message to chat
+      this.addUserMessage(message);
+      this.chatInput.value = '';
+      this.showTypingIndicator();
+      
+      // Prepare message
+      const messageData = {
+        type: 'query',
+        content: message,
+        timestamp: new Date().toISOString()
+      };
+      
+      // Send or queue the message
+      if (this.isConnected && this.socket && this.socket.readyState === WebSocket.OPEN) {
+        this.sendRawMessage(messageData);
+      } else {
+        this.messageQueue.push(messageData);
+        this.addSystemMessage('Message queued. Will send when connection is restored...');
+      }
+    }
+    
+    // Send raw message to WebSocket
+    sendRawMessage(messageData) {
+      try {
+        this.socket.send(JSON.stringify(messageData));
+      } catch (error) {
+        console.error('Error sending message:', error);
+        this.addErrorMessage('Failed to send message');
+        this.handleReconnect();
+      }
+    }
+    
+    // Add a user message to the chat
+    addUserMessage(content) {
+      const messageDiv = document.createElement('div');
+      messageDiv.className = 'message user';
+      messageDiv.innerHTML = `
+        <div class="message-time">${this.getCurrentTime()}</div>
+        <div class="message-content">${this.escapeHtml(content)}</div>
+      `;
+      this.chatMessages.appendChild(messageDiv);
+      this.scrollToBottom();
+    }
+    
+
+    // Add a system message to the chat
+    addSystemMessage(content) {
+      const messageDiv = document.createElement('div');
+      messageDiv.className = 'message system';
+      messageDiv.innerHTML = `
+        <div class="message-time">${this.getCurrentTime()}</div>
+        <div class="message-content">${this.escapeHtml(content)}</div>
+      `;
+      this.chatMessages.appendChild(messageDiv);
+      this.scrollToBottom();
+    }
+    
+    // Add an error message to the chat
+    addErrorMessage(content) {
+      const messageDiv = document.createElement('div');
+      messageDiv.className = 'message error';
+      messageDiv.innerHTML = `
+        <div class="message-time">${this.getCurrentTime()}</div>
+        <div class="message-content">Error: ${this.escapeHtml(content)}</div>
+      `;
+      this.chatMessages.appendChild(messageDiv);
+      this.scrollToBottom();
+    }
+    
+    // Update or add a bot message (for streaming)
+    updateOrAddBotMessage(content) {
+      // Remove typing indicator if present
+      this.removeTypingIndicator();
+      
+      // Create new message if needed
+      if (!this.lastBotMessage) {
+        this.lastBotMessage = document.createElement('div');
+        this.lastBotMessage.className = 'message agent';
+        this.lastBotMessage.innerHTML = `
+          <div class="message-time">${this.getCurrentTime()}</div>
+          <div class="message-content"></div>
+        `;
+        this.chatMessages.appendChild(this.lastBotMessage);
+      }
+      
+      // Update message content
+      const contentDiv = this.lastBotMessage.querySelector('.message-content');
+      contentDiv.textContent = content;
+      
+      this.scrollToBottom();
+    }
+    
+    // Mark the last bot message as complete
+    markLastMessageComplete() {
+      this.lastBotMessage = null;
+      this.removeTypingIndicator();
+    }
+    
+    // Show typing indicator
+    showTypingIndicator() {
+      this.removeTypingIndicator();
+      
+      this.typingIndicator = document.createElement('div');
+      this.typingIndicator.className = 'typing-indicator';
+      this.typingIndicator.innerHTML = `
+        <div class="message-time">${this.getCurrentTime()}</div>
+        <div class="message-content">AIDAR is thinking...</div>
+      `;
+      this.chatMessages.appendChild(this.typingIndicator);
+      this.scrollToBottom();
+    }
+    
+    // Remove typing indicator
+    removeTypingIndicator() {
+      if (this.typingIndicator) {
+        this.typingIndicator.remove();
+        this.typingIndicator = null;
+      }
+    }
+    
+    // Helper: Get current time in HH:MM AM/PM format
+    getCurrentTime() {
+      return new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    }
+    
+    // Helper: Scroll chat to bottom
+    scrollToBottom() {
+      this.chatMessages.scrollTop = this.chatMessages.scrollHeight;
+    }
+    
+    // Helper: Escape HTML to prevent XSS
+    escapeHtml(unsafe) {
+      return unsafe
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+  }
+
+  // Initialize WebSocket when the page loads
+  document.addEventListener('DOMContentLoaded', () => {
+    // Initialize WebSocket manager
+    const wsManager = new WebSocketManager();
+    
+    // Set up event listeners
+    wsManager.sendButton.addEventListener('click', () => wsManager.sendMessage());
+    
+    wsManager.chatInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        wsManager.sendMessage();
+      }
+    });
+    
+    // Auto-resize textarea
+    wsManager.chatInput.addEventListener('input', function() {
+      this.style.height = 'auto';
+      this.style.height = (this.scrollHeight) + 'px';
+      
+      // Enable/disable send button based on input
+      this.dispatchEvent(new Event('change'));
+    });
+    
+    // Handle window unload
+    window.addEventListener('beforeunload', () => {
+      if (wsManager.socket) {
+        wsManager.socket.close();
+      }
+    });
+  });
+
+
 
   // Notes Sidebar
   if(typeof sidebar === 'undefined') {
