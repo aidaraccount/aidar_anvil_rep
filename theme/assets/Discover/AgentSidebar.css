@@ -250,7 +250,7 @@
   background: transparent;
   border: none;
   pointer-events: none;
-  font-style: italic;
+  font-weight: normal;
 }
 
 .waiting-indicator::after {
