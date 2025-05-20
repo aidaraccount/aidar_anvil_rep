@@ -99,8 +99,9 @@
   }
   
   /* 3. Sidebar States */
+  /* ATTENTION: This is a workaround for the fact that the buttons are not visible when the right sidebar is open */
   #right-sidebar.open {
-    right: 0;
+    right: 400px;
   }
   
   /* 4. Sidebar Buttons */
