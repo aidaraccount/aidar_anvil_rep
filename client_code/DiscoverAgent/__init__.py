@@ -26,14 +26,14 @@ from ..C_Short import C_Short
 from ..C_FeedbackForm import C_FeedbackForm
 
 
-@routing.route('artists', url_keys=['artist_id'], title='Artists')
+@routing.route('agent_artists', url_keys=['artist_id'], title='Artists')
 class DiscoverAgent(DiscoverAgentTemplate):
   def __init__(self, **properties):
     print(f"{datetime.now()}: Discover - __init__ - 1", flush=True)
 
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
-    self.html = '@theme:Discover.html'
+    self.html = '@theme:DiscoverAgent.html'
     self.add_event_handler('show', self.form_show)
 
     global user
