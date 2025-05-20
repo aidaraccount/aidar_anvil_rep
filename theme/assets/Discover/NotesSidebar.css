@@ -2,7 +2,7 @@
 /* ATTENTION: This is a workaround to hide the Notes button */
 /* Hide notes button by default */
 .sidebar-button {
-  right: -100px;
+  right: -100px !important;
 }
 
 
