@@ -463,9 +463,15 @@
     }
   }
 
-  // Initialize WebSocket when the page loads
-  document.addEventListener('DOMContentLoaded', () => {
-    console.log('[WebSocketManager] DOM fully loaded, initializing WebSocket manager');
+  // Initialize WebSocket manager
+  function initializeWebSocketManager() {
+    console.log('[WebSocketManager] Initializing WebSocket manager');
+    
+    // Only initialize once
+    if (window.wsManager) {
+      console.log('[WebSocketManager] WebSocket manager already initialized');
+      return window.wsManager;
+    }
     
     // Initialize WebSocket manager and expose it globally
     window.wsManager = new WebSocketManager();
@@ -477,43 +483,10 @@
     
     if (!sendButton || !chatInput) {
       console.error('[WebSocketManager] Critical Error: Could not find required DOM elements');
-      return;
+      return window.wsManager;
     }
     
     console.log('[WebSocketManager] Found required DOM elements');
-    
-    // Override default form submission
-    const chatForm = chatInput.closest('form') || document.querySelector('form');
-    if (chatForm) {
-      console.log('[WebSocketManager] Found form element, preventing default submission');
-      chatForm.onsubmit = (e) => {
-        console.log('[WebSocketManager] Form submission intercepted');
-        e.preventDefault();
-        e.stopPropagation();
-        wsManager.sendMessage();
-        return false;
-      };
-    } else {
-      console.log('[WebSocketManager] No form element found, using button/input handlers only');
-    }
-    
-    // Handle send button click
-    sendButton.addEventListener('click', (e) => {
-      console.log('[WebSocketManager] Send button clicked');
-      e.preventDefault();
-      e.stopPropagation();
-      wsManager.sendMessage();
-    }, true); // Use capture phase to ensure we catch the event first
-    
-    // Handle Enter key in chat input
-    chatInput.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' && !e.shiftKey) {
-        console.log('[WebSocketManager] Enter key pressed in chat input');
-        e.preventDefault();
-        e.stopPropagation();
-        wsManager.sendMessage();
-      }
-    }, true); // Use capture phase
     
     // Auto-resize textarea
     chatInput.addEventListener('input', function() {
@@ -532,31 +505,21 @@
     // Handle window unload
     window.addEventListener('beforeunload', () => {
       console.log('[WebSocketManager] Window unloading, cleaning up WebSocket');
-      if (wsManager.socket) {
-        wsManager.socket.close();
+      if (window.wsManager && window.wsManager.socket) {
+        window.wsManager.socket.close();
       }
     });
     
-    // Debug logging
     console.log('[WebSocketManager] WebSocket manager initialization complete');
-    
-    // Check for any existing event listeners that might interfere
-    const checkForInterferingListeners = () => {
-      const clickListeners = getEventListeners(sendButton).click || [];
-      const keyListeners = getEventListeners(chatInput).keydown || [];
-      
-      console.log(`[WebSocketManager] Found ${clickListeners.length} click listeners on send button`);
-      console.log(`[WebSocketManager] Found ${keyListeners.length} keydown listeners on chat input`);
-      
-      // Log form submission handlers
-      if (chatForm) {
-        console.log('[WebSocketManager] Form onsubmit handler:', chatForm.onsubmit ? 'exists' : 'none');
-      }
-    };
-    
-    // Run the check after a short delay to catch any late-added listeners
-    setTimeout(checkForInterferingListeners, 1000);
-  });
+    return window.wsManager;
+  }
+  
+  // Initialize when DOM is loaded
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initializeWebSocketManager);
+  } else {
+    initializeWebSocketManager();
+  }
 
 
 
@@ -758,13 +721,31 @@
         scrollToBottom();
       }
 
+      // Safe function to get or initialize WebSocket manager
+      function getWebSocketManager() {
+        if (!window.wsManager) {
+          console.log('[AgentSidebar] Initializing WebSocket manager from agent sidebar');
+          initializeWebSocketManager();
+        }
+        return window.wsManager;
+      }
+
       // Event listeners for the agent sidebar
       sendButton.addEventListener('click', (e) => {
         e.preventDefault();
         const message = chatInput.value.trim();
         if (message) {
-          console.log('[AgentSidebar] Sending message via WebSocket manager');
-          window.wsManager.sendMessage();
+          try {
+            console.log('[AgentSidebar] Sending message via WebSocket manager');
+            const manager = getWebSocketManager();
+            if (manager) {
+              manager.sendMessage();
+            } else {
+              console.error('[AgentSidebar] Failed to get WebSocket manager');
+            }
+          } catch (error) {
+            console.error('[AgentSidebar] Error sending message:', error);
+          }
         }
       });
 
@@ -783,8 +764,17 @@
           e.preventDefault();
           const message = chatInput.value.trim();
           if (message) {
-            console.log('[AgentSidebar] Sending message via WebSocket manager (Enter key)');
-            window.wsManager.sendMessage();
+            try {
+              console.log('[AgentSidebar] Sending message via WebSocket manager (Enter key)');
+              const manager = getWebSocketManager();
+              if (manager) {
+                manager.sendMessage();
+              } else {
+                console.error('[AgentSidebar] Failed to get WebSocket manager');
+              }
+            } catch (error) {
+              console.error('[AgentSidebar] Error sending message:', error);
+            }
           }
         }
       });
