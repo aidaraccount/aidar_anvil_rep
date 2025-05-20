@@ -100,6 +100,7 @@
       <i class="fas fa-robot" style="font-size: 20px; margin-right: 12px;"></i>
       <span>AI Agent</span>
     </div>
+    
     <div class="chat-container">
       <div class="chat-messages" id="chat-messages">
       <!-- Initial welcome message -->
@@ -331,7 +332,6 @@
           this.isConnected = true;
           this.reconnectAttempts = 0;
           this.reconnectDelay = 1000;
-          this.addSystemMessage('Connected to AIDAR agent');
           this.processMessageQueue();
           
           // Remove any reconnect buttons
@@ -383,24 +383,37 @@
     // Handle incoming WebSocket messages
     handleMessage(event) {
       try {
-        const data = JSON.parse(event.data);
-        console.log('Message from server:', data);
+        const message = JSON.parse(event.data);
+        console.log('[WebSocketManager] Received message:', message);
         
-        switch (data.type) {
-          case 'partial_response':
-            this.updateOrAddBotMessage(data.content);
-            break;
-          case 'complete':
-            this.markLastMessageComplete();
-            break;
-          case 'error':
-            this.addErrorMessage(data.content);
-            break;
-          default:
-            console.warn('Unknown message type:', data.type);
+        if (message.type === 'partial_response') {
+          try {
+            const content = JSON.parse(message.content);
+            if (content.summary) {
+              // Only show the summary
+              this.updateOrCreateBotMessage(content.summary);
+            } else if (content.content) {
+              // Fallback to content if summary is not available
+              this.updateOrCreateBotMessage(content.content);
+            }
+          } catch (e) {
+            // If parsing fails, show the raw content
+            this.updateOrCreateBotMessage(message.content);
+          }
+        } 
+        else if (message.type === 'complete') {
+          this.markLastMessageComplete();
+          
+          // Remove any typing indicator when complete
+          this.removeTypingIndicator();
         }
-      } catch (e) {
-        console.error('Error processing message:', e);
+        else if (message.type === 'error') {
+          console.error('[WebSocketManager] Server error:', message.content);
+          this.addErrorMessage(message.content || 'An error occurred');
+        }
+      } catch (error) {
+        console.error('[WebSocketManager] Error handling message:', error);
+        this.addErrorMessage('Error processing message');
       }
     }
     
@@ -483,15 +496,18 @@
     }
     
     // Add a user message to the chat
-    addUserMessage(content) {
-      const messageDiv = document.createElement('div');
-      messageDiv.className = 'message user';
-      messageDiv.innerHTML = `
+    addUserMessage(message) {
+      const messageElement = document.createElement('div');
+      messageElement.className = 'message user';
+      messageElement.innerHTML = `
         <div class="message-time">${this.getCurrentTime()}</div>
-        <div class="message-content">${this.escapeHtml(content)}</div>
+        <div class="message-content">${this.escapeHtml(message)}</div>
       `;
-      this.chatMessages.appendChild(messageDiv);
+      this.chatMessages.appendChild(messageElement);
       this.scrollToBottom();
+      
+      // Show typing indicator after user sends a message
+      this.showTypingIndicator();
     }
     
 
@@ -548,15 +564,20 @@
       this.removeTypingIndicator();
     }
     
-    // Show typing indicator
+    // Show waiting for response indicator
     showTypingIndicator() {
       this.removeTypingIndicator();
       
       this.typingIndicator = document.createElement('div');
-      this.typingIndicator.className = 'typing-indicator';
+      this.typingIndicator.className = 'message agent';
       this.typingIndicator.innerHTML = `
         <div class="message-time">${this.getCurrentTime()}</div>
-        <div class="message-content">AIDAR is thinking...</div>
+        <div class="message-content waiting-for-response">
+          <span class="waiting-for-response-text">AIDAR is thinking</span>
+          <span class="waiting-dot"></span>
+          <span class="waiting-dot"></span>
+          <span class="waiting-dot"></span>
+        </div>
       `;
       this.chatMessages.appendChild(this.typingIndicator);
       this.scrollToBottom();
