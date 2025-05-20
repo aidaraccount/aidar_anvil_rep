@@ -8,14 +8,16 @@
 
 .main-content {
   flex: 1;
-  transition: margin-right 0.3s ease;
+  transition: all 0.3s ease-in-out;
   min-width: 0; /* Prevents content from overflowing */
   margin-right: 0;
+  will-change: margin-right; /* Optimize for animation */
 }
 
 .main-content-move {
-  transition: margin-right 0.3s ease, margin-left 0.3s ease;
+  transition: all 0.3s ease-in-out;
   margin-left: 250px; /* Default left margin when left sidebar is open */
+  will-change: margin-left, margin-right; /* Optimize for animation */
 }
 
 /* Adjust for left sidebar closed state */
@@ -44,9 +46,36 @@
     z-index: 999;
   }
   
+  /* Position buttons on the left edge of their respective sidebars */
+  .sidebar-button,
+  .agent-sidebar-button {
+    transition: right 0.3s ease-in-out, transform 0.3s ease-in-out;
+    right: 0;
+  }
+  
+  /* When either sidebar is open, position its button */
+  #right-sidebar.open ~ .sidebar-button {
+    right: 400px;
+  }
+  
+  #agent-sidebar.open ~ .agent-sidebar-button {
+    right: 400px;
+  }
+  
   /* When both sidebars are open */
   #right-sidebar.open + #agent-sidebar.open,
   #agent-sidebar.open + #right-sidebar.open {
+    right: 400px;
+  }
+  
+  /* Position buttons when both sidebars are open */
+  #right-sidebar.open + #agent-sidebar.open ~ .sidebar-button,
+  #agent-sidebar.open + #right-sidebar.open ~ .sidebar-button {
+    right: 800px;
+  }
+  
+  #right-sidebar.open + #agent-sidebar.open ~ .agent-sidebar-button,
+  #agent-sidebar.open + #right-sidebar.open ~ .agent-sidebar-button {
     right: 400px;
   }
   

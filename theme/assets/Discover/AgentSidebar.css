@@ -10,13 +10,14 @@
   height: 100%;
   background-color: rgb(10,3,30);
   box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5);
-  transition: right 0.3s ease, margin-right 0.3s ease;
+  transition: all 0.3s ease-in-out;
   overflow-x: hidden;
   overflow-y: auto;
   padding-bottom: 96px;
   border-bottom-left-radius: 15px;
   border-top-left-radius: 15px;
   z-index: 997;
+  will-change: right; /* Optimize for animation */
 }
 
 /* When agent sidebar is open */
@@ -27,10 +28,6 @@
 /* When both sidebars are open */
 #right-sidebar.open + #agent-sidebar.open {
   right: 400px;
-}
-
-#agent-sidebar.open {
-  right: 0;
 }
 
 /* 2. Agent Sidebar Button */
@@ -45,18 +42,32 @@
   border: none;
   padding: 10px;
   cursor: pointer;
-  z-index: 996;
-  transition: right 0.3s ease;
+  z-index: 1000;
+  transition: all 0.3s ease-in-out;
   border-top-left-radius: 15px;
   border-bottom-left-radius: 15px;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 5px;
+  will-change: right; /* Optimize for animation */
 }
 
-.agent-sidebar-button.open {
-  right: 400px;
+/* Button hover effect */
+.agent-sidebar-button:hover {
+  background-color: rgb(255, 115, 68);
+  transform: translateX(-2px);
+}
+
+/* Notes sidebar button */
+.sidebar-button {
+  top: 20%;
+  transition: all 0.3s ease-in-out;
+  will-change: right; /* Optimize for animation */
+}
+
+.sidebar-button:hover {
+  transform: translateX(-2px);
 }
 
 /* 3. Agent Sidebar Layout */

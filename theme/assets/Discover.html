@@ -187,31 +187,35 @@
     const button = document.getElementById('sidebar-button');
     const mainContent = document.querySelector('.main-content-move');
     const content = document.querySelector('.main-content');
+    const agentSidebar = document.getElementById('agent-sidebar');
+    const agentButton = document.getElementById('agent-sidebar-button');
   
+    function updateMargins() {
+      const notesOpen = sidebar.classList.contains('open');
+      const agentOpen = agentSidebar && agentSidebar.classList.contains('open');
+      
+      // Calculate total margin based on open sidebars
+      let totalMargin = 0;
+      if (notesOpen && agentOpen) {
+        totalMargin = 800; // Both sidebars open
+      } else if (notesOpen || agentOpen) {
+        totalMargin = 400; // One sidebar open
+      } // else 0, both closed
+      
+      // Apply the new margin with smooth transition
+      if (mainContent) mainContent.style.marginRight = totalMargin + 'px';
+      if (content) content.style.marginRight = totalMargin + 'px';
+      
+      // Update button positions
+      if (button) button.style.right = (notesOpen ? totalMargin : 0) + 'px';
+      if (agentButton) agentButton.style.right = (agentOpen ? totalMargin : 0) + 'px';
+    }
+    
     if (sidebar && button && content && mainContent) {
       button.addEventListener('click', function () {
-        const isOpen = sidebar.classList.toggle('open');
+        sidebar.classList.toggle('open');
         button.classList.toggle('open');
-        
-        // Get current right margin
-        let currentRightMargin = parseInt(mainContent.style.marginRight || '0');
-        
-        if (isOpen) {
-          // If opening, add 400px to right margin
-          currentRightMargin += 400;
-          // Also check if agent sidebar is open
-          const agentSidebar = document.getElementById('agent-sidebar');
-          if (agentSidebar && agentSidebar.classList.contains('open')) {
-            currentRightMargin = 800; // Both sidebars open
-          }
-        } else {
-          // If closing, subtract 400px from right margin, but not less than 0
-          currentRightMargin = Math.max(0, currentRightMargin - 400);
-        }
-        
-        // Apply the new margin
-        mainContent.style.marginRight = currentRightMargin + 'px';
-        content.style.marginRight = currentRightMargin + 'px';
+        updateMargins();
       });
     } else {
       console.error("Required elements not found");
@@ -267,6 +271,30 @@
     const chatInput = document.getElementById('chat-input');
     const sendButton = document.getElementById('send-button');
     const chatMessages = document.getElementById('chat-messages');
+    const sidebar = document.getElementById('right-sidebar');
+    const mainContent = document.querySelector('.main-content-move');
+    const content = document.querySelector('.main-content');
+    
+    function updateAgentMargins() {
+      const agentOpen = agentSidebar.classList.contains('open');
+      const notesOpen = sidebar && sidebar.classList.contains('open');
+      
+      // Calculate total margin based on open sidebars
+      let totalMargin = 0;
+      if (notesOpen && agentOpen) {
+        totalMargin = 800; // Both sidebars open
+      } else if (notesOpen || agentOpen) {
+        totalMargin = 400; // One sidebar open
+      } // else 0, both closed
+      
+      // Apply the new margin with smooth transition
+      if (mainContent) mainContent.style.marginRight = totalMargin + 'px';
+      if (content) content.style.marginRight = totalMargin + 'px';
+      
+      // Update button positions
+      if (notesButton) notesButton.style.right = (notesOpen ? totalMargin : 0) + 'px';
+      if (agentButton) agentButton.style.right = (agentOpen ? totalMargin : 0) + 'px';
+    }
     
     if (agentButton && agentSidebar && notesButton && chatInput && sendButton && chatMessages) {
       // Position agent button below notes button
@@ -283,63 +311,47 @@
       
       // Toggle sidebar
       agentButton.addEventListener('click', function() {
-        const isOpen = agentSidebar.classList.toggle('open');
+        agentSidebar.classList.toggle('open');
         agentButton.classList.toggle('open');
-        
-        // Get the main content elements
-        const mainContent = document.querySelector('.main-content-move');
-        const content = document.querySelector('.main-content');
-        
-        if (mainContent && content) {
-          // Get current right margin
-          let currentRightMargin = parseInt(mainContent.style.marginRight || '0');
-          
-          if (isOpen) {
-            // If opening, add 400px to right margin
-            currentRightMargin += 400;
-            // Also check if notes sidebar is open
-            const notesSidebar = document.getElementById('right-sidebar');
-            if (notesSidebar && notesSidebar.classList.contains('open')) {
-              currentRightMargin = 800; // Both sidebars open
-            }
-            scrollToBottom();
-          } else {
-            // If closing, subtract 400px from right margin, but not less than 0
-            currentRightMargin = Math.max(0, currentRightMargin - 400);
-          }
-          
-          // Apply the new margin
-          mainContent.style.marginRight = currentRightMargin + 'px';
-          content.style.marginRight = currentRightMargin + 'px';
-        }
+        updateAgentMargins();
       });
+      
+      // Also update margins when notes sidebar is toggled
+      if (sidebar) {
+        const observer = new MutationObserver(updateAgentMargins);
+        observer.observe(sidebar, { attributes: true, attributeFilter: ['class'] });
+      }
       
       // Auto-scroll to bottom of chat with smooth animation
       function scrollToBottom() {
-        chatMessages.scrollTo({
-          top: chatMessages.scrollHeight,
-          behavior: 'smooth'
-        });
-      }
-      
-      // Scroll to bottom when content changes
-      let isScrolling = false;
-      const scrollObserver = new MutationObserver(() => {
-        if (!isScrolling) {
-          isScrolling = true;
-          // Small delay to ensure DOM is updated
-          requestAnimationFrame(() => {
-            scrollToBottom();
-            isScrolling = false;
+        if (chatMessages) {
+          chatMessages.scrollTo({
+            top: chatMessages.scrollHeight,
+            behavior: 'smooth'
           });
         }
-      });
+      }
       
-      // Observe changes to the chat messages
-      scrollObserver.observe(chatMessages, { 
-        childList: true, 
-        subtree: true 
-      });
+      // Initial scroll to bottom
+      scrollToBottom();
+      
+      // Scroll to bottom when content changes
+      if (chatMessages) {
+        let isScrolling = false;
+        const scrollObserver = new MutationObserver(() => {
+          if (!isScrolling) {
+            isScrolling = true;
+            // Small delay to ensure DOM is updated
+            requestAnimationFrame(() => {
+              scrollToBottom();
+              isScrolling = false;
+            });
+          }
+        });
+        
+        // Observe chat messages for changes
+        scrollObserver.observe(chatMessages, { childList: true, subtree: true });
+      }
       
       // Format time
       function getCurrentTime() {
