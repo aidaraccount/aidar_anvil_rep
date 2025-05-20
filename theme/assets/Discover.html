@@ -157,18 +157,18 @@
 
 </div>
 
-<!-- Notes Button -->
-<button class="sidebar-button" id="sidebar-button" style="top: 20%;">
-  <img class="note_svg_button" src="_/theme/icons/Note.svg" alt="Notes Icon">
-  <br>
-  Notes
-</button>
-
 <!-- Agent Button -->
-<button class="agent-sidebar-button" id="agent-sidebar-button" style="top: 30%;">
+<button class="agent-sidebar-button" id="agent-sidebar-button" style="top: 20%;">
   <i class="fas fa-robot"></i>
   <br>
   Agent
+</button>
+
+<!-- Notes Button -->
+<button class="sidebar-button" id="sidebar-button" style="top: 30%;">
+  <img class="note_svg_button" src="_/theme/icons/Note.svg" alt="Notes Icon">
+  <br>
+  Notes
 </button>
 
 <!-- FOOTER -->
@@ -297,10 +297,10 @@
     }
     
     if (agentButton && agentSidebar && notesButton && chatInput && sendButton && chatMessages) {
-      // Position agent button below notes button
+      // Position notes button below agent button
       function positionAgentButton() {
-        const notesRect = notesButton.getBoundingClientRect();
-        agentButton.style.top = `${notesRect.bottom + 20}px`;
+        const agentRect = agentButton.getBoundingClientRect();
+        notesButton.style.top = `${agentRect.bottom + 20}px`;
       }
       
       // Initial positioning

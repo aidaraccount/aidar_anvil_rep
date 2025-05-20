@@ -108,6 +108,7 @@
   min-height: 100%;
   overflow-anchor: auto;
   padding-bottom: 0;
+  border-left: solid 1px #595959;
 }
 
 /* Add space at the bottom of messages and push content to bottom */
