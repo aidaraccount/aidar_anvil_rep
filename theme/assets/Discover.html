@@ -185,16 +185,35 @@
   if(typeof sidebar === 'undefined') {
     const sidebar = document.getElementById('right-sidebar');
     const button = document.getElementById('sidebar-button');
-    const mainContent = document.querySelector('.anvil-role-left-discover-page')
+    const mainContent = document.querySelector('.anvil-role-left-discover-page');
+    const content = document.querySelector('.main-content');
   
-    if (sidebar && button) {
+    if (sidebar && button && content) {
       button.addEventListener('click', function () {
-        sidebar.classList.toggle('open');
+        const isOpen = sidebar.classList.toggle('open');
         button.classList.toggle('open');
-        mainContent.classList.toggle('shifted');
+        
+        // Adjust main content margin when notes sidebar is toggled
+        if (isOpen) {
+          // Check if agent sidebar is also open
+          const agentSidebar = document.getElementById('agent-sidebar');
+          if (agentSidebar && agentSidebar.classList.contains('open')) {
+            content.style.marginRight = '800px';
+          } else {
+            content.style.marginRight = '400px';
+          }
+        } else {
+          // If closing, check if agent sidebar is open
+          const agentSidebar = document.getElementById('agent-sidebar');
+          if (agentSidebar && agentSidebar.classList.contains('open')) {
+            content.style.marginRight = '400px';
+          } else {
+            content.style.marginRight = '0';
+          }
+        }
       });
     } else {
-      console.error("Sidebar or button element not found..");
+      console.error("Required elements not found..");
     }
   }
 
@@ -263,10 +282,30 @@
       
       // Toggle sidebar
       agentButton.addEventListener('click', function() {
-        agentSidebar.classList.toggle('open');
+        const isOpen = agentSidebar.classList.toggle('open');
         agentButton.classList.toggle('open');
-        if (agentSidebar.classList.contains('open')) {
-          scrollToBottom();
+        
+        // Adjust main content margin when agent sidebar is toggled
+        const mainContent = document.querySelector('.main-content');
+        if (mainContent) {
+          if (isOpen) {
+            // Check if notes sidebar is also open
+            const notesSidebar = document.getElementById('right-sidebar');
+            if (notesSidebar && notesSidebar.classList.contains('open')) {
+              mainContent.style.marginRight = '800px';
+            } else {
+              mainContent.style.marginRight = '400px';
+            }
+            scrollToBottom();
+          } else {
+            // If closing, check if notes sidebar is open
+            const notesSidebar = document.getElementById('right-sidebar');
+            if (notesSidebar && notesSidebar.classList.contains('open')) {
+              mainContent.style.marginRight = '400px';
+            } else {
+              mainContent.style.marginRight = '0';
+            }
+          }
         }
       });
       
