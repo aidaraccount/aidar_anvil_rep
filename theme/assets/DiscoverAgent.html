@@ -187,18 +187,23 @@
       this.socket = null;
       this.sessionId = 'user-' + Math.random().toString(36).substr(2, 9);
       
-      // Use localhost for development since the WebSocket server is running locally
-      // In production, you would use the actual WebSocket server URL
-      const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-      const protocol = window.location.protocol === 'https:' ? 'wss://' : 'ws://';
+      // Debug information
+      console.log('[WebSocketManager] Constructor called');
+      console.log('[WebSocketManager] Hostname:', window.location.hostname);
+      console.log('[WebSocketManager] Protocol:', window.location.protocol);
       
-      if (isLocalhost) {
-        // For local development
-        this.wsUrl = `ws://localhost:8000/ws/${this.sessionId}`;
-      } else {
-        // For production - you'll need to configure this to point to your WebSocket server
-        // This is just a placeholder - replace with your actual WebSocket server URL
-        this.wsUrl = `wss://your-websocket-server.com/ws/${this.sessionId}`;
+      // For development - always use localhost:8000 for now
+      this.wsUrl = `ws://localhost:8000/ws/${this.sessionId}`;
+      
+      // Log the final WebSocket URL
+      console.log('[WebSocketManager] Using WebSocket URL:', this.wsUrl);
+      
+      // Check if the URL is valid
+      try {
+        new URL(this.wsUrl);
+      } catch (e) {
+        console.error('[WebSocketManager] Invalid WebSocket URL:', e);
+        this.addSystemMessage('Error: Invalid WebSocket configuration. Please check the console for details.');
       }
       
       console.log('[WebSocketManager] WebSocket URL:', this.wsUrl);
@@ -220,26 +225,108 @@
       this.connect();
     }
     
+    // Test WebSocket connection
+    async testConnection() {
+      console.log('[WebSocketManager] === Testing WebSocket connection ===');
+      
+      // Test 1: Check if WebSocket is supported
+      if (!window.WebSocket) {
+        console.error('[WebSocketManager] WebSocket is not supported in this browser');
+        this.addSystemMessage('Error: Your browser does not support WebSocket. Please use a modern browser.');
+        return false;
+      }
+      
+      // Test 2: Check if URL is valid
+      try {
+        new URL(this.wsUrl);
+      } catch (e) {
+        console.error('[WebSocketManager] Invalid WebSocket URL:', e);
+        this.addSystemMessage('Error: Invalid WebSocket URL. Please check the console for details.');
+        return false;
+      }
+      
+      // Test 3: Try to connect to the WebSocket server
+      try {
+        console.log('[WebSocketManager] Testing connection to:', this.wsUrl);
+        const testSocket = new WebSocket(this.wsUrl);
+        
+        // Set a timeout for the test
+        const timeout = new Promise((_, reject) => 
+          setTimeout(() => reject(new Error('Connection timeout')), 3000)
+        );
+        
+        // Wait for either the connection to open or the timeout
+        await Promise.race([
+          new Promise((resolve) => {
+            testSocket.onopen = () => {
+              console.log('[WebSocketManager] Test connection successful');
+              testSocket.close();
+              resolve(true);
+            };
+            testSocket.onerror = (error) => {
+              console.error('[WebSocketManager] Test connection failed:', error);
+              reject(new Error('Connection error'));
+            };
+          }),
+          timeout
+        ]);
+        
+        return true;
+      } catch (error) {
+        console.error('[WebSocketManager] WebSocket connection test failed:', error);
+        this.addSystemMessage(`Error: Could not connect to AI Assistant. ${error.message}`);
+        return false;
+      }
+    }
+    
     // Initialize WebSocket connection
-    connect() {
+    async connect() {
+      console.log(`[WebSocketManager] === connect() called ===`);
+      console.log(`[WebSocketManager] Current connection state:`, this.socket ? this.socket.readyState : 'No socket');
       console.log(`[WebSocketManager] Attempting to connect to: ${this.wsUrl}`);
+      
+      // First, test the connection
+      const canConnect = await this.testConnection();
+      if (!canConnect) {
+        console.error('[WebSocketManager] Connection test failed, aborting connection attempt');
+        
+        // Show detailed error message to user
+        const errorDetails = `Failed to connect to WebSocket server at ${this.wsUrl}.\n\n` +
+          `Possible causes:\n` +
+          `1. The WebSocket server is not running\n` +
+          `2. The URL is incorrect\n` +
+          `3. A firewall is blocking the connection\n` +
+          `4. The server is not configured to accept WebSocket connections`;
+          
+        this.addSystemMessage(errorDetails);
+        return;
+      }
+      
+      console.log('[WebSocketManager] Connection test passed, proceeding with connection');
       
       // Close existing connection if any
       if (this.socket) {
+        console.log('[WebSocketManager] Closing existing WebSocket connection');
         try {
           this.socket.close();
+          console.log('[WebSocketManager] Existing WebSocket connection closed');
         } catch (e) {
           console.warn('[WebSocketManager] Error closing existing socket:', e);
+        } finally {
+          this.socket = null;
         }
-        this.socket = null;
       }
       
       this.isConnected = false;
       
       try {
+        console.log('[WebSocketManager] Creating new WebSocket instance');
         this.socket = new WebSocket(this.wsUrl);
         
+        console.log('[WebSocketManager] WebSocket created, setting up event handlers');
+        
         this.socket.onopen = () => {
+          console.log('[WebSocketManager] WebSocket onopen event fired');
           console.log('[WebSocketManager] WebSocket connection opened successfully');
           this.isConnected = true;
           this.reconnectAttempts = 0;
@@ -264,10 +351,26 @@
         };
         
         this.socket.onerror = (error) => {
-          console.error('[WebSocketManager] WebSocket error:', error);
+          console.error('[WebSocketManager] WebSocket error event fired:', error);
+          console.error('[WebSocketManager] Error event type:', error.type);
+          console.error('[WebSocketManager] Error event target readyState:', error.target ? error.target.readyState : 'no target');
+          
           this.isConnected = false;
-          this.addErrorMessage('Connection error occurred');
-          console.log('[WebSocketManager] WebSocket readyState:', this.socket ? this.socket.readyState : 'no socket');
+          this.addErrorMessage('Connection error occurred. ' + 
+            (error.message || 'Check browser console for details.'));
+            
+          console.log('[WebSocketManager] Current WebSocket readyState:', this.socket ? this.socket.readyState : 'no socket');
+          
+          // Log more detailed error information
+          if (error && error.target) {
+            console.error('[WebSocketManager] WebSocket error details:', {
+              url: error.target.url,
+              readyState: error.target.readyState,
+              bufferedAmount: error.target.bufferedAmount,
+              extensions: error.target.extensions,
+              protocol: error.target.protocol
+            });
+          }
         };
         
       } catch (error) {
