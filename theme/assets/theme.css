@@ -2031,6 +2031,13 @@ footer a, .footer .anvil-component {
   transition: left 0.3s ease;
   border-top-right-radius: 15px;
   border-bottom-right-radius: 15px;
+  transition: all 0.3s ease-in-out;
+}
+
+/* Nav Button hover effect */
+.nav-button:hover {
+  background-color: rgb(255, 115, 68);
+  transform: translateX(2px);
 }
 
 /* When the sidebar is closed, move the button to the starting position */

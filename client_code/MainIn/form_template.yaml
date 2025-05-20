@@ -141,6 +141,10 @@ components:
   name: nav_models
   properties: {}
   type: LinearPanel
+- layout_properties: {slot: sidebar}
+  name: nav_agents
+  properties: {}
+  type: LinearPanel
 - components:
   - data_bindings:
     - {code: '[''nav_main'', ''nav_link'']', property: role, writeback: false}
