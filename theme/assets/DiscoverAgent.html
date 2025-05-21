@@ -182,7 +182,15 @@
 
 
 <script>
-  // WebSocket connection manager
+// WebSocket connection manager
+// Only define WebSocketManager if it doesn't already exist
+(function() {
+  'use strict';
+  
+  if (typeof window.WebSocketManager !== 'undefined') {
+    return; // Already defined
+  }
+  
   class WebSocketManager {
     constructor() {
       this.socket = null;
@@ -652,8 +660,12 @@
         .replace(/'/g, "&#039;");
     }
   }
+  
+  // Assign to window
+  window.WebSocketManager = WebSocketManager;
+})();
 
-  // Initialize WebSocket manager
+// Initialize WebSocket manager
   function initializeWebSocketManager() {
     console.log('[WebSocketManager] Initializing WebSocket manager');
     
