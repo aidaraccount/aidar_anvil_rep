@@ -444,6 +444,12 @@
           }
           return;
         }
+        // Handle final response messages
+        else if (message.type === 'final_response') {
+          console.log('[WebSocketManager] Received final response:', message.content);
+          this.addSystemMessage(message.content);
+          return;
+        }
         // Handle partial responses
         else if (message.type === 'partial_response') {
           try {
