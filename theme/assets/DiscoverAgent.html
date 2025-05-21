@@ -397,7 +397,7 @@
             if (content._type === 'artist_identified') {
               console.log('[WebSocketManager] Artist identified:', content.data);
               const artist = content.data;
-              this.addSystemMessage(`✅ Found artist: ${artist.name} (${artist.followers} followers, ${artist.popularity} popularity)`);
+              this.addSystemMessage(`✅ Found artist: ${artist.name} (${artist.followers} Spotify followers, ${artist.popularity} popularity)`);
               console.log('[WebSocketManager] Full artist data:', artist);
               return;
             }
@@ -431,9 +431,11 @@
           console.log('[WebSocketManager] Artist identified:', message.data);
           const artist = message.data;
           
-          // Format followers number (e.g., 1,234,567 -> 1.2M)
-          const formatFollowers = (num) => {
-            if (!num) return '0';
+          // Format followers number (e.g., "23,534,381" -> "23.5M")
+          const formatFollowers = (numStr) => {
+            if (!numStr) return '0';
+            // Remove commas and convert to number
+            const num = typeof numStr === 'string' ? parseInt(numStr.replace(/,/g, ''), 10) : numStr;
             if (num >= 1000000) {
               return (num / 1000000).toFixed(1) + 'M';
             } else if (num >= 1000) {
@@ -450,7 +452,7 @@
             <div class="artist-image" style="background-image: url('${artist.image_url || 'https://via.placeholder.com/60'}')"></div>
             <div class="artist-info">
               <div class="artist-name">${this.escapeHtml(artist.name)}</div>
-              <div class="artist-followers">${formatFollowers(artist.followers)} followers</div>
+              <div class="artist-followers">${formatFollowers(artist.followers)} Spotify followers</div>
             </div>
           `;
           
