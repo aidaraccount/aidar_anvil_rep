@@ -99,8 +99,8 @@ class DiscoverAgent(DiscoverAgentTemplate):
 
     # check status
     if url_artist_id == 'create_agent':
-      # Set a flag in local storage to indicate agent creation mode
-      js.call_js('localStorage.setItem', 'agent_creation_mode', 'true')
+      # Set a flag in local storage to indicate agent creation mode using window object
+      js.call_js('window.localStorage.setItem("agent_creation_mode", "true")')
       # Hide all sections except the chat
       self.sec_releases.visible = False
       self.sec_success.visible = False
