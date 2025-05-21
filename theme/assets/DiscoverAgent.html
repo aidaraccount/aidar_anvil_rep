@@ -406,25 +406,20 @@
           console.error('[WebSocketManager] Server error:', message.content);
           this.addErrorMessage(message.content || 'An error occurred');
         }
-        else if (message.type === 'artist_identified') {
-          console.log('[WebSocketManager] Artist identified:', message.artist);
-          this.addSystemMessage(`✅ Identified artist: ${message.artist.name}`);
+        else if (message.type === 'artist_info' && message.data && message.data.status === 'success') {
+          console.log('[WebSocketManager] Artist identified:', message.data.data);
+          const artist = message.data.data;
+          this.addSystemMessage(`✅ Found artist: ${artist.name} (${artist.followers} followers, ${artist.popularity} popularity)`);
           
           // Log the full artist data to console for debugging
-          console.log('[WebSocketManager] Full artist data:', message.artist);
-          
-          // You can access artist details like:
-          // message.artist.name
-          // message.artist.genres
-          // message.artist.popularity
-          // etc.
+          console.log('[WebSocketManager] Full artist data:', artist);
         }
-        else if (message.type === 'artist_not_found') {
-          console.log('[WebSocketManager] Artist not found:', message.message);
-          this.addSystemMessage(`❌ ${message.message}`);
+        else if (message.type === 'artist_info' && message.data && message.data.status === 'not_found') {
+          console.log('[WebSocketManager] Artist not found:', message.data.query);
+          this.addSystemMessage(`❌ Artist not found: ${message.data.query}`);
           
-          if (message.suggestions && message.suggestions.length > 0) {
-            const suggestionsText = message.suggestions.join(', ');
+          if (message.data.suggestions && message.data.suggestions.length > 0) {
+            const suggestionsText = message.data.suggestions.join(', ');
             this.addSystemMessage(`Did you mean: ${suggestionsText}?`);
           }
         }
