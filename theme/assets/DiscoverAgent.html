@@ -760,21 +760,31 @@
   
   // Initialize when DOM is loaded
   function initializePage() {
-    // Check if we're in agent creation mode by checking URL parameter
-    const urlParams = new URLSearchParams(window.location.search);
-    const isAgentCreationMode = urlParams.get('agent_id') === 'create_agent';
-    
     // Initialize WebSocket manager
     const wsManager = initializeWebSocketManager();
     
-    if (isAgentCreationMode) {
-      console.log('[Page] Agent creation mode detected from URL');
-      // Focus the chat input
-      const chatInput = document.getElementById('chat-input');
-      if (chatInput) {
-        setTimeout(() => {
-          chatInput.focus();
-        }, 500);
+    // Check if we're in agent creation mode
+    if (window.anvilApp && window.anvilApp.getFormComponent) {
+      try {
+        const form = window.anvilApp.getFormComponent();
+        if (form && form.call && form.get_agent_creation_mode) {
+          form.call('get_agent_creation_mode').then(isCreationMode => {
+            if (isCreationMode) {
+              console.log('[Page] Agent creation mode detected from Python');
+              document.body.classList.add('agent-creation-mode');
+              
+              // Focus the chat input
+              const chatInput = document.getElementById('chat-input');
+              if (chatInput) {
+                setTimeout(() => {
+                  chatInput.focus();
+                }, 500);
+              }
+            }
+          });
+        }
+      } catch (e) {
+        console.error('Error checking agent creation mode:', e);
       }
     }
   }

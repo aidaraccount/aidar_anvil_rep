@@ -62,6 +62,10 @@ class DiscoverAgent(DiscoverAgentTemplate):
 
   # -------------------------------------------
   # SUGGESTIONS
+  def get_agent_creation_mode(self, **event_args):
+    """Expose the agent_creation_mode flag to JavaScript"""
+    return getattr(self, 'agent_creation_mode', False)
+    
   def refresh_sug(self, **event_args):
 
     self.header.scroll_into_view(smooth=True)
@@ -99,8 +103,6 @@ class DiscoverAgent(DiscoverAgentTemplate):
 
     # check status
     if url_artist_id == 'create_agent':
-      # Set URL parameter to indicate agent creation mode
-      # This will be handled by the URL pattern matching
       # Hide all sections except the chat
       self.sec_releases.visible = False
       self.sec_success.visible = False
@@ -109,10 +111,12 @@ class DiscoverAgent(DiscoverAgentTemplate):
       self.sec_live.visible = False
       self.sec_shorts.visible = False
       
-      # Add a class to the body to indicate agent creation mode
-      js.call_js("document.body.classList.add('agent-creation-mode')")
-      
-    elif sug["Status"] == 'Empty Model!':
+      # Set a flag to indicate agent creation mode
+      # The JavaScript will check for this flag on page load
+      self.agent_creation_mode = True
+    
+    # Handle the suggestion status
+    if url_artist_id != 'create_agent' and sug["Status"] == 'Empty Model!':
       alert(title='Train you Model..',
         content="Sorry, we cound't find any artists for your model. Make sure your Agent is fully set up!\n\nTherefore, go to ADD REF. ARTISTS and add some starting artists that you are interested in.")
       self.visible = False
