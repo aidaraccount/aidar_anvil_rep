@@ -269,10 +269,18 @@
     
     // 2.6. Handle WebSocket open event
     handleOpen() {
+      console.log('[WebSocketManager] WebSocket connected');
       this.isConnected = true;
-      this.reconnectAttempts = 0;
-      this.reconnectDelay = 1000;
+      this.reconnectAttempts = 0; // Reset reconnect attempts
+      
+      // Log WebSocket URL for debugging
+      console.log(`[WebSocketManager] Connected to: ${this.socket.url}`);
+      
+      // Process any queued messages
       this.processMessageQueue();
+      
+      // Notify user
+      this.addSystemMessage('Connected to AI Assistant');
     }
     
     // 2.7. Handle WebSocket close event
@@ -486,52 +494,59 @@
     }
     
     // Send message to the server
-    sendMessage() {
-      console.log('[WebSocketManager] sendMessage() called');
+    sendMessage(message) {
+      console.log('[WebSocketManager] sendMessage called with message:', message);
       
-      const message = this.chatInput.value.trim();
-      if (!message) {
-        console.log('[WebSocketManager] Empty message, ignoring');
+      if (!message || !message.trim()) {
+        console.warn('[WebSocketManager] Attempted to send empty message');
         return;
       }
       
-      console.log('[WebSocketManager] Adding user message to chat');
-      this.addUserMessage(message);
-      this.chatInput.value = '';
-      this.chatInput.style.height = 'auto'; // Reset textarea height
-      this.showTypingIndicator();
-      
-      // Prepare message
-      const messageData = {
-        type: 'query',
-        content: message,
-        timestamp: new Date().toISOString()
-      };
-      
-      console.log('[WebSocketManager] Prepared message:', messageData);
-      
-      // Check WebSocket state
-      const socketReady = this.socket && this.socket.readyState === WebSocket.OPEN;
-      console.log(`[WebSocketManager] WebSocket state: ${this.socket ? this.socket.readyState : 'null'}, isConnected: ${this.isConnected}, socketReady: ${socketReady}`);
-      
-      // Send or queue the message
-      if (this.isConnected && socketReady) {
-        console.log('[WebSocketManager] Sending message via WebSocket');
-        this.sendRawMessage(messageData);
-      } else {
-        console.log('[WebSocketManager] Queueing message, attempting to reconnect');
-        this.messageQueue.push(messageData);
-        this.addSystemMessage('Message queued. Will send when connection is restored...');
-        this.connect(); // Try to reconnect if not connected
+      try {
+        // Prepare message
+        const messageData = {
+          type: 'query',
+          content: message,
+          timestamp: new Date().toISOString()
+        };
+        
+        console.log('[WebSocketManager] Prepared message:', messageData);
+        
+        // Check WebSocket state
+        const socketReady = this.socket && this.socket.readyState === WebSocket.OPEN;
+        console.log(`[WebSocketManager] WebSocket state: ${this.socket ? this.socket.readyState : 'null'}, isConnected: ${this.isConnected}, socketReady: ${socketReady}`);
+        
+        // Send or queue the message
+        if (this.isConnected && socketReady) {
+          console.log('[WebSocketManager] Sending message via WebSocket');
+          this.sendRawMessage(messageData);
+        } else {
+          console.log('[WebSocketManager] Queueing message, attempting to reconnect');
+          this.messageQueue.push(messageData);
+          this.addSystemMessage('Message queued. Will send when connection is restored...');
+          this.connect(); // Try to reconnect if not connected
+        }
+      } catch (error) {
+        console.error('[WebSocketManager] Error in sendMessage:', error);
+        this.addErrorMessage('Failed to send message');
       }
     }
     
     // Send raw message to WebSocket
     sendRawMessage(messageData) {
       try {
-        this.socket.send(JSON.stringify(messageData));
+        console.log('[WebSocketManager] Sending raw message to WebSocket:', messageData);
+        const messageString = JSON.stringify(messageData);
+        console.log('[WebSocketManager] Stringified message:', messageString);
+        
+        if (!this.socket) {
+          throw new Error('WebSocket is not initialized');
+        }
+        
+        this.socket.send(messageString);
+        console.log('[WebSocketManager] Message sent successfully');
       } catch (error) {
-        console.error('Error sending message:', error);
+        console.error('[WebSocketManager] Error sending raw message:', error);
         this.addErrorMessage('Failed to send message');
         this.handleReconnect();
       }
