@@ -188,12 +188,10 @@
   'use strict';
   
   if (typeof window.WebSocketManager !== 'undefined') {
-    return; // Already defined
+    return;  // WebSocket connection manager
   }
-  
   class WebSocketManager {
     constructor() {
-      // 1.1. Initialize properties
       this.socket = null;
       this.sessionId = 'user-' + Math.random().toString(36).substr(2, 9);
       this.chatContainer = document.querySelector('.chat-container');
@@ -208,34 +206,124 @@
       this.maxReconnectAttempts = 5;
       this.reconnectDelay = 1000;
       
-      // 1.2. Set up WebSocket URL
-      const wsProtocol = 'ws://';  // Use ws:// for local development
-      const wsHost = 'localhost:8000';
-      this.wsUrl = `${wsProtocol}${wsHost}/ws/${this.sessionId}`;
+      // Debug information
+      console.log('[WebSocketManager] Constructor called');
+      console.log('[WebSocketManager] Hostname:', window.location.hostname);
+      console.log('[WebSocketManager] Protocol:', window.location.protocol);
       
-      // 1.3. Initialize connection
+      // For development - always use localhost:8000 for now
+      this.wsUrl = `ws://localhost:8000/ws/${this.sessionId}`;
+      
+      // Log the final WebSocket URL
+      console.log('[WebSocketManager] Using WebSocket URL:', this.wsUrl);
+      
+      // Check if the URL is valid
+      try {
+        new URL(this.wsUrl);
+      } catch (e) {
+        console.error('[WebSocketManager] Invalid WebSocket URL:', e);
+      }
+      
+      // Initialize connection
       this.connect();
     }
     
     /* 2. Connection Management */
     async connect() {
-      // 2.1. Prevent duplicate connections
-      if (this.socket && (this.socket.readyState === WebSocket.OPEN || 
-                         this.socket.readyState === WebSocket.CONNECTING)) {
+      console.log(`[WebSocketManager] === connect() called ===`);
+      console.log(`[WebSocketManager] Current connection state:`, this.socket ? this.socket.readyState : 'No socket');
+      console.log(`[WebSocketManager] Attempting to connect to: ${this.wsUrl}`);
+      
+      // First, test the connection
+      const canConnect = await this.testConnection();
+      if (!canConnect) {
+        console.error('[WebSocketManager] Connection test failed, aborting connection attempt');
+        
+        // Show detailed error message to user
+        const errorDetails = `Failed to connect to WebSocket server at ${this.wsUrl}.\n\n` +
+          `Possible causes:\n` +
+          `1. The WebSocket server is not running\n` +
+          `2. The URL is incorrect\n` +
+          `3. A firewall is blocking the connection\n` +
+          `4. The server is not configured to accept WebSocket connections`;
+          
+        this.addSystemMessage(errorDetails);
         return;
       }
       
-      // 2.2. Clean up existing connection
+      console.log('[WebSocketManager] Connection test passed, proceeding with connection');
+      
+      // Close existing connection if any
       if (this.socket) {
-        this.cleanupSocket();
+        console.log('[WebSocketManager] Closing existing WebSocket connection');
+        try {
+          this.socket.close();
+          console.log('[WebSocketManager] Existing WebSocket connection closed');
+        } catch (e) {
+          console.warn('[WebSocketManager] Error closing existing socket:', e);
+        } finally {
+          this.socket = null;
+        }
       }
       
-      // 2.3. Create new WebSocket connection
+      this.isConnected = false;
+      
       try {
+        console.log('[WebSocketManager] Creating new WebSocket instance');
         this.socket = new WebSocket(this.wsUrl);
-        this.setupEventHandlers();
+        
+        console.log('[WebSocketManager] WebSocket created, setting up event handlers');
+        
+        this.socket.onopen = () => {
+          console.log('[WebSocketManager] WebSocket onopen event fired');
+          console.log('[WebSocketManager] WebSocket connection opened successfully');
+          this.isConnected = true;
+          this.reconnectAttempts = 0;
+          this.reconnectDelay = 1000;
+          this.processMessageQueue();
+          
+          // Remove any reconnect buttons
+          const reconnectBtn = document.getElementById('ws-reconnect-btn');
+          if (reconnectBtn) reconnectBtn.remove();
+        };
+        
+        this.socket.onmessage = (event) => {
+          console.log('[WebSocketManager] Received message:', event.data);
+          this.handleMessage(event);
+        };
+        
+        this.socket.onclose = (event) => {
+          console.log(`[WebSocketManager] WebSocket connection closed. Code: ${event.code}, Reason: ${event.reason || 'No reason provided'}`);
+          this.isConnected = false;
+          this.handleReconnect();
+        };
+        
+        this.socket.onerror = (error) => {
+          console.error('[WebSocketManager] WebSocket error event fired:', error);
+          console.error('[WebSocketManager] Error event type:', error.type);
+          console.error('[WebSocketManager] Error event target readyState:', error.target ? error.target.readyState : 'no target');
+          
+          this.isConnected = false;
+          this.addErrorMessage('Connection error occurred. ' + 
+            (error.message || 'Check browser console for details.'));
+            
+          console.log('[WebSocketManager] Current WebSocket readyState:', this.socket ? this.socket.readyState : 'no socket');
+          
+          // Log more detailed error information
+          if (error && error.target) {
+            console.error('[WebSocketManager] WebSocket error details:', {
+              url: error.target.url,
+              readyState: error.target.readyState,
+              bufferedAmount: error.target.bufferedAmount,
+              extensions: error.target.extensions,
+              protocol: error.target.protocol
+            });
+          }
+        };
+        
       } catch (error) {
-        console.error('Failed to establish WebSocket:', error);
+        console.error('[WebSocketManager] Failed to establish WebSocket connection:', error);
+        this.addErrorMessage('Failed to connect to the server');
         this.handleReconnect();
       }
     }
@@ -309,34 +397,26 @@
         const message = JSON.parse(event.data);
         console.log('[WebSocketManager] Received message:', message);
         
-        // 3.1. Route message to appropriate handler based on type
-        switch(message.type) {
-          case 'text_chunk':
-            this.handleTextChunk(message);
-            break;
-          case 'error':
-            this.handleError(message);
-            break;
-          case 'artist_info':
-            this.handleArtistInfo(message);
-            break;
-          // Legacy message types for backward compatibility
-          case 'partial_response':
-            this.handlePartialResponse(message);
-            break;
-          case 'complete':
-            this.handleCompleteMessage();
-            break;
-          case 'artist_identified':
-            this.handleArtistIdentified(message.data);
-            break;
-          case 'artist_not_found':
-            this.handleArtistNotFound(message);
-            break;
-          case 'final_response':
-            this.handleFinalResponse(message);
-            break;
-          default:
+        if (message.type === 'partial_response') {
+          try {
+            const content = JSON.parse(message.content);
+            if (content.summary) {
+              // Only show the summary
+              this.updateOrCreateBotMessage(content.summary);
+            } else if (content.content) {
+              // Fallback to content if summary is not available
+              this.updateOrCreateBotMessage(content.content);
+            }
+          } catch (e) {
+            // If parsing fails, show the raw content
+            this.updateOrCreateBotMessage(message.content);
+          }
+        } 
+        else if (message.type === 'complete') {
+          this.markLastMessageComplete();
+          
+          // Remove any typing indicator when complete
+          this.removeTypingIndicator();
             console.warn('Unknown message type:', message.type);
             this.addSystemMessage(`Received unknown message type: ${message.type}`);
         }
@@ -495,40 +575,47 @@
     
     // Send message to the server
     sendMessage(message) {
-      console.log('[WebSocketManager] sendMessage called with message:', message);
+      console.log('[WebSocketManager] sendMessage() called');
       
-      if (!message || !message.trim()) {
-        console.warn('[WebSocketManager] Attempted to send empty message');
+      const messageText = message || this.chatInput?.value.trim();
+      if (!messageText) {
+        console.log('[WebSocketManager] Empty message, ignoring');
         return;
       }
       
-      try {
-        // Prepare message
-        const messageData = {
-          type: 'query',
-          content: message,
-          timestamp: new Date().toISOString()
-        };
-        
-        console.log('[WebSocketManager] Prepared message:', messageData);
-        
-        // Check WebSocket state
-        const socketReady = this.socket && this.socket.readyState === WebSocket.OPEN;
-        console.log(`[WebSocketManager] WebSocket state: ${this.socket ? this.socket.readyState : 'null'}, isConnected: ${this.isConnected}, socketReady: ${socketReady}`);
-        
-        // Send or queue the message
-        if (this.isConnected && socketReady) {
-          console.log('[WebSocketManager] Sending message via WebSocket');
-          this.sendRawMessage(messageData);
-        } else {
-          console.log('[WebSocketManager] Queueing message, attempting to reconnect');
-          this.messageQueue.push(messageData);
-          this.addSystemMessage('Message queued. Will send when connection is restored...');
-          this.connect(); // Try to reconnect if not connected
-        }
-      } catch (error) {
-        console.error('[WebSocketManager] Error in sendMessage:', error);
-        this.addErrorMessage('Failed to send message');
+      console.log('[WebSocketManager] Adding user message to chat');
+      this.addUserMessage(messageText);
+      
+      // Clear input if we're using the chat input
+      if (this.chatInput) {
+        this.chatInput.value = '';
+        this.chatInput.style.height = 'auto'; // Reset textarea height
+      }
+      
+      this.showTypingIndicator();
+      
+      // Prepare message
+      const messageData = {
+        type: 'query',
+        content: messageText,
+        timestamp: new Date().toISOString()
+      };
+      
+      console.log('[WebSocketManager] Prepared message:', messageData);
+      
+      // Check WebSocket state
+      const socketReady = this.socket && this.socket.readyState === WebSocket.OPEN;
+      console.log(`[WebSocketManager] WebSocket state: ${this.socket ? this.socket.readyState : 'null'}, isConnected: ${this.isConnected}, socketReady: ${socketReady}`);
+      
+      // Send or queue the message
+      if (this.isConnected && socketReady) {
+        console.log('[WebSocketManager] Sending message via WebSocket');
+        this.sendRawMessage(messageData);
+      } else {
+        console.log('[WebSocketManager] Queueing message, attempting to reconnect');
+        this.messageQueue.push(messageData);
+        this.addSystemMessage('Message queued. Will send when connection is restored...');
+        this.connect(); // Try to reconnect if not connected
       }
     }
     
@@ -763,7 +850,7 @@
   // Expose WebSocketManager to window
   window.WebSocketManager = WebSocketManager;
   
-  // Initialize WebSocket manager when DOM is loaded
+  // Initialize WebSocket manager
   function initializeWebSocketManager() {
     console.log('[WebSocketManager] Initializing WebSocket manager');
     
@@ -773,16 +860,17 @@
       return window.wsManager;
     }
     
+    // Initialize WebSocket manager and expose it globally
     try {
-      // Initialize WebSocket manager
       window.wsManager = new WebSocketManager();
+      console.log('[WebSocketManager] WebSocket manager initialized and exposed as window.wsManager');
       
-      // Get DOM elements
-      const chatInput = document.getElementById('chat-input');
+      // Set up event listeners
       const sendButton = document.getElementById('send-button');
+      const chatInput = document.getElementById('chat-input');
       
-      if (!chatInput || !sendButton) {
-        console.error('[WebSocketManager] Could not find required DOM elements');
+      if (!sendButton || !chatInput) {
+        console.error('[WebSocketManager] Critical Error: Could not find required DOM elements');
         return window.wsManager;
       }
       
@@ -796,6 +884,26 @@
         // Update send button state
         const hasText = this.value.trim() !== '';
         sendButton.disabled = !hasText;
+        console.log(`[WebSocketManager] Input changed, hasText: ${hasText}`);
+      });
+      
+      // Send message on button click
+      sendButton.addEventListener('click', () => {
+        const message = chatInput.value.trim();
+        if (message) {
+          window.wsManager.sendMessage(message);
+        }
+      });
+      
+      // Send message on Enter key (but allow Shift+Enter for new lines)
+      chatInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' && !e.shiftKey) {
+          e.preventDefault();
+          const message = chatInput.value.trim();
+          if (message) {
+            window.wsManager.sendMessage(message);
+          }
+        }
       });
       
       // Initial button state
@@ -804,10 +912,49 @@
       // Handle window unload
       window.addEventListener('beforeunload', () => {
         console.log('[WebSocketManager] Window unloading, cleaning up WebSocket');
-        if (window.wsManager?.socket) {
+        if (window.wsManager && window.wsManager.socket) {
           window.wsManager.socket.close(1000, 'Window closing');
         }
       });
+      
+      // Add a button to manually reconnect
+      const addReconnectButton = () => {
+        const existingBtn = document.getElementById('ws-reconnect-btn');
+        if (existingBtn) return;
+        
+        const btn = document.createElement('button');
+        btn.id = 'ws-reconnect-btn';
+        btn.textContent = 'Reconnect to AI Assistant';
+        btn.style.position = 'fixed';
+        btn.style.bottom = '20px';
+        btn.style.right = '20px';
+        btn.style.zIndex = '1000';
+        btn.style.padding = '10px 20px';
+        btn.style.backgroundColor = '#e95f30';
+        btn.style.color = 'white';
+        btn.style.border = 'none';
+        btn.style.borderRadius = '5px';
+        btn.style.cursor = 'pointer';
+        btn.onclick = () => {
+          console.log('[WebSocketManager] Manual reconnect requested');
+          if (window.wsManager) {
+            window.wsManager.connect();
+          } else {
+            window.wsManager = new WebSocketManager();
+          }
+          btn.remove();
+        };
+        document.body.appendChild(btn);
+      };
+      
+      // Show reconnect button on connection issues
+      const checkConnection = setInterval(() => {
+        if (window.wsManager && !window.wsManager.isConnected) {
+          console.log('[WebSocketManager] Connection check: Not connected, showing reconnect button');
+          addReconnectButton();
+          clearInterval(checkConnection);
+        }
+      }, 5000);
       
       console.log('[WebSocketManager] WebSocket manager initialization complete');
       return window.wsManager;
