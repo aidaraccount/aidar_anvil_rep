@@ -100,7 +100,7 @@ class DiscoverAgent(DiscoverAgentTemplate):
     # check status
     if url_artist_id == 'create_agent':
       # Set URL parameter to indicate agent creation mode
-      js.window.location.hash = 'agent_creation_mode=true';
+      # This will be handled by the URL pattern matching
       # Hide all sections except the chat
       self.sec_releases.visible = False
       self.sec_success.visible = False
@@ -108,6 +108,9 @@ class DiscoverAgent(DiscoverAgentTemplate):
       self.sec_musical.visible = False
       self.sec_live.visible = False
       self.sec_shorts.visible = False
+      
+      # Add a class to the body to indicate agent creation mode
+      js.call_js("document.body.classList.add('agent-creation-mode')")
       
     elif sug["Status"] == 'Empty Model!':
       alert(title='Train you Model..',

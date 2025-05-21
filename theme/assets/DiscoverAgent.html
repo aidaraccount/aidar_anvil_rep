@@ -251,11 +251,9 @@
       this.isCreationMode = false;
       document.body.classList.remove('agent-creation-mode');
       
-      // Remove the agent_creation_mode from URL hash
+      // Remove the agent_id parameter from URL
       const url = new URL(window.location);
-      const params = new URLSearchParams(url.hash.substring(1));
-      params.delete('agent_creation_mode');
-      url.hash = params.toString();
+      url.searchParams.delete('agent_id');
       window.history.replaceState({}, '', url.toString());
     }
     
@@ -762,18 +760,15 @@
   
   // Initialize when DOM is loaded
   function initializePage() {
-    // Check if we're in agent creation mode by checking URL hash
-    const hashParams = new URLSearchParams(window.location.hash.substring(1));
-    const isAgentCreationMode = hashParams.get('agent_creation_mode') === 'true';
+    // Check if we're in agent creation mode by checking URL parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const isAgentCreationMode = urlParams.get('agent_id') === 'create_agent';
+    
+    // Initialize WebSocket manager
+    const wsManager = initializeWebSocketManager();
     
     if (isAgentCreationMode) {
       console.log('[Page] Agent creation mode detected from URL');
-      // Add the creation mode class to body
-      document.body.classList.add('agent-creation-mode');
-      
-      // Initialize WebSocket manager with creation mode
-      const wsManager = initializeWebSocketManager();
-      
       // Focus the chat input
       const chatInput = document.getElementById('chat-input');
       if (chatInput) {
@@ -781,9 +776,6 @@
           chatInput.focus();
         }, 500);
       }
-    } else {
-      // Normal initialization
-      initializeWebSocketManager();
     }
   }
   
