@@ -212,8 +212,13 @@
       console.log('[WebSocketManager] Hostname:', window.location.hostname);
       console.log('[WebSocketManager] Protocol:', window.location.protocol);
       
-      // For development - always use localhost:8000 for now
-      this.wsUrl = `ws://localhost:8000/ws/${this.sessionId}`;
+      // Determine WebSocket protocol (ws:// or wss://)
+      const wsProtocol = window.location.protocol === 'https:' ? 'wss://' : 'ws://';
+      // Use the current host for WebSocket connection
+      const wsHost = window.location.host;
+      
+      // Set WebSocket URL
+      this.wsUrl = `${wsProtocol}${wsHost}/_/websocket/${this.sessionId}`;
       
       // Log the final WebSocket URL
       console.log('[WebSocketManager] Using WebSocket URL:', this.wsUrl);
