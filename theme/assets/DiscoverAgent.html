@@ -189,8 +189,10 @@
     console.log('[WebSocketManager] Existing definition:', window.WebSocketManager);
   }
 
-  // Store the original WebSocketManager if it exists
-  const OriginalWebSocketManager = window.WebSocketManager;
+  // Store the original WebSocketManager if it exists and clear any existing instance
+  if (window.OriginalWebSocketManager === undefined) {
+    window.OriginalWebSocketManager = window.WebSocketManager;
+  }
   
   // Define the WebSocketManager class only if it doesn't exist
   if (typeof window.WebSocketManager === 'undefined') {
@@ -218,11 +220,20 @@
       console.log('[WebSocketManager] Hostname:', window.location.hostname);
       console.log('[WebSocketManager] Protocol:', window.location.protocol);
       
-      // For development - always use localhost:8000 for now
-      this.wsUrl = `ws://localhost:8000/ws/${this.sessionId}`;
+      // Get the current agent ID from the URL if available
+      const urlParams = new URLSearchParams(window.location.search);
+      const agentId = urlParams.get('agent_id') || 'default';
       
-      // Log the final WebSocket URL
-      console.log('[WebSocketManager] Using WebSocket URL:', this.wsUrl);
+      // For development - include agent ID in the URL
+      this.wsUrl = `ws://localhost:8000/ws/chat/${this.sessionId}/${agentId}/`;
+      
+      // For production, use the current host with wss
+      if (window.location.hostname !== 'localhost') {
+        const protocol = window.location.protocol === 'https:' ? 'wss://' : 'ws://';
+        this.wsUrl = `${protocol}${window.location.host}/_/websocket/chat/${this.sessionId}/${agentId}/`;
+      }
+      
+      console.log('[WebSocketManager] WebSocket URL:', this.wsUrl);
       
       // Check if the URL is valid
       try {
@@ -491,13 +502,23 @@
     
     // Send message to the server
     sendMessage() {
-      console.log('[WebSocketManager] sendMessage() called');
+      // Get the chat input element if not already set
+      if (!this.chatInput) {
+        this.chatInput = document.getElementById('chat-input');
+      }
+      
+      if (!this.chatInput) {
+        console.error('[WebSocketManager] Could not find chat input element');
+        return;
+      }
       
       const message = this.chatInput.value.trim();
       if (!message) {
         console.log('[WebSocketManager] Empty message, ignoring');
         return;
       }
+      
+      console.log('[WebSocketManager] Sending message:', message);
       
       console.log('[WebSocketManager] Adding user message to chat');
       this.addUserMessage(message);
@@ -660,6 +681,19 @@
   function initializeWebSocketManager() {
     console.groupCollapsed('[WebSocketManager] Initializing WebSocket manager');
     console.trace('WebSocketManager initialization stack trace');
+    
+    // Clean up any existing WebSocket manager
+    if (window.wsManager) {
+      console.log('[WebSocketManager] Cleaning up existing WebSocket manager');
+      try {
+        if (window.wsManager.disconnect) {
+          window.wsManager.disconnect();
+        }
+        window.wsManager = null;
+      } catch (e) {
+        console.error('[WebSocketManager] Error during cleanup:', e);
+      }
+    }
     
     try {
       // Clean up existing connection if any
