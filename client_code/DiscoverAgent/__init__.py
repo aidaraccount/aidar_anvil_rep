@@ -113,9 +113,9 @@ class DiscoverAgent(DiscoverAgentTemplate):
       self.sec_live.visible = False
       self.sec_shorts.visible = False
       
-      # Set a data attribute on the body to indicate agent creation mode
-      js.call_js('document.body.setAttribute("data-agent-creation-mode", "true")')
-      print("[Python] Set agent creation mode in body data attribute")
+      # Set a global variable to indicate agent creation mode
+      js.call_js('window.agentCreationMode = true')
+      print("[Python] Set agent creation mode global variable")
     
     # Handle the suggestion status
     elif sug["Status"] == 'Empty Model!':

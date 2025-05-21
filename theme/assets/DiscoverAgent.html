@@ -768,9 +768,9 @@
     // Check if we're in agent creation mode
     console.log('[Page] Checking for agent creation mode...');
     
-    // Check for the data attribute on the body
-    if (document.body.getAttribute('data-agent-creation-mode') === 'true') {
-      console.log('[Page] Agent creation mode detected from data attribute');
+    // Check for the global variable
+    if (window.agentCreationMode) {
+      console.log('[Page] Agent creation mode detected from global variable');
       enterAgentCreationMode();
     } else {
       console.log('[Page] Not in agent creation mode');
