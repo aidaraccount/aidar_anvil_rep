@@ -192,22 +192,26 @@
   // Store the original WebSocketManager if it exists
   const OriginalWebSocketManager = window.WebSocketManager;
   
-  // Define the WebSocketManager class
-  class WebSocketManager {
-    constructor() {
-      this.socket = null;
-      this.sessionId = 'user-' + Math.random().toString(36).substr(2, 9);
-      this.chatContainer = document.querySelector('.chat-container');
-      this.chatMessages = document.getElementById('chat-messages');
-      this.chatInput = document.getElementById('chat-input');
-      this.sendButton = document.getElementById('send-button');
-      this.lastBotMessage = null;
-      this.typingIndicator = null;
-      this.messageQueue = [];
-      this.isConnected = false;
-      this.reconnectAttempts = 0;
-      this.maxReconnectAttempts = 5;
-      this.reconnectDelay = 1000;
+  // Define the WebSocketManager class only if it doesn't exist
+  if (typeof window.WebSocketManager === 'undefined') {
+    console.log('[WebSocketManager] Defining WebSocketManager class');
+    
+    window.WebSocketManager = class WebSocketManager {
+      constructor() {
+        console.log('[WebSocketManager] Creating new WebSocketManager instance');
+        this.socket = null;
+        this.sessionId = 'user-' + Math.random().toString(36).substr(2, 9);
+        this.chatContainer = document.querySelector('.chat-container');
+        this.chatMessages = document.getElementById('chat-messages');
+        this.chatInput = document.getElementById('chat-input');
+        this.sendButton = document.getElementById('send-button');
+        this.lastBotMessage = null;
+        this.typingIndicator = null;
+        this.messageQueue = [];
+        this.isConnected = false;
+        this.reconnectAttempts = 0;
+        this.maxReconnectAttempts = 5;
+        this.reconnectDelay = 1000;
       
       // Debug information
       console.log('[WebSocketManager] Constructor called');
@@ -657,152 +661,102 @@
     console.groupCollapsed('[WebSocketManager] Initializing WebSocket manager');
     console.trace('WebSocketManager initialization stack trace');
     
-    // Check if WebSocketManager is already defined in window
-    if (window.hasOwnProperty('WebSocketManager')) {
-      console.warn('[WebSocketManager] WebSocketManager class is already defined in window');
-      console.log('[WebSocketManager] Current definition:', window.WebSocketManager);
-    }
-    
-    // Clean up existing connection if any
-    if (window.wsManager) {
-      console.log('[WebSocketManager] Cleaning up existing WebSocket connection');
-      try {
-        window.wsManager.disconnect();
-        window.wsManager = null;
-        console.log('[WebSocketManager] Existing connection cleaned up');
-      } catch (e) {
-        console.error('[WebSocketManager] Error cleaning up existing connection:', e);
-      }
-    } else {
-      console.log('[WebSocketManager] No existing WebSocketManager instance found');
-    }
-    
     try {
-      // Store the original WebSocketManager reference if it exists
-      const originalWebSocketManager = window.WebSocketManager;
+      // Clean up existing connection if any
+      if (window.wsManager) {
+        console.log('[WebSocketManager] Cleaning up existing WebSocket connection');
+        try {
+          window.wsManager.disconnect();
+          window.wsManager = null;
+          console.log('[WebSocketManager] Existing connection cleaned up');
+        } catch (e) {
+          console.error('[WebSocketManager] Error cleaning up existing connection:', e);
+        }
+      } else {
+        console.log('[WebSocketManager] No existing WebSocketManager instance found');
+      }
       
-      // Initialize WebSocket manager and expose it globally
+      // Initialize new WebSocket manager
       window.wsManager = new WebSocketManager();
       console.log('[WebSocketManager] New WebSocketManager instance created');
-      
-      // Log the class definition status
-      if (originalWebSocketManager) {
-        console.warn('[WebSocketManager] WebSocketManager class was redefined');
-        console.log('[WebSocketManager] Original class:', originalWebSocketManager);
-        console.log('[WebSocketManager] New class:', WebSocketManager);
-      }
       
       // Set up event listeners
       const sendButton = document.getElementById('send-button');
       const chatInput = document.getElementById('chat-input');
       
       if (sendButton && chatInput) {
-        try {
-          // Remove any existing event listeners first by cloning the elements
-          const newSendButton = sendButton.cloneNode(true);
-          sendButton.parentNode.replaceChild(newSendButton, sendButton);
+        // Remove any existing event listeners first by cloning the elements
+        const newSendButton = sendButton.cloneNode(true);
+        sendButton.parentNode.replaceChild(newSendButton, sendButton);
+        
+        const newChatInput = chatInput.cloneNode(true);
+        chatInput.parentNode.replaceChild(newChatInput, chatInput);
+        
+        // Add new event listeners
+        newSendButton.addEventListener('click', () => {
+          if (window.wsManager) {
+            console.log('[WebSocketManager] Send button clicked');
+            window.wsManager.sendMessage();
+          }
+        });
+        
+        newChatInput.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' && !e.shiftKey && window.wsManager) {
+            e.preventDefault();
+            console.log('[WebSocketManager] Enter key pressed in chat input');
+            window.wsManager.sendMessage();
+          }
+        });
+        
+        // Set up auto-resize for textarea
+        newChatInput.addEventListener('input', function() {
+          this.style.height = 'auto';
+          this.style.height = (this.scrollHeight) + 'px';
           
-          const newChatInput = chatInput.cloneNode(true);
-          chatInput.parentNode.replaceChild(newChatInput, chatInput);
-          
-          // Add new event listeners
-          newSendButton.addEventListener('click', () => {
-            if (window.wsManager) {
-              console.log('[WebSocketManager] Send button clicked');
-              window.wsManager.sendMessage();
-            }
-          });
-          
-          newChatInput.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter' && !e.shiftKey && window.wsManager) {
-              e.preventDefault();
-              console.log('[WebSocketManager] Enter key pressed in chat input');
-              window.wsManager.sendMessage();
-            }
-          });
-          
-          // Set up auto-resize for textarea
-          newChatInput.addEventListener('input', function() {
-            this.style.height = 'auto';
-            this.style.height = (this.scrollHeight) + 'px';
-            
-            // Update send button state
-            const hasText = this.value.trim() !== '';
-            newSendButton.disabled = !hasText;
-            console.log(`[WebSocketManager] Input changed, hasText: ${hasText}`);
-          });
-          
-          // Initial button state
-          newSendButton.disabled = true;
-          
-          console.log('[WebSocketManager] Event listeners set up successfully');
-          
-          // Set up window unload handler
-          window.addEventListener('beforeunload', () => {
-            console.log('[WebSocketManager] Window unloading, cleaning up WebSocket');
-            if (window.wsManager?.socket) {
-              window.wsManager.socket.close(1000, 'Window closing');
-            }
-          });
-          
-          // Set up reconnect button handler
-          const addReconnectButton = () => {
-            try {
-              const existingBtn = document.getElementById('ws-reconnect-btn');
-              if (existingBtn) return;
-              
-              const btn = document.createElement('button');
-              btn.id = 'ws-reconnect-btn';
-              btn.textContent = 'Reconnect to AI Assistant';
-              btn.style.position = 'fixed';
-              btn.style.bottom = '20px';
-              btn.style.right = '20px';
-              btn.style.zIndex = '1000';
-              btn.style.padding = '10px 20px';
-              btn.style.backgroundColor = '#e95f30';
-              btn.style.color = 'white';
-              btn.style.border = 'none';
-              btn.style.borderRadius = '5px';
-              btn.style.cursor = 'pointer';
-              
-              btn.onclick = () => {
-                console.log('[WebSocketManager] Manual reconnect requested');
-                if (window.wsManager) {
-                  window.wsManager.connect();
-                } else {
-                  window.wsManager = new WebSocketManager();
-                }
-                btn.remove();
-              };
-              
-              document.body.appendChild(btn);
-              console.log('[WebSocketManager] Reconnect button added');
-              
-              // Set up connection check
-              const checkConnection = setInterval(() => {
-                if (window.wsManager && !window.wsManager.isConnected) {
-                  console.log('[WebSocketManager] Connection check: Not connected, showing reconnect button');
-                  addReconnectButton();
-                  clearInterval(checkConnection);
-                }
-              }, 5000);
-              
-            } catch (e) {
-              console.error('[WebSocketManager] Error in addReconnectButton:', e);
-            }
-          };
-          
-        } catch (e) {
-          console.error('[WebSocketManager] Error setting up event listeners:', e);
-        }
+          // Update send button state
+          const hasText = this.value.trim() !== '';
+          newSendButton.disabled = !hasText;
+          console.log(`[WebSocketManager] Input changed, hasText: ${hasText}`);
+        });
+        
+        // Initial button state
+        newSendButton.disabled = true;
+        
+        console.log('[WebSocketManager] Event listeners set up successfully');
       } else {
         console.error('[WebSocketManager] Could not find required DOM elements');
       }
       
+      // Set up window unload handler
+      window.addEventListener('beforeunload', () => {
+        console.log('[WebSocketManager] Window unloading, cleaning up WebSocket');
+        if (window.wsManager?.socket) {
+          window.wsManager.socket.close(1000, 'Window closing');
+        }
+      });
+      
       console.groupEnd();
       return window.wsManager;
+      
     } catch (e) {
-      console.error('[WebSocketManager] Error initializing WebSocketManager:', e);
+      console.error('[WebSocketManager] Error initializing WebSocket manager:', e);
+      
+      // Show error to user
+      const errorMsg = document.createElement('div');
+      errorMsg.style.position = 'fixed';
+      errorMsg.style.bottom = '20px';
+      errorMsg.style.right = '20px';
+      errorMsg.style.backgroundColor = '#ff4444';
+      errorMsg.style.color = 'white';
+      errorMsg.style.padding = '10px 20px';
+      errorMsg.style.borderRadius = '5px';
+      errorMsg.style.zIndex = '1000';
+      errorMsg.textContent = 'Failed to connect to AI Assistant. Please refresh the page.';
+      document.body.appendChild(errorMsg);
+      
+      console.groupEnd();
+      return null;
+    }
       
       // Show error to user
       const errorMsg = document.createElement('div');
