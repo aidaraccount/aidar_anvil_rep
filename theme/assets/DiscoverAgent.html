@@ -275,8 +275,59 @@
       }
     }
     
+    // Disconnect from WebSocket server
+    disconnect() {
+      // Close WebSocket connection if open
+      if (this.socket) {
+        console.log('[WebSocketManager] Closing WebSocket connection');
+        try {
+          // Remove all event listeners first to prevent memory leaks
+          this.socket.onopen = null;
+          this.socket.onmessage = null;
+          this.socket.onclose = null;
+          this.socket.onerror = null;
+          
+          // Only close if not already in closing/closed state
+          if (this.socket.readyState === WebSocket.OPEN) {
+            this.socket.close();
+          }
+        } catch (e) {
+          console.error('[WebSocketManager] Error closing WebSocket:', e);
+        } finally {
+          this.socket = null;
+        }
+      }
+      
+      // Clear any reconnection timeouts
+      if (this.reconnectTimeout) {
+        clearTimeout(this.reconnectTimeout);
+        this.reconnectTimeout = null;
+      }
+      
+      // Clean up event listeners
+      if (this.chatInput && this.sendButton) {
+        this.chatInput.onkeydown = null;
+        this.sendButton.onclick = null;
+      }
+      
+      // Remove typing indicator if visible
+      this.removeTypingIndicator();
+      
+      // Clear message queue
+      this.messageQueue = [];
+      this.isConnected = false;
+    }
+    
     // Initialize WebSocket connection
     async connect() {
+      console.log('[WebSocketManager] Connecting to WebSocket...');
+      
+      // Ensure we're starting fresh
+      this.disconnect();
+      
+      // Reset reconnection attempts
+      this.reconnectAttempts = 0;
+      
       console.log(`[WebSocketManager] === connect() called ===`);
       console.log(`[WebSocketManager] Current connection state:`, this.socket ? this.socket.readyState : 'No socket');
       console.log(`[WebSocketManager] Attempting to connect to: ${this.wsUrl}`);
@@ -300,20 +351,6 @@
       
       console.log('[WebSocketManager] Connection test passed, proceeding with connection');
       
-      // Close existing connection if any
-      if (this.socket) {
-        console.log('[WebSocketManager] Closing existing WebSocket connection');
-        try {
-          this.socket.close();
-          console.log('[WebSocketManager] Existing WebSocket connection closed');
-        } catch (e) {
-          console.warn('[WebSocketManager] Error closing existing socket:', e);
-        } finally {
-          this.socket = null;
-        }
-      }
-      
-      this.isConnected = false;
       
       try {
         console.log('[WebSocketManager] Creating new WebSocket instance');
@@ -605,14 +642,19 @@
     }
   }
 
-  // Initialize WebSocket manager
+  // Initialize or update WebSocket manager
   function initializeWebSocketManager() {
     console.log('[WebSocketManager] Initializing WebSocket manager');
     
-    // Only initialize once
+    // Clean up existing connection if any
     if (window.wsManager) {
-      console.log('[WebSocketManager] WebSocket manager already initialized');
-      return window.wsManager;
+      console.log('[WebSocketManager] Cleaning up existing WebSocket connection');
+      try {
+        window.wsManager.disconnect();
+        window.wsManager = null;
+      } catch (e) {
+        console.error('[WebSocketManager] Error cleaning up existing connection:', e);
+      }
     }
     
     // Initialize WebSocket manager and expose it globally
