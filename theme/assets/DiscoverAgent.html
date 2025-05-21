@@ -430,7 +430,33 @@
         else if (message.type === 'artist_identified') {
           console.log('[WebSocketManager] Artist identified:', message.data);
           const artist = message.data;
-          this.addSystemMessage(`✅ Found artist: ${artist.name} (${artist.followers} followers, ${artist.popularity} popularity)`);
+          
+          // Format followers number (e.g., 1,234,567 -> 1.2M)
+          const formatFollowers = (num) => {
+            if (!num) return '0';
+            if (num >= 1000000) {
+              return (num / 1000000).toFixed(1) + 'M';
+            } else if (num >= 1000) {
+              return (num / 1000).toFixed(1) + 'K';
+            }
+            return num.toString();
+          };
+
+          // Create artist info box
+          const artistElement = document.createElement('a');
+          artistElement.href = `artists?artist_id=${encodeURIComponent(artist.artist_id || '')}`;
+          artistElement.className = 'message artist';
+          artistElement.innerHTML = `
+            <div class="artist-image" style="background-image: url('${artist.image_url || 'https://via.placeholder.com/60'}')"></div>
+            <div class="artist-info">
+              <div class="artist-name">${this.escapeHtml(artist.name)}</div>
+              <div class="artist-followers">${formatFollowers(artist.followers)} followers</div>
+            </div>
+          `;
+          
+          // Add to chat
+          this.chatMessages.appendChild(artistElement);
+          this.scrollToBottom();
           return;
         }
         // Handle artist not found messages

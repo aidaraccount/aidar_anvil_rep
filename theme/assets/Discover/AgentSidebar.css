@@ -154,6 +154,62 @@
   color: white;
 }
 
+/* Artist message styles */
+.message.artist {
+  display: flex;
+  align-items: center;
+  padding: 12px 15px;
+  background-color: #252525;
+  border: 1px solid #3a3a3a;
+  border-radius: 12px;
+  text-decoration: none;
+  color: #fff;
+  transition: all 0.2s ease;
+  width: 90%;
+  max-width: 320px;
+  margin: 5px 0;
+  align-self: flex-start;
+}
+
+.message.artist:hover {
+  background-color: #2e2e2e;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.artist-image {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  flex-shrink: 0;
+  margin-right: 12px;
+  border: 2px solid #3a3a3a;
+}
+
+.artist-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.artist-name {
+  font-weight: 500;
+  font-size: 15px;
+  margin-bottom: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.artist-followers {
+  font-size: 12px;
+  color: #a0a0a0;
+  font-weight: normal;
+}
+
+/* Chat Input */
 .chat-input-container {
   padding: 15px;
   position: relative;
