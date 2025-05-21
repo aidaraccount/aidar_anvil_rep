@@ -114,7 +114,7 @@ class DiscoverAgent(DiscoverAgentTemplate):
       self.sec_shorts.visible = False
       
       # Set a data attribute on the body to indicate agent creation mode
-      js.call_js('document.body.dataset.agentCreationMode = true')
+      js.call_js('document.body.setAttribute("data-agent-creation-mode", "true")')
       print("[Python] Set agent creation mode in body data attribute")
     
     # Handle the suggestion status
