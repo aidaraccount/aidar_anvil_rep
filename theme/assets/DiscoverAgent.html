@@ -212,13 +212,12 @@
       console.log('[WebSocketManager] Hostname:', window.location.hostname);
       console.log('[WebSocketManager] Protocol:', window.location.protocol);
       
-      // Determine WebSocket protocol (ws:// or wss://)
-      const wsProtocol = window.location.protocol === 'https:' ? 'wss://' : 'ws://';
-      // Use the current host for WebSocket connection
-      const wsHost = window.location.host;
+      // For development - connect to local backend server
+      const wsProtocol = 'ws://';  // Use ws:// for local development
+      const wsHost = 'localhost:8000';  // Your backend server address
       
-      // Set WebSocket URL
-      this.wsUrl = `${wsProtocol}${wsHost}/_/websocket/${this.sessionId}`;
+      // Set WebSocket URL with session ID
+      this.wsUrl = `${wsProtocol}${wsHost}/ws/${this.sessionId}`;
       
       // Log the final WebSocket URL
       console.log('[WebSocketManager] Using WebSocket URL:', this.wsUrl);
