@@ -1040,7 +1040,11 @@
             console.log('[AgentSidebar] Sending message via WebSocket manager');
             const manager = getWebSocketManager();
             if (manager) {
-              manager.sendMessage();
+              // Clear input field before sending
+              chatInput.value = '';
+              updateSendButtonState();
+              // Send the message
+              manager.sendMessage(message);
             } else {
               console.error('[AgentSidebar] Failed to get WebSocket manager');
             }
@@ -1069,7 +1073,11 @@
               console.log('[AgentSidebar] Sending message via WebSocket manager (Enter key)');
               const manager = getWebSocketManager();
               if (manager) {
-                manager.sendMessage();
+                // Clear input field before sending
+                chatInput.value = '';
+                updateSendButtonState();
+                // Send the message
+                manager.sendMessage(message);
               } else {
                 console.error('[AgentSidebar] Failed to get WebSocket manager');
               }
