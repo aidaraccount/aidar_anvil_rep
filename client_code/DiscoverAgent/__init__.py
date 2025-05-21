@@ -2002,43 +2002,43 @@ class DiscoverAgent(DiscoverAgentTemplate):
     anvil.server.call('add_interest', user["user_id"], self.model_id, self.artist_id, 1, False, '')
     self.header.scroll_into_view(smooth=True)
     next_artist_id = anvil.server.call('get_next_artist_id', self.model_id)
-    routing.set_url_hash(f'artists?artist_id={next_artist_id}', load_from_cache=False)
+    routing.set_url_hash(f'agent_artists?artist_id={next_artist_id}', load_from_cache=False)
 
   def button_2_click(self, **event_args):
     anvil.server.call('add_interest', user["user_id"], self.model_id, self.artist_id, 2, False, '')
     self.header.scroll_into_view(smooth=True)
     next_artist_id = anvil.server.call('get_next_artist_id', self.model_id)
-    routing.set_url_hash(f'artists?artist_id={next_artist_id}', load_from_cache=False)
+    routing.set_url_hash(f'agent_artists?artist_id={next_artist_id}', load_from_cache=False)
 
   def button_3_click(self, **event_args):
     anvil.server.call('add_interest', user["user_id"], self.model_id, self.artist_id, 3, False, '')
     self.header.scroll_into_view(smooth=True)
     next_artist_id = anvil.server.call('get_next_artist_id', self.model_id)
-    routing.set_url_hash(f'artists?artist_id={next_artist_id}', load_from_cache=False)
+    routing.set_url_hash(f'agent_artists?artist_id={next_artist_id}', load_from_cache=False)
 
   def button_4_click(self, **event_args):
     anvil.server.call('add_interest', user["user_id"], self.model_id, self.artist_id, 4, False, '')
     self.header.scroll_into_view(smooth=True)
     next_artist_id = anvil.server.call('get_next_artist_id', self.model_id)
-    routing.set_url_hash(f'artists?artist_id={next_artist_id}', load_from_cache=False)
+    routing.set_url_hash(f'agent_artists?artist_id={next_artist_id}', load_from_cache=False)
 
   def button_5_click(self, **event_args):
     anvil.server.call('add_interest', user["user_id"], self.model_id, self.artist_id, 5, False, '')
     self.header.scroll_into_view(smooth=True)
     next_artist_id = anvil.server.call('get_next_artist_id', self.model_id)
-    routing.set_url_hash(f'artists?artist_id={next_artist_id}', load_from_cache=False)
+    routing.set_url_hash(f'agent_artists?artist_id={next_artist_id}', load_from_cache=False)
 
   def button_6_click(self, **event_args):
     anvil.server.call('add_interest', user["user_id"], self.model_id, self.artist_id, 6, False, '')
     self.header.scroll_into_view(smooth=True)
     next_artist_id = anvil.server.call('get_next_artist_id', self.model_id)
-    routing.set_url_hash(f'artists?artist_id={next_artist_id}', load_from_cache=False)
+    routing.set_url_hash(f'agent_artists?artist_id={next_artist_id}', load_from_cache=False)
 
   def button_7_click(self, **event_args):
     anvil.server.call('add_interest', user["user_id"], self.model_id, self.artist_id, 7, False, '')
     self.header.scroll_into_view(smooth=True)
     next_artist_id = anvil.server.call('get_next_artist_id', self.model_id)
-    routing.set_url_hash(f'artists?artist_id={next_artist_id}', load_from_cache=False)
+    routing.set_url_hash(f'agent_artists?artist_id={next_artist_id}', load_from_cache=False)
 
   # -------------------------------
   # DESCRIPTION LINKS
