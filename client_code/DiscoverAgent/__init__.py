@@ -94,10 +94,14 @@ class DiscoverAgent(DiscoverAgentTemplate):
 
     # get_suggestion
     url_artist_id = self.url_dict['artist_id']
+    print('url_artist_id:', url_artist_id)
     sug = json.loads(anvil.server.call('get_suggestion', 'Inspect', self.model_id, url_artist_id)) # Free, Explore, Inspect, Dissect
 
     # check status
-    if sug["Status"] == 'Empty Model!':
+    if url_artist_id == 'create_agent':
+      pass
+      
+    elif sug["Status"] == 'Empty Model!':
       alert(title='Train you Model..',
         content="Sorry, we cound't find any artists for your model. Make sure your Agent is fully set up!\n\nTherefore, go to ADD REF. ARTISTS and add some starting artists that you are interested in.")
       self.visible = False
