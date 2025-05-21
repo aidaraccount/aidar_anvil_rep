@@ -418,7 +418,25 @@
           console.error('[WebSocketManager] Server error:', message.content);
           this.addErrorMessage(message.content || 'An error occurred');
         }
-        // Handle artist not found messages that might come as partial_response
+        // Handle artist identified messages
+        else if (message.type === 'artist_identified') {
+          console.log('[WebSocketManager] Artist identified:', message.data);
+          const artist = message.data;
+          this.addSystemMessage(`✅ Found artist: ${artist.name} (${artist.followers} followers, ${artist.popularity} popularity)`);
+          return;
+        }
+        // Handle artist not found messages
+        else if (message.type === 'artist_not_found') {
+          console.log('[WebSocketManager] Artist not found:', message.query);
+          this.addSystemMessage(`❌ Artist not found: ${message.query}`);
+          
+          if (message.suggestions && message.suggestions.length > 0) {
+            const suggestionsText = message.suggestions.join(', ');
+            this.addSystemMessage(`Did you mean: ${suggestionsText}?`);
+          }
+          return;
+        }
+        // Handle partial responses
         else if (message.type === 'partial_response') {
           try {
             const content = JSON.parse(message.content);
