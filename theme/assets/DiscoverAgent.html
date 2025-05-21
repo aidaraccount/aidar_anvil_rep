@@ -384,6 +384,17 @@
         if (message.type === 'partial_response') {
           try {
             const content = JSON.parse(message.content);
+            
+            // Handle artist_identified message
+            if (content._type === 'artist_identified') {
+              console.log('[WebSocketManager] Artist identified:', content.data);
+              const artist = content.data;
+              this.addSystemMessage(`✅ Found artist: ${artist.name} (${artist.followers} followers, ${artist.popularity} popularity)`);
+              console.log('[WebSocketManager] Full artist data:', artist);
+              return;
+            }
+            
+            // Handle regular partial responses
             if (content.summary) {
               // Only show the summary
               this.updateOrCreateBotMessage(content.summary);
@@ -392,6 +403,7 @@
               this.updateOrCreateBotMessage(content.content);
             }
           } catch (e) {
+            console.error('[WebSocketManager] Error parsing partial_response content:', e);
             // If parsing fails, show the raw content
             this.updateOrCreateBotMessage(message.content);
           }
@@ -406,26 +418,23 @@
           console.error('[WebSocketManager] Server error:', message.content);
           this.addErrorMessage(message.content || 'An error occurred');
         }
-        else if (message.type === 'artist_info' && message.data && message.data.status === 'success') {
-          console.log('[WebSocketManager] Artist identified:', message.data.data);
-          const artist = message.data.data;
-          this.addSystemMessage(`✅ Found artist: ${artist.name} (${artist.followers} followers, ${artist.popularity} popularity)`);
-          
-          // Log the full artist data to console for debugging
-          console.log('[WebSocketManager] Full artist data:', artist);
-        }
-        else if (message.type === 'artist_info' && message.data && message.data.status === 'not_found') {
-          console.log('[WebSocketManager] Artist not found:', message.data.query);
-          this.addSystemMessage(`❌ Artist not found: ${message.data.query}`);
-          
-          if (message.data.suggestions && message.data.suggestions.length > 0) {
-            const suggestionsText = message.data.suggestions.join(', ');
-            this.addSystemMessage(`Did you mean: ${suggestionsText}?`);
+        // Handle artist not found messages that might come as partial_response
+        else if (message.type === 'partial_response') {
+          try {
+            const content = JSON.parse(message.content);
+            if (content._type === 'artist_not_found') {
+              console.log('[WebSocketManager] Artist not found:', content.query);
+              this.addSystemMessage(`❌ Artist not found: ${content.query}`);
+              
+              if (content.suggestions && content.suggestions.length > 0) {
+                const suggestionsText = content.suggestions.join(', ');
+                this.addSystemMessage(`Did you mean: ${suggestionsText}?`);
+              }
+              return;
+            }
+          } catch (e) {
+            console.error('[WebSocketManager] Error parsing artist not found message:', e);
           }
-        }
-        else if (message.type === 'artist_info') {
-          console.log('[WebSocketManager] Artist info:', message.content);
-          this.addSystemMessage(`ℹ️ ${message.content}`);
         }
       } catch (error) {
         console.error('[WebSocketManager] Error handling message:', error);
