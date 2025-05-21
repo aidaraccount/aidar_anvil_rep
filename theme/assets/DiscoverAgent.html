@@ -760,31 +760,60 @@
   
   // Initialize when DOM is loaded
   function initializePage() {
+    console.log('[Page] Initializing page...');
+    
     // Initialize WebSocket manager
     const wsManager = initializeWebSocketManager();
     
     // Check if we're in agent creation mode
-    if (window.anvilApp && window.anvilApp.getFormComponent) {
+    console.log('[Page] Checking for agent creation mode...');
+    
+    if (!window.anvilApp) {
+      console.log('[Page] window.anvilApp not found');
+    } else if (!window.anvilApp.getFormComponent) {
+      console.log('[Page] window.anvilApp.getFormComponent not found');
+    } else {
       try {
+        console.log('[Page] Getting form component...');
         const form = window.anvilApp.getFormComponent();
-        if (form && form.call && form.get_agent_creation_mode) {
-          form.call('get_agent_creation_mode').then(isCreationMode => {
-            if (isCreationMode) {
-              console.log('[Page] Agent creation mode detected from Python');
-              document.body.classList.add('agent-creation-mode');
-              
-              // Focus the chat input
-              const chatInput = document.getElementById('chat-input');
-              if (chatInput) {
-                setTimeout(() => {
-                  chatInput.focus();
-                }, 500);
+        
+        if (!form) {
+          console.log('[Page] Form component is null');
+        } else if (!form.call) {
+          console.log('[Page] form.call not found');
+        } else if (!form.get_agent_creation_mode) {
+          console.log('[Page] form.get_agent_creation_mode not found. Available methods:', 
+            Object.keys(form).filter(key => typeof form[key] === 'function'));
+        } else {
+          console.log('[Page] Calling get_agent_creation_mode...');
+          form.call('get_agent_creation_mode')
+            .then(isCreationMode => {
+              console.log('[Page] get_agent_creation_mode returned:', isCreationMode);
+              if (isCreationMode) {
+                console.log('[Page] Entering agent creation mode');
+                document.body.classList.add('agent-creation-mode');
+                
+                // Focus the chat input
+                const chatInput = document.getElementById('chat-input');
+                if (chatInput) {
+                  console.log('[Page] Found chat input, focusing...');
+                  setTimeout(() => {
+                    chatInput.focus();
+                    console.log('[Page] Chat input focused');
+                  }, 500);
+                } else {
+                  console.log('[Page] Chat input not found');
+                }
+              } else {
+                console.log('[Page] Not in agent creation mode');
               }
-            }
-          });
+            })
+            .catch(error => {
+              console.error('[Page] Error calling get_agent_creation_mode:', error);
+            });
         }
       } catch (e) {
-        console.error('Error checking agent creation mode:', e);
+        console.error('[Page] Error in agent creation mode check:', e);
       }
     }
   }

@@ -64,7 +64,9 @@ class DiscoverAgent(DiscoverAgentTemplate):
   # SUGGESTIONS
   def get_agent_creation_mode(self, **event_args):
     """Expose the agent_creation_mode flag to JavaScript"""
-    return getattr(self, 'agent_creation_mode', False)
+    is_creation_mode = getattr(self, 'agent_creation_mode', False)
+    print(f"[Python] get_agent_creation_mode called, returning: {is_creation_mode}", flush=True)
+    return is_creation_mode
     
   def refresh_sug(self, **event_args):
 
