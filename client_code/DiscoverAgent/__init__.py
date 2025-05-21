@@ -116,7 +116,7 @@ class DiscoverAgent(DiscoverAgentTemplate):
       self.agent_creation_mode = True
     
     # Handle the suggestion status
-    if url_artist_id != 'create_agent' and sug["Status"] == 'Empty Model!':
+    elif sug["Status"] == 'Empty Model!':
       alert(title='Train you Model..',
         content="Sorry, we cound't find any artists for your model. Make sure your Agent is fully set up!\n\nTherefore, go to ADD REF. ARTISTS and add some starting artists that you are interested in.")
       self.visible = False
