@@ -406,6 +406,32 @@
           console.error('[WebSocketManager] Server error:', message.content);
           this.addErrorMessage(message.content || 'An error occurred');
         }
+        else if (message.type === 'artist_identified') {
+          console.log('[WebSocketManager] Artist identified:', message.artist);
+          this.addSystemMessage(`✅ Identified artist: ${message.artist.name}`);
+          
+          // Log the full artist data to console for debugging
+          console.log('[WebSocketManager] Full artist data:', message.artist);
+          
+          // You can access artist details like:
+          // message.artist.name
+          // message.artist.genres
+          // message.artist.popularity
+          // etc.
+        }
+        else if (message.type === 'artist_not_found') {
+          console.log('[WebSocketManager] Artist not found:', message.message);
+          this.addSystemMessage(`❌ ${message.message}`);
+          
+          if (message.suggestions && message.suggestions.length > 0) {
+            const suggestionsText = message.suggestions.join(', ');
+            this.addSystemMessage(`Did you mean: ${suggestionsText}?`);
+          }
+        }
+        else if (message.type === 'artist_info') {
+          console.log('[WebSocketManager] Artist info:', message.content);
+          this.addSystemMessage(`ℹ️ ${message.content}`);
+        }
       } catch (error) {
         console.error('[WebSocketManager] Error handling message:', error);
         this.addErrorMessage('Error processing message');
