@@ -261,7 +261,7 @@
         
         // Wait for either the connection to open or the timeout
         await Promise.race([
-          new Promise((resolve) => {
+          new Promise((resolve, reject) => {
             testSocket.onopen = () => {
               console.log('[WebSocketManager] Test connection successful');
               testSocket.close();
@@ -269,6 +269,7 @@
             };
             testSocket.onerror = (error) => {
               console.error('[WebSocketManager] Test connection failed:', error);
+              testSocket.close();
               reject(new Error('Connection error'));
             };
           }),
