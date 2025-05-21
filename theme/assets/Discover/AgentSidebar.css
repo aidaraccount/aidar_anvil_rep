@@ -1,4 +1,44 @@
 /* ------------------------------------------------------ */
+/* Agent Creation Mode */
+body.agent-creation-mode {
+  overflow: hidden;
+}
+
+body.agent-creation-mode .main-content {
+  display: none;
+}
+
+body.agent-creation-mode #agent-sidebar {
+  right: 0;
+  width: 100%;
+  max-width: 100%;
+  border-radius: 0;
+  background-color: transparent;
+  box-shadow: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+}
+
+body.agent-creation-mode #agent-sidebar .chat-container {
+  width: 400px;
+  max-width: 100%;
+  margin: 0 auto;
+  background-color: rgba(10, 3, 30, 0.95);
+  border-radius: 15px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+  height: auto;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+}
+
+body.agent-creation-mode .header-sidebar,
+body.agent-creation-mode .agent-sidebar-button {
+  display: none !important;
+}
+
 /* 1. Agent Sidebar Container */
 #agent-sidebar {
   font-family: Gs-regular;

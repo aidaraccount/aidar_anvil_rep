@@ -198,6 +198,7 @@
       this.reconnectAttempts = 0;
       this.maxReconnectAttempts = 5;
       this.reconnectDelay = 1000;
+      this.isCreationMode = false;
       
       // Debug information
       console.log('[WebSocketManager] Constructor called');
@@ -217,8 +218,38 @@
         console.error('[WebSocketManager] Invalid WebSocket URL:', e);
       }
       
+      // Check if we're in agent creation mode
+      const urlParams = new URLSearchParams(window.location.search);
+      const agentId = urlParams.get('agent_id');
+      if (agentId === 'create_agent') {
+        this.enterCreationMode();
+      }
+      
       // Initialize connection
       this.connect();
+    }
+    
+    // Enter agent creation mode (centered chat)
+    enterCreationMode() {
+      console.log('[WebSocketManager] Entering agent creation mode');
+      this.isCreationMode = true;
+      document.body.classList.add('agent-creation-mode');
+      
+      // Focus the input field
+      if (this.chatInput) {
+        setTimeout(() => {
+          this.chatInput.focus();
+        }, 100);
+      }
+    }
+    
+    // Exit agent creation mode (normal view)
+    exitCreationMode() {
+      if (!this.isCreationMode) return;
+      
+      console.log('[WebSocketManager] Exiting agent creation mode');
+      this.isCreationMode = false;
+      document.body.classList.remove('agent-creation-mode');
     }
     
     // Test WebSocket connection
@@ -287,13 +318,7 @@
         console.error('[WebSocketManager] Connection test failed, aborting connection attempt');
         
         // Show detailed error message to user
-        const errorDetails = `Failed to connect to WebSocket server at ${this.wsUrl}.\n\n` +
-          `Possible causes:\n` +
-          `1. The WebSocket server is not running\n` +
-          `2. The URL is incorrect\n` +
-          `3. A firewall is blocking the connection\n` +
-          `4. The server is not configured to accept WebSocket connections`;
-          
+        const errorDetails = `Failed to connect to WebSocket server at ${this.wsUrl}.`;
         this.addSystemMessage(errorDetails);
         return;
       }
@@ -453,6 +478,20 @@
       this.chatInput.value = '';
       this.chatInput.style.height = 'auto'; // Reset textarea height
       this.showTypingIndicator();
+      
+      // If this is the first message in creation mode, exit creation mode
+      if (this.isCreationMode) {
+        console.log('[WebSocketManager] First message sent, exiting creation mode');
+        this.exitCreationMode();
+        
+        // Show all sections after exiting creation mode
+        const sections = document.querySelectorAll('.section');
+        sections.forEach(section => {
+          if (section.id !== 'chat-container') {
+            section.style.display = 'block';
+          }
+        });
+      }
       
       // Prepare message
       const messageData = {
@@ -715,10 +754,40 @@
   }
   
   // Initialize when DOM is loaded
+  function initializePage() {
+    // Check if we're in agent creation mode
+    const isAgentCreationMode = localStorage.getItem('agent_creation_mode') === 'true';
+    
+    if (isAgentCreationMode) {
+      console.log('[Page] Agent creation mode detected');
+      // Add the creation mode class to body
+      document.body.classList.add('agent-creation-mode');
+      
+      // Initialize WebSocket manager with creation mode
+      const wsManager = initializeWebSocketManager();
+      
+      // Clear the flag after initialization
+      localStorage.removeItem('agent_creation_mode');
+      
+      // Focus the chat input
+      const chatInput = document.getElementById('chat-input');
+      if (chatInput) {
+        setTimeout(() => {
+          chatInput.focus();
+        }, 500);
+      }
+    } else {
+      // Normal initialization
+      initializeWebSocketManager();
+    }
+  }
+  
+  // Start initialization
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initializeWebSocketManager);
+    document.addEventListener('DOMContentLoaded', initializePage);
   } else {
-    initializeWebSocketManager();
+    // DOM already loaded, initialize immediately
+    initializePage();
   }
 
 
