@@ -1040,9 +1040,13 @@
             console.log('[AgentSidebar] Sending message via WebSocket manager');
             const manager = getWebSocketManager();
             if (manager) {
-              // Clear input field before sending
+              // Add message to chat first
+              addMessage(message, true);  // true for user message
+              // Clear input field
               chatInput.value = '';
               updateSendButtonState();
+              // Show typing indicator
+              manager.showTypingIndicator();
               // Send the message
               manager.sendMessage(message);
             } else {
@@ -1073,9 +1077,13 @@
               console.log('[AgentSidebar] Sending message via WebSocket manager (Enter key)');
               const manager = getWebSocketManager();
               if (manager) {
-                // Clear input field before sending
+                // Add message to chat first
+                addMessage(message, true);  // true for user message
+                // Clear input field
                 chatInput.value = '';
                 updateSendButtonState();
+                // Show typing indicator
+                manager.showTypingIndicator();
                 // Send the message
                 manager.sendMessage(message);
               } else {
