@@ -250,6 +250,13 @@
       console.log('[WebSocketManager] Exiting agent creation mode');
       this.isCreationMode = false;
       document.body.classList.remove('agent-creation-mode');
+      
+      // Remove the agent_creation_mode from URL hash
+      const url = new URL(window.location);
+      const params = new URLSearchParams(url.hash.substring(1));
+      params.delete('agent_creation_mode');
+      url.hash = params.toString();
+      window.history.replaceState({}, '', url.toString());
     }
     
     // Test WebSocket connection
@@ -755,19 +762,17 @@
   
   // Initialize when DOM is loaded
   function initializePage() {
-    // Check if we're in agent creation mode
-    const isAgentCreationMode = localStorage.getItem('agent_creation_mode') === 'true';
+    // Check if we're in agent creation mode by checking URL hash
+    const hashParams = new URLSearchParams(window.location.hash.substring(1));
+    const isAgentCreationMode = hashParams.get('agent_creation_mode') === 'true';
     
     if (isAgentCreationMode) {
-      console.log('[Page] Agent creation mode detected');
+      console.log('[Page] Agent creation mode detected from URL');
       // Add the creation mode class to body
       document.body.classList.add('agent-creation-mode');
       
       // Initialize WebSocket manager with creation mode
       const wsManager = initializeWebSocketManager();
-      
-      // Clear the flag after initialization
-      localStorage.removeItem('agent_creation_mode');
       
       // Focus the chat input
       const chatInput = document.getElementById('chat-input');
