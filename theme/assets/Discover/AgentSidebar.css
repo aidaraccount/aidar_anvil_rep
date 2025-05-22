@@ -157,6 +157,7 @@
 /* Artist message styles */
 .message.artist {
   display: flex;
+  flex-direction: row;
   align-items: center;
   padding: 5px 10px;
   background-color: #252525;
@@ -169,6 +170,7 @@
   max-width: 320px;
   margin: 0;
   align-self: flex-start;
+  box-sizing: border-box;
 }
 
 .message.artist:hover {
