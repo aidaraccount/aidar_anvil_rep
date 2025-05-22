@@ -313,68 +313,73 @@
       try {
         const message = JSON.parse(event.data);
         console.log('[WebSocketManager] Received message:', message);
-        
-        if (message.type === 'partial_response') {
-          try {
-            const content = JSON.parse(message.content);
-            
-            // Handle artist_identified message
-            if (content._type === 'artist_identified') {
-              console.log('[WebSocketManager] Artist identified:', content.data);
-              const artist = content.data;
-              this.addSystemMessage(`â Found artist: ${artist.name} (${artist.followers} followers, ${artist.popularity} popularity)`);
-              console.log('[WebSocketManager] Full artist data:', artist);
-              return;
-            }
-            
-            // Handle regular partial responses
-            if (content.summary) {
-              // Only show the summary
-              this.updateOrCreateBotMessage(content.summary);
-            } else if (content.content) {
-              // Fallback to content if summary is not available
-              this.updateOrCreateBotMessage(content.content);
-            }
-          } catch (e) {
-            console.error('[WebSocketManager] Error parsing partial_response content:', e);
 
-            // If parsing fails, show the raw content
-            this.updateOrCreateBotMessage(message.content);
-          }
-        } 
-        else if (message.type === 'complete') {
-          this.markLastMessageComplete();
-          
-          // Remove any typing indicator when complete
-          this.removeTypingIndicator();
-        }
-        else if (message.type === 'error') {
-          console.error('[WebSocketManager] Server error:', message.content);
-          this.addErrorMessage(message.content || 'An error occurred');
-        }
-
-        // Handle artist not found messages that might come as partial_response
-        else if (message.type === 'partial_response') {
-          try {
-            const content = JSON.parse(message.content);
-            if (content._type === 'artist_not_found') {
-              console.log('[WebSocketManager] Artist not found:', content.query);
-              this.addSystemMessage(`â Artist not found: ${content.query}`);
-              
-              if (content.suggestions && content.suggestions.length > 0) {
-                const suggestionsText = content.suggestions.join(', ');
-                this.addSystemMessage(`Did you mean: ${suggestionsText}?`);
-              }
-              return;
-            }
-          } catch (e) {
-            console.error('[WebSocketManager] Error parsing artist not found message:', e);
-          }
+        switch (message.type) {
+          case 'text_chunk':
+            this.handleTextChunk(message);
+            break;
+            
+          case 'error':
+            this.handleError(message);
+            break;
+            
+          case 'artist_info':
+            this.handleArtistInfo(message);
+            break;
+            
+          case 'complete':
+            this.handleCompleteMessage();
+            break;
+            
+          default:
+            console.warn('[WebSocketManager] Unknown message type:', message.type);
+            this.addSystemMessage(`Received unknown message type: ${message.type}`);
         }
       } catch (error) {
         console.error('[WebSocketManager] Error handling message:', error);
         this.addErrorMessage('Error processing message');
       }
+    }
+
+    // Handle text chunk messages
+    handleTextChunk(message) {
+      if (message.content) {
+        this.updateOrCreateBotMessage(message.content);
+        this.scrollToBottom();
+      }
+    }
+
+    // Handle error messages
+    handleError(message) {
+      console.error('[WebSocketManager] Server error:', message.content);
+      const errorType = message.data?.error_type ? ` (${message.data.error_type})` : '';
+      this.addErrorMessage(`Error${errorType}: ${message.content}`);
+    }
+
+    // Handle artist information
+    handleArtistInfo(message) {
+      console.log('[WebSocketManager] Artist info received:', message);
+      
+      if (message.data) {
+        const artist = message.data;
+        const followers = artist.followers ? this.formatFollowers(artist.followers) : 'unknown';
+        const popularity = artist.popularity || 'unknown';
+        
+        this.addSystemMessage(`✅ Found artist: ${artist.name} (${followers} followers, ${popularity} popularity)`);
+      } else {
+        this.addSystemMessage(message.content || 'Received artist information');
+      }
+    }
+
+    // Helper to format followers count
+    formatFollowers(count) {
+      if (count >= 1000000) {
+        return (count / 1000000).toFixed(1) + 'M';
+      }
+      if (count >= 1000) {
+        return (count / 1000).toFixed(1) + 'K';
+      }
+      return count.toString();
     }
     
 
