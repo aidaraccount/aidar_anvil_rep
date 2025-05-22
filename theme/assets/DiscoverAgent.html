@@ -370,13 +370,18 @@
       
       if (message.data) {
         const artist = message.data;
-        const followers = artist.followers ? this.formatFollowers(artist.followers) : 'unknown';
-        const popularity = artist.popularity || 'unknown';
-        const imageUrl = artist.images?.[0]?.url || 'https://via.placeholder.com/40';
+        const artistId = artist.artist_id || '';
+        const imageUrl = artist.image_url || (artist.images?.[0]?.url) || 'https://via.placeholder.com/40';
+        const followers = artist.followers || '0';
         
         // Create artist message element with artist class
-        const messageDiv = document.createElement('div');
+        const messageDiv = document.createElement('a');
+        messageDiv.href = `#agent_artists?artist_id=${encodeURIComponent(artistId)}`;
         messageDiv.className = 'message artist';
+        messageDiv.style.textDecoration = 'none';
+        messageDiv.style.display = 'block';
+        messageDiv.style.color = 'inherit';
+        
         messageDiv.innerHTML = `
           <div class="artist-image" style="background-image: url('${this.escapeHtml(imageUrl)}')"></div>
           <div class="artist-info">
@@ -384,6 +389,7 @@
             <div class="artist-followers">${followers} Spotify followers</div>
           </div>
         `;
+        
         this.chatMessages.appendChild(messageDiv);
         this.scrollToBottom();
       } else {
