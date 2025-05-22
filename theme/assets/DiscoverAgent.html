@@ -378,9 +378,6 @@
         const messageDiv = document.createElement('a');
         messageDiv.href = `#agent_artists?artist_id=${encodeURIComponent(artistId)}`;
         messageDiv.className = 'message artist';
-        messageDiv.style.textDecoration = 'none';
-        messageDiv.style.display = 'block';
-        messageDiv.style.color = 'inherit';
         
         messageDiv.innerHTML = `
           <div class="artist-image" style="background-image: url('${this.escapeHtml(imageUrl)}')"></div>
