@@ -142,6 +142,10 @@
   margin-bottom: 4px;
 }
 
+.message.system {
+  font-size: 12px;
+}
+
 .message.agent {
   align-self: flex-start;
   background-color: #313131;
@@ -156,17 +160,16 @@
 
 /* Artist message styles */
 .message.artist {
+  max-width: 70%;
   display: flex;
   align-items: center;
-  padding: 8px 12px;
+  padding: 5px 10px;
   background-color: #252525;
   border: 1px solid #3a3a3a;
   border-radius: 12px;
   text-decoration: none;
   color: #fff;
   transition: all 0.2s ease;
-  width: 90%;
-  max-width: 320px;
   margin: 8px 0;
   box-sizing: border-box;
 }
