@@ -372,8 +372,20 @@
         const artist = message.data;
         const followers = artist.followers ? this.formatFollowers(artist.followers) : 'unknown';
         const popularity = artist.popularity || 'unknown';
+        const imageUrl = artist.images?.[0]?.url || 'https://via.placeholder.com/40';
         
-        this.addSystemMessage(`✅ Found artist: ${artist.name} (${followers} followers, ${popularity} popularity)`);
+        // Create artist message element with artist class
+        const messageDiv = document.createElement('div');
+        messageDiv.className = 'message artist';
+        messageDiv.innerHTML = `
+          <div class="artist-image" style="background-image: url('${this.escapeHtml(imageUrl)}')"></div>
+          <div class="artist-info">
+            <div class="artist-name">${this.escapeHtml(artist.name)}</div>
+            <div class="artist-followers">${followers} Spotify followers</div>
+          </div>
+        `;
+        this.chatMessages.appendChild(messageDiv);
+        this.scrollToBottom();
       } else {
         this.addSystemMessage(message.content || 'Received artist information');
       }
