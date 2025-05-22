@@ -370,7 +370,15 @@
         this.addSystemMessage(message.content || 'Received artist information');
       }
     }
+    
+    // Handle complete message from server
+    handleCompleteMessage() {
+      console.log('[WebSocketManager] Received complete message');
+      this.markLastMessageComplete();
+      this.removeTypingIndicator();
+    }
 
+    // HELPER FUNCTIONS
     // Helper to format followers count
     formatFollowers(count) {
       if (count >= 1000000) {
@@ -531,11 +539,6 @@
       this.scrollToBottom();
     }
     
-    // Alias for backward compatibility
-    updateOrAddBotMessage(content) {
-      this.updateOrCreateBotMessage(content);
-    }
-    
     // Mark the last bot message as complete
     markLastMessageComplete() {
       this.lastBotMessage = null;
@@ -551,8 +554,6 @@
       this.typingIndicator.textContent = 'AIDAR is thinking';
       this.chatContainer.appendChild(this.typingIndicator);
     }
-    
-    // Constructor is defined elsewhere in the file
     
     // Remove typing indicator
     removeTypingIndicator() {
@@ -748,6 +749,7 @@
     }
   })();
 
+  
   // Agent Sidebar
   if (typeof agentSidebar === 'undefined') {
     const agentSidebar = document.getElementById('agent-sidebar');
