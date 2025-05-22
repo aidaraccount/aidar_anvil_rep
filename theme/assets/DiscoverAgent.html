@@ -908,6 +908,7 @@
           }
         });
 
+
         // Observe chat messages for changes
         scrollObserver.observe(chatMessages, { childList: true, subtree: true });
       }
@@ -949,40 +950,23 @@
 
       // Event listeners for the agent sidebar
       sendButton.addEventListener('click', (e) => {
-        console.log('[AgentSidebar] Send button clicked');
         e.preventDefault();
         const message = chatInput.value.trim();
-        console.log('[AgentSidebar] Message to send:', message);
-        
         if (message) {
           try {
-            console.log('[AgentSidebar] Getting WebSocket manager');
+            console.log('[AgentSidebar] Sending message via WebSocket manager');
             const manager = getWebSocketManager();
-            console.log('[AgentSidebar] WebSocket manager:', manager ? 'found' : 'not found');
-            
             if (manager) {
-              console.log('[AgentSidebar] Adding message to chat UI');
-              addMessage(message, true);  // true for user message
-              
-              // Clear input field
-              chatInput.value = '';
-              updateSendButtonState();
-              
-              console.log('[AgentSidebar] Showing typing indicator');
-              manager.showTypingIndicator();
-              
-              console.log('[AgentSidebar] Sending message via WebSocket');
-              manager.sendMessage(message);
+              manager.sendMessage();
             } else {
               console.error('[AgentSidebar] Failed to get WebSocket manager');
             }
           } catch (error) {
             console.error('[AgentSidebar] Error sending message:', error);
           }
-        } else {
-          console.log('[AgentSidebar] No message to send');
         }
       });
+
 
       // Handle input changes
       function updateSendButtonState() {
@@ -995,42 +979,21 @@
 
       // Handle Enter key to send message
       chatInput.addEventListener('keypress', function(e) {
-        console.log('[AgentSidebar] Key pressed:', e.key);
-        
         if (e.key === 'Enter' && !e.shiftKey) {
-          console.log('[AgentSidebar] Enter key detected (without shift)');
           e.preventDefault();
-          
           const message = chatInput.value.trim();
-          console.log('[AgentSidebar] Message to send (Enter key):', message);
-          
           if (message) {
             try {
-              console.log('[AgentSidebar] Getting WebSocket manager (Enter key)');
+              console.log('[AgentSidebar] Sending message via WebSocket manager (Enter key)');
               const manager = getWebSocketManager();
-              console.log('[AgentSidebar] WebSocket manager (Enter key):', manager ? 'found' : 'not found');
-              
               if (manager) {
-                console.log('[AgentSidebar] Adding message to chat UI (Enter key)');
-                addMessage(message, true);  // true for user message
-                
-                // Clear input field
-                chatInput.value = '';
-                updateSendButtonState();
-                
-                console.log('[AgentSidebar] Showing typing indicator (Enter key)');
-                manager.showTypingIndicator();
-                
-                console.log('[AgentSidebar] Sending message via WebSocket (Enter key)');
-                manager.sendMessage(message);
+                manager.sendMessage();
               } else {
-                console.error('[AgentSidebar] Failed to get WebSocket manager (Enter key)');
+                console.error('[AgentSidebar] Failed to get WebSocket manager');
               }
             } catch (error) {
-              console.error('[AgentSidebar] Error sending message (Enter key):', error);
+              console.error('[AgentSidebar] Error sending message:', error);
             }
-          } else {
-            console.log('[AgentSidebar] No message to send (Enter key)');
           }
         }
       });
