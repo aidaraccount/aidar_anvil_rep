@@ -662,10 +662,6 @@
   }
   // class WebSocketManager ENDS
   // ---------------------------------------------------------------------
-
-
-  // Expose WebSocketManager to window
-  window.WebSocketManager = WebSocketManager;
   
   // Initialize WebSocket manager
   function initializeWebSocketManager() {
@@ -704,25 +700,6 @@
         console.log(`[WebSocketManager] Input changed, hasText: ${hasText}`);
       });
       
-      // Send message on button click
-      sendButton.addEventListener('click', () => {
-        const message = chatInput.value.trim();
-        if (message) {
-          window.wsManager.sendMessage(message);
-        }
-      });
-      
-      // Send message on Enter key (but allow Shift+Enter for new lines)
-      chatInput.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' && !e.shiftKey) {
-          e.preventDefault();
-          const message = chatInput.value.trim();
-          if (message) {
-            window.wsManager.sendMessage(message);
-          }
-        }
-      });
-      
       // Initial button state
       sendButton.disabled = true;
       
@@ -732,53 +709,12 @@
         if (window.wsManager && window.wsManager.socket) {
           window.wsManager.socket.close(1000, 'Window closing');
         }
-      });
-      
-      // Add a button to manually reconnect
-      const addReconnectButton = () => {
-        const existingBtn = document.getElementById('ws-reconnect-btn');
-        if (existingBtn) return;
-        
-        const btn = document.createElement('button');
-        btn.id = 'ws-reconnect-btn';
-        btn.textContent = 'Reconnect to AI Assistant';
-        btn.style.position = 'fixed';
-        btn.style.bottom = '20px';
-        btn.style.right = '20px';
-        btn.style.zIndex = '1000';
-        btn.style.padding = '10px 20px';
-        btn.style.backgroundColor = '#e95f30';
-        btn.style.color = 'white';
-        btn.style.border = 'none';
-        btn.style.borderRadius = '5px';
-        btn.style.cursor = 'pointer';
-        btn.onclick = () => {
-          console.log('[WebSocketManager] Manual reconnect requested');
-          if (window.wsManager) {
-            window.wsManager.connect();
-          } else {
-            window.wsManager = new WebSocketManager();
-          }
-          btn.remove();
-        };
-        document.body.appendChild(btn);
-      };
-      
-      // Show reconnect button on connection issues
-      const checkConnection = setInterval(() => {
-        if (window.wsManager && !window.wsManager.isConnected) {
-          console.log('[WebSocketManager] Connection check: Not connected, showing reconnect button');
-          addReconnectButton();
-          clearInterval(checkConnection);
-        }
-      }, 5000);
-      
+      });      
       console.log('[WebSocketManager] WebSocket manager initialization complete');
       return window.wsManager;
       
     } catch (error) {
       console.error('[WebSocketManager] Failed to initialize WebSocket manager:', error);
-      
       // Show error to user
       const errorMsg = document.createElement('div');
       errorMsg.style.position = 'fixed';
@@ -796,7 +732,6 @@
     }
   }
   
-
   // Initialize when DOM is loaded
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initializeWebSocketManager);
