@@ -363,7 +363,17 @@
         const artist = message.data;
         const artistId = artist.artist_id || '';
         const imageUrl = artist.image_url || (artist.images?.[0]?.url) || 'https://via.placeholder.com/40';
-        const followers = artist.followers || '0';
+        const formatFollowers = (numStr) => {
+          const num = typeof numStr === 'string' ? parseInt(numStr.replace(/[^0-9]/g, '')) : numStr || 0;
+          if (num >= 1000000) {
+            return (num / 1000000).toFixed(1).replace(/\.0$/, '') + 'M';
+          }
+          if (num >= 1000) {
+            return (num / 1000).toFixed(1).replace(/\.0$/, '') + 'K';
+          }
+          return num.toString();
+        };
+        const followers = formatFollowers(artist.followers);
         
         // Create artist message element with artist class
         const messageDiv = document.createElement('a');

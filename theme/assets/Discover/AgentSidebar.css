@@ -144,6 +144,7 @@
 
 .message.system {
   font-size: 12px;
+  padding: 0px 5px;
 }
 
 .message.agent {
