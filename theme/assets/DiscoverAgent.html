@@ -98,7 +98,7 @@
   <div id="agent-sidebar" class="anvil-container" anvil-slot="agent-sidebar">
     <div class="header-sidebar">
       <i class="fas fa-robot" style="font-size: 20px; margin-right: 12px;"></i>
-      <span>AI Agent</span>
+      <span>Scouting AI Agent</span>
     </div>
     
     <div class="chat-container">
@@ -107,7 +107,7 @@
       <div class="message agent">
         <div class="message-time">Just now</div>
         <div class="message-content">
-          Hello! I'm your AI assistant. How can I help you today?
+          Hello! I'm your Scouting AI assistant. What kind of artist are we looking for today?
         </div>
       </div>
 
@@ -184,12 +184,14 @@
 <script>
 /* 1. WebSocketManager Class - Core WebSocket functionality */
 // Only define WebSocketManager if it doesn't already exist
-(function() {
+/*(function() {
   'use strict';
   
   if (typeof window.WebSocketManager !== 'undefined') {
     return;  // WebSocket connection manager
   }
+*/
+
   class WebSocketManager {
     constructor() {
       this.socket = null;
@@ -234,24 +236,24 @@
       console.log(`[WebSocketManager] Current connection state:`, this.socket ? this.socket.readyState : 'No socket');
       console.log(`[WebSocketManager] Attempting to connect to: ${this.wsUrl}`);
       
-      // First, test the connection
-      const canConnect = await this.testConnection();
-      if (!canConnect) {
-        console.error('[WebSocketManager] Connection test failed, aborting connection attempt');
+      // // First, test the connection
+      // const canConnect = await this.testConnection();
+      // if (!canConnect) {
+      //   console.error('[WebSocketManager] Connection test failed, aborting connection attempt');
         
-        // Show detailed error message to user
-        const errorDetails = `Failed to connect to WebSocket server at ${this.wsUrl}.\n\n` +
-          `Possible causes:\n` +
-          `1. The WebSocket server is not running\n` +
-          `2. The URL is incorrect\n` +
-          `3. A firewall is blocking the connection\n` +
-          `4. The server is not configured to accept WebSocket connections`;
+      //   // Show detailed error message to user
+      //   const errorDetails = `Failed to connect to WebSocket server at ${this.wsUrl}.\n\n` +
+      //     `Possible causes:\n` +
+      //     `1. The WebSocket server is not running\n` +
+      //     `2. The URL is incorrect\n` +
+      //     `3. A firewall is blocking the connection\n` +
+      //     `4. The server is not configured to accept WebSocket connections`;
           
-        this.addSystemMessage(errorDetails);
-        return;
-      }
+      //   this.addSystemMessage(errorDetails);
+      //   return;
+      // }
       
-      console.log('[WebSocketManager] Connection test passed, proceeding with connection');
+      // console.log('[WebSocketManager] Connection test passed, proceeding with connection');
       
       // Close existing connection if any
       if (this.socket) {
@@ -846,7 +848,10 @@
         .replace(/'/g, "&#039;");
     }
   }
-  
+  // class WebSocketManager ENDS
+  // ---------------------------------------------------------------------
+
+
   // Expose WebSocketManager to window
   window.WebSocketManager = WebSocketManager;
   
@@ -979,12 +984,14 @@
     }
   }
   
+
   // Initialize when DOM is loaded
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initializeWebSocketManager);
   } else {
     initializeWebSocketManager();
   }
+
 
   // Notes Sidebar
   if(typeof sidebar === 'undefined') {
@@ -1347,4 +1354,5 @@
       console.error('[DEBUG] Could not find send button');
     }
   });
+
 </script>
