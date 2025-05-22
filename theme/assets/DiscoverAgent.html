@@ -1306,53 +1306,5 @@
       });
     }
   }
-  
-  // Close the IIFE that wraps the agent sidebar code
-  })();
-
-  // Debug: Test WebSocket manager functionality
-  function testWebSocketManager() {
-    console.log('[DEBUG] Testing WebSocket manager...');
-    
-    // Check if manager exists
-    const manager = window.wsManager;
-    console.log('[DEBUG] WebSocket manager exists:', !!manager);
-    
-    if (manager) {
-      console.log('[DEBUG] WebSocket manager properties:', {
-        isConnected: manager.isConnected,
-        socket: manager.socket ? 'exists' : 'null',
-        socketState: manager.socket ? manager.socket.readyState : 'N/A'
-      });
-      
-      // Test if methods exist
-      console.log('[DEBUG] Method check - sendMessage:', typeof manager.sendMessage === 'function' ? 'exists' : 'missing');
-      console.log('[DEBUG] Method check - showTypingIndicator:', typeof manager.showTypingIndicator === 'function' ? 'exists' : 'missing');
-    }
-  }
-
-  // Debug: Direct event listener for send button
-  document.addEventListener('DOMContentLoaded', () => {
-    console.log('[DEBUG] DOM fully loaded');
-    
-    // Run WebSocket manager test
-    testWebSocketManager();
-    
-    // Add debug click handler
-    const debugSendButton = document.getElementById('send-button');
-    if (debugSendButton) {
-      debugSendButton.addEventListener('click', (e) => {
-        console.log('[DEBUG] Direct click event on send button');
-        console.log('Button element:', debugSendButton);
-        console.log('Input value:', document.getElementById('chat-input')?.value);
-        
-        // Test WebSocket manager on click
-        testWebSocketManager();
-      });
-      console.log('[DEBUG] Added debug click listener to send button');
-    } else {
-      console.error('[DEBUG] Could not find send button');
-    }
-  });
 
 </script>
