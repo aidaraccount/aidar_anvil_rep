@@ -259,7 +259,14 @@
         this.socket.onopen = () => {
           console.log('[WebSocketManager] WebSocket onopen event fired');
           console.log('[WebSocketManager] WebSocket connection opened successfully');
+          
+          // Only show reconnected message if we were connected before
+          if (this.wasConnectedBeforeError) {
+            this.addSystemMessage('Connection re-established');
+          }
+          
           this.isConnected = true;
+          this.wasConnectedBeforeError = false;
           this.reconnectAttempts = 0;
           this.reconnectDelay = 1000;
           this.processMessageQueue();
@@ -281,10 +288,10 @@
           console.error('[WebSocketManager] Error event type:', error.type);
           console.error('[WebSocketManager] Error event target readyState:', error.target ? error.target.readyState : 'no target');
           
+          const wasConnected = this.isConnected;
           this.isConnected = false;
-          this.addErrorMessage('Connection error occurred. ' + 
-            (error.message || 'Check browser console for details.'));
-            
+          this.wasConnectedBeforeError = wasConnected;
+          
           console.log('[WebSocketManager] Current WebSocket readyState:', this.socket ? this.socket.readyState : 'no socket');
           
           // Log more detailed error information
@@ -749,7 +756,7 @@
     }
   })();
 
-  
+
   // Agent Sidebar
   if (typeof agentSidebar === 'undefined') {
     const agentSidebar = document.getElementById('agent-sidebar');
