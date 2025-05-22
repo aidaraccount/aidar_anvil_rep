@@ -194,7 +194,7 @@
 
   class WebSocketManager {
     constructor() {
-      this.socket = null;
+      console.log('[WebSocketManager] Initializing WebSocketManager');
       this.sessionId = 'user-' + Math.random().toString(36).substr(2, 9);
       this.chatContainer = document.querySelector('.chat-container');
       this.chatMessages = document.getElementById('chat-messages');
@@ -204,6 +204,7 @@
       this.typingIndicator = null;
       this.messageQueue = [];
       this.isConnected = false;
+      this.wasConnectedBeforeError = false;
       this.reconnectAttempts = 0;
       this.maxReconnectAttempts = 5;
       this.reconnectDelay = 1000;
@@ -260,13 +261,13 @@
           console.log('[WebSocketManager] WebSocket onopen event fired');
           console.log('[WebSocketManager] WebSocket connection opened successfully');
           
-          // Only show reconnected message if we were connected before
+          // Show reconnected message if we were connected before this reconnection
           if (this.wasConnectedBeforeError) {
             this.addSystemMessage('Connection re-established');
           }
           
           this.isConnected = true;
-          this.wasConnectedBeforeError = false;
+          this.wasConnectedBeforeError = true; // Mark as having had a successful connection
           this.reconnectAttempts = 0;
           this.reconnectDelay = 1000;
           this.processMessageQueue();
@@ -288,9 +289,9 @@
           console.error('[WebSocketManager] Error event type:', error.type);
           console.error('[WebSocketManager] Error event target readyState:', error.target ? error.target.readyState : 'no target');
           
-          const wasConnected = this.isConnected;
+          // Save connection state before marking as disconnected
+          this.wasConnectedBeforeError = this.isConnected;
           this.isConnected = false;
-          this.wasConnectedBeforeError = wasConnected;
           
           console.log('[WebSocketManager] Current WebSocket readyState:', this.socket ? this.socket.readyState : 'no socket');
           
