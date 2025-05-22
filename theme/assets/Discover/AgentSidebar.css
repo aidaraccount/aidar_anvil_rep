@@ -157,7 +157,6 @@
 /* Artist message styles */
 .message.artist {
   display: flex;
-  flex-direction: row;
   align-items: center;
   padding: 8px 12px;
   background-color: #252525;
@@ -169,37 +168,29 @@
   width: 90%;
   max-width: 320px;
   margin: 8px 0;
-  align-self: flex-start;
   box-sizing: border-box;
 }
 
+.artist-image {
+  width: 40px;
+  height: 40px;
+  min-width: 40px;
+  border-radius: 50%;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  border: 2px solid #3a3a3a;
+}
+
 .artist-info {
-  flex: 1;
-  min-width: 0;
   margin-left: 12px;
+  overflow: hidden;
 }
 
 .message.artist:hover {
   background-color: #2e2e2e;
   transform: translateY(-1px);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-}
-
-.artist-image {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  flex-shrink: 0;
-  margin-right: 12px;
-  border: 2px solid #3a3a3a;
-}
-
-.artist-info {
-  flex: 1;
-  min-width: 0;
 }
 
 .artist-name {
