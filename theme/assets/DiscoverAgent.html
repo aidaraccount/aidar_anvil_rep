@@ -302,30 +302,38 @@
       
       // 2.5 Attempt to reconnect with exponential backoff
       attemptReconnect() {
+        // Don't attempt to reconnect if we're in the middle of a model ID update
+        if (this.isUpdatingModelId) {
+          console.log('[WebSocketManager] Skipping reconnect attempt during model ID update');
+          return;
+        }
+        
         if (this.reconnectTimeout) {
           clearTimeout(this.reconnectTimeout);
         }
         
-        const maxReconnectAttempts = 5;
-        const baseDelay = 1000; // 1 second
-        const maxDelay = 30000; // 30 seconds
-        
-        if (this.reconnectAttempts >= maxReconnectAttempts) {
-          console.error('Max reconnection attempts reached');
-          this.addErrorMessage('Connection lost. Please refresh the page to try again.');
+        if (this.reconnectAttempts >= this.maxReconnectAttempts) {
+          console.log('[WebSocketManager] Max reconnection attempts reached, giving up');
+          this.addSystemMessage('Connection lost. Please refresh the page to try again.');
           return;
         }
         
         const delay = Math.min(
-          baseDelay * Math.pow(2, this.reconnectAttempts),
-          maxDelay
+          this.reconnectDelay * Math.pow(2, this.reconnectAttempts),
+          30000 // Max 30 seconds
         );
         
-        console.log(`Attempting to reconnect in ${delay}ms (attempt ${this.reconnectAttempts + 1}/${maxReconnectAttempts})`);
+        console.log(`[WebSocketManager] Attempting to reconnect in ${delay}ms (attempt ${this.reconnectAttempts + 1}/${this.maxReconnectAttempts})`);
+        
+        this.reconnectAttempts++;
         
         this.reconnectTimeout = setTimeout(() => {
-          this.reconnectAttempts++;
-          this.connect();
+          if (!this.isConnected && !this.isUpdatingModelId) {
+            console.log('[WebSocketManager] Reconnecting...');
+            this.connect();
+          } else {
+            console.log('[WebSocketManager] Skipping reconnect - already connected or updating model ID');
+          }
         }, delay);
       }
       
@@ -521,34 +529,7 @@
       }
       
 
-      // Handle reconnection with exponential backoff
-      attemptReconnect() {
-        // Don't attempt to reconnect if we're in the middle of a model ID update
-        if (this.isUpdatingModelId) {
-          console.log('[WebSocketManager] Skipping reconnect attempt during model ID update');
-          return;
-        }
-        
-        if (this.reconnectAttempts >= this.maxReconnectAttempts) {
-          console.log('[WebSocketManager] Max reconnection attempts reached, giving up');
-          this.addSystemMessage('Connection lost. Please refresh the page to try again.');
-          return;
-        }
-        
-        const delay = Math.min(this.reconnectDelay * Math.pow(2, this.reconnectAttempts), 30000); // Cap at 30s
-        console.log(`[WebSocketManager] Attempting to reconnect in ${delay}ms (attempt ${this.reconnectAttempts + 1}/${this.maxReconnectAttempts})`);
-        
-        this.reconnectAttempts++;
-        
-        this.reconnectTimeout = setTimeout(() => {
-          if (!this.isConnected && !this.isUpdatingModelId) {
-            console.log('[WebSocketManager] Reconnecting...');
-            this.connect();
-          } else {
-            console.log('[WebSocketManager] Skipping reconnect - already connected or updating model ID');
-          }
-        }, delay);
-      }
+
 
 
       // 3. Message Handling
@@ -680,19 +661,18 @@
           this.typingIndicator = null;
         }
       }
-      }
       
       // Helper: Get current time in HH:MM AM/PM format
       getCurrentTime() {
         return new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-      };
+      }
       
       // Helper: Scroll chat to bottom
       scrollToBottom() {
         if (this.chatMessages) {
           this.chatMessages.scrollTop = this.chatMessages.scrollHeight;
         }
-      };
+      }
       
       // Helper: Escape HTML to prevent XSS
       escapeHtml(unsafe) {
@@ -921,7 +901,8 @@
 
 
   // Agent Sidebar
-  if (typeof agentSidebar === 'undefined') {
+  (function() {
+    // Get all required elements
     const agentSidebar = document.getElementById('agent-sidebar');
     const agentButton = document.getElementById('agent-sidebar-button');
     const notesButton = document.getElementById('sidebar-button');
@@ -932,6 +913,15 @@
     const mainContent = document.querySelector('.main-content-move');
     const content = document.querySelector('.main-content');
 
+    // Check if all required elements exist
+    if (!agentSidebar || !agentButton || !notesButton || !chatInput || !sendButton || !chatMessages) {
+      console.warn('Agent sidebar elements not found');
+      return;
+    }
+
+    /**
+     * Update the margins of the main content based on sidebar states
+     */
     function updateAgentMargins() {
       const agentOpen = agentSidebar.classList.contains('open');
       const notesOpen = sidebar && sidebar.classList.contains('open');
@@ -953,106 +943,133 @@
       if (agentButton) agentButton.style.right = (agentOpen ? totalMargin : 0) + 'px';
     }
 
-    if (agentButton && agentSidebar && notesButton && chatInput && sendButton && chatMessages) {
-      // Position notes button below agent button
-      function positionAgentButton() {
-        const agentRect = agentButton.getBoundingClientRect();
-        notesButton.style.top = `${agentRect.bottom + 20}px`;
-      }
+    // Position notes button below agent button
+    function positionAgentButton() {
+      const agentRect = agentButton.getBoundingClientRect();
+      notesButton.style.top = `${agentRect.bottom + 20}px`;
+    }
 
       // Initial positioning
-      positionAgentButton();
+    positionAgentButton();
 
-      // Re-position on window resize
-      window.addEventListener('resize', positionAgentButton);
+    // Re-position on window resize
+    window.addEventListener('resize', positionAgentButton);
 
-      // Toggle sidebar
-      agentButton.addEventListener('click', function() {
-        agentSidebar.classList.toggle('open');
-        agentButton.classList.toggle('open');
-        updateAgentMargins();
-      });
+    // Toggle sidebar
+    agentButton.addEventListener('click', function() {
+      agentSidebar.classList.toggle('open');
+      agentButton.classList.toggle('open');
+      updateAgentMargins();
+    });
 
-      // Also update margins when notes sidebar is toggled
-      if (sidebar) {
-        const observer = new MutationObserver(updateAgentMargins);
-        observer.observe(sidebar, { attributes: true, attributeFilter: ['class'] });
+    // Also update margins when notes sidebar is toggled
+    if (sidebar) {
+      const observer = new MutationObserver(updateAgentMargins);
+      observer.observe(sidebar, { attributes: true, attributeFilter: ['class'] });
+    }
+
+    // Auto-scroll to bottom of chat with smooth animation
+    function scrollToBottom() {
+      if (chatMessages) {
+        chatMessages.scrollTo({
+          top: chatMessages.scrollHeight,
+          behavior: 'smooth'
+        });
       }
+    }
 
-      // Auto-scroll to bottom of chat with smooth animation
-      function scrollToBottom() {
-        if (chatMessages) {
-          chatMessages.scrollTo({
-            top: chatMessages.scrollHeight,
-            behavior: 'smooth'
+    // Initial scroll to bottom
+    scrollToBottom();
+
+    // Scroll to bottom when content changes
+    if (chatMessages) {
+      let isScrolling = false;
+      const scrollObserver = new MutationObserver(() => {
+        if (!isScrolling) {
+          isScrolling = true;
+          // Small delay to ensure DOM is updated
+          requestAnimationFrame(() => {
+            scrollToBottom();
+            isScrolling = false;
           });
         }
-      }
+      });
 
-      // Initial scroll to bottom
+      // Observe chat messages for changes
+      scrollObserver.observe(chatMessages, { childList: true, subtree: true });
+    }
+
+    // Format time
+    function getCurrentTime() {
+      const now = new Date();
+      return now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    }
+
+    // Add a new message to the chat
+    function addMessage(content, isUser) {
+      const messageDiv = document.createElement('div');
+      messageDiv.className = `message ${isUser ? 'user' : 'agent'}`;
+
+      const timeDiv = document.createElement('div');
+      timeDiv.className = 'message-time';
+      timeDiv.textContent = getCurrentTime();
+
+      const contentDiv = document.createElement('div');
+      contentDiv.className = 'message-content';
+      contentDiv.textContent = content;
+
+      messageDiv.appendChild(timeDiv);
+      messageDiv.appendChild(contentDiv);
+      chatMessages.appendChild(messageDiv);
+
       scrollToBottom();
+    }
 
-      // Scroll to bottom when content changes
-      if (chatMessages) {
-        let isScrolling = false;
-        const scrollObserver = new MutationObserver(() => {
-          if (!isScrolling) {
-            isScrolling = true;
-            // Small delay to ensure DOM is updated
-            requestAnimationFrame(() => {
-              scrollToBottom();
-              isScrolling = false;
-            });
+    // Safe function to get or initialize WebSocket manager
+    function getWebSocketManager() {
+      if (!window.wsManager) {
+        console.log('[AgentSidebar] Initializing WebSocket manager from agent sidebar');
+        initializeWebSocketManager();
+      }
+      return window.wsManager;
+    }
+
+    // Event listeners for the agent sidebar
+    sendButton.addEventListener('click', (e) => {
+      e.preventDefault();
+      const message = chatInput.value.trim();
+      if (message) {
+        try {
+          console.log('[AgentSidebar] Sending message via WebSocket manager');
+          const manager = getWebSocketManager();
+          if (manager) {
+            manager.sendMessage();
+          } else {
+            console.error('[AgentSidebar] Failed to get WebSocket manager');
           }
-        });
-
-
-        // Observe chat messages for changes
-        scrollObserver.observe(chatMessages, { childList: true, subtree: true });
-      }
-
-      // Format time
-      function getCurrentTime() {
-        const now = new Date();
-        return now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-      }
-
-      // Add a new message to the chat
-      function addMessage(content, isUser) {
-        const messageDiv = document.createElement('div');
-        messageDiv.className = `message ${isUser ? 'user' : 'agent'}`;
-
-        const timeDiv = document.createElement('div');
-        timeDiv.className = 'message-time';
-        timeDiv.textContent = getCurrentTime();
-
-        const contentDiv = document.createElement('div');
-        contentDiv.className = 'message-content';
-        contentDiv.textContent = content;
-
-        messageDiv.appendChild(timeDiv);
-        messageDiv.appendChild(contentDiv);
-        chatMessages.appendChild(messageDiv);
-
-        scrollToBottom();
-      }
-
-      // Safe function to get or initialize WebSocket manager
-      function getWebSocketManager() {
-        if (!window.wsManager) {
-          console.log('[AgentSidebar] Initializing WebSocket manager from agent sidebar');
-          initializeWebSocketManager();
+        } catch (error) {
+          console.error('[AgentSidebar] Error sending message:', error);
         }
-        return window.wsManager;
       }
+    });
 
-      // Event listeners for the agent sidebar
-      sendButton.addEventListener('click', (e) => {
+    // Handle input changes
+    function updateSendButtonState() {
+      const hasText = chatInput.value.trim() !== '';
+      sendButton.disabled = !hasText;
+      sendButton.classList.toggle('has-text', hasText);
+    }
+
+    chatInput.addEventListener('input', updateSendButtonState);
+
+    // Handle Enter key to send message
+    chatInput.addEventListener('keypress', function(e) {
+      if (e.key === 'Enter' && !e.shiftKey) {
         e.preventDefault();
         const message = chatInput.value.trim();
         if (message) {
           try {
-            console.log('[AgentSidebar] Sending message via WebSocket manager');
+            console.log('[AgentSidebar] Sending message via WebSocket manager (Enter key)');
             const manager = getWebSocketManager();
             if (manager) {
               manager.sendMessage();
@@ -1063,56 +1080,39 @@
             console.error('[AgentSidebar] Error sending message:', error);
           }
         }
-      });
-
-
-      // Handle input changes
-      function updateSendButtonState() {
-        const hasText = chatInput.value.trim() !== '';
-        sendButton.disabled = !hasText;
-        sendButton.classList.toggle('has-text', hasText);
       }
+    });
 
-      chatInput.addEventListener('input', updateSendButtonState);
+    // Initial states
+    updateSendButtonState();
+    setTimeout(scrollToBottom, 0);
 
-      // Handle Enter key to send message
-      chatInput.addEventListener('keypress', function(e) {
-        if (e.key === 'Enter' && !e.shiftKey) {
-          e.preventDefault();
-          const message = chatInput.value.trim();
-          if (message) {
-            try {
-              console.log('[AgentSidebar] Sending message via WebSocket manager (Enter key)');
-              const manager = getWebSocketManager();
-              if (manager) {
-                manager.sendMessage();
-              } else {
-                console.error('[AgentSidebar] Failed to get WebSocket manager');
-              }
-            } catch (error) {
-              console.error('[AgentSidebar] Error sending message:', error);
-            }
-          }
-        }
-      });
+    // Handle window resize to maintain scroll position
+    let resizeTimer;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(scrollToBottom, 100);
+    });
 
-      // Initial states
-      updateSendButtonState();
-      setTimeout(scrollToBottom, 0);
-
-      // Handle window resize to maintain scroll position
-      let resizeTimer;
-      window.addEventListener('resize', () => {
-        clearTimeout(resizeTimer);
-        resizeTimer = setTimeout(scrollToBottom, 100);
-      });
-
-      // Clean up on unload
-      window.addEventListener('beforeunload', () => {
+    // Clean up on unload
+    window.addEventListener('beforeunload', () => {
+      if (scrollObserver) {
         scrollObserver.disconnect();
-        window.removeEventListener('resize', scrollToBottom);
-      });
-    }
+      }
+      window.removeEventListener('resize', scrollToBottom);
+    });
+    
+    // Initialize the agent sidebar
+    updateAgentMargins();
+    
+    // Make updateAgentMargins available globally for other scripts
+    window.updateAgentMargins = updateAgentMargins;
+  })(); // End of agent sidebar IIFE
+  
+  // Initialize WebSocket manager when DOM is loaded
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initializeWebSocketManager);
+  } else {
+    initializeWebSocketManager();
   }
-
 </script>
