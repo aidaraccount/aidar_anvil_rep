@@ -167,11 +167,15 @@
 
 <script>
 
+  console.log('Current model_id', sessionStorage.getItem('model_id'));
+
   // Store the original WebSocketManager if it exists
-  const OriginalWebSocketManager = window.WebSocketManager;
+  if (!window._originalWebSocketManager) {
+    window._originalWebSocketManager = window.WebSocketManager;
+  }
   
   // Only declare WebSocketManager if it doesn't already exist or needs redefinition
-  if (typeof OriginalWebSocketManager === 'undefined') {
+  if (typeof window._originalWebSocketManager === 'undefined') {
     window.WebSocketManager = class WebSocketManager {
       constructor() {
         console.log('[WebSocketManager] Class WebSocketManager created');
@@ -666,9 +670,37 @@
           .replace(/"/g, "&quot;")
           .replace(/'/g, "&#039;");
       }
+      
+      // Update model ID and reconnect if needed
+      updateModelId(newModelId) {
+        if (newModelId === this.currentModelId) {
+          console.log('[WebSocketManager] Model ID unchanged, keeping existing connection');
+          return;
+        }
+        
+        console.log('[WebSocketManager] Updating model ID from', this.currentModelId, 'to', newModelId);
+        this.currentModelId = newModelId;
+        this.sessionId = 'user-' + (newModelId || Math.random().toString(36).substr(2, 9));
+        this.wsUrl = `ws://localhost:8000/ws/${this.sessionId}`;
+        
+        // Close existing connection if any
+        if (this.socket) {
+          this.socket.close();
+          this.socket = null;
+        }
+        
+        // Reconnect with new session ID
+        this.connect();
+      }
     }
-  }; // End of WebSocketManager class
+  };
   
+  // If we're redefining the WebSocketManager, update the existing instance if it exists
+  if (window.wsManager && window.wsManager.updateModelId) {
+    const newModelId = sessionStorage.getItem('model_id');
+    console.log('[WebSocketManager] Updating existing WebSocketManager with new model_id:', newModelId);
+    window.wsManager.updateModelId(newModelId);
+  }
 
   // ---------------------------------------------------------------------
   // Initialize WebSocket manager
