@@ -231,71 +231,132 @@
         this.connect();
       }
       
-      /* 2. Connection Management */
-      async connect() {
-        console.log(`[WebSocketManager] === connect() called ===`);
+      // Connect to WebSocket server
+      connect() {
+        console.log('[WebSocketManager] === connect() called ===');
+        console.log('[WebSocketManager] Current state:', {
+          isConnected: this.isConnected,
+          isConnecting: this.isConnecting,
+          isUpdatingModelId: this.isUpdatingModelId,
+          socketState: this.socket ? this.socket.readyState : 'no socket',
+          messageQueueLength: this.messageQueue.length
+        });
         
-        // Prevent multiple connection attempts
-        if (this.isConnecting) {
-          console.log('[WebSocketManager] Connection attempt already in progress, skipping');
+        // If already connected or connecting, do nothing
+        if (this.isConnected || this.isConnecting) {
+          console.log(`[WebSocketManager] Already ${this.isConnected ? 'connected' : 'connecting'}, skipping new connection`);
           return;
         }
         
-        this.isConnecting = true;
-        
-        // Clear any pending reconnect attempts
-        if (this.reconnectTimeout) {
-          clearTimeout(this.reconnectTimeout);
-          this.reconnectTimeout = null;
+        // If we're in the middle of updating the model ID, don't try to reconnect yet
+        if (this.isUpdatingModelId) {
+          console.log('[WebSocketManager] Skipping connect during model ID update');
+          return;
         }
         
-        console.log(`[WebSocketManager] Current connection state:`, this.socket ? this.socket.readyState : 'No socket');
+        // If we have a socket in a connecting or open state, don't create a new one
+        if (this.socket && (this.socket.readyState === WebSocket.CONNECTING || this.socket.readyState === WebSocket.OPEN)) {
+          console.log(`[WebSocketManager] Socket already exists with state: ${this.socket.readyState}, not creating new one`);
+          return;
+        }
+        
+        // Set connecting state
+        this.isConnecting = true;
+        console.log('[WebSocketManager] Set isConnecting to true');
+        
+        // Log current state
+        console.log(`[WebSocketManager] Current connection state: ${this.socket ? this.socket.readyState : 'No socket'}`);
         console.log(`[WebSocketManager] Attempting to connect to: ${this.wsUrl}`);
         
-        // Close existing connection if it's in a connecting or open state
-        if (this.socket && (this.socket.readyState === WebSocket.CONNECTING || this.socket.readyState === WebSocket.OPEN)) {
+        // Close existing socket if it exists
+        if (this.socket) {
           console.log('[WebSocketManager] Closing existing WebSocket connection');
           try {
-            this.socket.onclose = null; // Remove any existing close handler
-            this.socket.close();
+            const oldSocket = this.socket;
+            oldSocket.onclose = null; // Remove any existing handlers to prevent duplicate events
+            oldSocket.close();
             console.log('[WebSocketManager] Existing WebSocket connection closed');
           } catch (e) {
-            console.warn('[WebSocketManager] Error closing existing socket:', e);
+            console.error('[WebSocketManager] Error closing existing socket:', e);
           } finally {
             this.socket = null;
           }
         }
         
-        this.isConnected = false;
-        
         try {
+          // Create new WebSocket connection
           console.log('[WebSocketManager] Creating new WebSocket instance');
           this.socket = new WebSocket(this.wsUrl);
-          
           console.log('[WebSocketManager] WebSocket created, setting up event handlers');
           
           const self = this;
+          
+          // Set up WebSocket event handlers
           this.socket.onopen = function(event) {
             console.log('[WebSocketManager] WebSocket onopen event fired');
-            
-            // Only proceed if we're not in the middle of a model ID update
-            if (self.isUpdatingModelId) {
-              console.log('[WebSocketManager] Model ID update in progress, skipping onopen handler');
-              return;
-            }
-            
             self.isConnected = true;
             self.isConnecting = false;
             self.wasConnectedBeforeError = true;
             self.reconnectAttempts = 0; // Reset reconnect attempts on successful connection
+            
             console.log('[WebSocketManager] WebSocket connection opened successfully, isConnected:', self.isConnected);
+            console.log('[WebSocketManager] Current socket state:', {
+              readyState: self.socket ? self.socket.readyState : 'no socket',
+              url: self.socket ? self.socket.url : 'no socket',
+              bufferedAmount: self.socket ? self.socket.bufferedAmount : 'no socket'
+            });
             
             // Process any queued messages
-            console.log('[WebSocketManager] Processing message queue, length:', self.messageQueue.length);
-            self.processMessageQueue();
+            console.log('[WebSocketManager] === processMessageQueue() called ===');
+            console.log('[WebSocketManager] Current state:', {
+              isConnected: self.isConnected,
+              isConnecting: self.isConnecting,
+              isUpdatingModelId: self.isUpdatingModelId,
+              socketState: self.socket ? self.socket.readyState : 'no socket',
+              queueLength: self.messageQueue.length
+            });
+            
+            if (self.messageQueue.length === 0) {
+              console.log('[WebSocketManager] No messages in queue to process');
+              return;
+            }
+            
+            // If not connected, don't process the queue yet
+            if (!self.isConnected || !self.socket || self.socket.readyState !== WebSocket.OPEN) {
+              console.log('[WebSocketManager] Not connected, cannot process message queue. State:', {
+                isConnected: self.isConnected,
+                socketExists: !!self.socket,
+                socketState: self.socket ? self.socket.readyState : 'no socket'
+              });
+              return;
+            }
+            
+            console.log(`[WebSocketManager] Processing ${self.messageQueue.length} queued messages`);
+            
+            // Process all queued messages
+            while (self.messageQueue.length > 0) {
+              const message = self.messageQueue[0]; // Peek at the first message
+              console.log('[WebSocketManager] Attempting to send queued message:', {
+                type: message.type,
+                contentLength: message.content ? message.content.length : 0,
+                timestamp: message.timestamp
+              });
+              
+              try {
+                self.sendRawMessage(message);
+                console.log('[WebSocketManager] Successfully sent queued message');
+                self.messageQueue.shift(); // Only remove if send was successful
+              } catch (error) {
+                console.error('[WebSocketManager] Error sending queued message:', error);
+                break; // Stop processing queue on error
+              }
+            }
+            
+            console.log('[WebSocketManager] Finished processing message queue. Remaining:', self.messageQueue.length);
             
             // Show reconnected message if we were connected before this reconnection
             if (self.wasConnectedBeforeError) {
+              console.log('[WebSocketManager] Sending connection re-established message');
               self.addSystemMessage('Connection re-established');
             }
           };
@@ -712,7 +773,11 @@
       
       // Update model ID and reconnect if needed
       updateModelId(newModelId) {
-        console.log('[WebSocketManager] Checking model ID update - current:', this.currentModelId, 'new:', newModelId);
+        console.log('[WebSocketManager] ===== Starting model ID update =====');
+        console.log('[WebSocketManager] Current model ID:', this.currentModelId, 'New model ID:', newModelId);
+        console.log('[WebSocketManager] Current connection state - isConnected:', this.isConnected, 
+                    'isConnecting:', this.isConnecting, 
+                    'socket state:', this.socket ? this.socket.readyState : 'no socket');
         
         // Handle case where newModelId is null/undefined
         if (newModelId === null || newModelId === undefined) {
@@ -733,6 +798,7 @@
         
         // Set updating flag to prevent duplicate reconnections
         this.isUpdatingModelId = true;
+        console.log('[WebSocketManager] Set isUpdatingModelId to true');
         
         try {
           this.currentModelId = normalizedNewModelId;
@@ -740,23 +806,30 @@
           this.wsUrl = `ws://localhost:8000/ws/${this.sessionId}`;
           
           console.log('[WebSocketManager] New session ID:', this.sessionId);
+          console.log('[WebSocketManager] New WebSocket URL:', this.wsUrl);
           
           // Close existing connection if any
           if (this.socket) {
             console.log('[WebSocketManager] Closing existing WebSocket connection for model ID update');
+            console.log('[WebSocketManager] Current socket readyState:', this.socket.readyState);
+            
             try {
               // Set a flag to prevent reconnection attempts during model ID update
               this.wasConnectedBeforeError = false;
               
               // Close the socket and clear any pending reconnects
               if (this.reconnectTimeout) {
+                console.log('[WebSocketManager] Clearing existing reconnect timeout');
                 clearTimeout(this.reconnectTimeout);
                 this.reconnectTimeout = null;
               }
               
               // Close the socket if it's in a valid state
               if (this.socket.readyState === WebSocket.OPEN || this.socket.readyState === WebSocket.CONNECTING) {
+                console.log('[WebSocketManager] Closing WebSocket with code 1000 (normal closure)');
                 this.socket.close(1000, 'Model ID changed');
+              } else {
+                console.log('[WebSocketManager] Socket not in OPEN or CONNECTING state, skipping close');
               }
               
               this.socket = null;
@@ -764,6 +837,8 @@
             } catch (e) {
               console.warn('[WebSocketManager] Error closing existing socket during model ID update:', e);
             }
+          } else {
+            console.log('[WebSocketManager] No existing socket to close');
           }
           
           // Reset connection state
@@ -771,7 +846,10 @@
           this.isConnecting = false;
           this.reconnectAttempts = 0;
           
+          console.log('[WebSocketManager] Reset connection state - isConnected: false, isConnecting: false');
+          
           // Refresh DOM element references
+          console.log('[WebSocketManager] Refreshing DOM element references');
           this.chatContainer = document.querySelector('.chat-container');
           this.chatMessages = document.getElementById('chat-messages');
           this.chatInput = document.getElementById('chat-input');
@@ -782,24 +860,21 @@
           // Reconnect with new session ID
           console.log('[WebSocketManager] Initiating new connection with updated model ID');
           this.connect();
-          
-          // Reset the flag after the connection is established
-          const checkConnection = () => {
-            if (this.isConnected) {
-              console.log('[WebSocketManager] Connection established, model ID update complete');
-              this.isUpdatingModelId = false;
-            } else {
-              console.log('[WebSocketManager] Waiting for connection to be established...');
-              setTimeout(checkConnection, 100);
-            }
+        } finally {
+          // Reset the flag after a short delay to ensure the connection is established
+          const resetFlag = () => {
+            console.log('[WebSocketManager] Resetting isUpdatingModelId to false');
+            this.isUpdatingModelId = false;
+            console.log('[WebSocketManager] Current state after reset:', {
+              isConnected: this.isConnected,
+              isConnecting: this.isConnecting,
+              socketState: this.socket ? this.socket.readyState : 'no socket',
+              messageQueueLength: this.messageQueue.length
+            });
           };
           
-          // Start checking the connection status
-          checkConnection();
-        } catch (error) {
-          console.error('[WebSocketManager] Error during model ID update:', error);
-          this.isUpdatingModelId = false;
-          throw error;
+          console.log('[WebSocketManager] Setting timer to reset isUpdatingModelId in 1000ms');
+          setTimeout(resetFlag, 1000);
         }
       }
     }
