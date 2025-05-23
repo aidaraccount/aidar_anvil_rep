@@ -325,6 +325,10 @@
           case 'artist_info':
             this.handleArtistInfo(message);
             break;
+
+          case 'artist_reference':
+            this.handleArtistReference(message);
+            break;
             
           case 'complete':
             this.handleCompleteMessage();
@@ -392,6 +396,47 @@
         this.scrollToBottom();
       } else {
         this.addSystemMessage(message.content || 'Received artist information');
+      }
+    }
+
+    // Handle artist information
+    handleArtistReference(message) {
+      console.log('[WebSocketManager] Artist reference received:', message);
+
+      if (message.data) {
+        const artist = message.data;
+        const artistId = artist.artist_id || '';
+        const imageUrl = artist.image_url || (artist.images?.[0]?.url) || 'https://via.placeholder.com/40';
+        const formatFollowers = (numStr) => {
+          const num = typeof numStr === 'string' ? parseInt(numStr.replace(/[^0-9]/g, '')) : numStr || 0;
+          if (num >= 1000000) {
+            return (num / 1000000).toFixed(1).replace(/\.0$/, '') + 'M';
+          }
+          if (num >= 1000) {
+            return (num / 1000).toFixed(1).replace(/\.0$/, '') + 'K';
+          }
+          return num.toString();
+        };
+        const followers = formatFollowers(artist.followers);
+
+        // Create artist message element with artist class
+        const messageDiv = document.createElement('a');
+        messageDiv.href = `#agent_artists?artist_id=${encodeURIComponent(artistId)}`;
+        messageDiv.className = 'message artist';
+
+        messageDiv.innerHTML = `
+          <div class="artist-image" style="background-image: url('${this.escapeHtml(imageUrl)}')"></div>
+          <div class="artist-info">
+            <div class="artist-name">${this.escapeHtml(artist.name)}</div>
+            <div class="artist-followers">${followers} Spotify followers</div>
+          </div>
+          <div class="artist-action">NEW<br>REF</div>
+        `;
+
+        this.chatMessages.appendChild(messageDiv);
+        this.scrollToBottom();
+      } else {
+        this.addSystemMessage(message.content || 'Received reference artist');
       }
     }
     
