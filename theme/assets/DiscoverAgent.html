@@ -182,6 +182,7 @@
         
         // Connection state tracking
         this.isConnecting = false;
+        this.isUpdatingModelId = false;
         this.reconnectTimeout = null;
         this.currentModelId = sessionStorage.getItem('model_id');
         
@@ -495,6 +496,12 @@
 
       // Handle reconnection with exponential backoff
       attemptReconnect() {
+        // Don't attempt to reconnect if we're in the middle of a model ID update
+        if (this.isUpdatingModelId) {
+          console.log('[WebSocketManager] Skipping reconnect attempt during model ID update');
+          return;
+        }
+        
         if (this.reconnectAttempts >= this.maxReconnectAttempts) {
           console.log('[WebSocketManager] Max reconnection attempts reached, giving up');
           this.addSystemMessage('Connection lost. Please refresh the page to try again.');
@@ -507,9 +514,11 @@
         this.reconnectAttempts++;
         
         this.reconnectTimeout = setTimeout(() => {
-          if (!this.isConnected) {
+          if (!this.isConnected && !this.isUpdatingModelId) {
             console.log('[WebSocketManager] Reconnecting...');
             this.connect();
+          } else {
+            console.log('[WebSocketManager] Skipping reconnect - already connected or updating model ID');
           }
         }, delay);
       }
@@ -708,45 +717,56 @@
         }
         
         console.log('[WebSocketManager] Updating model ID from', currentModelId, 'to', normalizedNewModelId);
-        this.currentModelId = normalizedNewModelId;
-        this.sessionId = 'user-' + (normalizedNewModelId || Math.random().toString(36).substr(2, 9));
-        this.wsUrl = `ws://localhost:8000/ws/${this.sessionId}`;
         
-        console.log('[WebSocketManager] New session ID:', this.sessionId);
+        // Set updating flag to prevent duplicate reconnections
+        this.isUpdatingModelId = true;
         
-        // Close existing connection if any
-        if (this.socket) {
-          console.log('[WebSocketManager] Closing existing WebSocket connection for model ID update');
-          try {
-            // Set a flag to prevent reconnection attempts during model ID update
-            this.wasConnectedBeforeError = false;
-            
-            // Close the socket and clear any pending reconnects
-            if (this.reconnectTimeout) {
-              clearTimeout(this.reconnectTimeout);
-              this.reconnectTimeout = null;
+        try {
+          this.currentModelId = normalizedNewModelId;
+          this.sessionId = 'user-' + (normalizedNewModelId || Math.random().toString(36).substr(2, 9));
+          this.wsUrl = `ws://localhost:8000/ws/${this.sessionId}`;
+          
+          console.log('[WebSocketManager] New session ID:', this.sessionId);
+          
+          // Close existing connection if any
+          if (this.socket) {
+            console.log('[WebSocketManager] Closing existing WebSocket connection for model ID update');
+            try {
+              // Set a flag to prevent reconnection attempts during model ID update
+              this.wasConnectedBeforeError = false;
+              
+              // Close the socket and clear any pending reconnects
+              if (this.reconnectTimeout) {
+                clearTimeout(this.reconnectTimeout);
+                this.reconnectTimeout = null;
+              }
+              
+              // Close the socket if it's in a valid state
+              if (this.socket.readyState === WebSocket.OPEN || this.socket.readyState === WebSocket.CONNECTING) {
+                this.socket.close(1000, 'Model ID changed');
+              }
+              
+              this.socket = null;
+              console.log('[WebSocketManager] Existing WebSocket connection closed for model ID update');
+            } catch (e) {
+              console.warn('[WebSocketManager] Error closing existing socket during model ID update:', e);
             }
-            
-            // Close the socket if it's in a valid state
-            if (this.socket.readyState === WebSocket.OPEN || this.socket.readyState === WebSocket.CONNECTING) {
-              this.socket.close(1000, 'Model ID changed');
-            }
-            
-            this.socket = null;
-            console.log('[WebSocketManager] Existing WebSocket connection closed for model ID update');
-          } catch (e) {
-            console.warn('[WebSocketManager] Error closing existing socket during model ID update:', e);
           }
+          
+          // Reset connection state
+          this.isConnected = false;
+          this.isConnecting = false;
+          this.reconnectAttempts = 0;
+          
+          // Reconnect with new session ID
+          console.log('[WebSocketManager] Initiating new connection with updated model ID');
+          this.connect();
+        } finally {
+          // Reset the flag after a short delay to ensure the connection is established
+          setTimeout(() => {
+            this.isUpdatingModelId = false;
+          }, 1000);
         }
-        
-        // Reset connection state
-        this.isConnected = false;
-        this.isConnecting = false;
-        this.reconnectAttempts = 0;
-        
-        // Reconnect with new session ID
-        console.log('[WebSocketManager] Initiating new connection with updated model ID');
-        this.connect();
       }
     }
   };
