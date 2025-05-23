@@ -167,94 +167,72 @@
 
 <script>
 
-  // Log the current model ID for debugging
   console.log('[WebSocketManager] model_id', sessionStorage.getItem('model_id'));
 
-  // Store the original WebSocketManager implementation if it exists
-  // This allows for potential restoration or debugging
+  // Store the original WebSocketManager if it exists
   if (!window._originalWebSocketManager) {
     window._originalWebSocketManager = window.WebSocketManager;
   }
   
-  // Only define WebSocketManager if it doesn't already exist
-  // This prevents redefinition issues in case the script is loaded multiple times
+  // Only declare WebSocketManager if it doesn't already exist or needs redefinition
   if (typeof window._originalWebSocketManager === 'undefined') {
-    /**
-     * WebSocketManager - Manages WebSocket connections for real-time chat functionality
-     * Handles connection lifecycle, message queuing, reconnection logic, and UI updates
-     */
     window.WebSocketManager = class WebSocketManager {
-      /**
-       * Initialize a new WebSocketManager instance
-       * Sets up initial state, DOM references, and establishes WebSocket connection
-       */
       constructor() {
         console.log('[WebSocketManager] Class WebSocketManager created');
         
         // Connection state tracking
-        this.isConnecting = false;        // True when a connection attempt is in progress
-        this.isUpdatingModelId = false;   // True when changing model ID to prevent reconnection loops
-        this.reconnectTimeout = null;     // Reference to the current reconnection timeout
-        this.currentModelId = sessionStorage.getItem('model_id'); // Current model ID from session
+        this.isConnecting = false;
+        this.isUpdatingModelId = false;
+        this.reconnectTimeout = null;
+        this.currentModelId = sessionStorage.getItem('model_id');
         
-        // Generate a session ID for this connection
-        // Uses model_id if available, otherwise generates a random string
+        // Use model_id from sessionStorage if available, otherwise generate a random string
         this.sessionId = 'user-' + (this.currentModelId || Math.random().toString(36).substr(2, 9));
         console.log('[WebSocketManager] Session ID:', this.sessionId);
         
-        // DOM element references
-        this.chatContainer = document.querySelector('.chat-container');  // Main chat container
-        this.chatMessages = document.getElementById('chat-messages');   // Messages container
-        this.chatInput = document.getElementById('chat-input');         // Message input field
-        this.sendButton = document.getElementById('send-button');       // Send button
+        this.chatContainer = document.querySelector('.chat-container');
+        this.chatMessages = document.getElementById('chat-messages');
+        this.chatInput = document.getElementById('chat-input');
+        this.sendButton = document.getElementById('send-button');
+        this.lastBotMessage = null;
+        this.typingIndicator = null;
+        this.messageQueue = [];
+        this.isConnected = false;
+        this.wasConnectedBeforeError = false;
+        this.reconnectAttempts = 0;
+        this.maxReconnectAttempts = 5;
+        this.reconnectDelay = 1000;
         
-        // Message state
-        this.lastBotMessage = null;          // Reference to the last bot message (for streaming)
-        this.typingIndicator = null;         // Reference to the typing indicator element
-        this.messageQueue = [];              // Queue for messages when disconnected
-        this.isConnected = false;            // Current connection status
-        this.wasConnectedBeforeError = false;// Track if we had a successful connection before
-        
-        // Reconnection settings
-        this.reconnectAttempts = 0;          // Current number of reconnection attempts
-        this.maxReconnectAttempts = 5;       // Maximum number of reconnection attempts
-        this.reconnectDelay = 1000;          // Initial delay between reconnection attempts (ms)
-        
-        // Log initialization details for debugging
+        // Debug information
         console.log('[WebSocketManager] Constructor called');
         console.log('[WebSocketManager] Hostname:', window.location.hostname);
         console.log('[WebSocketManager] Protocol:', window.location.protocol);
         
-        // Construct WebSocket URL
-        // Note: In production, this should use the current hostname
+        // For development - always use localhost:8000 for now
         this.wsUrl = `ws://localhost:8000/ws/${this.sessionId}`;
         
+        // Log the final WebSocket URL
         console.log('[WebSocketManager] Using WebSocket URL:', this.wsUrl);
         
-        // Ensure we have the latest model_id from session storage
+        // Store the current model_id
         this.currentModelId = sessionStorage.getItem('model_id');
         
-        // Bind methods to maintain correct 'this' context in event handlers
+        // Bind methods that will be used as event handlers
         this.sendMessage = this.sendMessage.bind(this);
         
-        // Validate WebSocket URL format
+        // Check if the URL is valid
         try {
           new URL(this.wsUrl);
         } catch (e) {
           console.error('[WebSocketManager] Invalid WebSocket URL:', e);
         }
         
-        // Establish initial WebSocket connection
+        // Initialize connection
         this.connect();
       }
       
-      /**
-       * Establishes a WebSocket connection to the server
-       * Handles connection states, reconnection logic, and error scenarios
-       * This method is idempotent - multiple calls won't create duplicate connections
-       */
+      // Connect to WebSocket server
       connect() {
-        // Log current state for debugging
         console.log('[WebSocketManager] === connect() called ===');
         console.log('[WebSocketManager] Current state:', {
           isConnected: this.isConnected,
@@ -264,20 +242,20 @@
           messageQueueLength: this.messageQueue.length
         });
         
-        // If we're already connected and the socket is open, just process any queued messages
+        // If already connected, do nothing
         if (this.isConnected && this.socket && this.socket.readyState === WebSocket.OPEN) {
           console.log('[WebSocketManager] Already connected, processing message queue');
           this.processMessageQueue();
           return;
         }
         
-        // Prevent multiple simultaneous connection attempts
+        // If already connecting, just wait for the connection
         if (this.isConnecting) {
           console.log('[WebSocketManager] Connection attempt already in progress');
           return;
         }
         
-        // Check existing socket state if one exists
+        // If we have a socket in a connecting or open state, don't create a new one
         if (this.socket) {
           const state = this.socket.readyState;
           if (state === WebSocket.CONNECTING) {
@@ -291,24 +269,23 @@
             this.processMessageQueue();
             return;
           }
-          // If we get here, the socket is in CLOSING or CLOSED state
+          // If we get here, the socket is in CLOSING or CLOSED state, so we'll proceed to create a new one
         }
         
-        // Mark that we're attempting to connect
+        // Set connecting state
         this.isConnecting = true;
         console.log('[WebSocketManager] Set isConnecting to true');
         
-        // Log connection attempt details
+        // Log current state
         console.log(`[WebSocketManager] Current connection state: ${this.socket ? this.socket.readyState : 'No socket'}`);
         console.log(`[WebSocketManager] Attempting to connect to: ${this.wsUrl}`);
         
-        // Clean up any existing socket connection
+        // Close existing socket if it exists
         if (this.socket) {
           console.log('[WebSocketManager] Closing existing WebSocket connection');
           try {
             const oldSocket = this.socket;
-            // Remove event handlers to prevent memory leaks
-            oldSocket.onclose = null;
+            oldSocket.onclose = null; // Remove any existing handlers to prevent duplicate events
             oldSocket.close();
             console.log('[WebSocketManager] Existing WebSocket connection closed');
           } catch (e) {
@@ -324,23 +301,16 @@
           this.socket = new WebSocket(this.wsUrl);
           console.log('[WebSocketManager] WebSocket created, setting up event handlers');
           
-          // Store 'this' context for event handlers
           const self = this;
           
-          /**
-           * WebSocket open event handler
-           * Triggered when the connection is successfully established
-           */
+          // Set up WebSocket event handlers
           this.socket.onopen = function(event) {
             console.log('[WebSocketManager] WebSocket onopen event fired');
-            
-            // Update connection state
             self.isConnected = true;
             self.isConnecting = false;
             self.wasConnectedBeforeError = true;
-            self.reconnectAttempts = 0; // Reset reconnection counter on success
+            self.reconnectAttempts = 0; // Reset reconnect attempts on successful connection
             
-            // Log successful connection
             console.log('[WebSocketManager] WebSocket connection opened successfully, isConnected:', self.isConnected);
             console.log('[WebSocketManager] Current socket state:', {
               readyState: self.socket ? self.socket.readyState : 'no socket',
@@ -348,68 +318,91 @@
               bufferedAmount: self.socket ? self.socket.bufferedAmount : 'no socket'
             });
             
-            // Process any messages that were queued while disconnected
-            self.processMessageQueue();
+            // Process any queued messages
+            console.log('[WebSocketManager] === processMessageQueue() called ===');
+            console.log('[WebSocketManager] Current state:', {
+              isConnected: self.isConnected,
+              isConnecting: self.isConnecting,
+              isUpdatingModelId: self.isUpdatingModelId,
+              socketState: self.socket ? self.socket.readyState : 'no socket',
+              queueLength: self.messageQueue.length
+            });
             
-            // Notify user if this was a reconnection
+            if (self.messageQueue.length === 0) {
+              console.log('[WebSocketManager] No messages in queue to process');
+              return;
+            }
+            
+            // If not connected, don't process the queue yet
+            if (!self.isConnected || !self.socket || self.socket.readyState !== WebSocket.OPEN) {
+              console.log('[WebSocketManager] Not connected, cannot process message queue. State:', {
+                isConnected: self.isConnected,
+                socketExists: !!self.socket,
+                socketState: self.socket ? self.socket.readyState : 'no socket'
+              });
+              return;
+            }
+            
+            console.log(`[WebSocketManager] Processing ${self.messageQueue.length} queued messages`);
+            
+            // Process all queued messages
+            while (self.messageQueue.length > 0) {
+              const message = self.messageQueue[0]; // Peek at the first message
+              console.log('[WebSocketManager] Attempting to send queued message:', {
+                type: message.type,
+                contentLength: message.content ? message.content.length : 0,
+                timestamp: message.timestamp
+              });
+              
+              try {
+                self.sendRawMessage(message);
+                console.log('[WebSocketManager] Successfully sent queued message');
+                self.messageQueue.shift(); // Only remove if send was successful
+              } catch (error) {
+                console.error('[WebSocketManager] Error sending queued message:', error);
+                break; // Stop processing queue on error
+              }
+            }
+            
+            console.log('[WebSocketManager] Finished processing message queue. Remaining:', self.messageQueue.length);
+            
+            // Show reconnected message if we were connected before this reconnection
             if (self.wasConnectedBeforeError) {
               console.log('[WebSocketManager] Sending connection re-established message');
               self.addSystemMessage('Connection re-established');
             }
           };
           
-          /**
-           * WebSocket message event handler
-           * Processes incoming messages from the server
-           */
           this.socket.onmessage = (event) => {
-            try {
-              console.log('[WebSocketManager] Received message:', event.data);
-              this.handleMessage(JSON.parse(event.data));
-            } catch (error) {
-              console.error('[WebSocketManager] Error processing message:', error);
-              this.addErrorMessage('Error processing server response');
-            }
+            console.log('[WebSocketManager] Received message:', event.data);
+            this.handleMessage(event);
           };
           
-          /**
-           * WebSocket close event handler
-           * Handles connection closure, including unexpected disconnections
-           */
           this.socket.onclose = function(event) {
-            console.log(`[WebSocketManager] WebSocket connection closed. ` +
-              `Code: ${event.code}, Reason: ${event.reason || 'No reason provided'}`);
-            
-            // Update connection state
+            console.log(`[WebSocketManager] WebSocket connection closed. Code: ${event.code}, Reason: ${event.reason || 'No reason provided'}`);
             self.isConnected = false;
             self.isConnecting = false;
             
-            // Only attempt to reconnect if we had a previous successful connection
-            // and we're not already in the process of reconnecting
+            // Only attempt to reconnect if the connection was previously established
+            // and we're not already trying to reconnect
             if (self.wasConnectedBeforeError && !self.reconnectTimeout) {
               self.attemptReconnect();
             }
           };
           
-          /**
-           * WebSocket error event handler
-           * Handles WebSocket protocol errors
-           */
           this.socket.onerror = (error) => {
             console.error('[WebSocketManager] WebSocket error event fired:', error);
-            
-            if (error && error.type) {
-              console.error('[WebSocketManager] Error event type:', error.type);
-              console.error('[WebSocketManager] Error event target readyState:', 
-                error.target ? error.target.readyState : 'no target');
-            }
+            console.error('[WebSocketManager] Error event type:', error.type);
+            console.error('[WebSocketManager] Error event target readyState:', error.target ? error.target.readyState : 'no target');
             
             // Save connection state before marking as disconnected
             this.wasConnectedBeforeError = this.isConnected;
             this.isConnected = false;
             
-            // Log detailed error information if available
-            if (error?.target) {
+            console.log('[WebSocketManager] Current WebSocket readyState:', this.socket ? this.socket.readyState : 'no socket');
+            
+            // Log more detailed error information
+            if (error && error.target) {
               console.error('[WebSocketManager] WebSocket error details:', {
                 url: error.target.url,
                 readyState: error.target.readyState,
@@ -418,17 +411,12 @@
                 protocol: error.target.protocol
               });
             }
-            
-            // Attempt to reconnect if this wasn't a clean close
-            if (!this.isUpdatingModelId) {
-              this.attemptReconnect();
-            }
           };
           
         } catch (error) {
           console.error('[WebSocketManager] Failed to establish WebSocket connection:', error);
           this.addErrorMessage('Failed to connect to the server');
-          this.attemptReconnect();
+          this.handleReconnect();
         }
       }
       
