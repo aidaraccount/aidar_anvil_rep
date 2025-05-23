@@ -494,20 +494,23 @@
       
 
       // Handle reconnection with exponential backoff
-      handleReconnect() {
+      attemptReconnect() {
         if (this.reconnectAttempts >= this.maxReconnectAttempts) {
-          this.addSystemMessage('Unable to reconnect. Please refresh the page to try again.');
+          console.log('[WebSocketManager] Max reconnection attempts reached, giving up');
+          this.addSystemMessage('Connection lost. Please refresh the page to try again.');
           return;
         }
         
+        const delay = Math.min(this.reconnectDelay * Math.pow(2, this.reconnectAttempts), 30000); // Cap at 30s
+        console.log(`[WebSocketManager] Attempting to reconnect in ${delay}ms (attempt ${this.reconnectAttempts + 1}/${this.maxReconnectAttempts})`);
+        
         this.reconnectAttempts++;
-        const delay = Math.min(this.reconnectDelay * Math.pow(2, this.reconnectAttempts), 30000); // Max 30s delay
         
-        this.addSystemMessage(`Connection lost. Reconnecting in ${delay/1000} seconds...`);
-        
-        setTimeout(() => {
-          console.log(`Attempting to reconnect (${this.reconnectAttempts}/${this.maxReconnectAttempts})...`);
-          this.connect();
+        this.reconnectTimeout = setTimeout(() => {
+          if (!this.isConnected) {
+            console.log('[WebSocketManager] Reconnecting...');
+            this.connect();
+          }
         }, delay);
       }
       
