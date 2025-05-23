@@ -168,9 +168,7 @@
 <script>
 
   // Only declare WebSocketManager if it doesn't already exist
-  console.log('[WebSocketManager] typeof WebSocketManager:', typeof WebSocketManager);
-
-  if (typeof WebSocketManager === 'undefined') {
+  if (typeof window.WebSocketManager === 'undefined') {
     window.WebSocketManager = class WebSocketManager {
       constructor() {
         console.log('[WebSocketManager] Initializing WebSocketManager');
@@ -484,7 +482,10 @@
       sendMessage() {
         console.log('[WebSocketManager] sendMessage() called');
         
-        const message = this.chatInput.value.trim();
+        // Always get the latest model_id from sessionStorage
+        this.sessionId = 'user-' + (sessionStorage.getItem('model_id') || Math.random().toString(36).substr(2, 9));
+        
+        const message = this.chatInput?.value?.trim() || '';
         if (!message) {
           console.log('[WebSocketManager] Empty message, ignoring');
           return;
@@ -646,10 +647,10 @@
     }
   }; // End of WebSocketManager class
 
-  // ---------------------------------------------------------------------
-  
-  // Initialize WebSocket manager
-  function initializeWebSocketManager() {
+// ---------------------------------------------------------------------
+
+// Initialize WebSocket manager
+function initializeWebSocketManager() {
     console.log('[WebSocketManager] Initializing WebSocket manager');
     
     // Only initialize once
