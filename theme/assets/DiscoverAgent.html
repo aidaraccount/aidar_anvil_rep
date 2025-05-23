@@ -277,6 +277,13 @@
           const self = this;
           this.socket.onopen = function(event) {
             console.log('[WebSocketManager] WebSocket onopen event fired');
+            
+            // Only proceed if we're not in the middle of a model ID update
+            if (self.isUpdatingModelId) {
+              console.log('[WebSocketManager] Model ID update in progress, skipping onopen handler');
+              return;
+            }
+            
             self.isConnected = true;
             self.isConnecting = false;
             self.wasConnectedBeforeError = true;
@@ -775,11 +782,24 @@
           // Reconnect with new session ID
           console.log('[WebSocketManager] Initiating new connection with updated model ID');
           this.connect();
-        } finally {
-          // Reset the flag after a short delay to ensure the connection is established
-          setTimeout(() => {
-            this.isUpdatingModelId = false;
-          }, 1000);
+          
+          // Reset the flag after the connection is established
+          const checkConnection = () => {
+            if (this.isConnected) {
+              console.log('[WebSocketManager] Connection established, model ID update complete');
+              this.isUpdatingModelId = false;
+            } else {
+              console.log('[WebSocketManager] Waiting for connection to be established...');
+              setTimeout(checkConnection, 100);
+            }
+          };
+          
+          // Start checking the connection status
+          checkConnection();
+        } catch (error) {
+          console.error('[WebSocketManager] Error during model ID update:', error);
+          this.isUpdatingModelId = false;
+          throw error;
         }
       }
     }
