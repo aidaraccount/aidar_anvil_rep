@@ -1999,11 +1999,16 @@ class DiscoverAgent(DiscoverAgentTemplate):
   # -------------------------------
   # RATING BUTTONS
   def button_1_click(self, **event_args):
-    anvil.server.call('add_interest', user["user_id"], self.model_id, self.artist_id, 1, False, '')
-    self.header.scroll_into_view(smooth=True)
-    next_artist_id = anvil.server.call('get_next_artist_id', self.model_id)
-    routing.set_url_hash(f'agent_artists?artist_id={next_artist_id}', load_from_cache=False)
+    # anvil.server.call('add_interest', user["user_id"], self.model_id, self.artist_id, 1, False, '')
+    # self.header.scroll_into_view(smooth=True)
+    # next_artist_id = anvil.server.call('get_next_artist_id', self.model_id)
+    # routing.set_url_hash(f'agent_artists?artist_id={next_artist_id}', load_from_cache=False)
 
+    from anvil.js.window import history, location
+    history.replaceState(None, "", f"#{'agent_artists?artist_id=123'}")
+    
+    pass
+  
   def button_2_click(self, **event_args):
     anvil.server.call('add_interest', user["user_id"], self.model_id, self.artist_id, 2, False, '')
     self.header.scroll_into_view(smooth=True)
