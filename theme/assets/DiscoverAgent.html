@@ -167,7 +167,7 @@
 
 <script>
 
-  console.log('Current model_id', sessionStorage.getItem('model_id'));
+  console.log('[WebSocketManager] Current model_id', sessionStorage.getItem('model_id'));
 
   // Store the original WebSocketManager if it exists
   if (!window._originalWebSocketManager) {
@@ -657,23 +657,44 @@
       
       // Update model ID and reconnect if needed
       updateModelId(newModelId) {
-        if (newModelId === this.currentModelId) {
+        console.log('[WebSocketManager] Checking model ID update - current:', this.currentModelId, 'new:', newModelId);
+        
+        // Handle case where newModelId is null/undefined
+        if (newModelId === null || newModelId === undefined) {
+          console.log('[WebSocketManager] New model ID is null/undefined, using random ID');
+          newModelId = ''; // Will trigger random ID generation
+        }
+        
+        // Normalize for comparison (treat empty string and null the same)
+        const currentModelId = this.currentModelId || '';
+        const normalizedNewModelId = newModelId || '';
+        
+        if (normalizedNewModelId === currentModelId) {
           console.log('[WebSocketManager] Model ID unchanged, keeping existing connection');
           return;
         }
         
-        console.log('[WebSocketManager] Updating model ID from', this.currentModelId, 'to', newModelId);
-        this.currentModelId = newModelId;
-        this.sessionId = 'user-' + (newModelId || Math.random().toString(36).substr(2, 9));
+        console.log('[WebSocketManager] Updating model ID from', currentModelId, 'to', normalizedNewModelId);
+        this.currentModelId = normalizedNewModelId;
+        this.sessionId = 'user-' + (normalizedNewModelId || Math.random().toString(36).substr(2, 9));
         this.wsUrl = `ws://localhost:8000/ws/${this.sessionId}`;
+        
+        console.log('[WebSocketManager] New session ID:', this.sessionId);
         
         // Close existing connection if any
         if (this.socket) {
-          this.socket.close();
-          this.socket = null;
+          console.log('[WebSocketManager] Closing existing WebSocket connection');
+          try {
+            this.socket.close();
+            this.socket = null;
+            console.log('[WebSocketManager] Existing WebSocket connection closed');
+          } catch (e) {
+            console.warn('[WebSocketManager] Error closing existing socket:', e);
+          }
         }
         
         // Reconnect with new session ID
+        console.log('[WebSocketManager] Initiating new connection with updated model ID');
         this.connect();
       }
     }
