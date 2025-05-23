@@ -758,6 +758,14 @@
           this.isConnecting = false;
           this.reconnectAttempts = 0;
           
+          // Refresh DOM element references
+          this.chatContainer = document.querySelector('.chat-container');
+          this.chatMessages = document.getElementById('chat-messages');
+          this.chatInput = document.getElementById('chat-input');
+          this.sendButton = document.getElementById('send-button');
+          
+          console.log('[WebSocketManager] DOM elements refreshed');
+          
           // Reconnect with new session ID
           console.log('[WebSocketManager] Initiating new connection with updated model ID');
           this.connect();
