@@ -281,9 +281,10 @@
             self.isConnecting = false;
             self.wasConnectedBeforeError = true;
             self.reconnectAttempts = 0; // Reset reconnect attempts on successful connection
-            console.log('[WebSocketManager] WebSocket connection opened successfully');
+            console.log('[WebSocketManager] WebSocket connection opened successfully, isConnected:', self.isConnected);
             
             // Process any queued messages
+            console.log('[WebSocketManager] Processing message queue, length:', self.messageQueue.length);
             self.processMessageQueue();
             
             // Show reconnected message if we were connected before this reconnection
@@ -558,11 +559,16 @@
         
         console.log('[WebSocketManager] Prepared message:', messageData);
 
-        
         // Check WebSocket state
         const socketReady = this.socket && this.socket.readyState === WebSocket.OPEN;
-        console.log(`[WebSocketManager] WebSocket state: ${this.socket ? this.socket.readyState : 'null'}, isConnected: ${this.isConnected}, socketReady: ${socketReady}`);
+        console.log(`[WebSocketManager] WebSocket state: ${this.socket ? this.socket.readyState : 'null'}, ` +
+                   `isConnected: ${this.isConnected}, socketReady: ${socketReady}`);
 
+        // If we think we're connected but the socket isn't ready, update our state
+        if (this.isConnected && !socketReady) {
+          console.log('[WebSocketManager] Connection state out of sync, updating...');
+          this.isConnected = false;
+        }
         
         // Send or queue the message
         if (this.isConnected && socketReady) {
