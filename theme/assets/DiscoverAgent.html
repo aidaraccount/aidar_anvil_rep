@@ -208,24 +208,8 @@
         // Log the final WebSocket URL
         console.log('[WebSocketManager] Using WebSocket URL:', this.wsUrl);
         
-        // Store the current model_id to detect changes
+        // Store the current model_id
         this.currentModelId = sessionStorage.getItem('model_id');
-        
-        // Store the original connect method
-        const originalConnect = this.connect;
-        
-        // Override connect to check for model_id changes
-        this.connect = () => {
-          const newModelId = sessionStorage.getItem('model_id');
-          if (newModelId !== this.currentModelId) {
-            console.log('[WebSocketManager] Model ID changed, updating session ID');
-            this.currentModelId = newModelId;
-            this.sessionId = 'user-' + (newModelId || Math.random().toString(36).substr(2, 9));
-            this.wsUrl = `ws://localhost:8000/ws/${this.sessionId}`;
-            console.log('[WebSocketManager] New Session ID:', this.sessionId);
-          }
-          return originalConnect.call(this);
-        };
         
         // Bind methods that will be used as event handlers
         this.sendMessage = this.sendMessage.bind(this);
