@@ -177,6 +177,30 @@
   // Only declare WebSocketManager if it doesn't already exist or needs redefinition
   if (typeof window._originalWebSocketManager === 'undefined') {
     window.WebSocketManager = class WebSocketManager {
+      // =====================================================================
+      // WebSocketManager Class
+      // Handles all WebSocket communication and chat interface management.
+      // Manages connection lifecycle, message handling, and UI updates.
+      // =====================================================================
+      
+      /**
+       * WebSocketManager handles the WebSocket connection and chat interface.
+       * 
+       * Key responsibilities:
+       * 1. Establishing and maintaining WebSocket connection to the server
+       * 2. Managing connection state and automatic reconnection
+       * 3. Sending and receiving messages
+       * 4. Processing different message types (text, artist info, errors)
+       * 5. Updating the chat UI with messages and status indicators
+       * 6. Handling model ID changes and session management
+       * 
+       * @class WebSocketManager
+       * @param {Object} [options] - Configuration options (currently none)
+       */
+
+
+      // -----------------------------------------
+      // 1. Initialization
       constructor() {
         console.log('[WebSocketManager] Class WebSocketManager created');
         
@@ -187,7 +211,7 @@
         this.currentModelId = sessionStorage.getItem('model_id');
         
         // Use model_id from sessionStorage if available, otherwise generate a random string
-        this.sessionId = 'user-' + (this.currentModelId || Math.random().toString(36).substr(2, 9));
+        this.sessionId = 'session-' + (this.currentModelId || Math.random().toString(36).substr(2, 9));
         console.log('[WebSocketManager] Session ID:', this.sessionId);
         
         this.chatContainer = document.querySelector('.chat-container');
@@ -231,6 +255,9 @@
         this.connect();
       }
       
+
+      // -----------------------------------------
+      // 2. Core WebSocket Methods
       // Connect to WebSocket server
       connect() {
         console.log('[WebSocketManager] === connect() called ===');
@@ -420,8 +447,97 @@
         }
       }
       
+      // Handle reconnection with exponential backoff
+      attemptReconnect() {
+        // Don't attempt to reconnect if we're in the middle of a model ID update
+        if (this.isUpdatingModelId) {
+          console.log('[WebSocketManager] Skipping reconnect attempt during model ID update');
+          return;
+        }
+        
+        if (this.reconnectAttempts >= this.maxReconnectAttempts) {
+          console.log('[WebSocketManager] Max reconnection attempts reached, giving up');
+          this.addSystemMessage('Connection lost. Please refresh the page to try again.');
+          return;
+        }
+        
+        const delay = Math.min(this.reconnectDelay * Math.pow(2, this.reconnectAttempts), 30000); // Cap at 30s
+        console.log(`[WebSocketManager] Attempting to reconnect in ${delay}ms (attempt ${this.reconnectAttempts + 1}/${this.maxReconnectAttempts})`);
+        
+        this.reconnectAttempts++;
+        
+        this.reconnectTimeout = setTimeout(() => {
+          if (!this.isConnected && !this.isUpdatingModelId) {
+            console.log('[WebSocketManager] Reconnecting...');
+            this.connect();
+          } else {
+            console.log('[WebSocketManager] Skipping reconnect - already connected or updating model ID');
+          }
+        }, delay);
+      }
       
+      
+      // -----------------------------------------
       /* 3. Message Handling */
+      // Send message to the server
+      sendMessage() {
+        console.log('[WebSocketManager] sendMessage() called');
+        
+        const message = this.chatInput.value.trim();
+        if (!message) {
+          console.log('[WebSocketManager] Empty message, ignoring');
+          return;
+        }
+        
+        console.log('[WebSocketManager] Adding user message to chat');
+        this.addUserMessage(message);
+        this.chatInput.value = '';
+        this.chatInput.style.height = 'auto'; // Reset textarea height
+        this.showTypingIndicator();
+        
+        // Prepare message
+        const messageData = {
+          type: 'query',
+          content: message,
+          timestamp: new Date().toISOString()
+        };
+        
+        console.log('[WebSocketManager] Prepared message:', messageData);
+
+        // Check WebSocket state
+        const socketReady = this.socket && this.socket.readyState === WebSocket.OPEN;
+        console.log(`[WebSocketManager] WebSocket state: ${this.socket ? this.socket.readyState : 'null'}, ` +
+                   `isConnected: ${this.isConnected}, socketReady: ${socketReady}`);
+
+        // If we think we're connected but the socket isn't ready, update our state
+        if (this.isConnected && !socketReady) {
+          console.log('[WebSocketManager] Connection state out of sync, updating...');
+          this.isConnected = false;
+        }
+        
+        // Send or queue the message
+        if (this.isConnected && socketReady) {
+          console.log('[WebSocketManager] Sending message via WebSocket');
+          this.sendRawMessage(messageData);
+        } else {
+          console.log('[WebSocketManager] Queueing message, attempting to reconnect');
+          this.messageQueue.push(messageData);
+          this.addSystemMessage('Message queued. Will send when connection is restored...');
+          this.connect(); // Try to reconnect if not connected
+        }
+      }
+
+      // Send raw message to WebSocket
+      sendRawMessage(messageData) {
+        try {
+          this.socket.send(JSON.stringify(messageData));
+        } catch (error) {
+          console.error('Error sending message:', error);
+          this.addErrorMessage('Failed to send message');
+          this.handleReconnect();
+        }
+      }
+
       // Handle incoming WebSocket messages
       handleMessage(event) {
         try {
@@ -459,19 +575,30 @@
         }
       }
 
+      // Process any queued messages
+      processMessageQueue() {
+        while (this.messageQueue.length > 0 && this.isConnected) {
+          const message = this.messageQueue.shift();
+          this.sendRawMessage(message);
+        }
+      }
+
+
+      // -----------------------------------------
+      // 4. Message Type Handlers
+      // Handle error messages
+      handleError(message) {
+        console.error('[WebSocketManager] Server error:', message.content);
+        const errorType = message.data?.error_type ? ` (${message.data.error_type})` : '';
+        this.addErrorMessage(`Error${errorType}: ${message.content}`);
+      }
+
       // Handle text chunk messages
       handleTextChunk(message) {
         if (message.content) {
           this.updateOrCreateBotMessage(message.content);
           this.scrollToBottom();
         }
-      }
-
-      // Handle error messages
-      handleError(message) {
-        console.error('[WebSocketManager] Server error:', message.content);
-        const errorType = message.data?.error_type ? ` (${message.data.error_type})` : '';
-        this.addErrorMessage(`Error${errorType}: ${message.content}`);
       }
 
       // Handle artist information
@@ -554,7 +681,7 @@
           this.addSystemMessage(message.content || 'Received reference artist');
         }
       }
-      
+
       // Handle complete message from server
       handleCompleteMessage() {
         console.log('[WebSocketManager] Received complete message');
@@ -562,119 +689,15 @@
         this.removeTypingIndicator();
       }
 
-      // HELPER FUNCTIONS
-      // Helper to format followers count
-      formatFollowers(count) {
-        if (count >= 1000000) {
-          return (count / 1000000).toFixed(1) + 'M';
-        }
-        if (count >= 1000) {
-          return (count / 1000).toFixed(1) + 'K';
-        }
-        return count.toString();
+      // Mark the last bot message as complete
+      markLastMessageComplete() {
+        this.lastBotMessage = null;
+        this.removeTypingIndicator();
       }
-      
-
-      // Handle reconnection with exponential backoff
-      attemptReconnect() {
-        // Don't attempt to reconnect if we're in the middle of a model ID update
-        if (this.isUpdatingModelId) {
-          console.log('[WebSocketManager] Skipping reconnect attempt during model ID update');
-          return;
-        }
-        
-        if (this.reconnectAttempts >= this.maxReconnectAttempts) {
-          console.log('[WebSocketManager] Max reconnection attempts reached, giving up');
-          this.addSystemMessage('Connection lost. Please refresh the page to try again.');
-          return;
-        }
-        
-        const delay = Math.min(this.reconnectDelay * Math.pow(2, this.reconnectAttempts), 30000); // Cap at 30s
-        console.log(`[WebSocketManager] Attempting to reconnect in ${delay}ms (attempt ${this.reconnectAttempts + 1}/${this.maxReconnectAttempts})`);
-        
-        this.reconnectAttempts++;
-        
-        this.reconnectTimeout = setTimeout(() => {
-          if (!this.isConnected && !this.isUpdatingModelId) {
-            console.log('[WebSocketManager] Reconnecting...');
-            this.connect();
-          } else {
-            console.log('[WebSocketManager] Skipping reconnect - already connected or updating model ID');
-          }
-        }, delay);
-      }
-      
-
-      // Process any queued messages
-      processMessageQueue() {
-        while (this.messageQueue.length > 0 && this.isConnected) {
-          const message = this.messageQueue.shift();
-          this.sendRawMessage(message);
-        }
-      }
-
-
-      // Send message to the server
-      sendMessage() {
-        console.log('[WebSocketManager] sendMessage() called');
-        
-        const message = this.chatInput.value.trim();
-        if (!message) {
-          console.log('[WebSocketManager] Empty message, ignoring');
-          return;
-        }
-        
-        console.log('[WebSocketManager] Adding user message to chat');
-        this.addUserMessage(message);
-        this.chatInput.value = '';
-        this.chatInput.style.height = 'auto'; // Reset textarea height
-        this.showTypingIndicator();
-        
-        // Prepare message
-        const messageData = {
-          type: 'query',
-          content: message,
-          timestamp: new Date().toISOString()
-        };
-        
-        console.log('[WebSocketManager] Prepared message:', messageData);
-
-        // Check WebSocket state
-        const socketReady = this.socket && this.socket.readyState === WebSocket.OPEN;
-        console.log(`[WebSocketManager] WebSocket state: ${this.socket ? this.socket.readyState : 'null'}, ` +
-                   `isConnected: ${this.isConnected}, socketReady: ${socketReady}`);
-
-        // If we think we're connected but the socket isn't ready, update our state
-        if (this.isConnected && !socketReady) {
-          console.log('[WebSocketManager] Connection state out of sync, updating...');
-          this.isConnected = false;
-        }
-        
-        // Send or queue the message
-        if (this.isConnected && socketReady) {
-          console.log('[WebSocketManager] Sending message via WebSocket');
-          this.sendRawMessage(messageData);
-        } else {
-          console.log('[WebSocketManager] Queueing message, attempting to reconnect');
-          this.messageQueue.push(messageData);
-          this.addSystemMessage('Message queued. Will send when connection is restored...');
-          this.connect(); // Try to reconnect if not connected
-        }
-      }
-
     
-      // Send raw message to WebSocket
-      sendRawMessage(messageData) {
-        try {
-          this.socket.send(JSON.stringify(messageData));
-        } catch (error) {
-          console.error('Error sending message:', error);
-          this.addErrorMessage('Failed to send message');
-          this.handleReconnect();
-        }
-      }
-
     
+      // -----------------------------------------
+      // 5. UI Update Methods
       // Add a user message to the chat
       addUserMessage(message) {
         const messageElement = document.createElement('div');
@@ -690,7 +713,6 @@
         this.showTypingIndicator();
       }
 
-
       // Add a system message to the chat
       addSystemMessage(content) {
         const messageDiv = document.createElement('div');
@@ -702,7 +724,6 @@
         this.chatMessages.appendChild(messageDiv);
         this.scrollToBottom();
       }
-
     
       // Add an error message to the chat
       addErrorMessage(content) {
@@ -739,12 +760,6 @@
         this.scrollToBottom();
       }
       
-      // Mark the last bot message as complete
-      markLastMessageComplete() {
-        this.lastBotMessage = null;
-        this.removeTypingIndicator();
-      }
-      
       // Show waiting for response indicator
       showTypingIndicator() {
         this.removeTypingIndicator();
@@ -761,6 +776,20 @@
           this.typingIndicator.remove();
           this.typingIndicator = null;
         }
+      }
+      
+
+      // -----------------------------------------
+      // 6. Helper Methods
+      // Helper to format followers count
+      formatFollowers(count) {
+        if (count >= 1000000) {
+          return (count / 1000000).toFixed(1) + 'M';
+        }
+        if (count >= 1000) {
+          return (count / 1000).toFixed(1) + 'K';
+        }
+        return count.toString();
       }
       
       // Helper: Get current time in HH:MM AM/PM format
@@ -885,12 +914,14 @@
     }
   };
   
+
   // If we're redefining the WebSocketManager, update the existing instance if it exists
   if (window.wsManager && window.wsManager.updateModelId) {
     const newModelId = sessionStorage.getItem('model_id');
     console.log('[WebSocketManager] Updating existing WebSocketManager with new model_id:', newModelId);
     window.wsManager.updateModelId(newModelId);
   }
+
 
   // =====================================================================
   // WebSocket Manager Initialization
@@ -909,18 +940,18 @@
    * @returns {WebSocketManager|null} The WebSocket manager instance or null if initialization fails
    */
   function initializeWebSocketManager() {
-    console.log('[WebSocketManager] Starting WebSocket manager initialization');
+    console.log('[initializeWebSocketManager] Starting WebSocket manager initialization');
     
     // Prevent multiple initializations - use existing instance if available
     if (window.wsManager) {
-      console.log('[WebSocketManager] Using existing WebSocket manager instance');
+      console.log('[initializeWebSocketManager] Using existing WebSocket manager instance');
       return window.wsManager;
     }
     
     try {
       // 1. Create and store the WebSocket manager instance
       window.wsManager = new WebSocketManager();
-      console.log('[WebSocketManager] Created new WebSocketManager instance');
+      console.log('[initializeWebSocketManager] Created new WebSocketManager instance');
       
       // 2. Get references to essential DOM elements
       const sendButton = document.getElementById('send-button');
@@ -928,11 +959,11 @@
       
       // 3. Validate required elements exist
       if (!sendButton || !chatInput) {
-        console.error('[WebSocketManager] Critical Error: Required chat interface elements not found');
+        console.error('[initializeWebSocketManager] Critical Error: Required chat interface elements not found');
         return window.wsManager; // Return manager even if UI elements are missing
       }
       
-      console.log('[WebSocketManager] Successfully located all required DOM elements');
+      console.log('[initializeWebSocketManager] Successfully located all required DOM elements');
       
       // 4. Configure chat input behavior
       chatInput.addEventListener('input', function() {
@@ -943,7 +974,7 @@
         // Update send button state based on input content
         const hasText = this.value.trim() !== '';
         sendButton.disabled = !hasText;
-        console.log(`[WebSocketManager] Input field updated, hasText: ${hasText}`);
+        console.log(`[initializeWebSocketManager] Input field updated, hasText: ${hasText}`);
       });
       
       // 5. Initialize UI state
@@ -951,19 +982,19 @@
       
       // 6. Set up cleanup on page unload
       window.addEventListener('beforeunload', () => {
-        console.log('[WebSocketManager] Page unloading, cleaning up WebSocket connection');
+        console.log('[initializeWebSocketManager] Page unloading, cleaning up WebSocket connection');
         if (window.wsManager?.socket) {
           // Close WebSocket with normal closure code (1000)
           window.wsManager.socket.close(1000, 'Window closing');
         }
       });
       
-      console.log('[WebSocketManager] Initialization completed successfully');
+      console.log('[initializeWebSocketManager] Initialization completed successfully');
       return window.wsManager;
       
     } catch (error) {
       // 7. Handle initialization errors
-      console.error('[WebSocketManager] Critical error during initialization:', error);
+      console.error('[initializeWebSocketManager] Critical error during initialization:', error);
       
       // Show user-friendly error message
       const errorMsg = document.createElement('div');
