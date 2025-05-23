@@ -170,7 +170,11 @@
   class WebSocketManager {
     constructor() {
       console.log('[WebSocketManager] Initializing WebSocketManager');
-      this.sessionId = 'user-' + Math.random().toString(36).substr(2, 9);
+      
+      // Use model_id from sessionStorage if available, otherwise generate a random string
+      this.sessionId = 'user-' + sessionStorage.getItem('model_id') || 'user-' + Math.random().toString(36).substr(2, 9);
+      console.log('[WebSocketManager] Session ID:', this.sessionId);
+      
       this.chatContainer = document.querySelector('.chat-container');
       this.chatMessages = document.getElementById('chat-messages');
       this.chatInput = document.getElementById('chat-input');
