@@ -301,12 +301,17 @@
             // Handle different message types
             switch(msg.type) {
               case 'text_chunk':
+                if (msg.direction === 'out') {
+                  this.addAgentMessage(msg.content || '');
+                }
+                break;
+
               case 'query':
                 // For text messages, use direction to determine if it's from user or system
                 if (msg.direction === 'in') {
                   this.addUserMessage(msg.content || '');
                 } else {
-                  this.updateOrCreateBotMessage(msg.content || '');
+                  this.addAgentMessage(msg.content || '');
                 }
                 break;
                 
@@ -683,7 +688,7 @@
       // Handle text chunk messages
       handleTextChunk(message) {
         if (message.content) {
-          this.updateOrCreateBotMessage(message.content);
+          this.addAgentMessage(message.content);
           this.scrollToBottom();
         }
       }
@@ -825,7 +830,7 @@
       }
       
       // Update or add a bot message (for streaming)
-      updateOrCreateBotMessage(content) {
+      addAgentMessage(content) {
         // Remove typing indicator if present
         this.removeTypingIndicator();
         
