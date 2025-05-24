@@ -364,6 +364,6 @@
 }
 
 /* 7. in initial creation */
-#agent-sidebar.initial-creation .chat-container {
+#agent-sidebar .chat-container.initial-creation {
   display: none;
 }
