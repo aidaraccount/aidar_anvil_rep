@@ -132,13 +132,21 @@ def update_anvil_user(user_id, first_name, last_name):
     return 'error'
 
 
-@anvil.server.callable
-def get_agent_messages(agent_id):
-    """Fetch message history for an agent"""
-    messages = anvil.server.call('get_messages', agent_id)
-    print('messages:', messages)
-    print('type(messages):', type(messages))
-    return messages
+@anvil.server.http_endpoint('/get_agent_messages', methods=['POST'])
+def get_agent_messages(**params):
+    """HTTP endpoint to fetch message history for an agent"""
+    try:
+        data = anvil.server.request.body_json
+        agent_id = data.get('agent_id')
+        if not agent_id:
+            return anvil.server.HttpResponse(status=400, body='Missing agent_id')
+            
+        # Call the actual message fetching function
+        messages = anvil.server.call('get_messages', agent_id)
+        return messages
+    except Exception as e:
+        print(f'Error in get_agent_messages: {e}')
+        return anvil.server.HttpResponse(status=500, body=str(e))
 
 
 @anvil.server.callable
