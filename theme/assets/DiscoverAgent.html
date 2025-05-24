@@ -352,20 +352,24 @@
               try {
                 console.log('[WebSocketManager] Loading message history...');
                 
-                // Use window.anvil.call to get messages
+                // Try to get messages using Anvil's JS bridge
                 const messages = await new Promise((resolve, reject) => {
                   try {
                     if (window.anvil && window.anvil.call) {
-                      window.anvil.call('get_messages', parseInt(self.currentModelId))
+                      // Pass 'this' as first argument to anvil.call
+                      window.anvil.call('get_messages', window, parseInt(self.currentModelId))
                         .then(resolve)
-                        .catch(reject);
+                        .catch(error => {
+                          console.error('Error in anvil.call:', error);
+                          resolve([]); // Resolve with empty array on error
+                        });
                     } else {
                       console.warn('Anvil JS bridge not available, using empty message history');
                       resolve([]);
                     }
                   } catch (e) {
                     console.error('Error in message history loading:', e);
-                    reject(e);
+                    resolve([]); // Always resolve to prevent unhandled rejections
                   }
                 });
                 console.log(`[WebSocketManager] Loaded ${messages.length} messages from history`);
