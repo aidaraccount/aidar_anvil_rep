@@ -350,6 +350,8 @@
 
 .chat-input-container.in-creation {
   margin-bottom: auto;
+  background: none;
+  border-top: none;
 }
 
 #agent-sidebar-button.in-creation {
