@@ -843,7 +843,7 @@
         
         try {
           this.currentModelId = normalizedNewModelId;
-          this.sessionId = 'user-' + (normalizedNewModelId || Math.random().toString(36).substr(2, 9));
+          this.sessionId = 'session-' + (normalizedNewModelId || Math.random().toString(36).substr(2, 9));
           this.wsUrl = `ws://localhost:8000/ws/${this.sessionId}`;
           
           console.log('[WebSocketManager] New session ID:', this.sessionId);
