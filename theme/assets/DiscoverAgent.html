@@ -304,29 +304,29 @@
               case 'query':
                 // For text messages, use direction to determine if it's from user or system
                 if (msg.direction === 'in') {
-                  this.addUserMessage(msg.content || '');
+                  this.addUserMessage({ content: msg.content });
                 } else {
-                  this.addSystemMessage(msg.content || '');
+                  this.addSystemMessage({ content: msg.content });
                 }
                 break;
                 
               case 'artist_info':
                 // Handle artist information display
                 if (msg.data) {
-                  this.handleArtistInfo(msg.data);
+                  this.handleArtistInfo({ data: msg.data });
                 }
                 break;
                 
               case 'artist_reference':
                 // Handle artist reference added confirmation
                 if (msg.data) {
-                  this.handleArtistReference(msg.data);
+                  this.handleArtistReference({ data: msg.data });
                 }
                 break;
                 
               default:
                 console.warn('[WebSocketManager] Unknown message type:', msg.type, msg);
-                this.addSystemMessage(msg.content || JSON.stringify(msg));
+                this.addSystemMessage({ content: msg.content || JSON.stringify(msg) });
             }
           });
           
