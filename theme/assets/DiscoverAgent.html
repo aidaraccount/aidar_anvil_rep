@@ -348,13 +348,9 @@
             
             // Message history is now loaded via Python's call_js in form_show
             // This is handled by the loadMessages function defined above
-            try {
-              // Existing WebSocket connection code
-            } catch (error) {
-              console.error('[WebSocketManager] Error in WebSocket connection:', error);
-              self.addErrorMessage('Connection error occurred');
-            }
-            }
+            
+            // WebSocket connection code will go here
+            // Any WebSocket related errors will be caught by the existing error handlers
             
             // Process any queued messages
             console.log('[WebSocketManager] === processMessageQueue() ===');
