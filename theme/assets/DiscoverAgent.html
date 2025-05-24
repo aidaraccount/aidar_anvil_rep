@@ -1437,39 +1437,39 @@
 
   // ------------------------------------------------------------
   // CREATION VIEW
-  // Wrap in IIFE to prevent redeclaration errors
+  // Make updateAgentSidebarWidth globally available
+  window.updateAgentSidebarWidth = function() {
+    const leftSidebar = document.getElementById('left-sidebar');
+    const agentSidebar = document.getElementById('agent-sidebar');
+    
+    if (leftSidebar && agentSidebar) {
+      // Get computed style to handle initial state
+      const computedStyle = window.getComputedStyle(leftSidebar);
+      const isLeftSidebarOpen = computedStyle.left === '0px' || leftSidebar.style.left === '0px';
+      const offset = isLeftSidebarOpen ? '250px' : '0px';
+      
+      // Update CSS variable
+      document.documentElement.style.setProperty('--left-sidebar-offset', offset);
+    }
+  };
+
+  // Initialize sidebar observer
   (function initSidebarObserver() {
     // Only initialize once
     if (window.sidebarObserverInitialized) return;
     window.sidebarObserverInitialized = true;
 
-    // Function to update agent sidebar width based on left sidebar state
-    function updateAgentSidebarWidth() {
-      const leftSidebar = document.getElementById('left-sidebar');
-      const agentSidebar = document.getElementById('agent-sidebar');
-      
-      if (leftSidebar && agentSidebar) {
-        // Get computed style to handle initial state
-        const computedStyle = window.getComputedStyle(leftSidebar);
-        const isLeftSidebarOpen = computedStyle.left === '0px' || leftSidebar.style.left === '0px';
-        const offset = isLeftSidebarOpen ? '250px' : '0px';
-        
-        // Update CSS variable
-        document.documentElement.style.setProperty('--left-sidebar-offset', offset);
-      }
-    }
-
     // Initial update with a small delay to ensure DOM is ready
-    setTimeout(updateAgentSidebarWidth, 100);
+    setTimeout(window.updateAgentSidebarWidth, 100);
     
     // Also update when the window loads in case styles aren't applied yet
-    window.addEventListener('load', updateAgentSidebarWidth);
+    window.addEventListener('load', window.updateAgentSidebarWidth);
 
     // Observe left sidebar for style changes
     const leftSidebar = document.getElementById('left-sidebar');
     if (leftSidebar) {
       // Create a MutationObserver to watch for style changes
-      const observer = new MutationObserver(updateAgentSidebarWidth);
+      const observer = new MutationObserver(window.updateAgentSidebarWidth);
       observer.observe(leftSidebar, { 
         attributes: true, 
         attributeFilter: ['style'] 
