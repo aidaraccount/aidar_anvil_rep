@@ -1434,35 +1434,48 @@
     }
   };
 
-  // CREATION VIEW
-  // Make createAgentView available globally for Python to call
-  // Function to update agent sidebar width based on left sidebar state
-  function updateAgentSidebarWidth() {
-    const leftSidebar = document.getElementById('left-sidebar');
-    const agentSidebar = document.getElementById('agent-sidebar');
-    
-    if (leftSidebar && agentSidebar) {
-      const isLeftSidebarOpen = leftSidebar.style.left === '0px';
-      const offset = isLeftSidebarOpen ? '250px' : '0px';
-      
-      // Update CSS variable
-      document.documentElement.style.setProperty('--left-sidebar-offset', offset);
-    }
-  }
 
-  // Observe left sidebar for style changes
-  const leftSidebar = document.getElementById('left-sidebar');
-  if (leftSidebar) {
-    // Initial update
-    updateAgentSidebarWidth();
+  // ------------------------------------------------------------
+  // CREATION VIEW
+  // Wrap in IIFE to prevent redeclaration errors
+  (function initSidebarObserver() {
+    // Only initialize once
+    if (window.sidebarObserverInitialized) return;
+    window.sidebarObserverInitialized = true;
+
+    // Function to update agent sidebar width based on left sidebar state
+    function updateAgentSidebarWidth() {
+      const leftSidebar = document.getElementById('left-sidebar');
+      const agentSidebar = document.getElementById('agent-sidebar');
+      
+      if (leftSidebar && agentSidebar) {
+        // Get computed style to handle initial state
+        const computedStyle = window.getComputedStyle(leftSidebar);
+        const isLeftSidebarOpen = computedStyle.left === '0px' || leftSidebar.style.left === '0px';
+        const offset = isLeftSidebarOpen ? '250px' : '0px';
+        
+        // Update CSS variable
+        document.documentElement.style.setProperty('--left-sidebar-offset', offset);
+      }
+    }
+
+    // Initial update with a small delay to ensure DOM is ready
+    setTimeout(updateAgentSidebarWidth, 100);
     
-    // Create a MutationObserver to watch for style changes
-    const observer = new MutationObserver(updateAgentSidebarWidth);
-    observer.observe(leftSidebar, { 
-      attributes: true, 
-      attributeFilter: ['style'] 
-    });
-  }
+    // Also update when the window loads in case styles aren't applied yet
+    window.addEventListener('load', updateAgentSidebarWidth);
+
+    // Observe left sidebar for style changes
+    const leftSidebar = document.getElementById('left-sidebar');
+    if (leftSidebar) {
+      // Create a MutationObserver to watch for style changes
+      const observer = new MutationObserver(updateAgentSidebarWidth);
+      observer.observe(leftSidebar, { 
+        attributes: true, 
+        attributeFilter: ['style'] 
+      });
+    }
+  })();
 
   window.createAgentView = function() {
     console.log('[AgentSidebar] Creating agent view');
