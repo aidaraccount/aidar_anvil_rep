@@ -720,7 +720,7 @@
           messageDiv.className = 'message artist';
           
           messageDiv.innerHTML = `
-            <div class="artist-image" style="background-image: url('${this.escapeHtml(imageUrl)}')"></div>
+            <div class="agent-artist-image" style="background-image: url('${this.escapeHtml(imageUrl)}')"></div>
             <div class="artist-info">
               <div class="artist-name">${this.escapeHtml(artist.name)}</div>
               <div class="artist-followers">${followers} Spotify followers</div>
@@ -757,10 +757,10 @@
           // Create artist message element with artist class
           const messageDiv = document.createElement('a');
           messageDiv.href = `#agent_artists?artist_id=${encodeURIComponent(artistId)}`;
-          messageDiv.className = 'message artist';
+          messageDiv.className = 'message agent-artist';
 
           messageDiv.innerHTML = `
-            <div class="artist-image" style="background-image: url('${this.escapeHtml(imageUrl)}')"></div>
+            <div class="agent-artist-image" style="background-image: url('${this.escapeHtml(imageUrl)}')"></div>
             <div class="artist-info">
               <div class="artist-name">${this.escapeHtml(artist.name)}</div>
               <div class="artist-followers">${followers} Spotify followers</div>
