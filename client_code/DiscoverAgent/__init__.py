@@ -63,7 +63,9 @@ class DiscoverAgent(DiscoverAgentTemplate):
     """This method is called when the form is shown on the screen"""
     # Load message history when the form is shown
     messages = anvil.server.call('get_agent_messages', load_var('model_id'))
+    print('[WebSocketManager] messages:', messages)
     self.call_js("loadMessageHistory", messages)
+    print('[WebSocketManager] called loadMessageHistory messages')
 
 
   # -------------------------------------------
