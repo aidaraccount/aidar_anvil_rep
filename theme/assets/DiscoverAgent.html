@@ -209,10 +209,14 @@
         this.isUpdatingModelId = false;
         this.reconnectTimeout = null;
         this.currentModelId = sessionStorage.getItem('model_id');
+        this.userId = null; // Will store the user ID
         
         // Use model_id from sessionStorage if available, otherwise generate a random string
         this.sessionId = 'session-' + (this.currentModelId || Math.random().toString(36).substr(2, 9));
         console.log('[WebSocketManager] Session ID:', this.sessionId);
+        
+        // Initialize user ID
+        this.initializeUserId();
         
         this.chatContainer = document.querySelector('.chat-container');
         this.chatMessages = document.getElementById('chat-messages');
@@ -479,14 +483,39 @@
       
       // -----------------------------------------
       /* 3. Message Handling */
+      // Initialize user ID from server
+      async initializeUserId() {
+        try {
+          const userId = await anvil.server.call('get_user_id');
+          if (userId) {
+            this.userId = userId;
+            console.log('[WebSocketManager] Retrieved user ID:', userId);
+          } else {
+            console.warn('[WebSocketManager] No user is currently logged in');
+          }
+        } catch (error) {
+          console.error('[WebSocketManager] Error getting user ID:', error);
+        }
+      }
+      
       // Send message to the server
-      sendMessage() {
+      async sendMessage() {
         console.log('[WebSocketManager] sendMessage() called');
         
         const message = this.chatInput.value.trim();
         if (!message) {
           console.log('[WebSocketManager] Empty message, ignoring');
           return;
+        }
+        
+        // If we don't have the user ID yet, try to get it now
+        if (!this.userId) {
+          try {
+            this.userId = await anvil.server.call('get_user_id');
+            console.log('[WebSocketManager] Retrieved user ID in sendMessage:', this.userId);
+          } catch (error) {
+            console.error('[WebSocketManager] Error getting user ID in sendMessage:', error);
+          }
         }
         
         console.log('[WebSocketManager] Adding user message to chat');
@@ -500,7 +529,7 @@
           type: 'query',
           content: message,
           timestamp: new Date().toISOString(),
-          user_id: 12345
+          user_id: this.userId
         };
         
         console.log('[WebSocketManager] Prepared message:', messageData);
