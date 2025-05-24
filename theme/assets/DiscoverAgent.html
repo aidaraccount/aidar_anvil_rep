@@ -5,95 +5,6 @@
     </div>
   </div>
 
-  <!-- Notes Sidebar -->
-  <div id="right-sidebar" class="anvil-container" anvil-slot="sidebar">
-    <div class="header-sidebar" anvil-slot="Artist_Name_Details_Sidebar">
-      <img class="note_svg" src="_/theme/icons/Note.svg" alt="Notes Icon">
-      <span>
-        Notes for&nbsp<span anvil-if-slot-empty="Artist_Name_Details_Sidebar">Artist Title Here</span>
-      </span>
-    </div>
-    <div class="section-contact-sidebar">
-      <div class="contact-table">
-        <table> 
-          <tr>
-            <th>Status</th>
-            <td>
-              <div class="sidebar-dropdowns" anvil-slot="Status_picker">
-                <div anvil-if-slot-empty="Status_picker">Status Picker</div>
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <th>Priority</th>
-            <td>
-              <div class="sidebar-dropdowns" anvil-slot="Priority_picker">
-                <div anvil-if-slot-empty="Priority_picker">Priority Picker</div>
-              </div>
-            </td>
-          </tr>
-          <tr>
-            <th>Reminder</th>
-            <td>
-              <div class="sidebar-dropdowns" anvil-slot="Date_picker">
-                <div anvil-if-slot-empty="Date_picker">Date Picker</div>
-              </div>
-            </td>
-          </tr>
-        </table>
-      </div>
-    </div>
-    <div class="section-contact-sidebar">
-      <div class='contact-title-sidebar'>
-        <h3 class="right-sidebar-heading">Contact</h3>
-        <div anvil-slot="edit_button_contacts" style="margin: 20px 0 10px 0;">
-          <span anvil-if-slot-empty="edit_button_contacts">button</span>
-        </div>
-      </div>
-      <table class="contact-table">
-        <tr>
-          <th>Name</th>
-          <td>
-            <div class="artist-name-sidebar contact-table-details" anvil-slot="Text_Box_for_Artist_Name">
-              <div anvil-if-slot-empty="Text_Box_for_Artist_Name">Artist Name</div>
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <th>Email</th>
-          <td>
-            <div class="artist-name-sidebar contact-table-details" anvil-slot="Text_Box_for_Artist_Email">
-              <div anvil-if-slot-empty="Text_Box_for_Artist_Email">Artist Email</div>
-          </td>
-        </tr>
-        <tr>
-          <th>Phone</th>
-          <td>
-            <div class="artist-name-sidebar contact-table-details" anvil-slot="Text_Box_for_Artist_Phone">
-              <div anvil-if-slot-empty="Text_Box_for_Artist_Phone">Artist Phone Num</div>
-          </td>
-        </tr>
-      </table>
-    </div>
-    <div class="description-section-sidebar">
-      <div class='contact-title-sidebar'>
-        <h3 class="right-sidebar-heading">Description</h3>
-        <div anvil-slot="edit_button_decription" style="margin: 20px 0 10px 0;">
-          <span anvil-if-slot-empty="edit_button_decription">button</span>
-        </div>
-      </div>
-      <div anvil-slot="descripion-area">
-        <div anvil-if-slot-empty="descripion-area">Text Area Goes Here</div>
-      </div>
-    </div>
-    <div class="comments-section-sidebar">
-      <h3>Comments</h3>
-      <div anvil-slot="comment-area">
-        <div anvil-if-slot-empty="comment-area">Text Area Goes Here</div>
-      </div>
-    </div>
-  </div>
-
   <!-- Agent Sidebar -->
   <div id="agent-sidebar" class="anvil-container" anvil-slot="agent-sidebar">
     <div class="header-sidebar">
@@ -148,13 +59,6 @@
   <i class="fas fa-robot"></i>
   <br>
   Agent
-</button>
-
-<!-- Notes Button -->
-<button class="sidebar-button" id="sidebar-button" style="top: 30%;">
-  <img class="note_svg_button" src="_/theme/icons/Note.svg" alt="Notes Icon">
-  <br>
-  Notes
 </button>
 
 <!-- FOOTER -->
@@ -916,10 +820,43 @@
   
 
   // If we're redefining the WebSocketManager, update the existing instance if it exists
-  if (window.wsManager && window.wsManager.updateModelId) {
+  if (window.wsManager) {
+    console.log('[WebSocketManager] Refreshing WebSocketManager instance after page navigation');
+    const manager = window.wsManager;
+    
+    // Refresh DOM element references
+    manager.chatContainer = document.querySelector('.chat-container');
+    manager.chatMessages = document.getElementById('chat-messages');
+    manager.chatInput = document.getElementById('chat-input');
+    manager.sendButton = document.getElementById('send-button');
+    
+    // Rebind event listeners with fresh DOM elements
+    if (manager.sendButton) {
+      manager.sendButton.onclick = manager.sendMessage.bind(manager);
+    }
+    
+    // Update model ID if changed
     const newModelId = sessionStorage.getItem('model_id');
-    console.log('[WebSocketManager] Updating existing WebSocketManager with new model_id:', newModelId);
-    window.wsManager.updateModelId(newModelId);
+    if (manager.currentModelId !== newModelId) {
+      console.log('[WebSocketManager] Updating model ID to:', newModelId);
+      manager.updateModelId(newModelId);
+    }
+    
+    // Re-bind input event for auto-resize
+    if (manager.chatInput) {
+      manager.chatInput.addEventListener('input', function() {
+        this.style.height = 'auto';
+        this.style.height = (this.scrollHeight) + 'px';
+        
+        // Update send button state based on input content
+        const hasText = this.value.trim() !== '';
+        if (manager.sendButton) {
+          manager.sendButton.disabled = !hasText;
+        }
+      });
+    }
+    
+    console.log('[WebSocketManager] Updated DOM references and event listeners');
   }
 
 
@@ -1026,89 +963,6 @@
     // If document is already loaded, initialize immediately
     initializeWebSocketManager();
   }
-
-
-  // Notes Sidebar
-  if(typeof sidebar === 'undefined') {
-    const sidebar = document.getElementById('right-sidebar');
-    const button = document.getElementById('sidebar-button');
-    const mainContent = document.querySelector('.main-content-move');
-    const content = document.querySelector('.main-content');
-    const agentSidebar = document.getElementById('agent-sidebar');
-    const agentButton = document.getElementById('agent-sidebar-button');
-
-    function updateMargins() {
-      const notesOpen = sidebar.classList.contains('open');
-      const agentOpen = agentSidebar && agentSidebar.classList.contains('open');
-
-      // Calculate total margin based on open sidebars
-      let totalMargin = 0;
-      if (notesOpen && agentOpen) {
-        totalMargin = 800; // Both sidebars open
-      } else if (notesOpen || agentOpen) {
-        totalMargin = 400; // One sidebar open
-      } // else 0, both closed
-
-      // Apply the new margin with smooth transition
-      if (mainContent) mainContent.style.marginRight = totalMargin + 'px';
-      if (content) content.style.marginRight = totalMargin + 'px';
-
-      // Update button positions
-      if (button) button.style.right = (notesOpen ? totalMargin : 0) + 'px';
-      if (agentButton) agentButton.style.right = (agentOpen ? totalMargin : 0) + 'px';
-    }
-
-    if (sidebar && button && content && mainContent) {
-      button.addEventListener('click', function () {
-        sidebar.classList.toggle('open');
-        button.classList.toggle('open');
-        updateMargins();
-      });
-    } else {
-      console.error("Required elements not found");
-    }
-  }
-
-  (function() {
-    let displays = document.querySelectorAll('.note-display');
-    const transitionDuration = 900;
-
-    displays.forEach(display => {
-      let note = parseFloat(display.dataset.note);
-      let [int, dec] = display.dataset.note.split('.');
-      [int, dec] = [Number(int), Number(dec)];
-
-      strokeTransition(display, note);
-
-      increaseNumber(display, int, 'int');
-    });
-
-    function increaseNumber(display, number, className) {
-      let element = display.querySelector(`.percent__${className}`),
-        decPoint = className === 'int' ? '%' : '',
-        interval = 900 / number,
-        counter = 0;
-
-      let increaseInterval = setInterval(() => {
-        if (counter === number) { window.clearInterval(increaseInterval); }
-
-        element.textContent = counter + decPoint;
-        counter++;
-      }, interval);
-    }
-
-    function strokeTransition(display, note) {
-      let progress = display.querySelector('.circle__progress--fill');
-      let radius = progress.r.baseVal.value;
-      let circumference = 2 * Math.PI * radius;
-      let offset = circumference * (100 - note) / 100;
-
-      progress.style.setProperty('--initialStroke', circumference);
-      progress.style.setProperty('--transitionDuration', `${transitionDuration}ms`);
-
-      setTimeout(() => progress.style.strokeDashoffset = offset, 1000);
-    }
-  })();
 
 
   // Agent Sidebar
