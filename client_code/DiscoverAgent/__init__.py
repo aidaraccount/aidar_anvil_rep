@@ -64,6 +64,10 @@ class DiscoverAgent(DiscoverAgentTemplate):
   # ----------------------------------------------
   # FORM SHOW
   def form_show(self, **event_args):
+    # Check if we're in create_agent mode
+    if self.url_dict.get('artist_id') == 'create_agent':
+      self.call_js("createAgentView")
+    
     # -----------
     # 1. Initialize Spotify player
     embed_iframe_element = document.getElementById('embed-iframe')
@@ -127,8 +131,7 @@ class DiscoverAgent(DiscoverAgentTemplate):
 
     # check if we are creating a new agent
     if url_artist_id == 'create_agent':
-      # self.create_agent()
-      self.call_js("createAgentView")
+      pass
       
     elif sug["Status"] == 'Empty Model!':
       alert(title='Train you Model..',
