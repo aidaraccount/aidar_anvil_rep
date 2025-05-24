@@ -62,6 +62,7 @@ class DiscoverAgent(DiscoverAgentTemplate):
 
 
   # ----------------------------------------------
+  # FORM SHOW
   def form_show(self, **event_args):
     # -----------
     # 1. Initialize Spotify player
@@ -85,7 +86,6 @@ class DiscoverAgent(DiscoverAgentTemplate):
       print('[WebSocketManager - DiscoverAgent] Called loadMessageHistory')
     except Exception as e:
       print(f'[WebSocketManager - DiscoverAgent] Error in form_show: {str(e)}')
-
 
 
   # -------------------------------------------
@@ -127,7 +127,8 @@ class DiscoverAgent(DiscoverAgentTemplate):
 
     # check if we are creating a new agent
     if url_artist_id == 'create_agent':
-      self.create_agent()
+      # self.create_agent()
+      self.call_js("createAgentView")
       
     elif sug["Status"] == 'Empty Model!':
       alert(title='Train you Model..',
@@ -2399,19 +2400,3 @@ class DiscoverAgent(DiscoverAgentTemplate):
       large=True,
       buttons=[]
     )
-
-  def create_agent(self):
-    # Change the agent sidebar width to 1000px
-    self.call_js("""
-        const sidebar = document.getElementById('agent-sidebar');
-        if (sidebar) {
-            sidebar.style.width = '1000px';
-            // Adjust the right position to account for the new width when open
-            const style = window.getComputedStyle(sidebar);
-            if (style.right === '0px') {
-                sidebar.style.right = '-1000px';
-            }
-        }
-    """)
-    # Add any additional agent creation logic here
-    

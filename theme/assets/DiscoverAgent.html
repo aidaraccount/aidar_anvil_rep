@@ -1434,4 +1434,17 @@
     }
   };
 
+  // Make createAgentView available globally for Python to call
+  window.createAgentView = function() {
+    console.log('[AgentSidebar] Creating agent view');
+    const agentSidebar = document.getElementById('agent-sidebar');
+    if (agentSidebar) {
+        // Set new width
+        agentSidebar.style.width = '1000px';
+        console.log('[AgentSidebar] Agent view width updated to 1000px');
+    } else {
+        console.error('[AgentSidebar] Could not find agent sidebar element');
+    }
+};
+
 </script>
