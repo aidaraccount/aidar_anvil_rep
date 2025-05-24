@@ -58,9 +58,12 @@ class DiscoverAgent(DiscoverAgentTemplate):
       self.refresh_sug()
       self.header.scroll_into_view(smooth=True)
 
-      # LOAD MESSAGE HISTORY
-      messages = anvil.server.call('get_agent_messages', load_var('model_id'))
-      self.call_js("loadMessageHistory", messages)
+
+  def form_show(self, **event_args):
+    """This method is called when the form is shown on the screen"""
+    # Load message history when the form is shown
+    messages = anvil.server.call('get_agent_messages', load_var('model_id'))
+    self.call_js("loadMessageHistory", messages)
 
 
   # -------------------------------------------
