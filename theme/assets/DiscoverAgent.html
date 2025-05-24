@@ -1439,11 +1439,25 @@
     console.log('[AgentSidebar] Creating agent view');
     const agentSidebar = document.getElementById('agent-sidebar');
     if (agentSidebar) {
-        // Add in-creation class instead of setting width directly
-        agentSidebar.classList.add('in-creation');
-        console.log('[AgentSidebar] Added in-creation class to agent sidebar');
+        // Add in-creation class to all relevant elements
+        const elements = [
+            agentSidebar,
+            document.querySelector('.header-sidebar'),
+            document.querySelector('.chat-container'),
+            document.querySelector('.chat-messages'),
+            document.querySelector('.chat-input-container'),
+            document.getElementById('agent-sidebar-button')
+        ];
+        
+        elements.forEach(el => {
+            if (el) el.classList.add('in-creation');
+        });
+        
+        console.log('[AgentSidebar] Added in-creation classes to all elements');
     } else {
         console.error('[AgentSidebar] Could not find agent sidebar element');
     }
 };
 </script>
+
+
