@@ -1488,7 +1488,6 @@
             agentSidebar,
             headerSidebar,
             document.querySelector('.agent-sidebar'),
-            document.querySelector('.chat-container'),
             document.querySelector('.chat-messages'),
             document.querySelector('.chat-input-container'),
             document.getElementById('agent-sidebar-button')
@@ -1500,6 +1499,9 @@
                 console.log('[AgentSidebar] Added in-creation to:', el);
             }
         });
+
+        // Add initial creation class
+        document.querySelector('.chat-container').classList.add('initial-creation');
         
         // Update width based on left sidebar state
         updateAgentSidebarWidth();

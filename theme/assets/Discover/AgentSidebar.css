@@ -363,3 +363,7 @@
   display: none !important;
 }
 
+/* 7. in initial creation */
+#agent-sidebar.initial-creation .chat-container {
+  display: none;
+}
