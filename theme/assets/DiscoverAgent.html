@@ -352,22 +352,17 @@
               try {
                 console.log('[WebSocketManager] Loading message history...');
                 
-                // Use fetch API to call the server function
-                const response = await fetch('/_/api/get_agent_messages', {
-                  method: 'POST',
-                  headers: {
-                    'Content-Type': 'application/json',
-                  },
-                  body: JSON.stringify({
-                    agent_id: parseInt(self.currentModelId)
-                  })
+                // Use Anvil server call to get messages
+                const messages = await new Promise((resolve, reject) => {
+                  try {
+                    // This assumes you have a server module function called 'get_messages'
+                    anvil.server.call('get_messages', parseInt(self.currentModelId))
+                      .then(resolve)
+                      .catch(reject);
+                  } catch (e) {
+                    reject(e);
+                  }
                 });
-                
-                if (!response.ok) {
-                  throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                
-                const messages = await response.json();
                 console.log(`[WebSocketManager] Loaded ${messages.length} messages from history`);
                 
                 // Sort messages by timestamp (oldest first) and display them
