@@ -20,10 +20,6 @@
   will-change: right; /* Optimize for animation */
 }
 
-#agent-sidebar.in-creation {
-  width: 1000px;
-}
-
 /* When agent sidebar is open */
 #agent-sidebar.open {
   right: 0;
@@ -101,6 +97,7 @@
   flex-direction: column;
   overflow: hidden;
   position: relative;
+  max-width: 400px;
 }
 
 .chat-messages {
@@ -326,3 +323,11 @@
   content: '';
   animation: dotPulse 1.5s steps(4, end) infinite;
 }
+
+/* 6. in creation */
+#agent-sidebar.in-creation {
+  width: 1000px;
+}
+/* .chat-container.in-creation {
+  
+} */
