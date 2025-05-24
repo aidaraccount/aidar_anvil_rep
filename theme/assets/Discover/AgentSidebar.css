@@ -334,9 +334,10 @@
 
 /* 6. in creation */
 #agent-sidebar.in-creation {
-  width: 1000px;
+  width: calc(100% - var(--left-sidebar-offset, 0px));
   border-bottom-left-radius: 0;
   border-top-left-radius: 0;
+  /* left: var(--left-sidebar-offset, 0px); */
 }
 
 #agent-sidebar.in-creation .header-sidebar {
