@@ -336,6 +336,23 @@
 #agent-sidebar.in-creation {
   width: 1000px;
 }
-/* .chat-input.in-creation {
-  
-} */
+
+.header-sidebar.in-creation {
+  visibility: hidden;
+}
+
+.chat-container.in-creation {
+  margin-top: auto;
+}
+.chat-messages.in-creation {
+  border: none;
+}
+
+.chat-input-container.in-creation {
+  margin-bottom: auto;
+}
+
+#agent-sidebar-button.in-creation {
+  visibility: hidden;
+}
+
