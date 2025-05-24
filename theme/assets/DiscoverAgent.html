@@ -313,15 +313,14 @@
               case 'artist_info':
                 // Handle artist information display
                 if (msg.data) {
-                  const artistInfo = `🎤 ${msg.data.name}\n👥 ${msg.data.followers} followers`;
-                  this.addSystemMessage(artistInfo);
+                  this.handleArtistInfo(msg.data);
                 }
                 break;
                 
               case 'artist_reference':
                 // Handle artist reference added confirmation
                 if (msg.data) {
-                  this.addSystemMessage(`✅ Added ${msg.data.name} as a reference artist`);
+                  this.handleArtistReference(msg.data);
                 }
                 break;
                 
