@@ -337,24 +337,26 @@
   width: 1000px;
 }
 
-.header-sidebar.in-creation {
+#agent-sidebar.in-creation .header-sidebar {
   visibility: hidden;
 }
 
-.chat-container.in-creation {
+#agent-sidebar.in-creation .chat-container {
   margin-top: auto;
+  max-height: 400px;
 }
-.chat-messages.in-creation {
+
+#agent-sidebar.in-creation .chat-messages {
   border: none;
 }
 
-.chat-input-container.in-creation {
+#agent-sidebar.in-creation .chat-input-container {
   margin-bottom: auto;
   background: none;
   border-top: none;
 }
 
-#agent-sidebar-button.in-creation {
+#agent-sidebar.in-creation + #agent-sidebar-button {
   visibility: hidden;
 }
 
