@@ -1157,6 +1157,10 @@
     const sidebar = document.getElementById('right-sidebar');
     const mainContent = document.querySelector('.main-content-move');
     const content = document.querySelector('.main-content');
+    
+    // Open the agent sidebar by default
+    if (agentSidebar) agentSidebar.classList.add('open');
+    if (agentButton) agentButton.classList.add('open');
 
     function updateAgentMargins() {
       const agentOpen = agentSidebar.classList.contains('open');
