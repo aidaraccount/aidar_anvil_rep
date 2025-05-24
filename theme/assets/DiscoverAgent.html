@@ -500,7 +500,8 @@
           type: 'query',
           content: message,
           timestamp: new Date().toISOString(),
-          user_id: 99999
+          user_id: 99999,
+          agent_id: this.currentModelId
         };
         
         console.log('[WebSocketManager] Prepared message:', messageData);
