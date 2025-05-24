@@ -1439,9 +1439,9 @@
     console.log('[AgentSidebar] Creating agent view');
     const agentSidebar = document.getElementById('agent-sidebar');
     if (agentSidebar) {
-        // Set new width
-        agentSidebar.style.width = '1000px';
-        console.log('[AgentSidebar] Agent view width updated to 1000px');
+        // Add in-creation class instead of setting width directly
+        agentSidebar.classList.add('in-creation');
+        console.log('[AgentSidebar] Added in-creation class to agent sidebar');
     } else {
         console.error('[AgentSidebar] Could not find agent sidebar element');
     }

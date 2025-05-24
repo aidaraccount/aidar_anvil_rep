@@ -20,6 +20,10 @@
   will-change: right; /* Optimize for animation */
 }
 
+#agent-sidebar.in-creation {
+  width: 1000px;
+}
+
 /* When agent sidebar is open */
 #agent-sidebar.open {
   right: 0;
