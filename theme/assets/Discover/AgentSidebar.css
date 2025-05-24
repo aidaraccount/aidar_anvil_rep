@@ -335,6 +335,8 @@
 /* 6. in creation */
 #agent-sidebar.in-creation {
   width: 1000px;
+  border-bottom-left-radius: 0;
+  border-top-left-radius: 0;
 }
 
 #agent-sidebar.in-creation .header-sidebar {
