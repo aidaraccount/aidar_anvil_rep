@@ -34,7 +34,9 @@ class DiscoverAgent(DiscoverAgentTemplate):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
     self.html = '@theme:DiscoverAgent.html'
+    print(f"[WebSocketManager - DiscoverAgent] Registering show event handler")
     self.add_event_handler('show', self.form_show)
+    print(f"[WebSocketManager - DiscoverAgent] Show event handler registered")
 
     global user
     user = anvil.users.get_user()
@@ -61,11 +63,17 @@ class DiscoverAgent(DiscoverAgentTemplate):
 
   def form_show(self, **event_args):
     """This method is called when the form is shown on the screen"""
-    # Load message history when the form is shown
-    messages = anvil.server.call('get_agent_messages', load_var('model_id'))
-    print('[WebSocketManager] messages:', messages)
-    self.call_js("loadMessageHistory", messages)
-    print('[WebSocketManager] called loadMessageHistory messages')
+    print('[WebSocketManager - DiscoverAgent] form_show called')
+    try:
+      # Load message history when the form is shown
+      model_id = load_var('model_id')
+      print(f'[WebSocketManager - DiscoverAgent] Loading messages for model_id: {model_id}')
+      messages = anvil.server.call('get_agent_messages', model_id)
+      print('[WebSocketManager - DiscoverAgent] Messages received:', bool(messages))
+      self.call_js("loadMessageHistory", messages)
+      print('[WebSocketManager - DiscoverAgent] Called loadMessageHistory')
+    except Exception as e:
+      print(f'[WebSocketManager - DiscoverAgent] Error in form_show: {str(e)}')
 
 
   # -------------------------------------------
