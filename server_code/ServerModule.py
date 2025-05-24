@@ -133,6 +133,15 @@ def update_anvil_user(user_id, first_name, last_name):
 
 
 @anvil.server.callable
+def get_user_id():
+    """Server callable to get the current user's ID"""
+    user = anvil.users.get_user()
+    if user:
+        return user['user_id']
+    return None
+
+
+@anvil.server.callable
 def get_anvil_users(customer_id):
   """
   1. Get all users for a given customer_id

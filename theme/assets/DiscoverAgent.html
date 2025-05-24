@@ -486,9 +486,8 @@
       // Initialize user ID from server
       async initializeUserId() {
         try {
-          // Get the Anvil form instance and call its get_user_id method
-          const form = anvil.getCallableModule('DiscoverAgent');
-          const userId = await form.get_user_id();
+          // Call the server module function directly
+          const userId = await anvil.server.call('get_user_id');
           if (userId) {
             this.userId = userId;
             console.log('[WebSocketManager] Retrieved user ID:', userId);
@@ -513,8 +512,7 @@
         // If we don't have the user ID yet, try to get it now
         if (!this.userId) {
           try {
-            const form = anvil.getCallableModule('DiscoverAgent');
-            this.userId = await form.get_user_id();
+            this.userId = await anvil.server.call('get_user_id');
             console.log('[WebSocketManager] Retrieved user ID in sendMessage:', this.userId);
           } catch (error) {
             console.error('[WebSocketManager] Error getting user ID in sendMessage:', error);

@@ -59,18 +59,6 @@ class DiscoverAgent(DiscoverAgentTemplate):
       self.header.scroll_into_view(smooth=True)
 
 
-
-  # -------------------------------------------
-  # USER ID
-  @anvil.server.callable
-  def get_user_id(self):
-      """Server callable to get the current user's ID"""
-      user = anvil.users.get_user()
-      if user:
-          return user['user_id']
-      return None
-  
-
   # -------------------------------------------
   # SUGGESTIONS
   def refresh_sug(self, **event_args):
