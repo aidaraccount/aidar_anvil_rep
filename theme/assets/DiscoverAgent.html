@@ -335,6 +335,7 @@
             }
           });
           
+          this.removeTypingIndicator();
           console.log('[WebSocketManager] Finished loading message history');
           
         } catch (error) {
@@ -777,13 +778,6 @@
       // Handle complete message from server
       handleCompleteMessage() {
         console.log('[WebSocketManager] Received complete message');
-        this.markLastMessageComplete();
-        this.removeTypingIndicator();
-      }
-
-      // Mark the last bot message as complete
-      markLastMessageComplete() {
-        this.lastBotMessage = null;
         this.removeTypingIndicator();
       }
     
@@ -829,26 +823,15 @@
         this.scrollToBottom();
       }
       
-      // Update or add a bot message (for streaming)
-      addAgentMessage(content) {
-        // Remove typing indicator if present
-        this.removeTypingIndicator();
-        
-        // Create new message if needed
-        if (!this.lastBotMessage) {
-          this.lastBotMessage = document.createElement('div');
-          this.lastBotMessage.className = 'message agent';
-          this.lastBotMessage.innerHTML = `
-            <div class="message-time">${this.getCurrentTime()}</div>
-            <div class="message-content"></div>
-          `;
-          this.chatMessages.appendChild(this.lastBotMessage);
-        }
-        
-        // Update message content
-        const contentDiv = this.lastBotMessage.querySelector('.message-content');
-        contentDiv.textContent = content;
-        
+      // Add a bot message
+      addAgentMessage(content) {        
+        const BotMessage = document.createElement('div');
+        BotMessage.className = 'message agent';
+        BotMessage.innerHTML = `
+          <div class="message-time">${this.getCurrentTime()}</div>
+          <div class="message-content">${this.escapeHtml(content)}</div>
+        `;
+        this.chatMessages.appendChild(BotMessage);
         this.scrollToBottom();
       }
       
