@@ -363,7 +363,22 @@
   display: none !important;
 }
 
-/* 7. in initial creation */
+/* 7. Initial creation */
+.initial-creation-question {
+  display: none;
+  padding: 20px;
+  margin: auto;
+  font-size: 18px;
+  color: #fff;
+  text-align: center;
+  max-width: 80%;
+  line-height: 1.5;
+}
+
+.initial-creation-question.initial-creation {
+  display: block;
+}
+
 #agent-sidebar .chat-container.initial-creation {
   display: none;
 }

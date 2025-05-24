@@ -103,31 +103,35 @@
     
     <div class="chat-container">
       <div class="chat-messages" id="chat-messages">
-      <!-- Initial welcome message -->
-      <div class="message agent">
-        <div class="message-time">Just now</div>
-        <div class="message-content">
-          Hello! I'm your Scouting AI assistant. What kind of artist are we looking for today?
-        </div>
-      </div>
-
-        <!-- User message 
-        <div class="message user">
-          <div class="message-time">11:46 AM</div>
-          <div class="message-content">
-            Hi! I'm looking for information about the talent development program.
-          </div>
-        </div>
-
-        Agent message
+        <!-- Initial welcome message -->
         <div class="message agent">
-          <div class="message-time">11:46 AM</div>
+          <div class="message-time">Just now</div>
           <div class="message-content">
-            Sure, here are some artists that are less popular than the artist you clicked on.
+            Hello! I'm your Scouting AI assistant. What kind of artist are we looking for today?
           </div>
-        </div>-->
+        </div>
 
+          <!-- User message 
+          <div class="message user">
+            <div class="message-time">11:46 AM</div>
+            <div class="message-content">
+              Hi! I'm looking for information about the talent development program.
+            </div>
+          </div>
+
+          Agent message
+          <div class="message agent">
+            <div class="message-time">11:46 AM</div>
+            <div class="message-content">
+              Sure, here are some artists that are less popular than the artist you clicked on.
+            </div>
+          </div>-->
+
+      </div>
     </div>
+
+    <div class="initial-creation-question">
+      Hi! What kind of artist are you looking for?
     </div>
 
     <div class="chat-input-container">
@@ -1500,8 +1504,9 @@
             }
         });
 
-        // Add initial creation class
+        // Add initial creation classes
         document.querySelector('.chat-container').classList.add('initial-creation');
+        document.querySelector('.initial-creation-question').classList.add('initial-creation');
         
         // Update width based on left sidebar state
         updateAgentSidebarWidth();
