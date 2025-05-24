@@ -91,6 +91,7 @@
   flex-shrink: 0;
   z-index: 10;
   width: 100%;
+  max-width: 400px;
 }
 
 /* 5. Chat Container */
@@ -101,8 +102,8 @@
   flex-direction: column;
   overflow: hidden;
   position: relative;
-  max-width: 400px;
   width: 100%;
+  max-width: 400px;
 }
 
 .chat-messages {
@@ -231,6 +232,7 @@
   background: #1e1e1e;
   border-top: 1px solid #333;
   width: 100%;
+  max-width: 400px;
 }
 
 #chat-input {
@@ -334,6 +336,6 @@
 #agent-sidebar.in-creation {
   width: 1000px;
 }
-/* .chat-container.in-creation {
+/* .chat-input.in-creation {
   
 } */
