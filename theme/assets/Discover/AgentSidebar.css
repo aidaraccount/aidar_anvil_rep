@@ -363,6 +363,10 @@
   display: none !important;
 }
 
+.footer.in-creation {
+  display: none;
+}
+
 /* 7. Initial creation */
 .initial-creation-question {
   display: none;
