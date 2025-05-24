@@ -62,7 +62,7 @@ class DiscoverAgent(DiscoverAgentTemplate):
 
   # -------------------------------------------
   # USER ID
-  @anvil.server.api
+  @anvil.server.callable
   def get_user_id(self):
       """Server callable to get the current user's ID"""
       user = anvil.users.get_user()
