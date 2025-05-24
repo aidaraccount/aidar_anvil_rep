@@ -125,9 +125,9 @@ class DiscoverAgent(DiscoverAgentTemplate):
     print('url_artist_id:', url_artist_id)
     sug = json.loads(anvil.server.call('get_suggestion', 'Inspect', self.model_id, url_artist_id)) # Free, Explore, Inspect, Dissect
 
-    # check status
+    # check if we are creating a new agent
     if url_artist_id == 'create_agent':
-      pass
+      self.create_agent()
       
     elif sug["Status"] == 'Empty Model!':
       alert(title='Train you Model..',
@@ -2399,3 +2399,19 @@ class DiscoverAgent(DiscoverAgentTemplate):
       large=True,
       buttons=[]
     )
+
+  def create_agent(self):
+    # Change the agent sidebar width to 1000px
+    self.call_js("""
+        const sidebar = document.getElementById('agent-sidebar');
+        if (sidebar) {
+            sidebar.style.width = '1000px';
+            // Adjust the right position to account for the new width when open
+            const style = window.getComputedStyle(sidebar);
+            if (style.right === '0px') {
+                sidebar.style.right = '-1000px';
+            }
+        }
+    """)
+    # Add any additional agent creation logic here
+    
