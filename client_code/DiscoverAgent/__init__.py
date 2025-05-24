@@ -59,6 +59,23 @@ class DiscoverAgent(DiscoverAgentTemplate):
       self.header.scroll_into_view(smooth=True)
 
 
+  # -------------------------------------------
+  # GET MESSAGES
+  def load_messages(self, **event_args):
+    """Load messages from server and pass to JavaScript"""
+    try:
+      agent_id = self.url_dict.get('artist_id')
+      if agent_id:
+        messages = anvil.server.call('get_messages', agent_id)
+        self.call_js('loadMessages', messages)
+    except Exception as e:
+      print(f'Error loading messages: {e}')
+
+  def form_show(self, **event_args):
+    """Form show event handler"""
+    self.load_messages()
+
+
 
   # -------------------------------------------
   # SUGGESTIONS

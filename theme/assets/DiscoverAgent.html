@@ -346,45 +346,14 @@
               bufferedAmount: self.socket ? self.socket.bufferedAmount : 'no socket'
             });
             
-            // Load message history
-            if (!self.isLoadingHistory && self.currentModelId) {
-              self.isLoadingHistory = true;
-              try {
-                console.log('[WebSocketManager] Loading message history...');
-                
-                // Try to get messages using Anvil's call mechanism
-                const messages = await new Promise((resolve) => {
-                  try {
-                    // First try with 'this' as first argument (standard Anvil pattern)
-                    if (window.anvil && window.anvil.call) {
-                      window.anvil.call('get_messages', parseInt(self.currentModelId))
-                        .then(resolve)
-                        .catch(() => resolve([])); // Resolve with empty array on error
-                    } else {
-                      console.warn('Anvil JS bridge not available, using empty message history');
-                      resolve([]);
-                    }
-                  } catch (e) {
-                    console.error('Error in message history loading, using empty history:', e);
-                    resolve([]); // Always resolve to prevent unhandled rejections
-                  }
-                });
-                console.log(`[WebSocketManager] Loaded ${messages.length} messages from history`);
-                
-                // Sort messages by timestamp (oldest first) and display them
-                messages.reverse().forEach(msg => {
-                  if (msg.direction === 'outgoing') {
-                    self.addUserMessage(msg.content || '');
-                  } else {
-                    self.addSystemMessage(msg.content || '');
-                  }
-                });
-              } catch (error) {
-                console.error('[WebSocketManager] Error loading message history:', error);
-                self.addErrorMessage('Failed to load message history');
-              } finally {
-                self.isLoadingHistory = false;
-              }
+            // Message history is now loaded via Python's call_js in form_show
+            // This is handled by the loadMessages function defined above
+            try {
+              // Existing WebSocket connection code
+            } catch (error) {
+              console.error('[WebSocketManager] Error in WebSocket connection:', error);
+              self.addErrorMessage('Connection error occurred');
+            }
             }
             
             // Process any queued messages
@@ -1001,6 +970,86 @@
   }
 
 
+
+  // Global function to be called from Python
+  window.loadMessages = function(messages) {
+    'use strict';
+    
+    console.log('[WebSocketManager] Received messages from Python:', messages);
+    
+    if (!messages || !messages.length) {
+      console.log('[WebSocketManager] No messages to display');
+      return;
+    }
+    
+    // Clear existing messages
+    const chatMessages = document.getElementById('chat-messages');
+    if (chatMessages) {
+      // Keep the first message (welcome message) if it exists
+      const welcomeMessage = chatMessages.querySelector('.message.agent');
+      chatMessages.innerHTML = welcomeMessage ? welcomeMessage.outerHTML : '';
+      
+      // Add messages to the chat
+      messages.forEach(function(msg) {
+        if (msg.direction === 'outgoing') {
+          window.addUserMessage(msg.content || '');
+        } else {
+          window.addSystemMessage(msg.content || '');
+        }
+      });
+      
+      // Scroll to bottom
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+  };
+
+  // Helper functions for adding messages
+  window.addUserMessage = function(content) {
+    'use strict';
+    
+    const messageElement = document.createElement('div');
+    messageElement.className = 'message user';
+    const timeString = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    messageElement.innerHTML = 
+      '<div class="message-time">' + timeString + '</div>' +
+      '<div class="message-content">' + window.escapeHtml(content) + '</div>';
+      
+    const chatMessages = document.getElementById('chat-messages');
+    if (chatMessages) {
+      chatMessages.appendChild(messageElement);
+    }
+  };
+
+  window.addSystemMessage = function(content) {
+    'use strict';
+    
+    const messageElement = document.createElement('div');
+    messageElement.className = 'message agent';
+    const timeString = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    messageElement.innerHTML = 
+      '<div class="message-time">' + timeString + '</div>' +
+      '<div class="message-content">' + window.escapeHtml(content) + '</div>';
+      
+    const chatMessages = document.getElementById('chat-messages');
+    if (chatMessages) {
+      chatMessages.appendChild(messageElement);
+    }
+  };
+
+  window.escapeHtml = function(unsafe) {
+    'use strict';
+    
+    if (typeof unsafe !== 'string') {
+      return '';
+    }
+    
+    return unsafe
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#039;');
+  };
 
   // =====================================================================
   // WebSocket Manager Initialization
