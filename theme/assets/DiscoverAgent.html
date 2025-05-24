@@ -352,14 +352,19 @@
               try {
                 console.log('[WebSocketManager] Loading message history...');
                 
-                // Use Anvil server call to get messages
+                // Use window.anvil.call to get messages
                 const messages = await new Promise((resolve, reject) => {
                   try {
-                    // This assumes you have a server module function called 'get_messages'
-                    anvil.server.call('get_messages', parseInt(self.currentModelId))
-                      .then(resolve)
-                      .catch(reject);
+                    if (window.anvil && window.anvil.call) {
+                      window.anvil.call('get_messages', parseInt(self.currentModelId))
+                        .then(resolve)
+                        .catch(reject);
+                    } else {
+                      console.warn('Anvil JS bridge not available, using empty message history');
+                      resolve([]);
+                    }
                   } catch (e) {
+                    console.error('Error in message history loading:', e);
                     reject(e);
                   }
                 });
