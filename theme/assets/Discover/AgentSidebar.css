@@ -366,9 +366,9 @@
 /* 7. Initial creation */
 .initial-creation-question {
   display: none;
-  padding: 20px;
-  margin: auto;
-  font-size: 18px;
+  padding: 10px;
+  margin-top: auto;
+  font-size: 21px;
   color: #fff;
   text-align: center;
   max-width: 80%;
