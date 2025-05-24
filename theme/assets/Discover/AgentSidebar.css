@@ -337,7 +337,10 @@
   width: calc(100% - var(--left-sidebar-offset, 0px));
   border-bottom-left-radius: 0;
   border-top-left-radius: 0;
-  /* left: var(--left-sidebar-offset, 0px); */
+  background-color:
+    radial-gradient(circle farthest-corner at 170px 100px, rgb(44, 8, 69) 0%, transparent 40%),
+    radial-gradient(ellipse farthest-corner at 1300px 500px, rgb(118, 42, 15) 0%, transparent 70%),
+    radial-gradient(ellipse farthest-corner at bottom left, rgb(118, 42, 15) 0%, rgb(1, 1, 1) 30%);
 }
 
 #agent-sidebar.in-creation .header-sidebar {
