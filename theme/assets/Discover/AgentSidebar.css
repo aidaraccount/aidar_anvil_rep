@@ -338,7 +338,7 @@
 }
 
 #agent-sidebar.in-creation .header-sidebar {
-  visibility: hidden;
+  display: none;
 }
 
 #agent-sidebar.in-creation .chat-container {
@@ -356,7 +356,7 @@
   border-top: none;
 }
 
-#agent-sidebar.in-creation + #agent-sidebar-button {
-  visibility: hidden;
+#agent-sidebar-button.in-creation {
+  display: none !important;
 }
 
