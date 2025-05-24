@@ -306,7 +306,7 @@
                 if (msg.direction === 'in') {
                   this.addUserMessage(msg.content || '');
                 } else {
-                  this.addSystemMessage(msg.content || '');
+                  this.updateOrCreateBotMessage(msg.content || '');
                 }
                 break;
                 
