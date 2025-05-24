@@ -1158,9 +1158,12 @@
     const mainContent = document.querySelector('.main-content-move');
     const content = document.querySelector('.main-content');
     
-    // Open the agent sidebar by default
-    if (agentSidebar) agentSidebar.classList.add('open');
-    if (agentButton) agentButton.classList.add('open');
+    // Open the agent sidebar by default and update UI
+    if (agentSidebar && agentButton) {
+      agentSidebar.classList.add('open');
+      agentButton.classList.add('open');
+      updateAgentMargins(); // This will update the margins and button positions
+    }
 
     function updateAgentMargins() {
       const agentOpen = agentSidebar.classList.contains('open');
