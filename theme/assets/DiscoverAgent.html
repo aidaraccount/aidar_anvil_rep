@@ -304,9 +304,9 @@
               case 'query':
                 // For text messages, use direction to determine if it's from user or system
                 if (msg.direction === 'in') {
-                  this.addUserMessage({ content: msg.content });
+                  this.addUserMessage(msg.content || '');
                 } else {
-                  this.addSystemMessage({ content: msg.content });
+                  this.addSystemMessage(msg.content || '');
                 }
                 break;
                 
@@ -326,7 +326,7 @@
                 
               default:
                 console.warn('[WebSocketManager] Unknown message type:', msg.type, msg);
-                this.addSystemMessage({ content: msg.content || JSON.stringify(msg) });
+                this.addSystemMessage(msg.content || JSON.stringify(msg));
             }
           });
           
