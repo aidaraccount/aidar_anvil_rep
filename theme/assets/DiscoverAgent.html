@@ -1442,6 +1442,7 @@
         // Add in-creation class to all relevant elements
         const elements = [
             agentSidebar,
+            document.querySelector('.agent-sidebar'),
             document.querySelector('.header-sidebar'),
             document.querySelector('.chat-container'),
             document.querySelector('.chat-messages'),
@@ -1451,7 +1452,6 @@
         
         elements.forEach(el => {
             if (el) el.classList.add('in-creation');
-            console.log('[AgentSidebar] Added in-creation class to element:', el);
         });
         
         console.log('[AgentSidebar] Added in-creation classes to all elements');
