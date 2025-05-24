@@ -34,22 +34,9 @@ class DiscoverAgent(DiscoverAgentTemplate):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
     self.html = '@theme:DiscoverAgent.html'
-    print(f"[WebSocketManager - DiscoverAgent] Initializing form")
-    
-    # Load messages after the DOM is ready
-    def load_messages():
-      try:
-        model_id = load_var('model_id')
-        print(f'[WebSocketManager - DiscoverAgent] Loading messages for model_id: {model_id}')
-        messages = anvil.server.call('get_agent_messages', model_id)
-        print('[WebSocketManager - DiscoverAgent] Messages received:', bool(messages))
-        anvil.js.window.loadMessageHistory(messages)
-        print('[WebSocketManager - DiscoverAgent] Called loadMessageHistory')
-      except Exception as e:
-        print(f'[WebSocketManager - DiscoverAgent] Error loading messages: {str(e)}')
-    
-    # Use anvil.js.window to ensure the function is called when the window is ready
-    anvil.js.window.setTimeout(load_messages, 1000)  # Small delay to ensure DOM is ready
+    print(f"[WebSocketManager - DiscoverAgent] Registering show event handler")
+    self.add_event_handler('show', self.form_show)
+    print(f"[WebSocketManager - DiscoverAgent] Show event handler registered")
 
     global user
     user = anvil.users.get_user()
@@ -76,8 +63,6 @@ class DiscoverAgent(DiscoverAgentTemplate):
 
   # def form_show(self, **event_args):
   #   """This method is called when the form is shown on the screen"""
-  #   print('[WebSocketManager - DiscoverAgent] form_show called')
-  #   # Messages are now loaded in __init__ to ensure they load reliably
 
 
   # -------------------------------------------
@@ -1022,6 +1007,20 @@ class DiscoverAgent(DiscoverAgentTemplate):
       print("Embed iframe element found. Initialize Spotify player!")
     else:
       print("Embed iframe element not found. Will not initialize Spotify player.")
+
+    # Load messages
+    print('[WebSocketManager - DiscoverAgent] form_show called')
+    try:
+      # Load message history when the form is shown
+      model_id = load_var('model_id')
+      print(f'[WebSocketManager - DiscoverAgent] Loading messages for model_id: {model_id}')
+      messages = anvil.server.call('get_agent_messages', model_id)
+      print('[WebSocketManager - DiscoverAgent] Messages received:', bool(messages))
+      self.call_js("loadMessageHistory", messages)
+      print('[WebSocketManager - DiscoverAgent] Called loadMessageHistory')
+    except Exception as e:
+      print(f'[WebSocketManager - DiscoverAgent] Error in form_show: {str(e)}')
+
 
   def spotify_HTML_player(self):
     c_web_player_html = '''
