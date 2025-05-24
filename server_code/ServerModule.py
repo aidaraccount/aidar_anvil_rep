@@ -133,6 +133,15 @@ def update_anvil_user(user_id, first_name, last_name):
 
 
 @anvil.server.callable
+def get_agent_messages(agent_id):
+    """Fetch message history for an agent"""
+    messages = anvil.server.call('get_messages', agent_id)
+    print('messages:', messages)
+    print('type(messages):', type(messages))
+    return messages
+
+
+@anvil.server.callable
 def get_anvil_users(customer_id):
   """
   1. Get all users for a given customer_id

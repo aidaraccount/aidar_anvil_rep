@@ -226,6 +226,7 @@
         this.reconnectAttempts = 0;
         this.maxReconnectAttempts = 5;
         this.reconnectDelay = 1000;
+        this.isLoadingHistory = false;
         
         // Debug information
         console.log('[WebSocketManager] Constructor called');
@@ -331,7 +332,7 @@
           const self = this;
           
           // Set up WebSocket event handlers
-          this.socket.onopen = function(event) {
+          this.socket.onopen = async function(event) {
             console.log('[WebSocketManager] WebSocket onopen event fired');
             self.isConnected = true;
             self.isConnecting = false;
@@ -345,8 +346,32 @@
               bufferedAmount: self.socket ? self.socket.bufferedAmount : 'no socket'
             });
             
+            // Load message history
+            if (!self.isLoadingHistory && self.currentModelId) {
+              self.isLoadingHistory = true;
+              try {
+                console.log('[WebSocketManager] Loading message history...');
+                const messages = await anvil.server.call('get_agent_messages', parseInt(self.currentModelId));
+                console.log(`[WebSocketManager] Loaded ${messages.length} messages from history`);
+                
+                // Sort messages by timestamp (oldest first) and display them
+                messages.reverse().forEach(msg => {
+                  if (msg['direction'] === 'outgoing') {
+                    self.addUserMessage(msg['content'] || '');
+                  } else {
+                    self.addSystemMessage(msg['content'] || '');
+                  }
+                });
+              } catch (error) {
+                console.error('[WebSocketManager] Error loading message history:', error);
+                self.addErrorMessage('Failed to load message history');
+              } finally {
+                self.isLoadingHistory = false;
+              }
+            }
+            
             // Process any queued messages
-            console.log('[WebSocketManager] === processMessageQueue() called ===');
+            console.log('[WebSocketManager] === processMessageQueue() ===');
             console.log('[WebSocketManager] Current state:', {
               isConnected: self.isConnected,
               isConnecting: self.isConnecting,
