@@ -256,9 +256,94 @@
         this.connect();
       }
       
-
-      // -----------------------------------------
-      // 2. Core WebSocket Methods
+      // =====================================================================
+      // 2. Message History Loading
+      // =====================================================================
+      
+      /**
+       * Loads and displays message history
+       * @param {Array|string} messages - Array of message objects or JSON string
+       */
+      loadMessageHistory(messages) {
+        console.log('[WebSocketManager] Loading message history INNER CLASS:', messages);
+        
+        // Parse messages if they're a string
+        if (typeof messages === 'string') {
+          try {
+            messages = JSON.parse(messages);
+          } catch (e) {
+            console.error('[WebSocketManager] Error parsing messages:', e);
+            return;
+          }
+        }
+        
+        if (!Array.isArray(messages)) {
+          console.error('[WebSocketManager] Invalid messages format, expected array:', messages);
+          return;
+        }
+        
+        if (this.isLoadingHistory) {
+          console.log('[WebSocketManager] Message loading already in progress');
+          return;
+        }
+        
+        this.isLoadingHistory = true;
+        
+        try {
+          console.log(`[WebSocketManager] Processing ${messages.length} messages from history`);
+          
+          // Sort messages by timestamp (oldest first)
+          const sortedMessages = [...messages].sort((a, b) => a.timestamp - b.timestamp);
+          
+          sortedMessages.forEach(msg => {
+            console.log('[WebSocketManager] Processing message:', msg);
+            
+            // Handle different message types
+            switch(msg.type) {
+              case 'text_chunk':
+              case 'query':
+                // For text messages, use direction to determine if it's from user or system
+                if (msg.direction === 'in') {
+                  this.addUserMessage(msg.content || '');
+                } else {
+                  this.addSystemMessage(msg.content || '');
+                }
+                break;
+                
+              case 'artist_info':
+                // Handle artist information display
+                if (msg.data) {
+                  const artistInfo = `🎤 ${msg.data.name}\n👥 ${msg.data.followers} followers`;
+                  this.addSystemMessage(artistInfo);
+                }
+                break;
+                
+              case 'artist_reference':
+                // Handle artist reference added confirmation
+                if (msg.data) {
+                  this.addSystemMessage(`✅ Added ${msg.data.name} as a reference artist`);
+                }
+                break;
+                
+              default:
+                console.warn('[WebSocketManager] Unknown message type:', msg.type, msg);
+                this.addSystemMessage(msg.content || JSON.stringify(msg));
+            }
+          });
+          
+          console.log('[WebSocketManager] Finished loading message history');
+          
+        } catch (error) {
+          console.error('[WebSocketManager] Error loading message history:', error);
+          this.addSystemMessage('Failed to load message history');
+        } finally {
+          this.isLoadingHistory = false;
+        }
+      }
+      
+      // =====================================================================
+      // 3. Core WebSocket Methods
+      // =====================================================================
       // Connect to WebSocket server
       connect() {
         console.log('[WebSocketManager] === connect() called ===');
@@ -965,8 +1050,7 @@
   // WebSocket Manager Initialization
   // This section handles the setup and management of the WebSocket connection
   // for real-time communication with the AI assistant.
-  // =====================================================================
-  
+  // =====================================================================  
   /**
    * Initializes and manages the WebSocket connection for the chat interface.
    * This function is responsible for:
@@ -1351,68 +1435,16 @@
     }
   }
 
-  function loadMessageHistory(messages) {
+  // Make loadMessageHistory available globally for Python to call
+  window.loadMessageHistory = function(messages) {
     console.log('[WebSocketManager] Loading message history:', messages);
-    
-    if (!self.isLoadingHistory) {
-      self.isLoadingHistory = true;
-      try {
-        console.log(`[WebSocketManager] Processing ${messages.length} messages from history`);
-        
-        // Sort messages by timestamp (oldest first)
-        const sortedMessages = [...messages].sort((a, b) => a.timestamp - b.timestamp);
-        
-        sortedMessages.forEach(msg => {
-          console.log(`[WebSocketManager] Processing message:`, msg);
-          
-          // Handle different message types
-          switch(msg.type) {
-            case 'text_chunk':
-            case 'query':
-              // For text messages, use direction to determine if it's from user or system
-              if (msg.direction === 'in') {
-                self.addUserMessage(msg.content || '');
-              } else {
-                self.addSystemMessage(msg.content || '');
-              }
-              break;
-              
-            case 'artist_info':
-              // Handle artist information display
-              if (msg.data) {
-                const artistInfo = `🎤 ${msg.data.name}\n👥 ${msg.data.followers} followers`;
-                self.addSystemMessage(artistInfo);
-                // You could also update UI with artist image if needed
-                // if (msg.data.image_url) {
-                //   document.getElementById('artist-image').src = msg.data.image_url;
-                // }
-              }
-              break;
-              
-            case 'artist_reference':
-              // Handle artist reference added confirmation
-              if (msg.data) {
-                self.addSystemMessage(`✅ Added ${msg.data.name} as a reference artist`);
-              }
-              break;
-              
-            default:
-              console.warn('[WebSocketManager] Unknown message type:', msg.type, msg);
-              self.addSystemMessage(msg.content || JSON.stringify(msg));
-          }
-        });
-        
-        console.log('[WebSocketManager] Finished loading message history');
-        
-      } catch (error) {
-        console.error('[WebSocketManager] Error loading message history:', error);
-        self.addErrorMessage('Failed to load message history');
-      } finally {
-        self.isLoadingHistory = false;
-      }
+
+    const wsManager = window.wsManager; // Get the WebSocketManager instance
+    if (wsManager) {
+      wsManager.loadMessageHistory(messages);
     } else {
-      console.log('[WebSocketManager] Message loading already in progress');
+      console.error('[WebSocketManager] WebSocketManager not initialized');
     }
-  }
+  };
 
 </script>
