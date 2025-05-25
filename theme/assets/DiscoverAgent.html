@@ -834,6 +834,11 @@
         this.updateModelId(message.agent_id);
         this.removeTypingIndicator();
 
+        // navigate to agent page if artist_id is not null
+        if (message.artist_id !== null && message.artist_id !== undefined && message.artist_id !== '' && message.artist_id !== 'null') {
+          window.location.href = `#agent_artists?artist_id=${encodeURIComponent(message.artist_id)}`;
+        }
+
         // // update agent navigation
         // try {
         //   window.anvil.call("refresh_agents_components_helper").then(function(result) {
