@@ -39,12 +39,12 @@ class C_CreateModel_old(C_CreateModel_oldTemplate):
       status = 'Missing Agent Name'
         
     else:
-      status = anvil.server.call('create_model',
+      model_id = anvil.server.call('create_model',
                                  user["user_id"],
                                  self.text_box_model_name.text,
                                  self.text_box_description.text,
                                  self.text_box_access_token.text)
-      if (status == 'Congratulations, your Agent was successfully created!'):
+      if (model_id is not None):
         # refresh model_id
         model_id = anvil.server.call('get_model_id',  user["user_id"])
         anvil.server.call('update_model_usage', user["user_id"], model_id)
