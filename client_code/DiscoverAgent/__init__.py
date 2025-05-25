@@ -64,12 +64,13 @@ class DiscoverAgent(DiscoverAgentTemplate):
   # ----------------------------------------------
   # FORM SHOW
   def form_show(self, **event_args):
-    # Check if we're in create_agent mode
+    # -----------
+    # 1. Check if we're in create_agent mode
     if self.url_dict.get('artist_id') == 'create_agent':
       self.call_js("createAgentView")
     
     # -----------
-    # 1. Initialize Spotify player
+    # 2. Initialize Spotify player
     embed_iframe_element = document.getElementById('embed-iframe')
     if embed_iframe_element:
       self.call_js('createOrUpdateSpotifyPlayer', anvil.js.get_dom_node(self), 'artist', self.sug["SpotifyArtistID"])
@@ -78,7 +79,7 @@ class DiscoverAgent(DiscoverAgentTemplate):
       print("Embed iframe element not found. Will not initialize Spotify player.")
 
     # -----------
-    # 2. Load messages
+    # 3. Load messages
     print('[WebSocketManager - DiscoverAgent] form_show called')
     try:
       # Load message history when the form is shown

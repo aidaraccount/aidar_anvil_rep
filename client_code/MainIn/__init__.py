@@ -588,7 +588,7 @@ class MainIn(MainInTemplate):
       self.column_panel_agent.visible = True
 
   def create_agent_click(self, **event_args):
-    # click_link(self.create_model, 'model_setup?model_id=None&section=Basics', event_args)
+    save_var("model_id", None)
     click_link(self.create_model, 'agent_artists?artist_id=create_agent', event_args)
     self.reset_nav_backgrounds()
 

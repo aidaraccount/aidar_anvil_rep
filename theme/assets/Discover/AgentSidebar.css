@@ -332,7 +332,8 @@
   animation: dotPulse 1.5s steps(4, end) infinite;
 }
 
-/* 6. in creation */
+/* MODEL CREATION */
+/* 6. in creation (Step 1) */
 #agent-sidebar.in-creation {
   width: calc(100% - var(--left-sidebar-offset, 0px));
   border-bottom-left-radius: 0;
@@ -370,7 +371,7 @@
   display: none;
 }
 
-/* 7. Initial creation */
+/* 7. Initial creation (Step 2) */
 .initial-creation-question {
   display: none;
   opacity: 0;
@@ -396,7 +397,7 @@
   display: none;
 }
 
-/* 8. Animation states */
+/* 8. Animation states (Step 3) */
 .initial-creation-question.hide-animation {
   opacity: 0 !important;
   transform: translateY(20px) !important;
