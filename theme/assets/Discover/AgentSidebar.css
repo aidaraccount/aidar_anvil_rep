@@ -471,7 +471,7 @@
 
 .chat-container.agent-creation {
   opacity: 0;
-  visibility: hidden;
+  visibility: visible; /* Keep visible during transition */
   transition: opacity 1.5s ease-out, visibility 0s 1.5s;
   pointer-events: none;
   margin-bottom: auto;
