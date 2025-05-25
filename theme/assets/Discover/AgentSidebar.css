@@ -427,9 +427,9 @@
   display: none;
 }
 
-#agent-sidebar .chat-container.agent-creation {
+/* #agent-sidebar .chat-container.agent-creation {
   display: none;
-}
+} */
 
 /* 8. Animation states (Step 3) */
 .initial-creation-question.hide-animation {
@@ -466,7 +466,6 @@
   visibility: hidden;
   transition: opacity 1.5s ease-out, visibility 0s 1.5s;
   pointer-events: none;
-  margin-top: auto;
 }
 
 #agent-sidebar .chat-input-container.agent-creation {
@@ -474,7 +473,6 @@
   visibility: hidden;
   transition: opacity 1.5s ease-out, visibility 0s 1.5s;
   pointer-events: none;
-  margin-top: auto;
 }
 
 .agent-creation-statement {
