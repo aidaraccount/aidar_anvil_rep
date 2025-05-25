@@ -68,6 +68,7 @@ class DiscoverAgent(DiscoverAgentTemplate):
     # 1. Check if we're in create_agent mode
     if self.url_dict.get('artist_id') == 'create_agent':
       self.call_js("createAgentView")
+      self.call_js("updateModelId", None)
     
     # -----------
     # 2. Initialize Spotify player
