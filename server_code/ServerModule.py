@@ -195,6 +195,13 @@ def remove_user_from_customer(user_id):
   user['admin'] = True
   user['active'] = True
 
+
+# refresh agent nav component from JS
+@anvil.server.callable
+def refresh_agents_components_helper():
+    """Refreshes the agents nav component"""
+    return anvil.server.call('refresh_agents_components')
+
 @anvil.server.callable
 def refresh_agents_components():
     form = anvil.get_open_form()
