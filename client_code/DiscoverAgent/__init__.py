@@ -40,6 +40,7 @@ class DiscoverAgent(DiscoverAgentTemplate):
 
     global user
     user = anvil.users.get_user()
+    save_var("user_id", user["user_id"])
     print(f"Discover user: {user}")
     print(f"Discover user_id: {load_var('user_id')}")
 

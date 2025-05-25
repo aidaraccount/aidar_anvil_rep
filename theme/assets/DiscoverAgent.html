@@ -635,7 +635,7 @@
           type: type,
           content: message,
           timestamp: new Date().toISOString(),
-          user_id: 99999,
+          user_id: sessionStorage.getItem('user_id'),
           agent_id: this.currentModelId
         };
         
