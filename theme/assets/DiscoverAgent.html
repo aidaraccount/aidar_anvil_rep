@@ -575,7 +575,7 @@
       // -----------------------------------------
       /* 3. Message Handling */
       // Send message to the server
-      sendMessage() {
+      sendMessage(type = 'query') {
         console.log('[WebSocketManager] sendMessage() called');
         
         const message = this.chatInput.value.trim();
@@ -622,10 +622,17 @@
           }, 1500); // Match this with the CSS transition duration (1.5s)
         }
         
+        // check of model_id is None
+        console.log('[WebSocketManager] Check current model ID for creation mode:', this.currentModelId);
+        if (this.currentModelId === null) {
+          console.log('[WebSocketManager] Model ID is null -> were in creation mode');
+          type = 'create_agent'
+        }
+
         // --------------------------
         // Prepare message
         const messageData = {
-          type: 'query',
+          type: type,
           content: message,
           timestamp: new Date().toISOString(),
           user_id: 99999,
