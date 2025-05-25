@@ -194,3 +194,11 @@ def remove_user_from_customer(user_id):
   user['expiration_date'] = (datetime.now(timezone.utc) - timedelta(days=1)).date()
   user['admin'] = True
   user['active'] = True
+
+@anvil.server.callable
+def refresh_agents_components():
+    form = anvil.get_open_form()
+    if hasattr(form, 'refresh_agents_components'):
+        form.refresh_agents_components()
+        return True
+    return False

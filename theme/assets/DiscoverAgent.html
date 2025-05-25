@@ -830,10 +830,11 @@
       }
     
       // Handle create agent message from server
-      handleCreateAgent(message) {
+      async handleCreateAgent(message) {
         console.log('[WebSocketManager] Received complete create agent message:', message);
         this.updateModelId(message.agent_id);
         this.removeTypingIndicator();
+        anvil.server.call('refresh_agents_components');
       }
     
       // -----------------------------------------
