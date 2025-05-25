@@ -836,8 +836,15 @@
         this.removeTypingIndicator();
 
         try {
-          await anvil.js.call_anvil('refresh_agents_components');
-          console.log('Successfully refreshed agent components');
+          // Get the form element
+          const form = document.querySelector('anvil-Form');
+          if (form && form.anvil && form.anvil.call) {
+            // Call the form method directly
+            await form.anvil.call('refresh_agents_components');
+            console.log('Successfully refreshed agent components');
+          } else {
+            console.warn('Could not access form methods. Form or anvil object not available.');
+          }
         } catch (error) {
           console.error('Error refreshing agent components:', error);
         }
