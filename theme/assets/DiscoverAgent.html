@@ -591,28 +591,30 @@
         this.showTypingIndicator();
 
         // ANIMATION
-        // Animate out the initial question and show chat container
+        // 1. First, animate out the initial question
         const initialQuestion = document.querySelector('.initial-creation-question');
         const chatContainer = document.querySelector('.chat-container');
         
         if (initialQuestion && chatContainer) {
-          // Add hide animation to question
+          // Start the hide animation
           initialQuestion.classList.add('hide-animation');
           
-          // After animation completes, remove the initial creation classes
+          // After hide animation completes (1.5s)
           setTimeout(() => {
-            // Remove initial creation classes
-            initialQuestion.classList.remove('initial-creation', 'hide-animation');
+            // 2. Remove the question element completely
+            initialQuestion.remove();
+            
+            // 3. Remove initial creation class from chat container
             chatContainer.classList.remove('initial-creation');
             
-            // Add show animation to chat container
+            // 4. Add show animation to chat container
             chatContainer.classList.add('show-animation');
             
-            // Clean up after animation completes
+            // 5. Clean up after animation completes
             setTimeout(() => {
               chatContainer.classList.remove('show-animation');
             }, 800); // Slightly longer than the animation duration
-          }, 500); // Match this with the CSS transition duration
+          }, 1500); // Match this with the CSS transition duration (1.5s)
         }
         
         // --------------------------
