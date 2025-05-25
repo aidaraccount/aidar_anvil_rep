@@ -401,6 +401,11 @@
   pointer-events: none !important;
 }
 
+.chat-input-container.hide-animation {
+  transform: translateY(400px) !important;
+  transition: transform 1.5s ease-out !important;
+}
+
 .chat-container.show-animation {
   opacity: 0;
   transform: translateY(20px);
