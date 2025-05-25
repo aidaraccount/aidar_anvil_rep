@@ -590,20 +590,32 @@
         this.chatInput.style.height = 'auto'; // Reset textarea height
         this.showTypingIndicator();
 
-        // Animate out the initial question
+        // ANIMATION
+        // Animate out the initial question and show chat container
         const initialQuestion = document.querySelector('.initial-creation-question');
-        if (initialQuestion) {
-          initialQuestion.classList.remove('initial-creation');
+        const chatContainer = document.querySelector('.chat-container');
+        
+        if (initialQuestion && chatContainer) {
+          // Add hide animation to question
+          initialQuestion.classList.add('hide-animation');
           
-          // After the fade out animation completes, show the chat container
+          // After animation completes, remove the initial creation classes
           setTimeout(() => {
-            const chatContainer = document.querySelector('.chat-container');
-            if (chatContainer) {
-              chatContainer.classList.remove('initial-creation');
-            }
-          }, 300); // Match this with the CSS transition duration
+            // Remove initial creation classes
+            initialQuestion.classList.remove('initial-creation', 'hide-animation');
+            chatContainer.classList.remove('initial-creation');
+            
+            // Add show animation to chat container
+            chatContainer.classList.add('show-animation');
+            
+            // Clean up after animation completes
+            setTimeout(() => {
+              chatContainer.classList.remove('show-animation');
+            }, 800); // Slightly longer than the animation duration
+          }, 500); // Match this with the CSS transition duration
         }
         
+        // --------------------------
         // Prepare message
         const messageData = {
           type: 'query',

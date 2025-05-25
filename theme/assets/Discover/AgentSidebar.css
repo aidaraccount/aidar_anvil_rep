@@ -397,13 +397,29 @@
 }
 
 #agent-sidebar .chat-container.initial-creation {
-  opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.5s ease-out 0.3s, transform 0.5s ease-out 0.3s;
+  display: none;
 }
 
-#agent-sidebar .chat-container {
-  opacity: 1;
-  transform: translateY(0);
-  transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+/* 8. Animation states */
+.initial-creation-question.hide-animation {
+  opacity: 0 !important;
+  transform: translateY(20px) !important;
+  pointer-events: none !important;
+}
+
+.chat-container.show-animation {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 0.5s ease-out 0.3s forwards;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
