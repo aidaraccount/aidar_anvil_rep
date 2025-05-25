@@ -463,21 +463,13 @@
 /* 9. Agent creation statement */
 #agent-sidebar .chat-container.agent-creation {
   opacity: 0;
-  /* Keep layout during transition */
-  position: relative;
-  min-height: 100px; /* Adjust based on your content */
-  /* Smooth transition */
-  transition: opacity 1.5s ease-out, min-height 0s 1.5s;
+  visibility: hidden;
+  transition: opacity 1.5s ease-out, visibility 0s 1.5s;
   pointer-events: none;
-  margin-bottom: auto;
-  /* Ensure content doesn't overflow during transition */
-  overflow: hidden;
-  /* Force hardware acceleration */
-  transform: translateZ(0);
-  backface-visibility: hidden;
+  margin-top: auto;
 }
 
-.chat-input-container.agent-creation {
+#agent-sidebar .chat-input-container.agent-creation {
   opacity: 0;
   visibility: hidden;
   transition: opacity 1.5s ease-out, visibility 0s 1.5s;
