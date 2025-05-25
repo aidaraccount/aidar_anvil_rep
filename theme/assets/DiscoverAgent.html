@@ -841,21 +841,19 @@
         // navigate to agent page if artist_id is not null
         if (message.artist_id !== null && message.artist_id !== undefined && message.artist_id !== '' && message.artist_id !== 'null') {
           // Hide chat containers first
+          await new Promise(resolve => setTimeout(resolve, 3000));
           document.querySelector('.chat-input-container').classList.add('agent-creation');
           document.querySelector('.chat-container').classList.add('agent-creation');
           
-          // After fade out completes, show the creation statement and navigate
-          setTimeout(() => {
-            document.querySelector('.agent-creation-statement').classList.add('agent-creation');
-            
-            // Update sessionStorage for model_id
-            sessionStorage.setItem('model_id', message.agent_id);
-            
-            // Navigate to agent page after a short delay to show the message
-            setTimeout(() => {
-              window.location.href = `#agent_artists?artist_id=${encodeURIComponent(message.artist_id)}`;
-            }, 1000);
-          }, 500); // Wait for fade out to complete
+          // Show creation statement
+          await new Promise(resolve => setTimeout(resolve, 1000));
+          document.querySelector('.agent-creation-statement').classList.add('agent-creation');          
+          // Update sessionStorage for model_id
+          sessionStorage.setItem('model_id', message.agent_id);
+          
+          // Navigate to agent page
+          await new Promise(resolve => setTimeout(resolve, 3000));
+          window.location.href = `#agent_artists?artist_id=${encodeURIComponent(message.artist_id)}`;
         }
 
         // // update agent navigation
