@@ -1069,48 +1069,48 @@
   };
   
 
-  // // =====================================================================
-  // // Refresh WebSocketManager instance after page navigation
-  // // Maintains WebSocket connections when navigating between pages in an SPA
-  // // =====================================================================
-  // if (window.wsManager) {
-  //   console.log('[WebSocketManager] Refreshing WebSocketManager instance after page navigation');
-  //   const manager = window.wsManager;
+  // =====================================================================
+  // Refresh WebSocketManager instance after page navigation
+  // Maintains WebSocket connections when navigating between pages in an SPA
+  // =====================================================================
+  if (window.wsManager) {
+    console.log('[WebSocketManager] Refreshing WebSocketManager instance after page navigation');
+    const manager = window.wsManager;
 
-  //   // Refresh DOM element references
-  //   manager.chatContainer = document.querySelector('.chat-container');
-  //   manager.chatMessages = document.getElementById('chat-messages');
-  //   manager.chatInput = document.getElementById('chat-input');
-  //   manager.sendButton = document.getElementById('send-button');
+    // Refresh DOM element references
+    manager.chatContainer = document.querySelector('.chat-container');
+    manager.chatMessages = document.getElementById('chat-messages');
+    manager.chatInput = document.getElementById('chat-input');
+    manager.sendButton = document.getElementById('send-button');
 
-  //   // Rebind event listeners with fresh DOM elements
-  //   if (manager.sendButton) {
-  //     manager.sendButton.onclick = manager.sendMessage.bind(manager);
-  //   }
+    // Rebind event listeners with fresh DOM elements
+    if (manager.sendButton) {
+      manager.sendButton.onclick = manager.sendMessage.bind(manager);
+    }
 
-  //   // Update model ID if changed
-  //   const newModelId = sessionStorage.getItem('model_id');
-  //   if (manager.currentModelId !== newModelId) {
-  //     console.log('[WebSocketManager] Updating model ID to:', newModelId);
-  //     manager.updateModelId(newModelId);
-  //   }
+    // Update model ID if changed
+    const newModelId = sessionStorage.getItem('model_id');
+    if (manager.currentModelId !== newModelId) {
+      console.log('[WebSocketManager] Updating model ID to:', newModelId);
+      manager.updateModelId(newModelId);
+    }
 
-  //   // Re-bind input event for auto-resize
-  //   if (manager.chatInput) {
-  //     manager.chatInput.addEventListener('input', function() {
-  //       this.style.height = 'auto';
-  //       this.style.height = (this.scrollHeight) + 'px';
+    // Re-bind input event for auto-resize
+    if (manager.chatInput) {
+      manager.chatInput.addEventListener('input', function() {
+        this.style.height = 'auto';
+        this.style.height = (this.scrollHeight) + 'px';
 
-  //       // Update send button state based on input content
-  //       const hasText = this.value.trim() !== '';
-  //       if (manager.sendButton) {
-  //         manager.sendButton.disabled = !hasText;
-  //       }
-  //     });
-  //   }
+        // Update send button state based on input content
+        const hasText = this.value.trim() !== '';
+        if (manager.sendButton) {
+          manager.sendButton.disabled = !hasText;
+        }
+      });
+    }
 
-  //   console.log('[WebSocketManager] Updated DOM references and event listeners');
-  // }
+    console.log('[WebSocketManager] Updated DOM references and event listeners');
+  }
 
 
 
