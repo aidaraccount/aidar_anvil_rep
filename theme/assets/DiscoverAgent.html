@@ -845,15 +845,19 @@
           document.querySelector('.chat-input-container').classList.add('agent-creation');
           document.querySelector('.chat-container').classList.add('agent-creation');
           
+          await new Promise(resolve => setTimeout(resolve, 500));
+          document.querySelector('.chat-input-container').style.display = 'none';
+          document.querySelector('.chat-container').style.display = 'none';
+          
           // Show creation statement
           await new Promise(resolve => setTimeout(resolve, 2000));
           document.querySelector('.agent-creation-statement').classList.add('agent-creation');          
           // Update sessionStorage for model_id
           sessionStorage.setItem('model_id', message.agent_id);
           
-          // Navigate to agent page
-          await new Promise(resolve => setTimeout(resolve, 3000));
-          window.location.href = `#agent_artists?artist_id=${encodeURIComponent(message.artist_id)}`;
+          // // Navigate to agent page
+          // await new Promise(resolve => setTimeout(resolve, 3000));
+          // window.location.href = `#agent_artists?artist_id=${encodeURIComponent(message.artist_id)}`;
         }
 
         // // update agent navigation

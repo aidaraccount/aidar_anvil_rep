@@ -464,16 +464,14 @@
 #agent-sidebar .chat-container.agent-creation {
   opacity: 0;
   visibility: hidden;
-  display: none;
-  transition: opacity 1.5s ease-out, visibility 0s 1.5s, display 0s 1.5s;
+  transition: opacity 1.5s ease-out, visibility 0s 1.5s;
   pointer-events: none;
 }
 
 #agent-sidebar .chat-input-container.agent-creation {
   opacity: 0;
   visibility: hidden;
-  display: none;
-  transition: opacity 1.5s ease-out, visibility 0s 1.5s, display 0s 1.5s;
+  transition: opacity 1.5s ease-out, visibility 0s 1.5s;
   pointer-events: none;
 }
 
