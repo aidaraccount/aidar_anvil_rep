@@ -1551,6 +1551,21 @@
     } else {
         console.error('[AgentSidebar] Could not find agent sidebar element');
     }
+
+  // MAKE updateModelId accessible from Python
+  window.updateModelId = function(model_id) {
+    console.log('[AgentSidebar] Updating model_id:', model_id);
+    window.model_id = model_id;
+    
+    // Update the model_id in the WebSocketManager
+    const wsManager = window.wsManager;
+    if (wsManager) {
+      wsManager.updateModelId(model_id);
+    } else {
+      console.error('[AgentSidebar] WebSocketManager not initialized');
+    }
+  };
+
 };
 </script>
 
