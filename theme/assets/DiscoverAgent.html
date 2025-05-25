@@ -850,7 +850,7 @@
           document.querySelector('.chat-container').style.display = 'none';
           
           // Show creation statement
-          await new Promise(resolve => setTimeout(resolve, 2000));
+          await new Promise(resolve => setTimeout(resolve, 1500));
           document.querySelector('.agent-creation-statement').classList.add('agent-creation');          
           // Update sessionStorage for model_id
           sessionStorage.setItem('model_id', message.agent_id);
