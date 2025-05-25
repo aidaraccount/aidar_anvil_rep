@@ -855,9 +855,9 @@
           // Update sessionStorage for model_id
           sessionStorage.setItem('model_id', message.agent_id);
           
-          // // Navigate to agent page
-          // await new Promise(resolve => setTimeout(resolve, 3000));
-          // window.location.href = `#agent_artists?artist_id=${encodeURIComponent(message.artist_id)}`;
+          // Navigate to agent page
+          await new Promise(resolve => setTimeout(resolve, 3000));
+          window.location.href = `#agent_artists?artist_id=${encodeURIComponent(message.artist_id)}`;
         }
 
         // // update agent navigation
