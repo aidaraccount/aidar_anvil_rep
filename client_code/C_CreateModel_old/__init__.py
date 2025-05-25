@@ -45,6 +45,8 @@ class C_CreateModel_old(C_CreateModel_oldTemplate):
                                  self.text_box_description.text,
                                  self.text_box_access_token.text)
       if (model_id is not None):
+        status = 'Congratulations, your Agent was successfully created!'
+        
         # refresh model_id
         model_id = anvil.server.call('get_model_id',  user["user_id"])
         anvil.server.call('update_model_usage', user["user_id"], model_id)
