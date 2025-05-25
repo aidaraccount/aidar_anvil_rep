@@ -701,7 +701,11 @@
             case 'complete':
               this.handleCompleteMessage();
               break;
-              
+            
+            case 'create_agent':
+              this.handleCreateAgent(message);
+              break;
+            
             default:
               console.warn('[WebSocketManager] Unknown message type:', message.type);
               this.addSystemMessage(`Received unknown message type: ${message.type}`);
@@ -825,6 +829,12 @@
         this.removeTypingIndicator();
       }
     
+      // Handle create agent message from server
+      handleCreateAgent(message) {
+        console.log('[WebSocketManager] Received complete create agent message:', message);
+        this.updateModelId(message.agent_id);
+        this.removeTypingIndicator();
+      }
     
       // -----------------------------------------
       // 5. UI Update Methods
