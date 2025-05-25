@@ -171,7 +171,12 @@
 
 <script>
 
-  console.log('[WebSocketManager] model_id', sessionStorage.getItem('model_id'));
+
+  // check if model_id is None or empty string
+  console.log('[WebSocketManager] Check current model ID for creation mode:', this.currentModelId);
+  if (this.currentModelId !== null && this.currentModelId !== '') {
+    console.log('[WebSocketManager] model_id', sessionStorage.getItem('model_id'));
+  }
 
   // Store the original WebSocketManager if it exists
   if (!window._originalWebSocketManager) {
@@ -239,12 +244,7 @@
         
         // For development - always use localhost:8000 for now
         this.wsUrl = `ws://localhost:8000/ws/${this.sessionId}`;
-        
-        // Log the final WebSocket URL
         console.log('[WebSocketManager] Using WebSocket URL:', this.wsUrl);
-        
-        // Store the current model_id
-        this.currentModelId = sessionStorage.getItem('model_id');
         
         // Bind methods that will be used as event handlers
         this.sendMessage = this.sendMessage.bind(this);

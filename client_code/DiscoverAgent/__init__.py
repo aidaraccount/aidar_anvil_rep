@@ -115,7 +115,7 @@ class DiscoverAgent(DiscoverAgentTemplate):
 
     # model_id
     model_id = load_var("model_id")
-    if model_id is None:
+    if model_id is None and self.url_dict.get('artist_id') != 'create_agent':
       save_var("model_id", anvil.server.call('get_model_id',  self.user_id))
     self.model_id = model_id
     print(f"Discover model_id: {model_id}")
