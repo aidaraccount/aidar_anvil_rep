@@ -171,13 +171,6 @@
 
 <script>
 
-
-  // check if model_id is None or empty string
-  console.log('[WebSocketManager] Check current model ID for creation mode:', this.currentModelId);
-  if (this.currentModelId !== null && this.currentModelId !== '') {
-    console.log('[WebSocketManager] model_id', sessionStorage.getItem('model_id'));
-  }
-
   // Store the original WebSocketManager if it exists
   if (!window._originalWebSocketManager) {
     window._originalWebSocketManager = window.WebSocketManager;
@@ -217,7 +210,13 @@
         this.isConnecting = false;
         this.isUpdatingModelId = false;
         this.reconnectTimeout = null;
-        this.currentModelId = sessionStorage.getItem('model_id');
+
+        // set model_id from sessionStorage
+        if (sessionStorage.getItem('model_id') === '' || sessionStorage.getItem('model_id') === 'null') {
+          this.currentModelId = null;
+        } else {
+          this.currentModelId = sessionStorage.getItem('model_id');
+        }
         
         // Use model_id from sessionStorage if available, otherwise generate a random string
         this.sessionId = 'session-' + (this.currentModelId || Math.random().toString(36).substr(2, 9));
@@ -1070,46 +1069,48 @@
   };
   
 
+  // // =====================================================================
+  // // Refresh WebSocketManager instance after page navigation
+  // // Maintains WebSocket connections when navigating between pages in an SPA
+  // // =====================================================================
+  // if (window.wsManager) {
+  //   console.log('[WebSocketManager] Refreshing WebSocketManager instance after page navigation');
+  //   const manager = window.wsManager;
 
-  // If we're redefining the WebSocketManager, update the existing instance if it exists
-  if (window.wsManager) {
-    console.log('[WebSocketManager] Refreshing WebSocketManager instance after page navigation');
-    const manager = window.wsManager;
+  //   // Refresh DOM element references
+  //   manager.chatContainer = document.querySelector('.chat-container');
+  //   manager.chatMessages = document.getElementById('chat-messages');
+  //   manager.chatInput = document.getElementById('chat-input');
+  //   manager.sendButton = document.getElementById('send-button');
 
-    // Refresh DOM element references
-    manager.chatContainer = document.querySelector('.chat-container');
-    manager.chatMessages = document.getElementById('chat-messages');
-    manager.chatInput = document.getElementById('chat-input');
-    manager.sendButton = document.getElementById('send-button');
+  //   // Rebind event listeners with fresh DOM elements
+  //   if (manager.sendButton) {
+  //     manager.sendButton.onclick = manager.sendMessage.bind(manager);
+  //   }
 
-    // Rebind event listeners with fresh DOM elements
-    if (manager.sendButton) {
-      manager.sendButton.onclick = manager.sendMessage.bind(manager);
-    }
+  //   // Update model ID if changed
+  //   const newModelId = sessionStorage.getItem('model_id');
+  //   if (manager.currentModelId !== newModelId) {
+  //     console.log('[WebSocketManager] Updating model ID to:', newModelId);
+  //     manager.updateModelId(newModelId);
+  //   }
 
-    // Update model ID if changed
-    const newModelId = sessionStorage.getItem('model_id');
-    if (manager.currentModelId !== newModelId) {
-      console.log('[WebSocketManager] Updating model ID to:', newModelId);
-      manager.updateModelId(newModelId);
-    }
+  //   // Re-bind input event for auto-resize
+  //   if (manager.chatInput) {
+  //     manager.chatInput.addEventListener('input', function() {
+  //       this.style.height = 'auto';
+  //       this.style.height = (this.scrollHeight) + 'px';
 
-    // Re-bind input event for auto-resize
-    if (manager.chatInput) {
-      manager.chatInput.addEventListener('input', function() {
-        this.style.height = 'auto';
-        this.style.height = (this.scrollHeight) + 'px';
+  //       // Update send button state based on input content
+  //       const hasText = this.value.trim() !== '';
+  //       if (manager.sendButton) {
+  //         manager.sendButton.disabled = !hasText;
+  //       }
+  //     });
+  //   }
 
-        // Update send button state based on input content
-        const hasText = this.value.trim() !== '';
-        if (manager.sendButton) {
-          manager.sendButton.disabled = !hasText;
-        }
-      });
-    }
-
-    console.log('[WebSocketManager] Updated DOM references and event listeners');
-  }
+  //   console.log('[WebSocketManager] Updated DOM references and event listeners');
+  // }
 
 
 
