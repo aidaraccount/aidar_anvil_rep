@@ -134,6 +134,10 @@
       Hey! What kind of artist are you looking for?
     </div>
 
+    <div class="agent-creation-statement">
+      We're ready - Have fun discovering!
+    </div>
+
     <div class="chat-input-container">
       <textarea id="chat-input" placeholder="Type your message here..." rows="3"></textarea>
       <button id="send-button" aria-label="Send message">
@@ -836,6 +840,8 @@
 
         // navigate to agent page if artist_id is not null
         if (message.artist_id !== null && message.artist_id !== undefined && message.artist_id !== '' && message.artist_id !== 'null') {
+          // inform user about agent creation
+          document.querySelector('.agent-creation-statement').classList.add('agent-creation');
           // update sessionStorage for model_id
           sessionStorage.setItem('model_id', message.agent_id);
           // navigate to agent page
