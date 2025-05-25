@@ -589,6 +589,13 @@
         this.chatInput.value = '';
         this.chatInput.style.height = 'auto'; // Reset textarea height
         this.showTypingIndicator();
+
+        // FIRST MESSAGE IS NOT DETECTED !!!!!!!
+        // Remove initial creation classes after first message is sent
+        const chatContainer = document.querySelector('.chat-container');
+        const initialQuestion = document.querySelector('.initial-creation-question');
+        if (chatContainer) chatContainer.classList.remove('initial-creation');
+        if (initialQuestion) initialQuestion.classList.remove('initial-creation');
         
         // Prepare message
         const messageData = {
