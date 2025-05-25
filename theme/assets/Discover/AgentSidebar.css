@@ -117,6 +117,36 @@
   overflow-anchor: auto;
   padding-bottom: 0;
   border-left: solid 1px #595959;
+  
+  /* Modern scrollbar styling */
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+  
+  /* Hide scrollbar when not scrolling */
+  scrollbar-gutter: stable;
+  overflow-y: overlay;
+}
+
+/* Webkit scrollbar (Chrome, Safari, etc) */
+.chat-messages::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.chat-messages::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 3px;
+  margin: 5px 0;
+}
+
+.chat-messages::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 3px;
+  transition: background-color 0.2s ease;
+}
+
+.chat-messages::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(255, 255, 255, 0.3);
 }
 
 /* Add space at the bottom of messages and push content to bottom */
