@@ -109,13 +109,13 @@ class RampUp(RampUpTemplate):
             status = 'Congratulations, your Agent was successfully created!'
         else:
           access_token = f"{''.join(random.choice((string.ascii_letters + string.digits)) for _ in range(3))}-{''.join(random.choice((string.ascii_letters + string.digits)) for _ in range(3))}-{''.join(random.choice((string.ascii_letters + string.digits)) for _ in range(3))}"
-          status = anvil.server.call('create_model',
+          model_id = anvil.server.call('create_model',
                                      user["user_id"],
                                      self.text_box_model_name.text,
                                      self.text_box_description.text,
                                      access_token)
           
-          if status == 'Congratulations, your Agent was successfully created!':
+          if (model_id is not None):
             # refresh model_id_view
             self.model_id_view = anvil.server.call('get_model_id', user["user_id"])
             anvil.server.call('update_model_usage', user["user_id"], self.model_id_view)
