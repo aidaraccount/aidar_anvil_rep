@@ -382,12 +382,6 @@
   max-width: 80%;
   line-height: 1.5;
   transition: opacity 0.5s ease-out, transform 0.5s ease-out;
-  pointer-events: none;
-  position: absolute;
-  bottom: 100px;
-  left: 0;
-  right: 0;
-  margin: 0 auto;
 }
 
 .initial-creation-question.initial-creation {
