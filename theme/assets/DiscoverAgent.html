@@ -622,10 +622,10 @@
           }, 1500); // Match this with the CSS transition duration (1.5s)
         }
         
-        // check of model_id is None
+        // check if model_id is None or empty string
         console.log('[WebSocketManager] Check current model ID for creation mode:', this.currentModelId);
-        if (this.currentModelId === null) {
-          console.log('[WebSocketManager] Model ID is null -> were in creation mode');
+        if (this.currentModelId === null || this.currentModelId === '') {
+          console.log('[WebSocketManager] Model ID is null or empty -> were in creation mode');
           type = 'create_agent'
         }
 
