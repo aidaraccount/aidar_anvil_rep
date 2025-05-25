@@ -463,13 +463,15 @@
 /* 9. Agent creation statement */
 .chat-input-container.agent-creation {
   opacity: 0;
-  transition: opacity 1.5s ease-out;
+  visibility: hidden;
+  transition: opacity 1.5s ease-out, visibility 0s 1.5s;
   pointer-events: none;
 }
 
 .chat-container.agent-creation {
   opacity: 0;
-  transition: opacity 1.5s ease-out;
+  visibility: hidden;
+  transition: opacity 1.5s ease-out, visibility 0s 1.5s;
   pointer-events: none;
 }
 
