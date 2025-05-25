@@ -81,16 +81,17 @@ class DiscoverAgent(DiscoverAgentTemplate):
       print("Embed iframe element not found. Will not initialize Spotify player.")
 
     # -----------
-    # 3. Load messages
+    # 3. Load message history
     print('[WebSocketManager - DiscoverAgent] form_show called')
     try:
       # Load message history when the form is shown
       model_id = load_var('model_id')
-      print(f'[WebSocketManager - DiscoverAgent] Loading messages for model_id: {model_id}')
-      messages = anvil.server.call('get_agent_messages', model_id)
-      print('[WebSocketManager - DiscoverAgent] Messages received:', bool(messages))
-      self.call_js("loadMessageHistory", messages)
-      print('[WebSocketManager - DiscoverAgent] Called loadMessageHistory')
+      if model_id is not None and model_id != 'None':
+        print(f'[WebSocketManager - DiscoverAgent] Loading messages for model_id: {model_id}')
+        messages = anvil.server.call('get_agent_messages', model_id)
+        print('[WebSocketManager - DiscoverAgent] Messages received:', bool(messages))
+        self.call_js("loadMessageHistory", messages)
+        print('[WebSocketManager - DiscoverAgent] Called loadMessageHistory')
     except Exception as e:
       print(f'[WebSocketManager - DiscoverAgent] Error in form_show: {str(e)}')
 
