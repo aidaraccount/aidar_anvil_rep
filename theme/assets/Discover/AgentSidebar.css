@@ -461,6 +461,18 @@
 }
 
 /* 9. Agent creation statement */
+.chat-input-container.agent-creation {
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.5s ease-out, visibility 0s 0.5s;
+}
+
+.chat-container.agent-creation {
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.5s ease-out, visibility 0s 0.5s;
+}
+
 .agent-creation-statement {
   display: none;
   opacity: 0;
@@ -481,3 +493,4 @@
   transform: translateY(0);
   pointer-events: auto;
 }
+
