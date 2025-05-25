@@ -116,6 +116,8 @@ class RampUp(RampUpTemplate):
                                      access_token)
           
           if (model_id is not None):
+            status = 'Congratulations, your Agent was successfully created!'
+            
             # refresh model_id_view
             self.model_id_view = anvil.server.call('get_model_id', user["user_id"])
             anvil.server.call('update_model_usage', user["user_id"], self.model_id_view)
