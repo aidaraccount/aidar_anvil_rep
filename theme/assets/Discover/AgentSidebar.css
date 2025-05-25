@@ -464,13 +464,13 @@
 .chat-input-container.agent-creation {
   opacity: 0;
   visibility: hidden;
-  transition: opacity 0.5s ease-out, visibility 0s 0.5s;
+  transition: opacity 1.5s ease-out, visibility 0s 1.5s;
 }
 
 .chat-container.agent-creation {
   opacity: 0;
   visibility: hidden;
-  transition: opacity 0.5s ease-out, visibility 0s 0.5s;
+  transition: opacity 1.5s ease-out, visibility 0s 1.5s;
 }
 
 .agent-creation-statement {
