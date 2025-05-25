@@ -834,7 +834,13 @@
         console.log('[WebSocketManager] Received complete create agent message:', message);
         this.updateModelId(message.agent_id);
         this.removeTypingIndicator();
-        anvil.server.call('refresh_agents_components');
+
+        try {
+          await anvil.js.call_anvil('refresh_agents_components');
+          console.log('Successfully refreshed agent components');
+        } catch (error) {
+          console.error('Error refreshing agent components:', error);
+        }
       }
     
       // -----------------------------------------
