@@ -230,7 +230,6 @@
         this.chatMessages = document.getElementById('chat-messages');
         this.chatInput = document.getElementById('chat-input');
         this.sendButton = document.getElementById('send-button');
-        this.lastBotMessage = null;
         this.typingIndicator = null;
         this.messageQueue = [];
         this.isConnected = false;
@@ -239,6 +238,8 @@
         this.maxReconnectAttempts = 5;
         this.reconnectDelay = 1000;
         this.isLoadingHistory = false;
+        this.createAgent = false;
+        this.extendedCreateAgent = false;
         
         // Debug information
         console.log('[WebSocketManager] Constructor called');
@@ -625,11 +626,15 @@
           }, 1500); // Match this with the CSS transition duration (1.5s)
         }
         
-        // check if model_id is None or empty string
-        console.log('[WebSocketManager] Check current model ID for creation mode:', this.currentModelId);
-        if (this.currentModelId === null || this.currentModelId === '') {
-          console.log('[WebSocketManager] Model ID is null or empty -> were in creation mode');
+        // type definition
+        // standard type = 'query'
+        if (this.createAgent === true) {
+          console.log('[WebSocketManager] Create agent mode');
           type = 'create_agent'
+        }
+        if (this.extendedCreateAgent === true) {
+          console.log('[WebSocketManager] Extended create agent mode');
+          type = 'extended_create_agent'
         }
 
         // --------------------------
@@ -678,6 +683,7 @@
         }
       }
 
+      // RECEIVING MESSAGES
       // Handle incoming WebSocket messages
       handleMessage(event) {
         try {
@@ -707,6 +713,10 @@
             
             case 'create_agent':
               this.handleCreateAgent(message);
+              break;
+
+            case 'extended_create_agent':
+              this.handleExtendedCreateAgent(message);
               break;
             
             default:
@@ -831,10 +841,18 @@
         console.log('[WebSocketManager] Received complete message');
         this.removeTypingIndicator();
       }
-    
+      
+      // Handle extended create agent message from server
+      handleExtendedCreateAgent(message) {
+        console.log('[WebSocketManager] Received extended create agent message:', message);
+        this.extendedCreateAgent = true;
+        this.removeTypingIndicator();
+      }
+
       // Handle create agent message from server
       async handleCreateAgent(message) {
         console.log('[WebSocketManager] Received complete create agent message:', message);
+        this.createAgent = true;
         this.updateModelId(message.agent_id);
         this.removeTypingIndicator();
 
