@@ -1484,15 +1484,15 @@
         const message = chatInput.value.trim();
         if (message) {
           try {
-            console.log('[AgentSidebar] Sending message via WebSocket manager');
+            console.log('[sendButton] Sending message via WebSocket manager');
             const manager = getWebSocketManager();
             if (manager) {
               manager.sendMessage();
             } else {
-              console.error('[AgentSidebar] Failed to get WebSocket manager');
+              console.error('[sendButton] Failed to get WebSocket manager');
             }
           } catch (error) {
-            console.error('[AgentSidebar] Error sending message:', error);
+            console.error('[sendButton] Error sending message:', error);
           }
         }
       });
@@ -1514,15 +1514,15 @@
           const message = chatInput.value.trim();
           if (message) {
             try {
-              console.log('[AgentSidebar] Sending message via WebSocket manager (Enter key)');
+              console.log('[chatInput] Sending message via WebSocket manager (Enter key)');
               const manager = getWebSocketManager();
               if (manager) {
                 manager.sendMessage();
               } else {
-                console.error('[AgentSidebar] Failed to get WebSocket manager');
+                console.error('[chatInput] Failed to get WebSocket manager');
               }
             } catch (error) {
-              console.error('[AgentSidebar] Error sending message:', error);
+              console.error('[chatInput] Error sending message:', error);
             }
           }
         }
@@ -1549,13 +1549,13 @@
 
   // Make loadMessageHistory available globally for Python to call
   window.loadMessageHistory = function(messages) {
-    console.log('[WebSocketManager] Loading message history:', messages);
+    console.log('[loadMessageHistory] Loading message history:', messages);
 
     const wsManager = window.wsManager; // Get the WebSocketManager instance
     if (wsManager) {
       wsManager.loadMessageHistory(messages);
     } else {
-      console.error('[WebSocketManager] WebSocketManager not initialized');
+      console.error('[loadMessageHistory] WebSocketManager not initialized');
     }
   };
 
@@ -1605,9 +1605,16 @@
 
   // CREATE AGENT VIEW (Step 1)
   window.createAgentView = function() {
-    console.log('[AgentSidebar] Creating agent view');
+    console.log('[createAgentView] Creating agent view');
     const agentSidebar = document.getElementById('agent-sidebar');
     if (agentSidebar) {
+        // Set createAgent flag on WebSocketManager
+        const wsManager = getWebSocketManager();
+        if (wsManager) {
+            console.log('[createAgentView] Setting createAgent = true');
+            wsManager.createAgent = true;
+        }
+        
         // Get the header sidebar that's a direct child of agent-sidebar
         const headerSidebar = agentSidebar.querySelector(':scope > .header-sidebar');
         
@@ -1624,7 +1631,7 @@
         elements.forEach(el => {
             if (el) {
                 el.classList.add('in-creation');
-                console.log('[AgentSidebar] Added in-creation to:', el);
+                console.log('[createAgentView] Added in-creation to:', el);
             }
         });
 
@@ -1635,14 +1642,14 @@
         // Update width based on left sidebar state
         updateAgentSidebarWidth();
         
-        console.log('[AgentSidebar] Added in-creation classes to all elements');
+        console.log('[createAgentView] Added in-creation classes to all elements');
     } else {
-        console.error('[AgentSidebar] Could not find agent sidebar element');
+        console.error('[createAgentView] Could not find agent sidebar element');
     }
 
   // MAKE updateModelId accessible from Python
   window.updateModelId = function(model_id) {
-    console.log('[AgentSidebar] Updating model_id:', model_id);
+    console.log('[updateModelId] Updating model_id:', model_id);
     window.model_id = model_id;
     
     // Update the model_id in the WebSocketManager
@@ -1650,7 +1657,7 @@
     if (wsManager) {
       wsManager.updateModelId(model_id);
     } else {
-      console.error('[AgentSidebar] WebSocketManager not initialized');
+      console.error('[updateModelId] WebSocketManager not initialized');
     }
   };
 
