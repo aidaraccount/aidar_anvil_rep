@@ -846,6 +846,7 @@
       handleExtendedCreateAgent(message) {
         console.log('[WebSocketManager] Received extended create agent message:', message);
         this.extendedCreateAgent = true;
+        this.updateModelId(message.agent_id);
         this.removeTypingIndicator();
       }
 
