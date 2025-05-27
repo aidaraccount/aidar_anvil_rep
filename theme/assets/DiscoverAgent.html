@@ -814,7 +814,10 @@
           
           messageDiv.innerHTML = `
             <div class="popularity-range-desc">Popularity range set to:</div>
-            <div class="popularity-range">${this.escapeHtml(min_pop)} - ${this.escapeHtml(max_pop)}</div>
+            <div class="popularity-range-content">
+              <div class="popularity-range">${this.escapeHtml(min_pop)} - ${this.escapeHtml(max_pop)}</div>
+              <div class="popularity-action">POP<br>RANGE</div>
+            </div>
           `;
           
           this.chatMessages.appendChild(messageDiv);
