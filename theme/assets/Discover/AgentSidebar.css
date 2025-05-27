@@ -274,27 +274,25 @@
   font-size: 12px;
   color: #a0a0a0;
   font-weight: normal;
-  width: 100%;
+  text-align: left;
 }
 
 .popularity-range-content {
   display: flex;
   align-items: center;
-  width: 100%;
 }
 
 .popularity-range {
   font-weight: 700;
-  font-size: 15px;
-  text-align: left;
+  font-size: 25px;
   flex: 1;
+  text-align: center;
 }
 
 .popularity-action {
   font-weight: 700;
-  font-size: 11px;
+  font-size: 15px;
   text-align: center;
-  background: #3a3a3a;
   padding: 4px 8px;
   border-radius: 6px;
   white-space: nowrap;
