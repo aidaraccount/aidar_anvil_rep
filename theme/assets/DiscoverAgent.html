@@ -608,12 +608,10 @@
         const chatContainer = document.querySelector('.chat-container');
         const chatInputContainer = document.querySelector('.chat-input-container');
         
-        console.log(`[INITIAL TEST] ${initialQuestion}`)
-        console.log(`[INITIAL TEST] ${chatContainer}`)
-        console.log(`[INITIAL TEST] ${chatInputContainer}`)
-
         // if (initialQuestion && chatContainer && chatInputContainer) {
         if (this.createAgent === true) {
+          console.log('[WebSocketManager] Create agent mode');
+
           // Start the hide animations
           initialQuestion.classList.add('hide-animation');
           chatInputContainer.classList.add('hide-animation');
@@ -636,14 +634,12 @@
               chatContainer.classList.remove('show-animation');
             }, 800); // Slightly longer than the animation duration
           }, 1500); // Match this with the CSS transition duration (1.5s)
-        }
         
-        // type definition
-        // standard type = 'query'
-        if (this.createAgent === true) {
-          console.log('[WebSocketManager] Create agent mode');
+          // type definition
+          // standard type = 'query'
           type = 'create_agent'
         }
+        
         if (this.extendedCreateAgent === true) {
           console.log('[WebSocketManager] Extended create agent mode');
           type = 'extended_create_agent'
