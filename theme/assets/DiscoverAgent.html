@@ -612,7 +612,8 @@
         console.log(`[INITIAL TEST] ${chatContainer}`)
         console.log(`[INITIAL TEST] ${chatInputContainer}`)
 
-        if (initialQuestion && chatContainer && chatInputContainer) {
+        // if (initialQuestion && chatContainer && chatInputContainer) {
+        if (this.createAgent === true) {
           // Start the hide animations
           initialQuestion.classList.add('hide-animation');
           chatInputContainer.classList.add('hide-animation');
