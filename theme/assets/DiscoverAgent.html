@@ -703,6 +703,10 @@
               this.handleArtistInfo(message);
               break;
 
+            case 'popularity_range_info':
+              this.handlePopularityRangeInfo(message);
+              break;
+
             case 'artist_reference':
               this.handleArtistReference(message);
               break;
@@ -795,6 +799,31 @@
         }
       }
 
+      // Handle popularity range information
+      handlePopularityRangeInfo(message) {
+        console.log('[WebSocketManager] Popularity range information received:', message);
+
+        if (message.data) {
+          const min_pop = message.data.min_pop || '';
+          const max_pop = message.data.max_pop || '';
+
+          // Create artist message element with artist class
+          const messageDiv = document.createElement('a');
+          messageDiv.href = ``;
+          messageDiv.className = 'message popularity-range';
+          
+          messageDiv.innerHTML = `
+            <div class="popularity-range-desc">Popularity range set to:</div>
+            <div class="popularity-range">${this.escapeHtml(min_pop)} - ${this.escapeHtml(max_pop)}</div>
+          `;
+          
+          this.chatMessages.appendChild(messageDiv);
+          this.scrollToBottom();
+        } else {
+          this.addSystemMessage(message.content || 'Received popularity range information');
+        }
+      }
+      
       // Handle artist information
       handleArtistReference(message) {
         console.log('[WebSocketManager] Artist reference received:', message);
