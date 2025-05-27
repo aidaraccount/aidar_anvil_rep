@@ -804,8 +804,8 @@
         console.log('[WebSocketManager] Popularity range information received:', message);
 
         if (message.data) {
-          const min_pop = message.data.min_pop || '';
-          const max_pop = message.data.max_pop || '';
+          const min_pop = message.data.min_pop != null ? message.data.min_pop.toString() : '';
+          const max_pop = message.data.max_pop != null ? message.data.max_pop.toString() : '';
 
           // Create artist message element with artist class
           const messageDiv = document.createElement('a');
