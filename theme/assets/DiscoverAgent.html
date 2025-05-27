@@ -330,6 +330,13 @@
                 }
                 break;
                 
+              case 'popularity_range_info':
+                // Handle popularity range information display
+                if (msg.data) {
+                  this.handlePopularityRangeInfo({ data: msg.data });
+                }
+                break;
+                
               case 'artist_reference':
                 // Handle artist reference added confirmation
                 if (msg.data) {
