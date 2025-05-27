@@ -255,18 +255,29 @@
 }
 
 /* Popularity range message styles */
-.popularity-range {
+.message.popularity-range {
+  max-width: 70%;
+  display: flex;
+  align-items: center;
+  padding: 5px 10px;
+  background-color: #252525;
+  border: 1px solid #3a3a3a;
+  border-radius: 12px;
+  text-decoration: none;
+  color: #fff;
+  transition: all 0.2s ease;
+  margin: 0;
+  box-sizing: border-box;
+}
+.popularity-range-desc {
   font-weight: 500;
   font-size: 15px;
   margin-bottom: 2px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
-.popularity-range-desc {
-  font-size: 12px;
-  color: #a0a0a0;
-  font-weight: normal;
+.popularity-range {
+  font-weight: 700;
+  font-size: 15px;
+  text-align: center;
 }
 
 .message.popularity-range:hover {
