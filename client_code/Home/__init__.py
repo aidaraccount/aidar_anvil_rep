@@ -19,6 +19,7 @@ from ..C_Home_Agents import C_Home_Agents
 from ..C_Home_NextUp import C_Home_NextUp
 from ..C_Home_Hot import C_Home_Hot
 from ..C_Short import C_Short
+from ..C_TrialLimitationsPopup import C_TrialLimitationsPopup
 
 
 @routing.route('', title='Home')
@@ -131,9 +132,9 @@ class Home(HomeTemplate):
         usage_data = anvil.server.call('get_ratings_count', user['user_id'])
         print(usage_data)
         print(usage_data['total_count'])
-        if usage_data['total_count'] > 50 and usage_data['today_count'] > 5:
-          popup_table = alert(
-            content=C_RelatedPopupTable(self.model_id, 'hello'),
+        if usage_data['total_count'] >= 50 and usage_data['today_count'] >= 5:
+          alert(
+            content=C_TrialLimitationsPopup(usage_data['total_count'], usage_data['today_count']),
             large=True,
             buttons=[]
           )
