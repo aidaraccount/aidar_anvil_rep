@@ -125,6 +125,18 @@ class Home(HomeTemplate):
       # 1.6 Initialize loading of shorts asynchronously
       self.shorts_start_time = time.time()
       self.load_shorts_async()
+
+      # 2. Trial Notification
+      if user["plan"] in ["Trial", "Extended Trial"]:
+        usage_data = anvil.server.call('get_ratings_count', user['user_id'])
+        print(usage_data)
+        print(usage_data['total_count'])
+        # if usage_data['total_count'] 
+        # popup_table = alert(
+        #   content=C_RelatedPopupTable(self.model_id, 'hello'),
+        #   large=True,
+        #   buttons=[]
+        # )
   
   
   # ------
