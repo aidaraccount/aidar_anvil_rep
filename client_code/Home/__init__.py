@@ -131,7 +131,7 @@ class Home(HomeTemplate):
         usage_data = anvil.server.call('get_ratings_count', user['user_id'])
         print(usage_data)
         print(usage_data['total_count'])
-        # if usage_data['total_count'] 
+        # if usage_data['total_count'] ‘±•æœ–…∞¥≈ç√∫~µå‚∂ƒ©ª«∑€®†¡“¶¢[]|{}≠
         # popup_table = alert(
         #   content=C_RelatedPopupTable(self.model_id, 'hello'),
         #   large=True,
