@@ -238,9 +238,13 @@
         this.maxReconnectAttempts = 5;
         this.reconnectDelay = 1000;
         this.isLoadingHistory = false;
+
         this.createAgent = false;
         this.extendedCreateAgent = false;
+        console.log('[WebSocketManager] createAgent:', this.createAgent);
+        console.log('[WebSocketManager] extendedCreateAgent:', this.extendedCreateAgent);
         
+
         // Debug information
         console.log('[WebSocketManager] Constructor called');
         console.log('[WebSocketManager] Hostname:', window.location.hostname);
@@ -273,38 +277,38 @@
        * @param {Array|string} messages - Array of message objects or JSON string
        */
       loadMessageHistory(messages) {
-        console.log('[WebSocketManager] Loading message history INNER CLASS:', messages);
+        console.log('[loadMessageHistory] Loading message history INNER CLASS:', messages);
         
         // Parse messages if they're a string
         if (typeof messages === 'string') {
           try {
             messages = JSON.parse(messages);
           } catch (e) {
-            console.error('[WebSocketManager] Error parsing messages:', e);
+            console.error('[loadMessageHistory] Error parsing messages:', e);
             return;
           }
         }
         
         if (!Array.isArray(messages)) {
-          console.error('[WebSocketManager] Invalid messages format, expected array:', messages);
+          console.error('[loadMessageHistory] Invalid messages format, expected array:', messages);
           return;
         }
         
         if (this.isLoadingHistory) {
-          console.log('[WebSocketManager] Message loading already in progress');
+          console.log('[loadMessageHistory] Message loading already in progress');
           return;
         }
         
         this.isLoadingHistory = true;
         
         try {
-          console.log(`[WebSocketManager] Processing ${messages.length} messages from history`);
+          console.log(`[loadMessageHistory] Processing ${messages.length} messages from history`);
           
           // Sort messages by timestamp (oldest first)
           const sortedMessages = [...messages].sort((a, b) => a.timestamp - b.timestamp);
           
           sortedMessages.forEach(msg => {
-            console.log('[WebSocketManager] Processing message:', msg);
+            console.log('[loadMessageHistory] Processing message:', msg);
             
             // Handle different message types
             switch(msg.type) {
@@ -345,16 +349,16 @@
                 break;
                 
               default:
-                console.warn('[WebSocketManager] Unknown message type:', msg.type, msg);
+                console.warn('[loadMessageHistory] Unknown message type:', msg.type, msg);
                 this.addSystemMessage(msg.content || JSON.stringify(msg));
             }
           });
           
           this.removeTypingIndicator();
-          console.log('[WebSocketManager] Finished loading message history');
+          console.log('[loadMessageHistory] Finished loading message history');
           
         } catch (error) {
-          console.error('[WebSocketManager] Error loading message history:', error);
+          console.error('[loadMessageHistory] Error loading message history:', error);
           this.addSystemMessage('Failed to load message history');
         } finally {
           this.isLoadingHistory = false;
@@ -366,8 +370,8 @@
       // =====================================================================
       // Connect to WebSocket server
       connect() {
-        console.log('[WebSocketManager] === connect() called ===');
-        console.log('[WebSocketManager] Current state:', {
+        console.log('[connect] === connect() called ===');
+        console.log('[connect] Current state:', {
           isConnected: this.isConnected,
           isConnecting: this.isConnecting,
           isUpdatingModelId: this.isUpdatingModelId,
@@ -377,14 +381,14 @@
         
         // If already connected, do nothing
         if (this.isConnected && this.socket && this.socket.readyState === WebSocket.OPEN) {
-          console.log('[WebSocketManager] Already connected, processing message queue');
+          console.log('[connect] Already connected, processing message queue');
           this.processMessageQueue();
           return;
         }
         
         // If already connecting, just wait for the connection
         if (this.isConnecting) {
-          console.log('[WebSocketManager] Connection attempt already in progress');
+          console.log('[connect] Connection attempt already in progress');
           return;
         }
         
@@ -392,11 +396,11 @@
         if (this.socket) {
           const state = this.socket.readyState;
           if (state === WebSocket.CONNECTING) {
-            console.log('[WebSocketManager] Socket already connecting, waiting...');
+            console.log('[connect] Socket already connecting, waiting...');
             return;
           }
           if (state === WebSocket.OPEN) {
-            console.log('[WebSocketManager] Socket already open, processing queue');
+            console.log('[connect] Socket already open, processing queue');
             this.isConnected = true;
             this.isConnecting = false;
             this.processMessageQueue();
@@ -407,22 +411,22 @@
         
         // Set connecting state
         this.isConnecting = true;
-        console.log('[WebSocketManager] Set isConnecting to true');
+        console.log('[connect] Set isConnecting to true');
         
         // Log current state
-        console.log(`[WebSocketManager] Current connection state: ${this.socket ? this.socket.readyState : 'No socket'}`);
-        console.log(`[WebSocketManager] Attempting to connect to: ${this.wsUrl}`);
+        console.log(`[connect] Current connection state: ${this.socket ? this.socket.readyState : 'No socket'}`);
+        console.log(`[connect] Attempting to connect to: ${this.wsUrl}`);
         
         // Close existing socket if it exists
         if (this.socket) {
-          console.log('[WebSocketManager] Closing existing WebSocket connection');
+          console.log('[connect] Closing existing WebSocket connection');
           try {
             const oldSocket = this.socket;
             oldSocket.onclose = null; // Remove any existing handlers to prevent duplicate events
             oldSocket.close();
-            console.log('[WebSocketManager] Existing WebSocket connection closed');
+            console.log('[connect] Existing WebSocket connection closed');
           } catch (e) {
-            console.error('[WebSocketManager] Error closing existing socket:', e);
+            console.error('[connect] Error closing existing socket:', e);
           } finally {
             this.socket = null;
           }
@@ -430,30 +434,30 @@
         
         try {
           // Create new WebSocket connection
-          console.log('[WebSocketManager] Creating new WebSocket instance');
+          console.log('[connect] Creating new WebSocket instance');
           this.socket = new WebSocket(this.wsUrl);
-          console.log('[WebSocketManager] WebSocket created, setting up event handlers');
+          console.log('[connect] WebSocket created, setting up event handlers');
           
           const self = this;
           
           // Set up WebSocket event handlers
           this.socket.onopen = async function(event) {
-            console.log('[WebSocketManager] WebSocket onopen event fired');
+            console.log('[connect] WebSocket onopen event fired');
             self.isConnected = true;
             self.isConnecting = false;
             self.wasConnectedBeforeError = true;
             self.reconnectAttempts = 0; // Reset reconnect attempts on successful connection
             
-            console.log('[WebSocketManager] WebSocket connection opened successfully, isConnected:', self.isConnected);
-            console.log('[WebSocketManager] Current socket state:', {
+            console.log('[connect] WebSocket connection opened successfully, isConnected:', self.isConnected);
+            console.log('[connect] Current socket state:', {
               readyState: self.socket ? self.socket.readyState : 'no socket',
               url: self.socket ? self.socket.url : 'no socket',
               bufferedAmount: self.socket ? self.socket.bufferedAmount : 'no socket'
             });
                         
             // Process any queued messages
-            console.log('[WebSocketManager] === processMessageQueue() ===');
-            console.log('[WebSocketManager] Current state:', {
+            console.log('[connect] === processMessageQueue() ===');
+            console.log('[connect] Current state:', {
               isConnected: self.isConnected,
               isConnecting: self.isConnecting,
               isUpdatingModelId: self.isUpdatingModelId,
@@ -462,13 +466,13 @@
             });
             
             if (self.messageQueue.length === 0) {
-              console.log('[WebSocketManager] No messages in queue to process');
+              console.log('[connect] No messages in queue to process');
               return;
             }
             
             // If not connected, don't process the queue yet
             if (!self.isConnected || !self.socket || self.socket.readyState !== WebSocket.OPEN) {
-              console.log('[WebSocketManager] Not connected, cannot process message queue. State:', {
+              console.log('[connect] Not connected, cannot process message queue. State:', {
                 isConnected: self.isConnected,
                 socketExists: !!self.socket,
                 socketState: self.socket ? self.socket.readyState : 'no socket'
@@ -476,12 +480,12 @@
               return;
             }
             
-            console.log(`[WebSocketManager] Processing ${self.messageQueue.length} queued messages`);
+            console.log(`[connect] Processing ${self.messageQueue.length} queued messages`);
             
             // Process all queued messages
             while (self.messageQueue.length > 0) {
               const message = self.messageQueue[0]; // Peek at the first message
-              console.log('[WebSocketManager] Attempting to send queued message:', {
+              console.log('[connect] Attempting to send queued message:', {
                 type: message.type,
                 contentLength: message.content ? message.content.length : 0,
                 timestamp: message.timestamp
@@ -489,30 +493,30 @@
               
               try {
                 self.sendRawMessage(message);
-                console.log('[WebSocketManager] Successfully sent queued message');
+                console.log('[connect] Successfully sent queued message');
                 self.messageQueue.shift(); // Only remove if send was successful
               } catch (error) {
-                console.error('[WebSocketManager] Error sending queued message:', error);
+                console.error('[connect] Error sending queued message:', error);
                 break; // Stop processing queue on error
               }
             }
             
-            console.log('[WebSocketManager] Finished processing message queue. Remaining:', self.messageQueue.length);
+            console.log('[connect] Finished processing message queue. Remaining:', self.messageQueue.length);
             
             // Show reconnected message if we were connected before this reconnection
             if (self.wasConnectedBeforeError) {
-              console.log('[WebSocketManager] Sending connection re-established message');
+              console.log('[connect] Sending connection re-established message');
               self.addSystemMessage('Connection re-established');
             }
           };
           
           this.socket.onmessage = (event) => {
-            console.log('[WebSocketManager] Received message:', event.data);
+            console.log('[connect] Received message:', event.data);
             this.handleMessage(event);
           };
           
           this.socket.onclose = function(event) {
-            console.log(`[WebSocketManager] WebSocket connection closed. Code: ${event.code}, Reason: ${event.reason || 'No reason provided'}`);
+            console.log(`[connect] WebSocket connection closed. Code: ${event.code}, Reason: ${event.reason || 'No reason provided'}`);
             self.isConnected = false;
             self.isConnecting = false;
             
@@ -524,19 +528,19 @@
           };
           
           this.socket.onerror = (error) => {
-            console.error('[WebSocketManager] WebSocket error event fired:', error);
-            console.error('[WebSocketManager] Error event type:', error.type);
-            console.error('[WebSocketManager] Error event target readyState:', error.target ? error.target.readyState : 'no target');
+            console.error('[connect] WebSocket error event fired:', error);
+            console.error('[connect] Error event type:', error.type);
+            console.error('[connect] Error event target readyState:', error.target ? error.target.readyState : 'no target');
             
             // Save connection state before marking as disconnected
             this.wasConnectedBeforeError = this.isConnected;
             this.isConnected = false;
             
-            console.log('[WebSocketManager] Current WebSocket readyState:', this.socket ? this.socket.readyState : 'no socket');
+            console.log('[connect] Current WebSocket readyState:', this.socket ? this.socket.readyState : 'no socket');
             
             // Log more detailed error information
             if (error && error.target) {
-              console.error('[WebSocketManager] WebSocket error details:', {
+              console.error('[connect] WebSocket error details:', {
                 url: error.target.url,
                 readyState: error.target.readyState,
                 bufferedAmount: error.target.bufferedAmount,
@@ -547,7 +551,7 @@
           };
           
         } catch (error) {
-          console.error('[WebSocketManager] Failed to establish WebSocket connection:', error);
+          console.error('[connect] Failed to establish WebSocket connection:', error);
           this.addErrorMessage('Failed to connect to the server');
           this.handleReconnect();
         }
@@ -557,27 +561,27 @@
       attemptReconnect() {
         // Don't attempt to reconnect if we're in the middle of a model ID update
         if (this.isUpdatingModelId) {
-          console.log('[WebSocketManager] Skipping reconnect attempt during model ID update');
+          console.log('[attemptReconnect] Skipping reconnect attempt during model ID update');
           return;
         }
         
         if (this.reconnectAttempts >= this.maxReconnectAttempts) {
-          console.log('[WebSocketManager] Max reconnection attempts reached, giving up');
+          console.log('[attemptReconnect] Max reconnection attempts reached, giving up');
           this.addSystemMessage('Connection lost. Please refresh the page to try again.');
           return;
         }
         
         const delay = Math.min(this.reconnectDelay * Math.pow(2, this.reconnectAttempts), 30000); // Cap at 30s
-        console.log(`[WebSocketManager] Attempting to reconnect in ${delay}ms (attempt ${this.reconnectAttempts + 1}/${this.maxReconnectAttempts})`);
+        console.log(`[attemptReconnect] Attempting to reconnect in ${delay}ms (attempt ${this.reconnectAttempts + 1}/${this.maxReconnectAttempts})`);
         
         this.reconnectAttempts++;
         
         this.reconnectTimeout = setTimeout(() => {
           if (!this.isConnected && !this.isUpdatingModelId) {
-            console.log('[WebSocketManager] Reconnecting...');
+            console.log('[attemptReconnect] Reconnecting...');
             this.connect();
           } else {
-            console.log('[WebSocketManager] Skipping reconnect - already connected or updating model ID');
+            console.log('[attemptReconnect] Skipping reconnect - already connected or updating model ID');
           }
         }, delay);
       }
@@ -587,15 +591,15 @@
       /* 3. Message Handling */
       // Send message to the server
       sendMessage(type = 'query') {
-        console.log('[WebSocketManager] sendMessage() called');
+        console.log('[sendMessage] sendMessage() called');
         
         const message = this.chatInput.value.trim();
         if (!message) {
-          console.log('[WebSocketManager] Empty message, ignoring');
+          console.log('[sendMessage] Empty message, ignoring');
           return;
         }
         
-        console.log('[WebSocketManager] Adding user message to chat');
+        console.log('[sendMessage] Adding user message to chat');
         this.addUserMessage(message);
         this.chatInput.value = '';
         this.chatInput.style.height = 'auto'; // Reset textarea height
@@ -608,9 +612,12 @@
         const chatContainer = document.querySelector('.chat-container');
         const chatInputContainer = document.querySelector('.chat-input-container');
         
+        console.log('[WebSocketManager] createAgent:', this.createAgent);
+        console.log('[WebSocketManager] extendedCreateAgent:', this.extendedCreateAgent);
+
         // if (initialQuestion && chatContainer && chatInputContainer) {
         if (this.createAgent === true) {
-          console.log('[WebSocketManager] Create agent mode');
+          console.log('[sendMessage] Create agent mode');
 
           // Start the hide animations
           initialQuestion.classList.add('hide-animation');
@@ -639,9 +646,9 @@
           // standard type = 'query'
           type = 'create_agent'
         }
-        
+
         if (this.extendedCreateAgent === true) {
-          console.log('[WebSocketManager] Extended create agent mode');
+          console.log('[sendMessage] Extended create agent mode');
           type = 'extended_create_agent'
         }
 
@@ -655,25 +662,25 @@
           agent_id: this.currentModelId
         };
         
-        console.log('[WebSocketManager] Prepared message:', messageData);
+        console.log('[sendMessage] Prepared message:', messageData);
 
         // Check WebSocket state
         const socketReady = this.socket && this.socket.readyState === WebSocket.OPEN;
-        console.log(`[WebSocketManager] WebSocket state: ${this.socket ? this.socket.readyState : 'null'}, ` +
+        console.log(`[sendMessage] WebSocket state: ${this.socket ? this.socket.readyState : 'null'}, ` +
                    `isConnected: ${this.isConnected}, socketReady: ${socketReady}`);
 
         // If we think we're connected but the socket isn't ready, update our state
         if (this.isConnected && !socketReady) {
-          console.log('[WebSocketManager] Connection state out of sync, updating...');
+          console.log('[sendMessage] Connection state out of sync, updating...');
           this.isConnected = false;
         }
         
         // Send or queue the message
         if (this.isConnected && socketReady) {
-          console.log('[WebSocketManager] Sending message via WebSocket');
+          console.log('[sendMessage] Sending message via WebSocket');
           this.sendRawMessage(messageData);
         } else {
-          console.log('[WebSocketManager] Queueing message, attempting to reconnect');
+          console.log('[sendMessage] Queueing message, attempting to reconnect');
           this.messageQueue.push(messageData);
           this.addSystemMessage('Message queued. Will send when connection is restored...');
           this.connect(); // Try to reconnect if not connected
@@ -696,7 +703,7 @@
       handleMessage(event) {
         try {
           const message = JSON.parse(event.data);
-          console.log('[WebSocketManager] Received message:', message);
+          console.log('[handleMessage] Received message:', message);
 
           switch (message.type) {
             case 'text_chunk':
@@ -732,11 +739,11 @@
               break;
             
             default:
-              console.warn('[WebSocketManager] Unknown message type:', message.type);
+              console.warn('[handleMessage] Unknown message type:', message.type);
               this.addSystemMessage(`Received unknown message type: ${message.type}`);
           }
         } catch (error) {
-          console.error('[WebSocketManager] Error handling message:', error);
+          console.error('[handleMessage] Error handling message:', error);
           this.addErrorMessage('Error processing message');
         }
       }
@@ -744,6 +751,7 @@
       // Process any queued messages
       processMessageQueue() {
         while (this.messageQueue.length > 0 && this.isConnected) {
+          console.log('[processMessageQueue] Processing message queue');
           const message = this.messageQueue.shift();
           this.sendRawMessage(message);
         }
@@ -754,13 +762,14 @@
       // 4. Message Type Handlers
       // Handle error messages
       handleError(message) {
-        console.error('[WebSocketManager] Server error:', message.content);
+        console.error('[handleError] Server error:', message.content);
         const errorType = message.data?.error_type ? ` (${message.data.error_type})` : '';
         this.addErrorMessage(`Error${errorType}: ${message.content}`);
       }
 
       // Handle text chunk messages
       handleTextChunk(message) {
+        console.log('[handleTextChunk] Received text chunk:', message);
         if (message.content) {
           this.addAgentMessage(message.content);
           this.scrollToBottom();
@@ -769,7 +778,7 @@
 
       // Handle artist information
       handleArtistInfo(message) {
-        console.log('[WebSocketManager] Artist info received:', message);
+        console.log('[handleArtistInfo] Artist info received:', message);
         
         if (message.data) {
           const artist = message.data;
@@ -809,7 +818,7 @@
 
       // Handle popularity range information
       handlePopularityRangeInfo(message) {
-        console.log('[WebSocketManager] Popularity range information received:', message);
+        console.log('[handlePopularityRangeInfo] Popularity range information received:', message);
 
         if (message.data) {
           const min_pop = message.data.min_pop != null ? message.data.min_pop.toString() : '';
@@ -837,7 +846,7 @@
       
       // Handle artist information
       handleArtistReference(message) {
-        console.log('[WebSocketManager] Artist reference received:', message);
+        console.log('[handleArtistReference] Artist reference received:', message);
 
         if (message.data) {
           const artist = message.data;
@@ -878,13 +887,13 @@
 
       // Handle complete message from server
       handleCompleteMessage() {
-        console.log('[WebSocketManager] Received complete message');
+        console.log('[handleCompleteMessage] Received complete message');
         this.removeTypingIndicator();
       }
       
       // Handle extended create agent message from server
       handleExtendedCreateAgent(message) {
-        console.log('[WebSocketManager] Received extended create agent message:', message);
+        console.log('[handleExtendedCreateAgent] Received extended create agent message:', message);
         this.extendedCreateAgent = true;
         this.updateModelId(message.agent_id);
         this.removeTypingIndicator();
@@ -892,7 +901,7 @@
 
       // Handle create agent message from server
       async handleCreateAgent(message) {
-        console.log('[WebSocketManager] Received complete create agent message:', message);
+        console.log('[handleCreateAgent] Received complete create agent message:', message);
         this.createAgent = true;
         this.updateModelId(message.agent_id);
         this.removeTypingIndicator();
@@ -950,6 +959,7 @@
       // 5. UI Update Methods
       // Add a user message to the chat
       addUserMessage(message) {
+        console.log('[addUserMessage] Adding user message:', message);
         const messageElement = document.createElement('div');
         messageElement.className = 'message user';
         messageElement.innerHTML = `
@@ -965,6 +975,7 @@
 
       // Add a system message to the chat
       addSystemMessage(content) {
+        console.log('[addSystemMessage] Adding system message:', content);
         const messageDiv = document.createElement('div');
         messageDiv.className = 'message system';
         messageDiv.innerHTML = `
@@ -977,6 +988,7 @@
     
       // Add an error message to the chat
       addErrorMessage(content) {
+        console.log('[addErrorMessage] Adding error message:', content);
         const messageDiv = document.createElement('div');
         messageDiv.className = 'message error';
         messageDiv.innerHTML = `
@@ -989,6 +1001,7 @@
       
       // Add a bot message
       addAgentMessage(content) {        
+        console.log('[addAgentMessage] Adding agent message:', content);
         const BotMessage = document.createElement('div');
         BotMessage.className = 'message agent';
         BotMessage.innerHTML = `
@@ -1053,15 +1066,15 @@
       
       // Update model ID and reconnect if needed
       updateModelId(newModelId) {
-        console.log('[WebSocketManager] ===== Starting model ID update =====');
-        console.log('[WebSocketManager] Current model ID:', this.currentModelId, 'New model ID:', newModelId);
-        console.log('[WebSocketManager] Current connection state - isConnected:', this.isConnected, 
+        console.log('[updateModelId] ===== Starting model ID update =====');
+        console.log('[updateModelId] Current model ID:', this.currentModelId, 'New model ID:', newModelId);
+        console.log('[updateModelId] Current connection state - isConnected:', this.isConnected, 
                     'isConnecting:', this.isConnecting, 
                     'socket state:', this.socket ? this.socket.readyState : 'no socket');
         
         // Handle case where newModelId is null/undefined
         if (newModelId === null || newModelId === undefined) {
-          console.log('[WebSocketManager] New model ID is null/undefined, using random ID');
+          console.log('[updateModelId] New model ID is null/undefined, using random ID');
           newModelId = ''; // Will trigger random ID generation
         }
         
@@ -1070,28 +1083,28 @@
         const normalizedNewModelId = newModelId || '';
         
         if (normalizedNewModelId === currentModelId) {
-          console.log('[WebSocketManager] Model ID unchanged, keeping existing connection');
+          console.log('[updateModelId] Model ID unchanged, keeping existing connection');
           return;
         }
         
-        console.log('[WebSocketManager] Updating model ID from', currentModelId, 'to', normalizedNewModelId);
+        console.log('[updateModelId] Updating model ID from', currentModelId, 'to', normalizedNewModelId);
         
         // Set updating flag to prevent duplicate reconnections
         this.isUpdatingModelId = true;
-        console.log('[WebSocketManager] Set isUpdatingModelId to true');
+        console.log('[updateModelId] Set isUpdatingModelId to true');
         
         try {
           this.currentModelId = normalizedNewModelId;
           this.sessionId = 'session-' + (normalizedNewModelId || Math.random().toString(36).substr(2, 9));
           this.wsUrl = `ws://localhost:8000/ws/${this.sessionId}`;
           
-          console.log('[WebSocketManager] New session ID:', this.sessionId);
-          console.log('[WebSocketManager] New WebSocket URL:', this.wsUrl);
+          console.log('[updateModelId] New session ID:', this.sessionId);
+          console.log('[updateModelId] New WebSocket URL:', this.wsUrl);
           
           // Close existing connection if any
           if (this.socket) {
-            console.log('[WebSocketManager] Closing existing WebSocket connection for model ID update');
-            console.log('[WebSocketManager] Current socket readyState:', this.socket.readyState);
+            console.log('[updateModelId] Closing existing WebSocket connection for model ID update');
+            console.log('[updateModelId] Current socket readyState:', this.socket.readyState);
             
             try {
               // Set a flag to prevent reconnection attempts during model ID update
@@ -1099,26 +1112,26 @@
               
               // Close the socket and clear any pending reconnects
               if (this.reconnectTimeout) {
-                console.log('[WebSocketManager] Clearing existing reconnect timeout');
+                console.log('[updateModelId] Clearing existing reconnect timeout');
                 clearTimeout(this.reconnectTimeout);
                 this.reconnectTimeout = null;
               }
               
               // Close the socket if it's in a valid state
               if (this.socket.readyState === WebSocket.OPEN || this.socket.readyState === WebSocket.CONNECTING) {
-                console.log('[WebSocketManager] Closing WebSocket with code 1000 (normal closure)');
+                console.log('[updateModelId] Closing WebSocket with code 1000 (normal closure)');
                 this.socket.close(1000, 'Model ID changed');
               } else {
-                console.log('[WebSocketManager] Socket not in OPEN or CONNECTING state, skipping close');
+                console.log('[updateModelId] Socket not in OPEN or CONNECTING state, skipping close');
               }
               
               this.socket = null;
-              console.log('[WebSocketManager] Existing WebSocket connection closed for model ID update');
+              console.log('[updateModelId] Existing WebSocket connection closed for model ID update');
             } catch (e) {
-              console.warn('[WebSocketManager] Error closing existing socket during model ID update:', e);
+              console.warn('[updateModelId] Error closing existing socket during model ID update:', e);
             }
           } else {
-            console.log('[WebSocketManager] No existing socket to close');
+            console.log('[updateModelId] No existing socket to close');
           }
           
           // Reset connection state
@@ -1126,26 +1139,26 @@
           this.isConnecting = false;
           this.reconnectAttempts = 0;
           
-          console.log('[WebSocketManager] Reset connection state - isConnected: false, isConnecting: false');
+          console.log('[updateModelId] Reset connection state - isConnected: false, isConnecting: false');
           
           // Refresh DOM element references
-          console.log('[WebSocketManager] Refreshing DOM element references');
+          console.log('[updateModelId] Refreshing DOM element references');
           this.chatContainer = document.querySelector('.chat-container');
           this.chatMessages = document.getElementById('chat-messages');
           this.chatInput = document.getElementById('chat-input');
           this.sendButton = document.getElementById('send-button');
           
-          console.log('[WebSocketManager] DOM elements refreshed');
+          console.log('[updateModelId] DOM elements refreshed');
           
           // Reset the flag before connecting to allow the connection to proceed
           this.isUpdatingModelId = false;
-          console.log('[WebSocketManager] Reset isUpdatingModelId to false before connecting');
+          console.log('[updateModelId] Reset isUpdatingModelId to false before connecting');
           
           // Reconnect with new session ID
-          console.log('[WebSocketManager] Initiating new connection with updated model ID');
+          console.log('[updateModelId] Initiating new connection with updated model ID');
           this.connect();
         } catch (error) {
-          console.error('[WebSocketManager] Error during model ID update:', error);
+          console.error('[updateModelId] Error during model ID update:', error);
           this.isUpdatingModelId = false; // Ensure flag is reset even on error
           throw error; // Re-throw to allow error handling up the chain
         }
@@ -1555,15 +1568,15 @@
           const message = chatInput.value.trim();
           if (message) {
             try {
-              console.log('[chatInput] Sending message via WebSocket manager (Enter key)');
+              console.log('[AgentSidebar] Sending message via WebSocket manager (Enter key)');
               const manager = getWebSocketManager();
               if (manager) {
                 manager.sendMessage();
               } else {
-                console.error('[chatInput] Failed to get WebSocket manager');
+                console.error('[AgentSidebar] Failed to get WebSocket manager');
               }
             } catch (error) {
-              console.error('[chatInput] Error sending message:', error);
+              console.error('[AgentSidebar] Error sending message:', error);
             }
           }
         }
@@ -1704,5 +1717,3 @@
 
 };
 </script>
-
-
