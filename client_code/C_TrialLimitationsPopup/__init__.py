@@ -48,7 +48,7 @@ class C_TrialLimitationsPopup(C_TrialLimitationsPopupTemplate):
         </div>
         """
     
-    def _get_progress_bar(self, percentage):
+    def _get_progress_bar(self, percentage, current, max):
         """Generate HTML for progress bar"""
         return f"""
         <div class="progress-container">
@@ -56,7 +56,7 @@ class C_TrialLimitationsPopup(C_TrialLimitationsPopupTemplate):
                 <div class="progress-fill" style="width: {max(1, percentage)}%;"></div>
             </div>
             <div class="counter">
-                <span>{percentage}% Complete</span>
+                <span>{current}/{max} recommendations used</span>
             </div>
         </div>
         """
@@ -67,7 +67,7 @@ class C_TrialLimitationsPopup(C_TrialLimitationsPopupTemplate):
         <h2>🎉 Welcome to Your Trial!</h2>
         <p>You have <strong>50 recommendations</strong> to start with.</p>
         <p>After that, you'll receive <strong>5 free recommendations per day</strong>.</p>
-        {self._get_progress_bar(0)}
+        {self._get_progress_bar(0, 0, 50)}
         <p>Start discovering amazing artists now!</p>
         <button class="action-button" onclick="anvil.call('close_alert', true)">Get Started</button>
         """
@@ -79,7 +79,7 @@ class C_TrialLimitationsPopup(C_TrialLimitationsPopupTemplate):
         <h2>⚠️ Trial Limit Approaching</h2>
         <p>You've used <strong>{50 - remaining_initial}</strong> of your initial 50 recommendations.</p>
         <p>Only <strong>{remaining_initial} left</strong> in your initial batch!</p>
-        {self._get_progress_bar(percentage)}
+        {self._get_progress_bar(percentage, 50 - remaining_initial, 50)}
         <div class="warning-message">
             After this, you'll get 5 free recommendations per day.
         </div>
@@ -131,7 +131,7 @@ class C_TrialLimitationsPopup(C_TrialLimitationsPopupTemplate):
         <h2>Your Trial Progress</h2>
         <p>You've used <strong>{50 - remaining_total}</strong> of your initial 50 recommendations.</p>
         <p>Daily recommendations: <strong>{remaining_daily} left</strong> for today.</p>
-        {self._get_progress_bar(percentage)}
+        {self._get_progress_bar(percentage, 50 - remaining_total, 50)}
         <button class="action-button" onclick="anvil.call('close_alert', true)">Continue</button>
         """
 
