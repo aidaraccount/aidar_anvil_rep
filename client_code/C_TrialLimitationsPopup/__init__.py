@@ -48,7 +48,7 @@ class C_TrialLimitationsPopup(C_TrialLimitationsPopupTemplate):
         </div>
         """
     
-    def _get_progress_bar(self, percentage, current, max):
+    def _get_progress_bar(self, percentage, current, max_value):
         """Generate HTML for progress bar"""
         return f"""
         <div class="progress-container">
@@ -56,7 +56,7 @@ class C_TrialLimitationsPopup(C_TrialLimitationsPopupTemplate):
                 <div class="progress-fill" style="width: {max(1, percentage)}%;"></div>
             </div>
             <div class="counter">
-                <span>{str(current)}/{str(max)} recommendations used</span>
+                <span>{current}/{max_value} recommendations used</span>
             </div>
         </div>
         """
