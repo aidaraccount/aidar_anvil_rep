@@ -20,9 +20,9 @@ class C_TrialLimitationsPopup(C_TrialLimitationsPopupTemplate):
     global user
     user = anvil.users.get_user()
 
-    model_id = load_var("model_id")
-    print(f"C_TrialLimitationsPopup - total_count: {total_count}; today_count: {today_count}")
-
+    self.html = """
+    Hello w
+    """
 
   def close_alert(self, **event_args):
     self.raise_event("x-close-alert")
