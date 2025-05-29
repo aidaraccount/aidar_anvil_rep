@@ -128,9 +128,8 @@ class C_TrialLimitationsPopup(C_TrialLimitationsPopupTemplate):
         """Default message showing progress"""
         percentage = int((50 - remaining_total) / 50 * 100)
         return f"""
-        <h2>📊 Your Progress</h2>
+        <h2>Your Trial Progress</h2>
         <p>You've used <strong>{50 - remaining_total}</strong> of your initial 50 recommendations.</p>
-        <p>You have <strong>{remaining_total} left</strong> in your initial batch.</p>
         <p>Daily recommendations: <strong>{remaining_daily} left</strong> for today.</p>
         {self._get_progress_bar(percentage)}
         <button class="action-button" onclick="anvil.call('close_alert', true)">Continue</button>

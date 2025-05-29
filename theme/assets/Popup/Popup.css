@@ -28,12 +28,14 @@
 
 /* 4. Progress Container */
 .progress-container {
-  background: rgba(255, 255, 255, 0.1);
   border-radius: 8px;
   padding: 15px;
   margin: 20px 0;
   width: 100%;
   box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
 /* 5. Progress Bar */
@@ -41,7 +43,6 @@
   height: 10px;
   background: rgba(255, 255, 255, 0.2);
   border-radius: 5px;
-  margin: 10px 0;
   overflow: hidden;
   width: 100%;
   position: relative;
@@ -53,19 +54,20 @@
   border-radius: 5px;
   transition: width 0.5s ease;
   min-width: 5px;
-  display: block;
   position: absolute;
   left: 0;
   top: 0;
+  bottom: 0;
 }
 
 /* 6. Counter Styles */
 .counter {
   display: flex;
   justify-content: space-between;
-  margin-top: 5px;
   font-size: 14px;
   color: rgba(255, 255, 255, 0.8);
+  width: 100%;
+  margin: 0;
 }
 
 /* 7. Button Styles */
