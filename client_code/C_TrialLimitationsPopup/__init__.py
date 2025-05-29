@@ -56,7 +56,7 @@ class C_TrialLimitationsPopup(C_TrialLimitationsPopupTemplate):
                 <div class="progress-fill" style="width: {max(1, percentage)}%;"></div>
             </div>
             <div class="counter">
-                <span>{current}/{max} recommendations used</span>
+                <span>{str(current)}/{str(max)} recommendations used</span>
             </div>
         </div>
         """
