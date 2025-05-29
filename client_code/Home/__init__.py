@@ -132,7 +132,8 @@ class Home(HomeTemplate):
         usage_data = anvil.server.call('get_ratings_count', user['user_id'])
         print(usage_data)
         print(usage_data['total_count'])
-        if usage_data['total_count'] >= 50 and usage_data['today_count'] >= 5:
+        if usage_data['total_count'] >= 50:
+          # and usage_data['today_count'] >= 5:
           alert(
             content=C_TrialLimitationsPopup(usage_data['total_count'], usage_data['today_count']),
             large=True,
