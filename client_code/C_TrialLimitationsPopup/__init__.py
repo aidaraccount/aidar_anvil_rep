@@ -19,11 +19,11 @@ class C_TrialLimitationsPopup(C_TrialLimitationsPopupTemplate):
 
     global user
     user = anvil.users.get_user()
-    
+
     # Calculate remaining recommendations
     remaining_daily = max(0, 5 - today_count)
     remaining_total = max(0, 50 - total_count)
-    
+
     # Determine which message to show
     if total_count == 0:
         # Initial message when no recommendations used yet
@@ -40,13 +40,13 @@ class C_TrialLimitationsPopup(C_TrialLimitationsPopupTemplate):
     else:
         # Default message showing progress
         html_content = self._get_progress_message(remaining_total, remaining_daily)
-    
+
     self.html = f"""
     <div class="trial-limit-popup">
         {html_content}
     </div>
     """
-    
+
   def _get_progress_bar(self, percentage):
       """Generate HTML for progress bar"""
       return f"""
@@ -59,7 +59,7 @@ class C_TrialLimitationsPopup(C_TrialLimitationsPopupTemplate):
           </div>
       </div>
       """
-  
+
   def _get_initial_message(self):
       """Message shown when user first starts using the trial"""
       return f"""
@@ -70,7 +70,7 @@ class C_TrialLimitationsPopup(C_TrialLimitationsPopupTemplate):
       <p>Start discovering amazing artists now!</p>
       <button class="action-button" onclick="anvil.call('close_alert', true)">Get Started</button>
       """
-  
+
   def _get_warning_message(self, remaining_initial, remaining_daily):
       """Warning shown when user is approaching initial limit"""
       return f"""
@@ -83,7 +83,7 @@ class C_TrialLimitationsPopup(C_TrialLimitationsPopupTemplate):
       </div>
       <button class="action-button" onclick="anvil.call('close_alert', true)">Continue</button>
       """
-  
+
   def _get_daily_limit_message(self):
       """Message shown when daily limit is reached"""
       return """
@@ -103,7 +103,7 @@ class C_TrialLimitationsPopup(C_TrialLimitationsPopupTemplate):
           <button class="action-button" style="background: #6a11cb;" onclick="anvil.call('upgrade_account')">Upgrade Now</button>
       </div>
       """
-  
+
   def _get_daily_warning_message(self, remaining_today):
       """Warning shown when user is approaching daily limit"""
       return f"""
@@ -120,7 +120,7 @@ class C_TrialLimitationsPopup(C_TrialLimitationsPopupTemplate):
       <p>After today's limit, you'll get 5 more recommendations tomorrow.</p>
       <button class="action-button" onclick="anvil.call('close_alert', true)">Got it!</button>
       """
-  
+
   def _get_progress_message(self, remaining_total, remaining_daily):
       """Default message showing progress"""
       return f"""
