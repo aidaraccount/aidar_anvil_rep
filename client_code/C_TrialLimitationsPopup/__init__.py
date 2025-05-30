@@ -74,7 +74,7 @@ class C_TrialLimitationsPopup(C_TrialLimitationsPopupTemplate):
         <p>You've used <strong>35</strong> of your initial 50 recommendations.</p>
         {self._get_progress_bar(percentage=70, current=35, max_value=50)}
         <p>Continue exporing<br>or upgrade for unlimited access!</p>
-        <button class="disabled" onclick="anvil.call('close_alert')">Continue</button>
+        <button class="disabled" onclick="$('body').trigger('close_alert')">Continue</button>
         <button class="enabled" onclick="window.location.href='https://app.aidar.ai/#settings?section=Subscription'">Upgrade now</button>
       """
 
