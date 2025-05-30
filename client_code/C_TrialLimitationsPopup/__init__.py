@@ -56,7 +56,8 @@ class C_TrialLimitationsPopup(C_TrialLimitationsPopupTemplate):
       </div>
       """
 
-      anvil.js.window.close_alert = self._close_alert
+      # Expose close_alert method to JavaScript
+      anvil.js.window.closeAlert = self._js_close_alert
 
     
     def _get_progress_bar(self, percentage, current, max_value):
@@ -77,7 +78,7 @@ class C_TrialLimitationsPopup(C_TrialLimitationsPopupTemplate):
         <p>You've used <strong>35</strong> of your initial 50 recommendations.</p>
         {self._get_progress_bar(percentage=70, current=35, max_value=50)}
         <p>Continue exporing<br>or upgrade for unlimited access!</p>
-        <button class="disabled" onclick="$('body').trigger('close_alert')">Continue</button>
+        <button class="disabled" onclick="window.closeAlert()">Continue</button>
         <button class="enabled" onclick="window.location.href='https://app.aidar.ai/#settings?section=Subscription'">Upgrade now</button>
       """
 
@@ -131,8 +132,14 @@ class C_TrialLimitationsPopup(C_TrialLimitationsPopupTemplate):
       """
 
     def close_alert(self, **event_args):
-      self.raise_event("x-close-alert")
-
-    def _close_alert(self):
-      """Close the alert dialog from JS."""
+      """Close the alert dialog."""
       self.raise_event('x-close-alert')
+      
+    # Expose methods to JavaScript
+    def __javascript__(self):
+      return {'close_alert': self.close_alert}
+      
+    def _js_close_alert(self):
+      """Close the alert dialog from JavaScript."""
+      self.close_alert()
+      return True
