@@ -131,15 +131,11 @@ class C_TrialLimitationsPopup(C_TrialLimitationsPopupTemplate):
         <button class="enabled" onclick="window.location.href='https://app.aidar.ai/#settings?section=Subscription'">Upgrade now</button>
       """
 
-    # Close alert dialog
     def close_alert(self, **event_args):
-      """Close the alert dialog."""
-      self.raise_event('x-close-alert')
-      
-    def __javascript__(self):
-      return {'close_alert': self.close_alert}
-      
+        """Close the alert dialog from Python."""
+        self.raise_event('x-close-alert')
+        
     def _js_close_alert(self):
-      """Close the alert dialog from JavaScript."""
-      self.close_alert()
-      return True
+        """Close the alert dialog from JavaScript."""
+        self.close_alert()
+        return True
