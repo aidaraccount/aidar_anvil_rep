@@ -2,7 +2,7 @@
 .trial-limit-popup {
   background: linear-gradient(to top left, rgb(43, 24, 72) 50%, rgb(134, 59, 59));
   color: white;
-  padding: 30px;
+  padding: 30px 150px;
   border-radius: 12px;
   margin: 0 auto;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
@@ -13,7 +13,7 @@
 /* 2. Header Styles */
 .trial-limit-popup h2 {
   margin-top: 0;
-  margin-bottom: 15px;
+  margin-bottom: 25px;
   font-size: 24px;
   font-weight: 600;
   color: #fff;
@@ -70,32 +70,65 @@
   margin: 0;
 }
 
-/* 7. Button Styles */
-.action-button {
-  background: #ff6b35;
-  color: white;
-  border: none;
-  padding: 12px 30px;
-  border-radius: 25px;
-  font-size: 16px;
-  font-weight: 600;
-  cursor: pointer;
-  margin-top: 15px;
-  transition: all 0.3s ease;
+/* big number */
+.trial-limit-popup .big-number {
+  font-size: 55px;
+  line-height: 1;
+  margin: 0;
+  color: #ff6b35;
+  font-weight: 700;
 }
 
-.action-button:hover {
-  background: #ff8c5a;
-  transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+
+/* ----------------------------
+7. Call 2 Action Button 
+enabled */
+.enabled {
+  font-family: Gs-regular;
+  color: var(--WhiteDiscreet);
+  background: var(--Orange);
+  border: 0px;
+  box-shadow: none;
+  text-shadow: none;
+  transition: 0.5s;
+  margin: 25px 0 0 0;
+  padding: 0 25px;
+  min-width: 100px;
+  height: 30px;
+  border-radius: 7px;
+}
+.enabled:hover,
+.enabled:focus,
+.enabled:active {
+  background: var(--OrangeDiscreet);
+  color: var(--White);
 }
 
-/* 8. Warning Message */
-.warning-message {
-  color: #ffcc00;
-  font-weight: 500;
-  margin: 15px 0;
+/* disabled */
+.disabled {
+  font-family: Gs-regular;
+  color: var(--WhiteDiscreet);
+  background: var(--Accent_2);
+  border: 0px;
+  box-shadow: none;
+  text-shadow: none;
+  transition: 0.5s;
+  margin: 25px 0 0 0;
+  padding: 0 15px;
+  min-width: 100px;
+  height: 30px;
+  border-radius: 7px;
 }
+.disabled:hover {
+  background: var(--Accent_2);
+  color: var(--WhiteDiscreet);
+}
+.disabled:focus,
+.disabled:active {
+  background: var(--Accent_2);
+  color: var(--Accent_1);
+}
+
 
 /* 9. Upgrade Prompt */
 .upgrade-prompt {

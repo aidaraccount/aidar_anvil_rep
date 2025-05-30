@@ -20,28 +20,36 @@ class C_TrialLimitationsPopup(C_TrialLimitationsPopupTemplate):
 
       global user
       user = anvil.users.get_user()
+
+      total_count = 35      
+      # total_count = 51
+      # today_count = 5
       
       # Determine which message to show
       if total_count == 35:
         # Warning at 35 recommendations (15 left in initial batch)
         html_content = self._get_warning_message()
-        
+
       elif total_count == 50:
         # Daily limit reached
         html_content = self._get_initial_limit_message()
-      
-      elif total_count > 50 and today_count >= 5:
-        # Daily limit reached
-        html_content = self._get_daily_limit_message()
-        
+
       elif total_count < 50:
         # Default message showing progress
         html_content = self._get_initial_progress_message(total_count)
 
-      elif today_count < 5:
+      elif total_count > 50 and today_count == 0:
+        # Default message showing progress
+        html_content = self._get_welcome_back_message()
+
+      elif total_count > 50 and today_count < 5:
         # Default message showing progress
         html_content = self._get_daily_progress_message(today_count)
 
+      elif total_count > 50 and today_count >= 5:
+        # Daily limit reached
+        html_content = self._get_daily_limit_message()
+        
       self.html = f"""
       <div class="trial-limit-popup">
         {html_content}
@@ -62,13 +70,12 @@ class C_TrialLimitationsPopup(C_TrialLimitationsPopupTemplate):
     
     def _get_warning_message(self):
       return f"""
-      <h2>Trial Limit Approaching</h2>
-      <p>You've used <strong>35</strong> of your initial 50 recommendations.</p>
-      {self._get_progress_bar(percentage=70, current=35, max_value=50)}
-      <div class="warning-message">
-        After this, you'll get 5 free recommendations per day.
-      </div>
-      <button class="action-button" onclick="anvil.call('close_alert', true)">Continue</button>
+        <h2>Trial Limit Approaching</h2>
+        <p>You've used <strong>35</strong> of your initial 50 recommendations.</p>
+        {self._get_progress_bar(percentage=70, current=35, max_value=50)}
+        <p>Continue exporing<br>or upgrade for unlimited access!</p>
+        <button class="disabled" onclick="anvil.call('close_alert')">Continue</button>
+        <button class="enabled" onclick="window.location.href='https://app.aidar.ai/#settings?section=Subscription'">Upgrade now</button>
       """
 
     def _get_initial_limit_message(self):
@@ -76,39 +83,48 @@ class C_TrialLimitationsPopup(C_TrialLimitationsPopupTemplate):
         <h2>Initial Limit Reached</h2>
         <p>You've used all 50 of your initial recommendations.</p>
         {self._get_progress_bar(percentage=100, current=50, max_value=50)}      
-        <p>Come back tomorrow for more recommendations or upgrade for unlimited access!</p>
-        <div class="upgrade-prompt">
-          <p>Want unlimited recommendations?</p>
-          <button class="action-button" style="background: #6a11cb;" onclick="anvil.call('upgrade_account')">Upgrade Now</button>
-        </div>
+        <p>Come back tomorrow for 5 new recommendations<br>or upgrade for unlimited access!</p>
+        <button class="enabled" onclick="window.location.href='https://app.aidar.ai/#settings?section=Subscription'">Upgrade now</button>
       """
 
-    def _get_daily_limit_message(self):
-      return f"""
-      <h2>Daily Limit Reached</h2>
-      <p>You've used all 5 of your daily recommendations.</p>
-      {self._get_progress_bar(percentage=100, current=5, max_value=5)}      
-      <p>Come back tomorrow for more recommendations or upgrade for unlimited access!</p>
-      <div class="upgrade-prompt">
-        <p>Want unlimited recommendations?</p>
-        <button class="action-button" style="background: #6a11cb;" onclick="anvil.call('upgrade_account')">Upgrade Now</button>
-      </div>
-      """
-        
     def _get_initial_progress_message(self, total_count):
       return f"""
       <h2>Your Trial Progress</h2>
       <p>You've used <strong>{total_count}</strong> of your initial 50 recommendations.</p>
       {self._get_progress_bar(percentage=int(total_count / 50 * 100), current=total_count, max_value=50)}
-      <button class="action-button" onclick="anvil.call('close_alert', true)">Continue</button>
+      <p>Continue exporing<br>or upgrade for unlimited access!</p>
+      <button class="disabled" onclick="anvil.call('close_alert', true)">Continue</button>
+        <button class="enabled" onclick="window.location.href='https://app.aidar.ai/#settings?section=Subscription'">Upgrade now</button>
       """
 
+    def _get_welcome_back_message(self):
+      return """
+        <h2>Welcome back!</h2>
+        <p>You've got..</p>
+        <p class="big-number">5</p>
+        <p>daily recommendations left.</p>
+        <p>Continue exporing<br>or upgrade for unlimited access!</p>
+        <button class="disabled" onclick="anvil.call('close_alert', true)">Continue</button>
+        <button class="enabled" onclick="window.location.href='https://app.aidar.ai/#settings?section=Subscription'">Upgrade now</button>
+      """
+    
     def _get_daily_progress_message(self, today_count):
       return f"""
         <h2>Your Trial Progress</h2>
         <p>You've used <strong>{today_count}</strong> of your daily 5 recommendations.</p>
         {self._get_progress_bar(percentage=int(today_count / 5 * 100), current=today_count, max_value=5)}
-        <button class="action-button" onclick="anvil.call('close_alert', true)">Continue</button>
+        <p>Continue exporing<br>or upgrade for unlimited access!</p>      
+        <button class="disabled" onclick="anvil.call('close_alert', true)">Continue</button>
+        <button class="enabled" onclick="window.location.href='https://app.aidar.ai/#settings?section=Subscription'">Upgrade now</button>
+      """
+
+    def _get_daily_limit_message(self):
+      return f"""
+        <h2>Daily Limit Reached</h2>
+        <p>You've used all 5 of your daily recommendations.</p>
+        {self._get_progress_bar(percentage=100, current=5, max_value=5)}
+        <p>Come back tomorrow for 5 new recommendations<br>or upgrade for unlimited access!</p>
+        <button class="enabled" onclick="window.location.href='https://app.aidar.ai/#settings?section=Subscription'">Upgrade now</button>
       """
 
     def close_alert(self, **event_args):
