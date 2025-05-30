@@ -55,6 +55,9 @@ class C_TrialLimitationsPopup(C_TrialLimitationsPopupTemplate):
         {html_content}
       </div>
       """
+
+      anvil.js.window.close_alert = self._close_alert
+
     
     def _get_progress_bar(self, percentage, current, max_value):
       return f"""
@@ -129,3 +132,7 @@ class C_TrialLimitationsPopup(C_TrialLimitationsPopupTemplate):
 
     def close_alert(self, **event_args):
       self.raise_event("x-close-alert")
+
+    def _close_alert(self):
+      """Close the alert dialog from JS."""
+      self.raise_event('x-close-alert')
