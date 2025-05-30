@@ -97,7 +97,7 @@ class C_TrialLimitationsPopup(C_TrialLimitationsPopupTemplate):
       <p>You've used <strong>{total_count}</strong> of your initial 50 recommendations.</p>
       {self._get_progress_bar(percentage=int(total_count / 50 * 100), current=total_count, max_value=50)}
       <p>Continue exporing<br>or upgrade for unlimited access!</p>
-      <button class="disabled" onclick="anvil.call('close_alert', true)">Continue</button>
+        <button class="disabled" onclick="window.closeAlert()">Continue</button>
         <button class="enabled" onclick="window.location.href='https://app.aidar.ai/#settings?section=Subscription'">Upgrade now</button>
       """
 
@@ -108,7 +108,7 @@ class C_TrialLimitationsPopup(C_TrialLimitationsPopupTemplate):
         <p class="big-number">5</p>
         <p>daily recommendations left.</p>
         <p>Continue exporing<br>or upgrade for unlimited access!</p>
-        <button class="disabled" onclick="anvil.call('close_alert', true)">Continue</button>
+        <button class="disabled" onclick="window.closeAlert()">Continue</button>
         <button class="enabled" onclick="window.location.href='https://app.aidar.ai/#settings?section=Subscription'">Upgrade now</button>
       """
     
@@ -118,7 +118,7 @@ class C_TrialLimitationsPopup(C_TrialLimitationsPopupTemplate):
         <p>You've used <strong>{today_count}</strong> of your daily 5 recommendations.</p>
         {self._get_progress_bar(percentage=int(today_count / 5 * 100), current=today_count, max_value=5)}
         <p>Continue exporing<br>or upgrade for unlimited access!</p>      
-        <button class="disabled" onclick="anvil.call('close_alert', true)">Continue</button>
+        <button class="disabled" onclick="window.closeAlert()">Continue</button>
         <button class="enabled" onclick="window.location.href='https://app.aidar.ai/#settings?section=Subscription'">Upgrade now</button>
       """
 
@@ -131,11 +131,11 @@ class C_TrialLimitationsPopup(C_TrialLimitationsPopupTemplate):
         <button class="enabled" onclick="window.location.href='https://app.aidar.ai/#settings?section=Subscription'">Upgrade now</button>
       """
 
+    # Close alert dialog
     def close_alert(self, **event_args):
       """Close the alert dialog."""
       self.raise_event('x-close-alert')
       
-    # Expose methods to JavaScript
     def __javascript__(self):
       return {'close_alert': self.close_alert}
       
