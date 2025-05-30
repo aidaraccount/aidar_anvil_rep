@@ -21,24 +21,27 @@ class C_TrialLimitationsPopup(C_TrialLimitationsPopupTemplate):
       global user
       user = anvil.users.get_user()
       
-      # Calculate remaining recommendations
-      remaining_daily = max(0, 5 - today_count)
-      remaining_total = max(0, 50 - total_count)
-      
       # Determine which message to show
-      if total_count == 30:
-        # Warning at 30 recommendations (10 left in initial batch)
-        html_content = self._get_warning_message(10, remaining_daily)
-      elif total_count >= 50 and today_count >= 5:
+      if total_count == 35:
+        # Warning at 35 recommendations (15 left in initial batch)
+        html_content = self._get_warning_message()
+        
+      elif total_count == 50:
+        # Daily limit reached
+        html_content = self._get_initial_limit_message()
+      
+      elif total_count > 50 and today_count >= 5:
         # Daily limit reached
         html_content = self._get_daily_limit_message()
-      elif total_count >= 50 and today_count > 0:
-        # Daily limit warning (less than 5 left for today)
-        html_content = self._get_daily_warning_message(5 - today_count)
-      else:
+        
+      elif total_count < 50:
         # Default message showing progress
-        html_content = self._get_progress_message(remaining_total, remaining_daily)
-      
+        html_content = self._get_initial_progress_message(total_count)
+
+      elif today_count < 5:
+        # Default message showing progress
+        html_content = self._get_daily_progress_message(today_count)
+
       self.html = f"""
       <div class="trial-limit-popup">
         {html_content}
@@ -46,79 +49,66 @@ class C_TrialLimitationsPopup(C_TrialLimitationsPopupTemplate):
       """
     
     def _get_progress_bar(self, percentage, current, max_value):
-      """Generate HTML for progress bar"""
       return f"""
-      <div class="progress-container">
-        <div class="progress-bar">
-          <div class="progress-fill" style="width: {max(1, percentage)}%;"></div>
+        <div class="progress-container">
+          <div class="progress-bar">
+            <div class="progress-fill" style="width: {max(1, percentage)}%;"></div>
+          </div>
+          <div class="counter">
+            <span>{current}/{max_value} recommendations used</span>
+          </div>
         </div>
-        <div class="counter">
-          <span>{current}/{max_value} recommendations used</span>
-        </div>
-      </div>
       """
     
-    def _get_warning_message(self, remaining_initial, remaining_daily):
-      """Warning shown when user is approaching initial limit"""
-      percentage = int((50 - remaining_initial) / 50 * 100)
+    def _get_warning_message(self):
       return f"""
       <h2>Trial Limit Approaching</h2>
-      <p>You've used <strong>{50 - remaining_initial}</strong> of your initial 50 recommendations.</p>
-      <p>Only <strong>{remaining_initial} left</strong> in your initial batch!</p>
-      {self._get_progress_bar(percentage, 50 - remaining_initial, 50)}
+      <p>You've used <strong>35</strong> of your initial 50 recommendations.</p>
+      {self._get_progress_bar(percentage=70, current=35, max_value=50)}
       <div class="warning-message">
         After this, you'll get 5 free recommendations per day.
       </div>
       <button class="action-button" onclick="anvil.call('close_alert', true)">Continue</button>
       """
-    
+
+    def _get_initial_limit_message(self):
+      return f"""
+        <h2>Initial Limit Reached</h2>
+        <p>You've used all 50 of your initial recommendations.</p>
+        {self._get_progress_bar(percentage=100, current=50, max_value=50)}      
+        <p>Come back tomorrow for more recommendations or upgrade for unlimited access!</p>
+        <div class="upgrade-prompt">
+          <p>Want unlimited recommendations?</p>
+          <button class="action-button" style="background: #6a11cb;" onclick="anvil.call('upgrade_account')">Upgrade Now</button>
+        </div>
+      """
+
     def _get_daily_limit_message(self):
-      """Message shown when daily limit is reached"""
-      return """
+      return f"""
       <h2>Daily Limit Reached</h2>
       <p>You've used all 5 of your daily recommendations.</p>
-      <div class="progress-container">
-          <div class="progress-bar">
-            <div class="progress-fill" style="width: 100%; background: #ff6b35;"></div>
-          </div>
-          <div class="counter">
-            <span>5/5 used today</span>
-          </div>
-      </div>
+      {self._get_progress_bar(percentage=100, current=5, max_value=5)}      
       <p>Come back tomorrow for more recommendations or upgrade for unlimited access!</p>
       <div class="upgrade-prompt">
         <p>Want unlimited recommendations?</p>
         <button class="action-button" style="background: #6a11cb;" onclick="anvil.call('upgrade_account')">Upgrade Now</button>
       </div>
       """
-    
-    def _get_daily_warning_message(self, remaining_today):
-      """Warning shown when user is approaching daily limit"""
-      percentage = int((5 - remaining_today) / 5 * 100)
-      return f"""
-      <h2>Daily Limit Approaching</h2>
-      <p>You have <strong>{remaining_today} free {'recommendation' if remaining_today == 1 else 'recommendations'}</strong> left for today.</p>
-      <div class="progress-container">
-        <div class="progress-bar">
-          <div class="progress-fill" style="width: {percentage}%;"></div>
-        </div>
-        <div class="counter">
-          <span>{5 - remaining_today}/5 used today</span>
-        </div>
-      </div>
-      <p>After today's limit, you'll get 5 more recommendations tomorrow.</p>
-      <button class="action-button" onclick="anvil.call('close_alert', true)">Got it!</button>
-      """
-    
-    def _get_progress_message(self, remaining_total, remaining_daily):
-      """Default message showing progress"""
-      percentage = int((50 - remaining_total) / 50 * 100)
+        
+    def _get_initial_progress_message(self, total_count):
       return f"""
       <h2>Your Trial Progress</h2>
-      <p>You've used <strong>{50 - remaining_total}</strong> of your initial 50 recommendations.</p>
-      <p>Daily recommendations: <strong>{remaining_daily} left</strong> for today.</p>
-      {self._get_progress_bar(percentage, 50 - remaining_total, 50)}
+      <p>You've used <strong>{total_count}</strong> of your initial 50 recommendations.</p>
+      {self._get_progress_bar(percentage=int(total_count / 50 * 100), current=total_count, max_value=50)}
       <button class="action-button" onclick="anvil.call('close_alert', true)">Continue</button>
+      """
+
+    def _get_daily_progress_message(self, today_count):
+      return f"""
+        <h2>Your Trial Progress</h2>
+        <p>You've used <strong>{today_count}</strong> of your daily 5 recommendations.</p>
+        {self._get_progress_bar(percentage=int(today_count / 5 * 100), current=today_count, max_value=5)}
+        <button class="action-button" onclick="anvil.call('close_alert', true)">Continue</button>
       """
 
     def close_alert(self, **event_args):
