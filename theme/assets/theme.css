@@ -24,6 +24,7 @@ Area 6: Repeating Panels
 @import url('_/theme/TalentDev/C_TalentDev_Toggle.css');
 @import url('_/theme/Settings/C_SubscriptionPlan.css');
 @import url('_/theme/Settings/CSS_Stripe.css');
+@import url('_/theme/Popup/Popup.css');
 
 /* ----------------------------
 1.1. Text Colors */
@@ -748,7 +749,6 @@ body, html {
     max-height: 50vh; /* Ensure the alert does not exceed 80% of the viewport height */
     overflow: hidden; /* Hide overflow to ensure internal scrolling */
     color: white;
-    /* overflow-y: auto; */
 }
 
 .anvil-role-alert-long-text {
@@ -1212,31 +1212,21 @@ div.row {
   align-items: center;
 }
 
+
 .modal-content {
   border-radius: 15px;
-  /* background-color: transparent; */
   border-style: none;
-  /* -webkit-box-shadow: none; */
-  /* box-shadow: none; */
   box-shadow: 0 1px 8px rgba(0,0,0,0.15);
-  /* .modal-body {
-    padding: 0;
-    background-color: var(--WhiteDiscreet);
-    border-top-left-radius: 18px;
-    border-top-right-radius: 18px;
-  }
-  .modal-footer {
-    background-color: var(--WhiteDiscreet);
-    border-bottom-left-radius: 18px;
-    border-bottom-right-radius: 18px;
-  } */
   padding: 0;
   margin: 0;
   background-color: var(--Accent_2);
-  /* width: 450px; */
   min-width: 420px;
   height: auto;
   color: var(--White)
+}
+
+.modal-content .modal-body {
+  padding: 0;
 }
 
 .modal-body:has(> .anvil-role-background-gradient-alerts) {

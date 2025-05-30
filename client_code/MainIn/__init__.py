@@ -160,6 +160,8 @@ class MainIn(MainInTemplate):
       self.reset_nav_backgrounds()
       self.call_js('updateLoadingSpinnerMargin', '125px')
 
+      save_var('initial_login', True)
+      
 
   # WATCHLIST ROUTING
   def refresh_watchlists_components(self):
