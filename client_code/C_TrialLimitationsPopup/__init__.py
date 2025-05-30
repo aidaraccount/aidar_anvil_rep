@@ -20,8 +20,7 @@ class C_TrialLimitationsPopup(C_TrialLimitationsPopupTemplate):
 
       global user
       user = anvil.users.get_user()
-
-      total_count = 35      
+ 
       # total_count = 51
       # today_count = 5
       
@@ -84,7 +83,7 @@ class C_TrialLimitationsPopup(C_TrialLimitationsPopupTemplate):
 
     def _get_initial_limit_message(self):
       return f"""
-        <h2>Initial Limit Reached</h2>
+        <h2>Initial Trial Limit Reached</h2>
         <p>You've used all 50 of your initial recommendations.</p>
         {self._get_progress_bar(percentage=100, current=50, max_value=50)}      
         <p>Come back tomorrow for 5 new recommendations<br>or upgrade for unlimited access!</p>
@@ -107,7 +106,6 @@ class C_TrialLimitationsPopup(C_TrialLimitationsPopupTemplate):
         <p>You've got..</p>
         <p class="big-number">5</p>
         <p>daily recommendations left.</p>
-        <p>Continue exporing<br>or upgrade for unlimited access!</p>
         <button class="disabled" onclick="window.closeAlert()">Continue</button>
         <button class="enabled" onclick="window.location.href='https://app.aidar.ai/#settings?section=Subscription'">Upgrade now</button>
       """
@@ -124,7 +122,7 @@ class C_TrialLimitationsPopup(C_TrialLimitationsPopupTemplate):
 
     def _get_daily_limit_message(self):
       return f"""
-        <h2>Daily Limit Reached</h2>
+        <h2>Daily Trial Limit Reached</h2>
         <p>You've used all 5 of your daily recommendations.</p>
         {self._get_progress_bar(percentage=100, current=5, max_value=5)}
         <p>Come back tomorrow for 5 new recommendations<br>or upgrade for unlimited access!</p>

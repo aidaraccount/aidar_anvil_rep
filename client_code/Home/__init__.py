@@ -127,19 +127,18 @@ class Home(HomeTemplate):
       self.shorts_start_time = time.time()
       self.load_shorts_async()
 
-      # 2. Trial Notification
-      if user["plan"] in ["Trial", "Extended Trial"]:
+      # TRIAL NOTIFICATION      
+      if user["plan"] in ["Trial", "Extended Trial"] and load_var('initial_login') == "true":
         usage_data = anvil.server.call('get_ratings_count', user['user_id'])
-        print(usage_data)
-        print(usage_data['total_count'])
-        if usage_data['total_count'] >= 50:
-          # and usage_data['today_count'] >= 5:
-          alert(
-            content=C_TrialLimitationsPopup(usage_data['total_count'], usage_data['today_count']),
-            large=True,
-            buttons=[]
-          )
-  
+        print('total_count:', usage_data['total_count'])
+        print('today_count:', usage_data['today_count'])
+        
+        alert(
+          content=C_TrialLimitationsPopup(usage_data['total_count'], usage_data['today_count']),
+          large=True,
+          buttons=[]
+        )
+      save_var('initial_login', False)
   
   # ------
   # 2. ASYNC METHODS
