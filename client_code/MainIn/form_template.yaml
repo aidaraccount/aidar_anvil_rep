@@ -151,7 +151,7 @@ components:
   name: image_1
   properties: {display_mode: original_size, height: '20', role: navbar-image, source: _/theme/pics/AIDAR_white_logo_small.png, spacing_above: none, spacing_below: none}
   type: Image
-- event_bindings: {pressed_enter: SearchBar_pressed_enter}
+- event_bindings: {focus: SearchBar_focus, pressed_enter: SearchBar_pressed_enter}
   layout_properties: {slot: search_box}
   name: SearchBar
   properties:
