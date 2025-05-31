@@ -19,6 +19,7 @@ from ..C_Home_Agents import C_Home_Agents
 from ..C_Home_NextUp import C_Home_NextUp
 from ..C_Home_Hot import C_Home_Hot
 from ..C_Short import C_Short
+from ..C_TrialLimitationsPopup import C_TrialLimitationsPopup
 
 
 @routing.route('', title='Home')
@@ -125,7 +126,19 @@ class Home(HomeTemplate):
       # 1.6 Initialize loading of shorts asynchronously
       self.shorts_start_time = time.time()
       self.load_shorts_async()
-  
+
+      # TRIAL NOTIFICATION      
+      if user["plan"] in ["Trial", "Extended Trial"] and load_var('initial_login') == "true":
+        usage_data = anvil.server.call('get_ratings_count', user['user_id'])
+        print('total_count:', usage_data['total_count'])
+        print('today_count:', usage_data['today_count'])
+        
+        alert(
+          content=C_TrialLimitationsPopup(usage_data['total_count'], usage_data['today_count']),
+          large=True,
+          buttons=[]
+        )
+      save_var('initial_login', False)
   
   # ------
   # 2. ASYNC METHODS

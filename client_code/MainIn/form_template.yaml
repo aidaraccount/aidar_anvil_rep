@@ -1,7 +1,6 @@
 components:
 - components:
-  - components: []
-    event_bindings: {click: feedback_click}
+  - event_bindings: {click: feedback_click}
     layout_properties: {}
     name: feedback
     properties: {icon: 'fa:comments', role: header-6, spacing_above: none, spacing_below: none, visible: true}
@@ -26,8 +25,7 @@ components:
   name: nav_right
   properties: {gap: tiny, spacing_above: none, spacing_below: none, vertical_align: middle}
   type: FlowPanel
-- components: []
-  data_bindings:
+- data_bindings:
   - {code: '[''main_in_content_panel'']', property: role, writeback: false}
   layout_properties: {slot: default}
   name: content_panel
@@ -38,8 +36,7 @@ components:
     spacing:
       margin: [null, 21, null, 21]
   type: ColumnPanel
-- components: []
-  data_bindings:
+- data_bindings:
   - {code: '[''nav_main'', ''nav_link'']', property: role, writeback: false}
   event_bindings: {click: link_home_click}
   layout_properties: {slot: sidebar}
@@ -82,8 +79,7 @@ components:
     name: link_discover_ai
     properties: {align: left, background: '', bold: false, border: '', col_spacing: medium, col_widths: '', font: '', font_size: null, foreground: '', icon: 'fa:angle-right', icon_align: left, italic: false, role: nav_sub, spacing_above: none, spacing_below: small, text: Artists BY AI, tooltip: '', underline: false, url: '', visible: true, wrap_on: mobile}
     type: Link
-  - data_bindings: []
-    event_bindings: {click: link_discover_rel_click}
+  - event_bindings: {click: link_discover_rel_click}
     layout_properties: {}
     name: link_discover_rel
     properties: {align: left, background: '', bold: false, border: '', col_spacing: medium, col_widths: '', font: '', font_size: null, foreground: '', icon: 'fa:angle-right', icon_align: left, italic: false, role: nav_sub, spacing_above: none, spacing_below: small, text: Related Artists, tooltip: '', underline: false, url: '', visible: true, wrap_on: mobile}
@@ -210,7 +206,7 @@ components:
     spacing_above: none
     spacing_below: none
   type: Image
-- event_bindings: {pressed_enter: SearchBar_pressed_enter}
+- event_bindings: {focus: SearchBar_focus, pressed_enter: SearchBar_pressed_enter}
   layout_properties: {slot: search_box}
   name: SearchBar
   properties:

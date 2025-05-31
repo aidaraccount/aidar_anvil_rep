@@ -1,0 +1,154 @@
+/* 1. Main Popup Container */
+.trial-limit-popup {
+  background: linear-gradient(to top left, rgb(43, 24, 72) 50%, rgb(134, 59, 59));
+  color: white;
+  padding: 30px 150px;
+  border-radius: 12px;
+  margin: 0 auto;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+  text-align: center;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* 2. Header Styles */
+.trial-limit-popup h2 {
+  margin-top: 0;
+  margin-bottom: 25px;
+  font-size: 24px;
+  font-weight: 600;
+  color: #fff;
+}
+
+/* 3. Content Styling */
+.trial-limit-popup p {
+  margin: 10px 0;
+  line-height: 1.6;
+  font-size: 16px;
+}
+
+/* 4. Progress Container */
+.progress-container {
+  border-radius: 8px;
+  padding: 15px;
+  margin: 20px 0;
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* 5. Progress Bar */
+.progress-bar {
+  height: 10px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 5px;
+  overflow: hidden;
+  width: 100%;
+  position: relative;
+}
+
+.progress-fill {
+  height: 100%;
+  background: #ff6b35;
+  border-radius: 5px;
+  transition: width 0.5s ease;
+  min-width: 5px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+}
+
+/* 6. Counter Styles */
+.counter {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.8);
+  width: 100%;
+  margin: 0;
+}
+
+/* big number */
+.trial-limit-popup .big-number {
+  font-size: 55px;
+  line-height: 1;
+  margin: 0;
+  color: #ff6b35;
+  font-weight: 700;
+}
+
+
+/* ----------------------------
+7. Call 2 Action Button 
+enabled */
+.pop-button-enabled {
+  font-family: Gs-regular;
+  color: var(--WhiteDiscreet);
+  background: var(--Orange);
+  border: 0px;
+  box-shadow: none;
+  text-shadow: none;
+  transition: 0.5s;
+  margin: 25px 0 0 0;
+  padding: 0 25px;
+  min-width: 100px;
+  height: 30px;
+  border-radius: 7px;
+}
+.pop-button-enabled:hover,
+.pop-button-enabled:focus,
+.pop-button-enabled:active {
+  background: var(--OrangeDiscreet);
+  color: var(--White);
+}
+
+/* disabled */
+.pop-button-disabled {
+  font-family: Gs-regular;
+  color: var(--WhiteDiscreet);
+  background: var(--Accent_2);
+  border: 0px;
+  box-shadow: none;
+  text-shadow: none;
+  transition: 0.5s;
+  margin: 25px 0 0 0;
+  padding: 0 15px;
+  min-width: 100px;
+  height: 30px;
+  border-radius: 7px;
+}
+.pop-button-disabled:hover {
+  background: var(--Accent_2);
+  color: var(--WhiteDiscreet);
+}
+.pop-button-disabled:focus,
+.pop-button-disabled:active {
+  background: var(--Accent_2);
+  color: var(--Accent_1);
+}
+
+
+/* 9. Upgrade Prompt */
+.upgrade-prompt {
+  margin-top: 20px;
+  padding-top: 15px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* 10. Responsive Design */
+@media (max-width: 600px) {
+  .trial-limit-popup {
+    padding: 20px 15px;
+    margin: 0 10px;
+  }
+
+  .trial-limit-popup h2 {
+    font-size: 20px;
+  }
+
+  .trial-limit-popup p {
+    font-size: 14px;
+  }
+}

@@ -24,6 +24,7 @@ from ..C_ArtistBio import C_ArtistBio
 from ..C_ProgressMessage import C_ProgressMessage
 from ..C_Short import C_Short
 from ..C_FeedbackForm import C_FeedbackForm
+from ..C_TrialLimitationsPopup import C_TrialLimitationsPopup
 
 
 @routing.route('artists', url_keys=['artist_id'], title='Artists')
@@ -52,7 +53,7 @@ class Discover(DiscoverTemplate):
     elif user['expiration_date'] is not None and (datetime.today().date() - user['expiration_date']).days > 0:
       routing.set_url_hash('settings?section=Subscription', load_from_cache=False)
       get_open_form().SearchBar.visible = False
-      
+
     else:
       self.user_id = user["user_id"]
       self.refresh_sug()
@@ -62,8 +63,7 @@ class Discover(DiscoverTemplate):
 
   # -------------------------------------------
   # SUGGESTIONS
-  def refresh_sug(self, **event_args):
-    
+  def refresh_sug(self, **event_args):    
     self.header.scroll_into_view(smooth=True)
     
     begin = datetime.now()
@@ -119,7 +119,20 @@ class Discover(DiscoverTemplate):
     #   self.visible = False
       
     else:
-      
+      # TRIAL NOTIFICATION      
+      if user["plan"] in ["Trial", "Extended Trial"]:
+        usage_data = anvil.server.call('get_ratings_count', user['user_id'])
+        if usage_data['total_count'] == 35 or usage_data['total_count'] == 50 or (usage_data['total_count'] > 50 and usage_data['today_count'] >= 5):
+          alert(
+            content=C_TrialLimitationsPopup(usage_data['total_count'], usage_data['today_count']),
+            large=True,
+            buttons=[]
+          )
+        if usage_data['total_count'] == 50 or (usage_data['total_count'] > 50 and usage_data['today_count'] >= 5):
+          routing.set_url_hash('settings?section=Subscription', load_from_cache=False)
+          get_open_form().SearchBar.visible = False
+
+      # GET SUGGESTIONS
       self.sug = sug
       save_var('lastplayed', self.sug["SpotifyArtistID"])
     
