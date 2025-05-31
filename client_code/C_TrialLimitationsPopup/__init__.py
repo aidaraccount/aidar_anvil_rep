@@ -77,8 +77,8 @@ class C_TrialLimitationsPopup(C_TrialLimitationsPopupTemplate):
         <p>You've used <strong>35</strong> of your initial 50 recommendations.</p>
         {self._get_progress_bar(percentage=70, current=35, max_value=50)}
         <p>Continue exporing<br>or upgrade for unlimited access!</p>
-        <button class="disabled" onclick="window.closeAlert()">Continue</button>
-        <button class="enabled" onclick="window.location.href='https://app.aidar.ai/#settings?section=Subscription'">Upgrade now</button>
+        <button class="pop-button-disabled" onclick="window.closeAlert()">Continue</button>
+        <button class="pop-button-enabled" onclick="window.location.href='https://app.aidar.ai/#settings?section=Subscription'">Upgrade now</button>
       """
 
     def _get_initial_limit_message(self):
@@ -87,7 +87,7 @@ class C_TrialLimitationsPopup(C_TrialLimitationsPopupTemplate):
         <p>You've used all 50 of your initial recommendations.</p>
         {self._get_progress_bar(percentage=100, current=50, max_value=50)}      
         <p>Come back tomorrow for 5 new recommendations<br>or upgrade for unlimited access!</p>
-        <button class="enabled" onclick="window.location.href='https://app.aidar.ai/#settings?section=Subscription'">Upgrade now</button>
+        <button class="pop-button-enabled" onclick="window.location.href='https://app.aidar.ai/#settings?section=Subscription'">Upgrade now</button>
       """
 
     def _get_initial_progress_message(self, total_count):
@@ -96,8 +96,8 @@ class C_TrialLimitationsPopup(C_TrialLimitationsPopupTemplate):
       <p>You've used <strong>{total_count}</strong> of your initial 50 recommendations.</p>
       {self._get_progress_bar(percentage=int(total_count / 50 * 100), current=total_count, max_value=50)}
       <p>Continue exporing<br>or upgrade for unlimited access!</p>
-        <button class="disabled" onclick="window.closeAlert()">Continue</button>
-        <button class="enabled" onclick="window.location.href='https://app.aidar.ai/#settings?section=Subscription'">Upgrade now</button>
+        <button class="pop-button-disabled" onclick="window.closeAlert()">Continue</button>
+        <button class="pop-button-enabled" onclick="window.location.href='https://app.aidar.ai/#settings?section=Subscription'">Upgrade now</button>
       """
 
     def _get_welcome_back_message(self):
@@ -106,8 +106,8 @@ class C_TrialLimitationsPopup(C_TrialLimitationsPopupTemplate):
         <p>You've got..</p>
         <p class="big-number">5</p>
         <p>daily recommendations left.</p>
-        <button class="disabled" onclick="window.closeAlert()">Continue</button>
-        <button class="enabled" onclick="window.location.href='https://app.aidar.ai/#settings?section=Subscription'">Upgrade now</button>
+        <button class="pop-button-disabled" onclick="window.closeAlert()">Continue</button>
+        <button class="pop-button-enabled" onclick="window.location.href='https://app.aidar.ai/#settings?section=Subscription'">Upgrade now</button>
       """
     
     def _get_daily_progress_message(self, today_count):
@@ -116,8 +116,8 @@ class C_TrialLimitationsPopup(C_TrialLimitationsPopupTemplate):
         <p>You've used <strong>{today_count}</strong> of your daily 5 recommendations.</p>
         {self._get_progress_bar(percentage=int(today_count / 5 * 100), current=today_count, max_value=5)}
         <p>Continue exporing<br>or upgrade for unlimited access!</p>      
-        <button class="disabled" onclick="window.closeAlert()">Continue</button>
-        <button class="enabled" onclick="window.location.href='https://app.aidar.ai/#settings?section=Subscription'">Upgrade now</button>
+        <button class="pop-button-disabled" onclick="window.closeAlert()">Continue</button>
+        <button class="pop-button-enabled" onclick="window.location.href='https://app.aidar.ai/#settings?section=Subscription'">Upgrade now</button>
       """
 
     def _get_daily_limit_message(self):
@@ -126,7 +126,7 @@ class C_TrialLimitationsPopup(C_TrialLimitationsPopupTemplate):
         <p>You've used all 5 of your daily recommendations.</p>
         {self._get_progress_bar(percentage=100, current=5, max_value=5)}
         <p>Come back tomorrow for 5 new recommendations<br>or upgrade for unlimited access!</p>
-        <button class="enabled" onclick="window.location.href='https://app.aidar.ai/#settings?section=Subscription'">Upgrade now</button>
+        <button class="pop-button-enabled" onclick="window.location.href='https://app.aidar.ai/#settings?section=Subscription'">Upgrade now</button>
       """
 
     def close_alert(self, **event_args):

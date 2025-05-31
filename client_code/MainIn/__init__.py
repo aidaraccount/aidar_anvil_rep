@@ -460,11 +460,13 @@ class MainIn(MainInTemplate):
       )
 
     self.SearchBar.text = ''
-    
-    # pushover
     anvil.server.call('sent_push_over',  'SearchBar', f'User {user["user_id"]}: using SearchBar')
 
-    
+  def SearchBar_focus(self, **event_args):
+    anvil.server.call('pre_warm', 'general.artists_names_norm')
+    anvil.server.call('pre_warm', 'general.artists_names_norm_name_norm_trgm_idx')
+
+  
   def shorten_number(self, num):
     thresholds = [
       (1_000_000_000_000, 'T'),  # Trillion
