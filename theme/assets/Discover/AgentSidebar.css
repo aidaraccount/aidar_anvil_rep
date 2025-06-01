@@ -268,6 +268,7 @@
   margin: 5px 0;
   box-sizing: border-box;
   gap: 8px;
+  max-height: 95px;
 }
 
 .popularity-range-desc {
