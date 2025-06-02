@@ -900,20 +900,34 @@
       handleFiltersInfo(message) {
         console.log('[handleFiltersInfo] Filter information received:', message);
 
-        if (message.data) {
-          const column = message.data.Column != null ? message.data.Column.toString() : '';
-          const operator = message.data.Operator != null ? message.data.Operator.toString() : '';
-          const value = message.data.Value != null ? message.data.Value.toString() : '';
-
+        if (message.data && message.data.filters_json) {
+          const filters = JSON.parse(message.data.filters_json);
+          if (!filters || !Array.isArray(filters) || filters.length === 0) return;
+          
           // Create message element with filter class
           const messageDiv = document.createElement('a');
-          messageDiv.href = ``;
+          messageDiv.href = '';
           messageDiv.className = 'message filter';
           
+          // Create filter items for each filter
+          const filterItems = filters.map(filter => {
+            const column = filter.Column != null ? filter.Column.toString() : '';
+            const operator = filter.Operator != null ? filter.Operator.toString() : '';
+            const value = filter.Value != null ? filter.Value.toString() : '';
+            
+            return `
+              <div class="filter-item">
+                <span class="filter-column">${this.escapeHtml(column)}</span>
+                <span class="filter-operator">${this.escapeHtml(operator)}</span>
+                <span class="filter-value">${this.escapeHtml(value)}</span>
+              </div>
+            `;
+          }).join('');
+          
           messageDiv.innerHTML = `
-            <div class="filter-desc">Filter set to:</div>
+            <div class="filter-desc">Filter${filters.length > 1 ? 's' : ''} set to:</div>
             <div class="filter-content">
-              <div>${this.escapeHtml(column)} ${this.escapeHtml(operator)} ${this.escapeHtml(value)}</div>
+              ${filterItems}
             </div>
           `;
           
