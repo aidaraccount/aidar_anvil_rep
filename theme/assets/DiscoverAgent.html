@@ -348,6 +348,13 @@
                 }
                 break;
                 
+              case 'filter_info':
+                // Handle filter information display
+                if (msg.data) {
+                  this.handleFilterInfo({ data: msg.data });
+                }
+                break;
+                
               default:
                 console.warn('[loadMessageHistory] Unknown message type:', msg.type, msg);
                 this.addSystemMessage(msg.content || JSON.stringify(msg));
@@ -725,6 +732,10 @@
             case 'artist_reference':
               this.handleArtistReference(message);
               break;
+
+            case 'filter_info':
+              this.handleFilterInfo(message);
+              break;
               
             case 'complete':
               this.handleCompleteMessage();
@@ -882,6 +893,34 @@
           this.scrollToBottom();
         } else {
           this.addSystemMessage(message.content || 'Received reference artist');
+        }
+      }
+
+      // Handle filter information
+      handleFilterInfo(message) {
+        console.log('[handleFilterInfo] Filter information received:', message);
+
+        if (message.data) {
+          const column = message.data.Column != null ? message.data.Column.toString() : '';
+          const operator = message.data.Operator != null ? message.data.Operator.toString() : '';
+          const value = message.data.Value != null ? message.data.Value.toString() : '';
+
+          // Create message element with filter class
+          const messageDiv = document.createElement('a');
+          messageDiv.href = ``;
+          messageDiv.className = 'message filter';
+          
+          messageDiv.innerHTML = `
+            <div class="filter-desc">Filter set to:</div>
+            <div class="filter-content">
+              <div>${this.escapeHtml(column)} ${this.escapeHtml(operator)} ${this.escapeHtml(value)}</div>
+            </div>
+          `;
+          
+          this.chatMessages.appendChild(messageDiv);
+          this.scrollToBottom();
+        } else {
+          this.addSystemMessage(message.content || 'Received filter information');
         }
       }
 
