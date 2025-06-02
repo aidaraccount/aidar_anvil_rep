@@ -348,10 +348,10 @@
                 }
                 break;
                 
-              case 'filter_info':
+              case 'filters_info':
                 // Handle filter information display
                 if (msg.data) {
-                  this.handleFilterInfo({ data: msg.data });
+                  this.handleFiltersInfo({ data: msg.data });
                 }
                 break;
                 
@@ -733,8 +733,8 @@
               this.handleArtistReference(message);
               break;
 
-            case 'filter_info':
-              this.handleFilterInfo(message);
+            case 'filters_info':
+              this.handleFiltersInfo(message);
               break;
               
             case 'complete':
@@ -897,8 +897,8 @@
       }
 
       // Handle filter information
-      handleFilterInfo(message) {
-        console.log('[handleFilterInfo] Filter information received:', message);
+      handleFiltersInfo(message) {
+        console.log('[handleFiltersInfo] Filter information received:', message);
 
         if (message.data) {
           const column = message.data.Column != null ? message.data.Column.toString() : '';
