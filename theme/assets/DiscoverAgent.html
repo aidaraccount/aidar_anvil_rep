@@ -216,10 +216,18 @@
         this.reconnectTimeout = null;
 
         // Set model_id from sessionStorage
-        this.model_id = sessionStorage.getItem('model_id') || null;
+        const storedModelId = sessionStorage.getItem('model_id');
         
-        // Use model_id from sessionStorage if available, otherwise generate a random string
-        this.sessionId = 'session-' + (this.model_id || Math.random().toString(36).substr(2, 9));
+        // If we have a valid model_id, use it
+        if (storedModelId && storedModelId !== 'null') {
+          this.model_id = storedModelId;
+        } else {
+          // Otherwise, generate a random model_id
+          this.model_id = Math.random().toString(36).substr(2, 9);
+        }
+        
+        // Use the model_id for session ID
+        this.sessionId = 'session-' + this.model_id;
         console.log('[WebSocketManager] Session ID:', this.sessionId);
         
         this.chatContainer = document.querySelector('.chat-container');
