@@ -423,6 +423,7 @@
             this.isConnecting = false;
             this.reconnectAttempts = 0;
             this.processMessageQueue();
+            console.log('-------------------------------------------------------------');
           };
 
           this.socket.onmessage = (event) => {
@@ -832,12 +833,18 @@
       // Handle extended create agent message from server
       handleExtendedCreateAgent(message) {
         console.log('[handleExtendedCreateAgent] Received extended create agent message:', message);
-        // Set stage to EXTENDED_CREATE_AGENT
-        this.stage = this.STAGE.EXTENDED_CREATE_AGENT;
-        console.log('[handleExtendedCreateAgent] Stage changed to:', this.stage);
         
-        // Update model ID and ensure we're in extended create agent mode
-        this.updateModelId(message.agent_id);
+        // Set stage based on whether we have an artist_id
+        if (message.artist_id && message.artist_id !== "null") {
+          console.log('[handleExtendedCreateAgent] Switching to NORMAL mode since we have an artist_id:', message.artist_id);
+          this.stage = this.STAGE.NORMAL;
+        } else {
+          console.log('[handleExtendedCreateAgent] Staying in EXTENDED_CREATE_AGENT mode since we don\'t have an artist_id');
+          this.stage = this.STAGE.EXTENDED_CREATE_AGENT;
+        }
+        
+        // // Update model ID and ensure we're in extended create agent mode
+        // this.updateModelId(message.agent_id);
         
         // Remove typing indicator
         this.removeTypingIndicator();
@@ -846,9 +853,19 @@
       // Handle create agent message from server
       async handleCreateAgent(message) {
         console.log('[handleCreateAgent] Received complete create agent message:', message);
-        console.log('[handleCreateAgent] Stage changed to:', this.stage);
-        this.stage = this.STAGE.CREATE_AGENT;
-        this.updateModelId(message.agent_id);
+        
+        // Set stage based on whether we have an artist_id
+        if (message.artist_id && message.artist_id !== 'null') {
+          console.log('[handleCreateAgent] Switching to NORMAL mode since we have an artist_id:', message.artist_id);
+          this.stage = this.STAGE.NORMAL;
+        } else {
+          console.log("[handleCreateAgent] Staying in CREATE_AGENT mode since we don't have an artist_id");
+          this.stage = this.STAGE.CREATE_AGENT;
+        }
+        
+        if (this.model_id !== message.agent_id) {
+          this.updateModelId(message.agent_id);
+        }
         this.removeTypingIndicator();
 
         // navigate to agent page if artist_id is not null
