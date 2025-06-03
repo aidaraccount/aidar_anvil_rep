@@ -246,7 +246,13 @@
           EXTENDED_CREATE_AGENT: 'extended_create_agent'
         };
         this.STAGE = STAGE;
-        this.stage = STAGE.NORMAL;
+        
+        // Determine initial stage based on model_id
+        if (this.currentModelId) {
+          this.stage = STAGE.NORMAL;
+        } else {
+          this.stage = STAGE.CREATE_AGENT;
+        }
         console.log('[WebSocketManager] Initial stage:', this.stage);
 
         // Debug information
@@ -494,8 +500,7 @@
         // MODEL CREATION ANIMATION (Step 2)
         // Only animate if we're in create agent mode (not extended create agent mode)
         
-        console.log('[WebSocketManager] createAgent:', this.createAgent);
-        console.log('[WebSocketManager] extendedCreateAgent:', this.extendedCreateAgent);
+        console.log('[sendMessage] Current stage:', this.stage);
 
         if (this.stage === this.STAGE.CREATE_AGENT) {
           console.log('[sendMessage] Create agent mode');
@@ -827,9 +832,14 @@
       // Handle extended create agent message from server
       handleExtendedCreateAgent(message) {
         console.log('[handleExtendedCreateAgent] Received extended create agent message:', message);
-        console.log('[handleExtendedCreateAgent] Stage changed to:', this.stage);
+        // Set stage to EXTENDED_CREATE_AGENT
         this.stage = this.STAGE.EXTENDED_CREATE_AGENT;
+        console.log('[handleExtendedCreateAgent] Stage changed to:', this.stage);
+        
+        // Update model ID and ensure we're in extended create agent mode
         this.updateModelId(message.agent_id);
+        
+        // Remove typing indicator
         this.removeTypingIndicator();
       }
 
