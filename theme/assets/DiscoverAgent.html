@@ -1597,37 +1597,50 @@
     console.log('[createAgentView] Creating agent view');
     const agentSidebar = document.getElementById('agent-sidebar');
     if (agentSidebar) {
-        // Set createAgent flag on WebSocketManager
-        const wsManager = getWebSocketManager();
+        // Set createAgent stage
+        const wsManager = window.wsManager;
         if (wsManager) {
-            console.log('[createAgentView] Setting createAgent = true');
-            wsManager.createAgent = true;
+            wsManager.stage = wsManager.STAGE.CREATE_AGENT;
+            console.log('[createAgentView] Stage changed to:', wsManager.stage);
+        } else {
+            console.error('[createAgentView] WebSocket manager not found');
         }
-        
-        // Get the header sidebar that's a direct child of agent-sidebar
-        const headerSidebar = agentSidebar.querySelector(':scope > .header-sidebar');
-        
+
+        // Add in-creation class to all elements
         const elements = [
             agentSidebar,
-            headerSidebar,
-            document.querySelector('.agent-sidebar'),
-            document.querySelector('.chat-messages'),
+            document.querySelector('.header-sidebar'),
+            document.getElementById('chat-messages'),
             document.querySelector('.chat-input-container'),
             document.getElementById('agent-sidebar-button'),
             document.querySelector('.footer')
         ];
         
-        elements.forEach(el => {
-            if (el) {
-                el.classList.add('in-creation');
-                console.log('[createAgentView] Added in-creation to:', el);
+        elements.forEach(element => {
+            if (element) {
+                element.classList.add('in-creation');
+                console.log('[createAgentView] Added in-creation to:', element);
             }
         });
+        console.log('[createAgentView] Added in-creation classes to all elements');
 
-        // Add initial creation classes
-        document.querySelector('.chat-container').classList.add('initial-creation');
-        document.querySelector('.initial-creation-question').classList.add('initial-creation');
+        // Ensure we're in create agent mode for the next message
+        if (wsManager) {
+            wsManager.stage = wsManager.STAGE.CREATE_AGENT;
+            console.log('[createAgentView] Ensuring stage is set to create agent:', wsManager.stage);
+        }
         
+        // Add initial creation classes
+        const chatContainer = document.querySelector('.chat-container');
+        const creationQuestion = document.querySelector('.initial-creation-question');
+        if (chatContainer) {
+            chatContainer.classList.add('initial-creation');
+            console.log('[createAgentView] Added initial creation class to chat container');
+        }
+        if (creationQuestion) {
+            creationQuestion.classList.add('initial-creation');
+            console.log('[createAgentView] Added initial creation class to creation question');
+        }
         // Update width based on left sidebar state
         updateAgentSidebarWidth();
         
