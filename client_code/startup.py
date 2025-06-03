@@ -10,7 +10,6 @@ from .MainOut_Register import MainOut_Register
 from .MainIn import MainIn
 from .Home import Home
 
-# Add diagnostic print to track startup execution
 
 user = anvil.users.get_user()
 if user:
