@@ -215,15 +215,11 @@
         this.isUpdatingModelId = false;
         this.reconnectTimeout = null;
 
-        // set model_id from sessionStorage
-        if (sessionStorage.getItem('model_id') === '' || sessionStorage.getItem('model_id') === 'null') {
-          this.currentModelId = null;
-        } else {
-          this.currentModelId = sessionStorage.getItem('model_id');
-        }
+        // Set model_id from sessionStorage
+        this.model_id = sessionStorage.getItem('model_id') || null;
         
         // Use model_id from sessionStorage if available, otherwise generate a random string
-        this.sessionId = 'session-' + (this.currentModelId || Math.random().toString(36).substr(2, 9));
+        this.sessionId = 'session-' + (this.model_id || Math.random().toString(36).substr(2, 9));
         console.log('[WebSocketManager] Session ID:', this.sessionId);
         
         this.chatContainer = document.querySelector('.chat-container');
@@ -248,7 +244,7 @@
         this.STAGE = STAGE;
         
         // Determine initial stage based on model_id
-        if (this.currentModelId) {
+        if (this.model_id) {
           this.stage = STAGE.NORMAL;
         } else {
           this.stage = STAGE.CREATE_AGENT;
@@ -552,7 +548,7 @@
           content: message,
           timestamp: new Date().toISOString(),
           user_id: sessionStorage.getItem('user_id'),
-          agent_id: this.currentModelId
+          agent_id: this.model_id
         };
         
         console.log('[sendMessage] Prepared message:', messageData);
@@ -837,9 +833,11 @@
         // Set stage based on whether we have an artist_id
         if (message.artist_id && message.artist_id !== "null") {
           console.log('[handleExtendedCreateAgent] Switching to NORMAL mode since we have an artist_id:', message.artist_id);
+          console.log('-------------------------------------------------------------');
           this.stage = this.STAGE.NORMAL;
         } else {
           console.log('[handleExtendedCreateAgent] Staying in EXTENDED_CREATE_AGENT mode since we don\'t have an artist_id');
+          console.log('-------------------------------------------------------------');
           this.stage = this.STAGE.EXTENDED_CREATE_AGENT;
         }
         
@@ -1029,7 +1027,7 @@
       // Update model ID and reconnect if needed
       updateModelId(newModelId) {
         console.log('[updateModelId] ===== Starting model ID update =====');
-        console.log('[updateModelId] Current model ID:', this.currentModelId, 'New model ID:', newModelId);
+        console.log('[updateModelId] Current model ID:', this.model_id, 'New model ID:', newModelId);
         console.log('[updateModelId] Current connection state - isConnected:', this.isConnected, 
                     'isConnecting:', this.isConnecting, 
                     'socket state:', this.socket ? this.socket.readyState : 'no socket');
@@ -1041,7 +1039,7 @@
         }
         
         // Normalize for comparison (treat empty string and null the same)
-        const currentModelId = this.currentModelId || '';
+        const currentModelId = this.model_id || '';
         const normalizedNewModelId = newModelId || '';
         
         if (normalizedNewModelId === currentModelId) {
@@ -1056,7 +1054,7 @@
         console.log('[updateModelId] Set isUpdatingModelId to true');
         
         try {
-          this.currentModelId = normalizedNewModelId;
+          this.model_id = normalizedNewModelId;
           this.sessionId = 'session-' + (normalizedNewModelId || Math.random().toString(36).substr(2, 9));
           this.wsUrl = `ws://localhost:8000/ws/${this.sessionId}`;
           
