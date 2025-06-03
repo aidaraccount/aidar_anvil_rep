@@ -841,8 +841,10 @@
           this.stage = this.STAGE.EXTENDED_CREATE_AGENT;
         }
         
-        // // Update model ID and ensure we're in extended create agent mode
-        // this.updateModelId(message.agent_id);
+        // Update model_id if we received a new one
+        if (message.agent_id) {
+          this.updateModelId(message.agent_id);
+        }
         
         // Remove typing indicator
         this.removeTypingIndicator();
