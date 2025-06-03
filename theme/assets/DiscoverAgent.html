@@ -1044,8 +1044,8 @@
         
         // Handle case where newModelId is null/undefined
         if (newModelId === null || newModelId === undefined) {
-          console.log('[updateModelId] New model ID is null/undefined, using random ID');
-          newModelId = ''; // Will trigger random ID generation
+          console.log('[updateModelId] New model ID is null/undefined, keeping existing model_id');
+          return; // Don't update if we receive a null model_id
         }
         
         // Normalize for comparison (treat empty string and null the same)
