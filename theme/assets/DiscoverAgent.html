@@ -394,187 +394,61 @@
         }
         
         // If already connecting, just wait for the connection
-        if (this.isConnecting) {
-          console.log('[connect] Connection attempt already in progress');
-          return;
-        }
-        
-        // If we have a socket in a connecting or open state, don't create a new one
         if (this.socket) {
-          const state = this.socket.readyState;
-          if (state === WebSocket.CONNECTING) {
-            console.log('[connect] Socket already connecting, waiting...');
-            return;
-          }
-          if (state === WebSocket.OPEN) {
-            console.log('[connect] Socket already open, processing queue');
-            this.isConnected = true;
-            this.isConnecting = false;
-            this.processMessageQueue();
-            return;
-          }
-          // If we get here, the socket is in CLOSING or CLOSED state, so we'll proceed to create a new one
+          console.log('[connect] Closing existing socket');
+          this.socket.close();
         }
-        
-        // Set connecting state
+
         this.isConnecting = true;
         console.log('[connect] Set isConnecting to true');
-        
-        // Log current state
-        console.log(`[connect] Current connection state: ${this.socket ? this.socket.readyState : 'No socket'}`);
-        console.log(`[connect] Attempting to connect to: ${this.wsUrl}`);
-        
-        // Close existing socket if it exists
-        if (this.socket) {
-          console.log('[connect] Closing existing WebSocket connection');
-          try {
-            const oldSocket = this.socket;
-            oldSocket.onclose = null; // Remove any existing handlers to prevent duplicate events
-            oldSocket.close();
-            console.log('[connect] Existing WebSocket connection closed');
-          } catch (e) {
-            console.error('[connect] Error closing existing socket:', e);
-          } finally {
-            this.socket = null;
-          }
-        }
-        
+
         try {
-          // Create new WebSocket connection
-          console.log('[connect] Creating new WebSocket instance');
+          console.log('[connect] Creating WebSocket connection to:', this.wsUrl);
           this.socket = new WebSocket(this.wsUrl);
-          console.log('[connect] WebSocket created, setting up event handlers');
-          
-          const self = this;
-          
-          // Set up WebSocket event handlers
-          this.socket.onopen = async function(event) {
-            console.log('[connect] WebSocket onopen event fired');
-            self.isConnected = true;
-            self.isConnecting = false;
-            self.wasConnectedBeforeError = true;
-            self.reconnectAttempts = 0; // Reset reconnect attempts on successful connection
-            
-            console.log('[connect] WebSocket connection opened successfully, isConnected:', self.isConnected);
-            console.log('[connect] Current socket state:', {
-              readyState: self.socket ? self.socket.readyState : 'no socket',
-              url: self.socket ? self.socket.url : 'no socket',
-              bufferedAmount: self.socket ? self.socket.bufferedAmount : 'no socket'
-            });
-                        
-            // Process any queued messages
-            console.log('[connect] === processMessageQueue() ===');
-            console.log('[connect] Current state:', {
-              isConnected: self.isConnected,
-              isConnecting: self.isConnecting,
-              isUpdatingModelId: self.isUpdatingModelId,
-              socketState: self.socket ? self.socket.readyState : 'no socket',
-              queueLength: self.messageQueue.length
-            });
-            
-            if (self.messageQueue.length === 0) {
-              console.log('[connect] No messages in queue to process');
-              return;
-            }
-            
-            // If not connected, don't process the queue yet
-            if (!self.isConnected || !self.socket || self.socket.readyState !== WebSocket.OPEN) {
-              console.log('[connect] Not connected, cannot process message queue. State:', {
-                isConnected: self.isConnected,
-                socketExists: !!self.socket,
-                socketState: self.socket ? self.socket.readyState : 'no socket'
-              });
-              return;
-            }
-            
-            console.log(`[connect] Processing ${self.messageQueue.length} queued messages`);
-            
-            // Process all queued messages
-            while (self.messageQueue.length > 0) {
-              const message = self.messageQueue[0]; // Peek at the first message
-              console.log('[connect] Attempting to send queued message:', {
-                type: message.type,
-                contentLength: message.content ? message.content.length : 0,
-                timestamp: message.timestamp
-              });
-              
-              try {
-                self.sendRawMessage(message);
-                console.log('[connect] Successfully sent queued message');
-                self.messageQueue.shift(); // Only remove if send was successful
-              } catch (error) {
-                console.error('[connect] Error sending queued message:', error);
-                break; // Stop processing queue on error
-              }
-            }
-            
-            console.log('[connect] Finished processing message queue. Remaining:', self.messageQueue.length);
-            
-            // Show reconnected message if we were connected before this reconnection
-            if (self.wasConnectedBeforeError) {
-              console.log('[connect] Sending connection re-established message');
-              self.addSystemMessage('Connection re-established');
-            }
+
+          // Set up event handlers
+          this.socket.onopen = () => {
+            console.log('[connect] Connection opened successfully');
+            this.isConnected = true;
+            this.isConnecting = false;
+            this.reconnectAttempts = 0;
+            this.processMessageQueue();
           };
-          
+
           this.socket.onmessage = (event) => {
-            console.log('[connect] Received message:', event.data);
+            console.log('[connect] Message received');
             this.handleMessage(event);
           };
-          
-          this.socket.onclose = function(event) {
-            console.log(`[connect] WebSocket connection closed. Code: ${event.code}, Reason: ${event.reason || 'No reason provided'}`);
-            self.isConnected = false;
-            self.isConnecting = false;
-            
-            // Only attempt to reconnect if the connection was previously established
-            // and we're not already trying to reconnect
-            if (self.wasConnectedBeforeError && !self.reconnectTimeout) {
-              self.attemptReconnect();
-            }
-          };
-          
+
           this.socket.onerror = (error) => {
-            console.error('[connect] WebSocket error event fired:', error);
-            console.error('[connect] Error event type:', error.type);
-            console.error('[connect] Error event target readyState:', error.target ? error.target.readyState : 'no target');
-            
-            // Save connection state before marking as disconnected
-            this.wasConnectedBeforeError = this.isConnected;
+            console.error('[connect] Connection error:', error);
             this.isConnected = false;
+            this.handleError('WebSocket connection error');
+          };
+
+          this.socket.onclose = (event) => {
+            console.log('[connect] Connection closed:', event);
+            this.isConnected = false;
+            this.isConnecting = false;
             
-            console.log('[connect] Current WebSocket readyState:', this.socket ? this.socket.readyState : 'no socket');
-            
-            // Log more detailed error information
-            if (error && error.target) {
-              console.error('[connect] WebSocket error details:', {
-                url: error.target.url,
-                readyState: error.target.readyState,
-                bufferedAmount: error.target.bufferedAmount,
-                extensions: error.target.extensions,
-                protocol: error.target.protocol
-              });
+            if (event.wasClean && event.code === 1000) {
+              console.log('[connect] Normal connection closure');
+            } else if (this.wasConnectedBeforeError && !this.reconnectTimeout) {
+              this.attemptReconnect();
             }
           };
-          
         } catch (error) {
-          console.error('[connect] Failed to establish WebSocket connection:', error);
-          this.addErrorMessage('Failed to connect to the server');
-          this.handleReconnect();
+          console.error('[connect] Connection failed:', error);
+          this.isConnected = false;
+          this.isConnecting = false;
+          this.handleError('Failed to connect to WebSocket server');
         }
       }
       
-      // Handle reconnection with exponential backoff
+      // Attempt to reconnect to the WebSocket server
       attemptReconnect() {
-        // Don't attempt to reconnect if we're in the middle of a model ID update
-        if (this.isUpdatingModelId) {
-          console.log('[attemptReconnect] Skipping reconnect attempt during model ID update');
-          return;
-        }
-        
         if (this.reconnectAttempts >= this.maxReconnectAttempts) {
-          console.log('[attemptReconnect] Max reconnection attempts reached, giving up');
-          this.addSystemMessage('Connection lost. Please refresh the page to try again.');
+          this.addSystemMessage('Failed to reconnect. Please refresh the page to try again.');
           return;
         }
         
@@ -1753,10 +1627,11 @@
     } else {
         console.error('[createAgentView] Could not find agent sidebar element');
     }
+  };
 
   // MAKE updateModelId accessible from Python
   window.updateModelId = function(model_id) {
-    console.log('[updateModelId] Updating model_id:', model_id);
+    console.log('[updateModelId] MAKE updateModelId accessible from Python - model_id:', model_id);
     window.model_id = model_id;
     
     // Update the model_id in the WebSocketManager
@@ -1768,5 +1643,4 @@
     }
   };
 
-};
 </script>
