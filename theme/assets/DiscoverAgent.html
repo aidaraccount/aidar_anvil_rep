@@ -239,11 +239,15 @@
         this.reconnectDelay = 1000;
         this.isLoadingHistory = false;
 
-        this.createAgent = false;
-        this.extendedCreateAgent = false;
-        console.log('[WebSocketManager] createAgent:', this.createAgent);
-        console.log('[WebSocketManager] extendedCreateAgent:', this.extendedCreateAgent);
-        
+        // Stage management
+        const STAGE = {
+          NORMAL: 'normal',
+          CREATE_AGENT: 'create_agent',
+          EXTENDED_CREATE_AGENT: 'extended_create_agent'
+        };
+        this.STAGE = STAGE;
+        this.stage = STAGE.NORMAL;
+        console.log('[WebSocketManager] Initial stage:', this.stage);
 
         // Debug information
         console.log('[WebSocketManager] Constructor called');
@@ -488,47 +492,49 @@
 
         // -------------------------
         // MODEL CREATION ANIMATION (Step 2)
-        // 1. First, animate out the initial question and move chat input down
-        const initialQuestion = document.querySelector('.initial-creation-question');
-        const chatContainer = document.querySelector('.chat-container');
-        const chatInputContainer = document.querySelector('.chat-input-container');
+        // Only animate if we're in create agent mode (not extended create agent mode)
         
         console.log('[WebSocketManager] createAgent:', this.createAgent);
         console.log('[WebSocketManager] extendedCreateAgent:', this.extendedCreateAgent);
 
-        // if (initialQuestion && chatContainer && chatInputContainer) {
-        if (this.createAgent === true) {
+        if (this.stage === this.STAGE.CREATE_AGENT) {
           console.log('[sendMessage] Create agent mode');
-
-          // Start the hide animations
-          initialQuestion.classList.add('hide-animation');
-          chatInputContainer.classList.add('hide-animation');
           
-          // After hide animation completes (1.5s)
-          setTimeout(() => {
-            // 2. Remove the question element completely
-            initialQuestion.remove();
+          const initialQuestion = document.querySelector('.initial-creation-question');
+          const chatContainer = document.querySelector('.chat-container');
+          const chatInputContainer = document.querySelector('.chat-input-container');
+
+          if (initialQuestion && chatContainer && chatInputContainer) {
+            // Start the hide animations
+            initialQuestion.classList.add('hide-animation');
+            chatInputContainer.classList.add('hide-animation');
             
-            // 3. Remove initial creation class from chat container and reset input container
-            chatContainer.classList.remove('initial-creation');
-            chatInputContainer.classList.remove('hide-animation');
-            chatInputContainer.style.transform = ''; // Reset transform
-            
-            // 4. Add show animation to chat container
-            chatContainer.classList.add('show-animation');
-            
-            // 5. Clean up after animation completes
+            // After hide animation completes (1.5s)
             setTimeout(() => {
-              chatContainer.classList.remove('show-animation');
-            }, 800); // Slightly longer than the animation duration
-          }, 1500); // Match this with the CSS transition duration (1.5s)
-        
+              // 2. Remove the question element completely
+              initialQuestion.remove();
+              
+              // 3. Remove initial creation class from chat container and reset input container
+              chatContainer.classList.remove('initial-creation');
+              chatInputContainer.classList.remove('hide-animation');
+              chatInputContainer.style.transform = ''; // Reset transform
+              
+              // 4. Add show animation to chat container
+              chatContainer.classList.add('show-animation');
+              
+              // 5. Clean up after animation completes
+              setTimeout(() => {
+                chatContainer.classList.remove('show-animation');
+              }, 800); // Slightly longer than the animation duration
+            }, 1500); // Match this with the CSS transition duration (1.5s)
+          }
+          
           // type definition
           // standard type = 'query'
           type = 'create_agent'
         }
 
-        if (this.extendedCreateAgent === true) {
+        if (this.stage === this.STAGE.EXTENDED_CREATE_AGENT) {
           console.log('[sendMessage] Extended create agent mode');
           type = 'extended_create_agent'
         }
@@ -821,7 +827,8 @@
       // Handle extended create agent message from server
       handleExtendedCreateAgent(message) {
         console.log('[handleExtendedCreateAgent] Received extended create agent message:', message);
-        this.extendedCreateAgent = true;
+        console.log('[handleExtendedCreateAgent] Stage changed to:', this.stage);
+        this.stage = this.STAGE.EXTENDED_CREATE_AGENT;
         this.updateModelId(message.agent_id);
         this.removeTypingIndicator();
       }
@@ -829,7 +836,8 @@
       // Handle create agent message from server
       async handleCreateAgent(message) {
         console.log('[handleCreateAgent] Received complete create agent message:', message);
-        this.createAgent = true;
+        console.log('[handleCreateAgent] Stage changed to:', this.stage);
+        this.stage = this.STAGE.CREATE_AGENT;
         this.updateModelId(message.agent_id);
         this.removeTypingIndicator();
 
