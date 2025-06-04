@@ -1392,10 +1392,21 @@
     const chatMessages = document.getElementById('chat-messages');
     const sidebar = document.getElementById('right-sidebar');
     // const mainContent = document.querySelector('.main-content-move');
-    const mainContent = document.querySelector('.discover_self');
-    console.log('[AgentSidebar] Initializing with mainContent:', mainContent);
+    // const mainContent = document.querySelector('.discover_self');
+    // console.log('[AgentSidebar] Initializing with mainContent:', mainContent);
     // <div class="html-templated-panel anvil-container anvil-always-inline-container anvil-component has-components anvil-role-discover_self belongs-to-UGBBFT" anvil-role="discover_self" style="">
     
+    // Try multiple selectors to find the main content
+    let mainContent = document.querySelector('.discover_self');
+    
+    if (!mainContent) {
+      console.log('[AgentSidebar] No main content found with .discover_self');
+      console.log('[AgentSidebar] Available elements with class discover_self:', 
+        document.querySelectorAll('.discover_self'));
+    } else {
+      console.log('[AgentSidebar] Found main content:', mainContent);
+    }
+
     // Open the agent sidebar by default and update UI
     if (agentSidebar && agentButton) {
       agentSidebar.classList.add('open');
