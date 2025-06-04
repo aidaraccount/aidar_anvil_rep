@@ -145,6 +145,10 @@
       </button>
     </div>
 
+    <div class="agent-classical-creation-link">
+      <a href="#model_setup?model_id=None&section=Basics">Classic Agent Creation</a>
+    </div>
+
   </div>
   
 </div>
@@ -511,18 +515,21 @@
           console.log('[sendMessage] Create agent mode');
           
           const initialQuestion = document.querySelector('.initial-creation-question');
+          const classicalCreationLink = document.querySelector('.agent-classical-creation-link');
           const chatContainer = document.querySelector('.chat-container');
           const chatInputContainer = document.querySelector('.chat-input-container');
 
           if (initialQuestion && chatContainer && chatInputContainer) {
             // Start the hide animations
             initialQuestion.classList.add('hide-animation');
+            classicalCreationLink.classList.add('hide-animation');
             chatInputContainer.classList.add('hide-animation');
             
             // After hide animation completes (1.5s)
             setTimeout(() => {
               // 2. Remove the question element completely
               initialQuestion.remove();
+              classicalCreationLink.remove();
               
               // 3. Remove initial creation class from chat container and reset input container
               chatContainer.classList.remove('initial-creation');
@@ -1668,6 +1675,7 @@
         // Add initial creation classes
         const chatContainer = document.querySelector('.chat-container');
         const creationQuestion = document.querySelector('.initial-creation-question');
+        const classicalCreationLink = document.querySelector('.agent-classical-creation-link');
         if (chatContainer) {
             chatContainer.classList.add('initial-creation');
             console.log('[createAgentView] Added initial creation class to chat container');
@@ -1675,6 +1683,10 @@
         if (creationQuestion) {
             creationQuestion.classList.add('initial-creation');
             console.log('[createAgentView] Added initial creation class to creation question');
+        }
+        if (classicalCreationLink) {
+            classicalCreationLink.classList.add('initial-creation');
+            console.log('[createAgentView] Added initial creation class to classical creation link');
         }
         // Update width based on left sidebar state
         updateAgentSidebarWidth();
