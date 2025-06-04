@@ -1301,7 +1301,8 @@
   if(typeof sidebar === 'undefined') {
     const sidebar = document.getElementById('right-sidebar');
     const button = document.getElementById('sidebar-button');
-    const mainContent = document.querySelector('.main-content-move');
+    // const mainContent = document.querySelector('.main-content-move');
+    const mainContent = document.querySelector('.discover_self');
     const agentSidebar = document.getElementById('agent-sidebar');
     const agentButton = document.getElementById('agent-sidebar-button');
 
@@ -1387,7 +1388,10 @@
     const sendButton = document.getElementById('send-button');
     const chatMessages = document.getElementById('chat-messages');
     const sidebar = document.getElementById('right-sidebar');
-    const mainContent = document.querySelector('.main-content-move');
+    // const mainContent = document.querySelector('.main-content-move');
+    const mainContent = document.querySelector('.discover_self');
+    console.log('[mainContent]', mainContent)
+    // <div class="html-templated-panel anvil-container anvil-always-inline-container anvil-component has-components anvil-role-discover_self belongs-to-UGBBFT" anvil-role="discover_self" style="">
     
     // Open the agent sidebar by default and update UI
     if (agentSidebar && agentButton) {
