@@ -838,6 +838,7 @@
       // Handle complete message from server
       handleCompleteMessage() {
         console.log('[handleCompleteMessage] Received complete message');
+        this.stage = this.STAGE.NORMAL;
         this.removeTypingIndicator();
       }
       
@@ -874,8 +875,8 @@
           console.log('[handleCreateAgent] Switching to NORMAL mode since we have an artist_id:', message.artist_id);
           this.stage = this.STAGE.NORMAL;
         } else {
-          console.log("[handleCreateAgent] Staying in CREATE_AGENT mode since we don't have an artist_id");
-          this.stage = this.STAGE.CREATE_AGENT;
+          console.log("[handleCreateAgent] Switching to EXTENDED_CREATE_AGENT mode since we don't have an artist_id");
+          this.stage = this.STAGE.EXTENDED_CREATE_AGENT;
         }
         
         if (this.model_id !== message.agent_id) {
