@@ -1147,6 +1147,9 @@
     }
   };
   
+  
+
+  
 
   // =====================================================================
   // Refresh WebSocketManager instance after page navigation
@@ -1379,8 +1382,8 @@
   })();
 
 
-  // Agent Sidebar
-  if (typeof agentSidebar === 'undefined') {
+  // Agent Sidebar - Wrapped in DOMContentLoaded
+  function initializeAgentSidebar() {
     const agentSidebar = document.getElementById('agent-sidebar');
     const agentButton = document.getElementById('agent-sidebar-button');
     const notesButton = document.getElementById('sidebar-button');
@@ -1390,37 +1393,39 @@
     const sidebar = document.getElementById('right-sidebar');
     // const mainContent = document.querySelector('.main-content-move');
     const mainContent = document.querySelector('.discover_self');
-    console.log('[mainContent]', mainContent)
+    console.log('[AgentSidebar] Initializing with mainContent:', mainContent);
     // <div class="html-templated-panel anvil-container anvil-always-inline-container anvil-component has-components anvil-role-discover_self belongs-to-UGBBFT" anvil-role="discover_self" style="">
     
     // Open the agent sidebar by default and update UI
     if (agentSidebar && agentButton) {
       agentSidebar.classList.add('open');
       agentButton.classList.add('open');
+      
+      // Define updateAgentMargins inside initializeAgentSidebar to have access to all variables
+      const updateAgentMargins = () => {
+        const agentOpen = agentSidebar.classList.contains('open');
+        const notesOpen = sidebar && sidebar.classList.contains('open');
+
+        // Calculate total margin based on open sidebars
+        let totalMargin = 0;
+        if (notesOpen && agentOpen) {
+          totalMargin = 800; // Both sidebars open
+        } else if (notesOpen || agentOpen) {
+          totalMargin = 400; // One sidebar open
+        }
+
+        // Apply the new margin with smooth transition
+        if (mainContent) mainContent.style.marginRight = totalMargin + 'px';
+
+        // Update button positions
+        if (notesButton) notesButton.style.right = (notesOpen ? totalMargin : 0) + 'px';
+        if (agentButton) agentButton.style.right = (agentOpen ? totalMargin : 0) + 'px';
+      };
+      
       updateAgentMargins(); // This will update the margins and button positions
-    }
-
-    function updateAgentMargins() {
-      const agentOpen = agentSidebar.classList.contains('open');
-      const notesOpen = sidebar && sidebar.classList.contains('open');
-
-      // Calculate total margin based on open sidebars
-      let totalMargin = 0;
-      if (notesOpen && agentOpen) {
-        totalMargin = 800; // Both sidebars open
-      } else if (notesOpen || agentOpen) {
-        totalMargin = 400; // One sidebar open
-      } // else 0, both closed
-
-      // Apply the new margin with smooth transition
-      if (mainContent) mainContent.style.marginRight = totalMargin + 'px';
-
-      // Update button positions
-      if (notesButton) notesButton.style.right = (notesOpen ? totalMargin : 0) + 'px';
-      if (agentButton) agentButton.style.right = (agentOpen ? totalMargin : 0) + 'px';
-    }
-
-    if (agentButton && agentSidebar && notesButton && chatInput && sendButton && chatMessages) {
+      
+      // Add event listeners and initialize components
+      if (agentButton && agentSidebar && notesButton && chatInput && sendButton && chatMessages) {
       // Position notes button below agent button
       function positionAgentButton() {
         const agentRect = agentButton.getBoundingClientRect();
@@ -1643,63 +1648,63 @@
     console.log('[createAgentView] Creating agent view');
     const agentSidebar = document.getElementById('agent-sidebar');
     if (agentSidebar) {
-        // Set createAgent stage
-        const wsManager = window.wsManager;
-        if (wsManager) {
-            wsManager.stage = wsManager.STAGE.CREATE_AGENT;
-            console.log('[createAgentView] Stage changed to:', wsManager.stage);
-        } else {
-            console.error('[createAgentView] WebSocket manager not found');
-        }
+      // Set createAgent stage
+      const wsManager = window.wsManager;
+      if (wsManager) {
+        wsManager.stage = wsManager.STAGE.CREATE_AGENT;
+        console.log('[createAgentView] Stage changed to:', wsManager.stage);
+      } else {
+        console.error('[createAgentView] WebSocket manager not found');
+      }
 
-        // Add in-creation class to all elements
-        const elements = [
-            agentSidebar,
-            document.querySelector('.header-sidebar'),
-            document.getElementById('chat-messages'),
-            document.querySelector('.chat-input-container'),
-            document.getElementById('agent-sidebar-button'),
-            document.querySelector('.footer')
-        ];
-        
-        elements.forEach(element => {
-            if (element) {
-                element.classList.add('in-creation');
-                console.log('[createAgentView] Added in-creation to:', element);
-            }
-        });
-        console.log('[createAgentView] Added in-creation classes to all elements');
+      // Add in-creation class to all elements
+      const elements = [
+        agentSidebar,
+        document.querySelector('.header-sidebar'),
+        document.getElementById('chat-messages'),
+        document.querySelector('.chat-input-container'),
+        document.getElementById('agent-sidebar-button'),
+        document.querySelector('.footer')
+      ];
+      
+      elements.forEach(element => {
+        if (element) {
+          element.classList.add('in-creation');
+          console.log('[createAgentView] Added in-creation to:', element);
+        }
+      });
+      console.log('[createAgentView] Added in-creation classes to all elements');
 
-        // Ensure we're in create agent mode for the next message
-        if (wsManager) {
-            wsManager.stage = wsManager.STAGE.CREATE_AGENT;
-            console.log('[createAgentView] Ensuring stage is set to create agent:', wsManager.stage);
-        }
-        
-        // Add initial creation classes
-        const chatContainer = document.querySelector('.chat-container');
-        const creationQuestion = document.querySelector('.initial-creation-question');
-        const classicalCreationLink = document.querySelector('.agent-classical-creation-link');
-        if (chatContainer) {
-            chatContainer.classList.add('initial-creation');
-            console.log('[createAgentView] Added initial creation class to chat container');
-        }
-        if (creationQuestion) {
-            creationQuestion.classList.add('initial-creation');
-            console.log('[createAgentView] Added initial creation class to creation question');
-        }
-        if (classicalCreationLink) {
-            classicalCreationLink.classList.add('initial-creation');
-            console.log('[createAgentView] Added initial creation class to classical creation link');
-        }
-        // Update width based on left sidebar state
-        updateAgentSidebarWidth();
-        
-        console.log('[createAgentView] Added in-creation classes to all elements');
+      // Ensure we're in create agent mode for the next message
+      if (wsManager) {
+        wsManager.stage = wsManager.STAGE.CREATE_AGENT;
+        console.log('[createAgentView] Ensuring stage is set to create agent:', wsManager.stage);
+      }
+      
+      // Add initial creation classes
+      const chatContainer = document.querySelector('.chat-container');
+      const creationQuestion = document.querySelector('.initial-creation-question');
+      const classicalCreationLink = document.querySelector('.agent-classical-creation-link');
+      if (chatContainer) {
+        chatContainer.classList.add('initial-creation');
+        console.log('[createAgentView] Added initial creation class to chat container');
+      }
+      if (creationQuestion) {
+        creationQuestion.classList.add('initial-creation');
+        console.log('[createAgentView] Added initial creation class to creation question');
+      }
+      if (classicalCreationLink) {
+        classicalCreationLink.classList.add('initial-creation');
+        console.log('[createAgentView] Added initial creation class to classical creation link');
+      }
+      // Update width based on left sidebar state
+      updateAgentSidebarWidth();
+      
+      console.log('[createAgentView] Added in-creation classes to all elements');
     } else {
-        console.error('[createAgentView] Could not find agent sidebar element');
+      console.error('[createAgentView] Could not find agent sidebar element');
     }
-  };
+  }
 
   // MAKE updateModelId accessible from Python
   window.updateModelId = function(model_id) {
@@ -1713,6 +1718,15 @@
     } else {
       console.error('[updateModelId] WebSocketManager not initialized');
     }
-  };
+  }
+
+  // Initialize agent sidebar when DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initializeAgentSidebar);
+  } else {
+    // Small delay to ensure all elements are available
+    setTimeout(initializeAgentSidebar, 100);
+  }
 
 </script>
+
