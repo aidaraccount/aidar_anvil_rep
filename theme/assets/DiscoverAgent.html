@@ -1302,7 +1302,6 @@
     const sidebar = document.getElementById('right-sidebar');
     const button = document.getElementById('sidebar-button');
     const mainContent = document.querySelector('.main-content-move');
-    const content = document.querySelector('.main-content');
     const agentSidebar = document.getElementById('agent-sidebar');
     const agentButton = document.getElementById('agent-sidebar-button');
 
@@ -1320,14 +1319,13 @@
 
       // Apply the new margin with smooth transition
       if (mainContent) mainContent.style.marginRight = totalMargin + 'px';
-      if (content) content.style.marginRight = totalMargin + 'px';
 
       // Update button positions
       if (button) button.style.right = (notesOpen ? totalMargin : 0) + 'px';
       if (agentButton) agentButton.style.right = (agentOpen ? totalMargin : 0) + 'px';
     }
 
-    if (sidebar && button && content && mainContent) {
+    if (sidebar && button && mainContent) {
       button.addEventListener('click', function () {
         sidebar.classList.toggle('open');
         button.classList.toggle('open');
@@ -1390,7 +1388,6 @@
     const chatMessages = document.getElementById('chat-messages');
     const sidebar = document.getElementById('right-sidebar');
     const mainContent = document.querySelector('.main-content-move');
-    const content = document.querySelector('.main-content');
     
     // Open the agent sidebar by default and update UI
     if (agentSidebar && agentButton) {
@@ -1413,7 +1410,6 @@
 
       // Apply the new margin with smooth transition
       if (mainContent) mainContent.style.marginRight = totalMargin + 'px';
-      if (content) content.style.marginRight = totalMargin + 'px';
 
       // Update button positions
       if (notesButton) notesButton.style.right = (notesOpen ? totalMargin : 0) + 'px';
