@@ -496,6 +496,13 @@
   line-height: 1.5;
   transform: translateY(35px);
   transition: opacity 1.5s ease-out, transform 1.5s ease-out;
+  flex-direction: column;  /* for beta flag */
+  gap: 5px;  /* for beta flag */
+}
+.initial-creation-question-beta-flag {  /* for beta flag */
+  color: var(--Orange);
+  font-size: 14px;
+  font-weight: 500;
 }
 
 .initial-creation-question.initial-creation {
