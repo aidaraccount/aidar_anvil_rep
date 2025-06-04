@@ -161,6 +161,12 @@ body, html {
   background-image: url(_/theme/pics/LoadingSpinner_circle.svg) !important;
 }
 
+/* Model Navigation Link */
+.anvil-role-model-nav-link .link-text {
+  max-width: 150px;
+  overflow: clip;
+  text-overflow: ellipsis;  
+}
 /* underlining the activated model and watchlist in the navigation */
 .anvil-role-underline-link .link-text {
   text-decoration: underline !important;
@@ -1054,9 +1060,10 @@ a>.link-text {
   display:inline-block;
   padding-top: 0px;
   padding-bottom:5px;
-  white-space:pre-wrap;
   font-weight: normal;
+  white-space: nowrap;
 }
+
 .anvil-role-margin {
   margin: 10px 0 0 0;
 }

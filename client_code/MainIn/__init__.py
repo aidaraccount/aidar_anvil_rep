@@ -142,7 +142,7 @@ class MainIn(MainInTemplate):
       # NAVIGATION
       self.refresh_watchlists_components()
       self.refresh_models_components()
-      self.refresh_agents_components()
+      # self.refresh_agents_components()
       
       # For Anvil Extras routing, we need to set the hash as is
       # Empty hash will automatically route to the '' route (Home)
@@ -223,14 +223,15 @@ class MainIn(MainInTemplate):
             icon='fa:angle-right',
             text=model_ids[i]["model_name"],
             tag=model_ids[i]["model_id"],
-            role='underline-link'
+            role=['model-nav-link', 'underline-link']
           )
           save_var("model_id", model_ids[i]["model_id"])
         else:
           model_link = Link(
             icon='fa:angle-right',
             text=model_ids[i]["model_name"],
-            tag=model_ids[i]["model_id"]
+            tag=model_ids[i]["model_id"],
+            role=['model-nav-link']
           )
         model_link.set_event_handler('click', self.create_model_click_handler(model_ids[i]["model_id"], model_link, model_container))
         
@@ -266,9 +267,9 @@ class MainIn(MainInTemplate):
           # Only apply underlines to the model links (not settings icons)
           if isinstance(component, Link) and component.icon == 'fa:angle-right':
             if int(component.tag) == int(load_var("model_id")):
-              component.role = 'underline-link'
+              component.role = ['model-nav-link', 'underline-link']
             else:
-              component.role = ''
+              component.role = ['model-nav-link']
   
   def create_model_click_handler(self, model_id, model_link, model_container):
     def handler(**event_args):
@@ -281,94 +282,95 @@ class MainIn(MainInTemplate):
     save_var('model_id', link_model_id)
     self.refresh_models_underline()
     temp_artist_id = anvil.server.call('get_next_artist_id', link_model_id)
-    click_link(model_link, f'artists?artist_id={temp_artist_id}', event_args)
+    # click_link(model_link, f'artists?artist_id={temp_artist_id}', event_args)
+    click_link(model_link, f'agent_artists?artist_id={temp_artist_id}', event_args)
     
     self.reset_nav_backgrounds()
     model_container.background = "theme:Brown"
 
-  # ------------
-  # AGENT ROUTING
-  def refresh_agents_components(self):
-    # 1. Remove existing agent components
-    self.remove_agent_components()    
-    agent_ids = json.loads(anvil.server.call('get_model_ids',  user["user_id"]))
+  # # ------------
+  # # AGENT ROUTING
+  # def refresh_agents_components(self):
+  #   # 1. Remove existing agent components
+  #   self.remove_agent_components()    
+  #   agent_ids = json.loads(anvil.server.call('get_model_ids',  user["user_id"]))
 
-    if len(agent_ids) > 0:
-      for i in range(0, len(agent_ids)):
-        # 2. Create a container for each agent entry
-        agent_container = anvil.FlowPanel(
-          tag=agent_ids[i]["model_id"],
-          role='nav_flow_panel'
-        )
+  #   if len(agent_ids) > 0:
+  #     for i in range(0, len(agent_ids)):
+  #       # 2. Create a container for each agent entry
+  #       agent_container = anvil.FlowPanel(
+  #         tag=agent_ids[i]["model_id"],
+  #         role='nav_flow_panel'
+  #       )
 
-        # 3. Create the agent link with navigation functionality
-        if agent_ids[i]["is_last_used"] is True:
-          agent_link = Link(
-            icon='fa:angle-right',
-            text=agent_ids[i]["model_name"],
-            tag=agent_ids[i]["model_id"],
-            role='underline-link'
-          )
-          save_var("model_id", agent_ids[i]["model_id"])
-        else:
-          agent_link = Link(
-            icon='fa:angle-right',
-            text=agent_ids[i]["model_name"],
-            tag=agent_ids[i]["model_id"]
-          )
-        agent_link.set_event_handler('click', self.create_agent_click_handler(agent_ids[i]["model_id"], agent_link, agent_container))
+  #       # 3. Create the agent link with navigation functionality
+  #       if agent_ids[i]["is_last_used"] is True:
+  #         agent_link = Link(
+  #           icon='fa:angle-right',
+  #           text=agent_ids[i]["model_name"],
+  #           tag=agent_ids[i]["model_id"],
+  #           role='underline-link'
+  #         )
+  #         save_var("model_id", agent_ids[i]["model_id"])
+  #       else:
+  #         agent_link = Link(
+  #           icon='fa:angle-right',
+  #           text=agent_ids[i]["model_name"],
+  #           tag=agent_ids[i]["model_id"]
+  #         )
+  #       agent_link.set_event_handler('click', self.create_agent_click_handler(agent_ids[i]["model_id"], agent_link, agent_container))
 
-        # 4. Create settings icon link
-        settings_link = Link(
-          icon='fa:sliders',
-          text="",  # Empty text for icon-only link
-          tag=agent_ids[i]["model_id"],
-          role='icon-link-discreet'
-        )
-        settings_link.set_event_handler('click', self.create_settings_click_handler(agent_ids[i]["model_id"]))
+  #       # 4. Create settings icon link
+  #       settings_link = Link(
+  #         icon='fa:sliders',
+  #         text="",  # Empty text for icon-only link
+  #         tag=agent_ids[i]["model_id"],
+  #         role='icon-link-discreet'
+  #       )
+  #       settings_link.set_event_handler('click', self.create_settings_click_handler(agent_ids[i]["model_id"]))
 
-        # 5. Add both links to the container
-        agent_container.add_component(agent_link, expand=True)  # Expand to fill available space
-        agent_container.add_component(settings_link)
+  #       # 5. Add both links to the container
+  #       agent_container.add_component(agent_link, expand=True)  # Expand to fill available space
+  #       agent_container.add_component(settings_link)
 
-        # 6. Add the container to nav_agents
-        self.nav_agents.add_component(agent_container)
+  #       # 6. Add the container to nav_agents
+  #       self.nav_agents.add_component(agent_container)
 
-    self.reset_nav_backgrounds()
+  #   self.reset_nav_backgrounds()
 
-  def remove_agent_components(self):
-    # Remove all components (now Flow containers) from nav_agents
-    for component in self.nav_agents.get_components():
-      if isinstance(component, anvil.FlowPanel):
-        component.remove_from_parent()
+  # def remove_agent_components(self):
+  #   # Remove all components (now Flow containers) from nav_agents
+  #   for component in self.nav_agents.get_components():
+  #     if isinstance(component, anvil.FlowPanel):
+  #       component.remove_from_parent()
 
-  def refresh_agents_underline(self):
-    # Find all agent links inside Flow containers and update their roles
-    for container in self.nav_agents.get_components():
-      if isinstance(container, anvil.FlowPanel):
-        for component in container.get_components():
-          # Only apply underlines to the agent links (not settings icons)
-          if isinstance(component, Link) and component.icon == 'fa:angle-right':
-            if int(component.tag) == int(load_var("model_id")):
-              component.role = 'underline-link'
-            else:
-              component.role = ''
+  # def refresh_agents_underline(self):
+  #   # Find all agent links inside Flow containers and update their roles
+  #   for container in self.nav_agents.get_components():
+  #     if isinstance(container, anvil.FlowPanel):
+  #       for component in container.get_components():
+  #         # Only apply underlines to the agent links (not settings icons)
+  #         if isinstance(component, Link) and component.icon == 'fa:angle-right':
+  #           if int(component.tag) == int(load_var("model_id")):
+  #             component.role = 'underline-link'
+  #           else:
+  #             component.role = ''
 
-  def create_agent_click_handler(self, model_id, agent_link, agent_container):
-    def handler(**event_args):
-      self.agents_click(model_id, agent_link, agent_container, **event_args)
-    return handler
+  # def create_agent_click_handler(self, model_id, agent_link, agent_container):
+  #   def handler(**event_args):
+  #     self.agents_click(model_id, agent_link, agent_container, **event_args)
+  #   return handler
 
-  def agents_click(self, link_model_id, agent_link, agent_container, **event_args):
-    # activate model and navigate to discover
-    anvil.server.call('update_model_usage', user["user_id"], link_model_id)
-    save_var('model_id', link_model_id)
-    self.refresh_agents_underline()
-    temp_artist_id = anvil.server.call('get_next_artist_id', link_model_id)
-    click_link(agent_link, f'agent_artists?artist_id={temp_artist_id}', event_args)
+  # def agents_click(self, link_model_id, agent_link, agent_container, **event_args):
+  #   # activate model and navigate to discover
+  #   anvil.server.call('update_model_usage', user["user_id"], link_model_id)
+  #   save_var('model_id', link_model_id)
+  #   self.refresh_agents_underline()
+  #   temp_artist_id = anvil.server.call('get_next_artist_id', link_model_id)
+  #   click_link(agent_link, f'agent_artists?artist_id={temp_artist_id}', event_args)
 
-    self.reset_nav_backgrounds()
-    agent_container.background = "theme:Brown"
+  #   self.reset_nav_backgrounds()
+  #   agent_container.background = "theme:Brown"
 
   # ------------
   # SETTINGS ROUTING
@@ -421,9 +423,9 @@ class MainIn(MainInTemplate):
     for component in self.nav_models.get_components():
       component.background = None
 
-    self.link_agents.background = None    
-    for component in self.nav_agents.get_components():
-      component.background = None
+    # self.link_agents.background = None    
+    # for component in self.nav_agents.get_components():
+    #   component.background = None
       
     # set new background    
     if location.hash[:5] == '#home' or location.hash == '':
@@ -573,26 +575,28 @@ class MainIn(MainInTemplate):
       self.column_panel_nav.visible = True
 
   def create_model_click(self, **event_args):
-    click_link(self.create_model, 'model_setup?model_id=None&section=Basics', event_args)
-    self.reset_nav_backgrounds()
-
-  #----------------------------------------------------------------------------------------------
-  # AGENTS
-  def change_agents_visibility(self, **event_args):
-    if self.link_agents.icon == 'fa:angle-down':
-      self.link_agents.icon = 'fa:angle-up'
-      for component in self.nav_agents.get_components():
-        component.visible = True
-    else:
-      self.link_agents.icon = 'fa:angle-down'
-      for component in self.nav_agents.get_components():
-        component.visible = False
-      self.column_panel_agent.visible = True
-
-  def create_agent_click(self, **event_args):
+    # click_link(self.create_model, 'model_setup?model_id=None&section=Basics', event_args)
     save_var("model_id", None)
     click_link(self.create_model, 'agent_artists?artist_id=create_agent', event_args)
     self.reset_nav_backgrounds()
+
+  # #----------------------------------------------------------------------------------------------
+  # # AGENTS
+  # def change_agents_visibility(self, **event_args):
+  #   if self.link_agents.icon == 'fa:angle-down':
+  #     self.link_agents.icon = 'fa:angle-up'
+  #     for component in self.nav_agents.get_components():
+  #       component.visible = True
+  #   else:
+  #     self.link_agents.icon = 'fa:angle-down'
+  #     for component in self.nav_agents.get_components():
+  #       component.visible = False
+  #     self.column_panel_agent.visible = True
+
+  # def create_agent_click(self, **event_args):
+  #   save_var("model_id", None)
+  #   click_link(self.create_model, 'agent_artists?artist_id=create_agent', event_args)
+  #   self.reset_nav_backgrounds()
 
   #----------------------------------------------------------------------------------------------
   # OTHER

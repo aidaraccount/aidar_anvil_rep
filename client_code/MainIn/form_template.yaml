@@ -131,11 +131,17 @@ components:
     - {code: '[''nav_link'']', property: role, writeback: false}
     layout_properties: {}
     name: column_panel_nav
-    properties: {col_spacing: none, col_widths: '{"XTMZXV":45,"GKGZJF":15}'}
+    properties:
+      col_spacing: none
+      col_widths: '{"XTMZXV":45,"GKGZJF":15}'
+      spacing:
+        margin: [0, null, 0, null]
     type: ColumnPanel
   layout_properties: {slot: sidebar}
   name: nav_models
-  properties: {}
+  properties:
+    spacing:
+      margin: [0, null, 0, null]
   type: LinearPanel
 - components:
   - components:
@@ -158,11 +164,18 @@ components:
       type: Link
     layout_properties: {}
     name: column_panel_agent
-    properties: {col_spacing: none, col_widths: '{"XXZWVE":45,"FEONQA":15}'}
+    properties:
+      col_spacing: none
+      col_widths: '{"XXZWVE":45,"FEONQA":15}'
+      spacing:
+        margin: [0, null, 0, null]
     type: ColumnPanel
   layout_properties: {slot: sidebar}
   name: nav_agents
-  properties: {}
+  properties:
+    spacing:
+      margin: [0, null, 0, null]
+    visible: false
   type: LinearPanel
 - components:
   - data_bindings:
@@ -188,7 +201,9 @@ components:
     type: Link
   layout_properties: {slot: sidebar}
   name: linear_panel_monitor_copy
-  properties: {}
+  properties:
+    spacing:
+      margin: [0, null, 0, null]
   type: LinearPanel
 - event_bindings: {click: settings_click}
   layout_properties: {slot: sidebar}
