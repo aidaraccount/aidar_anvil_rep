@@ -1392,47 +1392,8 @@
     const chatMessages = document.getElementById('chat-messages');
     const sidebar = document.getElementById('right-sidebar');
     // const mainContent = document.querySelector('.main-content-move');
-    // const mainContent = document.querySelector('.discover_self');
-    // console.log('[AgentSidebar] Initializing with mainContent:', mainContent);
-    // <div class="html-templated-panel anvil-container anvil-always-inline-container anvil-component has-components anvil-role-discover_self belongs-to-UGBBFT" anvil-role="discover_self" style="">
-    
-    // Enhanced debugging for finding main content
-    console.log('[AgentSidebar] Document readyState:', document.readyState);
-    console.log('[AgentSidebar] Document body:', document.body ? 'Exists' : 'Not found');
-    
-    // Try multiple selectors to find the main content
-    const selectors = [
-      '.discover_self',
-      '.anvil-role-discover_self',
-      '[anvil-role="discover_self"]',
-      '.anvil-container',
-      '.main-content',
-      'main',
-      '.content',
-      'body > div:first-child'
-    ];
-    
-    let mainContent = null;
-    let foundSelector = null;
-    
-    for (const selector of selectors) {
-      const elements = document.querySelectorAll(selector);
-      console.log(`[AgentSidebar] Elements matching ${selector}:`, elements.length);
-      
-      if (elements.length > 0 && !mainContent) {
-        mainContent = elements[0];
-        foundSelector = selector;
-        console.log(`[AgentSidebar] Using selector: ${selector}`, mainContent);
-        break;
-      }
-    }
-    
-    if (!mainContent) {
-      console.error('[AgentSidebar] Could not find main content with any selector');
-      console.log('[AgentSidebar] Document body HTML:', document.body ? document.body.outerHTML : 'No body');
-    } else {
-      console.log(`[AgentSidebar] Found main content using selector: ${foundSelector}`, mainContent);
-    }
+    const mainContent = document.querySelector('.anvil-role-discover_self');
+    console.log('[AgentSidebar] Initializing with mainContent:', mainContent);
 
     // Open the agent sidebar by default and update UI
     if (agentSidebar && agentButton) {
