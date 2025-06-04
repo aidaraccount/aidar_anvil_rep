@@ -1426,29 +1426,30 @@
       
       // Add event listeners and initialize components
       if (agentButton && agentSidebar && notesButton && chatInput && sendButton && chatMessages) {
-      // Position notes button below agent button
-      function positionAgentButton() {
-        const agentRect = agentButton.getBoundingClientRect();
-        notesButton.style.top = `${agentRect.bottom + 20}px`;
-      }
+        // Position notes button below agent button
+        function positionAgentButton() {
+          const agentRect = agentButton.getBoundingClientRect();
+            notesButton.style.top = `${agentRect.bottom + 20}px`;
+          }
 
-      // Initial positioning
-      positionAgentButton();
+        // Initial positioning
+        positionAgentButton();
 
-      // Re-position on window resize
-      window.addEventListener('resize', positionAgentButton);
+        // Re-position on window resize
+        window.addEventListener('resize', positionAgentButton);
 
-      // Toggle sidebar
-      agentButton.addEventListener('click', function() {
-        agentSidebar.classList.toggle('open');
-        agentButton.classList.toggle('open');
-        updateAgentMargins();
-      });
+        // Toggle sidebar
+        agentButton.addEventListener('click', function() {
+          agentSidebar.classList.toggle('open');
+          agentButton.classList.toggle('open');
+          updateAgentMargins();
+        });
 
-      // Also update margins when notes sidebar is toggled
-      if (sidebar) {
-        const observer = new MutationObserver(updateAgentMargins);
-        observer.observe(sidebar, { attributes: true, attributeFilter: ['class'] });
+        // Also update margins when notes sidebar is toggled
+        if (sidebar) {
+          const observer = new MutationObserver(updateAgentMargins);
+          observer.observe(sidebar, { attributes: true, attributeFilter: ['class'] });
+        }
       }
 
       // Auto-scroll to bottom of chat with smooth animation
@@ -1718,7 +1719,7 @@
     } else {
       console.error('[updateModelId] WebSocketManager not initialized');
     }
-  }
+  };
 
   // Initialize agent sidebar when DOM is ready
   if (document.readyState === 'loading') {
