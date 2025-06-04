@@ -1396,15 +1396,42 @@
     // console.log('[AgentSidebar] Initializing with mainContent:', mainContent);
     // <div class="html-templated-panel anvil-container anvil-always-inline-container anvil-component has-components anvil-role-discover_self belongs-to-UGBBFT" anvil-role="discover_self" style="">
     
+    // Enhanced debugging for finding main content
+    console.log('[AgentSidebar] Document readyState:', document.readyState);
+    console.log('[AgentSidebar] Document body:', document.body ? 'Exists' : 'Not found');
+    
     // Try multiple selectors to find the main content
-    let mainContent = document.querySelector('.discover_self');
+    const selectors = [
+      '.discover_self',
+      '.anvil-role-discover_self',
+      '[anvil-role="discover_self"]',
+      '.anvil-container',
+      '.main-content',
+      'main',
+      '.content',
+      'body > div:first-child'
+    ];
+    
+    let mainContent = null;
+    let foundSelector = null;
+    
+    for (const selector of selectors) {
+      const elements = document.querySelectorAll(selector);
+      console.log(`[AgentSidebar] Elements matching ${selector}:`, elements.length);
+      
+      if (elements.length > 0 && !mainContent) {
+        mainContent = elements[0];
+        foundSelector = selector;
+        console.log(`[AgentSidebar] Using selector: ${selector}`, mainContent);
+        break;
+      }
+    }
     
     if (!mainContent) {
-      console.log('[AgentSidebar] No main content found with .discover_self');
-      console.log('[AgentSidebar] Available elements with class discover_self:', 
-        document.querySelectorAll('.discover_self'));
+      console.error('[AgentSidebar] Could not find main content with any selector');
+      console.log('[AgentSidebar] Document body HTML:', document.body ? document.body.outerHTML : 'No body');
     } else {
-      console.log('[AgentSidebar] Found main content:', mainContent);
+      console.log(`[AgentSidebar] Found main content using selector: ${foundSelector}`, mainContent);
     }
 
     // Open the agent sidebar by default and update UI
@@ -1480,19 +1507,19 @@
       if (chatMessages) {
         let isScrolling = false;
         const scrollObserver = new MutationObserver(() => {
-          if (!isScrolling) {
-            isScrolling = true;
-            // Small delay to ensure DOM is updated
-            requestAnimationFrame(() => {
-              scrollToBottom();
-              isScrolling = false;
-            });
-          }
-        });
+            if (!isScrolling) {
+              isScrolling = true;
+              // Small delay to ensure DOM is updated
+              requestAnimationFrame(() => {
+                scrollToBottom();
+                isScrolling = false;
+              });
+            }
+          });
 
 
-        // Observe chat messages for changes
-        scrollObserver.observe(chatMessages, { childList: true, subtree: true });
+          // Observe chat messages for changes
+          scrollObserver.observe(chatMessages, { childList: true, subtree: true });
       }
 
       // Format time
@@ -1593,7 +1620,7 @@
 
       // Clean up on unload
       window.addEventListener('beforeunload', () => {
-        scrollObserver.disconnect();
+          scrollObserver.disconnect();
         window.removeEventListener('resize', scrollToBottom);
       });
     }
