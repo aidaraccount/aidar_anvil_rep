@@ -920,23 +920,23 @@
         //   });
         //   console.log('Successfully refreshed agent components');
 
-        //   // // First get the updated agents data
-        //   // const agentsData = await anvil.server.call('refresh_agents_components_helper');
-        //   // console.log('Agents data:', agentsData);
+        //   // First get the updated agents data
+        //   const agentsData = await anvil.server.call('refresh_agents_components_helper');
+        //   console.log('Agents data:', agentsData);
           
-        //   // // Then trigger the client-side refresh
-        //   // const success = await anvil.server.call('refresh_agents_components');
-        //   // if (success) {
-        //   //   console.log('Successfully refreshed agent components');
-        //   // } else {
-        //   //   console.warn('Could not refresh agent components');
-        //   //   // Fallback to page reload if needed
-        //   //   setTimeout(() => window.location.reload(), 500);
-        //   // }
+        //   // Then trigger the client-side refresh
+        //   const success = await anvil.server.call('refresh_agents_components');
+        //   if (success) {
+        //     console.log('Successfully refreshed agent components');
+        //   } else {
+        //     console.warn('Could not refresh agent components');
+        //     // Fallback to page reload if needed
+        //     setTimeout(() => window.location.reload(), 500);
+        //   }
         // } catch (error) {
         //   console.error('Error refreshing agent components:', error);
         //   // Fallback to page reload on error
-        //   // setTimeout(() => window.location.reload(), 500);
+        //   setTimeout(() => window.location.reload(), 500);
         // }
       }
     
@@ -1036,14 +1036,19 @@
                 if (window.anvil && typeof window.anvil.call === 'function') {
                   console.log('[addNewModelToNavigation] Calling SM_get_next_artist_id via window.anvil.call');
                   
-                  // This is the key difference - using window.anvil.call instead of anvil.server.call
-                  const artist_id = await window.anvil.call('SM_get_next_artist_id', modelData.model_id);
-                  
-                  if (artist_id) {
-                    temp_artist_id = artist_id;
-                    console.log('[addNewModelToNavigation] Got artist ID via window.anvil.call:', temp_artist_id);
-                  } else {
-                    console.warn('[addNewModelToNavigation] No artist ID returned from server call');
+                  // Pass 'this' as the first argument as required by Anvil's API in static HTML
+                  try {
+                    // First argument is 'this' for context, then function name, then actual arguments
+                    const artist_id = await window.anvil.call(this, 'SM_get_next_artist_id', modelData.model_id);
+                    
+                    if (artist_id) {
+                      temp_artist_id = artist_id;
+                      console.log('[addNewModelToNavigation] Got artist ID via window.anvil.call:', temp_artist_id);
+                    } else {
+                      console.warn('[addNewModelToNavigation] No artist ID returned from server call');
+                    }
+                  } catch (anvilCallError) {
+                    console.warn('[addNewModelToNavigation] window.anvil.call error:', anvilCallError);
                   }
                 } else {
                   console.warn('[addNewModelToNavigation] window.anvil.call not available');
@@ -1057,10 +1062,12 @@
                   console.log('[addNewModelToNavigation] Using synthetic artist ID:', temp_artist_id);
                   
                   // Still try to log model usage in the background
+                  // Capture 'this' context for use in setTimeout
+                  const self = this;
                   setTimeout(() => {
                     try {
                       if (window.anvil && typeof window.anvil.call === 'function') {
-                        window.anvil.call('update_model_usage', null, modelData.model_id)
+                        window.anvil.call(self, 'update_model_usage', null, modelData.model_id)
                           .then(() => console.log('[addNewModelToNavigation] Successfully logged model usage'))
                           .catch(() => {});
                       }
