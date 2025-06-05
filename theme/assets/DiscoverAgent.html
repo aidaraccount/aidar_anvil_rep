@@ -1008,18 +1008,10 @@
             e.preventDefault();
             console.log(`[addNewModelToNavigation] Model clicked: ${modelData.model_id}`);
             
-            try {
-              // First update model usage
-              console.log('[addNewModelToNavigation] Updating model usage for model:', modelData.model_id);
-              await anvil.server.call('update_model_usage', anvil.server.get_user_id(), modelData.model_id);
-              
+            try {              
               // Then get the next artist ID
               console.log('[addNewModelToNavigation] Getting next artist ID for model:', modelData.model_id);
               const temp_artist_id = await anvil.server.call('SM_get_next_artist_id', modelData.model_id);
-              
-              // Save the model ID
-              console.log('[addNewModelToNavigation] Saving model ID:', modelData.model_id);
-              await anvil.server.call('save_var', 'model_id', modelData.model_id);
               
               // Remove underline from all model links - use a more specific selector
               console.log('[addNewModelToNavigation] Removing underline from all model links');
