@@ -945,47 +945,78 @@
         try {
           console.log('[addNewModelToNavigation] Adding new model:', modelData);
           
-          // 1. Find the anvil-role-nav_models container
+          // 1. Find the nav_models container and the ul.linear-panel inside it
           const navModels = document.querySelector('.anvil-role-nav_models');
           if (!navModels) {
-            console.warn('[addNewModelToNavigation] anvil-role-nav_models container not found');
+            console.warn('[addNewModelToNavigation] nav_models container not found');
             return;
           }
           
-          // 2. Create container for the model entry
-          const modelContainer = document.createElement('div');
-          modelContainer.className = 'anvil-flow-panel';
-          modelContainer.setAttribute('tag', modelData.model_id);
-          modelContainer.setAttribute('role', 'nav_flow_panel');
+          const linearPanel = navModels.querySelector('ul.linear-panel');
+          if (!linearPanel) {
+            console.warn('[addNewModelToNavigation] linear-panel not found inside nav_models');
+            return;
+          }
           
-          // 3. Create the model link
+          // 2. Create the list item container
+          const listItem = document.createElement('li');
+          
+          // 3. Create the flow panel container (matches Anvil's structure)
+          const flowPanel = document.createElement('div');
+          flowPanel.className = 'anvil-spacing-above-small anvil-spacing-below-small anvil-role-nav_flow_panel flow-panel anvil-container anvil-container-overflow flow-spacing-medium vertical-align-full anvil-component has-components';
+          flowPanel.setAttribute('anvil-role', 'nav_flow_panel');
+          
+          // 4. Create the flow panel gutter
+          const flowGutter = document.createElement('div');
+          flowGutter.className = 'flow-panel-gutter';
+          flowGutter.style.justifyContent = 'flex-start';
+          
+          // 5. Create the model link container
+          const modelLinkContainer = document.createElement('div');
+          modelLinkContainer.className = 'flow-panel-item anvil-always-inline-container';
+          modelLinkContainer.style.flex = '1 1 0%';
+          
+          // 6. Create the model link
           const modelLink = document.createElement('a');
-          modelLink.className = 'model-nav-link';
-          modelLink.href = '#';
+          modelLink.className = 'anvil-inlinable anvil-container column-panel align-left anvil-spacing-above-small anvil-spacing-below-small anvil-component-icon-present left-icon anvil-role-model-nav-link has-text col-padding-medium anvil-component';
+          modelLink.setAttribute('ontouchstart', '');
+          modelLink.href = 'javascript:void(0)';
+          modelLink.setAttribute('rel', 'noopener noreferrer');
+          modelLink.setAttribute('anvil-role', 'model-nav-link');
           modelLink.innerHTML = `
-            <i class="fa fa-angle-right"></i>
-            <span>${modelData.model_name}</span>
+            <i class="anvil-component-icon left fa fa-angle-right left-icon" aria-hidden="true"></i>
+            <div style="display: inline-block;" class="link-text">${modelData.model_name}</div>
+            <i class="anvil-component-icon right fa fa-angle-right left-icon" aria-hidden="true"></i>
           `;
-          modelLink.setAttribute('tag', modelData.model_id);
           
-          // 4. Create settings icon
+          // 7. Create the settings icon container
+          const settingsContainer = document.createElement('div');
+          settingsContainer.className = 'flow-panel-item anvil-always-inline-container';
+          
+          // 8. Create the settings link
           const settingsLink = document.createElement('a');
-          settingsLink.className = 'icon-link-discreet';
-          settingsLink.href = '#';
-          settingsLink.innerHTML = '<i class="fa fa-sliders"></i>';
-          settingsLink.setAttribute('tag', modelData.model_id);
+          settingsLink.className = 'anvil-inlinable anvil-container column-panel align-left anvil-spacing-above-small anvil-spacing-below-small anvil-component-icon-present left-icon anvil-role-icon-link-discreet col-padding-medium anvil-component';
+          settingsLink.setAttribute('ontouchstart', '');
+          settingsLink.href = 'javascript:void(0)';
+          settingsLink.setAttribute('rel', 'noopener noreferrer');
+          settingsLink.setAttribute('anvil-role', 'icon-link-discreet');
+          settingsLink.innerHTML = `
+            <i class="anvil-component-icon left fa fa-sliders left-icon" aria-hidden="true"></i>
+            <div style="display: none;" class="link-text"></div>
+            <i class="anvil-component-icon right fa fa-sliders left-icon" aria-hidden="true"></i>
+          `;
           
-          // 5. Add click handlers
+          // 9. Add click handlers
           modelLink.addEventListener('click', (e) => {
             e.preventDefault();
             console.log(`[addNewModelToNavigation] Model clicked: ${modelData.model_id}`);
             // Call Anvil server to set this as current model
             anvil.server.call('set_current_model', modelData.model_id).then(() => {
               // Update UI to show this model as active
-              document.querySelectorAll('.model-nav-link').forEach(link => {
-                link.classList.remove('underline-link');
+              document.querySelectorAll('[anvil-role="model-nav-link"]').forEach(link => {
+                link.classList.remove('anvil-role-underline-link');
               });
-              modelLink.classList.add('underline-link');
+              modelLink.classList.add('anvil-role-underline-link');
             });
           });
           
@@ -996,20 +1027,18 @@
             anvil.server.call('open_model_settings', modelData.model_id);
           });
           
-          // 6. Add elements to container
-          const linkContainer = document.createElement('div');
-          linkContainer.className = 'anvil-container';
-          linkContainer.style.width = '100%';
-          linkContainer.style.display = 'flex';
-          linkContainer.style.alignItems = 'center';
-          linkContainer.style.justifyContent = 'space-between';
+          // 10. Assemble the DOM elements
+          modelLinkContainer.appendChild(modelLink);
+          settingsContainer.appendChild(settingsLink);
           
-          linkContainer.appendChild(modelLink);
-          linkContainer.appendChild(settingsLink);
-          modelContainer.appendChild(linkContainer);
+          flowGutter.appendChild(modelLinkContainer);
+          flowGutter.appendChild(settingsContainer);
           
-          // 7. Add to the navigation (prepend to make it appear at the top)
-          navModels.insertBefore(modelContainer, navModels.firstChild);
+          flowPanel.appendChild(flowGutter);
+          listItem.appendChild(flowPanel);
+          
+          // 11. Add the new model as the last item in the list
+          linearPanel.appendChild(listItem);
           
           console.log('[addNewModelToNavigation] Model added to navigation');
         } catch (error) {
