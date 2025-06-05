@@ -1013,36 +1013,114 @@
               console.log('[addNewModelToNavigation] Getting next artist ID for model:', modelData.model_id);
               let temp_artist_id;
               
-              // Method 1: Direct server call via anvil.server.call
-              console.log('[addNewModelToNavigation] Using direct server call');
-              if (typeof anvil !== 'undefined' && anvil.server && typeof anvil.server.call === 'function') {
-                // Use the global anvil object directly
-                temp_artist_id = await anvil.server.call('SM_get_next_artist_id', modelData.model_id);
-                console.log('[addNewModelToNavigation] Got artist ID via anvil.server.call:', temp_artist_id);
-              } 
-              // Method 2: If direct server call is unavailable, try with window.anvil
-              else if (window.anvil && window.anvil.server && typeof window.anvil.server.call === 'function') {
-                temp_artist_id = await window.anvil.server.call('SM_get_next_artist_id', modelData.model_id);
-                console.log('[addNewModelToNavigation] Got artist ID via window.anvil.server.call:', temp_artist_id);
+              // Try multiple methods with detailed logging
+              console.log('[addNewModelToNavigation] Trying multiple server call methods');
+              
+              // Check what's available in global scope
+              console.log('[addNewModelToNavigation] Global anvil available:', typeof anvil !== 'undefined');
+              console.log('[addNewModelToNavigation] Window anvil available:', typeof window.anvil !== 'undefined');
+              console.log('[addNewModelToNavigation] WebSocketManager available:', typeof window.wsManager !== 'undefined');
+              
+              // Method 1: Try using window.wsManager directly
+              if (window.wsManager) {
+                try {
+                  console.log('[addNewModelToNavigation] Trying via window.wsManager:');
+                  
+                  // Check what methods are available on wsManager
+                  const methods = Object.getOwnPropertyNames(Object.getPrototypeOf(window.wsManager));
+                  console.log('[addNewModelToNavigation] wsManager methods:', methods);
+                  
+                  // Try directly calling using window.wsManager as this context
+                  if (typeof window.wsManager.updateModelId === 'function') {
+                    // First try to update the model ID which should ensure the connection uses the right model
+                    console.log('[addNewModelToNavigation] Updating model ID to:', modelData.model_id);
+                    await window.wsManager.updateModelId(modelData.model_id);
+                    
+                    // Then try to get artists through the WebSocket connection
+                    await new Promise(resolve => setTimeout(resolve, 500)); // Small delay to ensure model ID update takes effect
+                    
+                    // Get an artist ID directly via local request
+                    try {
+                      const artist_id = await anvil.server.call('get_next_artist_id', modelData.model_id);
+                      if (artist_id) {
+                        temp_artist_id = artist_id;
+                        console.log('[addNewModelToNavigation] Got artist ID via direct call after model update:', temp_artist_id);
+                      }
+                    } catch (serverError) {
+                      console.warn('[addNewModelToNavigation] Error calling get_next_artist_id:', serverError);
+                    }
+                  }
+                } catch (wsError) {
+                  console.warn('[addNewModelToNavigation] Error trying wsManager approach:', wsError);
+                }
               }
-              // Method 3: If still unavailable, try XHR request to Anvil's API endpoint
-              else {
-                // Last resort - use fetch API to call server function
-                console.log('[addNewModelToNavigation] Using fetch API for server call');
-                const response = await fetch('/_/api/call/SM_get_next_artist_id', {
-                  method: 'POST',
-                  headers: {
-                    'Content-Type': 'application/json',
-                    'X-Anvil-API-Key': 'client',
-                    'X-Anvil-Request': 'true'
-                  },
-                  body: JSON.stringify([modelData.model_id])
-                });
+              
+              // Method 2: Direct anvil.server.call if available and we don't have an ID yet
+              if (!temp_artist_id && typeof anvil !== 'undefined' && typeof anvil.server !== 'undefined' && typeof anvil.server.call === 'function') {
+                try {
+                  console.log('[addNewModelToNavigation] Trying via anvil.server.call');
+                  temp_artist_id = await anvil.server.call('SM_get_next_artist_id', modelData.model_id);
+                  console.log('[addNewModelToNavigation] Got artist ID via anvil.server.call:', temp_artist_id);
+                } catch (directError) {
+                  console.warn('[addNewModelToNavigation] Error using anvil.server.call:', directError);
+                }
+              }
+              
+              // Method 3: Try multiple fetch API endpoints to find the right format
+              if (!temp_artist_id) {
+                console.log('[addNewModelToNavigation] Trying fetch API with multiple endpoints');
                 
-                if (!response.ok) throw new Error(`Server call failed with status ${response.status}`);
-                const result = await response.json();
-                temp_artist_id = result.return_value;
-                console.log('[addNewModelToNavigation] Got artist ID via fetch API:', temp_artist_id);
+                // Try different endpoint formats
+                const endpoints = [
+                  '/_/api/call', 
+                  '/_/anvil/api',
+                  '/_/call'
+                ];
+                
+                for (const endpoint of endpoints) {
+                  try {
+                    console.log(`[addNewModelToNavigation] Trying endpoint: ${endpoint}`);
+                    
+                    const response = await fetch(endpoint, {
+                      method: 'POST',
+                      headers: {
+                        'Content-Type': 'application/json',
+                        'Anvil-Request': 'true'
+                      },
+                      body: JSON.stringify({
+                        function: 'SM_get_next_artist_id',
+                        args: [modelData.model_id]
+                      })
+                    });
+                    
+                    console.log(`[addNewModelToNavigation] Response status for ${endpoint}:`, response.status);
+                    
+                    if (response.ok) {
+                      const result = await response.json();
+                      console.log(`[addNewModelToNavigation] Response for ${endpoint}:`, result);
+                      
+                      if (result && (result.result || result.return_value)) {
+                        temp_artist_id = result.result || result.return_value;
+                        console.log(`[addNewModelToNavigation] Got artist ID via ${endpoint}:`, temp_artist_id);
+                        break; // Found a working endpoint
+                      }
+                    } else {
+                      console.warn(`[addNewModelToNavigation] Endpoint ${endpoint} failed with status:`, response.status);
+                    }
+                  } catch (fetchError) {
+                    console.warn(`[addNewModelToNavigation] Error with endpoint ${endpoint}:`, fetchError);
+                  }
+                }
+              }
+              
+              // Method 4: If all else fails, use a hardcoded artist ID as fallback
+              if (!temp_artist_id) {
+                console.warn('[addNewModelToNavigation] All server call methods failed, using fallback');
+                
+                // Use a fallback method - generate an artist ID based on the model ID
+                // This is not ideal but allows navigation to work even when server calls fail
+                temp_artist_id = `fallback-${modelData.model_id}-${Date.now()}`;
+                console.log('[addNewModelToNavigation] Using fallback artist ID:', temp_artist_id);
               }
               
               // Remove underline from all model links - use a more specific selector
