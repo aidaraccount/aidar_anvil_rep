@@ -136,8 +136,6 @@ class DiscoverAgent(DiscoverAgentTemplate):
 
     # check for missing artist_id
     if url_artist_id == 'get_artist':
-      get_open_form().refresh_models_components()
-      get_open_form().refresh_models_underline()
       url_artist_id = anvil.server.call('get_next_artist_id', self.model_id)
       history.replaceState(None, "", f"#agent_artists?artist_id={url_artist_id}")
 
