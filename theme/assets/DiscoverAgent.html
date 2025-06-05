@@ -552,11 +552,11 @@
             type = 'create_agent';
           }
 
-          // // Extended create agent mode
-          // if (this.stage === this.STAGE.EXTENDED_CREATE_AGENT) {
-          //   console.log('[sendMessage] Extended create agent mode');
-          //   type = 'extended_create_agent'
-          // }
+          // Extended create agent mode
+          if (this.stage === this.STAGE.EXTENDED_CREATE_AGENT) {
+            console.log('[sendMessage] Extended create agent mode');
+            type = 'extended_create_agent'
+          }
 
           // --------------------------
           // Prepare message
