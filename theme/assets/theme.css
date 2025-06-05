@@ -163,7 +163,7 @@ body, html {
 
 /* Model Navigation Link */
 .anvil-role-model-nav-link .link-text {
-  max-width: 150px;
+  max-width: 145px;
   overflow: clip;
   text-overflow: ellipsis;  
 }

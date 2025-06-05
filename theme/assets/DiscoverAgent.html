@@ -982,27 +982,30 @@
           
           // 3. Create the flow panel container (matches Anvil's structure)
           const flowPanel = document.createElement('div');
+          flowPanel.style = ''; // Empty style attribute to match existing structure
           flowPanel.className = 'anvil-spacing-above-small anvil-spacing-below-small anvil-role-nav_flow_panel flow-panel anvil-container anvil-container-overflow flow-spacing-medium vertical-align-full anvil-component has-components';
           flowPanel.setAttribute('anvil-role', 'nav_flow_panel');
           
           // 4. Create the flow panel gutter
           const flowGutter = document.createElement('div');
           flowGutter.className = 'flow-panel-gutter';
-          flowGutter.style.justifyContent = 'flex-start';
+          flowGutter.style = 'justify-content: flex-start;';
           
           // 5. Create the model link container
           const modelLinkContainer = document.createElement('div');
           modelLinkContainer.className = 'flow-panel-item anvil-always-inline-container';
-          modelLinkContainer.style.flex = '1 1 0%';
+          modelLinkContainer.style = 'flex: 1 1 0%;';
           
           // 6. Create the model link
           const modelLink = document.createElement('a');
-          modelLink.className = 'anvil-inlinable anvil-container column-panel align-left anvil-spacing-above-small anvil-spacing-below-small anvil-component-icon-present left-icon anvil-role-model-nav-link has-text col-padding-medium anvil-component';
+          modelLink.style = 'text-align: left;';
+          modelLink.className = 'anvil-inlinable anvil-container column-panel align-left anvil-spacing-above-small anvil-spacing-below-small anvil-component-icon-present left-icon has-text col-padding-medium anvil-component anvil-role-model-nav-link';
           modelLink.setAttribute('ontouchstart', '');
           modelLink.href = 'javascript:void(0)';
           modelLink.setAttribute('rel', 'noopener noreferrer');
           modelLink.setAttribute('anvil-role', 'model-nav-link');
-          // Set innerHTML directly without whitespace
+          
+          // Set innerHTML directly without whitespace to match exact structure
           modelLink.innerHTML = `<i class="anvil-component-icon left fa fa-angle-right left-icon" aria-hidden="true"></i><div style="display: inline-block;" class="link-text">${modelData.model_name}</div><i class="anvil-component-icon right fa fa-angle-right left-icon" aria-hidden="true"></i>`;
           
           // 7. Create the settings icon container
@@ -1011,23 +1014,33 @@
           
           // 8. Create the settings link
           const settingsLink = document.createElement('a');
+          settingsLink.style = 'text-align: left;';
           settingsLink.className = 'anvil-inlinable anvil-container column-panel align-left anvil-spacing-above-small anvil-spacing-below-small anvil-component-icon-present left-icon anvil-role-icon-link-discreet col-padding-medium anvil-component';
           settingsLink.setAttribute('ontouchstart', '');
           settingsLink.href = 'javascript:void(0)';
           settingsLink.setAttribute('rel', 'noopener noreferrer');
           settingsLink.setAttribute('anvil-role', 'icon-link-discreet');
-          settingsLink.innerHTML = `
-            <i class="anvil-component-icon left fa fa-sliders left-icon" aria-hidden="true"></i>
-            <div style="display: none;" class="link-text"></div>
-            <i class="anvil-component-icon right fa fa-sliders left-icon" aria-hidden="true"></i>
-          `;
+          
+          // Compact HTML structure with no extra whitespace to match exactly
+          settingsLink.innerHTML = `<i class="anvil-component-icon left fa fa-sliders left-icon" aria-hidden="true"></i><div style="display: none;" class="link-text"></div><i class="anvil-component-icon right fa fa-sliders left-icon" aria-hidden="true"></i>`;
           
           // 9. Add click handlers
           // Discover link click handler
           modelLink.addEventListener('click', (e) => {
             e.preventDefault();
             console.log(`[addNewModelToNavigation] Model clicked: ${modelData.model_id}`);
-            // Navigate to model profile settings
+            
+            // First update the WebSocketManager model ID if available
+            if (window.wsManager && typeof window.wsManager.updateModelId === 'function') {
+              try {
+                console.log(`[addNewModelToNavigation] Updating WebSocketManager model ID to ${modelData.model_id}`);
+                window.wsManager.updateModelId(modelData.model_id);
+              } catch (err) {
+                console.warn('[addNewModelToNavigation] Failed to update WebSocketManager model ID:', err);
+              }
+            }
+            
+            // Navigate using the special 'get_artist' parameter that will be resolved server-side
             window.location.href = `#agent_artists?artist_id=get_artist`;
           });
           
@@ -1057,10 +1070,15 @@
           document.querySelectorAll('.anvil-role-nav_models [anvil-role*="model-nav-link"]').forEach(link => {
             if (link !== modelLink) {
               link.classList.remove('anvil-role-underline-link');
-              link.setAttribute('anvil-role', 'model-nav-link');
+              // Keep the model-nav-link role but remove underline-link if present
+              const currentRole = link.getAttribute('anvil-role') || '';
+              link.setAttribute('anvil-role', currentRole.replace('underline-link', '').trim());
             }
           });
+          
+          // Add underline class and update role attribute to match existing elements
           modelLink.classList.add('anvil-role-underline-link');
+          // Ensure we retain model-nav-link role and add underline-link
           modelLink.setAttribute('anvil-role', 'model-nav-link underline-link');
           
           console.log('[addNewModelToNavigation] Model added to navigation');
