@@ -1003,108 +1003,70 @@
             <i class="anvil-component-icon right fa fa-sliders left-icon" aria-hidden="true"></i>
           `;
           
-          // 9. Add click handlers with proper context binding
-          const handleModelClick = async (e) => {
+          // 9. Add click handlers
+          modelLink.addEventListener('click', async (e) => {
             e.preventDefault();
             console.log(`[addNewModelToNavigation] Model clicked: ${modelData.model_id}`);
-
+            
             try {              
-              // Show loading state
-              if (this.showTypingIndicator) {
-                this.showTypingIndicator();
-              }
-
-              // Get the next artist ID using the correct server call method
+              // Get the next artist ID using window.anvil.call with 'this' as first argument
               console.log('[addNewModelToNavigation] Getting next artist ID for model:', modelData.model_id);
+              
+              // Store a reference to the WebSocketManager
+              const wsManager = window.wsManager;
               let temp_artist_id;
-
-              // Try different methods to make the server call
-              if (window.anvil && window.anvil.call) {
-                // Method 1: Use window.anvil.call if available
-                temp_artist_id = await window.anvil.call('SM_get_next_artist_id', modelData.model_id);
-              } else if (window.anvil && window.anvil.server && window.anvil.server.call) {
-                // Method 2: Fall back to window.anvil.server.call
-                temp_artist_id = await window.anvil.server.call('SM_get_next_artist_id', modelData.model_id);
-              } else {
-                // Method 3: Last resort - use fetch API
-                try {
-                  const response = await fetch('/_/api/call', {
-                    method: 'POST',
-                    headers: {
-                      'Content-Type': 'application/json',
-                      'Anvil-Request': 'true'
-                    },
-                    body: JSON.stringify({
-                      fn: 'SM_get_next_artist_id',
-                      args: [modelData.model_id]
-                    })
-                  });
-
-                  if (!response.ok) throw new Error('Network response was not ok');
-                  const result = await response.json();
-                  temp_artist_id = result.result;
-                } catch (fetchError) {
-                  console.error('Fetch error:', fetchError);
-                  throw new Error('Failed to fetch artist ID');
-                }
+              
+              // Method 1: Use window.anvil.call with 'this' as first parameter
+              if (window.anvil && typeof window.anvil.call === 'function') {
+                console.log('[addNewModelToNavigation] Using window.anvil.call with this');
+                temp_artist_id = await window.anvil.call(this, 'SM_get_next_artist_id', modelData.model_id);
+                
+                // Also update model usage
+                await window.anvil.call(this, 'update_model_usage', undefined, modelData.model_id);
+              } 
+              // Method 2: Using global wsManager reference
+              else if (window.wsManager && typeof window.wsManager.call === 'function') {
+                console.log('[addNewModelToNavigation] Using window.wsManager.call');
+                temp_artist_id = await window.wsManager.call('SM_get_next_artist_id', modelData.model_id);
+                
+                // Also update model usage
+                await window.wsManager.call('update_model_usage', undefined, modelData.model_id);
               }
-
-              // Update model usage
-              try {
-                if (window.anvil && window.anvil.call) {
-                  await window.anvil.call('update_model_usage', modelData.model_id);
-                } else if (window.anvil && window.anvil.server && window.anvil.server.call) {
-                  await window.anvil.server.call('update_model_usage', modelData.model_id);
-                }
-              } catch (updateError) {
-                console.warn('Could not update model usage:', updateError);
-                // Continue even if update fails
+              // Method 3: Fall back to anvil.server.call if available
+              else if (anvil && anvil.server && typeof anvil.server.call === 'function') {
+                console.log('[addNewModelToNavigation] Using anvil.server.call');
+                temp_artist_id = await anvil.server.call('SM_get_next_artist_id', modelData.model_id);
+                
+                // Also update model usage
+                await anvil.server.call('update_model_usage', undefined, modelData.model_id);
               }
-
-              // Update UI state
-              if (this.removeTypingIndicator) {
-                this.removeTypingIndicator();
+              else {
+                console.error('[addNewModelToNavigation] No valid method to call server functions');
+                throw new Error('No method available to call server functions');
               }
-
-              // Remove underline from all model links
+              
+              // Remove underline from all model links - use a more specific selector
+              console.log('[addNewModelToNavigation] Removing underline from all model links');
               document.querySelectorAll('.anvil-role-nav_models [anvil-role*="model-nav-link"]').forEach(link => {
                 link.classList.remove('anvil-role-underline-link');
+                // Only update the role if it's not the current link
                 if (link !== modelLink) {
                   link.setAttribute('anvil-role', 'model-nav-link');
                 }
               });
-
+              
               // Add underline to clicked link
+              console.log('[addNewModelToNavigation] Adding underline to clicked link');
               modelLink.classList.add('anvil-role-underline-link');
               modelLink.setAttribute('anvil-role', 'model-nav-link underline-link');
-
+              
               // Navigate to the artist page
               console.log('[addNewModelToNavigation] Navigating to artist page with ID:', temp_artist_id);
               window.location.hash = `agent_artists?artist_id=${temp_artist_id}`;
-
             } catch (error) {
               console.error('Error handling model click:', error);
-              if (this.removeTypingIndicator) {
-                this.removeTypingIndicator();
-              }
-              if (this.addErrorMessage) {
-                this.addErrorMessage('Failed to load artist. Please try again.');
-              }
             }
-          };
-
-          // Bind the event listener with the correct context
-          modelLink.addEventListener('click', handleModelClick.bind(this));
-
-          // Settings link click handler
-          const handleSettingsClick = (e) => {
-            e.preventDefault();
-            console.log(`[addNewModelToNavigation] Settings clicked for model: ${modelData.model_id}`);
-            // Navigate to model profile settings
-            window.location.href = `#model_profile?model_id=${modelData.model_id}&section=Main`;
-          };
-
-          settingsLink.addEventListener('click', handleSettingsClick);
+          });
           
           // 10. Assemble the DOM elements
           modelLinkContainer.appendChild(modelLink);
