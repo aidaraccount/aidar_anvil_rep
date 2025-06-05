@@ -137,7 +137,7 @@ class DiscoverAgent(DiscoverAgentTemplate):
     # check for missing artist_id
     if url_artist_id == 'get_artist':
       url_artist_id = anvil.server.call('get_next_artist_id', self.model_id)
-      history.replaceState(None, "", f"#{'agent_artists?artist_id=' + url_artist_id}")
+      history.replaceState(None, "", f"#agent_artists?artist_id={url_artist_id}")
 
     # get_suggestion
     sug = json.loads(anvil.server.call('get_suggestion', 'Inspect', self.model_id, url_artist_id)) # Free, Explore, Inspect, Dissect
