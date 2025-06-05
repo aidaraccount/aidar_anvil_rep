@@ -1036,18 +1036,44 @@
                     console.log('[addNewModelToNavigation] Updating model ID to:', modelData.model_id);
                     await window.wsManager.updateModelId(modelData.model_id);
                     
-                    // Then try to get artists through the WebSocket connection
-                    await new Promise(resolve => setTimeout(resolve, 500)); // Small delay to ensure model ID update takes effect
+                    // Wait for WebSocket to reconnect and anvil.server to be available again
+                    // Use a more robust waiting mechanism with timeout
+                    console.log('[addNewModelToNavigation] Waiting for anvil.server to be available after reconnection');
                     
-                    // Get an artist ID directly via local request
-                    try {
-                      const artist_id = await anvil.server.call('get_next_artist_id', modelData.model_id);
-                      if (artist_id) {
-                        temp_artist_id = artist_id;
-                        console.log('[addNewModelToNavigation] Got artist ID via direct call after model update:', temp_artist_id);
+                    // Wait for up to 3 seconds for anvil.server to become available again
+                    let waitTime = 0;
+                    const maxWaitTime = 3000; // 3 seconds max
+                    const checkInterval = 300; // Check every 300ms
+                    
+                    while (waitTime < maxWaitTime) {
+                      if (typeof window.anvil !== 'undefined' && 
+                          typeof window.anvil.server !== 'undefined' && 
+                          typeof window.anvil.server.call === 'function') {
+                        console.log('[addNewModelToNavigation] anvil.server is available after waiting', waitTime, 'ms');
+                        break;
                       }
-                    } catch (serverError) {
-                      console.warn('[addNewModelToNavigation] Error calling get_next_artist_id:', serverError);
+                      
+                      await new Promise(resolve => setTimeout(resolve, checkInterval));
+                      waitTime += checkInterval;
+                      console.log(`[addNewModelToNavigation] Still waiting for anvil.server... (${waitTime}ms)`);
+                    }
+                    
+                    // Get an artist ID directly via local request if anvil.server is available
+                    if (typeof window.anvil !== 'undefined' && 
+                        typeof window.anvil.server !== 'undefined' && 
+                        typeof window.anvil.server.call === 'function') {
+                      try {
+                        console.log('[addNewModelToNavigation] Calling get_next_artist_id via window.anvil.server.call');
+                        const artist_id = await window.anvil.server.call('get_next_artist_id', modelData.model_id);
+                        if (artist_id) {
+                          temp_artist_id = artist_id;
+                          console.log('[addNewModelToNavigation] Got artist ID via direct call after model update:', temp_artist_id);
+                        }
+                      } catch (serverError) {
+                        console.warn('[addNewModelToNavigation] Error calling get_next_artist_id:', serverError);
+                      }
+                    } else {
+                      console.warn('[addNewModelToNavigation] anvil.server still unavailable after waiting', maxWaitTime, 'ms');
                     }
                   }
                 } catch (wsError) {
