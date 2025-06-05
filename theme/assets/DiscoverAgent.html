@@ -1010,15 +1010,19 @@
             
             try {
               // First update model usage
+              console.log('[addNewModelToNavigation] Updating model usage for model:', modelData.model_id);
               await anvil.server.call('update_model_usage', anvil.server.get_user_id(), modelData.model_id);
               
               // Then get the next artist ID
+              console.log('[addNewModelToNavigation] Getting next artist ID for model:', modelData.model_id);
               const temp_artist_id = await anvil.server.call('SM_get_next_artist_id', modelData.model_id);
               
               // Save the model ID
+              console.log('[addNewModelToNavigation] Saving model ID:', modelData.model_id);
               await anvil.server.call('save_var', 'model_id', modelData.model_id);
               
               // Remove underline from all model links - use a more specific selector
+              console.log('[addNewModelToNavigation] Removing underline from all model links');
               document.querySelectorAll('.anvil-role-nav_models [anvil-role*="model-nav-link"]').forEach(link => {
                 link.classList.remove('anvil-role-underline-link');
                 // Only update the role if it's not the current link
@@ -1028,10 +1032,12 @@
               });
               
               // Add underline to clicked link
+              console.log('[addNewModelToNavigation] Adding underline to clicked link');
               modelLink.classList.add('anvil-role-underline-link');
               modelLink.setAttribute('anvil-role', 'model-nav-link underline-link');
               
               // Navigate to the artist page
+              console.log('[addNewModelToNavigation] Navigating to artist page');
               window.location.hash = `agent_artists?artist_id=${temp_artist_id}`;
             } catch (error) {
               console.error('Error handling model click:', error);
@@ -1059,6 +1065,7 @@
           linearPanel.appendChild(listItem);
           
           // 12. Add underline to the newly added link and remove from others
+          console.log('[addNewModelToNavigation] Adding underline to the newly added link and removing from others');
           document.querySelectorAll('.anvil-role-nav_models [anvil-role*="model-nav-link"]').forEach(link => {
             if (link !== modelLink) {
               link.classList.remove('anvil-role-underline-link');
