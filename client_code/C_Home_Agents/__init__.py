@@ -292,10 +292,10 @@ class C_Home_Agents(C_Home_AgentsTemplate):
         // First, navigate to the artist page based on ctrl key state
         if (ctrlKeyPressed) {
           console.log('MODEL_ACTIVATION_JS: Opening new tab');
-          window.open(appOrigin + '/#artists?artist_id=' + artistId, '_blank');
+          window.open(appOrigin + '/#agent_artists?artist_id=' + artistId, '_blank');
         } else {
           console.log('MODEL_ACTIVATION_JS: Navigating in current tab');
-          window.location.hash = 'artists?artist_id=' + artistId;
+          window.location.hash = 'agent_artists?artist_id=' + artistId;
         }
         
         // Small delay to ensure URL change completes

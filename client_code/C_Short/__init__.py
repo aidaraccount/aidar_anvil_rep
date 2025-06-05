@@ -93,7 +93,7 @@ class C_Short(C_ShortTemplate):
   
   def create_link_click_handler(self, artist_id, link):
     def handler(**event_args):
-      click_link(link, f"artists?artist_id={artist_id}", event_args)
+      click_link(link, f"agent_artists?artist_id={artist_id}", event_args)
     return handler
 
   def create_button_click_handler(self, artist_id, watchlist_id, **event_args):

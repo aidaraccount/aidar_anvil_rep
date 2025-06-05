@@ -353,7 +353,7 @@ class WatchlistDetails(WatchlistDetailsTemplate):
     self.get_watchlist_details(cur_ai_artist_id)
   
   def button_investigate_click(self, **event_args):
-    click_button(f'artists?artist_id={cur_ai_artist_id}', event_args)
+    click_button(f'agent_artists?artist_id={cur_ai_artist_id}', event_args)
 
   def button_delete_click(self, **event_args):
     c = confirm("Do you wish to delete this artist from your watchlist?")

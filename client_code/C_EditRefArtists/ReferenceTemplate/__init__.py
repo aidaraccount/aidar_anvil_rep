@@ -74,11 +74,11 @@ class ReferenceTemplate(ReferenceTemplateTemplate):
       self.parent.parent.parent.get_references()
 
   def label_link_1_click(self, **event_args):
-    click_link(self.label_link_1, f'artists?artist_id={self.label_link_1.tag}', event_args)
+    click_link(self.label_link_1, f'agent_artists?artist_id={self.label_link_1.tag}', event_args)
 
   def label_link_2_click(self, **event_args):
-    click_link(self.label_link_2, f'artists?artist_id={self.label_link_2.tag}', event_args)
+    click_link(self.label_link_2, f'agent_artists?artist_id={self.label_link_2.tag}', event_args)
 
   def label_link_3_click(self, **event_args):
-    click_link(self.label_link_3, f'artists?artist_id={self.label_link_3.tag}', event_args)
+    click_link(self.label_link_3, f'agent_artists?artist_id={self.label_link_3.tag}', event_args)
     

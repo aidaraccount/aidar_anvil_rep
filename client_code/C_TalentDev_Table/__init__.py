@@ -49,7 +49,7 @@ class C_TalentDev_Table(C_TalentDev_TableTemplate):
     anvil.js.call_js('eval', """
       window.pyArtistNameClicked = function(artistId) {
         console.log('TALENTDEV-LOG: Artist name clicked with ID:', artistId);
-        location.hash = 'artists?artist_id=' + artistId;
+        location.hash = 'agent_artists?artist_id=' + artistId;
         return true;
       }
       

@@ -2480,7 +2480,7 @@ class C_Discover(C_DiscoverTemplate):
     anvil.server.call("change_filters", self.model_id, filters_json=None)
     self.grid_panel_1.scroll_into_view(smooth=True)
     next_artist_id = anvil.server.call("get_next_artist_id", self.model_id)
-    routing.set_url_hash(f"artists?artist_id={next_artist_id}", load_from_cache=False)
+    routing.set_url_hash(f"agent_artists?artist_id={next_artist_id}", load_from_cache=False)
 
   def drop_down_model_change(self, **event_args):
     # model_data = json.loads(anvil.server.call("get_model_ids", user["user_id"]))
@@ -2494,7 +2494,7 @@ class C_Discover(C_DiscoverTemplate):
     # anvil.server.call("update_model_usage", user["user_id"], model_id_new)
     # self.grid_panel_1.scroll_into_view(smooth=True)
     # get_open_form().refresh_models_underline()
-    # routing.set_url_hash(f"artists?artist_id={self.artist_id}", load_from_cache=False)
+    # routing.set_url_hash(f"agent_artists?artist_id={self.artist_id}", load_from_cache=False)
     pass
 
   def drop_down_wl_change(self, **event_args):
@@ -2509,7 +2509,7 @@ class C_Discover(C_DiscoverTemplate):
     anvil.server.call("update_watchlist_usage", user["user_id"], wl_id_new)
     self.grid_panel_1.scroll_into_view(smooth=True)
     get_open_form().refresh_watchlists_underline()
-    # routing.set_url_hash(f"artists?artist_id={self.artist_id}", load_from_cache=False)
+    # routing.set_url_hash(f"agent_artists?artist_id={self.artist_id}", load_from_cache=False)
 
   # -----------------------------------------------------------------------------------------
   #  Start of the Sidebar Watchilish Functions
