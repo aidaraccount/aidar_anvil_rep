@@ -554,7 +554,7 @@
 }
 
 .chat-input-container.hide-animation {
-  transform: translateY(178px) !important;
+  transform: translateY(180px) !important;
   transition: transform 1.5s ease-out !important;
 }
 
