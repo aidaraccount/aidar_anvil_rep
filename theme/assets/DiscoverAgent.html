@@ -945,10 +945,10 @@
         try {
           console.log('[addNewModelToNavigation] Adding new model:', modelData);
           
-          // 1. Find the nav_models container
-          const navModels = document.querySelector('#nav_models');
+          // 1. Find the anvil-role-nav_models container
+          const navModels = document.querySelector('.anvil-role-nav_models');
           if (!navModels) {
-            console.warn('[addNewModelToNavigation] nav_models container not found');
+            console.warn('[addNewModelToNavigation] anvil-role-nav_models container not found');
             return;
           }
           

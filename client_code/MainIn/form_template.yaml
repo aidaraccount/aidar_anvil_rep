@@ -137,6 +137,8 @@ components:
       spacing:
         margin: [0, null, 0, null]
     type: ColumnPanel
+  data_bindings:
+  - {code: '[''nav_models'']', property: role, writeback: false}
   layout_properties: {slot: sidebar}
   name: nav_models
   properties:
