@@ -1021,11 +1021,9 @@
               console.log('[addNewModelToNavigation] Window anvil available:', typeof window.anvil !== 'undefined');
               console.log('[addNewModelToNavigation] WebSocketManager available:', typeof window.wsManager !== 'undefined');
               
-              // Since WebSocket connection is working but not server calls,
-              // let's just update the model ID via wsManager and use a synthetic ID
-              // This is the most reliable approach based on the logs
+              // Method 1: Try window.anvil.call which worked previously in this codebase
               try {
-                console.log('[addNewModelToNavigation] Taking direct approach with model update only');
+                console.log('[addNewModelToNavigation] Trying window.anvil.call method');
                 
                 // 1. First update the model ID in WebSocketManager
                 if (window.wsManager && typeof window.wsManager.updateModelId === 'function') {
@@ -1034,42 +1032,53 @@
                   console.log('[addNewModelToNavigation] Model ID updated successfully');
                 }
                 
-                // 2. Generate a consistent artist ID based on model ID
-                // Use a deterministic approach to ensure the same model always gets the same artist ID
+                // 2. Use window.anvil.call if available - this was working in previous code
+                if (window.anvil && typeof window.anvil.call === 'function') {
+                  console.log('[addNewModelToNavigation] Calling SM_get_next_artist_id via window.anvil.call');
+                  
+                  // This is the key difference - using window.anvil.call instead of anvil.server.call
+                  const artist_id = await window.anvil.call('SM_get_next_artist_id', modelData.model_id);
+                  
+                  if (artist_id) {
+                    temp_artist_id = artist_id;
+                    console.log('[addNewModelToNavigation] Got artist ID via window.anvil.call:', temp_artist_id);
+                  } else {
+                    console.warn('[addNewModelToNavigation] No artist ID returned from server call');
+                  }
+                } else {
+                  console.warn('[addNewModelToNavigation] window.anvil.call not available');
+                  
+                  // 3. Fallback to synthetic ID if window.anvil.call is not available
+                  const modelIdClean = modelData.model_id.replace(/\W+/g, '');
+                  const firstPart = modelIdClean.substring(0, 8);
+                  const timestamp = Date.now().toString().substring(6); // Use last 7 digits of timestamp
+                  
+                  temp_artist_id = `model-${firstPart}-${timestamp}`;
+                  console.log('[addNewModelToNavigation] Using synthetic artist ID:', temp_artist_id);
+                  
+                  // Still try to log model usage in the background
+                  setTimeout(() => {
+                    try {
+                      if (window.anvil && typeof window.anvil.call === 'function') {
+                        window.anvil.call('update_model_usage', null, modelData.model_id)
+                          .then(() => console.log('[addNewModelToNavigation] Successfully logged model usage'))
+                          .catch(() => {});
+                      }
+                    } catch (e) {
+                      // Silently ignore tracking errors
+                    }
+                  }, 100);
+                }
+              } catch (error) {
+                console.warn('[addNewModelToNavigation] Error in window.anvil.call approach:', error);
+                
+                // Fallback to synthetic ID on error
                 const modelIdClean = modelData.model_id.replace(/\W+/g, '');
                 const firstPart = modelIdClean.substring(0, 8);
-                const timestamp = Date.now().toString().substring(6); // Use last 7 digits of timestamp
+                const timestamp = Date.now().toString().substring(6);
                 
                 temp_artist_id = `model-${firstPart}-${timestamp}`;
-                console.log('[addNewModelToNavigation] Using synthetic artist ID:', temp_artist_id);
-                
-                // 3. Optional: Try to save model usage async (won't block UI)
-                setTimeout(() => {
-                  try {
-                    // Find the correct format for our environment
-                    const saveEndpoints = ['/_/anvil/api', '/_/api', '/api', '/_/call'];
-                    
-                    for (const endpoint of saveEndpoints) {
-                      fetch(endpoint, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({
-                          function: 'update_model_usage',
-                          args: [null, modelData.model_id] // user_id null will use current user
-                        }),
-                        credentials: 'include'
-                      }).then(response => {
-                        if (response.ok) {
-                          console.log(`[addNewModelToNavigation] Successfully logged model usage via ${endpoint}`);
-                        }
-                      }).catch(() => {}); // Ignore errors - this is just for logging
-                    }
-                  } catch (e) {
-                    // Silently ignore errors in tracking
-                  }
-                }, 100);
-              } catch (error) {
-                console.warn('[addNewModelToNavigation] Error in direct approach:', error);
+                console.log('[addNewModelToNavigation] Using fallback synthetic artist ID after error:', temp_artist_id);
               }
               
               // Method 2: Try using window.wsManager as a fallback for updating the model
