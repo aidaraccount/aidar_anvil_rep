@@ -482,7 +482,7 @@
           };
 
           this.socket.onmessage = (event) => {
-            console.log('[connect] Message received');
+            // console.log('[connect] Message received');
             this.handleMessage(event);
           };
 
@@ -892,7 +892,7 @@
       async handleExtendedCreateAgent(message) {
         console.log('[handleExtendedCreateAgent] Received extended create agent message:', message);
         
-        // Set stage based on whether we have an artist_id
+        // a) Set stage based on whether we have an artist_id
         if (message.artist_id && message.artist_id !== "null") {
           console.log('[handleExtendedCreateAgent] Switching to NORMAL mode since we have an artist_id:', message.artist_id);
           console.log('-------------------------------------------------------------');
@@ -903,15 +903,15 @@
           this.stage = this.STAGE.EXTENDED_CREATE_AGENT;
         }
         
-        // Update model_id if we received a new one
+        // b) Update model_id if we received a new one
         if (message.agent_id) {
           this.updateModelId(message.agent_id);
         }
         
-        // Remove typing indicator
+        // c) Remove typing indicator
         this.removeTypingIndicator();
 
-        // navigate to agent page if artist_id is not null
+        // d) navigate to agent page if artist_id is not null
         if (message.artist_id !== null && message.artist_id !== undefined && message.artist_id !== '' && message.artist_id !== 'null') {
           // Hide chat containers first
           await new Promise(resolve => setTimeout(resolve, 3000));
@@ -938,13 +938,13 @@
       async handleCreateAgent(message) {
         console.log('[handleCreateAgent] Received complete create agent message:', message);
         
-        // update agent navigation
+        // a) update agent navigation
         this.addNewModelToNavigation({
           model_id: message.agent_id,
           model_name: message.agent_name || 'New Agent'
         });
 
-        // Set stage based on whether we have an artist_id
+        // b) Set stage based on whether we have an artist_id
         if (message.artist_id && message.artist_id !== 'null') {
           console.log('[handleCreateAgent] Switching to NORMAL mode since we have an artist_id:', message.artist_id);
           this.stage = this.STAGE.NORMAL;
@@ -953,12 +953,15 @@
           this.stage = this.STAGE.EXTENDED_CREATE_AGENT;
         }
         
+        // c) update model_id
         if (this.model_id !== message.agent_id) {
           this.updateModelId(message.agent_id);
         }
+        
+        // d) remove typing indicator
         this.removeTypingIndicator();
 
-        // navigate to agent page if artist_id is not null
+        // e) navigate to agent page if artist_id is not null
         if (message.artist_id !== null && message.artist_id !== undefined && message.artist_id !== '' && message.artist_id !== 'null') {
           // Hide chat containers first
           await new Promise(resolve => setTimeout(resolve, 3000));
