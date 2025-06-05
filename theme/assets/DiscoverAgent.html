@@ -1015,47 +1015,51 @@
               // Try all possible ways to call the server function 'SM_get_next_artist_id'
               console.log('[addNewModelToNavigation] Attempting to get next artist ID via server call');
               
-              // Method 1: Try directly via anvil global object
-              if (!temp_artist_id && typeof anvil !== 'undefined' && typeof anvil.server !== 'undefined' && typeof anvil.server.call === 'function') {
+              // Try server calls in sequence, capturing specific information about failures
+              console.log('[addNewModelToNavigation] Starting server calls attempt');
+              
+              // Method 1: Try directly via window.anvil.call
+              if (!temp_artist_id) {
                 try {
-                  console.log('[addNewModelToNavigation] Trying via anvil.server.call');
-                  temp_artist_id = await anvil.server.call('SM_get_next_artist_id', modelData.model_id);
-                  console.log('[addNewModelToNavigation] Got artist ID via anvil.server.call:', temp_artist_id);
+                  console.log('[addNewModelToNavigation] Trying via window.anvil.call with explicit ServerModule path');
+                  temp_artist_id = await window.anvil.call('ServerModule:SM_get_next_artist_id', modelData.model_id);
+                  console.log('[addNewModelToNavigation] Success - Got artist ID:', temp_artist_id);
                 } catch (err) {
-                  console.warn('[addNewModelToNavigation] Error using anvil.server.call:', err);
+                  console.warn('[addNewModelToNavigation] Failed - Error details:', err.message || err);
                 }
               }
               
-              // Method 2: Try via form instance if available
+              // Method 2: Try with simplified name
+              if (!temp_artist_id) {
+                try {
+                  console.log('[addNewModelToNavigation] Trying simplified function name');
+                  temp_artist_id = await window.anvil.call('SM_get_next_artist_id', modelData.model_id);
+                  console.log('[addNewModelToNavigation] Success - Got artist ID:', temp_artist_id);
+                } catch (err) {
+                  console.warn('[addNewModelToNavigation] Failed - Error details:', err.message || err);
+                }
+              }
+              
+              // Method 3: Try via form instance if available
               if (!temp_artist_id && window.formInstance && typeof window.formInstance.get_next_artist_id === 'function') {
                 try {
                   console.log('[addNewModelToNavigation] Trying via form instance method');
                   temp_artist_id = await window.formInstance.get_next_artist_id(modelData.model_id);
-                  console.log('[addNewModelToNavigation] Got artist ID via form instance:', temp_artist_id);
+                  console.log('[addNewModelToNavigation] Success - Got artist ID:', temp_artist_id);
                 } catch (err) {
-                  console.warn('[addNewModelToNavigation] Error using form instance:', err);
+                  console.warn('[addNewModelToNavigation] Failed - Error details:', err.message || err);
                 }
               }
               
-              // Method 3: Try via window.anvil.call with proper context
-              if (!temp_artist_id && window.anvil && typeof window.anvil.call === 'function') {
-                try {
-                  console.log('[addNewModelToNavigation] Trying via window.anvil.call with context');
-                  temp_artist_id = await window.anvil.call(this, 'SM_get_next_artist_id', modelData.model_id);
-                  console.log('[addNewModelToNavigation] Got artist ID via window.anvil.call:', temp_artist_id);
-                } catch (err) {
-                  console.warn('[addNewModelToNavigation] Error using window.anvil.call:', err);
-                }
-              }
-              
-              // Method 4: Try via anvil.server.call with 'ServerModule.' prefix
+              // Method 4: Try calling global Anvil function without this context
               if (!temp_artist_id && typeof anvil !== 'undefined' && typeof anvil.server !== 'undefined' && typeof anvil.server.call === 'function') {
                 try {
-                  console.log('[addNewModelToNavigation] Trying via ServerModule.SM_get_next_artist_id');
-                  temp_artist_id = await anvil.server.call('ServerModule.SM_get_next_artist_id', modelData.model_id);
-                  console.log('[addNewModelToNavigation] Got artist ID via ServerModule prefix:', temp_artist_id);
+                  console.log('[addNewModelToNavigation] Trying via direct anvil.server.call');
+                  // Call without 'this' context to see if that's the issue
+                  temp_artist_id = await anvil.server.call('SM_get_next_artist_id', modelData.model_id);
+                  console.log('[addNewModelToNavigation] Success - Got artist ID:', temp_artist_id);
                 } catch (err) {
-                  console.warn('[addNewModelToNavigation] Error using ServerModule prefix:', err);
+                  console.warn('[addNewModelToNavigation] Failed - Error details:', err.message || err);
                 }
               }
               
