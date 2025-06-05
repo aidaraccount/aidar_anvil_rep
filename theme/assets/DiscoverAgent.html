@@ -983,11 +983,8 @@
           modelLink.href = 'javascript:void(0)';
           modelLink.setAttribute('rel', 'noopener noreferrer');
           modelLink.setAttribute('anvil-role', 'model-nav-link');
-          modelLink.innerHTML = `
-            <i class="anvil-component-icon left fa fa-angle-right left-icon" aria-hidden="true"></i>
-            <div style="display: inline-block;" class="link-text">${modelData.model_name}</div>
-            <i class="anvil-component-icon right fa fa-angle-right left-icon" aria-hidden="true"></i>
-          `;
+          // Set innerHTML directly without whitespace
+          modelLink.innerHTML = `<i class="anvil-component-icon left fa fa-angle-right left-icon" aria-hidden="true"></i><div style="display: inline-block;" class="link-text">${modelData.model_name}</div><i class="anvil-component-icon right fa fa-angle-right left-icon" aria-hidden="true"></i>`;
           
           // 7. Create the settings icon container
           const settingsContainer = document.createElement('div');
@@ -1007,24 +1004,42 @@
           `;
           
           // 9. Add click handlers
-          modelLink.addEventListener('click', (e) => {
+          modelLink.addEventListener('click', async (e) => {
             e.preventDefault();
             console.log(`[addNewModelToNavigation] Model clicked: ${modelData.model_id}`);
-            // Call Anvil server to set this as current model
-            anvil.server.call('set_current_model', modelData.model_id).then(() => {
-              // Update UI to show this model as active
-              document.querySelectorAll('[anvil-role="model-nav-link"]').forEach(link => {
-                link.classList.remove('anvil-role-underline-link');
+            
+            try {
+              // Update model usage and get next artist ID in parallel
+              await Promise.all([
+                anvil.server.call('update_model_usage', anvil.server.get_user_id(), modelData.model_id),
+                anvil.server.call('get_next_artist_id', modelData.model_id)
+              ]).then(([_, temp_artist_id]) => {
+                // Save the model ID
+                anvil.server.call('save_var', 'model_id', modelData.model_id);
+                
+                // Remove underline from all model links
+                document.querySelectorAll('[anvil-role*="model-nav-link"]').forEach(link => {
+                  link.classList.remove('anvil-role-underline-link');
+                  link.setAttribute('anvil-role', 'model-nav-link');
+                });
+                
+                // Add underline to clicked link
+                modelLink.classList.add('anvil-role-underline-link');
+                modelLink.setAttribute('anvil-role', 'model-nav-link underline-link');
+                
+                // Navigate to the artist page
+                window.location.href = `#agent_artists?artist_id=${temp_artist_id}`;
               });
-              modelLink.classList.add('anvil-role-underline-link');
-            });
+            } catch (error) {
+              console.error('Error handling model click:', error);
+            }
           });
           
           settingsLink.addEventListener('click', (e) => {
             e.preventDefault();
             console.log(`[addNewModelToNavigation] Settings clicked for model: ${modelData.model_id}`);
-            // Call Anvil server to open settings
-            anvil.server.call('open_model_settings', modelData.model_id);
+            // Navigate to model profile settings
+            window.location.href = `#model_profile?model_id=${modelData.model_id}&section=Main`;
           });
           
           // 10. Assemble the DOM elements
@@ -1039,6 +1054,10 @@
           
           // 11. Add the new model as the last item in the list
           linearPanel.appendChild(listItem);
+          
+          // 12. Add underline to the newly added link
+          modelLink.classList.add('anvil-role-underline-link');
+          modelLink.setAttribute('anvil-role', 'model-nav-link underline-link');
           
           console.log('[addNewModelToNavigation] Model added to navigation');
         } catch (error) {
