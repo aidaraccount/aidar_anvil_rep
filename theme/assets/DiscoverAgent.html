@@ -908,7 +908,12 @@
           window.location.href = `#agent_artists?artist_id=${encodeURIComponent(message.artist_id)}`;
         }
 
-        // // update agent navigation
+        // update agent navigation
+        this.addNewModelToNavigation({
+          model_id: message.agent_id,
+          model_name: message.agent_name || 'New Agent'
+        });
+
         // try {
         //   window.anvil.call("refresh_agents_components_helper").then(function(result) {
         //     window.anvil.call("refresh_agents_components");
@@ -935,6 +940,83 @@
         // }
       }
     
+      // Add a new model to the navigation
+      addNewModelToNavigation(modelData) {
+        try {
+          console.log('[addNewModelToNavigation] Adding new model:', modelData);
+          
+          // 1. Find the nav_models container
+          const navModels = document.querySelector('#nav_models');
+          if (!navModels) {
+            console.warn('[addNewModelToNavigation] nav_models container not found');
+            return;
+          }
+          
+          // 2. Create container for the model entry
+          const modelContainer = document.createElement('div');
+          modelContainer.className = 'anvil-flow-panel';
+          modelContainer.setAttribute('tag', modelData.model_id);
+          modelContainer.setAttribute('role', 'nav_flow_panel');
+          
+          // 3. Create the model link
+          const modelLink = document.createElement('a');
+          modelLink.className = 'model-nav-link';
+          modelLink.href = '#';
+          modelLink.innerHTML = `
+            <i class="fa fa-angle-right"></i>
+            <span>${modelData.model_name}</span>
+          `;
+          modelLink.setAttribute('tag', modelData.model_id);
+          
+          // 4. Create settings icon
+          const settingsLink = document.createElement('a');
+          settingsLink.className = 'icon-link-discreet';
+          settingsLink.href = '#';
+          settingsLink.innerHTML = '<i class="fa fa-sliders"></i>';
+          settingsLink.setAttribute('tag', modelData.model_id);
+          
+          // 5. Add click handlers
+          modelLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            console.log(`[addNewModelToNavigation] Model clicked: ${modelData.model_id}`);
+            // Call Anvil server to set this as current model
+            anvil.server.call('set_current_model', modelData.model_id).then(() => {
+              // Update UI to show this model as active
+              document.querySelectorAll('.model-nav-link').forEach(link => {
+                link.classList.remove('underline-link');
+              });
+              modelLink.classList.add('underline-link');
+            });
+          });
+          
+          settingsLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            console.log(`[addNewModelToNavigation] Settings clicked for model: ${modelData.model_id}`);
+            // Call Anvil server to open settings
+            anvil.server.call('open_model_settings', modelData.model_id);
+          });
+          
+          // 6. Add elements to container
+          const linkContainer = document.createElement('div');
+          linkContainer.className = 'anvil-container';
+          linkContainer.style.width = '100%';
+          linkContainer.style.display = 'flex';
+          linkContainer.style.alignItems = 'center';
+          linkContainer.style.justifyContent = 'space-between';
+          
+          linkContainer.appendChild(modelLink);
+          linkContainer.appendChild(settingsLink);
+          modelContainer.appendChild(linkContainer);
+          
+          // 7. Add to the navigation (prepend to make it appear at the top)
+          navModels.insertBefore(modelContainer, navModels.firstChild);
+          
+          console.log('[addNewModelToNavigation] Model added to navigation');
+        } catch (error) {
+          console.error('[addNewModelToNavigation] Error:', error);
+        }
+      }
+      
       // -----------------------------------------
       // 5. UI Update Methods
       // Add a user message to the chat
