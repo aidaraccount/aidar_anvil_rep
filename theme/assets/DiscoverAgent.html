@@ -1018,50 +1018,72 @@
               // Try server calls in sequence, capturing specific information about failures
               console.log('[addNewModelToNavigation] Starting server calls attempt');
               
-              // Method 1: Try directly via window.anvil.call
+              // Method 1: Try via window.anvil.call WITH 'this' context (CRITICAL)
               if (!temp_artist_id) {
                 try {
-                  console.log('[addNewModelToNavigation] Trying via window.anvil.call with explicit ServerModule path');
-                  temp_artist_id = await window.anvil.call('ServerModule:SM_get_next_artist_id', modelData.model_id);
-                  console.log('[addNewModelToNavigation] Success - Got artist ID:', temp_artist_id);
+                  console.log('[addNewModelToNavigation] Trying via window.anvil.call with proper this context');
+                  temp_artist_id = await window.anvil.call(this, 'SM_get_next_artist_id', modelData.model_id);
+                  if (temp_artist_id) {
+                    console.log('[addNewModelToNavigation] Success - Got artist ID:', temp_artist_id);
+                  } else {
+                    console.warn('[addNewModelToNavigation] Call succeeded but returned undefined artist ID');
+                  }
                 } catch (err) {
-                  console.warn('[addNewModelToNavigation] Failed - Error details:', err.message || err);
+                  console.error('[addNewModelToNavigation] Failed - Error details:', err);
                 }
               }
               
-              // Method 2: Try with simplified name
+              // Method 2: Try with ServerModule prefix and 'this' context
               if (!temp_artist_id) {
                 try {
-                  console.log('[addNewModelToNavigation] Trying simplified function name');
-                  temp_artist_id = await window.anvil.call('SM_get_next_artist_id', modelData.model_id);
-                  console.log('[addNewModelToNavigation] Success - Got artist ID:', temp_artist_id);
+                  console.log('[addNewModelToNavigation] Trying with full ServerModule path and this context');
+                  temp_artist_id = await window.anvil.call(this, 'ServerModule.SM_get_next_artist_id', modelData.model_id);
+                  if (temp_artist_id) {
+                    console.log('[addNewModelToNavigation] Success - Got artist ID:', temp_artist_id);
+                  } else {
+                    console.warn('[addNewModelToNavigation] Call succeeded but returned undefined artist ID');
+                  }
                 } catch (err) {
-                  console.warn('[addNewModelToNavigation] Failed - Error details:', err.message || err);
+                  console.error('[addNewModelToNavigation] Failed - Error details:', err);
                 }
               }
               
-              // Method 3: Try via form instance if available
+              // Method 3: Try using this.call directly if 'this' is an Anvil component
+              if (!temp_artist_id && typeof this.call === 'function') {
+                try {
+                  console.log('[addNewModelToNavigation] Trying via this.call (if this is an Anvil component)');
+                  temp_artist_id = await this.call('SM_get_next_artist_id', modelData.model_id);
+                  if (temp_artist_id) {
+                    console.log('[addNewModelToNavigation] Success - Got artist ID via this.call:', temp_artist_id);
+                  } else {
+                    console.warn('[addNewModelToNavigation] this.call succeeded but returned undefined artist ID');
+                  }
+                } catch (err) {
+                  console.error('[addNewModelToNavigation] Failed with this.call - Error details:', err);
+                }
+              }
+              
+              // Method 4: Try via form instance if available
               if (!temp_artist_id && window.formInstance && typeof window.formInstance.get_next_artist_id === 'function') {
                 try {
                   console.log('[addNewModelToNavigation] Trying via form instance method');
                   temp_artist_id = await window.formInstance.get_next_artist_id(modelData.model_id);
-                  console.log('[addNewModelToNavigation] Success - Got artist ID:', temp_artist_id);
+                  if (temp_artist_id) {
+                    console.log('[addNewModelToNavigation] Success - Got artist ID:', temp_artist_id);
+                  } else {
+                    console.warn('[addNewModelToNavigation] Form instance call returned undefined artist ID');
+                  }
                 } catch (err) {
-                  console.warn('[addNewModelToNavigation] Failed - Error details:', err.message || err);
+                  console.error('[addNewModelToNavigation] Failed - Error details:', err);
                 }
               }
               
-              // Method 4: Try calling global Anvil function without this context
-              if (!temp_artist_id && typeof anvil !== 'undefined' && typeof anvil.server !== 'undefined' && typeof anvil.server.call === 'function') {
-                try {
-                  console.log('[addNewModelToNavigation] Trying via direct anvil.server.call');
-                  // Call without 'this' context to see if that's the issue
-                  temp_artist_id = await anvil.server.call('SM_get_next_artist_id', modelData.model_id);
-                  console.log('[addNewModelToNavigation] Success - Got artist ID:', temp_artist_id);
-                } catch (err) {
-                  console.warn('[addNewModelToNavigation] Failed - Error details:', err.message || err);
-                }
-              }
+              // Add diagnostics about environment
+              console.log('[addNewModelToNavigation] Diagnostics:', {
+                'window.anvil exists': typeof window.anvil !== 'undefined',
+                'this value': this,
+                'model_id': modelData.model_id
+              });
               
               // If all server calls fail, show error message
               if (!temp_artist_id) {
