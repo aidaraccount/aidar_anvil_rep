@@ -198,10 +198,13 @@ def remove_user_from_customer(user_id):
 
 @anvil.server.callable
 def SM_get_next_artist_id(model_id):
+  print('[SM_get_next_artist_id] start')
   user = anvil.users.get_user()
   # save var model_id
   anvil.server.call('update_model_usage', user["user_id"], model_id)
+  print('[SM_get_next_artist_id] mid')
   artist_id = anvil.server.call('get_next_artist_id', model_id)
+  print('[SM_get_next_artist_id] artist_id:', artist_id)
   return artist_id
 
 

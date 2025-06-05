@@ -1011,7 +1011,7 @@
             try {              
               // Then get the next artist ID using window.anvil.call for static HTML
               console.log('[addNewModelToNavigation] Getting next artist ID for model:', modelData.model_id);
-              const temp_artist_id = await window.anvil.call(this, 'SM_get_next_artist_id', modelData.model_id);
+              const temp_artist_id = await this.call('SM_get_next_artist_id', modelData.model_id);
               
               // Remove underline from all model links - use a more specific selector
               console.log('[addNewModelToNavigation] Removing underline from all model links');
