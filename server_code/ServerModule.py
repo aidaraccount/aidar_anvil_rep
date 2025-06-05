@@ -196,6 +196,12 @@ def remove_user_from_customer(user_id):
   user['active'] = True
 
 
+@anvil.server.callable
+def SM_get_next_artist_id(model_id):
+  artist_id = anvil.server.call('get_next_artist_id', model_id)
+  return artist_id
+
+
 # # refresh agent nav component from JS
 # @anvil.server.callable
 # def refresh_agents_components_helper():
