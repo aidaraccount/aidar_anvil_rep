@@ -957,31 +957,6 @@
           model_id: message.agent_id,
           model_name: message.agent_name || 'New Agent'
         });
-
-        // try {
-        //   window.anvil.call("refresh_agents_components_helper").then(function(result) {
-        //     window.anvil.call("refresh_agents_components");
-        //   });
-        //   console.log('Successfully refreshed agent components');
-
-        //   // First get the updated agents data
-        //   const agentsData = await anvil.server.call('refresh_agents_components_helper');
-        //   console.log('Agents data:', agentsData);
-          
-        //   // Then trigger the client-side refresh
-        //   const success = await anvil.server.call('refresh_agents_components');
-        //   if (success) {
-        //     console.log('Successfully refreshed agent components');
-        //   } else {
-        //     console.warn('Could not refresh agent components');
-        //     // Fallback to page reload if needed
-        //     setTimeout(() => window.location.reload(), 500);
-        //   }
-        // } catch (error) {
-        //   console.error('Error refreshing agent components:', error);
-        //   // Fallback to page reload on error
-        //   setTimeout(() => window.location.reload(), 500);
-        // }
       }
     
       // Add a new model to the navigation
@@ -1048,142 +1023,15 @@
           `;
           
           // 9. Add click handlers
-          modelLink.addEventListener('click', async (e) => {
+          // Discover link click handler
+          modelLink.addEventListener('click', (e) => {
             e.preventDefault();
             console.log(`[addNewModelToNavigation] Model clicked: ${modelData.model_id}`);
-            
-            try {
-              console.log('[addNewModelToNavigation] 1. Handling model selection for:', modelData.model_id);
-              let temp_artist_id;
-              
-              // 2. First update the model ID in WebSocketManager if available
-              // This might be required for the server calls to work correctly
-              if (window.wsManager && typeof window.wsManager.updateModelId === 'function') {
-                console.log('[addNewModelToNavigation] 2.1 Updating WebSocketManager model ID first');
-                try {
-                  await window.wsManager.updateModelId(modelData.model_id);
-                  console.log('[addNewModelToNavigation] 2.2 Successfully updated WebSocketManager model ID');
-                } catch (wsError) {
-                  console.warn('[addNewModelToNavigation] 2.3 Failed to update WebSocketManager:', wsError);
-                }
-              }
-              
-              // 3. Try using the global server function caller
-              console.log('[addNewModelToNavigation] 3.1 Calling SM_get_next_artist_id via global function');
-              
-              try {
-                // Use our global callable function - it will try all methods internally
-                temp_artist_id = await window.callServerFunction('SM_get_next_artist_id', modelData.model_id);
-                
-                if (temp_artist_id) {
-                  console.log('[addNewModelToNavigation] 3.2 Success - Got artist ID from server:', temp_artist_id);
-                } else {
-                  console.warn('[addNewModelToNavigation] 3.3 Server call succeeded but returned undefined artist ID');
-                }
-              } catch (err) {
-                console.error('[addNewModelToNavigation] 3.4 Error calling server function:', err);
-              }
-              
-              // Try with ServerModule prefix as a fallback
-              if (!temp_artist_id) {
-                try {
-                  console.log('[addNewModelToNavigation] 3.5 Trying with ServerModule prefix');
-                  temp_artist_id = await window.callServerFunction('ServerModule.SM_get_next_artist_id', modelData.model_id);
-                  
-                  if (temp_artist_id) {
-                    console.log('[addNewModelToNavigation] 3.6 Success with ServerModule prefix:', temp_artist_id);
-                  } else {
-                    console.warn('[addNewModelToNavigation] 3.7 ServerModule call returned undefined');
-                  }
-                } catch (err) {
-                  console.error('[addNewModelToNavigation] 3.8 ServerModule error:', err);
-                }
-              }
-              
-              // Add diagnostics about environment
-              console.log('[addNewModelToNavigation] 3.9 Diagnostics:', {
-                'window.anvil exists': typeof window.anvil !== 'undefined',
-                'this value': this,
-                'model_id': modelData.model_id,
-                'callServerFunction exists': typeof window.callServerFunction === 'function'
-              });
-              
-              // 4. Add fallback synthetic ID generation as last resort
-              if (!temp_artist_id) {
-                console.log('[addNewModelToNavigation] 4.1 Using fallback synthetic artist ID generation');
-                
-                // Create consistent but unique ID based on model ID
-                const cleanModelId = modelData.model_id.replace(/[^a-zA-Z0-9]/g, '').substring(0, 8);
-                const timestamp = new Date().getTime().toString().slice(-8);
-                temp_artist_id = `artist-${cleanModelId}-${timestamp}`;
-                
-                console.log('[addNewModelToNavigation] 4.2 Generated synthetic artist ID:', temp_artist_id);
-                
-                // Show a subtle message that we're working in offline mode
-                if (window.wsManager && typeof window.wsManager.addInfoMessage === 'function') {
-                  window.wsManager.addInfoMessage('Using local navigation - some features may be limited');
-                }
-              }
-              
-              // 5. Navigate to the artist page with the obtained ID
-              if (temp_artist_id) {
-                console.log('[addNewModelToNavigation] 5.1 Navigating to artist page with ID:', temp_artist_id);
-                
-                // 5.2 Update the DOM with the appropriate class for the selected model
-                document.querySelectorAll('.anvil-role-nav_models [anvil-role*="model-nav-link"]').forEach(link => {
-                  link.classList.remove('active');
-                });
-                modelLink.classList.add('active');
-                
-                // 5.3 Perform the actual navigation
-                const url = `#artist_profile?artist_id=${encodeURIComponent(temp_artist_id)}&model_id=${encodeURIComponent(modelData.model_id)}`;
-                console.log('[addNewModelToNavigation] 5.4 Navigating to URL:', url);
-                window.location.href = url;
-                
-                return true; // Successfully navigated
-              }
-            } catch (error) {
-              console.error('[addNewModelToNavigation] Error handling model selection:', error);
-              
-              // Show error to user
-              if (window.wsManager && typeof window.wsManager.addErrorMessage === 'function') {
-                window.wsManager.addErrorMessage('Error processing your request. Please try again.');
-              } else {
-                alert('Error processing your request. Please try again.');
-              }
-              
-              // Exit early if we have no artist ID
-              return;
-            }
-            
-            // Only continue if we have a valid artist ID from the server
-            if (temp_artist_id) {
-              // Set underline styling for the clicked model
-              // Remove underline from all model links first
-              document.querySelectorAll('[anvil-role="model-nav-link"]').forEach(link => {
-                link.classList.remove('underline');
-              });
-              
-              // Add underline to the clicked link
-              modelLink.classList.add('underline');
-              
-              // Update the URL hash to reflect the selected model/artist
-              window.location.hash = `artist=${temp_artist_id}`;
-              
-              // Log navigation completion
-              console.log('[addNewModelToNavigation] Navigating to artist page with ID:', temp_artist_id);
-              
-              // Update UI state
-              document.dispatchEvent(new CustomEvent('artistChanged', { 
-                detail: { 
-                  artistId: temp_artist_id,
-                  modelId: modelData.model_id 
-                }
-              }));
-            }
+            // Navigate to model profile settings
+            window.location.href = `#agent_artists?artist_id=get_artist`;
           });
           
-          // Settings link click handler
+          // Settings icon link click handler
           settingsLink.addEventListener('click', (e) => {
             e.preventDefault();
             console.log(`[addNewModelToNavigation] Settings clicked for model: ${modelData.model_id}`);
