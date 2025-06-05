@@ -653,7 +653,7 @@
       handleMessage(event) {
         try {
           const message = JSON.parse(event.data);
-          console.log('[handleMessage] Received message:', message);
+          // console.log('[handleMessage] Received message:', message);
 
           switch (message.type) {
             case 'text_chunk':
@@ -889,7 +889,7 @@
       }
       
       // Handle extended create agent message from server
-      handleExtendedCreateAgent(message) {
+      async handleExtendedCreateAgent(message) {
         console.log('[handleExtendedCreateAgent] Received extended create agent message:', message);
         
         // Set stage based on whether we have an artist_id
@@ -910,6 +910,28 @@
         
         // Remove typing indicator
         this.removeTypingIndicator();
+
+        // navigate to agent page if artist_id is not null
+        if (message.artist_id !== null && message.artist_id !== undefined && message.artist_id !== '' && message.artist_id !== 'null') {
+          // Hide chat containers first
+          await new Promise(resolve => setTimeout(resolve, 3000));
+          document.querySelector('.chat-input-container').classList.add('agent-creation');
+          document.querySelector('.chat-container').classList.add('agent-creation');
+          
+          await new Promise(resolve => setTimeout(resolve, 500));
+          document.querySelector('.chat-input-container').style.display = 'none';
+          document.querySelector('.chat-container').style.display = 'none';
+          
+          // Show creation statement
+          await new Promise(resolve => setTimeout(resolve, 1500));
+          document.querySelector('.agent-creation-statement').classList.add('agent-creation');          
+          // Update sessionStorage for model_id
+          sessionStorage.setItem('model_id', message.agent_id);
+          
+          // Navigate to agent page
+          await new Promise(resolve => setTimeout(resolve, 3000));
+          window.location.href = `#agent_artists?artist_id=${encodeURIComponent(message.artist_id)}`;
+        }
       }
 
       // Handle create agent message from server
