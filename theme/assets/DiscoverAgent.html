@@ -916,6 +916,12 @@
       async handleCreateAgent(message) {
         console.log('[handleCreateAgent] Received complete create agent message:', message);
         
+        // update agent navigation
+        this.addNewModelToNavigation({
+          model_id: message.agent_id,
+          model_name: message.agent_name || 'New Agent'
+        });
+
         // Set stage based on whether we have an artist_id
         if (message.artist_id && message.artist_id !== 'null') {
           console.log('[handleCreateAgent] Switching to NORMAL mode since we have an artist_id:', message.artist_id);
@@ -951,12 +957,6 @@
           await new Promise(resolve => setTimeout(resolve, 3000));
           window.location.href = `#agent_artists?artist_id=${encodeURIComponent(message.artist_id)}`;
         }
-
-        // update agent navigation
-        this.addNewModelToNavigation({
-          model_id: message.agent_id,
-          model_name: message.agent_name || 'New Agent'
-        });
       }
     
       // Add a new model to the navigation
