@@ -128,8 +128,16 @@ class DiscoverAgent(DiscoverAgentTemplate):
     print(f"Discover watchlist_id: {watchlist_id}")
     self.watchlist_id = watchlist_id
 
-    # get_suggestion
+    # url_artist_id
     url_artist_id = self.url_dict['artist_id']
+
+    # check for missing artist_id
+    if url_artist_id == 'get_artist':
+      print("'get_artist' url detected")
+      url_artist_id = anvil.server.call('get_next_artist_id', self.model_id)
+      print("url_artist_id:", url_artist_id)
+
+    # get_suggestion
     print('url_artist_id:', url_artist_id)
     sug = json.loads(anvil.server.call('get_suggestion', 'Inspect', self.model_id, url_artist_id)) # Free, Explore, Inspect, Dissect
 
