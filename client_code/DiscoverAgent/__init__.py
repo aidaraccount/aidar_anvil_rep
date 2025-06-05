@@ -20,6 +20,8 @@ from anvil_extras import routing
 from ..nav import click_link, click_button, logout, login_check, load_var, save_var
 import time
 
+from anvil.js.window import history, location
+
 from ..C_ArtistBio import C_ArtistBio
 from ..C_ProgressMessage import C_ProgressMessage
 from ..C_Short import C_Short
@@ -130,15 +132,14 @@ class DiscoverAgent(DiscoverAgentTemplate):
 
     # url_artist_id
     url_artist_id = self.url_dict['artist_id']
+    print('url_artist_id:', url_artist_id)
 
     # check for missing artist_id
     if url_artist_id == 'get_artist':
-      print("'get_artist' url detected")
       url_artist_id = anvil.server.call('get_next_artist_id', self.model_id)
-      print("url_artist_id:", url_artist_id)
+      history.replaceState(None, "", f"#{'agent_artists?artist_id=' + url_artist_id}")
 
     # get_suggestion
-    print('url_artist_id:', url_artist_id)
     sug = json.loads(anvil.server.call('get_suggestion', 'Inspect', self.model_id, url_artist_id)) # Free, Explore, Inspect, Dissect
 
     # check if we are creating a new agent
@@ -2039,10 +2040,7 @@ class DiscoverAgent(DiscoverAgentTemplate):
     # self.header.scroll_into_view(smooth=True)
     # next_artist_id = anvil.server.call('get_next_artist_id', self.model_id)
     # routing.set_url_hash(f'agent_artists?artist_id={next_artist_id}', load_from_cache=False)
-
-    from anvil.js.window import history, location
     history.replaceState(None, "", f"#{'agent_artists?artist_id=123'}")
-    
     pass
   
   def button_2_click(self, **event_args):
