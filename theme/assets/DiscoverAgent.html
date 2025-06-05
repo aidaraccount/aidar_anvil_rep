@@ -493,7 +493,7 @@
       // -----------------------------------------
       /* 3. Message Handling */
       // Send message to the server
-      sendMessage(type = 'query') {
+      sendMessage() {
         try {
           console.log('[sendMessage] sendMessage() called');
           
@@ -548,20 +548,19 @@
                 }, 800); // Slightly longer than the animation duration
               }, 1500); // Match this with the CSS transition duration (1.5s)
             }
-            
-            type = 'create_agent';
           }
 
           // Extended create agent mode
           if (this.stage === this.STAGE.EXTENDED_CREATE_AGENT) {
             console.log('[sendMessage] Extended create agent mode');
-            type = 'extended_create_agent'
+            
+            // do nothing
           }
 
           // --------------------------
           // Prepare message
           const messageData = {
-            type: type,
+            type: this.stage,
             content: message,
             timestamp: new Date().toISOString(),
             user_id: sessionStorage.getItem('user_id'),
