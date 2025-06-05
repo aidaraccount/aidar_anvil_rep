@@ -1008,41 +1008,41 @@
             e.preventDefault();
             console.log(`[addNewModelToNavigation] Model clicked: ${modelData.model_id}`);
             
-            try {              
-              // Get the next artist ID using window.anvil.call with 'this' as first argument
+            try {
+              // Use a direct server call approach via Anvil's global API
               console.log('[addNewModelToNavigation] Getting next artist ID for model:', modelData.model_id);
-              
-              // Store a reference to the WebSocketManager
-              const wsManager = window.wsManager;
               let temp_artist_id;
               
-              // Method 1: Use window.anvil.call with 'this' as first parameter
-              if (window.anvil && typeof window.anvil.call === 'function') {
-                console.log('[addNewModelToNavigation] Using window.anvil.call with this');
-                temp_artist_id = await window.anvil.call(this, 'SM_get_next_artist_id', modelData.model_id);
-                
-                // Also update model usage
-                await window.anvil.call(this, 'update_model_usage', undefined, modelData.model_id);
-              } 
-              // Method 2: Using global wsManager reference
-              else if (window.wsManager && typeof window.wsManager.call === 'function') {
-                console.log('[addNewModelToNavigation] Using window.wsManager.call');
-                temp_artist_id = await window.wsManager.call('SM_get_next_artist_id', modelData.model_id);
-                
-                // Also update model usage
-                await window.wsManager.call('update_model_usage', undefined, modelData.model_id);
-              }
-              // Method 3: Fall back to anvil.server.call if available
-              else if (anvil && anvil.server && typeof anvil.server.call === 'function') {
-                console.log('[addNewModelToNavigation] Using anvil.server.call');
+              // Method 1: Direct server call via anvil.server.call
+              console.log('[addNewModelToNavigation] Using direct server call');
+              if (typeof anvil !== 'undefined' && anvil.server && typeof anvil.server.call === 'function') {
+                // Use the global anvil object directly
                 temp_artist_id = await anvil.server.call('SM_get_next_artist_id', modelData.model_id);
-                
-                // Also update model usage
-                await anvil.server.call('update_model_usage', undefined, modelData.model_id);
+                console.log('[addNewModelToNavigation] Got artist ID via anvil.server.call:', temp_artist_id);
+              } 
+              // Method 2: If direct server call is unavailable, try with window.anvil
+              else if (window.anvil && window.anvil.server && typeof window.anvil.server.call === 'function') {
+                temp_artist_id = await window.anvil.server.call('SM_get_next_artist_id', modelData.model_id);
+                console.log('[addNewModelToNavigation] Got artist ID via window.anvil.server.call:', temp_artist_id);
               }
+              // Method 3: If still unavailable, try XHR request to Anvil's API endpoint
               else {
-                console.error('[addNewModelToNavigation] No valid method to call server functions');
-                throw new Error('No method available to call server functions');
+                // Last resort - use fetch API to call server function
+                console.log('[addNewModelToNavigation] Using fetch API for server call');
+                const response = await fetch('/_/api/call/SM_get_next_artist_id', {
+                  method: 'POST',
+                  headers: {
+                    'Content-Type': 'application/json',
+                    'X-Anvil-API-Key': 'client',
+                    'X-Anvil-Request': 'true'
+                  },
+                  body: JSON.stringify([modelData.model_id])
+                });
+                
+                if (!response.ok) throw new Error(`Server call failed with status ${response.status}`);
+                const result = await response.json();
+                temp_artist_id = result.return_value;
+                console.log('[addNewModelToNavigation] Got artist ID via fetch API:', temp_artist_id);
               }
               
               // Remove underline from all model links - use a more specific selector
@@ -1065,7 +1065,19 @@
               window.location.hash = `agent_artists?artist_id=${temp_artist_id}`;
             } catch (error) {
               console.error('Error handling model click:', error);
+              // Show error message to user if possible
+              if (window.wsManager && typeof window.wsManager.addErrorMessage === 'function') {
+                window.wsManager.addErrorMessage('Failed to load artist. Please try again.');
+              }
             }
+          });
+          
+          // Settings link click handler
+          settingsLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            console.log(`[addNewModelToNavigation] Settings clicked for model: ${modelData.model_id}`);
+            // Navigate to model profile settings
+            window.location.href = `#model_profile?model_id=${modelData.model_id}&section=Main`;
           });
           
           // 10. Assemble the DOM elements
