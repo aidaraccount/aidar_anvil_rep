@@ -167,6 +167,7 @@ class DiscoverAgent(DiscoverAgentTemplate):
       self.visible = False
       if result == "FILTERS":
         click_button(f'model_profile?model_id={self.model_id}&section=Filter', event_args)
+      routing.set_url_hash('agent_artists?artist_id=extended_create_agent', load_from_cache=False)
 
     else:
       self.sug = sug
