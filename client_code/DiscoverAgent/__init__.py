@@ -152,21 +152,21 @@ class DiscoverAgent(DiscoverAgentTemplate):
       pass
       
     elif sug["Status"] == 'Empty Model!':
-      alert(title='Train you Model..',
-        content="Sorry, we cound't find any artists for your model. Make sure your Agent is fully set up!\n\nTherefore, go to ADD REF. ARTISTS and add some starting artists that you are interested in.")
-      self.visible = False
+      # alert(title='Train you Model..',
+      #   content="Sorry, we cound't find any artists for your model. Make sure your Agent is fully set up!\n\nTherefore, go to ADD REF. ARTISTS and add some starting artists that you are interested in.")
+      # self.visible = False
       routing.set_url_hash('agent_artists?artist_id=extended_create_agent', load_from_cache=False)
 
     elif sug["Status"] == 'No Findings!':
-      result = alert(title='No Artists found..',
-        content="Sorry, we cound't find any artists for your model. Please check two potential issues:\n\n1. Please check your FILTERS and change them to find additional artists.\n\n2. If you're just setting up your Agent or are subscribed to the Explore subscription, go to the ADD REF. ARTISTS page and add additional reference artists.",
-        buttons=[
-          ("Change Filters", "FILTERS"),
-          ("Ok", "OK")
-        ])
-      self.visible = False
-      if result == "FILTERS":
-        click_button(f'model_profile?model_id={self.model_id}&section=Filter', event_args)
+      # result = alert(title='No Artists found..',
+      #   content="Sorry, we cound't find any artists for your model. Please check two potential issues:\n\n1. Please check your FILTERS and change them to find additional artists.\n\n2. If you're just setting up your Agent or are subscribed to the Explore subscription, go to the ADD REF. ARTISTS page and add additional reference artists.",
+      #   buttons=[
+      #     ("Change Filters", "FILTERS"),
+      #     ("Ok", "OK")
+      #   ])
+      # self.visible = False
+      # if result == "FILTERS":
+      #   click_button(f'model_profile?model_id={self.model_id}&section=Filter', event_args)
       routing.set_url_hash('agent_artists?artist_id=extended_create_agent', load_from_cache=False)
 
     else:
