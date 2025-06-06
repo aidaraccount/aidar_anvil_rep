@@ -89,7 +89,7 @@ class C_Short(C_ShortTemplate):
         "click", self.create_button_click_handler(data["artist_id"], data["watchlist_id"])
       )
       self.add_component(button, slot="wl-button-slot")
-
+      # hidden by opacity: 0; in theme_4_page_indiv.css of class .social-wl-button 
   
   def create_link_click_handler(self, artist_id, link):
     def handler(**event_args):

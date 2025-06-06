@@ -118,17 +118,20 @@ components:
             bold: false
             role: [table_content, transition-effect, header-5]
             text: Agent is active
+            visible: false
           type: Label
         - event_bindings: {click: activate_click}
           layout_properties: {}
           name: activate
           properties:
             align: right
+            enabled: true
             icon: ''
             role: [call-to-action-button, header-6]
             spacing_above: none
             spacing_below: none
             text: Activate Agent
+            visible: false
           type: Button
         - event_bindings: {click: discover_click}
           layout_properties: {}

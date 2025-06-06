@@ -69,6 +69,7 @@ background: linear-gradient(to bottom right, rgb(31, 11, 59), rgba(250, 250, 250
       top: -5px;
       left: 260px;
       width: 30px;
+      opacity: 0;  /* TO HIDE WL BUTTON ON SHORTS*/
     }
   }
   .social-date {

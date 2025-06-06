@@ -86,13 +86,13 @@ class ModelProfile(ModelProfileTemplate):
         self.creation_date_value.text = '-' if infos["creation_date"] == 'None' else infos["creation_date"]          
         self.usage_date_value.text = infos["usage_date"]
     
-        # activate button
-        if model_id_active_new is not None and int(self.model_id_view) == int(model_id_active_new):
-          self.activated.visible = True
-          self.activate.visible = False
-        else:
-          self.activated.visible = False
-          self.activate.visible = True   
+        # # activate button
+        # if model_id_active_new is not None and int(self.model_id_view) == int(model_id_active_new):
+        #   self.activated.visible = True
+        #   self.activate.visible = False
+        # else:
+        #   self.activated.visible = False
+        #   self.activate.visible = True   
         
         # ---------------
         # HEADER RIGHT
