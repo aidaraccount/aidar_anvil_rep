@@ -36,9 +36,9 @@ class DiscoverAgent(DiscoverAgentTemplate):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
     self.html = '@theme:DiscoverAgent.html'
-    print(f"[WebSocketManager - DiscoverAgent] Registering show event handler")
+    print("[WebSocketManager - DiscoverAgent] Registering show event handler")
     self.add_event_handler('show', self.form_show)
-    print(f"[WebSocketManager - DiscoverAgent] Show event handler registered")
+    print("[WebSocketManager - DiscoverAgent] Show event handler registered")
 
     global user
     user = anvil.users.get_user()
@@ -72,6 +72,8 @@ class DiscoverAgent(DiscoverAgentTemplate):
     if self.url_dict.get('artist_id') == 'create_agent':
       self.call_js("createAgentView")
       self.call_js("updateModelId", None)
+    elif self.url_dict.get('artist_id') == 'extended_create_agent':
+      self.call_js("createAgentView")   
     
     # -----------
     # 2. Initialize Spotify player
@@ -132,13 +134,13 @@ class DiscoverAgent(DiscoverAgentTemplate):
 
     # url_artist_id
     url_artist_id = self.url_dict['artist_id']
+    save_var("url_artist_id", url_artist_id)
     print('url_artist_id:', url_artist_id)
 
     # check for missing artist_id
     if url_artist_id == 'get_artist':
       get_open_form().refresh_models_components()
       get_open_form().refresh_models_underline()
-      print('self.model_id:', self.model_id)
       url_artist_id = anvil.server.call('get_next_artist_id', self.model_id)
       history.replaceState(None, "", f"#agent_artists?artist_id={url_artist_id}")
 
@@ -146,13 +148,14 @@ class DiscoverAgent(DiscoverAgentTemplate):
     sug = json.loads(anvil.server.call('get_suggestion', 'Inspect', self.model_id, url_artist_id)) # Free, Explore, Inspect, Dissect
 
     # check if we are creating a new agent
-    if url_artist_id == 'create_agent':
+    if url_artist_id == 'create_agent' or url_artist_id == 'extended_create_agent':
       pass
       
     elif sug["Status"] == 'Empty Model!':
       alert(title='Train you Model..',
         content="Sorry, we cound't find any artists for your model. Make sure your Agent is fully set up!\n\nTherefore, go to ADD REF. ARTISTS and add some starting artists that you are interested in.")
       self.visible = False
+      routing.set_url_hash('agent_artists?artist_id=extended_create_agent', load_from_cache=False)
 
     elif sug["Status"] == 'No Findings!':
       result = alert(title='No Artists found..',
@@ -165,13 +168,7 @@ class DiscoverAgent(DiscoverAgentTemplate):
       if result == "FILTERS":
         click_button(f'model_profile?model_id={self.model_id}&section=Filter', event_args)
 
-    # elif sug["Status"] == 'Free Limit Reached!':
-    #   alert(title='Free Limit Reached..',
-    #     content="Sorry, the free version is limited in the number of suggested artists - if you're interested in continuing, please upgrade to one of our subscription plans.\n\nFor any questions, please contact us at info@aidar.ai\n\nYour AIDAR Team")
-    #   self.visible = False
-
     else:
-
       self.sug = sug
       save_var('lastplayed', self.sug["SpotifyArtistID"])
 

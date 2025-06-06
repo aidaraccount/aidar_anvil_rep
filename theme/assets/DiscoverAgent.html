@@ -266,16 +266,29 @@
         this.isUpdatingModelId = false;
         this.reconnectTimeout = null;
 
-        // Set model_id from sessionStorage
+        // get model_id and url_artist_id from sessionStorage
         const storedModelId = sessionStorage.getItem('model_id');
+        const storedUrlArtistId = sessionStorage.getItem('url_artist_id');
+
+        console.log('[WebSocketManager] storedModelId:', storedModelId);
+        console.log('[WebSocketManager] storedUrlArtistId:', storedUrlArtistId);
         
-        // If we have a valid model_id, use it
+        // If we have valid ids, use them
         if (storedModelId && storedModelId !== 'null') {
           this.model_id = storedModelId;
         } else {
           // Otherwise, generate a random model_id
           this.model_id = Math.random().toString(36).substr(2, 9);
         }
+
+        if (storedUrlArtistId && storedUrlArtistId !== 'null') {
+          this.url_artist_id = storedUrlArtistId;
+        } else {
+          this.url_artist_id = null;
+        }
+
+        console.log('[WebSocketManager] this.model_id:', this.model_id);
+        console.log('[WebSocketManager] this.url_artist_id:', this.url_artist_id);
         
         // Use the model_id for session ID
         this.sessionId = 'session-' + this.model_id;
@@ -303,8 +316,18 @@
         this.STAGE = STAGE;
         
         // Determine initial stage based on model_id
-        if (this.model_id) {
+        console.log('[WebSocketManager] this.model_id:', this.model_id);
+        console.log("[WebSocketManager] this.model_id !== 'null':", this.model_id !== 'null');
+        console.log("[WebSocketManager] this.model_id !== null:", this.model_id !== null);
+
+        console.log('[WebSocketManager] this.url_artist_id:', this.url_artist_id);
+        console.log("[WebSocketManager] this.url_artist_id !== 'null':", this.url_artist_id !== 'null');
+        console.log("[WebSocketManager] this.url_artist_id !== null:", this.url_artist_id !== null);
+        
+        if (this.model_id && this.url_artist_id && this.url_artist_id !== 'None') {
           this.stage = STAGE.NORMAL;
+        } else if (this.model_id) {
+          this.stage = STAGE.EXTENDED_CREATE_AGENT;
         } else {
           this.stage = STAGE.CREATE_AGENT;
         }
@@ -1823,6 +1846,7 @@
 
 
   // CREATE AGENT VIEW (Step 1)
+  // MAKE createAgentView accessible from Python
   window.createAgentView = function() {
     console.log('[createAgentView] Creating agent view');
     const agentSidebar = document.getElementById('agent-sidebar');
