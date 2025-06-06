@@ -1245,6 +1245,9 @@
         }
         
         console.log('[updateModelId] Updating model ID from', currentModelId, 'to', normalizedNewModelId);
+
+        // save cache model_id
+        sessionStorage.setItem("model_id", newModelId);
         
         // Set updating flag to prevent duplicate reconnections
         this.isUpdatingModelId = true;
