@@ -11,7 +11,7 @@ import anvil.users
 import json
 import time
 from datetime import datetime
-from anvil.js.window import location, updateLoadingSpinnerMargin
+from anvil.js.window import location, updateLoadingSpinnerMargin, clearModelNavigation
 from ..C_SearchPopupTable import C_SearchPopupTable
 
 from anvil_extras import routing
@@ -254,10 +254,12 @@ class MainIn(MainInTemplate):
     self.reset_nav_backgrounds()
   
   def remove_model_components(self):
-    # Remove all components (now Flow containers) from nav_models
+    # Remove all Anvil components (now Flow containers) from nav_models
     for component in self.nav_models.get_components():
       if isinstance(component, anvil.FlowPanel):
         component.remove_from_parent()
+    # Remove all JS added components from nav_models
+    self.call_js('clearModelNavigation')
     
   def refresh_models_underline(self):
     # Find all model links inside Flow containers and update their roles
