@@ -1915,27 +1915,48 @@
     console.log('[createExtendedAgentView] Creating extended agent view');
     const agentSidebar = document.getElementById('agent-sidebar');
     if (agentSidebar) {
-      // Set extendedCreateAgent stage
+      // 1. Ensure WebSocket manager exists
       const wsManager = window.wsManager;
       if (wsManager) {
+        // 2. First set the proper stage for message handling
         wsManager.stage = wsManager.STAGE.EXTENDED_CREATE_AGENT;
         console.log('[createExtendedAgentView] Stage changed to:', wsManager.stage);
         
-        // Load message history for the model if it exists and has a valid model_id
+        // 3. Handle model ID validation and synchronization
         if (wsManager.model_id && wsManager.model_id !== 'null') {
-          console.log('[createExtendedAgentView] Loading message history for model_id:', wsManager.model_id);
-          // Try to connect to WebSocket if not already connected
-          if (!wsManager.socket || wsManager.socket.readyState !== WebSocket.OPEN) {
-            wsManager.connect();
+          console.log('[createExtendedAgentView] Using existing model_id:', wsManager.model_id);
+          
+          // 4. Synchronize session storage with current model_id to prevent "model ID changed" errors
+          const storedModelId = sessionStorage.getItem('model_id');
+          if (storedModelId !== wsManager.model_id) {
+            console.log('[createExtendedAgentView] Updating session storage model_id to:', wsManager.model_id);
+            sessionStorage.setItem('model_id', wsManager.model_id);
+          }
+          
+          // 5. Check if we need to reconnect WebSocket
+          // Avoid immediate reconnection by doing a safe check and cleanup
+          if (wsManager.socket) {
+            // If socket exists but is in a bad state, close it properly first
+            if (wsManager.socket.readyState !== WebSocket.OPEN && wsManager.socket.readyState !== WebSocket.CONNECTING) {
+              console.log('[createExtendedAgentView] Socket exists but in bad state, will reconnect properly');
+              try {
+                wsManager.socket.onclose = null; // Remove event handlers to prevent duplicate error messages
+                wsManager.socket.onerror = null;
+                wsManager.socket.close();
+              } catch (e) {
+                console.warn('[createExtendedAgentView] Error cleaning up socket:', e);
+              }
+              // Let the initializeWebSocketManager handle reconnection
+            }
           }
         } else {
-          console.warn('[createExtendedAgentView] No valid model_id found, cannot load message history');
+          console.warn('[createExtendedAgentView] No valid model_id found');
         }
       } else {
         console.error('[createExtendedAgentView] WebSocket manager not found');
       }
 
-      // Add in-creation class to all elements, but with extended modifier
+      // Add only the in-creation class to all elements (according to CSS rules)
       const elements = [
         agentSidebar,
         document.querySelector('.header-sidebar'),
@@ -1948,37 +1969,75 @@
       elements.forEach(element => {
         if (element) {
           element.classList.add('in-creation');
-          element.classList.add('extended-creation');
-          console.log('[createExtendedAgentView] Added extended-creation to:', element);
+          console.log('[createExtendedAgentView] Added in-creation to:', element);
         }
       });
       
-      // Make sure chat container and input are visible for the extended flow
+      // 6. Prepare UI elements for extended agent creation flow
       const chatContainer = document.querySelector('.chat-container');
       const chatInputContainer = document.querySelector('.chat-input-container');
       const creationStatement = document.querySelector('.agent-creation-statement');
+      const chatMessages = document.getElementById('chat-messages');
+      const initialCreationQuestion = document.querySelector('.initial-creation-question');
+      const classicalCreationLink = document.querySelector('.agent-classical-creation-link');
       
+      // Clear any existing error messages to provide clean starting experience
+      if (chatMessages) {
+        // Only remove error messages, keep the conversation history
+        const errorMessages = chatMessages.querySelectorAll('.error-message');
+        errorMessages.forEach(msg => msg.remove());
+        
+        // Add overflow styling for scrolling
+        chatMessages.style.overflow = 'auto';
+      }
+      
+      // Configure chat container properly - show it but not with initial-creation class
       if (chatContainer) {
         chatContainer.style.display = 'block';
-        chatContainer.classList.add('extended-creation');
-        console.log('[createExtendedAgentView] Made chat container visible and added extended-creation class');
+        chatContainer.classList.remove('initial-creation'); // Remove initial-creation if present
+        chatContainer.classList.remove('agent-creation'); // Remove agent-creation if present
+        chatContainer.classList.add('show-animation'); // Add animation
+        console.log('[createExtendedAgentView] Made chat container visible with proper styling');
       }
       
+      // Configure chat input properly
       if (chatInputContainer) {
         chatInputContainer.style.display = 'flex';
-        chatInputContainer.classList.add('extended-creation');
-        console.log('[createExtendedAgentView] Made chat input visible and added extended-creation class');
+        chatInputContainer.classList.remove('agent-creation'); // Remove agent-creation if present
+        console.log('[createExtendedAgentView] Made chat input visible with proper styling');
       }
       
-      if (creationStatement) {
-        creationStatement.classList.add('extended-creation');
-        console.log('[createExtendedAgentView] Added extended-creation class to creation statement');
+      // Hide the initial creation elements if they're visible
+      if (initialCreationQuestion) {
+        initialCreationQuestion.classList.remove('initial-creation');
+        console.log('[createExtendedAgentView] Hid initial creation question');
       }
       
-      // Update width based on left sidebar state
+      if (classicalCreationLink) {
+        classicalCreationLink.classList.remove('initial-creation');
+        console.log('[createExtendedAgentView] Hid classical creation link');
+      }
+      
+      // 7. Update sidebar width and ensure proper layout
       updateAgentSidebarWidth();
       
-      console.log('[createExtendedAgentView] Setup complete');
+      // 8. Ensure chat is scrollable and scroll to bottom
+      if (chatMessages) {
+        // Ensure chat messages are scrollable
+        chatMessages.style.overflow = 'auto';
+        chatMessages.style.maxHeight = 'calc(100% - 80px)';
+      }
+      
+      // Use the existing scrollToBottom helper from WebSocketManager
+      if (wsManager) {
+        // Slight delay to ensure DOM is updated
+        setTimeout(() => {
+          wsManager.scrollToBottom();
+          console.log('[createExtendedAgentView] Scrolled chat to bottom');
+        }, 300);
+      }
+      
+      console.log('[createExtendedAgentView] Extended agent view setup complete');
     } else {
       console.error('[createExtendedAgentView] Could not find agent sidebar element');
     }
