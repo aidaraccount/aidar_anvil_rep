@@ -1908,6 +1908,81 @@
       console.error('[createAgentView] Could not find agent sidebar element');
     }
   }
+  
+  // CREATE EXTENDED AGENT VIEW (For continuing agent creation with model_id already set)
+  // MAKE createExtendedAgentView accessible from Python
+  window.createExtendedAgentView = function() {
+    console.log('[createExtendedAgentView] Creating extended agent view');
+    const agentSidebar = document.getElementById('agent-sidebar');
+    if (agentSidebar) {
+      // Set extendedCreateAgent stage
+      const wsManager = window.wsManager;
+      if (wsManager) {
+        wsManager.stage = wsManager.STAGE.EXTENDED_CREATE_AGENT;
+        console.log('[createExtendedAgentView] Stage changed to:', wsManager.stage);
+        
+        // Load message history for the model if it exists and has a valid model_id
+        if (wsManager.model_id && wsManager.model_id !== 'null') {
+          console.log('[createExtendedAgentView] Loading message history for model_id:', wsManager.model_id);
+          // Try to connect to WebSocket if not already connected
+          if (!wsManager.isConnected()) {
+            wsManager.connect();
+          }
+        } else {
+          console.warn('[createExtendedAgentView] No valid model_id found, cannot load message history');
+        }
+      } else {
+        console.error('[createExtendedAgentView] WebSocket manager not found');
+      }
+
+      // Add in-creation class to all elements, but with extended modifier
+      const elements = [
+        agentSidebar,
+        document.querySelector('.header-sidebar'),
+        document.getElementById('chat-messages'),
+        document.querySelector('.chat-input-container'),
+        document.getElementById('agent-sidebar-button'),
+        document.querySelector('.footer')
+      ];
+      
+      elements.forEach(element => {
+        if (element) {
+          element.classList.add('in-creation');
+          element.classList.add('extended-creation');
+          console.log('[createExtendedAgentView] Added extended-creation to:', element);
+        }
+      });
+      
+      // Make sure chat container and input are visible for the extended flow
+      const chatContainer = document.querySelector('.chat-container');
+      const chatInputContainer = document.querySelector('.chat-input-container');
+      const creationStatement = document.querySelector('.agent-creation-statement');
+      
+      if (chatContainer) {
+        chatContainer.style.display = 'block';
+        chatContainer.classList.add('extended-creation');
+        console.log('[createExtendedAgentView] Made chat container visible and added extended-creation class');
+      }
+      
+      if (chatInputContainer) {
+        chatInputContainer.style.display = 'flex';
+        chatInputContainer.classList.add('extended-creation');
+        console.log('[createExtendedAgentView] Made chat input visible and added extended-creation class');
+      }
+      
+      if (creationStatement) {
+        creationStatement.classList.add('extended-creation');
+        console.log('[createExtendedAgentView] Added extended-creation class to creation statement');
+      }
+      
+      // Update width based on left sidebar state
+      updateAgentSidebarWidth();
+      
+      console.log('[createExtendedAgentView] Setup complete');
+    } else {
+      console.error('[createExtendedAgentView] Could not find agent sidebar element');
+    }
+  }
 
   // MAKE updateModelId accessible from Python
   window.updateModelId = function(model_id) {
