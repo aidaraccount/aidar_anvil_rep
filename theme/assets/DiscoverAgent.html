@@ -269,9 +269,6 @@
         // get model_id and url_artist_id from sessionStorage
         const storedModelId = sessionStorage.getItem('model_id');
         const storedUrlArtistId = sessionStorage.getItem('url_artist_id');
-
-        console.log('[WebSocketManager] storedModelId:', storedModelId);
-        console.log('[WebSocketManager] storedUrlArtistId:', storedUrlArtistId);
         
         // If we have valid ids, use them
         if (storedModelId && storedModelId !== 'null') {
@@ -286,9 +283,6 @@
         } else {
           this.url_artist_id = null;
         }
-
-        console.log('[WebSocketManager] this.model_id:', this.model_id);
-        console.log('[WebSocketManager] this.url_artist_id:', this.url_artist_id);
         
         // Use the model_id for session ID
         this.sessionId = 'session-' + this.model_id;
@@ -315,15 +309,7 @@
         };
         this.STAGE = STAGE;
         
-        // Determine initial stage based on model_id
-        console.log('[WebSocketManager] this.model_id:', this.model_id);
-        console.log("[WebSocketManager] this.model_id !== 'null':", this.model_id !== 'null');
-        console.log("[WebSocketManager] this.model_id !== null:", this.model_id !== null);
-
-        console.log('[WebSocketManager] this.url_artist_id:', this.url_artist_id);
-        console.log("[WebSocketManager] this.url_artist_id !== 'null':", this.url_artist_id !== 'null');
-        console.log("[WebSocketManager] this.url_artist_id !== null:", this.url_artist_id !== null);
-        
+        // Determine initial stage based on model_id and url_artist_id        
         if (this.model_id && this.url_artist_id && this.url_artist_id !== 'None') {
           this.stage = STAGE.NORMAL;
         } else if (this.model_id) {
@@ -331,12 +317,7 @@
         } else {
           this.stage = STAGE.CREATE_AGENT;
         }
-        console.log('[WebSocketManager] Initial stage:', this.stage);
-
-        // Debug information
-        console.log('[WebSocketManager] Constructor called');
-        console.log('[WebSocketManager] Hostname:', window.location.hostname);
-        console.log('[WebSocketManager] Protocol:', window.location.protocol);
+        console.log('[WebSocketManager] Initial - stage:', this.stage, 'model_id:', this.model_id, 'url_artist_id:', this.url_artist_id);
         
         // For development - always use localhost:8000 for now
         this.wsUrl = `ws://localhost:8000/ws/${this.sessionId}`;
