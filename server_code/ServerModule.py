@@ -136,8 +136,6 @@ def update_anvil_user(user_id, first_name, last_name):
 def get_agent_messages(agent_id):
     """Fetch message history for an agent"""
     messages = anvil.server.call('get_messages', agent_id)
-    print('messages:', messages)
-    print('type(messages):', type(messages))
     return messages
 
 

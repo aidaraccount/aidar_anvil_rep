@@ -138,10 +138,11 @@ class DiscoverAgent(DiscoverAgentTemplate):
     print('url_artist_id:', url_artist_id)
 
     # check for missing artist_id
-    if url_artist_id == 'get_artist':
+    if url_artist_id in ['get_artist', 'extended_create_agent']:
       get_open_form().refresh_models_components()
       get_open_form().refresh_models_underline()
       url_artist_id = anvil.server.call('get_next_artist_id', self.model_id)
+      print('updated url_artist_id:', url_artist_id)
       history.replaceState(None, "", f"#agent_artists?artist_id={url_artist_id}")
 
     # get_suggestion
