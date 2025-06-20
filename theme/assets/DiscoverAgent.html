@@ -847,34 +847,26 @@
       handleFiltersInfo(message) {
         console.log('[handleFiltersInfo] Filter information received:', message);
 
-        if (message.data && message.data.filters_json) {
-          const filters = JSON.parse(message.data.filters_json);
-          if (!filters || !Array.isArray(filters) || filters.length === 0) return;
+        if (message.data && message.data.memories_list && Array.isArray(message.data.memories_list)) {
+          const memories = message.data.memories_list;
+          if (memories.length === 0) return;
           
           // Create message element with filter class
           const messageDiv = document.createElement('a');
           messageDiv.href = '';
           messageDiv.className = 'message filter';
           
-          // Create filter items for each filter
-          const filterItems = filters.map(filter => {
-            const column = filter.Column != null ? filter.Column.toString() : '';
-            const operator = filter.Operator != null ? filter.Operator.toString() : '';
-            const value = filter.Value != null ? filter.Value.toString() : '';
-            
-            return `
-              <div class="filter-item">
-                <span class="filter-column">${this.escapeHtml(column)}</span>
-                <span class="filter-operator">${this.escapeHtml(operator)}</span>
-                <span class="filter-value">${this.escapeHtml(value)}</span>
-              </div>
-            `;
-          }).join('');
+          // Create list items for each memory
+          const memoryItems = memories.map(memory => `
+            <div class="filter-item">
+              <span class="filter-value">${this.escapeHtml(memory)}</span>
+            </div>
+          `).join('');
           
           messageDiv.innerHTML = `
-            <div class="filter-desc">Filter${filters.length > 1 ? 's' : ''} set to:</div>
+            <div class="filter-desc">Filter${memories.length > 1 ? 's' : ''} set to:</div>
             <div class="filter-content">
-              ${filterItems}
+              ${memoryItems}
             </div>
           `;
           
