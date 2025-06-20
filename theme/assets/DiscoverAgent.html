@@ -856,9 +856,10 @@
           messageDiv.href = '';
           messageDiv.className = 'message filter';
           
-          // Create list items for each memory
+          // Create list items for each memory with bullet points
           const memoryItems = memories.map(memory => `
             <div class="filter-item">
+              <span class="filter-bullet">•</span>
               <span class="filter-value">${this.escapeHtml(memory)}</span>
             </div>
           `).join('');
