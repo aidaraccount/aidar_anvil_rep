@@ -227,19 +227,27 @@ class C_Filter(C_FilterTemplate):
       if element.checked is True:
         genres_list.append(element.text.lower())
     print('genres_list:', genres_list)
-    op = 'IN' if self.drop_down_genre.selected_value == '   INCLUIDE GENRES   ' else 'OUT'
-    filters_json += f'{{"column":"genre_root","operator":{op},"value":{genres_list}}},'
+    op = 'IN' if self.drop_down_genre.selected_value == '   INCLUDE GENRES   ' else 'OUT'
+    if genres_list != []:
+      filters_json += f'{{"column":"genre_root","operator":{op},"value":{genres_list}}},'
     
     # 5. Origins
     origin_data = self.repeating_panel_origin.items
-    
+
+    origin_list = []
     if origin_data is not None:
       for element in origin_data:
-        if element["value"] == 'True' or element["value"] is True:
-          operator = 'IN'
-        else:
-          operator = 'NOT IN'
-        filters_json += f'{{"column":"country_code","operator":"{operator}","value":[{element["column"][:2]}]}},'
+        origin_list.append(element["column"][:2])
+        # if element["value"] == 'True' or element["value"] is True:
+        #   operator = 'IN'
+        # else:
+        #   operator = 'NOT IN'
+        # filters_json += f'{{"column":"country_code","operator":"{operator}","value":[{element["column"][:2]}]}},'
+    print('origin_list:', origin_list)
+    # op = 'IN' if self.drop_down_genre.selected_value == '   INCLUDE GENRES   ' else 'OUT'
+    op = 'IN'
+    if origin_list != []:
+      filters_json += f'{{"column":"country_code","operator":{op},"value":{origin_list}}},'
     
     # 6. Gender
     if self.drop_down_gender.selected_value == 'Female': filters_json += f'{{"column":"gender","operator":"=","value":["female"]}},'

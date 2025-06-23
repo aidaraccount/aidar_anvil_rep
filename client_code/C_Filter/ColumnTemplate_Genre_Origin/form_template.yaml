@@ -4,19 +4,15 @@ components:
   properties: {height: 32}
   type: Spacer
 - data_bindings:
+  - {code: 'self.item[''Value'']', property: text, writeback: false}
+  layout_properties: {grid_position: 'HAQZAT,MWBQIE'}
+  name: label_value
+  properties: {role: feature}
+  type: Label
+- data_bindings:
   - {code: 'self.item[''Column'']', property: text, writeback: false}
   layout_properties: {grid_position: 'HAQZAT,IJOSBJ'}
   name: label_column
-  properties: {role: feature}
-  type: Label
-- layout_properties: {grid_position: 'HAQZAT,XSSVUP'}
-  name: label_1
-  properties: {align: center, role: feature, text: is}
-  type: Label
-- data_bindings:
-  - {code: 'self.item[''Value'']', property: text, writeback: false}
-  layout_properties: {grid_position: 'HAQZAT,GSKCTF'}
-  name: label_value
   properties: {role: feature}
   type: Label
 - event_bindings: {click: button_del_click}
@@ -29,6 +25,6 @@ components:
     text: '  '
   type: Button
 container:
-  properties: {col_widths: '{"OMYRVW":5,"IJOSBJ":10,"XSSVUP":5,"GSKCTF":10,"VDNJLM":30}'}
+  properties: {col_widths: '{"OMYRVW":5,"IJOSBJ":10,"VDNJLM":30}'}
   type: ColumnPanel
 is_package: true
