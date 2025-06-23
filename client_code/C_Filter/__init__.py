@@ -134,7 +134,7 @@ class C_Filter(C_FilterTemplate):
     
     # 1. General   
     if self.artist_follower_lat_min.text is not None and self.artist_follower_lat_max.text is not None:
-      filters_json += f'{{"column":"artist_follower_lat","operator":"BETWEEN","value":"{{{self.artist_follower_lat_min.text} - {self.artist_follower_lat_max.text}"}}}},'  # ATTENTION!!!
+      filters_json += f'{{"column":"artist_follower_lat","operator":"BETWEEN","value":"{{{self.artist_follower_lat_min.text},{self.artist_follower_lat_max.text}"}}}},'  # ATTENTION!!!
     elif self.artist_follower_lat_min.text is not None: filters_json += f'{{"column":"artist_follower_lat","operator":">=","value":"{{{self.artist_follower_lat_min.text}"}}}},'
     elif self.artist_follower_lat_max.text is not None: filters_json += f'{{"column":"artist_follower_lat","operator":"<=","value":"{{{self.artist_follower_lat_max.text}"}}}},'
 
@@ -219,9 +219,10 @@ class C_Filter(C_FilterTemplate):
     if genre_data is not None:
       for element in genre_data:
         filters_json += f'{{"column":"{element["column"].lower()}","operator":"IN","value":"{element["value"]}"}},'
-    
+    print(filters_json)
     # 5. Origins
     origin_data = self.repeating_panel_origin.items
+    print(origin_data)
     if origin_data is not None:
       for element in origin_data:
         if element["value"] == 'True' or element["value"] is True:
