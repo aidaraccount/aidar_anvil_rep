@@ -47,86 +47,88 @@ class C_Filter(C_FilterTemplate):
   
   def load_filters(self, **event_args):
     # General Filters
-    my_dict = {"artist_popularity_lat >=": "artist_popularity_lat_min",
-               "artist_popularity_lat <=": "artist_popularity_lat_max",
-               "artist_follower_lat >=": "artist_follower_lat_min",
-               "artist_follower_lat <=": "artist_follower_lat_max",
-               "major_coop =": "drop_down_major",
-               "sub_major_coop =": "drop_down_submajor",
-               "(CURRENT_DATE - first_release_date) / 365 <=": "years_since_first_release",
-               "CURRENT_DATE - last_release_date <=": "days_since_last_release",
-               "avg_duration >=": "avg_duration_min",
-               "avg_duration <=": "avg_duration_max",
-               "avg_danceability >=": "avg_danceability_min",
-               "avg_danceability <=": "avg_danceability_max",
-               "avg_energy >=": "avg_energy_min",
-               "avg_energy <=": "avg_energy_max",
-               "avg_key >=": "avg_key_min",
-               "avg_key <=": "avg_key_max",
-               "avg_loudness >=": "avg_loudness_min",
-               "avg_loudness <=": "avg_loudness_max",
-               "avg_mode >=": "avg_mode_min",
-               "avg_mode <=": "avg_mode_max",
-               "avg_speechiness >=": "avg_speechiness_min",
-               "avg_speechiness <=": "avg_speechiness_max",
-               "avg_acousticness >=": "avg_acousticness_min",
-               "avg_acousticness <=": "avg_acousticness_max",
-               "avg_instrumentalness >=": "avg_instrumentalness_min",
-               "avg_instrumentalness <=": "avg_instrumentalness_max",
-               "avg_liveness >=": "avg_liveness_min",
-               "avg_liveness <=": "avg_liveness_max",
-               "avg_valence >=": "avg_valence_min",
-               "avg_valence <=": "avg_valence_max",
-               "avg_tempo >=": "avg_tempo_min",
-               "avg_tempo <=": "avg_tempo_max",
-               "gender =": "drop_down_gender",
-               "has_top5_de =": "drop_down_has_top5_de"}
+    # my_dict = {"artist_popularity_lat >=": "artist_popularity_lat_min",
+    #            "artist_popularity_lat <=": "artist_popularity_lat_max",
+    #            "artist_follower_lat >=": "artist_follower_lat_min",
+    #            "artist_follower_lat <=": "artist_follower_lat_max",
+    #            "major_coop =": "drop_down_major",
+    #            "sub_major_coop =": "drop_down_submajor",
+    #            "(CURRENT_DATE - first_release_date) / 365 <=": "years_since_first_release",
+    #            "CURRENT_DATE - last_release_date <=": "days_since_last_release",
+    #            "avg_duration >=": "avg_duration_min",
+    #            "avg_duration <=": "avg_duration_max",
+    #            "avg_danceability >=": "avg_danceability_min",
+    #            "avg_danceability <=": "avg_danceability_max",
+    #            "avg_energy >=": "avg_energy_min",
+    #            "avg_energy <=": "avg_energy_max",
+    #            "avg_key >=": "avg_key_min",
+    #            "avg_key <=": "avg_key_max",
+    #            "avg_loudness >=": "avg_loudness_min",
+    #            "avg_loudness <=": "avg_loudness_max",
+    #            "avg_mode >=": "avg_mode_min",
+    #            "avg_mode <=": "avg_mode_max",
+    #            "avg_speechiness >=": "avg_speechiness_min",
+    #            "avg_speechiness <=": "avg_speechiness_max",
+    #            "avg_acousticness >=": "avg_acousticness_min",
+    #            "avg_acousticness <=": "avg_acousticness_max",
+    #            "avg_instrumentalness >=": "avg_instrumentalness_min",
+    #            "avg_instrumentalness <=": "avg_instrumentalness_max",
+    #            "avg_liveness >=": "avg_liveness_min",
+    #            "avg_liveness <=": "avg_liveness_max",
+    #            "avg_valence >=": "avg_valence_min",
+    #            "avg_valence <=": "avg_valence_max",
+    #            "avg_tempo >=": "avg_tempo_min",
+    #            "avg_tempo <=": "avg_tempo_max",
+    #            "gender =": "drop_down_gender",
+    #            "has_top5_de =": "drop_down_has_top5_de"}
     
-    fil = json.loads(anvil.server.call('get_filters', self.model_id))
+    # fil = json.loads(anvil.server.call('get_filters', self.model_id))
+    # print(fil)
     
-    for filter in fil:
-      if filter["column"] in ('general', 'gender', 'has_top5_de', 'date'):
-        element = getattr(self, my_dict[f'{filter["column"]} {filter["operator"]}'], None)
-        if filter["column"] in ("artist_popularity_lat", "artist_follower_lat", "avg_duration", "avg_loudness", "avg_tempo", "CURRENT_DATE - last_release_date"):
-          element.text = "{:.0f}".format(round(float(filter["value"]), 0))
-        elif filter["column"] in ("avg_danceability", "avg_energy", "avg_mode", "avg_speechiness", "avg_acousticness", "avg_instrumentalness", "avg_liveness", "avg_valence"):
-          element.text = "{:.0f}".format(round(float(filter["value"])*100, 0))
-        elif filter["column"] in ("avg_key"):
-          tonleiter = ["C", "C#/Db", "D", "D#/Eb", "E", "F", "F#/Gb", "G", "G#/Ab", "A", "A#/Bb", "B"]
-          element.selected_value = tonleiter[int("{:.0f}".format(round(float(filter["value"]), 0)))]
-        elif filter["column"] in ("major_coop", "sub_major_coop"):
-          if filter["value"] == '1': element.selected_value = 'Yes'
-          if filter["value"] == '0': element.selected_value = 'No'
-        elif filter["column"] in ("gender"):
-          if filter["value"] == 'female': element.selected_value = 'Female'
-          if filter["value"] == 'male': element.selected_value = 'Male'
-          if filter["value"] == 'mixed': element.selected_value = 'Mixed'
-          if filter["value"] == 'other': element.selected_value = 'Other'
-        elif filter["column"] in ("has_top5_de"):
-          if filter["value"] == 'True': element.selected_value = 'True'
-          if filter["value"] == 'False': element.selected_value = 'False'
-        elif filter["column"] in ("(CURRENT_DATE - first_release_date) / 365"):
-          element.text = "{:.1f}".format(float(filter["value"]) + 1)
+    # for filter in fil:
+    #   if filter["column"] in ('general', 'gender', 'has_top5_de', 'date'):
+    #     element = getattr(self, my_dict[f'{filter["column"]} {filter["operator"]}'], None)
+    #     if filter["column"] in ("artist_popularity_lat", "artist_follower_lat", "avg_duration", "avg_loudness", "avg_tempo", "CURRENT_DATE - last_release_date"):
+    #       element.text = "{:.0f}".format(round(float(filter["value"]), 0))
+    #     elif filter["column"] in ("avg_danceability", "avg_energy", "avg_mode", "avg_speechiness", "avg_acousticness", "avg_instrumentalness", "avg_liveness", "avg_valence"):
+    #       element.text = "{:.0f}".format(round(float(filter["value"])*100, 0))
+    #     elif filter["column"] in ("avg_key"):
+    #       tonleiter = ["C", "C#/Db", "D", "D#/Eb", "E", "F", "F#/Gb", "G", "G#/Ab", "A", "A#/Bb", "B"]
+    #       element.selected_value = tonleiter[int("{:.0f}".format(round(float(filter["value"]), 0)))]
+    #     elif filter["column"] in ("major_coop", "sub_major_coop"):
+    #       if filter["value"] == '1': element.selected_value = 'Yes'
+    #       if filter["value"] == '0': element.selected_value = 'No'
+    #     elif filter["column"] in ("gender"):
+    #       if filter["value"] == 'female': element.selected_value = 'Female'
+    #       if filter["value"] == 'male': element.selected_value = 'Male'
+    #       if filter["value"] == 'mixed': element.selected_value = 'Mixed'
+    #       if filter["value"] == 'other': element.selected_value = 'Other'
+    #     elif filter["column"] in ("has_top5_de"):
+    #       if filter["value"] == 'True': element.selected_value = 'True'
+    #       if filter["value"] == 'False': element.selected_value = 'False'
+    #     elif filter["column"] in ("(CURRENT_DATE - first_release_date) / 365"):
+    #       element.text = "{:.1f}".format(float(filter["value"]) + 1)
 
-    # Label Filters
-    filter_label = [item for item in fil if item['column'] == 'label']
-    if len(filter_label) > 0:
-      # Transform the structure to match what rep_pan_label expects
-      transformed_label_data = [{'label_name': item['value']} for item in filter_label]
-      self.rep_pan_label.items = transformed_label_data
-      self.label_no_label_filters.visible = False
+    # # Label Filters
+    # filter_label = [item for item in fil if item['column'] == 'label']
+    # if len(filter_label) > 0:
+    #   # Transform the structure to match what rep_pan_label expects
+    #   transformed_label_data = [{'label_name': item['value']} for item in filter_label]
+    #   self.rep_pan_label.items = transformed_label_data
+    #   self.label_no_label_filters.visible = False
       
-    # Genre Filters
-    filter_genre = [item for item in fil if item['column'] == 'genre_root']
-    if len(filter_genre) > 0:
-      self.repeating_panel_genre.items = filter_genre
-      self.label_no_genre_filters.visible = False
+    # # Genre Filters
+    # filter_genre = [item for item in fil if item['column'] == 'genre_root']
+    # if len(filter_genre) > 0:
+    #   self.repeating_panel_genre.items = filter_genre
+    #   self.label_no_genre_filters.visible = False
 
-    # Origin Filters
-    filter_origin = [item for item in fil if item['column'] == 'country_code']
-    if len(filter_origin) > 0:
-      self.repeating_panel_origin.items = filter_origin
-      self.label_no_origin_filters.visible = False
+    # # Origin Filters
+    # filter_origin = [item for item in fil if item['column'] == 'country_code']
+    # if len(filter_origin) > 0:
+    #   self.repeating_panel_origin.items = filter_origin
+    #   self.label_no_origin_filters.visible = False
+    pass
 
   
   def apply_filters_click(self, **event_args):    
@@ -134,9 +136,9 @@ class C_Filter(C_FilterTemplate):
     
     # 1. General   
     if self.artist_follower_lat_min.text is not None and self.artist_follower_lat_max.text is not None:
-      filters_json += f'{{"column":"artist_follower_lat","operator":"BETWEEN","value":"{{{self.artist_follower_lat_min.text},{self.artist_follower_lat_max.text}"}}}},'  # ATTENTION!!!
-    elif self.artist_follower_lat_min.text is not None: filters_json += f'{{"column":"artist_follower_lat","operator":">=","value":"{{{self.artist_follower_lat_min.text}"}}}},'
-    elif self.artist_follower_lat_max.text is not None: filters_json += f'{{"column":"artist_follower_lat","operator":"<=","value":"{{{self.artist_follower_lat_max.text}"}}}},'
+      filters_json += f'{{"column":"artist_follower_lat","operator":"BETWEEN","value":[{self.artist_follower_lat_min.text},{self.artist_follower_lat_max.text}]}},'  # ATTENTION!!!
+    elif self.artist_follower_lat_min.text is not None: filters_json += f'{{"column":"artist_follower_lat","operator":">=","value":[{self.artist_follower_lat_min.text}]}},'
+    elif self.artist_follower_lat_max.text is not None: filters_json += f'{{"column":"artist_follower_lat","operator":"<=","value":[{self.artist_follower_lat_max.text}]}},'
 
     if self.years_since_first_release.text is not None: filters_json += f'{{"column":"days_since_last_release","operator":"<=","value":"{float(self.years_since_first_release.text) * 365}"}},'
     if self.days_since_last_release.text is not None: filters_json += f'{{"column":"days_since_first_release","operator":"<=","value":"{self.days_since_last_release.text}"}},'
@@ -248,6 +250,7 @@ class C_Filter(C_FilterTemplate):
     # check for filter presence
     if filters_json == '[]': filters_json = None
     print(filters_json)
+    print(type(filters_json))
     
     # change filters
     anvil.server.call('change_filters',
