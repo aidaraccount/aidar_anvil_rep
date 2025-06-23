@@ -233,19 +233,17 @@ class C_Filter(C_FilterTemplate):
     
     # 5. Origins
     origin_data = self.repeating_panel_origin.items
+    print('origin_data:', origin_data)
 
+    if any(item['value'] == 'Include' for item in origin_data):
+      origin_data = [item for item in origin_data if item['value'] != 'Exclude']
+  
     origin_list = []
     if origin_data is not None:
       for element in origin_data:
         origin_list.append(element["column"][:2])
-        # if element["value"] == 'True' or element["value"] is True:
-        #   operator = 'IN'
-        # else:
-        #   operator = 'NOT IN'
-        # filters_json += f'{{"column":"country_code","operator":"{operator}","value":[{element["column"][:2]}]}},'
     print('origin_list:', origin_list)
-    # op = 'IN' if self.drop_down_genre.selected_value == '   INCLUDE GENRES   ' else 'OUT'
-    op = 'IN'
+    op = 'IN' if element["value"] == 'Include' else 'OUT'
     if origin_list != []:
       filters_json += f'{{"column":"country_code","operator":{op},"value":{origin_list}}},'
     
@@ -307,7 +305,7 @@ class C_Filter(C_FilterTemplate):
 
   
   def button_add_genre_click(self, **event_args):
-    new_entry = {'column':self.drop_down_add_genre.selected_value, "operator":"IN", 'value':[self.drop_down_add_value.selected_value]}  # ATTENTION!!!
+    new_entry = {'column':self.drop_down_add_genre.selected_value, 'value':self.drop_down_add_value.selected_value}
     genre_data = self.repeating_panel_genre.items
     if genre_data is None:
       genre_data = [new_entry]
@@ -317,11 +315,11 @@ class C_Filter(C_FilterTemplate):
     self.label_no_genre_filters.visible = False
 
   def button_add_origin_click(self, **event_args):
-    new_entry = {'column':self.drop_down_add_origin.selected_value, "operator":"IN", 'value':[self.drop_down_add_value2.selected_value]}  # ATTENTION!!!
+    new_entry = {'column':self.drop_down_add_origin.selected_value, 'value':self.drop_down_add_value2.selected_value}
     origin_data = self.repeating_panel_origin.items
     if origin_data is None:
       origin_data = [new_entry]
     else:
-      origin_data.append(new_entry)    
+      origin_data.append(new_entry)
     self.repeating_panel_origin.items = origin_data
     self.label_no_origin_filters.visible = False
