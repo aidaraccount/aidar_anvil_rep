@@ -217,10 +217,18 @@ class C_Filter(C_FilterTemplate):
     elif self.avg_tempo_max.text is not None: filters_json += f'{{"column":"avg_tempo","operator":"<=","value":[{self.avg_tempo_max.text}]}},'
 
     # 4. Genres
-    genre_data = self.repeating_panel_genre.items
-    if genre_data is not None:
-      for element in genre_data:
-        filters_json += f'{{"column":"{element["column"].lower()}","operator":"IN","value":[{element["value"]}]}},'
+    # genre_data = self.repeating_panel_genre.items
+    # if genre_data is not None:
+    #   for element in genre_data:
+    #     filters_json += f'{{"column":"{element["column"].lower()}","operator":"IN","value":[{element["value"]}]}},'
+    genres_list = []
+    genre_elements = [self.g1, self.g2, self.g3, self.g4, self.g5, self.g6, self.g7, self.g8, self.g9, self.g10, self.g11, self.g12, self.g13, self.g14, self.g15, self.g16, self.g17, self.g18, self.g19, self.g20, self.g21, self.g22, self.g23, self.g24, self.g25, self.g26, self.g27, self.g28, self.g29]
+    for element in genre_elements:
+      if element.checked is True:
+        genres_list.append(element.text.lower())
+    print('genres_list:', genres_list)
+    op = 'IN' if self.drop_down_genre.selected_value == '   INCLUIDE GENRES   ' else 'OUT'
+    filters_json += f'{{"column":"genre_root","operator":{op},"value":{genres_list}}},'
     
     # 5. Origins
     origin_data = self.repeating_panel_origin.items
