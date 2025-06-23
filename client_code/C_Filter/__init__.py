@@ -217,23 +217,22 @@ class C_Filter(C_FilterTemplate):
     elif self.avg_tempo_max.text is not None: filters_json += f'{{"column":"avg_tempo","operator":"<=","value":[{self.avg_tempo_max.text}]}},'
 
     # 4. Genres
-    # genre_data = self.repeating_panel_genre.items
-    # if genre_data is not None:
-    #   for element in genre_data:
-    #     filters_json += f'{{"column":"{element["column"].lower()}","operator":"IN","value":[{element["value"]}]}},'
+    genre_data = self.repeating_panel_genre.items
+
+    if any(item['value'] == 'Include' for item in genre_data):
+      genre_data = [item for item in genre_data if item['value'] != 'Exclude']
+    
     genres_list = []
-    genre_elements = [self.g1, self.g2, self.g3, self.g4, self.g5, self.g6, self.g7, self.g8, self.g9, self.g10, self.g11, self.g12, self.g13, self.g14, self.g15, self.g16, self.g17, self.g18, self.g19, self.g20, self.g21, self.g22, self.g23, self.g24, self.g25, self.g26, self.g27, self.g28, self.g29]
-    for element in genre_elements:
-      if element.checked is True:
-        genres_list.append(element.text.lower())
-    print('genres_list:', genres_list)
-    op = 'IN' if self.drop_down_genre.selected_value == '   INCLUDE GENRES   ' else 'OUT'
+    if genre_data is not None:
+      for element in genre_data:
+        genres_list.append(element["column"])
+        
+    op = 'IN' if element["value"] == 'Include' else 'NOT IN'
     if genres_list != []:
-      filters_json += f'{{"column":"genre_root","operator":{op},"value":{genres_list}}},'
+      filters_json += f'{{"column":"genre_root","operator":"{op}","value":{json.dumps(genres_list)}}},'
     
     # 5. Origins
     origin_data = self.repeating_panel_origin.items
-    print('origin_data:', origin_data)
 
     if any(item['value'] == 'Include' for item in origin_data):
       origin_data = [item for item in origin_data if item['value'] != 'Exclude']
@@ -242,16 +241,16 @@ class C_Filter(C_FilterTemplate):
     if origin_data is not None:
       for element in origin_data:
         origin_list.append(element["column"][:2])
-    print('origin_list:', origin_list)
-    op = 'IN' if element["value"] == 'Include' else 'OUT'
+        
+    op = 'IN' if element["value"] == 'Include' else 'NOT IN'
     if origin_list != []:
-      filters_json += f'{{"column":"country_code","operator":{op},"value":{origin_list}}},'
+      filters_json += f'{{"column":"country_code","operator":"{op}","value":{json.dumps(origin_list)}}},'
     
     # 6. Gender
-    if self.drop_down_gender.selected_value == 'Female': filters_json += f'{{"column":"gender","operator":"=","value":["female"]}},'
-    if self.drop_down_gender.selected_value == 'Male': filters_json += f'{{"column":"gender","operator":"=","value":["male"]}},'
-    if self.drop_down_gender.selected_value == 'Mixed': filters_json += f'{{"column":"gender","operator":"=","value":["mixed"]}},'
-    if self.drop_down_gender.selected_value == 'Other': filters_json += f'{{"column":"gender","operator":"=","value":["other"]}},'
+    if self.drop_down_gender.selected_value == 'Female': filters_json += '{{"column":"gender","operator":"=","value":["female"]}},'
+    if self.drop_down_gender.selected_value == 'Male': filters_json += '{{"column":"gender","operator":"=","value":["male"]}},'
+    if self.drop_down_gender.selected_value == 'Mixed': filters_json += '{{"column":"gender","operator":"=","value":["mixed"]}},'
+    if self.drop_down_gender.selected_value == 'Other': filters_json += '{{"column":"gender","operator":"=","value":["other"]}},'
 
     # 7. German Audience
     if self.drop_down_has_top5_de.selected_value == 'True': filters_json += f'{{"column":"has_top5_de","operator":"=","value":["True"]}},'  # ATTENTION!!!
@@ -263,7 +262,7 @@ class C_Filter(C_FilterTemplate):
 
     # check for filter presence
     if filters_json == '[]': filters_json = None
-    print(filters_json)
+    print('filters_json:', filters_json)
     
     # change filters
     anvil.server.call('change_filters',
@@ -309,6 +308,8 @@ class C_Filter(C_FilterTemplate):
     genre_data = self.repeating_panel_genre.items
     if genre_data is None:
       genre_data = [new_entry]
+    elif new_entry in genre_data:
+      pass
     else:
       genre_data.append(new_entry)    
     self.repeating_panel_genre.items = genre_data
@@ -319,6 +320,8 @@ class C_Filter(C_FilterTemplate):
     origin_data = self.repeating_panel_origin.items
     if origin_data is None:
       origin_data = [new_entry]
+    elif new_entry in origin_data:
+      pass
     else:
       origin_data.append(new_entry)
     self.repeating_panel_origin.items = origin_data
