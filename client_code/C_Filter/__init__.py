@@ -223,6 +223,7 @@ class C_Filter(C_FilterTemplate):
     # check for filter presence
     if filters_json == '[]': filters_json = None
     print(filters_json)
+    
     # change filters
     anvil.server.call('change_filters',
                       self.model_id,
