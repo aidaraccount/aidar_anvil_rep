@@ -286,14 +286,14 @@ class C_Filter(C_FilterTemplate):
         filters_json += f'{{"column":"country_code","operator":"{op}","value":{json.dumps(origin_list)}}},'
     
     # 6. Gender
-    if self.drop_down_gender.selected_value == 'Female': filters_json += '{{"column":"gender","operator":"=","value":["female"]}},'
-    if self.drop_down_gender.selected_value == 'Male': filters_json += '{{"column":"gender","operator":"=","value":["male"]}},'
-    if self.drop_down_gender.selected_value == 'Mixed': filters_json += '{{"column":"gender","operator":"=","value":["mixed"]}},'
-    if self.drop_down_gender.selected_value == 'Other': filters_json += '{{"column":"gender","operator":"=","value":["other"]}},'
+    if self.drop_down_gender.selected_value == 'Female': filters_json += '{"column":"gender","operator":"=","value":["female"]},'
+    if self.drop_down_gender.selected_value == 'Male': filters_json += '{"column":"gender","operator":"=","value":["male"]},'
+    if self.drop_down_gender.selected_value == 'Mixed': filters_json += '{"column":"gender","operator":"=","value":["mixed"]},'
+    if self.drop_down_gender.selected_value == 'Other': filters_json += '{"column":"gender","operator":"=","value":["other"]},'
 
     # 7. German Audience
-    if self.drop_down_has_top5_de.selected_value == 'True': filters_json += f'{{"column":"has_top5_de","operator":"=","value":["True"]}},'  # ATTENTION!!!
-    if self.drop_down_has_top5_de.selected_value == 'False': filters_json += f'{{"column":"has_top5_de","operator":"=","value":["False"]}},'  # ATTENTION!!!
+    if self.drop_down_has_top5_de.selected_value == 'True': filters_json += '{"column":"has_top5_de","operator":"=","value":["True"]},'  # ATTENTION!!!
+    if self.drop_down_has_top5_de.selected_value == 'False': filters_json += '{"column":"has_top5_de","operator":"=","value":["False"]},'  # ATTENTION!!!
     
     # correct and close the json string
     if filters_json[-1] == ",": filters_json = filters_json[:-1]
