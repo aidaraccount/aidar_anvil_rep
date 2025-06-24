@@ -273,16 +273,18 @@ class C_Filter(C_FilterTemplate):
 
     # 4. Genres
     genre_data = self.repeating_panel_genre.items
+    print(genre_data)
     genres_list = []
 
     if genre_data is not None:
-      if any(item['value'] == 'Include' for item in genre_data):
-        genre_data = [item for item in genre_data if item['value'] != 'Exclude']
-    
+      if any(item['operator'] == 'Include' for item in genre_data):
+        genre_data = [item for item in genre_data if item['operator'] != 'Exclude']
+        print(genre_data)
       for element in genre_data:
         genres_list.append(element["column"])
-        
-      op = 'IN' if element["value"] == 'Include' else 'NOT IN'
+        print(genres_list)
+      op = 'IN' if element["operator"] == 'Include' else 'NOT IN'
+      print(op)
       if genres_list != []:
         filters_json += f'{{"column":"genre_root","operator":"{op}","value":{json.dumps(genres_list)}}},'
     
@@ -291,13 +293,13 @@ class C_Filter(C_FilterTemplate):
     origin_list = []
 
     if origin_data is not None:
-      if any(item['value'] == 'Include' for item in origin_data):
-        origin_data = [item for item in origin_data if item['value'] != 'Exclude']
+      if any(item['operator'] == 'Include' for item in origin_data):
+        origin_data = [item for item in origin_data if item['operator'] != 'Exclude']
   
       for element in origin_data:
         origin_list.append(element["column"][:2])
         
-      op = 'IN' if element["value"] == 'Include' else 'NOT IN'
+      op = 'IN' if element["operator"] == 'Include' else 'NOT IN'
       if origin_list != []:
         filters_json += f'{{"column":"country_code","operator":"{op}","value":{json.dumps(origin_list)}}},'
     
