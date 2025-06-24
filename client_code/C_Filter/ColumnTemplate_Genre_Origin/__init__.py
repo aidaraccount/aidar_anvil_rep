@@ -17,8 +17,8 @@ class ColumnTemplate_Genre_Origin(ColumnTemplate_Genre_OriginTemplate):
     user = anvil.users.get_user()
 
   def button_del_click(self, **event_args):
-    del_entry_genre = {'column':self.label_column.text, 'value':self.label_operator.text}
-    del_entry_origin = {'column':self.label_column.text, 'value':self.label_operator.text}
+    del_entry_genre = {'column':self.label_column.text, 'operator':self.label_operator.text}
+    del_entry_origin = {'column':self.label_column.text, 'operator':self.label_operator.text}
     data = self.parent.items
     if del_entry_genre in data:
       data.remove(del_entry_genre)
