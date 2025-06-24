@@ -117,11 +117,22 @@ class C_Filter(C_FilterTemplate):
     #   self.rep_pan_label.items = transformed_label_data
     #   self.label_no_label_filters.visible = False
       
-    # # Genre Filters
-    # filter_genre = [item for item in fil if item['column'] == 'genre_root']
-    # if len(filter_genre) > 0:
-    #   self.repeating_panel_genre.items = filter_genre
-    #   self.label_no_genre_filters.visible = False
+    # Genre Filters
+    filter_genre = []
+    for item in fil:
+        if item['column'] == 'genre_root':
+            filter_type = 'include' if item['operator'] == 'IN' else 'exclude'
+            for genre in item['value']:
+                # Remove any surrounding quotes from the genre name
+                genre_name = genre.strip("'\"")
+                filter_genre.append({
+                    'column': filter_type,
+                    'value': genre_name
+                })
+    
+    if filter_genre:
+        self.repeating_panel_genre.items = filter_genre
+        self.label_no_genre_filters.visible = False
 
     # # Origin Filters
     # filter_origin = [item for item in fil if item['column'] == 'country_code']
