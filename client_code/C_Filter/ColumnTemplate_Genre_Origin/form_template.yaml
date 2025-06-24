@@ -4,9 +4,9 @@ components:
   properties: {height: 32}
   type: Spacer
 - data_bindings:
-  - {code: 'self.item[''value'']', property: text, writeback: false}
+  - {code: 'self.item[''operator'']', property: text, writeback: false}
   layout_properties: {grid_position: 'HAQZAT,MWBQIE'}
-  name: label_value
+  name: label_operator
   properties: {align: right, role: feature}
   type: Label
 - data_bindings:

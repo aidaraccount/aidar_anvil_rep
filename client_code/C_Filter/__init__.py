@@ -149,7 +149,7 @@ class C_Filter(C_FilterTemplate):
             label_name = label.strip("'\"")
             filter_label.append({
                 'column': label_name,
-                'value': filter_type
+                'operator': filter_type
             })    
         if filter_label:
           self.rep_pan_label.items = filter_label
@@ -164,7 +164,7 @@ class C_Filter(C_FilterTemplate):
             genre_name = genre.strip("'\"")
             filter_genre.append({
                 'column': genre_name,
-                'value': filter_type
+                'operator': filter_type
             })    
         if filter_genre:
           self.repeating_panel_genre.items = filter_genre
@@ -179,7 +179,7 @@ class C_Filter(C_FilterTemplate):
             origin_name = origin.strip("'\"")
             filter_origin.append({
                 'column': origin_name,
-                'value': filter_type
+                'operator': filter_type
             })    
         if filter_origin:
           self.repeating_panel_origin.items = filter_origin
@@ -277,13 +277,13 @@ class C_Filter(C_FilterTemplate):
     genres_list = []
 
     if genre_data is not None:
-      if any(item['operator'] == 'Include' for item in genre_data):
+      if any(item['operator'] == 'include' for item in genre_data):
         genre_data = [item for item in genre_data if item['operator'] != 'Exclude']
         print(genre_data)
       for element in genre_data:
         genres_list.append(element["column"])
         print(genres_list)
-      op = 'IN' if element["operator"] == 'Include' else 'NOT IN'
+      op = 'IN' if element["operator"] == 'include' else 'NOT IN'
       print(op)
       if genres_list != []:
         filters_json += f'{{"column":"genre_root","operator":"{op}","value":{json.dumps(genres_list)}}},'
@@ -293,13 +293,13 @@ class C_Filter(C_FilterTemplate):
     origin_list = []
 
     if origin_data is not None:
-      if any(item['operator'] == 'Include' for item in origin_data):
+      if any(item['operator'] == 'include' for item in origin_data):
         origin_data = [item for item in origin_data if item['operator'] != 'Exclude']
   
       for element in origin_data:
         origin_list.append(element["column"][:2])
         
-      op = 'IN' if element["operator"] == 'Include' else 'NOT IN'
+      op = 'IN' if element["operator"] == 'include' else 'NOT IN'
       if origin_list != []:
         filters_json += f'{{"column":"country_code","operator":"{op}","value":{json.dumps(origin_list)}}},'
     
