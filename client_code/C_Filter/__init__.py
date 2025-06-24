@@ -86,43 +86,43 @@ class C_Filter(C_FilterTemplate):
     print('fil:', fil)
     
     for filter in fil:
-      # get filter element
-      # if filter["column"] in ('general', 'gender', 'has_top5_de', 'date'):
+      # seperate BETWEEN
+      # ...
       
       # set filter element
       if filter["column"] in ("artist_popularity_lat", "artist_follower_lat", "avg_duration", "avg_loudness", "avg_tempo", "days_since_last_release"):
         element = getattr(self, my_dict[f'{filter["column"]} {filter["operator"]}'], None)
-        element.text = "{:.0f}".format(round(float(filter["value"]), 0))
+        element.text = "{:.0f}".format(round(float(filter["value"][0]), 0))
       
       elif filter["column"] in ("avg_danceability", "avg_energy", "avg_mode", "avg_speechiness", "avg_acousticness", "avg_instrumentalness", "avg_liveness", "avg_valence"):
         element = getattr(self, my_dict[f'{filter["column"]} {filter["operator"]}'], None)
-        element.text = "{:.0f}".format(round(float(filter["value"])*100, 0))
+        element.text = "{:.0f}".format(round(float(filter["value"][0])*100, 0))
       
       elif filter["column"] in ("avg_key"):
         element = getattr(self, my_dict[f'{filter["column"]} {filter["operator"]}'], None)
         tonleiter = ["C", "C#/Db", "D", "D#/Eb", "E", "F", "F#/Gb", "G", "G#/Ab", "A", "A#/Bb", "B"]
-        element.selected_value = tonleiter[int("{:.0f}".format(round(float(filter["value"]), 0)))]
+        element.selected_value = tonleiter[int("{:.0f}".format(round(float(filter["value"][0]), 0)))]
       
       elif filter["column"] in ("major_coop", "sub_major_coop"):
         element = getattr(self, my_dict[f'{filter["column"]} {filter["operator"]}'], None)
-        if filter["value"] == '1': element.selected_value = 'Yes'
-        if filter["value"] == '0': element.selected_value = 'No'
+        if filter["value"][0] == '1': element.selected_value = 'Yes'
+        if filter["value"][0] == '0': element.selected_value = 'No'
       
       elif filter["column"] in ("gender"):
         element = getattr(self, my_dict[f'{filter["column"]} {filter["operator"]}'], None)
-        if filter["value"] == 'female': element.selected_value = 'Female'
-        if filter["value"] == 'male': element.selected_value = 'Male'
-        if filter["value"] == 'mixed': element.selected_value = 'Mixed'
-        if filter["value"] == 'other': element.selected_value = 'Other'
+        if filter["value"][0] == 'female': element.selected_value = 'Female'
+        if filter["value"][0] == 'male': element.selected_value = 'Male'
+        if filter["value"][0] == 'mixed': element.selected_value = 'Mixed'
+        if filter["value"][0] == 'other': element.selected_value = 'Other'
       
       elif filter["column"] in ("has_top5_de"):
         element = getattr(self, my_dict[f'{filter["column"]} {filter["operator"]}'], None)
-        if filter["value"] == 'True': element.selected_value = 'True'
-        if filter["value"] == 'False': element.selected_value = 'False'
+        if filter["value"][0] == 'True': element.selected_value = 'True'
+        if filter["value"][0] == 'False': element.selected_value = 'False'
       
       elif filter["column"] in ("days_since_first_release"):
         element = getattr(self, my_dict[f'{filter["column"]} {filter["operator"]}'], None)
-        element.text = "{:.1f}".format(float(filter["value"]) + 1)
+        element.text = "{:.1f}".format(float(filter["value"][0]) + 1)
 
       # Label Filters
       elif filter['column'] == 'label':
