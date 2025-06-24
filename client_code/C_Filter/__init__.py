@@ -85,62 +85,90 @@ class C_Filter(C_FilterTemplate):
     fil = json.loads(anvil.server.call('get_filters', self.model_id))
     print('fil:', fil)
     
-    # for filter in fil:
-    #   if filter["column"] in ('general', 'gender', 'has_top5_de', 'date'):
-    #     element = getattr(self, my_dict[f'{filter["column"]} {filter["operator"]}'], None)
-    #     if filter["column"] in ("artist_popularity_lat", "artist_follower_lat", "avg_duration", "avg_loudness", "avg_tempo", "CURRENT_DATE - last_release_date"):
-    #       element.text = "{:.0f}".format(round(float(filter["value"]), 0))
-    #     elif filter["column"] in ("avg_danceability", "avg_energy", "avg_mode", "avg_speechiness", "avg_acousticness", "avg_instrumentalness", "avg_liveness", "avg_valence"):
-    #       element.text = "{:.0f}".format(round(float(filter["value"])*100, 0))
-    #     elif filter["column"] in ("avg_key"):
-    #       tonleiter = ["C", "C#/Db", "D", "D#/Eb", "E", "F", "F#/Gb", "G", "G#/Ab", "A", "A#/Bb", "B"]
-    #       element.selected_value = tonleiter[int("{:.0f}".format(round(float(filter["value"]), 0)))]
-    #     elif filter["column"] in ("major_coop", "sub_major_coop"):
-    #       if filter["value"] == '1': element.selected_value = 'Yes'
-    #       if filter["value"] == '0': element.selected_value = 'No'
-    #     elif filter["column"] in ("gender"):
-    #       if filter["value"] == 'female': element.selected_value = 'Female'
-    #       if filter["value"] == 'male': element.selected_value = 'Male'
-    #       if filter["value"] == 'mixed': element.selected_value = 'Mixed'
-    #       if filter["value"] == 'other': element.selected_value = 'Other'
-    #     elif filter["column"] in ("has_top5_de"):
-    #       if filter["value"] == 'True': element.selected_value = 'True'
-    #       if filter["value"] == 'False': element.selected_value = 'False'
-    #     elif filter["column"] in ("(CURRENT_DATE - first_release_date) / 365"):
-    #       element.text = "{:.1f}".format(float(filter["value"]) + 1)
-
-    # # Label Filters
-    # filter_label = [item for item in fil if item['column'] == 'label']
-    # if len(filter_label) > 0:
-    #   # Transform the structure to match what rep_pan_label expects
-    #   transformed_label_data = [{'label_name': item['value']} for item in filter_label]
-    #   self.rep_pan_label.items = transformed_label_data
-    #   self.label_no_label_filters.visible = False
+    for filter in fil:
+      # get filter element
+      # if filter["column"] in ('general', 'gender', 'has_top5_de', 'date'):
       
-    # Genre Filters
-    filter_genre = []
-    for item in fil:
-        if item['column'] == 'genre_root':
-            filter_type = 'include' if item['operator'] == 'IN' else 'exclude'
-            for genre in item['value']:
-                # Remove any surrounding quotes from the genre name
-                genre_name = genre.strip("'\"")
-                filter_genre.append({
-                    'column': genre_name,
-                    'value': filter_type
-                })
+      # set filter element
+      if filter["column"] in ("artist_popularity_lat", "artist_follower_lat", "avg_duration", "avg_loudness", "avg_tempo", "days_since_last_release"):
+        element = getattr(self, my_dict[f'{filter["column"]} {filter["operator"]}'], None)
+        element.text = "{:.0f}".format(round(float(filter["value"]), 0))
+      
+      elif filter["column"] in ("avg_danceability", "avg_energy", "avg_mode", "avg_speechiness", "avg_acousticness", "avg_instrumentalness", "avg_liveness", "avg_valence"):
+        element = getattr(self, my_dict[f'{filter["column"]} {filter["operator"]}'], None)
+        element.text = "{:.0f}".format(round(float(filter["value"])*100, 0))
+      
+      elif filter["column"] in ("avg_key"):
+        element = getattr(self, my_dict[f'{filter["column"]} {filter["operator"]}'], None)
+        tonleiter = ["C", "C#/Db", "D", "D#/Eb", "E", "F", "F#/Gb", "G", "G#/Ab", "A", "A#/Bb", "B"]
+        element.selected_value = tonleiter[int("{:.0f}".format(round(float(filter["value"]), 0)))]
+      
+      elif filter["column"] in ("major_coop", "sub_major_coop"):
+        element = getattr(self, my_dict[f'{filter["column"]} {filter["operator"]}'], None)
+        if filter["value"] == '1': element.selected_value = 'Yes'
+        if filter["value"] == '0': element.selected_value = 'No'
+      
+      elif filter["column"] in ("gender"):
+        element = getattr(self, my_dict[f'{filter["column"]} {filter["operator"]}'], None)
+        if filter["value"] == 'female': element.selected_value = 'Female'
+        if filter["value"] == 'male': element.selected_value = 'Male'
+        if filter["value"] == 'mixed': element.selected_value = 'Mixed'
+        if filter["value"] == 'other': element.selected_value = 'Other'
+      
+      elif filter["column"] in ("has_top5_de"):
+        element = getattr(self, my_dict[f'{filter["column"]} {filter["operator"]}'], None)
+        if filter["value"] == 'True': element.selected_value = 'True'
+        if filter["value"] == 'False': element.selected_value = 'False'
+      
+      elif filter["column"] in ("days_since_first_release"):
+        element = getattr(self, my_dict[f'{filter["column"]} {filter["operator"]}'], None)
+        element.text = "{:.1f}".format(float(filter["value"]) + 1)
+
+      # Label Filters
+      elif filter['column'] == 'label':
+        filter_label = []
+        filter_type = 'include' if filter['operator'] == 'IN' else 'exclude'
+        for label in filter['value']:
+            # Remove any surrounding quotes from the label name
+            label_name = label.strip("'\"")
+            filter_label.append({
+                'column': label_name,
+                'value': filter_type
+            })    
+        if filter_label:
+          self.rep_pan_label.items = filter_label
+          self.label_no_label_filters.visible = False
+        
+      # Genre Filters
+      elif filter['column'] == 'genre_root':
+        filter_genre = []
+        filter_type = 'include' if filter['operator'] == 'IN' else 'exclude'
+        for genre in filter['value']:
+            # Remove any surrounding quotes from the genre name
+            genre_name = genre.strip("'\"")
+            filter_genre.append({
+                'column': genre_name,
+                'value': filter_type
+            })    
+        if filter_genre:
+          self.repeating_panel_genre.items = filter_genre
+          self.label_no_genre_filters.visible = False
+
+      # Origin Filters
+      elif filter['column'] == 'country_code':
+        filter_origin = []
+        filter_type = 'include' if filter['operator'] == 'IN' else 'exclude'
+        for origin in filter['value']:
+            # Remove any surrounding quotes from the origin name
+            origin_name = origin.strip("'\"")
+            filter_origin.append({
+                'column': origin_name,
+                'value': filter_type
+            })    
+        if filter_origin:
+          self.repeating_panel_origin.items = filter_origin
+          self.label_no_origin_filters.visible = False
     
-    if filter_genre:
-        self.repeating_panel_genre.items = filter_genre
-        self.label_no_genre_filters.visible = False
-
-    # # Origin Filters
-    # filter_origin = [item for item in fil if item['column'] == 'country_code']
-    # if len(filter_origin) > 0:
-    #   self.repeating_panel_origin.items = filter_origin
-    #   self.label_no_origin_filters.visible = False
-    pass
-
   
   def apply_filters_click(self, **event_args):    
     filters_json = '['
