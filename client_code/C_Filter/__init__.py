@@ -143,7 +143,7 @@ class C_Filter(C_FilterTemplate):
       # Label Filters
       elif filter['column'] == 'label':
         filter_label = []
-        filter_type = 'include' if filter['operator'] == 'IN' else 'exclude'
+        filter_type = 'Include' if filter['operator'] == 'IN' else 'Exclude'
         for label in filter['value']:
             # Remove any surrounding quotes from the label name
             label_name = label.strip("'\"")
@@ -159,7 +159,7 @@ class C_Filter(C_FilterTemplate):
       elif filter['column'] == 'genre_root':
         filter_genre = []
         if filter['operator'] == 'IN':
-          filter_type = 'include'
+          filter_type = 'Include'
         elif filter['operator'] == 'NOT IN':
           filter_type = 'exclude'
         else:
@@ -179,7 +179,7 @@ class C_Filter(C_FilterTemplate):
       elif filter['column'] == 'country_code':
         filter_origin = []
         if filter['operator'] == 'IN':
-          filter_type = 'include'
+          filter_type = 'Include'
         elif filter['operator'] == 'NOT IN':
           filter_type = 'exclude'
         else:
@@ -287,16 +287,16 @@ class C_Filter(C_FilterTemplate):
     genres_list = []
 
     if genre_data is not None:
-      if any(item['operator'] == 'include' for item in genre_data):
+      if any(item['operator'] == 'Include' for item in genre_data):
         genre_data = [item for item in genre_data if item['operator'] != 'Exclude']
         print(genre_data)
       for element in genre_data:
         genres_list.append(element["column"])
         print(genres_list)
-      # op = 'IN' if element["operator"] == 'include' else 'NOT IN'
-      if element["operator"] == 'include':
+      # op = 'IN' if element["operator"] == 'Include' else 'NOT IN'
+      if element["operator"] == 'Include':
         op = 'IN'
-      elif element["operator"] == 'exclude':
+      elif element["operator"] == 'Exclude':
         op = 'NOT IN'
       else:
         op = element["operator"]
@@ -308,16 +308,16 @@ class C_Filter(C_FilterTemplate):
     origin_list = []
 
     if origin_data is not None:
-      if any(item['operator'] == 'include' for item in origin_data):
+      if any(item['operator'] == 'Include' for item in origin_data):
         origin_data = [item for item in origin_data if item['operator'] != 'Exclude']
   
       for element in origin_data:
         origin_list.append(element["column"][:2])
         
-      # op = 'IN' if element["operator"] == 'include' else 'NOT IN'
-      if element["operator"] == 'include':
+      # op = 'IN' if element["operator"] == 'Include' else 'NOT IN'
+      if element["operator"] == 'Include':
         op = 'IN'
-      elif element["operator"] == 'exclude':
+      elif element["operator"] == 'Exclude':
         op = 'NOT IN'
       else:
         op = element["operator"]
@@ -382,7 +382,7 @@ class C_Filter(C_FilterTemplate):
 
   
   def button_add_genre_click(self, **event_args):
-    new_entry = {'column':self.drop_down_add_genre.selected_value, 'value':self.drop_down_add_value.selected_value}
+    new_entry = {'column':self.drop_down_add_genre.selected_value, 'operator':self.drop_down_add_value.selected_value}
     genre_data = self.repeating_panel_genre.items
     if genre_data is None:
       genre_data = [new_entry]
@@ -394,7 +394,7 @@ class C_Filter(C_FilterTemplate):
     self.label_no_genre_filters.visible = False
 
   def button_add_origin_click(self, **event_args):
-    new_entry = {'column':self.drop_down_add_origin.selected_value, 'value':self.drop_down_add_value2.selected_value}
+    new_entry = {'column':self.drop_down_add_origin.selected_value, 'operator':self.drop_down_add_value2.selected_value}
     origin_data = self.repeating_panel_origin.items
     if origin_data is None:
       origin_data = [new_entry]
