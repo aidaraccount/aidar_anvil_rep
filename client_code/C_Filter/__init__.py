@@ -84,12 +84,12 @@ class C_Filter(C_FilterTemplate):
     
     fil = json.loads(anvil.server.call('get_filters', self.model_id))
     print('fil:', fil)
-    
+
+    # seperate BETWEEN
+    # ...
+
+    # set filter element
     for filter in fil:
-      # seperate BETWEEN
-      # ...
-      
-      # set filter element
       if filter["column"] in ("artist_popularity_lat", "artist_follower_lat", "avg_duration", "avg_loudness", "avg_tempo", "days_since_last_release"):
         element = getattr(self, my_dict[f'{filter["column"]} {filter["operator"]}'], None)
         element.text = "{:.0f}".format(round(float(filter["value"][0]), 0))
