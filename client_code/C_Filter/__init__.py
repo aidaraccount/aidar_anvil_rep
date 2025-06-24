@@ -53,8 +53,8 @@ class C_Filter(C_FilterTemplate):
                "artist_follower_lat <=": "artist_follower_lat_max",
                "major_coop =": "drop_down_major",
                "sub_major_coop =": "drop_down_submajor",
-               "(CURRENT_DATE - first_release_date) / 365 <=": "years_since_first_release",
-               "CURRENT_DATE - last_release_date <=": "days_since_last_release",
+               "days_since_first_release <=": "years_since_first_release",
+               "days_since_last_release <=": "days_since_last_release",
                "avg_duration >=": "avg_duration_min",
                "avg_duration <=": "avg_duration_max",
                "avg_danceability >=": "avg_danceability_min",
@@ -83,138 +83,235 @@ class C_Filter(C_FilterTemplate):
                "has_top5_de =": "drop_down_has_top5_de"}
     
     fil = json.loads(anvil.server.call('get_filters', self.model_id))
-    
-    for filter in fil:
-      if filter["Type"] in ('general', 'gender', 'has_top5_de', 'date'):
-        element = getattr(self, my_dict[f'{filter["Column"]} {filter["Operator"]}'], None)
-        if filter["Column"] in ("artist_popularity_lat", "artist_follower_lat", "avg_duration", "avg_loudness", "avg_tempo", "CURRENT_DATE - last_release_date"):
-          element.text = "{:.0f}".format(round(float(filter["Value"]), 0))
-        elif filter["Column"] in ("avg_danceability", "avg_energy", "avg_mode", "avg_speechiness", "avg_acousticness", "avg_instrumentalness", "avg_liveness", "avg_valence"):
-          element.text = "{:.0f}".format(round(float(filter["Value"])*100, 0))
-        elif filter["Column"] in ("avg_key"):
-          tonleiter = ["C", "C#/Db", "D", "D#/Eb", "E", "F", "F#/Gb", "G", "G#/Ab", "A", "A#/Bb", "B"]
-          element.selected_value = tonleiter[int("{:.0f}".format(round(float(filter["Value"]), 0)))]
-        elif filter["Column"] in ("major_coop", "sub_major_coop"):
-          if filter["Value"] == '1': element.selected_value = 'Yes'
-          if filter["Value"] == '0': element.selected_value = 'No'
-        elif filter["Column"] in ("gender"):
-          if filter["Value"] == 'female': element.selected_value = 'Female'
-          if filter["Value"] == 'male': element.selected_value = 'Male'
-          if filter["Value"] == 'mixed': element.selected_value = 'Mixed'
-          if filter["Value"] == 'other': element.selected_value = 'Other'
-        elif filter["Column"] in ("has_top5_de"):
-          if filter["Value"] == 'True': element.selected_value = 'True'
-          if filter["Value"] == 'False': element.selected_value = 'False'
-        elif filter["Column"] in ("(CURRENT_DATE - first_release_date) / 365"):
-          element.text = "{:.1f}".format(float(filter["Value"]) + 1)
+    print('fil:', fil)
 
-    # Label Filters
-    filter_label = [item for item in fil if item['Type'] == 'label']
-    if len(filter_label) > 0:
-      # Transform the structure to match what rep_pan_label expects
-      transformed_label_data = [{'label_name': item['Value']} for item in filter_label]
-      self.rep_pan_label.items = transformed_label_data
-      self.label_no_label_filters.visible = False
+    # Process filters and handle BETWEEN operators
+    processed_filters = []
+    for f in fil:
+        if f['operator'] == 'BETWEEN' and len(f['value']) == 2:
+            # Create a copy for >= filter
+            ge_filter = dict(f)
+            ge_filter['operator'] = '>='
+            ge_filter['value'] = [f['value'][0]]
+            processed_filters.append(ge_filter)
+            
+            # Create a copy for <= filter
+            le_filter = dict(f)
+            le_filter['operator'] = '<='
+            le_filter['value'] = [f['value'][1]]
+            processed_filters.append(le_filter)
+        else:
+            processed_filters.append(f)
+    print('processed_filters:', processed_filters)
+
+    # set filter element
+    for filter in processed_filters:
+      if filter["column"] in ("artist_popularity_lat", "artist_follower_lat", "avg_duration", "avg_loudness", "avg_tempo", "days_since_last_release"):
+        element = getattr(self, my_dict[f'{filter["column"]} {filter["operator"]}'], None)
+        element.text = "{:.0f}".format(round(float(filter["value"][0]), 0))
       
-    # Genre Filters
-    filter_genre = [item for item in fil if item['Type'] == 'genre']
-    if len(filter_genre) > 0:
-      self.repeating_panel_genre.items = filter_genre
-      self.label_no_genre_filters.visible = False
+      elif filter["column"] in ("avg_danceability", "avg_energy", "avg_mode", "avg_speechiness", "avg_acousticness", "avg_instrumentalness", "avg_liveness", "avg_valence"):
+        element = getattr(self, my_dict[f'{filter["column"]} {filter["operator"]}'], None)
+        element.text = "{:.0f}".format(round(float(filter["value"][0])*100, 0))
+      
+      elif filter["column"] in ("avg_key"):
+        element = getattr(self, my_dict[f'{filter["column"]} {filter["operator"]}'], None)
+        tonleiter = ["C", "C#/Db", "D", "D#/Eb", "E", "F", "F#/Gb", "G", "G#/Ab", "A", "A#/Bb", "B"]
+        element.selected_value = tonleiter[int("{:.0f}".format(round(float(filter["value"][0]), 0)))]
+      
+      elif filter["column"] in ("major_coop", "sub_major_coop"):
+        element = getattr(self, my_dict[f'{filter["column"]} {filter["operator"]}'], None)
+        if filter["value"][0] == '1': element.selected_value = 'Yes'
+        if filter["value"][0] == '0': element.selected_value = 'No'
+      
+      elif filter["column"] in ("gender"):
+        element = getattr(self, my_dict[f'{filter["column"]} {filter["operator"]}'], None)
+        if filter["value"][0] == 'female': element.selected_value = 'Female'
+        if filter["value"][0] == 'male': element.selected_value = 'Male'
+        if filter["value"][0] == 'mixed': element.selected_value = 'Mixed'
+        if filter["value"][0] == 'other': element.selected_value = 'Other'
+      
+      elif filter["column"] in ("has_top5_de"):
+        element = getattr(self, my_dict[f'{filter["column"]} {filter["operator"]}'], None)
+        if filter["value"][0] == 'True': element.selected_value = 'True'
+        if filter["value"][0] == 'False': element.selected_value = 'False'
+      
+      elif filter["column"] in ("days_since_first_release"):
+        element = getattr(self, my_dict[f'{filter["column"]} {filter["operator"]}'], None)
+        element.text = "{:.1f}".format(float(filter["value"][0]) / 365)
 
-    # Origin Filters
-    filter_origin = [item for item in fil if item['Type'] == 'origin']
-    if len(filter_origin) > 0:
-      self.repeating_panel_origin.items = filter_origin
-      self.label_no_origin_filters.visible = False
+      # Label Filters
+      elif filter['column'] == 'label':
+        filter_label = []
+        filter_type = 'include' if filter['operator'] == 'IN' else 'exclude'
+        for label in filter['value']:
+            # Remove any surrounding quotes from the label name
+            label_name = label.strip("'\"")
+            filter_label.append({
+                'column': label_name,
+                'operator': filter_type
+            })    
+        if filter_label:
+          self.rep_pan_label.items = filter_label
+          self.label_no_label_filters.visible = False
+        
+      # Genre Filters
+      elif filter['column'] == 'genre_root':
+        filter_genre = []
+        filter_type = 'include' if filter['operator'] == 'IN' else 'exclude'
+        for genre in filter['value']:
+            # Remove any surrounding quotes from the genre name
+            genre_name = genre.strip("'\"")
+            filter_genre.append({
+                'column': genre_name,
+                'operator': filter_type
+            })    
+        if filter_genre:
+          self.repeating_panel_genre.items = filter_genre
+          self.label_no_genre_filters.visible = False
 
+      # Origin Filters
+      elif filter['column'] == 'country_code':
+        filter_origin = []
+        filter_type = 'include' if filter['operator'] == 'IN' else 'exclude'
+        for origin in filter['value']:
+            # Remove any surrounding quotes from the origin name
+            origin_name = origin.strip("'\"")
+            filter_origin.append({
+                'column': origin_name,
+                'operator': filter_type
+            })    
+        if filter_origin:
+          self.repeating_panel_origin.items = filter_origin
+          self.label_no_origin_filters.visible = False
+    
   
   def apply_filters_click(self, **event_args):    
     filters_json = '['
     
-    # 1. General
-    if self.artist_popularity_lat_min.text is not None: filters_json += f'{{"ModelID":"{self.model_id}","Type":"general","Column":"artist_popularity_lat","Operator":">=","Value":"{self.artist_popularity_lat_min.text}"}},'
-    if self.artist_popularity_lat_max.text is not None: filters_json += f'{{"ModelID":"{self.model_id}","Type":"general","Column":"artist_popularity_lat","Operator":"<=","Value":"{self.artist_popularity_lat_max.text}"}},'
-    if self.artist_follower_lat_min.text is not None: filters_json += f'{{"ModelID":"{self.model_id}","Type":"general","Column":"artist_follower_lat","Operator":">=","Value":"{self.artist_follower_lat_min.text}"}},'
-    if self.artist_follower_lat_max.text is not None: filters_json += f'{{"ModelID":"{self.model_id}","Type":"general","Column":"artist_follower_lat","Operator":"<=","Value":"{self.artist_follower_lat_max.text}"}},'
+    # 1. General   
+    if self.artist_follower_lat_min.text is not None and self.artist_follower_lat_max.text is not None:
+      filters_json += f'{{"column":"artist_follower_lat","operator":"BETWEEN","value":[{self.artist_follower_lat_min.text},{self.artist_follower_lat_max.text}]}},'
+    elif self.artist_follower_lat_min.text is not None: filters_json += f'{{"column":"artist_follower_lat","operator":">=","value":[{self.artist_follower_lat_min.text}]}},'
+    elif self.artist_follower_lat_max.text is not None: filters_json += f'{{"column":"artist_follower_lat","operator":"<=","value":[{self.artist_follower_lat_max.text}]}},'
 
-    if self.years_since_first_release.text is not None: filters_json += f'{{"ModelID":"{self.model_id}","Type":"date","Column":"(CURRENT_DATE - first_release_date) / 365","Operator":"<=","Value":"{self.years_since_first_release.text - 1}"}},'
-    if self.days_since_last_release.text is not None: filters_json += f'{{"ModelID":"{self.model_id}","Type":"date","Column":"CURRENT_DATE - last_release_date","Operator":"<=","Value":"{self.days_since_last_release.text}"}},'
+    if self.years_since_first_release.text is not None: filters_json += f'{{"column":"days_since_first_release","operator":"<=","value":[{float(self.years_since_first_release.text) * 365}]}},'
+    if self.days_since_last_release.text is not None: filters_json += f'{{"column":"days_since_last_release","operator":"<=","value":[{self.days_since_last_release.text}]}},'
 
     # 2. Label cooperation
-    if self.drop_down_major.selected_value == 'Yes': filters_json += f'{{"ModelID":"{self.model_id}","Type":"general","Column":"major_coop","Operator":"=","Value":"1"}},'
-    if self.drop_down_major.selected_value == 'No': filters_json += f'{{"ModelID":"{self.model_id}","Type":"general","Column":"major_coop","Operator":"=","Value":"0"}},'
-    if self.drop_down_submajor.selected_value == 'Yes': filters_json += f'{{"ModelID":"{self.model_id}","Type":"general","Column":"sub_major_coop","Operator":"=","Value":"1"}},'
-    if self.drop_down_submajor.selected_value == 'No': filters_json += f'{{"ModelID":"{self.model_id}","Type":"general","Column":"sub_major_coop","Operator":"=","Value":"0"}},'
+    if self.drop_down_major.selected_value == 'Yes': filters_json += f'{{"column":"major_coop","operator":"=","value":[1]}},'
+    if self.drop_down_major.selected_value == 'No': filters_json += f'{{"column":"major_coop","operator":"=","value":[0]}},'
+    if self.drop_down_submajor.selected_value == 'Yes': filters_json += f'{{"column":"sub_major_coop","operator":"=","value":[1]}},'
+    if self.drop_down_submajor.selected_value == 'No': filters_json += f'{{"column":"sub_major_coop","operator":"=","value":[0]}},'
 
     label_data = self.rep_pan_label.items
     if label_data is not None:
       for element in label_data:
-        filters_json += f'{{"ModelID":"{self.model_id}","Type":"label","Column":"latest_label","Operator":"!=","Value":"{element["label_name"]}"}},'    
+        filters_json += f'{{"column":"latest_label","operator":"NOT IN","value":[{element["label_name"]}]}},'
     
     # 3. Musical Features
-    if self.avg_duration_min.text is not None: filters_json += f'{{"ModelID":"{self.model_id}","Type":"general","Column":"avg_duration","Operator":">=","Value":"{self.avg_duration_min.text}"}},'
-    if self.avg_duration_max.text is not None: filters_json += f'{{"ModelID":"{self.model_id}","Type":"general","Column":"avg_duration","Operator":"<=","Value":"{self.avg_duration_max.text}"}},'
+    if self.avg_duration_min.text is not None and self.avg_duration_max.text is not None:
+      filters_json += f'{{"column":"avg_duration","operator":"BETWEEN","value":[{self.avg_duration_min.text},{self.avg_duration_max.text}]}},'
+    elif self.avg_duration_min.text is not None: filters_json += f'{{"column":"avg_duration","operator":">=","value":[{self.avg_duration_min.text}]}},'
+    elif self.avg_duration_max.text is not None: filters_json += f'{{"column":"avg_duration","operator":"<=","value":[{self.avg_duration_max.text}]}},'
     
-    if self.avg_danceability_min.text is not None: filters_json += f'{{"ModelID":"{self.model_id}","Type":"general","Column":"avg_danceability","Operator":">=","Value":"{int(self.avg_danceability_min.text)/100}"}},'
-    if self.avg_danceability_max.text is not None: filters_json += f'{{"ModelID":"{self.model_id}","Type":"general","Column":"avg_danceability","Operator":"<=","Value":"{int(self.avg_danceability_max.text)/100}"}},'
+    if self.avg_danceability_min.text is not None and self.avg_danceability_max.text is not None:
+      filters_json += f'{{"column":"avg_danceability","operator":"BETWEEN","value":[{int(self.avg_danceability_min.text)/100},{int(self.avg_danceability_max.text)/100}]}},'
+    elif self.avg_danceability_min.text is not None: filters_json += f'{{"column":"avg_danceability","operator":">=","value":[{int(self.avg_danceability_min.text)/100}]}},'
+    elif self.avg_danceability_max.text is not None: filters_json += f'{{"column":"avg_danceability","operator":"<=","value":[{int(self.avg_danceability_max.text)/100}]}},'
     
-    if self.avg_energy_min.text is not None: filters_json += f'{{"ModelID":"{self.model_id}","Type":"general","Column":"avg_energy","Operator":">=","Value":"{int(self.avg_energy_min.text)/100}"}},'
-    if self.avg_energy_max.text is not None: filters_json += f'{{"ModelID":"{self.model_id}","Type":"general","Column":"avg_energy","Operator":"<=","Value":"{int(self.avg_energy_max.text)/100}"}},'
+    if self.avg_energy_min.text is not None and self.avg_energy_max.text is not None:
+      filters_json += f'{{"column":"avg_energy","operator":"BETWEEN","value":[{int(self.avg_energy_min.text)/100},{int(self.avg_energy_max.text)/100}]}},'
+    elif self.avg_energy_min.text is not None: filters_json += f'{{"column":"avg_energy","operator":">=","value":[{int(self.avg_energy_min.text)/100}]}},'
+    elif self.avg_energy_max.text is not None: filters_json += f'{{"column":"avg_energy","operator":"<=","value":[{int(self.avg_energy_max.text)/100}]}},'
 
     tonleiter = ["C", "C#/Db", "D", "D#/Eb", "E", "F", "F#/Gb", "G", "G#/Ab", "A", "A#/Bb", "B"]
-    if self.avg_key_min.selected_value != '': filters_json += f'{{"ModelID":"{self.model_id}","Type":"general","Column":"avg_key","Operator":">=","Value":"{tonleiter.index(self.avg_key_min.selected_value)}"}},'
-    if self.avg_key_max.selected_value != '': filters_json += f'{{"ModelID":"{self.model_id}","Type":"general","Column":"avg_key","Operator":"<=","Value":"{tonleiter.index(self.avg_key_max.selected_value)}"}},'
+    if self.avg_key_min.selected_value != '' and self.avg_key_max.selected_value != '':
+      filters_json += f'{{"column":"avg_key","operator":"BETWEEN","value":[{tonleiter.index(self.avg_key_min.selected_value)},{tonleiter.index(self.avg_key_max.selected_value)}]}},'
+    elif self.avg_key_min.selected_value != '': filters_json += f'{{"column":"avg_key","operator":">=","value":[{tonleiter.index(self.avg_key_min.selected_value)}]}},'
+    elif self.avg_key_max.selected_value != '': filters_json += f'{{"column":"avg_key","operator":"<=","value":[{tonleiter.index(self.avg_key_max.selected_value)}]}},'
     
-    if self.avg_loudness_min.text is not None: filters_json += f'{{"ModelID":"{self.model_id}","Type":"general","Column":"avg_loudness","Operator":">=","Value":"{self.avg_loudness_min.text}"}},'
-    if self.avg_loudness_max.text is not None: filters_json += f'{{"ModelID":"{self.model_id}","Type":"general","Column":"avg_loudness","Operator":"<=","Value":"{self.avg_loudness_max.text}"}},'
+    if self.avg_loudness_min.text is not None and self.avg_loudness_max.text is not None:
+      filters_json += f'{{"column":"avg_loudness","operator":"BETWEEN","value":[{self.avg_loudness_min.text},{self.avg_loudness_max.text}]}},'
+    elif self.avg_loudness_min.text is not None: filters_json += f'{{"column":"avg_loudness","operator":">=","value":[{self.avg_loudness_min.text}]}},'
+    elif self.avg_loudness_max.text is not None: filters_json += f'{{"column":"avg_loudness","operator":"<=","value":[{self.avg_loudness_max.text}]}},'
     
-    if self.avg_mode_min.text is not None: filters_json += f'{{"ModelID":"{self.model_id}","Type":"general","Column":"avg_mode","Operator":">=","Value":"{int(self.avg_mode_min.text)/100}"}},'
-    if self.avg_mode_max.text is not None: filters_json += f'{{"ModelID":"{self.model_id}","Type":"general","Column":"avg_mode","Operator":"<=","Value":"{int(self.avg_mode_max.text)/100}"}},'
+    if self.avg_mode_min.text is not None and self.avg_mode_max.text is not None:
+      filters_json += f'{{"column":"avg_mode","operator":"BETWEEN","value":[{int(self.avg_mode_min.text)/100},{int(self.avg_mode_max.text)/100}]}},'
+    elif self.avg_mode_min.text is not None: filters_json += f'{{"column":"avg_mode","operator":">=","value":[{int(self.avg_mode_min.text)/100}]}},'
+    elif self.avg_mode_max.text is not None: filters_json += f'{{"column":"avg_mode","operator":"<=","value":[{int(self.avg_mode_max.text)/100}]}},'
     
-    if self.avg_speechiness_min.text is not None: filters_json += f'{{"ModelID":"{self.model_id}","Type":"general","Column":"avg_speechiness","Operator":">=","Value":"{int(self.avg_speechiness_min.text)/100}"}},'
-    if self.avg_speechiness_max.text is not None: filters_json += f'{{"ModelID":"{self.model_id}","Type":"general","Column":"avg_speechiness","Operator":"<=","Value":"{int(self.avg_speechiness_max.text)/100}"}},'
+    if self.avg_speechiness_min.text is not None and self.avg_speechiness_max.text is not None:
+      filters_json += f'{{"column":"avg_speechiness","operator":"BETWEEN","value":[{int(self.avg_speechiness_min.text)/100},{int(self.avg_speechiness_max.text)/100}]}},'
+    elif self.avg_speechiness_min.text is not None: filters_json += f'{{"column":"avg_speechiness","operator":">=","value":[{int(self.avg_speechiness_min.text)/100}]}},'
+    elif self.avg_speechiness_max.text is not None: filters_json += f'{{"column":"avg_speechiness","operator":"<=","value":[{int(self.avg_speechiness_max.text)/100}]}},'
     
-    if self.avg_acousticness_min.text is not None: filters_json += f'{{"ModelID":"{self.model_id}","Type":"general","Column":"avg_acousticness","Operator":">=","Value":"{int(self.avg_acousticness_min.text)/100}"}},'
-    if self.avg_acousticness_max.text is not None: filters_json += f'{{"ModelID":"{self.model_id}","Type":"general","Column":"avg_acousticness","Operator":"<=","Value":"{int(self.avg_acousticness_max.text)/100}"}},'
+    if self.avg_acousticness_min.text is not None and self.avg_acousticness_max.text is not None:
+      filters_json += f'{{"column":"avg_acousticness","operator":"BETWEEN","value":[{int(self.avg_acousticness_min.text)/100},{int(self.avg_acousticness_max.text)/100}]}},'
+    elif self.avg_acousticness_min.text is not None: filters_json += f'{{"column":"avg_acousticness","operator":">=","value":[{int(self.avg_acousticness_min.text)/100}]}},'
+    elif self.avg_acousticness_max.text is not None: filters_json += f'{{"column":"avg_acousticness","operator":"<=","value":[{int(self.avg_acousticness_max.text)/100}]}},'
     
-    if self.avg_instrumentalness_min.text is not None: filters_json += f'{{"ModelID":"{self.model_id}","Type":"general","Column":"avg_instrumentalness","Operator":">=","Value":"{int(self.avg_instrumentalness_min.text)/100}"}},'
-    if self.avg_instrumentalness_max.text is not None: filters_json += f'{{"ModelID":"{self.model_id}","Type":"general","Column":"avg_instrumentalness","Operator":"<=","Value":"{int(self.avg_instrumentalness_max.text)/100}"}},'
+    if self.avg_instrumentalness_min.text is not None and self.avg_instrumentalness_max.text is not None:
+      filters_json += f'{{"column":"avg_instrumentalness","operator":"BETWEEN","value":[{int(self.avg_instrumentalness_min.text)/100},{int(self.avg_instrumentalness_max.text)/100}]}},'
+    elif self.avg_instrumentalness_min.text is not None: filters_json += f'{{"column":"avg_instrumentalness","operator":">=","value":[{int(self.avg_instrumentalness_min.text)/100}]}},'
+    elif self.avg_instrumentalness_max.text is not None: filters_json += f'{{"column":"avg_instrumentalness","operator":"<=","value":[{int(self.avg_instrumentalness_max.text)/100}]}},'
     
-    if self.avg_liveness_min.text is not None: filters_json += f'{{"ModelID":"{self.model_id}","Type":"general","Column":"avg_liveness","Operator":">=","Value":"{int(self.avg_liveness_min.text)/100}"}},'
-    if self.avg_liveness_max.text is not None: filters_json += f'{{"ModelID":"{self.model_id}","Type":"general","Column":"avg_liveness","Operator":"<=","Value":"{int(self.avg_liveness_max.text)/100}"}},'
+    if self.avg_liveness_min.text is not None and self.avg_liveness_max.text is not None:
+      filters_json += f'{{"column":"avg_liveness","operator":"BETWEEN","value":[{int(self.avg_liveness_min.text)/100},{int(self.avg_liveness_max.text)/100}]}},'
+    elif self.avg_liveness_min.text is not None: filters_json += f'{{"column":"avg_liveness","operator":">=","value":[{int(self.avg_liveness_min.text)/100}]}},'
+    elif self.avg_liveness_max.text is not None: filters_json += f'{{"column":"avg_liveness","operator":"<=","value":[{int(self.avg_liveness_max.text)/100}]}},'
 
-    if self.avg_valence_min.text is not None: filters_json += f'{{"ModelID":"{self.model_id}","Type":"general","Column":"avg_valence","Operator":">=","Value":"{int(self.avg_valence_min.text)/100}"}},'
-    if self.avg_valence_max.text is not None: filters_json += f'{{"ModelID":"{self.model_id}","Type":"general","Column":"avg_valence","Operator":"<=","Value":"{int(self.avg_valence_max.text)/100}"}},'
+    if self.avg_valence_min.text is not None and self.avg_valence_max.text is not None:
+      filters_json += f'{{"column":"avg_valence","operator":"BETWEEN","value":[{int(self.avg_valence_min.text)/100},{int(self.avg_valence_max.text)/100}]}},'
+    elif self.avg_valence_min.text is not None: filters_json += f'{{"column":"avg_valence","operator":">=","value":[{int(self.avg_valence_min.text)/100}]}},'
+    elif self.avg_valence_max.text is not None: filters_json += f'{{"column":"avg_valence","operator":"<=","value":[{int(self.avg_valence_max.text)/100}]}},'
     
-    if self.avg_tempo_min.text is not None: filters_json += f'{{"ModelID":"{self.model_id}","Type":"general","Column":"avg_tempo","Operator":">=","Value":"{self.avg_tempo_min.text}"}},'
-    if self.avg_tempo_max.text is not None: filters_json += f'{{"ModelID":"{self.model_id}","Type":"general","Column":"avg_tempo","Operator":"<=","Value":"{self.avg_tempo_max.text}"}},'
+    if self.avg_tempo_min.text is not None and self.avg_tempo_max.text is not None:
+      filters_json += f'{{"column":"avg_tempo","operator":"BETWEEN","value":[{self.avg_tempo_min.text},{self.avg_tempo_max.text}]}},'
+    elif self.avg_tempo_min.text is not None: filters_json += f'{{"column":"avg_tempo","operator":">=","value":[{self.avg_tempo_min.text}]}},'
+    elif self.avg_tempo_max.text is not None: filters_json += f'{{"column":"avg_tempo","operator":"<=","value":[{self.avg_tempo_max.text}]}},'
 
     # 4. Genres
     genre_data = self.repeating_panel_genre.items
+    print(genre_data)
+    genres_list = []
+
     if genre_data is not None:
+      if any(item['operator'] == 'include' for item in genre_data):
+        genre_data = [item for item in genre_data if item['operator'] != 'Exclude']
+        print(genre_data)
       for element in genre_data:
-        filters_json += f'{{"ModelID":"{self.model_id}","Type":"genre","Column":"{element["Column"].lower()}","Operator":"is","Value":"{element["Value"]}"}},'
+        genres_list.append(element["column"])
+        print(genres_list)
+      op = 'IN' if element["operator"] == 'include' else 'NOT IN'
+      print(op)
+      if genres_list != []:
+        filters_json += f'{{"column":"genre_root","operator":"{op}","value":{json.dumps(genres_list)}}},'
     
     # 5. Origins
     origin_data = self.repeating_panel_origin.items
+    origin_list = []
+
     if origin_data is not None:
+      if any(item['operator'] == 'include' for item in origin_data):
+        origin_data = [item for item in origin_data if item['operator'] != 'Exclude']
+  
       for element in origin_data:
-        if element["Value"] == 'True' or element["Value"] is True:
-          operator = 'is'
-        else:
-          operator = 'is not'
-        filters_json += f'{{"ModelID":"{self.model_id}","Type":"origin","Column":"country_code","Operator":"{operator}","Value":"{element["Column"][:2]}"}},'
+        origin_list.append(element["column"][:2])
+        
+      op = 'IN' if element["operator"] == 'include' else 'NOT IN'
+      if origin_list != []:
+        filters_json += f'{{"column":"country_code","operator":"{op}","value":{json.dumps(origin_list)}}},'
     
     # 6. Gender
-    if self.drop_down_gender.selected_value == 'Female': filters_json += f'{{"ModelID":"{self.model_id}","Type":"gender","Column":"gender","Operator":"=","Value":"female"}},'
-    if self.drop_down_gender.selected_value == 'Male': filters_json += f'{{"ModelID":"{self.model_id}","Type":"gender","Column":"gender","Operator":"=","Value":"male"}},'
-    if self.drop_down_gender.selected_value == 'Mixed': filters_json += f'{{"ModelID":"{self.model_id}","Type":"gender","Column":"gender","Operator":"=","Value":"mixed"}},'
-    if self.drop_down_gender.selected_value == 'Other': filters_json += f'{{"ModelID":"{self.model_id}","Type":"gender","Column":"gender","Operator":"=","Value":"other"}},'
+    if self.drop_down_gender.selected_value == 'Female': filters_json += '{"column":"gender","operator":"=","value":["female"]},'
+    if self.drop_down_gender.selected_value == 'Male': filters_json += '{"column":"gender","operator":"=","value":["male"]},'
+    if self.drop_down_gender.selected_value == 'Mixed': filters_json += '{"column":"gender","operator":"=","value":["mixed"]},'
+    if self.drop_down_gender.selected_value == 'Other': filters_json += '{"column":"gender","operator":"=","value":["other"]},'
 
     # 7. German Audience
-    if self.drop_down_has_top5_de.selected_value == 'True': filters_json += f'{{"ModelID":"{self.model_id}","Type":"has_top5_de","Column":"has_top5_de","Operator":"=","Value":"True"}},'
-    if self.drop_down_has_top5_de.selected_value == 'False': filters_json += f'{{"ModelID":"{self.model_id}","Type":"has_top5_de","Column":"has_top5_de","Operator":"=","Value":"False"}},'
+    if self.drop_down_has_top5_de.selected_value == 'True': filters_json += '{"column":"has_top5_de","operator":"=","value":["True"]},'  # ATTENTION!!!
+    if self.drop_down_has_top5_de.selected_value == 'False': filters_json += '{"column":"has_top5_de","operator":"=","value":["False"]},'  # ATTENTION!!!
     
     # correct and close the json string
     if filters_json[-1] == ",": filters_json = filters_json[:-1]
@@ -222,7 +319,8 @@ class C_Filter(C_FilterTemplate):
 
     # check for filter presence
     if filters_json == '[]': filters_json = None
-    print(filters_json)
+    print('filters_json:', filters_json)
+    
     # change filters
     anvil.server.call('change_filters',
                       self.model_id,
@@ -263,21 +361,25 @@ class C_Filter(C_FilterTemplate):
 
   
   def button_add_genre_click(self, **event_args):
-    new_entry = {"ModelID":self.model_id, "Type":"genre", 'Column':self.drop_down_add_genre.selected_value, "Operator":"is", 'Value':self.drop_down_add_value.selected_value}
+    new_entry = {'column':self.drop_down_add_genre.selected_value, 'value':self.drop_down_add_value.selected_value}
     genre_data = self.repeating_panel_genre.items
     if genre_data is None:
       genre_data = [new_entry]
+    elif new_entry in genre_data:
+      pass
     else:
       genre_data.append(new_entry)    
     self.repeating_panel_genre.items = genre_data
     self.label_no_genre_filters.visible = False
 
   def button_add_origin_click(self, **event_args):
-    new_entry = {"ModelID":self.model_id, "Type":"origin", 'Column':self.drop_down_add_origin.selected_value, "Operator":"is", 'Value':self.drop_down_add_value2.selected_value}
+    new_entry = {'column':self.drop_down_add_origin.selected_value, 'value':self.drop_down_add_value2.selected_value}
     origin_data = self.repeating_panel_origin.items
     if origin_data is None:
       origin_data = [new_entry]
+    elif new_entry in origin_data:
+      pass
     else:
-      origin_data.append(new_entry)    
+      origin_data.append(new_entry)
     self.repeating_panel_origin.items = origin_data
     self.label_no_origin_filters.visible = False

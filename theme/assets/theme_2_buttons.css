@@ -259,3 +259,10 @@ a) Individual class for C_LevelOfPopularity reset button */
   border-radius: 10px;
   margin: 10px 0 0 0;
 }
+
+/* ----------------------------
+5. Check Box: */
+.checkbox label span {
+font-size: 16px;
+transform: translateY(-4px);
+}

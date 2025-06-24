@@ -1040,32 +1040,28 @@ components:
     type: Label
   - layout_properties: {grid_position: 'ZTJQMV,RORVXQ'}
     name: label_9
-    properties: {role: feature, text: '   Focussing and/or excluding artists with specific genres:'}
+    properties: {role: feature, text: '   Include OR exclude artists with specific genres:'}
     type: Label
   - layout_properties: {grid_position: 'NHFLOF,IORVNQ TOBVLJ,OTYCMR'}
     name: repeating_panel_genre
-    properties: {item_template: C_Filter.ColumnTemplate_Genre_Origin}
+    properties: {item_template: C_Filter.ColumnTemplate_Genre_Origin, visible: true}
     type: RepeatingPanel
   - components:
     - layout_properties: {grid_position: 'EQSMLB,ODXFCN'}
       name: spacer_3
       properties: {height: 32}
       type: Spacer
+    - layout_properties: {grid_position: 'EQSMLB,SCKMSP'}
+      name: drop_down_add_value
+      properties:
+        items: [Include, Exclude]
+        role: [txt_white_discreet]
+      type: DropDown
     - layout_properties: {grid_position: 'EQSMLB,VMICQX'}
       name: drop_down_add_genre
       properties:
         items: [african, alternative, american, asian, australian, blues, children's music, 'classical, ensemble & opera', comedy & spoken word, country, electronic, european, folk & traditional, hip-hop & rap, holiday, instrumental, jazz & standards, latin, metal, middle eastern, others, pop, punk, 'r&b, funk & soul', reggae, rock, 'soundtrack, stage & screen', spirituals, sports]
         placeholder: Add Genre..
-        role: [txt_white_discreet]
-      type: DropDown
-    - layout_properties: {grid_position: 'EQSMLB,JSTKDX'}
-      name: label_8
-      properties: {align: center, role: feature, spacing_above: medium, text: is}
-      type: Label
-    - layout_properties: {grid_position: 'EQSMLB,RCVIYM'}
-      name: drop_down_add_value
-      properties:
-        items: ['True', 'False']
         role: [txt_white_discreet]
       type: DropDown
     - event_bindings: {click: button_add_genre_click}
@@ -1075,14 +1071,144 @@ components:
       type: Button
     layout_properties: {grid_position: 'NHFLOF,IORVNQ ZSTWRI,EEGQDF'}
     name: column_panel_1
-    properties: {col_widths: '{"VMICQX":15,"JSTKDX":5,"RCVIYM":10,"RNMGTJ":37,"ODXFCN":5}'}
+    properties: {col_widths: '{"VMICQX":15,"RNMGTJ":37,"ODXFCN":5}', visible: true}
     type: ColumnPanel
+  - layout_properties: {grid_position: 'NHFLOF,IORVNQ YBXJCL,STMGNM'}
+    name: drop_down_genre
+    properties:
+      align: center
+      items: ['   INCLUDE GENRES   ', '   EXCLUDE GENRES   ']
+      role: txt_white_discreet
+      visible: false
+    type: DropDown
+  - components:
+    - layout_properties: {}
+      name: g1
+      properties: {role: txt_white_discreet, text: African}
+      type: CheckBox
+    - layout_properties: {}
+      name: g12
+      properties: {role: txt_white_discreet, text: European}
+      type: CheckBox
+    - layout_properties: {}
+      name: g2
+      properties: {role: txt_white_discreet, text: Alternative}
+      type: CheckBox
+    - layout_properties: {}
+      name: g24
+      properties: {role: txt_white_discreet, text: 'R&B, funk & soul'}
+      type: CheckBox
+    - layout_properties: {}
+      name: g4
+      properties: {role: txt_white_discreet, text: Asian}
+      type: CheckBox
+    - layout_properties: {}
+      name: g5
+      properties: {role: txt_white_discreet, text: Australian}
+      type: CheckBox
+    - layout_properties: {}
+      name: g6
+      properties: {role: txt_white_discreet, text: Blues}
+      type: CheckBox
+    - layout_properties: {}
+      name: g3
+      properties: {role: txt_white_discreet, text: American}
+      type: CheckBox
+    - layout_properties: {}
+      name: g27
+      properties: {role: txt_white_discreet, text: 'Soundtrack, stage & screen'}
+      type: CheckBox
+    - layout_properties: {}
+      name: g9
+      properties: {role: txt_white_discreet, text: Comedy & spoken word}
+      type: CheckBox
+    - layout_properties: {}
+      name: g7
+      properties: {role: txt_white_discreet, text: Children's music}
+      type: CheckBox
+    - layout_properties: {}
+      name: g10
+      properties: {role: txt_white_discreet, text: Country}
+      type: CheckBox
+    - layout_properties: {}
+      name: g8
+      properties: {role: txt_white_discreet, text: 'Classical, ensemble & opera'}
+      type: CheckBox
+    - layout_properties: {}
+      name: g13
+      properties: {role: txt_white_discreet, text: Folk & traditional}
+      type: CheckBox
+    - layout_properties: {}
+      name: g25
+      properties: {role: txt_white_discreet, text: Reggae}
+      type: CheckBox
+    - layout_properties: {}
+      name: g15
+      properties: {role: txt_white_discreet, text: Holiday}
+      type: CheckBox
+    - layout_properties: {}
+      name: g16
+      properties: {role: txt_white_discreet, text: Instrumental}
+      type: CheckBox
+    - layout_properties: {}
+      name: g23
+      properties: {role: txt_white_discreet, text: Punk}
+      type: CheckBox
+    - layout_properties: {}
+      name: g11
+      properties: {role: txt_white_discreet, text: Electronic}
+      type: CheckBox
+    - layout_properties: {}
+      name: g29
+      properties: {role: txt_white_discreet, text: Sports}
+      type: CheckBox
+    - layout_properties: {}
+      name: g14
+      properties: {role: txt_white_discreet, text: Hip-hop & rap}
+      type: CheckBox
+    - layout_properties: {}
+      name: g17
+      properties: {role: txt_white_discreet, text: Jazz & standards}
+      type: CheckBox
+    - layout_properties: {}
+      name: g20
+      properties: {role: txt_white_discreet, text: Middle eastern}
+      type: CheckBox
+    - layout_properties: {}
+      name: g21
+      properties: {role: txt_white_discreet, text: Others}
+      type: CheckBox
+    - layout_properties: {}
+      name: g22
+      properties: {role: txt_white_discreet, text: Pop}
+      type: CheckBox
+    - layout_properties: {}
+      name: g18
+      properties: {role: txt_white_discreet, text: Latin}
+      type: CheckBox
+    - layout_properties: {}
+      name: g19
+      properties: {role: txt_white_discreet, text: Metal}
+      type: CheckBox
+    - layout_properties: {}
+      name: g28
+      properties: {role: txt_white_discreet, text: Spirituals}
+      type: CheckBox
+    - layout_properties: {}
+      name: g26
+      properties: {role: txt_white_discreet, text: Rock}
+      type: CheckBox
+    layout_properties: {grid_position: 'NHFLOF,IORVNQ NVMKPQ,LQTNHN'}
+    name: flow_panel_2
+    properties: {visible: false}
+    type: FlowPanel
   - layout_properties: {grid_position: 'NHFLOF,IORVNQ KJDQFI,VXGMIH'}
     name: label_no_genre_filters
     properties:
       align: center
       role: [header-6]
       text: No Genre Filters added..
+      visible: true
     type: Label
   - layout_properties: {grid_position: 'NHFLOF,DVLJFP'}
     name: spacer_5
@@ -1105,7 +1231,7 @@ components:
     type: Label
   - layout_properties: {grid_position: 'XQXMGB,VHNXJZ'}
     name: label_9_copy
-    properties: {role: feature, text: '   Focussing and/or excluding artists from specific countries:'}
+    properties: {role: feature, text: '   Include OR exclude artists from specific countries:'}
     type: Label
   - layout_properties: {grid_position: 'PDZQIQ,OFNUDM JHMLQH,NTEBIS'}
     name: repeating_panel_origin
@@ -1116,21 +1242,17 @@ components:
       name: spacer_3_copy
       properties: {height: 32}
       type: Spacer
+    - layout_properties: {grid_position: 'EQSMLB,JZVZVL'}
+      name: drop_down_add_value2
+      properties:
+        items: [Include, Exclude]
+        role: [txt_white_discreet]
+      type: DropDown
     - layout_properties: {grid_position: 'EQSMLB,VMICQX'}
       name: drop_down_add_origin
       properties:
         items: [AD - Andorra, AE - United Arab Emirates, AF - Afghanistan, AG - Antigua and Barbuda, AI - Anguilla, AL - Albania, AM - Armenia, AO - Angola, AQ - Antarctica, AR - Argentina, AS - American Samoa, AT - Austria, AU - Australia, AW - Aruba, AX - Åland Islands, AZ - Azerbaijan, BA - Bosnia and Herzegovina, BB - Barbados, BD - Bangladesh, BE - Belgium, BF - Burkina Faso, BG - Bulgaria, BH - Bahrain, BI - Burundi, BJ - Benin, BL - Saint Barthélemy, BM - Bermuda, BN - Brunei Darussalam, BO - Bolivia, BQ - Bonaire, BR - Brazil, BS - Bahamas, BT - Bhutan, BV - Bouvet Island, BW - Botswana, BY - Belarus, BZ - Belize, CA - Canada, CC - Cocos (Keeling) Islands, CD - Congo, CF - Central African Republic, CG - Congo, CH - Switzerland, CI - Côte d'Ivoire, CK - Cook Islands, CL - Chile, CM - Cameroon, CN - China, CO - Colombia, CR - Costa Rica, CU - Cuba, CV - Cabo Verde, CW - Curaçao, CX - Christmas Island, CY - Cyprus, CZ - Czechia, DE - Germany, DJ - Djibouti, DK - Denmark, DM - Dominica, DO - Dominican Republic, DZ - Algeria, EC - Ecuador, EE - Estonia, EG - Egypt, EH - Western Sahara, ER - Eritrea, ES - Spain, ET - Ethiopia, FI - Finland, FJ - Fiji, FK - Falkland Islands (Malvinas), FM - Micronesia, FO - Faroe Islands, FR - France, GA - Gabon, GB - United Kingdom of Great Britain and Northern Ireland, GD - Grenada, GE - Georgia, GF - French Guiana, GG - Guernsey, GH - Ghana, GI - Gibraltar, GL - Greenland, GM - Gambia, GN - Guinea, GP - Guadeloupe, GQ - Equatorial Guinea, GR - Greece, GS - South Georgia and the South Sandwich Islands, GT - Guatemala, GU - Guam, GW - Guinea-Bissau, GY - Guyana, HK - Hong Kong, HM - Heard Island and McDonald Islands, HN - Honduras, HR - Croatia, HT - Haiti, HU - Hungary, ID - Indonesia, IE - Ireland, IL - Israel, IM - Isle of Man, IN - India, IO - British Indian Ocean Territory, IQ - Iraq, IR - Iran, IS - Iceland, IT - Italy, JE - Jersey, JM - Jamaica, JO - Jordan, JP - Japan, KE - Kenya, KG - Kyrgyzstan, KH - Cambodia, KI - Kiribati, KM - Comoros, KN - Saint Kitts and Nevis, KP - Korea, KR - Korea, KW - Kuwait, KY - Cayman Islands, KZ - Kazakhstan, LA - Lao People's Democratic Republic, LB - Lebanon, LC - Saint Lucia, LI - Liechtenstein, LK - Sri Lanka, LR - Liberia, LS - Lesotho, LT - Lithuania, LU - Luxembourg, LV - Latvia, LY - Libya, MA - Morocco, MC - Monaco, MD - Moldova, ME - Montenegro, MF - Saint Martin (French part), MG - Madagascar, MH - Marshall Islands, MK - North Macedonia, ML - Mali, MM - Myanmar, MN - Mongolia, MO - Macao, MP - Northern Mariana Islands, MQ - Martinique, MR - Mauritania, MS - Montserrat, MT - Malta, MU - Mauritius, MV - Maldives, MW - Malawi, MX - Mexico, MY - Malaysia, MZ - Mozambique, NA - Namibia, NC - New Caledonia, NE - Niger, NF - Norfolk Island, NG - Nigeria, NI - Nicaragua, NL - Netherlands, NO - Norway, NP - Nepal, NR - Nauru, NU - Niue, NZ - New Zealand, OM - Oman, PA - Panama, PE - Peru, PF - French Polynesia, PG - Papua New Guinea, PH - Philippines, PK - Pakistan, PL - Poland, PM - Saint Pierre and Miquelon, PN - Pitcairn, PR - Puerto Rico, PS - Palestine, PT - Portugal, PW - Palau, PY - Paraguay, QA - Qatar, RE - Réunion, RO - Romania, RS - Serbia, RU - Russian Federation, RW - Rwanda, SA - Saudi Arabia, SB - Solomon Islands, SC - Seychelles, SD - Sudan, SE - Sweden, SG - Singapore, SH - Saint Helena, SI - Slovenia, SJ - Svalbard and Jan Mayen, SK - Slovakia, SL - Sierra Leone, SM - San Marino, SN - Senegal, SO - Somalia, SR - Suriname, SS - South Sudan, ST - Sao Tome and Principe, SV - El Salvador, SX - Sint Maarten (Dutch part), SY - Syrian Arab Republic, SZ - Eswatini, TC - Turks and Caicos Islands, TD - Chad, TF - French Southern Territories, TG - Togo, TH - Thailand, TJ - Tajikistan, TK - Tokelau, TL - Timor-Leste, TM - Turkmenistan, TN - Tunisia, TO - Tonga, TR - Türkiye, TT - Trinidad and Tobago, TV - Tuvalu, TW - Taiwan, TZ - Tanzania, UA - Ukraine, UG - Uganda, UM - United States Minor Outlying Islands, US - United States of America, UY - Uruguay, UZ - Uzbekistan, VA - Holy See, VC - Saint Vincent and the Grenadines, VE - Venezuela, VG - Virgin Islands (British), VI - Virgin Islands (U.S.), VN - Viet Nam, VU - Vanuatu, WF - Wallis and Futuna, WS - Samoa, XK - Kosovo, YE - Yemen, YT - Mayotte, ZA - South Africa, ZM - Zambia, ZW - Zimbabwe]
         placeholder: Add Origin..
-        role: [txt_white_discreet]
-      type: DropDown
-    - layout_properties: {grid_position: 'EQSMLB,JSTKDX'}
-      name: label_8_copy
-      properties: {align: center, role: feature, spacing_above: medium, text: is}
-      type: Label
-    - layout_properties: {grid_position: 'EQSMLB,RCVIYM'}
-      name: drop_down_add_value2
-      properties:
-        items: ['True', 'False']
         role: [txt_white_discreet]
       type: DropDown
     - event_bindings: {click: button_add_origin_click}
@@ -1140,7 +1262,7 @@ components:
       type: Button
     layout_properties: {grid_position: 'PDZQIQ,OFNUDM JKTSIO,LPMLEU'}
     name: column_panel_1_copy
-    properties: {col_widths: '{"VMICQX":15,"JSTKDX":5,"RCVIYM":10,"RNMGTJ":37,"ODXFCN":5}'}
+    properties: {col_widths: '{"VMICQX":15,"RNMGTJ":37,"ODXFCN":5}'}
     type: ColumnPanel
   - layout_properties: {grid_position: 'PDZQIQ,OFNUDM LVCSIY,UPINEK'}
     name: label_no_origin_filters

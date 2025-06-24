@@ -83,8 +83,8 @@ class ModelProfile(ModelProfileTemplate):
         # model name and description text and text boxes
         self.model_name.text = infos["model_name"]
         self.model_description.text = '-' if infos["description"] is None else infos["description"]
-        self.creation_date_value.text = '-' if infos["creation_date"] == 'None' else infos["creation_date"]          
-        self.usage_date_value.text = infos["usage_date"]
+        self.creation_date_value.text = '-' if infos["creation_date"] == 'None' else infos["creation_date"][:10]
+        self.usage_date_value.text = '-' if infos["usage_date"] == 'None' else infos["usage_date"][:10]
     
         # # activate button
         # if model_id_active_new is not None and int(self.model_id_view) == int(model_id_active_new):
