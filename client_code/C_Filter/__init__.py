@@ -138,7 +138,7 @@ class C_Filter(C_FilterTemplate):
       
       elif filter["column"] in ("days_since_first_release"):
         element = getattr(self, my_dict[f'{filter["column"]} {filter["operator"]}'], None)
-        element.text = "{:.1f}".format(float(filter["value"][0]) + 1)
+        element.text = "{:.1f}".format(float(filter["value"][0]) / 365)
 
       # Label Filters
       elif filter['column'] == 'label':
