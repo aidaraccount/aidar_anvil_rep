@@ -53,8 +53,8 @@ class C_Filter(C_FilterTemplate):
                "artist_follower_lat <=": "artist_follower_lat_max",
                "major_coop =": "drop_down_major",
                "sub_major_coop =": "drop_down_submajor",
-               "(CURRENT_DATE - first_release_date) / 365 <=": "years_since_first_release",
-               "CURRENT_DATE - last_release_date <=": "days_since_last_release",
+               "days_since_first_release <=": "years_since_first_release",
+               "days_since_last_release <=": "days_since_last_release",
                "avg_duration >=": "avg_duration_min",
                "avg_duration <=": "avg_duration_max",
                "avg_danceability >=": "avg_danceability_min",
@@ -85,11 +85,27 @@ class C_Filter(C_FilterTemplate):
     fil = json.loads(anvil.server.call('get_filters', self.model_id))
     print('fil:', fil)
 
-    # seperate BETWEEN
-    # ...
+    # Process filters and handle BETWEEN operators
+    processed_filters = []
+    for f in fil:
+        if f['operator'] == 'BETWEEN' and len(f['value']) == 2:
+            # Create a copy for >= filter
+            ge_filter = dict(f)
+            ge_filter['operator'] = '>='
+            ge_filter['value'] = [f['value'][0]]
+            processed_filters.append(ge_filter)
+            
+            # Create a copy for <= filter
+            le_filter = dict(f)
+            le_filter['operator'] = '<='
+            le_filter['value'] = [f['value'][1]]
+            processed_filters.append(le_filter)
+        else:
+            processed_filters.append(f)
+    print('processed_filters:', processed_filters)
 
     # set filter element
-    for filter in fil:
+    for filter in processed_filters:
       if filter["column"] in ("artist_popularity_lat", "artist_follower_lat", "avg_duration", "avg_loudness", "avg_tempo", "days_since_last_release"):
         element = getattr(self, my_dict[f'{filter["column"]} {filter["operator"]}'], None)
         element.text = "{:.0f}".format(round(float(filter["value"][0]), 0))
