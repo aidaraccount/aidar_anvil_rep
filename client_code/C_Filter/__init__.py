@@ -126,8 +126,8 @@ class C_Filter(C_FilterTemplate):
                 # Remove any surrounding quotes from the genre name
                 genre_name = genre.strip("'\"")
                 filter_genre.append({
-                    'column': filter_type,
-                    'value': genre_name
+                    'column': genre_name,
+                    'value': filter_type
                 })
     
     if filter_genre:
@@ -229,33 +229,33 @@ class C_Filter(C_FilterTemplate):
 
     # 4. Genres
     genre_data = self.repeating_panel_genre.items
-
-    if any(item['value'] == 'Include' for item in genre_data):
-      genre_data = [item for item in genre_data if item['value'] != 'Exclude']
-    
     genres_list = []
+
     if genre_data is not None:
+      if any(item['value'] == 'Include' for item in genre_data):
+        genre_data = [item for item in genre_data if item['value'] != 'Exclude']
+    
       for element in genre_data:
         genres_list.append(element["column"])
         
-    op = 'IN' if element["value"] == 'Include' else 'NOT IN'
-    if genres_list != []:
-      filters_json += f'{{"column":"genre_root","operator":"{op}","value":{json.dumps(genres_list)}}},'
+      op = 'IN' if element["value"] == 'Include' else 'NOT IN'
+      if genres_list != []:
+        filters_json += f'{{"column":"genre_root","operator":"{op}","value":{json.dumps(genres_list)}}},'
     
     # 5. Origins
     origin_data = self.repeating_panel_origin.items
-
-    if any(item['value'] == 'Include' for item in origin_data):
-      origin_data = [item for item in origin_data if item['value'] != 'Exclude']
-  
     origin_list = []
+
     if origin_data is not None:
+      if any(item['value'] == 'Include' for item in origin_data):
+        origin_data = [item for item in origin_data if item['value'] != 'Exclude']
+  
       for element in origin_data:
         origin_list.append(element["column"][:2])
         
-    op = 'IN' if element["value"] == 'Include' else 'NOT IN'
-    if origin_list != []:
-      filters_json += f'{{"column":"country_code","operator":"{op}","value":{json.dumps(origin_list)}}},'
+      op = 'IN' if element["value"] == 'Include' else 'NOT IN'
+      if origin_list != []:
+        filters_json += f'{{"column":"country_code","operator":"{op}","value":{json.dumps(origin_list)}}},'
     
     # 6. Gender
     if self.drop_down_gender.selected_value == 'Female': filters_json += '{{"column":"gender","operator":"=","value":["female"]}},'
