@@ -1,0 +1,612 @@
+/* ------------------------------------------------------ */
+/* 1. Agent Sidebar Container */
+#agent-sidebar {
+  font-family: Gs-regular;
+  color: rgb(250,250,250);
+  position: fixed;
+  right: -400px;
+  top: 0;
+  width: 400px;
+  height: 100%;
+  background-color: rgb(10,3,30);
+  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5);
+  transition: all 0.3s ease-in-out;
+  overflow-x: hidden;
+  overflow-y: auto;
+  padding-bottom: 96px;
+  border-bottom-left-radius: 15px;
+  border-top-left-radius: 15px;
+  z-index: 997;
+  will-change: right; /* Optimize for animation */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* When agent sidebar is open */
+#agent-sidebar.open {
+  right: 0;
+}
+
+/* When both sidebars are open */
+#right-sidebar.open + #agent-sidebar.open {
+  right: 400px;
+}
+
+/* 2. Agent Sidebar Button */
+.agent-sidebar-button {
+  font-family: Gs-regular;
+  font-size: 15px;
+  position: fixed;
+  right: 0;
+  bottom: 25%;
+  background-color: rgb(233, 95, 48);
+  color: white;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  z-index: 1000;
+  transition: all 0.3s ease-in-out;
+  border-top-left-radius: 15px;
+  border-bottom-left-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  will-change: right; /* Optimize for animation */
+}
+
+/* Button hover effect */
+.agent-sidebar-button:hover {
+  background-color: rgb(255, 115, 68);
+  transform: translateX(-2px);
+}
+
+/* Notes sidebar button */
+.sidebar-button {
+  bottom: 20%;
+  transition: all 0.3s ease-in-out;
+  will-change: right; /* Optimize for animation */
+}
+
+.sidebar-button:hover {
+  transform: translateX(-2px);
+}
+
+/* 3. Agent Sidebar Layout */
+#agent-sidebar {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+/* 4. Header */
+#agent-sidebar .header-sidebar {
+  padding: 15px 20px;
+  background: rgb(233, 95, 48);
+  color: white;
+  border-top-left-radius: 15px;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  z-index: 10;
+  width: 100%;
+  max-width: 400px;
+}
+
+/* 5. Chat Container */
+.chat-container {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+  max-width: 400px;
+}
+
+.chat-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  min-height: 100%;
+  overflow-anchor: auto;
+  padding-bottom: 0;
+  border-left: solid 1px #595959;
+  
+  /* Modern scrollbar styling */
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+  
+  /* Hide scrollbar when not scrolling */
+  scrollbar-gutter: stable;
+  overflow-y: overlay;
+}
+
+/* Webkit scrollbar (Chrome, Safari, etc) */
+.chat-messages::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.chat-messages::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 3px;
+  margin: 5px 0;
+}
+
+.chat-messages::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 3px;
+  transition: background-color 0.2s ease;
+}
+
+.chat-messages::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+/* Add space at the bottom of messages and push content to bottom */
+.chat-messages::before {
+  content: '';
+  margin-top: auto;
+}
+
+/* Bottom spacing */
+.chat-messages::after {
+  content: '';
+  height: 15px;
+  flex-shrink: 0;
+}
+
+.message {
+  max-width: 85%;
+  padding: 10px 15px;
+  border-radius: 10px;
+  position: relative;
+  word-wrap: break-word;
+  line-height: 1.2;
+  font-size: 14px;
+  font-weight: normal;
+}
+
+.message-time {
+  font-size: 10px;
+  opacity: 0.7;
+  margin-bottom: 4px;
+}
+
+.message.system {
+  font-size: 12px;
+  padding: 0px 5px;
+}
+
+.message.agent {
+  align-self: flex-start;
+  background-color: #313131;
+  border: solid 1px #595959;
+}
+
+.message.user {
+  align-self: flex-end;
+  background-color: rgb(255, 114, 67);
+  color: white;
+}
+
+/* Artist message styles */
+.message.artist {
+  max-width: 70%;
+  display: flex;
+  align-items: center;
+  padding: 5px 10px;
+  background-color: #252525;
+  border: 1px solid #3a3a3a;
+  border-radius: 12px;
+  text-decoration: none;
+  color: #fff;
+  transition: all 0.2s ease;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.agent-artist-image {
+  width: 40px;
+  height: 40px;
+  min-width: 40px;
+  border-radius: 50%;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  border: 2px solid #3a3a3a;
+}
+
+.artist-info {
+  margin-left: 12px;
+  overflow: hidden;
+}
+
+.message.artist:hover {
+  background-color: #2e2e2e;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.artist-name {
+  font-weight: 500;
+  font-size: 15px;
+  margin-bottom: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.artist-followers {
+  font-size: 12px;
+  color: #a0a0a0;
+  font-weight: normal;
+}
+.artist-action {
+  font-weight: 700;
+  font-size: 15px;
+  margin-left: 10px;
+  text-align: center;
+}
+
+/* Popularity range message styles */
+.message.popularity-range {
+  max-width: 70%;
+  display: flex;
+  flex-direction: column;
+  padding: 10px 15px;
+  background-color: #252525;
+  border: 1px solid #3a3a3a;
+  border-radius: 12px;
+  color: #fff;
+  transition: all 0.2s ease;
+  margin: 5px 0;
+  box-sizing: border-box;
+  gap: 8px;
+  max-height: 95px;
+}
+
+.popularity-range-desc {
+  font-size: 12px;
+  color: #a0a0a0;
+  font-weight: normal;
+  text-align: left;
+}
+
+.popularity-range-content {
+  display: flex;
+  align-items: center;
+}
+
+.popularity-range {
+  font-weight: 700;
+  font-size: 25px;
+  flex: 1;
+  text-align: center;
+}
+
+.popularity-action {
+  font-weight: 700;
+  font-size: 15px;
+  text-align: center;
+  padding: 4px 8px;
+  border-radius: 6px;
+  white-space: nowrap;
+  margin-left: 12px;
+}
+
+.message.popularity-range:hover {
+  background-color: #2e2e2e;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+
+/* Filter message styles */
+.message.filter {
+  max-width: 70%;
+  display: flex;
+  flex-direction: column;
+  padding: 10px 15px;
+  background-color: #252525;
+  border: 1px solid #3a3a3a;
+  border-radius: 12px;
+  color: #fff;
+  transition: all 0.2s ease;
+  margin: 5px 0;
+  box-sizing: border-box;
+  gap: 8px;
+}
+
+.filter-desc {
+  font-size: 12px;
+  color: #a0a0a0;
+  font-weight: normal;
+  text-align: left;
+}
+
+.message.filter:hover {
+  background-color: #2e2e2e;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Chat Input */
+.chat-input-container {
+  padding: 15px;
+  position: relative;
+  flex-shrink: 0;
+  background: #1e1e1e;
+  border-top: 1px solid #333;
+  width: 100%;
+  max-width: 400px;
+}
+
+#chat-input {
+  width: 100%;
+  padding: 8px 40px 8px 10px;
+  border: 1px solid rgb(255, 114, 67);
+  border-radius: 10px;
+  resize: none;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: normal;
+  line-height: 1.4;
+  outline: none;
+  min-height: 40px;
+  height: 58px;
+  max-height: 58px;
+  background-color: #313131;
+  color: #fff;
+  box-sizing: border-box;
+  overflow-y: auto;
+}
+
+#chat-input:focus {
+  border-color: rgb(233, 95, 48);
+}
+
+#send-button {
+  position: absolute;
+  right: 20px;
+  bottom: 20px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.send-icon {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+  opacity: 0.7;
+  transition: opacity 0.2s;
+}
+
+#send-button:hover .send-icon,
+#send-button.has-text .send-icon {
+  opacity: 1;
+}
+
+#send-button:hover {
+  color: #fff;
+}
+
+/* 4. Responsive Design */
+@media only screen and (max-width: 431px) {
+  #agent-sidebar {
+    width: 300px;
+  }
+  
+  .agent-sidebar-button.open {
+    right: 300px;
+  }
+}
+
+@media only screen and (max-width: 767px) {
+  .agent-sidebar-button {
+    top: 120px;
+  }
+}
+
+/* 5. Waiting indicator */
+@keyframes dotPulse {
+  0% { content: ''; }
+  33% { content: '.'; }
+  66% { content: '..'; }
+  100% { content: '...'; }
+}
+
+.waiting-indicator {
+  position: absolute;
+  margin-top: 10px;
+  bottom: 8px;
+  left: 16px;
+  font-size: 12px;
+  color: #999;
+  background: transparent;
+  border: none;
+  pointer-events: none;
+  font-weight: normal;
+}
+
+.waiting-indicator::after {
+  content: '';
+  animation: dotPulse 1.5s steps(4, end) infinite;
+}
+
+/* MODEL CREATION */
+/* 6. in creation (Step 1) */
+#agent-sidebar.in-creation {
+  width: calc(100% - var(--left-sidebar-offset, 0px));
+  border-bottom-left-radius: 0;
+  border-top-left-radius: 0;
+  background:
+    radial-gradient(circle farthest-corner at 170px 100px, rgb(44, 8, 69) 0%, transparent 40%),
+    radial-gradient(ellipse farthest-corner at 1300px 500px, rgb(118, 42, 15) 0%, transparent 70%),
+    radial-gradient(ellipse farthest-corner at bottom left, rgb(118, 42, 15) 0%, rgb(1, 1, 1) 30%);
+}
+
+#agent-sidebar.in-creation .header-sidebar {
+  display: none;
+}
+
+#agent-sidebar.in-creation .chat-container {
+  margin-top: auto;
+  max-height: 400px;
+}
+
+#agent-sidebar.in-creation .chat-messages {
+  border: none;
+}
+
+#agent-sidebar.in-creation .chat-input-container {
+  margin-bottom: auto;
+  background: none;
+  border-top: none;
+}
+
+#agent-sidebar-button.in-creation {
+  display: none !important;
+}
+
+.footer.in-creation {
+  display: none;
+}
+
+/* 7. Initial creation (Step 2) */
+.initial-creation-question {
+  display: none;
+  opacity: 0;
+  padding: 10px;
+  margin-top: auto;
+  font-size: 23px;
+  color: #fff;
+  text-align: center;
+  max-width: 80%;
+  line-height: 1.5;
+  transform: translateY(35px);
+  transition: opacity 1.5s ease-out, transform 1.5s ease-out;
+  flex-direction: column;  /* for beta flag */
+  gap: 5px;  /* for beta flag */
+}
+.initial-creation-question-beta-flag {  /* for beta flag */
+  color: var(--Orange);
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.initial-creation-question.initial-creation {
+  display: flex;
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.agent-classical-creation-link {
+  display: none;
+  opacity: 0;
+  padding: 10px;
+  font-size: 18px;
+  color: #fff;
+  text-align: center;
+  max-width: 80%;
+  line-height: 1.5;
+  transform: translateY(35px);
+  transition: opacity 1.5s ease-out, transform 1.5s ease-out;
+}
+
+.agent-classical-creation-link.initial-creation {
+  display: flex;
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+#agent-sidebar .chat-container.initial-creation {
+  display: none;
+}
+
+/* #agent-sidebar .chat-container.agent-creation {
+  display: none;
+} */
+
+/* 8. Animation states (Step 3) */
+.initial-creation-question.hide-animation {
+  opacity: 0 !important;
+  transform: translateY(20px) !important;
+  pointer-events: none !important;
+}
+
+.agent-classical-creation-link.hide-animation {
+  opacity: 0 !important;
+  transform: translateY(20px) !important;
+  pointer-events: none !important;
+}
+
+.chat-input-container.hide-animation {
+  transform: translateY(185px) !important;
+  transition: transform 1.5s ease-out !important;
+}
+
+.chat-container.show-animation {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 0.5s ease-out 0.3s forwards;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 9. Agent creation statement */
+#agent-sidebar .chat-container.agent-creation {
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 2s ease-out, visibility 0s 2s;
+  pointer-events: none;
+}
+
+#agent-sidebar .chat-input-container.agent-creation {
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 2s ease-out, visibility 0s 2s;
+  pointer-events: none;
+}
+
+.agent-creation-statement {
+  display: none;
+  opacity: 0;
+  padding: 10px;
+  margin: auto;
+  font-size: 25px;
+  color: #fff;
+  text-align: center;
+  max-width: 80%;
+  line-height: 1.5;
+  transform: translateY(35px);
+  transition: opacity 2s ease-out, transform 2s ease-out;
+}
+
+.agent-creation-statement.agent-creation {
+  display: flex;
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}

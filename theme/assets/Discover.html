@@ -5,12 +5,13 @@
     </div>
   </div>
 
+  <!-- Notes Sidebar -->
   <div id="right-sidebar" class="anvil-container" anvil-slot="sidebar">
     <div class="header-sidebar" anvil-slot="Artist_Name_Details_Sidebar">
-        <img class="note_svg" src="_/theme/icons/Note.svg" alt="Notes Icon">
-        <span>
-          Notes for&nbsp<span anvil-if-slot-empty="Artist_Name_Details_Sidebar">Artist Title Here</span>
-        </span>
+      <img class="note_svg" src="_/theme/icons/Note.svg" alt="Notes Icon">
+      <span>
+        Notes for&nbsp<span anvil-if-slot-empty="Artist_Name_Details_Sidebar">Artist Title Here</span>
+      </span>
     </div>
     <div class="section-contact-sidebar">
       <div class="contact-table">
@@ -92,8 +93,11 @@
       </div>
     </div>
   </div>
+
 </div>
-<button class="sidebar-button" id="sidebar-button">
+
+<!-- Notes Button -->
+<button class="sidebar-button" id="sidebar-button" style="top: 30%;">
   <img class="note_svg_button" src="_/theme/icons/Note.svg" alt="Notes Icon">
   <br>
   Notes
@@ -109,21 +113,44 @@
 
 <script>
   
-  // window.onload = function () {
+  // Notes Sidebar
   if(typeof sidebar === 'undefined') {
     const sidebar = document.getElementById('right-sidebar');
     const button = document.getElementById('sidebar-button');
-    const mainContent = document.querySelector('.anvil-role-left-discover-page')
-    // console.log(mainContent)
+    const mainContent = document.querySelector('.main-content-move');
+    const content = document.querySelector('.main-content');
+    const agentSidebar = document.getElementById('agent-sidebar');
+    const agentButton = document.getElementById('agent-sidebar-button');
   
-    if (sidebar && button) {
+    function updateMargins() {
+      const notesOpen = sidebar.classList.contains('open');
+      const agentOpen = agentSidebar && agentSidebar.classList.contains('open');
+      
+      // Calculate total margin based on open sidebars
+      let totalMargin = 0;
+      if (notesOpen && agentOpen) {
+        totalMargin = 800; // Both sidebars open
+      } else if (notesOpen || agentOpen) {
+        totalMargin = 400; // One sidebar open
+      } // else 0, both closed
+      
+      // Apply the new margin with smooth transition
+      if (mainContent) mainContent.style.marginRight = totalMargin + 'px';
+      if (content) content.style.marginRight = totalMargin + 'px';
+      
+      // Update button positions
+      if (button) button.style.right = (notesOpen ? totalMargin : 0) + 'px';
+      if (agentButton) agentButton.style.right = (agentOpen ? totalMargin : 0) + 'px';
+    }
+    
+    if (sidebar && button && content && mainContent) {
       button.addEventListener('click', function () {
         sidebar.classList.toggle('open');
         button.classList.toggle('open');
-        mainContent.classList.toggle('shifted');
+        updateMargins();
       });
     } else {
-      console.error("Sidebar or button element not found..");
+      console.error("Required elements not found");
     }
   }
 
@@ -133,14 +160,12 @@
     
     displays.forEach(display => {
       let note = parseFloat(display.dataset.note);
-      // console.log("Discover - THIS IS THE NOTE VALUE: ", note)
       let [int, dec] = display.dataset.note.split('.');
       [int, dec] = [Number(int), Number(dec)];
       
       strokeTransition(display, note);
   
       increaseNumber(display, int, 'int');
-      // increaseNumber(display, dec, 'dec');
       });
   
     function increaseNumber(display, number, className) {
@@ -169,5 +194,5 @@
       setTimeout(() => progress.style.strokeDashoffset = offset, 1000);
     }
   })();
-
+  
 </script>

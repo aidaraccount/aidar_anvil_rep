@@ -1,0 +1,258 @@
+ 
+/* ATTENTION: This is a workaround to hide the Notes button */
+/* Hide notes button by default */
+.sidebar-button {
+  right: -100px !important;
+}
+
+
+/* ------------------------------------------------------ */
+/* 1. Main Layout */
+.container-panel {
+  display: flex;
+  width: 100%;
+  position: relative;
+}
+
+.main-content {
+  flex: 1;
+  transition: all 0.3s ease-in-out;
+  min-width: 0; /* Prevents content from overflowing */
+  margin-right: 0;
+  will-change: margin-right; /* Optimize for animation */
+}
+
+.main-content-move {
+  transition: all 0.3s ease-in-out;
+  margin-left: 250px; /* Default left margin when left sidebar is open */
+  will-change: margin-left, margin-right; /* Optimize for animation */
+}
+
+/* Adjust for left sidebar closed state */
+#left-sidebar[style*="left: -250px"] ~ .main-content-move,
+#left-sidebar[style*="left: -200px"] ~ .main-content-move {
+  margin-left: 0;
+}
+  
+  /* 2. Sidebar Containers */
+  #right-sidebar {
+    font-family: Gs-regular;
+    color: rgb(250,250,250);
+    position: fixed;
+    right: -400px;
+    top: 0;
+    width: 400px;
+    height: 100%;
+    background-color: rgb(10,3,30);
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5);
+    transition: right 0.3s ease, margin-right 0.3s ease;
+    overflow-x: hidden;
+    overflow-y: auto;
+    padding-bottom: 100px;
+    border-bottom-left-radius: 15px;
+    border-top-left-radius: 15px;
+    z-index: 999;
+  }
+  
+  /* Position buttons on the left edge of their respective sidebars */
+  .sidebar-button,
+  .agent-sidebar-button {
+    transition: right 0.3s ease-in-out, transform 0.3s ease-in-out;
+  }
+
+  .agent-sidebar-button {
+    right: 0;
+  }
+  
+  /* When either sidebar is open, position its button */
+  #right-sidebar.open ~ .sidebar-button {
+    right: 400px;
+  }
+  
+  #agent-sidebar.open ~ .agent-sidebar-button {
+    right: 400px;
+  }
+  
+  /* When both sidebars are open */
+  #right-sidebar.open + #agent-sidebar.open,
+  #agent-sidebar.open + #right-sidebar.open {
+    right: 400px;
+  }
+  
+  /* Position buttons when both sidebars are open */
+  #right-sidebar.open + #agent-sidebar.open ~ .sidebar-button,
+  #agent-sidebar.open + #right-sidebar.open ~ .sidebar-button {
+    right: 800px;
+  }
+  
+  #right-sidebar.open + #agent-sidebar.open ~ .agent-sidebar-button,
+  #agent-sidebar.open + #right-sidebar.open ~ .agent-sidebar-button {
+    right: 400px;
+  }
+  
+  #left-sidebar {
+    font-family: Gs-regular;
+    color: rgb(250,250,250);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 250px;
+    height: 100%;
+    background-color: rgb(10,3,30);
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5);
+    transition: left 0.3s ease;
+    overflow-y: auto;
+    padding: 10px 0 100px;
+    border-bottom-right-radius: 15px;
+    border-top-right-radius: 15px;
+    z-index: 999;
+  }
+  
+  /* 3. Sidebar States */
+  #right-sidebar.open {
+    right: 0;
+  }
+  
+  /* 4. Sidebar Buttons */
+  .sidebar-button {
+    font-family: Gs-regular;
+    font-size: 15px;
+    position: fixed;
+    right: 0;
+    bottom: 20%;
+    background-color: rgb(233,95,48);
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    z-index: 1000;
+    transition: right 0.3s ease;
+    border-top-left-radius: 15px;
+    border-bottom-left-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+  }
+  
+  .sidebar-button.open {
+    right: 400px;
+  }
+  
+  /* .nav-button {
+    font-family: Gs-regular;
+    font-size: 18px;
+    position: fixed;
+    left: 250px;
+    background-color: rgb(233,95,48);
+    color: white;
+    border: none;
+    padding: 10px 10px 10px 6px;
+    cursor: pointer;
+    z-index: 9999;
+    transition: left 0.3s ease;
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px;
+  } */
+  
+  /* 5. Sidebar Content */
+  #right-sidebar .header-sidebar {
+    padding: 20px;
+    background: rgb(233,95,48);
+    color: white;
+    border-top-left-radius: 15px;
+    display: flex;
+    align-items: center;
+  }
+  
+  .note_svg, .note_svg_button {
+    height: 20px;
+    margin-right: 0;
+  }
+  .note_svg {
+    height: 20px;
+    margin-right: 12px;
+  }
+
+  /* 6. Contact Section */
+  .section-contact-sidebar {
+    padding: 20px;
+    border-bottom: 1px solid rgb(59, 59, 59);
+    font-size: 16px;
+  }
+  
+  .contact-table {
+    width: 95%;
+    border-collapse: collapse;
+    margin: 10px 0;
+  }
+  
+  .contact-table th,
+  .contact-table td {
+    padding: 10px;
+    text-align: left;
+    vertical-align: bottom;
+    color: white;
+  }
+  
+  .contact-table th {
+    width: 30%;
+  }
+  
+  .contact-table td {
+    width: 70%;
+  }
+  
+  /* 7. Description & Comments */
+  .description-section-sidebar,
+  .comments-section-sidebar {
+    padding: 20px;
+    border-bottom: 1px solid rgb(59, 59, 59);
+    color: white;
+    box-sizing: border-box;
+  }
+  
+  /* 8. Form Elements */
+  .anvil-role-bottom-border > .form-control {
+    border: none;
+    border-bottom: 1px solid;
+    border-radius: 0;
+  }
+  
+  /* 9. Utility Classes */
+  .contact-title-sidebar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  .anvil-role-sidebar-notes {
+    overflow-y: auto;
+    max-height: 400px;
+  }
+  
+  /* 10. Responsive Design */
+  @media only screen and (max-width: 431px) {
+    #right-sidebar {
+      width: 300px;
+    }
+    
+    #left-sidebar {
+      width: 200px;
+    }
+    
+    .sidebar-button.open {
+      right: 300px;
+    }
+    
+    /* .nav-button {
+      left: 200px;
+    } */
+  }
+  
+  @media only screen and (max-width: 767px) {
+    .sidebar-button {
+      top: 70px;
+    }
+  }

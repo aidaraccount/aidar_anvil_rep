@@ -98,6 +98,7 @@
   overflow: hidden;
   text-overflow: ellipsis;
   line-height: 1.2;
+  font-weight: 500;
 }
 
 .hot-metric-name-cell {

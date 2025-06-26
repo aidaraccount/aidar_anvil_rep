@@ -24,7 +24,11 @@ Area 6: Repeating Panels
 @import url('_/theme/TalentDev/C_TalentDev_Toggle.css');
 @import url('_/theme/Settings/C_SubscriptionPlan.css');
 @import url('_/theme/Settings/CSS_Stripe.css');
+@import url('_/theme/Discover/NotesSidebar.css');
+@import url('_/theme/Discover/FitLikelihood.css');
+@import url('_/theme/Discover/AgentSidebar.css');
 @import url('_/theme/Popup/Popup.css');
+
 
 /* ----------------------------
 1.1. Text Colors */
@@ -157,6 +161,12 @@ body, html {
   background-image: url(_/theme/pics/LoadingSpinner_circle.svg) !important;
 }
 
+/* Model Navigation Link */
+.anvil-role-model-nav-link .link-text {
+  max-width: 145px;
+  overflow: clip;
+  text-overflow: ellipsis;  
+}
 /* underlining the activated model and watchlist in the navigation */
 .anvil-role-underline-link .link-text {
   text-decoration: underline !important;
@@ -1050,9 +1060,10 @@ a>.link-text {
   display:inline-block;
   padding-top: 0px;
   padding-bottom:5px;
-  white-space:pre-wrap;
   font-weight: normal;
+  white-space: nowrap;
 }
+
 .anvil-role-margin {
   margin: 10px 0 0 0;
 }
@@ -1278,17 +1289,13 @@ a:hover, a:active, a:focus {
 }
 
 
-
-anvil-role-test {
-  width: 100%;
-}
 .nav {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   overflow-y: hidden;
-  text-transform: uppercase;
+  /* text-transform: uppercase; */
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   -khtml-user-select: none;
@@ -1531,413 +1538,6 @@ footer a, .footer .anvil-component {
 .footer a .link-text {
   padding: 0 4px;
 }
-
-
-/* ------------------------------------------------------ */
-/* CSS for the Sidebar on the Discover Page STARTS Here */
-.container-panel {
-  display: flex;
-  width: 100%;
-}
-.main-content {
-  flex: 1;
-  /* padding: 20px; */
-}
-.anvil-role-left-discover-page{
-  margin-right: 0;
-  transition: margin-right 0.2s ease;
-}
-.anvil-role-left-discover-page.shifted{
-  margin-right: 400px;
-}
-.anvil-role-main-content-page {
-  margin-left: 250px;
-  transition: margin-left 0.2s;
-}
-.anvil-role-main-content-page.shifted {
-  margin-left: 0px;
-}
-
-#right-sidebar {
-  font-family: Gs-regular;
-  color: rgb(250,250,250);
-  position: fixed;
-  /* comment "right: 0px" to have the sidebar visible at all times  */
-  right: -400px;
-  /* right: 0px; */
-  top: 0;
-  width: 400px;
-  height: 100%;
-  background-color: rgb(10,3,30);
-  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5);
-  transition: right 0.2s;
-  overflow-x: hidden;
-  padding: 0 0 100px 0;
-  border-bottom-left-radius: 15px;
-  border-top-left-radius: 15px;
-  z-index: 999;
-}
-@media only screen and (max-width: 431px) {
-  #right-sidebar {
-    width: 300px;
-  }
-}
-
-#right-sidebar.open {
-  right: 0px;
-}
-.nav-toggle-btn {
-  font-family: Gs-regular;
-  font-size: 18px;
-  position: fixed;
-  top: 20%;
-  left: 10px;
-  background-color: rgb(233, 95, 48);
-  color: white;
-  border: none;
-  padding: 10px 10px 10px 6px;
-  cursor: pointer;
-  z-index: 9999;
-  transition: left 0.3s ease, transform 0.3s ease;
-  border-radius: 4px;
-}
-
-@media only screen and (min-width: 768px) {
-  .nav-toggle-btn {
-    left: 260px;
-  }
-  
-  body.sidebar-closed .nav-toggle-btn {
-    left: 10px;
-  }
-}
-
-@media only screen and (max-width: 767px) {
-  .nav-toggle-btn {
-    top: 70px;
-  }
-}
-.sidebar-button {
-  font-family: Gs-regular;
-  font-size: 15px;
-  position: fixed;
-  right: 0px;
-  /* right: -400px; */
-  /* right: 400px; */
-  top: 20%;
-  background-color: rgb(233,95,48);
-  color: white;
-  border: none;
-  padding: 10px;
-  cursor: pointer;
-  z-index: 1000;
-  transition: right 0.2s;
-  border-top-left-radius: 15px;
-  border-bottom-left-radius: 15px;
-}
-.sidebar-button.open {
-  right: 400px;
-}
-@media only screen and (max-width: 431px) {
-  .sidebar-button.open {
-    right: 300px;
-  }
-}
-
-
-#left-sidebar {
-  font-family: Gs-regular;
-  color: rgb(250,250,250);
-  position: fixed;
-  top: 0;
-  left: 0px;
-  /* left: -250px; */
-  width: 250px;
-  height: 100%;
-  background-color: rgb(10,3,30);
-  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5);
-  transition: left 0.3s ease;
-  overflow-y: auto;
-  border-bottom-right-radius: 15px;
-  border-top-right-radius: 15px;
-  z-index: 999;
-  padding: 10px 0 100px 0;
-}
-@media only screen and (max-width: 431px) {
-  #left-sidebar {
-    width: 200px;
-  }
-}
-
-.nav-button {
-  font-family: Gs-regular;
-  font-size: 18px;
-  position: fixed;
-  top: 20%;
-  left: 250px;
-  background-color: rgb(233,95,48);
-  color: white;
-  border: none;
-  padding: 10px 10px 10px 6px;
-  cursor: pointer;
-  z-index: 9999;
-  transition: left 0.3s ease;
-  border-top-right-radius: 15px;
-  border-bottom-right-radius: 15px;
-}
-
-@media only screen and (max-width: 431px) {
-  .nav-button {
-    left: 200px;
-    position: fixed;
-    z-index: 9999; 
-  }
-}
-
-.main-content-move {
-  margin-left: 250px;
-  transition: margin-left 0.3s ease;
-}
-.main-content-move-nav {
-  margin-left: 250px;
-  transition: margin-left 0.3s ease;
-}
-/* Sidebar click guard to close sidebar */
-.sidebar-click-guard {
-  /* Hidden by default */
-  display: none;         
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent overlay */
-  z-index: 999;          /* Just below the sidebar */
-} 
-
-.anvil-role-navbar-image {
-  margin: 10px 0 0 0;
-  padding: 10px 0 40px 0;
-  border-bottom: 1px solid #888;
-}
-.anvil-role-image-bottom-border {
-  border-top: 1px solid;
-  padding: 0 0 0 20px;
-}
-
-#right-sidebar .header-sidebar{
-  padding: 20px;
-  background: rgb(233,95,48);
-  color: white;
-  border-top-left-radius: 15px;
-  display: flex;
-  align-items: center;
-}
-.header-sidebar.open {
-  right: 0;
-}
-.note_svg{
-  height: 20px;
-  padding: 0 10px 0 0;
-}
-.note_svg_button{
-  height: 20px;
-  padding: 0 0 0 0;
-}
-.right-sidebar .header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 20px;
-}
-.right-sidebar .header img {
-  width: 30px;
-  height: 30px;
-}
-.right-sidebar .header span {
-  font-size: 1.2em;
-  font-weight: bold;
-}
-#right-sidebar .buttons-sidebar {
-  display: flex;
-  justify-content: space-around;
-  padding: 40px 0px;
-  border-bottom: solid rgb(59, 59, 59);
-}
-#right-sidebar .buttons-sidebar button {
-  border-radius: 15px;
-  background: rgb(130,39,118);
-  border: 0;
-  font-size: 20px;
-  padding: 5px 20px;
-}
-
-#right-sidebar .social-media-sidebar {
-  padding: 20px 20px 100px;
-  border-bottom: solid rgb(59, 59, 59);
-}
-#right-sidebar h3 {
-  font-size: 20px;
-}
-#right-sidebar .social-media-sidebar h3 {
-  margin-top: 0;
-}
-#right-sidebar .social-media-sidebar p {
-  margin: 5px 0;
-}
-
-#right-sidebar .section-contact-sidebar {
-  padding: 20px;
-  border-bottom: solid rgb(59, 59, 59);
-  font-size: 16px;
-}
-#right-sidebar .section-contact-sidebar p {
-  display: flex;
-}
-#right-sidebar .section-contact-sidebar table {
-  width: 95%;
-  border-collapse: collapse;
-  margin: 10px 0;
-}
-#right-sidebar .section-contact-sidebar table th, #right-sidebar .section-contact-sidebar table td {
-  padding: 10px;
-  text-align: left;
-  vertical-align: bottom;
-  color: white;
-}
-#right-sidebar .section-contact-sidebar table td{
-  width: 70%
-}
-
-#right-sidebar .description-section-sidebar,
-#right-sidebar .comments-section-sidebar {
-  border: none;
-  color: white;
-  padding: 20px;
-  width: 100%;
-  box-sizing: border-box;
-  border-bottom: solid rgb(59, 59, 59);
-}
-#right-sidebar .description-section-sidebar textarea,
-#right-sidebar .comments-section-sidebar textarea {
-  margin: 0 0px 0 15px;
-  width: 90%;
-}
-
-
-.anvil-role-top-border {
-  border-top: 0.2px rgb(175, 175, 175) solid;
-  border-bottom: none;
-  border-radius: 0px;
-}
-.anvil-role-bottom-border {
-  border-top: none;
-  border-bottom: 0.2px rgb(175, 175, 175) solid;
-  border-radius: 0px;
-}
-.anvil-role-bottom-border>.form-control {
-  border: none;
-  border-bottom: 0.2px solid;
-  border-radius: 0px;
-}
-
-.anvil-role-sidebar-notes{
-  overflow-y: auto;
-  height: auto;
-  max-height: 400px;
-}
-
-.anvil-role-timestamp-note-format {
-  font-size: 12px;
-  color: white;
-  padding-right: 7px;
-}
-.anvil-role-content-note-format {
-  font-size: 16px;
-  color: white;
-  padding-left: 7px;
-}
-
-.contact-title-sidebar{
-  display:flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.anvil-role-contact-details-saved-values {
-  padding: 7px 13px;
-}
-
-
-/* CSS for the Sidebar on the Discover Page ENDS Here */
-
-/* CSS for Fit Likelihood on the Discover Page STARTS Here */
-.note-display {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin: 0 25px;
-}
-.circle__progress {
-  fill: #1A0F36;
-  stroke-width: 10px;
-  stroke-opacity: 0.3;
-  stroke-linecap: round;
-}
-.circle__progress_inactive {
-  fill: #29282F;
-  stroke-width: 10px;
-  stroke-opacity: 0.3;
-  stroke-linecap: round;
-}
-.circle {
-  position: relative;
-}
-
-.percent {
-  width: 100%;
-  top: 50%;
-  left: 50%;
-  position: absolute;
-  font-weight: bold;
-  text-align: center;
-  line-height: 28px;
-  transform: translate(-50%, -50%);
-  display: grid;
-}
-
-.percent__int { 
-  font-family: Gs-regular;
-  font-size: 28px; 
-  color: white;
-}
-.percent__dec { 
-  font-family: Gs-regular;
-  font-size: 28px; 
-  color: white;
-}
-
-.label {
-  font-family: Gs-regular;
-  font-size: 14px;
-  text-transform: uppercase;
-  margin-top: 15px;
-}
-.circle__progress--fill {
-  --initialStroke: 0;
-  --transitionDuration: 0;
-  stroke-opacity: 1;
-  stroke-dasharray: var(--initialStroke);
-  stroke-dashoffset: var(--initialStroke);
-  transition: stroke-dashoffset var(--transitionDuration) ease;
-}
-
-.circle__svg {
-  transform: rotate(90deg);
-  border-radius: 100px;
-}
-/* CSS for Fit Likelihood on the Discover Page ENDS Here */
-
 
 
 .anvil-role-tile-background-left .anvil-panel-row-VHHPAR{
@@ -2428,6 +2028,13 @@ footer a, .footer .anvil-component {
   transition: left 0.3s ease;
   border-top-right-radius: 15px;
   border-bottom-right-radius: 15px;
+  transition: all 0.3s ease-in-out;
+}
+
+/* Nav Button hover effect */
+.nav-button:hover {
+  background-color: rgb(255, 115, 68);
+  transform: translateX(2px);
 }
 
 /* When the sidebar is closed, move the button to the starting position */

@@ -210,11 +210,11 @@ class Observe_Row_Template(Observe_Row_TemplateTemplate):
 
 
   def pic_click(self, **event_args):
-    click_link(self.link_pic, f'artists?artist_id={self.item["ArtistID"]}', event_args)
+    click_link(self.link_pic, f'agent_artists?artist_id={self.item["ArtistID"]}', event_args)
 
   
   def name_click(self, **event_args):
-    click_link(self.link_name, f'artists?artist_id={self.item["ArtistID"]}', event_args)
+    click_link(self.link_name, f'agent_artists?artist_id={self.item["ArtistID"]}', event_args)
 
 
   def convert_date(self, date_str):

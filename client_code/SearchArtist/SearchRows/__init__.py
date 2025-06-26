@@ -40,10 +40,10 @@ class SearchRows(SearchRowsTemplate):
 
   
   def inspect_pic_link_click(self, **event_args):
-    click_link(self.inspect_pic_link, f'artists?artist_id={self.inspect_pic_link.url}', event_args)
+    click_link(self.inspect_pic_link, f'agent_artists?artist_id={self.inspect_pic_link.url}', event_args)
 
   def inspect_name_link_click(self, **event_args):
-    click_link(self.inspect_name_link, f'artists?artist_id={self.inspect_name_link.url}', event_args)
+    click_link(self.inspect_name_link, f'agent_artists?artist_id={self.inspect_name_link.url}', event_args)
     
   # BUTTONS
   def button_watchlist_click(self, **event_args):
@@ -100,4 +100,4 @@ class SearchRows(SearchRowsTemplate):
         style="success").show()      
 
   def button_discover_click(self, **event_args):
-    click_button(f'artists?artist_id={self.item["ArtistID"]}', event_args)
+    click_button(f'agent_artists?artist_id={self.item["ArtistID"]}', event_args)

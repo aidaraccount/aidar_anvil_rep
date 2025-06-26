@@ -20,7 +20,7 @@ class RowTemplate3(RowTemplate3Template):
     
 
   def related_artist_pic_link_click(self, **event_args):
-    click_link(self.related_artist_pic_link, f'artists?artist_id={self.related_artist_pic_link.url}', event_args)
+    click_link(self.related_artist_pic_link, f'agent_artists?artist_id={self.related_artist_pic_link.url}', event_args)
 
   def related_artist_name_link_click(self, **event_args):
-    click_link(self.related_artist_name_link, f'artists?artist_id={self.related_artist_name_link.url}', event_args)
+    click_link(self.related_artist_name_link, f'agent_artists?artist_id={self.related_artist_name_link.url}', event_args)

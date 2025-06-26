@@ -86,13 +86,13 @@ class ModelProfile(ModelProfileTemplate):
         self.creation_date_value.text = '-' if infos["creation_date"] == 'None' else infos["creation_date"][:10]
         self.usage_date_value.text = '-' if infos["usage_date"] == 'None' else infos["usage_date"][:10]
     
-        # activate button
-        if model_id_active_new is not None and int(self.model_id_view) == int(model_id_active_new):
-          self.activated.visible = True
-          self.activate.visible = False
-        else:
-          self.activated.visible = False
-          self.activate.visible = True   
+        # # activate button
+        # if model_id_active_new is not None and int(self.model_id_view) == int(model_id_active_new):
+        #   self.activated.visible = True
+        #   self.activate.visible = False
+        # else:
+        #   self.activated.visible = False
+        #   self.activate.visible = True   
         
         # ---------------
         # HEADER RIGHT
@@ -606,7 +606,7 @@ class ModelProfile(ModelProfileTemplate):
     save_var('model_id', self.model_id_view)
     get_open_form().refresh_models_underline()
     temp_artist_id = anvil.server.call('get_next_artist_id', self.model_id_view)
-    click_button(f'artists?artist_id={temp_artist_id}', event_args)
+    click_button(f'agent_artists?artist_id={temp_artist_id}', event_args)
     
   def retrain_click(self, **event_args):
     res = anvil.server.call('retrain_model', self.model_id_view)

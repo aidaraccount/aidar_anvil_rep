@@ -26,4 +26,4 @@ class SearchRows(SearchRowsTemplate):
   def related_click(self, **event_args):
     self.parent.parent.parent.close_alert()
     save_var("value", self.item["Name"])
-    click_link(self.link_1, f'artists?artist_id={self.item["ArtistID"]}', event_args)
+    click_link(self.link_1, f'agent_artists?artist_id={self.item["ArtistID"]}', event_args)

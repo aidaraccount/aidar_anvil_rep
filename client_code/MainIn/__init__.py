@@ -11,7 +11,7 @@ import anvil.users
 import json
 import time
 from datetime import datetime
-from anvil.js.window import location, updateLoadingSpinnerMargin
+from anvil.js.window import location, updateLoadingSpinnerMargin, clearModelNavigation
 from ..C_SearchPopupTable import C_SearchPopupTable
 
 from anvil_extras import routing
@@ -20,6 +20,7 @@ from ..nav import click_link, click_button, logout, login_check, save_var, load_
 from ..MainOut import MainOut
 from ..Home import Home
 from ..Discover import Discover
+from ..DiscoverAgent import DiscoverAgent
 from ..WatchlistDetails import WatchlistDetails
 from ..Monitor_Funnel import Monitor_Funnel
 from ..Monitor_TalentDev import Monitor_TalentDev
@@ -69,7 +70,6 @@ class MainIn(MainInTemplate):
           # First check if the function is already defined
           is_defined = anvil.js.call_js('eval', f'typeof {function_name} === "function"')
           if not is_defined:
-            print(f"[NAVBAR_DEBUG] Function {function_name} not found, attempting to load hideNavBar.js")
             # Try to load the script
             anvil.js.call_js('eval', 
                            '''
@@ -95,11 +95,9 @@ class MainIn(MainInTemplate):
 
         # 2. Hide navigation sidebar with JavaScript safety check
         try:
-          print(f"[NAVBAR_DEBUG] Attempting to call navbar_noModel_noSubs with False")
           # Ensure the function is available
           if ensure_js_function_available('navbar_noModel_noSubs'):
             anvil.js.call_js("navbar_noModel_noSubs", False)
-            print(f"[NAVBAR_DEBUG] Successfully called navbar_noModel_noSubs")
         except Exception as e:
           print(f"[NAVBAR_DEBUG] Error calling navbar_noModel_noSubs: {str(e)}")
           
@@ -128,13 +126,10 @@ class MainIn(MainInTemplate):
         
         # 3. Hide navigation sidebar with JavaScript safety check
         try:
-          print(f"[NAVBAR_DEBUG] Attempting to call navbar_noModel_noSubs with False")
           # Ensure the function is available
           if ensure_js_function_available('navbar_noModel_noSubs'):
             anvil.js.call_js("navbar_noModel_noSubs", False)
-            print(f"[NAVBAR_DEBUG] Successfully called navbar_noModel_noSubs")
         except Exception as e:
-          print(f"[NAVBAR_DEBUG] Error calling navbar_noModel_noSubs: {str(e)}")
           # Try to ensure the script is loaded first
           anvil.js.call_js("console.log", "[NAVBAR_DEBUG] Fallback: checking if hideNavBar.js is loaded")
 
@@ -147,15 +142,11 @@ class MainIn(MainInTemplate):
       # NAVIGATION
       self.refresh_watchlists_components()
       self.refresh_models_components()
-
-      # open specific hash if available
-      print(f'ROUTING: MainIn processing location.hash: "{location.hash}" - {datetime.now()}', flush=True)
+      # self.refresh_agents_components()
       
       # For Anvil Extras routing, we need to set the hash as is
       # Empty hash will automatically route to the '' route (Home)
-      print(f'ROUTING: MainIn calling set_url_hash with: "{location.hash}" - {datetime.now()}', flush=True)
       routing.set_url_hash(location.hash, load_from_cache=False)
-      print(f'ROUTING: MainIn finished set_url_hash - {datetime.now()}', flush=True)
       
       self.reset_nav_backgrounds()
       self.call_js('updateLoadingSpinnerMargin', '125px')
@@ -165,26 +156,26 @@ class MainIn(MainInTemplate):
 
   # WATCHLIST ROUTING
   def refresh_watchlists_components(self):
-    self.remove_watchlist_components()
-    wl_ids = json.loads(anvil.server.call('get_watchlist_ids',  user["user_id"]))
+    # self.remove_watchlist_components()
+    # wl_ids = json.loads(anvil.server.call('get_watchlist_ids',  user["user_id"]))
     
-    if len(wl_ids) > 0:
-      for i in range(0, len(wl_ids)):
-        if wl_ids[i]["is_last_used"] is True:
-          wl_link = Link(
-            icon='fa:angle-right',
-            text=wl_ids[i]["watchlist_name"],
-            tag=wl_ids[i]["watchlist_id"],
-            role='underline-link'
-            )
-        else:
-          wl_link = Link(
-            icon='fa:angle-right',
-            text=wl_ids[i]["watchlist_name"],
-            tag=wl_ids[i]["watchlist_id"]
-            )
-        wl_link.set_event_handler('click', self.create_watchlist_click_handler(wl_ids[i]["watchlist_id"], wl_link))
-        self.nav_watchlists.add_component(wl_link)
+    # if len(wl_ids) > 0:
+    #   for i in range(0, len(wl_ids)):
+    #     if wl_ids[i]["is_last_used"] is True:
+    #       wl_link = Link(
+    #         icon='fa:angle-right',
+    #         text=wl_ids[i]["watchlist_name"],
+    #         tag=wl_ids[i]["watchlist_id"],
+    #         role='underline-link'
+    #         )
+    #     else:
+    #       wl_link = Link(
+    #         icon='fa:angle-right',
+    #         text=wl_ids[i]["watchlist_name"],
+    #         tag=wl_ids[i]["watchlist_id"]
+    #         )
+    #     wl_link.set_event_handler('click', self.create_watchlist_click_handler(wl_ids[i]["watchlist_id"], wl_link))
+    #     self.nav_watchlists.add_component(wl_link)
 
     self.reset_nav_backgrounds()
     
@@ -210,62 +201,207 @@ class MainIn(MainInTemplate):
     click_link(wl_link, f'watchlist_details?watchlist_id={link_watchlist_id}&artist_id=None', event_args)
     self.reset_nav_backgrounds()
     wl_link.background = "theme:Brown"
-  # ------------
 
+  # ------------
   # MODEL ROUTING
   def refresh_models_components(self):
+    # 1. Remove existing model components
     self.remove_model_components()    
     model_ids = json.loads(anvil.server.call('get_model_ids',  user["user_id"]))
-
+    
     if len(model_ids) > 0:
       for i in range(0, len(model_ids)):
+        # 2. Create a container for each model entry
+        model_container = anvil.FlowPanel(
+          tag=model_ids[i]["model_id"],
+          role='nav_flow_panel'
+        )
+        
+        # 3. Create the model link with navigation functionality
         if model_ids[i]["is_last_used"] is True:
           model_link = Link(
             icon='fa:angle-right',
             text=model_ids[i]["model_name"],
             tag=model_ids[i]["model_id"],
-            role='underline-link'
+            role=['model-nav-link', 'underline-link']
           )
           save_var("model_id", model_ids[i]["model_id"])
         else:
           model_link = Link(
             icon='fa:angle-right',
             text=model_ids[i]["model_name"],
-            tag=model_ids[i]["model_id"]
+            tag=model_ids[i]["model_id"],
+            role=['model-nav-link']
           )
-        model_link.set_event_handler('click', self.create_model_click_handler(model_ids[i]["model_id"], model_link))
-        self.nav_models.add_component(model_link)
+        model_link.set_event_handler('click', self.create_model_click_handler(model_ids[i]["model_id"], model_link, model_container))
+        
+        # 4. Create settings icon link
+        settings_link = Link(
+          icon='fa:sliders',
+          text="",  # Empty text for icon-only link
+          tag=model_ids[i]["model_id"],
+          role='icon-link-discreet'
+        )
+        settings_link.set_event_handler('click', self.create_settings_click_handler(model_ids[i]["model_id"]))
+        
+        # 5. Add both links to the container
+        model_container.add_component(model_link, expand=True)  # Expand to fill available space
+        model_container.add_component(settings_link)
+        
+        # 6. Add the container to nav_models
+        self.nav_models.add_component(model_container)
 
     self.reset_nav_backgrounds()
   
   def remove_model_components(self):
+    # Remove all Anvil components (now Flow containers) from nav_models
     for component in self.nav_models.get_components():
-      if isinstance(component, Link):
+      if isinstance(component, anvil.FlowPanel):
         component.remove_from_parent()
+    # Remove all JS added components from nav_models
+    self.call_js('clearModelNavigation')
     
   def refresh_models_underline(self):
-    for component in self.nav_models.get_components():
-      if isinstance(component, Link):
-        if int(component.tag) == int(load_var("model_id")):
-          component.role = 'underline-link'
-        else:
-          component.role = ''
+    # Find all model links inside Flow containers and update their roles
+    for container in self.nav_models.get_components():
+      if isinstance(container, anvil.FlowPanel):
+        for component in container.get_components():
+          # Only apply underlines to the model links (not settings icons)
+          if isinstance(component, Link) and component.icon == 'fa:angle-right':
+            if int(component.tag) == int(load_var("model_id")):
+              component.role = ['model-nav-link', 'underline-link']
+            else:
+              component.role = ['model-nav-link']
   
-  def create_model_click_handler(self, model_id, model_link):
+  def create_model_click_handler(self, model_id, model_link, model_container):
     def handler(**event_args):
-      self.models_click(model_id, model_link, **event_args)
+      self.models_click(model_id, model_link, model_container, **event_args)
     return handler
 
-  def models_click(self, link_model_id, model_link, **event_args):
-    click_link(model_link, f'model_profile?model_id={link_model_id}&section=Main', event_args)
+  def models_click(self, link_model_id, model_link, model_container, **event_args):
+    # activate model and navigate to discover
+    anvil.server.call('update_model_usage', user["user_id"], link_model_id)
+    save_var('model_id', link_model_id)
+    self.refresh_models_underline()
+    temp_artist_id = anvil.server.call('get_next_artist_id', link_model_id)
+    # click_link(model_link, f'artists?artist_id={temp_artist_id}', event_args)
+    click_link(model_link, f'agent_artists?artist_id={temp_artist_id}', event_args)
+    
     self.reset_nav_backgrounds()
-    model_link.background = "theme:Brown"
+    model_container.background = "theme:Brown"
+
+  # # ------------
+  # # AGENT ROUTING
+  # def refresh_agents_components(self):
+  #   # 1. Remove existing agent components
+  #   self.remove_agent_components()    
+  #   agent_ids = json.loads(anvil.server.call('get_model_ids',  user["user_id"]))
+
+  #   if len(agent_ids) > 0:
+  #     for i in range(0, len(agent_ids)):
+  #       # 2. Create a container for each agent entry
+  #       agent_container = anvil.FlowPanel(
+  #         tag=agent_ids[i]["model_id"],
+  #         role='nav_flow_panel'
+  #       )
+
+  #       # 3. Create the agent link with navigation functionality
+  #       if agent_ids[i]["is_last_used"] is True:
+  #         agent_link = Link(
+  #           icon='fa:angle-right',
+  #           text=agent_ids[i]["model_name"],
+  #           tag=agent_ids[i]["model_id"],
+  #           role='underline-link'
+  #         )
+  #         save_var("model_id", agent_ids[i]["model_id"])
+  #       else:
+  #         agent_link = Link(
+  #           icon='fa:angle-right',
+  #           text=agent_ids[i]["model_name"],
+  #           tag=agent_ids[i]["model_id"]
+  #         )
+  #       agent_link.set_event_handler('click', self.create_agent_click_handler(agent_ids[i]["model_id"], agent_link, agent_container))
+
+  #       # 4. Create settings icon link
+  #       settings_link = Link(
+  #         icon='fa:sliders',
+  #         text="",  # Empty text for icon-only link
+  #         tag=agent_ids[i]["model_id"],
+  #         role='icon-link-discreet'
+  #       )
+  #       settings_link.set_event_handler('click', self.create_settings_click_handler(agent_ids[i]["model_id"]))
+
+  #       # 5. Add both links to the container
+  #       agent_container.add_component(agent_link, expand=True)  # Expand to fill available space
+  #       agent_container.add_component(settings_link)
+
+  #       # 6. Add the container to nav_agents
+  #       self.nav_agents.add_component(agent_container)
+
+  #   self.reset_nav_backgrounds()
+
+  # def remove_agent_components(self):
+  #   # Remove all components (now Flow containers) from nav_agents
+  #   for component in self.nav_agents.get_components():
+  #     if isinstance(component, anvil.FlowPanel):
+  #       component.remove_from_parent()
+
+  # def refresh_agents_underline(self):
+  #   # Find all agent links inside Flow containers and update their roles
+  #   for container in self.nav_agents.get_components():
+  #     if isinstance(container, anvil.FlowPanel):
+  #       for component in container.get_components():
+  #         # Only apply underlines to the agent links (not settings icons)
+  #         if isinstance(component, Link) and component.icon == 'fa:angle-right':
+  #           if int(component.tag) == int(load_var("model_id")):
+  #             component.role = 'underline-link'
+  #           else:
+  #             component.role = ''
+
+  # def create_agent_click_handler(self, model_id, agent_link, agent_container):
+  #   def handler(**event_args):
+  #     self.agents_click(model_id, agent_link, agent_container, **event_args)
+  #   return handler
+
+  # def agents_click(self, link_model_id, agent_link, agent_container, **event_args):
+  #   # activate model and navigate to discover
+  #   anvil.server.call('update_model_usage', user["user_id"], link_model_id)
+  #   save_var('model_id', link_model_id)
+  #   self.refresh_agents_underline()
+  #   temp_artist_id = anvil.server.call('get_next_artist_id', link_model_id)
+  #   click_link(agent_link, f'agent_artists?artist_id={temp_artist_id}', event_args)
+
+  #   self.reset_nav_backgrounds()
+  #   agent_container.background = "theme:Brown"
+
   # ------------
-  
+  # SETTINGS ROUTING
+  def create_settings_click_handler(self, model_id):
+    def settings_click_handler(**event_args):
+      # Save the current model ID for reference
+      save_var("model_id", model_id)
+      # Navigate to model settings page
+      routing.set_url_hash(f'model_profile?model_id={model_id}&section=Main', load_from_cache=False)
+      self.reset_nav_backgrounds()
+      
+      # Find the container with this model_id and highlight it
+      for container in self.nav_models.get_components():
+        if isinstance(container, anvil.FlowPanel):
+          for component in container.get_components():
+            if isinstance(component, Link) and component.tag == model_id:
+              container.background = "theme:Brown"
+              break
+      
+    return settings_click_handler
+    
+  # ------------
+  # NO NOTIFICCATIONS
   def update_no_notifications(self, **event_args):
     NoNotifications = json.loads(anvil.server.call('get_no_notifications', user["user_id"]))
     self.link_watchlists.text = 'WATCHLISTS (' + str(NoNotifications[0]["cnt"]) + ')'
 
+  # ------------
+  # NAV BACKGROUND
   def reset_nav_backgrounds(self, **event_args):
     # delete old background
     self.link_home.background = None
@@ -289,6 +425,10 @@ class MainIn(MainInTemplate):
     for component in self.nav_models.get_components():
       component.background = None
 
+    # self.link_agents.background = None    
+    # for component in self.nav_agents.get_components():
+    #   component.background = None
+      
     # set new background    
     if location.hash[:5] == '#home' or location.hash == '':
       self.link_home.background = "theme:Brown"
@@ -317,16 +457,17 @@ class MainIn(MainInTemplate):
       self.link_monitor_funnel.background = "theme:Brown"
     elif location.hash[:11] == '#talent_dev':
       self.link_monitor_dev.background = "theme:Brown"
-      
+    
     elif location.hash[:15] == '#model_profile?' or location.hash[:13] == '#model_setup?':
-      for component in self.nav_models.get_components():
-        query_string = location.hash.split("?")[1]
-        params = dict(pair.split("=") for pair in query_string.split("&"))
-        model_id = params.get("model_id")
-        if model_id != 'None':
-          if isinstance(component, anvil.Link):
-            if int(component.tag) == int(model_id):
-              component.background = "theme:Brown"
+      query_string = location.hash.split("?")[1]
+      params = dict(pair.split("=") for pair in query_string.split("&"))
+      model_id = params.get("model_id")
+      if model_id != 'None':            
+        # Find the container with this model_id and highlight it
+        for container in self.nav_models.get_components():
+          if isinstance(container, anvil.FlowPanel) and container.tag == int(model_id):
+            container.background = "theme:Brown"
+            break
   
   #----------------------------------------------------------------------------------------------
   # HOME
@@ -436,8 +577,28 @@ class MainIn(MainInTemplate):
       self.column_panel_nav.visible = True
 
   def create_model_click(self, **event_args):
-    click_link(self.create_model, 'model_setup?model_id=None&section=Basics', event_args)
+    # click_link(self.create_model, 'model_setup?model_id=None&section=Basics', event_args)
+    save_var("model_id", None)
+    click_link(self.create_model, 'agent_artists?artist_id=create_agent', event_args)
     self.reset_nav_backgrounds()
+
+  # #----------------------------------------------------------------------------------------------
+  # # AGENTS
+  # def change_agents_visibility(self, **event_args):
+  #   if self.link_agents.icon == 'fa:angle-down':
+  #     self.link_agents.icon = 'fa:angle-up'
+  #     for component in self.nav_agents.get_components():
+  #       component.visible = True
+  #   else:
+  #     self.link_agents.icon = 'fa:angle-down'
+  #     for component in self.nav_agents.get_components():
+  #       component.visible = False
+  #     self.column_panel_agent.visible = True
+
+  # def create_agent_click(self, **event_args):
+  #   save_var("model_id", None)
+  #   click_link(self.create_model, 'agent_artists?artist_id=create_agent', event_args)
+  #   self.reset_nav_backgrounds()
 
   #----------------------------------------------------------------------------------------------
   # OTHER

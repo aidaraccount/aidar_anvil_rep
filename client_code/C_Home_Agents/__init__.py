@@ -38,10 +38,8 @@ class C_Home_Agents(C_Home_AgentsTemplate):
     self.is_loading = data is None  # Track loading state
     
     # Register JavaScript callback for the discover button - MUST be before setup_slider
-    print("Registering JavaScript callback in __init__")
     try:
       anvil.js.window.pyDiscoverClicked = self.handle_discover_click
-      print("JavaScript callback registered successfully as window.pyDiscoverClicked")
     except Exception as e:
       print(f"ERROR registering callback: {str(e)}")
       
@@ -135,7 +133,6 @@ class C_Home_Agents(C_Home_AgentsTemplate):
     if isinstance(data, str):
       try:
         data = json.loads(data)
-        print(f"SLIDER_DEBUG: Parsed data is {type(data)}")
       except json.JSONDecodeError:
         print("SLIDER_DEBUG: Failed to parse data as JSON")
         data = None
@@ -159,7 +156,6 @@ class C_Home_Agents(C_Home_AgentsTemplate):
         </div>
       """
     elif isinstance(data, list):
-      print(f"SLIDER_DEBUG: Data is a list of length {len(data)}")
       for i, model in enumerate(data):
         if isinstance(model, dict):
           # Extract model info - support both naming conventions
@@ -256,7 +252,6 @@ class C_Home_Agents(C_Home_AgentsTemplate):
             </div>
           """
     else:
-      print(f"SLIDER_DEBUG: Data is not a list, type: {type(data)}")
       if isinstance(data, str):
         # If it's still a string at this point, show it as a single box
         model_boxes_html = f"""
@@ -281,8 +276,6 @@ class C_Home_Agents(C_Home_AgentsTemplate):
           </div>
         """
     
-    print("SLIDER_DEBUG: Generated HTML for slider boxes")
-    
     # JavaScript for the slider functionality
     js_code = """
       console.log('MODEL_ACTIVATION_JS: JavaScript loaded');
@@ -299,10 +292,10 @@ class C_Home_Agents(C_Home_AgentsTemplate):
         // First, navigate to the artist page based on ctrl key state
         if (ctrlKeyPressed) {
           console.log('MODEL_ACTIVATION_JS: Opening new tab');
-          window.open(appOrigin + '/#artists?artist_id=' + artistId, '_blank');
+          window.open(appOrigin + '/#agent_artists?artist_id=' + artistId, '_blank');
         } else {
           console.log('MODEL_ACTIVATION_JS: Navigating in current tab');
-          window.location.hash = 'artists?artist_id=' + artistId;
+          window.location.hash = 'agent_artists?artist_id=' + artistId;
         }
         
         // Small delay to ensure URL change completes
@@ -554,9 +547,6 @@ class C_Home_Agents(C_Home_AgentsTemplate):
       }, 50);
     """
     
-    # Add HTML debugging to check structure
-    print("SLIDER_DEBUG: Creating final HTML structure")
-    
     # Combine everything into the final HTML
     self.html = f"""
     <div class="agents-slider">
@@ -571,5 +561,3 @@ class C_Home_Agents(C_Home_AgentsTemplate):
       <script>{js_code}</script>
     </div>
     """
-    
-    print("SLIDER_DEBUG: Slider HTML assigned to component")

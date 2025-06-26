@@ -7,6 +7,26 @@ Area 5: Page individual classes
   max-width: 330px !important;
 }
 
+/* 5.1. MainIn */
+/* Navigation */
+.anvil-role-nav_link:hover {
+  background: linear-gradient(to bottom right, rgb(31, 11, 59), rgba(250, 250, 250, 0.15));
+}
+
+.anvil-role-nav_flow_panel .flow-panel-gutter .flow-panel-item a {
+  margin: 0;
+}
+.anvil-role-nav_flow_panel:hover {
+background: linear-gradient(to bottom right, rgb(31, 11, 59), rgba(250, 250, 250, 0.15));
+}
+
+.anvil-role-icon-link-discreet {
+  opacity: 0.4;
+}
+.anvil-role-icon-link-discreet:hover {
+  opacity: 1;
+}
+
 /* 5.1. HOME individual classes */
 .anvil-role-home-discover-button {  /* neccessary for flexible positioning */
   left: auto !important;
@@ -49,6 +69,7 @@ Area 5: Page individual classes
       top: -5px;
       left: 260px;
       width: 30px;
+      opacity: 0;  /* TO HIDE WL BUTTON ON SHORTS*/
     }
   }
   .social-date {

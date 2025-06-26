@@ -1,0 +1,2043 @@
+<!-- SIDE BAR -->
+<div class="container-panel">
+  <div class="main-content">
+    <div class="anvil-container" anvil-drop-container=".anvil-container">
+    </div>
+  </div>
+
+  <!-- Notes Sidebar -->
+  <div id="right-sidebar" class="anvil-container" anvil-slot="sidebar">
+    <div class="header-sidebar" anvil-slot="Artist_Name_Details_Sidebar">
+      <img class="note_svg" src="_/theme/icons/Note.svg" alt="Notes Icon">
+      <span>
+        Notes for&nbsp<span anvil-if-slot-empty="Artist_Name_Details_Sidebar">Artist Title Here</span>
+      </span>
+    </div>
+    <div class="section-contact-sidebar">
+      <div class="contact-table">
+        <table> 
+          <tr>
+            <th>Status</th>
+            <td>
+              <div class="sidebar-dropdowns" anvil-slot="Status_picker">
+                <div anvil-if-slot-empty="Status_picker">Status Picker</div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <th>Priority</th>
+            <td>
+              <div class="sidebar-dropdowns" anvil-slot="Priority_picker">
+                <div anvil-if-slot-empty="Priority_picker">Priority Picker</div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <th>Reminder</th>
+            <td>
+              <div class="sidebar-dropdowns" anvil-slot="Date_picker">
+                <div anvil-if-slot-empty="Date_picker">Date Picker</div>
+              </div>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <div class="section-contact-sidebar">
+      <div class='contact-title-sidebar'>
+        <h3 class="right-sidebar-heading">Contact</h3>
+        <div anvil-slot="edit_button_contacts" style="margin: 20px 0 10px 0;">
+          <span anvil-if-slot-empty="edit_button_contacts">button</span>
+        </div>
+      </div>
+      <table class="contact-table">
+        <tr>
+          <th>Name</th>
+          <td>
+            <div class="artist-name-sidebar contact-table-details" anvil-slot="Text_Box_for_Artist_Name">
+              <div anvil-if-slot-empty="Text_Box_for_Artist_Name">Artist Name</div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <th>Email</th>
+          <td>
+            <div class="artist-name-sidebar contact-table-details" anvil-slot="Text_Box_for_Artist_Email">
+              <div anvil-if-slot-empty="Text_Box_for_Artist_Email">Artist Email</div>
+          </td>
+        </tr>
+        <tr>
+          <th>Phone</th>
+          <td>
+            <div class="artist-name-sidebar contact-table-details" anvil-slot="Text_Box_for_Artist_Phone">
+              <div anvil-if-slot-empty="Text_Box_for_Artist_Phone">Artist Phone Num</div>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <div class="description-section-sidebar">
+      <div class='contact-title-sidebar'>
+        <h3 class="right-sidebar-heading">Description</h3>
+        <div anvil-slot="edit_button_decription" style="margin: 20px 0 10px 0;">
+          <span anvil-if-slot-empty="edit_button_decription">button</span>
+        </div>
+      </div>
+      <div anvil-slot="descripion-area">
+        <div anvil-if-slot-empty="descripion-area">Text Area Goes Here</div>
+      </div>
+    </div>
+    <div class="comments-section-sidebar">
+      <h3>Comments</h3>
+      <div anvil-slot="comment-area">
+        <div anvil-if-slot-empty="comment-area">Text Area Goes Here</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Agent Sidebar -->
+  <div id="agent-sidebar" class="anvil-container" anvil-slot="agent-sidebar">
+    <div class="header-sidebar">
+      <i class="fas fa-robot" style="font-size: 20px; margin-right: 12px;"></i>
+      <span>Scouting AI Agent (Beta)</span>
+    </div>
+    
+    <div class="chat-container">
+      <div class="chat-messages" id="chat-messages">
+        <!-- Initial welcome message -->
+        <div class="message agent">
+          <div class="message-time">Just now</div>
+          <div class="message-content">
+            Hey! What kind of artist are you looking for?
+          </div>
+        </div>
+
+          <!-- User message 
+          <div class="message user">
+            <div class="message-time">11:46 AM</div>
+            <div class="message-content">
+              Hi! I'm looking for information about the talent development program.
+            </div>
+          </div>
+
+          Agent message
+          <div class="message agent">
+            <div class="message-time">11:46 AM</div>
+            <div class="message-content">
+              Sure, here are some artists that are less popular than the artist you clicked on.
+            </div>
+          </div>-->
+
+      </div>
+    </div>
+
+    <div class="initial-creation-question">
+      <div>Hey! What kind of artist are you looking for?</div>
+      <div class="initial-creation-question-beta-flag">Attention: This is a limited Beta</div>
+    </div>
+
+    <div class="agent-creation-statement">
+      We're ready - Have fun discovering!
+    </div>
+
+    <div class="chat-input-container">
+      <textarea id="chat-input" placeholder="Type your message here..." rows="3"></textarea>
+      <button id="send-button" aria-label="Send message">
+        <img src="_/theme/icons/paper-plane-horizontal.png" alt="Send" class="send-icon">
+      </button>
+    </div>
+
+    <div class="agent-classical-creation-link">
+      <a href="#model_setup?model_id=None&section=Basics">Manual Agent Setup</a>
+    </div>
+
+  </div>
+  
+</div>
+
+</div>
+
+<!-- Agent Button -->
+<button class="agent-sidebar-button" id="agent-sidebar-button" style="bottom: 20%;">
+  <i class="fas fa-robot"></i>
+  <br>
+  Agent
+  <br>
+  (Beta)
+</button>
+
+<!-- Notes Button -->
+<button class="sidebar-button" id="sidebar-button" style="top: 30%;">
+  <img class="note_svg_button" src="_/theme/icons/Note.svg" alt="Notes Icon">
+  <br>
+  Notes
+</button>
+
+<!-- FOOTER -->
+<div class="footer">
+  <div class="footer-slot" anvil-slot="footer-slot">
+    <div class="placeholder anvil-designer-only" anvil-if-slot-empty="footer-slot" anvil-drop-here>Drop a FlowPanel or Label or Link Component here</div>
+  </div>
+</div> 
+
+
+<script>
+  // Global server function caller - available anywhere
+  window.callServerFunction = async function(functionName, ...args) {
+    console.log(`[callServerFunction] Attempting to call ${functionName} with args:`, args);
+    
+    try {
+      // Method 1: Direct anvil.server.call
+      if (typeof anvil !== 'undefined' && anvil.server && typeof anvil.server.call === 'function') {
+        console.log(`[callServerFunction] Trying anvil.server.call`);
+        const result = await anvil.server.call(functionName, ...args);
+        console.log(`[callServerFunction] Success via anvil.server.call:`, result);
+        return result;
+      }
+      
+      // Method 2: window.anvil.call without this context
+      if (typeof window.anvil !== 'undefined' && typeof window.anvil.call === 'function') {
+        console.log(`[callServerFunction] Trying window.anvil.call without context`);
+        const result = await window.anvil.call(functionName, ...args);
+        console.log(`[callServerFunction] Success via window.anvil.call:`, result);
+        return result;
+      }
+      
+      // Method 3: Form instance if available
+      if (window.formInstance && typeof window.formInstance[functionName] === 'function') {
+        console.log(`[callServerFunction] Trying formInstance.${functionName}`);
+        const result = await window.formInstance[functionName](...args);
+        console.log(`[callServerFunction] Success via formInstance:`, result);
+        return result;
+      }
+      
+      // Method 4: Try direct access to server module if available
+      if (window.ServerModule && typeof window.ServerModule[functionName] === 'function') {
+        console.log(`[callServerFunction] Trying ServerModule.${functionName}`);
+        const result = await window.ServerModule[functionName](...args);
+        console.log(`[callServerFunction] Success via ServerModule:`, result);
+        return result;
+      }
+      
+      console.error(`[callServerFunction] All methods failed to call ${functionName}`);
+      return null;
+    } catch (err) {
+      console.error(`[callServerFunction] Error calling ${functionName}:`, err);
+      return null;
+    }
+  };
+
+  // Store the original WebSocketManager if it exists
+  if (!window._originalWebSocketManager) {
+    window._originalWebSocketManager = window.WebSocketManager;
+  }
+  
+  // Only declare WebSocketManager if it doesn't already exist or needs redefinition
+  if (typeof window._originalWebSocketManager === 'undefined') {
+    window.WebSocketManager = class WebSocketManager {
+      // =====================================================================
+      // WebSocketManager Class
+      // Handles all WebSocket communication and chat interface management.
+      // Manages connection lifecycle, message handling, and UI updates.
+      // =====================================================================
+      
+      /**
+       * WebSocketManager handles the WebSocket connection and chat interface.
+       * 
+       * Key responsibilities:
+       * 1. Establishing and maintaining WebSocket connection to the server
+       * 2. Managing connection state and automatic reconnection
+       * 3. Sending and receiving messages
+       * 4. Processing different message types (text, artist info, errors)
+       * 5. Updating the chat UI with messages and status indicators
+       * 6. Handling model ID changes and session management
+       * 
+       * @class WebSocketManager
+       * @param {Object} [options] - Configuration options (currently none)
+       */
+
+
+      // -----------------------------------------
+      // 1. Initialization
+      constructor() {
+        console.log('[WebSocketManager] Class WebSocketManager created');
+        
+        // Connection state tracking
+        this.isConnecting = false;
+        this.isUpdatingModelId = false;
+        this.reconnectTimeout = null;
+
+        // get model_id and url_artist_id from sessionStorage
+        const storedModelId = sessionStorage.getItem('model_id');
+        const storedUrlArtistId = sessionStorage.getItem('url_artist_id');
+        
+        // If we have valid ids, use them
+        if (storedModelId && storedModelId !== 'null') {
+          this.model_id = storedModelId;
+        } else {
+          // Otherwise, generate a random model_id
+          this.model_id = Math.random().toString(36).substr(2, 9);
+        }
+
+        if (storedUrlArtistId && storedUrlArtistId !== 'null') {
+          this.url_artist_id = storedUrlArtistId;
+        } else {
+          this.url_artist_id = null;
+        }
+        
+        // Use the model_id for session ID
+        this.sessionId = 'session-' + this.model_id;
+        console.log('[WebSocketManager] Session ID:', this.sessionId);
+        
+        this.chatContainer = document.querySelector('.chat-container');
+        this.chatMessages = document.getElementById('chat-messages');
+        this.chatInput = document.getElementById('chat-input');
+        this.sendButton = document.getElementById('send-button');
+        this.typingIndicator = null;
+        this.messageQueue = [];
+        this.isConnected = false;
+        this.wasConnectedBeforeError = false;
+        this.reconnectAttempts = 0;
+        this.maxReconnectAttempts = 5;
+        this.reconnectDelay = 1000;
+        this.isLoadingHistory = false;
+
+        // Stage management
+        const STAGE = {
+          NORMAL: 'normal',
+          CREATE_AGENT: 'create_agent',
+          EXTENDED_CREATE_AGENT: 'extended_create_agent'
+        };
+        this.STAGE = STAGE;
+        
+        // Determine initial stage based on model_id and url_artist_id        
+        if (this.model_id && this.url_artist_id && this.url_artist_id !== 'None') {
+          this.stage = STAGE.NORMAL;
+        } else if (this.model_id) {
+          this.stage = STAGE.EXTENDED_CREATE_AGENT;
+        } else {
+          this.stage = STAGE.CREATE_AGENT;
+        }
+        console.log('[WebSocketManager] Initial - stage:', this.stage, 'model_id:', this.model_id, 'url_artist_id:', this.url_artist_id);
+        
+        // For development - always use localhost:8000 for now
+        this.wsUrl = `ws://localhost:8000/ws/${this.sessionId}`;
+        console.log('[WebSocketManager] Using WebSocket URL:', this.wsUrl);
+        
+        // Bind methods that will be used as event handlers
+        this.sendMessage = this.sendMessage.bind(this);
+        
+        // Check if the URL is valid
+        try {
+          new URL(this.wsUrl);
+        } catch (e) {
+          console.error('[WebSocketManager] Invalid WebSocket URL:', e);
+        }
+        
+        // Initialize connection
+        this.connect();
+      }
+      
+      // =====================================================================
+      // 2. Message History Loading
+      // =====================================================================
+      
+      /**
+       * Loads and displays message history
+       * @param {Array|string} messages - Array of message objects or JSON string
+       */
+      loadMessageHistory(messages) {
+        console.log('[loadMessageHistory] Loading message history INNER CLASS:', messages);
+        
+        // Parse messages if they're a string
+        if (typeof messages === 'string') {
+          try {
+            messages = JSON.parse(messages);
+          } catch (e) {
+            console.error('[loadMessageHistory] Error parsing messages:', e);
+            return;
+          }
+        }
+        
+        if (!Array.isArray(messages)) {
+          console.error('[loadMessageHistory] Invalid messages format, expected array:', messages);
+          return;
+        }
+        
+        if (this.isLoadingHistory) {
+          console.log('[loadMessageHistory] Message loading already in progress');
+          return;
+        }
+        
+        this.isLoadingHistory = true;
+        
+        try {
+          console.log(`[loadMessageHistory] Processing ${messages.length} messages from history`);
+          
+          // Sort messages by timestamp (oldest first)
+          const sortedMessages = [...messages].sort((a, b) => a.timestamp - b.timestamp);
+          
+          sortedMessages.forEach(msg => {
+            console.log('[loadMessageHistory] Processing message:', msg);
+            
+            // Handle different message types
+            switch(msg.type) {
+              case 'text_chunk':
+                if (msg.direction === 'out') {
+                  this.addAgentMessage(msg.content || '');
+                }
+                break;
+
+              case 'query':
+                // For text messages, use direction to determine if it's from user or system
+                if (msg.direction === 'in') {
+                  this.addUserMessage(msg.content || '');
+                } else {
+                  this.addAgentMessage(msg.content || '');
+                }
+                break;
+                
+              case 'artist_info':
+                // Handle artist information display
+                if (msg.data) {
+                  this.handleArtistInfo({ data: msg.data });
+                }
+                break;
+                
+              case 'popularity_range_info':
+                // Handle popularity range information display
+                if (msg.data) {
+                  this.handlePopularityRangeInfo({ data: msg.data });
+                }
+                break;
+                
+              case 'artist_reference':
+                // Handle artist reference added confirmation
+                if (msg.data) {
+                  this.handleArtistReference({ data: msg.data });
+                }
+                break;
+                
+              case 'filters_info':
+                // Handle filter information display
+                if (msg.data) {
+                  this.handleFiltersInfo({ data: msg.data });
+                }
+                break;
+                
+              default:
+                console.warn('[loadMessageHistory] Unknown message type:', msg.type, msg);
+                this.addSystemMessage(msg.content || JSON.stringify(msg));
+            }
+          });
+          
+          this.removeTypingIndicator();
+          console.log('[loadMessageHistory] Finished loading message history');
+          
+        } catch (error) {
+          console.error('[loadMessageHistory] Error loading message history:', error);
+          this.addSystemMessage('Failed to load message history');
+        } finally {
+          this.isLoadingHistory = false;
+        }
+      }
+      
+      // =====================================================================
+      // 3. Core WebSocket Methods
+      // =====================================================================
+      // Connect to WebSocket server
+      connect() {
+        console.log('[connect] === connect() called ===');
+        console.log('[connect] Current state:', {
+          isConnected: this.isConnected,
+          isConnecting: this.isConnecting,
+          isUpdatingModelId: this.isUpdatingModelId,
+          socketState: this.socket ? this.socket.readyState : 'no socket',
+          messageQueueLength: this.messageQueue.length
+        });
+        
+        // If already connected, do nothing
+        if (this.isConnected && this.socket && this.socket.readyState === WebSocket.OPEN) {
+          console.log('[connect] Already connected, processing message queue');
+          this.processMessageQueue();
+          return;
+        }
+        
+        // If already connecting, just wait for the connection
+        if (this.socket) {
+          console.log('[connect] Closing existing socket');
+          this.socket.close();
+        }
+
+        this.isConnecting = true;
+        console.log('[connect] Set isConnecting to true');
+
+        try {
+          console.log('[connect] Creating WebSocket connection to:', this.wsUrl);
+          this.socket = new WebSocket(this.wsUrl);
+
+          // Set up event handlers
+          this.socket.onopen = () => {
+            console.log('[connect] Connection opened successfully');
+            this.isConnected = true;
+            this.isConnecting = false;
+            this.reconnectAttempts = 0;
+            this.processMessageQueue();
+            console.log('-------------------------------------------------------------');
+          };
+
+          this.socket.onmessage = (event) => {
+            // console.log('[connect] Message received');
+            this.handleMessage(event);
+          };
+
+          this.socket.onerror = (error) => {
+            console.error('[connect] Connection error:', error);
+            this.isConnected = false;
+            this.handleError('WebSocket connection error');
+          };
+
+          this.socket.onclose = (event) => {
+            console.log('[connect] Connection closed:', event);
+            this.isConnected = false;
+            this.isConnecting = false;
+            
+            if (event.wasClean && event.code === 1000) {
+              console.log('[connect] Normal connection closure');
+            } else if (this.wasConnectedBeforeError && !this.reconnectTimeout) {
+              this.attemptReconnect();
+            }
+          };
+        } catch (error) {
+          console.error('[connect] Connection failed:', error);
+          this.isConnected = false;
+          this.isConnecting = false;
+          this.handleError('Failed to connect to WebSocket server');
+        }
+      }
+      
+      // Attempt to reconnect to the WebSocket server
+      attemptReconnect() {
+        if (this.reconnectAttempts >= this.maxReconnectAttempts) {
+          this.addSystemMessage('Failed to reconnect. Please refresh the page to try again.');
+          return;
+        }
+        
+        const delay = Math.min(this.reconnectDelay * Math.pow(2, this.reconnectAttempts), 30000); // Cap at 30s
+        console.log(`[attemptReconnect] Attempting to reconnect in ${delay}ms (attempt ${this.reconnectAttempts + 1}/${this.maxReconnectAttempts})`);
+        
+        this.reconnectAttempts++;
+        
+        this.reconnectTimeout = setTimeout(() => {
+          if (!this.isConnected && !this.isUpdatingModelId) {
+            console.log('[attemptReconnect] Reconnecting...');
+            this.connect();
+          } else {
+            console.log('[attemptReconnect] Skipping reconnect - already connected or updating model ID');
+          }
+        }, delay);
+      }
+      
+      
+      // -----------------------------------------
+      /* 3. Message Handling */
+      // Send message to the server
+      sendMessage() {
+        try {
+          console.log('[sendMessage] sendMessage() called');
+          
+          const message = this.chatInput.value.trim();
+          if (!message) {
+            console.log('[sendMessage] Empty message, ignoring');
+            return;
+          }
+          
+          console.log('[sendMessage] Adding user message to chat');
+          this.addUserMessage(message);
+          this.chatInput.value = '';
+          this.chatInput.style.height = 'auto'; // Reset textarea height
+          this.showTypingIndicator();
+
+          // -------------------------
+          // MODEL CREATION ANIMATION (Step 2)
+          // Only animate if we're in create agent mode (not extended create agent mode)
+          console.log('[sendMessage] Current stage:', this.stage);
+
+          if (this.stage === this.STAGE.CREATE_AGENT) {
+            console.log('[sendMessage] Create agent mode');
+            
+            const initialQuestion = document.querySelector('.initial-creation-question');
+            const classicalCreationLink = document.querySelector('.agent-classical-creation-link');
+            const chatContainer = document.querySelector('.chat-container');
+            const chatInputContainer = document.querySelector('.chat-input-container');
+
+            if (initialQuestion && chatContainer && chatInputContainer) {
+              // Start the hide animations
+              initialQuestion.classList.add('hide-animation');
+              classicalCreationLink.classList.add('hide-animation');
+              chatInputContainer.classList.add('hide-animation');
+              
+              // After hide animation completes (1.5s)
+              setTimeout(() => {
+                // 2. Remove the question element completely
+                initialQuestion.remove();
+                classicalCreationLink.remove();
+                
+                // 3. Remove initial creation class from chat container and reset input container
+                chatContainer.classList.remove('initial-creation');
+                chatInputContainer.classList.remove('hide-animation');
+                chatInputContainer.style.transform = ''; // Reset transform
+                
+                // 4. Add show animation to chat container
+                chatContainer.classList.add('show-animation');
+                
+                // 5. Clean up after animation completes
+                setTimeout(() => {
+                  chatContainer.classList.remove('show-animation');
+                }, 800); // Slightly longer than the animation duration
+              }, 1500); // Match this with the CSS transition duration (1.5s)
+            }
+          }
+
+          // Extended create agent mode
+          if (this.stage === this.STAGE.EXTENDED_CREATE_AGENT) {
+            console.log('[sendMessage] Extended create agent mode');
+            
+            // do nothing
+          }
+
+          // --------------------------
+          // Prepare message
+          const messageData = {
+            type: this.stage,
+            content: message,
+            timestamp: new Date().toISOString(),
+            user_id: sessionStorage.getItem('user_id'),
+            agent_id: this.model_id
+          };
+          
+          console.log('[sendMessage] Prepared message:', messageData);
+
+          // Check WebSocket state
+          const socketReady = this.socket && this.socket.readyState === WebSocket.OPEN;
+          console.log(`[sendMessage] WebSocket state: ${this.socket ? this.socket.readyState : 'null'}, ` +
+                     `isConnected: ${this.isConnected}, socketReady: ${socketReady}`);
+
+          // Update our internal state to match actual socket state
+          this.isConnected = socketReady;
+          
+          // Send or queue the message
+          if (socketReady) {
+            console.log('[sendMessage] Sending message via WebSocket');
+            this.sendRawMessage(messageData);
+          } else {
+            console.log('[sendMessage] Queueing message, attempting to connect...');
+            this.messageQueue.push(messageData);
+            this.addSystemMessage('Connecting to AI assistant...');
+            this.connect(); // Try to establish connection
+          }
+        } catch (error) {
+          console.error('[sendMessage] Error:', error);
+          this.addErrorMessage('Failed to send message');
+        }
+      }
+
+      // Send raw message to WebSocket
+      sendRawMessage(messageData) {
+        try {
+          this.socket.send(JSON.stringify(messageData));
+        } catch (error) {
+          console.error('Error sending message:', error);
+          this.addErrorMessage('Failed to send message');
+          this.handleReconnect();
+        }
+      }
+
+      // RECEIVING MESSAGES
+      // Handle incoming WebSocket messages
+      handleMessage(event) {
+        try {
+          const message = JSON.parse(event.data);
+          // console.log('[handleMessage] Received message:', message);
+
+          switch (message.type) {
+            case 'text_chunk':
+              this.handleTextChunk(message);
+              break;
+              
+            case 'error':
+              this.handleError(message);
+              break;
+              
+            case 'artist_info':
+              this.handleArtistInfo(message);
+              break;
+
+            case 'popularity_range_info':
+              this.handlePopularityRangeInfo(message);
+              break;
+
+            case 'artist_reference':
+              this.handleArtistReference(message);
+              break;
+
+            case 'filters_info':
+              this.handleFiltersInfo(message);
+              break;
+              
+            case 'complete':
+              this.handleCompleteMessage();
+              break;
+            
+            case 'create_agent':
+              this.handleCreateAgent(message);
+              break;
+
+            case 'extended_create_agent':
+              this.handleExtendedCreateAgent(message);
+              break;
+            
+            default:
+              console.warn('[handleMessage] Unknown message type:', message.type);
+              this.addSystemMessage(`Received unknown message type: ${message.type}`);
+          }
+        } catch (error) {
+          console.error('[handleMessage] Error handling message:', error);
+          this.addErrorMessage('Error processing message');
+        }
+      }
+
+      // Process any queued messages
+      processMessageQueue() {
+        while (this.messageQueue.length > 0 && this.isConnected) {
+          console.log('[processMessageQueue] Processing message queue');
+          const message = this.messageQueue.shift();
+          this.sendRawMessage(message);
+        }
+      }
+
+
+      // -----------------------------------------
+      // 4. Message Type Handlers
+      // Handle error messages
+      handleError(message) {
+        console.error('[handleError] Server error:', message.content);
+        const errorType = message.data?.error_type ? ` (${message.data.error_type})` : '';
+        this.addErrorMessage(`Error${errorType}: ${message.content}`);
+      }
+
+      // Handle text chunk messages
+      handleTextChunk(message) {
+        console.log('[handleTextChunk] Received text chunk:', message);
+        if (message.content) {
+          this.addAgentMessage(message.content);
+          this.scrollToBottom();
+        }
+      }
+
+      // Handle artist information
+      handleArtistInfo(message) {
+        console.log('[handleArtistInfo] Artist info received:', message);
+        
+        if (message.data) {
+          const artist = message.data;
+          const artistId = artist.artist_id || '';
+          const imageUrl = artist.image_url || (artist.images?.[0]?.url) || 'https://via.placeholder.com/40';
+          const formatFollowers = (numStr) => {
+            const num = typeof numStr === 'string' ? parseInt(numStr.replace(/[^0-9]/g, '')) : numStr || 0;
+            if (num >= 1000000) {
+              return (num / 1000000).toFixed(1).replace(/\.0$/, '') + 'M';
+            }
+            if (num >= 1000) {
+              return (num / 1000).toFixed(1).replace(/\.0$/, '') + 'K';
+            }
+            return num.toString();
+          };
+          const followers = formatFollowers(artist.followers);
+          
+          // Create artist message element with artist class
+          const messageDiv = document.createElement('a');
+          messageDiv.href = `#agent_artists?artist_id=${encodeURIComponent(artistId)}`;
+          messageDiv.className = 'message artist';
+          
+          messageDiv.innerHTML = `
+            <div class="agent-artist-image" style="background-image: url('${this.escapeHtml(imageUrl)}')"></div>
+            <div class="artist-info">
+              <div class="artist-name">${this.escapeHtml(artist.name)}</div>
+              <div class="artist-followers">${followers} Spotify followers</div>
+            </div>
+          `;
+          
+          this.chatMessages.appendChild(messageDiv);
+          this.scrollToBottom();
+        } else {
+          this.addSystemMessage(message.content || 'Received artist information');
+        }
+      }
+
+      // Handle popularity range information
+      handlePopularityRangeInfo(message) {
+        console.log('[handlePopularityRangeInfo] Popularity range information received:', message);
+
+        if (message.data) {
+          const min_pop = message.data.min_pop != null ? message.data.min_pop.toString() : '';
+          const max_pop = message.data.max_pop != null ? message.data.max_pop.toString() : '';
+
+          // Create artist message element with artist class
+          const messageDiv = document.createElement('a');
+          messageDiv.href = ``;
+          messageDiv.className = 'message popularity-range';
+          
+          messageDiv.innerHTML = `
+            <div class="popularity-range-desc">Popularity range set to:</div>
+            <div class="popularity-range-content">
+              <div class="popularity-range">${this.escapeHtml(min_pop)} - ${this.escapeHtml(max_pop)}</div>
+              <div class="popularity-action">POP<br>RANGE</div>
+            </div>
+          `;
+          
+          this.chatMessages.appendChild(messageDiv);
+          this.scrollToBottom();
+        } else {
+          this.addSystemMessage(message.content || 'Received popularity range information');
+        }
+      }
+      
+      // Handle artist information
+      handleArtistReference(message) {
+        console.log('[handleArtistReference] Artist reference received:', message);
+
+        if (message.data) {
+          const artist = message.data;
+          const artistId = artist.artist_id || '';
+          const imageUrl = artist.image_url || (artist.images?.[0]?.url) || 'https://via.placeholder.com/40';
+          const formatFollowers = (numStr) => {
+            const num = typeof numStr === 'string' ? parseInt(numStr.replace(/[^0-9]/g, '')) : numStr || 0;
+            if (num >= 1000000) {
+              return (num / 1000000).toFixed(1).replace(/\.0$/, '') + 'M';
+            }
+            if (num >= 1000) {
+              return (num / 1000).toFixed(1).replace(/\.0$/, '') + 'K';
+            }
+            return num.toString();
+          };
+          const followers = formatFollowers(artist.followers);
+
+          // Create artist message element with artist class
+          const messageDiv = document.createElement('a');
+          messageDiv.href = `#agent_artists?artist_id=${encodeURIComponent(artistId)}`;
+          messageDiv.className = 'message artist';
+
+          messageDiv.innerHTML = `
+            <div class="agent-artist-image" style="background-image: url('${this.escapeHtml(imageUrl)}')"></div>
+            <div class="artist-info">
+              <div class="artist-name">${this.escapeHtml(artist.name)}</div>
+              <div class="artist-followers">${followers} Spotify followers</div>
+            </div>
+            <div class="artist-action">NEW<br>REF</div>
+          `;
+
+          this.chatMessages.appendChild(messageDiv);
+          this.scrollToBottom();
+        } else {
+          this.addSystemMessage(message.content || 'Received reference artist');
+        }
+      }
+
+      // Handle filter information
+      handleFiltersInfo(message) {
+        console.log('[handleFiltersInfo] Filter information received:', message);
+
+        if (message.data && message.data.memories_list && Array.isArray(message.data.memories_list)) {
+          const memories = message.data.memories_list;
+          if (memories.length === 0) return;
+          
+          // Create message element with filter class
+          const messageDiv = document.createElement('a');
+          messageDiv.href = '';
+          messageDiv.className = 'message filter';
+          
+          // Create list items for each memory with bullet points
+          const memoryItems = memories.map(memory => `
+            <div class="filter-item">
+              <span class="filter-bullet">•</span>
+              <span class="filter-value">${this.escapeHtml(memory)}</span>
+            </div>
+          `).join('');
+          
+          messageDiv.innerHTML = `
+            <div class="filter-desc">Filter${memories.length > 1 ? 's' : ''} set to:</div>
+            <div class="filter-content">
+              ${memoryItems}
+            </div>
+          `;
+          
+          this.chatMessages.appendChild(messageDiv);
+          this.scrollToBottom();
+        } else {
+          this.addSystemMessage(message.content || 'Received filter information');
+        }
+      }
+
+      // Handle complete message from server
+      handleCompleteMessage() {
+        console.log('[handleCompleteMessage] Received complete message');
+        this.stage = this.STAGE.NORMAL;
+        this.removeTypingIndicator();
+      }
+      
+      // Handle extended create agent message from server
+      async handleExtendedCreateAgent(message) {
+        console.log('[handleExtendedCreateAgent] Received extended create agent message:', message);
+        
+        // a) Set stage based on whether we have an artist_id
+        if (message.artist_id && message.artist_id !== "null") {
+          console.log('[handleExtendedCreateAgent] Switching to NORMAL mode since we have an artist_id:', message.artist_id);
+          console.log('-------------------------------------------------------------');
+          this.stage = this.STAGE.NORMAL;
+        } else {
+          console.log('[handleExtendedCreateAgent] Staying in EXTENDED_CREATE_AGENT mode since we don\'t have an artist_id');
+          console.log('-------------------------------------------------------------');
+          this.stage = this.STAGE.EXTENDED_CREATE_AGENT;
+        }
+        
+        // b) Update model_id if we received a new one
+        if (message.agent_id) {
+          this.updateModelId(message.agent_id);
+        }
+        
+        // c) Remove typing indicator
+        this.removeTypingIndicator();
+
+        // d) navigate to agent page if artist_id is not null
+        if (message.artist_id !== null && message.artist_id !== undefined && message.artist_id !== '' && message.artist_id !== 'null') {
+          // Hide chat containers first
+          await new Promise(resolve => setTimeout(resolve, 3000));
+          document.querySelector('.chat-input-container').classList.add('agent-creation');
+          document.querySelector('.chat-container').classList.add('agent-creation');
+          
+          await new Promise(resolve => setTimeout(resolve, 500));
+          document.querySelector('.chat-input-container').style.display = 'none';
+          document.querySelector('.chat-container').style.display = 'none';
+          
+          // Show creation statement
+          await new Promise(resolve => setTimeout(resolve, 1500));
+          document.querySelector('.agent-creation-statement').classList.add('agent-creation');          
+          // Update sessionStorage for model_id
+          sessionStorage.setItem('model_id', message.agent_id);
+          
+          // Navigate to agent page
+          await new Promise(resolve => setTimeout(resolve, 3000));
+          window.location.href = `#agent_artists?artist_id=${encodeURIComponent(message.artist_id)}`;
+        }
+      }
+
+      // Handle create agent message from server
+      async handleCreateAgent(message) {
+        console.log('[handleCreateAgent] Received complete create agent message:', message);
+        
+        // a) update agent navigation
+        this.addNewModelToNavigation({
+          model_id: message.agent_id,
+          model_name: message.agent_name || 'New Agent'
+        });
+
+        // b) Set stage based on whether we have an artist_id
+        if (message.artist_id && message.artist_id !== 'null') {
+          console.log('[handleCreateAgent] Switching to NORMAL mode since we have an artist_id:', message.artist_id);
+          this.stage = this.STAGE.NORMAL;
+        } else {
+          console.log("[handleCreateAgent] Switching to EXTENDED_CREATE_AGENT mode since we don't have an artist_id");
+          this.stage = this.STAGE.EXTENDED_CREATE_AGENT;
+        }
+        
+        // c) update model_id
+        if (this.model_id !== message.agent_id) {
+          this.updateModelId(message.agent_id);
+        }
+        
+        // d) remove typing indicator
+        this.removeTypingIndicator();
+
+        // e) navigate to agent page if artist_id is not null
+        if (message.artist_id !== null && message.artist_id !== undefined && message.artist_id !== '' && message.artist_id !== 'null') {
+          // Hide chat containers first
+          await new Promise(resolve => setTimeout(resolve, 3000));
+          document.querySelector('.chat-input-container').classList.add('agent-creation');
+          document.querySelector('.chat-container').classList.add('agent-creation');
+          
+          await new Promise(resolve => setTimeout(resolve, 500));
+          document.querySelector('.chat-input-container').style.display = 'none';
+          document.querySelector('.chat-container').style.display = 'none';
+          
+          // Show creation statement
+          await new Promise(resolve => setTimeout(resolve, 1500));
+          document.querySelector('.agent-creation-statement').classList.add('agent-creation');          
+          // Update sessionStorage for model_id
+          sessionStorage.setItem('model_id', message.agent_id);
+          
+          // Navigate to agent page
+          await new Promise(resolve => setTimeout(resolve, 3000));
+          window.location.href = `#agent_artists?artist_id=${encodeURIComponent(message.artist_id)}`;
+        }
+      }
+    
+      // Add a new model to the navigation
+      addNewModelToNavigation(modelData) {
+        try {
+          console.log('[addNewModelToNavigation] Adding new model:', modelData);
+          
+          // 1. Find the nav_models container and the ul.linear-panel inside it
+          const navModels = document.querySelector('.anvil-role-nav_models');
+          if (!navModels) {
+            console.warn('[addNewModelToNavigation] nav_models container not found');
+            return;
+          }
+          
+          const linearPanel = navModels.querySelector('ul.linear-panel');
+          if (!linearPanel) {
+            console.warn('[addNewModelToNavigation] linear-panel not found inside nav_models');
+            return;
+          }
+          
+          // 2. Create the list item container
+          const listItem = document.createElement('li');
+          
+          // 3. Create the flow panel container (matches Anvil's structure)
+          const flowPanel = document.createElement('div');
+          flowPanel.style = ''; // Empty style attribute to match existing structure
+          flowPanel.className = 'anvil-spacing-above-small anvil-spacing-below-small anvil-role-nav_flow_panel flow-panel anvil-container anvil-container-overflow flow-spacing-medium vertical-align-full anvil-component has-components';
+          flowPanel.setAttribute('anvil-role', 'nav_flow_panel');
+          
+          // 4. Create the flow panel gutter
+          const flowGutter = document.createElement('div');
+          flowGutter.className = 'flow-panel-gutter';
+          flowGutter.style = 'justify-content: flex-start;';
+          
+          // 5. Create the model link container
+          const modelLinkContainer = document.createElement('div');
+          modelLinkContainer.className = 'flow-panel-item anvil-always-inline-container';
+          modelLinkContainer.style = 'flex: 1 1 0%;';
+          
+          // 6. Create the model link
+          const modelLink = document.createElement('a');
+          modelLink.style = 'text-align: left;';
+          modelLink.className = 'anvil-inlinable anvil-container column-panel align-left anvil-spacing-above-small anvil-spacing-below-small anvil-component-icon-present left-icon has-text col-padding-medium anvil-component anvil-role-model-nav-link';
+          modelLink.setAttribute('ontouchstart', '');
+          modelLink.href = 'javascript:void(0)';
+          modelLink.setAttribute('rel', 'noopener noreferrer');
+          modelLink.setAttribute('anvil-role', 'model-nav-link');
+          
+          // Set innerHTML directly without whitespace to match exact structure
+          modelLink.innerHTML = `<i class="anvil-component-icon left fa fa-angle-right left-icon" aria-hidden="true"></i><div style="display: inline-block;" class="link-text">${modelData.model_name}</div><i class="anvil-component-icon right fa fa-angle-right left-icon" aria-hidden="true"></i>`;
+          
+          // 7. Create the settings icon container
+          const settingsContainer = document.createElement('div');
+          settingsContainer.className = 'flow-panel-item anvil-always-inline-container';
+          
+          // 8. Create the settings link
+          const settingsLink = document.createElement('a');
+          settingsLink.style = 'text-align: left;';
+          settingsLink.className = 'anvil-inlinable anvil-container column-panel align-left anvil-spacing-above-small anvil-spacing-below-small anvil-component-icon-present left-icon anvil-role-icon-link-discreet col-padding-medium anvil-component';
+          settingsLink.setAttribute('ontouchstart', '');
+          settingsLink.href = 'javascript:void(0)';
+          settingsLink.setAttribute('rel', 'noopener noreferrer');
+          settingsLink.setAttribute('anvil-role', 'icon-link-discreet');
+          
+          // Compact HTML structure with no extra whitespace to match exactly
+          settingsLink.innerHTML = `<i class="anvil-component-icon left fa fa-sliders left-icon" aria-hidden="true"></i><div style="display: none;" class="link-text"></div><i class="anvil-component-icon right fa fa-sliders left-icon" aria-hidden="true"></i>`;
+          
+          // 9. Add click handlers
+          // Discover link click handler
+          modelLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            console.log(`[addNewModelToNavigation] Model clicked: ${modelData.model_id}`);
+            
+            // First update the WebSocketManager model ID if available
+            if (window.wsManager && typeof window.wsManager.updateModelId === 'function') {
+              try {
+                console.log(`[addNewModelToNavigation] Updating WebSocketManager model ID to ${modelData.model_id}`);
+                window.wsManager.updateModelId(modelData.model_id);
+              } catch (err) {
+                console.warn('[addNewModelToNavigation] Failed to update WebSocketManager model ID:', err);
+              }
+            }
+            
+            // Navigate using the special 'get_artist' parameter that will be resolved server-side
+            window.location.href = `#agent_artists?artist_id=get_artist`;
+          });
+          
+          // Settings icon link click handler
+          settingsLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            console.log(`[addNewModelToNavigation] Settings clicked for model: ${modelData.model_id}`);
+            // Navigate to model profile settings
+            window.location.href = `#model_profile?model_id=${modelData.model_id}&section=Main`;
+          });
+          
+          // 10. Assemble the DOM elements
+          modelLinkContainer.appendChild(modelLink);
+          settingsContainer.appendChild(settingsLink);
+          
+          flowGutter.appendChild(modelLinkContainer);
+          flowGutter.appendChild(settingsContainer);
+          
+          flowPanel.appendChild(flowGutter);
+          listItem.appendChild(flowPanel);
+          
+          // 11. Add the new model as the last item in the list
+          linearPanel.appendChild(listItem);
+          
+          // 12. Add underline to the newly added link and remove from others
+          console.log('[addNewModelToNavigation] Adding underline to the newly added link and removing from others');
+          document.querySelectorAll('.anvil-role-nav_models [anvil-role*="model-nav-link"]').forEach(link => {
+            if (link !== modelLink) {
+              link.classList.remove('anvil-role-underline-link');
+              // Keep the model-nav-link role but remove underline-link if present
+              const currentRole = link.getAttribute('anvil-role') || '';
+              link.setAttribute('anvil-role', currentRole.replace('underline-link', '').trim());
+            }
+          });
+          
+          // Add underline class and update role attribute to match existing elements
+          modelLink.classList.add('anvil-role-underline-link');
+          // Ensure we retain model-nav-link role and add underline-link
+          modelLink.setAttribute('anvil-role', 'model-nav-link underline-link');
+          
+          console.log('[addNewModelToNavigation] Model added to navigation');
+        } catch (error) {
+          console.error('[addNewModelToNavigation] Error:', error);
+        }
+      }
+      
+      // -----------------------------------------
+      // 5. UI Update Methods
+      // Add a user message to the chat
+      addUserMessage(message) {
+        console.log('[addUserMessage] Adding user message:', message);
+        const messageElement = document.createElement('div');
+        messageElement.className = 'message user';
+        messageElement.innerHTML = `
+          <div class="message-time">${this.getCurrentTime()}</div>
+          <div class="message-content">${this.escapeHtml(message)}</div>
+        `;
+        this.chatMessages.appendChild(messageElement);
+        this.scrollToBottom();
+        
+        // Show typing indicator after user sends a message
+        this.showTypingIndicator();
+      }
+
+      // Add a system message to the chat
+      addSystemMessage(content) {
+        console.log('[addSystemMessage] Adding system message:', content);
+        const messageDiv = document.createElement('div');
+        messageDiv.className = 'message system';
+        messageDiv.innerHTML = `
+          <div class="message-time">${this.getCurrentTime()}</div>
+          <div class="message-content">${this.escapeHtml(content)}</div>
+        `;
+        this.chatMessages.appendChild(messageDiv);
+        this.scrollToBottom();
+      }
+    
+      // Add an error message to the chat
+      addErrorMessage(content) {
+        console.log('[addErrorMessage] Adding error message:', content);
+        const messageDiv = document.createElement('div');
+        messageDiv.className = 'message error';
+        messageDiv.innerHTML = `
+          <div class="message-time">${this.getCurrentTime()}</div>
+          <div class="message-content">Error: ${this.escapeHtml(content)}</div>
+        `;
+        this.chatMessages.appendChild(messageDiv);
+        this.scrollToBottom();
+      }
+      
+      // Add a bot message
+      addAgentMessage(content) {        
+        console.log('[addAgentMessage] Adding agent message:', content);
+        const BotMessage = document.createElement('div');
+        BotMessage.className = 'message agent';
+        BotMessage.innerHTML = `
+          <div class="message-time">${this.getCurrentTime()}</div>
+          <div class="message-content">${this.escapeHtml(content)}</div>
+        `;
+        this.chatMessages.appendChild(BotMessage);
+        this.scrollToBottom();
+      }
+      
+      // Show waiting for response indicator
+      showTypingIndicator() {
+        this.removeTypingIndicator();
+        
+        this.typingIndicator = document.createElement('div');
+        this.typingIndicator.className = 'waiting-indicator';
+        this.typingIndicator.textContent = 'AIDAR is thinking';
+        this.chatContainer.appendChild(this.typingIndicator);
+      }
+      
+      // Remove typing indicator
+      removeTypingIndicator() {
+        if (this.typingIndicator) {
+          this.typingIndicator.remove();
+          this.typingIndicator = null;
+        }
+      }
+      
+
+      // -----------------------------------------
+      // 6. Helper Methods
+      // Helper to format followers count
+      formatFollowers(count) {
+        if (count >= 1000000) {
+          return (count / 1000000).toFixed(1) + 'M';
+        }
+        if (count >= 1000) {
+          return (count / 1000).toFixed(1) + 'K';
+        }
+        return count.toString();
+      }
+      
+      // Helper: Get current time in HH:MM AM/PM format
+      getCurrentTime() {
+        return new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      }
+      
+      // Helper: Scroll chat to bottom
+      scrollToBottom() {
+        this.chatMessages.scrollTop = this.chatMessages.scrollHeight;
+      }
+      
+      // Helper: Escape HTML to prevent XSS
+      escapeHtml(unsafe) {
+        return unsafe
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;")
+          .replace(/'/g, "&#039;");
+      }
+      
+      // Update model ID and reconnect if needed
+      updateModelId(newModelId) {
+        console.log('[updateModelId] ===== Starting model ID update =====');
+        console.log('[updateModelId] Current model ID:', this.model_id, 'New model ID:', newModelId);
+        console.log('[updateModelId] Current connection state - isConnected:', this.isConnected, 
+                    'isConnecting:', this.isConnecting, 
+                    'socket state:', this.socket ? this.socket.readyState : 'no socket');
+        
+        // Handle case where newModelId is null/undefined
+        if (newModelId === null || newModelId === undefined) {
+          console.log('[updateModelId] New model ID is null/undefined, keeping existing model_id');
+          return; // Don't update if we receive a null model_id
+        }
+        
+        // Normalize for comparison (treat empty string and null the same)
+        const currentModelId = this.model_id || '';
+        const normalizedNewModelId = newModelId || '';
+        
+        if (normalizedNewModelId === currentModelId) {
+          console.log('[updateModelId] Model ID unchanged, keeping existing connection');
+          return;
+        }
+        
+        console.log('[updateModelId] Updating model ID from', currentModelId, 'to', normalizedNewModelId);
+
+        // save cache model_id
+        sessionStorage.setItem("model_id", newModelId);
+        
+        // Set updating flag to prevent duplicate reconnections
+        this.isUpdatingModelId = true;
+        console.log('[updateModelId] Set isUpdatingModelId to true');
+        
+        try {
+          this.model_id = normalizedNewModelId;
+          this.sessionId = 'session-' + (normalizedNewModelId || Math.random().toString(36).substr(2, 9));
+          this.wsUrl = `ws://localhost:8000/ws/${this.sessionId}`;
+          
+          console.log('[updateModelId] New session ID:', this.sessionId);
+          console.log('[updateModelId] New WebSocket URL:', this.wsUrl);
+          
+          // Close existing connection if any
+          if (this.socket) {
+            console.log('[updateModelId] Closing existing WebSocket connection for model ID update');
+            console.log('[updateModelId] Current socket readyState:', this.socket.readyState);
+            
+            try {
+              // Set a flag to prevent reconnection attempts during model ID update
+              this.wasConnectedBeforeError = false;
+              
+              // Close the socket and clear any pending reconnects
+              if (this.reconnectTimeout) {
+                console.log('[updateModelId] Clearing existing reconnect timeout');
+                clearTimeout(this.reconnectTimeout);
+                this.reconnectTimeout = null;
+              }
+              
+              // Close the socket if it's in a valid state
+              if (this.socket.readyState === WebSocket.OPEN || this.socket.readyState === WebSocket.CONNECTING) {
+                console.log('[updateModelId] Closing WebSocket with code 1000 (normal closure)');
+                this.socket.close(1000, 'Model ID changed');
+              } else {
+                console.log('[updateModelId] Socket not in OPEN or CONNECTING state, skipping close');
+              }
+              
+              this.socket = null;
+              console.log('[updateModelId] Existing WebSocket connection closed for model ID update');
+            } catch (e) {
+              console.warn('[updateModelId] Error closing existing socket during model ID update:', e);
+            }
+          } else {
+            console.log('[updateModelId] No existing socket to close');
+          }
+          
+          // Reset connection state
+          this.isConnected = false;
+          this.isConnecting = false;
+          this.reconnectAttempts = 0;
+          
+          console.log('[updateModelId] Reset connection state - isConnected: false, isConnecting: false');
+          
+          // Refresh DOM element references
+          console.log('[updateModelId] Refreshing DOM element references');
+          this.chatContainer = document.querySelector('.chat-container');
+          this.chatMessages = document.getElementById('chat-messages');
+          this.chatInput = document.getElementById('chat-input');
+          this.sendButton = document.getElementById('send-button');
+          
+          console.log('[updateModelId] DOM elements refreshed');
+          
+          // Reset the flag before connecting to allow the connection to proceed
+          this.isUpdatingModelId = false;
+          console.log('[updateModelId] Reset isUpdatingModelId to false before connecting');
+          
+          // Reconnect with new session ID
+          console.log('[updateModelId] Initiating new connection with updated model ID');
+          this.connect();
+        } catch (error) {
+          console.error('[updateModelId] Error during model ID update:', error);
+          this.isUpdatingModelId = false; // Ensure flag is reset even on error
+          throw error; // Re-throw to allow error handling up the chain
+        }
+      }
+    }
+  };
+  
+  
+
+  
+
+  // =====================================================================
+  // Refresh WebSocketManager instance after page navigation
+  // Maintains WebSocket connections when navigating between pages in an SPA
+  // =====================================================================
+  if (window.wsManager) {
+    console.log('[WebSocketManager] Refreshing WebSocketManager instance after page navigation');
+    const manager = window.wsManager;
+
+    // Refresh DOM element references
+    manager.chatContainer = document.querySelector('.chat-container');
+    manager.chatMessages = document.getElementById('chat-messages');
+    manager.chatInput = document.getElementById('chat-input');
+    manager.sendButton = document.getElementById('send-button');
+
+    // Rebind event listeners with fresh DOM elements
+    if (manager.sendButton) {
+      manager.sendButton.onclick = manager.sendMessage.bind(manager);
+    }
+
+    // Update model ID if changed
+    const newModelId = sessionStorage.getItem('model_id');
+    if (manager.currentModelId !== newModelId) {
+      console.log('[WebSocketManager] Updating model ID to:', newModelId);
+      manager.updateModelId(newModelId);
+    }
+
+    // Re-bind input event for auto-resize
+    if (manager.chatInput) {
+      manager.chatInput.addEventListener('input', function() {
+        this.style.height = 'auto';
+        this.style.height = (this.scrollHeight) + 'px';
+
+        // Update send button state based on input content
+        const hasText = this.value.trim() !== '';
+        if (manager.sendButton) {
+          manager.sendButton.disabled = !hasText;
+        }
+      });
+    }
+
+    console.log('[WebSocketManager] Updated DOM references and event listeners');
+  }
+
+
+
+  // =====================================================================
+  // WebSocket Manager Initialization
+  // This section handles the setup and management of the WebSocket connection
+  // for real-time communication with the AI assistant.
+  // =====================================================================  
+  /**
+   * Initializes and manages the WebSocket connection for the chat interface.
+   * This function is responsible for:
+   * 1. Creating a singleton instance of WebSocketManager
+   * 2. Setting up UI event listeners
+   * 3. Handling connection state and errors
+   * 4. Managing the chat input and send button behavior
+   * 
+   * @returns {WebSocketManager|null} The WebSocket manager instance or null if initialization fails
+   */
+  function initializeWebSocketManager() {
+    console.log('[initializeWebSocketManager] Starting WebSocket manager initialization');
+    
+    // Prevent multiple initializations - use existing instance if available
+    if (window.wsManager) {
+      console.log('[initializeWebSocketManager] Using existing WebSocket manager instance');
+      return window.wsManager;
+    }
+    
+    try {
+      // 1. Create and store the WebSocket manager instance
+      window.wsManager = new WebSocketManager();
+      console.log('[initializeWebSocketManager] Created new WebSocketManager instance');
+      
+      // 2. Get references to essential DOM elements
+      const sendButton = document.getElementById('send-button');
+      const chatInput = document.getElementById('chat-input');
+      
+      // 3. Validate required elements exist
+      if (!sendButton || !chatInput) {
+        console.error('[initializeWebSocketManager] Critical Error: Required chat interface elements not found');
+        return window.wsManager; // Return manager even if UI elements are missing
+      }
+      
+      console.log('[initializeWebSocketManager] Successfully located all required DOM elements');
+      
+      // 4. Configure chat input behavior
+      chatInput.addEventListener('input', function() {
+        // Auto-resize textarea to fit content
+        this.style.height = 'auto';
+        this.style.height = (this.scrollHeight) + 'px';
+        
+        // Update send button state based on input content
+        const hasText = this.value.trim() !== '';
+        sendButton.disabled = !hasText;
+        console.log(`[initializeWebSocketManager] Input field updated, hasText: ${hasText}`);
+      });
+      
+      // 5. Initialize UI state
+      sendButton.disabled = true; // Disable send button initially (no text)
+      
+      // 6. Set up cleanup on page unload
+      window.addEventListener('beforeunload', () => {
+        console.log('[initializeWebSocketManager] Page unloading, cleaning up WebSocket connection');
+        if (window.wsManager?.socket) {
+          // Close WebSocket with normal closure code (1000)
+          window.wsManager.socket.close(1000, 'Window closing');
+        }
+      });
+      
+      console.log('[initializeWebSocketManager] Initialization completed successfully');
+      return window.wsManager;
+      
+    } catch (error) {
+      // 7. Handle initialization errors
+      console.error('[initializeWebSocketManager] Critical error during initialization:', error);
+      
+      // Show user-friendly error message
+      const errorMsg = document.createElement('div');
+      Object.assign(errorMsg.style, {
+        position: 'fixed',
+        bottom: '20px',
+        right: '20px',
+        backgroundColor: '#ff4444',
+        color: 'white',
+        padding: '10px 20px',
+        borderRadius: '5px',
+        zIndex: '1000',
+        maxWidth: '300px',
+        boxShadow: '0 2px 10px rgba(0,0,0,0.2)'
+      });
+      errorMsg.textContent = 'Failed to connect to AI Assistant. Please refresh the page.';
+      document.body.appendChild(errorMsg);
+      
+      return null; // Indicate failure
+    }
+  }
+  
+  // 8. Initialize WebSocket manager when DOM is ready
+  // This ensures all required elements are available before setup
+  if (document.readyState === 'loading') {
+    // If document is still loading, wait for DOMContentLoaded
+    document.addEventListener('DOMContentLoaded', initializeWebSocketManager);
+  } else {
+    // If document is already loaded, initialize immediately
+    initializeWebSocketManager();
+  }
+
+
+  // Notes Sidebar
+  if(typeof sidebar === 'undefined') {
+    const sidebar = document.getElementById('right-sidebar');
+    const button = document.getElementById('sidebar-button');
+    // const mainContent = document.querySelector('.main-content-move');
+    const mainContent = document.querySelector('.discover_self');
+    const agentSidebar = document.getElementById('agent-sidebar');
+    const agentButton = document.getElementById('agent-sidebar-button');
+
+    function updateMargins() {
+      const notesOpen = sidebar.classList.contains('open');
+      const agentOpen = agentSidebar && agentSidebar.classList.contains('open');
+
+      // Calculate total margin based on open sidebars
+      let totalMargin = 0;
+      if (notesOpen && agentOpen) {
+        totalMargin = 800; // Both sidebars open
+      } else if (notesOpen || agentOpen) {
+        totalMargin = 400; // One sidebar open
+      } // else 0, both closed
+
+      // Apply the new margin with smooth transition
+      if (mainContent) mainContent.style.marginRight = totalMargin + 'px';
+
+      // Update button positions
+      if (button) button.style.right = (notesOpen ? totalMargin : 0) + 'px';
+      if (agentButton) agentButton.style.right = (agentOpen ? totalMargin : 0) + 'px';
+    }
+
+    if (sidebar && button && mainContent) {
+      button.addEventListener('click', function () {
+        sidebar.classList.toggle('open');
+        button.classList.toggle('open');
+        updateMargins();
+      });
+    } else {
+      console.error("Required elements not found");
+    }
+  }
+
+  (function() {
+    let displays = document.querySelectorAll('.note-display');
+    const transitionDuration = 900;
+
+    displays.forEach(display => {
+      let note = parseFloat(display.dataset.note);
+      let [int, dec] = display.dataset.note.split('.');
+      [int, dec] = [Number(int), Number(dec)];
+
+      strokeTransition(display, note);
+
+      increaseNumber(display, int, 'int');
+    });
+
+    function increaseNumber(display, number, className) {
+      let element = display.querySelector(`.percent__${className}`),
+        decPoint = className === 'int' ? '%' : '',
+        interval = 900 / number,
+        counter = 0;
+
+      let increaseInterval = setInterval(() => {
+        if (counter === number) { window.clearInterval(increaseInterval); }
+
+        element.textContent = counter + decPoint;
+        counter++;
+      }, interval);
+    }
+
+    function strokeTransition(display, note) {
+      let progress = display.querySelector('.circle__progress--fill');
+      let radius = progress.r.baseVal.value;
+      let circumference = 2 * Math.PI * radius;
+      let offset = circumference * (100 - note) / 100;
+
+      progress.style.setProperty('--initialStroke', circumference);
+      progress.style.setProperty('--transitionDuration', `${transitionDuration}ms`);
+
+      setTimeout(() => progress.style.strokeDashoffset = offset, 1000);
+    }
+  })();
+
+
+  // Agent Sidebar - Wrapped in DOMContentLoaded
+  function initializeAgentSidebar() {
+    const agentSidebar = document.getElementById('agent-sidebar');
+    const agentButton = document.getElementById('agent-sidebar-button');
+    const notesButton = document.getElementById('sidebar-button');
+    const chatInput = document.getElementById('chat-input');
+    const sendButton = document.getElementById('send-button');
+    const chatMessages = document.getElementById('chat-messages');
+    const sidebar = document.getElementById('right-sidebar');
+    // const mainContent = document.querySelector('.main-content-move');
+    const mainContent = document.querySelector('.anvil-role-discover_self');
+    console.log('[AgentSidebar] Initializing with mainContent:', mainContent);
+
+    // Open the agent sidebar by default and update UI
+    if (agentSidebar && agentButton) {
+      agentSidebar.classList.add('open');
+      agentButton.classList.add('open');
+      
+      // Define updateAgentMargins inside initializeAgentSidebar to have access to all variables
+      const updateAgentMargins = () => {
+        const agentOpen = agentSidebar.classList.contains('open');
+        const notesOpen = sidebar && sidebar.classList.contains('open');
+
+        // Calculate total margin based on open sidebars
+        let totalMargin = 0;
+        if (notesOpen && agentOpen) {
+          totalMargin = 800; // Both sidebars open
+        } else if (notesOpen || agentOpen) {
+          totalMargin = 400; // One sidebar open
+        }
+
+        // Apply the new margin with smooth transition
+        if (mainContent) mainContent.style.marginRight = totalMargin + 'px';
+
+        // Update button positions
+        if (notesButton) notesButton.style.right = (notesOpen ? totalMargin : 0) + 'px';
+        if (agentButton) agentButton.style.right = (agentOpen ? totalMargin : 0) + 'px';
+      };
+      
+      updateAgentMargins(); // This will update the margins and button positions
+      
+      // Add event listeners and initialize components
+      if (agentButton && agentSidebar && notesButton && chatInput && sendButton && chatMessages) {
+        // Position notes button below agent button
+        function positionAgentButton() {
+          const agentRect = agentButton.getBoundingClientRect();
+            notesButton.style.top = `${agentRect.bottom + 20}px`;
+          }
+
+        // Initial positioning
+        positionAgentButton();
+
+        // Re-position on window resize
+        window.addEventListener('resize', positionAgentButton);
+
+        // Toggle sidebar
+        agentButton.addEventListener('click', function() {
+          agentSidebar.classList.toggle('open');
+          agentButton.classList.toggle('open');
+          updateAgentMargins();
+        });
+
+        // Also update margins when notes sidebar is toggled
+        if (sidebar) {
+          const observer = new MutationObserver(updateAgentMargins);
+          observer.observe(sidebar, { attributes: true, attributeFilter: ['class'] });
+        }
+      }
+
+      // Auto-scroll to bottom of chat with smooth animation
+      function scrollToBottom() {
+        if (chatMessages) {
+          chatMessages.scrollTo({
+            top: chatMessages.scrollHeight,
+            behavior: 'smooth'
+          });
+        }
+      }
+
+      // Initial scroll to bottom
+      scrollToBottom();
+
+      // Scroll to bottom when content changes
+      if (chatMessages) {
+        let isScrolling = false;
+        const scrollObserver = new MutationObserver(() => {
+            if (!isScrolling) {
+              isScrolling = true;
+              // Small delay to ensure DOM is updated
+              requestAnimationFrame(() => {
+                scrollToBottom();
+                isScrolling = false;
+              });
+            }
+          });
+
+
+          // Observe chat messages for changes
+          scrollObserver.observe(chatMessages, { childList: true, subtree: true });
+      }
+
+      // Format time
+      function getCurrentTime() {
+        const now = new Date();
+        return now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      }
+
+      // Add a new message to the chat
+      function addMessage(content, isUser) {
+        const messageDiv = document.createElement('div');
+        messageDiv.className = `message ${isUser ? 'user' : 'agent'}`;
+
+        const timeDiv = document.createElement('div');
+        timeDiv.className = 'message-time';
+        timeDiv.textContent = getCurrentTime();
+
+        const contentDiv = document.createElement('div');
+        contentDiv.className = 'message-content';
+        contentDiv.textContent = content;
+
+        messageDiv.appendChild(timeDiv);
+        messageDiv.appendChild(contentDiv);
+        chatMessages.appendChild(messageDiv);
+
+        scrollToBottom();
+      }
+
+      // Safe function to get or initialize WebSocket manager
+      function getWebSocketManager() {
+        if (!window.wsManager) {
+          console.log('[AgentSidebar] Initializing WebSocket manager from agent sidebar');
+          initializeWebSocketManager();
+        }
+        return window.wsManager;
+      }
+
+      // Event listeners for the agent sidebar
+      sendButton.addEventListener('click', (e) => {
+        e.preventDefault();
+        const message = chatInput.value.trim();
+        if (message) {
+          try {
+            console.log('[sendButton] Sending message via WebSocket manager');
+            const manager = getWebSocketManager();
+            if (manager) {
+              manager.sendMessage();
+            } else {
+              console.error('[sendButton] Failed to get WebSocket manager');
+            }
+          } catch (error) {
+            console.error('[sendButton] Error sending message:', error);
+          }
+        }
+      });
+
+
+      // Handle input changes
+      function updateSendButtonState() {
+        const hasText = chatInput.value.trim() !== '';
+        sendButton.disabled = !hasText;
+        sendButton.classList.toggle('has-text', hasText);
+      }
+
+      chatInput.addEventListener('input', updateSendButtonState);
+
+      // Handle Enter key to send message
+      chatInput.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter' && !e.shiftKey) {
+          e.preventDefault();
+          const message = chatInput.value.trim();
+          if (message) {
+            try {
+              console.log('[AgentSidebar] Sending message via WebSocket manager (Enter key)');
+              const manager = getWebSocketManager();
+              if (manager) {
+                manager.sendMessage();
+              } else {
+                console.error('[AgentSidebar] Failed to get WebSocket manager');
+              }
+            } catch (error) {
+              console.error('[AgentSidebar] Error sending message:', error);
+            }
+          }
+        }
+      });
+
+      // Initial states
+      updateSendButtonState();
+      setTimeout(scrollToBottom, 0);
+
+      // Handle window resize to maintain scroll position
+      let resizeTimer;
+      window.addEventListener('resize', () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(scrollToBottom, 100);
+      });
+
+      // Clean up on unload
+      window.addEventListener('beforeunload', () => {
+          scrollObserver.disconnect();
+        window.removeEventListener('resize', scrollToBottom);
+      });
+    }
+  }
+
+  // Make loadMessageHistory available globally for Python to call
+  window.loadMessageHistory = function(messages) {
+    console.log('[loadMessageHistory] Loading message history:', messages);
+
+    const wsManager = window.wsManager; // Get the WebSocketManager instance
+    if (wsManager) {
+      wsManager.loadMessageHistory(messages);
+    } else {
+      console.error('[loadMessageHistory] WebSocketManager not initialized');
+    }
+  };
+
+
+  // ------------------------------------------------------------
+  // CREATION VIEW
+  // Make updateAgentSidebarWidth globally available
+  window.updateAgentSidebarWidth = function() {
+    const leftSidebar = document.getElementById('left-sidebar');
+    const agentSidebar = document.getElementById('agent-sidebar');
+    
+    if (leftSidebar && agentSidebar) {
+      // Get computed style to handle initial state
+      const computedStyle = window.getComputedStyle(leftSidebar);
+      const isLeftSidebarOpen = computedStyle.left === '0px' || leftSidebar.style.left === '0px';
+      const offset = isLeftSidebarOpen ? '250px' : '0px';
+      
+      // Update CSS variable
+      document.documentElement.style.setProperty('--left-sidebar-offset', offset);
+    }
+  };
+
+  // Initialize sidebar observer
+  (function initSidebarObserver() {
+    // Only initialize once
+    if (window.sidebarObserverInitialized) return;
+    window.sidebarObserverInitialized = true;
+
+    // Initial update with a small delay to ensure DOM is ready
+    setTimeout(window.updateAgentSidebarWidth, 100);
+    
+    // Also update when the window loads in case styles aren't applied yet
+    window.addEventListener('load', window.updateAgentSidebarWidth);
+
+    // Observe left sidebar for style changes
+    const leftSidebar = document.getElementById('left-sidebar');
+    if (leftSidebar) {
+      // Create a MutationObserver to watch for style changes
+      const observer = new MutationObserver(window.updateAgentSidebarWidth);
+      observer.observe(leftSidebar, { 
+        attributes: true, 
+        attributeFilter: ['style'] 
+      });
+    }
+  })();
+
+
+  // CREATE AGENT VIEW (Step 1)
+  // MAKE createAgentView accessible from Python
+  window.createAgentView = function() {
+    console.log('[createAgentView] Creating agent view');
+    const agentSidebar = document.getElementById('agent-sidebar');
+    if (agentSidebar) {
+      // Set createAgent stage
+      const wsManager = window.wsManager;
+      if (wsManager) {
+        wsManager.stage = wsManager.STAGE.CREATE_AGENT;
+        console.log('[createAgentView] Stage changed to:', wsManager.stage);
+      } else {
+        console.error('[createAgentView] WebSocket manager not found');
+      }
+
+      // Add in-creation class to all elements
+      const elements = [
+        agentSidebar,
+        document.querySelector('.header-sidebar'),
+        document.getElementById('chat-messages'),
+        document.querySelector('.chat-input-container'),
+        document.getElementById('agent-sidebar-button'),
+        document.querySelector('.footer')
+      ];
+      
+      elements.forEach(element => {
+        if (element) {
+          element.classList.add('in-creation');
+          console.log('[createAgentView] Added in-creation to:', element);
+        }
+      });
+      console.log('[createAgentView] Added in-creation classes to all elements');
+
+      // Ensure we're in create agent mode for the next message
+      if (wsManager) {
+        wsManager.stage = wsManager.STAGE.CREATE_AGENT;
+        console.log('[createAgentView] Ensuring stage is set to create agent:', wsManager.stage);
+      }
+      
+      // Add initial creation classes
+      const chatContainer = document.querySelector('.chat-container');
+      const creationQuestion = document.querySelector('.initial-creation-question');
+      const classicalCreationLink = document.querySelector('.agent-classical-creation-link');
+      if (chatContainer) {
+        chatContainer.classList.add('initial-creation');
+        console.log('[createAgentView] Added initial creation class to chat container');
+      }
+      if (creationQuestion) {
+        creationQuestion.classList.add('initial-creation');
+        console.log('[createAgentView] Added initial creation class to creation question');
+      }
+      if (classicalCreationLink) {
+        classicalCreationLink.classList.add('initial-creation');
+        console.log('[createAgentView] Added initial creation class to classical creation link');
+      }
+      // Update width based on left sidebar state
+      updateAgentSidebarWidth();
+      
+      console.log('[createAgentView] Added in-creation classes to all elements');
+    } else {
+      console.error('[createAgentView] Could not find agent sidebar element');
+    }
+  }
+  
+  // CREATE EXTENDED AGENT VIEW (For continuing agent creation with model_id already set)
+  // MAKE createExtendedAgentView accessible from Python
+  window.createExtendedAgentView = function() {
+    console.log('[createExtendedAgentView] Creating extended agent view');
+    const agentSidebar = document.getElementById('agent-sidebar');
+    if (agentSidebar) {
+      // 1. Ensure WebSocket manager exists
+      const wsManager = window.wsManager;
+      if (wsManager) {
+        // 2. First set the proper stage for message handling
+        wsManager.stage = wsManager.STAGE.EXTENDED_CREATE_AGENT;
+        console.log('[createExtendedAgentView] Stage changed to:', wsManager.stage);
+        
+        // 3. Handle model ID validation and synchronization
+        if (wsManager.model_id && wsManager.model_id !== 'null') {
+          console.log('[createExtendedAgentView] Using existing model_id:', wsManager.model_id);
+          
+          // 4. Synchronize session storage with current model_id to prevent "model ID changed" errors
+          const storedModelId = sessionStorage.getItem('model_id');
+          if (storedModelId !== wsManager.model_id) {
+            console.log('[createExtendedAgentView] Updating session storage model_id to:', wsManager.model_id);
+            sessionStorage.setItem('model_id', wsManager.model_id);
+          }
+          
+          // 5. Check if we need to reconnect WebSocket
+          // Avoid immediate reconnection by doing a safe check and cleanup
+          if (wsManager.socket) {
+            // If socket exists but is in a bad state, close it properly first
+            if (wsManager.socket.readyState !== WebSocket.OPEN && wsManager.socket.readyState !== WebSocket.CONNECTING) {
+              console.log('[createExtendedAgentView] Socket exists but in bad state, will reconnect properly');
+              try {
+                wsManager.socket.onclose = null; // Remove event handlers to prevent duplicate error messages
+                wsManager.socket.onerror = null;
+                wsManager.socket.close();
+              } catch (e) {
+                console.warn('[createExtendedAgentView] Error cleaning up socket:', e);
+              }
+              // Let the initializeWebSocketManager handle reconnection
+            }
+          }
+        } else {
+          console.warn('[createExtendedAgentView] No valid model_id found');
+        }
+      } else {
+        console.error('[createExtendedAgentView] WebSocket manager not found');
+      }
+
+      // Add only the in-creation class to all elements (according to CSS rules)
+      const elements = [
+        agentSidebar,
+        document.querySelector('.header-sidebar'),
+        document.getElementById('chat-messages'),
+        document.querySelector('.chat-input-container'),
+        document.getElementById('agent-sidebar-button'),
+        document.querySelector('.footer')
+      ];
+      
+      elements.forEach(element => {
+        if (element) {
+          element.classList.add('in-creation');
+          console.log('[createExtendedAgentView] Added in-creation to:', element);
+        }
+      });
+      
+      // 6. Prepare UI elements for extended agent creation flow
+      const chatContainer = document.querySelector('.chat-container');
+      const chatInputContainer = document.querySelector('.chat-input-container');
+      const creationStatement = document.querySelector('.agent-creation-statement');
+      const chatMessages = document.getElementById('chat-messages');
+      const initialCreationQuestion = document.querySelector('.initial-creation-question');
+      const classicalCreationLink = document.querySelector('.agent-classical-creation-link');
+      
+      // Clear any existing error messages to provide clean starting experience
+      if (chatMessages) {
+        // Only remove error messages, keep the conversation history
+        const errorMessages = chatMessages.querySelectorAll('.error-message');
+        errorMessages.forEach(msg => msg.remove());
+        
+        // Add overflow styling for scrolling
+        chatMessages.style.overflow = 'auto';
+      }
+      
+      // Configure chat container properly - show it but not with initial-creation class
+      if (chatContainer) {
+        chatContainer.style.display = 'block';
+        chatContainer.classList.remove('initial-creation'); // Remove initial-creation if present
+        chatContainer.classList.remove('agent-creation'); // Remove agent-creation if present
+        chatContainer.classList.add('show-animation'); // Add animation
+        console.log('[createExtendedAgentView] Made chat container visible with proper styling');
+      }
+      
+      // Configure chat input properly
+      if (chatInputContainer) {
+        chatInputContainer.style.display = 'flex';
+        chatInputContainer.classList.remove('agent-creation'); // Remove agent-creation if present
+        console.log('[createExtendedAgentView] Made chat input visible with proper styling');
+      }
+      
+      // Hide the initial creation elements if they're visible
+      if (initialCreationQuestion) {
+        initialCreationQuestion.classList.remove('initial-creation');
+        console.log('[createExtendedAgentView] Hid initial creation question');
+      }
+      
+      if (classicalCreationLink) {
+        classicalCreationLink.classList.remove('initial-creation');
+        console.log('[createExtendedAgentView] Hid classical creation link');
+      }
+      
+      // 7. Update sidebar width and ensure proper layout
+      updateAgentSidebarWidth();
+      
+      // 8. Ensure chat is scrollable and scroll to bottom
+      if (chatMessages) {
+        // Ensure chat messages are scrollable
+        chatMessages.style.overflow = 'auto';
+        chatMessages.style.maxHeight = 'calc(100% - 80px)';
+      }
+      
+      // Use the existing scrollToBottom helper from WebSocketManager
+      if (wsManager) {
+        // Slight delay to ensure DOM is updated
+        setTimeout(() => {
+          wsManager.scrollToBottom();
+          console.log('[createExtendedAgentView] Scrolled chat to bottom');
+        }, 300);
+      }
+      
+      console.log('[createExtendedAgentView] Extended agent view setup complete');
+    } else {
+      console.error('[createExtendedAgentView] Could not find agent sidebar element');
+    }
+  }
+
+  // MAKE updateModelId accessible from Python
+  window.updateModelId = function(model_id) {
+    console.log('[updateModelId] MAKE updateModelId accessible from Python - model_id:', model_id);
+    window.model_id = model_id;
+    
+    // Update the model_id in the WebSocketManager
+    const wsManager = window.wsManager;
+    if (wsManager) {
+      wsManager.updateModelId(model_id);
+    } else {
+      console.error('[updateModelId] WebSocketManager not initialized');
+    }
+  };
+
+  // Initialize agent sidebar when DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initializeAgentSidebar);
+  } else {
+    // Small delay to ensure all elements are available
+    setTimeout(initializeAgentSidebar, 100);
+  }
+
+</script>
+

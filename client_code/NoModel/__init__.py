@@ -35,7 +35,8 @@ class NoModel(NoModelTemplate):
 
   
   def button_create_model_click(self, **event_args):
-    click_button('model_setup?model_id=None&section=Basics', event_args)
+    # click_button('model_setup?model_id=None&section=Basics', event_args)
+    click_button('agent_artists?artist_id=create_agent', event_args)
     
     # view navigation sidebar
     anvil.js.call_js("navbar_noModel_noSubs", True)

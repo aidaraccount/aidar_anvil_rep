@@ -1,0 +1,65 @@
+
+/* CSS for Fit Likelihood on the Discover Page STARTS Here */
+.note-display {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 25px;
+}
+.circle__progress {
+    fill: #1A0F36;
+    stroke-width: 10px;
+    stroke-opacity: 0.3;
+    stroke-linecap: round;
+}
+.circle__progress_inactive {
+    fill: #29282F;
+    stroke-width: 10px;
+    stroke-opacity: 0.3;
+    stroke-linecap: round;
+}
+.circle {
+    position: relative;
+}
+
+.percent {
+    width: 100%;
+    top: 50%;
+    left: 50%;
+    position: absolute;
+    font-weight: bold;
+    text-align: center;
+    line-height: 28px;
+    transform: translate(-50%, -50%);
+    display: grid;
+}
+
+.percent__int { 
+    font-family: Gs-regular;
+    font-size: 28px; 
+    color: white;
+}
+.percent__dec { 
+    font-family: Gs-regular;
+    font-size: 28px; 
+    color: white;
+}
+.label {
+    font-family: Gs-regular;
+    font-size: 14px;
+    text-transform: uppercase;
+    margin-top: 15px;
+}
+.circle__progress--fill {
+    --initialStroke: 0;
+    --transitionDuration: 0;
+    stroke-opacity: 1;
+    stroke-dasharray: var(--initialStroke);
+    stroke-dashoffset: var(--initialStroke);
+    transition: stroke-dashoffset var(--transitionDuration) ease;
+}
+.circle__svg {
+    transform: rotate(90deg);
+    border-radius: 100px;
+}
+/* CSS for Fit Likelihood on the Discover Page ENDS Here */

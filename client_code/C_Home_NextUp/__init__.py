@@ -32,7 +32,7 @@ class C_Home_NextUp(C_Home_NextUpTemplate):
     anvil.js.call_js('eval', """
       window.pyArtistNameClicked = function(artistId) {
         console.log('[DEBUG] Artist name clicked with ID:', artistId);
-        location.hash = 'artists?artist_id=' + artistId;
+        location.hash = 'agent_artists?artist_id=' + artistId;
         return true;
       }
       

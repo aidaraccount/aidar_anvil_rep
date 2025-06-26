@@ -1,4 +1,4 @@
-from ._anvil_designer import DiscoverTemplate
+from ._anvil_designer import DiscoverAgentTemplate
 from anvil import *
 import stripe.checkout
 import anvil.tables as tables
@@ -20,28 +20,32 @@ from anvil_extras import routing
 from ..nav import click_link, click_button, logout, login_check, load_var, save_var
 import time
 
+from anvil.js.window import history, location
+
 from ..C_ArtistBio import C_ArtistBio
 from ..C_ProgressMessage import C_ProgressMessage
 from ..C_Short import C_Short
 from ..C_FeedbackForm import C_FeedbackForm
-from ..C_TrialLimitationsPopup import C_TrialLimitationsPopup
 
 
-@routing.route('artists', url_keys=['artist_id'], title='Artists')
-class Discover(DiscoverTemplate):
+@routing.route('agent_artists', url_keys=['artist_id'], title='Artists')
+class DiscoverAgent(DiscoverAgentTemplate):
   def __init__(self, **properties):
-    print(f"{datetime.now()}: Discover - __init__ - 1", flush=True)    
-    
+    print(f"{datetime.now()}: Discover - __init__ - 1", flush=True)
+
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
-    self.html = '@theme:Discover.html'
+    self.html = '@theme:DiscoverAgent.html'
+    print("[WebSocketManager - DiscoverAgent] Registering show event handler")
     self.add_event_handler('show', self.form_show)
-    
+    print("[WebSocketManager - DiscoverAgent] Show event handler registered")
+
     global user
     user = anvil.users.get_user()
+    save_var("user_id", user["user_id"])
     print(f"Discover user: {user}")
     print(f"Discover user_id: {load_var('user_id')}")
-    
+
     # Any code you write here will run before the form opens.
     if user is None or user == 'None':
       if load_var('user_id') is None:
@@ -49,7 +53,7 @@ class Discover(DiscoverTemplate):
       else:
         self.user_id = load_var('user_id')
         self.refresh_sug()
-        
+
     elif user['expiration_date'] is not None and (datetime.today().date() - user['expiration_date']).days > 0:
       routing.set_url_hash('settings?section=Subscription', load_from_cache=False)
       get_open_form().SearchBar.visible = False
@@ -59,28 +63,64 @@ class Discover(DiscoverTemplate):
       self.refresh_sug()
       self.header.scroll_into_view(smooth=True)
 
-      
+
+  # ----------------------------------------------
+  # FORM SHOW
+  def form_show(self, **event_args):
+    # -----------
+    # 1. Check if we're in create_agent mode
+    if self.url_dict.get('artist_id') == 'create_agent':
+      self.call_js("createAgentView")
+      self.call_js("updateModelId", None)
+    elif self.url_dict.get('artist_id') == 'extended_create_agent':
+      self.call_js("createExtendedAgentView")   
+    
+    # -----------
+    # 2. Initialize Spotify player
+    embed_iframe_element = document.getElementById('embed-iframe')
+    if embed_iframe_element:
+      self.call_js('createOrUpdateSpotifyPlayer', anvil.js.get_dom_node(self), 'artist', self.sug["SpotifyArtistID"])
+      print("Embed iframe element found. Initialize Spotify player!")
+    else:
+      print("Embed iframe element not found. Will not initialize Spotify player.")
+
+    # -----------
+    # 3. Load message history
+    print('[WebSocketManager - DiscoverAgent] form_show called')
+    try:
+      # Load message history when the form is shown
+      model_id = load_var('model_id')
+      if model_id is not None and model_id != 'None':
+        print(f'[WebSocketManager - DiscoverAgent] Loading messages for model_id: {model_id}')
+        messages = anvil.server.call('get_agent_messages', model_id)
+        print('[WebSocketManager - DiscoverAgent] Messages received:', bool(messages))
+        self.call_js("loadMessageHistory", messages)
+        print('[WebSocketManager - DiscoverAgent] Called loadMessageHistory')
+    except Exception as e:
+      print(f'[WebSocketManager - DiscoverAgent] Error in form_show: {str(e)}')
+
 
   # -------------------------------------------
   # SUGGESTIONS
-  def refresh_sug(self, **event_args):    
+  def refresh_sug(self, **event_args):
+
     self.header.scroll_into_view(smooth=True)
-    
+
     begin = datetime.now()
     print(f"{datetime.now()}: Discover - __init__ - 2", flush=True)
     print(f"{datetime.now()}: Discover - __init__ - 3", flush=True)
     print(f"TotalTime Discover: {datetime.now() - begin}", flush=True)
-    
+
     self.spacer_bottom_margin.height = 80
     self.Artist_Name_Details.clear()
     self.Artist_Name_Details_Sidebar.clear()
     self.flow_panel_genre_tile.clear()
     self.flow_panel_social_media_tile.clear()
     self.spotify_player_spot.clear()
-    
+
     # model_id
     model_id = load_var("model_id")
-    if model_id is None:
+    if model_id is None and self.url_dict.get('artist_id') != 'create_agent':
       save_var("model_id", anvil.server.call('get_model_id',  self.user_id))
     self.model_id = model_id
     print(f"Discover model_id: {model_id}")
@@ -91,51 +131,49 @@ class Discover(DiscoverTemplate):
       save_var("watchlist_id", anvil.server.call('get_watchlist_id',  self.user_id))
     print(f"Discover watchlist_id: {watchlist_id}")
     self.watchlist_id = watchlist_id
-    
-    # get_suggestion
+
+    # url_artist_id
     url_artist_id = self.url_dict['artist_id']
+    save_var("url_artist_id", url_artist_id)
+    print('url_artist_id:', url_artist_id)
+
+    # check for missing artist_id
+    if url_artist_id in ['get_artist', 'extended_create_agent']:
+      get_open_form().refresh_models_components()
+      get_open_form().refresh_models_underline()
+      url_artist_id = anvil.server.call('get_next_artist_id', self.model_id)
+      print('updated url_artist_id:', url_artist_id)
+      history.replaceState(None, "", f"#agent_artists?artist_id={url_artist_id}")
+
+    # get_suggestion
     sug = json.loads(anvil.server.call('get_suggestion', 'Inspect', self.model_id, url_artist_id)) # Free, Explore, Inspect, Dissect
-    
-    # check status
-    if sug["Status"] == 'Empty Model!':
-      alert(title='Train you Model..',
-        content="Sorry, we cound't find any artists for your model. Make sure your Agent is fully set up!\n\nTherefore, go to ADD REF. ARTISTS and add some starting artists that you are interested in.")
-      self.visible = False
+
+    # check if we are creating a new agent
+    if url_artist_id == 'create_agent' or url_artist_id == 'extended_create_agent':
+      pass
+      
+    elif sug["Status"] == 'Empty Model!':
+      # alert(title='Train you Model..',
+      #   content="Sorry, we cound't find any artists for your model. Make sure your Agent is fully set up!\n\nTherefore, go to ADD REF. ARTISTS and add some starting artists that you are interested in.")
+      # self.visible = False
+      routing.set_url_hash('agent_artists?artist_id=extended_create_agent', load_from_cache=False)
 
     elif sug["Status"] == 'No Findings!':
-      result = alert(title='No Artists found..',
-        content="Sorry, we cound't find any artists for your model. Please check two potential issues:\n\n1. Please check your FILTERS and change them to find additional artists.\n\n2. If you're just setting up your Agent or are subscribed to the Explore subscription, go to the ADD REF. ARTISTS page and add additional reference artists.",
-        buttons=[
-          ("Change Filters", "FILTERS"),
-          ("Ok", "OK")
-        ])
-      self.visible = False
-      if result == "FILTERS":
-        click_button(f'model_profile?model_id={self.model_id}&section=Filter', event_args)
-            
-    # elif sug["Status"] == 'Free Limit Reached!':
-    #   alert(title='Free Limit Reached..',
-    #     content="Sorry, the free version is limited in the number of suggested artists - if you're interested in continuing, please upgrade to one of our subscription plans.\n\nFor any questions, please contact us at info@aidar.ai\n\nYour AIDAR Team")
-    #   self.visible = False
-      
-    else:
-      # TRIAL NOTIFICATION      
-      if user["plan"] in ["Trial", "Extended Trial"]:
-        usage_data = anvil.server.call('get_ratings_count', user['user_id'])
-        if usage_data['total_count'] == 35 or usage_data['total_count'] == 50 or (usage_data['total_count'] > 50 and usage_data['today_count'] >= 5):
-          alert(
-            content=C_TrialLimitationsPopup(usage_data['total_count'], usage_data['today_count']),
-            large=True,
-            buttons=[]
-          )
-        if usage_data['total_count'] == 50 or (usage_data['total_count'] > 50 and usage_data['today_count'] >= 5):
-          routing.set_url_hash('settings?section=Subscription', load_from_cache=False)
-          get_open_form().SearchBar.visible = False
+      # result = alert(title='No Artists found..',
+      #   content="Sorry, we cound't find any artists for your model. Please check two potential issues:\n\n1. Please check your FILTERS and change them to find additional artists.\n\n2. If you're just setting up your Agent or are subscribed to the Explore subscription, go to the ADD REF. ARTISTS page and add additional reference artists.",
+      #   buttons=[
+      #     ("Change Filters", "FILTERS"),
+      #     ("Ok", "OK")
+      #   ])
+      # self.visible = False
+      # if result == "FILTERS":
+      #   click_button(f'model_profile?model_id={self.model_id}&section=Filter', event_args)
+      routing.set_url_hash('agent_artists?artist_id=extended_create_agent', load_from_cache=False)
 
-      # GET SUGGESTIONS
+    else:
       self.sug = sug
       save_var('lastplayed', self.sug["SpotifyArtistID"])
-    
+
       self.nav_releases.role = 'section_buttons_focused'
       self.sec_releases.visible = True
       self.sec_success.visible = False
@@ -156,12 +194,12 @@ class Discover(DiscoverTemplate):
       self.listeners_city_data = None
       self.events_country_data = None
       self.events_city_data = None
-      
+
       # # -------------------------------
       # # NOTES
       # self.get_watchlist_notes(artist_id)
       # self.get_watchlist_details(artist_id)
-      
+
       # -------------------------------
       # ARTIST HEADER
       # picture and its link
@@ -169,7 +207,7 @@ class Discover(DiscoverTemplate):
         self.artist_image.source = sug["ArtistPictureURL"]
       else:
         self.artist_image.source = '_/theme/pics/Favicon_orange.JPG'
-      
+
       if sug["ArtistURL"] != 'None': self.artist_link.url = sug["ArtistURL"]
 
       # --------
@@ -196,7 +234,7 @@ class Discover(DiscoverTemplate):
         genres_string = sug["Genres"]
         # Clean up the string and convert to list
         genres_string_cleaned = genres_string.strip("[]").replace("'", "")
-        genres_list = [genre.strip() for genre in genres_string_cleaned.split(',')]  
+        genres_list = [genre.strip() for genre in genres_string_cleaned.split(',')]
         # Add Genres to FlowPanel
         for genre in genres_list:
           genre_label = Label(text=genre)
@@ -217,7 +255,7 @@ class Discover(DiscoverTemplate):
         "Deezer": "fab:deezer",
         "TikTok": "fab:tiktok"
        }
-      
+
       if sug["Platforms"] == 'None':
         self.social_media_link.visible = False
       else:
@@ -225,18 +263,18 @@ class Discover(DiscoverTemplate):
         for i in range(0, len(social_media_list)):
           found = False
 
-          if social_media_list[i]["platform"] in platform_dict:  
+          if social_media_list[i]["platform"] in platform_dict:
             found = True
             social_media_link = Link(icon=platform_dict[social_media_list[i]["platform"]])
             social_media_link.role = "music-icons-tile"
-            
+
           if found is True:
             # social_media_link.role = 'genre-box'
             social_media_link.url = social_media_list[i]["platform_url"]
             self.flow_panel_social_media_tile.add_component(social_media_link)
-      
+
       # --------
-      # origin          
+      # origin
       if sug["Countries"] == 'None':
         pass
       else:
@@ -245,10 +283,10 @@ class Discover(DiscoverTemplate):
         country_flag.role = 'country-flag-icon'
         country_flag.tooltip = country["CountryName"]
         self.Artist_Name_Details.add_component(country_flag)
-      
+
       # --------
       # birt date
-      if sug["BirthDate"] == 'None': 
+      if sug["BirthDate"] == 'None':
         self.birthday.visible = False
       else:
         self.birthday.visible = True
@@ -268,32 +306,32 @@ class Discover(DiscoverTemplate):
         self.gender_birthday_line.visible = True
       else:
         self.gender_birthday_line.visible = False
-      
+
       # --------
       # KPI_tile_1: prediction_size
       if sug["prediction_size"] == 'None':
         self.KPI_tile_1.text = '-'
       else:
         self.KPI_tile_1.text = "{:.0f}".format(round(float(sug["prediction_size"])/7*100,0)) + '%'
-              
+
       # KPI_tile_2: prediction_rel
       if sug["prediction_rel"] == 'None':
         self.KPI_tile_2.text = '-'
       else:
         self.KPI_tile_2.text = "{:.0f}".format(round(float(sug["prediction_rel"])/7*100,0)) + '%'
-      
+
       # KPI_tile_3: prediction_musical // ATTENTION !!! musical not active yet
       if sug["prediction_musical"] == 'None':
         self.KPI_tile_3.text = '-'
       else:
         self.KPI_tile_3.text = "{:.0f}".format(round(float(sug["prediction_musical"])/7*100,0)) + '%'
-      
+
       # KPI_tile_4: prediction_growth
       if sug["prediction_growth"] == 'None':
         self.KPI_tile_4.text = '-'
       else:
         self.KPI_tile_4.text = "{:.0f}".format(round(float(sug["prediction_growth"])/7*100,0)) + '%'
-      
+
       # --------
       # prediction
       if (str(sug["Prediction"]) == 'nan') or (str(sug["Prediction"]) == 'None'):
@@ -305,12 +343,12 @@ class Discover(DiscoverTemplate):
           self.pred = '100%'
         elif (float(sug["Prediction"]) < 0):
           self.pred = '0%'
-        else: 
+        else:
           self.pred = "{:.2f}".format(round(float(sug["Prediction"])/7*100,0))
         self.no_prediction.visible = False
       self.custom_HTML_prediction()
       self.spotify_HTML_player()
-      
+
       # --------
       # biography
       biography = sug["Biography"]
@@ -330,7 +368,7 @@ class Discover(DiscoverTemplate):
         self.KPI_1.content = """<span style="font-family: GS-regular; font-size: 20px; color: rgb(255, 255, 255); padding-left: 10px;">-</span>"""
       else:
         self.KPI_1.content = f"""<span style="font-family: GS-regular; font-size: 20px; color: rgb(255, 255, 255); padding-left: 10px;">{get_open_form().shorten_number(sug["ArtistFollower_lat"])}</span>"""
-        
+
         if sug["ev_sp_fol_30"] != 'None':
           val = int("{:.0f}".format(round(float(sug["ev_sp_fol_30"])*100, 0)))
           if val >= 3:
@@ -342,7 +380,7 @@ class Discover(DiscoverTemplate):
             col = 'red'
           else:
             ev = f"""+{val}%"""
-            col = 'grey'            
+            col = 'grey'
           self.KPI_1.content = self.KPI_1.content + f"""<span style="font-size: 16px; color: {col};">  {ev}</span>"""
 
       # -------------------------------
@@ -350,25 +388,25 @@ class Discover(DiscoverTemplate):
       # a) stats
       if sug["NoTracks"] == 'None': self.no_tracks.text = '-'
       else: self.no_tracks.text = f'{int(sug["NoTracks"]):,}'
-      
+
       if sug["NoTracks365"] == 'None': self.no_tracks_365.text = '-'
       else: self.no_tracks_365.text = f'{int(sug["NoTracks365"]):,}'
-      
+
       if sug["FirstReleaseDate"] == 'None': self.first_release_date.text = '-'
       else: self.first_release_date.text = sug["FirstReleaseDate"]
-      
+
       if sug["LastReleaseDate"] == 'None': self.last_release_date.text = '-'
       else: self.last_release_date.text = sug["LastReleaseDate"]
 
       if sug["LatestLabel"] == 'None': ll = 'N/A'
       else: ll = sug["LatestLabel"]
       self.latest_label.text = ll
-        
+
       if sug["MajorCoop"] == '1': mc = 'yes'
       elif sug["MajorCoop"] == '0': mc = 'no'
       else: mc = '-'
       self.major_coop.text = mc
-      
+
       if sug["SubMajorCoop"] == '1': smc = 'yes'
       elif sug["SubMajorCoop"] == '0': smc = 'no'
       else: smc = '-'
@@ -378,7 +416,7 @@ class Discover(DiscoverTemplate):
       if co_artists == []:
         self.co_artists_avg.text = '0'
       else:
-        self.co_artists_avg.text = "{:.2f}".format(round(co_artists[0]["avg_co_artists_per_track"],2))      
+        self.co_artists_avg.text = "{:.2f}".format(round(co_artists[0]["avg_co_artists_per_track"],2))
 
       # --------
       # b) release tables
@@ -387,7 +425,7 @@ class Discover(DiscoverTemplate):
 
       # --------
       # c) release cycle
-      if self.data_grid_cycle.visible is True:        
+      if self.data_grid_cycle.visible is True:
         self.data_grid_cycle_data.items = anvil.server.call('get_release_cycle', artist_id)
 
       # --------
@@ -410,7 +448,7 @@ class Discover(DiscoverTemplate):
 
       # Add event handler for the dropdown
       self.sort_dropdown.set_event_handler('change', self.sort_data)
-      
+
       # Load the data when the form is initialized
       labels_freq = json.loads(anvil.server.call('get_labels_freq', artist_id))
       if labels_freq != []:
@@ -420,31 +458,31 @@ class Discover(DiscoverTemplate):
           "labels": labels,
           "cooperations": cooperations
         }
-        
+
         self.Most_Frequent_Labels_Graph.visible = True
         self.No_Most_Frequent_Labels_Graph.visible = False
 
         self.apply_default_sorting()
-        
+
       else:
         self.Most_Frequent_Labels_Graph.visible = False
         self.No_Most_Frequent_Labels_Graph.visible = True
-      
+
       # --------
       # f) co-artists by frequency
       if self.data_grid_co_artists_freq.visible is True:
         self.data_grid_co_artists_freq_data.items = co_artists
-      
+
       # --------
       # g) co-artists by popularity
       if self.data_grid_co_artists_pop.visible is True:
         self.data_grid_co_artists_pop_data.items = sorted(co_artists, key=lambda x: float(x['ArtistPopularity_lat']) if x['ArtistPopularity_lat'] not in [None, ''] else 0.0, reverse=True)
-      
+
       # --------
       # h) related artists table
       if self.data_grid_related_artists.visible is True:
         self.data_grid_related_artists_data.items = json.loads(anvil.server.call('get_dev_related_artists', artist_id, int(self.model_id)))
-      
+
       # -------------------------------
       # II. SUCCESS
       # Load data
@@ -457,20 +495,20 @@ class Discover(DiscoverTemplate):
         "artist_popularity": artist_popularity,
         "artist_followers": artist_followers
       }
-    
+
       # --------
       # a) Popularity
-      if sug["ArtistPopularity_lat"] == 'None': 
+      if sug["ArtistPopularity_lat"] == 'None':
         self.sp_pop_lat.text = '-'
-      else: 
+      else:
         self.sp_pop_lat.text = sug["ArtistPopularity_lat"]
         self.create_artist_popularity_scatter_chart()
-      
+
       # --------
       # b) Followers
-      if sug["ArtistFollower_lat"] == 'None': 
+      if sug["ArtistFollower_lat"] == 'None':
         self.sp_fol_lat.text = '-'
-      else: 
+      else:
         self.sp_fol_lat.text = f'{int(sug["ArtistFollower_lat"]):,}'
         self.create_artist_followers_scatter_chart()
 
@@ -487,7 +525,7 @@ class Discover(DiscoverTemplate):
                  'dev3_t7',  'int(sug["SpotifyMtlListeners_lat"]) / (float(sug["ev_sp_li_7"])+1)', 'sug["ev_sp_li_7"]',
                  'dev3_t30', 'int(sug["SpotifyMtlListeners_lat"]) / (float(sug["ev_sp_li_30"])+1)', 'sug["ev_sp_li_30"]')
       }
-      
+
       for dev in ['dev1', 'dev2', 'dev3']:
         cont = False
         if dev == 'dev1' and sug["ArtistPopularity_lat"] != 'None':
@@ -509,10 +547,10 @@ class Discover(DiscoverTemplate):
           val_0 = eval(val_0, {"sug": sug})
           ev_7 = eval(ev_7, {"sug": sug})
           ev_30 = eval(ev_30, {"sug": sug})
-        
+
           # t0:
           getattr(self, lab_0).content = f"""<span style="font-family: GS-regular; font-size: 20px; color: rgb(255, 255, 255);">{get_open_form().shorten_number(val_0)}</span>"""
-          
+
           # t7
           if ev_7 != 'None':
             val_7 = eval(val_7, {"sug": sug})
@@ -527,11 +565,11 @@ class Discover(DiscoverTemplate):
               col = 'red'
             else:
               ev = f"""+{val}%"""
-              col = 'grey'    
+              col = 'grey'
             getattr(self, lab_7).content = getattr(self, lab_7).content + f"""<span style="font-size: 16px; color: {col};">  {ev}</span>"""
           else:
             getattr(self, lab_7).content = """<span style="font-family: GS-regular; font-size: 20px; color: rgb(255, 255, 255);">-</span>"""
-          
+
           # t30
           if ev_30 != 'None':
             val_30 = eval(val_30, {"sug": sug})
@@ -546,17 +584,17 @@ class Discover(DiscoverTemplate):
               col = 'red'
             else:
               ev = f"""+{val}%"""
-              col = 'grey'    
+              col = 'grey'
             getattr(self, lab_30).content = getattr(self, lab_30).content + f"""<span style="font-size: 16px; color: {col};">  {ev}</span>"""
           else:
             getattr(self, lab_30).content = """<span style="font-family: GS-regular; font-size: 20px; color: rgb(255, 255, 255);">-</span>"""
-      
+
       # -------------------------------
       # III. FANDOM
-      # a) mtl. listeners    
+      # a) mtl. listeners
       # Load data for the Scatter plot (Spotify Monthly Listeners)
-      monthly_listeners_data = json.loads(anvil.server.call('get_mtl_listeners', artist_id))      
-      
+      monthly_listeners_data = json.loads(anvil.server.call('get_mtl_listeners', artist_id))
+
       if monthly_listeners_data != []:
         sp_mtl_lis_lat = monthly_listeners_data[-1]['MtlListeners']
 
@@ -573,24 +611,24 @@ class Discover(DiscoverTemplate):
             col = 'red'
           else:
             ev = f"""+{val}%"""
-            col = 'grey'            
+            col = 'grey'
           self.KPI_2.content = self.KPI_2.content + f"""<span style="font-size: 16px; color: {col};">  {ev}</span>"""
 
         # other
         self.sp_mtl_listeners.text = f'{int(sp_mtl_lis_lat):,}'
-        
+
         dates = [x['Date'] for x in monthly_listeners_data]
         monthly_listeners =  [x['MtlListeners'] for x in monthly_listeners_data]
         self.listeners_data = {
           "dates" : dates,
           "monthly_listeners" : monthly_listeners
         }
-    
+
         self.Spotify_Monthly_Listeners_Graph.visible = True
         self.No_Spotify_Monthly_Listeners_Graph.visible = False
 
         self.create_artist_monthly_listeners_scatter_chart()
-      
+
       else:
         self.KPI_2.content = """<span style="font-family: GS-regular; font-size: 20px; color: rgb(255, 255, 255); padding-left: 10px;">-</span>"""
         self.sp_mtl_listeners.text = '-'
@@ -601,10 +639,10 @@ class Discover(DiscoverTemplate):
       # b) mtl. listeners country
       # Load data for the Scatter plot (Spotify Monthly Listeners by Country)
       monthly_listeners_country_data = json.loads(anvil.server.call('get_mtl_listeners_country', artist_id))
-          
+
       if monthly_listeners_country_data != []:
         self.audience_country.text = monthly_listeners_country_data[0]['CountryName']
-        
+
         country_codes = [x['CountryCode'] for x in monthly_listeners_country_data]
         country_name = [x['CountryName'] for x in monthly_listeners_country_data]
         monthly_listeners =  [x['MtlListeners'] for x in monthly_listeners_country_data]
@@ -616,9 +654,9 @@ class Discover(DiscoverTemplate):
         self.Spotify_Monthly_Listeners_by_Country_Graph.visible = True
         self.flow_panel_countries.visible = True
         self.No_Spotify_Monthly_Listeners_by_Country_Graph.visible = False
-        
+
         self.create_monthly_listeners_by_country_bar_chart()
-        
+
       else:
         self.audience_country.text = '-'
         self.Spotify_Monthly_Listeners_by_Country_Graph.visible = False
@@ -628,7 +666,7 @@ class Discover(DiscoverTemplate):
       # --------
       # c) mtl. listeners city
       monthly_listeners_city_data = json.loads(anvil.server.call('get_mtl_listeners_city', artist_id))
-      
+
       if monthly_listeners_city_data != []:
         self.audience_city.text = monthly_listeners_city_data[0]['CityWithCountryCode']
 
@@ -639,20 +677,20 @@ class Discover(DiscoverTemplate):
           "city_w_country_code" : city_w_country_code,
           "monthly_listeners" : monthly_listeners,
           "country_name_city" : country_name_city
-        }        
+        }
         self.Spotify_Monthly_Listeners_by_City_Graph.visible = True
         self.No_Spotify_Monthly_Listeners_by_City_Graph.visible = False
         self.create_monthly_listeners_by_city_bar_chart()
-        
+
       else:
         self.audience_city.text = '-'
         self.Spotify_Monthly_Listeners_by_City_Graph.visible = False
         self.No_Spotify_Monthly_Listeners_by_City_Graph.visible = True
-                
+
       # --------
       # d) Social Media followers
       audience_follower = json.loads(anvil.server.call('get_audience_follower2', artist_id))
-      
+
       if audience_follower != []:
         # Initialize a dictionary to hold data for each platform
         self.no_social_media.visible = False
@@ -660,13 +698,13 @@ class Discover(DiscoverTemplate):
 
         # Populate the dictionary with data
         for entry in audience_follower:
-            platform = entry['Platform']
-            platform_data[platform]['dates'].append(entry['Date'])
-            platform_data[platform]['followers'].append(entry['ArtistFollower'])
+          platform = entry['Platform']
+          platform_data[platform]['dates'].append(entry['Date'])
+          platform_data[platform]['followers'].append(entry['ArtistFollower'])
 
         if platform_data['tiktok']['dates'] != []:
           tiktok_fol_lat = platform_data['tiktok']['followers'][-1]
-          
+
           # KPI_3
           self.KPI_3.content = f"""<span style="font-family: GS-regular; font-size: 20px; color: rgb(255, 255, 255); padding-left: 10px;">{get_open_form().shorten_number(tiktok_fol_lat)}</span>"""
           if sug["ev_tt_fol_30"] != 'None':
@@ -680,22 +718,22 @@ class Discover(DiscoverTemplate):
               col = 'red'
             else:
               ev = f"""+{val}%"""
-              col = 'grey'            
+              col = 'grey'
             self.KPI_3.content = self.KPI_3.content + f"""<span style="font-size: 16px; color: {col};">  {ev}</span>"""
-            
+
           # other
           self.tiktok_follower.text = f'{int(tiktok_fol_lat):,}'
         else:
           self.KPI_3.content = """<span style="font-family: GS-regular; font-size: 20px; color: rgb(255, 255, 255); padding-left: 10px;">-</span>"""
-          
+
         if platform_data['soundcloud']['dates'] != []:
           soundcloud_fol_lat = platform_data['soundcloud']['followers'][-1]
           self.soundcloud_follower.text = f'{int(soundcloud_fol_lat):,}'
-        
+
         def create_social_media_followers_chart(data, platform, color):
           # Format the text for the bar annotations
           formatted_text = [f'{x/1e6:.1f}M' if x >= 1e6 else f'{x/1e3:.1f}K' if x >= 1e3 else str(x) for x in data['followers']]
-          
+
           fig = go.Figure(data=(
             go.Scatter(
               x=data['dates'],
@@ -767,41 +805,41 @@ class Discover(DiscoverTemplate):
           self.soundcloud_chart.visible = False
           self.no_soundcloud.visible = True
           self.soundcloud_follower.text = '-'
-          
+
       else:
         self.KPI_3.content = """<span style="font-family: GS-regular; font-size: 20px; color: rgb(255, 255, 255); padding-left: 10px;">-</span>"""
         self.tiktok_follower.text = '-'
         self.soundcloud_follower.text = '-'
         self.no_social_media.visible = True
-      
+
       # -------------------------------
       # IV. SHORTS
       # clean present shorts
       # self.flow_panel_shorts.clear()
-  
+
       # get data
       shorts_data = anvil.server.call('get_shorts_artist', artist_id, 0, 0)
-      
+
       # stats
       # if shorts_data['header'] is not None and len(shorts_data['header']) > 0:
       self.avg_views.text = shorts_data['header']['avg_views'] if shorts_data is not None and shorts_data['header']['avg_views'] is not None else '-'
       self.avg_likes.text = shorts_data['header']['avg_likes'] if shorts_data is not None and shorts_data['header']['avg_likes'] is not None else '-'
       self.avg_comments.text = shorts_data['header']['avg_comments'] if shorts_data is not None and shorts_data['header']['avg_comments'] is not None else '-'
       self.shorts_per_month.text = shorts_data['header']['shorts_per_month'] if shorts_data is not None and shorts_data['header']['shorts_per_month'] is not None else '-'
-      self.avg_engagement_rate.text = shorts_data['header']['avg_engagement_rate'] if shorts_data is not None and shorts_data['header']['avg_engagement_rate'] is not None else '-'      
-        
-      # present shorts        
+      self.avg_engagement_rate.text = shorts_data['header']['avg_engagement_rate'] if shorts_data is not None and shorts_data['header']['avg_engagement_rate'] is not None else '-'
+
+      # present shorts
       if shorts_data is not None:
         shorts = shorts_data['shorts']
         if shorts is not None and len(shorts) > 0:
           self.no_shorts.visible = False
           shorts = json.loads(shorts)
-        
+
           self.num_shorts = len(shorts)
           for i in range(0, len(shorts)):
             self.flow_panel_shorts.add_component(C_Short(data=shorts[i]))
-  
-            
+
+
       # # -------------------------------
       # # V. MUSICAL
       # a) musical features
@@ -814,12 +852,12 @@ class Discover(DiscoverTemplate):
       if sug["AvgEnergy"] == 'None': f3 = '-'
       else: f3 = "{:.0f}".format(round(float(sug["AvgEnergy"])*100,0))
       self.feature_3.text = f3 + '%'
-  
+
       tonleiter = ["C", "C#/Db", "D", "D#/Eb", "E", "F", "F#/Gb", "G", "G#/Ab", "A", "A#/Bb", "B"]
       if sug["AvgKey"] == 'None': f4 = '--'
       else: f4 = tonleiter[int(round(float(sug["AvgKey"]),0))]
       self.feature_4.text = f4
-      
+
       if sug["AvgLoudness"] == 'None': f5 = '-'
       else: f5 = "{:.2f}".format(round(float(sug["AvgLoudness"]),2))
       self.feature_5.text = f5 + ' dB'
@@ -828,7 +866,7 @@ class Discover(DiscoverTemplate):
       self.feature_6.text = f6 + '% Major'
       if sug["AvgSpeechiness"] == 'None': f7 = '-'
       else: f7 = "{:.0f}".format(round(float(sug["AvgSpeechiness"])*100,0))
-      self.feature_7.text = f7 + '%'    
+      self.feature_7.text = f7 + '%'
       if sug["AvgAcousticness"] == 'None': f8 = '-'
       else: f8 = "{:.0f}".format(round(float(sug["AvgAcousticness"])*100,0))
       self.feature_8.text = f8 + '%'
@@ -844,13 +882,13 @@ class Discover(DiscoverTemplate):
       if sug["AvgTempo"] == 'None': f12 = '-'
       else: f12 = "{:.0f}".format(round(float(sug["AvgTempo"]),0))
       self.feature_12.text = f12 + ' bpm'
-      
+
       # -------------------------------
       # VI. Live
       # get data
       event_data = anvil.server.call('get_songkick_events',  artist_id)
       # event_data = None
-      
+
       if event_data is not None:
         # a) stats
         self.time_since_last_event.text = event_data['header']['time_since_last_event'] if event_data['header']['time_since_last_event'] is not None else '-'
@@ -868,7 +906,7 @@ class Discover(DiscoverTemplate):
         else:
           self.past_events_data_grid.visible = False
           self.no_past_events_data_grid.visible = True
-              
+
         # c) future events tables
         # print('event_data["future"]:', event_data["future"])
         if event_data["future"] is not None:
@@ -899,13 +937,13 @@ class Discover(DiscoverTemplate):
         self.events_country_data = event_data["country"]
         self.create_events_by_country_bar_chart()
 
-        # f) city        
+        # f) city
         # print('event_data["city"]:', event_data["city"])
         self.Events_by_City_Graph.visible = True
         self.No_Events_by_City_Graph.visible = False
         self.events_city_data = event_data["city"]
         self.create_events_by_city_bar_chart()
-          
+
       else:
         # a) stats
         self.time_since_last_event.text = '-'
@@ -918,12 +956,12 @@ class Discover(DiscoverTemplate):
         # b) past events table
         self.past_events_data_grid.visible = False
         self.no_past_events_data_grid.visible = True
-      
+
         # c) future events table
         self.future_events_data_grid.visible = False
         self.no_future_events_data_grid.visible = True
         self.no_future_events_data_events.visible = False
-              
+
         # d) event cycle
         self.no_event_cycle.visible = True
         self.Event_Timing_Graph.visible = False
@@ -936,8 +974,8 @@ class Discover(DiscoverTemplate):
         # f) city
         self.Events_by_City_Graph.visible = False
         self.No_Events_by_City_Graph.visible = True
-        
-        
+
+
       # -------------------------------
       # FOOTER:
       # a) Spotify Web-Player (old!)
@@ -953,7 +991,7 @@ class Discover(DiscoverTemplate):
         self.button_remove_filters.visible = False
       else:
         self.button_remove_filters.visible = True
-        
+
       # # --------
       # # c) Watchlist Drop-Down
       # if self.user_id is None:
@@ -962,7 +1000,7 @@ class Discover(DiscoverTemplate):
       #   self.drop_down_wl.visible = True
       #   wl_data = json.loads(anvil.server.call('get_watchlist_ids',  self.user_id))
       #   wl_name_last_used = [item['watchlist_name'] for item in wl_data if item['is_last_used']][0]
-      #   self.drop_down_wl.selected_value = wl_name_last_used      
+      #   self.drop_down_wl.selected_value = wl_name_last_used
       #   watchlist_names = [item['watchlist_name'] for item in wl_data]
       #   self.drop_down_wl.items = watchlist_names
 
@@ -974,10 +1012,10 @@ class Discover(DiscoverTemplate):
         self.drop_down_model.visible = True
         model_data = json.loads(anvil.server.call('get_model_ids',  self.user_id))
         model_name_last_used = [item['model_name'] for item in model_data if item['is_last_used']][0]
-        self.drop_down_model.selected_value = model_name_last_used      
+        self.drop_down_model.selected_value = model_name_last_used
         model_names = [item['model_name'] for item in model_data]
         self.drop_down_model.items = model_names
-      
+
       # -------------------------------
       # MILESTONE ALERTS & FEEDBACK
       total_ratings = sug['total_ratings']
@@ -999,19 +1037,11 @@ class Discover(DiscoverTemplate):
         self.ask_for_feedback()
       elif total_ratings == "199":
         self.ask_for_feedback()
-  
+
     self.header.scroll_into_view(smooth=True)
 
-  
+
   # ----------------------------------------------
-  def form_show(self, **event_args):
-    embed_iframe_element = document.getElementById('embed-iframe')
-    if embed_iframe_element:
-      self.call_js('createOrUpdateSpotifyPlayer', anvil.js.get_dom_node(self), 'artist', self.sug["SpotifyArtistID"])
-      print("Embed iframe element found. Initialize Spotify player!")
-    else:
-      print("Embed iframe element not found. Will not initialize Spotify player.")
-    
   def spotify_HTML_player(self):
     c_web_player_html = '''
       <div id="embed-iframe"></div>
@@ -1048,7 +1078,7 @@ class Discover(DiscoverTemplate):
       self.column_panel_circle.add_component(html_panel)
     else:
       print("NO SELF PRED?")
-  
+
   def truncate_label(self, label):
     return label if len(label) <= 10 else label[:10] + '...'
 
@@ -1057,7 +1087,7 @@ class Discover(DiscoverTemplate):
       labels = self.bar_data["labels"]
     if cooperations is None:
       cooperations = self.bar_data["cooperations"]
-      
+
     truncated_labels = [self.truncate_label(label) for label in labels]
 
     # Creating the Bar Chart
@@ -1105,10 +1135,10 @@ class Discover(DiscoverTemplate):
       )
     self.Most_Frequent_Labels_Graph.figure = fig
 
-  
+
   # ----------------------------------
   # RELEASE AND EVENT TIMING CHARTS
-  def create_release_timing_scatter_chart(self, data):    
+  def create_release_timing_scatter_chart(self, data):
     dates_str = [x["AlbumReleaseDate"] for x in data]
     tracks = [x["Title"] for x in data]
     labels = [x["LabelName"] for x in data]
@@ -1122,7 +1152,7 @@ class Discover(DiscoverTemplate):
       # Get today's date
       today = datetime.today().strftime('%Y-%m-%d')
       date_before_min = date_before_min.strftime('%Y-%m-%d')
-      
+
       # Creating the Scatter Chart
       fig = go.Figure(data=(
         go.Scatter(
@@ -1172,10 +1202,10 @@ class Discover(DiscoverTemplate):
           marker_line_width=1,
           opacity=0.8
         )
-      
+
       self.Release_Timing_Graph.figure = fig
 
-  def create_event_timing_scatter_chart(self, data):    
+  def create_event_timing_scatter_chart(self, data):
     dates_str = [x["date"] for x in data]
     place = [x["place"] for x in data]
     event_name = [x["event_name"] for x in data]
@@ -1188,7 +1218,7 @@ class Discover(DiscoverTemplate):
       max_date = max(dates) + timedelta(days=50)
       date_before_min = min_date  # Substracting 50 days from the min date of the list of dates for visual purposes.
       date_before_min = date_before_min.strftime('%Y-%m-%d')
-      
+
       # Creating the Scatter Chart
       fig = go.Figure(data=(
         go.Scatter(
@@ -1238,7 +1268,7 @@ class Discover(DiscoverTemplate):
           marker_line_width=1,
           opacity=0.8
         )
-        
+
       self.Event_Timing_Graph.figure = fig
 
 
@@ -1257,7 +1287,7 @@ class Discover(DiscoverTemplate):
     self.create_monthly_listeners_by_city_bar_chart()
     self.create_events_by_country_bar_chart()
     self.create_events_by_city_bar_chart()
-  
+
   # MTL LISTENERS by COUNTRY
   def create_monthly_listeners_by_country_bar_chart(self, country_page=1, items_per_page=15, country_codes=None, monthly_listeners=None, country_name=None):
     if self.listeners_country_data:
@@ -1268,29 +1298,29 @@ class Discover(DiscoverTemplate):
         self.sort_dropdown_countries.selected_value = load_var('sort_dropdown_countries')
         self.sort_dropdown_countries_2.selected_value = load_var('sort_dropdown_countries')
       selected_country_name = self.sort_dropdown_countries.selected_value
-  
+
       country_codes = self.listeners_country_data["country_codes"]
       monthly_listeners = self.listeners_country_data["monthly_listeners"]
       country_name = self.listeners_country_data["country_name"]
-  
+
       # Calculate the range for the current page
       start_index = (country_page - 1) * items_per_page
       end_index = start_index + items_per_page
-  
+
       # Slice the data for the current page
       country_code_page = country_codes[start_index:end_index]
       monthly_listeners_page = monthly_listeners[start_index:end_index]
       country_name_page = country_name[start_index:end_index]
-  
+
       # Highlight the selected country
       bar_colors = [
         'rgba(237,139,82,1)' if name == selected_country_name or selected_country_name == "All countries" else 'rgba(125,125,125,0.6)'
         for name in country_name_page
       ]
-  
+
       # Format the text for the bar annotations
       formatted_text = [f'{x/1e6:.1f}M' if x >= 1e6 else f'{x/1e3:.1f}K' if x >= 1e3 else str(x) for x in monthly_listeners]
-      
+
       # Creating the Bar Chart
       fig = go.Figure(data=(
         go.Bar(
@@ -1303,7 +1333,7 @@ class Discover(DiscoverTemplate):
           hovertemplate='Country: %{hovertext}<br>Monthly Listeners: %{text} <extra></extra>',
         )
       ))
-  
+
       fig.update_layout(
         template='plotly_dark',
         plot_bgcolor='rgba(0,0,0,0)',
@@ -1346,12 +1376,12 @@ class Discover(DiscoverTemplate):
       if self.current_page == self.total_pages:
         self.next_button_country.role = ['icon-button-disabled', 'header-6']
       else:
-        self.next_button_country.role = ['icon-button', 'header-6']  
+        self.next_button_country.role = ['icon-button', 'header-6']
 
   def next_page_country(self, **event_args):
     if self.current_page < self.total_pages:
-      self.create_monthly_listeners_by_country_bar_chart(country_page=self.current_page + 1)  
-    
+      self.create_monthly_listeners_by_country_bar_chart(country_page=self.current_page + 1)
+
   def previous_page_country(self, **event_args):
     if self.current_page > 1:
       self.create_monthly_listeners_by_country_bar_chart(country_page=self.current_page - 1)
@@ -1366,26 +1396,26 @@ class Discover(DiscoverTemplate):
         self.sort_dropdown_countries.selected_value = load_var('sort_dropdown_countries')
         self.sort_dropdown_countries_2.selected_value = load_var('sort_dropdown_countries')
       selected_country_name = self.sort_dropdown_countries_2.selected_value
-  
+
       country_codes = [item["country_code"] for item in self.events_country_data]
       no_events = [item["no_events"] for item in self.events_country_data]
       country_name = [item["country"] for item in self.events_country_data]
-  
+
       # Calculate the range for the current page
       start_index = (country_page - 1) * items_per_page
       end_index = start_index + items_per_page
-  
+
       # Slice the data for the current page
       country_code_page = country_codes[start_index:end_index]
       no_events_page = no_events[start_index:end_index]
       country_name_page = country_name[start_index:end_index]
-  
+
       # Highlight the selected country
       bar_colors = [
         'rgba(237,139,82,1)' if name == selected_country_name or selected_country_name == "All countries" else 'rgba(125,125,125,0.6)'
         for name in country_name_page
       ]
-      
+
       # Creating the Bar Chart
       fig = go.Figure(data=(
         go.Bar(
@@ -1398,7 +1428,7 @@ class Discover(DiscoverTemplate):
           hovertemplate='Country: %{hovertext}<br>Number Events: %{text} <extra></extra>',
         )
       ))
-  
+
       fig.update_layout(
         template='plotly_dark',
         plot_bgcolor='rgba(0,0,0,0)',
@@ -1441,12 +1471,12 @@ class Discover(DiscoverTemplate):
       if self.current_page == self.total_pages:
         self.next_button_country_2.role = ['icon-button-disabled', 'header-6']
       else:
-        self.next_button_country_2.role = ['icon-button', 'header-6']  
+        self.next_button_country_2.role = ['icon-button', 'header-6']
 
   def next_page_country_2(self, **event_args):
     if self.current_page < self.total_pages:
-      self.create_events_by_country_bar_chart(country_page=self.current_page + 1)  
-    
+      self.create_events_by_country_bar_chart(country_page=self.current_page + 1)
+
   def previous_page_country_2(self, **event_args):
     if self.current_page > 1:
       self.create_events_by_country_bar_chart(country_page=self.current_page - 1)
@@ -1455,27 +1485,27 @@ class Discover(DiscoverTemplate):
   def create_monthly_listeners_by_city_bar_chart(self, page=1, items_per_page=15, city_w_country_code=None, monthly_listeners=None):
     if self.listeners_city_data:
       selected_country_name = self.sort_dropdown_countries.selected_value
-      
+
       city_w_country_code = self.listeners_city_data["city_w_country_code"]
       monthly_listeners = self.listeners_city_data["monthly_listeners"]
       country_name = self.listeners_city_data["country_name_city"]
-  
+
       # Calculate the range for the current page
       start_index = (page - 1) * items_per_page
       end_index = start_index + items_per_page
-  
+
       # Slice the data for the current page
       city_w_country_code_page = city_w_country_code[start_index:end_index]
       monthly_listeners_page = monthly_listeners[start_index:end_index]
       country_name_page = country_name[start_index:end_index]
-  
+
       bar_colors = [
         'rgba(237,139,82,1)' if code == selected_country_name or selected_country_name == "All countries" else 'rgba(125,125,125,0.6)'
         for code in country_name_page
       ]
       # Format the text for the bar annotations
       formatted_text = [f'{x/1e6:.1f}M' if x >= 1e6 else f'{x/1e3:.1f}K' if x >= 1e3 else str(x) for x in monthly_listeners]
-      
+
       # Creating the Bar Chart
       fig = go.Figure(data=(
         go.Bar(
@@ -1488,7 +1518,7 @@ class Discover(DiscoverTemplate):
           hovertemplate= 'City: %{hovertext}<br>Monthly Listeners: %{text} <extra></extra>',
         )
       ))
-  
+
       fig.update_layout(
         template='plotly_dark',
         plot_bgcolor='rgba(0,0,0,0)',
@@ -1545,25 +1575,25 @@ class Discover(DiscoverTemplate):
   def create_events_by_city_bar_chart(self, page=1, items_per_page=15, city_w_country_code=None, no_events=None):
     if self.events_city_data:
       selected_country_name = self.sort_dropdown_countries_2.selected_value
-      
+
       city_w_country_code = [item["city_name"] for item in self.events_city_data]
       no_events = [item["no_events"] for item in self.events_city_data]
       country_name = [item["country"] for item in self.events_city_data]
-  
+
       # Calculate the range for the current page
       start_index = (page - 1) * items_per_page
       end_index = start_index + items_per_page
-  
+
       # Slice the data for the current page
       city_w_country_code_page = city_w_country_code[start_index:end_index]
       no_events_page = no_events[start_index:end_index]
       country_name_page = country_name[start_index:end_index]
-  
+
       bar_colors = [
         'rgba(237,139,82,1)' if code == selected_country_name or selected_country_name == "All countries" else 'rgba(125,125,125,0.6)'
         for code in country_name_page
       ]
-      
+
       # Creating the Bar Chart
       fig = go.Figure(data=(
         go.Bar(
@@ -1576,7 +1606,7 @@ class Discover(DiscoverTemplate):
           hovertemplate= 'City: %{hovertext}<br>Number Events: %{text} <extra></extra>',
         )
       ))
-  
+
       fig.update_layout(
         template='plotly_dark',
         plot_bgcolor='rgba(0,0,0,0)',
@@ -1629,19 +1659,19 @@ class Discover(DiscoverTemplate):
     if self.current_page > 1:
       self.create_events_by_city_bar_chart(page=self.current_page - 1)
 
-  
+
   # ----------------------------------
   def create_artist_popularity_scatter_chart(self, dates=None, artist_popularity=None):
     scatter_data_pop = {
       "dates": [date for date, followers in zip(self.scatter_data["dates"], self.scatter_data["artist_popularity"]) if followers is not None],
       "artist_popularity": [popularity for popularity in self.scatter_data["artist_popularity"] if popularity is not None]
     }
-    
+
     if dates is None:
       dates = scatter_data_pop["dates"]
     if artist_popularity is None:
       artist_popularity = scatter_data_pop["artist_popularity"]
-    
+
     # Creating the Scatter Chart
     fig = go.Figure(data=(
       go.Scatter(
@@ -1680,9 +1710,9 @@ class Discover(DiscoverTemplate):
         marker_line_width=1,
         opacity=0.9
       )
-    
+
     self.Spotify_Popularity_Graph.figure = fig
-    
+
   def create_artist_followers_scatter_chart(self, dates=None, artist_followers=None):
     scatter_data_fol = {
       "dates": [date for date, followers in zip(self.scatter_data["dates"], self.scatter_data["artist_followers"]) if followers is not None],
@@ -1693,7 +1723,7 @@ class Discover(DiscoverTemplate):
       dates = scatter_data_fol["dates"]
     if artist_followers is None:
       artist_followers = scatter_data_fol["artist_followers"]
-    
+
     # Format the text for the bar annotations
     formatted_text = [f'{x/1e6:.1f}M' if x >= 1e6 else f'{x/1e3:.1f}K' if x >= 1e3 else str(x) for x in artist_followers]
 
@@ -1737,15 +1767,15 @@ class Discover(DiscoverTemplate):
         marker_line_width=1,
         opacity=0.9
       )
-    
+
     self.Spotify_Followers_Graph.figure = fig
-    
+
   def create_artist_monthly_listeners_scatter_chart(self, dates=None, monthly_listeners=None):
     if dates is None:
       dates = self.listeners_data["dates"]
     if monthly_listeners is None:
       monthly_listeners = self.listeners_data["monthly_listeners"]
-      
+
     # Format the text for the bar annotations
     formatted_text = [f'{x/1e6:.1f}M' if x >= 1e6 else f'{x/1e3:.1f}K' if x >= 1e3 else str(x) for x in monthly_listeners]
 
@@ -1790,9 +1820,9 @@ class Discover(DiscoverTemplate):
         marker_line_width=1,
         opacity=0.9
       )
-    
+
     self.Spotify_Monthly_Listeners_Graph.figure = fig
-  
+
   def create_social_media_followers_chart_all_platforms(self, platform_data):
     traces = []
     # Define colors for each platform
@@ -1820,7 +1850,7 @@ class Discover(DiscoverTemplate):
         traces.append(trace)
 
     fig = go.Figure(data=traces)
-        
+
     fig.update_layout(
       template='plotly_dark',
       plot_bgcolor='rgba(0,0,0,0)',
@@ -1840,9 +1870,9 @@ class Discover(DiscoverTemplate):
           b=5   # Bottom margin
       )
     )
-    
+
     self.Social_Media_Followers_Graph.figure = fig
-  
+
   def apply_default_sorting(self):
     """Apply the default sorting based on the dropdown selection"""
     labels = self.bar_data["labels"]
@@ -1851,12 +1881,12 @@ class Discover(DiscoverTemplate):
     sorted_labels = [labels[i] for i in sorted_indices]
     sorted_cooperations = [cooperations[i] for i in sorted_indices]
     self.create_bar_chart(labels=sorted_labels, cooperations=sorted_cooperations)
-    
+
   def sort_data(self, **event_args):
     sort_option = self.sort_dropdown.selected_value
     labels = self.bar_data["labels"]
     cooperations = self.bar_data["cooperations"]
-    
+
     if sort_option == "alpha":
       # Sort alphabetically
       sorted_indices = sorted(range(len(labels)), key=lambda i: labels[i])
@@ -1872,17 +1902,17 @@ class Discover(DiscoverTemplate):
     else:
       # If "Sort" is selected, do not sort
       return
-      
+
     sorted_labels = [labels[i] for i in sorted_indices]
     sorted_cooperations = [cooperations[i] for i in sorted_indices]
-    
+
     # Update the bar chart with sorted data
     self.create_bar_chart(labels=sorted_labels, cooperations=sorted_cooperations)
   # ----------------------------------------------
   # ----------------------------------------------
-  
+
   # -------------------------------
-  # INFO CLICK  
+  # INFO CLICK
   def info_click(self, **event_args):
     if self.info.icon == 'fa:angle-down':
       self.info.icon = 'fa:angle-up'
@@ -1905,25 +1935,25 @@ class Discover(DiscoverTemplate):
       source = "https://flagcdn.com/w40/" + country["CountryCode"].lower() + ".png"
     country_flag = Image(source=source, spacing_below=0, spacing_above=0)
     custom_alert_form = C_ArtistBio(
-      text=self.sug["Biography"], 
-      pickurl=self.sug["ArtistPictureURL"], 
-      artist_name=self.sug["Name"], 
-      countryflag=country_flag, 
+      text=self.sug["Biography"],
+      pickurl=self.sug["ArtistPictureURL"],
+      artist_name=self.sug["Name"],
+      countryflag=country_flag,
       countryname=countryname
     )
     alert(content=custom_alert_form, large=True, buttons=[])
-  
+
   # -------------------------------
-  # WATCHLIST  
+  # WATCHLIST
   def link_watchlist_name_click(self, **event_args):
     name = self.Artist_Name_Details.get_components()
     name = name[0].text
-    
+
     if self.link_watchlist_name.icon == 'fa:star':
       # remove artist from wl
       self.link_watchlist_name.icon = 'fa:star-o'
       self.link_watchlist_name2.icon = 'fa:star-o'
-      
+
       anvil.server.call('update_watchlist_details',
                         user_id=user["user_id"],
                         ai_artist_id=self.artist_id,
@@ -1932,16 +1962,16 @@ class Discover(DiscoverTemplate):
                         notification=False
                         )
       get_open_form().update_no_notifications()
-      
+
       Notification("",
         title=f"{name} removed from the watchlist!",
         style="success").show()
-      
+
     else:
       # add artist to watchlist
       self.link_watchlist_name.icon = 'fa:star'
       self.link_watchlist_name2.icon = 'fa:star'
-      
+
       anvil.server.call('update_watchlist_details',
                         user_id=user["user_id"],
                         ai_artist_id=self.artist_id,
@@ -1952,12 +1982,12 @@ class Discover(DiscoverTemplate):
                         priority='mid',
                         )
       get_open_form().update_no_notifications()
-      
+
       Notification("",
         title=f"{name} added to the watchlist!",
         style="success").show()
 
-  
+
   # -------------------------------
   # SECTION NAVIGATION
   def nav_button_click(self, **event_args):
@@ -1968,8 +1998,8 @@ class Discover(DiscoverTemplate):
     # Get the button that was clicked
     sender = event_args.get('sender')
     if not sender:
-        return
-    
+      return
+
     # Create a single dictionary with all section information
     sections_data = {
       'releases': {'button': self.nav_releases, 'container': self.sec_releases, 'button_text': 'Releases'},
@@ -1979,76 +2009,78 @@ class Discover(DiscoverTemplate):
       'live': {'button': self.nav_live, 'container': self.sec_live, 'button_text': 'Live'},
       'shorts': {'button': self.nav_shorts, 'container': self.sec_shorts, 'button_text': 'Shorts'}
     }
-    
+
     # Create reverse mapping from button text to section name
     text_to_section = {data['button_text']: section_name for section_name, data in sections_data.items()}
-    
+
     # Determine section name from the sender
     section_name = None
     if sender.text in text_to_section:
-        section_name = text_to_section[sender.text]
+      section_name = text_to_section[sender.text]
     elif sender.name.startswith('nav_'):
-        section_name = sender.name[4:]  # Remove 'nav_' prefix
-    
+      section_name = sender.name[4:]  # Remove 'nav_' prefix
+
     if not section_name or section_name not in sections_data:
-        return
-    
+      return
+
     # 1. Reset all buttons to default role
     for section_info in sections_data.values():
-        section_info['button'].role = 'section_buttons'
-    
+      section_info['button'].role = 'section_buttons'
+
     # 2. Hide all sections
     for section_info in sections_data.values():
-        section_info['container'].visible = False
-    
+      section_info['container'].visible = False
+
     # 3. Set active button and section
     sections_data[section_name]['button'].role = 'section_buttons_focused'
     sections_data[section_name]['container'].visible = True
-    
+
   # -------------------------------
   # RATING BUTTONS
   def button_1_click(self, **event_args):
     anvil.server.call('add_interest', user["user_id"], self.model_id, self.artist_id, 1, False, '')
     self.header.scroll_into_view(smooth=True)
     next_artist_id = anvil.server.call('get_next_artist_id', self.model_id)
-    routing.set_url_hash(f'artists?artist_id={next_artist_id}', load_from_cache=False)
-
+    routing.set_url_hash(f'agent_artists?artist_id={next_artist_id}', load_from_cache=False)
+    # history.replaceState(None, "", f"#{'agent_artists?artist_id=123'}")
+    # pass
+  
   def button_2_click(self, **event_args):
     anvil.server.call('add_interest', user["user_id"], self.model_id, self.artist_id, 2, False, '')
     self.header.scroll_into_view(smooth=True)
     next_artist_id = anvil.server.call('get_next_artist_id', self.model_id)
-    routing.set_url_hash(f'artists?artist_id={next_artist_id}', load_from_cache=False)
+    routing.set_url_hash(f'agent_artists?artist_id={next_artist_id}', load_from_cache=False)
 
   def button_3_click(self, **event_args):
     anvil.server.call('add_interest', user["user_id"], self.model_id, self.artist_id, 3, False, '')
     self.header.scroll_into_view(smooth=True)
     next_artist_id = anvil.server.call('get_next_artist_id', self.model_id)
-    routing.set_url_hash(f'artists?artist_id={next_artist_id}', load_from_cache=False)
+    routing.set_url_hash(f'agent_artists?artist_id={next_artist_id}', load_from_cache=False)
 
   def button_4_click(self, **event_args):
     anvil.server.call('add_interest', user["user_id"], self.model_id, self.artist_id, 4, False, '')
     self.header.scroll_into_view(smooth=True)
     next_artist_id = anvil.server.call('get_next_artist_id', self.model_id)
-    routing.set_url_hash(f'artists?artist_id={next_artist_id}', load_from_cache=False)
+    routing.set_url_hash(f'agent_artists?artist_id={next_artist_id}', load_from_cache=False)
 
   def button_5_click(self, **event_args):
     anvil.server.call('add_interest', user["user_id"], self.model_id, self.artist_id, 5, False, '')
     self.header.scroll_into_view(smooth=True)
     next_artist_id = anvil.server.call('get_next_artist_id', self.model_id)
-    routing.set_url_hash(f'artists?artist_id={next_artist_id}', load_from_cache=False)
+    routing.set_url_hash(f'agent_artists?artist_id={next_artist_id}', load_from_cache=False)
 
   def button_6_click(self, **event_args):
     anvil.server.call('add_interest', user["user_id"], self.model_id, self.artist_id, 6, False, '')
     self.header.scroll_into_view(smooth=True)
     next_artist_id = anvil.server.call('get_next_artist_id', self.model_id)
-    routing.set_url_hash(f'artists?artist_id={next_artist_id}', load_from_cache=False)
+    routing.set_url_hash(f'agent_artists?artist_id={next_artist_id}', load_from_cache=False)
 
   def button_7_click(self, **event_args):
     anvil.server.call('add_interest', user["user_id"], self.model_id, self.artist_id, 7, False, '')
     self.header.scroll_into_view(smooth=True)
     next_artist_id = anvil.server.call('get_next_artist_id', self.model_id)
-    routing.set_url_hash(f'artists?artist_id={next_artist_id}', load_from_cache=False)
-  
+    routing.set_url_hash(f'agent_artists?artist_id={next_artist_id}', load_from_cache=False)
+
   # -------------------------------
   # DESCRIPTION LINKS
   def info_prediction_click(self, **event_args):
@@ -2059,122 +2091,122 @@ class Discover(DiscoverTemplate):
     content="Level of popularity on Spotify. Ranges from 0 to 100.")
   def info_follower_click(self, **event_args):
     alert(title='Follower',
-    content="Number of followers on Spotify")    
+    content="Number of followers on Spotify")
   def info_no_tracks_click(self, **event_args):
     alert(title='No. Tracks',
     content="Number of tracks from the presented Artist in our database. Not all tracks of this Artist have to be in the database.")
   def info_no_tracks_365_click(self, **event_args):
     alert(title='No. Releases in last 365 Days',
     content="Number of tracks released from the presented Artist in the last 365 days. Not all tracks of this Artist have to be in our database.")
-  
+
   def info_min_distance_click(self, **event_args):
     alert(title='Min. musical Distance',
     content="If you subscribed to the Inspect or Dissect subscription, the minimal musical distance is the smallest Euclidean Distance between one of the artist's songs and your personal reference tracks.\n\nIf you have not yet added your reference tracks or are subscribed to the Explore subscription, this value is empty.")
   def info_avg_distance_click(self, **event_args):
-      alert(title='Avg. musical Distance',
-      content="If you subscribed to the Inspect or Dissect subscription, the average musical distance is the average Euclidean Distance between the artist's songs and your personal reference tracks.\n\nIf you have not yet added your reference tracks or are subscribed to the Explore subscription, this value is empty.")
+    alert(title='Avg. musical Distance',
+    content="If you subscribed to the Inspect or Dissect subscription, the average musical distance is the average Euclidean Distance between the artist's songs and your personal reference tracks.\n\nIf you have not yet added your reference tracks or are subscribed to the Explore subscription, this value is empty.")
   def info_max_distance_click(self, **event_args):
-      alert(title='Max. musical Distance',
-      content="If you subscribed to the Inspect or Dissect subscription, the maximal musical distance is the largest Euclidean Distance between one of the artist's songs and your personal reference tracks.\n\nIf you have not yet added your reference tracks or are subscribed to the Explore subscription, this value is empty.")
+    alert(title='Max. musical Distance',
+    content="If you subscribed to the Inspect or Dissect subscription, the maximal musical distance is the largest Euclidean Distance between one of the artist's songs and your personal reference tracks.\n\nIf you have not yet added your reference tracks or are subscribed to the Explore subscription, this value is empty.")
 
   def info_duration_click(self, **event_args):
-      alert(title='Avg. Duration',
-      content="The average duration of all songs of an artist in seconds.")
+    alert(title='Avg. Duration',
+    content="The average duration of all songs of an artist in seconds.")
   def info_danceability_click(self, **event_args):
-      alert(title='Avg. Danceability',
-      content="Danceability describes how suitable a track is for dancing based on a combination of musical elements including tempo, rhythm stability, beat strength, and overall regularity.\n\nWe average this value across all songs and its value ranges from 0 (least danceable) to 100% (most danceable).")
+    alert(title='Avg. Danceability',
+    content="Danceability describes how suitable a track is for dancing based on a combination of musical elements including tempo, rhythm stability, beat strength, and overall regularity.\n\nWe average this value across all songs and its value ranges from 0 (least danceable) to 100% (most danceable).")
   def info_energy_click(self, **event_args):
-      alert(title='Avg. Energy',
-      content="Energy is a measure from 0 to 100% and represents a perceptual measure of intensity and activity on average across all songs.")
+    alert(title='Avg. Energy',
+    content="Energy is a measure from 0 to 100% and represents a perceptual measure of intensity and activity on average across all songs.")
   def info_key_click(self, **event_args):
-      alert(title='Avg. Key',
-      content="The estimated overall average key of all songs of an artist")
+    alert(title='Avg. Key',
+    content="The estimated overall average key of all songs of an artist")
   def info_loudness_click(self, **event_args):
-      alert(title='Avg. relative Loudness',
-      content="The overall average loudness of all tracks in decibels (dB).\n\nFor each track the loudness values are averaged across the entire track and are useful for comparing relative loudness of tracks.")
+    alert(title='Avg. relative Loudness',
+    content="The overall average loudness of all tracks in decibels (dB).\n\nFor each track the loudness values are averaged across the entire track and are useful for comparing relative loudness of tracks.")
   def info_mode_click(self, **event_args):
-      alert(title='Mode',
-      content="Mode indicates the portion of tracks in major (modality) of an artist. Ranges from 0 to 100%.")
+    alert(title='Mode',
+    content="Mode indicates the portion of tracks in major (modality) of an artist. Ranges from 0 to 100%.")
   def info_speechiness_click(self, **event_args):
-      alert(title='Avg. Speechiness',
-      content="Speechiness detects the presence of spoken words in a track. The more exclusively speech-like the recording (e.g., talk show, audiobook, poetry), the closer to 100% the attribute value. It is averaged across all songs of that artist.")
+    alert(title='Avg. Speechiness',
+    content="Speechiness detects the presence of spoken words in a track. The more exclusively speech-like the recording (e.g., talk show, audiobook, poetry), the closer to 100% the attribute value. It is averaged across all songs of that artist.")
   def info_acousticness_click(self, **event_args):
-      alert(title='Avg. Acousticness',
-      content="A confidence measure from 0 to 100% of whether an artist's tracks are acoustic. 100% represents high confidence the tracks are acoustic.")
+    alert(title='Avg. Acousticness',
+    content="A confidence measure from 0 to 100% of whether an artist's tracks are acoustic. 100% represents high confidence the tracks are acoustic.")
   def info_instrumentalness_click(self, **event_args):
-      alert(title='Avg. Instrumentalness',
-      content="Measures whether the tracks of an artist contain no vocals.\n\n“Ooh” and “aah” sounds are treated as instrumental in this context. Rap or spoken word tracks are clearly “vocal”. The closer the instrumentalness value is to 100%, the greater likelihood the tracks contain no vocal content.")
+    alert(title='Avg. Instrumentalness',
+    content="Measures whether the tracks of an artist contain no vocals.\n\n“Ooh” and “aah” sounds are treated as instrumental in this context. Rap or spoken word tracks are clearly “vocal”. The closer the instrumentalness value is to 100%, the greater likelihood the tracks contain no vocal content.")
   def info_liveness_click(self, **event_args):
-      alert(title='Avg. Liveness',
-      content="Detects the presence of an audience in the recording. Higher liveness values represent an increased probability that the tracks of that artist were performed live.")
+    alert(title='Avg. Liveness',
+    content="Detects the presence of an audience in the recording. Higher liveness values represent an increased probability that the tracks of that artist were performed live.")
   def info_valence_click(self, **event_args):
-      alert(title='Avg. Valence',
-      content="A measure from 0 to 100% describing the musical positiveness conveyed by an artist's tracks. Tracks with high valence sound more positive (e.g., happy, cheerful, euphoric), while tracks with low valence sound more negative (e.g., sad, depressed, angry).")
+    alert(title='Avg. Valence',
+    content="A measure from 0 to 100% describing the musical positiveness conveyed by an artist's tracks. Tracks with high valence sound more positive (e.g., happy, cheerful, euphoric), while tracks with low valence sound more negative (e.g., sad, depressed, angry).")
   def info_tempo_click(self, **event_args):
-      alert(title='Avg. Tempo',
-      content="The overall average estimated tempo of all track of an artist in beats per minute (BPM).")
-  
+    alert(title='Avg. Tempo',
+    content="The overall average estimated tempo of all track of an artist in beats per minute (BPM).")
+
   def info_first_release_click(self, **event_args):
-      alert(title='First Release',
-      content="Date of the first release of an artist on Spotify.\n\nOur database is not complete yet - there might be missing tracks that are not present in our database.")
+    alert(title='First Release',
+    content="Date of the first release of an artist on Spotify.\n\nOur database is not complete yet - there might be missing tracks that are not present in our database.")
   def info_last_release_click(self, **event_args):
-      alert(title='Latest Release',
-      content="Date of the latest release of an artist on Spotify.\n\nOur database is not complete yet - there might be missing tracks that are not present in our database.")
-  
+    alert(title='Latest Release',
+    content="Date of the latest release of an artist on Spotify.\n\nOur database is not complete yet - there might be missing tracks that are not present in our database.")
+
   def info_latest_label_click(self, **event_args):
-      alert(title='Latest Label',
-      content="Name of the latest label this artist worked with.")
+    alert(title='Latest Label',
+    content="Name of the latest label this artist worked with.")
 
   def info_major_click(self, **event_args):
-      alert(title='Major Coop',
-      content="Indicates whether this artist ever worked with a major label or not.")
+    alert(title='Major Coop',
+    content="Indicates whether this artist ever worked with a major label or not.")
   def info_sub_major_click(self, **event_args):
-      alert(title='Sub-Major Coop',
-      content="Indicates whether this artist ever worked with a sub-major label or not.")
+    alert(title='Sub-Major Coop',
+    content="Indicates whether this artist ever worked with a sub-major label or not.")
 
   def info_no_co_artists_click(self, **event_args):
-      alert(title='Avg. No. of Co-Artists per Track',
-      content="Total number of Co-Artists per Track divided by total number of Tracks.")
+    alert(title='Avg. No. of Co-Artists per Track',
+    content="Total number of Co-Artists per Track divided by total number of Tracks.")
 
   def info_sp_pop_lat(self, **event_args):
-      alert(title='Spotify Popularity',
-      content="Current value of Spotify Popularity - measured between 0 and 100.")
+    alert(title='Spotify Popularity',
+    content="Current value of Spotify Popularity - measured between 0 and 100.")
   def info_sp_fol_lat(self, **event_args):
-      alert(title='Spotify Follower',
-      content="Current number of Spotify Follower.")
-    
+    alert(title='Spotify Follower',
+    content="Current number of Spotify Follower.")
+
   def info_sp_mtl_listeners(self, **event_args):
-      alert(title='Spotify Monthly Listeners',
-      content="Latest number of monthly listeners on Spotify.")
+    alert(title='Spotify Monthly Listeners',
+    content="Latest number of monthly listeners on Spotify.")
   def info_audience_country(self, **event_args):
-      alert(title='Biggest Audience Country',
-      content="Country with most listeners on Spotify.")
+    alert(title='Biggest Audience Country',
+    content="Country with most listeners on Spotify.")
   def info_audience_city(self, **event_args):
-      alert(title='Biggest Audience City',
-      content="City with most listeners on Spotify.")
+    alert(title='Biggest Audience City',
+    content="City with most listeners on Spotify.")
   def info_tiktok_fol(self, **event_args):
-      alert(title='TikTok Followers lat.',
-      content="Latest number of TikTok Follower.")
+    alert(title='TikTok Followers lat.',
+    content="Latest number of TikTok Follower.")
   def info_soundcloud_fol(self, **event_args):
-      alert(title='Soundcloud Follower lat.',
-      content="Latest number of Soundcloud Follower.")
-    
+    alert(title='Soundcloud Follower lat.',
+    content="Latest number of Soundcloud Follower.")
+
   def info_avg_views(self, **event_args):
-      alert(title='Avg. Views',
-      content="Avg. number of views of Instagram Shorts.")
+    alert(title='Avg. Views',
+    content="Avg. number of views of Instagram Shorts.")
   def info_avg_likes(self, **event_args):
-      alert(title='Avg. Likes',
-      content="Avg. number of likes of Instagram Shorts.")
+    alert(title='Avg. Likes',
+    content="Avg. number of likes of Instagram Shorts.")
   def info_avg_comments(self, **event_args):
-      alert(title='Avg. Comments',
-      content="Avg. number of comments of Instagram Shorts.")
+    alert(title='Avg. Comments',
+    content="Avg. number of comments of Instagram Shorts.")
   def info_shorts_per_month(self, **event_args):
-      alert(title='Avg. number Shorts per Month',
-      content="Avg. number of Instagram Shorts published per month")
+    alert(title='Avg. number Shorts per Month',
+    content="Avg. number of Instagram Shorts published per month")
   def info_avg_engagement_rate(self, **event_args):
-      alert(title='Avg. Engagement Rate',
-      content="Avg. Engagement Rate = (Likes + Comments) / Views")
-    
+    alert(title='Avg. Engagement Rate',
+    content="Avg. Engagement Rate = (Likes + Comments) / Views")
+
   def button_set_filters_click(self, **event_args):
     click_button(f'model_profile?model_id={self.model_id}&section=Filter', event_args)
 
@@ -2182,7 +2214,7 @@ class Discover(DiscoverTemplate):
     anvil.server.call('change_filters', self.model_id, filters_json = None)
     self.header.scroll_into_view(smooth=True)
     next_artist_id = anvil.server.call('get_next_artist_id', self.model_id)
-    routing.set_url_hash(f'artists?artist_id={next_artist_id}', load_from_cache=False)
+    routing.set_url_hash(f'agent_artists?artist_id={next_artist_id}', load_from_cache=False)
 
   def drop_down_model_change(self, **event_args):
     model_data = json.loads(anvil.server.call('get_model_ids',  user["user_id"]))
@@ -2192,7 +2224,7 @@ class Discover(DiscoverTemplate):
     anvil.server.call('update_model_usage', user["user_id"], model_id_new)
     self.header.scroll_into_view(smooth=True)
     get_open_form().refresh_models_underline()
-    routing.set_url_hash(f'artists?artist_id={self.artist_id}', load_from_cache=False)
+    routing.set_url_hash(f'agent_artists?artist_id={self.artist_id}', load_from_cache=False)
 
   def drop_down_wl_change(self, **event_args):
     wl_data = json.loads(anvil.server.call('get_watchlist_ids',  user["user_id"]))
@@ -2202,11 +2234,11 @@ class Discover(DiscoverTemplate):
     anvil.server.call('update_watchlist_usage', user["user_id"], wl_id_new)
     self.header.scroll_into_view(smooth=True)
     get_open_form().refresh_watchlists_underline()
-    routing.set_url_hash(f'artists?artist_id={self.artist_id}', load_from_cache=False)
+    routing.set_url_hash(f'agent_artists?artist_id={self.artist_id}', load_from_cache=False)
 
 # -----------------------------------------------------------------------------------------
-#  Start of the Sidebar Watchilish Functions 
-# -----------------------------------------------------------------------------------------    
+#  Start of the Sidebar Watchilish Functions
+# -----------------------------------------------------------------------------------------
   def get_watchlist_notes(self, artist_id, **event_args):
     self.repeating_panel_1.items = json.loads(anvil.server.call('get_watchlist_notes', user["user_id"], artist_id))
 
@@ -2224,7 +2256,7 @@ class Discover(DiscoverTemplate):
     else:
       self.label_description_2.text = details[0]["Description"]
       self.text_area_description.text = details[0]["Description"]
-      
+
     if details[0]["ContactName"] is None:
       self.label_contact.text = '-'
       self.Text_Box_for_Artist_Name.text = None
@@ -2243,19 +2275,19 @@ class Discover(DiscoverTemplate):
     else:
       self.label_phone.text = details[0]["Phone"]
       self.Text_Box_for_Artist_Phone.text = details[0]["Phone"]
-    
+
     # tags
     if details[0]["Status"] is None:
       self.status_dropdown.selected_value = 'Action required'
-    else: 
+    else:
       self.status_dropdown.selected_value = details[0]["Status"]
-    if details[0]["Priority"] is None: 
+    if details[0]["Priority"] is None:
       self.priority_dropdown.selected_value = 'mid'
-    else: 
+    else:
       self.priority_dropdown.selected_value = details[0]["Priority"]
-    if details[0]["Reminder"] is None: 
+    if details[0]["Reminder"] is None:
       self.date_picker_1.date = ''
-    else: 
+    else:
       self.date_picker_1.date = details[0]["Reminder"]
 
   def update_details_on_sidebar(self, **event_args):
@@ -2290,7 +2322,7 @@ class Discover(DiscoverTemplate):
 
     if self.contacts_button.icon == 'fa:edit':
       self.contacts_button.icon = 'fa:save'
-      
+
       self.Text_Box_for_Artist_Name.visible = True
       self.Text_Box_for_Artist_Email.visible = True
       self.Text_Box_for_Artist_Phone.visible = True
@@ -2298,14 +2330,14 @@ class Discover(DiscoverTemplate):
       self.label_contact.visible = False
       self.label_mail.visible = False
       self.label_phone.visible = False
-      
+
       self.Text_Box_for_Artist_Name.text = details[0]["ContactName"]
       self.Text_Box_for_Artist_Email.text = details[0]["Mail"]
       self.Text_Box_for_Artist_Phone.text = details[0]["Phone"]
 
     else:
       self.contacts_button.icon = 'fa:edit'
-            
+
       self.Text_Box_for_Artist_Name.visible = False
       self.Text_Box_for_Artist_Email.visible = False
       self.Text_Box_for_Artist_Phone.visible = False
@@ -2313,7 +2345,7 @@ class Discover(DiscoverTemplate):
       self.label_contact.visible = True
       self.label_mail.visible = True
       self.label_phone.visible = True
-      
+
       # save text boxes
       self.update_details_on_sidebar()
 
@@ -2323,7 +2355,7 @@ class Discover(DiscoverTemplate):
 
       self.text_area_description.visible = True
       self.label_description_2.visible = False
-      
+
     else:
       self.description_button.icon = 'fa:edit'
 
@@ -2344,10 +2376,10 @@ class Discover(DiscoverTemplate):
         self.spotify_player_spot.clear()
         self.spotify_HTML_player()
         self.call_js('createOrUpdateSpotifyPlayer', anvil.js.get_dom_node(self), 'artist', self.sug["SpotifyArtistID"])
-            
+
     else:
       self.spotify_artist_button.icon = 'fa:play-circle'
-      
+
     anvil.js.call_js('playSpotify')
     save_var('lastplayed', self.sug["SpotifyArtistID"])
 
@@ -2363,9 +2395,9 @@ class Discover(DiscoverTemplate):
       self.autoplay_button.icon = 'fa:toggle-off'
     else:
       self.autoplay_button.icon = 'fa:toggle-on'
-   
+
     save_var('autoPlayStatus', self.autoplay_button.icon)
-    
+
   def show_milestone_alert(self, milestone):
     # Show a congratulatory alert when a user reaches a milestone and it wasn't displayed before.
     displayed_before = anvil.server.call('get_progress_msg_status', self.model_id, milestone)

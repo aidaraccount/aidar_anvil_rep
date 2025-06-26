@@ -66,7 +66,7 @@ components:
     - components:
       - layout_properties: {}
         name: label_4
-        properties: {align: right, role: sort-label, text: 'Watchlist:', visible: false}
+        properties: {align: right, role: sort-label, text: 'Watchlist:', visible: true}
         type: Label
       layout_properties: {grid_position: 'SPLPLH,GADAWF'}
       name: flow_panel_3
@@ -75,25 +75,25 @@ components:
     - event_bindings: {change: drop_down_wl_change}
       layout_properties: {grid_position: 'SPLPLH,OCJXMS'}
       name: drop_down_wl
-      properties: {align: left, role: dropdown, spacing_above: none, spacing_below: none, visible: false}
+      properties: {align: left, role: dropdown, spacing_above: none, spacing_below: none, visible: true}
       type: DropDown
     - components:
       - layout_properties: {}
         name: label_1
-        properties: {align: right, role: sort-label, text: 'Agent:'}
+        properties: {align: right, role: sort-label, text: 'Agent:', visible: true}
         type: Label
       layout_properties: {grid_position: 'EVSCIN,SMUZQJ'}
       name: flow_panel_master
-      properties: {align: right, gap: none, spacing: medium, spacing_above: none, spacing_below: none}
+      properties: {align: right, gap: none, spacing: medium, spacing_above: none, spacing_below: none, visible: false}
       type: FlowPanel
     - event_bindings: {change: drop_down_model_change}
       layout_properties: {grid_position: 'EVSCIN,ZCFZEN'}
       name: drop_down_model
-      properties: {align: left, role: dropdown, spacing_above: none, spacing_below: none}
+      properties: {align: left, role: dropdown, spacing_above: none, spacing_below: none, visible: true}
       type: DropDown
     layout_properties: {grid_position: 'UQVSNC,XUSTNC OPLCOW,TPLKDW'}
     name: column_panel_dropdowns
-    properties: {col_spacing: small, col_widths: '{"GADAWF":30,"OCJXMS":30,"SMUZQJ":30,"ZCFZEN":30}', role: margin, spacing_above: none, spacing_below: none}
+    properties: {col_spacing: small, col_widths: '{"GADAWF":30,"OCJXMS":30,"SMUZQJ":30,"ZCFZEN":30}', role: margin, spacing_above: none, spacing_below: none, visible: false}
     type: ColumnPanel
   - layout_properties: {grid_position: 'UQVSNC,XUSTNC OPLCOW,ZCPELY UKJBFI,KJORFO'}
     name: spacer_9
@@ -110,7 +110,7 @@ components:
       type: Button
     layout_properties: {grid_position: 'UQVSNC,XUSTNC OPLCOW,ZCPELY VCUETK,UBTYMZ'}
     name: flow_panel_filters
-    properties: {gap: tiny, role: null, spacing_above: none, spacing_below: none}
+    properties: {gap: tiny, role: null, spacing_above: none, spacing_below: none, visible: false}
     type: FlowPanel
   layout_properties: {slot: footer-slot}
   name: Footer
@@ -264,7 +264,7 @@ components:
 - components:
   - layout_properties: {grid_position: 'SYXIOJ,LTMDQS'}
     name: header
-    properties: {align: left, background: '', bold: false, border: '', font: '', font_size: null, foreground: '', icon: '', icon_align: left, italic: false, role: header-1, spacing_above: none, spacing_below: none, text: Discover Artists by AI, tooltip: '', underline: false, visible: true}
+    properties: {align: left, background: '', bold: false, border: '', font: '', font_size: null, foreground: '', icon: '', icon_align: left, italic: false, role: header-1, spacing_above: none, spacing_below: none, text: Discover Artists by LLM, tooltip: '', underline: false, visible: true}
     type: Label
   - components:
     - components:
@@ -551,7 +551,8 @@ components:
       name: nav_musical
       properties: {role: section_buttons, spacing_above: none, spacing_below: none, text: Musical}
       type: Link
-    - event_bindings: {click: nav_button_click}
+    - components: []
+      event_bindings: {click: nav_button_click}
       name: nav_live
       properties: {role: section_buttons, spacing_above: none, spacing_below: none, text: Live}
       type: Link
@@ -2100,7 +2101,8 @@ components:
         spacing:
           margin: ['50', null, null, null]
       type: ColumnPanel
-    - layout_properties: {grid_position: 'JWTSCZ,XCVYZQ'}
+    - components: []
+      layout_properties: {grid_position: 'JWTSCZ,XCVYZQ'}
       name: flow_panel_shorts
       properties: {align: center, gap: tiny}
       type: FlowPanel
@@ -2124,7 +2126,7 @@ components:
 container:
   data_bindings:
   - {code: '[''discover_self'']', property: role, writeback: false}
-  properties: {background: '', html: '@theme:Discover.html', role: null}
+  properties: {background: '', html: '@theme:DiscoverAgent.html', role: null}
   type: HtmlTemplate
 custom_component: false
 is_package: true

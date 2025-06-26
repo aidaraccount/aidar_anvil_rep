@@ -41,58 +41,58 @@ class Monitor_TalentDev(Monitor_TalentDevTemplate):
       print(f"Monitor_TalentDev model_id: {model_id}")
       self.model_id = model_id
 
-      # load_watchlists
-      self.load_watchlists()
+      # # load_watchlists
+      # self.load_watchlists()
       
       # Wait for all components to fully initialize before setting up callbacks
       anvil.js.call_js('setTimeout', self._setup_toggle_callbacks, 100)
 
   
-  def load_watchlists(self):
-    watchlists = json.loads(anvil.server.call("get_watchlist_ids", user['user_id']))
+  # def load_watchlists(self):
+  #   watchlists = json.loads(anvil.server.call("get_watchlist_ids", user['user_id']))
     
-    if watchlists is not None and len(watchlists) > 0:      
-      active_wl_ids = []
+  #   if watchlists is not None and len(watchlists) > 0:      
+  #     active_wl_ids = []
       
-      for i in range(0, len(watchlists)):
-        wl_id = watchlists[i]["watchlist_id"]
-        wl_id_str = str(wl_id)
+  #     for i in range(0, len(watchlists)):
+  #       wl_id = watchlists[i]["watchlist_id"]
+  #       wl_id_str = str(wl_id)
                 
-        # Create the link with the appropriate role
-        wl_link = Link(
-          text=watchlists[i]["watchlist_name"], tag=wl_id, role="genre-box"
-        )
+  #       # Create the link with the appropriate role
+  #       wl_link = Link(
+  #         text=watchlists[i]["watchlist_name"], tag=wl_id, role="genre-box"
+  #       )
   
-        wl_link.set_event_handler(
-          "click", self.create_activate_watchlist_handler(wl_id)
-        )
-        self.flow_panel_watchlists.add_component(wl_link)
+  #       wl_link.set_event_handler(
+  #         "click", self.create_activate_watchlist_handler(wl_id)
+  #       )
+  #       self.flow_panel_watchlists.add_component(wl_link)
         
-  def create_activate_watchlist_handler(self, watchlist_id):
-    def handler(**event_args):
-      self.activate_watchlist(watchlist_id)
-    return handler
+  # def create_activate_watchlist_handler(self, watchlist_id):
+  #   def handler(**event_args):
+  #     self.activate_watchlist(watchlist_id)
+  #   return handler
 
-  def activate_watchlist(self, watchlist_id):    
-    # Toggle the clicked watchlist's activation state
-    for component in self.flow_panel_watchlists.get_components():
-      if isinstance(component, Link):
-        if int(component.tag) == watchlist_id:
-          # Toggle the role - if active make inactive, and vice versa
-          if component.role == "genre-box":
-            component.role = "genre-box-deselect"
-          else:
-            component.role = "genre-box"
+  # def activate_watchlist(self, watchlist_id):    
+  #   # Toggle the clicked watchlist's activation state
+  #   for component in self.flow_panel_watchlists.get_components():
+  #     if isinstance(component, Link):
+  #       if int(component.tag) == watchlist_id:
+  #         # Toggle the role - if active make inactive, and vice versa
+  #         if component.role == "genre-box":
+  #           component.role = "genre-box-deselect"
+  #         else:
+  #           component.role = "genre-box"
 
-    # Collect all currently active watchlist IDs (role = "genre-box")
-    active_wl_ids = []
-    for component in self.flow_panel_watchlists.get_components():
-      if isinstance(component, Link) and component.role == "genre-box":
-        active_wl_ids.append(component.tag)
+  #   # Collect all currently active watchlist IDs (role = "genre-box")
+  #   active_wl_ids = []
+  #   for component in self.flow_panel_watchlists.get_components():
+  #     if isinstance(component, Link) and component.role == "genre-box":
+  #       active_wl_ids.append(component.tag)
 
-    # Pass the active watchlist IDs to the table component for filtering
-    if hasattr(self, 'c_talent_dev_table_1') and self.c_talent_dev_table_1 is not None:
-      self.c_talent_dev_table_1.filter_by_watchlists(active_wl_ids)
+  #   # Pass the active watchlist IDs to the table component for filtering
+  #   if hasattr(self, 'c_talent_dev_table_1') and self.c_talent_dev_table_1 is not None:
+  #     self.c_talent_dev_table_1.filter_by_watchlists(active_wl_ids)
 
   
   def _setup_toggle_callbacks(self):
