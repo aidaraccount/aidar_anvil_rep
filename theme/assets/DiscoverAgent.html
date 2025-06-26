@@ -319,8 +319,8 @@
         }
         console.log('[WebSocketManager] Initial - stage:', this.stage, 'model_id:', this.model_id, 'url_artist_id:', this.url_artist_id);
         
-        // For development - always use localhost:8000 for now
-        this.wsUrl = `wss://api.aidar.ai:8000/ws/${this.sessionId}`;
+        // For development - always use localhost:8000 for now & Nginx with wss for production
+        this.wsUrl = `wss://api.aidar.ai/ws/${this.sessionId}`;
         console.log('[WebSocketManager] Using WebSocket URL:', this.wsUrl);
         
         // Bind methods that will be used as event handlers
@@ -1253,7 +1253,7 @@
         try {
           this.model_id = normalizedNewModelId;
           this.sessionId = 'session-' + (normalizedNewModelId || Math.random().toString(36).substr(2, 9));
-          this.wsUrl = `wss://api.aidar.ai:8000/ws/${this.sessionId}`;
+          this.wsUrl = `wss://api.aidar.ai/ws/${this.sessionId}`;
           
           console.log('[updateModelId] New session ID:', this.sessionId);
           console.log('[updateModelId] New WebSocket URL:', this.wsUrl);
