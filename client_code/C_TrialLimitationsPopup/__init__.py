@@ -76,7 +76,7 @@ class C_TrialLimitationsPopup(C_TrialLimitationsPopupTemplate):
         <h2>Trial Limit Approaching</h2>
         <p>You've used <strong>35</strong> of your initial 50 recommendations.</p>
         {self._get_progress_bar(percentage=70, current=35, max_value=50)}
-        <p>Continue exporing<br>or upgrade for unlimited access!</p>
+        <p>Continue exploring<br>or upgrade for unlimited access!</p>
         <button class="pop-button-disabled" onclick="window.closeAlert()">Continue</button>
         <button class="pop-button-enabled" onclick="window.location.href='https://app.aidar.ai/#settings?section=Subscription'">Upgrade now</button>
       """
@@ -95,7 +95,7 @@ class C_TrialLimitationsPopup(C_TrialLimitationsPopupTemplate):
       <h2>Your Trial Progress</h2>
       <p>You've used <strong>{total_count}</strong> of your initial 50 recommendations.</p>
       {self._get_progress_bar(percentage=int(total_count / 50 * 100), current=total_count, max_value=50)}
-      <p>Continue exporing<br>or upgrade for unlimited access!</p>
+      <p>Continue exploring<br>or upgrade for unlimited access!</p>
         <button class="pop-button-disabled" onclick="window.closeAlert()">Continue</button>
         <button class="pop-button-enabled" onclick="window.location.href='https://app.aidar.ai/#settings?section=Subscription'">Upgrade now</button>
       """
@@ -115,7 +115,7 @@ class C_TrialLimitationsPopup(C_TrialLimitationsPopupTemplate):
         <h2>Your Trial Progress</h2>
         <p>You've used <strong>{today_count}</strong> of your daily 5 recommendations.</p>
         {self._get_progress_bar(percentage=int(today_count / 5 * 100), current=today_count, max_value=5)}
-        <p>Continue exporing<br>or upgrade for unlimited access!</p>      
+        <p>Continue exploring<br>or upgrade for unlimited access!</p>      
         <button class="pop-button-disabled" onclick="window.closeAlert()">Continue</button>
         <button class="pop-button-enabled" onclick="window.location.href='https://app.aidar.ai/#settings?section=Subscription'">Upgrade now</button>
       """
