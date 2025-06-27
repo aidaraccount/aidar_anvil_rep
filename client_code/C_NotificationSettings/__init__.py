@@ -467,7 +467,7 @@ class C_NotificationSettings(C_NotificationSettingsTemplate):
           if component.role == "genre-box-deactive":
             Notification(
               "",
-              title="Agent not fully trained yet - you need at least 50 ratings!",
+              title="Agent not fully set up yet!",
               style="info",
             ).show()
           else:
