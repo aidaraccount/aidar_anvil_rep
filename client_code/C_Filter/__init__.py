@@ -47,10 +47,10 @@ class C_Filter(C_FilterTemplate):
   
   def load_filters(self, **event_args):
     # General Filters
-    my_dict = {"artist_popularity_lat >=": "artist_popularity_lat_min",
-               "artist_popularity_lat <=": "artist_popularity_lat_max",
-               "artist_follower_lat >=": "artist_follower_lat_min",
+    my_dict = {"artist_follower_lat >=": "artist_follower_lat_min",
                "artist_follower_lat <=": "artist_follower_lat_max",
+               "no_tracks >=": "no_tracks_min",
+               "no_tracks <=": "no_tracks_max",               
                "major_coop =": "drop_down_major",
                "sub_major_coop =": "drop_down_submajor",
                "days_since_first_release <=": "years_since_first_release",
@@ -106,7 +106,7 @@ class C_Filter(C_FilterTemplate):
 
     # set filter element
     for filter in processed_filters:
-      if filter["column"] in ("artist_popularity_lat", "artist_follower_lat", "avg_duration", "avg_loudness", "avg_tempo", "days_since_last_release"):
+      if filter["column"] in ("artist_follower_lat", "no_tracks", "avg_duration", "avg_loudness", "avg_tempo", "days_since_last_release"):
         element = getattr(self, my_dict[f'{filter["column"]} {filter["operator"]}'], None)
         element.text = "{:.0f}".format(round(float(filter["value"][0]), 0))
       
@@ -205,14 +205,19 @@ class C_Filter(C_FilterTemplate):
     elif self.artist_follower_lat_min.text is not None: filters_json += f'{{"column":"artist_follower_lat","operator":">=","value":[{self.artist_follower_lat_min.text}]}},'
     elif self.artist_follower_lat_max.text is not None: filters_json += f'{{"column":"artist_follower_lat","operator":"<=","value":[{self.artist_follower_lat_max.text}]}},'
 
+    if self.no_tracks_min.text is not None and self.no_tracks_max.text is not None:
+      filters_json += f'{{"column":"no_tracks","operator":"BETWEEN","value":[{self.no_tracks_min.text},{self.no_tracks_max.text}]}},'
+    elif self.no_tracks_min.text is not None: filters_json += f'{{"column":"no_tracks","operator":">=","value":[{self.no_tracks_min.text}]}},'
+    elif self.no_tracks_max.text is not None: filters_json += f'{{"column":"no_tracks","operator":"<=","value":[{self.no_tracks_max.text}]}},'
+
     if self.years_since_first_release.text is not None: filters_json += f'{{"column":"days_since_first_release","operator":"<=","value":[{float(self.years_since_first_release.text) * 365}]}},'
     if self.days_since_last_release.text is not None: filters_json += f'{{"column":"days_since_last_release","operator":"<=","value":[{self.days_since_last_release.text}]}},'
 
     # 2. Label cooperation
-    if self.drop_down_major.selected_value == 'Yes': filters_json += f'{{"column":"major_coop","operator":"=","value":[1]}},'
-    if self.drop_down_major.selected_value == 'No': filters_json += f'{{"column":"major_coop","operator":"=","value":[0]}},'
-    if self.drop_down_submajor.selected_value == 'Yes': filters_json += f'{{"column":"sub_major_coop","operator":"=","value":[1]}},'
-    if self.drop_down_submajor.selected_value == 'No': filters_json += f'{{"column":"sub_major_coop","operator":"=","value":[0]}},'
+    if self.drop_down_major.selected_value == 'Yes': filters_json += '{{"column":"major_coop","operator":"=","value":[1]}},'
+    if self.drop_down_major.selected_value == 'No': filters_json += '{{"column":"major_coop","operator":"=","value":[0]}},'
+    if self.drop_down_submajor.selected_value == 'Yes': filters_json += '{{"column":"sub_major_coop","operator":"=","value":[1]}},'
+    if self.drop_down_submajor.selected_value == 'No': filters_json += '{{"column":"sub_major_coop","operator":"=","value":[0]}},'
 
     label_data = self.rep_pan_label.items
     if label_data is not None:

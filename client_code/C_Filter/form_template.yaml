@@ -153,6 +153,67 @@ components:
     type: GridPanel
   - components:
     - layout_properties: {col_xs: 0, row: VLPSXL, width: 100, width_xs: 4}
+      name: label_6_copy_2
+      properties: {align: left, background: '', bold: false, border: '', font: '', font_size: null, foreground: '', icon: '', icon_align: left, italic: false, role: feature, spacing_above: small, spacing_below: small, text: '   Number of released Tracks', tooltip: Number of followers on Spotify, underline: false, visible: true}
+      type: Label
+    - event_bindings: {pressed_enter: apply_filters_click}
+      layout_properties: {col_xs: 4, row: VLPSXL, width: 194, width_xs: 3}
+      name: no_tracks_min
+      properties:
+        align: left
+        background: ''
+        bold: false
+        border: ''
+        enabled: true
+        font: ''
+        font_size: null
+        foreground: ''
+        hide_text: false
+        italic: false
+        placeholder: '0'
+        role: [txt_white_discreet]
+        spacing_above: small
+        spacing_below: small
+        text: ''
+        tooltip: ''
+        type: number
+        underline: false
+        visible: true
+      type: TextBox
+    - layout_properties: {col_xs: 7, row: VLPSXL, width: 136.667, width_xs: 2}
+      name: label_7_copy
+      properties: {align: center, background: '', bold: false, border: '', font: '', font_size: null, foreground: '', icon: '', icon_align: left, italic: false, role: description, spacing_above: small, spacing_below: small, text: to, tooltip: '', underline: false, visible: true}
+      type: Label
+    - event_bindings: {pressed_enter: apply_filters_click}
+      layout_properties: {col_xs: 9, row: VLPSXL, width: 194, width_xs: 3}
+      name: no_tracks_max
+      properties:
+        align: left
+        background: ''
+        bold: false
+        border: ''
+        enabled: true
+        font: ''
+        font_size: null
+        foreground: ''
+        hide_text: false
+        italic: false
+        placeholder: '1000000'
+        role: [txt_white_discreet]
+        spacing_above: small
+        spacing_below: small
+        text: ''
+        tooltip: ''
+        type: number
+        underline: false
+        visible: true
+      type: TextBox
+    layout_properties: {grid_position: 'YIATTC,EEZWCT'}
+    name: grid_panel_2_copy_2
+    properties: {background: '', border: '', foreground: '', role: grid_panel, spacing_above: small, spacing_below: small, tooltip: '', visible: true}
+    type: GridPanel
+  - components:
+    - layout_properties: {col_xs: 0, row: VLPSXL, width: 100, width_xs: 4}
       name: label_6_copy_copy_copy_2_copy
       properties: {align: left, background: '', bold: false, border: '', font: '', font_size: null, foreground: '', icon: '', icon_align: left, italic: false, role: feature, spacing_above: small, spacing_below: small, text: '   Max. years since first Release', tooltip: Number of followers on Spotify, underline: false, visible: true}
       type: Label
