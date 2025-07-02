@@ -330,7 +330,7 @@
         console.log('[WebSocketManager] Initial - stage:', this.stage, 'model_id:', this.model_id, 'url_artist_id:', this.url_artist_id);
         
         // Get WebSocket URL using the global function
-        this.wsUrl = this.getWebSocketUrl(this.sessionId);
+        this.wsUrl = window.getWebSocketUrl(this.sessionId);
         
         console.log('[WebSocketManager] Using WebSocket URL:', this.wsUrl);
         
@@ -1266,7 +1266,7 @@
           this.sessionId = 'session-' + (normalizedNewModelId || Math.random().toString(36).substr(2, 9));
           
           // Get WebSocket URL using the global function
-          this.wsUrl = this.getWebSocketUrl(this.sessionId);
+          this.wsUrl = window.getWebSocketUrl(this.sessionId);
           
           console.log('[updateModelId] New session ID:', this.sessionId);
           console.log('[updateModelId] New WebSocket URL:', this.wsUrl);
