@@ -12,7 +12,7 @@ _config_cache = {}
 
 # --- 3. WEBSOCKET CONFIGURATION ---
 # Simple flag to determine which WebSocket server to use
-USE_LOCAL_WEBSOCKET = False
+USE_LOCAL_WEBSOCKET = True
 
 # WebSocket server URLs
 LOCAL_WEBSOCKET_URL = "ws://localhost:8000"
@@ -31,6 +31,7 @@ def set_websocket_environment():
     
 # Auto-initialize the WebSocket environment when this module is imported
 set_websocket_environment()
+print('set_websocket_environment() !!!!!!!!!')
 
 # --- 5. PRICING CONFIGURATION ---
 def _fetch_server_config():
