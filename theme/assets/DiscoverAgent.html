@@ -231,6 +231,16 @@
     window._originalWebSocketManager = window.WebSocketManager;
   }
   
+  // Define WebSocket URL function that uses the Python-configured base URL
+  window.getWebSocketUrl = function(sessionId) {
+    // This will be replaced by Python code that injects the correct base URL
+    // Default to production URL if not set
+    const baseUrl = (typeof window.WEBSOCKET_BASE_URL !== 'undefined') 
+      ? window.WEBSOCKET_BASE_URL 
+      : "wss://api.aidar.ai";
+    return baseUrl + "/ws/" + sessionId;
+  };
+  
   // Only declare WebSocketManager if it doesn't already exist or needs redefinition
   if (typeof window._originalWebSocketManager === 'undefined') {
     window.WebSocketManager = class WebSocketManager {
@@ -319,8 +329,9 @@
         }
         console.log('[WebSocketManager] Initial - stage:', this.stage, 'model_id:', this.model_id, 'url_artist_id:', this.url_artist_id);
         
-        // For development - always use localhost:8000 for now & Nginx with wss for production
-        this.wsUrl = `wss://api.aidar.ai/ws/${this.sessionId}`;
+        // Get WebSocket URL using the global function
+        this.wsUrl = this.getWebSocketUrl(this.sessionId);
+        
         console.log('[WebSocketManager] Using WebSocket URL:', this.wsUrl);
         
         // Bind methods that will be used as event handlers
@@ -1253,7 +1264,9 @@
         try {
           this.model_id = normalizedNewModelId;
           this.sessionId = 'session-' + (normalizedNewModelId || Math.random().toString(36).substr(2, 9));
-          this.wsUrl = `wss://api.aidar.ai/ws/${this.sessionId}`;
+          
+          // Get WebSocket URL using the global function
+          this.wsUrl = this.getWebSocketUrl(this.sessionId);
           
           console.log('[updateModelId] New session ID:', this.sessionId);
           console.log('[updateModelId] New WebSocket URL:', this.wsUrl);

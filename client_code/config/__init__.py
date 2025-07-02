@@ -10,7 +10,29 @@ import anvil.server
 # Cache for server-side configuration to avoid multiple calls
 _config_cache = {}
 
-# --- 3. PRICING CONFIGURATION ---
+# --- 3. WEBSOCKET CONFIGURATION ---
+# Simple flag to determine which WebSocket server to use
+USE_LOCAL_WEBSOCKET = False
+
+# WebSocket server URLs
+LOCAL_WEBSOCKET_URL = "ws://localhost:8000"
+PROD_WEBSOCKET_URL = "wss://api.aidar.ai"
+
+# --- 4. WEBSOCKET FUNCTIONS ---
+def set_websocket_environment():
+    """
+    # --- 4.1 SET WEBSOCKET ENVIRONMENT ---
+    Sets the appropriate WebSocket base URL in JavaScript based on current configuration.
+    This should be called once at app startup.
+    """
+    import anvil.js
+    base_url = LOCAL_WEBSOCKET_URL if USE_LOCAL_WEBSOCKET else PROD_WEBSOCKET_URL
+    anvil.js.call_js('eval', f'window.WEBSOCKET_BASE_URL = "{base_url}";')
+    
+# Auto-initialize the WebSocket environment when this module is imported
+set_websocket_environment()
+
+# --- 5. PRICING CONFIGURATION ---
 def _fetch_server_config():
     """
     # --- 3.1 FETCH SERVER CONFIG ---
@@ -88,7 +110,7 @@ def get_price_id(plan, frequency):
     
     return None
 
-# --- 4. CONVENIENCE FUNCTIONS ---
+# --- 6. CONVENIENCE FUNCTIONS ---
 def calculate_price(plan, frequency, user_count=1):
     """
     # --- 4.1 CALCULATE PRICE ---
