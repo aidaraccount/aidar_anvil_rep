@@ -36,9 +36,7 @@ class DiscoverAgent(DiscoverAgentTemplate):
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
     self.html = '@theme:DiscoverAgent.html'
-    print("[WebSocketManager - DiscoverAgent] Registering show event handler")
     self.add_event_handler('show', self.form_show)
-    print("[WebSocketManager - DiscoverAgent] Show event handler registered")
 
     global user
     user = anvil.users.get_user()
@@ -80,22 +78,17 @@ class DiscoverAgent(DiscoverAgentTemplate):
     embed_iframe_element = document.getElementById('embed-iframe')
     if embed_iframe_element:
       self.call_js('createOrUpdateSpotifyPlayer', anvil.js.get_dom_node(self), 'artist', self.sug["SpotifyArtistID"])
-      print("Embed iframe element found. Initialize Spotify player!")
     else:
       print("Embed iframe element not found. Will not initialize Spotify player.")
 
     # -----------
     # 3. Load message history
-    print('[WebSocketManager - DiscoverAgent] form_show called')
     try:
       # Load message history when the form is shown
       model_id = load_var('model_id')
       if model_id is not None and model_id != 'None':
-        print(f'[WebSocketManager - DiscoverAgent] Loading messages for model_id: {model_id}')
         messages = anvil.server.call('get_agent_messages', model_id)
-        print('[WebSocketManager - DiscoverAgent] Messages received:', bool(messages))
         self.call_js("loadMessageHistory", messages)
-        print('[WebSocketManager - DiscoverAgent] Called loadMessageHistory')
     except Exception as e:
       print(f'[WebSocketManager - DiscoverAgent] Error in form_show: {str(e)}')
 
@@ -105,11 +98,6 @@ class DiscoverAgent(DiscoverAgentTemplate):
   def refresh_sug(self, **event_args):
 
     self.header.scroll_into_view(smooth=True)
-
-    begin = datetime.now()
-    print(f"{datetime.now()}: Discover - __init__ - 2", flush=True)
-    print(f"{datetime.now()}: Discover - __init__ - 3", flush=True)
-    print(f"TotalTime Discover: {datetime.now() - begin}", flush=True)
 
     self.spacer_bottom_margin.height = 80
     self.Artist_Name_Details.clear()
@@ -147,7 +135,8 @@ class DiscoverAgent(DiscoverAgentTemplate):
 
     # get_suggestion
     sug = json.loads(anvil.server.call('get_suggestion', 'Inspect', self.model_id, url_artist_id)) # Free, Explore, Inspect, Dissect
-
+    print(sug)
+    
     # check if we are creating a new agent
     if url_artist_id == 'create_agent' or url_artist_id == 'extended_create_agent':
       pass
@@ -156,6 +145,15 @@ class DiscoverAgent(DiscoverAgentTemplate):
       # alert(title='Train you Model..',
       #   content="Sorry, we cound't find any artists for your model. Make sure your Agent is fully set up!\n\nTherefore, go to ADD REF. ARTISTS and add some starting artists that you are interested in.")
       # self.visible = False
+      self.sec_header.visible = False
+      self.flow_panel_sections.visible = False
+      self.sec_releases.visible = False
+      self.sec_success.visible = False
+      self.sec_fandom.visible = False
+      self.sec_musical.visible = False
+      self.sec_live.visible = False
+      self.sec_shorts.visible = False
+      self.no_artists.visible = True
       routing.set_url_hash('agent_artists?artist_id=extended_create_agent', load_from_cache=False)
 
     elif sug["Status"] == 'No Findings!':
@@ -181,6 +179,7 @@ class DiscoverAgent(DiscoverAgentTemplate):
       self.sec_musical.visible = False
       self.sec_live.visible = False
       self.sec_shorts.visible = False
+      self.no_artists.visible = False
 
       artist_id = int(sug["ArtistID"])
       self.artist_id = artist_id
