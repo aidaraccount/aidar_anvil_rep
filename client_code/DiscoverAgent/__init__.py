@@ -153,7 +153,17 @@ class DiscoverAgent(DiscoverAgentTemplate):
       self.sec_musical.visible = False
       self.sec_live.visible = False
       self.sec_shorts.visible = False
+      
       self.no_artists.visible = True
+      memories = anvil.server.call('get_memories', self.model_id)
+      print(memories)
+      if memories is not None:
+        memories = json.loads(memories)
+        print(memories)
+        # memory_list = [entry['memory'] for entry in memories]
+        # print(memory_list)
+        self.repeating_panel_memories.items = memories
+      
       routing.set_url_hash('agent_artists?artist_id=extended_create_agent', load_from_cache=False)
 
     elif sug["Status"] == 'No Findings!':
