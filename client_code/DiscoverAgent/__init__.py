@@ -145,6 +145,7 @@ class DiscoverAgent(DiscoverAgentTemplate):
       # alert(title='Train you Model..',
       #   content="Sorry, we cound't find any artists for your model. Make sure your Agent is fully set up!\n\nTherefore, go to ADD REF. ARTISTS and add some starting artists that you are interested in.")
       # self.visible = False
+      
       self.sec_header.visible = False
       self.flow_panel_sections.visible = False
       self.sec_releases.visible = False
@@ -156,13 +157,8 @@ class DiscoverAgent(DiscoverAgentTemplate):
       
       self.no_artists.visible = True
       memories = anvil.server.call('get_memories', self.model_id)
-      print(memories)
       if memories is not None:
-        memories = json.loads(memories)
-        print(memories)
-        # memory_list = [entry['memory'] for entry in memories]
-        # print(memory_list)
-        self.repeating_panel_memories.items = memories
+        self.repeating_panel_memories.items = json.loads(memories)
       
       routing.set_url_hash('agent_artists?artist_id=extended_create_agent', load_from_cache=False)
 
@@ -176,6 +172,21 @@ class DiscoverAgent(DiscoverAgentTemplate):
       # self.visible = False
       # if result == "FILTERS":
       #   click_button(f'model_profile?model_id={self.model_id}&section=Filter', event_args)
+      
+      self.sec_header.visible = False
+      self.flow_panel_sections.visible = False
+      self.sec_releases.visible = False
+      self.sec_success.visible = False
+      self.sec_fandom.visible = False
+      self.sec_musical.visible = False
+      self.sec_live.visible = False
+      self.sec_shorts.visible = False
+
+      self.no_artists.visible = True
+      memories = anvil.server.call('get_memories', self.model_id)
+      if memories is not None:
+        self.repeating_panel_memories.items = json.loads(memories)
+
       routing.set_url_hash('agent_artists?artist_id=extended_create_agent', load_from_cache=False)
 
     else:

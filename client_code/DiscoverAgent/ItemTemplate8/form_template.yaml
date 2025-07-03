@@ -3,7 +3,7 @@ components:
   - {code: 'self.item[''memory'']', property: text, writeback: false}
   layout_properties: {grid_position: 'YMVURC,BLUGJY'}
   name: label_1
-  properties: {align: center}
+  properties: {align: center, italic: true, role: description}
   type: Label
 container: {type: ColumnPanel}
 is_package: true
