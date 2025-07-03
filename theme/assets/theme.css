@@ -165,7 +165,8 @@ body, html {
 .anvil-role-model-nav-link .link-text {
   max-width: 145px;
   overflow: clip;
-  text-overflow: ellipsis;  
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 /* underlining the activated model and watchlist in the navigation */
 .anvil-role-underline-link .link-text {
@@ -1061,7 +1062,6 @@ a>.link-text {
   padding-top: 0px;
   padding-bottom:5px;
   font-weight: normal;
-  white-space: nowrap;
 }
 
 .anvil-role-margin {
