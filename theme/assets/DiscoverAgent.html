@@ -1235,10 +1235,9 @@
       // Delete reference artist - calls Python method for proper Anvil alert handling
       deleteReference(artistId, buttonElement) {
         // Get the form instance to call the Python method
-        const formInstance = anvil.get_open_form();
-        if (formInstance && typeof formInstance.delete_reference_artist === 'function') {
+        if (window.formInstance && typeof window.formInstance.delete_reference_artist === 'function') {
           // Call the Python method which handles the alert and server call
-          const wasDeleted = formInstance.delete_reference_artist(artistId);
+          const wasDeleted = window.formInstance.delete_reference_artist(artistId);
           
           // If deletion was successful, remove the element from DOM
           if (wasDeleted) {
