@@ -845,8 +845,8 @@
               <div class="artist-followers">${followers} Spotify followers</div>
             </div>
             <div class="artist-action">NEW<br>REF</div>
-            <div class="delete-button anvil-role-icon-button-small" onclick="event.preventDefault(); event.stopPropagation(); this.closest('.message.artist').remove();">
-              <button><i class="fas fa-trash"></i></button>
+            <div class="delete-button anvil-role-icon-button-small" onclick="event.preventDefault(); event.stopPropagation(); window.wsManager.deleteReference('${encodeURIComponent(artistId)}', this);">
+              <button><i class="fa:trash-o"></i></button>
             </div>
           `;
 
@@ -1230,6 +1230,26 @@
           .replace(/>/g, "&gt;")
           .replace(/"/g, "&quot;")
           .replace(/'/g, "&#039;");
+      }
+      
+      // Delete reference artist with confirmation
+      deleteReference(artistId, buttonElement) {
+        const confirmed = confirm("Do you wish to delete this artist as a reference?");
+        if (confirmed) {
+          // Call server function to delete the reference
+          callServerFunction('delete_reference', this.model_id, artistId)
+            .then(() => {
+              // Remove the artist element from the DOM on successful deletion
+              const artistElement = buttonElement.closest('.message.artist');
+              if (artistElement) {
+                artistElement.remove();
+              }
+            })
+            .catch((error) => {
+              console.error('[deleteReference] Error deleting reference:', error);
+              this.addErrorMessage('Failed to delete artist reference. Please try again.');
+            });
+        }
       }
       
       // Update model ID and reconnect if needed
