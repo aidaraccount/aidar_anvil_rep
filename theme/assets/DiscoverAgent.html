@@ -1239,40 +1239,31 @@
           const confirmed = confirm('Do you wish to delete this artist as a reference?\n\nThis action cannot be undone.');
           
           if (confirmed) {
-            // Get form element to pass as 'this' context
-            const formElement = document.querySelector('.anvil-container');
+            let result = null;
             
-            // Call server function directly with proper 'this' context
-            if (typeof anvil !== 'undefined' && typeof anvil.call === 'function') {
-              console.log('[deleteReference] Calling server with anvil.call');
-              // Direct server call with form element as 'this' context
-              const result = await anvil.call(formElement, 'delete_reference', this.model_id, artistId);
-              
-              if (result !== null) {
-                // Remove the artist element from the DOM on successful deletion
-                const artistElement = buttonElement.closest('.message.artist');
-                if (artistElement) {
-                  artistElement.remove();
-                }
-              } else {
-                console.error('[deleteReference] Server call failed');
-                this.addErrorMessage('Failed to delete artist reference. Please try again.');
+            // Direct server call approach using anvil.server.call
+            if (typeof anvil !== 'undefined' && anvil.server && typeof anvil.server.call === 'function') {
+              console.log('[deleteReference] Calling server with anvil.server.call');
+              // Direct server call - no 'this' context needed for server functions
+              result = await anvil.server.call('delete_reference', this.model_id, artistId);
+              console.log('[deleteReference] Server call result:', result);
+            } 
+            // Fallback to callServerFunction if direct call is not available
+            else {
+              console.log('[deleteReference] Falling back to callServerFunction');
+              result = await callServerFunction('delete_reference', this.model_id, artistId);
+            }
+            
+            if (result !== null) {
+              // Remove the artist element from the DOM on successful deletion
+              const artistElement = buttonElement.closest('.message.artist');
+              if (artistElement) {
+                artistElement.remove();
+                console.log('[deleteReference] Artist removed from DOM');
               }
             } else {
-              // Fallback to callServerFunction if anvil.call is not available
-              console.log('[deleteReference] Falling back to callServerFunction');
-              const result = await callServerFunction('delete_reference', this.model_id, artistId);
-              
-              if (result !== null) {
-                // Remove the artist element from the DOM on successful deletion
-                const artistElement = buttonElement.closest('.message.artist');
-                if (artistElement) {
-                  artistElement.remove();
-                }
-              } else {
-                console.error('[deleteReference] Server call failed');
-                this.addErrorMessage('Failed to delete artist reference. Please try again.');
-              }
+              console.error('[deleteReference] Server call returned null');
+              this.addErrorMessage('Failed to delete artist reference. Please try again.');
             }
           }
         } catch (error) {
