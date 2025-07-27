@@ -1232,22 +1232,29 @@
           .replace(/'/g, "&#039;");
       }
       
-      // Delete reference artist - calls Python method for proper Anvil alert handling
-      deleteReference(artistId, buttonElement) {
-        // Get the form instance to call the Python method
-        if (window.formInstance && typeof window.formInstance.delete_reference_artist === 'function') {
-          // Call the Python method which handles the alert and server call
-          const wasDeleted = window.formInstance.delete_reference_artist(artistId);
+      // Delete reference artist with confirmation and server call
+      async deleteReference(artistId, buttonElement) {
+        try {
+          // Show confirmation dialog
+          const confirmed = confirm('Do you wish to delete this artist as a reference?\n\nThis action cannot be undone.');
           
-          // If deletion was successful, remove the element from DOM
-          if (wasDeleted) {
-            const artistElement = buttonElement.closest('.message.artist');
-            if (artistElement) {
-              artistElement.remove();
+          if (confirmed) {
+            // Call server function to delete the reference
+            const result = await callServerFunction('delete_reference', this.model_id, artistId);
+            
+            if (result !== null) {
+              // Remove the artist element from the DOM on successful deletion
+              const artistElement = buttonElement.closest('.message.artist');
+              if (artistElement) {
+                artistElement.remove();
+              }
+            } else {
+              console.error('[deleteReference] Server call failed');
+              this.addErrorMessage('Failed to delete artist reference. Please try again.');
             }
           }
-        } else {
-          console.error('[deleteReference] Could not access form instance or delete method');
+        } catch (error) {
+          console.error('[deleteReference] Error deleting reference:', error);
           this.addErrorMessage('Failed to delete artist reference. Please try again.');
         }
       }
