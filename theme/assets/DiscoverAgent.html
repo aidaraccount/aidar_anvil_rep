@@ -1233,22 +1233,30 @@
       }
       
       // Delete reference artist with confirmation
-      deleteReference(artistId, buttonElement) {
-        const confirmed = confirm("Do you wish to delete this artist as a reference?");
-        if (confirmed) {
-          // Call server function to delete the reference
-          callServerFunction('delete_reference', this.model_id, artistId)
-            .then(() => {
-              // Remove the artist element from the DOM on successful deletion
-              const artistElement = buttonElement.closest('.message.artist');
-              if (artistElement) {
-                artistElement.remove();
-              }
-            })
-            .catch((error) => {
-              console.error('[deleteReference] Error deleting reference:', error);
-              this.addErrorMessage('Failed to delete artist reference. Please try again.');
-            });
+      async deleteReference(artistId, buttonElement) {
+        try {
+          const result = await alert({
+            title: 'Delete Reference Artist',
+            content: 'Do you wish to delete this artist as a reference?\n\nThis action cannot be undone.',
+            buttons: [
+              ["Delete", "DELETE"],
+              ["Cancel", "CANCEL"]
+            ]
+          });
+          
+          if (result === "DELETE") {
+            // Call server function directly using anvil.server.call
+            await anvil.server.call('delete_reference', this.model_id, artistId);
+            
+            // Remove the artist element from the DOM on successful deletion
+            const artistElement = buttonElement.closest('.message.artist');
+            if (artistElement) {
+              artistElement.remove();
+            }
+          }
+        } catch (error) {
+          console.error('[deleteReference] Error deleting reference:', error);
+          this.addErrorMessage('Failed to delete artist reference. Please try again.');
         }
       }
       
