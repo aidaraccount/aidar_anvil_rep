@@ -1232,30 +1232,23 @@
           .replace(/'/g, "&#039;");
       }
       
-      // Delete reference artist with confirmation
-      async deleteReference(artistId, buttonElement) {
-        try {
-          const result = await alert({
-            title: 'Delete Reference Artist',
-            content: 'Do you wish to delete this artist as a reference?\n\nThis action cannot be undone.',
-            buttons: [
-              ["Delete", "DELETE"],
-              ["Cancel", "CANCEL"]
-            ]
-          });
+      // Delete reference artist - calls Python method for proper Anvil alert handling
+      deleteReference(artistId, buttonElement) {
+        // Get the form instance to call the Python method
+        const formInstance = anvil.get_open_form();
+        if (formInstance && typeof formInstance.delete_reference_artist === 'function') {
+          // Call the Python method which handles the alert and server call
+          const wasDeleted = formInstance.delete_reference_artist(artistId);
           
-          if (result === "DELETE") {
-            // Call server function directly using anvil.server.call
-            await anvil.server.call('delete_reference', this.model_id, artistId);
-            
-            // Remove the artist element from the DOM on successful deletion
+          // If deletion was successful, remove the element from DOM
+          if (wasDeleted) {
             const artistElement = buttonElement.closest('.message.artist');
             if (artistElement) {
               artistElement.remove();
             }
           }
-        } catch (error) {
-          console.error('[deleteReference] Error deleting reference:', error);
+        } else {
+          console.error('[deleteReference] Could not access form instance or delete method');
           this.addErrorMessage('Failed to delete artist reference. Please try again.');
         }
       }
