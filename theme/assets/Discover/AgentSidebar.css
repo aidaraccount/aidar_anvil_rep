@@ -210,8 +210,6 @@
   transition: all 0.2s ease;
   margin: 0;
   box-sizing: border-box;
-  position: relative;
-  overflow: hidden;
 }
 
 .agent-artist-image {
@@ -234,44 +232,6 @@
   background-color: #2e2e2e;
   transform: translateY(-1px);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-  max-width: 85%;
-}
-
-/* Delete icon container - hidden by default */
-.message.artist .delete-icon {
-  position: absolute;
-  right: -30px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 24px;
-  height: 24px;
-  background-color: #e74c3c;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  opacity: 0;
-  z-index: 10;
-}
-
-/* Show delete icon on hover */
-.message.artist:hover .delete-icon {
-  right: 8px;
-  opacity: 1;
-}
-
-/* Delete icon styling */
-.message.artist .delete-icon i {
-  font-size: 12px;
-  color: white;
-}
-
-/* Delete icon hover effect */
-.message.artist .delete-icon:hover {
-  background-color: #c0392b;
-  transform: translateY(-50%) scale(1.1);
 }
 
 .artist-name {
@@ -292,6 +252,32 @@
   font-size: 15px;
   margin-left: 10px;
   text-align: center;
+}
+
+/* Reference artist specific styles with delete functionality */
+.message.artist.reference {
+  position: relative;
+  overflow: visible;
+}
+
+.message.artist.reference:hover {
+  max-width: 85%;
+}
+
+/* Delete button for reference artists only */
+.message.artist.reference .delete-button {
+  position: absolute;
+  right: -35px;
+  top: 50%;
+  transform: translateY(-50%);
+  opacity: 0;
+  transition: all 0.2s ease;
+  z-index: 10;
+}
+
+.message.artist.reference:hover .delete-button {
+  right: 8px;
+  opacity: 1;
 }
 
 /* Popularity range message styles */

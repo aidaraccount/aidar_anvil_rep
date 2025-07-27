@@ -776,9 +776,6 @@
               <div class="artist-name">${this.escapeHtml(artist.name)}</div>
               <div class="artist-followers">${followers} Spotify followers</div>
             </div>
-            <div class="delete-icon" onclick="event.preventDefault(); event.stopPropagation(); this.closest('.message.artist').remove();">
-              <i class="fas fa-trash"></i>
-            </div>
           `;
           
           this.chatMessages.appendChild(messageDiv);
@@ -836,10 +833,10 @@
           };
           const followers = formatFollowers(artist.followers);
 
-          // Create artist message element with artist class
+          // Create artist message element with artist and reference classes
           const messageDiv = document.createElement('a');
           messageDiv.href = `#agent_artists?artist_id=${encodeURIComponent(artistId)}`;
-          messageDiv.className = 'message artist';
+          messageDiv.className = 'message artist reference';
 
           messageDiv.innerHTML = `
             <div class="agent-artist-image" style="background-image: url('${this.escapeHtml(imageUrl)}')"></div>
@@ -848,6 +845,9 @@
               <div class="artist-followers">${followers} Spotify followers</div>
             </div>
             <div class="artist-action">NEW<br>REF</div>
+            <div class="delete-button anvil-role-icon-button-small" onclick="event.preventDefault(); event.stopPropagation(); this.closest('.message.artist').remove();">
+              <button><i class="fas fa-trash"></i></button>
+            </div>
           `;
 
           this.chatMessages.appendChild(messageDiv);
