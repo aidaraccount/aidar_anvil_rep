@@ -2435,31 +2435,3 @@ class DiscoverAgent(DiscoverAgentTemplate):
       large=True,
       buttons=[]
     )
-
-  def delete_reference_artist(self, artist_id, **event_args):
-    """Handle deletion of reference artist with confirmation dialog"""
-    try:
-      result = alert(
-        title='Delete Reference Artist',
-        content='Do you wish to delete this artist as a reference?\n\nThis action cannot be undone.',
-        buttons=[
-          ("Delete", "DELETE"),
-          ("Cancel", "CANCEL")
-        ]
-      )
-      
-      if result == "DELETE":
-        # Call server function to delete the reference
-        anvil.server.call('delete_reference', self.model_id, artist_id)
-        return True  # Indicate successful deletion
-      else:
-        return False  # User cancelled
-        
-    except Exception as e:
-      print(f"[delete_reference_artist] Error: {e}")
-      alert(
-        title='Error',
-        content='Failed to delete artist reference. Please try again.',
-        buttons=["OK"]
-      )
-      return False

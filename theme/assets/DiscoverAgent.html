@@ -1239,18 +1239,40 @@
           const confirmed = confirm('Do you wish to delete this artist as a reference?\n\nThis action cannot be undone.');
           
           if (confirmed) {
-            // Call server function to delete the reference
-            const result = await callServerFunction('delete_reference', this.model_id, artistId);
+            // Get form element to pass as 'this' context
+            const formElement = document.querySelector('.anvil-container');
             
-            if (result !== null) {
-              // Remove the artist element from the DOM on successful deletion
-              const artistElement = buttonElement.closest('.message.artist');
-              if (artistElement) {
-                artistElement.remove();
+            // Call server function directly with proper 'this' context
+            if (typeof anvil !== 'undefined' && typeof anvil.call === 'function') {
+              console.log('[deleteReference] Calling server with anvil.call');
+              // Direct server call with form element as 'this' context
+              const result = await anvil.call(formElement, 'delete_reference', this.model_id, artistId);
+              
+              if (result !== null) {
+                // Remove the artist element from the DOM on successful deletion
+                const artistElement = buttonElement.closest('.message.artist');
+                if (artistElement) {
+                  artistElement.remove();
+                }
+              } else {
+                console.error('[deleteReference] Server call failed');
+                this.addErrorMessage('Failed to delete artist reference. Please try again.');
               }
             } else {
-              console.error('[deleteReference] Server call failed');
-              this.addErrorMessage('Failed to delete artist reference. Please try again.');
+              // Fallback to callServerFunction if anvil.call is not available
+              console.log('[deleteReference] Falling back to callServerFunction');
+              const result = await callServerFunction('delete_reference', this.model_id, artistId);
+              
+              if (result !== null) {
+                // Remove the artist element from the DOM on successful deletion
+                const artistElement = buttonElement.closest('.message.artist');
+                if (artistElement) {
+                  artistElement.remove();
+                }
+              } else {
+                console.error('[deleteReference] Server call failed');
+                this.addErrorMessage('Failed to delete artist reference. Please try again.');
+              }
             }
           }
         } catch (error) {
