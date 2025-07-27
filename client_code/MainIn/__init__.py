@@ -670,3 +670,10 @@ class MainIn(MainInTemplate):
   def settings_click(self, **event_args):
     click_link(self.settings, 'settings?section=Account', event_args)
     self.reset_nav_backgrounds()
+
+  #----------------------------------------------------------------------------------------------
+  # Called from other forms
+  # delete_reference
+  def delete_reference(self, model_id, artist_id):
+    anvil.server.call('delete_reference', model_id, artist_id)
+    
