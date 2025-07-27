@@ -776,6 +776,9 @@
               <div class="artist-name">${this.escapeHtml(artist.name)}</div>
               <div class="artist-followers">${followers} Spotify followers</div>
             </div>
+            <div class="delete-icon" onclick="event.preventDefault(); event.stopPropagation(); this.closest('.message.artist').remove();">
+              <i class="fas fa-trash"></i>
+            </div>
           `;
           
           this.chatMessages.appendChild(messageDiv);
