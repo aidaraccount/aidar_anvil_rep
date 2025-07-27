@@ -1239,54 +1239,16 @@
           const confirmed = confirm('Do you wish to delete this artist as a reference?\n\nThis action cannot be undone.');
           
           if (confirmed) {
-            console.log('[deleteReference] Starting deletion process for artist:', artistId);
-            let result = null;
-            let successMethod = null;
+            console.log('[deleteReference] Starting deletion for artist:', artistId);
             
-            // Try all possible approaches in order of reliability
-            
-            // APPROACH 1: Direct server call - preferred method for server functions
             try {
-              if (typeof anvil !== 'undefined' && anvil.server && typeof anvil.server.call === 'function') {
-                console.log('[deleteReference] APPROACH 1: Trying anvil.server.call directly');
-                result = await anvil.server.call('delete_reference', this.model_id, artistId);
-                console.log('[deleteReference] APPROACH 1: Success! Result:', result);
-                successMethod = 'anvil.server.call';
-              }
-            } catch (err1) {
-              console.error('[deleteReference] APPROACH 1 failed:', err1);
-            }
-            
-            // APPROACH 2: Call with form context
-            if (!successMethod) {
-              try {
-                const formElement = document.querySelector('.anvil-container');
-                if (formElement && typeof anvil !== 'undefined' && typeof anvil.call === 'function') {
-                  console.log('[deleteReference] APPROACH 2: Trying anvil.call with form context');
-                  result = await anvil.call(formElement, 'delete_reference', this.model_id, artistId);
-                  console.log('[deleteReference] APPROACH 2: Success! Result:', result);
-                  successMethod = 'anvil.call with context';
-                }
-              } catch (err2) {
-                console.error('[deleteReference] APPROACH 2 failed:', err2);
-              }
-            }
-            
-            // APPROACH 3: Use callServerFunction helper
-            if (!successMethod) {
-              try {
-                console.log('[deleteReference] APPROACH 3: Trying callServerFunction');
-                result = await callServerFunction('delete_reference', this.model_id, artistId);
-                console.log('[deleteReference] APPROACH 3: Success! Result:', result);
-                successMethod = 'callServerFunction';
-              } catch (err3) {
-                console.error('[deleteReference] APPROACH 3 failed:', err3);
-              }
-            }
-            
-            // Check if any approach succeeded
-            if (successMethod) {
-              console.log(`[deleteReference] Successfully called server via ${successMethod}`);
+              // Get form element for context
+              const formElement = document.querySelector('.anvil-container');
+              
+              // Call the delete_reference method on the MainIn form
+              // NOTE: This requires a corresponding method in the MainIn class
+              const result = await anvil.call(formElement, 'delete_reference', this.model_id, artistId);
+              console.log('[deleteReference] Server call completed, result:', result);
               
               // Remove the artist element from the DOM on successful deletion
               const artistElement = buttonElement.closest('.message.artist');
@@ -1294,16 +1256,13 @@
                 artistElement.remove();
                 console.log('[deleteReference] Artist removed from DOM');
               }
-              
-              // Store the working approach for future reference
-              window._workingServerCallMethod = successMethod;
-            } else {
-              console.error('[deleteReference] All approaches failed');
+            } catch (err) {
+              console.error('[deleteReference] Error calling server method:', err);
               this.addErrorMessage('Failed to delete artist reference. Please try again.');
             }
           }
         } catch (error) {
-          console.error('[deleteReference] Error deleting reference:', error);
+          console.error('[deleteReference] Error in delete flow:', error);
           this.addErrorMessage('Failed to delete artist reference. Please try again.');
         }
       }
