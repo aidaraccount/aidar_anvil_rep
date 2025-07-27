@@ -1241,20 +1241,21 @@
           if (confirmed) {
             console.log('[deleteReference] Starting deletion process for artist:', artistId);
             let result = null;
+            let successMethod = null;
             
             // Try all possible approaches in order of reliability
             
             // APPROACH 1: Direct server call - preferred method for server functions
             try {
-            if (typeof anvil !== 'undefined' && anvil.server && typeof anvil.server.call === 'function') {
+              if (typeof anvil !== 'undefined' && anvil.server && typeof anvil.server.call === 'function') {
                 console.log('[deleteReference] APPROACH 1: Trying anvil.server.call directly');
-              result = await anvil.server.call('delete_reference', this.model_id, artistId);
+                result = await anvil.server.call('delete_reference', this.model_id, artistId);
                 console.log('[deleteReference] APPROACH 1: Success! Result:', result);
                 successMethod = 'anvil.server.call';
               }
             } catch (err1) {
               console.error('[deleteReference] APPROACH 1 failed:', err1);
-            } 
+            }
             
             // APPROACH 2: Call with form context
             if (!successMethod) {
@@ -1275,7 +1276,7 @@
             if (!successMethod) {
               try {
                 console.log('[deleteReference] APPROACH 3: Trying callServerFunction');
-              result = await callServerFunction('delete_reference', this.model_id, artistId);
+                result = await callServerFunction('delete_reference', this.model_id, artistId);
                 console.log('[deleteReference] APPROACH 3: Success! Result:', result);
                 successMethod = 'callServerFunction';
               } catch (err3) {
