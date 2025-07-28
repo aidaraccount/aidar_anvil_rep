@@ -254,6 +254,32 @@
   text-align: center;
 }
 
+/* Reference artist specific styles with delete functionality */
+.message.artist.reference {
+  position: relative;
+  overflow: visible;
+}
+
+.message.artist.reference:hover {
+  max-width: 80%;
+}
+
+/* Delete button for reference artists only */
+.message.artist.reference .delete-button {
+  position: absolute;
+  right: -35px;
+  top: 50%;
+  transform: translateY(-50%);
+  opacity: 0;
+  transition: all 0.2s ease;
+  z-index: 10;
+}
+
+.message.artist.reference:hover .delete-button {
+  right: 8px;
+  opacity: 1;
+}
+
 /* Popularity range message styles */
 .message.popularity-range {
   max-width: 70%;

@@ -670,3 +670,24 @@ class MainIn(MainInTemplate):
   def settings_click(self, **event_args):
     click_link(self.settings, 'settings?section=Account', event_args)
     self.reset_nav_backgrounds()
+
+  #----------------------------------------------------------------------------------------------
+  # Called from other forms
+  # delete_reference
+  def MainIn_delete_reference(self, model_id, artist_id):
+    c = alert(
+      title='Confirm reference removal',
+      content='Do you wish to delete this artist as a reference?',
+      large=False,
+      width=500,
+      buttons=[('yes', True), ('no', False)],
+      dismissible=True,
+      role=["forgot-password-success"]
+    )
+    
+    if c is True:
+      anvil.server.call('delete_reference', model_id, artist_id)
+      print('[MainIn_delete_reference] delete_reference executed on backend')
+
+    return c
+    
