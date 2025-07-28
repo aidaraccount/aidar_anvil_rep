@@ -674,6 +674,11 @@ class MainIn(MainInTemplate):
   #----------------------------------------------------------------------------------------------
   # Called from other forms
   # delete_reference
-  def delete_reference(self, model_id, artist_id):
-    anvil.server.call('delete_reference', model_id, artist_id)
+  def MainIn_delete_reference(self, model_id, artist_id):
+    c = confirm("Do you wish to delete this artist as a reference?")
+    if c is True:
+      anvil.server.call('delete_reference', model_id, artist_id)
+      print('[MainIn_delete_reference] delete_reference executed on backend')
+
+    return c
     

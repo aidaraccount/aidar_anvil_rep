@@ -1235,34 +1235,24 @@
       // Delete reference artist with confirmation and server call
       async deleteReference(artistId, buttonElement) {
         try {
-          // Show confirmation dialog
-          const confirmed = confirm('Do you wish to delete this artist as a reference?\n\nThis action cannot be undone.');
+          // Get form element for context
+          const formElement = document.querySelector('.anvil-container');
           
-          if (confirmed) {
-            console.log('[deleteReference] Starting deletion for artist:', artistId);
-            
-            try {
-              // Get form element for context
-              const formElement = document.querySelector('.anvil-container');
-              
-              // Call the delete_reference method on the MainIn form
-              // NOTE: This requires a corresponding method in the MainIn class
-              const result = await anvil.call(formElement, 'delete_reference', this.model_id, artistId);
-              console.log('[deleteReference] Server call completed, result:', result);
-              
-              // Remove the artist element from the DOM on successful deletion
-              const artistElement = buttonElement.closest('.message.artist');
-              if (artistElement) {
-                artistElement.remove();
-                console.log('[deleteReference] Artist removed from DOM');
-              }
-            } catch (err) {
-              console.error('[deleteReference] Error calling server method:', err);
-              this.addErrorMessage('Failed to delete artist reference. Please try again.');
+          // Call the delete_reference method on the MainIn form
+          // NOTE: This requires a corresponding method in the MainIn class
+          const result = await anvil.call(formElement, 'MainIn_delete_reference', this.model_id, artistId);
+          console.log('[deleteReference] Server call completed, result:', result);
+          
+          // Remove the artist element from the DOM on successful deletion
+          if (result) {
+            const artistElement = buttonElement.closest('.message.artist');
+            if (artistElement) {
+              artistElement.remove();
+              console.log('[deleteReference] Artist removed from DOM');
             }
           }
-        } catch (error) {
-          console.error('[deleteReference] Error in delete flow:', error);
+        } catch (err) {
+          console.error('[deleteReference] Error calling server method:', err);
           this.addErrorMessage('Failed to delete artist reference. Please try again.');
         }
       }
