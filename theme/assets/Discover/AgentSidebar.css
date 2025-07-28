@@ -261,7 +261,7 @@
 }
 
 .message.artist.reference:hover {
-  max-width: 85%;
+  max-width: 80%;
 }
 
 /* Delete button for reference artists only */
