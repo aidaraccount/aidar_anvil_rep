@@ -89,7 +89,7 @@ def server_transfer_user_id():
     if new_user_id is not None:
       user_row = app_tables.users.get(email = user["email"])
       user_row['user_id'] = new_user_id
-      anvil.server.call('sent_mail_first_login', f'{self.login_email.text} registered for Customer {self.customer_name}')
+      anvil.server.call('sent_mail_first_login', f'{user["email"]} / {user["first_name"]} {user["last_name"]} logged in the first time for Customer ID {user["customer_id"]}')
 
 
 @anvil.server.callable
