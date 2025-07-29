@@ -106,7 +106,8 @@ class MainOut_Register(MainOut_RegisterTemplate):
         
         # alerts & redirect
         if res == 'success':
-          anvil.server.call('sent_push_over',  'User Registration', f'{self.login_email.text} registered for Customer {self.customer_name}')
+          anvil.server.call('sent_push_over',  'New User Registration', f'{self.login_email.text} registered for Customer {self.customer_name}')
+          anvil.server.call('sent_mail_registration', f'{self.login_email.text} registered for Customer {self.customer_name}')
           alert(
             title="Registration successful!",
             content="Please confirm your email by clicking the link we just sent you.",
