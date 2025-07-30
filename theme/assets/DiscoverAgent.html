@@ -1612,10 +1612,18 @@
     const mainContent = document.querySelector('.anvil-role-discover_self');
     console.log('[AgentSidebar] Initializing with mainContent:', mainContent);
 
-    // Open the agent sidebar by default and update UI
+    // Check sessionStorage for saved toggle state or open the agent sidebar by default
     if (agentSidebar && agentButton) {
-      agentSidebar.classList.add('open');
-      agentButton.classList.add('open');
+      const savedToggleState = sessionStorage.getItem('agent_toggle');
+      const isOpen = savedToggleState === null ? true : savedToggleState === 'true';
+      
+      if (isOpen) {
+        agentSidebar.classList.add('open');
+        agentButton.classList.add('open');
+      } else {
+        agentSidebar.classList.remove('open');
+        agentButton.classList.remove('open');
+      }
       
       // Define updateAgentMargins inside initializeAgentSidebar to have access to all variables
       const updateAgentMargins = () => {
@@ -1658,6 +1666,11 @@
         agentButton.addEventListener('click', function() {
           agentSidebar.classList.toggle('open');
           agentButton.classList.toggle('open');
+          
+          // Save toggle state to sessionStorage
+          const isOpen = agentSidebar.classList.contains('open');
+          sessionStorage.setItem('agent_toggle', isOpen.toString());
+          
           updateAgentMargins();
         });
 
