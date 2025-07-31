@@ -1878,7 +1878,19 @@
   window.createAgentView = function() {
     console.log('[createAgentView] Creating agent view');
     const agentSidebar = document.getElementById('agent-sidebar');
+    const agentButton = document.getElementById('agent-sidebar-button');
+    
     if (agentSidebar) {
+      // Ensure the sidebar is visible when creating a new agent
+      // This fixes positioning issues when sidebar was previously hidden
+      agentSidebar.classList.add('open');
+      if (agentButton) {
+        agentButton.classList.add('open');
+      }
+      // Save toggle state to sessionStorage
+      sessionStorage.setItem('agent_toggle', 'true');
+      console.log('[createAgentView] Ensured agent sidebar is visible');
+      
       // Set createAgent stage
       const wsManager = window.wsManager;
       if (wsManager) {
@@ -1894,7 +1906,7 @@
         document.querySelector('.header-sidebar'),
         document.getElementById('chat-messages'),
         document.querySelector('.chat-input-container'),
-        document.getElementById('agent-sidebar-button'),
+        agentButton,
         document.querySelector('.footer')
       ];
       
