@@ -435,6 +435,13 @@
                 }
                 break;
                 
+              case 'genre_sub_scores':
+                // Handle genre sub scores display
+                if (msg.data) {
+                  this.handleGenreSubScores({ data: msg.data });
+                }
+                break;
+                
               default:
                 console.warn('[loadMessageHistory] Unknown message type:', msg.type, msg);
                 this.addSystemMessage(msg.content || JSON.stringify(msg));
@@ -694,7 +701,11 @@
             case 'filters_info':
               this.handleFiltersInfo(message);
               break;
-              
+            
+            case 'genre_sub_scores':
+              this.handleGenreSubScores(message);
+              break;
+            
             case 'complete':
               this.handleCompleteMessage();
               break;
@@ -889,6 +900,51 @@
           this.scrollToBottom();
         } else {
           this.addSystemMessage(message.content || 'Received filter information');
+        }
+      }
+
+      // Handle genre sub scores information
+      handleGenreSubScores(message) {
+        console.log('[handleGenreSubScores] Genre sub scores information received:', message);
+
+        if (message.data && message.data.results && Array.isArray(message.data.results)) {
+          const results = message.data.results;
+          if (results.length === 0) return;
+          
+          // Create message element with genre-sub-scores class
+          const messageDiv = document.createElement('div');
+          messageDiv.className = 'message genre-sub-scores';
+          
+          // Create slider items for each genre with scores
+          const genreItems = results.map(result => {
+            const [genre, score] = result;
+            const genreName = Array.isArray(genre) ? genre[1] : genre; // Get sub genre name
+            
+            return `
+              <div class="genre-score-item">
+                <div class="genre-name">${this.escapeHtml(genreName)}</div>
+                <div class="genre-slider-container">
+                  <div class="genre-slider">
+                    <div class="genre-slider-track">
+                      <div class="genre-slider-progress" style="width: ${score}%;"></div>
+                      <div class="genre-slider-handle" style="left: ${score}%;"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            `;
+          }).join('');
+          
+          messageDiv.innerHTML = `
+            <div class="genre-scores-content">
+              ${genreItems}
+            </div>
+          `;
+          
+          this.chatMessages.appendChild(messageDiv);
+          this.scrollToBottom();
+        } else {
+          this.addSystemMessage(message.content || 'Received genre sub scores information');
         }
       }
 
