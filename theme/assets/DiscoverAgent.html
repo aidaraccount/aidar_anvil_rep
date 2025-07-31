@@ -911,36 +911,170 @@
           const results = message.data.results;
           if (results.length === 0) return;
           
+          // Store all results but initially show only the first 3
+          const allResults = [...results];
+          const visibleResults = allResults.slice(0, 3);
+          
           // Create message element with genre-sub-scores class
           const messageDiv = document.createElement('div');
           messageDiv.className = 'message genre-sub-scores';
           
-          // Create slider items for each genre with scores
-          const genreItems = results.map(result => {
-            const [genre, score] = result;
-            const genreName = Array.isArray(genre) ? genre[1] : genre; // Get sub genre name
+          // Create the main container
+          const mainContainer = document.createElement('div');
+          mainContainer.className = 'genre-scores-container';
+          
+          // Create content div for genre sliders
+          const contentDiv = document.createElement('div');
+          contentDiv.className = 'genre-scores-content';
+          
+          // Function to create and add genre sliders
+          const createGenreSliders = (results, container) => {
+            results.forEach(result => {
+              const [genre, score] = result;
+              const genreName = Array.isArray(genre) ? genre[1] : genre; // Get sub genre name
+              
+              // Create genre item container
+              const genreItem = document.createElement('div');
+              genreItem.className = 'genre-score-item';
+              
+              // Create genre name element
+              const genreNameEl = document.createElement('div');
+              genreNameEl.className = 'genre-name';
+              genreNameEl.textContent = genreName;
+              genreItem.appendChild(genreNameEl);
+              
+              // Create slider container
+              const sliderContainer = document.createElement('div');
+              sliderContainer.className = 'genre-slider-container';
+              
+              // Create slider
+              const slider = document.createElement('div');
+              slider.className = 'genre-slider';
+              
+              // Create track
+              const track = document.createElement('div');
+              track.className = 'genre-slider-track';
+              
+              // Create progress bar
+              const progress = document.createElement('div');
+              progress.className = 'genre-slider-progress';
+              progress.style.width = `${score}%`;
+              
+              // Create handle
+              const handle = document.createElement('div');
+              handle.className = 'genre-slider-handle';
+              handle.style.left = `${score}%`;
+              handle.setAttribute('data-genre', genreName);
+              handle.setAttribute('data-value', score);
+              
+              // Add drag functionality to handle
+              let isDragging = false;
+              
+              handle.addEventListener('mousedown', (e) => {
+                isDragging = true;
+                document.addEventListener('mousemove', onMouseMove);
+                document.addEventListener('mouseup', onMouseUp);
+                e.preventDefault(); // Prevent text selection
+              });
+              
+              const onMouseMove = (e) => {
+                if (!isDragging) return;
+                
+                const rect = track.getBoundingClientRect();
+                let newPos = (e.clientX - rect.left) / rect.width * 100;
+                
+                // Clamp between 0 and 100
+                newPos = Math.max(0, Math.min(100, newPos));
+                
+                // Update handle and progress
+                handle.style.left = `${newPos}%`;
+                progress.style.width = `${newPos}%`;
+                handle.setAttribute('data-value', Math.round(newPos));
+              };
+              
+              const onMouseUp = () => {
+                isDragging = false;
+                document.removeEventListener('mousemove', onMouseMove);
+                document.removeEventListener('mouseup', onMouseUp);
+              };
+              
+              // Assemble the slider
+              track.appendChild(progress);
+              track.appendChild(handle);
+              slider.appendChild(track);
+              sliderContainer.appendChild(slider);
+              genreItem.appendChild(sliderContainer);
+              
+              // Add to container
+              container.appendChild(genreItem);
+            });
+          };
+          
+          // Add initial visible sliders
+          createGenreSliders(visibleResults, contentDiv);
+          
+          // Create legend
+          const legend = document.createElement('div');
+          legend.className = 'genre-slider-legend';
+          legend.innerHTML = '<div class="increasing-fit">increasing fit</div>';
+          
+          // Create "show more" link if needed
+          const showMoreLink = document.createElement('div');
+          showMoreLink.className = 'show-more-genres';
+          showMoreLink.textContent = 'show more genres';
+          
+          if (allResults.length > visibleResults.length) {
+            showMoreLink.style.display = 'block';
             
-            return `
-              <div class="genre-score-item">
-                <div class="genre-name">${this.escapeHtml(genreName)}</div>
-                <div class="genre-slider-container">
-                  <div class="genre-slider">
-                    <div class="genre-slider-track">
-                      <div class="genre-slider-progress" style="width: ${score}%;"></div>
-                      <div class="genre-slider-handle" style="left: ${score}%;"></div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            `;
-          }).join('');
+            showMoreLink.addEventListener('click', () => {
+              const currentCount = contentDiv.querySelectorAll('.genre-score-item').length;
+              const nextBatch = allResults.slice(currentCount, currentCount + 2);
+              
+              if (nextBatch.length > 0) {
+                createGenreSliders(nextBatch, contentDiv);
+                
+                // Hide link if all genres are shown
+                if (contentDiv.querySelectorAll('.genre-score-item').length >= allResults.length) {
+                  showMoreLink.style.display = 'none';
+                }
+                
+                this.scrollToBottom();
+              }
+            });
+          } else {
+            showMoreLink.style.display = 'none';
+          }
           
-          messageDiv.innerHTML = `
-            <div class="genre-scores-content">
-              ${genreItems}
-            </div>
-          `;
+          // Create button container
+          const buttonContainer = document.createElement('div');
+          buttonContainer.className = 'genre-button-container';
           
+          // Create buttons
+          const promptButton = document.createElement('button');
+          promptButton.className = 'genre-button prompt-button';
+          promptButton.textContent = 'Prompt';
+          
+          const aiButton = document.createElement('button');
+          aiButton.className = 'genre-button ai-button';
+          aiButton.textContent = 'AI';
+          
+          const confirmButton = document.createElement('button');
+          confirmButton.className = 'genre-button confirm-button';
+          confirmButton.textContent = 'confirm';
+          
+          // Add buttons to container
+          buttonContainer.appendChild(promptButton);
+          buttonContainer.appendChild(aiButton);
+          buttonContainer.appendChild(confirmButton);
+          
+          // Assemble everything
+          mainContainer.appendChild(contentDiv);
+          mainContainer.appendChild(legend);
+          mainContainer.appendChild(showMoreLink);
+          mainContainer.appendChild(buttonContainer);
+          messageDiv.appendChild(mainContainer);
+          
+          // Add to chat and scroll
           this.chatMessages.appendChild(messageDiv);
           this.scrollToBottom();
         } else {
