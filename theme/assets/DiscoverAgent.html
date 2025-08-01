@@ -563,13 +563,10 @@
       sendMessage() {
         try {
           console.log('[sendMessage] sendMessage() called');
-          console.log('[sendMessage] sendMessage() called - TRACE:', new Error().stack);
-          console.log('[sendMessage] isProcessing state:', this.isProcessing);
           
           // If we're processing, this is a cancel request
           if (this.isProcessing) {
             console.log('[sendMessage] Cancel request detected');
-            console.log('[sendMessage] Cancel request detected - need to find who called this');
             this.cancelExecution();
             return;
           }
