@@ -310,6 +310,7 @@
         this.maxReconnectAttempts = 5;
         this.reconnectDelay = 1000;
         this.isLoadingHistory = false;
+        this.isProcessing = false; // Track processing state for cancel functionality
 
         // Stage management
         const STAGE = {
@@ -558,10 +559,17 @@
       
       // -----------------------------------------
       /* 3. Message Handling */
-      // Send message to the server
+      // Send message to the server or cancel current execution
       sendMessage() {
         try {
           console.log('[sendMessage] sendMessage() called');
+          
+          // If we're processing, this is a cancel request
+          if (this.isProcessing) {
+            console.log('[sendMessage] Cancel request detected');
+            this.cancelExecution();
+            return;
+          }
           
           const message = this.chatInput.value.trim();
           if (!message) {
@@ -1518,10 +1526,33 @@
       showTypingIndicator() {
         this.removeTypingIndicator();
         
+        // Update processing state
+        this.isProcessing = true;
+        
+        // Create thinking indicator
         this.typingIndicator = document.createElement('div');
         this.typingIndicator.className = 'waiting-indicator';
         this.typingIndicator.textContent = 'AIDAR is thinking';
         this.chatContainer.appendChild(this.typingIndicator);
+        
+        // Update send button to cancel button
+        if (this.sendButton) {
+          this.sendButton.classList.add('processing');
+          const sendIcon = this.sendButton.querySelector('.send-icon');
+          if (sendIcon) {
+            sendIcon.classList.add('cancel');
+          }
+        }
+        
+        // Disable chat input but keep it looking normal
+        if (this.chatInput) {
+          // Save current input value to restore later
+          this._savedInputValue = this.chatInput.value;
+          
+          // Keep a read-only appearance but disable editing
+          this.chatInput.setAttribute('readonly', 'readonly');
+          this.chatInput.placeholder = 'Processing request...'; 
+        }
       }
       
       // Remove typing indicator
@@ -1529,6 +1560,30 @@
         if (this.typingIndicator) {
           this.typingIndicator.remove();
           this.typingIndicator = null;
+        }
+        
+        // Reset processing state
+        this.isProcessing = false;
+        
+        // Reset send button
+        if (this.sendButton) {
+          this.sendButton.classList.remove('processing');
+          const sendIcon = this.sendButton.querySelector('.send-icon');
+          if (sendIcon) {
+            sendIcon.classList.remove('cancel');
+          }
+        }
+        
+        // Re-enable chat input
+        if (this.chatInput) {
+          this.chatInput.removeAttribute('readonly');
+          this.chatInput.placeholder = 'Type your message here...';
+          
+          // If there was a saved value, restore it
+          if (this._savedInputValue) {
+            this.chatInput.value = this._savedInputValue;
+            this._savedInputValue = '';
+          }
         }
       }
       
@@ -1553,7 +1608,33 @@
       
       // Helper: Scroll chat to bottom
       scrollToBottom() {
-        this.chatMessages.scrollTop = this.chatMessages.scrollHeight;
+        if (this.chatMessages) {
+          this.chatMessages.scrollTop = this.chatMessages.scrollHeight;
+        }
+      }
+      
+      // Cancel ongoing execution
+      cancelExecution() {
+        console.log('[cancelExecution] Cancelling current execution');
+        
+        // If socket is open, send cancel message
+        if (this.socket && this.socket.readyState === WebSocket.OPEN) {
+          const cancelMessage = {
+            type: 'cancel',
+            agent_id: this.model_id,
+            timestamp: new Date().toISOString()
+          };
+          
+          try {
+            this.sendRawMessage(cancelMessage);
+            this.addSystemMessage('Request cancelled');
+          } catch (error) {
+            console.error('[cancelExecution] Error sending cancel message:', error);
+          }
+        }
+        
+        // Always clean up the UI regardless of whether message was sent
+        this.removeTypingIndicator();
       }
       
       // Helper: Escape HTML to prevent XSS

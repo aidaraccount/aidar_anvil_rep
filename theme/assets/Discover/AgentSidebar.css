@@ -411,11 +411,27 @@
 }
 
 .send-icon {
-  width: 20px;
-  height: 20px;
+  width: 17px;
+  height: 17px;
   object-fit: contain;
   opacity: 0.7;
-  transition: opacity 0.2s;
+  transition: opacity 0.2s, transform 0.2s;
+}
+
+/* Cancel button styles */
+.send-icon.cancel {
+  transform: rotate(45deg);
+  opacity: 0.9;
+}
+
+/* Prevent clicking on disabled button */
+#send-button.processing {
+  cursor: pointer;
+}
+
+#send-button.processing .send-icon {
+  background-color: #e95f30;
+  border-radius: 2px;
 }
 
 #send-button:hover .send-icon,
