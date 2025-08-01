@@ -755,7 +755,6 @@
       // Handle cancellation confirmation from backend
       handleCancellationConfirmed(message) {
         console.log('[handleCancellationConfirmed] Backend confirmed cancellation:', message);
-        this.addSystemMessage('Request successfully cancelled');
         this.removeTypingIndicator();
       }
 
@@ -2164,21 +2163,34 @@
         if (sendButton) {
           sendButton.addEventListener('click', (e) => {
             e.preventDefault();
-            // If processing, always send (for cancel)
-            // Otherwise, only send if there's text
-            if (getWebSocketManager().isProcessing || chatInput.value.trim()) {
-              getWebSocketManager().sendMessage();
+            const wsManager = getWebSocketManager();
+            
+            // If processing, send cancel (don't submit text)
+            if (wsManager.isProcessing) {
+              wsManager.sendMessage(); // This will trigger cancelExecution
+            } else if (chatInput.value.trim()) {
+              // Only send if there's text and not processing
+              wsManager.sendMessage();
             }
           });
         }
 
         if (chatInput) {
           chatInput.addEventListener('keypress', (e) => {
-            // For Enter key, same logic as click
+            // For Enter key, only work if NOT processing
             if (e.key === 'Enter' && !e.shiftKey) {
-              if (getWebSocketManager().isProcessing || chatInput.value.trim()) {
+              const wsManager = getWebSocketManager();
+              
+              // Do nothing if processing
+              if (wsManager.isProcessing) {
                 e.preventDefault();
-                getWebSocketManager().sendMessage();
+                return;
+              }
+              
+              // Only send if there's text
+              if (chatInput.value.trim()) {
+                e.preventDefault();
+                wsManager.sendMessage();
               }
             }
           });
