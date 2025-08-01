@@ -685,45 +685,22 @@
           const message = JSON.parse(event.data);
           console.log('[handleMessage] Received message:', message);
           
-          // Ignore all messages if cancellation was requested and not yet reset
-          if (this.cancelRequested && message.type !== 'complete') {
-            console.log(`[handleMessage] Ignoring ${message.type} message due to active cancel request`);
-            return;
-          }
-          
-          // Determine message type and route accordingly
+          // Route messages to appropriate handlers
           switch (message.type) {
-            case 'text_chunk':
-              this.handleTextChunk(message);
-              break;
-              
             case 'error':
               this.handleError(message);
               break;
-              
-            case 'artist_info':
+            case 'text_chunk':
+              this.handleTextChunk(message);
+              break;
+            case 'artist':
               this.handleArtistInfo(message);
               break;
-
-            case 'popularity_range_info':
-              this.handlePopularityRangeInfo(message);
-              break;
-
-            case 'artist_reference':
-              this.handleArtistReference(message);
-              break;
-
-            case 'filters_info':
-              this.handleFiltersInfo(message);
-              break;
-            
-            case 'genre_sub_scores':
-              this.handleGenreSubScores(message);
-              break;
-            
             case 'complete':
-              this.handleCompleteMessage();
+              this.handleCompleteMessage(message);
               break;
+            case 'cancellation_confirmed':
+              this.handleCancellationConfirmed(message);
             
             case 'create_agent':
               this.handleCreateAgent(message);
@@ -767,19 +744,19 @@
         try {
           console.log('[handleTextChunk] Received text chunk:', message);
           
-          // Ignore incoming messages if cancel was requested
-          if (this.cancelRequested) {
-            console.log('[handleTextChunk] Ignoring message due to active cancel request');
-            return;
-          }
-          
-          const data = message;
-          if (data.content && typeof data.content === 'string') {
-            this.addAgentMessage(data.content);
+          if (message.content && typeof message.content === 'string') {
+            this.addAgentMessage(message.content);
           }
         } catch (error) {
           console.error('[handleTextChunk] Error processing text chunk:', error);
         }
+      }
+      
+      // Handle cancellation confirmation from backend
+      handleCancellationConfirmed(message) {
+        console.log('[handleCancellationConfirmed] Backend confirmed cancellation:', message);
+        this.addSystemMessage('Request successfully cancelled');
+        this.removeTypingIndicator();
       }
 
       // Handle artist information
@@ -1627,47 +1604,32 @@
       
       // Cancel ongoing execution
       cancelExecution() {
-        console.log('[cancelExecution] Cancelling current execution');
+        console.log('[cancelExecution] Sending cancellation request to backend');
         
-        // Flag to ignore incoming messages
-        this.cancelRequested = true;
-        
-        // If socket is open, send cancel message
+        // Send cancel message to backend
         if (this.socket && this.socket.readyState === WebSocket.OPEN) {
           const cancelMessage = {
-            type: 'cancel_execution',  // Use clear action type
-            content: 'cancel',         // Provide non-empty content
+            type: 'cancel_execution',
             agent_id: this.model_id,
-            timestamp: new Date().toISOString(),
-            user_id: sessionStorage.getItem('user_id')
+            session_id: sessionStorage.getItem('session_id') || 'unknown',
+            user_id: sessionStorage.getItem('user_id') || 'unknown',
+            timestamp: new Date().toISOString()
           };
           
           try {
-            console.log('[cancelExecution] Sending cancel message:', cancelMessage);
+            console.log('[cancelExecution] Sending cancel message to backend:', cancelMessage);
             this.sendRawMessage(cancelMessage);
-            this.addSystemMessage('Request cancelled');
-            
-            // Forcefully close the connection
-            console.log('[cancelExecution] Closing WebSocket connection');
-            this.socket.close(1000, 'User cancelled execution');
-            
-            // Clear any pending messages
-            if (this.messageQueue) {
-              this.messageQueue.length = 0;
-            }
-            
-            // Reconnect after a short delay
-            setTimeout(() => {
-              console.log('[cancelExecution] Reconnecting WebSocket');
-              this.cancelRequested = false; // Reset the flag before reconnecting
-              this.connect();
-            }, 500);
+            this.addSystemMessage('Cancellation request sent...');
           } catch (error) {
             console.error('[cancelExecution] Error sending cancel message:', error);
+            this.addErrorMessage('Failed to send cancellation request');
           }
+        } else {
+          console.warn('[cancelExecution] WebSocket not connected, cannot send cancel message');
+          this.addErrorMessage('Cannot cancel: connection not available');
         }
         
-        // Always clean up the UI
+        // Clean up UI immediately for better UX
         this.removeTypingIndicator();
       }
       
