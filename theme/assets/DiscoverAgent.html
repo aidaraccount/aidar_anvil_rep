@@ -2179,22 +2179,17 @@
           chatInput.addEventListener('keypress', (e) => {
             // For Enter key - ALWAYS DO NOTHING when processing
             if (e.key === 'Enter' && !e.shiftKey) {
-              console.log('[keypress] Enter key pressed, shiftKey=false');
               const wsManager = getWebSocketManager();
-              console.log('[keypress] Processing state:', wsManager.isProcessing);
-              console.log('[keypress] Text field value:', chatInput.value);
               
               // For processing state: prevent default and do absolutely nothing
               if (wsManager.isProcessing) {
-                console.log('[keypress] PROCESSING MODE: Preventing default and doing nothing');
                 e.preventDefault();
-                e.stopPropagation(); // Add this to prevent event bubbling
+                e.stopPropagation(); // Prevent event bubbling
                 return; // Do nothing at all
               }
               
               // Only send if there's text and not processing
               if (chatInput.value.trim()) {
-                console.log('[keypress] NON-PROCESSING MODE: Sending message');
                 e.preventDefault();
                 wsManager.sendMessage();
               }
