@@ -563,10 +563,13 @@
       sendMessage() {
         try {
           console.log('[sendMessage] sendMessage() called');
+          console.log('[sendMessage] sendMessage() called - TRACE:', new Error().stack);
+          console.log('[sendMessage] isProcessing state:', this.isProcessing);
           
           // If we're processing, this is a cancel request
           if (this.isProcessing) {
             console.log('[sendMessage] Cancel request detected');
+            console.log('[sendMessage] Cancel request detected - need to find who called this');
             this.cancelExecution();
             return;
           }
@@ -2178,16 +2181,22 @@
           chatInput.addEventListener('keypress', (e) => {
             // For Enter key - ALWAYS DO NOTHING when processing
             if (e.key === 'Enter' && !e.shiftKey) {
+              console.log('[keypress] Enter key pressed, shiftKey=false');
               const wsManager = getWebSocketManager();
+              console.log('[keypress] Processing state:', wsManager.isProcessing);
+              console.log('[keypress] Text field value:', chatInput.value);
               
               // For processing state: prevent default and do absolutely nothing
               if (wsManager.isProcessing) {
+                console.log('[keypress] PROCESSING MODE: Preventing default and doing nothing');
                 e.preventDefault();
+                e.stopPropagation(); // Add this to prevent event bubbling
                 return; // Do nothing at all
               }
               
               // Only send if there's text and not processing
               if (chatInput.value.trim()) {
+                console.log('[keypress] NON-PROCESSING MODE: Sending message');
                 e.preventDefault();
                 wsManager.sendMessage();
               }
@@ -2214,27 +2223,6 @@
       }
 
       chatInput.addEventListener('input', updateSendButtonState);
-
-      // Handle Enter key to send message
-      chatInput.addEventListener('keypress', function(e) {
-        if (e.key === 'Enter' && !e.shiftKey) {
-          e.preventDefault();
-          const message = chatInput.value.trim();
-          if (message) {
-            try {
-              console.log('[AgentSidebar] Sending message via WebSocket manager (Enter key)');
-              const manager = getWebSocketManager();
-              if (manager) {
-                manager.sendMessage();
-              } else {
-                console.error('[AgentSidebar] Failed to get WebSocket manager');
-              }
-            } catch (error) {
-              console.error('[AgentSidebar] Error sending message:', error);
-            }
-          }
-        }
-      });
 
       // Initial states
       updateSendButtonState();
