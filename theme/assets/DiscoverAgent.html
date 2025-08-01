@@ -977,25 +977,30 @@
                 e.preventDefault(); // Prevent text selection
               });
               
-              // Add click functionality to track
-              track.addEventListener('click', (e) => {
-                if (!isDragging) { // Only process if not currently dragging
-                  const rect = track.getBoundingClientRect();
-                  let newPos = (e.clientX - rect.left) / rect.width * 100;
-                  
-                  // Clamp between 0 and 100
-                  newPos = Math.max(0, Math.min(100, newPos));
-                  
-                  // Update handle and progress
-                  handle.style.left = `${newPos}%`;
-                  progress.style.width = `${newPos}%`;
-                  handle.setAttribute('data-value', Math.round(newPos));
-                  
-                  // Save to manual values if in manual mode
-                  if (manualOption.classList.contains('active')) {
-                    manualValues[genreName] = Math.round(newPos);
-                  }
+              // Add click functionality to track with immediate drag capability
+              track.addEventListener('mousedown', (e) => {
+                // Calculate initial position
+                const rect = track.getBoundingClientRect();
+                let newPos = (e.clientX - rect.left) / rect.width * 100;
+                
+                // Clamp between 0 and 100
+                newPos = Math.max(0, Math.min(100, newPos));
+                
+                // Update handle and progress
+                handle.style.left = `${newPos}%`;
+                progress.style.width = `${newPos}%`;
+                handle.setAttribute('data-value', Math.round(newPos));
+                
+                // Save to manual values if in manual mode
+                if (manualOption.classList.contains('active')) {
+                  manualValues[genreName] = Math.round(newPos);
                 }
+                
+                // Start dragging immediately
+                isDragging = true;
+                document.addEventListener('mousemove', onMouseMove);
+                document.addEventListener('mouseup', onMouseUp);
+                e.preventDefault(); // Prevent text selection
               });
               
               const onMouseMove = (e) => {
@@ -1045,31 +1050,31 @@
           legend.innerHTML = '<div class="increasing-fit">increasing fit</div>';
           
           // Create "show more" link if needed
-          const showMoreLink = document.createElement('div');
-          showMoreLink.className = 'show-more-genres';
+          const showMoreLink = document.createElement('a');
           showMoreLink.textContent = 'show more genres';
+          showMoreLink.className = 'show-more-genres';
+          showMoreLink.style.display = allResults.length > visibleCount ? 'block' : 'none';
           
-          if (allResults.length > visibleResults.length) {
-            showMoreLink.style.display = 'block';
-            
-            showMoreLink.addEventListener('click', () => {
-              const currentCount = contentDiv.querySelectorAll('.genre-score-item').length;
-              const nextBatch = allResults.slice(currentCount, currentCount + 2);
+          showMoreLink.addEventListener('click', () => {
+            const hiddenSliders = Array.from(contentDiv.querySelectorAll('.genre-slider-container')).slice(visibleCount, visibleCount + 2);
+            if (hiddenSliders.length > 0) {
+              hiddenSliders.forEach(slider => {
+                // Set initial state for fade-in
+                slider.style.display = 'block';
+                slider.style.opacity = '0';
+                
+                // Trigger fade-in effect (using setTimeout to ensure display takes effect first)
+                setTimeout(() => {
+                  slider.style.opacity = '1';
+                }, 10);
+              });
+              visibleCount += hiddenSliders.length;
               
-              if (nextBatch.length > 0) {
-                createGenreSliders(nextBatch, contentDiv);
-                
-                // Hide link if all genres are shown
-                if (contentDiv.querySelectorAll('.genre-score-item').length >= allResults.length) {
-                  showMoreLink.style.display = 'none';
-                }
-                
-                this.scrollToBottom();
+              if (visibleCount >= allResults.length) {
+                showMoreLink.style.display = 'none';
               }
-            });
-          } else {
-            showMoreLink.style.display = 'none';
-          }
+            }
+          });
           
           // Create button container
           const buttonContainer = document.createElement('div');

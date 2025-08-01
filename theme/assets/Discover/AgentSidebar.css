@@ -512,6 +512,7 @@
   height: 20px;
   display: flex;
   align-items: center;
+  transition: opacity 0.3s ease;
 }
 
 .genre-slider {
