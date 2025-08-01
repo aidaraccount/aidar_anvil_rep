@@ -1061,6 +1061,11 @@
             const nextBatch = allResults.slice(visibleCount, visibleCount + 2);
             
             if (nextBatch.length > 0) {
+              // Save current scroll position
+              const chatMessages = this.chatMessages;
+              const scrollTop = chatMessages.scrollTop;
+              const scrollHeight = chatMessages.scrollHeight;
+              
               // Create new sliders for the next batch with opacity 0 for fade-in
               createGenreSliders(nextBatch, contentDiv);
               
@@ -1085,8 +1090,11 @@
                 showMoreLink.style.display = 'none';
               }
               
-              // No automatic scrolling to prevent jarring jumps
-              // Let the user control their scroll position
+              // Maintain relative scroll position
+              requestAnimationFrame(() => {
+                const newScrollHeight = chatMessages.scrollHeight;
+                chatMessages.scrollTop = scrollTop + (newScrollHeight - scrollHeight);
+              });
             }
           });
           
