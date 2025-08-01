@@ -2164,9 +2164,9 @@
             e.preventDefault();
             const wsManager = getWebSocketManager();
             
-            // If processing, send cancel (don't submit text)
+            // If processing, execute cancel directly (don't call sendMessage)
             if (wsManager.isProcessing) {
-              wsManager.sendMessage(); // This will trigger cancelExecution
+              wsManager.cancelExecution(); // Call cancelExecution directly
             } else if (chatInput.value.trim()) {
               // Only send if there's text and not processing
               wsManager.sendMessage();
@@ -2176,14 +2176,14 @@
 
         if (chatInput) {
           chatInput.addEventListener('keypress', (e) => {
-            // For Enter key, only work if NOT processing
+            // For Enter key - ALWAYS DO NOTHING when processing
             if (e.key === 'Enter' && !e.shiftKey) {
               const wsManager = getWebSocketManager();
               
-              // Always prevent default and do nothing if processing
+              // For processing state: prevent default and do absolutely nothing
               if (wsManager.isProcessing) {
                 e.preventDefault();
-                return;
+                return; // Do nothing at all
               }
               
               // Only send if there's text and not processing
