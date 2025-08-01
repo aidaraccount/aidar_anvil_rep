@@ -683,8 +683,15 @@
       handleMessage(event) {
         try {
           const message = JSON.parse(event.data);
-          // console.log('[handleMessage] Received message:', message);
-
+          console.log('[handleMessage] Received message:', message);
+          
+          // Ignore all messages if cancellation was requested and not yet reset
+          if (this.cancelRequested && message.type !== 'complete') {
+            console.log(`[handleMessage] Ignoring ${message.type} message due to active cancel request`);
+            return;
+          }
+          
+          // Determine message type and route accordingly
           switch (message.type) {
             case 'text_chunk':
               this.handleTextChunk(message);
@@ -1245,10 +1252,16 @@
         }
       }
 
-      // Handle complete message from server
-      handleCompleteMessage() {
+      // Handle complete message
+      handleCompleteMessage(message) {
         console.log('[handleCompleteMessage] Received complete message');
-        this.stage = this.STAGE.NORMAL;
+        
+        // Reset cancel flag when we get completion message
+        if (this.cancelRequested) {
+          console.log('[handleCompleteMessage] Resetting cancelRequested flag');
+          this.cancelRequested = false;
+        }
+        
         this.removeTypingIndicator();
       }
       
