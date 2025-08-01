@@ -88,7 +88,7 @@ class Config:
       "public_launch_discount": "I1ivrR97"
     },
     "live": {
-      "public_launch_discount": "dGVrxoxw"
+      "public_launch_discount": "Wb8JWkWM"
     }
   }
   public_launch_coupon_id: str = coupon_ids[STRIPE_ENVIRONMENT]["public_launch_discount"]
