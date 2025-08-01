@@ -564,9 +564,10 @@
         try {
           console.log('[sendMessage] sendMessage() called');
           
-          // If we're processing, this is a cancel request
-          if (this.isProcessing) {
-            console.log('[sendMessage] Cancel request detected');
+          // If we're processing AND the socket is connected, this is a cancel request
+          // This prevents cancellation during the connection process
+          if (this.isProcessing && this.isConnected) {
+            console.log('[sendMessage] Cancel request detected, connection state:', this.isConnected);
             this.cancelExecution();
             return;
           }
@@ -728,9 +729,18 @@
 
       // Process any queued messages
       processMessageQueue() {
+        if (this.messageQueue.length === 0) {
+          console.log('[processMessageQueue] Message queue empty, nothing to process');
+          return;
+        }
+        
+        console.log('[processMessageQueue] Processing message queue with', this.messageQueue.length, 'messages');
+        
+        // Important: Only set isProcessing=true AFTER we've successfully sent the messages
+        // This prevents accidental cancellation during connection but before processing starts
         while (this.messageQueue.length > 0 && this.isConnected) {
-          console.log('[processMessageQueue] Processing message queue');
           const message = this.messageQueue.shift();
+          console.log('[processMessageQueue] Sending queued message:', message.type);
           this.sendRawMessage(message);
         }
       }
