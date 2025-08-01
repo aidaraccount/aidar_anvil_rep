@@ -2163,24 +2163,40 @@
       }
 
       // Event listeners for the agent sidebar
-      sendButton.addEventListener('click', (e) => {
-        e.preventDefault();
-        const message = chatInput.value.trim();
-        if (message) {
-          try {
-            console.log('[sendButton] Sending message via WebSocket manager');
-            const manager = getWebSocketManager();
-            if (manager) {
-              manager.sendMessage();
-            } else {
-              console.error('[sendButton] Failed to get WebSocket manager');
+      function initSendButtonEvents() {
+        if (sendButton) {
+          sendButton.addEventListener('click', (e) => {
+            e.preventDefault();
+            // If processing, always send (for cancel)
+            // Otherwise, only send if there's text
+            if (getWebSocketManager().isProcessing || chatInput.value.trim()) {
+              getWebSocketManager().sendMessage();
             }
-          } catch (error) {
-            console.error('[sendButton] Error sending message:', error);
-          }
+          });
         }
-      });
 
+        if (chatInput) {
+          chatInput.addEventListener('keypress', (e) => {
+            // For Enter key, same logic as click
+            if (e.key === 'Enter' && !e.shiftKey) {
+              if (getWebSocketManager().isProcessing || chatInput.value.trim()) {
+                e.preventDefault();
+                getWebSocketManager().sendMessage();
+              }
+            }
+          });
+
+          chatInput.addEventListener('input', (e) => {
+            if (e.target.value.trim()) {
+              sendButton.classList.add('has-text');
+            } else {
+              sendButton.classList.remove('has-text');
+            }
+          });
+        }
+      }
+
+      initSendButtonEvents();
 
       // Handle input changes
       function updateSendButtonState() {

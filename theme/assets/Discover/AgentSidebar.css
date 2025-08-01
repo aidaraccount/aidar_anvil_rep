@@ -431,6 +431,8 @@
 #send-button.processing .send-icon {
   background-color: #e95f30;
   border-radius: 2px;
+  width: 14px;
+  height: 14px;
 }
 
 #send-button:hover .send-icon,
