@@ -595,7 +595,7 @@
 .genre-toggle-container {
   display: flex;
   align-items: center;
-  font-size: 14px;
+  font-size: 12px;
 }
 
 /* Toggle Options Container */
@@ -608,7 +608,7 @@
 
 /* Toggle Option */
 .genre-toggle-option {
-  padding: 6px 12px;
+  padding: 4px 10px;
   cursor: pointer;
   transition: background-color 0.2s ease;
   color: rgba(255, 255, 255, 0.7);
@@ -631,10 +631,10 @@
 /* Button container and buttons */
 .genre-button-container {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
+  align-items: flex-end;
   margin-top: 16px;
-  gap: 8px;
+  gap: 12px;
 }
 
 .genre-button {

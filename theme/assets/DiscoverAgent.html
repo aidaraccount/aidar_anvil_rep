@@ -977,6 +977,27 @@
                 e.preventDefault(); // Prevent text selection
               });
               
+              // Add click functionality to track
+              track.addEventListener('click', (e) => {
+                if (!isDragging) { // Only process if not currently dragging
+                  const rect = track.getBoundingClientRect();
+                  let newPos = (e.clientX - rect.left) / rect.width * 100;
+                  
+                  // Clamp between 0 and 100
+                  newPos = Math.max(0, Math.min(100, newPos));
+                  
+                  // Update handle and progress
+                  handle.style.left = `${newPos}%`;
+                  progress.style.width = `${newPos}%`;
+                  handle.setAttribute('data-value', Math.round(newPos));
+                  
+                  // Save to manual values if in manual mode
+                  if (manualOption.classList.contains('active')) {
+                    manualValues[genreName] = Math.round(newPos);
+                  }
+                }
+              });
+              
               const onMouseMove = (e) => {
                 if (!isDragging) return;
                 
@@ -990,6 +1011,11 @@
                 handle.style.left = `${newPos}%`;
                 progress.style.width = `${newPos}%`;
                 handle.setAttribute('data-value', Math.round(newPos));
+                
+                // Save to manual values if in manual mode
+                if (manualOption.classList.contains('active')) {
+                  manualValues[genreName] = Math.round(newPos);
+                }
               };
               
               const onMouseUp = () => {
@@ -1122,7 +1148,7 @@
               aiAutoOption.classList.remove('active');
               manualOption.classList.add('active');
               
-              // Save current values before switch and apply manual values
+              // Apply manual values (which are continuously updated when sliders move)
               updateAllSliders(manualValues);
             }
           });
@@ -1130,14 +1156,14 @@
           aiAutoOption.addEventListener('click', () => {
             // Only do something if not already active
             if (!aiAutoOption.classList.contains('active')) {
-              // Update active state
-              manualOption.classList.remove('active');
-              aiAutoOption.classList.add('active');
-              
-              // Save current values to manual values before switching
+              // Save current manual values before switching
               if (manualOption.classList.contains('active')) {
                 Object.assign(manualValues, getSliderValues());
               }
+              
+              // Update active state
+              manualOption.classList.remove('active');
+              aiAutoOption.classList.add('active');
               
               // Set all sliders to 50
               const handles = contentDiv.querySelectorAll('.genre-slider-handle');
