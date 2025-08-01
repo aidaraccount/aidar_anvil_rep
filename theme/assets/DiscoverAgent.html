@@ -710,6 +710,11 @@
             case 'extended_create_agent':
               this.handleExtendedCreateAgent(message);
               break;
+              
+            case 'artist_reference':
+              // Handle artist reference added confirmation
+              this.handleArtistReference(message);
+              break;
             
             default:
               console.warn('[handleMessage] Unknown message type:', message.type);
