@@ -1618,7 +1618,6 @@
           try {
             console.log('[cancelExecution] Sending cancel message to backend:', cancelMessage);
             this.sendRawMessage(cancelMessage);
-            this.addSystemMessage('Cancellation request sent...');
           } catch (error) {
             console.error('[cancelExecution] Error sending cancel message:', error);
             this.addErrorMessage('Failed to send cancellation request');
@@ -2181,13 +2180,13 @@
             if (e.key === 'Enter' && !e.shiftKey) {
               const wsManager = getWebSocketManager();
               
-              // Do nothing if processing
+              // Always prevent default and do nothing if processing
               if (wsManager.isProcessing) {
                 e.preventDefault();
                 return;
               }
               
-              // Only send if there's text
+              // Only send if there's text and not processing
               if (chatInput.value.trim()) {
                 e.preventDefault();
                 wsManager.sendMessage();
