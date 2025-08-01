@@ -688,6 +688,7 @@
           
           // Route messages to appropriate handlers
           switch (message.type) {
+            
             case 'error':
               this.handleError(message);
               break;
@@ -703,18 +704,35 @@
             case 'cancellation_confirmed':
               this.handleCancellationConfirmed(message);
               break;
-            
             case 'create_agent':
               this.handleCreateAgent(message);
               break;
-
             case 'extended_create_agent':
               this.handleExtendedCreateAgent(message);
               break;
-              
             case 'artist_reference':
               // Handle artist reference added confirmation
               this.handleArtistReference(message);
+              break;
+            case 'filters_info':
+              // Handle filters information from backend
+              this.handleFiltersInfo(message);
+              break;
+            case 'query':
+              // Handle query messages
+              if (message.direction === 'in') {
+                this.addUserMessage(message.content || '');
+              } else {
+                this.addAgentMessage(message.content || '');
+              }
+              break;
+            case 'popularity_range_info':
+              // Handle popularity range info
+              this.handlePopularityRangeInfo(message);
+              break;
+            case 'genre_sub_scores':
+              // Handle genre sub scores
+              this.handleGenreSubScores(message);
               break;
             
             default:
