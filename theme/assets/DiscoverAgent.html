@@ -914,6 +914,7 @@
           // Store all results but initially show only the first 3
           const allResults = [...results];
           const visibleResults = allResults.slice(0, 3);
+          let visibleCount = visibleResults.length; // Define visibleCount variable to track how many sliders are visible
           
           // Create message element with genre-sub-scores class
           const messageDiv = document.createElement('div');
