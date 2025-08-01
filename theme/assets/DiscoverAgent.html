@@ -1544,13 +1544,8 @@
           }
         }
         
-        // Disable chat input but keep it looking normal
+        // Change placeholder text
         if (this.chatInput) {
-          // Save current input value to restore later
-          this._savedInputValue = this.chatInput.value;
-          
-          // Keep a read-only appearance but disable editing
-          this.chatInput.setAttribute('readonly', 'readonly');
           this.chatInput.placeholder = 'Processing request...'; 
         }
       }
@@ -1574,16 +1569,9 @@
           }
         }
         
-        // Re-enable chat input
+        // Reset chat input placeholder
         if (this.chatInput) {
-          this.chatInput.removeAttribute('readonly');
           this.chatInput.placeholder = 'Type your message here...';
-          
-          // If there was a saved value, restore it
-          if (this._savedInputValue) {
-            this.chatInput.value = this._savedInputValue;
-            this._savedInputValue = '';
-          }
         }
       }
       
@@ -1620,14 +1608,25 @@
         // If socket is open, send cancel message
         if (this.socket && this.socket.readyState === WebSocket.OPEN) {
           const cancelMessage = {
-            type: 'cancel',
+            type: 'cancel_execution',  // Use clear action type
+            content: 'cancel',         // Provide non-empty content
             agent_id: this.model_id,
-            timestamp: new Date().toISOString()
+            timestamp: new Date().toISOString(),
+            user_id: sessionStorage.getItem('user_id')
           };
           
           try {
+            console.log('[cancelExecution] Sending cancel message:', cancelMessage);
             this.sendRawMessage(cancelMessage);
             this.addSystemMessage('Request cancelled');
+            
+            // Force WebSocket reconnection to ensure clean state
+            if (this.socket) {
+              console.log('[cancelExecution] Closing and reconnecting WebSocket');
+              this.socket.close(1000, 'User cancelled execution');  // Clean closure
+              // Allow a brief pause before reconnecting
+              setTimeout(() => this.connect(), 500); 
+            }
           } catch (error) {
             console.error('[cancelExecution] Error sending cancel message:', error);
           }

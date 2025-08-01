@@ -420,7 +420,6 @@
 
 /* Cancel button styles */
 .send-icon.cancel {
-  transform: rotate(45deg);
   opacity: 0.9;
 }
 
