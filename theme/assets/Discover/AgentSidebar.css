@@ -497,6 +497,7 @@
 .genre-score-item {
   display: flex;
   flex-direction: column;
+  transition: opacity 0.3s ease;
 }
 
 .genre-name {

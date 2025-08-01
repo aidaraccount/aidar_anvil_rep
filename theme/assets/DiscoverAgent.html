@@ -1057,11 +1057,18 @@
           showMoreLink.style.display = allResults.length > visibleCount ? 'block' : 'none';
           
           showMoreLink.addEventListener('click', () => {
-            const hiddenSliders = Array.from(contentDiv.querySelectorAll('.genre-slider-container')).slice(visibleCount, visibleCount + 2);
-            if (hiddenSliders.length > 0) {
-              hiddenSliders.forEach(slider => {
-                // Set initial state for fade-in
-                slider.style.display = 'block';
+            // Get the next batch of results to show
+            const nextBatch = allResults.slice(visibleCount, visibleCount + 2);
+            
+            if (nextBatch.length > 0) {
+              // Create new sliders for the next batch with opacity 0 for fade-in
+              createGenreSliders(nextBatch, contentDiv);
+              
+              // Find the newly added sliders
+              const newSliders = Array.from(contentDiv.querySelectorAll('.genre-score-item')).slice(visibleCount);
+              
+              // Apply fade-in effect to the new sliders
+              newSliders.forEach(slider => {
                 slider.style.opacity = '0';
                 
                 // Trigger fade-in effect (using setTimeout to ensure display takes effect first)
@@ -1069,11 +1076,17 @@
                   slider.style.opacity = '1';
                 }, 10);
               });
-              visibleCount += hiddenSliders.length;
               
+              // Update visible count
+              visibleCount += nextBatch.length;
+              
+              // Hide link if all genres are shown
               if (visibleCount >= allResults.length) {
                 showMoreLink.style.display = 'none';
               }
+              
+              // Scroll to bottom to show new sliders
+              this.scrollToBottom();
             }
           });
           
