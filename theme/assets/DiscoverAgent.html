@@ -940,7 +940,7 @@
         
         // Update typing indicator to show waiting for confirmation
         if (this.typingIndicator) {
-          this.typingIndicator.textContent = 'Waiting for user confirmation...';
+          this.typingIndicator.textContent = 'Waiting for user confirmation';
         }
 
         if (message.data && message.data.results && Array.isArray(message.data.results)) {
@@ -1227,17 +1227,11 @@
           
           // Add event listener for the Confirm button (send continuation to backend)
           confirmButton.addEventListener('click', () => {
+            // Get current slider values
             const currentValues = getSliderValues();
             console.log('Genre preferences confirmed:', currentValues);
             
-            // Display current values in a system message
-            const valuesStr = Object.entries(currentValues)
-              .map(([genre, value]) => `${genre}: ${value}`)
-              .join(', ');
-            
-            this.addSystemMessage(`Genre preferences confirmed: ${valuesStr}`);
-            
-            // Send continuation message to backend
+            // Send current slider values to backend
             const continuationMessage = {
               type: 'genre_confirmation',
               content: 'User confirmed genre preferences',
@@ -1249,7 +1243,7 @@
             
             if (this.socket && this.socket.readyState === WebSocket.OPEN) {
               this.sendRawMessage(continuationMessage);
-              console.log('[handleGenreSubScores] Sent genre confirmation to backend');
+              console.log('[handleGenreSubScores] Sent genre confirmation to backend:', currentValues);
             } else {
               console.warn('[handleGenreSubScores] Cannot send confirmation - WebSocket not connected');
             }
@@ -1260,7 +1254,7 @@
             
             // Reset typing indicator to show processing
             if (this.typingIndicator) {
-              this.typingIndicator.textContent = 'AIDAR is thinking...';
+              this.typingIndicator.textContent = 'AIDAR is thinking';
             }
           });
           
