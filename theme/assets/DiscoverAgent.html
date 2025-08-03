@@ -439,7 +439,7 @@
               case 'genre_sub_scores':
                 // Handle genre sub scores display
                 if (msg.data) {
-                  this.handleGenreSubScores({ data: msg.data });
+                  this.handleGenreSubScores({ data: msg.data, fromHistory: true });
                 }
                 break;
                 
@@ -1248,9 +1248,21 @@
               console.warn('[handleGenreSubScores] Cannot send confirmation - WebSocket not connected');
             }
             
-            // Disable the button after confirmation and reset typing indicator
-            confirmButton.disabled = true;
-            confirmButton.textContent = 'Confirmed';
+            // Hide the button and disable all interactive elements after confirmation
+            confirmButton.style.display = 'none';
+            
+            // Disable toggle options
+            manualOption.style.pointerEvents = 'none';
+            manualOption.style.opacity = '0.5';
+            aiAutoOption.style.pointerEvents = 'none';
+            aiAutoOption.style.opacity = '0.5';
+            
+            // Disable all sliders
+            const allSliders = mainContainer.querySelectorAll('.genre-slider-handle');
+            allSliders.forEach(handle => {
+              handle.style.pointerEvents = 'none';
+              handle.style.opacity = '0.7';
+            });
             
             // Reset typing indicator to show processing
             if (this.typingIndicator) {
@@ -1273,6 +1285,24 @@
           mainContainer.appendChild(showMoreLink);
           mainContainer.appendChild(buttonContainer);
           messageDiv.appendChild(mainContainer);
+          
+          // If loading from history, disable all controls and hide button
+          if (message.fromHistory) {
+            confirmButton.style.display = 'none';
+            
+            // Disable toggle options
+            manualOption.style.pointerEvents = 'none';
+            manualOption.style.opacity = '0.5';
+            aiAutoOption.style.pointerEvents = 'none';
+            aiAutoOption.style.opacity = '0.5';
+            
+            // Disable all sliders
+            const allSliders = mainContainer.querySelectorAll('.genre-slider-handle');
+            allSliders.forEach(handle => {
+              handle.style.pointerEvents = 'none';
+              handle.style.opacity = '0.7';
+            });
+          }
           
           // Add to chat and scroll
           this.chatMessages.appendChild(messageDiv);
