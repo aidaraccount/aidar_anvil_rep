@@ -1249,50 +1249,7 @@
             }
             
             // Hide the button and disable all interactive elements after confirmation
-            confirmButton.style.display = 'none';
-            
-            // Disable toggle options
-            manualOption.style.pointerEvents = 'none';
-            manualOption.style.opacity = '0.5';
-            aiAutoOption.style.pointerEvents = 'none';
-            aiAutoOption.style.opacity = '0.5';
-            
-            // Disable all sliders (handles and tracks)
-            const allSliders = mainContainer.querySelectorAll('.genre-slider-handle');
-            allSliders.forEach(handle => {
-              handle.style.pointerEvents = 'none';
-              handle.style.opacity = '0.7';
-            });
-            
-            const allTracks = mainContainer.querySelectorAll('.genre-slider-track');
-            allTracks.forEach(track => {
-              track.style.pointerEvents = 'none';
-              track.style.opacity = '0.7';
-            });
-            
-            // Override show more functionality to keep new sliders disabled after confirmation
-            const showMoreLink = mainContainer.querySelector('.show-more-genres');
-            if (showMoreLink) {
-              const originalShowMore = showMoreLink.onclick;
-              showMoreLink.onclick = function() {
-                if (originalShowMore) originalShowMore.call(this);
-                
-                // Disable newly revealed sliders
-                setTimeout(() => {
-                  const newSliders = mainContainer.querySelectorAll('.genre-slider-handle');
-                  newSliders.forEach(handle => {
-                    handle.style.pointerEvents = 'none';
-                    handle.style.opacity = '0.7';
-                  });
-                  
-                  const newTracks = mainContainer.querySelectorAll('.genre-slider-track');
-                  newTracks.forEach(track => {
-                    track.style.pointerEvents = 'none';
-                    track.style.opacity = '0.7';
-                  });
-                }, 100);
-              };
-            }
+            disableGenreControls(mainContainer, true);
             
             // Reset typing indicator to show processing
             if (this.typingIndicator) {
@@ -1318,7 +1275,14 @@
           
           // If loading from history, disable all controls and hide button
           if (message.fromHistory) {
-            confirmButton.style.display = 'none';
+            disableGenreControls(mainContainer, true);
+          }
+          
+          // Helper function to disable all genre controls
+          const disableGenreControls = (container, hideButton = false) => {
+            if (hideButton) {
+              confirmButton.style.display = 'none';
+            }
             
             // Disable toggle options
             manualOption.style.pointerEvents = 'none';
@@ -1327,41 +1291,35 @@
             aiAutoOption.style.opacity = '0.7';
             
             // Disable all sliders (handles and tracks)
-            const allSliders = mainContainer.querySelectorAll('.genre-slider-handle');
+            const allSliders = container.querySelectorAll('.genre-slider-handle');
             allSliders.forEach(handle => {
               handle.style.pointerEvents = 'none';
               handle.style.opacity = '0.7';
             });
             
-            const allTracks = mainContainer.querySelectorAll('.genre-slider-track');
+            const allTracks = container.querySelectorAll('.genre-slider-track');
             allTracks.forEach(track => {
               track.style.pointerEvents = 'none';
               track.style.opacity = '0.7';
             });
             
             // Override show more functionality to keep new sliders disabled
-            const showMoreLink = mainContainer.querySelector('.show-more-genres');
-            if (showMoreLink) {
+            const showMoreLink = container.querySelector('.show-more-genres');
+            if (showMoreLink && !showMoreLink.dataset.overridden) {
+              showMoreLink.dataset.overridden = 'true';
               const originalShowMore = showMoreLink.onclick;
               showMoreLink.onclick = function() {
                 if (originalShowMore) originalShowMore.call(this);
                 
                 // Disable newly revealed sliders
-                setTimeout(() => {
-                  const newSliders = mainContainer.querySelectorAll('.genre-slider-handle');
-                  newSliders.forEach(handle => {
-                    handle.style.pointerEvents = 'none';
-                    handle.style.opacity = '0.7';
-                  });
-                  
-                  const newTracks = mainContainer.querySelectorAll('.genre-slider-track');
-                  newTracks.forEach(track => {
-                    track.style.pointerEvents = 'none';
-                    track.style.opacity = '0.7';
-                  });
-                }, 100);
+                setTimeout(() => disableGenreControls(container, false), 100);
               };
             }
+          };
+          
+          // If loading from history, disable all controls and hide button
+          if (message.fromHistory) {
+            disableGenreControls(mainContainer, true);
           }
           
           // Add to chat and scroll
