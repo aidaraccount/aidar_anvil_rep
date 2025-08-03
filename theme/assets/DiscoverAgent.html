@@ -1220,7 +1220,7 @@
             }
           });
           
-          // Add event listener for the Confirm button (log current values)
+          // Add event listener for the Confirm button (send continuation to backend)
           confirmButton.addEventListener('click', () => {
             const currentValues = getSliderValues();
             console.log('Genre preferences confirmed:', currentValues);
@@ -1231,6 +1231,27 @@
               .join(', ');
             
             this.addSystemMessage(`Genre preferences confirmed: ${valuesStr}`);
+            
+            // Send continuation message to backend
+            const continuationMessage = {
+              type: 'genre_confirmation',
+              content: 'User confirmed genre preferences',
+              data: currentValues,
+              timestamp: new Date().toISOString(),
+              user_id: sessionStorage.getItem('user_id'),
+              agent_id: this.model_id
+            };
+            
+            if (this.socket && this.socket.readyState === WebSocket.OPEN) {
+              this.sendRawMessage(continuationMessage);
+              console.log('[handleGenreSubScores] Sent genre confirmation to backend');
+            } else {
+              console.warn('[handleGenreSubScores] Cannot send confirmation - WebSocket not connected');
+            }
+            
+            // Disable the button after confirmation
+            confirmButton.disabled = true;
+            confirmButton.textContent = 'Confirmed';
           });
           
           // Assemble the toggle options
