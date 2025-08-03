@@ -1292,16 +1292,46 @@
             
             // Disable toggle options
             manualOption.style.pointerEvents = 'none';
-            manualOption.style.opacity = '0.5';
+            manualOption.style.opacity = '0.7';
             aiAutoOption.style.pointerEvents = 'none';
-            aiAutoOption.style.opacity = '0.5';
+            aiAutoOption.style.opacity = '0.7';
             
-            // Disable all sliders
+            // Disable all sliders (handles and tracks)
             const allSliders = mainContainer.querySelectorAll('.genre-slider-handle');
             allSliders.forEach(handle => {
               handle.style.pointerEvents = 'none';
               handle.style.opacity = '0.7';
             });
+            
+            const allTracks = mainContainer.querySelectorAll('.genre-slider-track');
+            allTracks.forEach(track => {
+              track.style.pointerEvents = 'none';
+              track.style.opacity = '0.7';
+            });
+            
+            // Override show more functionality to keep new sliders disabled
+            const showMoreLink = mainContainer.querySelector('.show-more-genres');
+            if (showMoreLink) {
+              const originalShowMore = showMoreLink.onclick;
+              showMoreLink.onclick = function() {
+                if (originalShowMore) originalShowMore.call(this);
+                
+                // Disable newly revealed sliders
+                setTimeout(() => {
+                  const newSliders = mainContainer.querySelectorAll('.genre-slider-handle');
+                  newSliders.forEach(handle => {
+                    handle.style.pointerEvents = 'none';
+                    handle.style.opacity = '0.7';
+                  });
+                  
+                  const newTracks = mainContainer.querySelectorAll('.genre-slider-track');
+                  newTracks.forEach(track => {
+                    track.style.pointerEvents = 'none';
+                    track.style.opacity = '0.7';
+                  });
+                }, 100);
+              };
+            }
           }
           
           // Add to chat and scroll
