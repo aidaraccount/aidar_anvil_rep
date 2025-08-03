@@ -785,6 +785,29 @@
       handleCancellationConfirmed(message) {
         console.log('[handleCancellationConfirmed] Backend confirmed cancellation:', message);
         this.removeTypingIndicator();
+        
+        // Disable any active genre sub-scores
+        const activeGenreScores = document.querySelectorAll('.message.genre-sub-scores');
+        activeGenreScores.forEach(genreContainer => {
+          const confirmButton = genreContainer.querySelector('button');
+          if (confirmButton && confirmButton.style.display !== 'none') {
+            // Use the existing helper function pattern
+            const disableGenreControls = (container, hideButton = false) => {
+              if (hideButton && confirmButton) confirmButton.style.display = 'none';
+              const toggles = container.querySelectorAll('.toggle-option');
+              toggles.forEach(toggle => {
+                toggle.style.pointerEvents = 'none';
+                toggle.style.opacity = '0.7';
+              });
+              const sliders = container.querySelectorAll('.genre-slider-handle, .genre-slider-track');
+              sliders.forEach(slider => {
+                slider.style.pointerEvents = 'none';
+                slider.style.opacity = '0.7';
+              });
+            };
+            disableGenreControls(genreContainer, true);
+          }
+        });
       }
 
       // Handle artist information
