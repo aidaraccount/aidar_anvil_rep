@@ -1270,6 +1270,30 @@
               track.style.opacity = '0.7';
             });
             
+            // Override show more functionality to keep new sliders disabled after confirmation
+            const showMoreLink = mainContainer.querySelector('.show-more-genres');
+            if (showMoreLink) {
+              const originalShowMore = showMoreLink.onclick;
+              showMoreLink.onclick = function() {
+                if (originalShowMore) originalShowMore.call(this);
+                
+                // Disable newly revealed sliders
+                setTimeout(() => {
+                  const newSliders = mainContainer.querySelectorAll('.genre-slider-handle');
+                  newSliders.forEach(handle => {
+                    handle.style.pointerEvents = 'none';
+                    handle.style.opacity = '0.7';
+                  });
+                  
+                  const newTracks = mainContainer.querySelectorAll('.genre-slider-track');
+                  newTracks.forEach(track => {
+                    track.style.pointerEvents = 'none';
+                    track.style.opacity = '0.7';
+                  });
+                }, 100);
+              };
+            }
+            
             // Reset typing indicator to show processing
             if (this.typingIndicator) {
               this.typingIndicator.textContent = 'AIDAR is thinking';
