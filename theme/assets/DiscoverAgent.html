@@ -1273,11 +1273,6 @@
           mainContainer.appendChild(buttonContainer);
           messageDiv.appendChild(mainContainer);
           
-          // If loading from history, disable all controls and hide button
-          if (message.fromHistory) {
-            disableGenreControls(mainContainer, true);
-          }
-          
           // Helper function to disable all genre controls
           const disableGenreControls = (container, hideButton = false) => {
             if (hideButton) {
