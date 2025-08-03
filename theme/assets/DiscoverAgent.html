@@ -937,6 +937,11 @@
       // Handle genre sub scores information
       handleGenreSubScores(message) {
         console.log('[handleGenreSubScores] Genre sub scores information received:', message);
+        
+        // Update typing indicator to show waiting for confirmation
+        if (this.typingIndicator) {
+          this.typingIndicator.textContent = 'Waiting for user confirmation...';
+        }
 
         if (message.data && message.data.results && Array.isArray(message.data.results)) {
           const results = message.data.results;
@@ -1249,9 +1254,14 @@
               console.warn('[handleGenreSubScores] Cannot send confirmation - WebSocket not connected');
             }
             
-            // Disable the button after confirmation
+            // Disable the button after confirmation and reset typing indicator
             confirmButton.disabled = true;
             confirmButton.textContent = 'Confirmed';
+            
+            // Reset typing indicator to show processing
+            if (this.typingIndicator) {
+              this.typingIndicator.textContent = 'AIDAR is thinking...';
+            }
           });
           
           // Assemble the toggle options
