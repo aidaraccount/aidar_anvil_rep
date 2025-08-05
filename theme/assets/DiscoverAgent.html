@@ -1473,6 +1473,9 @@
                   const visibleBackendGenres = allBackendGenreData.slice(0, window.genreVisibilityState);
                   createGenreSliders(visibleBackendGenres, contentDiv);
                   
+                  // Disable sliders in auto mode since they're AI-provided
+                  setSliderMode(contentDiv, true);
+                  
                   console.log(`[AI Auto] Showing ${visibleBackendGenres.length} of ${allBackendGenreData.length} backend genres`);
                   
                   // Store auto values and genres
