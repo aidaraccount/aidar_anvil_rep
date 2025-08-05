@@ -1109,6 +1109,11 @@
           // Add initial visible sliders
           createGenreSliders(visibleResults, contentDiv);
           
+          // Apply initial mode state (after sliders are created but before toggle options are set up)
+          const initialMode = message.data && message.data.mode ? message.data.mode : 'manual';
+          const isInitialAutoMode = initialMode === 'auto';
+          setSliderMode(contentDiv, isInitialAutoMode);
+          
           // Create legend
           const legend = document.createElement('div');
           legend.className = 'genre-slider-legend';
@@ -1132,7 +1137,7 @@
               
               // Apply correct slider state based on current mode
               const isAutoMode = aiAutoOption.classList.contains('active');
-              setSliderInteractivity(contentDiv, !isAutoMode);
+              setSliderMode(contentDiv, isAutoMode);
               
               // Apply fade-in effect to newly added sliders
               const newSliders = Array.from(contentDiv.querySelectorAll('.genre-score-item')).slice(visibleCount);
@@ -1224,22 +1229,30 @@
           // Update initial visibility now that variables are declared
           updateShowMoreLink();
           
-          // Simple function to toggle slider interactivity for auto/manual modes
-          const setSliderInteractivity = (container, interactive) => {
+          // Function to disable/enable sliders for auto/manual modes (reuses existing logic)
+          const setSliderMode = (container, isAutoMode) => {
             const sliderHandles = container.querySelectorAll('.genre-slider-handle');
             const sliderTracks = container.querySelectorAll('.genre-slider-track');
             
-            sliderHandles.forEach(handle => {
-              handle.style.pointerEvents = interactive ? 'auto' : 'none';
-              handle.style.opacity = interactive ? '1' : '0.6';
-              handle.style.cursor = interactive ? 'pointer' : 'not-allowed';
-            });
-            
-            sliderTracks.forEach(track => {
-              track.style.pointerEvents = interactive ? 'auto' : 'none';
-              track.style.opacity = interactive ? '1' : '0.6';
-              track.style.cursor = interactive ? 'pointer' : 'not-allowed';
-            });
+            if (isAutoMode) {
+              // AI auto mode: Hide handles completely (like history loading)
+              sliderHandles.forEach(handle => {
+                handle.style.display = 'none';
+                handle.style.pointerEvents = 'none';
+              });
+              sliderTracks.forEach(track => {
+                track.style.pointerEvents = 'none';
+              });
+            } else {
+              // Manual mode: Show handles and enable interaction
+              sliderHandles.forEach(handle => {
+                handle.style.display = 'block';
+                handle.style.pointerEvents = 'auto';
+              });
+              sliderTracks.forEach(track => {
+                track.style.pointerEvents = 'auto';
+              });
+            }
           };
           
           // Function to get current values of all sliders
@@ -1317,7 +1330,7 @@
                 createGenreSliders(visibleManualGenres, contentDiv);
                 
                 // Enable sliders in manual mode since they're user-editable
-                setSliderInteractivity(contentDiv, true);
+                setSliderMode(contentDiv, false);
                 
                 // Update the current visible data reference
                 manualValues._genreData = visibleManualGenres;
@@ -1327,7 +1340,7 @@
                 // Apply manual values to current sliders (fallback)
                 updateAllSliders(manualValues);
                 // Enable sliders for manual mode
-                setSliderInteractivity(contentDiv, true);
+                setSliderMode(contentDiv, false);
                 console.log('[Manual] Applied manual values to existing sliders:', manualValues);
               }
               
@@ -1358,7 +1371,7 @@
                 createGenreSliders(visibleAutoGenres, contentDiv);
                 
                 // Disable sliders in auto mode since they're AI-provided
-                setSliderInteractivity(contentDiv, false);
+                setSliderMode(contentDiv, true);
                 
                 // Update the current visible data reference
                 autoValues._genreData = visibleAutoGenres;
