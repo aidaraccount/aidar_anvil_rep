@@ -1258,11 +1258,17 @@
               
               // If we already have auto values, use them
               if (Object.keys(autoValues).length > 0) {
+                console.log('[AI Auto] Using cached auto values:', autoValues);
                 updateAllSliders(autoValues);
               } else {
                 // Fetch genre sub-scores from backend
                 try {
                   console.log('[AI Auto] Fetching genre sub-scores from backend for model_id:', this.model_id);
+                  
+                  // Validate model_id
+                  if (!this.model_id) {
+                    throw new Error('model_id is not available');
+                  }
                   
                   // Show loading state
                   aiAutoOption.textContent = 'loading...';
@@ -1270,24 +1276,77 @@
                   
                   // Call backend function to get genre sub-scores via MainIn bridge method
                   const formElement = document.querySelector('.anvil-container');
-                  const genreSubScoresJson = await anvil.call(formElement, 'MainIn_get_genre_sub_scores', this.model_id);
-                  const genreSubScores = JSON.parse(genreSubScoresJson);
+                  if (!formElement) {
+                    throw new Error('Could not find anvil-container element');
+                  }
                   
-                  console.log('[AI Auto] Received genre sub-scores:', genreSubScores);
+                  console.log('[AI Auto] Calling MainIn_get_genre_sub_scores with model_id:', this.model_id);
+                  const genreSubScoresJson = await anvil.call(formElement, 'MainIn_get_genre_sub_scores', this.model_id);
+                  console.log('[AI Auto] Raw response from backend:', genreSubScoresJson);
+                  
+                  if (!genreSubScoresJson) {
+                    throw new Error('No data received from backend');
+                  }
+                  
+                  const genreSubScores = JSON.parse(genreSubScoresJson);
+                  console.log('[AI Auto] Parsed genre sub-scores:', genreSubScores);
+                  
+                  if (!Array.isArray(genreSubScores) || genreSubScores.length === 0) {
+                    throw new Error('Invalid or empty genre sub-scores data');
+                  }
                   
                   // Convert backend data to our format and update sliders
                   const backendValues = {};
+                  const currentGenres = new Set();
+                  
+                  // Get current genre names from sliders
+                  const handles = contentDiv.querySelectorAll('.genre-slider-handle');
+                  handles.forEach(handle => {
+                    currentGenres.add(handle.getAttribute('data-genre'));
+                  });
+                  
+                  console.log('[AI Auto] Current genres in UI:', Array.from(currentGenres));
+                  
+                  // Map backend data to current genres
                   genreSubScores.forEach(item => {
                     const genreName = item.genre_sub;
                     const score = Math.round(item.bayes_score * 100 / 7); // Convert to 0-100 scale
-                    backendValues[genreName] = Math.min(100, Math.max(0, score)); // Clamp between 0-100
+                    const clampedScore = Math.min(100, Math.max(0, score));
+                    
+                    // Only include genres that exist in the current UI
+                    if (currentGenres.has(genreName)) {
+                      backendValues[genreName] = clampedScore;
+                      console.log(`[AI Auto] Mapped ${genreName}: ${item.bayes_score} -> ${clampedScore}`);
+                    } else {
+                      console.log(`[AI Auto] Skipping ${genreName} (not in current UI)`);
+                    }
                   });
+                  
+                  // For genres not found in backend data, use default value of 50
+                  currentGenres.forEach(genreName => {
+                    if (!backendValues.hasOwnProperty(genreName)) {
+                      backendValues[genreName] = 50;
+                      console.log(`[AI Auto] Using default value for ${genreName}: 50`);
+                    }
+                  });
+                  
+                  console.log('[AI Auto] Final backend values:', backendValues);
                   
                   // Store auto values
                   autoValues = {...backendValues};
                   
                   // Update sliders with backend values
                   updateAllSliders(autoValues);
+                  
+                  console.log('[AI Auto] Sliders updated, checking final positions...');
+                  
+                  // Verify slider positions were updated
+                  handles.forEach(handle => {
+                    const genre = handle.getAttribute('data-genre');
+                    const currentValue = handle.getAttribute('data-value');
+                    const expectedValue = backendValues[genre];
+                    console.log(`[AI Auto] Slider ${genre}: expected=${expectedValue}, actual=${currentValue}`);
+                  });
                   
                   console.log('[AI Auto] Updated sliders with backend values:', autoValues);
                   
