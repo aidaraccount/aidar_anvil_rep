@@ -1230,11 +1230,25 @@
           manualOption.addEventListener('click', () => {
             // Only do something if not already active
             if (!manualOption.classList.contains('active')) {
-              // Save current auto values before switching
+              // Save current auto values and genre data before switching
               if (aiAutoOption.classList.contains('active')) {
                 const currentAutoValues = getSliderValues();
+                const currentAutoGenres = [];
+                const handles = contentDiv.querySelectorAll('.genre-slider-handle');
+                handles.forEach(handle => {
+                  const genre = handle.getAttribute('data-genre');
+                  const value = parseInt(handle.getAttribute('data-value'), 10);
+                  currentAutoGenres.push([genre, value]);
+                });
+                
+                // Update auto values with current state
                 Object.assign(autoValues, currentAutoValues);
+                
+                // Update auto genre data with current state
+                autoValues._genreData = currentAutoGenres;
+                
                 console.log('[Manual] Saving current auto values:', currentAutoValues);
+                console.log('[Manual] Saving current auto genres:', currentAutoGenres);
               }
               
               // Update active state
@@ -1270,10 +1284,15 @@
               manualOption.classList.remove('active');
               aiAutoOption.classList.add('active');
               
-              // If we already have auto values, use them
-              if (Object.keys(autoValues).length > 0) {
-                console.log('[AI Auto] Using cached auto values:', autoValues);
-                updateAllSliders(autoValues);
+              // If we already have auto values, restore them
+              if (Object.keys(autoValues).length > 0 && autoValues._genreData) {
+                console.log('[AI Auto] Restoring cached auto genres:', autoValues._genreData);
+                
+                // Clear current content and rebuild with auto genres
+                contentDiv.innerHTML = '';
+                createGenreSliders(autoValues._genreData, contentDiv);
+                
+                console.log('[AI Auto] Restored auto UI with genres:', autoValues._genreData.map(item => item[0]));
               } else {
                 // Fetch genre sub-scores from backend
                 try {
@@ -1353,6 +1372,9 @@
                   
                   // Store auto values and genres
                   autoValues = {...backendValues};
+                  
+                  // Store the auto genre data for future restoration
+                  autoValues._genreData = backendGenreData;
                   
                   // Store the manual genre data for restoration
                   if (!manualValues._genreData) {
