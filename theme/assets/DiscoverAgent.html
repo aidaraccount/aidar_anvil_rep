@@ -1158,15 +1158,23 @@
           const toggleOptions = document.createElement('div');
           toggleOptions.className = 'genre-toggle-options';
           
-          // Create manual toggle option (preselected)
+          // Create manual toggle option
           const manualOption = document.createElement('div');
-          manualOption.className = 'genre-toggle-option active';
+          manualOption.className = 'genre-toggle-option';
           manualOption.textContent = 'manual';
           
           // Create AI auto toggle option
           const aiAutoOption = document.createElement('div');
           aiAutoOption.className = 'genre-toggle-option';
           aiAutoOption.textContent = 'AI auto';
+          
+          // Set initial toggle state based on mode from message data
+          const messageMode = message.data && message.data.mode ? message.data.mode : 'manual';
+          if (messageMode === 'auto') {
+            aiAutoOption.classList.add('active');
+          } else {
+            manualOption.classList.add('active');
+          }
           
           // Create confirm button
           const confirmButton = document.createElement('button');
@@ -1252,13 +1260,19 @@
           confirmButton.addEventListener('click', () => {
             // Get current slider values
             const currentValues = getSliderValues();
-            console.log('Genre preferences confirmed:', currentValues);
             
-            // Send current slider values to backend
+            // Get currently selected mode
+            const selectedMode = manualOption.classList.contains('active') ? 'manual' : 'auto';
+            console.log('Genre preferences confirmed:', currentValues, 'Mode:', selectedMode);
+            
+            // Send current slider values and mode to backend
             const continuationMessage = {
               type: 'genre_confirmation',
               content: 'User confirmed genre preferences',
-              data: currentValues,
+              data: {
+                values: currentValues,
+                mode: selectedMode
+              },
               timestamp: new Date().toISOString(),
               user_id: sessionStorage.getItem('user_id'),
               agent_id: this.model_id
