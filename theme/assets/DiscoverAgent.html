@@ -659,7 +659,7 @@
           } else {
             console.log('[sendMessage] Queueing message, attempting to connect...');
             this.messageQueue.push(messageData);
-            this.addSystemMessage('Connecting to AI assistant...');
+            //this.addSystemMessage('Connecting to AI assistant...');
             this.connect(); // Try to establish connection
           }
         } catch (error) {
