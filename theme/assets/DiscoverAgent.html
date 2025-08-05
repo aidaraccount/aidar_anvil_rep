@@ -1318,14 +1318,6 @@
             const allTracks = container.querySelectorAll('.genre-slider-track');
             allTracks.forEach(track => {
               track.style.pointerEvents = 'none';
-              track.style.backgroundColor = '#e9e9e9'; // Lighter track color when disabled
-              
-              // Style the progress bar when disabled
-              const progress = track.querySelector('.genre-slider-progress');
-              if (progress) {
-                progress.style.backgroundColor = '#b0b0b0'; // Muted progress color
-                progress.style.borderRadius = '4px'; // Match track border radius
-              }
             });
             
             // Override show more functionality to keep new sliders disabled
