@@ -690,4 +690,15 @@ class MainIn(MainInTemplate):
       print('[MainIn_delete_reference] delete_reference executed on backend')
 
     return c
+
+  # get_genre_sub_scores
+  def MainIn_get_genre_sub_scores(self, model_id):
+    """Bridge method to call get_genre_sub_scores server function from JavaScript."""
+    try:
+      result = anvil.server.call('get_genre_sub_scores', model_id)
+      print(f'[MainIn_get_genre_sub_scores] Retrieved genre sub-scores for model_id: {model_id}')
+      return result
+    except Exception as e:
+      print(f'[MainIn_get_genre_sub_scores] Error retrieving genre sub-scores: {e}')
+      raise
     

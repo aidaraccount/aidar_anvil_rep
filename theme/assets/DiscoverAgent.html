@@ -1268,8 +1268,9 @@
                   aiAutoOption.textContent = 'loading...';
                   aiAutoOption.style.pointerEvents = 'none';
                   
-                  // Call backend function to get genre sub-scores
-                  const genreSubScoresJson = await callServerFunction('get_genre_sub_scores', this.model_id);
+                  // Call backend function to get genre sub-scores via MainIn bridge method
+                  const formElement = document.querySelector('.anvil-container');
+                  const genreSubScoresJson = await anvil.call(formElement, 'MainIn_get_genre_sub_scores', this.model_id);
                   const genreSubScores = JSON.parse(genreSubScoresJson);
                   
                   console.log('[AI Auto] Received genre sub-scores:', genreSubScores);
@@ -1837,9 +1838,6 @@
         try {
           // Get form element for context
           const formElement = document.querySelector('.anvil-container');
-          
-          // Call the delete_reference method on the MainIn form
-          // NOTE: This requires a corresponding method in the MainIn class
           const result = await anvil.call(formElement, 'MainIn_delete_reference', this.model_id, artistId);
           console.log('[deleteReference] Server call completed, result:', result);
           
