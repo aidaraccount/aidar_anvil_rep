@@ -1192,6 +1192,9 @@
           // Also store manual values for when switching between toggle states
           const manualValues = {...initialValues};
           
+          // Store auto values separately (will be populated when AI auto is clicked)
+          let autoValues = {};
+          
           // Function to get current values of all sliders
           const getSliderValues = () => {
             const values = {};
@@ -1227,6 +1230,11 @@
           manualOption.addEventListener('click', () => {
             // Only do something if not already active
             if (!manualOption.classList.contains('active')) {
+              // Save current auto values before switching
+              if (aiAutoOption.classList.contains('active')) {
+                Object.assign(autoValues, getSliderValues());
+              }
+              
               // Update active state
               aiAutoOption.classList.remove('active');
               manualOption.classList.add('active');
@@ -1236,7 +1244,7 @@
             }
           });
           
-          aiAutoOption.addEventListener('click', () => {
+          aiAutoOption.addEventListener('click', async () => {
             // Only do something if not already active
             if (!aiAutoOption.classList.contains('active')) {
               // Save current manual values before switching
@@ -1248,11 +1256,61 @@
               manualOption.classList.remove('active');
               aiAutoOption.classList.add('active');
               
-              // Set all sliders to 50
-              const handles = contentDiv.querySelectorAll('.genre-slider-handle');
-              handles.forEach(handle => {
-                updateSliderPosition(handle, 50);
-              });
+              // If we already have auto values, use them
+              if (Object.keys(autoValues).length > 0) {
+                updateAllSliders(autoValues);
+              } else {
+                // Fetch genre sub-scores from backend
+                try {
+                  console.log('[AI Auto] Fetching genre sub-scores from backend for model_id:', this.model_id);
+                  
+                  // Show loading state
+                  aiAutoOption.textContent = 'loading...';
+                  aiAutoOption.style.pointerEvents = 'none';
+                  
+                  // Call backend function to get genre sub-scores
+                  const genreSubScoresJson = await callServerFunction('get_genre_sub_scores', this.model_id);
+                  const genreSubScores = JSON.parse(genreSubScoresJson);
+                  
+                  console.log('[AI Auto] Received genre sub-scores:', genreSubScores);
+                  
+                  // Convert backend data to our format and update sliders
+                  const backendValues = {};
+                  genreSubScores.forEach(item => {
+                    const genreName = item.genre_sub;
+                    const score = Math.round(item.bayes_score * 100 / 7); // Convert to 0-100 scale
+                    backendValues[genreName] = Math.min(100, Math.max(0, score)); // Clamp between 0-100
+                  });
+                  
+                  // Store auto values
+                  autoValues = {...backendValues};
+                  
+                  // Update sliders with backend values
+                  updateAllSliders(autoValues);
+                  
+                  console.log('[AI Auto] Updated sliders with backend values:', autoValues);
+                  
+                } catch (error) {
+                  console.error('[AI Auto] Error fetching genre sub-scores:', error);
+                  
+                  // Fallback to setting all sliders to 50 if backend call fails
+                  const fallbackValues = {};
+                  const handles = contentDiv.querySelectorAll('.genre-slider-handle');
+                  handles.forEach(handle => {
+                    const genre = handle.getAttribute('data-genre');
+                    fallbackValues[genre] = 50;
+                    updateSliderPosition(handle, 50);
+                  });
+                  autoValues = {...fallbackValues};
+                  
+                  // Show error message
+                  this.addErrorMessage('Failed to load AI genre suggestions. Using default values.');
+                } finally {
+                  // Restore button state
+                  aiAutoOption.textContent = 'AI auto';
+                  aiAutoOption.style.pointerEvents = 'auto';
+                }
+              }
             }
           });
           
