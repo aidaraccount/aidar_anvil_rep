@@ -1106,6 +1106,32 @@
             });
           };
           
+          // Function to disable/enable sliders for auto/manual modes (reuses existing logic)
+          const setSliderMode = (container, isAutoMode) => {
+            const sliderHandles = container.querySelectorAll('.genre-slider-handle');
+            const sliderTracks = container.querySelectorAll('.genre-slider-track');
+            
+            if (isAutoMode) {
+              // AI auto mode: Hide handles completely (like history loading)
+              sliderHandles.forEach(handle => {
+                handle.style.display = 'none';
+                handle.style.pointerEvents = 'none';
+              });
+              sliderTracks.forEach(track => {
+                track.style.pointerEvents = 'none';
+              });
+            } else {
+              // Manual mode: Show handles and enable interaction
+              sliderHandles.forEach(handle => {
+                handle.style.display = 'block';
+                handle.style.pointerEvents = 'auto';
+              });
+              sliderTracks.forEach(track => {
+                track.style.pointerEvents = 'auto';
+              });
+            }
+          };
+          
           // Add initial visible sliders
           createGenreSliders(visibleResults, contentDiv);
           
@@ -1228,32 +1254,6 @@
           
           // Update initial visibility now that variables are declared
           updateShowMoreLink();
-          
-          // Function to disable/enable sliders for auto/manual modes (reuses existing logic)
-          const setSliderMode = (container, isAutoMode) => {
-            const sliderHandles = container.querySelectorAll('.genre-slider-handle');
-            const sliderTracks = container.querySelectorAll('.genre-slider-track');
-            
-            if (isAutoMode) {
-              // AI auto mode: Hide handles completely (like history loading)
-              sliderHandles.forEach(handle => {
-                handle.style.display = 'none';
-                handle.style.pointerEvents = 'none';
-              });
-              sliderTracks.forEach(track => {
-                track.style.pointerEvents = 'none';
-              });
-            } else {
-              // Manual mode: Show handles and enable interaction
-              sliderHandles.forEach(handle => {
-                handle.style.display = 'block';
-                handle.style.pointerEvents = 'auto';
-              });
-              sliderTracks.forEach(track => {
-                track.style.pointerEvents = 'auto';
-              });
-            }
-          };
           
           // Function to get current values of all sliders
           const getSliderValues = () => {
