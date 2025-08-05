@@ -1114,44 +1114,55 @@
           legend.className = 'genre-slider-legend';
           legend.innerHTML = '<div class="increasing-fit">increasing fit</div>';
           
-          // Create "show more" link if needed
+          // Create "show more" link
           const showMoreLink = document.createElement('a');
           showMoreLink.textContent = 'show more genres';
           showMoreLink.className = 'show-more-genres';
-          showMoreLink.style.display = allResults.length > visibleCount ? 'block' : 'none';
+          
+          // Helper function to get current mode's genre data
+          const getCurrentModeData = () => {
+            const isManualMode = manualOption.classList.contains('active');
+            if (isManualMode) {
+              return manualValues._allGenreData || allResults.map(result => {
+                const [genre, score] = result;
+                const genreName = Array.isArray(genre) ? genre[1] : genre;
+                return [genreName, score];
+              });
+            } else {
+              return autoValues._allGenreData || [];
+            }
+          };
+          
+          // Helper function to update show more link visibility
+          const updateShowMoreLink = () => {
+            const currentModeData = getCurrentModeData();
+            showMoreLink.style.display = currentModeData.length > window.genreVisibilityState ? 'block' : 'none';
+          };
+          
+          // Set initial visibility
+          updateShowMoreLink();
           
           showMoreLink.addEventListener('click', () => {
-            // Get the next batch of results to show
-            const nextBatch = allResults.slice(visibleCount, visibleCount + 2);
+            const currentModeData = getCurrentModeData();
+            const nextBatch = currentModeData.slice(visibleCount, visibleCount + 2);
             
             if (nextBatch.length > 0) {
-              // Create new sliders for the next batch with opacity 0 for fade-in
+              // Create new sliders for the next batch with fade-in effect
               createGenreSliders(nextBatch, contentDiv);
               
-              // Find the newly added sliders
+              // Apply fade-in effect to newly added sliders
               const newSliders = Array.from(contentDiv.querySelectorAll('.genre-score-item')).slice(visibleCount);
-              
-              // Apply fade-in effect to the new sliders
               newSliders.forEach(slider => {
                 slider.style.opacity = '0';
-                
-                // Trigger fade-in effect (using setTimeout to ensure display takes effect first)
-                setTimeout(() => {
-                  slider.style.opacity = '1';
-                }, 10);
+                setTimeout(() => slider.style.opacity = '1', 10);
               });
               
-              // Update visible count
+              // Update visibility state
               visibleCount += nextBatch.length;
-              
-              // Update global visibility state to maintain consistency across modes
               window.genreVisibilityState = visibleCount;
-              console.log('[Show More] Updated global visibility state to:', window.genreVisibilityState);
               
-              // Hide link if all genres are shown
-              if (visibleCount >= allResults.length) {
-                showMoreLink.style.display = 'none';
-              }
+              // Update link visibility
+              updateShowMoreLink();
             }
           });
           
@@ -1287,6 +1298,9 @@
                 updateAllSliders(manualValues);
                 console.log('[Manual] Applied manual values to existing sliders:', manualValues);
               }
+              
+              // Update show more link visibility
+              updateShowMoreLink();
             }
           });
           
@@ -1315,6 +1329,9 @@
                 autoValues._genreData = visibleAutoGenres;
                 
                 console.log(`[AI Auto] Restored auto UI with ${visibleAutoGenres.length} of ${autoValues._allGenreData.length} genres`);
+                
+                // Update show more link visibility
+                updateShowMoreLink();
               } else {
                 // Fetch genre sub-scores from backend
                 try {
@@ -1425,6 +1442,9 @@
                   
                   console.log('[AI Auto] Rebuilt UI with backend genres:', Object.keys(backendValues));
                   console.log('[AI Auto] Auto values set:', autoValues);
+                  
+                  // Update show more link visibility
+                  updateShowMoreLink();
                   
                   console.log('[AI Auto] Updated sliders with backend values:', autoValues);
                   
