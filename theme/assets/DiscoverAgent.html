@@ -975,6 +975,11 @@
           const visibleResults = allResults.slice(0, 3);
           let visibleCount = visibleResults.length; // Define visibleCount variable to track how many sliders are visible
           
+          // Global variable to track visibility state across modes
+          if (typeof window.genreVisibilityState === 'undefined') {
+            window.genreVisibilityState = visibleCount;
+          }
+          
           // Create message element with genre-sub-scores class
           const messageDiv = document.createElement('div');
           messageDiv.className = 'message genre-sub-scores';
@@ -1139,6 +1144,10 @@
               // Update visible count
               visibleCount += nextBatch.length;
               
+              // Update global visibility state to maintain consistency across modes
+              window.genreVisibilityState = visibleCount;
+              console.log('[Show More] Updated global visibility state to:', window.genreVisibilityState);
+              
               // Hide link if all genres are shown
               if (visibleCount >= allResults.length) {
                 showMoreLink.style.display = 'none';
@@ -1233,22 +1242,27 @@
               // Save current auto values and genre data before switching
               if (aiAutoOption.classList.contains('active')) {
                 const currentAutoValues = getSliderValues();
-                const currentAutoGenres = [];
-                const handles = contentDiv.querySelectorAll('.genre-slider-handle');
-                handles.forEach(handle => {
-                  const genre = handle.getAttribute('data-genre');
-                  const value = parseInt(handle.getAttribute('data-value'), 10);
-                  currentAutoGenres.push([genre, value]);
-                });
+                
+                // Update the full auto genre data with current slider values
+                if (autoValues._allGenreData) {
+                  const handles = contentDiv.querySelectorAll('.genre-slider-handle');
+                  handles.forEach(handle => {
+                    const genre = handle.getAttribute('data-genre');
+                    const value = parseInt(handle.getAttribute('data-value'), 10);
+                    
+                    // Find and update the corresponding entry in _allGenreData
+                    const genreIndex = autoValues._allGenreData.findIndex(item => item[0] === genre);
+                    if (genreIndex !== -1) {
+                      autoValues._allGenreData[genreIndex][1] = value;
+                    }
+                  });
+                }
                 
                 // Update auto values with current state
                 Object.assign(autoValues, currentAutoValues);
                 
-                // Update auto genre data with current state
-                autoValues._genreData = currentAutoGenres;
-                
                 console.log('[Manual] Saving current auto values:', currentAutoValues);
-                console.log('[Manual] Saving current auto genres:', currentAutoGenres);
+                console.log('[Manual] Updated full auto genre data:', autoValues._allGenreData);
               }
               
               // Update active state
@@ -1256,14 +1270,18 @@
               manualOption.classList.add('active');
               
               // Restore manual genres if we have them stored
-              if (manualValues._genreData) {
-                console.log('[Manual] Restoring manual genres:', manualValues._genreData);
+              if (manualValues._allGenreData) {
+                console.log('[Manual] Restoring manual genres (all):', manualValues._allGenreData);
                 
-                // Clear current content and rebuild with manual genres
+                // Clear current content and rebuild with manual genres (up to current visibility state)
                 contentDiv.innerHTML = '';
-                createGenreSliders(manualValues._genreData, contentDiv);
+                const visibleManualGenres = manualValues._allGenreData.slice(0, window.genreVisibilityState);
+                createGenreSliders(visibleManualGenres, contentDiv);
                 
-                console.log('[Manual] Restored manual UI with genres:', manualValues._genreData.map(item => item[0]));
+                // Update the current visible data reference
+                manualValues._genreData = visibleManualGenres;
+                
+                console.log(`[Manual] Restored manual UI with ${visibleManualGenres.length} of ${manualValues._allGenreData.length} genres`);
               } else {
                 // Apply manual values to current sliders (fallback)
                 updateAllSliders(manualValues);
@@ -1285,14 +1303,18 @@
               aiAutoOption.classList.add('active');
               
               // If we already have auto values, restore them
-              if (Object.keys(autoValues).length > 0 && autoValues._genreData) {
-                console.log('[AI Auto] Restoring cached auto genres:', autoValues._genreData);
+              if (Object.keys(autoValues).length > 0 && autoValues._allGenreData) {
+                console.log('[AI Auto] Restoring cached auto genres (all):', autoValues._allGenreData);
                 
-                // Clear current content and rebuild with auto genres
+                // Clear current content and rebuild with auto genres (up to current visibility state)
                 contentDiv.innerHTML = '';
-                createGenreSliders(autoValues._genreData, contentDiv);
+                const visibleAutoGenres = autoValues._allGenreData.slice(0, window.genreVisibilityState);
+                createGenreSliders(visibleAutoGenres, contentDiv);
                 
-                console.log('[AI Auto] Restored auto UI with genres:', autoValues._genreData.map(item => item[0]));
+                // Update the current visible data reference
+                autoValues._genreData = visibleAutoGenres;
+                
+                console.log(`[AI Auto] Restored auto UI with ${visibleAutoGenres.length} of ${autoValues._allGenreData.length} genres`);
               } else {
                 // Fetch genre sub-scores from backend
                 try {
@@ -1328,57 +1350,77 @@
                     throw new Error('Invalid or empty genre sub-scores data');
                   }
                   
-                  // Store current manual genres and values before replacing
-                  const currentManualGenres = [];
+                  // Store ALL current manual genres and values (including hidden ones)
+                  const allCurrentManualGenres = [];
                   const currentManualValues = {};
+                  
+                  // Get all genres from allResults (the original data)
+                  allResults.forEach(result => {
+                    const [genre, score] = result;
+                    const genreName = Array.isArray(genre) ? genre[1] : genre;
+                    allCurrentManualGenres.push([genreName, score]);
+                    currentManualValues[genreName] = score;
+                  });
+                  
+                  // Update with current slider values for visible genres
                   const handles = contentDiv.querySelectorAll('.genre-slider-handle');
                   handles.forEach(handle => {
                     const genre = handle.getAttribute('data-genre');
                     const value = parseInt(handle.getAttribute('data-value'), 10);
-                    currentManualGenres.push(genre);
                     currentManualValues[genre] = value;
+                    
+                    // Update the corresponding entry in allCurrentManualGenres
+                    const genreIndex = allCurrentManualGenres.findIndex(item => item[0] === genre);
+                    if (genreIndex !== -1) {
+                      allCurrentManualGenres[genreIndex][1] = value;
+                    }
                   });
                   
-                  console.log('[AI Auto] Storing current manual genres:', currentManualGenres);
-                  console.log('[AI Auto] Storing current manual values:', currentManualValues);
+                  console.log('[AI Auto] Storing ALL manual genres (including hidden):', allCurrentManualGenres);
+                  console.log('[AI Auto] Current visibility state:', window.genreVisibilityState);
                   
                   // Update manualValues with current state
                   Object.assign(manualValues, currentManualValues);
                   
-                  // Take top genres from backend data (limit to same number as currently displayed)
-                  const topGenres = genreSubScores.slice(0, currentManualGenres.length);
-                  console.log('[AI Auto] Using top genres from backend:', topGenres.map(item => item.genre_sub));
+                  // Use ALL backend genres (not limited to current display count)
+                  const allBackendGenres = genreSubScores;
+                  console.log('[AI Auto] Using ALL backend genres:', allBackendGenres.map(item => item.genre_sub));
                   
                   // Clear current content and rebuild with backend genres
                   contentDiv.innerHTML = '';
                   
-                  // Convert backend data to our format
+                  // Convert ALL backend data to our format
                   const backendValues = {};
-                  const backendGenreData = [];
+                  const allBackendGenreData = [];
                   
-                  topGenres.forEach(item => {
+                  allBackendGenres.forEach(item => {
                     const genreName = item.genre_sub;
                     const score = Math.round(item.bayes_score * 100 / 7); // Convert to 0-100 scale
                     const clampedScore = Math.min(100, Math.max(0, score));
                     
                     backendValues[genreName] = clampedScore;
-                    backendGenreData.push([genreName, clampedScore]);
+                    allBackendGenreData.push([genreName, clampedScore]);
                     
                     console.log(`[AI Auto] Backend genre ${genreName}: ${item.bayes_score} -> ${clampedScore}`);
                   });
                   
-                  // Rebuild sliders with backend genres
-                  createGenreSliders(backendGenreData, contentDiv);
+                  // Rebuild sliders with backend genres (only show up to current visibility state)
+                  const visibleBackendGenres = allBackendGenreData.slice(0, window.genreVisibilityState);
+                  createGenreSliders(visibleBackendGenres, contentDiv);
+                  
+                  console.log(`[AI Auto] Showing ${visibleBackendGenres.length} of ${allBackendGenreData.length} backend genres`);
                   
                   // Store auto values and genres
                   autoValues = {...backendValues};
                   
-                  // Store the auto genre data for future restoration
-                  autoValues._genreData = backendGenreData;
+                  // Store ALL auto genre data (including hidden ones) for future restoration
+                  autoValues._allGenreData = allBackendGenreData;
+                  autoValues._genreData = visibleBackendGenres; // Currently visible ones
                   
-                  // Store the manual genre data for restoration
-                  if (!manualValues._genreData) {
-                    manualValues._genreData = currentManualGenres.map(genre => [genre, currentManualValues[genre]]);
+                  // Store ALL manual genre data (including hidden ones) for restoration
+                  if (!manualValues._allGenreData) {
+                    manualValues._allGenreData = allCurrentManualGenres;
+                    manualValues._genreData = allCurrentManualGenres.slice(0, window.genreVisibilityState);
                   }
                   
                   console.log('[AI Auto] Rebuilt UI with backend genres:', Object.keys(backendValues));
