@@ -961,6 +961,22 @@
       handleGenreSubScores(message) {
         console.log('[handleGenreSubScores] Genre sub scores information received:', message);
         
+        // Helper function to generate AI auto info message HTML
+        const getAiAutoInfoMessageHTML = () => {
+          return `
+            <div class="ai-auto-info-message">
+              <div class="title">
+                Learning Your Musical Taste
+              </div>
+              <div class="description">
+                We weren't able to analyze your detailed musical interests yet. 
+                Feel free to stay in AI auto mode and we will analyze your preferences 
+                after a couple of artist ratings.
+              </div>
+            </div>
+          `;
+        };
+        
         // Update typing indicator to show waiting for confirmation
         if (this.typingIndicator) {
           this.typingIndicator.textContent = 'Waiting for user confirmation';
@@ -968,6 +984,13 @@
 
         if (message.data && message.data.results && Array.isArray(message.data.results)) {
           const results = message.data.results;
+          
+          // Special case: Auto mode with no data - show info box instead of returning
+          if (results.length === 0 && message.data.mode === 'auto') {
+            this.addSystemMessage(getAiAutoInfoMessageHTML());
+            return;
+          }
+          
           if (results.length === 0) return;
           
           // Store all results but initially show only the first 5
@@ -1244,22 +1267,6 @@
             } else {
               return autoValues._allGenreData || [];
             }
-          };
-          
-          // Helper function to generate AI auto info message HTML
-          const getAiAutoInfoMessageHTML = () => {
-            return `
-              <div class="ai-auto-info-message">
-                <div class="title">
-                  Learning Your Musical Taste
-                </div>
-                <div class="description">
-                  We weren't able to analyze your detailed musical interests yet. 
-                  Feel free to stay in AI auto mode and we will analyze your preferences 
-                  after a couple of artist ratings.
-                </div>
-              </div>
-            `;
           };
           
           // Helper function to update show more link visibility
