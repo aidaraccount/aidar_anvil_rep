@@ -774,6 +774,26 @@
   display: none;
 }
 
+/* 16. AI Auto Mode Info Message */
+.ai-auto-info-message {
+  padding: 20px;
+  text-align: center;
+  font-size: 13px;
+  border: 1px solid #282828;
+  border-radius: 8px;
+  background-color: #f9f9f90a;
+  margin: 10px 0;
+}
+
+.ai-auto-info-message .title {
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+
+.ai-auto-info-message .description {
+  line-height: 1.4;
+}
+
 /* #agent-sidebar .chat-container.agent-creation {
   display: none;
 } */

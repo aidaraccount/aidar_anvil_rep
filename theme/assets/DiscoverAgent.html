@@ -1246,6 +1246,22 @@
             }
           };
           
+          // Helper function to generate AI auto info message HTML
+          const getAiAutoInfoMessageHTML = () => {
+            return `
+              <div class="ai-auto-info-message">
+                <div class="title">
+                  Learning Your Musical Taste
+                </div>
+                <div class="description">
+                  We weren't able to analyze your detailed musical interests yet. 
+                  Feel free to stay in AI auto mode and we will analyze your preferences 
+                  after a couple of artist ratings.
+                </div>
+              </div>
+            `;
+          };
+          
           // Helper function to update show more link visibility
           const updateShowMoreLink = () => {
             const currentModeData = getCurrentModeData();
@@ -1320,6 +1336,9 @@
               aiAutoOption.classList.remove('active');
               manualOption.classList.add('active');
               
+              // Always clear content first (this handles both sliders and info message)
+              contentDiv.innerHTML = '';
+              
               // Restore manual genres if we have them stored
               if (manualValues._allGenreData) {
                 console.log('[Manual] Restoring manual genres (all):', manualValues._allGenreData);
@@ -1379,6 +1398,14 @@
                 console.log(`[AI Auto] Restored auto UI with ${visibleAutoGenres.length} of ${autoValues._allGenreData.length} genres`);
                 
                 // Update show more link visibility
+                updateShowMoreLink();
+              } else if (autoValues._noDataAvailable) {
+                console.log('[AI Auto] No backend data available, showing info message');
+                
+                // Clear current content and show info message
+                contentDiv.innerHTML = getAiAutoInfoMessageHTML();
+                
+                // Hide the show more link since there are no sliders
                 updateShowMoreLink();
               } else {
                 // Fetch genre sub-scores from backend
@@ -1503,31 +1530,12 @@
                   console.error('[AI Auto] Error fetching genre sub-scores:', error);
                   
                   // No auto values available, clear content and show informational message instead of sliders
-                  contentDiv.innerHTML = `
-                    <div style="
-                      padding: 20px;
-                      text-align: center;
-                      color: #666;
-                      font-size: 14px;
-                      line-height: 1.5;
-                      border: 1px solid #e0e0e0;
-                      border-radius: 8px;
-                      background-color: #f9f9f9;
-                      margin: 10px 0;
-                    ">
-                      <div style="margin-bottom: 10px; font-weight: 500; color: #333;">
-                        🎵 Learning Your Musical Taste
-                      </div>
-                      <div>
-                        We weren't able to analyze your detailed musical interests yet. 
-                        Feel free to stay in AI auto mode and we will analyze your preferences 
-                        after a couple of artist ratings.
-                      </div>
-                    </div>
-                  `;
+                  contentDiv.innerHTML = getAiAutoInfoMessageHTML();
                   
                   // Set empty auto values to indicate no data available
                   autoValues = {};
+                  // Set flag to indicate we've tried fetching and no data is available
+                  autoValues._noDataAvailable = true;
                   
                   // Hide the show more link since there are no sliders
                   updateShowMoreLink();
