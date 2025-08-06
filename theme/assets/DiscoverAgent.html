@@ -1356,11 +1356,28 @@
                 
                 console.log(`[Manual] Restored manual UI with ${visibleManualGenres.length} of ${manualValues._allGenreData.length} genres`);
               } else {
-                // Apply manual values to current sliders (fallback)
-                updateAllSliders(manualValues);
+                // Fallback: Create sliders from original data if no stored manual data exists
+                console.log('[Manual] No stored manual data, creating sliders from original data');
+                
+                // Convert allResults to the format expected by createGenreSliders
+                const manualGenreData = allResults.map(result => {
+                  const [genre, score] = result;
+                  const genreName = Array.isArray(genre) ? genre[1] : genre;
+                  return [genreName, score];
+                });
+                
+                // Create sliders with original data (up to current visibility state)
+                const visibleManualGenres = manualGenreData.slice(0, window.genreVisibilityState);
+                createGenreSliders(visibleManualGenres, contentDiv);
+                
                 // Enable sliders for manual mode
                 setSliderMode(contentDiv, false);
-                console.log('[Manual] Applied manual values to existing sliders:', manualValues);
+                
+                // Store the manual genre data for future use
+                manualValues._allGenreData = manualGenreData;
+                manualValues._genreData = visibleManualGenres;
+                
+                console.log(`[Manual] Created manual UI with ${visibleManualGenres.length} of ${manualGenreData.length} genres`);
               }
               
               // Update show more link visibility
