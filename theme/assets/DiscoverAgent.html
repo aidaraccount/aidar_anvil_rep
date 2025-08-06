@@ -310,6 +310,7 @@
         this.maxReconnectAttempts = 5;
         this.reconnectDelay = 1000;
         this.isLoadingHistory = false;
+        this.isProcessing = false; // Track processing state for cancel functionality
 
         // Stage management
         const STAGE = {
@@ -435,6 +436,13 @@
                 }
                 break;
                 
+              case 'genre_sub_scores':
+                // Handle genre sub scores display
+                if (msg.data) {
+                  this.handleGenreSubScores({ data: msg.data, fromHistory: true });
+                }
+                break;
+                
               default:
                 console.warn('[loadMessageHistory] Unknown message type:', msg.type, msg);
                 this.addSystemMessage(msg.content || JSON.stringify(msg));
@@ -551,10 +559,18 @@
       
       // -----------------------------------------
       /* 3. Message Handling */
-      // Send message to the server
+      // Send message to the server or cancel current execution
       sendMessage() {
         try {
           console.log('[sendMessage] sendMessage() called');
+          
+          // If we're processing AND the socket is connected, this is a cancel request
+          // This prevents cancellation during the connection process
+          if (this.isProcessing && this.isConnected) {
+            console.log('[sendMessage] Cancel request detected, connection state:', this.isConnected);
+            this.cancelExecution();
+            return;
+          }
           
           const message = this.chatInput.value.trim();
           if (!message) {
@@ -643,7 +659,7 @@
           } else {
             console.log('[sendMessage] Queueing message, attempting to connect...');
             this.messageQueue.push(messageData);
-            this.addSystemMessage('Connecting to AI assistant...');
+            //this.addSystemMessage('Connecting to AI assistant...');
             this.connect(); // Try to establish connection
           }
         } catch (error) {
@@ -668,43 +684,50 @@
       handleMessage(event) {
         try {
           const message = JSON.parse(event.data);
-          // console.log('[handleMessage] Received message:', message);
-
+          console.log('[handleMessage] Received message:', message);
+          
+          // Route messages to appropriate handlers
           switch (message.type) {
-            case 'text_chunk':
-              this.handleTextChunk(message);
+
+            case 'query':
+              if (message.direction === 'in') {
+                this.addUserMessage(message.content || '');
+              } else {
+                this.addAgentMessage(message.content || '');
+              }
               break;
-              
             case 'error':
               this.handleError(message);
               break;
-              
-            case 'artist_info':
-              this.handleArtistInfo(message);
+            case 'text_chunk':
+              this.handleTextChunk(message);
               break;
-
-            case 'popularity_range_info':
-              this.handlePopularityRangeInfo(message);
-              break;
-
-            case 'artist_reference':
-              this.handleArtistReference(message);
-              break;
-
-            case 'filters_info':
-              this.handleFiltersInfo(message);
-              break;
-              
             case 'complete':
-              this.handleCompleteMessage();
+              this.handleCompleteMessage(message);
               break;
-            
+            case 'cancellation_confirmed':
+              this.handleCancellationConfirmed(message);
+              break;
             case 'create_agent':
               this.handleCreateAgent(message);
               break;
-
             case 'extended_create_agent':
               this.handleExtendedCreateAgent(message);
+              break;
+            case 'artist_info':
+              this.handleArtistInfo(message);
+              break;
+            case 'artist_reference':
+              this.handleArtistReference(message);
+              break;
+            case 'filters_info':
+              this.handleFiltersInfo(message);
+              break;
+            case 'popularity_range_info':
+              this.handlePopularityRangeInfo(message);
+              break;
+            case 'genre_sub_scores':
+              this.handleGenreSubScores(message);
               break;
             
             default:
@@ -719,9 +742,18 @@
 
       // Process any queued messages
       processMessageQueue() {
+        if (this.messageQueue.length === 0) {
+          console.log('[processMessageQueue] Message queue empty, nothing to process');
+          return;
+        }
+        
+        console.log('[processMessageQueue] Processing message queue with', this.messageQueue.length, 'messages');
+        
+        // Important: Only set isProcessing=true AFTER we've successfully sent the messages
+        // This prevents accidental cancellation during connection but before processing starts
         while (this.messageQueue.length > 0 && this.isConnected) {
-          console.log('[processMessageQueue] Processing message queue');
           const message = this.messageQueue.shift();
+          console.log('[processMessageQueue] Sending queued message:', message.type);
           this.sendRawMessage(message);
         }
       }
@@ -736,13 +768,46 @@
         this.addErrorMessage(`Error${errorType}: ${message.content}`);
       }
 
-      // Handle text chunk messages
+      // Handle text chunk from server
       handleTextChunk(message) {
-        console.log('[handleTextChunk] Received text chunk:', message);
-        if (message.content) {
-          this.addAgentMessage(message.content);
-          this.scrollToBottom();
+        try {
+          console.log('[handleTextChunk] Received text chunk:', message);
+          
+          if (message.content && typeof message.content === 'string') {
+            this.addAgentMessage(message.content);
+          }
+        } catch (error) {
+          console.error('[handleTextChunk] Error processing text chunk:', error);
         }
+      }
+      
+      // Handle cancellation confirmation from backend
+      handleCancellationConfirmed(message) {
+        console.log('[handleCancellationConfirmed] Backend confirmed cancellation:', message);
+        this.removeTypingIndicator();
+        
+        // Disable any active genre sub-scores
+        const activeGenreScores = document.querySelectorAll('.message.genre-sub-scores');
+        activeGenreScores.forEach(genreContainer => {
+          const confirmButton = genreContainer.querySelector('button');
+          if (confirmButton && confirmButton.style.display !== 'none') {
+            // Use the existing helper function pattern
+            const disableGenreControls = (container, hideButton = false) => {
+              if (hideButton && confirmButton) confirmButton.style.display = 'none';
+              const toggles = container.querySelectorAll('.toggle-option');
+              toggles.forEach(toggle => {
+                toggle.style.pointerEvents = 'none';
+                toggle.style.opacity = '0.7';
+              });
+              const sliders = container.querySelectorAll('.genre-slider-handle, .genre-slider-track');
+              sliders.forEach(slider => {
+                slider.style.pointerEvents = 'none';
+                slider.style.opacity = '0.7';
+              });
+            };
+            disableGenreControls(genreContainer, true);
+          }
+        });
       }
 
       // Handle artist information
@@ -892,10 +957,687 @@
         }
       }
 
-      // Handle complete message from server
-      handleCompleteMessage() {
+      // Handle genre sub scores information
+      handleGenreSubScores(message) {
+        console.log('[handleGenreSubScores] Genre sub scores information received:', message);
+        
+        // Update typing indicator to show waiting for confirmation
+        if (this.typingIndicator) {
+          this.typingIndicator.textContent = 'Waiting for user confirmation';
+        }
+
+        if (message.data && message.data.results && Array.isArray(message.data.results)) {
+          const results = message.data.results;
+          if (results.length === 0) return;
+          
+          // Store all results but initially show only the first 3
+          const allResults = [...results];
+          const visibleResults = allResults.slice(0, 3);
+          let visibleCount = visibleResults.length; // Define visibleCount variable to track how many sliders are visible
+          
+          // Global variable to track visibility state across modes
+          if (typeof window.genreVisibilityState === 'undefined') {
+            window.genreVisibilityState = visibleCount;
+          }
+          
+          // Create message element with genre-sub-scores class
+          const messageDiv = document.createElement('div');
+          messageDiv.className = 'message genre-sub-scores';
+          
+          // Create the main container
+          const mainContainer = document.createElement('div');
+          mainContainer.className = 'genre-scores-container';
+          
+          // Create content div for genre sliders
+          const contentDiv = document.createElement('div');
+          contentDiv.className = 'genre-scores-content';
+          
+          // Function to create and add genre sliders
+          const createGenreSliders = (results, container) => {
+            results.forEach(result => {
+              const [genre, score] = result;
+              const genreName = Array.isArray(genre) ? genre[1] : genre; // Get sub genre name
+              
+              // Create genre item container
+              const genreItem = document.createElement('div');
+              genreItem.className = 'genre-score-item';
+              
+              // Create genre name element
+              const genreNameEl = document.createElement('div');
+              genreNameEl.className = 'genre-name';
+              genreNameEl.textContent = genreName;
+              genreItem.appendChild(genreNameEl);
+              
+              // Create slider container
+              const sliderContainer = document.createElement('div');
+              sliderContainer.className = 'genre-slider-container';
+              
+              // Create slider
+              const slider = document.createElement('div');
+              slider.className = 'genre-slider';
+              
+              // Create track
+              const track = document.createElement('div');
+              track.className = 'genre-slider-track';
+              
+              // Create progress bar
+              const progress = document.createElement('div');
+              progress.className = 'genre-slider-progress';
+              progress.style.width = `${score}%`;
+              
+              // Create handle
+              const handle = document.createElement('div');
+              handle.className = 'genre-slider-handle';
+              handle.style.left = `${score}%`;
+              handle.setAttribute('data-genre', genreName);
+              handle.setAttribute('data-value', score);
+              
+              // Add drag functionality to handle
+              let isDragging = false;
+              
+              handle.addEventListener('mousedown', (e) => {
+                isDragging = true;
+                document.addEventListener('mousemove', onMouseMove);
+                document.addEventListener('mouseup', onMouseUp);
+                e.preventDefault(); // Prevent text selection
+              });
+              
+              // Add click functionality to track with immediate drag capability
+              track.addEventListener('mousedown', (e) => {
+                // Calculate initial position
+                const rect = track.getBoundingClientRect();
+                let newPos = (e.clientX - rect.left) / rect.width * 100;
+                
+                // Clamp between 0 and 100
+                newPos = Math.max(0, Math.min(100, newPos));
+                
+                // Update handle and progress
+                handle.style.left = `${newPos}%`;
+                progress.style.width = `${newPos}%`;
+                handle.setAttribute('data-value', Math.round(newPos));
+                
+                // Save to manual values if in manual mode
+                if (manualOption.classList.contains('active')) {
+                  manualValues[genreName] = Math.round(newPos);
+                }
+                
+                // Start dragging immediately
+                isDragging = true;
+                document.addEventListener('mousemove', onMouseMove);
+                document.addEventListener('mouseup', onMouseUp);
+                e.preventDefault(); // Prevent text selection
+              });
+              
+              const onMouseMove = (e) => {
+                if (!isDragging) return;
+                
+                const rect = track.getBoundingClientRect();
+                let newPos = (e.clientX - rect.left) / rect.width * 100;
+                
+                // Clamp between 0 and 100
+                newPos = Math.max(0, Math.min(100, newPos));
+                
+                // Update handle and progress
+                handle.style.left = `${newPos}%`;
+                progress.style.width = `${newPos}%`;
+                handle.setAttribute('data-value', Math.round(newPos));
+                
+                // Save to manual values if in manual mode
+                if (manualOption.classList.contains('active')) {
+                  manualValues[genreName] = Math.round(newPos);
+                }
+              };
+              
+              const onMouseUp = () => {
+                isDragging = false;
+                document.removeEventListener('mousemove', onMouseMove);
+                document.removeEventListener('mouseup', onMouseUp);
+              };
+              
+              // Assemble the slider
+              track.appendChild(progress);
+              track.appendChild(handle);
+              slider.appendChild(track);
+              sliderContainer.appendChild(slider);
+              genreItem.appendChild(sliderContainer);
+              
+              // Add to container
+              container.appendChild(genreItem);
+            });
+          };
+          
+          // Function to disable/enable sliders for auto/manual modes (reuses existing logic)
+          const setSliderMode = (container, isAutoMode) => {
+            const sliderHandles = container.querySelectorAll('.genre-slider-handle');
+            const sliderTracks = container.querySelectorAll('.genre-slider-track');
+            
+            if (isAutoMode) {
+              // AI auto mode: Hide handles completely (like history loading)
+              sliderHandles.forEach(handle => {
+                handle.style.display = 'none';
+                handle.style.pointerEvents = 'none';
+              });
+              sliderTracks.forEach(track => {
+                track.style.pointerEvents = 'none';
+              });
+            } else {
+              // Manual mode: Show handles and enable interaction
+              sliderHandles.forEach(handle => {
+                handle.style.display = 'block';
+                handle.style.pointerEvents = 'auto';
+              });
+              sliderTracks.forEach(track => {
+                track.style.pointerEvents = 'auto';
+              });
+            }
+          };
+          
+          // Add initial visible sliders
+          createGenreSliders(visibleResults, contentDiv);
+          
+          // Apply initial mode state (after sliders are created but before toggle options are set up)
+          const initialMode = message.data && message.data.mode ? message.data.mode : 'manual';
+          const isInitialAutoMode = initialMode === 'auto';
+          setSliderMode(contentDiv, isInitialAutoMode);
+          
+          // Create legend
+          const legend = document.createElement('div');
+          legend.className = 'genre-slider-legend';
+          legend.innerHTML = '<div class="increasing-fit">increasing fit</div>';
+          
+          // Create "show more" link
+          const showMoreLink = document.createElement('a');
+          showMoreLink.textContent = 'show more genres';
+          showMoreLink.className = 'show-more-genres';
+          
+          // Set initial visibility (will be updated after variables are declared)
+          showMoreLink.style.display = allResults.length > visibleCount ? 'block' : 'none';
+          
+          showMoreLink.addEventListener('click', () => {
+            const currentModeData = getCurrentModeData();
+            const nextBatch = currentModeData.slice(visibleCount, visibleCount + 2);
+            
+            if (nextBatch.length > 0) {
+              // Create new sliders for the next batch with fade-in effect
+              createGenreSliders(nextBatch, contentDiv);
+              
+              // Apply correct slider state based on current mode
+              const isAutoMode = aiAutoOption.classList.contains('active');
+              setSliderMode(contentDiv, isAutoMode);
+              
+              // Apply fade-in effect to newly added sliders
+              const newSliders = Array.from(contentDiv.querySelectorAll('.genre-score-item')).slice(visibleCount);
+              newSliders.forEach(slider => {
+                slider.style.opacity = '0';
+                setTimeout(() => {
+                  slider.style.opacity = isAutoMode ? '0.6' : '1'; // Respect auto mode opacity
+                }, 10);
+              });
+              
+              // Update visibility state
+              visibleCount += nextBatch.length;
+              window.genreVisibilityState = visibleCount;
+              
+              // Update link visibility
+              updateShowMoreLink();
+            }
+          });
+          
+          // Create button container
+          const buttonContainer = document.createElement('div');
+          buttonContainer.className = 'genre-button-container';
+          
+          // Create toggle container
+          const toggleContainer = document.createElement('div');
+          toggleContainer.className = 'genre-toggle-container';
+          
+          // Create toggle options container
+          const toggleOptions = document.createElement('div');
+          toggleOptions.className = 'genre-toggle-options';
+          
+          // Create manual toggle option
+          const manualOption = document.createElement('div');
+          manualOption.className = 'genre-toggle-option';
+          manualOption.textContent = 'manual';
+          
+          // Create AI auto toggle option
+          const aiAutoOption = document.createElement('div');
+          aiAutoOption.className = 'genre-toggle-option';
+          aiAutoOption.textContent = 'AI auto';
+          
+          // Set initial toggle state based on mode from message data
+          const messageMode = message.data && message.data.mode ? message.data.mode : 'manual';
+          if (messageMode === 'auto') {
+            aiAutoOption.classList.add('active');
+          } else {
+            manualOption.classList.add('active');
+          }
+          
+          // Create confirm button
+          const confirmButton = document.createElement('button');
+          confirmButton.className = 'genre-button confirm-button';
+          confirmButton.textContent = 'confirm';
+          
+          // Store initial values of sliders for reset functionality
+          const initialValues = {};
+          allResults.forEach(result => {
+            const [genre, score] = result;
+            const genreName = Array.isArray(genre) ? genre[1] : genre;
+            initialValues[genreName] = score;
+          });
+          
+          // Also store manual values for when switching between toggle states
+          const manualValues = {...initialValues};
+          
+          // Store auto values separately (will be populated when AI auto is clicked)
+          let autoValues = {};
+          
+          // Helper function to get current mode's genre data
+          const getCurrentModeData = () => {
+            const isManualMode = manualOption.classList.contains('active');
+            if (isManualMode) {
+              return manualValues._allGenreData || allResults.map(result => {
+                const [genre, score] = result;
+                const genreName = Array.isArray(genre) ? genre[1] : genre;
+                return [genreName, score];
+              });
+            } else {
+              return autoValues._allGenreData || [];
+            }
+          };
+          
+          // Helper function to update show more link visibility
+          const updateShowMoreLink = () => {
+            const currentModeData = getCurrentModeData();
+            showMoreLink.style.display = currentModeData.length > window.genreVisibilityState ? 'block' : 'none';
+          };
+          
+          // Update initial visibility now that variables are declared
+          updateShowMoreLink();
+          
+          // Function to get current values of all sliders
+          const getSliderValues = () => {
+            const values = {};
+            const handles = contentDiv.querySelectorAll('.genre-slider-handle');
+            handles.forEach(handle => {
+              const genre = handle.getAttribute('data-genre');
+              const value = parseInt(handle.getAttribute('data-value'), 10);
+              values[genre] = value;
+            });
+            return values;
+          };
+          
+          // Function to update slider position
+          const updateSliderPosition = (handle, value) => {
+            const progress = handle.previousElementSibling;
+            handle.style.left = `${value}%`;
+            progress.style.width = `${value}%`;
+            handle.setAttribute('data-value', value);
+          };
+          
+          // Function to update all slider positions
+          const updateAllSliders = (values) => {
+            const handles = contentDiv.querySelectorAll('.genre-slider-handle');
+            handles.forEach(handle => {
+              const genre = handle.getAttribute('data-genre');
+              if (values[genre] !== undefined) {
+                updateSliderPosition(handle, values[genre]);
+              }
+            });
+          };
+          
+          // Add event listeners for toggle options
+          manualOption.addEventListener('click', () => {
+            // Only do something if not already active
+            if (!manualOption.classList.contains('active')) {
+              // Save current auto values and genre data before switching
+              if (aiAutoOption.classList.contains('active')) {
+                const currentAutoValues = getSliderValues();
+                
+                // Update the full auto genre data with current slider values
+                if (autoValues._allGenreData) {
+                  const handles = contentDiv.querySelectorAll('.genre-slider-handle');
+                  handles.forEach(handle => {
+                    const genre = handle.getAttribute('data-genre');
+                    const value = parseInt(handle.getAttribute('data-value'), 10);
+                    
+                    // Find and update the corresponding entry in _allGenreData
+                    const genreIndex = autoValues._allGenreData.findIndex(item => item[0] === genre);
+                    if (genreIndex !== -1) {
+                      autoValues._allGenreData[genreIndex][1] = value;
+                    }
+                  });
+                }
+                
+                // Update auto values with current state
+                Object.assign(autoValues, currentAutoValues);
+                
+                console.log('[Manual] Saving current auto values:', currentAutoValues);
+                console.log('[Manual] Updated full auto genre data:', autoValues._allGenreData);
+              }
+              
+              // Update active state
+              aiAutoOption.classList.remove('active');
+              manualOption.classList.add('active');
+              
+              // Restore manual genres if we have them stored
+              if (manualValues._allGenreData) {
+                console.log('[Manual] Restoring manual genres (all):', manualValues._allGenreData);
+                
+                // Clear current content and rebuild with manual genres (up to current visibility state)
+                contentDiv.innerHTML = '';
+                const visibleManualGenres = manualValues._allGenreData.slice(0, window.genreVisibilityState);
+                createGenreSliders(visibleManualGenres, contentDiv);
+                
+                // Enable sliders in manual mode since they're user-editable
+                setSliderMode(contentDiv, false);
+                
+                // Update the current visible data reference
+                manualValues._genreData = visibleManualGenres;
+                
+                console.log(`[Manual] Restored manual UI with ${visibleManualGenres.length} of ${manualValues._allGenreData.length} genres`);
+              } else {
+                // Apply manual values to current sliders (fallback)
+                updateAllSliders(manualValues);
+                // Enable sliders for manual mode
+                setSliderMode(contentDiv, false);
+                console.log('[Manual] Applied manual values to existing sliders:', manualValues);
+              }
+              
+              // Update show more link visibility
+              updateShowMoreLink();
+            }
+          });
+          
+          aiAutoOption.addEventListener('click', async () => {
+            // Only do something if not already active
+            if (!aiAutoOption.classList.contains('active')) {
+              // Save current manual values before switching
+              if (manualOption.classList.contains('active')) {
+                Object.assign(manualValues, getSliderValues());
+              }
+              
+              // Update active state
+              manualOption.classList.remove('active');
+              aiAutoOption.classList.add('active');
+              
+              // If we already have auto values, restore them
+              if (Object.keys(autoValues).length > 0 && autoValues._allGenreData) {
+                console.log('[AI Auto] Restoring cached auto genres (all):', autoValues._allGenreData);
+                
+                // Clear current content and rebuild with auto genres (up to current visibility state)
+                contentDiv.innerHTML = '';
+                const visibleAutoGenres = autoValues._allGenreData.slice(0, window.genreVisibilityState);
+                createGenreSliders(visibleAutoGenres, contentDiv);
+                
+                // Disable sliders in auto mode since they're AI-provided
+                setSliderMode(contentDiv, true);
+                
+                // Update the current visible data reference
+                autoValues._genreData = visibleAutoGenres;
+                
+                console.log(`[AI Auto] Restored auto UI with ${visibleAutoGenres.length} of ${autoValues._allGenreData.length} genres`);
+                
+                // Update show more link visibility
+                updateShowMoreLink();
+              } else {
+                // Fetch genre sub-scores from backend
+                try {
+                  console.log('[AI Auto] Fetching genre sub-scores from backend for model_id:', this.model_id);
+                  
+                  // Validate model_id
+                  if (!this.model_id) {
+                    throw new Error('model_id is not available');
+                  }
+                  
+                  // Show loading state
+                  aiAutoOption.textContent = 'loading...';
+                  aiAutoOption.style.pointerEvents = 'none';
+                  
+                  // Call backend function to get genre sub-scores via MainIn bridge method
+                  const formElement = document.querySelector('.anvil-container');
+                  if (!formElement) {
+                    throw new Error('Could not find anvil-container element');
+                  }
+                  
+                  console.log('[AI Auto] Calling MainIn_get_genre_sub_scores with model_id:', this.model_id);
+                  const genreSubScoresJson = await anvil.call(formElement, 'MainIn_get_genre_sub_scores', this.model_id);
+                  console.log('[AI Auto] Raw response from backend:', genreSubScoresJson);
+                  
+                  if (!genreSubScoresJson) {
+                    throw new Error('No data received from backend');
+                  }
+                  
+                  const genreSubScores = JSON.parse(genreSubScoresJson);
+                  console.log('[AI Auto] Parsed genre sub-scores:', genreSubScores);
+                  
+                  if (!Array.isArray(genreSubScores) || genreSubScores.length === 0) {
+                    throw new Error('Invalid or empty genre sub-scores data');
+                  }
+                  
+                  // Store ALL current manual genres and values (including hidden ones)
+                  const allCurrentManualGenres = [];
+                  const currentManualValues = {};
+                  
+                  // Get all genres from allResults (the original data)
+                  allResults.forEach(result => {
+                    const [genre, score] = result;
+                    const genreName = Array.isArray(genre) ? genre[1] : genre;
+                    allCurrentManualGenres.push([genreName, score]);
+                    currentManualValues[genreName] = score;
+                  });
+                  
+                  // Update with current slider values for visible genres
+                  const handles = contentDiv.querySelectorAll('.genre-slider-handle');
+                  handles.forEach(handle => {
+                    const genre = handle.getAttribute('data-genre');
+                    const value = parseInt(handle.getAttribute('data-value'), 10);
+                    currentManualValues[genre] = value;
+                    
+                    // Update the corresponding entry in allCurrentManualGenres
+                    const genreIndex = allCurrentManualGenres.findIndex(item => item[0] === genre);
+                    if (genreIndex !== -1) {
+                      allCurrentManualGenres[genreIndex][1] = value;
+                    }
+                  });
+                  
+                  console.log('[AI Auto] Storing ALL manual genres (including hidden):', allCurrentManualGenres);
+                  console.log('[AI Auto] Current visibility state:', window.genreVisibilityState);
+                  
+                  // Update manualValues with current state
+                  Object.assign(manualValues, currentManualValues);
+                  
+                  // Use ALL backend genres (not limited to current display count)
+                  const allBackendGenres = genreSubScores;
+                  console.log('[AI Auto] Using ALL backend genres:', allBackendGenres.map(item => item.genre_sub));
+                  
+                  // Clear current content and rebuild with backend genres
+                  contentDiv.innerHTML = '';
+                  
+                  // Convert ALL backend data to our format
+                  const backendValues = {};
+                  const allBackendGenreData = [];
+                  
+                  allBackendGenres.forEach(item => {
+                    const genreName = item.genre_sub;
+                    const score = Math.round(item.bayes_score * 100 / 7); // Convert to 0-100 scale
+                    const clampedScore = Math.min(100, Math.max(0, score));
+                    
+                    backendValues[genreName] = clampedScore;
+                    allBackendGenreData.push([genreName, clampedScore]);
+                    
+                    console.log(`[AI Auto] Backend genre ${genreName}: ${item.bayes_score} -> ${clampedScore}`);
+                  });
+                  
+                  // Rebuild sliders with backend genres (only show up to current visibility state)
+                  const visibleBackendGenres = allBackendGenreData.slice(0, window.genreVisibilityState);
+                  createGenreSliders(visibleBackendGenres, contentDiv);
+                  
+                  // Disable sliders in auto mode since they're AI-provided
+                  setSliderMode(contentDiv, true);
+                  
+                  console.log(`[AI Auto] Showing ${visibleBackendGenres.length} of ${allBackendGenreData.length} backend genres`);
+                  
+                  // Store auto values and genres
+                  autoValues = {...backendValues};
+                  
+                  // Store ALL auto genre data (including hidden ones) for future restoration
+                  autoValues._allGenreData = allBackendGenreData;
+                  autoValues._genreData = visibleBackendGenres; // Currently visible ones
+                  
+                  // Store ALL manual genre data (including hidden ones) for restoration
+                  if (!manualValues._allGenreData) {
+                    manualValues._allGenreData = allCurrentManualGenres;
+                    manualValues._genreData = allCurrentManualGenres.slice(0, window.genreVisibilityState);
+                  }
+                  
+                  console.log('[AI Auto] Rebuilt UI with backend genres:', Object.keys(backendValues));
+                  console.log('[AI Auto] Auto values set:', autoValues);
+                  
+                  // Update show more link visibility
+                  updateShowMoreLink();
+                  
+                  console.log('[AI Auto] Updated sliders with backend values:', autoValues);
+                  
+                } catch (error) {
+                  console.error('[AI Auto] Error fetching genre sub-scores:', error);
+                  
+                  // Fallback to setting all sliders to 50 if backend call fails
+                  const fallbackValues = {};
+                  const handles = contentDiv.querySelectorAll('.genre-slider-handle');
+                  handles.forEach(handle => {
+                    const genre = handle.getAttribute('data-genre');
+                    fallbackValues[genre] = 50;
+                    updateSliderPosition(handle, 50);
+                  });
+                  autoValues = {...fallbackValues};
+                  
+                  // Show error message
+                  this.addErrorMessage('Failed to load AI genre suggestions. Using default values.');
+                } finally {
+                  // Restore button state
+                  aiAutoOption.textContent = 'AI auto';
+                  aiAutoOption.style.pointerEvents = 'auto';
+                }
+              }
+            }
+          });
+          
+          // Add event listener for the Confirm button (send continuation to backend)
+          confirmButton.addEventListener('click', () => {
+            // Get current slider values
+            const currentValues = getSliderValues();
+            
+            // Get currently selected mode
+            const selectedMode = manualOption.classList.contains('active') ? 'manual' : 'auto';
+            console.log('Genre preferences confirmed:', currentValues, 'Mode:', selectedMode);
+            
+            // Send current slider values and mode to backend
+            const continuationMessage = {
+              type: 'genre_confirmation',
+              content: 'User confirmed genre preferences',
+              data: {
+                values: currentValues,
+                mode: selectedMode
+              },
+              timestamp: new Date().toISOString(),
+              user_id: sessionStorage.getItem('user_id'),
+              agent_id: this.model_id
+            };
+            
+            if (this.socket && this.socket.readyState === WebSocket.OPEN) {
+              this.sendRawMessage(continuationMessage);
+              console.log('[handleGenreSubScores] Sent genre confirmation to backend:', currentValues);
+            } else {
+              console.warn('[handleGenreSubScores] Cannot send confirmation - WebSocket not connected');
+            }
+            
+            // Hide the button and disable all interactive elements after confirmation
+            disableGenreControls(mainContainer, true);
+            
+            // Reset typing indicator to show processing
+            if (this.typingIndicator) {
+              this.typingIndicator.textContent = 'AIDAR is thinking';
+            }
+          });
+          
+          // Assemble the toggle options
+          toggleOptions.appendChild(manualOption);
+          toggleOptions.appendChild(aiAutoOption);
+          toggleContainer.appendChild(toggleOptions);
+          
+          // Add toggle and confirm button to container
+          buttonContainer.appendChild(toggleContainer);
+          buttonContainer.appendChild(confirmButton);
+          
+          // Assemble everything
+          mainContainer.appendChild(contentDiv);
+          mainContainer.appendChild(legend);
+          mainContainer.appendChild(showMoreLink);
+          mainContainer.appendChild(buttonContainer);
+          messageDiv.appendChild(mainContainer);
+          
+          // Helper function to disable all genre controls
+          const disableGenreControls = (container, hideButton = false) => {
+            if (hideButton) {
+              confirmButton.style.display = 'none';
+            }
+            
+            // Disable toggle options
+            manualOption.style.pointerEvents = 'none';
+            manualOption.style.opacity = '0.7';
+            aiAutoOption.style.pointerEvents = 'none';
+            aiAutoOption.style.opacity = '0.7';
+            
+            // Disable all sliders (hides handles and shows only the progress bar)
+            const allSliders = container.querySelectorAll('.genre-slider-handle');
+            allSliders.forEach(handle => {
+              handle.style.display = 'none'; // Hide the handle/knob
+              handle.style.pointerEvents = 'none';
+            });
+            
+            const allTracks = container.querySelectorAll('.genre-slider-track');
+            allTracks.forEach(track => {
+              track.style.pointerEvents = 'none';
+            });
+            
+            // Override show more functionality to keep new sliders disabled
+            const showMoreLink = container.querySelector('.show-more-genres');
+            if (showMoreLink && !showMoreLink.dataset.overridden) {
+              showMoreLink.dataset.overridden = 'true';
+              const originalShowMore = showMoreLink.onclick;
+              showMoreLink.onclick = function() {
+                if (originalShowMore) originalShowMore.call(this);
+                
+                // Disable newly revealed sliders
+                setTimeout(() => disableGenreControls(container, false), 100);
+              };
+            }
+          };
+          
+          // If loading from history, disable all controls and hide button
+          if (message.fromHistory) {
+            disableGenreControls(mainContainer, true);
+          }
+          
+          // Add to chat and scroll
+          this.chatMessages.appendChild(messageDiv);
+          this.scrollToBottom();
+        } else {
+          this.addSystemMessage(message.content || 'Received genre sub scores information');
+        }
+      }
+
+      // Handle complete message
+      handleCompleteMessage(message) {
         console.log('[handleCompleteMessage] Received complete message');
-        this.stage = this.STAGE.NORMAL;
+        
+        // Reset cancel flag when we get completion message
+        if (this.cancelRequested) {
+          console.log('[handleCompleteMessage] Resetting cancelRequested flag');
+          this.cancelRequested = false;
+        }
+        
         this.removeTypingIndicator();
       }
       
@@ -1184,10 +1926,28 @@
       showTypingIndicator() {
         this.removeTypingIndicator();
         
+        // Update processing state
+        this.isProcessing = true;
+        
+        // Create thinking indicator
         this.typingIndicator = document.createElement('div');
         this.typingIndicator.className = 'waiting-indicator';
         this.typingIndicator.textContent = 'AIDAR is thinking';
         this.chatContainer.appendChild(this.typingIndicator);
+        
+        // Update send button to cancel button
+        if (this.sendButton) {
+          this.sendButton.classList.add('processing');
+          const sendIcon = this.sendButton.querySelector('.send-icon');
+          if (sendIcon) {
+            sendIcon.classList.add('cancel');
+          }
+        }
+        
+        // Change placeholder text
+        if (this.chatInput) {
+          this.chatInput.placeholder = 'Processing request...'; 
+        }
       }
       
       // Remove typing indicator
@@ -1195,6 +1955,23 @@
         if (this.typingIndicator) {
           this.typingIndicator.remove();
           this.typingIndicator = null;
+        }
+        
+        // Reset processing state
+        this.isProcessing = false;
+        
+        // Reset send button
+        if (this.sendButton) {
+          this.sendButton.classList.remove('processing');
+          const sendIcon = this.sendButton.querySelector('.send-icon');
+          if (sendIcon) {
+            sendIcon.classList.remove('cancel');
+          }
+        }
+        
+        // Reset chat input placeholder
+        if (this.chatInput) {
+          this.chatInput.placeholder = 'Type your message here...';
         }
       }
       
@@ -1219,7 +1996,39 @@
       
       // Helper: Scroll chat to bottom
       scrollToBottom() {
-        this.chatMessages.scrollTop = this.chatMessages.scrollHeight;
+        if (this.chatMessages) {
+          this.chatMessages.scrollTop = this.chatMessages.scrollHeight;
+        }
+      }
+      
+      // Cancel ongoing execution
+      cancelExecution() {
+        console.log('[cancelExecution] Sending cancellation request to backend');
+        
+        // Send cancel message to backend
+        if (this.socket && this.socket.readyState === WebSocket.OPEN) {
+          const cancelMessage = {
+            type: 'cancel_execution',
+            agent_id: this.model_id,
+            session_id: sessionStorage.getItem('session_id') || 'unknown',
+            user_id: sessionStorage.getItem('user_id') || 'unknown',
+            timestamp: new Date().toISOString()
+          };
+          
+          try {
+            console.log('[cancelExecution] Sending cancel message to backend:', cancelMessage);
+            this.sendRawMessage(cancelMessage);
+          } catch (error) {
+            console.error('[cancelExecution] Error sending cancel message:', error);
+            this.addErrorMessage('Failed to send cancellation request');
+          }
+        } else {
+          console.warn('[cancelExecution] WebSocket not connected, cannot send cancel message');
+          this.addErrorMessage('Cannot cancel: connection not available');
+        }
+        
+        // Clean up UI immediately for better UX
+        this.removeTypingIndicator();
       }
       
       // Helper: Escape HTML to prevent XSS
@@ -1237,9 +2046,6 @@
         try {
           // Get form element for context
           const formElement = document.querySelector('.anvil-container');
-          
-          // Call the delete_reference method on the MainIn form
-          // NOTE: This requires a corresponding method in the MainIn class
           const result = await anvil.call(formElement, 'MainIn_delete_reference', this.model_id, artistId);
           console.log('[deleteReference] Server call completed, result:', result);
           
@@ -1749,24 +2555,54 @@
       }
 
       // Event listeners for the agent sidebar
-      sendButton.addEventListener('click', (e) => {
-        e.preventDefault();
-        const message = chatInput.value.trim();
-        if (message) {
-          try {
-            console.log('[sendButton] Sending message via WebSocket manager');
-            const manager = getWebSocketManager();
-            if (manager) {
-              manager.sendMessage();
-            } else {
-              console.error('[sendButton] Failed to get WebSocket manager');
+      function initSendButtonEvents() {
+        if (sendButton) {
+          sendButton.addEventListener('click', (e) => {
+            e.preventDefault();
+            const wsManager = getWebSocketManager();
+            
+            // If processing, execute cancel directly (don't call sendMessage)
+            if (wsManager.isProcessing) {
+              wsManager.cancelExecution(); // Call cancelExecution directly
+            } else if (chatInput.value.trim()) {
+              // Only send if there's text and not processing
+              wsManager.sendMessage();
             }
-          } catch (error) {
-            console.error('[sendButton] Error sending message:', error);
-          }
+          });
         }
-      });
 
+        if (chatInput) {
+          chatInput.addEventListener('keypress', (e) => {
+            // For Enter key - ALWAYS DO NOTHING when processing
+            if (e.key === 'Enter' && !e.shiftKey) {
+              const wsManager = getWebSocketManager();
+              
+              // For processing state: prevent default and do absolutely nothing
+              if (wsManager.isProcessing) {
+                e.preventDefault();
+                e.stopPropagation(); // Prevent event bubbling
+                return; // Do nothing at all
+              }
+              
+              // Only send if there's text and not processing
+              if (chatInput.value.trim()) {
+                e.preventDefault();
+                wsManager.sendMessage();
+              }
+            }
+          });
+
+          chatInput.addEventListener('input', (e) => {
+            if (e.target.value.trim()) {
+              sendButton.classList.add('has-text');
+            } else {
+              sendButton.classList.remove('has-text');
+            }
+          });
+        }
+      }
+
+      initSendButtonEvents();
 
       // Handle input changes
       function updateSendButtonState() {
@@ -1776,27 +2612,6 @@
       }
 
       chatInput.addEventListener('input', updateSendButtonState);
-
-      // Handle Enter key to send message
-      chatInput.addEventListener('keypress', function(e) {
-        if (e.key === 'Enter' && !e.shiftKey) {
-          e.preventDefault();
-          const message = chatInput.value.trim();
-          if (message) {
-            try {
-              console.log('[AgentSidebar] Sending message via WebSocket manager (Enter key)');
-              const manager = getWebSocketManager();
-              if (manager) {
-                manager.sendMessage();
-              } else {
-                console.error('[AgentSidebar] Failed to get WebSocket manager');
-              }
-            } catch (error) {
-              console.error('[AgentSidebar] Error sending message:', error);
-            }
-          }
-        }
-      });
 
       // Initial states
       updateSendButtonState();
