@@ -987,7 +987,76 @@
           
           // Special case: Auto mode with no data - show info box instead of returning
           if (results.length === 0 && message.data.mode === 'auto') {
-            this.addSystemMessage(getAiAutoInfoMessageHTML());
+            // Create proper genre element structure
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'message genre-sub-scores';
+            
+            const mainContainer = document.createElement('div');
+            mainContainer.className = 'genre-scores-container';
+            
+            const contentDiv = document.createElement('div');
+            contentDiv.className = 'genre-scores-content';
+            contentDiv.innerHTML = getAiAutoInfoMessageHTML();
+            
+            // Create legend
+            const legend = document.createElement('div');
+            legend.className = 'genre-slider-legend';
+            legend.innerHTML = '<div class="increasing-fit">increasing fit</div>';
+            
+            // Create show more link (hidden)
+            const showMoreLink = document.createElement('a');
+            showMoreLink.textContent = 'show more genres';
+            showMoreLink.className = 'show-more-genres';
+            showMoreLink.style.display = 'none';
+            
+            // Create button container with toggle set to auto
+            const buttonContainer = document.createElement('div');
+            buttonContainer.className = 'genre-button-container';
+            
+            const toggleContainer = document.createElement('div');
+            toggleContainer.className = 'genre-toggle-container';
+            
+            const toggleOptions = document.createElement('div');
+            toggleOptions.className = 'genre-toggle-options';
+            
+            const manualOption = document.createElement('div');
+            manualOption.className = 'genre-toggle-option';
+            manualOption.textContent = 'manual';
+            
+            const aiAutoOption = document.createElement('div');
+            aiAutoOption.className = 'genre-toggle-option active';
+            aiAutoOption.textContent = 'AI auto';
+            
+            const confirmButton = document.createElement('button');
+            confirmButton.className = 'genre-button confirm-button';
+            confirmButton.textContent = 'confirm';
+            
+            // Assemble toggle options
+            toggleOptions.appendChild(manualOption);
+            toggleOptions.appendChild(aiAutoOption);
+            toggleContainer.appendChild(toggleOptions);
+            buttonContainer.appendChild(toggleContainer);
+            buttonContainer.appendChild(confirmButton);
+            
+            // Assemble everything
+            mainContainer.appendChild(contentDiv);
+            mainContainer.appendChild(legend);
+            mainContainer.appendChild(showMoreLink);
+            mainContainer.appendChild(buttonContainer);
+            messageDiv.appendChild(mainContainer);
+            
+            // Disable controls if loading from history
+            if (message.fromHistory) {
+              confirmButton.style.display = 'none';
+              manualOption.style.pointerEvents = 'none';
+              manualOption.style.opacity = '0.7';
+              aiAutoOption.style.pointerEvents = 'none';
+              aiAutoOption.style.opacity = '0.7';
+            }
+            
+            // Add to chat and scroll
+            this.chatMessages.appendChild(messageDiv);
+            this.scrollToBottom();
             return;
           }
           
