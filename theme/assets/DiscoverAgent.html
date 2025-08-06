@@ -970,9 +970,9 @@
           const results = message.data.results;
           if (results.length === 0) return;
           
-          // Store all results but initially show only the first 3
+          // Store all results but initially show only the first 5
           const allResults = [...results];
-          const visibleResults = allResults.slice(0, 3);
+          const visibleResults = allResults.slice(0, 5);
           let visibleCount = visibleResults.length; // Define visibleCount variable to track how many sliders are visible
           
           // Global variable to track visibility state across modes
@@ -1155,7 +1155,7 @@
           
           showMoreLink.addEventListener('click', () => {
             const currentModeData = getCurrentModeData();
-            const nextBatch = currentModeData.slice(visibleCount, visibleCount + 2);
+            const nextBatch = currentModeData.slice(visibleCount, visibleCount + 3);
             
             if (nextBatch.length > 0) {
               // Create new sliders for the next batch with fade-in effect
