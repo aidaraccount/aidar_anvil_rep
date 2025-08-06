@@ -1502,18 +1502,35 @@
                 } catch (error) {
                   console.error('[AI Auto] Error fetching genre sub-scores:', error);
                   
-                  // Fallback to setting all sliders to 50 if backend call fails
-                  const fallbackValues = {};
-                  const handles = contentDiv.querySelectorAll('.genre-slider-handle');
-                  handles.forEach(handle => {
-                    const genre = handle.getAttribute('data-genre');
-                    fallbackValues[genre] = 50;
-                    updateSliderPosition(handle, 50);
-                  });
-                  autoValues = {...fallbackValues};
+                  // No auto values available, clear content and show informational message instead of sliders
+                  contentDiv.innerHTML = `
+                    <div style="
+                      padding: 20px;
+                      text-align: center;
+                      color: #666;
+                      font-size: 14px;
+                      line-height: 1.5;
+                      border: 1px solid #e0e0e0;
+                      border-radius: 8px;
+                      background-color: #f9f9f9;
+                      margin: 10px 0;
+                    ">
+                      <div style="margin-bottom: 10px; font-weight: 500; color: #333;">
+                        🎵 Learning Your Musical Taste
+                      </div>
+                      <div>
+                        We weren't able to analyze your detailed musical interests yet. 
+                        Feel free to stay in AI auto mode and we will analyze your preferences 
+                        after a couple of artist ratings.
+                      </div>
+                    </div>
+                  `;
                   
-                  // Show error message
-                  this.addErrorMessage('Failed to load AI genre suggestions. Using default values.');
+                  // Set empty auto values to indicate no data available
+                  autoValues = {};
+                  
+                  // Hide the show more link since there are no sliders
+                  updateShowMoreLink();
                 } finally {
                   // Restore button state
                   aiAutoOption.textContent = 'AI auto';
