@@ -2342,9 +2342,8 @@
     manager.sendButton = document.getElementById('send-button');
 
     // Rebind event listeners with fresh DOM elements
-    if (manager.sendButton) {
-      manager.sendButton.onclick = manager.sendMessage.bind(manager);
-    }
+    // Note: Event listeners are handled by initSendButtonEvents in the agent sidebar section
+    // Do not add duplicate onclick handlers here to avoid double-firing
 
     // Update model ID if changed
     const newModelId = sessionStorage.getItem('model_id');
