@@ -277,14 +277,14 @@
         this.reconnectTimeout = null;
 
         // get model_id and url_artist_id from sessionStorage
-        const storedModelId = sessionStorage.getItem('model_id');
+        const storedModelIdRaw = sessionStorage.getItem('model_id');
         const storedUrlArtistId = sessionStorage.getItem('url_artist_id');
         
-        // If we have valid ids, use them
-        if (storedModelId && storedModelId !== 'null') {
-          this.model_id = storedModelId;
+        // If we have a valid id, use it; otherwise, generate a random model_id
+        const normalizedStoredModelId = this.normalizeId(storedModelIdRaw);
+        if (normalizedStoredModelId) {
+          this.model_id = normalizedStoredModelId;
         } else {
-          // Otherwise, generate a random model_id
           this.model_id = Math.random().toString(36).substr(2, 9);
         }
 
@@ -296,6 +296,8 @@
         
         // Use the model_id for session ID
         this.sessionId = 'session-' + this.model_id;
+        // Keep model_id in sessionStorage synchronized
+        sessionStorage.setItem('model_id', this.model_id);
         console.log('[WebSocketManager] Session ID:', this.sessionId);
         
         this.chatContainer = document.querySelector('.chat-container');
@@ -1797,7 +1799,8 @@
           await new Promise(resolve => setTimeout(resolve, 1500));
           document.querySelector('.agent-creation-statement').classList.add('agent-creation');          
           // Update sessionStorage for model_id
-          sessionStorage.setItem('model_id', message.agent_id);
+          const normalizedAgentId = this.normalizeId(message.agent_id);
+          if (normalizedAgentId) { sessionStorage.setItem('model_id', normalizedAgentId); }
           
           // Navigate to agent page
           await new Promise(resolve => setTimeout(resolve, 3000));
@@ -1847,7 +1850,8 @@
           await new Promise(resolve => setTimeout(resolve, 1500));
           document.querySelector('.agent-creation-statement').classList.add('agent-creation');          
           // Update sessionStorage for model_id
-          sessionStorage.setItem('model_id', message.agent_id);
+          const normalizedAgentId2 = this.normalizeId(message.agent_id);
+          if (normalizedAgentId2) { sessionStorage.setItem('model_id', normalizedAgentId2); }
           
           // Navigate to agent page
           await new Promise(resolve => setTimeout(resolve, 3000));
@@ -2112,6 +2116,21 @@
         return new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
       }
       
+      // Helper: Normalize an ID value to a safe non-empty string or '' if invalid
+      // 6.1: Returns '' for null/undefined/empty/"null"/"none"/"undefined" (case-insensitive), otherwise trimmed string
+      normalizeId(id) {
+        try {
+          if (id === null || id === undefined) return '';
+          const raw = String(id).trim();
+          if (raw === '') return '';
+          const lower = raw.toLowerCase();
+          if (lower === 'null' || lower === 'none' || lower === 'undefined') return '';
+          return raw;
+        } catch (e) {
+          return '';
+        }
+      }
+      
       // Helper: Scroll chat to bottom
       scrollToBottom() {
         if (this.chatMessages) {
@@ -2189,15 +2208,13 @@
                     'isConnecting:', this.isConnecting, 
                     'socket state:', this.socket ? this.socket.readyState : 'no socket');
         
-        // Handle case where newModelId is null/undefined
-        if (newModelId === null || newModelId === undefined) {
-          console.log('[updateModelId] New model ID is null/undefined, keeping existing model_id');
-          return; // Don't update if we receive a null model_id
+        // Normalize new model ID and current model ID
+        const normalizedNewModelId = this.normalizeId(newModelId);
+        if (!normalizedNewModelId) {
+          console.log('[updateModelId] New model ID is invalid (null/empty), keeping existing model_id');
+          return; // Don't update if we receive an invalid model_id
         }
-        
-        // Normalize for comparison (treat empty string and null the same)
-        const currentModelId = this.model_id || '';
-        const normalizedNewModelId = newModelId || '';
+        const currentModelId = this.normalizeId(this.model_id);
         
         if (normalizedNewModelId === currentModelId) {
           console.log('[updateModelId] Model ID unchanged, keeping existing connection');
@@ -2207,7 +2224,7 @@
         console.log('[updateModelId] Updating model ID from', currentModelId, 'to', normalizedNewModelId);
 
         // save cache model_id
-        sessionStorage.setItem("model_id", newModelId);
+        sessionStorage.setItem("model_id", normalizedNewModelId);
         
         // Set updating flag to prevent duplicate reconnections
         this.isUpdatingModelId = true;
@@ -2215,7 +2232,7 @@
         
         try {
           this.model_id = normalizedNewModelId;
-          this.sessionId = 'session-' + (normalizedNewModelId || Math.random().toString(36).substr(2, 9));
+          this.sessionId = 'session-' + this.model_id;
           
           // Get WebSocket URL using the global function
           this.wsUrl = window.getWebSocketUrl(this.sessionId);
