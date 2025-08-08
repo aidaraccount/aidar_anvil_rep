@@ -1765,6 +1765,20 @@
       async handleExtendedCreateAgent(message) {
         console.log('[handleExtendedCreateAgent] Received extended create agent message:', message);
         
+        // CRITICAL: Update model_id and session_id FIRST to ensure all subsequent operations use the correct IDs
+        if (message.agent_id && this.model_id !== message.agent_id) {
+          console.log('[handleExtendedCreateAgent] Updating model_id from', this.model_id, 'to', message.agent_id);
+          
+          // Update immediately without reconnecting WebSocket (we'll handle that separately)
+          const normalizedAgentId = this.normalizeId(message.agent_id);
+          if (normalizedAgentId) {
+            this.model_id = normalizedAgentId;
+            this.sessionId = 'session-' + this.model_id;
+            sessionStorage.setItem('model_id', normalizedAgentId);
+            console.log('[handleExtendedCreateAgent] Updated sessionId to:', this.sessionId);
+          }
+        }
+        
         // a) Set stage based on whether we have an artist_id
         if (message.artist_id && message.artist_id !== "null") {
           console.log('[handleExtendedCreateAgent] Switching to NORMAL mode since we have an artist_id:', message.artist_id);
@@ -1774,11 +1788,6 @@
           console.log('[handleExtendedCreateAgent] Staying in EXTENDED_CREATE_AGENT mode since we don\'t have an artist_id');
           console.log('-------------------------------------------------------------');
           this.stage = this.STAGE.EXTENDED_CREATE_AGENT;
-        }
-        
-        // b) Update model_id if we received a new one
-        if (message.agent_id) {
-          this.updateModelId(message.agent_id);
         }
         
         // c) Remove typing indicator
@@ -1812,6 +1821,20 @@
       async handleCreateAgent(message) {
         console.log('[handleCreateAgent] Received complete create agent message:', message);
         
+        // CRITICAL: Update model_id and session_id FIRST to ensure all subsequent operations use the correct IDs
+        if (this.model_id !== message.agent_id) {
+          console.log('[handleCreateAgent] Updating model_id from', this.model_id, 'to', message.agent_id);
+          
+          // Update immediately without reconnecting WebSocket (we'll handle that separately)
+          const normalizedAgentId = this.normalizeId(message.agent_id);
+          if (normalizedAgentId) {
+            this.model_id = normalizedAgentId;
+            this.sessionId = 'session-' + this.model_id;
+            sessionStorage.setItem('model_id', normalizedAgentId);
+            console.log('[handleCreateAgent] Updated sessionId to:', this.sessionId);
+          }
+        }
+        
         // a) update agent navigation
         this.addNewModelToNavigation({
           model_id: message.agent_id,
@@ -1825,11 +1848,6 @@
         } else {
           console.log("[handleCreateAgent] Switching to EXTENDED_CREATE_AGENT mode since we don't have an artist_id");
           this.stage = this.STAGE.EXTENDED_CREATE_AGENT;
-        }
-        
-        // c) update model_id
-        if (this.model_id !== message.agent_id) {
-          this.updateModelId(message.agent_id);
         }
         
         // d) remove typing indicator
