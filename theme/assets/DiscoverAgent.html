@@ -2799,59 +2799,6 @@
 
   // ------------------------------------------------------------
   // CREATION VIEW
-  // Make updateAgentSidebarWidth globally available
-  window.updateAgentSidebarWidth = function() {
-    const leftSidebar = document.getElementById('left-sidebar');
-    const agentSidebar = document.getElementById('agent-sidebar');
-    
-    if (leftSidebar && agentSidebar) {
-      // Check if left sidebar is visible by checking display property
-      const computedStyle = window.getComputedStyle(leftSidebar);
-      const isLeftSidebarVisible = computedStyle.display !== 'none' && leftSidebar.style.display !== 'none';
-      
-      // When in creation mode, we want different behavior:
-      // - If left sidebar is visible: agent sidebar width = 100% - 250px (normal)
-      // - If left sidebar is hidden: agent sidebar width = 100% + 250px (extended)
-      const isInCreation = agentSidebar.classList.contains('in-creation');
-      let offset;
-      
-      if (isInCreation) {
-        // In creation mode: negative offset when sidebar is hidden to extend width
-        offset = isLeftSidebarVisible ? '250px' : '-250px';
-      } else {
-        // Normal mode: standard offset behavior
-        offset = isLeftSidebarVisible ? '250px' : '0px';
-      }
-      
-      // Update CSS variable
-      document.documentElement.style.setProperty('--left-sidebar-offset', offset);
-    }
-  };
-
-  // Initialize sidebar observer
-  (function initSidebarObserver() {
-    // Only initialize once
-    if (window.sidebarObserverInitialized) return;
-    window.sidebarObserverInitialized = true;
-
-    // Initial update with a small delay to ensure DOM is ready
-    setTimeout(window.updateAgentSidebarWidth, 100);
-    
-    // Also update when the window loads in case styles aren't applied yet
-    window.addEventListener('load', window.updateAgentSidebarWidth);
-
-    // Observe left sidebar for style changes
-    const leftSidebar = document.getElementById('left-sidebar');
-    if (leftSidebar) {
-      // Create a MutationObserver to watch for style changes
-      const observer = new MutationObserver(window.updateAgentSidebarWidth);
-      observer.observe(leftSidebar, { 
-        attributes: true, 
-        attributeFilter: ['style'] 
-      });
-    }
-  })();
-
 
   // CREATE AGENT VIEW (Step 1)
   // MAKE createAgentView accessible from Python
@@ -2920,8 +2867,7 @@
         classicalCreationLink.classList.add('initial-creation');
         console.log('[createAgentView] Added initial creation class to classical creation link');
       }
-      // Update width based on left sidebar state
-      updateAgentSidebarWidth();
+
       
       console.log('[createAgentView] Added in-creation classes to all elements');
     } else {
@@ -3038,10 +2984,7 @@
         console.log('[createExtendedAgentView] Hid classical creation link');
       }
       
-      // 7. Update sidebar width and ensure proper layout
-      updateAgentSidebarWidth();
-      
-      // 8. Ensure chat is scrollable and scroll to bottom
+      // 7. Ensure chat is scrollable and scroll to bottom
       if (chatMessages) {
         // Ensure chat messages are scrollable
         chatMessages.style.overflow = 'auto';

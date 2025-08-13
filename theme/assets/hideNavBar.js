@@ -48,6 +48,9 @@ function navbar_noModel_noSubs(visible) {
     if (sidebar) {
       console.log("[NAVBAR_DEBUG] Setting sidebar display to:", visible ? "block" : "none");
       sidebar.style.display = visible ? "block" : "none";
+      
+      // Update agent sidebar width when in creation mode
+      updateAgentSidebarWidth(visible);
     } else {
       console.log("[NAVBAR_DEBUG] WARNING: Sidebar element not found!");
     }
@@ -97,6 +100,34 @@ function navbar_noModel_noSubs(visible) {
     }
   } catch (error) {
     console.error("[NAVBAR_DEBUG] Error in navbar_noModel_noSubs:", error);
+  }
+}
+
+// Function to update agent sidebar width based on left sidebar visibility
+function updateAgentSidebarWidth(isLeftSidebarVisible) {
+  const agentSidebar = document.getElementById('agent-sidebar');
+  
+  if (agentSidebar) {
+    // Check if agent sidebar is in creation mode
+    const isInCreation = agentSidebar.classList.contains('in-creation');
+    
+    if (isInCreation) {
+      // In creation mode: adjust width based on left sidebar visibility
+      // - If left sidebar is visible: agent sidebar width = 100% - 250px (normal)
+      // - If left sidebar is hidden: agent sidebar width = 100% + 250px (extended)
+      const offset = isLeftSidebarVisible ? '250px' : '-250px';
+      
+      // Update CSS variable
+      document.documentElement.style.setProperty('--left-sidebar-offset', offset);
+      
+      console.log("[NAVBAR_DEBUG] Updated agent sidebar width for creation mode. Left sidebar visible:", isLeftSidebarVisible, "Offset:", offset);
+    } else {
+      // Normal mode: standard offset behavior
+      const offset = isLeftSidebarVisible ? '250px' : '0px';
+      document.documentElement.style.setProperty('--left-sidebar-offset', offset);
+      
+      console.log("[NAVBAR_DEBUG] Updated agent sidebar width for normal mode. Left sidebar visible:", isLeftSidebarVisible, "Offset:", offset);
+    }
   }
 }
 
