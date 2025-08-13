@@ -23,6 +23,11 @@
   align-items: center;
 }
 
+/* Remove padding-bottom when in creation mode */
+#agent-sidebar.in-creation {
+  padding-bottom: 0;
+}
+
 /* When agent sidebar is open */
 #agent-sidebar.open {
   right: 0;
