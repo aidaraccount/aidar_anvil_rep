@@ -292,6 +292,31 @@
       button.style.left = '0px';
       clickGuard.style.display = 'none';
     }
+    
+    // Update agent sidebar width if in creation mode
+    updateAgentSidebarWidthForToggle();
+  }
+  
+  // Function to update agent sidebar width when nav sidebar is toggled
+  function updateAgentSidebarWidthForToggle() {
+    const agentSidebar = document.getElementById('agent-sidebar');
+    const leftSidebar = document.getElementById('left-sidebar');
+    
+    if (agentSidebar && leftSidebar) {
+      // Check if agent sidebar is in creation mode
+      const isInCreation = agentSidebar.classList.contains('in-creation');
+      
+      if (isInCreation) {
+        // Determine if left sidebar is visible based on its position
+        const isLeftSidebarVisible = leftSidebar.style.left === '0px';
+        
+        // In creation mode: adjust width based on left sidebar visibility
+        const offset = isLeftSidebarVisible ? '250px' : '-250px';
+        document.documentElement.style.setProperty('--left-sidebar-offset', offset);
+        
+        console.log('[toggleSidebar] Updated agent sidebar width for creation mode. Left sidebar visible:', isLeftSidebarVisible, 'Offset:', offset);
+      }
+    }
   }
   
   /**

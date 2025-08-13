@@ -2869,14 +2869,16 @@
       }
 
       // Initialize agent sidebar width for creation mode
-      if (window.hideNavBarLoaded && typeof updateAgentSidebarWidth === 'function') {
-        const leftSidebar = document.getElementById('left-sidebar');
-        if (leftSidebar) {
-          const computedStyle = window.getComputedStyle(leftSidebar);
-          const isVisible = computedStyle.display !== 'none' && leftSidebar.style.display !== 'none';
-          updateAgentSidebarWidth(isVisible);
-          console.log('[createAgentView] Initialized agent sidebar width. Left sidebar visible:', isVisible);
-        }
+      const leftSidebar = document.getElementById('left-sidebar');
+      if (leftSidebar) {
+        const computedStyle = window.getComputedStyle(leftSidebar);
+        const isLeftSidebarVisible = computedStyle.display !== 'none' && leftSidebar.style.display !== 'none';
+        
+        // In creation mode: negative offset when sidebar is hidden to extend width
+        const offset = isLeftSidebarVisible ? '250px' : '-250px';
+        document.documentElement.style.setProperty('--left-sidebar-offset', offset);
+        
+        console.log('[createAgentView] Set agent sidebar width for creation mode. Left sidebar visible:', isLeftSidebarVisible, 'Offset:', offset);
       }
       
       console.log('[createAgentView] Added in-creation classes to all elements');
@@ -2995,14 +2997,16 @@
       }
       
       // Initialize agent sidebar width for creation mode
-      if (window.hideNavBarLoaded && typeof updateAgentSidebarWidth === 'function') {
-        const leftSidebar = document.getElementById('left-sidebar');
-        if (leftSidebar) {
-          const computedStyle = window.getComputedStyle(leftSidebar);
-          const isVisible = computedStyle.display !== 'none' && leftSidebar.style.display !== 'none';
-          updateAgentSidebarWidth(isVisible);
-          console.log('[createExtendedAgentView] Initialized agent sidebar width. Left sidebar visible:', isVisible);
-        }
+      const leftSidebar = document.getElementById('left-sidebar');
+      if (leftSidebar) {
+        const computedStyle = window.getComputedStyle(leftSidebar);
+        const isLeftSidebarVisible = computedStyle.display !== 'none' && leftSidebar.style.display !== 'none';
+        
+        // In creation mode: negative offset when sidebar is hidden to extend width
+        const offset = isLeftSidebarVisible ? '250px' : '-250px';
+        document.documentElement.style.setProperty('--left-sidebar-offset', offset);
+        
+        console.log('[createExtendedAgentView] Set agent sidebar width for creation mode. Left sidebar visible:', isLeftSidebarVisible, 'Offset:', offset);
       }
       
       // 7. Ensure chat is scrollable and scroll to bottom
