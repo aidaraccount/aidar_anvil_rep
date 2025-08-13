@@ -705,7 +705,7 @@
 
 #agent-sidebar.in-creation .chat-container {
   margin-top: auto;
-  max-height: 400px;
+  max-height: 500px;
 }
 
 #agent-sidebar.in-creation .chat-messages {
