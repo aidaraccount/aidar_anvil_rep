@@ -260,11 +260,20 @@
 <script>
   // Define toggle function in global scope to ensure it's accessible
   function toggleSidebar() {
+    console.log('[toggleSidebar] Function called - starting sidebar toggle');
     var sidebar = document.getElementById('left-sidebar');
     var clickGuard = document.querySelector('.sidebar-click-guard');
     var content = document.querySelector('.main-content-move');
     var contentNav = document.querySelector('.main-content-move-nav');
     var button = document.getElementById('nav-button');
+    
+    console.log('[toggleSidebar] Elements found:', {
+      sidebar: !!sidebar,
+      clickGuard: !!clickGuard,
+      content: !!content,
+      contentNav: !!contentNav,
+      button: !!button
+    });
     
     // Try direct style manipulation instead of class toggling
     if (sidebar.style.left === '-250px' || sidebar.style.left === '-200px' || sidebar.style.left === '') {
@@ -299,23 +308,35 @@
   
   // Function to update agent sidebar width when nav sidebar is toggled
   function updateAgentSidebarWidthForToggle() {
+    console.log('[updateAgentSidebarWidthForToggle] Function called');
     const agentSidebar = document.getElementById('agent-sidebar');
     const leftSidebar = document.getElementById('left-sidebar');
+    
+    console.log('[updateAgentSidebarWidthForToggle] Elements found:', {
+      agentSidebar: !!agentSidebar,
+      leftSidebar: !!leftSidebar
+    });
     
     if (agentSidebar && leftSidebar) {
       // Check if agent sidebar is in creation mode
       const isInCreation = agentSidebar.classList.contains('in-creation');
+      console.log('[updateAgentSidebarWidthForToggle] Agent sidebar in creation mode:', isInCreation);
       
       if (isInCreation) {
         // Determine if left sidebar is visible based on its position
         const isLeftSidebarVisible = leftSidebar.style.left === '0px';
+        console.log('[updateAgentSidebarWidthForToggle] Left sidebar position:', leftSidebar.style.left, 'Visible:', isLeftSidebarVisible);
         
         // In creation mode: adjust width based on left sidebar visibility
         const offset = isLeftSidebarVisible ? '250px' : '-250px';
         document.documentElement.style.setProperty('--left-sidebar-offset', offset);
         
-        console.log('[toggleSidebar] Updated agent sidebar width for creation mode. Left sidebar visible:', isLeftSidebarVisible, 'Offset:', offset);
+        console.log('[updateAgentSidebarWidthForToggle] Updated agent sidebar width for creation mode. Left sidebar visible:', isLeftSidebarVisible, 'Offset:', offset);
+      } else {
+        console.log('[updateAgentSidebarWidthForToggle] Agent sidebar not in creation mode, skipping width adjustment');
       }
+    } else {
+      console.log('[updateAgentSidebarWidthForToggle] Required elements not found, skipping width adjustment');
     }
   }
   
