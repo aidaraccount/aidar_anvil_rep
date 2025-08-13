@@ -2805,10 +2805,23 @@
     const agentSidebar = document.getElementById('agent-sidebar');
     
     if (leftSidebar && agentSidebar) {
-      // Get computed style to handle initial state
+      // Check if left sidebar is visible by checking display property
       const computedStyle = window.getComputedStyle(leftSidebar);
-      const isLeftSidebarOpen = computedStyle.left === '0px' || leftSidebar.style.left === '0px';
-      const offset = isLeftSidebarOpen ? '250px' : '0px';
+      const isLeftSidebarVisible = computedStyle.display !== 'none' && leftSidebar.style.display !== 'none';
+      
+      // When in creation mode, we want different behavior:
+      // - If left sidebar is visible: agent sidebar width = 100% - 250px (normal)
+      // - If left sidebar is hidden: agent sidebar width = 100% + 250px (extended)
+      const isInCreation = agentSidebar.classList.contains('in-creation');
+      let offset;
+      
+      if (isInCreation) {
+        // In creation mode: negative offset when sidebar is hidden to extend width
+        offset = isLeftSidebarVisible ? '250px' : '-250px';
+      } else {
+        // Normal mode: standard offset behavior
+        offset = isLeftSidebarVisible ? '250px' : '0px';
+      }
       
       // Update CSS variable
       document.documentElement.style.setProperty('--left-sidebar-offset', offset);
