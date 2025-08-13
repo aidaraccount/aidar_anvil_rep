@@ -131,6 +131,22 @@ function updateAgentSidebarWidth(isLeftSidebarVisible) {
   }
 }
 
+// Initialize agent sidebar width on page load
+function initializeAgentSidebarWidth() {
+  const leftSidebar = document.getElementById('left-sidebar');
+  if (leftSidebar) {
+    const computedStyle = window.getComputedStyle(leftSidebar);
+    const isVisible = computedStyle.display !== 'none' && leftSidebar.style.display !== 'none';
+    updateAgentSidebarWidth(isVisible);
+    console.log("[NAVBAR_DEBUG] Initialized agent sidebar width. Left sidebar visible:", isVisible);
+  }
+}
+
+// Call initialization when DOM is ready
+document.addEventListener('DOMContentLoaded', initializeAgentSidebarWidth);
+// Also call on window load as backup
+window.addEventListener('load', initializeAgentSidebarWidth);
+
 // Set a global flag to indicate this script is loaded
 window.hideNavBarLoaded = true;
 console.log("[NAVBAR_DEBUG] hideNavBar.js loaded and initialized");

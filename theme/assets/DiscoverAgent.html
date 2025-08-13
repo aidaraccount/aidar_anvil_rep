@@ -2868,6 +2868,16 @@
         console.log('[createAgentView] Added initial creation class to classical creation link');
       }
 
+      // Initialize agent sidebar width for creation mode
+      if (window.hideNavBarLoaded && typeof updateAgentSidebarWidth === 'function') {
+        const leftSidebar = document.getElementById('left-sidebar');
+        if (leftSidebar) {
+          const computedStyle = window.getComputedStyle(leftSidebar);
+          const isVisible = computedStyle.display !== 'none' && leftSidebar.style.display !== 'none';
+          updateAgentSidebarWidth(isVisible);
+          console.log('[createAgentView] Initialized agent sidebar width. Left sidebar visible:', isVisible);
+        }
+      }
       
       console.log('[createAgentView] Added in-creation classes to all elements');
     } else {
@@ -2982,6 +2992,17 @@
       if (classicalCreationLink) {
         classicalCreationLink.classList.remove('initial-creation');
         console.log('[createExtendedAgentView] Hid classical creation link');
+      }
+      
+      // Initialize agent sidebar width for creation mode
+      if (window.hideNavBarLoaded && typeof updateAgentSidebarWidth === 'function') {
+        const leftSidebar = document.getElementById('left-sidebar');
+        if (leftSidebar) {
+          const computedStyle = window.getComputedStyle(leftSidebar);
+          const isVisible = computedStyle.display !== 'none' && leftSidebar.style.display !== 'none';
+          updateAgentSidebarWidth(isVisible);
+          console.log('[createExtendedAgentView] Initialized agent sidebar width. Left sidebar visible:', isVisible);
+        }
       }
       
       // 7. Ensure chat is scrollable and scroll to bottom
