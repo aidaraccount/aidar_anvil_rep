@@ -306,6 +306,7 @@
         this.sendButton = document.getElementById('send-button');
         this.typingIndicator = null;
         this.messageQueue = [];
+        this.lastRequestIdByAgent = {};
         this.isConnected = false;
         this.wasConnectedBeforeError = false;
         this.reconnectAttempts = 0;
@@ -636,12 +637,26 @@
 
           // --------------------------
           // Prepare message
+          // Map stage to backend message type
+          let outboundType = 'query';
+          if (this.stage === this.STAGE.CREATE_AGENT) outboundType = 'create_agent';
+          else if (this.stage === this.STAGE.EXTENDED_CREATE_AGENT) outboundType = 'extended_create_agent';
+          else if (this.stage === this.STAGE.NORMAL) outboundType = 'query';
+
+          // Generate request_id for strict pairing
+          const requestId = (this.generateRequestId && this.generateRequestId()) || (Date.now().toString(36) + Math.random().toString(36).slice(2));
+
+          // Track last request per agent for optional targeted cancellation
+          this.lastRequestIdByAgent = this.lastRequestIdByAgent || {};
+          this.lastRequestIdByAgent[this.model_id] = requestId;
+
           const messageData = {
-            type: this.stage,
+            type: outboundType,
             content: message,
             timestamp: new Date().toISOString(),
             user_id: sessionStorage.getItem('user_id'),
-            agent_id: this.model_id
+            agent_id: this.model_id,
+            request_id: requestId
           };
           
           console.log('[sendMessage] Prepared message:', messageData);
@@ -683,7 +698,8 @@
             type: enforced.type,
             agent_id: enforced.agent_id,
             session_id: enforced.session_id,
-            stage: enforced.stage
+            stage: enforced.stage,
+            request_id: enforced.request_id
           });
           this.socket.send(JSON.stringify(enforced));
         } catch (error) {
@@ -700,6 +716,15 @@
           const message = JSON.parse(event.data);
           console.log('[handleMessage] Received message:', message);
           
+          // During creation stages, suppress all messages except create acknowledgements and errors
+          if (this.stage === this.STAGE.CREATE_AGENT || this.stage === this.STAGE.EXTENDED_CREATE_AGENT) {
+            const allowedTypes = new Set(['create_agent', 'extended_create_agent', 'error']);
+            if (!allowedTypes.has(message.type)) {
+              console.log(`[handleMessage] Discarded during creation stage (${this.stage}). type=${message.type}, agent_id=${message.agent_id}, session_id=${message.session_id}`);
+              return;
+            }
+          }
+
           // Filter messages based on current model_id to prevent old agent messages from showing in new agent UI
           // This allows background operations to continue while ensuring UI shows only relevant messages
           // 1) Filter by session_id when present
@@ -1800,10 +1825,16 @@
           const normalizedAgentId = this.normalizeId(message.agent_id);
           if (normalizedAgentId) {
             this.model_id = normalizedAgentId;
-            this.sessionId = 'session-' + this.model_id;
+            this.sessionId = message.session_id ? message.session_id : ('session-' + this.model_id);
             sessionStorage.setItem('model_id', normalizedAgentId);
             console.log('[handleExtendedCreateAgent] Updated sessionId to:', this.sessionId);
           }
+        }
+        // Track request_id from ack for targeted cancellation and pairing
+        if (message.request_id) {
+          this.lastRequestIdByAgent = this.lastRequestIdByAgent || {};
+          this.lastRequestIdByAgent[this.model_id] = message.request_id;
+          console.log('[handleExtendedCreateAgent] Stored request_id for agent', this.model_id, '->', message.request_id);
         }
         
         // a) Set stage based on whether we have an artist_id
@@ -1856,11 +1887,19 @@
           const normalizedAgentId = this.normalizeId(message.agent_id);
           if (normalizedAgentId) {
             this.model_id = normalizedAgentId;
-            this.sessionId = 'session-' + this.model_id;
+            this.sessionId = message.session_id ? message.session_id : ('session-' + this.model_id);
             sessionStorage.setItem('model_id', normalizedAgentId);
             console.log('[handleCreateAgent] Updated sessionId to:', this.sessionId);
           }
         }
+        // Track request_id from ack for targeted cancellation and pairing
+        if (message.request_id) {
+          this.lastRequestIdByAgent = this.lastRequestIdByAgent || {};
+          this.lastRequestIdByAgent[this.model_id] = message.request_id;
+          console.log('[handleCreateAgent] Stored request_id for agent', this.model_id, '->', message.request_id);
+        }
+
+      
         
         // a) update agent navigation
         this.addNewModelToNavigation({
@@ -2211,10 +2250,12 @@
         
         // Send cancel message to backend
         if (this.socket && this.socket.readyState === WebSocket.OPEN) {
+          const rid = (this.lastRequestIdByAgent && this.lastRequestIdByAgent[this.model_id]) || undefined;
           const cancelMessage = {
             type: 'cancel_execution',
             agent_id: this.model_id,
             user_id: sessionStorage.getItem('user_id') || 'unknown',
+            request_id: rid,
             timestamp: new Date().toISOString()
           };
           
