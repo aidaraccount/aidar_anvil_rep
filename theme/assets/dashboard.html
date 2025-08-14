@@ -299,20 +299,18 @@
    * Controls visibility of sidebar based on URL hash.
    */
   function handleSpecialNavStates() {
-    var sidebar = document.getElementById('left-sidebar');
-    var button = document.getElementById('nav-button');
-    var content = document.querySelector('.main-content-move');
-    var contentNav = document.querySelector('.main-content-move-nav');
     var currentHash = window.location.hash;
-
+    
     if (currentHash === '#no_subs' || currentHash === '#no_model') {
-        sidebar.style.display = 'none';
-        button.style.display = 'none';
-        content.classList.remove('shifted');
-        contentNav.classList.remove('shifted');
+        // Hide sidebar using optimized function
+        if (typeof navbar_noModel_noSubs === 'function') {
+          navbar_noModel_noSubs(false);
+        }
     } else {
-        sidebar.style.display = 'block';
-        button.style.display = 'block';
+        // Show sidebar using optimized function
+        if (typeof navbar_noModel_noSubs === 'function') {
+          navbar_noModel_noSubs(true);
+        }
     }
   }
   
@@ -414,12 +412,6 @@
         e.stopPropagation();
         e.preventDefault();
       }, true); // Use capturing to get the event first
-    }
-    
-    // Check URL hash on page load and set initial state
-    var currentHash = window.location.hash;
-    if (currentHash === '#no_subs' || currentHash === '#no_model') {
-      navbar_noModel_noSubs(false);
     }
     
     // Add event listeners to all links inside the sidebar to auto-close on mobile
