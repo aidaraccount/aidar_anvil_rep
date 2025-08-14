@@ -301,9 +301,13 @@
   function handleSpecialNavStates() {
     var currentHash = window.location.hash;
     console.log('[handleSpecialNavStates] Current hash:', currentHash);
+    console.log('[handleSpecialNavStates] Current hash without #:', currentHash.substring(1));
     console.log('[handleSpecialNavStates] navbar_noModel_noSubs available:', typeof navbar_noModel_noSubs);
     
-    if (currentHash === '#no_subs' || currentHash === '#no_model') {
+    // Check both with and without # symbol for robustness
+    var hashWithoutSymbol = currentHash.substring(1);
+    if (currentHash === '#no_subs' || currentHash === '#no_model' || 
+        hashWithoutSymbol === 'no_subs' || hashWithoutSymbol === 'no_model') {
         // Hide sidebar using optimized function
         if (typeof navbar_noModel_noSubs === 'function') {
           console.log('[handleSpecialNavStates] Calling navbar_noModel_noSubs(false)');
