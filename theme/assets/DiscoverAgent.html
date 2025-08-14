@@ -2844,6 +2844,9 @@
     // Also update when the window loads in case styles aren't applied yet
     window.addEventListener('load', window.updateAgentSidebarWidth);
 
+    // Update on window resize to handle breakpoint width changes (mobile/desktop)
+    window.addEventListener('resize', window.updateAgentSidebarWidth);
+
     // Observe left sidebar for style changes
     const leftSidebar = document.getElementById('left-sidebar');
     if (leftSidebar) {
