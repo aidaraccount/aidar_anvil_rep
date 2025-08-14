@@ -300,16 +300,58 @@
    */
   function handleSpecialNavStates() {
     var currentHash = window.location.hash;
+    console.log('[handleSpecialNavStates] Current hash:', currentHash);
+    console.log('[handleSpecialNavStates] navbar_noModel_noSubs available:', typeof navbar_noModel_noSubs);
     
     if (currentHash === '#no_subs' || currentHash === '#no_model') {
         // Hide sidebar using optimized function
         if (typeof navbar_noModel_noSubs === 'function') {
+          console.log('[handleSpecialNavStates] Calling navbar_noModel_noSubs(false)');
           navbar_noModel_noSubs(false);
+        } else {
+          console.warn('[handleSpecialNavStates] navbar_noModel_noSubs not available, retrying in 100ms');
+          // Retry mechanism for timing issues
+          setTimeout(function() {
+            if (typeof navbar_noModel_noSubs === 'function') {
+              console.log('[handleSpecialNavStates] Retry successful, calling navbar_noModel_noSubs(false)');
+              navbar_noModel_noSubs(false);
+            } else {
+              console.warn('[handleSpecialNavStates] Retry failed, using fallback DOM manipulation');
+              // Fallback to direct DOM manipulation
+              var sidebar = document.getElementById('left-sidebar');
+              var button = document.getElementById('nav-button');
+              var content = document.querySelector('.main-content-move');
+              var contentNav = document.querySelector('.main-content-move-nav');
+              
+              if (sidebar) sidebar.style.display = 'none';
+              if (button) button.style.display = 'none';
+              if (content) content.style.marginLeft = '0px';
+              if (contentNav) contentNav.style.marginLeft = '0px';
+            }
+          }, 100);
         }
     } else {
         // Show sidebar using optimized function
         if (typeof navbar_noModel_noSubs === 'function') {
+          console.log('[handleSpecialNavStates] Calling navbar_noModel_noSubs(true)');
           navbar_noModel_noSubs(true);
+        } else {
+          console.warn('[handleSpecialNavStates] navbar_noModel_noSubs not available for show, retrying in 100ms');
+          // Retry mechanism for timing issues
+          setTimeout(function() {
+            if (typeof navbar_noModel_noSubs === 'function') {
+              console.log('[handleSpecialNavStates] Retry successful, calling navbar_noModel_noSubs(true)');
+              navbar_noModel_noSubs(true);
+            } else {
+              console.warn('[handleSpecialNavStates] Retry failed, using fallback DOM manipulation');
+              // Fallback to direct DOM manipulation
+              var sidebar = document.getElementById('left-sidebar');
+              var button = document.getElementById('nav-button');
+              
+              if (sidebar) sidebar.style.display = 'block';
+              if (button) button.style.display = 'block';
+            }
+          }, 100);
         }
     }
   }

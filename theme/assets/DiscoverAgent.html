@@ -2475,14 +2475,17 @@
   }
 
 
-  // Notes Sidebar
-  if(typeof sidebar === 'undefined') {
-    const sidebar = document.getElementById('right-sidebar');
-    const button = document.getElementById('sidebar-button');
-    // const mainContent = document.querySelector('.main-content-move');
-    const mainContent = document.querySelector('.discover_self');
-    const agentSidebar = document.getElementById('agent-sidebar');
-    const agentButton = document.getElementById('agent-sidebar-button');
+  // Notes Sidebar - Fix scoping issue
+  let sidebar, button, mainContent, agentSidebar, agentButton;
+  
+  if(typeof window.sidebarInitialized === 'undefined') {
+    sidebar = document.getElementById('right-sidebar');
+    button = document.getElementById('sidebar-button');
+    mainContent = document.querySelector('.discover_self');
+    agentSidebar = document.getElementById('agent-sidebar');
+    agentButton = document.getElementById('agent-sidebar-button');
+    
+    window.sidebarInitialized = true;
 
     function updateMargins() {
       const notesOpen = sidebar.classList.contains('open');
