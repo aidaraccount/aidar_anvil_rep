@@ -718,7 +718,7 @@
           
           // During creation stages, suppress all messages except create acknowledgements and errors
           if (this.stage === this.STAGE.CREATE_AGENT || this.stage === this.STAGE.EXTENDED_CREATE_AGENT) {
-            const allowedTypes = new Set(['create_agent', 'extended_create_agent', 'error']);
+            const allowedTypes = new Set(['create_agent', 'extended_create_agent', 'error', 'cancellation_confirmed']);
             if (!allowedTypes.has(message.type)) {
               console.log(`[handleMessage] Discarded during creation stage (${this.stage}). type=${message.type}, agent_id=${message.agent_id}, session_id=${message.session_id}`);
               return;
@@ -757,6 +757,18 @@
             case 'complete':
               this.handleCompleteMessage(message);
               break;
+            case 'normal':
+            case 'message':
+            case 'response':
+            case 'agent_message':
+            case 'agent_text':
+              // Backend may send simple agent text under these types
+              if (typeof message.content === 'string' && message.content.trim().length > 0) {
+                this.addAgentMessage(message.content);
+              } else {
+                console.warn('[handleMessage] Received', message.type, 'without content');
+              }
+              break;
             case 'cancellation_confirmed':
               this.handleCancellationConfirmed(message);
               break;
@@ -784,7 +796,12 @@
             
             default:
               console.warn('[handleMessage] Unknown message type:', message.type);
-              this.addSystemMessage(`Received unknown message type: ${message.type}`);
+              // Fallback: if content is a string, show it to avoid losing messages silently
+              if (typeof message.content === 'string' && message.content.trim().length > 0) {
+                this.addAgentMessage(message.content);
+              } else {
+                this.addSystemMessage(`Received unknown message type: ${message.type}`);
+              }
           }
         } catch (error) {
           console.error('[handleMessage] Error handling message:', error);
