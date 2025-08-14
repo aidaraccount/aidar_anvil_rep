@@ -258,6 +258,9 @@
 </div>    
 
 <script>
+  // Minimal debug to verify script execution
+  console.log('[DASHBOARD] Script executing...');
+  
   // Define toggle function in global scope to ensure it's accessible
   function toggleSidebar() {
     var sidebar = document.getElementById('left-sidebar');
@@ -301,51 +304,12 @@
   function handleSpecialNavStates() {
     var currentHash = window.location.hash;
     
-    // Check both with and without # symbol for robustness
-    var hashWithoutSymbol = currentHash.substring(1);
-    if (currentHash === '#no_subs' || currentHash === '#no_model' || 
-        hashWithoutSymbol === 'no_subs' || hashWithoutSymbol === 'no_model') {
+    if (currentHash === '#no_subs' || currentHash === '#no_model') {
         // Hide sidebar using optimized function
-        if (typeof navbar_noModel_noSubs === 'function') {
-          navbar_noModel_noSubs(false);
-        } else {
-          // Retry mechanism for timing issues
-          setTimeout(function() {
-            if (typeof navbar_noModel_noSubs === 'function') {
-              navbar_noModel_noSubs(false);
-            } else {
-              // Fallback to direct DOM manipulation
-              var sidebar = document.getElementById('left-sidebar');
-              var button = document.getElementById('nav-button');
-              var content = document.querySelector('.main-content-move');
-              var contentNav = document.querySelector('.main-content-move-nav');
-              
-              if (sidebar) sidebar.style.display = 'none';
-              if (button) button.style.display = 'none';
-              if (content) content.style.marginLeft = '0px';
-              if (contentNav) contentNav.style.marginLeft = '0px';
-            }
-          }, 100);
-        }
+        navbar_noModel_noSubs(false);
     } else {
-        // Show sidebar using optimized function
-        if (typeof navbar_noModel_noSubs === 'function') {
-          navbar_noModel_noSubs(true);
-        } else {
-          // Retry mechanism for timing issues
-          setTimeout(function() {
-            if (typeof navbar_noModel_noSubs === 'function') {
-              navbar_noModel_noSubs(true);
-            } else {
-              // Fallback to direct DOM manipulation
-              var sidebar = document.getElementById('left-sidebar');
-              var button = document.getElementById('nav-button');
-              
-              if (sidebar) sidebar.style.display = 'block';
-              if (button) button.style.display = 'block';
-            }
-          }, 100);
-        }
+        // Show sidebar using optimized function  
+        navbar_noModel_noSubs(true);
     }
   }
   
