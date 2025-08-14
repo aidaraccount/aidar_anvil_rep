@@ -742,10 +742,16 @@
             console.log(`[handleMessage] Discarded message due to session_id mismatch. Current: ${this.sessionId}, Message: ${message.session_id}`);
             return;
           }
-          // 2) Filter by agent_id when present
+          // 2) Filter by agent_id when present, but allow create_agent messages to update the model_id
           if (message.agent_id && this.model_id && message.agent_id !== this.model_id) {
-            console.log(`[handleMessage] Discarded message due to agent_id mismatch. Current: ${this.model_id}, Message: ${message.agent_id}`);
-            return; // Don't process messages from different agents
+            // Allow create_agent and extended_create_agent messages through so they can update model_id
+            const agentUpdateTypes = new Set(['create_agent', 'extended_create_agent']);
+            if (!agentUpdateTypes.has(message.type)) {
+              console.log(`[handleMessage] Discarded message due to agent_id mismatch. Current: ${this.model_id}, Message: ${message.agent_id}`);
+              return; // Don't process messages from different agents
+            } else {
+              console.log(`[handleMessage] Allowing ${message.type} through agent_id filter to update model_id from ${this.model_id} to ${message.agent_id}`);
+            }
           }
           
           // Route messages to appropriate handlers
