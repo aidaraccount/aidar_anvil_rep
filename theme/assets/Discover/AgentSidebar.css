@@ -706,6 +706,9 @@
 #agent-sidebar.in-creation .chat-container {
   margin-top: auto;
   max-height: 500px;
+  /* Fill full available width in creation mode */
+  width: 100%;
+  max-width: none;
 }
 
 #agent-sidebar.in-creation .chat-messages {
@@ -716,6 +719,9 @@
   margin-bottom: auto;
   background: none;
   border-top: none;
+  /* Fill full available width in creation mode */
+  width: 100%;
+  max-width: none;
 }
 
 #agent-sidebar-button.in-creation {

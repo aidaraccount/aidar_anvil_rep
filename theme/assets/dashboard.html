@@ -414,6 +414,9 @@
             clickGuard.style.display = 'block';
           }
         }
+
+        // Update agent sidebar width immediately if available (creation mode support)
+        if (window.updateAgentSidebarWidth) { window.updateAgentSidebarWidth(); }
         
         // Prevent event from bubbling up to potential Anvil handlers
         e.stopPropagation();
@@ -441,6 +444,8 @@
             contentNav.style.marginLeft = '0px';
             navButton.style.left = '0px';
             if (clickGuard) clickGuard.style.display = 'none';
+            // Update agent sidebar width immediately if available (creation mode support)
+            if (window.updateAgentSidebarWidth) { window.updateAgentSidebarWidth(); }
           }
         });
       });
