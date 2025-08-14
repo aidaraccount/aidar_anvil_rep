@@ -21,11 +21,12 @@ background: linear-gradient(to bottom right, rgb(31, 11, 59), rgba(250, 250, 250
 }
 
 .anvil-role-icon-link-discreet {
-  opacity: 0;
-  transition: opacity 0.2s ease-in-out;
+  display: none;
 }
 .anvil-role-nav_flow_panel:hover .anvil-role-icon-link-discreet {
+  display: inline-block;
   opacity: 0.4;
+  transition: opacity 0.2s ease-in-out;
 }
 .anvil-role-icon-link-discreet:hover {
   opacity: 1;
