@@ -2475,16 +2475,25 @@
   }
 
 
-  // Notes Sidebar - Fix scoping issue
+  // Notes Sidebar - Fix scoping and initialization issue
   let sidebar, button, mainContent, agentSidebar, agentButton;
   
+  // Always initialize elements (don't rely on window.sidebarInitialized for element queries)
+  sidebar = document.getElementById('right-sidebar');
+  button = document.getElementById('sidebar-button');
+  mainContent = document.querySelector('.discover_self');
+  agentSidebar = document.getElementById('agent-sidebar');
+  agentButton = document.getElementById('agent-sidebar-button');
+  
+  console.log('[DiscoverAgent] Sidebar elements found:', {
+    sidebar: !!sidebar,
+    button: !!button,
+    mainContent: !!mainContent,
+    agentSidebar: !!agentSidebar,
+    agentButton: !!agentButton
+  });
+  
   if(typeof window.sidebarInitialized === 'undefined') {
-    sidebar = document.getElementById('right-sidebar');
-    button = document.getElementById('sidebar-button');
-    mainContent = document.querySelector('.discover_self');
-    agentSidebar = document.getElementById('agent-sidebar');
-    agentButton = document.getElementById('agent-sidebar-button');
-    
     window.sidebarInitialized = true;
 
     function updateMargins() {

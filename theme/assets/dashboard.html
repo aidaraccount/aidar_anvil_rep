@@ -258,6 +258,11 @@
 </div>    
 
 <script>
+  // CRITICAL DEBUG: Test if dashboard.html script is loading at all
+  console.log('[DASHBOARD] *** SCRIPT LOADING TEST - dashboard.html JavaScript is executing ***');
+  console.log('[DASHBOARD] Current URL:', window.location.href);
+  console.log('[DASHBOARD] Current hash:', window.location.hash);
+  
   // Define toggle function in global scope to ensure it's accessible
   function toggleSidebar() {
     var sidebar = document.getElementById('left-sidebar');
@@ -365,11 +370,20 @@
    * Sets up event listeners and initial state.
    */
   function initializeNavigation() {
+    console.log('[DASHBOARD] initializeNavigation() called');
     var button = document.getElementById('nav-button');
     var clickGuard = document.querySelector('.sidebar-click-guard');
     var sidebar = document.getElementById('left-sidebar');
     var content = document.querySelector('.main-content-move');
     var contentNav = document.querySelector('.main-content-move-nav');
+    
+    console.log('[DASHBOARD] Elements found:', {
+      button: !!button,
+      clickGuard: !!clickGuard, 
+      sidebar: !!sidebar,
+      content: !!content,
+      contentNav: !!contentNav
+    });
     
     // Add event listeners
     button.addEventListener('click', function(e) {
@@ -388,9 +402,12 @@
     }
     
     // Initialize special nav states
+    console.log('[DASHBOARD] About to call handleSpecialNavStates()');
     handleSpecialNavStates();
+    console.log('[DASHBOARD] handleSpecialNavStates() call completed');
     
     // Listen for hash changes
+    console.log('[DASHBOARD] Adding hashchange event listener');
     window.addEventListener('hashchange', handleSpecialNavStates);
     
     // Handle resize events
@@ -403,6 +420,7 @@
 
   // Initialize when DOM is ready
   document.addEventListener('DOMContentLoaded', function() {
+    console.log('[DASHBOARD] DOMContentLoaded event fired, calling initializeNavigation()');
     initializeNavigation();
   });
 </script>
