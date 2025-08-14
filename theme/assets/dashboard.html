@@ -422,12 +422,21 @@
   }
 
   // Initialize when DOM is ready
-  console.log('[DASHBOARD] About to add DOMContentLoaded event listener...');
-  document.addEventListener('DOMContentLoaded', function() {
-    console.log('[DASHBOARD] DOMContentLoaded event fired, calling initializeNavigation()');
+  console.log('[DASHBOARD] About to check DOM ready state...');
+  console.log('[DASHBOARD] Document ready state:', document.readyState);
+  
+  if (document.readyState === 'loading') {
+    // DOM is still loading, wait for DOMContentLoaded
+    console.log('[DASHBOARD] DOM still loading, adding DOMContentLoaded event listener...');
+    document.addEventListener('DOMContentLoaded', function() {
+      console.log('[DASHBOARD] DOMContentLoaded event fired, calling initializeNavigation()');
+      initializeNavigation();
+    });
+  } else {
+    // DOM is already loaded, call immediately
+    console.log('[DASHBOARD] DOM already loaded, calling initializeNavigation() immediately');
     initializeNavigation();
-  });
-  console.log('[DASHBOARD] DOMContentLoaded event listener added successfully');
+  }
 </script>
 
 <!-- Wait for page load to ensure all Anvil components are fully initialized -->
