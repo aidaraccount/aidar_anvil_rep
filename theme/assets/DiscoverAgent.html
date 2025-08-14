@@ -1980,8 +1980,8 @@
           flowPanel.appendChild(flowGutter);
           listItem.appendChild(flowPanel);
           
-          // 11. Add the new model as the last item in the list
-          linearPanel.appendChild(listItem);
+          // 11. Add the new model as the first item in the list
+          linearPanel.insertBefore(listItem, linearPanel.firstChild.nextSibling);
           
           // 12. Add underline to the newly added link and remove from others
           console.log('[addNewModelToNavigation] Adding underline to the newly added link and removing from others');
