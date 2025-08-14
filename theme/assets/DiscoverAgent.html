@@ -2652,10 +2652,13 @@
       // Initial scroll to bottom
       scrollToBottom();
 
+      // Initialize scrollObserver variable in proper scope
+      let scrollObserver = null;
+      
       // Scroll to bottom when content changes
       if (chatMessages) {
         let isScrolling = false;
-        const scrollObserver = new MutationObserver(() => {
+        scrollObserver = new MutationObserver(() => {
             if (!isScrolling) {
               isScrolling = true;
               // Small delay to ensure DOM is updated
@@ -2665,7 +2668,6 @@
               });
             }
           });
-
 
           // Observe chat messages for changes
           scrollObserver.observe(chatMessages, { childList: true, subtree: true });
@@ -2778,7 +2780,9 @@
 
       // Clean up on unload
       window.addEventListener('beforeunload', () => {
-          scrollObserver.disconnect();
+          if (scrollObserver) {
+            scrollObserver.disconnect();
+          }
         window.removeEventListener('resize', scrollToBottom);
       });
     }
