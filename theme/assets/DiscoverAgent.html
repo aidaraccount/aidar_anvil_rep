@@ -403,10 +403,12 @@
                 break;
 
               case 'query':
+              case 'create_agent':
+              case 'extended_create_agent':
                 // For text messages, use direction to determine if it's from user or system
                 if (msg.direction === 'in') {
                   this.addUserMessage(msg.content || '');
-                } else {
+                } else if (msg.direction === 'out') {
                   this.addAgentMessage(msg.content || '');
                 }
                 break;
@@ -448,7 +450,14 @@
                 
               default:
                 console.warn('[loadMessageHistory] Unknown message type:', msg.type, msg);
-                this.addSystemMessage(msg.content || JSON.stringify(msg));
+                // For unknown types, still check direction to avoid showing user messages as system messages
+                if (msg.direction === 'in' && msg.content) {
+                  this.addUserMessage(msg.content);
+                } else if (msg.direction === 'out' && msg.content) {
+                  this.addAgentMessage(msg.content);
+                } else if (msg.content) {
+                  this.addSystemMessage(msg.content);
+                }
             }
           });
           
@@ -716,11 +725,12 @@
           const message = JSON.parse(event.data);
           console.log('[handleMessage] Received message:', message);
           
-          // During creation stages, suppress all messages except create acknowledgements and errors
+          // During creation stages, show all messages except potentially problematic ones
           if (this.stage === this.STAGE.CREATE_AGENT || this.stage === this.STAGE.EXTENDED_CREATE_AGENT) {
-            const allowedTypes = new Set(['create_agent', 'extended_create_agent', 'error', 'cancellation_confirmed']);
-            if (!allowedTypes.has(message.type)) {
-              console.log(`[handleMessage] Discarded during creation stage (${this.stage}). type=${message.type}, agent_id=${message.agent_id}, session_id=${message.session_id}`);
+            // Only exclude message types that could cause UI issues or confusion during creation
+            const excludedTypes = new Set(['complete']); // 'complete' might be sent prematurely during creation
+            if (excludedTypes.has(message.type)) {
+              console.log(`[handleMessage] Excluded during creation stage (${this.stage}). type=${message.type}, agent_id=${message.agent_id}, session_id=${message.session_id}`);
               return;
             }
           }
@@ -1907,6 +1917,13 @@
             this.sessionId = message.session_id ? message.session_id : ('session-' + this.model_id);
             sessionStorage.setItem('model_id', normalizedAgentId);
             console.log('[handleCreateAgent] Updated sessionId to:', this.sessionId);
+            
+            // IMPORTANT: Also update the lastRequestIdByAgent mapping for the new agent_id
+            if (this.lastRequestIdByAgent && message.request_id) {
+              // Transfer any existing request_id to the new agent_id
+              this.lastRequestIdByAgent[normalizedAgentId] = message.request_id;
+              console.log('[handleCreateAgent] Updated lastRequestIdByAgent for new agent_id:', normalizedAgentId, '->', message.request_id);
+            }
           }
         }
         // Track request_id from ack for targeted cancellation and pairing
