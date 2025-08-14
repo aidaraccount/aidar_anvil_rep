@@ -295,6 +295,8 @@
       button.style.left = '0px';
       clickGuard.style.display = 'none';
     }
+    // Update agent sidebar width immediately if available
+    if (window.updateAgentSidebarWidth) { window.updateAgentSidebarWidth(); }
   }
   
   /**
