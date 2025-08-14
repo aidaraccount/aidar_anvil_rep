@@ -809,6 +809,9 @@
             case 'genre_sub_scores':
               this.handleGenreSubScores(message);
               break;
+            case 'status_update':
+              this.handleStatusUpdate(message);
+              break;
             
             default:
               console.warn('[handleMessage] Unknown message type:', message.type);
@@ -893,6 +896,24 @@
             disableGenreControls(genreContainer, true);
           }
         });
+      }
+
+      // Handle status updates from backend
+      handleStatusUpdate(message) {
+        console.log('[handleStatusUpdate] Status update received:', message);
+        
+        // Update the typing indicator text if it exists
+        if (this.typingIndicator && message.content) {
+          this.typingIndicator.textContent = message.content;
+          console.log('[handleStatusUpdate] Updated typing indicator to:', message.content);
+        } else if (message.content) {
+          // If no typing indicator exists, show one with the status message
+          this.showTypingIndicator();
+          if (this.typingIndicator) {
+            this.typingIndicator.textContent = message.content;
+            console.log('[handleStatusUpdate] Created typing indicator with status:', message.content);
+          }
+        }
       }
 
       // Handle artist information
