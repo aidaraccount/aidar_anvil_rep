@@ -258,6 +258,9 @@
 </div>    
 
 <script>
+  // Minimal debug to verify script execution
+  console.log('[DASHBOARD] Script executing...');
+  
   // Define toggle function in global scope to ensure it's accessible
   function toggleSidebar() {
     var sidebar = document.getElementById('left-sidebar');
@@ -292,6 +295,8 @@
       button.style.left = '0px';
       clickGuard.style.display = 'none';
     }
+    // Update agent sidebar width immediately if available
+    if (window.updateAgentSidebarWidth) { window.updateAgentSidebarWidth(); }
   }
   
   /**
@@ -299,20 +304,14 @@
    * Controls visibility of sidebar based on URL hash.
    */
   function handleSpecialNavStates() {
-    var sidebar = document.getElementById('left-sidebar');
-    var button = document.getElementById('nav-button');
-    var content = document.querySelector('.main-content-move');
-    var contentNav = document.querySelector('.main-content-move-nav');
     var currentHash = window.location.hash;
-
+    
     if (currentHash === '#no_subs' || currentHash === '#no_model') {
-        sidebar.style.display = 'none';
-        button.style.display = 'none';
-        content.classList.remove('shifted');
-        contentNav.classList.remove('shifted');
+        // Hide sidebar using optimized function
+        navbar_noModel_noSubs(false);
     } else {
-        sidebar.style.display = 'block';
-        button.style.display = 'block';
+        // Show sidebar using optimized function  
+        navbar_noModel_noSubs(true);
     }
   }
   
@@ -358,13 +357,16 @@
   }
 
   // Initialize when DOM is ready
-  document.addEventListener('DOMContentLoaded', function() {
+  if (document.readyState === 'loading') {
+    // DOM is still loading, wait for DOMContentLoaded
+    document.addEventListener('DOMContentLoaded', function() {
+      initializeNavigation();
+    });
+  } else {
+    // DOM is already loaded, call immediately
     initializeNavigation();
-  });
+  }
 </script>
-
-<!-- Import the hideNavBar.js file to ensure it's loaded -->
-<script src="assets/hideNavBar.js"></script>
 
 <!-- Wait for page load to ensure all Anvil components are fully initialized -->
 <script>
@@ -417,12 +419,6 @@
         e.stopPropagation();
         e.preventDefault();
       }, true); // Use capturing to get the event first
-    }
-    
-    // Check URL hash on page load and set initial state
-    var currentHash = window.location.hash;
-    if (currentHash === '#no_subs' || currentHash === '#no_model') {
-      navbar_noModel_noSubs(false);
     }
     
     // Add event listeners to all links inside the sidebar to auto-close on mobile

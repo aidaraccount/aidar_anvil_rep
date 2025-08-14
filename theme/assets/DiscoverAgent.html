@@ -2474,15 +2474,20 @@
     initializeWebSocketManager();
   }
 
-
-  // Notes Sidebar
-  if(typeof sidebar === 'undefined') {
-    const sidebar = document.getElementById('right-sidebar');
-    const button = document.getElementById('sidebar-button');
-    // const mainContent = document.querySelector('.main-content-move');
-    const mainContent = document.querySelector('.discover_self');
-    const agentSidebar = document.getElementById('agent-sidebar');
-    const agentButton = document.getElementById('agent-sidebar-button');
+  
+  // Notes Sidebar - Fix scoping and initialization issue
+  var sidebar, button, mainContent, agentSidebar, agentButton;
+  
+  // Always initialize elements (don't rely on window.sidebarInitialized for element queries)
+  sidebar = document.getElementById('right-sidebar');
+  button = document.getElementById('sidebar-button');
+  // Try both selectors for mainContent - use the one that works
+  mainContent = document.querySelector('.anvil-role-discover_self') || document.querySelector('.discover_self');
+  agentSidebar = document.getElementById('agent-sidebar');
+  agentButton = document.getElementById('agent-sidebar-button');
+    
+  if(typeof window.sidebarInitialized === 'undefined') {
+    window.sidebarInitialized = true;
 
     function updateMargins() {
       const notesOpen = sidebar.classList.contains('open');
@@ -2652,10 +2657,13 @@
       // Initial scroll to bottom
       scrollToBottom();
 
+      // Initialize scrollObserver variable in proper scope
+      let scrollObserver = null;
+      
       // Scroll to bottom when content changes
       if (chatMessages) {
         let isScrolling = false;
-        const scrollObserver = new MutationObserver(() => {
+        scrollObserver = new MutationObserver(() => {
             if (!isScrolling) {
               isScrolling = true;
               // Small delay to ensure DOM is updated
@@ -2665,7 +2673,6 @@
               });
             }
           });
-
 
           // Observe chat messages for changes
           scrollObserver.observe(chatMessages, { childList: true, subtree: true });
@@ -2778,7 +2785,9 @@
 
       // Clean up on unload
       window.addEventListener('beforeunload', () => {
-          scrollObserver.disconnect();
+          if (scrollObserver) {
+            scrollObserver.disconnect();
+          }
         window.removeEventListener('resize', scrollToBottom);
       });
     }
@@ -2805,12 +2814,20 @@
     const agentSidebar = document.getElementById('agent-sidebar');
     
     if (leftSidebar && agentSidebar) {
-      // Get computed style to handle initial state
-      const computedStyle = window.getComputedStyle(leftSidebar);
-      const isLeftSidebarOpen = computedStyle.left === '0px' || leftSidebar.style.left === '0px';
-      const offset = isLeftSidebarOpen ? '250px' : '0px';
-      
-      // Update CSS variable
+      // Use computed values to determine visibility and width
+      const cs = window.getComputedStyle(leftSidebar);
+      const isDisplayed = cs.display !== 'none';
+      const isLeftSidebarOpen = isDisplayed && (cs.left === '0px' || leftSidebar.style.left === '0px');
+
+      // Determine actual width; fallback to breakpoint-based default
+      let widthPx = parseFloat(cs.width);
+      if (!widthPx || isNaN(widthPx)) {
+        widthPx = (window.innerWidth <= 767) ? 200 : 250;
+      }
+
+      const offset = isLeftSidebarOpen ? `${widthPx}px` : '0px';
+
+      // Update CSS variable used by creation mode CSS
       document.documentElement.style.setProperty('--left-sidebar-offset', offset);
     }
   };
