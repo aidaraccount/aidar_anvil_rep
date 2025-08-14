@@ -264,7 +264,9 @@
   console.log('[DASHBOARD] Current hash:', window.location.hash);
   
   // Define toggle function in global scope to ensure it's accessible
+  console.log('[DASHBOARD] Defining toggleSidebar function...');
   function toggleSidebar() {
+    console.log('[DASHBOARD] toggleSidebar() called');
     var sidebar = document.getElementById('left-sidebar');
     var clickGuard = document.querySelector('.sidebar-click-guard');
     var content = document.querySelector('.main-content-move');
@@ -303,6 +305,7 @@
    * Handles hiding navbar for special hash states.
    * Controls visibility of sidebar based on URL hash.
    */
+  console.log('[DASHBOARD] Defining handleSpecialNavStates function...');
   function handleSpecialNavStates() {
     var currentHash = window.location.hash;
     console.log('[handleSpecialNavStates] Current hash:', currentHash);
@@ -419,10 +422,12 @@
   }
 
   // Initialize when DOM is ready
+  console.log('[DASHBOARD] About to add DOMContentLoaded event listener...');
   document.addEventListener('DOMContentLoaded', function() {
     console.log('[DASHBOARD] DOMContentLoaded event fired, calling initializeNavigation()');
     initializeNavigation();
   });
+  console.log('[DASHBOARD] DOMContentLoaded event listener added successfully');
 </script>
 
 <!-- Wait for page load to ensure all Anvil components are fully initialized -->

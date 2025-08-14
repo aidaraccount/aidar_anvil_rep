@@ -2481,7 +2481,8 @@
   // Always initialize elements (don't rely on window.sidebarInitialized for element queries)
   sidebar = document.getElementById('right-sidebar');
   button = document.getElementById('sidebar-button');
-  mainContent = document.querySelector('.discover_self');
+  // Try both selectors for mainContent - use the one that works
+  mainContent = document.querySelector('.anvil-role-discover_self') || document.querySelector('.discover_self');
   agentSidebar = document.getElementById('agent-sidebar');
   agentButton = document.getElementById('agent-sidebar-button');
   
