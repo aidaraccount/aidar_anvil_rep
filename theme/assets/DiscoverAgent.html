@@ -2875,9 +2875,14 @@
       sessionStorage.setItem('agent_toggle', 'true');
       console.log('[createAgentView] Ensured agent sidebar is visible');
       
-      // Set createAgent stage
+      // Cancel any running executions before creating new agent
       const wsManager = window.wsManager;
       if (wsManager) {
+        // Cancel ongoing execution to prevent input going to old agent
+        console.log('[createAgentView] Cancelling any running executions before creating new agent');
+        wsManager.cancelExecution();
+        
+        // Set createAgent stage
         wsManager.stage = wsManager.STAGE.CREATE_AGENT;
         console.log('[createAgentView] Stage changed to:', wsManager.stage);
       } else {
