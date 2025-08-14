@@ -137,7 +137,7 @@ class RampUp(RampUpTemplate):
         get_open_form().refresh_watchlists_components()
         get_open_form().refresh_watchlists_underline()
 
-        # view navigation sidebar
+        # show navigation sidebar
         anvil.js.call_js("navbar_noModel_noSubs", True)
             
         # check & routing

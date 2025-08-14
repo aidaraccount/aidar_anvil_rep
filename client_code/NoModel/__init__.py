@@ -6,7 +6,7 @@ import anvil.users
 import anvil.tables as tables
 import anvil.tables.query as q
 from anvil.tables import app_tables
-from anvil.js.window import navbar_noModel_noSubs
+
 from datetime import datetime
 
 from anvil_extras import routing
@@ -38,5 +38,5 @@ class NoModel(NoModelTemplate):
     # click_button('model_setup?model_id=None&section=Basics', event_args)
     click_button('agent_artists?artist_id=create_agent', event_args)
     
-    # view navigation sidebar
+    # show navigation sidebar
     anvil.js.call_js("navbar_noModel_noSubs", True)
