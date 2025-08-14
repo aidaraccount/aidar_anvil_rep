@@ -2485,15 +2485,7 @@
   mainContent = document.querySelector('.anvil-role-discover_self') || document.querySelector('.discover_self');
   agentSidebar = document.getElementById('agent-sidebar');
   agentButton = document.getElementById('agent-sidebar-button');
-  
-  console.log('[DiscoverAgent] Sidebar elements found:', {
-    sidebar: !!sidebar,
-    button: !!button,
-    mainContent: !!mainContent,
-    agentSidebar: !!agentSidebar,
-    agentButton: !!agentButton
-  });
-  
+    
   if(typeof window.sidebarInitialized === 'undefined') {
     window.sidebarInitialized = true;
 

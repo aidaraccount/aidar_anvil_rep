@@ -258,15 +258,8 @@
 </div>    
 
 <script>
-  // CRITICAL DEBUG: Test if dashboard.html script is loading at all
-  console.log('[DASHBOARD] *** SCRIPT LOADING TEST - dashboard.html JavaScript is executing ***');
-  console.log('[DASHBOARD] Current URL:', window.location.href);
-  console.log('[DASHBOARD] Current hash:', window.location.hash);
-  
   // Define toggle function in global scope to ensure it's accessible
-  console.log('[DASHBOARD] Defining toggleSidebar function...');
   function toggleSidebar() {
-    console.log('[DASHBOARD] toggleSidebar() called');
     var sidebar = document.getElementById('left-sidebar');
     var clickGuard = document.querySelector('.sidebar-click-guard');
     var content = document.querySelector('.main-content-move');
@@ -305,12 +298,8 @@
    * Handles hiding navbar for special hash states.
    * Controls visibility of sidebar based on URL hash.
    */
-  console.log('[DASHBOARD] Defining handleSpecialNavStates function...');
   function handleSpecialNavStates() {
     var currentHash = window.location.hash;
-    console.log('[handleSpecialNavStates] Current hash:', currentHash);
-    console.log('[handleSpecialNavStates] Current hash without #:', currentHash.substring(1));
-    console.log('[handleSpecialNavStates] navbar_noModel_noSubs available:', typeof navbar_noModel_noSubs);
     
     // Check both with and without # symbol for robustness
     var hashWithoutSymbol = currentHash.substring(1);
@@ -318,17 +307,13 @@
         hashWithoutSymbol === 'no_subs' || hashWithoutSymbol === 'no_model') {
         // Hide sidebar using optimized function
         if (typeof navbar_noModel_noSubs === 'function') {
-          console.log('[handleSpecialNavStates] Calling navbar_noModel_noSubs(false)');
           navbar_noModel_noSubs(false);
         } else {
-          console.warn('[handleSpecialNavStates] navbar_noModel_noSubs not available, retrying in 100ms');
           // Retry mechanism for timing issues
           setTimeout(function() {
             if (typeof navbar_noModel_noSubs === 'function') {
-              console.log('[handleSpecialNavStates] Retry successful, calling navbar_noModel_noSubs(false)');
               navbar_noModel_noSubs(false);
             } else {
-              console.warn('[handleSpecialNavStates] Retry failed, using fallback DOM manipulation');
               // Fallback to direct DOM manipulation
               var sidebar = document.getElementById('left-sidebar');
               var button = document.getElementById('nav-button');
@@ -345,17 +330,13 @@
     } else {
         // Show sidebar using optimized function
         if (typeof navbar_noModel_noSubs === 'function') {
-          console.log('[handleSpecialNavStates] Calling navbar_noModel_noSubs(true)');
           navbar_noModel_noSubs(true);
         } else {
-          console.warn('[handleSpecialNavStates] navbar_noModel_noSubs not available for show, retrying in 100ms');
           // Retry mechanism for timing issues
           setTimeout(function() {
             if (typeof navbar_noModel_noSubs === 'function') {
-              console.log('[handleSpecialNavStates] Retry successful, calling navbar_noModel_noSubs(true)');
               navbar_noModel_noSubs(true);
             } else {
-              console.warn('[handleSpecialNavStates] Retry failed, using fallback DOM manipulation');
               // Fallback to direct DOM manipulation
               var sidebar = document.getElementById('left-sidebar');
               var button = document.getElementById('nav-button');
@@ -373,20 +354,11 @@
    * Sets up event listeners and initial state.
    */
   function initializeNavigation() {
-    console.log('[DASHBOARD] initializeNavigation() called');
     var button = document.getElementById('nav-button');
     var clickGuard = document.querySelector('.sidebar-click-guard');
     var sidebar = document.getElementById('left-sidebar');
     var content = document.querySelector('.main-content-move');
     var contentNav = document.querySelector('.main-content-move-nav');
-    
-    console.log('[DASHBOARD] Elements found:', {
-      button: !!button,
-      clickGuard: !!clickGuard, 
-      sidebar: !!sidebar,
-      content: !!content,
-      contentNav: !!contentNav
-    });
     
     // Add event listeners
     button.addEventListener('click', function(e) {
@@ -405,12 +377,9 @@
     }
     
     // Initialize special nav states
-    console.log('[DASHBOARD] About to call handleSpecialNavStates()');
     handleSpecialNavStates();
-    console.log('[DASHBOARD] handleSpecialNavStates() call completed');
     
     // Listen for hash changes
-    console.log('[DASHBOARD] Adding hashchange event listener');
     window.addEventListener('hashchange', handleSpecialNavStates);
     
     // Handle resize events
@@ -422,19 +391,13 @@
   }
 
   // Initialize when DOM is ready
-  console.log('[DASHBOARD] About to check DOM ready state...');
-  console.log('[DASHBOARD] Document ready state:', document.readyState);
-  
   if (document.readyState === 'loading') {
     // DOM is still loading, wait for DOMContentLoaded
-    console.log('[DASHBOARD] DOM still loading, adding DOMContentLoaded event listener...');
     document.addEventListener('DOMContentLoaded', function() {
-      console.log('[DASHBOARD] DOMContentLoaded event fired, calling initializeNavigation()');
       initializeNavigation();
     });
   } else {
     // DOM is already loaded, call immediately
-    console.log('[DASHBOARD] DOM already loaded, calling initializeNavigation() immediately');
     initializeNavigation();
   }
 </script>
