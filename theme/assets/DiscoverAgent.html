@@ -894,10 +894,10 @@
         // Handle cancellation status updates
         if (message.status === 'cancelling_pending') {
           this.showCancellingState(message.content);
-          return;
+          // return;
         } else if (message.status === 'cancelling_done') {
           this.hideCancellingState();
-          return;
+          // return;
         }
         
         // Always ensure we have a visible typing indicator for status updates
@@ -2292,11 +2292,16 @@
           this.chatInput.placeholder = 'Processing request...'; 
         }
         
-        // Create typing indicator via status_update message instead of direct DOM
-        this.handleStatusUpdate({
-          type: 'status_update',
-          content: 'AIDAR is thinking'
-        });
+        // Create typing indicator
+        this.typingIndicator = document.createElement('div');
+        this.typingIndicator.className = 'message typing-indicator';
+        this.typingIndicator.textContent = 'AIDAR is thinking';
+        
+        const messagesContainer = document.getElementById('chat-messages');
+        if (messagesContainer) {
+          messagesContainer.appendChild(this.typingIndicator);
+          messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
       }
       
       // Remove typing indicator
