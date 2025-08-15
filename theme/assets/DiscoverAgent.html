@@ -900,16 +900,23 @@
           return;
         }
         
-        // Update the typing indicator text if it exists
-        if (this.typingIndicator && message.content) {
-          this.typingIndicator.textContent = message.content;
-          console.log('[handleStatusUpdate] Updated typing indicator to:', message.content);
-        } else if (message.content) {
-          // If no typing indicator exists, show one with the status message
-          this.showTypingIndicator();
-          if (this.typingIndicator) {
-            this.typingIndicator.textContent = message.content;
-            console.log('[handleStatusUpdate] Created typing indicator with status:', message.content);
+        // Always ensure we have a visible typing indicator for status updates
+        if (message.content) {
+          // Find existing typing indicator in DOM or create one
+          let typingIndicator = document.querySelector('.typing-indicator');
+          if (!typingIndicator) {
+            this.showTypingIndicator();
+            typingIndicator = this.typingIndicator;
+          }
+          
+          if (typingIndicator) {
+            typingIndicator.textContent = message.content;
+            console.log('[handleStatusUpdate] Updated typing indicator to:', message.content);
+            // Ensure it's visible and scrolled into view
+            const messagesContainer = document.getElementById('messages');
+            if (messagesContainer) {
+              messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            }
           }
         }
       }
@@ -1914,14 +1921,15 @@
       handleCompleteMessage(message) {
         console.log('[handleCompleteMessage] Received complete message');
         
-        // Reset cancel flag when we get completion message
-        if (this.cancelRequested) {
-          console.log('[handleCompleteMessage] Resetting cancelRequested flag');
+        // Check if button is in cancelling state (more reliable than flag)
+        const isCancelling = this.sendButton && this.sendButton.classList.contains('btn-cancelling');
+        
+        if (isCancelling || this.cancelRequested) {
+          console.log('[handleCompleteMessage] Was cancelled, using cancellation cleanup');
           this.cancelRequested = false;
-          // If this was a cancelled request, use cancellation cleanup
           this.hideCancellingState();
         } else {
-          // For normal completion, use standard cleanup
+          console.log('[handleCompleteMessage] Normal completion, using standard cleanup');
           this.removeTypingIndicator();
         }
       }
@@ -2372,6 +2380,9 @@
       // Cancel ongoing execution
       cancelExecution() {
         console.log('[cancelExecution] Sending cancellation request to backend');
+        
+        // Set cancellation flag
+        this.cancelRequested = true;
         
         // Immediately show cancellation status and start rotation
         this.showCancellingState('Canceling query after finishing the started process…');
