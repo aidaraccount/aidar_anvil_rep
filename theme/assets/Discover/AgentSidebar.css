@@ -444,9 +444,8 @@
 
 /* Cancelling button state */
 #send-button.cancelling {
-  cursor: not-allowed;
+  pointer-events: none;
 }
-
 
 /* Prevent clicking on disabled button */
 #send-button.processing {
