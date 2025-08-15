@@ -918,9 +918,12 @@
       showCancellingState(content) {
         console.log('[showCancellingState] Showing cancelling state');
         
-        // Add status update message (not system message)
+        // Show status update in typing indicator instead of as agent message
         if (content) {
-          this.addAgentMessage(content);
+          this.showTypingIndicator();
+          if (this.typingIndicator) {
+            this.typingIndicator.textContent = content;
+          }
         }
         
         // Update button to rotating cancel state - keep square icon
@@ -932,12 +935,6 @@
             // Keep the cancel (square) class and add rotation
             sendIcon.classList.add('rotating');
           }
-        }
-        
-        // Block input during cancellation
-        if (this.chatInput) {
-          this.chatInput.disabled = true;
-          this.chatInput.placeholder = 'Cancelling request...';
         }
       }
       
@@ -954,12 +951,6 @@
             // Remove rotation and cancel class, restore to send icon
             sendIcon.classList.remove('rotating', 'cancel');
           }
-        }
-        
-        // Restore input
-        if (this.chatInput) {
-          this.chatInput.disabled = false;
-          this.chatInput.placeholder = 'Type your message here...';
         }
       }
 

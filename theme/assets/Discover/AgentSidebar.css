@@ -444,13 +444,9 @@
 
 /* Cancelling button state */
 #send-button.cancelling {
-  background-color: #d4a853;
   cursor: not-allowed;
 }
 
-#send-button.cancelling .send-icon {
-  background-color: #d4a853;
-}
 
 /* Prevent clicking on disabled button */
 #send-button.processing {
