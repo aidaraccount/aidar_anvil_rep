@@ -725,32 +725,18 @@
           const message = JSON.parse(event.data);
           console.log('[handleMessage] Received message:', message);
           
-          // During creation stages, show all messages except potentially problematic ones
-          if (this.stage === this.STAGE.CREATE_AGENT || this.stage === this.STAGE.EXTENDED_CREATE_AGENT) {
-            // Only exclude message types that could cause UI issues or confusion during creation
-            const excludedTypes = new Set(['complete']); // 'complete' might be sent prematurely during creation
-            if (excludedTypes.has(message.type)) {
-              console.log(`[handleMessage] Excluded during creation stage (${this.stage}). type=${message.type}, agent_id=${message.agent_id}, session_id=${message.session_id}`);
-              return;
-            }
-          }
-
-          // Filter messages based on current model_id to prevent old agent messages from showing in new agent UI
-          // This allows background operations to continue while ensuring UI shows only relevant messages
-          // 1) Filter by session_id when present
-          if (message.session_id && this.sessionId && message.session_id !== this.sessionId) {
-            console.log(`[handleMessage] Discarded message due to session_id mismatch. Current: ${this.sessionId}, Message: ${message.session_id}`);
-            return;
-          }
-          // 2) Filter by agent_id when present, but allow create_agent messages to update the model_id
-          if (message.agent_id && this.model_id && message.agent_id !== this.model_id) {
-            // Allow create_agent and extended_create_agent messages through so they can update model_id
+          // Filter messages to prevent cross-agent interference
+          // Since session_id = 'session-' + agent_id, we can use either for filtering
+          const messageAgentId = message.agent_id || (message.session_id ? message.session_id.replace('session-', '') : null);
+          
+          if (messageAgentId && this.model_id && messageAgentId !== this.model_id) {
+            // Allow agent creation messages to update the current agent context
             const agentUpdateTypes = new Set(['create_agent', 'extended_create_agent']);
             if (!agentUpdateTypes.has(message.type)) {
-              console.log(`[handleMessage] Discarded message due to agent_id mismatch. Current: ${this.model_id}, Message: ${message.agent_id}`);
-              return; // Don't process messages from different agents
+              console.log(`[handleMessage] Discarded message from different agent. Current: ${this.model_id}, Message: ${messageAgentId}`);
+              return;
             } else {
-              console.log(`[handleMessage] Allowing ${message.type} through agent_id filter to update model_id from ${this.model_id} to ${message.agent_id}`);
+              console.log(`[handleMessage] Allowing ${message.type} to update agent context from ${this.model_id} to ${messageAgentId}`);
             }
           }
           
