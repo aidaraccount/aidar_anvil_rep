@@ -968,28 +968,35 @@
           }
         }
         
-        // Restore button to completely clean state
+        // First phase: Stop rotation but keep square icon
         if (this.sendButton) {
-          // Remove all possible state classes
-          this.sendButton.classList.remove('cancelling', 'processing', 'has-text');
-          this.sendButton.disabled = false;
           const sendIcon = this.sendButton.querySelector('.send-icon');
           if (sendIcon) {
-            // Force stop rotation immediately
+            // Force stop rotation immediately but keep cancel (square) class
             sendIcon.style.animation = 'none';
             // Trigger reflow
             sendIcon.offsetHeight;
-            // Remove all icon state classes
-            sendIcon.classList.remove('rotating', 'cancel');
+            // Only remove rotating class, keep cancel class for now
+            sendIcon.classList.remove('rotating');
             // Restore animation property
             sendIcon.style.animation = '';
+            
+            console.log('[hideCancellingState] After stopping rotation:', sendIcon.className);
           }
           
-          // Log final state after cleanup
-          console.log('[hideCancellingState] Button classes after cleanup:', this.sendButton.className);
-          if (sendIcon) {
-            console.log('[hideCancellingState] Icon classes after cleanup:', sendIcon.className);
-          }
+          // Second phase: After a brief moment, restore to normal state
+          setTimeout(() => {
+            console.log('[hideCancellingState] Restoring to normal state');
+            // Remove all button state classes
+            this.sendButton.classList.remove('cancelling', 'processing', 'has-text');
+            this.sendButton.disabled = false;
+            
+            if (sendIcon) {
+              // Now remove cancel class to restore plane icon
+              sendIcon.classList.remove('cancel');
+              console.log('[hideCancellingState] Final state after cleanup:', sendIcon.className);
+            }
+          }, 300); // Brief delay to show the square stopped rotating
         }
       }
 
