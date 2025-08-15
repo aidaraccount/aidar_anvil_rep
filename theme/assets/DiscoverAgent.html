@@ -950,6 +950,8 @@
           if (sendIcon) {
             // Remove rotation and cancel class, restore to send icon
             sendIcon.classList.remove('rotating', 'cancel');
+            // Force stop any ongoing rotation by triggering reflow
+            sendIcon.offsetHeight;
           }
         }
       }
@@ -2355,6 +2357,9 @@
       cancelExecution() {
         console.log('[cancelExecution] Sending cancellation request to backend');
         
+        // Immediately show cancellation status and start rotation
+        this.showCancellingState('Canceling query after finishing the started process…');
+        
         // Send cancel message to backend
         if (this.socket && this.socket.readyState === WebSocket.OPEN) {
           const rid = (this.lastRequestIdByAgent && this.lastRequestIdByAgent[this.model_id]) || undefined;
@@ -2377,9 +2382,6 @@
           console.warn('[cancelExecution] WebSocket not connected, cannot send cancel message');
           this.addErrorMessage('Cannot cancel: connection not available');
         }
-        
-        // Clean up UI immediately for better UX
-        this.removeTypingIndicator();
       }
       
       // Helper: Escape HTML to prevent XSS
