@@ -948,10 +948,13 @@
           this.sendButton.disabled = false;
           const sendIcon = this.sendButton.querySelector('.send-icon');
           if (sendIcon) {
-            // Remove rotation and cancel class, restore to send icon
-            sendIcon.classList.remove('rotating', 'cancel');
-            // Force stop any ongoing rotation by triggering reflow
+            // Force stop rotation immediately by removing animation
+            sendIcon.style.animation = 'none';
+            // Trigger reflow to apply the style change
             sendIcon.offsetHeight;
+            // Remove classes and restore animation property
+            sendIcon.classList.remove('rotating', 'cancel');
+            sendIcon.style.animation = '';
           }
         }
       }
