@@ -918,6 +918,15 @@
       showCancellingState(content) {
         console.log('[showCancellingState] Showing cancelling state');
         
+        // Log current state before changes
+        if (this.sendButton) {
+          console.log('[showCancellingState] Button classes before:', this.sendButton.className);
+          const sendIcon = this.sendButton.querySelector('.send-icon');
+          if (sendIcon) {
+            console.log('[showCancellingState] Icon classes before:', sendIcon.className);
+          }
+        }
+        
         // Show status update in typing indicator instead of as agent message
         if (content) {
           this.showTypingIndicator();
@@ -937,12 +946,27 @@
             // Add both cancel appearance and rotation
             sendIcon.classList.add('cancel', 'rotating');
           }
+          
+          // Log final state after changes
+          console.log('[showCancellingState] Button classes after:', this.sendButton.className);
+          if (sendIcon) {
+            console.log('[showCancellingState] Icon classes after:', sendIcon.className);
+          }
         }
       }
       
       // Hide cancelling state and restore normal UI
       hideCancellingState() {
         console.log('[hideCancellingState] Hiding cancelling state');
+        
+        // Log current state before cleanup
+        if (this.sendButton) {
+          console.log('[hideCancellingState] Button classes before cleanup:', this.sendButton.className);
+          const sendIcon = this.sendButton.querySelector('.send-icon');
+          if (sendIcon) {
+            console.log('[hideCancellingState] Icon classes before cleanup:', sendIcon.className);
+          }
+        }
         
         // Restore button to completely clean state
         if (this.sendButton) {
@@ -959,6 +983,12 @@
             sendIcon.classList.remove('rotating', 'cancel');
             // Restore animation property
             sendIcon.style.animation = '';
+          }
+          
+          // Log final state after cleanup
+          console.log('[hideCancellingState] Button classes after cleanup:', this.sendButton.className);
+          if (sendIcon) {
+            console.log('[hideCancellingState] Icon classes after cleanup:', sendIcon.className);
           }
         }
       }
