@@ -1949,11 +1949,13 @@
 
       
         
-        // a) update agent navigation
-        this.addNewModelToNavigation({
-          model_id: message.agent_id,
-          model_name: message.agent_name || 'New Agent'
-        });
+        // a) update agent navigation (only for acknowledgment message when agent is first created)
+        if (message.status === 'ack') {
+          this.addNewModelToNavigation({
+            model_id: message.agent_id,
+            model_name: message.agent_name || 'New Agent'
+          });
+        }
 
         // b) Set stage based on whether we have an artist_id
         if (message.artist_id && message.artist_id !== 'null') {
