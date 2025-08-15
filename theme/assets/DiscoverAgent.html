@@ -918,11 +918,22 @@
       showCancellingState(content) {
         console.log('[showCancellingState] Showing cancelling state');
         
-        // Show status update in typing indicator instead of as agent message
+        // Show status update in typing indicator
         if (content) {
-          this.showTypingIndicator();
+          // Update existing typing indicator or create one without changing button state
           if (this.typingIndicator) {
             this.typingIndicator.textContent = content;
+          } else {
+            // Create typing indicator manually without calling showTypingIndicator()
+            this.typingIndicator = document.createElement('div');
+            this.typingIndicator.className = 'message typing-indicator';
+            this.typingIndicator.textContent = content;
+            
+            const messagesContainer = document.getElementById('messages');
+            if (messagesContainer) {
+              messagesContainer.appendChild(this.typingIndicator);
+              messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            }
           }
         }
         
