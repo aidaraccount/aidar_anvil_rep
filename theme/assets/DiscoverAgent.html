@@ -913,7 +913,7 @@
             typingIndicator.textContent = message.content;
             console.log('[handleStatusUpdate] Updated typing indicator to:', message.content);
             // Ensure it's visible and scrolled into view
-            const messagesContainer = document.getElementById('messages');
+            const messagesContainer = document.getElementById('chat-messages');
             if (messagesContainer) {
               messagesContainer.scrollTop = messagesContainer.scrollHeight;
             }
@@ -936,7 +936,7 @@
             this.typingIndicator.className = 'message typing-indicator';
             this.typingIndicator.textContent = content;
             
-            const messagesContainer = document.getElementById('messages');
+            const messagesContainer = document.getElementById('chat-messages');
             if (messagesContainer) {
               messagesContainer.appendChild(this.typingIndicator);
               messagesContainer.scrollTop = messagesContainer.scrollHeight;
@@ -973,6 +973,13 @@
             console.log('[hideCancellingState] Restoring to normal state');
             this.sendButton.classList.remove('btn-processing', 'has-text');
             this.sendButton.disabled = false;
+            
+            // Reset processing state to allow new inputs
+            if (this.setProcessingCurrent) {
+              this.setProcessingCurrent(false);
+            } else {
+              this.isProcessing = false;
+            }
             
             console.log('[hideCancellingState] Final state:', this.sendButton.className);
           }, 300);
@@ -2280,7 +2287,7 @@
         this.typingIndicator.className = 'message typing-indicator';
         this.typingIndicator.textContent = 'AIDAR is thinking';
         
-        const messagesContainer = document.getElementById('messages');
+        const messagesContainer = document.getElementById('chat-messages');
         if (messagesContainer) {
           messagesContainer.appendChild(this.typingIndicator);
           messagesContainer.scrollTop = messagesContainer.scrollHeight;
