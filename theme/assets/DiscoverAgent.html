@@ -1964,12 +1964,13 @@
           this.stage = this.STAGE.EXTENDED_CREATE_AGENT;
         }
         
-        // d) remove typing indicator only when we have the final result (artist_id present)
-        if (message.artist_id && message.artist_id !== 'null') {
+        // d) remove typing indicator when we receive the final create_agent message
+        // The final message has artist_id (either valid ID or null), indicating completion
+        if (message.hasOwnProperty('artist_id')) {
           this.removeTypingIndicator();
-          console.log('[handleCreateAgent] Removed typing indicator - agent creation complete with artist_id:', message.artist_id);
+          console.log('[handleCreateAgent] Removed typing indicator - agent creation complete. artist_id:', message.artist_id);
         } else {
-          console.log('[handleCreateAgent] Keeping typing indicator - agent still processing (no artist_id yet)');
+          console.log('[handleCreateAgent] Keeping typing indicator - intermediate create_agent message (no artist_id field)');
         }
 
         // e) navigate to agent page if artist_id is not null
