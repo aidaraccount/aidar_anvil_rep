@@ -304,7 +304,7 @@
         this.chatMessages = document.getElementById('chat-messages');
         this.chatInput = document.getElementById('chat-input');
         this.sendButton = document.getElementById('send-button');
-        this.typingIndicator = null;
+        this.statusIndicator = null;
         this.messageQueue = [];
         this.lastRequestIdByAgent = {};
         this.isConnected = false;
@@ -461,7 +461,7 @@
             }
           });
           
-          this.removeTypingIndicator();
+          this.removeStatusIndicator();
           console.log('[loadMessageHistory] Finished loading message history');
           
         } catch (error) {
@@ -594,7 +594,7 @@
           this.addUserMessage(message);
           this.chatInput.value = '';
           this.chatInput.style.height = 'auto'; // Reset textarea height
-          this.showTypingIndicator();
+          this.showStatusIndicator();
 
           // -------------------------
           // MODEL CREATION ANIMATION (Step 2)
@@ -860,7 +860,7 @@
       // Handle cancellation confirmation from backend
       handleCancellationConfirmed(message) {
         console.log('[handleCancellationConfirmed] Backend confirmed cancellation:', message);
-        this.removeTypingIndicator();
+        this.removeStatusIndicator();
         this.hideCancellingState();
         
         // Disable any active genre sub-scores
@@ -900,18 +900,18 @@
           // return;
         }
         
-        // Always ensure we have a visible typing indicator for status updates
+        // Always ensure we have a visible status indicator for status updates
         if (message.content) {
-          // Find existing typing indicator in DOM or create one
-          let typingIndicator = document.querySelector('.typing-indicator');
-          if (!typingIndicator) {
-            this.showTypingIndicator();
-            typingIndicator = this.typingIndicator;
+          // Find existing status indicator in DOM or create one
+          let statusIndicator = document.querySelector('.status-indicator');
+          if (!statusIndicator) {
+            this.showStatusIndicator();
+            statusIndicator = this.statusIndicator;
           }
           
-          if (typingIndicator) {
-            typingIndicator.textContent = message.content;
-            console.log('[handleStatusUpdate] Updated typing indicator to:', message.content);
+          if (statusIndicator) {
+            statusIndicator.textContent = message.content;
+            console.log('[handleStatusUpdate] Updated status indicator to:', message.content);
             // Ensure it's visible and scrolled into view
             const messagesContainer = document.getElementById('chat-messages');
             if (messagesContainer) {
@@ -925,20 +925,20 @@
       showCancellingState(content) {
         console.log('[showCancellingState] Showing cancelling state');
         
-        // Show status update in typing indicator
+        // Show status update in status indicator
         if (content) {
-          // Update existing typing indicator or create one without changing button state
-          if (this.typingIndicator) {
-            this.typingIndicator.textContent = content;
+          // Update existing status indicator or create one without changing button state
+          if (this.statusIndicator) {
+            this.statusIndicator.textContent = content;
           } else {
-            // Create typing indicator manually without calling showTypingIndicator()
-            this.typingIndicator = document.createElement('div');
-            this.typingIndicator.className = 'message typing-indicator';
-            this.typingIndicator.textContent = content;
+            // Create status indicator manually without calling showStatusIndicator()
+            this.statusIndicator = document.createElement('div');
+            this.statusIndicator.className = 'message status-indicator';
+            this.statusIndicator.textContent = content;
             
             const messagesContainer = document.getElementById('chat-messages');
             if (messagesContainer) {
-              messagesContainer.appendChild(this.typingIndicator);
+              messagesContainer.appendChild(this.statusIndicator);
               messagesContainer.scrollTop = messagesContainer.scrollHeight;
             }
           }
@@ -1155,9 +1155,9 @@
           `;
         };
         
-        // Update typing indicator to show waiting for confirmation
-        if (this.typingIndicator) {
-          this.typingIndicator.textContent = 'Waiting for user confirmation';
+        // Update status indicator to show waiting for confirmation
+        if (this.statusIndicator) {
+          this.statusIndicator.textContent = 'Waiting for user confirmation';
         }
 
         if (message.data && message.data.results && Array.isArray(message.data.results)) {
@@ -1851,9 +1851,9 @@
             // Hide the button and disable all interactive elements after confirmation
             disableGenreControls(mainContainer, true);
             
-            // Reset typing indicator to show processing
-            if (this.typingIndicator) {
-              this.typingIndicator.textContent = 'AIDAR is thinking';
+            // Reset status indicator to show processing
+            if (this.statusIndicator) {
+              this.statusIndicator.textContent = 'AIDAR is thinking';
             }
           });
           
@@ -1937,7 +1937,7 @@
           this.hideCancellingState();
         } else {
           console.log('[handleCompleteMessage] Normal completion, using standard cleanup');
-          this.removeTypingIndicator();
+          this.removeStatusIndicator();
         }
       }
       
@@ -1976,8 +1976,8 @@
           this.stage = this.STAGE.EXTENDED_CREATE_AGENT;
         }
         
-        // c) Remove typing indicator
-        this.removeTypingIndicator();
+        // c) Remove status indicator
+        this.removeStatusIndicator();
 
         // d) navigate to agent page if artist_id is not null
         if (message.artist_id !== null && message.artist_id !== undefined && message.artist_id !== '' && message.artist_id !== 'null') {
@@ -2053,13 +2053,13 @@
           this.stage = this.STAGE.EXTENDED_CREATE_AGENT;
         }
         
-        // d) remove typing indicator when we receive the final create_agent message
+        // d) remove status indicator when we receive the final create_agent message
         // The final message has artist_id (either valid ID or null), indicating completion
         if (message.hasOwnProperty('artist_id')) {
-          this.removeTypingIndicator();
-          console.log('[handleCreateAgent] Removed typing indicator - agent creation complete. artist_id:', message.artist_id);
+          this.removeStatusIndicator();
+          console.log('[handleCreateAgent] Removed status indicator - agent creation complete. artist_id:', message.artist_id);
         } else {
-          console.log('[handleCreateAgent] Keeping typing indicator - intermediate create_agent message (no artist_id field)');
+          console.log('[handleCreateAgent] Keeping status indicator - intermediate create_agent message (no artist_id field)');
         }
 
         // e) navigate to agent page if artist_id is not null
@@ -2228,8 +2228,8 @@
         this.chatMessages.appendChild(messageElement);
         this.scrollToBottom();
         
-        // Show typing indicator after user sends a message
-        this.showTypingIndicator();
+        // Show status indicator after user sends a message
+        this.showStatusIndicator();
       }
 
       // Add a system message to the chat
@@ -2272,8 +2272,8 @@
       }
       
       // Show waiting for response indicator
-      showTypingIndicator() {
-        this.removeTypingIndicator();
+      showStatusIndicator() {
+        this.removeStatusIndicator();
         
         // Update processing state
         if (this.setProcessingCurrent) {
@@ -2292,23 +2292,23 @@
           this.chatInput.placeholder = 'Processing request...'; 
         }
         
-        // Create typing indicator
-        this.typingIndicator = document.createElement('div');
-        this.typingIndicator.className = 'message typing-indicator';
-        this.typingIndicator.textContent = 'AIDAR is thinking';
+        // Create status indicator
+        this.statusIndicator = document.createElement('div');
+        this.statusIndicator.className = 'message status-indicator';
+        this.statusIndicator.textContent = 'AIDAR is thinking';
         
         const messagesContainer = document.getElementById('chat-messages');
         if (messagesContainer) {
-          messagesContainer.appendChild(this.typingIndicator);
+          messagesContainer.appendChild(this.statusIndicator);
           messagesContainer.scrollTop = messagesContainer.scrollHeight;
         }
       }
       
-      // Remove typing indicator
-      removeTypingIndicator() {
-        if (this.typingIndicator) {
-          this.typingIndicator.remove();
-          this.typingIndicator = null;
+      // Remove status indicator
+      removeStatusIndicator() {
+        if (this.statusIndicator) {
+          this.statusIndicator.remove();
+          this.statusIndicator = null;
         }
         
         // Reset processing state

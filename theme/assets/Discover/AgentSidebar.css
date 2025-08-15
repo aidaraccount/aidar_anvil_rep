@@ -489,7 +489,7 @@
   100% { content: '...'; }
 }
 
-.waiting-indicator {
+.status-indicator {
   position: absolute;
   margin-top: 10px;
   bottom: 8px;
@@ -502,7 +502,7 @@
   font-weight: normal;
 }
 
-.waiting-indicator::after {
+.status-indicator::after {
   content: '';
   animation: dotPulse 1.5s steps(4, end) infinite;
 }
