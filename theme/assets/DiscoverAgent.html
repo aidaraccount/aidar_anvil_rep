@@ -729,7 +729,8 @@
           // Since session_id = 'session-' + agent_id, we can use either for filtering
           const messageAgentId = message.agent_id || (message.session_id ? message.session_id.replace('session-', '') : null);
           
-          if (messageAgentId && this.model_id && messageAgentId !== this.model_id) {
+          // Convert both to strings for comparison to handle type mismatches
+          if (messageAgentId && this.model_id && String(messageAgentId) !== String(this.model_id)) {
             // Allow agent creation messages to update the current agent context
             const agentUpdateTypes = new Set(['create_agent', 'extended_create_agent']);
             if (!agentUpdateTypes.has(message.type)) {
