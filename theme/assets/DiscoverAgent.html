@@ -918,15 +918,6 @@
       showCancellingState(content) {
         console.log('[showCancellingState] Showing cancelling state');
         
-        // Log current state before changes
-        if (this.sendButton) {
-          console.log('[showCancellingState] Button classes before:', this.sendButton.className);
-          const sendIcon = this.sendButton.querySelector('.send-icon');
-          if (sendIcon) {
-            console.log('[showCancellingState] Icon classes before:', sendIcon.className);
-          }
-        }
-        
         // Show status update in typing indicator instead of as agent message
         if (content) {
           this.showTypingIndicator();
@@ -937,21 +928,12 @@
         
         // Update button to rotating cancel state
         if (this.sendButton) {
-          // Clean all states first
-          this.sendButton.classList.remove('has-text', 'processing');
-          this.sendButton.classList.add('cancelling');
+          // Clean all old states and set cancelling state
+          this.sendButton.classList.remove('has-text', 'btn-processing');
+          this.sendButton.classList.add('btn-cancelling');
           this.sendButton.disabled = true;
-          const sendIcon = this.sendButton.querySelector('.send-icon');
-          if (sendIcon) {
-            // Add both cancel appearance and rotation
-            sendIcon.classList.add('cancel', 'rotating');
-          }
           
-          // Log final state after changes
-          console.log('[showCancellingState] Button classes after:', this.sendButton.className);
-          if (sendIcon) {
-            console.log('[showCancellingState] Icon classes after:', sendIcon.className);
-          }
+          console.log('[showCancellingState] Button state set to cancelling:', this.sendButton.className);
         }
       }
       
@@ -959,44 +941,23 @@
       hideCancellingState() {
         console.log('[hideCancellingState] Hiding cancelling state');
         
-        // Log current state before cleanup
         if (this.sendButton) {
           console.log('[hideCancellingState] Button classes before cleanup:', this.sendButton.className);
-          const sendIcon = this.sendButton.querySelector('.send-icon');
-          if (sendIcon) {
-            console.log('[hideCancellingState] Icon classes before cleanup:', sendIcon.className);
-          }
-        }
-        
-        // First phase: Stop rotation but keep square icon
-        if (this.sendButton) {
-          const sendIcon = this.sendButton.querySelector('.send-icon');
-          if (sendIcon) {
-            // Force stop rotation immediately but keep cancel (square) class
-            sendIcon.style.animation = 'none';
-            // Trigger reflow
-            sendIcon.offsetHeight;
-            // Only remove rotating class, keep cancel class for now
-            sendIcon.classList.remove('rotating');
-            // Restore animation property
-            sendIcon.style.animation = '';
-            
-            console.log('[hideCancellingState] After stopping rotation:', sendIcon.className);
-          }
           
-          // Second phase: After a brief moment, restore to normal state
+          // First phase: Stop rotation but keep square (switch to processing state)
+          this.sendButton.classList.remove('btn-cancelling');
+          this.sendButton.classList.add('btn-processing');
+          
+          console.log('[hideCancellingState] Stopped rotation, showing square:', this.sendButton.className);
+          
+          // Second phase: After brief moment, restore to normal state
           setTimeout(() => {
             console.log('[hideCancellingState] Restoring to normal state');
-            // Remove all button state classes
-            this.sendButton.classList.remove('cancelling', 'processing', 'has-text');
+            this.sendButton.classList.remove('btn-processing', 'has-text');
             this.sendButton.disabled = false;
             
-            if (sendIcon) {
-              // Now remove cancel class to restore plane icon
-              sendIcon.classList.remove('cancel');
-              console.log('[hideCancellingState] Final state after cleanup:', sendIcon.className);
-            }
-          }, 300); // Brief delay to show the square stopped rotating
+            console.log('[hideCancellingState] Final state:', this.sendButton.className);
+          }, 300);
         }
       }
 
@@ -2297,17 +2258,18 @@
         
         // Create thinking indicator
         this.typingIndicator = document.createElement('div');
-        this.typingIndicator.className = 'waiting-indicator';
+        this.typingIndicator.className = 'message typing-indicator';
         this.typingIndicator.textContent = 'AIDAR is thinking';
-        this.chatContainer.appendChild(this.typingIndicator);
         
-        // Update send button to cancel button
+        const messagesContainer = document.getElementById('messages');
+        if (messagesContainer) {
+          messagesContainer.appendChild(this.typingIndicator);
+          messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+        
+        // Update send button to processing state (square icon)
         if (this.sendButton) {
-          this.sendButton.classList.add('processing');
-          const sendIcon = this.sendButton.querySelector('.send-icon');
-          if (sendIcon) {
-            sendIcon.classList.add('cancel');
-          }
+          this.sendButton.classList.add('btn-processing');
         }
         
         // Change placeholder text
@@ -2330,13 +2292,9 @@
           this.isProcessing = false;
         }
         
-        // Reset send button
+        // Reset send button to normal state (plane icon)
         if (this.sendButton) {
-          this.sendButton.classList.remove('processing');
-          const sendIcon = this.sendButton.querySelector('.send-icon');
-          if (sendIcon) {
-            sendIcon.classList.remove('cancel');
-          }
+          this.sendButton.classList.remove('btn-processing');
         }
         
         // Reset chat input placeholder
@@ -3150,9 +3108,7 @@
         try {
           const btn = wsManager.sendButton || document.getElementById('send-button');
           if (btn) {
-            btn.classList.remove('processing');
-            const sendIcon = btn.querySelector('.send-icon');
-            if (sendIcon) sendIcon.classList.remove('cancel');
+            btn.classList.remove('btn-processing', 'btn-cancelling');
           }
           const input = wsManager.chatInput || document.getElementById('chat-input');
           if (input) input.placeholder = 'Type your message here...';
@@ -3228,9 +3184,7 @@
         try {
           const btn = wsManager.sendButton || document.getElementById('send-button');
           if (btn) {
-            btn.classList.remove('processing');
-            const sendIcon = btn.querySelector('.send-icon');
-            if (sendIcon) sendIcon.classList.remove('cancel');
+            btn.classList.remove('btn-processing', 'btn-cancelling');
           }
           const input = wsManager.chatInput || document.getElementById('chat-input');
           if (input) input.placeholder = 'Type your message here...';

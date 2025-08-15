@@ -423,14 +423,27 @@
   transition: opacity 0.2s, transform 0.2s;
 }
 
-/* Cancel button styles */
-.send-icon.cancel {
-  opacity: 0.9;
+/* 1. Default state: plane icon - no additional styles needed */
+
+/* 2. Processing state: square icon */
+#send-button.btn-processing .send-icon {
+  background-color: #e95f30;
+  border-radius: 2px;
+  width: 14px;
+  height: 14px;
 }
 
-/* Rotating animation for cancelling state */
-.send-icon.rotating {
+/* 3. Cancelling state: rotating square icon */
+#send-button.btn-cancelling .send-icon {
+  background-color: #e95f30;
+  border-radius: 2px;
+  width: 14px;
+  height: 14px;
   animation: rotate 1s linear infinite;
+}
+
+#send-button.btn-cancelling {
+  pointer-events: none;
 }
 
 @keyframes rotate {
@@ -440,23 +453,6 @@
   to {
     transform: rotate(360deg);
   }
-}
-
-/* Cancelling button state */
-#send-button.cancelling {
-  pointer-events: none;
-}
-
-/* Prevent clicking on disabled button */
-#send-button.processing {
-  cursor: pointer;
-}
-
-#send-button.processing .send-icon {
-  background-color: #e95f30;
-  border-radius: 2px;
-  width: 14px;
-  height: 14px;
 }
 
 #send-button:hover .send-icon,
