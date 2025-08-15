@@ -799,9 +799,6 @@
             case 'status_update':
               this.handleStatusUpdate(message);
               break;
-            case 'status':
-              this.handleStatusMessage(message);
-              break;
             
             default:
               console.warn('[handleMessage] Unknown message type:', message.type);
@@ -859,65 +856,6 @@
         }
       }
       
-      // Handle status messages from backend
-      handleStatusMessage(message) {
-        console.log('[handleStatusMessage] Received status message:', message);
-        
-        if (message.status === 'cancelling_pending') {
-          // Show cancelling status and rotate cancel button
-          this.showCancellingState(message.content);
-        } else if (message.status === 'cancelling_done') {
-          // Restore normal state
-          this.hideCancellingState();
-        }
-      }
-      
-      // Show cancelling state with rotating button
-      showCancellingState(content) {
-        console.log('[showCancellingState] Showing cancelling state');
-        
-        // Add system message about cancellation
-        if (content) {
-          this.addSystemMessage(content);
-        }
-        
-        // Update button to rotating cancel state
-        if (this.sendButton) {
-          this.sendButton.classList.add('cancelling');
-          this.sendButton.disabled = true;
-          const sendIcon = this.sendButton.querySelector('.send-icon');
-          if (sendIcon) {
-            sendIcon.classList.add('rotating');
-          }
-        }
-        
-        // Block input during cancellation
-        if (this.chatInput) {
-          this.chatInput.disabled = true;
-          this.chatInput.placeholder = 'Cancelling request...';
-        }
-      }
-      
-      // Hide cancelling state and restore normal UI
-      hideCancellingState() {
-        console.log('[hideCancellingState] Hiding cancelling state');
-        
-        // Restore button to normal state
-        if (this.sendButton) {
-          this.sendButton.classList.remove('cancelling', 'processing');
-          this.sendButton.disabled = false;
-          const sendIcon = this.sendButton.querySelector('.send-icon');
-          if (sendIcon) {
-            sendIcon.classList.remove('rotating', 'cancel');
-          }
-        }
-        
-        // Restore input
-        if (this.chatInput) {
-          this.chatInput.disabled = false;
-          this.chatInput.placeholder = 'Type your message here...';
-        }
-      }
 
       // Handle cancellation confirmation from backend
       handleCancellationConfirmed(message) {
@@ -953,6 +891,15 @@
       handleStatusUpdate(message) {
         console.log('[handleStatusUpdate] Status update received:', message);
         
+        // Handle cancellation status updates
+        if (message.status === 'cancelling_pending') {
+          this.showCancellingState(message.content);
+          return;
+        } else if (message.status === 'cancelling_done') {
+          this.hideCancellingState();
+          return;
+        }
+        
         // Update the typing indicator text if it exists
         if (this.typingIndicator && message.content) {
           this.typingIndicator.textContent = message.content;
@@ -964,6 +911,55 @@
             this.typingIndicator.textContent = message.content;
             console.log('[handleStatusUpdate] Created typing indicator with status:', message.content);
           }
+        }
+      }
+      
+      // Show cancelling state with rotating button
+      showCancellingState(content) {
+        console.log('[showCancellingState] Showing cancelling state');
+        
+        // Add status update message (not system message)
+        if (content) {
+          this.addAgentMessage(content);
+        }
+        
+        // Update button to rotating cancel state - keep square icon
+        if (this.sendButton) {
+          this.sendButton.classList.add('cancelling');
+          this.sendButton.disabled = true;
+          const sendIcon = this.sendButton.querySelector('.send-icon');
+          if (sendIcon) {
+            // Keep the cancel (square) class and add rotation
+            sendIcon.classList.add('rotating');
+          }
+        }
+        
+        // Block input during cancellation
+        if (this.chatInput) {
+          this.chatInput.disabled = true;
+          this.chatInput.placeholder = 'Cancelling request...';
+        }
+      }
+      
+      // Hide cancelling state and restore normal UI
+      hideCancellingState() {
+        console.log('[hideCancellingState] Hiding cancelling state');
+        
+        // Restore button to normal state
+        if (this.sendButton) {
+          this.sendButton.classList.remove('cancelling', 'processing');
+          this.sendButton.disabled = false;
+          const sendIcon = this.sendButton.querySelector('.send-icon');
+          if (sendIcon) {
+            // Remove rotation and cancel class, restore to send icon
+            sendIcon.classList.remove('rotating', 'cancel');
+          }
+        }
+        
+        // Restore input
+        if (this.chatInput) {
+          this.chatInput.disabled = false;
+          this.chatInput.placeholder = 'Type your message here...';
         }
       }
 
