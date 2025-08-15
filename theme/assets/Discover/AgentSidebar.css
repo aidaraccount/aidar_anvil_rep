@@ -428,6 +428,30 @@
   opacity: 0.9;
 }
 
+/* Rotating animation for cancelling state */
+.send-icon.rotating {
+  animation: rotate 1s linear infinite;
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Cancelling button state */
+#send-button.cancelling {
+  background-color: #d4a853;
+  cursor: not-allowed;
+}
+
+#send-button.cancelling .send-icon {
+  background-color: #d4a853;
+}
+
 /* Prevent clicking on disabled button */
 #send-button.processing {
   cursor: pointer;

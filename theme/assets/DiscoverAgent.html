@@ -799,6 +799,9 @@
             case 'status_update':
               this.handleStatusUpdate(message);
               break;
+            case 'status':
+              this.handleStatusMessage(message);
+              break;
             
             default:
               console.warn('[handleMessage] Unknown message type:', message.type);
@@ -856,10 +859,71 @@
         }
       }
       
+      // Handle status messages from backend
+      handleStatusMessage(message) {
+        console.log('[handleStatusMessage] Received status message:', message);
+        
+        if (message.status === 'cancelling_pending') {
+          // Show cancelling status and rotate cancel button
+          this.showCancellingState(message.content);
+        } else if (message.status === 'cancelling_done') {
+          // Restore normal state
+          this.hideCancellingState();
+        }
+      }
+      
+      // Show cancelling state with rotating button
+      showCancellingState(content) {
+        console.log('[showCancellingState] Showing cancelling state');
+        
+        // Add system message about cancellation
+        if (content) {
+          this.addSystemMessage(content);
+        }
+        
+        // Update button to rotating cancel state
+        if (this.sendButton) {
+          this.sendButton.classList.add('cancelling');
+          this.sendButton.disabled = true;
+          const sendIcon = this.sendButton.querySelector('.send-icon');
+          if (sendIcon) {
+            sendIcon.classList.add('rotating');
+          }
+        }
+        
+        // Block input during cancellation
+        if (this.chatInput) {
+          this.chatInput.disabled = true;
+          this.chatInput.placeholder = 'Cancelling request...';
+        }
+      }
+      
+      // Hide cancelling state and restore normal UI
+      hideCancellingState() {
+        console.log('[hideCancellingState] Hiding cancelling state');
+        
+        // Restore button to normal state
+        if (this.sendButton) {
+          this.sendButton.classList.remove('cancelling', 'processing');
+          this.sendButton.disabled = false;
+          const sendIcon = this.sendButton.querySelector('.send-icon');
+          if (sendIcon) {
+            sendIcon.classList.remove('rotating', 'cancel');
+          }
+        }
+        
+        // Restore input
+        if (this.chatInput) {
+          this.chatInput.disabled = false;
+          this.chatInput.placeholder = 'Type your message here...';
+        }
+      }
+
       // Handle cancellation confirmation from backend
       handleCancellationConfirmed(message) {
         console.log('[handleCancellationConfirmed] Backend confirmed cancellation:', message);
         this.removeTypingIndicator();
+        this.hideCancellingState();
         
         // Disable any active genre sub-scores
         const activeGenreScores = document.querySelectorAll('.message.genre-sub-scores');
