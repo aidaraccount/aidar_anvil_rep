@@ -926,14 +926,16 @@
           }
         }
         
-        // Update button to rotating cancel state - keep square icon
+        // Update button to rotating cancel state
         if (this.sendButton) {
+          // Clean all states first
+          this.sendButton.classList.remove('has-text', 'processing');
           this.sendButton.classList.add('cancelling');
           this.sendButton.disabled = true;
           const sendIcon = this.sendButton.querySelector('.send-icon');
           if (sendIcon) {
-            // Keep the cancel (square) class and add rotation
-            sendIcon.classList.add('rotating');
+            // Add both cancel appearance and rotation
+            sendIcon.classList.add('cancel', 'rotating');
           }
         }
       }
@@ -942,18 +944,20 @@
       hideCancellingState() {
         console.log('[hideCancellingState] Hiding cancelling state');
         
-        // Restore button to normal state
+        // Restore button to completely clean state
         if (this.sendButton) {
-          this.sendButton.classList.remove('cancelling', 'processing');
+          // Remove all possible state classes
+          this.sendButton.classList.remove('cancelling', 'processing', 'has-text');
           this.sendButton.disabled = false;
           const sendIcon = this.sendButton.querySelector('.send-icon');
           if (sendIcon) {
-            // Force stop rotation immediately by removing animation
+            // Force stop rotation immediately
             sendIcon.style.animation = 'none';
-            // Trigger reflow to apply the style change
+            // Trigger reflow
             sendIcon.offsetHeight;
-            // Remove classes and restore animation property
+            // Remove all icon state classes
             sendIcon.classList.remove('rotating', 'cancel');
+            // Restore animation property
             sendIcon.style.animation = '';
           }
         }
