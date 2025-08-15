@@ -2282,17 +2282,6 @@
           this.isProcessing = true;
         }
         
-        // Create thinking indicator
-        this.typingIndicator = document.createElement('div');
-        this.typingIndicator.className = 'message typing-indicator';
-        this.typingIndicator.textContent = 'AIDAR is thinking';
-        
-        const messagesContainer = document.getElementById('chat-messages');
-        if (messagesContainer) {
-          messagesContainer.appendChild(this.typingIndicator);
-          messagesContainer.scrollTop = messagesContainer.scrollHeight;
-        }
-        
         // Update send button to processing state (square icon)
         if (this.sendButton) {
           this.sendButton.classList.add('btn-processing');
@@ -2302,6 +2291,12 @@
         if (this.chatInput) {
           this.chatInput.placeholder = 'Processing request...'; 
         }
+        
+        // Create typing indicator via status_update message instead of direct DOM
+        this.handleStatusUpdate({
+          type: 'status_update',
+          content: 'AIDAR is thinking'
+        });
       }
       
       // Remove typing indicator
