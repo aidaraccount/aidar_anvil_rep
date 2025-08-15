@@ -1941,6 +1941,8 @@
           this.cancelRequested = false;
         }
         
+        // Always clean up button state when request completes
+        this.hideCancellingState();
         this.removeTypingIndicator();
       }
       
