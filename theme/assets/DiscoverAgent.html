@@ -1946,11 +1946,12 @@
         if (this.cancelRequested) {
           console.log('[handleCompleteMessage] Resetting cancelRequested flag');
           this.cancelRequested = false;
+          // If this was a cancelled request, use cancellation cleanup
+          this.hideCancellingState();
+        } else {
+          // For normal completion, use standard cleanup
+          this.removeTypingIndicator();
         }
-        
-        // Always clean up button state when request completes
-        this.hideCancellingState();
-        this.removeTypingIndicator();
       }
       
       // Handle extended create agent message from server
