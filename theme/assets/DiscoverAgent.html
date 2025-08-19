@@ -304,8 +304,9 @@
         this.chatMessages = document.getElementById('chat-messages');
         this.chatInput = document.getElementById('chat-input');
         this.sendButton = document.getElementById('send-button');
-        this.typingIndicator = null;
+        this.statusIndicator = null;
         this.messageQueue = [];
+        this.lastRequestIdByAgent = {};
         this.isConnected = false;
         this.wasConnectedBeforeError = false;
         this.reconnectAttempts = 0;
@@ -402,10 +403,12 @@
                 break;
 
               case 'query':
+              case 'create_agent':
+              case 'extended_create_agent':
                 // For text messages, use direction to determine if it's from user or system
                 if (msg.direction === 'in') {
                   this.addUserMessage(msg.content || '');
-                } else {
+                } else if (msg.direction === 'out') {
                   this.addAgentMessage(msg.content || '');
                 }
                 break;
@@ -447,11 +450,18 @@
                 
               default:
                 console.warn('[loadMessageHistory] Unknown message type:', msg.type, msg);
-                this.addSystemMessage(msg.content || JSON.stringify(msg));
+                // For unknown types, still check direction to avoid showing user messages as system messages
+                if (msg.direction === 'in' && msg.content) {
+                  this.addUserMessage(msg.content);
+                } else if (msg.direction === 'out' && msg.content) {
+                  this.addAgentMessage(msg.content);
+                } else if (msg.content) {
+                  this.addSystemMessage(msg.content);
+                }
             }
           });
           
-          this.removeTypingIndicator();
+          this.removeStatusIndicator();
           console.log('[loadMessageHistory] Finished loading message history');
           
         } catch (error) {
@@ -568,7 +578,7 @@
           
           // If we're processing AND the socket is connected, this is a cancel request
           // This prevents cancellation during the connection process
-          if (this.isProcessing && this.isConnected) {
+          if (this.stage === this.STAGE.NORMAL && this.isProcessingCurrent && this.isProcessingCurrent() && this.isConnected) {
             console.log('[sendMessage] Cancel request detected, connection state:', this.isConnected);
             this.cancelExecution();
             return;
@@ -584,7 +594,7 @@
           this.addUserMessage(message);
           this.chatInput.value = '';
           this.chatInput.style.height = 'auto'; // Reset textarea height
-          this.showTypingIndicator();
+          this.showStatusIndicator();
 
           // -------------------------
           // MODEL CREATION ANIMATION (Step 2)
@@ -636,12 +646,26 @@
 
           // --------------------------
           // Prepare message
+          // Map stage to backend message type
+          let outboundType = 'query';
+          if (this.stage === this.STAGE.CREATE_AGENT) outboundType = 'create_agent';
+          else if (this.stage === this.STAGE.EXTENDED_CREATE_AGENT) outboundType = 'extended_create_agent';
+          else if (this.stage === this.STAGE.NORMAL) outboundType = 'query';
+
+          // Generate request_id for strict pairing
+          const requestId = (this.generateRequestId && this.generateRequestId()) || (Date.now().toString(36) + Math.random().toString(36).slice(2));
+
+          // Track last request per agent for optional targeted cancellation
+          this.lastRequestIdByAgent = this.lastRequestIdByAgent || {};
+          this.lastRequestIdByAgent[this.model_id] = requestId;
+
           const messageData = {
-            type: this.stage,
+            type: outboundType,
             content: message,
             timestamp: new Date().toISOString(),
             user_id: sessionStorage.getItem('user_id'),
-            agent_id: this.model_id
+            agent_id: this.model_id,
+            request_id: requestId
           };
           
           console.log('[sendMessage] Prepared message:', messageData);
@@ -673,7 +697,20 @@
       // Send raw message to WebSocket
       sendRawMessage(messageData) {
         try {
-          this.socket.send(JSON.stringify(messageData));
+          // Always enforce latest routing identifiers at send time
+          const enforced = Object.assign({}, messageData, {
+            agent_id: this.model_id,
+            session_id: this.sessionId,
+            stage: this.stage
+          });
+          console.log('[sendRawMessage] ->', {
+            type: enforced.type,
+            agent_id: enforced.agent_id,
+            session_id: enforced.session_id,
+            stage: enforced.stage,
+            request_id: enforced.request_id
+          });
+          this.socket.send(JSON.stringify(enforced));
         } catch (error) {
           console.error('Error sending message:', error);
           this.addErrorMessage('Failed to send message');
@@ -687,6 +724,22 @@
         try {
           const message = JSON.parse(event.data);
           console.log('[handleMessage] Received message:', message);
+          
+          // Filter messages to prevent cross-agent interference
+          // Since session_id = 'session-' + agent_id, we can use either for filtering
+          const messageAgentId = message.agent_id || (message.session_id ? message.session_id.replace('session-', '') : null);
+          
+          // Convert both to strings for comparison to handle type mismatches
+          if (messageAgentId && this.model_id && String(messageAgentId) !== String(this.model_id)) {
+            // Allow agent creation messages to update the current agent context
+            const agentUpdateTypes = new Set(['create_agent', 'extended_create_agent']);
+            if (!agentUpdateTypes.has(message.type)) {
+              console.log(`[handleMessage] Discarded message from different agent. Current: ${this.model_id}, Message: ${messageAgentId}`);
+              return;
+            } else {
+              console.log(`[handleMessage] Allowing ${message.type} to update agent context from ${this.model_id} to ${messageAgentId}`);
+            }
+          }
           
           // Route messages to appropriate handlers
           switch (message.type) {
@@ -706,6 +759,18 @@
               break;
             case 'complete':
               this.handleCompleteMessage(message);
+              break;
+            case 'normal':
+            case 'message':
+            case 'response':
+            case 'agent_message':
+            case 'agent_text':
+              // Backend may send simple agent text under these types
+              if (typeof message.content === 'string' && message.content.trim().length > 0) {
+                this.addAgentMessage(message.content);
+              } else {
+                console.warn('[handleMessage] Received', message.type, 'without content');
+              }
               break;
             case 'cancellation_confirmed':
               this.handleCancellationConfirmed(message);
@@ -731,10 +796,18 @@
             case 'genre_sub_scores':
               this.handleGenreSubScores(message);
               break;
+            case 'status_update':
+              this.handleStatusUpdate(message);
+              break;
             
             default:
               console.warn('[handleMessage] Unknown message type:', message.type);
-              this.addSystemMessage(`Received unknown message type: ${message.type}`);
+              // Fallback: if content is a string, show it to avoid losing messages silently
+              if (typeof message.content === 'string' && message.content.trim().length > 0) {
+                this.addAgentMessage(message.content);
+              } else {
+                this.addSystemMessage(`Received unknown message type: ${message.type}`);
+              }
           }
         } catch (error) {
           console.error('[handleMessage] Error handling message:', error);
@@ -783,10 +856,12 @@
         }
       }
       
+
       // Handle cancellation confirmation from backend
       handleCancellationConfirmed(message) {
         console.log('[handleCancellationConfirmed] Backend confirmed cancellation:', message);
-        this.removeTypingIndicator();
+        this.removeStatusIndicator();
+        this.hideCancellingState();
         
         // Disable any active genre sub-scores
         const activeGenreScores = document.querySelectorAll('.message.genre-sub-scores');
@@ -810,6 +885,108 @@
             disableGenreControls(genreContainer, true);
           }
         });
+      }
+
+      // Handle status updates from backend
+      handleStatusUpdate(message) {
+        console.log('[handleStatusUpdate] Status update received:', message);
+        
+        // Handle cancellation status updates
+        if (message.status === 'cancelling_pending') {
+          this.showCancellingState(message.content);
+          // return;
+        } else if (message.status === 'cancelling_done') {
+          this.hideCancellingState();
+          // return;
+        }
+        
+        // Always ensure we have a visible status indicator for status updates
+        if (message.content) {
+          // Find existing status indicator in DOM or create one
+          let statusIndicator = document.querySelector('.status-indicator');
+          if (!statusIndicator) {
+            this.showStatusIndicator();
+            statusIndicator = this.statusIndicator;
+          }
+          
+          if (statusIndicator) {
+            statusIndicator.textContent = message.content;
+            console.log('[handleStatusUpdate] Updated status indicator to:', message.content);
+            // Ensure it's visible and scrolled into view
+            const messagesContainer = document.getElementById('chat-messages');
+            if (messagesContainer) {
+              messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            }
+          }
+        }
+      }
+      
+      // Show cancelling state with rotating button
+      showCancellingState(content) {
+        console.log('[showCancellingState] Showing cancelling state');
+        
+        // Show status update in status indicator
+        if (content) {
+          // Update existing status indicator or create one without changing button state
+          if (this.statusIndicator) {
+            this.statusIndicator.textContent = content;
+          } else {
+            // Create status indicator manually without calling showStatusIndicator()
+            this.statusIndicator = document.createElement('div');
+            this.statusIndicator.className = 'message status-indicator';
+            this.statusIndicator.textContent = content;
+            
+            const messagesContainer = document.getElementById('chat-messages');
+            if (messagesContainer) {
+              messagesContainer.appendChild(this.statusIndicator);
+              messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            }
+          }
+        }
+        
+        // Update button to rotating cancel state
+        if (this.sendButton) {
+          // Clean all old states and set cancelling state
+          this.sendButton.classList.remove('has-text', 'btn-processing');
+          this.sendButton.classList.add('btn-cancelling');
+          this.sendButton.disabled = true;
+          
+          console.log('[showCancellingState] Button state set to cancelling:', this.sendButton.className);
+        }
+      }
+      
+      // Hide cancelling state and restore normal UI
+      hideCancellingState() {
+        console.log('[hideCancellingState] Hiding cancelling state');
+        
+        if (this.sendButton) {
+          console.log('[hideCancellingState] Button classes before cleanup:', this.sendButton.className);
+          
+          // First phase: Stop rotation but keep square (switch to processing state)
+          this.sendButton.classList.remove('btn-cancelling');
+          this.sendButton.classList.add('btn-processing');
+          
+          console.log('[hideCancellingState] Stopped rotation, showing square:', this.sendButton.className);
+          
+          // Second phase: After brief moment, restore to normal state
+          setTimeout(() => {
+            console.log('[hideCancellingState] Restoring to normal state');
+            this.sendButton.classList.remove('btn-processing', 'has-text');
+            this.sendButton.disabled = false;
+            
+            // Reset processing state to allow new inputs
+            if (this.setProcessingCurrent) {
+              this.setProcessingCurrent(false);
+            } else {
+              this.isProcessing = false;
+            }
+            
+            console.log('[hideCancellingState] Final state:', this.sendButton.className);
+          }, 300);
+
+          // Remove status indicator
+          this.removeStatusIndicator();
+        }
       }
 
       // Handle artist information
@@ -904,6 +1081,8 @@
           const messageDiv = document.createElement('a');
           messageDiv.href = `#agent_artists?artist_id=${encodeURIComponent(artistId)}`;
           messageDiv.className = 'message artist reference';
+          // Bind the agent/model context at render time to ensure later actions use the correct model
+          messageDiv.setAttribute('data-model-id', this.model_id);
 
           messageDiv.innerHTML = `
             <div class="agent-artist-image" style="background-image: url('${this.escapeHtml(imageUrl)}')"></div>
@@ -979,9 +1158,9 @@
           `;
         };
         
-        // Update typing indicator to show waiting for confirmation
-        if (this.typingIndicator) {
-          this.typingIndicator.textContent = 'Waiting for user confirmation';
+        // Update status indicator to show waiting for confirmation
+        if (this.statusIndicator) {
+          this.statusIndicator.textContent = 'Waiting for user confirmation';
         }
 
         if (message.data && message.data.results && Array.isArray(message.data.results)) {
@@ -1675,9 +1854,9 @@
             // Hide the button and disable all interactive elements after confirmation
             disableGenreControls(mainContainer, true);
             
-            // Reset typing indicator to show processing
-            if (this.typingIndicator) {
-              this.typingIndicator.textContent = 'AIDAR is thinking';
+            // Reset status indicator to show processing
+            if (this.statusIndicator) {
+              this.statusIndicator.textContent = 'AIDAR is thinking';
             }
           });
           
@@ -1752,13 +1931,17 @@
       handleCompleteMessage(message) {
         console.log('[handleCompleteMessage] Received complete message');
         
-        // Reset cancel flag when we get completion message
-        if (this.cancelRequested) {
-          console.log('[handleCompleteMessage] Resetting cancelRequested flag');
-          this.cancelRequested = false;
-        }
+        // Check if button is in cancelling state (more reliable than flag)
+        const isCancelling = this.sendButton && this.sendButton.classList.contains('btn-cancelling');
         
-        this.removeTypingIndicator();
+        if (isCancelling || this.cancelRequested) {
+          console.log('[handleCompleteMessage] Was cancelled, using cancellation cleanup');
+          this.cancelRequested = false;
+          this.hideCancellingState();
+        } else {
+          console.log('[handleCompleteMessage] Normal completion, using standard cleanup');
+          this.removeStatusIndicator();
+        }
       }
       
       // Handle extended create agent message from server
@@ -1773,10 +1956,16 @@
           const normalizedAgentId = this.normalizeId(message.agent_id);
           if (normalizedAgentId) {
             this.model_id = normalizedAgentId;
-            this.sessionId = 'session-' + this.model_id;
+            this.sessionId = message.session_id ? message.session_id : ('session-' + this.model_id);
             sessionStorage.setItem('model_id', normalizedAgentId);
             console.log('[handleExtendedCreateAgent] Updated sessionId to:', this.sessionId);
           }
+        }
+        // Track request_id from ack for targeted cancellation and pairing
+        if (message.request_id) {
+          this.lastRequestIdByAgent = this.lastRequestIdByAgent || {};
+          this.lastRequestIdByAgent[this.model_id] = message.request_id;
+          console.log('[handleExtendedCreateAgent] Stored request_id for agent', this.model_id, '->', message.request_id);
         }
         
         // a) Set stage based on whether we have an artist_id
@@ -1790,8 +1979,8 @@
           this.stage = this.STAGE.EXTENDED_CREATE_AGENT;
         }
         
-        // c) Remove typing indicator
-        this.removeTypingIndicator();
+        // c) Remove status indicator
+        this.removeStatusIndicator();
 
         // d) navigate to agent page if artist_id is not null
         if (message.artist_id !== null && message.artist_id !== undefined && message.artist_id !== '' && message.artist_id !== 'null') {
@@ -1829,17 +2018,34 @@
           const normalizedAgentId = this.normalizeId(message.agent_id);
           if (normalizedAgentId) {
             this.model_id = normalizedAgentId;
-            this.sessionId = 'session-' + this.model_id;
+            this.sessionId = message.session_id ? message.session_id : ('session-' + this.model_id);
             sessionStorage.setItem('model_id', normalizedAgentId);
             console.log('[handleCreateAgent] Updated sessionId to:', this.sessionId);
+            
+            // IMPORTANT: Also update the lastRequestIdByAgent mapping for the new agent_id
+            if (this.lastRequestIdByAgent && message.request_id) {
+              // Transfer any existing request_id to the new agent_id
+              this.lastRequestIdByAgent[normalizedAgentId] = message.request_id;
+              console.log('[handleCreateAgent] Updated lastRequestIdByAgent for new agent_id:', normalizedAgentId, '->', message.request_id);
+            }
           }
         }
+        // Track request_id from ack for targeted cancellation and pairing
+        if (message.request_id) {
+          this.lastRequestIdByAgent = this.lastRequestIdByAgent || {};
+          this.lastRequestIdByAgent[this.model_id] = message.request_id;
+          console.log('[handleCreateAgent] Stored request_id for agent', this.model_id, '->', message.request_id);
+        }
+
+      
         
-        // a) update agent navigation
-        this.addNewModelToNavigation({
-          model_id: message.agent_id,
-          model_name: message.agent_name || 'New Agent'
-        });
+        // a) update agent navigation (only for acknowledgment message when agent is first created)
+        if (message.status === 'ack') {
+          this.addNewModelToNavigation({
+            model_id: message.agent_id,
+            model_name: message.agent_name || 'New Agent'
+          });
+        }
 
         // b) Set stage based on whether we have an artist_id
         if (message.artist_id && message.artist_id !== 'null') {
@@ -1850,8 +2056,14 @@
           this.stage = this.STAGE.EXTENDED_CREATE_AGENT;
         }
         
-        // d) remove typing indicator
-        this.removeTypingIndicator();
+        // d) remove status indicator when we receive the final create_agent message
+        // The final message has artist_id (either valid ID or null), indicating completion
+        if (message.hasOwnProperty('artist_id')) {
+          this.removeStatusIndicator();
+          console.log('[handleCreateAgent] Removed status indicator - agent creation complete. artist_id:', message.artist_id);
+        } else {
+          console.log('[handleCreateAgent] Keeping status indicator - intermediate create_agent message (no artist_id field)');
+        }
 
         // e) navigate to agent page if artist_id is not null
         if (message.artist_id !== null && message.artist_id !== undefined && message.artist_id !== '' && message.artist_id !== 'null') {
@@ -2019,8 +2231,8 @@
         this.chatMessages.appendChild(messageElement);
         this.scrollToBottom();
         
-        // Show typing indicator after user sends a message
-        this.showTypingIndicator();
+        // Show status indicator after user sends a message
+        this.showStatusIndicator();
       }
 
       // Add a system message to the chat
@@ -2063,50 +2275,55 @@
       }
       
       // Show waiting for response indicator
-      showTypingIndicator() {
-        this.removeTypingIndicator();
+      showStatusIndicator() {
+        this.removeStatusIndicator();
         
         // Update processing state
-        this.isProcessing = true;
+        if (this.setProcessingCurrent) {
+          this.setProcessingCurrent(true);
+        } else {
+          this.isProcessing = true;
+        }
         
-        // Create thinking indicator
-        this.typingIndicator = document.createElement('div');
-        this.typingIndicator.className = 'waiting-indicator';
-        this.typingIndicator.textContent = 'AIDAR is thinking';
-        this.chatContainer.appendChild(this.typingIndicator);
-        
-        // Update send button to cancel button
+        // Update send button to processing state (square icon)
         if (this.sendButton) {
-          this.sendButton.classList.add('processing');
-          const sendIcon = this.sendButton.querySelector('.send-icon');
-          if (sendIcon) {
-            sendIcon.classList.add('cancel');
-          }
+          this.sendButton.classList.add('btn-processing');
         }
         
         // Change placeholder text
         if (this.chatInput) {
           this.chatInput.placeholder = 'Processing request...'; 
         }
+        
+        // Create status indicator
+        this.statusIndicator = document.createElement('div');
+        this.statusIndicator.className = 'message status-indicator';
+        this.statusIndicator.textContent = 'AIDAR is thinking';
+        
+        const messagesContainer = document.getElementById('chat-messages');
+        if (messagesContainer) {
+          messagesContainer.appendChild(this.statusIndicator);
+          messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
       }
       
-      // Remove typing indicator
-      removeTypingIndicator() {
-        if (this.typingIndicator) {
-          this.typingIndicator.remove();
-          this.typingIndicator = null;
+      // Remove status indicator
+      removeStatusIndicator() {
+        if (this.statusIndicator) {
+          this.statusIndicator.remove();
+          this.statusIndicator = null;
         }
         
         // Reset processing state
-        this.isProcessing = false;
+        if (this.setProcessingCurrent) {
+          this.setProcessingCurrent(false);
+        } else {
+          this.isProcessing = false;
+        }
         
-        // Reset send button
+        // Reset send button to normal state (plane icon)
         if (this.sendButton) {
-          this.sendButton.classList.remove('processing');
-          const sendIcon = this.sendButton.querySelector('.send-icon');
-          if (sendIcon) {
-            sendIcon.classList.remove('cancel');
-          }
+          this.sendButton.classList.remove('btn-processing');
         }
         
         // Reset chat input placeholder
@@ -2156,17 +2373,38 @@
         }
       }
       
+      // Per-agent processing helpers (UI gating scoped by current model)
+      isProcessingCurrent() {
+        // Determine processing state for the current agent/model
+        this.processingState = this.processingState || {};
+        return !!this.processingState[this.model_id];
+      }
+      
+      setProcessingCurrent(value) {
+        // Set processing state for the current agent/model and mirror into legacy flag
+        this.processingState = this.processingState || {};
+        this.processingState[this.model_id] = !!value;
+        this.isProcessing = !!value;
+      }
+      
       // Cancel ongoing execution
       cancelExecution() {
         console.log('[cancelExecution] Sending cancellation request to backend');
         
+        // Set cancellation flag
+        this.cancelRequested = true;
+        
+        // Immediately show cancellation status and start rotation
+        this.showCancellingState('Canceling query after finishing the started process…');
+        
         // Send cancel message to backend
         if (this.socket && this.socket.readyState === WebSocket.OPEN) {
+          const rid = (this.lastRequestIdByAgent && this.lastRequestIdByAgent[this.model_id]) || undefined;
           const cancelMessage = {
             type: 'cancel_execution',
             agent_id: this.model_id,
-            session_id: sessionStorage.getItem('session_id') || 'unknown',
             user_id: sessionStorage.getItem('user_id') || 'unknown',
+            request_id: rid,
             timestamp: new Date().toISOString()
           };
           
@@ -2181,9 +2419,6 @@
           console.warn('[cancelExecution] WebSocket not connected, cannot send cancel message');
           this.addErrorMessage('Cannot cancel: connection not available');
         }
-        
-        // Clean up UI immediately for better UX
-        this.removeTypingIndicator();
       }
       
       // Helper: Escape HTML to prevent XSS
@@ -2199,22 +2434,37 @@
       // Delete reference artist with confirmation and server call
       async deleteReference(artistId, buttonElement) {
         try {
-          // Get form element for context
-          const formElement = document.querySelector('.anvil-container');
-          const result = await anvil.call(formElement, 'MainIn_delete_reference', this.model_id, artistId);
-          console.log('[deleteReference] Server call completed, result:', result);
-          
-          // Remove the artist element from the DOM on successful deletion
-          if (result) {
+          if (!confirm('Do you wish to delete this artist as a reference?')) return;
+
+          console.log('[deleteReference] Attempting to delete artist reference:', artistId);
+          console.log('[deleteReference] Current model_id used for deletion:', this.model_id);
+
+          // Use anvil.call to call a form method instead of server function directly
+          // This is more reliable in the Anvil environment
+          try {
+            const formElement = document.querySelector('.anvil-container');
+            // Determine target model_id from the message element to avoid accidental agent switching
             const artistElement = buttonElement.closest('.message.artist');
-            if (artistElement) {
-              artistElement.remove();
-              console.log('[deleteReference] Artist removed from DOM');
+            const targetModelId = (artistElement && artistElement.dataset && artistElement.dataset.modelId) ? artistElement.dataset.modelId : this.model_id;
+            console.log('[deleteReference] Using targetModelId for deletion:', targetModelId);
+            const result = await anvil.call(formElement, 'MainIn_delete_reference', targetModelId, artistId);
+            console.log('[deleteReference] Server call completed, result:', result);
+            
+            // Remove the artist element from the DOM on successful deletion
+            if (result) {
+              const artistElement = buttonElement.closest('.message.artist');
+              if (artistElement) {
+                artistElement.remove();
+                console.log('[deleteReference] Artist removed from DOM');
+              }
             }
+          } catch (err) {
+            console.error('[deleteReference] Error calling server method:', err);
+            this.addErrorMessage('Failed to delete artist reference. Please try again.');
           }
         } catch (err) {
-          console.error('[deleteReference] Error calling server method:', err);
-          this.addErrorMessage('Failed to delete artist reference. Please try again.');
+          console.error('[deleteReference] Error deleting artist reference:', err);
+          this.addErrorMessage('Failed to delete artist reference.');
         }
       }
       
@@ -2720,12 +2970,17 @@
             e.preventDefault();
             const wsManager = getWebSocketManager();
             
-            // If processing, execute cancel directly (don't call sendMessage)
-            if (wsManager.isProcessing) {
-              wsManager.cancelExecution(); // Call cancelExecution directly
-            } else if (chatInput.value.trim()) {
-              // Only send if there's text and not processing
-              wsManager.sendMessage();
+            // Stage-aware gating: allow submissions in create stages even if another agent is processing
+            if (wsManager.stage === wsManager.STAGE.NORMAL) {
+              if (wsManager.isProcessingCurrent && wsManager.isProcessingCurrent()) {
+                wsManager.cancelExecution();
+              } else if (chatInput.value.trim()) {
+                wsManager.sendMessage();
+              }
+            } else {
+              if (chatInput.value.trim()) {
+                wsManager.sendMessage();
+              }
             }
           });
         }
@@ -2736,14 +2991,15 @@
             if (e.key === 'Enter' && !e.shiftKey) {
               const wsManager = getWebSocketManager();
               
-              // For processing state: prevent default and do absolutely nothing
-              if (wsManager.isProcessing) {
+              // For processing state in NORMAL stage: prevent default and do nothing
+              if (wsManager.stage === wsManager.STAGE.NORMAL &&
+                  wsManager.isProcessingCurrent && wsManager.isProcessingCurrent()) {
                 e.preventDefault();
                 e.stopPropagation(); // Prevent event bubbling
                 return; // Do nothing at all
               }
               
-              // Only send if there's text and not processing
+              // In create stages, allow sending even if other agents are processing
               if (chatInput.value.trim()) {
                 e.preventDefault();
                 wsManager.sendMessage();
@@ -2875,11 +3131,22 @@
       sessionStorage.setItem('agent_toggle', 'true');
       console.log('[createAgentView] Ensured agent sidebar is visible');
       
-      // Set createAgent stage
+      // Set createAgent stage - message filtering will handle old agent messages
       const wsManager = window.wsManager;
       if (wsManager) {
         wsManager.stage = wsManager.STAGE.CREATE_AGENT;
         console.log('[createAgentView] Stage changed to:', wsManager.stage);
+        // Reset send UI for new agent creation context without altering background processing state
+        try {
+          const btn = wsManager.sendButton || document.getElementById('send-button');
+          if (btn) {
+            btn.classList.remove('btn-processing', 'btn-cancelling');
+          }
+          const input = wsManager.chatInput || document.getElementById('chat-input');
+          if (input) input.placeholder = 'Type your message here...';
+        } catch (e) {
+          console.warn('[createAgentView] UI reset warning:', e);
+        }
       } else {
         console.error('[createAgentView] WebSocket manager not found');
       }
@@ -2945,6 +3212,17 @@
         // 2. First set the proper stage for message handling
         wsManager.stage = wsManager.STAGE.EXTENDED_CREATE_AGENT;
         console.log('[createExtendedAgentView] Stage changed to:', wsManager.stage);
+        // Reset send UI for extended creation context without altering background processing state
+        try {
+          const btn = wsManager.sendButton || document.getElementById('send-button');
+          if (btn) {
+            btn.classList.remove('btn-processing', 'btn-cancelling');
+          }
+          const input = wsManager.chatInput || document.getElementById('chat-input');
+          if (input) input.placeholder = 'Type your message here...';
+        } catch (e) {
+          console.warn('[createExtendedAgentView] UI reset warning:', e);
+        }
         
         // 3. Handle model ID validation and synchronization
         if (wsManager.model_id && wsManager.model_id !== 'null') {

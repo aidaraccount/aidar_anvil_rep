@@ -134,7 +134,6 @@ class C_Home_Agents(C_Home_AgentsTemplate):
       try:
         data = json.loads(data)
       except json.JSONDecodeError:
-        print("SLIDER_DEBUG: Failed to parse data as JSON")
         data = None
     
     # Generate model boxes HTML
@@ -344,31 +343,22 @@ class C_Home_Agents(C_Home_AgentsTemplate):
       
       // Add a small delay to make sure DOM is fully processed
       setTimeout(function() {
-        console.log('MODEL_ACTIVATION_JS: SLIDER_DEBUG: Starting slider initialization');
         
         // Get DOM elements
         const track = document.querySelector('.slider-track');
         if (!track) {
-          console.log('MODEL_ACTIVATION_JS: SLIDER_DEBUG: Track element not found');
           return;
         }
-        console.log('MODEL_ACTIVATION_JS: SLIDER_DEBUG: track element found?', !!track);
         
         const boxes = track.querySelectorAll('.model-box');
-        console.log('MODEL_ACTIVATION_JS: SLIDER_DEBUG: Found ' + boxes.length + ' model boxes');
         
         const leftArrow = document.querySelector('.slider-arrow.left');
-        console.log('MODEL_ACTIVATION_JS: SLIDER_DEBUG: leftArrow element found?', !!leftArrow);
         
         const rightArrow = document.querySelector('.slider-arrow.right');
-        console.log('MODEL_ACTIVATION_JS: SLIDER_DEBUG: rightArrow element found?', !!rightArrow);
         
         if (!track || !boxes.length || !leftArrow || !rightArrow) {
-          console.log('MODEL_ACTIVATION_JS: SLIDER_DEBUG: Missing required elements');
           return;
         }
-        
-        console.log('MODEL_ACTIVATION_JS: SLIDER_DEBUG: All elements found, setting up event handlers');
         
         // Initialize state
         let currentPosition = 0;
@@ -380,8 +370,6 @@ class C_Home_Agents(C_Home_AgentsTemplate):
           const container = track.parentElement;
           const containerWidth = container.offsetWidth;
           const visibleBoxes = Math.floor(containerWidth / boxWidth);
-          console.log('MODEL_ACTIVATION_JS: SLIDER_DEBUG: Calculated visible boxes: ' + visibleBoxes + 
-                     ' (container width: ' + containerWidth + 'px, box width: ' + boxWidth + 'px)');
           return visibleBoxes;
         }
         
@@ -410,11 +398,6 @@ class C_Home_Agents(C_Home_AgentsTemplate):
           // This helps ensure perfect visual centering
           centerPos += -50; // Adjust by -50px to the left
           
-          console.log('MODEL_ACTIVATION_JS: SLIDER_DEBUG: Center calculation - container width: ' + 
-                    containerWidth + ', content width: ' + totalContentWidth + 
-                    ', raw center: ' + ((containerWidth - totalContentWidth) / 2) + 
-                    ', adjusted center: ' + centerPos);
-          
           // Return the calculated and adjusted center position
           return centerPos;
         }
@@ -424,9 +407,6 @@ class C_Home_Agents(C_Home_AgentsTemplate):
           // Calculate maxPosition based on how many boxes can be fully visible
           const visibleBoxes = calculateVisibleBoxes();
           const maxPosition = Math.max(0, boxes.length - visibleBoxes);
-          
-          console.log('MODEL_ACTIVATION_JS: SLIDER_DEBUG: Updating arrows. Current position: ' + 
-                     currentPosition + ', Max position: ' + maxPosition);
           
           // Clear previous edge effects
           track.parentElement.classList.remove('show-left-overlay', 'show-right-overlay');
@@ -457,7 +437,6 @@ class C_Home_Agents(C_Home_AgentsTemplate):
         
         // Function to update slider position
         function updatePosition(position) {
-          console.log('MODEL_ACTIVATION_JS: SLIDER_DEBUG: Updating position to: ' + position);
           currentPosition = position;
           
           // Clamp position so we can't scroll past the first or last item
@@ -497,7 +476,6 @@ class C_Home_Agents(C_Home_AgentsTemplate):
         });
         
         // Set initial position and arrow visibility
-        console.log('MODEL_ACTIVATION_JS: SLIDER_DEBUG: Setting initial position');
         
         // IMPORTANT: Initialize immediately with proper centering if needed
         // Check if all content fits and center it immediately
@@ -516,7 +494,6 @@ class C_Home_Agents(C_Home_AgentsTemplate):
           
           // Get dimensions before animation starts
           const centerPos = calculateCenterPosition();
-          console.log('MODEL_ACTIVATION_JS: SLIDER_DEBUG: Will animate to: ' + centerPos + 'px');
           
           // 2. After a brief delay, set up the transition and move to center
           // This delay ensures the browser has rendered the initial position
@@ -526,18 +503,14 @@ class C_Home_Agents(C_Home_AgentsTemplate):
             
             // Apply the centered position with animation
             track.style.transform = 'translateX(' + centerPos + 'px)';
-            console.log('MODEL_ACTIVATION_JS: SLIDER_DEBUG: Animation started');
           }, 300);
         } else {
           // Regular initialization at left edge
           updatePosition(0);
         }
         
-        console.log('MODEL_ACTIVATION_JS: SLIDER_DEBUG: Slider fully initialized');
-
         // Listen for window resize to adjust visible boxes
         window.addEventListener('resize', function() {
-          console.log('MODEL_ACTIVATION_JS: SLIDER_DEBUG: Window resized');
           // Update arrow visibility on window resize
           updateArrows();
         });
@@ -551,11 +524,11 @@ class C_Home_Agents(C_Home_AgentsTemplate):
     self.html = f"""
     <div class="agents-slider">
       <div class="slider-container">
-        <div class="slider-arrow left" onclick="console.log('MODEL_ACTIVATION_JS: SLIDER_DEBUG: Left arrow HTML onclick triggered');">&#10094;</div>
+        <div class="slider-arrow left">&#10094;</div>
         <div class="slider-track">
           {model_boxes_html}
         </div>
-        <div class="slider-arrow right" onclick="console.log('MODEL_ACTIVATION_JS: SLIDER_DEBUG: Right arrow HTML onclick triggered');">&#10095;</div>
+        <div class="slider-arrow right">&#10095;</div>
       </div>
       
       <script>{js_code}</script>
