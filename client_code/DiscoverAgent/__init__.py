@@ -135,7 +135,7 @@ class DiscoverAgent(DiscoverAgentTemplate):
 
     # get_suggestion
     sug = json.loads(anvil.server.call('get_suggestion', 'Inspect', self.model_id, url_artist_id)) # Free, Explore, Inspect, Dissect
-    print(sug)
+    # print(sug)
     
     # check if we are creating a new agent
     if url_artist_id == 'create_agent' or url_artist_id == 'extended_create_agent':
