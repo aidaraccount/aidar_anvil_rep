@@ -2434,8 +2434,6 @@
       // Delete reference artist with confirmation and server call
       async deleteReference(artistId, buttonElement) {
         try {
-          if (!confirm('Do you wish to delete this artist as a reference?')) return;
-
           console.log('[deleteReference] Attempting to delete artist reference:', artistId);
           console.log('[deleteReference] Current model_id used for deletion:', this.model_id);
 
