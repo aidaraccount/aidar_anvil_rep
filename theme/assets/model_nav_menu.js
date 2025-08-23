@@ -6,22 +6,35 @@ function initializeModelNavigation() {
     document.addEventListener('click', (e) => {
         console.log('🖱️ Click detected on:', e.target);
         console.log('🖱️ Click target classes:', e.target.className);
-        console.log('🖱️ Closest .icon-link-discreet:', e.target.closest('.icon-link-discreet'));
+        console.log('🖱️ Closest [anvil-role="icon-link-discreet"]:', e.target.closest('[anvil-role="icon-link-discreet"]'));
         
         // Handle three-dot icon clicks
-        if (e.target.closest('.icon-link-discreet')) {
+        if (e.target.closest('[anvil-role="icon-link-discreet"]')) {
             console.log('✅ Three-dot icon clicked!');
             e.preventDefault();
             e.stopPropagation();
             
-            const dotsLink = e.target.closest('.icon-link-discreet');
-            const modelId = dotsLink.getAttribute('tag');
-            const flowPanel = dotsLink.closest('[anvil-role="nav_flow_panel"]');
+            let dotsLink = e.target.closest('[anvil-role="icon-link-discreet"]');
+            if (!dotsLink) {
+                dotsLink = findClosestByRole(e.target, 'icon-link-discreet');
+                console.log('🧭 Fallback dotsLink by role scan:', dotsLink);
+            }
+            const modelId = resolveModelIdFromElement(dotsLink);
+            // Robust container resolution
+            let flowPanel = dotsLink.closest('[anvil-role="nav_flow_panel"]');
+            if (!flowPanel) {
+                flowPanel = dotsLink.closest('.flow-panel, .flow-panel-item, .anvil-container, .sidebar-elt, .content');
+                console.log('🧭 Fallback flowPanel:', flowPanel);
+            }
             
             console.log('📋 Model ID:', modelId);
             console.log('📋 Flow Panel:', flowPanel);
             
-            toggleModelOptions(flowPanel, modelId);
+            if (flowPanel) {
+                toggleModelOptions(flowPanel, modelId);
+            } else {
+                console.warn('⚠️ Could not find a suitable container for options menu.');
+            }
             return;
         }
         
@@ -49,6 +62,50 @@ function initializeModelNavigation() {
     });
     
     console.log('✅ Model navigation initialized successfully');
+}
+
+// Helper: Walk up the DOM to find the nearest element with a specific anvil-role
+function findClosestByRole(startEl, roleName) {
+    let el = startEl;
+    while (el) {
+        const role = el.getAttribute && el.getAttribute('anvil-role');
+        if (role === roleName) {
+            return el;
+        }
+        el = el.parentElement;
+    }
+    return null;
+}
+
+// Helper: Resolve modelId from DOM element
+function resolveModelIdFromElement(el) {
+    if (!el) return null;
+    // 1) tag attribute (if rendered)
+    let id = el.getAttribute('tag');
+    if (id) {
+        console.log('🔑 Found modelId via tag attribute:', id);
+        return id;
+    }
+    // 2) data-model-id on element
+    if (el.dataset && el.dataset.modelId) {
+        console.log('🔑 Found modelId via data-model-id on element:', el.dataset.modelId);
+        return el.dataset.modelId;
+    }
+    // 3) from closest nav_flow_panel container
+    const fp = el.closest('[anvil-role="nav_flow_panel"]');
+    if (fp) {
+        const fpTag = fp.getAttribute('tag');
+        if (fpTag) {
+            console.log('🔑 Found modelId via flow panel tag:', fpTag);
+            return fpTag;
+        }
+        if (fp.dataset && fp.dataset.modelId) {
+            console.log('🔑 Found modelId via flow panel data-model-id:', fp.dataset.modelId);
+            return fp.dataset.modelId;
+        }
+    }
+    console.warn('⚠️ Could not resolve modelId from element.');
+    return null;
 }
 
 // 2. Toggle model options display
@@ -83,11 +140,18 @@ function toggleModelOptions(flowPanel, modelId) {
     flowPanel.classList.add('expanded');
     console.log('✅ Added expanded class to flow panel');
     
-    const dotsLink = flowPanel.querySelector('.icon-link-discreet');
+    const dotsLink = flowPanel.querySelector('[anvil-role="icon-link-discreet"]');
     console.log('🔍 Dots link:', dotsLink);
     if (dotsLink) {
         dotsLink.classList.add('expanded');
         console.log('✅ Added expanded class to dots link');
+    }
+    
+    // Ensure positioning context for absolute menu
+    const currentPosition = getComputedStyle(flowPanel).position;
+    if (currentPosition === 'static' || !currentPosition) {
+        flowPanel.style.position = 'relative';
+        console.log('🧭 Set flowPanel position: relative for menu positioning');
     }
     
     // Show the expanded container
@@ -173,7 +237,7 @@ function closeAllMenus() {
         panel.classList.remove('expanded');
         
         // Remove expanded class from dots
-        const dotsLink = panel.querySelector('.icon-link-discreet');
+        const dotsLink = panel.querySelector('[anvil-role="icon-link-discreet"]');
         if (dotsLink) {
             dotsLink.classList.remove('expanded');
         }
@@ -209,7 +273,7 @@ if (document.readyState === 'loading') {
 // Also try to initialize after a delay to catch Anvil's dynamic content
 setTimeout(() => {
     console.log('⏰ Delayed initialization attempt');
-    const existingDots = document.querySelectorAll('.icon-link-discreet');
+    const existingDots = document.querySelectorAll('[anvil-role="icon-link-discreet"]');
     console.log('🔍 Found', existingDots.length, 'three-dot icons');
     existingDots.forEach((dot, index) => {
         console.log(`🔍 Dot ${index}:`, dot, 'Tag:', dot.getAttribute('tag'));

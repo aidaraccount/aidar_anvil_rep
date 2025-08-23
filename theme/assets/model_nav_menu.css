@@ -1,23 +1,23 @@
 /* 1. Three Dots Menu - Simple CSS-only approach */
-.icon-link-discreet {
+[anvil-role="icon-link-discreet"] {
     position: relative;
     transition: all 0.3s ease;
 }
 
 /* 2. Hide three dots by default, show on hover */
-[anvil-role="nav_flow_panel"] .icon-link-discreet {
+[anvil-role="nav_flow_panel"] [anvil-role="icon-link-discreet"] {
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.2s ease, visibility 0.2s ease;
 }
 
-[anvil-role="nav_flow_panel"]:hover .icon-link-discreet {
+[anvil-role="nav_flow_panel"]:hover [anvil-role="icon-link-discreet"] {
     opacity: 1;
     visibility: visible;
 }
 
 /* 3. Style the three dots icon */
-.icon-link-discreet i {
+[anvil-role="icon-link-discreet"] i {
     color: #666;
     font-size: 14px;
     padding: 4px;
@@ -25,7 +25,7 @@
     transition: all 0.2s ease;
 }
 
-.icon-link-discreet:hover i {
+[anvil-role="icon-link-discreet"]:hover i {
     background-color: #e0e0e0;
     color: #333;
 }
@@ -77,7 +77,7 @@
 }
 
 /* 6. Hide three dots when expanded */
-.icon-link-discreet.expanded {
+[anvil-role="icon-link-discreet"].expanded {
     opacity: 0;
     visibility: hidden;
 }
@@ -88,4 +88,9 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+}
+
+/* 8. Ensure each nav row is a positioning context for absolute menu */
+[anvil-role="nav_flow_panel"] {
+    position: relative;
 }
