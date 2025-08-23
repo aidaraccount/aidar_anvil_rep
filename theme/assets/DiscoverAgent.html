@@ -447,6 +447,12 @@
                   this.handleGenreSubScores({ data: msg.data, fromHistory: true });
                 }
                 break;
+              case 'contribution_weights':
+                // Handle contribution weights display
+                if (msg.data) {
+                  this.handleContributionWeights({ data: msg.data, fromHistory: true });
+                }
+                break;
                 
               default:
                 console.warn('[loadMessageHistory] Unknown message type:', msg.type, msg);
@@ -795,6 +801,9 @@
               break;
             case 'genre_sub_scores':
               this.handleGenreSubScores(message);
+              break;
+            case 'contribution_weights':
+              this.handleContributionWeights(message);
               break;
             case 'status_update':
               this.handleStatusUpdate(message);
@@ -1924,6 +1933,315 @@
           this.scrollToBottom();
         } else {
           this.addSystemMessage(message.content || 'Received genre sub scores information');
+        }
+      }
+
+      // Handle contribution weights information
+      handleContributionWeights(message) {
+        console.log('[handleContributionWeights] Contribution weights information received:', message);
+        
+        // Update status indicator to show waiting for confirmation
+        if (this.statusIndicator) {
+          this.statusIndicator.textContent = 'Waiting for user confirmation';
+        }
+
+        if (message.data) {
+          const data = message.data;
+          const similarityWeight = data.similarity_weight || 0.6;
+          const growthWeight = data.growth_weight || 0.3;
+          const musicalWeight = data.musical_weight || 0.6;
+          
+          // Create message element with contribution-weights class
+          const messageDiv = document.createElement('div');
+          messageDiv.className = 'message contribution-weights';
+          
+          // Create the main container
+          const mainContainer = document.createElement('div');
+          mainContainer.className = 'genre-scores-container'; // Reuse existing styles
+          
+          // Create content div for contribution sliders
+          const contentDiv = document.createElement('div');
+          contentDiv.className = 'genre-scores-content';
+          
+          // Store manual values for the weights
+          const manualValues = {
+            'similarity_weight': Math.round(similarityWeight * 100),
+            'growth_weight': Math.round(growthWeight * 100),
+            'musical_weight': Math.round(musicalWeight * 100)
+          };
+          
+          // Function to create contribution weight sliders
+          const createContributionSliders = (container) => {
+            const weights = [
+              { key: 'similarity_weight', name: 'Similarity Weight', value: similarityWeight, description: 'How much to prioritize artists similar to well-rated ones' },
+              { key: 'growth_weight', name: 'Growth Weight', value: growthWeight, description: 'How much to prioritize growth parameters and trending artists' },
+              { key: 'musical_weight', name: 'Musical Weight', value: musicalWeight, description: 'How much to prioritize musical fit and genre matching' }
+            ];
+            
+            weights.forEach(weight => {
+              // Create weight item container
+              const weightItem = document.createElement('div');
+              weightItem.className = 'genre-score-item';
+              
+              // Create weight name and description
+              const weightNameEl = document.createElement('div');
+              weightNameEl.className = 'genre-name';
+              weightNameEl.innerHTML = `${weight.name}<br><small>${weight.description}</small>`;
+              weightItem.appendChild(weightNameEl);
+              
+              // Create slider container
+              const sliderContainer = document.createElement('div');
+              sliderContainer.className = 'genre-slider-container';
+              
+              // Create slider
+              const slider = document.createElement('div');
+              slider.className = 'genre-slider';
+              
+              // Create track
+              const track = document.createElement('div');
+              track.className = 'genre-slider-track';
+              
+              // Create progress bar
+              const progress = document.createElement('div');
+              progress.className = 'genre-slider-progress';
+              const percentage = weight.value * 100;
+              progress.style.width = `${percentage}%`;
+              
+              // Create handle
+              const handle = document.createElement('div');
+              handle.className = 'genre-slider-handle';
+              handle.style.left = `${percentage}%`;
+              handle.setAttribute('data-weight', weight.key);
+              handle.setAttribute('data-value', Math.round(percentage));
+              
+              // Add drag functionality to handle
+              let isDragging = false;
+              
+              handle.addEventListener('mousedown', (e) => {
+                isDragging = true;
+                document.addEventListener('mousemove', onMouseMove);
+                document.addEventListener('mouseup', onMouseUp);
+                e.preventDefault();
+              });
+              
+              // Add click functionality to track
+              track.addEventListener('mousedown', (e) => {
+                const rect = track.getBoundingClientRect();
+                let newPos = (e.clientX - rect.left) / rect.width * 100;
+                newPos = Math.max(0, Math.min(100, newPos));
+                
+                handle.style.left = `${newPos}%`;
+                progress.style.width = `${newPos}%`;
+                handle.setAttribute('data-value', Math.round(newPos));
+                manualValues[weight.key] = Math.round(newPos);
+                
+                isDragging = true;
+                document.addEventListener('mousemove', onMouseMove);
+                document.addEventListener('mouseup', onMouseUp);
+                e.preventDefault();
+              });
+              
+              const onMouseMove = (e) => {
+                if (!isDragging) return;
+                
+                const rect = track.getBoundingClientRect();
+                let newPos = (e.clientX - rect.left) / rect.width * 100;
+                newPos = Math.max(0, Math.min(100, newPos));
+                
+                handle.style.left = `${newPos}%`;
+                progress.style.width = `${newPos}%`;
+                handle.setAttribute('data-value', Math.round(newPos));
+                manualValues[weight.key] = Math.round(newPos);
+              };
+              
+              const onMouseUp = () => {
+                isDragging = false;
+                document.removeEventListener('mousemove', onMouseMove);
+                document.removeEventListener('mouseup', onMouseUp);
+              };
+              
+              // Assemble the slider
+              track.appendChild(progress);
+              track.appendChild(handle);
+              slider.appendChild(track);
+              sliderContainer.appendChild(slider);
+              weightItem.appendChild(sliderContainer);
+              
+              // Add to container
+              container.appendChild(weightItem);
+            });
+          };
+          
+          // Add sliders
+          createContributionSliders(contentDiv);
+          
+          // Create legend
+          const legend = document.createElement('div');
+          legend.className = 'genre-slider-legend';
+          legend.innerHTML = '<div class="increasing-fit">increasing contribution</div>';
+          
+          // Create button container
+          const buttonContainer = document.createElement('div');
+          buttonContainer.className = 'genre-button-container';
+          
+          // Create toggle container
+          const toggleContainer = document.createElement('div');
+          toggleContainer.className = 'genre-toggle-container';
+          
+          const toggleOptions = document.createElement('div');
+          toggleOptions.className = 'genre-toggle-options';
+          
+          const manualOption = document.createElement('div');
+          manualOption.className = 'genre-toggle-option active'; // Start with manual active
+          manualOption.textContent = 'manual';
+          
+          const aiAutoOption = document.createElement('div');
+          aiAutoOption.className = 'genre-toggle-option';
+          aiAutoOption.textContent = 'AI auto';
+          
+          const confirmButton = document.createElement('button');
+          confirmButton.className = 'genre-button confirm-button';
+          confirmButton.textContent = 'confirm';
+          
+          // Function to show AI auto learning message
+          const showAiAutoMessage = () => {
+            contentDiv.innerHTML = `
+              <div class="ai-auto-info-message">
+                <div class="title">
+                  Learning Your Model Contribution Preferences
+                </div>
+                <div class="description">
+                  We're still learning your model contribution preferences. 
+                  Feel free to stay in AI auto mode and we will analyze your preferences 
+                  after more artist interactions.
+                </div>
+              </div>
+            `;
+          };
+          
+          // Function to show manual sliders
+          const showManualSliders = () => {
+            contentDiv.innerHTML = '';
+            createContributionSliders(contentDiv);
+          };
+          
+          // Toggle functionality
+          manualOption.addEventListener('click', () => {
+            if (!manualOption.classList.contains('active')) {
+              manualOption.classList.add('active');
+              aiAutoOption.classList.remove('active');
+              showManualSliders();
+            }
+          });
+          
+          aiAutoOption.addEventListener('click', () => {
+            if (!aiAutoOption.classList.contains('active')) {
+              aiAutoOption.classList.add('active');
+              manualOption.classList.remove('active');
+              showAiAutoMessage();
+            }
+          });
+          
+          // Add confirm button functionality
+          confirmButton.addEventListener('click', () => {
+            // Determine current mode and values
+            const isAutoMode = aiAutoOption.classList.contains('active');
+            const currentMode = isAutoMode ? 'auto' : 'manual';
+            
+            let currentValues;
+            if (isAutoMode) {
+              // For auto mode, use original suggested values
+              currentValues = {
+                similarity_weight: similarityWeight,
+                growth_weight: growthWeight,
+                musical_weight: musicalWeight,
+                mode: 'auto'
+              };
+            } else {
+              // For manual mode, use adjusted values
+              currentValues = {
+                similarity_weight: manualValues.similarity_weight / 100,
+                growth_weight: manualValues.growth_weight / 100,
+                musical_weight: manualValues.musical_weight / 100,
+                mode: 'manual'
+              };
+            }
+            
+            const continuationMessage = {
+              type: 'contribution_confirmation',
+              content: 'User confirmed contribution weights',
+              data: currentValues,
+              timestamp: new Date().toISOString(),
+              user_id: sessionStorage.getItem('user_id'),
+              agent_id: this.model_id
+            };
+            
+            if (this.socket && this.socket.readyState === WebSocket.OPEN) {
+              this.sendRawMessage(continuationMessage);
+              console.log('[handleContributionWeights] Sent contribution confirmation to backend:', currentValues);
+            } else {
+              console.warn('[handleContributionWeights] Cannot send confirmation - WebSocket not connected');
+            }
+            
+            // Hide the button and disable all interactive elements after confirmation
+            disableContributionControls(mainContainer, true);
+            
+            // Reset status indicator to show processing
+            if (this.statusIndicator) {
+              this.statusIndicator.textContent = 'AIDAR is thinking';
+            }
+          });
+          
+          // Assemble the toggle options
+          toggleOptions.appendChild(manualOption);
+          toggleOptions.appendChild(aiAutoOption);
+          toggleContainer.appendChild(toggleOptions);
+          
+          // Add toggle and confirm button to container
+          buttonContainer.appendChild(toggleContainer);
+          buttonContainer.appendChild(confirmButton);
+          
+          // Assemble everything
+          mainContainer.appendChild(contentDiv);
+          mainContainer.appendChild(legend);
+          mainContainer.appendChild(buttonContainer);
+          messageDiv.appendChild(mainContainer);
+          
+          // Helper function to disable all contribution controls
+          const disableContributionControls = (container, hideButton = false) => {
+            if (hideButton) {
+              confirmButton.style.display = 'none';
+            }
+            
+            // Disable toggle options
+            manualOption.style.pointerEvents = 'none';
+            manualOption.style.opacity = '0.7';
+            aiAutoOption.style.pointerEvents = 'none';
+            aiAutoOption.style.opacity = '0.7';
+            
+            // Disable all sliders
+            const allSliders = container.querySelectorAll('.genre-slider-handle');
+            allSliders.forEach(handle => {
+              handle.style.display = 'none';
+              handle.style.pointerEvents = 'none';
+            });
+            
+            const allTracks = container.querySelectorAll('.genre-slider-track');
+            allTracks.forEach(track => {
+              track.style.pointerEvents = 'none';
+            });
+          };
+          
+          // If loading from history, disable all controls and hide button
+          if (message.fromHistory) {
+            disableContributionControls(mainContainer, true);
+          }
+          
+          // Add to chat and scroll
+          this.chatMessages.appendChild(messageDiv);
+          this.scrollToBottom();
+        } else {
+          this.addSystemMessage(message.content || 'Received contribution weights information');
         }
       }
 
