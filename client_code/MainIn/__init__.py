@@ -207,14 +207,13 @@ class MainIn(MainInTemplate):
           )
         model_link.set_event_handler('click', self.create_model_click_handler(model_ids[i]["model_id"], model_link, model_container))
         
-        # 4. Create three-dot options icon
+        # 4. Create three-dot options icon (no click handler - JavaScript will handle)
         options_link = Link(
           icon='fa:ellipsis-h',
           text="",  # Empty text for icon-only link
           tag=model_ids[i]["model_id"],
           role='icon-link-discreet'
         )
-        options_link.set_event_handler('click', self.create_settings_click_handler(model_ids[i]["model_id"]))
         
         # 5. Add both links to the container
         model_container.add_component(model_link, expand=True)  # Expand to fill available space

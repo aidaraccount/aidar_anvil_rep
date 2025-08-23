@@ -109,8 +109,13 @@ function handleOptionClick(action, modelId) {
     
     switch (action) {
         case 'settings':
-            // Navigate to model profile page
-            window.location.hash = `model_profile?model_id=${modelId}&section=Main`;
+            // Use Anvil's routing system instead of direct hash change
+            if (typeof routing !== 'undefined' && routing.set_url_hash) {
+                routing.set_url_hash(`model_profile?model_id=${modelId}&section=Main`, false);
+            } else {
+                // Fallback to direct hash change
+                window.location.hash = `model_profile?model_id=${modelId}&section=Main`;
+            }
             break;
         case 'pin':
             console.log('Pin functionality not implemented yet');
