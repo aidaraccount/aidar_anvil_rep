@@ -46,7 +46,20 @@ function initializeModelNavigation() {
             
             const optionIcon = e.target.closest('.option-icon');
             const action = optionIcon.dataset.action;
-            const modelId = optionIcon.dataset.modelId;
+            let modelId = optionIcon.dataset.modelId;
+            if (!modelId) {
+                // Fallback: read from parent expanded container or flow panel
+                const expanded = optionIcon.closest('.model-options-expanded');
+                if (expanded && expanded.dataset && expanded.dataset.modelId) {
+                    modelId = expanded.dataset.modelId;
+                    console.log('🔑 Fallback modelId via expanded container dataset:', modelId);
+                }
+            }
+            if (!modelId) {
+                const fp = optionIcon.closest('[anvil-role="nav_flow_panel"]');
+                modelId = resolveModelIdFromElement(fp) || resolveModelIdFromElement(optionIcon);
+                console.log('🔑 Fallback modelId via container/element resolve:', modelId);
+            }
             
             console.log('📋 Action:', action, 'Model ID:', modelId);
             
@@ -103,6 +116,19 @@ function resolveModelIdFromElement(el) {
             console.log('🔑 Found modelId via flow panel data-model-id:', fp.dataset.modelId);
             return fp.dataset.modelId;
         }
+        // 4) from model link inside container
+        const link = fp.querySelector('[anvil-role*="model-nav-link"]');
+        if (link) {
+            const linkTag = link.getAttribute('tag');
+            if (linkTag) {
+                console.log('🔑 Found modelId via model link tag:', linkTag);
+                return linkTag;
+            }
+            if (link.dataset && link.dataset.modelId) {
+                console.log('🔑 Found modelId via model link data-model-id:', link.dataset.modelId);
+                return link.dataset.modelId;
+            }
+        }
     }
     console.warn('⚠️ Could not resolve modelId from element.');
     return null;
@@ -122,6 +148,10 @@ function toggleModelOptions(flowPanel, modelId) {
     
     if (!expandedContainer) {
         // Create the expanded options container
+        if (!modelId) {
+            modelId = resolveModelIdFromElement(flowPanel);
+            console.log('🔑 Resolved modelId inside toggle from flowPanel:', modelId);
+        }
         expandedContainer = createExpandedOptions(modelId);
         
         // Find the flow-panel-gutter to append to
@@ -167,18 +197,22 @@ function createExpandedOptions(modelId) {
     
     const container = document.createElement('div');
     container.className = 'model-options-expanded';
+    // propagate model id on container for fallback
+    if (modelId != null) {
+        container.dataset.modelId = modelId;
+    }
     
     // Pin icon
-    const pinIcon = createOptionIcon('fa-thumb-tack', 'pin', modelId, 'Pin model');
+    const pinIcon = createOptionIcon('fa-thumb-tack', 'pin', modelId, 'pin agent');
     
     // Megaphone icon
-    const megaphoneIcon = createOptionIcon('fa-bullhorn', 'notifications', modelId, 'Notifications');
+    const megaphoneIcon = createOptionIcon('fa-bullhorn', 'notifications', modelId, 'activate notification');
     
     // Settings icon
-    const settingsIcon = createOptionIcon('fa-sliders', 'settings', modelId, 'Settings');
+    const settingsIcon = createOptionIcon('fa-sliders', 'settings', modelId, 'agent profile');
     
     // Trash icon
-    const trashIcon = createOptionIcon('fa-trash', 'delete', modelId, 'Delete model');
+    const trashIcon = createOptionIcon('fa-trash', 'delete', modelId, 'delete agent');
     
     container.appendChild(pinIcon);
     container.appendChild(megaphoneIcon);
