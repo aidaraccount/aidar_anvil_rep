@@ -147,11 +147,14 @@ class ModelNavMenu {
         // Create new options menu
         const optionsMenu = this.createOptionsMenu(modelId, onSettingsClick);
         
-        // Add container class for styling
-        container.classList.add('model-nav-container');
-        
-        // Append options menu to container
-        container.appendChild(optionsMenu);
+        // Find the flow-panel-gutter and append the options menu there
+        const gutter = container.querySelector('.flow-panel-gutter');
+        if (gutter) {
+            gutter.appendChild(optionsMenu);
+        } else {
+            // Fallback: append to container
+            container.appendChild(optionsMenu);
+        }
     }
 }
 
@@ -180,8 +183,27 @@ function clearModelNavigation() {
 function addModelOptionsMenu(containerId, modelId, onSettingsClick) {
     // Use setTimeout to ensure DOM is ready
     setTimeout(() => {
-        const container = document.querySelector(`[tag="${containerId}"]`);
+        // Try multiple selectors to find the container
+        let container = document.querySelector(`[tag="${containerId}"]`);
+        if (!container) {
+            container = document.querySelector(`[anvil-tag="${containerId}"]`);
+        }
+        if (!container) {
+            // Look for flow panel with role nav_flow_panel that contains a link with the model ID
+            const flowPanels = document.querySelectorAll('[anvil-role="nav_flow_panel"]');
+            for (let panel of flowPanels) {
+                const link = panel.querySelector(`[tag="${containerId}"]`);
+                if (link) {
+                    container = panel;
+                    break;
+                }
+            }
+        }
+        
+        console.log('Looking for container with ID:', containerId, 'Found:', container);
+        
         if (container && window.modelNavMenu) {
+            console.log('Adding options menu for model:', modelId);
             // Create a wrapper function for Anvil callback
             const settingsCallback = () => {
                 if (typeof onSettingsClick === 'function') {
@@ -192,8 +214,11 @@ function addModelOptionsMenu(containerId, modelId, onSettingsClick) {
                 }
             };
             window.modelNavMenu.updateModelContainer(container, modelId, settingsCallback);
+        } else {
+            console.log('Container or modelNavMenu not found. Container:', container, 'ModelNavMenu:', window.modelNavMenu);
+            console.log('Available flow panels:', document.querySelectorAll('[anvil-role="nav_flow_panel"]'));
         }
-    }, 100);
+    }, 500); // Increased timeout to ensure Anvil DOM is ready
 }
 
 // 14. Initialize when DOM is ready

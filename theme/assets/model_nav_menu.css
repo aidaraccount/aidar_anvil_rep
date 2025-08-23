@@ -22,7 +22,8 @@
     visibility: hidden;
 }
 
-.model-nav-options:hover .model-nav-dots {
+/* Show dots on hover of the entire flow panel */
+[anvil-role="nav_flow_panel"]:hover .model-nav-dots {
     opacity: 1;
     visibility: visible;
 }
@@ -80,15 +81,18 @@
 }
 
 /* 6. Flow Panel Adjustments for Options */
-.model-nav-container {
+[anvil-role="nav_flow_panel"] {
+    position: relative;
+}
+
+[anvil-role="nav_flow_panel"] .flow-panel-gutter {
     display: flex;
     align-items: center;
     justify-content: space-between;
     width: 100%;
-    min-height: 32px;
 }
 
-.model-nav-container .model-nav-link {
+[anvil-role="nav_flow_panel"] .flow-panel-item {
     flex: 1;
     min-width: 0;
 }
