@@ -1,128 +1,76 @@
-/* 1. Model Navigation Menu Styles */
-.model-nav-options {
+/* 1. Three Dots Menu - Simple CSS-only approach */
+.icon-link-discreet {
     position: relative;
-    display: inline-flex;
-    align-items: center;
     transition: all 0.3s ease;
 }
 
-/* 2. Three Dots Menu Button */
-.model-nav-dots {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 24px;
-    height: 24px;
-    border-radius: 50%;
-    background-color: #f5f5f5;
-    color: #666;
-    cursor: pointer;
-    transition: all 0.2s ease;
+/* 2. Hide three dots by default, show on hover */
+[anvil-role="nav_flow_panel"] .icon-link-discreet {
     opacity: 0;
     visibility: hidden;
+    transition: opacity 0.2s ease, visibility 0.2s ease;
 }
 
-/* Show dots on hover of the entire flow panel */
-[anvil-role="nav_flow_panel"]:hover .model-nav-dots {
+[anvil-role="nav_flow_panel"]:hover .icon-link-discreet {
     opacity: 1;
     visibility: visible;
 }
 
-.model-nav-dots:hover {
+/* 3. Style the three dots icon */
+.icon-link-discreet i {
+    color: #666;
+    font-size: 14px;
+    padding: 4px;
+    border-radius: 50%;
+    transition: all 0.2s ease;
+}
+
+.icon-link-discreet:hover i {
     background-color: #e0e0e0;
     color: #333;
 }
 
-/* 3. Expanded Options Container */
-.model-nav-expanded {
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-    opacity: 0;
-    visibility: hidden;
-    transform: translateX(10px);
-    transition: all 0.3s ease;
+/* 4. Expandable options on click (future enhancement) */
+.icon-link-discreet.expanded {
+    position: relative;
 }
 
-.model-nav-expanded.active {
-    opacity: 1;
-    visibility: visible;
-    transform: translateX(0);
-}
-
-/* 4. Individual Option Icons */
-.model-nav-option {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 24px;
+.icon-link-discreet.expanded::after {
+    content: '';
+    position: absolute;
+    right: -100px;
+    top: 0;
+    width: 96px;
     height: 24px;
+    background: linear-gradient(90deg, 
+        transparent 0%, 
+        rgba(240, 240, 240, 0.9) 10%, 
+        rgba(240, 240, 240, 0.9) 90%, 
+        transparent 100%);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    z-index: 10;
+}
+
+/* 5. Individual option icons (for future enhancement) */
+.option-icon {
+    width: 20px;
+    height: 20px;
     border-radius: 50%;
     background-color: #f5f5f5;
     color: #666;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
     cursor: pointer;
     transition: all 0.2s ease;
-    font-size: 12px;
 }
 
-.model-nav-option:hover {
+.option-icon:hover {
     background-color: #e0e0e0;
     color: #333;
     transform: scale(1.1);
-}
-
-/* 5. Model Link Text Truncation */
-.model-nav-link.truncated {
-    max-width: 120px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    transition: max-width 0.3s ease;
-}
-
-/* 6. Flow Panel Adjustments for Options */
-[anvil-role="nav_flow_panel"] {
-    position: relative;
-}
-
-[anvil-role="nav_flow_panel"] .flow-panel-gutter {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-}
-
-[anvil-role="nav_flow_panel"] .flow-panel-item {
-    flex: 1;
-    min-width: 0;
-}
-
-/* 7. Animation States */
-.model-nav-options.expanding .model-nav-dots {
-    opacity: 0;
-    visibility: hidden;
-}
-
-.model-nav-options.expanding .model-nav-expanded {
-    opacity: 1;
-    visibility: visible;
-    transform: translateX(0);
-}
-
-/* 8. Responsive Behavior */
-@media (max-width: 768px) {
-    .model-nav-option {
-        width: 20px;
-        height: 20px;
-        font-size: 10px;
-    }
-    
-    .model-nav-dots {
-        width: 20px;
-        height: 20px;
-    }
-    
-    .model-nav-link.truncated {
-        max-width: 80px;
-    }
 }

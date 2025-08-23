@@ -125,21 +125,6 @@ class MainIn(MainInTemplate):
 
       save_var('initial_login', True)
       
-  def form_show(self, **event_args):
-    """This method is called when the form is shown on the page"""
-    # Initialize JavaScript model menus after form is visible
-    if hasattr(self, '_pending_model_menus'):
-      for menu_info in self._pending_model_menus:
-        try:
-          self.call_js('addModelOptionsMenu', 
-                       menu_info['model_id'], 
-                       menu_info['model_id'], 
-                       menu_info['settings_handler'])
-        except Exception as e:
-          print(f"Error initializing model menu for {menu_info['model_id']}: {e}")
-      # Clear pending menus after initialization
-      self._pending_model_menus = []
-      
 
   # WATCHLIST ROUTING
   def refresh_watchlists_components(self):
@@ -222,19 +207,21 @@ class MainIn(MainInTemplate):
           )
         model_link.set_event_handler('click', self.create_model_click_handler(model_ids[i]["model_id"], model_link, model_container))
         
-        # 4. Add the model link to the container
+        # 4. Create three-dot options icon
+        options_link = Link(
+          icon='fa:ellipsis-h',
+          text="",  # Empty text for icon-only link
+          tag=model_ids[i]["model_id"],
+          role='icon-link-discreet'
+        )
+        options_link.set_event_handler('click', self.create_settings_click_handler(model_ids[i]["model_id"]))
+        
+        # 5. Add both links to the container
         model_container.add_component(model_link, expand=True)  # Expand to fill available space
+        model_container.add_component(options_link)
         
-        # 5. Add the container to nav_models
+        # 6. Add the container to nav_models
         self.nav_models.add_component(model_container)
-        
-        # 6. Store model info for later JS initialization
-        if not hasattr(self, '_pending_model_menus'):
-            self._pending_model_menus = []
-        self._pending_model_menus.append({
-            'model_id': model_ids[i]["model_id"],
-            'settings_handler': self.create_settings_click_handler(model_ids[i]["model_id"])
-        })
 
     self.reset_nav_backgrounds()
   
