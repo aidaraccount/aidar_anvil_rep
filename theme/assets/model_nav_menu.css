@@ -30,31 +30,32 @@
     color: #333;
 }
 
-/* 4. Expandable options on click (future enhancement) */
-.icon-link-discreet.expanded {
-    position: relative;
-}
-
-.icon-link-discreet.expanded::after {
-    content: '';
+/* 4. Expandable options container */
+.model-options-expanded {
     position: absolute;
-    right: -100px;
+    right: 0;
     top: 0;
-    width: 96px;
-    height: 24px;
-    background: linear-gradient(90deg, 
-        transparent 0%, 
-        rgba(240, 240, 240, 0.9) 10%, 
-        rgba(240, 240, 240, 0.9) 90%, 
-        transparent 100%);
-    border-radius: 12px;
     display: flex;
     align-items: center;
-    justify-content: space-around;
+    gap: 4px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateX(10px);
+    transition: all 0.3s ease;
     z-index: 10;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 12px;
+    padding: 2px 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* 5. Individual option icons (for future enhancement) */
+.model-options-expanded.active {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(0);
+}
+
+/* 5. Individual option icons */
 .option-icon {
     width: 20px;
     height: 20px;
@@ -73,4 +74,18 @@
     background-color: #e0e0e0;
     color: #333;
     transform: scale(1.1);
+}
+
+/* 6. Hide three dots when expanded */
+.icon-link-discreet.expanded {
+    opacity: 0;
+    visibility: hidden;
+}
+
+/* 7. Truncate model name when expanded */
+[anvil-role="nav_flow_panel"].expanded .model-nav-link .link-text {
+    max-width: 100px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
