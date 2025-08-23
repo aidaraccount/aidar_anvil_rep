@@ -125,6 +125,21 @@ class MainIn(MainInTemplate):
 
       save_var('initial_login', True)
       
+  def form_show(self, **event_args):
+    """This method is called when the form is shown on the page"""
+    # Initialize JavaScript model menus after form is visible
+    if hasattr(self, '_pending_model_menus'):
+      for menu_info in self._pending_model_menus:
+        try:
+          self.call_js('addModelOptionsMenu', 
+                       menu_info['model_id'], 
+                       menu_info['model_id'], 
+                       menu_info['settings_handler'])
+        except Exception as e:
+          print(f"Error initializing model menu for {menu_info['model_id']}: {e}")
+      # Clear pending menus after initialization
+      self._pending_model_menus = []
+      
 
   # WATCHLIST ROUTING
   def refresh_watchlists_components(self):
@@ -213,11 +228,13 @@ class MainIn(MainInTemplate):
         # 5. Add the container to nav_models
         self.nav_models.add_component(model_container)
         
-        # 6. Add JavaScript-based options menu after container is added to DOM
-        self.call_js('addModelOptionsMenu', 
-                     model_ids[i]["model_id"], 
-                     model_ids[i]["model_id"], 
-                     self.create_settings_click_handler(model_ids[i]["model_id"]))
+        # 6. Store model info for later JS initialization
+        if not hasattr(self, '_pending_model_menus'):
+            self._pending_model_menus = []
+        self._pending_model_menus.append({
+            'model_id': model_ids[i]["model_id"],
+            'settings_handler': self.create_settings_click_handler(model_ids[i]["model_id"])
+        })
 
     self.reset_nav_backgrounds()
   
