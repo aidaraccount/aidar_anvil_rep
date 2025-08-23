@@ -1986,7 +1986,7 @@
               // Create weight name and description
               const weightNameEl = document.createElement('div');
               weightNameEl.className = 'genre-name';
-              weightNameEl.innerHTML = `<strong>${weight.name}</strong><br><small>${weight.description}</small>`;
+              weightNameEl.innerHTML = `${weight.name}<br><small>${weight.description}</small>`;
               weightItem.appendChild(weightNameEl);
               
               // Create slider container
@@ -2078,25 +2078,94 @@
           // Create legend
           const legend = document.createElement('div');
           legend.className = 'genre-slider-legend';
-          legend.innerHTML = '<div class="increasing-fit">0.0 (no importance) → 1.0 (max importance)</div>';
+          legend.innerHTML = '<div class="increasing-fit">increasing contribution</div>';
           
           // Create button container
           const buttonContainer = document.createElement('div');
           buttonContainer.className = 'genre-button-container';
           
+          // Create toggle container
+          const toggleContainer = document.createElement('div');
+          toggleContainer.className = 'genre-toggle-container';
+          
+          const toggleOptions = document.createElement('div');
+          toggleOptions.className = 'genre-toggle-options';
+          
+          const manualOption = document.createElement('div');
+          manualOption.className = 'genre-toggle-option active'; // Start with manual active
+          manualOption.textContent = 'manual';
+          
+          const aiAutoOption = document.createElement('div');
+          aiAutoOption.className = 'genre-toggle-option';
+          aiAutoOption.textContent = 'AI auto';
+          
           const confirmButton = document.createElement('button');
           confirmButton.className = 'genre-button confirm-button';
           confirmButton.textContent = 'confirm';
           
+          // Function to show AI auto learning message
+          const showAiAutoMessage = () => {
+            contentDiv.innerHTML = `
+              <div class="ai-auto-info-message">
+                <div class="title">
+                  Learning Your Model Contribution Preferences
+                </div>
+                <div class="description">
+                  We're still learning your model contribution preferences. 
+                  Feel free to stay in AI auto mode and we will analyze your preferences 
+                  after more artist interactions.
+                </div>
+              </div>
+            `;
+          };
+          
+          // Function to show manual sliders
+          const showManualSliders = () => {
+            contentDiv.innerHTML = '';
+            createContributionSliders(contentDiv);
+          };
+          
+          // Toggle functionality
+          manualOption.addEventListener('click', () => {
+            if (!manualOption.classList.contains('active')) {
+              manualOption.classList.add('active');
+              aiAutoOption.classList.remove('active');
+              showManualSliders();
+            }
+          });
+          
+          aiAutoOption.addEventListener('click', () => {
+            if (!aiAutoOption.classList.contains('active')) {
+              aiAutoOption.classList.add('active');
+              manualOption.classList.remove('active');
+              showAiAutoMessage();
+            }
+          });
+          
           // Add confirm button functionality
           confirmButton.addEventListener('click', () => {
-            // Convert percentage values back to 0.0-1.0 range
-            const currentValues = {
-              similarity_weight: manualValues.similarity_weight / 100,
-              growth_weight: manualValues.growth_weight / 100,
-              musical_weight: manualValues.musical_weight / 100,
-              mode: 'manual'
-            };
+            // Determine current mode and values
+            const isAutoMode = aiAutoOption.classList.contains('active');
+            const currentMode = isAutoMode ? 'auto' : 'manual';
+            
+            let currentValues;
+            if (isAutoMode) {
+              // For auto mode, use original suggested values
+              currentValues = {
+                similarity_weight: similarityWeight,
+                growth_weight: growthWeight,
+                musical_weight: musicalWeight,
+                mode: 'auto'
+              };
+            } else {
+              // For manual mode, use adjusted values
+              currentValues = {
+                similarity_weight: manualValues.similarity_weight / 100,
+                growth_weight: manualValues.growth_weight / 100,
+                musical_weight: manualValues.musical_weight / 100,
+                mode: 'manual'
+              };
+            }
             
             const continuationMessage = {
               type: 'contribution_confirmation',
@@ -2123,6 +2192,13 @@
             }
           });
           
+          // Assemble the toggle options
+          toggleOptions.appendChild(manualOption);
+          toggleOptions.appendChild(aiAutoOption);
+          toggleContainer.appendChild(toggleOptions);
+          
+          // Add toggle and confirm button to container
+          buttonContainer.appendChild(toggleContainer);
           buttonContainer.appendChild(confirmButton);
           
           // Assemble everything
@@ -2136,6 +2212,12 @@
             if (hideButton) {
               confirmButton.style.display = 'none';
             }
+            
+            // Disable toggle options
+            manualOption.style.pointerEvents = 'none';
+            manualOption.style.opacity = '0.7';
+            aiAutoOption.style.pointerEvents = 'none';
+            aiAutoOption.style.opacity = '0.7';
             
             // Disable all sliders
             const allSliders = container.querySelectorAll('.genre-slider-handle');
