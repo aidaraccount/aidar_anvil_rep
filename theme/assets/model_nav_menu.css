@@ -1,0 +1,124 @@
+/* 1. Model Navigation Menu Styles */
+.model-nav-options {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    transition: all 0.3s ease;
+}
+
+/* 2. Three Dots Menu Button */
+.model-nav-dots {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background-color: #f5f5f5;
+    color: #666;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    opacity: 0;
+    visibility: hidden;
+}
+
+.model-nav-options:hover .model-nav-dots {
+    opacity: 1;
+    visibility: visible;
+}
+
+.model-nav-dots:hover {
+    background-color: #e0e0e0;
+    color: #333;
+}
+
+/* 3. Expanded Options Container */
+.model-nav-expanded {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateX(10px);
+    transition: all 0.3s ease;
+}
+
+.model-nav-expanded.active {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(0);
+}
+
+/* 4. Individual Option Icons */
+.model-nav-option {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background-color: #f5f5f5;
+    color: #666;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 12px;
+}
+
+.model-nav-option:hover {
+    background-color: #e0e0e0;
+    color: #333;
+    transform: scale(1.1);
+}
+
+/* 5. Model Link Text Truncation */
+.model-nav-link.truncated {
+    max-width: 120px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    transition: max-width 0.3s ease;
+}
+
+/* 6. Flow Panel Adjustments for Options */
+.model-nav-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    min-height: 32px;
+}
+
+.model-nav-container .model-nav-link {
+    flex: 1;
+    min-width: 0;
+}
+
+/* 7. Animation States */
+.model-nav-options.expanding .model-nav-dots {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.model-nav-options.expanding .model-nav-expanded {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(0);
+}
+
+/* 8. Responsive Behavior */
+@media (max-width: 768px) {
+    .model-nav-option {
+        width: 20px;
+        height: 20px;
+        font-size: 10px;
+    }
+    
+    .model-nav-dots {
+        width: 20px;
+        height: 20px;
+    }
+    
+    .model-nav-link.truncated {
+        max-width: 80px;
+    }
+}

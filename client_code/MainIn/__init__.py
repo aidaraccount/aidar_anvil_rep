@@ -207,21 +207,17 @@ class MainIn(MainInTemplate):
           )
         model_link.set_event_handler('click', self.create_model_click_handler(model_ids[i]["model_id"], model_link, model_container))
         
-        # 4. Create settings icon link
-        settings_link = Link(
-          icon='fa:sliders',
-          text="",  # Empty text for icon-only link
-          tag=model_ids[i]["model_id"],
-          role='icon-link-discreet'
-        )
-        settings_link.set_event_handler('click', self.create_settings_click_handler(model_ids[i]["model_id"]))
-        
-        # 5. Add both links to the container
+        # 4. Add the model link to the container
         model_container.add_component(model_link, expand=True)  # Expand to fill available space
-        model_container.add_component(settings_link)
         
-        # 6. Add the container to nav_models
+        # 5. Add the container to nav_models
         self.nav_models.add_component(model_container)
+        
+        # 6. Add JavaScript-based options menu after container is added to DOM
+        self.call_js('addModelOptionsMenu', 
+                     model_ids[i]["model_id"], 
+                     model_ids[i]["model_id"], 
+                     self.create_settings_click_handler(model_ids[i]["model_id"]))
 
     self.reset_nav_backgrounds()
   
