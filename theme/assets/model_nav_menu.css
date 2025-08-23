@@ -18,7 +18,7 @@
 
 /* 3. Style the three dots icon */
 [anvil-role="icon-link-discreet"] i {
-    color: #666;
+    color: rgba(255, 255, 255, 0.75);
     font-size: 14px;
     padding: 4px;
     border-radius: 50%;
@@ -26,14 +26,13 @@
 }
 
 [anvil-role="icon-link-discreet"]:hover i {
-    background-color: #e0e0e0;
-    color: #333;
+    color: rgba(255, 255, 255, 0.95);
 }
 
 /* 4. Expandable options container */
 .model-options-expanded {
     position: absolute;
-    right: 0;
+    right: 10px;
     top: 5px;
     display: flex;
     align-items: center;

@@ -12,6 +12,7 @@ import json
 import time
 from datetime import datetime
 from anvil.js.window import location, updateLoadingSpinnerMargin, clearModelNavigation
+from anvil.js import get_dom_node
 from ..C_SearchPopupTable import C_SearchPopupTable
 
 from anvil_extras import routing
@@ -214,6 +215,13 @@ class MainIn(MainInTemplate):
           tag=model_ids[i]["model_id"],
           role='icon-link-discreet'
         )
+        # 4.1 Expose model_id to DOM for JS by setting data-model-id
+        try:
+          get_dom_node(model_container).setAttribute('data-model-id', str(model_ids[i]["model_id"]))
+          get_dom_node(model_link).setAttribute('data-model-id', str(model_ids[i]["model_id"]))
+          get_dom_node(options_link).setAttribute('data-model-id', str(model_ids[i]["model_id"]))
+        except Exception as e:
+          print(f"[NAV MODELS] Could not set data-model-id attributes: {e}")
         
         # 5. Add both links to the container
         model_container.add_component(model_link, expand=True)  # Expand to fill available space
