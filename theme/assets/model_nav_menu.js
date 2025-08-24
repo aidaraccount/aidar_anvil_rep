@@ -216,7 +216,7 @@ function resortNavModels() {
         const dy = f.top - last.top;
         if (dx || dy) {
             node.style.transform = `translate3d(${dx}px, ${dy}px, 0)`;
-            node.style.transition = 'transform 900ms cubic-bezier(0.22, 1, 0.36, 1)';
+            node.style.transition = 'transform 3000ms cubic-bezier(0.22, 1, 0.36, 1)';
             // next frame
             requestAnimationFrame(() => {
                 node.style.transform = '';
