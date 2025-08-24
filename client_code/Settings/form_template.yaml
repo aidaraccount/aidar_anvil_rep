@@ -184,7 +184,7 @@ components:
         properties:
           role: header-6
           spacing:
-            margin: [null, null, null, '15']
+            margin: ['13', null, null, '15']
           text: System notifications
         type: Label
       - data_bindings: []
@@ -201,7 +201,7 @@ components:
         properties:
           role: header-6
           spacing:
-            margin: [null, null, null, '15']
+            margin: ['13', null, null, '15']
           text: Weekly reminder
         type: Label
       - data_bindings: []
@@ -219,7 +219,7 @@ components:
           align: left
           role: header-6
           spacing:
-            margin: [null, null, null, '15']
+            margin: ['13', null, null, '15']
           text: User newsletter (monthly)
         type: Label
       - data_bindings: []
