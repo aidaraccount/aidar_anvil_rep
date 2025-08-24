@@ -2433,6 +2433,9 @@
           flowPanel.style = ''; // Empty style attribute to match existing structure
           flowPanel.className = 'anvil-spacing-above-small anvil-spacing-below-small anvil-role-nav_flow_panel flow-panel anvil-container anvil-container-overflow flow-spacing-medium vertical-align-full anvil-component has-components';
           flowPanel.setAttribute('anvil-role', 'nav_flow_panel');
+          // Propagate model id for menu JS resolution
+          flowPanel.setAttribute('tag', String(modelData.model_id));
+          flowPanel.dataset.modelId = String(modelData.model_id);
           
           // 4. Create the flow panel gutter
           const flowGutter = document.createElement('div');
@@ -2452,25 +2455,29 @@
           modelLink.href = 'javascript:void(0)';
           modelLink.setAttribute('rel', 'noopener noreferrer');
           modelLink.setAttribute('anvil-role', 'model-nav-link');
+          modelLink.setAttribute('tag', String(modelData.model_id));
+          modelLink.dataset.modelId = String(modelData.model_id);
           
           // Set innerHTML directly without whitespace to match exact structure
           modelLink.innerHTML = `<i class="anvil-component-icon left fa fa-angle-right left-icon" aria-hidden="true"></i><div style="display: inline-block;" class="link-text">${modelData.model_name}</div><i class="anvil-component-icon right fa fa-angle-right left-icon" aria-hidden="true"></i>`;
           
-          // 7. Create the settings icon container
-          const settingsContainer = document.createElement('div');
-          settingsContainer.className = 'flow-panel-item anvil-always-inline-container';
+          // 7. Create the three-dots icon container (new options menu trigger)
+          const dotsContainer = document.createElement('div');
+          dotsContainer.className = 'flow-panel-item anvil-always-inline-container';
           
-          // 8. Create the settings link
-          const settingsLink = document.createElement('a');
-          settingsLink.style = 'text-align: left;';
-          settingsLink.className = 'anvil-inlinable anvil-container column-panel align-left anvil-spacing-above-small anvil-spacing-below-small anvil-component-icon-present left-icon anvil-role-icon-link-discreet col-padding-medium anvil-component';
-          settingsLink.setAttribute('ontouchstart', '');
-          settingsLink.href = 'javascript:void(0)';
-          settingsLink.setAttribute('rel', 'noopener noreferrer');
-          settingsLink.setAttribute('anvil-role', 'icon-link-discreet');
+          // 8. Create the three-dots link (icon-link-discreet) used by model_nav_menu.js
+          const dotsLink = document.createElement('a');
+          dotsLink.style = 'text-align: left;';
+          dotsLink.className = 'anvil-inlinable anvil-container column-panel align-left anvil-spacing-above-small anvil-spacing-below-small anvil-component-icon-present left-icon anvil-role-icon-link-discreet col-padding-medium anvil-component';
+          dotsLink.setAttribute('ontouchstart', '');
+          dotsLink.href = 'javascript:void(0)';
+          dotsLink.setAttribute('rel', 'noopener noreferrer');
+          dotsLink.setAttribute('anvil-role', 'icon-link-discreet');
+          dotsLink.setAttribute('tag', String(modelData.model_id));
+          dotsLink.dataset.modelId = String(modelData.model_id);
           
-          // Compact HTML structure with no extra whitespace to match exactly
-          settingsLink.innerHTML = `<i class="anvil-component-icon left fa fa-sliders left-icon" aria-hidden="true"></i><div style="display: none;" class="link-text"></div><i class="anvil-component-icon right fa fa-sliders left-icon" aria-hidden="true"></i>`;
+          // Compact HTML structure with no extra whitespace to match exactly (three dots icon)
+          dotsLink.innerHTML = `<i class="anvil-component-icon left fa fa-ellipsis-v left-icon" aria-hidden="true"></i><div style="display: none;" class="link-text"></div><i class="anvil-component-icon right fa fa-ellipsis-v left-icon" aria-hidden="true"></i>`;
           
           // 9. Add click handlers
           // Discover link click handler
@@ -2492,26 +2499,26 @@
             window.location.href = `#agent_artists?artist_id=get_artist`;
           });
           
-          // Settings icon link click handler
-          settingsLink.addEventListener('click', (e) => {
-            e.preventDefault();
-            console.log(`[addNewModelToNavigation] Settings clicked for model: ${modelData.model_id}`);
-            // Navigate to model profile settings
-            window.location.href = `#model_profile?model_id=${modelData.model_id}&section=Main`;
-          });
-          
           // 10. Assemble the DOM elements
           modelLinkContainer.appendChild(modelLink);
-          settingsContainer.appendChild(settingsLink);
+          dotsContainer.appendChild(dotsLink);
           
           flowGutter.appendChild(modelLinkContainer);
-          flowGutter.appendChild(settingsContainer);
+          flowGutter.appendChild(dotsContainer);
           
           flowPanel.appendChild(flowGutter);
           listItem.appendChild(flowPanel);
           
-          // 11. Add the new model as the first item in the list
-          linearPanel.insertBefore(listItem, linearPanel.firstChild.nextSibling);
+          // 11. Insert as the first item AFTER all pinned agents (header remains first)
+          const headerItem = linearPanel.firstElementChild; // header should always be first
+          const pinnedPanels = Array.from(linearPanel.querySelectorAll('[anvil-role="nav_flow_panel"].pinned'));
+          let referenceNode = headerItem ? headerItem.nextSibling : linearPanel.firstChild;
+          if (pinnedPanels.length > 0) {
+            const lastPinned = pinnedPanels[pinnedPanels.length - 1];
+            const lastPinnedLi = lastPinned.closest('li') || lastPinned;
+            referenceNode = lastPinnedLi.nextSibling;
+          }
+          linearPanel.insertBefore(listItem, referenceNode);
           
           // 12. Add underline to the newly added link and remove from others
           console.log('[addNewModelToNavigation] Adding underline to the newly added link and removing from others');
