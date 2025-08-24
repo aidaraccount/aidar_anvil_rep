@@ -396,3 +396,4 @@ roles:
 - {name: txt_purple_discreet}
 - {name: txt_sangria}
 - {name: txt_brown}
+- {components: null, name: slider_5_scale}
