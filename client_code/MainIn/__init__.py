@@ -682,4 +682,75 @@ class MainIn(MainInTemplate):
     except Exception as e:
       print(f'[MainIn_get_genre_sub_scores] Error retrieving genre sub-scores: {e}')
       raise
+  
+  def MainIn_delete_model(self, model_id):
+    """Confirm and delete a model from the nav menu.
+
+    - Shows a confirmation alert (same copy as in ModelProfile.delete_click).
+    - If confirmed, calls server delete.
+    - Navigates to Home ONLY if the current page is showing this model
+      (either a model_profile with matching model_id, or a Discover page
+       where the active saved model_id matches).
+    - Always refreshes model navigation components and underline afterwards.
+    """
+    # 1) Confirm
+    result = alert(
+      title='Do you want to delete this model?',
+      content=(
+        "Are you sure to delete this model?\n\n"
+        "Everything will be lost! All reference artists, all previously rated artists - "
+        "all you did will be gone for ever."
+      ),
+      buttons=[("Cancel", "Cancel"), ("Delete", "Delete")]
+    )
+    
+    if result != 'Delete':
+      return False
+    
+    # 2) Delete on server
+    try:
+      res = anvil.server.call('delete_model', model_id)
+    except Exception as e:
+      print(f'[MainIn_delete_model] Error deleting model {model_id}: {e}')
+      res = 'error'
+    
+    if res == 'success':
+      Notification("", title="Agent deleted!", style="success").show()
+      
+      # 3) Conditionally navigate to Home
+      should_go_home = False
+      try:
+        current_hash = location.hash or ''
+        # a) If currently on model_profile and model_id matches
+        if current_hash.startswith('#model_profile?'):
+          parts = current_hash.split('?', 1)
+          if len(parts) == 2:
+            qs = parts[1]
+            params = dict(pair.split('=') for pair in qs.split('&') if '=' in pair)
+            mid = params.get('model_id')
+            if mid is not None and str(mid) == str(model_id):
+              should_go_home = True
+        # b) If currently on a Discover page and the active model matches
+        elif current_hash.startswith('#artists?') or current_hash.startswith('#rel_artists?') or current_hash.startswith('#agent_artists?'):
+          try:
+            active_mid = load_var('model_id')
+            if active_mid is not None and int(active_mid) == int(model_id):
+              should_go_home = True
+          except Exception:
+            pass
+      except Exception as e:
+        print(f'[MainIn_delete_model] Error evaluating navigation condition: {e}')
+      
+      if should_go_home:
+        try:
+          routing.set_url_hash('home', load_from_cache=False)
+        except Exception as e:
+          print(f'[MainIn_delete_model] Routing to home failed: {e}')
+      
+      # 4) Refresh model navigation regardless
+      self.refresh_models_components()
+      self.refresh_models_underline()
+      return True
+    
+    return False
     

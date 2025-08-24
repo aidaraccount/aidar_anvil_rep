@@ -379,7 +379,7 @@ function createOptionIcon(iconClass, action, modelId, title) {
 }
 
 // 5. Handle option clicks
-function handleOptionClick(action, modelId) {
+async function handleOptionClick(action, modelId) {
     console.log('Option clicked:', action, 'for model:', modelId);
     
     switch (action) {
@@ -464,9 +464,21 @@ function handleOptionClick(action, modelId) {
             resortNavModels();
             break;
         }
-        case 'delete':
-            console.log('Delete functionality not implemented yet');
+        case 'delete': {
+            // Call into MainIn form method to handle confirm, delete, conditional navigation, and refresh
+            try {
+                const formElement = document.querySelector('.anvil-container');
+                if (!formElement || typeof anvil === 'undefined' || !anvil.call) {
+                    console.warn('⚠️ Cannot call MainIn_delete_model: anvil or form element missing');
+                } else {
+                    const ok = await anvil.call(formElement, 'MainIn_delete_model', parseInt(modelId, 10));
+                    console.log('🗑️ Delete result:', ok);
+                }
+            } catch (err) {
+                console.error('❌ Error during delete:', err);
+            }
             break;
+        }
     }
     
     // Close the menu after action
