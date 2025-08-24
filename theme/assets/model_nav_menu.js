@@ -182,6 +182,56 @@ function removePinIndicator(flowPanel) {
     if (indicator) indicator.remove();
 }
 
+// Helper: Resort nav rows with FLIP animation (pinned first, then creation order)
+function resortNavModels() {
+    const panels = Array.from(document.querySelectorAll('[anvil-role="nav_flow_panel"]'));
+    if (!panels.length) return;
+    const parent = panels[0].parentElement;
+
+    // 1) Record first positions
+    const first = new Map();
+    panels.forEach(p => {
+        first.set(p, p.getBoundingClientRect());
+    });
+
+    // 2) Sort by pinned desc, then by data-order-index asc
+    const sorted = panels.slice().sort((a, b) => {
+        const ap = a.classList.contains('pinned');
+        const bp = b.classList.contains('pinned');
+        if (ap !== bp) return ap ? -1 : 1;
+        const ai = parseInt(a.dataset.orderIndex || '0', 10);
+        const bi = parseInt(b.dataset.orderIndex || '0', 10);
+        return ai - bi;
+    });
+
+    // 3) Apply new order
+    sorted.forEach(node => parent.appendChild(node));
+
+    // 4) FLIP animate
+    sorted.forEach(node => {
+        const last = node.getBoundingClientRect();
+        const f = first.get(node);
+        if (!f) return;
+        const dx = f.left - last.left;
+        const dy = f.top - last.top;
+        if (dx || dy) {
+            node.style.transform = `translate(${dx}px, ${dy}px)`;
+            node.style.transition = 'transform 450ms ease';
+            // next frame
+            requestAnimationFrame(() => {
+                node.style.transform = '';
+            });
+            const cleanup = (e) => {
+                if (e.propertyName === 'transform') {
+                    node.style.transition = '';
+                    node.removeEventListener('transitionend', cleanup);
+                }
+            };
+            node.addEventListener('transitionend', cleanup);
+        }
+    });
+}
+
 // 2. Toggle model options display
 function toggleModelOptions(flowPanel, modelId) {
     console.log('🔄 Toggling model options for:', modelId);
@@ -322,6 +372,8 @@ function handleOptionClick(action, modelId) {
                 const pinOption = expanded.querySelector('.option-icon[data-action="pin"]');
                 if (pinOption) pinOption.classList.toggle('active', willPin);
             }
+            // Resort rows to reflect pinned section ordering
+            resortNavModels();
             break;
         }
         case 'notifications':

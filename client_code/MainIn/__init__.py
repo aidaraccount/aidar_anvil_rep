@@ -218,6 +218,8 @@ class MainIn(MainInTemplate):
         # 4.1 Expose model_id to DOM for JS by setting data-model-id
         try:
           get_dom_node(model_container).setAttribute('data-model-id', str(model_ids[i]["model_id"]))
+          # Preserve creation-order index for client-side stable reordering
+          get_dom_node(model_container).setAttribute('data-order-index', str(i).zfill(6))
           get_dom_node(model_link).setAttribute('data-model-id', str(model_ids[i]["model_id"]))
           get_dom_node(options_link).setAttribute('data-model-id', str(model_ids[i]["model_id"]))
         except Exception as e:

@@ -92,6 +92,7 @@
 /* 8. Ensure each nav row is a positioning context for absolute menu */
 [anvil-role="nav_flow_panel"] {
     position: relative;
+    will-change: transform; /* hint for FLIP animation smoothness */
 }
 
 /* 9. Pin indicator for pinned rows (visible only when not hovering and not expanded) */
