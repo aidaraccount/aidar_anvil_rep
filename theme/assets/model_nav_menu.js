@@ -134,6 +134,54 @@ function resolveModelIdFromElement(el) {
     return null;
 }
 
+// Helper: Find the flow panel (nav row) by modelId
+function findFlowPanelByModelId(modelId) {
+    if (!modelId) return null;
+    // Try tag attribute
+    let fp = document.querySelector(`[anvil-role="nav_flow_panel"][tag="${modelId}"]`);
+    if (fp) return fp;
+    // Try data-model-id
+    fp = document.querySelector(`[anvil-role="nav_flow_panel"][data-model-id="${modelId}"]`);
+    if (fp) return fp;
+    // Fallback: iterate and compare
+    const panels = document.querySelectorAll('[anvil-role="nav_flow_panel"]');
+    for (const p of panels) {
+        const t = p.getAttribute('tag') || (p.dataset && p.dataset.modelId);
+        if (String(t) === String(modelId)) return p;
+    }
+    return null;
+}
+
+// Helper: pinned state
+function isModelPinned(modelId) {
+    const fp = findFlowPanelByModelId(modelId);
+    return !!(fp && fp.classList.contains('pinned'));
+}
+
+// Helper: ensure a non-hover pin indicator exists at dots position
+function ensurePinIndicator(flowPanel) {
+    if (!flowPanel) return null;
+    let indicator = flowPanel.querySelector('.pin-indicator');
+    if (!indicator) {
+        indicator = document.createElement('div');
+        indicator.className = 'pin-indicator';
+        indicator.innerHTML = '<i class="fa fa-thumb-tack"></i>';
+        const gutter = flowPanel.querySelector('.flow-panel-gutter');
+        if (gutter) {
+            gutter.appendChild(indicator);
+        } else {
+            flowPanel.appendChild(indicator);
+        }
+    }
+    return indicator;
+}
+
+function removePinIndicator(flowPanel) {
+    if (!flowPanel) return;
+    const indicator = flowPanel.querySelector('.pin-indicator');
+    if (indicator) indicator.remove();
+}
+
 // 2. Toggle model options display
 function toggleModelOptions(flowPanel, modelId) {
     console.log('🔄 Toggling model options for:', modelId);
@@ -206,7 +254,7 @@ function createExpandedOptions(modelId) {
     const pinIcon = createOptionIcon('fa-thumb-tack', 'pin', modelId, 'pin agent');
     
     // Megaphone icon
-    const megaphoneIcon = createOptionIcon('fa-bullhorn', 'notifications', modelId, 'activate notification');
+    const megaphoneIcon = createOptionIcon('fa-bullhorn', 'notifications', modelId, 'pin agent & activate notification');
     
     // Settings icon
     const settingsIcon = createOptionIcon('fa-sliders', 'settings', modelId, 'agent profile');
@@ -214,6 +262,13 @@ function createExpandedOptions(modelId) {
     // Trash icon
     const trashIcon = createOptionIcon('fa-trash', 'delete', modelId, 'delete agent');
     
+    // Reflect pinned state in menu icon
+    try {
+        if (isModelPinned(modelId)) {
+            pinIcon.classList.add('active');
+        }
+    } catch (e) { /* noop */ }
+
     container.appendChild(pinIcon);
     container.appendChild(megaphoneIcon);
     container.appendChild(settingsIcon);
@@ -248,9 +303,27 @@ function handleOptionClick(action, modelId) {
                 window.location.hash = `model_profile?model_id=${modelId}&section=Main`;
             }
             break;
-        case 'pin':
-            console.log('Pin functionality not implemented yet');
+        case 'pin': {
+            const fp = findFlowPanelByModelId(modelId) || document.querySelector('[anvil-role="nav_flow_panel"].expanded');
+            if (!fp) {
+                console.warn('⚠️ No flow panel found to toggle pin');
+                break;
+            }
+            const willPin = !fp.classList.contains('pinned');
+            fp.classList.toggle('pinned', willPin);
+            if (willPin) {
+                ensurePinIndicator(fp);
+            } else {
+                removePinIndicator(fp);
+            }
+            // Update current menu pin icon style if present
+            const expanded = fp.querySelector('.model-options-expanded');
+            if (expanded) {
+                const pinOption = expanded.querySelector('.option-icon[data-action="pin"]');
+                if (pinOption) pinOption.classList.toggle('active', willPin);
+            }
             break;
+        }
         case 'notifications':
             console.log('Notifications functionality not implemented yet');
             break;

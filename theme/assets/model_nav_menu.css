@@ -93,3 +93,36 @@
 [anvil-role="nav_flow_panel"] {
     position: relative;
 }
+
+/* 9. Pin indicator for pinned rows (visible only when not hovering and not expanded) */
+.pin-indicator {
+    position: absolute;
+    right: 10px;
+    top: 7px;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s ease, visibility 0.2s ease;
+    pointer-events: none; /* do not steal hover; let dots appear */
+    z-index: 5;
+}
+
+.pin-indicator i {
+    color: rgba(253, 101, 45, 0.75); /* discreet orange */
+    font-size: 12px;
+}
+
+[anvil-role="nav_flow_panel"].pinned .pin-indicator {
+    opacity: 1;
+    visibility: visible;
+}
+
+[anvil-role="nav_flow_panel"].pinned:hover .pin-indicator,
+[anvil-role="nav_flow_panel"].expanded .pin-indicator {
+    opacity: 0;
+    visibility: hidden;
+}
+
+/* 10. Active color for pin icon inside the menu */
+.option-icon[data-action="pin"].active i {
+    color: rgba(253, 101, 45, 0.95);
+}
