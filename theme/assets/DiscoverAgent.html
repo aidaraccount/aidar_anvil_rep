@@ -2436,6 +2436,16 @@
           // Propagate model id for menu JS resolution
           flowPanel.setAttribute('tag', String(modelData.model_id));
           flowPanel.dataset.modelId = String(modelData.model_id);
+          // Assign order index lower than any existing to ensure it becomes first among unpinned after resort
+          try {
+            const existingPanels = Array.from(linearPanel.querySelectorAll('[anvil-role="nav_flow_panel"]'));
+            const existingIndices = existingPanels.map(p => parseInt(p.dataset.orderIndex || '0', 10));
+            const minExisting = existingIndices.length ? Math.min(...existingIndices) : 0;
+            flowPanel.dataset.orderIndex = String(minExisting - 1);
+            console.log('[addNewModelToNavigation] Assigned orderIndex to new model:', flowPanel.dataset.orderIndex);
+          } catch (e) {
+            console.warn('[addNewModelToNavigation] Failed to assign orderIndex:', e);
+          }
           
           // 4. Create the flow panel gutter
           const flowGutter = document.createElement('div');
@@ -2476,8 +2486,8 @@
           dotsLink.setAttribute('tag', String(modelData.model_id));
           dotsLink.dataset.modelId = String(modelData.model_id);
           
-          // Compact HTML structure with no extra whitespace to match exactly (three dots icon)
-          dotsLink.innerHTML = `<i class="anvil-component-icon left fa fa-ellipsis-v left-icon" aria-hidden="true"></i><div style="display: none;" class="link-text"></div><i class="anvil-component-icon right fa fa-ellipsis-v left-icon" aria-hidden="true"></i>`;
+          // Compact HTML structure with no extra whitespace (horizontal three dots like MainIn)
+          dotsLink.innerHTML = `<i class="anvil-component-icon left fa fa-ellipsis-h left-icon" aria-hidden="true"></i><div style="display: none;" class="link-text"></div><i class="anvil-component-icon right fa fa-ellipsis-h left-icon" aria-hidden="true"></i>`;
           
           // 9. Add click handlers
           // Discover link click handler
@@ -2510,15 +2520,37 @@
           listItem.appendChild(flowPanel);
           
           // 11. Insert as the first item AFTER all pinned agents (header remains first)
-          const headerItem = linearPanel.firstElementChild; // header should always be first
-          const pinnedPanels = Array.from(linearPanel.querySelectorAll('[anvil-role="nav_flow_panel"].pinned'));
-          let referenceNode = headerItem ? headerItem.nextSibling : linearPanel.firstChild;
-          if (pinnedPanels.length > 0) {
-            const lastPinned = pinnedPanels[pinnedPanels.length - 1];
-            const lastPinnedLi = lastPinned.closest('li') || lastPinned;
-            referenceNode = lastPinnedLi.nextSibling;
+          //    Add detailed logs to diagnose ordering issues across environments.
+          const liChildren = Array.from(linearPanel.children).filter(el => el.tagName && el.tagName.toLowerCase() === 'li');
+          const headerLi = liChildren[0] || null;
+          const pinnedLis = liChildren.filter(li => !!li.querySelector('[anvil-role="nav_flow_panel"].pinned'));
+          console.log('[addNewModelToNavigation] linearPanel children count:', linearPanel.children.length);
+          console.log('[addNewModelToNavigation] liChildren count:', liChildren.length);
+          console.log('[addNewModelToNavigation] headerLi exists:', !!headerLi);
+          console.log('[addNewModelToNavigation] pinnedLis count:', pinnedLis.length);
+          
+          let insertBeforeNode = null;
+          if (pinnedLis.length > 0) {
+            const lastPinnedLi = pinnedLis[pinnedLis.length - 1];
+            insertBeforeNode = lastPinnedLi.nextElementSibling; // first unpinned or null
+            console.log('[addNewModelToNavigation] lastPinnedLi found. nextElementSibling is null?', !insertBeforeNode);
+          } else if (headerLi) {
+            insertBeforeNode = headerLi.nextElementSibling; // first row after header
+            console.log('[addNewModelToNavigation] No pinned. Inserting after header. nextElementSibling is null?', !insertBeforeNode);
           }
-          linearPanel.insertBefore(listItem, referenceNode);
+          
+          if (insertBeforeNode) {
+            linearPanel.insertBefore(listItem, insertBeforeNode);
+            console.log('[addNewModelToNavigation] Inserted before existing element:', insertBeforeNode);
+          } else if (headerLi) {
+            // If there is only header (or last pinned is last), appending achieves "after pinned"
+            linearPanel.appendChild(listItem);
+            console.log('[addNewModelToNavigation] Appended at end (only header or pinned were present).');
+          } else {
+            // Fallback: no header detected, prepend
+            linearPanel.insertBefore(listItem, linearPanel.firstChild);
+            console.log('[addNewModelToNavigation] Prepending as first child (no header detected).');
+          }
           
           // 12. Add underline to the newly added link and remove from others
           console.log('[addNewModelToNavigation] Adding underline to the newly added link and removing from others');
@@ -2530,6 +2562,18 @@
               link.setAttribute('anvil-role', currentRole.replace('underline-link', '').trim());
             }
           });
+          
+          // 13. Trigger resort to normalize ordering (pinned first, then orderIndex asc)
+          try {
+            if (typeof resortNavModels === 'function') {
+              console.log('[addNewModelToNavigation] Calling resortNavModels()');
+              resortNavModels();
+            } else {
+              console.warn('[addNewModelToNavigation] resortNavModels() not found');
+            }
+          } catch (e) {
+            console.warn('[addNewModelToNavigation] Error when calling resortNavModels:', e);
+          }
           
           // Add underline class and update role attribute to match existing elements
           modelLink.classList.add('anvil-role-underline-link');
