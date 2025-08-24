@@ -127,3 +127,43 @@
 .option-icon[data-action="pin"].active i {
     color: rgba(253, 101, 45, 0.95);
 }
+
+/* 11. Notification (megaphone) indicator for notify-active rows */
+.notify-indicator {
+    position: absolute;
+    right: 10px;
+    top: 7px;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s ease, visibility 0.2s ease;
+    pointer-events: none;
+    z-index: 6; /* above pin */
+}
+
+.notify-indicator i {
+    color: #22c55e; /* vibrant green */
+    font-size: 12px;
+}
+
+[anvil-role="nav_flow_panel"].notify-active .notify-indicator {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Hide pin-indicator when notify is active */
+[anvil-role="nav_flow_panel"].notify-active .pin-indicator {
+    opacity: 0 !important;
+    visibility: hidden !important;
+}
+
+/* On hover or expanded, hide the notify indicator (so menu/dots have space) */
+[anvil-role="nav_flow_panel"].notify-active:hover .notify-indicator,
+[anvil-role="nav_flow_panel"].notify-active.expanded .notify-indicator {
+    opacity: 0;
+    visibility: hidden;
+}
+
+/* 12. Active color for notifications icon inside the menu */
+.option-icon[data-action="notifications"].active i {
+    color: #22c55e; /* vibrant green */
+}

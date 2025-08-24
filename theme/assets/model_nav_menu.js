@@ -182,6 +182,36 @@ function removePinIndicator(flowPanel) {
     if (indicator) indicator.remove();
 }
 
+// Helper: notifications state
+function isModelNotifyActive(modelId) {
+    const fp = findFlowPanelByModelId(modelId);
+    return !!(fp && fp.classList.contains('notify-active'));
+}
+
+// Helper: ensure a non-hover notify indicator exists at dots position
+function ensureNotifyIndicator(flowPanel) {
+    if (!flowPanel) return null;
+    let indicator = flowPanel.querySelector('.notify-indicator');
+    if (!indicator) {
+        indicator = document.createElement('div');
+        indicator.className = 'notify-indicator';
+        indicator.innerHTML = '<i class="fa fa-bullhorn"></i>';
+        const gutter = flowPanel.querySelector('.flow-panel-gutter');
+        if (gutter) {
+            gutter.appendChild(indicator);
+        } else {
+            flowPanel.appendChild(indicator);
+        }
+    }
+    return indicator;
+}
+
+function removeNotifyIndicator(flowPanel) {
+    if (!flowPanel) return;
+    const indicator = flowPanel.querySelector('.notify-indicator');
+    if (indicator) indicator.remove();
+}
+
 // Helper: Resort nav rows with FLIP animation (pinned first, then creation order)
 function resortNavModels() {
     const panels = Array.from(document.querySelectorAll('[anvil-role="nav_flow_panel"]'));
@@ -323,6 +353,9 @@ function createExpandedOptions(modelId) {
         if (isModelPinned(modelId)) {
             pinIcon.classList.add('active');
         }
+        if (isModelNotifyActive(modelId)) {
+            megaphoneIcon.classList.add('active');
+        }
     } catch (e) { /* noop */ }
 
     container.appendChild(pinIcon);
@@ -382,9 +415,55 @@ function handleOptionClick(action, modelId) {
             resortNavModels();
             break;
         }
-        case 'notifications':
-            console.log('Notifications functionality not implemented yet');
+        case 'notifications': {
+            const fp = findFlowPanelByModelId(modelId) || document.querySelector('[anvil-role="nav_flow_panel"].expanded');
+            if (!fp) {
+                console.warn('⚠️ No flow panel found to toggle notifications');
+                break;
+            }
+            const activating = !fp.classList.contains('notify-active');
+            fp.classList.toggle('notify-active', activating);
+
+            if (activating) {
+                // Ensure notify indicator and pin behavior
+                ensureNotifyIndicator(fp);
+                // Replace any pin indicator with notify indicator
+                removePinIndicator(fp);
+                if (!fp.classList.contains('pinned')) {
+                    fp.classList.add('pinned');
+                    fp.classList.add('pinned-by-notify');
+                }
+                // Update menu highlight states
+                const expanded = fp.querySelector('.model-options-expanded');
+                if (expanded) {
+                    const notifOption = expanded.querySelector('.option-icon[data-action="notifications"]');
+                    if (notifOption) notifOption.classList.add('active');
+                    const pinOption = expanded.querySelector('.option-icon[data-action="pin"]');
+                    if (pinOption) pinOption.classList.toggle('active', fp.classList.contains('pinned'));
+                }
+            } else {
+                // Deactivate notification and revert pin if it was added by notifications
+                removeNotifyIndicator(fp);
+                if (fp.classList.contains('pinned-by-notify')) {
+                    fp.classList.remove('pinned-by-notify');
+                    fp.classList.remove('pinned');
+                }
+                // If still pinned (by user), ensure the pin indicator is visible again
+                if (fp.classList.contains('pinned')) {
+                    ensurePinIndicator(fp);
+                }
+                const expanded = fp.querySelector('.model-options-expanded');
+                if (expanded) {
+                    const notifOption = expanded.querySelector('.option-icon[data-action="notifications"]');
+                    if (notifOption) notifOption.classList.remove('active');
+                    const pinOption = expanded.querySelector('.option-icon[data-action="pin"]');
+                    if (pinOption) pinOption.classList.toggle('active', fp.classList.contains('pinned'));
+                }
+            }
+            // Resort after any pin state changes
+            resortNavModels();
             break;
+        }
         case 'delete':
             console.log('Delete functionality not implemented yet');
             break;
