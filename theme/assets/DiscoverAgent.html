@@ -2410,20 +2410,12 @@
       // Add a new model to the navigation
       addNewModelToNavigation(modelData) {
         try {
-          console.log('[addNewModelToNavigation] Adding new model:', modelData);
-          
           // 1. Find the nav_models container and the ul.linear-panel inside it
           const navModels = document.querySelector('.anvil-role-nav_models');
-          if (!navModels) {
-            console.warn('[addNewModelToNavigation] nav_models container not found');
-            return;
-          }
+          if (!navModels) { return; }
           
           const linearPanel = navModels.querySelector('ul.linear-panel');
-          if (!linearPanel) {
-            console.warn('[addNewModelToNavigation] linear-panel not found inside nav_models');
-            return;
-          }
+          if (!linearPanel) { return; }
           
           // 2. Create the list item container
           const listItem = document.createElement('li');
@@ -2442,9 +2434,8 @@
             const existingIndices = existingPanels.map(p => parseInt(p.dataset.orderIndex || '0', 10));
             const minExisting = existingIndices.length ? Math.min(...existingIndices) : 0;
             flowPanel.dataset.orderIndex = String(minExisting - 1);
-            console.log('[addNewModelToNavigation] Assigned orderIndex to new model:', flowPanel.dataset.orderIndex);
           } catch (e) {
-            console.warn('[addNewModelToNavigation] Failed to assign orderIndex:', e);
+            
           }
           
           // 4. Create the flow panel gutter
@@ -2493,15 +2484,13 @@
           // Discover link click handler
           modelLink.addEventListener('click', (e) => {
             e.preventDefault();
-            console.log(`[addNewModelToNavigation] Model clicked: ${modelData.model_id}`);
             
             // First update the WebSocketManager model ID if available
             if (window.wsManager && typeof window.wsManager.updateModelId === 'function') {
               try {
-                console.log(`[addNewModelToNavigation] Updating WebSocketManager model ID to ${modelData.model_id}`);
                 window.wsManager.updateModelId(modelData.model_id);
               } catch (err) {
-                console.warn('[addNewModelToNavigation] Failed to update WebSocketManager model ID:', err);
+                
               }
             }
             
@@ -2520,40 +2509,29 @@
           listItem.appendChild(flowPanel);
           
           // 11. Insert as the first item AFTER all pinned agents (header remains first)
-          //    Add detailed logs to diagnose ordering issues across environments.
           const liChildren = Array.from(linearPanel.children).filter(el => el.tagName && el.tagName.toLowerCase() === 'li');
           const headerLi = liChildren[0] || null;
           const pinnedLis = liChildren.filter(li => !!li.querySelector('[anvil-role="nav_flow_panel"].pinned'));
-          console.log('[addNewModelToNavigation] linearPanel children count:', linearPanel.children.length);
-          console.log('[addNewModelToNavigation] liChildren count:', liChildren.length);
-          console.log('[addNewModelToNavigation] headerLi exists:', !!headerLi);
-          console.log('[addNewModelToNavigation] pinnedLis count:', pinnedLis.length);
           
           let insertBeforeNode = null;
           if (pinnedLis.length > 0) {
             const lastPinnedLi = pinnedLis[pinnedLis.length - 1];
             insertBeforeNode = lastPinnedLi.nextElementSibling; // first unpinned or null
-            console.log('[addNewModelToNavigation] lastPinnedLi found. nextElementSibling is null?', !insertBeforeNode);
           } else if (headerLi) {
             insertBeforeNode = headerLi.nextElementSibling; // first row after header
-            console.log('[addNewModelToNavigation] No pinned. Inserting after header. nextElementSibling is null?', !insertBeforeNode);
           }
           
           if (insertBeforeNode) {
             linearPanel.insertBefore(listItem, insertBeforeNode);
-            console.log('[addNewModelToNavigation] Inserted before existing element:', insertBeforeNode);
           } else if (headerLi) {
             // If there is only header (or last pinned is last), appending achieves "after pinned"
             linearPanel.appendChild(listItem);
-            console.log('[addNewModelToNavigation] Appended at end (only header or pinned were present).');
           } else {
             // Fallback: no header detected, prepend
             linearPanel.insertBefore(listItem, linearPanel.firstChild);
-            console.log('[addNewModelToNavigation] Prepending as first child (no header detected).');
           }
           
           // 12. Add underline to the newly added link and remove from others
-          console.log('[addNewModelToNavigation] Adding underline to the newly added link and removing from others');
           document.querySelectorAll('.anvil-role-nav_models [anvil-role*="model-nav-link"]').forEach(link => {
             if (link !== modelLink) {
               link.classList.remove('anvil-role-underline-link');
@@ -2566,13 +2544,10 @@
           // 13. Trigger resort to normalize ordering (pinned first, then orderIndex asc)
           try {
             if (typeof resortNavModels === 'function') {
-              console.log('[addNewModelToNavigation] Calling resortNavModels()');
               resortNavModels();
-            } else {
-              console.warn('[addNewModelToNavigation] resortNavModels() not found');
             }
           } catch (e) {
-            console.warn('[addNewModelToNavigation] Error when calling resortNavModels:', e);
+            
           }
           
           // Add underline class and update role attribute to match existing elements
@@ -2580,9 +2555,8 @@
           // Ensure we retain model-nav-link role and add underline-link
           modelLink.setAttribute('anvil-role', 'model-nav-link underline-link');
           
-          console.log('[addNewModelToNavigation] Model added to navigation');
         } catch (error) {
-          console.error('[addNewModelToNavigation] Error:', error);
+          
         }
       }
       
