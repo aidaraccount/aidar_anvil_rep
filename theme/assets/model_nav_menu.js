@@ -207,7 +207,7 @@ function resortNavModels() {
     // 3) Apply new order
     sorted.forEach(node => parent.appendChild(node));
 
-    // 4) FLIP animate
+    // 4) FLIP animate (robust: disable transition, set inverted transform, force reflow, then animate)
     sorted.forEach(node => {
         const last = node.getBoundingClientRect();
         const f = first.get(node);
@@ -215,12 +215,18 @@ function resortNavModels() {
         const dx = f.left - last.left;
         const dy = f.top - last.top;
         if (dx || dy) {
+            // a) Disable transitions and apply inverted transform
+            node.style.transition = 'none';
             node.style.transform = `translate3d(${dx}px, ${dy}px, 0)`;
-            node.style.transition = 'transform 3000ms cubic-bezier(0.22, 1, 0.36, 1)';
-            // next frame
-            requestAnimationFrame(() => {
-                node.style.transform = '';
-            });
+
+            // b) Force reflow so the browser commits the starting transform
+            // eslint-disable-next-line no-unused-expressions
+            node.getBoundingClientRect();
+
+            // c) Enable transition and animate to the natural position
+            node.style.transition = 'transform 1200ms cubic-bezier(0.25, 0.8, 0.25, 1)';
+            node.style.transform = 'translate3d(0, 0, 0)';
+
             const cleanup = (e) => {
                 if (e.propertyName === 'transform') {
                     node.style.transition = '';
