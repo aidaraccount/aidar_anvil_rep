@@ -721,8 +721,8 @@ class MainIn(MainInTemplate):
       should_go_home = False
       try:
         current_hash = location.hash or ''
-        # a) If currently on model_profile and model_id matches
-        if current_hash.startswith('#model_profile?'):
+        # a) If currently on model_profile or model_setup and model_id matches
+        if current_hash.startswith('#model_profile?') or current_hash.startswith('#model_setup?'):
           parts = current_hash.split('?', 1)
           if len(parts) == 2:
             qs = parts[1]
