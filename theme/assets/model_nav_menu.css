@@ -107,9 +107,19 @@
     z-index: 5;
 }
 
+.pin-indicator {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    border-radius: 9999px;
+    background: #f97316; /* orange-500 */
+    box-shadow: 0 1px 2px rgba(0,0,0,0.15);
+}
 .pin-indicator i {
-    color: rgba(253, 101, 45, 0.75); /* discreet orange */
-    font-size: 12px;
+    color: #ffffff;
+    font-size: 10px;
 }
 
 [anvil-role="nav_flow_panel"].pinned .pin-indicator {
@@ -124,8 +134,16 @@
 }
 
 /* 10. Active color for pin icon inside the menu */
+.option-icon[data-action="pin"].active {
+    background-color: #f97316; /* orange-500 */
+    color: #ffffff;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.12);
+}
 .option-icon[data-action="pin"].active i {
-    color: rgba(253, 101, 45, 0.95);
+    color: #ffffff;
+}
+.option-icon[data-action="pin"].active:hover {
+    background-color: #fb923c; /* orange-400 */
 }
 
 /* 11. Notification (megaphone) indicator for notify-active rows */
@@ -140,9 +158,19 @@
     z-index: 6; /* above pin */
 }
 
+.notify-indicator {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    border-radius: 9999px;
+    background: #22c55e; /* green-500 */
+    box-shadow: 0 1px 2px rgba(0,0,0,0.15);
+}
 .notify-indicator i {
-    color: #22c55e; /* vibrant green */
-    font-size: 12px;
+    color: #ffffff;
+    font-size: 10px;
 }
 
 [anvil-role="nav_flow_panel"].notify-active .notify-indicator {
@@ -164,6 +192,14 @@
 }
 
 /* 12. Active color for notifications icon inside the menu */
+.option-icon[data-action="notifications"].active {
+    background-color: #22c55e; /* green-500 */
+    color: #ffffff;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.12);
+}
 .option-icon[data-action="notifications"].active i {
-    color: #22c55e; /* vibrant green */
+    color: #ffffff;
+}
+.option-icon[data-action="notifications"].active:hover {
+    background-color: #34d399; /* green-400 */
 }
