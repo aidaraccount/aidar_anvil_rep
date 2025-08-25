@@ -55,6 +55,9 @@ class MainIn(MainInTemplate):
     # Track visibility and pending JS sync
     self._form_visible = False
     self._pending_model_states = None
+    self._pending_new_model_ids = None
+    # Track previous model ids to detect newly added models across refreshes
+    self._prev_model_ids = set()
     
     if user is None:
       self.visible = False
@@ -138,8 +141,9 @@ class MainIn(MainInTemplate):
     # If there is a pending initial model states sync, apply it now
     try:
       if self._pending_model_states is not None:
-        self.call_js('syncInitialModelStates', self._pending_model_states)
+        self.call_js('syncInitialModelStates', self._pending_model_states, (self._pending_new_model_ids or []))
         self._pending_model_states = None
+        self._pending_new_model_ids = None
     except Exception as e:
       print(f"[NAV MODELS] syncInitialModelStates (on show) failed: {e}")
 
@@ -201,6 +205,17 @@ class MainIn(MainInTemplate):
     model_states = []
     
     if len(model_ids) > 0:
+      # Compute newly added models compared to previous state
+      try:
+        prev_ids = set(self._prev_model_ids) if hasattr(self, '_prev_model_ids') else set()
+      except Exception:
+        prev_ids = set()
+      current_ids = {int(m["model_id"]) for m in model_ids}
+      # On first load, do not treat all models as new; only compute if we have a previous set
+      new_model_ids = list(current_ids - prev_ids) if prev_ids else []
+      # Update previous ids for next refresh
+      self._prev_model_ids = current_ids
+
       # 1.a Compute initial effective pin (pinned OR notifications) and preserve original index
       indexed_models = list(enumerate(model_ids))
       def _eff_pinned(m):
@@ -275,10 +290,12 @@ class MainIn(MainInTemplate):
 
     # 8. Defer sync to when the form is visible; if already visible, call immediately
     self._pending_model_states = model_states
+    self._pending_new_model_ids = new_model_ids if len(model_ids) > 0 else []
     if getattr(self, '_form_visible', False):
       try:
-        self.call_js('syncInitialModelStates', model_states)
+        self.call_js('syncInitialModelStates', model_states, self._pending_new_model_ids)
         self._pending_model_states = None
+        self._pending_new_model_ids = None
       except Exception as e:
         print(f"[NAV MODELS] syncInitialModelStates call failed (visible): {e}")
 

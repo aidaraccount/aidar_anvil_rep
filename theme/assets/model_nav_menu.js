@@ -587,10 +587,32 @@ function clearModelNavigation() {
     closeAllMenus();
 }
 
+// Helper: animate a new model row entering from the top
+function animateNewModelEntrance(flowPanel) {
+    if (!flowPanel) return;
+    // Start slightly above with fade-in
+    flowPanel.style.transition = 'none';
+    flowPanel.style.transform = 'translate3d(0, -24px, 0)';
+    flowPanel.style.opacity = '0';
+    // Force reflow
+    // eslint-disable-next-line no-unused-expressions
+    flowPanel.getBoundingClientRect();
+    // Animate to place
+    flowPanel.style.transition = 'transform 500ms cubic-bezier(0.25, 0.8, 0.25, 1), opacity 500ms ease-out';
+    flowPanel.style.transform = 'translate3d(0, 0, 0)';
+    flowPanel.style.opacity = '1';
+    const cleanup = () => {
+        flowPanel.style.transition = '';
+        flowPanel.removeEventListener('transitionend', cleanup);
+    };
+    flowPanel.addEventListener('transitionend', cleanup);
+}
+
 // 8.1. Sync initial model states (pinned / notifications) after Anvil renders rows
-function syncInitialModelStates(modelStates) {
+function syncInitialModelStates(modelStates, newModelIds = []) {
     try {
         console.log('🧩 syncInitialModelStates called with:', modelStates);
+        if (!Array.isArray(newModelIds)) newModelIds = [];
         if (!Array.isArray(modelStates)) return;
         modelStates.forEach(state => {
             if (!state) return;
@@ -621,6 +643,14 @@ function syncInitialModelStates(modelStates) {
                     fp.classList.remove('pinned');
                     removePinIndicator(fp);
                 }
+            }
+        });
+
+        // Animate newly added models (slide in from the top)
+        newModelIds.forEach(id => {
+            const fp = findFlowPanelByModelId(String(id));
+            if (fp) {
+                animateNewModelEntrance(fp);
             }
         });
     } catch (e) {
