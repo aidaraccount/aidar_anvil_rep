@@ -212,24 +212,6 @@ function removeNotifyIndicator(flowPanel) {
     if (indicator) indicator.remove();
 }
 
-// Helper: initial sort WITHOUT animation (pinned first, then creation order)
-function sortNavModelsNoAnim() {
-    const panels = Array.from(document.querySelectorAll('[anvil-role="nav_flow_panel"]'));
-    if (!panels.length) return;
-    const parent = panels[0].parentElement;
-
-    const sorted = panels.slice().sort((a, b) => {
-        const ap = a.classList.contains('pinned');
-        const bp = b.classList.contains('pinned');
-        if (ap !== bp) return ap ? -1 : 1;
-        const ai = parseInt(a.dataset.orderIndex || '0', 10);
-        const bi = parseInt(b.dataset.orderIndex || '0', 10);
-        return ai - bi;
-    });
-
-    sorted.forEach(node => parent.appendChild(node));
-}
-
 // Helper: Resort nav rows with FLIP animation (pinned first, then creation order)
 function resortNavModels() {
     const panels = Array.from(document.querySelectorAll('[anvil-role="nav_flow_panel"]'));
@@ -641,8 +623,6 @@ function syncInitialModelStates(modelStates) {
                 }
             }
         });
-        // Initial render: sort once WITHOUT animation
-        sortNavModelsNoAnim();
     } catch (e) {
         console.warn('syncInitialModelStates error:', e);
     }

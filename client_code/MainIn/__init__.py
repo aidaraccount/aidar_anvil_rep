@@ -201,45 +201,55 @@ class MainIn(MainInTemplate):
     model_states = []
     
     if len(model_ids) > 0:
-      for i in range(0, len(model_ids)):
+      # 1.a Compute initial effective pin (pinned OR notifications) and preserve original index
+      indexed_models = list(enumerate(model_ids))
+      def _eff_pinned(m):
+        try:
+          return bool(m.get('is_pinned', False)) or bool(m.get('active_notifications', False))
+        except Exception:
+          return False
+      # 1.b Pre-order: pinned/notify-first, then original order; no client-side resort needed on initial load
+      ordered_models = sorted(indexed_models, key=lambda t: (not _eff_pinned(t[1]), t[0]))
+
+      for orig_index, model in ordered_models:
         # 2. Create a container for each model entry
         model_container = anvil.FlowPanel(
-          tag=model_ids[i]["model_id"],
+          tag=model["model_id"],
           role='nav_flow_panel'
         )
         
         # 3. Create the model link with navigation functionality
-        if model_ids[i]["is_last_used"] is True:
+        if model["is_last_used"] is True:
           model_link = Link(
             icon='fa:angle-right',
-            text=model_ids[i]["model_name"],
-            tag=model_ids[i]["model_id"],
+            text=model["model_name"],
+            tag=model["model_id"],
             role=['model-nav-link', 'underline-link']
           )
-          save_var("model_id", model_ids[i]["model_id"])
+          save_var("model_id", model["model_id"])
         else:
           model_link = Link(
             icon='fa:angle-right',
-            text=model_ids[i]["model_name"],
-            tag=model_ids[i]["model_id"],
+            text=model["model_name"],
+            tag=model["model_id"],
             role=['model-nav-link']
           )
-        model_link.set_event_handler('click', self.create_model_click_handler(model_ids[i]["model_id"], model_link, model_container))
+        model_link.set_event_handler('click', self.create_model_click_handler(model["model_id"], model_link, model_container))
         
         # 4. Create three-dot options icon (no click handler - JavaScript will handle)
         options_link = Link(
           icon='fa:ellipsis-h',
           text="",  # Empty text for icon-only link
-          tag=model_ids[i]["model_id"],
+          tag=model["model_id"],
           role='icon-link-discreet'
         )
         # 4.1 Expose model_id to DOM for JS by setting data-model-id
         try:
-          get_dom_node(model_container).setAttribute('data-model-id', str(model_ids[i]["model_id"]))
-          # Preserve creation-order index for client-side stable reordering
-          get_dom_node(model_container).setAttribute('data-order-index', str(i).zfill(6))
-          get_dom_node(model_link).setAttribute('data-model-id', str(model_ids[i]["model_id"]))
-          get_dom_node(options_link).setAttribute('data-model-id', str(model_ids[i]["model_id"]))
+          get_dom_node(model_container).setAttribute('data-model-id', str(model["model_id"]))
+          # Preserve original creation-order index for later client-side stable reordering
+          get_dom_node(model_container).setAttribute('data-order-index', str(orig_index).zfill(6))
+          get_dom_node(model_link).setAttribute('data-model-id', str(model["model_id"]))
+          get_dom_node(options_link).setAttribute('data-model-id', str(model["model_id"]))
         except Exception as e:
           print(f"[NAV MODELS] Could not set data-model-id attributes: {e}")
         
@@ -252,13 +262,13 @@ class MainIn(MainInTemplate):
 
         # 7. Record initial state for this model for JS to apply classes/indicators/sorting
         try:
-          is_pinned = bool(model_ids[i].get('is_pinned', False))
-          active_notifications = bool(model_ids[i].get('active_notifications', False))
+          is_pinned = bool(model.get('is_pinned', False))
+          active_notifications = bool(model.get('active_notifications', False))
         except Exception:
           is_pinned = False
           active_notifications = False
         model_states.append({
-          'model_id': int(model_ids[i]["model_id"]),
+          'model_id': int(model["model_id"]),
           'is_pinned': is_pinned,
           'active_notifications': active_notifications
         })
