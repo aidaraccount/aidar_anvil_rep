@@ -46,10 +46,15 @@ class MainIn(MainInTemplate):
     
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
+    # Ensure 'show' event is bound so we can safely call JS after form is visible
+    self.set_event_handler('show', self.form_show)
     
     # Any code you write here will run before the form opens.    
     global user
     user = anvil.users.get_user()
+    # Track visibility and pending JS sync
+    self._form_visible = False
+    self._pending_model_states = None
     
     if user is None:
       self.visible = False
@@ -126,6 +131,17 @@ class MainIn(MainInTemplate):
 
       save_var('initial_login', True)
       
+
+  def form_show(self, **event_args):
+    """Anvil 'show' event: safe place to call JS that requires the form to be visible."""
+    self._form_visible = True
+    # If there is a pending initial model states sync, apply it now
+    try:
+      if self._pending_model_states is not None:
+        self.call_js('syncInitialModelStates', self._pending_model_states)
+        self._pending_model_states = None
+    except Exception as e:
+      print(f"[NAV MODELS] syncInitialModelStates (on show) failed: {e}")
 
   # WATCHLIST ROUTING
   def refresh_watchlists_components(self):
@@ -247,11 +263,14 @@ class MainIn(MainInTemplate):
           'active_notifications': active_notifications
         })
 
-    # 8. Sync initial pin/notification classes and indicators, and sort pinned-first
-    try:
-      self.call_js('syncInitialModelStates', model_states)
-    except Exception as e:
-      print(f"[NAV MODELS] syncInitialModelStates call failed: {e}")
+    # 8. Defer sync to when the form is visible; if already visible, call immediately
+    self._pending_model_states = model_states
+    if getattr(self, '_form_visible', False):
+      try:
+        self.call_js('syncInitialModelStates', model_states)
+        self._pending_model_states = None
+      except Exception as e:
+        print(f"[NAV MODELS] syncInitialModelStates call failed (visible): {e}")
 
     self.reset_nav_backgrounds()
   

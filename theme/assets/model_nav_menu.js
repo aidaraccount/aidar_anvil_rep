@@ -630,6 +630,9 @@ function syncInitialModelStates(modelStates) {
     }
 }
 
+// Expose for Anvil call_js (global)
+window.syncInitialModelStates = syncInitialModelStates;
+
 // 8. Initialize when DOM is ready
 console.log('🚀 Model navigation script loaded');
 console.log('🚀 Document ready state:', document.readyState);
