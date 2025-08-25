@@ -587,6 +587,49 @@ function clearModelNavigation() {
     closeAllMenus();
 }
 
+// 8.1. Sync initial model states (pinned / notifications) after Anvil renders rows
+function syncInitialModelStates(modelStates) {
+    try {
+        console.log('🧩 syncInitialModelStates called with:', modelStates);
+        if (!Array.isArray(modelStates)) return;
+        modelStates.forEach(state => {
+            if (!state) return;
+            const modelId = state.model_id != null ? String(state.model_id) : null;
+            if (!modelId) return;
+            const fp = findFlowPanelByModelId(modelId);
+            if (!fp) return;
+
+            const isPinned = !!state.is_pinned;
+            const notifyActive = !!state.active_notifications;
+
+            if (notifyActive) {
+                fp.classList.add('notify-active');
+                ensureNotifyIndicator(fp);
+                removePinIndicator(fp);
+                if (!fp.classList.contains('pinned')) {
+                    fp.classList.add('pinned');
+                    fp.classList.add('pinned-by-notify');
+                }
+            } else {
+                fp.classList.remove('notify-active');
+                removeNotifyIndicator(fp);
+                fp.classList.remove('pinned-by-notify');
+                if (isPinned) {
+                    fp.classList.add('pinned');
+                    ensurePinIndicator(fp);
+                } else {
+                    fp.classList.remove('pinned');
+                    removePinIndicator(fp);
+                }
+            }
+        });
+        // Resort once after applying all states
+        resortNavModels();
+    } catch (e) {
+        console.warn('syncInitialModelStates error:', e);
+    }
+}
+
 // 8. Initialize when DOM is ready
 console.log('🚀 Model navigation script loaded');
 console.log('🚀 Document ready state:', document.readyState);

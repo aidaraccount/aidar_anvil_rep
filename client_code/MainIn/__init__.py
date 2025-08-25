@@ -181,6 +181,8 @@ class MainIn(MainInTemplate):
     # 1. Remove existing model components
     self.remove_model_components()    
     model_ids = json.loads(anvil.server.call('get_model_ids',  user["user_id"]))
+    # Collect initial state for JS sync (pinned / notifications)
+    model_states = []
     
     if len(model_ids) > 0:
       for i in range(0, len(model_ids)):
@@ -231,6 +233,25 @@ class MainIn(MainInTemplate):
         
         # 6. Add the container to nav_models
         self.nav_models.add_component(model_container)
+
+        # 7. Record initial state for this model for JS to apply classes/indicators/sorting
+        try:
+          is_pinned = bool(model_ids[i].get('is_pinned', False))
+          active_notifications = bool(model_ids[i].get('active_notifications', False))
+        except Exception:
+          is_pinned = False
+          active_notifications = False
+        model_states.append({
+          'model_id': int(model_ids[i]["model_id"]),
+          'is_pinned': is_pinned,
+          'active_notifications': active_notifications
+        })
+
+    # 8. Sync initial pin/notification classes and indicators, and sort pinned-first
+    try:
+      self.call_js('syncInitialModelStates', model_states)
+    except Exception as e:
+      print(f"[NAV MODELS] syncInitialModelStates call failed: {e}")
 
     self.reset_nav_backgrounds()
   
