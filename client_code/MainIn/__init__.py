@@ -753,4 +753,6 @@ class MainIn(MainInTemplate):
       return True
     
     return False
-    
+
+  def MainIn_update_agent_pin(self, agent_id: int, is_pinned: bool) -> str:
+    return anvil.server.call('update_agent_pin', agent_id, is_pinned)

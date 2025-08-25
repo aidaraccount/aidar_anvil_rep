@@ -398,21 +398,48 @@ async function handleOptionClick(action, modelId) {
                 console.warn('⚠️ No flow panel found to toggle pin');
                 break;
             }
-            const willPin = !fp.classList.contains('pinned');
+            const prevPinned = fp.classList.contains('pinned');
+            const willPin = !prevPinned;
+
+            // Optimistic UI update
             fp.classList.toggle('pinned', willPin);
             if (willPin) {
                 ensurePinIndicator(fp);
             } else {
                 removePinIndicator(fp);
             }
-            // Update current menu pin icon style if present
             const expanded = fp.querySelector('.model-options-expanded');
             if (expanded) {
                 const pinOption = expanded.querySelector('.option-icon[data-action="pin"]');
                 if (pinOption) pinOption.classList.toggle('active', willPin);
             }
-            // Resort rows to reflect pinned section ordering
             resortNavModels();
+
+            // Persist on backend via MainIn bridge
+            try {
+                const formElement = document.querySelector('.anvil-container');
+                if (!formElement || typeof anvil === 'undefined' || !anvil.call) {
+                    console.warn('⚠️ Cannot call MainIn_update_agent_pin: anvil or form element missing');
+                } else {
+                    const res = await anvil.call(formElement, 'MainIn_update_agent_pin', parseInt(modelId, 10), willPin);
+                    if (res !== 'success') throw new Error('Backend did not return success');
+                }
+            } catch (err) {
+                console.error('❌ Error persisting pin state, rolling back:', err);
+                // Rollback UI to previous state
+                fp.classList.toggle('pinned', prevPinned);
+                if (prevPinned) {
+                    ensurePinIndicator(fp);
+                } else {
+                    removePinIndicator(fp);
+                }
+                const expanded2 = fp.querySelector('.model-options-expanded');
+                if (expanded2) {
+                    const pinOption2 = expanded2.querySelector('.option-icon[data-action="pin"]');
+                    if (pinOption2) pinOption2.classList.toggle('active', prevPinned);
+                }
+                resortNavModels();
+            }
             break;
         }
         case 'notifications': {
