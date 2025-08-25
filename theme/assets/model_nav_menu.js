@@ -448,7 +448,14 @@ async function handleOptionClick(action, modelId) {
                 console.warn('⚠️ No flow panel found to toggle notifications');
                 break;
             }
-            const activating = !fp.classList.contains('notify-active');
+
+            // Capture previous state for rollback
+            const prevActive = fp.classList.contains('notify-active');
+            const prevPinned = fp.classList.contains('pinned');
+            const prevPinnedByNotify = fp.classList.contains('pinned-by-notify');
+
+            const activating = !prevActive;
+            // Optimistic UI update
             fp.classList.toggle('notify-active', activating);
 
             if (activating) {
@@ -489,6 +496,45 @@ async function handleOptionClick(action, modelId) {
             }
             // Resort after any pin state changes
             resortNavModels();
+
+            // Persist on backend via MainIn bridge
+            try {
+                const formElement = document.querySelector('.anvil-container');
+                if (!formElement || typeof anvil === 'undefined' || !anvil.call) {
+                    console.warn('⚠️ Cannot call MainIn_update_agent_notification: anvil or form element missing');
+                } else {
+                    const res = await anvil.call(formElement, 'MainIn_update_agent_notification', parseInt(modelId, 10), activating);
+                    if (res !== 'success') throw new Error('Backend did not return success');
+                }
+            } catch (err) {
+                console.error('❌ Error persisting notifications state, rolling back:', err);
+                // Rollback UI to previous state
+                fp.classList.toggle('notify-active', prevActive);
+                fp.classList.toggle('pinned', prevPinned);
+                if (prevPinnedByNotify) {
+                    fp.classList.add('pinned-by-notify');
+                } else {
+                    fp.classList.remove('pinned-by-notify');
+                }
+                if (prevActive) {
+                    ensureNotifyIndicator(fp);
+                } else {
+                    removeNotifyIndicator(fp);
+                }
+                if (prevPinned && !prevPinnedByNotify) {
+                    ensurePinIndicator(fp);
+                } else {
+                    removePinIndicator(fp);
+                }
+                const expanded = fp.querySelector('.model-options-expanded');
+                if (expanded) {
+                    const notifOption = expanded.querySelector('.option-icon[data-action="notifications"]');
+                    if (notifOption) notifOption.classList.toggle('active', prevActive);
+                    const pinOption = expanded.querySelector('.option-icon[data-action="pin"]');
+                    if (pinOption) pinOption.classList.toggle('active', prevPinned);
+                }
+                resortNavModels();
+            }
             break;
         }
         case 'delete': {

@@ -755,7 +755,15 @@ class MainIn(MainInTemplate):
     return False
 
   def MainIn_update_agent_pin(self, agent_id: int, is_pinned: bool) -> str:
+    """Update the pin status of an agent (model)."""
     print(f'[MainIn_update_agent_pin] Updating agent pin for agent_id: {agent_id}, is_pinned: {is_pinned}')
     result = anvil.server.call('update_agent_pin', agent_id, is_pinned)
     print(f'[MainIn_update_agent_pin] Result: {result}')
+    return result
+
+  def MainIn_update_agent_notification(self, agent_id: int, active_notifications: bool) -> str:
+    """Update the notification activation state for an agent (model)."""
+    print(f'[MainIn_update_agent_notification] Updating notifications for agent_id: {agent_id}, active: {active_notifications}')
+    result = anvil.server.call('update_agent_notification', agent_id, active_notifications)
+    print(f'[MainIn_update_agent_notification] Result: {result}')
     return result
