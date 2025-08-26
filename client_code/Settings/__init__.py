@@ -176,11 +176,11 @@ class Settings(SettingsTemplate):
     
     # b) Personal Notifications
     self.not_agents.text = not_data["not_agents"]
-    self.not_wl.text = not_data["not_wl"]
+    self.not_watchlist.text = not_data["not_watchlist"]
     self.not_highlights.text = not_data["not_highlights"]
   
     self.not_agents.role = ['header-7', 'call-to-action-button'] if self.not_agents.text == 'active' else ['header-7', 'call-to-action-button-disabled']
-    self.not_wl.rolw = ['header-7', 'call-to-action-button'] if self.not_wl.text == 'active' else ['header-7', 'call-to-action-button-disabled']
+    self.not_watchlist.role = ['header-7', 'call-to-action-button'] if self.not_watchlist.text == 'active' else ['header-7', 'call-to-action-button-disabled']
     self.not_highlights.role = ['header-7', 'call-to-action-button'] if self.not_highlights.text == 'active' else ['header-7', 'call-to-action-button-disabled']
     
 
@@ -586,7 +586,7 @@ class Settings(SettingsTemplate):
                                 user["user_id"],
                                 self.not_agents.text,
                                 self.slider_agents.value,
-                                self.not_wl.text,
+                                self.not_watchlist.text,
                                 self.slider_wl.value,
                                 self.not_highlights.text
                                 )
@@ -751,3 +751,8 @@ class Settings(SettingsTemplate):
     
     if result == 'success':
       anvil.js.window.location.replace("/#settings?section=Payment")
+
+  
+  def slider_agents_slide(self, handle, **event_args):
+    # change save button role
+    self.not_pers_save.role = ['header-6', 'call-to-action-button']
