@@ -176,9 +176,11 @@ class Settings(SettingsTemplate):
     
     # b) Personal Notifications
     self.not_agents.text = not_data["not_agents"]
+    self.not_wl.text = not_data["not_wl"]
     self.not_highlights.text = not_data["not_highlights"]
   
     self.not_agents.role = ['header-7', 'call-to-action-button'] if self.not_agents.text == 'active' else ['header-7', 'call-to-action-button-disabled']
+    self.not_wl.rolw = ['header-7', 'call-to-action-button'] if self.not_wl.text == 'active' else ['header-7', 'call-to-action-button-disabled']
     self.not_highlights.role = ['header-7', 'call-to-action-button'] if self.not_highlights.text == 'active' else ['header-7', 'call-to-action-button-disabled']
     
 
@@ -539,7 +541,7 @@ class Settings(SettingsTemplate):
     # change save button role
     self.not_pers_save.role = ['header-6', 'call-to-action-button']
   
-  # specific function for not_agents, to ensure users really want to deactivate all personal artist radars 
+  # specific function for not_agents, to ensure users really want to deactivate all personal artist radars
   def button_active_pers_click_radar(self, **event_args):
     nots = json.loads(anvil.server.call("get_notifications", user["user_id"], 'mail'))
     
@@ -547,8 +549,8 @@ class Settings(SettingsTemplate):
       self.button_active_pers_click(element=event_args['sender'])
     else:
       result = alert(
-        title="All personal Artist Radars will be deactivated",
-        content="Are you sure to deactivate all your personal Artist Radars?\n\nYou will no longer get individual notifications based on your personal AI-Agent directly into your inbox.",
+        title="All personal Agent Notifications will be deactivated",
+        content="Are you sure to deactivate all your personal Agent Notifications?\n\nYou will no longer get individual notifications based on your personal AI-Agent directly into your inbox.",
         buttons=[("Cancel", "No"), ("Yes, deactivate", "Yes")],
       )
       if result == "Yes":
@@ -575,7 +577,7 @@ class Settings(SettingsTemplate):
             song_selection_2=noti["song_selection_2"],
           )
         self.button_active_pers_click(element=event_args['sender'])
-        Notification("", title="All Artist Radars deactivated!", style="success").show()
+        Notification("", title="All Agent Notifications deactivated!", style="success").show()
         self.not_pers_save_click()  
   
   def not_pers_save_click(self, **event_args):
@@ -583,6 +585,9 @@ class Settings(SettingsTemplate):
       status = anvil.server.call('update_settings_notifications_pers',
                                 user["user_id"],
                                 self.not_agents.text,
+                                self.slider_agents.value,
+                                self.not_wl.text,
+                                self.slider_wl.value,
                                 self.not_highlights.text
                                 )
       
