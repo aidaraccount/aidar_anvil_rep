@@ -176,7 +176,9 @@ class Settings(SettingsTemplate):
     
     # b) Personal Notifications
     self.not_agents.text = not_data["not_agents"]
+    self.slider_agents.value = not_data["not_agents_freq"]
     self.not_watchlist.text = not_data["not_watchlist"]
+    self.slider_wl.value = not_data["not_watchlist_freq"]
     self.not_highlights.text = not_data["not_highlights"]
   
     self.not_agents.role = ['header-7', 'call-to-action-button'] if self.not_agents.text == 'active' else ['header-7', 'call-to-action-button-disabled']
@@ -753,6 +755,6 @@ class Settings(SettingsTemplate):
       anvil.js.window.location.replace("/#settings?section=Payment")
 
   
-  def slider_agents_slide(self, handle, **event_args):
+  def sliders_slide(self, handle, **event_args):
     # change save button role
     self.not_pers_save.role = ['header-6', 'call-to-action-button']
