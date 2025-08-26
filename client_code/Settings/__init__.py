@@ -175,10 +175,10 @@ class Settings(SettingsTemplate):
     self.not_newsletter.role = ['header-7', 'call-to-action-button'] if self.not_newsletter.text == 'active' else ['header-7', 'call-to-action-button-disabled']
     
     # b) Personal Notifications
-    self.not_radars.text = not_data["not_radars"]
+    self.not_agents.text = not_data["not_agents"]
     self.not_highlights.text = not_data["not_highlights"]
   
-    self.not_radars.role = ['header-7', 'call-to-action-button'] if self.not_radars.text == 'active' else ['header-7', 'call-to-action-button-disabled']
+    self.not_agents.role = ['header-7', 'call-to-action-button'] if self.not_agents.text == 'active' else ['header-7', 'call-to-action-button-disabled']
     self.not_highlights.role = ['header-7', 'call-to-action-button'] if self.not_highlights.text == 'active' else ['header-7', 'call-to-action-button-disabled']
     
 
@@ -539,11 +539,11 @@ class Settings(SettingsTemplate):
     # change save button role
     self.not_pers_save.role = ['header-6', 'call-to-action-button']
   
-  # specific function for not_radars, to ensure users really want to deactivate all personal artist radars 
+  # specific function for not_agents, to ensure users really want to deactivate all personal artist radars 
   def button_active_pers_click_radar(self, **event_args):
     nots = json.loads(anvil.server.call("get_notifications", user["user_id"], 'mail'))
     
-    if self.not_radars.text == 'deactivated' or len(nots) == 0:
+    if self.not_agents.text == 'deactivated' or len(nots) == 0:
       self.button_active_pers_click(element=event_args['sender'])
     else:
       result = alert(
@@ -582,7 +582,7 @@ class Settings(SettingsTemplate):
     if self.not_pers_save.role == ['header-6', 'call-to-action-button']:
       status = anvil.server.call('update_settings_notifications_pers',
                                 user["user_id"],
-                                self.not_radars.text,
+                                self.not_agents.text,
                                 self.not_highlights.text
                                 )
       
