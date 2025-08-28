@@ -26,6 +26,7 @@ from ..C_ArtistBio import C_ArtistBio
 from ..C_ProgressMessage import C_ProgressMessage
 from ..C_Short import C_Short
 from ..C_FeedbackForm import C_FeedbackForm
+from ..C_TrialLimitationsPopup import C_TrialLimitationsPopup
 
 
 @routing.route('agent_artists', url_keys=['artist_id'], title='Artists')
@@ -190,6 +191,20 @@ class DiscoverAgent(DiscoverAgentTemplate):
       routing.set_url_hash('agent_artists?artist_id=extended_create_agent', load_from_cache=False)
 
     else:
+      # TRIAL NOTIFICATION      
+      if user["plan"] in ["Trial", "Extended Trial"]:
+        usage_data = anvil.server.call('get_ratings_count', user['user_id'])
+        if usage_data['total_count'] == 35 or usage_data['total_count'] == 50 or (usage_data['total_count'] > 50 and usage_data['today_count'] >= 5):
+          alert(
+            content=C_TrialLimitationsPopup(usage_data['total_count'], usage_data['today_count']),
+            large=True,
+            buttons=[]
+          )
+        if usage_data['total_count'] == 50 or (usage_data['total_count'] > 50 and usage_data['today_count'] >= 5):
+          routing.set_url_hash('settings?section=Subscription', load_from_cache=False)
+          get_open_form().SearchBar.visible = False
+
+      # GET SUGGESTIONS
       self.sug = sug
       save_var('lastplayed', self.sug["SpotifyArtistID"])
 
