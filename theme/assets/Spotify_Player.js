@@ -5,8 +5,6 @@ var controller;
 let isNavigating = false;
 const NAVIGATION_DEBOUNCE_MS = 500;
 
-// Track if event listeners are already attached to prevent duplicates
-let playButtonListenersAttached = false;
 
 // Centralized playback control function
 function executePlaybackAction(action) {
@@ -56,20 +54,17 @@ function executePlaybackAction(action) {
 function playSpotify() {
   console.log("playSpotify - sessionStorage.getItem('has_played'): " + sessionStorage.getItem("has_played"));
   
-  // Prevent duplicate event listeners
-  if (playButtonListenersAttached) {
-    return;
-  }
-  
   const buttons = document.querySelectorAll('.anvil-role-cap-play-pause');
   
   buttons.forEach(button => {
-    button.onclick = function () {
-      executePlaybackAction('toggle');
-    };
+    // Only attach if not already attached to prevent duplicates
+    if (!button.hasAttribute('data-spotify-listener-attached')) {
+      button.onclick = function () {
+        executePlaybackAction('toggle');
+      };
+      button.setAttribute('data-spotify-listener-attached', 'true');
+    }
   });
-  
-  playButtonListenersAttached = true;
 }
 
 // function to initialize the spotify console
