@@ -109,6 +109,21 @@ function createOrUpdateSpotifyPlayer(formElement, trackOrArtist, currentSpotifyI
     
     window.SpotifyIframeAPI.createController(element, options, (EmbedController) => {
       controller = EmbedController;
+      
+      // Add error listener to catch 403 authentication errors
+      controller.addListener('error', (error) => {
+        console.error("=== SPOTIFY CONTROLLER ERROR ===");
+        console.error("Error type:", error.type);
+        console.error("Error message:", error.message);
+        console.error("Full error object:", error);
+        
+        // Handle authentication errors specifically
+        if (error.type === 'authentication_error' || error.message.includes('403')) {
+          console.log("Detected Spotify authentication error - attempting recovery");
+          handleSpotifyAuthError();
+        }
+      });
+      
       controller.addListener('ready', () => {
         console.log('createOrUpdateSpotifyPlayer - Spotify Player ready_1');
         controller_status = 'ready';
@@ -162,6 +177,21 @@ function createOrUpdateSpotifyPlayer(formElement, trackOrArtist, currentSpotifyI
       window.SpotifyIframeAPI = IFrameAPI; // Store the API globally for future use
       IFrameAPI.createController(element, options, (EmbedController) => {
         controller = EmbedController;
+        
+        // Add error listener for path 2 as well
+        controller.addListener('error', (error) => {
+          console.error("=== SPOTIFY CONTROLLER ERROR (PATH 2) ===");
+          console.error("Error type:", error.type);
+          console.error("Error message:", error.message);
+          console.error("Full error object:", error);
+          
+          // Handle authentication errors specifically
+          if (error.type === 'authentication_error' || error.message.includes('403')) {
+            console.log("Detected Spotify authentication error - attempting recovery (path 2)");
+            handleSpotifyAuthError();
+          }
+        });
+        
         controller.addListener('ready', () => {
           console.log('createOrUpdateSpotifyPlayer - Spotify Player ready_2');
           if (autoplaybutton) {
@@ -547,6 +577,92 @@ function setPlayButtonIcons(trackOrArtist, spotifyTrackIDsList=null, spotifyArti
       }
     }
   }
+}
+
+// Function to handle Spotify authentication errors with recovery attempts
+function handleSpotifyAuthError() {
+  console.log("=== HANDLING SPOTIFY AUTH ERROR ===");
+  
+  // Show user notification
+  showSpotifyAuthNotification();
+  
+  // Attempt automatic recovery
+  setTimeout(() => {
+    console.log("Attempting automatic recovery from 403 error");
+    
+    // Try to recreate the controller with a fresh session
+    const element = document.querySelector('.anvil-role-cap-spotify-footer #embed-iframe');
+    if (element && sessionStorage.getItem("globalCurrentSpotifyID")) {
+      const currentSpotifyID = sessionStorage.getItem("globalCurrentSpotifyID");
+      
+      // Clear the existing iframe content
+      element.innerHTML = '';
+      
+      // Wait a moment then recreate
+      setTimeout(() => {
+        console.log("Recreating Spotify controller after 403 error");
+        // This will reinitialize the player
+        location.reload();
+      }, 2000);
+    }
+  }, 1000);
+}
+
+// Function to show user-friendly notification about the authentication issue
+function showSpotifyAuthNotification() {
+  // Remove any existing notification
+  const existingNotification = document.querySelector('.spotify-auth-notification');
+  if (existingNotification) {
+    existingNotification.remove();
+  }
+  
+  // Create notification element
+  const notification = document.createElement('div');
+  notification.className = 'spotify-auth-notification';
+  notification.style.cssText = `
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: #ff6b6b;
+    color: white;
+    padding: 15px 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    z-index: 10000;
+    max-width: 350px;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    line-height: 1.4;
+  `;
+  
+  notification.innerHTML = `
+    <strong>Spotify Playback Issue</strong><br>
+    Authentication conflict detected. Attempting automatic recovery...
+    <br><br>
+    <strong>If this persists:</strong><br>
+    • Log out of Spotify in this browser, or<br>
+    • Open an incognito/private window<br>
+    <br>
+    <button onclick="this.parentElement.remove()" style="
+      background: white; 
+      color: #ff6b6b; 
+      border: none; 
+      padding: 5px 10px; 
+      border-radius: 4px; 
+      cursor: pointer;
+      font-size: 12px;
+      margin-top: 5px;
+    ">Dismiss</button>
+  `;
+  
+  document.body.appendChild(notification);
+  
+  // Auto-remove after 8 seconds
+  setTimeout(() => {
+    if (notification.parentElement) {
+      notification.remove();
+    }
+  }, 8000);
 }
 
 // function for speaking the artists name
