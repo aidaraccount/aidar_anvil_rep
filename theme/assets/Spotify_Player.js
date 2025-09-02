@@ -586,24 +586,53 @@ function handleSpotifyAuthError() {
   // Show user notification
   showSpotifyAuthNotification();
   
-  // Attempt automatic recovery
-  setTimeout(() => {
-    console.log("Attempting automatic recovery from 403 error");
+  // Clear Spotify-related storage to force fresh authentication
+  try {
+    // Clear session storage
+    sessionStorage.removeItem('globalCurrentSpotifyID');
+    sessionStorage.removeItem('spotify-sdk-initialization-state');
     
-    // Try to recreate the controller with a fresh session
+    // Clear local storage Spotify data
+    Object.keys(localStorage).forEach(key => {
+      if (key.toLowerCase().includes('spotify')) {
+        localStorage.removeItem(key);
+      }
+    });
+    
+    // Clear cookies related to Spotify
+    document.cookie.split(";").forEach(cookie => {
+      const eqPos = cookie.indexOf("=");
+      const name = eqPos > -1 ? cookie.substr(0, eqPos).trim() : cookie.trim();
+      if (name.toLowerCase().includes('spotify') || name.toLowerCase().includes('sp_')) {
+        document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/;domain=.spotify.com";
+        document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/";
+      }
+    });
+    
+    console.log("Cleared Spotify session data");
+  } catch (error) {
+    console.log("Error clearing Spotify session data:", error);
+  }
+  
+  // Attempt automatic recovery with fresh session
+  setTimeout(() => {
+    console.log("Attempting automatic recovery from 403 error with fresh session");
+    
+    // Clear the existing iframe and controller
     const element = document.querySelector('.anvil-role-cap-spotify-footer #embed-iframe');
-    if (element && sessionStorage.getItem("globalCurrentSpotifyID")) {
-      const currentSpotifyID = sessionStorage.getItem("globalCurrentSpotifyID");
-      
-      // Clear the existing iframe content
+    if (element) {
       element.innerHTML = '';
       
-      // Wait a moment then recreate
+      // Reset global controller
+      if (window.controller) {
+        window.controller = null;
+      }
+      
+      // Force a complete page reload to clear all Spotify state
       setTimeout(() => {
-        console.log("Recreating Spotify controller after 403 error");
-        // This will reinitialize the player
-        location.reload();
-      }, 2000);
+        console.log("Forcing page reload to clear Spotify Connect session");
+        window.location.reload(true);
+      }, 1500);
     }
   }, 1000);
 }
@@ -636,12 +665,14 @@ function showSpotifyAuthNotification() {
   `;
   
   notification.innerHTML = `
-    <strong>Spotify Playback Issue</strong><br>
-    Authentication conflict detected. Attempting automatic recovery...
+    <strong>Spotify Connect Conflict</strong><br>
+    Multiple Spotify sessions detected. Clearing session data and reloading...
     <br><br>
-    <strong>If this persists:</strong><br>
-    • Log out of Spotify in this browser, or<br>
-    • Open an incognito/private window<br>
+    <strong>Manual fixes if needed:</strong><br>
+    • Close Spotify app on other devices<br>
+    • Log out of Spotify completely, then log back in<br>
+    • Use incognito/private browsing mode<br>
+    • Pause playback on all other Spotify devices<br>
     <br>
     <button onclick="this.parentElement.remove()" style="
       background: white; 
