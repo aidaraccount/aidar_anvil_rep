@@ -76,8 +76,8 @@ function playSpotify() {
 // function to initialize the spotify console
 function createOrUpdateSpotifyPlayer(formElement, trackOrArtist, spotifyID, spotifyIDsList, autoplaybutton = false) {
   
-  console.log("=== createOrUpdateSpotifyPlayer CALLED ===");
-  console.log("Parameters:", {
+  console.log("[Spotify_Player.js] === createOrUpdateSpotifyPlayer CALLED ===");
+  console.log("[Spotify_Player.js] Parameters:", {
     formElement: formElement ? "present" : "null",
     trackOrArtist,
     spotifyID,
@@ -85,16 +85,16 @@ function createOrUpdateSpotifyPlayer(formElement, trackOrArtist, spotifyID, spot
     autoplaybutton
   });
   
-  console.log("createOrUpdateSpotifyPlayer - setItem globalCurrentSpotifyID: " + spotifyID);
+  console.log("[Spotify_Player.js] createOrUpdateSpotifyPlayer - setItem globalCurrentSpotifyID: " + spotifyID);
   sessionStorage.setItem("globalCurrentSpotifyID", spotifyID);
   
   const element = document.querySelector('.anvil-role-cap-spotify-footer #embed-iframe');
   if (!element) {
-    console.error("Spotify embed element not found");
+    console.error("[Spotify_Player.js] Spotify embed element not found");
     return;
   }
   
-  console.log("Embed element found:", {
+  console.log("[Spotify_Player.js] Embed element found:", {
     innerHTML: element.innerHTML ? "has content" : "empty",
     childElementCount: element.childElementCount,
     hasExistingController: !!controller
@@ -108,44 +108,44 @@ function createOrUpdateSpotifyPlayer(formElement, trackOrArtist, spotifyID, spot
     uri: `spotify:${trackOrArtist}:${spotifyID}`,
   };
   
-  console.log("Spotify options:", options);
+  console.log("[Spotify_Player.js] Spotify options:", options);
 
   // the if statment checks if the SpotifyIgrameAPI already exists (if it is already loaded)
   if (window.SpotifyIframeAPI) {
     let controller_status = 'not_ready';
     
-    console.log("Creating Spotify controller with SpotifyIframeAPI...");
+    console.log("[Spotify_Player.js] Creating Spotify controller with SpotifyIframeAPI...");
     
     window.SpotifyIframeAPI.createController(element, options, (EmbedController) => {
       controller = EmbedController;
-      console.log("Controller created successfully");
+      console.log("[Spotify_Player.js] Controller created successfully");
       
       // Add error listener to catch 403 authentication errors
       controller.addListener('error', (error) => {
-        console.log("Spotify controller error:", error);
-        console.error("=== SPOTIFY CONTROLLER ERROR ===");
-        console.error("Error type:", error.type);
-        console.error("Error message:", error.message);
-        console.error("Full error object:", error);
+        console.log("[Spotify_Player.js] Spotify controller error:", error);
+        console.error("[Spotify_Player.js] === SPOTIFY CONTROLLER ERROR ===");
+        console.error("[Spotify_Player.js] Error type:", error.type);
+        console.error("[Spotify_Player.js] Error message:", error.message);
+        console.error("[Spotify_Player.js] Full error object:", error);
         
         // Handle authentication errors specifically
         if (error.type === 'authentication_error' || error.message.includes('403')) {
-          console.log("Detected Spotify authentication error - attempting recovery");
+          console.log("[Spotify_Player.js] Detected Spotify authentication error - attempting recovery");
           handleSpotifyAuthError();
         }
       });
       
       controller.addListener('ready', () => {
-        console.log("createOrUpdateSpotifyPlayer - Spotify Player ready_1");
-        console.log("Ready event - autoplaybutton:", autoplaybutton);
-        console.log("Ready event - controller state:", {
+        console.log("[Spotify_Player.js] createOrUpdateSpotifyPlayer - Spotify Player ready_1");
+        console.log("[Spotify_Player.js] Ready event - autoplaybutton:", autoplaybutton);
+        console.log("[Spotify_Player.js] Ready event - controller state:", {
           isPaused: controller.isPaused,
           position: controller.position,
           duration: controller.duration
         });
         controller_status = 'ready';
         if (autoplaybutton) {
-          console.log("Calling autoPlaySpotify from ready_1 listener");
+          console.log("[Spotify_Player.js] Calling autoPlaySpotify from ready_1 listener");
           autoPlaySpotify();
         }
       });
@@ -178,12 +178,12 @@ function createOrUpdateSpotifyPlayer(formElement, trackOrArtist, spotifyID, spot
         
         // Log the current playback state
         if (isBuffering) {
-          console.log("createOrUpdateSpotifyPlayer - Playback is buffering - 1");
+          console.log("[Spotify_Player.js] createOrUpdateSpotifyPlayer - Playback is buffering - 1");
         } else if (isPaused) {
-          console.log("createOrUpdateSpotifyPlayer - Playback is paused - 1");
+          console.log("[Spotify_Player.js] createOrUpdateSpotifyPlayer - Playback is paused - 1");
           setPlayButtonIcons(trackOrArtist, spotifyTrackIDsList, spotifyArtistIDsList)
         } else {
-          console.log("createOrUpdateSpotifyPlayer - Playback is playing - 1");
+          console.log("[Spotify_Player.js] createOrUpdateSpotifyPlayer - Playback is playing - 1");
           setPlayButtonIcons(trackOrArtist, spotifyTrackIDsList, spotifyArtistIDsList)
         }
       });
@@ -191,47 +191,47 @@ function createOrUpdateSpotifyPlayer(formElement, trackOrArtist, spotifyID, spot
     });
     
   } else {
-    console.log("SpotifyIframeAPI not loaded, loading script...");
+    console.log("[Spotify_Player.js] SpotifyIframeAPI not loaded, loading script...");
     const script = document.createElement("script");
     script.src = "https://open.spotify.com/embed/iframe-api/v1";
     script.async = true;
     document.body.appendChild(script);
 
     window.onSpotifyIframeApiReady = (IFrameAPI) => {
-      console.log("SpotifyIframeApiReady callback triggered");
+      console.log("[Spotify_Player.js] SpotifyIframeApiReady callback triggered");
       let controller_status = 'not_ready';
       
-      console.log("Creating controller via onSpotifyIframeApiReady...");
+      console.log("[Spotify_Player.js] Creating controller via onSpotifyIframeApiReady...");
       IFrameAPI.createController(element, options, (EmbedController) => {
         controller = EmbedController;
-        console.log("Controller created via onSpotifyIframeApiReady");
+        console.log("[Spotify_Player.js] Controller created via onSpotifyIframeApiReady");
         
         // Add error listener to catch 403 authentication errors
         controller.addListener('error', (error) => {
-          console.log("Spotify controller error (path 2):", error);
-          console.error("=== SPOTIFY CONTROLLER ERROR (PATH 2) ===");
-          console.error("Error type:", error.type);
-          console.error("Error message:", error.message);
-          console.error("Full error object:", error);
+          console.log("[Spotify_Player.js] Spotify controller error (path 2):", error);
+          console.error("[Spotify_Player.js] === SPOTIFY CONTROLLER ERROR (PATH 2) ===");
+          console.error("[Spotify_Player.js] Error type:", error.type);
+          console.error("[Spotify_Player.js] Error message:", error.message);
+          console.error("[Spotify_Player.js] Full error object:", error);
           
           // Handle authentication errors specifically
           if (error.type === 'authentication_error' || error.message.includes('403')) {
-            console.log("Detected Spotify authentication error - attempting recovery (path 2)");
+            console.log("[Spotify_Player.js] Detected Spotify authentication error - attempting recovery (path 2)");
             handleSpotifyAuthError();
           }
         });
         
         controller.addListener('ready', () => {
-          console.log('createOrUpdateSpotifyPlayer - Spotify Player ready_2');
-          console.log("Ready event (path 2) - autoplaybutton:", autoplaybutton);
-          console.log("Ready event (path 2) - controller state:", {
+          console.log('[Spotify_Player.js] createOrUpdateSpotifyPlayer - Spotify Player ready_2');
+          console.log("[Spotify_Player.js] Ready event (path 2) - autoplaybutton:", autoplaybutton);
+          console.log("[Spotify_Player.js] Ready event (path 2) - controller state:", {
             isPaused: controller.isPaused,
             position: controller.position,
             duration: controller.duration
           });
           controller_status = 'ready';
           if (autoplaybutton) {
-            console.log("Calling autoPlaySpotify from ready_2 listener");
+            console.log("[Spotify_Player.js] Calling autoPlaySpotify from ready_2 listener");
             autoPlaySpotify();
           }
         });  
@@ -241,13 +241,13 @@ function createOrUpdateSpotifyPlayer(formElement, trackOrArtist, spotifyID, spot
           
           // Check if the song has ended
           if (!isPaused && position >= duration && duration > 0) {
-            console.log("createOrUpdateSpotifyPlayer - Pos. 2: Track has ended. Moving to the next song.");
+            console.log("[Spotify_Player.js] createOrUpdateSpotifyPlayer - Pos. 2: Track has ended. Moving to the next song.");
 
             // Load next song only if spotifyIDsList is provided
             if (spotifyIDsList) {
               playNextSong(formElement, 'track', spotifyIDsList, spotifyIDsList, spotifyIDsList);
             } else {
-              console.log("createOrUpdateSpotifyPlayer - No track list provided. Playback stopped.");
+              console.log("[Spotify_Player.js] createOrUpdateSpotifyPlayer - No track list provided. Playback stopped.");
             }
           }
         });
@@ -257,12 +257,12 @@ function createOrUpdateSpotifyPlayer(formElement, trackOrArtist, spotifyID, spot
           
           // Log the current playback state
           if (isBuffering) {
-            console.log("createOrUpdateSpotifyPlayer - Playback is buffering - 2");
+            console.log("[Spotify_Player.js] createOrUpdateSpotifyPlayer - Playback is buffering - 2");
           } else if (isPaused) {
-            console.log("createOrUpdateSpotifyPlayer - Playback is paused - 2");
+            console.log("[Spotify_Player.js] createOrUpdateSpotifyPlayer - Playback is paused - 2");
             setPlayButtonIcons(trackOrArtist, spotifyIDsList, spotifyIDsList)
           } else {
-            console.log("createOrUpdateSpotifyPlayer - Playback is playing - 2");
+            console.log("[Spotify_Player.js] createOrUpdateSpotifyPlayer - Playback is playing - 2");
             setPlayButtonIcons(trackOrArtist, spotifyIDsList, spotifyIDsList)
           }
         });
