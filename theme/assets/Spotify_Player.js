@@ -1,36 +1,75 @@
+// Global variable to store the Spotify controller
 var controller;
+
+// Debouncing variables to prevent rapid button clicks
+let isNavigating = false;
+const NAVIGATION_DEBOUNCE_MS = 500;
+
+// Track if event listeners are already attached to prevent duplicates
+let playButtonListenersAttached = false;
+
+// Centralized playback control function
+function executePlaybackAction(action) {
+  if (!controller) {
+    console.error('Spotify controller not available');
+    return false;
+  }
+  
+  try {
+    switch (action) {
+      case 'play':
+        if (controller.isPaused) {
+          console.log('Resuming from paused position');
+          controller.resume();
+        } else if (!controller.isPlaying) {
+          console.log('Starting playback');
+          controller.play();
+        }
+        break;
+      case 'pause':
+        console.log('Pausing playback');
+        controller.pause();
+        break;
+      case 'toggle':
+        if (controller.isPaused || !controller.isPlaying) {
+          executePlaybackAction('play');
+        } else {
+          executePlaybackAction('pause');
+        }
+        break;
+    }
+    return true;
+  } catch (error) {
+    console.error('Playback action failed:', error);
+    // Fallback: try to reload the controller
+    if (error.message && error.message.includes('403')) {
+      console.log('Authentication error detected, attempting controller reload');
+      setTimeout(() => {
+        location.reload();
+      }, 1000);
+    }
+    return false;
+  }
+}
 
 // function to play/pause spotify
 function playSpotify() {
   console.log("playSpotify - sessionStorage.getItem('has_played'): " + sessionStorage.getItem("has_played"));
+  
+  // Prevent duplicate event listeners
+  if (playButtonListenersAttached) {
+    return;
+  }
+  
   const buttons = document.querySelectorAll('.anvil-role-cap-play-pause');
   
   buttons.forEach(button => {
     button.onclick = function () {
-
-      // console.log("playSpotify - controller.isPaused:" + controller.isPaused);
-      // console.log("playSpotify - controller.isPlaying:" + controller.isPlaying);
-      // console.log("playSpotify - !controller.isPlaying:" + !controller.isPlaying);
-      // console.log("playSpotify - controller" + controller);
-      
-      if (controller.isPaused) {
-        console.log('playSpotify - 1. Resume playing from the paused position')
-        controller.resume();  // Resume playing from the paused position
-        controller.isPlaying = true;
-        controller.isPaused = false;
-      } else if (!controller.isPlaying) {
-        console.log('playSpotify - 2. Start playing if not already playing')
-        controller.play();    // Start playing if not already playing
-        controller.isPlaying = true;
-        controller.isPaused = false;
-      } else {
-        console.log('playSpotify - 3. Pause the player if its currently playing')
-        controller.pause();   // Pause the player if it's currently playing
-        controller.isPlaying = false;
-        controller.isPaused = true;
-      }
+      executePlaybackAction('toggle');
     };
   });
+  
+  playButtonListenersAttached = true;
 }
 
 // function to initialize the spotify console
@@ -167,24 +206,30 @@ function createOrUpdateSpotifyPlayer(formElement, trackOrArtist, currentSpotifyI
 
 // This function is triggered only when the AUTOPLAY button is switched on
 function autoPlaySpotify() {
-  if (controller) {
-    // Check the playback state and decide what to do
-    if (controller.isPaused) {
-      controller.resume();  // Resume playing from the paused position
-      controller.isPlaying = true;
-      controller.isPaused = false;
-    } else if (!controller.isPlaying) {
-      controller.play();    // Start playing if not already playing
-      controller.isPlaying = true;
-      controller.isPaused = false;
-    }
-  } else {
-    console.error("Spotify controller is not initialized.");
-  }
+  executePlaybackAction('play');
 }
 
-// Function to load the next song
-function playNextSong(formElement, trackOrArtist, spotifyTrackIDsList, spotifyArtistIDsList, spotifyArtistNameList, direction='forward') {
+// This function is triggered when the user clicks on the next/previous song buttons
+function playNextSong(direction, trackOrArtist, spotifyTrackIDsList, spotifyArtistIDsList, spotifyArtistNameList, formElement) {
+  
+  console.log("playNextSong - direction: " + direction);
+  
+  // Debounce navigation to prevent rapid clicks
+  if (isNavigating) {
+    console.log("playNextSong - Navigation in progress, ignoring click");
+    return;
+  }
+  
+  if (!spotifyTrackIDsList || spotifyTrackIDsList.length === 0) {
+    console.error("playNextSong - No Spotify track IDs available");
+    return;
+  }
+  
+  // Set navigation flag
+  isNavigating = true;
+  setTimeout(() => {
+    isNavigating = false;
+  }, NAVIGATION_DEBOUNCE_MS);
 
   // console.log("playNextSong - 000 trackOrArtist: " + trackOrArtist);
   // console.log("playNextSong - 000 spotifyTrackIDsList: " + spotifyTrackIDsList);  
@@ -296,14 +341,6 @@ function playNextSong(formElement, trackOrArtist, spotifyTrackIDsList, spotifyAr
     sessionStorage.setItem("globalCurrentSpotifyID", nextSpotifyTrackID);
     console.log("playNextSong - setItem globalCurrentSpotifyID: " + nextSpotifyTrackID);
 
-    // reload the controler only if not the first song is played (as its alreay pre-loaded)
-    if (index === 0 && direction === 'initial') {
-      console.log("playNextSong - No new CONTROLLER needed!");
-    } else {
-      controller.loadUri(nextSongUri);
-      console.log("playNextSong - Loading next song uri!");
-    }
-    
     // Check if the artist has changed -> read their name & scroll into view
     const currentArtistID = spotifyArtistIDsList ? spotifyArtistIDsList[index] : null;  
     console.log("playNextSong - 222 currentArtistID: " + currentArtistID);
@@ -322,16 +359,38 @@ function playNextSong(formElement, trackOrArtist, spotifyTrackIDsList, spotifyAr
       } else {
         console.error(`Element with class .anvil-role-${nextSpotifyArtistID} not found`);
       }
-      
     }
-    
-    // start playling
-    controller.play();
-    controller.isPlaying = true;
-    controller.isPaused = false;
-    
-    // Set play button icons
-    setPlayButtonIcons('track', spotifyTrackIDsList, spotifyArtistIDsList)
+
+    // reload the controler only if not the first song is played (as its alreay pre-loaded)
+    if (index === 0 && direction === 'initial') {
+      console.log("playNextSong - No new CONTROLLER needed!");
+      // start playing immediately for initial song
+      executePlaybackAction('play');
+      
+      // Set play button icons
+      setPlayButtonIcons('track', spotifyTrackIDsList, spotifyArtistIDsList)
+    } else {
+      // Load new URI and wait for it to be ready before playing
+      try {
+        controller.loadUri(nextSongUri);
+        console.log("playNextSong - Loading next song uri!");
+        
+        // Add a one-time listener for when the new URI is ready
+        const onReady = () => {
+          executePlaybackAction('play');
+          // Set play button icons after successful play
+          setPlayButtonIcons('track', spotifyTrackIDsList, spotifyArtistIDsList);
+          controller.removeListener('ready', onReady);
+        };
+        controller.addListener('ready', onReady);
+      } catch (error) {
+        console.error('Failed to load new URI:', error);
+        // Fallback: try to reload the page if URI loading fails
+        setTimeout(() => {
+          location.reload();
+        }, 1000);
+      }
+    }
 
     // load similar artist profile
     if (nextSpotifyArtistID && (currentArtistID !== nextSpotifyArtistID && sessionStorage.getItem("has_played") === 'True')) {
@@ -341,99 +400,73 @@ function playNextSong(formElement, trackOrArtist, spotifyTrackIDsList, spotifyAr
   }
 }
 
-// Function to set the play button icons
+// Function to set the play button icons - optimized to reduce DOM queries
 function setPlayButtonIcons(trackOrArtist, spotifyTrackIDsList=null, spotifyArtistIDsList=null) {
   
   // Set the icon of the small play buttons
   if (spotifyTrackIDsList) {
-    spotifyTrackIDsList.forEach(function(currentId) {
+    const currentSpotifyID = sessionStorage.getItem("globalCurrentSpotifyID");
+    const isCurrentlyPaused = controller && controller.isPaused;
+    
+    // Cache DOM queries outside the loop
+    const buttonSelectors = spotifyTrackIDsList.map(id => ({
+      id,
+      buttonPlay: document.querySelector(`.anvil-role-${id}`),
+      buttonPlay_inner: document.querySelector(`.anvil-role-${id}-inner`)
+    }));
+    
+    buttonSelectors.forEach(({id, buttonPlay, buttonPlay_inner}) => {
+      const isCurrentTrack = id === currentSpotifyID;
+      const shouldShowPause = isCurrentTrack && !isCurrentlyPaused;
+      const iconClass = shouldShowPause ? 
+        'anvil-component-icon left fa fa-pause-circle left-icon' : 
+        'anvil-component-icon left fa fa-play-circle left-icon';
 
-      // inside the Listen-In playlist
-      const buttonPlay = document.querySelector(`.anvil-role-${currentId}`);      
-      if (currentId === sessionStorage.getItem("globalCurrentSpotifyID") && !controller.isPaused) {
-        if (buttonPlay) {
-          let icon = buttonPlay.querySelector('i')
-          if (icon) {
-            icon.className = 'anvil-component-icon left fa fa-pause-circle left-icon'
-          }
-        }
-      } else {
-        if (buttonPlay) {
-          let icon = buttonPlay.querySelector('i')
-          if (icon) {
-            icon.className = 'anvil-component-icon left fa fa-play-circle left-icon'
-          }
+      // Update main playlist button
+      if (buttonPlay) {
+        const icon = buttonPlay.querySelector('i');
+        if (icon) {
+          icon.className = iconClass;
         }
       }
 
-      // inside the Listen-In C_Discover artists Track Releases
-      const buttonPlay_inner = document.querySelector(`.anvil-role-${currentId}-inner`);    
-      if (currentId === sessionStorage.getItem("globalCurrentSpotifyID") && !controller.isPaused) {
-        if (buttonPlay_inner) {
-          let icon = buttonPlay_inner.querySelector('i')
-          if (icon) {
-            icon.className = 'anvil-component-icon left fa fa-pause-circle left-icon'
-          }
-        }
-      } else {
-        if (buttonPlay_inner) {
-          let icon = buttonPlay_inner.querySelector('i')
-          if (icon) {
-            icon.className = 'anvil-component-icon left fa fa-play-circle left-icon'
-          }
+      // Update inner track releases button
+      if (buttonPlay_inner) {
+        const icon = buttonPlay_inner.querySelector('i');
+        if (icon) {
+          icon.className = iconClass;
         }
       }
-      
-    })
+    });
   }
   
-  // Set the icon of the big central play button on DISCOVER
-  // should be play when nothing is playling to start the artists tracks
+  // Set the icon of the big central play buttons - optimized
+  const isCurrentlyPaused = controller && controller.isPaused;
+  
+  // DISCOVER page big play button
   const buttonPlayBig = document.querySelector(`.anvil-role-cap-play-spotify-button-big1`);
-
-  if (controller.isPaused) {
-    if (buttonPlayBig) {
-      let icon = buttonPlayBig.querySelector('i')
-      if (icon) {
-        icon.className = 'anvil-component-icon left fa fa-play-circle left-icon'
+  if (buttonPlayBig) {
+    const icon = buttonPlayBig.querySelector('i');
+    if (icon) {
+      let iconClass;
+      if (isCurrentlyPaused || trackOrArtist === 'track') {
+        iconClass = 'anvil-component-icon left fa fa-play-circle left-icon';
+      } else if (trackOrArtist === 'artist') {
+        iconClass = 'anvil-component-icon left fa fa-pause-circle left-icon';
       }
+      if (iconClass) icon.className = iconClass;
     }
-  }
-  if (trackOrArtist ==  'track') {
-    if (buttonPlayBig) {
-      let icon = buttonPlayBig.querySelector('i')
-      if (icon) {
-        icon.className = 'anvil-component-icon left fa fa-play-circle left-icon'
-      }
-    }    
-  }
-  if (trackOrArtist ==  'artist' && !controller.isPaused) {
-    if (buttonPlayBig) {
-      let icon = buttonPlayBig.querySelector('i')
-      if (icon) {
-        icon.className = 'anvil-component-icon left fa fa-pause-circle left-icon'
-      }
-    }    
   }
   
-  // Set the icon of the big central play button on LISTEN-IN
-  // all three buttons (small play, big play and console play) should be aligned
+  // LISTEN-IN page big play button
   const buttonPlayBig2 = document.querySelector(`.anvil-role-cap-play-spotify-button-big2`);
-
-  if (controller.isPaused) {
-    if (buttonPlayBig2) {
-      let icon = buttonPlayBig2.querySelector('i')
-      if (icon) {
-        icon.className = 'anvil-component-icon left fa fa-play-circle left-icon'
-      }
+  if (buttonPlayBig2) {
+    const icon = buttonPlayBig2.querySelector('i');
+    if (icon) {
+      icon.className = isCurrentlyPaused ? 
+        'anvil-component-icon left fa fa-play-circle left-icon' : 
+        'anvil-component-icon left fa fa-pause-circle left-icon';
     }
-  } else {
-    if (buttonPlayBig2) {
-      let icon = buttonPlayBig2.querySelector('i')
-      if (icon) {
-        icon.className = 'anvil-component-icon left fa fa-pause-circle left-icon'
-      }
-    }        
   }
 
   // set classes of forward and backward buttons on LISTEN-IN
