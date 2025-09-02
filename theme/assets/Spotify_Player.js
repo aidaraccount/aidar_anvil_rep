@@ -243,9 +243,9 @@ function createOrUpdateSpotifyPlayer(formElement, trackOrArtist, spotifyID, spot
           if (!isPaused && position >= duration && duration > 0) {
             console.log("createOrUpdateSpotifyPlayer - Pos. 2: Track has ended. Moving to the next song.");
 
-            // Load next osng only if spotifyTrackIDsList is provided
-            if (spotifyTrackIDsList) {
-              playNextSong(formElement, 'track', spotifyTrackIDsList, spotifyArtistIDsList, spotifyArtistNameList);
+            // Load next song only if spotifyIDsList is provided
+            if (spotifyIDsList) {
+              playNextSong(formElement, 'track', spotifyIDsList, spotifyIDsList, spotifyIDsList);
             } else {
               console.log("createOrUpdateSpotifyPlayer - No track list provided. Playback stopped.");
             }
@@ -260,10 +260,10 @@ function createOrUpdateSpotifyPlayer(formElement, trackOrArtist, spotifyID, spot
             console.log("createOrUpdateSpotifyPlayer - Playback is buffering - 2");
           } else if (isPaused) {
             console.log("createOrUpdateSpotifyPlayer - Playback is paused - 2");
-            setPlayButtonIcons(trackOrArtist, spotifyTrackIDsList, spotifyArtistIDsList)
+            setPlayButtonIcons(trackOrArtist, spotifyIDsList, spotifyIDsList)
           } else {
             console.log("createOrUpdateSpotifyPlayer - Playback is playing - 2");
-            setPlayButtonIcons(trackOrArtist, spotifyTrackIDsList, spotifyArtistIDsList)
+            setPlayButtonIcons(trackOrArtist, spotifyIDsList, spotifyIDsList)
           }
         });
         
