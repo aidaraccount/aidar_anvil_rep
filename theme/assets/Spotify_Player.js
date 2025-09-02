@@ -50,10 +50,16 @@ function executePlaybackAction(action) {
   }
 }
 
-// function to play/pause spotify
+// function to play/pause spotify - handles both event listener setup AND direct playback
 function playSpotify() {
   console.log("playSpotify - sessionStorage.getItem('has_played'): " + sessionStorage.getItem("has_played"));
   
+  // If called with no arguments, this is a direct playback call from Python
+  if (arguments.length === 0) {
+    return executePlaybackAction('toggle');
+  }
+  
+  // Otherwise, set up event listeners for buttons
   const buttons = document.querySelectorAll('.anvil-role-cap-play-pause');
   
   buttons.forEach(button => {
@@ -205,7 +211,7 @@ function autoPlaySpotify() {
 }
 
 // This function is triggered when the user clicks on the next/previous song buttons
-function playNextSong(direction, trackOrArtist, spotifyTrackIDsList, spotifyArtistIDsList, spotifyArtistNameList, formElement) {
+function playNextSong(formElement, trackOrArtist, spotifyTrackIDsList, spotifyArtistIDsList, spotifyArtistNameList, direction) {
   
   console.log("playNextSong - direction: " + direction);
   
