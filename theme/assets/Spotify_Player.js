@@ -100,12 +100,23 @@ function createOrUpdateSpotifyPlayer(formElement, trackOrArtist, spotifyID, spot
     hasExistingController: !!controller
   });
 
+  // Determine initial URI: if artist with provided track list, start with first track to avoid 403/auth issues
+  let initialTrackOrArtist = trackOrArtist;
+  let initialSpotifyID = spotifyID;
+  if (trackOrArtist === 'artist' && Array.isArray(spotifyIDsList) && spotifyIDsList.length > 0) {
+    console.log("[Spotify_Player.js] Using first track instead of artist URI to start playback");
+    initialTrackOrArtist = 'track';
+    initialSpotifyID = spotifyIDsList[0];
+    // Ensure current ID reflects the track we will actually load
+    sessionStorage.setItem("globalCurrentSpotifyID", initialSpotifyID);
+  }
+
   // set the options for the Spotify Player
   const options = {
     theme: 'dark',
     width: '100%',
     height: '80',
-    uri: `spotify:${trackOrArtist}:${spotifyID}`,
+    uri: `spotify:${initialTrackOrArtist}:${initialSpotifyID}`,
   };
   
   console.log("[Spotify_Player.js] Spotify options:", options);
@@ -161,14 +172,14 @@ function createOrUpdateSpotifyPlayer(formElement, trackOrArtist, spotifyID, spot
         
         // Check if the song has ended
         if (!isPaused && position >= duration && duration > 0 && controller_status === 'ready') {
-          console.log("createOrUpdateSpotifyPlayer - Pos. 1: Track has ended. Moving to the next song.");
+          console.log("[Spotify_Player.js] createOrUpdateSpotifyPlayer - Pos. 1: Track has ended. Moving to the next song.");
           controller_status = 'not_ready';
           
-          // Load next song only if spotifyTrackIDsList is provided
-          if (spotifyTrackIDsList) {
-            playNextSong(formElement, 'track', spotifyTrackIDsList, spotifyArtistIDsList, spotifyArtistNameList);
+          // Load next song only if spotifyIDsList is provided
+          if (spotifyIDsList) {
+            playNextSong(formElement, 'track', spotifyIDsList, null, null, 'forward');
           } else {
-            console.log("createOrUpdateSpotifyPlayer - No track list provided. Playback stopped.")
+            console.log("[Spotify_Player.js] createOrUpdateSpotifyPlayer - No track list provided. Playback stopped.");
           }
         }
       });
@@ -181,10 +192,10 @@ function createOrUpdateSpotifyPlayer(formElement, trackOrArtist, spotifyID, spot
           console.log("[Spotify_Player.js] createOrUpdateSpotifyPlayer - Playback is buffering - 1");
         } else if (isPaused) {
           console.log("[Spotify_Player.js] createOrUpdateSpotifyPlayer - Playback is paused - 1");
-          setPlayButtonIcons(trackOrArtist, spotifyTrackIDsList, spotifyArtistIDsList)
+          setPlayButtonIcons(trackOrArtist, spotifyIDsList, null)
         } else {
           console.log("[Spotify_Player.js] createOrUpdateSpotifyPlayer - Playback is playing - 1");
-          setPlayButtonIcons(trackOrArtist, spotifyTrackIDsList, spotifyArtistIDsList)
+          setPlayButtonIcons(trackOrArtist, spotifyIDsList, null)
         }
       });
     
@@ -245,7 +256,7 @@ function createOrUpdateSpotifyPlayer(formElement, trackOrArtist, spotifyID, spot
 
             // Load next song only if spotifyIDsList is provided
             if (spotifyIDsList) {
-              playNextSong(formElement, 'track', spotifyIDsList, spotifyIDsList, spotifyIDsList);
+              playNextSong(formElement, 'track', spotifyIDsList, null, null, 'forward');
             } else {
               console.log("[Spotify_Player.js] createOrUpdateSpotifyPlayer - No track list provided. Playback stopped.");
             }
@@ -260,10 +271,10 @@ function createOrUpdateSpotifyPlayer(formElement, trackOrArtist, spotifyID, spot
             console.log("[Spotify_Player.js] createOrUpdateSpotifyPlayer - Playback is buffering - 2");
           } else if (isPaused) {
             console.log("[Spotify_Player.js] createOrUpdateSpotifyPlayer - Playback is paused - 2");
-            setPlayButtonIcons(trackOrArtist, spotifyIDsList, spotifyIDsList)
+            setPlayButtonIcons(trackOrArtist, spotifyIDsList, null)
           } else {
             console.log("[Spotify_Player.js] createOrUpdateSpotifyPlayer - Playback is playing - 2");
-            setPlayButtonIcons(trackOrArtist, spotifyIDsList, spotifyIDsList)
+            setPlayButtonIcons(trackOrArtist, spotifyIDsList, null)
           }
         });
         
