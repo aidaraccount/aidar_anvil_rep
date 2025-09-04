@@ -206,6 +206,7 @@ components:
   properties:
     spacing:
       margin: [0, null, 0, null]
+    visible: false
   type: LinearPanel
 - event_bindings: {click: settings_click}
   layout_properties: {slot: sidebar}
