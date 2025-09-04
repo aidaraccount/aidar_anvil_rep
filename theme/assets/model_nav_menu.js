@@ -1,80 +1,114 @@
-// 1. Model Navigation Menu JavaScript - Simple approach with extensive logging
+// 1. Model Navigation Menu JavaScript - Cross-browser compatible approach
+let isMenuToggling = false; // Prevent rapid toggle/close cycles
+let activeMenuTimeout = null; // Track menu creation timing
+
 function initializeModelNavigation() {
     console.log('🔧 Initializing model navigation...');
     
-    // Add click listeners to all three-dot icons
-    document.addEventListener('click', (e) => {
-        console.log('🖱️ Click detected on:', e.target);
-        console.log('🖱️ Click target classes:', e.target.className);
-        console.log('🖱️ Closest [anvil-role="icon-link-discreet"]:', e.target.closest('[anvil-role="icon-link-discreet"]'));
-        
-        // Handle three-dot icon clicks
-        if (e.target.closest('[anvil-role="icon-link-discreet"]')) {
-            console.log('✅ Three-dot icon clicked!');
-            e.preventDefault();
-            e.stopPropagation();
-            
-            let dotsLink = e.target.closest('[anvil-role="icon-link-discreet"]');
-            if (!dotsLink) {
-                dotsLink = findClosestByRole(e.target, 'icon-link-discreet');
-                console.log('🧭 Fallback dotsLink by role scan:', dotsLink);
-            }
-            const modelId = resolveModelIdFromElement(dotsLink);
-            // Robust container resolution
-            let flowPanel = dotsLink.closest('[anvil-role="nav_flow_panel"]');
-            if (!flowPanel) {
-                flowPanel = dotsLink.closest('.flow-panel, .flow-panel-item, .anvil-container, .sidebar-elt, .content');
-                console.log('🧭 Fallback flowPanel:', flowPanel);
-            }
-            
-            console.log('📋 Model ID:', modelId);
-            console.log('📋 Flow Panel:', flowPanel);
-            
-            if (flowPanel) {
-                toggleModelOptions(flowPanel, modelId);
-            } else {
-                console.warn('⚠️ Could not find a suitable container for options menu.');
-            }
-            return;
-        }
-        
-        // Handle individual option clicks
-        if (e.target.closest('.option-icon')) {
-            console.log('✅ Option icon clicked!');
-            e.preventDefault();
-            e.stopPropagation();
-            
-            const optionIcon = e.target.closest('.option-icon');
-            const action = optionIcon.dataset.action;
-            let modelId = optionIcon.dataset.modelId;
-            if (!modelId) {
-                // Fallback: read from parent expanded container or flow panel
-                const expanded = optionIcon.closest('.model-options-expanded');
-                if (expanded && expanded.dataset && expanded.dataset.modelId) {
-                    modelId = expanded.dataset.modelId;
-                    console.log('🔑 Fallback modelId via expanded container dataset:', modelId);
-                }
-            }
-            if (!modelId) {
-                const fp = optionIcon.closest('[anvil-role="nav_flow_panel"]');
-                modelId = resolveModelIdFromElement(fp) || resolveModelIdFromElement(optionIcon);
-                console.log('🔑 Fallback modelId via container/element resolve:', modelId);
-            }
-            
-            console.log('📋 Action:', action, 'Model ID:', modelId);
-            
-            handleOptionClick(action, modelId);
-            return;
-        }
-        
-        // Close all menus when clicking outside
-        if (!e.target.closest('.model-options-expanded')) {
-            console.log('🔄 Closing all menus (clicked outside)');
-            closeAllMenus();
-        }
-    });
+    // Add click listeners to all three-dot icons with capture phase for better Chrome compatibility
+    document.addEventListener('click', handleDocumentClick, true);
+    
+    // Also add a non-capturing listener as fallback
+    document.addEventListener('click', handleDocumentClickBubble, false);
     
     console.log('✅ Model navigation initialized successfully');
+}
+
+// Primary click handler (capture phase) - better for Chrome
+function handleDocumentClick(e) {
+    console.log('🖱️ Capture phase click on:', e.target);
+    
+    // Handle three-dot icon clicks
+    if (e.target.closest('[anvil-role="icon-link-discreet"]')) {
+        console.log('✅ Three-dot icon clicked (capture)!');
+        e.preventDefault();
+        e.stopImmediatePropagation(); // Stronger stop for Chrome
+        
+        handleThreeDotsClick(e);
+        return;
+    }
+    
+    // Handle individual option clicks
+    if (e.target.closest('.option-icon')) {
+        console.log('✅ Option icon clicked (capture)!');
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        
+        handleOptionIconClick(e);
+        return;
+    }
+}
+
+// Secondary click handler (bubble phase) - fallback for Firefox
+function handleDocumentClickBubble(e) {
+    // Skip if we're in the middle of toggling a menu
+    if (isMenuToggling) {
+        console.log('🔄 Skipping bubble handler - menu is toggling');
+        return;
+    }
+    
+    // Only handle "click outside" logic in bubble phase
+    if (!e.target.closest('.model-options-expanded') && 
+        !e.target.closest('[anvil-role="icon-link-discreet"]') &&
+        !e.target.closest('.option-icon')) {
+        console.log('🔄 Closing all menus (clicked outside - bubble)');
+        closeAllMenus();
+    }
+}
+
+// Extract three-dots click handling
+function handleThreeDotsClick(e) {
+    let dotsLink = e.target.closest('[anvil-role="icon-link-discreet"]');
+    if (!dotsLink) {
+        dotsLink = findClosestByRole(e.target, 'icon-link-discreet');
+        console.log('🧭 Fallback dotsLink by role scan:', dotsLink);
+    }
+    const modelId = resolveModelIdFromElement(dotsLink);
+    // Robust container resolution
+    let flowPanel = dotsLink.closest('[anvil-role="nav_flow_panel"]');
+    if (!flowPanel) {
+        flowPanel = dotsLink.closest('.flow-panel, .flow-panel-item, .anvil-container, .sidebar-elt, .content');
+        console.log('🧭 Fallback flowPanel:', flowPanel);
+    }
+    
+    console.log('📋 Model ID:', modelId);
+    console.log('📋 Flow Panel:', flowPanel);
+    
+    if (flowPanel) {
+        // Set toggle flag to prevent immediate close
+        isMenuToggling = true;
+        toggleModelOptions(flowPanel, modelId);
+        // Clear flag after menu is established
+        setTimeout(() => {
+            isMenuToggling = false;
+        }, 100);
+    } else {
+        console.warn('⚠️ Could not find a suitable container for options menu.');
+    }
+}
+
+// Extract option icon click handling
+function handleOptionIconClick(e) {
+    const optionIcon = e.target.closest('.option-icon');
+    const action = optionIcon.dataset.action;
+    let modelId = optionIcon.dataset.modelId;
+    if (!modelId) {
+        // Fallback: read from parent expanded container or flow panel
+        const expanded = optionIcon.closest('.model-options-expanded');
+        if (expanded && expanded.dataset && expanded.dataset.modelId) {
+            modelId = expanded.dataset.modelId;
+            console.log('🔑 Fallback modelId via expanded container dataset:', modelId);
+        }
+    }
+    if (!modelId) {
+        const fp = optionIcon.closest('[anvil-role="nav_flow_panel"]');
+        modelId = resolveModelIdFromElement(fp) || resolveModelIdFromElement(optionIcon);
+        console.log('🔑 Fallback modelId via container/element resolve:', modelId);
+    }
+    
+    console.log('📋 Action:', action, 'Model ID:', modelId);
+    
+    handleOptionClick(action, modelId);
 }
 
 // Helper: Walk up the DOM to find the nearest element with a specific anvil-role
@@ -268,10 +302,16 @@ function resortNavModels() {
     });
 }
 
-// 2. Toggle model options display
+// 2. Toggle model options display with improved Chrome compatibility
 function toggleModelOptions(flowPanel, modelId) {
     console.log('🔄 Toggling model options for:', modelId);
     console.log('🔄 Flow panel:', flowPanel);
+    
+    // Clear any existing timeout
+    if (activeMenuTimeout) {
+        clearTimeout(activeMenuTimeout);
+        activeMenuTimeout = null;
+    }
     
     // Close other open menus first
     closeAllMenus();
@@ -318,11 +358,18 @@ function toggleModelOptions(flowPanel, modelId) {
         console.log('🧭 Set flowPanel position: relative for menu positioning');
     }
     
-    // Show the expanded container
-    setTimeout(() => {
+    // Show the expanded container with improved timing for Chrome
+    // Use requestAnimationFrame for better browser compatibility
+    requestAnimationFrame(() => {
         expandedContainer.classList.add('active');
         console.log('✅ Added active class to expanded container');
-    }, 10);
+        
+        // Set a timeout to track when menu is fully established
+        activeMenuTimeout = setTimeout(() => {
+            console.log('📍 Menu fully established and stable');
+            activeMenuTimeout = null;
+        }, 350); // Slightly longer than CSS transition
+    });
 }
 
 // 3. Create expanded options container
@@ -558,8 +605,14 @@ async function handleOptionClick(action, modelId) {
     closeAllMenus();
 }
 
-// 6. Close all open menus
+// 6. Close all open menus with improved cleanup
 function closeAllMenus() {
+    // Clear any active menu timeout
+    if (activeMenuTimeout) {
+        clearTimeout(activeMenuTimeout);
+        activeMenuTimeout = null;
+    }
+    
     // Remove expanded class from all flow panels
     const expandedPanels = document.querySelectorAll('[anvil-role="nav_flow_panel"].expanded');
     expandedPanels.forEach(panel => {
@@ -576,7 +629,9 @@ function closeAllMenus() {
         if (expandedContainer) {
             expandedContainer.classList.remove('active');
             setTimeout(() => {
-                expandedContainer.remove();
+                if (expandedContainer.parentNode) {
+                    expandedContainer.remove();
+                }
             }, 300);
         }
     });
@@ -584,6 +639,12 @@ function closeAllMenus() {
 
 // 7. Function to clear model navigation (for refresh)
 function clearModelNavigation() {
+    // Reset all state flags
+    isMenuToggling = false;
+    if (activeMenuTimeout) {
+        clearTimeout(activeMenuTimeout);
+        activeMenuTimeout = null;
+    }
     closeAllMenus();
 }
 
