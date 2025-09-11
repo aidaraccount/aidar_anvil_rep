@@ -467,8 +467,25 @@ class Settings(SettingsTemplate):
         self.profile_save.role = ['header-6', 'call-to-action-button-disabled']
       else:
         Notification("", title="Error! Sorry, something went wrong..", style="warning").show()
+
+  # b) Time Zone
+  def time_zone_drop_down_change(self, **event_args):
+    self.time_zone_save.role = ['header-6', 'call-to-action-button']
+
+  def time_zone_save_click(self, **event_args):
+    if self.time_zone_save.role == ['header-6', 'call-to-action-button']:
+      # 1. Update user in backend database
+      backend_status = anvil.server.call('update_settings_account_time_zone',
+                                         user["user_id"],
+                                         self.time_zone_drop_down.selected_value)
+
+      if backend_status == 'success':
+        Notification("", title="Changes saved!", style="success").show()
+        self.time_zone_save.role = ['header-6', 'call-to-action-button-disabled']
+      else:
+        Notification("", title="Error! Sorry, something went wrong..", style="warning").show()
   
-  # b) Password
+  # c) Password
   def reset_pw_click(self, **event_args):
     res = alert(
       title='Do you want to reset your password?',
