@@ -150,7 +150,13 @@ class Settings(SettingsTemplate):
       self.text_box_last_name.text = user['last_name']
     else:      
       self.text_box_last_name.text = '-'
-    
+
+    # b) Time Zone
+    acc_data = json.loads(anvil.server.call('get_settings_account', user["user_id"]))[0]
+    print(acc_data)
+
+    print(self.time_zone_drop_down.selected_value)
+    self.time_zone_drop_down.selected_value = acc_data["timezone"]
   
   # -----------------------
   # 2. INIT - NAVIGATION NOTIFICATIONS
@@ -461,8 +467,25 @@ class Settings(SettingsTemplate):
         self.profile_save.role = ['header-6', 'call-to-action-button-disabled']
       else:
         Notification("", title="Error! Sorry, something went wrong..", style="warning").show()
+
+  # b) Time Zone
+  def time_zone_drop_down_change(self, **event_args):
+    self.time_zone_save.role = ['header-6', 'call-to-action-button']
+
+  def time_zone_save_click(self, **event_args):
+    if self.time_zone_save.role == ['header-6', 'call-to-action-button']:
+      # 1. Update user in backend database
+      backend_status = anvil.server.call('update_settings_account_time_zone',
+                                         user["user_id"],
+                                         self.time_zone_drop_down.selected_value)
+
+      if backend_status == 'success':
+        Notification("", title="Changes saved!", style="success").show()
+        self.time_zone_save.role = ['header-6', 'call-to-action-button-disabled']
+      else:
+        Notification("", title="Error! Sorry, something went wrong..", style="warning").show()
   
-  # b) Password
+  # c) Password
   def reset_pw_click(self, **event_args):
     res = alert(
       title='Do you want to reset your password?',
