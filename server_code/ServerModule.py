@@ -82,10 +82,15 @@ def check_user_exists(email):
 
 
 @anvil.server.callable
-def server_transfer_user_id():
+def server_transfer_user_id(timezone=None):
   user = anvil.users.get_user()
   if user["user_id"] is None:
-    new_user_id = anvil.server.call('check_user_presence', user["customer_id"], user["email"], user["first_name"], user["last_name"])
+    # Get timezone from browser if not provided
+    if timezone is None:
+      timezone = anvil.js.call_js('Intl.DateTimeFormat().resolvedOptions().timeZone')
+    
+    # Pass raw IANA timezone to backend for conversion
+    new_user_id = anvil.server.call('check_user_presence', user["customer_id"], user["email"], user["first_name"], user["last_name"], timezone)
     if new_user_id is not None:
       user_row = app_tables.users.get(email = user["email"])
       user_row['user_id'] = new_user_id
