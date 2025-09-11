@@ -150,7 +150,13 @@ class Settings(SettingsTemplate):
       self.text_box_last_name.text = user['last_name']
     else:      
       self.text_box_last_name.text = '-'
-    
+
+    # b) Time Zone
+    acc_data = json.loads(anvil.server.call('get_settings_account', user["user_id"]))[0]
+    print(acc_data)
+
+    print(self.time_zone_drop_down.selected_value)
+    self.time_zone_drop_down.selected_value = acc_data["timezone"]
   
   # -----------------------
   # 2. INIT - NAVIGATION NOTIFICATIONS
