@@ -39,8 +39,11 @@ class MainOut(MainOutTemplate):
                                           remember=self.remember_me_checkbox.checked)
       
       if user is not None:
-        # copies the user to postgres db (via ServerModule)
-        anvil.server.call("server_transfer_user_id")
+        # Get user's timezone from browser
+        timezone = anvil.js.call_js('() => Intl.DateTimeFormat().resolvedOptions().timeZone')
+
+        # copies the user to postgres db (via ServerModule) with timezone
+        anvil.server.call("server_transfer_user_id", timezone)
         
         # Save user_id and model_id to session storage
         if user["user_id"] is not None:
