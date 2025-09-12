@@ -170,10 +170,12 @@ class Settings(SettingsTemplate):
         self.time_zone_drop_down.selected_value = user_timezone
         self.time_zone_drop_down.visible = True
       else:
-        # If country not found, show timezone dropdown with UTC
-        self.time_zone_drop_down.items = [('UTC (UTC+00:00)', 'UTC')]
+        # If country not found (e.g., UTC), show UTC option and leave country unselected
+        self.time_zone_drop_down.items = [('UTC (Coordinated Universal Time)', 'UTC')]
         self.time_zone_drop_down.selected_value = 'UTC'
         self.time_zone_drop_down.visible = True
+        # Leave country_drop_down with placeholder showing
+        self.country_drop_down.selected_value = None
     else:
       # Hide timezone dropdown until country is selected
       self.time_zone_drop_down.visible = False
@@ -497,8 +499,9 @@ class Settings(SettingsTemplate):
       timezones = anvil.server.call('get_timezones_for_country', country_code)
       self.time_zone_drop_down.items = [(tz['display_name'], tz['timezone']) for tz in timezones]
       self.time_zone_drop_down.visible = True
-      # Clear current selection
-      self.time_zone_drop_down.selected_value = None
+      # Auto-select first timezone to avoid invalid value
+      if timezones:
+        self.time_zone_drop_down.selected_value = timezones[0]['timezone']
       # Enable save button
       self.time_zone_save.role = ['header-6', 'call-to-action-button']
     else:
