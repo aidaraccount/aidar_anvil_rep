@@ -38,7 +38,6 @@ class MainOut(MainOutTemplate):
                                           self.login_pw.text,
                                           remember=self.remember_me_checkbox.checked)
 
-      print('timezone:', anvil.js.call_js('() => Intl.DateTimeFormat().resolvedOptions().timeZone'))
       if user is not None:
         # Get user's timezone from browser
         timezone = anvil.js.call_js('() => Intl.DateTimeFormat().resolvedOptions().timeZone')
