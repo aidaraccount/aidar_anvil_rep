@@ -153,6 +153,7 @@ components:
         type: Label
       - data_bindings:
         - {code: '[''txt_white_discreet'', ''width-200px'']', property: role, writeback: false}
+        event_bindings: {change: country_drop_down_change}
         layout_properties: {grid_position: 'XLRXWF,LHEXMI'}
         name: country_drop_down
         properties:
