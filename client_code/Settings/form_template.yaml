@@ -152,13 +152,20 @@ components:
           text: Time Zone
         type: Label
       - data_bindings:
-        - {code: '[''txt_white_discreet'', ''width-500px'']', property: role, writeback: false}
+        - {code: '[''txt_white_discreet'', ''width-200px'']', property: role, writeback: false}
+        layout_properties: {grid_position: 'XLRXWF,LHEXMI'}
+        name: country_drop_down
+        properties:
+          margin: [0, null, null, null]
+        type: DropDown
+      - data_bindings:
+        - {code: '[''txt_white_discreet'', ''width-200px'']', property: role, writeback: false}
         event_bindings: {change: time_zone_drop_down_change}
         layout_properties: {grid_position: 'XLRXWF,YRQHWX'}
         name: time_zone_drop_down
         properties:
           include_placeholder: false
-          items: ['UTC−12:00 – Baker Island Time (BIT)', 'UTC−11:00 – Niue, American Samoa', 'UTC−10:00 – Hawaii-Aleutian Standard Time, Cook Islands', 'UTC−09:30 – Marquesas Islands', 'UTC−09:00 – Alaska Standard Time, Gambier Islands', 'UTC−08:00 – Pacific Standard Time (PST), Pitcairn Islands', 'UTC−07:00 – Mountain Standard Time (MST)', 'UTC−06:00 – Central Standard Time (CST)', 'UTC−05:00 – Eastern Standard Time (EST), Colombia, Peru', 'UTC−04:00 – Atlantic Standard Time, Bolivia, Caribbean islands', 'UTC−03:30 – Newfoundland Standard Time', 'UTC−03:00 – Argentina, Uruguay, Greenland (part)', 'UTC−02:00 – South Georgia & South Sandwich Islands', 'UTC−01:00 – Azores, Cape Verde', 'UTC±00:00 – Greenwich Mean Time (GMT), UK, Portugal, Iceland', 'UTC+01:00 – Central European Time (CET), West Africa', 'UTC+02:00 – Eastern European Time (EET), South Africa, Israel', 'UTC+03:00 – Moscow Time, East Africa', 'UTC+03:30 – Iran Standard Time', 'UTC+04:00 – Gulf Standard Time (UAE, Oman), Azerbaijan', 'UTC+04:30 – Afghanistan', 'UTC+05:00 – Pakistan Standard Time, Yekaterinburg (Russia)', 'UTC+05:30 – India Standard Time, Sri Lanka', 'UTC+05:45 – Nepal Time', 'UTC+06:00 – Bangladesh, Bhutan, Omsk (Russia)', 'UTC+06:30 – Cocos Islands, Myanmar', 'UTC+07:00 – Indochina Time (Vietnam, Thailand, Cambodia), Krasnoyarsk (Russia)', 'UTC+08:00 – China, Singapore, Western Australia, Irkutsk (Russia)', 'UTC+08:45 – Southeastern Western Australia', 'UTC+09:00 – Japan, Korea, Chita (Russia)', 'UTC+09:30 – Australian Central Standard Time (ACST)', 'UTC+10:00 – Eastern Australia, Vladivostok (Russia), Papua New Guinea', 'UTC+10:30 – Lord Howe Island', 'UTC+11:00 – Solomon Islands, Magadan (Russia)', 'UTC+12:00 – New Zealand (mainland), Fiji, Kamchatka (Russia)', 'UTC+12:45 – Chatham Islands (NZ)', 'UTC+13:00 – Tonga, Samoa (since 2011)', 'UTC+14:00 – Line Islands (Kiribati)']
+          items: []
           margin: [0, null, 5, null]
         type: DropDown
       - event_bindings: {click: time_zone_save_click}
@@ -173,7 +180,7 @@ components:
       name: profile_copy
       properties:
         col_spacing: tiny
-        col_widths: '{"ROBXKQ":5,"YRQHWX":29}'
+        col_widths: '{"ROBXKQ":10,"YRQHWX":35,"LHEXMI":15}'
         spacing:
           margin: ['25', null, null, '0']
       type: ColumnPanel
