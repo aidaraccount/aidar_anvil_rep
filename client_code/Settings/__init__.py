@@ -151,12 +151,34 @@ class Settings(SettingsTemplate):
     else:      
       self.text_box_last_name.text = '-'
 
-    # b) Time Zone
+    # b) Time Zone - Load countries and set up timezone selection
     acc_data = json.loads(anvil.server.call('get_settings_account', user["user_id"]))[0]
-    print(acc_data)
-
-    print(self.time_zone_drop_down.selected_value)
-    self.time_zone_drop_down.selected_value = acc_data["timezone"]
+    user_timezone = acc_data["timezone"]
+    
+    # Load all countries
+    countries = anvil.server.call('get_countries')
+    self.country_drop_down.items = [(country['name'], country['code']) for country in countries]
+    
+    # Find and set user's country based on timezone
+    if user_timezone:
+      user_country = anvil.server.call('get_country_for_timezone', user_timezone)
+      if user_country:
+        self.country_drop_down.selected_value = user_country
+        # Load timezones for the user's country
+        timezones = anvil.server.call('get_timezones_for_country', user_country)
+        self.time_zone_drop_down.items = [(tz['display_name'], tz['timezone']) for tz in timezones]
+        self.time_zone_drop_down.selected_value = user_timezone
+        self.time_zone_drop_down.visible = True
+      else:
+        # If country not found (e.g., UTC), show UTC option and leave country unselected
+        self.time_zone_drop_down.items = [('UTC (Coordinated Universal Time)', 'UTC')]
+        self.time_zone_drop_down.selected_value = 'UTC'
+        self.time_zone_drop_down.visible = True
+        # Leave country_drop_down with placeholder showing
+        self.country_drop_down.selected_value = None
+    else:
+      # Hide timezone dropdown until country is selected
+      self.time_zone_drop_down.visible = False
   
   # -----------------------
   # 2. INIT - NAVIGATION NOTIFICATIONS
@@ -468,13 +490,30 @@ class Settings(SettingsTemplate):
       else:
         Notification("", title="Error! Sorry, something went wrong..", style="warning").show()
 
-  # b) Time Zone
+  # b) Country and Time Zone
+  def country_drop_down_change(self, **event_args):
+    """When country is selected, load its timezones"""
+    country_code = self.country_drop_down.selected_value
+    if country_code:
+      # Load timezones for selected country
+      timezones = anvil.server.call('get_timezones_for_country', country_code)
+      self.time_zone_drop_down.items = [(tz['display_name'], tz['timezone']) for tz in timezones]
+      self.time_zone_drop_down.visible = True
+      # Auto-select first timezone to avoid invalid value
+      if timezones:
+        self.time_zone_drop_down.selected_value = timezones[0]['timezone']
+      # Enable save button
+      self.time_zone_save.role = ['header-6', 'call-to-action-button']
+    else:
+      # Hide timezone dropdown if no country selected
+      self.time_zone_drop_down.visible = False
+
   def time_zone_drop_down_change(self, **event_args):
     self.time_zone_save.role = ['header-6', 'call-to-action-button']
 
   def time_zone_save_click(self, **event_args):
     if self.time_zone_save.role == ['header-6', 'call-to-action-button']:
-      # 1. Update user in backend database
+      # 1. Update user in backend database with IANA timezone
       backend_status = anvil.server.call('update_settings_account_time_zone',
                                          user["user_id"],
                                          self.time_zone_drop_down.selected_value)
