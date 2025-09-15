@@ -45,9 +45,22 @@
     <script>
         // Extract token from URL hash and store it
         const hash = window.location.hash.substring(1);
-        const params = new URLSearchParams(hash);
-        const accessToken = params.get('access_token');
-        const error = params.get('error');
+        console.log('[SpotifyCallback] URL hash:', hash);
+        
+        // Parse hash parameters manually (URLSearchParams doesn't work well with fragments)
+        const hashParams = {};
+        hash.split('&').forEach(param => {
+            const [key, value] = param.split('=');
+            if (key && value) {
+                hashParams[key] = decodeURIComponent(value);
+            }
+        });
+        
+        const accessToken = hashParams.access_token;
+        const error = hashParams.error;
+        
+        console.log('[SpotifyCallback] Access token:', accessToken ? 'Found' : 'Not found');
+        console.log('[SpotifyCallback] Error:', error);
         
         if (error) {
             document.querySelector('.container').innerHTML = `
@@ -80,13 +93,26 @@
                 }, 3000);
             }
         } else {
-            document.querySelector('.container').innerHTML = `
-                <h2>No Authentication Data</h2>
-                <p>Please try connecting again.</p>
-                <button onclick="window.close()" style="background: white; color: #1db954; border: none; padding: 10px 20px; border-radius: 25px; cursor: pointer;">
-                    Close
-                </button>
-            `;
+            // Check if we have any hash parameters at all
+            if (hash) {
+                console.log('[SpotifyCallback] Hash found but no access_token parameter. Full hash:', hash);
+                document.querySelector('.container').innerHTML = `
+                    <h2>⚠️ Authentication Issue</h2>
+                    <p>Received response from Spotify but couldn't extract access token.</p>
+                    <p><small>Hash: ${hash.substring(0, 100)}...</small></p>
+                    <button onclick="window.close()" style="background: white; color: #1db954; border: none; padding: 10px 20px; border-radius: 25px; cursor: pointer;">
+                        Close
+                    </button>
+                `;
+            } else {
+                document.querySelector('.container').innerHTML = `
+                    <h2>No Authentication Data</h2>
+                    <p>Please try connecting again.</p>
+                    <button onclick="window.close()" style="background: white; color: #1db954; border: none; padding: 10px 20px; border-radius: 25px; cursor: pointer;">
+                        Close
+                    </button>
+                `;
+            }
         }
     </script>
 </body>
