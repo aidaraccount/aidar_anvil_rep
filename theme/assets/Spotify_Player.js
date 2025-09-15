@@ -61,6 +61,11 @@ function createOrUpdateSpotifyPlayer(formElement, trackOrArtist, currentSpotifyI
     width: '100%',
     height: '80',
     uri: `spotify:${trackOrArtist}:${currentSpotifyID}`,
+    // Force embedded-only behavior to prevent authentication conflicts
+    allow_transparent_background: true,
+    frameborder: 0,
+    // Disable Spotify Connect integration to prevent 403 errors with logged-in accounts
+    loading: 'lazy'
   };
 
   // the if statment checks if the SpotifyIgrameAPI already exists (if it is already loaded)
@@ -79,6 +84,16 @@ function createOrUpdateSpotifyPlayer(formElement, trackOrArtist, currentSpotifyI
       
       controller.addListener('playback_update', e => {
         const {isPaused, isBuffering, duration, position } = e.data;
+        
+        // Handle authentication conflicts and 403 errors
+        if (e.error) {
+          console.error('Spotify playback error:', e.error);
+          if (e.error.status === 403 || e.error.message?.includes('403')) {
+            console.warn('Playback blocked - likely due to Spotify Connect conflict with logged-in account');
+            // You could add user notification here
+            return;
+          }
+        }
         
         // console.log("createOrUpdateSpotifyPlayer - 111 isPaused: " + isPaused);
         // console.log("createOrUpdateSpotifyPlayer - 111 isBuffering: " + isBuffering);  
@@ -132,6 +147,15 @@ function createOrUpdateSpotifyPlayer(formElement, trackOrArtist, currentSpotifyI
         controller.addListener('playback_update', e => {
           const {isPaused, isBuffering, duration, position} = e.data;
           
+          // Handle authentication conflicts and 403 errors
+          if (e.error) {
+            console.error('Spotify playback error:', e.error);
+            if (e.error.status === 403 || e.error.message?.includes('403')) {
+              console.warn('Playback blocked - likely due to Spotify Connect conflict with logged-in account');
+              return;
+            }
+          }
+          
           // Check if the song has ended
           if (!isPaused && position >= duration && duration > 0) {
             console.log("createOrUpdateSpotifyPlayer - Pos. 2: Track has ended. Moving to the next song.");
@@ -147,6 +171,15 @@ function createOrUpdateSpotifyPlayer(formElement, trackOrArtist, currentSpotifyI
         
         controller.addListener('playback_update', e => {
           const {isPaused, isBuffering, duration, position} = e.data;
+          
+          // Handle authentication conflicts and 403 errors
+          if (e.error) {
+            console.error('Spotify playback error:', e.error);
+            if (e.error.status === 403 || e.error.message?.includes('403')) {
+              console.warn('Playback blocked - likely due to Spotify Connect conflict with logged-in account');
+              return;
+            }
+          }
           
           // Log the current playback state
           if (isBuffering) {
