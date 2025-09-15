@@ -123,22 +123,49 @@ function createOrUpdateSpotifyPlayer(formElement, trackOrArtist, currentSpotifyI
           }
         }
         
-        // Check for duration issues (0:00 problem) and implement retry logic with limit
+        // Aggressive retry strategies for duration=0 tracks
         if (duration === 0 && position === 0 && !isBuffering) {
           const retryKey = `spotify_retry_${currentSpotifyID}`;
           const retryCount = parseInt(sessionStorage.getItem(retryKey) || '0');
           
-          if (retryCount < 3) {
-            console.warn(`[SpotifyPlayer] Track ${currentSpotifyID} duration is 0 - Connect conflict detected (attempt ${retryCount + 1}/3)`);
-            console.log('[SpotifyPlayer] Attempting to reload embed to bypass Connect routing...');
+          if (retryCount < 8) { // Increased retry limit
+            console.warn(`[SpotifyPlayer] Track ${currentSpotifyID} duration is 0 - trying recovery strategy ${retryCount + 1}/8`);
             sessionStorage.setItem(retryKey, (retryCount + 1).toString());
-            setTimeout(() => {
-              controller.loadUri(`spotify:${trackOrArtist}:${currentSpotifyID}`);
-            }, 2000);
+            
+            // Strategy 1-2: Simple reload with different delays
+            if (retryCount < 2) {
+              console.log(`[SpotifyPlayer] Strategy ${retryCount + 1}: Basic reload with ${(retryCount + 1) * 2}s delay`);
+              setTimeout(() => {
+                controller.loadUri(`spotify:${trackOrArtist}:${currentSpotifyID}`);
+              }, (retryCount + 1) * 2000);
+            }
+            // Strategy 3-4: Recreate entire controller
+            else if (retryCount < 4) {
+              console.log(`[SpotifyPlayer] Strategy ${retryCount + 1}: Recreating Spotify controller`);
+              setTimeout(() => {
+                recreateSpotifyController(element, options, trackOrArtist, currentSpotifyID, spotifyTrackIDsList, spotifyArtistIDsList, spotifyArtistNameList);
+              }, 3000);
+            }
+            // Strategy 5-6: Try different URI formats
+            else if (retryCount < 6) {
+              const altUri = retryCount === 4 ? 
+                `https://open.spotify.com/${trackOrArtist}/${currentSpotifyID}` : 
+                `spotify:${trackOrArtist}:${currentSpotifyID}?si=0`;
+              console.log(`[SpotifyPlayer] Strategy ${retryCount + 1}: Alternative URI format: ${altUri}`);
+              setTimeout(() => {
+                controller.loadUri(altUri);
+              }, 2000);
+            }
+            // Strategy 7-8: Nuclear option - recreate iframe element
+            else {
+              console.log(`[SpotifyPlayer] Strategy ${retryCount + 1}: Nuclear option - recreating iframe element`);
+              setTimeout(() => {
+                recreateIframeElement(formElement, trackOrArtist, currentSpotifyID, spotifyTrackIDsList, spotifyArtistIDsList, spotifyArtistNameList);
+              }, 4000);
+            }
           } else {
-            console.error(`[SpotifyPlayer] Track ${currentSpotifyID} failed after 3 retry attempts - marking as unavailable`);
-            console.log('[SpotifyPlayer] This track may not be available for embedded playback with your current Spotify session');
-            sessionStorage.setItem(`spotify_failed_${currentSpotifyID}`, 'true');
+            console.error(`[SpotifyPlayer] Track ${currentSpotifyID} exhausted all 8 recovery strategies`);
+            console.log('[SpotifyPlayer] This track appears to be genuinely blocked by Spotify Connect conflicts');
           }
         }
         
