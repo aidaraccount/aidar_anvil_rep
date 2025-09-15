@@ -217,7 +217,7 @@ function requestSpotifyAuthentication() {
   console.log('[SpotifyWebPlayback] Requesting Spotify authentication...');
   
   const clientId = window.SPOTIFY_CONFIG?.CLIENT_ID || 'YOUR_AIDAR_SPOTIFY_CLIENT_ID';
-  const redirectUri = encodeURIComponent(window.location.origin + '/_/theme/spotify-callback.html');
+  const redirectUri = encodeURIComponent('https://vbnuuyxq55wvdcoz.anvil.app/_/theme/spotify-callback.html');
   const scopes = encodeURIComponent('streaming user-read-email user-read-private user-read-playback-state user-modify-playback-state');
   
   const authUrl = `https://accounts.spotify.com/authorize?` +
