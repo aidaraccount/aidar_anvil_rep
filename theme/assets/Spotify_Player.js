@@ -65,7 +65,10 @@ function createOrUpdateSpotifyPlayer(formElement, trackOrArtist, currentSpotifyI
     allow_transparent_background: true,
     frameborder: 0,
     // Disable Spotify Connect integration to prevent 403 errors with logged-in accounts
-    loading: 'lazy'
+    loading: 'lazy',
+    // Additional options to prevent Connect conflicts
+    referrerPolicy: 'strict-origin-when-cross-origin',
+    sandbox: 'allow-scripts allow-same-origin allow-presentation'
   };
 
   // Add timeout detection for embed loading
@@ -114,9 +117,13 @@ function createOrUpdateSpotifyPlayer(formElement, trackOrArtist, currentSpotifyI
           }
         }
         
-        // Check for duration issues (0:00 problem)
-        if (duration === 0 && position === 0 && !isBuffering) {
-          console.warn('Track duration is 0 - possible embed loading issue');
+        // Check for duration issues (0:00 problem) and implement retry logic
+        if (duration === 0 && position === 0 && !isBuffering && !isPaused) {
+          console.warn(`Track ${currentSpotifyID} duration is 0 - Connect conflict detected`);
+          console.log('Attempting to reload embed to bypass Connect routing...');
+          setTimeout(() => {
+            controller.loadUri(`spotify:${trackOrArtist}:${currentSpotifyID}`);
+          }, 2000);
         }
         
         // Debug logging for duration issues
@@ -218,9 +225,13 @@ function createOrUpdateSpotifyPlayer(formElement, trackOrArtist, currentSpotifyI
             }
           }
           
-          // Check for duration issues (0:00 problem)
-          if (duration === 0 && position === 0 && !isBuffering) {
-            console.warn('Track duration is 0 - possible embed loading issue');
+          // Check for duration issues (0:00 problem) and implement retry logic
+          if (duration === 0 && position === 0 && !isBuffering && !isPaused) {
+            console.warn(`Track ${currentSpotifyID} duration is 0 - Connect conflict detected`);
+            console.log('Attempting to reload embed to bypass Connect routing...');
+            setTimeout(() => {
+              controller.loadUri(`spotify:${trackOrArtist}:${currentSpotifyID}`);
+            }, 2000);
           }
           
           // Log the current playback state
