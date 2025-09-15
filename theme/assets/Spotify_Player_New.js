@@ -72,7 +72,7 @@ function showSpotifyAuthPrompt() {
   }
   
   // Load the modern UI
-  fetch('/theme/assets/Spotify_UI.html')
+  fetch('/_/theme/assets/Spotify_UI.html')
     .then(response => response.text())
     .then(html => {
       container.innerHTML = html;

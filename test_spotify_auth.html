@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Spotify Authentication Test - AIDAR</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .test-container {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        .status {
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+        }
+        .success { background: #d4edda; border: 1px solid #c3e6cb; color: #155724; }
+        .error { background: #f8d7da; border: 1px solid #f5c6cb; color: #721c24; }
+        .info { background: #d1ecf1; border: 1px solid #bee5eb; color: #0c5460; }
+        button {
+            background: #1db954;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px 5px;
+        }
+        button:hover { background: #1ed760; }
+        button:disabled { background: #ccc; cursor: not-allowed; }
+        .config-info {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>🎵 Spotify Authentication Test</h1>
+        <p>This page tests the Spotify Web Playback SDK authentication flow after the URL fixes.</p>
+        
+        <div id="status-container"></div>
+        
+        <div class="config-info">
+            <h3>Current Configuration:</h3>
+            <div id="config-display">Loading...</div>
+        </div>
+        
+        <div style="margin-top: 20px;">
+            <button onclick="testAuthentication()">🔐 Test Authentication</button>
+            <button onclick="checkToken()">🔍 Check Current Token</button>
+            <button onclick="clearToken()">🗑️ Clear Token</button>
+            <button onclick="testPlayback()">▶️ Test Playback</button>
+        </div>
+        
+        <div id="test-results" style="margin-top: 20px;"></div>
+    </div>
+
+    <!-- Load Spotify configuration -->
+    <script src="theme/assets/Spotify_Config.js"></script>
+    <script src="theme/assets/Spotify_WebPlayback.js"></script>
+    <script src="theme/assets/Spotify_Player_New.js"></script>
+
+    <script>
+        // Display current configuration
+        function displayConfig() {
+            const config = window.SPOTIFY_CONFIG;
+            if (config) {
+                document.getElementById('config-display').innerHTML = `
+                    <strong>Client ID:</strong> ${config.CLIENT_ID}<br>
+                    <strong>Redirect URI:</strong> ${config.REDIRECT_URIS.production}<br>
+                    <strong>Scopes:</strong> ${config.SCOPES.join(', ')}
+                `;
+            } else {
+                document.getElementById('config-display').innerHTML = '❌ Configuration not loaded';
+            }
+        }
+
+        function addStatus(message, type = 'info') {
+            const container = document.getElementById('status-container');
+            const div = document.createElement('div');
+            div.className = `status ${type}`;
+            div.innerHTML = `[${new Date().toLocaleTimeString()}] ${message}`;
+            container.appendChild(div);
+            container.scrollTop = container.scrollHeight;
+        }
+
+        function testAuthentication() {
+            addStatus('🔐 Starting authentication test...', 'info');
+            
+            if (!window.SPOTIFY_CONFIG) {
+                addStatus('❌ Spotify configuration not loaded', 'error');
+                return;
+            }
+            
+            const clientId = window.SPOTIFY_CONFIG.CLIENT_ID;
+            const redirectUri = encodeURIComponent(window.location.origin + '/_/theme/spotify-callback.html');
+            const scopes = encodeURIComponent(window.SPOTIFY_CONFIG.SCOPES.join(' '));
+            
+            const authUrl = `https://accounts.spotify.com/authorize?` +
+                `client_id=${clientId}&` +
+                `response_type=token&` +
+                `redirect_uri=${redirectUri}&` +
+                `scope=${scopes}&` +
+                `show_dialog=true`;
+            
+            addStatus(`🌐 Opening authentication popup...`, 'info');
+            addStatus(`📍 Redirect URI: ${decodeURIComponent(redirectUri)}`, 'info');
+            
+            const popup = window.open(authUrl, 'spotify-auth', 'width=500,height=600');
+            
+            const checkClosed = setInterval(() => {
+                if (popup.closed) {
+                    clearInterval(checkClosed);
+                    setTimeout(() => {
+                        const token = localStorage.getItem('spotify_access_token');
+                        if (token) {
+                            addStatus('✅ Authentication successful! Token received.', 'success');
+                        } else {
+                            addStatus('❌ Authentication failed or cancelled.', 'error');
+                        }
+                    }, 500);
+                }
+            }, 1000);
+        }
+
+        function checkToken() {
+            const token = localStorage.getItem('spotify_access_token');
+            if (token) {
+                addStatus(`✅ Token found: ${token.substring(0, 20)}...`, 'success');
+                
+                // Test token validity by making a simple API call
+                fetch('https://api.spotify.com/v1/me', {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                })
+                .then(response => {
+                    if (response.ok) {
+                        return response.json();
+                    } else {
+                        throw new Error(`HTTP ${response.status}`);
+                    }
+                })
+                .then(data => {
+                    addStatus(`✅ Token is valid! User: ${data.display_name} (${data.product})`, 'success');
+                    if (data.product !== 'premium') {
+                        addStatus('⚠️ Warning: Spotify Premium required for playback', 'error');
+                    }
+                })
+                .catch(error => {
+                    addStatus(`❌ Token validation failed: ${error.message}`, 'error');
+                });
+            } else {
+                addStatus('❌ No authentication token found', 'error');
+            }
+        }
+
+        function clearToken() {
+            localStorage.removeItem('spotify_access_token');
+            addStatus('🗑️ Authentication token cleared', 'info');
+        }
+
+        function testPlayback() {
+            const token = localStorage.getItem('spotify_access_token');
+            if (!token) {
+                addStatus('❌ No authentication token. Please authenticate first.', 'error');
+                return;
+            }
+            
+            addStatus('🎵 Testing playback functionality...', 'info');
+            
+            // Test with a sample track ID
+            const testTrackId = '4iV5W9uYEdYUVa79Axb7Rh'; // "Never Gonna Give You Up" by Rick Astley
+            
+            if (window.SpotifyWebPlayback && typeof window.SpotifyWebPlayback.playTrack === 'function') {
+                window.SpotifyWebPlayback.playTrack(testTrackId);
+                addStatus('▶️ Playback test initiated', 'success');
+            } else {
+                addStatus('❌ Web Playback SDK not loaded or ready', 'error');
+            }
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            displayConfig();
+            addStatus('🚀 Test page loaded', 'info');
+            
+            // Check if we have a token already
+            setTimeout(checkToken, 1000);
+        });
+    </script>
+</body>
+</html>

@@ -20,8 +20,9 @@ const SPOTIFY_CONFIG = {
   
   // Redirect URIs (configure these in your Spotify app)
   REDIRECT_URIS: {
-    production: window.location.origin + '/spotify-callback',
-    development: 'http://localhost:3000/spotify-callback'
+    production: window.location.origin + '/_/theme/spotify-callback.html',
+    development: 'http://localhost:3000/_/theme/spotify-callback.html',
+    anvil: 'https://vbnuuyxq55wvdcoz.anvil.app/_/theme/spotify-callback.html'
   }
 };
 
