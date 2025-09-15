@@ -47,13 +47,13 @@ function createOrUpdateSpotifyPlayer(formElement, trackOrArtist, currentSpotifyI
 
   // check if the html for the player is imported (in the Discover Page)
   if (!element) {
-    console.error("ERROR MESSAGE: Embed iframe element not found.")
+    console.error("[SpotifyPlayer] ERROR: Embed iframe element not found.")
     return;
   }
 
   // globalCurrentSpotifyID = currentSpotifyID;
   sessionStorage.setItem("globalCurrentSpotifyID", currentSpotifyID);
-  console.log("createOrUpdateSpotifyPlayer - setItem globalCurrentSpotifyID: " + currentSpotifyID);
+  console.log("[SpotifyPlayer] setItem globalCurrentSpotifyID: " + currentSpotifyID);
 
   // set the options for the Spotify Player
   const options = {
@@ -73,7 +73,7 @@ function createOrUpdateSpotifyPlayer(formElement, trackOrArtist, currentSpotifyI
 
   // Add timeout detection for embed loading
   let embedLoadTimeout = setTimeout(() => {
-    console.warn('Spotify embed taking too long to load - possible 504/timeout issue');
+    console.warn('[SpotifyPlayer] Embed taking too long to load - possible 504/timeout issue');
     // Could implement fallback here if needed
   }, 10000); // 10 second timeout
 
@@ -85,7 +85,7 @@ function createOrUpdateSpotifyPlayer(formElement, trackOrArtist, currentSpotifyI
     window.SpotifyIframeAPI.createController(element, options, (EmbedController) => {
       controller = EmbedController;
       controller.addListener('ready', () => {
-        console.log('createOrUpdateSpotifyPlayer - Spotify Player ready_1');
+        console.log('[SpotifyPlayer] Spotify Player ready_1');
         controller_status = 'ready';
         if (autoplaybutton) {
           autoPlaySpotify();
@@ -94,11 +94,11 @@ function createOrUpdateSpotifyPlayer(formElement, trackOrArtist, currentSpotifyI
       
       // Add error listener for embed loading failures
       controller.addListener('error', (error) => {
-        console.error('Spotify embed error:', error);
+        console.error('[SpotifyPlayer] Embed error:', error);
         if (error.type === 'timeout' || error.message?.includes('504') || error.message?.includes('timeout')) {
-          console.warn('Spotify embed timeout - server-side issue. Retrying in 3 seconds...');
+          console.warn('[SpotifyPlayer] Embed timeout - server-side issue. Retrying in 3 seconds...');
           setTimeout(() => {
-            console.log('Retrying Spotify embed load...');
+            console.log('[SpotifyPlayer] Retrying embed load...');
             controller.loadUri(`spotify:${trackOrArtist}:${currentSpotifyID}`);
           }, 3000);
         }
@@ -109,31 +109,31 @@ function createOrUpdateSpotifyPlayer(formElement, trackOrArtist, currentSpotifyI
         
         // Handle authentication conflicts and 403 errors
         if (e.error) {
-          console.error('Spotify playback error:', e.error);
+          console.error('[SpotifyPlayer] Playback error:', e.error);
           if (e.error.status === 403 || e.error.message?.includes('403')) {
-            console.warn('Playback blocked - likely due to Spotify Connect conflict with logged-in account');
-            console.log('Suggestion: Try logging out of Spotify or use incognito mode for full playback');
+            console.warn('[SpotifyPlayer] Playback blocked - likely due to Spotify Connect conflict with logged-in account');
+            console.log('[SpotifyPlayer] Suggestion: Try logging out of Spotify or use incognito mode for full playback');
             return;
           }
         }
         
         // Check for duration issues (0:00 problem) and implement retry logic
-        if (duration === 0 && position === 0 && !isBuffering && !isPaused) {
-          console.warn(`Track ${currentSpotifyID} duration is 0 - Connect conflict detected`);
-          console.log('Attempting to reload embed to bypass Connect routing...');
+        if (duration === 0 && position === 0 && !isBuffering) {
+          console.warn(`[SpotifyPlayer] Track ${currentSpotifyID} duration is 0 - Connect conflict detected`);
+          console.log('[SpotifyPlayer] Attempting to reload embed to bypass Connect routing...');
           setTimeout(() => {
             controller.loadUri(`spotify:${trackOrArtist}:${currentSpotifyID}`);
           }, 2000);
         }
         
         // Debug logging for duration issues
-        console.log("createOrUpdateSpotifyPlayer - isPaused: " + isPaused + ", duration: " + duration + ", position: " + position);
+        console.log("[SpotifyPlayer] isPaused: " + isPaused + ", duration: " + duration + ", position: " + position);
         // console.log("createOrUpdateSpotifyPlayer - 111 isBuffering: " + isBuffering);  
         // console.log("createOrUpdateSpotifyPlayer - 111 controller_status: " + controller_status);
         
         // Check if the song has ended
         if (!isPaused && position >= duration && duration > 0 && controller_status === 'ready') {
-          console.log("createOrUpdateSpotifyPlayer - Pos. 1: Track has ended. Moving to the next song.");
+          console.log("[SpotifyPlayer] Pos. 1: Track has ended. Moving to the next song.");
           controller_status = 'not_ready';
           
           // Load next song only if spotifyTrackIDsList is provided
@@ -177,11 +177,11 @@ function createOrUpdateSpotifyPlayer(formElement, trackOrArtist, currentSpotifyI
         
         // Add error listener for embed loading failures
         controller.addListener('error', (error) => {
-          console.error('Spotify embed error:', error);
+          console.error('[SpotifyPlayer] Embed error:', error);
           if (error.type === 'timeout' || error.message?.includes('504') || error.message?.includes('timeout')) {
-            console.warn('Spotify embed timeout - server-side issue. Retrying in 3 seconds...');
+            console.warn('[SpotifyPlayer] Embed timeout - server-side issue. Retrying in 3 seconds...');
             setTimeout(() => {
-              console.log('Retrying Spotify embed load...');
+              console.log('[SpotifyPlayer] Retrying embed load...');
               controller.loadUri(`spotify:${trackOrArtist}:${currentSpotifyID}`);
             }, 3000);
           }
@@ -192,9 +192,9 @@ function createOrUpdateSpotifyPlayer(formElement, trackOrArtist, currentSpotifyI
           
           // Handle authentication conflicts and 403 errors
           if (e.error) {
-            console.error('Spotify playback error:', e.error);
+            console.error('[SpotifyPlayer] Playback error:', e.error);
             if (e.error.status === 403 || e.error.message?.includes('403')) {
-              console.warn('Playback blocked - likely due to Spotify Connect conflict with logged-in account');
+              console.warn('[SpotifyPlayer] Playback blocked - likely due to Spotify Connect conflict with logged-in account');
               return;
             }
           }
@@ -217,18 +217,18 @@ function createOrUpdateSpotifyPlayer(formElement, trackOrArtist, currentSpotifyI
           
           // Handle authentication conflicts and 403 errors
           if (e.error) {
-            console.error('Spotify playback error:', e.error);
+            console.error('[SpotifyPlayer] Playback error:', e.error);
             if (e.error.status === 403 || e.error.message?.includes('403')) {
-              console.warn('Playback blocked - likely due to Spotify Connect conflict with logged-in account');
-              console.log('Suggestion: Try logging out of Spotify or use incognito mode for full playback');
+              console.warn('[SpotifyPlayer] Playback blocked - likely due to Spotify Connect conflict with logged-in account');
+              console.log('[SpotifyPlayer] Suggestion: Try logging out of Spotify or use incognito mode for full playback');
               return;
             }
           }
           
           // Check for duration issues (0:00 problem) and implement retry logic
-          if (duration === 0 && position === 0 && !isBuffering && !isPaused) {
-            console.warn(`Track ${currentSpotifyID} duration is 0 - Connect conflict detected`);
-            console.log('Attempting to reload embed to bypass Connect routing...');
+          if (duration === 0 && position === 0 && !isBuffering) {
+            console.warn(`[SpotifyPlayer] Track ${currentSpotifyID} duration is 0 - Connect conflict detected`);
+            console.log('[SpotifyPlayer] Attempting to reload embed to bypass Connect routing...');
             setTimeout(() => {
               controller.loadUri(`spotify:${trackOrArtist}:${currentSpotifyID}`);
             }, 2000);
