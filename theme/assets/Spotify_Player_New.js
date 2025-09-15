@@ -191,10 +191,96 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 
-// 10. Export functions for backward compatibility
+// 10. Legacy function compatibility
+function setPlayButtonIcons(trackOrArtist, spotifyTrackIDsList = null, spotifyArtistIDsList = null) {
+  console.log('[SpotifyModern] setPlayButtonIcons called - updating UI icons');
+  
+  // Update play/pause button icons based on current state
+  const currentSpotifyID = sessionStorage.getItem("globalCurrentSpotifyID");
+  
+  // Set the icon of the small play buttons
+  if (spotifyTrackIDsList && currentSpotifyID) {
+    const currentIndex = spotifyTrackIDsList.indexOf(currentSpotifyID);
+    
+    // Update all play buttons to show correct state
+    const playButtons = document.querySelectorAll('.anvil-role-cap-play-button, .play-button');
+    
+    playButtons.forEach((button, index) => {
+      if (index === currentIndex) {
+        // Current playing track - show pause icon
+        button.innerHTML = '⏸️';
+        button.classList.add('playing');
+      } else {
+        // Other tracks - show play icon
+        button.innerHTML = '▶️';
+        button.classList.remove('playing');
+      }
+    });
+  }
+  
+  // Update fast forward/backward button states
+  updateNavigationButtons(spotifyTrackIDsList, spotifyArtistIDsList);
+}
+
+function updateNavigationButtons(spotifyTrackIDsList, spotifyArtistIDsList) {
+  const currentSpotifyID = sessionStorage.getItem("globalCurrentSpotifyID");
+  
+  if (!spotifyTrackIDsList || !currentSpotifyID) return;
+  
+  const currentIndex = spotifyTrackIDsList.indexOf(currentSpotifyID);
+  
+  // Update fast forward button
+  const buttonFastForward = document.querySelector('.anvil-role-cap-fast-forward-button');
+  if (buttonFastForward) {
+    let hasNextArtist = false;
+    if (currentIndex < spotifyTrackIDsList.length - 1 && spotifyArtistIDsList) {
+      const currentArtistID = spotifyArtistIDsList[currentIndex];
+      for (let i = currentIndex + 1; i < spotifyArtistIDsList.length; i++) {
+        if (spotifyArtistIDsList[i] !== currentArtistID) {
+          hasNextArtist = true;
+          break;
+        }
+      }
+    }
+    
+    if (hasNextArtist) {
+      buttonFastForward.style.opacity = '1';
+      buttonFastForward.style.pointerEvents = 'auto';
+    } else {
+      buttonFastForward.style.opacity = '0.3';
+      buttonFastForward.style.pointerEvents = 'none';
+    }
+  }
+  
+  // Update rewind button
+  const buttonRewind = document.querySelector('.anvil-role-cap-rewind-button');
+  if (buttonRewind) {
+    let hasPreviousArtist = false;
+    if (currentIndex > 0 && spotifyArtistIDsList) {
+      const currentArtistID = spotifyArtistIDsList[currentIndex];
+      for (let i = currentIndex - 1; i >= 0; i--) {
+        if (spotifyArtistIDsList[i] !== currentArtistID) {
+          hasPreviousArtist = true;
+          break;
+        }
+      }
+    }
+    
+    if (hasPreviousArtist) {
+      buttonRewind.style.opacity = '1';
+      buttonRewind.style.pointerEvents = 'auto';
+    } else {
+      buttonRewind.style.opacity = '0.3';
+      buttonRewind.style.pointerEvents = 'none';
+    }
+  }
+}
+
+// 11. Export functions for backward compatibility
 window.createOrUpdateSpotifyPlayer = createOrUpdateSpotifyPlayer;
 window.playSpotify = playSpotify;
 window.autoPlaySpotify = autoPlaySpotify;
 window.playNextSong = playNextSong;
+window.setPlayButtonIcons = setPlayButtonIcons;
 
 console.log('[SpotifyModern] Modern Spotify player integration loaded');
