@@ -52,6 +52,50 @@ async function authenticateSpotify() {
   try {
     console.log('[SpotifyWebPlayback] Starting Authorization Code Flow...');
     
+    // Check if anvil.server is available
+    if (typeof anvil === 'undefined' || typeof anvil.server === 'undefined') {
+      console.log('[SpotifyWebPlayback] Anvil server not available, using fallback method');
+      // Fallback: construct auth URL directly
+      const clientId = window.SPOTIFY_CONFIG?.CLIENT_ID || 'e289b3517636414e8d96249bc8ef6477';
+      const redirectUri = encodeURIComponent(window.location.origin + '/_/theme/spotify-callback-new.html');
+      const scopes = encodeURIComponent('streaming user-read-email user-read-private user-read-playback-state user-modify-playback-state');
+      const state = Math.random().toString(36).substring(2, 15);
+      
+      sessionStorage.setItem('spotify_auth_state', state);
+      
+      const authUrl = `https://accounts.spotify.com/authorize?` +
+        `client_id=${clientId}&` +
+        `response_type=code&` +
+        `redirect_uri=${redirectUri}&` +
+        `scope=${scopes}&` +
+        `state=${state}&` +
+        `show_dialog=true`;
+      
+      // Open authentication popup
+      const popup = window.open(authUrl, 'spotify-auth', 'width=500,height=600,scrollbars=yes,resizable=yes');
+      
+      // Listen for authentication completion
+      const checkClosed = setInterval(() => {
+        if (popup.closed) {
+          clearInterval(checkClosed);
+          
+          // Check if we got the token
+          setTimeout(() => {
+            const token = localStorage.getItem('spotify_access_token');
+            if (token) {
+              console.log('[SpotifyWebPlayback] Authentication successful');
+              initializeSpotifyWebPlayback(token);
+              showPlayerUI();
+            } else {
+              console.log('[SpotifyWebPlayback] Authentication failed or cancelled');
+            }
+          }, 500);
+        }
+      }, 1000);
+      
+      return;
+    }
+    
     // Get authorization URL from backend
     const authData = await anvil.server.call('get_spotify_auth_url');
     
@@ -224,6 +268,17 @@ window.SpotifyWebPlayback = {
   setVolume: setVolume,
   checkAuth: checkExistingAuth,
   isReady: () => spotifyPlayer !== null
+};
+
+// 8. Required callback for Spotify SDK
+window.onSpotifyWebPlaybackSDKReady = () => {
+  console.log('[SpotifyWebPlayback] SDK Ready - callback triggered');
+  // SDK is now available, check for existing auth
+  setTimeout(() => {
+    if (checkExistingAuth()) {
+      console.log('[SpotifyWebPlayback] Auto-initialized with existing token');
+    }
+  }, 500);
 };
 
 console.log('[SpotifyWebPlayback] Authorization Code Flow module loaded');
