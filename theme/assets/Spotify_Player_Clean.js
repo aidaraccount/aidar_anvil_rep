@@ -231,6 +231,92 @@ function playSpotify() {
   playTrackWithSDK(currentSpotifyID);
 }
 
+// Legacy autoPlaySpotify function for backward compatibility
+function autoPlaySpotify() {
+  console.log('[SpotifyPlayer] Legacy autoPlaySpotify() called');
+  
+  // Check if autoplay toggle is enabled
+  const autoplayButton = document.querySelector('.anvil-role-cap-autoplay-toggle-button .fa-toggle-on');
+  if (!autoplayButton) {
+    console.log('[SpotifyPlayer] Autoplay is disabled');
+    return;
+  }
+  
+  // Use the same logic as playSpotify
+  playSpotify();
+}
+
+// Legacy playNextSong function for backward compatibility
+function playNextSong(formElement, trackOrArtist, spotifyTrackIDsList, spotifyArtistIDsList, spotifyArtistNameList, direction = 'forward') {
+  console.log('[SpotifyPlayer] Legacy playNextSong() called with direction:', direction);
+  
+  if (!spotifyTrackIDsList || spotifyTrackIDsList.length === 0) {
+    console.error('[SpotifyPlayer] No track list provided for playNextSong');
+    return;
+  }
+  
+  const currentSpotifyID = sessionStorage.getItem("globalCurrentSpotifyID");
+  const currentIndex = spotifyTrackIDsList.indexOf(currentSpotifyID);
+  
+  let nextIndex = 0;
+  
+  // Determine next track based on direction
+  switch (direction) {
+    case 'initial':
+      nextIndex = 0;
+      break;
+    case 'forward':
+      nextIndex = currentIndex < spotifyTrackIDsList.length - 1 ? currentIndex + 1 : 0;
+      break;
+    case 'backward':
+      nextIndex = currentIndex > 0 ? currentIndex - 1 : spotifyTrackIDsList.length - 1;
+      break;
+    case 'fast-forward':
+    case 'fast-backward':
+      // For fast navigation, find next/previous artist
+      if (spotifyArtistIDsList && spotifyArtistIDsList.length > 0) {
+        const currentArtistID = spotifyArtistIDsList[currentIndex];
+        if (direction === 'fast-forward') {
+          for (let i = currentIndex + 1; i < spotifyArtistIDsList.length; i++) {
+            if (spotifyArtistIDsList[i] !== currentArtistID) {
+              nextIndex = i;
+              break;
+            }
+          }
+        } else {
+          for (let i = currentIndex - 1; i >= 0; i--) {
+            if (spotifyArtistIDsList[i] !== currentArtistID) {
+              nextIndex = i;
+              break;
+            }
+          }
+        }
+      } else {
+        nextIndex = direction === 'fast-forward' ? 
+          Math.min(currentIndex + 5, spotifyTrackIDsList.length - 1) : 
+          Math.max(currentIndex - 5, 0);
+      }
+      break;
+  }
+  
+  const nextSpotifyID = spotifyTrackIDsList[nextIndex];
+  
+  // Update session storage
+  sessionStorage.setItem("globalCurrentSpotifyID", nextSpotifyID);
+  sessionStorage.setItem("lastplayedtrackid", nextSpotifyID);
+  
+  if (spotifyArtistIDsList && spotifyArtistIDsList[nextIndex]) {
+    sessionStorage.setItem("lastplayedartistid", spotifyArtistIDsList[nextIndex]);
+  }
+  
+  // Play the next track
+  if (window.SpotifyWebPlayback.checkAuth()) {
+    playTrackWithSDK(nextSpotifyID);
+  } else {
+    showAuthPrompt();
+  }
+}
+
 // 5. Initialize on page load
 document.addEventListener('DOMContentLoaded', function() {
   // Check if user is already authenticated

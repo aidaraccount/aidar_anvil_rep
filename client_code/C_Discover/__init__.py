@@ -14,7 +14,7 @@ import itertools
 from anvil import js
 import anvil.js
 import anvil.js.window
-from anvil.js.window import document, playSpotify, autoPlaySpotify
+from anvil.js.window import document
 
 from anvil_extras import routing
 from ..nav import click_link, click_button, logout, login_check, load_var, save_var
