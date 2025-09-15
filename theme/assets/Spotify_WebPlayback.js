@@ -216,7 +216,7 @@ async function previousSpotifyTrack() {
 function requestSpotifyAuthentication() {
   console.log('[SpotifyWebPlayback] Requesting Spotify authentication...');
   
-  const clientId = 'YOUR_SPOTIFY_CLIENT_ID'; // Replace with your actual client ID
+  const clientId = window.SPOTIFY_CONFIG?.CLIENT_ID || 'YOUR_AIDAR_SPOTIFY_CLIENT_ID';
   const redirectUri = encodeURIComponent(window.location.origin + '/spotify-callback');
   const scopes = encodeURIComponent('streaming user-read-email user-read-private user-read-playback-state user-modify-playback-state');
   
