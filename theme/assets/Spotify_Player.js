@@ -119,10 +119,9 @@ function createOrUpdateSpotifyPlayer(formElement, trackOrArtist, currentSpotifyI
           console.warn('Track duration is 0 - possible embed loading issue');
         }
         
-        // console.log("createOrUpdateSpotifyPlayer - 111 isPaused: " + isPaused);
+        // Debug logging for duration issues
+        console.log("createOrUpdateSpotifyPlayer - isPaused: " + isPaused + ", duration: " + duration + ", position: " + position);
         // console.log("createOrUpdateSpotifyPlayer - 111 isBuffering: " + isBuffering);  
-        // console.log("createOrUpdateSpotifyPlayer - 111 duration: " + duration);
-        // console.log("createOrUpdateSpotifyPlayer - 111 position: " + position);
         // console.log("createOrUpdateSpotifyPlayer - 111 controller_status: " + controller_status);
         
         // Check if the song has ended
