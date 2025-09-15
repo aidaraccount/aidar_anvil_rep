@@ -207,6 +207,30 @@ function setPlayButtonIcons(trackOrArtist, spotifyTrackIDsList = null, spotifyAr
   console.log('[SpotifyPlayer] setPlayButtonIcons called (handled by SDK)');
 }
 
+// Legacy playSpotify function for backward compatibility
+function playSpotify() {
+  console.log('[SpotifyPlayer] Legacy playSpotify() called');
+  
+  // Get the current Spotify ID from session storage (set by createOrUpdateSpotifyPlayer)
+  const currentSpotifyID = sessionStorage.getItem("globalCurrentSpotifyID");
+  const trackOrArtist = sessionStorage.getItem("globalTrackOrArtist");
+  
+  if (!currentSpotifyID) {
+    console.warn('[SpotifyPlayer] No current Spotify ID found in session storage');
+    return;
+  }
+  
+  // Check if user is authenticated
+  if (!window.SpotifyWebPlayback.checkAuth()) {
+    console.log('[SpotifyPlayer] No authentication, showing auth prompt');
+    showAuthPrompt();
+    return;
+  }
+  
+  // Play the track
+  playTrackWithSDK(currentSpotifyID);
+}
+
 // 5. Initialize on page load
 document.addEventListener('DOMContentLoaded', function() {
   // Check if user is already authenticated
