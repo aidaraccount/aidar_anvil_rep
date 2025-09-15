@@ -54,6 +54,12 @@ function createOrUpdateSpotifyPlayer(formElement, trackOrArtist, currentSpotifyI
   // globalCurrentSpotifyID = currentSpotifyID;
   sessionStorage.setItem("globalCurrentSpotifyID", currentSpotifyID);
   console.log("[SpotifyPlayer] setItem globalCurrentSpotifyID: " + currentSpotifyID);
+  
+  // Initialize retry counter for this track
+  const retryKey = `spotify_retry_${currentSpotifyID}`;
+  if (!sessionStorage.getItem(retryKey)) {
+    sessionStorage.setItem(retryKey, '0');
+  }
 
   // set the options for the Spotify Player
   const options = {
@@ -117,13 +123,23 @@ function createOrUpdateSpotifyPlayer(formElement, trackOrArtist, currentSpotifyI
           }
         }
         
-        // Check for duration issues (0:00 problem) and implement retry logic
+        // Check for duration issues (0:00 problem) and implement retry logic with limit
         if (duration === 0 && position === 0 && !isBuffering) {
-          console.warn(`[SpotifyPlayer] Track ${currentSpotifyID} duration is 0 - Connect conflict detected`);
-          console.log('[SpotifyPlayer] Attempting to reload embed to bypass Connect routing...');
-          setTimeout(() => {
-            controller.loadUri(`spotify:${trackOrArtist}:${currentSpotifyID}`);
-          }, 2000);
+          const retryKey = `spotify_retry_${currentSpotifyID}`;
+          const retryCount = parseInt(sessionStorage.getItem(retryKey) || '0');
+          
+          if (retryCount < 3) {
+            console.warn(`[SpotifyPlayer] Track ${currentSpotifyID} duration is 0 - Connect conflict detected (attempt ${retryCount + 1}/3)`);
+            console.log('[SpotifyPlayer] Attempting to reload embed to bypass Connect routing...');
+            sessionStorage.setItem(retryKey, (retryCount + 1).toString());
+            setTimeout(() => {
+              controller.loadUri(`spotify:${trackOrArtist}:${currentSpotifyID}`);
+            }, 2000);
+          } else {
+            console.error(`[SpotifyPlayer] Track ${currentSpotifyID} failed after 3 retry attempts - marking as unavailable`);
+            console.log('[SpotifyPlayer] This track may not be available for embedded playback with your current Spotify session');
+            sessionStorage.setItem(`spotify_failed_${currentSpotifyID}`, 'true');
+          }
         }
         
         // Debug logging for duration issues
@@ -225,13 +241,23 @@ function createOrUpdateSpotifyPlayer(formElement, trackOrArtist, currentSpotifyI
             }
           }
           
-          // Check for duration issues (0:00 problem) and implement retry logic
+          // Check for duration issues (0:00 problem) and implement retry logic with limit
           if (duration === 0 && position === 0 && !isBuffering) {
-            console.warn(`[SpotifyPlayer] Track ${currentSpotifyID} duration is 0 - Connect conflict detected`);
-            console.log('[SpotifyPlayer] Attempting to reload embed to bypass Connect routing...');
-            setTimeout(() => {
-              controller.loadUri(`spotify:${trackOrArtist}:${currentSpotifyID}`);
-            }, 2000);
+            const retryKey = `spotify_retry_${currentSpotifyID}`;
+            const retryCount = parseInt(sessionStorage.getItem(retryKey) || '0');
+            
+            if (retryCount < 3) {
+              console.warn(`[SpotifyPlayer] Track ${currentSpotifyID} duration is 0 - Connect conflict detected (attempt ${retryCount + 1}/3)`);
+              console.log('[SpotifyPlayer] Attempting to reload embed to bypass Connect routing...');
+              sessionStorage.setItem(retryKey, (retryCount + 1).toString());
+              setTimeout(() => {
+                controller.loadUri(`spotify:${trackOrArtist}:${currentSpotifyID}`);
+              }, 2000);
+            } else {
+              console.error(`[SpotifyPlayer] Track ${currentSpotifyID} failed after 3 retry attempts - marking as unavailable`);
+              console.log('[SpotifyPlayer] This track may not be available for embedded playback with your current Spotify session');
+              sessionStorage.setItem(`spotify_failed_${currentSpotifyID}`, 'true');
+            }
           }
           
           // Log the current playback state
