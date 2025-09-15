@@ -68,8 +68,15 @@ function createOrUpdateSpotifyPlayer(formElement, trackOrArtist, currentSpotifyI
     loading: 'lazy'
   };
 
+  // Add timeout detection for embed loading
+  let embedLoadTimeout = setTimeout(() => {
+    console.warn('Spotify embed taking too long to load - possible 504/timeout issue');
+    // Could implement fallback here if needed
+  }, 10000); // 10 second timeout
+
   // the if statment checks if the SpotifyIgrameAPI already exists (if it is already loaded)
   if (window.SpotifyIframeAPI) {
+    clearTimeout(embedLoadTimeout);
     let controller_status = 'not_ready';
     
     window.SpotifyIframeAPI.createController(element, options, (EmbedController) => {
@@ -82,6 +89,18 @@ function createOrUpdateSpotifyPlayer(formElement, trackOrArtist, currentSpotifyI
         }
       });
       
+      // Add error listener for embed loading failures
+      controller.addListener('error', (error) => {
+        console.error('Spotify embed error:', error);
+        if (error.type === 'timeout' || error.message?.includes('504') || error.message?.includes('timeout')) {
+          console.warn('Spotify embed timeout - server-side issue. Retrying in 3 seconds...');
+          setTimeout(() => {
+            console.log('Retrying Spotify embed load...');
+            controller.loadUri(`spotify:${trackOrArtist}:${currentSpotifyID}`);
+          }, 3000);
+        }
+      });
+      
       controller.addListener('playback_update', e => {
         const {isPaused, isBuffering, duration, position } = e.data;
         
@@ -90,9 +109,14 @@ function createOrUpdateSpotifyPlayer(formElement, trackOrArtist, currentSpotifyI
           console.error('Spotify playback error:', e.error);
           if (e.error.status === 403 || e.error.message?.includes('403')) {
             console.warn('Playback blocked - likely due to Spotify Connect conflict with logged-in account');
-            // You could add user notification here
+            console.log('Suggestion: Try logging out of Spotify or use incognito mode for full playback');
             return;
           }
+        }
+        
+        // Check for duration issues (0:00 problem)
+        if (duration === 0 && position === 0 && !isBuffering) {
+          console.warn('Track duration is 0 - possible embed loading issue');
         }
         
         // console.log("createOrUpdateSpotifyPlayer - 111 isPaused: " + isPaused);
@@ -134,6 +158,7 @@ function createOrUpdateSpotifyPlayer(formElement, trackOrArtist, currentSpotifyI
     
   } else {
     window.onSpotifyIframeApiReady = (IFrameAPI) => {
+      clearTimeout(embedLoadTimeout);
       window.SpotifyIframeAPI = IFrameAPI; // Store the API globally for future use
       IFrameAPI.createController(element, options, (EmbedController) => {
         controller = EmbedController;
@@ -141,6 +166,18 @@ function createOrUpdateSpotifyPlayer(formElement, trackOrArtist, currentSpotifyI
           console.log('createOrUpdateSpotifyPlayer - Spotify Player ready_2');
           if (autoplaybutton) {
             autoPlaySpotify();
+          }
+        });
+        
+        // Add error listener for embed loading failures
+        controller.addListener('error', (error) => {
+          console.error('Spotify embed error:', error);
+          if (error.type === 'timeout' || error.message?.includes('504') || error.message?.includes('timeout')) {
+            console.warn('Spotify embed timeout - server-side issue. Retrying in 3 seconds...');
+            setTimeout(() => {
+              console.log('Retrying Spotify embed load...');
+              controller.loadUri(`spotify:${trackOrArtist}:${currentSpotifyID}`);
+            }, 3000);
           }
         });
         
@@ -177,8 +214,14 @@ function createOrUpdateSpotifyPlayer(formElement, trackOrArtist, currentSpotifyI
             console.error('Spotify playback error:', e.error);
             if (e.error.status === 403 || e.error.message?.includes('403')) {
               console.warn('Playback blocked - likely due to Spotify Connect conflict with logged-in account');
+              console.log('Suggestion: Try logging out of Spotify or use incognito mode for full playback');
               return;
             }
+          }
+          
+          // Check for duration issues (0:00 problem)
+          if (duration === 0 && position === 0 && !isBuffering) {
+            console.warn('Track duration is 0 - possible embed loading issue');
           }
           
           // Log the current playback state
