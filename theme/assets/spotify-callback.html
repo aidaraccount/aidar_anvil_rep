@@ -43,24 +43,32 @@
     </div>
 
     <script>
-        // Extract token from URL hash and store it
-        const hash = window.location.hash.substring(1);
-        console.log('[SpotifyCallback] URL hash:', hash);
+        // Handle Authorization Code Flow (not Implicit Grant)
+        const urlParams = new URLSearchParams(window.location.search);
+        const code = urlParams.get('code');
+        const error = urlParams.get('error');
+        const state = urlParams.get('state');
         
-        // Parse hash parameters manually (URLSearchParams doesn't work well with fragments)
-        const hashParams = {};
-        hash.split('&').forEach(param => {
-            const [key, value] = param.split('=');
-            if (key && value) {
-                hashParams[key] = decodeURIComponent(value);
-            }
-        });
-        
-        const accessToken = hashParams.access_token;
-        const error = hashParams.error;
-        
-        console.log('[SpotifyCallback] Access token:', accessToken ? 'Found' : 'Not found');
+        console.log('[SpotifyCallback] Authorization code:', code ? 'Found' : 'Not found');
         console.log('[SpotifyCallback] Error:', error);
+        console.log('[SpotifyCallback] State:', state);
+        
+        // Also check for hash (fallback for implicit grant)
+        const hash = window.location.hash.substring(1);
+        console.log('[SpotifyCallback] URL hash:', hash || '<empty string>');
+        
+        let accessToken = null;
+        if (hash) {
+            // Parse hash parameters for implicit grant fallback
+            const hashParams = {};
+            hash.split('&').forEach(param => {
+                const [key, value] = param.split('=');
+                if (key && value) {
+                    hashParams[key] = decodeURIComponent(value);
+                }
+            });
+            accessToken = hashParams.access_token;
+        }
         
         if (error) {
             document.querySelector('.container').innerHTML = `
@@ -70,49 +78,80 @@
                     Close
                 </button>
             `;
+        } else if (code) {
+            // Authorization Code Flow - exchange code for token
+            console.log('[SpotifyCallback] Authorization code received, exchanging for token...');
+            exchangeCodeForToken(code, state);
         } else if (accessToken) {
-            console.log('[SpotifyCallback] Authentication successful');
+            // Implicit Grant Flow fallback
+            console.log('[SpotifyCallback] Access token received (implicit grant)');
             localStorage.setItem('spotify_access_token', accessToken);
             
-            // Update UI
             document.querySelector('.container').innerHTML = `
                 <h2>✅ Connected Successfully!</h2>
                 <p>Your Spotify Premium account is now connected to AIDAR.</p>
                 <p>You can close this window and start playing music!</p>
             `;
             
-            // Close popup after 2 seconds if it's a popup
             if (window.opener) {
-                setTimeout(() => {
-                    window.close();
-                }, 2000);
+                setTimeout(() => window.close(), 2000);
             } else {
-                // Redirect back to main app after 3 seconds
-                setTimeout(() => {
-                    window.location.href = '/';
-                }, 3000);
+                setTimeout(() => window.location.href = '/', 3000);
             }
         } else {
-            // Check if we have any hash parameters at all
-            if (hash) {
-                console.log('[SpotifyCallback] Hash found but no access_token parameter. Full hash:', hash);
+            document.querySelector('.container').innerHTML = `
+                <h2>No Authentication Data</h2>
+                <p>No authorization code or access token received.</p>
+                <p><small>URL: ${window.location.href}</small></p>
+                <button onclick="window.close()" style="background: white; color: #1db954; border: none; padding: 10px 20px; border-radius: 25px; cursor: pointer;">
+                    Close
+                </button>
+            `;
+        }
+        
+        // Function to exchange authorization code for access token
+        async function exchangeCodeForToken(authCode, authState) {
+            try {
+                console.log('[SpotifyCallback] Exchanging authorization code for access token...');
+                
+                // Since we don't have anvil.server in the callback, we'll use a simple approach
+                // For now, we'll use the Implicit Grant flow as fallback
                 document.querySelector('.container').innerHTML = `
-                    <h2>⚠️ Authentication Issue</h2>
-                    <p>Received response from Spotify but couldn't extract access token.</p>
-                    <p><small>Hash: ${hash.substring(0, 100)}...</small></p>
-                    <button onclick="window.close()" style="background: white; color: #1db954; border: none; padding: 10px 20px; border-radius: 25px; cursor: pointer;">
-                        Close
+                    <h2>⚠️ Code Exchange Not Implemented</h2>
+                    <p>Authorization code received but token exchange requires backend.</p>
+                    <p>Switching to Implicit Grant flow for now...</p>
+                    <button onclick="switchToImplicitGrant()" style="background: white; color: #1db954; border: none; padding: 10px 20px; border-radius: 25px; cursor: pointer;">
+                        Try Implicit Grant
                     </button>
                 `;
-            } else {
+                
+            } catch (error) {
+                console.error('[SpotifyCallback] Error during token exchange:', error);
                 document.querySelector('.container').innerHTML = `
-                    <h2>No Authentication Data</h2>
-                    <p>Please try connecting again.</p>
+                    <h2>❌ Token Exchange Failed</h2>
+                    <p>Failed to exchange authorization code for token.</p>
+                    <p><small>${error.message}</small></p>
                     <button onclick="window.close()" style="background: white; color: #1db954; border: none; padding: 10px 20px; border-radius: 25px; cursor: pointer;">
                         Close
                     </button>
                 `;
             }
+        }
+        
+        function switchToImplicitGrant() {
+            // Redirect to implicit grant flow
+            const clientId = 'e289b3517636414e8d96249bc8ef6477';
+            const redirectUri = encodeURIComponent(window.location.origin + '/_/theme/spotify-callback.html');
+            const scopes = encodeURIComponent('streaming user-read-email user-read-private user-read-playback-state user-modify-playback-state');
+            
+            const authUrl = `https://accounts.spotify.com/authorize?` +
+                `client_id=${clientId}&` +
+                `response_type=token&` +
+                `redirect_uri=${redirectUri}&` +
+                `scope=${scopes}&` +
+                `show_dialog=true`;
+            
+            window.location.href = authUrl;
         }
     </script>
 </body>

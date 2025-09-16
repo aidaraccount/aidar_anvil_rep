@@ -83,7 +83,7 @@ async function authenticateSpotify() {
       
       const authUrl = `https://accounts.spotify.com/authorize?` +
         `client_id=${clientId}&` +
-        `response_type=code&` +
+        `response_type=token&` +
         `redirect_uri=${encodedRedirectUri}&` +
         `scope=${scopes}&` +
         `state=${state}&` +
