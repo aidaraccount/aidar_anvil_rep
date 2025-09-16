@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Spotify Configuration Debug - AIDAR</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .debug-container {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        .status {
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+            font-family: monospace;
+            font-size: 14px;
+        }
+        .success { background: #d4edda; border: 1px solid #c3e6cb; color: #155724; }
+        .error { background: #f8d7da; border: 1px solid #f5c6cb; color: #721c24; }
+        .warning { background: #fff3cd; border: 1px solid #ffeaa7; color: #856404; }
+        .info { background: #d1ecf1; border: 1px solid #bee5eb; color: #0c5460; }
+        button {
+            background: #1db954;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px 5px;
+        }
+        button:hover { background: #1ed760; }
+        .config-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        .config-table th, .config-table td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        .config-table th {
+            background: #f8f9fa;
+            font-weight: 600;
+        }
+        .url-test {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+            font-family: monospace;
+            word-break: break-all;
+        }
+    </style>
+</head>
+<body>
+    <div class="debug-container">
+        <h1>🔍 Spotify Configuration Debugger</h1>
+        <p>This tool helps diagnose the "We could not find an app that matched your request" error.</p>
+        
+        <div id="status-container"></div>
+        
+        <h2>Current Configuration</h2>
+        <table class="config-table">
+            <tr>
+                <th>Property</th>
+                <th>Value</th>
+                <th>Status</th>
+            </tr>
+            <tbody id="config-table-body">
+                <tr><td colspan="3">Loading...</td></tr>
+            </tbody>
+        </table>
+        
+        <h2>URL Analysis</h2>
+        <div id="url-analysis">Loading...</div>
+        
+        <h2>Actions</h2>
+        <button onclick="testCurrentConfig()">🧪 Test Current Config</button>
+        <button onclick="testWithDebugURL()">🐛 Test with Debug URL</button>
+        <button onclick="testWithProductionURL()">🚀 Test with Production URL</button>
+        <button onclick="generateSpotifyAppConfig()">📋 Generate Spotify App Config</button>
+        
+        <div id="test-results" style="margin-top: 20px;"></div>
+    </div>
+
+    <!-- Load configuration -->
+    <script src="Spotify_Config.js"></script>
+
+    <script>
+        let currentOrigin = window.location.origin;
+        let debugInfo = {};
+        
+        function addLog(message, type = 'info') {
+            const container = document.getElementById('status-container');
+            const div = document.createElement('div');
+            div.className = `status ${type}`;
+            div.innerHTML = `[${new Date().toLocaleTimeString()}] ${message}`;
+            container.appendChild(div);
+            container.scrollTop = container.scrollHeight;
+        }
+        
+        function analyzeCurrentSetup() {
+            debugInfo = {
+                currentURL: window.location.href,
+                origin: window.location.origin,
+                hostname: window.location.hostname,
+                protocol: window.location.protocol,
+                port: window.location.port,
+                isAnvilDebug: window.location.hostname.includes('anvil.app'),
+                isLocalhost: window.location.hostname === 'localhost',
+                config: window.SPOTIFY_CONFIG || null
+            };
+            
+            // Update configuration table
+            const tbody = document.getElementById('config-table-body');
+            tbody.innerHTML = '';
+            
+            const rows = [
+                ['Current URL', debugInfo.currentURL, debugInfo.isAnvilDebug ? 'Debug Mode' : 'Production'],
+                ['Origin', debugInfo.origin, 'OK'],
+                ['Client ID', debugInfo.config?.CLIENT_ID || 'NOT FOUND', debugInfo.config?.CLIENT_ID ? 'OK' : 'ERROR'],
+                ['Redirect URI (Config)', debugInfo.config?.REDIRECT_URIS?.production || 'NOT FOUND', 'Check'],
+                ['Actual Redirect URI', `${debugInfo.origin}/_/theme/spotify-callback.html`, 'Generated'],
+                ['Is Anvil Debug', debugInfo.isAnvilDebug ? 'Yes' : 'No', debugInfo.isAnvilDebug ? 'May cause issues' : 'OK'],
+                ['Is Localhost', debugInfo.isLocalhost ? 'Yes' : 'No', debugInfo.isLocalhost ? 'Development' : 'Production']
+            ];
+            
+            rows.forEach(([prop, value, status]) => {
+                const row = tbody.insertRow();
+                row.innerHTML = `
+                    <td><strong>${prop}</strong></td>
+                    <td><code>${value}</code></td>
+                    <td><span class="${getStatusClass(status)}">${status}</span></td>
+                `;
+            });
+            
+            // URL Analysis
+            analyzeURLs();
+        }
+        
+        function getStatusClass(status) {
+            if (status.includes('ERROR') || status.includes('NOT FOUND')) return 'error';
+            if (status.includes('May cause') || status.includes('Check')) return 'warning';
+            return 'success';
+        }
+        
+        function analyzeURLs() {
+            const container = document.getElementById('url-analysis');
+            const redirectURI = `${debugInfo.origin}/_/theme/spotify-callback.html`;
+            
+            container.innerHTML = `
+                <div class="url-test">
+                    <h4>🎯 Expected Redirect URI:</h4>
+                    <div>${redirectURI}</div>
+                </div>
+                <div class="url-test">
+                    <h4>🔧 Spotify App Configuration Should Include:</h4>
+                    <div>${redirectURI}</div>
+                    ${debugInfo.isAnvilDebug ? `
+                    <div style="color: #856404; margin-top: 10px;">
+                        ⚠️ <strong>Debug URL Detected:</strong> Anvil debug URLs change frequently and may not match your Spotify app configuration.
+                    </div>
+                    ` : ''}
+                </div>
+                <div class="url-test">
+                    <h4>🌐 Alternative URIs to try:</h4>
+                    <div>https://vbnuuyxq55wvdcoz.anvil.app/_/theme/spotify-callback.html</div>
+                    <div>${window.location.protocol}//${window.location.hostname}/_/theme/spotify-callback.html</div>
+                    <div>http://localhost:3030/_/theme/spotify-callback.html</div>
+                </div>
+            `;
+        }
+        
+        function testCurrentConfig() {
+            addLog('🧪 Testing current configuration...', 'info');
+            
+            if (!debugInfo.config?.CLIENT_ID) {
+                addLog('❌ No Client ID found in configuration', 'error');
+                return;
+            }
+            
+            const redirectUri = `${debugInfo.origin}/_/theme/spotify-callback.html`;
+            const testURL = buildSpotifyAuthURL(debugInfo.config.CLIENT_ID, redirectUri);
+            
+            addLog(`🔗 Generated auth URL: ${testURL.substring(0, 100)}...`, 'info');
+            addLog(`📍 Using redirect URI: ${redirectUri}`, 'info');
+            
+            // Open in new tab for testing
+            window.open(testURL, '_blank');
+            addLog('🚀 Opened auth URL in new tab. Check for errors.', 'info');
+        }
+        
+        function testWithDebugURL() {
+            addLog('🐛 Testing with Anvil debug URL...', 'info');
+            const redirectUri = 'https://vbnuuyxq55wvdcoz.anvil.app/_/theme/spotify-callback.html';
+            const testURL = buildSpotifyAuthURL(debugInfo.config?.CLIENT_ID, redirectUri);
+            
+            addLog(`📍 Using debug redirect URI: ${redirectUri}`, 'info');
+            window.open(testURL, '_blank');
+        }
+        
+        function testWithProductionURL() {
+            addLog('🚀 Testing with production URL...', 'info');
+            const redirectUri = 'https://your-production-domain.com/_/theme/spotify-callback.html';
+            const testURL = buildSpotifyAuthURL(debugInfo.config?.CLIENT_ID, redirectUri);
+            
+            addLog(`📍 Using production redirect URI: ${redirectUri}`, 'warning');
+            addLog('⚠️ Update this with your actual production domain', 'warning');
+            window.open(testURL, '_blank');
+        }
+        
+        function buildSpotifyAuthURL(clientId, redirectUri) {
+            const params = new URLSearchParams({
+                client_id: clientId,
+                response_type: 'code',
+                redirect_uri: redirectUri,
+                scope: 'streaming user-read-email user-read-private user-read-playback-state user-modify-playback-state',
+                state: Math.random().toString(36).substring(2, 15),
+                show_dialog: 'true'
+            });
+            
+            return `https://accounts.spotify.com/authorize?${params.toString()}`;
+        }
+        
+        function generateSpotifyAppConfig() {
+            const container = document.getElementById('test-results');
+            const currentRedirect = `${debugInfo.origin}/_/theme/spotify-callback.html`;
+            
+            container.innerHTML = `
+                <div class="debug-container">
+                    <h3>📋 Spotify App Configuration</h3>
+                    <p>Add these redirect URIs to your Spotify app at <a href="https://developer.spotify.com/dashboard" target="_blank">developer.spotify.com/dashboard</a>:</p>
+                    
+                    <div class="url-test">
+                        <h4>Required Redirect URIs:</h4>
+                        <div>✅ ${currentRedirect}</div>
+                        <div>✅ https://vbnuuyxq55wvdcoz.anvil.app/_/theme/spotify-callback.html</div>
+                        <div>✅ http://localhost:3030/_/theme/spotify-callback.html</div>
+                        <div>✅ https://your-production-domain.com/_/theme/spotify-callback.html</div>
+                    </div>
+                    
+                    <div class="status info">
+                        <strong>Steps to fix:</strong><br>
+                        1. Go to <a href="https://developer.spotify.com/dashboard" target="_blank">Spotify Developer Dashboard</a><br>
+                        2. Select your AIDAR app<br>
+                        3. Click "Edit Settings"<br>
+                        4. Add ALL the redirect URIs listed above<br>
+                        5. Save changes<br>
+                        6. Wait 5-10 minutes for changes to propagate<br>
+                        7. Test again
+                    </div>
+                </div>
+            `;
+        }
+        
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            addLog('🚀 Spotify Debug Tool loaded', 'info');
+            analyzeCurrentSetup();
+            
+            if (debugInfo.isAnvilDebug) {
+                addLog('⚠️ Running in Anvil debug mode - URLs may change', 'warning');
+            }
+            
+            if (!debugInfo.config) {
+                addLog('❌ Spotify configuration not loaded', 'error');
+            } else {
+                addLog('✅ Spotify configuration loaded', 'success');
+            }
+        });
+    </script>
+</body>
+</html>

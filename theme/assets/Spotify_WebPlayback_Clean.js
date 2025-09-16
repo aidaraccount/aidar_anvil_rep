@@ -52,42 +52,70 @@ async function authenticateSpotify() {
   try {
     console.log('[SpotifyWebPlayback] Starting Authorization Code Flow...');
     
+    // Enhanced logging for debugging
+    const currentURL = window.location.href;
+    const origin = window.location.origin;
+    const clientId = window.SPOTIFY_CONFIG?.CLIENT_ID || 'e289b3517636414e8d96249bc8ef6477';
+    
+    console.log('[SpotifyWebPlayback] Debug Info:');
+    console.log('  - Current URL:', currentURL);
+    console.log('  - Origin:', origin);
+    console.log('  - Client ID:', clientId);
+    console.log('  - Is Anvil Debug:', origin.includes('anvil.app'));
+    
     // Check if anvil.server is available
     if (typeof anvil === 'undefined' || typeof anvil.server === 'undefined') {
       console.log('[SpotifyWebPlayback] Anvil server not available, using fallback method');
-      // Fallback: construct auth URL directly
-      const clientId = window.SPOTIFY_CONFIG?.CLIENT_ID || 'e289b3517636414e8d96249bc8ef6477';
-      const redirectUri = encodeURIComponent(window.location.origin + '/_/theme/spotify-callback-new.html');
+      
+      // Construct redirect URI with enhanced logging
+      const redirectUri = origin + '/_/theme/spotify-callback.html';
+      const encodedRedirectUri = encodeURIComponent(redirectUri);
       const scopes = encodeURIComponent('streaming user-read-email user-read-private user-read-playback-state user-modify-playback-state');
       const state = Math.random().toString(36).substring(2, 15);
+      
+      console.log('[SpotifyWebPlayback] Auth Parameters:');
+      console.log('  - Redirect URI (raw):', redirectUri);
+      console.log('  - Redirect URI (encoded):', encodedRedirectUri);
+      console.log('  - State:', state);
+      console.log('  - Scopes:', 'streaming user-read-email user-read-private user-read-playback-state user-modify-playback-state');
       
       sessionStorage.setItem('spotify_auth_state', state);
       
       const authUrl = `https://accounts.spotify.com/authorize?` +
         `client_id=${clientId}&` +
         `response_type=code&` +
-        `redirect_uri=${redirectUri}&` +
+        `redirect_uri=${encodedRedirectUri}&` +
         `scope=${scopes}&` +
         `state=${state}&` +
         `show_dialog=true`;
       
+      console.log('[SpotifyWebPlayback] Complete Auth URL:', authUrl);
+      console.log('[SpotifyWebPlayback] Opening authentication popup...');
+      
       // Open authentication popup
       const popup = window.open(authUrl, 'spotify-auth', 'width=500,height=600,scrollbars=yes,resizable=yes');
+      
+      if (!popup) {
+        console.error('[SpotifyWebPlayback] Failed to open popup - popup blocked?');
+        alert('Popup blocked! Please allow popups for authentication.');
+        return;
+      }
       
       // Listen for authentication completion
       const checkClosed = setInterval(() => {
         if (popup.closed) {
           clearInterval(checkClosed);
+          console.log('[SpotifyWebPlayback] Popup closed, checking for token...');
           
           // Check if we got the token
           setTimeout(() => {
             const token = localStorage.getItem('spotify_access_token');
             if (token) {
-              console.log('[SpotifyWebPlayback] Authentication successful');
+              console.log('[SpotifyWebPlayback] Authentication successful - token found');
               initializeSpotifyWebPlayback(token);
               showPlayerUI();
             } else {
-              console.log('[SpotifyWebPlayback] Authentication failed or cancelled');
+              console.log('[SpotifyWebPlayback] Authentication failed or cancelled - no token found');
             }
           }, 500);
         }
