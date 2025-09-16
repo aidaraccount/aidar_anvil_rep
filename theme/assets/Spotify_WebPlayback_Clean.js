@@ -67,8 +67,8 @@ async function authenticateSpotify() {
     if (typeof anvil === 'undefined' || typeof anvil.server === 'undefined') {
       console.log('[SpotifyWebPlayback] Anvil server not available, using fallback method');
       
-      // Construct redirect URI with enhanced logging
-      const redirectUri = origin + '/_/theme/spotify-callback.html';
+      // Use stable Anvil URL instead of debug URL for redirect
+      const redirectUri = 'https://vbnuuyxq55wvdcoz.anvil.app/_/theme/spotify-callback.html';
       const encodedRedirectUri = encodeURIComponent(redirectUri);
       const scopes = encodeURIComponent('streaming user-read-email user-read-private user-read-playback-state user-modify-playback-state');
       const state = Math.random().toString(36).substring(2, 15);
