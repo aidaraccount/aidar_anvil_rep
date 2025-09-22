@@ -1,5 +1,5 @@
 
-/* CSS for Fit Likelihood on the Discover Page STARTS Here */
+/* CSS for Fit Score on the Discover Page STARTS Here */
 .note-display {
     display: flex;
     flex-direction: column;
@@ -62,4 +62,4 @@
     transform: rotate(90deg);
     border-radius: 100px;
 }
-/* CSS for Fit Likelihood on the Discover Page ENDS Here */
+/* CSS for Fit Score on the Discover Page ENDS Here */
