@@ -1087,6 +1087,18 @@ class DiscoverAgent(DiscoverAgentTemplate):
 
   def custom_HTML_prediction(self):
     if self.pred:
+      # Extract numeric value from prediction (remove % sign)
+      pred_numeric = self.pred.replace('%', '')
+      try:
+        pred_value = float(pred_numeric)
+      except:
+        pred_value = 0
+      
+      # Calculate circle animation values
+      radius = 65
+      circumference = 2 * 3.14159 * radius  # ≈ 408.4
+      stroke_offset = circumference - (pred_value / 100) * circumference
+      
       custom_html = f'''
       <li class="note-display" data-note="{self.pred}">
         <div class="circle">
@@ -1098,7 +1110,8 @@ class DiscoverAgent(DiscoverAgentTemplate):
               </linearGradient>
             </defs>
             <circle cx="70" cy="70" r="65" class="circle__progress circle__progress--path"></circle>
-            <circle cx="70" cy="70" r="65" class="circle__progress circle__progress--fill" stroke="url(#grad1)"></circle>
+            <circle cx="70" cy="70" r="65" class="circle__progress circle__progress--fill" stroke="url(#grad1)" 
+                    style="--initialStroke: {circumference}; --transitionDuration: 900ms; stroke-dasharray: {circumference}; stroke-dashoffset: {stroke_offset}px;"></circle>
           </svg>
 
           <div class="percent">
