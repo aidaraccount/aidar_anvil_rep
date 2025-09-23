@@ -1,27 +1,23 @@
-from ._anvil_designer import DiscoverAgentTemplate
-from anvil import *
-import stripe.checkout
-import anvil.tables as tables
-import anvil.tables.query as q
-from anvil.tables import app_tables
-import anvil.users
-import anvil.server
+# Standard library imports
 import json
-from datetime import datetime, timedelta
-import plotly.graph_objects as go
-from collections import defaultdict
-import itertools
-from anvil import js
-import anvil.js
-import anvil.js.window
-from anvil.js.window import document, playSpotify, autoPlaySpotify
-
-from anvil_extras import routing
-from ..nav import click_link, click_button, logout, login_check, load_var, save_var
 import time
+from datetime import datetime, timedelta
+from collections import defaultdict
 
-from anvil.js.window import history, location
+# Third-party imports
+import plotly.graph_objects as go
 
+# Anvil framework imports
+from anvil import *
+import anvil.js
+import anvil.server
+import anvil.users
+from anvil.js.window import document, history
+from anvil_extras import routing
+
+# Local imports
+from ._anvil_designer import DiscoverAgentTemplate
+from ..nav import click_button, load_var, save_var
 from ..C_ArtistBio import C_ArtistBio
 from ..C_ProgressMessage import C_ProgressMessage
 from ..C_Short import C_Short
@@ -109,7 +105,6 @@ class DiscoverAgent(DiscoverAgentTemplate):
     self.Artist_Name_Details_Sidebar.clear()
     self.flow_panel_genre_tile.clear()
     self.flow_panel_social_media_tile.clear()
-    # Note: spotify_player_spot.clear() moved to _rate_artist_and_refresh() for parallel loading
     self.column_panel_circle.clear()
     self.flow_panel_shorts.clear()
     
@@ -168,10 +163,6 @@ class DiscoverAgent(DiscoverAgentTemplate):
       pass
       
     elif sug["Status"] == 'Empty Model!':
-      # alert(title='Train you Model..',
-      #   content="Sorry, we cound't find any artists for your model. Make sure your Agent is fully set up!\n\nTherefore, go to ADD REF. ARTISTS and add some starting artists that you are interested in.")
-      # self.visible = False
-      
       self.sec_header.visible = False
       self.flow_panel_sections.visible = False
       self.sec_releases.visible = False
@@ -189,15 +180,6 @@ class DiscoverAgent(DiscoverAgentTemplate):
       routing.set_url_hash('agent_artists?artist_id=extended_create_agent', load_from_cache=False)
 
     elif sug["Status"] == 'No Findings!':
-      # result = alert(title='No Artists found..',
-      #   content="Sorry, we cound't find any artists for your model. Please check two potential issues:\n\n1. Please check your FILTERS and change them to find additional artists.\n\n2. If you're just setting up your Agent or are subscribed to the Explore subscription, go to the ADD REF. ARTISTS page and add additional reference artists.",
-      #   buttons=[
-      #     ("Change Filters", "FILTERS"),
-      #     ("Ok", "OK")
-      #   ])
-      # self.visible = False
-      # if result == "FILTERS":
-      #   click_button(f'model_profile?model_id={self.model_id}&section=Filter', event_args)
       
       self.sec_header.visible = False
       self.flow_panel_sections.visible = False
@@ -436,16 +418,15 @@ class DiscoverAgent(DiscoverAgentTemplate):
         if sug["ev_sp_fol_30"] != 'None':
           val = int("{:.0f}".format(round(float(sug["ev_sp_fol_30"])*100, 0)))
           if val >= 3:
-            ev = f"""+{val}%"""
-            "{:.0f}".format(round(float(sug["ev_sp_fol_30"])*100, 0))
+            ev = f"+{val}%"
             col = 'green'
           elif val < 0:
-            ev = f"""{val}%"""
+            ev = f"{val}%"
             col = 'red'
           else:
-            ev = f"""+{val}%"""
+            ev = f"+{val}%"
             col = 'grey'
-          self.KPI_1.content = self.KPI_1.content + f"""<span style="font-size: 16px; color: {col};">  {ev}</span>"""
+          self.KPI_1.content = f"{self.KPI_1.content}<span style='font-size: 16px; color: {col};'>  {ev}</span>"
 
       # -------------------------------
       # I. RELEASES
@@ -667,16 +648,15 @@ class DiscoverAgent(DiscoverAgentTemplate):
         if sug["ev_sp_li_30"] != 'None':
           val = int("{:.0f}".format(round(float(sug["ev_sp_li_30"])*100, 0)))
           if val >= 3:
-            ev = f"""+{val}%"""
-            "{:.0f}".format(round(float(sug["ev_sp_li_30"])*100, 0))
+            ev = f"+{val}%"
             col = 'green'
           elif val < 0:
-            ev = f"""{val}%"""
+            ev = f"{val}%"
             col = 'red'
           else:
-            ev = f"""+{val}%"""
+            ev = f"+{val}%"
             col = 'grey'
-          self.KPI_2.content = self.KPI_2.content + f"""<span style="font-size: 16px; color: {col};">  {ev}</span>"""
+          self.KPI_2.content = f"{self.KPI_2.content}<span style='font-size: 16px; color: {col};'>  {ev}</span>"
 
         # other
         self.sp_mtl_listeners.text = f'{int(sp_mtl_lis_lat):,}'
@@ -774,16 +754,15 @@ class DiscoverAgent(DiscoverAgentTemplate):
           if sug["ev_tt_fol_30"] != 'None':
             val = int("{:.0f}".format(round(float(sug["ev_tt_fol_30"])*100, 0)))
             if val >= 3:
-              ev = f"""+{val}%"""
-              "{:.0f}".format(round(float(sug["ev_tt_fol_30"])*100, 0))
+              ev = f"+{val}%"
               col = 'green'
             elif val < 0:
-              ev = f"""{val}%"""
+              ev = f"{val}%"
               col = 'red'
             else:
-              ev = f"""+{val}%"""
+              ev = f"+{val}%"
               col = 'grey'
-            self.KPI_3.content = self.KPI_3.content + f"""<span style="font-size: 16px; color: {col};">  {ev}</span>"""
+            self.KPI_3.content = f"{self.KPI_3.content}<span style='font-size: 16px; color: {col};'>  {ev}</span>"
 
           # other
           self.tiktok_follower.text = f'{int(tiktok_fol_lat):,}'
@@ -907,13 +886,13 @@ class DiscoverAgent(DiscoverAgentTemplate):
       # a) musical features
       if sug["AvgDuration"] == 'None': f1 = '-'
       else: f1 = "{:.0f}".format(round(float(sug["AvgDuration"]),0))
-      self.feature_1.text = f1 + ' sec'
+      self.feature_1.text = f'{f1} sec'
       if sug["AvgDanceability"] == 'None': f2 = '-'
       else: f2 = "{:.0f}".format(round(float(sug["AvgDanceability"])*100,0))
-      self.feature_2.text = f2 + '%'
+      self.feature_2.text = f'{f2}%'
       if sug["AvgEnergy"] == 'None': f3 = '-'
       else: f3 = "{:.0f}".format(round(float(sug["AvgEnergy"])*100,0))
-      self.feature_3.text = f3 + '%'
+      self.feature_3.text = f'{f3}%'
 
       tonleiter = ["C", "C#/Db", "D", "D#/Eb", "E", "F", "F#/Gb", "G", "G#/Ab", "A", "A#/Bb", "B"]
       if sug["AvgKey"] == 'None': f4 = '--'
@@ -922,28 +901,28 @@ class DiscoverAgent(DiscoverAgentTemplate):
 
       if sug["AvgLoudness"] == 'None': f5 = '-'
       else: f5 = "{:.2f}".format(round(float(sug["AvgLoudness"]),2))
-      self.feature_5.text = f5 + ' dB'
+      self.feature_5.text = f'{f5} dB'
       if sug["AvgMode"] == 'None': f6 = '-'
       else: f6 = "{:.0f}".format(round(float(sug["AvgMode"])*100,0))
-      self.feature_6.text = f6 + '% Major'
+      self.feature_6.text = f'{f6}% Major'
       if sug["AvgSpeechiness"] == 'None': f7 = '-'
       else: f7 = "{:.0f}".format(round(float(sug["AvgSpeechiness"])*100,0))
-      self.feature_7.text = f7 + '%'
+      self.feature_7.text = f'{f7}%'
       if sug["AvgAcousticness"] == 'None': f8 = '-'
       else: f8 = "{:.0f}".format(round(float(sug["AvgAcousticness"])*100,0))
-      self.feature_8.text = f8 + '%'
+      self.feature_8.text = f'{f8}%'
       if sug["AvgInstrumentalness"] == 'None': f9 = '-'
       else: f9 = "{:.0f}".format(round(float(sug["AvgInstrumentalness"])*100,0))
-      self.feature_9.text = f9 + '%'
+      self.feature_9.text = f'{f9}%'
       if sug["AvgLiveness"] == 'None': f10 = '-'
       else: f10 = "{:.0f}".format(round(float(sug["AvgLiveness"])*100,0))
-      self.feature_10.text = f10 + '%'
+      self.feature_10.text = f'{f10}%'
       if sug["AvgValence"] == 'None': f11 = '-'
       else: f11 = "{:.0f}".format(round(float(sug["AvgValence"])*100,0))
-      self.feature_11.text = f11 + '%'
+      self.feature_11.text = f'{f11}%'
       if sug["AvgTempo"] == 'None': f12 = '-'
       else: f12 = "{:.0f}".format(round(float(sug["AvgTempo"]),0))
-      self.feature_12.text = f12 + ' bpm'
+      self.feature_12.text = f'{f12} bpm'
 
       # -------------------------------
       # VI. Live
@@ -1771,7 +1750,7 @@ class DiscoverAgent(DiscoverAgentTemplate):
         showgrid=False
       ),
       yaxis=dict(
-        shogrid=True,
+        showgrid=True,
         gridcolor='rgb(175,175,175)',  # Color of the gridlines
         gridwidth=0.1,  # Thickness of the gridlines
         griddash='dash'  # Dash style of the gridlines
