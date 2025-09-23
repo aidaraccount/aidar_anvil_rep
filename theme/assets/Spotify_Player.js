@@ -562,7 +562,7 @@ function showSpotifyAuthNotification() {
   notification.innerHTML = `
     <div class="spotify-auth-message">
       <span class="spotify-auth-icon">🎵</span>
-      <span class="spotify-auth-text">Spotify authentication failed — please log out from <strong>open.spotify.com</strong> in this browser to use this widget</span>
+      <span class="spotify-auth-text"><strong>Spotify authentication failed</strong><br><br>Please log out from <a href="https://open.spotify.com" target="_blank">open.spotify.com</a> in this browser to use this widget</span>
       <button class="spotify-auth-dismiss" onclick="this.parentElement.parentElement.remove()">×</button>
     </div>
   `;
@@ -571,11 +571,16 @@ function showSpotifyAuthNotification() {
   const style = document.createElement('style');
   style.textContent = `
     .spotify-auth-notification {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
       background: linear-gradient(135deg, #ff6b6b, #ee5a52);
       border-radius: 8px;
       margin: 8px 0;
       box-shadow: 0 2px 8px rgba(238, 90, 82, 0.3);
       animation: slideIn 0.3s ease-out;
+      z-index: 1000;
     }
     .spotify-auth-message {
       display: flex;
@@ -596,6 +601,15 @@ function showSpotifyAuthNotification() {
     .spotify-auth-text strong {
       font-weight: 600;
       text-decoration: underline;
+    }
+    .spotify-auth-text a {
+      color: white;
+      font-weight: 600;
+      text-decoration: underline;
+      transition: opacity 0.2s;
+    }
+    .spotify-auth-text a:hover {
+      opacity: 0.8;
     }
     .spotify-auth-dismiss {
       background: none;
@@ -635,13 +649,9 @@ function showSpotifyAuthNotification() {
     document.head.appendChild(style);
   }
   
-  // Insert notification at the top of the container
-  spotifyContainer.insertBefore(notification, spotifyContainer.firstChild);
+  // Ensure container has relative positioning for absolute positioning to work
+  spotifyContainer.style.position = 'relative';
   
-  // Auto-dismiss after 10 seconds
-  setTimeout(() => {
-    if (notification.parentElement) {
-      notification.remove();
-    }
-  }, 10000);
+  // Insert notification to cover the widget
+  spotifyContainer.appendChild(notification);
 }
