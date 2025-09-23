@@ -76,6 +76,10 @@ class DiscoverAgent(DiscoverAgentTemplate):
     
     # -----------
     # 2. Initialize Spotify player
+    # First create the iframe container
+    self.spotify_HTML_player()
+    
+    # Then initialize the player
     embed_iframe_element = document.getElementById('embed-iframe')
     if embed_iframe_element:
       self.call_js('createOrUpdateSpotifyPlayer', anvil.js.get_dom_node(self), 'artist', self.sug["SpotifyArtistID"])
@@ -402,8 +406,8 @@ class DiscoverAgent(DiscoverAgentTemplate):
         self.no_prediction.visible = False
       self.custom_HTML_prediction()
       
-      # Create Spotify widget (for initial load and refresh)
-      self.spotify_HTML_player()
+      # Note: Spotify widget creation moved to _rate_artist_and_refresh() for parallel loading
+      # For initial load, it's still created in form_show()
 
       # --------
       # biography
@@ -2140,13 +2144,14 @@ class DiscoverAgent(DiscoverAgentTemplate):
     self.url_dict['artist_id'] = str(next_artist_id)
     save_var("url_artist_id", str(next_artist_id))
     
-    # 5. Pre-clear Spotify container for faster perceived loading
+    # 5. Start Spotify widget preparation immediately (truly parallel)
     embed_iframe_element = document.getElementById('embed-iframe')
     if embed_iframe_element:
-      # Pre-clear the Spotify container to show loading state immediately
+      # Clear and create Spotify container immediately
       self.spotify_player_spot.clear()
+      self.spotify_HTML_player()
     
-    # 6. Refresh the artist data in-place (this will load in parallel with Spotify prep)
+    # 6. Refresh artist data (this loads in parallel with Spotify container creation)
     self.refresh_sug()
     
     # 7. Update Spotify widget with new artist ID (now that data is loaded)
