@@ -2149,6 +2149,31 @@ class DiscoverAgent(DiscoverAgentTemplate):
     # 8. Scroll to top
     self.header.scroll_into_view(smooth=True)
 
+  def dynamic_artist_change(self, new_artist_id):
+    """Dynamically change to a new artist without page reload (similar to _rate_artist_and_refresh but without rating)"""
+    # 1. Update the URL dict to reflect the new artist_id
+    self.url_dict['artist_id'] = str(new_artist_id)
+    save_var("url_artist_id", str(new_artist_id))
+    
+    # 2. Get basic artist data to retrieve Spotify ID, then start widget immediately
+    sug = json.loads(anvil.server.call('get_suggestion', 'Inspect', self.model_id, new_artist_id))
+    
+    if sug.get("SpotifyArtistID"):
+      # Create Spotify container first
+      self.spotify_HTML_player()
+      
+      # Now check for the element we just created and load the artist
+      embed_iframe_element = document.getElementById('embed-iframe')
+      if embed_iframe_element:
+        self.call_js('createOrUpdateSpotifyPlayer', anvil.js.get_dom_node(self), 'artist', sug["SpotifyArtistID"])
+    
+    # 3. Store the suggestion data and refresh UI (no additional server call needed)
+    self.sug = sug
+    self.refresh_sug(skip_spotify_creation=True, use_existing_sug=True)
+    
+    # 4. Scroll to top
+    self.header.scroll_into_view(smooth=True)
+
   # -------------------------------
   # DESCRIPTION LINKS
   def info_prediction_click(self, **event_args):

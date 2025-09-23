@@ -697,4 +697,28 @@ class MainIn(MainInTemplate):
     except Exception as e:
       print(f'[MainIn_refresh_sug] Error calling refresh_sug: {e}')
       raise
+  
+  # Bridge method for dynamic artist change from JavaScript
+  def dynamic_artist_change(self, new_artist_id):
+    """Bridge method to call dynamic artist change on the current DiscoverAgent form"""
+    try:
+      print(f'[MainIn_dynamic_artist_change] Changing to artist: {new_artist_id}')
+      
+      # Use the content panel to find the DiscoverAgent form
+      content_panel = self.content_panel
+      if content_panel and len(content_panel.get_components()) > 0:
+        current_form = content_panel.get_components()[0]
+        
+        # Check if it's a DiscoverAgent form and has the dynamic_artist_change method
+        if hasattr(current_form, 'dynamic_artist_change') and callable(getattr(current_form, 'dynamic_artist_change')):
+          current_form.dynamic_artist_change(new_artist_id)
+          print('[MainIn_dynamic_artist_change] Successfully called dynamic_artist_change')
+        else:
+          print(f'[MainIn_dynamic_artist_change] Current form is {type(current_form)} and does not have dynamic_artist_change method')
+      else:
+        print('[MainIn_dynamic_artist_change] No form found in content_panel')
+        
+    except Exception as e:
+      print(f'[MainIn_dynamic_artist_change] Error calling dynamic_artist_change: {e}')
+      raise
     

@@ -2714,16 +2714,16 @@
         }
       }
       
-      // Helper: Show "No Artists Found" message
+      // Helper: Show "No Artists Found" page
       showNoArtistsFound() {
         try {
-          console.log('[showNoArtistsFound] Displaying no artists found message');
+          console.log('[showNoArtistsFound] Navigating to No Artists page');
           
-          // Add a system message to the chat
-          this.addSystemMessage('No artists found matching your current filters and preferences. Try adjusting your filters or preferences to see more artists.');
+          // Navigate to the proper "None" page that shows complete memory info
+          window.location.href = '#agent_artists?artist_id=None';
           
         } catch (error) {
-          console.error('[showNoArtistsFound] Error showing no artists found message:', error);
+          console.error('[showNoArtistsFound] Error navigating to No Artists page:', error);
         }
       }
       
@@ -2735,11 +2735,11 @@
           // 1. Update the URL silently (without triggering navigation)
           history.replaceState(null, '', `#agent_artists?artist_id=${encodeURIComponent(newArtistId)}`);
           
-          // 2. Call the Python refresh_sug method via Anvil bridge
+          // 2. Call the Python method to handle the complete artist change (similar to _rate_artist_and_refresh)
           const formElement = document.querySelector('.anvil-container');
           if (formElement) {
-            console.log('[dynamicArtistChange] Calling refresh_sug via Anvil');
-            await anvil.call(formElement, 'refresh_sug');
+            console.log('[dynamicArtistChange] Calling dynamic_artist_change via Anvil');
+            await anvil.call(formElement, 'dynamic_artist_change', newArtistId);
             console.log('[dynamicArtistChange] Successfully refreshed artist content');
           } else {
             console.warn('[dynamicArtistChange] Could not find form element, falling back to page reload');
