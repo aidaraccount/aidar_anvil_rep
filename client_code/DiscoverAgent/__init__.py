@@ -1078,6 +1078,10 @@ class DiscoverAgent(DiscoverAgentTemplate):
 
   # ----------------------------------------------
   def spotify_HTML_player(self):
+    # 1. Clear existing Spotify player components
+    self.spotify_player_spot.clear()
+    
+    # 2. Add new Spotify player component
     c_web_player_html = '''
       <div id="embed-iframe"></div>
       '''
@@ -1085,6 +1089,10 @@ class DiscoverAgent(DiscoverAgentTemplate):
     self.spotify_player_spot.add_component(html_webplayer_panel)
 
   def custom_HTML_prediction(self):
+    # 1. Clear existing fit score circle components
+    self.column_panel_circle.clear()
+    
+    # 2. Add new fit score circle component
     if self.pred:
       custom_html = f'''
       <li class="note-display" data-note="{self.pred}">
