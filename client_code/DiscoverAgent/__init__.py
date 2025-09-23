@@ -1133,6 +1133,24 @@ class DiscoverAgent(DiscoverAgentTemplate):
       self.column_panel_circle.add_component(html_panel)
       print(f"[PredCircle] HtmlPanel added - components after adding: {len(list(self.column_panel_circle.get_components()))}")
       print(f"[PredCircle] column_panel_circle.visible = {self.column_panel_circle.visible}")
+      
+      # Trigger circle animation after adding HTML
+      try:
+        print(f"[PredCircle] Attempting to trigger circle animation with observeFitScoreCircle")
+        anvil.js.call_js('observeFitScoreCircle')
+        print(f"[PredCircle] Circle animation triggered successfully")
+      except Exception as e:
+        print(f"[PredCircle] observeFitScoreCircle failed: {e}")
+        # Fallback: try alternative animation trigger methods
+        try:
+          print(f"[PredCircle] Trying fallback: initCircleAnimation")
+          self.call_js('initCircleAnimation')
+        except:
+          try:
+            print(f"[PredCircle] Trying fallback: animateCircles")
+            self.call_js('animateCircles')
+          except:
+            print(f"[PredCircle] All animation trigger attempts failed")
     else:
       print(f"[PredCircle] NO SELF PRED - self.pred is: {self.pred} (type: {type(self.pred)})")
       print(f"[PredCircle] column_panel_circle components remain: {len(list(self.column_panel_circle.get_components()))}")
