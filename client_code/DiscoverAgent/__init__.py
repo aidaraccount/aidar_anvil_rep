@@ -106,6 +106,7 @@ class DiscoverAgent(DiscoverAgentTemplate):
     self.flow_panel_genre_tile.clear()
     self.flow_panel_social_media_tile.clear()
     self.spotify_player_spot.clear()
+    self.column_panel_circle.clear()
 
     # model_id
     model_id = load_var("model_id")
@@ -1078,10 +1079,6 @@ class DiscoverAgent(DiscoverAgentTemplate):
 
   # ----------------------------------------------
   def spotify_HTML_player(self):
-    # 1. Clear existing Spotify player components
-    self.spotify_player_spot.clear()
-    
-    # 2. Add new Spotify player component
     c_web_player_html = '''
       <div id="embed-iframe"></div>
       '''
@@ -1089,10 +1086,6 @@ class DiscoverAgent(DiscoverAgentTemplate):
     self.spotify_player_spot.add_component(html_webplayer_panel)
 
   def custom_HTML_prediction(self):
-    # 1. Clear existing fit score circle components
-    self.column_panel_circle.clear()
-    
-    # 2. Add new fit score circle component
     if self.pred:
       custom_html = f'''
       <li class="note-display" data-note="{self.pred}">
@@ -2124,11 +2117,7 @@ class DiscoverAgent(DiscoverAgentTemplate):
     if embed_iframe_element and hasattr(self, 'sug') and self.sug.get("SpotifyArtistID"):
       self.call_js('createOrUpdateSpotifyPlayer', anvil.js.get_dom_node(self), 'artist', self.sug["SpotifyArtistID"])
     
-    # 7. Refresh the fit score circle and Spotify player HTML components
-    self.custom_HTML_prediction()
-    self.spotify_HTML_player()
-    
-    # 8. Scroll to top
+    # 7. Scroll to top
     self.header.scroll_into_view(smooth=True)
 
   # -------------------------------
