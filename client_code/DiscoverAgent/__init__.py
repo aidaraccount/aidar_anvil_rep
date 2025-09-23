@@ -105,7 +105,7 @@ class DiscoverAgent(DiscoverAgentTemplate):
     self.Artist_Name_Details_Sidebar.clear()
     self.flow_panel_genre_tile.clear()
     self.flow_panel_social_media_tile.clear()
-    # self.spotify_player_spot.clear()
+    self.spotify_player_spot.clear()
     self.column_panel_circle.clear()
     self.flow_panel_shorts.clear()
     
@@ -401,7 +401,9 @@ class DiscoverAgent(DiscoverAgentTemplate):
           self.pred = "{:.2f}".format(round(raw_pred/7*100,0))
         self.no_prediction.visible = False
       self.custom_HTML_prediction()
-      # Note: spotify_HTML_player() now called earlier in _rate_artist_and_refresh() for parallel loading
+      
+      # Create Spotify widget (for initial load and refresh)
+      self.spotify_HTML_player()
 
       # --------
       # biography
@@ -2138,12 +2140,11 @@ class DiscoverAgent(DiscoverAgentTemplate):
     self.url_dict['artist_id'] = str(next_artist_id)
     save_var("url_artist_id", str(next_artist_id))
     
-    # 5. Start Spotify widget preparation in parallel (before artist data loads)
+    # 5. Pre-clear Spotify container for faster perceived loading
     embed_iframe_element = document.getElementById('embed-iframe')
     if embed_iframe_element:
-      # Pre-clear the Spotify container to show loading state
+      # Pre-clear the Spotify container to show loading state immediately
       self.spotify_player_spot.clear()
-      self.spotify_HTML_player()  # Create the iframe container
     
     # 6. Refresh the artist data in-place (this will load in parallel with Spotify prep)
     self.refresh_sug()
