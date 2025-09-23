@@ -48,6 +48,7 @@ function createOrUpdateSpotifyPlayer(formElement, trackOrArtist, currentSpotifyI
   // check if the html for the player is imported (in the Discover Page)
   if (!element) {
     console.error("ERROR MESSAGE: Embed iframe element not found.")
+    showSpotifyAuthNotification();
     return;
   }
 
@@ -85,6 +86,12 @@ function createOrUpdateSpotifyPlayer(formElement, trackOrArtist, currentSpotifyI
         // console.log("createOrUpdateSpotifyPlayer - 111 duration: " + duration);
         // console.log("createOrUpdateSpotifyPlayer - 111 position: " + position);
         // console.log("createOrUpdateSpotifyPlayer - 111 controller_status: " + controller_status);
+        
+        // Check for duration=0 issue (authentication/playback failure)
+        if (duration === 0 && position === 0 && !isBuffering && controller_status === 'ready') {
+          console.warn("createOrUpdateSpotifyPlayer - Duration is 0, likely authentication issue");
+          showSpotifyAuthNotification();
+        }
         
         // Check if the song has ended
         if (!isPaused && position >= duration && duration > 0 && controller_status === 'ready') {
@@ -536,4 +543,105 @@ function speakText(text, callback=null) {
       callback(); // Fallback to execute callback immediately
     }
   }
+}
+
+// Function to show Spotify authentication notification
+function showSpotifyAuthNotification() {
+  const spotifyContainer = document.querySelector('.anvil-role-cap-spotify-footer');
+  if (!spotifyContainer) return;
+  
+  // Remove any existing notification
+  const existingNotification = spotifyContainer.querySelector('.spotify-auth-notification');
+  if (existingNotification) {
+    existingNotification.remove();
+  }
+  
+  // Create notification element
+  const notification = document.createElement('div');
+  notification.className = 'spotify-auth-notification';
+  notification.innerHTML = `
+    <div class="spotify-auth-message">
+      <span class="spotify-auth-icon">🎵</span>
+      <span class="spotify-auth-text">Spotify authentication failed — please log out from <strong>open.spotify.com</strong> in this browser to use this widget</span>
+      <button class="spotify-auth-dismiss" onclick="this.parentElement.parentElement.remove()">×</button>
+    </div>
+  `;
+  
+  // Add styles
+  const style = document.createElement('style');
+  style.textContent = `
+    .spotify-auth-notification {
+      background: linear-gradient(135deg, #ff6b6b, #ee5a52);
+      border-radius: 8px;
+      margin: 8px 0;
+      box-shadow: 0 2px 8px rgba(238, 90, 82, 0.3);
+      animation: slideIn 0.3s ease-out;
+    }
+    .spotify-auth-message {
+      display: flex;
+      align-items: center;
+      padding: 12px 16px;
+      color: white;
+      font-size: 14px;
+      line-height: 1.4;
+    }
+    .spotify-auth-icon {
+      font-size: 16px;
+      margin-right: 10px;
+      flex-shrink: 0;
+    }
+    .spotify-auth-text {
+      flex: 1;
+    }
+    .spotify-auth-text strong {
+      font-weight: 600;
+      text-decoration: underline;
+    }
+    .spotify-auth-dismiss {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 18px;
+      font-weight: bold;
+      cursor: pointer;
+      padding: 0;
+      margin-left: 12px;
+      width: 20px;
+      height: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      transition: background-color 0.2s;
+    }
+    .spotify-auth-dismiss:hover {
+      background-color: rgba(255, 255, 255, 0.2);
+    }
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  `;
+  
+  // Add styles to head if not already present
+  if (!document.querySelector('#spotify-auth-notification-styles')) {
+    style.id = 'spotify-auth-notification-styles';
+    document.head.appendChild(style);
+  }
+  
+  // Insert notification at the top of the container
+  spotifyContainer.insertBefore(notification, spotifyContainer.firstChild);
+  
+  // Auto-dismiss after 10 seconds
+  setTimeout(() => {
+    if (notification.parentElement) {
+      notification.remove();
+    }
+  }, 10000);
 }
