@@ -106,6 +106,24 @@ class DiscoverAgent(DiscoverAgentTemplate):
     self.flow_panel_genre_tile.clear()
     self.flow_panel_social_media_tile.clear()
     self.spotify_player_spot.clear()
+    self.column_panel_circle.clear()
+    self.flow_panel_shorts.clear()
+    
+    # Reset navigation to "Releases" section
+    self.nav_releases.role = 'section_buttons_focused'
+    self.nav_success.role = 'section_buttons'
+    self.nav_fandom.role = 'section_buttons'
+    self.nav_musical.role = 'section_buttons'
+    self.nav_live.role = 'section_buttons'
+    self.nav_shorts.role = 'section_buttons'
+    
+    # Show only Releases section, hide all others
+    self.sec_releases.visible = True
+    self.sec_success.visible = False
+    self.sec_fandom.visible = False
+    self.sec_musical.visible = False
+    self.sec_live.visible = False
+    self.sec_shorts.visible = False
 
     # model_id
     model_id = load_var("model_id")
@@ -374,12 +392,13 @@ class DiscoverAgent(DiscoverAgentTemplate):
         self.no_prediction.visible = True
         self.pred = None
       else:
-        if (float(sug["Prediction"]) > 7):
+        raw_pred = float(sug["Prediction"])
+        if (raw_pred > 7):
           self.pred = '100%'
-        elif (float(sug["Prediction"]) < 0):
+        elif (raw_pred < 0):
           self.pred = '0%'
         else:
-          self.pred = "{:.2f}".format(round(float(sug["Prediction"])/7*100,0))
+          self.pred = "{:.2f}".format(round(raw_pred/7*100,0))
         self.no_prediction.visible = False
       self.custom_HTML_prediction()
       self.spotify_HTML_player()
@@ -849,9 +868,7 @@ class DiscoverAgent(DiscoverAgentTemplate):
 
       # -------------------------------
       # IV. SHORTS
-      # clean present shorts
-      # self.flow_panel_shorts.clear()
-
+      
       # get data
       shorts_data = anvil.server.call('get_shorts_artist', artist_id, 0, 0)
 
@@ -1101,7 +1118,7 @@ class DiscoverAgent(DiscoverAgentTemplate):
           </svg>
 
           <div class="percent">
-            <span class="percent__int">0.</span>
+            <span class="percent__int">{self.pred}</span>
             <!-- <span class="percent__dec">00</span> -->
             <span class="label" style="font-size: 13px;">Fit Score</span>
           </div>
@@ -1111,6 +1128,19 @@ class DiscoverAgent(DiscoverAgentTemplate):
       '''
       html_panel = HtmlPanel(html=custom_html)
       self.column_panel_circle.add_component(html_panel)
+      
+      # Trigger circle animation after adding HTML
+      try:
+        anvil.js.call_js('observeFitScoreCircle')
+      except Exception as e:
+        # Fallback: try alternative animation trigger methods
+        try:
+          self.call_js('initCircleAnimation')
+        except:
+          try:
+            self.call_js('animateCircles')
+          except:
+            print(f"[PredCircle] All animation trigger attempts failed")
     else:
       print("NO SELF PRED?")
 
@@ -2073,48 +2103,51 @@ class DiscoverAgent(DiscoverAgentTemplate):
   # -------------------------------
   # RATING BUTTONS
   def button_1_click(self, **event_args):
-    anvil.server.call('add_interest', user["user_id"], self.model_id, self.artist_id, 1, False, '')
-    self.header.scroll_into_view(smooth=True)
-    next_artist_id = anvil.server.call('get_next_artist_id', self.model_id)
-    routing.set_url_hash(f'agent_artists?artist_id={next_artist_id}', load_from_cache=False)
-    # history.replaceState(None, "", f"#{'agent_artists?artist_id=123'}")
-    # pass
+    self._rate_artist_and_refresh(1)
   
   def button_2_click(self, **event_args):
-    anvil.server.call('add_interest', user["user_id"], self.model_id, self.artist_id, 2, False, '')
-    self.header.scroll_into_view(smooth=True)
-    next_artist_id = anvil.server.call('get_next_artist_id', self.model_id)
-    routing.set_url_hash(f'agent_artists?artist_id={next_artist_id}', load_from_cache=False)
+    self._rate_artist_and_refresh(2)
 
   def button_3_click(self, **event_args):
-    anvil.server.call('add_interest', user["user_id"], self.model_id, self.artist_id, 3, False, '')
-    self.header.scroll_into_view(smooth=True)
-    next_artist_id = anvil.server.call('get_next_artist_id', self.model_id)
-    routing.set_url_hash(f'agent_artists?artist_id={next_artist_id}', load_from_cache=False)
+    self._rate_artist_and_refresh(3)
 
   def button_4_click(self, **event_args):
-    anvil.server.call('add_interest', user["user_id"], self.model_id, self.artist_id, 4, False, '')
-    self.header.scroll_into_view(smooth=True)
-    next_artist_id = anvil.server.call('get_next_artist_id', self.model_id)
-    routing.set_url_hash(f'agent_artists?artist_id={next_artist_id}', load_from_cache=False)
+    self._rate_artist_and_refresh(4)
 
   def button_5_click(self, **event_args):
-    anvil.server.call('add_interest', user["user_id"], self.model_id, self.artist_id, 5, False, '')
-    self.header.scroll_into_view(smooth=True)
-    next_artist_id = anvil.server.call('get_next_artist_id', self.model_id)
-    routing.set_url_hash(f'agent_artists?artist_id={next_artist_id}', load_from_cache=False)
+    self._rate_artist_and_refresh(5)
 
   def button_6_click(self, **event_args):
-    anvil.server.call('add_interest', user["user_id"], self.model_id, self.artist_id, 6, False, '')
-    self.header.scroll_into_view(smooth=True)
-    next_artist_id = anvil.server.call('get_next_artist_id', self.model_id)
-    routing.set_url_hash(f'agent_artists?artist_id={next_artist_id}', load_from_cache=False)
+    self._rate_artist_and_refresh(6)
 
   def button_7_click(self, **event_args):
-    anvil.server.call('add_interest', user["user_id"], self.model_id, self.artist_id, 7, False, '')
-    self.header.scroll_into_view(smooth=True)
+    self._rate_artist_and_refresh(7)
+
+  def _rate_artist_and_refresh(self, rating):
+    """Rate the current artist and refresh with the next artist without page reload"""
+    # 1. Submit the rating
+    anvil.server.call('add_interest', user["user_id"], self.model_id, self.artist_id, rating, False, '')
+    
+    # 2. Get the next artist
     next_artist_id = anvil.server.call('get_next_artist_id', self.model_id)
-    routing.set_url_hash(f'agent_artists?artist_id={next_artist_id}', load_from_cache=False)
+    
+    # 3. Update the URL silently (without triggering navigation)
+    history.replaceState(None, "", f"#agent_artists?artist_id={next_artist_id}")
+    
+    # 4. Update the url_dict to reflect the new artist_id
+    self.url_dict['artist_id'] = str(next_artist_id)
+    save_var("url_artist_id", str(next_artist_id))
+    
+    # 5. Refresh the artist data in-place
+    self.refresh_sug()
+    
+    # 6. Reload Spotify widget with new artist ID (if available)
+    embed_iframe_element = document.getElementById('embed-iframe')
+    if embed_iframe_element and hasattr(self, 'sug') and self.sug.get("SpotifyArtistID"):
+      self.call_js('createOrUpdateSpotifyPlayer', anvil.js.get_dom_node(self), 'artist', self.sug["SpotifyArtistID"])
+    
+    # 7. Scroll to top
+    self.header.scroll_into_view(smooth=True)
 
   # -------------------------------
   # DESCRIPTION LINKS
