@@ -401,7 +401,7 @@ class DiscoverAgent(DiscoverAgentTemplate):
           self.pred = "{:.2f}".format(round(raw_pred/7*100,0))
         self.no_prediction.visible = False
       self.custom_HTML_prediction()
-      self.spotify_HTML_player()
+      # Note: spotify_HTML_player() now called earlier in _rate_artist_and_refresh() for parallel loading
 
       # --------
       # biography
@@ -2138,15 +2138,21 @@ class DiscoverAgent(DiscoverAgentTemplate):
     self.url_dict['artist_id'] = str(next_artist_id)
     save_var("url_artist_id", str(next_artist_id))
     
-    # 5. Refresh the artist data in-place
+    # 5. Start Spotify widget preparation in parallel (before artist data loads)
+    embed_iframe_element = document.getElementById('embed-iframe')
+    if embed_iframe_element:
+      # Pre-clear the Spotify container to show loading state
+      self.spotify_player_spot.clear()
+      self.spotify_HTML_player()  # Create the iframe container
+    
+    # 6. Refresh the artist data in-place (this will load in parallel with Spotify prep)
     self.refresh_sug()
     
-    # 6. Reload Spotify widget with new artist ID (if available)
-    embed_iframe_element = document.getElementById('embed-iframe')
+    # 7. Update Spotify widget with new artist ID (now that data is loaded)
     if embed_iframe_element and hasattr(self, 'sug') and self.sug.get("SpotifyArtistID"):
       self.call_js('createOrUpdateSpotifyPlayer', anvil.js.get_dom_node(self), 'artist', self.sug["SpotifyArtistID"])
     
-    # 7. Scroll to top
+    # 8. Scroll to top
     self.header.scroll_into_view(smooth=True)
 
   # -------------------------------
