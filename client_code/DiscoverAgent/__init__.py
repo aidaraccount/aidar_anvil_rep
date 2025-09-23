@@ -2153,11 +2153,15 @@ class DiscoverAgent(DiscoverAgentTemplate):
     
     # 5. Get basic artist data to retrieve Spotify ID, then start widget immediately
     sug = json.loads(anvil.server.call('get_suggestion', 'Inspect', self.model_id, next_artist_id))
-    embed_iframe_element = document.getElementById('embed-iframe')
-    if embed_iframe_element and sug.get("SpotifyArtistID"):
-      # Create Spotify container and immediately load new artist
+    
+    if sug.get("SpotifyArtistID"):
+      # Create Spotify container first
       self.spotify_HTML_player()
-      self.call_js('createOrUpdateSpotifyPlayer', anvil.js.get_dom_node(self), 'artist', sug["SpotifyArtistID"])
+      
+      # Now check for the element we just created and load the artist
+      embed_iframe_element = document.getElementById('embed-iframe')
+      if embed_iframe_element:
+        self.call_js('createOrUpdateSpotifyPlayer', anvil.js.get_dom_node(self), 'artist', sug["SpotifyArtistID"])
     
     # 6. Store the suggestion data and refresh UI (no additional server call needed)
     self.sug = sug
