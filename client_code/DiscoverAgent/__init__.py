@@ -100,7 +100,7 @@ class DiscoverAgent(DiscoverAgentTemplate):
 
   # -------------------------------------------
   # SUGGESTIONS
-  def refresh_sug(self, skip_spotify_creation=False, **event_args):
+  def refresh_sug(self, skip_spotify_creation=False, use_existing_sug=False, **event_args):
 
     self.header.scroll_into_view(smooth=True)
 
@@ -157,7 +157,10 @@ class DiscoverAgent(DiscoverAgentTemplate):
       history.replaceState(None, "", f"#agent_artists?artist_id={url_artist_id}")
 
     # get_suggestion
-    sug = json.loads(anvil.server.call('get_suggestion', 'Inspect', self.model_id, url_artist_id)) # Free, Explore, Inspect, Dissect
+    if use_existing_sug and hasattr(self, 'sug') and self.sug:
+      sug = self.sug  # Use existing suggestion data
+    else:
+      sug = json.loads(anvil.server.call('get_suggestion', 'Inspect', self.model_id, url_artist_id)) # Free, Explore, Inspect, Dissect
     # print(sug)
     
     # check if we are creating a new agent
@@ -2145,19 +2148,18 @@ class DiscoverAgent(DiscoverAgentTemplate):
     self.url_dict['artist_id'] = str(next_artist_id)
     save_var("url_artist_id", str(next_artist_id))
     
-    # 5. Start Spotify widget preparation immediately (truly parallel)
+    # 5. Get basic artist data to retrieve Spotify ID, then start widget immediately
+    sug = json.loads(anvil.server.call('get_suggestion', 'Inspect', self.model_id, next_artist_id))
     embed_iframe_element = document.getElementById('embed-iframe')
-    if embed_iframe_element:
-      # Clear and create Spotify container immediately
+    if embed_iframe_element and sug.get("SpotifyArtistID"):
+      # Clear and create Spotify container, then immediately load new artist
       self.spotify_player_spot.clear()
       self.spotify_HTML_player()
+      self.call_js('createOrUpdateSpotifyPlayer', anvil.js.get_dom_node(self), 'artist', sug["SpotifyArtistID"])
     
-    # 6. Refresh artist data (this loads in parallel with Spotify container creation)
-    self.refresh_sug(skip_spotify_creation=True)
-    
-    # 7. Update Spotify widget with new artist ID (now that data is loaded)
-    if embed_iframe_element and hasattr(self, 'sug') and self.sug.get("SpotifyArtistID"):
-      self.call_js('createOrUpdateSpotifyPlayer', anvil.js.get_dom_node(self), 'artist', self.sug["SpotifyArtistID"])
+    # 6. Store the suggestion data and refresh UI (no additional server call needed)
+    self.sug = sug
+    self.refresh_sug(skip_spotify_creation=True, use_existing_sug=True)
     
     # 8. Scroll to top
     self.header.scroll_into_view(smooth=True)
