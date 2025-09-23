@@ -107,6 +107,7 @@ class DiscoverAgent(DiscoverAgentTemplate):
     self.flow_panel_social_media_tile.clear()
     self.spotify_player_spot.clear()
     self.column_panel_circle.clear()
+    self.flow_panel_shorts.clear()
 
     # model_id
     model_id = load_var("model_id")
@@ -851,9 +852,7 @@ class DiscoverAgent(DiscoverAgentTemplate):
 
       # -------------------------------
       # IV. SHORTS
-      # clean present shorts
-      # self.flow_panel_shorts.clear()
-
+      
       # get data
       shorts_data = anvil.server.call('get_shorts_artist', artist_id, 0, 0)
 
