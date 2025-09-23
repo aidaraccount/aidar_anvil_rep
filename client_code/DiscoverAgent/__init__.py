@@ -96,7 +96,7 @@ class DiscoverAgent(DiscoverAgentTemplate):
 
   # -------------------------------------------
   # SUGGESTIONS
-  def refresh_sug(self, skip_spotify_creation=False, use_existing_sug=False, **event_args):
+  def refresh_sug(self, skip_spotify_creation=False, use_existing_sug=False, skip_routing=False, **event_args):
 
     self.header.scroll_into_view(smooth=True)
 
@@ -177,7 +177,8 @@ class DiscoverAgent(DiscoverAgentTemplate):
       if memories is not None:
         self.repeating_panel_memories.items = json.loads(memories)
       
-      routing.set_url_hash('agent_artists?artist_id=extended_create_agent', load_from_cache=False)
+      if not skip_routing:
+        routing.set_url_hash('agent_artists?artist_id=extended_create_agent', load_from_cache=False)
 
     elif sug["Status"] == 'No Findings!':
       
@@ -195,7 +196,8 @@ class DiscoverAgent(DiscoverAgentTemplate):
       if memories is not None:
         self.repeating_panel_memories.items = json.loads(memories)
 
-      routing.set_url_hash('agent_artists?artist_id=extended_create_agent', load_from_cache=False)
+      if not skip_routing:
+        routing.set_url_hash('agent_artists?artist_id=extended_create_agent', load_from_cache=False)
 
     else:
       # TRIAL NOTIFICATION      
@@ -2147,6 +2149,37 @@ class DiscoverAgent(DiscoverAgentTemplate):
     self.refresh_sug(skip_spotify_creation=True, use_existing_sug=True)
     
     # 8. Scroll to top
+    self.header.scroll_into_view(smooth=True)
+
+  def dynamic_artist_change(self, new_artist_id):
+    """Dynamically change to a new artist without page reload (similar to _rate_artist_and_refresh but without rating)"""
+    # 1. Update the URL dict to reflect the new artist_id
+    self.url_dict['artist_id'] = str(new_artist_id)
+    save_var("url_artist_id", str(new_artist_id))
+    
+    # 2. If transitioning from None to a real artist, ensure header and sections are visible
+    if str(new_artist_id) != 'None':
+      self.sec_header.visible = True
+      self.flow_panel_sections.visible = True
+      self.no_artists.visible = False
+    
+    # 3. Get basic artist data to retrieve Spotify ID, then start widget immediately
+    sug = json.loads(anvil.server.call('get_suggestion', 'Inspect', self.model_id, new_artist_id))
+    
+    if sug.get("SpotifyArtistID") and str(new_artist_id) != 'None':
+      # Create Spotify container first
+      self.spotify_HTML_player()
+      
+      # Now check for the element we just created and load the artist
+      embed_iframe_element = document.getElementById('embed-iframe')
+      if embed_iframe_element:
+        self.call_js('createOrUpdateSpotifyPlayer', anvil.js.get_dom_node(self), 'artist', sug["SpotifyArtistID"])
+    
+    # 4. Store the suggestion data and refresh UI (no additional server call needed)
+    self.sug = sug
+    self.refresh_sug(skip_spotify_creation=True, use_existing_sug=True, skip_routing=True)
+    
+    # 5. Scroll to top
     self.header.scroll_into_view(smooth=True)
 
   # -------------------------------

@@ -2247,7 +2247,7 @@
 
       // Handle complete message
       handleCompleteMessage(message) {
-        console.log('[handleCompleteMessage] Received complete message');
+        console.log('[handleCompleteMessage] Received complete message:', message);
         
         // Check if button is in cancelling state (more reliable than flag)
         const isCancelling = this.sendButton && this.sendButton.classList.contains('btn-cancelling');
@@ -2259,6 +2259,25 @@
         } else {
           console.log('[handleCompleteMessage] Normal completion, using standard cleanup');
           this.removeStatusIndicator();
+          
+          // Check if we have an artist_id in the response
+          if (message.hasOwnProperty('artist_id')) {
+            const currentArtistId = this.getCurrentArtistId();
+            console.log('[handleCompleteMessage] Checking artist_id - Current:', currentArtistId, 'New:', message.artist_id);
+            
+            // Handle null artist_id (no artists found)
+            if (message.artist_id === null || message.artist_id === 'null') {
+              console.log('[handleCompleteMessage] No artists found (artist_id is null)');
+              this.showNoArtistsFound();
+            }
+            // Handle valid artist_id that's different from current
+            else if (String(currentArtistId) !== String(message.artist_id)) {
+              console.log('[handleCompleteMessage] Artist changed, refreshing artist content dynamically');
+              this.dynamicArtistChange(message.artist_id);
+            } else {
+              console.log('[handleCompleteMessage] Same artist, no reload needed');
+            }
+          }
         }
       }
       
@@ -2681,6 +2700,70 @@
           return raw;
         } catch (e) {
           return '';
+        }
+      }
+      
+      // Helper: Get current artist ID from URL
+      getCurrentArtistId() {
+        try {
+          const urlParams = new URLSearchParams(window.location.hash.split('?')[1] || '');
+          return urlParams.get('artist_id') || null;
+        } catch (e) {
+          console.warn('[getCurrentArtistId] Error parsing URL:', e);
+          return null;
+        }
+      }
+      
+      // Helper: Show "No Artists Found" page dynamically
+      async showNoArtistsFound() {
+        try {
+          console.log('[showNoArtistsFound] Showing No Artists page dynamically');
+          
+          // 1. Update the URL silently (without triggering navigation)
+          history.replaceState(null, '', '#agent_artists?artist_id=None');
+          
+          // 2. Call the Python method to handle the "None" artist case
+          const formElement = document.querySelector('.anvil-container');
+          if (formElement) {
+            console.log('[showNoArtistsFound] Calling dynamic_artist_change with None via Anvil');
+            await anvil.call(formElement, 'dynamic_artist_change', 'None');
+            console.log('[showNoArtistsFound] Successfully showed No Artists page');
+          } else {
+            console.warn('[showNoArtistsFound] Could not find form element, falling back to page reload');
+            window.location.href = '#agent_artists?artist_id=None';
+          }
+          
+        } catch (error) {
+          console.error('[showNoArtistsFound] Error showing No Artists page dynamically:', error);
+          // Fallback to page reload if dynamic change fails
+          console.log('[showNoArtistsFound] Falling back to page reload');
+          window.location.href = '#agent_artists?artist_id=None';
+        }
+      }
+      
+      // Helper: Dynamically change to a new artist without page reload
+      async dynamicArtistChange(newArtistId) {
+        try {
+          console.log('[dynamicArtistChange] Changing to artist:', newArtistId);
+          
+          // 1. Update the URL silently (without triggering navigation)
+          history.replaceState(null, '', `#agent_artists?artist_id=${encodeURIComponent(newArtistId)}`);
+          
+          // 2. Call the Python method to handle the complete artist change (similar to _rate_artist_and_refresh)
+          const formElement = document.querySelector('.anvil-container');
+          if (formElement) {
+            console.log('[dynamicArtistChange] Calling dynamic_artist_change via Anvil');
+            await anvil.call(formElement, 'dynamic_artist_change', newArtistId);
+            console.log('[dynamicArtistChange] Successfully refreshed artist content');
+          } else {
+            console.warn('[dynamicArtistChange] Could not find form element, falling back to page reload');
+            window.location.href = `#agent_artists?artist_id=${encodeURIComponent(newArtistId)}`;
+          }
+        } catch (error) {
+          console.error('[dynamicArtistChange] Error during dynamic artist change:', error);
+          // Fallback to page reload if dynamic change fails
+          console.log('[dynamicArtistChange] Falling back to page reload');
+          window.location.href = `#agent_artists?artist_id=${encodeURIComponent(newArtistId)}`;
         }
       }
       
