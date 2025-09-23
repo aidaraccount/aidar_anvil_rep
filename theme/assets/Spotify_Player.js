@@ -100,8 +100,9 @@ function createOrUpdateSpotifyPlayer(formElement, trackOrArtist, currentSpotifyI
         // console.log("createOrUpdateSpotifyPlayer - 111 controller_status: " + controller_status);
         
         // Track successful playback
-        if (duration > 0 && position >= 0) {
+        if (duration > 0 && position >= 0 && !isPaused) {
           playbackStarted = true;
+          console.log("createOrUpdateSpotifyPlayer - playbackStarted set to true (listener 1)");
         }
         
         // Check for duration=0 issue (authentication/playback failure)
@@ -141,6 +142,7 @@ function createOrUpdateSpotifyPlayer(formElement, trackOrArtist, currentSpotifyI
         } else {
           console.log("createOrUpdateSpotifyPlayer - Playback is playing - 1");
           playbackStarted = true; // Mark successful playback
+          console.log("createOrUpdateSpotifyPlayer - playbackStarted set to true (listener 2)");
           setPlayButtonIcons(trackOrArtist, spotifyTrackIDsList, spotifyArtistIDsList)
         }
       });
@@ -186,6 +188,8 @@ function createOrUpdateSpotifyPlayer(formElement, trackOrArtist, currentSpotifyI
             setPlayButtonIcons(trackOrArtist, spotifyTrackIDsList, spotifyArtistIDsList)
           } else {
             console.log("createOrUpdateSpotifyPlayer - Playback is playing - 2");
+            playbackStarted = true; // Mark successful playback
+            console.log("createOrUpdateSpotifyPlayer - playbackStarted set to true (listener 3)");
             setPlayButtonIcons(trackOrArtist, spotifyTrackIDsList, spotifyArtistIDsList)
           }
         });
@@ -616,7 +620,7 @@ function showSpotifyAuthNotification() {
       right: 0;
       background: linear-gradient(135deg, #ff6b6b, #ee5a52);
       border-radius: 8px;
-      margin: 8px 0;
+      margin: 8px 8px;
       box-shadow: 0 2px 8px rgba(238, 90, 82, 0.3);
       animation: slideIn 0.3s ease-out;
       z-index: 1000;
@@ -624,7 +628,7 @@ function showSpotifyAuthNotification() {
     .spotify-auth-message {
       display: flex;
       align-items: center;
-      padding: 12px 16px;
+      padding: 2px 10px;
       color: white;
       font-size: 14px;
       line-height: 1.4;
