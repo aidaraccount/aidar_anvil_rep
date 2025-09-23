@@ -1,4 +1,6 @@
 var controller;
+var playbackStarted = false;
+var playAttemptMade = false;
 
 // function to play/pause spotify
 function playSpotify() {
@@ -15,14 +17,20 @@ function playSpotify() {
       
       if (controller.isPaused) {
         console.log('playSpotify - 1. Resume playing from the paused position')
+        playAttemptMade = true;
         controller.resume();  // Resume playing from the paused position
         controller.isPlaying = true;
         controller.isPaused = false;
+        // Check for authentication issues after play attempt
+        setTimeout(() => checkPlaybackAfterAction(), 3000);
       } else if (!controller.isPlaying) {
         console.log('playSpotify - 2. Start playing if not already playing')
+        playAttemptMade = true;
         controller.play();    // Start playing if not already playing
         controller.isPlaying = true;
         controller.isPaused = false;
+        // Check for authentication issues after play attempt
+        setTimeout(() => checkPlaybackAfterAction(), 3000);
       } else {
         console.log('playSpotify - 3. Pause the player if its currently playing')
         controller.pause();   // Pause the player if it's currently playing
@@ -36,6 +44,10 @@ function playSpotify() {
 // function to initialize the spotify console
 function createOrUpdateSpotifyPlayer(formElement, trackOrArtist, currentSpotifyID, spotifyTrackIDsList, spotifyArtistIDsList, spotifyArtistNameList) {
   
+  // Reset playback tracking for new track
+  playbackStarted = false;
+  playAttemptMade = false;
+  
   // console.log("createOrUpdateSpotifyPlayer - 000 trackOrArtist: " + trackOrArtist);
   // console.log("createOrUpdateSpotifyPlayer - 000 currentSpotifyID: " + currentSpotifyID);  
   // console.log("createOrUpdateSpotifyPlayer - 000 spotifyTrackIDsList: " + spotifyTrackIDsList);
@@ -48,6 +60,7 @@ function createOrUpdateSpotifyPlayer(formElement, trackOrArtist, currentSpotifyI
   // check if the html for the player is imported (in the Discover Page)
   if (!element) {
     console.error("ERROR MESSAGE: Embed iframe element not found.")
+    showSpotifyAuthNotification();
     return;
   }
 
@@ -86,6 +99,18 @@ function createOrUpdateSpotifyPlayer(formElement, trackOrArtist, currentSpotifyI
         // console.log("createOrUpdateSpotifyPlayer - 111 position: " + position);
         // console.log("createOrUpdateSpotifyPlayer - 111 controller_status: " + controller_status);
         
+        // Track successful playback
+        if (duration > 0 && position >= 0 && !isPaused) {
+          playbackStarted = true;
+          console.log("createOrUpdateSpotifyPlayer - playbackStarted set to true (listener 1)");
+        }
+        
+        // Check for duration=0 issue (authentication/playback failure)
+        if (duration === 0 && position === 0 && !isBuffering && !isPaused) {
+          console.warn("createOrUpdateSpotifyPlayer - Duration is 0, likely authentication issue");
+          showSpotifyAuthNotification();
+        }
+        
         // Check if the song has ended
         if (!isPaused && position >= duration && duration > 0 && controller_status === 'ready') {
           console.log("createOrUpdateSpotifyPlayer - Pos. 1: Track has ended. Moving to the next song.");
@@ -103,14 +128,21 @@ function createOrUpdateSpotifyPlayer(formElement, trackOrArtist, currentSpotifyI
       controller.addListener('playback_update', e => {
         const {isPaused, isBuffering, duration, position } = e.data;
         
-        // Log the current playback state
+        // Log the current playback state and detect auth failures
         if (isBuffering) {
           console.log("createOrUpdateSpotifyPlayer - Playback is buffering - 1");
         } else if (isPaused) {
           console.log("createOrUpdateSpotifyPlayer - Playback is paused - 1");
+          // Check if this is an auth failure (paused immediately after ready state)
+          if (duration === 0 && position === 0 && controller_status === 'ready') {
+            console.warn("createOrUpdateSpotifyPlayer - Paused with duration=0, likely authentication issue");
+            showSpotifyAuthNotification();
+          }
           setPlayButtonIcons(trackOrArtist, spotifyTrackIDsList, spotifyArtistIDsList)
         } else {
           console.log("createOrUpdateSpotifyPlayer - Playback is playing - 1");
+          playbackStarted = true; // Mark successful playback
+          console.log("createOrUpdateSpotifyPlayer - playbackStarted set to true (listener 2)");
           setPlayButtonIcons(trackOrArtist, spotifyTrackIDsList, spotifyArtistIDsList)
         }
       });
@@ -156,6 +188,8 @@ function createOrUpdateSpotifyPlayer(formElement, trackOrArtist, currentSpotifyI
             setPlayButtonIcons(trackOrArtist, spotifyTrackIDsList, spotifyArtistIDsList)
           } else {
             console.log("createOrUpdateSpotifyPlayer - Playback is playing - 2");
+            playbackStarted = true; // Mark successful playback
+            console.log("createOrUpdateSpotifyPlayer - playbackStarted set to true (listener 3)");
             setPlayButtonIcons(trackOrArtist, spotifyTrackIDsList, spotifyArtistIDsList)
           }
         });
@@ -536,4 +570,134 @@ function speakText(text, callback=null) {
       callback(); // Fallback to execute callback immediately
     }
   }
+}
+
+// Function to check playback state after user action
+function checkPlaybackAfterAction() {
+  if (controller && playAttemptMade) {
+    console.log("checkPlaybackAfterAction - playbackStarted:", playbackStarted);
+    // Check if playback started successfully after the attempt
+    if (!playbackStarted) {
+      console.warn("checkPlaybackAfterAction - No successful playback detected after play attempt, showing notification");
+      showSpotifyAuthNotification();
+    } else {
+      console.log("checkPlaybackAfterAction - Playback started successfully, no notification needed");
+    }
+    // Reset the flags
+    playAttemptMade = false;
+  }
+}
+
+// Function to show Spotify authentication notification
+function showSpotifyAuthNotification() {
+  const spotifyContainer = document.querySelector('.anvil-role-cap-spotify-footer');
+  if (!spotifyContainer) return;
+  
+  // Remove any existing notification
+  const existingNotification = spotifyContainer.querySelector('.spotify-auth-notification');
+  if (existingNotification) {
+    existingNotification.remove();
+  }
+  
+  // Create notification element
+  const notification = document.createElement('div');
+  notification.className = 'spotify-auth-notification';
+  notification.innerHTML = `
+    <div class="spotify-auth-message">
+      <span class="spotify-auth-icon">⚠️</span>
+      <span class="spotify-auth-text"><span class="spotify-auth-header">Spotify authentication failed</span>Please log out from <a href="https://open.spotify.com" target="_blank">open.spotify.com</a> in this browser to use this widget</span>
+      <button class="spotify-auth-dismiss" onclick="this.parentElement.parentElement.remove()">×</button>
+    </div>
+  `;
+  
+  // Add styles
+  const style = document.createElement('style');
+  style.textContent = `
+    .spotify-auth-notification {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      background: linear-gradient(135deg, #ff6b6b, #ee5a52);
+      border-radius: 8px;
+      margin: 8px 8px;
+      box-shadow: 0 2px 8px rgba(238, 90, 82, 0.3);
+      animation: slideIn 0.3s ease-out;
+      z-index: 1000;
+    }
+    .spotify-auth-message {
+      display: flex;
+      align-items: center;
+      padding: 2px 10px;
+      color: white;
+      font-size: 14px;
+      line-height: 1.4;
+    }
+    .spotify-auth-icon {
+      font-size: 16px;
+      margin-right: 10px;
+      flex-shrink: 0;
+    }
+    .spotify-auth-text {
+      flex: 1;
+      font-weight: normal;
+    }
+    .spotify-auth-header {
+      font-weight: bold;
+      font-size: 16px;
+      display: block;
+      margin-bottom: 4px;
+    }
+    .spotify-auth-text a {
+      color: white;
+      font-weight: 600;
+      text-decoration: underline;
+      transition: opacity 0.2s;
+    }
+    .spotify-auth-text a:hover {
+      opacity: 0.8;
+    }
+    .spotify-auth-dismiss {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 18px;
+      font-weight: bold;
+      cursor: pointer;
+      padding: 0;
+      margin-left: 12px;
+      width: 20px;
+      height: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      transition: background-color 0.2s;
+    }
+    .spotify-auth-dismiss:hover {
+      background-color: rgba(255, 255, 255, 0.2);
+    }
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  `;
+  
+  // Add styles to head if not already present
+  if (!document.querySelector('#spotify-auth-notification-styles')) {
+    style.id = 'spotify-auth-notification-styles';
+    document.head.appendChild(style);
+  }
+  
+  // Ensure container has relative positioning for absolute positioning to work
+  spotifyContainer.style.position = 'relative';
+  
+  // Insert notification to cover the widget
+  spotifyContainer.appendChild(notification);
 }
