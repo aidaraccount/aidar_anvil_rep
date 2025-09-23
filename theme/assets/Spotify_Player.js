@@ -673,6 +673,8 @@ function showSpotifyAuthNotification() {
       justify-content: center;
       border-radius: 50%;
       transition: background-color 0.2s;
+      top: -15px;
+      position: relative;
     }
     .spotify-auth-dismiss:hover {
       background-color: rgba(255, 255, 255, 0.2);
