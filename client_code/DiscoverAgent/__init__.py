@@ -105,7 +105,7 @@ class DiscoverAgent(DiscoverAgentTemplate):
     self.Artist_Name_Details_Sidebar.clear()
     self.flow_panel_genre_tile.clear()
     self.flow_panel_social_media_tile.clear()
-    self.spotify_player_spot.clear()
+    # self.spotify_player_spot.clear()
     self.column_panel_circle.clear()
     self.flow_panel_shorts.clear()
     
