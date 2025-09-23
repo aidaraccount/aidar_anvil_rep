@@ -2155,10 +2155,16 @@ class DiscoverAgent(DiscoverAgentTemplate):
     self.url_dict['artist_id'] = str(new_artist_id)
     save_var("url_artist_id", str(new_artist_id))
     
-    # 2. Get basic artist data to retrieve Spotify ID, then start widget immediately
+    # 2. If transitioning from None to a real artist, ensure header and sections are visible
+    if str(new_artist_id) != 'None':
+      self.sec_header.visible = True
+      self.flow_panel_sections.visible = True
+      self.no_artists.visible = False
+    
+    # 3. Get basic artist data to retrieve Spotify ID, then start widget immediately
     sug = json.loads(anvil.server.call('get_suggestion', 'Inspect', self.model_id, new_artist_id))
     
-    if sug.get("SpotifyArtistID"):
+    if sug.get("SpotifyArtistID") and str(new_artist_id) != 'None':
       # Create Spotify container first
       self.spotify_HTML_player()
       
@@ -2167,11 +2173,11 @@ class DiscoverAgent(DiscoverAgentTemplate):
       if embed_iframe_element:
         self.call_js('createOrUpdateSpotifyPlayer', anvil.js.get_dom_node(self), 'artist', sug["SpotifyArtistID"])
     
-    # 3. Store the suggestion data and refresh UI (no additional server call needed)
+    # 4. Store the suggestion data and refresh UI (no additional server call needed)
     self.sug = sug
     self.refresh_sug(skip_spotify_creation=True, use_existing_sug=True)
     
-    # 4. Scroll to top
+    # 5. Scroll to top
     self.header.scroll_into_view(smooth=True)
 
   # -------------------------------

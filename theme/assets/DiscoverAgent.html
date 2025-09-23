@@ -2714,16 +2714,30 @@
         }
       }
       
-      // Helper: Show "No Artists Found" page
-      showNoArtistsFound() {
+      // Helper: Show "No Artists Found" page dynamically
+      async showNoArtistsFound() {
         try {
-          console.log('[showNoArtistsFound] Navigating to No Artists page');
+          console.log('[showNoArtistsFound] Showing No Artists page dynamically');
           
-          // Navigate to the proper "None" page that shows complete memory info
-          window.location.href = '#agent_artists?artist_id=None';
+          // 1. Update the URL silently (without triggering navigation)
+          history.replaceState(null, '', '#agent_artists?artist_id=None');
+          
+          // 2. Call the Python method to handle the "None" artist case
+          const formElement = document.querySelector('.anvil-container');
+          if (formElement) {
+            console.log('[showNoArtistsFound] Calling dynamic_artist_change with None via Anvil');
+            await anvil.call(formElement, 'dynamic_artist_change', 'None');
+            console.log('[showNoArtistsFound] Successfully showed No Artists page');
+          } else {
+            console.warn('[showNoArtistsFound] Could not find form element, falling back to page reload');
+            window.location.href = '#agent_artists?artist_id=None';
+          }
           
         } catch (error) {
-          console.error('[showNoArtistsFound] Error navigating to No Artists page:', error);
+          console.error('[showNoArtistsFound] Error showing No Artists page dynamically:', error);
+          // Fallback to page reload if dynamic change fails
+          console.log('[showNoArtistsFound] Falling back to page reload');
+          window.location.href = '#agent_artists?artist_id=None';
         }
       }
       
