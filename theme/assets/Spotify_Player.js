@@ -1,4 +1,6 @@
 var controller;
+var playbackStarted = false;
+var playAttemptMade = false;
 
 // function to play/pause spotify
 function playSpotify() {
@@ -15,18 +17,22 @@ function playSpotify() {
       
       if (controller.isPaused) {
         console.log('playSpotify - 1. Resume playing from the paused position')
+        playAttemptMade = true;
+        playbackStarted = false;
         controller.resume();  // Resume playing from the paused position
         controller.isPlaying = true;
         controller.isPaused = false;
         // Check for authentication issues after play attempt
-        setTimeout(() => checkPlaybackAfterAction(), 2000);
+        setTimeout(() => checkPlaybackAfterAction(), 3000);
       } else if (!controller.isPlaying) {
         console.log('playSpotify - 2. Start playing if not already playing')
+        playAttemptMade = true;
+        playbackStarted = false;
         controller.play();    // Start playing if not already playing
         controller.isPlaying = true;
         controller.isPaused = false;
         // Check for authentication issues after play attempt
-        setTimeout(() => checkPlaybackAfterAction(), 2000);
+        setTimeout(() => checkPlaybackAfterAction(), 3000);
       } else {
         console.log('playSpotify - 3. Pause the player if its currently playing')
         controller.pause();   // Pause the player if it's currently playing
@@ -91,16 +97,15 @@ function createOrUpdateSpotifyPlayer(formElement, trackOrArtist, currentSpotifyI
         // console.log("createOrUpdateSpotifyPlayer - 111 position: " + position);
         // console.log("createOrUpdateSpotifyPlayer - 111 controller_status: " + controller_status);
         
+        // Track successful playback
+        if (duration > 0 && position >= 0) {
+          playbackStarted = true;
+        }
+        
         // Check for duration=0 issue (authentication/playback failure)
-        if (duration === 0 && position === 0 && !isBuffering) {
+        if (duration === 0 && position === 0 && !isBuffering && !isPaused) {
           console.warn("createOrUpdateSpotifyPlayer - Duration is 0, likely authentication issue");
-          // Add a small delay to avoid false positives during initial loading
-          setTimeout(() => {
-            const currentState = controller.getCurrentState();
-            if (currentState && currentState.duration === 0 && currentState.position === 0) {
-              showSpotifyAuthNotification();
-            }
-          }, 1000);
+          showSpotifyAuthNotification();
         }
         
         // Check if the song has ended
@@ -120,14 +125,20 @@ function createOrUpdateSpotifyPlayer(formElement, trackOrArtist, currentSpotifyI
       controller.addListener('playback_update', e => {
         const {isPaused, isBuffering, duration, position } = e.data;
         
-        // Log the current playback state
+        // Log the current playback state and detect auth failures
         if (isBuffering) {
           console.log("createOrUpdateSpotifyPlayer - Playback is buffering - 1");
         } else if (isPaused) {
           console.log("createOrUpdateSpotifyPlayer - Playback is paused - 1");
+          // Check if this is an auth failure (paused immediately after ready state)
+          if (duration === 0 && position === 0 && controller_status === 'ready') {
+            console.warn("createOrUpdateSpotifyPlayer - Paused with duration=0, likely authentication issue");
+            showSpotifyAuthNotification();
+          }
           setPlayButtonIcons(trackOrArtist, spotifyTrackIDsList, spotifyArtistIDsList)
         } else {
           console.log("createOrUpdateSpotifyPlayer - Playback is playing - 1");
+          playbackStarted = true; // Mark successful playback
           setPlayButtonIcons(trackOrArtist, spotifyTrackIDsList, spotifyArtistIDsList)
         }
       });
@@ -557,12 +568,14 @@ function speakText(text, callback=null) {
 
 // Function to check playback state after user action
 function checkPlaybackAfterAction() {
-  if (controller && controller.getCurrentState) {
-    const currentState = controller.getCurrentState();
-    if (currentState && currentState.duration === 0 && currentState.position === 0 && !currentState.isBuffering) {
-      console.warn("checkPlaybackAfterAction - Playback failed, showing notification");
+  if (controller && playAttemptMade) {
+    // Check if playback started successfully after the attempt
+    if (!playbackStarted) {
+      console.warn("checkPlaybackAfterAction - No successful playback detected after play attempt, showing notification");
       showSpotifyAuthNotification();
     }
+    // Reset the flag
+    playAttemptMade = false;
   }
 }
 
