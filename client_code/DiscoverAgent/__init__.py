@@ -96,7 +96,7 @@ class DiscoverAgent(DiscoverAgentTemplate):
 
   # -------------------------------------------
   # SUGGESTIONS
-  def refresh_sug(self, skip_spotify_creation=False, use_existing_sug=False, **event_args):
+  def refresh_sug(self, skip_spotify_creation=False, use_existing_sug=False, skip_routing=False, **event_args):
 
     self.header.scroll_into_view(smooth=True)
 
@@ -177,7 +177,8 @@ class DiscoverAgent(DiscoverAgentTemplate):
       if memories is not None:
         self.repeating_panel_memories.items = json.loads(memories)
       
-      routing.set_url_hash('agent_artists?artist_id=extended_create_agent', load_from_cache=False)
+      if not skip_routing:
+        routing.set_url_hash('agent_artists?artist_id=extended_create_agent', load_from_cache=False)
 
     elif sug["Status"] == 'No Findings!':
       
@@ -195,7 +196,8 @@ class DiscoverAgent(DiscoverAgentTemplate):
       if memories is not None:
         self.repeating_panel_memories.items = json.loads(memories)
 
-      routing.set_url_hash('agent_artists?artist_id=extended_create_agent', load_from_cache=False)
+      if not skip_routing:
+        routing.set_url_hash('agent_artists?artist_id=extended_create_agent', load_from_cache=False)
 
     else:
       # TRIAL NOTIFICATION      
@@ -2175,7 +2177,7 @@ class DiscoverAgent(DiscoverAgentTemplate):
     
     # 4. Store the suggestion data and refresh UI (no additional server call needed)
     self.sug = sug
-    self.refresh_sug(skip_spotify_creation=True, use_existing_sug=True)
+    self.refresh_sug(skip_spotify_creation=True, use_existing_sug=True, skip_routing=True)
     
     # 5. Scroll to top
     self.header.scroll_into_view(smooth=True)
