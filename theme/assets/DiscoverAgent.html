@@ -3091,9 +3091,13 @@
     const transitionDuration = 900;
 
     displays.forEach(display => {
-      let note = parseFloat(display.dataset.note);
-      let [int, dec] = display.dataset.note.split('.');
-      [int, dec] = [Number(int), Number(dec)];
+      let noteValue = display.dataset.note.replace('%', '');
+      let note = parseFloat(noteValue);
+      
+      // Handle case where there's no decimal point
+      let parts = noteValue.split('.');
+      let int = Number(parts[0]) || 0;
+      let dec = parts.length > 1 ? Number(parts[1]) || 0 : 0;
 
       strokeTransition(display, note);
 
@@ -3102,8 +3106,15 @@
 
     function increaseNumber(display, number, className) {
       let element = display.querySelector(`.percent__${className}`),
-        decPoint = className === 'int' ? '%' : '',
-        interval = 900 / number,
+        decPoint = className === 'int' ? '%' : '';
+      
+      // Handle case where number is 0 or invalid
+      if (!number || number <= 0 || isNaN(number)) {
+        element.textContent = '0' + decPoint;
+        return;
+      }
+      
+      let interval = 900 / number,
         counter = 0;
 
       let increaseInterval = setInterval(() => {

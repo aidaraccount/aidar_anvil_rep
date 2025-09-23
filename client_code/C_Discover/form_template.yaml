@@ -324,7 +324,7 @@ components:
           role: [header-8]
           spacing:
             margin: [10, null, null, null]
-          text: Sub Fit Likelihoods
+          text: Sub Fit Scores
         type: Label
       - components:
         - layout_properties: {}

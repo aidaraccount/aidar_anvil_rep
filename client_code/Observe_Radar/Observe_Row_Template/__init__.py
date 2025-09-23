@@ -8,7 +8,7 @@ import anvil.tables.query as q
 from anvil.tables import app_tables
 import json
 from datetime import datetime
-from anvil.js.window import observeFitLikelihoodCircle
+from anvil.js.window import observeFitScoreCircle
 
 from anvil_extras import routing
 from ...nav import click_link, click_button, logout, login_check, load_var
@@ -181,7 +181,7 @@ class Observe_Row_Template(Observe_Row_TemplateTemplate):
         self.label_indiv_cont.content = self.label_indiv_cont.content + f"""<br><span style="font-size: 16px; color: {col};">{ev}</span>"""
 
     # print(f"{datetime.now()}: Observe Row 4", flush=True)
-    # fit likelihood
+    # fit score
     pred = "{:.0f}".format(round(float(self.item["Prediction"])/7*100,0))
     custom_html = f'''
     <li class="note-display" data-note="{pred}">
@@ -200,7 +200,7 @@ class Observe_Row_Template(Observe_Row_TemplateTemplate):
         <div class="percent">
           <span class="percent__int">0.</span>
           <!-- <span class="percent__dec">00</span> -->
-          <span class="label" style="font-size: 13px;">Fit Likelihood</span>
+          <span class="label" style="font-size: 13px;">Fit Score</span>
         </div>
       </div>
     </li>
@@ -222,4 +222,4 @@ class Observe_Row_Template(Observe_Row_TemplateTemplate):
     return date_obj.strftime('%b %d, %Y')
 
   def form_show(self, **event_args):
-    anvil.js.call_js('observeFitLikelihoodCircle')
+    anvil.js.call_js('observeFitScoreCircle')
