@@ -1105,6 +1105,9 @@ class DiscoverAgent(DiscoverAgentTemplate):
 
   # ----------------------------------------------
   def spotify_HTML_player(self):
+    # Ensure the container is completely clear before adding new content
+    self.spotify_player_spot.clear()
+    
     c_web_player_html = '''
       <div id="embed-iframe"></div>
       '''
@@ -2152,8 +2155,7 @@ class DiscoverAgent(DiscoverAgentTemplate):
     sug = json.loads(anvil.server.call('get_suggestion', 'Inspect', self.model_id, next_artist_id))
     embed_iframe_element = document.getElementById('embed-iframe')
     if embed_iframe_element and sug.get("SpotifyArtistID"):
-      # Clear and create Spotify container, then immediately load new artist
-      self.spotify_player_spot.clear()
+      # Create Spotify container and immediately load new artist
       self.spotify_HTML_player()
       self.call_js('createOrUpdateSpotifyPlayer', anvil.js.get_dom_node(self), 'artist', sug["SpotifyArtistID"])
     
