@@ -97,7 +97,6 @@ class DiscoverAgent(DiscoverAgentTemplate):
   # -------------------------------------------
   # SUGGESTIONS
   def refresh_sug(self, **event_args):
-    print(f"[PredCircle] refresh_sug() started - current self.pred: {getattr(self, 'pred', 'NOT_SET')}")
 
     self.header.scroll_into_view(smooth=True)
 
@@ -107,11 +106,7 @@ class DiscoverAgent(DiscoverAgentTemplate):
     self.flow_panel_genre_tile.clear()
     self.flow_panel_social_media_tile.clear()
     self.spotify_player_spot.clear()
-    
-    # Log prediction circle clearing
-    print(f"[PredCircle] Clearing column_panel_circle - components before clear: {len(list(self.column_panel_circle.get_components()))}")
     self.column_panel_circle.clear()
-    print(f"[PredCircle] Cleared column_panel_circle - components after clear: {len(list(self.column_panel_circle.get_components()))}")
 
     # model_id
     model_id = load_var("model_id")
@@ -375,26 +370,19 @@ class DiscoverAgent(DiscoverAgentTemplate):
 
       # --------
       # prediction
-      print(f"[PredCircle] Raw prediction from sug: {sug.get('Prediction', 'KEY_NOT_FOUND')}")
       if (str(sug["Prediction"]) == 'nan') or (str(sug["Prediction"]) == 'None'):
-        print(f"[PredCircle] No valid prediction - hiding circle, showing no_prediction")
         self.column_panel_circle.visible= False
         self.no_prediction.visible = True
         self.pred = None
       else:
         raw_pred = float(sug["Prediction"])
-        print(f"[PredCircle] Valid prediction found: {raw_pred}")
         if (raw_pred > 7):
           self.pred = '100%'
-          print(f"[PredCircle] Prediction > 7, setting to: {self.pred}")
         elif (raw_pred < 0):
           self.pred = '0%'
-          print(f"[PredCircle] Prediction < 0, setting to: {self.pred}")
         else:
           self.pred = "{:.2f}".format(round(raw_pred/7*100,0))
-          print(f"[PredCircle] Calculated prediction: {self.pred} (from raw: {raw_pred})")
         self.no_prediction.visible = False
-        print(f"[PredCircle] About to call custom_HTML_prediction() with self.pred = {self.pred}")
       self.custom_HTML_prediction()
       self.spotify_HTML_player()
 
@@ -1099,11 +1087,7 @@ class DiscoverAgent(DiscoverAgentTemplate):
     self.spotify_player_spot.add_component(html_webplayer_panel)
 
   def custom_HTML_prediction(self):
-    print(f"[PredCircle] custom_HTML_prediction() called with self.pred = {self.pred}")
-    print(f"[PredCircle] column_panel_circle components before adding: {len(list(self.column_panel_circle.get_components()))}")
-    
     if self.pred:
-      print(f"[PredCircle] Creating HTML with prediction value: {self.pred}")
       custom_html = f'''
       <li class="note-display" data-note="{self.pred}">
         <div class="circle">
@@ -1127,33 +1111,23 @@ class DiscoverAgent(DiscoverAgentTemplate):
 
       </li>
       '''
-      print(f"[PredCircle] HTML created with data-note='{self.pred}' and percent__int='{self.pred}'")
       html_panel = HtmlPanel(html=custom_html)
-      print(f"[PredCircle] HtmlPanel created, about to add to column_panel_circle")
       self.column_panel_circle.add_component(html_panel)
-      print(f"[PredCircle] HtmlPanel added - components after adding: {len(list(self.column_panel_circle.get_components()))}")
-      print(f"[PredCircle] column_panel_circle.visible = {self.column_panel_circle.visible}")
       
       # Trigger circle animation after adding HTML
       try:
-        print(f"[PredCircle] Attempting to trigger circle animation with observeFitScoreCircle")
         anvil.js.call_js('observeFitScoreCircle')
-        print(f"[PredCircle] Circle animation triggered successfully")
       except Exception as e:
-        print(f"[PredCircle] observeFitScoreCircle failed: {e}")
         # Fallback: try alternative animation trigger methods
         try:
-          print(f"[PredCircle] Trying fallback: initCircleAnimation")
           self.call_js('initCircleAnimation')
         except:
           try:
-            print(f"[PredCircle] Trying fallback: animateCircles")
             self.call_js('animateCircles')
           except:
             print(f"[PredCircle] All animation trigger attempts failed")
     else:
-      print(f"[PredCircle] NO SELF PRED - self.pred is: {self.pred} (type: {type(self.pred)})")
-      print(f"[PredCircle] column_panel_circle components remain: {len(list(self.column_panel_circle.get_components()))}")
+      print("NO SELF PRED?")
 
   def truncate_label(self, label):
     return label if len(label) <= 10 else label[:10] + '...'
@@ -2136,15 +2110,11 @@ class DiscoverAgent(DiscoverAgentTemplate):
 
   def _rate_artist_and_refresh(self, rating):
     """Rate the current artist and refresh with the next artist without page reload"""
-    print(f"[PredCircle] _rate_artist_and_refresh() called with rating: {rating}")
-    print(f"[PredCircle] Current artist_id: {self.artist_id}, current self.pred: {getattr(self, 'pred', 'NOT_SET')}")
-    
     # 1. Submit the rating
     anvil.server.call('add_interest', user["user_id"], self.model_id, self.artist_id, rating, False, '')
     
     # 2. Get the next artist
     next_artist_id = anvil.server.call('get_next_artist_id', self.model_id)
-    print(f"[PredCircle] Next artist_id: {next_artist_id}")
     
     # 3. Update the URL silently (without triggering navigation)
     history.replaceState(None, "", f"#agent_artists?artist_id={next_artist_id}")
@@ -2154,7 +2124,6 @@ class DiscoverAgent(DiscoverAgentTemplate):
     save_var("url_artist_id", str(next_artist_id))
     
     # 5. Refresh the artist data in-place
-    print(f"[PredCircle] About to call refresh_sug() for new artist")
     self.refresh_sug()
     
     # 6. Reload Spotify widget with new artist ID (if available)
