@@ -673,4 +673,23 @@ class MainIn(MainInTemplate):
     except Exception as e:
       print(f'[MainIn_get_genre_sub_scores] Error retrieving genre sub-scores: {e}')
       raise
+  
+  # Bridge method for dynamic artist refresh from JavaScript
+  def refresh_sug(self):
+    """Bridge method to call refresh_sug on the current DiscoverAgent form"""
+    try:
+      print('[MainIn_refresh_sug] Calling refresh_sug on DiscoverAgent')
+      # Get the current open form
+      current_form = get_open_form()
+      
+      # Check if it's a DiscoverAgent form and has the refresh_sug method
+      if hasattr(current_form, 'refresh_sug') and callable(getattr(current_form, 'refresh_sug')):
+        current_form.refresh_sug()
+        print('[MainIn_refresh_sug] Successfully called refresh_sug')
+      else:
+        print('[MainIn_refresh_sug] Current form is not DiscoverAgent or does not have refresh_sug method')
+        
+    except Exception as e:
+      print(f'[MainIn_refresh_sug] Error calling refresh_sug: {e}')
+      raise
     
