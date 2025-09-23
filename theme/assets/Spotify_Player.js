@@ -18,7 +18,6 @@ function playSpotify() {
       if (controller.isPaused) {
         console.log('playSpotify - 1. Resume playing from the paused position')
         playAttemptMade = true;
-        playbackStarted = false;
         controller.resume();  // Resume playing from the paused position
         controller.isPlaying = true;
         controller.isPaused = false;
@@ -27,7 +26,6 @@ function playSpotify() {
       } else if (!controller.isPlaying) {
         console.log('playSpotify - 2. Start playing if not already playing')
         playAttemptMade = true;
-        playbackStarted = false;
         controller.play();    // Start playing if not already playing
         controller.isPlaying = true;
         controller.isPaused = false;
@@ -45,6 +43,10 @@ function playSpotify() {
 
 // function to initialize the spotify console
 function createOrUpdateSpotifyPlayer(formElement, trackOrArtist, currentSpotifyID, spotifyTrackIDsList, spotifyArtistIDsList, spotifyArtistNameList) {
+  
+  // Reset playback tracking for new track
+  playbackStarted = false;
+  playAttemptMade = false;
   
   // console.log("createOrUpdateSpotifyPlayer - 000 trackOrArtist: " + trackOrArtist);
   // console.log("createOrUpdateSpotifyPlayer - 000 currentSpotifyID: " + currentSpotifyID);  
@@ -569,12 +571,15 @@ function speakText(text, callback=null) {
 // Function to check playback state after user action
 function checkPlaybackAfterAction() {
   if (controller && playAttemptMade) {
+    console.log("checkPlaybackAfterAction - playbackStarted:", playbackStarted);
     // Check if playback started successfully after the attempt
     if (!playbackStarted) {
       console.warn("checkPlaybackAfterAction - No successful playback detected after play attempt, showing notification");
       showSpotifyAuthNotification();
+    } else {
+      console.log("checkPlaybackAfterAction - Playback started successfully, no notification needed");
     }
-    // Reset the flag
+    // Reset the flags
     playAttemptMade = false;
   }
 }
@@ -596,7 +601,7 @@ function showSpotifyAuthNotification() {
   notification.innerHTML = `
     <div class="spotify-auth-message">
       <span class="spotify-auth-icon">⚠️</span>
-      <span class="spotify-auth-text"><span class="spotify-auth-header">Spotify authentication failed</span><br>Please log out from <a href="https://open.spotify.com" target="_blank">open.spotify.com</a> in this browser to use this widget</span>
+      <span class="spotify-auth-text"><span class="spotify-auth-header">Spotify authentication failed</span>Please log out from <a href="https://open.spotify.com" target="_blank">open.spotify.com</a> in this browser to use this widget</span>
       <button class="spotify-auth-dismiss" onclick="this.parentElement.parentElement.remove()">×</button>
     </div>
   `;
