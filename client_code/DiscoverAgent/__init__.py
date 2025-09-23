@@ -108,6 +108,22 @@ class DiscoverAgent(DiscoverAgentTemplate):
     self.spotify_player_spot.clear()
     self.column_panel_circle.clear()
     self.flow_panel_shorts.clear()
+    
+    # Reset navigation to "Releases" section
+    self.nav_releases.role = 'section_buttons_focused'
+    self.nav_success.role = 'section_buttons'
+    self.nav_fandom.role = 'section_buttons'
+    self.nav_musical.role = 'section_buttons'
+    self.nav_live.role = 'section_buttons'
+    self.nav_shorts.role = 'section_buttons'
+    
+    # Show only Releases section, hide all others
+    self.sec_releases.visible = True
+    self.sec_success.visible = False
+    self.sec_fandom.visible = False
+    self.sec_musical.visible = False
+    self.sec_live.visible = False
+    self.sec_shorts.visible = False
 
     # model_id
     model_id = load_var("model_id")
