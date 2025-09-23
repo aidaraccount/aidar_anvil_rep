@@ -181,7 +181,7 @@ class Observe_Row_Template(Observe_Row_TemplateTemplate):
         self.label_indiv_cont.content = self.label_indiv_cont.content + f"""<br><span style="font-size: 16px; color: {col};">{ev}</span>"""
 
     # print(f"{datetime.now()}: Observe Row 4", flush=True)
-    # fit likelihood
+    # fit score
     pred = "{:.0f}".format(round(float(self.item["Prediction"])/7*100,0))
     custom_html = f'''
     <li class="note-display" data-note="{pred}">
