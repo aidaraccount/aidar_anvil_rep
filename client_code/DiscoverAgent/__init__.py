@@ -1102,7 +1102,7 @@ class DiscoverAgent(DiscoverAgentTemplate):
           </svg>
 
           <div class="percent">
-            <span class="percent__int">0.</span>
+            <span class="percent__int">{self.pred}</span>
             <!-- <span class="percent__dec">00</span> -->
             <span class="label" style="font-size: 13px;">Fit Score</span>
           </div>
