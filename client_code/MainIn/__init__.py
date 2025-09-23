@@ -679,15 +679,20 @@ class MainIn(MainInTemplate):
     """Bridge method to call refresh_sug on the current DiscoverAgent form"""
     try:
       print('[MainIn_refresh_sug] Calling refresh_sug on DiscoverAgent')
-      # Get the current open form
-      current_form = get_open_form()
       
-      # Check if it's a DiscoverAgent form and has the refresh_sug method
-      if hasattr(current_form, 'refresh_sug') and callable(getattr(current_form, 'refresh_sug')):
-        current_form.refresh_sug()
-        print('[MainIn_refresh_sug] Successfully called refresh_sug')
+      # Use the content panel to find the DiscoverAgent form
+      content_panel = self.content_panel
+      if content_panel and len(content_panel.get_components()) > 0:
+        current_form = content_panel.get_components()[0]
+        
+        # Check if it's a DiscoverAgent form and has the refresh_sug method
+        if hasattr(current_form, 'refresh_sug') and callable(getattr(current_form, 'refresh_sug')):
+          current_form.refresh_sug()
+          print('[MainIn_refresh_sug] Successfully called refresh_sug')
+        else:
+          print(f'[MainIn_refresh_sug] Current form is {type(current_form)} and does not have refresh_sug method')
       else:
-        print('[MainIn_refresh_sug] Current form is not DiscoverAgent or does not have refresh_sug method')
+        print('[MainIn_refresh_sug] No form found in content_panel')
         
     except Exception as e:
       print(f'[MainIn_refresh_sug] Error calling refresh_sug: {e}')

@@ -2260,12 +2260,18 @@
           console.log('[handleCompleteMessage] Normal completion, using standard cleanup');
           this.removeStatusIndicator();
           
-          // Check if we have a new artist_id and it's different from current
-          if (message.artist_id && message.artist_id !== 'null' && message.artist_id !== null) {
+          // Check if we have an artist_id in the response
+          if (message.hasOwnProperty('artist_id')) {
             const currentArtistId = this.getCurrentArtistId();
             console.log('[handleCompleteMessage] Checking artist_id - Current:', currentArtistId, 'New:', message.artist_id);
             
-            if (String(currentArtistId) !== String(message.artist_id)) {
+            // Handle null artist_id (no artists found)
+            if (message.artist_id === null || message.artist_id === 'null') {
+              console.log('[handleCompleteMessage] No artists found (artist_id is null)');
+              this.showNoArtistsFound();
+            }
+            // Handle valid artist_id that's different from current
+            else if (String(currentArtistId) !== String(message.artist_id)) {
               console.log('[handleCompleteMessage] Artist changed, refreshing artist content dynamically');
               this.dynamicArtistChange(message.artist_id);
             } else {
@@ -2705,6 +2711,19 @@
         } catch (e) {
           console.warn('[getCurrentArtistId] Error parsing URL:', e);
           return null;
+        }
+      }
+      
+      // Helper: Show "No Artists Found" message
+      showNoArtistsFound() {
+        try {
+          console.log('[showNoArtistsFound] Displaying no artists found message');
+          
+          // Add a system message to the chat
+          this.addSystemMessage('No artists found matching your current filters and preferences. Try adjusting your filters or preferences to see more artists.');
+          
+        } catch (error) {
+          console.error('[showNoArtistsFound] Error showing no artists found message:', error);
         }
       }
       
