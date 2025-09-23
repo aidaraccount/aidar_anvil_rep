@@ -158,8 +158,8 @@ components:
         name: country_drop_down
         properties:
           include_placeholder: true
-          placeholder: Select Country
           margin: [0, null, null, null]
+          placeholder: Select Country
         type: DropDown
       - data_bindings:
         - {code: '[''txt_white_discreet'', ''width-200px'']', property: role, writeback: false}
