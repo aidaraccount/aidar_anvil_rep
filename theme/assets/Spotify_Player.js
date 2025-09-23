@@ -22,7 +22,7 @@ function playSpotify() {
         controller.isPlaying = true;
         controller.isPaused = false;
         // Check for authentication issues after play attempt
-        setTimeout(() => checkPlaybackAfterAction(), 3000);
+        setTimeout(() => checkPlaybackAfterAction(), 2000);
       } else if (!controller.isPlaying) {
         console.log('playSpotify - 2. Start playing if not already playing')
         playAttemptMade = true;
@@ -30,7 +30,7 @@ function playSpotify() {
         controller.isPlaying = true;
         controller.isPaused = false;
         // Check for authentication issues after play attempt
-        setTimeout(() => checkPlaybackAfterAction(), 3000);
+        setTimeout(() => checkPlaybackAfterAction(), 2000);
       } else {
         console.log('playSpotify - 3. Pause the player if its currently playing')
         controller.pause();   // Pause the player if it's currently playing

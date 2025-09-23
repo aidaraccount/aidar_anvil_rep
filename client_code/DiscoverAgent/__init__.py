@@ -2073,48 +2073,46 @@ class DiscoverAgent(DiscoverAgentTemplate):
   # -------------------------------
   # RATING BUTTONS
   def button_1_click(self, **event_args):
-    anvil.server.call('add_interest', user["user_id"], self.model_id, self.artist_id, 1, False, '')
-    self.header.scroll_into_view(smooth=True)
-    next_artist_id = anvil.server.call('get_next_artist_id', self.model_id)
-    routing.set_url_hash(f'agent_artists?artist_id={next_artist_id}', load_from_cache=False)
-    # history.replaceState(None, "", f"#{'agent_artists?artist_id=123'}")
-    # pass
+    self._rate_artist_and_refresh(1)
   
   def button_2_click(self, **event_args):
-    anvil.server.call('add_interest', user["user_id"], self.model_id, self.artist_id, 2, False, '')
-    self.header.scroll_into_view(smooth=True)
-    next_artist_id = anvil.server.call('get_next_artist_id', self.model_id)
-    routing.set_url_hash(f'agent_artists?artist_id={next_artist_id}', load_from_cache=False)
+    self._rate_artist_and_refresh(2)
 
   def button_3_click(self, **event_args):
-    anvil.server.call('add_interest', user["user_id"], self.model_id, self.artist_id, 3, False, '')
-    self.header.scroll_into_view(smooth=True)
-    next_artist_id = anvil.server.call('get_next_artist_id', self.model_id)
-    routing.set_url_hash(f'agent_artists?artist_id={next_artist_id}', load_from_cache=False)
+    self._rate_artist_and_refresh(3)
 
   def button_4_click(self, **event_args):
-    anvil.server.call('add_interest', user["user_id"], self.model_id, self.artist_id, 4, False, '')
-    self.header.scroll_into_view(smooth=True)
-    next_artist_id = anvil.server.call('get_next_artist_id', self.model_id)
-    routing.set_url_hash(f'agent_artists?artist_id={next_artist_id}', load_from_cache=False)
+    self._rate_artist_and_refresh(4)
 
   def button_5_click(self, **event_args):
-    anvil.server.call('add_interest', user["user_id"], self.model_id, self.artist_id, 5, False, '')
-    self.header.scroll_into_view(smooth=True)
-    next_artist_id = anvil.server.call('get_next_artist_id', self.model_id)
-    routing.set_url_hash(f'agent_artists?artist_id={next_artist_id}', load_from_cache=False)
+    self._rate_artist_and_refresh(5)
 
   def button_6_click(self, **event_args):
-    anvil.server.call('add_interest', user["user_id"], self.model_id, self.artist_id, 6, False, '')
-    self.header.scroll_into_view(smooth=True)
-    next_artist_id = anvil.server.call('get_next_artist_id', self.model_id)
-    routing.set_url_hash(f'agent_artists?artist_id={next_artist_id}', load_from_cache=False)
+    self._rate_artist_and_refresh(6)
 
   def button_7_click(self, **event_args):
-    anvil.server.call('add_interest', user["user_id"], self.model_id, self.artist_id, 7, False, '')
-    self.header.scroll_into_view(smooth=True)
+    self._rate_artist_and_refresh(7)
+
+  def _rate_artist_and_refresh(self, rating):
+    """Rate the current artist and refresh with the next artist without page reload"""
+    # 1. Submit the rating
+    anvil.server.call('add_interest', user["user_id"], self.model_id, self.artist_id, rating, False, '')
+    
+    # 2. Get the next artist
     next_artist_id = anvil.server.call('get_next_artist_id', self.model_id)
-    routing.set_url_hash(f'agent_artists?artist_id={next_artist_id}', load_from_cache=False)
+    
+    # 3. Update the URL silently (without triggering navigation)
+    history.replaceState(None, "", f"#agent_artists?artist_id={next_artist_id}")
+    
+    # 4. Update the url_dict to reflect the new artist_id
+    self.url_dict['artist_id'] = str(next_artist_id)
+    save_var("url_artist_id", str(next_artist_id))
+    
+    # 5. Refresh the artist data in-place
+    self.refresh_sug()
+    
+    # 6. Scroll to top
+    self.header.scroll_into_view(smooth=True)
 
   # -------------------------------
   # DESCRIPTION LINKS
