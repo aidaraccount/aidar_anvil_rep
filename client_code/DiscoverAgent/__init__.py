@@ -100,7 +100,7 @@ class DiscoverAgent(DiscoverAgentTemplate):
 
   # -------------------------------------------
   # SUGGESTIONS
-  def refresh_sug(self, **event_args):
+  def refresh_sug(self, skip_spotify_creation=False, **event_args):
 
     self.header.scroll_into_view(smooth=True)
 
@@ -109,7 +109,7 @@ class DiscoverAgent(DiscoverAgentTemplate):
     self.Artist_Name_Details_Sidebar.clear()
     self.flow_panel_genre_tile.clear()
     self.flow_panel_social_media_tile.clear()
-    self.spotify_player_spot.clear()
+    # Note: spotify_player_spot.clear() moved to _rate_artist_and_refresh() for parallel loading
     self.column_panel_circle.clear()
     self.flow_panel_shorts.clear()
     
@@ -406,8 +406,9 @@ class DiscoverAgent(DiscoverAgentTemplate):
         self.no_prediction.visible = False
       self.custom_HTML_prediction()
       
-      # Note: Spotify widget creation moved to _rate_artist_and_refresh() for parallel loading
-      # For initial load, it's still created in form_show()
+      # Create Spotify widget only if not handled by parallel loading
+      if not skip_spotify_creation:
+        self.spotify_HTML_player()
 
       # --------
       # biography
@@ -2152,7 +2153,7 @@ class DiscoverAgent(DiscoverAgentTemplate):
       self.spotify_HTML_player()
     
     # 6. Refresh artist data (this loads in parallel with Spotify container creation)
-    self.refresh_sug()
+    self.refresh_sug(skip_spotify_creation=True)
     
     # 7. Update Spotify widget with new artist ID (now that data is loaded)
     if embed_iframe_element and hasattr(self, 'sug') and self.sug.get("SpotifyArtistID"):
