@@ -18,11 +18,15 @@ function playSpotify() {
         controller.resume();  // Resume playing from the paused position
         controller.isPlaying = true;
         controller.isPaused = false;
+        // Check for authentication issues after play attempt
+        setTimeout(() => checkPlaybackAfterAction(), 2000);
       } else if (!controller.isPlaying) {
         console.log('playSpotify - 2. Start playing if not already playing')
         controller.play();    // Start playing if not already playing
         controller.isPlaying = true;
         controller.isPaused = false;
+        // Check for authentication issues after play attempt
+        setTimeout(() => checkPlaybackAfterAction(), 2000);
       } else {
         console.log('playSpotify - 3. Pause the player if its currently playing')
         controller.pause();   // Pause the player if it's currently playing
@@ -88,9 +92,15 @@ function createOrUpdateSpotifyPlayer(formElement, trackOrArtist, currentSpotifyI
         // console.log("createOrUpdateSpotifyPlayer - 111 controller_status: " + controller_status);
         
         // Check for duration=0 issue (authentication/playback failure)
-        if (duration === 0 && position === 0 && !isBuffering && controller_status === 'ready') {
+        if (duration === 0 && position === 0 && !isBuffering) {
           console.warn("createOrUpdateSpotifyPlayer - Duration is 0, likely authentication issue");
-          showSpotifyAuthNotification();
+          // Add a small delay to avoid false positives during initial loading
+          setTimeout(() => {
+            const currentState = controller.getCurrentState();
+            if (currentState && currentState.duration === 0 && currentState.position === 0) {
+              showSpotifyAuthNotification();
+            }
+          }, 1000);
         }
         
         // Check if the song has ended
@@ -545,6 +555,17 @@ function speakText(text, callback=null) {
   }
 }
 
+// Function to check playback state after user action
+function checkPlaybackAfterAction() {
+  if (controller && controller.getCurrentState) {
+    const currentState = controller.getCurrentState();
+    if (currentState && currentState.duration === 0 && currentState.position === 0 && !currentState.isBuffering) {
+      console.warn("checkPlaybackAfterAction - Playback failed, showing notification");
+      showSpotifyAuthNotification();
+    }
+  }
+}
+
 // Function to show Spotify authentication notification
 function showSpotifyAuthNotification() {
   const spotifyContainer = document.querySelector('.anvil-role-cap-spotify-footer');
@@ -561,8 +582,8 @@ function showSpotifyAuthNotification() {
   notification.className = 'spotify-auth-notification';
   notification.innerHTML = `
     <div class="spotify-auth-message">
-      <span class="spotify-auth-icon">🎵</span>
-      <span class="spotify-auth-text"><strong>Spotify authentication failed</strong><br><br>Please log out from <a href="https://open.spotify.com" target="_blank">open.spotify.com</a> in this browser to use this widget</span>
+      <span class="spotify-auth-icon">⚠️</span>
+      <span class="spotify-auth-text"><span class="spotify-auth-header">Spotify authentication failed</span><br>Please log out from <a href="https://open.spotify.com" target="_blank">open.spotify.com</a> in this browser to use this widget</span>
       <button class="spotify-auth-dismiss" onclick="this.parentElement.parentElement.remove()">×</button>
     </div>
   `;
@@ -597,10 +618,13 @@ function showSpotifyAuthNotification() {
     }
     .spotify-auth-text {
       flex: 1;
+      font-weight: normal;
     }
-    .spotify-auth-text strong {
-      font-weight: 600;
-      text-decoration: underline;
+    .spotify-auth-header {
+      font-weight: bold;
+      font-size: 16px;
+      display: block;
+      margin-bottom: 4px;
     }
     .spotify-auth-text a {
       color: white;
