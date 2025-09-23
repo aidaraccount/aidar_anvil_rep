@@ -75,12 +75,12 @@ class DiscoverAgent(DiscoverAgentTemplate):
     # First create the iframe container
     self.spotify_HTML_player()
     
-    # Then initialize the player
+    # Then initialize the player (only if we have artist data)
     embed_iframe_element = document.getElementById('embed-iframe')
-    if embed_iframe_element:
+    if embed_iframe_element and hasattr(self, 'sug') and self.sug and "SpotifyArtistID" in self.sug:
       self.call_js('createOrUpdateSpotifyPlayer', anvil.js.get_dom_node(self), 'artist', self.sug["SpotifyArtistID"])
     else:
-      print("Embed iframe element not found. Will not initialize Spotify player.")
+      print("Embed iframe element not found or no artist data available. Will not initialize Spotify player.")
 
     # -----------
     # 3. Load message history
