@@ -2111,7 +2111,16 @@ class DiscoverAgent(DiscoverAgentTemplate):
     # 5. Refresh the artist data in-place
     self.refresh_sug()
     
-    # 6. Scroll to top
+    # 6. Reload Spotify widget with new artist ID (if available)
+    embed_iframe_element = document.getElementById('embed-iframe')
+    if embed_iframe_element and hasattr(self, 'sug') and self.sug.get("SpotifyArtistID"):
+      self.call_js('createOrUpdateSpotifyPlayer', anvil.js.get_dom_node(self), 'artist', self.sug["SpotifyArtistID"])
+    
+    # 7. Refresh the fit score circle and Spotify player HTML components
+    self.custom_HTML_prediction()
+    self.spotify_HTML_player()
+    
+    # 8. Scroll to top
     self.header.scroll_into_view(smooth=True)
 
   # -------------------------------
