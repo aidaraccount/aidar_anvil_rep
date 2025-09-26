@@ -12,6 +12,7 @@ import json
 import time
 from datetime import datetime
 from anvil.js.window import location, updateLoadingSpinnerMargin, clearModelNavigation
+from anvil.js import get_dom_node
 from ..C_SearchPopupTable import C_SearchPopupTable
 
 from anvil_extras import routing
@@ -45,10 +46,15 @@ class MainIn(MainInTemplate):
     
     # Set Form properties and Data Bindings.
     self.init_components(**properties)
+    # Ensure 'show' event is bound so we can safely call JS after form is visible
+    self.set_event_handler('show', self.form_show)
     
     # Any code you write here will run before the form opens.    
     global user
     user = anvil.users.get_user()
+    # Track visibility and pending JS sync
+    self._form_visible = False
+    self._pending_model_states = None
     
     if user is None:
       self.visible = False
@@ -126,6 +132,17 @@ class MainIn(MainInTemplate):
       save_var('initial_login', True)
       
 
+  def form_show(self, **event_args):
+    """Anvil 'show' event: safe place to call JS that requires the form to be visible."""
+    self._form_visible = True
+    # If there is a pending initial model states sync, apply it now
+    try:
+      if self._pending_model_states is not None:
+        self.call_js('syncInitialModelStates', self._pending_model_states)
+        self._pending_model_states = None
+    except Exception as e:
+      print(f"[NAV MODELS] syncInitialModelStates (on show) failed: {e}")
+
   # WATCHLIST ROUTING
   def refresh_watchlists_components(self):
     # self.remove_watchlist_components()
@@ -180,48 +197,90 @@ class MainIn(MainInTemplate):
     # 1. Remove existing model components
     self.remove_model_components()    
     model_ids = json.loads(anvil.server.call('get_model_ids',  user["user_id"]))
+    # Collect initial state for JS sync (pinned / notifications)
+    model_states = []
     
     if len(model_ids) > 0:
-      for i in range(0, len(model_ids)):
+      # 1.a Compute initial effective pin (pinned OR notifications) and preserve original index
+      indexed_models = list(enumerate(model_ids))
+      def _eff_pinned(m):
+        try:
+          return bool(m.get('is_pinned', False)) or bool(m.get('active_notifications', False))
+        except Exception:
+          return False
+      # 1.b Pre-order: pinned/notify-first, then original order; no client-side resort needed on initial load
+      ordered_models = sorted(indexed_models, key=lambda t: (not _eff_pinned(t[1]), t[0]))
+
+      for orig_index, model in ordered_models:
         # 2. Create a container for each model entry
         model_container = anvil.FlowPanel(
-          tag=model_ids[i]["model_id"],
+          tag=model["model_id"],
           role='nav_flow_panel'
         )
         
         # 3. Create the model link with navigation functionality
-        if model_ids[i]["is_last_used"] is True:
+        if model["is_last_used"] is True:
           model_link = Link(
             icon='fa:angle-right',
-            text=model_ids[i]["model_name"],
-            tag=model_ids[i]["model_id"],
+            text=model["model_name"],
+            tag=model["model_id"],
             role=['model-nav-link', 'underline-link']
           )
-          save_var("model_id", model_ids[i]["model_id"])
+          save_var("model_id", model["model_id"])
         else:
           model_link = Link(
             icon='fa:angle-right',
-            text=model_ids[i]["model_name"],
-            tag=model_ids[i]["model_id"],
+            text=model["model_name"],
+            tag=model["model_id"],
             role=['model-nav-link']
           )
-        model_link.set_event_handler('click', self.create_model_click_handler(model_ids[i]["model_id"], model_link, model_container))
+        model_link.set_event_handler('click', self.create_model_click_handler(model["model_id"], model_link, model_container))
         
-        # 4. Create settings icon link
-        settings_link = Link(
-          icon='fa:sliders',
+        # 4. Create three-dot options icon (no click handler - JavaScript will handle)
+        options_link = Link(
+          icon='fa:ellipsis-h',
           text="",  # Empty text for icon-only link
-          tag=model_ids[i]["model_id"],
+          tag=model["model_id"],
           role='icon-link-discreet'
         )
-        settings_link.set_event_handler('click', self.create_settings_click_handler(model_ids[i]["model_id"]))
+        # 4.1 Expose model_id to DOM for JS by setting data-model-id
+        try:
+          get_dom_node(model_container).setAttribute('data-model-id', str(model["model_id"]))
+          # Preserve original creation-order index for later client-side stable reordering
+          get_dom_node(model_container).setAttribute('data-order-index', str(orig_index).zfill(6))
+          get_dom_node(model_link).setAttribute('data-model-id', str(model["model_id"]))
+          get_dom_node(options_link).setAttribute('data-model-id', str(model["model_id"]))
+        except Exception as e:
+          print(f"[NAV MODELS] Could not set data-model-id attributes: {e}")
         
         # 5. Add both links to the container
         model_container.add_component(model_link, expand=True)  # Expand to fill available space
-        model_container.add_component(settings_link)
+        model_container.add_component(options_link)
         
         # 6. Add the container to nav_models
         self.nav_models.add_component(model_container)
+
+        # 7. Record initial state for this model for JS to apply classes/indicators/sorting
+        try:
+          is_pinned = bool(model.get('is_pinned', False))
+          active_notifications = bool(model.get('active_notifications', False))
+        except Exception:
+          is_pinned = False
+          active_notifications = False
+        model_states.append({
+          'model_id': int(model["model_id"]),
+          'is_pinned': is_pinned,
+          'active_notifications': active_notifications
+        })
+
+    # 8. Defer sync to when the form is visible; if already visible, call immediately
+    self._pending_model_states = model_states
+    if getattr(self, '_form_visible', False):
+      try:
+        self.call_js('syncInitialModelStates', model_states)
+        self._pending_model_states = None
+      except Exception as e:
+        print(f"[NAV MODELS] syncInitialModelStates call failed (visible): {e}")
 
     self.reset_nav_backgrounds()
   
@@ -698,3 +757,87 @@ class MainIn(MainInTemplate):
       print(f'[MainIn_dynamic_artist_change] Error calling dynamic_artist_change: {e}')
       raise
     
+  def MainIn_delete_model(self, model_id):
+    """Confirm and delete a model from the nav menu.
+
+    - Shows a confirmation alert (same copy as in ModelProfile.delete_click).
+    - If confirmed, calls server delete.
+    - Navigates to Home ONLY if the current page is showing this model
+      (either a model_profile with matching model_id, or a Discover page
+       where the active saved model_id matches).
+    - Always refreshes model navigation components and underline afterwards.
+    """
+    # 1) Confirm
+    result = alert(
+      title='Do you want to delete this model?',
+      content=(
+        "Are you sure to delete this model?\n\n"
+        "Everything will be lost! All reference artists, all previously rated artists - "
+        "all you did will be gone for ever."
+      ),
+      buttons=[("Cancel", "Cancel"), ("Delete", "Delete")]
+    )
+    
+    if result != 'Delete':
+      return False
+    
+    # 2) Delete on server
+    try:
+      res = anvil.server.call('delete_model', model_id)
+    except Exception as e:
+      print(f'[MainIn_delete_model] Error deleting model {model_id}: {e}')
+      res = 'error'
+    
+    if res == 'success':
+      Notification("", title="Agent deleted!", style="success").show()
+      
+      # 3) Conditionally navigate to Home
+      should_go_home = False
+      try:
+        current_hash = location.hash or ''
+        # a) If currently on model_profile or model_setup and model_id matches
+        if current_hash.startswith('#model_profile?') or current_hash.startswith('#model_setup?'):
+          parts = current_hash.split('?', 1)
+          if len(parts) == 2:
+            qs = parts[1]
+            params = dict(pair.split('=') for pair in qs.split('&') if '=' in pair)
+            mid = params.get('model_id')
+            if mid is not None and str(mid) == str(model_id):
+              should_go_home = True
+        # b) If currently on a Discover page and the active model matches
+        elif current_hash.startswith('#artists?') or current_hash.startswith('#rel_artists?') or current_hash.startswith('#agent_artists?'):
+          try:
+            active_mid = load_var('model_id')
+            if active_mid is not None and int(active_mid) == int(model_id):
+              should_go_home = True
+          except Exception:
+            pass
+      except Exception as e:
+        print(f'[MainIn_delete_model] Error evaluating navigation condition: {e}')
+      
+      if should_go_home:
+        try:
+          routing.set_url_hash('home', load_from_cache=False)
+        except Exception as e:
+          print(f'[MainIn_delete_model] Routing to home failed: {e}')
+      
+      # 4) Refresh model navigation regardless
+      self.refresh_models_components()
+      self.refresh_models_underline()
+      return True
+    
+    return False
+
+  def MainIn_update_agent_pin(self, agent_id: int, is_pinned: bool) -> str:
+    """Update the pin status of an agent (model)."""
+    print(f'[MainIn_update_agent_pin] Updating agent pin for agent_id: {agent_id}, is_pinned: {is_pinned}')
+    result = anvil.server.call('update_agent_pin', agent_id, is_pinned)
+    print(f'[MainIn_update_agent_pin] Result: {result}')
+    return result
+
+  def MainIn_update_agent_notification(self, agent_id: int, active_notifications: bool) -> str:
+    """Update the notification activation state for an agent (model)."""
+    print(f'[MainIn_update_agent_notification] Updating notifications for agent_id: {agent_id}, active: {active_notifications}')
+    result = anvil.server.call('update_agent_notification', agent_id, active_notifications)
+    print(f'[MainIn_update_agent_notification] Result: {result}')
+    return result

@@ -2429,20 +2429,12 @@
       // Add a new model to the navigation
       addNewModelToNavigation(modelData) {
         try {
-          console.log('[addNewModelToNavigation] Adding new model:', modelData);
-          
           // 1. Find the nav_models container and the ul.linear-panel inside it
           const navModels = document.querySelector('.anvil-role-nav_models');
-          if (!navModels) {
-            console.warn('[addNewModelToNavigation] nav_models container not found');
-            return;
-          }
+          if (!navModels) { return; }
           
           const linearPanel = navModels.querySelector('ul.linear-panel');
-          if (!linearPanel) {
-            console.warn('[addNewModelToNavigation] linear-panel not found inside nav_models');
-            return;
-          }
+          if (!linearPanel) { return; }
           
           // 2. Create the list item container
           const listItem = document.createElement('li');
@@ -2452,6 +2444,18 @@
           flowPanel.style = ''; // Empty style attribute to match existing structure
           flowPanel.className = 'anvil-spacing-above-small anvil-spacing-below-small anvil-role-nav_flow_panel flow-panel anvil-container anvil-container-overflow flow-spacing-medium vertical-align-full anvil-component has-components';
           flowPanel.setAttribute('anvil-role', 'nav_flow_panel');
+          // Propagate model id for menu JS resolution
+          flowPanel.setAttribute('tag', String(modelData.model_id));
+          flowPanel.dataset.modelId = String(modelData.model_id);
+          // Assign order index lower than any existing to ensure it becomes first among unpinned after resort
+          try {
+            const existingPanels = Array.from(linearPanel.querySelectorAll('[anvil-role="nav_flow_panel"]'));
+            const existingIndices = existingPanels.map(p => parseInt(p.dataset.orderIndex || '0', 10));
+            const minExisting = existingIndices.length ? Math.min(...existingIndices) : 0;
+            flowPanel.dataset.orderIndex = String(minExisting - 1);
+          } catch (e) {
+            
+          }
           
           // 4. Create the flow panel gutter
           const flowGutter = document.createElement('div');
@@ -2471,39 +2475,41 @@
           modelLink.href = 'javascript:void(0)';
           modelLink.setAttribute('rel', 'noopener noreferrer');
           modelLink.setAttribute('anvil-role', 'model-nav-link');
+          modelLink.setAttribute('tag', String(modelData.model_id));
+          modelLink.dataset.modelId = String(modelData.model_id);
           
           // Set innerHTML directly without whitespace to match exact structure
           modelLink.innerHTML = `<i class="anvil-component-icon left fa fa-angle-right left-icon" aria-hidden="true"></i><div style="display: inline-block;" class="link-text">${modelData.model_name}</div><i class="anvil-component-icon right fa fa-angle-right left-icon" aria-hidden="true"></i>`;
           
-          // 7. Create the settings icon container
-          const settingsContainer = document.createElement('div');
-          settingsContainer.className = 'flow-panel-item anvil-always-inline-container';
+          // 7. Create the three-dots icon container (new options menu trigger)
+          const dotsContainer = document.createElement('div');
+          dotsContainer.className = 'flow-panel-item anvil-always-inline-container';
           
-          // 8. Create the settings link
-          const settingsLink = document.createElement('a');
-          settingsLink.style = 'text-align: left;';
-          settingsLink.className = 'anvil-inlinable anvil-container column-panel align-left anvil-spacing-above-small anvil-spacing-below-small anvil-component-icon-present left-icon anvil-role-icon-link-discreet col-padding-medium anvil-component';
-          settingsLink.setAttribute('ontouchstart', '');
-          settingsLink.href = 'javascript:void(0)';
-          settingsLink.setAttribute('rel', 'noopener noreferrer');
-          settingsLink.setAttribute('anvil-role', 'icon-link-discreet');
+          // 8. Create the three-dots link (icon-link-discreet) used by model_nav_menu.js
+          const dotsLink = document.createElement('a');
+          dotsLink.style = 'text-align: left;';
+          dotsLink.className = 'anvil-inlinable anvil-container column-panel align-left anvil-spacing-above-small anvil-spacing-below-small anvil-component-icon-present left-icon anvil-role-icon-link-discreet col-padding-medium anvil-component';
+          dotsLink.setAttribute('ontouchstart', '');
+          dotsLink.href = 'javascript:void(0)';
+          dotsLink.setAttribute('rel', 'noopener noreferrer');
+          dotsLink.setAttribute('anvil-role', 'icon-link-discreet');
+          dotsLink.setAttribute('tag', String(modelData.model_id));
+          dotsLink.dataset.modelId = String(modelData.model_id);
           
-          // Compact HTML structure with no extra whitespace to match exactly
-          settingsLink.innerHTML = `<i class="anvil-component-icon left fa fa-sliders left-icon" aria-hidden="true"></i><div style="display: none;" class="link-text"></div><i class="anvil-component-icon right fa fa-sliders left-icon" aria-hidden="true"></i>`;
+          // Compact HTML structure with no extra whitespace (horizontal three dots like MainIn)
+          dotsLink.innerHTML = `<i class="anvil-component-icon left fa fa-ellipsis-h left-icon" aria-hidden="true"></i><div style="display: none;" class="link-text"></div><i class="anvil-component-icon right fa fa-ellipsis-h left-icon" aria-hidden="true"></i>`;
           
           // 9. Add click handlers
           // Discover link click handler
           modelLink.addEventListener('click', (e) => {
             e.preventDefault();
-            console.log(`[addNewModelToNavigation] Model clicked: ${modelData.model_id}`);
             
             // First update the WebSocketManager model ID if available
             if (window.wsManager && typeof window.wsManager.updateModelId === 'function') {
               try {
-                console.log(`[addNewModelToNavigation] Updating WebSocketManager model ID to ${modelData.model_id}`);
                 window.wsManager.updateModelId(modelData.model_id);
               } catch (err) {
-                console.warn('[addNewModelToNavigation] Failed to update WebSocketManager model ID:', err);
+                
               }
             }
             
@@ -2511,29 +2517,40 @@
             window.location.href = `#agent_artists?artist_id=get_artist`;
           });
           
-          // Settings icon link click handler
-          settingsLink.addEventListener('click', (e) => {
-            e.preventDefault();
-            console.log(`[addNewModelToNavigation] Settings clicked for model: ${modelData.model_id}`);
-            // Navigate to model profile settings
-            window.location.href = `#model_profile?model_id=${modelData.model_id}&section=Main`;
-          });
-          
           // 10. Assemble the DOM elements
           modelLinkContainer.appendChild(modelLink);
-          settingsContainer.appendChild(settingsLink);
+          dotsContainer.appendChild(dotsLink);
           
           flowGutter.appendChild(modelLinkContainer);
-          flowGutter.appendChild(settingsContainer);
+          flowGutter.appendChild(dotsContainer);
           
           flowPanel.appendChild(flowGutter);
           listItem.appendChild(flowPanel);
           
-          // 11. Add the new model as the first item in the list
-          linearPanel.insertBefore(listItem, linearPanel.firstChild.nextSibling);
+          // 11. Insert as the first item AFTER all pinned agents (header remains first)
+          const liChildren = Array.from(linearPanel.children).filter(el => el.tagName && el.tagName.toLowerCase() === 'li');
+          const headerLi = liChildren[0] || null;
+          const pinnedLis = liChildren.filter(li => !!li.querySelector('[anvil-role="nav_flow_panel"].pinned'));
+          
+          let insertBeforeNode = null;
+          if (pinnedLis.length > 0) {
+            const lastPinnedLi = pinnedLis[pinnedLis.length - 1];
+            insertBeforeNode = lastPinnedLi.nextElementSibling; // first unpinned or null
+          } else if (headerLi) {
+            insertBeforeNode = headerLi.nextElementSibling; // first row after header
+          }
+          
+          if (insertBeforeNode) {
+            linearPanel.insertBefore(listItem, insertBeforeNode);
+          } else if (headerLi) {
+            // If there is only header (or last pinned is last), appending achieves "after pinned"
+            linearPanel.appendChild(listItem);
+          } else {
+            // Fallback: no header detected, prepend
+            linearPanel.insertBefore(listItem, linearPanel.firstChild);
+          }
           
           // 12. Add underline to the newly added link and remove from others
-          console.log('[addNewModelToNavigation] Adding underline to the newly added link and removing from others');
           document.querySelectorAll('.anvil-role-nav_models [anvil-role*="model-nav-link"]').forEach(link => {
             if (link !== modelLink) {
               link.classList.remove('anvil-role-underline-link');
@@ -2543,14 +2560,22 @@
             }
           });
           
+          // 13. Trigger resort to normalize ordering (pinned first, then orderIndex asc)
+          try {
+            if (typeof resortNavModels === 'function') {
+              resortNavModels();
+            }
+          } catch (e) {
+            
+          }
+          
           // Add underline class and update role attribute to match existing elements
           modelLink.classList.add('anvil-role-underline-link');
           // Ensure we retain model-nav-link role and add underline-link
           modelLink.setAttribute('anvil-role', 'model-nav-link underline-link');
           
-          console.log('[addNewModelToNavigation] Model added to navigation');
         } catch (error) {
-          console.error('[addNewModelToNavigation] Error:', error);
+          
         }
       }
       

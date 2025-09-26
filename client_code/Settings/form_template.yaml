@@ -17,8 +17,7 @@ components:
         spacing_below: none
         text: Account Settings
       type: Link
-    - components: []
-      event_bindings: {click: nav_not_click}
+    - event_bindings: {click: nav_not_click}
       layout_properties: {}
       name: nav_not
       properties:
@@ -45,8 +44,7 @@ components:
         spacing_below: none
         text: Subscription
       type: Link
-    - components: []
-      event_bindings: {click: nav_user_click}
+    - event_bindings: {click: nav_user_click}
       layout_properties: {}
       name: nav_user
       properties:
@@ -239,11 +237,10 @@ components:
         properties:
           role: header-6
           spacing:
-            margin: [null, null, null, '15']
+            margin: ['13', null, null, '15']
           text: System notifications
         type: Label
-      - data_bindings: []
-        event_bindings: {click: button_active_gen_click}
+      - event_bindings: {click: button_active_gen_click}
         layout_properties: {grid_position: 'LQRANB,FINKLW'}
         name: not_general
         properties:
@@ -256,11 +253,10 @@ components:
         properties:
           role: header-6
           spacing:
-            margin: [null, null, null, '15']
+            margin: ['13', null, null, '15']
           text: Weekly reminder
         type: Label
-      - data_bindings: []
-        event_bindings: {click: button_active_gen_click}
+      - event_bindings: {click: button_active_gen_click}
         layout_properties: {grid_position: 'XLRXWF,XSAHJF'}
         name: not_reminder
         properties:
@@ -274,11 +270,10 @@ components:
           align: left
           role: header-6
           spacing:
-            margin: [null, null, null, '15']
+            margin: ['13', null, null, '15']
           text: User newsletter (monthly)
         type: Label
-      - data_bindings: []
-        event_bindings: {click: button_active_gen_click}
+      - event_bindings: {click: button_active_gen_click}
         layout_properties: {grid_position: 'BEWOCD,IKFNAI'}
         name: not_newsletter
         properties:
@@ -311,13 +306,62 @@ components:
             align: left
             role: header-6
             spacing:
-              margin: [null, null, null, '15']
-            text: Personal Artist Radars
+              margin: ['13', null, null, '15']
+            text: Agent notifications
           type: Label
-        - data_bindings: []
-          event_bindings: {click: button_active_pers_click_radar}
+        - event_bindings: {click: button_active_pers_click_radar}
           layout_properties: {grid_position: ',PUGUJA'}
-          name: not_radars
+          name: not_agents
+          properties:
+            align: left
+            role: [call-to-action-button-disabled, header-7]
+            text: ''
+          type: Button
+        - layout_properties: {grid_position: ',ODZVTM'}
+          name: label_3
+          properties:
+            align: right
+            role: header-6
+            spacing:
+              margin: ['13', null, null, null]
+            text: low freq.
+          type: Label
+        - data_bindings:
+          - {code: '''slider_5_scale''', property: role, writeback: false}
+          event_bindings: {slide: sliders_slide}
+          layout_properties: {grid_position: ',LSZQEU'}
+          name: slider_agents
+          properties: {format: .0f, max: 5, min: 1, pips: false, pips_density: null, pips_stepped: false, start: '3', step: 1, tooltips: false}
+          type: form:dep_h86ijk4pnzr0f:Slider
+        - layout_properties: {grid_position: ',OHPPEF'}
+          name: label_6
+          properties:
+            role: header-7
+            spacing:
+              margin: ['13', null, null, null]
+            text: high freq.
+          type: Label
+        - layout_properties: {grid_position: 'GHPLQG,PTTPHR'}
+          name: label_3_copy
+          properties:
+            align: right
+            role: header-6
+            spacing:
+              margin: ['13', null, null, null]
+            text: low freq.
+          type: Label
+        - layout_properties: {grid_position: 'GHPLQG,RVBCVR'}
+          name: label_5_copy_copy_2_copy
+          properties:
+            align: left
+            role: header-6
+            spacing:
+              margin: ['13', null, null, '15']
+            text: Watchlist notifications
+          type: Label
+        - event_bindings: {click: button_active_pers_click}
+          layout_properties: {grid_position: 'GHPLQG,SPFXSP'}
+          name: not_watchlist
           properties:
             align: left
             role: [call-to-action-button-disabled, header-7]
@@ -329,18 +373,34 @@ components:
             align: left
             role: header-6
             spacing:
-              margin: [null, null, null, '15']
+              margin: ['13', null, null, '15']
             text: Personal highlights (monthly)
           type: Label
-        - data_bindings: []
-          event_bindings: {click: button_active_pers_click}
+        - data_bindings:
+          - {code: '''slider_5_scale''', property: role, writeback: false}
+          event_bindings: {slide: sliders_slide}
+          layout_properties: {grid_position: 'GHPLQG,SPAECE'}
+          name: slider_wl
+          properties: {format: .0f, max: 5, min: 1, pips: false, pips_density: null, pips_stepped: false, start: '3', step: 1, tooltips: false}
+          type: form:dep_h86ijk4pnzr0f:Slider
+        - event_bindings: {click: button_active_pers_click}
           layout_properties: {grid_position: 'LAMMIM,KYBRJP'}
           name: not_highlights
           properties:
             align: left
             role: [call-to-action-button-disabled, header-7]
+            spacing:
+              margin: [null, null, null, '5']
             text: ''
           type: Button
+        - layout_properties: {grid_position: 'GHPLQG,POFZTI'}
+          name: label_6_copy
+          properties:
+            role: header-7
+            spacing:
+              margin: ['13', null, null, null]
+            text: high freq.
+          type: Label
         - event_bindings: {click: not_pers_save_click}
           layout_properties: {grid_position: 'ZVKKWY,CGXTIF'}
           name: not_pers_save
@@ -353,7 +413,7 @@ components:
         name: notifications_copy
         properties:
           col_spacing: tiny
-          col_widths: '{"undefined":20,"VVYVCZ":20,"PUGUJA":40,"KYBRJP":40}'
+          col_widths: '{"undefined":35,"VVYVCZ":20,"PUGUJA":15,"KYBRJP":40,"LSZQEU":20,"ODZVTM":10,"OHPPEF":24,"RVBCVR":35,"SPFXSP":15,"PTTPHR":10,"SPAECE":20,"POFZTI":24}'
           spacing:
             margin: ['25', null, null, '0']
         type: ColumnPanel
@@ -501,8 +561,7 @@ components:
       spacing_above: medium
     type: ColumnPanel
   - components:
-    - data_bindings: []
-      layout_properties: {grid_position: 'BYVQLO,RENXXN'}
+    - layout_properties: {grid_position: 'BYVQLO,RENXXN'}
       name: summary
       properties:
         align: center
@@ -607,8 +666,7 @@ components:
               margin: [null, null, null, '15']
             text: Company License Key
           type: Label
-        - data_bindings: []
-          layout_properties: {}
+        - layout_properties: {}
           name: key
           properties: {role: header-6}
           type: Label
@@ -644,8 +702,7 @@ components:
               margin: [null, null, null, '15']
             text: Invite link
           type: Label
-        - data_bindings: []
-          layout_properties: {}
+        - layout_properties: {}
           name: link
           properties:
             role: header-6

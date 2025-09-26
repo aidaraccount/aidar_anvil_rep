@@ -266,3 +266,21 @@ a) Individual class for C_LevelOfPopularity reset button */
 font-size: 16px;
 transform: translateY(-4px);
 }
+
+/* ----------------------------
+6. Sliders: */
+.anvil-role-slider_5_scale {
+  margin-top: 13px;
+  padding: 3px 11px !important;
+  .noUi-horizontal {
+    height: 10px;
+    .noUi-connect {
+      background: var(--Orange);
+    }
+    .noUi-handle {
+      height: 23px !important;
+      width: 23px !important;
+      top: -7px !important;
+    }
+  }
+}

@@ -1,0 +1,205 @@
+/* 1. Three Dots Menu - Simple CSS-only approach */
+[anvil-role="icon-link-discreet"] {
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+/* 2. Hide three dots by default, show on hover */
+[anvil-role="nav_flow_panel"] [anvil-role="icon-link-discreet"] {
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s ease, visibility 0.2s ease;
+}
+
+[anvil-role="nav_flow_panel"]:hover [anvil-role="icon-link-discreet"] {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* 3. Style the three dots icon */
+[anvil-role="icon-link-discreet"] i {
+    color: rgba(255, 255, 255, 0.75);
+    font-size: 14px;
+    padding: 4px;
+    border-radius: 50%;
+    transition: all 0.2s ease;
+}
+
+[anvil-role="icon-link-discreet"]:hover i {
+    color: rgba(255, 255, 255, 0.95);
+}
+
+/* 4. Expandable options container */
+.model-options-expanded {
+    position: absolute;
+    right: 10px;
+    top: 5px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateX(10px);
+    transition: all 0.3s ease;
+    z-index: 10;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 12px;
+    padding: 2px 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.model-options-expanded.active {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(0);
+}
+
+/* 5. Individual option icons */
+.option-icon {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: transparent;
+    color: #666;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.option-icon:hover {
+    background-color: #e0e0e0;
+    color: #333;
+    transform: scale(1.1);
+}
+
+/* 6. Hide three dots when expanded */
+[anvil-role="icon-link-discreet"].expanded {
+    opacity: 0;
+    visibility: hidden;
+}
+
+/* 7. Truncate model name when expanded */
+[anvil-role="nav_flow_panel"].expanded .model-nav-link .link-text {
+    max-width: 100px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* 8. Ensure each nav row is a positioning context for absolute menu */
+[anvil-role="nav_flow_panel"] {
+    position: relative;
+    will-change: transform; /* hint for FLIP animation smoothness */
+}
+
+/* 9. Pin indicator for pinned rows (visible only when not hovering and not expanded) */
+.pin-indicator {
+    position: absolute;
+    right: 10px;
+    top: 7px;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s ease, visibility 0.2s ease;
+    pointer-events: none; /* do not steal hover; let dots appear */
+    z-index: 5;
+}
+
+.pin-indicator {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    border-radius: 9999px;
+    background: #f97316; /* orange-500 */
+    box-shadow: 0 1px 2px rgba(0,0,0,0.15);
+}
+.pin-indicator i {
+    color: #ffffff;
+    font-size: 10px;
+}
+
+[anvil-role="nav_flow_panel"].pinned .pin-indicator {
+    opacity: 1;
+    visibility: visible;
+}
+
+[anvil-role="nav_flow_panel"].pinned:hover .pin-indicator,
+[anvil-role="nav_flow_panel"].expanded .pin-indicator {
+    opacity: 0;
+    visibility: hidden;
+}
+
+/* 10. Active color for pin icon inside the menu */
+.option-icon[data-action="pin"].active {
+    background-color: #f97316; /* orange-500 */
+    color: #ffffff;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.12);
+}
+.option-icon[data-action="pin"].active i {
+    color: #ffffff;
+}
+.option-icon[data-action="pin"].active:hover {
+    background-color: #fb923c; /* orange-400 */
+}
+
+/* 11. Notification (megaphone) indicator for notify-active rows */
+.notify-indicator {
+    position: absolute;
+    right: 10px;
+    top: 7px;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s ease, visibility 0.2s ease;
+    pointer-events: none;
+    z-index: 6; /* above pin */
+}
+
+.notify-indicator {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    border-radius: 9999px;
+    background: #22c55e; /* green-500 */
+    box-shadow: 0 1px 2px rgba(0,0,0,0.15);
+}
+.notify-indicator i {
+    color: #ffffff;
+    font-size: 10px;
+}
+
+[anvil-role="nav_flow_panel"].notify-active .notify-indicator {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Hide pin-indicator when notify is active */
+[anvil-role="nav_flow_panel"].notify-active .pin-indicator {
+    opacity: 0 !important;
+    visibility: hidden !important;
+}
+
+/* On hover or expanded, hide the notify indicator (so menu/dots have space) */
+[anvil-role="nav_flow_panel"].notify-active:hover .notify-indicator,
+[anvil-role="nav_flow_panel"].notify-active.expanded .notify-indicator {
+    opacity: 0;
+    visibility: hidden;
+}
+
+/* 12. Active color for notifications icon inside the menu */
+.option-icon[data-action="notifications"].active {
+    background-color: #22c55e; /* green-500 */
+    color: #ffffff;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.12);
+}
+.option-icon[data-action="notifications"].active i {
+    color: #ffffff;
+}
+.option-icon[data-action="notifications"].active:hover {
+    background-color: #34d399; /* green-400 */
+}

@@ -249,7 +249,7 @@ class C_NotificationSettings(C_NotificationSettingsTemplate):
     if self.activate.visible is True:
       # check if not_radar settings are active - if not, go to settings
       not_data = json.loads(anvil.server.call('get_settings_notifications', user["user_id"]))[0]
-      if not_data["not_radars"] == 'active':      
+      if not_data["not_agents"] == 'active':      
         self.activate.visible = False
         self.deactivate.visible = True
       else:
