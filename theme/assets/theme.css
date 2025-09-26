@@ -170,7 +170,7 @@ body, html {
 }
 /* reduce max-width on hover */
 .anvil-role-nav_flow_panel:hover .anvil-role-model-nav-link .link-text {
-  max-width: 160px;
+  max-width: 145px;
 }
 /* underlining the activated model and watchlist in the navigation */
 .anvil-role-underline-link .link-text {
