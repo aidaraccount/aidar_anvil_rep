@@ -281,6 +281,9 @@ transform: translateY(-4px);
       height: 23px !important;
       width: 23px !important;
       top: -7px !important;
+      background: white !important;
+      border: 2px solid var(--Orange) !important;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2) !important;
     }
   }
 }

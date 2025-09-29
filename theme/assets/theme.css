@@ -1566,14 +1566,14 @@ footer a, .footer .anvil-component {
 }
 .anvil-role-slider .noUi-handle.noUi-handle-lower, 
 .anvil-role-slider .noUi-handle.noUi-handle-upper {
-  width: 10px;
-  height: 30px;
-  right: -5px;
-  top: -10px;
-  border-radius: 4px;
-  background: white;
-  border: 2px solid rgb(233, 95, 48);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  width: 10px !important;
+  height: 30px !important;
+  right: -5px !important;
+  top: -10px !important;
+  border-radius: 4px !important;
+  background: white !important;
+  border: 2px solid rgb(233, 95, 48) !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2) !important;
 }
 .anvil-role-slider {
   -webkit-appearance: none;
@@ -1740,14 +1740,14 @@ footer a, .footer .anvil-component {
 }
 .anvil-role-slider-growth .noUi-handle.noUi-handle-lower, 
 .anvil-role-slider-growth .noUi-handle.noUi-handle-upper {
-  width: 10px;
-  height: 30px;
-  right: -5px;
-  top: -10px;
-  border-radius: 4px;
-  background: white;
-  border: 2px solid rgb(233, 95, 48);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  width: 10px !important;
+  height: 30px !important;
+  right: -5px !important;
+  top: -10px !important;
+  border-radius: 4px !important;
+  background: white !important;
+  border: 2px solid rgb(233, 95, 48) !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2) !important;
 }
 
 .anvil-role-slider-growth {
