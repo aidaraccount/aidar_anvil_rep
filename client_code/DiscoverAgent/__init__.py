@@ -2179,7 +2179,19 @@ class DiscoverAgent(DiscoverAgentTemplate):
     self.sug = sug
     self.refresh_sug(skip_spotify_creation=True, use_existing_sug=True, skip_routing=True)
     
-    # 5. Scroll to top
+    # 5. Explicitly refresh biography to ensure it shows the new artist's description
+    biography = sug.get("Biography")
+    if biography and biography != 'None':
+      if len(biography) >= 200:
+        self.bio_text.content = f"{biography[0:200]}..."
+        self.bio.visible = True
+      else:
+        self.bio_text.content = biography
+        self.bio.visible = False
+    else:
+      self.bio.visible = False
+    
+    # 6. Scroll to top
     self.header.scroll_into_view(smooth=True)
 
   # -------------------------------
