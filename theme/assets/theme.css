@@ -1571,6 +1571,9 @@ footer a, .footer .anvil-component {
   right: -5px;
   top: -10px;
   border-radius: 4px;
+  background: white;
+  border: 2px solid rgb(233, 95, 48);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 .anvil-role-slider {
   -webkit-appearance: none;
@@ -1742,6 +1745,9 @@ footer a, .footer .anvil-component {
   right: -5px;
   top: -10px;
   border-radius: 4px;
+  background: white;
+  border: 2px solid rgb(233, 95, 48);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .anvil-role-slider-growth {
