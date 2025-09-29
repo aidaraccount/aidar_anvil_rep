@@ -1566,14 +1566,17 @@ footer a, .footer .anvil-component {
 }
 .anvil-role-slider .noUi-handle.noUi-handle-lower, 
 .anvil-role-slider .noUi-handle.noUi-handle-upper {
-  width: 10px !important;
-  height: 30px !important;
+  width: var(--ae-slider-handle-size, 10px) !important;
+  height: var(--ae-slider-handle-size, 30px) !important;
   right: -5px !important;
   top: -10px !important;
   border-radius: 4px !important;
   background: white !important;
   border: 2px solid rgb(233, 95, 48) !important;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2) !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  display: block !important;
 }
 .anvil-role-slider {
   -webkit-appearance: none;
@@ -1740,14 +1743,17 @@ footer a, .footer .anvil-component {
 }
 .anvil-role-slider-growth .noUi-handle.noUi-handle-lower, 
 .anvil-role-slider-growth .noUi-handle.noUi-handle-upper {
-  width: 10px !important;
-  height: 30px !important;
+  width: var(--ae-slider-handle-size, 10px) !important;
+  height: var(--ae-slider-handle-size, 30px) !important;
   right: -5px !important;
   top: -10px !important;
   border-radius: 4px !important;
   background: white !important;
   border: 2px solid rgb(233, 95, 48) !important;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2) !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  display: block !important;
 }
 
 .anvil-role-slider-growth {
@@ -1936,6 +1942,23 @@ footer a, .footer .anvil-component {
 /* Small Ticks CSS */
 .anvil-role-slider .noUi-pips.noUi-pips-horizontal .noUi-marker {
   background:white;
+}
+
+/* Additional specific targeting for C_LevelOfPopularity slider handles */
+.ae-slider-container.anvil-role-slider .noUi-handle,
+.ae-slider-container .noUi-handle.noUi-handle-lower,
+.ae-slider-container .noUi-handle.noUi-handle-upper {
+  width: var(--ae-slider-handle-size, 34px) !important;
+  height: var(--ae-slider-handle-size, 34px) !important;
+  background: white !important;
+  border: 2px solid rgb(233, 95, 48) !important;
+  border-radius: 50% !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2) !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  display: block !important;
+  right: calc(var(--ae-slider-handle-size, 34px) / -2) !important;
+  top: calc((var(--ae-slider-height, 18px) - var(--ae-slider-handle-size, 34px)) / 2) !important;
 }
 .anvil-role-slider-growth .noUi-pips.noUi-pips-horizontal{
   color:white;
