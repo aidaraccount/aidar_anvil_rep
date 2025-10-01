@@ -1,6 +1,11 @@
 // 1. Model Navigation Menu JavaScript - Cross-browser compatible approach
-let isMenuToggling = false; // Prevent rapid toggle/close cycles
-let activeMenuTimeout = null; // Track menu creation timing
+// Use window properties to prevent redeclaration errors on page reload
+if (typeof window.isMenuToggling === 'undefined') {
+    window.isMenuToggling = false; // Prevent rapid toggle/close cycles
+}
+if (typeof window.activeMenuTimeout === 'undefined') {
+    window.activeMenuTimeout = null; // Track menu creation timing
+}
 
 function initializeModelNavigation() {
     console.log('🔧 Initializing model navigation...');
@@ -42,7 +47,7 @@ function handleDocumentClick(e) {
 // Secondary click handler (bubble phase) - fallback for Firefox
 function handleDocumentClickBubble(e) {
     // Skip if we're in the middle of toggling a menu
-    if (isMenuToggling) {
+    if (window.isMenuToggling) {
         console.log('🔄 Skipping bubble handler - menu is toggling');
         return;
     }
@@ -76,11 +81,11 @@ function handleThreeDotsClick(e) {
     
     if (flowPanel) {
         // Set toggle flag to prevent immediate close
-        isMenuToggling = true;
+        window.isMenuToggling = true;
         toggleModelOptions(flowPanel, modelId);
         // Clear flag after menu is established
         setTimeout(() => {
-            isMenuToggling = false;
+            window.isMenuToggling = false;
         }, 100);
     } else {
         console.warn('⚠️ Could not find a suitable container for options menu.');
@@ -308,9 +313,9 @@ function toggleModelOptions(flowPanel, modelId) {
     console.log('🔄 Flow panel:', flowPanel);
     
     // Clear any existing timeout
-    if (activeMenuTimeout) {
-        clearTimeout(activeMenuTimeout);
-        activeMenuTimeout = null;
+    if (window.activeMenuTimeout) {
+        clearTimeout(window.activeMenuTimeout);
+        window.activeMenuTimeout = null;
     }
     
     // Close other open menus first
@@ -365,9 +370,9 @@ function toggleModelOptions(flowPanel, modelId) {
         console.log('✅ Added active class to expanded container');
         
         // Set a timeout to track when menu is fully established
-        activeMenuTimeout = setTimeout(() => {
+        window.activeMenuTimeout = setTimeout(() => {
             console.log('📍 Menu fully established and stable');
-            activeMenuTimeout = null;
+            window.activeMenuTimeout = null;
         }, 350); // Slightly longer than CSS transition
     });
 }
@@ -608,9 +613,9 @@ async function handleOptionClick(action, modelId) {
 // 6. Close all open menus with improved cleanup
 function closeAllMenus() {
     // Clear any active menu timeout
-    if (activeMenuTimeout) {
-        clearTimeout(activeMenuTimeout);
-        activeMenuTimeout = null;
+    if (window.activeMenuTimeout) {
+        clearTimeout(window.activeMenuTimeout);
+        window.activeMenuTimeout = null;
     }
     
     // Remove expanded class from all flow panels
@@ -640,10 +645,10 @@ function closeAllMenus() {
 // 7. Function to clear model navigation (for refresh)
 function clearModelNavigation() {
     // Reset all state flags
-    isMenuToggling = false;
-    if (activeMenuTimeout) {
-        clearTimeout(activeMenuTimeout);
-        activeMenuTimeout = null;
+    window.isMenuToggling = false;
+    if (window.activeMenuTimeout) {
+        clearTimeout(window.activeMenuTimeout);
+        window.activeMenuTimeout = null;
     }
     closeAllMenus();
 }
