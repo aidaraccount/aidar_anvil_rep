@@ -119,8 +119,10 @@ components:
             background: ''
             enabled: true
             icon: fa:bullhorn
+            icon_align: left
             role: [call-to-action-button, header-6]
             spacing:
+              margin: [null, null, null, '0']
               padding: [null, '15', null, '15']
             spacing_above: none
             spacing_below: none
