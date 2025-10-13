@@ -1,0 +1,49 @@
+components:
+- components:
+  - layout_properties: {grid_position: 'TGMKQQ,JFIZPQ'}
+    name: notification_title
+    properties: {align: center, role: header-3, text: 'Stay Updated!'}
+    type: Label
+  - data_bindings: []
+    layout_properties: {grid_position: 'IWIKIC,ADOYIY'}
+    name: notification_message
+    properties:
+      align: center
+      content: |
+        Activate email notifications to receive regular updates when new artists matching your preferences are discovered.
+        
+        **Benefits:**
+        • Get notified about promising new talent before others
+        • Receive personalized artist recommendations via email
+        • Never miss an opportunity to discover your next signing
+        • Stay ahead of the competition with automated scouting
+      role: header-6
+    type: RichText
+  - event_bindings: {click: activate_button_click}
+    layout_properties: {grid_position: 'EVAPCH,MPQJLK'}
+    name: activate_button
+    properties:
+      role: [call-to-action-button, header-6]
+      text: Activate Agent Notification
+    type: Button
+  - event_bindings: {click: later_button_click}
+    layout_properties: {grid_position: 'XLESHC,WTVRDJ'}
+    name: later_button
+    properties:
+      role: [header-6, call-to-action-button-disabled]
+      text: Maybe Later
+    type: Button
+  data_bindings:
+  - {code: '[''progress_message'', ''section-background-flex-column'', ''background-alerts'']', property: role, writeback: false}
+  layout_properties: {slot: default}
+  name: ActivateNotification
+  properties:
+    role: [section-background-flex-column, background-alerts]
+    spacing_above: none
+    spacing_below: none
+  type: ColumnPanel
+container:
+  properties: {html: ''}
+  type: HtmlTemplate
+custom_component: true
+is_package: true
