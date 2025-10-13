@@ -1063,18 +1063,16 @@ class DiscoverAgent(DiscoverAgentTemplate):
       # -------------------------------
       # MILESTONE ALERTS & FEEDBACK
       total_ratings = sug['total_ratings']
-      if total_ratings >= "0":
-        self.ask_for_notification_activation()  # TEMP !!!
       if total_ratings == "10":
         self.show_milestone_alert(10)
       elif total_ratings == "15":
-        self.ask_for_feedback()
-      elif total_ratings == "20":
         self.ask_for_notification_activation()
+      elif total_ratings == "20":
+        self.ask_for_feedback()
       elif total_ratings == "25":
         self.show_milestone_alert(25)
       elif total_ratings == "35":
-        self.ask_for_feedback()
+        self.ask_for_notification_activation()
       elif total_ratings == "50":
         self.show_milestone_alert(50)
       elif total_ratings == "55":
@@ -1082,13 +1080,11 @@ class DiscoverAgent(DiscoverAgentTemplate):
       elif total_ratings == "60":
         self.ask_for_feedback()
       elif total_ratings == "100":
-        self.ask_for_feedback()
-      elif total_ratings == "120":
         self.ask_for_notification_activation()
       elif total_ratings == "150":
-        self.ask_for_feedback()
+        self.ask_for_notification_activation()
       elif total_ratings == "199":
-        self.ask_for_feedback()
+        self.ask_for_notification_activation()
 
     self.header.scroll_into_view(smooth=True)
 
