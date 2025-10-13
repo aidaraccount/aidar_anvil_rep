@@ -10,13 +10,7 @@ components:
     properties:
       align: center
       content: |
-        Activate email notifications to receive regular updates when new artists matching your preferences are discovered.
-
-        **Benefits:**
-        • Get notified about promising new talent before others
-        • Receive personalized artist recommendations via email
-        • Never miss an opportunity to discover your next signing
-        • Stay ahead of the competition with automated scouting
+        Turn on email notifications to get updates when new artists match your agent preferences.
       role: header-6
     type: RichText
   - event_bindings: {click: activate_button_click}
