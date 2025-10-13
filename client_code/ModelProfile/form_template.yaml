@@ -111,27 +111,21 @@ components:
         properties: {height: 242}
         type: Spacer
       - components:
-        - layout_properties: {}
-          name: activated
-          properties:
-            align: right
-            bold: false
-            role: [table_content, transition-effect, header-5]
-            text: Agent is active
-            visible: false
-          type: Label
         - event_bindings: {click: activate_click}
           layout_properties: {}
           name: activate
           properties:
             align: right
+            background: ''
             enabled: true
-            icon: ''
+            icon: fa:bullhorn
             role: [call-to-action-button, header-6]
+            spacing:
+              padding: [null, '15', null, '15']
             spacing_above: none
             spacing_below: none
-            text: Activate Agent
-            visible: false
+            text: Activate Agent Notification
+            visible: true
           type: Button
         - event_bindings: {click: discover_click}
           layout_properties: {}

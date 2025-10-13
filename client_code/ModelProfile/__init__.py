@@ -57,10 +57,7 @@ class ModelProfile(ModelProfileTemplate):
       save_var("model_id_view", model_id_view)
       print(f"ModelProfile model_id_view: {model_id_view}")
       section = self.url_dict['section']
-      
-      model_id_active_new = anvil.server.call('get_model_id', user["user_id"])
-      print(f"ModelProfile model_id_active_new: {model_id_active_new}")
-      
+            
       # initial visibile settings
       self.model_name_text.visible = False
       self.model_description_text.visible = False
@@ -72,6 +69,7 @@ class ModelProfile(ModelProfileTemplate):
       # HEADER LEFT
       infos = json.loads(anvil.server.call('get_model_stats', self.model_id_view))[0]
       self.infos = infos
+      print(f"infos: {infos}")
       
       # check ramp-up
       if infos["ramp_up"] is True:
@@ -86,13 +84,15 @@ class ModelProfile(ModelProfileTemplate):
         self.creation_date_value.text = '-' if infos["creation_date"] == 'None' else infos["creation_date"][:10]
         self.usage_date_value.text = '-' if infos["usage_date"] == 'None' else infos["usage_date"][:10]
     
-        # # activate button
-        # if model_id_active_new is not None and int(self.model_id_view) == int(model_id_active_new):
-        #   self.activated.visible = True
-        #   self.activate.visible = False
-        # else:
-        #   self.activated.visible = False
-        #   self.activate.visible = True   
+        # activate agent notification button
+        if infos["is_notification_active"] is True:
+          self.activate.role = ["call-to-action-button", "header-6"]
+          self.activate.text = "Agent Notification Active"
+          self.activate.background = "#22c55e"
+
+        else:
+          self.activate.role = ["call-to-action-button", "header-6"]
+          self.activate.text = "Activate Agent Notification"
         
         # ---------------
         # HEADER RIGHT
@@ -596,10 +596,7 @@ class ModelProfile(ModelProfileTemplate):
         get_open_form().refresh_models_underline()
   
   def activate_click(self, **event_args):
-    anvil.server.call('update_model_usage', user["user_id"], self.model_id_view)
-    save_var('model_id', self.model_id_view)
-    click_button(f'model_profile?model_id={self.model_id_view}&section=Main', event_args)
-    get_open_form().refresh_models_underline()
+    pass
     
   def discover_click(self, **event_args):
     anvil.server.call('update_model_usage', user["user_id"], self.model_id_view)

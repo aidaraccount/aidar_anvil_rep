@@ -19,6 +19,7 @@ color_scheme:
   - {color: 'rgb(130, 39, 118)', name: PurpleFocus}
   - {color: '#5baa6e', name: Green}
   - {color: '#e6e6e6', name: Accent_0}
+  - {color: '#22c55e', name: GreenHighlight}
   preset_groups:
   - name: Accent
     options:
